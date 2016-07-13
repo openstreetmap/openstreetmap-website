@@ -18,8 +18,8 @@ class MoveToInnodb < ActiveRecord::Migration
       # As the initial version of all nodes, ways and relations is 0, we set the
       # current version to something less so that we can update the version in
       # batches of 10000
-      tbl.classify.constantize.update_all("version=-1")
-      while tbl.classify.constantize.count(:conditions => { :version => -1 }) > 0
+      tbl.classify.constantize.update_all(:version => -1)
+      while tbl.classify.constantize.where(:version => -1).count > 0
         tbl.classify.constantize.update_all("version=(SELECT max(version) FROM #{tbl} WHERE #{tbl}.id = current_#{tbl}.id)", { :version => -1 }, { :limit => 10000 })
       end
       # execute "UPDATE current_#{tbl} SET version = " +
