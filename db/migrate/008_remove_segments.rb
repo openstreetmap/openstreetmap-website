@@ -53,7 +53,7 @@ class RemoveSegments < ActiveRecord::Migration
     # now get the data back
     csvopts = "FIELDS TERMINATED BY ',' ENCLOSED BY '\"' ESCAPED BY '\"' LINES TERMINATED BY '\\n'"
 
-    tempfiles.each { |fn| File.chmod 0644, fn } if have_segs
+    tempfiles.each { |fn| File.chmod 0o644, fn } if have_segs
 
     if have_segs
       execute "LOAD DATA INFILE '#{ways}' INTO TABLE ways #{csvopts} (id, user_id, timestamp) SET visible = 1, version = 1"
