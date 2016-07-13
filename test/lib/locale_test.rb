@@ -86,7 +86,7 @@ class LocaleTest < ActiveSupport::TestCase
   def test_preferred
     assert_equal "en-GB", Locale.available.preferred(Locale.list("en-GB", "en")).to_s
     assert_equal "en", Locale.available.preferred(Locale.list("en")).to_s
-    assert_equal "fr", Locale.available.preferred(Locale.list("fr-FR", "fr", "en")).to_s
+    assert_equal "fr", Locale.available.preferred(Locale.list("fr-GB", "fr", "en")).to_s
     assert_equal "fr", Locale.available.preferred(Locale.list("fr", "en")).to_s
     assert_equal "de", Locale.available.preferred(Locale.list("zh-Hant", "de")).to_s
     assert_equal "zh-TW", Locale.available.preferred(Locale.list("zh-Hant-TW", "de")).to_s
