@@ -23,6 +23,7 @@
 # Author: Odie2
 # Author: Pio387
 # Author: Przemub
+# Author: Psokol
 # Author: Py64
 # Author: RafalR
 # Author: Rezonansowy
@@ -58,20 +59,20 @@ pl:
       node_tag: Znacznik węzła
       notifier: Zgłaszający
       old_node: Wcześniejszy węzeł
-      old_node_tag: Tag wcześniejszego węzła
+      old_node_tag: Znacznik wcześniejszego węzła
       old_relation: Stara relacja
       old_relation_member: Członek starej relacji
-      old_relation_tag: Tag wcześniejszej relacji
-      old_way: Wcześniejsza droga
+      old_relation_tag: Znacznik wcześniejszej relacji
+      old_way: Wcześniejsza linia
       old_way_node: Węzeł starej linii
-      old_way_tag: Tag starej linii
+      old_way_tag: Znacznik starej linii
       relation: Relacja
       relation_member: Członek relacji
       relation_tag: Tag relacji
       session: Sesja
       trace: Ślad
       tracepoint: Punkt śladu
-      tracetag: Tag śladu
+      tracetag: Znacznik śladu
       user: Użytkownik
       user_preference: Preferencje użytkownika
       user_token: Token użytkownika
@@ -142,7 +143,7 @@ pl:
     download_xml: Pobierz XML
     view_history: Wyświetl historię
     view_details: Wyświetl szczegóły
-    location: 'Lokalizacja:'
+    location: 'Położenie:'
     changeset:
       title: 'Zestaw zmian: %{id}'
       belongs_to: Autor
@@ -187,7 +188,7 @@ pl:
       entry: Relacja %{relation_name}
       entry_role: Relacja %{relation_name} (jako %{relation_role})
     not_found:
-      sorry: 'Przepraszamy, %{type} #%{id} nie został znaleziony.'
+      sorry: 'Niestety, %{type} #%{id} nie został znaleziony.'
       type:
         node: węzeł
         way: linia
@@ -205,16 +206,16 @@ pl:
         note: Uwaga
     redacted:
       redaction: Poprawka %{id}
-      message_html: Ten %{type} w wersji %{version} nie może być pokazany, ponieważ
-        został poddany poprawce. Zapoznaj się z %{redaction_link}, aby uzyskać więcej
+      message_html: Ten %{type} w wersji %{version} nie może zostać wyświetlony, ponieważ
+        został poprawiony. Proszę zapoznać się z %{redaction_link}, aby uzyskać więcej
         informacji.
       type:
         node: węzeł
         way: linia
         relation: relacja
     start_rjs:
-      feature_warning: Ładowanie %{num_features} rzeczy, może spowolnić lub zawiesić
-        twoją przeglądarkę. Jesteś pewien, że chcesz wyświetlić te dane?
+      feature_warning: Wczytywanie %{num_features} obiektów, może spowolnić lub zawiesić
+        przeglądarkę. Wyświetlić te dane?
       load_data: Wczytaj dane
       loading: Wczytywanie...
     tag_details:
@@ -237,19 +238,20 @@ pl:
       commented_by: Komentarz od %{user} <abbr title='%{exact_time}'>%{when} temu</abbr>
       commented_by_anonymous: Skomentowana anonimowo <abbr title='%{exact_time}'>%{when}
         temu</abbr>
-      closed_by: 'Zamknięta przez: %{user} <abbr title=''%{exact_time}''>%{when} temu</abbr>'
+      closed_by: 'Rozwiązana przez: %{user} <abbr title=''%{exact_time}''>%{when}
+        temu</abbr>'
       closed_by_anonymous: Rozwiązana anonimowo <abbr title='%{exact_time}'>%{when}
         temu</abbr>
-      reopened_by: Ponownie aktywowane przez %{user} <abbr title='%{exact_time}'>%{when}
+      reopened_by: Ponownie aktywowana przez %{user} <abbr title='%{exact_time}'>%{when}
         temu</abbr>
-      reopened_by_anonymous: Reaktywowana anonimowo <abbr title='%{exact_time}'>%{when}
+      reopened_by_anonymous: Ponownie aktywowana anonimowo <abbr title='%{exact_time}'>%{when}
         temu</abbr>
       hidden_by: Ukryte przez %{user} <abbr title='%{exact_time}'>%{when} temu</abbr>
     query:
       title: Dane obiektu
-      introduction: Kliknij na mapie, by sprawdzić obiekty w pobliżu
+      introduction: Kliknij na mapie, by wyszukać obiekty w pobliżu.
       nearby: Obiekty w pobliżu
-      enclosing: Większe, zakrywające obiekty
+      enclosing: Większe, otaczające obiekty
   changeset:
     changeset_paging_nav:
       showing_page: Strona %{page}
@@ -276,10 +278,9 @@ pl:
       no_more: Nie znaleziono więcej zestawów zmian.
       no_more_area: Brak zestawów zmian w tym obszarze.
       no_more_user: Brak zestawów zmian tego użytkownika.
-      load_more: Załaduj więcej
+      load_more: Wczytaj więcej
     timeout:
-      sorry: Niestety, pobieranie listy zestawów zmian, którą chciałeś zobaczyć, trwało
-        zbyt długo.
+      sorry: Niestety, pobieranie listy żądanych zestawów zmian trwało zbyt długo.
     rss:
       title_all: Dyskusja na temat zestawu zmian
       title_particular: 'Dyskusja na temat zestawu zmian #%{changeset_id}'
@@ -297,8 +298,8 @@ pl:
       title_nearby: Dzienniki pobliskich użytkowników
       user_title: Dziennik użytkownika %{user}
       in_language_title: Wpisy w języku %{language}
-      new: Nowy wpis do dziennika
-      new_title: Stwórz nowy wpis w Twoim dzienniku użytkownika
+      new: Nowy wpis dziennika
+      new_title: Tworzy nowy wpis w dzienniku użytkownika
       no_entries: Brak wpisów dziennika
       recent_entries: Ostatnie wpisy do dziennika
       older_entries: Starsze wpisy
@@ -324,8 +325,8 @@ pl:
     no_such_entry:
       title: Nie ma takiego wpisu
       heading: 'Brak wpisu o id: %{id}'
-      body: Niestety nie znaleziono wpisu dziennika / komentarza o id %{id}, sprawdź
-        pisownię.  Byc może użyłeś(aś) linku który był niepoprawny.
+      body: Niestety nie odnaleziono wpisu dziennika lub komentarza o identyfikatorze
+        %{id}. Proszę sprawdzić pisownię. Być może kliknięty odnośnik jest niepoprawny.
     diary_entry:
       posted_by: Wpis od %{link_user} z %{created} w języku %{language_link}
       comment_link: Skomentuj ten wpis
@@ -357,7 +358,7 @@ pl:
         title: Wpisy OpenStreetMap
         description: Ostatnie wpisy od użytkowników OpenStreetMap
     comments:
-      has_commented_on: '%{display_name} skomentował następujące wpisy dziennika'
+      has_commented_on: Użytkownik %{display_name} skomentował następujące wpisy dziennika
       post: Wpis
       when: Kiedy
       comment: Komentarz
@@ -371,17 +372,17 @@ pl:
       manually_select: Ręcznie zaznacz inny obszar
       format_to_export: Format eksportu
       osm_xml_data: Dane XML OpenStreetMap
-      map_image: Plik graficzny (standardowa warstwa)
+      map_image: Obraz mapy (standardowa warstwa)
       embeddable_html: Kod HTML do osadzenia
       licence: Licencja
       export_details: Dane OpenStreetMap udostępnione są na licencji <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
         Data Commons Open Database License</a> (ODbL).
       too_large:
-        advice: 'Jeśli eksport się nie powiedzie, rozważ użycie jedno z podanych niżej
-          źródeł:'
+        advice: 'Jeśli eksportowanie się nie uda, proszę rozważyć użycie jednego z
+          podanych zasobów:'
         body: 'Ten obszar jest zbyt duży, aby go wyeksportować jako dane XML OpenStreetMap.
-          Przybliż się, wybierz mniejszy obszar, lub użyj jednego ze następujących
-          źródeł aby objąć pobierane dane:'
+          Proszę przybliżyć widok, wybrać  mniejszy obszar lub użyć jednego z następujących
+          zasobów, aby pobrać większą ilość danych:'
         planet:
           title: Planeta OSM
           description: Regularnie aktualizowane kopie całej bazy danych OpenStreetMap
@@ -397,20 +398,20 @@ pl:
           title: Metro Extracts
           description: Migawki dużych miast i otaczających je obszarów
         other:
-          title: Inne źródła
-          description: Dodatkowe źródła wymienione w OpenStreetMap wiki
+          title: Inne zasoby
+          description: Dodatkowe zasoby wymienione w OpenStreetMap wiki
       options: Opcje
       format: Format
       scale: Skala
-      max: max
-      image_size: Rozmiar obrazka
-      zoom: Zoom
-      add_marker: Dodaj pinezkę na mapie
+      max: maks
+      image_size: Rozmiar obrazu
+      zoom: Przybliżenie
+      add_marker: Dodaj znacznik na mapie
       latitude: 'Szer:'
       longitude: 'Dł:'
       output: Wynik
       paste_html: Wklej podany kod HTML do swojej strony
-      export_button: Eksportuj
+      export_button: Wyeksportuj
   geocoder:
     search:
       title:
@@ -953,13 +954,13 @@ pl:
         towns: Miasta
         places: Miejsca
     results:
-      no_results: Nie znaleziono
+      no_results: Nie odnaleziono wyników
       more_results: Więcej wyników
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
-    home: Przejdź do lokalizacji domu
-    logout: Wyloguj się
+    home: Przejdź do położenia domu
+    logout: Wyloguj
     log_in: Zaloguj się
     log_in_tooltip: Zaloguj się
     sign_up: Zarejestruj się
@@ -967,13 +968,13 @@ pl:
     sign_up_tooltip: Załóż konto, aby edytować
     edit: Edycja
     history: Zmiany
-    export: Eksport
+    export: Eksportowanie
     data: Dane
     export_data: Eksportuj dane
     gps_traces: Ślady GPS
     gps_traces_tooltip: Zarządzanie śladami GPS
-    user_diaries: Dzienniczki
-    user_diaries_tooltip: Przeglądaj dzienniczki użytkownika
+    user_diaries: Dzienniki
+    user_diaries_tooltip: Przeglądaj dzienniki użytkownika
     edit_with: Edytuj w %{editor}
     tag_line: Wolna wikimapa świata
     intro_header: Witamy w OpenStreetMap!
@@ -1113,7 +1114,7 @@ pl:
         Swoje pytania do <a href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">grupy
         roboczej ds. licencji</a>.
   welcome_page:
-    title: Witaj!
+    title: Witamy!
     introduction_html: Witamy w OpenStreetMap, wolnej mapie świata. Teraz gdy masz
       już konto, możesz przystąpić do mapowania. Oto krótki przewodnik z najważniejszymi
       rzeczami, o których musisz wiedzieć.
@@ -1244,7 +1245,7 @@ pl:
     partners_title: Partnerzy
   notifier:
     diary_comment_notification:
-      subject: '[OpenStreetMap] Użytkownik %{user} skomentował Twój wpis w pamiętniku'
+      subject: '[OpenStreetMap] Użytkownik %{user} skomentował wpis dziennika'
       hi: Witaj %{to_user},
       header: '%{from_user} zostawił(a) komentarz do twojego wpisu w dziennikach OpenStreetMap
         o temacie %{subject}:'
@@ -1312,20 +1313,20 @@ pl:
       anonymous: Anonimowy użytkownik
       greeting: Witaj,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} skomentował Twoją uwagę'
+        subject_own: '[OpenStreetMap] Użytkownik %{commenter} skomentował uwagę'
         subject_other: '[OpenStreetMap] %{commenter} skomentował interesującą Cię
           uwagę'
         your_note: '%{commenter} zostawił komentarz do jednej z Twoich uwag na mapie
           w lokalizacji: %{place}.'
-        commented_note: '%{commenter} zostawił komentarz do uwagę, którą skomentowałeś.
-          Znajduje się ona w lokalizacji: %{place}.'
+        commented_note: Użytkownik %{commenter} zostawił komentarz do skomentowanej
+          uwagi. Znajduje się ona w położeniu %{place}.
       closed:
         subject_own: '[OpenStreetMap] %{commenter} rozwiązał Twoją uwagę'
         subject_other: '[OpenStreetMap] %{commenter} rozwiązał interesującą Cię uwagę'
         your_note: '%{commenter} rozwiązał jedną z Twoich uwag na mapie w lokalizacji:
           %{place}.'
-        commented_note: '%{commenter} rozwiązał uwagę, którą skomentowałeś. Znajduje
-          się ona w lokalizacji: %{place}.'
+        commented_note: 'Użytkonik %{commenter} rozwiązał skomentowaną uwagę. Znajduje
+          się ona w położeniu: %{place}.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} ponownie aktywował jedną z Twoich
           uwag'
@@ -1333,8 +1334,8 @@ pl:
           Cię uwagę'
         your_note: '%{commenter} ponownie aktywował jedną z Twoich uwag na mapie w
           lokalizacji: %{place}'
-        commented_note: '%{commenter} ponownie aktywował uwagę, którą skomentowałeś.
-          Znajduje się ona w lokalizacji: %{place}.'
+        commented_note: Użytkownik %{commenter} ponownie aktywował skomentowaną uwagę.
+          Znajduje się ona w położeniu %{place}.
       details: 'Więcej informacji na temat uwagi można znaleźć pod adresem: %{url}.'
     changeset_comment_notification:
       greeting: Cześć,
@@ -1354,7 +1355,7 @@ pl:
     inbox:
       title: Wiadomości odebrane
       my_inbox: skrzynka odbiorcza
-      outbox: nadawcza
+      outbox: skrzynka nadawcza
       messages: Masz %{new_messages} i %{old_messages}
       new_messages:
         few: '%{count} nowe wiadomości'
@@ -1382,7 +1383,7 @@ pl:
       subject: Temat
       body: Treść
       send_button: Wyślij
-      back_to_inbox: Powrót do skrzynki
+      back_to_inbox: Wróć do skrzynki
       message_sent: Wiadomość wysłana
       limit_exceeded: Masz ostatnio wiele wysłanych wiadomości. Proszę poczekać chwilę
         przed powtórzeniem wysłania.
@@ -1418,8 +1419,8 @@ pl:
       back: Cofnij
       to: Do
       wrong_user: Jesteś zalogowany jako „%{user}”, ale wiadomość, którą chcesz przeczytać,
-        nie została wysłana przez ani do tego użytkownika. Zaloguj się jako właściwy
-        użytkownik, aby ją przeczytać.
+        nie została wysłana przez tego użytkownika ani do niego. Proszę zalogować
+        się jako właściwy użytkownik, aby ją przeczytać.
     sent_message_summary:
       delete_button: Usuń
     mark:
@@ -1458,15 +1459,15 @@ pl:
       potlatch2_unsaved_changes: Nie zapisałeś zmian. (Jeśli chcesz zapisać zmiany
         w Potlatch 2 powinieneś kliknąć przycisk „zapisz”.)
       id_not_configured: iD nie został skonfigurowany
-      no_iframe_support: Przeglądarka, której używasz nie obsługuje HTML iframes,
-        które są niezbędne dla tej funkcji.
+      no_iframe_support: Używana przeglądarka nie obsługuje HTML iframes, które są
+        niezbędne dla tej funkcji.
     sidebar:
       search_results: Wyniki wyszukiwania
       close: Zamknij
     search:
-      search: Szukaj
+      search: Wyszukiwanie
       get_directions: Wyznacz trasę
-      get_directions_title: Znajdź trasę pomiędzy dwoma punktami
+      get_directions_title: Wyznacza trasę pomiędzy dwoma punktami
       from: Początek
       to: Koniec
       where_am_i: Gdzie jestem?
@@ -1548,7 +1549,7 @@ pl:
       ordered: Uporządkowana lista
       first: Pierwszy element
       second: Drugi element
-      link: Łącze
+      link: Odnośnik
       text: Tekst
       image: Obraz
       alt: Tekst alternatywny
@@ -1556,24 +1557,23 @@ pl:
   trace:
     visibility:
       private: Prywatny (udostępniany jedynie jako anonimowy, nieuporządkowane punkty)
-      public: Publiczny (pokazywany na liście śladów i jako anonimowy, nieuporządkowane
+      public: Publiczny (wyświetlany na liście śladów i jako anonimowy, nieuporządkowane
         punkty)
       trackable: Niezidentyfikowany (udostępniany jedynie jako anonimowy, uporządkowane
         punkty ze znacznikami czasu)
-      identifiable: Zidentyfikowany (pokazywany w liście śladów i jako zidentyfikowany,
+      identifiable: Zidentyfikowany (wyświetlany na liście śladów i jako zidentyfikowany,
         uporządkowane punkty ze znacznikami czasu)
     create:
-      upload_trace: Wgraj ślad GPS
-      trace_uploaded: Twój plik GPX został wczytany i czeka na dodanie do bazy danych.
-        Powinno to nastąpić w ciągu 30 minut. Wtedy też dostaniesz wiadomość z informacją
-        o tym fakcie.
+      upload_trace: Wyślij ślad GPS
+      trace_uploaded: Plik GPX został wysłany i czeka na dodanie do bazy danych. Powinno
+        to nastąpić w ciągu 30 minut, a informacja o tym fakcie zostanie wysłana wiadomością.
     edit:
       title: Edycja śladu %{name}
       heading: Edycja śladu %{name}
       filename: 'Nazwa pliku:'
       download: pobierz
       uploaded_at: 'Wysłano:'
-      points: 'Punkty:'
+      points: 'Liczba punktów:'
       start_coord: 'Współrzędne początkowe:'
       map: mapa
       edit: edytuj
@@ -1591,12 +1591,12 @@ pl:
       tags_help: rozdzielone przecinkami
       visibility: Widoczność
       visibility_help: co to znaczy?
-      upload_button: Wgrywaj
+      upload_button: Wyślij
       help: Pomoc
     trace_header:
       upload_trace: Wyślij ślad
-      see_all_traces: Zobacz wszystkie ślady
-      see_your_traces: Zobacz wszystkie Twoje ślady
+      see_all_traces: Wyświetl wszystkie ślady
+      see_your_traces: Wyświetl swoje ślady
       traces_waiting:
         few: Masz %{count} ślady oczekujące na dodanie. Poczekaj aż wgrywanie ich
           zostanie zakończone przed dodaniem kolejnych, aby nie blokować kolejki innym
@@ -1615,10 +1615,10 @@ pl:
       title: Przeglądanie śladu %{name}
       heading: Przeglądanie śladu %{name}
       pending: OCZEKUJE
-      filename: 'Plik:'
+      filename: 'Nazwa pliku:'
       download: pobierz
-      uploaded: 'Dodano:'
-      points: 'Punktów:'
+      uploaded: 'Czas dodania:'
+      points: 'Liczba punktów:'
       start_coordinates: 'Współrzędne początkowe:'
       map: mapa
       edit: edycja
@@ -1627,8 +1627,8 @@ pl:
       tags: 'Tagi:'
       none: Brak
       edit_track: Edytuj ten ślad
-      delete_track: Wykasuj ten ślad
-      trace_not_found: Ślad nie znaleziony!
+      delete_track: Usuń ten ślad
+      trace_not_found: Nie odnaleziono śladu!
       visibility: 'Widoczność:'
     trace_paging_nav:
       showing_page: Strona %{page}
@@ -1639,10 +1639,10 @@ pl:
       count_points: '%{count} punktów'
       ago: '%{time_in_words_ago} temu'
       more: więcej
-      trace_details: Pokaż szczegóły śladu
-      view_map: Pokaż mapę
+      trace_details: Wyświetl szczegóły śladu
+      view_map: Wyświetl mapę
       edit: edycja
-      edit_map: Edytuj Mapę
+      edit_map: Edytuj mapę
       public: PUBLICZNY
       identifiable: IDENTYFIKOWALNY
       private: PRYWATNY
@@ -1652,15 +1652,15 @@ pl:
       map: mapa
     list:
       public_traces: Publiczne ślady GPS
-      your_traces: Twoje ślady GPS
+      your_traces: Własne ślady GPS
       public_traces_from: Publiczne ślady GPS użytkownika %{user}
-      description: Przeglądaj najnowsze dodane ścieżki GPS
+      description: Przeglądanie ostatnio dodanych śladów GPS
       tagged_with: ' otagowane %{tags}'
       empty_html: Nic tu jeszcze nie ma. <a href='%{upload_link}'>Prześlij nowy ślad</a>
         lub dowiedz się więcej o śledzeniu GPS na <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>stronie
         wiki</a>.
     delete:
-      scheduled_for_deletion: Ślad oczekuje na skasowanie
+      scheduled_for_deletion: Ślad oczekuje na usunięcie
     make_public:
       made_public: Ślad stał się publicznie dostępny
     offline_warning:
@@ -1677,8 +1677,8 @@ pl:
       description_without_count: Plik GPX od %{user}
   application:
     require_cookies:
-      cookies_needed: Wydaje się, że masz wyłączoną obsługę cookies (ciasteczek) w
-        swojej przeglądarce internetowej – włącz ją, zanim przejdziesz dalej.
+      cookies_needed: Wygląda na to, że wyłączono obsługę ciasteczek w przeglądarce.
+        Proszę ją włączyć przed kontynuowaniem.
     require_moderator:
       not_a_moderator: Musisz być moderatorem, aby wykonać tą akcję.
     setup_user_auth:
@@ -1690,27 +1690,27 @@ pl:
   oauth:
     oauthorize:
       title: Autoryzuj dostęp do Twojego konta
-      request_access: Aplikacja %{app_name} żąda dostępu do Twojego konta użytkownika
-        - %{user}. Sprawdź, czy chcesz pozwolić aplikacji na poniższe działania. Możesz
-        wybrać dowolną liczbę opcji.
+      request_access: Aplikacja %{app_name} żąda dostępu do konta użytkownika %{user}.
+        Proszę potwierdzić przyznanie aplikacji poniższych uprawnień. Można wybrać
+        dowolną liczbę opcji.
       allow_to: 'Zezwól aplikacji klienckiej na:'
       allow_read_prefs: odczytywanie preferencji konta
-      allow_write_prefs: modyfikowanie preferencji Twojego konta
+      allow_write_prefs: modyfikowanie preferencji konta
       allow_write_diary: tworzenie wpisów w dzienniku, dopisywanie komentarzy i nawiązywanie
         kontaktów.
-      allow_write_api: modyfikuj mapę
-      allow_read_gpx: odczytywanie Twoich osobistych śladów GPS
-      allow_write_gpx: prześlij ślady GPS
+      allow_write_api: modyfikowanie mapy
+      allow_read_gpx: odczytywanie prywatnych śladów GPS
+      allow_write_gpx: przesyłanie śladów GPS
       allow_write_notes: modyfikowanie uwag.
       grant_access: Zezwól dostęp
     oauthorize_success:
-      title: Żądanie autoryzacji dozwolone
+      title: Dozwolone żądanie uwierzytelnienia
       allowed: Dałeś aplikacji %{app_name} dostęp do twojego konta.
       verification: Kod weryfikacyjny to %{code}.
     oauthorize_failure:
-      title: Żądanie autoryzacji nie powiodło się
+      title: Nieudane żądanie uwierzytelnienia
       denied: Zakazano aplikacji %{app_name} dostępu do twojego konta.
-      invalid: Nieprawidłowy token do autoryzacji.
+      invalid: Token autoryzacji jest nieprawidłowy.
     revoke:
       flash: Cofnąłeś prawa dostępu dla aplikacji %{application}
   oauth_clients:
@@ -1741,17 +1741,17 @@ pl:
       allow_write_gpx: przesyłanie śladów GPS.
       allow_write_notes: modyfikowanie uwag.
     index:
-      title: Szczegóły autoryzacji OAuth
+      title: Szczegóły uwierzytelnienia OAuth
       my_tokens: Zarejestrowane programy
-      list_tokens: 'Następujące tokeny zostały wydane do aplikacji w twoim imieniu:'
+      list_tokens: 'Następujące tokeny wydano do aplikacji w imieniu użytkownika:'
       application: Nazwa aplikacji
       issued_at: Wydane
       revoke: Odwołaj!
       my_apps: Programy klienckie
-      no_apps: Czy chcesz zarejestrować programy korzystające ze standardu %{oauth}?
-        Programy muszą być wcześniej zarejestrowane, nim będzie można skorzystać z
-        zapytań OAuth do tego serwisu.
-      registered_apps: 'Masz zarejestrowane następujące aplikacje klienckie:'
+      no_apps: Zarejestrować programy korzystające ze standardu %{oauth}? Programy
+        muszą być wcześniej zarejestrowane, nim będzie można skorzystać z zapytań
+        OAuth do tego serwisu.
+      registered_apps: 'Zarejestrowano następujące aplikacje klienckie:'
       register_new: Zarejestruj swoją aplikację
     form:
       name: Nazwa
@@ -1783,7 +1783,7 @@ pl:
       email or username: 'Adres email lub nazwa użytkownika:'
       password: Hasło
       openid: '%{logo} OpenID:'
-      remember: 'Pamiętaj mnie:'
+      remember: Zapamiętanie danych uwierzytelniających
       lost password link: Zapomniałeś hasła?
       login_button: Zaloguj się
       register now: Zarejestruj się
@@ -1815,6 +1815,9 @@ pl:
         windowslive:
           title: Zaloguj przez Windows Live
           alt: Zaloguj przez konto Windows Live
+        github:
+          title: Loguje za pomocą GitHub
+          alt: Zaloguj przy użyciu konta GitHub
         yahoo:
           title: Zaloguj używając Yahoo
           alt: Zaloguj używając Yahoo OpenID
@@ -1905,15 +1908,15 @@ pl:
         może skorzystano z nieprawidłowego odnośnika.
       deleted: usunięty
     view:
-      my diary: mój dziennik
+      my diary: Dziennik
       new diary entry: nowy wpis w dzienniku
-      my edits: moje zmiany
-      my traces: moje ślady
-      my notes: moje uwagi
-      my messages: moje wiadomości
+      my edits: Zmiany
+      my traces: Ślady
+      my notes: Uwagi
+      my messages: Wiadomości
       my profile: mój profil
-      my settings: moje ustawienia
-      my comments: moje komentarze
+      my settings: Ustawienia
+      my comments: Komentarze
       oauth settings: ustawienia oauth
       blocks on me: Otrzymane blokady
       blocks by me: Nałożone blokady
@@ -1936,7 +1939,7 @@ pl:
       status: 'Stan:'
       spam score: 'Punktacja spamu:'
       description: Opis
-      user location: Lokalizacja użytkownika
+      user location: Położenie użytkownika
       if set location: Podaj swoją lokalizację na stronie %{settings_link}, aby zobaczyć
         użytkowników blisko ciebie.
       settings_link_text: stronie ustawień
@@ -1977,7 +1980,7 @@ pl:
       friend: Znajomy
     account:
       title: Zmiana ustawień konta
-      my settings: moje ustawienia
+      my settings: Ustawienia
       current email address: 'Aktualny adres e-mail:'
       new email address: 'Nowy adres e-mail:'
       email never displayed publicly: (nie jest wyświetlany publicznie)
@@ -2014,24 +2017,24 @@ pl:
       profile description: 'Opis profilu:'
       preferred languages: 'Preferowane języki:'
       preferred editor: 'Preferowany edytor:'
-      image: 'Grafika:'
+      image: 'Obraz:'
       gravatar:
-        gravatar: Użyj Gravatara
+        gravatar: Użycie Gravatara
         link text: co to jest?
-      new image: Dodaj grafikę
+      new image: Dodanie obrazu
       keep image: Pozostaw dotychczasową ilustrację
-      delete image: Usuń obecną grafikę
+      delete image: Usunięcie aktualnego obrazu
       replace image: Zmień obecną grafikę
       image size hint: (najlepiej sprawdzają się kwadratowe obrazy o rozmiarach przynajmniej
         100x100)
-      home location: 'Lokalizacja domowa:'
+      home location: 'Położenie domu:'
       no home location: Nie wpisałeś swojej lokalizacji domowej.
       latitude: 'Szerokość:'
       longitude: 'Długość geograficzna:'
-      update home location on click: Aktualizować lokalizację, kiedy klikam na mapie?
+      update home location on click: Uaktualnianie położenia kliknięciem na mapie
       save changes button: Zapisz zmiany
       make edits public button: Niech wszystkie edycje będą publiczne.
-      return to profile: Powrót do profilu
+      return to profile: Wróć do profilu
       flash update success confirm needed: Zaktualizowano profil użytkownika.  Sprawdź
         czy przyszedł już mail potwierdzający nowy adres mailowy.
       flash update success: Zaktualizowano profil użytkownika.
@@ -2040,7 +2043,7 @@ pl:
       introduction_1: Wysłaliśmy ci e-mail z potwierdzeniem.
       introduction_2: Potwierdź swoje konto klikając na link w wiadomości i zacznij
         mapować.
-      press confirm button: Użyj poniższego przycisku aby aktywować Twoje konto.
+      press confirm button: Proszę kliknąć poniższy przycisk, aby aktywować konto.
       button: Potwierdzam
       success: Twoje konto zostało zatwierdzone, cieszymy się że do nas dołączyłeś!
       already active: To konto zostało potwierdzone.
@@ -2055,14 +2058,14 @@ pl:
       failure: Brak użytkownika %{name}.
     confirm_email:
       heading: Porwierdzenie zmiany adresu mailowego
-      press confirm button: Użyj poniższego przycisku aby potwierdzić Twój nowy adres
-        e-mail.
+      press confirm button: Proszę kliknąć poniższy przycisk, aby potwierdzić nowy
+        adres e-mail.
       button: Potwierdzam
       success: Potwierdzenie zmiany adresu mailowego
       failure: Adres email o tym kodzie był już potwierdzony.
       unknown_token: Ten kod potwierdzający wygasł lub nie istnieje.
     set_home:
-      flash success: Nowa lokalizacja domowa zapisana
+      flash success: Zapisano nowe położenie domu
     go_public:
       flash success: Wszystkie Twoje modyfikacje są od teraz publiczne i jesteś uprawniony/a
         do edycji.
@@ -2143,7 +2146,7 @@ pl:
     not_found:
       sorry: Niestety, nie udało się odnaleźć blokady użytkownika o identyfikatorze
         %{id}.
-      back: Powrót do spisu
+      back: Wróć do spisu
     new:
       title: Tworzenie blokady użytkownika %{name}
       heading: Tworzenie blokady użytkownika %{name}
@@ -2159,7 +2162,7 @@ pl:
       tried_waiting: Dałem(-am) użytkownikowi  rozsądny czas, aby odpowiedzieć na
         te komunikaty.
       needs_view: Użytkownik musi się zalogować, zanim blokada zostanie wyczyszczona
-      back: Zobacz wszystkie blokady
+      back: Wyświetl wszystkie blokady
     edit:
       title: Edycja blokady dla użytkownika %{name}
       heading: Edycja blokady dla użytkownika %{name}
@@ -2172,7 +2175,7 @@ pl:
         do API.
       submit: Uaktualnij blokadę
       show: Zobacz tę blokadę
-      back: Zobacz wszystkie blokady
+      back: Wyświetl wszystkie blokady
       needs_view: Czy użytkownik musi zalogować się zanim blokada ulegnie wyczyszczeniu?
     filter:
       block_expired: Blokada zakończyła się i nie można jej edytować.
@@ -2282,15 +2285,15 @@ pl:
       title: Udostępnij
       cancel: Anuluj
       image: Obraz
-      link: Link lub HTML
-      long_link: Link
-      short_link: Krótki link
+      link: Odnośnik lub HTML
+      long_link: Odnośnik
+      short_link: Krótki odnośnik
       geo_uri: Geo URI
       embed: HTML
-      custom_dimensions: Ustaw własne wymiary
+      custom_dimensions: Ustalenie własnych wymiarów
       format: 'Format:'
       scale: 'Skala:'
-      image_size: Obraz będzie pokazywał standardową warstwę w rozdzielczości
+      image_size: Obraz będzie przedstawiał podstawową warstwę w rozdzielczości
       download: Pobierz
       short_url: Krótki URL
       include_marker: Dołącz pinezkę
@@ -2302,14 +2305,14 @@ pl:
       report_problem: Zgłoś błąd
     key:
       title: Legenda
-      tooltip: Legenda
+      tooltip: Wyświetla legendę
       tooltip_disabled: Legenda jest dostępna tylko dla warstwy podstawowej
     map:
       zoom:
-        in: Powiększ
-        out: Pomniejsz
+        in: Przybliża
+        out: Oddala
       locate:
-        title: Pokaż moje położenie
+        title: Wyświetla aktualne położenie
         popup: Jesteś w promieniu {distance} {unit} od tego punktu
       base:
         standard: Podstawowa
@@ -2321,18 +2324,18 @@ pl:
         notes: Uwagi
         data: Dane mapy
         overlays: Włącz nakładki do rozwiązywania problemów na mapie
-        title: Warstwy
+        title: Przełącza warstwy
       copyright: © <a href='%{copyright_url}'>autorzy OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Przekaż darowiznę</a>
     site:
       edit_tooltip: Edytuje mapę
-      edit_disabled_tooltip: Powiększ, aby edytować mapę
-      createnote_tooltip: Zgłoś błąd lub dodaj uwagę na mapie
+      edit_disabled_tooltip: Przybliż mapę, aby ją edytować
+      createnote_tooltip: Zgłasza błąd lub dodaje uwagę na mapie
       createnote_disabled_tooltip: Przybliż mapę, by dodać uwagę
       map_notes_zoom_in_tooltip: Powiększ, aby zobaczyć uwagi
-      map_data_zoom_in_tooltip: Powiększ, aby zobaczyć dane mapy
-      queryfeature_tooltip: Obejrzyj dane obiektu
-      queryfeature_disabled_tooltip: Użyj powiększenia, aby obejrzeć dane obiektu
+      map_data_zoom_in_tooltip: Przybliż mapę, aby zobaczyć jej dane
+      queryfeature_tooltip: Wyświetla dane obiektu
+      queryfeature_disabled_tooltip: Przybliż mapę, aby obejrzeć dane obiektu
     changesets:
       show:
         comment: Komentarz
@@ -2355,8 +2358,8 @@ pl:
         reactivate: Ponownie aktywuj
         comment_and_resolve: Skomentuj i rozwiąż
         comment: Dodaj komentarz
-    edit_help: Przesuń mapę i powiększ miejsce, które chcesz edytować, a następnie
-      kliknij tutaj.
+    edit_help: Proszę przesunąć mapę i przybliżyć modyfikowane położenie, a następnie
+      kliknąć tutaj.
     directions:
       engines:
         graphhopper_bicycle: Rower (GraphHopper)
@@ -2366,7 +2369,7 @@ pl:
         mapquest_foot: Pieszo (MapQuest)
         osrm_car: Samochód (OSRM)
         mapzen_bicycle: Rower (Mapzen)
-        mapzen_car: Auto (Mapzen)
+        mapzen_car: Samochód (Mapzen)
         mapzen_foot: Pieszo (Mapzen)
       directions: Opis trasy
       distance: Odległość
