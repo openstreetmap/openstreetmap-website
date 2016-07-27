@@ -1,3 +1,6 @@
+PG_CONFIG ?= pg_config
+DESTDIR ?= .
+
 QTDIR=../../lib/quad_tile
 
 OS=$(shell uname -s)
@@ -7,19 +10,15 @@ else
     LDFLAGS=-shared
 endif
 
-all: libpgosm.so
+all: ${DESTDIR}/libpgosm.so
 
 clean:
-	$(RM) *.so *.o
+	$(RM) ${DESTDIR}/*.so ${DESTDIR}/*.o
 
-libpgosm.so: quadtile-pgsql.o maptile-pgsql.o xid_to_int4-pgsql.o
-	cc ${LDFLAGS} -o libpgosm.so quadtile-pgsql.o maptile-pgsql.o xid_to_int4-pgsql.o
+${DESTDIR}/libpgosm.so: ${DESTDIR}/quadtile.o ${DESTDIR}/maptile.o ${DESTDIR}/xid_to_int4.o
+	cc ${LDFLAGS} -o $@ $<
 
-quadtile-pgsql.o: quadtile.c ${QTDIR}/quad_tile.h
-	cc -I `pg_config --includedir` -I `pg_config --includedir-server` -I${QTDIR} -fPIC -O3 -DUSE_PGSQL -c -o quadtile-pgsql.o quadtile.c
+${DESTDIR}/%.o: %.c
+	cc -I `${PG_CONFIG} --includedir` -I `${PG_CONFIG} --includedir-server` -I${QTDIR} -fPIC -O3 -DUSE_PGSQL -c -o $@ $<
 
-maptile-pgsql.o: maptile.c
-	cc -I `pg_config --includedir` -I `pg_config --includedir-server` -fPIC -O3 -DUSE_PGSQL -c -o maptile-pgsql.o maptile.c
-
-xid_to_int4-pgsql.o: xid_to_int4.c
-	cc -I `pg_config --includedir` -I `pg_config --includedir-server` -fPIC -O3 -DUSE_PGSQL -c -o xid_to_int4-pgsql.o xid_to_int4.c
+${DESTDIR}/quadtile.o: ${QTDIR}/quad_tile.h
