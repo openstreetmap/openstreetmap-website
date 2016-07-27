@@ -16,7 +16,7 @@ clean:
 	$(RM) ${DESTDIR}/*.so ${DESTDIR}/*.o
 
 ${DESTDIR}/libpgosm.so: ${DESTDIR}/quadtile.o ${DESTDIR}/maptile.o ${DESTDIR}/xid_to_int4.o
-	cc ${LDFLAGS} -o $@ $<
+	cc ${LDFLAGS} -o $@ $^
 
 ${DESTDIR}/%.o: %.c
 	cc -I `${PG_CONFIG} --includedir` -I `${PG_CONFIG} --includedir-server` -I${QTDIR} -fPIC -O3 -DUSE_PGSQL -c -o $@ $<
