@@ -221,7 +221,7 @@ pl:
     tag_details:
       tags: Tagi
       wiki_link:
-        key: 'Opis na wiki dla znacznika: %{key}'
+        key: Strona wiki dla znacznika %{key}
         tag: Strona wiki dla znacznika %{key}=%{value}
       wikidata_link: '%{page} element na Wikidata'
       wikipedia_link: Artykuł %{page} w Wikipedii
@@ -272,11 +272,11 @@ pl:
       title_user: Zestawy zmian użytkownika %{user}
       title_friend: Zestawy zmian twoich znajomych
       title_nearby: Zestawy zmian pobliskich użytkowników
-      empty: Brak znalezionych zestawów zmian.
-      empty_area: Brak zestawów zmian w tym obszarze.
+      empty: Nie odnaleziono zestawów zmian.
+      empty_area: Brak zestawów zmian na tym obszarze.
       empty_user: Brak zestawów zmian tego użytkownika.
-      no_more: Nie znaleziono więcej zestawów zmian.
-      no_more_area: Brak zestawów zmian w tym obszarze.
+      no_more: Nie odnaleziono więcej zestawów zmian.
+      no_more_area: Brak zestawów zmian na tym obszarze.
       no_more_user: Brak zestawów zmian tego użytkownika.
       load_more: Wczytaj więcej
     timeout:
@@ -324,17 +324,17 @@ pl:
       save_button: Zapisz
     no_such_entry:
       title: Nie ma takiego wpisu
-      heading: 'Brak wpisu o id: %{id}'
+      heading: Brak wpisu o identyfikatorze %{id}
       body: Niestety nie odnaleziono wpisu dziennika lub komentarza o identyfikatorze
         %{id}. Proszę sprawdzić pisownię. Być może kliknięty odnośnik jest niepoprawny.
     diary_entry:
-      posted_by: Wpis od %{link_user} z %{created} w języku %{language_link}
+      posted_by: Opublikowany przez %{link_user}, %{created} w języku %{language_link}
       comment_link: Skomentuj ten wpis
       reply_link: Odpowiedz na ten wpis
       comment_count:
-        few: '%{count} komentarze'
-        one: 1 komentarz
         zero: Brak komentarzy
+        one: '%{count} komentarz'
+        few: '%{count} komentarze'
         other: '%{count} komentarzy'
       edit_link: Edytuj ten wpis
       hide_link: Ukryj ten wpis
@@ -368,7 +368,7 @@ pl:
   export:
     title: Eksportuj
     start:
-      area_to_export: Obszar do eksportu
+      area_to_export: Obszar do wyeksportowania
       manually_select: Ręcznie zaznacz inny obszar
       format_to_export: Format eksportu
       osm_xml_data: Dane XML OpenStreetMap
@@ -1275,7 +1275,7 @@ pl:
         more_info_2: 'uniknięcia można znaleźć na stronie:'
       success:
         subject: '[OpenStreetMap] Sukces importu pliku GPX'
-        loaded_successfully: udało się wczytać, wraz z %{trace_points} z %{possible_points}
+        loaded_successfully: wczytano wraz z %{trace_points} z %{possible_points}
           punktów łącznie.
     signup_confirm:
       subject: '[OpenStreetMap] Witamy w OpenStreetMap'
@@ -1397,8 +1397,9 @@ pl:
       inbox: odbiorcza
       outbox: nadawcza
       messages:
-        one: Masz %{count} wysłaną wiadomość
-        other: Masz %{count} wysłanych wiadomości
+        one: '%{count} wysłana wiadomość'
+        few: '%{count} wysłane wiadomości'
+        other: '%{count} wysłanych wiadomości'
       to: Do
       subject: Temat
       date: Nadano
@@ -1598,17 +1599,12 @@ pl:
       see_all_traces: Wyświetl wszystkie ślady
       see_your_traces: Wyświetl swoje ślady
       traces_waiting:
-        few: Masz %{count} ślady oczekujące na dodanie. Poczekaj aż wgrywanie ich
-          zostanie zakończone przed dodaniem kolejnych, aby nie blokować kolejki innym
-          użytkownikom.
-        many: Masz %{count} oczekujących na dodanie śladów. Poczekaj aż wgrywanie
-          ich zostanie zakończone przed dodaniem kolejnych, aby nie blokować kolejki
-          innym użytkownikom.
-        one: Masz %{count} ślad oczekujący na dodanie. Poczekaj aż wgrywanie go zostanie
-          zakończone przed dodaniem kolejnych, aby nie blokować kolejki innym użytkownikom.
-        other: Masz %{count} oczekujących na dodanie śladów. Poczekaj aż wgrywanie
-          ich zostanie zakończone przed dodaniem kolejnych, aby nie blokować kolejki
-          innym użytkownikom.
+        one: '%{count} ślad oczekuje na wysłanie. Proszę zaczekać na zakończenie jego
+          wysyłania przed dodaniem kolejnych, aby nie blokować kolejki innym użytkownikom.'
+        few: '%{count} ślady oczekują na wysłanie. Proszę zaczekać na zakończenie
+          ich wysyłania przed dodaniem kolejnych, aby nie blokować kolejki innym użytkownikom.'
+        other: '%{count} śladów oczekuje na wysłanie. Proszę zaczekać na zakończenie
+          ich wysyłania przed dodaniem kolejnych, aby nie blokować kolejki innym użytkownikom.'
     trace_optionals:
       tags: Tagi
     view:
@@ -1705,14 +1701,14 @@ pl:
       grant_access: Zezwól dostęp
     oauthorize_success:
       title: Dozwolone żądanie uwierzytelnienia
-      allowed: Dałeś aplikacji %{app_name} dostęp do twojego konta.
+      allowed: Przyznano dostęp do konta aplikacji %{app_name}.
       verification: Kod weryfikacyjny to %{code}.
     oauthorize_failure:
       title: Nieudane żądanie uwierzytelnienia
-      denied: Zakazano aplikacji %{app_name} dostępu do twojego konta.
+      denied: Odmówiono dostępu do konta aplikacji %{app_name}.
       invalid: Token autoryzacji jest nieprawidłowy.
     revoke:
-      flash: Cofnąłeś prawa dostępu dla aplikacji %{application}
+      flash: Odwołano uprawnienia aplikacji %{application}
   oauth_clients:
     new:
       title: Rejestracja nowej aplikacji
@@ -1914,7 +1910,7 @@ pl:
       my traces: Ślady
       my notes: Uwagi
       my messages: Wiadomości
-      my profile: mój profil
+      my profile: Profil
       my settings: Ustawienia
       my comments: Komentarze
       oauth settings: ustawienia oauth
@@ -2055,7 +2051,7 @@ pl:
         aktywujesz swoje konto, będziesz mógł zacząć edytować mapę.<br /><br />Jeśli
         używasz systemu antyspamowego, upewnij się, że do swojej białej listy dodałeś
         adres %{sender}. Dzięki temu będziemy mogli skontaktować się z tobą bez problemów.
-      failure: Brak użytkownika %{name}.
+      failure: Nie odnaleziono użytkownika %{name}.
     confirm_email:
       heading: Porwierdzenie zmiany adresu mailowego
       press confirm button: Proszę kliknąć poniższy przycisk, aby potwierdzić nowy
@@ -2070,16 +2066,16 @@ pl:
       flash success: Wszystkie Twoje modyfikacje są od teraz publiczne i jesteś uprawniony/a
         do edycji.
     make_friend:
-      heading: Dodać %{user} do listy przyjaciół?
+      heading: Dodać %{user} do grona znajomych?
       button: Dodaj do listy przyjaciół
-      success: '%{name} jest teraz twoim znajomym!'
-      failed: Niestety dodanie %{name} jako znajomego nie powiodło się.
-      already_a_friend: '%{name} już jest Twoim gronie znajomych.'
+      success: '%{name} należy teraz do grona znajomych!'
+      failed: Nie udało się dodać %{name} do grona znajomych.
+      already_a_friend: '%{name} już jest znajomym.'
     remove_friend:
-      heading: Usunąć %{user} z przyjaciół?
+      heading: Usunąć %{user} z grona znajomych?
       button: Usuń z przyjaciół
-      success: '%{name} został wyłączony z grona Twoich znajomych.'
-      not_a_friend: '%{name} nie był Twoim znajomym.'
+      success: Usunięto %{name} z grona znajomych.
+      not_a_friend: '%{name} nie należy do grona znajomych.'
     filter:
       not_an_administrator: Musisz mieć uprawnienia administratora do wykonania tego
         działania.
