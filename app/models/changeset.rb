@@ -32,7 +32,7 @@ class Changeset < ActiveRecord::Base
   EXPAND = 0.1
 
   # maximum number of elements allowed in a changeset
-  MAX_ELEMENTS = 50000
+  MAX_ELEMENTS = 10000
 
   # maximum time a changeset is allowed to be open for.
   MAX_TIME_OPEN = 1.day
