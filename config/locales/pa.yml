@@ -4,6 +4,7 @@
 # Author: Aalam
 # Author: Babanwalia
 # Author: Jimidar
+# Author: Tow
 ---
 pa:
   time:
@@ -12,6 +13,8 @@ pa:
   activerecord:
     models:
       acl: ਅਸੈੱਸ ਕੰਟਰੋਲ ਲਿਸਟ
+      changeset: ਤਬਦੀਲੀ ਲੜੀ
+      changeset_tag: ਤਬਦੀਲੀ ਲੜੀ ਨਿਸ਼ਾਨ
       country: ਮੁਲਕ
       diary_comment: ਡਾਇਰੀ ਟਿੱਪਣੀ
       diary_entry: ਡਾਇਰੀ ਇੰਦਰਾਜ
@@ -33,6 +36,9 @@ pa:
       relation_member: ਸਬੰਧ ਮੈਂਬਰ
       relation_tag: ਸਬੰਧ ਟੈਗ
       session: ਸੈਸ਼ਨ
+      trace: ਟਰੇਸ
+      tracepoint: ਟਰੇਸ ਪੁਆਇੰਟ
+      tracetag: ਟਰੇਸ ਨਿਸ਼ਾਨ
       user: ਵਰਤੋਂਕਾਰ
       user_preference: ਵਰਤੋਂਕਾਰ ਤਰਜੀਹਾਂ
       user_token: ਵਰਤੋਂਕਾਰ ਟੋਕਨ
@@ -74,20 +80,32 @@ pa:
         pass_crypt: ਪਛਾਣ-ਸ਼ਬਦ
   editor:
     default: ਮੂਲ (ਮੌਜੂਦਾ %{name})
+    id:
+      name: ਆਈਡੀ
     remote:
       name: ਰਿਮੋਟ ਕੰਟਰੋਲ
   browse:
     created: ਬਣਾਇਆ ਗਿਆ
     closed: ਬੰਦ ਹੋਇਆ
     created_html: <abbr title='%{title}'>%{time} ਪਹਿਲਾਂ ਬਣਾਇਆ ਗਿਆ</abbr>
+    version: ਵਰਜਨ
+    in_changeset: ਤਬਦੀਲੀਆਂ
     anonymous: ਬੇਪਛਾਣ
     no_comment: (ਕੋਈ ਟਿੱਪਣੀ ਨਹੀਂ)
     part_of: ਦਾ ਹਿੱਸਾ
+    download_xml: XML ਲਾਹੋ
     view_history: ਅਤੀਤ ਵੇਖੋ
     view_details: ਵੇਰਵੇ ਵੇਖੋ
     location: 'ਸਥਿਤੀ:'
     changeset:
+      title: 'ਤਬਦੀਲੀ ਲੜੀ: %{id}'
       belongs_to: ਲੇਖਕ
+      comment: ਟਿੱਪਣੀਆਂ (%{count})
+      changesetxml: ਤਬਦੀਲੀ ਲੜੀ XML
+      feed:
+        title: ਤਬਦੀਲੀ ਲੜੀ %{id}
+        title_comment: ਤਬਦੀਲੀ ਲੜੀ %{id} - %{comment}
+      discussion: ਚਰਚਾ
     relation:
       members: ਜੀਅ
     relation_member:
@@ -102,12 +120,14 @@ pa:
         way: ਰਾਹ
         relation: ਸਬੰਧ
         changeset: ਚੇਂਜ਼ਸੈੱਟ
+        note: ਟਿੱਪਣੀ
     timeout:
       type:
         node: ਨੋਡ
         way: ਰਾਹ
         relation: ਸਬੰਧ
         changeset: ਚੇਂਜ਼ਸੈੱਟ
+        note: ਟਿੱਪਣੀ
     redacted:
       type:
         node: ਨੋਡ
@@ -118,8 +138,11 @@ pa:
       loading: ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ…
     tag_details:
       tags: ਟੈਗ
+      wikipedia_link: '%{page} ਲੇਖ ਵਿਕਿਪੀਡਿਆ ਉੱਤੇ'
+      telephone_link: '%{phone_number} ਨੂੰ ਫੋਨ ਕਰੋ'
     note:
       title: 'ਟਿੱਪਣੀ: %{id}'
+      new_note: ਨਵੀੰ ਟਿੱਪਣੀ
       description: ਵੇਰਵਾ
   changeset:
     changeset_paging_nav:
@@ -130,12 +153,19 @@ pa:
       anonymous: ਬੇਪਛਾਣ
       no_edits: (ਕੋਈ ਸੋਧ ਨਹੀਂ)
     changesets:
+      id: ਸ਼ਨਾਖ਼ਤ
       user: ਵਰਤੋਂਕਾਰ
       comment: ਟਿੱਪਣੀ
       area: ਇਲਾਕਾ
+    list:
+      title: ਤਬਦੀਲੀਆਂ
+      load_more: ਹੋਰ ਲੋਡ ਕਰੋ
   diary_entry:
+    new:
+      publish_button: ਛਾਪੋ
     edit:
       subject: 'ਵਿਸ਼ਾ:'
+      body: 'ਧੜ੍ਹ:'
       language: 'ਬੋਲੀ:'
       location: 'ਸਥਿਤੀ:'
       latitude: 'ਅਕਸ਼ਾਂਸ਼:'
@@ -163,6 +193,7 @@ pa:
       view: ਵੇਖੋ
       edit: ਸੋਧੋ
     comments:
+      post: ਡਾਕ
       when: ਕਦੋਂ
       comment: ਟਿੱਪਣੀ
       ago: '%{ago} ਪਹਿਲਾਂ'
@@ -210,6 +241,7 @@ pa:
           bicycle_parking: ਸਾਈਕਲ ਪਾਰਕਿੰਗ
           bicycle_rental: ਕਿਰਾਏ 'ਤੇ ਸਾਈਕਲ
           biergarten: ਬੀਅਰ ਬਾਗ਼
+          boat_rental: ਕਿਸ਼ਤੀ ਕਿਰਾਇਆ
           brothel: ਕੋਠਾ
           bureau_de_change: ਮੁਦਰਾ ਵਟਾਂਦਰਾ
           bus_station: ਬਸ ਅੱਡਾ
@@ -219,8 +251,10 @@ pa:
           car_wash: ਕਾਰ ਧੁਆਈ
           casino: ਕੈਸੀਨੋ
           charging_station: ਚਾਰਜਿੰਗ ਸਟੇਸ਼ਨ
+          childcare: ਬਾਲ ਸੰਭਾਲ
           cinema: ਸਿਨੇਮਾ
           clinic: ਕਲੀਨਿਕ
+          clock: ਘੜੀ
           college: ਕਾਲਜ
           community_centre: ਭਾਈਚਾਰਾ ਕੇਂਦਰ
           courthouse: ਕਚਹਿਰੀ
@@ -239,6 +273,7 @@ pa:
           food_court: ਖਾਣਾ ਦਰਬਾਰ
           fountain: ਫ਼ੁਹਾਰਾ
           fuel: ਤੇਲ
+          gambling: ਜੂਆ
           grave_yard: ਕਬਰਿਸਤਾਨ
           gym: ਜਿਮ/ਦਰੁਸਤੀ ਕੇਂਦਰ
           health_centre: ਸਿਹਤ ਕੇਂਦਰ
@@ -249,11 +284,14 @@ pa:
           library: ਪੁਸਤਕਾਲਾ
           market: ਮੰਡੀ
           marketplace: ਮੰਡੀ ਦੀ ਥਾਂ
+          monastery: ਮੱਠ
+          motorcycle_parking: ਮੋਟਰਸਾਈਕਲ ਪਾਰਕਿੰਗ
           nightclub: ਰਾਤ ਦਾ ਕਲੱਬ
           nursery: ਨਰਸਰੀ
           nursing_home: ਨਰਸਿੰਗ ਹੋਮ
           office: ਦਫ਼ਤਰ
           parking: ਪਾਰਕਿੰਗ
+          parking_entrance: ਪਾਰਕਿੰਗ ਪਰਵੇਸ਼
           pharmacy: ਫ਼ਾਰਮੇਸੀ
           place_of_worship: ਭਗਤੀ ਦਾ ਘਰ
           police: ਪੁਲਿਸ
@@ -274,6 +312,7 @@ pa:
           shower: ਸ਼ਾਵਰ
           social_centre: ਸਮਾਜਕ ਕੇਂਦਰ
           social_club: ਸਮਾਜਕ ਕਲੱਬ
+          social_facility: ਸਮਾਜਕ ਸਹੂਲਤ
           studio: ਸਟੂਡੀਉ
           swimming_pool: ਤੈਰਾਕੀ ਤਲਾਅ
           taxi: ਟੈਕਸੀ
@@ -286,6 +325,7 @@ pa:
           veterinary: ਡੰਗਰਾਂ ਦਾ ਹਸਪਤਾਲ
           village_hall: ਪਿੰਡ ਦਾ ਹਾਲ
           waste_basket: ਕੂੜਾਦਾਨ
+          waste_disposal: ਕੂੜੇਦਾਨ
           youth_centre: ਨੌਜਵਾਨ ਕੇਂਦਰ
         boundary:
           administrative: ਪ੍ਰਸ਼ਾਸਕੀ ਸਰਹੱਦ
@@ -300,13 +340,29 @@ pa:
           "yes": ਪੁਲ
         building:
           "yes": ਇਮਾਰਤ
+        craft:
+          brewery: ਬਰੂਅਰੀ
+          carpenter: ਤਰਖਾਣ
+          electrician: ਇਲੈਕਟਰੀਸ਼ਨ
+          gardener: ਮਾਲੀ
+          painter: ਚਿੱਤਰਕਾਰ
+          photographer: ਫ਼ੋਟੋਗ੍ਰਾਫ਼ਰ
+          plumber: ਨਲਸਾਜ਼
+          shoemaker: ਮੋਚੀ
+          tailor: ਦਰਜੀ
+          "yes": ਕਰਾਫਟ ਦੁਕਾਨ
         emergency:
+          ambulance_station: ਐਂਬੂਲੈਂਸ ਸਟੇਸ਼ਨ
+          defibrillator: ਡੀਫਿਬ੍ਰੀਲੇਟਰ
+          landing_site: ਸੰਕਟਕਾਲੀਨ ਉਤਰ ਸਥਾਨ
           phone: ਐਮਰਜੈਂਸੀ ਫ਼ੋਨ
         highway:
+          abandoned: ਨਿਕਾਸੀ ਹਾਈਵੇਅ
           bridleway: ਘੋੜ-ਰਾਹ
           bus_stop: ਬੱਸ ਅੱਡਾ
           construction: ਉਸਾਰੀ ਹੇਠ ਹਾਈਵੇ
           cycleway: ਸਾਈਕਲ ਰਾਹ
+          elevator: ਲਿਫਟ
           emergency_access_point: ਐਮਰਜੈਂਸੀ ਪਹੁੰਚ ਬਿੰਦੂ
           footway: ਪੈਦਲ ਰਾਹ
           ford: ਫ਼ੋਰਡ
@@ -321,7 +377,7 @@ pa:
           primary: ਮੁੱਢਲੀ ਸੜਕ
           primary_link: ਮੁੱਢਲੀ ਸੜਕ
           raceway: ਰੇਸਵੇ
-          residential: ਰਿਹਾਇਸ਼ੀ
+          residential: ਰਿਹਾਇਸ਼ੀ ਸੜਕ
           rest_area: ਅਰਾਮ ਖੇਤਰ
           road: ਸੜਕ
           secondary: ਸਕੈਂਡਰੀ ਸੜਕ
@@ -330,17 +386,26 @@ pa:
           services: ਮੋਟਰਵੇ ਸੇਵਾਵਾਂ
           speed_camera: ਗਤੀ ਕੈਮਰਾ
           steps: ਪੌੜੀਆਂ
+          street_lamp: ਗਲੀ ਬੱਤੀ
           tertiary: ਤੀਜੇ ਪੱਧਰ ਦੀ ਸੜਕ
           tertiary_link: ਤੀਜੇ ਪੱਧਰ ਦੀ ਸੜਕ
           track: ਟਰੈਕ
+          traffic_signals: ਟਰੈਫਿਕ ਸਿਗਨਲ
           trail: ਡੰਡੀ
           trunk: ਟਰੰਕ ਸੜਕ
           trunk_link: ਟਰੰਕ ਸੜਕ
+          unclassified: ਅਵਰਗੀਕ੍ਰਿਤ ਰੋਡ
+          "yes": ਸੜਕ
         historic:
-          building: ਇਮਾਰਤ
+          archaeological_site: ਪੁਰਾਤੱਤਵ ਸਥਾਨ
+          battlefield: ਜੰਗ ਦਾ ਮੈਦਾਨ
+          building: ਇਤਿਹਾਸਕ ਇਮਾਰਤ
           castle: ਗੜ੍ਹੀ
           church: ਗਿਰਜਾ
+          city_gate: ਸ਼ਹਿਰ ਗੇਟ
+          citywalls: ਸ਼ਹਿਰ ਦੀਆੰ ਕੰਧਾੰ
           fort: ਕਿਲ਼ਾ
+          heritage: ਵਿਰਾਸਤ ਸਥਾਨ
           house: ਘਰ
           icon: ਆਈਕਨ
           manor: ਮੈਨਰ
@@ -348,10 +413,14 @@ pa:
           mine: ਖਾਨ
           monument: ਸਮਾਰਕ
           ruins: ਖੰਡਰ
+          stone: ਪੱਥਰ
           tomb: ਮਕਬਰਾ
           tower: ਬੁਰਜ
+        junction:
+          "yes": ਜੰਕਸ਼ਨ
         landuse:
           basin: ਹੌਜ਼ੀ
+          cemetery: ਸ਼ਮਸ਼ਾਨ
           commercial: ਵਪਾਰਕ ਖੇਤਰ
           conservation: ਰੱਖ
           construction: ਉਸਾਰੀ
@@ -367,14 +436,19 @@ pa:
           mine: ਖਾਨ
           orchard: ਬਗ਼ੀਚਾ
           railway: ਰੇਲਵੇ
+          recreation_ground: ਮਨੋਰੰਜਨ ਮੈਦਾਨ
+          reservoir: ਸਰੋਵਰ
           residential: ਰਿਹਾਇਸ਼ੀ ਇਲਾਕਾ
           retail: ਪਰਚੂਨ
           road: ਸੜਕ ਇਲਾਕਾ
           village_green: ਪੇਂਡੂ ਹਰਿਆਵਲ
           vineyard: ਅੰਗੂਰਾਂ ਦਾ ਬਾਗ਼
         leisure:
+          club: ਕਲੱਬ
           common: ਸ਼ਾਮਲਾਟ
+          dog_park: ਕੁੱਤਾ ਪਾਰਕ
           fishing: ਮੱਛੀ-ਖੋਜ ਇਲਾਕਾ
+          fitness_centre: ਫਿੱਟਨੈੱਸ ਕੇੰਦਰ
           fitness_station: ਤੰਦਰੁਸਤੀ ਅੱਡਾ
           garden: ਬਾਗ਼
           golf_course: ਗੋਲਫ਼ ਮੈਦਾਨ
@@ -391,6 +465,11 @@ pa:
           swimming_pool: ਤੈਰਾਕੀ ਤਲਾਅ
           track: ਭੱਜਣ ਲਈ ਟਰੈਕ
           water_park: ਜਲ ਪਾਰਕ
+        man_made:
+          lighthouse: ਲਾਈਟਹਾਊਸ
+          pipeline: ਪਾਈਪਲਾਈਨ
+          tower: ਬੁਰਜ
+          works: ਫੈਕਟਰੀ
         military:
           airfield: ਫ਼ੌਜੀ ਉਡਾਣ-ਖੇਤਰ
           barracks: ਬੈਰਕ
@@ -419,6 +498,7 @@ pa:
           reef: ਰੀਫ਼
           ridge: ਰਿੱਜ
           rock: ਚਟਾਨ
+          sand: ਰੇਤ
           scree: ਰੇੜ੍ਹ
           scrub: ਝਾੜ ਬਰੋਟਾ
           spring: ਸੋਮਾ
@@ -432,6 +512,7 @@ pa:
           wood: ਜੰਗਲ
         office:
           accountant: ਅਕਾਊਂਟੈਂਟ
+          administrative: ਪ੍ਰਸ਼ਾਸਨ
           architect: ਨਕਸ਼ਾਕਾਰ
           company: ਕੰਪਨੀ
           employment_agency: ਰੁਜ਼ਗਾਰ ਏਜੰਸੀ
@@ -444,6 +525,7 @@ pa:
           travel_agent: ਟਰੈਵਲ ਏਜੰਸੀ
           "yes": ਦਫ਼ਤਰ
         place:
+          block: ਬਲਾਕ
           airport: ਹਵਾਈ ਅੱਡਾ
           city: ਸ਼ਹਿਰ
           country: ਮੁਲਕ
@@ -468,6 +550,7 @@ pa:
           town: ਕਸਬਾ
           unincorporated_area: ਗ਼ੈਰ-ਸੰਮਿਲਤ ਇਲਾਕਾ
           village: ਪਿੰਡ
+          "yes": ਥਾੰ
         railway:
           abandoned: ਛੱਡਿਆ ਹੋਇਆ ਰੇਲਵੇ
           construction: ਉਸਾਰੀ ਹੇਠ ਰੇਲਵੇ
@@ -483,11 +566,12 @@ pa:
           narrow_gauge: ਭੀੜੀ ਰੇਲ
           platform: ਰੇਲਵੇ ਪਲੇਟਫਾਰਮ
           station: ਰੇਲਵੇ ਸਟੇਸ਼ਨ
-          subway: ਸਬਵੇ ਸਟੇਸ਼ਨ
+          subway: ਸੱਬਵੇ
           subway_entrance: ਸਬਵੇ ਪ੍ਰਵੇਸ਼
           tram: ਟਰਾਮਵੇ
           tram_stop: ਟਰਾਮ ਅੱਡਾ
         shop:
+          antiques: ਪ੍ਰਾਚੀਨ
           art: ਕਲਾ ਹੱਟੀ
           bakery: ਨਾਨਬਾਈ ਦੀ ਹੱਟੀ
           beauty: ਬਿਊਟੀ ਪਾਰਲਰ
@@ -558,6 +642,7 @@ pa:
           video: ਵੀਡੀਓ ਦੀ ਦੁਕਾਨ
           "yes": ਹੱਟੀ
         tourism:
+          apartment: ਅਪਾਰਟਮੈਂਟ
           artwork: ਕਾਰੀਗਰੀ
           attraction: ਖਿੱਚ
           bed_and_breakfast: ਮੰਜਾ ਤੇ ਨਾਸ਼ਤਾ
@@ -565,6 +650,7 @@ pa:
           camp_site: ਛਾਉਣੀ
           caravan_site: ਕਾਫ਼ਲਾ ਟਿਕਾਣਾ
           chalet: ਲੱਕੜ ਦਾ ਘਰ
+          gallery: ਗੈਲਰੀ
           guest_house: ਸਰਾਂ
           hostel: ਹੋਸਟਲ
           hotel: ਹੋਟਲ
@@ -595,6 +681,7 @@ pa:
           wadi: ਬਰਸਾਤੀ ਨਾਲਾ
           waterfall: ਝਰਨਾ
           weir: ਬੰਨ੍ਹ
+          "yes": ਜਲਮਾਰਗ
       admin_levels:
         level2: ਦੇਸ਼ ਦੀ ਹੱਦ
         level4: ਰਾਜ ਦੀ ਹੱਦ
@@ -626,8 +713,10 @@ pa:
     export: ਬਰਾਮਦ
     data: ਸਮੱਗਰੀ
     export_data: ਸਮੱਗਰੀ ਬਰਾਮਦ ਕਰੋ
+    edit_with: '%{editor} ਨਾਲ ਸੋਧੋ'
     intro_2_create_account: ਇੱਕ ਵਰਤੋਂਕਾਰ ਖਾਤਾ ਬਣਾਉ
     partners_ic: ਇੰਪੀਰੀਅਲ ਕਾਲਜ ਲੰਡਨ
+    partners_bytemark: ਬਾਈਟਮਾਰਕ ਹੋਸਟਿੰਗ
     partners_partners: ਜੋੜੀਦਾਰ
     help: ਮਦਦ
     about: ਬਾਬਤ
@@ -647,6 +736,7 @@ pa:
       english_link: ਮੂਲ ਅੰਗਰੇਜ਼ੀ
     native:
       title: ਇਸ ਵਰਕੇ ਬਾਰੇ
+      native_link: ਪੰਜਾਬੀ ਵਰਜਨ
       mapping_link: ਨਕਸ਼ਾਬੰਦੀ ਸ਼ੁਰੂ ਕਰੋ
     legal_babble:
       title_html: ਨਕਲ-ਹੱਕ ਤੇ ਲਾਇਸੰਸ
@@ -656,6 +746,8 @@ pa:
     title: ਜੀ ਆਇਆਂ ਨੂੰ!
     whats_on_the_map:
       title: ਨਕਸ਼ੇ ਉੱਤੇ ਕੀ ਹੈ
+    rules:
+      title: ਨਿਯਮ!
     questions:
       title: ਕੋਈ ਸੁਆਲ?
     start_mapping: ਨਕਸ਼ਾਬੰਦੀ ਸ਼ੁਰੂ ਕਰੋ
@@ -674,9 +766,15 @@ pa:
     welcome:
       url: /ਜੀ ਆਇਆਂ ਨੂੰ
       title: ਓ.ਐੱਸ.ਐੱਮ. 'ਤੇ ਜੀ ਆਇਆਂ ਨੂੰ
+    beginners_guide:
+      title: ਸ਼ੁਰੂਆਤੀ ਗਾਈਡ
     help:
       url: https://help.openstreetmap.org/
       title: help.openstreetmap.org
+    forums:
+      title: ਮੰਚ
+    irc:
+      title: ਆਈ.ਆਰ.ਸੀ
     wiki:
       url: http://wiki.openstreetmap.org/
       title: wiki.openstreetmap.org
@@ -684,17 +782,34 @@ pa:
     next: ਅੱਗੇ
     copyright_html: <span>&copy;</span>ਓਪਨ-ਸਟਰੀਟ-ਮੈਪ<br>ਯੋਗਦਾਨੀ
     local_knowledge_title: ਸਥਾਨੀ ਗਿਆਨ
+    open_data_title: ਓਪਨ ਡਾਟਾ
+    legal_title: ਕਾਨੂੰਨੀ
     partners_title: ਸਾਂਝੀਦਾਰ
   notifier:
     gpx_notification:
       greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ,
     signup_confirm:
       greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ ਜੀ!
+    email_confirm_plain:
+      greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ,
+    email_confirm_html:
+      greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ,
+    lost_password_plain:
+      greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ,
+    lost_password_html:
+      greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ,
     note_comment_notification:
       anonymous: ਇੱਕ ਗੁੰਮਨਾਮ ਵਰਤੋਂਕਾਰ
       greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ,
+    changeset_comment_notification:
+      greeting: ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ,
+      commented:
+        partial_changeset_without_comment: ਬਿਨਾ ਟਿੱਪਣੀ
   message:
     inbox:
+      title: ਇਨਬਾਕਸ
+      my_inbox: ਮੇਰਾ ਇਨਬਾਕਸ
+      outbox: ਆਊਟਬਾਕਸ
       from: ਵੱਲੋਂ
       subject: ਵਿਸ਼ਾ
       date: ਮਿਤੀ
@@ -704,12 +819,17 @@ pa:
     new:
       title: ਸੁਨੇਹਾ ਘੱਲੋ
       subject: ਵਿਸ਼ਾ
+      body: ਧੜ੍ਹ
       send_button: ਭੇਜੋ
       message_sent: ਸੁਨੇਹਾ ਭੇਜਿਆ ਗਿਆ
     no_such_message:
       title: ਅਜਿਹਾ ਕੋਈ ਸੁਨੇਹਾ ਨਹੀਂ
       heading: ਅਜਿਹਾ ਕੋਈ ਸੁਨੇਹਾ ਨਹੀਂ
     outbox:
+      title: ਆਊਟਬਾਕਸ
+      my_inbox: ਮੇਰਾ %{inbox_link}
+      inbox: ਇਨਬਾਕਸ
+      outbox: ਆਊਟਬਾਕਸ
       to: ਵੱਲ
       subject: ਵਿਸ਼ਾ
       date: ਮਿਤੀ
@@ -728,6 +848,8 @@ pa:
       deleted: ਸੁਨੇਹਾ ਮਿਟਾਇਆ ਗਿਆ
   site:
     index:
+      permalink: ਪੱਕੀ ਕੜੀ
+      shortlink: ਛੋਟੀ ਕੜੀ
       createnote: ਟਿੱਪਣੀ ਜੋੜੋ
     edit:
       user_page_link: ਵਰਤੋਂਕਾਰ ਵਰਕਾ
@@ -737,6 +859,9 @@ pa:
       close: ਬੰਦ ਕਰੋ
     search:
       search: ਖੋਜੋ
+      get_directions: ਦਿਸ਼ਾਵਾਂ ਪ੍ਰਾਪਤ ਕਰੋ
+      from: ਵੱਲੋਂ
+      to: ਵੱਲ
       where_am_i: ਮੈਂ ਕਿੱਥੇ ਹਾਂ?
       submit_text: ਜਾਉ
     key:
@@ -801,9 +926,14 @@ pa:
       headings: ਸਿਰਨਾਵੇਂ
       heading: ਸਿਰਨਾਵਾਂ
       subheading: ਉਪਸਿਰਨਾਵਾਂ
+      ordered: ਕ੍ਰਮਬੱਧ ਸੂਚੀ
+      first: ਪਹਿਲੀ ਚੀਜ਼
+      second: ਦੂਜੀ ਚੀਜ਼
       link: ਕੜੀ
       text: ਲਿਖਤ
       image: ਤਸਵੀਰ
+      alt: ਵਿਕਲਪਿਕ ਲਿਖਤ
+      url: ਯੂ.ਆਰ.ਐੱਲ.
   trace:
     edit:
       filename: 'ਫ਼ਾਈਲ ਦਾ ਨਾਂ:'
@@ -816,6 +946,7 @@ pa:
       description: 'ਵੇਰਵਾ:'
       tags: 'ਟੈਗ:'
       save_button: ਤਬਦੀਲੀਆਂ ਸਾਂਭੋ
+      visibility: 'ਦਿੱਸਣਯੋਗਤਾ:'
       visibility_help: ਇਹਦਾ ਕੀ ਮਤਲਬ ਹੈ?
     trace_form:
       description: 'ਵੇਰਵਾ:'
@@ -870,6 +1001,9 @@ pa:
       map: ਨਕਸ਼ਾ
     list:
       tagged_with: '%{tags} ਨਾਲ਼ ਨਿਸ਼ਾਨਦੇਹ'
+  oauth:
+    oauthorize:
+      allow_write_notes: ਟਿੱਪਣੀਆੰ ਸੋਧੋ।
   oauth_clients:
     new:
       title: ਕਿਸੇ ਨਵੀਂ ਅਰਜ਼ੀ ਦਾ ਇੰਦਰਾਜ ਕਰਾਉ
@@ -881,11 +1015,14 @@ pa:
       edit: ਵੇਰਵੇ ਸੋਧੋ
       confirm: ਕੀ ਤੁਹਾਨੂੰ ਯਕੀਨ ਹੈ?
       allow_write_api: ਨਕਸ਼ੇ 'ਚ ਫੇਰ-ਬਦਲ ਕਰੋ
+      allow_write_notes: ਟਿੱਪਣੀਆੰ ਸੋਧੋ।
     index:
+      revoke: ਪਰਤਾਉ!
       register_new: ਆਪਣੀ ਅਰਜ਼ੀ ਦਾ ਇੰਦਰਾਜ ਕਰਾਓ
     form:
       name: ਨਾਂ
       required: ਲੋੜੀਂਦਾ
+      support_url: ਮਦਦ URL
   user:
     login:
       title: ਦਾਖ਼ਲਾ
