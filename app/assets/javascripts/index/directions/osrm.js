@@ -82,6 +82,8 @@ function OSRMEngine() {
             break;
           case 'roundabout turn':
           case 'turn':
+            maneuver_id = "turn " + step.maneuver.modifier;
+            break;
           // for unknown types the fallback is turn
           default:
             maneuver_id = "turn " + step.maneuver.modifier;
@@ -91,7 +93,7 @@ function OSRMEngine() {
 
         var segment_end_point = line.length;
         // convert lat,lng pairs to LatLng objects
-        var step_geometry = L.PolylineUtil.decode(step.geometry, { precision: 5 }).map((a) => { return L.latLng(a); }) ;
+        var step_geometry = L.PolylineUtil.decode(step.geometry, { precision: 5 }).map(function(a) { return L.latLng(a); }) ;
         // append step_geometry on line
         Array.prototype.push.apply(line, step_geometry);
 
@@ -118,14 +120,14 @@ function OSRMEngine() {
 
 
       if (cachedHints.length == points.length) {
-        params.push({name: "hints", value: cachedHints.join(";")})
+        params.push({name: "hints", value: cachedHints.join(";")});
       } else {
         // invalidate cache
         cachedHints = [];
       }
 
       var encoded_coords = points.map(function(p) {
-        return p.lng + ',' + p.lat
+        return p.lng + ',' + p.lat;
       }).join(';');
 
       var req_url = document.location.protocol + OSM.OSRM_URL + encoded_coords;
