@@ -72,7 +72,7 @@ function OSRMEngine() {
           case 'merge':
           case 'end of road':
           case 'fork':
-            maneuver_id = step.maneuver.type + ' ' + (step.maneuver.modifier.indexOf('left') > 0 ? 'left' : 'right');
+            maneuver_id = step.maneuver.type + ' ' + (step.maneuver.modifier.indexOf('left') >= 0 ? 'left' : 'right');
             break;
           case 'depart':
           case 'arrive':
