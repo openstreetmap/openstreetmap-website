@@ -91,7 +91,6 @@ function OSRMEngine() {
         }
         var template = INSTRUCTION_TEMPLATE[maneuver_id];
 
-        var segment_end_point = line.length;
         // convert lat,lng pairs to LatLng objects
         var step_geometry = L.PolylineUtil.decode(step.geometry, { precision: 5 }).map(function(a) { return L.latLng(a); }) ;
         // append step_geometry on line
@@ -119,7 +118,7 @@ function OSRMEngine() {
       ];
 
 
-      if (cachedHints.length == points.length) {
+      if (cachedHints.length === points.length) {
         params.push({name: "hints", value: cachedHints.join(";")});
       } else {
         // invalidate cache
