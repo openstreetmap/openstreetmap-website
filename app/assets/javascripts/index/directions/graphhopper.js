@@ -7,8 +7,8 @@ function GraphHopperEngine(id, vehicleType) {
     1: 1, // slight right
     2: 2, // right
     3: 3, // sharp right
-    4: 8, // finish reached
-    5: 8, // via reached
+    4: 14, // finish reached
+    5: 14, // via reached
     6: 10 // roundabout
   };
 

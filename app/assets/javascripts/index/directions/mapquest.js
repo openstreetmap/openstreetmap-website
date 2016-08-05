@@ -10,15 +10,15 @@ function MapQuestEngine(id, routeType) {
     2: 2, // right
     3: 3, // sharp right
     4: 4, // reverse
-    5: 5, // sharp left
+    5: 7, // sharp left
     6: 6, // left
-    7: 7, // slight left
-    8: 3, // right U-turn (mapped to shard-right symbol)
-    9: 8, // left U-turn
+    7: 5, // slight left
+    8: 4, // right U-turn
+    9: 4, // left U-turn
     10: 21, // right merge
     11: 20, // left merge
-    12: 2, // right on-ramp
-    13: 6, // left on-ramp
+    12: 21, // right on-ramp
+    13: 20, // left on-ramp
     14: 24, // right off-ramp
     15: 25, // left off-ramp
     16: 18, // right fork

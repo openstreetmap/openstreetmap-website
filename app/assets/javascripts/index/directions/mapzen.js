@@ -18,13 +18,13 @@ function MapzenEngine(id, costing) {
     6,  // kLeft = 15;
     5,  // kSlightLeft = 16;
     0,  // kRampStraight = 17;
-    2,  // kRampRight = 18;
-    6,  // kRampLeft = 19;
+    24, // kRampRight = 18;
+    25, // kRampLeft = 19;
     24, // kExitRight = 20;
     25, // kExitLeft = 21;
     0,  // kStayStraight = 22;
-    2,  // kStayRight = 23;
-    6,  // kStayLeft = 24;
+    1,  // kStayRight = 23;
+    5,  // kStayLeft = 24;
     20, // kMerge = 25;
     10, // kRoundaboutEnter = 26;
     11, // kRoundaboutExit = 27;
