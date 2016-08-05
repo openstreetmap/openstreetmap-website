@@ -1,12 +1,12 @@
 function MapzenEngine(id, costing) {
   var MZ_INSTR_MAP = [
     0,  // kNone = 0;
-    14, // kStart = 1;
-    14, // kStartRight = 2;
-    14, // kStartLeft = 3;
-    8,  // kDestination = 4;
-    8,  // kDestinationRight = 5;
-    8,  // kDestinationLeft = 6;
+    8, // kStart = 1;
+    8, // kStartRight = 2;
+    8, // kStartLeft = 3;
+    14,  // kDestination = 4;
+    14,  // kDestinationRight = 5;
+    14,  // kDestinationLeft = 6;
     0,  // kBecomes = 7;
     0,  // kContinue = 8;
     1,  // kSlightRight = 9;

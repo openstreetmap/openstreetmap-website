@@ -59,8 +59,8 @@ function OSRMEngine() {
         'trun straight': 0,
         'roundabout': 10,
         'rotary': 10,
-        'depart': 9,
-        'arrive': 8
+        'depart': 8,
+        'arrive': 14
       };
       var transformed_steps = input_steps.map(function(step, idx) {
         var maneuver_id;
