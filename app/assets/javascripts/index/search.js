@@ -95,15 +95,18 @@ OSM.Search = function(map) {
     $(this).closest("li").removeClass("selected");
   }
 
-  function clickSearchResult(e) {
-    var data = $(this).data(),
-      center = L.latLng(data.lat, data.lon);
-
+  function panToSearchResult(data) {
     if (data.minLon && data.minLat && data.maxLon && data.maxLat) {
       map.fitBounds([[data.minLat, data.minLon], [data.maxLat, data.maxLon]]);
     } else {
+      var center = L.latLng(data.lat, data.lon);
       map.setView(center, data.zoom);
     }
+  }
+
+function clickSearchResult(e) {
+    var data = $(this).data();
+    panToSearchResult(data);
 
     // Let clicks to object browser links propagate.
     if (data.type && data.id) return;
@@ -141,7 +144,7 @@ OSM.Search = function(map) {
           if (index === 0) {
             var firstResult = entry.find('*[data-lat][data-lon]:first').first();
             if (firstResult.length) {
-              clickSearchResult.call(firstResult, false);
+              panToSearchResult(firstResult.data());
             }
           }
         }
