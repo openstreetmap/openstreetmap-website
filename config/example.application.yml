@@ -87,9 +87,9 @@ defaults: &defaults
   require_terms_agreed: false
   # Imagery to return in capabilities as blacklisted
   imagery_blacklist:
-    - ".*\\.googleapis\\.com/.*"
-    - ".*\\.google\\.com/.*"
-    - ".*\\.google\\.ru/.*"
+    # Current Google imagery URLs have google or googleapis in the domain
+    # with a vt or kh endpoint, and x, y and z query parameters
+    - ".*\\.google(apis)?\\..*/(vt|kh)[\\?/].*([xyz]=.*){3}.*"
   # URL of Overpass instance to use for feature queries
   overpass_url: "//overpass-api.de/api/interpreter"
   # Routing endpoints
