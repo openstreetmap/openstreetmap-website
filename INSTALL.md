@@ -81,9 +81,9 @@ and adding:
 Installing other dependencies:
 
 * Install Homebrew from http://mxcl.github.io/homebrew/
-* Install the latest version of Ruby: brew install ruby
-* Install ImageMagick: brew install imagemagick
-* Install Bundler: gem install bundler
+* Install the latest version of Ruby: `brew install ruby`
+* Install ImageMagick: `brew install imagemagick`
+* Install Bundler: `gem install bundler`
 
 Note that OS X does not have a /home directory by default, so if you are using the GPX functions, you will need to change the directories specified in config/application.yml.
 
