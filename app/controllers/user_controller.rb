@@ -131,6 +131,10 @@ class UserController < ApplicationController
         session[:new_user_settings] = params
         redirect_to auth_url(params[:user][:auth_provider], params[:user][:auth_uid])
       end
+    elsif errors = session.delete(:user_errors)
+      errors.each do |attribute, error|
+        @user.errors.add(attribute, error)
+      end
     end
   end
 
@@ -501,30 +505,13 @@ class UserController < ApplicationController
       email_verified = false
     end
 
-    user = User.find_by_auth_provider_and_auth_uid(provider, uid)
-
-    if user.nil? && provider == "google"
-      openid_url = auth_info[:extra][:id_info]["openid_id"]
-      user = User.find_by_auth_provider_and_auth_uid("openid", openid_url) if openid_url
-      user.update(:auth_provider => provider, :auth_uid => uid) if user
-    end
-
-    if user
-      case user.status
-      when "pending" then
-        unconfirmed_login(user)
-      when "active", "confirmed" then
-        successful_login(user, env["omniauth.params"]["referer"])
-      when "suspended" then
-        failed_login t("user.login.account is suspended", :webmaster => "mailto:#{SUPPORT_EMAIL}")
-      else
-        failed_login t("user.login.auth failure")
-      end
-    elsif settings = session.delete(:new_user_settings)
+    if settings = session.delete(:new_user_settings)
       @user.auth_provider = provider
       @user.auth_uid = uid
 
       update_user(@user, settings)
+
+      session[:user_errors] = @user.errors.as_json
 
       redirect_to :action => "account", :display_name => @user.display_name
     elsif session[:new_user]
@@ -537,8 +524,29 @@ class UserController < ApplicationController
 
       redirect_to :action => "terms"
     else
-      redirect_to :action => "new", :nickname => name, :email => email,
-                  :auth_provider => provider, :auth_uid => uid
+      user = User.find_by_auth_provider_and_auth_uid(provider, uid)
+
+      if user.nil? && provider == "google"
+        openid_url = auth_info[:extra][:id_info]["openid_id"]
+        user = User.find_by_auth_provider_and_auth_uid("openid", openid_url) if openid_url
+        user.update(:auth_provider => provider, :auth_uid => uid) if user
+      end
+
+      if user
+        case user.status
+        when "pending" then
+          unconfirmed_login(user)
+        when "active", "confirmed" then
+          successful_login(user, env["omniauth.params"]["referer"])
+        when "suspended" then
+          failed_login t("user.login.account is suspended", :webmaster => "mailto:#{SUPPORT_EMAIL}")
+        else
+          failed_login t("user.login.auth failure")
+        end
+      else
+        redirect_to :action => "new", :nickname => name, :email => email,
+                    :auth_provider => provider, :auth_uid => uid
+      end
     end
   end
 

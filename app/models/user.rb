@@ -52,6 +52,8 @@ class User < ActiveRecord::Base
   validates :home_zoom, :allow_nil => true, :numericality => { :only_integer => true }
   validates :preferred_editor, :inclusion => Editors::ALL_EDITORS, :allow_nil => true
   validates :image, :attachment_content_type => { :content_type => %r{\Aimage/.*\Z} }
+  validates :auth_uid, :unless => proc { |u| u.auth_provider.nil? },
+                       :uniqueness => { :scope => :auth_provider }
 
   validates_email_format_of :email, :if => proc { |u| u.email_changed? }
   validates_email_format_of :new_email, :allow_blank => true, :if => proc { |u| u.new_email_changed? }
