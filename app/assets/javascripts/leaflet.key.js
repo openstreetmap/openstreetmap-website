@@ -60,7 +60,7 @@ L.OSM.key = function (options) {
     }
 
     function updateButton() {
-      var disabled = map.getMapBaseLayerId() !== 'mapnik';
+      var disabled = ['mapnik', 'cyclemap'].indexOf(map.getMapBaseLayerId()) === -1;
       button
         .toggleClass('disabled', disabled)
         .attr('data-original-title',
