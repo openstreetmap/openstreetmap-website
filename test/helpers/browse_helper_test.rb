@@ -146,31 +146,77 @@ class BrowseHelperTest < ActionView::TestCase
     assert_equal "http://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=tr", link
   end
 
-  def test_wikidata_link
-    link = wikidata_link("foo", "Test")
-    assert_nil link
+  def test_wikidata_links
+    ### Non-prefixed wikidata-tag (only one value allowed)
 
-    link = wikidata_link("wikidata", "http://www.wikidata.org/wiki/Q1")
-    assert_nil link
+    links = wikidata_links("foo", "Test")
+    assert_nil links
 
-    link = wikidata_link("wikidata", "en:Q1")
-    assert_nil link
+    # No URLs allowed
+    links = wikidata_links("wikidata", "http://www.wikidata.org/wiki/Q1")
+    assert_nil links
 
-    link = wikidata_link("wikidata", "1")
-    assert_nil link
+    # No language-prefixes (as wikidata is multilanguage)
+    links = wikidata_links("wikidata", "en:Q1")
+    assert_nil links
 
-    link = wikidata_link("wikidata", "Q0123")
-    assert_nil link
+    # Needs a leading Q
+    links = wikidata_links("wikidata", "1")
+    assert_nil links
 
-    link = wikidata_link("wikidata", "Q42")
-    assert_equal "//www.wikidata.org/wiki/Q42?uselang=en", link[:url]
-    assert_equal "Q42", link[:title]
+    # No leading zeros allowed
+    links = wikidata_links("wikidata", "Q0123")
+    assert_nil links
 
+    # A valid value
+    links = wikidata_links("wikidata", "Q42")
+    assert_equal 1, links.length
+    assert_equal "//www.wikidata.org/wiki/Q42?uselang=en", links[0][:url]
+    assert_equal "Q42", links[0][:title]
+
+    # the language of the wikidata-page should match the current locale
     I18n.locale = "zh-CN"
+    links = wikidata_links("wikidata", "Q1234")
+    assert_equal 1, links.length
+    assert_equal "//www.wikidata.org/wiki/Q1234?uselang=zh-CN", links[0][:url]
+    assert_equal "Q1234", links[0][:title]
+    I18n.locale = "en"
 
-    link = wikidata_link("wikidata", "Q1234")
-    assert_equal "//www.wikidata.org/wiki/Q1234?uselang=zh-CN", link[:url]
-    assert_equal "Q1234", link[:title]
+    ### Prefixed wikidata-tags
+
+    # Not anything is accepted as prefix (only limited set)
+    links = wikidata_links("anything:wikidata", "Q13")
+    assert_nil links
+
+    # This for example is an allowed key
+    links = wikidata_links("operator:wikidata", "Q24")
+    assert_equal "//www.wikidata.org/wiki/Q24?uselang=en", links[0][:url]
+    assert_equal "Q24", links[0][:title]
+
+    # another allowed key, this time with multiple values and I18n
+
+    I18n.locale = "dsb"
+    links = wikidata_links("brand:wikidata", "Q936;Q2013;Q1568346")
+    assert_equal 3, links.length
+    assert_equal "//www.wikidata.org/wiki/Q936?uselang=dsb", links[0][:url]
+    assert_equal "Q936", links[0][:title]
+    assert_equal "//www.wikidata.org/wiki/Q2013?uselang=dsb", links[1][:url]
+    assert_equal "Q2013", links[1][:title]
+    assert_equal "//www.wikidata.org/wiki/Q1568346?uselang=dsb", links[2][:url]
+    assert_equal "Q1568346", links[2][:title]
+    I18n.locale = "en"
+
+    # and now with whitespaces...
+    links = wikidata_links("subject:wikidata", "Q6542248 ;\tQ180\n ;\rQ364\t\n\r ;\nQ4006")
+    assert_equal 4, links.length
+    assert_equal "//www.wikidata.org/wiki/Q6542248?uselang=en", links[0][:url]
+    assert_equal "Q6542248 ", links[0][:title]
+    assert_equal "//www.wikidata.org/wiki/Q180?uselang=en", links[1][:url]
+    assert_equal "\tQ180\n ", links[1][:title]
+    assert_equal "//www.wikidata.org/wiki/Q364?uselang=en", links[2][:url]
+    assert_equal "\rQ364\t\n\r ", links[2][:title]
+    assert_equal "//www.wikidata.org/wiki/Q4006?uselang=en", links[3][:url]
+    assert_equal "\nQ4006", links[3][:title]
   end
 
   def test_wikipedia_link
