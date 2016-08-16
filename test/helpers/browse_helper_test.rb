@@ -100,6 +100,9 @@ class BrowseHelperTest < ActionView::TestCase
 
     html = format_value("wikidata", "Q42")
     assert_dom_equal "<a title=\"The Q42 item on Wikidata\" href=\"//www.wikidata.org/wiki/Q42?uselang=en\">Q42</a>", html
+
+    html = format_value("operator:wikidata", "Q12;Q98")
+    assert_dom_equal "<a title=\"The Q12 item on Wikidata\" href=\"//www.wikidata.org/wiki/Q12?uselang=en\">Q12</a>;<a title=\"The Q98 item on Wikidata\" href=\"//www.wikidata.org/wiki/Q98?uselang=en\">Q98</a>", html
   end
 
   def test_icon_tags
@@ -149,6 +152,7 @@ class BrowseHelperTest < ActionView::TestCase
   def test_wikidata_links
     ### Non-prefixed wikidata-tag (only one value allowed)
 
+    # Non-wikidata tag
     links = wikidata_links("foo", "Test")
     assert_nil links
 
@@ -193,8 +197,7 @@ class BrowseHelperTest < ActionView::TestCase
     assert_equal "//www.wikidata.org/wiki/Q24?uselang=en", links[0][:url]
     assert_equal "Q24", links[0][:title]
 
-    # another allowed key, this time with multiple values and I18n
-
+    # Another allowed key, this time with multiple values and I18n
     I18n.locale = "dsb"
     links = wikidata_links("brand:wikidata", "Q936;Q2013;Q1568346")
     assert_equal 3, links.length
