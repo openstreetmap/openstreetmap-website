@@ -72,9 +72,10 @@ module BrowseHelper
     elsif wdt = wikidata_links(key, value)
       # IMPORTANT: Note that wikidata_links() returns an array of hashes, unlike for example wikipedia_link(),
       # which just returns one such hash.
-      wdt.map do |w|
+      wdt = wdt.map do |w|
         link_to(w[:title], w[:url], :title => t("browse.tag_details.wikidata_link", :page => w[:title].strip))
-      end.join(";").html_safe
+      end
+      safe_join(wdt, ";")
     elsif url = wiki_link("tag", "#{key}=#{value}")
       link_to h(value), url, :title => t("browse.tag_details.wiki_link.tag", :key => key, :value => value)
     elsif url = telephone_link(key, value)
