@@ -171,7 +171,7 @@ $(document).ready(function () {
 
   $('.welcome .close-wrap').on('click', function() {
     $('.welcome').hide();
-    $.cookie('_osm_welcome', 'hide', { expires: expiry });
+    $.cookie('_osm_welcome', 'hide', { expires: expiry, path: '/' });
   });
 
   var bannerExpiry = new Date();
@@ -182,7 +182,7 @@ $(document).ready(function () {
     $('#banner').hide();
     e.preventDefault();
     if (cookieId) {
-      $.cookie(cookieId, 'hide', { expires: bannerExpiry });
+      $.cookie(cookieId, 'hide', { expires: bannerExpiry, path: '/' });
     }
   });
 
