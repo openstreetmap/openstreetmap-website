@@ -174,12 +174,15 @@ $(document).ready(function () {
     $.cookie('_osm_welcome', 'hide', { expires: expiry });
   });
 
+  var bannerExpiry = new Date();
+  expiry.setYear(expiry.getFullYear() + 1);
+
   $('#banner .close-wrap').on('click', function(e) {
     var cookieId = e.target.id;
     $('#banner').hide();
     e.preventDefault();
     if (cookieId) {
-      $.cookie(cookieId, 'hide', { expires: expiry });
+      $.cookie(cookieId, 'hide', { expires: bannerExpiry });
     }
   });
 
