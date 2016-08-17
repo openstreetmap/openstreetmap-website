@@ -38,6 +38,5 @@ We're always keen to have more developers! Pull requests are very welcome.
 * Translation is managed by [Translatewiki](https://translatewiki.net/wiki/Translating:OpenStreetMap)
 * There is a [rails-dev@openstreetmap.org](http://lists.openstreetmap.org/listinfo/rails-dev) mailing list for development discussion.
 * IRC - there is the #osm-dev channel on irc.oftc.net.
-* There are also weekly meetings of the OpenStreetMap Foundation Engineering Working Group (EWG) on Mondays at 1700 UTC on the #osm-ewg channel.
 
 More details on contributing to the code are in the [CONTRIBUTING.md](CONTRIBUTING.md) file.
