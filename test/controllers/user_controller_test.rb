@@ -523,6 +523,7 @@ class UserControllerTest < ActionController::TestCase
   def test_confirm_email_success
     user = users(:second_public_user)
     confirm_string = user.tokens.create.token
+
     post :confirm_email, :confirm_string => confirm_string
     assert_response :redirect
     assert_redirected_to :action => :account, :display_name => user.display_name
