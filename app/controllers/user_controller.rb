@@ -349,9 +349,13 @@ class UserController < ApplicationController
         @user.email = @user.new_email
         @user.new_email = nil
         @user.email_valid = true
-        changed = gravatar_enable(@user)
+        gravatar_enabled = gravatar_enable(@user)
         if @user.save
-          flash[:notice] = (t "user.confirm_email.success") + (changed ? " " + gravatar_status_message(@user) : "")
+          flash[:notice] = if gravatar_enabled
+                             t("user.confirm_email.success") + " " + gravatar_status_message(@user)
+                           else
+                             t("user.confirm_email.success")
+                           end
         else
           flash[:errors] = @user.errors
         end
