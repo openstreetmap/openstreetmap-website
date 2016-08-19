@@ -297,9 +297,7 @@ class UserController < ApplicationController
         user = token.user
         user.status = "active"
         user.email_valid = true
-        if (gravatar_enable(user))
-           flash[:notice] = gravatar_status_message(user)
-        end
+        flash[:notice] = gravatar_status_message(user) if gravatar_enable(user)
         user.save!
         referer = token.referer
         token.destroy
@@ -353,7 +351,7 @@ class UserController < ApplicationController
         @user.email_valid = true
         changed = gravatar_enable(@user)
         if @user.save
-          flash[:notice] = (t "user.confirm_email.success") + (changed ? " " + gravatar_status_message(@user) : "") 
+          flash[:notice] = (t "user.confirm_email.success") + (changed ? " " + gravatar_status_message(@user) : "")
         else
           flash[:errors] = @user.errors
         end
@@ -814,7 +812,7 @@ class UserController < ApplicationController
     response = OSM.http_client.get(URI.parse(url))
     oldsetting = user.image_use_gravatar
     user.image_use_gravatar = response.success?
-    return oldsetting != user.image_use_gravatar
+    oldsetting != user.image_use_gravatar
   end
 
   ##
