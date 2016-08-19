@@ -547,6 +547,42 @@ class UserControllerTest < ActionController::TestCase
     assert_match /confirmation code has expired or does not exist/, flash[:error]
   end
 
+  ##
+  # test if testing for a gravatar works
+  # this happens when the email is actually changed
+  # which is triggered by the confirmation mail
+  def test_gravatar_auto_enable
+    with_http_stubs "gravatar" do
+      # switch to email that has a gravatar
+      user = users(:first_gravatar_user)
+      confirm_string = user.tokens.create.token
+      # precondition gravatar should be turned off
+      assert !user.image_use_gravatar
+      post :confirm_email, :confirm_string => confirm_string
+      assert_response :redirect
+      assert_redirected_to :action => :account, :display_name => user.display_name
+      assert_match /Confirmed your change of email address/, flash[:notice]
+      # gravatar use should now be enabled
+      assert User.find(users(:first_gravatar_user).id).image_use_gravatar
+    end
+  end
+
+  def test_gravatar_auto_disable
+    with_http_stubs "gravatar" do
+      # switch to email without a gravatar
+      user = users(:second_gravatar_user)
+      confirm_string = user.tokens.create.token
+      # precondition gravatar should be turned on
+      assert user.image_use_gravatar
+      post :confirm_email, :confirm_string => confirm_string
+      assert_response :redirect
+      assert_redirected_to :action => :account, :display_name => user.display_name
+      assert_match /Confirmed your change of email address/, flash[:notice]
+      # gravatar use should now be disabled
+      assert !User.find(users(:second_gravatar_user).id).image_use_gravatar
+    end
+  end
+
   def test_terms_new_user
     get :terms, {}, { :new_user => User.new }
     assert_response :success
@@ -961,7 +997,7 @@ class UserControllerTest < ActionController::TestCase
     assert_select "contributor-terms", :count => 1 do
       assert_select "[agreed='true']"
     end
-    assert_select "img", :count => 1
+    assert_select "img", :count => 0
     assert_select "roles", :count => 1 do
       assert_select "role", :count => 0
     end
@@ -1013,7 +1049,7 @@ class UserControllerTest < ActionController::TestCase
     assert_select "contributor-terms", :count => 1 do
       assert_select "[agreed='true'][pd='false']"
     end
-    assert_select "img", :count => 1
+    assert_select "img", :count => 0
     assert_select "roles", :count => 1 do
       assert_select "role", :count => 0
     end
@@ -1334,7 +1370,7 @@ class UserControllerTest < ActionController::TestCase
     get :list, :page => 3
     assert_response :success
     assert_template :list
-    assert_select "table#user_list tr", :count => 23
+    assert_select "table#user_list tr", :count => 25
   end
 
   def test_list_post_confirm

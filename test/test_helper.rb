@@ -167,8 +167,8 @@ module ActiveSupport
 
         OSM.http_client = Faraday.new do |builder|
           builder.adapter :test do |stub|
-            stubs.each do |url, body|
-              stub.get(url) { |_env| [200, {}, body] }
+            stubs.each do |url, response|
+              stub.get(url) { |_env| [response["code"], {}, response["body"]] }
             end
           end
         end
