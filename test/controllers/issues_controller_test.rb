@@ -3,6 +3,11 @@ require "test_helper"
 class IssuesControllerTest < ActionController::TestCase
   fixtures :users, :user_roles, :issues
 
+  teardown do
+    # cleanup any emails set off by the test
+    ActionMailer::Base.deliveries.clear
+  end
+
   def test_view_dashboard_without_auth
     # Access issues_path without login
     get :index
