@@ -153,7 +153,7 @@ class DiaryEntryController < ApplicationController
     if @entry
       @title = t "diary_entry.view.title", :user => params[:display_name], :title => @entry.title
       if params[:comment_id]
-        @reported_comment = DiaryComment.where(id: params[:comment_id])
+        @reported_comment = DiaryComment.where(:id => params[:comment_id])
       end
     else
       @title = t "diary_entry.no_such_entry.title", :id => params[:id]

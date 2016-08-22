@@ -14,10 +14,10 @@ class CreateIssuesAndReports < ActiveRecord::Migration
       t.datetime :updated_at
       t.integer :updated_by
 
-      t.timestamps null: false
+      t.timestamps :null => false
     end
 
-    add_foreign_key :issues, :users, :column => :reported_user_id,:name => "issues_reported_user_id_fkey", on_delete: :cascade
+    add_foreign_key :issues, :users, :column => :reported_user_id, :name => "issues_reported_user_id_fkey", :on_delete => :cascade
 
     add_index :issues, :reported_user_id
     add_index :issues, [:reportable_id, :reportable_type]
@@ -29,14 +29,13 @@ class CreateIssuesAndReports < ActiveRecord::Migration
       t.datetime :created_at
       t.datetime :updated_at
 
-      t.timestamps null: false
+      t.timestamps :null => false
     end
 
-    add_foreign_key :reports, :issues, :name => "reports_issue_id_fkey", on_delete: :cascade
-    add_foreign_key :reports, :users,:column => :reporter_user_id, :name => "reports_reporter_user_id_fkey", on_delete: :cascade
+    add_foreign_key :reports, :issues, :name => "reports_issue_id_fkey", :on_delete => :cascade
+    add_foreign_key :reports, :users, :column => :reporter_user_id, :name => "reports_reporter_user_id_fkey", :on_delete => :cascade
 
     add_index :reports, :reporter_user_id
     add_index :reports, :issue_id
-    
   end
 end

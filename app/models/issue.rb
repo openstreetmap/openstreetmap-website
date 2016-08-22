@@ -1,49 +1,48 @@
 class Issue < ActiveRecord::Base
-	belongs_to :reportable, :polymorphic => true
-	belongs_to :user, :class_name => "User", :foreign_key => :reported_user_id
-	belongs_to :user_updated, :class_name => "User", :foreign_key => :updated_by
+  belongs_to :reportable, :polymorphic => true
+  belongs_to :user, :class_name => "User", :foreign_key => :reported_user_id
+  belongs_to :user_updated, :class_name => "User", :foreign_key => :updated_by
 
-	has_many :reports, dependent: :destroy
-	has_many :comments, :class_name => "IssueComment", dependent: :destroy
-	
-	validates :reportable_id, :uniqueness => { :scope => [ :reportable_type ] }
-	validates :reported_user_id, :presence => true
+  has_many :reports, :dependent => :destroy
+  has_many :comments, :class_name => "IssueComment", :dependent => :destroy
 
-	# Check if more statuses are needed
-	enum status: %w( open ignored resolved )
-	enum type: %w( administrator moderator )
+  validates :reportable_id, :uniqueness => { :scope => [:reportable_type] }
+  validates :reported_user_id, :presence => true
 
-	scope :with_status, -> (issue_status) { where(:status => statuses[issue_status])}
+  # Check if more statuses are needed
+  enum :status => %w(open ignored resolved)
+  enum :type => %w(administrator moderator)
 
-	def read_reports
-		resolved_at.present? ? reports.where("updated_at < ?", resolved_at) : nil
-	end
+  scope :with_status, -> (issue_status) { where(:status => statuses[issue_status]) }
 
-	def unread_reports
+  def read_reports
+    resolved_at.present? ? reports.where("updated_at < ?", resolved_at) : nil
+  end
+
+  def unread_reports
     resolved_at.present? ? reports.where("updated_at >= ?", resolved_at) : reports
-	end
+  end
 
-	include AASM
-	aasm :column => :status, :no_direct_assignment => true do
-		state :open, :initial => true
-		state :ignored
-		state :resolved
+  include AASM
+  aasm :column => :status, :no_direct_assignment => true do
+    state :open, :initial => true
+    state :ignored
+    state :resolved
 
-		event :ignore do
-			transitions :from => :open, :to => :ignored 
-		end
+    event :ignore do
+      transitions :from => :open, :to => :ignored
+    end
 
-		event :resolve do
-			transitions :from => :open, :to => :resolved
-			after do
-				self.resolved_at = Time.now.getutc
-			end
-		end
+    event :resolve do
+      transitions :from => :open, :to => :resolved
+      after do
+        self.resolved_at = Time.now.getutc
+      end
+    end
 
-		event :reopen do
-			transitions :from => :resolved, :to => :open
-			transitions :from => :ignored, :to => :open
-		end
-
-	end
+    event :reopen do
+      transitions :from => :resolved, :to => :open
+      transitions :from => :ignored, :to => :open
+    end
+  end
 end

@@ -172,7 +172,7 @@ class Notifier < ActionMailer::Base
     end
   end
 
-  def new_issue_notification(issue_id,recipient)
+  def new_issue_notification(issue_id, recipient)
     with_recipient_locale recipient do
       @url = url_for(:host => SERVER_URL,
                      :controller => "issues",
@@ -198,5 +198,4 @@ class Notifier < ActionMailer::Base
       EMAIL_FROM
     end
   end
-
 end
