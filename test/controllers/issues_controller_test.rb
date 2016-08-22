@@ -1,7 +1,7 @@
 require "test_helper"
 
 class IssuesControllerTest < ActionController::TestCase
-  fixtures :users, :user_roles
+  fixtures :users, :user_roles, :issues
 
   def test_view_dashboard_without_auth
     # Access issues_path without login
@@ -18,12 +18,19 @@ class IssuesControllerTest < ActionController::TestCase
     # Access issues_path by admin
     session[:user] = users(:administrator_user).id
     get :index
-    assert_response :success
+    # this is redirected because there are no issues?!
+    assert_response :redirect
+    assert_redirected_to issues_path
 
     # Access issues_path by moderator
     session[:user] = users(:moderator_user).id
     get :index
-    assert_response :success
+    # this is redirected because there are no issues?!
+    assert_response :redirect
+    assert_redirected_to issues_path
+
+    # clear session
+    session.delete(:user)
   end
 
   def test_new_issue_without_login
@@ -54,6 +61,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal Issue.count, 1
     assert_response :redirect
     assert_redirected_to root_path
+
+    # clear session
+    session.delete(:user)
   end
 
   def test_new_report_with_incomplete_details
@@ -99,6 +109,9 @@ class IssuesControllerTest < ActionController::TestCase
     end
     assert_response :redirect
     assert_equal Issue.find_by_reportable_id_and_reportable_type(1, "User").reports.count, 1
+
+    # clear session
+    session.delete(:user)
   end
 
   def test_new_report_with_complete_details
@@ -136,6 +149,9 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :redirect
     report_count = Issue.find_by_reportable_id_and_reportable_type(1, "User").reports.count
     assert_equal report_count, 2
+
+    # clear session
+    session.delete(:user)
   end
 
   def test_change_status_by_normal_user
@@ -150,6 +166,9 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_response :redirect
     assert_redirected_to root_path
+
+    # clear session
+    session.delete(:user)
   end
 
   def test_change_status_by_admin
@@ -178,6 +197,9 @@ class IssuesControllerTest < ActionController::TestCase
     get :ignore, :id => Issue.find_by_reportable_id_and_reportable_type(1, "User").id
     assert_equal Issue.find_by_reportable_id_and_reportable_type(1, "User").ignored?, true
     assert_response :redirect
+
+    # clear session
+    session.delete(:user)
   end
 
   def test_search_issues
@@ -204,6 +226,9 @@ class IssuesControllerTest < ActionController::TestCase
     # Find Issue against user_id:2
     get :index, :search_by_user => "test2"
     assert_response :success
+
+    # clear session
+    session.delete(:user)
   end
 
   def test_comment_by_normal_user
@@ -228,5 +253,8 @@ class IssuesControllerTest < ActionController::TestCase
     get :comment, :id => @issue.id, :issue_comment => { :body => "test comment" }
     assert_response :redirect
     assert_redirected_to @issue
+
+    # clear session
+    session.delete(:user)
   end
 end

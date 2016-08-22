@@ -1,44 +1,43 @@
 <% content_for :heading do %>
-    <h1>Report <%= reportable_url(@issue.reportable) %></h1>
+  <h1>Report <%= reportable_url(@issue.reportable) %></h1>
 <% end %>
 
 <div class="disclaimer">
-    <ul>
+  <ul>
     <%= t('issues.new.disclaimer.intro') %>:
-        <li> <%= t('issues.new.disclaimer.not_just_mistake') %> </li>   
-        <li> <%= t('issues.new.disclaimer.unable_to_fix') %> </li>   
-        <li> <%= t('issues.new.disclaimer.resolve_with_user') %> </li>   
+      <li> <%= t('issues.new.disclaimer.not_just_mistake') %> </li>
+      <li> <%= t('issues.new.disclaimer.unable_to_fix') %> </li>
+      <li> <%= t('issues.new.disclaimer.resolve_with_user') %> </li>
     </ul>
 </div>
 
 <%= form_for(@issue) do |f| %>
-    <%= f.error_messages %>
-        <fieldset>
-            <div class='form-row'>
-                <%= f.hidden_field :reportable_id %>
-                <%= f.hidden_field :reportable_type %>
-                <%= f.hidden_field :reported_user_id %>
-            </div>
+  <%= f.error_messages %>
+  <fieldset>
+    <div class='form-row'>
+      <%= f.hidden_field :reportable_id %>
+      <%= f.hidden_field :reportable_type %>
+      <%= f.hidden_field :reported_user_id %>
+    </div>
 
-            <div class='form-row' style='width:600px'>
-                <p><%= t('issues.new.select') %>:</p>
+    <div class='form-row' style='width:600px'>
+      <p><%= t('issues.new.select') %>:</p>
 
-                <div class="new-report-form">
-                    <% @report_strings_yaml.each do |k,v| %>
-                            <div style="padding-left:5px">
-                                <%= radio_button_tag :report_type, v[:type].to_s %>
-                                <%= label_tag v[:details].to_s %> <br/>
-                            </div>
-                    <% end %> 
-                </div>
-                
-                <br/>
-                <%= text_area :report, :details, :cols => 20, :rows => 3, placeholder: t('issues.new.details'), required: true %>
-            </div>
+      <div class="new-report-form">
+        <% @report_strings_yaml.each do |k,v| %>
+          <div style="padding-left:5px">
+            <%= radio_button_tag :report_type, v[:type].to_s %>
+            <%= label_tag v[:details].to_s %> <br/>
+          </div>
+        <% end %>
+      </div>
 
-            <div class='buttons'>
-                <%= submit_tag %>
-            </div>
-        
-        </fieldset>
+      <br/>
+      <%= text_area :report, :details, :cols => 20, :rows => 3, placeholder: t('issues.new.details'), required: true %>
+    </div>
+
+    <div class='buttons'>
+      <%= submit_tag %>
+    </div>
+  </fieldset>
 <% end %>

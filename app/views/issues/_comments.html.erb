@@ -1,29 +1,30 @@
 <div class="issue-comments">
-<% comments.each do |comment| %>
-	<div class="comment">
-		<div style="float:left">
-			<%= link_to user_thumbnail(comment.user), :controller => :user,:action =>:view, :display_name => comment.user.display_name %>
-		</div>
-		<b> <%= link_to comment.user.display_name, :controller => :user,:action =>:view, :display_name => comment.user.display_name %> </b> <br/>
-		<%= comment.body %>
+  <% comments.each do |comment| %>
+    <div class="comment">
+      <div style="float:left">
+        <%= link_to user_thumbnail(comment.user), :controller => :user,:action =>:view, :display_name => comment.user.display_name %>
+      </div>
+      <b> <%= link_to comment.user.display_name, :controller => :user,:action =>:view, :display_name => comment.user.display_name %> </b> <br/>
+      <%= comment.body %>
 
-		<% if comment.reassign %>
-			<br/>
-			<i><%= t('issues.show.comments.reassign') %></i>
-		<% end %>
-	</div>
-	<span class="deemphasize">
-	On <%= l comment.created_at.to_datetime, :format => :friendly %> </span>
-	<hr>
-<% end %>
+      <% if comment.reassign %>
+      <br/>
+      <i><%= t('issues.show.comments.reassign') %></i>
+      <% end %>
+    </div>
+    <span class="deemphasize">
+      On <%= l comment.created_at.to_datetime, :format => :friendly %>
+    </span>
+    <hr>
+  <% end %>
 </div>
 <br/>
 <div class="comment">
-	<%= form_for :issue_comment, :url => { :action => 'comment', :id => @issue.id, :user_id => @user.id } do |f| %>
-	    <%= richtext_area :issue_comment, :body, :cols => 10, :rows => 8, :required => true %>
-	    <%= label_tag t('issues.show.comments.reassign_param') %> <%= check_box_tag :reassign, true %> 
-	    <br/>
-	    <br/>
-    	<%= submit_tag 'Submit' %>
-  	<% end %>
+  <%= form_for :issue_comment, :url => { :action => 'comment', :id => @issue.id, :user_id => @user.id } do |f| %>
+  <%= richtext_area :issue_comment, :body, :cols => 10, :rows => 8, :required => true %>
+  <%= label_tag t('issues.show.comments.reassign_param') %> <%= check_box_tag :reassign, true %> 
+  <br/>
+  <br/>
+  <%= submit_tag 'Submit' %>
+  <% end %>
 </div>

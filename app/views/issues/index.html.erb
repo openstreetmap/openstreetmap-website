@@ -1,47 +1,43 @@
 <p id= "notice"><%= notice %></p>
 
 <% content_for :heading do %>
-	<h1>List of <%= @user_role %> issues:</h1> 
+  <h1>List of <%= @user_role %> issues:</h1>
 <% end %>
 
 <%= form_tag(issues_path, :method => :get) do %>
-	Search for a particular issue(s):  <br/>
-	<%= select :status, nil, [['open', 0],['resolved',2],['ignored',1]],{:include_blank => "Select status"},data: { behavior: 'category_dropdown' } %>
-	<%= select :issue_type, nil, @issue_types,{:include_blank => "Select type"}, data: { behavior: 'category_dropdown' } %>
-	<%= text_field_tag :search_by_user, params[:search_by_user], placeholder: "Reported User" %>
-	<%= select :last_reported_by, nil, @users.all.collect  {|f| [f.display_name, f.id]} << ['Not updated',"nil"], {:include_blank => "Select last updated by"}, data: { behavior: 'category_dropdown' } %>
-	<%= submit_tag "Search" %>
+Search for a particular issue(s):  <br/>
+<%= select :status, nil, [['open', 0],['resolved',2],['ignored',1]],{:include_blank => "Select status"},data: { behavior: 'category_dropdown' } %>
+<%= select :issue_type, nil, @issue_types,{:include_blank => "Select type"}, data: { behavior: 'category_dropdown' } %>
+<%= text_field_tag :search_by_user, params[:search_by_user], placeholder: "Reported User" %>
+<%= select :last_reported_by, nil, @users.all.collect  {|f| [f.display_name, f.id]} << ['Not updated',"nil"], {:include_blank => "Select last updated by"}, data: { behavior: 'category_dropdown' } %>
+<%= submit_tag "Search" %>
 <% end %>
 <br/>
 <br/>
 
 <table>
-	<thead>
-		<tr>
-			<tr>
-				<td style="width:40px;"><b> <%= sortable("status") %></b></td>
-				<td style="width:160px;"><b> <%= sortable("report_count", "Number of Reports") %></b></td>
-				<td style="width:141px;"><b> <%= sortable("updated_at","Last updated at") %></b></td>
-				<td style="width:140px;"><b> <%= sortable("updated_by","Last updated by") %></b></td>
-				<td style="width:203px;"><b> Link to reports </b></td>
-				<td style="width:128px;"><b> <%= sortable("reported_user_id","Reported User") %> </b></td>
-				<td style="width:67px;"><b> Link to reported instance</b></td>
-			</tr>
-		</tr>
-	</thead>
-	<tbody>
-		<% @issues.each do |issue| %>
-			<tr>
-				<td><%= issue.status.humanize %></td>
-				<td style="text-align:center;"><%= issue.report_count %></td>
-				<td><%= l(issue.updated_at.to_datetime, :format => :friendly) %></td>
-				<td><% if issue.user_updated %> <%= issue.user_updated.display_name %> <% else %> - <% end %></td>
-				<td> <%= reports_url(issue) %></td>
-				<td><%= link_to issue.user.display_name , :controller => :user, :action => :view,:display_name => issue.user.display_name %></td>
-				<td><%= instance_url(issue.reportable) %></td>
-			</tr>
-		<% end %>
-	</tbody>
+  <thead>
+    <tr>
+      <td style="width:40px;"><b> <%= sortable("status") %></b></td>
+      <td style="width:160px;"><b> <%= sortable("report_count", "Number of Reports") %></b></td>
+      <td style="width:141px;"><b> <%= sortable("updated_at","Last updated at") %></b></td>
+      <td style="width:140px;"><b> <%= sortable("updated_by","Last updated by") %></b></td>
+      <td style="width:203px;"><b> Link to reports </b></td>
+      <td style="width:128px;"><b> <%= sortable("reported_user_id","Reported User") %> </b></td>
+      <td style="width:67px;"><b> Link to reported instance</b></td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @issues.each do |issue| %>
+      <tr>
+        <td><%= issue.status.humanize %></td>
+        <td style="text-align:center;"><%= issue.report_count %></td>
+        <td><%= l(issue.updated_at.to_datetime, :format => :friendly) %></td>
+        <td><% if issue.user_updated %> <%= issue.user_updated.display_name %> <% else %> - <% end %></td>
+        <td><%= reports_url(issue) %></td>
+        <td><%= link_to issue.user.display_name , :controller => :user, :action => :view,:display_name => issue.user.display_name %></td>
+        <td><%= instance_url(issue.reportable) %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
-
-
