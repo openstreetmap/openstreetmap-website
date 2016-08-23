@@ -175,7 +175,7 @@ $(document).ready(function () {
   });
 
   var bannerExpiry = new Date();
-  expiry.setYear(expiry.getFullYear() + 1);
+  bannerExpiry.setYear(bannerExpiry.getFullYear() + 1);
 
   $('#banner .close-wrap').on('click', function(e) {
     var cookieId = e.target.id;
