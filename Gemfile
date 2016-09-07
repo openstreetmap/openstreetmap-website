@@ -109,5 +109,6 @@ group :development, :test do
   gem "jshint"
   gem "konacha"
   gem "poltergeist"
+  gem "factory_girl_rails"
   gem "coveralls", :require => false
 end
