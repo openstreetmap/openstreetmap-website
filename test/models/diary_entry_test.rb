@@ -1,13 +1,6 @@
 require "test_helper"
 
 class DiaryEntryTest < ActiveSupport::TestCase
-  api_fixtures
-  fixtures :diary_entries, :diary_comments, :languages
-
-  def test_diary_entry_count
-    assert_equal 6, DiaryEntry.count
-  end
-
   def test_diary_entry_validations
     diary_entry_valid({})
     diary_entry_valid({ :title => "" }, false)
@@ -25,26 +18,32 @@ class DiaryEntryTest < ActiveSupport::TestCase
   end
 
   def test_diary_entry_visible
-    assert_equal 5, DiaryEntry.visible.count
+    visible = create(:diary_entry)
+    hidden = create(:diary_entry, :visible => false)
+    assert_includes DiaryEntry.visible, visible
     assert_raise ActiveRecord::RecordNotFound do
-      DiaryEntry.visible.find(diary_entries(:deleted_entry).id)
+      DiaryEntry.visible.find(hidden.id)
     end
   end
 
   def test_diary_entry_comments
-    assert_equal 0, diary_entries(:normal_user_entry_1).comments.count
-    assert_equal 4, diary_entries(:normal_user_geo_entry).comments.count
+    diary = create(:diary_entry)
+    create(:diary_comment, :diary_entry => diary)
+    assert_equal(1, diary.comments.count)
   end
 
   def test_diary_entry_visible_comments
-    assert_equal 0, diary_entries(:normal_user_entry_1).visible_comments.count
-    assert_equal 1, diary_entries(:normal_user_geo_entry).visible_comments.count
+    diary = create(:diary_entry)
+    create(:diary_comment, :diary_entry => diary)
+    create(:diary_comment, :diary_entry => diary, :visible => false)
+    assert_equal 1, diary.visible_comments.count
+    assert_equal 2, diary.comments.count
   end
 
   private
 
   def diary_entry_valid(attrs, result = true)
-    entry = DiaryEntry.new(diary_entries(:normal_user_entry_1).attributes)
+    entry = DiaryEntry.new(attributes_for(:diary_entry))
     entry.assign_attributes(attrs)
     assert_equal result, entry.valid?, "Expected #{attrs.inspect} to be #{result}"
   end
