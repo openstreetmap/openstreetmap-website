@@ -8,7 +8,7 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
     end
     if @user && @user == @this_user
       xml.tag! "contributor-terms", :agreed => !!@this_user.terms_agreed,
-                                    :pd => !!@this_user.consider_pd
+                                    :pd => @this_user.consider_pd
     else
       xml.tag! "contributor-terms", :agreed => !!@this_user.terms_agreed
     end
