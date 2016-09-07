@@ -7,10 +7,10 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
       xml.tag! "description", @this_user.description
     end
     if @user && @user == @this_user
-      xml.tag! "contributor-terms", :agreed => !!@this_user.terms_agreed,
+      xml.tag! "contributor-terms", :agreed => @this_user.terms_agreed.present?,
                                     :pd => @this_user.consider_pd
     else
-      xml.tag! "contributor-terms", :agreed => !!@this_user.terms_agreed
+      xml.tag! "contributor-terms", :agreed => @this_user.terms_agreed.present?
     end
     if @this_user.image.file? or @this_user.image_use_gravatar
       xml.tag! "img", :href => user_image_url(@this_user, :size => 256)
