@@ -1,6 +1,6 @@
 xml.instruct!
 
-xml.rss("version" => "2.0", 
+xml.rss("version" => "2.0",
         "xmlns:geo" => "http://www.w3.org/2003/01/geo/wgs84_pos#",
         "xmlns:georss" => "http://www.georss.org/georss") do
   xml.channel do
@@ -12,10 +12,10 @@ xml.rss("version" => "2.0",
       xml.title "OpenStreetMap"
       xml.width "100"
       xml.height "100"
-      xml.link url_for(:action => "list", :host=> SERVER_URL)
+      xml.link url_for(:action => "list", :host => SERVER_URL)
     end
 
-    for entry in @entries
+    @entries.each do |entry|
       xml.item do
         xml.title h(entry.title)
         xml.link url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :host => SERVER_URL)
@@ -24,11 +24,11 @@ xml.rss("version" => "2.0",
         xml.author entry.user.display_name
         xml.pubDate entry.created_at.to_s(:rfc822)
         xml.comments url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :anchor => "comments", :host => SERVER_URL)
-        
-        if entry.latitude and entry.longitude
+
+        if entry.latitude && entry.longitude
           xml.geo :lat, entry.latitude.to_s
           xml.geo :long, entry.longitude.to_s
-          xml.georss :point, "#{entry.latitude.to_s} #{entry.longitude.to_s}"
+          xml.georss :point, "#{entry.latitude} #{entry.longitude}"
         end
       end
     end
