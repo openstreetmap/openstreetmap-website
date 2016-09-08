@@ -25,12 +25,14 @@ L.OSM.Map = L.Map.extend({
       }),
       new L.OSM.CycleMap({
         attribution: copyright + ". Tiles courtesy of <a href='http://www.thunderforest.com/' target='_blank'>Andy Allan</a>",
+        apikey: OSM.THUNDERFOREST_KEY,
         code: "C",
         keyid: "cyclemap",
         name: I18n.t("javascripts.map.base.cycle_map")
       }),
       new L.OSM.TransportMap({
         attribution: copyright + ". Tiles courtesy of <a href='http://www.thunderforest.com/' target='_blank'>Andy Allan</a>",
+        apikey: OSM.THUNDERFOREST_KEY,
         code: "T",
         keyid: "transportmap",
         name: I18n.t("javascripts.map.base.transport_map")
