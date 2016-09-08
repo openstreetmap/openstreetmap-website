@@ -28,6 +28,7 @@ class DiaryEntryTest < ActiveSupport::TestCase
 
   def test_diary_entry_comments
     diary = create(:diary_entry)
+    assert_equal(0, diary.comments.count)
     create(:diary_comment, :diary_entry => diary)
     assert_equal(1, diary.comments.count)
   end
