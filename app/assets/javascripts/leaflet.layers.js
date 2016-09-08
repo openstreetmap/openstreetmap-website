@@ -50,7 +50,7 @@ L.OSM.layers = function(options) {
 
       map.whenReady(function() {
         var miniMap = L.map(div[0], {attributionControl: false, zoomControl: false})
-          .addLayer(new layer.constructor());
+          .addLayer(new layer.constructor({ apikey: layer.options.apikey }));
 
         miniMap.dragging.disable();
         miniMap.touchZoom.disable();
