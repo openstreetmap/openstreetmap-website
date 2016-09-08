@@ -1,10 +1,8 @@
 require "test_helper"
 
 class DiaryCommentTest < ActiveSupport::TestCase
-  api_fixtures
-  fixtures :diary_comments
-
-  def test_diary_comment_count
-    assert_equal 4, DiaryComment.count
+  def test_diary_comment_exists
+    comment = create(:diary_comment)
+    assert_includes DiaryComment.all, comment
   end
 end

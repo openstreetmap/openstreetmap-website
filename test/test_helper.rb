@@ -8,6 +8,8 @@ load "composite_primary_keys/fixtures.rb"
 
 module ActiveSupport
   class TestCase
+    include FactoryGirl::Syntax::Methods
+
     # Load standard fixtures needed to test API methods
     def self.api_fixtures
       # print "setting up the api_fixtures"
