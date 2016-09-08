@@ -519,34 +519,41 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
   def test_view_hidden_comments
     # Get a diary entry that has hidden comments
-    get :view, :display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_geo_entry).id
+    diary_entry = create(:diary_entry)
+    visible_comment = create(:diary_comment, :diary_entry => diary_entry)
+    suspended_user_comment = create(:diary_comment, :diary_entry => diary_entry, :user_id => users(:suspended_user).id)
+    deleted_user_comment = create(:diary_comment, :diary_entry => diary_entry, :user_id => users(:deleted_user).id)
+    hidden_comment = create(:diary_comment, :diary_entry => diary_entry, :visible => false)
+
+    get :view, :display_name => users(:normal_user).display_name, :id => diary_entry.id
     assert_response :success
     assert_template :view
     assert_select "div.comments" do
-      assert_select "p#comment1", :count => 1 # visible comment
-      assert_select "p#comment2", :count => 0 # comment by suspended user
-      assert_select "p#comment3", :count => 0 # comment by deleted user
-      assert_select "p#comment4", :count => 0 # hidden comment
+      assert_select "p#comment#{visible_comment.id}", :count => 1
+      assert_select "p#comment#{suspended_user_comment.id}", :count => 0
+      assert_select "p#comment#{deleted_user_comment.id}", :count => 0
+      assert_select "p#comment#{hidden_comment.id}", :count => 0
     end
   end
 
   def test_hide
     # Try without logging in
-    post :hide, :display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id
+    diary_entry = create(:diary_entry)
+    post :hide, :display_name => users(:normal_user).display_name, :id => diary_entry.id
     assert_response :forbidden
-    assert_equal true, DiaryEntry.find(diary_entries(:normal_user_entry_1).id).visible
+    assert_equal true, DiaryEntry.find(diary_entry.id).visible
 
     # Now try as a normal user
-    post :hide, { :display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id }, { :user => users(:normal_user).id }
+    post :hide, { :display_name => users(:normal_user).display_name, :id => diary_entry.id }, { :user => users(:normal_user).id }
     assert_response :redirect
-    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id
-    assert_equal true, DiaryEntry.find(diary_entries(:normal_user_entry_1).id).visible
+    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name, :id => diary_entry.id
+    assert_equal true, DiaryEntry.find(diary_entry.id).visible
 
     # Finally try as an administrator
-    post :hide, { :display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id }, { :user => users(:administrator_user).id }
+    post :hide, { :display_name => users(:normal_user).display_name, :id => diary_entry.id }, { :user => users(:administrator_user).id }
     assert_response :redirect
     assert_redirected_to :action => :list, :display_name => users(:normal_user).display_name
-    assert_equal false, DiaryEntry.find(diary_entries(:normal_user_entry_1).id).visible
+    assert_equal false, DiaryEntry.find(diary_entry.id).visible
   end
 
   def test_hidecomment
