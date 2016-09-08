@@ -16,34 +16,39 @@ L.OSM.Map = L.Map.extend({
     var copyright = I18n.t('javascripts.map.copyright', {copyright_url: '/copyright'});
     var donate = I18n.t('javascripts.map.donate_link_text', {donate_url: 'http://donate.openstreetmap.org'});
 
-    this.baseLayers = [
-      new L.OSM.Mapnik({
-        attribution: copyright + " &hearts; " + donate,
-        code: "M",
-        keyid: "mapnik",
-        name: I18n.t("javascripts.map.base.standard")
-      }),
-      new L.OSM.CycleMap({
+    this.baseLayers = [];
+
+    this.baseLayers.push(new L.OSM.Mapnik({
+      attribution: copyright + " &hearts; " + donate,
+      code: "M",
+      keyid: "mapnik",
+      name: I18n.t("javascripts.map.base.standard")
+    }));
+
+    if (OSM.THUNDERFOREST_KEY) {
+      this.baseLayers.push(new L.OSM.CycleMap({
         attribution: copyright + ". Tiles courtesy of <a href='http://www.thunderforest.com/' target='_blank'>Andy Allan</a>",
         apikey: OSM.THUNDERFOREST_KEY,
         code: "C",
         keyid: "cyclemap",
         name: I18n.t("javascripts.map.base.cycle_map")
-      }),
-      new L.OSM.TransportMap({
+      }));
+
+      this.baseLayers.push(new L.OSM.TransportMap({
         attribution: copyright + ". Tiles courtesy of <a href='http://www.thunderforest.com/' target='_blank'>Andy Allan</a>",
         apikey: OSM.THUNDERFOREST_KEY,
         code: "T",
         keyid: "transportmap",
         name: I18n.t("javascripts.map.base.transport_map")
-      }),
-      new L.OSM.HOT({
-        attribution: copyright + ". Tiles courtesy of <a href='http://hot.openstreetmap.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>",
-        code: "H",
-        keyid: "hot",
-        name: I18n.t("javascripts.map.base.hot")
-      })
-    ];
+      }));
+    }
+
+    this.baseLayers.push(new L.OSM.HOT({
+      attribution: copyright + ". Tiles courtesy of <a href='http://hot.openstreetmap.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>",
+      code: "H",
+      keyid: "hot",
+      name: I18n.t("javascripts.map.base.hot")
+    }));
 
     this.noteLayer = new L.FeatureGroup();
     this.noteLayer.options = {code: 'N'};
