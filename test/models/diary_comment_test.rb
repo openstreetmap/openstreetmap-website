@@ -1,8 +1,9 @@
 require "test_helper"
 
 class DiaryCommentTest < ActiveSupport::TestCase
-  def test_diary_comment_exists
-    comment = create(:diary_comment)
-    assert_includes DiaryComment.all, comment
+  test "body must be present" do
+    comment = build(:diary_comment, :body => "")
+    assert_not comment.valid?
+    assert_not_nil comment.errors[:body], "no validation error for missing body"
   end
 end
