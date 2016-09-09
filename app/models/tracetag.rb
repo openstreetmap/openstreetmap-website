@@ -6,3 +6,21 @@ class Tracetag < ActiveRecord::Base
   validates :trace, :associated => true
   validates :tag, :length => 1..255, :format => %r{\A[^/;.,?]*\z}
 end
+
+# == Schema Information
+#
+# Table name: gpx_file_tags
+#
+#  gpx_id :integer          default(0), not null
+#  tag    :string(255)      not null
+#  id     :integer          not null, primary key
+#
+# Indexes
+#
+#  gpx_file_tags_gpxid_idx  (gpx_id)
+#  gpx_file_tags_tag_idx    (tag)
+#
+# Foreign Keys
+#
+#  gpx_file_tags_gpx_id_fkey  (gpx_id => gpx_files.id)
+#

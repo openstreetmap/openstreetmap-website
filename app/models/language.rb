@@ -25,3 +25,12 @@ class Language < ActiveRecord::Base
     name
   end
 end
+
+# == Schema Information
+#
+# Table name: languages
+#
+#  code         :string(255)      not null, primary key
+#  english_name :string(255)      not null
+#  native_name  :string(255)
+#

@@ -14,3 +14,23 @@ class UserToken < ActiveRecord::Base
     self.expiry = 1.week.from_now if expiry.blank?
   end
 end
+
+# == Schema Information
+#
+# Table name: user_tokens
+#
+#  id      :integer          not null, primary key
+#  user_id :integer          not null
+#  token   :string(255)      not null
+#  expiry  :datetime         not null
+#  referer :text
+#
+# Indexes
+#
+#  user_tokens_token_idx    (token) UNIQUE
+#  user_tokens_user_id_idx  (user_id)
+#
+# Foreign Keys
+#
+#  user_tokens_user_id_fkey  (user_id => users.id)
+#

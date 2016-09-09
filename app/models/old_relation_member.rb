@@ -6,3 +6,23 @@ class OldRelationMember < ActiveRecord::Base
   # A bit messy, referring to the current tables, should do for the data browser for now
   belongs_to :member, :polymorphic => true
 end
+
+# == Schema Information
+#
+# Table name: relation_members
+#
+#  relation_id :integer          default(0), not null, primary key
+#  member_type :enum             not null
+#  member_id   :integer          not null
+#  member_role :string(255)      not null
+#  version     :integer          default(0), not null, primary key
+#  sequence_id :integer          default(0), not null, primary key
+#
+# Indexes
+#
+#  relation_members_member_idx  (member_type,member_id)
+#
+# Foreign Keys
+#
+#  relation_members_id_fkey  (relation_id => relations.relation_id)
+#

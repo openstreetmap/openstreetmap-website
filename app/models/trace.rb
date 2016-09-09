@@ -305,3 +305,30 @@ class Trace < ActiveRecord::Base
     gpx
   end
 end
+
+# == Schema Information
+#
+# Table name: gpx_files
+#
+#  id          :integer          not null, primary key
+#  user_id     :integer          not null
+#  visible     :boolean          default(TRUE), not null
+#  name        :string(255)      default(""), not null
+#  size        :integer
+#  latitude    :float
+#  longitude   :float
+#  timestamp   :datetime         not null
+#  description :string(255)      default(""), not null
+#  inserted    :boolean          not null
+#  visibility  :enum             default("public"), not null
+#
+# Indexes
+#
+#  gpx_files_timestamp_idx           (timestamp)
+#  gpx_files_user_id_idx             (user_id)
+#  gpx_files_visible_visibility_idx  (visible,visibility)
+#
+# Foreign Keys
+#
+#  gpx_files_user_id_fkey  (user_id => users.id)
+#

@@ -8,3 +8,17 @@ class OldWayTag < ActiveRecord::Base
   validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }
   validates :k, :uniqueness => { :scope => [:way_id, :version] }
 end
+
+# == Schema Information
+#
+# Table name: way_tags
+#
+#  way_id  :integer          default(0), not null, primary key
+#  k       :string(255)      not null, primary key
+#  v       :string(255)      not null
+#  version :integer          not null, primary key
+#
+# Foreign Keys
+#
+#  way_tags_id_fkey  (way_id => ways.way_id)
+#

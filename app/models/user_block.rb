@@ -48,3 +48,29 @@ class UserBlock < ActiveRecord::Base
     errors.add(:base, I18n.t("user_block.model.non_moderator_revoke")) unless revoker_id.nil? || revoker.moderator?
   end
 end
+
+# == Schema Information
+#
+# Table name: user_blocks
+#
+#  id            :integer          not null, primary key
+#  user_id       :integer          not null
+#  creator_id    :integer          not null
+#  reason        :text             not null
+#  ends_at       :datetime         not null
+#  needs_view    :boolean          default(FALSE), not null
+#  revoker_id    :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  reason_format :enum             default("markdown"), not null
+#
+# Indexes
+#
+#  index_user_blocks_on_user_id  (user_id)
+#
+# Foreign Keys
+#
+#  user_blocks_moderator_id_fkey  (creator_id => users.id)
+#  user_blocks_revoker_id_fkey    (revoker_id => users.id)
+#  user_blocks_user_id_fkey       (user_id => users.id)
+#

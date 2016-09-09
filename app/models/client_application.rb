@@ -84,3 +84,34 @@ class ClientApplication < ActiveRecord::Base
     self.secret = OAuth::Helper.generate_key(40)[0, 40]
   end
 end
+
+# == Schema Information
+#
+# Table name: client_applications
+#
+#  id                :integer          not null, primary key
+#  name              :string(255)
+#  url               :string(255)
+#  support_url       :string(255)
+#  callback_url      :string(255)
+#  key               :string(50)
+#  secret            :string(50)
+#  user_id           :integer
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  allow_read_prefs  :boolean          default(FALSE), not null
+#  allow_write_prefs :boolean          default(FALSE), not null
+#  allow_write_diary :boolean          default(FALSE), not null
+#  allow_write_api   :boolean          default(FALSE), not null
+#  allow_read_gpx    :boolean          default(FALSE), not null
+#  allow_write_gpx   :boolean          default(FALSE), not null
+#  allow_write_notes :boolean          default(FALSE), not null
+#
+# Indexes
+#
+#  index_client_applications_on_key  (key) UNIQUE
+#
+# Foreign Keys
+#
+#  client_applications_user_id_fkey  (user_id => users.id)
+#

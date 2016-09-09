@@ -261,3 +261,26 @@ class Node < ActiveRecord::Base
     end
   end
 end
+
+# == Schema Information
+#
+# Table name: current_nodes
+#
+#  id           :integer          not null, primary key
+#  latitude     :integer          not null
+#  longitude    :integer          not null
+#  changeset_id :integer          not null
+#  visible      :boolean          not null
+#  timestamp    :datetime         not null
+#  tile         :integer          not null
+#  version      :integer          not null
+#
+# Indexes
+#
+#  current_nodes_tile_idx       (tile)
+#  current_nodes_timestamp_idx  (timestamp)
+#
+# Foreign Keys
+#
+#  current_nodes_changeset_id_fkey  (changeset_id => changesets.id)
+#

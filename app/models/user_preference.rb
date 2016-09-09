@@ -15,3 +15,16 @@ class UserPreference < ActiveRecord::Base
     el1
   end
 end
+
+# == Schema Information
+#
+# Table name: user_preferences
+#
+#  user_id :integer          not null, primary key
+#  k       :string(255)      not null, primary key
+#  v       :string(255)      not null
+#
+# Foreign Keys
+#
+#  user_preferences_user_id_fkey  (user_id => users.id)
+#
