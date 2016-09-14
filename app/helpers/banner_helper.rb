@@ -7,7 +7,7 @@ module BannerHelper
       rescue
         parsed = nil
       end
-      parsed.is_a?(Date) && parsed.past?
+      !parsed.is_a?(Date) || (parsed.is_a?(Date) && parsed.past?)
     end
   end
 
@@ -17,6 +17,7 @@ module BannerHelper
     banner_key = nil
     cookie_key = nil
     min_index = 9999
+    min_date = Date.new(9999, 1, 1)
 
     banners.each do |k, v|
       ckey = banner_cookie(v[:id]).to_sym
@@ -30,9 +31,14 @@ module BannerHelper
       # pick banner with mininum queue position
       next if index > min_index
 
+      # or if equal queue position, pick banner with soonest end date (i.e. next expiring)
+      end_date = Date.parse(v[:enddate])
+      next if index == min_index && end_date > min_date
+
       banner_key = k
       cookie_key = ckey
       min_index = index
+      min_date = end_date
     end
 
     unless banner_key.nil?
