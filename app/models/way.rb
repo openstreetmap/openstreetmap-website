@@ -222,7 +222,7 @@ class Way < ActiveRecord::Base
       lock!
       check_consistency(self, new_way, user)
       rels = Relation.joins(:relation_members).where(:visible => true, :current_relation_members => { :member_type => "Way", :member_id => id }).order(:id)
-      raise OSM::APIPreconditionFailedError.new("Way #{id} is still used by relations #{rels.collect(&:id).join(",")}.") unless rels.empty?
+      raise OSM::APIPreconditionFailedError.new("Way #{id} is still used by relations #{rels.collect(&:id).join(',')}.") unless rels.empty?
 
       self.changeset_id = new_way.changeset_id
       self.changeset = new_way.changeset

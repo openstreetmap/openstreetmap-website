@@ -29,7 +29,7 @@ module ActiveRecord
         end
 
         def alter_primary_key(table_name, new_columns)
-          execute "ALTER TABLE #{quote_table_name(table_name)} DROP CONSTRAINT #{quote_table_name(table_name + "_pkey")}"
+          execute "ALTER TABLE #{quote_table_name(table_name)} DROP CONSTRAINT #{quote_table_name(table_name + '_pkey')}"
           execute "ALTER TABLE #{quote_table_name(table_name)} ADD PRIMARY KEY (#{quote_column_name(new_columns)})"
         end
 

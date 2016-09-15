@@ -120,10 +120,10 @@ class Node < ActiveRecord::Base
       lock!
       check_consistency(self, new_node, user)
       ways = Way.joins(:way_nodes).where(:visible => true, :current_way_nodes => { :node_id => id }).order(:id)
-      raise OSM::APIPreconditionFailedError.new("Node #{id} is still used by ways #{ways.collect(&:id).join(",")}.") unless ways.empty?
+      raise OSM::APIPreconditionFailedError.new("Node #{id} is still used by ways #{ways.collect(&:id).join(',')}.") unless ways.empty?
 
       rels = Relation.joins(:relation_members).where(:visible => true, :current_relation_members => { :member_type => "Node", :member_id => id }).order(:id)
-      raise OSM::APIPreconditionFailedError.new("Node #{id} is still used by relations #{rels.collect(&:id).join(",")}.") unless rels.empty?
+      raise OSM::APIPreconditionFailedError.new("Node #{id} is still used by relations #{rels.collect(&:id).join(',')}.") unless rels.empty?
 
       self.changeset_id = new_node.changeset_id
       self.tags = {}

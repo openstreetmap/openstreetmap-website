@@ -182,17 +182,17 @@ module Potlatch
         file.each_line do |line|
           t = line.chomp
           if t =~ %r{(\w+)/(\w+)}
-            presettype = $1
-            presetcategory = $2
+            presettype = Regexp.last_match(1)
+            presetcategory = Regexp.last_match(2)
             presetmenus[presettype].push(presetcategory)
             presetnames[presettype][presetcategory] = ["(no preset)"]
           elsif t =~ /^([\w\s]+):\s?(.+)$/
-            pre = $1
-            kv = $2
+            pre = Regexp.last_match(1)
+            kv = Regexp.last_match(2)
             presetnames[presettype][presetcategory].push(pre)
             presets[pre] = {}
             kv.split(",").each do |a|
-              presets[pre][$1] = $2 if a =~ /^(.+)=(.*)$/
+              presets[pre][Regexp.last_match(1)] = Regexp.last_match(2) if a =~ /^(.+)=(.*)$/
             end
           end
         end
@@ -206,10 +206,10 @@ module Potlatch
         file.each_line do |line|
           next unless line.chomp =~ /(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/
 
-          tag = $1
-          colours[tag] = $2.hex if $2 != "-"
-          casing[tag] = $3.hex if $3 != "-"
-          areas[tag] = $4.hex if $4 != "-"
+          tag = Regexp.last_match(1)
+          colours[tag] = Regexp.last_match(2).hex if Regexp.last_match(2) != "-"
+          casing[tag] = Regexp.last_match(3).hex if Regexp.last_match(3) != "-"
+          areas[tag] = Regexp.last_match(4).hex if Regexp.last_match(4) != "-"
         end
       end
 
@@ -221,10 +221,10 @@ module Potlatch
         file.each_line do |line|
           next unless line.chomp =~ /(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/
 
-          tag = $1
-          relcolours[tag] = $2.hex if $2 != "-"
-          relalphas[tag] = $3.to_i if $3 != "-"
-          relwidths[tag] = $4.to_i if $4 != "-"
+          tag = Regexp.last_match(1)
+          relcolours[tag] = Regexp.last_match(2).hex if Regexp.last_match(2) != "-"
+          relalphas[tag] = Regexp.last_match(3).to_i if Regexp.last_match(3) != "-"
+          relwidths[tag] = Regexp.last_match(4).to_i if Regexp.last_match(4) != "-"
         end
       end
 
@@ -246,9 +246,9 @@ module Potlatch
         file.each_line do |line|
           next unless line.chomp =~ %r{^([\w:]+)/(\w+)\s+(.+)$}
 
-          tag = $1
-          type = $2
-          values = $3
+          tag = Regexp.last_match(1)
+          type = Regexp.last_match(2)
+          values = Regexp.last_match(3)
           autotags[type][tag] = if values == "-"
                                   []
                                 else

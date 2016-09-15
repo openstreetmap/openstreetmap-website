@@ -15,12 +15,12 @@ class I18nTest < ActiveSupport::TestCase
 
           default_value.each do |_subkey, subvalue|
             subvalue.scan(/%\{(\w+)\}/) do
-              variables.push($1)
+              variables.push(Regexp.last_match(1))
             end
           end
         else
           default_value.scan(/%\{(\w+)\}/) do
-            variables.push($1)
+            variables.push(Regexp.last_match(1))
           end
         end
 
@@ -37,14 +37,14 @@ class I18nTest < ActiveSupport::TestCase
             next if subvalue.nil?
 
             subvalue.scan(/%\{(\w+)\}/) do
-              assert variables.include?($1), "#{key}.#{subkey} uses unknown interpolation variable #{$1}"
+              assert variables.include?(Regexp.last_match(1)), "#{key}.#{subkey} uses unknown interpolation variable #{Regexp.last_match(1)}"
             end
           end
         else
           assert value.is_a?(String), "#{key} is not a string"
 
           value.scan(/%\{(\w+)\}/) do
-            assert variables.include?($1), "#{key} uses unknown interpolation variable #{$1}"
+            assert variables.include?(Regexp.last_match(1)), "#{key} uses unknown interpolation variable #{Regexp.last_match(1)}"
           end
         end
       end

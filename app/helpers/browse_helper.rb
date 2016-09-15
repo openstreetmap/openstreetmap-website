@@ -133,14 +133,14 @@ module BrowseHelper
       lang = if value =~ /^([a-z-]{2,12}):(.+)$/i
                # Value is <lang>:<title> so split it up
                # Note that value is always left as-is, see: https://trac.openstreetmap.org/ticket/4315
-               $1
+               Regexp.last_match(1)
              else
                # Value is <title> so default to English Wikipedia
                "en"
              end
     elsif key =~ /^wikipedia:(\S+)$/
       # Language is in the key, so assume value is the title
-      lang = $1
+      lang = Regexp.last_match(1)
     else
       # Not a wikipedia key!
       return nil
@@ -149,9 +149,9 @@ module BrowseHelper
     if value =~ /^([^#]*)#(.*)/
       # Contains a reference to a section of the wikipedia article
       # Must break it up to correctly build the url
-      value = $1
-      section = "#" + $2
-      encoded_section = "#" + URI.encode($2.gsub(/ +/, "_"), /[^A-Za-z0-9:_]/).tr("%", ".")
+      value = Regexp.last_match(1)
+      section = "#" + Regexp.last_match(2)
+      encoded_section = "#" + URI.encode(Regexp.last_match(2).gsub(/ +/, "_"), /[^A-Za-z0-9:_]/).tr("%", ".")
     else
       section = ""
       encoded_section = ""

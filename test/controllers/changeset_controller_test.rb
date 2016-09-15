@@ -675,7 +675,7 @@ EOF
 <osmChange>
  <create>
   <node id='-1' lon='0' lat='0' changeset='#{cs_id}'>
-   <tag k='foo' v='#{"x" * 256}'/>
+   <tag k='foo' v='#{'x' * 256}'/>
   </node>
  </create>
 </osmChange>

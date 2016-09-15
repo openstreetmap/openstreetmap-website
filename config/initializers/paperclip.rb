@@ -6,7 +6,7 @@ module Paperclip
       url = super(style_name, options)
 
       if url =~ %r{^/assets/(.*)$}
-        asset_path($1)
+        asset_path(Regexp.last_match(1))
       else
         url
       end

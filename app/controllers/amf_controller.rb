@@ -868,7 +868,7 @@ class AmfController < ApplicationController
 
   def getuser(token) #:doc:
     if token =~ /^(.+)\:(.+)$/
-      User.authenticate(:username => $1, :password => $2)
+      User.authenticate(:username => Regexp.last_match(1), :password => Regexp.last_match(2))
     else
       User.authenticate(:token => token)
     end
@@ -914,7 +914,7 @@ class AmfController < ApplicationController
     INNER JOIN current_ways  ON current_ways.id =current_way_nodes.id
        WHERE current_nodes.visible=TRUE
        AND current_ways.visible=TRUE
-       AND #{OSM.sql_for_area(bbox, "current_nodes.")}
+       AND #{OSM.sql_for_area(bbox, 'current_nodes.')}
     EOF
     ActiveRecord::Base.connection.select_all(sql).collect { |a| [a["wayid"].to_i, a["version"].to_i] }
   end
@@ -927,7 +927,7 @@ class AmfController < ApplicationController
        LEFT OUTER JOIN current_way_nodes cwn ON cwn.node_id=current_nodes.id
        WHERE current_nodes.visible=TRUE
        AND cwn.id IS NULL
-       AND #{OSM.sql_for_area(bbox, "current_nodes.")}
+       AND #{OSM.sql_for_area(bbox, 'current_nodes.')}
     EOF
     ActiveRecord::Base.connection.select_all(sql).each do |row|
       poitags = {}
@@ -947,7 +947,7 @@ class AmfController < ApplicationController
       FROM current_relations cr
       INNER JOIN current_relation_members crm ON crm.id=cr.id
       INNER JOIN current_nodes cn ON crm.member_id=cn.id AND crm.member_type='Node'
-       WHERE #{OSM.sql_for_area(bbox, "cn.")}
+       WHERE #{OSM.sql_for_area(bbox, 'cn.')}
       EOF
     unless way_ids.empty?
       sql += <<-EOF
