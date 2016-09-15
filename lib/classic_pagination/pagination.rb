@@ -273,7 +273,7 @@ module ActionController
                           1
                         else
                           q, r = @item_count.divmod(@items_per_page)
-                          r == 0 ? q : q + 1
+                          r.zero? ? q : q + 1
                         end
       end
 

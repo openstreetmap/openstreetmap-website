@@ -2,7 +2,7 @@ require "migrate"
 
 class PopulateNodeTagsAndRemove < ActiveRecord::Migration
   def self.up
-    have_nodes = select_value("SELECT count(*) FROM current_nodes").to_i != 0
+    have_nodes = select_value("SELECT count(*) FROM current_nodes").to_i.nonzero?
 
     if have_nodes
       prefix = File.join Dir.tmpdir, "020_populate_node_tags_and_remove.#{$PROCESS_ID}."

@@ -195,7 +195,7 @@ class SwfController < ApplicationController
   # Find number of bits required to store arbitrary-length binary
 
   def length_sb(n)
-    Math.frexp(n + (n == 0 ? 1 : 0))[1] + 1
+    Math.frexp(n + (n.zero? ? 1 : 0))[1] + 1
   end
 
   # ====================================================================

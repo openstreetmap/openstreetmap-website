@@ -86,14 +86,14 @@ class AmfController < ApplicationController
           orn = renumberednodes.dup
           result = putway(renumberednodes, *args)
           result[4] = renumberednodes.reject { |k, _v| orn.key?(k) }
-          renumberedways[result[2]] = result[3] if result[0] == 0 && result[2] != result[3]
+          renumberedways[result[2]] = result[3] if result[0].zero? && result[2] != result[3]
         when "putrelation" then
           result = putrelation(renumberednodes, renumberedways, *args)
         when "deleteway" then
           result = deleteway(*args)
         when "putpoi" then
           result = putpoi(*args)
-          renumberednodes[result[2]] = result[3] if result[0] == 0 && result[2] != result[3]
+          renumberednodes[result[2]] = result[3] if result[0].zero? && result[2] != result[3]
         when "startchangeset" then
           result = startchangeset(*args)
         end
@@ -163,7 +163,7 @@ class AmfController < ApplicationController
       end
 
       # open a new changeset
-      if opennew != 0
+      if opennew.nonzero?
         cs = Changeset.new
         cs.tags = cstags
         cs.user_id = user.id
@@ -540,7 +540,7 @@ class AmfController < ApplicationController
       tags = strip_non_xml_chars tags
 
       relid = relid.to_i
-      visible = (visible.to_i != 0)
+      visible = visible.to_i.nonzero?
 
       new_relation = nil
       relation = nil
@@ -644,7 +644,7 @@ class AmfController < ApplicationController
           id = a[2].to_i
           version = a[3].to_i
 
-          return -2, "Server error - node with id 0 found in way #{originalway}." if id == 0
+          return -2, "Server error - node with id 0 found in way #{originalway}." if id.zero?
           return -2, "Server error - node with latitude -90 found in way #{originalway}." if lat == 90
 
           id = renumberednodes[id] if renumberednodes[id]

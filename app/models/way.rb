@@ -58,7 +58,7 @@ class Way < ActiveRecord::Base
       way.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
-      raise OSM::APIBadUserInput.new("ID of way cannot be zero when updating.") if way.id == 0
+      raise OSM::APIBadUserInput.new("ID of way cannot be zero when updating.") if way.id.zero?
     end
 
     # We don't care about the timestamp nor the visibility as these are either

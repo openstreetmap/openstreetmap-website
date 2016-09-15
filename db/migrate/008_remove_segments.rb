@@ -2,7 +2,7 @@ require "migrate"
 
 class RemoveSegments < ActiveRecord::Migration
   def self.up
-    have_segs = select_value("SELECT count(*) FROM current_segments").to_i != 0
+    have_segs = select_value("SELECT count(*) FROM current_segments").to_i.nonzero?
 
     if have_segs
       prefix = File.join Dir.tmpdir, "008_remove_segments.#{$PROCESS_ID}."

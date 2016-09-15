@@ -81,7 +81,7 @@ class Node < ActiveRecord::Base
       node.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
-      raise OSM::APIBadUserInput.new("ID of node cannot be zero when updating.") if node.id == 0
+      raise OSM::APIBadUserInput.new("ID of node cannot be zero when updating.") if node.id.zero?
     end
 
     # We don't care about the time, as it is explicitly set on create/update/delete
