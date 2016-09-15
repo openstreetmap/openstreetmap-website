@@ -404,8 +404,9 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_list_user
-    diary_entry = create(:diary_entry)
-    geo_entry = create(:diary_entry, :latitude => 51.50763, :longitude => -0.10781)
+    diary_entry = create(:diary_entry, :user_id => users(:normal_user).id)
+    geo_entry = create(:diary_entry, :user_id => users(:normal_user).id, :latitude => 51.50763, :longitude => -0.10781)
+    _other_entry = create(:diary_entry, :user_id => users(:public_user).id)
 
     # Try a list of diary entries for a valid user
     get :list, :display_name => users(:normal_user).display_name
@@ -419,6 +420,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
   def test_list_friends
     diary_entry = create(:diary_entry, :user_id => friends(:normal_user_with_second_user).friend_user_id)
+    _other_entry = create(:diary_entry, :user_id => users(:second_public_user).id)
 
     # Try a list of diary entries for your friends when not logged in
     get :list, :friends => true
@@ -434,6 +436,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
   def test_list_nearby
     diary_entry = create(:diary_entry, :user_id => users(:public_user).id)
+
     # Try a list of diary entries for nearby users when not logged in
     get :list, :nearby => true
     assert_response :redirect
