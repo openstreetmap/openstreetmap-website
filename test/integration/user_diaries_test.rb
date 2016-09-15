@@ -1,7 +1,7 @@
 require "test_helper"
 
 class UserDiariesTest < ActionDispatch::IntegrationTest
-  fixtures :users, :diary_entries
+  fixtures :users
 
   # Test the creation of a diary entry, making sure that you are redirected to
   # login page when not logged in
