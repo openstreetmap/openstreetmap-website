@@ -1,0 +1,11 @@
+FROM postgres:9.4
+
+ADD db/docker_postgres.sh docker-entrypoint-initdb.d/docker_postgres.sh
+ADD db/functions/ db/functions/
+ADD lib/quad_tile/ lib/quad_tile/
+
+RUN apt-get update
+RUN apt-get install -y make \
+  postgresql-server-dev-all \
+  build-essential \
+  && apt-get clean && rm -rf /var/lib/apt/lists/*

@@ -3,7 +3,9 @@
 These instructions are designed for setting up The Rails Port for development and testing.
 If you want to deploy the software for your own project, then see the notes at the end.
 
-You can install the software directly on your machine, which is the traditional and probably best-supported approach. However, there is an alternative which may be easier: Vagrant. This installs the software into a virtual machine, which makes it easier to get a consistent development environment and may avoid installation difficulties. For Vagrant instructions, see [VAGRANT.md](VAGRANT.md).
+You can install the software directly on your machine following the instructions below, which is the traditional and probably best-supported approach.
+
+Alternatively there are guides to use either [Vagrant](VAGRANT.md) or [Docker](DOCKER.md).
 
 These instructions are based on Ubuntu 12.04 LTS, which is the platform used by the OSMF servers.
 The instructions also work, with only minor amendments, for all other current Ubuntu releases, Fedora and MacOSX
