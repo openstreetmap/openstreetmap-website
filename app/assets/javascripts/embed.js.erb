@@ -18,6 +18,12 @@ window.onload = function () {
     args[parts[0]] = decodeURIComponent(parts[1] || '');
   }
 
+  var thunderforestOptions = {
+<% if defined?(THUNDERFOREST_KEY) %>
+    apikey: <%= THUNDERFOREST_KEY.to_json %>
+<% end %>
+  };
+
   var map = L.map("map");
   map.attributionControl.setPrefix('');
   map.removeControl(map.attributionControl);
@@ -25,9 +31,9 @@ window.onload = function () {
   if (!args.layer || args.layer === "mapnik" || args.layer === "osmarender" || args.layer === "mapquest") {
     new L.OSM.Mapnik().addTo(map);
   } else if (args.layer === "cyclemap" || args.layer === "cycle map") {
-    new L.OSM.CycleMap().addTo(map);
+    new L.OSM.CycleMap(thunderforestOptions).addTo(map);
   } else if (args.layer === "transportmap") {
-    new L.OSM.TransportMap().addTo(map);
+    new L.OSM.TransportMap(thunderforestOptions).addTo(map);
   } else if (args.layer === "hot") {
     new L.OSM.HOT().addTo(map);
   }
