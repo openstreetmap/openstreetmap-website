@@ -64,6 +64,13 @@ L.OSM.HOT = L.OSM.TileLayer.extend({
   }
 });
 
+L.OSM.Wikimedia = L.OSM.TileLayer.extend({
+  options: {
+    url: 'https://https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png',
+    attribution: '© <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="https://www.wikimedia.org/" target="_blank">Wikimedia</a>'
+  }
+});
+
 L.OSM.DataLayer = L.FeatureGroup.extend({
   options: {
     areaTags: ['area', 'building', 'leisure', 'tourism', 'ruins', 'historic', 'landuse', 'military', 'natural', 'sport'],

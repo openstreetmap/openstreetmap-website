@@ -50,6 +50,13 @@ L.OSM.Map = L.Map.extend({
       name: I18n.t("javascripts.map.base.hot")
     }));
 
+    this.baseLayers.push(new L.OSM.Wikimedia({
+      attribution: copyright + ". Tiles courtesy of <a href='https://www.wikimedia.org/' target='_blank'>Wikimedia</a>",
+      code: "W",
+      keyid: "wikimedia",
+      name: I18n.t("javascripts.map.base.wikimedia")
+    }));
+
     this.noteLayer = new L.FeatureGroup();
     this.noteLayer.options = {code: 'N'};
 
