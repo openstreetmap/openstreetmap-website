@@ -149,7 +149,7 @@ class GeocoderController < ApplicationController
     exclude = "&exclude_place_ids=#{params[:exclude]}" if params[:exclude]
 
     # ask nominatim
-    response = fetch_xml("http:#{NOMINATIM_URL}search?format=xml&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
+    response = fetch_xml("http:#{NOMINATIM_URL}search?format=xml&extratags=1&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
 
     # extract the results from the response
     results =  response.elements["searchresults"]
@@ -179,6 +179,11 @@ class GeocoderController < ApplicationController
       if klass == "boundary" && type == "administrative"
         rank = (place.attributes["place_rank"].to_i + 1) / 2
         prefix_name = t "geocoder.search_osm_nominatim.admin_levels.level#{rank}", :default => prefix_name
+        place.elements["extratags"].elements.each("tag") do |extratag|
+          if extratag.attributes["key"] == "place"
+            prefix_name = t "geocoder.search_osm_nominatim.prefix.place.#{extratag.attributes["value"]}", :default => prefix_name
+          end
+        end
       end
       prefix = t "geocoder.search_osm_nominatim.prefix_format", :name => prefix_name
       object_type = place.attributes["osm_type"]

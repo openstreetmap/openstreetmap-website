@@ -387,7 +387,7 @@ class GeocoderControllerTest < ActionController::TestCase
                       "min-lat" => 51.7265723, "max-lat" => 51.7665723,
                       "min-lon" => -0.0390782, "max-lon" => 0.0009218,
                       "type" => "node", "id" => 28825933 },
-                    { "prefix" => "City Boundary",
+                    { "prefix" => "Village",
                       "name" => "Broxbourne, Hertfordshire, East of England, England, United Kingdom",
                       "min-lat" => 51.6808751, "max-lat" => 51.7806237,
                       "min-lon" => -0.114204, "max-lon" => 0.0145267,
