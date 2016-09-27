@@ -1,340 +1,572 @@
-/*
-Copyright (c) 2014 Dominik Moritz
+/*!
+Copyright (c) 2016 Dominik Moritz
 
 This file is part of the leaflet locate control. It is licensed under the MIT license.
 You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
 */
-L.Control.Locate = L.Control.extend({
-    options: {
-        position: 'topleft',
-        drawCircle: true,
-        follow: false,  // follow with zoom and pan the user's location
-        stopFollowingOnDrag: false, // if follow is true, stop following when map is dragged (deprecated)
-        // range circle
-        circleStyle: {
-            color: '#136AEC',
-            fillColor: '#136AEC',
-            fillOpacity: 0.15,
-            weight: 2,
-            opacity: 0.5
-        },
-        // inner marker
-        markerStyle: {
-            color: '#136AEC',
-            fillColor: '#2A93EE',
-            fillOpacity: 0.7,
-            weight: 2,
-            opacity: 0.9,
-            radius: 5
-        },
-        // changes to range circle and inner marker while following
-        // it is only necessary to provide the things that should change
-        followCircleStyle: {},
-        followMarkerStyle: {
-            //color: '#FFA500',
-            //fillColor: '#FFB000'
-        },
-        icon: 'icon-location',  // icon-location or icon-direction
-        iconLoading: 'icon-spinner animate-spin',
-        circlePadding: [0, 0],
-        metric: true,
-        onLocationError: function(err) {
-            // this event is called in case of any location error
-            // that is not a time out error.
-            alert(err.message);
-        },
-        onLocationOutsideMapBounds: function(control) {
-            // this event is repeatedly called when the location changes
-            control.stopLocate();
-            alert(context.options.strings.outsideMapBoundsMsg);
-        },
-        setView: true, // automatically sets the map view to the user's location
-        // keep the current map zoom level when displaying the user's location. (if 'false', use maxZoom)
-        keepCurrentZoomLevel: false,
-        strings: {
-            title: "Show me where I am",
-            popup: "You are within {distance} {unit} from this point",
-            outsideMapBoundsMsg: "You seem located outside the boundaries of the map"
-        },
-        locateOptions: {
-            maxZoom: Infinity,
-            watch: true  // if you overwrite this, visualization cannot be updated
+(function (factory, window) {
+     // see https://github.com/Leaflet/Leaflet/blob/master/PLUGIN-GUIDE.md#module-loaders
+     // for details on how to structure a leaflet plugin.
+
+    // define an AMD module that relies on 'leaflet'
+    if (typeof define === 'function' && define.amd) {
+        define(['leaflet'], factory);
+
+    // define a Common JS module that relies on 'leaflet'
+    } else if (typeof exports === 'object') {
+        if (typeof window !== 'undefined' && window.L) {
+            module.exports = factory(L);
+        } else {
+            module.exports = factory(require('leaflet'));
         }
-    },
+    }
 
-    onAdd: function (map) {
-        var container = L.DomUtil.create('div', 'control-locate');
+    // attach your plugin to the global 'L' variable
+    if(typeof window !== 'undefined' && window.L){
+        window.L.Control.Locate = factory(L);
+    }
+} (function (L) {
+    var LocateControl = L.Control.extend({
+        options: {
+            /** Position of the control */
+            position: 'topleft',
+            /** The layer that the user's location should be drawn on. By default creates a new layer. */
+            layer: undefined,
+            /**
+             * Automatically sets the map view (zoom and pan) to the user's location as it updates.
+             * While the map is following the user's location, the control is in the `following` state,
+             * which changes the style of the control and the circle marker.
+             *
+             * Possible values:
+             *  - false: never updates the map view when location changes.
+             *  - 'once': set the view when the location is first determined
+             *  - 'always': always updates the map view when location changes.
+             *              The map view follows the users location.
+             *  - 'untilPan': (default) like 'always', except stops updating the
+             *                view if the user has manually panned the map.
+             *                The map view follows the users location until she pans.
+             */
+            setView: 'untilPan',
+            /** Keep the current map zoom level when setting the view and only pan. */
+            keepCurrentZoomLevel: false,
+            /** Smooth pan and zoom to the location of the marker. Only works in Leaflet 1.0+. */
+            flyTo: false,
+            /**
+             * The user location can be inside and outside the current view when the user clicks on the
+             * control that is already active. Both cases can be configures separately.
+             * Possible values are:
+             *  - 'setView': zoom and pan to the current location
+             *  - 'stop': stop locating and remove the location marker
+             */
+            clickBehavior: {
+                /** What should happen if the user clicks on the control while the location is within the current view. */
+                inView: 'stop',
+                /** What should happen if the user clicks on the control while the location is outside the current view. */
+                outOfView: 'setView',
+            },
+            /**
+             * If set, save the map bounds just before centering to the user's
+             * location. When control is disabled, set the view back to the
+             * bounds that were saved.
+             */
+            returnToPrevBounds: false,
+            /** If set, a circle that shows the location accuracy is drawn. */
+            drawCircle: true,
+            /** If set, the marker at the users' location is drawn. */
+            drawMarker: true,
+            /** The class to be used to create the marker. For example L.CircleMarker or L.Marker */
+            markerClass: L.CircleMarker,
+            /** Accuracy circle style properties. */
+            circleStyle: {
+                color: '#136AEC',
+                fillColor: '#136AEC',
+                fillOpacity: 0.15,
+                weight: 2,
+                opacity: 0.5
+            },
+            /** Inner marker style properties. */
+            markerStyle: {
+                color: '#136AEC',
+                fillColor: '#2A93EE',
+                fillOpacity: 0.7,
+                weight: 2,
+                opacity: 0.9,
+                radius: 5
+            },
+            /**
+             * Changes to accuracy circle and inner marker while following.
+             * It is only necessary to provide the properties that should change.
+             */
+            followCircleStyle: {},
+            followMarkerStyle: {
+                // color: '#FFA500',
+                // fillColor: '#FFB000'
+            },
+            /** The CSS class for the icon. For example fa-location-arrow or fa-map-marker */
+            icon: 'fa fa-map-marker',
+            iconLoading: 'fa fa-spinner fa-spin',
+            /** The element to be created for icons. For example span or i */
+            iconElementTag: 'span',
+            /** Padding around the accuracy circle. */
+            circlePadding: [0, 0],
+            /** Use metric units. */
+            metric: true,
+            /** This event is called in case of any location error that is not a time out error. */
+            onLocationError: function(err, control) {
+                alert(err.message);
+            },
+            /**
+             * This even is called when the user's location is outside the bounds set on the map.
+             * The event is called repeatedly when the location changes.
+             */
+            onLocationOutsideMapBounds: function(control) {
+                control.stop();
+                alert(control.options.strings.outsideMapBoundsMsg);
+            },
+            /** Display a pop-up when the user click on the inner marker. */
+            showPopup: true,
+            strings: {
+                title: "Show me where I am",
+                metersUnit: "meters",
+                feetUnit: "feet",
+                popup: "You are within {distance} {unit} from this point",
+                outsideMapBoundsMsg: "You seem located outside the boundaries of the map"
+            },
+            /** The default options passed to leaflets locate method. */
+            locateOptions: {
+                maxZoom: Infinity,
+                watch: true,  // if you overwrite this, visualization cannot be updated
+                setView: false // have to set this to false because we have to
+                               // do setView manually
+            }
+        },
 
-        var self = this;
-        this._layer = new L.LayerGroup();
-        this._layer.addTo(map);
-        this._event = undefined;
-
-        this._locateOptions = this.options.locateOptions;
-        L.extend(this._locateOptions, this.options.locateOptions);
-        L.extend(this._locateOptions, {
-            setView: false // have to set this to false because we have to
-                           // do setView manually
-        });
-
-        // extend the follow marker style and circle from the normal style
-        var tmp = {};
-        L.extend(tmp, this.options.markerStyle, this.options.followMarkerStyle);
-        this.options.followMarkerStyle = tmp;
-        tmp = {};
-        L.extend(tmp, this.options.circleStyle, this.options.followCircleStyle);
-        this.options.followCircleStyle = tmp;
-
-        var link = L.DomUtil.create('a', 'control-button ' + this.options.icon, container);
-        link.innerHTML = "<span class='icon geolocate'></span>";
-        link.href = '#';
-        link.title = this.options.strings.title;
-
-        L.DomEvent
-            .on(link, 'click', L.DomEvent.stopPropagation)
-            .on(link, 'click', L.DomEvent.preventDefault)
-            .on(link, 'click', function() {
-                if (self._active && (self._event === undefined || map.getBounds().contains(self._event.latlng) || !self.options.setView ||
-                    isOutsideMapBounds())) {
-                    stopLocate();
+        initialize: function (options) {
+            // set default options if nothing is set (merge one step deep)
+            for (var i in options) {
+                if (typeof this.options[i] === 'object') {
+                    L.extend(this.options[i], options[i]);
                 } else {
-                    locate();
+                    this.options[i] = options[i];
                 }
-            })
-            .on(link, 'dblclick', L.DomEvent.stopPropagation);
+            }
 
-        var locate = function () {
-            if (self.options.setView) {
-                self._locateOnNextLocationFound = true;
-            }
-            if(!self._active) {
-                map.locate(self._locateOptions);
-            }
-            self._active = true;
-            if (self.options.follow) {
-                startFollowing();
-            }
-            if (!self._event) {
-                setClasses('requesting');
+            // extend the follow marker style and circle from the normal style
+            this.options.followMarkerStyle = L.extend({}, this.options.markerStyle, this.options.followMarkerStyle);
+            this.options.followCircleStyle = L.extend({}, this.options.circleStyle, this.options.followCircleStyle);
+        },
+
+        /**
+         * Add control to map. Returns the container for the control.
+         */
+        onAdd: function (map) {
+            var container = L.DomUtil.create('div',
+                'leaflet-control-locate leaflet-bar leaflet-control');
+
+            this._layer = this.options.layer || new L.LayerGroup();
+            this._layer.addTo(map);
+            this._event = undefined;
+
+            this._link = L.DomUtil.create('a', 'leaflet-bar-part leaflet-bar-part-single', container);
+            this._link.href = '#';
+            this._link.title = this.options.strings.title;
+            this._icon = L.DomUtil.create(this.options.iconElementTag, this.options.icon, this._link);
+
+            L.DomEvent
+                .on(this._link, 'click', L.DomEvent.stopPropagation)
+                .on(this._link, 'click', L.DomEvent.preventDefault)
+                .on(this._link, 'click', this._onClick, this)
+                .on(this._link, 'dblclick', L.DomEvent.stopPropagation);
+
+            this._resetVariables();
+
+            this._map.on('unload', this._unload, this);
+
+            return container;
+        },
+
+        /**
+         * This method is called when the user clicks on the control.
+         */
+        _onClick: function() {
+            this._justClicked = true;
+            this._userPanned = false;
+            this._prevBounds = null;
+
+            if (this._active && !this._event) {
+                // click while requesting
+                this.stop();
+            } else if (this._active && this._event !== undefined) {
+                var behavior = this._map.getBounds().contains(this._event.latlng) ?
+                    this.options.clickBehavior.inView : this.options.clickBehavior.outOfView;
+                switch (behavior) {
+                    case 'setView':
+                        this.setView();
+                        break;
+                    case 'stop':
+                        this.stop();
+                        if (this.options.returnToPrevBounds) {
+                            var f = this.options.flyTo ? this._map.flyToBounds : this._map.fitBounds;
+                            f.bind(this._map)(this._prevBounds);
+                        }
+                        break;
+                }
             } else {
-                visualizeLocation();
-            }
-        };
-
-        var onLocationFound = function (e) {
-            // no need to do anything if the location has not changed
-            if (self._event &&
-                (self._event.latlng.lat === e.latlng.lat &&
-                 self._event.latlng.lng === e.latlng.lng &&
-                 self._event.accuracy === e.accuracy)) {
-                return;
+                if (this.options.returnToPrevBounds) {
+                  this._prevBounds = this._map.getBounds();
+                }
+                this.start();
             }
 
-            if (!self._active) {
-                return;
+            this._updateContainerStyle();
+        },
+
+        /**
+         * Starts the plugin:
+         * - activates the engine
+         * - draws the marker (if coordinates available)
+         */
+        start: function() {
+            this._activate();
+
+            if (this._event) {
+                this._drawMarker(this._map);
+
+                // if we already have a location but the user clicked on the control
+                if (this.options.setView) {
+                    this.setView();
+                }
             }
+            this._updateContainerStyle();
+        },
 
-            self._event = e;
+        /**
+         * Stops the plugin:
+         * - deactivates the engine
+         * - reinitializes the button
+         * - removes the marker
+         */
+        stop: function() {
+            this._deactivate();
 
-            if (self.options.follow && self._following) {
-                self._locateOnNextLocationFound = true;
+            this._cleanClasses();
+            this._resetVariables();
+
+            this._removeMarker();
+        },
+
+        /**
+         * This method launches the location engine.
+         * It is called before the marker is updated,
+         * event if it does not mean that the event will be ready.
+         *
+         * Override it if you want to add more functionalities.
+         * It should set the this._active to true and do nothing if
+         * this._active is true.
+         */
+        _activate: function() {
+            if (!this._active) {
+                this._map.locate(this.options.locateOptions);
+                this._active = true;
+
+                // bind event listeners
+                this._map.on('locationfound', this._onLocationFound, this);
+                this._map.on('locationerror', this._onLocationError, this);
+                this._map.on('dragstart', this._onDrag, this);
             }
+        },
 
-            visualizeLocation();
-        };
+        /**
+         * Called to stop the location engine.
+         *
+         * Override it to shutdown any functionalities you added on start.
+         */
+        _deactivate: function() {
+            this._map.stopLocate();
+            this._active = false;
 
-        var startFollowing = function() {
-            map.fire('startfollowing', self);
-            self._following = true;
-            if (self.options.stopFollowingOnDrag) {
-                map.on('dragstart', stopFollowing);
-            }
-        };
+            // unbind event listeners
+            this._map.off('locationfound', this._onLocationFound, this);
+            this._map.off('locationerror', this._onLocationError, this);
+            this._map.off('dragstart', this._onDrag, this);
+        },
 
-        var stopFollowing = function() {
-            map.fire('stopfollowing', self);
-            self._following = false;
-            if (self.options.stopFollowingOnDrag) {
-                map.off('dragstart', stopFollowing);
-            }
-            visualizeLocation();
-        };
-
-        var isOutsideMapBounds = function () {
-            if (self._event === undefined)
-                return false;
-            return map.options.maxBounds &&
-                !map.options.maxBounds.contains(self._event.latlng);
-        };
-
-        var visualizeLocation = function() {
-            if (self._event.accuracy === undefined)
-                self._event.accuracy = 0;
-
-            var radius = self._event.accuracy;
-            if (self._locateOnNextLocationFound) {
-                if (isOutsideMapBounds()) {
-                    self.options.onLocationOutsideMapBounds(self);
+        /**
+         * Zoom (unless we should keep the zoom level) and an to the current view.
+         */
+        setView: function() {
+            this._drawMarker();
+            if (this._isOutsideMapBounds()) {
+                this.options.onLocationOutsideMapBounds(this);
+            } else {
+                if (this.options.keepCurrentZoomLevel) {
+                    var f = this.options.flyTo ? this._map.flyTo : this._map.panTo;
+                    f.bind(this._map)([this._event.latitude, this._event.longitude]);
                 } else {
-                    map.fitBounds(self._event.bounds, {
-                        padding: self.options.circlePadding,
-                        maxZoom: self.options.keepCurrentZoomLevel ? map.getZoom() : self._locateOptions.maxZoom
+                    var f = this.options.flyTo ? this._map.flyToBounds : this._map.fitBounds;
+                    f.bind(this._map)(this._event.bounds, {
+                        padding: this.options.circlePadding,
+                        maxZoom: this.options.locateOptions.maxZoom
                     });
                 }
-                self._locateOnNextLocationFound = false;
+            }
+        },
+
+        /**
+         * Draw the marker and accuracy circle on the map.
+         *
+         * Uses the event retrieved from onLocationFound from the map.
+         */
+        _drawMarker: function() {
+            if (this._event.accuracy === undefined) {
+                this._event.accuracy = 0;
             }
 
-            // circle with the radius of the location's accuracy
-            var style, o;
-            if (self.options.drawCircle) {
-                if (self._following) {
-                    style = self.options.followCircleStyle;
-                } else {
-                    style = self.options.circleStyle;
-                }
+            var radius = this._event.accuracy;
+            var latlng = this._event.latlng;
 
-                if (!self._circle) {
-                    self._circle = L.circle(self._event.latlng, radius, style)
-                        .addTo(self._layer);
+            // circle with the radius of the location's accuracy
+            if (this.options.drawCircle) {
+                var style = this._isFollowing() ? this.options.followCircleStyle : this.options.circleStyle;
+
+                if (!this._circle) {
+                    this._circle = L.circle(latlng, radius, style).addTo(this._layer);
                 } else {
-                    self._circle.setLatLng(self._event.latlng).setRadius(radius);
-                    for (o in style) {
-                        self._circle.options[o] = style[o];
-                    }
+                    this._circle.setLatLng(latlng).setRadius(radius).setStyle(style);
                 }
             }
 
             var distance, unit;
-            if (self.options.metric) {
+            if (this.options.metric) {
                 distance = radius.toFixed(0);
-                unit = "meters";
+                unit =  this.options.strings.metersUnit;
             } else {
                 distance = (radius * 3.2808399).toFixed(0);
-                unit = "feet";
+                unit = this.options.strings.feetUnit;
             }
 
             // small inner marker
-            var mStyle;
-            if (self._following) {
-                mStyle = self.options.followMarkerStyle;
-            } else {
-                mStyle = self.options.markerStyle;
-            }
+            if (this.options.drawMarker) {
+                var mStyle = this._isFollowing() ? this.options.followMarkerStyle : this.options.markerStyle;
 
-            var t = self.options.strings.popup;
-            if (!self._circleMarker) {
-                self._circleMarker = L.circleMarker(self._event.latlng, mStyle)
-                    .bindPopup(L.Util.template(t, {distance: distance, unit: unit}))
-                    .addTo(self._layer);
-            } else {
-                self._circleMarker.setLatLng(self._event.latlng)
-                    .bindPopup(L.Util.template(t, {distance: distance, unit: unit}))
-                    ._popup.setLatLng(self._event.latlng);
-                for (o in mStyle) {
-                    self._circleMarker.options[o] = mStyle[o];
+                if (!this._marker) {
+                    this._marker = new this.options.markerClass(latlng, mStyle).addTo(this._layer);
+                } else {
+                    this._marker.setLatLng(latlng).setStyle(mStyle);
                 }
             }
 
-            if (!self._container)
-                return;
-            if (self._following) {
-                setClasses('following');
-            } else {
-                setClasses('active');
+            var t = this.options.strings.popup;
+            if (this.options.showPopup && t && this._marker) {
+                this._marker
+                    .bindPopup(L.Util.template(t, {distance: distance, unit: unit}))
+                    ._popup.setLatLng(latlng);
             }
-        };
+        },
 
-        var setClasses = function(state) {
-            if (state == 'requesting') {
-                L.DomUtil.removeClasses(self._container, "active following");
-                L.DomUtil.addClasses(self._container, "requesting");
+        /**
+         * Remove the marker from map.
+         */
+        _removeMarker: function() {
+            this._layer.clearLayers();
+            this._marker = undefined;
+            this._circle = undefined;
+        },
 
-                L.DomUtil.removeClasses(link, self.options.icon);
-                L.DomUtil.addClasses(link, self.options.iconLoading);
-            } else if (state == 'active') {
-                L.DomUtil.removeClasses(self._container, "requesting following");
-                L.DomUtil.addClasses(self._container, "active");
+        /**
+         * Unload the plugin and all event listeners.
+         * Kind of the opposite of onAdd.
+         */
+        _unload: function() {
+            this.stop();
+            this._map.off('unload', this._unload, this);
+        },
 
-                L.DomUtil.removeClasses(link, self.options.iconLoading);
-                L.DomUtil.addClasses(link, self.options.icon);
-            } else if (state == 'following') {
-                L.DomUtil.removeClasses(self._container, "requesting");
-                L.DomUtil.addClasses(self._container, "active following");
-
-                L.DomUtil.removeClasses(link, self.options.iconLoading);
-                L.DomUtil.addClasses(link, self.options.icon);
-            }
-        }
-
-        var resetVariables = function() {
-            self._active = false;
-            self._locateOnNextLocationFound = self.options.setView;
-            self._following = false;
-        };
-
-        resetVariables();
-
-        var stopLocate = function() {
-            map.stopLocate();
-            map.off('dragstart', stopFollowing);
-            if (self.options.follow && self._following) {
-                stopFollowing();
-            }
-
-            L.DomUtil.removeClass(self._container, "requesting");
-            L.DomUtil.removeClass(self._container, "active");
-            L.DomUtil.removeClass(self._container, "following");
-            resetVariables();
-
-            self._layer.clearLayers();
-            self._circleMarker = undefined;
-            self._circle = undefined;
-        };
-
-        var onLocationError = function (err) {
+        /**
+         * Calls deactivate and dispatches an error.
+         */
+        _onLocationError: function(err) {
             // ignore time out error if the location is watched
-            if (err.code == 3 && self._locateOptions.watch) {
+            if (err.code == 3 && this.options.locateOptions.watch) {
                 return;
             }
 
-            stopLocate();
-            self.options.onLocationError(err);
-        };
+            this.stop();
+            this.options.onLocationError(err, this);
+        },
 
-        // event hooks
-        map.on('locationfound', onLocationFound, self);
-        map.on('locationerror', onLocationError, self);
+        /**
+         * Stores the received event and updates the marker.
+         */
+        _onLocationFound: function(e) {
+            // no need to do anything if the location has not changed
+            if (this._event &&
+                (this._event.latlng.lat === e.latlng.lat &&
+                 this._event.latlng.lng === e.latlng.lng &&
+                     this._event.accuracy === e.accuracy)) {
+                return;
+            }
 
-        // make locate functions available to outside world
-        this.locate = locate;
-        this.stopLocate = stopLocate;
-        this.stopFollowing = stopFollowing;
+            if (!this._active) {
+                // we may have a stray event
+                return;
+            }
 
-        return container;
-    }
-});
+            this._event = e;
 
-L.Map.addInitHook(function () {
-    if (this.options.locateControl) {
-        this.locateControl = L.control.locate();
-        this.addControl(this.locateControl);
-    }
-});
+            this._drawMarker();
+            this._updateContainerStyle();
 
-L.control.locate = function (options) {
-    return new L.Control.Locate(options);
-};
+            switch (this.options.setView) {
+                case 'once':
+                    if (this._justClicked) {
+                        this.setView();
+                    }
+                    break;
+                case 'untilPan':
+                    if (!this._userPanned) {
+                        this.setView();
+                    }
+                    break;
+                case 'always':
+                    this.setView();
+                    break;
+                case false:
+                    // don't set the view
+                    break;
+            }
 
-(function(){
-  // leaflet.js raises bug when trying to addClass / removeClass multiple classes at once
-  // Let's create a wrapper on it which fixes it.
-  var LDomUtilApplyClassesMethod = function(method, element, classNames) {
-    classNames = classNames.split(' ');
-    classNames.forEach(function(className) {
-        L.DomUtil[method].call(this, element, className);
+            this._justClicked = false;
+        },
+
+        /**
+         * When the user drags. Need a separate even so we can bind and unbind even listeners.
+         */
+        _onDrag: function() {
+            // only react to drags once we have a location
+            if (this._event) {
+                this._userPanned = true;
+                this._updateContainerStyle();
+                this._drawMarker();
+            }
+        },
+
+        /**
+         * Compute whether the map is following the user location with pan and zoom.
+         */
+        _isFollowing: function() {
+            if (!this._active) {
+                return false;
+            }
+
+            if (this.options.setView === 'always') {
+                return true;
+            } else if (this.options.setView === 'untilPan') {
+                return !this._userPanned;
+            }
+        },
+
+        /**
+         * Check if location is in map bounds
+         */
+        _isOutsideMapBounds: function() {
+            if (this._event === undefined) {
+                return false;
+            }
+            return this._map.options.maxBounds &&
+                !this._map.options.maxBounds.contains(this._event.latlng);
+        },
+
+        /**
+         * Toggles button class between following and active.
+         */
+        _updateContainerStyle: function() {
+            if (!this._container) {
+                return;
+            }
+
+            if (this._active && !this._event) {
+                // active but don't have a location yet
+                this._setClasses('requesting');
+            } else if (this._isFollowing()) {
+                this._setClasses('following');
+            } else if (this._active) {
+                this._setClasses('active');
+            } else {
+                this._cleanClasses();
+            }
+        },
+
+        /**
+         * Sets the CSS classes for the state.
+         */
+        _setClasses: function(state) {
+            if (state == 'requesting') {
+                L.DomUtil.removeClasses(this._container, "active following");
+                L.DomUtil.addClasses(this._container, "requesting");
+
+                L.DomUtil.removeClasses(this._icon, this.options.icon);
+                L.DomUtil.addClasses(this._icon, this.options.iconLoading);
+            } else if (state == 'active') {
+                L.DomUtil.removeClasses(this._container, "requesting following");
+                L.DomUtil.addClasses(this._container, "active");
+
+                L.DomUtil.removeClasses(this._icon, this.options.iconLoading);
+                L.DomUtil.addClasses(this._icon, this.options.icon);
+            } else if (state == 'following') {
+                L.DomUtil.removeClasses(this._container, "requesting");
+                L.DomUtil.addClasses(this._container, "active following");
+
+                L.DomUtil.removeClasses(this._icon, this.options.iconLoading);
+                L.DomUtil.addClasses(this._icon, this.options.icon);
+            }
+        },
+
+        /**
+         * Removes all classes from button.
+         */
+        _cleanClasses: function() {
+            L.DomUtil.removeClass(this._container, "requesting");
+            L.DomUtil.removeClass(this._container, "active");
+            L.DomUtil.removeClass(this._container, "following");
+
+            L.DomUtil.removeClasses(this._icon, this.options.iconLoading);
+            L.DomUtil.addClasses(this._icon, this.options.icon);
+        },
+
+        /**
+         * Reinitializes state variables.
+         */
+        _resetVariables: function() {
+            // whether locate is active or not
+            this._active = false;
+
+            // true if the control was clicked for the first time
+            // we need this so we can pan and zoom once we have the location
+            this._justClicked = false;
+
+            // true if the user has panned the map after clicking the control
+            this._userPanned = false;
+        }
     });
-  };
 
-  L.DomUtil.addClasses = function(el, names) { LDomUtilApplyClassesMethod('addClass', el, names); }
-  L.DomUtil.removeClasses = function(el, names) { LDomUtilApplyClassesMethod('removeClass', el, names); }
-})();
+    L.control.locate = function (options) {
+        return new L.Control.Locate(options);
+    };
+
+    (function(){
+      // leaflet.js raises bug when trying to addClass / removeClass multiple classes at once
+      // Let's create a wrapper on it which fixes it.
+      var LDomUtilApplyClassesMethod = function(method, element, classNames) {
+        classNames = classNames.split(' ');
+        classNames.forEach(function(className) {
+            L.DomUtil[method].call(this, element, className);
+        });
+      };
+
+      L.DomUtil.addClasses = function(el, names) { LDomUtilApplyClassesMethod('addClass', el, names); };
+      L.DomUtil.removeClasses = function(el, names) { LDomUtilApplyClassesMethod('removeClass', el, names); };
+    })();
+
+    return LocateControl;
+}, window));

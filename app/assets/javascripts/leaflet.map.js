@@ -277,7 +277,7 @@ L.OSM.Map = L.Map.extend({
   }
 });
 
-L.Icon.Default.imagePath = "/images";
+L.Icon.Default.imagePath = "/images/";
 
 L.Icon.Default.imageUrls = {
   "/images/marker-icon.png": OSM.MARKER_ICON,
