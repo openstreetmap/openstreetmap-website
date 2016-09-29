@@ -189,6 +189,7 @@ fi:
         way: Polkua
         relation: Relaatiota
         changeset: muutoskokoelma
+        note: merkintä
     timeout:
       sorry: Tietojen hakeminen (kohde %{type}:%{id}) kesti liian kauan.
       type:
@@ -196,6 +197,7 @@ fi:
         way: polku
         relation: relaatio
         changeset: muutoskokoelma
+        note: merkintä
     redacted:
       redaction: Redaktio %{id}
       message_html: Tämän %{type}-tyypin versiota ei voi näyttää koska se on laitostettu.
@@ -424,6 +426,7 @@ fi:
           chair_lift: Tuolihissi
           drag_lift: Vetohissi
           gondola: Gondolihissi
+          station: Ilmarata-asema
         aeroway:
           aerodrome: Lentokenttä
           apron: Asemataso
@@ -1094,7 +1097,7 @@ fi:
         siitä tulee tehdä <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">poistopyyntö</a>
         tai <a href="http://dmca.openstreetmap.org/">ilmoittaa suoraan</a>.
       trademarks_title_html: <span id="trademarks"></span>Tavaramerkit
-      trademarks_1_html: OpenStreetMap ja sen suurennuslasilogo ovat OpenStreetMap-säätiön
+      trademarks_1_html: OpenStreetMap, suurennuslasilogo ja maailmankartta ovat OpenStreetMap-säätiön
         rekisteröityjä tavaramerkkejä. <a href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">Lisensointiryhmämme
         (englanniksi)</a> vastaa mielellään kysymyksiin tavaramerkkien käytöstä.
   welcome_page:
@@ -1453,6 +1456,9 @@ fi:
           track: Metsätie
           bridleway: Ratsastustie
           cycleway: Pyörätie
+          cycleway_national: Kansallinen pyörätie
+          cycleway_regional: Alueellinen pyörätie
+          cycleway_local: Paikallinen pyörätie
           footway: Jalkakäytävä
           rail: Junarata
           subway: Metro
@@ -1505,6 +1511,9 @@ fi:
           private: Yksityinen
           destination: Ei läpikulkua
           construction: Rakenteilla olevia teitä
+          bicycle_shop: Pyöräkauppa
+          bicycle_parking: Pyöräparkki
+          toilets: Vessat
     richtext_area:
       edit: Muokkaa
       preview: Esikatselu
@@ -1774,11 +1783,14 @@ fi:
         windowslive:
           title: Kirjaudu Windows Liven avulla
           alt: Kirjaudu sisään Windows Live -tililläsi
+        github:
+          title: Kirjaudu GitHubin avulla
+          alt: Kirjaudu käyttämällä GitHub-tiliäsi
         yahoo:
           title: Kirjaudu Yahoon avulla
           alt: Kirjaudu käyttämällä Yahoo OpenID -tunnustasi
         wordpress:
-          title: Kirjaudu Wordpressin avulla
+          title: Kirjaudu WordPressin avulla
           alt: Kirjaudu käyttämällä Wordpress OpenID -tunnustasi
         aol:
           title: Kirjaudu AOL:n avulla
@@ -1819,7 +1831,7 @@ fi:
       license_agreement: Kun vahvistat tilisi, sinun on sitouduttava <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">osallistumisehtoihin</a>.
       email address: 'Sähköpostiosoite:'
       confirm email address: 'Sähköpostiosoite uudelleen:'
-      not displayed publicly: Ei näytetä julkisesti. Lisätietoja <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
+      not displayed publicly: Osoitettasi ei esitetä julkisesti. Lisätietoja <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
         title="tietosuojakäytäntö wikisivulla, ml. osio sähköpostiosoitteiden käsittelystä">tietosuojakäytännöstä</a>
         on saatavilla englanniksi.
       display name: 'Käyttäjätunnus:'
@@ -1859,6 +1871,7 @@ fi:
       title: Haettua käyttäjää ei ole olemassa
       heading: Käyttäjää %{user} ei ole olemassa
       body: Käyttäjää %{user} ei löytynyt. Tarkista oikeikirjoitus.
+      deleted: poistettu
     view:
       my diary: Oma päiväkirja
       new diary entry: uusi päiväkirjamerkintä
@@ -1910,16 +1923,16 @@ fi:
         revoke:
           administrator: Poista ylläpitäjän oikeudet
           moderator: Poista moderaattorin oikeudet
-      block_history: saadut estot
-      moderator_history: tehdyt estot
+      block_history: Saadut estot
+      moderator_history: Tehdyt estot
       comments: Kommentit
-      create_block: estä tämä käyttäjä
-      activate_user: aktivoi tämä käyttäjä
-      deactivate_user: poista tämän käyttäjän aktivointi
-      confirm_user: vahvista tämä käyttäjä
-      hide_user: piilota käyttäjä
-      unhide_user: piilota tämä käyttäjä
-      delete_user: poista käyttäjä
+      create_block: Estä tämä käyttäjä
+      activate_user: Aktivoi tämä käyttäjä
+      deactivate_user: Poista tämän käyttäjän aktivointi
+      confirm_user: Vahvista tämä käyttäjä
+      hide_user: Piilota tämä käyttäjä
+      unhide_user: Poista käyttäjän piilottaminen
+      delete_user: Poista tämä käyttäjä
       confirm: Vahvista
       friends_changesets: kaverien muutoskokoelmat
       friends_diaries: kaverien päiväkirjamerkinnät
@@ -1972,6 +1985,7 @@ fi:
       gravatar:
         gravatar: Käytä Gravataria
         link text: mikä tämä on?
+        disabled: Gravatar on poistettu käytöstä.
       new image: Lisää kuva
       keep image: Säilytä nykyinen kuva
       delete image: Poista nykyinen kuva
@@ -2057,9 +2071,12 @@ fi:
         </p>
     auth_failure:
       connection_failed: Yhdistäminen todennuspalveluntarjoajaan epäonnistui
+      invalid_credentials: Virheelliset varmennustiedot
       no_authorization_code: Ei käyttöoikeuskoodia
       unknown_signature_algorithm: Tunnistamaton allekirjoitusalgoritmi
+      invalid_scope: Virheellinen ala
     auth_association:
+      heading: Sinun ID:tä ei ole vielä liitetty OpenStreetMap-tiliisi.
       option_1: 'Uusi OpenStreetMapin käyttäjä: luo käyttäjätunnus tällä lomakkeella.'
       option_2: 'Nykyinen OpenStreetMapin käyttäjä: kirjaudu sisään käyttäjätunnuksella
         ja salasanalla ja yhdistä tili käyttäjäasetuksissa.'
@@ -2238,6 +2255,7 @@ fi:
       center_marker: Keskitä kartta karttamerkkiin
       paste_html: Upota karttaikkuna liittämällä tämä koodi verkkosivulle
       view_larger_map: Näytä isommalla kartalla
+      only_standard_layer: Vain standardi kerros voidaan viedä kuvana
     embed:
       report_problem: Ilmoita ongelmasta
     key:
