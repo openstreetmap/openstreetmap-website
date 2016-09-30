@@ -95,13 +95,24 @@ $(document).ready(function () {
   L.OSM.zoom({position: position})
     .addTo(map);
 
-  L.control.locate({
+  var locate = L.control.locate({
     position: position,
+    icon: 'icon geolocate',
+    iconLoading: 'icon geolocate',
     strings: {
       title: I18n.t('javascripts.map.locate.title'),
       popup: I18n.t('javascripts.map.locate.popup')
     }
   }).addTo(map);
+
+  var locateContainer = locate.getContainer();
+
+  $(locateContainer)
+    .removeClass('leaflet-control-locate leaflet-bar')
+    .addClass('control-locate')
+    .children("a")
+    .removeClass('leaflet-bar-part leaflet-bar-part-single')
+    .addClass('control-button');
 
   var sidebar = L.OSM.sidebar('#map-ui')
     .addTo(map);
