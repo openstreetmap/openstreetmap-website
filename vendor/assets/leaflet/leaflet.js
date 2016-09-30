@@ -1,10 +1,10 @@
 /*
- Leaflet 1.0.0, a JS library for interactive maps. http://leafletjs.com
+ Leaflet 1.0.1, a JS library for interactive maps. http://leafletjs.com
  (c) 2010-2016 Vladimir Agafonkin, (c) 2010-2011 CloudMade
 */
 (function (window, document, undefined) {
 var L = {
-	version: "1.0.0"
+	version: "1.0.1"
 };
 
 function expose() {
@@ -4409,7 +4409,7 @@ L.GridLayer = L.Layer.extend({
 		});
 
 		if (queue.length !== 0) {
-			// if its the first batch of tiles to load
+			// if it's the first batch of tiles to load
 			if (!this._loading) {
 				this._loading = true;
 				// @event loading: Event
@@ -4581,14 +4581,16 @@ L.GridLayer = L.Layer.extend({
 			this._pruneTiles();
 		}
 
-		L.DomUtil.addClass(tile.el, 'leaflet-tile-loaded');
+		if (!err) {
+			L.DomUtil.addClass(tile.el, 'leaflet-tile-loaded');
 
-		// @event tileload: TileEvent
-		// Fired when a tile loads.
-		this.fire('tileload', {
-			tile: tile.el,
-			coords: coords
-		});
+			// @event tileload: TileEvent
+			// Fired when a tile loads.
+			this.fire('tileload', {
+				tile: tile.el,
+				coords: coords
+			});
+		}
 
 		if (this._noTilesToLoad()) {
 			this._loading = false;
@@ -5424,7 +5426,7 @@ L.Icon.Default = L.Icon.extend({
 		document.body.removeChild(el);
 
 		return path.indexOf('url') === 0 ?
-			path.replace(/^url\([\"\']?/, '').replace(/[\"\']?\)$/, '') : '';
+			path.replace(/^url\([\"\']?/, '').replace(/marker-icon\.png[\"\']?\)$/, '') : '';
 	}
 });
 
@@ -8446,7 +8448,7 @@ L.circleMarker = function (latlng, options) {
  * @example
  *
  * ```js
- * L.circle([50.5, 30.5], 200).addTo(map);
+ * L.circle([50.5, 30.5], {radius: 200}).addTo(map);
  * ```
  */
 
@@ -8820,6 +8822,7 @@ L.SVG.include(!L.Browser.vml ? {} : {
 	_update: function () {
 		if (this._map._animatingZoom) { return; }
 		L.Renderer.prototype._update.call(this);
+		this.fire('update');
 	},
 
 	_initPath: function (layer) {
@@ -9369,13 +9372,15 @@ L.GeoJSON = L.FeatureGroup.extend({
 	 * ```
 	 *
 	 * @option filter: Function = *
-	 * A `Function` that will be used to decide whether to show a feature or not.
-	 * The default is to show all features:
+	 * A `Function` that will be used to decide whether to include a feature or not.
+	 * The default is to include all features:
 	 * ```js
 	 * function (geoJsonFeature) {
 	 * 	return true;
 	 * }
 	 * ```
+	 * Note: dynamically changing the `filter` option will have effect only on newly
+	 * added data. It will _not_ re-evaluate already included features.
 	 *
 	 * @option coordsToLatLng: Function = *
 	 * A `Function` that will be used for converting GeoJSON coordinates to `LatLng`s.
@@ -9392,7 +9397,7 @@ L.GeoJSON = L.FeatureGroup.extend({
 		}
 	},
 
-	// @function addData( <GeoJSON> data ): Layer
+	// @method addData( <GeoJSON> data ): Layer
 	// Adds a GeoJSON object to the layer.
 	addData: function (geojson) {
 		var features = L.Util.isArray(geojson) ? geojson : geojson.features,
@@ -9429,7 +9434,7 @@ L.GeoJSON = L.FeatureGroup.extend({
 		return this.addLayer(layer);
 	},
 
-	// @function resetStyle( <Path> layer ): Layer
+	// @method resetStyle( <Path> layer ): Layer
 	// Resets the given vector layer's style to the original GeoJSON style, useful for resetting style after hover events.
 	resetStyle: function (layer) {
 		// reset any custom styles
@@ -9438,7 +9443,7 @@ L.GeoJSON = L.FeatureGroup.extend({
 		return this;
 	},
 
-	// @function setStyle( <Function> style ): Layer
+	// @method setStyle( <Function> style ): Layer
 	// Changes styles of GeoJSON vector layers with the given style function.
 	setStyle: function (style) {
 		return this.eachLayer(function (layer) {
