@@ -83,6 +83,14 @@ class DiaryEntryControllerTest < ActionController::TestCase
       { :path => "/user/username/diary/1/hidecomment/2", :method => :post },
       { :controller => "diary_entry", :action => "hidecomment", :display_name => "username", :id => "1", :comment => "2" }
     )
+    assert_routing(
+      { :path => "/user/username/diary/1/subscribe", :method => :post },
+      { :controller => "diary_entry", :action => "subscribe", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1/unsubscribe", :method => :post },
+      { :controller => "diary_entry", :action => "unsubscribe", :id => "1" }
+    )
   end
 
   def test_new
@@ -148,6 +156,9 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_equal new_longitude.to_f, entry.longitude
     assert_equal new_language_code, entry.language_code
 
+    # checks if user was subscribed
+    assert_equal 1, entry.subscribers.length
+
     assert_equal new_language_code, UserPreference.where(:user_id => users(:normal_user).id, :k => "diary.default_language").first.v
 
     new_language_code = "de"
@@ -168,6 +179,9 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_equal new_latitude.to_f, entry.latitude
     assert_equal new_longitude.to_f, entry.longitude
     assert_equal new_language_code, entry.language_code
+
+    # checks if user was subscribed
+    assert_equal 1, entry.subscribers.length
 
     assert_equal new_language_code, UserPreference.where(:user_id => users(:normal_user).id, :k => "diary.default_language").first.v
   end
@@ -316,6 +330,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
       assert_select "h2", :text => "No entry with the id: 9999", :count => 1
     end
 
+    # FIXME assert number of subscribers
     # Now try an invalid comment with an empty body
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       assert_no_difference "DiaryComment.count" do
@@ -325,6 +340,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :view
 
+    # FIXME assert number of subscribers
     # Now try again with the right id
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       assert_difference "DiaryComment.count", 1 do
@@ -344,6 +360,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_equal users(:public_user).id, comment.user_id
     assert_equal "New comment", comment.body
 
+    # FIXME check number of subscribers
+
     # Now view the diary entry, and check the new comment is present
     get :view, :display_name => entry.user.display_name, :id => entry.id
     assert_response :success
@@ -362,6 +380,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     # Generate some spammy content
     spammy_text = 1.upto(50).map { |n| "http://example.com/spam#{n}" }.join(" ")
 
+    # FIXME assert number of subscribers
     # Try creating a spammy comment
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       assert_difference "DiaryComment.count", 1 do
@@ -638,6 +657,96 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
     # Test a deleted user
     get :comments, :display_name => users(:deleted_user).display_name
+    assert_response :not_found
+  end
+
+  ##
+  # test subscribe success
+  def test_subscribe_success
+    basic_authorization(users(:public_user).email, "test")
+    changeset = changesets(:normal_user_closed_change)
+
+    assert_difference "changeset.subscribers.count", 1 do
+      post :subscribe, :id => changeset.id
+    end
+    assert_response :success
+  end
+
+  ##
+  # test subscribe fail
+  def test_subscribe_fail
+    # unauthorized
+    changeset = changesets(:normal_user_closed_change)
+    assert_no_difference "changeset.subscribers.count" do
+      post :subscribe, :id => changeset.id
+    end
+    assert_response :unauthorized
+
+    basic_authorization(users(:public_user).email, "test")
+
+    # bad changeset id
+    assert_no_difference "changeset.subscribers.count" do
+      post :subscribe, :id => 999111
+    end
+    assert_response :not_found
+
+    # not closed changeset
+    changeset = changesets(:normal_user_first_change)
+    assert_no_difference "changeset.subscribers.count" do
+      post :subscribe, :id => changeset.id
+    end
+    assert_response :conflict
+
+    # trying to subscribe when already subscribed
+    changeset = changesets(:normal_user_subscribed_change)
+    assert_no_difference "changeset.subscribers.count" do
+      post :subscribe, :id => changeset.id
+    end
+    assert_response :conflict
+  end
+
+  ##
+  # test unsubscribe success
+  def test_unsubscribe_success
+    basic_authorization(users(:public_user).email, "test")
+    changeset = changesets(:normal_user_subscribed_change)
+
+    assert_difference "changeset.subscribers.count", -1 do
+      post :unsubscribe, :id => changeset.id
+    end
+    assert_response :success
+  end
+
+  ##
+  # test unsubscribe fail
+  def test_unsubscribe_fail
+    # unauthorized
+    changeset = changesets(:normal_user_closed_change)
+    assert_no_difference "changeset.subscribers.count" do
+      post :unsubscribe, :id => changeset.id
+    end
+    assert_response :unauthorized
+
+    basic_authorization(users(:public_user).email, "test")
+
+    # bad changeset id
+    assert_no_difference "changeset.subscribers.count" do
+      post :unsubscribe, :id => 999111
+    end
+    assert_response :not_found
+
+    # not closed changeset
+    changeset = changesets(:normal_user_first_change)
+    assert_no_difference "changeset.subscribers.count" do
+      post :unsubscribe, :id => changeset.id
+    end
+    assert_response :conflict
+
+    # trying to unsubscribe when not subscribed
+    changeset = changesets(:normal_user_closed_change)
+    assert_no_difference "changeset.subscribers.count" do
+      post :unsubscribe, :id => changeset.id
+    end
     assert_response :not_found
   end
 

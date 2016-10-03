@@ -228,6 +228,8 @@ OpenStreetMap::Application.routes.draw do
   match "/user/:display_name/diary/:id/edit" => "diary_entry#edit", :via => [:get, :post], :id => /\d+/
   match "/user/:display_name/diary/:id/hide" => "diary_entry#hide", :via => :post, :id => /\d+/, :as => :hide_diary_entry
   match "/user/:display_name/diary/:id/hidecomment/:comment" => "diary_entry#hidecomment", :via => :post, :id => /\d+/, :comment => /\d+/, :as => :hide_diary_comment
+  match "/user/:display_name/diary/:id/subscribe" => "diary_entry#subscribe", :via => :post, :as => :diary_entry_subscribe, :id => /\d+/
+  match "/user/:display_name/diary/:id/unsubscribe" => "diary_entry#unsubscribe", :via => :post, :as => :diary_entry_unsubscribe, :id => /\d+/
 
   # user pages
   match "/user/:display_name" => "user#view", :via => :get, :as => "user"

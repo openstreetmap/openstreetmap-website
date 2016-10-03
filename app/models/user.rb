@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_many :traces, -> { where(:visible => true) }
   has_many :diary_entries, -> { order(:created_at => :desc) }
   has_many :diary_comments, -> { order(:created_at => :desc) }
+  has_and_belongs_to_many :diary_entries_subscriptions, :class_name => "DiaryEntry", :join_table => "diary_entries_subscribers", :foreign_key => "subscriber_id"
   has_many :messages, -> { where(:to_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :foreign_key => :to_user_id
   has_many :new_messages, -> { where(:to_user_visible => true, :message_read => false).order(:sent_on => :desc) }, :class_name => "Message", :foreign_key => :to_user_id
   has_many :sent_messages, -> { where(:from_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :class_name => "Message", :foreign_key => :from_user_id

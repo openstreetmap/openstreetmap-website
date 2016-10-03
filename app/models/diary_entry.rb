@@ -4,6 +4,7 @@ class DiaryEntry < ActiveRecord::Base
 
   has_many :comments, -> { order(:id).preload(:user) }, :class_name => "DiaryComment"
   has_many :visible_comments, -> { joins(:user).where(:visible => true, :users => { :status => %w(active confirmed) }).order(:id) }, :class_name => "DiaryComment"
+  has_and_belongs_to_many :subscribers, :class_name => "User", :join_table => "diary_entries_subscribers", :association_foreign_key => "subscriber_id"
 
   scope :visible, -> { where(:visible => true) }
 

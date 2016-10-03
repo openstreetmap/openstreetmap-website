@@ -34,5 +34,12 @@
     <%= if_administrator(:li) do %>
       <%= link_to t('diary_entry.diary_entry.hide_link'), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t('diary_entry.diary_entry.confirm') } %>
     <% end %>
+
+    <% if @user and diary_entry.subscribers.exists?(@user.id) %>
+      <li><%= link_to t('javascripts.changesets.show.unsubscribe'), diary_entry_unsubscribe_url(diary_entry), :method => :post %></li>
+    <% elsif @user %>
+      <li><%= link_to t('javascripts.changesets.show.subscribe'), diary_entry_subscribe_url(diary_entry), :method => :post %></li>
+    <% end %>
+
   </ul>
 </div>
