@@ -85,11 +85,11 @@ class DiaryEntryControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/user/username/diary/1/subscribe", :method => :post },
-      { :controller => "diary_entry", :action => "subscribe", :id => "1" }
+      { :controller => "diary_entry", :action => "subscribe", :display_name => "username", :id => "1" }
     )
     assert_routing(
       { :path => "/user/username/diary/1/unsubscribe", :method => :post },
-      { :controller => "diary_entry", :action => "unsubscribe", :id => "1" }
+      { :controller => "diary_entry", :action => "unsubscribe", :display_name => "username", :id => "1" }
     )
   end
 
@@ -330,21 +330,23 @@ class DiaryEntryControllerTest < ActionController::TestCase
       assert_select "h2", :text => "No entry with the id: 9999", :count => 1
     end
 
-    # FIXME assert number of subscribers
     # Now try an invalid comment with an empty body
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       assert_no_difference "DiaryComment.count" do
-        post :comment, { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "" } }, { :user => users(:public_user).id }
+        assert_no_difference "entry.subscribers.count" do
+          post :comment, { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "" } }, { :user => users(:public_user).id }
+        end
       end
     end
     assert_response :success
     assert_template :view
 
-    # FIXME assert number of subscribers
     # Now try again with the right id
-    assert_difference "ActionMailer::Base.deliveries.size", 1 do
+    assert_difference "ActionMailer::Base.deliveries.size", entry.subscribers.count do
       assert_difference "DiaryComment.count", 1 do
-        post :comment, { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "New comment" } }, { :user => users(:public_user).id }
+        assert_difference "entry.subscribers.count", 1 do
+          post :comment, { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "New comment" } }, { :user => users(:public_user).id }
+        end
       end
     end
     assert_response :redirect
@@ -359,8 +361,6 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_equal entry.id, comment.diary_entry_id
     assert_equal users(:public_user).id, comment.user_id
     assert_equal "New comment", comment.body
-
-    # FIXME check number of subscribers
 
     # Now view the diary entry, and check the new comment is present
     get :view, :display_name => entry.user.display_name, :id => entry.id
@@ -380,7 +380,6 @@ class DiaryEntryControllerTest < ActionController::TestCase
     # Generate some spammy content
     spammy_text = 1.upto(50).map { |n| "http://example.com/spam#{n}" }.join(" ")
 
-    # FIXME assert number of subscribers
     # Try creating a spammy comment
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       assert_difference "DiaryComment.count", 1 do
@@ -663,91 +662,74 @@ class DiaryEntryControllerTest < ActionController::TestCase
   ##
   # test subscribe success
   def test_subscribe_success
-    basic_authorization(users(:public_user).email, "test")
-    changeset = changesets(:normal_user_closed_change)
+    diary_entry = create(:diary_entry, :user_id => users(:normal_user).id)
 
-    assert_difference "changeset.subscribers.count", 1 do
-      post :subscribe, :id => changeset.id
+    #basic_authorization(users(:public_user).email, "test")
+
+    assert_difference "diary_entry.subscribers.count", 1 do
+      post :subscribe, {:id => diary_entry.id, :display_name => diary_entry.user.display_name}, { :user => users(:public_user).id}
     end
-    assert_response :success
+    assert_response :redirect
   end
 
   ##
   # test subscribe fail
   def test_subscribe_fail
-    # unauthorized
-    changeset = changesets(:normal_user_closed_change)
-    assert_no_difference "changeset.subscribers.count" do
-      post :subscribe, :id => changeset.id
-    end
-    assert_response :unauthorized
+    diary_entry = create(:diary_entry, :user_id => users(:normal_user).id)
 
-    basic_authorization(users(:public_user).email, "test")
-
-    # bad changeset id
-    assert_no_difference "changeset.subscribers.count" do
-      post :subscribe, :id => 999111
+    # not signed in
+    assert_no_difference "diary_entry.subscribers.count", 1 do
+      post :subscribe, :id => diary_entry.id, :display_name => diary_entry.user.display_name
     end
+    assert_response :forbidden
+
+    # bad diary id
+    post :subscribe, {:id => 999111, :display_name => "username"}, { :user => users(:public_user).id}
     assert_response :not_found
 
-    # not closed changeset
-    changeset = changesets(:normal_user_first_change)
-    assert_no_difference "changeset.subscribers.count" do
-      post :subscribe, :id => changeset.id
-    end
-    assert_response :conflict
-
     # trying to subscribe when already subscribed
-    changeset = changesets(:normal_user_subscribed_change)
-    assert_no_difference "changeset.subscribers.count" do
-      post :subscribe, :id => changeset.id
+    post :subscribe, {:id => diary_entry.id, :display_name => diary_entry.user.display_name}, { :user => users(:public_user).id}
+    assert_no_difference "diary_entry.subscribers.count" do
+      post :subscribe, {:id => diary_entry.id, :display_name => diary_entry.user.display_name}, { :user => users(:public_user).id}
     end
-    assert_response :conflict
   end
 
   ##
   # test unsubscribe success
   def test_unsubscribe_success
-    basic_authorization(users(:public_user).email, "test")
-    changeset = changesets(:normal_user_subscribed_change)
+    diary_entry = create(:diary_entry, :user_id => users(:normal_user).id)
 
-    assert_difference "changeset.subscribers.count", -1 do
-      post :unsubscribe, :id => changeset.id
+    assert_difference "diary_entry.subscribers.count", -1 do
+      post :unsubscribe, {:id => diary_entry.id, :display_name => diary_entry.user.display_name}, { :user => users(:normal_user).id}
     end
-    assert_response :success
+    assert_response :redirect
+
+    post :subscribe, {:id => diary_entry.id, :display_name => diary_entry.user.display_name}, { :user => users(:public_user).id}
+    assert_difference "diary_entry.subscribers.count", -1 do
+      post :unsubscribe, {:id => diary_entry.id, :display_name => diary_entry.user.display_name}, { :user => users(:public_user).id}
+    end
+    assert_response :redirect
   end
 
   ##
   # test unsubscribe fail
   def test_unsubscribe_fail
-    # unauthorized
-    changeset = changesets(:normal_user_closed_change)
-    assert_no_difference "changeset.subscribers.count" do
-      post :unsubscribe, :id => changeset.id
-    end
-    assert_response :unauthorized
+    diary_entry = create(:diary_entry, :user_id => users(:normal_user).id)
 
-    basic_authorization(users(:public_user).email, "test")
-
-    # bad changeset id
-    assert_no_difference "changeset.subscribers.count" do
-      post :unsubscribe, :id => 999111
+    # not signed in
+    assert_no_difference "diary_entry.subscribers.count" do
+      post :unsubscribe, :id => diary_entry.id, :display_name => diary_entry.user.display_name
     end
+    assert_response :forbidden
+
+    # bad diary id
+    post :unsubscribe, {:id => 999111, :display_name => "username"}, { :user => users(:public_user).id}
     assert_response :not_found
 
-    # not closed changeset
-    changeset = changesets(:normal_user_first_change)
-    assert_no_difference "changeset.subscribers.count" do
-      post :unsubscribe, :id => changeset.id
+    # trying to subscribe when already subscribed
+    assert_no_difference "diary_entry.subscribers.count" do
+      post :unsubscribe, {:id => diary_entry.id, :display_name => diary_entry.user.display_name}, { :user => users(:public_user).id}
     end
-    assert_response :conflict
-
-    # trying to unsubscribe when not subscribed
-    changeset = changesets(:normal_user_closed_change)
-    assert_no_difference "changeset.subscribers.count" do
-      post :unsubscribe, :id => changeset.id
-    end
-    assert_response :not_found
   end
 
   private

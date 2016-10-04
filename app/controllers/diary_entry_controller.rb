@@ -81,21 +81,27 @@ class DiaryEntryController < ApplicationController
   end
 
   def subscribe
-    @entry = DiaryEntry.find(params[:id])
+    diary_entry = DiaryEntry.find(params[:id])
 
     if ! diary_entry.subscribers.exists?(@user.id)
       diary_entry.subscribers << @user
+    end
 
     redirect_to :controller => "diary_entry", :action => "view", :display_name => diary_entry.user.display_name, :id => diary_entry.id
+  rescue ActiveRecord::RecordNotFound
+    render :action => "no_such_entry", :status => :not_found
   end
 
   def unsubscribe
-    @entry = DiaryEntry.find(params[:id])
+    diary_entry = DiaryEntry.find(params[:id])
 
     if diary_entry.subscribers.exists?(@user.id)
       diary_entry.subscribers.delete(@user)
+    end
 
     redirect_to :controller => "diary_entry", :action => "view", :display_name => diary_entry.user.display_name, :id => diary_entry.id
+  rescue ActiveRecord::RecordNotFound
+    render :action => "no_such_entry", :status => :not_found
   end
 
   def list

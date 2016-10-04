@@ -83,7 +83,6 @@ class Notifier < ActionMailer::Base
     end
   end
 
-  # FIXME mail should say your / their depending who's message it is
   def diary_comment_notification(comment, recipient)
     with_recipient_locale recipient do
       @to_user = recipient.display_name
