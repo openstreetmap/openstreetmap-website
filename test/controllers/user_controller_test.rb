@@ -2,7 +2,7 @@ require "test_helper"
 
 class UserControllerTest < ActionController::TestCase
   api_fixtures
-  fixtures :messages, :friends
+  fixtures :messages
 
   ##
   # test all routes which lead to this controller
@@ -1191,6 +1191,7 @@ class UserControllerTest < ActionController::TestCase
     # Get users to work with
     user = users(:normal_user)
     friend = users(:public_user)
+    create(:friend, :user_id => user.id, :friend_user_id => friend.id)
 
     # Check that the users are friends
     assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
@@ -1231,6 +1232,7 @@ class UserControllerTest < ActionController::TestCase
     # Get users to work with
     user = users(:normal_user)
     friend = users(:public_user)
+    create(:friend, :user_id => user.id, :friend_user_id => friend.id)
 
     # Check that the users are friends
     assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first

@@ -5,7 +5,7 @@ class UserTest < ActiveSupport::TestCase
   include Rails::Dom::Testing::Assertions::SelectorAssertions
 
   api_fixtures
-  fixtures :friends, :languages, :user_roles
+  fixtures :languages, :user_roles
 
   def test_invalid_with_empty_attributes
     user = User.new
@@ -106,6 +106,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_friend_with
+    create(:friend, :user_id => users(:normal_user).id, :friend_user_id => users(:public_user).id)
     assert users(:normal_user).is_friends_with?(users(:public_user))
     assert !users(:normal_user).is_friends_with?(users(:inactive_user))
     assert !users(:public_user).is_friends_with?(users(:normal_user))
@@ -129,14 +130,11 @@ class UserTest < ActiveSupport::TestCase
 
   def test_friends_with
     # normal user is a friend of second user
-    # it should be a one way friend accossitation
-    assert_equal 1, Friend.count
+    # it should be a one way friend associatation
     norm = users(:normal_user)
     sec = users(:public_user)
-    # friend = Friend.new
-    # friend.befriender = norm
-    # friend.befriendee = sec
-    # friend.save
+    create(:friend, :user_id => norm.id, :friend_user_id => sec.id)
+    assert_equal 1, Friend.count
     assert_equal [sec], norm.friend_users
     assert_equal 1, norm.friend_users.size
     assert_equal 1, Friend.count
