@@ -316,7 +316,7 @@ class NotesController < ApplicationController
   end
 
   ##
-  # Generate a condition to choose which bugs we want based
+  # Generate a condition to choose which notes we want based
   # on their status and the user's request parameters
   def closed_condition(notes)
     closed_since = if params[:closed]
