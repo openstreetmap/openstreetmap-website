@@ -21,7 +21,7 @@
     <%= richtext_area :diary_comment, :body, :cols => 80, :rows => 15 %>
     <%= submit_tag t('diary_entry.view.save_button') %>
   <% end %>
-  <% if @user and @entry.subscribers.exists?(@user.id) %>
+  <% if @user and @entry.subscribers and @entry.subscribers.exists?(@user) %>
     <div style='position:relative; top: -30px; left: 130px'><%= link_to t('javascripts.changesets.show.unsubscribe'), diary_entry_unsubscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => :button %></div>
   <% elsif @user %>
     <div style='position:relative; top: -30px; left: 130px'><%= link_to t('javascripts.changesets.show.subscribe'), diary_entry_subscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => :button %></div>
