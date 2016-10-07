@@ -330,6 +330,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
       assert_select "h2", :text => "No entry with the id: 9999", :count => 1
     end
 
+    post :subscribe, {:id => entry.id, :display_name => entry.user.display_name}, { :user => users(:normal_user).id}
+
     # Now try an invalid comment with an empty body
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       assert_no_difference "DiaryComment.count" do
@@ -353,7 +355,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_redirected_to :action => :view, :display_name => entry.user.display_name, :id => entry.id
     email = ActionMailer::Base.deliveries.first
     assert_equal [users(:normal_user).email], email.to
-    assert_equal "[OpenStreetMap] #{users(:public_user).display_name} commented on your diary entry", email.subject
+    assert_equal "[OpenStreetMap] #{users(:public_user).display_name} commented on a diary entry", email.subject
     assert_match /New comment/, email.text_part.decoded
     assert_match /New comment/, email.html_part.decoded
     ActionMailer::Base.deliveries.clear
@@ -376,6 +378,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   def test_comment_spammy
     # Find the entry to comment on
     entry = create(:diary_entry, :user_id => users(:normal_user).id)
+    post :subscribe, {:id => entry.id, :display_name => entry.user.display_name}, { :user => users(:normal_user).id}
 
     # Generate some spammy content
     spammy_text = 1.upto(50).map { |n| "http://example.com/spam#{n}" }.join(" ")
@@ -390,7 +393,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_redirected_to :action => :view, :display_name => entry.user.display_name, :id => entry.id
     email = ActionMailer::Base.deliveries.first
     assert_equal [users(:normal_user).email], email.to
-    assert_equal "[OpenStreetMap] #{users(:public_user).display_name} commented on your diary entry", email.subject
+    assert_equal "[OpenStreetMap] #{users(:public_user).display_name} commented on a diary entry", email.subject
     assert_match %r{http://example.com/spam}, email.text_part.decoded
     assert_match %r{http://example.com/spam}, email.html_part.decoded
     ActionMailer::Base.deliveries.clear
@@ -698,11 +701,6 @@ class DiaryEntryControllerTest < ActionController::TestCase
   # test unsubscribe success
   def test_unsubscribe_success
     diary_entry = create(:diary_entry, :user_id => users(:normal_user).id)
-
-    assert_difference "diary_entry.subscribers.count", -1 do
-      post :unsubscribe, {:id => diary_entry.id, :display_name => diary_entry.user.display_name}, { :user => users(:normal_user).id}
-    end
-    assert_response :redirect
 
     post :subscribe, {:id => diary_entry.id, :display_name => diary_entry.user.display_name}, { :user => users(:public_user).id}
     assert_difference "diary_entry.subscribers.count", -1 do
