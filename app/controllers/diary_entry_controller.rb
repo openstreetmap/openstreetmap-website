@@ -26,7 +26,7 @@ class DiaryEntryController < ApplicationController
         end
 
         # Subscribe user to diary comments
-        @diary_entry.subscriptions.create(user: @user)
+        @diary_entry.subscriptions.create(:user => @user)
 
         redirect_to :controller => "diary_entry", :action => "list", :display_name => @user.display_name
       else
@@ -70,7 +70,7 @@ class DiaryEntryController < ApplicationController
       end
 
       # Add the commenter to the subscribers if necessary
-      @entry.subscriptions.create(user: @user) unless @entry.subscribers.exists?(@user.id)
+      @entry.subscriptions.create(:user => @user) unless @entry.subscribers.exists?(@user.id)
 
       redirect_to :controller => "diary_entry", :action => "view", :display_name => @entry.user.display_name, :id => @entry.id
     else
@@ -83,7 +83,7 @@ class DiaryEntryController < ApplicationController
   def subscribe
     diary_entry = DiaryEntry.find(params[:id])
 
-    diary_entry.subscriptions.create(user: @user) unless diary_entry.subscribers.exists?(@user.id)
+    diary_entry.subscriptions.create(:user => @user) unless diary_entry.subscribers.exists?(@user.id)
 
     redirect_to :controller => "diary_entry", :action => "view", :display_name => diary_entry.user.display_name, :id => diary_entry.id
   rescue ActiveRecord::RecordNotFound
@@ -93,7 +93,7 @@ class DiaryEntryController < ApplicationController
   def unsubscribe
     diary_entry = DiaryEntry.find(params[:id])
 
-    diary_entry.subscriptions.where(user: @user).delete_all if diary_entry.subscribers.exists?(@user.id)
+    diary_entry.subscriptions.where(:user => @user).delete_all if diary_entry.subscribers.exists?(@user.id)
 
     redirect_to :controller => "diary_entry", :action => "view", :display_name => diary_entry.user.display_name, :id => diary_entry.id
   rescue ActiveRecord::RecordNotFound

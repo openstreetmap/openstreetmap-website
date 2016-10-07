@@ -11,7 +11,7 @@ class AddJoinTableBetweenUsersAndDiaryEntries < ActiveRecord::Migration
 
   def up
     DiaryEntry.find_each do |diary_entry|
-      diary_entry.subscriptions.create(user: diary_entry.user) unless diary_entry.subscribers.exists?(@user)
+      diary_entry.subscriptions.create(:user => diary_entry.user) unless diary_entry.subscribers.exists?(@user.id)
     end
   end
 

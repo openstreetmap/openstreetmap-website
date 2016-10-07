@@ -330,7 +330,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
       assert_select "h2", :text => "No entry with the id: 9999", :count => 1
     end
 
-    post :subscribe, {:id => entry.id, :display_name => entry.user.display_name}, { :user => users(:normal_user).id}
+    post :subscribe, { :id => entry.id, :display_name => entry.user.display_name }, { :user => users(:normal_user).id }
 
     # Now try an invalid comment with an empty body
     assert_no_difference "ActionMailer::Base.deliveries.size" do
@@ -378,7 +378,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   def test_comment_spammy
     # Find the entry to comment on
     entry = create(:diary_entry, :user_id => users(:normal_user).id)
-    post :subscribe, {:id => entry.id, :display_name => entry.user.display_name}, { :user => users(:normal_user).id}
+    post :subscribe, { :id => entry.id, :display_name => entry.user.display_name }, { :user => users(:normal_user).id }
 
     # Generate some spammy content
     spammy_text = 1.upto(50).map { |n| "http://example.com/spam#{n}" }.join(" ")
@@ -667,10 +667,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   def test_subscribe_success
     diary_entry = create(:diary_entry, :user_id => users(:normal_user).id)
 
-    #basic_authorization(users(:public_user).email, "test")
-
     assert_difference "diary_entry.subscribers.count", 1 do
-      post :subscribe, {:id => diary_entry.id, :display_name => diary_entry.user.display_name}, { :user => users(:public_user).id}
+      post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => users(:public_user).id }
     end
     assert_response :redirect
   end
@@ -687,13 +685,13 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_response :forbidden
 
     # bad diary id
-    post :subscribe, {:id => 999111, :display_name => "username"}, { :user => users(:public_user).id}
+    post :subscribe, { :id => 999111, :display_name => "username" }, { :user => users(:public_user).id }
     assert_response :not_found
 
     # trying to subscribe when already subscribed
-    post :subscribe, {:id => diary_entry.id, :display_name => diary_entry.user.display_name}, { :user => users(:public_user).id}
+    post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => users(:public_user).id }
     assert_no_difference "diary_entry.subscribers.count" do
-      post :subscribe, {:id => diary_entry.id, :display_name => diary_entry.user.display_name}, { :user => users(:public_user).id}
+      post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name}, { :user => users(:public_user).id }
     end
   end
 
@@ -702,9 +700,9 @@ class DiaryEntryControllerTest < ActionController::TestCase
   def test_unsubscribe_success
     diary_entry = create(:diary_entry, :user_id => users(:normal_user).id)
 
-    post :subscribe, {:id => diary_entry.id, :display_name => diary_entry.user.display_name}, { :user => users(:public_user).id}
+    post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => users(:public_user).id }
     assert_difference "diary_entry.subscribers.count", -1 do
-      post :unsubscribe, {:id => diary_entry.id, :display_name => diary_entry.user.display_name}, { :user => users(:public_user).id}
+      post :unsubscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => users(:public_user).id }
     end
     assert_response :redirect
   end
@@ -721,12 +719,12 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_response :forbidden
 
     # bad diary id
-    post :unsubscribe, {:id => 999111, :display_name => "username"}, { :user => users(:public_user).id}
+    post :unsubscribe, { :id => 999111, :display_name => "username" }, { :user => users(:public_user).id }
     assert_response :not_found
 
     # trying to subscribe when already subscribed
     assert_no_difference "diary_entry.subscribers.count" do
-      post :unsubscribe, {:id => diary_entry.id, :display_name => diary_entry.user.display_name}, { :user => users(:public_user).id}
+      post :unsubscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => users(:public_user).id }
     end
   end
 
