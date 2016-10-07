@@ -662,8 +662,6 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
-  ##
-  # test subscribe success
   def test_subscribe_success
     diary_entry = create(:diary_entry, :user_id => users(:normal_user).id)
 
@@ -673,8 +671,6 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
-  ##
-  # test subscribe fail
   def test_subscribe_fail
     diary_entry = create(:diary_entry, :user_id => users(:normal_user).id)
 
@@ -695,8 +691,6 @@ class DiaryEntryControllerTest < ActionController::TestCase
     end
   end
 
-  ##
-  # test unsubscribe success
   def test_unsubscribe_success
     diary_entry = create(:diary_entry, :user_id => users(:normal_user).id)
 
@@ -707,8 +701,6 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
-  ##
-  # test unsubscribe fail
   def test_unsubscribe_fail
     diary_entry = create(:diary_entry, :user_id => users(:normal_user).id)
 
@@ -722,7 +714,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     post :unsubscribe, { :id => 999111, :display_name => "username" }, { :user => users(:public_user).id }
     assert_response :not_found
 
-    # trying to subscribe when already subscribed
+    # trying to unsubscribe when not subscribed
     assert_no_difference "diary_entry.subscribers.count" do
       post :unsubscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => users(:public_user).id }
     end
