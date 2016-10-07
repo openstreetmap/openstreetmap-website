@@ -691,7 +691,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     # trying to subscribe when already subscribed
     post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => users(:public_user).id }
     assert_no_difference "diary_entry.subscribers.count" do
-      post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name}, { :user => users(:public_user).id }
+      post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => users(:public_user).id }
     end
   end
 
