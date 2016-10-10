@@ -214,8 +214,7 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_comment_success
-    open_note_with_comment = create(:note)
-    create(:note_comment, :note => open_note_with_comment)
+    open_note_with_comment = create(:note_with_comments)
     assert_difference "NoteComment.count", 1 do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
         post :comment, :id => open_note_with_comment.id, :text => "This is an additional comment", :format => "json"
@@ -245,9 +244,10 @@ class NotesControllerTest < ActionController::TestCase
     assert_nil js["properties"]["comments"].last["user"]
 
     # Ensure that emails are sent to users
-    note_with_comments_by_users = create(:note)
-    create(:note_comment, :note => note_with_comments_by_users, :author_id => users(:normal_user).id)
-    create(:note_comment, :note => note_with_comments_by_users, :author_id => users(:second_public_user).id)
+    note_with_comments_by_users = create(:note) do |note|
+      create(:note_comment, :note => note, :author_id => users(:normal_user).id)
+      create(:note_comment, :note => note, :author_id => users(:second_public_user).id)
+    end
     assert_difference "NoteComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 2 do
         post :comment, :id => note_with_comments_by_users.id, :text => "This is an additional comment", :format => "json"
@@ -333,7 +333,8 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_comment_fail
-    open_note_with_comment = create(:note_comment).note
+    open_note_with_comment = create(:note_with_comments)
+
     assert_no_difference "NoteComment.count" do
       post :comment, :text => "This is an additional comment"
     end
@@ -354,15 +355,15 @@ class NotesControllerTest < ActionController::TestCase
     end
     assert_response :not_found
 
-    hidden_note_with_comment = create(:note, :status => "hidden")
-    create(:note_comment, :note => hidden_note_with_comment)
+    hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
+
     assert_no_difference "NoteComment.count" do
       post :comment, :id => hidden_note_with_comment.id, :text => "This is an additional comment"
     end
     assert_response :gone
 
-    closed_note_with_comment = create(:note, :status => "closed", :closed_at => Time.now)
-    create(:note_comment, :note => closed_note_with_comment)
+    closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now)
+
     assert_no_difference "NoteComment.count" do
       post :comment, :id => closed_note_with_comment.id, :text => "This is an additional comment"
     end
@@ -370,8 +371,8 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_close_success
-    open_note_with_comment = create(:note)
-    create(:note_comment, :note => open_note_with_comment)
+    open_note_with_comment = create(:note_with_comments)
+
     post :close, :id => open_note_with_comment.id, :text => "This is a close comment", :format => "json"
     assert_response :unauthorized
 
@@ -414,19 +415,20 @@ class NotesControllerTest < ActionController::TestCase
     post :close, :id => 12345
     assert_response :not_found
 
-    hidden_note_with_comment = create(:note, :status => "hidden")
-    create(:note_comment, :note => hidden_note_with_comment)
+    hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
+
     post :close, :id => hidden_note_with_comment.id
     assert_response :gone
 
-    closed_note_with_comment = create(:note, :status => "closed", :closed_at => Time.now)
+    closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now)
+
     post :close, :id => closed_note_with_comment.id
     assert_response :conflict
   end
 
   def test_reopen_success
-    closed_note_with_comment = create(:note, :status => "closed", :closed_at => Time.now)
-    create(:note_comment, :note => closed_note_with_comment)
+    closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now)
+
     post :reopen, :id => closed_note_with_comment.id, :text => "This is a reopen comment", :format => "json"
     assert_response :unauthorized
 
@@ -458,8 +460,8 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_reopen_fail
-    hidden_note_with_comment = create(:note, :status => "hidden")
-    create(:note_comment, :note => hidden_note_with_comment)
+    hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
+
     post :reopen, :id => hidden_note_with_comment.id
     assert_response :unauthorized
 
@@ -471,15 +473,15 @@ class NotesControllerTest < ActionController::TestCase
     post :reopen, :id => hidden_note_with_comment.id
     assert_response :gone
 
-    open_note_with_comment = create(:note)
-    create(:note_comment, :note => open_note_with_comment)
+    open_note_with_comment = create(:note_with_comments)
+
     post :reopen, :id => open_note_with_comment.id
     assert_response :conflict
   end
 
   def test_show_success
-    open_note = create(:note)
-    create(:note_comment, :note => open_note)
+    open_note = create(:note_with_comments)
+
     get :show, :id => open_note.id, :format => "xml"
     assert_response :success
     assert_equal "application/xml", @response.content_type
@@ -549,10 +551,11 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_show_hidden_comment
-    note_with_hidden_comment = create(:note)
-    create(:note_comment, :note => note_with_hidden_comment, :body => "Valid comment for hidden note")
-    create(:note_comment, :note => note_with_hidden_comment, :visible => false)
-    create(:note_comment, :note => note_with_hidden_comment, :body => "Another valid comment for hidden note")
+    note_with_hidden_comment = create(:note) do |note|
+      create(:note_comment, :note => note, :body => "Valid comment for hidden note")
+      create(:note_comment, :note => note, :visible => false)
+      create(:note_comment, :note => note, :body => "Another valid comment for hidden note")
+    end
 
     get :show, :id => note_with_hidden_comment.id, :format => "json"
     assert_response :success
@@ -574,8 +577,8 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_destroy_success
-    open_note_with_comment = create(:note)
-    create(:note_comment, :note => open_note_with_comment)
+    open_note_with_comment = create(:note_with_comments)
+
     delete :destroy, :id => open_note_with_comment.id, :text => "This is a hide comment", :format => "json"
     assert_response :unauthorized
 
@@ -616,18 +619,16 @@ class NotesControllerTest < ActionController::TestCase
     delete :destroy, :id => 12345, :format => "json"
     assert_response :not_found
 
-    hidden_note_with_comment = create(:note, :status => "hidden")
-    create(:note_comment, :note => hidden_note_with_comment)
+    hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
+
     delete :destroy, :id => hidden_note_with_comment.id, :format => "json"
     assert_response :gone
   end
 
   def test_index_success
     position = (1.1 * GeoRecord::SCALE).to_i
-    note = create(:note, :latitude => position, :longitude => position)
-    note2 = create(:note, :latitude => position, :longitude => position)
-    create(:note_comment, :note => note)
-    create(:note_comment, :note => note2)
+    create(:note_with_comments, :latitude => position, :longitude => position)
+    create(:note_with_comments, :latitude => position, :longitude => position)
 
     get :index, :bbox => "1,1,1.2,1.2", :format => "rss"
     assert_response :success
@@ -663,10 +664,8 @@ class NotesControllerTest < ActionController::TestCase
 
   def test_index_limit
     position = (1.1 * GeoRecord::SCALE).to_i
-    note = create(:note, :latitude => position, :longitude => position)
-    note2 = create(:note, :latitude => position, :longitude => position)
-    create(:note_comment, :note => note)
-    create(:note_comment, :note => note2)
+    create(:note_with_comments, :latitude => position, :longitude => position)
+    create(:note_with_comments, :latitude => position, :longitude => position)
 
     get :index, :bbox => "1,1,1.2,1.2", :limit => 1, :format => "rss"
     assert_response :success
@@ -752,14 +751,10 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_index_closed
-    old_closed_note = create(:note, :status => "closed", :closed_at => Time.now - 5.days)
-    very_old_closed_note = create(:note, :status => "closed", :closed_at => Time.now - 100.days)
-    hidden_note = create(:note, :status => "hidden")
-    open_note = create(:note)
-    create(:note_comment, :note => old_closed_note)
-    create(:note_comment, :note => very_old_closed_note)
-    create(:note_comment, :note => hidden_note)
-    create(:note_comment, :note => open_note)
+    create(:note_with_comments, :status => "closed", :closed_at => Time.now - 5.days)
+    create(:note_with_comments, :status => "closed", :closed_at => Time.now - 100.days)
+    create(:note_with_comments, :status => "hidden")
+    create(:note_with_comments)
 
     # Open notes + closed in last 7 days
     get :index, :bbox => "1,1,1.7,1.7", :closed => "7", :format => "json"
@@ -816,17 +811,16 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_search_success
-    note = create(:note)
-    create(:note_comment, :note => note, :body => "comment for note 1")
+    create(:note_with_comments)
 
-    get :search, :q => "note 1", :format => "xml"
+    get :search, :q => "note comment", :format => "xml"
     assert_response :success
     assert_equal "application/xml", @response.content_type
     assert_select "osm", :count => 1 do
       assert_select "note", :count => 1
     end
 
-    get :search, :q => "note 1", :format => "json"
+    get :search, :q => "note comment", :format => "json"
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
@@ -834,7 +828,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "FeatureCollection", js["type"]
     assert_equal 1, js["features"].count
 
-    get :search, :q => "note 1", :format => "rss"
+    get :search, :q => "note comment", :format => "rss"
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
@@ -843,7 +837,7 @@ class NotesControllerTest < ActionController::TestCase
       end
     end
 
-    get :search, :q => "note 1", :format => "gpx"
+    get :search, :q => "note comment", :format => "gpx"
     assert_response :success
     assert_equal "application/gpx+xml", @response.content_type
     assert_select "gpx", :count => 1 do
@@ -852,8 +846,7 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_search_no_match
-    note = create(:note)
-    create(:note_comment, :note => note, :body => "comment for node 1")
+    create(:note_with_comments)
 
     get :search, :q => "no match", :format => "xml"
     assert_response :success
@@ -900,15 +893,11 @@ class NotesControllerTest < ActionController::TestCase
 
   def test_feed_success
     position = (1.1 * GeoRecord::SCALE).to_i
-    note = create(:note, :latitude => position, :longitude => position)
-    note2 = create(:note, :latitude => position, :longitude => position)
-    create(:note_comment, :note => note)
-    create(:note_comment, :note => note2)
+    create(:note_with_comments, :latitude => position, :longitude => position)
+    create(:note_with_comments, :latitude => position, :longitude => position)
     position = (1.5 * GeoRecord::SCALE).to_i
-    note3 = create(:note, :latitude => position, :longitude => position)
-    note4 = create(:note, :latitude => position, :longitude => position)
-    create(:note_comment, :note => note3)
-    create(:note_comment, :note => note4)
+    create(:note_with_comments, :latitude => position, :longitude => position)
+    create(:note_with_comments, :latitude => position, :longitude => position)
 
     get :feed, :format => "rss"
     assert_response :success
@@ -944,12 +933,15 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_mine_success
-    note = create(:note)
-    create(:note_comment, :note => note, :author_id => users(:normal_user).id)
-    note2 = create(:note)
-    create(:note_comment, :note => note2, :author_id => users(:second_public_user).id)
-    hidden_note = create(:note, :status => "hidden")
-    create(:note_comment, :note => hidden_note, :author_id => users(:second_public_user).id)
+    create(:note) do |note|
+      create(:note_comment, :note => note, :author_id => users(:normal_user).id)
+    end
+    create(:note) do |note|
+      create(:note_comment, :note => note, :author_id => users(:second_public_user).id)
+    end
+    create(:note, :status => "hidden") do |note|
+      create(:note_comment, :note => note, :author_id => users(:second_public_user).id)
+    end
 
     # Note that the table rows include a header row
     get :mine, :display_name => "test"

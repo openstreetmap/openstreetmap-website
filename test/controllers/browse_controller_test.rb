@@ -85,15 +85,13 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_read_note
-    open_note = create(:note)
-    create(:note_comment, :note => open_note)
+    open_note = create(:note_with_comments)
 
     browse_check "note", open_note.id, "browse/note"
   end
 
   def test_read_hidden_note
-    hidden_note_with_comment = create(:note, :status => "hidden")
-    create(:note_comment, :note => hidden_note_with_comment)
+    hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
 
     get :note, :id => hidden_note_with_comment.id
     assert_response :not_found
@@ -111,10 +109,9 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_read_note_hidden_comments
-    note_with_hidden_comment = create(:note)
-    create(:note_comment, :note => note_with_hidden_comment)
-    create(:note_comment, :note => note_with_hidden_comment)
-    create(:note_comment, :note => note_with_hidden_comment, :visible => false)
+    note_with_hidden_comment = create(:note_with_comments, :comments_count => 2) do |note|
+      create(:note_comment, :note => note, :visible => false)
+    end
 
     browse_check "note", note_with_hidden_comment.id, "browse/note"
     assert_select "div.note-comments ul li", :count => 1
