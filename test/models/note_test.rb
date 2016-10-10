@@ -51,16 +51,18 @@ class NoteTest < ActiveSupport::TestCase
   end
 
   def test_author
-    anonymous_comment = create(:note_comment)
-    assert_nil anonymous_comment.note.author
+    comment = create(:note_comment)
+    assert_nil comment.note.author
+
     comment = create(:note_comment, :author_id => users(:normal_user).id)
     assert_equal users(:normal_user), comment.note.author
   end
 
   def test_author_ip
+    comment = create(:note_comment)
+    assert_nil comment.note.author_ip
+
     comment = create(:note_comment, :author_ip => IPAddr.new("192.168.1.1"))
     assert_equal IPAddr.new("192.168.1.1"), comment.note.author_ip
-    comment = create(:note_comment, :author_ip => nil)
-    assert_nil comment.note.author_ip
   end
 end
