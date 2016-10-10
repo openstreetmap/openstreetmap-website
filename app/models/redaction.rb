@@ -23,3 +23,20 @@ class Redaction < ActiveRecord::Base
     RichText.new(self[:description_format], self[:description])
   end
 end
+
+# == Schema Information
+#
+# Table name: redactions
+#
+#  id                 :integer          not null, primary key
+#  title              :string(255)
+#  description        :text
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  user_id            :integer          not null
+#  description_format :enum             default("markdown"), not null
+#
+# Foreign Keys
+#
+#  redactions_user_id_fkey  (user_id => users.id)
+#

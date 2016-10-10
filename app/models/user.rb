@@ -254,3 +254,46 @@ class User < ActiveRecord::Base
     end
   end
 end
+
+# == Schema Information
+#
+# Table name: users
+#
+#  email               :string(255)      not null
+#  id                  :integer          not null, primary key
+#  pass_crypt          :string(255)      not null
+#  creation_time       :datetime         not null
+#  display_name        :string(255)      default(""), not null
+#  data_public         :boolean          default(FALSE), not null
+#  description         :text             default(""), not null
+#  home_lat            :float
+#  home_lon            :float
+#  home_zoom           :integer          default(3)
+#  nearby              :integer          default(50)
+#  pass_salt           :string(255)
+#  image_file_name     :text
+#  email_valid         :boolean          default(FALSE), not null
+#  new_email           :string(255)
+#  creation_ip         :string(255)
+#  languages           :string(255)
+#  status              :enum             default("pending"), not null
+#  terms_agreed        :datetime
+#  consider_pd         :boolean          default(FALSE), not null
+#  auth_uid            :string(255)
+#  preferred_editor    :string(255)
+#  terms_seen          :boolean          default(FALSE), not null
+#  description_format  :enum             default("markdown"), not null
+#  image_fingerprint   :string(255)
+#  changesets_count    :integer          default(0), not null
+#  traces_count        :integer          default(0), not null
+#  diary_entries_count :integer          default(0), not null
+#  image_use_gravatar  :boolean          default(FALSE), not null
+#  image_content_type  :string
+#  auth_provider       :string
+#
+# Indexes
+#
+#  users_auth_idx          (auth_provider,auth_uid) UNIQUE
+#  users_display_name_idx  (display_name) UNIQUE
+#  users_email_idx         (email) UNIQUE
+#

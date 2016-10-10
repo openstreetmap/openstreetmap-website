@@ -7,3 +7,20 @@ class ChangesetTag < ActiveRecord::Base
   validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }
   validates :k, :uniqueness => { :scope => :changeset_id }
 end
+
+# == Schema Information
+#
+# Table name: changeset_tags
+#
+#  changeset_id :integer          not null, primary key
+#  k            :string(255)      default(""), not null, primary key
+#  v            :string(255)      default(""), not null
+#
+# Indexes
+#
+#  changeset_tags_id_idx  (changeset_id)
+#
+# Foreign Keys
+#
+#  changeset_tags_id_fkey  (changeset_id => changesets.id)
+#

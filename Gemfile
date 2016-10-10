@@ -95,6 +95,7 @@ gem "logstasher"
 # Gems useful for development
 group :development do
   gem "vendorer"
+  gem "annotate"
 end
 
 # Gems needed for running tests

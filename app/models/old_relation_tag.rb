@@ -8,3 +8,17 @@ class OldRelationTag < ActiveRecord::Base
   validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }
   validates :k, :uniqueness => { :scope => [:relation_id, :version] }
 end
+
+# == Schema Information
+#
+# Table name: relation_tags
+#
+#  relation_id :integer          default(0), not null, primary key
+#  k           :string(255)      default(""), not null, primary key
+#  v           :string(255)      default(""), not null
+#  version     :integer          not null, primary key
+#
+# Foreign Keys
+#
+#  relation_tags_id_fkey  (relation_id => relations.relation_id)
+#

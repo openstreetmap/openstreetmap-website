@@ -14,3 +14,24 @@ class ChangesetComment < ActiveRecord::Base
     RichText.new("text", self[:body])
   end
 end
+
+# == Schema Information
+#
+# Table name: changeset_comments
+#
+#  id           :integer          not null, primary key
+#  changeset_id :integer          not null
+#  author_id    :integer          not null
+#  body         :text             not null
+#  created_at   :datetime         not null
+#  visible      :boolean          not null
+#
+# Indexes
+#
+#  index_changeset_comments_on_created_at  (created_at)
+#
+# Foreign Keys
+#
+#  changeset_comments_author_id_fkey     (author_id => users.id)
+#  changeset_comments_changeset_id_fkey  (changeset_id => changesets.id)
+#

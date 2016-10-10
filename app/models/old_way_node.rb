@@ -7,3 +7,21 @@ class OldWayNode < ActiveRecord::Base
   belongs_to :node
   belongs_to :way
 end
+
+# == Schema Information
+#
+# Table name: way_nodes
+#
+#  way_id      :integer          not null, primary key
+#  node_id     :integer          not null
+#  version     :integer          not null, primary key
+#  sequence_id :integer          not null, primary key
+#
+# Indexes
+#
+#  way_nodes_node_idx  (node_id)
+#
+# Foreign Keys
+#
+#  way_nodes_id_fkey  (way_id => ways.way_id)
+#

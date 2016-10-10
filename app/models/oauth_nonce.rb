@@ -11,3 +11,18 @@ class OauthNonce < ActiveRecord::Base
     oauth_nonce
   end
 end
+
+# == Schema Information
+#
+# Table name: oauth_nonces
+#
+#  id         :integer          not null, primary key
+#  nonce      :string(255)
+#  timestamp  :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+# Indexes
+#
+#  index_oauth_nonces_on_nonce_and_timestamp  (nonce,timestamp) UNIQUE
+#

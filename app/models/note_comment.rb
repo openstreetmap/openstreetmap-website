@@ -15,3 +15,27 @@ class NoteComment < ActiveRecord::Base
     RichText.new("text", self[:body])
   end
 end
+
+# == Schema Information
+#
+# Table name: note_comments
+#
+#  id         :integer          not null, primary key
+#  note_id    :integer          not null
+#  visible    :boolean          not null
+#  created_at :datetime         not null
+#  author_ip  :inet
+#  author_id  :integer
+#  body       :text
+#  event      :enum
+#
+# Indexes
+#
+#  index_note_comments_on_created_at  (created_at)
+#  note_comments_note_id_idx          (note_id)
+#
+# Foreign Keys
+#
+#  note_comments_author_id_fkey  (author_id => users.id)
+#  note_comments_note_id_fkey    (note_id => notes.id)
+#

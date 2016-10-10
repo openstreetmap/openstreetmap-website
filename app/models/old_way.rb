@@ -132,3 +132,25 @@ class OldWay < ActiveRecord::Base
     current_way.version == version
   end
 end
+
+# == Schema Information
+#
+# Table name: ways
+#
+#  way_id       :integer          default(0), not null, primary key
+#  changeset_id :integer          not null
+#  timestamp    :datetime         not null
+#  version      :integer          not null, primary key
+#  visible      :boolean          default(TRUE), not null
+#  redaction_id :integer
+#
+# Indexes
+#
+#  ways_changeset_id_idx  (changeset_id)
+#  ways_timestamp_idx     (timestamp)
+#
+# Foreign Keys
+#
+#  ways_changeset_id_fkey  (changeset_id => changesets.id)
+#  ways_redaction_id_fkey  (redaction_id => redactions.id)
+#
