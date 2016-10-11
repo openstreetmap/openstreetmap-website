@@ -8,5 +8,4 @@ class AddJoinTableBetweenUsersAndDiaryEntries < ActiveRecord::Migration
     add_index :diary_entry_subscriptions, [:user_id, :diary_entry_id], :unique => true, :name => "index_diary_subscriptions_on_user_id_and_diary_entry_id"
     add_index :diary_entry_subscriptions, [:diary_entry_id]
   end
-
 end
