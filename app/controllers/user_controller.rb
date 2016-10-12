@@ -142,7 +142,7 @@ class UserController < ApplicationController
     @user.data_public = true
     @user.save
     flash[:notice] = t "user.go_public.flash success"
-    redirect_to :controller => "user", :action => "account", :display_name => @user.display_name
+    redirect_to :action => "account", :display_name => @user.display_name
   end
 
   def lost_password
@@ -423,7 +423,7 @@ class UserController < ApplicationController
         if params[:referer]
           redirect_to params[:referer]
         else
-          redirect_to :controller => "user", :action => "view"
+          redirect_to :action => "view"
         end
       end
     else
@@ -446,7 +446,7 @@ class UserController < ApplicationController
         if params[:referer]
           redirect_to params[:referer]
         else
-          redirect_to :controller => "user", :action => "view"
+          redirect_to :action => "view"
         end
       end
     else
@@ -459,14 +459,14 @@ class UserController < ApplicationController
   def set_status
     @this_user.status = params[:status]
     @this_user.save
-    redirect_to :controller => "user", :action => "view", :display_name => params[:display_name]
+    redirect_to :action => "view", :display_name => params[:display_name]
   end
 
   ##
   # delete a user, marking them as deleted and removing personal data
   def delete
     @this_user.delete
-    redirect_to :controller => "user", :action => "view", :display_name => params[:display_name]
+    redirect_to :action => "view", :display_name => params[:display_name]
   end
 
   ##
@@ -628,7 +628,7 @@ class UserController < ApplicationController
     # - If they were referred to the login, send them back there.
     # - Otherwise, send them to the home page.
     if REQUIRE_TERMS_SEEN && !user.terms_seen
-      redirect_to :controller => :user, :action => :terms, :referer => target
+      redirect_to :action => :terms, :referer => target
     elsif user.blocked_on_view
       redirect_to user.blocked_on_view, :referer => target
     else
@@ -740,12 +740,12 @@ class UserController < ApplicationController
       flash[:error] = t("user.filter.not_an_administrator")
 
       if params[:display_name]
-        redirect_to :controller => "user", :action => "view", :display_name => params[:display_name]
+        redirect_to :action => "view", :display_name => params[:display_name]
       else
-        redirect_to :controller => "user", :action => "login", :referer => request.fullpath
+        redirect_to :action => "login", :referer => request.fullpath
       end
     elsif !@user
-      redirect_to :controller => "user", :action => "login", :referer => request.fullpath
+      redirect_to :action => "login", :referer => request.fullpath
     end
   end
 
@@ -768,7 +768,7 @@ class UserController < ApplicationController
   def lookup_user_by_name
     @this_user = User.find_by_display_name(params[:display_name])
   rescue ActiveRecord::RecordNotFound
-    redirect_to :controller => "user", :action => "view", :display_name => params[:display_name] unless @this_user
+    redirect_to :action => "view", :display_name => params[:display_name] unless @this_user
   end
 
   ##
