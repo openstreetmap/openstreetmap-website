@@ -75,6 +75,9 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_read_changeset_hidden_comments
+    create_list(:changeset_comment, 3)
+    create(:changeset_comment, :visible => false)
+
     browse_check "changeset", changesets(:normal_user_closed_change).id, "browse/changeset"
     assert_select "div.changeset-comments ul li", :count => 3
 

@@ -3,7 +3,7 @@ require "changeset_controller"
 
 class ChangesetControllerTest < ActionController::TestCase
   api_fixtures
-  fixtures :changeset_comments, :changesets_subscribers
+  fixtures :changesets_subscribers
 
   ##
   # test all routes which lead to this controller
@@ -197,6 +197,7 @@ class ChangesetControllerTest < ActionController::TestCase
     assert_select "osm>changeset>discussion>comment", 0
 
     changeset_id = changesets(:normal_user_closed_change).id
+    create_list(:changeset_comment, 3, :changeset_id => changeset_id)
 
     get :read, :id => changeset_id, :include_discussion => true
     assert_response :success, "cannot get closed changeset with comments"
@@ -2149,7 +2150,7 @@ EOF
   # test hide comment fail
   def test_hide_comment_fail
     # unauthorized
-    comment = changeset_comments(:normal_comment_1)
+    comment = create(:changeset_comment)
     assert_equal true, comment.visible
 
     post :hide_comment, :id => comment.id
@@ -2174,7 +2175,7 @@ EOF
   ##
   # test hide comment succes
   def test_hide_comment_success
-    comment = changeset_comments(:normal_comment_1)
+    comment = create(:changeset_comment)
     assert_equal true, comment.visible
 
     basic_authorization(users(:moderator_user).email, "test")
@@ -2188,7 +2189,7 @@ EOF
   # test unhide comment fail
   def test_unhide_comment_fail
     # unauthorized
-    comment = changeset_comments(:hidden_comment)
+    comment = create(:changeset_comment, :visible => false)
     assert_equal false, comment.visible
 
     post :unhide_comment, :id => comment.id
@@ -2213,7 +2214,7 @@ EOF
   ##
   # test unhide comment succes
   def test_unhide_comment_success
-    comment = changeset_comments(:hidden_comment)
+    comment = create(:changeset_comment, :visible => false)
     assert_equal false, comment.visible
 
     basic_authorization(users(:moderator_user).email, "test")
@@ -2226,6 +2227,8 @@ EOF
   ##
   # test comments feed
   def test_comments_feed
+    create_list(:changeset_comment, 3, :changeset_id => changesets(:normal_user_closed_change).id)
+
     get :comments_feed, :format => "rss"
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
