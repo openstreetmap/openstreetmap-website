@@ -83,9 +83,9 @@ class Notifier < ActionMailer::Base
     end
   end
 
-  def diary_comment_notification(comment)
-    with_recipient_locale comment.diary_entry.user do
-      @to_user = comment.diary_entry.user.display_name
+  def diary_comment_notification(comment, recipient)
+    with_recipient_locale recipient do
+      @to_user = recipient.display_name
       @from_user = comment.user.display_name
       @text = comment.body
       @title = comment.diary_entry.title
@@ -108,7 +108,7 @@ class Notifier < ActionMailer::Base
                           :title => "Re: #{comment.diary_entry.title}")
 
       mail :from => from_address(comment.user.display_name, "c", comment.id, comment.digest),
-           :to => comment.diary_entry.user.email,
+           :to => recipient.email,
            :subject => I18n.t("notifier.diary_comment_notification.subject", :user => comment.user.display_name)
     end
   end

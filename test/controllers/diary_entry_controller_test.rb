@@ -83,6 +83,14 @@ class DiaryEntryControllerTest < ActionController::TestCase
       { :path => "/user/username/diary/1/hidecomment/2", :method => :post },
       { :controller => "diary_entry", :action => "hidecomment", :display_name => "username", :id => "1", :comment => "2" }
     )
+    assert_routing(
+      { :path => "/user/username/diary/1/subscribe", :method => :post },
+      { :controller => "diary_entry", :action => "subscribe", :display_name => "username", :id => "1" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1/unsubscribe", :method => :post },
+      { :controller => "diary_entry", :action => "unsubscribe", :display_name => "username", :id => "1" }
+    )
   end
 
   def test_new
@@ -148,6 +156,9 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_equal new_longitude.to_f, entry.longitude
     assert_equal new_language_code, entry.language_code
 
+    # checks if user was subscribed
+    assert_equal 1, entry.subscribers.length
+
     assert_equal new_language_code, UserPreference.where(:user_id => users(:normal_user).id, :k => "diary.default_language").first.v
 
     new_language_code = "de"
@@ -168,6 +179,9 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_equal new_latitude.to_f, entry.latitude
     assert_equal new_longitude.to_f, entry.longitude
     assert_equal new_language_code, entry.language_code
+
+    # checks if user was subscribed
+    assert_equal 1, entry.subscribers.length
 
     assert_equal new_language_code, UserPreference.where(:user_id => users(:normal_user).id, :k => "diary.default_language").first.v
   end
@@ -316,26 +330,32 @@ class DiaryEntryControllerTest < ActionController::TestCase
       assert_select "h2", :text => "No entry with the id: 9999", :count => 1
     end
 
+    post :subscribe, { :id => entry.id, :display_name => entry.user.display_name }, { :user => users(:normal_user).id }
+
     # Now try an invalid comment with an empty body
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       assert_no_difference "DiaryComment.count" do
-        post :comment, { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "" } }, { :user => users(:public_user).id }
+        assert_no_difference "entry.subscribers.count" do
+          post :comment, { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "" } }, { :user => users(:public_user).id }
+        end
       end
     end
     assert_response :success
     assert_template :view
 
     # Now try again with the right id
-    assert_difference "ActionMailer::Base.deliveries.size", 1 do
+    assert_difference "ActionMailer::Base.deliveries.size", entry.subscribers.count do
       assert_difference "DiaryComment.count", 1 do
-        post :comment, { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "New comment" } }, { :user => users(:public_user).id }
+        assert_difference "entry.subscribers.count", 1 do
+          post :comment, { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "New comment" } }, { :user => users(:public_user).id }
+        end
       end
     end
     assert_response :redirect
     assert_redirected_to :action => :view, :display_name => entry.user.display_name, :id => entry.id
     email = ActionMailer::Base.deliveries.first
     assert_equal [users(:normal_user).email], email.to
-    assert_equal "[OpenStreetMap] #{users(:public_user).display_name} commented on your diary entry", email.subject
+    assert_equal "[OpenStreetMap] #{users(:public_user).display_name} commented on a diary entry", email.subject
     assert_match /New comment/, email.text_part.decoded
     assert_match /New comment/, email.html_part.decoded
     ActionMailer::Base.deliveries.clear
@@ -358,6 +378,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   def test_comment_spammy
     # Find the entry to comment on
     entry = create(:diary_entry, :user_id => users(:normal_user).id)
+    post :subscribe, { :id => entry.id, :display_name => entry.user.display_name }, { :user => users(:normal_user).id }
 
     # Generate some spammy content
     spammy_text = 1.upto(50).map { |n| "http://example.com/spam#{n}" }.join(" ")
@@ -372,7 +393,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_redirected_to :action => :view, :display_name => entry.user.display_name, :id => entry.id
     email = ActionMailer::Base.deliveries.first
     assert_equal [users(:normal_user).email], email.to
-    assert_equal "[OpenStreetMap] #{users(:public_user).display_name} commented on your diary entry", email.subject
+    assert_equal "[OpenStreetMap] #{users(:public_user).display_name} commented on a diary entry", email.subject
     assert_match %r{http://example.com/spam}, email.text_part.decoded
     assert_match %r{http://example.com/spam}, email.html_part.decoded
     ActionMailer::Base.deliveries.clear
@@ -640,6 +661,64 @@ class DiaryEntryControllerTest < ActionController::TestCase
     # Test a deleted user
     get :comments, :display_name => users(:deleted_user).display_name
     assert_response :not_found
+  end
+
+  def test_subscribe_success
+    diary_entry = create(:diary_entry, :user_id => users(:normal_user).id)
+
+    assert_difference "diary_entry.subscribers.count", 1 do
+      post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => users(:public_user).id }
+    end
+    assert_response :redirect
+  end
+
+  def test_subscribe_fail
+    diary_entry = create(:diary_entry, :user_id => users(:normal_user).id)
+
+    # not signed in
+    assert_no_difference "diary_entry.subscribers.count" do
+      post :subscribe, :id => diary_entry.id, :display_name => diary_entry.user.display_name
+    end
+    assert_response :forbidden
+
+    # bad diary id
+    post :subscribe, { :id => 999111, :display_name => "username" }, { :user => users(:public_user).id }
+    assert_response :not_found
+
+    # trying to subscribe when already subscribed
+    post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => users(:public_user).id }
+    assert_no_difference "diary_entry.subscribers.count" do
+      post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => users(:public_user).id }
+    end
+  end
+
+  def test_unsubscribe_success
+    diary_entry = create(:diary_entry, :user_id => users(:normal_user).id)
+
+    post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => users(:public_user).id }
+    assert_difference "diary_entry.subscribers.count", -1 do
+      post :unsubscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => users(:public_user).id }
+    end
+    assert_response :redirect
+  end
+
+  def test_unsubscribe_fail
+    diary_entry = create(:diary_entry, :user_id => users(:normal_user).id)
+
+    # not signed in
+    assert_no_difference "diary_entry.subscribers.count" do
+      post :unsubscribe, :id => diary_entry.id, :display_name => diary_entry.user.display_name
+    end
+    assert_response :forbidden
+
+    # bad diary id
+    post :unsubscribe, { :id => 999111, :display_name => "username" }, { :user => users(:public_user).id }
+    assert_response :not_found
+
+    # trying to unsubscribe when not subscribed
+    assert_no_difference "diary_entry.subscribers.count" do
+      post :unsubscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => users(:public_user).id }
+    end
   end
 
   private

@@ -549,6 +549,14 @@ CREATE SEQUENCE diary_entries_id_seq
 
 ALTER SEQUENCE diary_entries_id_seq OWNED BY diary_entries.id;
 
+-- Name: diary_entry_subscriptions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE diary_entry_subscriptions (
+    user_id bigint NOT NULL,
+    diary_entry_id bigint NOT NULL
+);
+
 
 --
 -- Name: friends; Type: TABLE; Schema: public; Owner: -
@@ -1449,6 +1457,14 @@ ALTER TABLE ONLY diary_entries
 
 
 --
+-- Name: diary_entry_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY diary_entry_subscriptions
+    ADD CONSTRAINT diary_entry_subscriptions_pkey PRIMARY KEY (user_id, diary_entry_id);
+
+
+--
 -- Name: friends_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1827,6 +1843,11 @@ CREATE UNIQUE INDEX index_changesets_subscribers_on_subscriber_id_and_changeset_
 
 CREATE UNIQUE INDEX index_client_applications_on_key ON client_applications USING btree (key);
 
+
+-- Name: index_diary_entry_subscriptions_on_diary_entry_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_diary_entry_subscriptions_on_diary_entry_id ON diary_entry_subscriptions USING btree (diary_entry_id);
 
 --
 -- Name: index_note_comments_on_body; Type: INDEX; Schema: public; Owner: -
@@ -2210,6 +2231,22 @@ ALTER TABLE ONLY diary_entries
 
 ALTER TABLE ONLY diary_entries
     ADD CONSTRAINT diary_entries_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+-- Name: diary_entry_subscriptions_diary_entry_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+--
+
+ALTER TABLE ONLY diary_entry_subscriptions
+    ADD CONSTRAINT diary_entry_subscriptions_diary_entry_id_fkey FOREIGN KEY (diary_entry_id) REFERENCES diary_entries(id);
+
+
+--
+-- Name: diary_entry_subscriptions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY diary_entry_subscriptions
+    ADD CONSTRAINT diary_entry_subscriptions_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -2643,4 +2680,3 @@ INSERT INTO schema_migrations (version) VALUES ('7');
 INSERT INTO schema_migrations (version) VALUES ('8');
 
 INSERT INTO schema_migrations (version) VALUES ('9');
-

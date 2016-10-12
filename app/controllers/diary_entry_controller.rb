@@ -3,10 +3,10 @@ class DiaryEntryController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
-  before_action :require_user, :only => [:new, :edit, :comment, :hide, :hidecomment]
+  before_action :require_user, :only => [:new, :edit, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
   before_action :lookup_this_user, :only => [:view, :comments]
   before_action :check_database_readable
-  before_action :check_database_writable, :only => [:new, :edit]
+  before_action :check_database_writable, :only => [:new, :edit, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
   before_action :require_administrator, :only => [:hide, :hidecomment]
 
   def new
@@ -24,6 +24,10 @@ class DiaryEntryController < ApplicationController
         else
           @user.preferences.create(:k => "diary.default_language", :v => @diary_entry.language_code)
         end
+
+        # Subscribe user to diary comments
+        @diary_entry.subscriptions.create(:user => @user)
+
         redirect_to :action => "list", :display_name => @user.display_name
       else
         render :action => "edit"
@@ -57,14 +61,41 @@ class DiaryEntryController < ApplicationController
     @diary_comment = @entry.comments.build(comment_params)
     @diary_comment.user = @user
     if @diary_comment.save
-      if @diary_comment.user != @entry.user
-        Notifier.diary_comment_notification(@diary_comment).deliver_now
+
+      # Notify current subscribers of the new comment
+      @entry.subscribers.visible.each do |user|
+        if @user != user
+          Notifier.diary_comment_notification(@diary_comment, user).deliver_now
+        end
       end
+
+      # Add the commenter to the subscribers if necessary
+      @entry.subscriptions.create(:user => @user) unless @entry.subscribers.exists?(@user.id)
 
       redirect_to :action => "view", :display_name => @entry.user.display_name, :id => @entry.id
     else
       render :action => "view"
     end
+  rescue ActiveRecord::RecordNotFound
+    render :action => "no_such_entry", :status => :not_found
+  end
+
+  def subscribe
+    diary_entry = DiaryEntry.find(params[:id])
+
+    diary_entry.subscriptions.create(:user => @user) unless diary_entry.subscribers.exists?(@user.id)
+
+    redirect_to :action => "view", :display_name => diary_entry.user.display_name, :id => diary_entry.id
+  rescue ActiveRecord::RecordNotFound
+    render :action => "no_such_entry", :status => :not_found
+  end
+
+  def unsubscribe
+    diary_entry = DiaryEntry.find(params[:id])
+
+    diary_entry.subscriptions.where(:user => @user).delete_all if diary_entry.subscribers.exists?(@user.id)
+
+    redirect_to :action => "view", :display_name => diary_entry.user.display_name, :id => diary_entry.id
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
   end
