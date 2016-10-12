@@ -1,7 +1,7 @@
 require "test_helper"
 
 class UserChangesetCommentsTest < ActionDispatch::IntegrationTest
-  fixtures :users, :changesets, :changeset_comments
+  fixtures :users, :changesets
 
   # Test 'log in to comment' message for nonlogged in user
   def test_log_in_message

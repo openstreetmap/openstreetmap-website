@@ -14,7 +14,7 @@ module ActiveSupport
     def self.api_fixtures
       # print "setting up the api_fixtures"
       fixtures :users, :user_roles, :user_blocks
-      fixtures :changesets, :changeset_tags, :changeset_comments
+      fixtures :changesets, :changeset_tags
 
       fixtures :current_nodes, :nodes
       set_fixture_class :current_nodes => Node
