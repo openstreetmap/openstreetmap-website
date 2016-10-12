@@ -675,7 +675,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     diary_entry = create(:diary_entry, :user_id => users(:normal_user).id)
 
     # not signed in
-    assert_no_difference "diary_entry.subscribers.count", 1 do
+    assert_no_difference "diary_entry.subscribers.count" do
       post :subscribe, :id => diary_entry.id, :display_name => diary_entry.user.display_name
     end
     assert_response :forbidden
