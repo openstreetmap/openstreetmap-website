@@ -25,7 +25,7 @@ class MessageController < ApplicationController
         if @message.save
           flash[:notice] = t "message.new.message_sent"
           Notifier.message_notification(@message).deliver_now
-          redirect_to :controller => "message", :action => "inbox", :display_name => @user.display_name
+          redirect_to :action => "inbox", :display_name => @user.display_name
         end
       end
     end
@@ -81,7 +81,7 @@ class MessageController < ApplicationController
     @title = t "message.inbox.title"
     if @user && params[:display_name] == @user.display_name
     else
-      redirect_to :controller => "message", :action => "inbox", :display_name => @user.display_name
+      redirect_to :action => "inbox", :display_name => @user.display_name
     end
   end
 
@@ -90,7 +90,7 @@ class MessageController < ApplicationController
     @title = t "message.outbox.title"
     if @user && params[:display_name] == @user.display_name
     else
-      redirect_to :controller => "message", :action => "outbox", :display_name => @user.display_name
+      redirect_to :action => "outbox", :display_name => @user.display_name
     end
   end
 
@@ -107,7 +107,7 @@ class MessageController < ApplicationController
     @message.message_read = message_read
     if @message.save && !request.xhr?
       flash[:notice] = notice
-      redirect_to :controller => "message", :action => "inbox", :display_name => @user.display_name
+      redirect_to :action => "inbox", :display_name => @user.display_name
     end
   rescue ActiveRecord::RecordNotFound
     @title = t "message.no_such_message.title"
@@ -125,7 +125,7 @@ class MessageController < ApplicationController
       if params[:referer]
         redirect_to params[:referer]
       else
-        redirect_to :controller => "message", :action => "inbox", :display_name => @user.display_name
+        redirect_to :action => "inbox", :display_name => @user.display_name
       end
     end
   rescue ActiveRecord::RecordNotFound

@@ -3,7 +3,7 @@ require "changeset_controller"
 
 class ChangesetControllerTest < ActionController::TestCase
   api_fixtures
-  fixtures :friends, :changeset_comments, :changesets_subscribers
+  fixtures :changeset_comments, :changesets_subscribers
 
   ##
   # test all routes which lead to this controller

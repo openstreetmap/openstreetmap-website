@@ -85,32 +85,40 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_read_note
-    browse_check "note", notes(:open_note).id, "browse/note"
+    open_note = create(:note_with_comments)
+
+    browse_check "note", open_note.id, "browse/note"
   end
 
   def test_read_hidden_note
-    get :note, :id => notes(:hidden_note_with_comment).id
+    hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
+
+    get :note, :id => hidden_note_with_comment.id
     assert_response :not_found
     assert_template "browse/not_found"
     assert_template :layout => "map"
 
-    xhr :get, :note, :id => notes(:hidden_note_with_comment).id
+    xhr :get, :note, :id => hidden_note_with_comment.id
     assert_response :not_found
     assert_template "browse/not_found"
     assert_template :layout => "xhr"
 
     session[:user] = users(:moderator_user).id
 
-    browse_check "note", notes(:hidden_note_with_comment).id, "browse/note"
+    browse_check "note", hidden_note_with_comment.id, "browse/note"
   end
 
   def test_read_note_hidden_comments
-    browse_check "note", notes(:note_with_hidden_comment).id, "browse/note"
+    note_with_hidden_comment = create(:note_with_comments, :comments_count => 2) do |note|
+      create(:note_comment, :note => note, :visible => false)
+    end
+
+    browse_check "note", note_with_hidden_comment.id, "browse/note"
     assert_select "div.note-comments ul li", :count => 1
 
     session[:user] = users(:moderator_user).id
 
-    browse_check "note", notes(:note_with_hidden_comment).id, "browse/note"
+    browse_check "note", note_with_hidden_comment.id, "browse/note"
     assert_select "div.note-comments ul li", :count => 2
   end
 

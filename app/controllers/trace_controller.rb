@@ -95,11 +95,11 @@ class TraceController < ApplicationController
       @title = t "trace.view.title", :name => @trace.name
     else
       flash[:error] = t "trace.view.trace_not_found"
-      redirect_to :controller => "trace", :action => "list"
+      redirect_to :action => "list"
     end
   rescue ActiveRecord::RecordNotFound
     flash[:error] = t "trace.view.trace_not_found"
-    redirect_to :controller => "trace", :action => "list"
+    redirect_to :action => "list"
   end
 
   def create

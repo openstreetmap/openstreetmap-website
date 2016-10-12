@@ -28,7 +28,7 @@ class DiaryEntryController < ApplicationController
         # Subscribe user to diary comments
         @diary_entry.subscriptions.create(:user => @user)
 
-        redirect_to :controller => "diary_entry", :action => "list", :display_name => @user.display_name
+        redirect_to :action => "list", :display_name => @user.display_name
       else
         render :action => "edit"
       end
@@ -46,9 +46,9 @@ class DiaryEntryController < ApplicationController
     @diary_entry = DiaryEntry.find(params[:id])
 
     if @user != @diary_entry.user
-      redirect_to :controller => "diary_entry", :action => "view", :id => params[:id]
+      redirect_to :action => "view", :id => params[:id]
     elsif params[:diary_entry] && @diary_entry.update_attributes(entry_params)
-      redirect_to :controller => "diary_entry", :action => "view", :id => params[:id]
+      redirect_to :action => "view", :id => params[:id]
     end
 
     set_map_location
@@ -72,7 +72,7 @@ class DiaryEntryController < ApplicationController
       # Add the commenter to the subscribers if necessary
       @entry.subscriptions.create(:user => @user) unless @entry.subscribers.exists?(@user.id)
 
-      redirect_to :controller => "diary_entry", :action => "view", :display_name => @entry.user.display_name, :id => @entry.id
+      redirect_to :action => "view", :display_name => @entry.user.display_name, :id => @entry.id
     else
       render :action => "view"
     end
@@ -85,7 +85,7 @@ class DiaryEntryController < ApplicationController
 
     diary_entry.subscriptions.create(:user => @user) unless diary_entry.subscribers.exists?(@user.id)
 
-    redirect_to :controller => "diary_entry", :action => "view", :display_name => diary_entry.user.display_name, :id => diary_entry.id
+    redirect_to :action => "view", :display_name => diary_entry.user.display_name, :id => diary_entry.id
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
   end
@@ -95,7 +95,7 @@ class DiaryEntryController < ApplicationController
 
     diary_entry.subscriptions.where(:user => @user).delete_all if diary_entry.subscribers.exists?(@user.id)
 
-    redirect_to :controller => "diary_entry", :action => "view", :display_name => diary_entry.user.display_name, :id => diary_entry.id
+    redirect_to :action => "view", :display_name => diary_entry.user.display_name, :id => diary_entry.id
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
   end
@@ -232,7 +232,7 @@ class DiaryEntryController < ApplicationController
   def require_administrator
     unless @user.administrator?
       flash[:error] = t("user.filter.not_an_administrator")
-      redirect_to :controller => "diary_entry", :action => "view"
+      redirect_to :action => "view"
     end
   end
 
