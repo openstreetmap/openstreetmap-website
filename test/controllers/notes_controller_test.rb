@@ -245,8 +245,8 @@ class NotesControllerTest < ActionController::TestCase
 
     # Ensure that emails are sent to users
     note_with_comments_by_users = create(:note) do |note|
-      create(:note_comment, :note => note, :author_id => users(:normal_user).id)
-      create(:note_comment, :note => note, :author_id => users(:second_public_user).id)
+      create(:note_comment, :note => note, :author => users(:normal_user))
+      create(:note_comment, :note => note, :author => users(:second_public_user))
     end
     assert_difference "NoteComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 2 do
@@ -934,13 +934,13 @@ class NotesControllerTest < ActionController::TestCase
 
   def test_mine_success
     create(:note) do |note|
-      create(:note_comment, :note => note, :author_id => users(:normal_user).id)
+      create(:note_comment, :note => note, :author => users(:normal_user))
     end
     create(:note) do |note|
-      create(:note_comment, :note => note, :author_id => users(:second_public_user).id)
+      create(:note_comment, :note => note, :author => users(:second_public_user))
     end
     create(:note, :status => "hidden") do |note|
-      create(:note_comment, :note => note, :author_id => users(:second_public_user).id)
+      create(:note_comment, :note => note, :author => users(:second_public_user))
     end
 
     # Note that the table rows include a header row

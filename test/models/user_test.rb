@@ -106,7 +106,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_friend_with
-    create(:friend, :user_id => users(:normal_user).id, :friend_user_id => users(:public_user).id)
+    create(:friend, :befriender => users(:normal_user), :befriendee => users(:public_user))
     assert users(:normal_user).is_friends_with?(users(:public_user))
     assert !users(:normal_user).is_friends_with?(users(:inactive_user))
     assert !users(:public_user).is_friends_with?(users(:normal_user))
@@ -133,7 +133,7 @@ class UserTest < ActiveSupport::TestCase
     # it should be a one way friend associatation
     norm = users(:normal_user)
     sec = users(:public_user)
-    create(:friend, :user_id => norm.id, :friend_user_id => sec.id)
+    create(:friend, :befriender => norm, :befriendee => sec)
     assert_equal 1, Friend.count
     assert_equal [sec], norm.friend_users
     assert_equal 1, norm.friend_users.size
