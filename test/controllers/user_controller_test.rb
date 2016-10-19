@@ -924,6 +924,7 @@ class UserControllerTest < ActionController::TestCase
     end
 
     # Test a user who has been blocked
+    create(:user_block, :user => users(:blocked_user))
     get :view, :display_name => "blocked"
     assert_response :success
     assert_select "div#userinformation" do
@@ -938,6 +939,7 @@ class UserControllerTest < ActionController::TestCase
     end
 
     # Test a moderator who has applied blocks
+    create(:user_block, :creator => users(:moderator_user))
     get :view, :display_name => "moderator"
     assert_response :success
     assert_select "div#userinformation" do

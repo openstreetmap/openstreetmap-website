@@ -1,7 +1,7 @@
 require "test_helper"
 
 class UserLoginTest < ActionDispatch::IntegrationTest
-  fixtures :users, :user_blocks
+  fixtures :users
 
   def setup
     OmniAuth.config.test_mode = true
@@ -129,6 +129,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
   def test_login_email_password_blocked
     user = users(:blocked_user)
+    create(:user_block, :needs_view, :user => user)
 
     try_password_login user.email, "test"
 
@@ -138,6 +139,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
   def test_login_email_password_blocked_upcase
     user = users(:blocked_user)
+    create(:user_block, :needs_view, :user => user)
 
     try_password_login user.email.upcase, "test"
 
@@ -147,6 +149,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
   def test_login_email_password_blocked_titlecase
     user = users(:blocked_user)
+    create(:user_block, :needs_view, :user => user)
 
     try_password_login user.email.titlecase, "test"
 
@@ -267,6 +270,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
   def test_login_username_password_blocked
     user = users(:blocked_user)
+    create(:user_block, :needs_view, :user => user)
 
     try_password_login user.display_name.upcase, "test"
 
@@ -276,6 +280,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
   def test_login_username_password_blocked_upcase
     user = users(:blocked_user)
+    create(:user_block, :needs_view, :user => user)
 
     try_password_login user.display_name, "test"
 
@@ -285,6 +290,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
   def test_login_username_password_blocked_titlecase
     user = users(:blocked_user)
+    create(:user_block, :needs_view, :user => user)
 
     try_password_login user.display_name.titlecase, "test"
 
