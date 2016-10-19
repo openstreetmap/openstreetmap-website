@@ -1,7 +1,7 @@
 require "test_helper"
 
 class UserBlocksTest < ActionDispatch::IntegrationTest
-  fixtures :users, :user_blocks, :user_roles
+  fixtures :users, :user_roles
 
   def auth_header(user, pass)
     { "HTTP_AUTHORIZATION" => format("Basic %s", Base64.encode64("#{user}:#{pass}")) }

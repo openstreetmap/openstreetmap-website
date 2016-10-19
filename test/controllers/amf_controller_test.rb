@@ -460,6 +460,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal -1, result[0]
     assert_match /must be logged in/, result[1]
 
+    create(:user_block, :user => users(:blocked_user))
     amf_content "findgpx", "/1", [1, "blocked@openstreetmap.org:test"]
     post :amf_read
     assert_response :success
