@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.3
--- Dumped by pg_dump version 9.5.3
+-- Dumped from database version 9.5.4
+-- Dumped by pg_dump version 9.5.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -549,6 +549,8 @@ CREATE SEQUENCE diary_entries_id_seq
 
 ALTER SEQUENCE diary_entries_id_seq OWNED BY diary_entries.id;
 
+
+--
 -- Name: diary_entry_subscriptions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1844,10 +1846,12 @@ CREATE UNIQUE INDEX index_changesets_subscribers_on_subscriber_id_and_changeset_
 CREATE UNIQUE INDEX index_client_applications_on_key ON client_applications USING btree (key);
 
 
+--
 -- Name: index_diary_entry_subscriptions_on_diary_entry_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_diary_entry_subscriptions_on_diary_entry_id ON diary_entry_subscriptions USING btree (diary_entry_id);
+
 
 --
 -- Name: index_note_comments_on_body; Type: INDEX; Schema: public; Owner: -
@@ -2233,8 +2237,8 @@ ALTER TABLE ONLY diary_entries
     ADD CONSTRAINT diary_entries_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
--- Name: diary_entry_subscriptions_diary_entry_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
+-- Name: diary_entry_subscriptions_diary_entry_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY diary_entry_subscriptions
@@ -2571,8 +2575,6 @@ INSERT INTO schema_migrations (version) VALUES ('20121203124841');
 
 INSERT INTO schema_migrations (version) VALUES ('20130328184137');
 
-INSERT INTO schema_migrations (version) VALUES ('20131029121300');
-
 INSERT INTO schema_migrations (version) VALUES ('20131212124700');
 
 INSERT INTO schema_migrations (version) VALUES ('20140115192822');
@@ -2592,6 +2594,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150111192335');
 INSERT INTO schema_migrations (version) VALUES ('20150222101847');
 
 INSERT INTO schema_migrations (version) VALUES ('20150818224516');
+
+INSERT INTO schema_migrations (version) VALUES ('20161002153425');
+
+INSERT INTO schema_migrations (version) VALUES ('20161011010929');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
@@ -2680,3 +2686,4 @@ INSERT INTO schema_migrations (version) VALUES ('7');
 INSERT INTO schema_migrations (version) VALUES ('8');
 
 INSERT INTO schema_migrations (version) VALUES ('9');
+
