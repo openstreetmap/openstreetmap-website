@@ -1,6 +1,8 @@
 require "test_helper"
 
 class DiaryCommentTest < ActiveSupport::TestCase
+  fixtures :users, :languages
+
   test "body must be present" do
     comment = build(:diary_comment, :body => "")
     assert_not comment.valid?

@@ -1,6 +1,8 @@
 require "test_helper"
 
 class DiaryEntryTest < ActiveSupport::TestCase
+  fixtures :users, :languages
+
   def test_diary_entry_validations
     diary_entry_valid({})
     diary_entry_valid({ :title => "" }, false)
