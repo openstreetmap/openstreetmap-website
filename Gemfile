@@ -81,9 +81,8 @@ gem "SystemTimer", ">= 1.1.3", :require => "system_timer", :platforms => :ruby_1
 # Load faraday for mockable HTTP client
 gem "faraday"
 
-# Load httpclient and soap4r for SOAP support for Quova GeoIP queries
-gem "httpclient"
-gem "soap4r-ruby1.9"
+# Load geoip for querying Maxmind GeoIP database
+gem "geoip"
 
 # Load memcache client in case we are using it
 gem "dalli"
