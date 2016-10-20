@@ -73,7 +73,7 @@ class RedactionsControllerTest < ActionController::TestCase
 
     post :create, :redaction => { :title => "Foo", :description => "Description here." }
     assert_response :redirect
-    assert_redirected_to(redaction_path(Redaction.find_by_title("Foo")))
+    assert_redirected_to(redaction_path(Redaction.find_by(:title => "Foo")))
   end
 
   def test_create_moderator_invalid

@@ -149,7 +149,7 @@ class UserController < ApplicationController
     @title = t "user.lost_password.title"
 
     if params[:user] && params[:user][:email]
-      user = User.visible.find_by_email(params[:user][:email])
+      user = User.visible.find_by(:email => params[:user][:email])
 
       if user.nil?
         users = User.visible.where("LOWER(email) = LOWER(?)", params[:user][:email])
@@ -172,7 +172,7 @@ class UserController < ApplicationController
     @title = t "user.reset_password.title"
 
     if params[:token]
-      token = UserToken.find_by_token(params[:token])
+      token = UserToken.find_by(:token => params[:token])
 
       if token
         @user = token.user
@@ -270,7 +270,7 @@ class UserController < ApplicationController
 
     if params[:session] == request.session_options[:id]
       if session[:token]
-        token = UserToken.find_by_token(session[:token])
+        token = UserToken.find_by(:token => session[:token])
         token.destroy if token
         session.delete(:token)
       end
@@ -286,7 +286,7 @@ class UserController < ApplicationController
 
   def confirm
     if request.post?
-      token = UserToken.find_by_token(params[:confirm_string])
+      token = UserToken.find_by(:token => params[:confirm_string])
       if token && token.user.active?
         flash[:error] = t("user.confirm.already active")
         redirect_to :action => "login"
@@ -303,7 +303,7 @@ class UserController < ApplicationController
         token.destroy
 
         if session[:token]
-          token = UserToken.find_by_token(session[:token])
+          token = UserToken.find_by(:token => session[:token])
           session.delete(:token)
         else
           token = nil
@@ -321,15 +321,15 @@ class UserController < ApplicationController
         end
       end
     else
-      user = User.find_by_display_name(params[:display_name])
+      user = User.find_by(:display_name => params[:display_name])
 
       redirect_to root_path if user.nil? || user.active?
     end
   end
 
   def confirm_resend
-    user = User.find_by_display_name(params[:display_name])
-    token = UserToken.find_by_token(session[:token])
+    user = User.find_by(:display_name => params[:display_name])
+    token = UserToken.find_by(:token => session[:token])
 
     if user.nil? || token.nil? || token.user != user
       flash[:error] = t "user.confirm_resend.failure", :name => params[:display_name]
@@ -343,7 +343,7 @@ class UserController < ApplicationController
 
   def confirm_email
     if request.post?
-      token = UserToken.find_by_token(params[:confirm_string])
+      token = UserToken.find_by(:token => params[:confirm_string])
       if token && token.user.new_email?
         @user = token.user
         @user.email = @user.new_email
@@ -393,7 +393,7 @@ class UserController < ApplicationController
   end
 
   def view
-    @this_user = User.find_by_display_name(params[:display_name])
+    @this_user = User.find_by(:display_name => params[:display_name])
 
     if @this_user &&
        (@this_user.visible? || (@user && @user.administrator?))
@@ -404,7 +404,7 @@ class UserController < ApplicationController
   end
 
   def make_friend
-    @new_friend = User.find_by_display_name(params[:display_name])
+    @new_friend = User.find_by(:display_name => params[:display_name])
 
     if @new_friend
       if request.post?
@@ -432,7 +432,7 @@ class UserController < ApplicationController
   end
 
   def remove_friend
-    @friend = User.find_by_display_name(params[:display_name])
+    @friend = User.find_by(:display_name => params[:display_name])
 
     if @friend
       if request.post?
@@ -530,11 +530,11 @@ class UserController < ApplicationController
 
       redirect_to :action => "terms"
     else
-      user = User.find_by_auth_provider_and_auth_uid(provider, uid)
+      user = User.find_by(:auth_provider => provider, :auth_uid => uid)
 
       if user.nil? && provider == "google"
         openid_url = auth_info[:extra][:id_info]["openid_id"]
-        user = User.find_by_auth_provider_and_auth_uid("openid", openid_url) if openid_url
+        user = User.find_by(:auth_provider => "openid", :auth_uid => openid_url) if openid_url
         user.update(:auth_provider => provider, :auth_uid => uid) if user
       end
 
@@ -601,15 +601,15 @@ class UserController < ApplicationController
   # try and come up with the correct URL based on what the user entered
   def openid_expand_url(openid_url)
     if openid_url.nil?
-      return nil
+      nil
     elsif openid_url.match(%r{(.*)gmail.com(/?)$}) || openid_url.match(%r{(.*)googlemail.com(/?)$})
       # Special case gmail.com as it is potentially a popular OpenID
       # provider and, unlike yahoo.com, where it works automatically, Google
       # have hidden their OpenID endpoint somewhere obscure this making it
       # somewhat less user friendly.
-      return "https://www.google.com/accounts/o8/id"
+      "https://www.google.com/accounts/o8/id"
     else
-      return openid_url
+      openid_url
     end
   end
 
@@ -766,7 +766,7 @@ class UserController < ApplicationController
   ##
   # ensure that there is a "this_user" instance variable
   def lookup_user_by_name
-    @this_user = User.find_by_display_name(params[:display_name])
+    @this_user = User.find_by(:display_name => params[:display_name])
   rescue ActiveRecord::RecordNotFound
     redirect_to :action => "view", :display_name => params[:display_name] unless @this_user
   end
@@ -823,9 +823,9 @@ class UserController < ApplicationController
   # display a message about th current status of the gravatar setting
   def gravatar_status_message(user)
     if user.image_use_gravatar
-      return t "user.account.gravatar.enabled"
+      t "user.account.gravatar.enabled"
     else
-      return t "user.account.gravatar.disabled"
+      t "user.account.gravatar.disabled"
     end
   end
 end

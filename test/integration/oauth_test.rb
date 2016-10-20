@@ -94,7 +94,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
     post "/oauth/revoke", :token => token.token
     assert_redirected_to oauth_clients_url(token.user.display_name)
-    token = OauthToken.find_by_token(token.token)
+    token = OauthToken.find_by(:token => token.token)
     assert_not_nil token.invalidated_at
 
     signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
@@ -172,7 +172,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
     post "/oauth/revoke", :token => token.token
     assert_redirected_to oauth_clients_url(token.user.display_name)
-    token = OauthToken.find_by_token(token.token)
+    token = OauthToken.find_by(:token => token.token)
     assert_not_nil token.invalidated_at
 
     signed_get "/api/0.6/gpx/2", :consumer => client, :token => token
@@ -231,7 +231,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
     post "/oauth/revoke", :token => token.token
     assert_redirected_to oauth_clients_url(token.user.display_name)
-    token = OauthToken.find_by_token(token.token)
+    token = OauthToken.find_by(:token => token.token)
     assert_not_nil token.invalidated_at
 
     signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
@@ -282,7 +282,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
     post "/oauth/revoke", :token => token.token
     assert_redirected_to oauth_clients_url(token.user.display_name)
-    token = OauthToken.find_by_token(token.token)
+    token = OauthToken.find_by(:token => token.token)
     assert_not_nil token.invalidated_at
 
     signed_get "/api/0.6/gpx/2", :consumer => client, :token => token
@@ -356,7 +356,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def parse_token(response)
     params = CGI.parse(response.body)
 
-    token = OauthToken.find_by_token(params["oauth_token"].first)
+    token = OauthToken.find_by(:token => params["oauth_token"].first)
     assert_equal token.secret, params["oauth_token_secret"].first
 
     token

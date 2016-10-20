@@ -161,10 +161,10 @@ class SwfController < ApplicationController
   def swf_record(id, r)
     if r.length > 62
       # Long header: tag id, 0x3F, length
-      return pack_u16((id << 6) + 0x3F) + pack_u32(r.length) + r
+      pack_u16((id << 6) + 0x3F) + pack_u32(r.length) + r
     else
       # Short header: tag id, length
-      return pack_u16((id << 6) + r.length) + r
+      pack_u16((id << 6) + r.length) + r
     end
   end
 

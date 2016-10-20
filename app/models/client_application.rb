@@ -18,7 +18,7 @@ class ClientApplication < ActiveRecord::Base
   attr_accessor :token_callback_url
 
   def self.find_token(token_key)
-    token = OauthToken.find_by_token(token_key, :include => :client_application)
+    token = OauthToken.includes(:client_application).find_by(:token => token_key)
     token if token && token.authorized?
   end
 

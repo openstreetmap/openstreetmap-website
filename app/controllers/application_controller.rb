@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
     unless current_token.nil?
       unless current_token.read_attribute(cap)
         report_error "OAuth token doesn't have that capability.", :forbidden
-        return false
+        false
       end
     end
   end
@@ -74,7 +74,7 @@ class ApplicationController < ActionController::Base
       if params[:cookie_test].nil?
         session[:cookie_test] = true
         redirect_to Hash[params].merge(:cookie_test => "true")
-        return false
+        false
       else
         flash.now[:warning] = t "application.require_cookies.cookies_needed"
       end
@@ -192,7 +192,7 @@ class ApplicationController < ActionController::Base
     # check user is a moderator
     unless @user.moderator?
       render :text => errormessage, :status => :forbidden
-      return false
+      false
     end
   end
 
@@ -220,14 +220,14 @@ class ApplicationController < ActionController::Base
   def check_api_readable
     if api_status == :offline
       report_error "Database offline for maintenance", :service_unavailable
-      return false
+      false
     end
   end
 
   def check_api_writable
     unless api_status == :online
       report_error "Database offline for maintenance", :service_unavailable
-      return false
+      false
     end
   end
 
@@ -262,7 +262,7 @@ class ApplicationController < ActionController::Base
   def require_public_data
     unless @user.data_public?
       report_error "You must make your edits public to upload new data", :forbidden
-      return false
+      false
     end
   end
 
@@ -375,7 +375,7 @@ class ApplicationController < ActionController::Base
   ##
   # ensure that there is a "this_user" instance variable
   def lookup_this_user
-    unless @this_user = User.active.find_by_display_name(params[:display_name])
+    unless @this_user = User.active.find_by(:display_name => params[:display_name])
       render_unknown_user params[:display_name]
     end
   end

@@ -127,7 +127,7 @@ class NotesController < ApplicationController
     comment = params[:text]
 
     # Find the note and check it is valid
-    @note = Note.find_by_id(id)
+    @note = Note.find_by(:id => id)
     raise OSM::APINotFoundError unless @note
     raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
     raise OSM::APINoteAlreadyClosedError.new(@note) if @note.closed?
@@ -157,7 +157,7 @@ class NotesController < ApplicationController
     comment = params[:text]
 
     # Find the note and check it is valid
-    @note = Note.find_by_id(id)
+    @note = Note.find_by(:id => id)
     raise OSM::APINotFoundError unless @note
     raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || @user.moderator?
     raise OSM::APINoteAlreadyOpenError.new(@note) unless @note.closed? || !@note.visible?
@@ -277,7 +277,7 @@ class NotesController < ApplicationController
   # Display a list of notes by a specified user
   def mine
     if params[:display_name]
-      if @this_user = User.active.find_by_display_name(params[:display_name])
+      if @this_user = User.active.find_by(:display_name => params[:display_name])
         @title = t "note.mine.title", :user => @this_user.display_name
         @heading = t "note.mine.heading", :user => @this_user.display_name
         @description = t "note.mine.subheading", :user => render_to_string(:partial => "user", :object => @this_user)

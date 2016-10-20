@@ -555,7 +555,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_template "changeset/history"
     assert_select "span.username", "openIDuser"
 
-    user = User.find_by_display_name("openIDuser")
+    user = User.find_by(:display_name => "openIDuser")
     assert_equal "google", user.auth_provider
     assert_equal "987654321", user.auth_uid
   end

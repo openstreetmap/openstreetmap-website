@@ -83,7 +83,7 @@ class User < ActiveRecord::Base
         user = nil
       end
     elsif options[:token]
-      token = UserToken.find_by_token(options[:token])
+      token = UserToken.find_by(:token => options[:token])
       user = token.user if token
     end
 
@@ -240,7 +240,7 @@ class User < ActiveRecord::Base
   ##
   # return an oauth access token for a specified application
   def access_token(application_key)
-    ClientApplication.find_by_key(application_key).access_token_for_user(self)
+    ClientApplication.find_by(:key => application_key).access_token_for_user(self)
   end
 
   private

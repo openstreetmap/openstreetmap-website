@@ -99,7 +99,7 @@ class OauthClientsControllerTest < ActionController::TestCase
       }, { :user => user }
     end
     assert_response :redirect
-    assert_redirected_to oauth_client_path(:id => ClientApplication.find_by_name("Test Application").id)
+    assert_redirected_to oauth_client_path(:id => ClientApplication.find_by(:name => "Test Application").id)
   end
 
   def test_show

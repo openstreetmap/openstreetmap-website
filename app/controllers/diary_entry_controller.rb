@@ -102,7 +102,7 @@ class DiaryEntryController < ApplicationController
 
   def list
     if params[:display_name]
-      @this_user = User.active.find_by_display_name(params[:display_name])
+      @this_user = User.active.find_by(:display_name => params[:display_name])
 
       if @this_user
         @title = t "diary_entry.list.user_title", :user => @this_user.display_name
@@ -150,7 +150,7 @@ class DiaryEntryController < ApplicationController
 
   def rss
     if params[:display_name]
-      user = User.active.find_by_display_name(params[:display_name])
+      user = User.active.find_by(:display_name => params[:display_name])
 
       if user
         @entries = user.diary_entries

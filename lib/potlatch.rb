@@ -47,16 +47,15 @@ module Potlatch
     # Parse and get value
     def self.getvalue(s)
       case s.getbyte
-      when 0 then return getdouble(s)                  # number
-      when 1 then return s.getbyte                     # boolean
-      when 2 then return getstring(s)                  # string
-      when 3 then return getobject(s)                  # object/hash
-      when 5 then return nil                           # null
-      when 6 then return nil                           # undefined
-      when 8 then s.read(4)                            # mixedArray
-                  return getobject(s)                  #  |
-      when 10 then return getarray(s)                  # array
-      else         return nil                          # error
+      when 0 then getdouble(s)                  # number
+      when 1 then s.getbyte                     # boolean
+      when 2 then getstring(s)                  # string
+      when 3 then getobject(s)                  # object/hash
+      when 5 then nil                           # null
+      when 6 then nil                           # undefined
+      when 8 then s.read(4) # mixedArray
+                  getobject(s)                  #  |
+      when 10 then getarray(s)                  # array
       end
     end
 

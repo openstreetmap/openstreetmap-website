@@ -256,7 +256,7 @@ class ChangesetController < ApplicationController
     end
 
     if params[:display_name]
-      user = User.find_by_display_name(params[:display_name])
+      user = User.find_by(:display_name => params[:display_name])
       if !user || !user.active?
         render_unknown_user params[:display_name]
         return
@@ -481,7 +481,7 @@ class ChangesetController < ApplicationController
             raise OSM::APIBadUserInput.new("invalid user ID") if user.to_i < 1
             u = User.find(user.to_i)
           else
-            u = User.find_by_display_name(name)
+            u = User.find_by(:display_name => name)
           end
 
       # make sure we found a user
@@ -535,10 +535,10 @@ class ChangesetController < ApplicationController
   # if parameter 'open' is nill then open and closed changesets are returned
   def conditions_open(changesets, open)
     if open.nil?
-      return changesets
+      changesets
     else
-      return changesets.where("closed_at >= ? and num_changes <= ?",
-                              Time.now.getutc, Changeset::MAX_ELEMENTS)
+      changesets.where("closed_at >= ? and num_changes <= ?",
+                       Time.now.getutc, Changeset::MAX_ELEMENTS)
     end
   end
 
@@ -547,10 +547,10 @@ class ChangesetController < ApplicationController
   # ('closed at' time has passed or changes limit is hit)
   def conditions_closed(changesets, closed)
     if closed.nil?
-      return changesets
+      changesets
     else
-      return changesets.where("closed_at < ? or num_changes > ?",
-                              Time.now.getutc, Changeset::MAX_ELEMENTS)
+      changesets.where("closed_at < ? or num_changes > ?",
+                       Time.now.getutc, Changeset::MAX_ELEMENTS)
     end
   end
 
@@ -559,12 +559,12 @@ class ChangesetController < ApplicationController
   # (either specified as array or comma-separated string)
   def conditions_ids(changesets, ids)
     if ids.nil?
-      return changesets
+      changesets
     elsif ids.empty?
       raise OSM::APIBadUserInput.new("No changesets were given to search for")
     else
       ids = ids.split(",").collect(&:to_i)
-      return changesets.where(:id => ids)
+      changesets.where(:id => ids)
     end
   end
 
