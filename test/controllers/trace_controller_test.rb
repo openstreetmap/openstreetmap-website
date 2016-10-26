@@ -1,7 +1,7 @@
 require "test_helper"
 
 class TraceControllerTest < ActionController::TestCase
-  fixtures :users, :user_preferences, :gpx_files
+  fixtures :users, :gpx_files
   set_fixture_class :gpx_files => Trace
 
   def setup
@@ -455,12 +455,14 @@ class TraceControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :user, :action => :login, :referer => trace_create_path
 
     # Now authenticated as a user with gps.trace.visibility set
+    create(:user_preference, :user => users(:public_user), :k => "gps.trace.visibility", :v => "identifiable")
     get :create, {}, { :user => users(:public_user).id }
     assert_response :success
     assert_template :create
     assert_select "select#trace_visibility option[value=identifiable][selected]", 1
 
     # Now authenticated as a user with gps.trace.public set
+    create(:user_preference, :user => users(:second_public_user), :k => "gps.trace.public", :v => "default")
     get :create, {}, { :user => users(:second_public_user).id }
     assert_response :success
     assert_template :create
@@ -483,6 +485,7 @@ class TraceControllerTest < ActionController::TestCase
     assert_response :forbidden
 
     # Now authenticated
+    create(:user_preference, :user => users(:public_user), :k => "gps.trace.visibility", :v => "identifiable")
     assert_not_equal "trackable", users(:public_user).preferences.where(:k => "gps.trace.visibility").first.v
     post :create, { :trace => { :gpx_file => file, :description => "New Trace", :tagstring => "new,trace", :visibility => "trackable" } }, { :user => users(:public_user).id }
     assert_response :redirect
@@ -710,6 +713,7 @@ class TraceControllerTest < ActionController::TestCase
     assert_response :unauthorized
 
     # Now authenticated
+    create(:user_preference, :user => users(:public_user), :k => "gps.trace.visibility", :v => "identifiable")
     assert_not_equal "trackable", users(:public_user).preferences.where(:k => "gps.trace.visibility").first.v
     basic_authorization(users(:public_user).display_name, "test")
     post :api_create, :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable"
