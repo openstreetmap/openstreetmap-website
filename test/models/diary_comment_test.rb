@@ -1,7 +1,12 @@
 require "test_helper"
 
 class DiaryCommentTest < ActiveSupport::TestCase
-  fixtures :users, :languages
+  fixtures :users
+
+  def setup
+    # Create the default language for diary entries
+    create(:language, :code => "en")
+  end
 
   test "body must be present" do
     comment = build(:diary_comment, :body => "")

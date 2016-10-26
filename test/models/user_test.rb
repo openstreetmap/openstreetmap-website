@@ -5,7 +5,7 @@ class UserTest < ActiveSupport::TestCase
   include Rails::Dom::Testing::Assertions::SelectorAssertions
 
   api_fixtures
-  fixtures :languages, :user_roles
+  fixtures :user_roles
 
   def test_invalid_with_empty_attributes
     user = User.new
@@ -191,6 +191,10 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_languages
+    create(:language, :code => "en")
+    create(:language, :code => "de")
+    create(:language, :code => "sl")
+
     user = users(:normal_user)
     assert_equal ["en"], user.languages
     user.languages = %w(de fr en)

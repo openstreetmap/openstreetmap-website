@@ -1,9 +1,14 @@
 require "test_helper"
 
 class DiaryEntryControllerTest < ActionController::TestCase
-  fixtures :users, :user_roles, :languages
+  fixtures :users, :user_roles
 
   include ActionView::Helpers::NumberHelper
+
+  def setup
+    # Create the default language for diary entries
+    create(:language, :code => "en")
+  end
 
   ##
   # test all routes which lead to this controller
@@ -162,6 +167,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_equal new_language_code, UserPreference.where(:user_id => users(:normal_user).id, :k => "diary.default_language").first.v
 
     new_language_code = "de"
+    create(:language, :code => new_language_code)
 
     # Now try creating a diary entry in a different language
     assert_difference "DiaryEntry.count", 1 do
@@ -472,6 +478,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_list_language
+    create(:language, :code => "de")
+    create(:language, :code => "sl")
     diary_entry_en = create(:diary_entry, :language_code => "en")
     diary_entry_en2 = create(:diary_entry, :language_code => "en")
     diary_entry_de = create(:diary_entry, :language_code => "de")
@@ -490,6 +498,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_rss
+    create(:language, :code => "de")
     create(:diary_entry, :language_code => "en")
     create(:diary_entry, :language_code => "en")
     create(:diary_entry, :language_code => "de")
@@ -506,6 +515,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_rss_language
+    create(:language, :code => "de")
     create(:diary_entry, :language_code => "en")
     create(:diary_entry, :language_code => "en")
     create(:diary_entry, :language_code => "de")
@@ -521,6 +531,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   #  end
 
   def test_rss_language_with_no_entries
+    create(:language, :code => "sl")
     create(:diary_entry, :language_code => "en")
 
     get :rss, :language => "sl", :format => :rss
