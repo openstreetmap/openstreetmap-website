@@ -83,7 +83,7 @@ class ChangesetController < ApplicationController
 
     # the request is in pseudo-osm format... this is kind-of an
     # abuse, maybe should change to some other format?
-    doc = XML::Parser.string(request.raw_post).parse
+    doc = XML::Parser.string(request.raw_post, :options => XML::Parser::Options::NOERROR).parse
     doc.find("//osm/node").each do |n|
       lon << n["lon"].to_f * GeoRecord::SCALE
       lat << n["lat"].to_f * GeoRecord::SCALE

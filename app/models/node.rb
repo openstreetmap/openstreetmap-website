@@ -49,7 +49,7 @@ class Node < ActiveRecord::Base
 
   # Read in xml as text and return it's Node object representation
   def self.from_xml(xml, create = false)
-    p = XML::Parser.string(xml)
+    p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
 
     doc.find("//osm/node").each do |pt|

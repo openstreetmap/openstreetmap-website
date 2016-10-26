@@ -36,7 +36,7 @@ class Relation < ActiveRecord::Base
   TYPES = %w(node way relation).freeze
 
   def self.from_xml(xml, create = false)
-    p = XML::Parser.string(xml)
+    p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
 
     doc.find("//osm/relation").each do |pt|
