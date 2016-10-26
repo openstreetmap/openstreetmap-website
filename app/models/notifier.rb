@@ -7,6 +7,7 @@ class Notifier < ActionMailer::Base
   def signup_confirm(user, token)
     with_recipient_locale user do
       @url = url_for(:host => SERVER_URL,
+                     :protocol => "https",
                      :controller => "user", :action => "confirm",
                      :display_name => user.display_name,
                      :confirm_string => token.token)
@@ -20,6 +21,7 @@ class Notifier < ActionMailer::Base
     with_recipient_locale user do
       @address = user.new_email
       @url = url_for(:host => SERVER_URL,
+                     :protocol => "https",
                      :controller => "user", :action => "confirm_email",
                      :confirm_string => token.token)
 
@@ -31,6 +33,7 @@ class Notifier < ActionMailer::Base
   def lost_password(user, token)
     with_recipient_locale user do
       @url = url_for(:host => SERVER_URL,
+                     :protocol => "https",
                      :controller => "user", :action => "reset_password",
                      :token => token.token)
 
@@ -71,9 +74,11 @@ class Notifier < ActionMailer::Base
       @text = message.body
       @title = message.title
       @readurl = url_for(:host => SERVER_URL,
+                         :protocol => "https",
                          :controller => "message", :action => "read",
                          :message_id => message.id)
       @replyurl = url_for(:host => SERVER_URL,
+                          :protocol => "https",
                           :controller => "message", :action => "reply",
                           :message_id => message.id)
 
@@ -90,18 +95,21 @@ class Notifier < ActionMailer::Base
       @text = comment.body
       @title = comment.diary_entry.title
       @readurl = url_for(:host => SERVER_URL,
+                         :protocol => "https",
                          :controller => "diary_entry",
                          :action => "view",
                          :display_name => comment.diary_entry.user.display_name,
                          :id => comment.diary_entry.id,
                          :anchor => "comment#{comment.id}")
       @commenturl = url_for(:host => SERVER_URL,
+                            :protocol => "https",
                             :controller => "diary_entry",
                             :action => "view",
                             :display_name => comment.diary_entry.user.display_name,
                             :id => comment.diary_entry.id,
                             :anchor => "newcomment")
       @replyurl = url_for(:host => SERVER_URL,
+                          :protocol => "https",
                           :controller => "message",
                           :action => "new",
                           :display_name => comment.user.display_name,
@@ -117,9 +125,11 @@ class Notifier < ActionMailer::Base
     with_recipient_locale friend.befriendee do
       @friend = friend
       @viewurl = url_for(:host => SERVER_URL,
+                         :protocol => "https",
                          :controller => "user", :action => "view",
                          :display_name => @friend.befriender.display_name)
       @friendurl = url_for(:host => SERVER_URL,
+                           :protocol => "https",
                            :controller => "user", :action => "make_friend",
                            :display_name => @friend.befriender.display_name)
 
