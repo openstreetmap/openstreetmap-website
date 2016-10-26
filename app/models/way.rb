@@ -34,7 +34,7 @@ class Way < ActiveRecord::Base
 
   # Read in xml as text and return it's Way object representation
   def self.from_xml(xml, create = false)
-    p = XML::Parser.string(xml)
+    p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
 
     doc.find("//osm/way").each do |pt|

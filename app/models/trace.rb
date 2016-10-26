@@ -174,7 +174,7 @@ class Trace < ActiveRecord::Base
 
   # Read in xml as text and return it's Node object representation
   def self.from_xml(xml, create = false)
-    p = XML::Parser.string(xml)
+    p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
 
     doc.find("//osm/gpx_file").each do |pt|
