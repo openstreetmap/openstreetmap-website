@@ -2,7 +2,6 @@ require "test_helper"
 
 class UserControllerTest < ActionController::TestCase
   api_fixtures
-  fixtures :messages
 
   ##
   # test all routes which lead to this controller
@@ -1036,6 +1035,8 @@ class UserControllerTest < ActionController::TestCase
   end
 
   def test_api_details
+    create(:message, :read, :recipient => users(:normal_user))
+
     # check that nothing is returned when not logged in
     get :api_details
     assert_response :unauthorized
