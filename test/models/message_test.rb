@@ -3,15 +3,8 @@ require "test_helper"
 
 class MessageTest < ActiveSupport::TestCase
   api_fixtures
-  fixtures :messages
 
   EURO = "\xe2\x82\xac".freeze # euro symbol
-
-  # This needs to be updated when new fixtures are added
-  # or removed.
-  def test_check_message_count
-    assert_equal 2, Message.count
-  end
 
   def test_check_empty_message_fails
     message = Message.new
@@ -23,14 +16,14 @@ class MessageTest < ActiveSupport::TestCase
   end
 
   def test_validating_msgs
-    message = messages(:unread_message)
+    message = create(:message, :unread)
     assert message.valid?
-    message = messages(:read_message)
+    message = create(:message, :read)
     assert message.valid?
   end
 
   def test_invalid_send_recipient
-    message = messages(:unread_message)
+    message = create(:message, :unread)
     message.sender = nil
     message.recipient = nil
     assert !message.valid?
@@ -184,7 +177,7 @@ class MessageTest < ActiveSupport::TestCase
   private
 
   def make_message(char, count)
-    message = messages(:unread_message)
+    message = build(:message, :unread)
     message.title = char * count
     message
   end
