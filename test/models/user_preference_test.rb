@@ -2,19 +2,10 @@ require "test_helper"
 
 class UserPreferenceTest < ActiveSupport::TestCase
   api_fixtures
-  fixtures :user_preferences
-
-  # This checks to make sure that there are two user preferences
-  # stored in the test database.
-  # This test needs to be updated for every addition/deletion from
-  # the fixture file
-  def test_check_count
-    assert_equal 4, UserPreference.count
-  end
 
   # Checks that you cannot add a new preference, that is a duplicate
   def test_add_duplicate_preference
-    up = user_preferences(:a)
+    up = create(:user_preference)
     new_up = UserPreference.new
     new_up.user = users(:normal_user)
     new_up.k = up.k

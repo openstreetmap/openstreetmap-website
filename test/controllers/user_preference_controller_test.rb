@@ -1,7 +1,7 @@
 require "test_helper"
 
 class UserPreferenceControllerTest < ActionController::TestCase
-  fixtures :users, :user_preferences
+  fixtures :users
 
   ##
   # test all routes which lead to this controller
@@ -47,6 +47,8 @@ class UserPreferenceControllerTest < ActionController::TestCase
     end
 
     # authenticate as a user with preferences
+    user_preference = create(:user_preference, :user => users(:normal_user))
+    user_preference2 = create(:user_preference, :user => users(:normal_user))
     basic_authorization("test@openstreetmap.org", "test")
 
     # try the read again
@@ -56,8 +58,8 @@ class UserPreferenceControllerTest < ActionController::TestCase
     assert_select "osm" do
       assert_select "preferences", :count => 1 do
         assert_select "preference", :count => 2
-        assert_select "preference[k=\"#{user_preferences(:a).k}\"][v=\"#{user_preferences(:a).v}\"]", :count => 1
-        assert_select "preference[k=\"#{user_preferences(:two).k}\"][v=\"#{user_preferences(:two).v}\"]", :count => 1
+        assert_select "preference[k=\"#{user_preference.k}\"][v=\"#{user_preference.v}\"]", :count => 1
+        assert_select "preference[k=\"#{user_preference2.k}\"][v=\"#{user_preference2.v}\"]", :count => 1
       end
     end
   end
@@ -65,6 +67,8 @@ class UserPreferenceControllerTest < ActionController::TestCase
   ##
   # test read_one action
   def test_read_one
+    create(:user_preference, :user => users(:normal_user), :k => "key", :v => "value")
+
     # try a read without auth
     get :read_one, :preference_key => "key"
     assert_response :unauthorized, "should be authenticated"
@@ -86,6 +90,9 @@ class UserPreferenceControllerTest < ActionController::TestCase
   ##
   # test update action
   def test_update
+    create(:user_preference, :user => users(:normal_user), :k => "key", :v => "value")
+    create(:user_preference, :user => users(:normal_user), :k => "some_key", :v => "some_value")
+
     # try a put without auth
     assert_no_difference "UserPreference.count" do
       content "<osm><preferences><preference k='key' v='new_value'/><preference k='new_key' v='value'/></preferences></osm>"
@@ -173,6 +180,8 @@ class UserPreferenceControllerTest < ActionController::TestCase
   ##
   # test delete_one action
   def test_delete_one
+    create(:user_preference, :user => users(:normal_user), :k => "key", :v => "value")
+
     # try a delete without auth
     assert_no_difference "UserPreference.count" do
       delete :delete_one, :preference_key => "key"
