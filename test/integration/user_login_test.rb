@@ -1,7 +1,7 @@
 require "test_helper"
 
 class UserLoginTest < ActionDispatch::IntegrationTest
-  fixtures :users
+  fixtures :users, :user_roles
 
   def setup
     OmniAuth.config.test_mode = true
