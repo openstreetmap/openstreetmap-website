@@ -302,10 +302,14 @@ OSM.Directions = function (map) {
   });
 
   $(".routing_marker").on('dragstart', function (e) {
-    e.originalEvent.dataTransfer.effectAllowed = 'move';
-    e.originalEvent.dataTransfer.setData('type', $(this).data('type'));
-    var img = $("<img>").attr("src", $(e.originalEvent.target).attr("src"));
-    e.originalEvent.dataTransfer.setDragImage(img.get(0), 12, 21);
+    var dt = e.originalEvent.dataTransfer;
+    dt.effectAllowed = 'move';
+    var dragData = { type: $(this).data('type') };
+    dt.setData('text', JSON.stringify(dragData));
+    if (dt.setDragImage) {
+      var img = $("<img>").attr("src", $(e.originalEvent.target).attr("src"));
+      dt.setDragImage(img.get(0), 12, 21);
+    }
   });
 
   var page = {};
@@ -321,7 +325,8 @@ OSM.Directions = function (map) {
     $("#map").on('drop', function (e) {
       e.preventDefault();
       var oe = e.originalEvent;
-      var type = oe.dataTransfer.getData('type');
+      var dragData = JSON.parse(oe.dataTransfer.getData('text'));
+      var type = dragData.type;
       var pt = L.DomEvent.getMousePosition(oe, map.getContainer());  // co-ordinates of the mouse pointer at present
       pt.y += 20;
       var ll = map.containerPointToLatLng(pt);
