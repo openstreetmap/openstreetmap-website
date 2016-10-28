@@ -5,6 +5,7 @@ class UserControllerTest < ActionController::TestCase
 
   setup do
     stub_request(:get, "http://api.hostip.info/country.php?ip=0.0.0.0")
+    stub_request(:get, /.*gravatar.com.*d=404/).to_return(:status => 404)
   end
 
   ##
