@@ -3,6 +3,10 @@ require "test_helper"
 class UserTermsSeenTest < ActionDispatch::IntegrationTest
   fixtures :users
 
+  setup do
+    stub_request(:get, "http://api.hostip.info/country.php?ip=127.0.0.1")
+  end
+
   def test_api_blocked
     with_terms_seen(true) do
       user = users(:terms_not_seen_user)

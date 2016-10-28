@@ -3,6 +3,10 @@ require "test_helper"
 class UserRolesTest < ActionDispatch::IntegrationTest
   fixtures :users, :user_roles
 
+  setup do
+    stub_request(:get, "http://api.hostip.info/country.php?ip=127.0.0.1")
+  end
+
   test "grant" do
     check_fail(:grant, :public_user, :moderator)
     check_fail(:grant, :moderator_user, :moderator)

@@ -3,6 +3,10 @@ require "test_helper"
 class UserControllerTest < ActionController::TestCase
   api_fixtures
 
+  setup do
+    stub_request(:get, "http://api.hostip.info/country.php?ip=0.0.0.0")
+  end
+
   ##
   # test all routes which lead to this controller
   def test_routes
