@@ -196,7 +196,7 @@ class TraceTest < ActiveSupport::TestCase
   private
 
   def check_query(query, traces)
-    traces = traces.map { |t| t.id }.sort
+    traces = traces.map(&:id).sort
     assert_equal traces, query.order(:id).ids
   end
 
