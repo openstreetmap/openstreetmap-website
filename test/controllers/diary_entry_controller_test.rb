@@ -563,6 +563,13 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_response :not_found, "Should not be able to get a deleted users diary RSS"
   end
 
+  def test_rss_character_escaping
+    create(:diary_entry, :title => "<script>")
+    get :rss, :format => :rss
+
+    assert_match "<title>&lt;script&gt;</title>", response.body
+  end
+
   def test_view
     # Try a normal entry that should work
     diary_entry = create(:diary_entry, :user => users(:normal_user))

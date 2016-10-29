@@ -17,7 +17,7 @@ xml.rss("version" => "2.0",
 
     @entries.each do |entry|
       xml.item do
-        xml.title h(entry.title)
+        xml.title entry.title
         xml.link url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :host => SERVER_URL)
         xml.guid url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :host => SERVER_URL)
         xml.description entry.body.to_html
