@@ -1,8 +1,7 @@
 require "test_helper"
 
 class OAuthTest < ActionDispatch::IntegrationTest
-  fixtures :users, :client_applications, :gpx_files
-  set_fixture_class :gpx_files => Trace
+  fixtures :users, :client_applications
 
   include OAuth::Helper
 
@@ -164,7 +163,8 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [:allow_write_api, :allow_read_gpx]
 
-    signed_get "/api/0.6/gpx/2", :consumer => client, :token => token
+    trace = create(:trace, :user => users(:public_user))
+    signed_get "/api/0.6/gpx/#{trace.id}", :consumer => client, :token => token
     assert_response :success
 
     signed_get "/api/0.6/user/details", :consumer => client, :token => token
@@ -226,7 +226,8 @@ class OAuthTest < ActionDispatch::IntegrationTest
     signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
     assert_response :success
 
-    signed_get "/api/0.6/gpx/2", :consumer => client, :token => token
+    trace = create(:trace, :user => users(:public_user))
+    signed_get "/api/0.6/gpx/#{trace.id}", :consumer => client, :token => token
     assert_response :forbidden
 
     post "/oauth/revoke", :token => token.token
@@ -274,7 +275,8 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [:allow_write_api, :allow_read_gpx]
 
-    signed_get "/api/0.6/gpx/2", :consumer => client, :token => token
+    trace = create(:trace, :user => users(:public_user))
+    signed_get "/api/0.6/gpx/#{trace.id}", :consumer => client, :token => token
     assert_response :success
 
     signed_get "/api/0.6/user/details", :consumer => client, :token => token

@@ -280,7 +280,7 @@ class SiteControllerTest < ActionController::TestCase
   # Test editing a specific GPX trace
   def test_edit_with_gpx
     user = users(:public_user)
-    gpx  = gpx_files(:public_trace_file)
+    gpx  = create(:trace, :latitude => 1, :longitude => 1)
 
     get :edit, { :gpx => gpx.id }, { :user => user.id }
     assert_response :success
