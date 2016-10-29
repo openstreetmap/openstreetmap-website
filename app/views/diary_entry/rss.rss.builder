@@ -21,7 +21,7 @@ xml.rss("version" => "2.0",
         xml.link url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :host => SERVER_URL)
         xml.guid url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :host => SERVER_URL)
         xml.description entry.body.to_html
-        xml.author entry.user.display_name
+        xml.dc :creator, entry.user.display_name
         xml.pubDate entry.created_at.to_s(:rfc822)
         xml.comments url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :anchor => "comments", :host => SERVER_URL)
 
