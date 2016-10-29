@@ -13,7 +13,7 @@ xml.item do
   xml.guid note_url(note)
   xml.description render(:partial => "description", :object => note, :formats => [:html])
 
-  xml.author note.author.display_name if note.author
+  xml.dc :creator, note.author.display_name if note.author
 
   xml.pubDate note.updated_at.to_s(:rfc822)
   xml.geo :lat, note.lat

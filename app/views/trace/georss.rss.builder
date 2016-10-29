@@ -10,7 +10,7 @@ xml.rss("version" => "2.0",
     xml.link url_for(:controller => :trace, :action => :list, :only_path => false)
 
     xml.image do
-      xml.url image_path("mag_map-rss2.0.png")
+      xml.url image_path("mag_map-rss2.0.png", :host => SERVER_URL)
       xml.title t("trace.georss.title")
       xml.width 100
       xml.height 100
