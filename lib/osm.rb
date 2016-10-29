@@ -569,11 +569,6 @@ module OSM
     @http_client ||= Faraday.new
   end
 
-  # Set the HTTP client to use
-  def self.http_client=(client)
-    @http_client = client
-  end
-
   # Return the GeoIP database handle
   def self.geoip_database
     @geoip_database ||= GeoIP.new(GEOIP_DATABASE) if defined?(GEOIP_DATABASE)

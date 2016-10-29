@@ -161,23 +161,12 @@ module ActiveSupport
     ##
     # execute a block with a given set of HTTP responses stubbed
     def with_http_stubs(stubs_file)
-      http_client_save = OSM.http_client
-
-      begin
-        stubs = YAML.load_file(File.expand_path("../http/#{stubs_file}.yml", __FILE__))
-
-        OSM.http_client = Faraday.new do |builder|
-          builder.adapter :test do |stub|
-            stubs.each do |url, response|
-              stub.get(url) { |_env| [response["code"], {}, response["body"]] }
-            end
-          end
-        end
-
-        yield
-      ensure
-        OSM.http_client = http_client_save
+      stubs = YAML.load_file(File.expand_path("../http/#{stubs_file}.yml", __FILE__))
+      stubs.each do |url, response|
+        stub_request(:get, Regexp.new(Regexp.quote(url))).to_return(:status => response["code"], :body => response["body"])
       end
+
+      yield
     end
   end
 end
