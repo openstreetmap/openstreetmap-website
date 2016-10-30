@@ -17,6 +17,8 @@ class BrowseHelperTest < ActionView::TestCase
   end
 
   def test_printable_name
+    add_old_tags_selection(nodes(:node_with_name_current_version))
+    add_old_tags_selection(nodes(:node_with_name_redacted_version))
     assert_dom_equal "17", printable_name(current_nodes(:redacted_node))
     assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
     assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
@@ -61,6 +63,9 @@ class BrowseHelperTest < ActionView::TestCase
     assert_equal "node deleted", link_class("node", current_nodes(:invisible_node))
     assert_equal "node deleted", link_class("node", current_nodes(:redacted_node))
     assert_equal "node building yes shop gift tourism museum", link_class("node", current_nodes(:node_with_name))
+
+    add_old_tags_selection(nodes(:node_with_name_current_version))
+    add_old_tags_selection(nodes(:node_with_name_redacted_version))
     assert_equal "node building yes shop gift tourism museum", link_class("node", nodes(:node_with_name_current_version))
     assert_equal "node deleted", link_class("node", nodes(:node_with_name_redacted_version))
   end
@@ -70,6 +75,9 @@ class BrowseHelperTest < ActionView::TestCase
     assert_equal "", link_title(current_nodes(:invisible_node))
     assert_equal "", link_title(current_nodes(:redacted_node))
     assert_equal "building=yes, shop=gift, and tourism=museum", link_title(current_nodes(:node_with_name))
+
+    add_old_tags_selection(nodes(:node_with_name_current_version))
+    add_old_tags_selection(nodes(:node_with_name_redacted_version))
     assert_equal "building=yes, shop=gift, and tourism=museum", link_title(nodes(:node_with_name_current_version))
     assert_equal "", link_title(nodes(:node_with_name_redacted_version))
   end
@@ -111,6 +119,9 @@ class BrowseHelperTest < ActionView::TestCase
     assert tags.include?(%w(building yes))
     assert tags.include?(%w(tourism museum))
     assert tags.include?(%w(shop gift))
+
+    add_old_tags_selection(nodes(:node_with_name_current_version))
+    add_old_tags_selection(nodes(:node_with_name_redacted_version))
 
     tags = icon_tags(nodes(:node_with_name_current_version))
     assert_equal 3, tags.count
@@ -305,5 +316,15 @@ class BrowseHelperTest < ActionView::TestCase
 
     link = telephone_link("phone", "+1 (234) 567-890")
     assert_equal "tel:+1(234)567-890", link
+  end
+
+  def add_old_tags_selection(old_node)
+    { "building" => "yes",
+      "shop" => "gift",
+      "tourism" => "museum",
+      "name" => "Test Node",
+      "name:pt" => "Nó teste" }.each do |key, value|
+      create(:old_node_tag, :old_node => old_node, :k => key, :v => value)
+    end
   end
 end

@@ -90,6 +90,9 @@ class OldNodeControllerTest < ActionController::TestCase
     xml_node = xml_doc.find("//osm/node").first
     nodeid = current_nodes(:node_with_versions).id
 
+    # Ensure that the current tags are propogated to the history too
+    propogate_tags(current_nodes(:node_with_versions), nodes(:node_with_versions_v4))
+
     # keep a hash of the versions => string, as we'll need something
     # to test against later
     versions = {}
@@ -161,6 +164,12 @@ class OldNodeControllerTest < ActionController::TestCase
   # Test that getting the current version is identical to picking
   # that version with the version URI call.
   def test_current_version
+    propogate_tags(current_nodes(:visible_node), nodes(:visible_node))
+    propogate_tags(current_nodes(:used_node_1), nodes(:used_node_1))
+    propogate_tags(current_nodes(:used_node_2), nodes(:used_node_2))
+    propogate_tags(current_nodes(:node_used_by_relationship), nodes(:node_used_by_relationship))
+    propogate_tags(current_nodes(:node_with_versions), nodes(:node_with_versions_v4))
+
     check_current_version(current_nodes(:visible_node))
     check_current_version(current_nodes(:used_node_1))
     check_current_version(current_nodes(:used_node_2))
@@ -376,5 +385,11 @@ class OldNodeControllerTest < ActionController::TestCase
   # tests when they shouldn't.
   def precision(f)
     (f * GeoRecord::SCALE).round.to_f / GeoRecord::SCALE
+  end
+
+  def propogate_tags(node, old_node)
+    node.tags.each do |k, v|
+      create(:old_node_tag, :old_node => old_node, :k => k, :v => v)
+    end
   end
 end

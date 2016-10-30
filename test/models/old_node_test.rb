@@ -76,6 +76,9 @@ class OldNodeTest < ActiveSupport::TestCase
   end
 
   def test_node_tags
+    taglist_v3 = create_list(:old_node_tag, 3, :old_node => nodes(:node_with_versions_v3))
+    taglist_v4 = create_list(:old_node_tag, 2, :old_node => nodes(:node_with_versions_v4))
+
     node = nodes(:node_with_versions_v1)
     tags = OldNode.find(node.id).old_tags.order(:k)
     assert_equal 0, tags.count
@@ -87,23 +90,24 @@ class OldNodeTest < ActiveSupport::TestCase
     node = nodes(:node_with_versions_v3)
     tags = OldNode.find(node.id).old_tags.order(:k)
     assert_equal 3, tags.count
-    assert_equal "testing", tags[0].k
-    assert_equal "added in node version 3", tags[0].v
-    assert_equal "testing three", tags[1].k
-    assert_equal "added in node version 3", tags[1].v
-    assert_equal "testing two", tags[2].k
-    assert_equal "added in node version 3", tags[2].v
+    taglist_v3.sort_by(&:k).each_index do |i|
+      assert_equal taglist_v3[i].k, tags[i].k
+      assert_equal taglist_v3[i].v, tags[i].v
+    end
 
     node = nodes(:node_with_versions_v4)
     tags = OldNode.find(node.id).old_tags.order(:k)
     assert_equal 2, tags.count
-    assert_equal "testing", tags[0].k
-    assert_equal "added in node version 3", tags[0].v
-    assert_equal "testing two", tags[1].k
-    assert_equal "modified in node version 4", tags[1].v
+    taglist_v4.sort_by(&:k).each_index do |i|
+      assert_equal taglist_v4[i].k, tags[i].k
+      assert_equal taglist_v4[i].v, tags[i].v
+    end
   end
 
   def test_tags
+    taglist_v3 = create_list(:old_node_tag, 3, :old_node => nodes(:node_with_versions_v3))
+    taglist_v4 = create_list(:old_node_tag, 2, :old_node => nodes(:node_with_versions_v4))
+
     node = nodes(:node_with_versions_v1)
     tags = OldNode.find(node.id).tags
     assert_equal 0, tags.size
@@ -115,14 +119,15 @@ class OldNodeTest < ActiveSupport::TestCase
     node = nodes(:node_with_versions_v3)
     tags = OldNode.find(node.id).tags
     assert_equal 3, tags.size
-    assert_equal "added in node version 3", tags["testing"]
-    assert_equal "added in node version 3", tags["testing two"]
-    assert_equal "added in node version 3", tags["testing three"]
+    taglist_v3.each do |tag|
+      assert_equal tag.v, tags[tag.k]
+    end
 
     node = nodes(:node_with_versions_v4)
     tags = OldNode.find(node.id).tags
     assert_equal 2, tags.size
-    assert_equal "added in node version 3", tags["testing"]
-    assert_equal "modified in node version 4", tags["testing two"]
+    taglist_v4.each do |tag|
+      assert_equal tag.v, tags[tag.k]
+    end
   end
 end

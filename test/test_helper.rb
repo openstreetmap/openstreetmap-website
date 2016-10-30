@@ -20,9 +20,8 @@ module ActiveSupport
       set_fixture_class :current_nodes => Node
       set_fixture_class :nodes => OldNode
 
-      fixtures :current_node_tags, :node_tags
+      fixtures :current_node_tags
       set_fixture_class :current_node_tags => NodeTag
-      set_fixture_class :node_tags => OldNodeTag
 
       fixtures :current_ways
       set_fixture_class :current_ways => Way
