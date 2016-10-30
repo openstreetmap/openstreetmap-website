@@ -3,7 +3,6 @@ require "changeset_controller"
 
 class ChangesetControllerTest < ActionController::TestCase
   api_fixtures
-  fixtures :changesets_subscribers
 
   ##
   # test all routes which lead to this controller
@@ -1986,9 +1985,15 @@ EOF
     end
     assert_response :success
 
+    changeset = changesets(:normal_user_subscribed_change)
+    changeset.subscribers.push(users(:normal_user))
+    changeset.subscribers.push(users(:public_user))
+    changeset.subscribers.push(users(:suspended_user))
+    changeset.subscribers.push(users(:deleted_user))
+
     assert_difference "ChangesetComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 1 do
-        post :comment, :id => changesets(:normal_user_subscribed_change).id, :text => "This is a comment"
+        post :comment, :id => changeset.id, :text => "This is a comment"
       end
     end
     assert_response :success
@@ -2004,7 +2009,7 @@ EOF
 
     assert_difference "ChangesetComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 2 do
-        post :comment, :id => changesets(:normal_user_subscribed_change).id, :text => "This is a comment"
+        post :comment, :id => changeset.id, :text => "This is a comment"
       end
     end
     assert_response :success
@@ -2095,6 +2100,7 @@ EOF
 
     # trying to subscribe when already subscribed
     changeset = changesets(:normal_user_subscribed_change)
+    changeset.subscribers.push(users(:public_user))
     assert_no_difference "changeset.subscribers.count" do
       post :subscribe, :id => changeset.id
     end
@@ -2106,6 +2112,7 @@ EOF
   def test_unsubscribe_success
     basic_authorization(users(:public_user).email, "test")
     changeset = changesets(:normal_user_subscribed_change)
+    changeset.subscribers.push(users(:public_user))
 
     assert_difference "changeset.subscribers.count", -1 do
       post :unsubscribe, :id => changeset.id
