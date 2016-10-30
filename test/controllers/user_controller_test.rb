@@ -5,7 +5,6 @@ class UserControllerTest < ActionController::TestCase
 
   setup do
     stub_request(:get, "http://api.hostip.info/country.php?ip=0.0.0.0")
-    stub_request(:get, /.*gravatar.com.*d=404/).to_return(:status => 404)
   end
 
   ##
@@ -397,6 +396,7 @@ class UserControllerTest < ActionController::TestCase
 
   def test_confirm_success_no_token_no_referer
     user = users(:inactive_user)
+    stub_gravatar_request(user.email)
     confirm_string = user.tokens.create.token
 
     @request.cookies["_osm_session"] = user.display_name
@@ -407,6 +407,7 @@ class UserControllerTest < ActionController::TestCase
 
   def test_confirm_success_good_token_no_referer
     user = users(:inactive_user)
+    stub_gravatar_request(user.email)
     confirm_string = user.tokens.create.token
     token = user.tokens.create.token
 
@@ -417,6 +418,7 @@ class UserControllerTest < ActionController::TestCase
 
   def test_confirm_success_bad_token_no_referer
     user = users(:inactive_user)
+    stub_gravatar_request(user.email)
     confirm_string = user.tokens.create.token
     token = users(:normal_user).tokens.create.token
 
@@ -428,6 +430,7 @@ class UserControllerTest < ActionController::TestCase
 
   def test_confirm_success_no_token_with_referer
     user = users(:inactive_user)
+    stub_gravatar_request(user.email)
     confirm_string = user.tokens.create(:referer => diary_new_path).token
 
     @request.cookies["_osm_session"] = user.display_name
@@ -438,6 +441,7 @@ class UserControllerTest < ActionController::TestCase
 
   def test_confirm_success_good_token_with_referer
     user = users(:inactive_user)
+    stub_gravatar_request(user.email)
     confirm_string = user.tokens.create(:referer => diary_new_path).token
     token = user.tokens.create.token
 
@@ -448,6 +452,7 @@ class UserControllerTest < ActionController::TestCase
 
   def test_confirm_success_bad_token_with_referer
     user = users(:inactive_user)
+    stub_gravatar_request(user.email)
     confirm_string = user.tokens.create(:referer => diary_new_path).token
     token = users(:normal_user).tokens.create.token
 
@@ -526,6 +531,7 @@ class UserControllerTest < ActionController::TestCase
 
   def test_confirm_email_success
     user = users(:second_public_user)
+    stub_gravatar_request(user.new_email)
     confirm_string = user.tokens.create.token
 
     post :confirm_email, :confirm_string => confirm_string
@@ -556,35 +562,33 @@ class UserControllerTest < ActionController::TestCase
   # this happens when the email is actually changed
   # which is triggered by the confirmation mail
   def test_gravatar_auto_enable
-    with_http_stubs "gravatar" do
-      # switch to email that has a gravatar
-      user = users(:first_gravatar_user)
-      confirm_string = user.tokens.create.token
-      # precondition gravatar should be turned off
-      assert !user.image_use_gravatar
-      post :confirm_email, :confirm_string => confirm_string
-      assert_response :redirect
-      assert_redirected_to :action => :account, :display_name => user.display_name
-      assert_match /Confirmed your change of email address/, flash[:notice]
-      # gravatar use should now be enabled
-      assert User.find(users(:first_gravatar_user).id).image_use_gravatar
-    end
+    # switch to email that has a gravatar
+    user = users(:first_gravatar_user)
+    stub_gravatar_request(user.new_email, 200)
+    confirm_string = user.tokens.create.token
+    # precondition gravatar should be turned off
+    assert !user.image_use_gravatar
+    post :confirm_email, :confirm_string => confirm_string
+    assert_response :redirect
+    assert_redirected_to :action => :account, :display_name => user.display_name
+    assert_match /Confirmed your change of email address/, flash[:notice]
+    # gravatar use should now be enabled
+    assert User.find(users(:first_gravatar_user).id).image_use_gravatar
   end
 
   def test_gravatar_auto_disable
-    with_http_stubs "gravatar" do
-      # switch to email without a gravatar
-      user = users(:second_gravatar_user)
-      confirm_string = user.tokens.create.token
-      # precondition gravatar should be turned on
-      assert user.image_use_gravatar
-      post :confirm_email, :confirm_string => confirm_string
-      assert_response :redirect
-      assert_redirected_to :action => :account, :display_name => user.display_name
-      assert_match /Confirmed your change of email address/, flash[:notice]
-      # gravatar use should now be disabled
-      assert !User.find(users(:second_gravatar_user).id).image_use_gravatar
-    end
+    # switch to email without a gravatar
+    user = users(:second_gravatar_user)
+    stub_gravatar_request(user.new_email, 404)
+    confirm_string = user.tokens.create.token
+    # precondition gravatar should be turned on
+    assert user.image_use_gravatar
+    post :confirm_email, :confirm_string => confirm_string
+    assert_response :redirect
+    assert_redirected_to :action => :account, :display_name => user.display_name
+    assert_match /Confirmed your change of email address/, flash[:notice]
+    # gravatar use should now be disabled
+    assert !User.find(users(:second_gravatar_user).id).image_use_gravatar
   end
 
   def test_terms_new_user

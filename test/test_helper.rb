@@ -168,5 +168,11 @@ module ActiveSupport
 
       yield
     end
+
+    def stub_gravatar_request(email, status = 200, body = nil)
+      hash = Digest::MD5.hexdigest(email.downcase)
+      url = "https://www.gravatar.com/avatar/#{hash}?d=404"
+      stub_request(:get, url).and_return(:status => status, :body => body)
+    end
   end
 end
