@@ -305,49 +305,43 @@ class TraceControllerTest < ActionController::TestCase
   # Test downloading a trace
   def test_data
     public_trace_file = create(:trace, :visibility => "public", :user => users(:normal_user))
-    # We need to stub both the trace_name, to control which file from test/traces is used,
-    # and also the Trace.find method so that our stubbed object is used by the controller.
-    public_trace_file.stub :trace_name, "#{GPX_TRACE_DIR}/1.gpx" do
-      Trace.stub :find, public_trace_file do
-        # First with no auth, which should work since the trace is public
-        get :data, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
-        check_trace_data public_trace_file
+    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/1.gpx" do
+      # First with no auth, which should work since the trace is public
+      get :data, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
+      check_trace_data public_trace_file
 
-        # Now with some other user, which should work since the trace is public
-        get :data, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user).id }
-        check_trace_data public_trace_file
+      # Now with some other user, which should work since the trace is public
+      get :data, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user).id }
+      check_trace_data public_trace_file
 
-        # And finally we should be able to do it with the owner of the trace
-        get :data, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user).id }
-        check_trace_data public_trace_file
-      end
+      # And finally we should be able to do it with the owner of the trace
+      get :data, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user).id }
+      check_trace_data public_trace_file
     end
   end
 
   # Test downloading a compressed trace
   def test_data_compressed
     identifiable_trace_file = create(:trace, :visibility => "identifiable")
-    identifiable_trace_file.stub :trace_name, "#{GPX_TRACE_DIR}/4.gpx" do
-      Trace.stub :find, identifiable_trace_file do
-        # First get the data as is
-        get :data, :display_name => users(:public_user).display_name, :id => identifiable_trace_file.id
-        check_trace_data identifiable_trace_file, "application/x-gzip", "gpx.gz"
+    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/4.gpx" do
+      # First get the data as is
+      get :data, :display_name => users(:public_user).display_name, :id => identifiable_trace_file.id
+      check_trace_data identifiable_trace_file, "application/x-gzip", "gpx.gz"
 
-        # Now ask explicitly for XML format
-        get :data, :display_name => users(:public_user).display_name, :id => identifiable_trace_file.id, :format => "xml"
-        check_trace_data identifiable_trace_file, "application/xml", "xml"
+      # Now ask explicitly for XML format
+      get :data, :display_name => users(:public_user).display_name, :id => identifiable_trace_file.id, :format => "xml"
+      check_trace_data identifiable_trace_file, "application/xml", "xml"
 
-        # Now ask explicitly for GPX format
-        get :data, :display_name => users(:public_user).display_name, :id => identifiable_trace_file.id, :format => "gpx"
-        check_trace_data identifiable_trace_file
-      end
+      # Now ask explicitly for GPX format
+      get :data, :display_name => users(:public_user).display_name, :id => identifiable_trace_file.id, :format => "gpx"
+      check_trace_data identifiable_trace_file
     end
   end
 
   # Check an anonymous trace can't be downloaded by another user
   def test_data_anon
     anon_trace_file = create(:trace, :visibility => "private", :user => users(:public_user))
-    anon_trace_file.stub :trace_name, "#{GPX_TRACE_DIR}/2.gpx" do
+    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/2.gpx" do
       # First with no auth
       get :data, :display_name => users(:public_user).display_name, :id => anon_trace_file.id
       assert_response :not_found
@@ -357,10 +351,8 @@ class TraceControllerTest < ActionController::TestCase
       assert_response :not_found
 
       # And finally we should be able to do it with the owner of the trace
-      Trace.stub :find, anon_trace_file do
-        get :data, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:public_user).id }
-        check_trace_data anon_trace_file
-      end
+      get :data, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:public_user).id }
+      check_trace_data anon_trace_file
     end
   end
 
@@ -383,27 +375,25 @@ class TraceControllerTest < ActionController::TestCase
   # Test downloading the picture for a trace
   def test_picture
     public_trace_file = create(:trace, :visibility => "public", :user => users(:normal_user))
-    public_trace_file.stub :large_picture_name, "#{GPX_TRACE_DIR}/1.gif" do
-      Trace.stub :find, public_trace_file do
-        # First with no auth, which should work since the trace is public
-        get :picture, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
-        check_trace_picture public_trace_file
+    Trace.stub_any_instance :large_picture_name, "#{GPX_TRACE_DIR}/1.gif" do
+      # First with no auth, which should work since the trace is public
+      get :picture, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
+      check_trace_picture public_trace_file
 
-        # Now with some other user, which should work since the trace is public
-        get :picture, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user).id }
-        check_trace_picture public_trace_file
+      # Now with some other user, which should work since the trace is public
+      get :picture, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user).id }
+      check_trace_picture public_trace_file
 
-        # And finally we should be able to do it with the owner of the trace
-        get :picture, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user).id }
-        check_trace_picture public_trace_file
-      end
+      # And finally we should be able to do it with the owner of the trace
+      get :picture, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user).id }
+      check_trace_picture public_trace_file
     end
   end
 
   # Check the picture for an anonymous trace can't be downloaded by another user
   def test_picture_anon
     anon_trace_file = create(:trace, :visibility => "private", :user => users(:public_user))
-    anon_trace_file.stub :large_picture_name, "#{GPX_TRACE_DIR}/2.gif" do
+    Trace.stub_any_instance :large_picture_name, "#{GPX_TRACE_DIR}/2.gif" do
       # First with no auth
       get :picture, :display_name => users(:public_user).display_name, :id => anon_trace_file.id
       assert_response :forbidden
@@ -413,10 +403,8 @@ class TraceControllerTest < ActionController::TestCase
       assert_response :forbidden
 
       # And finally we should be able to do it with the owner of the trace
-      Trace.stub :find, anon_trace_file do
-        get :picture, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:public_user).id }
-        check_trace_picture anon_trace_file
-      end
+      get :picture, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:public_user).id }
+      check_trace_picture anon_trace_file
     end
   end
 
@@ -439,27 +427,25 @@ class TraceControllerTest < ActionController::TestCase
   # Test downloading the icon for a trace
   def test_icon
     public_trace_file = create(:trace, :visibility => "public", :user => users(:normal_user))
-    public_trace_file.stub :icon_picture_name, "#{GPX_TRACE_DIR}/1_icon.gif" do
-      Trace.stub :find, public_trace_file do
-        # First with no auth, which should work since the trace is public
-        get :icon, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
-        check_trace_icon public_trace_file
+    Trace.stub_any_instance :icon_picture_name, "#{GPX_TRACE_DIR}/1_icon.gif" do
+      # First with no auth, which should work since the trace is public
+      get :icon, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
+      check_trace_icon public_trace_file
 
-        # Now with some other user, which should work since the trace is public
-        get :icon, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user).id }
-        check_trace_icon public_trace_file
+      # Now with some other user, which should work since the trace is public
+      get :icon, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user).id }
+      check_trace_icon public_trace_file
 
-        # And finally we should be able to do it with the owner of the trace
-        get :icon, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user).id }
-        check_trace_icon public_trace_file
-      end
+      # And finally we should be able to do it with the owner of the trace
+      get :icon, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user).id }
+      check_trace_icon public_trace_file
     end
   end
 
   # Check the icon for an anonymous trace can't be downloaded by another user
   def test_icon_anon
     anon_trace_file = create(:trace, :visibility => "private", :user => users(:public_user))
-    anon_trace_file.stub :icon_picture_name, "#{GPX_TRACE_DIR}/2_icon.gif" do
+    Trace.stub_any_instance :icon_picture_name, "#{GPX_TRACE_DIR}/2_icon.gif" do
       # First with no auth
       get :icon, :display_name => users(:public_user).display_name, :id => anon_trace_file.id
       assert_response :forbidden
@@ -469,10 +455,8 @@ class TraceControllerTest < ActionController::TestCase
       assert_response :forbidden
 
       # And finally we should be able to do it with the owner of the trace
-      Trace.stub :find, anon_trace_file do
-        get :icon, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:public_user).id }
-        check_trace_icon anon_trace_file
-      end
+      get :icon, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:public_user).id }
+      check_trace_icon anon_trace_file
     end
   end
 
@@ -699,77 +683,61 @@ class TraceControllerTest < ActionController::TestCase
   # Test downloading a trace through the api
   def test_api_data
     public_trace_file = create(:trace, :visibility => "public", :user => users(:normal_user))
-    public_trace_file.stub :trace_name, "#{GPX_TRACE_DIR}/1.gpx" do
-      visible = MiniTest::Mock.new
-      visible.expect :find, public_trace_file, [String]
-      visible.expect :find, public_trace_file, [String]
-      Trace.stub :visible, visible do
-        # First with no auth
-        get :api_data, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
-        assert_response :unauthorized
+    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/1.gpx" do
+      # First with no auth
+      get :api_data, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
+      assert_response :unauthorized
 
-        # Now with some other user, which should work since the trace is public
-        basic_authorization(users(:public_user).display_name, "test")
-        get :api_data, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
-        check_trace_data public_trace_file
+      # Now with some other user, which should work since the trace is public
+      basic_authorization(users(:public_user).display_name, "test")
+      get :api_data, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
+      check_trace_data public_trace_file
 
-        # # And finally we should be able to do it with the owner of the trace
-        basic_authorization(users(:normal_user).display_name, "test")
-        get :api_data, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
-        check_trace_data public_trace_file
-      end
+      # # And finally we should be able to do it with the owner of the trace
+      basic_authorization(users(:normal_user).display_name, "test")
+      get :api_data, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
+      check_trace_data public_trace_file
     end
   end
 
   # Test downloading a compressed trace through the api
   def test_api_data_compressed
     identifiable_trace_file = create(:trace, :visibility => "identifiable", :user => users(:public_user))
-    identifiable_trace_file.stub :trace_name, "#{GPX_TRACE_DIR}/4.gpx" do
-      visible = MiniTest::Mock.new
-      visible.expect :find, identifiable_trace_file, [String]
-      visible.expect :find, identifiable_trace_file, [String]
-      visible.expect :find, identifiable_trace_file, [String]
-      Trace.stub :visible, visible do
-        # Authenticate as the owner of the trace we will be using
-        basic_authorization(users(:public_user).display_name, "test")
+    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/4.gpx" do
+      # Authenticate as the owner of the trace we will be using
+      basic_authorization(users(:public_user).display_name, "test")
 
-        # First get the data as is
-        get :api_data, :display_name => users(:public_user).display_name, :id => identifiable_trace_file.id
-        check_trace_data identifiable_trace_file, "application/x-gzip", "gpx.gz"
+      # First get the data as is
+      get :api_data, :display_name => users(:public_user).display_name, :id => identifiable_trace_file.id
+      check_trace_data identifiable_trace_file, "application/x-gzip", "gpx.gz"
 
-        # Now ask explicitly for XML format
-        get :api_data, :display_name => users(:public_user).display_name, :id => identifiable_trace_file.id, :format => "xml"
-        check_trace_data identifiable_trace_file, "application/xml", "xml"
+      # Now ask explicitly for XML format
+      get :api_data, :display_name => users(:public_user).display_name, :id => identifiable_trace_file.id, :format => "xml"
+      check_trace_data identifiable_trace_file, "application/xml", "xml"
 
-        # # Now ask explicitly for GPX format
-        get :api_data, :display_name => users(:public_user).display_name, :id => identifiable_trace_file.id, :format => "gpx"
-        check_trace_data identifiable_trace_file
-      end
+      # # Now ask explicitly for GPX format
+      get :api_data, :display_name => users(:public_user).display_name, :id => identifiable_trace_file.id, :format => "gpx"
+      check_trace_data identifiable_trace_file
     end
   end
 
   # Check an anonymous trace can't be downloaded by another user through the api
   def test_api_data_anon
     anon_trace_file = create(:trace, :visibility => "private", :user => users(:public_user))
-    anon_trace_file.stub :trace_name, "#{GPX_TRACE_DIR}/2.gpx" do
-      visible = MiniTest::Mock.new
-      visible.expect :find, anon_trace_file, [String]
-      visible.expect :find, anon_trace_file, [String]
-      Trace.stub :visible, visible do
-        # First with no auth
-        get :api_data, :display_name => users(:public_user).display_name, :id => anon_trace_file.id
-        assert_response :unauthorized
+    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/2.gpx" do
+      # First with no auth
+      get :api_data, :display_name => users(:public_user).display_name, :id => anon_trace_file.id
+      assert_response :unauthorized
 
-        # Now with some other user, which shouldn't work since the trace is anon
-        basic_authorization(users(:normal_user).display_name, "test")
-        get :api_data, :display_name => users(:public_user).display_name, :id => anon_trace_file.id
-        assert_response :forbidden
+      # Now with some other user, which shouldn't work since the trace is anon
+      basic_authorization(users(:normal_user).display_name, "test")
+      get :api_data, :display_name => users(:public_user).display_name, :id => anon_trace_file.id
+      assert_response :forbidden
 
-        # And finally we should be able to do it with the owner of the trace
-        basic_authorization(users(:public_user).display_name, "test")
-        get :api_data, :display_name => users(:public_user).display_name, :id => anon_trace_file.id
-        check_trace_data anon_trace_file
-      end
+      # And finally we should be able to do it with the owner of the trace
+      basic_authorization(users(:public_user).display_name, "test")
+      get :api_data, :display_name => users(:public_user).display_name, :id => anon_trace_file.id
+      check_trace_data anon_trace_file
     end
   end
 

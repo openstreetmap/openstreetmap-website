@@ -101,6 +101,7 @@ group :test do
   gem "rubocop"
   gem "timecop"
   gem "minitest", "~> 5.1", :platforms => [:ruby_19, :ruby_20]
+  gem "minitest-stub_any_instance"
 end
 
 # Needed in development as well so rake can see konacha tasks
