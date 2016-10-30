@@ -1648,6 +1648,7 @@ EOF
 
     ## Now try with the public user
     changeset = changesets(:public_user_first_change)
+    create(:changeset_tag, :changeset => changeset)
     new_changeset = changeset.to_xml
     new_tag = XML::Node.new "tag"
     new_tag["k"] = "tagtesting"
