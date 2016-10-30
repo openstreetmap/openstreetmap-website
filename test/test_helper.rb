@@ -46,9 +46,8 @@ module ActiveSupport
       fixtures :relations
       set_fixture_class :relations => OldRelation
 
-      fixtures :relation_members, :relation_tags
+      fixtures :relation_members
       set_fixture_class :relation_members => OldRelationMember
-      set_fixture_class :relation_tags => OldRelationTag
 
       fixtures :gpx_files, :gps_points, :gpx_file_tags
       set_fixture_class :gpx_files => Trace
