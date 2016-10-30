@@ -95,15 +95,18 @@ class OldWayTest < ActiveSupport::TestCase
 
   def test_get_nodes_undelete
     way = ways(:way_with_versions_v3)
+    node_tag = create(:node_tag, :node => current_nodes(:node_with_versions))
+    node_tag2 = create(:node_tag, :node => current_nodes(:used_node_1))
     nodes = OldWay.find(way.id).get_nodes_undelete
     assert_equal 2, nodes.size
-    assert_equal [1.0, 1.0, 15, 4, { "testing" => "added in node version 3", "testing two" => "modified in node version 4" }, true], nodes[0]
-    assert_equal [3.0, 3.0, 3, 1, { "test" => "yes" }, true], nodes[1]
+    assert_equal [1.0, 1.0, 15, 4, { node_tag.k => node_tag.v }, true], nodes[0]
+    assert_equal [3.0, 3.0, 3, 1, { node_tag2.k => node_tag2.v }, true], nodes[1]
 
     way = ways(:way_with_redacted_versions_v2)
+    node_tag3 = create(:node_tag, :node => current_nodes(:invisible_node))
     nodes = OldWay.find(way.id).get_nodes_undelete
     assert_equal 2, nodes.size
-    assert_equal [3.0, 3.0, 3, 1, { "test" => "yes" }, true], nodes[0]
-    assert_equal [2.0, 2.0, 2, 1, { "testused" => "yes" }, false], nodes[1]
+    assert_equal [3.0, 3.0, 3, 1, { node_tag2.k => node_tag2.v }, true], nodes[0]
+    assert_equal [2.0, 2.0, 2, 1, { node_tag3.k => node_tag3.v }, false], nodes[1]
   end
 end

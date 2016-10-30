@@ -17,8 +17,12 @@ class BrowseHelperTest < ActionView::TestCase
   end
 
   def test_printable_name
+    add_tags_selection(current_nodes(:node_with_name))
+    create(:node_tag, :node => current_nodes(:node_with_ref_without_name), :k => "ref", :v => "3.1415926")
     add_old_tags_selection(nodes(:node_with_name_current_version))
     add_old_tags_selection(nodes(:node_with_name_redacted_version))
+
+    # current_nodes(:redacted_node) is deleted, so has no tags.
     assert_dom_equal "17", printable_name(current_nodes(:redacted_node))
     assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
     assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
@@ -59,6 +63,8 @@ class BrowseHelperTest < ActionView::TestCase
   end
 
   def test_link_class
+    add_tags_selection(current_nodes(:node_with_name))
+
     assert_equal "node", link_class("node", current_nodes(:visible_node))
     assert_equal "node deleted", link_class("node", current_nodes(:invisible_node))
     assert_equal "node deleted", link_class("node", current_nodes(:redacted_node))
@@ -71,6 +77,8 @@ class BrowseHelperTest < ActionView::TestCase
   end
 
   def test_link_title
+    add_tags_selection(current_nodes(:node_with_name))
+
     assert_equal "", link_title(current_nodes(:visible_node))
     assert_equal "", link_title(current_nodes(:invisible_node))
     assert_equal "", link_title(current_nodes(:redacted_node))
@@ -114,6 +122,8 @@ class BrowseHelperTest < ActionView::TestCase
   end
 
   def test_icon_tags
+    add_tags_selection(current_nodes(:node_with_name))
+
     tags = icon_tags(current_nodes(:node_with_name))
     assert_equal 3, tags.count
     assert tags.include?(%w(building yes))
@@ -325,6 +335,16 @@ class BrowseHelperTest < ActionView::TestCase
       "name" => "Test Node",
       "name:pt" => "Nó teste" }.each do |key, value|
       create(:old_node_tag, :old_node => old_node, :k => key, :v => value)
+    end
+  end
+
+  def add_tags_selection(node)
+    { "building" => "yes",
+      "shop" => "gift",
+      "tourism" => "museum",
+      "name" => "Test Node",
+      "name:pt" => "Nó teste" }.each do |key, value|
+      create(:node_tag, :node => node, :k => key, :v => value)
     end
   end
 end
