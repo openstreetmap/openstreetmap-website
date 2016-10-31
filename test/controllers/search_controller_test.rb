@@ -43,6 +43,11 @@ class SearchControllerTest < ActionController::TestCase
   ##
   # test searching ways
   def test_search_ways
+    [:visible_way, :invisible_way, :used_way].each do |way|
+      create(:way_tag, :way => current_ways(way), :k => "test", :v => "yes")
+    end
+    create(:way_tag, :way => current_ways(:used_way), :k => "name", :v => "Test Way")
+
     get :search_ways, :type => "test"
     assert_response :service_unavailable
     assert_equal "Searching for a key without value is currently unavailable", response.headers["Error"]

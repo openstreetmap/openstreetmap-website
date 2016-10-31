@@ -538,10 +538,12 @@ class WayControllerTest < ActionController::TestCase
     # setup auth
     basic_authorization(users(:normal_user).email, "test")
 
+    existing = create(:way_tag, :way => current_ways(:visible_way))
+
     # add an identical tag to the way
     tag_xml = XML::Node.new("tag")
-    tag_xml["k"] = current_way_tags(:t1).k
-    tag_xml["v"] = current_way_tags(:t1).v
+    tag_xml["k"] = existing.k
+    tag_xml["v"] = existing.v
 
     # add the tag into the existing xml
     way_xml = current_ways(:visible_way).to_xml
@@ -559,8 +561,8 @@ class WayControllerTest < ActionController::TestCase
 
     # add an identical tag to the way
     tag_xml = XML::Node.new("tag")
-    tag_xml["k"] = current_way_tags(:t1).k
-    tag_xml["v"] = current_way_tags(:t1).v
+    tag_xml["k"] = existing.k
+    tag_xml["v"] = existing.v
 
     # add the tag into the existing xml
     way_xml = current_ways(:visible_way).to_xml
@@ -571,7 +573,7 @@ class WayControllerTest < ActionController::TestCase
     put :update, :id => current_ways(:visible_way).id
     assert_response :bad_request,
                     "adding a duplicate tag to a way should fail with 'bad request'"
-    assert_equal "Element way/#{current_ways(:visible_way).id} has duplicate tags with key #{current_way_tags(:t1).k}", @response.body
+    assert_equal "Element way/#{current_ways(:visible_way).id} has duplicate tags with key #{existing.k}", @response.body
   end
 
   ##

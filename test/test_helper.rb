@@ -23,9 +23,8 @@ module ActiveSupport
       fixtures :current_ways
       set_fixture_class :current_ways => Way
 
-      fixtures :current_way_nodes, :current_way_tags
+      fixtures :current_way_nodes
       set_fixture_class :current_way_nodes => WayNode
-      set_fixture_class :current_way_tags => WayTag
 
       fixtures :ways
       set_fixture_class :ways => OldWay
