@@ -93,9 +93,10 @@ module ActionController
       valid_options << :actions unless in_action
 
       unknown_option_keys = options.keys - valid_options
-      raise ActionController::ActionControllerError,
-            "Unknown options: #{unknown_option_keys.join(', ')}" unless
-              unknown_option_keys.empty?
+      unless unknown_option_keys.empty?
+        raise ActionController::ActionControllerError,
+              "Unknown options: #{unknown_option_keys.join(', ')}"
+      end
 
       options[:singular_name] ||= ActiveSupport::Inflector.singularize(collection_id.to_s)
       options[:class_name] ||= ActiveSupport::Inflector.camelize(options[:singular_name])

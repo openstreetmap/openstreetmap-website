@@ -85,8 +85,10 @@ class DiffReader
   def with_model
     with_element do |model_name, _model_attributes|
       model = MODELS[model_name]
-      raise OSM::APIBadUserInput.new("Unexpected element type #{model_name}, " +
-                                     "expected node, way or relation.") if model.nil?
+      if model.nil?
+        raise OSM::APIBadUserInput.new("Unexpected element type #{model_name}, " +
+                                       "expected node, way or relation.")
+      end
       # new in libxml-ruby >= 2, expand returns an element not associated
       # with a document. this means that there's no encoding parameter,
       # which means basically nothing works.

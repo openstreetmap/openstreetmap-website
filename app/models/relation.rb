@@ -370,7 +370,7 @@ class Relation < ActiveRecord::Base
       # materially change the rest of the relation.
       any_relations =
         changed_members.collect { |_id, type| type == "relation" }
-                       .inject(false) { |a, e| a || e }
+                       .inject(false) { |acc, elem| acc || elem }
 
       update_members = if tags_changed || any_relations
                          # add all non-relation bounding boxes to the changeset

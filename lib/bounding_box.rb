@@ -43,14 +43,22 @@ class BoundingBox
     # only try to expand the bbox if there is a value for every coordinate
     # which there will be from the previous line as long as array does not contain a nil
     if bbox.complete?
-      @min_lon = [-SCALED_LON_LIMIT,
-                  bbox.min_lon + margin * (min_lon - max_lon)].max if bbox.min_lon < min_lon
-      @min_lat = [-SCALED_LAT_LIMIT,
-                  bbox.min_lat + margin * (min_lat - max_lat)].max if bbox.min_lat < min_lat
-      @max_lon = [+SCALED_LON_LIMIT,
-                  bbox.max_lon + margin * (max_lon - min_lon)].min if bbox.max_lon > max_lon
-      @max_lat = [+SCALED_LAT_LIMIT,
-                  bbox.max_lat + margin * (max_lat - min_lat)].min if bbox.max_lat > max_lat
+      if bbox.min_lon < min_lon
+        @min_lon = [-SCALED_LON_LIMIT,
+                    bbox.min_lon + margin * (min_lon - max_lon)].max
+      end
+      if bbox.min_lat < min_lat
+        @min_lat = [-SCALED_LAT_LIMIT,
+                    bbox.min_lat + margin * (min_lat - max_lat)].max
+      end
+      if bbox.max_lon > max_lon
+        @max_lon = [+SCALED_LON_LIMIT,
+                    bbox.max_lon + margin * (max_lon - min_lon)].min
+      end
+      if bbox.max_lat > max_lat
+        @max_lat = [+SCALED_LAT_LIMIT,
+                    bbox.max_lat + margin * (max_lat - min_lat)].min
+      end
     end
     self
   end
