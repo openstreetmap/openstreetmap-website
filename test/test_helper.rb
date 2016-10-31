@@ -35,9 +35,8 @@ module ActiveSupport
       fixtures :current_relations
       set_fixture_class :current_relations => Relation
 
-      fixtures :current_relation_members, :current_relation_tags
+      fixtures :current_relation_members
       set_fixture_class :current_relation_members => RelationMember
-      set_fixture_class :current_relation_tags => RelationTag
 
       fixtures :relations
       set_fixture_class :relations => OldRelation

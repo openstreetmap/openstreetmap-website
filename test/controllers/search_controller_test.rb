@@ -64,6 +64,11 @@ class SearchControllerTest < ActionController::TestCase
   ##
   # test searching relations
   def test_search_relations
+    [:visible_relation, :invisible_relation, :used_relation].each do |relation|
+      create(:relation_tag, :relation => current_relations(relation), :k => "test", :v => "yes")
+    end
+    create(:relation_tag, :relation => current_relations(:used_relation), :k => "name", :v => "Test Relation")
+
     get :search_relations, :type => "test"
     assert_response :service_unavailable
     assert_equal "Searching for a key without value is currently unavailable", response.headers["Error"]

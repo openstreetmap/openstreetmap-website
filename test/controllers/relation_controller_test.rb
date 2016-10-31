@@ -337,6 +337,7 @@ class RelationControllerTest < ActionController::TestCase
   def test_update_relation_tags
     basic_authorization "test@example.com", "test"
     rel_id = current_relations(:multi_tag_relation).id
+    create_list(:relation_tag, 4, :relation => current_relations(:multi_tag_relation))
     cs_id = changesets(:public_user_first_change).id
 
     with_relation(rel_id) do |rel|
@@ -366,6 +367,7 @@ class RelationControllerTest < ActionController::TestCase
   def test_update_relation_tags_via_upload
     basic_authorization users(:public_user).email, "test"
     rel_id = current_relations(:multi_tag_relation).id
+    create_list(:relation_tag, 4, :relation => current_relations(:multi_tag_relation))
     cs_id = changesets(:public_user_first_change).id
 
     with_relation(rel_id) do |rel|

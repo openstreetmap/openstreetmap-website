@@ -129,20 +129,25 @@ class RelationTest < ActiveSupport::TestCase
 
   def test_relation_tags
     relation = current_relations(:relation_with_versions)
+    taglist = create_list(:relation_tag, 2, :relation => relation)
+
     tags = Relation.find(relation.id).relation_tags.order(:k)
     assert_equal 2, tags.count
-    assert_equal "testing", tags[0].k
-    assert_equal "added in relation version 3", tags[0].v
-    assert_equal "testing two", tags[1].k
-    assert_equal "modified in relation version 4", tags[1].v
+    taglist.sort_by!(&:k).each_index do |i|
+      assert_equal taglist[i].k, tags[i].k
+      assert_equal taglist[i].v, tags[i].v
+    end
   end
 
   def test_tags
     relation = current_relations(:relation_with_versions)
+    taglist = create_list(:relation_tag, 2, :relation => relation)
+
     tags = Relation.find(relation.id).tags
     assert_equal 2, tags.size
-    assert_equal "added in relation version 3", tags["testing"]
-    assert_equal "modified in relation version 4", tags["testing two"]
+    taglist.each do |tag|
+      assert_equal tag.v, tags[tag.k]
+    end
   end
 
   def test_containing_relation_members
