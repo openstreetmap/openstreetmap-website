@@ -285,6 +285,8 @@ class TraceControllerTest < ActionController::TestCase
 
   # Test viewing a trace that doesn't exist
   def test_view_not_found
+    deleted_trace_file = create(:trace, :deleted)
+
     # First with no auth
     get :view, :display_name => users(:public_user).display_name, :id => 0
     assert_response :redirect
@@ -296,7 +298,6 @@ class TraceControllerTest < ActionController::TestCase
     assert_redirected_to :action => :list
 
     # And finally we should not be able to view a deleted trace
-    deleted_trace_file = create(:trace, :deleted)
     get :view, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id }, { :user => users(:public_user).id }
     assert_response :redirect
     assert_redirected_to :action => :list
@@ -358,6 +359,8 @@ class TraceControllerTest < ActionController::TestCase
 
   # Test downloading a trace that doesn't exist
   def test_data_not_found
+    deleted_trace_file = create(:trace, :deleted)
+
     # First with no auth and a trace that has never existed
     get :data, :display_name => users(:public_user).display_name, :id => 0
     assert_response :not_found
@@ -367,7 +370,6 @@ class TraceControllerTest < ActionController::TestCase
     assert_response :not_found
 
     # Now with a trace that has been deleted
-    deleted_trace_file = create(:trace, :deleted)
     get :data, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id }, { :user => users(:public_user).id }
     assert_response :not_found
   end
