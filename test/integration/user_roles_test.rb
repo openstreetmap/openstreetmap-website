@@ -4,7 +4,7 @@ class UserRolesTest < ActionDispatch::IntegrationTest
   fixtures :users, :user_roles
 
   def setup
-    stub_signup_requests
+    stub_hostip_requests
   end
 
   test "grant" do

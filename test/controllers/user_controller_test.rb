@@ -4,7 +4,7 @@ class UserControllerTest < ActionController::TestCase
   api_fixtures
 
   def setup
-    stub_signup_requests
+    stub_hostip_requests
   end
 
   ##

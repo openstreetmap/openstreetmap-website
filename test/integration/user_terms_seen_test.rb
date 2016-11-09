@@ -4,7 +4,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
   fixtures :users
 
   def setup
-    stub_signup_requests
+    stub_hostip_requests
   end
 
   def test_api_blocked

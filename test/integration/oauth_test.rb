@@ -7,7 +7,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
   include OAuth::Helper
 
   def setup
-    stub_signup_requests
+    stub_hostip_requests
   end
 
   def test_oauth10_web_app
