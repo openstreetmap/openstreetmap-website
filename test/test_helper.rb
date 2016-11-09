@@ -4,6 +4,7 @@ Coveralls.wear!("rails")
 ENV["RAILS_ENV"] = "test"
 require File.expand_path("../../config/environment", __FILE__)
 require "rails/test_help"
+require "webmock/minitest"
 load "composite_primary_keys/fixtures.rb"
 
 module ActiveSupport
@@ -160,23 +161,24 @@ module ActiveSupport
     ##
     # execute a block with a given set of HTTP responses stubbed
     def with_http_stubs(stubs_file)
-      http_client_save = OSM.http_client
-
-      begin
-        stubs = YAML.load_file(File.expand_path("../http/#{stubs_file}.yml", __FILE__))
-
-        OSM.http_client = Faraday.new do |builder|
-          builder.adapter :test do |stub|
-            stubs.each do |url, response|
-              stub.get(url) { |_env| [response["code"], {}, response["body"]] }
-            end
-          end
-        end
-
-        yield
-      ensure
-        OSM.http_client = http_client_save
+      stubs = YAML.load_file(File.expand_path("../http/#{stubs_file}.yml", __FILE__))
+      stubs.each do |url, response|
+        stub_request(:get, Regexp.new(Regexp.quote(url))).to_return(:status => response["code"], :body => response["body"])
       end
+
+      yield
+    end
+
+    def stub_gravatar_request(email, status = 200, body = nil)
+      hash = Digest::MD5.hexdigest(email.downcase)
+      url = "https://www.gravatar.com/avatar/#{hash}?d=404"
+      stub_request(:get, url).and_return(:status => status, :body => body)
+    end
+
+    def stub_signup_requests
+      # Controller tests and integration tests use different IPs
+      stub_request(:get, "http://api.hostip.info/country.php?ip=0.0.0.0")
+      stub_request(:get, "http://api.hostip.info/country.php?ip=127.0.0.1")
     end
   end
 end

@@ -6,6 +6,10 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
   include OAuth::Helper
 
+  setup do
+    stub_signup_requests
+  end
+
   def test_oauth10_web_app
     client = client_applications(:oauth_web_app)
 

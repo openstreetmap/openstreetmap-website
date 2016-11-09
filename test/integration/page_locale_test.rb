@@ -5,6 +5,7 @@ class PageLocaleTest < ActionDispatch::IntegrationTest
 
   def setup
     I18n.locale = "en"
+    stub_signup_requests
   end
 
   def teardown

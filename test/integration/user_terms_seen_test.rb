@@ -3,6 +3,10 @@ require "test_helper"
 class UserTermsSeenTest < ActionDispatch::IntegrationTest
   fixtures :users
 
+  setup do
+    stub_signup_requests
+  end
+
   def test_api_blocked
     with_terms_seen(true) do
       user = users(:terms_not_seen_user)
