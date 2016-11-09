@@ -174,5 +174,11 @@ module ActiveSupport
       url = "https://www.gravatar.com/avatar/#{hash}?d=404"
       stub_request(:get, url).and_return(:status => status, :body => body)
     end
+
+    def stub_signup_requests
+      # Controller tests and integration tests use different IPs
+      stub_request(:get, "http://api.hostip.info/country.php?ip=0.0.0.0")
+      stub_request(:get, "http://api.hostip.info/country.php?ip=127.0.0.1")
+    end
   end
 end

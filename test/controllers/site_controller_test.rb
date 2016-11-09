@@ -9,7 +9,7 @@ class SiteControllerTest < ActionController::TestCase
     Object.const_set("ID_KEY", client_applications(:oauth_web_app).key)
     Object.const_set("POTLATCH2_KEY", client_applications(:oauth_web_app).key)
 
-    stub_request(:get, "http://api.hostip.info/country.php?ip=0.0.0.0")
+    stub_signup_requests
   end
 
   ##

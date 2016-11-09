@@ -7,7 +7,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
   include OAuth::Helper
 
   setup do
-    stub_request(:get, "http://api.hostip.info/country.php?ip=127.0.0.1")
+    stub_signup_requests
   end
 
   def test_oauth10_web_app

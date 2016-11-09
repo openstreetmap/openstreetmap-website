@@ -4,7 +4,7 @@ class UserControllerTest < ActionController::TestCase
   api_fixtures
 
   setup do
-    stub_request(:get, "http://api.hostip.info/country.php?ip=0.0.0.0")
+    stub_signup_requests
   end
 
   ##

@@ -5,7 +5,7 @@ class PageLocaleTest < ActionDispatch::IntegrationTest
 
   def setup
     I18n.locale = "en"
-    stub_request(:get, "http://api.hostip.info/country.php?ip=127.0.0.1")
+    stub_signup_requests
   end
 
   def teardown

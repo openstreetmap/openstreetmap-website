@@ -4,7 +4,7 @@ class UserRolesTest < ActionDispatch::IntegrationTest
   fixtures :users, :user_roles
 
   setup do
-    stub_request(:get, "http://api.hostip.info/country.php?ip=127.0.0.1")
+    stub_signup_requests
   end
 
   test "grant" do
