@@ -3,7 +3,7 @@ require "test_helper"
 class UserRolesTest < ActionDispatch::IntegrationTest
   fixtures :users, :user_roles
 
-  setup do
+  def setup
     stub_signup_requests
   end
 

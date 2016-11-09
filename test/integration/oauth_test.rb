@@ -6,7 +6,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
   include OAuth::Helper
 
-  setup do
+  def setup
     stub_signup_requests
   end
 

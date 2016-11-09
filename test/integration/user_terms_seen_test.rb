@@ -3,7 +3,7 @@ require "test_helper"
 class UserTermsSeenTest < ActionDispatch::IntegrationTest
   fixtures :users
 
-  setup do
+  def setup
     stub_signup_requests
   end
 
