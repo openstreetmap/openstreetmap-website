@@ -3,7 +3,7 @@ require "test_helper"
 class UserControllerTest < ActionController::TestCase
   api_fixtures
 
-  setup do
+  def setup
     stub_signup_requests
   end
 
