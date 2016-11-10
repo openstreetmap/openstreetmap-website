@@ -38,7 +38,7 @@ gem "r2"
 gem "autoprefixer-rails"
 
 # Use image_optim to optimise images
-gem "image_optim", ">= 0.22.0"
+gem "image_optim_rails"
 
 # Load rails plugins
 gem "rails-i18n", "~> 4.0.0"
