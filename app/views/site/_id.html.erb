@@ -10,13 +10,13 @@
       params.id = mapParams.object.type[0] + mapParams.object.id;
       mapParams = OSM.parseHash(location.hash);
       if (mapParams.center) {
-        params.map = mapParams.zoom + '/' + mapParams.center.lng + '/' + mapParams.center.lat;
+        params.map = mapParams.zoom + '/' + mapParams.center.lat + '/' + mapParams.center.lon;
       }
     } else {
 <% if @lat && @lon -%>
-      params.map = '16/<%= @lon %>/<%= @lat %>';
+      params.map = '16/<%= @lat %>/<%= @lng %>';
 <% else -%>
-      params.map = (mapParams.zoom || 17) + '/' + mapParams.lon + '/' + mapParams.lat;
+      params.map = (mapParams.zoom || 17) + '/' + mapParams.lat + '/' + mapParams.lon;
 <% end -%>
     }
 

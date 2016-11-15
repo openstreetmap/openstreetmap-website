@@ -10,25 +10,22 @@
 <body>
 <div id='id-container'></div>
 <script>
-  if (typeof iD == 'undefined' || !iD.detect().support) {
+  if (typeof iD == 'undefined' || !iD.Detect().support) {
     document.getElementById('id-container').innerHTML = 'This editor is supported ' +
-      'in Firefox, Chrome, Safari, Opera, and Internet Explorer 11 and above. ' +
+      'in Firefox, Chrome, Safari, Opera, Edge, and Internet Explorer 11. ' +
       'Please upgrade your browser or use Potlatch 2 to edit the map.';
     document.getElementById('id-container').className = 'unsupported';
   } else {
     <% locale = ID::LOCALES.preferred(preferred_languages).to_s %>
 
-    var id = iD()
-      .presets(iD.data.presets)
-      .imagery(iD.data.imagery)
-      .taginfo(iD.services.taginfo())
+    var id = iD.Context()
       .embed(true)
       .assetPath("iD/")
       .assetMap(<%= assets("iD").to_json.html_safe %>)
       .locale("<%= locale %>", "<%= asset_path("iD/locales/#{locale}.json") %>")
       .preauth({
         <% token = @user.access_token(ID_KEY) %>
-        url: "<%= request.protocol + request.host_with_port %>",
+        urlroot: "<%= request.protocol + request.host_with_port %>",
         oauth_consumer_key: "<%= token.client_application.key %>",
         oauth_secret: "<%= token.client_application.secret %>",
         oauth_token: "<%= token.token %>",
@@ -64,8 +61,7 @@
       }, 0);
     });
 
-    d3.select('#id-container')
-      .call(id.ui());
+    id.ui()(document.getElementById("id-container"));
   }
 </script>
 </body>
