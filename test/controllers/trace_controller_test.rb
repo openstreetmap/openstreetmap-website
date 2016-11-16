@@ -306,7 +306,7 @@ class TraceControllerTest < ActionController::TestCase
   # Test downloading a trace
   def test_data
     public_trace_file = create(:trace, :visibility => "public", :user => users(:normal_user))
-    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/1.gpx" do
+    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/a.gpx" do
       # First with no auth, which should work since the trace is public
       get :data, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
       check_trace_data public_trace_file
@@ -324,7 +324,7 @@ class TraceControllerTest < ActionController::TestCase
   # Test downloading a compressed trace
   def test_data_compressed
     identifiable_trace_file = create(:trace, :visibility => "identifiable")
-    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/4.gpx" do
+    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/d.gpx" do
       # First get the data as is
       get :data, :display_name => users(:public_user).display_name, :id => identifiable_trace_file.id
       check_trace_data identifiable_trace_file, "application/x-gzip", "gpx.gz"
@@ -342,7 +342,7 @@ class TraceControllerTest < ActionController::TestCase
   # Check an anonymous trace can't be downloaded by another user
   def test_data_anon
     anon_trace_file = create(:trace, :visibility => "private", :user => users(:public_user))
-    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/2.gpx" do
+    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/b.gpx" do
       # First with no auth
       get :data, :display_name => users(:public_user).display_name, :id => anon_trace_file.id
       assert_response :not_found
@@ -377,7 +377,7 @@ class TraceControllerTest < ActionController::TestCase
   # Test downloading the picture for a trace
   def test_picture
     public_trace_file = create(:trace, :visibility => "public", :user => users(:normal_user))
-    Trace.stub_any_instance :large_picture_name, "#{GPX_TRACE_DIR}/1.gif" do
+    Trace.stub_any_instance :large_picture_name, "#{GPX_TRACE_DIR}/a.gif" do
       # First with no auth, which should work since the trace is public
       get :picture, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
       check_trace_picture public_trace_file
@@ -395,7 +395,7 @@ class TraceControllerTest < ActionController::TestCase
   # Check the picture for an anonymous trace can't be downloaded by another user
   def test_picture_anon
     anon_trace_file = create(:trace, :visibility => "private", :user => users(:public_user))
-    Trace.stub_any_instance :large_picture_name, "#{GPX_TRACE_DIR}/2.gif" do
+    Trace.stub_any_instance :large_picture_name, "#{GPX_TRACE_DIR}/b.gif" do
       # First with no auth
       get :picture, :display_name => users(:public_user).display_name, :id => anon_trace_file.id
       assert_response :forbidden
@@ -429,7 +429,7 @@ class TraceControllerTest < ActionController::TestCase
   # Test downloading the icon for a trace
   def test_icon
     public_trace_file = create(:trace, :visibility => "public", :user => users(:normal_user))
-    Trace.stub_any_instance :icon_picture_name, "#{GPX_TRACE_DIR}/1_icon.gif" do
+    Trace.stub_any_instance :icon_picture_name, "#{GPX_TRACE_DIR}/a_icon.gif" do
       # First with no auth, which should work since the trace is public
       get :icon, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
       check_trace_icon public_trace_file
@@ -447,7 +447,7 @@ class TraceControllerTest < ActionController::TestCase
   # Check the icon for an anonymous trace can't be downloaded by another user
   def test_icon_anon
     anon_trace_file = create(:trace, :visibility => "private", :user => users(:public_user))
-    Trace.stub_any_instance :icon_picture_name, "#{GPX_TRACE_DIR}/2_icon.gif" do
+    Trace.stub_any_instance :icon_picture_name, "#{GPX_TRACE_DIR}/b_icon.gif" do
       # First with no auth
       get :icon, :display_name => users(:public_user).display_name, :id => anon_trace_file.id
       assert_response :forbidden
@@ -509,7 +509,7 @@ class TraceControllerTest < ActionController::TestCase
   # Test creating a trace
   def test_create_post
     public_trace_file = create(:trace, :visibility => "public")
-    public_trace_file.stub :trace_name, "#{GPX_TRACE_DIR}/1.gpx" do
+    public_trace_file.stub :trace_name, "#{GPX_TRACE_DIR}/a.gpx" do
       # Get file to use
       file = Rack::Test::UploadedFile.new(public_trace_file.trace_name, "application/gpx+xml")
 
@@ -525,7 +525,7 @@ class TraceControllerTest < ActionController::TestCase
       assert_redirected_to :action => :list, :display_name => users(:public_user).display_name
       assert_match /file has been uploaded/, flash[:notice]
       trace = Trace.order(:id => :desc).first
-      assert_equal "1.gpx", trace.name
+      assert_equal "a.gpx", trace.name
       assert_equal "New Trace", trace.description
       assert_equal %w(new trace), trace.tags.order(:tag).collect(&:tag)
       assert_equal "trackable", trace.visibility
@@ -685,7 +685,7 @@ class TraceControllerTest < ActionController::TestCase
   # Test downloading a trace through the api
   def test_api_data
     public_trace_file = create(:trace, :visibility => "public", :user => users(:normal_user))
-    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/1.gpx" do
+    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/a.gpx" do
       # First with no auth
       get :api_data, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
       assert_response :unauthorized
@@ -705,7 +705,7 @@ class TraceControllerTest < ActionController::TestCase
   # Test downloading a compressed trace through the api
   def test_api_data_compressed
     identifiable_trace_file = create(:trace, :visibility => "identifiable", :user => users(:public_user))
-    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/4.gpx" do
+    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/d.gpx" do
       # Authenticate as the owner of the trace we will be using
       basic_authorization(users(:public_user).display_name, "test")
 
@@ -726,7 +726,7 @@ class TraceControllerTest < ActionController::TestCase
   # Check an anonymous trace can't be downloaded by another user through the api
   def test_api_data_anon
     anon_trace_file = create(:trace, :visibility => "private", :user => users(:public_user))
-    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/2.gpx" do
+    Trace.stub_any_instance :trace_name, "#{GPX_TRACE_DIR}/b.gpx" do
       # First with no auth
       get :api_data, :display_name => users(:public_user).display_name, :id => anon_trace_file.id
       assert_response :unauthorized
@@ -764,7 +764,7 @@ class TraceControllerTest < ActionController::TestCase
   # Test creating a trace through the api
   def test_api_create
     public_trace_file = create(:trace, :visibility => "public", :user => users(:normal_user))
-    public_trace_file.stub :trace_name, "#{GPX_TRACE_DIR}/1.gpx" do
+    public_trace_file.stub :trace_name, "#{GPX_TRACE_DIR}/a.gpx" do
       # Get file to use
       file = Rack::Test::UploadedFile.new(public_trace_file.trace_name, "application/gpx+xml")
 
@@ -779,7 +779,7 @@ class TraceControllerTest < ActionController::TestCase
       post :api_create, :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable"
       assert_response :success
       trace = Trace.find(response.body.to_i)
-      assert_equal "1.gpx", trace.name
+      assert_equal "a.gpx", trace.name
       assert_equal "New Trace", trace.description
       assert_equal %w(new trace), trace.tags.order(:tag).collect(&:tag)
       assert_equal "trackable", trace.visibility
@@ -797,7 +797,7 @@ class TraceControllerTest < ActionController::TestCase
       post :api_create, :file => file, :description => "New Trace", :tags => "new,trace", :public => 1
       assert_response :success
       trace = Trace.find(response.body.to_i)
-      assert_equal "1.gpx", trace.name
+      assert_equal "a.gpx", trace.name
       assert_equal "New Trace", trace.description
       assert_equal %w(new trace), trace.tags.order(:tag).collect(&:tag)
       assert_equal "public", trace.visibility
@@ -815,7 +815,7 @@ class TraceControllerTest < ActionController::TestCase
       post :api_create, :file => file, :description => "New Trace", :tags => "new,trace", :public => 0
       assert_response :success
       trace = Trace.find(response.body.to_i)
-      assert_equal "1.gpx", trace.name
+      assert_equal "a.gpx", trace.name
       assert_equal "New Trace", trace.description
       assert_equal %w(new trace), trace.tags.order(:tag).collect(&:tag)
       assert_equal "private", trace.visibility
@@ -832,7 +832,7 @@ class TraceControllerTest < ActionController::TestCase
     deleted_trace_file = create(:trace, :deleted, :user => users(:public_user))
     anon_trace_file = create(:trace, :visibility => "private", :user => users(:public_user))
 
-    public_trace_file.stub :trace_name, "#{GPX_TRACE_DIR}/1.gpx" do
+    public_trace_file.stub :trace_name, "#{GPX_TRACE_DIR}/a.gpx" do
       # First with no auth
       content public_trace_file.to_xml
       put :api_update, :id => public_trace_file.id

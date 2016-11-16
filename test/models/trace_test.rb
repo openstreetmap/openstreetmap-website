@@ -132,42 +132,42 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_mime_type
     # The ids refer to the .gpx fixtures in test/traces
-    check_mime_type(1, "application/gpx+xml")
-    check_mime_type(2, "application/gpx+xml")
-    check_mime_type(3, "application/x-bzip2")
-    check_mime_type(4, "application/x-gzip")
-    check_mime_type(6, "application/x-zip")
-    check_mime_type(7, "application/x-tar")
-    check_mime_type(8, "application/x-gzip")
-    check_mime_type(9, "application/x-bzip2")
+    check_mime_type("a", "application/gpx+xml")
+    check_mime_type("b", "application/gpx+xml")
+    check_mime_type("c", "application/x-bzip2")
+    check_mime_type("d", "application/x-gzip")
+    check_mime_type("f", "application/x-zip")
+    check_mime_type("g", "application/x-tar")
+    check_mime_type("h", "application/x-gzip")
+    check_mime_type("i", "application/x-bzip2")
   end
 
   def test_extension_name
     # The ids refer to the .gpx fixtures in test/traces
-    check_extension_name(1, ".gpx")
-    check_extension_name(2, ".gpx")
-    check_extension_name(3, ".gpx.bz2")
-    check_extension_name(4, ".gpx.gz")
-    check_extension_name(6, ".zip")
-    check_extension_name(7, ".tar")
-    check_extension_name(8, ".tar.gz")
-    check_extension_name(9, ".tar.bz2")
+    check_extension_name("a", ".gpx")
+    check_extension_name("b", ".gpx")
+    check_extension_name("c", ".gpx.bz2")
+    check_extension_name("d", ".gpx.gz")
+    check_extension_name("f", ".zip")
+    check_extension_name("g", ".tar")
+    check_extension_name("h", ".tar.gz")
+    check_extension_name("i", ".tar.bz2")
   end
 
   def test_xml_file
-    check_xml_file(1, "848caa72f2f456d1bd6a0fdf228aa1b9")
-    check_xml_file(2, "66179ca44f1e93d8df62e2b88cbea732")
-    check_xml_file(3, "848caa72f2f456d1bd6a0fdf228aa1b9")
-    check_xml_file(4, "abd6675fdf3024a84fc0a1deac147c0d")
-    check_xml_file(6, "848caa72f2f456d1bd6a0fdf228aa1b9")
-    check_xml_file(7, "848caa72f2f456d1bd6a0fdf228aa1b9")
-    check_xml_file(8, "848caa72f2f456d1bd6a0fdf228aa1b9")
-    check_xml_file(9, "848caa72f2f456d1bd6a0fdf228aa1b9")
+    check_xml_file("a", "848caa72f2f456d1bd6a0fdf228aa1b9")
+    check_xml_file("b", "66179ca44f1e93d8df62e2b88cbea732")
+    check_xml_file("c", "848caa72f2f456d1bd6a0fdf228aa1b9")
+    check_xml_file("d", "abd6675fdf3024a84fc0a1deac147c0d")
+    check_xml_file("f", "848caa72f2f456d1bd6a0fdf228aa1b9")
+    check_xml_file("g", "848caa72f2f456d1bd6a0fdf228aa1b9")
+    check_xml_file("h", "848caa72f2f456d1bd6a0fdf228aa1b9")
+    check_xml_file("i", "848caa72f2f456d1bd6a0fdf228aa1b9")
   end
 
   def test_large_picture
     trace = create(:trace)
-    picture = trace.stub :large_picture_name, "#{GPX_IMAGE_DIR}/1.gif" do
+    picture = trace.stub :large_picture_name, "#{GPX_IMAGE_DIR}/a.gif" do
       trace.large_picture
     end
 
@@ -181,7 +181,7 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_icon_picture
     trace = create(:trace)
-    picture = trace.stub :icon_picture_name, "#{GPX_IMAGE_DIR}/1_icon.gif" do
+    picture = trace.stub :icon_picture_name, "#{GPX_IMAGE_DIR}/a_icon.gif" do
       trace.icon_picture
     end
 

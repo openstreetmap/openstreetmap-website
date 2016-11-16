@@ -804,7 +804,7 @@ class UserControllerTest < ActionController::TestCase
     assert_select "form#accountForm > fieldset > div.form-row > select#user_preferred_editor > option[selected]", false
 
     # Changing to an uploaded image should work
-    image = Rack::Test::UploadedFile.new("test/traces/1.gif", "image/gif")
+    image = Rack::Test::UploadedFile.new("test/traces/a.gif", "image/gif")
     post :account, { :display_name => user.display_name, :image_action => "new", :user => user.attributes.merge(:image => image) }, { :user => user.id }
     assert_response :success
     assert_template :account
