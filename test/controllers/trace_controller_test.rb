@@ -169,34 +169,34 @@ class TraceControllerTest < ActionController::TestCase
   # Check that the list of traces is displayed
   def test_list
     # The fourth test below is surpisingly sensitive to timestamp ordering when the timestamps are equal.
-    create(:trace, :visibility => "public", :timestamp => 4.seconds.ago) do |trace|
+    trace_a = create(:trace, :visibility => "public", :timestamp => 4.seconds.ago) do |trace|
       create(:tracetag, :trace => trace, :tag => "London")
     end
-    create(:trace, :visibility => "public", :timestamp => 3.seconds.ago) do |trace|
+    trace_b = create(:trace, :visibility => "public", :timestamp => 3.seconds.ago) do |trace|
       create(:tracetag, :trace => trace, :tag => "Birmingham")
     end
-    create(:trace, :visibility => "private", :user => users(:public_user), :timestamp => 2.seconds.ago) do |trace|
+    trace_c = create(:trace, :visibility => "private", :user => users(:public_user), :timestamp => 2.seconds.ago) do |trace|
       create(:tracetag, :trace => trace, :tag => "London")
     end
-    create(:trace, :visibility => "private", :user => users(:public_user), :timestamp => 1.second.ago) do |trace|
+    trace_d = create(:trace, :visibility => "private", :user => users(:public_user), :timestamp => 1.second.ago) do |trace|
       create(:tracetag, :trace => trace, :tag => "Birmingham")
     end
 
     # First with the public list
     get :list
-    check_trace_list Trace.visible_to_all, 2
+    check_trace_list [trace_b, trace_a]
 
     # Restrict traces to those with a given tag
     get :list, :tag => "London"
-    check_trace_list Trace.tagged("London").visible_to_all, 1
+    check_trace_list [trace_a]
 
     # Should see more when we are logged in
     get :list, {}, { :user => users(:public_user).id }
-    check_trace_list Trace.visible_to(users(:public_user).id), 4
+    check_trace_list [trace_d, trace_c, trace_b, trace_a]
 
     # Again, we should see more when we are logged in
     get :list, { :tag => "London" }, { :user => users(:public_user).id }
-    check_trace_list Trace.visible_to(users(:public_user).id).tagged("London"), 2
+    check_trace_list [trace_c, trace_a]
   end
 
   # Check that I can get mine
@@ -204,7 +204,7 @@ class TraceControllerTest < ActionController::TestCase
     create(:trace, :visibility => "public") do |trace|
       create(:tracetag, :trace => trace, :tag => "Birmingham")
     end
-    create(:trace, :visibility => "private", :user => users(:public_user)) do |trace|
+    trace_b = create(:trace, :visibility => "private", :user => users(:public_user)) do |trace|
       create(:tracetag, :trace => trace, :tag => "London")
     end
 
@@ -218,36 +218,36 @@ class TraceControllerTest < ActionController::TestCase
 
     # Fetch the actual list
     get :list, { :display_name => users(:public_user).display_name }, { :user => users(:public_user).id }
-    check_trace_list users(:public_user).traces, 1
+    check_trace_list [trace_b]
   end
 
   # Check the list of traces for a specific user
   def test_list_user
     create(:trace)
-    create(:trace, :visibility => "public", :user => users(:public_user))
-    create(:trace, :visibility => "private", :user => users(:public_user)) do |trace|
+    trace_b = create(:trace, :visibility => "public", :user => users(:public_user))
+    trace_c = create(:trace, :visibility => "private", :user => users(:public_user)) do |trace|
       create(:tracetag, :trace => trace, :tag => "London")
     end
 
     # Test a user with no traces
     get :list, :display_name => users(:second_public_user).display_name
-    check_trace_list users(:second_public_user).traces.visible_to_all, 0
+    check_trace_list []
 
     # Test a user with some traces - should see only public ones
     get :list, :display_name => users(:public_user).display_name
-    check_trace_list users(:public_user).traces.visible_to_all, 1
+    check_trace_list [trace_b]
 
     # Should still see only public ones when authenticated as another user
     get :list, { :display_name => users(:public_user).display_name }, { :user => users(:normal_user).id }
-    check_trace_list users(:public_user).traces.visible_to_all, 1
+    check_trace_list [trace_b]
 
     # Should see all traces when authenticated as the target user
     get :list, { :display_name => users(:public_user).display_name }, { :user => users(:public_user).id }
-    check_trace_list users(:public_user).traces, 2
+    check_trace_list [trace_c, trace_b]
 
-    # Should only see traces with the correct tag when a tag is specified
+    # # Should only see traces with the correct tag when a tag is specified
     get :list, { :display_name => users(:public_user).display_name, :tag => "London" }, { :user => users(:public_user).id }
-    check_trace_list users(:public_user).traces.tagged("London"), 1
+    check_trace_list [trace_c]
 
     # Should get an error if the user does not exist
     get :list, :display_name => "UnknownUser"
@@ -959,15 +959,14 @@ class TraceControllerTest < ActionController::TestCase
     end
   end
 
-  def check_trace_list(traces, count)
+  def check_trace_list(traces)
     assert_response :success
     assert_template "list"
-    assert_equal traces.count, count
 
-    if count > 0
+    if !traces.empty?
       assert_select "table#trace_list tbody", :count => 1 do
-        assert_select "tr", :count => traces.visible.count do |rows|
-          traces.visible.order("timestamp DESC").zip(rows).each do |trace, row|
+        assert_select "tr", :count => traces.length do |rows|
+          traces.zip(rows).each do |trace, row|
             assert_select row, "a", Regexp.new(Regexp.escape(trace.name))
             assert_select row, "span.trace_summary", Regexp.new(Regexp.escape("(#{trace.size} points)")) if trace.inserted?
             assert_select row, "td", Regexp.new(Regexp.escape(trace.description))
