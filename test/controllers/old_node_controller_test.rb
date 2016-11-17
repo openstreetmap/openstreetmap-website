@@ -86,6 +86,7 @@ class OldNodeControllerTest < ActionController::TestCase
     basic_authorization(users(:public_user).email, "test")
 
     # setup a simple XML node
+    create_list(:node_tag, 2, :node => current_nodes(:node_with_versions))
     xml_doc = current_nodes(:node_with_versions).to_xml
     xml_node = xml_doc.find("//osm/node").first
     nodeid = current_nodes(:node_with_versions).id
@@ -164,6 +165,11 @@ class OldNodeControllerTest < ActionController::TestCase
   # Test that getting the current version is identical to picking
   # that version with the version URI call.
   def test_current_version
+    create(:node_tag, :node => current_nodes(:visible_node))
+    create(:node_tag, :node => current_nodes(:used_node_1))
+    create(:node_tag, :node => current_nodes(:used_node_2))
+    create(:node_tag, :node => current_nodes(:node_used_by_relationship))
+    create(:node_tag, :node => current_nodes(:node_with_versions))
     propagate_tags(current_nodes(:visible_node), nodes(:visible_node))
     propagate_tags(current_nodes(:used_node_1), nodes(:used_node_1))
     propagate_tags(current_nodes(:used_node_2), nodes(:used_node_2))

@@ -46,6 +46,9 @@ class OldWayControllerTest < ActionController::TestCase
   ##
   # check that we can retrieve versions of a way
   def test_version
+    create(:way_tag, :way => current_ways(:visible_way))
+    create(:way_tag, :way => current_ways(:used_way))
+    create(:way_tag, :way => current_ways(:way_with_versions))
     propagate_tags(current_ways(:visible_way), ways(:visible_way))
     propagate_tags(current_ways(:used_way), ways(:used_way))
     propagate_tags(current_ways(:way_with_versions), ways(:way_with_versions_v4))
