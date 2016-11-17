@@ -46,9 +46,9 @@ class OldWayControllerTest < ActionController::TestCase
   ##
   # check that we can retrieve versions of a way
   def test_version
-    propogate_tags(current_ways(:visible_way), ways(:visible_way))
-    propogate_tags(current_ways(:used_way), ways(:used_way))
-    propogate_tags(current_ways(:way_with_versions), ways(:way_with_versions_v4))
+    propagate_tags(current_ways(:visible_way), ways(:visible_way))
+    propagate_tags(current_ways(:used_way), ways(:used_way))
+    propagate_tags(current_ways(:way_with_versions), ways(:way_with_versions_v4))
 
     check_current_version(current_ways(:visible_way).id)
     check_current_version(current_ways(:used_way).id)
@@ -281,7 +281,7 @@ class OldWayControllerTest < ActionController::TestCase
     post :redact, :id => way.way_id, :version => way.version, :redaction => redaction.id
   end
 
-  def propogate_tags(way, old_way)
+  def propagate_tags(way, old_way)
     way.tags.each do |k, v|
       create(:old_way_tag, :old_way => old_way, :k => k, :v => v)
     end
