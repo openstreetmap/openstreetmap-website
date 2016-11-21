@@ -1,10 +1,10 @@
 /*
- Leaflet 1.0.1, a JS library for interactive maps. http://leafletjs.com
+ Leaflet 1.0.2, a JS library for interactive maps. http://leafletjs.com
  (c) 2010-2016 Vladimir Agafonkin, (c) 2010-2011 CloudMade
 */
 (function (window, document, undefined) {
 var L = {
-	version: "1.0.1"
+	version: "1.0.2"
 };
 
 function expose() {
@@ -572,7 +572,7 @@ L.Evented = L.Class.extend({
 	// @method fire(type: String, data?: Object, propagate?: Boolean): this
 	// Fires an event of the specified type. You can optionally provide an data
 	// object — the first argument of the listener function will contain its
-	// properties. The event might can optionally be propagated to event parents.
+	// properties. The event can optionally be propagated to event parents.
 	fire: function (type, data, propagate) {
 		if (!this.listens(type, propagate)) { return this; }
 
@@ -865,7 +865,9 @@ L.Mixin = {Events: proto};
  */
 
 L.Point = function (x, y, round) {
+	// @property x: Number; The `x` coordinate of the point
 	this.x = (round ? Math.round(x) : x);
+	// @property y: Number; The `y` coordinate of the point
 	this.y = (round ? Math.round(y) : y);
 };
 
@@ -1234,7 +1236,7 @@ L.Transformation = function (a, b, c, d) {
 L.Transformation.prototype = {
 	// @method transform(point: Point, scale?: Number): Point
 	// Returns a transformed point, optionally multiplied by the given scale.
-	// Only accepts real `L.Point` instances, not arrays.
+	// Only accepts actual `L.Point` instances, not arrays.
 	transform: function (point, scale) { // (Point, Number) -> Point
 		return this._transform(point.clone(), scale);
 	},
@@ -1249,7 +1251,7 @@ L.Transformation.prototype = {
 
 	// @method untransform(point: Point, scale?: Number): Point
 	// Returns the reverse transformation of the given point, optionally divided
-	// by the given scale. Only accepts real `L.Point` instances, not arrays.
+	// by the given scale. Only accepts actual `L.Point` instances, not arrays.
 	untransform: function (point, scale) {
 		scale = scale || 1;
 		return new L.Point(
@@ -1724,9 +1726,9 @@ L.latLng = function (a, b, c) {
  * @example
  *
  * ```js
- * var southWest = L.latLng(40.712, -74.227),
- * northEast = L.latLng(40.774, -74.125),
- * bounds = L.latLngBounds(southWest, northEast);
+ * var corner1 = L.latLng(40.712, -74.227),
+ * corner2 = L.latLng(40.774, -74.125),
+ * bounds = L.latLngBounds(corner1, corner2);
  * ```
  *
  * All Leaflet methods that accept LatLngBounds objects also accept them in a simple Array form (unless noted otherwise), so the bounds example above can be passed like this:
@@ -1737,12 +1739,14 @@ L.latLng = function (a, b, c) {
  * 	[40.774, -74.125]
  * ]);
  * ```
+ *
+ * Caution: if the area crosses the antimeridian (often confused with the International Date Line), you must specify corners _outside_ the [-180, 180] degrees longitude range.
  */
 
-L.LatLngBounds = function (southWest, northEast) { // (LatLng, LatLng) or (LatLng[])
-	if (!southWest) { return; }
+L.LatLngBounds = function (corner1, corner2) { // (LatLng, LatLng) or (LatLng[])
+	if (!corner1) { return; }
 
-	var latlngs = northEast ? [southWest, northEast] : southWest;
+	var latlngs = corner2 ? [corner1, corner2] : corner1;
 
 	for (var i = 0, len = latlngs.length; i < len; i++) {
 		this.extend(latlngs[i]);
@@ -1944,8 +1948,8 @@ L.LatLngBounds.prototype = {
 
 // TODO International date line?
 
-// @factory L.latLngBounds(southWest: LatLng, northEast: LatLng)
-// Creates a `LatLngBounds` object by defining south-west and north-east corners of the rectangle.
+// @factory L.latLngBounds(corner1: LatLng, corner2: LatLng)
+// Creates a `LatLngBounds` object by defining two diagonally opposite corners of the rectangle.
 
 // @alternative
 // @factory L.latLngBounds(latlngs: LatLng[])
@@ -2235,6 +2239,12 @@ L.CRS.EPSG900913 = L.extend({}, L.CRS.EPSG3857, {
  * @crs L.CRS.EPSG4326
  *
  * A common CRS among GIS enthusiasts. Uses simple Equirectangular projection.
+ *
+ * Leaflet 1.0.x complies with the [TMS coordinate scheme for EPSG:4326](https://wiki.osgeo.org/wiki/Tile_Map_Service_Specification#global-geodetic),
+ * which is a breaking change from 0.7.x behaviour.  If you are using a `TileLayer`
+ * with this CRS, ensure that there are two 256x256 pixel tiles covering the
+ * whole earth at zoom level zero, and that the tile coordinate origin is (-180,+90),
+ * or (-180,-90) for `TileLayer`s with [the `tms` option](#tilelayer-tms) set.
  */
 
 L.CRS.EPSG4326 = L.extend({}, L.CRS.Earth, {
@@ -2307,6 +2317,15 @@ L.Map = L.Evented.extend({
 
 
 		// @section Animation Options
+		// @option zoomAnimation: Boolean = true
+		// Whether the map zoom animation is enabled. By default it's enabled
+		// in all browsers that support CSS3 Transitions except Android.
+		zoomAnimation: true,
+
+		// @option zoomAnimationThreshold: Number = 4
+		// Won't animate zoom if the zoom difference exceeds this value.
+		zoomAnimationThreshold: 4,
+
 		// @option fadeAnimation: Boolean = true
 		// Whether the tile fade animation is enabled. By default it's enabled
 		// in all browsers that support CSS3 Transitions except Android.
@@ -2375,6 +2394,17 @@ L.Map = L.Evented.extend({
 
 		this.callInitHooks();
 
+		// don't animate on browsers without hardware-accelerated transitions or old Android/Opera
+		this._zoomAnimated = L.DomUtil.TRANSITION && L.Browser.any3d && !L.Browser.mobileOpera &&
+				this.options.zoomAnimation;
+
+		// zoom transitions run with the same duration for all layers, so if one of transitionend events
+		// happens after starting zoom animation (propagating to the map pane), we know that it ended globally
+		if (this._zoomAnimated) {
+			this._createAnimProxy();
+			L.DomEvent.on(this._proxy, L.DomUtil.TRANSITION_END, this._catchTransitionEnd, this);
+		}
+
 		this._addLayers(this.options.layers);
 	},
 
@@ -2384,10 +2414,36 @@ L.Map = L.Evented.extend({
 	// @method setView(center: LatLng, zoom: Number, options?: Zoom/pan options): this
 	// Sets the view of the map (geographical center and zoom) with the given
 	// animation options.
-	setView: function (center, zoom) {
-		// replaced by animation-powered implementation in Map.PanAnimation.js
-		zoom = zoom === undefined ? this.getZoom() : zoom;
-		this._resetView(L.latLng(center), zoom);
+	setView: function (center, zoom, options) {
+
+		zoom = zoom === undefined ? this._zoom : this._limitZoom(zoom);
+		center = this._limitCenter(L.latLng(center), zoom, this.options.maxBounds);
+		options = options || {};
+
+		this._stop();
+
+		if (this._loaded && !options.reset && options !== true) {
+
+			if (options.animate !== undefined) {
+				options.zoom = L.extend({animate: options.animate}, options.zoom);
+				options.pan = L.extend({animate: options.animate, duration: options.duration}, options.pan);
+			}
+
+			// try animating pan or zoom
+			var moved = (this._zoom !== zoom) ?
+				this._tryAnimatedZoom && this._tryAnimatedZoom(center, zoom, options.zoom) :
+				this._tryAnimatedPan(center, options.pan);
+
+			if (moved) {
+				// prevent resize handler call, the view will refresh after animation anyway
+				clearTimeout(this._sizeTimer);
+				return this;
+			}
+		}
+
+		// animation didn't start, just reset the map view
+		this._resetView(center, zoom);
+
 		return this;
 	},
 
@@ -2486,14 +2542,135 @@ L.Map = L.Evented.extend({
 
 	// @method panBy(offset: Point): this
 	// Pans the map by a given number of pixels (animated).
-	panBy: function (offset) { // (Point)
-		// replaced with animated panBy in Map.PanAnimation.js
-		this.fire('movestart');
+	panBy: function (offset, options) {
+		offset = L.point(offset).round();
+		options = options || {};
 
-		this._rawPanBy(L.point(offset));
+		if (!offset.x && !offset.y) {
+			return this.fire('moveend');
+		}
+		// If we pan too far, Chrome gets issues with tiles
+		// and makes them disappear or appear in the wrong place (slightly offset) #2602
+		if (options.animate !== true && !this.getSize().contains(offset)) {
+			this._resetView(this.unproject(this.project(this.getCenter()).add(offset)), this.getZoom());
+			return this;
+		}
 
-		this.fire('move');
-		return this.fire('moveend');
+		if (!this._panAnim) {
+			this._panAnim = new L.PosAnimation();
+
+			this._panAnim.on({
+				'step': this._onPanTransitionStep,
+				'end': this._onPanTransitionEnd
+			}, this);
+		}
+
+		// don't fire movestart if animating inertia
+		if (!options.noMoveStart) {
+			this.fire('movestart');
+		}
+
+		// animate pan unless animate: false specified
+		if (options.animate !== false) {
+			L.DomUtil.addClass(this._mapPane, 'leaflet-pan-anim');
+
+			var newPos = this._getMapPanePos().subtract(offset).round();
+			this._panAnim.run(this._mapPane, newPos, options.duration || 0.25, options.easeLinearity);
+		} else {
+			this._rawPanBy(offset);
+			this.fire('move').fire('moveend');
+		}
+
+		return this;
+	},
+
+	// @method flyTo(latlng: LatLng, zoom?: Number, options?: Zoom/pan options): this
+	// Sets the view of the map (geographical center and zoom) performing a smooth
+	// pan-zoom animation.
+	flyTo: function (targetCenter, targetZoom, options) {
+
+		options = options || {};
+		if (options.animate === false || !L.Browser.any3d) {
+			return this.setView(targetCenter, targetZoom, options);
+		}
+
+		this._stop();
+
+		var from = this.project(this.getCenter()),
+		    to = this.project(targetCenter),
+		    size = this.getSize(),
+		    startZoom = this._zoom;
+
+		targetCenter = L.latLng(targetCenter);
+		targetZoom = targetZoom === undefined ? startZoom : targetZoom;
+
+		var w0 = Math.max(size.x, size.y),
+		    w1 = w0 * this.getZoomScale(startZoom, targetZoom),
+		    u1 = (to.distanceTo(from)) || 1,
+		    rho = 1.42,
+		    rho2 = rho * rho;
+
+		function r(i) {
+			var s1 = i ? -1 : 1,
+			    s2 = i ? w1 : w0,
+			    t1 = w1 * w1 - w0 * w0 + s1 * rho2 * rho2 * u1 * u1,
+			    b1 = 2 * s2 * rho2 * u1,
+			    b = t1 / b1,
+			    sq = Math.sqrt(b * b + 1) - b;
+
+			    // workaround for floating point precision bug when sq = 0, log = -Infinite,
+			    // thus triggering an infinite loop in flyTo
+			    var log = sq < 0.000000001 ? -18 : Math.log(sq);
+
+			return log;
+		}
+
+		function sinh(n) { return (Math.exp(n) - Math.exp(-n)) / 2; }
+		function cosh(n) { return (Math.exp(n) + Math.exp(-n)) / 2; }
+		function tanh(n) { return sinh(n) / cosh(n); }
+
+		var r0 = r(0);
+
+		function w(s) { return w0 * (cosh(r0) / cosh(r0 + rho * s)); }
+		function u(s) { return w0 * (cosh(r0) * tanh(r0 + rho * s) - sinh(r0)) / rho2; }
+
+		function easeOut(t) { return 1 - Math.pow(1 - t, 1.5); }
+
+		var start = Date.now(),
+		    S = (r(1) - r0) / rho,
+		    duration = options.duration ? 1000 * options.duration : 1000 * S * 0.8;
+
+		function frame() {
+			var t = (Date.now() - start) / duration,
+			    s = easeOut(t) * S;
+
+			if (t <= 1) {
+				this._flyToFrame = L.Util.requestAnimFrame(frame, this);
+
+				this._move(
+					this.unproject(from.add(to.subtract(from).multiplyBy(u(s) / u1)), startZoom),
+					this.getScaleZoom(w0 / w(s), startZoom),
+					{flyTo: true});
+
+			} else {
+				this
+					._move(targetCenter, targetZoom)
+					._moveEnd(true);
+			}
+		}
+
+		this._moveStart(true);
+
+		frame.call(this);
+		return this;
+	},
+
+	// @method flyToBounds(bounds: LatLngBounds, options?: fitBounds options): this
+	// Sets the view of the map with a smooth animation like [`flyTo`](#map-flyto),
+	// but takes a bounds parameter like [`fitBounds`](#map-fitbounds).
+	flyToBounds: function (bounds, options) {
+		var target = this._getBoundsCenterZoom(bounds, options);
+		return this.flyTo(target.center, target.zoom, options);
 	},
 
 	// @method setMaxBounds(bounds: Bounds): this
@@ -2626,6 +2803,108 @@ L.Map = L.Evented.extend({
 		return this._stop();
 	},
 
+	// @section Geolocation methods
+	// @method locate(options?: Locate options): this
+	// Tries to locate the user using the Geolocation API, firing a [`locationfound`](#map-locationfound)
+	// event with location data on success or a [`locationerror`](#map-locationerror) event on failure,
+	// and optionally sets the map view to the user's location with respect to
+	// detection accuracy (or to the world view if geolocation failed).
+	// Note that, if your page doesn't use HTTPS, this method will fail in
+	// modern browsers ([Chrome 50 and newer](https://sites.google.com/a/chromium.org/dev/Home/chromium-security/deprecating-powerful-features-on-insecure-origins))
+	// See `Locate options` for more details.
+	locate: function (options) {
+
+		options = this._locateOptions = L.extend({
+			timeout: 10000,
+			watch: false
+			// setView: false
+			// maxZoom: <Number>
+			// maximumAge: 0
+			// enableHighAccuracy: false
+		}, options);
+
+		if (!('geolocation' in navigator)) {
+			this._handleGeolocationError({
+				code: 0,
+				message: 'Geolocation not supported.'
+			});
+			return this;
+		}
+
+		var onResponse = L.bind(this._handleGeolocationResponse, this),
+		    onError = L.bind(this._handleGeolocationError, this);
+
+		if (options.watch) {
+			this._locationWatchId =
+			        navigator.geolocation.watchPosition(onResponse, onError, options);
+		} else {
+			navigator.geolocation.getCurrentPosition(onResponse, onError, options);
+		}
+		return this;
+	},
+
+	// @method stopLocate(): this
+	// Stops watching location previously initiated by `map.locate({watch: true})`
+	// and aborts resetting the map view if map.locate was called with
+	// `{setView: true}`.
+	stopLocate: function () {
+		if (navigator.geolocation && navigator.geolocation.clearWatch) {
+			navigator.geolocation.clearWatch(this._locationWatchId);
+		}
+		if (this._locateOptions) {
+			this._locateOptions.setView = false;
+		}
+		return this;
+	},
+
+	_handleGeolocationError: function (error) {
+		var c = error.code,
+		    message = error.message ||
+		            (c === 1 ? 'permission denied' :
+		            (c === 2 ? 'position unavailable' : 'timeout'));
+
+		if (this._locateOptions.setView && !this._loaded) {
+			this.fitWorld();
+		}
+
+		// @section Location events
+		// @event locationerror: ErrorEvent
+		// Fired when geolocation (using the [`locate`](#map-locate) method) failed.
+		this.fire('locationerror', {
+			code: c,
+			message: 'Geolocation error: ' + message + '.'
+		});
+	},
+
+	_handleGeolocationResponse: function (pos) {
+		var lat = pos.coords.latitude,
+		    lng = pos.coords.longitude,
+		    latlng = new L.LatLng(lat, lng),
+		    bounds = latlng.toBounds(pos.coords.accuracy),
+		    options = this._locateOptions;
+
+		if (options.setView) {
+			var zoom = this.getBoundsZoom(bounds);
+			this.setView(latlng, options.maxZoom ? Math.min(zoom, options.maxZoom) : zoom);
+		}
+
+		var data = {
+			latlng: latlng,
+			bounds: bounds,
+			timestamp: pos.timestamp
+		};
+
+		for (var i in pos.coords) {
+			if (typeof pos.coords[i] === 'number') {
+				data[i] = pos.coords[i];
+			}
+		}
+
+		// @event locationfound: LocationEvent
+		// Fired when geolocation (using the [`locate`](#map-locate) method)
+		// went successfully.
+		this.fire('locationfound', data);
+	},
 
 	// TODO handler.addTo
 	// TODO Appropiate docs section?
@@ -3356,6 +3635,16 @@ L.Map = L.Evented.extend({
 		return this.project(latlng, zoom)._subtract(topLeft);
 	},
 
+	_latLngBoundsToNewLayerBounds: function (latLngBounds, zoom, center) {
+		var topLeft = this._getNewPixelOrigin(center, zoom);
+		return L.bounds([
+			this.project(latLngBounds.getSouthWest(), zoom)._subtract(topLeft),
+			this.project(latLngBounds.getNorthWest(), zoom)._subtract(topLeft),
+			this.project(latLngBounds.getSouthEast(), zoom)._subtract(topLeft),
+			this.project(latLngBounds.getNorthEast(), zoom)._subtract(topLeft)
+		]);
+	},
+
 	// layer point of the current center
 	_getCenterLayerPoint: function () {
 		return this.containerPointToLayerPoint(this.getSize()._divideBy(2));
@@ -3425,6 +3714,125 @@ L.Map = L.Evented.extend({
 			zoom = Math.round(zoom / snap) * snap;
 		}
 		return Math.max(min, Math.min(max, zoom));
+	},
+
+	_onPanTransitionStep: function () {
+		this.fire('move');
+	},
+
+	_onPanTransitionEnd: function () {
+		L.DomUtil.removeClass(this._mapPane, 'leaflet-pan-anim');
+		this.fire('moveend');
+	},
+
+	_tryAnimatedPan: function (center, options) {
+		// difference between the new and current centers in pixels
+		var offset = this._getCenterOffset(center)._floor();
+
+		// don't animate too far unless animate: true specified in options
+		if ((options && options.animate) !== true && !this.getSize().contains(offset)) { return false; }
+
+		this.panBy(offset, options);
+
+		return true;
+	},
+
+	_createAnimProxy: function () {
+
+		var proxy = this._proxy = L.DomUtil.create('div', 'leaflet-proxy leaflet-zoom-animated');
+		this._panes.mapPane.appendChild(proxy);
+
+		this.on('zoomanim', function (e) {
+			var prop = L.DomUtil.TRANSFORM,
+			    transform = proxy.style[prop];
+
+			L.DomUtil.setTransform(proxy, this.project(e.center, e.zoom), this.getZoomScale(e.zoom, 1));
+
+			// workaround for case when transform is the same and so transitionend event is not fired
+			if (transform === proxy.style[prop] && this._animatingZoom) {
+				this._onZoomTransitionEnd();
+			}
+		}, this);
+
+		this.on('load moveend', function () {
+			var c = this.getCenter(),
+			    z = this.getZoom();
+			L.DomUtil.setTransform(proxy, this.project(c, z), this.getZoomScale(z, 1));
+		}, this);
+	},
+
+	_catchTransitionEnd: function (e) {
+		if (this._animatingZoom && e.propertyName.indexOf('transform') >= 0) {
+			this._onZoomTransitionEnd();
+		}
+	},
+
+	_nothingToAnimate: function () {
+		return !this._container.getElementsByClassName('leaflet-zoom-animated').length;
+	},
+
+	_tryAnimatedZoom: function (center, zoom, options) {
+
+		if (this._animatingZoom) { return true; }
+
+		options = options || {};
+
+		// don't animate if disabled, not supported or zoom difference is too large
+		if (!this._zoomAnimated || options.animate === false || this._nothingToAnimate() ||
+		        Math.abs(zoom - this._zoom) > this.options.zoomAnimationThreshold) { return false; }
+
+		// offset is the pixel coords of the zoom origin relative to the current center
+		var scale = this.getZoomScale(zoom),
+		    offset = this._getCenterOffset(center)._divideBy(1 - 1 / scale);
+
+		// don't animate if the zoom origin isn't within one screen from the current center, unless forced
+		if (options.animate !== true && !this.getSize().contains(offset)) { return false; }
+
+		L.Util.requestAnimFrame(function () {
+			this
+			    ._moveStart(true)
+			    ._animateZoom(center, zoom, true);
+		}, this);
+
+		return true;
+	},
+
+	_animateZoom: function (center, zoom, startAnim, noUpdate) {
+		if (startAnim) {
+			this._animatingZoom = true;
+
+			// remember what center/zoom to set after animation
+			this._animateToCenter = center;
+			this._animateToZoom = zoom;
+
+			L.DomUtil.addClass(this._mapPane, 'leaflet-zoom-anim');
+		}
+
+		// @event zoomanim: ZoomAnimEvent
+		// Fired on every frame of a zoom animation
+		this.fire('zoomanim', {
+			center: center,
+			zoom: zoom,
+			noUpdate: noUpdate
+		});
+
+		// Work around webkit not firing 'transitionend', see https://github.com/Leaflet/Leaflet/issues/3689, 2693
+		setTimeout(L.bind(this._onZoomTransitionEnd, this), 250);
+	},
+
+	_onZoomTransitionEnd: function () {
+		if (!this._animatingZoom) { return; }
+
+		L.DomUtil.removeClass(this._mapPane, 'leaflet-zoom-anim');
+
+		this._animatingZoom = false;
+
+		this._move(this._animateToCenter, this._animateToZoom);
+
+		// This anim frame should prevent an obscure iOS webkit tile loading race condition.
+		L.Util.requestAnimFrame(function () {
+			this._moveEnd(true);
+		}, this);
 	}
 });
 
@@ -3477,7 +3885,11 @@ L.Layer = L.Evented.extend({
 		// @option pane: String = 'overlayPane'
 		// By default the layer will be added to the map's [overlay pane](#map-overlaypane). Overriding this option will cause the layer to be placed on another pane by default.
 		pane: 'overlayPane',
-		nonBubblingEvents: []  // Array of events that should not be bubbled to DOM parents (like the map)
+		nonBubblingEvents: [],  // Array of events that should not be bubbled to DOM parents (like the map),
+
+		// @option attribution: String = null
+		// String to be shown in the attribution control, describes the layer data, e.g. "© Mapbox".
+		attribution: null,
 	},
 
 	/* @section
@@ -3520,6 +3932,12 @@ L.Layer = L.Evented.extend({
 	removeInteractiveTarget: function (targetEl) {
 		delete this._map._targets[L.stamp(targetEl)];
 		return this;
+	},
+
+	// @method getAttribution: String
+	// Used by the `attribution control`, returns the [attribution option](#gridlayer-attribution).
+	getAttribution: function () {
+		return this.options.attribution;
 	},
 
 	_layerAdd: function (e) {
@@ -3696,6 +4114,422 @@ L.Map.include({
 		if (oldZoomSpan !== this._getZoomSpan()) {
 			this.fire('zoomlevelschange');
 		}
+
+		if (this.options.maxZoom === undefined && this._layersMaxZoom && this.getZoom() > this._layersMaxZoom) {
+			this.setZoom(this._layersMaxZoom);
+		}
+		if (this.options.minZoom === undefined && this._layersMinZoom && this.getZoom() < this._layersMinZoom) {
+			this.setZoom(this._layersMinZoom);
+		}
+	}
+});
+
+
+
+/*
+ * @namespace DomEvent
+ * Utility functions to work with the [DOM events](https://developer.mozilla.org/docs/Web/API/Event), used by Leaflet internally.
+ */
+
+// Inspired by John Resig, Dean Edwards and YUI addEvent implementations.
+
+
+
+var eventsKey = '_leaflet_events';
+
+L.DomEvent = {
+
+	// @function on(el: HTMLElement, types: String, fn: Function, context?: Object): this
+	// Adds a listener function (`fn`) to a particular DOM event type of the
+	// element `el`. You can optionally specify the context of the listener
+	// (object the `this` keyword will point to). You can also pass several
+	// space-separated types (e.g. `'click dblclick'`).
+
+	// @alternative
+	// @function on(el: HTMLElement, eventMap: Object, context?: Object): this
+	// Adds a set of type/listener pairs, e.g. `{click: onClick, mousemove: onMouseMove}`
+	on: function (obj, types, fn, context) {
+
+		if (typeof types === 'object') {
+			for (var type in types) {
+				this._on(obj, type, types[type], fn);
+			}
+		} else {
+			types = L.Util.splitWords(types);
+
+			for (var i = 0, len = types.length; i < len; i++) {
+				this._on(obj, types[i], fn, context);
+			}
+		}
+
+		return this;
+	},
+
+	// @function off(el: HTMLElement, types: String, fn: Function, context?: Object): this
+	// Removes a previously added listener function. If no function is specified,
+	// it will remove all the listeners of that particular DOM event from the element.
+	// Note that if you passed a custom context to on, you must pass the same
+	// context to `off` in order to remove the listener.
+
+	// @alternative
+	// @function off(el: HTMLElement, eventMap: Object, context?: Object): this
+	// Removes a set of type/listener pairs, e.g. `{click: onClick, mousemove: onMouseMove}`
+	off: function (obj, types, fn, context) {
+
+		if (typeof types === 'object') {
+			for (var type in types) {
+				this._off(obj, type, types[type], fn);
+			}
+		} else {
+			types = L.Util.splitWords(types);
+
+			for (var i = 0, len = types.length; i < len; i++) {
+				this._off(obj, types[i], fn, context);
+			}
+		}
+
+		return this;
+	},
+
+	_on: function (obj, type, fn, context) {
+		var id = type + L.stamp(fn) + (context ? '_' + L.stamp(context) : '');
+
+		if (obj[eventsKey] && obj[eventsKey][id]) { return this; }
+
+		var handler = function (e) {
+			return fn.call(context || obj, e || window.event);
+		};
+
+		var originalHandler = handler;
+
+		if (L.Browser.pointer && type.indexOf('touch') === 0) {
+			this.addPointerListener(obj, type, handler, id);
+
+		} else if (L.Browser.touch && (type === 'dblclick') && this.addDoubleTapListener) {
+			this.addDoubleTapListener(obj, handler, id);
+
+		} else if ('addEventListener' in obj) {
+
+			if (type === 'mousewheel') {
+				obj.addEventListener('onwheel' in obj ? 'wheel' : 'mousewheel', handler, false);
+
+			} else if ((type === 'mouseenter') || (type === 'mouseleave')) {
+				handler = function (e) {
+					e = e || window.event;
+					if (L.DomEvent._isExternalTarget(obj, e)) {
+						originalHandler(e);
+					}
+				};
+				obj.addEventListener(type === 'mouseenter' ? 'mouseover' : 'mouseout', handler, false);
+
+			} else {
+				if (type === 'click' && L.Browser.android) {
+					handler = function (e) {
+						return L.DomEvent._filterClick(e, originalHandler);
+					};
+				}
+				obj.addEventListener(type, handler, false);
+			}
+
+		} else if ('attachEvent' in obj) {
+			obj.attachEvent('on' + type, handler);
+		}
+
+		obj[eventsKey] = obj[eventsKey] || {};
+		obj[eventsKey][id] = handler;
+
+		return this;
+	},
+
+	_off: function (obj, type, fn, context) {
+
+		var id = type + L.stamp(fn) + (context ? '_' + L.stamp(context) : ''),
+		    handler = obj[eventsKey] && obj[eventsKey][id];
+
+		if (!handler) { return this; }
+
+		if (L.Browser.pointer && type.indexOf('touch') === 0) {
+			this.removePointerListener(obj, type, id);
+
+		} else if (L.Browser.touch && (type === 'dblclick') && this.removeDoubleTapListener) {
+			this.removeDoubleTapListener(obj, id);
+
+		} else if ('removeEventListener' in obj) {
+
+			if (type === 'mousewheel') {
+				obj.removeEventListener('onwheel' in obj ? 'wheel' : 'mousewheel', handler, false);
+
+			} else {
+				obj.removeEventListener(
+					type === 'mouseenter' ? 'mouseover' :
+					type === 'mouseleave' ? 'mouseout' : type, handler, false);
+			}
+
+		} else if ('detachEvent' in obj) {
+			obj.detachEvent('on' + type, handler);
+		}
+
+		obj[eventsKey][id] = null;
+
+		return this;
+	},
+
+	// @function stopPropagation(ev: DOMEvent): this
+	// Stop the given event from propagation to parent elements. Used inside the listener functions:
+	// ```js
+	// L.DomEvent.on(div, 'click', function (ev) {
+	// 	L.DomEvent.stopPropagation(ev);
+	// });
+	// ```
+	stopPropagation: function (e) {
+
+		if (e.stopPropagation) {
+			e.stopPropagation();
+		} else if (e.originalEvent) {  // In case of Leaflet event.
+			e.originalEvent._stopped = true;
+		} else {
+			e.cancelBubble = true;
+		}
+		L.DomEvent._skipped(e);
+
+		return this;
+	},
+
+	// @function disableScrollPropagation(el: HTMLElement): this
+	// Adds `stopPropagation` to the element's `'mousewheel'` events (plus browser variants).
+	disableScrollPropagation: function (el) {
+		return L.DomEvent.on(el, 'mousewheel', L.DomEvent.stopPropagation);
+	},
+
+	// @function disableClickPropagation(el: HTMLElement): this
+	// Adds `stopPropagation` to the element's `'click'`, `'doubleclick'`,
+	// `'mousedown'` and `'touchstart'` events (plus browser variants).
+	disableClickPropagation: function (el) {
+		var stop = L.DomEvent.stopPropagation;
+
+		L.DomEvent.on(el, L.Draggable.START.join(' '), stop);
+
+		return L.DomEvent.on(el, {
+			click: L.DomEvent._fakeStop,
+			dblclick: stop
+		});
+	},
+
+	// @function preventDefault(ev: DOMEvent): this
+	// Prevents the default action of the DOM Event `ev` from happening (such as
+	// following a link in the href of the a element, or doing a POST request
+	// with page reload when a `<form>` is submitted).
+	// Use it inside listener functions.
+	preventDefault: function (e) {
+
+		if (e.preventDefault) {
+			e.preventDefault();
+		} else {
+			e.returnValue = false;
+		}
+		return this;
+	},
+
+	// @function stop(ev): this
+	// Does `stopPropagation` and `preventDefault` at the same time.
+	stop: function (e) {
+		return L.DomEvent
+			.preventDefault(e)
+			.stopPropagation(e);
+	},
+
+	// @function getMousePosition(ev: DOMEvent, container?: HTMLElement): Point
+	// Gets normalized mouse position from a DOM event relative to the
+	// `container` or to the whole page if not specified.
+	getMousePosition: function (e, container) {
+		if (!container) {
+			return new L.Point(e.clientX, e.clientY);
+		}
+
+		var rect = container.getBoundingClientRect();
+
+		return new L.Point(
+			e.clientX - rect.left - container.clientLeft,
+			e.clientY - rect.top - container.clientTop);
+	},
+
+	// Chrome on Win scrolls double the pixels as in other platforms (see #4538),
+	// and Firefox scrolls device pixels, not CSS pixels
+	_wheelPxFactor: (L.Browser.win && L.Browser.chrome) ? 2 :
+	                L.Browser.gecko ? window.devicePixelRatio :
+	                1,
+
+	// @function getWheelDelta(ev: DOMEvent): Number
+	// Gets normalized wheel delta from a mousewheel DOM event, in vertical
+	// pixels scrolled (negative if scrolling down).
+	// Events from pointing devices without precise scrolling are mapped to
+	// a best guess of 60 pixels.
+	getWheelDelta: function (e) {
+		return (L.Browser.edge) ? e.wheelDeltaY / 2 : // Don't trust window-geometry-based delta
+		       (e.deltaY && e.deltaMode === 0) ? -e.deltaY / L.DomEvent._wheelPxFactor : // Pixels
+		       (e.deltaY && e.deltaMode === 1) ? -e.deltaY * 20 : // Lines
+		       (e.deltaY && e.deltaMode === 2) ? -e.deltaY * 60 : // Pages
+		       (e.deltaX || e.deltaZ) ? 0 :	// Skip horizontal/depth wheel events
+		       e.wheelDelta ? (e.wheelDeltaY || e.wheelDelta) / 2 : // Legacy IE pixels
+		       (e.detail && Math.abs(e.detail) < 32765) ? -e.detail * 20 : // Legacy Moz lines
+		       e.detail ? e.detail / -32765 * 60 : // Legacy Moz pages
+		       0;
+	},
+
+	_skipEvents: {},
+
+	_fakeStop: function (e) {
+		// fakes stopPropagation by setting a special event flag, checked/reset with L.DomEvent._skipped(e)
+		L.DomEvent._skipEvents[e.type] = true;
+	},
+
+	_skipped: function (e) {
+		var skipped = this._skipEvents[e.type];
+		// reset when checking, as it's only used in map container and propagates outside of the map
+		this._skipEvents[e.type] = false;
+		return skipped;
+	},
+
+	// check if element really left/entered the event target (for mouseenter/mouseleave)
+	_isExternalTarget: function (el, e) {
+
+		var related = e.relatedTarget;
+
+		if (!related) { return true; }
+
+		try {
+			while (related && (related !== el)) {
+				related = related.parentNode;
+			}
+		} catch (err) {
+			return false;
+		}
+		return (related !== el);
+	},
+
+	// this is a horrible workaround for a bug in Android where a single touch triggers two click events
+	_filterClick: function (e, handler) {
+		var timeStamp = (e.timeStamp || (e.originalEvent && e.originalEvent.timeStamp)),
+		    elapsed = L.DomEvent._lastClick && (timeStamp - L.DomEvent._lastClick);
+
+		// are they closer together than 500ms yet more than 100ms?
+		// Android typically triggers them ~300ms apart while multiple listeners
+		// on the same event should be triggered far faster;
+		// or check if click is simulated on the element, and if it is, reject any non-simulated events
+
+		if ((elapsed && elapsed > 100 && elapsed < 500) || (e.target._simulatedClick && !e._simulated)) {
+			L.DomEvent.stop(e);
+			return;
+		}
+		L.DomEvent._lastClick = timeStamp;
+
+		handler(e);
+	}
+};
+
+// @function addListener(…): this
+// Alias to [`L.DomEvent.on`](#domevent-on)
+L.DomEvent.addListener = L.DomEvent.on;
+
+// @function removeListener(…): this
+// Alias to [`L.DomEvent.off`](#domevent-off)
+L.DomEvent.removeListener = L.DomEvent.off;
+
+
+
+/*
+ * @class PosAnimation
+ * @aka L.PosAnimation
+ * @inherits Evented
+ * Used internally for panning animations, utilizing CSS3 Transitions for modern browsers and a timer fallback for IE6-9.
+ *
+ * @example
+ * ```js
+ * var fx = new L.PosAnimation();
+ * fx.run(el, [300, 500], 0.5);
+ * ```
+ *
+ * @constructor L.PosAnimation()
+ * Creates a `PosAnimation` object.
+ *
+ */
+
+L.PosAnimation = L.Evented.extend({
+
+	// @method run(el: HTMLElement, newPos: Point, duration?: Number, easeLinearity?: Number)
+	// Run an animation of a given element to a new position, optionally setting
+	// duration in seconds (`0.25` by default) and easing linearity factor (3rd
+	// argument of the [cubic bezier curve](http://cubic-bezier.com/#0,0,.5,1),
+	// `0.5` by default).
+	run: function (el, newPos, duration, easeLinearity) {
+		this.stop();
+
+		this._el = el;
+		this._inProgress = true;
+		this._duration = duration || 0.25;
+		this._easeOutPower = 1 / Math.max(easeLinearity || 0.5, 0.2);
+
+		this._startPos = L.DomUtil.getPosition(el);
+		this._offset = newPos.subtract(this._startPos);
+		this._startTime = +new Date();
+
+		// @event start: Event
+		// Fired when the animation starts
+		this.fire('start');
+
+		this._animate();
+	},
+
+	// @method stop()
+	// Stops the animation (if currently running).
+	stop: function () {
+		if (!this._inProgress) { return; }
+
+		this._step(true);
+		this._complete();
+	},
+
+	_animate: function () {
+		// animation loop
+		this._animId = L.Util.requestAnimFrame(this._animate, this);
+		this._step();
+	},
+
+	_step: function (round) {
+		var elapsed = (+new Date()) - this._startTime,
+		    duration = this._duration * 1000;
+
+		if (elapsed < duration) {
+			this._runFrame(this._easeOut(elapsed / duration), round);
+		} else {
+			this._runFrame(1);
+			this._complete();
+		}
+	},
+
+	_runFrame: function (progress, round) {
+		var pos = this._startPos.add(this._offset.multiplyBy(progress));
+		if (round) {
+			pos._round();
+		}
+		L.DomUtil.setPosition(this._el, pos);
+
+		// @event step: Event
+		// Fired continuously during the animation.
+		this.fire('step');
+	},
+
+	_complete: function () {
+		L.Util.cancelAnimFrame(this._animId);
+
+		this._inProgress = false;
+		// @event end: Event
+		// Fired when the animation ends.
+		this.fire('end');
+	},
+
+	_easeOut: function (t) {
+		return 1 - Math.pow(1 - t, this._easeOutPower);
 	}
 });
 
@@ -3859,10 +4693,6 @@ L.GridLayer = L.Layer.extend({
 		// Tiles will not update more than once every `updateInterval` milliseconds when panning.
 		updateInterval: 200,
 
-		// @option attribution: String = null
-		// String to be shown in the attribution control, describes the layer data, e.g. "© Mapbox".
-		attribution: null,
-
 		// @option zIndex: Number = 1
 		// The explicit zIndex of the tile layer.
 		zIndex: 1,
@@ -3942,12 +4772,6 @@ L.GridLayer = L.Layer.extend({
 			this._setAutoZIndex(Math.min);
 		}
 		return this;
-	},
-
-	// @method getAttribution: String
-	// Used by the `attribution control`, returns the [attribution option](#gridlayer-attribution).
-	getAttribution: function () {
-		return this.options.attribution;
 	},
 
 	// @method getContainer: HTMLElement
@@ -4693,6 +5517,12 @@ L.TileLayer = L.GridLayer.extend({
 		// from `maxNativeZoom` level and auto-scaled.
 		maxNativeZoom: null,
 
+		// @option minNativeZoom: Number = null
+		// Minimum zoom number the tile source has available. If it is specified,
+		// the tiles on all zoom levels lower than `minNativeZoom` will be loaded
+		// from `minNativeZoom` level and auto-scaled.
+		minNativeZoom: null,
+
 		// @option subdomains: String|String[] = 'abc'
 		// Subdomains of the tile service. Can be passed in the form of one string (where each letter is a subdomain name) or an array of strings.
 		subdomains: 'abc',
@@ -4785,6 +5615,12 @@ L.TileLayer = L.GridLayer.extend({
 		*/
 		tile.alt = '';
 
+		/*
+		 Set role="presentation" to force screen readers to ignore this
+		 https://www.w3.org/TR/wai-aria/roles#textalternativecomputation
+		*/
+		tile.setAttribute('role', 'presentation');
+
 		tile.src = this.getTileUrl(coords);
 
 		return tile;
@@ -4834,14 +5670,22 @@ L.TileLayer = L.GridLayer.extend({
 
 	getTileSize: function () {
 		var map = this._map,
-		    tileSize = L.GridLayer.prototype.getTileSize.call(this),
-		    zoom = this._tileZoom + this.options.zoomOffset,
-		    zoomN = this.options.maxNativeZoom;
+		tileSize = L.GridLayer.prototype.getTileSize.call(this),
+		zoom = this._tileZoom + this.options.zoomOffset,
+		minNativeZoom = this.options.minNativeZoom,
+		maxNativeZoom = this.options.maxNativeZoom;
 
-		// increase tile size when overscaling
-		return zoomN !== null && zoom > zoomN ?
-				tileSize.divideBy(map.getZoomScale(zoomN, zoom)).round() :
-				tileSize;
+		// decrease tile size when scaling below minNativeZoom
+		if (minNativeZoom !== null && zoom < minNativeZoom) {
+			return tileSize.divideBy(map.getZoomScale(minNativeZoom, zoom)).round();
+		}
+
+		// increase tile size when scaling above maxNativeZoom
+		if (maxNativeZoom !== null && zoom > maxNativeZoom) {
+			return tileSize.divideBy(map.getZoomScale(maxNativeZoom, zoom)).round();
+		}
+
+		return tileSize;
 	},
 
 	_onTileRemove: function (e) {
@@ -4849,17 +5693,28 @@ L.TileLayer = L.GridLayer.extend({
 	},
 
 	_getZoomForUrl: function () {
+		var zoom = this._tileZoom,
+		maxZoom = this.options.maxZoom,
+		zoomReverse = this.options.zoomReverse,
+		zoomOffset = this.options.zoomOffset,
+		minNativeZoom = this.options.minNativeZoom,
+		maxNativeZoom = this.options.maxNativeZoom;
 
-		var options = this.options,
-		    zoom = this._tileZoom;
-
-		if (options.zoomReverse) {
-			zoom = options.maxZoom - zoom;
+		if (zoomReverse) {
+			zoom = maxZoom - zoom;
 		}
 
-		zoom += options.zoomOffset;
+		zoom += zoomOffset;
 
-		return options.maxNativeZoom !== null ? Math.min(zoom, options.maxNativeZoom) : zoom;
+		if (minNativeZoom !== null && zoom < minNativeZoom) {
+			return minNativeZoom;
+		}
+
+		if (maxNativeZoom !== null && zoom > maxNativeZoom) {
+			return maxNativeZoom;
+		}
+
+		return zoom;
 	},
 
 	_getSubdomain: function (tilePoint) {
@@ -5061,10 +5916,6 @@ L.ImageOverlay = L.Layer.extend({
 		// If `true`, the image overlay will emit [mouse events](#interactive-layer) when clicked or hovered.
 		interactive: false,
 
-		// @option attribution: String = null
-		// An optional string containing HTML to be shown on the `Attribution control`
-		attribution: null,
-
 		// @option crossOrigin: Boolean = false
 		// If true, the image will have its crossOrigin attribute set to ''. This is needed if you want to access image pixel data.
 		crossOrigin: false
@@ -5158,10 +6009,6 @@ L.ImageOverlay = L.Layer.extend({
 		return this;
 	},
 
-	getAttribution: function () {
-		return this.options.attribution;
-	},
-
 	getEvents: function () {
 		var events = {
 			zoom: this._reset,
@@ -5202,7 +6049,7 @@ L.ImageOverlay = L.Layer.extend({
 
 	_animateZoom: function (e) {
 		var scale = this._map.getZoomScale(e.zoom),
-		    offset = this._map._latLngToNewLayerPoint(this._bounds.getNorthWest(), e.zoom, e.center);
+		    offset = this._map._latLngBoundsToNewLayerBounds(this._bounds, e.zoom, e.center).min;
 
 		L.DomUtil.setTransform(this._image, offset, scale);
 	},
@@ -5389,8 +6236,11 @@ L.icon = function (options) {
  * no icon is specified. Points to the blue marker image distributed with Leaflet
  * releases.
  *
- * In order to change the default icon, just change the properties of `L.Icon.Default.prototype.options`
+ * In order to customize the default icon, just change the properties of `L.Icon.Default.prototype.options`
  * (which is a set of `Icon options`).
+ *
+ * If you want to _completely_ replace the default icon, override the
+ * `L.Marker.prototype.options.icon` with your own icon instead.
  */
 
 L.Icon.Default = L.Icon.extend({
@@ -5754,6 +6604,14 @@ L.Marker = L.Layer.extend({
 
 	_resetZIndex: function () {
 		this._updateZIndex(0);
+	},
+
+	_getPopupAnchor: function () {
+		return this.options.icon.options.popupAnchor || [0, 0];
+	},
+
+	_getTooltipAnchor: function () {
+		return this.options.icon.options.tooltipAnchor || [0, 0];
 	}
 });
 
@@ -6370,8 +7228,6 @@ L.Map.include({
 	}
 });
 
-
-
 /*
  * @namespace Layer
  * @section Popup methods example
@@ -6548,18 +7404,6 @@ L.Layer.include({
 
 
 /*
- * Popup extension to L.Marker, adding popup-related methods.
- */
-
-L.Marker.include({
-	_getPopupAnchor: function () {
-		return this.options.icon.options.popupAnchor || [0, 0];
-	}
-});
-
-
-
-/*
  * @class Tooltip
  * @inherits DivOverlay
  * @aka L.Tooltip
@@ -6694,17 +7538,17 @@ L.Tooltip = L.DivOverlay.extend({
 		    anchor = this._getAnchor();
 
 		if (direction === 'top') {
-			pos = pos.add(L.point(-tooltipWidth / 2 + offset.x, -tooltipHeight + offset.y + anchor.y));
+			pos = pos.add(L.point(-tooltipWidth / 2 + offset.x, -tooltipHeight + offset.y + anchor.y, true));
 		} else if (direction === 'bottom') {
-			pos = pos.subtract(L.point(tooltipWidth / 2 - offset.x, -offset.y));
+			pos = pos.subtract(L.point(tooltipWidth / 2 - offset.x, -offset.y, true));
 		} else if (direction === 'center') {
-			pos = pos.subtract(L.point(tooltipWidth / 2 + offset.x, tooltipHeight / 2 - anchor.y + offset.y));
+			pos = pos.subtract(L.point(tooltipWidth / 2 + offset.x, tooltipHeight / 2 - anchor.y + offset.y, true));
 		} else if (direction === 'right' || direction === 'auto' && tooltipPoint.x < centerPoint.x) {
 			direction = 'right';
-			pos = pos.add([offset.x + anchor.x, anchor.y - tooltipHeight / 2 + offset.y]);
+			pos = pos.add(L.point(offset.x + anchor.x, anchor.y - tooltipHeight / 2 + offset.y, true));
 		} else {
 			direction = 'left';
-			pos = pos.subtract(L.point(tooltipWidth + anchor.x - offset.x, tooltipHeight / 2 - anchor.y - offset.y));
+			pos = pos.subtract(L.point(tooltipWidth + anchor.x - offset.x, tooltipHeight / 2 - anchor.y - offset.y, true));
 		}
 
 		L.DomUtil.removeClass(container, 'leaflet-tooltip-right');
@@ -6782,8 +7626,6 @@ L.Map.include({
 	}
 
 });
-
-
 
 /*
  * @namespace Layer
@@ -6967,18 +7809,6 @@ L.Layer.include({
 			latlng = this._map.layerPointToLatLng(layerPoint);
 		}
 		this._tooltip.setLatLng(latlng);
-	}
-});
-
-
-
-/*
- * Tooltip extension to L.Marker, adding tooltip-related methods.
- */
-
-L.Marker.include({
-	_getTooltipAnchor: function () {
-		return this.options.icon.options.tooltipAnchor || [0, 0];
 	}
 });
 
@@ -7274,6 +8104,7 @@ L.Renderer = L.Layer.extend({
 	initialize: function (options) {
 		L.setOptions(this, options);
 		L.stamp(this);
+		this._layers = this._layers || {};
 	},
 
 	onAdd: function () {
@@ -7287,17 +8118,20 @@ L.Renderer = L.Layer.extend({
 
 		this.getPane().appendChild(this._container);
 		this._update();
+		this.on('update', this._updatePaths, this);
 	},
 
 	onRemove: function () {
 		L.DomUtil.remove(this._container);
+		this.off('update', this._updatePaths, this);
 	},
 
 	getEvents: function () {
 		var events = {
 			viewreset: this._reset,
 			zoom: this._onZoom,
-			moveend: this._update
+			moveend: this._update,
+			zoomend: this._onZoomEnd
 		};
 		if (this._zoomAnimated) {
 			events.zoomanim = this._onAnimZoom;
@@ -7333,6 +8167,22 @@ L.Renderer = L.Layer.extend({
 	_reset: function () {
 		this._update();
 		this._updateTransform(this._center, this._zoom);
+
+		for (var id in this._layers) {
+			this._layers[id]._reset();
+		}
+	},
+
+	_onZoomEnd: function () {
+		for (var id in this._layers) {
+			this._layers[id]._project();
+		}
+	},
+
+	_updatePaths: function () {
+		for (var id in this._layers) {
+			this._layers[id]._update();
+		}
 	},
 
 	_update: function () {
@@ -7468,19 +8318,10 @@ L.Path = L.Layer.extend({
 		this._renderer._initPath(this);
 		this._reset();
 		this._renderer._addPath(this);
-		this._renderer.on('update', this._update, this);
 	},
 
 	onRemove: function () {
 		this._renderer._removePath(this);
-		this._renderer.off('update', this._update, this);
-	},
-
-	getEvents: function () {
-		return {
-			zoomend: this._project,
-			viewreset: this._reset
-		};
 	},
 
 	// @method redraw(): this
@@ -8645,6 +9486,7 @@ L.SVG = L.Renderer.extend({
 		}
 
 		this._updateStyle(layer);
+		this._layers[L.stamp(layer)] = layer;
 	},
 
 	_addPath: function (layer) {
@@ -8655,6 +9497,7 @@ L.SVG = L.Renderer.extend({
 	_removePath: function (layer) {
 		L.DomUtil.remove(layer._path);
 		layer.removeInteractiveTarget(layer._path);
+		delete this._layers[L.stamp(layer)];
 	},
 
 	_updatePath: function (layer) {
@@ -8976,8 +9819,6 @@ L.Canvas = L.Renderer.extend({
 	onAdd: function () {
 		L.Renderer.prototype.onAdd.call(this);
 
-		this._layers = this._layers || {};
-
 		// Redraw vectors since canvas is cleared upon removal,
 		// in case of removing the renderer itself from the map.
 		this._draw();
@@ -8992,6 +9833,16 @@ L.Canvas = L.Renderer.extend({
 			.on(container, 'mouseout', this._handleMouseOut, this);
 
 		this._ctx = container.getContext('2d');
+	},
+
+	_updatePaths: function () {
+		var layer;
+		this._redrawBounds = null;
+		for (var id in this._layers) {
+			layer = this._layers[id];
+			layer._update();
+		}
+		this._redraw();
 	},
 
 	_update: function () {
@@ -9028,22 +9879,53 @@ L.Canvas = L.Renderer.extend({
 	_initPath: function (layer) {
 		this._updateDashArray(layer);
 		this._layers[L.stamp(layer)] = layer;
+
+		var order = layer._order = {
+			layer: layer,
+			prev: this._drawLast,
+			next: null
+		};
+		if (this._drawLast) { this._drawLast.next = order; }
+		this._drawLast = order;
+		this._drawFirst = this._drawFirst || this._drawLast;
 	},
 
-	_addPath: L.Util.falseFn,
+	_addPath: function (layer) {
+		this._requestRedraw(layer);
+	},
 
 	_removePath: function (layer) {
-		layer._removed = true;
+		var order = layer._order;
+		var next = order.next;
+		var prev = order.prev;
+
+		if (next) {
+			next.prev = prev;
+		} else {
+			this._drawLast = prev;
+		}
+		if (prev) {
+			prev.next = next;
+		} else {
+			this._drawFirst = next;
+		}
+
+		delete layer._order;
+
+		delete this._layers[L.stamp(layer)];
+
 		this._requestRedraw(layer);
 	},
 
 	_updatePath: function (layer) {
-		this._redrawBounds = layer._pxBounds;
-		this._draw(true);
+		// Redraw the union of the layer's old pixel
+		// bounds and the new pixel bounds.
+		this._extendRedrawBounds(layer);
 		layer._project();
 		layer._update();
-		this._draw();
-		this._redrawBounds = null;
+		// The redraw will extend the redraw bounds
+		// with the new pixel bounds.
+		this._requestRedraw(layer);
 	},
 
 	_updateStyle: function (layer) {
@@ -9066,47 +9948,62 @@ L.Canvas = L.Renderer.extend({
 	_requestRedraw: function (layer) {
 		if (!this._map) { return; }
 
+		this._extendRedrawBounds(layer);
+		this._redrawRequest = this._redrawRequest || L.Util.requestAnimFrame(this._redraw, this);
+	},
+
+	_extendRedrawBounds: function (layer) {
 		var padding = (layer.options.weight || 0) + 1;
 		this._redrawBounds = this._redrawBounds || new L.Bounds();
 		this._redrawBounds.extend(layer._pxBounds.min.subtract([padding, padding]));
 		this._redrawBounds.extend(layer._pxBounds.max.add([padding, padding]));
-
-		this._redrawRequest = this._redrawRequest || L.Util.requestAnimFrame(this._redraw, this);
 	},
 
 	_redraw: function () {
 		this._redrawRequest = null;
 
-		this._draw(true); // clear layers in redraw bounds
+		this._clear(); // clear layers in redraw bounds
 		this._draw(); // draw layers
 
 		this._redrawBounds = null;
 	},
 
-	_draw: function (clear) {
-		this._clear = clear;
+	_clear: function () {
+		var bounds = this._redrawBounds;
+		if (bounds) {
+			var size = bounds.getSize();
+			this._ctx.clearRect(bounds.min.x, bounds.min.y, size.x, size.y);
+		} else {
+			this._ctx.clearRect(0, 0, this._container.width, this._container.height);
+		}
+	},
+
+	_draw: function () {
 		var layer, bounds = this._redrawBounds;
 		this._ctx.save();
 		if (bounds) {
+			var size = bounds.getSize();
 			this._ctx.beginPath();
-			this._ctx.rect(bounds.min.x, bounds.min.y, bounds.max.x - bounds.min.x, bounds.max.y - bounds.min.y);
+			this._ctx.rect(bounds.min.x, bounds.min.y, size.x, size.y);
 			this._ctx.clip();
 		}
 
-		for (var id in this._layers) {
-			layer = this._layers[id];
+		this._drawing = true;
+
+		for (var order = this._drawFirst; order; order = order.next) {
+			layer = order.layer;
 			if (!bounds || (layer._pxBounds && layer._pxBounds.intersects(bounds))) {
 				layer._updatePath();
 			}
-			if (clear && layer._removed) {
-				delete layer._removed;
-				delete this._layers[id];
-			}
 		}
+
+		this._drawing = false;
+
 		this._ctx.restore();  // Restore state before clipping.
 	},
 
 	_updatePoly: function (layer, closed) {
+		if (!this._drawing) { return; }
 
 		var i, j, len2, p,
 		    parts = layer._parts,
@@ -9140,7 +10037,7 @@ L.Canvas = L.Renderer.extend({
 
 	_updateCircle: function (layer) {
 
-		if (layer._empty()) { return; }
+		if (!this._drawing || layer._empty()) { return; }
 
 		var p = layer._point,
 		    ctx = this._ctx,
@@ -9165,23 +10062,17 @@ L.Canvas = L.Renderer.extend({
 	},
 
 	_fillStroke: function (ctx, layer) {
-		var clear = this._clear,
-		    options = layer.options;
-
-		ctx.globalCompositeOperation = clear ? 'destination-out' : 'source-over';
+		var options = layer.options;
 
 		if (options.fill) {
-			ctx.globalAlpha = clear ? 1 : options.fillOpacity;
+			ctx.globalAlpha = options.fillOpacity;
 			ctx.fillStyle = options.fillColor || options.color;
 			ctx.fill(options.fillRule || 'evenodd');
 		}
 
 		if (options.stroke && options.weight !== 0) {
-			ctx.globalAlpha = clear ? 1 : options.opacity;
-
-			// if clearing shape, do it with the previously drawn line width
-			layer._prevWeight = ctx.lineWidth = clear ? layer._prevWeight + 1 : options.weight;
-
+			ctx.globalAlpha = options.opacity;
+			ctx.lineWidth = options.weight;
 			ctx.strokeStyle = options.color;
 			ctx.lineCap = options.lineCap;
 			ctx.lineJoin = options.lineJoin;
@@ -9193,17 +10084,17 @@ L.Canvas = L.Renderer.extend({
 	// so we emulate that by calculating what's under the mouse on mousemove/click manually
 
 	_onClick: function (e) {
-		var point = this._map.mouseEventToLayerPoint(e), layers = [], layer;
+		var point = this._map.mouseEventToLayerPoint(e), layer, clickedLayer;
 
-		for (var id in this._layers) {
-			layer = this._layers[id];
+		for (var order = this._drawFirst; order; order = order.next) {
+			layer = order.layer;
 			if (layer.options.interactive && layer._containsPoint(point) && !this._map._draggableMoved(layer)) {
-				L.DomEvent._fakeStop(e);
-				layers.push(layer);
+				clickedLayer = layer;
 			}
 		}
-		if (layers.length)  {
-			this._fireEvent(layers, e);
+		if (clickedLayer)  {
+			L.DomEvent._fakeStop(e);
+			this._fireEvent([clickedLayer], e);
 		}
 	},
 
@@ -9211,14 +10102,13 @@ L.Canvas = L.Renderer.extend({
 		if (!this._map || this._map.dragging.moving() || this._map._animatingZoom) { return; }
 
 		var point = this._map.mouseEventToLayerPoint(e);
-		this._handleMouseOut(e, point);
 		this._handleMouseHover(e, point);
 	},
 
 
-	_handleMouseOut: function (e, point) {
+	_handleMouseOut: function (e) {
 		var layer = this._hoveredLayer;
-		if (layer && (e.type === 'mouseout' || !layer._containsPoint(point))) {
+		if (layer) {
 			// if we're leaving the layer, fire mouseout
 			L.DomUtil.removeClass(this._container, 'leaflet-interactive');
 			this._fireEvent([layer], e, 'mouseout');
@@ -9227,14 +10117,22 @@ L.Canvas = L.Renderer.extend({
 	},
 
 	_handleMouseHover: function (e, point) {
-		var id, layer;
+		var layer, candidateHoveredLayer;
 
-		for (id in this._drawnLayers) {
-			layer = this._drawnLayers[id];
+		for (var order = this._drawFirst; order; order = order.next) {
+			layer = order.layer;
 			if (layer.options.interactive && layer._containsPoint(point)) {
+				candidateHoveredLayer = layer;
+			}
+		}
+
+		if (candidateHoveredLayer !== this._hoveredLayer) {
+			this._handleMouseOut(e);
+
+			if (candidateHoveredLayer) {
 				L.DomUtil.addClass(this._container, 'leaflet-interactive'); // change cursor
-				this._fireEvent([layer], e, 'mouseover');
-				this._hoveredLayer = layer;
+				this._fireEvent([candidateHoveredLayer], e, 'mouseover');
+				this._hoveredLayer = candidateHoveredLayer;
 			}
 		}
 
@@ -9247,10 +10145,61 @@ L.Canvas = L.Renderer.extend({
 		this._map._fireDOMEvent(e, type || e.type, layers);
 	},
 
-	// TODO _bringToFront & _bringToBack, pretty tricky
+	_bringToFront: function (layer) {
+		var order = layer._order;
+		var next = order.next;
+		var prev = order.prev;
 
-	_bringToFront: L.Util.falseFn,
-	_bringToBack: L.Util.falseFn
+		if (next) {
+			next.prev = prev;
+		} else {
+			// Already last
+			return;
+		}
+		if (prev) {
+			prev.next = next;
+		} else if (next) {
+			// Update first entry unless this is the
+			// signle entry
+			this._drawFirst = next;
+		}
+
+		order.prev = this._drawLast;
+		this._drawLast.next = order;
+
+		order.next = null;
+		this._drawLast = order;
+
+		this._requestRedraw(layer);
+	},
+
+	_bringToBack: function (layer) {
+		var order = layer._order;
+		var next = order.next;
+		var prev = order.prev;
+
+		if (prev) {
+			prev.next = next;
+		} else {
+			// Already first
+			return;
+		}
+		if (next) {
+			next.prev = prev;
+		} else if (prev) {
+			// Update last entry unless this is the
+			// signle entry
+			this._drawLast = prev;
+		}
+
+		order.prev = null;
+
+		order.next = this._drawFirst;
+		this._drawFirst.prev = order;
+		this._drawFirst = order;
+
+		this._requestRedraw(layer);
+	}
 });
 
 // @namespace Browser; @property canvas: Boolean
@@ -9397,7 +10346,7 @@ L.GeoJSON = L.FeatureGroup.extend({
 		}
 	},
 
-	// @method addData( <GeoJSON> data ): Layer
+	// @method addData( <GeoJSON> data ): this
 	// Adds a GeoJSON object to the layer.
 	addData: function (geojson) {
 		var features = L.Util.isArray(geojson) ? geojson : geojson.features,
@@ -9434,7 +10383,7 @@ L.GeoJSON = L.FeatureGroup.extend({
 		return this.addLayer(layer);
 	},
 
-	// @method resetStyle( <Path> layer ): Layer
+	// @method resetStyle( <Path> layer ): this
 	// Resets the given vector layer's style to the original GeoJSON style, useful for resetting style after hover events.
 	resetStyle: function (layer) {
 		// reset any custom styles
@@ -9443,7 +10392,7 @@ L.GeoJSON = L.FeatureGroup.extend({
 		return this;
 	},
 
-	// @method setStyle( <Function> style ): Layer
+	// @method setStyle( <Function> style ): this
 	// Changes styles of GeoJSON vector layers with the given style function.
 	setStyle: function (style) {
 		return this.eachLayer(function (layer) {
@@ -9583,7 +10532,7 @@ L.extend(L.GeoJSON, {
 	// @function asFeature(geojson: Object): Object
 	// Normalize GeoJSON geometries/features into GeoJSON features.
 	asFeature: function (geojson) {
-		if (geojson.type === 'Feature') {
+		if (geojson.type === 'Feature' || geojson.type === 'FeatureCollection') {
 			return geojson;
 		}
 
@@ -9604,6 +10553,9 @@ var PointToGeoJSON = {
 	}
 };
 
+// @namespace Marker
+// @method toGeoJSON(): Object
+// Returns a [`GeoJSON`](http://en.wikipedia.org/wiki/GeoJSON) representation of the marker (as a GeoJSON `Point` Feature).
 L.Marker.include(PointToGeoJSON);
 
 // @namespace CircleMarker
@@ -9710,317 +10662,6 @@ L.geoJson = L.geoJSON;
 
 
 /*
- * @namespace DomEvent
- * Utility functions to work with the [DOM events](https://developer.mozilla.org/docs/Web/API/Event), used by Leaflet internally.
- */
-
-// Inspired by John Resig, Dean Edwards and YUI addEvent implementations.
-
-
-
-var eventsKey = '_leaflet_events';
-
-L.DomEvent = {
-
-	// @function on(el: HTMLElement, types: String, fn: Function, context?: Object): this
-	// Adds a listener function (`fn`) to a particular DOM event type of the
-	// element `el`. You can optionally specify the context of the listener
-	// (object the `this` keyword will point to). You can also pass several
-	// space-separated types (e.g. `'click dblclick'`).
-
-	// @alternative
-	// @function on(el: HTMLElement, eventMap: Object, context?: Object): this
-	// Adds a set of type/listener pairs, e.g. `{click: onClick, mousemove: onMouseMove}`
-	on: function (obj, types, fn, context) {
-
-		if (typeof types === 'object') {
-			for (var type in types) {
-				this._on(obj, type, types[type], fn);
-			}
-		} else {
-			types = L.Util.splitWords(types);
-
-			for (var i = 0, len = types.length; i < len; i++) {
-				this._on(obj, types[i], fn, context);
-			}
-		}
-
-		return this;
-	},
-
-	// @function off(el: HTMLElement, types: String, fn: Function, context?: Object): this
-	// Removes a previously added listener function. If no function is specified,
-	// it will remove all the listeners of that particular DOM event from the element.
-	// Note that if you passed a custom context to on, you must pass the same
-	// context to `off` in order to remove the listener.
-
-	// @alternative
-	// @function off(el: HTMLElement, eventMap: Object, context?: Object): this
-	// Removes a set of type/listener pairs, e.g. `{click: onClick, mousemove: onMouseMove}`
-	off: function (obj, types, fn, context) {
-
-		if (typeof types === 'object') {
-			for (var type in types) {
-				this._off(obj, type, types[type], fn);
-			}
-		} else {
-			types = L.Util.splitWords(types);
-
-			for (var i = 0, len = types.length; i < len; i++) {
-				this._off(obj, types[i], fn, context);
-			}
-		}
-
-		return this;
-	},
-
-	_on: function (obj, type, fn, context) {
-		var id = type + L.stamp(fn) + (context ? '_' + L.stamp(context) : '');
-
-		if (obj[eventsKey] && obj[eventsKey][id]) { return this; }
-
-		var handler = function (e) {
-			return fn.call(context || obj, e || window.event);
-		};
-
-		var originalHandler = handler;
-
-		if (L.Browser.pointer && type.indexOf('touch') === 0) {
-			this.addPointerListener(obj, type, handler, id);
-
-		} else if (L.Browser.touch && (type === 'dblclick') && this.addDoubleTapListener) {
-			this.addDoubleTapListener(obj, handler, id);
-
-		} else if ('addEventListener' in obj) {
-
-			if (type === 'mousewheel') {
-				obj.addEventListener('onwheel' in obj ? 'wheel' : 'mousewheel', handler, false);
-
-			} else if ((type === 'mouseenter') || (type === 'mouseleave')) {
-				handler = function (e) {
-					e = e || window.event;
-					if (L.DomEvent._isExternalTarget(obj, e)) {
-						originalHandler(e);
-					}
-				};
-				obj.addEventListener(type === 'mouseenter' ? 'mouseover' : 'mouseout', handler, false);
-
-			} else {
-				if (type === 'click' && L.Browser.android) {
-					handler = function (e) {
-						return L.DomEvent._filterClick(e, originalHandler);
-					};
-				}
-				obj.addEventListener(type, handler, false);
-			}
-
-		} else if ('attachEvent' in obj) {
-			obj.attachEvent('on' + type, handler);
-		}
-
-		obj[eventsKey] = obj[eventsKey] || {};
-		obj[eventsKey][id] = handler;
-
-		return this;
-	},
-
-	_off: function (obj, type, fn, context) {
-
-		var id = type + L.stamp(fn) + (context ? '_' + L.stamp(context) : ''),
-		    handler = obj[eventsKey] && obj[eventsKey][id];
-
-		if (!handler) { return this; }
-
-		if (L.Browser.pointer && type.indexOf('touch') === 0) {
-			this.removePointerListener(obj, type, id);
-
-		} else if (L.Browser.touch && (type === 'dblclick') && this.removeDoubleTapListener) {
-			this.removeDoubleTapListener(obj, id);
-
-		} else if ('removeEventListener' in obj) {
-
-			if (type === 'mousewheel') {
-				obj.removeEventListener('onwheel' in obj ? 'wheel' : 'mousewheel', handler, false);
-
-			} else {
-				obj.removeEventListener(
-					type === 'mouseenter' ? 'mouseover' :
-					type === 'mouseleave' ? 'mouseout' : type, handler, false);
-			}
-
-		} else if ('detachEvent' in obj) {
-			obj.detachEvent('on' + type, handler);
-		}
-
-		obj[eventsKey][id] = null;
-
-		return this;
-	},
-
-	// @function stopPropagation(ev: DOMEvent): this
-	// Stop the given event from propagation to parent elements. Used inside the listener functions:
-	// ```js
-	// L.DomEvent.on(div, 'click', function (ev) {
-	// 	L.DomEvent.stopPropagation(ev);
-	// });
-	// ```
-	stopPropagation: function (e) {
-
-		if (e.stopPropagation) {
-			e.stopPropagation();
-		} else if (e.originalEvent) {  // In case of Leaflet event.
-			e.originalEvent._stopped = true;
-		} else {
-			e.cancelBubble = true;
-		}
-		L.DomEvent._skipped(e);
-
-		return this;
-	},
-
-	// @function disableScrollPropagation(el: HTMLElement): this
-	// Adds `stopPropagation` to the element's `'mousewheel'` events (plus browser variants).
-	disableScrollPropagation: function (el) {
-		return L.DomEvent.on(el, 'mousewheel', L.DomEvent.stopPropagation);
-	},
-
-	// @function disableClickPropagation(el: HTMLElement): this
-	// Adds `stopPropagation` to the element's `'click'`, `'doubleclick'`,
-	// `'mousedown'` and `'touchstart'` events (plus browser variants).
-	disableClickPropagation: function (el) {
-		var stop = L.DomEvent.stopPropagation;
-
-		L.DomEvent.on(el, L.Draggable.START.join(' '), stop);
-
-		return L.DomEvent.on(el, {
-			click: L.DomEvent._fakeStop,
-			dblclick: stop
-		});
-	},
-
-	// @function preventDefault(ev: DOMEvent): this
-	// Prevents the default action of the DOM Event `ev` from happening (such as
-	// following a link in the href of the a element, or doing a POST request
-	// with page reload when a `<form>` is submitted).
-	// Use it inside listener functions.
-	preventDefault: function (e) {
-
-		if (e.preventDefault) {
-			e.preventDefault();
-		} else {
-			e.returnValue = false;
-		}
-		return this;
-	},
-
-	// @function stop(ev): this
-	// Does `stopPropagation` and `preventDefault` at the same time.
-	stop: function (e) {
-		return L.DomEvent
-			.preventDefault(e)
-			.stopPropagation(e);
-	},
-
-	// @function getMousePosition(ev: DOMEvent, container?: HTMLElement): Point
-	// Gets normalized mouse position from a DOM event relative to the
-	// `container` or to the whole page if not specified.
-	getMousePosition: function (e, container) {
-		if (!container) {
-			return new L.Point(e.clientX, e.clientY);
-		}
-
-		var rect = container.getBoundingClientRect();
-
-		return new L.Point(
-			e.clientX - rect.left - container.clientLeft,
-			e.clientY - rect.top - container.clientTop);
-	},
-
-	// Chrome on Win scrolls double the pixels as in other platforms (see #4538),
-	// and Firefox scrolls device pixels, not CSS pixels
-	_wheelPxFactor: (L.Browser.win && L.Browser.chrome) ? 2 :
-	                L.Browser.gecko ? window.devicePixelRatio :
-	                1,
-
-	// @function getWheelDelta(ev: DOMEvent): Number
-	// Gets normalized wheel delta from a mousewheel DOM event, in vertical
-	// pixels scrolled (negative if scrolling down).
-	// Events from pointing devices without precise scrolling are mapped to
-	// a best guess of 60 pixels.
-	getWheelDelta: function (e) {
-		return (L.Browser.edge) ? e.wheelDeltaY / 2 : // Don't trust window-geometry-based delta
-		       (e.deltaY && e.deltaMode === 0) ? -e.deltaY / L.DomEvent._wheelPxFactor : // Pixels
-		       (e.deltaY && e.deltaMode === 1) ? -e.deltaY * 20 : // Lines
-		       (e.deltaY && e.deltaMode === 2) ? -e.deltaY * 60 : // Pages
-		       (e.deltaX || e.deltaZ) ? 0 :	// Skip horizontal/depth wheel events
-		       e.wheelDelta ? (e.wheelDeltaY || e.wheelDelta) / 2 : // Legacy IE pixels
-		       (e.detail && Math.abs(e.detail) < 32765) ? -e.detail * 20 : // Legacy Moz lines
-		       e.detail ? e.detail / -32765 * 60 : // Legacy Moz pages
-		       0;
-	},
-
-	_skipEvents: {},
-
-	_fakeStop: function (e) {
-		// fakes stopPropagation by setting a special event flag, checked/reset with L.DomEvent._skipped(e)
-		L.DomEvent._skipEvents[e.type] = true;
-	},
-
-	_skipped: function (e) {
-		var skipped = this._skipEvents[e.type];
-		// reset when checking, as it's only used in map container and propagates outside of the map
-		this._skipEvents[e.type] = false;
-		return skipped;
-	},
-
-	// check if element really left/entered the event target (for mouseenter/mouseleave)
-	_isExternalTarget: function (el, e) {
-
-		var related = e.relatedTarget;
-
-		if (!related) { return true; }
-
-		try {
-			while (related && (related !== el)) {
-				related = related.parentNode;
-			}
-		} catch (err) {
-			return false;
-		}
-		return (related !== el);
-	},
-
-	// this is a horrible workaround for a bug in Android where a single touch triggers two click events
-	_filterClick: function (e, handler) {
-		var timeStamp = (e.timeStamp || (e.originalEvent && e.originalEvent.timeStamp)),
-		    elapsed = L.DomEvent._lastClick && (timeStamp - L.DomEvent._lastClick);
-
-		// are they closer together than 500ms yet more than 100ms?
-		// Android typically triggers them ~300ms apart while multiple listeners
-		// on the same event should be triggered far faster;
-		// or check if click is simulated on the element, and if it is, reject any non-simulated events
-
-		if ((elapsed && elapsed > 100 && elapsed < 500) || (e.target._simulatedClick && !e._simulated)) {
-			L.DomEvent.stop(e);
-			return;
-		}
-		L.DomEvent._lastClick = timeStamp;
-
-		handler(e);
-	}
-};
-
-// @function addListener(…): this
-// Alias to [`L.DomEvent.on`](#domevent-on)
-L.DomEvent.addListener = L.DomEvent.on;
-
-// @function removeListener(…): this
-// Alias to [`L.DomEvent.off`](#domevent-off)
-L.DomEvent.removeListener = L.DomEvent.off;
-
-
-
-/*
  * @class Draggable
  * @aka L.Draggable
  * @inherits Evented
@@ -10084,6 +10725,12 @@ L.Draggable = L.Evented.extend({
 	disable: function () {
 		if (!this._enabled) { return; }
 
+		// If we're currently dragging this draggable,
+		// disabling it counts as first ending the drag.
+		if (L.Draggable._dragging === this) {
+			this.finishDrag();
+		}
+
 		L.DomEvent.off(this._dragStartTarget, L.Draggable.START.join(' '), this._onDown, this);
 
 		this._enabled = false;
@@ -10102,8 +10749,8 @@ L.Draggable = L.Evented.extend({
 
 		if (L.DomUtil.hasClass(this._element, 'leaflet-zoom-anim')) { return; }
 
-		if (L.Draggable._dragging || e.shiftKey || ((e.which !== 1) && (e.button !== 1) && !e.touches) || !this._enabled) { return; }
-		L.Draggable._dragging = true;  // Prevent dragging multiple objects at once.
+		if (L.Draggable._dragging || e.shiftKey || ((e.which !== 1) && (e.button !== 1) && !e.touches)) { return; }
+		L.Draggable._dragging = this;  // Prevent dragging multiple objects at once.
 
 		if (this._preventOutline) {
 			L.DomUtil.preventOutline(this._element);
@@ -10197,7 +10844,10 @@ L.Draggable = L.Evented.extend({
 		// Also ignore the event if disabled; this happens in IE11
 		// under some circumstances, see #3666.
 		if (e._simulated || !this._enabled) { return; }
+		this.finishDrag();
+	},
 
+	finishDrag: function () {
 		L.DomUtil.removeClass(document.body, 'leaflet-dragging');
 
 		if (this._lastTarget) {
@@ -10228,6 +10878,7 @@ L.Draggable = L.Evented.extend({
 		this._moving = false;
 		L.Draggable._dragging = false;
 	}
+
 });
 
 
@@ -11553,6 +12204,7 @@ L.Handler.MarkerDrag = L.Handler.extend({
 /*
  * @class Control
  * @aka L.Control
+ * @inherits Class
  *
  * L.Control is a base class for implementing map controls. Handles positioning.
  * All other controls extend from this class.
@@ -11792,6 +12444,12 @@ L.Control.Zoom = L.Control.extend({
 		link.innerHTML = html;
 		link.href = '#';
 		link.title = title;
+
+		/*
+		 * Will force screen readers like VoiceOver to read this as "Zoom in - button"
+		 */
+		link.setAttribute('role', 'button');
+		link.setAttribute('aria-label', title);
 
 		L.DomEvent
 		    .on(link, 'mousedown dblclick', L.DomEvent.stopPropagation)
@@ -12155,7 +12813,22 @@ L.Control.Layers = L.Control.extend({
 
 		// @option hideSingleBase: Boolean = false
 		// If `true`, the base layers in the control will be hidden when there is only one.
-		hideSingleBase: false
+		hideSingleBase: false,
+
+		// @option sortLayers: Boolean = false
+		// Whether to sort the layers. When `false`, layers will keep the order
+		// in which they were added to the control.
+		sortLayers: false,
+
+		// @option sortFunction: Function = *
+		// A [compare function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
+		// that will be used for sorting the layers, when `sortLayers` is `true`.
+		// The function receives both the `L.Layer` instances and their names, as in
+		// `sortFunction(layerA, layerB, nameA, nameB)`.
+		// By default, it sorts layers alphabetically by their name.
+		sortFunction: function (layerA, layerB, nameA, nameB) {
+			return nameA < nameB ? -1 : (nameB < nameA ? 1 : 0);
+		}
 	},
 
 	initialize: function (baseLayers, overlays, options) {
@@ -12255,34 +12928,34 @@ L.Control.Layers = L.Control.extend({
 
 		var form = this._form = L.DomUtil.create('form', className + '-list');
 
-		if (this.options.collapsed) {
-			if (!L.Browser.android) {
-				L.DomEvent.on(container, {
-					mouseenter: this.expand,
-					mouseleave: this.collapse
-				}, this);
-			}
-
-			var link = this._layersLink = L.DomUtil.create('a', className + '-toggle', container);
-			link.href = '#';
-			link.title = 'Layers';
-
-			if (L.Browser.touch) {
-				L.DomEvent
-				    .on(link, 'click', L.DomEvent.stop)
-				    .on(link, 'click', this.expand, this);
-			} else {
-				L.DomEvent.on(link, 'focus', this.expand, this);
-			}
-
-			// work around for Firefox Android issue https://github.com/Leaflet/Leaflet/issues/2033
-			L.DomEvent.on(form, 'click', function () {
-				setTimeout(L.bind(this._onInputClick, this), 0);
+		if (!L.Browser.android) {
+			L.DomEvent.on(container, {
+				mouseenter: this.expand,
+				mouseleave: this.collapse
 			}, this);
+		}
 
-			this._map.on('click', this.collapse, this);
-			// TODO keyboard accessibility
+		var link = this._layersLink = L.DomUtil.create('a', className + '-toggle', container);
+		link.href = '#';
+		link.title = 'Layers';
+
+		if (L.Browser.touch) {
+			L.DomEvent
+			    .on(link, 'click', L.DomEvent.stop)
+			    .on(link, 'click', this.expand, this);
 		} else {
+			L.DomEvent.on(link, 'focus', this.expand, this);
+		}
+
+		// work around for Firefox Android issue https://github.com/Leaflet/Leaflet/issues/2033
+		L.DomEvent.on(form, 'click', function () {
+			setTimeout(L.bind(this._onInputClick, this), 0);
+		}, this);
+
+		this._map.on('click', this.collapse, this);
+		// TODO keyboard accessibility
+
+		if (!this.options.collapsed) {
 			this.expand();
 		}
 
@@ -12310,6 +12983,12 @@ L.Control.Layers = L.Control.extend({
 			name: name,
 			overlay: overlay
 		});
+
+		if (this.options.sortLayers) {
+			this._layers.sort(L.bind(function (a, b) {
+				return this.options.sortFunction(a.layer, b.layer, a.name, b.name);
+			}, this));
+		}
 
 		if (this.options.autoZIndex && layer.setZIndex) {
 			this._lastZIndex++;
@@ -12484,559 +13163,6 @@ L.Control.Layers = L.Control.extend({
 L.control.layers = function (baseLayers, overlays, options) {
 	return new L.Control.Layers(baseLayers, overlays, options);
 };
-
-
-
-/*
- * @class PosAnimation
- * @aka L.PosAnimation
- * @inherits Evented
- * Used internally for panning animations, utilizing CSS3 Transitions for modern browsers and a timer fallback for IE6-9.
- *
- * @example
- * ```js
- * var fx = new L.PosAnimation();
- * fx.run(el, [300, 500], 0.5);
- * ```
- *
- * @constructor L.PosAnimation()
- * Creates a `PosAnimation` object.
- *
- */
-
-L.PosAnimation = L.Evented.extend({
-
-	// @method run(el: HTMLElement, newPos: Point, duration?: Number, easeLinearity?: Number)
-	// Run an animation of a given element to a new position, optionally setting
-	// duration in seconds (`0.25` by default) and easing linearity factor (3rd
-	// argument of the [cubic bezier curve](http://cubic-bezier.com/#0,0,.5,1),
-	// `0.5` by default).
-	run: function (el, newPos, duration, easeLinearity) {
-		this.stop();
-
-		this._el = el;
-		this._inProgress = true;
-		this._duration = duration || 0.25;
-		this._easeOutPower = 1 / Math.max(easeLinearity || 0.5, 0.2);
-
-		this._startPos = L.DomUtil.getPosition(el);
-		this._offset = newPos.subtract(this._startPos);
-		this._startTime = +new Date();
-
-		// @event start: Event
-		// Fired when the animation starts
-		this.fire('start');
-
-		this._animate();
-	},
-
-	// @method stop()
-	// Stops the animation (if currently running).
-	stop: function () {
-		if (!this._inProgress) { return; }
-
-		this._step(true);
-		this._complete();
-	},
-
-	_animate: function () {
-		// animation loop
-		this._animId = L.Util.requestAnimFrame(this._animate, this);
-		this._step();
-	},
-
-	_step: function (round) {
-		var elapsed = (+new Date()) - this._startTime,
-		    duration = this._duration * 1000;
-
-		if (elapsed < duration) {
-			this._runFrame(this._easeOut(elapsed / duration), round);
-		} else {
-			this._runFrame(1);
-			this._complete();
-		}
-	},
-
-	_runFrame: function (progress, round) {
-		var pos = this._startPos.add(this._offset.multiplyBy(progress));
-		if (round) {
-			pos._round();
-		}
-		L.DomUtil.setPosition(this._el, pos);
-
-		// @event step: Event
-		// Fired continuously during the animation.
-		this.fire('step');
-	},
-
-	_complete: function () {
-		L.Util.cancelAnimFrame(this._animId);
-
-		this._inProgress = false;
-		// @event end: Event
-		// Fired when the animation ends.
-		this.fire('end');
-	},
-
-	_easeOut: function (t) {
-		return 1 - Math.pow(1 - t, this._easeOutPower);
-	}
-});
-
-
-
-/*
- * Extends L.Map to handle panning animations.
- */
-
-L.Map.include({
-
-	setView: function (center, zoom, options) {
-
-		zoom = zoom === undefined ? this._zoom : this._limitZoom(zoom);
-		center = this._limitCenter(L.latLng(center), zoom, this.options.maxBounds);
-		options = options || {};
-
-		this._stop();
-
-		if (this._loaded && !options.reset && options !== true) {
-
-			if (options.animate !== undefined) {
-				options.zoom = L.extend({animate: options.animate}, options.zoom);
-				options.pan = L.extend({animate: options.animate, duration: options.duration}, options.pan);
-			}
-
-			// try animating pan or zoom
-			var moved = (this._zoom !== zoom) ?
-				this._tryAnimatedZoom && this._tryAnimatedZoom(center, zoom, options.zoom) :
-				this._tryAnimatedPan(center, options.pan);
-
-			if (moved) {
-				// prevent resize handler call, the view will refresh after animation anyway
-				clearTimeout(this._sizeTimer);
-				return this;
-			}
-		}
-
-		// animation didn't start, just reset the map view
-		this._resetView(center, zoom);
-
-		return this;
-	},
-
-	panBy: function (offset, options) {
-		offset = L.point(offset).round();
-		options = options || {};
-
-		if (!offset.x && !offset.y) {
-			return this.fire('moveend');
-		}
-		// If we pan too far, Chrome gets issues with tiles
-		// and makes them disappear or appear in the wrong place (slightly offset) #2602
-		if (options.animate !== true && !this.getSize().contains(offset)) {
-			this._resetView(this.unproject(this.project(this.getCenter()).add(offset)), this.getZoom());
-			return this;
-		}
-
-		if (!this._panAnim) {
-			this._panAnim = new L.PosAnimation();
-
-			this._panAnim.on({
-				'step': this._onPanTransitionStep,
-				'end': this._onPanTransitionEnd
-			}, this);
-		}
-
-		// don't fire movestart if animating inertia
-		if (!options.noMoveStart) {
-			this.fire('movestart');
-		}
-
-		// animate pan unless animate: false specified
-		if (options.animate !== false) {
-			L.DomUtil.addClass(this._mapPane, 'leaflet-pan-anim');
-
-			var newPos = this._getMapPanePos().subtract(offset).round();
-			this._panAnim.run(this._mapPane, newPos, options.duration || 0.25, options.easeLinearity);
-		} else {
-			this._rawPanBy(offset);
-			this.fire('move').fire('moveend');
-		}
-
-		return this;
-	},
-
-	_onPanTransitionStep: function () {
-		this.fire('move');
-	},
-
-	_onPanTransitionEnd: function () {
-		L.DomUtil.removeClass(this._mapPane, 'leaflet-pan-anim');
-		this.fire('moveend');
-	},
-
-	_tryAnimatedPan: function (center, options) {
-		// difference between the new and current centers in pixels
-		var offset = this._getCenterOffset(center)._floor();
-
-		// don't animate too far unless animate: true specified in options
-		if ((options && options.animate) !== true && !this.getSize().contains(offset)) { return false; }
-
-		this.panBy(offset, options);
-
-		return true;
-	}
-});
-
-
-
-/*
- * Extends L.Map to handle zoom animations.
- */
-
-// @namespace Map
-// @section Animation Options
-L.Map.mergeOptions({
-	// @option zoomAnimation: Boolean = true
-	// Whether the map zoom animation is enabled. By default it's enabled
-	// in all browsers that support CSS3 Transitions except Android.
-	zoomAnimation: true,
-
-	// @option zoomAnimationThreshold: Number = 4
-	// Won't animate zoom if the zoom difference exceeds this value.
-	zoomAnimationThreshold: 4
-});
-
-var zoomAnimated = L.DomUtil.TRANSITION && L.Browser.any3d && !L.Browser.mobileOpera;
-
-if (zoomAnimated) {
-
-	L.Map.addInitHook(function () {
-		// don't animate on browsers without hardware-accelerated transitions or old Android/Opera
-		this._zoomAnimated = this.options.zoomAnimation;
-
-		// zoom transitions run with the same duration for all layers, so if one of transitionend events
-		// happens after starting zoom animation (propagating to the map pane), we know that it ended globally
-		if (this._zoomAnimated) {
-
-			this._createAnimProxy();
-
-			L.DomEvent.on(this._proxy, L.DomUtil.TRANSITION_END, this._catchTransitionEnd, this);
-		}
-	});
-}
-
-L.Map.include(!zoomAnimated ? {} : {
-
-	_createAnimProxy: function () {
-
-		var proxy = this._proxy = L.DomUtil.create('div', 'leaflet-proxy leaflet-zoom-animated');
-		this._panes.mapPane.appendChild(proxy);
-
-		this.on('zoomanim', function (e) {
-			var prop = L.DomUtil.TRANSFORM,
-			    transform = proxy.style[prop];
-
-			L.DomUtil.setTransform(proxy, this.project(e.center, e.zoom), this.getZoomScale(e.zoom, 1));
-
-			// workaround for case when transform is the same and so transitionend event is not fired
-			if (transform === proxy.style[prop] && this._animatingZoom) {
-				this._onZoomTransitionEnd();
-			}
-		}, this);
-
-		this.on('load moveend', function () {
-			var c = this.getCenter(),
-			    z = this.getZoom();
-			L.DomUtil.setTransform(proxy, this.project(c, z), this.getZoomScale(z, 1));
-		}, this);
-	},
-
-	_catchTransitionEnd: function (e) {
-		if (this._animatingZoom && e.propertyName.indexOf('transform') >= 0) {
-			this._onZoomTransitionEnd();
-		}
-	},
-
-	_nothingToAnimate: function () {
-		return !this._container.getElementsByClassName('leaflet-zoom-animated').length;
-	},
-
-	_tryAnimatedZoom: function (center, zoom, options) {
-
-		if (this._animatingZoom) { return true; }
-
-		options = options || {};
-
-		// don't animate if disabled, not supported or zoom difference is too large
-		if (!this._zoomAnimated || options.animate === false || this._nothingToAnimate() ||
-		        Math.abs(zoom - this._zoom) > this.options.zoomAnimationThreshold) { return false; }
-
-		// offset is the pixel coords of the zoom origin relative to the current center
-		var scale = this.getZoomScale(zoom),
-		    offset = this._getCenterOffset(center)._divideBy(1 - 1 / scale);
-
-		// don't animate if the zoom origin isn't within one screen from the current center, unless forced
-		if (options.animate !== true && !this.getSize().contains(offset)) { return false; }
-
-		L.Util.requestAnimFrame(function () {
-			this
-			    ._moveStart(true)
-			    ._animateZoom(center, zoom, true);
-		}, this);
-
-		return true;
-	},
-
-	_animateZoom: function (center, zoom, startAnim, noUpdate) {
-		if (startAnim) {
-			this._animatingZoom = true;
-
-			// remember what center/zoom to set after animation
-			this._animateToCenter = center;
-			this._animateToZoom = zoom;
-
-			L.DomUtil.addClass(this._mapPane, 'leaflet-zoom-anim');
-		}
-
-		// @event zoomanim: ZoomAnimEvent
-		// Fired on every frame of a zoom animation
-		this.fire('zoomanim', {
-			center: center,
-			zoom: zoom,
-			noUpdate: noUpdate
-		});
-
-		// Work around webkit not firing 'transitionend', see https://github.com/Leaflet/Leaflet/issues/3689, 2693
-		setTimeout(L.bind(this._onZoomTransitionEnd, this), 250);
-	},
-
-	_onZoomTransitionEnd: function () {
-		if (!this._animatingZoom) { return; }
-
-		L.DomUtil.removeClass(this._mapPane, 'leaflet-zoom-anim');
-
-		this._animatingZoom = false;
-
-		this._move(this._animateToCenter, this._animateToZoom);
-
-		// This anim frame should prevent an obscure iOS webkit tile loading race condition.
-		L.Util.requestAnimFrame(function () {
-			this._moveEnd(true);
-		}, this);
-	}
-});
-
-
-
-// @namespace Map
-// @section Methods for modifying map state
-L.Map.include({
-
-	// @method flyTo(latlng: LatLng, zoom?: Number, options?: Zoom/pan options): this
-	// Sets the view of the map (geographical center and zoom) performing a smooth
-	// pan-zoom animation.
-	flyTo: function (targetCenter, targetZoom, options) {
-
-		options = options || {};
-		if (options.animate === false || !L.Browser.any3d) {
-			return this.setView(targetCenter, targetZoom, options);
-		}
-
-		this._stop();
-
-		var from = this.project(this.getCenter()),
-		    to = this.project(targetCenter),
-		    size = this.getSize(),
-		    startZoom = this._zoom;
-
-		targetCenter = L.latLng(targetCenter);
-		targetZoom = targetZoom === undefined ? startZoom : targetZoom;
-
-		var w0 = Math.max(size.x, size.y),
-		    w1 = w0 * this.getZoomScale(startZoom, targetZoom),
-		    u1 = (to.distanceTo(from)) || 1,
-		    rho = 1.42,
-		    rho2 = rho * rho;
-
-		function r(i) {
-			var s1 = i ? -1 : 1,
-			    s2 = i ? w1 : w0,
-			    t1 = w1 * w1 - w0 * w0 + s1 * rho2 * rho2 * u1 * u1,
-			    b1 = 2 * s2 * rho2 * u1,
-			    b = t1 / b1,
-			    sq = Math.sqrt(b * b + 1) - b;
-
-			    // workaround for floating point precision bug when sq = 0, log = -Infinite,
-			    // thus triggering an infinite loop in flyTo
-			    var log = sq < 0.000000001 ? -18 : Math.log(sq);
-
-			return log;
-		}
-
-		function sinh(n) { return (Math.exp(n) - Math.exp(-n)) / 2; }
-		function cosh(n) { return (Math.exp(n) + Math.exp(-n)) / 2; }
-		function tanh(n) { return sinh(n) / cosh(n); }
-
-		var r0 = r(0);
-
-		function w(s) { return w0 * (cosh(r0) / cosh(r0 + rho * s)); }
-		function u(s) { return w0 * (cosh(r0) * tanh(r0 + rho * s) - sinh(r0)) / rho2; }
-
-		function easeOut(t) { return 1 - Math.pow(1 - t, 1.5); }
-
-		var start = Date.now(),
-		    S = (r(1) - r0) / rho,
-		    duration = options.duration ? 1000 * options.duration : 1000 * S * 0.8;
-
-		function frame() {
-			var t = (Date.now() - start) / duration,
-			    s = easeOut(t) * S;
-
-			if (t <= 1) {
-				this._flyToFrame = L.Util.requestAnimFrame(frame, this);
-
-				this._move(
-					this.unproject(from.add(to.subtract(from).multiplyBy(u(s) / u1)), startZoom),
-					this.getScaleZoom(w0 / w(s), startZoom),
-					{flyTo: true});
-
-			} else {
-				this
-					._move(targetCenter, targetZoom)
-					._moveEnd(true);
-			}
-		}
-
-		this._moveStart(true);
-
-		frame.call(this);
-		return this;
-	},
-
-	// @method flyToBounds(bounds: LatLngBounds, options?: fitBounds options): this
-	// Sets the view of the map with a smooth animation like [`flyTo`](#map-flyto),
-	// but takes a bounds parameter like [`fitBounds`](#map-fitbounds).
-	flyToBounds: function (bounds, options) {
-		var target = this._getBoundsCenterZoom(bounds, options);
-		return this.flyTo(target.center, target.zoom, options);
-	}
-});
-
-
-
-/*
- * Provides L.Map with convenient shortcuts for using browser geolocation features.
- */
-
-// @namespace Map
-
-L.Map.include({
-	// @section Geolocation methods
-	_defaultLocateOptions: {
-		timeout: 10000,
-		watch: false
-		// setView: false
-		// maxZoom: <Number>
-		// maximumAge: 0
-		// enableHighAccuracy: false
-	},
-
-	// @method locate(options?: Locate options): this
-	// Tries to locate the user using the Geolocation API, firing a [`locationfound`](#map-locationfound)
-	// event with location data on success or a [`locationerror`](#map-locationerror) event on failure,
-	// and optionally sets the map view to the user's location with respect to
-	// detection accuracy (or to the world view if geolocation failed).
-	// Note that, if your page doesn't use HTTPS, this method will fail in
-	// modern browsers ([Chrome 50 and newer](https://sites.google.com/a/chromium.org/dev/Home/chromium-security/deprecating-powerful-features-on-insecure-origins))
-	// See `Locate options` for more details.
-	locate: function (options) {
-
-		options = this._locateOptions = L.extend({}, this._defaultLocateOptions, options);
-
-		if (!('geolocation' in navigator)) {
-			this._handleGeolocationError({
-				code: 0,
-				message: 'Geolocation not supported.'
-			});
-			return this;
-		}
-
-		var onResponse = L.bind(this._handleGeolocationResponse, this),
-		    onError = L.bind(this._handleGeolocationError, this);
-
-		if (options.watch) {
-			this._locationWatchId =
-			        navigator.geolocation.watchPosition(onResponse, onError, options);
-		} else {
-			navigator.geolocation.getCurrentPosition(onResponse, onError, options);
-		}
-		return this;
-	},
-
-	// @method stopLocate(): this
-	// Stops watching location previously initiated by `map.locate({watch: true})`
-	// and aborts resetting the map view if map.locate was called with
-	// `{setView: true}`.
-	stopLocate: function () {
-		if (navigator.geolocation && navigator.geolocation.clearWatch) {
-			navigator.geolocation.clearWatch(this._locationWatchId);
-		}
-		if (this._locateOptions) {
-			this._locateOptions.setView = false;
-		}
-		return this;
-	},
-
-	_handleGeolocationError: function (error) {
-		var c = error.code,
-		    message = error.message ||
-		            (c === 1 ? 'permission denied' :
-		            (c === 2 ? 'position unavailable' : 'timeout'));
-
-		if (this._locateOptions.setView && !this._loaded) {
-			this.fitWorld();
-		}
-
-		// @section Location events
-		// @event locationerror: ErrorEvent
-		// Fired when geolocation (using the [`locate`](#map-locate) method) failed.
-		this.fire('locationerror', {
-			code: c,
-			message: 'Geolocation error: ' + message + '.'
-		});
-	},
-
-	_handleGeolocationResponse: function (pos) {
-		var lat = pos.coords.latitude,
-		    lng = pos.coords.longitude,
-		    latlng = new L.LatLng(lat, lng),
-		    bounds = latlng.toBounds(pos.coords.accuracy),
-		    options = this._locateOptions;
-
-		if (options.setView) {
-			var zoom = this.getBoundsZoom(bounds);
-			this.setView(latlng, options.maxZoom ? Math.min(zoom, options.maxZoom) : zoom);
-		}
-
-		var data = {
-			latlng: latlng,
-			bounds: bounds,
-			timestamp: pos.timestamp
-		};
-
-		for (var i in pos.coords) {
-			if (typeof pos.coords[i] === 'number') {
-				data[i] = pos.coords[i];
-			}
-		}
-
-		// @event locationfound: LocationEvent
-		// Fired when geolocation (using the [`locate`](#map-locate) method)
-		// went successfully.
-		this.fire('locationfound', data);
-	}
-});
 
 
 
