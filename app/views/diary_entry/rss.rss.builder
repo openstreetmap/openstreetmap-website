@@ -9,7 +9,7 @@ xml.rss("version" => "2.0",
     xml.description @description
     xml.link url_for(:action => "list", :host => SERVER_URL)
     xml.image do
-      xml.url image_path("mag_map-rss2.0.png")
+      xml.url image_path("mag_map-rss2.0.png", :host => SERVER_URL)
       xml.title @title
       xml.width "100"
       xml.height "100"
