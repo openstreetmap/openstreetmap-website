@@ -27,6 +27,7 @@
 # Author: Tombi-aburage
 # Author: Vigorous action
 # Author: Wrightbus
+# Author: ネイ
 # Author: 青子守歌
 # Author: 아라
 ---
@@ -84,7 +85,7 @@ ja:
         friend: 友達
       trace:
         user: ユーザー
-        visible: 表示
+        visible: 可視
         name: 名前
         size: サイズ
         latitude: 緯度
@@ -185,7 +186,7 @@ ja:
         changeset: 変更セット
         note: 注記
     timeout:
-      sorry: 申し訳ありませんが、ID %{id} の %{type} のデータは大きすぎるため取得できません。
+      sorry: 申し訳ありませんが、ID %{id} の %{type} のデータは時間がかかりすぎたため取得できませんでした。
       type:
         node: ノード
         way: ウェイ
@@ -252,8 +253,8 @@ ja:
       title: 変更セット
       title_user: '%{user} による変更セット'
       title_friend: 友達による変更セット
-      title_nearby: 周辺のユーザーによる変更セット
-      empty: 変更セットが見つかりません。
+      title_nearby: 周辺の利用者による変更セット
+      empty: 変更セットが見つかりませんでした。
       empty_area: この領域には変更セットはありません。
       empty_user: このユーザーによる変更セットはありません。
       no_more: 変更セットはこれ以上ありません。
@@ -261,7 +262,7 @@ ja:
       no_more_user: このユーザーによる変更セットはこれ以上ありません。
       load_more: 続きを読み込む
     timeout:
-      sorry: 申し訳ありませんが、要求した変更セットの一覧は大きすぎるため取得できませんでした。
+      sorry: 申し訳ありませんが、要求した変更セットの一覧は時間がかかりすぎたため取得できませんでした。
     rss:
       title_all: OpenStreetMap変更セットの議論
       title_particular: OpenStreetMap変更セット#%{changeset_id}の議論
@@ -276,7 +277,7 @@ ja:
     list:
       title: ユーザーの日記
       title_friends: 友達の日記
-      title_nearby: 周辺のユーザーの日記
+      title_nearby: 周辺の利用者の日記
       user_title: '%{user} の日記'
       in_language_title: '%{language} の日記エントリ'
       new: 日記エントリを新規作成
@@ -1136,9 +1137,9 @@ ja:
     partners_title: パートナー
   notifier:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} さんがあなたの日記エントリにコメントしました'
+      subject: '[OpenStreetMap] %{user} さんが日記エントリにコメントしました'
       hi: こんにちは、%{to_user} さん。
-      header: 'あなたの最近の OpenStreetMap 日記エントリ (タイトル: %{subject}) に、%{from_user} がコメントしました。'
+      header: 'OpenStreetMap 日記エントリ (タイトル: %{subject}) に、%{from_user} がコメントしました。'
       footer: '%{readurl}でコメントを読むことができ、%{commenturl} でコメントするか、%{replyurl} で返信できます。'
     message_notification:
       hi: こんにちは、%{to_user} さん。
@@ -1369,6 +1370,8 @@ ja:
           private: 私的通行
           destination: 目的通行
           construction: 建設中の道路
+          bicycle_parking: 駐輪場
+          toilets: トイレ
     richtext_area:
       edit: 編集
       preview: プレビュー
@@ -1515,6 +1518,7 @@ ja:
       allow_read_gpx: 自分の非公開GPSトレースを読み込む。
       allow_write_gpx: GPSトレースをアップロードする。
       allow_write_notes: メモを変更する。
+      grant_access: アクセスを許可
     oauthorize_success:
       title: 認証リクエストが成功しました
       allowed: アプリケーション %{app_name} によるあなたのアカウントへのアクセスを許可しました。
@@ -1596,6 +1600,7 @@ ja:
       login_button: ログイン
       register now: 今すぐ登録
       with username: 'OpenStreetMap アカウントを既にお持ちですか? 自分のユーザー名とパスワードでログインしてください:'
+      with external: 'サードパーティのアカウントでもログインできます:'
       new to osm: OpenStreetMap は初めてですか?
       to make changes: OpenStreetMap データを変更するには、アカウントが必要です。
       create account minute: アカウントを作成します。1分でできます。
@@ -1619,6 +1624,9 @@ ja:
         windowslive:
           title: Windows Live を使用してログイン
           alt: Windows Live アカウントを使用してログイン
+        github:
+          title: GitHubでログイン
+          alt: GitHubのアカウントでログイン
         yahoo:
           title: Yahoo を使用してログイン
           alt: Yahoo OpenID を使用してログイン
@@ -1661,12 +1669,13 @@ ja:
       license_agreement: アカウントを確認するときには<a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">協力者規約</a>に同意する必要があります。
       email address: 'メール アドレス:'
       confirm email address: 'メール アドレスの確認:'
-      not displayed publicly: 非公開です (詳細は <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
-        title="メール アドレスの節を含む、ウィキのプライバシー ポリシー">プライバシー ポリシー</a>を参照してください)
+      not displayed publicly: あなたのアドレスは非公開です。詳細は弊財団の<a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy"
+        title="メール アドレスの節を含む、OSMFのプライバシーポリシー">プライバシーポリシー</a>をご参照ください
       display name: '表示名:'
       display name description: 自分の公開ユーザー名です。あとで設定ページで変更できます。
       password: 'パスワード:'
       confirm password: 'パスワードの確認:'
+      use external auth: サードパーティのアカウントでもログインできます
       continue: ユーザー登録
       terms accepted: 新しい協力者規約に同意いただき、ありがとうございます!
       terms declined: 新しい協力者規約に同意いただけず残念です。詳しい情報は、<a href="%{url}">このウィキページ</a>をご覧ください。
@@ -2040,7 +2049,7 @@ ja:
     key:
       title: 凡例
       tooltip: 凡例
-      tooltip_disabled: 凡例（標準レイヤーのみ利用可）
+      tooltip_disabled: このレイヤーでは凡例が使えません
     map:
       zoom:
         in: 拡大
@@ -2090,6 +2099,8 @@ ja:
     directions:
       distance: 距離
       instructions:
+        turn_right_without_exit: 右に曲がって%{name}へ
+        turn_left_without_exit: 左に曲がって%{name}へ
         unnamed: 名前なし
     query:
       node: ノード
