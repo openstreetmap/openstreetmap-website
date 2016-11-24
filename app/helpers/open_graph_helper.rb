@@ -4,8 +4,8 @@ module OpenGraphHelper
       "og:site_name" => t("layouts.project_name.title"),
       "og:title" => [t("layouts.project_name.title"), title].compact.join(" | "),
       "og:type" => "website",
-      "og:image" => image_path("osm_logo_256.png", :host => SERVER_URL, :protocol => "http"),
-      "og:image:secure_url" => image_path("osm_logo_256.png", :host => SERVER_URL, :protocol => "https"),
+      "og:image" => image_url("osm_logo_256.png", :protocol => "http"),
+      "og:image:secure_url" => image_url("osm_logo_256.png", :protocol => "https"),
       "og:url" => url_for(:host => SERVER_URL),
       "og:description" => t("layouts.intro_text")
     }

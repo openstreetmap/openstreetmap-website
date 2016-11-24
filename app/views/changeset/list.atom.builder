@@ -5,12 +5,12 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
   feed.title changeset_list_title(params, @user)
 
   feed.updated @edits.map { |e| [e.created_at, e.closed_at].max }.max
-  feed.icon image_path("favicon.ico", :host => SERVER_URL)
-  feed.logo image_path("mag_map-rss2.0.png", :host => SERVER_URL)
+  feed.icon image_url("favicon.ico")
+  feed.logo image_url("mag_map-rss2.0.png")
 
   feed.rights :type => "xhtml" do |xhtml|
     xhtml.a :href => "http://creativecommons.org/licenses/by-sa/2.0/" do |a|
-      a.img :src => image_path("cc_button.png", :host => SERVER_URL), :alt => "CC by-sa 2.0"
+      a.img :src => image_url("cc_button.png"), :alt => "CC by-sa 2.0"
     end
   end
 
