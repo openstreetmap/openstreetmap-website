@@ -6,7 +6,7 @@ module OpenGraphHelper
       "og:type" => "website",
       "og:image" => image_url("osm_logo_256.png", :protocol => "http"),
       "og:image:secure_url" => image_url("osm_logo_256.png", :protocol => "https"),
-      "og:url" => url_for(:host => SERVER_URL),
+      "og:url" => url_for(:only_path => false),
       "og:description" => t("layouts.intro_text")
     }
 
