@@ -281,15 +281,19 @@ class Relation < ActiveRecord::Base
   private
 
   def save_with_history!
+    t = Time.now.getutc
+
+    self.version += 1
+    self.timestamp = t
+
     Relation.transaction do
       # have to be a little bit clever here - to detect if any tags
       # changed then we have to monitor their before and after state.
       tags_changed = false
 
-      t = Time.now.getutc
-      self.version += 1
-      self.timestamp = t
-      save!
+      # clone the object before saving it so that the original is
+      # still marked as dirty if we retry the transaction
+      clone.save!
 
       tags = self.tags.clone
       relation_tags.each do |old_tag|

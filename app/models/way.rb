@@ -255,6 +255,9 @@ class Way < ActiveRecord::Base
   def save_with_history!
     t = Time.now.getutc
 
+    self.version += 1
+    self.timestamp = t
+
     # update the bounding box, note that this has to be done both before
     # and after the save, so that nodes from both versions are included in the
     # bbox. we use a copy of the changeset so that it isn't reloaded
@@ -263,9 +266,9 @@ class Way < ActiveRecord::Base
     cs.update_bbox!(bbox) unless nodes.empty?
 
     Way.transaction do
-      self.version += 1
-      self.timestamp = t
-      save!
+      # clone the object before saving it so that the original is
+      # still marked as dirty if we retry the transaction
+      clone.save!
 
       tags = self.tags
       WayTag.delete_all(:way_id => id)
