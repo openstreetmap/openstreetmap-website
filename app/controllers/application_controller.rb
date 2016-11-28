@@ -363,6 +363,8 @@ class ApplicationController < ActionController::Base
 
     if ex.is_a?(Timeout::Error)
       render :action => "timeout"
+    elsif ex.is_a?(OSM::APITimeoutError)
+      render :action => "timeout"
     else
       raise
     end
