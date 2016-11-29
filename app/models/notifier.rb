@@ -107,7 +107,7 @@ class Notifier < ActionMailer::Base
                           :display_name => comment.user.display_name,
                           :title => "Re: #{comment.diary_entry.title}")
 
-      mail :from => from_address(comment.user.display_name, "c", comment.id, comment.digest),
+      mail :from => from_address(comment.user.display_name, "c", comment.id, comment.digest, recipient.id),
            :to => recipient.email,
            :subject => I18n.t("notifier.diary_comment_notification.subject", :user => comment.user.display_name)
     end
@@ -180,9 +180,13 @@ class Notifier < ActionMailer::Base
     end
   end
 
-  def from_address(name, type, id, digest)
+  def from_address(name, type, id, digest, user_id = nil)
     if Object.const_defined?(:MESSAGES_DOMAIN) && domain = MESSAGES_DOMAIN
-      "#{name} <#{type}-#{id}-#{digest[0, 6]}@#{domain}>"
+      if user_id
+        "#{name} <#{type}-#{id}-#{user_id}-#{digest[0, 6]}@#{domain}>"
+      else
+        "#{name} <#{type}-#{id}-#{digest[0, 6]}@#{domain}>"
+      end
     else
       EMAIL_FROM
     end
