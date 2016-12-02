@@ -360,10 +360,6 @@ class ApplicationController < ActionController::Base
     ex = ex.original_exception
 
     if ex.is_a?(ActiveRecord::StatementInvalid) && ex.message =~ /execution expired/
-      ex = Timeout::Error.new
-    end
-
-    if ex.is_a?(Timeout::Error)
       render :action => "timeout"
     else
       raise
