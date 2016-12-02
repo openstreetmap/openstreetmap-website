@@ -448,6 +448,5 @@ class ApplicationController < ActionController::Base
   end
 
   # override to stop oauth plugin sending errors
-  def invalid_oauth_response
-  end
+  def invalid_oauth_response; end
 end

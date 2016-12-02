@@ -95,20 +95,15 @@ class SiteController < ApplicationController
     @locale = params[:copyright_locale] || I18n.locale
   end
 
-  def welcome
-  end
+  def welcome; end
 
-  def help
-  end
+  def help; end
 
-  def about
-  end
+  def about; end
 
-  def export
-  end
+  def export; end
 
-  def offline
-  end
+  def offline; end
 
   def preview
     render :text => RichText.new(params[:format], params[:text]).to_html

@@ -22,6 +22,5 @@ class ExportController < ApplicationController
     end
   end
 
-  def embed
-  end
+  def embed; end
 end
