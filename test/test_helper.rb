@@ -78,6 +78,19 @@ module ActiveSupport
     end
 
     ##
+    # work round minitest insanity that causes it to tell you
+    # to use assert_nil to test for nil, which is fine if you're
+    # comparing to a nil constant but not if you're comparing
+    # an expression that might be nil sometimes
+    def assert_equal_allowing_nil(exp, act, msg = nil)
+      if exp.nil?
+        assert_nil act, msg
+      else
+        assert_equal exp, act, msg
+      end
+    end
+
+    ##
     # for some reason assert_equal a, b fails when the relations are
     # actually equal, so this method manually checks the fields...
     def assert_relations_are_equal(a, b)

@@ -333,7 +333,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_not_nil token.created_at
     assert_nil token.authorized_at
     assert_nil token.invalidated_at
-    assert_equal options[:oauth_callback], token.callback_url
+    assert_equal_allowing_nil options[:oauth_callback], token.callback_url
     assert_allowed token, client.permissions
 
     token
