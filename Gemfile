@@ -85,6 +85,9 @@ gem "faraday"
 # Load geoip for querying Maxmind GeoIP database
 gem "geoip"
 
+# Load rotp to generate TOTP tokens
+gem "rotp"
+
 # Load memcache client in case we are using it
 gem "dalli"
 gem "kgio"

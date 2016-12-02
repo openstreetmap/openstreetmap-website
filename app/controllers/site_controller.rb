@@ -13,6 +13,14 @@ class SiteController < ApplicationController
     unless STATUS == :database_readonly || STATUS == :database_offline
       session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"])
     end
+
+    if defined?(TOTP_KEY)
+      cookies["_osm_totp_token"] = {
+        :value => ROTP::TOTP.new(TOTP_KEY, :interval => 3600).now,
+        :domain => ".openstreetmap.org",
+        :expires => 1.day.from_now
+      }
+    end
   end
 
   def permalink
