@@ -46,7 +46,7 @@ is:
       tracetag: Merki ferils
       user: Notandi
       user_preference: Notandastillingar
-      user_token: Leynistrengur notanda
+      user_token: Kennistrengur notanda
       way: Leið
       way_node: Leiðarhnútur
       way_tag: Merki leiðar
@@ -64,7 +64,7 @@ is:
         friend: Vinur
       trace:
         user: Notandi
-        visible: Sýnileg
+        visible: Sýnilegt
         name: Nafn
         size: Stærð
         latitude: Lengdargráða
@@ -88,15 +88,28 @@ is:
     with_name_html: '%{name} (%{id})'
   editor:
     default: Sjálfgefið (núna %{name})
+    potlatch:
+      name: Potlatch 1
+      description: Potlatch 1 (ritill í vafra)
     id:
       name: iD
+      description: iD (ritill í vafra)
+    potlatch2:
+      name: Potlatch 2
+      description: Potlatch 2 (ritill í vafra)
     remote:
       name: Fjarstýring
       description: Fjarstýring (JOSM eða Merkaartor)
   browse:
     created: Búið til
     closed: Lokað
-    created_html: Bjó til <abbr title='%{title}'>%{time} síðan</abbr>
+    created_html: Búið til <abbr title='%{title}'> fyrir %{time} síðan</abbr>
+    closed_html: Lokað <abbr title='%{title}'> fyrir %{time} síðan</abbr>
+    created_by_html: Búið til <abbr title='%{title}'> fyrir %{time} síðan</abbr> af
+      %{user}
+    deleted_by_html: Eytt <abbr title='%{title}'> fyrir %{time} síðan</abbr> af %{user}
+    edited_by_html: Breytt <abbr title='%{title}'> fyrir %{time} síðan</abbr> af %{user}
+    closed_by_html: Lokað <abbr title='%{title}'> fyrir %{time} síðan</abbr> af %{user}
     version: Útgáfa
     in_changeset: Breytingasett
     anonymous: nafnlaus
@@ -116,8 +129,11 @@ is:
       relation: Vensl (%{count})
       relation_paginated: Vensl (%{x}-%{y} af %{count})
       comment: Athugasemdir (%{count})
-      changesetxml: Breytingasetts XML sniði
-      osmchangexml: osmChange XML sniði
+      hidden_commented_by: Falin umsögn frá %{user} <abbr title='%{exact_time}'>%{when}
+        síðan</abbr>
+      commented_by: Umsögn frá %{user} <abbr title='%{exact_time}'>%{when} síðan</abbr>
+      changesetxml: XML breytingasetts
+      osmchangexml: osmChange XML-sniði
       feed:
         title: Breytingasett %{id}
         title_comment: Breytingasett %{id} - %{comment}
@@ -131,6 +147,8 @@ is:
       history_title: 'Saga leiðar: %{name}'
       nodes: Hnútar
     relation:
+      title: 'Vensl: %{name}'
+      history_title: 'Ferill vensla: %{name}'
       members: Meðlimir
     relation_member:
       entry: '%{type} %{name}'
@@ -165,6 +183,9 @@ is:
         way: leið
         relation: venslum
     start_rjs:
+      feature_warning: Hleð inn %{num_features} fitjum (kortahlutum), sem gæti valdið
+        því að vafrinn þinn verði hægur eða svari ekki. Ertu viss um að þú viljir
+        birta þessi gögn?
       load_data: Hlaða inn gögnum
       loading: Hleð inn gögnum...
     tag_details:
@@ -180,6 +201,11 @@ is:
       new_note: Nýr minnispunktur
       description: Lýsing
       hidden_title: 'Falinn minnispunktur #%{note_name}'
+    query:
+      title: Rannsaka fitjur
+      introduction: Smelltu á kortið til að finna fitjur í nágrenninu.
+      nearby: Nálægar fitjur
+      enclosing: Umlykjandi fitjur
   changeset:
     changeset_paging_nav:
       showing_page: Síða %{page}
@@ -221,7 +247,7 @@ is:
       newer_entries: Nýrri færslur
     edit:
       title: Breyta bloggfærslu
-      subject: 'Titill:'
+      subject: 'Efni:'
       body: 'Texti:'
       language: 'Tungumál:'
       location: 'Staðsetning:'
@@ -235,7 +261,7 @@ is:
       user_title: Blogg %{user}
       leave_a_comment: Bæta við athugasemd
       login_to_leave_a_comment: '%{login_link} til að bæta við athugasemd'
-      login: Innskráðu þig
+      login: Skráðu þig inn
       save_button: Vista
     no_such_entry:
       title: Þessi bloggfærsla er ekki til
@@ -245,7 +271,7 @@ is:
     diary_entry:
       posted_by: Sett inn af %{link_user} %{created} á %{language_link}
       comment_link: Bæta við athugasemd
-      reply_link: Senda höfund skilaboð
+      reply_link: Svara þessari færslu
       comment_count:
         zero: Engar athugasemdir
         one: '%{count} athugasemd'
@@ -259,7 +285,7 @@ is:
       confirm: Staðfestu
     location:
       location: 'Staðsetning:'
-      view: kort
+      view: Skoða
       edit: breyta
     feed:
       user:
@@ -288,7 +314,7 @@ is:
       osm_xml_data: OpenStreetMap XML gögn
       map_image: Kortamynd (sýnir staðallagið)
       embeddable_html: HTML til að bæta á vefsíðu
-      licence: Leyfi
+      licence: Notkunarleyfi
       export_details: OpenStreetMap gögnin eru með <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
         Data Commons Open Database License</a> (ODbL) notkunarleyfi.
       too_large:
@@ -301,16 +327,16 @@ is:
           title: Aðrar heimildir
       options: Valmöguleikar
       format: 'Snið:'
-      scale: Skali
+      scale: Kvarði
       max: hámark
-      image_size: 'Stærð myndar:'
+      image_size: Stærð myndar
       zoom: Aðdráttur
       add_marker: Bæta punkti á kortið
       latitude: 'Lengdargráða:'
       longitude: 'Breiddargráða:'
       output: Úttak
       paste_html: Notaðu þennan HTML kóða til að bæta kortinu á vefsíðu
-      export_button: Niðurhala
+      export_button: Flytja út
   geocoder:
     search:
       title:
@@ -342,6 +368,7 @@ is:
           taxiway: Akstursbraut
           terminal: Flugstöð
         amenity:
+          animal_shelter: Dýraheimili
           arts_centre: Listamiðstöð
           atm: Hraðbanki
           bank: Banki
@@ -432,6 +459,7 @@ is:
           village_hall: Hreppsskrifstofa
           waste_basket: Ruslafata
           waste_disposal: Ruslsöfnun
+          youth_centre: Ungmennamiðstöð
         boundary:
           administrative: Stjórnsýslumörk
           census: Manntalsmörk
@@ -477,6 +505,8 @@ is:
           platform: Kerfishögun
           primary: Stofnvegur
           primary_link: Stofnvegur
+          proposed: Tillaga um veglagningu
+          raceway: Keppnisbraut
           residential: Íbúðagata
           rest_area: Hvíldarsvæði
           road: Vegur
@@ -487,6 +517,7 @@ is:
           steps: Tröppur
           street_lamp: Ljósastaur
           track: Spor
+          traffic_signals: Umferðarljós
           trail: Slóði
           trunk: Stofnbraut
           trunk_link: Stofnbraut
@@ -1298,14 +1329,14 @@ is:
       flash: Nýtt OAuth forrit hefur verið skráð
   user:
     login:
-      title: Innskrá
+      title: Skrá inn
       heading: Innskrá
       email or username: 'Netfang eða notandanafn:'
       password: 'Lykilorð:'
       openid: '%{logo} OpenID:'
       remember: 'Muna innskráninguna:'
       lost password link: Gleymdirðu lykilorðinu þínu?
-      login_button: Innskrá
+      login_button: Skrá inn
       register now: Skrá þig núna
       new to osm: Nýr í OpenStreetMap?
       no account: Ertu ekki með aðgang?
@@ -1327,6 +1358,8 @@ is:
         windowslive:
           title: Skrá inn með Windows Live
           alt: Skrá inn með Windows Live aðgangi
+        github:
+          title: Skrá inn með GitHub
         yahoo:
           title: Skrá inn með Yahoo
           alt: Skrá inn með Yahoo OpenID-aðgangi
@@ -1733,6 +1766,8 @@ is:
       createnote_tooltip: Bæta við minnispunkti á kortið
       map_notes_zoom_in_tooltip: Renndu að til að sjá minnispunkta á kortinu
       map_data_zoom_in_tooltip: Renndu að til að skoða gögn kortsins
+      queryfeature_tooltip: Rannsaka fitjur
+      queryfeature_disabled_tooltip: Renndu inn til að rannsaka fitjur
     changesets:
       show:
         comment: Athugasemd
@@ -1767,6 +1802,7 @@ is:
       node: Hnútur
       way: Leið
       relation: Vensl
+      nothing_found: Engar fitjur fundust
   redaction:
     edit:
       description: Lýsing
