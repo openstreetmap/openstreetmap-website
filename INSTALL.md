@@ -138,7 +138,7 @@ instructions below as appropriate.
 
 ### PostgreSQL account setup
 
-We need to create a PostgreSQL role (i.e. user account) for your current user, and it needs to be a superuser so that we can create more database.
+We need to create a PostgreSQL role (i.e. user account) for your current user, and it needs to be a superuser so that we can create more databases.
 
 ```
 sudo -u postgres -i
