@@ -51,7 +51,7 @@ class OldWayTest < ActiveSupport::TestCase
 
     way = ways(:way_with_versions_v3)
     tags = OldWay.find(way.id).old_tags.order(:k)
-    assert_equal 3, tags.count
+    assert_equal taglist_v3.count, tags.count
     taglist_v3.sort_by!(&:k).each_index do |i|
       assert_equal taglist_v3[i].k, tags[i].k
       assert_equal taglist_v3[i].v, tags[i].v
@@ -59,7 +59,7 @@ class OldWayTest < ActiveSupport::TestCase
 
     way = ways(:way_with_versions_v4)
     tags = OldWay.find(way.id).old_tags.order(:k)
-    assert_equal 2, tags.count
+    assert_equal taglist_v4.count, tags.count
     taglist_v4.sort_by!(&:k).each_index do |i|
       assert_equal taglist_v4[i].k, tags[i].k
       assert_equal taglist_v4[i].v, tags[i].v
@@ -80,14 +80,14 @@ class OldWayTest < ActiveSupport::TestCase
 
     way = ways(:way_with_versions_v3)
     tags = OldWay.find(way.id).tags
-    assert_equal 3, tags.size
+    assert_equal taglist_v3.count, tags.count
     taglist_v3.each do |tag|
       assert_equal tag.v, tags[tag.k]
     end
 
     way = ways(:way_with_versions_v4)
     tags = OldWay.find(way.id).tags
-    assert_equal 2, tags.size
+    assert_equal taglist_v4.count, tags.count
     taglist_v4.each do |tag|
       assert_equal tag.v, tags[tag.k]
     end

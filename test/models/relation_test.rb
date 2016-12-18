@@ -132,7 +132,7 @@ class RelationTest < ActiveSupport::TestCase
     taglist = create_list(:relation_tag, 2, :relation => relation)
 
     tags = Relation.find(relation.id).relation_tags.order(:k)
-    assert_equal 2, tags.count
+    assert_equal taglist.count, tags.count
     taglist.sort_by!(&:k).each_index do |i|
       assert_equal taglist[i].k, tags[i].k
       assert_equal taglist[i].v, tags[i].v
@@ -144,7 +144,7 @@ class RelationTest < ActiveSupport::TestCase
     taglist = create_list(:relation_tag, 2, :relation => relation)
 
     tags = Relation.find(relation.id).tags
-    assert_equal 2, tags.size
+    assert_equal taglist.count, tags.count
     taglist.each do |tag|
       assert_equal tag.v, tags[tag.k]
     end

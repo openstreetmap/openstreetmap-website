@@ -167,7 +167,7 @@ class WayTest < ActiveSupport::TestCase
     way = current_ways(:way_with_versions)
     taglist = create_list(:way_tag, 2, :way => way)
     tags = Way.find(way.id).way_tags.order(:k)
-    assert_equal 2, tags.count
+    assert_equal taglist.count, tags.count
     taglist.sort_by!(&:k).each_index do |i|
       assert_equal taglist[i].k, tags[i].k
       assert_equal taglist[i].v, tags[i].v
@@ -178,7 +178,7 @@ class WayTest < ActiveSupport::TestCase
     way = current_ways(:way_with_versions)
     taglist = create_list(:way_tag, 2, :way => way)
     tags = Way.find(way.id).tags
-    assert_equal 2, tags.size
+    assert_equal taglist.count, tags.count
     taglist.each do |tag|
       assert_equal tag.v, tags[tag.k]
     end
