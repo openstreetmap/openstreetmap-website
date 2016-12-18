@@ -316,20 +316,23 @@ class NodeTest < ActiveSupport::TestCase
 
   def test_node_tags
     node = current_nodes(:node_with_versions)
+    taglist = create_list(:node_tag, 2, :node => node)
     tags = Node.find(node.id).node_tags.order(:k)
     assert_equal 2, tags.count
-    assert_equal "testing", tags[0].k
-    assert_equal "added in node version 3", tags[0].v
-    assert_equal "testing two", tags[1].k
-    assert_equal "modified in node version 4", tags[1].v
+    taglist.sort_by!(&:k).each_index do |i|
+      assert_equal taglist[i].k, tags[i].k
+      assert_equal taglist[i].v, tags[i].v
+    end
   end
 
   def test_tags
     node = current_nodes(:node_with_versions)
+    taglist = create_list(:node_tag, 2, :node => node)
     tags = Node.find(node.id).tags
     assert_equal 2, tags.size
-    assert_equal "added in node version 3", tags["testing"]
-    assert_equal "modified in node version 4", tags["testing two"]
+    taglist.each do |tag|
+      assert_equal tag.v, tags[tag.k]
+    end
   end
 
   def test_containing_relation_members

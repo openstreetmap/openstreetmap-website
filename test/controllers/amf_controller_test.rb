@@ -531,7 +531,10 @@ class AmfControllerTest < ActionController::TestCase
 
   def test_findrelations_by_tags
     visible_relation = current_relations(:visible_relation)
+    create(:relation_tag, :relation => visible_relation, :k => "test", :v => "yes")
     used_relation = current_relations(:used_relation)
+    create(:relation_tag, :relation => used_relation, :k => "test", :v => "yes")
+    create(:relation_tag, :relation => used_relation, :k => "name", :v => "Test Relation")
 
     amf_content "findrelations", "/1", ["yes"]
     post :amf_read

@@ -165,20 +165,23 @@ class WayTest < ActiveSupport::TestCase
 
   def test_way_tags
     way = current_ways(:way_with_versions)
+    taglist = create_list(:way_tag, 2, :way => way)
     tags = Way.find(way.id).way_tags.order(:k)
     assert_equal 2, tags.count
-    assert_equal "testing", tags[0].k
-    assert_equal "added in way version 3", tags[0].v
-    assert_equal "testing two", tags[1].k
-    assert_equal "modified in way version 4", tags[1].v
+    taglist.sort_by!(&:k).each_index do |i|
+      assert_equal taglist[i].k, tags[i].k
+      assert_equal taglist[i].v, tags[i].v
+    end
   end
 
   def test_tags
     way = current_ways(:way_with_versions)
+    taglist = create_list(:way_tag, 2, :way => way)
     tags = Way.find(way.id).tags
     assert_equal 2, tags.size
-    assert_equal "added in way version 3", tags["testing"]
-    assert_equal "modified in way version 4", tags["testing two"]
+    taglist.each do |tag|
+      assert_equal tag.v, tags[tag.k]
+    end
   end
 
   def test_containing_relation_members

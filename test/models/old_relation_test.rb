@@ -8,6 +8,9 @@ class OldRelationTest < ActiveSupport::TestCase
   end
 
   def test_relation_tags
+    taglist_v3 = create_list(:old_relation_tag, 3, :old_relation => relations(:relation_with_versions_v3))
+    taglist_v4 = create_list(:old_relation_tag, 2, :old_relation => relations(:relation_with_versions_v4))
+
     relation = relations(:relation_with_versions_v1)
     tags = OldRelation.find(relation.id).old_tags.order(:k)
     assert_equal 0, tags.count
@@ -19,20 +22,18 @@ class OldRelationTest < ActiveSupport::TestCase
     relation = relations(:relation_with_versions_v3)
     tags = OldRelation.find(relation.id).old_tags.order(:k)
     assert_equal 3, tags.count
-    assert_equal "testing", tags[0].k
-    assert_equal "added in relation version 3", tags[0].v
-    assert_equal "testing three", tags[1].k
-    assert_equal "added in relation version 3", tags[1].v
-    assert_equal "testing two", tags[2].k
-    assert_equal "added in relation version 3", tags[2].v
+    taglist_v3.sort_by!(&:k).each_index do |i|
+      assert_equal taglist_v3[i].k, tags[i].k
+      assert_equal taglist_v3[i].v, tags[i].v
+    end
 
     relation = relations(:relation_with_versions_v4)
     tags = OldRelation.find(relation.id).old_tags.order(:k)
     assert_equal 2, tags.count
-    assert_equal "testing", tags[0].k
-    assert_equal "added in relation version 3", tags[0].v
-    assert_equal "testing two", tags[1].k
-    assert_equal "modified in relation version 4", tags[1].v
+    taglist_v4.sort_by!(&:k).each_index do |i|
+      assert_equal taglist_v4[i].k, tags[i].k
+      assert_equal taglist_v4[i].v, tags[i].v
+    end
   end
 
   def test_relation_members
@@ -100,6 +101,9 @@ class OldRelationTest < ActiveSupport::TestCase
   end
 
   def test_tags
+    taglist_v3 = create_list(:old_relation_tag, 3, :old_relation => relations(:relation_with_versions_v3))
+    taglist_v4 = create_list(:old_relation_tag, 2, :old_relation => relations(:relation_with_versions_v4))
+
     relation = relations(:relation_with_versions_v1)
     tags = OldRelation.find(relation.id).tags
     assert_equal 0, tags.size
@@ -111,14 +115,15 @@ class OldRelationTest < ActiveSupport::TestCase
     relation = relations(:relation_with_versions_v3)
     tags = OldRelation.find(relation.id).tags
     assert_equal 3, tags.size
-    assert_equal "added in relation version 3", tags["testing"]
-    assert_equal "added in relation version 3", tags["testing two"]
-    assert_equal "added in relation version 3", tags["testing three"]
+    taglist_v3.each do |tag|
+      assert_equal tag.v, tags[tag.k]
+    end
 
     relation = relations(:relation_with_versions_v4)
     tags = OldRelation.find(relation.id).tags
     assert_equal 2, tags.size
-    assert_equal "added in relation version 3", tags["testing"]
-    assert_equal "modified in relation version 4", tags["testing two"]
+    taglist_v4.each do |tag|
+      assert_equal tag.v, tags[tag.k]
+    end
   end
 end

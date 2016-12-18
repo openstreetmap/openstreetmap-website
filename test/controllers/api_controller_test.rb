@@ -53,6 +53,7 @@ class ApiControllerTest < ActionController::TestCase
 
   def test_map
     node = current_nodes(:used_node_1)
+    tag = create(:node_tag, :node => node)
     # Need to split the min/max lat/lon out into their own variables here
     # so that we can test they are returned later.
     minlon = node.lon - 0.1
@@ -70,7 +71,7 @@ class ApiControllerTest < ActionController::TestCase
       assert_select "bounds[minlon='#{minlon}'][minlat='#{minlat}'][maxlon='#{maxlon}'][maxlat='#{maxlat}']", :count => 1
       assert_select "node[id='#{node.id}'][lat='#{node.lat}'][lon='#{node.lon}'][version='#{node.version}'][changeset='#{node.changeset_id}'][visible='#{node.visible}'][timestamp='#{node.timestamp.xmlschema}']", :count => 1 do
         # This should really be more generic
-        assert_select "tag[k='test'][v='yes']"
+        assert_select "tag[k='#{tag.k}'][v='#{tag.v}']"
       end
       assert_select "way", :count => 2
       assert_select "way[id='1']", :count => 1
@@ -84,6 +85,7 @@ class ApiControllerTest < ActionController::TestCase
   # the same as the node we are looking at
   def test_map_inclusive
     node = current_nodes(:used_node_1)
+    tag = create(:node_tag, :node => node)
     bbox = "#{node.lon},#{node.lat},#{node.lon},#{node.lat}"
     get :map, :bbox => bbox
     assert_response :success, "The map call should have succeeded"
@@ -91,7 +93,7 @@ class ApiControllerTest < ActionController::TestCase
       assert_select "bounds[minlon='#{node.lon}'][minlat='#{node.lat}'][maxlon='#{node.lon}'][maxlat='#{node.lat}']", :count => 1
       assert_select "node[id='#{node.id}'][lat='#{node.lat}'][lon='#{node.lon}'][version='#{node.version}'][changeset='#{node.changeset_id}'][visible='#{node.visible}'][timestamp='#{node.timestamp.xmlschema}']", :count => 1 do
         # This should really be more generic
-        assert_select "tag[k='test'][v='yes']"
+        assert_select "tag[k='#{tag.k}'][v='#{tag.v}']"
       end
       assert_select "way", :count => 2
       assert_select "way[id='1']", :count => 1
