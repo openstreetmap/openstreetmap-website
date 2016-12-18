@@ -1,6 +1,8 @@
 require "test_helper"
 
 class OldNodeTagTest < ActiveSupport::TestCase
+  api_fixtures
+
   def test_length_key_valid
     tag = create(:old_node_tag)
     (0..255).each do |i|
