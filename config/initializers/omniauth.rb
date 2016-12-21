@@ -24,7 +24,7 @@ google_options = { :name => "google", :scope => "email", :access_type => "online
 facebook_options = { :name => "facebook", :scope => "email" }
 windowslive_options = { :name => "windowslive", :scope => "wl.signin,wl.emails" }
 github_options = { :name => "github", :scope => "user:email" }
-wikipedia_options = { :name => "wikipedia", :client_options => { :site => "https://commons.wikimedia.org" } }
+wikipedia_options = { :name => "wikipedia", :client_options => { :site => "https://meta.wikimedia.org" } }
 
 if defined?(GOOGLE_OPENID_REALM)
   google_options[:openid_realm] = GOOGLE_OPENID_REALM
