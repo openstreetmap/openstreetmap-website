@@ -1,20 +1,74 @@
-<p><%= t 'notifier.changeset_comment_notification.greeting' %></p>
-
-<p>
-  <% if @owner %>
-    <%= t "notifier.changeset_comment_notification.commented.your_changeset", :commenter => @commenter, :time => @time %>
-  <% else %>
-    <%= t "notifier.changeset_comment_notification.commented.commented_changeset", :commenter => @commenter, :time => @time, :changeset_author => @changeset_author %>
-  <% end %>
-  <% if @changeset_comment %>
-    <%= t "notifier.changeset_comment_notification.commented.partial_changeset_with_comment", :changeset_comment => @changeset_comment %>
-  <% else %>
-    <%= t "notifier.changeset_comment_notification.commented.partial_changeset_without_comment" %>
-  <% end %>
-</p>
-
-==
-<%= @comment.to_html %>
-==
-
-<p><%= raw t 'notifier.changeset_comment_notification.details', :url => link_to(@changeset_url, @changeset_url) %></p>
+<html>
+  <head>
+    <title></title>
+    <meta charset="UTF-8"></meta>
+  </head>
+  <body style="padding: 0; margin: 0">
+    <table border="0" cellspacing="0" cellpadding="0" width="100%" bgcolor="#eee" style="color: #222; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 14px; text-align: center">
+      <tr>
+        <td>
+          <table align="center" width="600" cellspacing="10" style="color: #222; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 14px; margin-left: auto; margin-right: auto">
+            <tr>
+              <td width="30">
+                <a href="<%= @root_url %>" target="_blank">
+                  <%= image_tag attachments["osm_logo_30x30.png"].url, alt: "OpenStreetMap logo", title: "OpenStreetMap", height: "30", width: "30", border: "0" %>
+                </a>
+              </td>
+              <td>
+                <a href="<%= @root_url %>" target="_blank" style="text-decoration: none; color: #000">
+                  <h1 style="font-size: 18px; font-weight: 600; margin: 0; text-align: left">OpenStreetMap</h1>
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <table width="100%" bgcolor="#fff" cellspacing="15" style="color: #222; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 14px; border: solid 1px #ccc">
+                  <tr>
+                    <td>
+                      <p>
+                        <% if @owner %>
+                          <%= t "notifier.changeset_comment_notification.commented.your_changeset_html", :commenter => @commenter, :commenter_url => @commenter_url, :time => @time %>
+                        <% else %>
+                          <%= t "notifier.changeset_comment_notification.commented.commented_changeset_html", :commenter => @commenter, :commenter_url => @commenter_url, :time => @time, :changeset_author => @changeset_author %>
+                        <% end %>
+                        <% if @changeset_comment %>
+                          <%= t "notifier.changeset_comment_notification.commented.partial_changeset_with_comment_html", :changeset_comment => @changeset_comment %>
+                        <% else %>
+                          <%= t "notifier.changeset_comment_notification.commented.partial_changeset_without_comment" %>
+                        <% end %>
+                      </p>
+                      <table style="color: #222; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 15px; font-style: italic; margin: 15px; background-color: #eee" cellpadding="10">
+                        <tr>
+                          <td style="vertical-align: top">
+                            <a href="<%= @commenter_url %>" target="_blank"><img src="<%= @commenter_thumbnail_src %>"></a>
+                          </td>
+                          <td style="vertical-align: top">
+                            <%= @comment.to_html %>
+                          </td>
+                        </tr>
+                      </table>
+                      <p>
+                        <p><%= raw t 'notifier.changeset_comment_notification.details_html', :url => link_to(@changeset_url, @changeset_url) %></p>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+          <p>
+            <a style="color: #222" href="<%= @changeset_url %>">Unsubscribe</a>
+            from updates to this changeset
+          </p>
+          <p style="margin-bottom: 10px">
+            <a href="https://www.openstreetmap.org/" target="_blank" style="color: #222">OpenStreetMap.org</a>
+          </p>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
