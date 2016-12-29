@@ -24,7 +24,7 @@
               <td colspan="2">
                 <table width="100%" bgcolor="#fff" cellspacing="15" style="color: #222; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 14px; border: solid 1px #ccc">
                   <tr>
-                    <td>
+                    <td style="text-align: left">
                       <p>
                         <% if @owner %>
                           <%= t "notifier.changeset_comment_notification.commented.your_changeset_html", :commenter => @commenter, :commenter_url => @commenter_url, :time => @time %>
@@ -37,12 +37,12 @@
                           <%= t "notifier.changeset_comment_notification.commented.partial_changeset_without_comment" %>
                         <% end %>
                       </p>
-                      <table style="color: #222; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 15px; font-style: italic; margin: 15px; background-color: #eee" cellpadding="10">
+                      <table width="520" style="color: #222; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 15px; font-style: italic; margin: 15px; background-color: #eee" cellpadding="10">
                         <tr>
-                          <td style="vertical-align: top">
-                            <a href="<%= @commenter_url %>" target="_blank"><img src="<%= @commenter_thumbnail_src %>"></a>
+                          <td style="width: 70px; vertical-align: top">
+                            <a href="<%= @commenter_url %>" target="_blank"><%= image_tag attachments["avatar.png"].url, alt: @commenter %></a>
                           </td>
-                          <td style="vertical-align: top">
+                          <td style="text-align: left; vertical-align: top">
                             <%= @comment.to_html %>
                           </td>
                         </tr>
