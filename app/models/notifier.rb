@@ -179,11 +179,24 @@ class Notifier < ActionMailer::Base
         content: @@osm_logo_png_bytes,
       }
 
+      File.open(user_avatar_file_path(comment.author), 'rb') do |file|
+        attachments.inline['avatar.png'] = file.read()
+      end
+
       mail :to => recipient.email, :subject => subject
     end
   end
 
   private
+
+  def user_avatar_file_path(user)
+    image = user.image
+    if image.file?
+      return image.path.sub('/original/', '/small/')
+    else
+      return Rails.root.join('app', 'assets', 'images', 'users', 'images', 'small.png')
+    end
+  end
 
   def with_recipient_locale(recipient)
     I18n.with_locale Locale.available.preferred(recipient.preferred_languages) do
