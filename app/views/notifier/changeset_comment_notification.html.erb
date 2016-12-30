@@ -3,18 +3,18 @@
     <title></title>
     <meta charset="UTF-8"></meta>
   </head>
-  <body style="padding: 0; margin: 0">
-    <table border="0" cellspacing="0" cellpadding="0" width="100%" bgcolor="#eee" style="color: #222; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 14px; text-align: center">
+  <body style="padding: 0; margin: 0; font-size: 14px; font-family: 'Helvetica Neue', Arial, sans-serif; color: #222">
+    <table style="background-color: #eee; width: 100%">
       <tr>
-        <td>
-          <table align="center" width="600" cellspacing="10" style="color: #222; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 14px; margin-left: auto; margin-right: auto">
+        <td style="text-align: center">
+          <table style="width: 600px; color: #222; margin-left: auto; margin-right: auto">
             <tr>
-              <td width="30">
+              <td style="width: 30px; padding: 10px">
                 <a href="<%= @root_url %>" target="_blank">
                   <%= image_tag attachments["osm_logo_30x30.png"].url, alt: "OpenStreetMap logo", title: "OpenStreetMap", height: "30", width: "30", border: "0" %>
                 </a>
               </td>
-              <td>
+              <td style="padding: 10px 0px">
                 <a href="<%= @root_url %>" target="_blank" style="text-decoration: none; color: #000">
                   <h1 style="font-size: 18px; font-weight: 600; margin: 0; text-align: left">OpenStreetMap</h1>
                 </a>
@@ -22,10 +22,10 @@
             </tr>
             <tr>
               <td colspan="2">
-                <table width="100%" bgcolor="#fff" cellspacing="15" style="color: #222; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 14px; border: solid 1px #ccc">
+                <table style="background-color: #fff; color: #222; border: solid 1px #ccc; border-collapse: separate">
                   <tr>
-                    <td style="text-align: left">
-                      <p>
+                    <td style="text-align: left; padding: 15px 15px 5px 15px">
+                      <p style="margin: 0">
                         <% if @owner %>
                           <%= t "notifier.changeset_comment_notification.commented.your_changeset_html", :commenter => @commenter, :commenter_url => @commenter_url, :time => @time %>
                         <% else %>
@@ -37,18 +37,18 @@
                           <%= t "notifier.changeset_comment_notification.commented.partial_changeset_without_comment" %>
                         <% end %>
                       </p>
-                      <table width="520" style="color: #222; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 15px; font-style: italic; margin: 15px; background-color: #eee" cellpadding="10">
+                      <table style="font-size: 15px; font-style: italic; margin: 15px; background-color: #eee; width: 520px">
                         <tr>
-                          <td style="width: 70px; vertical-align: top">
+                          <td style="width: 50px; vertical-align: top; padding: 10px">
                             <a href="<%= @commenter_url %>" target="_blank"><%= image_tag attachments["avatar.png"].url, alt: @commenter %></a>
                           </td>
-                          <td style="text-align: left; vertical-align: top">
+                          <td style="text-align: left; vertical-align: top; padding: 10px">
                             <%= @comment.to_html %>
                           </td>
                         </tr>
                       </table>
                       <p>
-                        <p><%= raw t 'notifier.changeset_comment_notification.details_html', :url => link_to(@changeset_url, @changeset_url) %></p>
+                        <%= raw t 'notifier.changeset_comment_notification.details_html', :url => link_to(@changeset_url, @changeset_url) %>
                       </p>
                     </td>
                   </tr>
@@ -59,10 +59,11 @@
         </td>
       </tr>
       <tr>
-        <td align="center">
+        <td style="text-align: center; font-size: 11px">
           <p>
-            <a style="color: #222" href="<%= @changeset_url %>">Unsubscribe</a>
-            from updates to this changeset
+            To unsubscribe from updates to this changeset, visit
+            <nobr><a style="color: #222" href="<%= @changeset_url %>"><%= @changeset_url %></a></nobr>
+            and click 'Unsubscribe'
           </p>
           <p style="margin-bottom: 10px">
             <a href="https://www.openstreetmap.org/" target="_blank" style="color: #222">OpenStreetMap.org</a>
