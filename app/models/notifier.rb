@@ -170,8 +170,8 @@ class Notifier < ActionMailer::Base
                   I18n.t("notifier.changeset_comment_notification.commented.subject_other", :commenter => @commenter)
                 end
 
-      attachments.inline['logo.png'] = File.read(Rails.root.join('app', 'assets', 'images', 'osm_logo_30.png'))
-      attachments.inline['avatar.png'] = File.read(user_avatar_file_path(comment.author))
+      attachments.inline["logo.png"] = File.read(Rails.root.join("app", "assets", "images", "osm_logo_30.png"))
+      attachments.inline["avatar.png"] = File.read(user_avatar_file_path(comment.author))
 
       mail :to => recipient.email, :subject => subject
     end
@@ -182,9 +182,9 @@ class Notifier < ActionMailer::Base
   def user_avatar_file_path(user)
     image = user.image
     if image.file?
-      return image.path.sub('/original/', '/small/')
+      return image.path.sub("/original/", "/small/")
     else
-      return Rails.root.join('app', 'assets', 'images', 'users', 'images', 'small.png')
+      return Rails.root.join("app", "assets", "images", "users", "images", "small.png")
     end
   end
 
