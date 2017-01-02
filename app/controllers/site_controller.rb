@@ -8,18 +8,11 @@ class SiteController < ApplicationController
   before_action :redirect_map_params, :only => [:index, :edit, :export]
   before_action :require_user, :only => [:welcome]
   before_action :require_oauth, :only => [:index]
+  before_action :update_totp, :only => [:index]
 
   def index
     unless STATUS == :database_readonly || STATUS == :database_offline
       session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"])
-    end
-
-    if defined?(TOTP_KEY)
-      cookies["_osm_totp_token"] = {
-        :value => ROTP::TOTP.new(TOTP_KEY, :interval => 3600).now,
-        :domain => "openstreetmap.org",
-        :expires => 1.hour.from_now
-      }
     end
   end
 
