@@ -182,7 +182,7 @@ class Notifier < ActionMailer::Base
   def user_avatar_file_path(user)
     image = user.image
     if image.file?
-      return image.path.sub("/original/", "/small/")
+      return image.path(:small)
     else
       return Rails.root.join("app", "assets", "images", "users", "images", "small.png")
     end
