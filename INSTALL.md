@@ -30,10 +30,10 @@ These can be installed on Ubuntu 16.04 or later with:
 ```
 sudo apt-get install ruby2.3 libruby2.3 ruby2.3-dev \
                      libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
-                     apache2 apache2-threaded-dev build-essential git-core \
+                     apache2 apache2-dev build-essential git-core \
                      postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
                      libsasl2-dev imagemagick
-sudo gem2.0 install bundler
+sudo gem2.3 install bundler
 ```
 
 ### Alternative platforms
