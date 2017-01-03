@@ -53,4 +53,5 @@ if [ ! -f config/application.yml ]; then
 fi
 # migrate the database to the latest version
 sudo -u vagrant rake db:migrate
+sudo -u vagrant rake db:migrate RAILS_ENV=test
 popd
