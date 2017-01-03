@@ -159,7 +159,6 @@ class Notifier < ActionMailer::Base
       @comment = comment.body
       @owner = recipient == comment.changeset.user
       @commenter = comment.author.display_name
-      @commenter_url = user_url(comment.author.display_name, :host => SERVER_URL)
       @changeset_comment = comment.changeset.tags["comment"].presence
       @time = comment.created_at
       @changeset_author = comment.changeset.user.display_name
