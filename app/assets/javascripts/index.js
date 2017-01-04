@@ -157,6 +157,10 @@ $(document).ready(function () {
     if (params.layers.indexOf(map.dataLayer.options.code) >= 0) {
       map.addLayer(map.dataLayer);
     }
+
+    if (params.layers.indexOf(map.gpsLayer.options.code) >= 0) {
+      map.addLayer(map.gpsLayer);
+    }
   }
 
   var placement = $('html').attr('dir') === 'rtl' ? 'right' : 'left';

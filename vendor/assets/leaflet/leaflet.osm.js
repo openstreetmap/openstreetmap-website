@@ -64,6 +64,16 @@ L.OSM.HOT = L.OSM.TileLayer.extend({
   }
 });
 
+L.OSM.GPS = L.OSM.TileLayer.extend({
+  options: {
+    url: document.location.protocol === 'https:' ?
+      'https://{s}.gps-tile.openstreetmap.org/lines/{z}/{x}/{y}.png' :
+      'http://{s}.gps-tile.openstreetmap.org/lines/{z}/{x}/{y}.png',
+    maxZoom: 20,
+    subdomains: 'abc'
+  }
+});
+
 L.OSM.DataLayer = L.FeatureGroup.extend({
   options: {
     areaTags: ['area', 'building', 'leisure', 'tourism', 'ruins', 'historic', 'landuse', 'military', 'natural', 'sport'],
