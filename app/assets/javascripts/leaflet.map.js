@@ -55,6 +55,13 @@ L.OSM.Map = L.Map.extend({
 
     this.dataLayer = new L.OSM.DataLayer(null);
     this.dataLayer.options.code = 'D';
+    
+    this.gpsLayer = new L.OSM.GPS({
+      attribution: copyright,
+      code: "G",
+      keyid: "gps",
+      name: I18n.t("javascripts.map.base.gps")
+    });
   },
 
   updateLayers: function(layerParam) {

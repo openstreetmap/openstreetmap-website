@@ -176,6 +176,7 @@ L.OSM.layers = function(options) {
 
       addOverlay(map.noteLayer, 'notes', OSM.MAX_NOTE_REQUEST_AREA);
       addOverlay(map.dataLayer, 'data', OSM.MAX_REQUEST_AREA);
+      addOverlay(map.gpsLayer, 'gps', OSM.MAX_REQUEST_AREA);
     }
 
     options.sidebar.addPane($ui);
