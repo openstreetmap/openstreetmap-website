@@ -67,8 +67,8 @@ L.OSM.HOT = L.OSM.TileLayer.extend({
 L.OSM.GPS = L.OSM.TileLayer.extend({
   options: {
     url: document.location.protocol === 'https:' ?
-      'https://{s}.gps-tile.openstreetmap.org/lines/{z}/{x}/{y}.png' :
-      'http://{s}.gps-tile.openstreetmap.org/lines/{z}/{x}/{y}.png',
+      'https://gps-{s}.tile.openstreetmap.org/lines/{z}/{x}/{y}.png' :
+      'http://gps-{s}.tile.openstreetmap.org/lines/{z}/{x}/{y}.png',
     maxZoom: 20,
     subdomains: 'abc'
   }
