@@ -57,6 +57,7 @@ L.OSM.Map = L.Map.extend({
     this.dataLayer.options.code = 'D';
 
     this.gpsLayer = new L.OSM.GPS({
+      pane: "overlayPane",
       code: "G",
       name: I18n.t("javascripts.map.base.gps")
     });
