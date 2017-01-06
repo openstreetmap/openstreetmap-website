@@ -1,73 +1,33 @@
-<html>
-  <head>
-    <title></title>
-    <meta charset="UTF-8"></meta>
-  </head>
-  <body style="padding: 0; margin: 0; font-size: 14px; font-family: 'Helvetica Neue', Arial, sans-serif; color: #222">
-    <table style="background-color: #eee; width: 100%">
-      <tr>
-        <td style="text-align: center">
-          <table style="width: 600px; color: #222; margin-left: auto; margin-right: auto">
-            <tr>
-              <td style="width: 30px; padding: 10px">
-                <a href="<%= @root_url %>" target="_blank">
-                  <%= image_tag attachments["logo.png"].url, alt: "OpenStreetMap logo", title: "OpenStreetMap", height: "30", width: "30", border: "0" %>
-                </a>
-              </td>
-              <td style="padding: 10px 0px">
-                <a href="<%= @root_url %>" target="_blank" style="text-decoration: none; color: #000">
-                  <h1 style="font-size: 18px; font-weight: 600; margin: 0; text-align: left">OpenStreetMap</h1>
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <table style="background-color: #fff; color: #222; border: solid 1px #ccc; border-collapse: separate">
-                  <tr>
-                    <td style="text-align: left; padding: 15px 15px 5px 15px">
-                      <p style="margin: 0">
-                        <% if @owner %>
-                          <%= raw t "notifier.changeset_comment_notification.commented.your_changeset", :commenter => link_to_user(@commenter), :time => @time %>
-                        <% else %>
-                          <%= raw t "notifier.changeset_comment_notification.commented.commented_changeset", :commenter => link_to_user(@commenter), :time => @time, :changeset_author => @changeset_author %>
-                        <% end %>
-                        <% if @changeset_comment %>
-                          <%= raw t "notifier.changeset_comment_notification.commented.partial_changeset_with_comment", :changeset_comment => content_tag("em", @changeset_comment) %>
-                        <% else %>
-                          <%= t "notifier.changeset_comment_notification.commented.partial_changeset_without_comment" %>
-                        <% end %>
-                      </p>
-                      <table style="font-size: 15px; font-style: italic; margin: 15px; background-color: #eee; width: 520px">
-                        <tr>
-                          <td style="width: 50px; vertical-align: top; padding: 15px">
-                            <a href="<%= @commenter_url %>" target="_blank"><%= image_tag attachments["avatar.png"].url, alt: @commenter %></a>
-                          </td>
-                          <td style="text-align: left; vertical-align: top; padding-right: 10px">
-                            <%= @comment.to_html %>
-                          </td>
-                        </tr>
-                      </table>
-                      <p>
-                        <%= raw t 'notifier.changeset_comment_notification.details', :url => content_tag("nobr", link_to(@changeset_url, @changeset_url)) %>
-                      </p>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-      <tr>
-        <td style="text-align: center; font-size: 11px">
-          <p>
-            <%= raw t 'notifier.changeset_comment_notification.unsubscribe', :url => content_tag("nobr", link_to(@changeset_url, @changeset_url, :style => "color: #222")) %>
-          </p>
-          <p style="margin-bottom: 10px">
-            <a href="<%= @root_url %>" target="_blank" style="color: #222">OpenStreetMap</a>
-          </p>
-        </td>
-      </tr>
-    </table>
-  </body>
-</html>
+<% content_for :body do %>
+  <p style="margin: 0">
+    <% if @owner %>
+      <%= raw t "notifier.changeset_comment_notification.commented.your_changeset", :commenter => link_to_user(@commenter), :time => @time %>
+    <% else %>
+      <%= raw t "notifier.changeset_comment_notification.commented.commented_changeset", :commenter => link_to_user(@commenter), :time => @time, :changeset_author => @changeset_author %>
+    <% end %>
+    <% if @changeset_comment %>
+      <%= raw t "notifier.changeset_comment_notification.commented.partial_changeset_with_comment", :changeset_comment => content_tag("em", @changeset_comment) %>
+    <% else %>
+      <%= t "notifier.changeset_comment_notification.commented.partial_changeset_without_comment" %>
+    <% end %>
+  </p>
+  <table style="font-size: 15px; font-style: italic; margin: 15px; background-color: #eee; width: 520px">
+    <tr>
+      <td style="width: 50px; vertical-align: top; padding: 15px">
+        <a href="<%= @commenter_url %>" target="_blank"><%= image_tag attachments["avatar.png"].url, alt: @commenter %></a>
+      </td>
+      <td style="text-align: left; vertical-align: top; padding-right: 10px">
+        <%= @comment.to_html %>
+      </td>
+    </tr>
+  </table>
+  <p>
+    <%= raw t 'notifier.changeset_comment_notification.details', :url => content_tag("nobr", link_to(@changeset_url, @changeset_url)) %>
+  </p>
+<% end %>
+
+<% content_for :footer do %>
+  <p>
+    <%= raw t 'notifier.changeset_comment_notification.unsubscribe', :url => content_tag("nobr", link_to(@changeset_url, @changeset_url, :style => "color: #222")) %>
+  </p>
+<% end %>
