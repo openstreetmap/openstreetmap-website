@@ -3,6 +3,7 @@ class Notifier < ActionMailer::Base
           :return_path => EMAIL_RETURN_PATH,
           :auto_submitted => "auto-generated"
   helper :application
+  before_action :set_shared_template_vars
 
   def signup_confirm(user, token)
     with_recipient_locale user do
@@ -106,6 +107,9 @@ class Notifier < ActionMailer::Base
                           :action => "new",
                           :display_name => comment.user.display_name,
                           :title => "Re: #{comment.diary_entry.title}")
+      @user_message_author = @from_user
+
+      attach_user_avatar(comment.user)
 
       mail :from => from_address(comment.user.display_name, "c", comment.id, comment.digest, recipient.id),
            :to => recipient.email,
@@ -154,7 +158,6 @@ class Notifier < ActionMailer::Base
 
   def changeset_comment_notification(comment, recipient)
     with_recipient_locale recipient do
-      @root_url = root_url(:host => SERVER_URL)
       @changeset_url = changeset_url(comment.changeset, :host => SERVER_URL)
       @comment = comment.body
       @owner = recipient == comment.changeset.user
@@ -162,6 +165,7 @@ class Notifier < ActionMailer::Base
       @changeset_comment = comment.changeset.tags["comment"].presence
       @time = comment.created_at
       @changeset_author = comment.changeset.user.display_name
+      @user_message_author = @commenter
 
       subject = if @owner
                   I18n.t("notifier.changeset_comment_notification.commented.subject_own", :commenter => @commenter)
@@ -169,14 +173,27 @@ class Notifier < ActionMailer::Base
                   I18n.t("notifier.changeset_comment_notification.commented.subject_other", :commenter => @commenter)
                 end
 
-      attachments.inline["logo.png"] = File.read("#{Rails.root}/app/assets/images/osm_logo_30.png")
-      attachments.inline["avatar.png"] = File.read(user_avatar_file_path(comment.author))
+      attach_project_logo
+      attach_user_avatar(comment.author)
 
       mail :to => recipient.email, :subject => subject
     end
   end
 
   private
+
+  def set_shared_template_vars
+    @root_url = root_url(:host => SERVER_URL)
+    attach_project_logo
+  end
+
+  def attach_project_logo
+    attachments.inline["logo.png"] = File.read("#{Rails.root}/app/assets/images/osm_logo_30.png")
+  end
+
+  def attach_user_avatar(user)
+    attachments.inline["avatar.png"] = File.read(user_avatar_file_path(user))
+  end
 
   def user_avatar_file_path(user)
     image = user.image

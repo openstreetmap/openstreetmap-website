@@ -1,9 +1,20 @@
-<p><%= t'notifier.diary_comment_notification.hi', :to_user => @to_user %></p>
+<% content_for :body do %>
+  <p style="margin: 0">
+    <%= t'notifier.diary_comment_notification.hi', :to_user => @to_user %>
+  </p>
+  <p>
+    <%= raw t'notifier.diary_comment_notification.header', :from_user => link_to_user(@from_user), :subject => content_tag("em", @title) %>
+  </p>
 
-<p><%= raw t'notifier.diary_comment_notification.header', :from_user => link_to(@from_user, :host => SERVER_URL, :controller => :user, :action => :view, :display_name => @from_user), :subject => @title %></p>
+  <%= render "notifier/user_message_table", :captured => capture { %>
+    <%= @text.to_html %>
+  <% } %>
+<% end %>
 
-==
-<%= @text.to_html %>
-==
-
-<p><%= raw t'notifier.diary_comment_notification.footer', :readurl => link_to(@readurl, @readurl), :commenturl => link_to(@commenturl, @commenturl), :replyurl => link_to(@replyurl, @replyurl) %></p>
+<% content_for :footer do %>
+  <p><%= raw t'notifier.diary_comment_notification.footer',
+             :readurl => link_to(@readurl, @readurl) + tag(:br),
+             :commenturl => link_to(@commenturl, @commenturl) + tag(:br),
+             :replyurl => link_to(@replyurl, @replyurl)
+  %></p>
+<% end %>

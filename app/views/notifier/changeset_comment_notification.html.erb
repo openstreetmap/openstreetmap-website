@@ -11,16 +11,11 @@
       <%= t "notifier.changeset_comment_notification.commented.partial_changeset_without_comment" %>
     <% end %>
   </p>
-  <table style="font-size: 15px; font-style: italic; margin: 15px; background-color: #eee; width: 520px">
-    <tr>
-      <td style="width: 50px; vertical-align: top; padding: 15px">
-        <a href="<%= @commenter_url %>" target="_blank"><%= image_tag attachments["avatar.png"].url, alt: @commenter %></a>
-      </td>
-      <td style="text-align: left; vertical-align: top; padding-right: 10px">
-        <%= @comment.to_html %>
-      </td>
-    </tr>
-  </table>
+
+  <%= render "notifier/user_message_table", :captured => capture { %>
+    <%= @comment.to_html %>
+  <% } %>
+
   <p>
     <%= raw t 'notifier.changeset_comment_notification.details', :url => content_tag("nobr", link_to(@changeset_url, @changeset_url)) %>
   </p>
