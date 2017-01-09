@@ -1,9 +1,24 @@
-<p><%= t'notifier.message_notification.hi', :to_user => @to_user %></p>
+<% content_for :body do %>
+  <p style="margin: 0">
+    <%= t'notifier.message_notification.hi', :to_user => @to_user %>
+  </p>
+  <p>
+    <%= raw t'notifier.message_notification.header',
+            :from_user => link_to_user(@from_user),
+            :subject => content_tag("em", @title)
+    %>
+  </p>
 
-<p><%= raw t'notifier.message_notification.header', :from_user => link_to(@from_user, :host => SERVER_URL, :controller => :user, :action => :view, :display_name => @from_user), :subject => @title %></p>
+  <%= render "notifier/user_message_table", :captured => capture { %>
+    <%= @text.to_html %>
+  <% } %>
+<% end %>
 
-==
-<%= @text.to_html %>
-==
-
-<p><%= t'notifier.message_notification.footer_html', :readurl => link_to(@readurl, @readurl), :replyurl => link_to(@replyurl, @replyurl) %></p>
+<% content_for :footer do %>
+  <p>
+    <%= t'notifier.message_notification.footer_html',
+          :readurl => link_to(@readurl, @readurl) + tag(:br),
+          :replyurl => link_to(@replyurl, @replyurl)
+    %>
+  </p>
+<% end %>

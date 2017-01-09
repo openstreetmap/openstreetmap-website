@@ -77,6 +77,9 @@ class Notifier < ActionMailer::Base
       @replyurl = url_for(:host => SERVER_URL,
                           :controller => "message", :action => "reply",
                           :message_id => message.id)
+      @user_message_author = @from_user
+
+      attach_user_avatar(message.sender)
 
       mail :from => from_address(message.sender.display_name, "m", message.id, message.digest),
            :to => message.recipient.email,
