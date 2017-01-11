@@ -185,5 +185,17 @@ module ActiveSupport
       stub_request(:get, "http://api.hostip.info/country.php?ip=0.0.0.0")
       stub_request(:get, "http://api.hostip.info/country.php?ip=127.0.0.1")
     end
+
+    def email_text_parts(message)
+      text_parts = []
+      message.parts.each do |part|
+        if part.content_type.start_with?("text/")
+          text_parts.push(part)
+        elsif part.multipart?
+          text_parts.concat(email_text_parts(part))
+        end
+      end
+      return text_parts
+    end
   end
 end
