@@ -198,7 +198,7 @@ pl:
       entry: Relacja %{relation_name}
       entry_role: Relacja %{relation_name} (jako %{relation_role})
     not_found:
-      sorry: 'Niestety, %{type} #%{id} nie został znaleziony.'
+      sorry: 'Niestety, nie odnaleziono %{type} #%{id}.'
       type:
         node: węzeł
         way: linia
@@ -1277,19 +1277,19 @@ pl:
       befriend_them: Możesz również dodać go jako znajomego na %{befriendurl}.
     gpx_notification:
       greeting: Witaj,
-      your_gpx_file: Wygląda, ze Twój plik GPX
+      your_gpx_file: Wygląda na to, że plik GPX
       with_description: z opisem
       and_the_tags: i następujące tagi
-      and_no_tags: i brak znaczników
+      and_no_tags: i bez znaczników
       failure:
         subject: '[OpenStreetMap] Nieudane importowanie pliku GPX'
-        failed_to_import: 'nie udało się zaimportować. Komunikat błędu:'
+        failed_to_import: 'nie został zaimportowany. Komunikat błędu:'
         more_info_1: Więcej informacji na temat błędów przesyłania danych GPX i sposobach
           ich
         more_info_2: 'uniknięcia można znaleźć na stronie:'
         import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       success:
-        subject: '[OpenStreetMap] Sukces importu pliku GPX'
+        subject: '[OpenStreetMap] Zaimportowano plik GPX'
         loaded_successfully: wczytano wraz z %{trace_points} z %{possible_points}
           punktów łącznie.
     signup_confirm:
@@ -1399,7 +1399,7 @@ pl:
       body: Treść
       send_button: Wyślij
       back_to_inbox: Wróć do skrzynki
-      message_sent: Wiadomość wysłana
+      message_sent: Wysłano wiadomość
       limit_exceeded: Masz ostatnio wiele wysłanych wiadomości. Proszę poczekać chwilę
         przed powtórzeniem wysłania.
     no_such_message:
@@ -1407,10 +1407,10 @@ pl:
       heading: Nie ma takiej wiadomości
       body: Niestety, nie ma wiadomości o tym identyfikatorze.
     outbox:
-      title: Wiadomości wysłane
-      my_inbox: Moja skrzynka %{inbox_link}
-      inbox: odbiorcza
-      outbox: nadawcza
+      title: Wysłane
+      my_inbox: Wiadomości %{inbox_link}
+      inbox: odebrane
+      outbox: wysłane
       messages:
         one: '%{count} wysłana wiadomość'
         few: '%{count} wysłane wiadomości'
@@ -1458,9 +1458,9 @@ pl:
       remote_failed: Nieudane edytowanie – proszę sprawdzić czy program JOSM lub Merkaartor
         jest uruchomiony i funkcja Remote Control jest włączona
     edit:
-      not_public: Nie wybrałeś(aś) by twoje edycje były publiczne.
-      not_public_description: W tym trybie nie można już zmieniać mapy.  Możesz ustawić
-        je na publiczne na Twojej %{user_page}.
+      not_public: Nie ustalono, aby edycje były publiczne.
+      not_public_description: W tym trybie nie można już zmieniać mapy. Można zmienić
+        je na publiczne na %{user_page}.
       user_page_link: stronie użytkownika
       anon_edits: (%{link})
       anon_edits_link_text: Tu dowiesz się dlaczego.
@@ -1944,7 +1944,7 @@ pl:
       my profile: Profil
       my settings: Ustawienia
       my comments: Komentarze
-      oauth settings: ustawienia oauth
+      oauth settings: Ustawienia oauth
       blocks on me: Otrzymane blokady
       blocks by me: Nałożone blokady
       send message: wyślij wiadomość
@@ -1952,7 +1952,7 @@ pl:
       edits: edycje
       traces: ślady
       notes: uwagi
-      remove as friend: Usuń ze znajomych
+      remove as friend: usuń ze znajomych
       add as friend: dodaj do znajomych
       mapper since: 'Mapuje od:'
       ago: (%{time_in_words_ago} temu)
@@ -1960,7 +1960,7 @@ pl:
       ct undecided: niezdecydowane
       ct declined: odrzucone
       ct accepted: przyjęte %{ago} temu
-      latest edit: 'Ostatnia edycja %{ago}:'
+      latest edit: 'Ostatnia zmiana %{ago}:'
       email address: Adres e‐mail
       created from: 'Stworzony z:'
       status: 'Stan:'
@@ -1971,7 +1971,7 @@ pl:
         użytkowników blisko ciebie.
       settings_link_text: stronie ustawień
       your friends: Twoi znajomi
-      no friends: Nie masz jeszcze dodanych żadnych znajomych.
+      no friends: Nie dodano jeszcze żadnych znajomych.
       km away: '%{count}km stąd'
       m away: '%{count}m stąd'
       nearby users: Najbliżsi użytkownicy
@@ -2050,8 +2050,8 @@ pl:
         gravatar: Użycie Gravatara
         link: http://wiki.openstreetmap.org/wiki/Gravatar
         link text: co to jest?
-        disabled: '"Gravatar" został wyłączony.'
-        enabled: Wyświetlanie Twojego "Gravataru" zostało włączone.
+        disabled: Wyłączono „Gravatara”.
+        enabled: Włączono wyświetlanie „Gravatara”.
       new image: Dodanie obrazu
       keep image: Pozostaw dotychczasową ilustrację
       delete image: Usunięcie aktualnego obrazu
@@ -2269,8 +2269,8 @@ pl:
       time_past: Zakończona %{time} temu
       created: Utworzony
       ago: '%{time} temu'
-      status: Status
-      show: Pokaż
+      status: Stan
+      show: Wyświetl
       edit: Edytuj
       revoke: Odwołaj
       confirm: Na pewno?
@@ -2318,7 +2318,7 @@ pl:
       image: Obraz
       link: Odnośnik lub HTML
       long_link: Odnośnik
-      short_link: Krótki link
+      short_link: Skrócony
       geo_uri: Geo URI
       embed: HTML
       custom_dimensions: Własne wymiary
@@ -2354,6 +2354,7 @@ pl:
         header: Warstwy mapy
         notes: Uwagi
         data: Dane mapy
+        gps: Publiczne ślady GPS
         overlays: Nakładki do rozwiązywania problemów na mapie
         title: Warstwy
       copyright: © <a href='%{copyright_url}'>autorzy OpenStreetMap</a>
@@ -2469,7 +2470,7 @@ pl:
       title: Tworzenie nowej poprawki
     show:
       description: 'Opis:'
-      heading: Poprawka "%{title}"
+      heading: Poprawka „%{title}”
       title: Wyświetlenie poprawki
       user: 'Autor:'
       edit: Edytuj tę poprawkę

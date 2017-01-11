@@ -35,7 +35,7 @@
 fi:
   time:
     formats:
-      friendly: '%e. %Bta %Y kello %H:%M'
+      friendly: '%e. %Bta %Y kello %H.%M'
   activerecord:
     models:
       acl: Pääsyoikeuslista
@@ -380,9 +380,10 @@ fi:
           seuraavista:'
         planet:
           title: Planet OSM
-          description: Säännöllisesti päivitettyjä kopioita täydellisestö OpenStreetMap-tietokannasta
+          description: Säännöllisesti päivitettyjä kopioita täydellisestä OpenStreetMap-tietokannasta
         overpass:
-          title: Ylikulku-API
+          title: Overpass API
+          description: Lataa kartalle rajattu alue OpenStreetMapin varapalvelimelta
         geofabrik:
           title: Geofabrik-lataukset
           description: Säännöllisesti päivitetyt otteet maanosista, maista ja valituista
@@ -1044,9 +1045,9 @@ fi:
         Lue lisää aineiston käyttämisestä <a
         href="http://osmfoundation.org/Licence">OSM-säätiön lisensointiohjeesta</a> ja yhteisön keräämistä <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">lakiasioiden useimmin kysytyimmistä kysymyksistä</a>.
       more_2_html: "Vaikka OpenStreetMap on avointa dataa, emme voi tarjota maksutonta
-        karttarajapintaa (API) kolmannen osapuolen kehittäjille.\n\nTutustu <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">API:n
-        käyttöehtoihin</a>,\n<a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">kartta-aineiston
-        käyttöehtoihin</a> ja \n<a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Nominatimin
+        karttarajapintaa (API) kolmannen osapuolen kehittäjille.\n\nTutustu <a href=\"https://operations.osmfoundation.org/policies/api/\">karttarajapinnan
+        käyttöehtoihin</a>,\n<a href=\"https://operations.osmfoundation.org/policies/tiles/\">kartta-aineiston
+        käyttöehtoihin</a> ja \n<a href=\"https://operations.osmfoundation.org/policies/nominatim/\">Nominatimin
         käyttöehtoihin</a>."
       contributors_title_html: Tekijät
       contributors_intro_html: |-
@@ -1106,9 +1107,9 @@ fi:
         (englanniksi)</a> vastaa mielellään kysymyksiin tavaramerkkien käytöstä.
   welcome_page:
     title: Tervetuloa!
-    introduction_html: Tervetuloa OpenStreetMapiin, ilmaiseen ja vapaasti muokattavaan
+    introduction_html: 'Tervetuloa OpenStreetMapiin: ilmaiseen ja vapaasti muokattavaan
       maailmankarttaan. Rekisteröityminen on nyt suoritettu, joten olet valmis aloittamaan
-      kartan muokkaamisen. Tutustu ensin kuitenkin näihin perusasioihin.
+      kartan muokkaamisen. Tutustu ensin kuitenkin näihin perusasioihin.'
     whats_on_the_map:
       title: Kartan sisältö
       on_html: OpenStreetMapissä voi kartoittaa asioita, jotka ovat <em>olemassa juuri
@@ -1182,7 +1183,7 @@ fi:
       description: Opi OpenStreetMapin perusteet tällä helpolla aloitusoppaalla.
     beginners_guide:
       url: http://wiki.openstreetmap.org/wiki/Fi:Beginners%27_guide
-      title: Vasta-alkajan opas
+      title: Aloitusopas
       description: Yhteisön ylläpitämä opas aloittelijoille.
     help:
       url: https://help.openstreetmap.org/
@@ -1795,6 +1796,9 @@ fi:
         github:
           title: Kirjaudu GitHubin avulla
           alt: Kirjaudu käyttämällä GitHub-tiliäsi
+        wikipedia:
+          title: Kirjaudu sisään Wikipedialla
+          alt: Kirjaudu sisään Wikipedia-tunnuksella
         yahoo:
           title: Kirjaudu Yahoon avulla
           alt: Kirjaudu käyttämällä Yahoo OpenID -tunnustasi
@@ -2287,6 +2291,7 @@ fi:
         header: Karttanäkymä
         notes: Karttailmoitukset
         data: Kartta-aineisto
+        gps: Julkiset GPS-jäljet
         overlays: Nämä toiminnot on tarkoitettu karttavirheiden korjaamiseen
         title: Karttanäkymä
       copyright: © <a href='%{copyright_url}'>OpenStreetMapin tekijät</a>
@@ -2369,6 +2374,13 @@ fi:
         end_oneway_without_exit: Yksisuuntaisen tien %{name} pää
         roundabout_with_exit: Liikenneympyrässä poistu %{exit}. liittymästä tielle
           %{name}
+        turn_left_with_exit: Liikenneympyrässä käänny vasemmalle tielle %{name}
+        slight_left_with_exit: Liikenneympyrässä kaarra loivasti vasemmalle tielle
+          %{name}
+        turn_right_with_exit: Liikenneympyrässä käänny oikealle tielle %{name}
+        slight_right_with_exit: Liikenneympyrässä kaarra loivasti oikealle tielle
+          %{name}
+        continue_with_exit: Liikenneympyrässä jatka suoraan tielle %{name}
         unnamed: nimetön tie
         courtesy: Reittiohjeet tarjoaa %{link}
       time: Matka-aika
