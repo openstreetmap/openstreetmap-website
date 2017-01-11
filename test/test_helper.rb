@@ -195,7 +195,7 @@ module ActiveSupport
           text_parts.concat(email_text_parts(part))
         end
       end
-      return text_parts
+      text_parts
     end
   end
 end
