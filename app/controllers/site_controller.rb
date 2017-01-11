@@ -84,7 +84,7 @@ class SiteController < ApplicationController
       @lat = note.lat
       @lon = note.lon
       @zoom = 17
-    elsif params[:gpx]
+    elsif params[:gpx] && @user
       trace = Trace.visible_to(@user).find(params[:gpx])
       @lat = trace.latitude
       @lon = trace.longitude
