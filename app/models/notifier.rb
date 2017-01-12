@@ -151,6 +151,9 @@ class Notifier < ActionMailer::Base
                      I18n.t("notifier.note_comment_notification.anonymous")
                    end
 
+      @user_message_author = @commenter
+      attach_user_avatar(comment.author)
+
       subject = if @owner
                   I18n.t("notifier.note_comment_notification.#{@event}.subject_own", :commenter => @commenter)
                 else
@@ -202,8 +205,8 @@ class Notifier < ActionMailer::Base
   end
 
   def user_avatar_file_path(user)
-    image = user.image
-    if image.file?
+    image = user && user.image
+    if image && image.file?
       return image.path(:small)
     else
       return "#{Rails.root}/app/assets/images/users/images/small.png"
