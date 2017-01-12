@@ -129,7 +129,9 @@ class Notifier < ActionMailer::Base
       @friendurl = url_for(:host => SERVER_URL,
                            :controller => "user", :action => "make_friend",
                            :display_name => @friend.befriender.display_name)
+      @user_message_author = @friend.befriender.display_name
 
+      attach_user_avatar(@friend.befriender)
       mail :to => friend.befriendee.email,
            :subject => I18n.t("notifier.friend_notification.subject", :user => friend.befriender.display_name)
     end
