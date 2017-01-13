@@ -1,29 +1,27 @@
-<% content_for :body do %>
-  <p style="margin: 0">
-    <%= t'notifier.changeset_comment_notification.hi', :to_user => @to_user %>
-  </p>
+<p style="margin: 0">
+  <%= t'notifier.changeset_comment_notification.hi', :to_user => @to_user %>
+</p>
 
-  <p>
-    <% if @owner %>
-      <%= raw t "notifier.changeset_comment_notification.commented.your_changeset", :commenter => link_to_user(@commenter), :time => @time %>
-    <% else %>
-      <%= raw t "notifier.changeset_comment_notification.commented.commented_changeset", :commenter => link_to_user(@commenter), :time => @time, :changeset_author => @changeset_author %>
-    <% end %>
-    <% if @changeset_comment %>
-      <%= raw t "notifier.changeset_comment_notification.commented.partial_changeset_with_comment", :changeset_comment => content_tag("em", @changeset_comment) %>
-    <% else %>
-      <%= t "notifier.changeset_comment_notification.commented.partial_changeset_without_comment" %>
-    <% end %>
-  </p>
+<p>
+  <% if @owner %>
+    <%= raw t "notifier.changeset_comment_notification.commented.your_changeset", :commenter => link_to_user(@commenter), :time => @time %>
+  <% else %>
+    <%= raw t "notifier.changeset_comment_notification.commented.commented_changeset", :commenter => link_to_user(@commenter), :time => @time, :changeset_author => @changeset_author %>
+  <% end %>
+  <% if @changeset_comment %>
+    <%= raw t "notifier.changeset_comment_notification.commented.partial_changeset_with_comment", :changeset_comment => content_tag("em", @changeset_comment) %>
+  <% else %>
+    <%= t "notifier.changeset_comment_notification.commented.partial_changeset_without_comment" %>
+  <% end %>
+</p>
 
-  <%= render "notifier/user_message_table", :captured => capture { %>
-    <%= @comment.to_html %>
-  <% } %>
+<%= render "notifier/user_message_table", :captured => capture { %>
+  <%= @comment.to_html %>
+<% } %>
 
-  <p>
-    <%= raw t 'notifier.changeset_comment_notification.details', :url => content_tag("nobr", link_to(@changeset_url, @changeset_url)) %>
-  </p>
-<% end %>
+<p>
+  <%= raw t 'notifier.changeset_comment_notification.details', :url => content_tag("nobr", link_to(@changeset_url, @changeset_url)) %>
+</p>
 
 <% content_for :footer do %>
   <p>

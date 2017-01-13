@@ -1,15 +1,13 @@
-<% content_for :body do %>
-  <p style="margin: 0"><%= t 'notifier.note_comment_notification.greeting' %></p>
+<p style="margin: 0"><%= t 'notifier.note_comment_notification.greeting' %></p>
 
-  <% if @owner %>
-    <p><%= raw t "notifier.note_comment_notification.#{@event}.your_note", :commenter => link_to_user(@commenter), :place => @place %></p>
-  <% else %>
-    <p><%= raw t "notifier.note_comment_notification.#{@event}.commented_note", :commenter => link_to_user(@commenter), :place => @place %></p>
-  <% end %>
-
-  <%= render "notifier/user_message_table", :captured => capture { %>
-    <%= @comment.to_html %>
-  <% } %>
-
-  <p><%= raw t 'notifier.note_comment_notification.details', :url => link_to(@noteurl, @noteurl) %></p>
+<% if @owner %>
+  <p><%= raw t "notifier.note_comment_notification.#{@event}.your_note", :commenter => link_to_user(@commenter), :place => @place %></p>
+<% else %>
+  <p><%= raw t "notifier.note_comment_notification.#{@event}.commented_note", :commenter => link_to_user(@commenter), :place => @place %></p>
 <% end %>
+
+<%= render "notifier/user_message_table", :captured => capture { %>
+  <%= @comment.to_html %>
+<% } %>
+
+<p><%= raw t 'notifier.note_comment_notification.details', :url => link_to(@noteurl, @noteurl) %></p>

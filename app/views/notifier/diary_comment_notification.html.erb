@@ -1,15 +1,13 @@
-<% content_for :body do %>
-  <p style="margin: 0">
-    <%= t'notifier.diary_comment_notification.hi', :to_user => @to_user %>
-  </p>
-  <p>
-    <%= raw t'notifier.diary_comment_notification.header', :from_user => link_to_user(@from_user), :subject => content_tag("em", @title) %>
-  </p>
+<p style="margin: 0">
+  <%= t'notifier.diary_comment_notification.hi', :to_user => @to_user %>
+</p>
+<p>
+  <%= raw t'notifier.diary_comment_notification.header', :from_user => link_to_user(@from_user), :subject => content_tag("em", @title) %>
+</p>
 
-  <%= render "notifier/user_message_table", :captured => capture { %>
-    <%= @text.to_html %>
-  <% } %>
-<% end %>
+<%= render "notifier/user_message_table", :captured => capture { %>
+  <%= @text.to_html %>
+<% } %>
 
 <% content_for :footer do %>
   <p><%= raw t'notifier.diary_comment_notification.footer',
