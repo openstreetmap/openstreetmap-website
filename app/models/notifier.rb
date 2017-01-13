@@ -182,7 +182,6 @@ class Notifier < ActionMailer::Base
                   I18n.t("notifier.changeset_comment_notification.commented.subject_other", :commenter => @commenter)
                 end
 
-      attach_project_logo
       attach_user_avatar(comment.author)
 
       mail :to => recipient.email, :subject => subject
