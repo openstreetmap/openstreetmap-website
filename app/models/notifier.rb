@@ -77,7 +77,7 @@ class Notifier < ActionMailer::Base
       @replyurl = url_for(:host => SERVER_URL,
                           :controller => "message", :action => "reply",
                           :message_id => message.id)
-      @user_message_author = @from_user
+      @author = @from_user
 
       attach_user_avatar(message.sender)
 
@@ -110,7 +110,7 @@ class Notifier < ActionMailer::Base
                           :action => "new",
                           :display_name => comment.user.display_name,
                           :title => "Re: #{comment.diary_entry.title}")
-      @user_message_author = @from_user
+      @author = @from_user
 
       attach_user_avatar(comment.user)
 
@@ -129,7 +129,7 @@ class Notifier < ActionMailer::Base
       @friendurl = url_for(:host => SERVER_URL,
                            :controller => "user", :action => "make_friend",
                            :display_name => @friend.befriender.display_name)
-      @user_message_author = @friend.befriender.display_name
+      @author = @friend.befriender.display_name
 
       attach_user_avatar(@friend.befriender)
       mail :to => friend.befriendee.email,
@@ -151,7 +151,7 @@ class Notifier < ActionMailer::Base
                      I18n.t("notifier.note_comment_notification.anonymous")
                    end
 
-      @user_message_author = @commenter
+      @author = @commenter
       attach_user_avatar(comment.author)
 
       subject = if @owner
@@ -173,7 +173,7 @@ class Notifier < ActionMailer::Base
       @changeset_comment = comment.changeset.tags["comment"].presence
       @time = comment.created_at
       @changeset_author = comment.changeset.user.display_name
-      @user_message_author = @commenter
+      @author = @commenter
 
       subject = if @owner
                   I18n.t("notifier.changeset_comment_notification.commented.subject_own", :commenter => @commenter)
