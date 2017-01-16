@@ -14,8 +14,8 @@ module NotifierHelper
 
   def message_body(&block)
     render(
-      partial: "message_body",
-      locals: { body: capture(&block) }
+      :partial => "message_body",
+      :locals => { :body => capture(&block) }
     )
   end
 end
