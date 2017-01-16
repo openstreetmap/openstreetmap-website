@@ -11,4 +11,11 @@ module NotifierHelper
       :style => "text-decoration: none; color: #222; font-weight: bold"
     )
   end
+
+  def message_body(&block)
+    render(
+      partial: "message_body",
+      locals: { body: capture(&block) }
+    )
+  end
 end

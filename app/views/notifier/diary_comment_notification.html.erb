@@ -5,9 +5,9 @@
   <%= raw t'notifier.diary_comment_notification.header', :from_user => link_to_user(@from_user), :subject => content_tag("em", @title) %>
 </p>
 
-<%= render "notifier/user_message_table", :captured => capture { %>
+<%= message_body do %>
   <%= @text.to_html %>
-<% } %>
+<% end %>
 
 <% content_for :footer do %>
   <p><%= raw t'notifier.diary_comment_notification.footer',
