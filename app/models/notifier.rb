@@ -4,6 +4,7 @@ class Notifier < ActionMailer::Base
           :auto_submitted => "auto-generated"
   helper :application
   before_action :set_shared_template_vars
+  before_action :attach_project_logo
 
   def signup_confirm(user, token)
     with_recipient_locale user do
@@ -191,7 +192,6 @@ class Notifier < ActionMailer::Base
 
   def set_shared_template_vars
     @root_url = root_url(:host => SERVER_URL)
-    attach_project_logo
   end
 
   def attach_project_logo
