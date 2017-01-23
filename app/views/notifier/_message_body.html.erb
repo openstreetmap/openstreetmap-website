@@ -1,15 +1,21 @@
 <table style="font-size: 15px; font-style: italic; margin: 15px; background-color: #eee; width: 520px">
   <tr>
-    <td style="width: 50px; vertical-align: top; padding: 15px">
-      <%= link_to(
-          image_tag(
-            attachments["avatar.png"].url,
-            alt: @author,
-            title: @author
-          ),
-          user_url(@author, :host => SERVER_URL),
-          :target => "_blank"
-      ) %>
+    <td style="width: 50px; vertical-align: top; padding: 5px 15px">
+      <%# Some email clients (e.g. Yahoo as of 2017-01) remove the margin
+        on <p> tags. Since the body itself always starts with a <p>, by
+        wrapping the image here in a <p> as well, we ensure that they will at
+        least always be aligned with each other. %>
+      <p>
+        <%= link_to(
+            image_tag(
+              attachments["avatar.png"].url,
+              alt: @author,
+              title: @author
+            ),
+            user_url(@author, :host => SERVER_URL),
+            :target => "_blank"
+        ) %>
+      </p>
     </td>
     <td style="text-align: left; vertical-align: top; padding-right: 10px">
       <%= body %>
