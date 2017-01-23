@@ -1,10 +1,10 @@
 /*
- Leaflet 1.0.2, a JS library for interactive maps. http://leafletjs.com
+ Leaflet 1.0.3, a JS library for interactive maps. http://leafletjs.com
  (c) 2010-2016 Vladimir Agafonkin, (c) 2010-2011 CloudMade
 */
 (function (window, document, undefined) {
 var L = {
-	version: "1.0.2"
+	version: "1.0.3"
 };
 
 function expose() {
@@ -516,7 +516,6 @@ L.Evented = L.Class.extend({
 		}
 
 		listeners.push(newListener);
-		typeListeners.count++;
 	},
 
 	_off: function (type, fn, context) {
@@ -824,6 +823,9 @@ L.Mixin = {Events: proto};
 
 		// @property touch: Boolean
 		// `true` for all browsers supporting [touch events](https://developer.mozilla.org/docs/Web/API/Touch_events).
+		// This does not necessarily mean that the browser is running in a computer with
+		// a touchscreen, it only means that the browser is capable of understanding
+		// touch events.
 		touch: !!touch,
 
 		// @property msPointer: Boolean
@@ -1662,7 +1664,7 @@ L.LatLng.prototype = {
 	},
 
 	// @method toBounds(sizeInMeters: Number): LatLngBounds
-	// Returns a new `LatLngBounds` object in which each boundary is `sizeInMeters` meters apart from the `LatLng`.
+	// Returns a new `LatLngBounds` object in which each boundary is `sizeInMeters/2` meters apart from the `LatLng`.
 	toBounds: function (sizeInMeters) {
 		var latAccuracy = 180 * sizeInMeters / 40075017,
 		    lngAccuracy = latAccuracy / Math.cos((Math.PI / 180) * this.lat);
@@ -1869,7 +1871,7 @@ L.LatLngBounds.prototype = {
 	// @method contains (latlng: LatLng): Boolean
 	// Returns `true` if the rectangle contains the given point.
 	contains: function (obj) { // (LatLngBounds) or (LatLng) -> Boolean
-		if (typeof obj[0] === 'number' || obj instanceof L.LatLng) {
+		if (typeof obj[0] === 'number' || obj instanceof L.LatLng || 'lat' in obj) {
 			obj = L.latLng(obj);
 		} else {
 			obj = L.latLngBounds(obj);
@@ -2132,12 +2134,35 @@ L.CRS = {
 	// @method wrapLatLng(latlng: LatLng): LatLng
 	// Returns a `LatLng` where lat and lng has been wrapped according to the
 	// CRS's `wrapLat` and `wrapLng` properties, if they are outside the CRS's bounds.
+	// Only accepts actual `L.LatLng` instances, not arrays.
 	wrapLatLng: function (latlng) {
 		var lng = this.wrapLng ? L.Util.wrapNum(latlng.lng, this.wrapLng, true) : latlng.lng,
 		    lat = this.wrapLat ? L.Util.wrapNum(latlng.lat, this.wrapLat, true) : latlng.lat,
 		    alt = latlng.alt;
 
 		return L.latLng(lat, lng, alt);
+	},
+
+	// @method wrapLatLngBounds(bounds: LatLngBounds): LatLngBounds
+	// Returns a `LatLngBounds` with the same size as the given one, ensuring
+	// that its center is within the CRS's bounds.
+	// Only accepts actual `L.LatLngBounds` instances, not arrays.
+	wrapLatLngBounds: function (bounds) {
+		var center = bounds.getCenter(),
+		    newCenter = this.wrapLatLng(center),
+		    latShift = center.lat - newCenter.lat,
+		    lngShift = center.lng - newCenter.lng;
+
+		if (latShift === 0 && lngShift === 0) {
+			return bounds;
+		}
+
+		var sw = bounds.getSouthWest(),
+		    ne = bounds.getNorthEast(),
+		    newSw = L.latLng({lat: sw.lat - latShift, lng: sw.lng - lngShift}),
+		    newNe = L.latLng({lat: ne.lat - latShift, lng: ne.lng - lngShift});
+
+		return new L.LatLngBounds(newSw, newNe);
 	}
 };
 
@@ -2305,7 +2330,7 @@ L.Map = L.Evented.extend({
 
 		// @option maxBounds: LatLngBounds = null
 		// When this option is set, the map restricts the view to the given
-		// geographical bounds, bouncing the user back when he tries to pan
+		// geographical bounds, bouncing the user back if the user tries to pan
 		// outside the view. To set the restriction dynamically, use
 		// [`setMaxBounds`](#map-setmaxbounds) method.
 		maxBounds: undefined,
@@ -2512,7 +2537,7 @@ L.Map = L.Evented.extend({
 		};
 	},
 
-	// @method fitBounds(bounds: LatLngBounds, options: fitBounds options): this
+	// @method fitBounds(bounds: LatLngBounds, options?: fitBounds options): this
 	// Sets a map view that contains the given geographical bounds with the
 	// maximum zoom level possible.
 	fitBounds: function (bounds, options) {
@@ -3041,7 +3066,7 @@ L.Map = L.Evented.extend({
 		    nw = bounds.getNorthWest(),
 		    se = bounds.getSouthEast(),
 		    size = this.getSize().subtract(padding),
-		    boundsSize = this.project(se, zoom).subtract(this.project(nw, zoom)),
+		    boundsSize = L.bounds(this.project(se, zoom), this.project(nw, zoom)).getSize(),
 		    snap = L.Browser.any3d ? this.options.zoomSnap : 1;
 
 		var scale = Math.min(size.x / boundsSize.x, size.y / boundsSize.y);
@@ -3060,8 +3085,8 @@ L.Map = L.Evented.extend({
 	getSize: function () {
 		if (!this._size || this._sizeChanged) {
 			this._size = new L.Point(
-				this._container.clientWidth,
-				this._container.clientHeight);
+				this._container.clientWidth || 0,
+				this._container.clientHeight || 0);
 
 			this._sizeChanged = false;
 		}
@@ -3182,6 +3207,16 @@ L.Map = L.Evented.extend({
 		return this.options.crs.wrapLatLng(L.latLng(latlng));
 	},
 
+	// @method wrapLatLngBounds(bounds: LatLngBounds): LatLngBounds
+	// Returns a `LatLngBounds` with the same size as the given one, ensuring that
+	// its center is within the CRS's bounds.
+	// By default this means the center longitude is wrapped around the dateline so its
+	// value is between -180 and +180 degrees, and the majority of the bounds
+	// overlaps the CRS's bounds.
+	wrapLatLngBounds: function (latlng) {
+		return this.options.crs.wrapLatLngBounds(L.latLngBounds(latlng));
+	},
+
 	// @method distance(latlng1: LatLng, latlng2: LatLng): Number
 	// Returns the distance between two geographical coordinates according to
 	// the map's CRS. By default this measures distance in meters.
@@ -3203,7 +3238,7 @@ L.Map = L.Evented.extend({
 		return L.point(point).add(this._getMapPanePos());
 	},
 
-	// @method containerPointToLatLng(point: Point): Point
+	// @method containerPointToLatLng(point: Point): LatLng
 	// Given a pixel coordinate relative to the map container, returns
 	// the corresponding geographical coordinate (for the current zoom level).
 	containerPointToLatLng: function (point) {
@@ -3889,7 +3924,7 @@ L.Layer = L.Evented.extend({
 
 		// @option attribution: String = null
 		// String to be shown in the attribution control, describes the layer data, e.g. "© Mapbox".
-		attribution: null,
+		attribution: null
 	},
 
 	/* @section
@@ -3959,8 +3994,8 @@ L.Layer = L.Evented.extend({
 
 		this.onAdd(map);
 
-		if (this.getAttribution && this._map.attributionControl) {
-			this._map.attributionControl.addAttribution(this.getAttribution());
+		if (this.getAttribution && map.attributionControl) {
+			map.attributionControl.addAttribution(this.getAttribution());
 		}
 
 		this.fire('add');
@@ -4205,7 +4240,10 @@ L.DomEvent = {
 		if (L.Browser.pointer && type.indexOf('touch') === 0) {
 			this.addPointerListener(obj, type, handler, id);
 
-		} else if (L.Browser.touch && (type === 'dblclick') && this.addDoubleTapListener) {
+		} else if (L.Browser.touch && (type === 'dblclick') && this.addDoubleTapListener &&
+		           !(L.Browser.pointer && L.Browser.chrome)) {
+			// Chrome >55 does not need the synthetic dblclicks from addDoubleTapListener
+			// See #5180
 			this.addDoubleTapListener(obj, handler, id);
 
 		} else if ('addEventListener' in obj) {
@@ -4712,7 +4750,9 @@ L.GridLayer = L.Layer.extend({
 		// @option noWrap: Boolean = false
 		// Whether the layer is wrapped around the antimeridian. If `true`, the
 		// GridLayer will only be displayed once at low zoom levels. Has no
-		// effect when the [map CRS](#map-crs) doesn't wrap around.
+		// effect when the [map CRS](#map-crs) doesn't wrap around. Can be used
+		// in combination with [`bounds`](#gridlayer-bounds) to prevent requesting
+		// tiles outside the CRS limits.
 		noWrap: false,
 
 		// @option pane: String = 'tilePane'
@@ -5283,14 +5323,14 @@ L.GridLayer = L.Layer.extend({
 		    sePoint = nwPoint.add(tileSize),
 
 		    nw = map.unproject(nwPoint, coords.z),
-		    se = map.unproject(sePoint, coords.z);
+		    se = map.unproject(sePoint, coords.z),
+		    bounds = new L.LatLngBounds(nw, se);
 
 		if (!this.options.noWrap) {
-			nw = map.wrapLatLng(nw);
-			se = map.wrapLatLng(se);
+			map.wrapLatLngBounds(bounds);
 		}
 
-		return new L.LatLngBounds(nw, se);
+		return bounds;
 	},
 
 	// converts tile coordinates to key for the tile cache
@@ -5476,7 +5516,7 @@ L.gridLayer = function (options) {
  * @example
  *
  * ```js
- * L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar'}).addTo(map);
+ * L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar'}).addTo(map);
  * ```
  *
  * @section URL template
@@ -5662,7 +5702,7 @@ L.TileLayer = L.GridLayer.extend({
 
 	_tileOnError: function (done, tile, e) {
 		var errorUrl = this.options.errorTileUrl;
-		if (errorUrl) {
+		if (errorUrl && tile.src !== errorUrl) {
 			tile.src = errorUrl;
 		}
 		done(e, tile);
@@ -6000,6 +6040,8 @@ L.ImageOverlay = L.Layer.extend({
 		return this;
 	},
 
+	// @method setBounds(bounds: LatLngBounds): this
+	// Update the bounds that this ImageOverlay covers
 	setBounds: function (bounds) {
 		this._bounds = bounds;
 
@@ -6022,10 +6064,14 @@ L.ImageOverlay = L.Layer.extend({
 		return events;
 	},
 
+	// @method getBounds(): LatLngBounds
+	// Get the bounds that this ImageOverlay covers
 	getBounds: function () {
 		return this._bounds;
 	},
 
+	// @method getElement(): HTMLElement
+	// Get the img element that represents the ImageOverlay on the map
 	getElement: function () {
 		return this._image;
 	},
@@ -6493,6 +6539,7 @@ L.Marker = L.Layer.extend({
 
 		if (newShadow) {
 			L.DomUtil.addClass(newShadow, classToAdd);
+			newShadow.alt = '';
 		}
 		this._shadow = newShadow;
 
@@ -7348,7 +7395,7 @@ L.Layer.include({
 	// @method isPopupOpen(): boolean
 	// Returns `true` if the popup bound to this layer is currently open.
 	isPopupOpen: function () {
-		return this._popup.isOpen();
+		return (this._popup ? this._popup.isOpen() : false);
 	},
 
 	// @method setPopupContent(content: String|HTMLElement|Popup): this
@@ -8622,9 +8669,9 @@ L.LineUtil = {
  * ```js
  * // create a red polyline from an array of LatLng points
  * var latlngs = [
- * 	[-122.68, 45.51],
- * 	[-122.43, 37.77],
- * 	[-118.2, 34.04]
+ * 	[45.51, -122.68],
+ * 	[37.77, -122.43],
+ * 	[34.04, -118.2]
  * ];
  *
  * var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
@@ -8638,12 +8685,12 @@ L.LineUtil = {
  * ```js
  * // create a red polyline from an array of arrays of LatLng points
  * var latlngs = [
- * 	[[-122.68, 45.51],
- * 	 [-122.43, 37.77],
- * 	 [-118.2, 34.04]],
- * 	[[-73.91, 40.78],
- * 	 [-87.62, 41.83],
- * 	 [-96.72, 32.76]]
+ * 	[[45.51, -122.68],
+ * 	 [37.77, -122.43],
+ * 	 [34.04, -118.2]],
+ * 	[[40.78, -73.91],
+ * 	 [41.83, -87.62],
+ * 	 [32.76, -96.72]]
  * ];
  * ```
  */
@@ -8983,7 +9030,7 @@ L.PolyUtil.clipPolygon = function (points, bounds, round) {
  *
  * ```js
  * // create a red polygon from an array of LatLng points
- * var latlngs = [[-111.03, 41],[-111.04, 45],[-104.05, 45],[-104.05, 41]];
+ * var latlngs = [[37, -109.05],[41, -109.03],[41, -102.05],[37, -102.04]];
  *
  * var polygon = L.polygon(latlngs, {color: 'red'}).addTo(map);
  *
@@ -8995,8 +9042,8 @@ L.PolyUtil.clipPolygon = function (points, bounds, round) {
  *
  * ```js
  * var latlngs = [
- *   [[-111.03, 41],[-111.04, 45],[-104.05, 45],[-104.05, 41]], // outer ring
- *   [[-108.58,37.29],[-108.58,40.71],[-102.50,40.71],[-102.50,37.29]] // hole
+ *   [[37, -109.05],[41, -109.03],[41, -102.05],[37, -102.04]], // outer ring
+ *   [[37.29, -108.58],[40.71, -108.58],[40.71, -102.50],[37.29, -102.50]] // hole
  * ];
  * ```
  *
@@ -9005,11 +9052,11 @@ L.PolyUtil.clipPolygon = function (points, bounds, round) {
  * ```js
  * var latlngs = [
  *   [ // first polygon
- *     [[-111.03, 41],[-111.04, 45],[-104.05, 45],[-104.05, 41]], // outer ring
- *     [[-108.58,37.29],[-108.58,40.71],[-102.50,40.71],[-102.50,37.29]] // hole
+ *     [[37, -109.05],[41, -109.03],[41, -102.05],[37, -102.04]], // outer ring
+ *     [[37.29, -108.58],[40.71, -108.58],[40.71, -102.50],[37.29, -102.50]] // hole
  *   ],
  *   [ // second polygon
- *     [[-109.05, 37],[-109.03, 41],[-102.05, 41],[-102.04, 37],[-109.05, 38]]
+ *     [[41, -111.03],[45, -111.04],[45, -104.05],[41, -104.05]]
  *   ]
  * ];
  * ```
@@ -9679,6 +9726,7 @@ L.SVG.include(!L.Browser.vml ? {} : {
 		container.appendChild(layer._path);
 
 		this._updateStyle(layer);
+		this._layers[L.stamp(layer)] = layer;
 	},
 
 	_addPath: function (layer) {
@@ -9694,6 +9742,7 @@ L.SVG.include(!L.Browser.vml ? {} : {
 		var container = layer._container;
 		L.DomUtil.remove(container);
 		layer.removeInteractiveTarget(container);
+		delete this._layers[L.stamp(layer)];
 	},
 
 	_updateStyle: function (layer) {
@@ -9815,6 +9864,16 @@ if (L.Browser.vml) {
  */
 
 L.Canvas = L.Renderer.extend({
+	getEvents: function () {
+		var events = L.Renderer.prototype.getEvents.call(this);
+		events.viewprereset = this._onViewPreReset;
+		return events;
+	},
+
+	_onViewPreReset: function () {
+		// Set a flag so that a viewprereset+moveend+viewreset only updates&redraws once
+		this._postponeUpdatePaths = true;
+	},
 
 	onAdd: function () {
 		L.Renderer.prototype.onAdd.call(this);
@@ -9836,6 +9895,8 @@ L.Canvas = L.Renderer.extend({
 	},
 
 	_updatePaths: function () {
+		if (this._postponeUpdatePaths) { return; }
+
 		var layer;
 		this._redrawBounds = null;
 		for (var id in this._layers) {
@@ -9874,6 +9935,15 @@ L.Canvas = L.Renderer.extend({
 
 		// Tell paths to redraw themselves
 		this.fire('update');
+	},
+
+	_reset: function () {
+		L.Renderer.prototype._reset.call(this);
+
+		if (this._postponeUpdatePaths) {
+			this._postponeUpdatePaths = false;
+			this._updatePaths();
+		}
 	},
 
 	_initPath: function (layer) {
@@ -9961,6 +10031,11 @@ L.Canvas = L.Renderer.extend({
 
 	_redraw: function () {
 		this._redrawRequest = null;
+
+		if (this._redrawBounds) {
+			this._redrawBounds.min._floor();
+			this._redrawBounds.max._ceil();
+		}
 
 		this._clear(); // clear layers in redraw bounds
 		this._draw(); // draw layers
@@ -11325,6 +11400,7 @@ L.extend(L.DomEvent, {
 			var count;
 
 			if (L.Browser.pointer) {
+				if ((!L.Browser.edge) || e.pointerType === 'mouse') { return; }
 				count = L.DomEvent._pointersCount;
 			} else {
 				count = e.touches.length;
@@ -11340,9 +11416,11 @@ L.extend(L.DomEvent, {
 			last = now;
 		}
 
-		function onTouchEnd() {
+		function onTouchEnd(e) {
 			if (doubleTap && !touch.cancelBubble) {
 				if (L.Browser.pointer) {
+					if ((!L.Browser.edge) || e.pointerType === 'mouse') { return; }
+
 					// work around .type being readonly with MSPointer* events
 					var newTouch = {},
 					    prop, i;
@@ -11370,12 +11448,11 @@ L.extend(L.DomEvent, {
 		obj.addEventListener(touchstart, onTouchStart, false);
 		obj.addEventListener(touchend, onTouchEnd, false);
 
-		// On some platforms (notably, chrome on win10 + touchscreen + mouse),
+		// On some platforms (notably, chrome<55 on win10 + touchscreen + mouse),
 		// the browser doesn't fire touchend/pointerup events but does fire
 		// native dblclicks. See #4127.
-		if (!L.Browser.edge) {
-			obj.addEventListener('dblclick', handler, false);
-		}
+		// Edge 14 also fires native dblclicks, but only for pointerType mouse, see #5180.
+		obj.addEventListener('dblclick', handler, false);
 
 		return this;
 	},
@@ -11450,7 +11527,7 @@ L.extend(L.DomEvent, {
 
 	_addPointerStart: function (obj, handler, id) {
 		var onDown = L.bind(function (e) {
-			if (e.pointerType !== 'mouse' && e.pointerType !== e.MSPOINTER_TYPE_MOUSE) {
+			if (e.pointerType !== 'mouse' && e.MSPOINTER_TYPE_MOUSE && e.pointerType !== e.MSPOINTER_TYPE_MOUSE) {
 				// In IE11, some touch events needs to fire for form controls, or
 				// the controls will stop working. We keep a whitelist of tag names that
 				// need these events. For other target tags, we prevent default on the event.
@@ -12916,7 +12993,8 @@ L.Control.Layers = L.Control.extend({
 
 	_initLayout: function () {
 		var className = 'leaflet-control-layers',
-		    container = this._container = L.DomUtil.create('div', className);
+		    container = this._container = L.DomUtil.create('div', className),
+		    collapsed = this.options.collapsed;
 
 		// makes this work on IE touch devices by stopping it from firing a mouseout event when the touch is released
 		container.setAttribute('aria-haspopup', true);
@@ -12928,11 +13006,15 @@ L.Control.Layers = L.Control.extend({
 
 		var form = this._form = L.DomUtil.create('form', className + '-list');
 
-		if (!L.Browser.android) {
-			L.DomEvent.on(container, {
-				mouseenter: this.expand,
-				mouseleave: this.collapse
-			}, this);
+		if (collapsed) {
+			this._map.on('click', this.collapse, this);
+
+			if (!L.Browser.android) {
+				L.DomEvent.on(container, {
+					mouseenter: this.expand,
+					mouseleave: this.collapse
+				}, this);
+			}
 		}
 
 		var link = this._layersLink = L.DomUtil.create('a', className + '-toggle', container);
@@ -12952,10 +13034,9 @@ L.Control.Layers = L.Control.extend({
 			setTimeout(L.bind(this._onInputClick, this), 0);
 		}, this);
 
-		this._map.on('click', this.collapse, this);
 		// TODO keyboard accessibility
 
-		if (!this.options.collapsed) {
+		if (!collapsed) {
 			this.expand();
 		}
 
