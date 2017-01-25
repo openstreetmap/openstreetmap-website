@@ -3,6 +3,10 @@ require "test_helper"
 class UserRolesTest < ActionDispatch::IntegrationTest
   fixtures :users, :user_roles
 
+  def setup
+    stub_hostip_requests
+  end
+
   test "grant" do
     check_fail(:grant, :public_user, :moderator)
     check_fail(:grant, :moderator_user, :moderator)

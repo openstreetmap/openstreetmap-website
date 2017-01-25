@@ -28,27 +28,28 @@
 # Author: Str4nd
 # Author: Susannaanas
 # Author: Tomi Toivio
+# Author: Tumm1
 # Author: Usp
 # Author: ZeiP
 ---
 fi:
   time:
     formats:
-      friendly: '%e. %Bta %Y kello %H:%M'
+      friendly: '%e. %Bta %Y kello %H.%M'
   activerecord:
     models:
       acl: Pääsyoikeuslista
       changeset: Muutoskokoelma
       changeset_tag: Muutoskokoelman tagi
       country: Maa
-      diary_comment: Päiväkirjan kommentti
+      diary_comment: Päiväkirjakommentti
       diary_entry: Päiväkirjamerkintä
       friend: Kaveri
       language: Kieli
       message: Viesti
       node: Piste
       node_tag: Pisteen tagi
-      notifier: Ilmoitus
+      notifier: Ilmoittaja
       old_node: Vanha piste
       old_node_tag: Vanha pisteen tagi
       old_relation: Vanha relaatio
@@ -379,9 +380,10 @@ fi:
           seuraavista:'
         planet:
           title: Planet OSM
-          description: Säännöllisesti päivitettyjä kopioita täydellisestö OpenStreetMap-tietokannasta
+          description: Säännöllisesti päivitettyjä kopioita täydellisestä OpenStreetMap-tietokannasta
         overpass:
-          title: Ylikulku-API
+          title: Overpass API
+          description: Lataa kartalle rajattu alue OpenStreetMapin varapalvelimelta
         geofabrik:
           title: Geofabrik-lataukset
           description: Säännöllisesti päivitetyt otteet maanosista, maista ja valituista
@@ -615,6 +617,7 @@ fi:
           city_gate: Kaupungin portti
           citywalls: Kaupunginmuurit
           fort: Linnake
+          heritage: Perintökohde
           house: Talo
           icon: Ikoni
           manor: Kartano
@@ -697,6 +700,7 @@ fi:
           pipeline: Putkisto
           tower: Torni
           works: Tehdas
+          "yes": ihmisen tekemä
         military:
           airfield: Sotilaskenttä
           barracks: Kasarmi
@@ -716,6 +720,7 @@ fi:
           forest: Metsä
           geyser: Geysir
           glacier: Jäätikkö
+          grassland: Ruohomaa
           heath: Nummi
           hill: Mäki
           island: Saari
@@ -1040,9 +1045,9 @@ fi:
         Lue lisää aineiston käyttämisestä <a
         href="http://osmfoundation.org/Licence">OSM-säätiön lisensointiohjeesta</a> ja yhteisön keräämistä <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">lakiasioiden useimmin kysytyimmistä kysymyksistä</a>.
       more_2_html: "Vaikka OpenStreetMap on avointa dataa, emme voi tarjota maksutonta
-        karttarajapintaa (API) kolmannen osapuolen kehittäjille.\n\nTutustu <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">API:n
-        käyttöehtoihin</a>,\n<a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">kartta-aineiston
-        käyttöehtoihin</a> ja \n<a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Nominatimin
+        karttarajapintaa (API) kolmannen osapuolen kehittäjille.\n\nTutustu <a href=\"https://operations.osmfoundation.org/policies/api/\">karttarajapinnan
+        käyttöehtoihin</a>,\n<a href=\"https://operations.osmfoundation.org/policies/tiles/\">kartta-aineiston
+        käyttöehtoihin</a> ja \n<a href=\"https://operations.osmfoundation.org/policies/nominatim/\">Nominatimin
         käyttöehtoihin</a>."
       contributors_title_html: Tekijät
       contributors_intro_html: |-
@@ -1102,9 +1107,9 @@ fi:
         (englanniksi)</a> vastaa mielellään kysymyksiin tavaramerkkien käytöstä.
   welcome_page:
     title: Tervetuloa!
-    introduction_html: Tervetuloa OpenStreetMapiin, ilmaiseen ja vapaasti muokattavaan
+    introduction_html: 'Tervetuloa OpenStreetMapiin: ilmaiseen ja vapaasti muokattavaan
       maailmankarttaan. Rekisteröityminen on nyt suoritettu, joten olet valmis aloittamaan
-      kartan muokkaamisen. Tutustu ensin kuitenkin näihin perusasioihin.
+      kartan muokkaamisen. Tutustu ensin kuitenkin näihin perusasioihin.'
     whats_on_the_map:
       title: Kartan sisältö
       on_html: OpenStreetMapissä voi kartoittaa asioita, jotka ovat <em>olemassa juuri
@@ -1178,7 +1183,7 @@ fi:
       description: Opi OpenStreetMapin perusteet tällä helpolla aloitusoppaalla.
     beginners_guide:
       url: http://wiki.openstreetmap.org/wiki/Fi:Beginners%27_guide
-      title: Vasta-alkajan opas
+      title: Aloitusopas
       description: Yhteisön ylläpitämä opas aloittelijoille.
     help:
       url: https://help.openstreetmap.org/
@@ -1195,6 +1200,7 @@ fi:
       title: IRC
       description: Interaktiivinen chat monilla eri kielillä ja monista eri aiheista.
     switch2osm:
+      title: switch2osm (Vaihda OSM:iin)
       description: Auta yrityksiä ja organisaatioita vaihtamaan OpenStreetMapiin pohjautuviin
         karttoihin ja muihin palveluihin.
     wiki:
@@ -1225,9 +1231,12 @@ fi:
       tai muuunnellaan, sitä saa levittää eteenpäin vain samalla lisenssillä. Lisätietoja
       on <a href=''%{copyright_path}''>Tekijänoikeus ja lisenssi</a> -sivulla.'
     legal_title: Lakitekninen jako
-    legal_html: |-
-      Tämä ja monet muut OSM-sivustot ovat muodollisesti <a href='http://osmfoundation.org/'>OpenStreetMap-säätiön</a> (OSMF) hallinnoimia OSM-yhteisön puolesta.
-      <a href='http://osmfoundation.org/Contact'>Ota yhteys OSMF:ään</a> lisensointi-, tekijänoikeus- ja muissa lakiteknisissä kysymyksissä.
+    legal_html: "Tämä ja monet muut OSM-sivustot ovat muodollisesti <a href='http://osmfoundation.org/'>OpenStreetMap-säätiön</a>
+      (OSMF) hallinnoimia OSM-yhteisön puolesta. Kaikkien näiden sivustojen käyttöön
+      sovelletaan <a href=\"http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nhyväksytyn
+      käytön käytäntöjä</a> ja <a href=\"http://wiki.osmfoundation.org/wiki/Privacy_Policy\">tietosuojakäytäntöä</a>
+      (molemmat sisällöt saatavilla vain englanniksi).\n<br> \n<a href='http://osmfoundation.org/Contact'>Ota
+      yhteys OSMF:ään</a> lisensointi-, tekijänoikeus- ja muissa lakiteknisissä kysymyksissä."
     partners_title: Kumppanit
   notifier:
     diary_comment_notification:
@@ -1675,6 +1684,7 @@ fi:
       allow_read_gpx: lukea yksityisiä GPS-jälkiäsi
       allow_write_gpx: tallenna GPS-jälkiä.
       allow_write_notes: Muokkaa muistiinpanoja.
+      grant_access: Myönnä oikeudet
     oauthorize_success:
       title: Valtuutuspyyntö hyväksytty
       allowed: Sovellukselle %{app_name} on myönnetty käyttöoikeus käyttäjätiliisi.
@@ -1786,6 +1796,9 @@ fi:
         github:
           title: Kirjaudu GitHubin avulla
           alt: Kirjaudu käyttämällä GitHub-tiliäsi
+        wikipedia:
+          title: Kirjaudu sisään Wikipedialla
+          alt: Kirjaudu sisään Wikipedia-tunnuksella
         yahoo:
           title: Kirjaudu Yahoon avulla
           alt: Kirjaudu käyttämällä Yahoo OpenID -tunnustasi
@@ -2278,6 +2291,7 @@ fi:
         header: Karttanäkymä
         notes: Karttailmoitukset
         data: Kartta-aineisto
+        gps: Julkiset GPS-jäljet
         overlays: Nämä toiminnot on tarkoitettu karttavirheiden korjaamiseen
         title: Karttanäkymä
       copyright: © <a href='%{copyright_url}'>OpenStreetMapin tekijät</a>
@@ -2333,11 +2347,21 @@ fi:
       instructions:
         continue_without_exit: Jatka tiellä %{name}
         slight_right_without_exit: Kaarra oikealle tielle %{name}
+        offramp_right_without_exit: Poistu oikealle liittymään tielle %{name}
+        onramp_right_without_exit: Käänny oikealle liittymään tielle %{name}
+        endofroad_right_without_exit: Tienpäässä käänny oikealle tielle %{name}
+        merge_right_without_exit: Liity oikealle tielle %{name}
+        fork_right_without_exit: Liittymässä ryhmity oikealle suuntaan %{name}
         turn_right_without_exit: Käänny oikealle tielle %{name}
         sharp_right_without_exit: Käänny jyrkästi oikealle tielle %{name}
         uturn_without_exit: Tee U-käännös tiellä %{name}
         sharp_left_without_exit: Käänny jyrkästi vasemmalle tielle %{name}
         turn_left_without_exit: Käänny vasemmalle tielle %{name}
+        offramp_left_without_exit: Poistu vasemmalle liittymään tielle %{name}
+        onramp_left_without_exit: Käänny vasemmalle liittymään tielle %{name}
+        endofroad_left_without_exit: Tienpäässä käänny vasemmalle tielle %{name}
+        merge_left_without_exit: Liity vasemmalle tielle %{name}
+        fork_left_without_exit: Liittymässä ryhmity vasemmalle suuntaan %{name}
         slight_left_without_exit: Kaarra vasemmalle tielle %{name}
         via_point_without_exit: (reittipiste)
         follow_without_exit: Seuraa tietä %{name}
@@ -2350,6 +2374,13 @@ fi:
         end_oneway_without_exit: Yksisuuntaisen tien %{name} pää
         roundabout_with_exit: Liikenneympyrässä poistu %{exit}. liittymästä tielle
           %{name}
+        turn_left_with_exit: Liikenneympyrässä käänny vasemmalle tielle %{name}
+        slight_left_with_exit: Liikenneympyrässä kaarra loivasti vasemmalle tielle
+          %{name}
+        turn_right_with_exit: Liikenneympyrässä käänny oikealle tielle %{name}
+        slight_right_with_exit: Liikenneympyrässä kaarra loivasti oikealle tielle
+          %{name}
+        continue_with_exit: Liikenneympyrässä jatka suoraan tielle %{name}
         unnamed: nimetön tie
         courtesy: Reittiohjeet tarjoaa %{link}
       time: Matka-aika

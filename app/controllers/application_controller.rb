@@ -343,7 +343,7 @@ class ApplicationController < ActionController::Base
   ##
   # wrap an api call in a timeout
   def api_call_timeout
-    OSM::Timer.timeout(API_TIMEOUT) do
+    OSM::Timer.timeout(API_TIMEOUT, Timeout::Error) do
       yield
     end
   rescue Timeout::Error
@@ -353,17 +353,13 @@ class ApplicationController < ActionController::Base
   ##
   # wrap a web page in a timeout
   def web_timeout
-    OSM::Timer.timeout(WEB_TIMEOUT) do
+    OSM::Timer.timeout(WEB_TIMEOUT, Timeout::Error) do
       yield
     end
   rescue ActionView::Template::Error => ex
     ex = ex.original_exception
 
     if ex.is_a?(ActiveRecord::StatementInvalid) && ex.message =~ /execution expired/
-      ex = Timeout::Error.new
-    end
-
-    if ex.is_a?(Timeout::Error)
       render :action => "timeout"
     else
       raise
@@ -423,6 +419,16 @@ class ApplicationController < ActionController::Base
 
   helper_method :preferred_editor
 
+  def update_totp
+    if defined?(TOTP_KEY)
+      cookies["_osm_totp_token"] = {
+        :value => ROTP::TOTP.new(TOTP_KEY, :interval => 3600).now,
+        :domain => "openstreetmap.org",
+        :expires => 1.hour.from_now
+      }
+    end
+  end
+
   private
 
   # extract authorisation credentials from headers, returns user = nil if none
@@ -452,6 +458,5 @@ class ApplicationController < ActionController::Base
   end
 
   # override to stop oauth plugin sending errors
-  def invalid_oauth_response
-  end
+  def invalid_oauth_response; end
 end

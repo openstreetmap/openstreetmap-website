@@ -3,7 +3,6 @@ require "changeset_controller"
 
 class ChangesetControllerTest < ActionController::TestCase
   api_fixtures
-  fixtures :changesets_subscribers
 
   ##
   # test all routes which lead to this controller
@@ -1389,7 +1388,10 @@ EOF
   end
 
   def test_changeset_download
+    tag = create(:old_node_tag, :old_node => nodes(:used_node_2))
+
     get :download, :id => changesets(:normal_user_first_change).id
+
     assert_response :success
     assert_template nil
     # print @response.body
@@ -1397,7 +1399,7 @@ EOF
     assert_select "osmChange[version='#{API_VERSION}'][generator='#{GENERATOR}']" do
       assert_select "create", :count => 5
       assert_select "create>node[id='#{nodes(:used_node_2).node_id}'][visible='#{nodes(:used_node_2).visible?}'][version='#{nodes(:used_node_2).version}']" do
-        assert_select "tag[k='#{node_tags(:t3).k}'][v='#{node_tags(:t3).v}']"
+        assert_select "tag[k='#{tag.k}'][v='#{tag.v}']"
       end
       assert_select "create>node[id='#{nodes(:visible_node).node_id}']"
     end
@@ -1649,6 +1651,7 @@ EOF
 
     ## Now try with the public user
     changeset = changesets(:public_user_first_change)
+    create(:changeset_tag, :changeset => changeset)
     new_changeset = changeset.to_xml
     new_tag = XML::Node.new "tag"
     new_tag["k"] = "tagtesting"
@@ -1986,9 +1989,15 @@ EOF
     end
     assert_response :success
 
+    changeset = changesets(:normal_user_subscribed_change)
+    changeset.subscribers.push(users(:normal_user))
+    changeset.subscribers.push(users(:public_user))
+    changeset.subscribers.push(users(:suspended_user))
+    changeset.subscribers.push(users(:deleted_user))
+
     assert_difference "ChangesetComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 1 do
-        post :comment, :id => changesets(:normal_user_subscribed_change).id, :text => "This is a comment"
+        post :comment, :id => changeset.id, :text => "This is a comment"
       end
     end
     assert_response :success
@@ -2004,7 +2013,7 @@ EOF
 
     assert_difference "ChangesetComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 2 do
-        post :comment, :id => changesets(:normal_user_subscribed_change).id, :text => "This is a comment"
+        post :comment, :id => changeset.id, :text => "This is a comment"
       end
     end
     assert_response :success
@@ -2095,6 +2104,7 @@ EOF
 
     # trying to subscribe when already subscribed
     changeset = changesets(:normal_user_subscribed_change)
+    changeset.subscribers.push(users(:public_user))
     assert_no_difference "changeset.subscribers.count" do
       post :subscribe, :id => changeset.id
     end
@@ -2106,6 +2116,7 @@ EOF
   def test_unsubscribe_success
     basic_authorization(users(:public_user).email, "test")
     changeset = changesets(:normal_user_subscribed_change)
+    changeset.subscribers.push(users(:public_user))
 
     assert_difference "changeset.subscribers.count", -1 do
       post :unsubscribe, :id => changeset.id

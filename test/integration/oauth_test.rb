@@ -6,6 +6,10 @@ class OAuthTest < ActionDispatch::IntegrationTest
 
   include OAuth::Helper
 
+  def setup
+    stub_hostip_requests
+  end
+
   def test_oauth10_web_app
     client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :user => users(:public_user), :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
@@ -329,7 +333,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_not_nil token.created_at
     assert_nil token.authorized_at
     assert_nil token.invalidated_at
-    assert_equal options[:oauth_callback], token.callback_url
+    assert_equal_allowing_nil options[:oauth_callback], token.callback_url
     assert_allowed token, client.permissions
 
     token

@@ -151,7 +151,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_user_preferred_editor
     user = users(:normal_user)
-    assert_equal nil, user.preferred_editor
+    assert_nil user.preferred_editor
     user.preferred_editor = "potlatch"
     assert_equal "potlatch", user.preferred_editor
     user.save!
@@ -161,7 +161,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_visible
-    assert_equal 22, User.visible.count
+    assert_equal 23, User.visible.count
     assert_raise ActiveRecord::RecordNotFound do
       User.visible.find(users(:suspended_user).id)
     end
@@ -171,7 +171,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_active
-    assert_equal 21, User.active.count
+    assert_equal 22, User.active.count
     assert_raise ActiveRecord::RecordNotFound do
       User.active.find(users(:inactive_user).id)
     end
@@ -184,7 +184,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_identifiable
-    assert_equal 23, User.identifiable.count
+    assert_equal 24, User.identifiable.count
     assert_raise ActiveRecord::RecordNotFound do
       User.identifiable.find(users(:normal_user).id)
     end
@@ -244,8 +244,8 @@ class UserTest < ActiveSupport::TestCase
     user.delete
     assert_equal "user_#{user.id}", user.display_name
     assert user.description.blank?
-    assert_equal nil, user.home_lat
-    assert_equal nil, user.home_lon
+    assert_nil user.home_lat
+    assert_nil user.home_lon
     assert_equal false, user.image.file?
     assert_equal "deleted", user.status
     assert_equal false, user.visible?

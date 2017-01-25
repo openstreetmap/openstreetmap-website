@@ -281,15 +281,19 @@ class Relation < ActiveRecord::Base
   private
 
   def save_with_history!
+    t = Time.now.getutc
+
+    self.version += 1
+    self.timestamp = t
+
     Relation.transaction do
       # have to be a little bit clever here - to detect if any tags
       # changed then we have to monitor their before and after state.
       tags_changed = false
 
-      t = Time.now.getutc
-      self.version += 1
-      self.timestamp = t
-      save!
+      # clone the object before saving it so that the original is
+      # still marked as dirty if we retry the transaction
+      clone.save!
 
       tags = self.tags.clone
       relation_tags.each do |old_tag|
@@ -370,7 +374,7 @@ class Relation < ActiveRecord::Base
       # materially change the rest of the relation.
       any_relations =
         changed_members.collect { |_id, type| type == "relation" }
-                       .inject(false) { |a, e| a || e }
+                       .inject(false) { |acc, elem| acc || elem }
 
       update_members = if tags_changed || any_relations
                          # add all non-relation bounding boxes to the changeset

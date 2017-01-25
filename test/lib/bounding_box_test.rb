@@ -312,9 +312,9 @@ class BoundingBoxTest < ActiveSupport::TestCase
   end
 
   def check_bbox(bbox, result)
-    assert_equal result[0], bbox.min_lon, "min_lon"
-    assert_equal result[1], bbox.min_lat, "min_lat"
-    assert_equal result[2], bbox.max_lon, "max_lon"
-    assert_equal result[3], bbox.max_lat, "max_lat"
+    assert_equal_allowing_nil result[0], bbox.min_lon, "min_lon"
+    assert_equal_allowing_nil result[1], bbox.min_lat, "min_lat"
+    assert_equal_allowing_nil result[2], bbox.max_lon, "max_lon"
+    assert_equal_allowing_nil result[3], bbox.max_lat, "max_lat"
   end
 end

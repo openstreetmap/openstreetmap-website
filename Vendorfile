@@ -11,13 +11,13 @@ folder 'vendor/assets' do
   end
 
   folder 'leaflet' do
-    file 'leaflet.js', 'https://unpkg.com/leaflet@1.0.1/dist/leaflet-src.js'
-    file 'leaflet.css', 'https://unpkg.com/leaflet@1.0.1/dist/leaflet.css'
+    file 'leaflet.js', 'https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js'
+    file 'leaflet.css', 'https://unpkg.com/leaflet@1.0.3/dist/leaflet.css'
 
     [ 'layers.png', 'layers-2x.png',
       'marker-icon.png', 'marker-icon-2x.png',
       'marker-shadow.png' ].each do |image|
-      file "images/#{image}", "https://unpkg.com/leaflet@1.0.1/dist/images/#{image}"
+      file "images/#{image}", "https://unpkg.com/leaflet@1.0.3/dist/images/#{image}"
     end
 
     from 'git://github.com/kajic/leaflet-locationfilter.git' do
@@ -50,6 +50,7 @@ folder 'vendor/assets' do
       folder 'iD/img', 'dist/img'
       folder 'iD/locales', 'dist/locales'
       folder 'iD/traffico', 'dist/traffico'
+      folder 'iD/mapillary-js', 'dist/mapillary-js'
 
       file 'iD.css.erb', 'dist/iD.css' do |path|
         rewrite(path) do |content|
@@ -66,8 +67,6 @@ folder 'vendor/assets' do
       File.delete('vendor/assets/iD/iD/traffico/stylesheets/traffico.css')
 
       file 'iD.js', 'dist/iD.js'
-      file 'presets.js', 'dist/presets.js'
-      file 'imagery.js', 'dist/imagery.js'
     end
   end
 

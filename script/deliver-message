@@ -2,23 +2,25 @@
 
 require File.dirname(__FILE__) + "/../config/environment"
 
-exit 0 unless recipient = ARGV[0].match(/^([cm])-(\d+)-(.*)$/)
-
-if recipient[1] == "c"
-  comment = DiaryComment.find(recipient[2])
+if recipient = ARGV[0].match(/^c-(\d+)-(\d+)-(.*)$/)
+  comment = DiaryComment.find(recipient[1])
   digest = comment.digest
-  date = diary_comment.created_at
-  from = comment.diary_entry.user
+  date = comment.created_at
+  from = User.find(recipient[2])
   to = comment.user
-else
-  message = Message.find(recipient[2])
+  token = recipient[3]
+elsif recipient = ARGV[0].match(/^m-(\d+)-(.*)$/)
+  message = Message.find(recipient[1])
   digest = message.digest
   date = message.sent_on
   from = message.recipient
   to = message.sender
+  token = recipient[2]
+else
+  exit 0
 end
 
-exit 0 unless recipient[3] == digest[0, 6]
+exit 0 unless token == digest[0, 6]
 exit 0 if date < 1.month.ago
 
 message.update_attribute(:message_read, true) if message

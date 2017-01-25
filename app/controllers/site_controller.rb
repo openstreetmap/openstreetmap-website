@@ -8,6 +8,7 @@ class SiteController < ApplicationController
   before_action :redirect_map_params, :only => [:index, :edit, :export]
   before_action :require_user, :only => [:welcome]
   before_action :require_oauth, :only => [:index]
+  before_action :update_totp, :only => [:index]
 
   def index
     unless STATUS == :database_readonly || STATUS == :database_offline
@@ -83,7 +84,7 @@ class SiteController < ApplicationController
       @lat = note.lat
       @lon = note.lon
       @zoom = 17
-    elsif params[:gpx]
+    elsif params[:gpx] && @user
       trace = Trace.visible_to(@user).find(params[:gpx])
       @lat = trace.latitude
       @lon = trace.longitude
@@ -95,20 +96,15 @@ class SiteController < ApplicationController
     @locale = params[:copyright_locale] || I18n.locale
   end
 
-  def welcome
-  end
+  def welcome; end
 
-  def help
-  end
+  def help; end
 
-  def about
-  end
+  def about; end
 
-  def export
-  end
+  def export; end
 
-  def offline
-  end
+  def offline; end
 
   def preview
     render :text => RichText.new(params[:format], params[:text]).to_html

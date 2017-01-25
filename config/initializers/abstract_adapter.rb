@@ -6,23 +6,15 @@ if defined?(ActiveRecord::ConnectionAdaptors::AbstractAdapter)
 
         alias old_log log
 
-        def log(sql, name)
-          if block_given?
-            old_log(sql, name) do
-              yield
-            end
+        def translate_exception_class_with_timeout(e, sql)
+          if e.is_a?(Timeout::Error) || e.is_a?(OSM::APITimeoutError)
+            e
           else
-            old_log(sql, name)
-          end
-        rescue ActiveRecord::StatementInvalid => ex
-          if ex.message =~ /^OSM::APITimeoutError: /
-            raise OSM::APITimeoutError.new
-          elsif ex.message =~ /^Timeout::Error: /
-            raise Timeout::Error.new("time's up!")
-          else
-            raise
+            translate_exception_class_without_timeout(e, sql)
           end
         end
+
+        alias_method_chain :translate_exception_class, :timeout
       end
     end
   end

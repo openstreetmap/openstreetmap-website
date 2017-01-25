@@ -38,7 +38,7 @@ gem "r2"
 gem "autoprefixer-rails"
 
 # Use image_optim to optimise images
-gem "image_optim", ">= 0.22.0"
+gem "image_optim_rails"
 
 # Load rails plugins
 gem "rails-i18n", "~> 4.0.0"
@@ -64,6 +64,7 @@ gem "omniauth-google-oauth2", ">= 0.2.7"
 gem "omniauth-facebook"
 gem "omniauth-windowslive"
 gem "omniauth-github"
+gem "omniauth-mediawiki", ">= 0.0.3"
 
 # Markdown formatting support
 gem "redcarpet"
@@ -84,6 +85,9 @@ gem "faraday"
 # Load geoip for querying Maxmind GeoIP database
 gem "geoip"
 
+# Load rotp to generate TOTP tokens
+gem "rotp"
+
 # Load memcache client in case we are using it
 gem "dalli"
 gem "kgio"
@@ -101,6 +105,7 @@ group :test do
   gem "rubocop"
   gem "timecop"
   gem "minitest", "~> 5.1", :platforms => [:ruby_19, :ruby_20]
+  gem "webmock"
 end
 
 # Needed in development as well so rake can see konacha tasks

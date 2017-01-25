@@ -183,9 +183,7 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_match %r{^<span title=".*">4 months</span>$}, date
   end
 
-  def test_body_class
-  end
+  def test_body_class; end
 
-  def test_current_page_class
-  end
+  def test_current_page_class; end
 end

@@ -232,10 +232,14 @@ class Node < ActiveRecord::Base
 
   def save_with_history!
     t = Time.now.getutc
+
+    self.version += 1
+    self.timestamp = t
+
     Node.transaction do
-      self.version += 1
-      self.timestamp = t
-      save!
+      # clone the object before saving it so that the original is
+      # still marked as dirty if we retry the transaction
+      clone.save!
 
       # Create a NodeTag
       tags = self.tags

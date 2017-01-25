@@ -8,6 +8,8 @@ class SiteControllerTest < ActionController::TestCase
   def setup
     Object.const_set("ID_KEY", create(:client_application).key)
     Object.const_set("POTLATCH2_KEY", create(:client_application).key)
+
+    stub_hostip_requests
   end
 
   ##

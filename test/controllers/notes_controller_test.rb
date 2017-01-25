@@ -3,6 +3,12 @@ require "test_helper"
 class NotesControllerTest < ActionController::TestCase
   fixtures :users, :user_roles
 
+  def setup
+    # Stub nominatim response for note locations
+    stub_request(:get, %r{^http://nominatim\.openstreetmap\.org/reverse\?})
+      .to_return(:status => 404)
+  end
+
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -539,7 +545,7 @@ class NotesControllerTest < ActionController::TestCase
         assert_select "time", :count => 1
         assert_select "name", "Note: #{open_note.id}"
         assert_select "desc", :count => 1
-        assert_select "link[href='http://www.openstreetmap.org/note/#{open_note.id}']", :count => 1
+        assert_select "link[href='http://test.host/note/#{open_note.id}']", :count => 1
         assert_select "extensions", :count => 1 do
           assert_select "id", open_note.id.to_s
           assert_select "url", note_url(open_note, :format => "gpx")
