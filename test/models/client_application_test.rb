@@ -1,20 +1,18 @@
 require "test_helper"
 
 class ClientApplicationTest < ActiveSupport::TestCase
-  fixtures :client_applications
-
   def test_url_valid
     ok = ["http://example.com/test", "https://example.com/test"]
     bad = ["", "ftp://example.com/test", "myapp://somewhere"]
 
     ok.each do |url|
-      app = client_applications(:normal_user_app).dup
+      app = build(:client_application)
       app.url = url
       assert app.valid?, "#{url} is invalid, when it should be"
     end
 
     bad.each do |url|
-      app = client_applications(:normal_user_app)
+      app = build(:client_application)
       app.url = url
       assert !app.valid?, "#{url} is valid when it shouldn't be"
     end
@@ -25,13 +23,13 @@ class ClientApplicationTest < ActiveSupport::TestCase
     bad = ["ftp://example.com/test", "myapp://somewhere", "gibberish"]
 
     ok.each do |url|
-      app = client_applications(:normal_user_app)
+      app = build(:client_application)
       app.support_url = url
       assert app.valid?, "#{url} is invalid, when it should be"
     end
 
     bad.each do |url|
-      app = client_applications(:normal_user_app)
+      app = build(:client_application)
       app.support_url = url
       assert !app.valid?, "#{url} is valid when it shouldn't be"
     end
@@ -42,13 +40,13 @@ class ClientApplicationTest < ActiveSupport::TestCase
     bad = ["gibberish"]
 
     ok.each do |url|
-      app = client_applications(:normal_user_app)
+      app = build(:client_application)
       app.callback_url = url
       assert app.valid?, "#{url} is invalid, when it should be"
     end
 
     bad.each do |url|
-      app = client_applications(:normal_user_app)
+      app = build(:client_application)
       app.callback_url = url
       assert !app.valid?, "#{url} is valid when it shouldn't be"
     end
