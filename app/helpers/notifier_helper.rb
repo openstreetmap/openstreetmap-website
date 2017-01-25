@@ -18,4 +18,8 @@ module NotifierHelper
       :locals => { :body => capture(&block) }
     )
   end
+
+  def apply_inline_css(html)
+    html.gsub /<p>/, '<p style="color: black; margin: 0.75em 0">'
+  end
 end
