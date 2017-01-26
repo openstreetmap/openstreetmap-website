@@ -1,7 +1,7 @@
 require "test_helper"
 
 class ClientApplicationsTest < ActionDispatch::IntegrationTest
-  fixtures :users, :client_applications
+  fixtures :users
 
   ##
   # run through the procedure of creating a client application and checking

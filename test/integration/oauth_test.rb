@@ -1,7 +1,7 @@
 require "test_helper"
 
 class OAuthTest < ActionDispatch::IntegrationTest
-  fixtures :users, :client_applications, :gpx_files
+  fixtures :users, :gpx_files
   set_fixture_class :gpx_files => Trace
 
   include OAuth::Helper
@@ -11,18 +11,18 @@ class OAuthTest < ActionDispatch::IntegrationTest
   end
 
   def test_oauth10_web_app
-    client = client_applications(:oauth_web_app)
+    client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :user => users(:public_user), :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
     post_via_redirect "/login", :username => client.user.email, :password => "test"
     assert_response :success
 
     oauth10_without_callback(client)
-    oauth10_with_callback(client, "http://another.web.app.org/callback")
+    oauth10_with_callback(client, "http://another.web.app.example.org/callback")
     oauth10_refused(client)
   end
 
   def test_oauth10_desktop_app
-    client = client_applications(:oauth_desktop_app)
+    client = create(:client_application, :user => users(:public_user), :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
     post_via_redirect "/login", :username => client.user.email, :password => "test"
     assert_response :success
@@ -32,18 +32,18 @@ class OAuthTest < ActionDispatch::IntegrationTest
   end
 
   def test_oauth10a_web_app
-    client = client_applications(:oauth_web_app)
+    client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :user => users(:public_user), :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
     post_via_redirect "/login", :username => client.user.email, :password => "test"
     assert_response :success
 
     oauth10a_without_callback(client)
-    oauth10a_with_callback(client, "http://another.web.app.org/callback")
+    oauth10a_with_callback(client, "http://another.web.app.example.org/callback")
     oauth10a_refused(client)
   end
 
   def test_oauth10a_desktop_app
-    client = client_applications(:oauth_desktop_app)
+    client = create(:client_application, :user => users(:public_user), :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
     post_via_redirect "/login", :username => client.user.email, :password => "test"
     assert_response :success
@@ -196,7 +196,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     if client.callback_url
       assert_response :redirect
       verifier = parse_verifier(response)
-      assert_redirected_to "http://some.web.app.org/callback?oauth_token=#{token.token}&oauth_verifier=#{verifier}"
+      assert_redirected_to "http://some.web.app.example.org/callback?oauth_token=#{token.token}&oauth_verifier=#{verifier}"
     else
       assert_response :success
       assert_template :authorize_success

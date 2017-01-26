@@ -15,7 +15,7 @@ class OauthTokenTest < ActiveSupport::TestCase
   ##
   # check that an authorized token is authorised and can be invalidated
   def test_token_authorisation
-    tok = RequestToken.create(:client_application => client_applications(:oauth_web_app))
+    tok = RequestToken.create(:client_application => create(:client_application))
     assert_equal false, tok.authorized?, "Token should be created unauthorised."
     tok.authorize!(users(:public_user))
     assert_equal true, tok.authorized?, "Token should now be authorised."

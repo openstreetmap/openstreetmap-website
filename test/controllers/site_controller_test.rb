@@ -6,8 +6,8 @@ class SiteControllerTest < ActionController::TestCase
   ##
   # setup oauth keys
   def setup
-    Object.const_set("ID_KEY", client_applications(:oauth_web_app).key)
-    Object.const_set("POTLATCH2_KEY", client_applications(:oauth_web_app).key)
+    Object.const_set("ID_KEY", create(:client_application).key)
+    Object.const_set("POTLATCH2_KEY", create(:client_application).key)
 
     stub_hostip_requests
   end

@@ -1,7 +1,7 @@
 require "test_helper"
 
 class OauthClientsControllerTest < ActionController::TestCase
-  fixtures :users, :client_applications
+  fixtures :users
 
   ##
   # test all routes which lead to this controller
@@ -38,6 +38,7 @@ class OauthClientsControllerTest < ActionController::TestCase
 
   def test_index
     user = users(:public_user)
+    create_list(:client_application, 2, :user => user)
 
     get :index, :display_name => user.display_name
     assert_response :redirect
@@ -104,13 +105,14 @@ class OauthClientsControllerTest < ActionController::TestCase
 
   def test_show
     user = users(:public_user)
-    client = client_applications(:oauth_web_app)
+    client = create(:client_application, :user => user)
+    other_client = create(:client_application)
 
     get :show, :display_name => user.display_name, :id => client.id
     assert_response :redirect
     assert_redirected_to login_path(:referer => oauth_client_path(:display_name => user.display_name, :id => client.id))
 
-    get :show, { :display_name => user.display_name, :id => client_applications(:normal_user_app).id }, { :user => user }
+    get :show, { :display_name => user.display_name, :id => other_client.id }, { :user => user }
     assert_response :not_found
     assert_template "not_found"
 
@@ -121,13 +123,14 @@ class OauthClientsControllerTest < ActionController::TestCase
 
   def test_edit
     user = users(:public_user)
-    client = client_applications(:oauth_web_app)
+    client = create(:client_application, :user => user)
+    other_client = create(:client_application)
 
     get :edit, :display_name => user.display_name, :id => client.id
     assert_response :redirect
     assert_redirected_to login_path(:referer => edit_oauth_client_path(:display_name => user.display_name, :id => client.id))
 
-    get :edit, { :display_name => user.display_name, :id => client_applications(:normal_user_app).id }, { :user => user }
+    get :edit, { :display_name => user.display_name, :id => other_client.id }, { :user => user }
     assert_response :not_found
     assert_template "not_found"
 
@@ -147,12 +150,13 @@ class OauthClientsControllerTest < ActionController::TestCase
 
   def test_update
     user = users(:public_user)
-    client = client_applications(:oauth_web_app)
+    client = create(:client_application, :user => user)
+    other_client = create(:client_application)
 
     put :update, :display_name => user.display_name, :id => client.id
     assert_response :forbidden
 
-    put :update, { :display_name => user.display_name, :id => client_applications(:normal_user_app).id }, { :user => user }
+    put :update, { :display_name => user.display_name, :id => other_client.id }, { :user => user }
     assert_response :not_found
     assert_template "not_found"
 
@@ -181,7 +185,8 @@ class OauthClientsControllerTest < ActionController::TestCase
 
   def test_destroy
     user = users(:public_user)
-    client = client_applications(:oauth_web_app)
+    client = create(:client_application, :user => user)
+    other_client = create(:client_application)
 
     assert_difference "ClientApplication.count", 0 do
       delete :destroy, :display_name => user.display_name, :id => client.id
@@ -189,7 +194,7 @@ class OauthClientsControllerTest < ActionController::TestCase
     assert_response :forbidden
 
     assert_difference "ClientApplication.count", 0 do
-      delete :destroy, { :display_name => user.display_name, :id => client_applications(:normal_user_app).id }, { :user => user }
+      delete :destroy, { :display_name => user.display_name, :id => other_client.id }, { :user => user }
     end
     assert_response :not_found
     assert_template "not_found"
