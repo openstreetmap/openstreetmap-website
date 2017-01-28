@@ -19,7 +19,7 @@ module NotifierHelper
     )
   end
 
-  def apply_inline_css(html)
+  def style_message(html)
     html.gsub /<p>/, '<p style="color: black; margin: 0.75em 0">'
   end
 end
