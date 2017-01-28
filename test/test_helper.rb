@@ -187,15 +187,13 @@ module ActiveSupport
     end
 
     def email_text_parts(message)
-      text_parts = []
-      message.parts.each do |part|
+      message.parts.each_with_object([]) do |part, text_parts|
         if part.content_type.start_with?("text/")
           text_parts.push(part)
         elsif part.multipart?
           text_parts.concat(email_text_parts(part))
         end
       end
-      text_parts
     end
   end
 end
