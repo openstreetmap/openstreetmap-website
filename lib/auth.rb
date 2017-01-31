@@ -5,5 +5,6 @@ module Auth
     providers["Windows Live"] = "windowslive" if defined?(WINDOWSLIVE_AUTH_ID)
     providers["GitHub"] = "github" if defined?(GITHUB_AUTH_ID)
     providers["Wikipedia"] = "wikipedia" if defined?(WIKIPEDIA_AUTH_ID)
+    providers["Twitter"] = "twitter" if defined?(TWITTER_AUTH_ID)
   end.freeze
 end
