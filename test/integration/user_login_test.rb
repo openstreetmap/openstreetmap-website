@@ -12,6 +12,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     OmniAuth.config.mock_auth[:windowslive] = nil
     OmniAuth.config.mock_auth[:github] = nil
     OmniAuth.config.mock_auth[:wikipedia] = nil
+    OmniAuth.config.mock_auth[:mapsme] = nil
     OmniAuth.config.test_mode = false
   end
 
@@ -933,6 +934,108 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     get auth_path(:provider => "wikipedia", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "user/new"
+    assert_select "span.username", false
+  end
+
+  def test_login_mapsme_success
+    OmniAuth.config.add_mock(:mapsme, :uid => "123456789")
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "mapsme", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "mapsme")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "changeset/history"
+    assert_select "span.username", "mapsmeuser"
+  end
+
+  def test_login_mapsme_token_success
+    OmniAuth.config.add_mock(:mapsme, :uid => "123456789")
+
+    # Skipping things already tested in test_login_mapsme_success
+    get auth_path(:provider => "mapsme_token", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "mapsme_token", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    follow_redirect!
+    follow_redirect!
+    assert_response :success
+    assert_template "changeset/history"
+    assert_select "span.username", "mapsmeuser"
+  end
+
+  def test_login_mapsme_connection_failed
+    OmniAuth.config.mock_auth[:mapsme] = :connection_failed
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "mapsme", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "mapsme")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to auth_failure_path(:strategy => "mapsme", :message => "connection_failed", :origin => "/login?referer=%2Fhistory")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+    assert_select "div.flash.error", "Connection to authentication provider failed"
+    assert_select "span.username", false
+  end
+
+  def test_login_mapsme_invalid_credentials
+    OmniAuth.config.mock_auth[:mapsme] = :invalid_credentials
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "mapsme", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "mapsme")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to auth_failure_path(:strategy => "mapsme", :message => "invalid_credentials", :origin => "/login?referer=%2Fhistory")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+    assert_select "div.flash.error", "Invalid authentication credentials"
+    assert_select "span.username", false
+  end
+
+  def test_login_mapsme_unknown
+    OmniAuth.config.add_mock(:mapsme, :uid => "987654321")
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "mapsme", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "mapsme")
     follow_redirect!
     assert_response :redirect
     follow_redirect!

@@ -18,6 +18,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     OmniAuth.config.mock_auth[:windowslive] = nil
     OmniAuth.config.mock_auth[:github] = nil
     OmniAuth.config.mock_auth[:wikipedia] = nil
+    OmniAuth.config.mock_auth[:mapsme] = nil
     OmniAuth.config.test_mode = false
   end
 
@@ -815,6 +816,119 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_equal register_email.to.first, new_email
     # Check that the confirm account url is correct
     confirm_regex = Regexp.new("/user/redirect_tester_wikipedia/confirm\\?confirm_string=([a-zA-Z0-9]*)")
+    email_text_parts(register_email).each do |part|
+      assert_match confirm_regex, part.body.to_s
+    end
+    confirm_string = email_text_parts(register_email).first.body.match(confirm_regex)[1]
+
+    # Check the page
+    assert_response :success
+    assert_template "user/confirm"
+
+    ActionMailer::Base.deliveries.clear
+
+    # Go to the confirmation page
+    get "/user/#{display_name}/confirm", :confirm_string => confirm_string
+    assert_response :success
+    assert_template "user/confirm"
+
+    post "/user/#{display_name}/confirm", :confirm_string => confirm_string
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "site/welcome"
+  end
+
+  def test_user_create_mapsme_success
+    OmniAuth.config.add_mock(:mapsme, :uid => "123454321")
+
+    new_email = "newtester-mapsme@osm.org"
+    display_name = "new_tester-mapsme"
+    password = "testtest"
+    assert_difference("User.count") do
+      assert_difference("ActionMailer::Base.deliveries.size", 1) do
+        post "/user/new",
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "mapsme", :pass_crypt => "", :pass_crypt_confirmation => "" }
+        assert_response :redirect
+        assert_redirected_to auth_path(:provider => "mapsme", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
+        assert_redirected_to auth_success_path(:provider => "mapsme")
+        follow_redirect!
+        assert_response :redirect
+        assert_redirected_to "/user/terms"
+        post "/user/save",
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "mapsme", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password }
+        assert_response :redirect
+        follow_redirect!
+      end
+    end
+
+    # Check the page
+    assert_response :success
+    assert_template "user/confirm"
+
+    ActionMailer::Base.deliveries.clear
+  end
+
+  def test_user_create_mapsme_failure
+    OmniAuth.config.mock_auth[:mapsme] = :connection_failed
+
+    new_email = "newtester-mapsme2@osm.org"
+    display_name = "new_tester-mapsme2"
+    assert_difference("User.count", 0) do
+      assert_difference("ActionMailer::Base.deliveries.size", 0) do
+        post "/user/new",
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "mapsme", :pass_crypt => "", :pass_crypt_confirmation => "" }
+        assert_response :redirect
+        assert_redirected_to auth_path(:provider => "mapsme", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
+        assert_redirected_to auth_success_path(:provider => "mapsme")
+        follow_redirect!
+        assert_response :redirect
+        assert_redirected_to auth_failure_path(:strategy => "mapsme", :message => "connection_failed", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
+        follow_redirect!
+        assert_response :success
+        assert_template "user/new"
+      end
+    end
+
+    ActionMailer::Base.deliveries.clear
+  end
+
+  def test_user_create_mapsme_redirect
+    OmniAuth.config.add_mock(:mapsme, :uid => "123454321")
+
+    new_email = "redirect_tester_mapsme@osm.org"
+    display_name = "redirect_tester_mapsme"
+    # nothing special about this page, just need a protected page to redirect back to.
+    referer = "/traces/mine"
+    assert_difference("User.count") do
+      assert_difference("ActionMailer::Base.deliveries.size", 1) do
+        post "/user/new",
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "mapsme", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer
+        assert_response :redirect
+        assert_redirected_to auth_path(:provider => "mapsme", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
+        assert_redirected_to auth_success_path(:provider => "mapsme")
+        follow_redirect!
+        assert_response :redirect
+        assert_redirected_to "/user/terms"
+        post_via_redirect "/user/save",
+                          :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "mapsme", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }
+      end
+    end
+
+    # Check the e-mail
+    register_email = ActionMailer::Base.deliveries.first
+
+    assert_equal register_email.to.first, new_email
+    # Check that the confirm account url is correct
+    confirm_regex = Regexp.new("/user/redirect_tester_mapsme/confirm\\?confirm_string=([a-zA-Z0-9]*)")
     email_text_parts(register_email).each do |part|
       assert_match confirm_regex, part.body.to_s
     end
