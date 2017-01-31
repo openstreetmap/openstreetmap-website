@@ -72,7 +72,27 @@ $(document).ready(function () {
       }
     });
   };
-
+  $(document).ready(function(){
+    $('#sidebar').on('mousedown', function(e){
+        var $dragable = $(this),
+            startWidth = $dragable.width(),
+            pX = e.pageX;
+        
+        $(document).on('mouseup', function(e){
+            $(document).off('mouseup').off('mousemove');
+        });
+        $(document).on('mousemove', function(me){
+            var mx = (me.pageX - pX);
+            //var my = (me.pageY - pY);
+            
+            $dragable.css({
+                width: startWidth + mx,
+                //top: my
+            });
+        });
+                
+    });
+   });
   var params = OSM.mapParams();
 
   var map = new L.OSM.Map("map", {
