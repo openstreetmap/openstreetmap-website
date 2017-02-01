@@ -52,20 +52,20 @@ class UserTest < ActiveSupport::TestCase
              輕觸搖晃的遊戲@ah.com も対応します@s.name)
 
     ok.each do |name|
-      user = users(:normal_user)
+      user = build(:user)
       user.email = name
       assert user.valid?(:save), user.errors.full_messages.join(",")
     end
 
     bad.each do |name|
-      user = users(:normal_user)
+      user = build(:user)
       user.email = name
       assert user.invalid?(:save), "#{name} is valid when it shouldn't be"
     end
   end
 
   def test_display_name_length
-    user = users(:normal_user)
+    user = build(:user)
     user.display_name = "123"
     assert user.valid?, " should allow nil display name"
     user.display_name = "12"
@@ -93,13 +93,13 @@ class UserTest < ActiveSupport::TestCase
            "new", "terms", "save", "confirm", "confirm-email",
            "go_public", "reset-password", "forgot-password", "suspended"]
     ok.each do |display_name|
-      user = users(:normal_user)
+      user = build(:user)
       user.display_name = display_name
       assert user.valid?, "#{display_name} is invalid, when it should be"
     end
 
     bad.each do |display_name|
-      user = users(:normal_user)
+      user = build(:user)
       user.display_name = display_name
       assert !user.valid?, "#{display_name} is valid when it shouldn't be"
     end
@@ -150,7 +150,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_user_preferred_editor
-    user = users(:normal_user)
+    user = create(:user)
     assert_nil user.preferred_editor
     user.preferred_editor = "potlatch"
     assert_equal "potlatch", user.preferred_editor
