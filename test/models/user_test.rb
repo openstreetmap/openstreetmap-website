@@ -122,16 +122,24 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_users_nearby
-    # second user has their data public and is close by normal user
-    assert_equal [users(:public_user), users(:german_user)], users(:normal_user).nearby
-    # second_user has normal user nearby, but normal user has their data private
-    assert_equal [users(:german_user)], users(:public_user).nearby
-    # inactive_user has no user nearby
-    assert_equal [], users(:inactive_user).nearby
-    # north_pole_user has no user nearby, and doesn't throw exception
-    assert_equal [], users(:north_pole_user).nearby
-    # confirmed_user has no home location
-    assert_equal [], users(:confirmed_user).nearby
+    alice = create(:user, :active, :home_lat => 51.0, :home_lon => 1.0, :data_public => false)
+    bob = create(:user, :active, :home_lat => 51.1, :home_lon => 1.0, :data_public => true)
+    charlie = create(:user, :active, :home_lat => 51.1, :home_lon => 1.1, :data_public => true)
+    david = create(:user, :active, :home_lat => 10.0, :home_lon => -123.0, :data_public => true)
+    _edward = create(:user, :suspended, :home_lat => 10.0, :home_lon => -123.0, :data_public => true)
+    south_pole_user = create(:user, :active, :home_lat => -90.0, :home_lon => 0.0, :data_public => true)
+    vagrant_user = create(:user, :active, :home_lat => nil, :home_lon => nil, :data_public => true)
+
+    # bob and charlie are both near alice
+    assert_equal [bob, charlie], alice.nearby
+    # charlie and alice are both near bob, but alice has their data private
+    assert_equal [charlie], bob.nearby
+    # david has no user nearby, since edward is not active
+    assert_equal [], david.nearby
+    # south_pole_user has no user nearby, and doesn't throw exception
+    assert_equal [], south_pole_user.nearby
+    # vagrant_user has no home location
+    assert_equal [], vagrant_user.nearby
   end
 
   def test_friend_users
