@@ -20,8 +20,9 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_unique_email
+    existing_user = create(:user)
     new_user = User.new(
-      :email => users(:normal_user).email,
+      :email => existing_user.email,
       :status => "active",
       :pass_crypt => Digest::MD5.hexdigest("test"),
       :display_name => "new user",
@@ -33,11 +34,12 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_unique_display_name
+    existing_user = create(:user)
     new_user = User.new(
       :email => "tester@openstreetmap.org",
       :status => "pending",
       :pass_crypt => Digest::MD5.hexdigest("test"),
-      :display_name => users(:normal_user).display_name,
+      :display_name => existing_user.display_name,
       :data_public => 1,
       :description => "desc"
     )
