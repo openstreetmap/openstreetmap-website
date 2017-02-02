@@ -240,7 +240,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_delete
-    user = users(:normal_user)
+    user = create(:user, :with_home_location, :description => "foo")
     user.delete
     assert_equal "user_#{user.id}", user.display_name
     assert user.description.blank?
@@ -253,7 +253,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_to_xml
-    user = users(:normal_user)
+    user = build(:user, :with_home_location)
     xml = user.to_xml
     assert_select Nokogiri::XML::Document.parse(xml.to_s), "user" do
       assert_select "[display_name=?]", user.display_name
@@ -263,7 +263,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_to_xml_node
-    user = users(:normal_user)
+    user = build(:user, :with_home_location)
     xml = user.to_xml_node
     assert_select Nokogiri::XML::DocumentFragment.parse(xml.to_s), "user" do
       assert_select "[display_name=?]", user.display_name
