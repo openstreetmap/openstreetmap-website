@@ -161,32 +161,50 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_visible
-    assert_equal 23, User.visible.count
+    pending = create(:user, :pending)
+    active = create(:user, :active)
+    confirmed = create(:user, :confirmed)
+    suspended = create(:user, :suspended)
+    deleted = create(:user, :deleted)
+
+    assert User.visible.find(pending.id)
+    assert User.visible.find(active.id)
+    assert User.visible.find(confirmed.id)
     assert_raise ActiveRecord::RecordNotFound do
-      User.visible.find(users(:suspended_user).id)
+      User.visible.find(suspended.id)
     end
     assert_raise ActiveRecord::RecordNotFound do
-      User.visible.find(users(:deleted_user).id)
+      User.visible.find(deleted.id)
     end
   end
 
   def test_active
-    assert_equal 22, User.active.count
+    pending = create(:user, :pending)
+    active = create(:user, :active)
+    confirmed = create(:user, :confirmed)
+    suspended = create(:user, :suspended)
+    deleted = create(:user, :deleted)
+
+    assert User.active.find(active.id)
+    assert User.active.find(confirmed.id)
     assert_raise ActiveRecord::RecordNotFound do
-      User.active.find(users(:inactive_user).id)
+      User.active.find(pending.id)
     end
     assert_raise ActiveRecord::RecordNotFound do
-      User.active.find(users(:suspended_user).id)
+      User.active.find(suspended.id)
     end
     assert_raise ActiveRecord::RecordNotFound do
-      User.active.find(users(:deleted_user).id)
+      User.active.find(deleted.id)
     end
   end
 
   def test_identifiable
-    assert_equal 24, User.identifiable.count
+    public_user = create(:user, :data_public => true)
+    private_user = create(:user, :data_public => false)
+
+    assert User.identifiable.find(public_user.id)
     assert_raise ActiveRecord::RecordNotFound do
-      User.identifiable.find(users(:normal_user).id)
+      User.identifiable.find(private_user.id)
     end
   end
 
