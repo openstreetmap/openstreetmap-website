@@ -207,19 +207,19 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_visible?
-    assert_equal true, users(:inactive_user).visible?
-    assert_equal true, users(:normal_user).visible?
-    assert_equal true, users(:confirmed_user).visible?
-    assert_equal false, users(:suspended_user).visible?
-    assert_equal false, users(:deleted_user).visible?
+    assert_equal true, build(:user, :pending).visible?
+    assert_equal true, build(:user, :active).visible?
+    assert_equal true, build(:user, :confirmed).visible?
+    assert_equal false, build(:user, :suspended).visible?
+    assert_equal false, build(:user, :deleted).visible?
   end
 
   def test_active?
-    assert_equal false, users(:inactive_user).active?
-    assert_equal true, users(:normal_user).active?
-    assert_equal true, users(:confirmed_user).active?
-    assert_equal false, users(:suspended_user).active?
-    assert_equal false, users(:deleted_user).active?
+    assert_equal false, build(:user, :pending).active?
+    assert_equal true, build(:user, :active).active?
+    assert_equal true, build(:user, :confirmed).active?
+    assert_equal false, build(:user, :suspended).active?
+    assert_equal false, build(:user, :deleted).active?
   end
 
   def test_moderator?
