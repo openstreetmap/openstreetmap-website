@@ -108,13 +108,17 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_friend_with
-    create(:friend, :befriender => users(:normal_user), :befriendee => users(:public_user))
-    assert users(:normal_user).is_friends_with?(users(:public_user))
-    assert !users(:normal_user).is_friends_with?(users(:inactive_user))
-    assert !users(:public_user).is_friends_with?(users(:normal_user))
-    assert !users(:public_user).is_friends_with?(users(:inactive_user))
-    assert !users(:inactive_user).is_friends_with?(users(:normal_user))
-    assert !users(:inactive_user).is_friends_with?(users(:public_user))
+    alice = create(:user, :active)
+    bob = create(:user, :active)
+    charlie = create(:user, :active)
+    create(:friend, :befriender => alice, :befriendee => bob)
+
+    assert alice.is_friends_with?(bob)
+    assert !alice.is_friends_with?(charlie)
+    assert !bob.is_friends_with?(alice)
+    assert !bob.is_friends_with?(charlie)
+    assert !charlie.is_friends_with?(bob)
+    assert !charlie.is_friends_with?(alice)
   end
 
   def test_users_nearby
