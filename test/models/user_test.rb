@@ -223,20 +223,20 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_moderator?
-    assert_equal false, users(:normal_user).moderator?
-    assert_equal true, users(:moderator_user).moderator?
+    assert_equal false, create(:user).moderator?
+    assert_equal true, create(:moderator_user).moderator?
   end
 
   def test_administrator?
-    assert_equal false, users(:normal_user).administrator?
-    assert_equal true, users(:administrator_user).administrator?
+    assert_equal false, create(:user).administrator?
+    assert_equal true, create(:administrator_user).administrator?
   end
 
   def test_has_role?
-    assert_equal false, users(:normal_user).has_role?("administrator")
-    assert_equal false, users(:normal_user).has_role?("moderator")
-    assert_equal true, users(:administrator_user).has_role?("administrator")
-    assert_equal true, users(:moderator_user).has_role?("moderator")
+    assert_equal false, create(:user).has_role?("administrator")
+    assert_equal false, create(:user).has_role?("moderator")
+    assert_equal true, create(:administrator_user).has_role?("administrator")
+    assert_equal true, create(:moderator_user).has_role?("moderator")
   end
 
   def test_delete

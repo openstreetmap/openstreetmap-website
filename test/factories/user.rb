@@ -8,5 +8,17 @@ FactoryGirl.define do
       home_lat { rand(-90.0...90.0) }
       home_lon { rand(-180.0...180.0) }
     end
+
+    factory :moderator_user do
+      after(:create) do |user, _evaluator|
+        create(:user_role, :role => "moderator", :user => user)
+      end
+    end
+
+    factory :administrator_user do
+      after(:create) do |user, _evaluator|
+        create(:user_role, :role => "administrator", :user => user)
+      end
+    end
   end
 end
