@@ -107,7 +107,7 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  def test_friend_with
+  def test_friends_with
     alice = create(:user, :active)
     bob = create(:user, :active)
     charlie = create(:user, :active)
@@ -134,25 +134,16 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [], users(:confirmed_user).nearby
   end
 
-  def test_friends_with
-    # normal user is a friend of second user
-    # it should be a one way friend associatation
-    norm = users(:normal_user)
-    sec = users(:public_user)
+  def test_friend_users
+    norm = create(:user, :active)
+    sec = create(:user, :active)
     create(:friend, :befriender => norm, :befriendee => sec)
-    assert_equal 1, Friend.count
+
     assert_equal [sec], norm.friend_users
     assert_equal 1, norm.friend_users.size
-    assert_equal 1, Friend.count
-    assert norm.is_friends_with?(sec)
-    assert !sec.is_friends_with?(norm)
-    assert !users(:normal_user).is_friends_with?(users(:inactive_user))
-    assert !users(:public_user).is_friends_with?(users(:normal_user))
-    assert !users(:public_user).is_friends_with?(users(:inactive_user))
-    assert !users(:inactive_user).is_friends_with?(users(:normal_user))
-    assert !users(:inactive_user).is_friends_with?(users(:public_user))
-    # Friend.delete(friend)
-    # assert_equal 0, Friend.count
+
+    assert_equal [], sec.friend_users
+    assert_equal 0, sec.friend_users.size
   end
 
   def test_user_preferred_editor
