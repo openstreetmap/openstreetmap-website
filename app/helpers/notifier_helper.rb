@@ -20,6 +20,9 @@ module NotifierHelper
   end
 
   def style_message(html)
-    html.gsub /<p>/, '<p style="color: black; margin: 0.75em 0">'
+    # Because we can't use stylesheets in HTML emails, we need to inline the
+    # styles. Rather than copy-paste the same string of CSS into every message,
+    # we apply it once here, after the message has been composed.
+    html.gsub /<p>/, '<p style="color: black; margin: 0.75em 0; font-family: \'Helvetica Neue\', Arial, Sans-Serif">'
   end
 end
