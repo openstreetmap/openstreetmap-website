@@ -428,7 +428,7 @@ path.fill.tag-amenity-university {
 .preset-icon-fill-area.tag-amenity-school,
 .preset-icon-fill-area.tag-amenity-college,
 .preset-icon-fill-area.tag-amenity-university {
-    border-color: rgb(255, 255, 148);
+    border-color: rgb(232, 232, 0);
     background-color: rgba(255, 255, 148, 0.15);
 }
 
@@ -459,25 +459,34 @@ path.fill.tag-landuse-commercial {
     background-color: rgba(214, 136, 26, 0.3);
 }
 
-path.stroke.tag-landuse-industrial {
+path.stroke.tag-landuse-industrial,
+path.stroke.tag-power-plant {
     stroke: rgb(228, 164, 245);
 }
-path.fill.tag-landuse-industrial {
+path.fill.tag-landuse-industrial,
+path.fill.tag-power-plant {
     stroke: rgba(228, 164, 245, 0.3);
     fill: rgba(228, 164, 245, 0.3);
 }
-.preset-icon-fill-area.tag-landuse-industrial {
+.preset-icon-fill-area.tag-landuse-industrial,
+.preset-icon-fill-area.tag-power-plant {
     border-color: rgb(228, 164, 245);
     background-color: rgba(228, 164, 245, 0.3);
 }
 
+path.stroke.tag-natural-bare_rock,
+path.stroke.tag-natural-scree,
 path.stroke.tag-landuse-quarry {
     stroke: rgb(166, 149, 123);
 }
+path.fill.tag-natural-bare_rock,
+path.fill.tag-natural-scree,
 path.fill.tag-landuse-quarry {
     stroke: rgba(166, 149, 123, 0.2);
     fill: rgba(166, 149, 123, 0.2);
 }
+.preset-icon-fill-area.tag-natural-bare_rock,
+.preset-icon-fill-area.tag-natural-scree,
 .preset-icon-fill-area.tag-landuse-quarry {
     border-color: rgb(166, 149, 123);
     background-color: rgba(166, 149, 123, 0.2);
@@ -498,21 +507,26 @@ path.fill.tag-landuse-landfill {
 .pattern-color-construction {
     fill: rgba(196, 189, 25, 0.2);
 }
-path.stroke.tag-landuse.tag-status {
+path.stroke.tag-landuse.tag-status,
+path.stroke.tag-landuse-construction {
     stroke: rgb(196, 189, 25);
 }
-.preset-icon-fill-area.tag-landuse.tag-status {
+.preset-icon-fill-area.tag-landuse.tag-status,
+.preset-icon-fill-area.tag-landuse-construction {
     border-color: rgb(196, 189, 25);
     background-color: rgba(196, 189, 25, 0.2);
 }
 
+path.stroke.tag-military,
 path.stroke.tag-landuse-military {
     stroke: rgb(214, 136, 26);
 }
+path.fill.tag-military,
 path.fill.tag-landuse-military {
     stroke: rgba(214, 136, 26, 0.2);
     fill: rgba(214, 136, 26, 0.2);
 }
+.preset-icon-fill-area.tag-military,
 .preset-icon-fill-area.tag-landuse-military {
     border-color: rgb(214, 136, 26);
     background-color: rgba(214, 136, 26, 0.2);
@@ -540,13 +554,16 @@ path.stroke.tag-landuse-meadow {
     background-color: rgba(182, 225, 153, 0.2);
 }
 
-.pattern-color-beach {
+.pattern-color-beach,
+.pattern-color-sand {
     fill: rgba(255, 255, 126, 0.2);
 }
-path.stroke.tag-natural-beach {
+path.stroke.tag-natural-beach,
+path.stroke.tag-natural-sand {
     stroke: rgb(255, 255, 126);
 }
-.preset-icon-fill-area.tag-natural-beach {
+.preset-icon-fill-area.tag-natural-beach,
+.preset-icon-fill-area.tag-natural-sand {
     border-color: rgb(255, 255, 126);
     background-color: rgba(255, 255, 126, 0.2);
 }
@@ -1523,6 +1540,19 @@ text.point {
     font-size: 10px;
 }
 
+.icon.areaicon-halo {
+    opacity: 0.6;
+    stroke: #999;
+    stroke-width: 2px;
+    stroke-miterlimit: 1;
+}
+
+.icon.areaicon {
+    fill: #222;
+    opacity: 0.8;
+}
+
+
 /* Turns */
 
 g.turn rect,
@@ -1813,7 +1843,10 @@ html, body {
 }
 
 body {
-    font:normal 12px/1.6667 'Helvetica Neue', Arial, sans-serif;
+    font: normal 12px/1.6667 -apple-system, BlinkMacSystemFont,
+        "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+        "Fira Sans", "Droid Sans", "Helvetica Neue", "Arial",
+        sans-serif;
     margin:0;
     padding:0;
     min-width: 768px;
@@ -1838,6 +1871,20 @@ body {
     position: relative;
     overflow: hidden;
     height: 100%;
+}
+
+#content.active {
+    -webkit-filter: none !important;
+    filter: none !important;
+    -webkit-duration: 200ms;
+    transition-duration: 200ms;
+}
+
+#content.inactive {
+    -webkit-filter: grayscale(80%) brightness(80%);
+    filter: grayscale(80%) brightness(80%);
+    -webkit-duration: 200ms;
+    transition-duration: 200ms;
 }
 
 #defs {
@@ -1950,7 +1997,10 @@ a:hover {
 
 textarea  {
     resize: vertical;
-    font:normal 12px/20px 'Helvetica Neue', Arial, sans-serif;
+    font:normal 12px/20px -apple-system, BlinkMacSystemFont,
+        "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+        "Fira Sans", "Droid Sans", "Helvetica Neue", "Arial",
+        sans-serif;
 }
 
 textarea,
@@ -2252,10 +2302,6 @@ button.secondary-action:hover {
     background: #cccccc;
 }
 
-button.save.has-count {
-    padding: 9px;
-}
-
 button.save .count {
     display: none;
 }
@@ -2273,7 +2319,7 @@ button.save.has-count .count {
     line-height: 12px;
     border-radius: 4px;
     margin: auto;
-    margin-left: 8.3333%;
+    margin-left: 9.3333%;
 }
 
 button.save.has-count .count::before {
@@ -2308,7 +2354,7 @@ button.save.has-count .count::before {
 }
 
 .icon.pre-text {
-    margin-right: 3px;
+    margin-right: 5px;
 }
 
 .icon.light {
@@ -2651,16 +2697,28 @@ button.save.has-count .count::before {
     height: 44px;
 }
 
-.preset-icon-32 {
+.preset-icon-28 {
     position: absolute;
-    top: 14px;
-    left: 13px;   /* Maki icons off center? */
+    top: 16px;
+    left: 16px;
     margin: auto;
 }
 
-.preset-icon-32 .icon {
-    width: 32px;
-    height: 32px;
+.preset-icon-28 .icon {
+    width: 28px;
+    height: 28px;
+}
+
+.preset-icon-24 {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    margin: auto;
+}
+
+.preset-icon-24 .icon {
+    width: 24px;
+    height: 24px;
 }
 
 .preset-list-button .label {
@@ -5251,7 +5309,7 @@ img.tile-removing {
 }
 
 [dir='rtl'] .icon.pre-text {
-  margin-left: 3px;
+  margin-left: 5px;
   margin-right: 0;
 }
 
@@ -5285,8 +5343,12 @@ img.tile-removing {
   right: auto;
 }
 
-[dir='rtl'] .preset-list-button-wrap .preset-icon-32 {
-  right: 15px;
+[dir='rtl'] .preset-list-button-wrap .preset-icon-28 {
+  right: 16px;
+}
+
+[dir='rtl'] .preset-list-button-wrap .preset-icon-24 {
+  right: 18px;
 }
 
 [dir='rtl'] .form-field .maxspeed-unit {
@@ -5430,6 +5492,21 @@ img.tile-removing {
 
 [dir='rtl'] .joined button:last-child {
   border-radius: 4px 0 0 4px;
+}
+
+[dir='rtl'] .spinner {
+  float: left;
+}
+
+[dir='rtl'] .spinner img {
+  margin-left: 10px;
+  margin-right: auto;
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
 }
 
 /* footer */

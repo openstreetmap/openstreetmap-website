@@ -101,18 +101,30 @@
             },
             "delete": {
                 "title": "删除",
-                "description": "彻底删除对象。",
+                "description": {
+                    "single": "彻底删除该特征。",
+                    "multiple": "彻底删除这些特征。"
+                },
                 "annotation": {
                     "point": "删除点。",
                     "vertex": "删除路径上的节点。",
                     "line": "删除线。",
                     "area": "删除面状要素。",
                     "relation": "删除关系。",
-                    "multiple": "删除{n}个对象。"
+                    "multiple": "删除 {n} 个特征。"
                 },
-                "incomplete_relation": "此内容暂未下载完成无法删除。",
-                "part_of_relation": "无法删除该要素，因为它是更大的关系的一部分。必须先将其从关系中移除。",
-                "connected_to_hidden": "无法删除，因为其与一隐藏要素相连。"
+                "incomplete_relation": {
+                    "single": "因该特征未完全下载，所以无法被删除。",
+                    "multiple": "因这些特征未完全下载，所以无法被删除。"
+                },
+                "part_of_relation": {
+                    "single": "因该特征是更大关系中的一部分，所以无法被删除。您必须先将其从关系中移除。",
+                    "multiple": "因这些特征是更大关系中的一部分，所以无法被删除。您必须先将它们从关系中移除。"
+                },
+                "connected_to_hidden": {
+                    "single": "因该特征与某个隐藏的特征相连，所以无法被删除。",
+                    "multiple": "因这些特征与某些隐藏的特征相连，所以无法被删除。"
+                }
             },
             "add_member": {
                 "annotation": "增加关系中的成员。"
@@ -150,46 +162,94 @@
             },
             "move": {
                 "title": "移动",
-                "description": "移动到不同的位置。",
+                "description": {
+                    "single": "移动该特征到不同的位置。",
+                    "multiple": "移动这些特征到不同的位置。"
+                },
                 "key": "M",
                 "annotation": {
                     "point": "移动点。",
                     "vertex": "移动路径中节点。",
                     "line": "移动线。",
                     "area": "移动面状要素。",
-                    "multiple": "移动多个对象。"
+                    "multiple": "移动多个特征。"
                 },
-                "incomplete_relation": "该特征还没有下载完整，无法移动。",
-                "too_large": "因为可见部分不足，不能移动。",
-                "connected_to_hidden": "无法移动，因为其与一隐藏要素相连。"
+                "incomplete_relation": {
+                    "single": "因该特征未完全下载，所以无法被移动。",
+                    "multiple": "因这些特征未完全下载，所以无法被移动。"
+                },
+                "too_large": {
+                    "single": "因该特征的可见部分不足，所以无法被移动。",
+                    "multiple": "因这些特征的可见部分不足，所以无法被移动。"
+                },
+                "connected_to_hidden": {
+                    "single": "因该特征与某个隐藏的特征相连，所以无法被移动。",
+                    "multiple": "因这些特征与某些隐藏的特征相连，所以无法被移动。"
+                }
             },
             "reflect": {
                 "title": "翻转",
                 "description": {
-                    "long": "沿该对象的长轴翻转。",
-                    "short": "沿该对象的短轴翻转。"
+                    "long": {
+                        "single": "沿该特征的长轴翻转。",
+                        "multiple": "沿这些特征的长轴翻转。"
+                    },
+                    "short": {
+                        "single": "沿该特征的短轴翻转。",
+                        "multiple": "沿这些特征的短轴翻转。"
+                    }
                 },
                 "key": {
                     "long": "T",
                     "short": "Y"
                 },
                 "annotation": {
-                    "long": "沿一个面的长轴翻转。",
-                    "short": "沿一个面的短轴翻转。"
+                    "long": {
+                        "single": "沿一个特征的长轴翻转。",
+                        "multiple": "沿多个特征的长轴翻转。"
+                    },
+                    "short": {
+                        "single": "沿一个特征的短轴翻转。",
+                        "multiple": "沿多个特征的短轴翻转。"
+                    }
                 },
-                "too_large": "由于可见部分不足，无法将其翻转。",
-                "connected_to_hidden": "由于该面与某隐藏特征相连，无法将其翻转。"
+                "incomplete_relation": {
+                    "single": "因该特征未完全下载，所以无法被翻转。",
+                    "multiple": "因这些特征未完全下载，所以无法被翻转。"
+                },
+                "too_large": {
+                    "single": "因该特征的可见部分不足，所以无法被翻转。",
+                    "multiple": "因这些特征的可见部分不足，所以无法被翻转。"
+                },
+                "connected_to_hidden": {
+                    "single": "因该特征与某个隐藏的特征相连，所以无法被翻转。",
+                    "multiple": "因这些特征与某些隐藏的特征相连，所以无法被翻转。"
+                }
             },
             "rotate": {
                 "title": "旋转",
-                "description": "绕这个对象的中心点旋转。",
+                "description": {
+                    "single": "绕该特征的中心点旋转。",
+                    "multiple": "绕这些特征的中心点旋转。"
+                },
                 "key": "R",
                 "annotation": {
                     "line": "旋转线。",
-                    "area": "旋转面状要素。"
+                    "area": "旋转面状要素。",
+                    "multiple": "旋转多个特征。"
                 },
-                "too_large": "因为可见部分不足，不能旋转。",
-                "connected_to_hidden": "无法旋转，因为其与一隐藏要素相连。"
+                "incomplete_relation": {
+                    "single": "因该特征未完全下载，所以无法旋转。",
+                    "multiple": "因这些特征未完全下载，所以无法旋转。"
+                },
+                "too_large": {
+                    "single": "因该特征的可见部分不足，所以无法旋转。",
+                    "multiple": "因这些特征的可见部分不足，所以无法旋转。"
+                },
+                "connected_to_hidden": {
+                    "single": "因该特征与某个隐藏的特征相连，所以无法旋转。",
+                    "multiple": "因这些特征与某些隐藏的特征相连，所以无法旋转。"
+                }
             },
             "reverse": {
                 "title": "反转",
@@ -260,12 +320,9 @@
             "rateLimit": "该接口是限制匿名连接的。您可以通过登录来解决这个问题。"
         },
         "commit": {
-            "title": "保存变更",
             "description_placeholder": "简单说明您的贡献(必填)",
-            "message_label": "修改集合注释",
             "upload_explanation": "您上传的修改将会在所有使用OpenStreetMap数据的地图上可见。",
             "upload_explanation_with_user": "{user}，您上传的修改将会在所有使用OpenStreetMap数据的地图上可见。",
-            "save": "保存",
             "cancel": "取消",
             "changes": "{count}个变更",
             "warnings": "警告",
@@ -328,7 +385,7 @@
             "back_tooltip": "变更特征",
             "remove": "删除",
             "search": "搜索",
-            "multiselect": "选择项目",
+            "multiselect": "选择特征",
             "unknown": "未知",
             "incomplete": "<未下载>",
             "feature_list": "搜索特征",
@@ -462,13 +519,13 @@
                 "delete": "恢复被删除的内容",
                 "download_changes": "或者下载您的修改。",
                 "done": "所有冲突已调解！",
-                "help": "另一位用户修改了您刚刚修改的地图要素。\n点击下面条目查看冲突详情，并选择保留您自己的或者别人的修改。\n"
+                "help": "另一位用户修改了您刚刚修改的地图特征。\n点击下面条目查看冲突详情，并选择保留\n您自己的或者别人的修改。\n"
             }
         },
         "merge_remote_changes": {
             "conflict": {
-                "deleted": "该对象已被{user}删除。",
-                "location": "您和{user}同时移动了该对象。",
+                "deleted": "该特征已被 {user} 删除。",
+                "location": "您和 {user} 同时移动了该特征。",
                 "nodelist": "您和{user}同时修改了节点。",
                 "memberlist": "您和{user}同时修改了关系成员。",
                 "tags": "您将<b>{tag}</b>标签改为\"{local}\"而{user}将其改为\"{remote}\"。"
@@ -509,7 +566,7 @@
             "untagged_point": "未标记的点",
             "untagged_line": "未标记的线",
             "untagged_area": "未标记的面",
-            "many_deletions": "您正在删除 {n} 个对象，您确定要这么做吗？这将会把它们从大家所见的 openstreetmap.org 地图上删除。",
+            "many_deletions": "您正在删除 {n} 个特征。您确定要这么做吗？这些特征将会在任何人所见的 openstreetmap.org 地图上被删除。",
             "tag_suggests_area": "标签{tag}表明线应该为面要素，但它不是面",
             "untagged_point_tooltip": "选择该点的要素类型。",
             "untagged_line_tooltip": "选择描述这条线的要素类型。",
@@ -522,12 +579,6 @@
         },
         "cannot_zoom": "在此模式下不能再缩小",
         "full_screen": "切换全屏",
-        "gpx": {
-            "local_layer": "本地GPX文件",
-            "drag_drop": "拖放GPX文件到页面上，或按一下浏览按钮，",
-            "zoom": "缩放到GPX轨迹",
-            "browse": "浏览GPX文件"
-        },
         "mapillary_images": {
             "tooltip": "来自Mapillary的街景照片",
             "title": "照片叠加层 (Mapillary)"
@@ -646,6 +697,15 @@
                 },
                 "category-landuse": {
                     "name": "土地利用特征"
+                },
+                "category-natural-area": {
+                    "name": "自然特征"
+                },
+                "category-natural-line": {
+                    "name": "自然特征"
+                },
+                "category-natural-point": {
+                    "name": "自然特征"
                 },
                 "category-path": {
                     "name": "路径特征"
@@ -851,6 +911,9 @@
                 "building_area": {
                     "label": "建筑物"
                 },
+                "bunker_type": {
+                    "label": "类型"
+                },
                 "camera/direction": {
                     "label": "方向 (度顺时针)",
                     "placeholder": "45, 90, 180, 270"
@@ -890,6 +953,9 @@
                         "WNW": "西北偏西",
                         "WSW": "西南偏西"
                     }
+                },
+                "castle_type": {
+                    "label": "类型"
                 },
                 "clock_direction": {
                     "label": "方向",
@@ -1013,6 +1079,10 @@
                 "elevation": {
                     "label": "海拔"
                 },
+                "email": {
+                    "label": "Email",
+                    "placeholder": "example@example.com"
+                },
                 "emergency": {
                     "label": "急诊室"
                 },
@@ -1031,6 +1101,15 @@
                 },
                 "fence_type": {
                     "label": "类型"
+                },
+                "fire_hydrant/position": {
+                    "label": "位置",
+                    "options": {
+                        "green": "绿地",
+                        "lane": "小巷",
+                        "parking_lot": "停车场",
+                        "sidewalk": "路边人行道"
+                    }
                 },
                 "fire_hydrant/type": {
                     "label": "类型",
@@ -1408,6 +1487,9 @@
                 "place": {
                     "label": "类型"
                 },
+                "plant": {
+                    "label": "发电站"
+                },
                 "population": {
                     "label": "人口"
                 },
@@ -1537,9 +1619,11 @@
                     },
                     "placeholder": "轴承，轮胎，越野"
                 },
+                "social_facility": {
+                    "label": "类型"
+                },
                 "social_facility_for": {
-                    "label": "服务对象",
-                    "placeholder": "无家可归者，残疾人，儿童等"
+                    "label": "服务对象"
                 },
                 "source": {
                     "label": "来源"
@@ -1555,6 +1639,9 @@
                 },
                 "stars": {
                     "label": "星级"
+                },
+                "step_count": {
+                    "label": "台阶数"
                 },
                 "stop": {
                     "label": "停车指示类型",
@@ -1623,6 +1710,9 @@
                         "flush": "冲水式",
                         "pitlatrine": "旱厕/茅厕"
                     }
+                },
+                "toll": {
+                    "label": "收费"
                 },
                 "tourism": {
                     "label": "类型"
@@ -1768,10 +1858,6 @@
                     "name": "停机坪",
                     "terms": "停机坪"
                 },
-                "aeroway/gate": {
-                    "name": "机场登机口",
-                    "terms": "机场闸口"
-                },
                 "aeroway/hangar": {
                     "name": "飞机库",
                     "terms": "机库"
@@ -1787,10 +1873,6 @@
                 "aeroway/taxiway": {
                     "name": "滑行道",
                     "terms": "滑行道"
-                },
-                "aeroway/terminal": {
-                    "name": "机场航站楼",
-                    "terms": "机场航站楼,机场大楼,机场客运大楼"
                 },
                 "amenity": {
                     "name": "便利设施"
@@ -1873,7 +1955,7 @@
                 },
                 "amenity/childcare": {
                     "name": "托儿所/保育园",
-                    "terms": "幼儿园"
+                    "terms": "幼儿园,学前班,托儿所"
                 },
                 "amenity/cinema": {
                     "name": "电影院",
@@ -1902,10 +1984,6 @@
                 "amenity/courthouse": {
                     "name": "法院",
                     "terms": "法院,法庭"
-                },
-                "amenity/coworking_space": {
-                    "name": "联合办公空间",
-                    "terms": "办公共享,联合办公空间,联合办公室,共用工作空间,共同工作空间,众创空间,联创空间"
                 },
                 "amenity/crematorium": {
                     "name": "火葬场",
@@ -1980,8 +2058,8 @@
                     "terms": "网吧,上网咖啡馆,上网咖啡厅"
                 },
                 "amenity/kindergarten": {
-                    "name": "学前班/幼儿园用地",
-                    "terms": "学前班/幼儿园用地"
+                    "name": "幼儿园",
+                    "terms": "学前班,幼儿园,托儿所,学校"
                 },
                 "amenity/library": {
                     "name": "图书馆",
@@ -2224,6 +2302,10 @@
                 "barrier/bollard": {
                     "name": "护柱",
                     "terms": "护柱"
+                },
+                "barrier/border_control": {
+                    "name": "边境检查站",
+                    "terms": "边境检查站,边境,边防,海关,检查"
                 },
                 "barrier/cattle_grid": {
                     "name": "家畜栅栏",
@@ -2997,6 +3079,18 @@
                     "name": "军事区",
                     "terms": "军事用地, 军事区域"
                 },
+                "landuse/military/airfield": {
+                    "name": "军用机场",
+                    "terms": "军用机场,军事机场,航空,军事,机场,空军,部队"
+                },
+                "landuse/military/barracks": {
+                    "name": "军营",
+                    "terms": "军营,虎帐,兵营,军队,部队,步兵,驻扎,营房"
+                },
+                "landuse/military/training_area": {
+                    "name": "军事训练场",
+                    "terms": "军事训练场,军事练习场,训练场,练习场,训练营,军训,基地"
+                },
                 "landuse/orchard": {
                     "name": "果园",
                     "terms": "果园"
@@ -3300,45 +3394,13 @@
                     "name": "工厂",
                     "terms": "工厂,加工,制造"
                 },
-                "military/airfield": {
-                    "name": "军用机场",
-                    "terms": "机场,飞机场"
-                },
-                "military/barracks": {
-                    "name": "军营",
-                    "terms": "军营,兵营,营房"
-                },
-                "military/bunker": {
-                    "name": "地堡",
-                    "terms": "地堡,暗堡"
-                },
-                "military/checkpoint": {
-                    "name": "军区检查点",
-                    "terms": "军区检查点,军事检查站"
-                },
-                "military/danger_area": {
-                    "name": "危险区域",
-                    "terms": "危险区域,危险地区"
-                },
-                "military/naval_base": {
-                    "name": "海军基地",
-                    "terms": "海军基地"
-                },
-                "military/obstacle_course": {
-                    "name": "军事障碍训练场",
-                    "terms": "军事障碍训练场,障碍训练场,训练场,练习场"
-                },
-                "military/range": {
-                    "name": "军事靶场",
-                    "terms": "靶场,射击场,军事射击场"
-                },
-                "military/training_area": {
-                    "name": "军事训练场",
-                    "terms": "军事训练场,军事练习场,训练场,练习场"
-                },
                 "natural": {
                     "name": "自然",
                     "terms": "自然"
+                },
+                "natural/bare_rock": {
+                    "name": "岩石",
+                    "terms": "岩石,裸露岩石,石头,礁石,沉积,石"
                 },
                 "natural/bay": {
                     "name": "海湾",
@@ -3380,9 +3442,17 @@
                     "name": "山峰",
                     "terms": "山峰"
                 },
+                "natural/ridge": {
+                    "name": "山脊",
+                    "terms": "山脊,山高,凸,坡,斜坡,山峰,山冈,山"
+                },
                 "natural/saddle": {
                     "name": "山脊",
                     "terms": "山脊,山鞍,鞍部"
+                },
+                "natural/sand": {
+                    "name": "沙漠",
+                    "terms": "沙漠,沙子,沙,沙幕,干旱,沙滩,沙丘,岩滩,风成地貌,缺水,干枯"
                 },
                 "natural/scree": {
                     "name": "碎石坡",
@@ -3553,6 +3623,10 @@
                 "place/neighbourhood": {
                     "name": "街坊",
                     "terms": "社区,街坊"
+                },
+                "place/square": {
+                    "name": "广场",
+                    "terms": "广场,公共,枢纽,中心,市场,集会,庆典,活动"
                 },
                 "place/suburb": {
                     "name": "区",

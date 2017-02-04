@@ -100,19 +100,31 @@
                 "connected_to_hidden": "Denna linje kan inte rätas ut då den är kopplad till ett dolt objekt."
             },
             "delete": {
-                "title": "Ta bort",
-                "description": "Ta bort objekt permanent.",
-                "annotation": {
-                    "point": "Tagit bort en punkt.",
-                    "vertex": "Tagit bort en nod från en väg.",
-                    "line": "Tagit bort en linje.",
-                    "area": "Tagit bort ett område.",
-                    "relation": "Tagit bort en relation.",
-                    "multiple": "Tagit bort {n} objekt."
+                "title": "Radera",
+                "description": {
+                    "single": "Radera detta objekt permanent.",
+                    "multiple": "Radera dessa objekt permanent."
                 },
-                "incomplete_relation": "Detta objekt kan inte raderas, då det inte är komplett hämtad.",
-                "part_of_relation": "Detta objekt kan inte raderas då det är del i en större relation. Du måste ta bort det från relationen först. ",
-                "connected_to_hidden": "Detta kan inte tas bort då det är kopplat till ett dolt objekt."
+                "annotation": {
+                    "point": "Raderat en punkt.",
+                    "vertex": "Raderat en nod från en väg.",
+                    "line": "Raderat en linje.",
+                    "area": "Raderat ett område.",
+                    "relation": "Raderat en relation.",
+                    "multiple": "Raderat {n} objekt."
+                },
+                "incomplete_relation": {
+                    "single": "Detta objekt kan inte raderas då det inte är fullständigt nedladdat.",
+                    "multiple": "Dessa objekt kan inte raderas då de inte är fullständigt nedladdade."
+                },
+                "part_of_relation": {
+                    "single": "Detta objekt kan inte raderas då det är del i en större relation. Du måste ta bort det från relationen först. ",
+                    "multiple": "Dessa objekt kan inte raderas då de är delar i större relationer. Du måste ta bort dem från relationerna först."
+                },
+                "connected_to_hidden": {
+                    "single": "Detta objekt kan inte raderas då det är kopplat till ett dolt objekt.",
+                    "multiple": "Dessa objekt kan inte raderas då några av dem är kopplade till dolda objekt."
+                }
             },
             "add_member": {
                 "annotation": "Lägg till ett objekt i relationen."
@@ -145,12 +157,15 @@
                 "not_eligible": "Dessa objekt kan inte slås samman.",
                 "not_adjacent": "Dessa objekt kan inte sammanfogas då de inte är kopplade till varandra.",
                 "restriction": "Dessa objekt kan inte sammanfogas då minst en av dem tillhör relationen \"{relation}\".",
-                "incomplete_relation": "Dessa objekt kan inte sammanfogas då åtminstone ett inte hämtats fullständigt.",
+                "incomplete_relation": "Dessa objekt kan inte sammanfogas då åtminstone ett inte är fullständigt nedladdat.",
                 "conflicting_tags": "Dessa objekt kan inte sammanfogas då några av dess taggar har motstridiga värden."
             },
             "move": {
                 "title": "Flytta",
-                "description": "Flytta till annan plats.",
+                "description": {
+                    "single": "Flytta detta objekt till annan plats.",
+                    "multiple": "Flytta dessa objekt till annan plats."
+                },
                 "key": "M",
                 "annotation": {
                     "point": "Flyttade en punkt.",
@@ -159,37 +174,82 @@
                     "area": "Flyttade ett område.",
                     "multiple": "Flyttade flera objekt."
                 },
-                "incomplete_relation": "Detta objekt kan inte flyttas då det inte är nedladdat i sin helhet.",
-                "too_large": "Denna kan inte flyttas då inte tillräckligt är synligt för tillfället.",
-                "connected_to_hidden": "Detta kan inte flyttas då det är kopplat till ett dolt objekt."
+                "incomplete_relation": {
+                    "single": "Detta objekt kan inte flyttas då det inte är fullständigt nedladdat.",
+                    "multiple": "Dessa objekt kan inte flyttas då de inte är fullständigt nedladdade."
+                },
+                "too_large": {
+                    "single": "Detta objekt kan inte flyttas då det inte är tillräckligt synligt för tillfället.",
+                    "multiple": "Dessa objekt kan inte flyttas då de inte är tillräckligt synliga för tillfället."
+                },
+                "connected_to_hidden": {
+                    "single": "Detta objekt kan inte flyttas då det är kopplat till dolt objekt.",
+                    "multiple": "Dessa objekt kan inte flyttas då de är kopplade till dolda objekt."
+                }
             },
             "reflect": {
                 "title": "spegla",
                 "description": {
-                    "long": "Spegla detta objekt längs dess långa axel.",
-                    "short": "Spegla detta objekt längs dess korta axel."
+                    "long": {
+                        "single": "Spegla detta objekt längst dess långa axel.",
+                        "multiple": "Spegla dessa objekt längst dess långa axel."
+                    },
+                    "short": {
+                        "single": "Spegla detta objekt längst dess korta axel.",
+                        "multiple": "Spegla dessa objekt längst dess korta axel."
+                    }
                 },
                 "key": {
                     "long": "T",
                     "short": "Y"
                 },
                 "annotation": {
-                    "long": "Speglade ett område längs dess långa axel.",
-                    "short": "Speglade ett område längs dess korta axel."
+                    "long": {
+                        "single": "Spegla ett objekt längst dess långa axel.",
+                        "multiple": "Spegla flera objekt längst dess långa axel."
+                    },
+                    "short": {
+                        "single": "Spegla ett objekt längst dess korta axel.",
+                        "multiple": "Spegla flera objekt längst dess korta axel."
+                    }
                 },
-                "too_large": "Detta kan inte speglas då inte tillräckligt av det är synligt för tillfället.",
-                "connected_to_hidden": "Detta kan inte speglas då det är kopplat till ett dolt objekt."
+                "incomplete_relation": {
+                    "single": "Detta objekt kan inte speglas då det inte har laddats ned fullständigt.",
+                    "multiple": "Dessa objekt kan inte speglas då de inte har laddats ned fullständigt."
+                },
+                "too_large": {
+                    "single": "Detta objekt kan inte speglas då inte tillräckligt av det är synligt för tillfället.",
+                    "multiple": "Dessa objekt kan inte speglas då inte tillräckligt av dem är synligt för tillfället."
+                },
+                "connected_to_hidden": {
+                    "single": "Detta objekt kan inte speglas då det är kopplat till ett dolt objekt.",
+                    "multiple": "Dessa objekt kan inte speglas då några av dem är kopplade till dolda objekt."
+                }
             },
             "rotate": {
                 "title": "Rotera",
-                "description": "Rotera detta objekt runt dess centerpunkt.",
+                "description": {
+                    "single": "Rotera detta objekt runt dess centrumpunkt.",
+                    "multiple": "Rotera dessa objekt runt dess centrumpunkt."
+                },
                 "key": "R",
                 "annotation": {
                     "line": "Roterade en linje.",
-                    "area": "Roterade ett område."
+                    "area": "Roterade ett område.",
+                    "multiple": "Rotera flera objekt."
                 },
-                "too_large": "Denna kan inte roteras då inte tillräckligt är synligt för tillfället.",
-                "connected_to_hidden": "Detta kan inte roteras då det är kopplat till ett dolt objekt."
+                "incomplete_relation": {
+                    "single": "Detta objekt kan inte roteras då det inte har nedladdats ned fullständigt.",
+                    "multiple": "Dessa objekt kan inte roteras då de inte är fullständigt nedladdade."
+                },
+                "too_large": {
+                    "single": "Detta objekt kan inte roteras då det inte är tillräckligt synligt för tillfället.",
+                    "multiple": "Dessa objekt kan inte roteras då de inte är tillräckligt synliga för tillfället."
+                },
+                "connected_to_hidden": {
+                    "single": "Detta objekt kan inte roteras då det är kopplat till dolt objekt.",
+                    "multiple": "Dessa objekt kan inte roteras då de är kopplade till dolda objekt."
+                }
             },
             "reverse": {
                 "title": "Byt riktning",
@@ -260,17 +320,17 @@
             "rateLimit": "API:t är begränsat för anonyma anslutningar. Du kan fixa detta genom att logga in."
         },
         "commit": {
-            "title": "Spara ändringar",
+            "title": "Ladda upp till OpenStreetMap",
             "description_placeholder": "Kortfattad beskrivning av ditt bidrag (obligatoriskt)",
             "message_label": "Ändringskommentar",
             "upload_explanation": "De redigeringar du bidrar med kommer att synas på alla kartor som använder OpenStreetMaps data.",
             "upload_explanation_with_user": "De redigeringar du bidrar med som {user} kommer att synas på alla kartor som använder OpenStreetMaps data.",
-            "save": "Spara",
+            "save": "Ladda upp",
             "cancel": "Avbryt",
             "changes": "{count} ändringar",
             "warnings": "Varningar",
             "modified": "Ändrat",
-            "deleted": "Borttaget",
+            "deleted": "Raderat",
             "created": "Skapat",
             "about_changeset_comments": "Om ändringskommentarer",
             "about_changeset_comments_link": "//wiki.openstreetmap.org/wiki/Good_changeset_comments",
@@ -328,7 +388,7 @@
             "back_tooltip": "Ändra objekt",
             "remove": "Ta bort",
             "search": "Sök",
-            "multiselect": "Välj objekt",
+            "multiselect": "Valda objekt",
             "unknown": "Okänd",
             "incomplete": "<inte hämtad>",
             "feature_list": "Sök efter egenskaper",
@@ -459,7 +519,7 @@
                 "keep_local": "Behåll min",
                 "keep_remote": "Använd deras",
                 "restore": "Återställ",
-                "delete": "Låt vara borttagen",
+                "delete": "Låt vara raderad",
                 "download_changes": "Eller ladda ner dina ändringar.",
                 "done": "Alla konflikter lösta!",
                 "help": "En annan användare har ändrat på samma objekt som du har ändrat.\nKlicka på vardera objekt nedan för ytterligare detaljer om respektive konflikt, och välj om dina eller\nden andra användarens ändringar ska behållas.\n"
@@ -467,8 +527,8 @@
         },
         "merge_remote_changes": {
             "conflict": {
-                "deleted": "Detta objekt har tagits bort av {user}.",
-                "location": "Detta objekt har flyttats av både dig och {user}.",
+                "deleted": "Detta objekt har raderats av {user}.",
+                "location": "Detta objekt har flyttas av både dig och {user}.",
                 "nodelist": "Nod har ändrats av både dig och {user}.",
                 "memberlist": "Relationsmedlem har ändrats av både dig och {user}.",
                 "tags": "Du ändrade taggen <b>{tag}</b> till \"{local}\" och {user} ändrade den till \"{remote}\"."
@@ -506,14 +566,18 @@
             "used_with": "används med {type}"
         },
         "validations": {
+            "disconnected_highway": "Bryt av väg",
+            "disconnected_highway_tooltip": "Vägar bör vara kopplade till andra vägar.",
             "untagged_point": "Otaggad punkt",
             "untagged_line": "Otaggad linje",
             "untagged_area": "Otaggat område",
-            "many_deletions": "Du håller på att ta bort {n} objekt. Är du helt säker? Detta tar bort dem för alla som använder openstreetmap.org.",
+            "untagged_relation": "Otaggad relation",
+            "many_deletions": "Du håller på att radera {n} objekt. Är du helt säker att du vill göra detta? Detta tar bort dem från kartan som alla andra ser på openstreetmap.org.",
             "tag_suggests_area": "Taggen {tag} indikerar att detta borde vara ett område istället för en linje",
             "untagged_point_tooltip": "Välj en typ som beskriver vad denna punkt är.",
             "untagged_line_tooltip": "Välj en typ som beskriver vad denna linje är.",
             "untagged_area_tooltip": "Välj en typ som beskriver vad denna yta är.",
+            "untagged_relation_tooltip": "Välj en typ som beskriver vad denna relation är.",
             "deprecated_tags": "Borttagna taggar: {tags}"
         },
         "zoom": {
@@ -523,10 +587,10 @@
         "cannot_zoom": "Går ej att zooma ut ytterligare med nuvarande sätt.",
         "full_screen": "Växla fullskärm",
         "gpx": {
-            "local_layer": "Lokal gpx-fil",
-            "drag_drop": "Dra och släpp en .gpx-fil på sidan, eller klicka på knappen till höger för att bläddra",
-            "zoom": "Zooma till GPX-spår",
-            "browse": "Bläddra efter en .gpx-fil"
+            "local_layer": "Lokal fil",
+            "drag_drop": "Dra och släpp en .gpx-, .geojson- eller .kml-fil på sidan, eller klicka på knappen till höger för att bläddra",
+            "zoom": "Zooma till lager",
+            "browse": "Bläddra efter en fil"
         },
         "mapillary_images": {
             "tooltip": "Gatubilder från Mapillary",
@@ -543,7 +607,7 @@
             "title": "Hjälp",
             "help": "# Hjälp\n\nDetta är en redigerare för [OpenStreetMap](http://www.openstreetmap.org/),\nen gratis och redigerbar karta över världen. Du kan använda den för att lägga till och ändra\ndata i ditt område, allt för att göra en världsomspännande karta baserad på\nöppen källkod och öppen data bättre för alla.\n\nRedigeringar du gör på kartan kommer att visas för alla som använder\nOpenStreetMap. För att göra en redigering måste du\n[log in](https://www.openstreetmap.org/login).\n\n[iD editor](http://ideditor.com/) är ett gemensamt projekt med [källkod\ntillgänglig på GitHub](https://github.com/openstreetmap/iD).\n",
             "editing_saving": "# Redigera & spara\n\nDenna redigerare är designad att främst fungera online, och du använder den via en webbsida just nu.\n\n### Välj objekt\n\nFör att välja ett kartobjekt, t.ex. en väg eller en punkt, klicka på den på kartan. Detta kommer att markera det valda objektet, öppna en panel med detaljer om det, och visa en meny med saker du kan göra med det.\n\nFör att välja flera objekt, håll ner Skift-tangenten. Klicka sedan på objekten du vill välja eller dra på kartan för att rita en rektangel. Detta kommer att rita en ruta och markera punkterna inuti den.\n\n### Spara redigeringar\n\nNär du gör ändringar som att ändra på en väg, byggnad eller plats är detta sparat lokalt fram tills att du spara det på servern. Oroa dig inte om du gör ett misstag, du kan alltid ångra en ändring genom att klicka på Ånga-knappen och göra om din förändring genom att klicka på Gör om-knappen.\n\nKlicka på Spara för att slutföra en grupp att förändringar, t.ex. om du fullfört ett område i en stad och vill börja ändra i ett annat område. Du får möjlighet att granska vad du gjort och redigeraren ger dig hjälpsamma förslag och varningar om någon ändring inte verka korrekt.\n\nOm allt ser bra ut kan du ange en kort kommentar som förklarar vad du gjort och sedan klicka på Spara igen för att skicka ändringarna till [OpenStreetMap.org](http://www.openstreetmap.org/) där de blir synliga för alla andra användare och tillgängliga för andra att jobba vidare med.\n\nOm du inte kan slutföra din ändring på en gång kan du lämna redigeringsfönstret öppet och komma tillbaka (i samma webbläsare på samma dator) och redigeringsprogrammet kommer att ge dig möjlighet att återuppta ditt arbete.\n\n### Använda redigeraren\n\nEn lista med tillgängliga kortkommandon hittas [här](http://wiki.openstreetmap.org/wiki/ID/Shortcuts).\n",
-            "roads": "# Vägar\n\nDu kan skapa, fixa och ta bort vägar med denna redigerare. Vägar kan vara alla typer av: stigar, bilvägar, spår, cykelvägar m.m - alla välanvända segment ska mappas.\n\n### Markering\n\nKlicka på en väg för att välja den. En markering blir då synlig tillsammans med en liten verktygsmeny på kartan och ett sidofällt visar mer information om vägen.\n\n### Modifiering\n\nOfta ser du vägar som inte är justerade till bakgrundsbilden eller till ett GPS-spår. Du kan justera dessa vägar så att de är på korrekt plats.\n\nKlicka först på vägen du vill ändra. Detta kommer att markera den och visa kontrollpunkt längst den som du kan dra i för att justera den. Om du vill lägga till en ny kontrollpunkt för högre detaljrikedom, dubbelklicka på en del av vägen utan en punkt så kommer en kontrollpunkt läggas till.\n\nOm vägen är ansluten till en annan väg, men är inte det på kartan, kan du dra en av dess kontrollpunkt till den andra vägen för att koppla dem tillsammans. Att vägarna är kopplade till varandra är viktigt för kartan och avgörande för att kunna ge korrekta körinstruktioner.\n\nDu kan också klicka på verktyget 'Flytta' eller trycka på tangenten 'M' på tangentbordet för att flytta en hel väg på en gång, och sedan klicka igen för att spara flytten.\n\n### Borttagning\n\nOm hela vägen är helt fel - du kan se att den inte existerar på satellitbilderna och har helst bekräftat i verkligheten att den inte finns - kan du ta bort den, vilket tar bort den från kartan. Var försiktigt när du ta bort objekt - precis som vi all redigering kan alla se resultatet och satellitbilderna är oftast gamla, så vägen kan helt enkelt vara nybyggd.\n\nDu kan ta bort en väg genom att klicka på den för att markera den och sedan klicka på ikonen soptunna eller klicka på knappen 'Delete' på tangentbordet.\n\n### Skapa\n\nHittat någonstans att det borde finnas en väg där de inte finns en? Klicka på ikonen 'Linje'  högst upp till vänster i redigeringsfönstret eller klicka på knappen '2' på tangentbordet för att börja rita en linje.\n\nKlicka på början av vägen på kartan för att påbörja ritningen. Om vägen viker av från en existerande väg, starta genom att klicka där de ansluter till varandra.\n\nKlicka sedan på punkter längst vägen så att den följer vägens sträckning enligt satellitbilder eller GPS-spår. Om vägen du ritar korsar en annan väg, anslut dem tillsammans genom att klicka där de korsar. När du är klar med att rita in vägen, dubbelklicka eller tryck 'Enter' på tangentbordet.\n",
+            "roads": "# Vägar\n\nDu kan skapa, fixa och ta bort vägar med denna redigerare. Vägar kan vara alla typer av: stigar, bilvägar, spår, cykelvägar m.m - alla välanvända segment ska mappas.\n\n### Markering\n\nKlicka på en väg för att välja den. En markering blir då synlig tillsammans med en liten verktygsmeny på kartan och ett sidofällt visar mer information om vägen.\n\n### Modifiering\n\nOfta ser du vägar som inte är justerade till bakgrundsbilden eller till ett GPS-spår. Du kan justera dessa vägar så att de är på korrekt plats.\n\nKlicka först på vägen du vill ändra. Detta kommer att markera den och visa kontrollpunkt längst den som du kan dra i för att justera den. Om du vill lägga till en ny kontrollpunkt för högre detaljrikedom, dubbelklicka på en del av vägen utan en punkt så kommer en kontrollpunkt läggas till.\n\nOm vägen är ansluten till en annan väg, men är inte det på kartan, kan du dra en av dess kontrollpunkt till den andra vägen för att koppla dem tillsammans. Att vägarna är kopplade till varandra är viktigt för kartan och avgörande för att kunna ge korrekta körinstruktioner.\n\nDu kan också klicka på verktyget 'Flytta' eller trycka på tangenten 'M' på tangentbordet för att flytta en hel väg på en gång, och sedan klicka igen för att spara flytten.\n\n### Radering\n\nOm hela vägen är helt fel - du kan se att den inte existerar på satellitbilderna och har helst bekräftat i verkligheten att den inte finns - kan du radera den, vilket tar bort den från kartan. Var försiktigt när du raderar objekt - precis som vid all redigering kan alla se resultatet och satellitbilderna är oftast gamla, så vägen kan helt enkelt vara nybyggd.\n\nDu kan ta radera en väg genom att klicka på den för att markera den och sedan klicka på ikonen soptunna eller klicka på knappen 'Delete' på tangentbordet.\n\n### Skapa\n\nHittat någonstans att det borde finnas en väg där de inte finns en? Klicka på ikonen 'Linje'  högst upp till vänster i redigeringsfönstret eller klicka på knappen '2' på tangentbordet för att börja rita en linje.\n\nKlicka på början av vägen på kartan för att påbörja ritningen. Om vägen viker av från en existerande väg, starta genom att klicka där de ansluter till varandra.\n\nKlicka sedan på punkter längst vägen så att den följer vägens sträckning enligt satellitbilder eller GPS-spår. Om vägen du ritar korsar en annan väg, anslut dem tillsammans genom att klicka där de korsar. När du är klar med att rita in vägen, dubbelklicka eller tryck 'Enter' på tangentbordet.\n",
             "gps": "# GPS\n\nInsamlade GPS-spår är en värdefull källan för data till OpenStreetMap. Denna redigeraren\nstöder lokala spår - .gpx-filer på din lokala dator. Du kan samla\nin denna typ av GPS-spår med ett antal olika appar till din smartphone eller en GPS-enhet.\n\nFör information om du du gör en GPS-uppmätning, läs\n[Mapping with a smartphone, GPS, or paper](http://learnosm.org/en/mobile-mapping/).\n\nFör att använda ett GPX-spår för att kartlägga, dra och släpp GPX-filen på kartredigeraren.\nOm den accepteras kommer det att läggas till på kartan som en ljuslila\nlinje. Klicka på menyn Kartdata till höger för att aktivera,\navaktivera eller zooma in till detta nya GPX-skapade lager.\n\nGPX-spåret laddas inte direkt upp till OpenStreetMap - bästa sätet att använda\ndet är att rita på kartan och använda det som en guide för att lägga till ny information,\nmen också för att [ladda upp det till OpenStreetMap] (http://www.openstreetmap.org/trace/create)\nså att andra kan använda det.\n",
             "imagery": "# Flygfoton\n\nFlygfoton är en viktig källa vid kartläggning. En kombination av bilder från flygplan, satelliter och andra fria källor finns tillgängliga i redigeraren i menyn 'Bakgrundsinställningar' till höger.\n\nNormalt visas ett satellitlager från  [Bing Maps](http://www.bing.com/maps/) i redigeraren, men när du förflytta dig runt och zooma till nya geografiska områden kommer nya källor bli tillgängliga. Vissa länder, som t.ex. USA, Frankrike och Danmark har bilder av väldigt hög kvalité tillgängliga för vissa områden.\n\nFlygfotona är ibland förskjutna till kartan på grund av misstag från leverantören av flygfoton. Om du ser att många vägar är förskjutna i förhållande till flygfotot, flytta dem inte direkt för att matcha bakgrunden. Istället kan du justera flygfotot så att det matchar med existerande data genom att klicka 'Justera bildplacering' längst ner i menyn för Bakgrundsinställningar.\n",
             "addresses": "# Adresser\n\nAdresser är bland den mest användbara informationen på kartan.\n\nÄven om adresser normalt oftast är relaterade till segment av gatan är de i OpenStreetMap hanterade som attribut på byggnader och platser längst gatan.\n\nDu kan lägga till adressinformation både på platser kartlagda som byggnadskonturer och på platser kartlagda som enskilda punkter.\nDen bästa källan för adressinformation är från egen kunskap eller genom att besöka platsen - precis som för allt annat, att kopiera från kommersiella källor som Google Maps är strikt förbjudet.\n",
@@ -647,6 +711,15 @@
                 "category-landuse": {
                     "name": "Landanvändning"
                 },
+                "category-natural-area": {
+                    "name": "Natur"
+                },
+                "category-natural-line": {
+                    "name": "Natur"
+                },
+                "category-natural-point": {
+                    "name": "Natur"
+                },
                 "category-path": {
                     "name": "Stig"
                 },
@@ -720,21 +793,36 @@
                 "address": {
                     "label": "Adress",
                     "placeholders": {
+                        "block_number": "Kvartersnummer",
+                        "block_number!jp": "Kv.nummer.",
                         "city": "Stad",
+                        "city!jp": "Stad/Ort/By/Tokyo stadsdelskommun",
+                        "city!vn": "Stad/Ort",
                         "conscriptionnumber": "123",
                         "country": "Land",
+                        "county": "Län",
+                        "county!jp": "Distrikt",
                         "district": "Distrikt",
+                        "district!vn": "Arrondissement/Stad/Distrikt",
                         "floor": "Våning",
                         "hamlet": "Småort",
                         "housename": "Husnamn",
                         "housenumber": "123",
+                        "housenumber!jp": "Husnummer",
+                        "neighbourhood": "Grannskap",
+                        "neighbourhood!jp": "Chōme/Aza/Koaza",
                         "place": "Plats",
                         "postcode": "Postnummer",
                         "province": "Provins",
+                        "province!jp": "Prefektur",
+                        "quarter": "Stadsdel",
+                        "quarter!jp": "Ōaza/Machi",
                         "state": "Stat",
                         "street": "Gata",
                         "subdistrict": "Deldistrikt",
-                        "suburb": "Stadsdel"
+                        "subdistrict!vn": "Stadsdel/Kommun/Ort",
+                        "suburb": "Stadsdel",
+                        "suburb!jp": "Stadsdel"
                     }
                 },
                 "admin_level": {
@@ -851,6 +939,9 @@
                 "building_area": {
                     "label": "Byggnad"
                 },
+                "bunker_type": {
+                    "label": "Typ"
+                },
                 "camera/direction": {
                     "label": "Riktning (grader medurs)",
                     "placeholder": "45, 90, 180, 270"
@@ -890,6 +981,9 @@
                         "WNW": "Västnordväst",
                         "WSW": "Västsydväst"
                     }
+                },
+                "castle_type": {
+                    "label": "Typ"
                 },
                 "clock_direction": {
                     "label": "Riktning",
@@ -1013,6 +1107,10 @@
                 "elevation": {
                     "label": "Höjd"
                 },
+                "email": {
+                    "label": "E-post",
+                    "placeholder": "exempel@exempel.se"
+                },
                 "emergency": {
                     "label": "Akut"
                 },
@@ -1031,6 +1129,15 @@
                 },
                 "fence_type": {
                     "label": "Typ"
+                },
+                "fire_hydrant/position": {
+                    "label": "Position",
+                    "options": {
+                        "green": "Grönska",
+                        "lane": "Vägbana",
+                        "parking_lot": "Parkeringsplats",
+                        "sidewalk": "Trottoar"
+                    }
                 },
                 "fire_hydrant/type": {
                     "label": "Typ",
@@ -1408,6 +1515,9 @@
                 "place": {
                     "label": "Typ"
                 },
+                "plant": {
+                    "label": "Växt"
+                },
                 "population": {
                     "label": "Folkmängd"
                 },
@@ -1537,9 +1647,11 @@
                     },
                     "placeholder": "Tunna hjul, hjul, terräng..."
                 },
+                "social_facility": {
+                    "label": "Typ"
+                },
                 "social_facility_for": {
-                    "label": "Människohjälp",
-                    "placeholder": "Hemlösa, funktionshindrade, barn, etc."
+                    "label": "Människohjälp"
                 },
                 "source": {
                     "label": "Källa"
@@ -1555,6 +1667,9 @@
                 },
                 "stars": {
                     "label": "Stjärnor"
+                },
+                "step_count": {
+                    "label": "Antal steg"
                 },
                 "stop": {
                     "label": "Stopptyp",
@@ -1623,6 +1738,9 @@
                         "flush": "Spola",
                         "pitlatrine": "Grop/Latrin"
                     }
+                },
+                "toll": {
+                    "label": "Tull"
                 },
                 "tourism": {
                     "label": "Typ"
@@ -1729,13 +1847,25 @@
                     "name": "Stollift",
                     "terms": "Stollift, stolslift, linbana, skidlift, lift, Expresslift"
                 },
+                "aerialway/drag_lift": {
+                    "name": "Släplift",
+                    "terms": "Släplift, Draglift, skidlift, lift, linbana"
+                },
                 "aerialway/gondola": {
                     "name": "Gondol",
                     "terms": "Gondol, Gondolbana, lift, linbana, skidlift, lift"
                 },
+                "aerialway/goods": {
+                    "name": "Transportlinbana",
+                    "terms": "Transportlift, transportlinbana, varulift, gruvlift, linbana, transport, varor, gods, transportbana, lift, industri, industrilift"
+                },
                 "aerialway/magic_carpet": {
                     "name": "Rullband",
                     "terms": "Rullband, släplift, skidliften, lift, magisk matta"
+                },
+                "aerialway/mixed_lift": {
+                    "name": "Hybridlift (Telemixlift)",
+                    "terms": "Telemixlift, hybridlift, gondol, gondolbana, lift, linbana, skidlift, lift, stollift, stolslift, expresslift"
                 },
                 "aerialway/platter": {
                     "name": "Knapplift",
@@ -1904,8 +2034,7 @@
                     "terms": "Domstol, rättskipare, rätt, ting, tribunal, instans, juridik, lag, lagbok"
                 },
                 "amenity/coworking_space": {
-                    "name": "Dagkontor",
-                    "terms": "Dagkontor, lånekontor, fjärrarbetsplats, distansarbete, Coworking, Kontorsplats, konferensrum, mötesrum, affärslounger, tillfällig arbetsplats, tillfälligt kontor, kontor"
+                    "name": "Dagkontor"
                 },
                 "amenity/crematorium": {
                     "name": "Krematorium",
@@ -2224,6 +2353,10 @@
                 "barrier/bollard": {
                     "name": "Stolpe",
                     "terms": "Pollare, stolpe"
+                },
+                "barrier/border_control": {
+                    "name": "Gränskontroll",
+                    "terms": "Gränskontroll, gräns, tull, pass, passkontroll, säkerhetskontroll"
                 },
                 "barrier/cattle_grid": {
                     "name": "Färist",
@@ -2997,6 +3130,50 @@
                     "name": "Militärt område",
                     "terms": "Militärt område, militärt övningsområde, regemente, försvar, krigsmakt"
                 },
+                "landuse/military/airfield": {
+                    "name": "Militär flygfält",
+                    "terms": "Militär, militärt flygfält, militär flygplats, flygplats, landningsbana, startbana, flyg"
+                },
+                "landuse/military/barracks": {
+                    "name": "Kasern",
+                    "terms": "kesern, sovsal, logement, militär, soldat, förläggningsbyggnad, barack"
+                },
+                "landuse/military/bunker": {
+                    "name": "Militär bunker",
+                    "terms": "Militär bunker, bunker, skyddsrum, stridsvärn, betongförsvarsnäste,  befästning, fort, kasematt, barrikad"
+                },
+                "landuse/military/checkpoint": {
+                    "name": "Kontrollpunkt",
+                    "terms": "Kontrollpunkt, kontrollstation, militär kontroll"
+                },
+                "landuse/military/danger_area": {
+                    "name": "Farligt område",
+                    "terms": "Farligt område, skjutbana, säkerhetszon, militärt skyddsområde, militärt övningsområde"
+                },
+                "landuse/military/naval_base": {
+                    "name": "Marinbas",
+                    "terms": "Marinbas, marint förband, marinen, flottan, amfibiekåren, Kustartilleriet, flottilj, flottbas, örlogsbas"
+                },
+                "landuse/military/nuclear_explosion_site": {
+                    "name": "Område för kärnvapenprov",
+                    "terms": "Område för kärnvapenprov, kärnvapenprov, kärnvapen, vapentest"
+                },
+                "landuse/military/obstacle_course": {
+                    "name": "Hinderbana",
+                    "terms": "Hinderbana, hoppbana, hinderlöpning, hinderlopp"
+                },
+                "landuse/military/office": {
+                    "name": "Militärkontor",
+                    "terms": "militärkontor, flygvapen, armé, bas, värva, flotta, marin, rekrytera, rekrytering, soldat, krig, militär, försvar, befälskontor"
+                },
+                "landuse/military/range": {
+                    "name": "Militärt övningsområde",
+                    "terms": "Militärt övningsområde, övningsområde, skjutbana"
+                },
+                "landuse/military/training_area": {
+                    "name": "Övningsfält",
+                    "terms": "Övningsfält, skjutbana, övningsområde"
+                },
                 "landuse/orchard": {
                     "name": "Fruktodling",
                     "terms": "Fruktodling, fruktträdgård, fruktträd, äppelträd"
@@ -3076,6 +3253,10 @@
                 "leisure/golf_course": {
                     "name": "Golfbana",
                     "terms": "Golfbana, golf, golfanläggning, golfcenter"
+                },
+                "leisure/horse_riding": {
+                    "name": "Ridskola",
+                    "terms": "Ridskola, häst, hästridning, ridning, rida, stall, ryttare, häst*, ridklubb, ridhus, "
                 },
                 "leisure/ice_rink": {
                     "name": "Skridskobana ",
@@ -3300,45 +3481,13 @@
                     "name": "Fabrik",
                     "terms": "Fabrik, montering, bryggeri, bil, plast, bearbetning, tillverkning, raffinaderi, fabrikstillverkning, industri, verkstad, fabriksbyggnad, monteringsanläggning, bearbetningsanläggning, möbeltillverkning, oljeraffinaderi"
                 },
-                "military/airfield": {
-                    "name": "Flygfält",
-                    "terms": "Flygfält, flygplats, landningsbana, startbana, flyg, hangar"
-                },
-                "military/barracks": {
-                    "name": "Baracker",
-                    "terms": "Baracker, barack, militärbarack, inkvartering, förläggning, kasern "
-                },
-                "military/bunker": {
-                    "name": "Bunker",
-                    "terms": "Bunker, skyddsrum, stridsvärn, värn"
-                },
-                "military/checkpoint": {
-                    "name": "kontrollpunkt",
-                    "terms": "Kontrollpunkt, kontrollstation, militär kontroll"
-                },
-                "military/danger_area": {
-                    "name": "Farligt område",
-                    "terms": "Farligt område, skjutbana, säkerhetszon, militärt skyddsområde, militärt övningsområde"
-                },
-                "military/naval_base": {
-                    "name": "Marinbas",
-                    "terms": "Marinbas, marint förband, marinen, flottan, amfibiekåren, Kustartilleriet, flottilj, flottbas, örlogsbas"
-                },
-                "military/obstacle_course": {
-                    "name": "Hinderbana",
-                    "terms": "Hinderbana, hoppbana, hinderlöpning, hinderlopp"
-                },
-                "military/range": {
-                    "name": "Militärt övningsområde",
-                    "terms": "Militärt övningsområde, övningsområde, skjutbana"
-                },
-                "military/training_area": {
-                    "name": "Övningsfält",
-                    "terms": "Övningsfält, skjutbana, övningsområde"
-                },
                 "natural": {
                     "name": "Naturlig",
                     "terms": "Naturligt, naturlig, natur, skyddsområde, naturanvändning, geologi"
+                },
+                "natural/bare_rock": {
+                    "name": "Kala klippor ",
+                    "terms": "kala klippor, klippor, häll, berghäll"
                 },
                 "natural/bay": {
                     "name": "Vik",
@@ -3380,9 +3529,17 @@
                     "name": "Bergstopp",
                     "terms": "Bergstopp, berg, alp, hjässa, kalott, klack, klint, klätt, kulle, höjdpunkt, höjd, topp"
                 },
+                "natural/ridge": {
+                    "name": "Ås",
+                    "terms": "ås, höjd, bergsrygg, kam, kulle, krön, berg, bergsområde, högland, horst"
+                },
                 "natural/saddle": {
                     "name": "Bergskam",
                     "terms": "Bergskam, bergskrön, bergskrön, berg, dal, dalgång"
+                },
+                "natural/sand": {
+                    "name": "Sand",
+                    "terms": "Sand, öken, strand"
                 },
                 "natural/scree": {
                     "name": "Stensamling",
@@ -3451,6 +3608,10 @@
                 "office/company": {
                     "name": "Företagskontor",
                     "terms": "Företagskontor, kontor, företag, expedition, kundmottagning"
+                },
+                "office/coworking": {
+                    "name": "Dagkontor",
+                    "terms": "Dagkontor, lånekontor, fjärrarbetsplats, distansarbete, Coworking, Kontorsplats, kontorsarbetsplats, konferensrum, mötesrum, affärslounger, tillfällig arbetsplats, tillfälligt kontor, kontor"
                 },
                 "office/educational_institution": {
                     "name": "Utbildningskontor",
@@ -3553,6 +3714,10 @@
                 "place/neighbourhood": {
                     "name": "Kvarter",
                     "terms": "Kvarter, närområde, bostadsområde, stadsdel, område"
+                },
+                "place/square": {
+                    "name": "Torg",
+                    "terms": "torg, publik yta, stadstorg, plaza, marknadsplats, salutorg"
                 },
                 "place/suburb": {
                     "name": "Borough",
@@ -3854,6 +4019,10 @@
                     "name": "Kemtvätt",
                     "terms": "Kemtvättar, kemisk tvätt"
                 },
+                "shop/e-cigarette": {
+                    "name": "Affär för elektroniska cigaretter",
+                    "terms": "Affär för elektroniska cigaretter, e-cigarett, elektrisk cigarett, elcigarett"
+                },
                 "shop/electronics": {
                     "name": "Elektronikbutik",
                     "terms": "Elektronikbutik, hemelektronik, TV, radio, dator, datorer, kylskåp, spisar, vitvaror, tvättmaskin, torktumlare, hushållsapparater, kablar, batterier, apparater, ljud"
@@ -4021,6 +4190,10 @@
                     "name": "Färgbutik",
                     "terms": "Färgbutik, färg, målarfärg, målning"
                 },
+                "shop/pastry": {
+                    "name": "Konditori",
+                    "terms": "konditori, kondis, cafe, café, kafé, fik, kaffeservering, bageri, sockerbageri, finbageri, sockerbagare, servering "
+                },
                 "shop/pawnbroker": {
                     "name": "Pantbank",
                     "terms": "pantbank, pantbanken, pantbelåning, pantlånekontor, varubelåning, pant"
@@ -4152,6 +4325,10 @@
                     "name": "Fjällstation",
                     "terms": "Fjällstuga, fjällstation"
                 },
+                "tourism/apartment": {
+                    "name": "Turistlägenhet",
+                    "terms": "Turistlägenhet, Gästlägenhet, Andelslägenhet, condo, lägenhet, lägenhetshotell, turist, hotell"
+                },
                 "tourism/aquarium": {
                     "name": "Akvarium",
                     "terms": "Akvarium, fisk, hav, vatten"
@@ -4199,6 +4376,18 @@
                 "tourism/information/board": {
                     "name": "Informationstavla",
                     "terms": "Informationstavla, turistinformation, information, fakta, karta, historisk information, kollektivtrafik, avgång*"
+                },
+                "tourism/information/guidepost": {
+                    "name": "Vägvisare",
+                    "terms": "Vägvisare, Guidepost, Vägmärke, stigvisning, vandringsskyllt"
+                },
+                "tourism/information/map": {
+                    "name": "Karta",
+                    "terms": "Karta, navigering, industrikarta, vägkarta, *karta, informationstavla, information, cykelkarta, stadskarta"
+                },
+                "tourism/information/office": {
+                    "name": "Turistbyrå",
+                    "terms": "Turistbyrå, turistinformation,  resebyrå, turistkontor, turist, turism"
                 },
                 "tourism/motel": {
                     "name": "Motel",
