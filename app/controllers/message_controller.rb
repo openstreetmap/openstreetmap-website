@@ -39,7 +39,7 @@ class MessageController < ApplicationController
     message = Message.find(params[:message_id])
 
     if message.to_user_id == @user.id
-      message.update_attribute(:message_read, true)
+      message.update(:message_read => true)
 
       @message = Message.new(
         :recipient => message.sender,

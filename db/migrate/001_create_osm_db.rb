@@ -216,6 +216,5 @@ class CreateOsmDb < ActiveRecord::Migration
     add_index "ways", ["id"], :name => "ways_id_version_idx"
   end
 
-  def self.down
-  end
+  def self.down; end
 end

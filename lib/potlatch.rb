@@ -177,7 +177,7 @@ module Potlatch
       presettype = ""
       presetcategory = ""
       #	StringIO.open(txt) do |file|
-      File.open("#{Rails.root}/config/potlatch/presets.txt") do |file|
+      File.open(Rails.root.join("config", "potlatch", "presets.txt")) do |file|
         file.each_line do |line|
           t = line.chomp
           if t =~ %r{(\w+)/(\w+)}
@@ -201,7 +201,7 @@ module Potlatch
       colours = {}
       casing = {}
       areas = {}
-      File.open("#{Rails.root}/config/potlatch/colours.txt") do |file|
+      File.open(Rails.root.join("config", "potlatch", "colours.txt")) do |file|
         file.each_line do |line|
           next unless line.chomp =~ /(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/
 
@@ -216,7 +216,7 @@ module Potlatch
       relcolours = {}
       relalphas = {}
       relwidths = {}
-      File.open("#{Rails.root}/config/potlatch/relation_colours.txt") do |file|
+      File.open(Rails.root.join("config", "potlatch", "relation_colours.txt")) do |file|
         file.each_line do |line|
           next unless line.chomp =~ /(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/
 
@@ -230,7 +230,7 @@ module Potlatch
       # Read POI presets
       icon_list = []
       icon_tags = {}
-      File.open("#{Rails.root}/config/potlatch/icon_presets.txt") do |file|
+      File.open(Rails.root.join("config", "potlatch", "icon_presets.txt")) do |file|
         file.each_line do |line|
           (icon, tags) = line.chomp.split("\t")
           icon_list.push(icon)
@@ -241,7 +241,7 @@ module Potlatch
 
       # Read auto-complete
       autotags = { "point" => {}, "way" => {}, "POI" => {} }
-      File.open("#{Rails.root}/config/potlatch/autocomplete.txt") do |file|
+      File.open(Rails.root.join("config", "potlatch", "autocomplete.txt")) do |file|
         file.each_line do |line|
           next unless line.chomp =~ %r{^([\w:]+)/(\w+)\s+(.+)$}
 

@@ -94,7 +94,7 @@ class User < ActiveRecord::Base
       user = nil
     end
 
-    token.update_column(:expiry, 1.week.from_now) if token && user
+    token.update(:expiry => 1.week.from_now) if token && user
 
     user
   end
@@ -233,7 +233,7 @@ class User < ActiveRecord::Base
   # perform a spam check on a user
   def spam_check
     if status == "active" && spam_score > SPAM_THRESHOLD
-      update_column(:status, "suspended")
+      update(:status => "suspended")
     end
   end
 

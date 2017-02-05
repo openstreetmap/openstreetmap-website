@@ -58,6 +58,6 @@ module OpenStreetMap
     end
 
     # Configure image optimisation
-    config.assets.image_optim = YAML.load_file("#{Rails.root}/config/image_optim.yml")
+    config.assets.image_optim = YAML.load_file(Rails.root.join("config", "image_optim.yml"))
   end
 end

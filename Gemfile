@@ -41,30 +41,30 @@ gem "autoprefixer-rails"
 gem "image_optim_rails"
 
 # Load rails plugins
-gem "rails-i18n", "~> 4.0.0"
-gem "dynamic_form"
-gem "rinku", ">= 1.2.2", :require => "rails_rinku"
-gem "oauth-plugin", ">= 0.5.1"
-gem "validates_email_format_of", ">= 1.5.1"
-gem "composite_primary_keys", "~> 8.1.0"
-gem "http_accept_language", "~> 2.0.0"
-gem "paperclip", "~> 4.0"
-gem "deadlock_retry", ">= 1.2.0"
-gem "i18n-js", ">= 3.0.0.rc10"
-gem "rack-cors"
 gem "actionpack-page_caching"
+gem "composite_primary_keys", "~> 8.1.0"
+gem "deadlock_retry", ">= 1.2.0"
+gem "dynamic_form"
+gem "http_accept_language", "~> 2.0.0"
+gem "i18n-js", ">= 3.0.0.rc10"
+gem "oauth-plugin", ">= 0.5.1"
+gem "paperclip", "~> 4.0"
+gem "rack-cors"
+gem "rails-i18n", "~> 4.0.0"
+gem "rinku", ">= 1.2.2", :require => "rails_rinku"
+gem "validates_email_format_of", ">= 1.5.1"
 
 # Sanitise URIs
 gem "rack-uri_sanitizer"
 
 # Omniauth for authentication
 gem "omniauth"
-gem "omniauth-openid"
-gem "omniauth-google-oauth2", ">= 0.2.7"
 gem "omniauth-facebook"
-gem "omniauth-windowslive"
 gem "omniauth-github"
+gem "omniauth-google-oauth2", ">= 0.2.7"
 gem "omniauth-mediawiki", ">= 0.0.3"
+gem "omniauth-openid"
+gem "omniauth-windowslive"
 
 # Markdown formatting support
 gem "redcarpet"
@@ -73,8 +73,8 @@ gem "redcarpet"
 gem "libxml-ruby", ">= 2.0.5", :require => "libxml"
 
 # Use for HTML sanitisation
-gem "sanitize"
 gem "htmlentities"
+gem "sanitize"
 
 # Load SystemTimer for implementing request timeouts
 gem "SystemTimer", ">= 1.1.3", :require => "system_timer", :platforms => :ruby_18
@@ -102,17 +102,17 @@ end
 
 # Gems needed for running tests
 group :test do
+  gem "minitest", "~> 5.1", :platforms => [:ruby_19, :ruby_20]
   gem "rubocop"
   gem "timecop"
-  gem "minitest", "~> 5.1", :platforms => [:ruby_19, :ruby_20]
   gem "webmock"
 end
 
 # Needed in development as well so rake can see konacha tasks
 group :development, :test do
+  gem "coveralls", :require => false
+  gem "factory_girl_rails"
   gem "jshint"
   gem "konacha"
   gem "poltergeist"
-  gem "factory_girl_rails"
-  gem "coveralls", :require => false
 end

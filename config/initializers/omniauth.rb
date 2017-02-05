@@ -16,7 +16,7 @@ if defined?(MEMCACHE_SERVERS)
 else
   require "openid/store/filesystem"
 
-  openid_store = OpenID::Store::Filesystem.new(Rails.root.join("tmp/openids"))
+  openid_store = OpenID::Store::Filesystem.new(Rails.root.join("tmp", "openids"))
 end
 
 openid_options = { :name => "openid", :store => openid_store }

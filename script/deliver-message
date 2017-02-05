@@ -23,7 +23,7 @@ end
 exit 0 unless token == digest[0, 6]
 exit 0 if date < 1.month.ago
 
-message.update_attribute(:message_read, true) if message
+message.update(:message_read => true) if message
 
 mail = Mail.new(STDIN.readlines.join)
 

@@ -1,6 +1,6 @@
 <div id="mapkey">
   <table class="mapkey-table">
-    <% YAML.load_file("#{Rails.root}/config/key.yml").each do |name,data| %>
+    <% YAML.load_file(Rails.root.join("config", "key.yml")).each do |name,data| %>
       <% data.each do |entry| %>
         <tr class="mapkey-table-entry" data-layer="<%= name %>" data-zoom-min="<%= entry['min_zoom'] %>" data-zoom-max="<%= entry['max_zoom'] %>">
           <td class="mapkey-table-key">

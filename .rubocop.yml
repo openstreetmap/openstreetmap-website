@@ -2,6 +2,23 @@ inherit_from: .rubocop_todo.yml
 
 AllCops:
   Include:
+    - '**/*.gemspec'
+    - '**/*.podspec'
+    - '**/*.jbuilder'
+    - '**/*.rake'
+    - '**/*.opal'
+    - '**/config.ru'
+    - '**/Gemfile'
+    - '**/Rakefile'
+    - '**/Capfile'
+    - '**/Guardfile'
+    - '**/Podfile'
+    - '**/Thorfile'
+    - '**/Vagrantfile'
+    - '**/Berksfile'
+    - '**/Cheffile'
+    - '**/Vagabondfile'
+    - '**/Fastfile'
     - '**/*.builder'
 
 Rails:
@@ -40,3 +57,8 @@ Style/StringLiterals:
 
 Rails/HttpPositionalArguments:
   Enabled: false
+
+Rails/SkipsModelValidations:
+  Exclude:
+    - 'db/migrate/*.rb'
+    - 'app/controllers/user_controller.rb'
