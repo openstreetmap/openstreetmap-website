@@ -7,13 +7,16 @@ class TraceTest < ActiveSupport::TestCase
 
   def setup
     @gpx_trace_dir = Object.send("remove_const", "GPX_TRACE_DIR")
-    Object.const_set("GPX_TRACE_DIR", File.dirname(__FILE__) + "/../traces")
+    Object.const_set("GPX_TRACE_DIR", Rails.root.join("test", "gpx", "traces"))
 
     @gpx_image_dir = Object.send("remove_const", "GPX_IMAGE_DIR")
-    Object.const_set("GPX_IMAGE_DIR", File.dirname(__FILE__) + "/../traces")
+    Object.const_set("GPX_IMAGE_DIR", Rails.root.join("test", "gpx", "images"))
   end
 
   def teardown
+    File.unlink(*Dir.glob(File.join(GPX_TRACE_DIR, "*.gpx")))
+    File.unlink(*Dir.glob(File.join(GPX_IMAGE_DIR, "*.gif")))
+
     Object.send("remove_const", "GPX_TRACE_DIR")
     Object.const_set("GPX_TRACE_DIR", @gpx_trace_dir)
 
@@ -166,10 +169,7 @@ class TraceTest < ActiveSupport::TestCase
   end
 
   def test_large_picture
-    trace = create(:trace)
-    picture = trace.stub :large_picture_name, "#{GPX_IMAGE_DIR}/a.gif" do
-      trace.large_picture
-    end
+    picture = File.read(Rails.root.join("test", "gpx", "fixtures", "a.gif"), :mode => "rb")
 
     trace = Trace.create
     trace.large_picture = picture
@@ -180,10 +180,7 @@ class TraceTest < ActiveSupport::TestCase
   end
 
   def test_icon_picture
-    trace = create(:trace)
-    picture = trace.stub :icon_picture_name, "#{GPX_IMAGE_DIR}/a_icon.gif" do
-      trace.icon_picture
-    end
+    picture = File.read(Rails.root.join("test", "gpx", "fixtures", "a_icon.gif"), :mode => "rb")
 
     trace = Trace.create
     trace.icon_picture = picture
@@ -201,24 +198,15 @@ class TraceTest < ActiveSupport::TestCase
   end
 
   def check_mime_type(id, mime_type)
-    trace = create(:trace)
-    trace.stub :trace_name, "#{GPX_TRACE_DIR}/#{id}.gpx" do
-      assert_equal mime_type, trace.mime_type
-    end
+    assert_equal mime_type, create(:trace, :fixture => id).mime_type
   end
 
   def check_extension_name(id, extension_name)
-    trace = create(:trace)
-    trace.stub :trace_name, "#{GPX_TRACE_DIR}/#{id}.gpx" do
-      assert_equal extension_name, trace.extension_name
-    end
+    assert_equal extension_name, create(:trace, :fixture => id).extension_name
   end
 
   def check_xml_file(id, md5sum)
-    trace = create(:trace)
-    trace.stub :trace_name, "#{GPX_TRACE_DIR}/#{id}.gpx" do
-      assert_equal md5sum, md5sum(trace.xml_file)
-    end
+    assert_equal md5sum, md5sum(create(:trace, :fixture => id).xml_file)
   end
 
   def trace_valid(attrs, result = true)

@@ -95,7 +95,7 @@ class Trace < ActiveRecord::Base
   end
 
   def mime_type
-    filetype = `/usr/bin/file -bz #{trace_name}`.chomp
+    filetype = `/usr/bin/file -Lbz #{trace_name}`.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
@@ -117,7 +117,7 @@ class Trace < ActiveRecord::Base
   end
 
   def extension_name
-    filetype = `/usr/bin/file -bz #{trace_name}`.chomp
+    filetype = `/usr/bin/file -Lbz #{trace_name}`.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
@@ -218,7 +218,7 @@ class Trace < ActiveRecord::Base
 
   def xml_file
     # TODO: *nix specific, could do to work on windows... would be functionally inferior though - check for '.gz'
-    filetype = `/usr/bin/file -bz #{trace_name}`.chomp
+    filetype = `/usr/bin/file -Lbz #{trace_name}`.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
