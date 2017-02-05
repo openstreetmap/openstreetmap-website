@@ -103,6 +103,7 @@ end
 # Gems needed for running tests
 group :test do
   gem "minitest", "~> 5.1", :platforms => [:ruby_19, :ruby_20]
+  gem "minitest-stub_any_instance"
   gem "rubocop"
   gem "timecop"
   gem "webmock"

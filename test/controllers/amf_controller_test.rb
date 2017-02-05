@@ -473,7 +473,7 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_findgpx_by_id
-    trace = gpx_files(:anon_trace_file)
+    trace = create(:trace, :visibility => "private", :user => users(:public_user))
 
     amf_content "findgpx", "/1", [trace.id, "test@example.com:test"]
     post :amf_read

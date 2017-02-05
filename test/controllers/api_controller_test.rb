@@ -134,7 +134,9 @@ class ApiControllerTest < ActionController::TestCase
   end
 
   def test_tracepoints
-    point = gpx_files(:public_trace_file)
+    point = create(:trace, :visibility => "public", :latitude => 1, :longitude => 1) do |trace|
+      create(:tracepoint, :trace => trace, :latitude => 1 * GeoRecord::SCALE, :longitude => 1 * GeoRecord::SCALE)
+    end
     minlon = point.longitude - 0.001
     minlat = point.latitude - 0.001
     maxlon = point.longitude + 0.001
@@ -150,7 +152,10 @@ class ApiControllerTest < ActionController::TestCase
   end
 
   def test_tracepoints_trackable
-    point = gpx_files(:trackable_trace_file)
+    point = create(:trace, :visibility => "trackable", :latitude => 51.51, :longitude => -0.14) do |trace|
+      create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (51.510 * GeoRecord::SCALE).to_i, :longitude => (-0.140 * GeoRecord::SCALE).to_i)
+      create(:tracepoint, :trace => trace, :trackid => 2, :latitude => (51.511 * GeoRecord::SCALE).to_i, :longitude => (-0.141 * GeoRecord::SCALE).to_i)
+    end
     minlon = point.longitude - 0.002
     minlat = point.latitude - 0.002
     maxlon = point.longitude + 0.002
@@ -172,7 +177,9 @@ class ApiControllerTest < ActionController::TestCase
   end
 
   def test_tracepoints_identifiable
-    point = gpx_files(:identifiable_trace_file)
+    point = create(:trace, :visibility => "identifiable", :latitude => 51.512, :longitude => 0.142) do |trace|
+      create(:tracepoint, :trace => trace, :latitude => (51.512 * GeoRecord::SCALE).to_i, :longitude => (0.142 * GeoRecord::SCALE).to_i)
+    end
     minlon = point.longitude - 0.002
     minlat = point.latitude - 0.002
     maxlon = point.longitude + 0.002

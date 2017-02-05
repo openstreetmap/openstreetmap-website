@@ -813,7 +813,7 @@ class UserControllerTest < ActionController::TestCase
     assert_select "form#accountForm > fieldset > div.form-row > select#user_preferred_editor > option[selected]", false
 
     # Changing to an uploaded image should work
-    image = Rack::Test::UploadedFile.new("test/traces/1.gif", "image/gif")
+    image = Rack::Test::UploadedFile.new("test/traces/a.gif", "image/gif")
     post :account, { :display_name => user.display_name, :image_action => "new", :user => user.attributes.merge(:image => image) }, { :user => user.id }
     assert_response :success
     assert_template :account
@@ -1094,6 +1094,12 @@ class UserControllerTest < ActionController::TestCase
   end
 
   def test_api_gpx_files
+    trace1 = create(:trace, :user => users(:normal_user)) do |trace|
+      create(:tracetag, :trace => trace, :tag => "London")
+    end
+    trace2 = create(:trace, :user => users(:normal_user)) do |trace|
+      create(:tracetag, :trace => trace, :tag => "Birmingham")
+    end
     # check that nothing is returned when not logged in
     get :api_gpx_files
     assert_response :unauthorized
@@ -1105,10 +1111,10 @@ class UserControllerTest < ActionController::TestCase
     assert_equal "text/xml", response.content_type
 
     # check the data that is returned
-    assert_select "gpx_file[id='1']", 1 do
+    assert_select "gpx_file[id='#{trace1.id}']", 1 do
       assert_select "tag", "London"
     end
-    assert_select "gpx_file[id='4']", 1 do
+    assert_select "gpx_file[id='#{trace2.id}']", 1 do
       assert_select "tag", "Birmingham"
     end
   end
