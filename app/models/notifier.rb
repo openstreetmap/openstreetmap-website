@@ -195,7 +195,7 @@ class Notifier < ActionMailer::Base
   end
 
   def attach_project_logo
-    attachments.inline["logo.png"] = File.read("#{Rails.root}/app/assets/images/osm_logo_30.png")
+    attachments.inline["logo.png"] = File.read(Rails.root.join("app", "assets", "images", "osm_logo_30.png"))
   end
 
   def attach_user_avatar(user)
@@ -207,7 +207,7 @@ class Notifier < ActionMailer::Base
     if image && image.file?
       return image.path(:small)
     else
-      return "#{Rails.root}/app/assets/images/users/images/small.png"
+      return Rails.root.join("app", "assets", "images", "users", "images", "small.png")
     end
   end
 
