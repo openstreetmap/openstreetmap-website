@@ -245,7 +245,7 @@ class TraceControllerTest < ActionController::TestCase
     get :list, { :display_name => users(:public_user).display_name }, { :user => users(:public_user).id }
     check_trace_list [trace_c, trace_b]
 
-    # # Should only see traces with the correct tag when a tag is specified
+    # Should only see traces with the correct tag when a tag is specified
     get :list, { :display_name => users(:public_user).display_name, :tag => "London" }, { :user => users(:public_user).id }
     check_trace_list [trace_c]
 
@@ -722,7 +722,7 @@ class TraceControllerTest < ActionController::TestCase
       get :api_data, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
       check_trace_data public_trace_file
 
-      # # And finally we should be able to do it with the owner of the trace
+      # And finally we should be able to do it with the owner of the trace
       basic_authorization(users(:normal_user).display_name, "test")
       get :api_data, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
       check_trace_data public_trace_file
@@ -744,7 +744,7 @@ class TraceControllerTest < ActionController::TestCase
       get :api_data, :display_name => users(:public_user).display_name, :id => identifiable_trace_file.id, :format => "xml"
       check_trace_data identifiable_trace_file, "application/xml", "xml"
 
-      # # Now ask explicitly for GPX format
+      # Now ask explicitly for GPX format
       get :api_data, :display_name => users(:public_user).display_name, :id => identifiable_trace_file.id, :format => "gpx"
       check_trace_data identifiable_trace_file
     end
