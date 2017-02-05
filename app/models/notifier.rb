@@ -3,6 +3,8 @@ class Notifier < ActionMailer::Base
           :return_path => EMAIL_RETURN_PATH,
           :auto_submitted => "auto-generated"
   helper :application
+  before_action :set_shared_template_vars
+  before_action :attach_project_logo
 
   def signup_confirm(user, token)
     with_recipient_locale user do
@@ -76,6 +78,9 @@ class Notifier < ActionMailer::Base
       @replyurl = url_for(:host => SERVER_URL,
                           :controller => "message", :action => "reply",
                           :message_id => message.id)
+      @author = @from_user
+
+      attach_user_avatar(message.sender)
 
       mail :from => from_address(message.sender.display_name, "m", message.id, message.digest),
            :to => message.recipient.email,
@@ -106,6 +111,9 @@ class Notifier < ActionMailer::Base
                           :action => "new",
                           :display_name => comment.user.display_name,
                           :title => "Re: #{comment.diary_entry.title}")
+      @author = @from_user
+
+      attach_user_avatar(comment.user)
 
       mail :from => from_address(comment.user.display_name, "c", comment.id, comment.digest, recipient.id),
            :to => recipient.email,
@@ -122,7 +130,9 @@ class Notifier < ActionMailer::Base
       @friendurl = url_for(:host => SERVER_URL,
                            :controller => "user", :action => "make_friend",
                            :display_name => @friend.befriender.display_name)
+      @author = @friend.befriender.display_name
 
+      attach_user_avatar(@friend.befriender)
       mail :to => friend.befriendee.email,
            :subject => I18n.t("notifier.friend_notification.subject", :user => friend.befriender.display_name)
     end
@@ -141,6 +151,9 @@ class Notifier < ActionMailer::Base
                    else
                      I18n.t("notifier.note_comment_notification.anonymous")
                    end
+
+      @author = @commenter
+      attach_user_avatar(comment.author)
 
       subject = if @owner
                   I18n.t("notifier.note_comment_notification.#{@event}.subject_own", :commenter => @commenter)
@@ -161,6 +174,7 @@ class Notifier < ActionMailer::Base
       @changeset_comment = comment.changeset.tags["comment"].presence
       @time = comment.created_at
       @changeset_author = comment.changeset.user.display_name
+      @author = @commenter
 
       subject = if @owner
                   I18n.t("notifier.changeset_comment_notification.commented.subject_own", :commenter => @commenter)
@@ -168,11 +182,34 @@ class Notifier < ActionMailer::Base
                   I18n.t("notifier.changeset_comment_notification.commented.subject_other", :commenter => @commenter)
                 end
 
+      attach_user_avatar(comment.author)
+
       mail :to => recipient.email, :subject => subject
     end
   end
 
   private
+
+  def set_shared_template_vars
+    @root_url = root_url(:host => SERVER_URL)
+  end
+
+  def attach_project_logo
+    attachments.inline["logo.png"] = File.read("#{Rails.root}/app/assets/images/osm_logo_30.png")
+  end
+
+  def attach_user_avatar(user)
+    attachments.inline["avatar.png"] = File.read(user_avatar_file_path(user))
+  end
+
+  def user_avatar_file_path(user)
+    image = user && user.image
+    if image && image.file?
+      return image.path(:small)
+    else
+      return "#{Rails.root}/app/assets/images/users/images/small.png"
+    end
+  end
 
   def with_recipient_locale(recipient)
     I18n.with_locale Locale.available.preferred(recipient.preferred_languages) do

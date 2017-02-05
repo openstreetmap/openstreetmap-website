@@ -135,10 +135,10 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_equal register_email.to[0], new_email
     # Check that the confirm account url is correct
     confirm_regex = Regexp.new("/user/redirect_tester/confirm\\?confirm_string=([a-zA-Z0-9]*)")
-    register_email.parts.each do |part|
+    email_text_parts(register_email).each do |part|
       assert_match confirm_regex, part.body.to_s
     end
-    confirm_string = register_email.parts[0].body.match(confirm_regex)[1]
+    confirm_string = email_text_parts(register_email)[0].body.match(confirm_regex)[1]
 
     # Check the page
     assert_response :success
@@ -248,10 +248,10 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_equal register_email.to[0], new_email
     # Check that the confirm account url is correct
     confirm_regex = Regexp.new("/user/redirect_tester_openid/confirm\\?confirm_string=([a-zA-Z0-9]*)")
-    register_email.parts.each do |part|
+    email_text_parts(register_email).each do |part|
       assert_match confirm_regex, part.body.to_s
     end
-    confirm_string = register_email.parts[0].body.match(confirm_regex)[1]
+    confirm_string = email_text_parts(register_email)[0].body.match(confirm_regex)[1]
 
     # Check the page
     assert_response :success
@@ -365,10 +365,10 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_equal register_email.to[0], new_email
     # Check that the confirm account url is correct
     confirm_regex = Regexp.new("/user/redirect_tester_google/confirm\\?confirm_string=([a-zA-Z0-9]*)")
-    register_email.parts.each do |part|
+    email_text_parts(register_email).each do |part|
       assert_match confirm_regex, part.body.to_s
     end
-    confirm_string = register_email.parts[0].body.match(confirm_regex)[1]
+    confirm_string = email_text_parts(register_email)[0].body.match(confirm_regex)[1]
 
     # Check the page
     assert_response :success
@@ -478,10 +478,10 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_equal register_email.to[0], new_email
     # Check that the confirm account url is correct
     confirm_regex = Regexp.new("/user/redirect_tester_facebook/confirm\\?confirm_string=([a-zA-Z0-9]*)")
-    register_email.parts.each do |part|
+    email_text_parts(register_email).each do |part|
       assert_match confirm_regex, part.body.to_s
     end
-    confirm_string = register_email.parts[0].body.match(confirm_regex)[1]
+    confirm_string = email_text_parts(register_email)[0].body.match(confirm_regex)[1]
 
     # Check the page
     assert_response :success
@@ -591,10 +591,10 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_equal register_email.to[0], new_email
     # Check that the confirm account url is correct
     confirm_regex = Regexp.new("/user/redirect_tester_windowslive/confirm\\?confirm_string=([a-zA-Z0-9]*)")
-    register_email.parts.each do |part|
+    email_text_parts(register_email).each do |part|
       assert_match confirm_regex, part.body.to_s
     end
-    confirm_string = register_email.parts[0].body.match(confirm_regex)[1]
+    confirm_string = email_text_parts(register_email)[0].body.match(confirm_regex)[1]
 
     # Check the page
     assert_response :success
@@ -704,10 +704,10 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_equal register_email.to[0], new_email
     # Check that the confirm account url is correct
     confirm_regex = Regexp.new("/user/redirect_tester_github/confirm\\?confirm_string=([a-zA-Z0-9]*)")
-    register_email.parts.each do |part|
+    email_text_parts(register_email).each do |part|
       assert_match confirm_regex, part.body.to_s
     end
-    confirm_string = register_email.parts[0].body.match(confirm_regex)[1]
+    confirm_string = email_text_parts(register_email)[0].body.match(confirm_regex)[1]
 
     # Check the page
     assert_response :success
@@ -817,10 +817,10 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_equal register_email.to[0], new_email
     # Check that the confirm account url is correct
     confirm_regex = Regexp.new("/user/redirect_tester_wikipedia/confirm\\?confirm_string=([a-zA-Z0-9]*)")
-    register_email.parts.each do |part|
+    email_text_parts(register_email).each do |part|
       assert_match confirm_regex, part.body.to_s
     end
-    confirm_string = register_email.parts[0].body.match(confirm_regex)[1]
+    confirm_string = email_text_parts(register_email)[0].body.match(confirm_regex)[1]
 
     # Check the page
     assert_response :success
