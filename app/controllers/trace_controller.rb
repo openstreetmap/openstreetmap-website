@@ -63,7 +63,7 @@ class TraceController < ApplicationController
     @page_size = 20
 
     @traces = @traces.visible
-    @traces = @traces.order("timestamp DESC")
+    @traces = @traces.order(:id => :desc)
     @traces = @traces.offset((@page - 1) * @page_size)
     @traces = @traces.limit(@page_size)
     @traces = @traces.includes(:user, :tags)
