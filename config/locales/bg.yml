@@ -103,6 +103,7 @@ bg:
       relation_paginated: Релации(%{x}-%{y} от %{count})
       comment: Коментари (%{count})
       osmchangexml: osmChange XML
+      join_discussion: Впишете се, за да се присъедините към обсъждането
       discussion: Обсъждане
     node:
       title: 'Точка: %{name}'
@@ -150,7 +151,9 @@ bg:
     tag_details:
       tags: Етикети
     note:
+      new_note: Нова бележка
       description: Описание
+      open_by: Създадено от %{user} <abbr title='%{exact_time}'>преди %{when}</abbr>
   changeset:
     changeset_paging_nav:
       showing_page: Страница %{page}
@@ -172,7 +175,7 @@ bg:
       empty_user: Няма списъци с промени от този потребител.
       load_more: Зареждане на още
     rss:
-      full: Пълна дискусия
+      full: Пълно обсъждане
   diary_entry:
     new:
       publish_button: Публикуване
@@ -241,7 +244,7 @@ bg:
       options: Настройки
       format: Формат
       scale: Мащаб
-      max: макс
+      max: макс.
       image_size: Размер на изображението
       zoom: Мащабиране
       add_marker: Добавяне на маркер на картата
@@ -269,7 +272,7 @@ bg:
           terminal: Терминал
         amenity:
           animal_shelter: Приют за животни
-          arts_centre: Арт център
+          arts_centre: Център на изкуствата
           atm: Банкомат
           bank: Банка
           bar: Бар
@@ -289,7 +292,7 @@ bg:
           community_centre: Обществен център
           courthouse: Съд
           crematorium: Крематориум
-          dentist: Стоматолог
+          dentist: Зъболекар
           doctors: Лекари
           dormitory: Пансион
           drinking_water: Питейна вода
@@ -413,10 +416,10 @@ bg:
           icon: Икона
           manor: Имение
           memorial: Паметник
-          mine: Мина
+          mine: Рудник
           monument: Паметник
           roman_road: Римски път
-          ruins: Руини
+          ruins: Развалини
           stone: Камък
           tomb: Гробница
           tower: Кула
@@ -434,7 +437,7 @@ bg:
           industrial: Промишлена зона
           landfill: Сметище
           military: Военна зона
-          mine: Мина
+          mine: Рудник
           orchard: Овощна градина
           quarry: Каменоломна
           railway: Железница
@@ -447,7 +450,7 @@ bg:
           dog_park: Парк за кучета
           fishing: Място за риболов
           garden: Градина
-          golf_course: Голф игрище
+          golf_course: Игрище за голф
           horse_riding: Конна езда
           ice_rink: Ледена пързалка
           marina: Пристанище за лодки
@@ -542,7 +545,7 @@ bg:
           monorail: Монорелсов  път
           narrow_gauge: Теснолинейка
           platform: Железопътна платформа
-          station: Жп гара
+          station: Железопътна гара
           stop: Железопътна спирка
           subway: Метро
           subway_entrance: Вход към метростанция
@@ -550,7 +553,7 @@ bg:
           tram_stop: Трамвайна спирка
         shop:
           antiques: Антики
-          art: Арт Магазин
+          art: Магазин на изкуствата
           bakery: Пекарна
           beauty: Салон за красота
           beverages: Магазин за напитки
@@ -594,6 +597,7 @@ bg:
           tailor: Шивач
           toys: Магазин за играчки
           travel_agency: Туристическа агенция
+          "yes": Магазин
         tourism:
           apartment: Апартамент
           artwork: Произведения на изкуството
@@ -602,7 +606,7 @@ bg:
           guest_house: Къща за гости
           hostel: Хостел
           hotel: Хотел
-          information: Информация
+          information: Сведения
           motel: Мотел
           museum: Музей
           picnic_site: Място за пикник
@@ -612,7 +616,7 @@ bg:
           "yes": Тунел
         waterway:
           canal: Канал
-          dam: Язовирна стена
+          dam: Яз
           river: Река
           waterfall: Водопад
       admin_levels:
@@ -680,6 +684,8 @@ bg:
       title: Добре дошли в OSM
     beginners_guide:
       title: Наръчник за начинаещи
+    forums:
+      title: Форуми
     irc:
       title: IRC
     switch2osm:
@@ -720,40 +726,110 @@ bg:
       greeting: Здравейте,
     note_comment_notification:
       greeting: Здравейте,
+    changeset_comment_notification:
+      greeting: Здравейте,
   message:
     inbox:
       title: Входящи
+      my_inbox: Входяща кутия
       from: От
       subject: Тема
       date: Дата
     message_summary:
+      unread_button: Отбелязване като непрочетено
+      read_button: Отбелязване като прочетено
+      reply_button: Отговор
       delete_button: Изтрий
     new:
+      subject: Тема
       send_button: Изпращане
+      message_sent: Съобщението е изпратено
+    no_such_message:
+      title: Няма такова съобщение
+      heading: Няма такова съобщение
+    outbox:
+      to: До
+      subject: Тема
+      date: Дата
     read:
       from: От
       subject: Тема
       date: Дата
+      reply_button: Отговор
       unread_button: Отбелязване като непрочетено
+      back: Назад
       to: До
+    sent_message_summary:
+      delete_button: Изтриване
   site:
+    index:
+      createnote: Добавяне на бележка
+    sidebar:
+      search_results: Резултати от търсенето
+      close: Затваряне
     search:
+      search: Търсене
+      get_directions_title: Намерете маршрут между две точки
+      from: От
       where_am_i: Къде съм аз?
+      submit_text: Напред
+    key:
+      table:
+        entry:
+          motorway: Магистрала
+          main_road: Главен път
+          trunk: Междуградски път
+          primary: Главен път
+          secondary: Второстепенен път
+          subway: Метро
+          forest: Гора
+          park: Парк
+          lake:
+          - Езеро
+          cemetery: Гробище
+          centre: Спортен център
+          school:
+          - Училище
+          station: Железопътна гара
     richtext_area:
       edit: Редактиране
+      preview: Преглед
+    markdown_help:
+      headings: Заглавия
+      heading: Заглавие
+      subheading: Подзаглавие
+      unordered: Неподреден списък
+      ordered: Подреден списък
+      link: Препратка
+      text: Текст
+      image: Изображение
+      alt: Алтернативен текст
+      url: Адрес
   trace:
     edit:
       filename: 'Име на файл:'
       map: карта
       edit: редактиране
+      owner: 'Собственик:'
       description: 'Описание:'
+      tags: 'Етикети:'
       save_button: Съхраняване на промените
+      visibility: 'Видимост:'
     trace_form:
+      description: 'Описание:'
+      tags: 'Етикети:'
+      visibility: 'Видимост:'
+      upload_button: Качване
       help: Помощ
+    trace_optionals:
+      tags: Етикети
     view:
       filename: 'Име на файл:'
       map: карта
       edit: редактиране
+      owner: 'Собственик:'
+      tags: 'Етикети:'
+      visibility: 'Видимост:'
     trace:
       view_map: Вижте на картата
       edit: редактиране
@@ -776,26 +852,59 @@ bg:
   user:
     login:
       email or username: 'Електронна поща или потребителско име:'
+      password: 'Парола:'
+      remember: Запомни ме
+      lost password link: Забравена парола?
     lost_password:
       email address: 'Електронна поща:'
     reset_password:
       password: 'Парола:'
+      confirm password: 'Потвърждаване на паролата:'
+      flash changed: Паролата е променена успешно.
     new:
+      title: Регистриране
       email address: 'Електронна поща:'
       confirm email address: 'Потвърждаване на електронната поща:'
+      password: 'Парола:'
+      confirm password: 'Потвърждаване на паролата:'
+      continue: Регистриране
+    terms:
+      legale_select: 'Държава на пребиваване:'
+      legale_names:
+        france: Франция
+        italy: Италия
+        rest_of_world: В останалата част на света
+    no_such_user:
+      title: Няма такъв потребител
     view:
       my edits: Mоите редакции
+      my messages: Моите съобщения
+      my settings: Моите настройки
       edits: Редакции
+      notes: Бележки
       mapper since: 'Картограф от:'
       latest edit: 'Последна редакция %{ago}:'
       email address: 'Електронна поща:'
+      description: Описание
+      user location: Местоположение
+      km away: '%{count} км от вас'
     account:
       title: Редакция на профил
+      my settings: Моите настройки
       current email address: 'Текуща електронна поща:'
+      new email address: 'Нова електронна поща:'
+      preferred languages: 'Предпочитани езици:'
       preferred editor: 'Предпочитан редактор:'
+      image: 'Изображение:'
+      latitude: 'Географска ширина:'
+      longitude: 'Географска дължина:'
+      flash update success confirm needed: Сведенията за потребителя са успешно обновени.
+        Проверете електронната си поща за писмо, с което да потвърдите новия адрес.
     confirm:
       heading: Проверете електронна си поща
       introduction_1: Изпратихме ви писмо за потвърждаване.
+    confirm_email:
+      heading: Потвърдете смяната на електронната поща
   user_role:
     grant:
       confirm: Потвърждаване
@@ -809,17 +918,48 @@ bg:
       reason: Причина за блокиране
       status: Статут
     show:
+      ago: преди %{time}
       edit: Редактиране
   javascripts:
     share:
       title: Споделяне
       cancel: Отказ
+      format: 'Формат:'
+      scale: 'Мащаб:'
+      download: Изтегляне
     map:
       zoom:
         in: Увеличаване
+        out: Отдалечаване
       locate:
         title: Моето местоположение
+      base:
+        standard: Стандартен
+        cycle_map: Колоездачна карта
+        transport_map: Транспортна карта
+        hot: Хуманитарна карта
       layers:
         header: Слоеве на картата
+        data: Данни
         title: Слоеве
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Направете дарение</a>
+    site:
+      edit_tooltip: Редактиране на картата
+      createnote_tooltip: Добавяне на бележка на картата
+    directions:
+      engines:
+        mapquest_car: Кола (MapQuest)
+        osrm_car: Кола (OSRM)
+        mapzen_car: Кола (Mapzen)
+      directions: Насоки
+      distance: Разстояние
+      instructions:
+        continue_without_exit: Продължете по %{name}
+        endofroad_right_without_exit: В края на пътя завийте надясно по %{name}
+        turn_left_without_exit: Завийте наляво по %{name}
+        endofroad_left_without_exit: В края на пътя завийте наляво по %{name}
+        roundabout_without_exit: На кръговото движение вземете %{name}
+        destination_without_exit: Пристигнахте на местоназначението
+        unnamed: неименуван път
+      time: Време
 ...
