@@ -50891,14 +50891,20 @@ function modeDragNode$$1(context) {
     function start(entity) {
         wasMidpoint = entity.type === 'midpoint';
 
-        // vertices classed "sibling" include:  (see svg/vertices.js)
-        // - children of selected ways or multipolygons
-        // - vertices sharing a way with selected vertices
-        var selection$$1 = selectAll('g.vertex-persistent.' + entity.id),
-            isSelected = !selection$$1.empty() &&
-                (selection$$1.classed('selected') || selection$$1.classed('sibling'));
+        // Things allowed to be dragged include:
+        // - midpoints
+        // - nodes that are selected
+        // - vertices that are selected
+        // - vertices classed 'sibling' which includes (see svg/vertices.js)
+        //   - children of selected ways or multipolygons
+        //   - vertices sharing a way with selected vertices
+        var selector$$1 = 'g.node.point.selected.' + entity.id +
+            ', g.vertex-persistent.selected.' + entity.id +
+            ', g.vertex-persistent.sibling.' + entity.id;
 
-        isCancelled = event.sourceEvent.shiftKey || !(wasMidpoint || isSelected) ||
+        var isDraggable = wasMidpoint || !select(selector$$1).empty();
+
+        isCancelled = event.sourceEvent.shiftKey || !isDraggable ||
             context.features().hasHiddenConnections(entity, context.graph());
 
         if (isCancelled) {
@@ -67924,7 +67930,7 @@ function coreContext() {
 
 
     /* Init */
-    context.version = '2.1.1';
+    context.version = '2.1.2';
 
     context.projection = geoRawMercator();
 
