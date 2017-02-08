@@ -6,8 +6,10 @@
 <%= t "notifier.note_comment_notification.#{@event}.commented_note", :commenter => @commenter, :place => @place %>
 <% end %>
 
+<% unless @comment.empty? %>
 ==
 <%= @comment.to_text %>
 ==
 
+<% end %>
 <%= t 'notifier.note_comment_notification.details', :url => @noteurl %>
