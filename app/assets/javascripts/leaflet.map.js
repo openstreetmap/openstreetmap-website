@@ -211,16 +211,15 @@ L.OSM.Map = L.Map.extend({
       clickable: false
     };
 
-    this._object = object;
-
-    if (this._objectLoader) this._objectLoader.abort();
-    if (this._objectLayer) this.removeLayer(this._objectLayer);
+    this.removeObject();
 
     var map = this;
     this._objectLoader = $.ajax({
       url: OSM.apiUrl(object),
       dataType: "xml",
       success: function (xml) {
+        map._object = object;
+
         map._objectLayer = new L.OSM.DataLayer(null, {
           styles: {
             node: objectStyle,
