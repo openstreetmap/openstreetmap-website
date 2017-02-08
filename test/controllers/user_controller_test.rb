@@ -1026,6 +1026,7 @@ class UserControllerTest < ActionController::TestCase
 
     # check that we aren't revealing private information
     assert_select "contributor-terms[pd]", false
+    assert_select "email", false
     assert_select "home", false
     assert_select "languages", false
     assert_select "messages", false
@@ -1077,6 +1078,7 @@ class UserControllerTest < ActionController::TestCase
       end
       assert_select "issued", :count => 0
     end
+    assert_select "email", :count => 0
     assert_select "home", :count => 1 do
       assert_select "[lat='12.1'][lon='12.1'][zoom='3']"
     end
@@ -1091,6 +1093,24 @@ class UserControllerTest < ActionController::TestCase
         assert_select "[count='1']"
       end
     end
+  end
+
+  def test_permissions_email
+    basic_authorization(users(:normal_user).email, "test")
+    @request.env["oauth.token"] = AccessToken.new do |token|
+      token.allow_read_prefs = true
+      token.allow_read_email = true
+    end
+    get :api_details
+    assert_response :success
+    assert_equal "text/xml", response.content_type
+    assert_select "email", :count => 1, :text => "test@openstreetmap.org"
+
+    @request.env["oauth.token"].allow_read_email = false
+    get :api_details
+    assert_response :success
+    assert_equal "text/xml", response.content_type
+    assert_select "email", :count => 0
   end
 
   def test_api_gpx_files

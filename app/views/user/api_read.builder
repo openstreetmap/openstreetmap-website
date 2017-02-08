@@ -29,6 +29,7 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
       end
     end
     if @user && @user == @this_user
+      xml.tag! "email", @this_user.email if allow_read_email
       if @this_user.home_lat && @this_user.home_lon
         xml.tag! "home", :lat => @this_user.home_lat,
                          :lon => @this_user.home_lon,
