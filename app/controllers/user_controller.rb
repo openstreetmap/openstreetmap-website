@@ -381,7 +381,7 @@ class UserController < ApplicationController
 
   def api_details
     @this_user = @user
-    allow_read_email = !current_token.nil? && current_token.read_attribute(:allow_read_email)
+    allow_read_email = current_token && current_token.read_attribute(:allow_read_email)
     render :action => :api_read, :content_type => "text/xml", :locals => { :allow_read_email => allow_read_email }
   end
 
