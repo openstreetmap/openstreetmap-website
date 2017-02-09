@@ -101,13 +101,15 @@ class DiaryEntryControllerTest < ActionController::TestCase
     )
   end
 
-  def test_new
+  def test_new_no_login
     # Make sure that you are redirected to the login page when you
     # are not logged in
     get :new
     assert_response :redirect
     assert_redirected_to :controller => :user, :action => :login, :referer => "/diary/new"
+  end
 
+  def test_new_form
     # Now try again when logged in
     get :new, {}, { :user => users(:normal_user).id }
     assert_response :success
@@ -128,71 +130,82 @@ class DiaryEntryControllerTest < ActionController::TestCase
         assert_select "input", :count => 7
       end
     end
+  end
 
-    new_title = "New Title"
-    new_body = "This is a new body for the diary entry"
-    new_latitude = "1.1"
-    new_longitude = "2.2"
-    new_language_code = "en"
+  def test_new_get_with_params
+    # Now try creating a diary entry using get
+    assert_difference "DiaryEntry.count", 0 do
+      get :new, { :commit => "save",
+                  :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
+                                    :longitude => "2.2", :language_code => "en" } },
+          { :user => users(:normal_user).id }
+    end
+    assert_response :success
+    assert_template :edit
+  end
 
+  def test_new_no_body
     # Now try creating a invalid diary entry with an empty body
     assert_no_difference "DiaryEntry.count" do
       post :new, { :commit => "save",
-                   :diary_entry => { :title => new_title, :body => "", :latitude => new_latitude,
-                                     :longitude => new_longitude, :language_code => new_language_code } },
+                   :diary_entry => { :title => "New Title", :body => "", :latitude => "1.1",
+                                     :longitude => "2.2", :language_code => "en" } },
            { :user => users(:normal_user).id }
     end
     assert_response :success
     assert_template :edit
 
     assert_nil UserPreference.where(:user_id => users(:normal_user).id, :k => "diary.default_language").first
+  end
 
+  def test_new_post
     # Now try creating a diary entry
     assert_difference "DiaryEntry.count", 1 do
       post :new, { :commit => "save",
-                   :diary_entry => { :title => new_title, :body => new_body, :latitude => new_latitude,
-                                     :longitude => new_longitude, :language_code => new_language_code } },
+                   :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
+                                     :longitude => "2.2", :language_code => "en" } },
            { :user => users(:normal_user).id }
     end
     assert_response :redirect
     assert_redirected_to :action => :list, :display_name => users(:normal_user).display_name
     entry = DiaryEntry.order(:id).last
     assert_equal users(:normal_user).id, entry.user_id
-    assert_equal new_title, entry.title
-    assert_equal new_body, entry.body
-    assert_equal new_latitude.to_f, entry.latitude
-    assert_equal new_longitude.to_f, entry.longitude
-    assert_equal new_language_code, entry.language_code
+    assert_equal "New Title", entry.title
+    assert_equal "This is a new body for the diary entry", entry.body
+    assert_equal "1.1".to_f, entry.latitude
+    assert_equal "2.2".to_f, entry.longitude
+    assert_equal "en", entry.language_code
 
     # checks if user was subscribed
     assert_equal 1, entry.subscribers.length
 
-    assert_equal new_language_code, UserPreference.where(:user_id => users(:normal_user).id, :k => "diary.default_language").first.v
+    assert_equal "en", UserPreference.where(:user_id => users(:normal_user).id, :k => "diary.default_language").first.v
+  end
 
-    new_language_code = "de"
-    create(:language, :code => new_language_code)
+  def test_new_german
+    create(:language, :code => "de")
 
     # Now try creating a diary entry in a different language
     assert_difference "DiaryEntry.count", 1 do
       post :new, { :commit => "save",
-                   :diary_entry => { :title => new_title, :body => new_body, :latitude => new_latitude,
-                                     :longitude => new_longitude, :language_code => new_language_code } },
+                   :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
+                                     :longitude => "2.2", :language_code => "de" } },
            { :user => users(:normal_user).id }
     end
     assert_response :redirect
     assert_redirected_to :action => :list, :display_name => users(:normal_user).display_name
     entry = DiaryEntry.order(:id).last
     assert_equal users(:normal_user).id, entry.user_id
-    assert_equal new_title, entry.title
-    assert_equal new_body, entry.body
-    assert_equal new_latitude.to_f, entry.latitude
-    assert_equal new_longitude.to_f, entry.longitude
-    assert_equal new_language_code, entry.language_code
+    assert_equal "New Title", entry.title
+    assert_equal "This is a new body for the diary entry", entry.body
+    assert_equal "1.1".to_f, entry.latitude
+    assert_equal "2.2".to_f, entry.longitude
+    assert_equal "de", entry.language_code
 
     # checks if user was subscribed
     assert_equal 1, entry.subscribers.length
 
-    assert_equal new_language_code, UserPreference.where(:user_id => users(:normal_user).id, :k => "diary.default_language").first.v
+    assert_equal "de", UserPreference.where(:user_id => users(:normal_user).id, :k => "diary.default_language").first.v
   end
 
   def test_new_spammy

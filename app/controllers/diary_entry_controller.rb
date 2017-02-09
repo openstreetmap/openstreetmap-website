@@ -12,7 +12,7 @@ class DiaryEntryController < ApplicationController
   def new
     @title = t "diary_entry.new.title"
 
-    if params[:diary_entry]
+    if request.post?
       @diary_entry = DiaryEntry.new(entry_params)
       @diary_entry.user = @user
 
@@ -35,7 +35,7 @@ class DiaryEntryController < ApplicationController
     else
       default_lang = @user.preferences.where(:k => "diary.default_language").first
       lang_code = default_lang ? default_lang.v : @user.preferred_language
-      @diary_entry = DiaryEntry.new(:language_code => lang_code)
+      @diary_entry = DiaryEntry.new(entry_params.merge(:language_code => lang_code))
       set_map_location
       render :action => "edit"
     end
@@ -218,6 +218,8 @@ class DiaryEntryController < ApplicationController
   # return permitted diary entry parameters
   def entry_params
     params.require(:diary_entry).permit(:title, :body, :language_code, :latitude, :longitude)
+  rescue ActionController::ParameterMissing
+    ActionController::Parameters.new.permit(:title, :body, :language_code, :latitude, :longitude)
   end
 
   ##
