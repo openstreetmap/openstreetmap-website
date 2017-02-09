@@ -45,12 +45,16 @@ class MessageControllerTest < ActionController::TestCase
   end
 
   ##
-  # test the new action
-  def test_new
+  # test fetching new message page when not logged in
+  def test_new_no_login
     # Check that the new message page requires us to login
     get :new, :display_name => users(:public_user).display_name
     assert_redirected_to login_path(:referer => new_message_path(:display_name => users(:public_user).display_name))
+  end
 
+  ##
+  # test fetching new message page when logged in
+  def test_new_form
     # Login as a normal user
     session[:user] = users(:normal_user).id
 
@@ -64,6 +68,39 @@ class MessageControllerTest < ActionController::TestCase
       assert_select "textarea#message_body", :count => 1
       assert_select "input[type='submit'][value='Send']", :count => 1
     end
+  end
+
+  ##
+  # test fetching new message page with body and title
+  def test_new_get_with_params
+    # Login as a normal user
+    session[:user] = users(:normal_user).id
+
+    # Check that we can't send a message from a GET request
+    assert_difference "ActionMailer::Base.deliveries.size", 0 do
+      assert_difference "Message.count", 0 do
+        get :new,
+            :display_name => users(:public_user).display_name,
+            :message => { :title => "Test Message", :body => "Test message body" }
+      end
+    end
+    assert_response :success
+    assert_template "new"
+    assert_select "title", "OpenStreetMap | Send message"
+    assert_select "form[action='#{new_message_path(:display_name => users(:public_user).display_name)}']", :count => 1 do
+      assert_select "input#message_title", :count => 1 do
+        assert_select "[value='Test Message']"
+      end
+      assert_select "textarea#message_body", :text => "Test message body", :count => 1
+      assert_select "input[type='submit'][value='Send']", :count => 1
+    end
+  end
+
+  ##
+  # test posting new message page with no body
+  def test_new_post_no_body
+    # Login as a normal user
+    session[:user] = users(:normal_user).id
 
     # Check that the subject is preserved over errors
     assert_difference "ActionMailer::Base.deliveries.size", 0 do
@@ -83,6 +120,13 @@ class MessageControllerTest < ActionController::TestCase
       assert_select "textarea#message_body", :text => "", :count => 1
       assert_select "input[type='submit'][value='Send']", :count => 1
     end
+  end
+
+  ##
+  # test posting new message page with no title
+  def test_new_post_no_title
+    # Login as a normal user
+    session[:user] = users(:normal_user).id
 
     # Check that the body text is preserved over errors
     assert_difference "ActionMailer::Base.deliveries.size", 0 do
@@ -102,6 +146,13 @@ class MessageControllerTest < ActionController::TestCase
       assert_select "textarea#message_body", :text => "Test message body", :count => 1
       assert_select "input[type='submit'][value='Send']", :count => 1
     end
+  end
+
+  ##
+  # test posting new message page sends message
+  def test_new_post_send
+    # Login as a normal user
+    session[:user] = users(:normal_user).id
 
     # Check that sending a message works
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
