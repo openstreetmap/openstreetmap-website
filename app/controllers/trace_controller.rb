@@ -103,7 +103,7 @@ class TraceController < ApplicationController
   end
 
   def create
-    if params[:trace]
+    if request.post?
       logger.info(params[:trace][:gpx_file].class.name)
 
       if params[:trace][:gpx_file].respond_to?(:read)
@@ -170,7 +170,7 @@ class TraceController < ApplicationController
     else
       @title = t "trace.edit.title", :name => @trace.name
 
-      if params[:trace]
+      if request.post?
         @trace.description = params[:trace][:description]
         @trace.tagstring = params[:trace][:tagstring]
         @trace.visibility = params[:trace][:visibility]
