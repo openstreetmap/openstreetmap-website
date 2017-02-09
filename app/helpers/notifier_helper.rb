@@ -5,10 +5,16 @@ module NotifierHelper
 
   def link_to_user(display_name)
     link_to(
-      display_name,
+      content_tag(
+        'strong',
+        display_name,
+        # NB we need "text-decoration: none" twice: GMail only honours it on
+        # the <a> but Outlook only on the <strong>
+        :style => "text-decoration: none"
+      ),
       user_url(display_name, :host => SERVER_URL),
       :target => "_blank",
-      :style => "text-decoration: none; color: #222; font-weight: bold"
+      :style => "text-decoration: none; color: #222"
     )
   end
 
