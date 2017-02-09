@@ -16,7 +16,7 @@ bg:
       friendly: '%e %B %Y в %H:%M'
   activerecord:
     models:
-      changeset: Списък промени
+      changeset: Списък с промени
       country: Държава
       friend: Приятел
       language: Език
@@ -62,6 +62,7 @@ bg:
       user:
         email: Електронна поща
         active: Активен
+        display_name: Видимо потребителско име
         description: Описание
         languages: Езици
         pass_crypt: Парола
@@ -133,13 +134,13 @@ bg:
         node: възел
         way: път
         relation: релация
-        changeset: списък промени
+        changeset: списък с промени
         note: Бележка
     timeout:
       type:
         way: път
         relation: релация
-        changeset: списък промени
+        changeset: списък с промени
         note: бележка
     redacted:
       type:
@@ -169,7 +170,7 @@ bg:
       comment: Коментар
       area: Област
     list:
-      title: Списък промени
+      title: Списък с промени
       empty: Няма намерени списъци с промени.
       empty_area: Няма списъци с промени в този район.
       empty_user: Няма списъци с промени от този потребител.
@@ -267,8 +268,12 @@ bg:
         geonames_reverse: Резултати от <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
+        aerialway:
+          cable_car: Кабинков лифт
+          chair_lift: Седалков лифт
         aeroway:
           helipad: Вертолетна площадка
+          taxiway: Път за рулиране
           terminal: Терминал
         amenity:
           animal_shelter: Приют за животни
@@ -370,6 +375,7 @@ bg:
           phone: Телефон за спешни повиквания
         highway:
           abandoned: Изоставена железопътна линия
+          bridleway: Конен път
           bus_stop: Автобусна спирка
           construction: Магистрала в строеж
           cycleway: Велосипедна пътека
@@ -431,11 +437,13 @@ bg:
           construction: Строителство
           farm: Ферма
           farmland: Обработваема земя
+          farmyard: Стопански двор
           forest: Гора
           garages: Гаражи
           grass: Трева
           industrial: Промишлена зона
           landfill: Сметище
+          meadow: Ливада
           military: Военна зона
           mine: Рудник
           orchard: Овощна градина
@@ -542,6 +550,7 @@ bg:
           historic_station: Гара с историческо значение
           junction: Железопътен възел
           level_crossing: Прелез
+          light_rail: Бърз трамвай
           monorail: Монорелсов  път
           narrow_gauge: Теснолинейка
           platform: Железопътна платформа
@@ -684,6 +693,8 @@ bg:
       title: Добре дошли в OSM
     beginners_guide:
       title: Наръчник за начинаещи
+    mailing_lists:
+      title: Пощенски списъци
     forums:
       title: Форуми
     irc:
@@ -771,6 +782,7 @@ bg:
       search: Търсене
       get_directions_title: Намерете маршрут между две точки
       from: От
+      to: До
       where_am_i: Къде съм аз?
       submit_text: Напред
     key:
@@ -781,16 +793,54 @@ bg:
           trunk: Междуградски път
           primary: Главен път
           secondary: Второстепенен път
+          bridleway: Конен път
+          cycleway: Велосипедна пътека
+          footway: Пътека
+          rail: Железопът
           subway: Метро
+          tram:
+          - Бърз трамвай
+          - трамвай
+          cable:
+          - Кабинков лифт
+          - седалков лифт
+          runway:
+          - Летищна писта
+          - път за рулиране
+          apron:
+          - Летищен перон
+          - терминал
+          admin: Административна граница
           forest: Гора
+          wood: Лес
+          golf: Игрище за голф
           park: Парк
+          resident: Жилищна зона
+          common:
+            1: ливада
+          retail: Зона за търговия на дребно
+          industrial: Промишлена зона
+          commercial: Търговска зона
+          heathland: Пустош
           lake:
           - Езеро
+          farm: Земеделско стопанство
           cemetery: Гробище
+          pitch: Спортна площадка
           centre: Спортен център
+          reserve: Природен резерват
+          military: Военна зона
           school:
           - Училище
+          building: Значима сграда
           station: Железопътна гара
+          summit:
+          - Било
+          - връх
+          tunnel: Тунел (пунктирана линия)
+          bridge: Мост (плътна линия)
+          construction: Пътища в изграждане
+          bicycle_shop: Магазин за велосипеди
     richtext_area:
       edit: Редактиране
       preview: Преглед
@@ -851,10 +901,23 @@ bg:
       allow_write_api: промяна на картата.
   user:
     login:
+      title: Вписване
       email or username: 'Електронна поща или потребителско име:'
       password: 'Парола:'
       remember: Запомни ме
       lost password link: Забравена парола?
+      login_button: Вписване
+      register now: Регистрирайте се
+      no account: Нямате сметка?
+      auth_providers:
+        google:
+          title: Вписване с Гугъл
+        facebook:
+          title: Вписване с Фейсбук
+        wikipedia:
+          title: Вписване с Уикипедия
+        yahoo:
+          title: Вписване с Яху
     lost_password:
       email address: 'Електронна поща:'
     reset_password:
@@ -896,6 +959,9 @@ bg:
       preferred languages: 'Предпочитани езици:'
       preferred editor: 'Предпочитан редактор:'
       image: 'Изображение:'
+      new image: Добавяне на изображение
+      keep image: Запазване на текущото изображение
+      replace image: Заменяне на текущото изображение
       latitude: 'Географска ширина:'
       longitude: 'Географска дължина:'
       flash update success confirm needed: Сведенията за потребителя са успешно обновени.
@@ -920,13 +986,22 @@ bg:
     show:
       ago: преди %{time}
       edit: Редактиране
+  note:
+    mine:
+      ago_html: преди %{when}
   javascripts:
     share:
       title: Споделяне
       cancel: Отказ
+      image: Изображение
+      link: Препратка или код
+      custom_dimensions: Размер по избор
       format: 'Формат:'
       scale: 'Мащаб:'
       download: Изтегляне
+      include_marker: Добавяне на маркер
+    key:
+      title: Легенда
     map:
       zoom:
         in: Увеличаване
@@ -936,21 +1011,32 @@ bg:
       base:
         standard: Стандартен
         cycle_map: Колоездачна карта
-        transport_map: Транспортна карта
+        transport_map: Превозна карта
         hot: Хуманитарна карта
       layers:
         header: Слоеве на картата
+        notes: Бележки
         data: Данни
+        overlays: Слоеве за отстраняване на грешки
         title: Слоеве
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Направете дарение</a>
     site:
       edit_tooltip: Редактиране на картата
       createnote_tooltip: Добавяне на бележка на картата
+    notes:
+      new:
+        add: Добавяне на бележка
     directions:
       engines:
+        graphhopper_bicycle: Велосипед (GraphHopper)
+        graphhopper_foot: Пеша (GraphHopper)
+        mapquest_bicycle: Велосипед (MapQuest)
         mapquest_car: Кола (MapQuest)
+        mapquest_foot: Пеша (MapQuest)
         osrm_car: Кола (OSRM)
+        mapzen_bicycle: Велосипед (Mapzen)
         mapzen_car: Кола (Mapzen)
+        mapzen_foot: Пеша (Mapzen)
       directions: Насоки
       distance: Разстояние
       instructions:
@@ -959,6 +1045,7 @@ bg:
         turn_left_without_exit: Завийте наляво по %{name}
         endofroad_left_without_exit: В края на пътя завийте наляво по %{name}
         roundabout_without_exit: На кръговото движение вземете %{name}
+        start_without_exit: Тръгнете от края на %{name}
         destination_without_exit: Пристигнахте на местоназначението
         unnamed: неименуван път
       time: Време
