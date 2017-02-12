@@ -1,7 +1,580 @@
 /*
 	Leaflet.contextmenu, a context menu for Leaflet.
-	(c) 2014, Adam Ratcliffe, GeoSmart Maps Limited
-       
-        @preserve
+	(c) 2015, Adam Ratcliffe, GeoSmart Maps Limited
+
+	@preserve
 */
-(function(t){var e;if(typeof define==="function"&&define.amd){define(["leaflet"],t)}else if(typeof module!=="undefined"){e=require("leaflet");module.exports=t(e)}else{if(typeof window.L==="undefined"){throw new Error("Leaflet must be loaded first")}t(window.L)}})(function(t){t.Map.mergeOptions({contextmenuItems:[]});t.Map.ContextMenu=t.Handler.extend({_touchstart:t.Browser.msPointer?"MSPointerDown":t.Browser.pointer?"pointerdown":"touchstart",statics:{BASE_CLS:"leaflet-contextmenu"},initialize:function(e){t.Handler.prototype.initialize.call(this,e);this._items=[];this._visible=false;var n=this._container=t.DomUtil.create("div",t.Map.ContextMenu.BASE_CLS,e._container);n.style.zIndex=1e4;n.style.position="absolute";if(e.options.contextmenuWidth){n.style.width=e.options.contextmenuWidth+"px"}this._createItems();t.DomEvent.on(n,"click",t.DomEvent.stop).on(n,"mousedown",t.DomEvent.stop).on(n,"dblclick",t.DomEvent.stop).on(n,"contextmenu",t.DomEvent.stop)},addHooks:function(){t.DomEvent.on(document,t.Browser.touch?this._touchstart:"mousedown",this._onMouseDown,this).on(document,"keydown",this._onKeyDown,this);this._map.on({contextmenu:this._show,mouseout:this._hide,mousedown:this._hide,movestart:this._hide,zoomstart:this._hide},this)},removeHooks:function(){t.DomEvent.off(document,t.Browser.touch?this._touchstart:"mousedown",this._onMouseDown,this).off(document,"keydown",this._onKeyDown,this);this._map.off({contextmenu:this._show,mouseout:this._hide,mousedown:this._hide,movestart:this._hide,zoomstart:this._hide},this)},showAt:function(e,n){if(e instanceof t.LatLng){e=this._map.latLngToContainerPoint(e)}this._showAtPoint(e,n)},hide:function(){this._hide()},addItem:function(t){return this.insertItem(t)},insertItem:function(t,e){e=e!==undefined?e:this._items.length;var n=this._createItem(this._container,t,e);this._items.push(n);this._sizeChanged=true;this._map.fire("contextmenu.additem",{contextmenu:this,el:n.el,index:e});return n.el},removeItem:function(e){var n=this._container;if(!isNaN(e)){e=n.children[e]}if(e){this._removeItem(t.Util.stamp(e));this._sizeChanged=true;this._map.fire("contextmenu.removeitem",{contextmenu:this,el:e})}},removeAllItems:function(){var e;while(this._container.children.length){e=this._container.children[0];this._removeItem(t.Util.stamp(e))}},hideAllItems:function(){var t,e,n;for(e=0,n=this._items.length;e<n;e++){t=this._items[e];t.el.style.display="none"}},showAllItems:function(){var t,e,n;for(e=0,n=this._items.length;e<n;e++){t=this._items[e];t.el.style.display=""}},setDisabled:function(e,n){var i=this._container,o=t.Map.ContextMenu.BASE_CLS+"-item";if(!isNaN(e)){e=i.children[e]}if(e&&t.DomUtil.hasClass(e,o)){if(n){t.DomUtil.addClass(e,o+"-disabled");this._map.fire("contextmenu.disableitem",{contextmenu:this,el:e})}else{t.DomUtil.removeClass(e,o+"-disabled");this._map.fire("contextmenu.enableitem",{contextmenu:this,el:e})}}},isVisible:function(){return this._visible},_createItems:function(){var t=this._map.options.contextmenuItems,e,n,i;for(n=0,i=t.length;n<i;n++){this._items.push(this._createItem(this._container,t[n]))}},_createItem:function(e,n,i){if(n.separator||n==="-"){return this._createSeparator(e,i)}var o=t.Map.ContextMenu.BASE_CLS+"-item",s=n.disabled?o+" "+o+"-disabled":o,h=this._insertElementAt("a",s,e,i),a=this._createEventHandler(h,n.callback,n.context,n.hideOnSelect),m="";if(n.icon){m='<img class="'+t.Map.ContextMenu.BASE_CLS+'-icon" src="'+n.icon+'"/>'}else if(n.iconCls){m='<span class="'+t.Map.ContextMenu.BASE_CLS+"-icon "+n.iconCls+'"></span>'}h.innerHTML=m+n.text;h.href="#";t.DomEvent.on(h,"mouseover",this._onItemMouseOver,this).on(h,"mouseout",this._onItemMouseOut,this).on(h,"mousedown",t.DomEvent.stopPropagation).on(h,"click",a);return{id:t.Util.stamp(h),el:h,callback:a}},_removeItem:function(e){var n,i,o,s;for(o=0,s=this._items.length;o<s;o++){n=this._items[o];if(n.id===e){i=n.el;callback=n.callback;if(callback){t.DomEvent.off(i,"mouseover",this._onItemMouseOver,this).off(i,"mouseover",this._onItemMouseOut,this).off(i,"mousedown",t.DomEvent.stopPropagation).off(i,"click",n.callback)}this._container.removeChild(i);this._items.splice(o,1);return n}}return null},_createSeparator:function(e,n){var i=this._insertElementAt("div",t.Map.ContextMenu.BASE_CLS+"-separator",e,n);return{id:t.Util.stamp(i),el:i}},_createEventHandler:function(e,n,i,o){var s=this,h=this._map,a=t.Map.ContextMenu.BASE_CLS+"-item-disabled",o=o!==undefined?o:true;return function(m){if(t.DomUtil.hasClass(e,a)){return}if(o){s._hide()}if(n){n.call(i||h,s._showLocation)}s._map.fire("contextmenu:select",{contextmenu:s,el:e})}},_insertElementAt:function(t,e,n,i){var o,s=document.createElement(t);s.className=e;if(i!==undefined){o=n.children[i]}if(o){n.insertBefore(s,o)}else{n.appendChild(s)}return s},_show:function(t){this._showAtPoint(t.containerPoint)},_showAtPoint:function(e,n){if(this._items.length){var i=this._map,o=i.containerPointToLayerPoint(e),s=i.layerPointToLatLng(o),h={contextmenu:this};if(n){h=t.extend(n,h)}this._showLocation={latlng:s,layerPoint:o,containerPoint:e};this._setPosition(e);if(!this._visible){this._container.style.display="block";this._visible=true}else{this._setPosition(e)}this._map.fire("contextmenu.show",h)}},_hide:function(){if(this._visible){this._visible=false;this._container.style.display="none";this._map.fire("contextmenu.hide",{contextmenu:this})}},_setPosition:function(e){var n=this._map.getSize(),i=this._container,o=this._getElementSize(i),s;if(this._map.options.contextmenuAnchor){s=t.point(this._map.options.contextmenuAnchor);e=e.add(s)}i._leaflet_pos=e;if(e.x+o.x>n.x){i.style.left="auto";i.style.right=Math.max(n.x-e.x,0)+"px"}else{i.style.left=Math.max(e.x,0)+"px";i.style.right="auto"}if(e.y+o.y>n.y){i.style.top="auto";i.style.bottom=Math.max(n.y-e.y,0)+"px"}else{i.style.top=Math.max(e.y,0)+"px";i.style.bottom="auto"}},_getElementSize:function(t){var e=this._size,n=t.style.display;if(!e||this._sizeChanged){e={};t.style.left="-999999px";t.style.right="auto";t.style.display="block";e.x=t.offsetWidth;e.y=t.offsetHeight;t.style.left="auto";t.style.display=n;this._sizeChanged=false}return e},_onMouseDown:function(t){this._hide()},_onKeyDown:function(t){var e=t.keyCode;if(e===27){this._hide()}},_onItemMouseOver:function(e){t.DomUtil.addClass(e.target||e.srcElement,"over")},_onItemMouseOut:function(e){t.DomUtil.removeClass(e.target||e.srcElement,"over")}});t.Map.addInitHook("addHandler","contextmenu",t.Map.ContextMenu);t.Mixin.ContextMenu={bindContextMenu:function(e){t.setOptions(this,e);this._initContextMenu();return this},unbindContextMenu:function(){this.off("contextmenu",this._showContextMenu,this);return this},_initContextMenu:function(){this._items=[];this.on("contextmenu",this._showContextMenu,this)},_showContextMenu:function(t){var e,n,i,o;if(this._map.contextmenu){n=this._map.mouseEventToContainerPoint(t.originalEvent);if(!this.options.contextmenuInheritItems){this._map.contextmenu.hideAllItems()}for(i=0,o=this.options.contextmenuItems.length;i<o;i++){e=this.options.contextmenuItems[i];this._items.push(this._map.contextmenu.insertItem(e,e.index))}this._map.once("contextmenu.hide",this._hideContextMenu,this);this._map.contextmenu.showAt(n,{relatedTarget:this})}},_hideContextMenu:function(){var t,e;for(t=0,e=this._items.length;t<e;t++){this._map.contextmenu.removeItem(this._items[t])}this._items.length=0;if(!this.options.contextmenuInheritItems){this._map.contextmenu.showAllItems()}}};var e=[t.Marker,t.Path,t.GeoJSON],n={contextmenu:false,contextmenuItems:[],contextmenuInheritItems:true},i,o,s;for(o=0,s=e.length;o<s;o++){i=e[o];if(!i.prototype.options){i.prototype.options=n}else{i.mergeOptions(n)}i.addInitHook(function(){if(this.options.contextmenu){this._initContextMenu()}});i.include(t.Mixin.ContextMenu)}return t.Map.ContextMenu});
+
+(function(factory) {
+	// Packaging/modules magic dance
+	var L;
+	if (typeof define === 'function' && define.amd) {
+		// AMD
+		define(['leaflet'], factory);
+	} else if (typeof module === 'object' && typeof module.exports === 'object') {
+		// Node/CommonJS
+		L = require('leaflet');
+		module.exports = factory(L);
+	} else {
+		// Browser globals
+		if (typeof window.L === 'undefined') {
+			throw new Error('Leaflet must be loaded first');
+		}
+		factory(window.L);
+	}
+})(function(L) {
+L.Map.mergeOptions({
+    contextmenuItems: []
+});
+
+L.Map.ContextMenu = L.Handler.extend({
+    _touchstart: L.Browser.msPointer ? 'MSPointerDown' : L.Browser.pointer ? 'pointerdown' : 'touchstart',
+    
+    statics: {
+        BASE_CLS: 'leaflet-contextmenu'
+    },
+    
+    initialize: function (map) {
+        L.Handler.prototype.initialize.call(this, map);
+        
+        this._items = [];
+        this._visible = false;
+
+        var container = this._container = L.DomUtil.create('div', L.Map.ContextMenu.BASE_CLS, map._container);
+        container.style.zIndex = 10000;
+        container.style.position = 'absolute';
+
+        if (map.options.contextmenuWidth) {
+            container.style.width = map.options.contextmenuWidth + 'px';
+        }
+
+        this._createItems();
+
+        L.DomEvent
+            .on(container, 'click', L.DomEvent.stop)
+            .on(container, 'mousedown', L.DomEvent.stop)
+            .on(container, 'dblclick', L.DomEvent.stop)
+            .on(container, 'contextmenu', L.DomEvent.stop);
+    },
+
+    addHooks: function () {
+        var container = this._map.getContainer();
+
+        L.DomEvent
+            .on(container, 'mouseleave', this._hide, this)
+            .on(document, 'keydown', this._onKeyDown, this);
+
+        if (L.Browser.touch) {
+            L.DomEvent.on(document, this._touchstart, this._hide, this);
+        }
+
+        this._map.on({
+            contextmenu: this._show,
+            mousedown: this._hide,
+            movestart: this._hide,
+            zoomstart: this._hide
+        }, this);
+    },
+
+    removeHooks: function () {
+        var container = this._map.getContainer();
+
+        L.DomEvent
+            .off(container, 'mouseleave', this._hide, this)
+            .off(document, 'keydown', this._onKeyDown, this);
+
+        if (L.Browser.touch) {
+            L.DomEvent.off(document, this._touchstart, this._hide, this);
+        }
+
+        this._map.off({
+            contextmenu: this._show,
+            mousedown: this._hide,
+            movestart: this._hide,
+            zoomstart: this._hide
+        }, this);
+    },
+
+    showAt: function (point, data) {
+        if (point instanceof L.LatLng) {
+            point = this._map.latLngToContainerPoint(point);
+        }
+        this._showAtPoint(point, data);
+    },
+
+    hide: function () {
+        this._hide();
+    },
+
+    addItem: function (options) {
+        return this.insertItem(options);
+    },
+
+    insertItem: function (options, index) {
+        index = index !== undefined ? index: this._items.length;
+
+        var item = this._createItem(this._container, options, index);
+
+        this._items.push(item);
+
+        this._sizeChanged = true;
+
+        this._map.fire('contextmenu.additem', {
+            contextmenu: this,
+            el: item.el,
+            index: index
+        });
+
+        return item.el;
+    },
+
+    removeItem: function (item) {
+        var container = this._container;
+
+        if (!isNaN(item)) {
+            item = container.children[item];
+        }
+
+        if (item) {
+            this._removeItem(L.Util.stamp(item));
+
+            this._sizeChanged = true;
+
+            this._map.fire('contextmenu.removeitem', {
+                contextmenu: this,
+                el: item
+            });
+        }
+    },
+
+    removeAllItems: function () {
+        var item;
+
+        while (this._container.children.length) {
+            item = this._container.children[0];
+            this._removeItem(L.Util.stamp(item));
+        }
+    },
+
+    hideAllItems: function () {
+        var item, i, l;
+
+        for (i = 0, l = this._items.length; i < l; i++) {
+            item = this._items[i];
+            item.el.style.display = 'none';
+        }
+    },
+
+    showAllItems: function () {
+        var item, i, l;
+
+        for (i = 0, l = this._items.length; i < l; i++) {
+            item = this._items[i];
+            item.el.style.display = '';
+        }
+    },
+
+    setDisabled: function (item, disabled) {
+        var container = this._container,
+        itemCls = L.Map.ContextMenu.BASE_CLS + '-item';
+
+        if (!isNaN(item)) {
+            item = container.children[item];
+        }
+
+        if (item && L.DomUtil.hasClass(item, itemCls)) {
+            if (disabled) {
+                L.DomUtil.addClass(item, itemCls + '-disabled');
+                this._map.fire('contextmenu.disableitem', {
+                    contextmenu: this,
+                    el: item
+                });
+            } else {
+                L.DomUtil.removeClass(item, itemCls + '-disabled');
+                this._map.fire('contextmenu.enableitem', {
+                    contextmenu: this,
+                    el: item
+                });
+            }
+        }
+    },
+
+    isVisible: function () {
+        return this._visible;
+    },
+
+    _createItems: function () {
+        var itemOptions = this._map.options.contextmenuItems,
+            item,
+            i, l;
+
+        for (i = 0, l = itemOptions.length; i < l; i++) {
+            this._items.push(this._createItem(this._container, itemOptions[i]));
+        }
+    },
+
+    _createItem: function (container, options, index) {
+        if (options.separator || options === '-') {
+            return this._createSeparator(container, index);
+        }
+
+        var itemCls = L.Map.ContextMenu.BASE_CLS + '-item',
+            cls = options.disabled ? (itemCls + ' ' + itemCls + '-disabled') : itemCls,
+            el = this._insertElementAt('a', cls, container, index),
+            callback = this._createEventHandler(el, options.callback, options.context, options.hideOnSelect),
+            icon = this._getIcon(options),
+            iconCls = this._getIconCls(options),
+            html = '';
+
+        if (icon) {
+            html = '<img class="' + L.Map.ContextMenu.BASE_CLS + '-icon" src="' + icon + '"/>';
+        } else if (iconCls) {
+            html = '<span class="' + L.Map.ContextMenu.BASE_CLS + '-icon ' + iconCls + '"></span>';
+        }
+
+        el.innerHTML = html + options.text;
+        el.href = '#';
+
+        L.DomEvent
+            .on(el, 'mouseover', this._onItemMouseOver, this)
+            .on(el, 'mouseout', this._onItemMouseOut, this)
+            .on(el, 'mousedown', L.DomEvent.stopPropagation)
+            .on(el, 'click', callback);
+
+        if (L.Browser.touch) {
+            L.DomEvent.on(el, this._touchstart, L.DomEvent.stopPropagation);
+        }
+
+        // Devices without a mouse fire "mouseover" on tap, but never “mouseout"
+        if (!L.Browser.pointer) {
+            L.DomEvent.on(el, 'click', this._onItemMouseOut, this);
+        }
+
+        return {
+            id: L.Util.stamp(el),
+            el: el,
+            callback: callback
+        };
+    },
+
+    _removeItem: function (id) {
+        var item,
+            el,
+            i, l, callback;
+
+        for (i = 0, l = this._items.length; i < l; i++) {
+            item = this._items[i];
+
+            if (item.id === id) {
+                el = item.el;
+                callback = item.callback;
+
+                if (callback) {
+                    L.DomEvent
+                        .off(el, 'mouseover', this._onItemMouseOver, this)
+                        .off(el, 'mouseover', this._onItemMouseOut, this)
+                        .off(el, 'mousedown', L.DomEvent.stopPropagation)
+                        .off(el, 'click', callback);
+
+                    if (L.Browser.touch) {
+                        L.DomEvent.off(el, this._touchstart, L.DomEvent.stopPropagation);
+                    }
+
+                    if (!L.Browser.pointer) {
+                        L.DomEvent.on(el, 'click', this._onItemMouseOut, this);
+                    }
+                }
+
+                this._container.removeChild(el);
+                this._items.splice(i, 1);
+
+                return item;
+            }
+        }
+        return null;
+    },
+
+    _createSeparator: function (container, index) {
+        var el = this._insertElementAt('div', L.Map.ContextMenu.BASE_CLS + '-separator', container, index);
+
+        return {
+            id: L.Util.stamp(el),
+            el: el
+        };
+    },
+
+    _createEventHandler: function (el, func, context, hideOnSelect) {
+        var me = this,
+            map = this._map,
+            disabledCls = L.Map.ContextMenu.BASE_CLS + '-item-disabled',
+            hideOnSelect = (hideOnSelect !== undefined) ? hideOnSelect : true;
+
+        return function (e) {
+            if (L.DomUtil.hasClass(el, disabledCls)) {
+                return;
+            }
+
+            if (hideOnSelect) {
+                me._hide();
+            }
+
+            if (func) {
+                func.call(context || map, me._showLocation);
+            }
+
+            me._map.fire('contextmenu:select', {
+                contextmenu: me,
+                el: el
+            });
+        };
+    },
+
+    _insertElementAt: function (tagName, className, container, index) {
+        var refEl,
+            el = document.createElement(tagName);
+
+        el.className = className;
+
+        if (index !== undefined) {
+            refEl = container.children[index];
+        }
+
+        if (refEl) {
+            container.insertBefore(el, refEl);
+        } else {
+            container.appendChild(el);
+        }
+
+        return el;
+    },
+
+    _show: function (e) {
+        this._showAtPoint(e.containerPoint, e);
+    },
+
+    _showAtPoint: function (pt, data) {
+        if (this._items.length) {
+            var map = this._map,
+            layerPoint = map.containerPointToLayerPoint(pt),
+            latlng = map.layerPointToLatLng(layerPoint),
+            event = L.extend(data || {}, {contextmenu: this});
+
+            this._showLocation = {
+                latlng: latlng,
+                layerPoint: layerPoint,
+                containerPoint: pt
+            };
+
+            if (data && data.relatedTarget){
+                this._showLocation.relatedTarget = data.relatedTarget;
+            }
+
+            this._setPosition(pt);
+
+            if (!this._visible) {
+                this._container.style.display = 'block';
+                this._visible = true;
+            }
+
+            this._map.fire('contextmenu.show', event);
+        }
+    },
+
+    _hide: function () {
+        if (this._visible) {
+            this._visible = false;
+            this._container.style.display = 'none';
+            this._map.fire('contextmenu.hide', {contextmenu: this});
+        }
+    },
+
+    _getIcon: function (options) {
+        return L.Browser.retina && options.retinaIcon || options.icon;
+    },
+
+    _getIconCls: function (options) {
+        return L.Browser.retina && options.retinaIconCls || options.iconCls;
+    },
+
+    _setPosition: function (pt) {
+        var mapSize = this._map.getSize(),
+            container = this._container,
+            containerSize = this._getElementSize(container),
+            anchor;
+
+        if (this._map.options.contextmenuAnchor) {
+            anchor = L.point(this._map.options.contextmenuAnchor);
+            pt = pt.add(anchor);
+        }
+
+        container._leaflet_pos = pt;
+
+        if (pt.x + containerSize.x > mapSize.x) {
+            container.style.left = 'auto';
+            container.style.right = Math.min(Math.max(mapSize.x - pt.x, 0), mapSize.x - containerSize.x - 1) + 'px';
+        } else {
+            container.style.left = Math.max(pt.x, 0) + 'px';
+            container.style.right = 'auto';
+        }
+
+        if (pt.y + containerSize.y > mapSize.y) {
+            container.style.top = 'auto';
+            container.style.bottom = Math.min(Math.max(mapSize.y - pt.y, 0), mapSize.y - containerSize.y - 1) + 'px';
+        } else {
+            container.style.top = Math.max(pt.y, 0) + 'px';
+            container.style.bottom = 'auto';
+        }
+    },
+
+    _getElementSize: function (el) {
+        var size = this._size,
+            initialDisplay = el.style.display;
+
+        if (!size || this._sizeChanged) {
+            size = {};
+
+            el.style.left = '-999999px';
+            el.style.right = 'auto';
+            el.style.display = 'block';
+
+            size.x = el.offsetWidth;
+            size.y = el.offsetHeight;
+
+            el.style.left = 'auto';
+            el.style.display = initialDisplay;
+
+            this._sizeChanged = false;
+        }
+
+        return size;
+    },
+
+    _onKeyDown: function (e) {
+        var key = e.keyCode;
+
+        // If ESC pressed and context menu is visible hide it
+        if (key === 27) {
+            this._hide();
+        }
+    },
+
+    _onItemMouseOver: function (e) {
+        L.DomUtil.addClass(e.target || e.srcElement, 'over');
+    },
+
+    _onItemMouseOut: function (e) {
+        L.DomUtil.removeClass(e.target || e.srcElement, 'over');
+    }
+});
+
+L.Map.addInitHook('addHandler', 'contextmenu', L.Map.ContextMenu);
+L.Mixin.ContextMenu = {
+    bindContextMenu: function (options) {
+        L.setOptions(this, options);
+        this._initContextMenu();
+
+        return this;
+    },
+
+    unbindContextMenu: function (){
+        this.off('contextmenu', this._showContextMenu, this);
+
+        return this;
+    },
+
+    addContextMenuItem: function (item) {
+            this.options.contextmenuItems.push(item);
+    },
+
+    removeContextMenuItemWithIndex: function (index) {
+        var items = [];
+        for (var i = 0; i < this.options.contextmenuItems.length; i++) {
+            if (this.options.contextmenuItems[i].index == index){
+                items.push(i);
+            }
+        }
+        var elem = items.pop();
+        while (elem !== undefined) {
+            this.options.contextmenuItems.splice(elem,1);
+            elem = items.pop();
+        }
+    },
+
+    replaceContextMenuItem: function (item) {
+        this.removeContextMenuItemWithIndex(item.index);
+        this.addContextMenuItem(item);
+    },
+
+    _initContextMenu: function () {
+        this._items = [];
+
+        this.on('contextmenu', this._showContextMenu, this);
+    },
+
+    _showContextMenu: function (e) {
+        var itemOptions,
+            data, pt, i, l;
+
+        if (this._map.contextmenu) {
+            data = L.extend({relatedTarget: this}, e);
+
+            pt = this._map.mouseEventToContainerPoint(e.originalEvent);
+
+            if (!this.options.contextmenuInheritItems) {
+                this._map.contextmenu.hideAllItems();
+            }
+
+            for (i = 0, l = this.options.contextmenuItems.length; i < l; i++) {
+                itemOptions = this.options.contextmenuItems[i];
+                this._items.push(this._map.contextmenu.insertItem(itemOptions, itemOptions.index));
+            }
+
+            this._map.once('contextmenu.hide', this._hideContextMenu, this);
+
+            this._map.contextmenu.showAt(pt, data);
+        }
+    },
+
+    _hideContextMenu: function () {
+        var i, l;
+
+        for (i = 0, l = this._items.length; i < l; i++) {
+            this._map.contextmenu.removeItem(this._items[i]);
+        }
+        this._items.length = 0;
+
+        if (!this.options.contextmenuInheritItems) {
+            this._map.contextmenu.showAllItems();
+        }
+    }
+};
+
+var classes = [L.Marker, L.Path],
+    defaultOptions = {
+        contextmenu: false,
+        contextmenuItems: [],
+        contextmenuInheritItems: true
+    },
+    cls, i, l;
+
+for (i = 0, l = classes.length; i < l; i++) {
+    cls = classes[i];
+
+    // L.Class should probably provide an empty options hash, as it does not test
+    // for it here and add if needed
+    if (!cls.prototype.options) {
+        cls.prototype.options = defaultOptions;
+    } else {
+        cls.mergeOptions(defaultOptions);
+    }
+
+    cls.addInitHook(function () {
+        if (this.options.contextmenu) {
+            this._initContextMenu();
+        }
+    });
+
+    cls.include(L.Mixin.ContextMenu);
+}
+return L.Map.ContextMenu;
+});
