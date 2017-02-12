@@ -1,6 +1,6 @@
 OSM.initializeContextMenu = function (map) {
   map.contextmenu.addItem({
-    text: "Directions from here",
+    text: I18n.t("javascripts.context.directions_from"),
     callback: function directionsFromHere(e) {
       var precision = OSM.zoomPrecision(map.getZoom()),
           latlng = e.latlng.wrap(),
@@ -14,7 +14,7 @@ OSM.initializeContextMenu = function (map) {
   });
 
   map.contextmenu.addItem({
-    text: "Directions to here",
+    text: I18n.t("javascripts.context.directions_to"),
     callback: function directionsToHere(e) {
       var precision = OSM.zoomPrecision(map.getZoom()),
           latlng = e.latlng.wrap(),
@@ -28,7 +28,7 @@ OSM.initializeContextMenu = function (map) {
   });
 
   map.contextmenu.addItem({
-    text: "Add a note here",
+    text: I18n.t("javascripts.context.add_note"),
     callback: function addNoteHere(e) {
       // I'd like this, instead of panning, to pass a query parameter about where to place the marker
       map.panTo(e.latlng.wrap(), {animate: false});
@@ -37,7 +37,7 @@ OSM.initializeContextMenu = function (map) {
   });
 
   map.contextmenu.addItem({
-    text: "Show address",
+    text: I18n.t("javascripts.context.show_address"),
     callback: function describeLocation(e) {
       var precision = OSM.zoomPrecision(map.getZoom()),
           latlng = e.latlng.wrap(),
@@ -49,7 +49,7 @@ OSM.initializeContextMenu = function (map) {
   });
 
   map.contextmenu.addItem({
-    text: "Query features",
+    text: I18n.t("javascripts.context.query_features"),
     callback: function queryFeatures(e) {
       var precision = OSM.zoomPrecision(map.getZoom()),
           latlng = e.latlng.wrap(),
@@ -61,7 +61,7 @@ OSM.initializeContextMenu = function (map) {
   });
 
   map.contextmenu.addItem({
-    text: "Centre map here",
+    text: I18n.t("javascripts.context.centre_map"),
     callback: function centreMap(e) {
       map.panTo(e.latlng);
     }
