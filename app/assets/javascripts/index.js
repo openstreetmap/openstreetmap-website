@@ -7,6 +7,8 @@
 //= require leaflet.share
 //= require leaflet.polyline
 //= require leaflet.query
+//= require leaflet.contextmenu
+//= require index/contextmenu
 //= require index/search
 //= require index/browse
 //= require index/export
@@ -75,9 +77,42 @@ $(document).ready(function () {
 
   var params = OSM.mapParams();
 
+  // TODO internationalisation of the context menu strings
   var map = new L.OSM.Map("map", {
     zoomControl: false,
-    layerControl: false
+    layerControl: false,
+    contextmenu: true,
+    contextmenuWidth: 140,
+    contextmenuItems: [{
+        text: 'Directions from here',
+        callback: function(e){ context_directionsfrom(e, map); }
+    }, {
+        text: 'Directions to here',
+        callback: function(e){ context_directionsto(e, map); }
+    }, '-', {
+        text: 'Add a note here',
+        callback: function(e){ context_addnote(e, map); }
+    }, {
+        text: 'Show address',
+        callback: function(e){ context_describe(e, map); }
+    }, {
+        text: 'Query features',
+        callback: function(e){ context_queryhere(e, map); }
+    }, {
+        text: 'Centre map here',
+        callback: function(e){ context_centrehere(e, map); }
+    }]
+  });
+
+  $(document).on('mousedown', function(e){
+    if(e.shiftKey){
+      map.contextmenu.disable(); // on firefox, shift disables our contextmenu. we explicitly do this for all browsers.
+    }else{
+      map.contextmenu.enable();
+      // we also decide whether to disable some options that only like high zoom
+      map.contextmenu.setDisabled(3, map.getZoom() < 12);
+      map.contextmenu.setDisabled(5, map.getZoom() < 14);
+    }
   });
 
   map.attributionControl.setPrefix('');
