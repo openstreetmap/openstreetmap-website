@@ -13,7 +13,7 @@ class MessageController < ApplicationController
   # clicks send.
   # The display_name param is the display name of the user that the message is being sent to.
   def new
-    if params[:message]
+    if request.post?
       if @user.sent_messages.where("sent_on >= ?", Time.now.getutc - 1.hour).count >= MAX_MESSAGES_PER_HOUR
         flash[:error] = t "message.new.limit_exceeded"
       else
@@ -30,7 +30,7 @@ class MessageController < ApplicationController
       end
     end
 
-    @message ||= Message.new(:recipient => @this_user)
+    @message ||= Message.new(message_params.merge(:recipient => @this_user))
     @title = t "message.new.title"
   end
 
@@ -139,5 +139,7 @@ class MessageController < ApplicationController
   # return permitted message parameters
   def message_params
     params.require(:message).permit(:title, :body)
+  rescue ActionController::ParameterMissing
+    ActionController::Parameters.new.permit(:title, :body)
   end
 end
