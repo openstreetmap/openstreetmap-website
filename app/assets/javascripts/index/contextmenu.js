@@ -30,9 +30,12 @@ OSM.initializeContextMenu = function (map) {
   map.contextmenu.addItem({
     text: I18n.t("javascripts.context.add_note"),
     callback: function addNoteHere(e) {
-      // I'd like this, instead of panning, to pass a query parameter about where to place the marker
-      map.panTo(e.latlng.wrap(), {animate: false});
-      OSM.router.route("/note/new");
+      var precision = OSM.zoomPrecision(map.getZoom()),
+          latlng = e.latlng.wrap(),
+          lat = latlng.lat.toFixed(precision),
+          lng = latlng.lng.toFixed(precision);
+
+      OSM.router.route("/note/new?lat=" + lat + "&lon=" + lng);
     }
   });
 
