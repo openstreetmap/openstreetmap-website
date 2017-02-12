@@ -5,8 +5,10 @@
   <body style="padding: 0; margin: 0; font-size: 14px; font-family: 'Helvetica Neue', Arial, sans-serif; color: #222">
     <table style="background-color: #eee; width: 100%">
       <tr>
-        <td style="text-align: center; padding: 0px 7px">
-          <table style="max-width: 600px; color: #222; margin-left: auto; margin-right: auto">
+        <%# having width=100% on the table and then only a fixed width on the middle cell gives us a max-width that works in Outlook %>
+        <td rowspan="2"></td>
+        <td width="600" style="text-align: center; padding: 0px 7px">
+          <table style="width: 100%; color: #222; margin-left: auto; margin-right: auto">
             <tr>
               <td style="width: 30px; padding: 10px 10px 10px 0px">
                 <a href="<%= @root_url %>" target="_blank">
@@ -34,6 +36,7 @@
             </tr>
           </table>
         </td>
+        <td rowspan="2"></td>
       </tr>
       <tr>
         <td style="text-align: center; font-size: 11px; font-family: 'Helvetica Neue', Arial, sans-serif">
