@@ -1,46 +1,83 @@
-  var context_describe = function(e, map){
-    var precision = OSM.zoomPrecision(map.getZoom()),
-      latlng = e.latlng.wrap(),
-      lat = latlng.lat.toFixed(precision),
-      lng = latlng.lng.toFixed(precision);
-    OSM.router.route("/search?query=" + encodeURIComponent(lat + "," + lng));
+OSM.initializeContextMenu = function (map) {
+  map.contextmenu.addItem({
+    text: "Directions from here",
+    callback: function directionsFromHere(e) {
+      var precision = OSM.zoomPrecision(map.getZoom()),
+          latlng = e.latlng.wrap(),
+          lat = latlng.lat.toFixed(precision),
+          lng = latlng.lng.toFixed(precision);
+
+      OSM.router.route("/directions?" + querystring.stringify({
+        route: lat + "," + lng + ";" + $("#route_to").val()
+      }));
+    }
+  });
+
+  map.contextmenu.addItem({
+    text: "Directions to here",
+    callback: function directionsToHere(e) {
+      var precision = OSM.zoomPrecision(map.getZoom()),
+          latlng = e.latlng.wrap(),
+          lat = latlng.lat.toFixed(precision),
+          lng = latlng.lng.toFixed(precision);
+
+      OSM.router.route("/directions?" + querystring.stringify({
+        route: $("#route_from").val() + ";" + lat + "," + lng
+      }));
+    }
+  });
+
+  map.contextmenu.addItem({
+    text: "Add a note here",
+    callback: function addNoteHere(e) {
+      // I'd like this, instead of panning, to pass a query parameter about where to place the marker
+      map.panTo(e.latlng.wrap(), {animate: false});
+      OSM.router.route("/note/new");
+    }
+  });
+
+  map.contextmenu.addItem({
+    text: "Show address",
+    callback: function describeLocation(e) {
+      var precision = OSM.zoomPrecision(map.getZoom()),
+          latlng = e.latlng.wrap(),
+          lat = latlng.lat.toFixed(precision),
+          lng = latlng.lng.toFixed(precision);
+
+      OSM.router.route("/search?query=" + encodeURIComponent(lat + "," + lng));
+    }
+  });
+
+  map.contextmenu.addItem({
+    text: "Query features",
+    callback: function queryFeatures(e) {
+      var precision = OSM.zoomPrecision(map.getZoom()),
+          latlng = e.latlng.wrap(),
+          lat = latlng.lat.toFixed(precision),
+          lng = latlng.lng.toFixed(precision);
+
+      OSM.router.route("/query?lat=" + lat + "&lon=" + lng);
+    }
+  });
+
+  map.contextmenu.addItem({
+    text: "Centre map here",
+    callback: function centreMap(e) {
+      map.panTo(e.latlng);
+    }
+  });
+
+  map.on("mousedown", function (e) {
+    if (e.shiftKey) map.contextmenu.disable();
+  }).on("mouseup", function () {
+    map.contextmenu.enable();
+  });
+
+  var updateMenu = function updateMenu () {
+    map.contextmenu.setDisabled(2, map.getZoom() < 12);
+    map.contextmenu.setDisabled(4, map.getZoom() < 14);
   };
 
-  var context_directionsfrom = function(e, map){
-    var precision = OSM.zoomPrecision(map.getZoom()),
-      latlng = e.latlng.wrap(),
-      lat = latlng.lat.toFixed(precision),
-      lng = latlng.lng.toFixed(precision);
-    OSM.router.route("/directions?" + querystring.stringify({
-      route: lat + ',' + lng + ';' + $('#route_to').val()
-    }));
-  };
-
-  var context_directionsto = function(e, map){
-    var precision = OSM.zoomPrecision(map.getZoom()),
-      latlng = e.latlng.wrap(),
-      lat = latlng.lat.toFixed(precision),
-      lng = latlng.lng.toFixed(precision);
-    OSM.router.route("/directions?" + querystring.stringify({
-      route: $('#route_from').val() + ';' + lat + ',' + lng
-    }));
-  };
-
-  var context_addnote = function(e, map){
-    // I'd like this, instead of panning, to pass a query parameter about where to place the marker
-    map.panTo(e.latlng.wrap(), {animate: false});
-    OSM.router.route('/note/new');
-  };
-
-  var context_centrehere = function(e, map){
-    map.panTo(e.latlng);
-  };
-
-  var context_queryhere = function(e, map) {
-    var precision = OSM.zoomPrecision(map.getZoom()),
-      latlng = e.latlng.wrap(),
-      lat = latlng.lat.toFixed(precision),
-      lng = latlng.lng.toFixed(precision);
-    OSM.router.route("/query?lat=" + lat + "&lon=" + lng);
-  };
-
+  map.on("zoomend", updateMenu);
+  updateMenu();
+};
