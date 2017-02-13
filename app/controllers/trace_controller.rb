@@ -170,7 +170,7 @@ class TraceController < ApplicationController
     else
       @title = t "trace.edit.title", :name => @trace.name
 
-      if request.post?
+      if request.post? && params[:trace]
         @trace.description = params[:trace][:description]
         @trace.tagstring = params[:trace][:tagstring]
         @trace.visibility = params[:trace][:visibility]

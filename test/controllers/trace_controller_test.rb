@@ -557,7 +557,7 @@ class TraceControllerTest < ActionController::TestCase
     assert_equal "trackable", users(:public_user).preferences.where(:k => "gps.trace.visibility").first.v
   end
 
-  # Test fetching the edit page for a trace
+  # Test fetching the edit page for a trace using GET
   def test_edit_get
     public_trace_file = create(:trace, :visibility => "public", :user => users(:normal_user))
     deleted_trace_file = create(:trace, :deleted, :user => users(:public_user))
@@ -584,10 +584,37 @@ class TraceControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  # Test saving edits to a trace
-  def test_edit_post
+  # Test fetching the edit page for a trace using POST
+  def test_edit_post_no_details
     public_trace_file = create(:trace, :visibility => "public", :user => users(:normal_user))
     deleted_trace_file = create(:trace, :deleted, :user => users(:public_user))
+
+    # First with no auth
+    post :edit, :display_name => users(:normal_user).display_name, :id => public_trace_file.id
+    assert_response :forbidden
+
+    # Now with some other user, which should fail
+    post :edit, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user).id }
+    assert_response :forbidden
+
+    # Now with a trace which doesn't exist
+    post :edit, { :display_name => users(:public_user).display_name, :id => 0 }, { :user => users(:public_user).id }
+    assert_response :not_found
+
+    # Now with a trace which has been deleted
+    post :edit, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id }, { :user => users(:public_user).id }
+    assert_response :not_found
+
+    # Finally with a trace that we are allowed to edit
+    post :edit, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user).id }
+    assert_response :success
+  end
+
+  # Test saving edits to a trace
+  def test_edit_post_with_details
+    public_trace_file = create(:trace, :visibility => "public", :user => users(:normal_user))
+    deleted_trace_file = create(:trace, :deleted, :user => users(:public_user))
+
     # New details
     new_details = { :description => "Changed description", :tagstring => "new_tag", :visibility => "private" }
 
