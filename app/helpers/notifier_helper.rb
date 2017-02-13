@@ -6,7 +6,7 @@ module NotifierHelper
   def link_to_user(display_name)
     link_to(
       content_tag(
-        'strong',
+        "strong",
         display_name,
         # NB we need "text-decoration: none" twice: GMail only honours it on
         # the <a> but Outlook only on the <strong>
