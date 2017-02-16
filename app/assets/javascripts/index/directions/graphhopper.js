@@ -50,7 +50,7 @@ function GraphHopperEngine(id, vehicleType) {
             var latLng = line[instr.interval[0]];
             var distInMeter = instr.distance;
             steps.push([
-              {lat: latLng.lat, lng: latLng.lng},
+              {lat: latLng[0], lng: latLng[1]},
               instrCode,
               instrText,
               distInMeter,
