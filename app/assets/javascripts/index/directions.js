@@ -207,8 +207,13 @@ OSM.Directions = function (map) {
         '<span class="icon close"></span></a>' + I18n.t('javascripts.directions.directions') +
         '</h2><p id="routing_summary">' +
         I18n.t('javascripts.directions.distance') + ': ' + formatDistance(route.distance) + '. ' +
-        I18n.t('javascripts.directions.time') + ': ' + formatTime(route.time) + '.</p>' +
-        '<table id="turnbyturn" />';
+        I18n.t('javascripts.directions.time') + ': ' + formatTime(route.time) + '.';
+      if (typeof route.ascend !== 'undefined' && typeof route.descend !== 'undefined') {
+        html += '<br />' +
+          I18n.t('javascripts.directions.ascend') + ': ' + Math.round(route.ascend) + 'm. ' +
+          I18n.t('javascripts.directions.descend') + ': ' + Math.round(route.descend) +'m.';
+      }
+      html += '</p><table id="turnbyturn" />';
 
       $('#sidebar_content')
         .html(html);
