@@ -49,12 +49,16 @@ function GraphHopperEngine(id, vehicleType) {
             instrText += instr.text;
             var latLng = line[instr.interval[0]];
             var distInMeter = instr.distance;
+            var lineseg = [];
+            for (var j = instr.interval[0]; j <= instr.interval[1]; j++) {
+              lineseg.push({lat: line[j][0], lng: line[j][1]});
+            }
             steps.push([
               {lat: latLng[0], lng: latLng[1]},
               instrCode,
               instrText,
               distInMeter,
-              []
+              lineseg
             ]); // TODO does graphhopper map instructions onto line indices?
           }
 
