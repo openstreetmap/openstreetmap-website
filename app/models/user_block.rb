@@ -29,7 +29,8 @@ class UserBlock < ActiveRecord::Base
   ##
   # returns true if the block is a "zero hour" block
   def zero_hour?
-    needs_view && (ends_at.to_i == updated_at.to_i)
+    # if the times differ more than 1 minute we probably have more important issues
+    needs_view && (ends_at.to_i - updated_at.to_i) < 60
   end
 
   ##
