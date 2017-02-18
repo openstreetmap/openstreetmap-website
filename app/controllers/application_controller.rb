@@ -155,7 +155,7 @@ class ApplicationController < ActionController::Base
       user_block =  @user.blocks.active.take
       unless user_block.nil? 
         set_locale
-        if  @user.blocks.active.take.zero_hour?
+        if  user_block.zero_hour?
           report_error  t("application.setup_user_auth.blocked_zero_hour"), :forbidden
         else
           report_error t("application.setup_user_auth.blocked"), :forbidden
