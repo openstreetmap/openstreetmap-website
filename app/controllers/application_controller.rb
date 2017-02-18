@@ -152,10 +152,14 @@ class ApplicationController < ActionController::Base
     # have we identified the user?
     if @user
       # check if the user has been banned
-      if @user.blocks.active.exists?
-        # NOTE: need slightly more helpful message than this.
+      user_block =  @user.blocks.active.take
+      unless user_block.nil? 
         set_locale
-        report_error t("application.setup_user_auth.blocked"), :forbidden
+        if  @user.blocks.active.take.zero_hour?
+          report_error  t("application.setup_user_auth.blocked_zero_hour"), :forbidden
+        else
+          report_error t("application.setup_user_auth.blocked"), :forbidden
+        end
       end
 
       # if the user hasn't seen the contributor terms then don't
