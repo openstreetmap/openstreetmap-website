@@ -7,6 +7,8 @@
 //= require leaflet.share
 //= require leaflet.polyline
 //= require leaflet.query
+//= require leaflet.contextmenu
+//= require index/contextmenu
 //= require index/search
 //= require index/browse
 //= require index/export
@@ -77,7 +79,9 @@ $(document).ready(function () {
 
   var map = new L.OSM.Map("map", {
     zoomControl: false,
-    layerControl: false
+    layerControl: false,
+    contextmenu: true,
+    contextmenuWidth: 140
   });
 
   map.attributionControl.setPrefix('');
@@ -146,6 +150,8 @@ $(document).ready(function () {
 
   L.control.scale()
     .addTo(map);
+
+  OSM.initializeContextMenu(map);
 
   if (OSM.STATUS !== 'api_offline' && OSM.STATUS !== 'database_offline') {
     OSM.initializeNotes(map);
