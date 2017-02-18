@@ -27,6 +27,13 @@ class UserBlock < ActiveRecord::Base
   end
 
   ##
+  # returns true if the block is a "zero hour" block
+  def zero_hour?
+    # if the times differ more than 1 minute we probably have more important issues
+    needs_view && (ends_at.to_i - updated_at.to_i) < 60
+  end
+
+  ##
   # revokes the block, allowing the user to use the API again. the argument
   # is the user object who is revoking the ban.
   def revoke!(revoker)
