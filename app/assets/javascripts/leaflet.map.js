@@ -107,7 +107,7 @@ L.OSM.Map = L.Map.extend({
       params.mlon = latLng.lng.toFixed(precision);
     }
 
-    var url = 'http://' + OSM.SERVER_URL + '/',
+    var url = window.location.protocol + '://' + OSM.SERVER_URL + '/',
       query = querystring.stringify(params),
       hash = OSM.formatHash(this);
 
