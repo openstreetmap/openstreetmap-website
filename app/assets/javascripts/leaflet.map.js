@@ -107,7 +107,7 @@ L.OSM.Map = L.Map.extend({
       params.mlon = latLng.lng.toFixed(precision);
     }
 
-    var url = window.location.protocol + '://' + OSM.SERVER_URL + '/',
+    var url = window.location.protocol + '//' + OSM.SERVER_URL + '/',
       query = querystring.stringify(params),
       hash = OSM.formatHash(this);
 
@@ -121,8 +121,8 @@ L.OSM.Map = L.Map.extend({
     var zoom = this.getZoom(),
       latLng = marker && this.hasLayer(marker) ? marker.getLatLng().wrap() : this.getCenter().wrap(),
       str = window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
-        window.location.protocol + '://osm.org/go/' :
-        window.location.protocol + '://' + window.location.hostname + '/go/',
+        window.location.protocol + '//osm.org/go/' :
+        window.location.protocol + '//' + window.location.hostname + '/go/',
       char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~",
       x = Math.round((latLng.lng + 180.0) * ((1 << 30) / 90.0)),
       y = Math.round((latLng.lat + 90.0) * ((1 << 30) / 45.0)),
