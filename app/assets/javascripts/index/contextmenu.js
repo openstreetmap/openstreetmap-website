@@ -71,7 +71,7 @@ OSM.initializeContextMenu = function (map) {
   });
 
   map.on("mousedown", function (e) {
-    if (e.shiftKey) map.contextmenu.disable();
+    if (e.originalEvent.shiftKey) map.contextmenu.disable();
   }).on("mouseup", function () {
     map.contextmenu.enable();
   });
