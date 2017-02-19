@@ -80,6 +80,31 @@ class WayControllerTest < ActionController::TestCase
   end
 
   ##
+  # check the "fordisplay" mode
+  def test_fordisplay
+    Way.all.each do |way|
+      get :fordisplay, :id => way.id
+
+      assert_response :success
+
+      # Check the way is correctly returned
+      if way.visible?
+         assert_select "osm way[id='#{way.id}'][version='#{way.version}'][visible='true']", 1
+      else
+         assert_select "osm way[id='#{way.id}'][version='#{way.version-1}'][visible='true']", 1
+      end
+
+      # check that each node in the way appears once in the output as a
+      # reference and as the node element.
+      way.nodes.each do |n|
+        count = (way.nodes - (way.nodes - [n])).length
+        assert_select "osm way nd[ref='#{n.id}']", count
+        assert_select "osm node[id='#{n.id}'][version='#{n.version}'][lat='#{n.lat}'][lon='#{n.lon}']", 1
+      end
+    end
+  end
+
+  ##
   # test fetching multiple ways
   def test_ways
     # check error when no parameter provided

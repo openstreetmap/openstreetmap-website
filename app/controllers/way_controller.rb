@@ -79,6 +79,31 @@ class WayController < ApplicationController
     end
   end
 
+  def fordisplay
+    way = Way.find(params[:id])
+
+    if way.visible
+      return full
+    end
+
+    way = way.latest_visible_version
+    changeset_cache = {}
+    user_display_name_cache = {}
+
+    doc = OSM::API.new.get_xml_doc
+    # this triggers different drawing style on frontend
+    doc.root["deleted"] = "true"
+    way.old_nodes.uniq.each do |waynode|
+      lvv = waynode.node.latest_visible_version
+      if lvv
+        doc.root << lvv.to_xml_node(changeset_cache, user_display_name_cache)
+      end
+    end
+    doc.root << way.to_xml_node(changeset_cache, user_display_name_cache)
+
+    render :text => doc.to_s, :content_type => "text/xml"
+  end
+
   def ways
     unless params["ways"]
       raise OSM::APIBadUserInput.new("The parameter ways is required, and must be of the form ways=id[,id[,id...]]")

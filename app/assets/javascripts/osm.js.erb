@@ -41,8 +41,8 @@ OSM = {
   apiUrl: function (object) {
     var url = "/api/" + OSM.API_VERSION + "/" + object.type + "/" + object.id;
 
-    if (object.type === "way" || object.type === "relation") {
-      url += "/full";
+    if (object.type === "node" || object.type === "way" || object.type === "relation") {
+      url += "/fordisplay";
     } else if (object.version) {
       url += "/" + object.version;
     }

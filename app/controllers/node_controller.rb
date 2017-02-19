@@ -35,6 +35,26 @@ class NodeController < ApplicationController
     end
   end
 
+  # Dump node details but ensure we show something even if node is deleted
+  def fordisplay
+    node = Node.find(params[:id])
+    response.last_modified = node.timestamp
+    if node.visible
+      render :text => node.to_xml.to_s, :content_type => "text/xml"
+    else
+      node = node.latest_visible_version
+      if node
+        doc = OSM::API.new.get_xml_doc
+        # this triggers different drawing style on frontend
+        doc.root["deleted"] = "true"
+        doc.root << node.to_xml_node({}, {})
+        render :text => doc.to_s, :content_type => "text/xml"
+      else
+        render :text => "", :status => :gone
+      end
+    end
+  end
+
   # Update a node from given XML
   def update
     node = Node.find(params[:id])

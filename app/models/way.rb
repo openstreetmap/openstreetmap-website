@@ -250,6 +250,16 @@ class Way < ActiveRecord::Base
     end
   end
 
+  def latest_visible_version
+    for v in (self.version).downto(1) do
+      oldway = OldWay.find([self.id, v])
+      if oldway.visible? && !oldway.redaction_id
+        return oldway
+      end
+    end
+    return nil
+  end
+
   private
 
   def save_with_history!
@@ -309,4 +319,5 @@ class Way < ActiveRecord::Base
       cs.save!
     end
   end
+
 end

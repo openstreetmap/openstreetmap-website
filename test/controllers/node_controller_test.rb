@@ -155,6 +155,14 @@ class NodeControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
+  def test_fordisplay
+    # check that a visible node is returned properly
+    get :fordisplay, :id => current_nodes(:invisible_node).id
+    assert_response :success
+
+    assert_select "osm node[id='#{current_nodes(:invisible_node).id}'][version='#{current_nodes(:invisible_node).version-1}'][visible='true']", 1
+  end
+
   # this tests deletion restrictions - basic deletion is tested in the unit
   # tests for node!
   def test_delete

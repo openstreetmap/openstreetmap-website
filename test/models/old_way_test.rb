@@ -4,7 +4,7 @@ class OldWayTest < ActiveSupport::TestCase
   api_fixtures
 
   def test_db_count
-    assert_equal 14, OldWay.count
+    assert_equal 15, OldWay.count
   end
 
   def test_old_nodes
@@ -107,6 +107,6 @@ class OldWayTest < ActiveSupport::TestCase
     nodes = OldWay.find(way.id).get_nodes_undelete
     assert_equal 2, nodes.size
     assert_equal [3.0, 3.0, 3, 1, { node_tag2.k => node_tag2.v }, true], nodes[0]
-    assert_equal [2.0, 2.0, 2, 1, { node_tag3.k => node_tag3.v }, false], nodes[1]
+    assert_equal [2.0, 2.0, 2, 2, { node_tag3.k => node_tag3.v }, false], nodes[1]
   end
 end
