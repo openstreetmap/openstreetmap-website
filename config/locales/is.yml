@@ -200,7 +200,23 @@ is:
       title: 'Minnispunktur: %{id}'
       new_note: Nýr minnispunktur
       description: Lýsing
+      open_title: 'Minnispunktur án lausnar #%{note_name}'
+      closed_title: 'Minnispunktur með lausn #%{note_name}'
       hidden_title: 'Falinn minnispunktur #%{note_name}'
+      open_by: Búið til af %{user} <abbr title='%{exact_time}'>fyrir %{when} síðan</abbr>
+      open_by_anonymous: Búið til af nafnlausum notanda <abbr title='{exact_time}'>fyrir
+        %{when} síðan</abbr>
+      commented_by: Umsögn frá %{user} <abbr title='%{exact_time}'>fyrir %{when} síðan</abbr>
+      commented_by_anonymous: Umsögn frá nafnlausum notanda <abbr title='{exact_time}'>fyrir
+        %{when} síðan</abbr>
+      closed_by: Leyst af %{user} <abbr title='%{exact_time}'>fyrir %{when} síðan</abbr>
+      closed_by_anonymous: Leyst af nafnlausum notanda <abbr title='{exact_time}'>fyrir
+        %{when} síðan</abbr>
+      reopened_by: Endurvirkjað af %{user} <abbr title='%{exact_time}'>fyrir %{when}
+        síðan</abbr>
+      reopened_by_anonymous: Endurvirkjað af nafnlausum notanda <abbr title='{exact_time}'>fyrir
+        %{when} síðan</abbr>
+      hidden_by: Falið af %{user} <abbr title='%{exact_time}'>fyrir %{when} síðan</abbr>
     query:
       title: Rannsaka fitjur
       introduction: Smelltu á kortið til að finna fitjur í nágrenninu.
@@ -224,6 +240,9 @@ is:
     list:
       title: Breytingasett
       title_user: Breytingar eftir %{user}
+      title_friend: Breytingar eftir vini þína
+      title_nearby: Breytingasett eftir nálæga notendur
+      empty: Engin breytingasett fundust.
       load_more: Hlaða inn fleiri
     rss:
       commented_at_html: Uppfært fyrir %{when} síðan
@@ -286,7 +305,7 @@ is:
     location:
       location: 'Staðsetning:'
       view: kort
-      edit: breyta
+      edit: Breyta
     feed:
       user:
         title: OpenStreetMap bloggfærslur eftir %{user}
@@ -321,6 +340,8 @@ is:
         body: Svæðið sem þú ert að reyna að flytja út á OpenStreetMap á XML-sniði
           er of stórt. Auktu aðdráttinn eða veldu smærra svæði, nú eða notaðu eina
           af eftirfarandi leiðum til að flytja inn mikið magn gagna.
+        planet:
+          title: OSM-plánetan
         geofabrik:
           title: Niðurhöl frá Geofabrik
         other:
@@ -336,7 +357,7 @@ is:
       longitude: 'Breidd:'
       output: Úttak
       paste_html: Notaðu þennan HTML kóða til að bæta kortinu á vefsíðu
-      export_button: Niðurhala
+      export_button: Flytja út
   geocoder:
     search:
       title:
@@ -407,7 +428,7 @@ is:
           fire_hydrant: Brunahani
           fire_station: Slökkvistöð
           fountain: Gosbrunnur
-          fuel: Bensínstöð
+          fuel: Eldsneyti
           gambling: Fjárhættuspil
           grave_yard: Kirkjugarður
           gym: Líkamsræktarstöð
@@ -552,13 +573,17 @@ is:
         landuse:
           allotments: Úthlutuð svæði
           basin: Lægð
+          brownfield: Byggingarsvæði
           cemetery: Grafreitur
           commercial: Verslunarsvæði
+          conservation: Verndarsvæði
+          construction: Bygging
           farm: Býli
-          farmland: Akurlendi
+          farmland: Ræktarland
           forest: Skógur
           garages: Verkstæði
           grass: Gras
+          greenfield: Nýbyggingarsvæði
           industrial: Iðnaðarsvæði
           landfill: Landfylling
           meadow: Skógarlundur
@@ -569,12 +594,14 @@ is:
           railway: Lestarteinar
           reservoir: Uppistöðulón
           residential: Íbúðasvæði
+          retail: Smásala
           vineyard: Vínekra
           "yes": Landnotkun
         leisure:
           bird_hide: Fuglaskoðunarhús
           club: Klúbbur
           common: Almenningur
+          dog_park: Hundagarður
           fitness_centre: Líkamsræktarstöð
           garden: Garður
           golf_course: Golfvöllur
@@ -665,7 +692,9 @@ is:
           houses: Hús
           island: Eyja
           islet: Smáeyja
+          isolated_dwelling: Einangraður bústaður
           locality: Sveitarfélag
+          moor: Mýri
           municipality: Sveitarfélag
           neighbourhood: Nágrenni
           postcode: Póstnúmer
@@ -678,12 +707,19 @@ is:
           village: Þorp
           "yes": Staður
         railway:
+          abandoned: Aflögð járnbraut
+          construction: Járnbraut í byggingu
+          historic_station: Söguleg lestarstöð
+          level_crossing: Þverun brautarteina
           light_rail: Smálest
+          monorail: Einteinungur
           station: Lestarstöð
           subway: Neðanjarðarlest
+          subway_entrance: Inngangur í neðanjarðarlest
           tram: Sporvagn
           tram_stop: Sporvagnastöð
         shop:
+          antiques: Antíkverslun
           art: Listmunaverslun
           bakery: Bakarí
           bicycle: Hjólaverslun
@@ -744,6 +780,7 @@ is:
           alpine_hut: Fjallaskáli
           apartment: Íbúð
           artwork: Listaverk
+          attraction: Aðdráttarafl
           bed_and_breakfast: BB-gisting og veitingar
           cabin: Kofi
           camp_site: Tjaldstæði
@@ -777,7 +814,10 @@ is:
           waterfall: Foss
           "yes": Siglingaleið
       admin_levels:
+        level2: Landamæri
+        level4: Fylkismörk
         level5: Héraðsmörk
+        level6: Sýslumörk
         level8: Borgarmörk
     description:
       title:
@@ -805,8 +845,8 @@ is:
     start_mapping: Hefja kortlagningu
     sign_up_tooltip: Stofnaðu aðgang til að geta breytt kortinu
     edit: Breyta
-    history: Sagnfræði
-    export: Niðurhala
+    history: Breytingaskrá
+    export: Flytja út
     data: Gögn
     export_data: Flytja út gögn
     gps_traces: GPS ferlar
@@ -817,14 +857,16 @@ is:
     tag_line: Frjálsa wiki heimskortið
     intro_header: Velkomin í OpenStreetMap!
     intro_2_create_account: Búa til notandaaðgang
+    partners_ucl: UCL VR Centre
+    partners_ic: Imperial College London
+    partners_bytemark: Bytemark Hosting
     partners_partners: samstarfsaðilar
-    partners_url: http://wiki.openstreetmap.org/wiki/Partners
     osm_offline: OpenStreetMap gagnagrunnurinn er niðri vegna viðhalds.
     osm_read_only: Ekki er hægt að skrifa í OpenStreetMap gagnagrunninn í augnablikinu
       vegna viðhalds.
     donate: Hjálpaðu OpenStreetMap verkefninu með %{link} í vélbúnaðarsjóðinn.
     help: Hjálp
-    about: Um
+    about: Um hugbúnaðinn
     copyright: Höfundaréttur
     community: Samfélag
     community_blogs: Blogg félaga
@@ -916,13 +958,14 @@ is:
     partners_title: Samstarfsaðilar
   notifier:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} bætti við athugasemd á bloggfærslu þína'
+      subject: '[OpenStreetMap] %{user} bætti athugasemd við bloggfærslu þína'
       hi: Hæ %{to_user},
-      header: '%{from_user} hefur bætt við athugasemd á OpenStreetMap bloggið þitt
+      header: '%{from_user} hefur bætt við athugasemd á OpenStreetMap bloggfærsluna
         með titlinum „%{subject}“:'
       footer: Þú getur einnig lesið athugasemdina á %{readurl} og skrifað athugasemd
         á %{commenturl} eða svarað á %{replyurl}
     message_notification:
+      subject_header: '[OpenStreetMap] %{subject}'
       hi: Hæ %{to_user},
       header: '%{from_user} hefur send þér skilaboð á OpenStreetMap með titlinum „%{subject}“:'
     friend_notification:
@@ -1144,6 +1187,7 @@ is:
           private: Einkaaðgangur
           destination: Umferð leyfileg á ákveðinn áfangastað
           construction: Vegir í byggingu
+          bicycle_parking: Reiðhjólastæði
     richtext_area:
       edit: Breyta
       preview: Forskoðun
@@ -1227,7 +1271,7 @@ is:
       owner: 'Eigandi:'
       description: 'Lýsing:'
       tags: 'Merki:'
-      none: engin
+      none: Ekkert
       edit_track: Breyta
       delete_track: Eyða
       trace_not_found: Þessi ferill fannst ekki!
@@ -1301,13 +1345,15 @@ is:
   oauth_clients:
     new:
       title: Skrá nýtt forrit
-      submit: Skrá
+      submit: Nýskrá
     edit:
       title: Breyta forritinu þínu
-      submit: Vista
+      submit: Breyta
     show:
       title: OAuth stillingar fyrir %{app_name}
+      authorize_url: 'Leyfa slóð (URL):'
       edit: Breyta þessari skráningu
+      delete: Eyða biðlara
       confirm: Ertu viss?
       requests: 'Óska eftir eftirfarandi leyfum frá notendum:'
       allow_read_prefs: Lesa notandastillingar þeirra.
@@ -1315,8 +1361,9 @@ is:
       allow_write_diary: Búa til bloggfærslur, setja inn athugasemdir og bæta við
         vinum.
       allow_write_api: Breyta kortagögnunum.
+      allow_read_gpx: Lesa einka-GPS-ferlana þeirra.
       allow_write_gpx: Senda inn GPS ferla.
-      allow_write_notes: breyta minnispunktum.
+      allow_write_notes: Breyta minnispunktum.
     index:
       title: OAuth stillingar
       revoke: Eyða banninu
@@ -1412,11 +1459,13 @@ is:
         vegna framlaga</a>.
       email address: 'Netfang:'
       confirm email address: 'Staðfestu netfang:'
-      not displayed publicly: Ekki sýnt opinberlega (sjá <a href="http://wiki.openstreetmap.org/index.php?uselang=is&title=Privacy_Policy"
-        title="Meðferð persónuupplýsinga, þ.á.m. netfanga">meðferð persónuupplýsinga</a>)
+      not displayed publicly: Netfangið þitt er ekki birt opinberlega, sjá kaflann
+        <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy" title=Meðferð
+        OSMF á persónuupplýsingum, þar með töldum netföngum">um meðferð persónuupplýsinga</a>
       display name: 'Sýnilegt nafn:'
       display name description: Nafn þitt sem aðrir notendur sjá, þú getur breytt
         því síðar í stillingunum þínum.
+      external auth: 'Auðkenning með þriðja aðila:'
       password: 'Lykilorð:'
       confirm password: 'Staðfestu lykilorðið:'
       continue: Nýskrá
@@ -1509,6 +1558,10 @@ is:
       unhide_user: Af-fela þennan notanda
       delete_user: Eyða þessum notanda
       confirm: Staðfesta
+      friends_changesets: breytingasett vina
+      friends_diaries: bloggfærslur vina
+      nearby_changesets: breytingasett vina í næsta nágrenni
+      nearby_diaries: bloggfærslur vina í næsta nágrenni
     popup:
       your location: Staðsetning þín
       nearby mapper: Nálægur notandi
@@ -1553,9 +1606,11 @@ is:
       preferred editor: 'Uppáhaldsritill:'
       image: 'Mynd:'
       gravatar:
-        gravatar: Nota Gravatar-merki
+        gravatar: Nota Gravatar-auðkennismynd
         link: http://wiki.openstreetmap.org/wiki/Gravatar
         link text: Hvað er þetta?
+        disabled: Gravatar-auðkennismynd hefur verið gerð óvirk.
+        enabled: Birting Gravatar-auðkennismyndar hefur verið gerð virk.
       new image: Bæta við mynd
       keep image: Halda þessari mynd
       delete image: Eyða þessari mynd
@@ -1575,9 +1630,11 @@ is:
       flash update success: Stillingarnar þínar voru uppfærðar.
     confirm:
       heading: Athuga með tölvupóstinn þinn!
+      introduction_1: Við höfum sent þér staðfestingartölvupóst.
       press confirm button: Hér getur þú staðfest að þú viljir búa til notanda..
       button: Staðfesta
       success: Notandinn þinn hefur verið staðfestur.
+      already active: Þessi notandaaðgangur hefur þegar verið staðfestur.
     confirm_email:
       heading: Staðfesta breytingu á netfangi
       press confirm button: Hér getur þú staðfest breytingu á netfangi.
@@ -1708,7 +1765,7 @@ is:
       ago: Fyrir %{time} síðan
       status: Staða
       show: Sýna
-      edit: Breyta banninu
+      edit: Breyta
       revoke: Eyða banninu
       confirm: Ertu viss?
       reason: 'Ástæða banns:'
@@ -1767,6 +1824,7 @@ is:
         header: Lög á korti
         notes: Minnispunktar á korti
         data: Gögn korts
+        gps: Opinberir GPS-ferlar
         title: Lög
       copyright: © <a href='%{copyright_url}'>OpenStreetMap þátttakendur</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Styrkja verkefnið</a>
@@ -1774,6 +1832,7 @@ is:
       edit_tooltip: Breyta kortinu
       edit_disabled_tooltip: Renndu að til að breyta kortinu
       createnote_tooltip: Bæta við minnispunkti á kortið
+      createnote_disabled_tooltip: Renndu að til að bæta minnispunkti á kortið
       map_notes_zoom_in_tooltip: Renndu að til að sjá minnispunkta á kortinu
       map_data_zoom_in_tooltip: Renndu að til að skoða gögn kortsins
       queryfeature_tooltip: Rannsaka fitjur
@@ -1784,12 +1843,14 @@ is:
         subscribe: Gerast áskrifandi
         unsubscribe: Segja upp áskrift
         hide_comment: fela
+        unhide_comment: hætta að fela
     notes:
       new:
         add: Bæta við minnispunkti
       show:
         hide: Fela
         resolve: Leysa
+        reactivate: Virkja aftur
         comment: Athugasemd
     directions:
       engines:
@@ -1802,17 +1863,22 @@ is:
         mapzen_bicycle: Reiðhjól (Mapzen)
         mapzen_car: Bíll (Mapzen)
         mapzen_foot: Fótgangandi (Mapzen)
-      directions: Stefnur
+      directions: Leiðir
       distance: Vegalengd
       errors:
         no_route: Gat ekki fundið leið á milli þessara tveggja staða.
         no_place: Því miður, gat ekki fundið þennan stað.
+      instructions:
+        continue_without_exit: Halda áfram á %{name}
+        unnamed: ónefnd gata
       time: Tími
     query:
       node: Hnútur
       way: Leið
       relation: Vensl
       nothing_found: Engar fitjur fundust
+      error: 'Villa við að tengjast %{server}: %{error}'
+      timeout: Rann út á tíma við að tengjast %{server}
   redaction:
     edit:
       description: Lýsing
