@@ -6,9 +6,12 @@ On Ubuntu, it should be as simple as:
 sudo apt-get install vagrant
 ```
 
-Other Linux distributions should have similar installation instructions using `yum` or similar.
+Other Linux distributions should have similar installation instructions using `dnf`, `pacman`, or similar.
 
 Installers are available for Mac OS X and Windows, please see the [Vagrant project download page](http://www.vagrantup.com/downloads.html) for more information.
+
+Note than until there are suitable _xenial64_ [vagrant boxes](https://atlas.hashicorp.com/boxes/search?utf8=%E2%9C%93&sort=&provider=&q=xenial64) for other providers,
+the only virtualization provider supported is virtualbox. You might need to install it and specify `--provider virtualbox` when setting up your environment.
 
 # Setting up openstreetmap-website
 
