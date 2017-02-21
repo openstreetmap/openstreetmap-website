@@ -40,5 +40,12 @@ FactoryGirl.define do
         create(:user_role, :role => "administrator", :user => user)
       end
     end
+
+    # A commonly needed user is one who can log in an isn't redirected anywhere
+    factory :normal_user do
+      status "active"
+      terms_seen true
+      data_public true
+    end
   end
 end
