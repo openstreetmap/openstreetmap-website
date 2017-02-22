@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.4
--- Dumped by pg_dump version 9.5.4
+-- Dumped from database version 9.5.6
+-- Dumped by pg_dump version 9.5.6
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1847,6 +1847,13 @@ CREATE UNIQUE INDEX index_client_applications_on_key ON client_applications USIN
 
 
 --
+-- Name: index_client_applications_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_client_applications_on_user_id ON client_applications USING btree (user_id);
+
+
+--
 -- Name: index_diary_entry_subscriptions_on_diary_entry_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1879,6 +1886,13 @@ CREATE UNIQUE INDEX index_oauth_nonces_on_nonce_and_timestamp ON oauth_nonces US
 --
 
 CREATE UNIQUE INDEX index_oauth_tokens_on_token ON oauth_tokens USING btree (token);
+
+
+--
+-- Name: index_oauth_tokens_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_oauth_tokens_on_user_id ON oauth_tokens USING btree (user_id);
 
 
 --
@@ -2598,6 +2612,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150818224516');
 INSERT INTO schema_migrations (version) VALUES ('20161002153425');
 
 INSERT INTO schema_migrations (version) VALUES ('20161011010929');
+
+INSERT INTO schema_migrations (version) VALUES ('20170222134109');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
