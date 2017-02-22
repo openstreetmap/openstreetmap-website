@@ -7,7 +7,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
   def test_add_duplicate_preference
     up = create(:user_preference)
     new_up = UserPreference.new
-    new_up.user = users(:normal_user)
+    new_up.user = up.user
     new_up.k = up.k
     new_up.v = "some other value"
     assert_not_equal new_up.v, up.v

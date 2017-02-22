@@ -3,11 +3,8 @@ FactoryGirl.define do
     sequence(:reason) { |n| "User Block #{n}" }
     ends_at Time.now + 1.day
 
-    # FIXME: requires User factory
-    user_id 13
-
-    # FIXME: requires User factory
-    creator_id 15
+    user
+    association :creator, :factory => :moderator_user
 
     trait :needs_view do
       needs_view true

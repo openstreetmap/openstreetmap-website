@@ -4,11 +4,8 @@ FactoryGirl.define do
     sequence(:body) { |n| "Body text for message #{n}" }
     sent_on Time.now
 
-    # FIXME: needs user factory
-    from_user_id 1
-
-    # FIXME: needs user factory
-    to_user_id 2
+    association :sender, :factory => :user
+    association :recipient, :factory => :user
 
     trait :unread do
       message_read false

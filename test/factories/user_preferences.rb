@@ -3,7 +3,6 @@ FactoryGirl.define do
     sequence(:k) { |n| "Key #{n}" }
     sequence(:v) { |n| "Value #{n}" }
 
-    # FIXME: needs user factory
-    user_id 1
+    user
   end
 end

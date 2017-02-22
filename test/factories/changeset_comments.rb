@@ -6,7 +6,6 @@ FactoryGirl.define do
     # FIXME: needs changeset factory
     changeset_id 3
 
-    # FIXME: needs user factory
-    author_id 1
+    association :author, :factory => :user
   end
 end

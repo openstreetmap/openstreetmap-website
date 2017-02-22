@@ -3,8 +3,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "Trace #{n}.gpx" }
     sequence(:description) { |n| "This is trace #{n}" }
 
-    # Fixme requires User Factory
-    user_id 1
+    user
 
     timestamp Time.now
     inserted true

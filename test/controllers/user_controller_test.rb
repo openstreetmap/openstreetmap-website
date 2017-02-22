@@ -1045,6 +1045,7 @@ class UserControllerTest < ActionController::TestCase
 
   def test_api_details
     create(:message, :read, :recipient => users(:normal_user))
+    create(:message, :sender => users(:normal_user))
 
     # check that nothing is returned when not logged in
     get :api_details

@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :friend do
-    # Fixme requires User Factory
-    user_id 1
-    friend_user_id 2
+    association :befriender, :factory => :user
+    association :befriendee, :factory => :user
   end
 end
