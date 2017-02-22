@@ -7,7 +7,7 @@ class OauthClientsController < ApplicationController
 
   def index
     @client_applications = @user.client_applications
-    @tokens = @user.oauth_tokens.authorized
+    @tokens_by_app = @user.oauth_tokens.authorized.group_by(&:client_application)
   end
 
   def new

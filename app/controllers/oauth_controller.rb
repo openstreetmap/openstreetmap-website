@@ -27,12 +27,12 @@ class OauthController < ApplicationController
   end
 
   def revoke
-    @token = current_user.oauth_tokens.find_by :token => params[:token]
-    if @token
-      @token.invalidate!
-      flash[:notice] = t("oauth.revoke.flash", :application => @token.client_application.name)
+    @tokens = current_user.oauth_tokens.where :client_application => params[:app]
+    if @tokens
+      @tokens.each { |token| token.invalidate! }
+      flash[:notice] = t("oauth.revoke.flash", :application => @tokens.take.client_application.name)
     end
-    redirect_to oauth_clients_url(:display_name => @token.user.display_name)
+    redirect_to oauth_clients_url(:display_name => current_user.display_name)
   end
 
   protected
