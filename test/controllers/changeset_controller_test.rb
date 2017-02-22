@@ -1578,11 +1578,11 @@ EOF
     assert_response :success, "can't get changesets by closed-ness"
     assert_changesets [3, 5, 6, 7, 8, 9]
 
-    get :query, :closed => "true", :user => users(:normal_user)
+    get :query, :closed => "true", :user => users(:normal_user).id
     assert_response :success, "can't get changesets by closed-ness and user"
     assert_changesets [3, 6, 8]
 
-    get :query, :closed => "true", :user => users(:public_user)
+    get :query, :closed => "true", :user => users(:public_user).id
     assert_response :success, "can't get changesets by closed-ness and user"
     assert_changesets [7]
 
