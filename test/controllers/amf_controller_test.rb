@@ -19,9 +19,9 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getpresets
-    [:public_user, :german_user].each do |id|
-      user = users(id)
-
+    user_en_de = create(:normal_user, :languages => %w(en de))
+    user_de = create(:normal_user, :languages => %w(de))
+    [user_en_de, user_de].each do |user|
       amf_content "getpresets", "/1", ["#{user.email}:test", ""]
       post :amf_read
       assert_response :success
@@ -460,8 +460,9 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal -1, result[0]
     assert_match /must be logged in/, result[1]
 
-    create(:user_block, :user => users(:blocked_user))
-    amf_content "findgpx", "/1", [1, "blocked@openstreetmap.org:test"]
+    blocked_user = create(:normal_user)
+    create(:user_block, :user => blocked_user)
+    amf_content "findgpx", "/1", [1, "#{blocked_user.email}:test"]
     post :amf_read
     assert_response :success
     amf_parse_response
@@ -473,9 +474,10 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_findgpx_by_id
-    trace = create(:trace, :visibility => "private", :user => users(:public_user))
+    user = create(:normal_user)
+    trace = create(:trace, :visibility => "private", :user => user)
 
-    amf_content "findgpx", "/1", [trace.id, "test@example.com:test"]
+    amf_content "findgpx", "/1", [trace.id, "#{user.email}:test"]
     post :amf_read
     assert_response :success
     amf_parse_response
