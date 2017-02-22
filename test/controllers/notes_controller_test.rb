@@ -1,8 +1,6 @@
 require "test_helper"
 
 class NotesControllerTest < ActionController::TestCase
-  fixtures :users, :user_roles
-
   def setup
     # Stub nominatim response for note locations
     stub_request(:get, %r{^http://nominatim\.openstreetmap\.org/reverse\?})
@@ -250,9 +248,13 @@ class NotesControllerTest < ActionController::TestCase
     assert_nil js["properties"]["comments"].last["user"]
 
     # Ensure that emails are sent to users
+    first_user = create(:normal_user)
+    second_user = create(:normal_user)
+    third_user = create(:normal_user)
+
     note_with_comments_by_users = create(:note) do |note|
-      create(:note_comment, :note => note, :author => users(:normal_user))
-      create(:note_comment, :note => note, :author => users(:second_public_user))
+      create(:note_comment, :note => note, :author => first_user)
+      create(:note_comment, :note => note, :author => second_user)
     end
     assert_difference "NoteComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 2 do
@@ -270,12 +272,12 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
     assert_nil js["properties"]["comments"].last["user"]
 
-    email = ActionMailer::Base.deliveries.find { |e| e.to.first == "test@openstreetmap.org" }
+    email = ActionMailer::Base.deliveries.find { |e| e.to.first == first_user.email }
     assert_not_nil email
     assert_equal 1, email.to.length
     assert_equal "[OpenStreetMap] An anonymous user has commented on one of your notes", email.subject
 
-    email = ActionMailer::Base.deliveries.find { |e| e.to.first == "public@OpenStreetMap.org" }
+    email = ActionMailer::Base.deliveries.find { |e| e.to.first == second_user.email }
     assert_not_nil email
     assert_equal 1, email.to.length
     assert_equal "[OpenStreetMap] An anonymous user has commented on a note you are interested in", email.subject
@@ -294,7 +296,7 @@ class NotesControllerTest < ActionController::TestCase
 
     ActionMailer::Base.deliveries.clear
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(third_user.email, "test")
 
     assert_difference "NoteComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 2 do
@@ -310,18 +312,18 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 4, js["properties"]["comments"].count
     assert_equal "commented", js["properties"]["comments"].last["action"]
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
-    assert_equal "test2", js["properties"]["comments"].last["user"]
+    assert_equal third_user.display_name, js["properties"]["comments"].last["user"]
 
-    email = ActionMailer::Base.deliveries.find { |e| e.to.first == "test@openstreetmap.org" }
+    email = ActionMailer::Base.deliveries.find { |e| e.to.first == first_user.email }
     assert_not_nil email
     assert_equal 1, email.to.length
-    assert_equal "[OpenStreetMap] test2 has commented on one of your notes", email.subject
-    assert_equal "test@openstreetmap.org", email.to.first
+    assert_equal "[OpenStreetMap] #{third_user.display_name} has commented on one of your notes", email.subject
+    assert_equal first_user.email, email.to.first
 
-    email = ActionMailer::Base.deliveries.find { |e| e.to.first == "public@OpenStreetMap.org" }
+    email = ActionMailer::Base.deliveries.find { |e| e.to.first == second_user.email }
     assert_not_nil email
     assert_equal 1, email.to.length
-    assert_equal "[OpenStreetMap] test2 has commented on a note you are interested in", email.subject
+    assert_equal "[OpenStreetMap] #{third_user.display_name} has commented on a note you are interested in", email.subject
 
     get :show, :id => note_with_comments_by_users.id, :format => "json"
     assert_response :success
@@ -333,7 +335,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 4, js["properties"]["comments"].count
     assert_equal "commented", js["properties"]["comments"].last["action"]
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
-    assert_equal "test2", js["properties"]["comments"].last["user"]
+    assert_equal third_user.display_name, js["properties"]["comments"].last["user"]
 
     ActionMailer::Base.deliveries.clear
   end
@@ -378,11 +380,12 @@ class NotesControllerTest < ActionController::TestCase
 
   def test_close_success
     open_note_with_comment = create(:note_with_comments)
+    user = create(:normal_user)
 
     post :close, :id => open_note_with_comment.id, :text => "This is a close comment", :format => "json"
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     post :close, :id => open_note_with_comment.id, :text => "This is a close comment", :format => "json"
     assert_response :success
@@ -394,7 +397,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 2, js["properties"]["comments"].count
     assert_equal "closed", js["properties"]["comments"].last["action"]
     assert_equal "This is a close comment", js["properties"]["comments"].last["text"]
-    assert_equal "test2", js["properties"]["comments"].last["user"]
+    assert_equal user.display_name, js["properties"]["comments"].last["user"]
 
     get :show, :id => open_note_with_comment.id, :format => "json"
     assert_response :success
@@ -406,14 +409,14 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 2, js["properties"]["comments"].count
     assert_equal "closed", js["properties"]["comments"].last["action"]
     assert_equal "This is a close comment", js["properties"]["comments"].last["text"]
-    assert_equal "test2", js["properties"]["comments"].last["user"]
+    assert_equal user.display_name, js["properties"]["comments"].last["user"]
   end
 
   def test_close_fail
     post :close
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:normal_user).email, "test")
 
     post :close
     assert_response :bad_request
@@ -434,11 +437,12 @@ class NotesControllerTest < ActionController::TestCase
 
   def test_reopen_success
     closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now)
+    user = create(:normal_user)
 
     post :reopen, :id => closed_note_with_comment.id, :text => "This is a reopen comment", :format => "json"
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     post :reopen, :id => closed_note_with_comment.id, :text => "This is a reopen comment", :format => "json"
     assert_response :success
@@ -450,7 +454,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 2, js["properties"]["comments"].count
     assert_equal "reopened", js["properties"]["comments"].last["action"]
     assert_equal "This is a reopen comment", js["properties"]["comments"].last["text"]
-    assert_equal "test2", js["properties"]["comments"].last["user"]
+    assert_equal user.display_name, js["properties"]["comments"].last["user"]
 
     get :show, :id => closed_note_with_comment.id, :format => "json"
     assert_response :success
@@ -462,7 +466,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 2, js["properties"]["comments"].count
     assert_equal "reopened", js["properties"]["comments"].last["action"]
     assert_equal "This is a reopen comment", js["properties"]["comments"].last["text"]
-    assert_equal "test2", js["properties"]["comments"].last["user"]
+    assert_equal user.display_name, js["properties"]["comments"].last["user"]
   end
 
   def test_reopen_fail
@@ -471,7 +475,7 @@ class NotesControllerTest < ActionController::TestCase
     post :reopen, :id => hidden_note_with_comment.id
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:normal_user).email, "test")
 
     post :reopen, :id => 12345
     assert_response :not_found
@@ -584,16 +588,18 @@ class NotesControllerTest < ActionController::TestCase
 
   def test_destroy_success
     open_note_with_comment = create(:note_with_comments)
+    user = create(:normal_user)
+    moderator_user = create(:moderator_user, :status => "active")
 
     delete :destroy, :id => open_note_with_comment.id, :text => "This is a hide comment", :format => "json"
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     delete :destroy, :id => open_note_with_comment.id, :text => "This is a hide comment", :format => "json"
     assert_response :forbidden
 
-    basic_authorization(users(:moderator_user).email, "test")
+    basic_authorization(moderator_user.email, "test")
 
     delete :destroy, :id => open_note_with_comment.id, :text => "This is a hide comment", :format => "json"
     assert_response :success
@@ -605,22 +611,25 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 2, js["properties"]["comments"].count
     assert_equal "hidden", js["properties"]["comments"].last["action"]
     assert_equal "This is a hide comment", js["properties"]["comments"].last["text"]
-    assert_equal "moderator", js["properties"]["comments"].last["user"]
+    assert_equal moderator_user.display_name, js["properties"]["comments"].last["user"]
 
     get :show, :id => open_note_with_comment.id, :format => "json"
     assert_response :gone
   end
 
   def test_destroy_fail
+    user = create(:normal_user)
+    moderator_user = create(:moderator_user, :status => "active")
+
     delete :destroy, :id => 12345, :format => "json"
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     delete :destroy, :id => 12345, :format => "json"
     assert_response :forbidden
 
-    basic_authorization(users(:moderator_user).email, "test")
+    basic_authorization(moderator_user.email, "test")
 
     delete :destroy, :id => 12345, :format => "json"
     assert_response :not_found
@@ -939,35 +948,39 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_mine_success
+    first_user = create(:normal_user)
+    second_user = create(:normal_user)
+    moderator_user = create(:moderator_user, :status => "active", :terms_seen => true)
+
     create(:note) do |note|
-      create(:note_comment, :note => note, :author => users(:normal_user))
+      create(:note_comment, :note => note, :author => first_user)
     end
     create(:note) do |note|
-      create(:note_comment, :note => note, :author => users(:second_public_user))
+      create(:note_comment, :note => note, :author => second_user)
     end
     create(:note, :status => "hidden") do |note|
-      create(:note_comment, :note => note, :author => users(:second_public_user))
+      create(:note_comment, :note => note, :author => second_user)
     end
 
     # Note that the table rows include a header row
-    get :mine, :display_name => "test"
+    get :mine, :display_name => first_user.display_name
     assert_response :success
     assert_select "table.note_list tr", :count => 2
 
-    get :mine, :display_name => "pulibc_test2"
+    get :mine, :display_name => second_user.display_name
     assert_response :success
     assert_select "table.note_list tr", :count => 2
 
     get :mine, :display_name => "non-existent"
     assert_response :not_found
 
-    session[:user] = users(:moderator_user).id
+    session[:user] = moderator_user.id
 
-    get :mine, :display_name => "test"
+    get :mine, :display_name => first_user.display_name
     assert_response :success
     assert_select "table.note_list tr", :count => 2
 
-    get :mine, :display_name => "pulibc_test2"
+    get :mine, :display_name => second_user.display_name
     assert_response :success
     assert_select "table.note_list tr", :count => 3
 

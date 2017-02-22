@@ -382,7 +382,7 @@ class ApiControllerTest < ActionController::TestCase
   end
 
   def test_permissions_basic_auth
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(create(:normal_user).email, "test")
     get :permissions
     assert_response :success
     assert_select "osm > permissions", :count => 1 do
