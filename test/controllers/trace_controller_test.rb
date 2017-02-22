@@ -194,11 +194,11 @@ class TraceControllerTest < ActionController::TestCase
     check_trace_list [trace_a]
 
     # Should see more when we are logged in
-    get :list, {}, { :user => users(:public_user).id }
+    get :list, {}, { :user => users(:public_user) }
     check_trace_list [trace_d, trace_c, trace_b, trace_a]
 
     # Again, we should see more when we are logged in
-    get :list, { :tag => "London" }, { :user => users(:public_user).id }
+    get :list, { :tag => "London" }, { :user => users(:public_user) }
     check_trace_list [trace_c, trace_a]
   end
 
@@ -216,11 +216,11 @@ class TraceControllerTest < ActionController::TestCase
     assert_redirected_to :controller => "user", :action => "login", :referer => "/traces/mine"
 
     # Now try when logged in
-    get :mine, {}, { :user => users(:public_user).id }
+    get :mine, {}, { :user => users(:public_user) }
     assert_redirected_to :controller => "trace", :action => "list", :display_name => users(:public_user).display_name
 
     # Fetch the actual list
-    get :list, { :display_name => users(:public_user).display_name }, { :user => users(:public_user).id }
+    get :list, { :display_name => users(:public_user).display_name }, { :user => users(:public_user) }
     check_trace_list [trace_b]
   end
 
@@ -241,15 +241,15 @@ class TraceControllerTest < ActionController::TestCase
     check_trace_list [trace_b]
 
     # Should still see only public ones when authenticated as another user
-    get :list, { :display_name => users(:public_user).display_name }, { :user => users(:normal_user).id }
+    get :list, { :display_name => users(:public_user).display_name }, { :user => users(:normal_user) }
     check_trace_list [trace_b]
 
     # Should see all traces when authenticated as the target user
-    get :list, { :display_name => users(:public_user).display_name }, { :user => users(:public_user).id }
+    get :list, { :display_name => users(:public_user).display_name }, { :user => users(:public_user) }
     check_trace_list [trace_c, trace_b]
 
     # Should only see traces with the correct tag when a tag is specified
-    get :list, { :display_name => users(:public_user).display_name, :tag => "London" }, { :user => users(:public_user).id }
+    get :list, { :display_name => users(:public_user).display_name, :tag => "London" }, { :user => users(:public_user) }
     check_trace_list [trace_c]
 
     # Should get an error if the user does not exist
@@ -286,11 +286,11 @@ class TraceControllerTest < ActionController::TestCase
     check_trace_view public_trace_file
 
     # Now with some other user, which should work since the trace is public
-    get :view, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user).id }
+    get :view, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user) }
     check_trace_view public_trace_file
 
     # And finally we should be able to do it with the owner of the trace
-    get :view, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user).id }
+    get :view, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user) }
     check_trace_view public_trace_file
   end
 
@@ -304,12 +304,12 @@ class TraceControllerTest < ActionController::TestCase
     assert_redirected_to :action => :list
 
     # Now with some other user, which should not work since the trace is anon
-    get :view, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:normal_user).id }
+    get :view, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:normal_user) }
     assert_response :redirect
     assert_redirected_to :action => :list
 
     # And finally we should be able to do it with the owner of the trace
-    get :view, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:public_user).id }
+    get :view, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:public_user) }
     check_trace_view anon_trace_file
   end
 
@@ -323,12 +323,12 @@ class TraceControllerTest < ActionController::TestCase
     assert_redirected_to :action => :list
 
     # Now with some other user
-    get :view, { :display_name => users(:public_user).display_name, :id => 0 }, { :user => users(:public_user).id }
+    get :view, { :display_name => users(:public_user).display_name, :id => 0 }, { :user => users(:public_user) }
     assert_response :redirect
     assert_redirected_to :action => :list
 
     # And finally we should not be able to view a deleted trace
-    get :view, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id }, { :user => users(:public_user).id }
+    get :view, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id }, { :user => users(:public_user) }
     assert_response :redirect
     assert_redirected_to :action => :list
   end
@@ -342,11 +342,11 @@ class TraceControllerTest < ActionController::TestCase
     check_trace_data public_trace_file
 
     # Now with some other user, which should work since the trace is public
-    get :data, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user).id }
+    get :data, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user) }
     check_trace_data public_trace_file
 
     # And finally we should be able to do it with the owner of the trace
-    get :data, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user).id }
+    get :data, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user) }
     check_trace_data public_trace_file
   end
 
@@ -376,11 +376,11 @@ class TraceControllerTest < ActionController::TestCase
     assert_response :not_found
 
     # Now with some other user, which shouldn't work since the trace is anon
-    get :data, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:normal_user).id }
+    get :data, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:normal_user) }
     assert_response :not_found
 
     # And finally we should be able to do it with the owner of the trace
-    get :data, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:public_user).id }
+    get :data, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:public_user) }
     check_trace_data anon_trace_file
   end
 
@@ -393,11 +393,11 @@ class TraceControllerTest < ActionController::TestCase
     assert_response :not_found
 
     # Now with a trace that has never existed
-    get :data, { :display_name => users(:public_user).display_name, :id => 0 }, { :user => users(:public_user).id }
+    get :data, { :display_name => users(:public_user).display_name, :id => 0 }, { :user => users(:public_user) }
     assert_response :not_found
 
     # Now with a trace that has been deleted
-    get :data, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id }, { :user => users(:public_user).id }
+    get :data, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id }, { :user => users(:public_user) }
     assert_response :not_found
   end
 
@@ -410,11 +410,11 @@ class TraceControllerTest < ActionController::TestCase
     check_trace_picture public_trace_file
 
     # Now with some other user, which should work since the trace is public
-    get :picture, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user).id }
+    get :picture, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user) }
     check_trace_picture public_trace_file
 
     # And finally we should be able to do it with the owner of the trace
-    get :picture, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user).id }
+    get :picture, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user) }
     check_trace_picture public_trace_file
   end
 
@@ -427,11 +427,11 @@ class TraceControllerTest < ActionController::TestCase
     assert_response :forbidden
 
     # Now with some other user, which shouldn't work since the trace is anon
-    get :picture, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:normal_user).id }
+    get :picture, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:normal_user) }
     assert_response :forbidden
 
     # And finally we should be able to do it with the owner of the trace
-    get :picture, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:public_user).id }
+    get :picture, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:public_user) }
     check_trace_picture anon_trace_file
   end
 
@@ -442,12 +442,12 @@ class TraceControllerTest < ActionController::TestCase
     assert_response :not_found
 
     # Now with some other user, which should work since the trace is public
-    get :picture, { :display_name => users(:public_user).display_name, :id => 0 }, { :user => users(:public_user).id }
+    get :picture, { :display_name => users(:public_user).display_name, :id => 0 }, { :user => users(:public_user) }
     assert_response :not_found
 
     # And finally we should not be able to do it with a deleted trace
     deleted_trace_file = create(:trace, :deleted)
-    get :picture, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id }, { :user => users(:public_user).id }
+    get :picture, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id }, { :user => users(:public_user) }
     assert_response :not_found
   end
 
@@ -460,11 +460,11 @@ class TraceControllerTest < ActionController::TestCase
     check_trace_icon public_trace_file
 
     # Now with some other user, which should work since the trace is public
-    get :icon, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user).id }
+    get :icon, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user) }
     check_trace_icon public_trace_file
 
     # And finally we should be able to do it with the owner of the trace
-    get :icon, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user).id }
+    get :icon, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user) }
     check_trace_icon public_trace_file
   end
 
@@ -477,11 +477,11 @@ class TraceControllerTest < ActionController::TestCase
     assert_response :forbidden
 
     # Now with some other user, which shouldn't work since the trace is anon
-    get :icon, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:normal_user).id }
+    get :icon, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:normal_user) }
     assert_response :forbidden
 
     # And finally we should be able to do it with the owner of the trace
-    get :icon, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:public_user).id }
+    get :icon, { :display_name => users(:public_user).display_name, :id => anon_trace_file.id }, { :user => users(:public_user) }
     check_trace_icon anon_trace_file
   end
 
@@ -492,12 +492,12 @@ class TraceControllerTest < ActionController::TestCase
     assert_response :not_found
 
     # Now with some other user
-    get :icon, { :display_name => users(:public_user).display_name, :id => 0 }, { :user => users(:public_user).id }
+    get :icon, { :display_name => users(:public_user).display_name, :id => 0 }, { :user => users(:public_user) }
     assert_response :not_found
 
     # And finally we should not be able to do it with a deleted trace
     deleted_trace_file = create(:trace, :deleted)
-    get :icon, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id }, { :user => users(:public_user).id }
+    get :icon, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id }, { :user => users(:public_user) }
     assert_response :not_found
   end
 
@@ -510,20 +510,20 @@ class TraceControllerTest < ActionController::TestCase
 
     # Now authenticated as a user with gps.trace.visibility set
     create(:user_preference, :user => users(:public_user), :k => "gps.trace.visibility", :v => "identifiable")
-    get :create, {}, { :user => users(:public_user).id }
+    get :create, {}, { :user => users(:public_user) }
     assert_response :success
     assert_template :create
     assert_select "select#trace_visibility option[value=identifiable][selected]", 1
 
     # Now authenticated as a user with gps.trace.public set
     create(:user_preference, :user => users(:second_public_user), :k => "gps.trace.public", :v => "default")
-    get :create, {}, { :user => users(:second_public_user).id }
+    get :create, {}, { :user => users(:second_public_user) }
     assert_response :success
     assert_template :create
     assert_select "select#trace_visibility option[value=public][selected]", 1
 
     # Now authenticated as a user with no preferences
-    get :create, {}, { :user => users(:normal_user).id }
+    get :create, {}, { :user => users(:normal_user) }
     assert_response :success
     assert_template :create
     assert_select "select#trace_visibility option[value=private][selected]", 1
@@ -542,7 +542,7 @@ class TraceControllerTest < ActionController::TestCase
     # Now authenticated
     create(:user_preference, :user => users(:public_user), :k => "gps.trace.visibility", :v => "identifiable")
     assert_not_equal "trackable", users(:public_user).preferences.where(:k => "gps.trace.visibility").first.v
-    post :create, { :trace => { :gpx_file => file, :description => "New Trace", :tagstring => "new,trace", :visibility => "trackable" } }, { :user => users(:public_user).id }
+    post :create, { :trace => { :gpx_file => file, :description => "New Trace", :tagstring => "new,trace", :visibility => "trackable" } }, { :user => users(:public_user) }
     assert_response :redirect
     assert_redirected_to :action => :list, :display_name => users(:public_user).display_name
     assert_match /file has been uploaded/, flash[:notice]
@@ -568,19 +568,19 @@ class TraceControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :user, :action => :login, :referer => trace_edit_path(:display_name => users(:normal_user).display_name, :id => public_trace_file.id)
 
     # Now with some other user, which should fail
-    get :edit, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user).id }
+    get :edit, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user) }
     assert_response :forbidden
 
     # Now with a trace which doesn't exist
-    get :edit, { :display_name => users(:public_user).display_name, :id => 0 }, { :user => users(:public_user).id }
+    get :edit, { :display_name => users(:public_user).display_name, :id => 0 }, { :user => users(:public_user) }
     assert_response :not_found
 
     # Now with a trace which has been deleted
-    get :edit, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id }, { :user => users(:public_user).id }
+    get :edit, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id }, { :user => users(:public_user) }
     assert_response :not_found
 
     # Finally with a trace that we are allowed to edit
-    get :edit, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user).id }
+    get :edit, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user) }
     assert_response :success
   end
 
@@ -594,19 +594,19 @@ class TraceControllerTest < ActionController::TestCase
     assert_response :forbidden
 
     # Now with some other user, which should fail
-    post :edit, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user).id }
+    post :edit, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user) }
     assert_response :forbidden
 
     # Now with a trace which doesn't exist
-    post :edit, { :display_name => users(:public_user).display_name, :id => 0 }, { :user => users(:public_user).id }
+    post :edit, { :display_name => users(:public_user).display_name, :id => 0 }, { :user => users(:public_user) }
     assert_response :not_found
 
     # Now with a trace which has been deleted
-    post :edit, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id }, { :user => users(:public_user).id }
+    post :edit, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id }, { :user => users(:public_user) }
     assert_response :not_found
 
     # Finally with a trace that we are allowed to edit
-    post :edit, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user).id }
+    post :edit, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user) }
     assert_response :success
   end
 
@@ -623,19 +623,19 @@ class TraceControllerTest < ActionController::TestCase
     assert_response :forbidden
 
     # Now with some other user, which should fail
-    post :edit, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id, :trace => new_details }, { :user => users(:public_user).id }
+    post :edit, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id, :trace => new_details }, { :user => users(:public_user) }
     assert_response :forbidden
 
     # Now with a trace which doesn't exist
-    post :edit, { :display_name => users(:public_user).display_name, :id => 0 }, { :user => users(:public_user).id, :trace => new_details }
+    post :edit, { :display_name => users(:public_user).display_name, :id => 0 }, { :user => users(:public_user), :trace => new_details }
     assert_response :not_found
 
     # Now with a trace which has been deleted
-    post :edit, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id, :trace => new_details }, { :user => users(:public_user).id }
+    post :edit, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id, :trace => new_details }, { :user => users(:public_user) }
     assert_response :not_found
 
     # Finally with a trace that we are allowed to edit
-    post :edit, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id, :trace => new_details }, { :user => users(:normal_user).id }
+    post :edit, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id, :trace => new_details }, { :user => users(:normal_user) }
     assert_response :redirect
     assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
     trace = Trace.find(public_trace_file.id)
@@ -654,19 +654,19 @@ class TraceControllerTest < ActionController::TestCase
     assert_response :forbidden
 
     # Now with some other user, which should fail
-    post :delete, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user).id }
+    post :delete, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:public_user) }
     assert_response :forbidden
 
     # Now with a trace which doesn't exist
-    post :delete, { :display_name => users(:public_user).display_name, :id => 0 }, { :user => users(:public_user).id }
+    post :delete, { :display_name => users(:public_user).display_name, :id => 0 }, { :user => users(:public_user) }
     assert_response :not_found
 
     # Now with a trace has already been deleted
-    post :delete, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id }, { :user => users(:public_user).id }
+    post :delete, { :display_name => users(:public_user).display_name, :id => deleted_trace_file.id }, { :user => users(:public_user) }
     assert_response :not_found
 
     # Finally with a trace that we are allowed to delete
-    post :delete, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user).id }
+    post :delete, { :display_name => users(:normal_user).display_name, :id => public_trace_file.id }, { :user => users(:normal_user) }
     assert_response :redirect
     assert_redirected_to :action => :list, :display_name => users(:normal_user).display_name
     trace = Trace.find(public_trace_file.id)

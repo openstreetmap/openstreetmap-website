@@ -172,7 +172,7 @@ class SiteControllerTest < ActionController::TestCase
 
   # Test the right editor gets used when the user hasn't set a preference
   def test_edit_without_preference
-    get :edit, nil, :user => users(:public_user).id
+    get :edit, nil, :user => users(:public_user)
     assert_response :success
     assert_template "edit"
     assert_template :partial => "_#{DEFAULT_EDITOR}", :count => 1
@@ -184,7 +184,7 @@ class SiteControllerTest < ActionController::TestCase
     user.preferred_editor = "id"
     user.save!
 
-    get :edit, nil, :user => user.id
+    get :edit, nil, :user => user
     assert_response :success
     assert_template "edit"
     assert_template :partial => "_id", :count => 1
@@ -193,7 +193,7 @@ class SiteControllerTest < ActionController::TestCase
     user.preferred_editor = "potlatch2"
     user.save!
 
-    get :edit, nil, :user => user.id
+    get :edit, nil, :user => user
     assert_response :success
     assert_template "edit"
     assert_template :partial => "_potlatch2", :count => 1
@@ -202,7 +202,7 @@ class SiteControllerTest < ActionController::TestCase
     user.preferred_editor = "potlatch"
     user.save!
 
-    get :edit, nil, :user => user.id
+    get :edit, nil, :user => user
     assert_response :success
     assert_template "edit"
     assert_template :partial => "_potlatch", :count => 1
@@ -211,29 +211,29 @@ class SiteControllerTest < ActionController::TestCase
     user.preferred_editor = "remote"
     user.save!
 
-    get :edit, nil, :user => user.id
+    get :edit, nil, :user => user
     assert_response :success
     assert_template "index"
   end
 
   # Test the right editor gets used when the URL has an override
   def test_edit_with_override
-    get :edit, { :editor => "id" }, { :user => users(:public_user).id }
+    get :edit, { :editor => "id" }, { :user => users(:public_user) }
     assert_response :success
     assert_template "edit"
     assert_template :partial => "_id", :count => 1
 
-    get :edit, { :editor => "potlatch2" }, { :user => users(:public_user).id }
+    get :edit, { :editor => "potlatch2" }, { :user => users(:public_user) }
     assert_response :success
     assert_template "edit"
     assert_template :partial => "_potlatch2", :count => 1
 
-    get :edit, { :editor => "potlatch" }, { :user => users(:public_user).id }
+    get :edit, { :editor => "potlatch" }, { :user => users(:public_user) }
     assert_response :success
     assert_template "edit"
     assert_template :partial => "_potlatch", :count => 1
 
-    get :edit, { :editor => "remote" }, { :user => users(:public_user).id }
+    get :edit, { :editor => "remote" }, { :user => users(:public_user) }
     assert_response :success
     assert_template "index"
   end
@@ -243,7 +243,7 @@ class SiteControllerTest < ActionController::TestCase
     user = users(:public_user)
     node = current_nodes(:visible_node)
 
-    get :edit, { :node => node.id }, { :user => user.id }
+    get :edit, { :node => node.id }, { :user => user }
     assert_response :success
     assert_template "edit"
     assert_equal 1.0, assigns(:lat)
@@ -256,7 +256,7 @@ class SiteControllerTest < ActionController::TestCase
     user = users(:public_user)
     way  = current_ways(:visible_way)
 
-    get :edit, { :way => way.id }, { :user => user.id }
+    get :edit, { :way => way.id }, { :user => user }
     assert_response :success
     assert_template "edit"
     assert_equal 3.0, assigns(:lat)
@@ -271,7 +271,7 @@ class SiteControllerTest < ActionController::TestCase
       n.comments.create(:author_id => user.id)
     end
 
-    get :edit, { :note => note.id }, { :user => user.id }
+    get :edit, { :note => note.id }, { :user => user }
     assert_response :success
     assert_template "edit"
     assert_equal 1.0, assigns(:lat)
@@ -284,7 +284,7 @@ class SiteControllerTest < ActionController::TestCase
     user = users(:public_user)
     gpx  = create(:trace, :latitude => 1, :longitude => 1)
 
-    get :edit, { :gpx => gpx.id }, { :user => user.id }
+    get :edit, { :gpx => gpx.id }, { :user => user }
     assert_response :success
     assert_template "edit"
     assert_equal 1.0, assigns(:lat)
@@ -317,7 +317,7 @@ class SiteControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :controller => :user, :action => :login, :referer => "/welcome"
 
-    get :welcome, nil, :user => users(:public_user).id
+    get :welcome, nil, :user => users(:public_user)
     assert_response :success
     assert_template "welcome"
   end
@@ -377,7 +377,7 @@ class SiteControllerTest < ActionController::TestCase
 
   # Test the id frame
   def test_id
-    get :id, nil, :user => users(:public_user).id
+    get :id, nil, :user => users(:public_user)
     assert_response :success
     assert_template "id"
     assert_template :layout => false

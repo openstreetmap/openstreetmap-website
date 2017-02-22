@@ -768,7 +768,7 @@ class UserControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :user, :action => "login", :referer => "/user/test/account"
 
     # Make sure that you are blocked when not logged in as the right user
-    get :account, { :display_name => user.display_name }, { :user => users(:public_user).id }
+    get :account, { :display_name => user.display_name }, { :user => users(:public_user) }
     assert_response :forbidden
 
     # Make sure we get the page when we are logged in as the right user
@@ -778,7 +778,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Updating the description should work
     user.description = "new description"
-    post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user.id }
+    post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user }
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -787,7 +787,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Changing to a invalid editor should fail
     user.preferred_editor = "unknown"
-    post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user.id }
+    post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user }
     assert_response :success
     assert_template :account
     assert_select ".notice", false
@@ -796,7 +796,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Changing to a valid editor should work
     user.preferred_editor = "potlatch2"
-    post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user.id }
+    post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user }
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -805,7 +805,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Changing to the default editor should work
     user.preferred_editor = "default"
-    post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user.id }
+    post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user }
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -814,7 +814,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Changing to an uploaded image should work
     image = Rack::Test::UploadedFile.new("test/gpx/fixtures/a.gif", "image/gif")
-    post :account, { :display_name => user.display_name, :image_action => "new", :user => user.attributes.merge(:image => image) }, { :user => user.id }
+    post :account, { :display_name => user.display_name, :image_action => "new", :user => user.attributes.merge(:image => image) }, { :user => user }
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -822,7 +822,7 @@ class UserControllerTest < ActionController::TestCase
     assert_select "form#accountForm > fieldset > div.form-row.accountImage input[name=image_action][checked][value=?]", "keep"
 
     # Changing to a gravatar image should work
-    post :account, { :display_name => user.display_name, :image_action => "gravatar", :user => user.attributes }, { :user => user.id }
+    post :account, { :display_name => user.display_name, :image_action => "gravatar", :user => user.attributes }, { :user => user }
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -830,7 +830,7 @@ class UserControllerTest < ActionController::TestCase
     assert_select "form#accountForm > fieldset > div.form-row.accountImage input[name=image_action][checked][value=?]", "gravatar"
 
     # Removing the image should work
-    post :account, { :display_name => user.display_name, :image_action => "delete", :user => user.attributes }, { :user => user.id }
+    post :account, { :display_name => user.display_name, :image_action => "delete", :user => user.attributes }, { :user => user }
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -838,13 +838,13 @@ class UserControllerTest < ActionController::TestCase
     assert_select "form#accountForm > fieldset > div.form-row.accountImage input[name=image_action][checked]", false
 
     # Adding external authentication should redirect to the auth provider
-    post :account, { :display_name => user.display_name, :user => user.attributes.merge(:auth_provider => "openid", :auth_uid => "gmail.com") }, { :user => user.id }
+    post :account, { :display_name => user.display_name, :user => user.attributes.merge(:auth_provider => "openid", :auth_uid => "gmail.com") }, { :user => user }
     assert_response :redirect
     assert_redirected_to auth_path(:provider => "openid", :openid_url => "https://www.google.com/accounts/o8/id", :origin => "/user/#{user.display_name}/account")
 
     # Changing name to one that exists should fail
     new_attributes = user.attributes.dup.merge(:display_name => users(:public_user).display_name)
-    post :account, { :display_name => user.display_name, :user => new_attributes }, { :user => user.id }
+    post :account, { :display_name => user.display_name, :user => new_attributes }, { :user => user }
     assert_response :success
     assert_template :account
     assert_select ".notice", false
@@ -853,7 +853,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Changing name to one that exists should fail, regardless of case
     new_attributes = user.attributes.dup.merge(:display_name => users(:public_user).display_name.upcase)
-    post :account, { :display_name => user.display_name, :user => new_attributes }, { :user => user.id }
+    post :account, { :display_name => user.display_name, :user => new_attributes }, { :user => user }
     assert_response :success
     assert_template :account
     assert_select ".notice", false
@@ -862,7 +862,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Changing name to one that doesn't exist should work
     new_attributes = user.attributes.dup.merge(:display_name => "new tester")
-    post :account, { :display_name => user.display_name, :user => new_attributes }, { :user => user.id }
+    post :account, { :display_name => user.display_name, :user => new_attributes }, { :user => user }
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -875,7 +875,7 @@ class UserControllerTest < ActionController::TestCase
     # Changing email to one that exists should fail
     user.new_email = users(:public_user).email
     assert_no_difference "ActionMailer::Base.deliveries.size" do
-      post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user.id }
+      post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user }
     end
     assert_response :success
     assert_template :account
@@ -886,7 +886,7 @@ class UserControllerTest < ActionController::TestCase
     # Changing email to one that exists should fail, regardless of case
     user.new_email = users(:public_user).email.upcase
     assert_no_difference "ActionMailer::Base.deliveries.size" do
-      post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user.id }
+      post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user }
     end
     assert_response :success
     assert_template :account
@@ -897,7 +897,7 @@ class UserControllerTest < ActionController::TestCase
     # Changing email to one that doesn't exist should work
     user.new_email = "new_tester@example.com"
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
-      post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user.id }
+      post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user }
     end
     assert_response :success
     assert_template :account
@@ -1137,7 +1137,7 @@ class UserControllerTest < ActionController::TestCase
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
     # When logged in a GET should get a confirmation page
-    get :make_friend, { :display_name => friend.display_name }, { :user => user.id }
+    get :make_friend, { :display_name => friend.display_name }, { :user => user }
     assert_response :success
     assert_template :make_friend
     assert_select "form" do
@@ -1148,7 +1148,7 @@ class UserControllerTest < ActionController::TestCase
 
     # When logged in a POST should add the friendship
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
-      post :make_friend, { :display_name => friend.display_name }, { :user => user.id }
+      post :make_friend, { :display_name => friend.display_name }, { :user => user }
     end
     assert_redirected_to user_path(:display_name => friend.display_name)
     assert_match /is now your friend/, flash[:notice]
@@ -1160,7 +1160,7 @@ class UserControllerTest < ActionController::TestCase
 
     # A second POST should report that the friendship already exists
     assert_no_difference "ActionMailer::Base.deliveries.size" do
-      post :make_friend, { :display_name => friend.display_name }, { :user => user.id }
+      post :make_friend, { :display_name => friend.display_name }, { :user => user }
     end
     assert_redirected_to user_path(:display_name => friend.display_name)
     assert_match /You are already friends with/, flash[:warning]
@@ -1176,7 +1176,7 @@ class UserControllerTest < ActionController::TestCase
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
     # The GET should preserve any referer
-    get :make_friend, { :display_name => friend.display_name, :referer => "/test" }, { :user => user.id }
+    get :make_friend, { :display_name => friend.display_name, :referer => "/test" }, { :user => user }
     assert_response :success
     assert_template :make_friend
     assert_select "form" do
@@ -1187,7 +1187,7 @@ class UserControllerTest < ActionController::TestCase
 
     # When logged in a POST should add the friendship and refer us
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
-      post :make_friend, { :display_name => friend.display_name, :referer => "/test" }, { :user => user.id }
+      post :make_friend, { :display_name => friend.display_name, :referer => "/test" }, { :user => user }
     end
     assert_redirected_to "/test"
     assert_match /is now your friend/, flash[:notice]
@@ -1200,7 +1200,7 @@ class UserControllerTest < ActionController::TestCase
 
   def test_make_friend_unkown_user
     # Should error when a bogus user is specified
-    get :make_friend, { :display_name => "No Such User" }, { :user => users(:normal_user).id }
+    get :make_friend, { :display_name => "No Such User" }, { :user => users(:normal_user) }
     assert_response :not_found
     assert_template :no_such_user
   end
@@ -1224,7 +1224,7 @@ class UserControllerTest < ActionController::TestCase
     assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
     # When logged in a GET should get a confirmation page
-    get :remove_friend, { :display_name => friend.display_name }, { :user => user.id }
+    get :remove_friend, { :display_name => friend.display_name }, { :user => user }
     assert_response :success
     assert_template :remove_friend
     assert_select "form" do
@@ -1234,13 +1234,13 @@ class UserControllerTest < ActionController::TestCase
     assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
     # When logged in a POST should remove the friendship
-    post :remove_friend, { :display_name => friend.display_name }, { :user => user.id }
+    post :remove_friend, { :display_name => friend.display_name }, { :user => user }
     assert_redirected_to user_path(:display_name => friend.display_name)
     assert_match /was removed from your friends/, flash[:notice]
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
     # A second POST should report that the friendship does not exist
-    post :remove_friend, { :display_name => friend.display_name }, { :user => user.id }
+    post :remove_friend, { :display_name => friend.display_name }, { :user => user }
     assert_redirected_to user_path(:display_name => friend.display_name)
     assert_match /is not one of your friends/, flash[:error]
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
@@ -1256,7 +1256,7 @@ class UserControllerTest < ActionController::TestCase
     assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
     # The GET should preserve any referer
-    get :remove_friend, { :display_name => friend.display_name, :referer => "/test" }, { :user => user.id }
+    get :remove_friend, { :display_name => friend.display_name, :referer => "/test" }, { :user => user }
     assert_response :success
     assert_template :remove_friend
     assert_select "form" do
@@ -1266,7 +1266,7 @@ class UserControllerTest < ActionController::TestCase
     assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
     # When logged in a POST should remove the friendship and refer
-    post :remove_friend, { :display_name => friend.display_name, :referer => "/test" }, { :user => user.id }
+    post :remove_friend, { :display_name => friend.display_name, :referer => "/test" }, { :user => user }
     assert_redirected_to "/test"
     assert_match /was removed from your friends/, flash[:notice]
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
@@ -1274,7 +1274,7 @@ class UserControllerTest < ActionController::TestCase
 
   def test_remove_friend_unkown_user
     # Should error when a bogus user is specified
-    get :remove_friend, { :display_name => "No Such User" }, { :user => users(:normal_user).id }
+    get :remove_friend, { :display_name => "No Such User" }, { :user => users(:normal_user) }
     assert_response :not_found
     assert_template :no_such_user
   end
@@ -1286,12 +1286,12 @@ class UserControllerTest < ActionController::TestCase
     assert_redirected_to :action => :login, :referer => set_status_user_path(:status => "suspended")
 
     # Now try as a normal user
-    get :set_status, { :display_name => users(:normal_user).display_name, :status => "suspended" }, { :user => users(:normal_user).id }
+    get :set_status, { :display_name => users(:normal_user).display_name, :status => "suspended" }, { :user => users(:normal_user) }
     assert_response :redirect
     assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
 
     # Finally try as an administrator
-    get :set_status, { :display_name => users(:normal_user).display_name, :status => "suspended" }, { :user => users(:administrator_user).id }
+    get :set_status, { :display_name => users(:normal_user).display_name, :status => "suspended" }, { :user => users(:administrator_user) }
     assert_response :redirect
     assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
     assert_equal "suspended", User.find(users(:normal_user).id).status
@@ -1304,12 +1304,12 @@ class UserControllerTest < ActionController::TestCase
     assert_redirected_to :action => :login, :referer => delete_user_path(:status => "suspended")
 
     # Now try as a normal user
-    get :delete, { :display_name => users(:normal_user).display_name, :status => "suspended" }, { :user => users(:normal_user).id }
+    get :delete, { :display_name => users(:normal_user).display_name, :status => "suspended" }, { :user => users(:normal_user) }
     assert_response :redirect
     assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
 
     # Finally try as an administrator
-    get :delete, { :display_name => users(:normal_user).display_name, :status => "suspended" }, { :user => users(:administrator_user).id }
+    get :delete, { :display_name => users(:normal_user).display_name, :status => "suspended" }, { :user => users(:administrator_user) }
     assert_response :redirect
     assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
 

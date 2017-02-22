@@ -109,7 +109,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
   def test_new_form
     # Now try again when logged in
-    get :new, {}, { :user => create(:normal_user).id }
+    get :new, {}, { :user => create(:normal_user) }
     assert_response :success
     assert_select "title", :text => /New Diary Entry/, :count => 1
     assert_select "div.content-heading", :count => 1 do
@@ -231,7 +231,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_equal "suspended", User.find(user.id).status
 
     # Follow the redirect
-    get :list, { :display_name => user.display_name }, { :user => user.id }
+    get :list, { :display_name => user.display_name }, { :user => user }
     assert_response :redirect
     assert_redirected_to :controller => :user, :action => :suspended
   end
@@ -249,7 +249,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :user, :action => :login, :referer => "/user/#{URI.encode(entry.user.display_name)}/diary/#{entry.id}/edit"
 
     # Verify that you get a not found error, when you pass a bogus id
-    get :edit, { :display_name => entry.user.display_name, :id => 9999 }, { :user => entry.user.id }
+    get :edit, { :display_name => entry.user.display_name, :id => 9999 }, { :user => entry.user }
     assert_response :not_found
     assert_select "div.content-heading", :count => 1 do
       assert_select "h2", :text => "No entry with the id: 9999", :count => 1
@@ -257,13 +257,13 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
     # Verify that you get redirected to view if you are not the user
     # that created the entry
-    get :edit, { :display_name => entry.user.display_name, :id => entry.id }, { :user => other_user.id }
+    get :edit, { :display_name => entry.user.display_name, :id => entry.id }, { :user => other_user }
     assert_response :redirect
     assert_redirected_to :action => :view, :display_name => entry.user.display_name, :id => entry.id
 
     # Now pass the id, and check that you can edit it, when using the same
     # user as the person who created the entry
-    get :edit, { :display_name => entry.user.display_name, :id => entry.id }, { :user => entry.user.id }
+    get :edit, { :display_name => entry.user.display_name, :id => entry.id }, { :user => entry.user }
     assert_response :success
     assert_select "title", :text => /Edit diary entry/, :count => 1
     assert_select "div.content-heading", :count => 1 do
@@ -297,7 +297,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_redirected_to :action => :view, :display_name => entry.user.display_name, :id => entry.id
 
     # Now check that the new data is rendered, when logged in
-    get :view, { :display_name => entry.user.display_name, :id => entry.id }, { :user => entry.user.id }
+    get :view, { :display_name => entry.user.display_name, :id => entry.id }, { :user => entry.user }
     assert_response :success
     assert_template "diary_entry/view"
     assert_select "title", :text => /Users' diaries | /, :count => 1
@@ -316,7 +316,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     end
 
     # and when not logged in as the user who wrote the entry
-    get :view, { :display_name => entry.user.display_name, :id => entry.id }, { :user => entry.user.id }
+    get :view, { :display_name => entry.user.display_name, :id => entry.id }, { :user => entry.user }
     assert_response :success
     assert_template "diary_entry/view"
     assert_select "title", :text => /Users' diaries | /, :count => 1
@@ -339,7 +339,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   def test_edit_i18n
     user = create(:normal_user)
     diary_entry = create(:diary_entry, :language_code => "en", :user => user)
-    get :edit, { :display_name => user.display_name, :id => diary_entry.id }, { :user => user.id }
+    get :edit, { :display_name => user.display_name, :id => diary_entry.id }, { :user => user }
     assert_response :success
     assert_select "span[class=translation_missing]", false, "Missing translation in edit diary entry"
   end
@@ -354,19 +354,19 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_response :forbidden
 
     # Verify that you get a not found error, when you pass a bogus id
-    post :comment, { :display_name => entry.user.display_name, :id => 9999 }, { :user => other_user.id }
+    post :comment, { :display_name => entry.user.display_name, :id => 9999 }, { :user => other_user }
     assert_response :not_found
     assert_select "div.content-heading", :count => 1 do
       assert_select "h2", :text => "No entry with the id: 9999", :count => 1
     end
 
-    post :subscribe, { :id => entry.id, :display_name => entry.user.display_name }, { :user => user.id }
+    post :subscribe, { :id => entry.id, :display_name => entry.user.display_name }, { :user => user }
 
     # Now try an invalid comment with an empty body
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       assert_no_difference "DiaryComment.count" do
         assert_no_difference "entry.subscribers.count" do
-          post :comment, { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "" } }, { :user => other_user.id }
+          post :comment, { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "" } }, { :user => other_user }
         end
       end
     end
@@ -377,7 +377,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_difference "ActionMailer::Base.deliveries.size", entry.subscribers.count do
       assert_difference "DiaryComment.count", 1 do
         assert_difference "entry.subscribers.count", 1 do
-          post :comment, { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "New comment" } }, { :user => other_user.id }
+          post :comment, { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "New comment" } }, { :user => other_user }
         end
       end
     end
@@ -411,7 +411,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
     # Find the entry to comment on
     entry = create(:diary_entry, :user => user)
-    post :subscribe, { :id => entry.id, :display_name => entry.user.display_name }, { :user => user.id }
+    post :subscribe, { :id => entry.id, :display_name => entry.user.display_name }, { :user => user }
 
     # Generate some spammy content
     spammy_text = 1.upto(50).map { |n| "http://example.com/spam#{n}" }.join(" ")
@@ -419,7 +419,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     # Try creating a spammy comment
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       assert_difference "DiaryComment.count", 1 do
-        post :comment, { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => spammy_text } }, { :user => other_user.id }
+        post :comment, { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => spammy_text } }, { :user => other_user }
       end
     end
     assert_response :redirect
@@ -437,7 +437,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_equal "suspended", User.find(other_user.id).status
 
     # Follow the redirect
-    get :list, { :display_name => user.display_name }, { :user => other_user.id }
+    get :list, { :display_name => user.display_name }, { :user => other_user }
     assert_response :redirect
     assert_redirected_to :controller => :user, :action => :suspended
 
@@ -488,9 +488,9 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :user, :action => :login, :referer => "/diary/friends"
 
     # Try a list of diary entries for your friends when logged in
-    get :list, { :friends => true }, { :user => user.id }
+    get :list, { :friends => true }, { :user => user }
     check_diary_list diary_entry
-    get :list, { :friends => true }, { :user => other_user.id }
+    get :list, { :friends => true }, { :user => other_user }
     check_diary_list
   end
 
@@ -506,9 +506,9 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :user, :action => :login, :referer => "/diary/nearby"
 
     # Try a list of diary entries for nearby users when logged in
-    get :list, { :nearby => true }, { :user => nearby_user.id }
+    get :list, { :nearby => true }, { :user => nearby_user }
     check_diary_list diary_entry
-    get :list, { :nearby => true }, { :user => user.id }
+    get :list, { :nearby => true }, { :user => user }
     check_diary_list
   end
 
@@ -664,13 +664,13 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_equal true, DiaryEntry.find(diary_entry.id).visible
 
     # Now try as a normal user
-    post :hide, { :display_name => user.display_name, :id => diary_entry.id }, { :user => user.id }
+    post :hide, { :display_name => user.display_name, :id => diary_entry.id }, { :user => user }
     assert_response :redirect
     assert_redirected_to :action => :view, :display_name => user.display_name, :id => diary_entry.id
     assert_equal true, DiaryEntry.find(diary_entry.id).visible
 
     # Finally try as an administrator
-    post :hide, { :display_name => user.display_name, :id => diary_entry.id }, { :user => create(:administrator_user, :status => "confirmed", :terms_seen => true).id }
+    post :hide, { :display_name => user.display_name, :id => diary_entry.id }, { :user => create(:administrator_user, :status => "confirmed", :terms_seen => true) }
     assert_response :redirect
     assert_redirected_to :action => :list, :display_name => user.display_name
     assert_equal false, DiaryEntry.find(diary_entry.id).visible
@@ -687,13 +687,13 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_equal true, DiaryComment.find(diary_comment.id).visible
 
     # Now try as a normal user
-    post :hidecomment, { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id }, { :user => user.id }
+    post :hidecomment, { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id }, { :user => user }
     assert_response :redirect
     assert_redirected_to :action => :view, :display_name => user.display_name, :id => diary_entry.id
     assert_equal true, DiaryComment.find(diary_comment.id).visible
 
     # Finally try as an administrator
-    post :hidecomment, { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id }, { :user => administrator_user.id }
+    post :hidecomment, { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id }, { :user => administrator_user }
     assert_response :redirect
     assert_redirected_to :action => :view, :display_name => user.display_name, :id => diary_entry.id
     assert_equal false, DiaryComment.find(diary_comment.id).visible
@@ -737,7 +737,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     diary_entry = create(:diary_entry, :user => user)
 
     assert_difference "diary_entry.subscribers.count", 1 do
-      post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => other_user.id }
+      post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => other_user }
     end
     assert_response :redirect
   end
@@ -755,13 +755,13 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_response :forbidden
 
     # bad diary id
-    post :subscribe, { :id => 999111, :display_name => "username" }, { :user => other_user.id }
+    post :subscribe, { :id => 999111, :display_name => "username" }, { :user => other_user }
     assert_response :not_found
 
     # trying to subscribe when already subscribed
-    post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => other_user.id }
+    post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => other_user }
     assert_no_difference "diary_entry.subscribers.count" do
-      post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => other_user.id }
+      post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => other_user }
     end
   end
 
@@ -771,9 +771,9 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
     diary_entry = create(:diary_entry, :user => user)
 
-    post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => other_user.id }
+    post :subscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => other_user }
     assert_difference "diary_entry.subscribers.count", -1 do
-      post :unsubscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => other_user.id }
+      post :unsubscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => other_user }
     end
     assert_response :redirect
   end
@@ -791,12 +791,12 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_response :forbidden
 
     # bad diary id
-    post :unsubscribe, { :id => 999111, :display_name => "username" }, { :user => other_user.id }
+    post :unsubscribe, { :id => 999111, :display_name => "username" }, { :user => other_user }
     assert_response :not_found
 
     # trying to unsubscribe when not subscribed
     assert_no_difference "diary_entry.subscribers.count" do
-      post :unsubscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => other_user.id }
+      post :unsubscribe, { :id => diary_entry.id, :display_name => diary_entry.user.display_name }, { :user => other_user }
     end
   end
 
