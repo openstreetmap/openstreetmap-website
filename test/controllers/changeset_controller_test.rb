@@ -1397,7 +1397,7 @@ EOF
     # print @response.body
     # FIXME: needs more assert_select tests
     assert_select "osmChange[version='#{API_VERSION}'][generator='#{GENERATOR}']" do
-      assert_select "create", :count => 5
+      assert_select "create", :count => 6
       assert_select "create>node[id='#{nodes(:used_node_2).node_id}'][visible='#{nodes(:used_node_2).visible?}'][version='#{nodes(:used_node_2).version}']" do
         assert_select "tag[k='#{tag.k}'][v='#{tag.v}']"
       end

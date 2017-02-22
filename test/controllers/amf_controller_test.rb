@@ -367,7 +367,7 @@ class AmfControllerTest < ActionController::TestCase
     v1 = ways(:invisible_way)
     # try to get deleted version
     [[v1.way_id, (v1.timestamp + 10).strftime("%d %b %Y, %H:%M:%S")]].each do |id, t|
-      amf_content "getway_old", "/1", [id, t]
+      amf_content "getway_old", "/2", [id, t]
       post :amf_read
       assert_response :success
       amf_parse_response

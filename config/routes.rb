@@ -25,6 +25,7 @@ OpenStreetMap::Application.routes.draw do
   match "api/0.6/node/:id/:version/redact" => "old_node#redact", :via => :post, :version => /\d+/, :id => /\d+/
   match "api/0.6/node/:id/:version" => "old_node#version", :via => :get, :id => /\d+/, :version => /\d+/
   match "api/0.6/node/:id" => "node#read", :via => :get, :id => /\d+/
+  match "api/0.6/node/:id/fordisplay" => "node#fordisplay", :via => :get, :id => /\d+/
   match "api/0.6/node/:id" => "node#update", :via => :put, :id => /\d+/
   match "api/0.6/node/:id" => "node#delete", :via => :delete, :id => /\d+/
   match "api/0.6/nodes" => "node#nodes", :via => :get
@@ -32,6 +33,7 @@ OpenStreetMap::Application.routes.draw do
   match "api/0.6/way/create" => "way#create", :via => :put
   match "api/0.6/way/:id/history" => "old_way#history", :via => :get, :id => /\d+/
   match "api/0.6/way/:id/full" => "way#full", :via => :get, :id => /\d+/
+  match "api/0.6/way/:id/fordisplay" => "way#fordisplay", :via => :get, :id => /\d+/
   match "api/0.6/way/:id/relations" => "relation#relations_for_way", :via => :get, :id => /\d+/
   match "api/0.6/way/:id/:version/redact" => "old_way#redact", :via => :post, :version => /\d+/, :id => /\d+/
   match "api/0.6/way/:id/:version" => "old_way#version", :via => :get, :id => /\d+/, :version => /\d+/
@@ -44,6 +46,7 @@ OpenStreetMap::Application.routes.draw do
   match "api/0.6/relation/:id/relations" => "relation#relations_for_relation", :via => :get, :id => /\d+/
   match "api/0.6/relation/:id/history" => "old_relation#history", :via => :get, :id => /\d+/
   match "api/0.6/relation/:id/full" => "relation#full", :via => :get, :id => /\d+/
+  match "api/0.6/relation/:id/fordisplay" => "relation#fordisplay", :via => :get, :id => /\d+/
   match "api/0.6/relation/:id/:version/redact" => "old_relation#redact", :via => :post, :version => /\d+/, :id => /\d+/
   match "api/0.6/relation/:id/:version" => "old_relation#version", :via => :get, :id => /\d+/, :version => /\d+/
   match "api/0.6/relation/:id" => "relation#read", :via => :get, :id => /\d+/

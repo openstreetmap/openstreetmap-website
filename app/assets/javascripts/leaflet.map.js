@@ -204,6 +204,14 @@ L.OSM.Map = L.Map.extend({
       fillOpacity: 0.5
     };
 
+    var deletedObjectStyle = {
+      color: "#FF3333",
+      weight: 4,
+      opacity: 1,
+      fillOpacity: 0.2,
+      dashArray: [ 10, 5 ]
+    };
+
     var changesetStyle = {
       weight: 4,
       color: '#FF9500',
@@ -220,12 +228,16 @@ L.OSM.Map = L.Map.extend({
       dataType: "xml",
       success: function (xml) {
         map._object = object;
+        
+        deleted = xml.firstChild.attributes["deleted"];
+        theStyle = (deleted && deleted.value == 'true') ? 
+            deletedObjectStyle : objectStyle;
 
         map._objectLayer = new L.OSM.DataLayer(null, {
           styles: {
-            node: objectStyle,
-            way: objectStyle,
-            area: objectStyle,
+            node: theStyle,
+            way: theStyle,
+            area: theStyle,
             changeset: changesetStyle
           }
         });

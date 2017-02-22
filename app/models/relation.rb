@@ -278,6 +278,16 @@ class Relation < ActiveRecord::Base
     end
   end
 
+  def latest_visible_version
+    for v in (self.version).downto(1) do
+      oldrel = OldRelation.find([self.id, v])
+      if oldrel.visible? && !oldrel.redaction_id
+        return oldrel
+      end
+    end
+    return nil
+  end
+
   private
 
   def save_with_history!

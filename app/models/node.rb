@@ -228,6 +228,16 @@ class Node < ActiveRecord::Base
     # nodes don't refer to anything, so there is nothing to do here
   end
 
+  def latest_visible_version
+    for v in (self.version).downto(1) do
+      oldnode = OldNode.find([self.id, v])
+      if oldnode.visible?
+        return oldnode
+      end
+    end
+    return nil
+  end
+ 
   private
 
   def save_with_history!
@@ -264,4 +274,5 @@ class Node < ActiveRecord::Base
       changeset.save!
     end
   end
+
 end
