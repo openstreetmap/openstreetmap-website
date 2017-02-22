@@ -36,7 +36,9 @@ class OauthClientsControllerTest < ActionController::TestCase
 
   def test_index
     user = create(:user)
-    create_list(:client_application, 2, :user => user)
+    applications = create_list(:client_application, 3, :user => user)
+    create_list(:oauth_token, 1, :user => user, :client_application => applications.first, :authorized_at => Time.now.utc)
+    create_list(:oauth_token, 3, :user => user, :client_application => applications.second, :authorized_at => Time.now.utc)
 
     get :index, :display_name => user.display_name
     assert_response :redirect
@@ -45,7 +47,12 @@ class OauthClientsControllerTest < ActionController::TestCase
     get :index, { :display_name => user.display_name }, { :user => user }
     assert_response :success
     assert_template "index"
-    assert_select "div.client_application", 2
+    assert_select "div#authorised_applications", 1 do
+      assert_select "tr.client_application", 2
+    end
+    assert_select "div#client_applications", 1 do
+      assert_select "div.client_application", 3
+    end
   end
 
   def test_new
