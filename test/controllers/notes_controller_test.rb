@@ -589,7 +589,7 @@ class NotesControllerTest < ActionController::TestCase
   def test_destroy_success
     open_note_with_comment = create(:note_with_comments)
     user = create(:user)
-    moderator_user = create(:moderator_user, :status => "active")
+    moderator_user = create(:moderator_user)
 
     delete :destroy, :id => open_note_with_comment.id, :text => "This is a hide comment", :format => "json"
     assert_response :unauthorized
@@ -619,7 +619,7 @@ class NotesControllerTest < ActionController::TestCase
 
   def test_destroy_fail
     user = create(:user)
-    moderator_user = create(:moderator_user, :status => "active")
+    moderator_user = create(:moderator_user)
 
     delete :destroy, :id => 12345, :format => "json"
     assert_response :unauthorized
@@ -950,7 +950,7 @@ class NotesControllerTest < ActionController::TestCase
   def test_mine_success
     first_user = create(:user)
     second_user = create(:user)
-    moderator_user = create(:moderator_user, :status => "active", :terms_seen => true)
+    moderator_user = create(:moderator_user)
 
     create(:note) do |note|
       create(:note_comment, :note => note, :author => first_user)
