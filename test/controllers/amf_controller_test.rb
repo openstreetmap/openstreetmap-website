@@ -19,8 +19,8 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getpresets
-    user_en_de = create(:normal_user, :languages => %w(en de))
-    user_de = create(:normal_user, :languages => %w(de))
+    user_en_de = create(:user, :languages => %w(en de))
+    user_de = create(:user, :languages => %w(de))
     [user_en_de, user_de].each do |user|
       amf_content "getpresets", "/1", ["#{user.email}:test", ""]
       post :amf_read
@@ -460,7 +460,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal -1, result[0]
     assert_match /must be logged in/, result[1]
 
-    blocked_user = create(:normal_user)
+    blocked_user = create(:user)
     create(:user_block, :user => blocked_user)
     amf_content "findgpx", "/1", [1, "#{blocked_user.email}:test"]
     post :amf_read
@@ -474,7 +474,7 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_findgpx_by_id
-    user = create(:normal_user)
+    user = create(:user)
     trace = create(:trace, :visibility => "private", :user => user)
 
     amf_content "findgpx", "/1", [trace.id, "#{user.email}:test"]

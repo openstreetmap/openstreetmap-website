@@ -109,7 +109,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
   def test_new_form
     # Now try again when logged in
-    get :new, {}, { :user => create(:normal_user) }
+    get :new, {}, { :user => create(:user) }
     assert_response :success
     assert_select "title", :text => /New Diary Entry/, :count => 1
     assert_select "div.content-heading", :count => 1 do
@@ -136,7 +136,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
       get :new, { :commit => "save",
                   :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
                                     :longitude => "2.2", :language_code => "en" } },
-          { :user => create(:normal_user).id }
+          { :user => create(:user).id }
     end
     assert_response :success
     assert_template :edit
@@ -144,7 +144,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
   def test_new_no_body
     # Now try creating a invalid diary entry with an empty body
-    user = create(:normal_user)
+    user = create(:user)
     assert_no_difference "DiaryEntry.count" do
       post :new, { :commit => "save",
                    :diary_entry => { :title => "New Title", :body => "", :latitude => "1.1",
@@ -159,7 +159,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
   def test_new_post
     # Now try creating a diary entry
-    user = create(:normal_user)
+    user = create(:user)
     assert_difference "DiaryEntry.count", 1 do
       post :new, { :commit => "save",
                    :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
@@ -184,7 +184,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
   def test_new_german
     create(:language, :code => "de")
-    user = create(:normal_user)
+    user = create(:user)
 
     # Now try creating a diary entry in a different language
     assert_difference "DiaryEntry.count", 1 do
@@ -210,7 +210,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_new_spammy
-    user = create(:normal_user)
+    user = create(:user)
     # Generate some spammy content
     spammy_title = "Spam Spam Spam Spam Spam"
     spammy_body = 1.upto(50).map { |n| "http://example.com/spam#{n}" }.join(" ")
@@ -237,8 +237,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_edit
-    user = create(:normal_user)
-    other_user = create(:normal_user)
+    user = create(:user)
+    other_user = create(:user)
 
     entry = create(:diary_entry, :user => user)
 
@@ -337,7 +337,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_edit_i18n
-    user = create(:normal_user)
+    user = create(:user)
     diary_entry = create(:diary_entry, :language_code => "en", :user => user)
     get :edit, { :display_name => user.display_name, :id => diary_entry.id }, { :user => user }
     assert_response :success
@@ -345,8 +345,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_comment
-    user = create(:normal_user)
-    other_user = create(:normal_user)
+    user = create(:user)
+    other_user = create(:user)
     entry = create(:diary_entry, :user => user)
 
     # Make sure that you are denied when you are not logged in
@@ -406,8 +406,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_comment_spammy
-    user = create(:normal_user)
-    other_user = create(:normal_user)
+    user = create(:user)
+    other_user = create(:user)
 
     # Find the entry to comment on
     entry = create(:diary_entry, :user => user)
@@ -450,7 +450,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   def test_list_all
     diary_entry = create(:diary_entry)
     geo_entry = create(:diary_entry, :latitude => 51.50763, :longitude => -0.10781)
-    public_entry = create(:diary_entry, :user => create(:normal_user))
+    public_entry = create(:diary_entry, :user => create(:user))
 
     # Try a list of all diary entries
     get :list
@@ -458,8 +458,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_list_user
-    user = create(:normal_user)
-    other_user = create(:normal_user)
+    user = create(:user)
+    other_user = create(:user)
 
     diary_entry = create(:diary_entry, :user => user)
     geo_entry = create(:diary_entry, :user => user, :latitude => 51.50763, :longitude => -0.10781)
@@ -476,8 +476,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_list_friends
-    user = create(:normal_user)
-    other_user = create(:normal_user)
+    user = create(:user)
+    other_user = create(:user)
     friend = create(:friend, :befriender => user)
     diary_entry = create(:diary_entry, :user => friend.befriendee)
     _other_entry = create(:diary_entry, :user => other_user)
@@ -495,8 +495,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_list_nearby
-    user = create(:normal_user, :home_lat => 12, :home_lon => 12)
-    nearby_user = create(:normal_user, :home_lat => 11.9, :home_lon => 12.1)
+    user = create(:user, :home_lat => 12, :home_lon => 12)
+    nearby_user = create(:user, :home_lat => 11.9, :home_lon => 12.1)
 
     diary_entry = create(:diary_entry, :user => user)
 
@@ -575,8 +575,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_rss_user
-    user = create(:normal_user)
-    other_user = create(:normal_user)
+    user = create(:user)
+    other_user = create(:user)
     create(:diary_entry, :user => user)
     create(:diary_entry, :user => user)
     create(:diary_entry, :user => other_user)
@@ -608,7 +608,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_view
-    user = create(:normal_user)
+    user = create(:user)
     suspended_user = create(:user, :suspended)
     deleted_user = create(:user, :deleted)
 
@@ -636,7 +636,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
   def test_view_hidden_comments
     # Get a diary entry that has hidden comments
-    user = create(:normal_user)
+    user = create(:user)
     diary_entry = create(:diary_entry, :user => user)
     visible_comment = create(:diary_comment, :diary_entry => diary_entry)
     suspended_user_comment = create(:diary_comment, :diary_entry => diary_entry, :user => create(:user, :suspended))
@@ -655,7 +655,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_hide
-    user = create(:normal_user)
+    user = create(:user)
 
     # Try without logging in
     diary_entry = create(:diary_entry, :user => user)
@@ -670,15 +670,15 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_equal true, DiaryEntry.find(diary_entry.id).visible
 
     # Finally try as an administrator
-    post :hide, { :display_name => user.display_name, :id => diary_entry.id }, { :user => create(:administrator_user, :status => "confirmed", :terms_seen => true) }
+    post :hide, { :display_name => user.display_name, :id => diary_entry.id }, { :user => create(:administrator_user) }
     assert_response :redirect
     assert_redirected_to :action => :list, :display_name => user.display_name
     assert_equal false, DiaryEntry.find(diary_entry.id).visible
   end
 
   def test_hidecomment
-    user = create(:normal_user)
-    administrator_user = create(:administrator_user, :status => "active", :terms_seen => true)
+    user = create(:user)
+    administrator_user = create(:administrator_user)
     diary_entry = create(:diary_entry, :user => user)
     diary_comment = create(:diary_comment, :diary_entry => diary_entry)
     # Try without logging in
@@ -700,10 +700,10 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_comments
-    user = create(:normal_user)
-    other_user = create(:normal_user)
-    suspended_user = create(:normal_user, :suspended)
-    deleted_user = create(:normal_user, :deleted)
+    user = create(:user)
+    other_user = create(:user)
+    suspended_user = create(:user, :suspended)
+    deleted_user = create(:user, :deleted)
     # Test a user with no comments
     get :comments, :display_name => user.display_name
     assert_response :success
@@ -732,8 +732,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_subscribe_success
-    user = create(:normal_user)
-    other_user = create(:normal_user)
+    user = create(:user)
+    other_user = create(:user)
     diary_entry = create(:diary_entry, :user => user)
 
     assert_difference "diary_entry.subscribers.count", 1 do
@@ -743,8 +743,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_subscribe_fail
-    user = create(:normal_user)
-    other_user = create(:normal_user)
+    user = create(:user)
+    other_user = create(:user)
 
     diary_entry = create(:diary_entry, :user => user)
 
@@ -766,8 +766,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_unsubscribe_success
-    user = create(:normal_user)
-    other_user = create(:normal_user)
+    user = create(:user)
+    other_user = create(:user)
 
     diary_entry = create(:diary_entry, :user => user)
 
@@ -779,8 +779,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_unsubscribe_fail
-    user = create(:normal_user)
-    other_user = create(:normal_user)
+    user = create(:user)
+    other_user = create(:user)
 
     diary_entry = create(:diary_entry, :user => user)
 
