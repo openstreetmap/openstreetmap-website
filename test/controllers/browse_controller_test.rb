@@ -81,7 +81,7 @@ class BrowseControllerTest < ActionController::TestCase
     browse_check "changeset", changesets(:normal_user_closed_change).id, "browse/changeset"
     assert_select "div.changeset-comments ul li", :count => 3
 
-    session[:user] = users(:moderator_user).id
+    session[:user] = create(:moderator_user).id
 
     browse_check "changeset", changesets(:normal_user_closed_change).id, "browse/changeset"
     assert_select "div.changeset-comments ul li", :count => 4
@@ -106,7 +106,7 @@ class BrowseControllerTest < ActionController::TestCase
     assert_template "browse/not_found"
     assert_template :layout => "xhr"
 
-    session[:user] = users(:moderator_user).id
+    session[:user] = create(:moderator_user).id
 
     browse_check "note", hidden_note_with_comment.id, "browse/note"
   end
@@ -119,7 +119,7 @@ class BrowseControllerTest < ActionController::TestCase
     browse_check "note", note_with_hidden_comment.id, "browse/note"
     assert_select "div.note-comments ul li", :count => 1
 
-    session[:user] = users(:moderator_user).id
+    session[:user] = create(:moderator_user).id
 
     browse_check "note", note_with_hidden_comment.id, "browse/note"
     assert_select "div.note-comments ul li", :count => 2

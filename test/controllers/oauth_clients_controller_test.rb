@@ -1,8 +1,6 @@
 require "test_helper"
 
 class OauthClientsControllerTest < ActionController::TestCase
-  fixtures :users
-
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -37,7 +35,7 @@ class OauthClientsControllerTest < ActionController::TestCase
   end
 
   def test_index
-    user = users(:public_user)
+    user = create(:user)
     create_list(:client_application, 2, :user => user)
 
     get :index, :display_name => user.display_name
@@ -51,7 +49,7 @@ class OauthClientsControllerTest < ActionController::TestCase
   end
 
   def test_new
-    user = users(:public_user)
+    user = create(:user)
 
     get :new, :display_name => user.display_name
     assert_response :redirect
@@ -72,7 +70,7 @@ class OauthClientsControllerTest < ActionController::TestCase
   end
 
   def test_create
-    user = users(:public_user)
+    user = create(:user)
 
     assert_difference "ClientApplication.count", 0 do
       post :create, :display_name => user.display_name
@@ -104,7 +102,7 @@ class OauthClientsControllerTest < ActionController::TestCase
   end
 
   def test_show
-    user = users(:public_user)
+    user = create(:user)
     client = create(:client_application, :user => user)
     other_client = create(:client_application)
 
@@ -122,7 +120,7 @@ class OauthClientsControllerTest < ActionController::TestCase
   end
 
   def test_edit
-    user = users(:public_user)
+    user = create(:user)
     client = create(:client_application, :user => user)
     other_client = create(:client_application)
 
@@ -149,7 +147,7 @@ class OauthClientsControllerTest < ActionController::TestCase
   end
 
   def test_update
-    user = users(:public_user)
+    user = create(:user)
     client = create(:client_application, :user => user)
     other_client = create(:client_application)
 
@@ -184,7 +182,7 @@ class OauthClientsControllerTest < ActionController::TestCase
   end
 
   def test_destroy
-    user = users(:public_user)
+    user = create(:user)
     client = create(:client_application, :user => user)
     other_client = create(:client_application)
 
