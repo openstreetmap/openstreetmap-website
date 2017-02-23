@@ -35,7 +35,7 @@ ko:
       acl: 접근 제어 목록
       changeset: 바뀜집합
       changeset_tag: 바뀜집합 태그
-      country: 국가
+      country: 나라
       diary_comment: 일기 댓글
       diary_entry: 일기 항목
       friend: 친구
@@ -63,7 +63,7 @@ ko:
       user_preference: 사용자 환경 설정
       user_token: 사용자 토큰
       way: 길
-      way_node: 길 노드
+      way_node: 길 교점
       way_tag: 길 태그
     attributes:
       diary_comment:
@@ -94,7 +94,7 @@ ko:
       user:
         email: 이메일
         active: 활성
-        display_name: 표시할 이름
+        display_name: 표시 이름
         description: 설명
         languages: 언어
         pass_crypt: 비밀번호
@@ -133,13 +133,13 @@ ko:
     changeset:
       title: '바뀜집합: %{id}'
       belongs_to: 저자
-      node: 노드 (%{count})
-      node_paginated: 노드 (%{count} 중 %{x}-%{y})
-      way: 길 (%{count})
-      way_paginated: 길 (%{count} 중 %{x}-%{y})
-      relation: 관계 (%{count})
-      relation_paginated: 관계 (%{count} 중 %{x}-%{y})
-      comment: 댓글 (%{count})
+      node: 교점(%{count})
+      node_paginated: 교점(%{count}개 중 %{x}-%{y})
+      way: 길(%{count})
+      way_paginated: 길(%{count}개 중 %{x}-%{y})
+      relation: 관계(%{count})
+      relation_paginated: 관계(%{count}개 중 %{x}-%{y})
+      comment: 댓글(%{count})
       hidden_commented_by: '%{user}님이 <abbr title=''%{exact_time}''>%{when} 전</abbr>에
         남긴 숨겨진 댓글'
       commented_by: '%{user}님이 <abbr title=''%{exact_time}''>%{when} 전</abbr>에 댓글을
@@ -152,12 +152,12 @@ ko:
       join_discussion: 토론에 참여하려면 로그인
       discussion: 토론
     node:
-      title: '노드: %{name}'
-      history_title: '노드 역사: %{name}'
+      title: '교점: %{name}'
+      history_title: '교점 역사: %{name}'
     way:
       title: '길: %{name}'
       history_title: '길 역사: %{name}'
-      nodes: 노드
+      nodes: 교점
       also_part_of:
         one: '%{related_ways} 길의 일부'
         other: '%{related_ways} 길의 일부'
@@ -168,7 +168,7 @@ ko:
     relation_member:
       entry_role: '%{type}에서 %{role}의 %{name}'
       type:
-        node: 노드
+        node: 교점
         way: 길
         relation: 관계
     containing_relation:
@@ -177,7 +177,7 @@ ko:
     not_found:
       sorry: '죄송하지만, %{type} #%{id}을(를) 찾지 못했습니다.'
       type:
-        node: 노드
+        node: 교점
         way: 길
         relation: 관계
         changeset: 바뀜집합
@@ -185,7 +185,7 @@ ko:
     timeout:
       sorry: 죄송합니다, %{id} id인 %{type}에 대한 데이터를 얻는데 너무 오래 걸립니다.
       type:
-        node: 노드
+        node: 교점
         way: 길
         relation: 관계
         changeset: 바뀜집합
@@ -195,7 +195,7 @@ ko:
       message_html: 이 %{type}의 %{version}판은 비공개 처리되었기 때문에 볼 수 없습니다. 자세한 내용은 %{redaction_link}을(를)
         참조하세요.
       type:
-        node: 노드
+        node: 교점
         way: 길
         relation: 관계
     start_rjs:
@@ -308,7 +308,7 @@ ko:
     no_such_entry:
       title: 이러한 일기 항목이 없음
       heading: 'id에 항목 없음: %{id}'
-      body: 죄송합니다, %{id} id로 된 일기 항목이나 댓글이 없습니다. 맞춤법이나 클릭한 링크가 잘못됐는지 확인하세요.
+      body: 죄송하지만, %{id} id로 된 일기 항목이나 댓글이 없습니다. 맞춤법이나 클릭한 링크가 잘못됐는지 확인하세요.
     diary_entry:
       posted_by: '%{link_user}님이 %{language_link}로 %{created}에 게시함'
       comment_link: 이 항목에 댓글 남기기
@@ -2331,6 +2331,8 @@ ko:
       timeout: '%{server} 연결에 시간 초과'
     context:
       add_note: 여기에 설명 추가
+      show_address: 주소 보기
+      query_features: 의문 지물
   redaction:
     edit:
       description: 설명

@@ -188,6 +188,9 @@ sl:
         way: pot
         relation: zveza
     start_rjs:
+      feature_warning: Nalaganje %{num_features}-ih značilnosti, kar lahko upočasni
+        brskalnik ali ga naredi neodzivnega. Ali ste prepričani, da želite prikazati
+        te podatke?
       load_data: Naloži podatke
       loading: Nalaganje ...
     tag_details:
@@ -195,7 +198,8 @@ sl:
       wiki_link:
         key: Wiki stran z opisom oznake %{key}
         tag: Wiki stran z opisom oznake %{key}=%{value}
-      wikipedia_link: '%{page} članek na Wikipediji'
+      wikidata_link: Element %{page} na strani Wikidata
+      wikipedia_link: Članek %{page} na Wikipediji
       telephone_link: Pokliči %{phone_number}
     note:
       title: 'Opomba: %{id}'
@@ -450,6 +454,7 @@ sl:
           ferry_terminal: Trajekt
           fire_hydrant: Hidrant
           fire_station: Gasilska postaja
+          food_court: Prehrambeni prostor
           fountain: Vodomet
           fuel: Bencinska črpalka
           gambling: Igre na srečo
@@ -504,6 +509,7 @@ sl:
           veterinary: Veterinarska klinika
           village_hall: Vaško središče
           waste_basket: Koš za odpadke
+          waste_disposal: Zabojnik za odpadke
           youth_centre: Mladinski center
         boundary:
           administrative: Upravna meja
@@ -532,6 +538,7 @@ sl:
         emergency:
           ambulance_station: Reševalna postaja
           defibrillator: Defibrilator
+          landing_site: Mesto za pristanek v sili
           phone: Klic v sili
         highway:
           abandoned: Opuščena cesta
@@ -569,6 +576,7 @@ sl:
           tertiary: Lokalna cesta
           tertiary_link: Terciarna cesta
           track: Kolovoz
+          traffic_signals: Prometna signalizacija
           trail: Sled
           trunk: Hitra cesta
           trunk_link: Priključek na hitro cesto
@@ -586,6 +594,7 @@ sl:
           city_gate: Mestna vrata
           citywalls: Mestno obzidje
           fort: Trdnjava
+          heritage: Kulturna dediščina
           house: Hiša
           icon: Ikona
           manor: Graščina
@@ -627,7 +636,8 @@ sl:
           railway: Železnica
           recreation_ground: Rekreacijsko področje
           reservoir: Zbiralnik
-          residential: Stanovanjska cona
+          reservoir_watershed: Vodno zajetje
+          residential: Stanovanjsko področje
           retail: Trgovine
           road: Področje ceste
           village_green: Zelenica
@@ -638,6 +648,7 @@ sl:
           bird_hide: Ptičja opazovalnica
           club: Klub
           common: Javno zemljišče
+          dog_park: Pasji park
           fishing: Ribolovno področje
           fitness_centre: Fitnes center
           fitness_station: Fitnes center
@@ -652,6 +663,7 @@ sl:
           pitch: Športno igrišče
           playground: Otroško igrišče
           recreation_ground: Rekreacijsko področje
+          resort: Letovišče
           sauna: Savna
           slipway: Rampa
           sports_centre: Športni center
@@ -726,6 +738,7 @@ sl:
           "yes": Pisarne
         place:
           allotments: Vrtički
+          block: Blok
           airport: Letališče
           city: Mesto
           country: Država
@@ -744,7 +757,7 @@ sl:
           postcode: Poštna številka
           region: Regija
           sea: Morje
-          state: 'Država (ZDA):'
+          state: 'Zvezna država (ZDA):'
           subdivision: Pododdelek
           suburb: Predmestje
           town: Mesto
@@ -1012,6 +1025,8 @@ sl:
         jezero ali zgradba.
       tag_html: <strong>Oznaka</strong> je podatek o vozlišču ali poti, kot je npr.
         ime restavracija ali omejitev hitrosti na cesti.
+    rules:
+      title: Pravila!
     questions:
       title: Imate kakšno vprašanja?
       paragraph_1_html: |-
@@ -1045,7 +1060,10 @@ sl:
       description: Začnite s tem hitrim vodičem, ki zajema osnove OpenStreetMap.
     beginners_guide:
       url: http://wiki.openstreetmap.org/wiki/Sl:Beginners%27_guide
+      title: Vodnik za začetnike
+      description: Vodnik za začetnike, ki ga vzdržuje skupnost.
     help:
+      url: https://help.openstreetmap.org/
       description: Zastavite vprašanje ali poiščete odgovore v OSM zbirki vprašanj
         in odgovorov.
     wiki:
@@ -1157,6 +1175,7 @@ sl:
           ki ste jo vi komentirali. Opomba je v bližini %{place}.'
       details: Več podrobnosti o opombi lahko najdete na %{url}.
     changeset_comment_notification:
+      hi: Pozdravljeni, %{to_user},
       greeting: Pozdravljeni,
       commented:
         subject_own: '[OpenStreetMap] %{commenter} je komentiral enega izmed vaših
@@ -1313,7 +1332,7 @@ sl:
           - Mestna železnica
           - tramvaj
           cable:
-          - Kabinska žičnica
+          - Nihalka
           - sedežnica
           runway:
           - Vzletno-pristajalna steza
@@ -1602,9 +1621,10 @@ sl:
       remember: 'Zapomni si me:'
       lost password link: Ste pozabili geslo?
       login_button: Prijava
-      register now: Registriraj se
+      register now: Registrirajte se
       with username: 'Že imate OpenStreetMap račun? Prosim, prijavite se s svojim
         uporabniškim imenom in geslom:'
+      with external: 'Lahko pa uporabite prijavo tretje osebe:'
       new to osm: Ste novi na OpenStreetMap?
       to make changes: Če želite spreminjati podatke na OpenStreetMap, morate imeti
         račun.
@@ -1680,6 +1700,7 @@ sl:
         kasneje v nastavitvah.
       password: 'Geslo:'
       confirm password: 'Potrdite geslo:'
+      use external auth: Lahko pa uporabite prijavo tretje osebe
       continue: Registracija
       terms accepted: Hvala za sprejem novih pogojev prispevanja!
       terms declined: Žal nam je, da ste se odločili, da ne sprejmete novih "contributor
@@ -1709,6 +1730,7 @@ sl:
       heading: Uporabnik %{user} ne obstaja
       body: Oprostite, uporabnika z imenom %{user} ni. Prosimo, preverite črkovanje
         in povezavo, ki ste jo kliknili.
+      deleted: izbrisano
     view:
       my diary: Moj dnevnik
       new diary entry: nov vnos v dnevnik
@@ -1905,6 +1927,15 @@ sl:
     auth_failure:
       connection_failed: Povezava do storitve za preverjanje pristnosti ni uspela
       invalid_credentials: Neveljavne poverilnice za preverjanje pristnosti
+      no_authorization_code: Ni pooblastitvene kode
+      unknown_signature_algorithm: Neznan algoritem podpisa
+      invalid_scope: Neveljaven obseg
+    auth_association:
+      heading: Vaš ID še ni povezan z računom OpenStreetMap.
+      option_1: Če ste novi v OpenStreetMapu, prosimo, ustvarite nov račun z uporabo
+        spodnjega obrazca.
+      option_2: Če že imate račun, se lahko v njega prijavite s svojim uporabniškim
+        imenom in geslom in ga v nastavitvah povežete s svojim ID-jem.
   user_role:
     filter:
       not_an_administrator: Samo skrbniki lahko upravljajo vlogo uporabnika, vi pa
@@ -1980,7 +2011,7 @@ sl:
       heading: Preklic blokade za %{block_on} od %{block_by}
       time_future: Ta blokada se bo končala  v %{time}.
       past: Ta blokada se je končala pred %{time} in se ne more biti več preklicati.
-      confirm: Ste prepričani, da želite preklicati blokado?
+      confirm: Ali ste prepričani, da želite preklicati blokado?
       revoke: Prekliči!
       flash: Ta blokada je bila preklicana.
     period:
@@ -2005,6 +2036,7 @@ sl:
     helper:
       time_future: Konča v %{time}.
       until_login: Aktivna dokler uporabnik se prijavi.
+      time_future_and_until_login: Konča se čez %{time} in ko se uporabnik prijavi.
       time_past: Je končala %{time} nazaj.
     blocks_on:
       title: Blokade uporabnika %{name}
@@ -2019,6 +2051,8 @@ sl:
       heading: '%{block_on} je blokiral %{block_by}'
       time_future: Konča v %{time}
       time_past: Je končala %{time} nazaj
+      created: Ustvarjeno
+      ago: '%{time} nazaj'
       status: Stanje
       show: Prikaži
       edit: Uredi
@@ -2081,6 +2115,9 @@ sl:
       center_marker: Centriraj zemljevid na oznako
       paste_html: Prilepi HTML za vdelavo v spletno mesto
       view_larger_map: Prikaži večji zemljevid
+      only_standard_layer: Samo standardno plast je mogoče izvoziti kot sliko
+    embed:
+      report_problem: Prijavi težavo
     key:
       title: Ključ zemljevida
       tooltip: Ključ zemljevida
@@ -2158,20 +2195,32 @@ sl:
         no_place: Žal tega kraja ni bilo mogoče najti.
       instructions:
         continue_without_exit: Nadaljujte po %{name}
+        slight_right_without_exit: Rahlo desno na %{name}
+        offramp_right_without_exit: Zapeljite na priključek na desni in nato na %{name}
         onramp_right_without_exit: Na priključku zavijte desno na %{name}
         endofroad_right_without_exit: Na koncu ceste zavijte desno na %{name}
+        merge_right_without_exit: Zapeljite rahlo desno na %{name}
         fork_right_without_exit: Na razcepu zavijte desno na %{name}
+        turn_right_without_exit: Zavijte desno na %{name}
         sharp_right_without_exit: Ostro desno na %{name}
         uturn_without_exit: Polkrožno obrnite po %{name}
         sharp_left_without_exit: Ostro levo na %{name}
         turn_left_without_exit: Zavijte levo na %{name}
+        offramp_left_without_exit: Zapeljite na priključek na levi in nato na %{name}
         onramp_left_without_exit: Na priključku zavijte levo na %{name}
         endofroad_left_without_exit: Na koncu ceste zavijete levo na %{name}
+        merge_left_without_exit: Zapeljite rahlo levo na %{name}
         fork_left_without_exit: Na razcepu zavijte levo na %{name}
+        slight_left_without_exit: Rahlo levo na %{name}
+        via_point_without_exit: (prehodna točka)
+        follow_without_exit: Sledite %{name}
         roundabout_without_exit: V krožišču uporabite %{name}
+        leave_roundabout_without_exit: Zapustite krožišče - %{name}
         stay_roundabout_without_exit: Ostanite v krožišču - %{name}
         start_without_exit: Začnite na koncu %{name}
         destination_without_exit: Pojdite do cilja
+        against_oneway_without_exit: Pojdite po enosmerni cesti na %{name}
+        end_oneway_without_exit: Konec enosmerne ceste na %{name}
         roundabout_with_exit: V krožišču uporabite %{exit}. izhod, da zapeljete na
           %{name}
         turn_left_with_exit: V krožišču zavijte levo na %{name}
@@ -2187,8 +2236,12 @@ sl:
       way: Pot
       relation: Zveza
       nothing_found: Značilnosti ni bilo mogoče najti
+      error: 'Napaka pri povezovanju s strežnikom %{server}: %{error}'
+      timeout: Časovna omejitev povezovanja s strežnikom %{server}
     context:
-      directions_from: Navodila od tu
+      directions_from: Navodila za pot od tu
+      directions_to: Navodila za pot do tu
+      add_note: Tu dodaj opombo
       show_address: Prikaži naslov
       query_features: Poišči značilnosti
       centre_map: Premakni na sredino
@@ -2220,8 +2273,8 @@ sl:
     update:
       flash: Spremembe shranjene.
     destroy:
-      not_empty: Redakcija ni prazna. Prosim od-revidirajte vse različice, ki pripadajo
-        tej redakciji preden jo uničite.
+      not_empty: Redakcija ni prazna. Prosim odrevidirajte vse različice, ki pripadajo
+        tej redakciji, preden jo uničite.
       flash: Redakcija uničena.
-      error: Prišlo je do napake, ob uničevanju te redakcije.
+      error: Prišlo je do napake ob uničevanju te redakcije.
 ...

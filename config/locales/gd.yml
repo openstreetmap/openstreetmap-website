@@ -168,6 +168,7 @@ gd:
         way: an t-slighe
         relation: an dàimh
         changeset: seata atharraichean
+        note: an aire
     timeout:
       sorry: Duilich ach thug e ro fhada an dàta airson %{type} air a bheil an id
         %{id} fhaighinn.
@@ -176,6 +177,7 @@ gd:
         way: an t-slighe
         relation: an dàimh
         changeset: seata atharraichean
+        note: an aire
     redacted:
       redaction: Ath-sgrùdadh %{id}
       message_html: Chan urrainn dhuinn an tionndadh %{version} %{type} a shealltainn
@@ -269,6 +271,7 @@ gd:
   diary_entry:
     new:
       title: Clàr ùr an leabhair-latha
+      publish_button: Foillsich
     list:
       title: Leabhraichean-latha
       title_friends: Leabhraichean-latha do charaidean
@@ -1143,6 +1146,8 @@ gd:
         loch no togalach.'
       tag_html: '''S e beagan dàta mu nòd no slighe a tha ann an <strong>taga</strong>,
         can ainm taighe-bhìdh no crìoch astair rathaid.'
+    rules:
+      title: Riaghailtean!
     questions:
       title: A bheil ceist sam bith agad?
       paragraph_1_html: |-
@@ -1190,11 +1195,19 @@ gd:
       title: Fàilte gu OSM
       description: Faigh toiseach tòiseachaidh air OpenStreetMap leis an stiùireadh
         luath seo.
+    beginners_guide:
+      url: http://wiki.openstreetmap.org/wiki/Beginners%27_guide
+      title: Treòir an luchd-tòiseachaidh
+      description: Treòir leis a’ choimhearsnachd do luchd-tòiseachaidh
     help:
       url: https://help.openstreetmap.org/
       title: help.openstreetmap.org
       description: Faighnich ceist no rùraich na freagairtean air làrach nan ceistean
         àbhaisteach aig OSM.
+    mailing_lists:
+      title: Liostaichean-puist
+    switch2osm:
+      title: switch2osm
     wiki:
       url: http://wiki.openstreetmap.org/
       title: wiki.openstreetmap.org
@@ -1221,13 +1234,14 @@ gd:
     open_data_html: |-
       'S e <i>dàta fosgailte</i> a tha san OpenStreetMap: faodaidh tu a chleachdadh a chum adhbhair sam bith cho fad 's a bheir thu urram air OpenStreetMap agus na co-thabhartaichean aige. Ma nì thu atharrachadh air an dàta againn no ma thogas tu rudeigin eile leis, faodaidh tu
       an toradh a sgaoileadh fon aon cheadachas. Thoir sùil air <a href='%{copyright_path}'>Duilleag na còrach-lethbhreac agus a' cheadachais</a> airson barrachd fiosrachaidh.
+    legal_title: Nòtaichean laghail
     partners_title: Com-pàirtichean
   notifier:
     diary_comment_notification:
-      subject: '[OpenStreetMap] Thug %{user} beachd air an leabhar-latha agad'
+      subject: '[OpenStreetMap] Thug %{user} seachad beachd air leabhar-latha'
       hi: Shin thu, %{to_user},
-      header: 'Thug %{from_user} beachd air clàr leabhar-latha OpenStreetMap agad
-        a rinn thu o chionn goirid air a bheil an cuspair "%{subject}":'
+      header: 'Thug %{from_user} seachad beachd air innteart leabhar-latha OpenStreetMap
+        a rinn thu o chionn goirid air a bheil an cuspair “%{subject}”:'
       footer: '''S urrainn dhut am beachd a leughadh air %{readurl} cuideachd agus
         beachd agad fhèin a chur ris air %{commenturl} no freagairt a sgrìobhadh air
         %{replyurl}'
@@ -1332,6 +1346,7 @@ gd:
           a thug thu beachd air. Tha an nòta faisg air %{place}.'
       details: Gheibh thu barrachd fiosrachaidh air an nòta air %{url}.
     changeset_comment_notification:
+      hi: Shin thu, %{to_user},
       greeting: Shin thu,
       commented:
         subject_own: '[OpenStreetMap] Thug %{commenter} beachd air seata atharraichean
@@ -1470,6 +1485,7 @@ gd:
       table:
         entry:
           motorway: Mòr-rathad
+          main_road: Prìomh-rathad
           trunk: Prìomh-rathad
           primary: Prìomh-rathad
           secondary: Rathad dàrnach
@@ -1477,6 +1493,9 @@ gd:
           track: Slighe
           bridleway: Ceum marcachd
           cycleway: Slighe baidhseagail
+          cycleway_national: Slighe baidhseagail nàiseanta
+          cycleway_regional: Slighe baidhseagail roinneil
+          cycleway_local: Slighe baidhseagail ionadail
           footway: Àrainn-choisichean
           rail: Rèile
           subway: Meatro
@@ -1529,6 +1548,9 @@ gd:
           private: Cead-inntrigidh prìobhaideach
           destination: Inntrigeadh a' chinn-uidhe
           construction: Rathaidean 'gan togail
+          bicycle_shop: Bùth bhaidhseagalan
+          bicycle_parking: Pàirceadh bhaidhseagalan
+          toilets: Taighean-beaga
     richtext_area:
       edit: Deasaich
       preview: Ro-sheall
@@ -1664,7 +1686,10 @@ gd:
       title: Lorgaidhean GPS aig OpenStreetMap
     description:
       description_with_count:
-        other: faidhle GPX le %{count} phuing o %{user}
+        one: faidhle GPX le %{count} phuing o %{user}
+        two: faidhle GPX le %{count} phuing o %{user}
+        few: faidhle GPX le %{count} puingean o %{user}
+        other: faidhle GPX le %{count} puing o %{user}
       description_without_count: Faidhle GPX o %{user}
   application:
     require_cookies:
@@ -1695,6 +1720,7 @@ gd:
       allow_read_gpx: na lorgaidhean GPS prìobhaideach agad a leughadh.
       allow_write_gpx: lorgaidhean GPS a luchdadh suas.
       allow_write_notes: nòtaichean atharrachadh.
+      grant_access: Thoir inntrigeadh
     oauthorize_success:
       title: Chaidh gabhail ri iarrtas a' chead
       allowed: Thug thu cead dha dh'aplacaid %{app_name} an cunntas agad inntrigeadh.
@@ -1804,6 +1830,18 @@ gd:
         google:
           title: Clàraich a-steach le Google
           alt: Clàraich a-steach le OpenID Google
+        facebook:
+          title: Clàraich a-steach le Facebook
+          alt: Clàraich a-steach le cunntas Facebook
+        windowslive:
+          title: Clàraich a-steach le Windows Live
+          alt: Clàraich a-steach le cunntas Windows Live
+        github:
+          title: Clàraich a-steach le GitHub
+          alt: Clàraich a-steach le cunntas GitHub
+        wikipedia:
+          title: Clàraich a-steach leis an Uicipeid
+          alt: Clàraich a-steach le cunntas na h-Uicipeid
         yahoo:
           title: Clàraich a-steach le Yahoo
           alt: Clàraich a-steach le OpenID Yahoo
@@ -1855,10 +1893,10 @@ gd:
         a' chom-pàirtiche</a>.
       email address: 'Seòladh puist-d:'
       confirm email address: 'Dearbhaich an seòladh puist-d:'
-      not displayed publicly: Cha dèid a shealltainn gu poblach (thoir sùil air <a
-        href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="poileasaidh
-        na prìobhaideachd san uicidh a ghabhas a-steach earrann air seòlaidhean puist-d">poileasaidh
-        na prìobhaideachd</a>)
+      not displayed publicly: Cha dèid do sheòladh shealltainn gu poblach, thoir sùil
+        air <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="poileasaidh
+        na prìobhaideachd OSMF a ghabhas a-steach earrann air seòlaidhean puist-d">poileasaidh
+        na prìobhaideachd</a> airson barrachd fiosrachaidh
       display name: 'Ainm seallaidh:'
       display name description: An t-ainm-cleachdaiche agad a thèid a shealltainn
         gu poblach. 'S urrainn dhut seo atharrachadh uair sam bith sna roghainnean.
@@ -1904,6 +1942,7 @@ gd:
       body: Duilich ach chan eil cleachdaiche ann air a bheil %{user}. Dearbhaich
         an litreachadh no 's dòcha nach eil an ceangal air an do rinn thu briogadh
         mar bu chòir.
+      deleted: air a sguabadh às
     view:
       my diary: An leabhar-latha agam
       new diary entry: clàr leabhair-latha ùr
@@ -2304,8 +2343,7 @@ gd:
     key:
       title: Iuchair a' mhapa
       tooltip: Iuchair a' mhapa
-      tooltip_disabled: Chan eil iuchair a' mhapa ri fhaighinn ach airson na breatha
-        stannardaich
+      tooltip_disabled: Chan eil iuchair a’ mhapa ri fhaighinn airson na breath seo
     map:
       zoom:
         in: Sùm a-steach
