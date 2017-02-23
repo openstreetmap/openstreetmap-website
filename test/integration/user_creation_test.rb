@@ -515,7 +515,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         assert_redirected_to auth_path(:provider => "windowslive", :origin => "/user/new")
         follow_redirect!
         assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "windowslive", :origin => "/user/new")
+        assert_redirected_to auth_success_path(:provider => "windowslive")
         follow_redirect!
         assert_response :redirect
         assert_redirected_to "/user/terms"
@@ -546,7 +546,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         assert_redirected_to auth_path(:provider => "windowslive", :origin => "/user/new")
         follow_redirect!
         assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "windowslive", :origin => "/user/new")
+        assert_redirected_to auth_success_path(:provider => "windowslive")
         follow_redirect!
         assert_response :redirect
         assert_redirected_to auth_failure_path(:strategy => "windowslive", :message => "connection_failed", :origin => "/user/new")
@@ -576,7 +576,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         assert_redirected_to auth_path(:provider => "windowslive", :origin => "/user/new")
         follow_redirect!
         assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "windowslive", :origin => "/user/new")
+        assert_redirected_to auth_success_path(:provider => "windowslive")
         follow_redirect!
         assert_response :redirect
         assert_redirected_to "/user/terms"

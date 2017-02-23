@@ -660,7 +660,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_template "user/login"
     get auth_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "windowslive")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -680,7 +680,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_template "user/login"
     get auth_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "windowslive")
     follow_redirect!
     assert_response :redirect
     assert_redirected_to auth_failure_path(:strategy => "windowslive", :message => "connection_failed", :origin => "/login?referer=%2Fhistory")
@@ -704,7 +704,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_template "user/login"
     get auth_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "windowslive")
     follow_redirect!
     assert_response :redirect
     assert_redirected_to auth_failure_path(:strategy => "windowslive", :message => "invalid_credentials", :origin => "/login?referer=%2Fhistory")
@@ -728,7 +728,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_template "user/login"
     get auth_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "windowslive")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
