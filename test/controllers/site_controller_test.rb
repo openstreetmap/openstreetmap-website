@@ -80,6 +80,10 @@ class SiteControllerTest < ActionController::TestCase
       { :path => "/id", :method => :get },
       { :controller => "site", :action => "id" }
     )
+    assert_routing(
+      { :path => "/tileinfo", :method => :get },
+      { :controller => "site", :action => "tileinfo" }
+    )
   end
 
   # Test the index page
@@ -381,5 +385,18 @@ class SiteControllerTest < ActionController::TestCase
     assert_response :success
     assert_template "id"
     assert_template :layout => false
+  end
+
+  # Test the tileinfo page
+  def test_tileinfo
+    get :tileinfo
+    assert_response :success
+    assert_template "tileinfo"
+    assert_template :layout => "map"
+
+    get :tileinfo, :xhr => true
+    assert_response :success
+    assert_template "tileinfo"
+    assert_template :layout => "xhr"
   end
 end
