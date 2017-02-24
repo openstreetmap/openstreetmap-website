@@ -69,7 +69,7 @@ OSM.NewNote = function(map) {
     var marker = L.marker(feature.geometry.coordinates.reverse(), {
       icon: noteIcons[feature.properties.status],
       opacity: 0.9,
-      clickable: true
+      interactive: true
     });
     marker.id = feature.properties.id;
     marker.addTo(noteLayer);

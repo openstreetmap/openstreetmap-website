@@ -209,7 +209,7 @@ L.OSM.Map = L.Map.extend({
       color: '#FF9500',
       opacity: 1,
       fillOpacity: 0,
-      clickable: false
+      interactive: false
     };
 
     this.removeObject();

@@ -12,7 +12,7 @@ OSM.Query = function(map) {
     weight: 4,
     opacity: 1,
     fillOpacity: 0.5,
-    clickable: false
+    interactive: false
   };
 
   queryButton.on("click", function (e) {
