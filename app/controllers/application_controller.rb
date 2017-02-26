@@ -61,7 +61,8 @@ class ApplicationController < ActionController::Base
     # method, otherwise an OAuth token was used, which has to be checked.
     unless current_token.nil?
       unless current_token.read_attribute(cap)
-        report_error "OAuth token doesn't have that capability.", :forbidden
+        set_locale
+        report_error t("oauth.permissions.missing"), :forbidden
         false
       end
     end
