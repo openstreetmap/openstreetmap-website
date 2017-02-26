@@ -407,6 +407,11 @@ class ApplicationController < ActionController::Base
   end
 
   def map_layout
+    append_content_security_policy_directives(
+      :connect_src => %w(nominatim.openstreetmap.org overpass-api.de router.project-osrm.org valhalla.mapzen.com),
+      :script_src => %w(graphhopper.com open.mapquestapi.com)
+    )
+
     request.xhr? ? "xhr" : "map"
   end
 

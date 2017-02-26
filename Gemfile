@@ -92,6 +92,9 @@ gem "rotp"
 gem "dalli"
 gem "kgio"
 
+# Load secure_headers for Content-Security-Policy support
+gem "secure_headers"
+
 # Used to generate logstash friendly log files
 gem "logstasher"
 
