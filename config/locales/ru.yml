@@ -51,6 +51,7 @@
 # Author: WindEwriX
 # Author: XAN
 # Author: Yuri Nazarov
+# Author: Yuryleb
 # Author: Zverik
 # Author: Александр Сигачёв
 # Author: Владимир К
@@ -218,7 +219,8 @@ ru:
         changeset: пакет правок
         note: примечание
     timeout:
-      sorry: Извините, данные для %{type} с %{id} слишком длинные для извлечения.
+      sorry: Извините, данные для %{type} с %{id} требуют слишком много времени для
+        извлечения.
       type:
         node: точки
         way: линии
@@ -247,30 +249,30 @@ ru:
       wikipedia_link: Статья %{page} в Википедии
       telephone_link: Позвонить %{phone_number}
     note:
-      title: 'Примечание: %{id}'
+      title: 'Заметка: %{id}'
       new_note: Новая заметка
       description: Описание
       open_title: 'Необработанная заметка #%{note_name}'
       closed_title: 'Обработанная заметка #%{note_name}'
       hidden_title: 'Скрытая заметка #%{note_name}'
       open_by: Создано пользователем %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
-      open_by_anonymous: Создано анонимом <abbr title='%{exact_time}'>%{when} назад</abbr>
+      open_by_anonymous: Создано анонимно <abbr title='%{exact_time}'>%{when} назад</abbr>
       commented_by: Комментарий пользователя %{user} <abbr title='%{exact_time}'>%{when}
         назад</abbr>
-      commented_by_anonymous: Комментарий анонима <abbr title='%{exact_time}'>%{when}
+      commented_by_anonymous: Анонимный комментарий <abbr title='%{exact_time}'>%{when}
         назад</abbr>
       closed_by: Обработана пользователем %{user} <abbr title='%{exact_time}'>%{when}
         назад</abbr>
-      closed_by_anonymous: Разрешена анонимом <abbr title='%{exact_time}'>%{when}
+      closed_by_anonymous: Обработана анонимно <abbr title='%{exact_time}'>%{when}
         назад</abbr>
       reopened_by: Переоткрыта пользователем %{user} <abbr title='%{exact_time}'>%{when}
         назад</abbr>
-      reopened_by_anonymous: Переоткрыта анонимом <abbr title='%{exact_time}'>%{when}
+      reopened_by_anonymous: Переоткрыта анонимно <abbr title='%{exact_time}'>%{when}
         назад</abbr>
       hidden_by: Скрыта %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
     query:
       title: Информация об объектах
-      introduction: Щелкните по карте, чтобы найти ближайшие объекты
+      introduction: Нажмите на карту, чтобы найти ближайшие объекты
       nearby: Ближайшие объекты
       enclosing: Местоположение
   changeset:
@@ -295,24 +297,24 @@ ru:
       title_nearby: Пакеты правок соседних участников
       empty: Пакеты правок не найдены.
       empty_area: Нет пакетов правок в этой области.
-      empty_user: Нет пакетов правок от этого пользователя.
-      no_more: Больше никаких пакетов правок не обнаружено.
+      empty_user: Нет пакетов правок этого пользователя.
+      no_more: Больше пакетов правок не обнаружено.
       no_more_area: Нет больше пакетов правок в этой области.
       no_more_user: Нет больше пакетов правок от этого пользователя.
       load_more: Загрузить ещё
     timeout:
-      sorry: К сожалению, список пакетов правок, который вы запросили, слишком большой
-        для извлечения.
+      sorry: К сожалению, список пакетов правок, который вы запросили, требует слишком
+        много времени для извлечения.
     rss:
       title_all: Обсуждение пакета правок OpenStreetMap
       title_particular: 'Обсуждение пакета правок OpenStreetMap #%{changeset_id}'
-      comment: 'Новый комментарий на пакет правок #%{changeset_id} от %{author}'
+      comment: 'Новый комментарий к пакету правок #%{changeset_id} от %{author}'
       commented_at_html: Обновлена %{when} назад
       commented_at_by_html: Обновлена %{when} назад %{user}
       full: Полное обсуждение
   diary_entry:
     new:
-      title: Сделать новую запись в дневнике
+      title: Новая запись в дневнике
       publish_button: Опубликовать
     list:
       title: Дневники
@@ -346,7 +348,7 @@ ru:
       save_button: Сохранить
     no_such_entry:
       title: Нет такой дневниковой записи
-      heading: 'Нет записи с id: %{id}'
+      heading: Нет записи с номером %{id}
       body: К сожалению, записи или комментария с id %{id} не найдено. Проверьте правильность
         написания. Возможно, ссылка, по которой вы перешли, ошибочна.
     diary_entry:
@@ -366,7 +368,7 @@ ru:
       hide_link: Скрыть этот комментарий
       confirm: Подтвердить
     location:
-      location: 'Положение:'
+      location: 'Место:'
       view: Вид
       edit: Правка
     feed:
@@ -382,7 +384,7 @@ ru:
     comments:
       has_commented_on: '%{display_name} только что прокомментировал следующие записи
         дневника'
-      post: Пост
+      post: Сообщение
       when: Когда
       comment: Комментарий
       ago: '%{ago} назад'
@@ -401,11 +403,11 @@ ru:
       export_details: Данные OpenStreetMap распространяются по <a href="http://opendatacommons.org/licenses/odbl/1.0/">лицензии
         Open Data Commons Open Database License</a> (ODbL).
       too_large:
-        advice: 'Если этот экспорт пройдёт неудачно, пожалуйста, попробуйте использовать
-          один из перечисленных ниже источников:'
+        advice: 'Если этот экспорт пройдёт неудачно, пожалуйста, попробуйте один из
+          перечисленных ниже источников:'
         body: 'Эта область слишком велика для экспорта в качестве данных в формате
           OpenStreetMap XML. Пожалуйста, увеличьте масштаб, выберите меньшую область
-          или используйте один из следующих источников для массовой загрузки данных:'
+          или используйте один из перечисленных ниже других источников:'
         planet:
           title: Планета OSM
           description: Регулярно обновляемые копии полной базы данных OpenStreetMap
@@ -429,7 +431,7 @@ ru:
       max: макс.
       image_size: 'Размер изображения:'
       zoom: Приблизить
-      add_marker: Поставить на карту маркер
+      add_marker: Добавить маркер на карту
       latitude: 'Широта:'
       longitude: 'Долгота:'
       output: Результат
@@ -443,12 +445,12 @@ ru:
         uk_postcode: Результаты от <a href="http://www.npemap.org.uk/">NPEMap / FreeThe
           Postcode</a>
         ca_postcode: Результаты от <a href="http://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim: Результаты, полученные из <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        osm_nominatim: Результаты от <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames: Результаты от <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse: Результаты с <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        osm_nominatim_reverse: Результаты от <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
-        geonames_reverse: Результаты с <a href="http://www.geonames.org/">GeoNames</a>
+        geonames_reverse: Результаты от <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -467,7 +469,7 @@ ru:
           terminal: Терминал
         amenity:
           animal_shelter: Приют для животных
-          arts_centre: Дом искусств
+          arts_centre: Центр искусств
           atm: Банкомат
           bank: Банк
           bar: Бар
@@ -488,14 +490,14 @@ ru:
           charging_station: Станция зарядки электромобилей
           childcare: Служба ухода за детьми
           cinema: Кинотеатр
-          clinic: Поликлиника
+          clinic: Клиника
           clock: Часы
           college: Колледж
           community_centre: Общественный центр
-          courthouse: Помещение суда
-          crematorium: Крематоорий
+          courthouse: Суд
+          crematorium: Крематорий
           dentist: Стоматология
-          doctors: Врачи
+          doctors: Поликлиника
           dormitory: Общежитие
           drinking_water: Питьевая вода
           driving_school: Автошкола
@@ -504,8 +506,8 @@ ru:
           fast_food: Фаст-фуд
           ferry_terminal: Паромная станция
           fire_hydrant: Пожарный гидрант
-          fire_station: Пожарная охрана
-          food_court: Фудкорт
+          fire_station: Пожарная станция
+          food_court: Ресторанный дворик
           fountain: Фонтан
           fuel: Заправка
           gambling: Игорный дом
@@ -514,10 +516,10 @@ ru:
           health_centre: Оздоровительный центр
           hospital: Госпиталь
           hunting_stand: Охотничья вышка
-          ice_cream: Мороженное
+          ice_cream: Мороженое
           kindergarten: Детский сад
           library: Библиотека
-          market: Магазин
+          market: Рынок
           marketplace: Рыночная площадь
           monastery: Монастырь
           motorcycle_parking: Парковка для мотоциклов
@@ -529,7 +531,7 @@ ru:
           parking_entrance: Въезд на стоянку
           pharmacy: Аптека
           place_of_worship: Место поклонения
-          police: Милиция
+          police: Полиция
           post_box: Почтовый ящик
           post_office: Почтовое отделение
           preschool: Дошкольное учреждение
@@ -559,18 +561,18 @@ ru:
           vending_machine: Торговый автомат
           veterinary: Ветеринарная клиника
           village_hall: Усадьба
-          waste_basket: Мусорка
+          waste_basket: Урна
           waste_disposal: Мусорный бак
           youth_centre: Молодёжный центр
         boundary:
           administrative: Административная граница
           census: Граница переписного участка
           national_park: Национальный парк
-          protected_area: Охраняемый район
+          protected_area: Охраняемая территория
         bridge:
           aqueduct: Акведук
-          suspension: Висячий мост
-          swing: Разводной мост
+          suspension: Подвесной мост
+          swing: Поворотный мост
           viaduct: Виадук
           "yes": Мост
         building:
@@ -608,31 +610,31 @@ ru:
           motorway_junction: Перекрёсток
           motorway_link: Развязка на автомагистрали
           path: Тропа
-          pedestrian: Дорога для пешеходов
+          pedestrian: Пешеходная улица
           platform: Платформа
           primary: Главная дорога
           primary_link: Главная дорога
           proposed: Проектируемая дорога
           raceway: Гоночная трасса
-          residential: Дорога
+          residential: Улица
           rest_area: Зона отдыха
           road: Дорога
           secondary: Второстепенная дорога
-          secondary_link: Примыкающая дорога
-          service: Подъездная дорога
+          secondary_link: Второстепенная дорога
+          service: Проезд
           services: Придорожный сервис
-          speed_camera: Камера по контролю скорости
-          steps: Ступеньки
+          speed_camera: Камера контроля скорости
+          steps: Лестница
           street_lamp: Уличный фонарь
           tertiary: Дорога третьего класса
           tertiary_link: Дорога третьего класса
-          track: Дорога хозяйственного назначения
+          track: Просёлочная дорога
           traffic_signals: Светофор
           trail: Тропа
           trunk: Трасса
           trunk_link: Развязка
           unclassified: Дорога местная
-          unsurfaced: Дорога без покрытия
+          unsurfaced: Грунтовая дорога
           "yes": Дорога
         historic:
           archaeological_site: Раскопки
@@ -651,7 +653,7 @@ ru:
           manor: Поместье
           memorial: Памятник
           mine: Рудник
-          monument: Памятник
+          monument: Монумент
           roman_road: Римская дорога
           ruins: Развалины
           stone: Камень
@@ -663,8 +665,8 @@ ru:
         junction:
           "yes": Перекрёсток
         landuse:
-          allotments: Сады-огороды
-          basin: Бассейн
+          allotments: Садоводство
+          basin: Водоём
           brownfield: Расчистка под застройку
           cemetery: Кладбище
           commercial: Офисная территория
@@ -677,7 +679,7 @@ ru:
           garages: Гаражи
           grass: Трава
           greenfield: Неосвоенная территория
-          industrial: Промзона
+          industrial: Промышленный район
           landfill: Свалка
           meadow: Луг
           military: Военная территория
@@ -687,7 +689,7 @@ ru:
           railway: Железная дорога
           recreation_ground: Зона отдыха
           reservoir: Водохранилище
-          reservoir_watershed: Водохранилище водораздел
+          reservoir_watershed: Водораздел водохранилища
           residential: Жилой район
           retail: Торговая территория
           road: Зона дорожной сети
@@ -707,7 +709,7 @@ ru:
           golf_course: Поле для гольфа
           horse_riding: Конная база
           ice_rink: Каток
-          marina: Пристань для яхт
+          marina: Пристань
           miniature_golf: Минигольф
           nature_reserve: Заповедник
           park: Парк
@@ -716,7 +718,7 @@ ru:
           recreation_ground: Зона отдыха
           resort: Курорт
           sauna: Сауна
-          slipway: Эллинг
+          slipway: Стапель
           sports_centre: Спортивный центр
           stadium: Стадион
           swimming_pool: Бассейн
@@ -754,7 +756,7 @@ ru:
           island: Остров
           land: Земля
           marsh: Травянистое болото
-          moor: Горное болото
+          moor: Вересковая пустошь
           mud: Грязь
           peak: Вершина горы
           point: Мыс
@@ -780,16 +782,16 @@ ru:
           architect: Архитектор
           company: Компания
           employment_agency: Агентство занятости
-          estate_agent: Агент по продаже недвижимости
-          government: Государственное управление
+          estate_agent: Агенство недвижимости
+          government: Государственное учреждение
           insurance: Страховое бюро
           lawyer: Юрист
-          ngo: Офис НКО
+          ngo: Офис некоммерческой организации
           telecommunication: Офис телекоммуникационной компании
           travel_agent: Туристическое агентство
           "yes": Офисы
         place:
-          allotments: Сады-огороды, дачные участки
+          allotments: Садоводство
           block: Квартал
           airport: Аэропорт
           city: Город
@@ -803,7 +805,7 @@ ru:
           islet: Маленький остров
           isolated_dwelling: Отдельный дом-ферма
           locality: Заброшенная деревня, урочище, необитаемая местность
-          moor: Горное болото
+          moor: Вересковая пустошь
           municipality: Муниципалитет
           neighbourhood: Соседство
           postcode: Почтовый индекс
@@ -815,23 +817,23 @@ ru:
           town: Городок
           unincorporated_area: Загородная зона
           village: Деревня
-          "yes": Местоположение
+          "yes": Место
         railway:
           abandoned: Разобранные железнодорожные пути
-          construction: Ремонт ж/д путей
-          disused: Заброшеная ж/д ветка
-          disused_station: Заброшеная ж/д станция
-          funicular: Фуникулер
-          halt: Станция ж/д
-          historic_station: Историческая ж.д. станция
-          junction: Стрелка ж/д
+          construction: Ремонт железнодорожных путей
+          disused: Заброшенная железнодорожная ветка
+          disused_station: Заброшеная железнодорожная станция
+          funicular: Фуникулёр
+          halt: Железнодорожная станция
+          historic_station: Историческая железнодорожная станция
+          junction: Железнодорожная стрелка
           level_crossing: Железнодорожный переезд
-          light_rail: Легкорельсовый ж/д транспорт
-          miniature: Мини железная дорога (Miniature Rail)
+          light_rail: Легкорельсовый транспорт
+          miniature: Макет железной дороги
           monorail: Монорельс
           narrow_gauge: Узкоколейка
           platform: Железнодорожная платформа
-          preserved: Историческая ж/д
+          preserved: Историческая железная дорога
           proposed: Проектируемая железная дорога
           spur: Ответвление ж/д пути
           station: Железнодорожная станция
@@ -842,7 +844,7 @@ ru:
           tram: Трамвай
           tram_stop: Трамвайная остановка
         shop:
-          alcohol: Винный магазин
+          alcohol: Магазин алкоголя
           antiques: Антиквариат
           art: Художественный салон
           bakery: Булочная
@@ -870,7 +872,7 @@ ru:
           doityourself: Сделай сам
           dry_cleaning: Химчистка
           electronics: Магазин электроники
-          estate_agent: Продажа недвижимости
+          estate_agent: Агенство недвижимости
           farm: Сельпо
           fashion: Магазин модной одежды
           fish: Рыбный магазин
@@ -885,7 +887,7 @@ ru:
           greengrocer: Овощной магазин
           grocery: Продуктовый магазин
           hairdresser: Парикмахерская
-          hardware: Хозяйственные магазины
+          hardware: Хозяйственный магазин
           hifi: Магазин аудио/видео аппаратуры
           insurance: Страховая компания
           jewelry: Ювелирный магазин
@@ -917,9 +919,9 @@ ru:
           wine: Винный магазин
           "yes": Магазин
         tourism:
-          alpine_hut: Альпийский Домик
+          alpine_hut: Альпийский домик
           apartment: Квартира
-          artwork: Произведения искусства
+          artwork: Произведение искусства
           attraction: Аттракцион
           bed_and_breakfast: Полупансион
           cabin: Хижина
@@ -927,28 +929,28 @@ ru:
           caravan_site: Стоянка для домов на колёсах
           chalet: Шале
           gallery: Галерея
-          guest_house: Домик для гостей
+          guest_house: Гостевой дом
           hostel: Хостел
           hotel: Гостиница
           information: Информация
           motel: Мотель
           museum: Музей
           picnic_site: Место для пикника
-          theme_park: Тематический парк
+          theme_park: Парк развлечений
           viewpoint: Смотровая площадка
           zoo: Зоопарк
         tunnel:
           culvert: Водопропускная труба, кульверт
-          "yes": Туннель
+          "yes": Тоннель
         waterway:
           artificial: Искусственный водоток
           boatyard: Верфь
           canal: Канал
           dam: Дамба
           derelict_canal: Пересохший канал
-          ditch: Водоотлив
+          ditch: Канава
           dock: Док
-          drain: Сточная канава
+          drain: Сток
           lock: Шлюз
           lock_gate: Ворота шлюза
           mooring: Место швартовки
@@ -969,9 +971,9 @@ ru:
         level10: Граница пригорода
     description:
       title:
-        osm_nominatim: Местоположение из <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        osm_nominatim: Местоположение от <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
-        geonames: Местоположение из <a href="http://www.geonames.org/">GeoNames</a>
+        geonames: Местоположение от <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Города
         towns: Городские поселения
@@ -995,17 +997,17 @@ ru:
     data: Данные
     export_data: Экспортировать данные
     gps_traces: GPS-треки
-    gps_traces_tooltip: Работать с GPS треками
+    gps_traces_tooltip: Работать с GPS-треками
     user_diaries: Дневники участников
     user_diaries_tooltip: Посмотреть дневники участников
-    edit_with: Править с помощью %{editor}
+    edit_with: Редактировать с помощью %{editor}
     tag_line: Свободная вики-карта мира
     intro_header: Добро пожаловать на OpenStreetMap!
     intro_text: OpenStreetMap является картой мира, созданной такими же людьми, как
       и вы, и может свободно использоваться под открытой лицензией.
     intro_2_create_account: Создайте учётную запись
-    partners_html: Хостинг поддерживается %{ucl}, %{ic} и %{bytemark}, а также другими
-      %{partners}.
+    partners_html: Хостинг поддерживается %{ucl}, %{ic}, %{bytemark} и %{ic}, а также
+      другими %{partners}.
     partners_ucl: UCL VR Centre
     partners_ic: Имперским колледжем Лондона
     partners_bytemark: Bytemark Hosting
@@ -1171,19 +1173,19 @@ ru:
         и <a href="http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct">автоматизированным
         правкам</a> и следуйте им в дальнейшем.
     questions:
-      title: Появились вопросы?
+      title: Остались вопросы?
       paragraph_1_html: |-
-        На OpenStreetMap есть несколько ресурсов, где можно узнать о проекте, задать вопросы или ответить на них и совместно обсудить темы, касающиеся картографии.
+        У OpenStreetMap есть несколько ресурсов, где можно узнать о проекте, задать вопросы, или ответить на них, и совместно обсудить темы, касающиеся картографии.
         <a href='%{help_url}'>Получите помощь здесь</a>.
     start_mapping: Начать картографировать
     add_a_note:
-      title: Нет времени править карту? Добавьте заметку!
+      title: Нет времени отредактировать карту? Добавьте заметку!
       paragraph_1_html: Если нужно сделать небольшое уточнение, ради которого слишком
         долго регистрироваться и изучать правила правки, можно просто добавить заметку
         на карту.
       paragraph_2_html: |-
-        Просто перейдите <a href='%{map_url}'>к карте</a> и кликните на иконку заметок:
-        <span class='icon note'></span> Это добавит на карту маркер, который можно перетаскивать мышью. Просто напишите сообщение и нажмите "добавить", и другие участники увидят это.
+        Просто перейдите <a href='%{map_url}'>к карте</a> и нажмите на иконку заметок:
+        <span class='icon note'></span>. Это добавит на карту маркер, который можно перетаскивать. Просто напишите сообщение и нажмите "Добавить", и другие участники увидят это.
   fixthemap:
     title: Сообщить о проблеме / исправить карту
     how_to_help:
@@ -1295,7 +1297,7 @@ ru:
       your_gpx_file: Похоже, ваш файл GPX
       with_description: с описанием
       and_the_tags: 'и следующими тегами:'
-      and_no_tags: и без меток.
+      and_no_tags: и без тегов.
       failure:
         subject: '[OpenStreetMap] Сбой импорта GPX'
         failed_to_import: 'сбой импорта. Произошла ошибка:'
@@ -1351,10 +1353,10 @@ ru:
         subject_own: '[OpenStreetMap] %{commenter} прокомментировал вашу заметку'
         subject_other: '[OpenStreetMap] %{commenter} прокомментировал интересную вам
           заметку'
-        your_note: '%{commenter} оставил комментарий к одной из ваших картографических
-          заметок около %{place}.'
-        commented_note: '%{commenter} оставил комментарий к одной из картографических
-          заметок, которую вы тоже комментировали. Заметка находится около %{place}.'
+        your_note: '%{commenter} оставил комментарий к одной из ваших заметок около
+          %{place}.'
+        commented_note: '%{commenter} оставил комментарий к одной из заметок, которую
+          вы тоже комментировали. Заметка находится около %{place}.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} обработал вашу заметку'
         subject_other: '[OpenStreetMap] %{commenter} обработал интересную вам заметку'
@@ -1695,14 +1697,14 @@ ru:
       private: ЧАСТНЫЙ
       trackable: ОТСЛЕЖИВАЕМЫЙ
       by: 'Автор:'
-      in: в
+      in: 'с тегами:'
       map: карта
     list:
       public_traces: Общедоступные GPS-треки
       your_traces: Ваши GPS-треки
       public_traces_from: Общедоступные треки пользователя %{user}
       description: Обзор последних загруженных маршрутов GPS
-      tagged_with: ' отмеченные %{tags}'
+      tagged_with: 'с тегами: %{tags}'
       empty_html: Пока здесь ничего нет. <a href='%{upload_link}'>Загрузите новый
         трек</a> или почитайте про GPS-треки на <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>вики-странице</a>.
     delete:
@@ -2229,10 +2231,11 @@ ru:
     edit:
       title: Правка блокировки пользователя %{name}
       heading: Правка блокировки пользователя %{name}
-      reason: Объясните, почему %{name} был заблокирован. Пожалуйста, будьте терпимы
-        и поступайте разумно, предоставляя пользователю, как можно больше информации
-        о ситуации. Помните, что не все пользователи понимают жаргон, потому пользуйтесь
-        при объяснении дилетантским языком.
+      reason: Причина, по которой блокируется пользователь %{name}. Пожалуйста, будьте
+        спокойны и разумны насколько это возможно. Предоставьте пользователю как можно
+        больше информации о причинах блокировки, помня, что сообщение будет видно
+        всем. Имейте в виду, что не все пользователи понимают жаргон сообщества, поэтому
+        попробуйте использовать дилетантские понятия.
       period: На какой срок, начиная с этого момента, заблокировать пользователя от
         API.
       submit: Обновить блокировку
@@ -2287,7 +2290,7 @@ ru:
       time_future: Заканчивается через %{time}.
       until_login: Активно до тех пор, пока пользователь не войдёт в систему.
       time_future_and_until_login: Заканчивается через %{time} и после того, как пользователь
-        вошел в систему.
+        войдёт в систему.
       time_past: Закончилось %{time} назад.
     blocks_on:
       title: Блокировки для %{name}
@@ -2296,7 +2299,7 @@ ru:
     blocks_by:
       title: Блокировки, которые создал %{name}
       heading: Список блокировок, которые создал %{name}
-      empty: '%{name} ещё не делал никаких блокирований.'
+      empty: '%{name} ещё создавал никаких блокировок.'
     show:
       title: '%{block_on}, наложил блокировку: %{block_by}'
       heading: '%{block_on}, наложил блокировку: %{block_by}'
@@ -2321,9 +2324,9 @@ ru:
       commented_at_html: Обновлена %{when} назад
       commented_at_by_html: Обновлена %{when} назад %{user}
       closed_at_html: Обработана %{when} назад
-      closed_at_by_html: Решена %{when} назад %{user}
-      reopened_at_html: Возобновлена %{when} назад
-      reopened_at_by_html: Возобновлена %{when} назад %{user}
+      closed_at_by_html: Обработана %{when} назад %{user}
+      reopened_at_html: Переоткрыта %{when} назад
+      reopened_at_by_html: Переоткрыта %{when} назад %{user}
     rss:
       title: Заметки OpenStreetMap
       description_area: Список заметок, созданных, прокомментированных или закрытых
@@ -2401,7 +2404,7 @@ ru:
       edit_disabled_tooltip: Увеличить масштаб для редактирования карты
       createnote_tooltip: Добавить заметку на карту
       createnote_disabled_tooltip: Приблизьте карту, чтобы добавить заметку
-      map_notes_zoom_in_tooltip: Увеличьте масштаб, чтобы увидеть примечания к карте
+      map_notes_zoom_in_tooltip: Увеличьте масштаб, чтобы увидеть заметки
       map_data_zoom_in_tooltip: Увеличьте масштаб, чтобы увидеть данные карты
       queryfeature_tooltip: Информация об объектах
       queryfeature_disabled_tooltip: Приблизьте карту для информации об объектах
@@ -2471,7 +2474,7 @@ ru:
         leave_roundabout_without_exit: Покиньте развязку - %{name}
         stay_roundabout_without_exit: Оставайтесь на развязке - %{name}
         start_without_exit: Начните в конце %{name}
-        destination_without_exit: Выбрать место назначения
+        destination_without_exit: Место назначения рядом
         against_oneway_without_exit: Идите против одностороннего движения на %{name}
         end_oneway_without_exit: Конец одностороннего движения на %{name}
         roundabout_with_exit: На развязке выберите выход %{exit} на %{name}
@@ -2493,9 +2496,9 @@ ru:
     context:
       directions_from: Маршрут отсюда
       directions_to: Маршрут сюда
-      add_note: Добавить заметку сюда
+      add_note: Добавить заметку
       show_address: Показать адрес
-      query_features: Информация об объектах
+      query_features: Что здесь?
       centre_map: Центрировать карту
   redaction:
     edit:
@@ -2514,11 +2517,11 @@ ru:
       title: Создание нового исправления
     show:
       description: 'Описание:'
-      heading: Отображение исправления «%{title}»
-      title: Отображение исправления
+      heading: Описание исправления «%{title}»
+      title: Описание исправления
       user: 'Создано:'
-      edit: Править это исправление
-      destroy: Удалить это исправление
+      edit: Изменить
+      destroy: Удалить
       confirm: Вы уверены?
     create:
       flash: Исправление создано.

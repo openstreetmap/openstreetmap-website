@@ -750,9 +750,19 @@ bg:
     inbox:
       title: Входящи
       my_inbox: Входяща кутия
+      outbox: Изпратени
+      messages: Вие имате %{new_messages} и %{old_messages}
+      new_messages:
+        one: '%{count} ново съобщение'
+        other: '%{count} нови съобщения'
+      old_messages:
+        one: '%{count} прочетено съобщение'
+        other: '%{count} прочетени съобщения'
       from: От
       subject: Тема
       date: Дата
+      no_messages_yet: Все още нямате никакви съобщения. Не искате ли да се свържете
+        с други %{people_mapping_nearby_link}?
     message_summary:
       unread_button: Отбелязване като непрочетено
       read_button: Отбелязване като прочетено
@@ -766,6 +776,10 @@ bg:
       title: Няма такова съобщение
       heading: Няма такова съобщение
     outbox:
+      title: Изпратени
+      messages:
+        one: Вие имате %{count} изпратено съобщение
+        other: Вие имате %{count} изпратени съобщения
       to: До
       subject: Тема
       date: Дата
@@ -879,21 +893,34 @@ bg:
       visibility: 'Видимост:'
       upload_button: Качване
       help: Помощ
+    trace_header:
+      upload_trace: Качете GPS-следа
+      see_your_traces: Вижте вашите следи
     trace_optionals:
       tags: Етикети
     view:
+      pending: Обработва се
       filename: 'Име на файл:'
       map: карта
       edit: редактиране
       owner: 'Собственик:'
       tags: 'Етикети:'
+      edit_track: Редактиране на тази следа
+      trace_not_found: Следата не е открита!
       visibility: 'Видимост:'
+    trace_paging_nav:
+      showing_page: Страница %{page}
+      older: По-стари следи
     trace:
+      pending: Обработва се
       view_map: Вижте на картата
       edit: редактиране
       edit_map: Редактиране на картата
       in: в
       map: карта
+    list:
+      public_traces: Публични GPS-следи
+      public_traces_from: Публични GPS-следи от потребител %{user}
   oauth:
     oauthorize:
       allow_write_api: промени картата.
@@ -956,29 +983,46 @@ bg:
       title: Няма такъв потребител
     view:
       my edits: Mоите редакции
-      my messages: Моите съобщения
-      my settings: Моите настройки
+      my traces: Моите следи
+      my messages: Съобщения
+      my profile: Профил
+      my settings: Настройки
       edits: Редакции
+      traces: Следи
       notes: Бележки
       mapper since: 'Картограф от:'
       latest edit: 'Последна редакция %{ago}:'
       email address: 'Електронна поща:'
       description: Описание
       user location: Местоположение
+      no friends: Все още нямате добавени приятели.
       km away: '%{count} км от вас'
     account:
       title: Редакция на профил
       my settings: Моите настройки
       current email address: 'Текуща електронна поща:'
       new email address: 'Нова електронна поща:'
+      openid:
+        link text: Какво е това?
+      public editing:
+        enabled link text: Какво е това?
+      contributor terms:
+        agreed: Вие се съгласихте с новите условия за участие.
+        link text: Какво е това?
+      profile description: 'Описание на профила:'
       preferred languages: 'Предпочитани езици:'
       preferred editor: 'Предпочитан редактор:'
       image: 'Изображение:'
+      gravatar:
+        link text: Какво е това?
       new image: Добавяне на изображение
       keep image: Запазване на текущото изображение
       replace image: Заменяне на текущото изображение
+      image size hint: (най-подходящо е квадратно изображение с мин. размер 100×100)
       latitude: 'Географска ширина:'
       longitude: 'Географска дължина:'
+      save changes button: Съхраняване на промените
+      return to profile: Обратно към профила
       flash update success confirm needed: Сведенията за потребителя са успешно обновени.
         Проверете електронната си поща за писмо, с което да потвърдите новия адрес.
     confirm:
@@ -998,6 +1042,7 @@ bg:
       creator_name: Създател
       reason: Причина за блокиране
       status: Статут
+      showing_page: Страница %{page}
     show:
       ago: преди %{time}
       edit: Редактиране
@@ -1036,6 +1081,7 @@ bg:
         header: Слоеве на картата
         notes: Бележки
         data: Данни
+        gps: Публични GPS-следи
         overlays: Слоеве за отстраняване на грешки
         title: Слоеве
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Направете дарение</a>
