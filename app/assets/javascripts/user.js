@@ -103,4 +103,20 @@ $(document).ready(function () {
   } else {
     enableAuth();
   }
+
+  $("#user_all").change(function () {
+    $("#user_list input[type=checkbox]").prop("checked", $("#user_all").prop("checked"));
+  });
+
+  $("#content.user_confirm").each(function () {
+    $(this).hide();
+    $(this).find("#confirm").submit();
+  });
+
+  $("input[name=legale]").change(function () {
+    var url = $(this).data("url");
+
+    $("#contributorTerms").html("<img src='" + OSM.SEARCHING + "' />");
+    $("#contributorTerms").load(url);
+  });
 });

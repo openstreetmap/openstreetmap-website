@@ -4,9 +4,11 @@
 <% end %>
 
 <% if params[:confirm_string] %>
-  <script>
-  $("#content").hide();
-  </script>
+  <% content_for :head do %>
+    <%= javascript_include_tag "user" %>
+  <% end %>
+
+  <% content_for(:content_class) { "user_confirm" } %>  
 
   <p><%= t 'user.confirm.press confirm button' %></p>
 
@@ -15,10 +17,6 @@
     <input type="hidden" name="confirm_string" value="<%= params[:confirm_string] %>">
     <input type="submit" name="confirm_action" value="<%= t 'user.confirm.button' %>">
   <% end %>
-
-  <script>
-  $("#confirm").submit();
-  </script>
 <% else %>
   <h1>
     <%= t "user.confirm.introduction_1" %>

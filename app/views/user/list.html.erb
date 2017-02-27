@@ -1,5 +1,9 @@
 <% @title = t('user.list.title') %>
 
+<% content_for :head do %>
+  <%= javascript_include_tag "user" %>
+<% end %>
+
 <% content_for :heading do %>
   <h1><%= t('user.list.heading') %></h1>
 <% end %>
@@ -34,12 +38,6 @@
       <%= submit_tag t('user.list.confirm'), :name => "confirm" %>
       <%= submit_tag t('user.list.hide'), :name => "hide" %>
     </div>
-
-    <script type="text/javascript">
-     $("#user_all").change(function () {
-       $("#user_list input[type=checkbox]").prop("checked", $("#user_all").prop("checked"));
-     });
-    </script>
   <% end %>
 <% else %>
   <p><%= t "user.list.empty" %></p>

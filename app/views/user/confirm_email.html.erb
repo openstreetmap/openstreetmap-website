@@ -1,6 +1,8 @@
-<script>
-$("#content").hide();
-</script>
+<% content_for :head do %>
+  <%= javascript_include_tag "user" %>
+<% end %>
+
+<% content_for(:content_class) { "user_confirm" } %>  
 
 <% content_for :heading do %>
   <h1><%= t 'user.confirm_email.heading' %></h1>
@@ -12,7 +14,3 @@ $("#content").hide();
   <input type="hidden" name="confirm_string" value="<%= params[:confirm_string] %>">
   <input type="submit" name="confirm_action" value="<%= t 'user.confirm_email.button' %>">
 <% end %>
-
-<script>
-$("#confirm").submit();
-</script>
