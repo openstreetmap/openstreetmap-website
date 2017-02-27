@@ -5,20 +5,24 @@
   <script>
     var params = {};
 
-    var mapParams = OSM.mapParams();
-    if (mapParams.object) {
-      params.id = mapParams.object.type[0] + mapParams.object.id;
-      mapParams = OSM.parseHash(location.hash);
-      if (mapParams.center) {
-        params.map = mapParams.zoom + '/' + mapParams.center.lat + '/' + mapParams.center.lng;
+    function getParams(params) {
+      var mapParams = OSM.mapParams();
+      if (mapParams.object) {
+        params.id = mapParams.object.type[0] + mapParams.object.id;
+        mapParams = OSM.parseHash(location.hash);
+        if (mapParams.center) {
+          params.map = mapParams.zoom + '/' + mapParams.center.lat + '/' + mapParams.center.lng;
+        }
+      } else {
+        params.map = (mapParams.zoom || 17) + '/' + mapParams.lat + '/' + mapParams.lon;
       }
-    } else {
-<% if @lat && @lon -%>
-      params.map = '16/<%= @lat %>/<%= @lon %>';
-<% else -%>
-      params.map = (mapParams.zoom || 17) + '/' + mapParams.lat + '/' + mapParams.lon;
-<% end -%>
     }
+
+    getParams(params);
+
+<% if @lat && @lon -%>
+    params.map = '16/<%= @lat %>/<%= @lon %>';
+<% end -%>
 
     var hashParams = OSM.params(location.hash.substring(1));
 
@@ -40,7 +44,14 @@
     }
 <% end -%>
 
-    $('#id-embed').attr('src', '<%= id_url :locale => params[:locale] %>#' + querystring.stringify(params));
+    var baseUrl = '<%= id_url :locale => params[:locale] %>#';
+
+    $('#id-embed').attr('src', baseUrl + querystring.stringify(params));
+
+    $(window).on('hashchange', function () {
+      getParams(params);
+      $('#id-embed').attr('src', baseUrl + querystring.stringify(params));
+    });
   </script>
 <% else %>
   <script type="text/javascript">alert("<%= t 'site.edit.id_not_configured' %>")</script>
