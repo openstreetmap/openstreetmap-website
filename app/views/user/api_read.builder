@@ -45,5 +45,6 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
         xml.tag! "sent", :count => @this_user.sent_messages.size
       end
     end
+    xml.tag! "new-messages", :count => @this_user.new_messages.size
   end
 end
