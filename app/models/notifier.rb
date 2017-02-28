@@ -167,6 +167,7 @@ class Notifier < ActionMailer::Base
 
   def changeset_comment_notification(comment, recipient)
     with_recipient_locale recipient do
+      @to_user = recipient.display_name
       @changeset_url = changeset_url(comment.changeset, :host => SERVER_URL)
       @comment = comment.body
       @owner = recipient == comment.changeset.user
