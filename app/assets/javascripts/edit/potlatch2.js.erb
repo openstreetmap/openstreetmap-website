@@ -1,0 +1,83 @@
+//= require swfobject
+
+$(document).ready(function () {
+  window.changesaved = true;
+
+  window.markChanged = function (saved) {
+    window.changesaved = saved;
+  }
+
+  $(window).on("beforeunload", function() {
+    if (!window.changesaved) {
+      return I18n.t("site.edit.potlatch2_unsaved_changes");
+    }
+  });
+
+  window.mapMoved = $.throttle(250, function(lon, lat, zoom) {
+    var hash = OSM.formatHash({ lon: lon, lat: lat, zoom: zoom });
+
+    if (hash !== location.hash) {
+      location.replace(hash);
+    }
+
+    updateLinks({ lon: lon, lat: lat }, zoom);
+  });
+
+  var potlatch = $("#potlatch"),
+      urlparams = OSM.params(),
+      potlatch_swf = <%= asset_path("potlatch2.swf").to_json %>,
+      install_swf = <%= asset_path("expressInstall.swf").to_json %>,
+      flashvars = {},
+      params = {};
+      attributes = {};
+
+  if (potlatch.data("lat") && potlatch.data("lon")) {
+    flashvars.lat = potlatch.data("lat");
+    flashvars.lon = potlatch.data("lon");
+    flashvars.scale = potlatch.data("zoom");
+  } else {
+    var mapParams = OSM.mapParams();
+
+    flashvars.lat = mapParams.lat;
+    flashvars.lon = mapParams.lon;
+    flashvars.scale = mapParams.zoom || 17;
+  }
+  
+  if (potlatch.data("token")) {
+    flashvars.oauth_token = potlatch.data("token");
+    flashvars.oauth_token_secret = potlatch.data("token-secret");
+    flashvars.oauth_consumer_key = potlatch.data("consumer-key");
+    flashvars.oauth_consumer_secret = potlatch.data("consumer-secret");
+  } else {
+    alert(I18n.t("site.edit.potlatch2_not_configured"));
+  }
+
+  flashvars.assets = <%= asset_path("potlatch2/assets.zip").to_json %>;
+  flashvars.font_library = <%= asset_path("potlatch2/FontLibrary.swf").to_json %>;
+  flashvars.locale = potlatch.data("locale");
+  flashvars.locale_paths = potlatch.data("locale") + "=" + potlatch.data("locale-path");
+  flashvars.intro_image = <%= asset_path("help/introduction.jpg").to_json %>;
+  flashvars.intro_video = <%= asset_path("help/introduction.mp4").to_json %>;
+  if (urlparams.gpx) flashvars.gpx = urlparams.gpx;
+  if (urlparams.tileurl) flashvars.tileurl = urlparams.tileurl;
+  flashvars.api = location.protocol + "//" + location.host + "/api/" + OSM.API_VERSION + "/";
+  flashvars.policy = location.protocol + "//" + location.host + "/api/crossdomain.xml";
+  flashvars.connection = "XML";
+  flashvars.show_help = "once";
+  flashvars.user_check = "warn";
+  flashvars.maximise_function = "maximiseMap";
+  flashvars.minimise_function = "minimiseMap";
+  flashvars.move_function = "mapMoved";
+
+  params.base = "/potlatch2";
+
+  attributes.id = "potlatch";
+  attributes.bgcolor = "#FFFFFF";
+
+  swfobject.embedSWF(potlatch_swf, "potlatch", "100%", "100%", "10.1.102",
+                     install_swf, flashvars, params, attributes);
+
+  if (flashvars.lat && flashvars.lon) {
+    updateLinks({ lon: flashvars.lon, lat: flashvars.lat }, flashvars.scale);
+  }
+});

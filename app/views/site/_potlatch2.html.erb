@@ -1,88 +1,19 @@
+<%= javascript_include_tag "edit/potlatch2" %>
+
 <div id="map">
-  <div id="potlatch"><%= raw t 'site.edit.flash_player_required' %></div>
+  <% session[:token] = @user.tokens.create.token unless session[:token] and UserToken.find_by_token(session[:token]) -%>
+  <% data = { :token => session[:token] } -%>
+  <% data[:lat] = @lat if @lat -%>
+  <% data[:lon] = @lon if @lon -%>
+  <% data[:zoom] = @zoom if @zoom -%>
+  <% if defined? POTLATCH2_KEY %>
+  <% token = @user.access_token(POTLATCH2_KEY) %>
+  <% data[:token] = token.token -%>
+  <% data[:token_secret] = token.secret -%>
+  <% data[:consumer_key] = token.client_application.key -%>
+  <% data[:consumer_secret] = token.client_application.secret -%>
+  <% end %>
+  <% data[:locale] = Locale.list(Potlatch2::LOCALES.keys).preferred(preferred_languages).to_s -%>
+  <% data[:locale_path] = asset_path("potlatch2/locales/#{Potlatch2::LOCALES[data[:locale]]}.swf") -%>
+  <%= content_tag :div, raw(t("site.edit.flash_player_required")), :id => "potlatch", :data => data %>
 </div>
-
-<%= javascript_include_tag 'swfobject.js' %>
-
-<% if defined? POTLATCH2_KEY %>
-<% token = @user.access_token(POTLATCH2_KEY) %>
-<% else%>
-<script type="text/javascript">alert("<%= t 'site.edit.potlatch2_not_configured' %>")</script>
-<% end %>
-
-<% locale = Locale.list(Potlatch2::LOCALES.keys).preferred(preferred_languages).to_s %>
-
-<script type="text/javascript" defer="defer">
-  var changesaved=true;
-  
-  window.onbeforeunload=function() {
-    if (!changesaved) {
-      return '<%= escape_javascript(t('site.edit.potlatch2_unsaved_changes')) %>';
-    }
-  }
-
-  function markChanged(a) { changesaved=a; }
-
-  function doSWF(lat,lon,zoom) {
-    var flashvars = {};
-    if (lat) { flashvars.lat = lat; }
-    if (lon) { flashvars.lon = lon; }
-    flashvars.zoom = zoom;
-    flashvars.assets = "<%= asset_path "potlatch2/assets.zip" %>";
-    flashvars.font_library = "<%= asset_path "potlatch2/FontLibrary.swf" %>";
-    flashvars.locale = "<%= Potlatch2::LOCALES[locale] %>";
-    flashvars.locale_paths = "<%= Potlatch2::LOCALES[locale] %>=<%= asset_path("potlatch2/locales/#{Potlatch2::LOCALES[locale]}.swf") %>";
-    flashvars.intro_image = "<%= asset_path "help/introduction.jpg" %>";
-    flashvars.intro_video = "<%= asset_path "help/introduction.mp4" %>";
-    <% if params['gpx'] %>
-    flashvars.gpx = '<%= h(params['gpx']) %>';
-    <% end %>
-    <% if params['tileurl'] %>
-    flashvars.tileurl = '<%= h(params['tileurl']) %>';
-    <% end %>
-    flashvars.api = "<%= request.protocol + request.host_with_port %>/api/<%= API_VERSION %>/";
-    flashvars.policy = "<%= request.protocol + request.host_with_port %>/api/crossdomain.xml";
-    flashvars.connection = "XML";
-    flashvars.show_help = "once";
-    flashvars.user_check = "warn";
-    <% if token %>
-    flashvars.oauth_token = "<%= token.token %>";
-    flashvars.oauth_token_secret = "<%= token.secret %>";
-    flashvars.oauth_consumer_key = "<%= token.client_application.key %>";
-    flashvars.oauth_consumer_secret = "<%= token.client_application.secret %>";
-    <% end %>
-    flashvars.maximise_function = "maximiseMap";
-    flashvars.minimise_function = "minimiseMap";
-    flashvars.move_function = "mapMoved";
-
-    var params = {};
-    params.base = "/potlatch2";
-
-    var attributes = {};
-    attributes.id = "potlatch";
-    attributes.bgcolor = "#FFFFFF";
-
-    swfobject.embedSWF("<%= asset_path("potlatch2.swf") %>", "potlatch", "100%", "100%", "10.1.102","<%= asset_path("expressInstall.swf") %>", flashvars, params, attributes);
-    // 700,600 for fixed size, 100%,100% for resizable
-
-    if (lat && lon) {
-      updateLinks({ lon: lon, lat: lat }, zoom);
-    }
-  }
-
-<% if @lat && @lon -%>
-  doSWF(<%= @lat %>, <%= @lon %>, <%= @zoom %>);
-<% else -%>
-  var mapParams = OSM.mapParams();
-  doSWF(mapParams.lat, mapParams.lon, mapParams.zoom || 17);
-<% end -%>
-
-  var mapMoved = $.throttle(250, function(lon, lat, zoom) {
-    updateLinks({ lon: lon, lat: lat }, zoom);
-
-    var hash = OSM.formatHash({ lon: lon, lat: lat, zoom: zoom });
-    if (hash !== location.hash) {
-      location.replace(hash);
-    }
-  });
-</script>
