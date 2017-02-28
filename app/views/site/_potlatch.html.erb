@@ -1,60 +1,10 @@
+<%= javascript_include_tag "edit/potlatch" %>
+
 <div id="map">
-  <div id="potlatch"><%= raw t 'site.edit.flash_player_required' %></div>
+  <% session[:token] = @user.tokens.create.token unless session[:token] and UserToken.find_by_token(session[:token]) -%>
+  <% data = { :token => session[:token] } -%>
+  <% data[:lat] = @lat if @lat -%>
+  <% data[:lon] = @lon if @lon -%>
+  <% data[:zoom] = @zoom if @zoom -%>
+  <%= content_tag :div, raw(t("site.edit.flash_player_required")), :id => "potlatch", :data => data %>
 </div>
-
-<%= javascript_include_tag 'swfobject.js' %>
-
-<% session[:token] = @user.tokens.create.token unless session[:token] and UserToken.find_by_token(session[:token]) %>
-
-<script type="text/javascript" defer="defer">
-  var changesaved=true;
-  var winie=false; if (document.all && window.print) { winie=true; }
-  
-  window.onbeforeunload=function() {
-    if (!changesaved) {
-      return '<%= escape_javascript(t('site.edit.potlatch_unsaved_changes')) %>';
-    }
-  }
-
-  function markChanged(a) { changesaved=a; }
-
-  function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,object) {
-    updateLinks({ lon: lon, lat: lat }, zoom);
-
-    var hash = OSM.formatHash({ lon: lon, lat: lat, zoom: zoom });
-    if (hash !== location.hash) {
-      location.replace(hash);
-    }
-  }
-
-  function doSWF(lat,lon,sc) {
-    if (sc < 11) sc = 11;
-
-    var flashvars = {};
-    flashvars.winie = winie;
-    flashvars.scale = sc;
-    flashvars.token = '<%= session[:token] %>';
-    if (lat) { flashvars.lat = lat; }
-    if (lon) { flashvars.long = lon; }
-    <% if params['gpx']  %>flashvars.gpx = '<%= h(params['gpx']    ) %>';<% end %>
-    <% if params['way']  %>flashvars.way = '<%= h(params['way']    ) %>';<% end %>
-    <% if params['node'] %>flashvars.node = '<%= h(params['node']   ) %>';<% end %>
-    <% if params['tileurl'] %>flashvars.custombg = '<%= h(params['tileurl']) %>';<% end %>
-
-    var params = {};
-
-    var attributes = {};
-    attributes.id = "potlatch";
-    attributes.bgcolor = "#FFFFFF";
-
-    swfobject.embedSWF("<%= asset_path("/potlatch/potlatch.swf") %>", "potlatch", "100%", "100%", "6","<%= asset_path("expressInstall.swf") %>", flashvars, params, attributes);
-    // 700,600 for fixed size, 100%,100% for resizable
-  }
-
-<% if @lat && @lon -%>
-  doSWF(<%= @lat %>, <%= @lon %>, <%= @zoom %>);
-<% else -%>
-  var mapParams = OSM.mapParams();
-  doSWF(mapParams.lat, mapParams.lon, mapParams.zoom || 17);
-<% end -%>
-</script>
