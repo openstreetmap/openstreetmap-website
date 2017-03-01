@@ -115,4 +115,24 @@ $(document).ready(function () {
   $("nav.primary li a").on("click", function() {
     $("header").toggleClass("closed");
   });
+
+  var application_data = $("head").data();
+
+  I18n.default_locale = OSM.DEFAULT_LOCALE;
+  I18n.locale = application_data.locale;
+  I18n.fallbacks = true;
+
+  OSM.preferred_editor = application_data.preferredEditor;
+
+  if (application_data.user) {
+    OSM.user = application_data.user;
+
+    if (application_data.userHome) {
+      OSM.home = application_data.userHome;
+    }
+  }
+
+  if (application_data.location) {
+    OSM.location = application_data.location;
+  }
 });

@@ -1,4 +1,4 @@
-<head>
+<%= content_tag :head, :data => application_data do %>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
   <!--[if lt IE 9]><%= javascript_include_tag "html5shiv" %><![endif]-->
@@ -35,26 +35,5 @@
   <%= yield :head %>
   <%= yield :auto_discovery_link_tag %>
   <%= csrf_meta_tag %>
-  <script type="text/javascript">
-    I18n.defaultLocale = "<%= I18n.default_locale %>";
-    I18n.locale = "<%= I18n.locale %>";
-    I18n.fallbacks = true;
-    <% if @user -%>
-    OSM.user = <%= @user.id.to_json.html_safe %>;
-    <% unless @user.home_lon.nil? or @user.home_lat.nil? -%>
-    OSM.home = <%= { :lat => @user.home_lat, :lon => @user.home_lon }.to_json.html_safe %>;
-    <% end -%>
-    <% end -%>
-    <% if session[:location] -%>
-    OSM.location = <%= session[:location].to_json.html_safe %>;
-    <% end -%>
-    OSM.preferred_editor = <%= preferred_editor.to_json.html_safe %>;
-    <% if @oauth -%>
-    OSM.oauth_token = "<%= @oauth.token %>";
-    OSM.oauth_token_secret = "<%= @oauth.secret %>";
-    OSM.oauth_consumer_key = "<%= @oauth.client_application.key %>";
-    OSM.oauth_consumer_secret = "<%= @oauth.client_application.secret %>";
-    <% end -%>
-  </script>
   <title><%= t 'layouts.project_name.title' %><%= ' | ' + @title if @title %></title>
-</head>
+<% end %>

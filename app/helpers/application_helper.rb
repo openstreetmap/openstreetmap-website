@@ -100,4 +100,30 @@ module ApplicationHelper
   def current_page_class(path)
     :current if current_page?(path)
   end
+
+  def application_data
+    data = {
+      :locale => I18n.locale,
+      :preferred_editor => preferred_editor
+    }
+
+    if @user
+      data[:user] = @user.id.to_json
+
+      unless @user.home_lon.nil? || @user.home_lat.nil?
+        data[:user_home] = { :lat => @user.home_lat, :lon => @user.home_lon }
+      end
+    end
+
+    data[:location] = session[:location] if session[:location]
+
+    if @oauth
+      data[:token] = @oauth.token
+      data[:token_secret] = @oauth.secret
+      data[:consumer_key] = @oauth.client_application.key
+      data[:consumer_secret] = @oauth.client_application.secret
+    end
+
+    data
+  end
 end
