@@ -10,13 +10,15 @@ policy = if defined?(CSP_REPORT_URL)
              :media_src => %w('none'),
              :object_src => %w('self'),
              :plugin_types => %w('none'),
-             :script_src => %w('self' 'unsafe-inline'),
+             :script_src => %w('self'),
              :style_src => %w('self' 'unsafe-inline'),
              :report_uri => [CSP_REPORT_URL]
            }
          else
            SecureHeaders::OPT_OUT
          end
+
+policy[:script_src] << PIWIK["location"] if defined?(PIWIK)
 
 SecureHeaders::Configuration.default do |config|
   config.csp = SecureHeaders::OPT_OUT

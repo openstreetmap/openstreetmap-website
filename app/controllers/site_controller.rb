@@ -72,7 +72,8 @@ class SiteController < ApplicationController
     if editor == "potlatch" || editor == "potlatch2"
       append_content_security_policy_directives(
         :object_src => %w(*),
-        :plugin_types => %w(application/x-shockwave-flash)
+        :plugin_types => %w(application/x-shockwave-flash),
+        :script_src => %w('unsafe-inline')
       )
     end
 
