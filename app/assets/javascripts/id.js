@@ -1,5 +1,7 @@
 //= require iD
 
+/* globals iD */
+
 document.addEventListener("DOMContentLoaded", function() {
   var container = document.getElementById("id-container");
 
