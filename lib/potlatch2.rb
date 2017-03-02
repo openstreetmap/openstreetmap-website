@@ -8,6 +8,7 @@ module Potlatch2
     "ba" => "ba",
     "be" => "be",
     "be-Tarask" => "be-tarask",
+    "bg" => "bg",
     "bn" => "bn",
     "br" => "br",
     "bs" => "bs",
