@@ -1,9 +1,9 @@
 //= require iD
 
-document.addEventListener("DOMContentLoaded", function(e) {
+document.addEventListener("DOMContentLoaded", function() {
   var container = document.getElementById("id-container");
 
-  if (typeof iD == 'undefined' || !iD.Detect().support) {
+  if (typeof iD === 'undefined' || !iD.Detect().support) {
     container.innerHTML = 'This editor is supported ' +
       'in Firefox, Chrome, Safari, Opera, Edge, and Internet Explorer 11. ' +
       'Please upgrade your browser or use Potlatch 2 to edit the map.';
