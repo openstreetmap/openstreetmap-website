@@ -66,7 +66,9 @@ function GraphHopperEngine(id, vehicleType) {
             line: line,
             steps: steps,
             distance: path.distance,
-            time: path.time / 1000
+            time: path.time / 1000,
+            ascend: path.ascend,
+            descend: path.descend
           });
         },
         error: function () {
