@@ -1,8 +1,6 @@
 require "test_helper"
 
 class UserPreferenceControllerTest < ActionController::TestCase
-  fixtures :users
-
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -36,7 +34,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     assert_response :unauthorized, "should be authenticated"
 
     # authenticate as a user with no preferences
-    basic_authorization("moderator@example.com", "test")
+    basic_authorization(create(:user).email, "test")
 
     # try the read again
     get :read
@@ -47,9 +45,10 @@ class UserPreferenceControllerTest < ActionController::TestCase
     end
 
     # authenticate as a user with preferences
-    user_preference = create(:user_preference, :user => users(:normal_user))
-    user_preference2 = create(:user_preference, :user => users(:normal_user))
-    basic_authorization("test@openstreetmap.org", "test")
+    user = create(:user)
+    user_preference = create(:user_preference, :user => user)
+    user_preference2 = create(:user_preference, :user => user)
+    basic_authorization(user.email, "test")
 
     # try the read again
     get :read
@@ -67,14 +66,15 @@ class UserPreferenceControllerTest < ActionController::TestCase
   ##
   # test read_one action
   def test_read_one
-    create(:user_preference, :user => users(:normal_user), :k => "key", :v => "value")
+    user = create(:user)
+    create(:user_preference, :user => user, :k => "key", :v => "value")
 
     # try a read without auth
     get :read_one, :preference_key => "key"
     assert_response :unauthorized, "should be authenticated"
 
     # authenticate as a user with preferences
-    basic_authorization("test@openstreetmap.org", "test")
+    basic_authorization(user.email, "test")
 
     # try the read again
     get :read_one, :preference_key => "key"
@@ -90,8 +90,9 @@ class UserPreferenceControllerTest < ActionController::TestCase
   ##
   # test update action
   def test_update
-    create(:user_preference, :user => users(:normal_user), :k => "key", :v => "value")
-    create(:user_preference, :user => users(:normal_user), :k => "some_key", :v => "some_value")
+    user = create(:user)
+    create(:user_preference, :user => user, :k => "key", :v => "value")
+    create(:user_preference, :user => user, :k => "some_key", :v => "some_value")
 
     # try a put without auth
     assert_no_difference "UserPreference.count" do
@@ -99,14 +100,14 @@ class UserPreferenceControllerTest < ActionController::TestCase
       put :update
     end
     assert_response :unauthorized, "should be authenticated"
-    assert_equal "value", UserPreference.find([users(:normal_user).id, "key"]).v
-    assert_equal "some_value", UserPreference.find([users(:normal_user).id, "some_key"]).v
+    assert_equal "value", UserPreference.find([user.id, "key"]).v
+    assert_equal "some_value", UserPreference.find([user.id, "some_key"]).v
     assert_raises ActiveRecord::RecordNotFound do
-      UserPreference.find([users(:normal_user).id, "new_key"])
+      UserPreference.find([user.id, "new_key"])
     end
 
     # authenticate as a user with preferences
-    basic_authorization("test@openstreetmap.org", "test")
+    basic_authorization(user.email, "test")
 
     # try the put again
     assert_no_difference "UserPreference.count" do
@@ -116,10 +117,10 @@ class UserPreferenceControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal "text/plain", @response.content_type
     assert_equal "", @response.body
-    assert_equal "new_value", UserPreference.find([users(:normal_user).id, "key"]).v
-    assert_equal "value", UserPreference.find([users(:normal_user).id, "new_key"]).v
+    assert_equal "new_value", UserPreference.find([user.id, "key"]).v
+    assert_equal "value", UserPreference.find([user.id, "new_key"]).v
     assert_raises ActiveRecord::RecordNotFound do
-      UserPreference.find([users(:normal_user).id, "some_key"])
+      UserPreference.find([user.id, "some_key"])
     end
 
     # try a put with duplicate keys
@@ -130,7 +131,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     assert_response :bad_request
     assert_equal "text/plain", @response.content_type
     assert_equal "Duplicate preferences with key key", @response.body
-    assert_equal "new_value", UserPreference.find([users(:normal_user).id, "key"]).v
+    assert_equal "new_value", UserPreference.find([user.id, "key"]).v
 
     # try a put with invalid content
     assert_no_difference "UserPreference.count" do
@@ -143,6 +144,9 @@ class UserPreferenceControllerTest < ActionController::TestCase
   ##
   # test update_one action
   def test_update_one
+    user = create(:user)
+    create(:user_preference, :user => user)
+
     # try a put without auth
     assert_no_difference "UserPreference.count" do
       content "new_value"
@@ -150,11 +154,11 @@ class UserPreferenceControllerTest < ActionController::TestCase
     end
     assert_response :unauthorized, "should be authenticated"
     assert_raises ActiveRecord::RecordNotFound do
-      UserPreference.find([users(:normal_user).id, "new_key"])
+      UserPreference.find([user.id, "new_key"])
     end
 
     # authenticate as a user with preferences
-    basic_authorization("test@openstreetmap.org", "test")
+    basic_authorization(user.email, "test")
 
     # try adding a new preference
     assert_difference "UserPreference.count", 1 do
@@ -164,7 +168,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal "text/plain", @response.content_type
     assert_equal "", @response.body
-    assert_equal "new_value", UserPreference.find([users(:normal_user).id, "new_key"]).v
+    assert_equal "new_value", UserPreference.find([user.id, "new_key"]).v
 
     # try changing the value of a preference
     assert_no_difference "UserPreference.count" do
@@ -174,23 +178,24 @@ class UserPreferenceControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal "text/plain", @response.content_type
     assert_equal "", @response.body
-    assert_equal "newer_value", UserPreference.find([users(:normal_user).id, "new_key"]).v
+    assert_equal "newer_value", UserPreference.find([user.id, "new_key"]).v
   end
 
   ##
   # test delete_one action
   def test_delete_one
-    create(:user_preference, :user => users(:normal_user), :k => "key", :v => "value")
+    user = create(:user)
+    create(:user_preference, :user => user, :k => "key", :v => "value")
 
     # try a delete without auth
     assert_no_difference "UserPreference.count" do
       delete :delete_one, :preference_key => "key"
     end
     assert_response :unauthorized, "should be authenticated"
-    assert_equal "value", UserPreference.find([users(:normal_user).id, "key"]).v
+    assert_equal "value", UserPreference.find([user.id, "key"]).v
 
     # authenticate as a user with preferences
-    basic_authorization("test@openstreetmap.org", "test")
+    basic_authorization(user.email, "test")
 
     # try the delete again
     assert_difference "UserPreference.count", -1 do
@@ -200,7 +205,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     assert_equal "text/plain", @response.content_type
     assert_equal "", @response.body
     assert_raises ActiveRecord::RecordNotFound do
-      UserPreference.find([users(:normal_user).id, "key"])
+      UserPreference.find([user.id, "key"])
     end
 
     # try the delete again for the same key
@@ -209,7 +214,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     end
     assert_response :not_found
     assert_raises ActiveRecord::RecordNotFound do
-      UserPreference.find([users(:normal_user).id, "key"])
+      UserPreference.find([user.id, "key"])
     end
   end
 end
