@@ -45,9 +45,13 @@ OSM.TileInfo = function(map) {
 
           if (matches)
           {
-            $("#tileinfo-state").text(matches[1]);
-            $("#tileinfo-rendered").text(matches[2]);
-            $("#tileinfo-accessed").text(matches[3]);
+            var state = matches[1],
+                rendered = Date.parse(matches[2]),
+                accessed = Date.parse(matches[3]);
+
+            $("#tileinfo-state").text(I18n.t("javascripts.tileinfo.state." + state));
+            $("#tileinfo-rendered").text(I18n.l("time.formats.friendly", rendered));
+            $("#tileinfo-accessed").text(I18n.l("time.formats.friendly", accessed));
           }
         }
       });
