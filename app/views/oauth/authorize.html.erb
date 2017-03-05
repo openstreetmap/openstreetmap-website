@@ -10,7 +10,7 @@
     <%= hidden_field_tag "oauth_callback", params[:oauth_callback] %>
   <%- end -%>
   <p><%= t 'oauth.oauthorize.allow_to' %></p>
-  <ul style="list-style:none">
+  <ul>
   <% @token.client_application.permissions.each do |perm| %>
     <li><%= check_box_tag perm.to_s, "yes", @token.read_attribute(perm) %><%= t "oauth.oauthorize.#{perm}" %></li>
   <% end %>
