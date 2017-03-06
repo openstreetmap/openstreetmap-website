@@ -1,8 +1,6 @@
 require "test_helper"
 
 class MessageControllerTest < ActionController::TestCase
-  fixtures :users
-
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -48,22 +46,25 @@ class MessageControllerTest < ActionController::TestCase
   # test fetching new message page when not logged in
   def test_new_no_login
     # Check that the new message page requires us to login
-    get :new, :display_name => users(:public_user).display_name
-    assert_redirected_to login_path(:referer => new_message_path(:display_name => users(:public_user).display_name))
+    user = create(:user)
+    get :new, :display_name => user.display_name
+    assert_redirected_to login_path(:referer => new_message_path(:display_name => user.display_name))
   end
 
   ##
   # test fetching new message page when logged in
   def test_new_form
     # Login as a normal user
-    session[:user] = users(:normal_user).id
+    user = create(:user)
+    recipient_user = create(:user)
+    session[:user] = user.id
 
     # Check that the new message page loads
-    get :new, :display_name => users(:public_user).display_name
+    get :new, :display_name => recipient_user.display_name
     assert_response :success
     assert_template "new"
     assert_select "title", "OpenStreetMap | Send message"
-    assert_select "form[action='#{new_message_path(:display_name => users(:public_user).display_name)}']", :count => 1 do
+    assert_select "form[action='#{new_message_path(:display_name => recipient_user.display_name)}']", :count => 1 do
       assert_select "input#message_title", :count => 1
       assert_select "textarea#message_body", :count => 1
       assert_select "input[type='submit'][value='Send']", :count => 1
@@ -74,20 +75,22 @@ class MessageControllerTest < ActionController::TestCase
   # test fetching new message page with body and title
   def test_new_get_with_params
     # Login as a normal user
-    session[:user] = users(:normal_user).id
+    user = create(:user)
+    recipient_user = create(:user)
+    session[:user] = user.id
 
     # Check that we can't send a message from a GET request
     assert_difference "ActionMailer::Base.deliveries.size", 0 do
       assert_difference "Message.count", 0 do
         get :new,
-            :display_name => users(:public_user).display_name,
+            :display_name => recipient_user.display_name,
             :message => { :title => "Test Message", :body => "Test message body" }
       end
     end
     assert_response :success
     assert_template "new"
     assert_select "title", "OpenStreetMap | Send message"
-    assert_select "form[action='#{new_message_path(:display_name => users(:public_user).display_name)}']", :count => 1 do
+    assert_select "form[action='#{new_message_path(:display_name => recipient_user.display_name)}']", :count => 1 do
       assert_select "input#message_title", :count => 1 do
         assert_select "[value='Test Message']"
       end
@@ -100,20 +103,22 @@ class MessageControllerTest < ActionController::TestCase
   # test posting new message page with no body
   def test_new_post_no_body
     # Login as a normal user
-    session[:user] = users(:normal_user).id
+    user = create(:user)
+    recipient_user = create(:user)
+    session[:user] = user.id
 
     # Check that the subject is preserved over errors
     assert_difference "ActionMailer::Base.deliveries.size", 0 do
       assert_difference "Message.count", 0 do
         post :new,
-             :display_name => users(:public_user).display_name,
+             :display_name => recipient_user.display_name,
              :message => { :title => "Test Message", :body => "" }
       end
     end
     assert_response :success
     assert_template "new"
     assert_select "title", "OpenStreetMap | Send message"
-    assert_select "form[action='#{new_message_path(:display_name => users(:public_user).display_name)}']", :count => 1 do
+    assert_select "form[action='#{new_message_path(:display_name => recipient_user.display_name)}']", :count => 1 do
       assert_select "input#message_title", :count => 1 do
         assert_select "[value='Test Message']"
       end
@@ -126,20 +131,22 @@ class MessageControllerTest < ActionController::TestCase
   # test posting new message page with no title
   def test_new_post_no_title
     # Login as a normal user
-    session[:user] = users(:normal_user).id
+    user = create(:user)
+    recipient_user = create(:user)
+    session[:user] = user.id
 
     # Check that the body text is preserved over errors
     assert_difference "ActionMailer::Base.deliveries.size", 0 do
       assert_difference "Message.count", 0 do
         post :new,
-             :display_name => users(:public_user).display_name,
+             :display_name => recipient_user.display_name,
              :message => { :title => "", :body => "Test message body" }
       end
     end
     assert_response :success
     assert_template "new"
     assert_select "title", "OpenStreetMap | Send message"
-    assert_select "form[action='#{new_message_path(:display_name => users(:public_user).display_name)}']", :count => 1 do
+    assert_select "form[action='#{new_message_path(:display_name => recipient_user.display_name)}']", :count => 1 do
       assert_select "input#message_title", :count => 1 do
         assert_select "[value='']"
       end
@@ -152,27 +159,29 @@ class MessageControllerTest < ActionController::TestCase
   # test posting new message page sends message
   def test_new_post_send
     # Login as a normal user
-    session[:user] = users(:normal_user).id
+    user = create(:user)
+    recipient_user = create(:user)
+    session[:user] = user.id
 
     # Check that sending a message works
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       assert_difference "Message.count", 1 do
         post :new,
-             :display_name => users(:public_user).display_name,
+             :display_name => recipient_user.display_name,
              :message => { :title => "Test Message", :body => "Test message body" }
       end
     end
-    assert_redirected_to inbox_path(:display_name => users(:normal_user).display_name)
+    assert_redirected_to inbox_path(:display_name => user.display_name)
     assert_equal "Message sent", flash[:notice]
     e = ActionMailer::Base.deliveries.first
-    assert_equal [users(:public_user).email], e.to
+    assert_equal [recipient_user.email], e.to
     assert_equal "[OpenStreetMap] Test Message", e.subject
     assert_match /Test message body/, e.text_part.decoded
     assert_match /Test message body/, e.html_part.decoded
     ActionMailer::Base.deliveries.clear
     m = Message.last
-    assert_equal users(:normal_user).id, m.from_user_id
-    assert_equal users(:public_user).id, m.to_user_id
+    assert_equal user.id, m.from_user_id
+    assert_equal recipient_user.id, m.to_user_id
     assert_in_delta Time.now, m.sent_on, 2
     assert_equal "Test Message", m.title
     assert_equal "Test message body", m.body
@@ -189,14 +198,16 @@ class MessageControllerTest < ActionController::TestCase
   # test the new action message limit
   def test_new_limit
     # Login as a normal user
-    session[:user] = users(:normal_user).id
+    user = create(:user)
+    recipient_user = create(:user)
+    session[:user] = user.id
 
     # Check that sending a message fails when the message limit is hit
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       assert_no_difference "Message.count" do
         with_message_limit(0) do
           post :new,
-               :display_name => users(:public_user).display_name,
+               :display_name => recipient_user.display_name,
                :message => { :title => "Test Message", :body => "Test message body" }
           assert_response :success
           assert_template "new"
@@ -209,29 +220,32 @@ class MessageControllerTest < ActionController::TestCase
   ##
   # test the reply action
   def test_reply
-    unread_message = create(:message, :unread, :sender => users(:normal_user), :recipient => users(:public_user))
+    user = create(:user)
+    recipient_user = create(:user)
+    other_user = create(:user)
+    unread_message = create(:message, :unread, :sender => user, :recipient => recipient_user)
 
     # Check that the message reply page requires us to login
     get :reply, :message_id => unread_message.id
     assert_redirected_to login_path(:referer => reply_message_path(:message_id => unread_message.id))
 
     # Login as the wrong user
-    session[:user] = users(:second_public_user).id
+    session[:user] = other_user.id
 
     # Check that we can't reply to somebody else's message
     get :reply, :message_id => unread_message.id
     assert_redirected_to login_path(:referer => reply_message_path(:message_id => unread_message.id))
-    assert_equal "You are logged in as `pulibc_test2' but the message you have asked to reply to was not sent to that user. Please login as the correct user in order to reply.", flash[:notice]
+    assert_equal "You are logged in as `#{other_user.display_name}' but the message you have asked to reply to was not sent to that user. Please login as the correct user in order to reply.", flash[:notice]
 
     # Login as the right user
-    session[:user] = users(:public_user).id
+    session[:user] = recipient_user.id
 
     # Check that the message reply page loads
     get :reply, :message_id => unread_message.id
     assert_response :success
     assert_template "new"
     assert_select "title", "OpenStreetMap | Re: #{unread_message.title}"
-    assert_select "form[action='#{new_message_path(:display_name => users(:normal_user).display_name)}']", :count => 1 do
+    assert_select "form[action='#{new_message_path(:display_name => user.display_name)}']", :count => 1 do
       assert_select "input#message_title[value='Re: #{unread_message.title}']", :count => 1
       assert_select "textarea#message_body", :count => 1
       assert_select "input[type='submit'][value='Send']", :count => 1
@@ -252,22 +266,25 @@ class MessageControllerTest < ActionController::TestCase
   ##
   # test the read action
   def test_read
-    unread_message = create(:message, :unread, :sender => users(:normal_user), :recipient => users(:public_user))
+    user = create(:user)
+    recipient_user = create(:user)
+    other_user = create(:user)
+    unread_message = create(:message, :unread, :sender => user, :recipient => recipient_user)
 
     # Check that the read message page requires us to login
     get :read, :message_id => unread_message.id
     assert_redirected_to login_path(:referer => read_message_path(:message_id => unread_message.id))
 
     # Login as the wrong user
-    session[:user] = users(:second_public_user).id
+    session[:user] = other_user.id
 
     # Check that we can't read the message
     get :read, :message_id => unread_message.id
     assert_redirected_to login_path(:referer => read_message_path(:message_id => unread_message.id))
-    assert_equal "You are logged in as `pulibc_test2' but the message you have asked to read was not sent by or to that user. Please login as the correct user in order to read it.", flash[:notice]
+    assert_equal "You are logged in as `#{other_user.display_name}' but the message you have asked to read was not sent by or to that user. Please login as the correct user in order to read it.", flash[:notice]
 
     # Login as the message sender
-    session[:user] = users(:normal_user).id
+    session[:user] = user.id
 
     # Check that the message sender can read the message
     get :read, :message_id => unread_message.id
@@ -275,10 +292,10 @@ class MessageControllerTest < ActionController::TestCase
     assert_template "read"
     assert_equal false, Message.find(unread_message.id).message_read
 
-    # Login as the message recipient
-    session[:user] = users(:public_user).id
+    # Login as the message recipient_user
+    session[:user] = recipient_user.id
 
-    # Check that the message recipient can read the message
+    # Check that the message recipient_user can read the message
     get :read, :message_id => unread_message.id
     assert_response :success
     assert_template "read"
@@ -298,16 +315,18 @@ class MessageControllerTest < ActionController::TestCase
   ##
   # test the inbox action
   def test_inbox
-    read_message = create(:message, :read, :recipient => users(:normal_user))
+    user = create(:user)
+    other_user = create(:user)
+    read_message = create(:message, :read, :recipient => user)
     # Check that the inbox page requires us to login
-    get :inbox, :display_name => users(:normal_user).display_name
-    assert_redirected_to login_path(:referer => inbox_path(:display_name => users(:normal_user).display_name))
+    get :inbox, :display_name => user.display_name
+    assert_redirected_to login_path(:referer => inbox_path(:display_name => user.display_name))
 
     # Login
-    session[:user] = users(:normal_user).id
+    session[:user] = user.id
 
     # Check that we can view our inbox when logged in
-    get :inbox, :display_name => users(:normal_user).display_name
+    get :inbox, :display_name => user.display_name
     assert_response :success
     assert_template "inbox"
     assert_select "table.messages", :count => 1 do
@@ -316,24 +335,26 @@ class MessageControllerTest < ActionController::TestCase
     end
 
     # Check that we can't view somebody else's inbox when logged in
-    get :inbox, :display_name => users(:public_user).display_name
-    assert_redirected_to inbox_path(:display_name => users(:normal_user).display_name)
+    get :inbox, :display_name => other_user.display_name
+    assert_redirected_to inbox_path(:display_name => user.display_name)
   end
 
   ##
   # test the outbox action
   def test_outbox
-    create(:message, :sender => users(:normal_user))
+    user = create(:user)
+    other_user = create(:user)
+    create(:message, :sender => user)
 
     # Check that the outbox page requires us to login
-    get :outbox, :display_name => users(:normal_user).display_name
-    assert_redirected_to login_path(:referer => outbox_path(:display_name => users(:normal_user).display_name))
+    get :outbox, :display_name => user.display_name
+    assert_redirected_to login_path(:referer => outbox_path(:display_name => user.display_name))
 
     # Login
-    session[:user] = users(:normal_user).id
+    session[:user] = user.id
 
     # Check that we can view our outbox when logged in
-    get :outbox, :display_name => users(:normal_user).display_name
+    get :outbox, :display_name => user.display_name
     assert_response :success
     assert_template "outbox"
     assert_select "table.messages", :count => 1 do
@@ -342,38 +363,41 @@ class MessageControllerTest < ActionController::TestCase
     end
 
     # Check that we can't view somebody else's outbox when logged in
-    get :outbox, :display_name => users(:public_user).display_name
-    assert_redirected_to outbox_path(:display_name => users(:normal_user).display_name)
+    get :outbox, :display_name => other_user.display_name
+    assert_redirected_to outbox_path(:display_name => user.display_name)
   end
 
   ##
   # test the mark action
   def test_mark
-    unread_message = create(:message, :unread, :sender => users(:normal_user), :recipient => users(:public_user))
+    user = create(:user)
+    recipient_user = create(:user)
+    other_user = create(:user)
+    unread_message = create(:message, :unread, :sender => user, :recipient => recipient_user)
 
     # Check that the marking a message requires us to login
     post :mark, :message_id => unread_message.id
     assert_response :forbidden
 
     # Login as a user with no messages
-    session[:user] = users(:second_public_user).id
+    session[:user] = other_user.id
 
     # Check that marking a message we didn't send or receive fails
     post :mark, :message_id => unread_message.id
     assert_response :not_found
     assert_template "no_such_message"
 
-    # Login as the message recipient
-    session[:user] = users(:public_user).id
+    # Login as the message recipient_user
+    session[:user] = recipient_user.id
 
     # Check that the marking a message read works
     post :mark, :message_id => unread_message.id, :mark => "read"
-    assert_redirected_to inbox_path(:display_name => users(:public_user).display_name)
+    assert_redirected_to inbox_path(:display_name => recipient_user.display_name)
     assert_equal true, Message.find(unread_message.id).message_read
 
     # Check that the marking a message unread works
     post :mark, :message_id => unread_message.id, :mark => "unread"
-    assert_redirected_to inbox_path(:display_name => users(:public_user).display_name)
+    assert_redirected_to inbox_path(:display_name => recipient_user.display_name)
     assert_equal false, Message.find(unread_message.id).message_read
 
     # Check that the marking a message read via XHR works
@@ -402,35 +426,38 @@ class MessageControllerTest < ActionController::TestCase
   ##
   # test the delete action
   def test_delete
-    read_message = create(:message, :read, :recipient => users(:normal_user), :sender => users(:public_user))
-    sent_message = create(:message, :unread, :recipient => users(:public_user), :sender => users(:normal_user))
+    user = create(:user)
+    second_user = create(:user)
+    other_user = create(:user)
+    read_message = create(:message, :read, :recipient => user, :sender => second_user)
+    sent_message = create(:message, :unread, :recipient => second_user, :sender => user)
 
     # Check that the deleting a message requires us to login
     post :delete, :message_id => read_message.id
     assert_response :forbidden
 
     # Login as a user with no messages
-    session[:user] = users(:second_public_user).id
+    session[:user] = other_user.id
 
     # Check that deleting a message we didn't send or receive fails
     post :delete, :message_id => read_message.id
     assert_response :not_found
     assert_template "no_such_message"
 
-    # Login as the message recipient
-    session[:user] = users(:normal_user).id
+    # Login as the message recipient_user
+    session[:user] = user.id
 
     # Check that the deleting a received message works
     post :delete, :message_id => read_message.id
-    assert_redirected_to inbox_path(:display_name => users(:normal_user).display_name)
+    assert_redirected_to inbox_path(:display_name => user.display_name)
     assert_equal "Message deleted", flash[:notice]
     m = Message.find(read_message.id)
     assert_equal true, m.from_user_visible
     assert_equal false, m.to_user_visible
 
     # Check that the deleting a sent message works
-    post :delete, :message_id => sent_message.id, :referer => outbox_path(:display_name => users(:normal_user).display_name)
-    assert_redirected_to outbox_path(:display_name => users(:normal_user).display_name)
+    post :delete, :message_id => sent_message.id, :referer => outbox_path(:display_name => user.display_name)
+    assert_redirected_to outbox_path(:display_name => user.display_name)
     assert_equal "Message deleted", flash[:notice]
     m = Message.find(sent_message.id)
     assert_equal false, m.from_user_visible
