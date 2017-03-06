@@ -18,6 +18,7 @@ bg:
     models:
       changeset: Списък с промени
       country: Държава
+      diary_entry: Запис в дневника
       friend: Приятел
       language: Език
       message: Съобщение
@@ -85,6 +86,7 @@ bg:
     created: Създаден
     closed: Затворен
     created_html: Създаден <abbr title="%{title}">преди %{time}</abbr>
+    deleted_by_html: Изтрито <abbr title='%{title}'> преди %{time}</abbr> от %{user}
     version: Версия
     in_changeset: Списък с промени
     anonymous: анонимен
@@ -139,22 +141,28 @@ bg:
         note: Бележка
     timeout:
       type:
+        node: възел
         way: път
         relation: релация
         changeset: списък с промени
         note: бележка
     redacted:
+      redaction: Редакция %{id}
       type:
         node: възел
         way: път
         relation: релация
     start_rjs:
+      load_data: Зареждане на данни
       loading: Зареждане...
     tag_details:
       tags: Етикети
+      telephone_link: Позвънете на %{phone_number}
     note:
+      title: 'Бележка: %{id}'
       new_note: Нова бележка
       description: Описание
+      hidden_title: 'Скрита бележка #%{note_name}'
       open_by: Създадено от %{user} <abbr title='%{exact_time}'>преди %{when}</abbr>
     query:
       title: Търсене на особености
@@ -179,16 +187,18 @@ bg:
       empty_user: Няма списъци с промени от този потребител.
       load_more: Зареждане на още
     rss:
+      commented_at_html: Обновено преди %{when}
+      commented_at_by_html: Обновено преди %{when} от %{user}
       full: Пълно обсъждане
   diary_entry:
     new:
       publish_button: Публикуване
     list:
-      title: Дневници на потребителя
+      title: Дневници на потребителите
       title_friends: Дневници на приятели
       title_nearby: Дневници на потребители наблизо
       user_title: Дневник на %{user}
-      new: Нов запис в дневник
+      new: Нов запис в дневника
       no_entries: Няма записи в дневника
       older_entries: По-стари записи
       newer_entries: По-нови записи
@@ -202,6 +212,7 @@ bg:
       use_map_link: използвай карта
       save_button: Съхраняване
     view:
+      title: Дневник на потребител %{user} | %{title}
       user_title: дневник на %{user}
       leave_a_comment: Оставете коментар
       login_to_leave_a_comment: '%{login_link} за да оставите коментар'
@@ -210,8 +221,11 @@ bg:
     no_such_entry:
       title: Няма такива записи в дневник
     diary_entry:
+      posted_by: Написано от %{link_user} на %{created} на %{language_link}
+      comment_link: Коментирайте тази публикация
+      reply_link: Отговорете на тази публикация
       comment_count:
-        zero: няма коментари
+        zero: Няма коментари
         one: 1 коментар
         other: '%{count} коментара'
       edit_link: Редактиране на този пост
@@ -646,6 +660,7 @@ bg:
       no_results: Не бяха открити резултати
       more_results: Повече резултати
   layouts:
+    home: Моят дом
     logout: Излизане
     log_in: Влизане
     log_in_tooltip: Вписване със съществуващ профил
@@ -742,6 +757,7 @@ bg:
     lost_password_html:
       greeting: Здравейте,
     note_comment_notification:
+      anonymous: Анонимен потребител
       greeting: Здравейте,
     changeset_comment_notification:
       hi: Здравейте %{to_user},
@@ -769,6 +785,7 @@ bg:
       reply_button: Отговор
       delete_button: Изтрий
     new:
+      title: Изпратете съобщение
       subject: Тема
       send_button: Изпращане
       message_sent: Съобщението е изпратено
@@ -895,6 +912,7 @@ bg:
       help: Помощ
     trace_header:
       upload_trace: Качете GPS-следа
+      see_all_traces: Вижте всички следи
       see_your_traces: Вижте вашите следи
     trace_optionals:
       tags: Етикети
@@ -911,15 +929,18 @@ bg:
     trace_paging_nav:
       showing_page: Страница %{page}
       older: По-стари следи
+      newer: По-нови следи
     trace:
       pending: Обработва се
       view_map: Вижте на картата
       edit: редактиране
       edit_map: Редактиране на картата
+      by: от
       in: в
       map: карта
     list:
       public_traces: Публични GPS-следи
+      your_traces: Вашите GPS-следи
       public_traces_from: Публични GPS-следи от потребител %{user}
   oauth:
     oauthorize:
@@ -981,12 +1002,15 @@ bg:
         rest_of_world: В останалата част на света
     no_such_user:
       title: Няма такъв потребител
+      heading: Потребителят %{user} не съществува
     view:
       my edits: Mоите редакции
       my traces: Моите следи
       my messages: Съобщения
       my profile: Профил
       my settings: Настройки
+      blocks by me: Блокирани от мен
+      send message: Изпратете съобщение
       edits: Редакции
       traces: Следи
       notes: Бележки
@@ -995,8 +1019,11 @@ bg:
       email address: 'Електронна поща:'
       description: Описание
       user location: Местоположение
+      your friends: Вашите приятели
       no friends: Все още нямате добавени приятели.
       km away: '%{count} км от вас'
+      create_block: Блокиране на този потребител
+      delete_user: Изтриване на този потребител
     account:
       title: Редакция на профил
       my settings: Моите настройки
@@ -1030,6 +1057,10 @@ bg:
       introduction_1: Изпратихме ви писмо за потвърждаване.
     confirm_email:
       heading: Потвърдете смяната на електронната поща
+    remove_friend:
+      success: '%{name} беше премахнат от списъка с приятелите.'
+    list:
+      title: Потребители
   user_role:
     grant:
       confirm: Потвърждаване
