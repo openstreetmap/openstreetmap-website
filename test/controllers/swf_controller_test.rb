@@ -15,7 +15,9 @@ class SwfControllerTest < ActionController::TestCase
   ##
   # basic test that trackpoints at least returns some sort of flash movie
   def test_trackpoints
-    create(:trace, :visibility => "trackable", :latitude => 51.51, :longitude => -0.14, :user => users(:public_user)) do |trace|
+    user = create(:user)
+    other_user = create(:user)
+    create(:trace, :visibility => "trackable", :latitude => 51.51, :longitude => -0.14, :user => user) do |trace|
       create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (51.510 * GeoRecord::SCALE).to_i, :longitude => (-0.140 * GeoRecord::SCALE).to_i)
       create(:tracepoint, :trace => trace, :trackid => 2, :latitude => (51.511 * GeoRecord::SCALE).to_i, :longitude => (-0.141 * GeoRecord::SCALE).to_i)
     end
@@ -29,13 +31,13 @@ class SwfControllerTest < ActionController::TestCase
     assert_match /^FWS/, response.body
     assert_equal 80, response.body.length
 
-    get :trackpoints, :xmin => -1, :xmax => 1, :ymin => 51, :ymax => 52, :baselong => 0, :basey => 0, :masterscale => 1, :token => users(:normal_user).tokens.create.token
+    get :trackpoints, :xmin => -1, :xmax => 1, :ymin => 51, :ymax => 52, :baselong => 0, :basey => 0, :masterscale => 1, :token => other_user.tokens.create.token
     assert_response :success
     assert_equal "application/x-shockwave-flash", response.content_type
     assert_match /^FWS/, response.body
     assert_equal 67, response.body.length
 
-    get :trackpoints, :xmin => -1, :xmax => 1, :ymin => 51, :ymax => 52, :baselong => 0, :basey => 0, :masterscale => 1, :token => users(:public_user).tokens.create.token
+    get :trackpoints, :xmin => -1, :xmax => 1, :ymin => 51, :ymax => 52, :baselong => 0, :basey => 0, :masterscale => 1, :token => user.tokens.create.token
     assert_response :success
     assert_equal "application/x-shockwave-flash", response.content_type
     assert_match /^FWS/, response.body
