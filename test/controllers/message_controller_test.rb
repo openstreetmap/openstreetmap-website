@@ -292,10 +292,10 @@ class MessageControllerTest < ActionController::TestCase
     assert_template "read"
     assert_equal false, Message.find(unread_message.id).message_read
 
-    # Login as the message recipient_user
+    # Login as the message recipient
     session[:user] = recipient_user.id
 
-    # Check that the message recipient_user can read the message
+    # Check that the message recipient can read the message
     get :read, :message_id => unread_message.id
     assert_response :success
     assert_template "read"
