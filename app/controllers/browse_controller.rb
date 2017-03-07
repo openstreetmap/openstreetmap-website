@@ -9,7 +9,7 @@ class BrowseController < ApplicationController
 
   def relation
     @type = "relation"
-    @feature = Relation.find(params[:id])
+    @feature = Relation.preload(:relation_tags, :containing_relation_members, :changeset => [:changeset_tags, :user], :relation_members => :member).find(params[:id])
     render "feature"
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
@@ -17,7 +17,7 @@ class BrowseController < ApplicationController
 
   def relation_history
     @type = "relation"
-    @feature = Relation.find(params[:id])
+    @feature = Relation.preload(:relation_tags, :old_relations => [:old_tags, :changeset => [:changeset_tags, :user], :old_members => :member]).find(params[:id])
     render "history"
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
@@ -25,7 +25,7 @@ class BrowseController < ApplicationController
 
   def way
     @type = "way"
-    @feature = Way.preload(:way_tags, :containing_relation_members, :changeset => :user, :nodes => [:node_tags, :ways => :way_tags]).find(params[:id])
+    @feature = Way.preload(:way_tags, :containing_relation_members, :changeset => [:changeset_tags, :user], :nodes => [:node_tags, :ways => :way_tags]).find(params[:id])
     render "feature"
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
@@ -33,7 +33,7 @@ class BrowseController < ApplicationController
 
   def way_history
     @type = "way"
-    @feature = Way.preload(:way_tags, :old_ways => { :changeset => :user }).find(params[:id])
+    @feature = Way.preload(:way_tags, :old_ways => [:old_tags, :changeset => [:changeset_tags, :user], :old_nodes => { :node => [:node_tags, :ways] }]).find(params[:id])
     render "history"
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
@@ -41,7 +41,7 @@ class BrowseController < ApplicationController
 
   def node
     @type = "node"
-    @feature = Node.find(params[:id])
+    @feature = Node.preload(:node_tags, :containing_relation_members, :changeset => [:changeset_tags, :user], :ways => :way_tags).find(params[:id])
     render "feature"
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
@@ -49,7 +49,7 @@ class BrowseController < ApplicationController
 
   def node_history
     @type = "node"
-    @feature = Node.find(params[:id])
+    @feature = Node.preload(:node_tags, :old_nodes => [:old_tags, :changeset => [:changeset_tags, :user]]).find(params[:id])
     render "history"
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
