@@ -322,17 +322,12 @@ class TraceControllerTest < ActionController::TestCase
   def test_view_not_found
     deleted_trace_file = create(:trace, :deleted)
 
-    # First with no auth
+    # First with a trace that has never existed
     get :view, :display_name => create(:user).display_name, :id => 0
     assert_response :redirect
     assert_redirected_to :action => :list
 
-    # Now with some other user
-    get :view, { :display_name => create(:user).display_name, :id => 0 }, { :user => create(:user) }
-    assert_response :redirect
-    assert_redirected_to :action => :list
-
-    # And finally we should not be able to view a deleted trace
+    # Now with a trace that has been deleted
     get :view, { :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id }, { :user => deleted_trace_file.user }
     assert_response :redirect
     assert_redirected_to :action => :list
@@ -393,12 +388,8 @@ class TraceControllerTest < ActionController::TestCase
   def test_data_not_found
     deleted_trace_file = create(:trace, :deleted)
 
-    # First with no auth and a trace that has never existed
+    # First with a trace that has never existed
     get :data, :display_name => create(:user).display_name, :id => 0
-    assert_response :not_found
-
-    # Now with a trace that has never existed
-    get :data, { :display_name => create(:user).display_name, :id => 0 }, { :user => deleted_trace_file.user }
     assert_response :not_found
 
     # Now with a trace that has been deleted
@@ -442,16 +433,13 @@ class TraceControllerTest < ActionController::TestCase
 
   # Test downloading the picture for a trace that doesn't exist
   def test_picture_not_found
-    # First with no auth, which should work since the trace is public
+    deleted_trace_file = create(:trace, :deleted)
+
+    # First with a trace that has never existed
     get :picture, :display_name => create(:user).display_name, :id => 0
     assert_response :not_found
 
-    # Now with some other user, which should work since the trace is public
-    get :picture, { :display_name => create(:user).display_name, :id => 0 }, { :user => create(:user) }
-    assert_response :not_found
-
-    # And finally we should not be able to do it with a deleted trace
-    deleted_trace_file = create(:trace, :deleted)
+    # Now with a trace that has been deleted
     get :picture, { :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id }, { :user => deleted_trace_file.user }
     assert_response :not_found
   end
@@ -492,16 +480,13 @@ class TraceControllerTest < ActionController::TestCase
 
   # Test downloading the icon for a trace that doesn't exist
   def test_icon_not_found
-    # First with no auth
+    deleted_trace_file = create(:trace, :deleted)
+
+    # First with a trace that has never existed
     get :icon, :display_name => create(:user).display_name, :id => 0
     assert_response :not_found
 
-    # Now with some other user
-    get :icon, { :display_name => create(:user).display_name, :id => 0 }, { :user => create(:user) }
-    assert_response :not_found
-
-    # And finally we should not be able to do it with a deleted trace
-    deleted_trace_file = create(:trace, :deleted)
+    # Now with a trace that has been deleted
     get :icon, { :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id }, { :user => deleted_trace_file.user }
     assert_response :not_found
   end
@@ -799,17 +784,13 @@ class TraceControllerTest < ActionController::TestCase
 
   # Test downloading a trace that doesn't exist through the api
   def test_api_data_not_found
-    # First with no auth
+    deleted_trace_file = create(:trace, :deleted)
+
+    # First with a trace that has never existed
     get :api_data, :display_name => create(:user).display_name, :id => 0
     assert_response :unauthorized
 
-    # Now with a trace that has never existed
-    basic_authorization(create(:user).display_name, "test")
-    get :api_data, :display_name => create(:user).display_name, :id => 0
-    assert_response :not_found
-
     # Now with a trace that has been deleted
-    deleted_trace_file = create(:trace, :deleted)
     basic_authorization(deleted_trace_file.user.display_name, "test")
     get :api_data, :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id
     assert_response :not_found
