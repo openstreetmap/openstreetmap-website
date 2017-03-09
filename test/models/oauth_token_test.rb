@@ -1,8 +1,6 @@
 require "test_helper"
 
 class OauthTokenTest < ActiveSupport::TestCase
-  api_fixtures
-
   ##
   # check that after calling invalidate! on a token, it is invalid.
   def test_token_invalidation
@@ -17,7 +15,7 @@ class OauthTokenTest < ActiveSupport::TestCase
   def test_token_authorisation
     tok = RequestToken.create(:client_application => create(:client_application))
     assert_equal false, tok.authorized?, "Token should be created unauthorised."
-    tok.authorize!(users(:public_user))
+    tok.authorize!(create(:user))
     assert_equal true, tok.authorized?, "Token should now be authorised."
     tok.invalidate!
     assert_equal false, tok.authorized?, "Token should now be invalid."
