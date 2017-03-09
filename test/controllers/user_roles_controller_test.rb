@@ -20,11 +20,7 @@ class UserRolesControllerTest < ActionController::TestCase
     target_user = create(:user)
     normal_user = create(:user)
     administrator_user = create(:administrator_user)
-    # Create a super user which has all known roles
-    super_user = create(:user)
-    UserRole::ALL_ROLES.each do |role|
-      create(:user_role, :user => super_user, :granter => administrator_user, :role => role)
-    end
+    super_user = create(:super_user)
 
     # Granting should fail when not logged in
     post :grant, :display_name => target_user.display_name, :role => "moderator"
@@ -85,11 +81,7 @@ class UserRolesControllerTest < ActionController::TestCase
     target_user = create(:user)
     normal_user = create(:user)
     administrator_user = create(:administrator_user)
-    # Create a super user which has all known roles
-    super_user = create(:user)
-    UserRole::ALL_ROLES.each do |role|
-      create(:user_role, :user => super_user, :granter => administrator_user, :role => role)
-    end
+    super_user = create(:super_user)
 
     # Revoking should fail when not logged in
     post :revoke, :display_name => target_user.display_name, :role => "moderator"

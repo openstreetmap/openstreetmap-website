@@ -46,5 +46,13 @@ FactoryGirl.define do
         create(:user_role, :role => "administrator", :user => user)
       end
     end
+
+    factory :super_user do
+      after(:create) do |user, _evaluator|
+        UserRole::ALL_ROLES.each do |role|
+          create(:user_role, :role => role, :user => user)
+        end
+      end
+    end
   end
 end
