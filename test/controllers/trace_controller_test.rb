@@ -729,17 +729,17 @@ class TraceControllerTest < ActionController::TestCase
     public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
 
     # First with no auth
-    get :api_data, :display_name => public_trace_file.user.display_name, :id => public_trace_file.id
+    get :api_data, :id => public_trace_file.id
     assert_response :unauthorized
 
     # Now with some other user, which should work since the trace is public
     basic_authorization(create(:user).display_name, "test")
-    get :api_data, :display_name => public_trace_file.user.display_name, :id => public_trace_file.id
+    get :api_data, :id => public_trace_file.id
     check_trace_data public_trace_file
 
     # And finally we should be able to do it with the owner of the trace
     basic_authorization(public_trace_file.user.display_name, "test")
-    get :api_data, :display_name => public_trace_file.user.display_name, :id => public_trace_file.id
+    get :api_data, :id => public_trace_file.id
     check_trace_data public_trace_file
   end
 
@@ -751,15 +751,15 @@ class TraceControllerTest < ActionController::TestCase
     basic_authorization(identifiable_trace_file.user.display_name, "test")
 
     # First get the data as is
-    get :api_data, :display_name => identifiable_trace_file.user.display_name, :id => identifiable_trace_file.id
+    get :api_data, :id => identifiable_trace_file.id
     check_trace_data identifiable_trace_file, "application/x-gzip", "gpx.gz"
 
     # Now ask explicitly for XML format
-    get :api_data, :display_name => identifiable_trace_file.user.display_name, :id => identifiable_trace_file.id, :format => "xml"
+    get :api_data, :id => identifiable_trace_file.id, :format => "xml"
     check_trace_data identifiable_trace_file, "application/xml", "xml"
 
     # Now ask explicitly for GPX format
-    get :api_data, :display_name => identifiable_trace_file.user.display_name, :id => identifiable_trace_file.id, :format => "gpx"
+    get :api_data, :id => identifiable_trace_file.id, :format => "gpx"
     check_trace_data identifiable_trace_file
   end
 
@@ -768,17 +768,17 @@ class TraceControllerTest < ActionController::TestCase
     anon_trace_file = create(:trace, :visibility => "private", :fixture => "b")
 
     # First with no auth
-    get :api_data, :display_name => anon_trace_file.user.display_name, :id => anon_trace_file.id
+    get :api_data, :id => anon_trace_file.id
     assert_response :unauthorized
 
     # Now with some other user, which shouldn't work since the trace is anon
     basic_authorization(create(:user).display_name, "test")
-    get :api_data, :display_name => anon_trace_file.user.display_name, :id => anon_trace_file.id
+    get :api_data, :id => anon_trace_file.id
     assert_response :forbidden
 
     # And finally we should be able to do it with the owner of the trace
     basic_authorization(anon_trace_file.user.display_name, "test")
-    get :api_data, :display_name => anon_trace_file.user.display_name, :id => anon_trace_file.id
+    get :api_data, :id => anon_trace_file.id
     check_trace_data anon_trace_file
   end
 
@@ -786,13 +786,18 @@ class TraceControllerTest < ActionController::TestCase
   def test_api_data_not_found
     deleted_trace_file = create(:trace, :deleted)
 
-    # First with a trace that has never existed
-    get :api_data, :display_name => create(:user).display_name, :id => 0
+    # Try first with no auth, as it should require it
+    get :api_data, :id => 0
     assert_response :unauthorized
 
-    # Now with a trace that has been deleted
+    # Login, and try again
+    basic_authorization(create(:user).display_name, "test")
+    get :api_data, :id => 0
+    assert_response :not_found
+
+    # Now try a trace which did exist but has been deleted
     basic_authorization(deleted_trace_file.user.display_name, "test")
-    get :api_data, :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id
+    get :api_data, :id => deleted_trace_file.id
     assert_response :not_found
   end
 
