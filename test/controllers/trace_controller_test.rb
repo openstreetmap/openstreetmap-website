@@ -323,12 +323,12 @@ class TraceControllerTest < ActionController::TestCase
     deleted_trace_file = create(:trace, :deleted)
 
     # First with no auth
-    get :view, :display_name => deleted_trace_file.user.display_name, :id => 0
+    get :view, :display_name => create(:user).display_name, :id => 0
     assert_response :redirect
     assert_redirected_to :action => :list
 
     # Now with some other user
-    get :view, { :display_name => deleted_trace_file.user.display_name, :id => 0 }, { :user => create(:user) }
+    get :view, { :display_name => create(:user).display_name, :id => 0 }, { :user => create(:user) }
     assert_response :redirect
     assert_redirected_to :action => :list
 
@@ -394,11 +394,11 @@ class TraceControllerTest < ActionController::TestCase
     deleted_trace_file = create(:trace, :deleted)
 
     # First with no auth and a trace that has never existed
-    get :data, :display_name => deleted_trace_file.user.display_name, :id => 0
+    get :data, :display_name => create(:user).display_name, :id => 0
     assert_response :not_found
 
     # Now with a trace that has never existed
-    get :data, { :display_name => deleted_trace_file.user.display_name, :id => 0 }, { :user => deleted_trace_file.user }
+    get :data, { :display_name => create(:user).display_name, :id => 0 }, { :user => deleted_trace_file.user }
     assert_response :not_found
 
     # Now with a trace that has been deleted
