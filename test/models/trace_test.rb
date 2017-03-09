@@ -3,8 +3,6 @@ require "digest"
 require "minitest/mock"
 
 class TraceTest < ActiveSupport::TestCase
-  fixtures :users
-
   def setup
     @gpx_trace_dir = Object.send("remove_const", "GPX_TRACE_DIR")
     Object.const_set("GPX_TRACE_DIR", Rails.root.join("test", "gpx", "traces"))
@@ -31,21 +29,25 @@ class TraceTest < ActiveSupport::TestCase
   end
 
   def test_visible_to
-    public_trace_file = create(:trace, :visibility => "public", :user => users(:normal_user))
-    anon_trace_file = create(:trace, :visibility => "private", :user => users(:public_user))
-    identifiable_trace_file = create(:trace, :visibility => "identifiable", :user => users(:normal_user))
-    pending_trace_file = create(:trace, :visibility => "public", :user => users(:public_user), :inserted => false)
-    trackable_trace_file = create(:trace, :visibility => "trackable", :user => users(:public_user))
-    _other_trace_file = create(:trace, :visibility => "private", :user => users(:second_public_user))
+    first_user = create(:user)
+    second_user = create(:user)
+    third_user = create(:user)
+    fourth_user = create(:user)
+    public_trace_file = create(:trace, :visibility => "public", :user => first_user)
+    anon_trace_file = create(:trace, :visibility => "private", :user => second_user)
+    identifiable_trace_file = create(:trace, :visibility => "identifiable", :user => first_user)
+    pending_trace_file = create(:trace, :visibility => "public", :user => second_user, :inserted => false)
+    trackable_trace_file = create(:trace, :visibility => "trackable", :user => second_user)
+    _other_trace_file = create(:trace, :visibility => "private", :user => third_user)
 
-    check_query(Trace.visible_to(users(:normal_user).id), [
+    check_query(Trace.visible_to(first_user), [
                   public_trace_file, identifiable_trace_file, pending_trace_file
                 ])
-    check_query(Trace.visible_to(users(:public_user)), [
+    check_query(Trace.visible_to(second_user), [
                   public_trace_file, anon_trace_file, trackable_trace_file,
                   identifiable_trace_file, pending_trace_file
                 ])
-    check_query(Trace.visible_to(users(:inactive_user)), [
+    check_query(Trace.visible_to(fourth_user), [
                   public_trace_file, identifiable_trace_file, pending_trace_file
                 ])
   end
