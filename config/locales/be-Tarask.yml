@@ -99,6 +99,14 @@ be-Tarask:
     closed: Закрытае
     changeset:
       title: 'Набор зьменаў: %{id}'
+      belongs_to: Аўтар
+      node: Пункты (%{count})
+      node_paginated: Пункты (%{x}-%{y} з %{count})
+      way: Лініі (%{count})
+      way_paginated: Лініі (%{x}-%{y} з %{count})
+      relation: Сувязі (%{count})
+      relation_paginated: Сувязі (%{x}-%{y} з %{count})
+      comment: Камэнтары (%{count})
       changesetxml: Набор зьменаў у фармаце XML
       osmchangexml: osmChange XML
       feed:
@@ -753,14 +761,11 @@ be-Tarask:
         Мы патрабуем, каб
         Вы пазначалі &ldquo;&copy; удзельнікі OpenStreetMap&rdquo;.
       credit_2_html: |-
-        Дзе магчыма, павінна быць гіпэр-спасылка на OpenStreetMap <a
-        href="http://www.openstreetmap.org/">http://www.openstreetmap.org/</a>
-        і на CC BY-SA <a
-        href="http://creativecommons.org/licenses/by-sa/2.0/">http://creativecommons.org/licenses/by-sa/2.0/</a>. Калі
+        Мусіце таксама яўна пазначыць, што зьвесткі даступныя паводле ліцэнзіі Open Database, а калі карыстаецеся нашымі кавалкамі мапаў, што картаграфія ліцэнзаваная паводле CC BY-SA. Гэта можна зрабіць, спаслаўшыся на <a href="http://www.openstreetmap.org/copyright">гэтую старонку правоў</a>. Калі вы распаўсюджваеце OSM у фармаце зьвестак, вы мусіце разьмяшчаць наўпроставую спасылку на ліцэнзіі. Калі
         Вы выкарыстоўваеце носьбіты, дзе выкарыстаньне спасылак немагчымае (напр.
-        друкаваныя працы), мы прапануем накіроўваць Вашым чытачоў на
+        друкаваныя працы), мы прапануем накіроўваць Вашых чытачоў на
         www.openstreetmap.org (магчымае выкарыстаньне поўнага адрасу
-        &lsquo;OpenStreetMap&rsquo;) і на
+        &lsquo;OpenStreetMap&rsquo;), на opendatacommons.org і, пры неабходнасьці, на
         www.creativecommons.org.
       more_title_html: Даведацца болей
       more_1_html: |-
@@ -768,9 +773,8 @@ be-Tarask:
         href="http://osmfoundation.org/Licence">старонцы ліцэнзіі OSMF</a> і <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">старонцы адказаў
         і пытаньняў</a>.
       more_2_html: |-
-        Удзельнікі OSM павінны памятаць пра тое, што забаронена дадаваць зьвесткі
-        з любых крыніцаў абароненых аўтарскім правам (напрыклад, Google Maps ці друкаваных мапаў)
-        без папярэдняга дазволу ўладальнікаў аўтарскіх правоў.
+        Хоць OpenStreetMap ёсьць адкрытымі зьвесткамі, мы ня здольныя прадаставіць бяскоштны API мапаў для староньніх распрацоўнікаў. Глядзіце нашыя <a href="https://operations.osmfoundation.org/policies/api/">правілы карыстаньня API</a>, <a href="https://operations.osmfoundation.org/policies/tiles/">правілы карыстаньня частак мапаў</a>
+        і <a href="https://operations.osmfoundation.org/policies/nominatim/">правілы карыстаньня Nominatim</a>.
       contributors_title_html: Нашыя ўдзельнікі
       contributors_intro_html: |-
         Нашая ліцэнзія CC BY-SA патрабуе ад Вас &ldquo;падаць арыгінальнага аўтара
@@ -799,17 +803,17 @@ be-Tarask:
       contributors_gb_html: |-
         <strong>Вялікабрытанія</strong>: Утрымлівае зьвесткі Ordnance
         Survey &copy; Crown copyright and database right
-        2010.
+        2010—2012.
       contributors_footer_2_html: |-
         Уключэньне зьвестак у OpenStreetMap не азначае, што пастаўшчыкі пачатковых зьвестак
         якім-небудзь чынам падтрымліваюць OpenStreetMap, прадстаўляюць гарантыі, ці
         прымаюць на сябе якую-небудзь адказнасьць.
   notifier:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} пакінуў камэнтар у Вашым дзёньніку'
+      subject: Карыстальнік [OpenStreetMap] %{user} пакінуў камэнтар у дзёньніку
       hi: Вітаем, %{to_user},
-      header: '%{from_user} пракамэнтаваў Ваш апошні запіс у дзёньніку на OpenStreetMap
-        з тэмай %{subject}:'
+      header: '%{from_user} пракамэнтаваў запіс у дзёньніку на OpenStreetMap з тэмай
+        %{subject}:'
       footer: Вы таксама можаце чытаць камэнтар %{readurl} і Вы можаце камэнтаваць
         на %{commenturl} ці адказаць на %{replyurl}
     message_notification:
@@ -836,7 +840,7 @@ be-Tarask:
         loaded_successfully: пасьпяхова загружаны %{trace_points} пунктаў з магчымых
           %{possible_points}.
     signup_confirm:
-      subject: '[OpenStreetMap] Пацьвердзіце Ваш адрас электроннай пошты'
+      subject: '[OpenStreetMap] Вітаем у OpenStreetMap'
     email_confirm:
       subject: '[OpenStreetMap] Пацьвердзіце Ваш адрас электроннай пошты'
     email_confirm_plain:
@@ -1389,9 +1393,9 @@ be-Tarask:
       delete_user: Выдаліць гэтага ўдзельніка
       confirm: Пацьвердзіць
       friends_changesets: Праглядзець усе наборы зьменаў сяброў
-      friends_diaries: Праглядзець усе запісы дзёньнікаў сяброў
-      nearby_changesets: Праглядзець усе наборы зьменаў суседніх удзельнікаў
-      nearby_diaries: Праглядзець усе запісы дзёньнікаў суседніх удзельнікаў
+      friends_diaries: запісы сяброўскіх дзёньнікаў
+      nearby_changesets: наборы зьменаў суседніх удзельнікаў
+      nearby_diaries: запісы дзёньнікаў суседніх удзельнікаў
     popup:
       your location: Вашае месцазнаходжаньне
       nearby mapper: Бліжэйшы стваральнік мапаў
