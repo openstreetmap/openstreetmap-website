@@ -76,6 +76,8 @@ class MessageTest < ActiveSupport::TestCase
   end
 
   def test_from_mail_plain
+    sender_user = create(:user)
+    recipient_user = create(:user)
     mail = Mail.new do
       from "from@example.com"
       to "to@example.com"
@@ -84,9 +86,9 @@ class MessageTest < ActiveSupport::TestCase
       content_type "text/plain; charset=utf-8"
       body "This is a test & a message"
     end
-    message = Message.from_mail(mail, users(:normal_user), users(:public_user))
-    assert_equal users(:normal_user), message.sender
-    assert_equal users(:public_user), message.recipient
+    message = Message.from_mail(mail, sender_user, recipient_user)
+    assert_equal sender_user, message.sender
+    assert_equal recipient_user, message.recipient
     assert_equal mail.date, message.sent_on
     assert_equal "Test message", message.title
     assert_equal "This is a test & a message", message.body
@@ -94,6 +96,8 @@ class MessageTest < ActiveSupport::TestCase
   end
 
   def test_from_mail_html
+    sender_user = create(:user)
+    recipient_user = create(:user)
     mail = Mail.new do
       from "from@example.com"
       to "to@example.com"
@@ -102,9 +106,9 @@ class MessageTest < ActiveSupport::TestCase
       content_type "text/html; charset=utf-8"
       body "<p>This is a <b>test</b> &amp; a message</p>"
     end
-    message = Message.from_mail(mail, users(:normal_user), users(:public_user))
-    assert_equal users(:normal_user), message.sender
-    assert_equal users(:public_user), message.recipient
+    message = Message.from_mail(mail, sender_user, recipient_user)
+    assert_equal sender_user, message.sender
+    assert_equal recipient_user, message.recipient
     assert_equal mail.date, message.sent_on
     assert_equal "Test message", message.title
     assert_match /^ *This is a test & a message *$/, message.body
@@ -112,6 +116,8 @@ class MessageTest < ActiveSupport::TestCase
   end
 
   def test_from_mail_multipart
+    sender_user = create(:user)
+    recipient_user = create(:user)
     mail = Mail.new do
       from "from@example.com"
       to "to@example.com"
@@ -128,9 +134,9 @@ class MessageTest < ActiveSupport::TestCase
         body "<p>This is a <b>test</b> &amp; a message in HTML format</p>"
       end
     end
-    message = Message.from_mail(mail, users(:normal_user), users(:public_user))
-    assert_equal users(:normal_user), message.sender
-    assert_equal users(:public_user), message.recipient
+    message = Message.from_mail(mail, sender_user, recipient_user)
+    assert_equal sender_user, message.sender
+    assert_equal recipient_user, message.recipient
     assert_equal mail.date, message.sent_on
     assert_equal "Test message", message.title
     assert_equal "This is a test & a message in text format", message.body
@@ -147,9 +153,9 @@ class MessageTest < ActiveSupport::TestCase
         body "<p>This is a <b>test</b> &amp; a message in HTML format</p>"
       end
     end
-    message = Message.from_mail(mail, users(:normal_user), users(:public_user))
-    assert_equal users(:normal_user), message.sender
-    assert_equal users(:public_user), message.recipient
+    message = Message.from_mail(mail, sender_user, recipient_user)
+    assert_equal sender_user, message.sender
+    assert_equal recipient_user, message.recipient
     assert_equal mail.date, message.sent_on
     assert_equal "Test message", message.title
     assert_match /^ *This is a test & a message in HTML format *$/, message.body
@@ -157,6 +163,8 @@ class MessageTest < ActiveSupport::TestCase
   end
 
   def test_from_mail_prefix
+    sender_user = create(:user)
+    recipient_user = create(:user)
     mail = Mail.new do
       from "from@example.com"
       to "to@example.com"
@@ -165,9 +173,9 @@ class MessageTest < ActiveSupport::TestCase
       content_type "text/plain; charset=utf-8"
       body "This is a test & a message"
     end
-    message = Message.from_mail(mail, users(:normal_user), users(:public_user))
-    assert_equal users(:normal_user), message.sender
-    assert_equal users(:public_user), message.recipient
+    message = Message.from_mail(mail, sender_user, recipient_user)
+    assert_equal sender_user, message.sender
+    assert_equal recipient_user, message.recipient
     assert_equal mail.date, message.sent_on
     assert_equal "Test message", message.title
     assert_equal "This is a test & a message", message.body
