@@ -54,8 +54,9 @@ class NoteTest < ActiveSupport::TestCase
     comment = create(:note_comment)
     assert_nil comment.note.author
 
-    comment = create(:note_comment, :author => users(:normal_user))
-    assert_equal users(:normal_user), comment.note.author
+    user = create(:user)
+    comment = create(:note_comment, :author => user)
+    assert_equal user, comment.note.author
   end
 
   def test_author_ip
