@@ -1,14 +1,12 @@
 require "test_helper"
 
 class UserBlocksTest < ActionDispatch::IntegrationTest
-  fixtures :users, :user_roles
-
   def auth_header(user, pass)
     { "HTTP_AUTHORIZATION" => format("Basic %s", Base64.encode64("#{user}:#{pass}")) }
   end
 
   def test_api_blocked
-    blocked_user = users(:public_user)
+    blocked_user = create(:user)
 
     get "/api/#{API_VERSION}/user/details"
     assert_response :unauthorized
@@ -19,7 +17,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
     # now block the user
     UserBlock.create(
       :user_id => blocked_user.id,
-      :creator_id => users(:moderator_user).id,
+      :creator_id => create(:moderator_user).id,
       :reason => "testing",
       :ends_at => Time.now.getutc + 5.minutes
     )
@@ -28,8 +26,8 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
   end
 
   def test_api_revoke
-    blocked_user = users(:public_user)
-    moderator = users(:moderator_user)
+    blocked_user = create(:user)
+    moderator = create(:moderator_user)
 
     block = UserBlock.create(
       :user_id => blocked_user.id,
