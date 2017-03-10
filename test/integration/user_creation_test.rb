@@ -1,8 +1,6 @@
 require "test_helper"
 
 class UserCreationTest < ActionDispatch::IntegrationTest
-  fixtures :users
-
   def setup
     I18n.locale = "en"
 
@@ -33,7 +31,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
   def test_user_create_submit_duplicate_email
     I18n.available_locales.each do |locale|
-      dup_email = users(:public_user).email
+      dup_email = create(:user).email
       display_name = "#{locale}_new_tester"
       assert_difference("User.count", 0) do
         assert_difference("ActionMailer::Base.deliveries.size", 0) do
@@ -52,7 +50,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
   def test_user_create_submit_duplicate_username
     I18n.available_locales.each do |locale|
-      dup_display_name = users(:public_user).display_name
+      dup_display_name = create(:user).display_name
       email = "#{locale}_new_tester"
       assert_difference("User.count", 0) do
         assert_difference("ActionMailer::Base.deliveries.size", 0) do
