@@ -415,6 +415,12 @@ class ApplicationController < ActionController::Base
       :img_src => %w(developer.mapquest.com)
     )
 
+    if STATUS == :database_offline || STATUS == :api_offline
+      flash.now[:warning] = t("layouts.osm_offline")
+    elsif STATUS == :database_readonly || STATUS == :api_readonly
+      flash.now[:warning] = t("layouts.osm_read_only")
+    end
+
     request.xhr? ? "xhr" : "map"
   end
 

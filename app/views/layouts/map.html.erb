@@ -24,12 +24,6 @@
   <div id="sidebar">
     <%= render :partial => "layouts/search", :locals => { :autofocus => true } %>
 
-    <% if STATUS == :database_offline or STATUS == :api_offline %>
-      <p class="error"><%= t 'layouts.osm_offline' %></p>
-    <% elsif STATUS == :database_readonly or STATUS == :api_readonly %>
-      <p class="error"><%= t 'layouts.osm_read_only' %></p>
-    <% end %>
-
     <div id="flash">
       <%= render :partial => "layouts/flash" %>
     </div>
