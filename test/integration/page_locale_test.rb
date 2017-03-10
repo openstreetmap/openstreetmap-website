@@ -1,8 +1,6 @@
 require "test_helper"
 
 class PageLocaleTest < ActionDispatch::IntegrationTest
-  fixtures :users
-
   def setup
     I18n.locale = "en"
     stub_hostip_requests
@@ -13,7 +11,7 @@ class PageLocaleTest < ActionDispatch::IntegrationTest
   end
 
   def test_defaulting
-    user = users(:second_public_user)
+    user = create(:user, :languages => [])
 
     post_via_redirect "/login", :username => user.email, :password => "test"
 
@@ -27,7 +25,7 @@ class PageLocaleTest < ActionDispatch::IntegrationTest
   end
 
   def test_override
-    user = users(:german_user)
+    user = create(:user, :languages => ["de"])
 
     get "/diary"
     assert_select "html[lang=?]", "en"
