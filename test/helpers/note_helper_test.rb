@@ -15,6 +15,7 @@ class NoteHelperTest < ActionView::TestCase
   def test_note_author
     deleted_user = create(:user, :deleted)
     user = create(:user)
+
     assert_equal "", note_author(nil)
     assert_equal "deleted", note_author(deleted_user)
     assert_equal "<a href=\"/user/#{URI.encode(user.display_name)}\">#{user.display_name}</a>", note_author(user)

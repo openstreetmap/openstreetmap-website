@@ -109,6 +109,7 @@ class ApplicationHelperTest < ActionView::TestCase
 
   def test_if_user
     user = create(:user)
+
     html = if_user(user) { "Test 1" }
     assert_dom_equal "<div class=\"hidden show_if_user_#{user.id}\">Test 1</div>", html
 
@@ -124,6 +125,7 @@ class ApplicationHelperTest < ActionView::TestCase
 
   def test_unless_user
     user = create(:user)
+
     html = unless_user(user) { "Test 1" }
     assert_dom_equal "<div class=\"hide_if_user_#{user.id}\">Test 1</div>", html
 
