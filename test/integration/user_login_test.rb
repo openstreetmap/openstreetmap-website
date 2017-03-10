@@ -1,8 +1,6 @@
 require "test_helper"
 
 class UserLoginTest < ActionDispatch::IntegrationTest
-  fixtures :users, :user_roles
-
   def setup
     OmniAuth.config.test_mode = true
   end
@@ -17,26 +15,35 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     OmniAuth.config.test_mode = false
   end
 
-  def test_login_email_password_normal
-    user = users(:normal_user)
+  # It's possible to have multiple accounts in the database with only differences
+  # in email case, for hysterical raisins. We need to bypass the validation checks to
+  # create users like this nowadays.
+  def test_login_email_password_duplicate
+    # Attempt to log in as one user, it should work
+    user = create(:user)
+    _uppercase_user = build(:user, :email => user.email.upcase).tap { |u| u.save(:validate => false) }
 
     try_password_login user.email, "test"
 
     assert_template "changeset/history"
-    assert_select "span.username", "test"
+    assert_select "span.username", user.display_name
   end
 
-  def test_login_email_password_normal_upcase
-    user = users(:normal_user)
+  def test_login_email_password_duplicate_upcase
+    # Attempt to log in as the uppercase_user, it should also work
+    user = create(:user)
+    uppercase_user = build(:user, :email => user.email.upcase).tap { |u| u.save(:validate => false) }
 
-    try_password_login user.email.upcase, "test"
+    try_password_login uppercase_user.email, "test"
 
     assert_template "changeset/history"
-    assert_select "span.username", "TEST"
+    assert_select "span.username", uppercase_user.display_name
   end
 
-  def test_login_email_password_normal_titlecase
-    user = users(:normal_user)
+  def test_login_email_password_duplicate_titlecase
+    # When there's no exact match for case, and two possible users, it should fail
+    user = create(:user)
+    _uppercase_user = build(:user, :email => user.email.upcase).tap { |u| u.save(:validate => false) }
 
     try_password_login user.email.titlecase, "test"
 
@@ -44,62 +51,63 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_select "span.username", false
   end
 
-  def test_login_email_password_public
-    user = users(:public_user)
+  # When there are no duplicate emails, any variation of cases should work
+  def test_login_email_password
+    user = create(:user)
 
     try_password_login user.email, "test"
 
     assert_template "changeset/history"
-    assert_select "span.username", "test2"
+    assert_select "span.username", user.display_name
   end
 
-  def test_login_email_password_public_upcase
-    user = users(:public_user)
+  def test_login_email_password_upcase
+    user = create(:user)
 
     try_password_login user.email.upcase, "test"
 
     assert_template "changeset/history"
-    assert_select "span.username", "test2"
+    assert_select "span.username", user.display_name
   end
 
-  def test_login_email_password_public_titlecase
-    user = users(:public_user)
+  def test_login_email_password_titlecase
+    user = create(:user)
 
     try_password_login user.email.titlecase, "test"
 
     assert_template "changeset/history"
-    assert_select "span.username", "test2"
+    assert_select "span.username", user.display_name
   end
 
-  def test_login_email_password_inactive
-    user = users(:inactive_user)
+  def test_login_email_password_pending
+    user = create(:user, :pending)
 
-    try_password_login user.email, "test2"
+    try_password_login user.email, "test"
 
     assert_template "confirm"
     assert_select "span.username", false
   end
 
-  def test_login_email_password_inactive_upcase
-    user = users(:inactive_user)
+  def test_login_email_password_pending_upcase
+    user = create(:user, :pending)
 
-    try_password_login user.email.upcase, "test2"
+    try_password_login user.email.upcase, "test"
 
     assert_template "confirm"
     assert_select "span.username", false
   end
 
-  def test_login_email_password_inactive_titlecase
-    user = users(:inactive_user)
+  def test_login_email_password_pending_titlecase
+    user = create(:user, :pending)
 
-    try_password_login user.email.titlecase, "test2"
+    try_password_login user.email.titlecase, "test"
 
     assert_template "confirm"
     assert_select "span.username", false
   end
 
   def test_login_email_password_suspended
-    user = users(:suspended_user)
+    user = create(:user, :suspended)
 
     try_password_login user.email, "test"
 
@@ -109,7 +117,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   end
 
   def test_login_email_password_suspended_upcase
-    user = users(:suspended_user)
+    user = create(:user, :suspended)
 
     try_password_login user.email.upcase, "test"
 
@@ -119,7 +127,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   end
 
   def test_login_email_password_suspended_titlecase
-    user = users(:suspended_user)
+    user = create(:user, :suspended)
 
     try_password_login user.email.titlecase, "test"
 
@@ -129,118 +137,128 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   end
 
   def test_login_email_password_blocked
-    user = users(:blocked_user)
+    user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
     try_password_login user.email, "test"
 
     assert_template "user_blocks/show"
-    assert_select "span.username", "blocked"
+    assert_select "span.username", user.display_name
   end
 
   def test_login_email_password_blocked_upcase
-    user = users(:blocked_user)
+    user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
     try_password_login user.email.upcase, "test"
 
     assert_template "user_blocks/show"
-    assert_select "span.username", "blocked"
+    assert_select "span.username", user.display_name
   end
 
   def test_login_email_password_blocked_titlecase
-    user = users(:blocked_user)
+    user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
     try_password_login user.email.titlecase, "test"
 
     assert_template "user_blocks/show"
-    assert_select "span.username", "blocked"
+    assert_select "span.username", user.display_name
   end
 
-  def test_login_username_password_normal
-    user = users(:normal_user)
+  # As above, it's possible to have multiple accounts in the database with only
+  # differences in display_name case, for hysterical raisins. We need to bypass
+  # the validation checks to create users like this nowadays.
+  def test_login_username_password_duplicate
+    # Attempt to log in as one user, it should work
+    user = create(:user)
+    _uppercase_user = build(:user, :display_name => user.display_name.upcase).tap { |u| u.save(:validate => false) }
 
     try_password_login user.display_name, "test"
 
     assert_template "changeset/history"
-    assert_select "span.username", "test"
+    assert_select "span.username", user.display_name
   end
 
-  def test_login_username_password_normal_upcase
-    user = users(:normal_user)
+  def test_login_username_password_duplicate_upcase
+    # Attempt to log in as the uppercase_user, it should also work
+    user = create(:user)
+    uppercase_user = build(:user, :display_name => user.display_name.upcase).tap { |u| u.save(:validate => false) }
 
-    try_password_login user.display_name.upcase, "test"
+    try_password_login uppercase_user.display_name, "test"
 
     assert_template "changeset/history"
-    assert_select "span.username", "TEST"
+    assert_select "span.username", uppercase_user.display_name
   end
 
-  def test_login_username_password_normal_titlecase
-    user = users(:normal_user)
+  def test_login_username_password_duplicate_downcase
+    # When there's no exact match for case, and two possible users, it should fail
+    user = create(:user)
+    _uppercase_user = build(:user, :display_name => user.display_name.upcase).tap { |u| u.save(:validate => false) }
 
-    try_password_login user.display_name.titlecase, "test"
+    try_password_login user.display_name.downcase, "test"
 
     assert_template "login"
     assert_select "span.username", false
   end
 
-  def test_login_username_password_public
-    user = users(:public_user)
+  # When there are no duplicate emails, any variation of cases should work
+  def test_login_username_password
+    user = create(:user)
 
     try_password_login user.display_name, "test"
 
     assert_template "changeset/history"
-    assert_select "span.username", "test2"
+    assert_select "span.username", user.display_name
   end
 
-  def test_login_username_password_public_upcase
-    user = users(:public_user)
+  def test_login_username_password_upcase
+    user = create(:user)
 
     try_password_login user.display_name.upcase, "test"
 
     assert_template "changeset/history"
-    assert_select "span.username", "test2"
+    assert_select "span.username", user.display_name
   end
 
-  def test_login_username_password_public_titlecase
-    user = users(:public_user)
+  def test_login_username_password_downcase
+    user = create(:user)
 
-    try_password_login user.display_name.titlecase, "test"
+    try_password_login user.display_name.downcase, "test"
 
     assert_template "changeset/history"
-    assert_select "span.username", "test2"
+    assert_select "span.username", user.display_name
   end
 
-  def test_login_username_password_inactive
-    user = users(:inactive_user)
+  def test_login_username_password_pending
+    user = create(:user, :pending)
 
-    try_password_login user.display_name, "test2"
+    try_password_login user.display_name, "test"
 
     assert_template "confirm"
     assert_select "span.username", false
   end
 
-  def test_login_username_password_inactive_upcase
-    user = users(:inactive_user)
+  def test_login_username_password_pending_upcase
+    user = create(:user, :pending)
 
-    try_password_login user.display_name.upcase, "test2"
+    try_password_login user.display_name.upcase, "test"
 
     assert_template "confirm"
     assert_select "span.username", false
   end
 
-  def test_login_username_password_inactive_titlecase
-    user = users(:inactive_user)
+  def test_login_username_password_pending_downcase
+    user = create(:user, :pending)
 
-    try_password_login user.display_name.titlecase, "test2"
+    try_password_login user.display_name.downcase, "test"
 
     assert_template "confirm"
     assert_select "span.username", false
   end
 
   def test_login_username_password_suspended
-    user = users(:suspended_user)
+    user = create(:user, :suspended)
 
     try_password_login user.display_name, "test"
 
@@ -250,7 +268,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   end
 
   def test_login_username_password_suspended_upcase
-    user = users(:suspended_user)
+    user = create(:user, :suspended)
 
     try_password_login user.display_name.upcase, "test"
 
@@ -259,10 +277,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_select "div.flash.error", /your account has been suspended/
   end
 
-  def test_login_username_password_suspended_titlecase
-    user = users(:suspended_user)
+  def test_login_username_password_suspended_downcase
+    user = create(:user, :suspended)
 
-    try_password_login user.display_name.titlecase, "test"
+    try_password_login user.display_name.downcase, "test"
 
     assert_template "login"
     assert_select "span.username", false
@@ -270,57 +288,58 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   end
 
   def test_login_username_password_blocked
-    user = users(:blocked_user)
+    user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
     try_password_login user.display_name.upcase, "test"
 
     assert_template "user_blocks/show"
-    assert_select "span.username", "blocked"
+    assert_select "span.username", user.display_name
   end
 
   def test_login_username_password_blocked_upcase
-    user = users(:blocked_user)
+    user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
     try_password_login user.display_name, "test"
 
     assert_template "user_blocks/show"
-    assert_select "span.username", "blocked"
+    assert_select "span.username", user.display_name
   end
 
-  def test_login_username_password_blocked_titlecase
-    user = users(:blocked_user)
+  def test_login_username_password_blocked_downcase
+    user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
-    try_password_login user.display_name.titlecase, "test"
+    try_password_login user.display_name.downcase, "test"
 
     assert_template "user_blocks/show"
-    assert_select "span.username", "blocked"
+    assert_select "span.username", user.display_name
   end
 
   def test_login_email_password_remember_me
-    user = users(:normal_user)
+    user = create(:user)
 
     try_password_login user.email, "test", "yes"
 
     assert_template "changeset/history"
-    assert_select "span.username", "test"
+    assert_select "span.username", user.display_name
     assert session.key?(:_remember_for)
   end
 
   def test_login_username_password_remember_me
-    user = users(:normal_user)
+    user = create(:user)
 
     try_password_login user.display_name, "test", "yes"
 
     assert_template "changeset/history"
-    assert_select "span.username", "test"
+    assert_select "span.username", user.display_name
     assert session.key?(:_remember_for)
   end
 
   def test_login_openid_success
-    OmniAuth.config.add_mock(:openid, :uid => "http://localhost:1123/john.doe")
+    user = create(:user, :auth_provider => "openid", :auth_uid => "http://example.com/john.doe")
+    OmniAuth.config.add_mock(:openid, :uid => user.auth_uid)
 
     get "/login", :referer => "/history"
     assert_response :redirect
@@ -339,11 +358,12 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "changeset/history"
-    assert_select "span.username", "openIDuser"
+    assert_select "span.username", user.display_name
   end
 
   def test_login_openid_remember_me
-    OmniAuth.config.add_mock(:openid, :uid => "http://localhost:1123/john.doe")
+    user = create(:user, :auth_provider => "openid", :auth_uid => "http://example.com/john.doe")
+    OmniAuth.config.add_mock(:openid, :uid => user.auth_uid)
 
     get "/login", :referer => "/history"
     assert_response :redirect
@@ -351,22 +371,23 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "user/login"
-    post "/login", :openid_url => "http://localhost:1123/john.doe", :remember_me_openid => true, :referer => "/history"
+    post "/login", :openid_url => user.auth_uid, :remember_me_openid => true, :referer => "/history"
     assert_response :redirect
-    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template "changeset/history"
-    assert_select "span.username", "openIDuser"
+    assert_select "span.username", user.display_name
     assert session.key?(:_remember_for)
   end
 
   def test_login_openid_connection_failed
+    user = create(:user, :auth_provider => "openid", :auth_uid => "http://example.com/john.doe")
     OmniAuth.config.mock_auth[:openid] = :connection_failed
 
     get "/login", :referer => "/history"
@@ -375,12 +396,12 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "user/login"
-    post "/login", :openid_url => "http://localhost:1123/john.doe", :referer => "/history"
+    post "/login", :openid_url => user.auth_uid, :referer => "/history"
     assert_response :redirect
-    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
     assert_response :redirect
     assert_redirected_to auth_failure_path(:strategy => "openid", :message => "connection_failed", :origin => "/login?referer=%2Fhistory")
@@ -394,6 +415,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   end
 
   def test_login_openid_invalid_credentials
+    user = create(:user, :auth_provider => "openid", :auth_uid => "http://example.com/john.doe")
     OmniAuth.config.mock_auth[:openid] = :invalid_credentials
 
     get "/login", :referer => "/history"
@@ -402,12 +424,12 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "user/login"
-    post "/login", :openid_url => "http://localhost:1123/john.doe", :referer => "/history"
+    post "/login", :openid_url => user.auth_uid, :referer => "/history"
     assert_response :redirect
-    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
     assert_response :redirect
     assert_redirected_to auth_failure_path(:strategy => "openid", :message => "invalid_credentials", :origin => "/login?referer=%2Fhistory")
@@ -444,7 +466,8 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   end
 
   def test_login_google_success
-    OmniAuth.config.add_mock(:google, :uid => "123456789", :extra => {
+    user = create(:user, :auth_provider => "google", :auth_uid => "1234567890")
+    OmniAuth.config.add_mock(:google, :uid => user.auth_uid, :extra => {
                                :id_info => { "openid_id" => "http://localhost:1123/fred.bloggs" }
                              })
 
@@ -462,7 +485,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "changeset/history"
-    assert_select "span.username", "googleuser"
+    assert_select "span.username", user.display_name
   end
 
   def test_login_google_connection_failed
@@ -536,8 +559,9 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   end
 
   def test_login_google_upgrade
+    user = create(:user, :auth_provider => "openid", :auth_uid => "http://example.com/john.doe")
     OmniAuth.config.add_mock(:google, :uid => "987654321", :extra => {
-                               :id_info => { "openid_id" => "http://localhost:1123/john.doe" }
+                               :id_info => { "openid_id" => user.auth_uid }
                              })
 
     get "/login", :referer => "/history"
@@ -554,15 +578,16 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "changeset/history"
-    assert_select "span.username", "openIDuser"
+    assert_select "span.username", user.display_name
 
-    user = User.find_by(:display_name => "openIDuser")
-    assert_equal "google", user.auth_provider
-    assert_equal "987654321", user.auth_uid
+    u = User.find_by(:display_name => user.display_name)
+    assert_equal "google", u.auth_provider
+    assert_equal "987654321", u.auth_uid
   end
 
   def test_login_facebook_success
-    OmniAuth.config.add_mock(:facebook, :uid => "123456789")
+    user = create(:user, :auth_provider => "facebook", :auth_uid => "1234567890")
+    OmniAuth.config.add_mock(:facebook, :uid => user.auth_uid)
 
     get "/login", :referer => "/history"
     assert_response :redirect
@@ -578,7 +603,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "changeset/history"
-    assert_select "span.username", "facebookuser"
+    assert_select "span.username", user.display_name
   end
 
   def test_login_facebook_connection_failed
@@ -650,7 +675,8 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   end
 
   def test_login_windowslive_success
-    OmniAuth.config.add_mock(:windowslive, :uid => "123456789")
+    user = create(:user, :auth_provider => "windowslive", :auth_uid => "1234567890")
+    OmniAuth.config.add_mock(:windowslive, :uid => user.auth_uid)
 
     get "/login", :referer => "/history"
     assert_response :redirect
@@ -666,7 +692,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "changeset/history"
-    assert_select "span.username", "windowsliveuser"
+    assert_select "span.username", user.display_name
   end
 
   def test_login_windowslive_connection_failed
@@ -738,7 +764,8 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   end
 
   def test_login_github_success
-    OmniAuth.config.add_mock(:github, :uid => "123456789")
+    user = create(:user, :auth_provider => "github", :auth_uid => "1234567890")
+    OmniAuth.config.add_mock(:github, :uid => user.auth_uid)
 
     get "/login", :referer => "/history"
     assert_response :redirect
@@ -754,7 +781,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "changeset/history"
-    assert_select "span.username", "githubuser"
+    assert_select "span.username", user.display_name
   end
 
   def test_login_github_connection_failed
@@ -826,7 +853,8 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   end
 
   def test_login_wikipedia_success
-    OmniAuth.config.add_mock(:wikipedia, :uid => "123456789")
+    user = create(:user, :auth_provider => "wikipedia", :auth_uid => "1234567890")
+    OmniAuth.config.add_mock(:wikipedia, :uid => user.auth_uid)
 
     get "/login", :referer => "/history"
     assert_response :redirect
@@ -842,7 +870,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "changeset/history"
-    assert_select "span.username", "wikipediauser"
+    assert_select "span.username", user.display_name
   end
 
   def test_login_wikipedia_connection_failed
