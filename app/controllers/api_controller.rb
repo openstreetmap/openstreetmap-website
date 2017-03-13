@@ -263,6 +263,9 @@ class ApiController < ApplicationController
     area = XML::Node.new "area"
     area["maximum"] = MAX_REQUEST_AREA.to_s
     api << area
+    notearea = XML::Node.new "note_area"
+    notearea["maximum"] = MAX_NOTE_REQUEST_AREA.to_s
+    api << notearea
     tracepoints = XML::Node.new "tracepoints"
     tracepoints["per_page"] = TRACEPOINTS_PER_PAGE.to_s
     api << tracepoints

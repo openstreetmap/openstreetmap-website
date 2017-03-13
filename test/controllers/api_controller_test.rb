@@ -364,6 +364,7 @@ class ApiControllerTest < ActionController::TestCase
       assert_select "api", :count => 1 do
         assert_select "version[minimum='#{API_VERSION}'][maximum='#{API_VERSION}']", :count => 1
         assert_select "area[maximum='#{MAX_REQUEST_AREA}']", :count => 1
+        assert_select "note_area[maximum='#{MAX_NOTE_REQUEST_AREA}']", :count => 1
         assert_select "tracepoints[per_page='#{TRACEPOINTS_PER_PAGE}']", :count => 1
         assert_select "changesets[maximum_elements='#{Changeset::MAX_ELEMENTS}']", :count => 1
         assert_select "status[database='online']", :count => 1
