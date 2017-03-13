@@ -215,6 +215,13 @@ class NotesControllerTest < ActionController::TestCase
       end
     end
     assert_response :bad_request
+
+    assert_no_difference "Note.count" do
+      assert_no_difference "NoteComment.count" do
+        post :create, :lat => -1.0, :lon => -1.0, :text => "x\u0000y"
+      end
+    end
+    assert_response :bad_request
   end
 
   def test_comment_success
@@ -376,6 +383,11 @@ class NotesControllerTest < ActionController::TestCase
       post :comment, :id => closed_note_with_comment.id, :text => "This is an additional comment"
     end
     assert_response :conflict
+
+    assert_no_difference "NoteComment.count" do
+      post :comment, :id => open_note_with_comment.id, :text => "x\u0000y"
+    end
+    assert_response :bad_request
   end
 
   def test_close_success

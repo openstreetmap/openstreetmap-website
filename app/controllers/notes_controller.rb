@@ -345,7 +345,7 @@ class NotesController < ApplicationController
       attributes[:author_ip] = request.remote_ip
     end
 
-    comment = note.comments.create(attributes)
+    comment = note.comments.create!(attributes)
 
     note.comments.map(&:author).uniq.each do |user|
       if notify && user && user != @user && user.visible?
