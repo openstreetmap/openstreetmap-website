@@ -231,7 +231,7 @@ class UserControllerTest < ActionController::TestCase
   end
 
   def test_new_success
-    user = new_user
+    user = build(:user, :pending)
 
     assert_difference "User.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 1 do
@@ -252,7 +252,7 @@ class UserControllerTest < ActionController::TestCase
   end
 
   def test_new_duplicate_email
-    user = new_user
+    user = build(:user, :pending)
     user.email = users(:public_user).email
 
     assert_no_difference "User.count" do
@@ -267,7 +267,7 @@ class UserControllerTest < ActionController::TestCase
   end
 
   def test_new_duplicate_email_uppercase
-    user = new_user
+    user = build(:user, :pending)
     user.email = users(:public_user).email.upcase
 
     assert_no_difference "User.count" do
@@ -282,7 +282,7 @@ class UserControllerTest < ActionController::TestCase
   end
 
   def test_new_duplicate_name
-    user = new_user
+    user = build(:user, :pending)
     user.display_name = users(:public_user).display_name
 
     assert_no_difference "User.count" do
@@ -297,7 +297,7 @@ class UserControllerTest < ActionController::TestCase
   end
 
   def test_new_duplicate_name_uppercase
-    user = new_user
+    user = build(:user, :pending)
     user.display_name = users(:public_user).display_name.upcase
 
     assert_no_difference "User.count" do
@@ -312,7 +312,7 @@ class UserControllerTest < ActionController::TestCase
   end
 
   def test_save_referer_params
-    user = new_user
+    user = build(:user, :pending)
 
     assert_difference "User.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 1 do
@@ -1486,18 +1486,5 @@ class UserControllerTest < ActionController::TestCase
     assert_redirected_to :action => :list
     assert_equal "deleted", normal_user.reload.status
     assert_equal "deleted", confirmed_user.reload.status
-  end
-
-  private
-
-  def new_user
-    user = User.new
-    user.status = "pending"
-    user.display_name = "new_tester"
-    user.email = "newtester@osm.org"
-    user.email_confirmation = "newtester@osm.org"
-    user.pass_crypt = "testtest"
-    user.pass_crypt_confirmation = "testtest"
-    user
   end
 end
