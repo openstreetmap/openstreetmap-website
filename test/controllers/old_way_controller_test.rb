@@ -278,7 +278,7 @@ class OldWayControllerTest < ActionController::TestCase
 
   def do_redact_way(way, redaction)
     get :version, :id => way.way_id, :version => way.version
-    assert_response :success, "should be able to get version #{way.version} of node #{way.way_id}."
+    assert_response :success, "should be able to get version #{way.version} of way #{way.way_id}."
 
     # now redact it
     post :redact, :id => way.way_id, :version => way.version, :redaction => redaction.id

@@ -245,7 +245,7 @@ class OldRelationControllerTest < ActionController::TestCase
 
   def do_redact_relation(relation, redaction)
     get :version, :id => relation.relation_id, :version => relation.version
-    assert_response :success, "should be able to get version #{relation.version} of node #{relation.relation_id}."
+    assert_response :success, "should be able to get version #{relation.version} of relation #{relation.relation_id}."
 
     # now redact it
     post :redact, :id => relation.relation_id, :version => relation.version, :redaction => redaction.id
