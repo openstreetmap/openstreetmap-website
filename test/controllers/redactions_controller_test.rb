@@ -94,11 +94,8 @@ class RedactionsControllerTest < ActionController::TestCase
   def test_destroy_moderator_empty
     session[:user] = create(:moderator_user).id
 
-    # remove all elements from the redaction
-    redaction = redactions(:example)
-    redaction.old_nodes.each     { |n| n.update!(:redaction => nil) }
-    redaction.old_ways.each      { |w| w.update!(:redaction => nil) }
-    redaction.old_relations.each { |r| r.update!(:redaction => nil) }
+    # create an empty redaction
+    redaction = create(:redaction)
 
     delete :destroy, :id => redaction.id
     assert_response :redirect
@@ -108,8 +105,9 @@ class RedactionsControllerTest < ActionController::TestCase
   def test_destroy_moderator_non_empty
     session[:user] = create(:moderator_user).id
 
-    # leave elements in the redaction
-    redaction = redactions(:example)
+    # create elements in the redaction
+    redaction = create(:redaction)
+    create(:old_node, :redaction => redaction)
 
     delete :destroy, :id => redaction.id
     assert_response :redirect
@@ -120,27 +118,29 @@ class RedactionsControllerTest < ActionController::TestCase
   def test_delete_non_moderator
     session[:user] = create(:user).id
 
-    delete :destroy, :id => redactions(:example).id
+    delete :destroy, :id => create(:redaction).id
     assert_response :forbidden
   end
 
   def test_edit
-    get :edit, :id => redactions(:example).id
+    redaction = create(:redaction)
+
+    get :edit, :id => redaction.id
     assert_response :redirect
-    assert_redirected_to login_path(:referer => edit_redaction_path(redactions(:example)))
+    assert_redirected_to login_path(:referer => edit_redaction_path(redaction))
   end
 
   def test_edit_moderator
     session[:user] = create(:moderator_user).id
 
-    get :edit, :id => redactions(:example).id
+    get :edit, :id => create(:redaction).id
     assert_response :success
   end
 
   def test_edit_non_moderator
     session[:user] = create(:user).id
 
-    get :edit, :id => redactions(:example).id
+    get :edit, :id => create(:redaction).id
     assert_response :redirect
     assert_redirected_to(redactions_path)
   end
@@ -148,7 +148,7 @@ class RedactionsControllerTest < ActionController::TestCase
   def test_update_moderator
     session[:user] = create(:moderator_user).id
 
-    redaction = redactions(:example)
+    redaction = create(:redaction)
 
     put :update, :id => redaction.id, :redaction => { :title => "Foo", :description => "Description here." }
     assert_response :redirect
@@ -158,7 +158,7 @@ class RedactionsControllerTest < ActionController::TestCase
   def test_update_moderator_invalid
     session[:user] = create(:moderator_user).id
 
-    redaction = redactions(:example)
+    redaction = create(:redaction)
 
     put :update, :id => redaction.id, :redaction => { :title => "Foo", :description => "" }
     assert_response :success
@@ -168,7 +168,7 @@ class RedactionsControllerTest < ActionController::TestCase
   def test_updated_non_moderator
     session[:user] = create(:user).id
 
-    redaction = redactions(:example)
+    redaction = create(:redaction)
 
     put :update, :id => redaction.id, :redaction => { :title => "Foo", :description => "Description here." }
     assert_response :forbidden
