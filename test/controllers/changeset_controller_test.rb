@@ -98,7 +98,7 @@ class ChangesetControllerTest < ActionController::TestCase
   # -----------------------
 
   def test_create
-    basic_authorization users(:normal_user).email, "test"
+    basic_authorization create(:user, :data_public => false).email, "test"
     # Create the first user's changeset
     content "<osm><changeset>" +
             "<tag k='created_by' v='osm test suite checking changesets'/>" +
@@ -106,7 +106,7 @@ class ChangesetControllerTest < ActionController::TestCase
     put :create
     assert_require_public_data
 
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization create(:user).email, "test"
     # Create the first user's changeset
     content "<osm><changeset>" +
             "<tag k='created_by' v='osm test suite checking changesets'/>" +
@@ -133,13 +133,13 @@ class ChangesetControllerTest < ActionController::TestCase
   end
 
   def test_create_invalid
-    basic_authorization users(:normal_user).email, "test"
+    basic_authorization create(:user, :data_public => false).email, "test"
     content "<osm><changeset></osm>"
     put :create
     assert_require_public_data
 
     ## Try the public user
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization create(:user).email, "test"
     content "<osm><changeset></osm>"
     put :create
     assert_response :bad_request, "creating a invalid changeset should fail"
@@ -150,24 +150,24 @@ class ChangesetControllerTest < ActionController::TestCase
     put :create
     assert_response :unauthorized, "shouldn't be able to create a changeset with no auth"
 
-    ## Now try to with the non-public user
-    basic_authorization users(:normal_user).email, "test"
+    ## Now try to with a non-public user
+    basic_authorization create(:user, :data_public => false).email, "test"
     put :create
     assert_require_public_data
 
-    ## Try the inactive user
-    basic_authorization users(:inactive_user).email, "test"
+    ## Try an inactive user
+    basic_authorization create(:user, :pending).email, "test"
     put :create
     assert_inactive_user
 
-    ## Now try to use the public user
-    basic_authorization users(:public_user).email, "test"
+    ## Now try to use a normal user
+    basic_authorization create(:user).email, "test"
     put :create
     assert_response :bad_request, "creating a changeset with no content should fail"
   end
 
   def test_create_wrong_method
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization create(:user).email, "test"
     get :create
     assert_response :method_not_allowed
     post :create
@@ -228,12 +228,12 @@ class ChangesetControllerTest < ActionController::TestCase
     assert_response :unauthorized
 
     ## Try using the non-public user
-    basic_authorization users(:normal_user).email, "test"
+    basic_authorization changesets(:normal_user_first_change).user.email, "test"
     put :close, :id => changesets(:normal_user_first_change).id
     assert_require_public_data
 
     ## The try with the public user
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
 
     cs_id = changesets(:public_user_first_change).id
     put :close, :id => cs_id
@@ -248,7 +248,7 @@ class ChangesetControllerTest < ActionController::TestCase
   ##
   # test that a different user can't close another user's changeset
   def test_close_invalid
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization create(:user).email, "test"
 
     put :close, :id => changesets(:normal_user_first_change).id
     assert_response :conflict
@@ -258,7 +258,7 @@ class ChangesetControllerTest < ActionController::TestCase
   ##
   # test that you can't close using another method
   def test_close_method_invalid
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
 
     cs_id = changesets(:public_user_first_change).id
     get :close, :id => cs_id
@@ -284,7 +284,7 @@ class ChangesetControllerTest < ActionController::TestCase
     end
 
     # Now try with auth
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization create(:user).email, "test"
     cs_ids.each do |id|
       begin
         put :close, :id => id
@@ -330,7 +330,7 @@ EOF
                     "shouldnn't be able to upload a simple valid diff to changeset: #{@response.body}"
 
     ## Now try with a private user
-    basic_authorization users(:normal_user).email, "test"
+    basic_authorization changesets(:normal_user_first_change).user.email, "test"
     changeset_id = changesets(:normal_user_first_change).id
 
     # simple diff to change a node, way and relation by removing
@@ -360,7 +360,7 @@ EOF
                     "can't upload a simple valid diff to changeset: #{@response.body}"
 
     ## Now try with the public user
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
     changeset_id = changesets(:public_user_first_change).id
 
     # simple diff to change a node, way and relation by removing
@@ -398,7 +398,7 @@ EOF
   ##
   # upload something which creates new objects using placeholders
   def test_upload_create_valid
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
     cs_id = changesets(:public_user_first_change).id
 
     # simple diff to create a node way and relation using placeholders
@@ -461,7 +461,7 @@ EOF
   # test a complex delete where we delete elements which rely on eachother
   # in the same transaction.
   def test_upload_delete
-    basic_authorization users(:public_user).display_name, "test"
+    basic_authorization changesets(:public_user_first_change).user.display_name, "test"
 
     diff = XML::Document.new
     diff.root = XML::Node.new "osmChange"
@@ -502,7 +502,7 @@ EOF
   # test uploading a delete with no lat/lon, as they are optional in
   # the osmChange spec.
   def test_upload_nolatlon_delete
-    basic_authorization users(:public_user).display_name, "test"
+    basic_authorization changesets(:public_user_first_change).user.display_name, "test"
 
     node = current_nodes(:public_visible_node)
     cs = changesets(:public_user_first_change)
@@ -523,7 +523,7 @@ EOF
 
   def test_repeated_changeset_create
     30.times do
-      basic_authorization users(:public_user).email, "test"
+      basic_authorization create(:user).email, "test"
 
       # create a temporary changeset
       content "<osm><changeset>" +
@@ -537,7 +537,7 @@ EOF
   end
 
   def test_upload_large_changeset
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization create(:user).email, "test"
 
     # create a changeset
     content "<osm><changeset/></osm>"
@@ -591,7 +591,8 @@ EOF
   # test that deleting stuff in a transaction doesn't bypass the checks
   # to ensure that used elements are not deleted.
   def test_upload_delete_invalid
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
+    cs = changesets(:public_user_first_change)
 
     diff = XML::Document.new
     diff.root = XML::Node.new "osmChange"
@@ -603,7 +604,7 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => 2
+    post :upload, :id => cs.id
     assert_response :precondition_failed,
                     "shouldn't be able to upload a invalid deletion diff: #{@response.body}"
     assert_equal "Precondition failed: Way 3 is still used by relations 1.", @response.body
@@ -617,7 +618,8 @@ EOF
   ##
   # test that a conditional delete of an in use object works.
   def test_upload_delete_if_unused
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
+    cs = changesets(:public_user_first_change)
 
     diff = XML::Document.new
     diff.root = XML::Node.new "osmChange"
@@ -630,7 +632,7 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => 2
+    post :upload, :id => cs.id
     assert_response :success,
                     "can't do a conditional delete of in use objects: #{@response.body}"
 
@@ -667,7 +669,7 @@ EOF
   ##
   # upload an element with a really long tag value
   def test_upload_invalid_too_long_tag
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
     cs_id = changesets(:public_user_first_change).id
 
     # simple diff to create a node way and relation using placeholders
@@ -692,7 +694,7 @@ EOF
   # upload something which creates new objects and inserts them into
   # existing containers using placeholders.
   def test_upload_complex
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
     cs_id = changesets(:public_user_first_change).id
 
     # simple diff to create a node way and relation using placeholders
@@ -748,7 +750,7 @@ EOF
   # create a diff which references several changesets, which should cause
   # a rollback and none of the diff gets committed
   def test_upload_invalid_changesets
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
     cs_id = changesets(:public_user_first_change).id
 
     # simple diff to create a node way and relation using placeholders
@@ -795,7 +797,7 @@ EOF
   ##
   # upload multiple versions of the same element in the same diff.
   def test_upload_multiple_valid
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
     cs_id = changesets(:public_user_first_change).id
 
     # change the location of a node multiple times, each time referencing
@@ -832,7 +834,7 @@ EOF
   # upload multiple versions of the same element in the same diff, but
   # keep the version numbers the same.
   def test_upload_multiple_duplicate
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
     cs_id = changesets(:public_user_first_change).id
 
     diff = <<EOF
@@ -854,7 +856,7 @@ EOF
   ##
   # try to upload some elements without specifying the version
   def test_upload_missing_version
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
     cs_id = changesets(:public_user_first_change).id
 
     diff = <<EOF
@@ -875,7 +877,7 @@ EOF
   ##
   # try to upload with commands other than create, modify, or delete
   def test_action_upload_invalid
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
     cs_id = changesets(:public_user_first_change).id
 
     diff = <<EOF
@@ -895,7 +897,7 @@ EOF
   # upload a valid changeset which has a mixture of whitespace
   # to check a bug reported by ivansanchez (#1565).
   def test_upload_whitespace_valid
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
     changeset_id = changesets(:public_user_first_change).id
 
     diff = <<EOF
@@ -931,7 +933,7 @@ EOF
   # upload a valid changeset which has a mixture of whitespace
   # to check a bug reported by ivansanchez.
   def test_upload_reuse_placeholder_valid
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
     changeset_id = changesets(:public_user_first_change).id
 
     diff = <<EOF
@@ -965,7 +967,7 @@ EOF
   # test what happens if a diff upload re-uses placeholder IDs in an
   # illegal way.
   def test_upload_placeholder_invalid
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
     changeset_id = changesets(:public_user_first_change).id
 
     diff = <<EOF
@@ -989,7 +991,7 @@ EOF
   # test that uploading a way referencing invalid placeholders gives a
   # proper error, not a 500.
   def test_upload_placeholder_invalid_way
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
     changeset_id = changesets(:public_user_first_change).id
 
     diff = <<EOF
@@ -1044,7 +1046,7 @@ EOF
   # test that uploading a relation referencing invalid placeholders gives a
   # proper error, not a 500.
   def test_upload_placeholder_invalid_relation
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
     changeset_id = changesets(:public_user_first_change).id
 
     diff = <<EOF
@@ -1099,7 +1101,7 @@ EOF
   # test what happens if a diff is uploaded containing only a node
   # move.
   def test_upload_node_move
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization create(:user).email, "test"
 
     content "<osm><changeset>" +
             "<tag k='created_by' v='osm test suite checking changesets'/>" +
@@ -1137,7 +1139,7 @@ EOF
   ##
   # test what happens if a diff is uploaded adding a node to a way.
   def test_upload_way_extend
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization create(:user).email, "test"
 
     content "<osm><changeset>" +
             "<tag k='created_by' v='osm test suite checking changesets'/>" +
@@ -1176,7 +1178,7 @@ EOF
   ##
   # test for more issues in #1568
   def test_upload_empty_invalid
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
 
     ["<osmChange/>",
      "<osmChange></osmChange>",
@@ -1193,7 +1195,8 @@ EOF
   ##
   # test that the X-Error-Format header works to request XML errors
   def test_upload_xml_errors
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changesets(:public_user_first_change).user.email, "test"
+    cs = changesets(:public_user_first_change)
 
     # try and delete a node that is in use
     diff = XML::Document.new
@@ -1205,7 +1208,7 @@ EOF
     # upload it
     content diff
     error_format "xml"
-    post :upload, :id => 2
+    post :upload, :id => cs.id
     assert_response :success,
                     "failed to return error in XML format"
 
@@ -1219,8 +1222,8 @@ EOF
   # when we make some simple changes we get the same changes back from the
   # diff download.
   def test_diff_download_simple
-    ## First try with the normal user, which should get a forbidden
-    basic_authorization(users(:normal_user).email, "test")
+    ## First try with a non-public user, which should get a forbidden
+    basic_authorization(create(:user, :data_public => false).email, "test")
 
     # create a temporary changeset
     content "<osm><changeset>" +
@@ -1229,8 +1232,8 @@ EOF
     put :create
     assert_response :forbidden
 
-    ## Now try with the public user
-    basic_authorization(users(:public_user).email, "test")
+    ## Now try with a normal user
+    basic_authorization(create(:user).email, "test")
 
     # create a temporary changeset
     content "<osm><changeset>" +
@@ -1276,7 +1279,7 @@ EOF
   #
   # NOTE: the error turned out to be something else completely!
   def test_josm_upload
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:user).email, "test")
 
     # create a temporary changeset
     content "<osm><changeset>" +
@@ -1335,7 +1338,7 @@ OSMFILE
   # when we make some complex changes we get the same changes back from the
   # diff download.
   def test_diff_download_complex
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:user).email, "test")
 
     # create a temporary changeset
     content "<osm><changeset>" +
@@ -1409,7 +1412,7 @@ EOF
   # check that the bounding box of a changeset gets updated correctly
   # FIXME: This should really be moded to a integration test due to the with_controller
   def test_changeset_bbox
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization create(:user).email, "test"
 
     # create a new changeset
     content "<osm><changeset/></osm>"
@@ -1468,7 +1471,7 @@ EOF
   ##
   # test that the changeset :include method works as it should
   def test_changeset_include
-    basic_authorization users(:public_user).display_name, "test"
+    basic_authorization create(:user).display_name, "test"
 
     # create a new changeset
     content "<osm><changeset/></osm>"
@@ -1490,7 +1493,7 @@ EOF
   ##
   # test that a not found, wrong method with the expand bbox works as expected
   def test_changeset_expand_bbox_error
-    basic_authorization users(:public_user).display_name, "test"
+    basic_authorization create(:user).display_name, "test"
 
     # create a new changeset
     content "<osm><changeset/></osm>"
@@ -1626,7 +1629,7 @@ EOF
   ##
   # check updating tags on a changeset
   def test_changeset_update
-    ## First try with the non-public user
+    ## First try with a non-public user
     changeset = changesets(:normal_user_first_change)
     new_changeset = changeset.to_xml
     new_tag = XML::Node.new "tag"
@@ -1640,12 +1643,12 @@ EOF
     assert_response :unauthorized
 
     # try with the wrong authorization
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization create(:user).email, "test"
     put :update, :id => changeset.id
     assert_response :conflict
 
     # now this should get an unauthorized
-    basic_authorization users(:normal_user).email, "test"
+    basic_authorization changeset.user.email, "test"
     put :update, :id => changeset.id
     assert_require_public_data "user with their data non-public, shouldn't be able to edit their changeset"
 
@@ -1665,12 +1668,12 @@ EOF
     assert_response :unauthorized
 
     # try with the wrong authorization
-    basic_authorization users(:second_public_user).email, "test"
+    basic_authorization create(:user).email, "test"
     put :update, :id => changeset.id
     assert_response :conflict
 
     # now this should work...
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization changeset.user.email, "test"
     put :update, :id => changeset.id
     assert_response :success
 
@@ -1683,7 +1686,7 @@ EOF
   # check that a user different from the one who opened the changeset
   # can't modify it.
   def test_changeset_update_invalid
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization create(:user).email, "test"
 
     changeset = changesets(:normal_user_first_change)
     new_changeset = changeset.to_xml
@@ -1701,7 +1704,7 @@ EOF
   # check that a changeset can contain a certain max number of changes.
   ## FIXME should be changed to an integration test due to the with_controller
   def test_changeset_limits
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization create(:user).email, "test"
 
     # open a new changeset
     content "<osm><changeset/></osm>"
@@ -2038,7 +2041,7 @@ EOF
     post :comment, :id => changesets(:normal_user_closed_change).id, :text => "This is a comment"
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:user).email, "test")
 
     # bad changeset id
     assert_no_difference "ChangesetComment.count" do
@@ -2068,7 +2071,7 @@ EOF
   ##
   # test subscribe success
   def test_subscribe_success
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:user).email, "test")
     changeset = changesets(:normal_user_closed_change)
 
     assert_difference "changeset.subscribers.count", 1 do
@@ -2080,6 +2083,8 @@ EOF
   ##
   # test subscribe fail
   def test_subscribe_fail
+    user = create(:user)
+
     # unauthorized
     changeset = changesets(:normal_user_closed_change)
     assert_no_difference "changeset.subscribers.count" do
@@ -2087,7 +2092,7 @@ EOF
     end
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     # bad changeset id
     assert_no_difference "changeset.subscribers.count" do
@@ -2104,7 +2109,7 @@ EOF
 
     # trying to subscribe when already subscribed
     changeset = changesets(:normal_user_subscribed_change)
-    changeset.subscribers.push(users(:public_user))
+    changeset.subscribers.push(user)
     assert_no_difference "changeset.subscribers.count" do
       post :subscribe, :id => changeset.id
     end
@@ -2114,9 +2119,10 @@ EOF
   ##
   # test unsubscribe success
   def test_unsubscribe_success
-    basic_authorization(users(:public_user).email, "test")
+    user = create(:user)
+    basic_authorization(user.email, "test")
     changeset = changesets(:normal_user_subscribed_change)
-    changeset.subscribers.push(users(:public_user))
+    changeset.subscribers.push(user)
 
     assert_difference "changeset.subscribers.count", -1 do
       post :unsubscribe, :id => changeset.id
@@ -2134,7 +2140,7 @@ EOF
     end
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:user).email, "test")
 
     # bad changeset id
     assert_no_difference "changeset.subscribers.count" do
@@ -2168,14 +2174,14 @@ EOF
     assert_response :unauthorized
     assert_equal true, comment.reload.visible
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:user).email, "test")
 
     # not a moderator
     post :hide_comment, :id => comment.id
     assert_response :forbidden
     assert_equal true, comment.reload.visible
 
-    basic_authorization(users(:moderator_user).email, "test")
+    basic_authorization(create(:moderator_user).email, "test")
 
     # bad comment id
     post :hide_comment, :id => 999111
@@ -2189,7 +2195,7 @@ EOF
     comment = create(:changeset_comment)
     assert_equal true, comment.visible
 
-    basic_authorization(users(:moderator_user).email, "test")
+    basic_authorization(create(:moderator_user).email, "test")
 
     post :hide_comment, :id => comment.id
     assert_response :success
@@ -2207,14 +2213,14 @@ EOF
     assert_response :unauthorized
     assert_equal false, comment.reload.visible
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:user).email, "test")
 
     # not a moderator
     post :unhide_comment, :id => comment.id
     assert_response :forbidden
     assert_equal false, comment.reload.visible
 
-    basic_authorization(users(:moderator_user).email, "test")
+    basic_authorization(create(:moderator_user).email, "test")
 
     # bad comment id
     post :unhide_comment, :id => 999111
@@ -2228,7 +2234,7 @@ EOF
     comment = create(:changeset_comment, :visible => false)
     assert_equal false, comment.visible
 
-    basic_authorization(users(:moderator_user).email, "test")
+    basic_authorization(create(:moderator_user).email, "test")
 
     post :unhide_comment, :id => comment.id
     assert_response :success
