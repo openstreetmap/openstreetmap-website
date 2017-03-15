@@ -188,7 +188,7 @@ class OldNodeControllerTest < ActionController::TestCase
   # authorised.
   def test_redact_node_unauthorised
     do_redact_node(nodes(:node_with_versions_v3),
-                   redactions(:example))
+                   create(:redaction))
     assert_response :unauthorized, "should need to be authenticated to redact."
   end
 
@@ -196,10 +196,11 @@ class OldNodeControllerTest < ActionController::TestCase
   # test the redaction of an old version of a node, while being
   # authorised as a normal user.
   def test_redact_node_normal_user
-    basic_authorization(users(:public_user).email, "test")
+    user = create(:user)
+    basic_authorization(user.email, "test")
 
     do_redact_node(nodes(:node_with_versions_v3),
-                   redactions(:example))
+                   create(:redaction, :user => user))
     assert_response :forbidden, "should need to be moderator to redact."
   end
 
@@ -207,10 +208,11 @@ class OldNodeControllerTest < ActionController::TestCase
   # test that, even as moderator, the current version of a node
   # can't be redacted.
   def test_redact_node_current_version
-    basic_authorization(users(:moderator_user).email, "test")
+    moderator_user = create(:moderator_user)
+    basic_authorization(moderator_user.email, "test")
 
     do_redact_node(nodes(:node_with_versions_v4),
-                   redactions(:example))
+                   create(:redaction, :user => moderator_user))
     assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
   end
 
@@ -249,10 +251,11 @@ class OldNodeControllerTest < ActionController::TestCase
   # test the redaction of an old version of a node, while being
   # authorised as a moderator.
   def test_redact_node_moderator
+    moderator_user = create(:moderator_user)
     node = nodes(:node_with_versions_v3)
-    basic_authorization(users(:moderator_user).email, "test")
+    basic_authorization(moderator_user.email, "test")
 
-    do_redact_node(node, redactions(:example))
+    do_redact_node(node, create(:redaction, :user => moderator_user))
     assert_response :success, "should be OK to redact old version as moderator."
 
     # check moderator can still see the redacted data, when passing
@@ -274,14 +277,15 @@ class OldNodeControllerTest < ActionController::TestCase
   # testing that if the moderator drops auth, he can't see the
   # redacted stuff any more.
   def test_redact_node_is_redacted
+    moderator_user = create(:moderator_user)
     node = nodes(:node_with_versions_v3)
-    basic_authorization(users(:moderator_user).email, "test")
+    basic_authorization(moderator_user.email, "test")
 
-    do_redact_node(node, redactions(:example))
+    do_redact_node(node, create(:redaction, :user => moderator_user))
     assert_response :success, "should be OK to redact old version as moderator."
 
     # re-auth as non-moderator
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:user).email, "test")
 
     # check can't see the redacted data
     get :version, :id => node.node_id, :version => node.version
@@ -307,8 +311,9 @@ class OldNodeControllerTest < ActionController::TestCase
   # test the unredaction of an old version of a node, while being
   # authorised as a normal user.
   def test_unredact_node_normal_user
+    user = create(:user)
     node = nodes(:redacted_node_redacted_version)
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     post :redact, :id => node.node_id, :version => node.version
     assert_response :forbidden, "should need to be moderator to unredact."
@@ -318,8 +323,9 @@ class OldNodeControllerTest < ActionController::TestCase
   # test the unredaction of an old version of a node, while being
   # authorised as a moderator.
   def test_unredact_node_moderator
+    moderator_user = create(:moderator_user)
     node = nodes(:redacted_node_redacted_version)
-    basic_authorization(users(:moderator_user).email, "test")
+    basic_authorization(moderator_user.email, "test")
 
     post :redact, :id => node.node_id, :version => node.version
     assert_response :success, "should be OK to redact old version as moderator."
@@ -334,16 +340,16 @@ class OldNodeControllerTest < ActionController::TestCase
     assert_response :success, "Unredaction shouldn't have stopped history working."
     assert_select "osm node[id='#{node.node_id}'][version='#{node.version}']", 1, "node #{node.node_id} version #{node.version} should now be present in the history for moderators without passing flag."
 
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(create(:user).email, "test")
 
     # check normal user can now see the redacted data
     get :version, :id => node.node_id, :version => node.version
-    assert_response :success, "After unredaction, node should not be gone for moderator."
+    assert_response :success, "After unredaction, node should be visible to normal users."
 
     # and when accessed via history
     get :history, :id => node.node_id
     assert_response :success, "Unredaction shouldn't have stopped history working."
-    assert_select "osm node[id='#{node.node_id}'][version='#{node.version}']", 1, "node #{node.node_id} version #{node.version} should now be present in the history for moderators without passing flag."
+    assert_select "osm node[id='#{node.node_id}'][version='#{node.version}']", 1, "node #{node.node_id} version #{node.version} should now be present in the history for normal users without passing flag."
   end
 
   private
