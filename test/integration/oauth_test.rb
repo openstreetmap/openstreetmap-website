@@ -1,8 +1,6 @@
 require "test_helper"
 
 class OAuthTest < ActionDispatch::IntegrationTest
-  fixtures :users
-
   include OAuth::Helper
 
   def setup
@@ -10,7 +8,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
   end
 
   def test_oauth10_web_app
-    client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :user => users(:public_user), :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
+    client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
     post_via_redirect "/login", :username => client.user.email, :password => "test"
     assert_response :success
@@ -21,7 +19,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
   end
 
   def test_oauth10_desktop_app
-    client = create(:client_application, :user => users(:public_user), :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
+    client = create(:client_application, :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
     post_via_redirect "/login", :username => client.user.email, :password => "test"
     assert_response :success
@@ -31,7 +29,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
   end
 
   def test_oauth10a_web_app
-    client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :user => users(:public_user), :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
+    client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
     post_via_redirect "/login", :username => client.user.email, :password => "test"
     assert_response :success
@@ -42,7 +40,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
   end
 
   def test_oauth10a_desktop_app
-    client = create(:client_application, :user => users(:public_user), :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
+    client = create(:client_application, :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
     post_via_redirect "/login", :username => client.user.email, :password => "test"
     assert_response :success
@@ -167,7 +165,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [:allow_write_api, :allow_read_gpx]
 
-    trace = create(:trace, :user => users(:public_user))
+    trace = create(:trace, :user => client.user)
     signed_get "/api/0.6/gpx/#{trace.id}", :consumer => client, :token => token
     assert_response :success
 
@@ -230,7 +228,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
     assert_response :success
 
-    trace = create(:trace, :user => users(:public_user))
+    trace = create(:trace, :user => client.user)
     signed_get "/api/0.6/gpx/#{trace.id}", :consumer => client, :token => token
     assert_response :forbidden
 
@@ -279,7 +277,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, [:allow_write_api, :allow_read_gpx]
 
-    trace = create(:trace, :user => users(:public_user))
+    trace = create(:trace, :user => client.user)
     signed_get "/api/0.6/gpx/#{trace.id}", :consumer => client, :token => token
     assert_response :success
 
