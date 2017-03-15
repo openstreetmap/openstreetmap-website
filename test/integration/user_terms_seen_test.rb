@@ -1,15 +1,13 @@
 require "test_helper"
 
 class UserTermsSeenTest < ActionDispatch::IntegrationTest
-  fixtures :users
-
   def setup
     stub_hostip_requests
   end
 
   def test_api_blocked
     with_terms_seen(true) do
-      user = users(:terms_not_seen_user)
+      user = create(:user, :terms_seen => false)
 
       get "/api/#{API_VERSION}/user/preferences", nil, auth_header(user.display_name, "test")
       assert_response :forbidden
@@ -25,7 +23,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
 
   def test_terms_presented_at_login
     with_terms_seen(true) do
-      user = users(:terms_not_seen_user)
+      user = create(:user, :terms_seen => false)
 
       # try to log in
       get_via_redirect "/login"
@@ -51,7 +49,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
 
   def test_terms_cant_be_circumvented
     with_terms_seen(true) do
-      user = users(:terms_not_seen_user)
+      user = create(:user, :terms_seen => false)
 
       # try to log in
       get_via_redirect "/login"
