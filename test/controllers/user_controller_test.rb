@@ -733,7 +733,7 @@ class UserControllerTest < ActionController::TestCase
   end
 
   def test_reset_password
-    user = create(:user)
+    user = create(:user, :pending)
     # Test a request with no token
     get :reset_password
     assert_response :bad_request
