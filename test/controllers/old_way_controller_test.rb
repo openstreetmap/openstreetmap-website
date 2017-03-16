@@ -72,7 +72,7 @@ class OldWayControllerTest < ActionController::TestCase
   # authorised.
   def test_redact_way_unauthorised
     do_redact_way(ways(:way_with_versions_v3),
-                  redactions(:example))
+                  create(:redaction))
     assert_response :unauthorized, "should need to be authenticated to redact."
   end
 
@@ -80,10 +80,10 @@ class OldWayControllerTest < ActionController::TestCase
   # test the redaction of an old version of a way, while being
   # authorised as a normal user.
   def test_redact_way_normal_user
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:user).email, "test")
 
     do_redact_way(ways(:way_with_versions_v3),
-                  redactions(:example))
+                  create(:redaction))
     assert_response :forbidden, "should need to be moderator to redact."
   end
 
@@ -91,10 +91,10 @@ class OldWayControllerTest < ActionController::TestCase
   # test that, even as moderator, the current version of a way
   # can't be redacted.
   def test_redact_way_current_version
-    basic_authorization(users(:moderator_user).email, "test")
+    basic_authorization(create(:moderator_user).email, "test")
 
     do_redact_way(ways(:way_with_versions_v4),
-                  redactions(:example))
+                  create(:redaction))
     assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
   end
 
@@ -108,7 +108,7 @@ class OldWayControllerTest < ActionController::TestCase
     assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
 
     # not even to a logged-in user
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:user).email, "test")
     get :version, :id => way.way_id, :version => way.version
     assert_response :forbidden, "Redacted node shouldn't be visible via the version API, even when logged in."
   end
@@ -123,7 +123,7 @@ class OldWayControllerTest < ActionController::TestCase
     assert_select "osm way[id='#{way.way_id}'][version='#{way.version}']", 0, "redacted way #{way.way_id} version #{way.version} shouldn't be present in the history."
 
     # not even to a logged-in user
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:user).email, "test")
     get :version, :id => way.way_id, :version => way.version
     get :history, :id => way.way_id
     assert_response :success, "Redaction shouldn't have stopped history working."
@@ -135,9 +135,9 @@ class OldWayControllerTest < ActionController::TestCase
   # authorised as a moderator.
   def test_redact_way_moderator
     way = ways(:way_with_versions_v3)
-    basic_authorization(users(:moderator_user).email, "test")
+    basic_authorization(create(:moderator_user).email, "test")
 
-    do_redact_way(way, redactions(:example))
+    do_redact_way(way, create(:redaction))
     assert_response :success, "should be OK to redact old version as moderator."
 
     # check moderator can still see the redacted data, when passing
@@ -160,13 +160,13 @@ class OldWayControllerTest < ActionController::TestCase
   # redacted stuff any more.
   def test_redact_way_is_redacted
     way = ways(:way_with_versions_v3)
-    basic_authorization(users(:moderator_user).email, "test")
+    basic_authorization(create(:moderator_user).email, "test")
 
-    do_redact_way(way, redactions(:example))
+    do_redact_way(way, create(:redaction))
     assert_response :success, "should be OK to redact old version as moderator."
 
     # re-auth as non-moderator
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:user).email, "test")
 
     # check can't see the redacted data
     get :version, :id => way.way_id, :version => way.version
@@ -193,7 +193,7 @@ class OldWayControllerTest < ActionController::TestCase
   # authorised as a normal user.
   def test_unredact_way_normal_user
     way = ways(:way_with_redacted_versions_v3)
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:user).email, "test")
 
     post :redact, :id => way.way_id, :version => way.version
     assert_response :forbidden, "should need to be moderator to unredact."
@@ -203,8 +203,9 @@ class OldWayControllerTest < ActionController::TestCase
   # test the unredaction of an old version of a way, while being
   # authorised as a moderator.
   def test_unredact_way_moderator
+    moderator_user = create(:moderator_user)
     way = ways(:way_with_redacted_versions_v3)
-    basic_authorization(users(:moderator_user).email, "test")
+    basic_authorization(moderator_user.email, "test")
 
     post :redact, :id => way.way_id, :version => way.version
     assert_response :success, "should be OK to unredact old version as moderator."
@@ -278,7 +279,7 @@ class OldWayControllerTest < ActionController::TestCase
 
   def do_redact_way(way, redaction)
     get :version, :id => way.way_id, :version => way.version
-    assert_response :success, "should be able to get version #{way.version} of node #{way.way_id}."
+    assert_response :success, "should be able to get version #{way.version} of way #{way.way_id}."
 
     # now redact it
     post :redact, :id => way.way_id, :version => way.version, :redaction => redaction.id
