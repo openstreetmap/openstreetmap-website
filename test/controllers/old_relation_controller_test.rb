@@ -47,11 +47,10 @@ class OldRelationControllerTest < ActionController::TestCase
   # test the redaction of an old version of a relation, while being
   # authorised as a normal user.
   def test_redact_relation_normal_user
-    user = create(:user)
-    basic_authorization(user.email, "test")
+    basic_authorization(create(:user).email, "test")
 
     do_redact_relation(relations(:relation_with_versions_v3),
-                       create(:redaction, :user => user))
+                       create(:redaction))
     assert_response :forbidden, "should need to be moderator to redact."
   end
 
@@ -59,11 +58,10 @@ class OldRelationControllerTest < ActionController::TestCase
   # test that, even as moderator, the current version of a relation
   # can't be redacted.
   def test_redact_relation_current_version
-    moderator_user = create(:moderator_user)
-    basic_authorization(moderator_user.email, "test")
+    basic_authorization(create(:moderator_user).email, "test")
 
     do_redact_relation(relations(:relation_with_versions_v4),
-                       create(:redaction, :user => moderator_user))
+                       create(:redaction))
     assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
   end
 
@@ -103,11 +101,10 @@ class OldRelationControllerTest < ActionController::TestCase
   # test the redaction of an old version of a relation, while being
   # authorised as a moderator.
   def test_redact_relation_moderator
-    moderator_user = create(:moderator_user)
     relation = relations(:relation_with_versions_v3)
-    basic_authorization(moderator_user.email, "test")
+    basic_authorization(create(:moderator_user).email, "test")
 
-    do_redact_relation(relation, create(:redaction, :user => moderator_user))
+    do_redact_relation(relation, create(:redaction))
     assert_response :success, "should be OK to redact old version as moderator."
 
     # check moderator can still see the redacted data, when passing
@@ -129,11 +126,10 @@ class OldRelationControllerTest < ActionController::TestCase
   # testing that if the moderator drops auth, he can't see the
   # redacted stuff any more.
   def test_redact_relation_is_redacted
-    moderator_user = create(:moderator_user)
     relation = relations(:relation_with_versions_v3)
-    basic_authorization(moderator_user.email, "test")
+    basic_authorization(create(:moderator_user).email, "test")
 
-    do_redact_relation(relation, create(:redaction, :user => moderator_user))
+    do_redact_relation(relation, create(:redaction))
     assert_response :success, "should be OK to redact old version as moderator."
 
     # re-auth as non-moderator
