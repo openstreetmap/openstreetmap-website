@@ -204,18 +204,18 @@ is:
       closed_title: 'Minnispunktur með lausn #%{note_name}'
       hidden_title: 'Falinn minnispunktur #%{note_name}'
       open_by: Búið til af %{user} <abbr title='%{exact_time}'>fyrir %{when} síðan</abbr>
-      open_by_anonymous: Búið til af nafnlausum notanda <abbr title='{exact_time}'>fyrir
-        %{when} síðan</abbr>
+      open_by_anonymous: Búið til af nafnlausum notanda fyrir <abbr title='%{exact_time}'>%{when}
+        síðan</abbr>
       commented_by: Umsögn frá %{user} <abbr title='%{exact_time}'>fyrir %{when} síðan</abbr>
-      commented_by_anonymous: Umsögn frá nafnlausum notanda <abbr title='{exact_time}'>fyrir
-        %{when} síðan</abbr>
+      commented_by_anonymous: Umsögn frá nafnlausum notanda fyrir <abbr title='%{exact_time}'>%{when}
+        síðan</abbr>
       closed_by: Leyst af %{user} <abbr title='%{exact_time}'>fyrir %{when} síðan</abbr>
-      closed_by_anonymous: Leyst af nafnlausum notanda <abbr title='{exact_time}'>fyrir
-        %{when} síðan</abbr>
+      closed_by_anonymous: Leyst af nafnlausum notanda fyrir <abbr title='%{exact_time}'>%{when}
+        síðan</abbr>
       reopened_by: Endurvirkjað af %{user} <abbr title='%{exact_time}'>fyrir %{when}
         síðan</abbr>
-      reopened_by_anonymous: Endurvirkjað af nafnlausum notanda <abbr title='{exact_time}'>fyrir
-        %{when} síðan</abbr>
+      reopened_by_anonymous: Endurvirkjað af nafnlausum notanda fyrir <abbr title='%{exact_time}'>%{when}
+        síðan</abbr>
       hidden_by: Falið af %{user} <abbr title='%{exact_time}'>fyrir %{when} síðan</abbr>
     query:
       title: Rannsaka fitjur
@@ -598,6 +598,7 @@ is:
           vineyard: Vínekra
           "yes": Landnotkun
         leisure:
+          beach_resort: Strandbær
           bird_hide: Fuglaskoðunarhús
           club: Klúbbur
           common: Almenningur
@@ -660,6 +661,7 @@ is:
           rock: Rokk
           saddle: Söðull
           sand: Sandur
+          scree: Skriða
           scrub: Kjarr
           spring: Lind
           stone: Steinn
@@ -675,7 +677,9 @@ is:
           administrative: Stjórnsýsla
           architect: Arkítektar
           company: Fyrirtæki
+          employment_agency: Vinnumiðlun
           estate_agent: Fasteignasali
+          government: Stjórnarskrifstofa
           lawyer: Lögmaður
           travel_agent: Ferðaskrifstofa
           "yes": Skrifstofa
@@ -709,6 +713,10 @@ is:
         railway:
           abandoned: Aflögð járnbraut
           construction: Járnbraut í byggingu
+          disused: Aflögð járnbraut
+          disused_station: Aflögð járnbrautarstöð
+          funicular: Kláfbraut
+          halt: Lestarstopp
           historic_station: Söguleg lestarstöð
           level_crossing: Þverun brautarteina
           light_rail: Smálest
@@ -722,15 +730,20 @@ is:
           antiques: Antíkverslun
           art: Listmunaverslun
           bakery: Bakarí
+          beauty: Snyrtivöruverslun
+          beverages: Drykkjarfangaverslun
           bicycle: Hjólaverslun
           books: Bókabúð
           butcher: Slátrari
           car: Bílavöruverslun
           car_parts: Bílapartar
+          car_repair: Bílaviðgerðir
           carpet: Teppabúð
           clothes: Fataverslun
           computer: Tölvuverslun
+          copyshop: Ljósritunarverslun
           cosmetics: Snyrtivöruverslun
+          department_store: Kjörbúð
           dry_cleaning: Þurrhreinsun
           electronics: Raftækjaverslun
           estate_agent: Fasteignasali
@@ -805,6 +818,7 @@ is:
           dam: Vatnsaflsvirkjunin
           ditch: Skurður
           dock: Hafnarbakki
+          drain: Dren
           lock: Flóðgátt
           lock_gate: Hlið í skipastiga
           mooring: Bryggja
@@ -819,6 +833,8 @@ is:
         level5: Héraðsmörk
         level6: Sýslumörk
         level8: Borgarmörk
+        level9: Þorpsmörk
+        level10: Úthverfamörk
     description:
       title:
         osm_nominatim: Staðsetning frá <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
@@ -907,6 +923,9 @@ is:
         sama leyfi.
         <a href="http://opendatacommons.org/licenses/odbl/1.0/">Leyfistextinn</a>
         útskýrir réttindi þín og skyldur.
+      more_title_html: Finna út meira
+      contributors_title_html: Þeir sem hafa komið með framlög
+      infringement_title_html: Brot á höfundarrétti
       trademarks_title_html: <span id="trademarks"></span>Vörumerki
   welcome_page:
     title: Velkomin!
@@ -927,12 +946,15 @@ is:
       title: Hvernig á að hjálpa til
       join_the_community:
         title: Ganga í hópinn
+    other_concerns:
+      title: Önnur íhugunarefni
   help_page:
     title: Til að fá hjálp
     welcome:
       url: /velkomin
       title: Velkomin í OSM
     beginners_guide:
+      url: http://wiki.openstreetmap.org/wiki/Beginners%27_guide
       title: Byrjenda-leiðbeiningar
     help:
       url: https://help.openstreetmap.org/
@@ -969,6 +991,7 @@ is:
       hi: Hæ %{to_user},
       header: '%{from_user} hefur send þér skilaboð á OpenStreetMap með titlinum „%{subject}“:'
     friend_notification:
+      hi: Hæ %{to_user},
       subject: '[OpenStreetMap] %{user} bætti þér við sem vin'
       had_added_you: Notandinn %{user} hefur bætt þér við sem vini á OpenStreetMap.
       see_their_profile: Þú getur séð notandasíðu notandans á %{userurl} og jafnvel
@@ -1024,7 +1047,10 @@ is:
       anonymous: Nafnlaus notandi
       greeting: Hæ,
     changeset_comment_notification:
+      hi: Hæ %{to_user},
       greeting: Hæ,
+      commented:
+        partial_changeset_without_comment: án athugasemdar
   message:
     inbox:
       title: Innhólf
@@ -1187,7 +1213,9 @@ is:
           private: Einkaaðgangur
           destination: Umferð leyfileg á ákveðinn áfangastað
           construction: Vegir í byggingu
+          bicycle_shop: Hjólaverslun
           bicycle_parking: Reiðhjólastæði
+          toilets: Salerni
     richtext_area:
       edit: Breyta
       preview: Forskoðun
@@ -1366,6 +1394,8 @@ is:
       allow_write_notes: Breyta minnispunktum.
     index:
       title: OAuth stillingar
+      application: Heiti forrits
+      issued_at: Gefið út þann
       revoke: Eyða banninu
       my_apps: Mín forrit
       registered_apps: 'Þú hefur skráð eftirfarandi forrit:'
@@ -1417,6 +1447,10 @@ is:
           alt: Skrá inn með Windows Live aðgangi
         github:
           title: Skrá inn með GitHub
+          alt: Skrá inn með GitHub-aðgangi
+        wikipedia:
+          title: Skrá inn með Wikipedia
+          alt: Skrá inn með Wikipedia-aðgangi
         yahoo:
           title: Skrá inn með Yahoo
           alt: Skrá inn með Yahoo OpenID-aðgangi
@@ -1635,6 +1669,8 @@ is:
       button: Staðfesta
       success: Notandinn þinn hefur verið staðfestur.
       already active: Þessi notandaaðgangur hefur þegar verið staðfestur.
+    confirm_resend:
+      failure: Notandinn %{name} fannst ekki.
     confirm_email:
       heading: Staðfesta breytingu á netfangi
       press confirm button: Hér getur þú staðfest breytingu á netfangi.
@@ -1663,6 +1699,13 @@ is:
       confirm: Staðfesta valda notendur
       hide: Fela valda notendur
       empty: Engir samsvarandi notendur fundust
+    suspended:
+      title: Aðgangur frystur
+      heading: Aðgangur frystur
+      webmaster: vefstjóri
+    auth_failure:
+      no_authorization_code: Enginn auðkenningarkóði
+      invalid_scope: Ógilt notkunarsvið
   user_role:
     filter:
       not_an_administrator: Aðeins möppudýr geta sýslað með leyfi, og þú ert ekki
@@ -1742,6 +1785,7 @@ is:
       status: Staða
       revoker_name: Eytt af
       not_revoked: (ekki eytt)
+      showing_page: Síða %{page}
       next: Næsta »
       previous: « Fyrri
     helper:
@@ -1775,7 +1819,15 @@ is:
   note:
     description:
       opened_at_html: Búið til fyrir %{when} síðan
+      opened_at_by_html: Búið til fyrir %{when} síðan af %{user}
+      commented_at_html: Uppfært fyrir %{when} síðan
+      commented_at_by_html: Uppfært fyrir %{when} síðan af %{user}
+      closed_at_html: Leyst fyrir %{when} síðan
+      closed_at_by_html: Leyst fyrir %{when} síðan af %{user}
+      reopened_at_html: Endurvirkjað fyrir %{when} síðan
+      reopened_at_by_html: Endurvirkjað fyrir %{when} síðan af %{user}
     rss:
+      title: Minnispunktar OpenStreetMap
       opened: nýr minnispunktur (nálægt %{place})
       closed: lokaður minnispunktur (nálægt %{place})
       reopened: endurvirkjaður minnispunktur (nálægt %{place})
@@ -1800,14 +1852,20 @@ is:
       long_link: Tengill
       short_link: Stuttur tengill
       embed: HTML
+      custom_dimensions: Setja sérsniðnar stærðir
       format: 'Snið:'
       scale: 'Kvarði:'
       download: Sækja
       short_url: Stutt URL-slóð
+      center_marker: Miðja kort á merki
       paste_html: Notaðu þennan HTML kóða til að bæta kortinu á vefsíðu
       view_larger_map: Skoða stærra kort
     embed:
       report_problem: Tilkynna vandamál
+    key:
+      title: Kortaskýringar
+      tooltip: Kortaskýringar
+      tooltip_disabled: Kortaskýringar ekki tiltækar fyrir þetta lag
     map:
       zoom:
         in: Renna að
@@ -1870,6 +1928,7 @@ is:
         no_place: Því miður, gat ekki fundið þennan stað.
       instructions:
         continue_without_exit: Halda áfram á %{name}
+        follow_without_exit: Fylgja %{name}
         unnamed: ónefnd gata
       time: Tími
     query:
