@@ -48,6 +48,19 @@ class NodeTest < ActiveSupport::TestCase
     assert_equal false, node.valid?
   end
 
+  def test_lat_lon
+    node = build(:node, :latitude => 12.345 * OldNode::SCALE, :longitude => 34.567 * OldNode::SCALE)
+
+    assert_in_delta 12.345, node.lat, 0.0000001
+    assert_in_delta 34.567, node.lon, 0.0000001
+
+    node.lat = 54.321
+    node.lon = 76.543
+
+    assert_in_delta 54.321 * OldNode::SCALE, node.latitude, 0.000001
+    assert_in_delta 76.543 * OldNode::SCALE, node.longitude, 0.000001
+  end
+
   # Check that you can create a node and store it
   def test_create
     changeset = create(:changeset)
