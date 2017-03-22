@@ -3,8 +3,7 @@ FactoryGirl.define do
     sequence(:body) { |n| "Changeset comment #{n}" }
     visible true
 
-    # FIXME: needs changeset factory
-    changeset_id 3
+    changeset
 
     association :author, :factory => :user
   end

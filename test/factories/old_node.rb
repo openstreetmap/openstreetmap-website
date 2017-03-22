@@ -3,8 +3,7 @@ FactoryGirl.define do
     latitude 1 * GeoRecord::SCALE
     longitude 1 * GeoRecord::SCALE
 
-    # FIXME: needs changeset factory
-    changeset_id 1
+    changeset
 
     # FIXME: needs node factory
     node_id 1000
