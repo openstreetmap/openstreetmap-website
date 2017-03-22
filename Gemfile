@@ -95,6 +95,9 @@ gem "kgio"
 # Load secure_headers for Content-Security-Policy support
 gem "secure_headers"
 
+# Load canonical-rails to generate canonical URLs
+gem "canonical-rails"
+
 # Used to generate logstash friendly log files
 gem "logstasher"
 
