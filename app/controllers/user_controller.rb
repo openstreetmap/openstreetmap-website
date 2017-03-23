@@ -706,6 +706,8 @@ class UserController < ApplicationController
       user.auth_uid = nil
     end
 
+    user.preferred_email_format = params[:user][:preferred_email_format]
+
     if user.save
       set_locale
 

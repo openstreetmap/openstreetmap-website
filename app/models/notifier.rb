@@ -4,7 +4,6 @@ class Notifier < ActionMailer::Base
           :auto_submitted => "auto-generated"
   helper :application
   before_action :set_shared_template_vars
-  before_action :attach_project_logo
 
   def signup_confirm(user, token)
     with_recipient_locale user do
@@ -13,8 +12,8 @@ class Notifier < ActionMailer::Base
                      :display_name => user.display_name,
                      :confirm_string => token.token)
 
-      mail :to => user.email,
-           :subject => I18n.t("notifier.signup_confirm.subject")
+      compose_mail user,
+                   :subject => I18n.t("notifier.signup_confirm.subject")
     end
   end
 
@@ -25,8 +24,9 @@ class Notifier < ActionMailer::Base
                      :controller => "user", :action => "confirm_email",
                      :confirm_string => token.token)
 
-      mail :to => user.new_email,
-           :subject => I18n.t("notifier.email_confirm.subject")
+      compose_mail user,
+                   :subject => I18n.t("notifier.email_confirm.subject"),
+                   :to => user.new_email
     end
   end
 
@@ -36,8 +36,8 @@ class Notifier < ActionMailer::Base
                      :controller => "user", :action => "reset_password",
                      :token => token.token)
 
-      mail :to => user.email,
-           :subject => I18n.t("notifier.lost_password.subject")
+      compose_mail user,
+                   :subject => I18n.t("notifier.lost_password.subject")
     end
   end
 
@@ -49,8 +49,8 @@ class Notifier < ActionMailer::Base
       @trace_tags = trace.tags
       @possible_points = possible_points
 
-      mail :to => trace.user.email,
-           :subject => I18n.t("notifier.gpx_notification.success.subject")
+      compose_mail trace.user,
+                   :subject => I18n.t("notifier.gpx_notification.success.subject")
     end
   end
 
@@ -61,8 +61,8 @@ class Notifier < ActionMailer::Base
       @trace_tags = trace.tags
       @error = error
 
-      mail :to => trace.user.email,
-           :subject => I18n.t("notifier.gpx_notification.failure.subject")
+      compose_mail trace.user,
+                   :subject => I18n.t("notifier.gpx_notification.failure.subject")
     end
   end
 
@@ -80,11 +80,10 @@ class Notifier < ActionMailer::Base
                           :message_id => message.id)
       @author = @from_user
 
-      attach_user_avatar(message.sender)
-
-      mail :from => from_address(message.sender.display_name, "m", message.id, message.digest),
-           :to => message.recipient.email,
-           :subject => I18n.t("notifier.message_notification.subject_header", :subject => message.title)
+      compose_mail message.recipient,
+                   :from => from_address(message.sender.display_name, "m", message.id, message.digest),
+                   :subject => I18n.t("notifier.message_notification.subject_header", :subject => message.title),
+                   :attach_avatar => message.sender
     end
   end
 
@@ -113,11 +112,10 @@ class Notifier < ActionMailer::Base
                           :title => "Re: #{comment.diary_entry.title}")
       @author = @from_user
 
-      attach_user_avatar(comment.user)
-
-      mail :from => from_address(comment.user.display_name, "c", comment.id, comment.digest, recipient.id),
-           :to => recipient.email,
-           :subject => I18n.t("notifier.diary_comment_notification.subject", :user => comment.user.display_name)
+      compose_mail recipient,
+                   :from => from_address(comment.user.display_name, "c", comment.id, comment.digest, recipient.id),
+                   :subject => I18n.t("notifier.diary_comment_notification.subject", :user => comment.user.display_name),
+                   :attach_avatar => comment.user
     end
   end
 
@@ -132,9 +130,9 @@ class Notifier < ActionMailer::Base
                            :display_name => @friend.befriender.display_name)
       @author = @friend.befriender.display_name
 
-      attach_user_avatar(@friend.befriender)
-      mail :to => friend.befriendee.email,
-           :subject => I18n.t("notifier.friend_notification.subject", :user => friend.befriender.display_name)
+      compose_mail friend.befriendee,
+                   :subject => I18n.t("notifier.friend_notification.subject", :user => friend.befriender.display_name),
+                   :attach_avatar => @friend.befriender
     end
   end
 
@@ -145,15 +143,12 @@ class Notifier < ActionMailer::Base
       @comment = comment.body
       @owner = recipient == comment.note.author
       @event = comment.event
-
       @commenter = if comment.author
                      comment.author.display_name
                    else
                      I18n.t("notifier.note_comment_notification.anonymous")
                    end
-
       @author = @commenter
-      attach_user_avatar(comment.author)
 
       subject = if @owner
                   I18n.t("notifier.note_comment_notification.#{@event}.subject_own", :commenter => @commenter)
@@ -161,7 +156,9 @@ class Notifier < ActionMailer::Base
                   I18n.t("notifier.note_comment_notification.#{@event}.subject_other", :commenter => @commenter)
                 end
 
-      mail :to => recipient.email, :subject => subject
+      compose_mail recipient,
+                   :subject => subject,
+                   :attach_avatar => comment.author
     end
   end
 
@@ -183,24 +180,40 @@ class Notifier < ActionMailer::Base
                   I18n.t("notifier.changeset_comment_notification.commented.subject_other", :commenter => @commenter)
                 end
 
-      attach_user_avatar(comment.author)
-
-      mail :to => recipient.email, :subject => subject
+      compose_mail recipient,
+                   :subject => subject,
+                   :attach_avatar => comment.author
     end
   end
 
   private
 
+  def compose_mail(recipient, options = {})
+    avatar_user = options.delete(:attach_avatar)
+    options[:to] ||= recipient.email
+    mail(options) do |format|
+      if recipient.preferred_email_format == "text_only"
+        format.text
+      else
+        unless recipient.preferred_email_format == "multipart"
+          logger.warn "Unknown email format '#{recipient.preferred_email_format}, treated as 'multipart'"
+        end
+        attach_images(avatar_user)
+        format.text
+        format.html
+      end
+    end
+  end
+
   def set_shared_template_vars
     @root_url = root_url(:host => SERVER_URL)
   end
 
-  def attach_project_logo
+  def attach_images(avatar_user)
     attachments.inline["logo.png"] = File.read(Rails.root.join("app", "assets", "images", "osm_logo_30.png"))
-  end
-
-  def attach_user_avatar(user)
-    attachments.inline["avatar.png"] = File.read(user_avatar_file_path(user))
+    unless avatar_user.nil?
+      attachments.inline["avatar.png"] = File.read(user_avatar_file_path(avatar_user))
+    end
   end
 
   def user_avatar_file_path(user)

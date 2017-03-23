@@ -51,7 +51,11 @@
       <%= f.select :auth_provider, Auth::PROVIDERS %>
       <%= f.text_field :auth_uid %>
       <span class="form-help deemphasize">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span>
-    </diV>
+    </div>
+    <div class="form-row">
+      <label class="standard-label"><%= t 'user.account.preferred_email_format' %></label>
+      <%= f.select :preferred_email_format, [[t('user.email_format.multipart'), 'multipart'], [t('user.email_format.text_only'), 'text_only']] %>
+    </div>
   </fieldset>
 
   <fieldset class="form-divider">
