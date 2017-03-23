@@ -16,6 +16,7 @@
 # Author: Misibacsi
 # Author: Máté
 # Author: Nemo bis
+# Author: Notramo
 # Author: R-Joe
 # Author: Ruila
 # Author: Samat
@@ -1184,17 +1185,28 @@ hu:
       title: Fórumok
     irc:
       title: IRC
+      description: Interaktív chat számos nyelven, számos témában.
     switch2osm:
       title: válts osm-re
+      description: Segíts cégeknek és szervezeteknek OpenStreetMap-alapú térképekre
+        és egyéb szolgáltatásokra váltani.
     wiki:
       url: https://wiki.openstreetmap.org/wiki/Hu:Main_Page
       title: wiki.openstreetmap.org
+      description: Böngészd a wikit mélyreható OSM dokumentációért.
   about_page:
     next: Következő
     copyright_html: <span>&copy;</span>OpenStreetMap<br />közreműködők
     used_by: '%{name} több ezer weboldalnak, mobilalkalmazásnak, és hardver-eszköznek
       biztosít térképadatokat'
+    lede_text: Az OpenStreetMapet egy térképszerkesztő-közösség építi, akik hozzáadnak
+      és karbantartanak adatokat világszerte utakról, ösvényekről, kávézókról, vasútállomásokról
+      és még sok mindenről.
     local_knowledge_title: Helyi tudásbázis
+    local_knowledge_html: Az OpenStreetMap hangsúlyt fektet a helyi ismeretekre. A
+      közreműködők műholdképeket, GPS-eszközöket és hagyományos térképeket használnak,
+      hogy ellenőrizzék az OSM pontosságát és naprakészségét.
+    community_driven_title: Közösség által vezérelt
     open_data_title: Szabad adatok
     legal_title: Jogi segítség
     partners_title: Partnerek
@@ -1293,9 +1305,9 @@ hu:
         subject_own: '[OpenStreetMap] %{commenter} újra megnyitotta az egyik jegyzetedet'
         subject_other: '[OpenStreetMap] %{commenter} újra megnyitotta az egyik jegyzetet,
           amelyet te is figyelsz'
-        your_note: '%{commenter} újra megnyitotta az egyik jegyzetedet %{place} közelében.'
-        commented_note: '%{commenter} újra megnyitotta az egyik jegyzetet amelyhez
-          te is hozzászóltál, %{place} közelében.'
+        your_note: '%{commenter} újraaktiválta a(z) %{place} közelében lévő jegyzetedet.'
+        commented_note: '%{commenter} újraaktivált egy jegyzetet, amihez te is hozzászóltál.
+          A jegyzet %{place} közelében van.'
       details: 'A jegyzetről további információk: %{url}.'
     changeset_comment_notification:
       hi: Szia %{to_user},
@@ -1304,7 +1316,13 @@ hu:
         subject_own: '[OpenStreetMap] %{commenter} hozzászólt az egyik változtatáscsomagodhoz'
         subject_other: '[OpenStreetMap] %{commenter} hozzászólt az egyik, általad
           érdekesnek vélt változtatáscsomaghoz'
+        your_changeset: '%{commenter} egy megjegyzést fűzött a %{time}-i módosításcsomagodhoz.'
+        commented_changeset: '%{commenter} egy megjegyzést fűzött %{changeset_author}
+          %{time}-i módosításcsomagjához, amit figyelsz.'
+        partial_changeset_with_comment: „%{changeset_comment}” megjegyzéssel
         partial_changeset_without_comment: hozzászólás nélkül
+      details: 'További részletek a módosításcsomagról a következő címen találhatók:
+        %{url}.'
   message:
     inbox:
       title: Beérkezett üzenetek
@@ -1628,6 +1646,8 @@ hu:
     require_moderator:
       not_a_moderator: A művelet végrehajtásához moderátornak kell lenned.
     setup_user_auth:
+      blocked_zero_hour: Sürgős üzeneted van az OpenStreetMap weboldalon. El kell
+        olvasnod az üzenetet, mielőtt elmentheted a változtatásokat.
       blocked: Az API-hoz való hozzáférésed blokkolva lett. Jelentkezz be a webes
         felületen a részletek megtekintéséhez.
       need_to_see_terms: Az API-hoz való hozzáférésed ideiglenesen felfüggesztésre
@@ -1659,6 +1679,8 @@ hu:
       invalid: A hitelesítő token érvénytelen.
     revoke:
       flash: Visszavontad az utalványt a(z) %{application} alkalmazáshoz
+    permissions:
+      missing: Nem engedted meg az alkalmazás számára, hogy hozzáférjen ehhez a létesítményhez
   oauth_clients:
     new:
       title: Új alkalmazás regisztrálása
@@ -1751,6 +1773,7 @@ hu:
       auth_providers:
         openid:
           title: Bejelentkezés OpenID-vel
+          alt: Bejelentkezés OpenID-URL-lel
         google:
           title: Bejelentkezés Google-lel
           alt: Bejelentkezés Google OpenID-vel
@@ -1824,6 +1847,8 @@ hu:
       password: 'Jelszó:'
       confirm password: 'Jelszó megerősítése:'
       use external auth: Alternatívaként használhatsz külső fiókokat a bejelentkezéshez
+      auth no password: Harmadik féltől származó hitelesítés esetén a jelszó nem kötelező,
+        de néhány extra eszköz vagy szerver igényelhet egyet.
       continue: Regisztráció
       terms accepted: Köszönjük, hogy elfogadtad az új hozzájárulási feltételeket!
       terms declined: Sajnáljuk, hogy úgy döntöttél, nem fogadod el az új hozzájárulási
@@ -2066,10 +2091,10 @@ hu:
       unknown_signature_algorithm: Ismeretlen aláírási algoritmus
     auth_association:
       heading: Az azonosítódhoz még nem tartozik OpenStreetMap fiók.
-      option_1: Ha most vagy itt először, készíts magadnak egy OpenStreetMap azonosítót
+      option_1: Ha most vagy itt először, készíts magadnak egy OpenStreetMap-fiókot
         a lenti űrlap segítségével.
-      option_2: Ha van már azonosítód akkor lépj be a neved és jelszavad segítségével
-        majd a beállításaidnál rendeld hozzá az ID-dhez.
+      option_2: Ha már van fiókod, bejelentkezhetsz a felhasználóneveddel és jelszavaddal,
+        majd összekapcsolhatod az azonosítóddal a beállításaidban.
   user_role:
     filter:
       not_an_administrator: Csak adminisztrátorok végezhetik a felhasználói szerepek
@@ -2328,6 +2353,8 @@ hu:
       instructions:
         continue_without_exit: Folyamatosan %{name}
         slight_right_without_exit: Enyhén jobbra %{name}
+        offramp_right_without_exit: 'Forduljon jobbra erre: %{name}'
+        endofroad_right_without_exit: 'Az út végén forduljon jobbra erre: %{name}'
         merge_right_without_exit: 'Forduljon jobbra, erre: %{name}'
         fork_right_without_exit: 'Az elágazásnál forduljon jobbra, erre: %{name}'
         turn_right_without_exit: Forduljon jobbra %{name}
@@ -2339,10 +2366,20 @@ hu:
         merge_left_without_exit: 'Forduljon balra, erre: %{name}'
         fork_left_without_exit: 'Az elágazásnál forduljon balra, erre: %{name}'
         slight_left_without_exit: Enhén balra %{name}
+        via_point_without_exit: (ponton keresztül)
         follow_without_exit: Kövesse %{name}
+        roundabout_without_exit: A körforgalomnál forduljon %{name} felé
         leave_roundabout_without_exit: Hagyja el körforgalmat - %{name}
         stay_roundabout_without_exit: Maradjon a körforgalomban - %{name}
+        start_without_exit: A(z) %{name} végénél induljon
+        destination_without_exit: Érkezés a célhoz
+        roundabout_with_exit: 'A körforgalomnál hajtson ki a(z) %{exit}. kijáraton
+          erre: %{name}'
+        turn_left_with_exit: 'A körforgalomban forduljon balra erre: %{name}'
+        turn_right_with_exit: 'A körforgalomban forduljon jobbra erre: %{name}'
+        continue_with_exit: 'A körforgalomnál menjen tovább egyenesen ezen: %{name}'
         unnamed: névtelen út
+        courtesy: Útvonaltervezés a(z) %{link} jóvoltából
       time: Időpont
     query:
       node: Csomópont
