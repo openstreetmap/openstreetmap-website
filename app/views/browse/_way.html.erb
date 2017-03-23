@@ -10,6 +10,13 @@
   <div class='browse-section browse-way'>
     <%= render :partial => "common_details", :object => way %>
 
+    <% unless way.containing_relation_members.empty? %>
+      <h4><%= t'browse.part_of' %></h4>
+      <ul>
+        <%= render :partial => "containing_relation", :collection => way.containing_relation_members.uniq %>
+      </ul>
+    <% end %>
+
     <% unless way.way_nodes.empty? %>
       <h4><%= t'browse.way.nodes' %></h4>
       <ul>
@@ -22,13 +29,6 @@
             <% end %>
           </li>
         <% end %>
-      </ul>
-    <% end %>
-
-    <% unless way.containing_relation_members.empty? %>
-      <h4><%= t'browse.part_of' %></h4>
-      <ul>
-        <%= render :partial => "containing_relation", :collection => way.containing_relation_members.uniq %>
       </ul>
     <% end %>
   </div>
