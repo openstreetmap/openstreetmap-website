@@ -6,7 +6,7 @@
 When writing code it is generally a good idea to try and match your
 formatting to that of any existing code in the same file, or to other
 similar files if you are writing new code. Consistency of layout is
-far more important that the layout itself as it makes reading code
+far more important than the layout itself as it makes reading code
 much easier.
 
 One golden rule of formatting -- please don't use tabs in your code
