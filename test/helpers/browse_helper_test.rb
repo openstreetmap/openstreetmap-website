@@ -17,77 +17,93 @@ class BrowseHelperTest < ActionView::TestCase
   end
 
   def test_printable_name
-    add_tags_selection(current_nodes(:node_with_name))
-    create(:node_tag, :node => current_nodes(:node_with_ref_without_name), :k => "ref", :v => "3.1415926")
-    add_old_tags_selection(nodes(:node_with_name_current_version))
-    add_old_tags_selection(nodes(:node_with_name_redacted_version))
+    node = create(:node, :with_history, :version => 2)
+    node_v1 = node.old_nodes.find_by(:version => 1)
+    node_v2 = node.old_nodes.find_by(:version => 2)
+    node_v1.redact!(create(:redaction))
 
-    # current_nodes(:redacted_node) is deleted, so has no tags.
-    assert_dom_equal "17", printable_name(current_nodes(:redacted_node))
-    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
-    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
-    assert_dom_equal "18", printable_name(nodes(:node_with_name_redacted_version))
-    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
-    assert_dom_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
-    assert_dom_equal "<bdi>3.1415926</bdi> (<bdi>19</bdi>)", printable_name(current_nodes(:node_with_ref_without_name))
+    add_tags_selection(node)
+    add_old_tags_selection(node_v2)
+    add_old_tags_selection(node_v1)
+
+    node_with_ref_without_name = create(:node)
+    create(:node_tag, :node => node_with_ref_without_name, :k => "ref", :v => "3.1415926")
+
+    deleted_node = create(:node, :deleted)
+
+    assert_dom_equal deleted_node.id.to_s, printable_name(deleted_node)
+    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>#{node.id}</bdi>)", printable_name(node)
+    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>#{node.id}</bdi>)", printable_name(node_v2)
+    assert_dom_equal node.id.to_s, printable_name(node_v1)
+    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>#{node.id}, v2</bdi>)", printable_name(node_v2, true)
+    assert_dom_equal "#{node.id}, v1", printable_name(node_v1, true)
+    assert_dom_equal "<bdi>3.1415926</bdi> (<bdi>#{node_with_ref_without_name.id}</bdi>)", printable_name(node_with_ref_without_name)
 
     I18n.locale = "pt"
 
-    assert_dom_equal "17", printable_name(current_nodes(:redacted_node))
-    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
-    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
-    assert_dom_equal "18", printable_name(nodes(:node_with_name_redacted_version))
-    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
-    assert_dom_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
-    assert_dom_equal "<bdi>3.1415926</bdi> (<bdi>19</bdi>)", printable_name(current_nodes(:node_with_ref_without_name))
+    assert_dom_equal deleted_node.id.to_s, printable_name(deleted_node)
+    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>#{node.id}</bdi>)", printable_name(node)
+    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>#{node.id}</bdi>)", printable_name(node_v2)
+    assert_dom_equal node.id.to_s, printable_name(node_v1)
+    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>#{node.id}, v2</bdi>)", printable_name(node_v2, true)
+    assert_dom_equal "#{node.id}, v1", printable_name(node_v1, true)
+    assert_dom_equal "<bdi>3.1415926</bdi> (<bdi>#{node_with_ref_without_name.id}</bdi>)", printable_name(node_with_ref_without_name)
 
     I18n.locale = "pt-BR"
 
-    assert_dom_equal "17", printable_name(current_nodes(:redacted_node))
-    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
-    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
-    assert_dom_equal "18", printable_name(nodes(:node_with_name_redacted_version))
-    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
-    assert_dom_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
-    assert_dom_equal "<bdi>3.1415926</bdi> (<bdi>19</bdi>)", printable_name(current_nodes(:node_with_ref_without_name))
+    assert_dom_equal deleted_node.id.to_s, printable_name(deleted_node)
+    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>#{node.id}</bdi>)", printable_name(node)
+    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>#{node.id}</bdi>)", printable_name(node_v2)
+    assert_dom_equal node.id.to_s, printable_name(node_v1)
+    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>#{node.id}, v2</bdi>)", printable_name(node_v2, true)
+    assert_dom_equal "#{node.id}, v1", printable_name(node_v1, true)
+    assert_dom_equal "<bdi>3.1415926</bdi> (<bdi>#{node_with_ref_without_name.id}</bdi>)", printable_name(node_with_ref_without_name)
 
     I18n.locale = "de"
 
-    assert_dom_equal "17", printable_name(current_nodes(:redacted_node))
-    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
-    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
-    assert_dom_equal "18", printable_name(nodes(:node_with_name_redacted_version))
-    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
-    assert_dom_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
-    assert_dom_equal "<bdi>3.1415926</bdi> (<bdi>19</bdi>)", printable_name(current_nodes(:node_with_ref_without_name))
+    assert_dom_equal deleted_node.id.to_s, printable_name(deleted_node)
+    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>#{node.id}</bdi>)", printable_name(node)
+    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>#{node.id}</bdi>)", printable_name(node_v2)
+    assert_dom_equal node.id.to_s, printable_name(node_v1)
+    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>#{node.id}, v2</bdi>)", printable_name(node_v2, true)
+    assert_dom_equal "#{node.id}, v1", printable_name(node_v1, true)
+    assert_dom_equal "<bdi>3.1415926</bdi> (<bdi>#{node_with_ref_without_name.id}</bdi>)", printable_name(node_with_ref_without_name)
   end
 
   def test_link_class
-    add_tags_selection(current_nodes(:node_with_name))
+    node = create(:node, :with_history, :version => 2)
+    node_v1 = node.old_nodes.find_by(:version => 1)
+    node_v2 = node.old_nodes.find_by(:version => 2)
+    node_v1.redact!(create(:redaction))
 
-    assert_equal "node", link_class("node", current_nodes(:visible_node))
-    assert_equal "node deleted", link_class("node", current_nodes(:invisible_node))
-    assert_equal "node deleted", link_class("node", current_nodes(:redacted_node))
-    assert_equal "node building yes shop gift tourism museum", link_class("node", current_nodes(:node_with_name))
+    add_tags_selection(node)
+    add_old_tags_selection(node_v2)
+    add_old_tags_selection(node_v1)
 
-    add_old_tags_selection(nodes(:node_with_name_current_version))
-    add_old_tags_selection(nodes(:node_with_name_redacted_version))
-    assert_equal "node building yes shop gift tourism museum", link_class("node", nodes(:node_with_name_current_version))
-    assert_equal "node deleted", link_class("node", nodes(:node_with_name_redacted_version))
+    assert_equal "node", link_class("node", create(:node))
+    assert_equal "node deleted", link_class("node", create(:node, :deleted))
+
+    assert_equal "node building yes shop gift tourism museum", link_class("node", node)
+    assert_equal "node building yes shop gift tourism museum", link_class("node", node_v2)
+    assert_equal "node deleted", link_class("node", node_v1)
   end
 
   def test_link_title
-    add_tags_selection(current_nodes(:node_with_name))
+    node = create(:node, :with_history, :version => 2)
+    node_v1 = node.old_nodes.find_by(:version => 1)
+    node_v2 = node.old_nodes.find_by(:version => 2)
+    node_v1.redact!(create(:redaction))
 
-    assert_equal "", link_title(current_nodes(:visible_node))
-    assert_equal "", link_title(current_nodes(:invisible_node))
-    assert_equal "", link_title(current_nodes(:redacted_node))
-    assert_equal "building=yes, shop=gift, and tourism=museum", link_title(current_nodes(:node_with_name))
+    add_tags_selection(node)
+    add_old_tags_selection(node_v2)
+    add_old_tags_selection(node_v1)
 
-    add_old_tags_selection(nodes(:node_with_name_current_version))
-    add_old_tags_selection(nodes(:node_with_name_redacted_version))
-    assert_equal "building=yes, shop=gift, and tourism=museum", link_title(nodes(:node_with_name_current_version))
-    assert_equal "", link_title(nodes(:node_with_name_redacted_version))
+    assert_equal "", link_title(create(:node))
+    assert_equal "", link_title(create(:node, :deleted))
+
+    assert_equal "building=yes, shop=gift, and tourism=museum", link_title(node)
+    assert_equal "building=yes, shop=gift, and tourism=museum", link_title(node_v2)
+    assert_equal "", link_title(node_v1)
   end
 
   def test_format_key
@@ -122,24 +138,29 @@ class BrowseHelperTest < ActionView::TestCase
   end
 
   def test_icon_tags
-    add_tags_selection(current_nodes(:node_with_name))
+    node = create(:node, :with_history, :version => 2)
+    node_v1 = node.old_nodes.find_by(:version => 1)
+    node_v2 = node.old_nodes.find_by(:version => 2)
+    node_v1.redact!(create(:redaction))
 
-    tags = icon_tags(current_nodes(:node_with_name))
+    add_tags_selection(node)
+
+    tags = icon_tags(node)
     assert_equal 3, tags.count
     assert tags.include?(%w(building yes))
     assert tags.include?(%w(tourism museum))
     assert tags.include?(%w(shop gift))
 
-    add_old_tags_selection(nodes(:node_with_name_current_version))
-    add_old_tags_selection(nodes(:node_with_name_redacted_version))
+    add_old_tags_selection(node_v2)
+    add_old_tags_selection(node_v1)
 
-    tags = icon_tags(nodes(:node_with_name_current_version))
+    tags = icon_tags(node_v2)
     assert_equal 3, tags.count
     assert tags.include?(%w(building yes))
     assert tags.include?(%w(tourism museum))
     assert tags.include?(%w(shop gift))
 
-    tags = icon_tags(nodes(:node_with_name_redacted_version))
+    tags = icon_tags(node_v1)
     assert_equal 3, tags.count
     assert tags.include?(%w(building yes))
     assert tags.include?(%w(tourism museum))

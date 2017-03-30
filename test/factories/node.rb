@@ -9,6 +9,10 @@ FactoryGirl.define do
     timestamp Time.now
     version 1
 
+    trait :deleted do
+      visible false
+    end
+
     trait :with_history do
       after(:create) do |node, _evaluator|
         (1..node.version).each do |n|
