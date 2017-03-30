@@ -69,7 +69,7 @@ class ApiControllerTest < ActionController::TestCase
     assert_response :success, "Expected scucess with the map call"
     assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
       assert_select "bounds[minlon='#{minlon}'][minlat='#{minlat}'][maxlon='#{maxlon}'][maxlat='#{maxlat}']", :count => 1
-      assert_select "node[id='#{node.id}'][lat='#{node.lat}'][lon='#{node.lon}'][version='#{node.version}'][changeset='#{node.changeset_id}'][visible='#{node.visible}'][timestamp='#{node.timestamp.xmlschema}']", :count => 1 do
+      assert_select "node[id='#{node.id}'][lat='#{format('%.7f', node.lat)}'][lon='#{format('%.7f', node.lon)}'][version='#{node.version}'][changeset='#{node.changeset_id}'][visible='#{node.visible}'][timestamp='#{node.timestamp.xmlschema}']", :count => 1 do
         # This should really be more generic
         assert_select "tag[k='#{tag.k}'][v='#{tag.v}']"
       end
@@ -91,7 +91,7 @@ class ApiControllerTest < ActionController::TestCase
     assert_response :success, "The map call should have succeeded"
     assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
       assert_select "bounds[minlon='#{node.lon}'][minlat='#{node.lat}'][maxlon='#{node.lon}'][maxlat='#{node.lat}']", :count => 1
-      assert_select "node[id='#{node.id}'][lat='#{node.lat}'][lon='#{node.lon}'][version='#{node.version}'][changeset='#{node.changeset_id}'][visible='#{node.visible}'][timestamp='#{node.timestamp.xmlschema}']", :count => 1 do
+      assert_select "node[id='#{node.id}'][lat='#{format('%.7f', node.lat)}'][lon='#{format('%.7f', node.lon)}'][version='#{node.version}'][changeset='#{node.changeset_id}'][visible='#{node.visible}'][timestamp='#{node.timestamp.xmlschema}']", :count => 1 do
         # This should really be more generic
         assert_select "tag[k='#{tag.k}'][v='#{tag.v}']"
       end

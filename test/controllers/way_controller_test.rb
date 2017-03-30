@@ -74,7 +74,7 @@ class WayControllerTest < ActionController::TestCase
       way.nodes.each do |n|
         count = (way.nodes - (way.nodes - [n])).length
         assert_select "osm way nd[ref='#{n.id}']", count
-        assert_select "osm node[id='#{n.id}'][version='#{n.version}'][lat='#{n.lat}'][lon='#{n.lon}']", 1
+        assert_select "osm node[id='#{n.id}'][version='#{n.version}'][lat='#{format('%.7f', n.lat)}'][lon='#{format('%.7f', n.lon)}']", 1
       end
     end
   end
