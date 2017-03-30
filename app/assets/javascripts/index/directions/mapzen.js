@@ -34,7 +34,7 @@ function MapzenEngine(id, costing) {
 
   return {
     id: id,
-    creditline: "<a href='https://mapzen.com/projects/valhalla' target='_blank'>Mapzen</a>",
+    creditline: "<a href='https://mapzen.com/products/turn-by-turn/' target='_blank'>Mapzen</a>",
     draggable: false,
 
     getRoute: function (points, callback) {
