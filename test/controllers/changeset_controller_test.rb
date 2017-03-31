@@ -2032,6 +2032,40 @@ EOF
     assert_equal "[OpenStreetMap] pulibc_test2 has commented on a changeset you are interested in", email.subject
 
     ActionMailer::Base.deliveries.clear
+
+    changeset.subscribers.clear
+    changeset.subscribers.push(users(:text_only_emails_user))
+
+    assert_difference "ChangesetComment.count", 1 do
+      assert_difference "ActionMailer::Base.deliveries.size", 1 do
+        post :comment, :id => changeset.id, :text => "This is a comment"
+      end
+    end
+    assert_response :success
+
+    email = ActionMailer::Base.deliveries.first
+    assert_empty email.parts # should not be a multipart message
+    assert_match "This is a comment", email.to_s
+
+    ActionMailer::Base.deliveries.clear
+
+    changeset.subscribers.clear
+    changeset.subscribers.push(users(:multipart_emails_user))
+
+    assert_difference "ChangesetComment.count", 1 do
+      assert_difference "ActionMailer::Base.deliveries.size", 1 do
+        post :comment, :id => changeset.id, :text => "This is a comment"
+      end
+    end
+    assert_response :success
+
+    email = ActionMailer::Base.deliveries.first
+    assert_not_empty email.parts # should be a multipart message
+    email_text_parts(email).each do |part|
+      assert_match "This is a comment", part.to_s
+    end
+
+    ActionMailer::Base.deliveries.clear
   end
 
   ##
