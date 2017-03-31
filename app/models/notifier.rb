@@ -189,7 +189,8 @@ class Notifier < ActionMailer::Base
   private
 
   def compose_mail(recipient, options = {})
-    avatar_user = options.delete(:attach_avatar)
+    needs_avatar = options.include? :attach_avatar
+    avatar_user = options.delete :attach_avatar
     options[:to] ||= recipient.email
     mail(options) do |format|
       if recipient.preferred_email_format == "text_only"
@@ -198,7 +199,7 @@ class Notifier < ActionMailer::Base
         unless recipient.preferred_email_format == "multipart"
           logger.warn "Unknown email format '#{recipient.preferred_email_format}, treated as 'multipart'"
         end
-        attach_images(avatar_user)
+        attach_images(needs_avatar, avatar_user)
         format.text
         format.html
       end
@@ -209,9 +210,10 @@ class Notifier < ActionMailer::Base
     @root_url = root_url(:host => SERVER_URL)
   end
 
-  def attach_images(avatar_user)
+  def attach_images(needs_avatar, avatar_user)
+    # NB we could have (needs_avatar==true && avatar_user.nil?) iff this is an anonymous comment
     attachments.inline["logo.png"] = File.read(Rails.root.join("app", "assets", "images", "osm_logo_30.png"))
-    unless avatar_user.nil?
+    if needs_avatar
       attachments.inline["avatar.png"] = File.read(user_avatar_file_path(avatar_user))
     end
   end
