@@ -62,11 +62,11 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_read_node
-    browse_check "node", nodes(:visible_node).node_id, "browse/feature"
+    browse_check "node", create(:node).id, "browse/feature"
   end
 
   def test_read_node_history
-    browse_check "node_history", nodes(:visible_node).node_id, "browse/history"
+    browse_check "node_history", create(:node, :with_history).id, "browse/history"
   end
 
   def test_read_changeset
@@ -75,15 +75,16 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_read_changeset_hidden_comments
-    create_list(:changeset_comment, 3)
-    create(:changeset_comment, :visible => false)
+    changeset = create(:changeset)
+    create_list(:changeset_comment, 3, :changeset => changeset)
+    create(:changeset_comment, :visible => false, :changeset => changeset)
 
-    browse_check "changeset", changesets(:normal_user_closed_change).id, "browse/changeset"
+    browse_check "changeset", changeset.id, "browse/changeset"
     assert_select "div.changeset-comments ul li", :count => 3
 
     session[:user] = create(:moderator_user).id
 
-    browse_check "changeset", changesets(:normal_user_closed_change).id, "browse/changeset"
+    browse_check "changeset", changeset.id, "browse/changeset"
     assert_select "div.changeset-comments ul li", :count => 4
   end
 
@@ -134,7 +135,11 @@ class BrowseControllerTest < ActionController::TestCase
   # then please make it more easily (and robustly) testable!
   ##
   def test_redacted_node
-    get :node, :id => current_nodes(:redacted_node).id
+    node = create(:node, :with_history, :deleted, :version => 2)
+    node_v1 = node.old_nodes.find_by(:version => 1)
+    node_v1.redact!(create(:redaction))
+
+    get :node, :id => node.id
     assert_response :success
     assert_template "feature"
 
@@ -146,7 +151,11 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_redacted_node_history
-    get :node_history, :id => nodes(:redacted_node_redacted_version).node_id
+    node = create(:node, :with_history, :deleted, :version => 2)
+    node_v1 = node.old_nodes.find_by(:version => 1)
+    node_v1.redact!(create(:redaction))
+
+    get :node_history, :id => node.id
     assert_response :success
     assert_template "browse/history"
 

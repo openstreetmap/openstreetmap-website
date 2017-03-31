@@ -3,88 +3,83 @@ require "test_helper"
 class NodeTest < ActiveSupport::TestCase
   api_fixtures
 
-  def test_node_count
-    assert_equal 19, Node.count
-  end
-
   def test_node_too_far_north
-    invalid_node_test(:node_too_far_north)
+    node = build(:node, :latitude => 90.01 * OldNode::SCALE)
+    assert_equal false, node.valid?
   end
 
   def test_node_north_limit
-    valid_node_test(:node_north_limit)
-  end
-
-  def test_node_too_far_south
-    invalid_node_test(:node_too_far_south)
-  end
-
-  def test_node_south_limit
-    valid_node_test(:node_south_limit)
-  end
-
-  def test_node_too_far_west
-    invalid_node_test(:node_too_far_west)
-  end
-
-  def test_node_west_limit
-    valid_node_test(:node_west_limit)
-  end
-
-  def test_node_too_far_east
-    invalid_node_test(:node_too_far_east)
-  end
-
-  def test_node_east_limit
-    valid_node_test(:node_east_limit)
-  end
-
-  def test_totally_wrong
-    invalid_node_test(:node_totally_wrong)
-  end
-
-  # This helper method will check to make sure that a node is within the world, and
-  # has the the same lat, lon and timestamp than what was put into the db by
-  # the fixture
-  def valid_node_test(nod)
-    node = current_nodes(nod)
-    dbnode = Node.find(node.id)
-    assert_equal dbnode.lat, node.latitude.to_f / Node::SCALE
-    assert_equal dbnode.lon, node.longitude.to_f / Node::SCALE
-    assert_equal dbnode.changeset_id, node.changeset_id
-    assert_equal dbnode.timestamp, node.timestamp
-    assert_equal dbnode.version, node.version
-    assert_equal dbnode.visible, node.visible
-    # assert_equal node.tile, QuadTile.tile_for_point(node.lat, node.lon)
+    node = build(:node, :latitude => 90 * OldNode::SCALE)
     assert node.valid?
   end
 
-  # This helper method will check to make sure that a node is outwith the world,
-  # and has the same lat, lon and timesamp than what was put into the db by the
-  # fixture
-  def invalid_node_test(nod)
-    node = current_nodes(nod)
-    dbnode = Node.find(node.id)
-    assert_equal dbnode.lat, node.latitude.to_f / Node::SCALE
-    assert_equal dbnode.lon, node.longitude.to_f / Node::SCALE
-    assert_equal dbnode.changeset_id, node.changeset_id
-    assert_equal dbnode.timestamp, node.timestamp
-    assert_equal dbnode.version, node.version
-    assert_equal dbnode.visible, node.visible
-    # assert_equal node.tile, QuadTile.tile_for_point(node.lat, node.lon)
-    assert_equal false, dbnode.valid?
+  def test_node_too_far_south
+    node = build(:node, :latitude => -90.01 * OldNode::SCALE)
+    assert_equal false, node.valid?
+  end
+
+  def test_node_south_limit
+    node = build(:node, :latitude => -90 * OldNode::SCALE)
+    assert node.valid?
+  end
+
+  def test_node_too_far_west
+    node = build(:node, :longitude => -180.01 * OldNode::SCALE)
+    assert_equal false, node.valid?
+  end
+
+  def test_node_west_limit
+    node = build(:node, :longitude => -180 * OldNode::SCALE)
+    assert node.valid?
+  end
+
+  def test_node_too_far_east
+    node = build(:node, :longitude => 180.01 * OldNode::SCALE)
+    assert_equal false, node.valid?
+  end
+
+  def test_node_east_limit
+    node = build(:node, :longitude => 180 * OldNode::SCALE)
+    assert node.valid?
+  end
+
+  def test_totally_wrong
+    node = build(:node, :latitude => 200 * OldNode::SCALE, :longitude => 200 * OldNode::SCALE)
+    assert_equal false, node.valid?
+  end
+
+  def test_lat_lon
+    node = build(:node, :latitude => 12.345 * OldNode::SCALE, :longitude => 34.567 * OldNode::SCALE)
+
+    assert_in_delta 12.345, node.lat, 0.0000001
+    assert_in_delta 34.567, node.lon, 0.0000001
+
+    node.lat = 54.321
+    node.lon = 76.543
+
+    assert_in_delta 54.321 * OldNode::SCALE, node.latitude, 0.000001
+    assert_in_delta 76.543 * OldNode::SCALE, node.longitude, 0.000001
+  end
+
+  # Ensure the lat/lon is formatted as a decimal e.g. not 4.0e-05
+  def test_lat_lon_xml_format
+    node = build(:node, :latitude => 0.00004 * OldNode::SCALE, :longitude => 0.00008 * OldNode::SCALE)
+
+    assert_match /lat="0.0000400"/, node.to_xml.to_s
+    assert_match /lon="0.0000800"/, node.to_xml.to_s
   end
 
   # Check that you can create a node and store it
   def test_create
+    changeset = create(:changeset)
     node_template = Node.new(
       :latitude => 12.3456,
       :longitude => 65.4321,
-      :changeset_id => changesets(:normal_user_first_change).id,
+      :changeset_id => changeset.id,
       :visible => 1,
       :version => 1
     )
-    assert node_template.create_with_history(changesets(:normal_user_first_change).user)
+    assert node_template.create_with_history(changeset.user)
 
     node = Node.find(node_template.id)
     assert_not_nil node
@@ -106,17 +101,18 @@ class NodeTest < ActiveSupport::TestCase
   end
 
   def test_update
-    node_template = Node.find(current_nodes(:visible_node).id)
-    assert_not_nil node_template
+    node = create(:node)
+    create(:old_node, :node_id => node.id, :version => 1)
+    node_template = Node.find(node.id)
 
+    assert_not_nil node_template
     assert_equal OldNode.where(:node_id => node_template.id).count, 1
-    node = Node.find(node_template.id)
     assert_not_nil node
 
     node_template.latitude = 12.3456
     node_template.longitude = 65.4321
     # node_template.tags = "updated=yes"
-    assert node.update_from(node_template, current_nodes(:visible_node).changeset.user)
+    assert node.update_from(node_template, node.changeset.user)
 
     node = Node.find(node_template.id)
     assert_not_nil node
@@ -137,14 +133,15 @@ class NodeTest < ActiveSupport::TestCase
   end
 
   def test_delete
-    node_template = Node.find(current_nodes(:visible_node).id)
-    assert_not_nil node_template
+    node = create(:node)
+    create(:old_node, :node_id => node.id, :version => 1)
+    node_template = Node.find(node.id)
 
+    assert_not_nil node_template
     assert_equal OldNode.where(:node_id => node_template.id).count, 1
-    node = Node.find(node_template.id)
     assert_not_nil node
 
-    assert node.delete_with_history!(node_template, current_nodes(:visible_node).changeset.user)
+    assert node.delete_with_history!(node_template, node.changeset.user)
 
     node = Node.find(node_template.id)
     assert_not_nil node
@@ -315,7 +312,7 @@ class NodeTest < ActiveSupport::TestCase
   end
 
   def test_node_tags
-    node = current_nodes(:node_with_versions)
+    node = create(:node)
     taglist = create_list(:node_tag, 2, :node => node)
     tags = Node.find(node.id).node_tags.order(:k)
     assert_equal taglist.count, tags.count
@@ -326,7 +323,7 @@ class NodeTest < ActiveSupport::TestCase
   end
 
   def test_tags
-    node = current_nodes(:node_with_versions)
+    node = create(:node)
     taglist = create_list(:node_tag, 2, :node => node)
     tags = Node.find(node.id).tags
     assert_equal taglist.count, tags.count
