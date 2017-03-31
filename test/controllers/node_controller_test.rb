@@ -143,11 +143,11 @@ class NodeControllerTest < ActionController::TestCase
 
   def test_read
     # check that a visible node is returned properly
-    get :read, :id => current_nodes(:visible_node).id
+    get :read, :id => create(:node).id
     assert_response :success
 
-    # check that an invisible node is not returned
-    get :read, :id => current_nodes(:invisible_node).id
+    # check that an deleted node is not returned
+    get :read, :id => create(:node, :deleted).id
     assert_response :gone
 
     # check chat a non-existent node is not returned
@@ -158,32 +158,37 @@ class NodeControllerTest < ActionController::TestCase
   # this tests deletion restrictions - basic deletion is tested in the unit
   # tests for node!
   def test_delete
+    private_user = create(:user, :data_public => false)
+    private_user_changeset = create(:changeset, :user => private_user)
+    private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
+    private_node = create(:node, :changeset => private_user_changeset)
+    private_deleted_node = create(:node, :deleted, :changeset => private_user_changeset)
+
     ## first try to delete node without auth
-    delete :delete, :id => current_nodes(:visible_node).id
+    delete :delete, :id => private_node.id
     assert_response :unauthorized
 
     ## now set auth for the non-data public user
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(private_user.email, "test")
 
     # try to delete with an invalid (closed) changeset
-    content update_changeset(current_nodes(:visible_node).to_xml,
-                             changesets(:normal_user_closed_change).id)
-    delete :delete, :id => current_nodes(:visible_node).id
+    content update_changeset(private_node.to_xml, private_user_closed_changeset.id)
+    delete :delete, :id => private_node.id
     assert_require_public_data("non-public user shouldn't be able to delete node")
 
     # try to delete with an invalid (non-existent) changeset
-    content update_changeset(current_nodes(:visible_node).to_xml, 0)
-    delete :delete, :id => current_nodes(:visible_node).id
+    content update_changeset(private_node.to_xml, 0)
+    delete :delete, :id => private_node.id
     assert_require_public_data("shouldn't be able to delete node, when user's data is private")
 
     # valid delete now takes a payload
-    content(nodes(:visible_node).to_xml)
-    delete :delete, :id => current_nodes(:visible_node).id
+    content(private_node.to_xml)
+    delete :delete, :id => private_node.id
     assert_require_public_data("shouldn't be able to delete node when user's data isn't public'")
 
     # this won't work since the node is already deleted
-    content(nodes(:invisible_node).to_xml)
-    delete :delete, :id => current_nodes(:invisible_node).id
+    content(private_deleted_node.to_xml)
+    delete :delete, :id => private_deleted_node.id
     assert_require_public_data
 
     # this won't work since the node never existed
@@ -192,54 +197,64 @@ class NodeControllerTest < ActionController::TestCase
 
     ## these test whether nodes which are in-use can be deleted:
     # in a way...
-    content(nodes(:used_node_1).to_xml)
-    delete :delete, :id => current_nodes(:used_node_1).id
+    private_used_node = create(:node, :changeset => private_user_changeset)
+    create(:way_node, :node => private_used_node)
+
+    content(private_used_node.to_xml)
+    delete :delete, :id => private_used_node.id
     assert_require_public_data "shouldn't be able to delete a node used in a way (#{@response.body})"
 
     # in a relation...
-    content(nodes(:node_used_by_relationship).to_xml)
-    delete :delete, :id => current_nodes(:node_used_by_relationship).id
+    private_used_node2 = create(:node, :changeset => private_user_changeset)
+    create(:relation_member, :member => private_used_node2)
+
+    content(private_used_node2.to_xml)
+    delete :delete, :id => private_used_node2.id
     assert_require_public_data "shouldn't be able to delete a node used in a relation (#{@response.body})"
 
-    ## now set auth for the public data user
-    basic_authorization(users(:public_user).email, "test")
+    ## now setup for the public data user
+    user = create(:user, :data_public => true)
+    changeset = create(:changeset, :user => user)
+    closed_changeset = create(:changeset, :closed, :user => user)
+    node = create(:node, :changeset => changeset)
+    basic_authorization(user.email, "test")
 
     # try to delete with an invalid (closed) changeset
-    content update_changeset(current_nodes(:visible_node).to_xml,
-                             changesets(:normal_user_closed_change).id)
-    delete :delete, :id => current_nodes(:visible_node).id
+    content update_changeset(node.to_xml, closed_changeset.id)
+    delete :delete, :id => node.id
     assert_response :conflict
 
     # try to delete with an invalid (non-existent) changeset
-    content update_changeset(current_nodes(:visible_node).to_xml, 0)
-    delete :delete, :id => current_nodes(:visible_node).id
+    content update_changeset(node.to_xml, 0)
+    delete :delete, :id => node.id
     assert_response :conflict
 
     # try to delete a node with a different ID
-    content(nodes(:public_visible_node).to_xml)
-    delete :delete, :id => current_nodes(:visible_node).id
+    other_node = create(:node)
+    content(other_node.to_xml)
+    delete :delete, :id => node.id
     assert_response :bad_request,
                     "should not be able to delete a node with a different ID from the XML"
 
     # try to delete a node rubbish in the payloads
     content("<delete/>")
-    delete :delete, :id => current_nodes(:visible_node).id
+    delete :delete, :id => node.id
     assert_response :bad_request,
                     "should not be able to delete a node without a valid XML payload"
 
     # valid delete now takes a payload
-    content(nodes(:public_visible_node).to_xml)
-    delete :delete, :id => current_nodes(:public_visible_node).id
+    content(node.to_xml)
+    delete :delete, :id => node.id
     assert_response :success
 
     # valid delete should return the new version number, which should
     # be greater than the old version number
-    assert @response.body.to_i > current_nodes(:public_visible_node).version,
+    assert @response.body.to_i > node.version,
            "delete request should return a new version number for node"
 
     # deleting the same node twice doesn't work
-    content(nodes(:public_visible_node).to_xml)
-    delete :delete, :id => current_nodes(:public_visible_node).id
+    content(node.to_xml)
+    delete :delete, :id => node.id
     assert_response :gone
 
     # this won't work since the node never existed
@@ -248,18 +263,26 @@ class NodeControllerTest < ActionController::TestCase
 
     ## these test whether nodes which are in-use can be deleted:
     # in a way...
-    content(nodes(:used_node_1).to_xml)
-    delete :delete, :id => current_nodes(:used_node_1).id
+    used_node = create(:node, :changeset => create(:changeset, :user => user))
+    way_node = create(:way_node, :node => used_node)
+    way_node2 = create(:way_node, :node => used_node)
+
+    content(used_node.to_xml)
+    delete :delete, :id => used_node.id
     assert_response :precondition_failed,
                     "shouldn't be able to delete a node used in a way (#{@response.body})"
-    assert_equal "Precondition failed: Node 3 is still used by ways 1,3.", @response.body
+    assert_equal "Precondition failed: Node #{used_node.id} is still used by ways #{way_node.way.id},#{way_node2.way.id}.", @response.body
 
     # in a relation...
-    content(nodes(:node_used_by_relationship).to_xml)
-    delete :delete, :id => current_nodes(:node_used_by_relationship).id
+    used_node2 = create(:node, :changeset => create(:changeset, :user => user))
+    relation_member = create(:relation_member, :member => used_node2)
+    relation_member2 = create(:relation_member, :member => used_node2)
+
+    content(used_node2.to_xml)
+    delete :delete, :id => used_node2.id
     assert_response :precondition_failed,
                     "shouldn't be able to delete a node used in a relation (#{@response.body})"
-    assert_equal "Precondition failed: Node 5 is still used by relations 1,3.", @response.body
+    assert_equal "Precondition failed: Node #{used_node2.id} is still used by relations #{relation_member.relation.id},#{relation_member2.relation.id}.", @response.body
   end
 
   ##

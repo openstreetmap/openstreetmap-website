@@ -241,7 +241,7 @@ class SiteControllerTest < ActionController::TestCase
   # Test editing a specific node
   def test_edit_with_node
     user = create(:user)
-    node = current_nodes(:visible_node)
+    node = create(:node, :lat => 1.0, :lon => 1.0)
 
     get :edit, { :node => node.id }, { :user => user }
     assert_response :success
