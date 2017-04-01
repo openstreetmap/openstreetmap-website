@@ -201,13 +201,17 @@ module ActiveSupport
       part_types = text_parts.collect { |part| part.content_type.sub(%r{;.+}, "") }
       assert_includes part_types, "text/plain"
       assert_includes part_types, "text/html"
-      text_parts.each { |part| yield part }
+      if block_given?
+        text_parts.each { |part| yield part }
+      end
     end
 
     def assert_message_is_text_only(email)
       assert_empty email.parts
       assert_match %r{^text/plain}, email.content_type
-      yield email
+      if block_given?
+        yield email
+      end
     end
   end
 end
