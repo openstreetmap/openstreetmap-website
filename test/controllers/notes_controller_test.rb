@@ -1014,7 +1014,7 @@ class NotesControllerTest < ActionController::TestCase
       assert_match "This is an additional comment", part.to_s
     end
 
-    ActionMailer::Base.deliveries.clear    
+    ActionMailer::Base.deliveries.clear
 
     # User with email pref set to text-only gets text-only message
     note_with_comments_by_users = create(:note) do |note|
@@ -1027,6 +1027,6 @@ class NotesControllerTest < ActionController::TestCase
       assert_match "This is an additional comment", part.to_s
     end
 
-    ActionMailer::Base.deliveries.clear    
+    ActionMailer::Base.deliveries.clear
   end
 end
