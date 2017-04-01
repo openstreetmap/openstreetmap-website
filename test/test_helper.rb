@@ -198,20 +198,16 @@ module ActiveSupport
 
     def assert_message_is_multipart(email)
       text_parts = email_text_parts(email)
-      part_types = text_parts.collect { |part| part.content_type.sub(%r{;.+}, "") }
+      part_types = text_parts.collect { |part| part.content_type.sub(/;.+/, "") }
       assert_includes part_types, "text/plain"
       assert_includes part_types, "text/html"
-      if block_given?
-        text_parts.each { |part| yield part }
-      end
+      text_parts.each { |part| yield part } if block_given?
     end
 
     def assert_message_is_text_only(email)
       assert_empty email.parts
       assert_match %r{^text/plain}, email.content_type
-      if block_given?
-        yield email
-      end
+      yield email if block_given?
     end
   end
 end
