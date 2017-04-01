@@ -1,6 +1,8 @@
 require "test_helper"
 
 class NotesControllerTest < ActionController::TestCase
+  api_fixtures
+
   def setup
     # Stub nominatim response for note locations
     stub_request(:get, %r{^http://nominatim\.openstreetmap\.org/reverse\?})
@@ -998,5 +1000,33 @@ class NotesControllerTest < ActionController::TestCase
 
     get :mine, :display_name => "non-existent"
     assert_response :not_found
+  end
+
+  def test_note_comment_notification_email_format
+    # User with email pref set to multipart gets multipart message
+    note_with_comments_by_users = create(:note) do |note|
+      create(:note_comment, :note => note, :author => users(:multipart_emails_user))
+    end
+    assert_difference "ActionMailer::Base.deliveries.size", 1 do
+      post :comment, :id => note_with_comments_by_users.id, :text => "This is an additional comment", :format => "json"
+    end
+    assert_message_is_multipart(ActionMailer::Base.deliveries.first) do |part|
+      assert_match "This is an additional comment", part.to_s
+    end
+
+    ActionMailer::Base.deliveries.clear    
+
+    # User with email pref set to text-only gets text-only message
+    note_with_comments_by_users = create(:note) do |note|
+      create(:note_comment, :note => note, :author => users(:text_only_emails_user))
+    end
+    assert_difference "ActionMailer::Base.deliveries.size", 1 do
+      post :comment, :id => note_with_comments_by_users.id, :text => "This is an additional comment", :format => "json"
+    end
+    assert_message_is_text_only(ActionMailer::Base.deliveries.first) do |part|
+      assert_match "This is an additional comment", part.to_s
+    end
+
+    ActionMailer::Base.deliveries.clear    
   end
 end

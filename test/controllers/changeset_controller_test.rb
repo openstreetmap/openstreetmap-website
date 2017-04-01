@@ -2036,32 +2036,21 @@ EOF
     changeset.subscribers.clear
     changeset.subscribers.push(users(:text_only_emails_user))
 
-    assert_difference "ChangesetComment.count", 1 do
-      assert_difference "ActionMailer::Base.deliveries.size", 1 do
-        post :comment, :id => changeset.id, :text => "This is a comment"
-      end
+    assert_difference "ActionMailer::Base.deliveries.size", 1 do
+      post :comment, :id => changeset.id, :text => "This is a comment"
     end
-    assert_response :success
-
-    email = ActionMailer::Base.deliveries.first
-    assert_empty email.parts # should not be a multipart message
-    assert_match "This is a comment", email.to_s
+    assert_message_is_text_only(ActionMailer::Base.deliveries.first) do |part|
+      assert_match "This is a comment", part.to_s
+    end
 
     ActionMailer::Base.deliveries.clear
 
     changeset.subscribers.clear
     changeset.subscribers.push(users(:multipart_emails_user))
-
-    assert_difference "ChangesetComment.count", 1 do
-      assert_difference "ActionMailer::Base.deliveries.size", 1 do
-        post :comment, :id => changeset.id, :text => "This is a comment"
-      end
+    assert_difference "ActionMailer::Base.deliveries.size", 1 do
+      post :comment, :id => changeset.id, :text => "This is a comment"
     end
-    assert_response :success
-
-    email = ActionMailer::Base.deliveries.first
-    assert_not_empty email.parts # should be a multipart message
-    email_text_parts(email).each do |part|
+    assert_message_is_multipart(ActionMailer::Base.deliveries.first) do |part|
       assert_match "This is a comment", part.to_s
     end
 

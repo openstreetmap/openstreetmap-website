@@ -2,6 +2,7 @@ require "test_helper"
 
 class DiaryEntryControllerTest < ActionController::TestCase
   include ActionView::Helpers::NumberHelper
+  api_fixtures
 
   def setup
     # Create the default language for diary entries
@@ -403,6 +404,36 @@ class DiaryEntryControllerTest < ActionController::TestCase
       end
       assert_select ".richtext", :text => /New comment/, :count => 1
     end
+  end
+
+  def test_diary_comment_notification_email_format
+    commenter = create(:user)
+
+    # User with email pref set to multipart gets multipart message
+    diary_author = users(:multipart_emails_user)
+    entry = create(:diary_entry, :user => diary_author)
+    post :subscribe, { :id => entry.id, :display_name => diary_author.display_name }, { :user => diary_author }
+    assert_difference "ActionMailer::Base.deliveries.size", entry.subscribers.count do
+      post :comment, { :display_name => diary_author.display_name, :id => entry.id, :diary_comment => { :body => "New comment" } }, { :user => commenter }
+    end
+    assert_message_is_multipart(ActionMailer::Base.deliveries.first) do |part|
+      assert_match "New comment", part.to_s
+    end
+
+    ActionMailer::Base.deliveries.clear
+
+    # User with email pref set to text-only gets text-only message
+    diary_author = users(:text_only_emails_user)
+    entry = create(:diary_entry, :user => diary_author)
+    post :subscribe, { :id => entry.id, :display_name => diary_author.display_name }, { :user => diary_author }
+    assert_difference "ActionMailer::Base.deliveries.size", entry.subscribers.count do
+      post :comment, { :display_name => diary_author.display_name, :id => entry.id, :diary_comment => { :body => "New comment" } }, { :user => commenter }
+    end
+    assert_message_is_text_only(ActionMailer::Base.deliveries.first) do |part|
+      assert_match "New comment", part.to_s
+    end
+
+    ActionMailer::Base.deliveries.clear
   end
 
   def test_comment_spammy

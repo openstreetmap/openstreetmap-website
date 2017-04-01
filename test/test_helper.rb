@@ -195,5 +195,19 @@ module ActiveSupport
       assert_not_empty text_parts
       text_parts
     end
+
+    def assert_message_is_multipart(email)
+      text_parts = email_text_parts(email)
+      part_types = text_parts.collect { |part| part.content_type.sub(/;.+/, '') }
+      assert_includes part_types, "text/plain"
+      assert_includes part_types, "text/html"
+      text_parts.each { |part| yield part }
+    end
+
+    def assert_message_is_text_only(email)
+      assert_empty email.parts
+      assert_match /^text\/plain/, email.content_type
+      yield email
+    end
   end
 end

@@ -1,6 +1,8 @@
 require "test_helper"
 
 class MessageControllerTest < ActionController::TestCase
+  api_fixtures
+
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -192,6 +194,38 @@ class MessageControllerTest < ActionController::TestCase
     assert_response :not_found
     assert_template "user/no_such_user"
     assert_select "h1", "The user non_existent_user does not exist"
+  end
+
+  def test_email_format
+    session[:user] = create(:user).id
+    message_title = "Test Message"
+    message_body = "Test message body"
+
+    # User with email pref set to multipart gets multipart message
+    assert_difference "ActionMailer::Base.deliveries.size", 1 do
+      post :new,
+           :display_name => users(:multipart_emails_user).display_name,
+           :message => { :title => message_title, :body => message_body }
+    end
+    assert_message_is_multipart(ActionMailer::Base.deliveries.first) do |part|
+      assert_match message_title, part.to_s
+      assert_match message_body, part.to_s
+    end
+
+    ActionMailer::Base.deliveries.clear
+
+    # User with email pref set to text-only gets text-only message
+    assert_difference "ActionMailer::Base.deliveries.size", 1 do
+      post :new,
+           :display_name => users(:text_only_emails_user).display_name,
+           :message => { :title => message_title, :body => message_body }
+    end
+    assert_message_is_text_only(ActionMailer::Base.deliveries.first) do |part|
+      assert_match message_title, part.to_s
+      assert_match message_body, part.to_s
+    end
+
+    ActionMailer::Base.deliveries.clear
   end
 
   ##

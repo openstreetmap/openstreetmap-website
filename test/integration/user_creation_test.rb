@@ -94,6 +94,8 @@ class UserCreationTest < ActionDispatch::IntegrationTest
       # Check that the confirm account url is correct
       assert_match /#{@url}/, register_email.body.to_s
 
+      assert_message_is_multipart register_email
+
       # Check the page
       assert_response :success
       assert_template "user/confirm"
