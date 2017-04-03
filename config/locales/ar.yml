@@ -5,6 +5,7 @@
 # Author: Aude
 # Author: Ayatun
 # Author: Bassem JARKAS
+# Author: ButterflyOfFire
 # Author: Fahad
 # Author: Faris knight
 # Author: Grille chompa
@@ -108,6 +109,7 @@ ar:
       description: Potlatch 1 (محرّر ضمن المتصفح)
     id:
       name: معرّف
+      description: iD (محرِّر عبر المتصفِّح)
     potlatch2:
       name: Potlatch 2
       description: Potlatch 2 (محرّر ضمن المتصفح)
@@ -255,7 +257,7 @@ ar:
       title: حزم التغييرات
       title_user: حزم التغييرات بواسطة %{user}
       title_friend: حزم التغييرات بواسطة أصدقائك
-      title_nearby: تغييرات من قبل مستخدمين قريبين
+      title_nearby: تغييرات مِن قِبَل مستخدمين قريبين
       empty: لم يُعثَر على أي حزم تغييرات.
       empty_area: لم يُعثَر على أي حزم تغييرات في هذه المنطقة.
       empty_user: لم يُعثَر على أي حزم تغييرات لهذا المستخدم.
@@ -406,7 +408,7 @@ ar:
         geonames: نتائج من <a href="http://www.geonames.org/">GeoNames</a>
         osm_nominatim_reverse: نتائج من <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
-        geonames_reverse: نتائج من Results from <a href="http://www.geonames.org/">GeoNames</a>
+        geonames_reverse: نتائج من <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -616,6 +618,8 @@ ar:
           wayside_cross: صليب تذكاري
           wayside_shrine: مزار جانب طريق
           wreck: حطام
+        junction:
+          "yes": تقاطع
         landuse:
           allotments: حصص سكنية
           basin: حوض
@@ -938,9 +942,10 @@ ar:
       alt_text: شعار خريطة الشارع المفتوحة
     home: اذهب إلى الصفحة الرئيسية
     logout: سجل خروج
-    log_in: لِج
+    log_in: تسجيل الدخول
     log_in_tooltip: سجّل الدخول مع حساب موجود
     sign_up: أنشئ حسابًا
+    start_mapping: ابدأ التخطيط
     sign_up_tooltip: أنشئ حسابًا كي تستطيع المساهمة
     edit: تعديل
     history: تاريخ
@@ -1026,6 +1031,7 @@ ar:
       title: قواعد!
     questions:
       title: هل هناك أسئلة ؟
+    start_mapping: ابدأ التخطيط
     add_a_note:
       title: لا وقت للتعديل؟ أضف ملاحظة!
       paragraph_1_html: إذا كنت تريد إصلاح مجرد شيء صغير وليس لديك الوقت للتسجيل ومعرفة
@@ -1096,6 +1102,7 @@ ar:
         %{subject}:'
       footer_html: يمكنك أيضا قراءة الرسالة في %{readurl} ويمكنك الرد في %{replyurl}
     friend_notification:
+      hi: مرحبًا %{to_user}،
       subject: '[خريطة الشارع المفتوحة] %{user} أضافك كصديق.'
       had_added_you: '%{user} قام بإضافتك كصديق على خريطة الشارع المفتوحة.'
       see_their_profile: يمكنك أن تشاهد ملفهم الشخصي على %{userurl}.
@@ -1149,6 +1156,7 @@ ar:
       click_the_link: إذا كان هذا هو أنت، يرجى الضغط على الرابط أدناه لإعادة تعيين
         كلمة المرور.
     note_comment_notification:
+      anonymous: مستخدم مجهول
       greeting: أهلا,
       commented:
         subject_own: '[OpenStreetMap] علق %{commenter} على واحدة من ملاحظاتك'
@@ -1170,8 +1178,10 @@ ar:
           بالقرب من %{place}.
       details: يمكن العثور على مزيد من التفاصيل حول هذه الملاحظة في %{url}.
     changeset_comment_notification:
+      hi: أهلا %{to_user}،
       greeting: مرحبا ،
       commented:
+        subject_own: '[OpenStreetMap] علق %{commenter} على على إحدى تغييراتك'
         partial_changeset_with_comment: مع تعليق '%{changeset_comment}'
         partial_changeset_without_comment: بدون تعليق
   message:
@@ -1215,10 +1225,13 @@ ar:
       my_inbox: رابطي %{inbox_link}
       inbox: صندوق البريد الوارد
       outbox: الصادر
+      messages:
+        one: لديك %{count} رسالة مبعوثة
+        other: لديك %{count} رسالة مبعوثة
       to: إلى
       subject: الموضوع
       date: التاريخ
-      no_sent_messages: لا يوجد لديك رسائل مرسلة بعد. لماذا لا تقوم بالاتصال مع بعض
+      no_sent_messages: لا يوجد لديك رسائل مرسلة بعد. لماذا لا تقم بالاتصال مع بعض
         %{people_mapping_nearby_link}؟
       people_mapping_nearby: مخططون في جواري
     reply:
@@ -1289,7 +1302,7 @@ ar:
       table:
         entry:
           motorway: طريق سريع
-          main_road: الطريق الرئيسي
+          main_road: طريق رئيسي
           trunk: طريق رئيسي
           primary: طريق رئيسي
           secondary: طريق ثانوي
@@ -1354,6 +1367,7 @@ ar:
           construction: الطرق تحت الإنشاء
           bicycle_shop: متجر دراجات
           bicycle_parking: مرآب دراجات
+          toilets: مرحاض
     richtext_area:
       edit: حرّر
       preview: شاهد
@@ -1369,6 +1383,7 @@ ar:
       text: النص
       image: الصورة
       alt: النص البديل
+      url: الرابط
   trace:
     visibility:
       private: خصوصي (يظهر كمجهول الهوية ونقاط غير مرتبة)
@@ -1449,7 +1464,7 @@ ar:
       identifiable: محدد الهوية
       private: خاص
       trackable: تعقبي
-      by: بواسطة
+      by: مِن قِبَل
       in: في
       map: خريطة
     list:
@@ -1575,7 +1590,7 @@ ar:
       remember: 'تذكرني:'
       lost password link: أنسيت كلمة المرور؟
       login_button: تسجيل الدخول
-      register now: تسجل الآن
+      register now: سجل حسابًا الآن
       with username: 'هل لديك بالفعل حساب خريطة الشارع المفتوحة؟ الرجاء الدخول باسم
         المستخدم وكلمة المرور الخاصين بك:'
       with external: 'بدلا من ذلك، استخدم طرفا آخر للدخول:'
@@ -1645,7 +1660,7 @@ ar:
         الموقع</a> لترتيب الحساب المراد إنشاؤه - وسنحاول التعامل مع هذا الطلب بأسرع
         وقت ممكن.
       about:
-        header: مجانا وقابلة للتحرير
+        header: حًرَّة وقابلة للتحرير
         html: |-
           <p>على عكس الخرائط الأخرى تماما، يتم إنشاء خريطة الشارع المفتوحة من قبل الناس مثلك، وهي حرة ويمكن لأي أحد الإصلاح والتحديث والتنزيل والاستخدام.</p>
            <P> أنشىء حسابا لبدء المساهمة.سنقوم بإرسال بريد إلكتروني لتأكيد حسابك.</p>
@@ -1699,7 +1714,7 @@ ar:
       my messages: رسائلي
       my profile: ملفي الشخصي
       my settings: الإعدادات
-      my comments: التعليقات
+      my comments: تعليقاتي
       oauth settings: "\uFEFFإعدادات oauth"
       blocks on me: العرقلات علي
       blocks by me: العرقلات بواسطتي
@@ -1707,6 +1722,7 @@ ar:
       diary: يومية
       edits: مساهمات
       traces: آثار
+      notes: ملاحظات الخريطة
       remove as friend: إلغاء الصداقة
       add as friend: أضف كصديق
       mapper since: 'مُخطط منذ:'
@@ -2010,13 +2026,13 @@ ar:
   note:
     description:
       opened_at_html: تم الإنشاء قبل %{when}
-      opened_at_by_html: تم الإنشاء قبل %{when} بواسطة %{user}
+      opened_at_by_html: تم الإنشاء قبل %{when} مِن قِبَل %{user}
       commented_at_html: تم التحديث قبل %{when}
-      commented_at_by_html: تم التحديث قبل %{when} بواسطة %{user}
+      commented_at_by_html: تم التحديث قبل %{when} مِن قِبَل %{user}
       closed_at_html: تم الحل قبل %{when}
-      closed_at_by_html: تم الحل قبل %{when} بواسطة %{user}
+      closed_at_by_html: تم الحل قبل %{when} مِن قِبَل %{user}
       reopened_at_html: تم التنشيط قبل %{when}
-      reopened_at_by_html: تم التنشيط قبل %{when} بواسطة %{user}
+      reopened_at_by_html: تم التنشيط قبل %{when} مِن قِبَل %{user}
     rss:
       title: ملاحظات خريطة الشارع المفتوحة
       opened: ملاحظة جديدة (بالقرب من %{place})
@@ -2041,10 +2057,11 @@ ar:
       link: وصلة أو HTML
       long_link: وصلة
       short_link: رابط قصير
-      geo_uri: يو آر إل جغرافي
+      geo_uri: رابط جغرافي
       custom_dimensions: تعيين المكونات المخصصة
       format: 'التنسيق:'
       scale: 'المقياس:'
+      image_size: ستظهر الصورة الطبقة القياسية على
       download: نزل
       include_marker: تتضمن علامة
       paste_html: ألصق HTML لتضمينه في موقع ويب
@@ -2058,19 +2075,22 @@ ar:
       tooltip_disabled: مفتاح الخريطة غير متاح لهذه الطبقة
     map:
       zoom:
-        in: قرب
-        out: بعد
+        in: تقريب
+        out: بَعِّدْ
       locate:
         title: أظهر موقعي
         popup: أنت ضمن {distance} {unit} من هذه النقطة
       base:
-        cycle_map: خريطة للدراجات
-        transport_map: خريطة تنقلات
-        hot: إنساني
+        cycle_map: خريطة الدراجات
+        transport_map: خريطة النقل و المواصلات
+        hot: الخريطة الإنسانية
       layers:
         header: طبقات الخريطة
+        notes: ملاحظات الخريطة
         data: بيانات الخريطة
+        gps: آثار جي بي أس العمومية
         overlays: تمكين طبقات لاستكشاف الخريطة
+        title: الطَبقات
       copyright: © <a href='%{copyright_url}'>مساهمو خريطة الشارع المفتوحة</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>تقديم تبرع</a>
     site:
@@ -2094,7 +2114,7 @@ ar:
         anonymous_warning: تتضمن هذه المذكرة تعليقات المستخدمين المجهولين التي ينبغي
           التحقق منها بشكل مستقل.
         reactivate: نشط
-        comment_and_resolve: تعليق وحل
+        comment_and_resolve: علِّق و حلّ
         comment: تعليق
     edit_help: انقل الخريطة وكبر الموقع الذي تريد تحريره، ثم اضغط هنا.
     directions:
@@ -2140,10 +2160,14 @@ ar:
         end_oneway_without_exit: نهاية طريق اتجاه واحد %{name}
         unnamed: طريق غير مسمى
     query:
+      node: عُقدة
+      way: طريق
+      relation: علاقة
       nothing_found: لم يتم إيجاد ميزات
       error: 'خطأ في الاتصال %{server}: %{error}'
       timeout: مهلة الاتصال %{server}
     context:
+      add_note: أضف ملاحظةً هنا
       show_address: أظهر العنوان
   redaction:
     edit:
