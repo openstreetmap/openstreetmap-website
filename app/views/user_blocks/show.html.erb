@@ -6,10 +6,12 @@
   <h1><%= raw t('user_block.show.heading',
                 :block_on => link_to(
                                      h(@user_block.user.display_name),
-                                     {:controller => 'user', :action => 'view', :display_name => @user_block.user.display_name}),
+                                     {:controller => 'user', :action => 'view', :display_name => @user_block.user.display_name},
+                                     {'data-userid' => @user_block.user.id}),
                 :block_by => link_to(
                                      h(@user_block.creator.display_name),
-                                     {:controller => 'user', :action => 'view', :display_name => @user_block.creator.display_name})) %></h1>
+                                     {:controller => 'user', :action => 'view', :display_name => @user_block.creator.display_name},
+                                     {'data-userid' => @user_block.creator.id})) %></h1>
 <ul class='secondary-actions clearfix'>
   <% if @user_block.ends_at > Time.now.getutc %>
     <% if @user and @user.id == @user_block.creator_id %>
