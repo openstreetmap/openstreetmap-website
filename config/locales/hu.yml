@@ -498,7 +498,7 @@ hu:
           retirement_home: Nyugdíjasotthon
           sauna: Szauna
           school: Iskola
-          shelter: Esőház
+          shelter: Menedékhely
           shop: Bolt
           shower: Zuhanyzó
           social_centre: Szociális központ
@@ -1166,6 +1166,9 @@ hu:
       title: Egyéb aggályok
   help_page:
     title: Segítségkérés
+    introduction: Az OpenStreetMap számos anyagot kínál fel ahhoz, hogy ismerkedj
+      a projekttel, kérdéseket tégy fel vagy válaszolj meg, vagy térképezési témákat
+      beszélj meg a közösség tagjaival.
     welcome:
       url: /welcome
       title: Üdvözlünk az OSM-en
@@ -1184,6 +1187,8 @@ hu:
         helyi levelezőlistán.
     forums:
       title: Fórumok
+      description: Kérdések és beszélgetések helye azoknak, akik előnyben részesítik
+        a hirdetőtábla stílusú felületet.
     irc:
       title: IRC
       description: Interaktív chat számos nyelven, számos témában.
@@ -1208,7 +1213,19 @@ hu:
       közreműködők műholdképeket, GPS-eszközöket és hagyományos térképeket használnak,
       hogy ellenőrizzék az OSM pontosságát és naprakészségét.
     community_driven_title: Közösség által vezérelt
+    community_driven_html: Az OpenStreetMap közössége változatos, lelkes, és minden
+      nap növekszik. Lelkes térképezők, GIS profik, az OSM szervereket üzemeltető
+      technikusok, katasztrófa-sújtotta területeket térképező önkéntesek működnek
+      közre a térkép szerkesztésében. Ha többet szeretnél megtudni a közösségről,
+      lásd a <a href='%{diary_path}'>felhasználói naplókat</a>, <a href='http://blogs.openstreetmap.org/'>közösségi
+      blogokat</a>, és az <a href='http://www.osmfoundation.org/'>OSM Foundation</a>
+      weboldalát.
     open_data_title: Szabad adatok
+    open_data_html: 'Az OpenStreetMap <i>szabad adatokból</i> áll: szabadon használhatod
+      bármilyen célra az OpenStreetMap és közreműködői megjelölésével. Ha hozzáadsz,
+      vagy módosítod az adatot valamilyen módon, az eredményt csak ugyanezzel a licenccel
+      teheted közzé. Lásd a <a href=''%{copyright_path}''>Copyright és Licence oldalt</a>
+      a részletekért.'
     legal_title: Jogi segítség
     partners_title: Partnerek
   notifier:
@@ -1324,6 +1341,8 @@ hu:
         partial_changeset_without_comment: hozzászólás nélkül
       details: 'További részletek a módosításcsomagról a következő címen találhatók:
         %{url}.'
+      unsubscribe: 'Az ehhez a módosításcsomaghoz tartozó frissítésekről való leiratkozáshoz
+        látogasd meg a következő oldalt: %{url}, és kattints a "Leiratkozás" gombra.'
   message:
     inbox:
       title: Beérkezett üzenetek
@@ -2090,6 +2109,7 @@ hu:
       invalid_credentials: Hibás hitelesítési adatok
       no_authorization_code: Nem engedély kód
       unknown_signature_algorithm: Ismeretlen aláírási algoritmus
+      invalid_scope: Érvénytelen kód
     auth_association:
       heading: Az azonosítódhoz még nem tartozik OpenStreetMap fiók.
       option_1: Ha most vagy itt először, készíts magadnak egy OpenStreetMap-fiókot
@@ -2198,6 +2218,7 @@ hu:
     helper:
       time_future: Véget ér %{time} múlva.
       until_login: Aktív a felhasználó bejelentkezéséig.
+      time_future_and_until_login: '%{time} múlva van vége, miután a felhasználó bejelentkezett.'
       time_past: Véget ért %{time} óta.
     blocks_on:
       title: '%{name} blokkolásai'
@@ -2355,6 +2376,7 @@ hu:
         continue_without_exit: Folyamatosan %{name}
         slight_right_without_exit: Enyhén jobbra %{name}
         offramp_right_without_exit: 'Forduljon jobbra erre: %{name}'
+        onramp_right_without_exit: 'Forduljon jobbra, erre: %{name}'
         endofroad_right_without_exit: 'Az út végén forduljon jobbra erre: %{name}'
         merge_right_without_exit: 'Forduljon jobbra, erre: %{name}'
         fork_right_without_exit: 'Az elágazásnál forduljon jobbra, erre: %{name}'
@@ -2363,6 +2385,8 @@ hu:
         uturn_without_exit: Forduljon vissza %{name}
         sharp_left_without_exit: Élesen balra %{name}
         turn_left_without_exit: Forduljon balra %{name}
+        offramp_left_without_exit: 'Forduljon balra, erre: %{name}'
+        onramp_left_without_exit: 'Forduljon balra, erre: %{name}'
         endofroad_left_without_exit: 'Az út végén forduljon balre, erre: %{name}'
         merge_left_without_exit: 'Forduljon balra, erre: %{name}'
         fork_left_without_exit: 'Az elágazásnál forduljon balra, erre: %{name}'
@@ -2377,7 +2401,9 @@ hu:
         roundabout_with_exit: 'A körforgalomnál hajtson ki a(z) %{exit}. kijáraton
           erre: %{name}'
         turn_left_with_exit: 'A körforgalomban forduljon balra erre: %{name}'
+        slight_left_with_exit: 'A körforgalomban forduljon balra erre: %s{name}'
         turn_right_with_exit: 'A körforgalomban forduljon jobbra erre: %{name}'
+        slight_right_with_exit: 'A körforgalomban forduljon jobbra erre: %{name}'
         continue_with_exit: 'A körforgalomnál menjen tovább egyenesen ezen: %{name}'
         unnamed: névtelen út
         courtesy: Útvonaltervezés a(z) %{link} jóvoltából
@@ -2399,12 +2425,33 @@ hu:
   redaction:
     edit:
       description: Leírás
+      heading: Módosítás szerkesztése
+      submit: Módosítás mentése
+      title: Módosítás szerkesztése
+    index:
+      empty: Nincs mutatandó módosítás.
+      heading: Módosítások listája
+      title: Módosítások listája
     new:
       description: Leírás
+      heading: Információ megadása az új módosításról
+      submit: Módosítás létrehozása
+      title: Új módosítás létrehozása
     show:
       description: 'Leírás:'
+      heading: '"%{title}" módosítás mutatása'
+      title: Módosítás mutatása
       user: 'Készítő:'
+      edit: Ennek a módosításnak mutatása
+      destroy: Módosítás eltávolítása
       confirm: Biztos vagy benne?
+    create:
+      flash: Módosítás létrehozva.
     update:
       flash: Változtatások elmentve.
+    destroy:
+      not_empty: A módosítás nem üres. Vond vissza az összes ehhez tartozó verziót,
+        mielőtt törlöd ezt a módosítást.
+      flash: Módosítás törölve.
+      error: Hiba történt a művelet végrehajtása során.
 ...
