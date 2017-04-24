@@ -333,29 +333,36 @@ class NodeTest < ActiveSupport::TestCase
   end
 
   def test_containing_relation_members
-    node = current_nodes(:node_used_by_relationship)
+    node = create(:node)
+    relation_member1 = create(:relation_member, :member => node)
+    relation_member2 = create(:relation_member, :member => node)
+    relation_member3 = create(:relation_member, :member => node)
     crm = Node.find(node.id).containing_relation_members.order(:relation_id)
     #    assert_equal 3, crm.size
-    assert_equal 1, crm.first.relation_id
+    assert_equal relation_member1.relation_id, crm.first.relation_id
     assert_equal "Node", crm.first.member_type
     assert_equal node.id, crm.first.member_id
-    assert_equal 1, crm.first.relation.id
-    assert_equal 2, crm.second.relation_id
+    assert_equal relation_member1.relation_id, crm.first.relation.id
+    assert_equal relation_member2.relation_id, crm.second.relation_id
     assert_equal "Node", crm.second.member_type
     assert_equal node.id, crm.second.member_id
-    assert_equal 2, crm.second.relation.id
-    assert_equal 3, crm.third.relation_id
+    assert_equal relation_member2.relation_id, crm.second.relation.id
+    assert_equal relation_member3.relation_id, crm.third.relation_id
     assert_equal "Node", crm.third.member_type
     assert_equal node.id, crm.third.member_id
-    assert_equal 3, crm.third.relation.id
+    assert_equal relation_member3.relation_id, crm.third.relation.id
   end
 
   def test_containing_relations
-    node = current_nodes(:node_used_by_relationship)
+    node = create(:node)
+    relation_member1 = create(:relation_member, :member => node)
+    relation_member2 = create(:relation_member, :member => node)
+    relation_member3 = create(:relation_member, :member => node)
     cr = Node.find(node.id).containing_relations.order(:id)
+
     assert_equal 3, cr.size
-    assert_equal 1, cr.first.id
-    assert_equal 2, cr.second.id
-    assert_equal 3, cr.third.id
+    assert_equal relation_member1.relation.id, cr.first.id
+    assert_equal relation_member2.relation.id, cr.second.id
+    assert_equal relation_member3.relation.id, cr.third.id
   end
 end

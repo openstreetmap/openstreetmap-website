@@ -292,140 +292,145 @@ class NodeControllerTest < ActionController::TestCase
     ## First test with no user credentials
     # try and update a node without authorisation
     # first try to delete node without auth
-    content current_nodes(:visible_node).to_xml
-    put :update, :id => current_nodes(:visible_node).id
+    private_user = create(:user, :data_public => false)
+    private_node = create(:node, :changeset => create(:changeset, :user => private_user))
+    user = create(:user)
+    node = create(:node, :changeset => create(:changeset, :user => user))
+
+    content node.to_xml
+    put :update, :id => node.id
     assert_response :unauthorized
 
     ## Second test with the private user
 
     # setup auth
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(private_user.email, "test")
 
     ## trying to break changesets
 
     # try and update in someone else's changeset
-    content update_changeset(current_nodes(:visible_node).to_xml,
-                             changesets(:public_user_first_change).id)
-    put :update, :id => current_nodes(:visible_node).id
-    assert_require_public_data "update with other user's changeset should be forbidden when date isn't public"
+    content update_changeset(private_node.to_xml,
+                             create(:changeset).id)
+    put :update, :id => private_node.id
+    assert_require_public_data "update with other user's changeset should be forbidden when data isn't public"
 
     # try and update in a closed changeset
-    content update_changeset(current_nodes(:visible_node).to_xml,
-                             changesets(:normal_user_closed_change).id)
-    put :update, :id => current_nodes(:visible_node).id
+    content update_changeset(private_node.to_xml,
+                             create(:changeset, :closed, :user => private_user).id)
+    put :update, :id => private_node.id
     assert_require_public_data "update with closed changeset should be forbidden, when data isn't public"
 
     # try and update in a non-existant changeset
-    content update_changeset(current_nodes(:visible_node).to_xml, 0)
-    put :update, :id => current_nodes(:visible_node).id
-    assert_require_public_data("update with changeset=0 should be forbidden, when data isn't public")
+    content update_changeset(private_node.to_xml, 0)
+    put :update, :id => private_node.id
+    assert_require_public_data "update with changeset=0 should be forbidden, when data isn't public"
 
     ## try and submit invalid updates
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, "lat", 91.0)
-    put :update, :id => current_nodes(:visible_node).id
+    content xml_attr_rewrite(private_node.to_xml, "lat", 91.0)
+    put :update, :id => private_node.id
     assert_require_public_data "node at lat=91 should be forbidden, when data isn't public"
 
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, "lat", -91.0)
-    put :update, :id => current_nodes(:visible_node).id
+    content xml_attr_rewrite(private_node.to_xml, "lat", -91.0)
+    put :update, :id => private_node.id
     assert_require_public_data "node at lat=-91 should be forbidden, when data isn't public"
 
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, "lon", 181.0)
-    put :update, :id => current_nodes(:visible_node).id
+    content xml_attr_rewrite(private_node.to_xml, "lon", 181.0)
+    put :update, :id => private_node.id
     assert_require_public_data "node at lon=181 should be forbidden, when data isn't public"
 
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, "lon", -181.0)
-    put :update, :id => current_nodes(:visible_node).id
+    content xml_attr_rewrite(private_node.to_xml, "lon", -181.0)
+    put :update, :id => private_node.id
     assert_require_public_data "node at lon=-181 should be forbidden, when data isn't public"
 
-    ## finally, produce a good request which should work
-    content current_nodes(:visible_node).to_xml
-    put :update, :id => current_nodes(:visible_node).id
+    ## finally, produce a good request which still won't work
+    content private_node.to_xml
+    put :update, :id => private_node.id
     assert_require_public_data "should have failed with a forbidden when data isn't public"
 
     ## Finally test with the public user
 
     # try and update a node without authorisation
-    # first try to delete node without auth
-    content current_nodes(:visible_node).to_xml
-    put :update, :id => current_nodes(:visible_node).id
+    # first try to update node without auth
+    content node.to_xml
+    put :update, :id => node.id
     assert_response :forbidden
 
     # setup auth
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     ## trying to break changesets
 
     # try and update in someone else's changeset
-    content update_changeset(current_nodes(:visible_node).to_xml,
-                             changesets(:normal_user_first_change).id)
-    put :update, :id => current_nodes(:visible_node).id
+    content update_changeset(node.to_xml,
+                             create(:changeset).id)
+    put :update, :id => node.id
     assert_response :conflict, "update with other user's changeset should be rejected"
 
     # try and update in a closed changeset
-    content update_changeset(current_nodes(:visible_node).to_xml,
-                             changesets(:normal_user_closed_change).id)
-    put :update, :id => current_nodes(:visible_node).id
+    content update_changeset(node.to_xml,
+                             create(:changeset, :closed, :user => user).id)
+    put :update, :id => node.id
     assert_response :conflict, "update with closed changeset should be rejected"
 
     # try and update in a non-existant changeset
-    content update_changeset(current_nodes(:visible_node).to_xml, 0)
-    put :update, :id => current_nodes(:visible_node).id
+    content update_changeset(node.to_xml, 0)
+    put :update, :id => node.id
     assert_response :conflict, "update with changeset=0 should be rejected"
 
     ## try and submit invalid updates
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, "lat", 91.0)
-    put :update, :id => current_nodes(:visible_node).id
+    content xml_attr_rewrite(node.to_xml, "lat", 91.0)
+    put :update, :id => node.id
     assert_response :bad_request, "node at lat=91 should be rejected"
 
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, "lat", -91.0)
-    put :update, :id => current_nodes(:visible_node).id
+    content xml_attr_rewrite(node.to_xml, "lat", -91.0)
+    put :update, :id => node.id
     assert_response :bad_request, "node at lat=-91 should be rejected"
 
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, "lon", 181.0)
-    put :update, :id => current_nodes(:visible_node).id
+    content xml_attr_rewrite(node.to_xml, "lon", 181.0)
+    put :update, :id => node.id
     assert_response :bad_request, "node at lon=181 should be rejected"
 
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, "lon", -181.0)
-    put :update, :id => current_nodes(:visible_node).id
+    content xml_attr_rewrite(node.to_xml, "lon", -181.0)
+    put :update, :id => node.id
     assert_response :bad_request, "node at lon=-181 should be rejected"
 
     ## next, attack the versioning
-    current_node_version = current_nodes(:visible_node).version
+    current_node_version = node.version
 
     # try and submit a version behind
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml,
+    content xml_attr_rewrite(node.to_xml,
                              "version", current_node_version - 1)
-    put :update, :id => current_nodes(:visible_node).id
+    put :update, :id => node.id
     assert_response :conflict, "should have failed on old version number"
 
     # try and submit a version ahead
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml,
+    content xml_attr_rewrite(node.to_xml,
                              "version", current_node_version + 1)
-    put :update, :id => current_nodes(:visible_node).id
+    put :update, :id => node.id
     assert_response :conflict, "should have failed on skipped version number"
 
     # try and submit total crap in the version field
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml,
+    content xml_attr_rewrite(node.to_xml,
                              "version", "p1r4t3s!")
-    put :update, :id => current_nodes(:visible_node).id
+    put :update, :id => node.id
     assert_response :conflict,
                     "should not be able to put 'p1r4at3s!' in the version field"
 
     ## try an update with the wrong ID
-    content current_nodes(:public_visible_node).to_xml
-    put :update, :id => current_nodes(:visible_node).id
+    content create(:node).to_xml
+    put :update, :id => node.id
     assert_response :bad_request,
                     "should not be able to update a node with a different ID from the XML"
 
     ## try an update with a minimal valid XML doc which isn't a well-formed OSM doc.
     content "<update/>"
-    put :update, :id => current_nodes(:visible_node).id
+    put :update, :id => node.id
     assert_response :bad_request,
                     "should not be able to update a node with non-OSM XML doc."
 
     ## finally, produce a good request which should work
-    content current_nodes(:public_visible_node).to_xml
-    put :update, :id => current_nodes(:public_visible_node).id
+    content node.to_xml
+    put :update, :id => node.id
     assert_response :success, "a valid update request failed"
   end
 
@@ -460,25 +465,26 @@ class NodeControllerTest < ActionController::TestCase
   ##
   # test adding tags to a node
   def test_duplicate_tags
-    existing = create(:node_tag, :node => current_nodes(:public_visible_node))
+    existing_tag = create(:node_tag)
+    assert_equal true, existing_tag.node.changeset.user.data_public
     # setup auth
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(existing_tag.node.changeset.user.email, "test")
 
     # add an identical tag to the node
     tag_xml = XML::Node.new("tag")
-    tag_xml["k"] = existing.k
-    tag_xml["v"] = existing.v
+    tag_xml["k"] = existing_tag.k
+    tag_xml["v"] = existing_tag.v
 
     # add the tag into the existing xml
-    node_xml = current_nodes(:public_visible_node).to_xml
+    node_xml = existing_tag.node.to_xml
     node_xml.find("//osm/node").first << tag_xml
 
     # try and upload it
     content node_xml
-    put :update, :id => current_nodes(:public_visible_node).id
+    put :update, :id => existing_tag.node.id
     assert_response :bad_request,
                     "adding duplicate tags to a node should fail with 'bad request'"
-    assert_equal "Element node/#{current_nodes(:public_visible_node).id} has duplicate tags with key #{existing.k}", @response.body
+    assert_equal "Element node/#{existing_tag.node.id} has duplicate tags with key #{existing_tag.k}", @response.body
   end
 
   # test whether string injection is possible
