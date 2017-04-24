@@ -460,25 +460,26 @@ class NodeControllerTest < ActionController::TestCase
   ##
   # test adding tags to a node
   def test_duplicate_tags
-    existing = create(:node_tag, :node => current_nodes(:public_visible_node))
+    existing_tag = create(:node_tag)
+    assert_equal true, existing_tag.node.changeset.user.data_public
     # setup auth
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(existing_tag.node.changeset.user.email, "test")
 
     # add an identical tag to the node
     tag_xml = XML::Node.new("tag")
-    tag_xml["k"] = existing.k
-    tag_xml["v"] = existing.v
+    tag_xml["k"] = existing_tag.k
+    tag_xml["v"] = existing_tag.v
 
     # add the tag into the existing xml
-    node_xml = current_nodes(:public_visible_node).to_xml
+    node_xml = existing_tag.node.to_xml
     node_xml.find("//osm/node").first << tag_xml
 
     # try and upload it
     content node_xml
-    put :update, :id => current_nodes(:public_visible_node).id
+    put :update, :id => existing_tag.node.id
     assert_response :bad_request,
                     "adding duplicate tags to a node should fail with 'bad request'"
-    assert_equal "Element node/#{current_nodes(:public_visible_node).id} has duplicate tags with key #{existing.k}", @response.body
+    assert_equal "Element node/#{existing_tag.node.id} has duplicate tags with key #{existing_tag.k}", @response.body
   end
 
   # test whether string injection is possible
