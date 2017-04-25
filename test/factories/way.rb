@@ -5,5 +5,9 @@ FactoryGirl.define do
     version 1
 
     changeset
+
+    trait :deleted do
+      visible false
+    end
   end
 end

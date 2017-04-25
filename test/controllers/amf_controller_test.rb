@@ -144,7 +144,13 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_whichways
-    node = current_nodes(:used_node_1)
+    node = create(:node, :lat => 3.0, :lon => 3.0)
+    way = create(:way)
+    deleted_way = create(:way, :deleted)
+    create(:way_node, :way => way, :node => node)
+    create(:way_node, :way => deleted_way, :node => node)
+    create(:way_tag, :way => way)
+
     minlon = node.lon - 0.1
     minlat = node.lat - 0.1
     maxlon = node.lon + 0.1
@@ -190,9 +196,9 @@ class AmfControllerTest < ActionController::TestCase
     # TODO: looks like amf_controller changed since this test was written
     # so someone who knows what they're doing should check this!
     ways = map[2].collect { |x| x[0] }
-    assert ways.include?(current_ways(:used_way).id),
+    assert ways.include?(way.id),
            "map should include used way"
-    assert !ways.include?(current_ways(:invisible_way).id),
+    assert !ways.include?(deleted_way.id),
            "map should not include deleted way"
   end
 
@@ -229,7 +235,13 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_whichways_deleted
-    node = current_nodes(:used_node_1)
+    node = create(:node, :lat => 3.0, :lon => 3.0)
+    way = create(:way)
+    deleted_way = create(:way, :deleted)
+    create(:way_node, :way => way, :node => node)
+    create(:way_node, :way => deleted_way, :node => node)
+    create(:way_tag, :way => way)
+
     minlon = node.lon - 0.1
     minlat = node.lat - 0.1
     maxlon = node.lon + 0.1
@@ -414,8 +426,12 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getnode_history
-    latest = current_nodes(:node_with_versions)
-    amf_content "getnode_history", "/1", [latest.id]
+    node = create(:node, :version => 2)
+    node_v1 = create(:old_node, :current_node => node, :version => 1, :timestamp => 3.days.ago)
+    _node_v2 = create(:old_node, :current_node => node, :version => 2, :timestamp => 2.days.ago)
+    node_v3 = create(:old_node, :current_node => node, :version => 3, :timestamp => 1.day.ago)
+
+    amf_content "getnode_history", "/1", [node.id]
     post :amf_read
     assert_response :success
     amf_parse_response
@@ -426,13 +442,13 @@ class AmfControllerTest < ActionController::TestCase
     # to the next second
     assert_equal history[0], "node",
                  'first element should be "node"'
-    assert_equal history[1], latest.id,
+    assert_equal history[1], node.id,
                  "second element should be the input node ID"
     assert_equal history[2].first[0],
-                 (latest.timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
+                 (node_v3.timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
                  "first element in third element (array) should be the latest version"
     assert_equal history[2].last[0],
-                 (nodes(:node_with_versions_v1).timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
+                 (node_v1.timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
                  "last element in third element (array) should be the initial version"
   end
 
