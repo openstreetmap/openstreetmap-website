@@ -3,10 +3,6 @@ require "test_helper"
 class OldWayTest < ActiveSupport::TestCase
   api_fixtures
 
-  def test_db_count
-    assert_equal 14, OldWay.count
-  end
-
   def test_old_nodes
     way = ways(:way_with_multiple_nodes_v1)
     nodes = OldWay.find(way.id).old_nodes.order(:sequence_id)
@@ -38,27 +34,27 @@ class OldWayTest < ActiveSupport::TestCase
   end
 
   def test_way_tags
-    taglist_v3 = create_list(:old_way_tag, 3, :old_way => ways(:way_with_versions_v3))
-    taglist_v4 = create_list(:old_way_tag, 2, :old_way => ways(:way_with_versions_v4))
+    old_way_v1 = create(:old_way, :version => 1)
+    old_way_v2 = create(:old_way, :current_way => old_way_v1.current_way, :version => 2)
+    old_way_v3 = create(:old_way, :current_way => old_way_v1.current_way, :version => 3)
+    old_way_v4 = create(:old_way, :current_way => old_way_v1.current_way, :version => 4)
+    taglist_v3 = create_list(:old_way_tag, 3, :old_way => old_way_v3)
+    taglist_v4 = create_list(:old_way_tag, 2, :old_way => old_way_v4)
 
-    way = ways(:way_with_versions_v1)
-    tags = OldWay.find(way.id).old_tags.order(:k)
+    tags = OldWay.find(old_way_v1.id).old_tags.order(:k)
     assert_equal 0, tags.count
 
-    way = ways(:way_with_versions_v2)
-    tags = OldWay.find(way.id).old_tags.order(:k)
+    tags = OldWay.find(old_way_v2.id).old_tags.order(:k)
     assert_equal 0, tags.count
 
-    way = ways(:way_with_versions_v3)
-    tags = OldWay.find(way.id).old_tags.order(:k)
+    tags = OldWay.find(old_way_v3.id).old_tags.order(:k)
     assert_equal taglist_v3.count, tags.count
     taglist_v3.sort_by!(&:k).each_index do |i|
       assert_equal taglist_v3[i].k, tags[i].k
       assert_equal taglist_v3[i].v, tags[i].v
     end
 
-    way = ways(:way_with_versions_v4)
-    tags = OldWay.find(way.id).old_tags.order(:k)
+    tags = OldWay.find(old_way_v4.id).old_tags.order(:k)
     assert_equal taglist_v4.count, tags.count
     taglist_v4.sort_by!(&:k).each_index do |i|
       assert_equal taglist_v4[i].k, tags[i].k
@@ -67,26 +63,26 @@ class OldWayTest < ActiveSupport::TestCase
   end
 
   def test_tags
-    taglist_v3 = create_list(:old_way_tag, 3, :old_way => ways(:way_with_versions_v3))
-    taglist_v4 = create_list(:old_way_tag, 2, :old_way => ways(:way_with_versions_v4))
+    old_way_v1 = create(:old_way, :version => 1)
+    old_way_v2 = create(:old_way, :current_way => old_way_v1.current_way, :version => 2)
+    old_way_v3 = create(:old_way, :current_way => old_way_v1.current_way, :version => 3)
+    old_way_v4 = create(:old_way, :current_way => old_way_v1.current_way, :version => 4)
+    taglist_v3 = create_list(:old_way_tag, 3, :old_way => old_way_v3)
+    taglist_v4 = create_list(:old_way_tag, 2, :old_way => old_way_v4)
 
-    way = ways(:way_with_versions_v1)
-    tags = OldWay.find(way.id).tags
+    tags = OldWay.find(old_way_v1.id).tags
     assert_equal 0, tags.size
 
-    way = ways(:way_with_versions_v2)
-    tags = OldWay.find(way.id).tags
+    tags = OldWay.find(old_way_v2.id).tags
     assert_equal 0, tags.size
 
-    way = ways(:way_with_versions_v3)
-    tags = OldWay.find(way.id).tags
+    tags = OldWay.find(old_way_v3.id).tags
     assert_equal taglist_v3.count, tags.count
     taglist_v3.each do |tag|
       assert_equal tag.v, tags[tag.k]
     end
 
-    way = ways(:way_with_versions_v4)
-    tags = OldWay.find(way.id).tags
+    tags = OldWay.find(old_way_v4.id).tags
     assert_equal taglist_v4.count, tags.count
     taglist_v4.each do |tag|
       assert_equal tag.v, tags[tag.k]
