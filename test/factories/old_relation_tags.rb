@@ -3,8 +3,6 @@ FactoryGirl.define do
     sequence(:k) { |n| "Key #{n}" }
     sequence(:v) { |n| "Value #{n}" }
 
-    # Fixme requires old_relation factory
-    relation_id 1
-    version 1
+    old_relation
   end
 end

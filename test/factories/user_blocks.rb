@@ -15,8 +15,7 @@ FactoryGirl.define do
     end
 
     trait :revoked do
-      # FIXME: requires User factory
-      revoker_id 5
+      association :revoker, :factory => :moderator_user
     end
   end
 end

@@ -3,8 +3,6 @@ FactoryGirl.define do
     sequence(:k) { |n| "Key #{n}" }
     sequence(:v) { |n| "Value #{n}" }
 
-    # Fixme requires old_way factory
-    way_id 1
-    version 1
+    old_way
   end
 end

@@ -4,9 +4,7 @@ FactoryGirl.define do
     longitude 1 * GeoRecord::SCALE
 
     changeset
-
-    # FIXME: needs node factory
-    node_id 1000
+    association :current_node, :factory => :node
 
     visible true
     timestamp Time.now
