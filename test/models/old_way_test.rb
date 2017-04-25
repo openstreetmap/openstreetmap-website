@@ -4,33 +4,48 @@ class OldWayTest < ActiveSupport::TestCase
   api_fixtures
 
   def test_old_nodes
-    way = ways(:way_with_multiple_nodes_v1)
-    nodes = OldWay.find(way.id).old_nodes.order(:sequence_id)
-    assert_equal 2, nodes.count
-    assert_equal 2, nodes[0].node_id
-    assert_equal 6, nodes[1].node_id
+    old_way_v1 = create(:old_way, :version => 1)
+    old_way_v2 = create(:old_way, :current_way => old_way_v1.current_way, :version => 2)
+    node1 = create(:node)
+    node2 = create(:node)
+    node3 = create(:node)
+    create(:old_way_node, :old_way => old_way_v1, :node => node1, :sequence_id => 1)
+    create(:old_way_node, :old_way => old_way_v1, :node => node2, :sequence_id => 2)
+    create(:old_way_node, :old_way => old_way_v2, :node => node1, :sequence_id => 1)
+    create(:old_way_node, :old_way => old_way_v2, :node => node3, :sequence_id => 2)
+    create(:old_way_node, :old_way => old_way_v2, :node => node2, :sequence_id => 3)
 
-    way = ways(:way_with_multiple_nodes_v2)
-    nodes = OldWay.find(way.id).old_nodes.order(:sequence_id)
+    nodes = OldWay.find(old_way_v1.id).old_nodes.order(:sequence_id)
+    assert_equal 2, nodes.count
+    assert_equal node1.id, nodes[0].node_id
+    assert_equal node2.id, nodes[1].node_id
+
+    nodes = OldWay.find(old_way_v2.id).old_nodes.order(:sequence_id)
     assert_equal 3, nodes.count
-    assert_equal 4, nodes[0].node_id
-    assert_equal 15, nodes[1].node_id
-    assert_equal 6, nodes[2].node_id
+    assert_equal node1.id, nodes[0].node_id
+    assert_equal node3.id, nodes[1].node_id
+    assert_equal node2.id, nodes[2].node_id
   end
 
   def test_nds
-    way = ways(:way_with_multiple_nodes_v1)
-    nodes = OldWay.find(way.id).nds
-    assert_equal 2, nodes.count
-    assert_equal 2, nodes[0]
-    assert_equal 6, nodes[1]
+    old_way_v1 = create(:old_way, :version => 1)
+    old_way_v2 = create(:old_way, :current_way => old_way_v1.current_way, :version => 2)
+    node1 = create(:node)
+    node2 = create(:node)
+    node3 = create(:node)
+    create(:old_way_node, :old_way => old_way_v1, :node => node1, :sequence_id => 1)
+    create(:old_way_node, :old_way => old_way_v1, :node => node2, :sequence_id => 2)
+    create(:old_way_node, :old_way => old_way_v2, :node => node1, :sequence_id => 1)
+    create(:old_way_node, :old_way => old_way_v2, :node => node3, :sequence_id => 2)
+    create(:old_way_node, :old_way => old_way_v2, :node => node2, :sequence_id => 3)
 
-    way = ways(:way_with_multiple_nodes_v2)
-    nodes = OldWay.find(way.id).nds
+    nodes = OldWay.find(old_way_v1.id).nds
+    assert_equal 2, nodes.count
+    assert_equal [node1.id, node2.id], nodes
+
+    nodes = OldWay.find(old_way_v2.id).nds
     assert_equal 3, nodes.count
-    assert_equal 4, nodes[0]
-    assert_equal 15, nodes[1]
-    assert_equal 6, nodes[2]
+    assert_equal [node1.id, node3.id, node2.id], nodes
   end
 
   def test_way_tags
