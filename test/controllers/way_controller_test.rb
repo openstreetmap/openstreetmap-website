@@ -111,17 +111,22 @@ class WayControllerTest < ActionController::TestCase
   # -------------------------------------
 
   def test_create
+    node1 = create(:node)
+    node2 = create(:node)
+    private_user = create(:user, :data_public => false)
+    private_changeset = create(:changeset, :user => private_user)
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+
     ## First check that it fails when creating a way using a non-public user
-    nid1 = current_nodes(:used_node_1).id
-    nid2 = current_nodes(:used_node_2).id
-    basic_authorization users(:normal_user).email, "test"
+    basic_authorization private_user.email, "test"
 
     # use the first user's open changeset
-    changeset_id = changesets(:normal_user_first_change).id
+    changeset_id = private_changeset.id
 
     # create a way with pre-existing nodes
     content "<osm><way changeset='#{changeset_id}'>" +
-            "<nd ref='#{nid1}'/><nd ref='#{nid2}'/>" +
+            "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" +
             "<tag k='test' v='yes' /></way></osm>"
     put :create
     # hope for failure
@@ -129,16 +134,14 @@ class WayControllerTest < ActionController::TestCase
                     "way upload did not return forbidden status"
 
     ## Now use a public user
-    nid1 = current_nodes(:used_node_1).id
-    nid2 = current_nodes(:used_node_2).id
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization user.email, "test"
 
     # use the first user's open changeset
-    changeset_id = changesets(:public_user_first_change).id
+    changeset_id = changeset.id
 
     # create a way with pre-existing nodes
     content "<osm><way changeset='#{changeset_id}'>" +
-            "<nd ref='#{nid1}'/><nd ref='#{nid2}'/>" +
+            "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" +
             "<tag k='test' v='yes' /></way></osm>"
     put :create
     # hope for success
@@ -152,13 +155,13 @@ class WayControllerTest < ActionController::TestCase
     # compare values
     assert_equal checkway.nds.length, 2,
                  "saved way does not contain exactly one node"
-    assert_equal checkway.nds[0], nid1,
+    assert_equal checkway.nds[0], node1.id,
                  "saved way does not contain the right node on pos 0"
-    assert_equal checkway.nds[1], nid2,
+    assert_equal checkway.nds[1], node2.id,
                  "saved way does not contain the right node on pos 1"
     assert_equal checkway.changeset_id, changeset_id,
                  "saved way does not belong to the correct changeset"
-    assert_equal users(:public_user).id, checkway.changeset.user_id,
+    assert_equal user.id, checkway.changeset.user_id,
                  "saved way does not belong to user that created it"
     assert_equal true, checkway.visible,
                  "saved way is not visible"
@@ -169,16 +172,20 @@ class WayControllerTest < ActionController::TestCase
   # -------------------------------------
 
   def test_create_invalid
+    node = create(:node)
+    private_user = create(:user, :data_public => false)
+    private_open_changeset = create(:changeset, :user => private_user)
+    private_closed_changeset = create(:changeset, :closed, :user => private_user)
+    user = create(:user)
+    open_changeset = create(:changeset, :user => user)
+    closed_changeset = create(:changeset, :closed, :user => user)
+
     ## First test with a private user to make sure that they are not authorized
-    basic_authorization users(:normal_user).email, "test"
+    basic_authorization private_user.email, "test"
 
     # use the first user's open changeset
-    open_changeset_id = changesets(:normal_user_first_change).id
-    closed_changeset_id = changesets(:normal_user_closed_change).id
-    nid1 = current_nodes(:used_node_1).id
-
     # create a way with non-existing node
-    content "<osm><way changeset='#{open_changeset_id}'>" +
+    content "<osm><way changeset='#{private_open_changeset.id}'>" +
             "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
     put :create
     # expect failure
@@ -186,7 +193,7 @@ class WayControllerTest < ActionController::TestCase
                     "way upload with invalid node using a private user did not return 'forbidden'"
 
     # create a way with no nodes
-    content "<osm><way changeset='#{open_changeset_id}'>" +
+    content "<osm><way changeset='#{private_open_changeset.id}'>" +
             "<tag k='test' v='yes' /></way></osm>"
     put :create
     # expect failure
@@ -194,23 +201,19 @@ class WayControllerTest < ActionController::TestCase
                     "way upload with no node using a private userdid not return 'forbidden'"
 
     # create a way inside a closed changeset
-    content "<osm><way changeset='#{closed_changeset_id}'>" +
-            "<nd ref='#{nid1}'/></way></osm>"
+    content "<osm><way changeset='#{private_closed_changeset.id}'>" +
+            "<nd ref='#{node.id}'/></way></osm>"
     put :create
     # expect failure
     assert_response :forbidden,
                     "way upload to closed changeset with a private user did not return 'forbidden'"
 
     ## Now test with a public user
-    basic_authorization users(:public_user).email, "test"
+    basic_authorization user.email, "test"
 
     # use the first user's open changeset
-    open_changeset_id = changesets(:public_user_first_change).id
-    closed_changeset_id = changesets(:public_user_closed_change).id
-    nid1 = current_nodes(:used_node_1).id
-
     # create a way with non-existing node
-    content "<osm><way changeset='#{open_changeset_id}'>" +
+    content "<osm><way changeset='#{open_changeset.id}'>" +
             "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
     put :create
     # expect failure
@@ -219,7 +222,7 @@ class WayControllerTest < ActionController::TestCase
     assert_equal "Precondition failed: Way  requires the nodes with id in (0), which either do not exist, or are not visible.", @response.body
 
     # create a way with no nodes
-    content "<osm><way changeset='#{open_changeset_id}'>" +
+    content "<osm><way changeset='#{open_changeset.id}'>" +
             "<tag k='test' v='yes' /></way></osm>"
     put :create
     # expect failure
@@ -228,16 +231,16 @@ class WayControllerTest < ActionController::TestCase
     assert_equal "Precondition failed: Cannot create way: data is invalid.", @response.body
 
     # create a way inside a closed changeset
-    content "<osm><way changeset='#{closed_changeset_id}'>" +
-            "<nd ref='#{nid1}'/></way></osm>"
+    content "<osm><way changeset='#{closed_changeset.id}'>" +
+            "<nd ref='#{node.id}'/></way></osm>"
     put :create
     # expect failure
     assert_response :conflict,
                     "way upload to closed changeset did not return 'conflict'"
 
     # create a way with a tag which is too long
-    content "<osm><way changeset='#{open_changeset_id}'>" +
-            "<nd ref='#{nid1}'/>" +
+    content "<osm><way changeset='#{open_changeset.id}'>" +
+            "<nd ref='#{node.id}'/>" +
             "<tag k='foo' v='#{'x' * 256}'/>" +
             "</way></osm>"
     put :create
@@ -360,127 +363,128 @@ class WayControllerTest < ActionController::TestCase
   # tests whether the API works and prevents incorrect use while trying
   # to update ways.
   def test_update
+    private_user = create(:user, :data_public => false)
+    private_way = create(:way, :changeset => create(:changeset, :user => private_user))
+    user = create(:user)
+    way = create(:way, :changeset => create(:changeset, :user => user))
+    node = create(:node)
+    create(:way_node, :way => private_way, :node => node)
+    create(:way_node, :way => way, :node => node)
+
     ## First test with no user credentials
     # try and update a way without authorisation
-    # first try to delete way without auth
-    content current_ways(:visible_way).to_xml
-    put :update, :id => current_ways(:visible_way).id
+    content way.to_xml
+    put :update, :id => way.id
     assert_response :unauthorized
 
     ## Second test with the private user
 
     # setup auth
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(private_user.email, "test")
 
     ## trying to break changesets
 
     # try and update in someone else's changeset
-    content update_changeset(current_ways(:visible_way).to_xml,
-                             changesets(:public_user_first_change).id)
-    put :update, :id => current_ways(:visible_way).id
+    content update_changeset(private_way.to_xml,
+                             create(:changeset).id)
+    put :update, :id => private_way.id
     assert_require_public_data "update with other user's changeset should be forbidden when date isn't public"
 
     # try and update in a closed changeset
-    content update_changeset(current_ways(:visible_way).to_xml,
-                             changesets(:normal_user_closed_change).id)
-    put :update, :id => current_ways(:visible_way).id
+    content update_changeset(private_way.to_xml,
+                             create(:changeset, :closed, :user => private_user))
+    put :update, :id => private_way.id
     assert_require_public_data "update with closed changeset should be forbidden, when data isn't public"
 
     # try and update in a non-existant changeset
-    content update_changeset(current_ways(:visible_way).to_xml, 0)
-    put :update, :id => current_ways(:visible_way).id
+    content update_changeset(private_way.to_xml, 0)
+    put :update, :id => private_way.id
     assert_require_public_data("update with changeset=0 should be forbidden, when data isn't public")
 
     ## try and submit invalid updates
-    content xml_replace_node(current_ways(:visible_way).to_xml, 3, 9999)
-    put :update, :id => current_ways(:visible_way).id
+    content xml_replace_node(private_way.to_xml, node.id, 9999)
+    put :update, :id => private_way.id
     assert_require_public_data "way with non-existent node should be forbidden, when data isn't public"
 
-    content xml_replace_node(current_ways(:visible_way).to_xml, 3, current_nodes(:invisible_node).id)
-    put :update, :id => current_ways(:visible_way).id
+    content xml_replace_node(private_way.to_xml, node.id, create(:node, :deleted).id)
+    put :update, :id => private_way.id
     assert_require_public_data "way with deleted node should be forbidden, when data isn't public"
 
-    ## finally, produce a good request which should work
-    content current_ways(:visible_way).to_xml
-    put :update, :id => current_ways(:visible_way).id
+    ## finally, produce a good request which will still not work
+    content private_way.to_xml
+    put :update, :id => private_way.id
     assert_require_public_data "should have failed with a forbidden when data isn't public"
 
     ## Finally test with the public user
 
-    # try and update a way without authorisation
-    # first try to delete way without auth
-    content current_ways(:visible_way).to_xml
-    put :update, :id => current_ways(:visible_way).id
-    assert_response :forbidden
-
     # setup auth
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     ## trying to break changesets
 
     # try and update in someone else's changeset
-    content update_changeset(current_ways(:visible_way).to_xml,
-                             changesets(:normal_user_first_change).id)
-    put :update, :id => current_ways(:visible_way).id
+    content update_changeset(way.to_xml,
+                             create(:changeset).id)
+    put :update, :id => way.id
     assert_response :conflict, "update with other user's changeset should be rejected"
 
     # try and update in a closed changeset
-    content update_changeset(current_ways(:visible_way).to_xml,
+    content update_changeset(way.to_xml,
                              changesets(:normal_user_closed_change).id)
-    put :update, :id => current_ways(:visible_way).id
+    put :update, :id => way.id
     assert_response :conflict, "update with closed changeset should be rejected"
 
     # try and update in a non-existant changeset
-    content update_changeset(current_ways(:visible_way).to_xml, 0)
-    put :update, :id => current_ways(:visible_way).id
+    content update_changeset(way.to_xml, 0)
+    put :update, :id => way.id
     assert_response :conflict, "update with changeset=0 should be rejected"
 
     ## try and submit invalid updates
-    content xml_replace_node(current_ways(:visible_way).to_xml, 3, 9999)
-    put :update, :id => current_ways(:visible_way).id
+    content xml_replace_node(way.to_xml, node.id, 9999)
+    put :update, :id => way.id
     assert_response :precondition_failed, "way with non-existent node should be rejected"
 
-    content xml_replace_node(current_ways(:visible_way).to_xml, 3, current_nodes(:invisible_node).id)
-    put :update, :id => current_ways(:visible_way).id
+    content xml_replace_node(way.to_xml, node.id, create(:node, :deleted).id)
+    put :update, :id => way.id
     assert_response :precondition_failed, "way with deleted node should be rejected"
 
     ## next, attack the versioning
-    current_way_version = current_ways(:visible_way).version
+    current_way_version = way.version
 
     # try and submit a version behind
-    content xml_attr_rewrite(current_ways(:visible_way).to_xml,
+    content xml_attr_rewrite(way.to_xml,
                              "version", current_way_version - 1)
-    put :update, :id => current_ways(:visible_way).id
+    put :update, :id => way.id
     assert_response :conflict, "should have failed on old version number"
 
     # try and submit a version ahead
-    content xml_attr_rewrite(current_ways(:visible_way).to_xml,
+    content xml_attr_rewrite(way.to_xml,
                              "version", current_way_version + 1)
-    put :update, :id => current_ways(:visible_way).id
+    put :update, :id => way.id
     assert_response :conflict, "should have failed on skipped version number"
 
     # try and submit total crap in the version field
-    content xml_attr_rewrite(current_ways(:visible_way).to_xml,
+    content xml_attr_rewrite(way.to_xml,
                              "version", "p1r4t3s!")
-    put :update, :id => current_ways(:visible_way).id
+    put :update, :id => way.id
     assert_response :conflict,
                     "should not be able to put 'p1r4at3s!' in the version field"
 
     ## try an update with the wrong ID
-    content current_ways(:used_way).to_xml
-    put :update, :id => current_ways(:visible_way).id
+    content create(:way).to_xml
+    put :update, :id => way.id
     assert_response :bad_request,
                     "should not be able to update a way with a different ID from the XML"
 
     ## try an update with a minimal valid XML doc which isn't a well-formed OSM doc.
     content "<update/>"
-    put :update, :id => current_ways(:visible_way).id
+    put :update, :id => way.id
     assert_response :bad_request,
                     "should not be able to update a way with non-OSM XML doc."
 
     ## finally, produce a good request which should work
-    content current_ways(:visible_way).to_xml
-    put :update, :id => current_ways(:visible_way).id
+    content way.to_xml
+    put :update, :id => way.id
     assert_response :success, "a valid update request failed"
   end
 
