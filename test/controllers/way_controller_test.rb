@@ -39,11 +39,11 @@ class WayControllerTest < ActionController::TestCase
 
   def test_read
     # check that a visible way is returned properly
-    get :read, :id => current_ways(:visible_way).id
+    get :read, :id => create(:way).id
     assert_response :success
 
     # check that an invisible way is not returned
-    get :read, :id => current_ways(:invisible_way).id
+    get :read, :id => create(:way, :deleted).id
     assert_response :gone
 
     # check chat a non-existent way is not returned
@@ -704,19 +704,29 @@ class WayControllerTest < ActionController::TestCase
   # test that a call to ways_for_node returns all ways that contain the node
   # and none that don't.
   def test_ways_for_node
-    # in current fixtures ways 1 and 3 all use node 3. ways 2 and 4
-    # *used* to use it but doesn't.
-    get :ways_for_node, :id => current_nodes(:used_node_1).id
+    node = create(:node)
+    way1 = create(:way)
+    way2 = create(:way)
+    create(:way_node, :way => way1, :node => node)
+    create(:way_node, :way => way2, :node => node)
+    # create an unrelated way
+    create(:way_with_nodes, :nodes_count => 2)
+    # create a way which used to use the node
+    way3_v1 = create(:old_way, :version => 1)
+    _way3_v2 = create(:old_way, :current_way => way3_v1.current_way, :version => 2)
+    create(:old_way_node, :old_way => way3_v1, :node => node)
+
+    get :ways_for_node, :id => node.id
     assert_response :success
     ways_xml = XML::Parser.string(@response.body).parse
     assert_not_nil ways_xml, "failed to parse ways_for_node response"
 
     # check that the set of IDs match expectations
-    expected_way_ids = [current_ways(:visible_way).id,
-                        current_ways(:used_way).id]
+    expected_way_ids = [way1.id,
+                        way2.id]
     found_way_ids = ways_xml.find("//osm/way").collect { |w| w["id"].to_i }
     assert_equal expected_way_ids.sort, found_way_ids.sort,
-                 "expected ways for node #{current_nodes(:used_node_1).id} did not match found"
+                 "expected ways for node #{node.id} did not match found"
 
     # check the full ways to ensure we're not missing anything
     expected_way_ids.each do |id|
