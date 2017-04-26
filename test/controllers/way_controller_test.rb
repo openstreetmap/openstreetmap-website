@@ -557,54 +557,64 @@ class WayControllerTest < ActionController::TestCase
   ##
   # Try adding a duplicate of an existing tag to a way
   def test_add_duplicate_tags
+    private_user = create(:user, :data_public => false)
+    private_way = create(:way, :changeset => create(:changeset, :user => private_user))
+    private_existing_tag = create(:way_tag, :way => private_way)
+    user = create(:user)
+    way = create(:way, :changeset => create(:changeset, :user => user))
+    existing_tag = create(:way_tag, :way => way)
+
     ## Try with the non-public user
     # setup auth
-    basic_authorization(users(:normal_user).email, "test")
-
-    existing = create(:way_tag, :way => current_ways(:visible_way))
+    basic_authorization(private_user.email, "test")
 
     # add an identical tag to the way
     tag_xml = XML::Node.new("tag")
-    tag_xml["k"] = existing.k
-    tag_xml["v"] = existing.v
+    tag_xml["k"] = private_existing_tag.k
+    tag_xml["v"] = private_existing_tag.v
 
     # add the tag into the existing xml
-    way_xml = current_ways(:visible_way).to_xml
+    way_xml = private_way.to_xml
     way_xml.find("//osm/way").first << tag_xml
 
     # try and upload it
     content way_xml
-    put :update, :id => current_ways(:visible_way).id
+    put :update, :id => private_way.id
     assert_response :forbidden,
                     "adding a duplicate tag to a way for a non-public should fail with 'forbidden'"
 
     ## Now try with the public user
     # setup auth
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     # add an identical tag to the way
     tag_xml = XML::Node.new("tag")
-    tag_xml["k"] = existing.k
-    tag_xml["v"] = existing.v
+    tag_xml["k"] = existing_tag.k
+    tag_xml["v"] = existing_tag.v
 
     # add the tag into the existing xml
-    way_xml = current_ways(:visible_way).to_xml
+    way_xml = way.to_xml
     way_xml.find("//osm/way").first << tag_xml
 
     # try and upload it
     content way_xml
-    put :update, :id => current_ways(:visible_way).id
+    put :update, :id => way.id
     assert_response :bad_request,
                     "adding a duplicate tag to a way should fail with 'bad request'"
-    assert_equal "Element way/#{current_ways(:visible_way).id} has duplicate tags with key #{existing.k}", @response.body
+    assert_equal "Element way/#{way.id} has duplicate tags with key #{existing_tag.k}", @response.body
   end
 
   ##
   # Try adding a new duplicate tags to a way
   def test_new_duplicate_tags
+    private_user = create(:user, :data_public => false)
+    private_way = create(:way, :changeset => create(:changeset, :user => private_user))
+    user = create(:user)
+    way = create(:way, :changeset => create(:changeset, :user => user))
+
     ## First test with the non-public user so should be rejected
     # setup auth
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(private_user.email, "test")
 
     # create duplicate tag
     tag_xml = XML::Node.new("tag")
@@ -612,20 +622,20 @@ class WayControllerTest < ActionController::TestCase
     tag_xml["v"] = "foobar"
 
     # add the tag into the existing xml
-    way_xml = current_ways(:visible_way).to_xml
+    way_xml = private_way.to_xml
 
     # add two copies of the tag
     way_xml.find("//osm/way").first << tag_xml.copy(true) << tag_xml
 
     # try and upload it
     content way_xml
-    put :update, :id => current_ways(:visible_way).id
+    put :update, :id => private_way.id
     assert_response :forbidden,
                     "adding new duplicate tags to a way using a non-public user should fail with 'forbidden'"
 
     ## Now test with the public user
     # setup auth
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     # create duplicate tag
     tag_xml = XML::Node.new("tag")
@@ -633,17 +643,17 @@ class WayControllerTest < ActionController::TestCase
     tag_xml["v"] = "foobar"
 
     # add the tag into the existing xml
-    way_xml = current_ways(:visible_way).to_xml
+    way_xml = way.to_xml
 
     # add two copies of the tag
     way_xml.find("//osm/way").first << tag_xml.copy(true) << tag_xml
 
     # try and upload it
     content way_xml
-    put :update, :id => current_ways(:visible_way).id
+    put :update, :id => way.id
     assert_response :bad_request,
                     "adding new duplicate tags to a way should fail with 'bad request'"
-    assert_equal "Element way/#{current_ways(:visible_way).id} has duplicate tags with key i_am_a_duplicate", @response.body
+    assert_equal "Element way/#{way.id} has duplicate tags with key i_am_a_duplicate", @response.body
   end
 
   ##
@@ -651,12 +661,17 @@ class WayControllerTest < ActionController::TestCase
   # But be a bit subtle - use unicode decoding ambiguities to use different
   # binary strings which have the same decoding.
   def test_invalid_duplicate_tags
+    private_user = create(:user, :data_public => false)
+    private_changeset = create(:changeset, :user => private_user)
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+
     ## First make sure that you can't with a non-public user
     # setup auth
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(private_user.email, "test")
 
     # add the tag into the existing xml
-    way_str = "<osm><way changeset='1'>"
+    way_str = "<osm><way changeset='#{private_changeset.id}'>"
     way_str << "<tag k='addr:housenumber' v='1'/>"
     way_str << "<tag k='addr:housenumber' v='2'/>"
     way_str << "</way></osm>"
@@ -669,10 +684,10 @@ class WayControllerTest < ActionController::TestCase
 
     ## Now do it with a public user
     # setup auth
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     # add the tag into the existing xml
-    way_str = "<osm><way changeset='1'>"
+    way_str = "<osm><way changeset='#{changeset.id}'>"
     way_str << "<tag k='addr:housenumber' v='1'/>"
     way_str << "<tag k='addr:housenumber' v='2'/>"
     way_str << "</way></osm>"
