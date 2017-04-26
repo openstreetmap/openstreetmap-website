@@ -254,36 +254,51 @@ class WayControllerTest < ActionController::TestCase
   # -------------------------------------
 
   def test_delete
+    private_user = create(:user, :data_public => false)
+    private_open_changeset = create(:changeset, :user => private_user)
+    private_closed_changeset = create(:changeset, :closed, :user => private_user)
+    private_way = create(:way, :changeset => private_open_changeset)
+    private_deleted_way = create(:way, :deleted, :changeset => private_open_changeset)
+    private_used_way = create(:way, :changeset => private_open_changeset)
+    create(:relation_member, :member => private_used_way)
+    user = create(:user)
+    open_changeset = create(:changeset, :user => user)
+    closed_changeset = create(:changeset, :closed, :user => user)
+    way = create(:way, :changeset => open_changeset)
+    deleted_way = create(:way, :deleted, :changeset => open_changeset)
+    used_way = create(:way, :changeset => open_changeset)
+    relation_member = create(:relation_member, :member => used_way)
+    relation = relation_member.relation
+
     # first try to delete way without auth
-    delete :delete, :id => current_ways(:visible_way).id
+    delete :delete, :id => way.id
     assert_response :unauthorized
 
     # now set auth using the private user
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(private_user.email, "test")
 
     # this shouldn't work as with the 0.6 api we need pay load to delete
-    delete :delete, :id => current_ways(:visible_way).id
+    delete :delete, :id => private_way.id
     assert_response :forbidden
 
     # Now try without having a changeset
-    content "<osm><way id='#{current_ways(:visible_way).id}'/></osm>"
-    delete :delete, :id => current_ways(:visible_way).id
+    content "<osm><way id='#{private_way.id}'/></osm>"
+    delete :delete, :id => private_way.id
     assert_response :forbidden
 
     # try to delete with an invalid (closed) changeset
-    content update_changeset(current_ways(:visible_way).to_xml,
-                             changesets(:normal_user_closed_change).id)
-    delete :delete, :id => current_ways(:visible_way).id
+    content update_changeset(private_way.to_xml, private_closed_changeset.id)
+    delete :delete, :id => private_way.id
     assert_response :forbidden
 
     # try to delete with an invalid (non-existent) changeset
-    content update_changeset(current_ways(:visible_way).to_xml, 0)
-    delete :delete, :id => current_ways(:visible_way).id
+    content update_changeset(private_way.to_xml, 0)
+    delete :delete, :id => private_way.id
     assert_response :forbidden
 
     # Now try with a valid changeset
-    content current_ways(:visible_way).to_xml
-    delete :delete, :id => current_ways(:visible_way).id
+    content private_way.to_xml
+    delete :delete, :id => private_way.id
     assert_response :forbidden
 
     # check the returned value - should be the new version number
@@ -293,13 +308,13 @@ class WayControllerTest < ActionController::TestCase
     #   "delete request should return a new version number for way"
 
     # this won't work since the way is already deleted
-    content current_ways(:invisible_way).to_xml
-    delete :delete, :id => current_ways(:invisible_way).id
+    content private_deleted_way.to_xml
+    delete :delete, :id => private_deleted_way.id
     assert_response :forbidden
 
     # this shouldn't work as the way is used in a relation
-    content current_ways(:used_way).to_xml
-    delete :delete, :id => current_ways(:used_way).id
+    content private_used_way.to_xml
+    delete :delete, :id => private_used_way.id
     assert_response :forbidden,
                     "shouldn't be able to delete a way used in a relation (#{@response.body}), when done by a private user"
 
@@ -309,50 +324,49 @@ class WayControllerTest < ActionController::TestCase
 
     ### Now check with a public user
     # now set auth
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     # this shouldn't work as with the 0.6 api we need pay load to delete
-    delete :delete, :id => current_ways(:visible_way).id
+    delete :delete, :id => way.id
     assert_response :bad_request
 
     # Now try without having a changeset
-    content "<osm><way id='#{current_ways(:visible_way).id}'/></osm>"
-    delete :delete, :id => current_ways(:visible_way).id
+    content "<osm><way id='#{way.id}'/></osm>"
+    delete :delete, :id => way.id
     assert_response :bad_request
 
     # try to delete with an invalid (closed) changeset
-    content update_changeset(current_ways(:visible_way).to_xml,
-                             changesets(:public_user_closed_change).id)
-    delete :delete, :id => current_ways(:visible_way).id
+    content update_changeset(way.to_xml, closed_changeset.id)
+    delete :delete, :id => way.id
     assert_response :conflict
 
     # try to delete with an invalid (non-existent) changeset
-    content update_changeset(current_ways(:visible_way).to_xml, 0)
-    delete :delete, :id => current_ways(:visible_way).id
+    content update_changeset(way.to_xml, 0)
+    delete :delete, :id => way.id
     assert_response :conflict
 
     # Now try with a valid changeset
-    content current_ways(:visible_way).to_xml
-    delete :delete, :id => current_ways(:visible_way).id
+    content way.to_xml
+    delete :delete, :id => way.id
     assert_response :success
 
     # check the returned value - should be the new version number
     # valid delete should return the new version number, which should
     # be greater than the old version number
-    assert @response.body.to_i > current_ways(:visible_way).version,
+    assert @response.body.to_i > way.version,
            "delete request should return a new version number for way"
 
     # this won't work since the way is already deleted
-    content current_ways(:invisible_way).to_xml
-    delete :delete, :id => current_ways(:invisible_way).id
+    content deleted_way.to_xml
+    delete :delete, :id => deleted_way.id
     assert_response :gone
 
     # this shouldn't work as the way is used in a relation
-    content current_ways(:used_way).to_xml
-    delete :delete, :id => current_ways(:used_way).id
+    content used_way.to_xml
+    delete :delete, :id => used_way.id
     assert_response :precondition_failed,
                     "shouldn't be able to delete a way used in a relation (#{@response.body})"
-    assert_equal "Precondition failed: Way 3 is still used by relations 1.", @response.body
+    assert_equal "Precondition failed: Way #{used_way.id} is still used by relations #{relation.id}.", @response.body
 
     # this won't work since the way never existed
     delete :delete, :id => 0
