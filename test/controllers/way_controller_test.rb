@@ -509,9 +509,14 @@ class WayControllerTest < ActionController::TestCase
   ##
   # Try adding a new tag to a way
   def test_add_tags
+    private_user = create(:user, :data_public => false)
+    private_way = create(:way_with_nodes, :nodes_count => 2, :changeset => create(:changeset, :user => private_user))
+    user = create(:user)
+    way = create(:way_with_nodes, :nodes_count => 2, :changeset => create(:changeset, :user => user))
+
     ## Try with the non-public user
     # setup auth
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(private_user.email, "test")
 
     # add an identical tag to the way
     tag_xml = XML::Node.new("tag")
@@ -519,18 +524,18 @@ class WayControllerTest < ActionController::TestCase
     tag_xml["v"] = "yes"
 
     # add the tag into the existing xml
-    way_xml = current_ways(:visible_way).to_xml
+    way_xml = private_way.to_xml
     way_xml.find("//osm/way").first << tag_xml
 
     # try and upload it
     content way_xml
-    put :update, :id => current_ways(:visible_way).id
+    put :update, :id => private_way.id
     assert_response :forbidden,
                     "adding a duplicate tag to a way for a non-public should fail with 'forbidden'"
 
     ## Now try with the public user
     # setup auth
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     # add an identical tag to the way
     tag_xml = XML::Node.new("tag")
@@ -538,15 +543,15 @@ class WayControllerTest < ActionController::TestCase
     tag_xml["v"] = "yes"
 
     # add the tag into the existing xml
-    way_xml = current_ways(:visible_way).to_xml
+    way_xml = way.to_xml
     way_xml.find("//osm/way").first << tag_xml
 
     # try and upload it
     content way_xml
-    put :update, :id => current_ways(:visible_way).id
+    put :update, :id => way.id
     assert_response :success,
                     "adding a new tag to a way should succeed"
-    assert_equal current_ways(:visible_way).version + 1, @response.body.to_i
+    assert_equal way.version + 1, @response.body.to_i
   end
 
   ##
