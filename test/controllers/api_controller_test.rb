@@ -52,8 +52,12 @@ class ApiControllerTest < ActionController::TestCase
   # -------------------------------------
 
   def test_map
-    node = current_nodes(:used_node_1)
+    node = create(:node, :lat => 7, :lon => 7)
     tag = create(:node_tag, :node => node)
+    way1 = create(:way_node, :node => node).way
+    way2 = create(:way_node, :node => node).way
+    relation = create(:relation_member, :member => node).relation
+
     # Need to split the min/max lat/lon out into their own variables here
     # so that we can test they are returned later.
     minlon = node.lon - 0.1
@@ -74,18 +78,22 @@ class ApiControllerTest < ActionController::TestCase
         assert_select "tag[k='#{tag.k}'][v='#{tag.v}']"
       end
       assert_select "way", :count => 2
-      assert_select "way[id='1']", :count => 1
-      assert_select "way[id='3']", :count => 1
+      assert_select "way[id='#{way1.id}']", :count => 1
+      assert_select "way[id='#{way2.id}']", :count => 1
       assert_select "relation", :count => 1
-      assert_select "relation[id='1']", :count => 1
+      assert_select "relation[id='#{relation.id}']", :count => 1
     end
   end
 
   # This differs from the above test in that we are making the bbox exactly
   # the same as the node we are looking at
   def test_map_inclusive
-    node = current_nodes(:used_node_1)
+    node = create(:node, :lat => 7, :lon => 7)
     tag = create(:node_tag, :node => node)
+    way1 = create(:way_node, :node => node).way
+    way2 = create(:way_node, :node => node).way
+    relation = create(:relation_member, :member => node).relation
+
     bbox = "#{node.lon},#{node.lat},#{node.lon},#{node.lat}"
     get :map, :bbox => bbox
     assert_response :success, "The map call should have succeeded"
@@ -96,29 +104,38 @@ class ApiControllerTest < ActionController::TestCase
         assert_select "tag[k='#{tag.k}'][v='#{tag.v}']"
       end
       assert_select "way", :count => 2
-      assert_select "way[id='1']", :count => 1
-      assert_select "way[id='3']", :count => 1
+      assert_select "way[id='#{way1.id}']", :count => 1
+      assert_select "way[id='#{way2.id}']", :count => 1
       assert_select "relation", :count => 1
-      assert_select "relation[id='1']", :count => 1
+      assert_select "relation[id='#{relation.id}']", :count => 1
     end
   end
 
   def test_map_complete_way
-    node = current_nodes(:used_node_2)
+    node = create(:node, :lat => 7, :lon => 7)
+    # create a couple of nodes well outside of the bbox
+    node2 = create(:node, :lat => 45, :lon => 45)
+    node3 = create(:node, :lat => 10, :lon => 10)
+    way1 = create(:way_node, :node => node).way
+    create(:way_node, :way => way1, :node => node2, :sequence_id => 2)
+    way2 = create(:way_node, :node => node).way
+    create(:way_node, :way => way2, :node => node3, :sequence_id => 2)
+    relation = create(:relation_member, :member => way1).relation
+
     bbox = "#{node.lon},#{node.lat},#{node.lon},#{node.lat}"
     get :map, :bbox => bbox
     assert_response :success, "The map call should have succeeded"
     assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
       assert_select "bounds[minlon='#{node.lon}'][minlat='#{node.lat}'][maxlon='#{node.lon}'][maxlat='#{node.lat}']", :count => 1
       assert_select "node", :count => 3
-      assert_select "node[id='4']", :count => 1
-      assert_select "node[id='11']", :count => 1
-      assert_select "node[id='15']", :count => 1
+      assert_select "node[id='#{node.id}']", :count => 1
+      assert_select "node[id='#{node2.id}']", :count => 1
+      assert_select "node[id='#{node3.id}']", :count => 1
       assert_select "way", :count => 2
-      assert_select "way[id='5']", :count => 1
-      assert_select "way[id='7']", :count => 1
+      assert_select "way[id='#{way1.id}']", :count => 1
+      assert_select "way[id='#{way2.id}']", :count => 1
       assert_select "relation", :count => 1
-      assert_select "relation[id='8']", :count => 1
+      assert_select "relation[id='#{relation.id}']", :count => 1
     end
   end
 
