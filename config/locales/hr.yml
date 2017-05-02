@@ -21,8 +21,8 @@ hr:
   activerecord:
     models:
       acl: Kontrole pristupa
-      changeset: Changeset
-      changeset_tag: Oznaka changeset-a
+      changeset: Set promjena
+      changeset_tag: Oznaka seta promjena
       country: Zemlja
       diary_comment: Komentar dnevnika
       diary_entry: Unos dnevnika
@@ -110,7 +110,7 @@ hr:
     edited_by_html: Korisnik %{user} je uredio <abbr title='%{title}'> prije %{time}</abbr>
     closed_by_html: Korisnik %{user} je zatvorio <abbr title='%{title}'> prije %{time}</abbr>
     version: Inačica
-    in_changeset: Changeset
+    in_changeset: Set promjena
     anonymous: anonimno
     no_comment: (bez komentara)
     part_of: Dio od
@@ -119,7 +119,7 @@ hr:
     view_details: Prikaži detalje
     location: 'Lokacija:'
     changeset:
-      title: 'Changeset: %{id}'
+      title: 'Set promjena: %{id}'
       belongs_to: Autor
       node: Točaka (%{count})
       node_paginated: Točke (%{x}-%{y} od %{count})
@@ -131,11 +131,11 @@ hr:
       hidden_commented_by: Komentar skriven od %{user} <abbr title="%{exact_time}">prije
         %{when}</abbr>
       commented_by: Komentirao/la %{user} <abbr title='%{exact_time}'>prije %{when}</abbr>
-      changesetxml: XLM Changeset
+      changesetxml: XLM Set promjena
       osmchangexml: osmChange XML
       feed:
-        title: Changeset %{id}
-        title_comment: Changeset %{id} - %{comment}
+        title: Set promjena %{id}
+        title_comment: Set promjena %{id} - %{comment}
       join_discussion: Prijavi se za uključivanje u raspravu
       discussion: Razgovor
     node:
@@ -167,7 +167,7 @@ hr:
         node: točka
         way: put
         relation: relacija
-        changeset: changeset
+        changeset: set promjena
         note: bilješka
     timeout:
       sorry: Žao mi je, podaci za %{type} sa id %{id}, predugo se čekaju.
@@ -175,7 +175,7 @@ hr:
         node: točka
         way: put
         relation: relacija
-        changeset: changeset
+        changeset: set promjena
         note: bilješka
     redacted:
       redaction: Redakcija %{id}
@@ -230,7 +230,7 @@ hr:
     changeset:
       anonymous: Anonimno
       no_edits: (nema promjena)
-      view_changeset_details: Prikaži detalje changeseta
+      view_changeset_details: Prikaži detalje seta promjena
     changesets:
       id: ID
       saved_at: Spremljeno
@@ -238,20 +238,20 @@ hr:
       comment: Komentar
       area: Područje
     list:
-      title: Changesets
-      title_user: Changesets od %{user}
+      title: Setovi promjena
+      title_user: Setovi promjena od %{user}
       title_friend: Paketi uređivanja tvojih prijatelja
-      title_nearby: Paketi uređivanja obližnjih korisnika
+      title_nearby: Set promjena obližnjih korisnika
       empty: Nisu pronađeni paketi uređivanja.
-      empty_area: Nema paketa uređivanja na ovom području.
+      empty_area: Nema setova promjena na ovom području.
       empty_user: Nema paketa uređivanja ovog korisnika.
-      no_more: Nema više traženih paketa uređivanja.
+      no_more: Nema više pronađenih setova promjena.
       no_more_area: Nema više paketa uređivanja na ovom području.
-      no_more_user: Nema više paketa uređivanja ovog korisnika.
+      no_more_user: Nema više setova promjena ovog korisnika.
       load_more: Učitaj više
     timeout:
-      sorry: Nažalost, popis Changeseta (skupa promjena) koje ste zatražili je predugo
-        trajalo za preuzimanje.
+      sorry: Nažalost, popis setova promjena koje ste zatražili je predugo trajalo
+        za preuzimanje.
     rss:
       title_all: Rasprava o OpenStreetMap setu promjena
       title_particular: 'Rasprava o OpenStreetMap setu promjena #%{changeset_id}'
@@ -351,8 +351,8 @@ hr:
       too_large:
         advice: 'Ako gornji izvoz podataka ne uspije, molim pokušaj sa nekim od izvora
           navedenih ispod:'
-        body: Ovo područje je preveliko da bi se izvezlo kao OpenStreetMap XML podaci.
-          Molim povećaj prikaz ili odaberi manju površinu ili odaberi jedan od izvora
+        body: Ovo područje je preveliko da bi se izvezlo u OpenStreetMap XML formatu.
+          Molim približi prikaz ili odaberi manje područje ili odaberi jedan od izvora
           navedenih ispod za preuzimanje velike količine podataka.
         planet:
           title: PlanetOSM
@@ -376,7 +376,7 @@ hr:
       scale: Mjerilo
       max: max
       image_size: Veličina slike
-      zoom: Zoom
+      zoom: Približenje
       add_marker: Dodaj marker na kartu
       latitude: 'Lat:'
       longitude: 'Lon:'
@@ -1893,8 +1893,8 @@ hr:
       tooltip_disabled: Legenda karte je dostupna samo za standardni sloj
     map:
       zoom:
-        in: Povećaj prikaz
-        out: Smanji prikaz
+        in: Približi
+        out: Udalji
       locate:
         title: Pokaži moju lokaciju
         popup: Udaljen/a si {distance} {unit} od ove točke
@@ -1913,11 +1913,12 @@ hr:
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Doniraj OSM projektu</a>
     site:
       edit_tooltip: Uredi kartu
-      edit_disabled_tooltip: Uvećajte za uređivanje karte
+      edit_disabled_tooltip: Približi za uređivanje karte
       createnote_tooltip: Dodaj bilješku na kartu
-      createnote_disabled_tooltip: Povećaj prikaz za dodavanje bilješke na kartu
-      map_notes_zoom_in_tooltip: Povećaj prikaz da vidiš napomene na karti
-      map_data_zoom_in_tooltip: Povećaj prikaz da vidiš podatke karte
+      createnote_disabled_tooltip: Približi za dodavanje bilješke na kartu
+      map_notes_zoom_in_tooltip: Približi da vidiš napomene na karti
+      map_data_zoom_in_tooltip: Približi da vidiš podatke karte
+      queryfeature_disabled_tooltip: Približi za provjeru elemenata
     notes:
       new:
         intro: Primjetili ste grešku ili nedostatak nečega? Javite ostalim kartografima
@@ -1933,7 +1934,7 @@ hr:
         reactivate: Reaktiviraj
         comment_and_resolve: Komentiraj i razriješi
         comment: Komentiraj
-    edit_help: Pomakni kartu i povećaj prikaz koji želiš urediti, zatim klikni ovdje.
+    edit_help: Pomakni kartu i približi dio koji želiš urediti, zatim klikni ovdje.
   redaction:
     edit:
       description: Opis
