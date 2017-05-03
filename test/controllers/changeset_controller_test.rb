@@ -1,6 +1,7 @@
 require "test_helper"
 require "changeset_controller"
 
+# rubocop:disable ClassLength
 class ChangesetControllerTest < ActionController::TestCase
   api_fixtures
 
