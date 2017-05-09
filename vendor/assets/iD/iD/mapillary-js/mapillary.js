@@ -5214,7 +5214,7 @@ var BehaviorSubject = (function (_super) {
 }(Subject_1.Subject));
 exports.BehaviorSubject = BehaviorSubject;
 
-},{"./Subject":33,"./util/ObjectUnsubscribedError":153}],26:[function(require,module,exports){
+},{"./Subject":33,"./util/ObjectUnsubscribedError":158}],26:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -5424,7 +5424,7 @@ var Observable = (function () {
             operator.call(sink, this.source);
         }
         else {
-            sink.add(this._subscribe(sink));
+            sink.add(this._trySubscribe(sink));
         }
         if (sink.syncErrorThrowable) {
             sink.syncErrorThrowable = false;
@@ -5433,6 +5433,16 @@ var Observable = (function () {
             }
         }
         return sink;
+    };
+    Observable.prototype._trySubscribe = function (sink) {
+        try {
+            return this._subscribe(sink);
+        }
+        catch (err) {
+            sink.syncErrorThrown = true;
+            sink.syncErrorValue = err;
+            sink.error(err);
+        }
     };
     /**
      * @method forEach
@@ -5509,7 +5519,7 @@ var Observable = (function () {
 }());
 exports.Observable = Observable;
 
-},{"./symbol/observable":148,"./util/root":163,"./util/toSubscriber":165}],29:[function(require,module,exports){
+},{"./symbol/observable":153,"./util/root":170,"./util/toSubscriber":172}],29:[function(require,module,exports){
 "use strict";
 exports.empty = {
     closed: true,
@@ -5652,7 +5662,7 @@ var ReplayEvent = (function () {
     return ReplayEvent;
 }());
 
-},{"./Subject":33,"./SubjectSubscription":34,"./Subscription":36,"./operator/observeOn":123,"./scheduler/queue":146,"./util/ObjectUnsubscribedError":153}],32:[function(require,module,exports){
+},{"./Subject":33,"./SubjectSubscription":34,"./Subscription":36,"./operator/observeOn":128,"./scheduler/queue":151,"./util/ObjectUnsubscribedError":158}],32:[function(require,module,exports){
 "use strict";
 /**
  * An execution context and a data structure to order tasks and schedule their
@@ -5794,6 +5804,14 @@ var Subject = (function (_super) {
         this.closed = true;
         this.observers = null;
     };
+    Subject.prototype._trySubscribe = function (subscriber) {
+        if (this.closed) {
+            throw new ObjectUnsubscribedError_1.ObjectUnsubscribedError();
+        }
+        else {
+            return _super.prototype._trySubscribe.call(this, subscriber);
+        }
+    };
     Subject.prototype._subscribe = function (subscriber) {
         if (this.closed) {
             throw new ObjectUnsubscribedError_1.ObjectUnsubscribedError();
@@ -5863,7 +5881,7 @@ var AnonymousSubject = (function (_super) {
 }(Subject));
 exports.AnonymousSubject = AnonymousSubject;
 
-},{"./Observable":28,"./SubjectSubscription":34,"./Subscriber":35,"./Subscription":36,"./symbol/rxSubscriber":149,"./util/ObjectUnsubscribedError":153}],34:[function(require,module,exports){
+},{"./Observable":28,"./SubjectSubscription":34,"./Subscriber":35,"./Subscription":36,"./symbol/rxSubscriber":154,"./util/ObjectUnsubscribedError":158}],34:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -6039,6 +6057,17 @@ var Subscriber = (function (_super) {
         this.destination.complete();
         this.unsubscribe();
     };
+    Subscriber.prototype._unsubscribeAndRecycle = function () {
+        var _a = this, _parent = _a._parent, _parents = _a._parents;
+        this._parent = null;
+        this._parents = null;
+        this.unsubscribe();
+        this.closed = false;
+        this.isStopped = false;
+        this._parent = _parent;
+        this._parents = _parents;
+        return this;
+    };
     return Subscriber;
 }(Subscription_1.Subscription));
 exports.Subscriber = Subscriber;
@@ -6049,9 +6078,9 @@ exports.Subscriber = Subscriber;
  */
 var SafeSubscriber = (function (_super) {
     __extends(SafeSubscriber, _super);
-    function SafeSubscriber(_parent, observerOrNext, error, complete) {
+    function SafeSubscriber(_parentSubscriber, observerOrNext, error, complete) {
         _super.call(this);
-        this._parent = _parent;
+        this._parentSubscriber = _parentSubscriber;
         var next;
         var context = this;
         if (isFunction_1.isFunction(observerOrNext)) {
@@ -6074,49 +6103,49 @@ var SafeSubscriber = (function (_super) {
     }
     SafeSubscriber.prototype.next = function (value) {
         if (!this.isStopped && this._next) {
-            var _parent = this._parent;
-            if (!_parent.syncErrorThrowable) {
+            var _parentSubscriber = this._parentSubscriber;
+            if (!_parentSubscriber.syncErrorThrowable) {
                 this.__tryOrUnsub(this._next, value);
             }
-            else if (this.__tryOrSetError(_parent, this._next, value)) {
+            else if (this.__tryOrSetError(_parentSubscriber, this._next, value)) {
                 this.unsubscribe();
             }
         }
     };
     SafeSubscriber.prototype.error = function (err) {
         if (!this.isStopped) {
-            var _parent = this._parent;
+            var _parentSubscriber = this._parentSubscriber;
             if (this._error) {
-                if (!_parent.syncErrorThrowable) {
+                if (!_parentSubscriber.syncErrorThrowable) {
                     this.__tryOrUnsub(this._error, err);
                     this.unsubscribe();
                 }
                 else {
-                    this.__tryOrSetError(_parent, this._error, err);
+                    this.__tryOrSetError(_parentSubscriber, this._error, err);
                     this.unsubscribe();
                 }
             }
-            else if (!_parent.syncErrorThrowable) {
+            else if (!_parentSubscriber.syncErrorThrowable) {
                 this.unsubscribe();
                 throw err;
             }
             else {
-                _parent.syncErrorValue = err;
-                _parent.syncErrorThrown = true;
+                _parentSubscriber.syncErrorValue = err;
+                _parentSubscriber.syncErrorThrown = true;
                 this.unsubscribe();
             }
         }
     };
     SafeSubscriber.prototype.complete = function () {
         if (!this.isStopped) {
-            var _parent = this._parent;
+            var _parentSubscriber = this._parentSubscriber;
             if (this._complete) {
-                if (!_parent.syncErrorThrowable) {
+                if (!_parentSubscriber.syncErrorThrowable) {
                     this.__tryOrUnsub(this._complete);
                     this.unsubscribe();
                 }
                 else {
-                    this.__tryOrSetError(_parent, this._complete);
+                    this.__tryOrSetError(_parentSubscriber, this._complete);
                     this.unsubscribe();
                 }
             }
@@ -6146,21 +6175,16 @@ var SafeSubscriber = (function (_super) {
         return false;
     };
     SafeSubscriber.prototype._unsubscribe = function () {
-        var _parent = this._parent;
+        var _parentSubscriber = this._parentSubscriber;
         this._context = null;
-        this._parent = null;
-        _parent.unsubscribe();
+        this._parentSubscriber = null;
+        _parentSubscriber.unsubscribe();
     };
     return SafeSubscriber;
 }(Subscriber));
 
-},{"./Observer":29,"./Subscription":36,"./symbol/rxSubscriber":149,"./util/isFunction":159}],36:[function(require,module,exports){
+},{"./Observer":29,"./Subscription":36,"./symbol/rxSubscriber":154,"./util/isFunction":165}],36:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var isArray_1 = require('./util/isArray');
 var isObject_1 = require('./util/isObject');
 var isFunction_1 = require('./util/isFunction');
@@ -6190,6 +6214,9 @@ var Subscription = (function () {
          * @type {boolean}
          */
         this.closed = false;
+        this._parent = null;
+        this._parents = null;
+        this._subscriptions = null;
         if (unsubscribe) {
             this._unsubscribe = unsubscribe;
         }
@@ -6206,9 +6233,23 @@ var Subscription = (function () {
         if (this.closed) {
             return;
         }
+        var _a = this, _parent = _a._parent, _parents = _a._parents, _unsubscribe = _a._unsubscribe, _subscriptions = _a._subscriptions;
         this.closed = true;
-        var _a = this, _unsubscribe = _a._unsubscribe, _subscriptions = _a._subscriptions;
+        this._parent = null;
+        this._parents = null;
+        // null out _subscriptions first so any child subscriptions that attempt
+        // to remove themselves from this subscription will noop
         this._subscriptions = null;
+        var index = -1;
+        var len = _parents ? _parents.length : 0;
+        // if this._parent is null, then so is this._parents, and we
+        // don't have to remove ourselves from any parent subscriptions.
+        while (_parent) {
+            _parent.remove(this);
+            // if this._parents is null or index >= len,
+            // then _parent is set to null, and the loop exits
+            _parent = ++index < len && _parents[index] || null;
+        }
         if (isFunction_1.isFunction(_unsubscribe)) {
             var trial = tryCatch_1.tryCatch(_unsubscribe).call(this);
             if (trial === errorObject_1.errorObject) {
@@ -6218,8 +6259,8 @@ var Subscription = (function () {
             }
         }
         if (isArray_1.isArray(_subscriptions)) {
-            var index = -1;
-            var len = _subscriptions.length;
+            index = -1;
+            len = _subscriptions.length;
             while (++index < len) {
                 var sub = _subscriptions[index];
                 if (isObject_1.isObject(sub)) {
@@ -6267,26 +6308,31 @@ var Subscription = (function () {
         if (teardown === this) {
             return this;
         }
-        var sub = teardown;
+        var subscription = teardown;
         switch (typeof teardown) {
             case 'function':
-                sub = new Subscription(teardown);
+                subscription = new Subscription(teardown);
             case 'object':
-                if (sub.closed || typeof sub.unsubscribe !== 'function') {
-                    return sub;
+                if (subscription.closed || typeof subscription.unsubscribe !== 'function') {
+                    return subscription;
                 }
                 else if (this.closed) {
-                    sub.unsubscribe();
-                    return sub;
+                    subscription.unsubscribe();
+                    return subscription;
+                }
+                else if (typeof subscription._addParent !== 'function' /* quack quack */) {
+                    var tmp = subscription;
+                    subscription = new Subscription();
+                    subscription._subscriptions = [tmp];
                 }
                 break;
             default:
                 throw new Error('unrecognized teardown ' + teardown + ' added to Subscription.');
         }
-        var childSub = new ChildSubscription(sub, this);
-        this._subscriptions = this._subscriptions || [];
-        this._subscriptions.push(childSub);
-        return childSub;
+        var subscriptions = this._subscriptions || (this._subscriptions = []);
+        subscriptions.push(subscription);
+        subscription._addParent(this);
+        return subscription;
     };
     /**
      * Removes a Subscription from the internal list of subscriptions that will
@@ -6295,16 +6341,29 @@ var Subscription = (function () {
      * @return {void}
      */
     Subscription.prototype.remove = function (subscription) {
-        // HACK: This might be redundant because of the logic in `add()`
-        if (subscription == null || (subscription === this) || (subscription === Subscription.EMPTY)) {
-            return;
-        }
         var subscriptions = this._subscriptions;
         if (subscriptions) {
             var subscriptionIndex = subscriptions.indexOf(subscription);
             if (subscriptionIndex !== -1) {
                 subscriptions.splice(subscriptionIndex, 1);
             }
+        }
+    };
+    Subscription.prototype._addParent = function (parent) {
+        var _a = this, _parent = _a._parent, _parents = _a._parents;
+        if (!_parent || _parent === parent) {
+            // If we don't have a parent, or the new parent is the same as the
+            // current parent, then set this._parent to the new parent.
+            this._parent = parent;
+        }
+        else if (!_parents) {
+            // If there's already one parent, but not multiple, allocate an Array to
+            // store the rest of the parent Subscriptions.
+            this._parents = [parent];
+        }
+        else if (_parents.indexOf(parent) === -1) {
+            // Only add the new parent to the _parents list if it's not already there.
+            _parents.push(parent);
         }
     };
     Subscription.EMPTY = (function (empty) {
@@ -6314,300 +6373,297 @@ var Subscription = (function () {
     return Subscription;
 }());
 exports.Subscription = Subscription;
-var ChildSubscription = (function (_super) {
-    __extends(ChildSubscription, _super);
-    function ChildSubscription(_innerSub, _parent) {
-        _super.call(this);
-        this._innerSub = _innerSub;
-        this._parent = _parent;
-    }
-    ChildSubscription.prototype._unsubscribe = function () {
-        var _a = this, _innerSub = _a._innerSub, _parent = _a._parent;
-        _parent.remove(this);
-        _innerSub.unsubscribe();
-    };
-    return ChildSubscription;
-}(Subscription));
-exports.ChildSubscription = ChildSubscription;
 function flattenUnsubscriptionErrors(errors) {
     return errors.reduce(function (errs, err) { return errs.concat((err instanceof UnsubscriptionError_1.UnsubscriptionError) ? err.errors : err); }, []);
 }
 
-},{"./util/UnsubscriptionError":155,"./util/errorObject":156,"./util/isArray":157,"./util/isFunction":159,"./util/isObject":160,"./util/tryCatch":166}],37:[function(require,module,exports){
+},{"./util/UnsubscriptionError":160,"./util/errorObject":161,"./util/isArray":162,"./util/isFunction":165,"./util/isObject":167,"./util/tryCatch":173}],37:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var combineLatest_1 = require('../../observable/combineLatest');
 Observable_1.Observable.combineLatest = combineLatest_1.combineLatest;
 
-},{"../../Observable":28,"../../observable/combineLatest":93}],38:[function(require,module,exports){
+},{"../../Observable":28,"../../observable/combineLatest":96}],38:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var defer_1 = require('../../observable/defer');
 Observable_1.Observable.defer = defer_1.defer;
 
-},{"../../Observable":28,"../../observable/defer":94}],39:[function(require,module,exports){
+},{"../../Observable":28,"../../observable/defer":97}],39:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var empty_1 = require('../../observable/empty');
 Observable_1.Observable.empty = empty_1.empty;
 
-},{"../../Observable":28,"../../observable/empty":95}],40:[function(require,module,exports){
+},{"../../Observable":28,"../../observable/empty":98}],40:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var from_1 = require('../../observable/from');
 Observable_1.Observable.from = from_1.from;
 
-},{"../../Observable":28,"../../observable/from":96}],41:[function(require,module,exports){
+},{"../../Observable":28,"../../observable/from":99}],41:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var fromEvent_1 = require('../../observable/fromEvent');
 Observable_1.Observable.fromEvent = fromEvent_1.fromEvent;
 
-},{"../../Observable":28,"../../observable/fromEvent":97}],42:[function(require,module,exports){
+},{"../../Observable":28,"../../observable/fromEvent":100}],42:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var fromPromise_1 = require('../../observable/fromPromise');
 Observable_1.Observable.fromPromise = fromPromise_1.fromPromise;
 
-},{"../../Observable":28,"../../observable/fromPromise":98}],43:[function(require,module,exports){
+},{"../../Observable":28,"../../observable/fromPromise":101}],43:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var merge_1 = require('../../observable/merge');
 Observable_1.Observable.merge = merge_1.merge;
 
-},{"../../Observable":28,"../../observable/merge":99}],44:[function(require,module,exports){
+},{"../../Observable":28,"../../observable/merge":102}],44:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var of_1 = require('../../observable/of');
 Observable_1.Observable.of = of_1.of;
 
-},{"../../Observable":28,"../../observable/of":100}],45:[function(require,module,exports){
+},{"../../Observable":28,"../../observable/of":103}],45:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var throw_1 = require('../../observable/throw');
 Observable_1.Observable.throw = throw_1._throw;
 
-},{"../../Observable":28,"../../observable/throw":101}],46:[function(require,module,exports){
+},{"../../Observable":28,"../../observable/throw":104}],46:[function(require,module,exports){
+"use strict";
+var Observable_1 = require('../../Observable');
+var timer_1 = require('../../observable/timer');
+Observable_1.Observable.timer = timer_1.timer;
+
+},{"../../Observable":28,"../../observable/timer":105}],47:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var zip_1 = require('../../observable/zip');
 Observable_1.Observable.zip = zip_1.zip;
 
-},{"../../Observable":28,"../../observable/zip":102}],47:[function(require,module,exports){
+},{"../../Observable":28,"../../observable/zip":106}],48:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var buffer_1 = require('../../operator/buffer');
 Observable_1.Observable.prototype.buffer = buffer_1.buffer;
 
-},{"../../Observable":28,"../../operator/buffer":103}],48:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/buffer":107}],49:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var bufferCount_1 = require('../../operator/bufferCount');
 Observable_1.Observable.prototype.bufferCount = bufferCount_1.bufferCount;
 
-},{"../../Observable":28,"../../operator/bufferCount":104}],49:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/bufferCount":108}],50:[function(require,module,exports){
+"use strict";
+var Observable_1 = require('../../Observable');
+var bufferWhen_1 = require('../../operator/bufferWhen');
+Observable_1.Observable.prototype.bufferWhen = bufferWhen_1.bufferWhen;
+
+},{"../../Observable":28,"../../operator/bufferWhen":109}],51:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var catch_1 = require('../../operator/catch');
 Observable_1.Observable.prototype.catch = catch_1._catch;
 Observable_1.Observable.prototype._catch = catch_1._catch;
 
-},{"../../Observable":28,"../../operator/catch":105}],50:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/catch":110}],52:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var combineLatest_1 = require('../../operator/combineLatest');
 Observable_1.Observable.prototype.combineLatest = combineLatest_1.combineLatest;
 
-},{"../../Observable":28,"../../operator/combineLatest":106}],51:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/combineLatest":111}],53:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var concat_1 = require('../../operator/concat');
 Observable_1.Observable.prototype.concat = concat_1.concat;
 
-},{"../../Observable":28,"../../operator/concat":107}],52:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/concat":112}],54:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var debounceTime_1 = require('../../operator/debounceTime');
 Observable_1.Observable.prototype.debounceTime = debounceTime_1.debounceTime;
 
-},{"../../Observable":28,"../../operator/debounceTime":108}],53:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/debounceTime":113}],55:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var delay_1 = require('../../operator/delay');
 Observable_1.Observable.prototype.delay = delay_1.delay;
 
-},{"../../Observable":28,"../../operator/delay":109}],54:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/delay":114}],56:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var distinct_1 = require('../../operator/distinct');
 Observable_1.Observable.prototype.distinct = distinct_1.distinct;
 
-},{"../../Observable":28,"../../operator/distinct":110}],55:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/distinct":115}],57:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var distinctUntilChanged_1 = require('../../operator/distinctUntilChanged');
 Observable_1.Observable.prototype.distinctUntilChanged = distinctUntilChanged_1.distinctUntilChanged;
 
-},{"../../Observable":28,"../../operator/distinctUntilChanged":111}],56:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/distinctUntilChanged":116}],58:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var do_1 = require('../../operator/do');
 Observable_1.Observable.prototype.do = do_1._do;
 Observable_1.Observable.prototype._do = do_1._do;
 
-},{"../../Observable":28,"../../operator/do":112}],57:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/do":117}],59:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var expand_1 = require('../../operator/expand');
 Observable_1.Observable.prototype.expand = expand_1.expand;
 
-},{"../../Observable":28,"../../operator/expand":113}],58:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/expand":118}],60:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var filter_1 = require('../../operator/filter');
 Observable_1.Observable.prototype.filter = filter_1.filter;
 
-},{"../../Observable":28,"../../operator/filter":114}],59:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/filter":119}],61:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var finally_1 = require('../../operator/finally');
 Observable_1.Observable.prototype.finally = finally_1._finally;
 Observable_1.Observable.prototype._finally = finally_1._finally;
 
-},{"../../Observable":28,"../../operator/finally":115}],60:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/finally":120}],62:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var first_1 = require('../../operator/first');
 Observable_1.Observable.prototype.first = first_1.first;
 
-},{"../../Observable":28,"../../operator/first":116}],61:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/first":121}],63:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var last_1 = require('../../operator/last');
 Observable_1.Observable.prototype.last = last_1.last;
 
-},{"../../Observable":28,"../../operator/last":117}],62:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/last":122}],64:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var map_1 = require('../../operator/map');
 Observable_1.Observable.prototype.map = map_1.map;
 
-},{"../../Observable":28,"../../operator/map":118}],63:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/map":123}],65:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var merge_1 = require('../../operator/merge');
 Observable_1.Observable.prototype.merge = merge_1.merge;
 
-},{"../../Observable":28,"../../operator/merge":119}],64:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/merge":124}],66:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var mergeAll_1 = require('../../operator/mergeAll');
 Observable_1.Observable.prototype.mergeAll = mergeAll_1.mergeAll;
 
-},{"../../Observable":28,"../../operator/mergeAll":120}],65:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/mergeAll":125}],67:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var mergeMap_1 = require('../../operator/mergeMap');
 Observable_1.Observable.prototype.mergeMap = mergeMap_1.mergeMap;
 Observable_1.Observable.prototype.flatMap = mergeMap_1.mergeMap;
 
-},{"../../Observable":28,"../../operator/mergeMap":121}],66:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/mergeMap":126}],68:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var pairwise_1 = require('../../operator/pairwise');
 Observable_1.Observable.prototype.pairwise = pairwise_1.pairwise;
 
-},{"../../Observable":28,"../../operator/pairwise":124}],67:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/pairwise":129}],69:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var pluck_1 = require('../../operator/pluck');
 Observable_1.Observable.prototype.pluck = pluck_1.pluck;
 
-},{"../../Observable":28,"../../operator/pluck":125}],68:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/pluck":130}],70:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var publish_1 = require('../../operator/publish');
 Observable_1.Observable.prototype.publish = publish_1.publish;
 
-},{"../../Observable":28,"../../operator/publish":126}],69:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/publish":131}],71:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var publishReplay_1 = require('../../operator/publishReplay');
 Observable_1.Observable.prototype.publishReplay = publishReplay_1.publishReplay;
 
-},{"../../Observable":28,"../../operator/publishReplay":127}],70:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/publishReplay":132}],72:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var scan_1 = require('../../operator/scan');
 Observable_1.Observable.prototype.scan = scan_1.scan;
 
-},{"../../Observable":28,"../../operator/scan":128}],71:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/scan":133}],73:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var share_1 = require('../../operator/share');
 Observable_1.Observable.prototype.share = share_1.share;
 
-},{"../../Observable":28,"../../operator/share":129}],72:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/share":134}],74:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var skip_1 = require('../../operator/skip');
 Observable_1.Observable.prototype.skip = skip_1.skip;
 
-},{"../../Observable":28,"../../operator/skip":130}],73:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/skip":135}],75:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var skipUntil_1 = require('../../operator/skipUntil');
 Observable_1.Observable.prototype.skipUntil = skipUntil_1.skipUntil;
 
-},{"../../Observable":28,"../../operator/skipUntil":131}],74:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/skipUntil":136}],76:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var skipWhile_1 = require('../../operator/skipWhile');
 Observable_1.Observable.prototype.skipWhile = skipWhile_1.skipWhile;
 
-},{"../../Observable":28,"../../operator/skipWhile":132}],75:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/skipWhile":137}],77:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var startWith_1 = require('../../operator/startWith');
 Observable_1.Observable.prototype.startWith = startWith_1.startWith;
 
-},{"../../Observable":28,"../../operator/startWith":133}],76:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/startWith":138}],78:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var switchMap_1 = require('../../operator/switchMap');
 Observable_1.Observable.prototype.switchMap = switchMap_1.switchMap;
 
-},{"../../Observable":28,"../../operator/switchMap":134}],77:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/switchMap":139}],79:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var take_1 = require('../../operator/take');
 Observable_1.Observable.prototype.take = take_1.take;
 
-},{"../../Observable":28,"../../operator/take":135}],78:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/take":140}],80:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var takeUntil_1 = require('../../operator/takeUntil');
 Observable_1.Observable.prototype.takeUntil = takeUntil_1.takeUntil;
 
-},{"../../Observable":28,"../../operator/takeUntil":136}],79:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/takeUntil":141}],81:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var throttleTime_1 = require('../../operator/throttleTime');
 Observable_1.Observable.prototype.throttleTime = throttleTime_1.throttleTime;
 
-},{"../../Observable":28,"../../operator/throttleTime":137}],80:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/throttleTime":142}],82:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var withLatestFrom_1 = require('../../operator/withLatestFrom');
 Observable_1.Observable.prototype.withLatestFrom = withLatestFrom_1.withLatestFrom;
 
-},{"../../Observable":28,"../../operator/withLatestFrom":138}],81:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/withLatestFrom":143}],83:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var zip_1 = require('../../operator/zip');
 Observable_1.Observable.prototype.zip = zip_1.zipProto;
 
-},{"../../Observable":28,"../../operator/zip":139}],82:[function(require,module,exports){
+},{"../../Observable":28,"../../operator/zip":144}],84:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -6678,7 +6734,7 @@ var ArrayLikeObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.ArrayLikeObservable = ArrayLikeObservable;
 
-},{"../Observable":28,"./EmptyObservable":86,"./ScalarObservable":92}],83:[function(require,module,exports){
+},{"../Observable":28,"./EmptyObservable":88,"./ScalarObservable":94}],85:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -6801,7 +6857,7 @@ var ArrayObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.ArrayObservable = ArrayObservable;
 
-},{"../Observable":28,"../util/isScheduler":162,"./EmptyObservable":86,"./ScalarObservable":92}],84:[function(require,module,exports){
+},{"../Observable":28,"../util/isScheduler":169,"./EmptyObservable":88,"./ScalarObservable":94}],86:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -6964,7 +7020,7 @@ var RefCountSubscriber = (function (_super) {
     return RefCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Observable":28,"../Subject":33,"../Subscriber":35,"../Subscription":36}],85:[function(require,module,exports){
+},{"../Observable":28,"../Subject":33,"../Subscriber":35,"../Subscription":36}],87:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7021,7 +7077,7 @@ var DeferObservable = (function (_super) {
      *
      * @see {@link create}
      *
-     * @param {function(): Observable|Promise} observableFactory The Observable
+     * @param {function(): SubscribableOrPromise} observableFactory The Observable
      * factory function to invoke for each Observer that subscribes to the output
      * Observable. May also return a Promise, which will be converted on the fly
      * to an Observable.
@@ -7064,7 +7120,7 @@ var DeferSubscriber = (function (_super) {
     return DeferSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../Observable":28,"../OuterSubscriber":30,"../util/subscribeToResult":164}],86:[function(require,module,exports){
+},{"../Observable":28,"../OuterSubscriber":30,"../util/subscribeToResult":171}],88:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7146,7 +7202,7 @@ var EmptyObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.EmptyObservable = EmptyObservable;
 
-},{"../Observable":28}],87:[function(require,module,exports){
+},{"../Observable":28}],89:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7183,7 +7239,7 @@ var ErrorObservable = (function (_super) {
      * var result = Rx.Observable.throw(new Error('oops!')).startWith(7);
      * result.subscribe(x => console.log(x), e => console.error(e));
      *
-     * @example <caption>Map and flattens numbers to the sequence 'a', 'b', 'c', but throw an error for 13</caption>
+     * @example <caption>Map and flatten numbers to the sequence 'a', 'b', 'c', but throw an error for 13</caption>
      * var interval = Rx.Observable.interval(1000);
      * var result = interval.mergeMap(x =>
      *   x === 13 ?
@@ -7229,7 +7285,7 @@ var ErrorObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.ErrorObservable = ErrorObservable;
 
-},{"../Observable":28}],88:[function(require,module,exports){
+},{"../Observable":28}],90:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7242,7 +7298,7 @@ var isFunction_1 = require('../util/isFunction');
 var errorObject_1 = require('../util/errorObject');
 var Subscription_1 = require('../Subscription');
 var toString = Object.prototype.toString;
-function isNodeStyleEventEmmitter(sourceObj) {
+function isNodeStyleEventEmitter(sourceObj) {
     return !!sourceObj && typeof sourceObj.addListener === 'function' && typeof sourceObj.removeListener === 'function';
 }
 function isJQueryStyleEventEmitter(sourceObj) {
@@ -7336,7 +7392,7 @@ var FromEventObservable = (function (_super) {
             sourceObj.on(eventName, handler);
             unsubscribe = function () { return source_2.off(eventName, handler); };
         }
-        else if (isNodeStyleEventEmmitter(sourceObj)) {
+        else if (isNodeStyleEventEmitter(sourceObj)) {
             var source_3 = sourceObj;
             sourceObj.addListener(eventName, handler);
             unsubscribe = function () { return source_3.removeListener(eventName, handler); };
@@ -7370,7 +7426,7 @@ var FromEventObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.FromEventObservable = FromEventObservable;
 
-},{"../Observable":28,"../Subscription":36,"../util/errorObject":156,"../util/isFunction":159,"../util/tryCatch":166}],89:[function(require,module,exports){
+},{"../Observable":28,"../Subscription":36,"../util/errorObject":161,"../util/isFunction":165,"../util/tryCatch":173}],91:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7378,6 +7434,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var isArray_1 = require('../util/isArray');
+var isArrayLike_1 = require('../util/isArrayLike');
 var isPromise_1 = require('../util/isPromise');
 var PromiseObservable_1 = require('./PromiseObservable');
 var IteratorObservable_1 = require('./IteratorObservable');
@@ -7387,7 +7444,6 @@ var iterator_1 = require('../symbol/iterator');
 var Observable_1 = require('../Observable');
 var observeOn_1 = require('../operator/observeOn');
 var observable_1 = require('../symbol/observable');
-var isArrayLike = (function (x) { return x && typeof x.length === 'number'; });
 /**
  * We need this JSDoc comment for affecting ESDoc.
  * @extends {Ignored}
@@ -7473,7 +7529,7 @@ var FromObservable = (function (_super) {
             else if (typeof ish[iterator_1.$$iterator] === 'function' || typeof ish === 'string') {
                 return new IteratorObservable_1.IteratorObservable(ish, scheduler);
             }
-            else if (isArrayLike(ish)) {
+            else if (isArrayLike_1.isArrayLike(ish)) {
                 return new ArrayLikeObservable_1.ArrayLikeObservable(ish, scheduler);
             }
         }
@@ -7493,7 +7549,7 @@ var FromObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.FromObservable = FromObservable;
 
-},{"../Observable":28,"../operator/observeOn":123,"../symbol/iterator":147,"../symbol/observable":148,"../util/isArray":157,"../util/isPromise":161,"./ArrayLikeObservable":82,"./ArrayObservable":83,"./IteratorObservable":90,"./PromiseObservable":91}],90:[function(require,module,exports){
+},{"../Observable":28,"../operator/observeOn":128,"../symbol/iterator":152,"../symbol/observable":153,"../util/isArray":162,"../util/isArrayLike":163,"../util/isPromise":168,"./ArrayLikeObservable":84,"./ArrayObservable":85,"./IteratorObservable":92,"./PromiseObservable":93}],92:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7657,7 +7713,7 @@ function sign(value) {
     return valueAsNumber < 0 ? -1 : 1;
 }
 
-},{"../Observable":28,"../symbol/iterator":147,"../util/root":163}],91:[function(require,module,exports){
+},{"../Observable":28,"../symbol/iterator":152,"../util/root":170}],93:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7779,7 +7835,7 @@ function dispatchError(arg) {
     }
 }
 
-},{"../Observable":28,"../util/root":163}],92:[function(require,module,exports){
+},{"../Observable":28,"../util/root":170}],94:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7838,7 +7894,115 @@ var ScalarObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.ScalarObservable = ScalarObservable;
 
-},{"../Observable":28}],93:[function(require,module,exports){
+},{"../Observable":28}],95:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var isNumeric_1 = require('../util/isNumeric');
+var Observable_1 = require('../Observable');
+var async_1 = require('../scheduler/async');
+var isScheduler_1 = require('../util/isScheduler');
+var isDate_1 = require('../util/isDate');
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @extends {Ignored}
+ * @hide true
+ */
+var TimerObservable = (function (_super) {
+    __extends(TimerObservable, _super);
+    function TimerObservable(dueTime, period, scheduler) {
+        if (dueTime === void 0) { dueTime = 0; }
+        _super.call(this);
+        this.period = -1;
+        this.dueTime = 0;
+        if (isNumeric_1.isNumeric(period)) {
+            this.period = Number(period) < 1 && 1 || Number(period);
+        }
+        else if (isScheduler_1.isScheduler(period)) {
+            scheduler = period;
+        }
+        if (!isScheduler_1.isScheduler(scheduler)) {
+            scheduler = async_1.async;
+        }
+        this.scheduler = scheduler;
+        this.dueTime = isDate_1.isDate(dueTime) ?
+            (+dueTime - this.scheduler.now()) :
+            dueTime;
+    }
+    /**
+     * Creates an Observable that starts emitting after an `initialDelay` and
+     * emits ever increasing numbers after each `period` of time thereafter.
+     *
+     * <span class="informal">Its like {@link interval}, but you can specify when
+     * should the emissions start.</span>
+     *
+     * <img src="./img/timer.png" width="100%">
+     *
+     * `timer` returns an Observable that emits an infinite sequence of ascending
+     * integers, with a constant interval of time, `period` of your choosing
+     * between those emissions. The first emission happens after the specified
+     * `initialDelay`. The initial delay may be a {@link Date}. By default, this
+     * operator uses the `async` IScheduler to provide a notion of time, but you
+     * may pass any IScheduler to it. If `period` is not specified, the output
+     * Observable emits only one value, `0`. Otherwise, it emits an infinite
+     * sequence.
+     *
+     * @example <caption>Emits ascending numbers, one every second (1000ms), starting after 3 seconds</caption>
+     * var numbers = Rx.Observable.timer(3000, 1000);
+     * numbers.subscribe(x => console.log(x));
+     *
+     * @example <caption>Emits one number after five seconds</caption>
+     * var numbers = Rx.Observable.timer(5000);
+     * numbers.subscribe(x => console.log(x));
+     *
+     * @see {@link interval}
+     * @see {@link delay}
+     *
+     * @param {number|Date} initialDelay The initial delay time to wait before
+     * emitting the first value of `0`.
+     * @param {number} [period] The period of time between emissions of the
+     * subsequent numbers.
+     * @param {Scheduler} [scheduler=async] The IScheduler to use for scheduling
+     * the emission of values, and providing a notion of "time".
+     * @return {Observable} An Observable that emits a `0` after the
+     * `initialDelay` and ever increasing numbers after each `period` of time
+     * thereafter.
+     * @static true
+     * @name timer
+     * @owner Observable
+     */
+    TimerObservable.create = function (initialDelay, period, scheduler) {
+        if (initialDelay === void 0) { initialDelay = 0; }
+        return new TimerObservable(initialDelay, period, scheduler);
+    };
+    TimerObservable.dispatch = function (state) {
+        var index = state.index, period = state.period, subscriber = state.subscriber;
+        var action = this;
+        subscriber.next(index);
+        if (subscriber.closed) {
+            return;
+        }
+        else if (period === -1) {
+            return subscriber.complete();
+        }
+        state.index = index + 1;
+        action.schedule(state, period);
+    };
+    TimerObservable.prototype._subscribe = function (subscriber) {
+        var index = 0;
+        var _a = this, period = _a.period, dueTime = _a.dueTime, scheduler = _a.scheduler;
+        return scheduler.schedule(TimerObservable.dispatch, dueTime, {
+            index: index, period: period, subscriber: subscriber
+        });
+    };
+    return TimerObservable;
+}(Observable_1.Observable));
+exports.TimerObservable = TimerObservable;
+
+},{"../Observable":28,"../scheduler/async":150,"../util/isDate":164,"../util/isNumeric":166,"../util/isScheduler":169}],96:[function(require,module,exports){
 "use strict";
 var isScheduler_1 = require('../util/isScheduler');
 var isArray_1 = require('../util/isArray');
@@ -7856,14 +8020,73 @@ var combineLatest_1 = require('../operator/combineLatest');
  * <img src="./img/combineLatest.png" width="100%">
  *
  * `combineLatest` combines the values from all the Observables passed as
- * arguments. This is done by subscribing to each Observable, in order, and
- * collecting an array of each of the most recent values any time any of the
- * input Observables emits, then either taking that array and passing it as
- * arguments to an optional `project` function and emitting the return value of
- * that, or just emitting the array of recent values directly if there is no
- * `project` function.
+ * arguments. This is done by subscribing to each Observable in order and,
+ * whenever any Observable emits, collecting an array of the most recent
+ * values from each Observable. So if you pass `n` Observables to operator,
+ * returned Observable will always emit an array of `n` values, in order
+ * corresponding to order of passed Observables (value from the first Observable
+ * on the first place and so on).
  *
- * @example <caption>Dynamically calculate the Body-Mass Index from an Observable of weight and one for height</caption>
+ * Static version of `combineLatest` accepts either an array of Observables
+ * or each Observable can be put directly as an argument. Note that array of
+ * Observables is good choice, if you don't know beforehand how many Observables
+ * you will combine. Passing empty array will result in Observable that
+ * completes immediately.
+ *
+ * To ensure output array has always the same length, `combineLatest` will
+ * actually wait for all input Observables to emit at least once,
+ * before it starts emitting results. This means if some Observable emits
+ * values before other Observables started emitting, all that values but last
+ * will be lost. On the other hand, is some Observable does not emit value but
+ * completes, resulting Observable will complete at the same moment without
+ * emitting anything, since it will be now impossible to include value from
+ * completed Observable in resulting array. Also, if some input Observable does
+ * not emit any value and never completes, `combineLatest` will also never emit
+ * and never complete, since, again, it will wait for all streams to emit some
+ * value.
+ *
+ * If at least one Observable was passed to `combineLatest` and all passed Observables
+ * emitted something, resulting Observable will complete when all combined
+ * streams complete. So even if some Observable completes, result of
+ * `combineLatest` will still emit values when other Observables do. In case
+ * of completed Observable, its value from now on will always be the last
+ * emitted value. On the other hand, if any Observable errors, `combineLatest`
+ * will error immediately as well, and all other Observables will be unsubscribed.
+ *
+ * `combineLatest` accepts as optional parameter `project` function, which takes
+ * as arguments all values that would normally be emitted by resulting Observable.
+ * `project` can return any kind of value, which will be then emitted by Observable
+ * instead of default array. Note that `project` does not take as argument that array
+ * of values, but values themselves. That means default `project` can be imagined
+ * as function that takes all its arguments and puts them into an array.
+ *
+ *
+ * @example <caption>Combine two timer Observables</caption>
+ * const firstTimer = Rx.Observable.timer(0, 1000); // emit 0, 1, 2... after every second, starting from now
+ * const secondTimer = Rx.Observable.timer(500, 1000); // emit 0, 1, 2... after every second, starting 0,5s from now
+ * const combinedTimers = Rx.Observable.combineLatest(firstTimer, secondTimer);
+ * combinedTimers.subscribe(value => console.log(value));
+ * // Logs
+ * // [0, 0] after 0.5s
+ * // [1, 0] after 1s
+ * // [1, 1] after 1.5s
+ * // [2, 1] after 2s
+ *
+ *
+ * @example <caption>Combine an array of Observables</caption>
+ * const observables = [1, 5, 10].map(
+ *   n => Rx.Observable.of(n).delay(n * 1000).startWith(0) // emit 0 and then emit n after n seconds
+ * );
+ * const combined = Rx.Observable.combineLatest(observables);
+ * combined.subscribe(value => console.log(value));
+ * // Logs
+ * // [0, 0, 0] immediately
+ * // [1, 0, 0] after 1s
+ * // [1, 5, 0] after 5s
+ * // [1, 5, 10] after 10s
+ *
+ *
+ * @example <caption>Use project function to dynamically calculate the Body-Mass Index</caption>
  * var weight = Rx.Observable.of(70, 72, 76, 79, 75);
  * var height = Rx.Observable.of(1.76, 1.77, 1.78);
  * var bmi = Rx.Observable.combineLatest(weight, height, (w, h) => w / (h * h));
@@ -7874,14 +8097,15 @@ var combineLatest_1 = require('../operator/combineLatest');
  * // BMI is 23.93948099205209
  * // BMI is 23.671253629592222
  *
+ *
  * @see {@link combineAll}
  * @see {@link merge}
  * @see {@link withLatestFrom}
  *
- * @param {Observable} observable1 An input Observable to combine with the
- * source Observable.
- * @param {Observable} observable2 An input Observable to combine with the
- * source Observable. More than one input Observables may be given as argument.
+ * @param {ObservableInput} observable1 An input Observable to combine with other Observables.
+ * @param {ObservableInput} observable2 An input Observable to combine with other Observables.
+ * More than one input Observables may be given as arguments
+ * or an array of Observables may be given as the first argument.
  * @param {function} [project] An optional function to project the values from
  * the combined latest values into a new value on the output Observable.
  * @param {Scheduler} [scheduler=null] The IScheduler to use for subscribing to
@@ -7915,52 +8139,57 @@ function combineLatest() {
 }
 exports.combineLatest = combineLatest;
 
-},{"../operator/combineLatest":106,"../util/isArray":157,"../util/isScheduler":162,"./ArrayObservable":83}],94:[function(require,module,exports){
+},{"../operator/combineLatest":111,"../util/isArray":162,"../util/isScheduler":169,"./ArrayObservable":85}],97:[function(require,module,exports){
 "use strict";
 var DeferObservable_1 = require('./DeferObservable');
 exports.defer = DeferObservable_1.DeferObservable.create;
 
-},{"./DeferObservable":85}],95:[function(require,module,exports){
+},{"./DeferObservable":87}],98:[function(require,module,exports){
 "use strict";
 var EmptyObservable_1 = require('./EmptyObservable');
 exports.empty = EmptyObservable_1.EmptyObservable.create;
 
-},{"./EmptyObservable":86}],96:[function(require,module,exports){
+},{"./EmptyObservable":88}],99:[function(require,module,exports){
 "use strict";
 var FromObservable_1 = require('./FromObservable');
 exports.from = FromObservable_1.FromObservable.create;
 
-},{"./FromObservable":89}],97:[function(require,module,exports){
+},{"./FromObservable":91}],100:[function(require,module,exports){
 "use strict";
 var FromEventObservable_1 = require('./FromEventObservable');
 exports.fromEvent = FromEventObservable_1.FromEventObservable.create;
 
-},{"./FromEventObservable":88}],98:[function(require,module,exports){
+},{"./FromEventObservable":90}],101:[function(require,module,exports){
 "use strict";
 var PromiseObservable_1 = require('./PromiseObservable');
 exports.fromPromise = PromiseObservable_1.PromiseObservable.create;
 
-},{"./PromiseObservable":91}],99:[function(require,module,exports){
+},{"./PromiseObservable":93}],102:[function(require,module,exports){
 "use strict";
 var merge_1 = require('../operator/merge');
 exports.merge = merge_1.mergeStatic;
 
-},{"../operator/merge":119}],100:[function(require,module,exports){
+},{"../operator/merge":124}],103:[function(require,module,exports){
 "use strict";
 var ArrayObservable_1 = require('./ArrayObservable');
 exports.of = ArrayObservable_1.ArrayObservable.of;
 
-},{"./ArrayObservable":83}],101:[function(require,module,exports){
+},{"./ArrayObservable":85}],104:[function(require,module,exports){
 "use strict";
 var ErrorObservable_1 = require('./ErrorObservable');
 exports._throw = ErrorObservable_1.ErrorObservable.create;
 
-},{"./ErrorObservable":87}],102:[function(require,module,exports){
+},{"./ErrorObservable":89}],105:[function(require,module,exports){
+"use strict";
+var TimerObservable_1 = require('./TimerObservable');
+exports.timer = TimerObservable_1.TimerObservable.create;
+
+},{"./TimerObservable":95}],106:[function(require,module,exports){
 "use strict";
 var zip_1 = require('../operator/zip');
 exports.zip = zip_1.zipStatic;
 
-},{"../operator/zip":139}],103:[function(require,module,exports){
+},{"../operator/zip":144}],107:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8037,7 +8266,7 @@ var BufferSubscriber = (function (_super) {
     return BufferSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":30,"../util/subscribeToResult":164}],104:[function(require,module,exports){
+},{"../OuterSubscriber":30,"../util/subscribeToResult":171}],108:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8145,7 +8374,130 @@ var BufferCountSubscriber = (function (_super) {
     return BufferCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":35}],105:[function(require,module,exports){
+},{"../Subscriber":35}],109:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscription_1 = require('../Subscription');
+var tryCatch_1 = require('../util/tryCatch');
+var errorObject_1 = require('../util/errorObject');
+var OuterSubscriber_1 = require('../OuterSubscriber');
+var subscribeToResult_1 = require('../util/subscribeToResult');
+/**
+ * Buffers the source Observable values, using a factory function of closing
+ * Observables to determine when to close, emit, and reset the buffer.
+ *
+ * <span class="informal">Collects values from the past as an array. When it
+ * starts collecting values, it calls a function that returns an Observable that
+ * tells when to close the buffer and restart collecting.</span>
+ *
+ * <img src="./img/bufferWhen.png" width="100%">
+ *
+ * Opens a buffer immediately, then closes the buffer when the observable
+ * returned by calling `closingSelector` function emits a value. When it closes
+ * the buffer, it immediately opens a new buffer and repeats the process.
+ *
+ * @example <caption>Emit an array of the last clicks every [1-5] random seconds</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var buffered = clicks.bufferWhen(() =>
+ *   Rx.Observable.interval(1000 + Math.random() * 4000)
+ * );
+ * buffered.subscribe(x => console.log(x));
+ *
+ * @see {@link buffer}
+ * @see {@link bufferCount}
+ * @see {@link bufferTime}
+ * @see {@link bufferToggle}
+ * @see {@link windowWhen}
+ *
+ * @param {function(): Observable} closingSelector A function that takes no
+ * arguments and returns an Observable that signals buffer closure.
+ * @return {Observable<T[]>} An observable of arrays of buffered values.
+ * @method bufferWhen
+ * @owner Observable
+ */
+function bufferWhen(closingSelector) {
+    return this.lift(new BufferWhenOperator(closingSelector));
+}
+exports.bufferWhen = bufferWhen;
+var BufferWhenOperator = (function () {
+    function BufferWhenOperator(closingSelector) {
+        this.closingSelector = closingSelector;
+    }
+    BufferWhenOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new BufferWhenSubscriber(subscriber, this.closingSelector));
+    };
+    return BufferWhenOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var BufferWhenSubscriber = (function (_super) {
+    __extends(BufferWhenSubscriber, _super);
+    function BufferWhenSubscriber(destination, closingSelector) {
+        _super.call(this, destination);
+        this.closingSelector = closingSelector;
+        this.subscribing = false;
+        this.openBuffer();
+    }
+    BufferWhenSubscriber.prototype._next = function (value) {
+        this.buffer.push(value);
+    };
+    BufferWhenSubscriber.prototype._complete = function () {
+        var buffer = this.buffer;
+        if (buffer) {
+            this.destination.next(buffer);
+        }
+        _super.prototype._complete.call(this);
+    };
+    BufferWhenSubscriber.prototype._unsubscribe = function () {
+        this.buffer = null;
+        this.subscribing = false;
+    };
+    BufferWhenSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.openBuffer();
+    };
+    BufferWhenSubscriber.prototype.notifyComplete = function () {
+        if (this.subscribing) {
+            this.complete();
+        }
+        else {
+            this.openBuffer();
+        }
+    };
+    BufferWhenSubscriber.prototype.openBuffer = function () {
+        var closingSubscription = this.closingSubscription;
+        if (closingSubscription) {
+            this.remove(closingSubscription);
+            closingSubscription.unsubscribe();
+        }
+        var buffer = this.buffer;
+        if (this.buffer) {
+            this.destination.next(buffer);
+        }
+        this.buffer = [];
+        var closingNotifier = tryCatch_1.tryCatch(this.closingSelector)();
+        if (closingNotifier === errorObject_1.errorObject) {
+            this.error(errorObject_1.errorObject.e);
+        }
+        else {
+            closingSubscription = new Subscription_1.Subscription();
+            this.closingSubscription = closingSubscription;
+            this.add(closingSubscription);
+            this.subscribing = true;
+            closingSubscription.add(subscribeToResult_1.subscribeToResult(this, closingNotifier));
+            this.subscribing = false;
+        }
+    };
+    return BufferWhenSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+
+},{"../OuterSubscriber":30,"../Subscription":36,"../util/errorObject":161,"../util/subscribeToResult":171,"../util/tryCatch":173}],110:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8156,10 +8508,58 @@ var OuterSubscriber_1 = require('../OuterSubscriber');
 var subscribeToResult_1 = require('../util/subscribeToResult');
 /**
  * Catches errors on the observable to be handled by returning a new observable or throwing an error.
+ *
+ * <img src="./img/catch.png" width="100%">
+ *
+ * @example <caption>Continues with a different Observable when there's an error</caption>
+ *
+ * Observable.of(1, 2, 3, 4, 5)
+ *   .map(n => {
+ * 	   if (n == 4) {
+ * 	     throw 'four!';
+ *     }
+ *	   return n;
+ *   })
+ *   .catch(err => Observable.of('I', 'II', 'III', 'IV', 'V'))
+ *   .subscribe(x => console.log(x));
+ *   // 1, 2, 3, I, II, III, IV, V
+ *
+ * @example <caption>Retries the caught source Observable again in case of error, similar to retry() operator</caption>
+ *
+ * Observable.of(1, 2, 3, 4, 5)
+ *   .map(n => {
+ * 	   if (n === 4) {
+ * 	     throw 'four!';
+ *     }
+ * 	   return n;
+ *   })
+ *   .catch((err, caught) => caught)
+ *   .take(30)
+ *   .subscribe(x => console.log(x));
+ *   // 1, 2, 3, 1, 2, 3, ...
+ *
+ * @example <caption>Throws a new error when the source Observable throws an error</caption>
+ *
+ * Observable.of(1, 2, 3, 4, 5)
+ *   .map(n => {
+ *     if (n == 4) {
+ *       throw 'four!';
+ *     }
+ *     return n;
+ *   })
+ *   .catch(err => {
+ *     throw 'error in source. Details: ' + err;
+ *   })
+ *   .subscribe(
+ *     x => console.log(x),
+ *     err => console.log(err)
+ *   );
+ *   // 1, 2, 3, error in source. Details: four!
+ *
  * @param {function} selector a function that takes as arguments `err`, which is the error, and `caught`, which
  *  is the source observable, in case you'd like to "retry" that observable by returning it again. Whatever observable
  *  is returned by the `selector` will be used to continue the observable chain.
- * @return {Observable} an observable that originates from either the source or the observable returned by the
+ * @return {Observable} An observable that originates from either the source or the observable returned by the
  *  catch `selector` function.
  * @method catch
  * @name catch
@@ -8193,26 +8593,28 @@ var CatchSubscriber = (function (_super) {
         this.caught = caught;
     }
     // NOTE: overriding `error` instead of `_error` because we don't want
-    // to have this flag this subscriber as `isStopped`.
+    // to have this flag this subscriber as `isStopped`. We can mimic the
+    // behavior of the RetrySubscriber (from the `retry` operator), where
+    // we unsubscribe from our source chain, reset our Subscriber flags,
+    // then subscribe to the selector result.
     CatchSubscriber.prototype.error = function (err) {
         if (!this.isStopped) {
             var result = void 0;
             try {
                 result = this.selector(err, this.caught);
             }
-            catch (err) {
-                this.destination.error(err);
+            catch (err2) {
+                _super.prototype.error.call(this, err2);
                 return;
             }
-            this.unsubscribe();
-            this.destination.remove(this);
-            subscribeToResult_1.subscribeToResult(this, result);
+            this._unsubscribeAndRecycle();
+            this.add(subscribeToResult_1.subscribeToResult(this, result));
         }
     };
     return CatchSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":30,"../util/subscribeToResult":164}],106:[function(require,module,exports){
+},{"../OuterSubscriber":30,"../util/subscribeToResult":171}],111:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8224,7 +8626,7 @@ var isArray_1 = require('../util/isArray');
 var OuterSubscriber_1 = require('../OuterSubscriber');
 var subscribeToResult_1 = require('../util/subscribeToResult');
 var none = {};
-/* tslint:disable:max-line-length */
+/* tslint:enable:max-line-length */
 /**
  * Combines multiple Observables to create an Observable whose values are
  * calculated from the latest values of each of its input Observables.
@@ -8258,7 +8660,7 @@ var none = {};
  * @see {@link merge}
  * @see {@link withLatestFrom}
  *
- * @param {Observable} other An input Observable to combine with the source
+ * @param {ObservableInput} other An input Observable to combine with the source
  * Observable. More than one input Observables may be given as argument.
  * @param {function} [project] An optional function to project the values from
  * the combined latest values into a new value on the output Observable.
@@ -8280,7 +8682,7 @@ function combineLatest() {
     // if the first and only other argument besides the resultSelector is an array
     // assume it's been called with `combineLatest([obs1, obs2, obs3], project)`
     if (observables.length === 1 && isArray_1.isArray(observables[0])) {
-        observables = observables[0];
+        observables = observables[0].slice();
     }
     observables.unshift(this);
     return this.lift.call(new ArrayObservable_1.ArrayObservable(observables), new CombineLatestOperator(project));
@@ -8365,12 +8767,13 @@ var CombineLatestSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.CombineLatestSubscriber = CombineLatestSubscriber;
 
-},{"../OuterSubscriber":30,"../observable/ArrayObservable":83,"../util/isArray":157,"../util/subscribeToResult":164}],107:[function(require,module,exports){
+},{"../OuterSubscriber":30,"../observable/ArrayObservable":85,"../util/isArray":162,"../util/subscribeToResult":171}],112:[function(require,module,exports){
 "use strict";
+var Observable_1 = require('../Observable');
 var isScheduler_1 = require('../util/isScheduler');
 var ArrayObservable_1 = require('../observable/ArrayObservable');
 var mergeAll_1 = require('./mergeAll');
-/* tslint:disable:max-line-length */
+/* tslint:enable:max-line-length */
 /**
  * Creates an output Observable which sequentially emits all values from every
  * given input Observable after the current Observable.
@@ -8411,7 +8814,7 @@ var mergeAll_1 = require('./mergeAll');
  * @see {@link concatMap}
  * @see {@link concatMapTo}
  *
- * @param {Observable} other An input Observable to concatenate after the source
+ * @param {ObservableInput} other An input Observable to concatenate after the source
  * Observable. More than one input Observables may be given as argument.
  * @param {Scheduler} [scheduler=null] An optional IScheduler to schedule each
  * Observable subscription on.
@@ -8430,17 +8833,41 @@ function concat() {
 exports.concat = concat;
 /* tslint:enable:max-line-length */
 /**
- * Creates an output Observable which sequentially emits all values from every
- * given input Observable after the current Observable.
+ * Creates an output Observable which sequentially emits all values from given
+ * Observable and then moves on to the next.
  *
  * <span class="informal">Concatenates multiple Observables together by
  * sequentially emitting their values, one Observable after the other.</span>
  *
  * <img src="./img/concat.png" width="100%">
  *
- * Joins multiple Observables together by subscribing to them one at a time and
- * merging their results into the output Observable. Will wait for each
- * Observable to complete before moving on to the next.
+ * `concat` joins multiple Observables together, by subscribing to them one at a time and
+ * merging their results into the output Observable. You can pass either an array of
+ * Observables, or put them directly as arguments. Passing an empty array will result
+ * in Observable that completes immediately.
+ *
+ * `concat` will subscribe to first input Observable and emit all its values, without
+ * changing or affecting them in any way. When that Observable completes, it will
+ * subscribe to then next Observable passed and, again, emit its values. This will be
+ * repeated, until the operator runs out of Observables. When last input Observable completes,
+ * `concat` will complete as well. At any given moment only one Observable passed to operator
+ * emits values. If you would like to emit values from passed Observables concurrently, check out
+ * {@link merge} instead, especially with optional `concurrent` parameter. As a matter of fact,
+ * `concat` is an equivalent of `merge` operator with `concurrent` parameter set to `1`.
+ *
+ * Note that if some input Observable never completes, `concat` will also never complete
+ * and Observables following the one that did not complete will never be subscribed. On the other
+ * hand, if some Observable simply completes immediately after it is subscribed, it will be
+ * invisible for `concat`, which will just move on to the next Observable.
+ *
+ * If any Observable in chain errors, instead of passing control to the next Observable,
+ * `concat` will error immediately as well. Observables that would be subscribed after
+ * the one that emitted error, never will.
+ *
+ * If you pass to `concat` the same Observable many times, its stream of values
+ * will be "replayed" on every subscription, which means you can repeat given Observable
+ * as many times as you like. If passing the same Observable to `concat` 1000 times becomes tedious,
+ * you can always use {@link repeat}.
  *
  * @example <caption>Concatenate a timer counting from 0 to 3 with a synchronous sequence from 1 to 10</caption>
  * var timer = Rx.Observable.interval(1000).take(4);
@@ -8451,11 +8878,12 @@ exports.concat = concat;
  * // results in:
  * // 0 -1000ms-> 1 -1000ms-> 2 -1000ms-> 3 -immediate-> 1 ... 10
  *
- * @example <caption>Concatenate 3 Observables</caption>
+ *
+ * @example <caption>Concatenate an array of 3 Observables</caption>
  * var timer1 = Rx.Observable.interval(1000).take(10);
  * var timer2 = Rx.Observable.interval(2000).take(6);
  * var timer3 = Rx.Observable.interval(500).take(10);
- * var result = Rx.Observable.concat(timer1, timer2, timer3);
+ * var result = Rx.Observable.concat([timer1, timer2, timer3]); // note that array is passed
  * result.subscribe(x => console.log(x));
  *
  * // results in the following:
@@ -8464,12 +8892,30 @@ exports.concat = concat;
  * // -2000ms-> 0 -2000ms-> 1 -2000ms-> ... 5
  * // -500ms-> 0 -500ms-> 1 -500ms-> ... 9
  *
+ *
+ * @example <caption>Concatenate the same Observable to repeat it</caption>
+ * const timer = Rx.Observable.interval(1000).take(2);
+ *
+ * Rx.Observable.concat(timer, timer) // concating the same Observable!
+ * .subscribe(
+ *   value => console.log(value),
+ *   err => {},
+ *   () => console.log('...and it is done!')
+ * );
+ *
+ * // Logs:
+ * // 0 after 1s
+ * // 1 after 2s
+ * // 0 after 3s
+ * // 1 after 4s
+ * // "...and it is done!" also after 4s
+ *
  * @see {@link concatAll}
  * @see {@link concatMap}
  * @see {@link concatMapTo}
  *
- * @param {Observable} input1 An input Observable to concatenate with others.
- * @param {Observable} input2 An input Observable to concatenate with others.
+ * @param {ObservableInput} input1 An input Observable to concatenate with others.
+ * @param {ObservableInput} input2 An input Observable to concatenate with others.
  * More than one input Observables may be given as argument.
  * @param {Scheduler} [scheduler=null] An optional IScheduler to schedule each
  * Observable subscription on.
@@ -8489,14 +8935,14 @@ function concatStatic() {
     if (isScheduler_1.isScheduler(args[observables.length - 1])) {
         scheduler = args.pop();
     }
-    if (scheduler === null && observables.length === 1) {
+    if (scheduler === null && observables.length === 1 && observables[0] instanceof Observable_1.Observable) {
         return observables[0];
     }
     return new ArrayObservable_1.ArrayObservable(observables, scheduler).lift(new mergeAll_1.MergeAllOperator(1));
 }
 exports.concatStatic = concatStatic;
 
-},{"../observable/ArrayObservable":83,"../util/isScheduler":162,"./mergeAll":120}],108:[function(require,module,exports){
+},{"../Observable":28,"../observable/ArrayObservable":85,"../util/isScheduler":169,"./mergeAll":125}],113:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8613,7 +9059,7 @@ function dispatchNext(subscriber) {
     subscriber.debouncedNext();
 }
 
-},{"../Subscriber":35,"../scheduler/async":145}],109:[function(require,module,exports){
+},{"../Subscriber":35,"../scheduler/async":150}],114:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8749,7 +9195,7 @@ var DelayMessage = (function () {
     return DelayMessage;
 }());
 
-},{"../Notification":27,"../Subscriber":35,"../scheduler/async":145,"../util/isDate":158}],110:[function(require,module,exports){
+},{"../Notification":27,"../Subscriber":35,"../scheduler/async":150,"../util/isDate":164}],115:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8798,9 +9244,9 @@ var Set_1 = require('../util/Set');
  * @see {@link distinctUntilChanged}
  * @see {@link distinctUntilKeyChanged}
  *
- * @param {function} [keySelector] optional function to select which value you want to check as distinct.
- * @param {Observable} [flushes] optional Observable for flushing the internal HashSet of the operator.
- * @return {Observable} an Observable that emits items from the source Observable with distinct values.
+ * @param {function} [keySelector] Optional function to select which value you want to check as distinct.
+ * @param {Observable} [flushes] Optional Observable for flushing the internal HashSet of the operator.
+ * @return {Observable} An Observable that emits items from the source Observable with distinct values.
  * @method distinct
  * @owner Observable
  */
@@ -8870,7 +9316,7 @@ var DistinctSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.DistinctSubscriber = DistinctSubscriber;
 
-},{"../OuterSubscriber":30,"../util/Set":154,"../util/subscribeToResult":164}],111:[function(require,module,exports){
+},{"../OuterSubscriber":30,"../util/Set":159,"../util/subscribeToResult":171}],116:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8880,7 +9326,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 var Subscriber_1 = require('../Subscriber');
 var tryCatch_1 = require('../util/tryCatch');
 var errorObject_1 = require('../util/errorObject');
-/* tslint:disable:max-line-length */
+/* tslint:enable:max-line-length */
 /**
  * Returns an Observable that emits all items emitted by the source Observable that are distinct by comparison from the previous item.
  *
@@ -8915,8 +9361,8 @@ var errorObject_1 = require('../util/errorObject');
  * @see {@link distinct}
  * @see {@link distinctUntilKeyChanged}
  *
- * @param {function} [compare] optional comparison function called to test if an item is distinct from the previous item in the source.
- * @return {Observable} an Observable that emits items from the source Observable with distinct values.
+ * @param {function} [compare] Optional comparison function called to test if an item is distinct from the previous item in the source.
+ * @return {Observable} An Observable that emits items from the source Observable with distinct values.
  * @method distinctUntilChanged
  * @owner Observable
  */
@@ -8979,7 +9425,7 @@ var DistinctUntilChangedSubscriber = (function (_super) {
     return DistinctUntilChangedSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":35,"../util/errorObject":156,"../util/tryCatch":166}],112:[function(require,module,exports){
+},{"../Subscriber":35,"../util/errorObject":161,"../util/tryCatch":173}],117:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8987,7 +9433,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Subscriber_1 = require('../Subscriber');
-/* tslint:disable:max-line-length */
+/* tslint:enable:max-line-length */
 /**
  * Perform a side effect for every emission on the source Observable, but return
  * an Observable that is identical to the source.
@@ -9093,7 +9539,7 @@ var DoSubscriber = (function (_super) {
     return DoSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":35}],113:[function(require,module,exports){
+},{"../Subscriber":35}],118:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -9104,7 +9550,7 @@ var tryCatch_1 = require('../util/tryCatch');
 var errorObject_1 = require('../util/errorObject');
 var OuterSubscriber_1 = require('../OuterSubscriber');
 var subscribeToResult_1 = require('../util/subscribeToResult');
-/* tslint:disable:max-line-length */
+/* tslint:enable:max-line-length */
 /**
  * Recursively projects each source value to an Observable which is merged in
  * the output Observable.
@@ -9245,7 +9691,7 @@ var ExpandSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.ExpandSubscriber = ExpandSubscriber;
 
-},{"../OuterSubscriber":30,"../util/errorObject":156,"../util/subscribeToResult":164,"../util/tryCatch":166}],114:[function(require,module,exports){
+},{"../OuterSubscriber":30,"../util/errorObject":161,"../util/subscribeToResult":171,"../util/tryCatch":173}],119:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -9253,7 +9699,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Subscriber_1 = require('../Subscriber');
-/* tslint:disable:max-line-length */
+/* tslint:enable:max-line-length */
 /**
  * Filter items emitted by the source Observable by only emitting those that
  * satisfy a specified predicate.
@@ -9339,7 +9785,7 @@ var FilterSubscriber = (function (_super) {
     return FilterSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":35}],115:[function(require,module,exports){
+},{"../Subscriber":35}],120:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -9351,8 +9797,8 @@ var Subscription_1 = require('../Subscription');
 /**
  * Returns an Observable that mirrors the source Observable, but will call a specified function when
  * the source terminates on complete or error.
- * @param {function} callback function to be called when source terminates.
- * @return {Observable} an Observable that mirrors the source, but will call the specified function on termination.
+ * @param {function} callback Function to be called when source terminates.
+ * @return {Observable} An Observable that mirrors the source, but will call the specified function on termination.
  * @method finally
  * @owner Observable
  */
@@ -9383,7 +9829,7 @@ var FinallySubscriber = (function (_super) {
     return FinallySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":35,"../Subscription":36}],116:[function(require,module,exports){
+},{"../Subscriber":35,"../Subscription":36}],121:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -9436,7 +9882,7 @@ var EmptyError_1 = require('../util/EmptyError');
  * - `index`: the "index" of the value from the source.
  * @param {R} [defaultValue] The default value emitted in case no valid value
  * was found on the source.
- * @return {Observable<T|R>} an Observable of the first item that matches the
+ * @return {Observable<T|R>} An Observable of the first item that matches the
  * condition.
  * @method first
  * @owner Observable
@@ -9536,7 +9982,7 @@ var FirstSubscriber = (function (_super) {
     return FirstSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":35,"../util/EmptyError":152}],117:[function(require,module,exports){
+},{"../Subscriber":35,"../util/EmptyError":157}],122:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -9545,7 +9991,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var Subscriber_1 = require('../Subscriber');
 var EmptyError_1 = require('../util/EmptyError');
-/* tslint:disable:max-line-length */
+/* tslint:enable:max-line-length */
 /**
  * Returns an Observable that emits only the last item emitted by the source Observable.
  * It optionally takes a predicate function as a parameter, in which case, rather than emitting
@@ -9556,8 +10002,8 @@ var EmptyError_1 = require('../util/EmptyError');
  *
  * @throws {EmptyError} Delivers an EmptyError to the Observer's `error`
  * callback if the Observable completes before any `next` notification was sent.
- * @param {function} predicate - the condition any source emitted item has to satisfy.
- * @return {Observable} an Observable that emits only the last item satisfying the given condition
+ * @param {function} predicate - The condition any source emitted item has to satisfy.
+ * @return {Observable} An Observable that emits only the last item satisfying the given condition
  * from the source, or an NoSuchElementException if no such items are emitted.
  * @throws - Throws if no items that match the predicate are emitted by the source Observable.
  * @method last
@@ -9656,7 +10102,7 @@ var LastSubscriber = (function (_super) {
     return LastSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":35,"../util/EmptyError":152}],118:[function(require,module,exports){
+},{"../Subscriber":35,"../util/EmptyError":157}],123:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -9744,12 +10190,13 @@ var MapSubscriber = (function (_super) {
     return MapSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":35}],119:[function(require,module,exports){
+},{"../Subscriber":35}],124:[function(require,module,exports){
 "use strict";
+var Observable_1 = require('../Observable');
 var ArrayObservable_1 = require('../observable/ArrayObservable');
 var mergeAll_1 = require('./mergeAll');
 var isScheduler_1 = require('../util/isScheduler');
-/* tslint:disable:max-line-length */
+/* tslint:enable:max-line-length */
 /**
  * Creates an output Observable which concurrently emits all values from every
  * given input Observable.
@@ -9785,13 +10232,13 @@ var isScheduler_1 = require('../util/isScheduler');
  * @see {@link mergeMapTo}
  * @see {@link mergeScan}
  *
- * @param {Observable} other An input Observable to merge with the source
+ * @param {ObservableInput} other An input Observable to merge with the source
  * Observable. More than one input Observables may be given as argument.
  * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
  * Observables being subscribed to concurrently.
  * @param {Scheduler} [scheduler=null] The IScheduler to use for managing
  * concurrency of input Observables.
- * @return {Observable} an Observable that emits items that are the result of
+ * @return {Observable} An Observable that emits items that are the result of
  * every input Observable.
  * @method merge
  * @owner Observable
@@ -9854,7 +10301,7 @@ exports.merge = merge;
  * @see {@link mergeMapTo}
  * @see {@link mergeScan}
  *
- * @param {...Observable} observables Input Observables to merge together.
+ * @param {...ObservableInput} observables Input Observables to merge together.
  * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
  * Observables being subscribed to concurrently.
  * @param {Scheduler} [scheduler=null] The IScheduler to use for managing
@@ -9882,14 +10329,14 @@ function mergeStatic() {
     else if (typeof last === 'number') {
         concurrent = observables.pop();
     }
-    if (scheduler === null && observables.length === 1) {
+    if (scheduler === null && observables.length === 1 && observables[0] instanceof Observable_1.Observable) {
         return observables[0];
     }
     return new ArrayObservable_1.ArrayObservable(observables, scheduler).lift(new mergeAll_1.MergeAllOperator(concurrent));
 }
 exports.mergeStatic = mergeStatic;
 
-},{"../observable/ArrayObservable":83,"../util/isScheduler":162,"./mergeAll":120}],120:[function(require,module,exports){
+},{"../Observable":28,"../observable/ArrayObservable":85,"../util/isScheduler":169,"./mergeAll":125}],125:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -10001,7 +10448,7 @@ var MergeAllSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.MergeAllSubscriber = MergeAllSubscriber;
 
-},{"../OuterSubscriber":30,"../util/subscribeToResult":164}],121:[function(require,module,exports){
+},{"../OuterSubscriber":30,"../util/subscribeToResult":171}],126:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -10010,7 +10457,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var subscribeToResult_1 = require('../util/subscribeToResult');
 var OuterSubscriber_1 = require('../OuterSubscriber');
-/* tslint:disable:max-line-length */
+/* tslint:enable:max-line-length */
 /**
  * Projects each source value to an Observable which is merged in the output
  * Observable.
@@ -10049,7 +10496,7 @@ var OuterSubscriber_1 = require('../OuterSubscriber');
  * @see {@link mergeScan}
  * @see {@link switchMap}
  *
- * @param {function(value: T, ?index: number): Observable} project A function
+ * @param {function(value: T, ?index: number): ObservableInput} project A function
  * that, when applied to an item emitted by the source Observable, returns an
  * Observable.
  * @param {function(outerValue: T, innerValue: I, outerIndex: number, innerIndex: number): any} [resultSelector]
@@ -10173,24 +10620,24 @@ var MergeMapSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.MergeMapSubscriber = MergeMapSubscriber;
 
-},{"../OuterSubscriber":30,"../util/subscribeToResult":164}],122:[function(require,module,exports){
+},{"../OuterSubscriber":30,"../util/subscribeToResult":171}],127:[function(require,module,exports){
 "use strict";
 var ConnectableObservable_1 = require('../observable/ConnectableObservable');
-/* tslint:disable:max-line-length */
+/* tslint:enable:max-line-length */
 /**
  * Returns an Observable that emits the results of invoking a specified selector on items
  * emitted by a ConnectableObservable that shares a single subscription to the underlying stream.
  *
  * <img src="./img/multicast.png" width="100%">
  *
- * @param {Function|Subject} Factory function to create an intermediate subject through
+ * @param {Function|Subject} subjectOrSubjectFactory - Factory function to create an intermediate subject through
  * which the source sequence's elements will be multicast to the selector function
  * or Subject to push source elements into.
- * @param {Function} Optional selector function that can use the multicasted source stream
+ * @param {Function} [selector] - Optional selector function that can use the multicasted source stream
  * as many times as needed, without causing multiple subscriptions to the source stream.
  * Subscribers to the given source will receive all notifications of the source from the
  * time of the subscription forward.
- * @return {Observable} an Observable that emits the results of invoking the selector
+ * @return {Observable} An Observable that emits the results of invoking the selector
  * on the items emitted by a `ConnectableObservable` that shares a single subscription to
  * the underlying stream.
  * @method multicast
@@ -10231,7 +10678,7 @@ var MulticastOperator = (function () {
 }());
 exports.MulticastOperator = MulticastOperator;
 
-},{"../observable/ConnectableObservable":84}],123:[function(require,module,exports){
+},{"../observable/ConnectableObservable":86}],128:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -10280,15 +10727,12 @@ var ObserveOnSubscriber = (function (_super) {
         this.delay = delay;
     }
     ObserveOnSubscriber.dispatch = function (arg) {
-        var notification = arg.notification, destination = arg.destination, subscription = arg.subscription;
+        var notification = arg.notification, destination = arg.destination;
         notification.observe(destination);
-        if (subscription) {
-            subscription.unsubscribe();
-        }
+        this.unsubscribe();
     };
     ObserveOnSubscriber.prototype.scheduleMessage = function (notification) {
-        var message = new ObserveOnMessage(notification, this.destination);
-        message.subscription = this.add(this.scheduler.schedule(ObserveOnSubscriber.dispatch, this.delay, message));
+        this.add(this.scheduler.schedule(ObserveOnSubscriber.dispatch, this.delay, new ObserveOnMessage(notification, this.destination)));
     };
     ObserveOnSubscriber.prototype._next = function (value) {
         this.scheduleMessage(Notification_1.Notification.createNext(value));
@@ -10311,7 +10755,7 @@ var ObserveOnMessage = (function () {
 }());
 exports.ObserveOnMessage = ObserveOnMessage;
 
-},{"../Notification":27,"../Subscriber":35}],124:[function(require,module,exports){
+},{"../Notification":27,"../Subscriber":35}],129:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -10389,7 +10833,7 @@ var PairwiseSubscriber = (function (_super) {
     return PairwiseSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":35}],125:[function(require,module,exports){
+},{"../Subscriber":35}],130:[function(require,module,exports){
 "use strict";
 var map_1 = require('./map');
 /**
@@ -10414,8 +10858,7 @@ var map_1 = require('./map');
  *
  * @param {...string} properties The nested properties to pluck from each source
  * value (an object).
- * @return {Observable} Returns a new Observable of property values from the
- * source values.
+ * @return {Observable} A new Observable of property values from the source values.
  * @method pluck
  * @owner Observable
  */
@@ -10448,21 +10891,21 @@ function plucker(props, length) {
     return mapper;
 }
 
-},{"./map":118}],126:[function(require,module,exports){
+},{"./map":123}],131:[function(require,module,exports){
 "use strict";
 var Subject_1 = require('../Subject');
 var multicast_1 = require('./multicast');
-/* tslint:disable:max-line-length */
+/* tslint:enable:max-line-length */
 /**
  * Returns a ConnectableObservable, which is a variety of Observable that waits until its connect method is called
  * before it begins emitting items to those Observers that have subscribed to it.
  *
  * <img src="./img/publish.png" width="100%">
  *
- * @param {Function} Optional selector function which can use the multicasted source sequence as many times as needed,
- * without causing multiple subscriptions to the source sequence.
+ * @param {Function} [selector] - Optional selector function which can use the multicasted source sequence as many times
+ * as needed, without causing multiple subscriptions to the source sequence.
  * Subscribers to the given source will receive all notifications of the source from the time of the subscription on.
- * @return a ConnectableObservable that upon connection causes the source Observable to emit items to its Observers.
+ * @return A ConnectableObservable that upon connection causes the source Observable to emit items to its Observers.
  * @method publish
  * @owner Observable
  */
@@ -10472,7 +10915,7 @@ function publish(selector) {
 }
 exports.publish = publish;
 
-},{"../Subject":33,"./multicast":122}],127:[function(require,module,exports){
+},{"../Subject":33,"./multicast":127}],132:[function(require,module,exports){
 "use strict";
 var ReplaySubject_1 = require('../ReplaySubject');
 var multicast_1 = require('./multicast');
@@ -10491,7 +10934,7 @@ function publishReplay(bufferSize, windowTime, scheduler) {
 }
 exports.publishReplay = publishReplay;
 
-},{"../ReplaySubject":31,"./multicast":122}],128:[function(require,module,exports){
+},{"../ReplaySubject":31,"./multicast":127}],133:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -10499,7 +10942,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Subscriber_1 = require('../Subscriber');
-/* tslint:disable:max-line-length */
+/* tslint:enable:max-line-length */
 /**
  * Applies an accumulator function over the source Observable, and returns each
  * intermediate result, with an optional seed value.
@@ -10611,7 +11054,7 @@ var ScanSubscriber = (function (_super) {
     return ScanSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":35}],129:[function(require,module,exports){
+},{"../Subscriber":35}],134:[function(require,module,exports){
 "use strict";
 var multicast_1 = require('./multicast');
 var Subject_1 = require('../Subject');
@@ -10626,7 +11069,7 @@ function shareSubjectFactory() {
  *
  * <img src="./img/share.png" width="100%">
  *
- * @return {Observable<T>} an Observable that upon connection causes the source Observable to emit items to its Observers
+ * @return {Observable<T>} An Observable that upon connection causes the source Observable to emit items to its Observers.
  * @method share
  * @owner Observable
  */
@@ -10636,7 +11079,7 @@ function share() {
 exports.share = share;
 ;
 
-},{"../Subject":33,"./multicast":122}],130:[function(require,module,exports){
+},{"../Subject":33,"./multicast":127}],135:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -10645,18 +11088,18 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var Subscriber_1 = require('../Subscriber');
 /**
- * Returns an Observable that skips `n` items emitted by an Observable.
+ * Returns an Observable that skips the first `count` items emitted by the source Observable.
  *
  * <img src="./img/skip.png" width="100%">
  *
- * @param {Number} the `n` of times, items emitted by source Observable should be skipped.
- * @return {Observable} an Observable that skips values emitted by the source Observable.
+ * @param {Number} count - The number of times, items emitted by source Observable should be skipped.
+ * @return {Observable} An Observable that skips values emitted by the source Observable.
  *
  * @method skip
  * @owner Observable
  */
-function skip(total) {
-    return this.lift(new SkipOperator(total));
+function skip(count) {
+    return this.lift(new SkipOperator(count));
 }
 exports.skip = skip;
 var SkipOperator = (function () {
@@ -10688,7 +11131,7 @@ var SkipSubscriber = (function (_super) {
     return SkipSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":35}],131:[function(require,module,exports){
+},{"../Subscriber":35}],136:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -10702,9 +11145,9 @@ var subscribeToResult_1 = require('../util/subscribeToResult');
  *
  * <img src="./img/skipUntil.png" width="100%">
  *
- * @param {Observable} the second Observable that has to emit an item before the source Observable's elements begin to
+ * @param {Observable} notifier - The second Observable that has to emit an item before the source Observable's elements begin to
  * be mirrored by the resulting Observable.
- * @return {Observable<T>} an Observable that skips items from the source Observable until the second Observable emits
+ * @return {Observable<T>} An Observable that skips items from the source Observable until the second Observable emits
  * an item, then emits the remaining items.
  * @method skipUntil
  * @owner Observable
@@ -10760,7 +11203,7 @@ var SkipUntilSubscriber = (function (_super) {
     return SkipUntilSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":30,"../util/subscribeToResult":164}],132:[function(require,module,exports){
+},{"../OuterSubscriber":30,"../util/subscribeToResult":171}],137:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -10774,8 +11217,8 @@ var Subscriber_1 = require('../Subscriber');
  *
  * <img src="./img/skipWhile.png" width="100%">
  *
- * @param {Function} predicate - a function to test each item emitted from the source Observable.
- * @return {Observable<T>} an Observable that begins emitting items emitted by the source Observable when the
+ * @param {Function} predicate - A function to test each item emitted from the source Observable.
+ * @return {Observable<T>} An Observable that begins emitting items emitted by the source Observable when the
  * specified predicate becomes false.
  * @method skipWhile
  * @owner Observable
@@ -10827,22 +11270,24 @@ var SkipWhileSubscriber = (function (_super) {
     return SkipWhileSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":35}],133:[function(require,module,exports){
+},{"../Subscriber":35}],138:[function(require,module,exports){
 "use strict";
 var ArrayObservable_1 = require('../observable/ArrayObservable');
 var ScalarObservable_1 = require('../observable/ScalarObservable');
 var EmptyObservable_1 = require('../observable/EmptyObservable');
 var concat_1 = require('./concat');
 var isScheduler_1 = require('../util/isScheduler');
-/* tslint:disable:max-line-length */
+/* tslint:enable:max-line-length */
 /**
- * Returns an Observable that emits the items in a specified Iterable before it begins to emit items emitted by the
- * source Observable.
+ * Returns an Observable that emits the items you specify as arguments before it begins to emit
+ * items emitted by the source Observable.
  *
  * <img src="./img/startWith.png" width="100%">
  *
- * @param {Values} an Iterable that contains the items you want the modified Observable to emit first.
- * @return {Observable} an Observable that emits the items in the specified Iterable and then emits the items
+ * @param {...T} values - Items you want the modified Observable to emit first.
+ * @param {Scheduler} [scheduler] - A {@link IScheduler} to use for scheduling
+ * the emissions of the `next` notifications.
+ * @return {Observable} An Observable that emits the items in the specified Iterable and then emits the items
  * emitted by the source Observable.
  * @method startWith
  * @owner Observable
@@ -10872,7 +11317,7 @@ function startWith() {
 }
 exports.startWith = startWith;
 
-},{"../observable/ArrayObservable":83,"../observable/EmptyObservable":86,"../observable/ScalarObservable":92,"../util/isScheduler":162,"./concat":107}],134:[function(require,module,exports){
+},{"../observable/ArrayObservable":85,"../observable/EmptyObservable":88,"../observable/ScalarObservable":94,"../util/isScheduler":169,"./concat":112}],139:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -10881,7 +11326,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var OuterSubscriber_1 = require('../OuterSubscriber');
 var subscribeToResult_1 = require('../util/subscribeToResult');
-/* tslint:disable:max-line-length */
+/* tslint:enable:max-line-length */
 /**
  * Projects each source value to an Observable which is merged in the output
  * Observable, emitting values only from the most recently projected Observable.
@@ -10911,7 +11356,7 @@ var subscribeToResult_1 = require('../util/subscribeToResult');
  * @see {@link switch}
  * @see {@link switchMapTo}
  *
- * @param {function(value: T, ?index: number): Observable} project A function
+ * @param {function(value: T, ?index: number): ObservableInput} project A function
  * that, when applied to an item emitted by the source Observable, returns an
  * Observable.
  * @param {function(outerValue: T, innerValue: I, outerIndex: number, innerIndex: number): any} [resultSelector]
@@ -11013,7 +11458,7 @@ var SwitchMapSubscriber = (function (_super) {
     return SwitchMapSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":30,"../util/subscribeToResult":164}],135:[function(require,module,exports){
+},{"../OuterSubscriber":30,"../util/subscribeToResult":171}],140:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11103,7 +11548,7 @@ var TakeSubscriber = (function (_super) {
     return TakeSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":35,"../observable/EmptyObservable":86,"../util/ArgumentOutOfRangeError":151}],136:[function(require,module,exports){
+},{"../Subscriber":35,"../observable/EmptyObservable":88,"../util/ArgumentOutOfRangeError":156}],141:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11179,7 +11624,7 @@ var TakeUntilSubscriber = (function (_super) {
     return TakeUntilSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":30,"../util/subscribeToResult":164}],137:[function(require,module,exports){
+},{"../OuterSubscriber":30,"../util/subscribeToResult":171}],142:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11275,7 +11720,7 @@ function dispatchNext(arg) {
     subscriber.clearThrottle();
 }
 
-},{"../Subscriber":35,"../scheduler/async":145}],138:[function(require,module,exports){
+},{"../Subscriber":35,"../scheduler/async":150}],143:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11284,7 +11729,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var OuterSubscriber_1 = require('../OuterSubscriber');
 var subscribeToResult_1 = require('../util/subscribeToResult');
-/* tslint:disable:max-line-length */
+/* tslint:enable:max-line-length */
 /**
  * Combines the source Observable with other Observables to create an Observable
  * whose values are calculated from the latest values of each, only when the
@@ -11310,7 +11755,7 @@ var subscribeToResult_1 = require('../util/subscribeToResult');
  *
  * @see {@link combineLatest}
  *
- * @param {Observable} other An input Observable to combine with the source
+ * @param {ObservableInput} other An input Observable to combine with the source
  * Observable. More than one input Observables may be given as argument.
  * @param {Function} [project] Projection function for combining values
  * together. Receives all values in order of the Observables passed, where the
@@ -11406,7 +11851,7 @@ var WithLatestFromSubscriber = (function (_super) {
     return WithLatestFromSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":30,"../util/subscribeToResult":164}],139:[function(require,module,exports){
+},{"../OuterSubscriber":30,"../util/subscribeToResult":171}],144:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11419,7 +11864,7 @@ var Subscriber_1 = require('../Subscriber');
 var OuterSubscriber_1 = require('../OuterSubscriber');
 var subscribeToResult_1 = require('../util/subscribeToResult');
 var iterator_1 = require('../symbol/iterator');
-/* tslint:disable:max-line-length */
+/* tslint:enable:max-line-length */
 /**
  * @param observables
  * @return {Observable<R>}
@@ -11456,9 +11901,9 @@ exports.zipProto = zipProto;
  *     .subscribe(x => console.log(x));
  *
  * // outputs
- * // { age: 7, name: 'Foo', isDev: true }
- * // { age: 5, name: 'Bar', isDev: true }
- * // { age: 9, name: 'Beer', isDev: false }
+ * // { age: 27, name: 'Foo', isDev: true }
+ * // { age: 25, name: 'Bar', isDev: true }
+ * // { age: 29, name: 'Beer', isDev: false }
  *
  * @param observables
  * @return {Observable<R>}
@@ -11682,7 +12127,7 @@ var ZipBufferIterator = (function (_super) {
     return ZipBufferIterator;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":30,"../Subscriber":35,"../observable/ArrayObservable":83,"../symbol/iterator":147,"../util/isArray":157,"../util/subscribeToResult":164}],140:[function(require,module,exports){
+},{"../OuterSubscriber":30,"../Subscriber":35,"../observable/ArrayObservable":85,"../symbol/iterator":152,"../util/isArray":162,"../util/subscribeToResult":171}],145:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11727,7 +12172,7 @@ var Action = (function (_super) {
 }(Subscription_1.Subscription));
 exports.Action = Action;
 
-},{"../Subscription":36}],141:[function(require,module,exports){
+},{"../Subscription":36}],146:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11870,7 +12315,7 @@ var AsyncAction = (function (_super) {
 }(Action_1.Action));
 exports.AsyncAction = AsyncAction;
 
-},{"../util/root":163,"./Action":140}],142:[function(require,module,exports){
+},{"../util/root":170,"./Action":145}],147:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11922,7 +12367,7 @@ var AsyncScheduler = (function (_super) {
 }(Scheduler_1.Scheduler));
 exports.AsyncScheduler = AsyncScheduler;
 
-},{"../Scheduler":32}],143:[function(require,module,exports){
+},{"../Scheduler":32}],148:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11972,7 +12417,7 @@ var QueueAction = (function (_super) {
 }(AsyncAction_1.AsyncAction));
 exports.QueueAction = QueueAction;
 
-},{"./AsyncAction":141}],144:[function(require,module,exports){
+},{"./AsyncAction":146}],149:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11989,19 +12434,122 @@ var QueueScheduler = (function (_super) {
 }(AsyncScheduler_1.AsyncScheduler));
 exports.QueueScheduler = QueueScheduler;
 
-},{"./AsyncScheduler":142}],145:[function(require,module,exports){
+},{"./AsyncScheduler":147}],150:[function(require,module,exports){
 "use strict";
 var AsyncAction_1 = require('./AsyncAction');
 var AsyncScheduler_1 = require('./AsyncScheduler');
+/**
+ *
+ * Async Scheduler
+ *
+ * <span class="informal">Schedule task as if you used setTimeout(task, duration)</span>
+ *
+ * `async` scheduler schedules tasks asynchronously, by putting them on the JavaScript
+ * event loop queue. It is best used to delay tasks in time or to schedule tasks repeating
+ * in intervals.
+ *
+ * If you just want to "defer" task, that is to perform it right after currently
+ * executing synchronous code ends (commonly achieved by `setTimeout(deferredTask, 0)`),
+ * better choice will be the {@link asap} scheduler.
+ *
+ * @example <caption>Use async scheduler to delay task</caption>
+ * const task = () => console.log('it works!');
+ *
+ * Rx.Scheduler.async.schedule(task, 2000);
+ *
+ * // After 2 seconds logs:
+ * // "it works!"
+ *
+ *
+ * @example <caption>Use async scheduler to repeat task in intervals</caption>
+ * function task(state) {
+ *   console.log(state);
+ *   this.schedule(state + 1, 1000); // `this` references currently executing Action,
+ *                                   // which we reschedule with new state and delay
+ * }
+ *
+ * Rx.Scheduler.async.schedule(task, 3000, 0);
+ *
+ * // Logs:
+ * // 0 after 3s
+ * // 1 after 4s
+ * // 2 after 5s
+ * // 3 after 6s
+ *
+ * @static true
+ * @name async
+ * @owner Scheduler
+ */
 exports.async = new AsyncScheduler_1.AsyncScheduler(AsyncAction_1.AsyncAction);
 
-},{"./AsyncAction":141,"./AsyncScheduler":142}],146:[function(require,module,exports){
+},{"./AsyncAction":146,"./AsyncScheduler":147}],151:[function(require,module,exports){
 "use strict";
 var QueueAction_1 = require('./QueueAction');
 var QueueScheduler_1 = require('./QueueScheduler');
+/**
+ *
+ * Queue Scheduler
+ *
+ * <span class="informal">Put every next task on a queue, instead of executing it immediately</span>
+ *
+ * `queue` scheduler, when used with delay, behaves the same as {@link async} scheduler.
+ *
+ * When used without delay, it schedules given task synchronously - executes it right when
+ * it is scheduled. However when called recursively, that is when inside the scheduled task,
+ * another task is scheduled with queue scheduler, instead of executing immediately as well,
+ * that task will be put on a queue and wait for current one to finish.
+ *
+ * This means that when you execute task with `queue` scheduler, you are sure it will end
+ * before any other task scheduled with that scheduler will start.
+ *
+ * @examples <caption>Schedule recursively first, then do something</caption>
+ *
+ * Rx.Scheduler.queue.schedule(() => {
+ *   Rx.Scheduler.queue.schedule(() => console.log('second')); // will not happen now, but will be put on a queue
+ *
+ *   console.log('first');
+ * });
+ *
+ * // Logs:
+ * // "first"
+ * // "second"
+ *
+ *
+ * @example <caption>Reschedule itself recursively</caption>
+ *
+ * Rx.Scheduler.queue.schedule(function(state) {
+ *   if (state !== 0) {
+ *     console.log('before', state);
+ *     this.schedule(state - 1); // `this` references currently executing Action,
+ *                               // which we reschedule with new state
+ *     console.log('after', state);
+ *   }
+ * }, 0, 3);
+ *
+ * // In scheduler that runs recursively, you would expect:
+ * // "before", 3
+ * // "before", 2
+ * // "before", 1
+ * // "after", 1
+ * // "after", 2
+ * // "after", 3
+ *
+ * // But with queue it logs:
+ * // "before", 3
+ * // "after", 3
+ * // "before", 2
+ * // "after", 2
+ * // "before", 1
+ * // "after", 1
+ *
+ *
+ * @static true
+ * @name queue
+ * @owner Scheduler
+ */
 exports.queue = new QueueScheduler_1.QueueScheduler(QueueAction_1.QueueAction);
 
-},{"./QueueAction":143,"./QueueScheduler":144}],147:[function(require,module,exports){
+},{"./QueueAction":148,"./QueueScheduler":149}],152:[function(require,module,exports){
 "use strict";
 var root_1 = require('../util/root');
 function symbolIteratorPonyfill(root) {
@@ -12036,7 +12584,7 @@ function symbolIteratorPonyfill(root) {
 exports.symbolIteratorPonyfill = symbolIteratorPonyfill;
 exports.$$iterator = symbolIteratorPonyfill(root_1.root);
 
-},{"../util/root":163}],148:[function(require,module,exports){
+},{"../util/root":170}],153:[function(require,module,exports){
 "use strict";
 var root_1 = require('../util/root');
 function getSymbolObservable(context) {
@@ -12059,14 +12607,14 @@ function getSymbolObservable(context) {
 exports.getSymbolObservable = getSymbolObservable;
 exports.$$observable = getSymbolObservable(root_1.root);
 
-},{"../util/root":163}],149:[function(require,module,exports){
+},{"../util/root":170}],154:[function(require,module,exports){
 "use strict";
 var root_1 = require('../util/root');
 var Symbol = root_1.root.Symbol;
 exports.$$rxSubscriber = (typeof Symbol === 'function' && typeof Symbol.for === 'function') ?
     Symbol.for('rxSubscriber') : '@@rxSubscriber';
 
-},{"../util/root":163}],150:[function(require,module,exports){
+},{"../util/root":170}],155:[function(require,module,exports){
 "use strict";
 var root_1 = require('./root');
 var RequestAnimationFrameDefinition = (function () {
@@ -12101,7 +12649,7 @@ var RequestAnimationFrameDefinition = (function () {
 exports.RequestAnimationFrameDefinition = RequestAnimationFrameDefinition;
 exports.AnimationFrame = new RequestAnimationFrameDefinition(root_1.root);
 
-},{"./root":163}],151:[function(require,module,exports){
+},{"./root":170}],156:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -12130,7 +12678,7 @@ var ArgumentOutOfRangeError = (function (_super) {
 }(Error));
 exports.ArgumentOutOfRangeError = ArgumentOutOfRangeError;
 
-},{}],152:[function(require,module,exports){
+},{}],157:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -12159,7 +12707,7 @@ var EmptyError = (function (_super) {
 }(Error));
 exports.EmptyError = EmptyError;
 
-},{}],153:[function(require,module,exports){
+},{}],158:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -12187,7 +12735,7 @@ var ObjectUnsubscribedError = (function (_super) {
 }(Error));
 exports.ObjectUnsubscribedError = ObjectUnsubscribedError;
 
-},{}],154:[function(require,module,exports){
+},{}],159:[function(require,module,exports){
 "use strict";
 var root_1 = require('./root');
 function minimalSetImpl() {
@@ -12221,7 +12769,7 @@ function minimalSetImpl() {
 exports.minimalSetImpl = minimalSetImpl;
 exports.Set = root_1.root.Set || minimalSetImpl();
 
-},{"./root":163}],155:[function(require,module,exports){
+},{"./root":170}],160:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -12247,51 +12795,68 @@ var UnsubscriptionError = (function (_super) {
 }(Error));
 exports.UnsubscriptionError = UnsubscriptionError;
 
-},{}],156:[function(require,module,exports){
+},{}],161:[function(require,module,exports){
 "use strict";
 // typeof any so that it we don't have to cast when comparing a result to the error object
 exports.errorObject = { e: {} };
 
-},{}],157:[function(require,module,exports){
+},{}],162:[function(require,module,exports){
 "use strict";
 exports.isArray = Array.isArray || (function (x) { return x && typeof x.length === 'number'; });
 
-},{}],158:[function(require,module,exports){
+},{}],163:[function(require,module,exports){
+"use strict";
+exports.isArrayLike = (function (x) { return x && typeof x.length === 'number'; });
+
+},{}],164:[function(require,module,exports){
 "use strict";
 function isDate(value) {
     return value instanceof Date && !isNaN(+value);
 }
 exports.isDate = isDate;
 
-},{}],159:[function(require,module,exports){
+},{}],165:[function(require,module,exports){
 "use strict";
 function isFunction(x) {
     return typeof x === 'function';
 }
 exports.isFunction = isFunction;
 
-},{}],160:[function(require,module,exports){
+},{}],166:[function(require,module,exports){
+"use strict";
+var isArray_1 = require('../util/isArray');
+function isNumeric(val) {
+    // parseFloat NaNs numeric-cast false positives (null|true|false|"")
+    // ...but misinterprets leading-number strings, particularly hex literals ("0x...")
+    // subtraction forces infinities to NaN
+    // adding 1 corrects loss of precision from parseFloat (#15100)
+    return !isArray_1.isArray(val) && (val - parseFloat(val) + 1) >= 0;
+}
+exports.isNumeric = isNumeric;
+;
+
+},{"../util/isArray":162}],167:[function(require,module,exports){
 "use strict";
 function isObject(x) {
     return x != null && typeof x === 'object';
 }
 exports.isObject = isObject;
 
-},{}],161:[function(require,module,exports){
+},{}],168:[function(require,module,exports){
 "use strict";
 function isPromise(value) {
     return value && typeof value.subscribe !== 'function' && typeof value.then === 'function';
 }
 exports.isPromise = isPromise;
 
-},{}],162:[function(require,module,exports){
+},{}],169:[function(require,module,exports){
 "use strict";
 function isScheduler(value) {
     return value && typeof value.schedule === 'function';
 }
 exports.isScheduler = isScheduler;
 
-},{}],163:[function(require,module,exports){
+},{}],170:[function(require,module,exports){
 (function (global){
 "use strict";
 /**
@@ -12308,10 +12873,10 @@ if (!exports.root) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],164:[function(require,module,exports){
+},{}],171:[function(require,module,exports){
 "use strict";
 var root_1 = require('./root');
-var isArray_1 = require('./isArray');
+var isArrayLike_1 = require('./isArrayLike');
 var isPromise_1 = require('./isPromise');
 var isObject_1 = require('./isObject');
 var Observable_1 = require('../Observable');
@@ -12333,7 +12898,7 @@ function subscribeToResult(outerSubscriber, result, outerValue, outerIndex) {
             return result.subscribe(destination);
         }
     }
-    else if (isArray_1.isArray(result)) {
+    else if (isArrayLike_1.isArrayLike(result)) {
         for (var i = 0, len = result.length; i < len && !destination.closed; i++) {
             destination.next(result[i]);
         }
@@ -12387,7 +12952,7 @@ function subscribeToResult(outerSubscriber, result, outerValue, outerIndex) {
 }
 exports.subscribeToResult = subscribeToResult;
 
-},{"../InnerSubscriber":26,"../Observable":28,"../symbol/iterator":147,"../symbol/observable":148,"./isArray":157,"./isObject":160,"./isPromise":161,"./root":163}],165:[function(require,module,exports){
+},{"../InnerSubscriber":26,"../Observable":28,"../symbol/iterator":152,"../symbol/observable":153,"./isArrayLike":163,"./isObject":167,"./isPromise":168,"./root":170}],172:[function(require,module,exports){
 "use strict";
 var Subscriber_1 = require('../Subscriber');
 var rxSubscriber_1 = require('../symbol/rxSubscriber');
@@ -12408,7 +12973,7 @@ function toSubscriber(nextOrObserver, error, complete) {
 }
 exports.toSubscriber = toSubscriber;
 
-},{"../Observer":29,"../Subscriber":35,"../symbol/rxSubscriber":149}],166:[function(require,module,exports){
+},{"../Observer":29,"../Subscriber":35,"../symbol/rxSubscriber":154}],173:[function(require,module,exports){
 "use strict";
 var errorObject_1 = require('./errorObject');
 var tryCatchTarget;
@@ -12428,7 +12993,7 @@ function tryCatch(fn) {
 exports.tryCatch = tryCatch;
 ;
 
-},{"./errorObject":156}],167:[function(require,module,exports){
+},{"./errorObject":161}],174:[function(require,module,exports){
 // threejs.org/license
 (function(l,oa){"object"===typeof exports&&"undefined"!==typeof module?oa(exports):"function"===typeof define&&define.amd?define(["exports"],oa):oa(l.THREE=l.THREE||{})})(this,function(l){function oa(){}function C(a,b){this.x=a||0;this.y=b||0}function ea(a,b,c,d,e,f,g,h,k,m){Object.defineProperty(this,"id",{value:Oe++});this.uuid=Q.generateUUID();this.name="";this.image=void 0!==a?a:ea.DEFAULT_IMAGE;this.mipmaps=[];this.mapping=void 0!==b?b:ea.DEFAULT_MAPPING;this.wrapS=void 0!==c?c:1001;this.wrapT=
 void 0!==d?d:1001;this.magFilter=void 0!==e?e:1006;this.minFilter=void 0!==f?f:1008;this.anisotropy=void 0!==k?k:1;this.format=void 0!==g?g:1023;this.type=void 0!==h?h:1009;this.offset=new C(0,0);this.repeat=new C(1,1);this.generateMipmaps=!0;this.premultiplyAlpha=!1;this.flipY=!0;this.unpackAlignment=4;this.encoding=void 0!==m?m:3E3;this.version=0;this.onUpdate=null}function ga(a,b,c,d){this.x=a||0;this.y=b||0;this.z=c||0;this.w=void 0!==d?d:1}function Db(a,b,c){this.uuid=Q.generateUUID();this.width=
@@ -13291,7 +13856,7 @@ loadTextureCube:function(a,b,c,d){console.warn("THREE.ImageUtils.loadTextureCube
 l.Projector=function(){console.error("THREE.Projector has been moved to /examples/js/renderers/Projector.js.");this.projectVector=function(a,b){console.warn("THREE.Projector: .projectVector() is now vector.project().");a.project(b)};this.unprojectVector=function(a,b){console.warn("THREE.Projector: .unprojectVector() is now vector.unproject().");a.unproject(b)};this.pickingRay=function(){console.error("THREE.Projector: .pickingRay() is now raycaster.setFromCamera().")}};l.CanvasRenderer=function(){console.error("THREE.CanvasRenderer has been moved to /examples/js/renderers/CanvasRenderer.js");
 this.domElement=document.createElementNS("http://www.w3.org/1999/xhtml","canvas");this.clear=function(){};this.render=function(){};this.setClearColor=function(){};this.setSize=function(){}};Object.defineProperty(l,"__esModule",{value:!0})});
 
-},{}],168:[function(require,module,exports){
+},{}],175:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -14841,7 +15406,7 @@ this.domElement=document.createElementNS("http://www.w3.org/1999/xhtml","canvas"
   }
 }.call(this));
 
-},{}],169:[function(require,module,exports){
+},{}],176:[function(require,module,exports){
 /*
  * Copyright (C) 2008 Apple Inc. All Rights Reserved.
  *
@@ -14948,22 +15513,22 @@ UnitBezier.prototype.solve = function(x, epsilon) {
     return this.sampleCurveY(this.solveCurveX(x, epsilon));
 };
 
-},{}],170:[function(require,module,exports){
+},{}],177:[function(require,module,exports){
 var createElement = require("./vdom/create-element.js")
 
 module.exports = createElement
 
-},{"./vdom/create-element.js":176}],171:[function(require,module,exports){
+},{"./vdom/create-element.js":183}],178:[function(require,module,exports){
 var diff = require("./vtree/diff.js")
 
 module.exports = diff
 
-},{"./vtree/diff.js":196}],172:[function(require,module,exports){
+},{"./vtree/diff.js":203}],179:[function(require,module,exports){
 var h = require("./virtual-hyperscript/index.js")
 
 module.exports = h
 
-},{"./virtual-hyperscript/index.js":183}],173:[function(require,module,exports){
+},{"./virtual-hyperscript/index.js":190}],180:[function(require,module,exports){
 var diff = require("./diff.js")
 var patch = require("./patch.js")
 var h = require("./h.js")
@@ -14980,12 +15545,12 @@ module.exports = {
     VText: VText
 }
 
-},{"./create-element.js":170,"./diff.js":171,"./h.js":172,"./patch.js":174,"./vnode/vnode.js":192,"./vnode/vtext.js":194}],174:[function(require,module,exports){
+},{"./create-element.js":177,"./diff.js":178,"./h.js":179,"./patch.js":181,"./vnode/vnode.js":199,"./vnode/vtext.js":201}],181:[function(require,module,exports){
 var patch = require("./vdom/patch.js")
 
 module.exports = patch
 
-},{"./vdom/patch.js":179}],175:[function(require,module,exports){
+},{"./vdom/patch.js":186}],182:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook.js")
 
@@ -15084,7 +15649,7 @@ function getPrototype(value) {
     }
 }
 
-},{"../vnode/is-vhook.js":187,"is-object":18}],176:[function(require,module,exports){
+},{"../vnode/is-vhook.js":194,"is-object":18}],183:[function(require,module,exports){
 var document = require("global/document")
 
 var applyProperties = require("./apply-properties")
@@ -15132,7 +15697,7 @@ function createElement(vnode, opts) {
     return node
 }
 
-},{"../vnode/handle-thunk.js":185,"../vnode/is-vnode.js":188,"../vnode/is-vtext.js":189,"../vnode/is-widget.js":190,"./apply-properties":175,"global/document":14}],177:[function(require,module,exports){
+},{"../vnode/handle-thunk.js":192,"../vnode/is-vnode.js":195,"../vnode/is-vtext.js":196,"../vnode/is-widget.js":197,"./apply-properties":182,"global/document":14}],184:[function(require,module,exports){
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
 // We don't want to read all of the DOM nodes in the tree so we use
 // the in-order tree indexing to eliminate recursion down certain branches.
@@ -15219,7 +15784,7 @@ function ascending(a, b) {
     return a > b ? 1 : -1
 }
 
-},{}],178:[function(require,module,exports){
+},{}],185:[function(require,module,exports){
 var applyProperties = require("./apply-properties")
 
 var isWidget = require("../vnode/is-widget.js")
@@ -15372,7 +15937,7 @@ function replaceRoot(oldRoot, newRoot) {
     return newRoot;
 }
 
-},{"../vnode/is-widget.js":190,"../vnode/vpatch.js":193,"./apply-properties":175,"./update-widget":180}],179:[function(require,module,exports){
+},{"../vnode/is-widget.js":197,"../vnode/vpatch.js":200,"./apply-properties":182,"./update-widget":187}],186:[function(require,module,exports){
 var document = require("global/document")
 var isArray = require("x-is-array")
 
@@ -15454,7 +16019,7 @@ function patchIndices(patches) {
     return indices
 }
 
-},{"./create-element":176,"./dom-index":177,"./patch-op":178,"global/document":14,"x-is-array":215}],180:[function(require,module,exports){
+},{"./create-element":183,"./dom-index":184,"./patch-op":185,"global/document":14,"x-is-array":222}],187:[function(require,module,exports){
 var isWidget = require("../vnode/is-widget.js")
 
 module.exports = updateWidget
@@ -15471,7 +16036,7 @@ function updateWidget(a, b) {
     return false
 }
 
-},{"../vnode/is-widget.js":190}],181:[function(require,module,exports){
+},{"../vnode/is-widget.js":197}],188:[function(require,module,exports){
 'use strict';
 
 var EvStore = require('ev-store');
@@ -15500,7 +16065,7 @@ EvHook.prototype.unhook = function(node, propertyName) {
     es[propName] = undefined;
 };
 
-},{"ev-store":7}],182:[function(require,module,exports){
+},{"ev-store":7}],189:[function(require,module,exports){
 'use strict';
 
 module.exports = SoftSetHook;
@@ -15519,7 +16084,7 @@ SoftSetHook.prototype.hook = function (node, propertyName) {
     }
 };
 
-},{}],183:[function(require,module,exports){
+},{}],190:[function(require,module,exports){
 'use strict';
 
 var isArray = require('x-is-array');
@@ -15658,7 +16223,7 @@ function errorString(obj) {
     }
 }
 
-},{"../vnode/is-thunk":186,"../vnode/is-vhook":187,"../vnode/is-vnode":188,"../vnode/is-vtext":189,"../vnode/is-widget":190,"../vnode/vnode.js":192,"../vnode/vtext.js":194,"./hooks/ev-hook.js":181,"./hooks/soft-set-hook.js":182,"./parse-tag.js":184,"x-is-array":215}],184:[function(require,module,exports){
+},{"../vnode/is-thunk":193,"../vnode/is-vhook":194,"../vnode/is-vnode":195,"../vnode/is-vtext":196,"../vnode/is-widget":197,"../vnode/vnode.js":199,"../vnode/vtext.js":201,"./hooks/ev-hook.js":188,"./hooks/soft-set-hook.js":189,"./parse-tag.js":191,"x-is-array":222}],191:[function(require,module,exports){
 'use strict';
 
 var split = require('browser-split');
@@ -15714,7 +16279,7 @@ function parseTag(tag, props) {
     return props.namespace ? tagName : tagName.toUpperCase();
 }
 
-},{"browser-split":3}],185:[function(require,module,exports){
+},{"browser-split":3}],192:[function(require,module,exports){
 var isVNode = require("./is-vnode")
 var isVText = require("./is-vtext")
 var isWidget = require("./is-widget")
@@ -15756,14 +16321,14 @@ function renderThunk(thunk, previous) {
     return renderedThunk
 }
 
-},{"./is-thunk":186,"./is-vnode":188,"./is-vtext":189,"./is-widget":190}],186:[function(require,module,exports){
+},{"./is-thunk":193,"./is-vnode":195,"./is-vtext":196,"./is-widget":197}],193:[function(require,module,exports){
 module.exports = isThunk
 
 function isThunk(t) {
     return t && t.type === "Thunk"
 }
 
-},{}],187:[function(require,module,exports){
+},{}],194:[function(require,module,exports){
 module.exports = isHook
 
 function isHook(hook) {
@@ -15772,7 +16337,7 @@ function isHook(hook) {
        typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
 }
 
-},{}],188:[function(require,module,exports){
+},{}],195:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -15781,7 +16346,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":191}],189:[function(require,module,exports){
+},{"./version":198}],196:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -15790,17 +16355,17 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":191}],190:[function(require,module,exports){
+},{"./version":198}],197:[function(require,module,exports){
 module.exports = isWidget
 
 function isWidget(w) {
     return w && w.type === "Widget"
 }
 
-},{}],191:[function(require,module,exports){
+},{}],198:[function(require,module,exports){
 module.exports = "2"
 
-},{}],192:[function(require,module,exports){
+},{}],199:[function(require,module,exports){
 var version = require("./version")
 var isVNode = require("./is-vnode")
 var isWidget = require("./is-widget")
@@ -15874,7 +16439,7 @@ function VirtualNode(tagName, properties, children, key, namespace) {
 VirtualNode.prototype.version = version
 VirtualNode.prototype.type = "VirtualNode"
 
-},{"./is-thunk":186,"./is-vhook":187,"./is-vnode":188,"./is-widget":190,"./version":191}],193:[function(require,module,exports){
+},{"./is-thunk":193,"./is-vhook":194,"./is-vnode":195,"./is-widget":197,"./version":198}],200:[function(require,module,exports){
 var version = require("./version")
 
 VirtualPatch.NONE = 0
@@ -15898,7 +16463,7 @@ function VirtualPatch(type, vNode, patch) {
 VirtualPatch.prototype.version = version
 VirtualPatch.prototype.type = "VirtualPatch"
 
-},{"./version":191}],194:[function(require,module,exports){
+},{"./version":198}],201:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = VirtualText
@@ -15910,7 +16475,7 @@ function VirtualText(text) {
 VirtualText.prototype.version = version
 VirtualText.prototype.type = "VirtualText"
 
-},{"./version":191}],195:[function(require,module,exports){
+},{"./version":198}],202:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook")
 
@@ -15970,7 +16535,7 @@ function getPrototype(value) {
   }
 }
 
-},{"../vnode/is-vhook":187,"is-object":18}],196:[function(require,module,exports){
+},{"../vnode/is-vhook":194,"is-object":18}],203:[function(require,module,exports){
 var isArray = require("x-is-array")
 
 var VPatch = require("../vnode/vpatch")
@@ -16399,7 +16964,7 @@ function appendPatch(apply, patch) {
     }
 }
 
-},{"../vnode/handle-thunk":185,"../vnode/is-thunk":186,"../vnode/is-vnode":188,"../vnode/is-vtext":189,"../vnode/is-widget":190,"../vnode/vpatch":193,"./diff-props":195,"x-is-array":215}],197:[function(require,module,exports){
+},{"../vnode/handle-thunk":192,"../vnode/is-thunk":193,"../vnode/is-vnode":195,"../vnode/is-vtext":196,"../vnode/is-widget":197,"../vnode/vpatch":200,"./diff-props":202,"x-is-array":222}],204:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -16418,7 +16983,7 @@ define(function (require) {
 });
 })(typeof define === 'function' && define.amd ? define : function (factory) { module.exports = factory(require); });
 
-},{"./Scheduler":198,"./env":210,"./makePromise":212}],198:[function(require,module,exports){
+},{"./Scheduler":205,"./env":217,"./makePromise":219}],205:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -16500,7 +17065,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],199:[function(require,module,exports){
+},{}],206:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -16528,7 +17093,7 @@ define(function() {
 	return TimeoutError;
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
-},{}],200:[function(require,module,exports){
+},{}],207:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -16585,7 +17150,7 @@ define(function() {
 
 
 
-},{}],201:[function(require,module,exports){
+},{}],208:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -16827,13 +17392,23 @@ define(function(require) {
 		}
 
 		function settleOne(p) {
-			var h = Promise._handler(p);
-			if(h.state() === 0) {
+			// Optimize the case where we get an already-resolved when.js promise
+			//  by extracting its state:
+			var handler;
+			if (p instanceof Promise) {
+				// This is our own Promise type and we can reach its handler internals:
+				handler = p._handler.join();
+			}
+			if((handler && handler.state() === 0) || !handler) {
+				// Either still pending, or not a Promise at all:
 				return toPromise(p).then(state.fulfilled, state.rejected);
 			}
 
-			h._unreport();
-			return state.inspect(h);
+			// The promise is our own, but it is already resolved. Take a shortcut.
+			// Since we're not actually handling the resolution, we need to disable
+			// rejection reporting.
+			handler._unreport();
+			return state.inspect(handler);
 		}
 
 		/**
@@ -16876,7 +17451,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../apply":200,"../state":213}],202:[function(require,module,exports){
+},{"../apply":207,"../state":220}],209:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17038,7 +17613,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],203:[function(require,module,exports){
+},{}],210:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17067,7 +17642,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],204:[function(require,module,exports){
+},{}],211:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17089,7 +17664,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../state":213}],205:[function(require,module,exports){
+},{"../state":220}],212:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17156,7 +17731,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],206:[function(require,module,exports){
+},{}],213:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17182,7 +17757,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],207:[function(require,module,exports){
+},{}],214:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17262,7 +17837,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../TimeoutError":199,"../env":210}],208:[function(require,module,exports){
+},{"../TimeoutError":206,"../env":217}],215:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17350,7 +17925,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../env":210,"../format":211}],209:[function(require,module,exports){
+},{"../env":217,"../format":218}],216:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17390,7 +17965,7 @@ define(function() {
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
 
-},{}],210:[function(require,module,exports){
+},{}],217:[function(require,module,exports){
 (function (process){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
@@ -17441,8 +18016,8 @@ define(function(require) {
 	}
 
 	function hasMutationObserver () {
-		return (typeof MutationObserver === 'function' && MutationObserver) ||
-			(typeof WebKitMutationObserver === 'function' && WebKitMutationObserver);
+	    return (typeof MutationObserver !== 'undefined' && MutationObserver) ||
+			(typeof WebKitMutationObserver !== 'undefined' && WebKitMutationObserver);
 	}
 
 	function initMutationObserver(MutationObserver) {
@@ -17468,7 +18043,7 @@ define(function(require) {
 
 }).call(this,require('_process'))
 
-},{"_process":4}],211:[function(require,module,exports){
+},{"_process":4}],218:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17526,7 +18101,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],212:[function(require,module,exports){
+},{}],219:[function(require,module,exports){
 (function (process){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
@@ -18412,6 +18987,28 @@ define(function() {
 
 		function noop() {}
 
+		function hasCustomEvent() {
+			if(typeof CustomEvent === 'function') {
+				try {
+					var ev = new CustomEvent('unhandledRejection');
+					return ev instanceof CustomEvent;
+				} catch (ignoredException) {}
+			}
+			return false;
+		}
+
+		function hasInternetExplorerCustomEvent() {
+			if(typeof document !== 'undefined' && typeof document.createEvent === 'function') {
+				try {
+					// Try to create one event to make sure it's supported
+					var ev = document.createEvent('CustomEvent');
+					ev.initCustomEvent('eventType', false, true, {});
+					return true;
+				} catch (ignoredException) {}
+			}
+			return false;
+		}
+
 		function initEmitRejection() {
 			/*global process, self, CustomEvent*/
 			if(typeof process !== 'undefined' && process !== null
@@ -18425,15 +19022,9 @@ define(function() {
 						? process.emit(type, rejection.value, rejection)
 						: process.emit(type, rejection);
 				};
-			} else if(typeof self !== 'undefined' && typeof CustomEvent === 'function') {
-				return (function(noop, self, CustomEvent) {
-					var hasCustomEvent = false;
-					try {
-						var ev = new CustomEvent('unhandledRejection');
-						hasCustomEvent = ev instanceof CustomEvent;
-					} catch (e) {}
-
-					return !hasCustomEvent ? noop : function(type, rejection) {
+			} else if(typeof self !== 'undefined' && hasCustomEvent()) {
+				return (function (self, CustomEvent) {
+					return function (type, rejection) {
 						var ev = new CustomEvent(type, {
 							detail: {
 								reason: rejection.value,
@@ -18445,7 +19036,19 @@ define(function() {
 
 						return !self.dispatchEvent(ev);
 					};
-				}(noop, self, CustomEvent));
+				}(self, CustomEvent));
+			} else if(typeof self !== 'undefined' && hasInternetExplorerCustomEvent()) {
+				return (function(self, document) {
+					return function(type, rejection) {
+						var ev = document.createEvent('CustomEvent');
+						ev.initCustomEvent(type, false, true, {
+							reason: rejection.value,
+							key: rejection
+						});
+
+						return !self.dispatchEvent(ev);
+					};
+				}(self, document));
 			}
 
 			return noop;
@@ -18458,7 +19061,7 @@ define(function() {
 
 }).call(this,require('_process'))
 
-},{"_process":4}],213:[function(require,module,exports){
+},{"_process":4}],220:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -18495,7 +19098,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],214:[function(require,module,exports){
+},{}],221:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 
 /**
@@ -18725,7 +19328,7 @@ define(function (require) {
 });
 })(typeof define === 'function' && define.amd ? define : function (factory) { module.exports = factory(require); });
 
-},{"./lib/Promise":197,"./lib/TimeoutError":199,"./lib/apply":200,"./lib/decorators/array":201,"./lib/decorators/flow":202,"./lib/decorators/fold":203,"./lib/decorators/inspect":204,"./lib/decorators/iterate":205,"./lib/decorators/progress":206,"./lib/decorators/timed":207,"./lib/decorators/unhandledRejection":208,"./lib/decorators/with":209}],215:[function(require,module,exports){
+},{"./lib/Promise":204,"./lib/TimeoutError":206,"./lib/apply":207,"./lib/decorators/array":208,"./lib/decorators/flow":209,"./lib/decorators/fold":210,"./lib/decorators/inspect":211,"./lib/decorators/iterate":212,"./lib/decorators/progress":213,"./lib/decorators/timed":214,"./lib/decorators/unhandledRejection":215,"./lib/decorators/with":216}],222:[function(require,module,exports){
 var nativeIsArray = Array.isArray
 var toString = Object.prototype.toString
 
@@ -18735,14 +19338,14 @@ function isArray(obj) {
     return toString.call(obj) === "[object Array]"
 }
 
-},{}],216:[function(require,module,exports){
+},{}],223:[function(require,module,exports){
 "use strict";
 var APIv3_1 = require("./api/APIv3");
 exports.APIv3 = APIv3_1.APIv3;
 var ModelCreator_1 = require("./api/ModelCreator");
 exports.ModelCreator = ModelCreator_1.ModelCreator;
 
-},{"./api/APIv3":228,"./api/ModelCreator":229}],217:[function(require,module,exports){
+},{"./api/APIv3":235,"./api/ModelCreator":236}],224:[function(require,module,exports){
 "use strict";
 var Component_1 = require("./component/Component");
 exports.Component = Component_1.Component;
@@ -18772,12 +19375,26 @@ var KeyboardComponent_1 = require("./component/KeyboardComponent");
 exports.KeyboardComponent = KeyboardComponent_1.KeyboardComponent;
 var LoadingComponent_1 = require("./component/LoadingComponent");
 exports.LoadingComponent = LoadingComponent_1.LoadingComponent;
-var Marker_1 = require("./component/marker/Marker");
+var Marker_1 = require("./component/marker/marker/Marker");
 exports.Marker = Marker_1.Marker;
 var MarkerComponent_1 = require("./component/marker/MarkerComponent");
 exports.MarkerComponent = MarkerComponent_1.MarkerComponent;
-var MouseComponent_1 = require("./component/MouseComponent");
+var MarkerScene_1 = require("./component/marker/MarkerScene");
+exports.MarkerScene = MarkerScene_1.MarkerScene;
+var MarkerSet_1 = require("./component/marker/MarkerSet");
+exports.MarkerSet = MarkerSet_1.MarkerSet;
+var MouseComponent_1 = require("./component/mouse/MouseComponent");
 exports.MouseComponent = MouseComponent_1.MouseComponent;
+var MouseHandlerBase_1 = require("./component/mouse/MouseHandlerBase");
+exports.MouseHandlerBase = MouseHandlerBase_1.MouseHandlerBase;
+var DragPanHandler_1 = require("./component/mouse/DragPanHandler");
+exports.DragPanHandler = DragPanHandler_1.DragPanHandler;
+var DoubleClickZoomHandler_1 = require("./component/mouse/DoubleClickZoomHandler");
+exports.DoubleClickZoomHandler = DoubleClickZoomHandler_1.DoubleClickZoomHandler;
+var ScrollZoomHandler_1 = require("./component/mouse/ScrollZoomHandler");
+exports.ScrollZoomHandler = ScrollZoomHandler_1.ScrollZoomHandler;
+var TouchZoomHandler_1 = require("./component/mouse/TouchZoomHandler");
+exports.TouchZoomHandler = TouchZoomHandler_1.TouchZoomHandler;
 var NavigationComponent_1 = require("./component/NavigationComponent");
 exports.NavigationComponent = NavigationComponent_1.NavigationComponent;
 var RouteComponent_1 = require("./component/RouteComponent");
@@ -18798,8 +19415,10 @@ var ImagePlaneScene_1 = require("./component/imageplane/ImagePlaneScene");
 exports.ImagePlaneScene = ImagePlaneScene_1.ImagePlaneScene;
 var ImagePlaneShaders_1 = require("./component/imageplane/ImagePlaneShaders");
 exports.ImagePlaneShaders = ImagePlaneShaders_1.ImagePlaneShaders;
-var SimpleMarker_1 = require("./component/marker/SimpleMarker");
+var SimpleMarker_1 = require("./component/marker/marker/SimpleMarker");
 exports.SimpleMarker = SimpleMarker_1.SimpleMarker;
+var CircleMarker_1 = require("./component/marker/marker/CircleMarker");
+exports.CircleMarker = CircleMarker_1.CircleMarker;
 var SliderComponent_1 = require("./component/imageplane/SliderComponent");
 exports.SliderComponent = SliderComponent_1.SliderComponent;
 var StatsComponent_1 = require("./component/StatsComponent");
@@ -18845,7 +19464,7 @@ exports.PolygonGeometry = PolygonGeometry_1.PolygonGeometry;
 var GeometryTagError_1 = require("./component/tag/error/GeometryTagError");
 exports.GeometryTagError = GeometryTagError_1.GeometryTagError;
 
-},{"./component/AttributionComponent":230,"./component/BackgroundComponent":231,"./component/BearingComponent":232,"./component/CacheComponent":233,"./component/Component":234,"./component/ComponentService":235,"./component/CoverComponent":236,"./component/DebugComponent":237,"./component/ImageComponent":238,"./component/KeyboardComponent":239,"./component/LoadingComponent":240,"./component/MouseComponent":241,"./component/NavigationComponent":242,"./component/RouteComponent":243,"./component/StatsComponent":244,"./component/direction/DirectionComponent":245,"./component/direction/DirectionDOMCalculator":246,"./component/direction/DirectionDOMRenderer":247,"./component/imageplane/ImagePlaneComponent":248,"./component/imageplane/ImagePlaneFactory":249,"./component/imageplane/ImagePlaneGLRenderer":250,"./component/imageplane/ImagePlaneScene":251,"./component/imageplane/ImagePlaneShaders":252,"./component/imageplane/SliderComponent":253,"./component/marker/Marker":254,"./component/marker/MarkerComponent":255,"./component/marker/SimpleMarker":256,"./component/sequence/SequenceComponent":257,"./component/sequence/SequenceDOMInteraction":258,"./component/sequence/SequenceDOMRenderer":259,"./component/tag/TagComponent":261,"./component/tag/TagCreator":262,"./component/tag/TagDOMRenderer":263,"./component/tag/TagGLRenderer":264,"./component/tag/TagOperation":265,"./component/tag/TagSet":266,"./component/tag/error/GeometryTagError":267,"./component/tag/geometry/Geometry":268,"./component/tag/geometry/PointGeometry":269,"./component/tag/geometry/PolygonGeometry":270,"./component/tag/geometry/RectGeometry":271,"./component/tag/geometry/VertexGeometry":272,"./component/tag/tag/Alignment":273,"./component/tag/tag/OutlineCreateTag":274,"./component/tag/tag/OutlineRenderTag":275,"./component/tag/tag/OutlineTag":276,"./component/tag/tag/RenderTag":277,"./component/tag/tag/SpotRenderTag":278,"./component/tag/tag/SpotTag":279,"./component/tag/tag/Tag":280}],218:[function(require,module,exports){
+},{"./component/AttributionComponent":237,"./component/BackgroundComponent":238,"./component/BearingComponent":239,"./component/CacheComponent":240,"./component/Component":241,"./component/ComponentService":242,"./component/CoverComponent":243,"./component/DebugComponent":244,"./component/ImageComponent":245,"./component/KeyboardComponent":246,"./component/LoadingComponent":247,"./component/NavigationComponent":248,"./component/RouteComponent":249,"./component/StatsComponent":250,"./component/direction/DirectionComponent":251,"./component/direction/DirectionDOMCalculator":252,"./component/direction/DirectionDOMRenderer":253,"./component/imageplane/ImagePlaneComponent":254,"./component/imageplane/ImagePlaneFactory":255,"./component/imageplane/ImagePlaneGLRenderer":256,"./component/imageplane/ImagePlaneScene":257,"./component/imageplane/ImagePlaneShaders":258,"./component/imageplane/SliderComponent":259,"./component/marker/MarkerComponent":261,"./component/marker/MarkerScene":262,"./component/marker/MarkerSet":263,"./component/marker/marker/CircleMarker":264,"./component/marker/marker/Marker":265,"./component/marker/marker/SimpleMarker":266,"./component/mouse/DoubleClickZoomHandler":267,"./component/mouse/DragPanHandler":268,"./component/mouse/MouseComponent":269,"./component/mouse/MouseHandlerBase":270,"./component/mouse/ScrollZoomHandler":271,"./component/mouse/TouchZoomHandler":272,"./component/sequence/SequenceComponent":273,"./component/sequence/SequenceDOMInteraction":274,"./component/sequence/SequenceDOMRenderer":275,"./component/tag/TagComponent":277,"./component/tag/TagCreator":278,"./component/tag/TagDOMRenderer":279,"./component/tag/TagGLRenderer":280,"./component/tag/TagOperation":281,"./component/tag/TagSet":282,"./component/tag/error/GeometryTagError":283,"./component/tag/geometry/Geometry":284,"./component/tag/geometry/PointGeometry":285,"./component/tag/geometry/PolygonGeometry":286,"./component/tag/geometry/RectGeometry":287,"./component/tag/geometry/VertexGeometry":288,"./component/tag/tag/Alignment":289,"./component/tag/tag/OutlineCreateTag":290,"./component/tag/tag/OutlineRenderTag":291,"./component/tag/tag/OutlineTag":292,"./component/tag/tag/RenderTag":293,"./component/tag/tag/SpotRenderTag":294,"./component/tag/tag/SpotTag":295,"./component/tag/tag/Tag":296}],225:[function(require,module,exports){
 "use strict";
 var EdgeDirection_1 = require("./graph/edge/EdgeDirection");
 exports.EdgeDirection = EdgeDirection_1.EdgeDirection;
@@ -18858,7 +19477,7 @@ exports.EdgeCalculatorCoefficients = EdgeCalculatorCoefficients_1.EdgeCalculator
 var EdgeCalculator_1 = require("./graph/edge/EdgeCalculator");
 exports.EdgeCalculator = EdgeCalculator_1.EdgeCalculator;
 
-},{"./graph/edge/EdgeCalculator":298,"./graph/edge/EdgeCalculatorCoefficients":299,"./graph/edge/EdgeCalculatorDirections":300,"./graph/edge/EdgeCalculatorSettings":301,"./graph/edge/EdgeDirection":302}],219:[function(require,module,exports){
+},{"./graph/edge/EdgeCalculator":314,"./graph/edge/EdgeCalculatorCoefficients":315,"./graph/edge/EdgeCalculatorDirections":316,"./graph/edge/EdgeCalculatorSettings":317,"./graph/edge/EdgeDirection":318}],226:[function(require,module,exports){
 "use strict";
 var ArgumentMapillaryError_1 = require("./error/ArgumentMapillaryError");
 exports.ArgumentMapillaryError = ArgumentMapillaryError_1.ArgumentMapillaryError;
@@ -18867,7 +19486,7 @@ exports.GraphMapillaryError = GraphMapillaryError_1.GraphMapillaryError;
 var MapillaryError_1 = require("./error/MapillaryError");
 exports.MapillaryError = MapillaryError_1.MapillaryError;
 
-},{"./error/ArgumentMapillaryError":281,"./error/GraphMapillaryError":282,"./error/MapillaryError":283}],220:[function(require,module,exports){
+},{"./error/ArgumentMapillaryError":297,"./error/GraphMapillaryError":298,"./error/MapillaryError":299}],227:[function(require,module,exports){
 "use strict";
 var Camera_1 = require("./geo/Camera");
 exports.Camera = Camera_1.Camera;
@@ -18880,7 +19499,7 @@ exports.Spatial = Spatial_1.Spatial;
 var Transform_1 = require("./geo/Transform");
 exports.Transform = Transform_1.Transform;
 
-},{"./geo/Camera":284,"./geo/GeoCoords":285,"./geo/Spatial":286,"./geo/Transform":287,"./geo/ViewportCoords":288}],221:[function(require,module,exports){
+},{"./geo/Camera":300,"./geo/GeoCoords":301,"./geo/Spatial":302,"./geo/Transform":303,"./geo/ViewportCoords":304}],228:[function(require,module,exports){
 "use strict";
 var FilterCreator_1 = require("./graph/FilterCreator");
 exports.FilterCreator = FilterCreator_1.FilterCreator;
@@ -18901,7 +19520,7 @@ exports.NodeCache = NodeCache_1.NodeCache;
 var Sequence_1 = require("./graph/Sequence");
 exports.Sequence = Sequence_1.Sequence;
 
-},{"./graph/FilterCreator":289,"./graph/Graph":290,"./graph/GraphCalculator":291,"./graph/GraphService":292,"./graph/ImageLoadingService":293,"./graph/MeshReader":294,"./graph/Node":295,"./graph/NodeCache":296,"./graph/Sequence":297}],222:[function(require,module,exports){
+},{"./graph/FilterCreator":305,"./graph/Graph":306,"./graph/GraphCalculator":307,"./graph/GraphService":308,"./graph/ImageLoadingService":309,"./graph/MeshReader":310,"./graph/Node":311,"./graph/NodeCache":312,"./graph/Sequence":313}],229:[function(require,module,exports){
 /**
  * MapillaryJS is a WebGL JavaScript library for exploring street level imagery
  * @name Mapillary
@@ -18916,8 +19535,10 @@ exports.ImageSize = Viewer_1.ImageSize;
 exports.Viewer = Viewer_1.Viewer;
 var TagComponent = require("./component/tag/Tag");
 exports.TagComponent = TagComponent;
+var MarkerComponent = require("./component/marker/Marker");
+exports.MarkerComponent = MarkerComponent;
 
-},{"./Edge":218,"./Render":223,"./Viewer":227,"./component/tag/Tag":260}],223:[function(require,module,exports){
+},{"./Edge":225,"./Render":230,"./Viewer":234,"./component/marker/Marker":260,"./component/tag/Tag":276}],230:[function(require,module,exports){
 "use strict";
 var DOMRenderer_1 = require("./render/DOMRenderer");
 exports.DOMRenderer = DOMRenderer_1.DOMRenderer;
@@ -18932,7 +19553,7 @@ exports.RenderMode = RenderMode_1.RenderMode;
 var RenderService_1 = require("./render/RenderService");
 exports.RenderService = RenderService_1.RenderService;
 
-},{"./render/DOMRenderer":303,"./render/GLRenderStage":304,"./render/GLRenderer":305,"./render/RenderCamera":306,"./render/RenderMode":307,"./render/RenderService":308}],224:[function(require,module,exports){
+},{"./render/DOMRenderer":319,"./render/GLRenderStage":320,"./render/GLRenderer":321,"./render/RenderCamera":322,"./render/RenderMode":323,"./render/RenderService":324}],231:[function(require,module,exports){
 "use strict";
 var State_1 = require("./state/State");
 exports.State = State_1.State;
@@ -18947,7 +19568,7 @@ exports.TraversingState = TraversingState_1.TraversingState;
 var WaitingState_1 = require("./state/states/WaitingState");
 exports.WaitingState = WaitingState_1.WaitingState;
 
-},{"./state/State":309,"./state/StateContext":310,"./state/StateService":311,"./state/states/StateBase":312,"./state/states/TraversingState":313,"./state/states/WaitingState":314}],225:[function(require,module,exports){
+},{"./state/State":325,"./state/StateContext":326,"./state/StateService":327,"./state/states/StateBase":328,"./state/states/TraversingState":329,"./state/states/WaitingState":330}],232:[function(require,module,exports){
 "use strict";
 var ImageTileLoader_1 = require("./tiles/ImageTileLoader");
 exports.ImageTileLoader = ImageTileLoader_1.ImageTileLoader;
@@ -18958,7 +19579,7 @@ exports.TextureProvider = TextureProvider_1.TextureProvider;
 var RegionOfInterestCalculator_1 = require("./tiles/RegionOfInterestCalculator");
 exports.RegionOfInterestCalculator = RegionOfInterestCalculator_1.RegionOfInterestCalculator;
 
-},{"./tiles/ImageTileLoader":315,"./tiles/ImageTileStore":316,"./tiles/RegionOfInterestCalculator":317,"./tiles/TextureProvider":318}],226:[function(require,module,exports){
+},{"./tiles/ImageTileLoader":331,"./tiles/ImageTileStore":332,"./tiles/RegionOfInterestCalculator":333,"./tiles/TextureProvider":334}],233:[function(require,module,exports){
 "use strict";
 var EventEmitter_1 = require("./utils/EventEmitter");
 exports.EventEmitter = EventEmitter_1.EventEmitter;
@@ -18967,14 +19588,16 @@ exports.Settings = Settings_1.Settings;
 var Urls_1 = require("./utils/Urls");
 exports.Urls = Urls_1.Urls;
 
-},{"./utils/EventEmitter":319,"./utils/Settings":320,"./utils/Urls":321}],227:[function(require,module,exports){
+},{"./utils/EventEmitter":335,"./utils/Settings":336,"./utils/Urls":337}],234:[function(require,module,exports){
 "use strict";
-var Container_1 = require("./viewer/Container");
-exports.Container = Container_1.Container;
 var CacheService_1 = require("./viewer/CacheService");
 exports.CacheService = CacheService_1.CacheService;
-var EventLauncher_1 = require("./viewer/EventLauncher");
-exports.EventLauncher = EventLauncher_1.EventLauncher;
+var ComponentController_1 = require("./viewer/ComponentController");
+exports.ComponentController = ComponentController_1.ComponentController;
+var Container_1 = require("./viewer/Container");
+exports.Container = Container_1.Container;
+var Observer_1 = require("./viewer/Observer");
+exports.Observer = Observer_1.Observer;
 var ImageSize_1 = require("./viewer/ImageSize");
 exports.ImageSize = ImageSize_1.ImageSize;
 var LoadingService_1 = require("./viewer/LoadingService");
@@ -18983,19 +19606,18 @@ var MouseService_1 = require("./viewer/MouseService");
 exports.MouseService = MouseService_1.MouseService;
 var Navigator_1 = require("./viewer/Navigator");
 exports.Navigator = Navigator_1.Navigator;
-var ComponentController_1 = require("./viewer/ComponentController");
-exports.ComponentController = ComponentController_1.ComponentController;
+var Projection_1 = require("./viewer/Projection");
+exports.Projection = Projection_1.Projection;
 var SpriteAlignment_1 = require("./viewer/SpriteAlignment");
 exports.SpriteAlignment = SpriteAlignment_1.SpriteAlignment;
 var SpriteService_1 = require("./viewer/SpriteService");
 exports.SpriteService = SpriteService_1.SpriteService;
 var TouchService_1 = require("./viewer/TouchService");
 exports.TouchService = TouchService_1.TouchService;
-exports.TouchMove = TouchService_1.TouchMove;
 var Viewer_1 = require("./viewer/Viewer");
 exports.Viewer = Viewer_1.Viewer;
 
-},{"./viewer/CacheService":322,"./viewer/ComponentController":323,"./viewer/Container":324,"./viewer/EventLauncher":325,"./viewer/ImageSize":326,"./viewer/LoadingService":327,"./viewer/MouseService":328,"./viewer/Navigator":329,"./viewer/SpriteAlignment":330,"./viewer/SpriteService":331,"./viewer/TouchService":332,"./viewer/Viewer":333}],228:[function(require,module,exports){
+},{"./viewer/CacheService":338,"./viewer/ComponentController":339,"./viewer/Container":340,"./viewer/ImageSize":341,"./viewer/LoadingService":342,"./viewer/MouseService":343,"./viewer/Navigator":344,"./viewer/Observer":345,"./viewer/Projection":346,"./viewer/SpriteAlignment":347,"./viewer/SpriteService":348,"./viewer/TouchService":349,"./viewer/Viewer":350}],235:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var Observable_1 = require("rxjs/Observable");
@@ -19004,7 +19626,20 @@ require("rxjs/add/observable/fromPromise");
 require("rxjs/add/operator/catch");
 require("rxjs/add/operator/map");
 var API_1 = require("../API");
+/**
+ * @class APIv3
+ *
+ * @classdesc Provides methods for access of API v3.
+ */
 var APIv3 = (function () {
+    /**
+     * Create a new api v3 instance.
+     *
+     * @param {number} clientId - Client id for API requests.
+     * @param {number} [token] - Optional bearer token for API requests of
+     * protected resources.
+     * @param {ModelCreator} [creator] - Optional model creator instance.
+     */
     function APIv3(clientId, token, creator) {
         this._clientId = clientId;
         this._modelCreator = creator != null ? creator : new API_1.ModelCreator();
@@ -19189,15 +19824,31 @@ exports.APIv3 = APIv3;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = APIv3;
 
-},{"../API":216,"rxjs/Observable":28,"rxjs/add/observable/defer":38,"rxjs/add/observable/fromPromise":42,"rxjs/add/operator/catch":49,"rxjs/add/operator/map":62}],229:[function(require,module,exports){
+},{"../API":223,"rxjs/Observable":28,"rxjs/add/observable/defer":38,"rxjs/add/observable/fromPromise":42,"rxjs/add/operator/catch":51,"rxjs/add/operator/map":64}],236:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var falcor = require("falcor");
 var HttpDataSource = require("falcor-http-datasource");
 var Utils_1 = require("../Utils");
+/**
+ * @class ModelCreator
+ *
+ * @classdesc Creates API models.
+ */
 var ModelCreator = (function () {
     function ModelCreator() {
     }
+    /**
+     * Creates a Falcor model.
+     *
+     * @description Max cache size will be set to 16 MB. Authorization
+     * header will be added if bearer token is supplied.
+     *
+     * @param {number} clientId - Client id for API requests.
+     * @param {number} [token] - Optional bearer token for API requests of
+     * protected resources.
+     * @returns {falcor.Model} Falcor model for HTTP requests.
+     */
     ModelCreator.prototype.createModel = function (clientId, token) {
         var configuration = {
             crossDomain: true,
@@ -19217,7 +19868,7 @@ exports.ModelCreator = ModelCreator;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ModelCreator;
 
-},{"../Utils":226,"falcor":13,"falcor-http-datasource":8}],230:[function(require,module,exports){
+},{"../Utils":233,"falcor":13,"falcor-http-datasource":8}],237:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -19267,7 +19918,7 @@ Component_1.ComponentService.register(AttributionComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = AttributionComponent;
 
-},{"../Component":217,"virtual-dom":173}],231:[function(require,module,exports){
+},{"../Component":224,"virtual-dom":180}],238:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -19306,7 +19957,7 @@ Component_1.ComponentService.register(BackgroundComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = BackgroundComponent;
 
-},{"../Component":217,"virtual-dom":173}],232:[function(require,module,exports){
+},{"../Component":224,"virtual-dom":180}],239:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -19367,7 +20018,7 @@ var BearingComponent = (function (_super) {
         this._renderSubscription = Observable_1.Observable
             .combineLatest(nodeBearingFov$, cameraBearingFov$)
             .map(function (args) {
-            var background = vd.h("div.BearingIndicatorBackground", {}, [
+            var background = vd.h("div.BearingIndicatorBackground", { oncontextmenu: function (event) { event.preventDefault(); } }, [
                 vd.h("div.BearingIndicatorBackgroundRectangle", {}, []),
                 vd.h("div.BearingIndicatorBackgroundCircle", {}, []),
             ]);
@@ -19449,7 +20100,7 @@ Component_1.ComponentService.register(BearingComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = BearingComponent;
 
-},{"../Component":217,"../Geo":220,"rxjs/Observable":28,"virtual-dom":173}],233:[function(require,module,exports){
+},{"../Component":224,"../Geo":227,"rxjs/Observable":28,"virtual-dom":180}],240:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -19602,7 +20253,7 @@ Component_1.ComponentService.register(CacheComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = CacheComponent;
 
-},{"../Component":217,"../Edge":218,"rxjs/Observable":28,"rxjs/add/observable/combineLatest":37,"rxjs/add/observable/from":40,"rxjs/add/observable/merge":43,"rxjs/add/observable/of":44,"rxjs/add/observable/zip":46,"rxjs/add/operator/catch":49,"rxjs/add/operator/combineLatest":50,"rxjs/add/operator/distinct":54,"rxjs/add/operator/expand":57,"rxjs/add/operator/filter":58,"rxjs/add/operator/map":62,"rxjs/add/operator/merge":63,"rxjs/add/operator/mergeAll":64,"rxjs/add/operator/mergeMap":65,"rxjs/add/operator/skip":72,"rxjs/add/operator/switchMap":76}],234:[function(require,module,exports){
+},{"../Component":224,"../Edge":225,"rxjs/Observable":28,"rxjs/add/observable/combineLatest":37,"rxjs/add/observable/from":40,"rxjs/add/observable/merge":43,"rxjs/add/observable/of":44,"rxjs/add/observable/zip":47,"rxjs/add/operator/catch":51,"rxjs/add/operator/combineLatest":52,"rxjs/add/operator/distinct":56,"rxjs/add/operator/expand":59,"rxjs/add/operator/filter":60,"rxjs/add/operator/map":64,"rxjs/add/operator/merge":65,"rxjs/add/operator/mergeAll":66,"rxjs/add/operator/mergeMap":67,"rxjs/add/operator/skip":74,"rxjs/add/operator/switchMap":78}],241:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -19674,6 +20325,13 @@ var Component = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Component.prototype, "name", {
+        get: function () {
+            return this._name;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Component.prototype.activate = function (conf) {
         if (this._activated) {
             return;
@@ -19681,8 +20339,8 @@ var Component = (function (_super) {
         if (conf !== undefined) {
             this._configurationSubject$.next(conf);
         }
-        this._activate();
         this._activated = true;
+        this._activate();
         this._activated$.next(true);
     };
     ;
@@ -19693,10 +20351,10 @@ var Component = (function (_super) {
         if (!this._activated) {
             return;
         }
+        this._activated = false;
         this._deactivate();
         this._container.domRenderer.clear(this._name);
         this._container.glRenderer.clear(this._name);
-        this._activated = false;
         this._activated$.next(false);
     };
     ;
@@ -19715,7 +20373,7 @@ exports.Component = Component;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Component;
 
-},{"../Utils":226,"rxjs/BehaviorSubject":25,"rxjs/Subject":33,"rxjs/add/operator/publishReplay":69,"rxjs/add/operator/scan":70,"rxjs/add/operator/startWith":75}],235:[function(require,module,exports){
+},{"../Utils":233,"rxjs/BehaviorSubject":25,"rxjs/Subject":33,"rxjs/add/operator/publishReplay":71,"rxjs/add/operator/scan":72,"rxjs/add/operator/startWith":77}],242:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var _ = require("underscore");
@@ -19812,7 +20470,7 @@ exports.ComponentService = ComponentService;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ComponentService;
 
-},{"../Error":219,"underscore":168}],236:[function(require,module,exports){
+},{"../Error":226,"underscore":175}],243:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -19892,7 +20550,7 @@ Component_1.ComponentService.registerCover(CoverComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = CoverComponent;
 
-},{"../Component":217,"rxjs/add/operator/filter":58,"rxjs/add/operator/map":62,"rxjs/add/operator/withLatestFrom":80,"virtual-dom":173}],237:[function(require,module,exports){
+},{"../Component":224,"rxjs/add/operator/filter":60,"rxjs/add/operator/map":64,"rxjs/add/operator/withLatestFrom":82,"virtual-dom":180}],244:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -20001,7 +20659,7 @@ Component_1.ComponentService.register(DebugComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = DebugComponent;
 
-},{"../Component":217,"rxjs/BehaviorSubject":25,"rxjs/add/operator/combineLatest":50,"underscore":168,"virtual-dom":173}],238:[function(require,module,exports){
+},{"../Component":224,"rxjs/BehaviorSubject":25,"rxjs/add/operator/combineLatest":52,"underscore":175,"virtual-dom":180}],245:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -20056,7 +20714,7 @@ Component_1.ComponentService.register(ImageComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ImageComponent;
 
-},{"../Component":217,"rxjs/add/operator/combineLatest":50,"virtual-dom":173}],239:[function(require,module,exports){
+},{"../Component":224,"rxjs/add/operator/combineLatest":52,"virtual-dom":180}],246:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -20259,7 +20917,7 @@ Component_1.ComponentService.register(KeyboardComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = KeyboardComponent;
 
-},{"../Component":217,"../Edge":218,"../Geo":220,"rxjs/Observable":28,"rxjs/add/observable/fromEvent":41,"rxjs/add/operator/withLatestFrom":80}],240:[function(require,module,exports){
+},{"../Component":224,"../Edge":225,"../Geo":227,"rxjs/Observable":28,"rxjs/add/observable/fromEvent":41,"rxjs/add/operator/withLatestFrom":82}],247:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -20327,329 +20985,7 @@ Component_1.ComponentService.register(LoadingComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = LoadingComponent;
 
-},{"../Component":217,"rxjs/add/operator/combineLatest":50,"underscore":168,"virtual-dom":173}],241:[function(require,module,exports){
-/// <reference path="../../typings/index.d.ts" />
-"use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var THREE = require("three");
-var vd = require("virtual-dom");
-var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/observable/merge");
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/withLatestFrom");
-var Component_1 = require("../Component");
-var Geo_1 = require("../Geo");
-/**
- * @class MouseComponent
- * @classdesc Component handling mouse and touch events for camera movement.
- */
-var MouseComponent = (function (_super) {
-    __extends(MouseComponent, _super);
-    function MouseComponent(name, container, navigator) {
-        var _this = _super.call(this, name, container, navigator) || this;
-        _this._basicDistanceThreshold = 1e-3;
-        _this._basicRotationThreshold = 5e-2;
-        _this._bounceCoeff = 1e-1;
-        _this._forceCoeff = 2e-1;
-        _this._viewportCoords = new Geo_1.ViewportCoords();
-        _this._spatial = new Geo_1.Spatial();
-        return _this;
-    }
-    MouseComponent.prototype._activate = function () {
-        var _this = this;
-        var draggingStarted$ = this._container.mouseService
-            .filtered$(this._name, this._container.mouseService.mouseDragStart$)
-            .map(function (event) {
-            return true;
-        });
-        var draggingStopped$ = this._container.mouseService
-            .filtered$(this._name, this._container.mouseService.mouseDragEnd$)
-            .map(function (event) {
-            return false;
-        });
-        var dragging$ = Observable_1.Observable
-            .merge(draggingStarted$, draggingStopped$)
-            .startWith(false)
-            .share();
-        this._activeMouseSubscription = dragging$
-            .subscribe(this._container.mouseService.activate$);
-        var touchMovingStarted$ = this._container.touchService.singleTouchMoveStart$
-            .map(function (event) {
-            return true;
-        });
-        var touchMovingStopped$ = this._container.touchService.singleTouchMoveEnd$
-            .map(function (event) {
-            return false;
-        });
-        var touchMoving$ = Observable_1.Observable
-            .merge(touchMovingStarted$, touchMovingStopped$)
-            .startWith(false)
-            .share();
-        this._activeTouchSubscription = touchMoving$
-            .subscribe(this._container.touchService.activate$);
-        this._cursorSubscription = dragging$
-            .map(function (dragging) {
-            var className = dragging ? "MouseContainerGrabbing" : "MouseContainerGrab";
-            var vNode = vd.h("div." + className, {}, []);
-            return { name: _this._name, vnode: vNode };
-        })
-            .subscribe(this._container.domRenderer.render$);
-        var mouseMovement$ = this._container.mouseService
-            .filtered$(this._name, this._container.mouseService.mouseDrag$)
-            .map(function (e) {
-            return {
-                clientX: e.clientX,
-                clientY: e.clientY,
-                movementX: e.movementX,
-                movementY: e.movementY,
-            };
-        });
-        var touchMovement$ = this._container.touchService.singleTouchMove$
-            .map(function (touch) {
-            return {
-                clientX: touch.clientX,
-                clientY: touch.clientY,
-                movementX: touch.movementX,
-                movementY: touch.movementY,
-            };
-        });
-        this._movementSubscription = Observable_1.Observable
-            .merge(mouseMovement$, touchMovement$)
-            .withLatestFrom(this._navigator.stateService.currentState$, function (m, f) {
-            return [m, f];
-        })
-            .filter(function (args) {
-            var state = args[1].state;
-            return state.currentNode.fullPano || state.nodesAhead < 1;
-        })
-            .map(function (args) {
-            return args[0];
-        })
-            .withLatestFrom(this._container.renderService.renderCamera$, this._navigator.stateService.currentTransform$, this._navigator.stateService.currentCamera$, function (m, r, t, c) {
-            return [m, r, t, c];
-        })
-            .map(function (args) {
-            var movement = args[0];
-            var render = args[1];
-            var transform = args[2];
-            var camera = args[3].clone();
-            var element = _this._container.element;
-            var offsetWidth = element.offsetWidth;
-            var offsetHeight = element.offsetHeight;
-            var clientRect = element.getBoundingClientRect();
-            var canvasX = movement.clientX - clientRect.left;
-            var canvasY = movement.clientY - clientRect.top;
-            var currentDirection = _this._viewportCoords.unprojectFromCanvas(canvasX, canvasY, offsetWidth, offsetHeight, render.perspective)
-                .sub(render.perspective.position);
-            var directionX = _this._viewportCoords.unprojectFromCanvas(canvasX - movement.movementX, canvasY, offsetWidth, offsetHeight, render.perspective)
-                .sub(render.perspective.position);
-            var directionY = _this._viewportCoords.unprojectFromCanvas(canvasX, canvasY - movement.movementY, offsetWidth, offsetHeight, render.perspective)
-                .sub(render.perspective.position);
-            var deltaPhi = (movement.movementX > 0 ? 1 : -1) * directionX.angleTo(currentDirection);
-            var deltaTheta = (movement.movementY > 0 ? -1 : 1) * directionY.angleTo(currentDirection);
-            var upQuaternion = new THREE.Quaternion().setFromUnitVectors(camera.up, new THREE.Vector3(0, 0, 1));
-            var upQuaternionInverse = upQuaternion.clone().inverse();
-            var offset = new THREE.Vector3();
-            offset.copy(camera.lookat).sub(camera.position);
-            offset.applyQuaternion(upQuaternion);
-            var length = offset.length();
-            var phi = Math.atan2(offset.y, offset.x);
-            phi += deltaPhi;
-            var theta = Math.atan2(Math.sqrt(offset.x * offset.x + offset.y * offset.y), offset.z);
-            theta += deltaTheta;
-            theta = Math.max(0.01, Math.min(Math.PI - 0.01, theta));
-            offset.x = Math.sin(theta) * Math.cos(phi);
-            offset.y = Math.sin(theta) * Math.sin(phi);
-            offset.z = Math.cos(theta);
-            offset.applyQuaternion(upQuaternionInverse);
-            var lookat = new THREE.Vector3().copy(camera.position).add(offset.multiplyScalar(length));
-            var basic = transform.projectBasic(lookat.toArray());
-            var original = transform.projectBasic(camera.lookat.toArray());
-            var x = basic[0] - original[0];
-            var y = basic[1] - original[1];
-            if (Math.abs(x) > 1) {
-                x = 0;
-            }
-            else if (x > 0.5) {
-                x = x - 1;
-            }
-            else if (x < -0.5) {
-                x = x + 1;
-            }
-            var rotationThreshold = _this._basicRotationThreshold;
-            x = _this._spatial.clamp(x, -rotationThreshold, rotationThreshold);
-            y = _this._spatial.clamp(y, -rotationThreshold, rotationThreshold);
-            if (transform.fullPano) {
-                return [x, y];
-            }
-            var pixelDistances = _this._viewportCoords.getPixelDistances(_this._container.element.offsetWidth, _this._container.element.offsetHeight, transform, render.perspective);
-            var coeff = _this._forceCoeff;
-            if (pixelDistances[0] > 0 && y < 0 && basic[1] < 0.5) {
-                y /= Math.max(1, coeff * pixelDistances[0]);
-            }
-            if (pixelDistances[1] > 0 && x > 0 && basic[0] > 0.5) {
-                x /= Math.max(1, coeff * pixelDistances[1]);
-            }
-            if (pixelDistances[2] > 0 && y > 0 && basic[1] > 0.5) {
-                y /= Math.max(1, coeff * pixelDistances[2]);
-            }
-            if (pixelDistances[3] > 0 && x < 0 && basic[0] < 0.5) {
-                x /= Math.max(1, coeff * pixelDistances[3]);
-            }
-            return [x, y];
-        })
-            .subscribe(function (basicRotation) {
-            _this._navigator.stateService.rotateBasic(basicRotation);
-        });
-        this._mouseWheelSubscription = this._container.mouseService
-            .filtered$(this._name, this._container.mouseService.mouseWheel$)
-            .withLatestFrom(this._navigator.stateService.currentState$, function (w, f) {
-            return [w, f];
-        })
-            .filter(function (args) {
-            var state = args[1].state;
-            return state.currentNode.fullPano || state.nodesAhead < 1;
-        })
-            .map(function (args) {
-            return args[0];
-        })
-            .withLatestFrom(this._container.renderService.renderCamera$, this._navigator.stateService.currentTransform$, function (w, r, t) {
-            return [w, r, t];
-        })
-            .subscribe(function (args) {
-            var event = args[0];
-            var render = args[1];
-            var transform = args[2];
-            var element = _this._container.element;
-            var offsetWidth = element.offsetWidth;
-            var offsetHeight = element.offsetHeight;
-            var clientRect = element.getBoundingClientRect();
-            var canvasX = event.clientX - clientRect.left;
-            var canvasY = event.clientY - clientRect.top;
-            var unprojected = _this._viewportCoords.unprojectFromCanvas(canvasX, canvasY, offsetWidth, offsetHeight, render.perspective);
-            var reference = transform.projectBasic(unprojected.toArray());
-            var deltaY = event.deltaY;
-            if (event.deltaMode === 1) {
-                deltaY = 40 * deltaY;
-            }
-            else if (event.deltaMode === 2) {
-                deltaY = 800 * deltaY;
-            }
-            var zoom = -3 * deltaY / offsetHeight;
-            _this._navigator.stateService.zoomIn(zoom, reference);
-        });
-        this._pinchSubscription = this._container.touchService.pinch$
-            .withLatestFrom(this._navigator.stateService.currentState$, function (p, f) {
-            return [p, f];
-        })
-            .filter(function (args) {
-            var state = args[1].state;
-            return state.currentNode.fullPano || state.nodesAhead < 1;
-        })
-            .map(function (args) {
-            return args[0];
-        })
-            .withLatestFrom(this._container.renderService.renderCamera$, this._navigator.stateService.currentTransform$, function (p, r, t) {
-            return [p, r, t];
-        })
-            .subscribe(function (args) {
-            var pinch = args[0];
-            var render = args[1];
-            var transform = args[2];
-            var element = _this._container.element;
-            var offsetWidth = element.offsetWidth;
-            var offsetHeight = element.offsetHeight;
-            var clientRect = element.getBoundingClientRect();
-            var unprojected = _this._viewportCoords.unprojectFromCanvas(pinch.centerClientX - clientRect.left, pinch.centerClientY - clientRect.top, offsetWidth, offsetHeight, render.perspective);
-            var reference = transform.projectBasic(unprojected.toArray());
-            var zoom = 3 * pinch.distanceChange / Math.min(offsetHeight, offsetWidth);
-            _this._navigator.stateService.zoomIn(zoom, reference);
-        });
-        this._bounceSubscription = Observable_1.Observable
-            .combineLatest(this._navigator.stateService.inTranslation$, this._container.mouseService.active$, this._container.touchService.active$)
-            .map(function (noForce) {
-            return noForce[0] || noForce[1] || noForce[2];
-        })
-            .distinctUntilChanged()
-            .switchMap(function (noForce) {
-            return noForce ?
-                Observable_1.Observable.empty() :
-                Observable_1.Observable.combineLatest(_this._container.renderService.renderCamera$, _this._navigator.stateService.currentTransform$.first());
-        })
-            .subscribe(function (args) {
-            var renderCamera = args[0];
-            var perspectiveCamera = renderCamera.perspective;
-            var transform = args[1];
-            var distanceThreshold = _this._basicDistanceThreshold / Math.pow(2, renderCamera.zoom);
-            var basicCenter = _this._viewportCoords.viewportToBasic(0, 0, transform, perspectiveCamera);
-            if (Math.abs(basicCenter[0] - 0.5) < distanceThreshold && Math.abs(basicCenter[1] - 0.5) < distanceThreshold) {
-                return;
-            }
-            var basicDistances = _this._viewportCoords.getBasicDistances(transform, perspectiveCamera);
-            var basicX = 0;
-            var basicY = 0;
-            if (basicDistances[0] < distanceThreshold && basicDistances[1] < distanceThreshold &&
-                basicDistances[2] < distanceThreshold && basicDistances[3] < distanceThreshold) {
-                return;
-            }
-            if (Math.abs(basicDistances[0] - basicDistances[2]) < distanceThreshold &&
-                Math.abs(basicDistances[1] - basicDistances[3]) < distanceThreshold) {
-                return;
-            }
-            var coeff = _this._bounceCoeff;
-            if (basicDistances[1] > 0 && basicDistances[3] === 0) {
-                basicX = -coeff * basicDistances[1];
-            }
-            else if (basicDistances[1] === 0 && basicDistances[3] > 0) {
-                basicX = coeff * basicDistances[3];
-            }
-            else if (basicDistances[1] > 0 && basicDistances[3] > 0) {
-                basicX = coeff * (basicDistances[3] - basicDistances[1]) / 2;
-            }
-            if (basicDistances[0] > 0 && basicDistances[2] === 0) {
-                basicY = coeff * basicDistances[0];
-            }
-            else if (basicDistances[0] === 0 && basicDistances[2] > 0) {
-                basicY = -coeff * basicDistances[2];
-            }
-            else if (basicDistances[0] > 0 && basicDistances[2] > 0) {
-                basicY = coeff * (basicDistances[0] - basicDistances[2]) / 2;
-            }
-            var rotationThreshold = _this._basicRotationThreshold;
-            basicX = _this._spatial.clamp(basicX, -rotationThreshold, rotationThreshold);
-            basicY = _this._spatial.clamp(basicY, -rotationThreshold, rotationThreshold);
-            _this._navigator.stateService.rotateBasicUnbounded([basicX, basicY]);
-        });
-        this._container.mouseService.claimMouse(this._name, 0);
-    };
-    MouseComponent.prototype._deactivate = function () {
-        this._container.mouseService.unclaimMouse(this._name);
-        this._activeMouseSubscription.unsubscribe();
-        this._activeTouchSubscription.unsubscribe();
-        this._bounceSubscription.unsubscribe();
-        this._cursorSubscription.unsubscribe();
-        this._movementSubscription.unsubscribe();
-        this._mouseWheelSubscription.unsubscribe();
-        this._pinchSubscription.unsubscribe();
-    };
-    MouseComponent.prototype._getDefaultConfiguration = function () {
-        return {};
-    };
-    return MouseComponent;
-}(Component_1.Component));
-/** @inheritdoc */
-MouseComponent.componentName = "mouse";
-exports.MouseComponent = MouseComponent;
-Component_1.ComponentService.register(MouseComponent);
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = MouseComponent;
-
-},{"../Component":217,"../Geo":220,"rxjs/Observable":28,"rxjs/add/observable/merge":43,"rxjs/add/operator/filter":58,"rxjs/add/operator/map":62,"rxjs/add/operator/withLatestFrom":80,"three":167,"virtual-dom":173}],242:[function(require,module,exports){
+},{"../Component":224,"rxjs/add/operator/combineLatest":52,"underscore":175,"virtual-dom":180}],248:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -20725,7 +21061,7 @@ Component_1.ComponentService.register(NavigationComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = NavigationComponent;
 
-},{"../Component":217,"../Edge":218,"rxjs/Observable":28,"rxjs/add/operator/first":60,"rxjs/add/operator/map":62,"virtual-dom":173}],243:[function(require,module,exports){
+},{"../Component":224,"../Edge":225,"rxjs/Observable":28,"rxjs/add/operator/first":62,"rxjs/add/operator/map":64,"virtual-dom":180}],249:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -20940,7 +21276,7 @@ Component_1.ComponentService.register(RouteComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = RouteComponent;
 
-},{"../Component":217,"rxjs/Observable":28,"rxjs/add/observable/fromPromise":42,"rxjs/add/observable/of":44,"rxjs/add/operator/combineLatest":50,"rxjs/add/operator/distinct":54,"rxjs/add/operator/distinctUntilChanged":55,"rxjs/add/operator/filter":58,"rxjs/add/operator/map":62,"rxjs/add/operator/mergeMap":65,"rxjs/add/operator/pluck":67,"rxjs/add/operator/scan":70,"underscore":168,"virtual-dom":173}],244:[function(require,module,exports){
+},{"../Component":224,"rxjs/Observable":28,"rxjs/add/observable/fromPromise":42,"rxjs/add/observable/of":44,"rxjs/add/operator/combineLatest":52,"rxjs/add/operator/distinct":56,"rxjs/add/operator/distinctUntilChanged":57,"rxjs/add/operator/filter":60,"rxjs/add/operator/map":64,"rxjs/add/operator/mergeMap":67,"rxjs/add/operator/pluck":69,"rxjs/add/operator/scan":72,"underscore":175,"virtual-dom":180}],250:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -21025,7 +21361,7 @@ Component_1.ComponentService.register(StatsComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = StatsComponent;
 
-},{"../Component":217,"rxjs/Observable":28,"rxjs/add/operator/buffer":47,"rxjs/add/operator/debounceTime":52,"rxjs/add/operator/filter":58,"rxjs/add/operator/map":62,"rxjs/add/operator/scan":70}],245:[function(require,module,exports){
+},{"../Component":224,"rxjs/Observable":28,"rxjs/add/operator/buffer":48,"rxjs/add/operator/debounceTime":54,"rxjs/add/operator/filter":60,"rxjs/add/operator/map":64,"rxjs/add/operator/scan":72}],251:[function(require,module,exports){
 /// <reference path="../../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -21204,7 +21540,7 @@ Component_1.ComponentService.register(DirectionComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = DirectionComponent;
 
-},{"../../Component":217,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/observable/combineLatest":37,"rxjs/add/operator/distinctUntilChanged":55,"rxjs/add/operator/do":56,"rxjs/add/operator/filter":58,"rxjs/add/operator/map":62,"rxjs/add/operator/share":71,"virtual-dom":173}],246:[function(require,module,exports){
+},{"../../Component":224,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/observable/combineLatest":37,"rxjs/add/operator/distinctUntilChanged":57,"rxjs/add/operator/do":58,"rxjs/add/operator/filter":60,"rxjs/add/operator/map":64,"rxjs/add/operator/share":73,"virtual-dom":180}],252:[function(require,module,exports){
 "use strict";
 var Geo_1 = require("../../Geo");
 /**
@@ -21443,7 +21779,7 @@ exports.DirectionDOMCalculator = DirectionDOMCalculator;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = DirectionDOMCalculator;
 
-},{"../../Geo":220}],247:[function(require,module,exports){
+},{"../../Geo":227}],253:[function(require,module,exports){
 /// <reference path="../../../typings/index.d.ts" />
 "use strict";
 var vd = require("virtual-dom");
@@ -21791,15 +22127,18 @@ var DirectionDOMRenderer = (function () {
         var transform = this._isEdge ?
             "rotateX(60deg)" :
             "perspective(" + this._calculator.containerWidthCss + ") rotateX(60deg)";
-        var perspectiveStyle = {
-            bottom: this._calculator.containerBottomCss,
-            height: this._calculator.containerHeightCss,
-            left: this._calculator.containerLeftCss,
-            marginLeft: this._calculator.containerMarginCss,
-            transform: transform,
-            width: this._calculator.containerWidthCss,
+        var properties = {
+            oncontextmenu: function (event) { event.preventDefault(); },
+            style: {
+                bottom: this._calculator.containerBottomCss,
+                height: this._calculator.containerHeightCss,
+                left: this._calculator.containerLeftCss,
+                marginLeft: this._calculator.containerMarginCss,
+                transform: transform,
+                width: this._calculator.containerWidthCss,
+            },
         };
-        return vd.h("div.DirectionsPerspective", { style: perspectiveStyle }, turns.concat(steps));
+        return vd.h("div.DirectionsPerspective", properties, turns.concat(steps));
     };
     return DirectionDOMRenderer;
 }());
@@ -21807,7 +22146,7 @@ exports.DirectionDOMRenderer = DirectionDOMRenderer;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = DirectionDOMRenderer;
 
-},{"../../Component":217,"../../Edge":218,"../../Geo":220,"virtual-dom":173}],248:[function(require,module,exports){
+},{"../../Component":224,"../../Edge":225,"../../Geo":227,"virtual-dom":180}],254:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -22070,7 +22409,7 @@ Component_1.ComponentService.register(ImagePlaneComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ImagePlaneComponent;
 
-},{"../../Component":217,"../../Render":223,"../../Tiles":225,"../../Utils":226,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/operator/catch":49,"rxjs/add/operator/combineLatest":50,"rxjs/add/operator/debounceTime":52,"rxjs/add/operator/distinctUntilChanged":55,"rxjs/add/operator/filter":58,"rxjs/add/operator/map":62,"rxjs/add/operator/pairwise":66,"rxjs/add/operator/publish":68,"rxjs/add/operator/publishReplay":69,"rxjs/add/operator/scan":70,"rxjs/add/operator/skipWhile":74,"rxjs/add/operator/startWith":75,"rxjs/add/operator/switchMap":76,"rxjs/add/operator/takeUntil":78,"rxjs/add/operator/withLatestFrom":80}],249:[function(require,module,exports){
+},{"../../Component":224,"../../Render":230,"../../Tiles":232,"../../Utils":233,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/operator/catch":51,"rxjs/add/operator/combineLatest":52,"rxjs/add/operator/debounceTime":54,"rxjs/add/operator/distinctUntilChanged":57,"rxjs/add/operator/filter":60,"rxjs/add/operator/map":64,"rxjs/add/operator/pairwise":68,"rxjs/add/operator/publish":70,"rxjs/add/operator/publishReplay":71,"rxjs/add/operator/scan":72,"rxjs/add/operator/skipWhile":76,"rxjs/add/operator/startWith":77,"rxjs/add/operator/switchMap":78,"rxjs/add/operator/takeUntil":80,"rxjs/add/operator/withLatestFrom":82}],255:[function(require,module,exports){
 /// <reference path="../../../typings/index.d.ts" />
 "use strict";
 var THREE = require("three");
@@ -22301,7 +22640,7 @@ exports.ImagePlaneFactory = ImagePlaneFactory;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ImagePlaneFactory;
 
-},{"../../Component":217,"three":167}],250:[function(require,module,exports){
+},{"../../Component":224,"three":174}],256:[function(require,module,exports){
 /// <reference path="../../../typings/index.d.ts" />
 "use strict";
 var Component_1 = require("../../Component");
@@ -22466,7 +22805,7 @@ exports.ImagePlaneGLRenderer = ImagePlaneGLRenderer;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ImagePlaneGLRenderer;
 
-},{"../../Component":217,"../../Geo":220}],251:[function(require,module,exports){
+},{"../../Component":224,"../../Geo":227}],257:[function(require,module,exports){
 /// <reference path="../../../typings/index.d.ts" />
 "use strict";
 var THREE = require("three");
@@ -22543,7 +22882,7 @@ exports.ImagePlaneScene = ImagePlaneScene;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ImagePlaneScene;
 
-},{"three":167}],252:[function(require,module,exports){
+},{"three":174}],258:[function(require,module,exports){
 /// <reference path="../../../typings/index.d.ts" />
 "use strict";
 
@@ -22563,7 +22902,7 @@ ImagePlaneShaders.perspective = {
 };
 exports.ImagePlaneShaders = ImagePlaneShaders;
 
-},{"path":21}],253:[function(require,module,exports){
+},{"path":21}],259:[function(require,module,exports){
 /// <reference path="../../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -22810,15 +23149,14 @@ var SliderComponent = (function (_super) {
     };
     SliderComponent.prototype._activate = function () {
         var _this = this;
-        this._container.mouseService.preventDefaultMouseDown$.next(false);
-        this._container.touchService.preventDefaultTouchMove$.next(false);
         Observable_1.Observable
             .combineLatest(this._navigator.stateService.state$, this._configuration$)
             .first()
-            .subscribe(function (stateConfig) {
-            if (stateConfig[0] === State_1.State.Traversing) {
+            .subscribe(function (_a) {
+            var state = _a[0], configuration = _a[1];
+            if (state === State_1.State.Traversing) {
                 _this._navigator.stateService.wait();
-                var position = stateConfig[1].initialPosition;
+                var position = configuration.initialPosition;
                 _this._navigator.stateService.moveTo(position != null ? position : 1);
             }
         });
@@ -22845,6 +23183,10 @@ var SliderComponent = (function (_super) {
             var sliderInput = vd.h("input.SliderControl", {
                 max: 1000,
                 min: 0,
+                oninput: function (e) {
+                    var curtain = Number(e.target.value) / 1000;
+                    _this._navigator.stateService.moveTo(curtain);
+                },
                 type: "range",
                 value: 1000 * sliderState.curtain,
             }, []);
@@ -22859,24 +23201,6 @@ var SliderComponent = (function (_super) {
             return hash;
         })
             .subscribe(this._container.domRenderer.render$);
-        this._elementSubscription = this._container.domRenderer.element$
-            .map(function (e) {
-            var nodeList = e.getElementsByClassName("SliderControl");
-            var slider = nodeList.length > 0 ? nodeList[0] : null;
-            return slider;
-        })
-            .filter(function (input) {
-            return input != null;
-        })
-            .switchMap(function (input) {
-            return Observable_1.Observable.fromEvent(input, "input");
-        })
-            .map(function (e) {
-            return Number(e.target.value) / 1000;
-        })
-            .subscribe(function (curtain) {
-            _this._navigator.stateService.moveTo(curtain);
-        });
         this._sliderStateCreator$.next(null);
         this._stateSubscription = this._navigator.stateService.currentState$
             .map(function (frame) {
@@ -22967,9 +23291,10 @@ var SliderComponent = (function (_super) {
                 return Observable_1.Observable.empty();
             });
         })
-            .map(function (imn) {
+            .map(function (_a) {
+            var element = _a[0], node = _a[1];
             return function (sliderState) {
-                sliderState.updateTexture(imn[0], imn[1]);
+                sliderState.updateTexture(element, node);
                 return sliderState;
             };
         })
@@ -22977,8 +23302,6 @@ var SliderComponent = (function (_super) {
     };
     SliderComponent.prototype._deactivate = function () {
         var _this = this;
-        this._container.mouseService.preventDefaultMouseDown$.next(true);
-        this._container.touchService.preventDefaultTouchMove$.next(true);
         this._navigator.stateService.state$
             .first()
             .subscribe(function (state) {
@@ -22989,7 +23312,6 @@ var SliderComponent = (function (_super) {
         this._sliderStateDisposer$.next(null);
         this._setKeysSubscription.unsubscribe();
         this._setSliderVisibleSubscription.unsubscribe();
-        this._elementSubscription.unsubscribe();
         this._stateSubscription.unsubscribe();
         this._glRenderSubscription.unsubscribe();
         this._domRenderSubscription.unsubscribe();
@@ -23014,44 +23336,16 @@ Component_1.ComponentService.register(SliderComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SliderComponent;
 
-},{"../../Component":217,"../../Render":223,"../../State":224,"../../Utils":226,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/observable/combineLatest":37,"rxjs/add/observable/fromEvent":41,"rxjs/add/observable/of":44,"rxjs/add/observable/zip":46,"rxjs/add/operator/distinctUntilChanged":55,"rxjs/add/operator/filter":58,"rxjs/add/operator/first":60,"rxjs/add/operator/map":62,"rxjs/add/operator/merge":63,"rxjs/add/operator/mergeMap":65,"rxjs/add/operator/scan":70,"rxjs/add/operator/switchMap":76,"rxjs/add/operator/withLatestFrom":80,"rxjs/add/operator/zip":81,"virtual-dom":173}],254:[function(require,module,exports){
+},{"../../Component":224,"../../Render":230,"../../State":231,"../../Utils":233,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/observable/combineLatest":37,"rxjs/add/observable/fromEvent":41,"rxjs/add/observable/of":44,"rxjs/add/observable/zip":47,"rxjs/add/operator/distinctUntilChanged":57,"rxjs/add/operator/filter":60,"rxjs/add/operator/first":62,"rxjs/add/operator/map":64,"rxjs/add/operator/merge":65,"rxjs/add/operator/mergeMap":67,"rxjs/add/operator/scan":72,"rxjs/add/operator/switchMap":78,"rxjs/add/operator/withLatestFrom":82,"rxjs/add/operator/zip":83,"virtual-dom":180}],260:[function(require,module,exports){
 "use strict";
-var Marker = (function () {
-    function Marker(latLonAlt, markerOptions) {
-        this.visibleInKeys = [];
-        this._id = markerOptions.id;
-        this._latLonAlt = latLonAlt;
-        this._markerOptions = markerOptions;
-        this._type = markerOptions.type;
-    }
-    Object.defineProperty(Marker.prototype, "id", {
-        get: function () {
-            return this._id;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Marker.prototype, "type", {
-        get: function () {
-            return this._type;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Marker.prototype, "latLonAlt", {
-        get: function () {
-            return this._latLonAlt;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return Marker;
-}());
-exports.Marker = Marker;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = Marker;
+var MarkerComponent_1 = require("./MarkerComponent");
+exports.MarkerComponent = MarkerComponent_1.MarkerComponent;
+var SimpleMarker_1 = require("./marker/SimpleMarker");
+exports.SimpleMarker = SimpleMarker_1.SimpleMarker;
+var CircleMarker_1 = require("./marker/CircleMarker");
+exports.CircleMarker = CircleMarker_1.CircleMarker;
 
-},{}],255:[function(require,module,exports){
+},{"./MarkerComponent":261,"./marker/CircleMarker":264,"./marker/SimpleMarker":266}],261:[function(require,module,exports){
 /// <reference path="../../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -23059,223 +23353,713 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var _ = require("underscore");
 var THREE = require("three");
-var rbush = require("rbush");
+var when = require("when");
 var Observable_1 = require("rxjs/Observable");
-var Subject_1 = require("rxjs/Subject");
 require("rxjs/add/observable/combineLatest");
 require("rxjs/add/operator/distinctUntilChanged");
-require("rxjs/add/operator/filter");
 require("rxjs/add/operator/map");
-require("rxjs/add/operator/publishReplay");
-require("rxjs/add/operator/scan");
-require("rxjs/add/operator/switchMap");
 var Component_1 = require("../../Component");
 var Render_1 = require("../../Render");
+var Graph_1 = require("../../Graph");
 var Geo_1 = require("../../Geo");
-var MarkerSet = (function () {
-    function MarkerSet() {
-        this._create$ = new Subject_1.Subject();
-        this._remove$ = new Subject_1.Subject();
-        this._update$ = new Subject_1.Subject();
-        // markers list stream is the result of applying marker updates.
-        this._markers$ = this._update$
-            .scan(function (markers, operation) {
-            return operation(markers);
-        }, { hash: {}, spatial: rbush(16, [".lon", ".lat", ".lon", ".lat"]) })
-            .map(function (markers) {
-            return markers.spatial;
-        })
-            .publishReplay(1)
-            .refCount();
-        // creation stream generate creation updates from given markers.
-        this._create$
-            .map(function (marker) {
-            return function (markers) {
-                if (markers.hash[marker.id]) {
-                    markers.spatial.remove(markers.hash[marker.id]);
-                }
-                var rbushObj = {
-                    id: marker.id,
-                    lat: marker.latLonAlt.lat,
-                    lon: marker.latLonAlt.lon,
-                    marker: marker,
-                };
-                markers.spatial.insert(rbushObj);
-                markers.hash[marker.id] = rbushObj;
-                return markers;
-            };
-        })
-            .subscribe(this._update$);
-        // remove stream generates remove updates from given markers
-        this._remove$
-            .map(function (id) {
-            return function (markers) {
-                var rbushObj = markers.hash[id];
-                markers.spatial.remove(rbushObj);
-                delete markers.hash[id];
-                return markers;
-            };
-        })
-            .subscribe(this._update$);
-    }
-    MarkerSet.prototype.addMarker = function (marker) {
-        this._create$.next(marker);
-    };
-    MarkerSet.prototype.removeMarker = function (id) {
-        this._remove$.next(id);
-    };
-    Object.defineProperty(MarkerSet.prototype, "markers$", {
-        get: function () {
-            return this._markers$;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return MarkerSet;
-}());
-exports.MarkerSet = MarkerSet;
+/**
+ * @class MarkerComponent
+ *
+ * @classdesc Component for showing and editing 3D marker objects.
+ *
+ * The `add` method is used for adding new markers or replacing
+ * markers already in the set.
+ *
+ * If a marker already in the set has the same
+ * id as one of the markers added, the old marker will be removed
+ * the added marker will take its place.
+ *
+ * It is not possible to update markers in the set by updating any properties
+ * directly on the marker object. Markers need to be replaced by
+ * re-adding them for updates to geographic position or configuration
+ * to be reflected.
+ *
+ * Markers added to the marker component can be either interactive
+ * or non-interactive. Different marker types define their behavior.
+ * Markers with interaction support can be configured with options
+ * to respond to dragging inside the viewer and be detected when
+ * retrieving markers from pixel points with the `getMarkerIdAt` method.
+ *
+ * To retrive and use the marker component
+ *
+ * @example
+ * ```
+ * var markerComponent = viewer.getComponent("marker");
+ * ```
+ */
 var MarkerComponent = (function (_super) {
     __extends(MarkerComponent, _super);
     function MarkerComponent(name, container, navigator) {
-        return _super.call(this, name, container, navigator) || this;
+        var _this = _super.call(this, name, container, navigator) || this;
+        _this._relativeGroundAltitude = -2;
+        _this._geoCoords = new Geo_1.GeoCoords();
+        _this._graphCalculator = new Graph_1.GraphCalculator();
+        _this._markerScene = new Component_1.MarkerScene();
+        _this._markerSet = new Component_1.MarkerSet();
+        _this._viewportCoords = new Geo_1.ViewportCoords();
+        return _this;
     }
+    /**
+     * Add markers to the marker set or replace markers in the marker set.
+     *
+     * @description If a marker already in the set has the same
+     * id as one of the markers added, the old marker will be removed
+     * the added marker will take its place.
+     *
+     * Any marker inside the visible bounding bbox
+     * will be initialized and placed in the viewer.
+     *
+     * @param {Array<Marker>} markers - Markers to add.
+     *
+     * @example ```markerComponent.add([marker1, marker2]);```
+     */
+    MarkerComponent.prototype.add = function (markers) {
+        this._markerSet.add(markers);
+    };
+    /**
+     * Check if a marker exist in the marker set.
+     *
+     * @param {string} markerId - Id of the marker.
+     *
+     * @example ```var markerExists = markerComponent.has("markerId");```
+     */
+    MarkerComponent.prototype.has = function (markerId) {
+        return this._markerSet.has(markerId);
+    };
+    /**
+     * Returns the marker in the marker set with the specified id, or
+     * undefined if the id matches no marker.
+     *
+     * @param {string} markerId - Id of the marker.
+     *
+     * @example ```var marker = markerComponent.get("markerId");```
+     *
+     */
+    MarkerComponent.prototype.get = function (markerId) {
+        return this._markerSet.get(markerId);
+    };
+    /**
+     * Returns an array of all markers.
+     *
+     * @example ```var markers = markerComponent.getAll();```
+     */
+    MarkerComponent.prototype.getAll = function () {
+        return this._markerSet.getAll();
+    };
+    /**
+     * Returns the id of the interactive marker closest to the current camera
+     * position ids for marker currently visible at the specified point.
+     *
+     * @description Notice that the pixelPoint argument requires x, y
+     * coordinates from pixel space.
+     *
+     * With this function, you can use the coordinates provided by mouse
+     * events to get information out of the marker component.
+     *
+     * If no interactive geometry of an interactive marker exist at the pixel
+     * point, null will be returned.
+     *
+     * @param {Array<number>} pixelPoint - Pixel coordinates on the viewer element.
+     * @returns {string} Id of the interactive marker closest to the camera. If no
+     * interactive marker exist at the pixel point, null will be returned.
+     *
+     * @example
+     * ```
+     * markerComponent.getMarkerIdAt([100, 100])
+     *     .then((markerId) => { console.log(markerId); });
+     * ```
+     */
+    MarkerComponent.prototype.getMarkerIdAt = function (pixelPoint) {
+        var _this = this;
+        return when.promise(function (resolve, reject) {
+            _this._container.renderService.renderCamera$
+                .first()
+                .map(function (render) {
+                var viewport = _this._viewportCoords
+                    .canvasToViewport(pixelPoint[0], pixelPoint[1], _this._container.element);
+                var id = _this._markerScene.intersectObjects(viewport, render.perspective);
+                return id;
+            })
+                .subscribe(function (id) {
+                resolve(id);
+            }, function (error) {
+                reject(error);
+            });
+        });
+    };
+    /**
+     * Remove markers with the specified ids from the marker set.
+     *
+     * @param {Array<string>} markerIds - Ids for markers to remove.
+     *
+     * @example ```markerComponent.remove(["id-1", "id-2"]);```
+     */
+    MarkerComponent.prototype.remove = function (markerIds) {
+        this._markerSet.remove(markerIds);
+    };
+    /**
+     * Remove all markers from the marker set.
+     *
+     * @example ```markerComponent.removeAll();```
+     */
+    MarkerComponent.prototype.removeAll = function () {
+        this._markerSet.removeAll();
+    };
     MarkerComponent.prototype._activate = function () {
         var _this = this;
-        this._scene = new THREE.Scene();
-        this._markerSet = new MarkerSet();
-        this._markerObjects = {};
-        this._disposable = Observable_1.Observable
-            .combineLatest([
-            this._navigator.stateService.currentState$,
-            this._markerSet.markers$,
-        ], function (frame, markers) {
-            return { frame: frame, markers: markers };
+        var groundAltitude$ = this._navigator.stateService.currentState$
+            .map(function (frame) {
+            return frame.state.camera.position.z + _this._relativeGroundAltitude;
         })
-            .distinctUntilChanged(undefined, function (args) {
-            return args.frame.id;
+            .distinctUntilChanged(function (a1, a2) {
+            return Math.abs(a1 - a2) < 0.01;
         })
-            .map(function (args) {
-            return _this._renderHash(args);
+            .publishReplay(1)
+            .refCount();
+        var geoInitiated$ = Observable_1.Observable
+            .combineLatest(groundAltitude$, this._navigator.stateService.reference$)
+            .first()
+            .map(function () { })
+            .publishReplay(1)
+            .refCount();
+        var clampedConfiguration$ = this._configuration$
+            .map(function (configuration) {
+            return { visibleBBoxSize: Math.max(1, Math.min(200, configuration.visibleBBoxSize)) };
+        });
+        var currentlatLon$ = this._navigator.stateService.currentNode$
+            .map(function (node) { return node.latLon; })
+            .publishReplay(1)
+            .refCount();
+        var visibleBBox$ = Observable_1.Observable
+            .combineLatest(clampedConfiguration$, currentlatLon$)
+            .map(function (_a) {
+            var configuration = _a[0], latLon = _a[1];
+            return _this._graphCalculator
+                .boundingBoxCorners(latLon, configuration.visibleBBoxSize / 2);
+        })
+            .publishReplay(1)
+            .refCount();
+        var visibleMarkers$ = Observable_1.Observable
+            .combineLatest(Observable_1.Observable
+            .of(this._markerSet)
+            .concat(this._markerSet.changed$), visibleBBox$)
+            .map(function (_a) {
+            var set = _a[0], bbox = _a[1];
+            return set.search(bbox);
+        });
+        this._setChangedSubscription = geoInitiated$
+            .switchMap(function () {
+            return visibleMarkers$
+                .withLatestFrom(_this._navigator.stateService.reference$, groundAltitude$);
+        })
+            .subscribe(function (_a) {
+            var markers = _a[0], reference = _a[1], alt = _a[2];
+            var geoCoords = _this._geoCoords;
+            var markerScene = _this._markerScene;
+            var sceneMarkers = markerScene.markers;
+            var markersToRemove = Object.assign({}, sceneMarkers);
+            for (var _i = 0, markers_1 = markers; _i < markers_1.length; _i++) {
+                var marker = markers_1[_i];
+                if (marker.id in sceneMarkers) {
+                    delete markersToRemove[marker.id];
+                }
+                else {
+                    var point3d = geoCoords
+                        .geodeticToEnu(marker.latLon.lat, marker.latLon.lon, reference.alt + alt, reference.lat, reference.lon, reference.alt);
+                    markerScene.add(marker, point3d);
+                }
+            }
+            for (var id in markersToRemove) {
+                if (!markersToRemove.hasOwnProperty(id)) {
+                    continue;
+                }
+                markerScene.remove(id);
+            }
+        });
+        this._markersUpdatedSubscription = geoInitiated$
+            .switchMap(function () {
+            return _this._markerSet.updated$
+                .withLatestFrom(visibleBBox$, _this._navigator.stateService.reference$, groundAltitude$);
+        })
+            .subscribe(function (_a) {
+            var markers = _a[0], _b = _a[1], sw = _b[0], ne = _b[1], reference = _a[2], alt = _a[3];
+            var geoCoords = _this._geoCoords;
+            var markerScene = _this._markerScene;
+            for (var _i = 0, markers_2 = markers; _i < markers_2.length; _i++) {
+                var marker = markers_2[_i];
+                var exists = markerScene.has(marker.id);
+                var visible = marker.latLon.lat > sw.lat &&
+                    marker.latLon.lat < ne.lat &&
+                    marker.latLon.lon > sw.lon &&
+                    marker.latLon.lon < ne.lon;
+                if (visible) {
+                    var point3d = geoCoords
+                        .geodeticToEnu(marker.latLon.lat, marker.latLon.lon, reference.alt + alt, reference.lat, reference.lon, reference.alt);
+                    markerScene.add(marker, point3d);
+                }
+                else if (!visible && exists) {
+                    markerScene.remove(marker.id);
+                }
+            }
+        });
+        this._referenceSubscription = this._navigator.stateService.reference$
+            .skip(1)
+            .withLatestFrom(groundAltitude$)
+            .subscribe(function (_a) {
+            var reference = _a[0], alt = _a[1];
+            var geoCoords = _this._geoCoords;
+            var markerScene = _this._markerScene;
+            for (var _i = 0, _b = markerScene.getAll(); _i < _b.length; _i++) {
+                var marker = _b[_i];
+                var point3d = geoCoords
+                    .geodeticToEnu(marker.latLon.lat, marker.latLon.lon, reference.alt + alt, reference.lat, reference.lon, reference.alt);
+                markerScene.update(marker.id, point3d);
+            }
+        });
+        this._adjustHeightSubscription = groundAltitude$
+            .skip(1)
+            .withLatestFrom(this._navigator.stateService.reference$, currentlatLon$)
+            .subscribe(function (_a) {
+            var alt = _a[0], reference = _a[1], latLon = _a[2];
+            var geoCoords = _this._geoCoords;
+            var markerScene = _this._markerScene;
+            var position = geoCoords
+                .geodeticToEnu(latLon.lat, latLon.lon, reference.alt + alt, reference.lat, reference.lon, reference.alt);
+            for (var _i = 0, _b = markerScene.getAll(); _i < _b.length; _i++) {
+                var marker = _b[_i];
+                var point3d = geoCoords
+                    .geodeticToEnu(marker.latLon.lat, marker.latLon.lon, reference.alt + alt, reference.lat, reference.lon, reference.alt);
+                var distanceX = point3d[0] - position[0];
+                var distanceY = point3d[1] - position[1];
+                var groundDistance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+                if (groundDistance > 50) {
+                    continue;
+                }
+                markerScene.lerpAltitude(marker.id, alt, Math.min(1, Math.max(0, 1.2 - 1.2 * groundDistance / 50)));
+            }
+        });
+        this._renderSubscription = this._navigator.stateService.currentState$
+            .map(function (frame) {
+            var scene = _this._markerScene;
+            return {
+                name: _this._name,
+                render: {
+                    frameId: frame.id,
+                    needsRender: scene.needsRender,
+                    render: scene.render.bind(scene),
+                    stage: Render_1.GLRenderStage.Foreground,
+                },
+            };
         })
             .subscribe(this._container.glRenderer.render$);
-    };
-    MarkerComponent.prototype._deactivate = function () {
-        // release memory
-        this._disposeScene();
-        this._disposable.unsubscribe();
-    };
-    MarkerComponent.prototype._getDefaultConfiguration = function () {
-        return {};
-    };
-    MarkerComponent.prototype.createMarker = function (latLonAlt, markerOptions) {
-        if (markerOptions.type === "marker") {
-            return new Component_1.SimpleMarker(latLonAlt, markerOptions);
-        }
-        return null;
-    };
-    MarkerComponent.prototype.addMarker = function (marker) {
-        this._markerSet.addMarker(marker);
-    };
-    Object.defineProperty(MarkerComponent.prototype, "markers$", {
-        get: function () {
-            return this._markerSet.markers$;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    MarkerComponent.prototype.removeMarker = function (id) {
-        this._markerSet.removeMarker(id);
-    };
-    MarkerComponent.prototype._renderHash = function (args) {
-        // determine if render is needed while updating scene
-        // specific properies.
-        var needsRender = this._updateScene(args);
-        // return render hash with render function and
-        // render in foreground.
-        return {
-            name: this._name,
-            render: {
-                frameId: args.frame.id,
-                needsRender: needsRender,
-                render: this._render.bind(this),
-                stage: Render_1.GLRenderStage.Foreground,
-            },
-        };
-    };
-    MarkerComponent.prototype._updateScene = function (args) {
-        if (!args.frame ||
-            !args.markers ||
-            !args.frame.state.currentNode) {
-            return false;
-        }
-        var needRender = false;
-        var oldObjects = this._markerObjects;
-        var node = args.frame.state.currentNode;
-        this._markerObjects = {};
-        var boxWidth = 0.001;
-        var minLon = node.latLon.lon - boxWidth / 2;
-        var minLat = node.latLon.lat - boxWidth / 2;
-        var maxLon = node.latLon.lon + boxWidth / 2;
-        var maxLat = node.latLon.lat + boxWidth / 2;
-        var markers = _.map(args.markers.search({ maxX: maxLon, maxY: maxLat, minX: minLon, minY: minLat }), function (item) {
-            return item.marker;
-        }).filter(function (marker) {
-            return marker.visibleInKeys.length === 0 || _.contains(marker.visibleInKeys, node.key);
+        var hoveredMarkerId$ = Observable_1.Observable
+            .combineLatest(this._container.renderService.renderCamera$, this._container.mouseService.mouseMove$)
+            .map(function (_a) {
+            var render = _a[0], event = _a[1];
+            var viewport = _this._viewportCoords.canvasToViewport(event.clientX, event.clientY, _this._container.element);
+            var markerId = _this._markerScene.intersectObjects(viewport, render.perspective);
+            return markerId;
+        })
+            .publishReplay(1)
+            .refCount();
+        var draggingStarted$ = this._container.mouseService
+            .filtered$(this._name, this._container.mouseService.mouseDragStart$)
+            .map(function (event) {
+            return true;
         });
-        for (var _i = 0, markers_1 = markers; _i < markers_1.length; _i++) {
-            var marker = markers_1[_i];
-            if (marker.id in oldObjects) {
-                this._markerObjects[marker.id] = oldObjects[marker.id];
-                delete oldObjects[marker.id];
+        var draggingStopped$ = this._container.mouseService
+            .filtered$(this._name, this._container.mouseService.mouseDragEnd$)
+            .map(function (event) {
+            return false;
+        });
+        var dragging$ = Observable_1.Observable
+            .merge(draggingStarted$, draggingStopped$)
+            .startWith(false);
+        this._dragEventSubscription = draggingStarted$
+            .withLatestFrom(hoveredMarkerId$)
+            .merge(Observable_1.Observable
+            .combineLatest(draggingStopped$, Observable_1.Observable.of(null)))
+            .startWith([false, null])
+            .pairwise()
+            .subscribe(function (_a) {
+            var previous = _a[0], current = _a[1];
+            var dragging = current[0];
+            var eventType = dragging ? MarkerComponent.dragstart : MarkerComponent.dragend;
+            var id = dragging ? current[1] : previous[1];
+            var marker = _this._markerScene.get(id);
+            var markerEvent = { marker: marker, target: _this, type: eventType };
+            _this.fire(eventType, markerEvent);
+        });
+        this._mouseClaimSubscription = Observable_1.Observable
+            .combineLatest(this._container.mouseService.active$, hoveredMarkerId$, dragging$)
+            .map(function (_a) {
+            var active = _a[0], markerId = _a[1], dragging = _a[2];
+            return (!active && markerId != null) || dragging;
+        })
+            .distinctUntilChanged()
+            .subscribe(function (hovered) {
+            if (hovered) {
+                _this._container.mouseService.claimMouse(_this._name, 1);
             }
             else {
-                var reference = args.frame.state.reference;
-                var p = (new Geo_1.GeoCoords).geodeticToEnu(marker.latLonAlt.lat, marker.latLonAlt.lon, marker.latLonAlt.alt, reference.lat, reference.lon, reference.alt);
-                var o = marker.createGeometry();
-                o.position.set(p[0], p[1], p[2]);
-                this._scene.add(o);
-                this._markerObjects[marker.id] = o;
-                needRender = true;
+                _this._container.mouseService.unclaimMouse(_this._name);
             }
-        }
-        for (var i in oldObjects) {
-            if (oldObjects.hasOwnProperty(i)) {
-                this._disposeObject(oldObjects[i]);
-                needRender = true;
+        });
+        var offset$ = this._container.mouseService
+            .filtered$(this._name, this._container.mouseService.mouseDragStart$)
+            .withLatestFrom(hoveredMarkerId$, this._container.renderService.renderCamera$)
+            .map(function (_a) {
+            var e = _a[0], id = _a[1], r = _a[2];
+            var marker = _this._markerScene.get(id);
+            var _b = _this._viewportCoords.projectToCanvas(marker.geometry.position.toArray(), _this._container.element, r.perspective), groundCanvasX = _b[0], groundCanvasY = _b[1];
+            var offset = [e.clientX - groundCanvasX, e.clientY - groundCanvasY];
+            return [marker, offset, r];
+        })
+            .publishReplay(1)
+            .refCount();
+        this._updateMarkerSubscription = this._container.mouseService
+            .filtered$(this._name, this._container.mouseService.mouseDrag$)
+            .withLatestFrom(offset$, this._navigator.stateService.reference$, clampedConfiguration$)
+            .subscribe(function (_a) {
+            var event = _a[0], _b = _a[1], marker = _b[0], offset = _b[1], render = _b[2], reference = _a[2], configuration = _a[3];
+            if (!_this._markerScene.has(marker.id)) {
+                return;
             }
-        }
-        return needRender;
-    };
-    MarkerComponent.prototype._render = function (perspectiveCamera, renderer) {
-        renderer.render(this._scene, perspectiveCamera);
-    };
-    MarkerComponent.prototype._disposeObject = function (object) {
-        this._scene.remove(object);
-        for (var i = 0; i < object.children.length; ++i) {
-            var c = object.children[i];
-            c.geometry.dispose();
-            c.material.dispose();
-        }
-    };
-    MarkerComponent.prototype._disposeScene = function () {
-        for (var i in this._markerObjects) {
-            if (this._markerObjects.hasOwnProperty(i)) {
-                this._disposeObject(this._markerObjects[i]);
+            var groundX = event.clientX - offset[0];
+            var groundY = event.clientY - offset[1];
+            var _c = _this._viewportCoords
+                .canvasToViewport(groundX, groundY, _this._container.element), viewportX = _c[0], viewportY = _c[1];
+            var direction = new THREE.Vector3(viewportX, viewportY, 1)
+                .unproject(render.perspective)
+                .sub(render.perspective.position)
+                .normalize();
+            var distance = Math.min(_this._relativeGroundAltitude / direction.z, configuration.visibleBBoxSize / 2 - 0.1);
+            if (distance < 0) {
+                return;
             }
-        }
-        this._markerObjects = {};
+            var intersection = direction
+                .clone()
+                .multiplyScalar(distance)
+                .add(render.perspective.position);
+            intersection.z = render.perspective.position.z + _this._relativeGroundAltitude;
+            var _d = _this._geoCoords
+                .enuToGeodetic(intersection.x, intersection.y, intersection.z, reference.lat, reference.lon, reference.alt), lat = _d[0], lon = _d[1];
+            _this._markerScene.update(marker.id, intersection.toArray(), { lat: lat, lon: lon });
+            _this._markerSet.update(marker);
+            var markerEvent = { marker: marker, target: _this, type: MarkerComponent.changed };
+            _this.fire(MarkerComponent.changed, markerEvent);
+        });
+    };
+    MarkerComponent.prototype._deactivate = function () {
+        this._adjustHeightSubscription.unsubscribe();
+        this._dragEventSubscription.unsubscribe();
+        this._markersUpdatedSubscription.unsubscribe();
+        this._mouseClaimSubscription.unsubscribe();
+        this._referenceSubscription.unsubscribe();
+        this._renderSubscription.unsubscribe();
+        this._setChangedSubscription.unsubscribe();
+        this._updateMarkerSubscription.unsubscribe();
+        this._markerScene.clear();
+    };
+    MarkerComponent.prototype._getDefaultConfiguration = function () {
+        return { visibleBBoxSize: 100 };
     };
     return MarkerComponent;
 }(Component_1.Component));
 MarkerComponent.componentName = "marker";
+/**
+ * Fired when the position of a marker is changed.
+ * @event
+ * @type {IMarkerEvent} markerEvent - Marker event data.
+ * @example
+ * ```
+ * markerComponent.on("changed", function(e) {
+ *     console.log(e.marker.id, e.marker.latLon);
+ * });
+ * ```
+ */
+MarkerComponent.changed = "changed";
+/**
+ * Fired when a marker drag interaction starts.
+ * @event
+ * @type {IMarkerEvent} markerEvent - Marker event data.
+ * @example
+ * ```
+ * markerComponent.on("dragstart", function(e) {
+ *     console.log(e.marker.id, e.marker.latLon);
+ * });
+ * ```
+ */
+MarkerComponent.dragstart = "dragstart";
+/**
+ * Fired when a marker drag interaction ends.
+ * @event
+ * @type {IMarkerEvent} markerEvent - Marker event data.
+ * @example
+ * ```
+ * markerComponent.on("dragend", function(e) {
+ *     console.log(e.marker.id, e.marker.latLon);
+ * });
+ * ```
+ */
+MarkerComponent.dragend = "dragend";
 exports.MarkerComponent = MarkerComponent;
 Component_1.ComponentService.register(MarkerComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = MarkerComponent;
 
-},{"../../Component":217,"../../Geo":220,"../../Render":223,"rbush":24,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/observable/combineLatest":37,"rxjs/add/operator/distinctUntilChanged":55,"rxjs/add/operator/filter":58,"rxjs/add/operator/map":62,"rxjs/add/operator/publishReplay":69,"rxjs/add/operator/scan":70,"rxjs/add/operator/switchMap":76,"three":167,"underscore":168}],256:[function(require,module,exports){
+},{"../../Component":224,"../../Geo":227,"../../Graph":228,"../../Render":230,"rxjs/Observable":28,"rxjs/add/observable/combineLatest":37,"rxjs/add/operator/distinctUntilChanged":57,"rxjs/add/operator/map":64,"three":174,"when":221}],262:[function(require,module,exports){
+/// <reference path="../../../typings/index.d.ts" />
+"use strict";
+var THREE = require("three");
+var MarkerScene = (function () {
+    function MarkerScene(scene, raycaster) {
+        this._needsRender = false;
+        this._interactiveObjects = [];
+        this._markers = {};
+        this._objectMarkers = {};
+        this._raycaster = !!raycaster ? raycaster : new THREE.Raycaster();
+        this._scene = !!scene ? scene : new THREE.Scene();
+    }
+    Object.defineProperty(MarkerScene.prototype, "markers", {
+        get: function () {
+            return this._markers;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MarkerScene.prototype, "needsRender", {
+        get: function () {
+            return this._needsRender;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    MarkerScene.prototype.add = function (marker, position) {
+        if (marker.id in this._markers) {
+            this._dispose(marker.id);
+        }
+        marker.createGeometry(position);
+        this._scene.add(marker.geometry);
+        this._markers[marker.id] = marker;
+        for (var _i = 0, _a = marker.getInteractiveObjects(); _i < _a.length; _i++) {
+            var interactiveObject = _a[_i];
+            this._interactiveObjects.push(interactiveObject);
+            this._objectMarkers[interactiveObject.uuid] = marker.id;
+        }
+        this._needsRender = true;
+    };
+    MarkerScene.prototype.clear = function () {
+        for (var id in this._markers) {
+            if (!this._markers.hasOwnProperty) {
+                continue;
+            }
+            this._dispose(id);
+        }
+        this._needsRender = true;
+    };
+    MarkerScene.prototype.get = function (id) {
+        return this._markers[id];
+    };
+    MarkerScene.prototype.getAll = function () {
+        var _this = this;
+        return Object
+            .keys(this._markers)
+            .map(function (id) { return _this._markers[id]; });
+    };
+    MarkerScene.prototype.has = function (id) {
+        return id in this._markers;
+    };
+    MarkerScene.prototype.intersectObjects = function (_a, camera) {
+        var viewportX = _a[0], viewportY = _a[1];
+        this._raycaster.setFromCamera(new THREE.Vector2(viewportX, viewportY), camera);
+        var intersects = this._raycaster.intersectObjects(this._interactiveObjects);
+        for (var _i = 0, intersects_1 = intersects; _i < intersects_1.length; _i++) {
+            var intersect = intersects_1[_i];
+            if (intersect.object.uuid in this._objectMarkers) {
+                return this._objectMarkers[intersect.object.uuid];
+            }
+        }
+        return null;
+    };
+    MarkerScene.prototype.lerpAltitude = function (id, alt, alpha) {
+        if (!(id in this._markers)) {
+            return;
+        }
+        this._markers[id].lerpAltitude(alt, alpha);
+        this._needsRender = true;
+    };
+    MarkerScene.prototype.remove = function (id) {
+        if (!(id in this._markers)) {
+            return;
+        }
+        this._dispose(id);
+        this._needsRender = true;
+    };
+    MarkerScene.prototype.render = function (perspectiveCamera, renderer) {
+        renderer.render(this._scene, perspectiveCamera);
+        this._needsRender = false;
+    };
+    MarkerScene.prototype.update = function (id, position, latLon) {
+        if (!(id in this._markers)) {
+            return;
+        }
+        var marker = this._markers[id];
+        marker.updatePosition(position, latLon);
+        this._needsRender = true;
+    };
+    MarkerScene.prototype._dispose = function (id) {
+        var marker = this._markers[id];
+        this._scene.remove(marker.geometry);
+        for (var _i = 0, _a = marker.getInteractiveObjects(); _i < _a.length; _i++) {
+            var interactiveObject = _a[_i];
+            var index = this._interactiveObjects.indexOf(interactiveObject);
+            if (index !== -1) {
+                this._interactiveObjects.splice(index, 1);
+            }
+            else {
+                console.warn("Object does not exist (" + interactiveObject.id + ") for " + id);
+            }
+            delete this._objectMarkers[interactiveObject.uuid];
+        }
+        marker.disposeGeometry();
+        delete this._markers[id];
+    };
+    return MarkerScene;
+}());
+exports.MarkerScene = MarkerScene;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = MarkerScene;
+
+},{"three":174}],263:[function(require,module,exports){
+/// <reference path="../../../typings/index.d.ts" />
+"use strict";
+var rbush = require("rbush");
+var Subject_1 = require("rxjs/Subject");
+require("rxjs/add/operator/map");
+require("rxjs/add/operator/publishReplay");
+require("rxjs/add/operator/scan");
+var MarkerSet = (function () {
+    function MarkerSet() {
+        this._hash = {};
+        this._index = rbush(16, [".lon", ".lat", ".lon", ".lat"]);
+        this._indexChanged$ = new Subject_1.Subject();
+        this._updated$ = new Subject_1.Subject();
+    }
+    Object.defineProperty(MarkerSet.prototype, "changed$", {
+        get: function () {
+            return this._indexChanged$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MarkerSet.prototype, "updated$", {
+        get: function () {
+            return this._updated$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    MarkerSet.prototype.add = function (markers) {
+        var updated = [];
+        var hash = this._hash;
+        var index = this._index;
+        for (var _i = 0, markers_1 = markers; _i < markers_1.length; _i++) {
+            var marker = markers_1[_i];
+            var id = marker.id;
+            if (id in hash) {
+                index.remove(hash[id]);
+                updated.push(marker);
+            }
+            var item = {
+                lat: marker.latLon.lat,
+                lon: marker.latLon.lon,
+                marker: marker,
+            };
+            hash[id] = item;
+            index.insert(item);
+        }
+        if (updated.length > 0) {
+            this._updated$.next(updated);
+        }
+        if (markers.length > updated.length) {
+            this._indexChanged$.next(this);
+        }
+    };
+    MarkerSet.prototype.has = function (id) {
+        return id in this._hash;
+    };
+    MarkerSet.prototype.get = function (id) {
+        return this.has(id) ? this._hash[id].marker : undefined;
+    };
+    MarkerSet.prototype.getAll = function () {
+        return this._index
+            .all()
+            .map(function (indexItem) {
+            return indexItem.marker;
+        });
+    };
+    MarkerSet.prototype.remove = function (ids) {
+        var hash = this._hash;
+        var index = this._index;
+        var changed = false;
+        for (var _i = 0, ids_1 = ids; _i < ids_1.length; _i++) {
+            var id = ids_1[_i];
+            if (!(id in hash)) {
+                continue;
+            }
+            var item = hash[id];
+            index.remove(item);
+            delete hash[id];
+            changed = true;
+        }
+        if (changed) {
+            this._indexChanged$.next(this);
+        }
+    };
+    MarkerSet.prototype.removeAll = function () {
+        this._hash = {};
+        this._index.clear();
+        this._indexChanged$.next(this);
+    };
+    MarkerSet.prototype.search = function (_a) {
+        var sw = _a[0], ne = _a[1];
+        return this._index
+            .search({ maxX: ne.lon, maxY: ne.lat, minX: sw.lon, minY: sw.lat })
+            .map(function (indexItem) {
+            return indexItem.marker;
+        });
+    };
+    MarkerSet.prototype.update = function (marker) {
+        var hash = this._hash;
+        var index = this._index;
+        var id = marker.id;
+        if (!(id in hash)) {
+            return;
+        }
+        index.remove(hash[id]);
+        var item = {
+            lat: marker.latLon.lat,
+            lon: marker.latLon.lon,
+            marker: marker,
+        };
+        hash[id] = item;
+        index.insert(item);
+    };
+    return MarkerSet;
+}());
+exports.MarkerSet = MarkerSet;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = MarkerSet;
+
+},{"rbush":24,"rxjs/Subject":33,"rxjs/add/operator/map":64,"rxjs/add/operator/publishReplay":71,"rxjs/add/operator/scan":72}],264:[function(require,module,exports){
+/// <reference path="../../../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -23283,28 +24067,230 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var THREE = require("three");
-var Component_1 = require("../../Component");
-var SimpleMarker = (function (_super) {
-    __extends(SimpleMarker, _super);
-    function SimpleMarker(latLonAlt, markerOptions) {
-        var _this = _super.call(this, latLonAlt, markerOptions) || this;
-        _this._circleToRayAngle = 2.0;
-        _this._simpleMarkerStyle = markerOptions.style;
+var Component_1 = require("../../../Component");
+/**
+ * @class CircleMarker
+ *
+ * @classdesc Non-interactive marker with a flat circle shape. The circle
+ * marker can not be configured to be interactive.
+ *
+ * Circle marker properties can not be updated after creation.
+ *
+ * To create and add one `CircleMarker` with default configuration
+ * and one with configuration use
+ *
+ * @example
+ * ```
+ * var defaultMarker = new Mapillary.MarkerComponent.CircleMarker(
+ *     "id-1",
+ *     { lat: 0, lon: 0, });
+ *
+ * var configuredMarker = new Mapillary.MarkerComponent.CircleMarker(
+ *     "id-2",
+ *     { lat: 0, lon: 0, },
+ *     {
+ *         color: "#0Ff",
+ *         opacity: 0.3,
+ *         radius: 0.7,
+ *     });
+ *
+ * markerComponent.add([defaultMarker, configuredMarker]);
+ * ```
+ */
+var CircleMarker = (function (_super) {
+    __extends(CircleMarker, _super);
+    function CircleMarker(id, latLon, options) {
+        var _this = _super.call(this, id, latLon) || this;
+        options = !!options ? options : {};
+        _this._color = options.color != null ? options.color : 0xffffff;
+        _this._opacity = options.opacity != null ? options.opacity : 0.4;
+        _this._radius = options.radius != null ? options.radius : 1;
         return _this;
     }
-    SimpleMarker.prototype.createGeometry = function () {
-        var radius = 2;
-        var cone = new THREE.Mesh(this._markerGeometry(radius, 16, 8), new THREE.MeshBasicMaterial({
-            color: this._stringToRBG(this._simpleMarkerStyle.color),
-            depthWrite: false,
-            opacity: this._simpleMarkerStyle.opacity,
+    CircleMarker.prototype._createGeometry = function (position) {
+        var circle = new THREE.Mesh(new THREE.CircleGeometry(this._radius, 16), new THREE.MeshBasicMaterial({
+            color: this._color,
+            opacity: this._opacity,
+            transparent: true,
+        }));
+        circle.up.fromArray([0, 0, 1]);
+        circle.renderOrder = -1;
+        var group = new THREE.Object3D();
+        group.add(circle);
+        group.position.fromArray(position);
+        this._geometry = group;
+    };
+    CircleMarker.prototype._disposeGeometry = function () {
+        for (var _i = 0, _a = this._geometry.children; _i < _a.length; _i++) {
+            var mesh = _a[_i];
+            mesh.geometry.dispose();
+            mesh.material.dispose();
+        }
+    };
+    CircleMarker.prototype._getInteractiveObjects = function () {
+        return [];
+    };
+    return CircleMarker;
+}(Component_1.Marker));
+exports.CircleMarker = CircleMarker;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = CircleMarker;
+
+},{"../../../Component":224,"three":174}],265:[function(require,module,exports){
+/// <reference path="../../../../typings/index.d.ts" />
+"use strict";
+/**
+ * @class Marker
+ *
+ * @classdesc Represents an abstract marker class that should be extended
+ * by marker implementations used in the marker component.
+ */
+var Marker = (function () {
+    function Marker(id, latLon) {
+        this._id = id;
+        this._latLon = latLon;
+    }
+    Object.defineProperty(Marker.prototype, "id", {
+        /**
+         * Get id.
+         * @returns {string} The id of the marker.
+         */
+        get: function () {
+            return this._id;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Marker.prototype, "geometry", {
+        get: function () {
+            return this._geometry;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Marker.prototype, "latLon", {
+        /**
+         * Get lat lon.
+         * @returns {ILatLon} The geographic coordinates of the marker.
+         */
+        get: function () {
+            return this._latLon;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Marker.prototype.createGeometry = function (position) {
+        if (!!this._geometry) {
+            return;
+        }
+        this._createGeometry(position);
+        // update matrix world if raycasting occurs before first render
+        this._geometry.updateMatrixWorld(true);
+    };
+    Marker.prototype.disposeGeometry = function () {
+        if (!this._geometry) {
+            return;
+        }
+        this._disposeGeometry();
+        this._geometry = undefined;
+    };
+    Marker.prototype.getInteractiveObjects = function () {
+        if (!this._geometry) {
+            return [];
+        }
+        return this._getInteractiveObjects();
+    };
+    Marker.prototype.lerpAltitude = function (alt, alpha) {
+        if (!this._geometry) {
+            return;
+        }
+        this._geometry.position.z = (1 - alpha) * this._geometry.position.z + alpha * alt;
+    };
+    Marker.prototype.updatePosition = function (position, latLon) {
+        if (!!latLon) {
+            this._latLon.lat = latLon.lat;
+            this._latLon.lon = latLon.lon;
+        }
+        if (!this._geometry) {
+            return;
+        }
+        this._geometry.position.fromArray(position);
+        this._geometry.updateMatrixWorld(true);
+    };
+    return Marker;
+}());
+exports.Marker = Marker;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Marker;
+
+},{}],266:[function(require,module,exports){
+/// <reference path="../../../../typings/index.d.ts" />
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var THREE = require("three");
+var Component_1 = require("../../../Component");
+/**
+ * @class SimpleMarker
+ *
+ * @classdesc Interactive marker with ice cream shape. The sphere
+ * inside the ice cream can be configured to be interactive.
+ *
+ * Simple marker properties can not be updated after creation.
+ *
+ * To create and add one `SimpleMarker` with default configuration
+ * (non-interactive) and one interactive with configuration use
+ *
+ * @example
+ * ```
+ * var defaultMarker = new Mapillary.MarkerComponent.SimpleMarker(
+ *     "id-1",
+ *     { lat: 0, lon: 0, });
+ *
+ * var interactiveMarker = new Mapillary.MarkerComponent.SimpleMarker(
+ *     "id-2",
+ *     { lat: 0, lon: 0, },
+ *     {
+ *         ballColor: "#00f",
+ *         ballOpacity: 0.5,
+ *         color: "#00f",
+ *         interactive: true,
+ *         opacity: 0.3,
+ *         radius: 0.7,
+ *     });
+ *
+ * markerComponent.add([defaultMarker, interactiveMarker]);
+ * ```
+ */
+var SimpleMarker = (function (_super) {
+    __extends(SimpleMarker, _super);
+    function SimpleMarker(id, latLon, options) {
+        var _this = _super.call(this, id, latLon) || this;
+        options = !!options ? options : {};
+        _this._ballColor = options.ballColor != null ? options.ballColor : 0xff0000;
+        _this._ballOpacity = options.ballOpacity != null ? options.ballOpacity : 0.8;
+        _this._circleToRayAngle = 2;
+        _this._color = options.color != null ? options.color : 0xff0000;
+        _this._interactive = !!options.interactive;
+        _this._opacity = options.opacity != null ? options.opacity : 0.4;
+        _this._radius = options.radius != null ? options.radius : 1;
+        return _this;
+    }
+    SimpleMarker.prototype._createGeometry = function (position) {
+        var radius = this._radius;
+        var cone = new THREE.Mesh(this._markerGeometry(radius, 8, 8), new THREE.MeshBasicMaterial({
+            color: this._color,
+            opacity: this._opacity,
             shading: THREE.SmoothShading,
             transparent: true,
         }));
-        var ball = new THREE.Mesh(new THREE.SphereGeometry(radius / 2, 16, 8), new THREE.MeshBasicMaterial({
-            color: this._stringToRBG(this._simpleMarkerStyle.ballColor),
-            depthWrite: false,
-            opacity: this._simpleMarkerStyle.ballOpacity,
+        cone.renderOrder = 1;
+        var ball = new THREE.Mesh(new THREE.SphereGeometry(radius / 2, 8, 8), new THREE.MeshBasicMaterial({
+            color: this._ballColor,
+            opacity: this._ballOpacity,
             shading: THREE.SmoothShading,
             transparent: true,
         }));
@@ -23312,7 +24298,18 @@ var SimpleMarker = (function (_super) {
         var group = new THREE.Object3D();
         group.add(ball);
         group.add(cone);
-        return group;
+        group.position.fromArray(position);
+        this._geometry = group;
+    };
+    SimpleMarker.prototype._disposeGeometry = function () {
+        for (var _i = 0, _a = this._geometry.children; _i < _a.length; _i++) {
+            var mesh = _a[_i];
+            mesh.geometry.dispose();
+            mesh.material.dispose();
+        }
+    };
+    SimpleMarker.prototype._getInteractiveObjects = function () {
+        return this._interactive ? [this._geometry.children[0]] : [];
     };
     SimpleMarker.prototype._markerHeight = function (radius) {
         var t = Math.tan(Math.PI - this._circleToRayAngle);
@@ -23364,20 +24361,631 @@ var SimpleMarker = (function (_super) {
         geometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(), radius + height);
         return geometry;
     };
-    SimpleMarker.prototype._stringToRBG = function (str) {
-        var ret = 0;
-        for (var i = 0; i < str.length; i++) {
-            ret = str.charCodeAt(i) + ((ret << 5) - ret);
-        }
-        return ret;
-    };
     return SimpleMarker;
 }(Component_1.Marker));
 exports.SimpleMarker = SimpleMarker;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SimpleMarker;
 
-},{"../../Component":217,"three":167}],257:[function(require,module,exports){
+},{"../../../Component":224,"three":174}],267:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Observable_1 = require("rxjs/Observable");
+var Component_1 = require("../../Component");
+/**
+ * The `DoubleClickZoomHandler` allows the user to zoom the viewer photo at a point by double clicking.
+ */
+var DoubleClickZoomHandler = (function (_super) {
+    __extends(DoubleClickZoomHandler, _super);
+    function DoubleClickZoomHandler() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    DoubleClickZoomHandler.prototype._enable = function () {
+        var _this = this;
+        this._zoomSubscription = Observable_1.Observable
+            .merge(this._container.mouseService
+            .filtered$(this._component.name, this._container.mouseService.dblClick$), this._container.touchService.doubleTap$
+            .map(function (e) {
+            var touch = e.touches[0];
+            return { clientX: touch.clientX, clientY: touch.clientY, shiftKey: e.shiftKey };
+        }))
+            .withLatestFrom(this._container.renderService.renderCamera$, this._navigator.stateService.currentTransform$)
+            .subscribe(function (_a) {
+            var event = _a[0], render = _a[1], transform = _a[2];
+            var element = _this._container.element;
+            var _b = _this._viewportCoords.canvasPosition(event, element), canvasX = _b[0], canvasY = _b[1];
+            var unprojected = _this._viewportCoords.unprojectFromCanvas(canvasX, canvasY, element, render.perspective);
+            var reference = transform.projectBasic(unprojected.toArray());
+            var delta = !!event.shiftKey ? -1 : 1;
+            _this._navigator.stateService.zoomIn(delta, reference);
+        });
+    };
+    DoubleClickZoomHandler.prototype._disable = function () {
+        this._zoomSubscription.unsubscribe();
+    };
+    DoubleClickZoomHandler.prototype._getConfiguration = function (enable) {
+        return { doubleClickZoom: enable };
+    };
+    return DoubleClickZoomHandler;
+}(Component_1.MouseHandlerBase));
+exports.DoubleClickZoomHandler = DoubleClickZoomHandler;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = DoubleClickZoomHandler;
+
+},{"../../Component":224,"rxjs/Observable":28}],268:[function(require,module,exports){
+/// <reference path="../../../typings/index.d.ts" />
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var THREE = require("three");
+var Observable_1 = require("rxjs/Observable");
+var Component_1 = require("../../Component");
+/**
+ * The `DragPanHandler` allows the user to pan the viewer photo by clicking and dragging the cursor.
+ */
+var DragPanHandler = (function (_super) {
+    __extends(DragPanHandler, _super);
+    function DragPanHandler(component, container, navigator, viewportCoords, spatial) {
+        var _this = _super.call(this, component, container, navigator, viewportCoords) || this;
+        _this._spatial = spatial;
+        _this._basicRotationThreshold = 5e-2;
+        _this._forceCoeff = 2e-1;
+        return _this;
+    }
+    DragPanHandler.prototype._enable = function () {
+        var _this = this;
+        this._preventDefaultSubscription = Observable_1.Observable.merge(this._container.mouseService.mouseDragStart$, this._container.mouseService.mouseDrag$, this._container.touchService.touchMove$)
+            .subscribe(function (event) {
+            event.preventDefault(); // prevent selection of content outside the viewer
+        });
+        var draggingStarted$ = this._container.mouseService
+            .filtered$(this._component.name, this._container.mouseService.mouseDragStart$)
+            .map(function (event) {
+            return true;
+        });
+        var draggingStopped$ = this._container.mouseService
+            .filtered$(this._component.name, this._container.mouseService.mouseDragEnd$)
+            .map(function (event) {
+            return false;
+        });
+        this._activeMouseSubscription = Observable_1.Observable
+            .merge(draggingStarted$, draggingStopped$)
+            .subscribe(this._container.mouseService.activate$);
+        var touchMovingStarted$ = this._container.touchService.singleTouchDragStart$
+            .map(function (event) {
+            return true;
+        });
+        var touchMovingStopped$ = this._container.touchService.singleTouchDragEnd$
+            .map(function (event) {
+            return false;
+        });
+        this._activeTouchSubscription = Observable_1.Observable
+            .merge(touchMovingStarted$, touchMovingStopped$)
+            .subscribe(this._container.touchService.activate$);
+        this._rotateBasicSubscription = this._navigator.stateService.currentState$
+            .map(function (frame) {
+            return frame.state.currentNode.fullPano || frame.state.nodesAhead < 1;
+        })
+            .distinctUntilChanged()
+            .switchMap(function (enable) {
+            if (!enable) {
+                return Observable_1.Observable.empty();
+            }
+            var mouseDrag$ = Observable_1.Observable
+                .merge(_this._container.mouseService.filtered$(_this._component.name, _this._container.mouseService.mouseDragStart$), _this._container.mouseService.filtered$(_this._component.name, _this._container.mouseService.mouseDrag$), _this._container.mouseService.filtered$(_this._component.name, _this._container.mouseService.mouseDragEnd$)
+                .map(function (e) { return null; }))
+                .pairwise()
+                .filter(function (pair) {
+                return pair[0] != null && pair[1] != null;
+            });
+            var singleTouchDrag$ = Observable_1.Observable
+                .merge(_this._container.touchService.singleTouchDragStart$, _this._container.touchService.singleTouchDrag$, _this._container.touchService.singleTouchDragEnd$.map(function (t) { return null; }))
+                .map(function (event) {
+                return event != null && event.touches.length > 0 ?
+                    event.touches[0] : null;
+            })
+                .pairwise()
+                .filter(function (pair) {
+                return pair[0] != null && pair[1] != null;
+            });
+            return Observable_1.Observable
+                .merge(mouseDrag$, singleTouchDrag$);
+        })
+            .withLatestFrom(this._container.renderService.renderCamera$, this._navigator.stateService.currentTransform$, this._navigator.stateService.currentCamera$)
+            .map(function (_a) {
+            var events = _a[0], render = _a[1], transform = _a[2], c = _a[3];
+            var camera = c.clone();
+            var previousEvent = events[0];
+            var event = events[1];
+            var movementX = event.clientX - previousEvent.clientX;
+            var movementY = event.clientY - previousEvent.clientY;
+            var element = _this._container.element;
+            var _b = _this._viewportCoords.canvasPosition(event, element), canvasX = _b[0], canvasY = _b[1];
+            var currentDirection = _this._viewportCoords.unprojectFromCanvas(canvasX, canvasY, element, render.perspective)
+                .sub(render.perspective.position);
+            var directionX = _this._viewportCoords.unprojectFromCanvas(canvasX - movementX, canvasY, element, render.perspective)
+                .sub(render.perspective.position);
+            var directionY = _this._viewportCoords.unprojectFromCanvas(canvasX, canvasY - movementY, element, render.perspective)
+                .sub(render.perspective.position);
+            var deltaPhi = (movementX > 0 ? 1 : -1) * directionX.angleTo(currentDirection);
+            var deltaTheta = (movementY > 0 ? -1 : 1) * directionY.angleTo(currentDirection);
+            var upQuaternion = new THREE.Quaternion().setFromUnitVectors(camera.up, new THREE.Vector3(0, 0, 1));
+            var upQuaternionInverse = upQuaternion.clone().inverse();
+            var offset = new THREE.Vector3();
+            offset.copy(camera.lookat).sub(camera.position);
+            offset.applyQuaternion(upQuaternion);
+            var length = offset.length();
+            var phi = Math.atan2(offset.y, offset.x);
+            phi += deltaPhi;
+            var theta = Math.atan2(Math.sqrt(offset.x * offset.x + offset.y * offset.y), offset.z);
+            theta += deltaTheta;
+            theta = Math.max(0.01, Math.min(Math.PI - 0.01, theta));
+            offset.x = Math.sin(theta) * Math.cos(phi);
+            offset.y = Math.sin(theta) * Math.sin(phi);
+            offset.z = Math.cos(theta);
+            offset.applyQuaternion(upQuaternionInverse);
+            var lookat = new THREE.Vector3().copy(camera.position).add(offset.multiplyScalar(length));
+            var basic = transform.projectBasic(lookat.toArray());
+            var original = transform.projectBasic(camera.lookat.toArray());
+            var x = basic[0] - original[0];
+            var y = basic[1] - original[1];
+            if (Math.abs(x) > 1) {
+                x = 0;
+            }
+            else if (x > 0.5) {
+                x = x - 1;
+            }
+            else if (x < -0.5) {
+                x = x + 1;
+            }
+            var rotationThreshold = _this._basicRotationThreshold;
+            x = _this._spatial.clamp(x, -rotationThreshold, rotationThreshold);
+            y = _this._spatial.clamp(y, -rotationThreshold, rotationThreshold);
+            if (transform.fullPano) {
+                return [x, y];
+            }
+            var pixelDistances = _this._viewportCoords.getPixelDistances(_this._container.element, transform, render.perspective);
+            var coeff = _this._forceCoeff;
+            if (pixelDistances[0] > 0 && y < 0 && basic[1] < 0.5) {
+                y /= Math.max(1, coeff * pixelDistances[0]);
+            }
+            if (pixelDistances[1] > 0 && x > 0 && basic[0] > 0.5) {
+                x /= Math.max(1, coeff * pixelDistances[1]);
+            }
+            if (pixelDistances[2] > 0 && y > 0 && basic[1] > 0.5) {
+                y /= Math.max(1, coeff * pixelDistances[2]);
+            }
+            if (pixelDistances[3] > 0 && x < 0 && basic[0] < 0.5) {
+                x /= Math.max(1, coeff * pixelDistances[3]);
+            }
+            return [x, y];
+        })
+            .subscribe(function (basicRotation) {
+            _this._navigator.stateService.rotateBasic(basicRotation);
+        });
+    };
+    DragPanHandler.prototype._disable = function () {
+        this._activeMouseSubscription.unsubscribe();
+        this._activeTouchSubscription.unsubscribe();
+        this._preventDefaultSubscription.unsubscribe();
+        this._rotateBasicSubscription.unsubscribe();
+        this._activeMouseSubscription = null;
+        this._activeTouchSubscription = null;
+        this._rotateBasicSubscription = null;
+    };
+    DragPanHandler.prototype._getConfiguration = function (enable) {
+        return { dragPan: enable };
+    };
+    return DragPanHandler;
+}(Component_1.MouseHandlerBase));
+exports.DragPanHandler = DragPanHandler;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = DragPanHandler;
+
+},{"../../Component":224,"rxjs/Observable":28,"three":174}],269:[function(require,module,exports){
+/// <reference path="../../../typings/index.d.ts" />
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Observable_1 = require("rxjs/Observable");
+require("rxjs/add/observable/merge");
+require("rxjs/add/operator/filter");
+require("rxjs/add/operator/map");
+require("rxjs/add/operator/withLatestFrom");
+var Component_1 = require("../../Component");
+var Geo_1 = require("../../Geo");
+/**
+ * @class MouseComponent
+ *
+ * @classdesc Component handling mouse and touch events for camera movement.
+ */
+var MouseComponent = (function (_super) {
+    __extends(MouseComponent, _super);
+    function MouseComponent(name, container, navigator) {
+        var _this = _super.call(this, name, container, navigator) || this;
+        _this._basicDistanceThreshold = 1e-3;
+        _this._basicRotationThreshold = 5e-2;
+        _this._bounceCoeff = 1e-1;
+        var spatial = new Geo_1.Spatial();
+        var viewportCoords = new Geo_1.ViewportCoords();
+        _this._spatial = spatial;
+        _this._viewportCoords = viewportCoords;
+        _this._doubleClickZoomHandler = new Component_1.DoubleClickZoomHandler(_this, container, navigator, viewportCoords);
+        _this._dragPanHandler = new Component_1.DragPanHandler(_this, container, navigator, viewportCoords, spatial);
+        _this._scrollZoomHandler = new Component_1.ScrollZoomHandler(_this, container, navigator, viewportCoords);
+        _this._touchZoomHandler = new Component_1.TouchZoomHandler(_this, container, navigator, viewportCoords);
+        return _this;
+    }
+    Object.defineProperty(MouseComponent.prototype, "doubleClickZoom", {
+        /**
+         * Get double click zoom.
+         *
+         * @returns {DoubleClickZoomHandler} The double click zoom handler.
+         */
+        get: function () {
+            return this._doubleClickZoomHandler;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MouseComponent.prototype, "dragPan", {
+        /**
+         * Get drag pan.
+         *
+         * @returns {DragPanHandler} The drag pan handler.
+         */
+        get: function () {
+            return this._dragPanHandler;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MouseComponent.prototype, "scrollZoom", {
+        /**
+         * Get scroll zoom.
+         *
+         * @returns {ScrollZoomHandler} The scroll zoom handler.
+         */
+        get: function () {
+            return this._scrollZoomHandler;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MouseComponent.prototype, "touchZoom", {
+        /**
+         * Get touch zoom.
+         *
+         * @returns {TouchZoomHandler} The touch zoom handler.
+         */
+        get: function () {
+            return this._touchZoomHandler;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    MouseComponent.prototype._activate = function () {
+        var _this = this;
+        this._configurationSubscription = this._configuration$
+            .subscribe(function (configuration) {
+            if (configuration.doubleClickZoom) {
+                _this._doubleClickZoomHandler.enable();
+            }
+            else {
+                _this._doubleClickZoomHandler.disable();
+            }
+            if (configuration.dragPan) {
+                _this._dragPanHandler.enable();
+            }
+            else {
+                _this._dragPanHandler.disable();
+            }
+            if (configuration.scrollZoom) {
+                _this._scrollZoomHandler.enable();
+            }
+            else {
+                _this._scrollZoomHandler.disable();
+            }
+            if (configuration.touchZoom) {
+                _this._touchZoomHandler.enable();
+            }
+            else {
+                _this._touchZoomHandler.disable();
+            }
+        });
+        var inTransition$ = this._navigator.stateService.currentState$
+            .map(function (frame) {
+            return frame.state.alpha < 1;
+        });
+        this._bounceSubscription = Observable_1.Observable
+            .combineLatest(inTransition$, this._navigator.stateService.inTranslation$, this._container.mouseService.active$, this._container.touchService.active$)
+            .map(function (noForce) {
+            return noForce[0] || noForce[1] || noForce[2] || noForce[3];
+        })
+            .distinctUntilChanged()
+            .switchMap(function (noForce) {
+            return noForce ?
+                Observable_1.Observable.empty() :
+                Observable_1.Observable.combineLatest(_this._container.renderService.renderCamera$, _this._navigator.stateService.currentTransform$.first());
+        })
+            .subscribe(function (args) {
+            var renderCamera = args[0];
+            var perspectiveCamera = renderCamera.perspective;
+            var transform = args[1];
+            var distanceThreshold = _this._basicDistanceThreshold / Math.pow(2, renderCamera.zoom);
+            var basicCenter = _this._viewportCoords.viewportToBasic(0, 0, transform, perspectiveCamera);
+            if (Math.abs(basicCenter[0] - 0.5) < distanceThreshold && Math.abs(basicCenter[1] - 0.5) < distanceThreshold) {
+                return;
+            }
+            var basicDistances = _this._viewportCoords.getBasicDistances(transform, perspectiveCamera);
+            var basicX = 0;
+            var basicY = 0;
+            if (basicDistances[0] < distanceThreshold && basicDistances[1] < distanceThreshold &&
+                basicDistances[2] < distanceThreshold && basicDistances[3] < distanceThreshold) {
+                return;
+            }
+            if (Math.abs(basicDistances[0] - basicDistances[2]) < distanceThreshold &&
+                Math.abs(basicDistances[1] - basicDistances[3]) < distanceThreshold) {
+                return;
+            }
+            var coeff = _this._bounceCoeff;
+            if (basicDistances[1] > 0 && basicDistances[3] === 0) {
+                basicX = -coeff * basicDistances[1];
+            }
+            else if (basicDistances[1] === 0 && basicDistances[3] > 0) {
+                basicX = coeff * basicDistances[3];
+            }
+            else if (basicDistances[1] > 0 && basicDistances[3] > 0) {
+                basicX = coeff * (basicDistances[3] - basicDistances[1]) / 2;
+            }
+            if (basicDistances[0] > 0 && basicDistances[2] === 0) {
+                basicY = coeff * basicDistances[0];
+            }
+            else if (basicDistances[0] === 0 && basicDistances[2] > 0) {
+                basicY = -coeff * basicDistances[2];
+            }
+            else if (basicDistances[0] > 0 && basicDistances[2] > 0) {
+                basicY = coeff * (basicDistances[0] - basicDistances[2]) / 2;
+            }
+            var rotationThreshold = _this._basicRotationThreshold;
+            basicX = _this._spatial.clamp(basicX, -rotationThreshold, rotationThreshold);
+            basicY = _this._spatial.clamp(basicY, -rotationThreshold, rotationThreshold);
+            _this._navigator.stateService.rotateBasicUnbounded([basicX, basicY]);
+        });
+        this._container.mouseService.claimMouse(this._name, 0);
+    };
+    MouseComponent.prototype._deactivate = function () {
+        this._container.mouseService.unclaimMouse(this._name);
+        this._bounceSubscription.unsubscribe();
+        this._configurationSubscription.unsubscribe();
+        this._doubleClickZoomHandler.disable();
+        this._dragPanHandler.disable();
+        this._scrollZoomHandler.disable();
+        this._touchZoomHandler.disable();
+    };
+    MouseComponent.prototype._getDefaultConfiguration = function () {
+        return { doubleClickZoom: true, dragPan: true, scrollZoom: true, touchZoom: true };
+    };
+    return MouseComponent;
+}(Component_1.Component));
+/** @inheritdoc */
+MouseComponent.componentName = "mouse";
+exports.MouseComponent = MouseComponent;
+Component_1.ComponentService.register(MouseComponent);
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = MouseComponent;
+
+},{"../../Component":224,"../../Geo":227,"rxjs/Observable":28,"rxjs/add/observable/merge":43,"rxjs/add/operator/filter":60,"rxjs/add/operator/map":64,"rxjs/add/operator/withLatestFrom":82}],270:[function(require,module,exports){
+"use strict";
+var MouseHandlerBase = (function () {
+    function MouseHandlerBase(component, container, navigator, viewportCoords) {
+        this._component = component;
+        this._container = container;
+        this._navigator = navigator;
+        this._viewportCoords = viewportCoords;
+        this._enabled = false;
+    }
+    Object.defineProperty(MouseHandlerBase.prototype, "isEnabled", {
+        /**
+         * Returns a Boolean indicating whether the interaction is enabled.
+         *
+         * @returns {boolean} `true` if the interaction is enabled.
+         */
+        get: function () {
+            return this._enabled;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Enables the interaction.
+     *
+     * @example ```mouseComponent.<handler-name>.enable();```
+     */
+    MouseHandlerBase.prototype.enable = function () {
+        if (this._enabled || !this._component.activated) {
+            return;
+        }
+        this._enable();
+        this._enabled = true;
+        this._component.configure(this._getConfiguration(true));
+    };
+    /**
+     * Disables the interaction.
+     *
+     * @example ```mouseComponent.<handler-name>.disable();```
+     */
+    MouseHandlerBase.prototype.disable = function () {
+        if (!this._enabled) {
+            return;
+        }
+        this._disable();
+        this._enabled = false;
+        if (this._component.activated) {
+            this._component.configure(this._getConfiguration(false));
+        }
+    };
+    return MouseHandlerBase;
+}());
+exports.MouseHandlerBase = MouseHandlerBase;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = MouseHandlerBase;
+
+},{}],271:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Component_1 = require("../../Component");
+/**
+ * The `ScrollZoomHandler` allows the user to zoom the viewer photo by scrolling.
+ */
+var ScrollZoomHandler = (function (_super) {
+    __extends(ScrollZoomHandler, _super);
+    function ScrollZoomHandler() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ScrollZoomHandler.prototype._enable = function () {
+        var _this = this;
+        this._preventDefaultSubscription = this._container.mouseService.mouseWheel$
+            .subscribe(function (event) {
+            event.preventDefault();
+        });
+        this._zoomSubscription = this._container.mouseService
+            .filtered$(this._component.name, this._container.mouseService.mouseWheel$)
+            .withLatestFrom(this._navigator.stateService.currentState$, function (w, f) {
+            return [w, f];
+        })
+            .filter(function (args) {
+            var state = args[1].state;
+            return state.currentNode.fullPano || state.nodesAhead < 1;
+        })
+            .map(function (args) {
+            return args[0];
+        })
+            .withLatestFrom(this._container.renderService.renderCamera$, this._navigator.stateService.currentTransform$, function (w, r, t) {
+            return [w, r, t];
+        })
+            .subscribe(function (args) {
+            var event = args[0];
+            var render = args[1];
+            var transform = args[2];
+            var element = _this._container.element;
+            var _a = _this._viewportCoords.canvasPosition(event, element), canvasX = _a[0], canvasY = _a[1];
+            var unprojected = _this._viewportCoords.unprojectFromCanvas(canvasX, canvasY, element, render.perspective);
+            var reference = transform.projectBasic(unprojected.toArray());
+            var deltaY = event.deltaY;
+            if (event.deltaMode === 1) {
+                deltaY = 40 * deltaY;
+            }
+            else if (event.deltaMode === 2) {
+                deltaY = 800 * deltaY;
+            }
+            var canvasSize = _this._viewportCoords.containerToCanvas(element);
+            var zoom = -3 * deltaY / canvasSize[1];
+            _this._navigator.stateService.zoomIn(zoom, reference);
+        });
+    };
+    ScrollZoomHandler.prototype._disable = function () {
+        this._preventDefaultSubscription.unsubscribe();
+        this._zoomSubscription.unsubscribe();
+        this._preventDefaultSubscription = null;
+        this._zoomSubscription = null;
+    };
+    ScrollZoomHandler.prototype._getConfiguration = function (enable) {
+        return { scrollZoom: enable };
+    };
+    return ScrollZoomHandler;
+}(Component_1.MouseHandlerBase));
+exports.ScrollZoomHandler = ScrollZoomHandler;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = ScrollZoomHandler;
+
+},{"../../Component":224}],272:[function(require,module,exports){
+/// <reference path="../../../typings/index.d.ts" />
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Observable_1 = require("rxjs/Observable");
+var Component_1 = require("../../Component");
+/**
+ * The `TouchZoomHandler` allows the user to zoom the viewer photo by pinching on a touchscreen.
+ */
+var TouchZoomHandler = (function (_super) {
+    __extends(TouchZoomHandler, _super);
+    function TouchZoomHandler() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    TouchZoomHandler.prototype._enable = function () {
+        var _this = this;
+        this._preventDefaultSubscription = this._container.touchService.pinch$
+            .subscribe(function (pinch) {
+            pinch.originalEvent.preventDefault();
+        });
+        var pinchStarted$ = this._container.touchService.pinchStart$
+            .map(function (event) {
+            return true;
+        });
+        var pinchStopped$ = this._container.touchService.pinchEnd$
+            .map(function (event) {
+            return false;
+        });
+        this._activeSubscription = Observable_1.Observable
+            .merge(pinchStarted$, pinchStopped$)
+            .subscribe(this._container.touchService.activate$);
+        this._zoomSubscription = this._container.touchService.pinch$
+            .withLatestFrom(this._navigator.stateService.currentState$)
+            .filter(function (args) {
+            var state = args[1].state;
+            return state.currentNode.fullPano || state.nodesAhead < 1;
+        })
+            .map(function (args) {
+            return args[0];
+        })
+            .withLatestFrom(this._container.renderService.renderCamera$, this._navigator.stateService.currentTransform$)
+            .subscribe(function (_a) {
+            var pinch = _a[0], render = _a[1], transform = _a[2];
+            var element = _this._container.element;
+            var _b = _this._viewportCoords.canvasPosition(pinch, element), canvasX = _b[0], canvasY = _b[1];
+            var unprojected = _this._viewportCoords.unprojectFromCanvas(canvasX, canvasY, element, render.perspective);
+            var reference = transform.projectBasic(unprojected.toArray());
+            var _c = _this._viewportCoords.containerToCanvas(element), canvasWidth = _c[0], canvasHeight = _c[1];
+            var zoom = 3 * pinch.distanceChange / Math.min(canvasWidth, canvasHeight);
+            _this._navigator.stateService.zoomIn(zoom, reference);
+        });
+    };
+    TouchZoomHandler.prototype._disable = function () {
+        this._activeSubscription.unsubscribe();
+        this._preventDefaultSubscription.unsubscribe();
+        this._zoomSubscription.unsubscribe();
+        this._preventDefaultSubscription = null;
+        this._zoomSubscription = null;
+    };
+    TouchZoomHandler.prototype._getConfiguration = function (enable) {
+        return { touchZoom: enable };
+    };
+    return TouchZoomHandler;
+}(Component_1.MouseHandlerBase));
+exports.TouchZoomHandler = TouchZoomHandler;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = TouchZoomHandler;
+
+},{"../../Component":224,"rxjs/Observable":28}],273:[function(require,module,exports){
 /// <reference path="../../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -23724,7 +25332,7 @@ Component_1.ComponentService.register(SequenceComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SequenceComponent;
 
-},{"../../Component":217,"../../Edge":218,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/observable/combineLatest":37,"rxjs/add/observable/of":44,"rxjs/add/operator/bufferCount":48,"rxjs/add/operator/concat":51,"rxjs/add/operator/distinctUntilChanged":55,"rxjs/add/operator/filter":58,"rxjs/add/operator/finally":59,"rxjs/add/operator/first":60,"rxjs/add/operator/map":62,"rxjs/add/operator/publishReplay":69,"rxjs/add/operator/scan":70,"rxjs/add/operator/share":71,"rxjs/add/operator/switchMap":76,"rxjs/add/operator/takeUntil":78,"rxjs/add/operator/withLatestFrom":80}],258:[function(require,module,exports){
+},{"../../Component":224,"../../Edge":225,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/observable/combineLatest":37,"rxjs/add/observable/of":44,"rxjs/add/operator/bufferCount":49,"rxjs/add/operator/concat":53,"rxjs/add/operator/distinctUntilChanged":57,"rxjs/add/operator/filter":60,"rxjs/add/operator/finally":61,"rxjs/add/operator/first":62,"rxjs/add/operator/map":64,"rxjs/add/operator/publishReplay":71,"rxjs/add/operator/scan":72,"rxjs/add/operator/share":73,"rxjs/add/operator/switchMap":78,"rxjs/add/operator/takeUntil":80,"rxjs/add/operator/withLatestFrom":82}],274:[function(require,module,exports){
 "use strict";
 var Subject_1 = require("rxjs/Subject");
 var SequenceDOMInteraction = (function () {
@@ -23752,7 +25360,7 @@ exports.SequenceDOMInteraction = SequenceDOMInteraction;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SequenceDOMInteraction;
 
-},{"rxjs/Subject":33}],259:[function(require,module,exports){
+},{"rxjs/Subject":33}],275:[function(require,module,exports){
 /// <reference path="../../../typings/index.d.ts" />
 "use strict";
 var vd = require("virtual-dom");
@@ -23782,6 +25390,7 @@ var SequenceDOMRenderer = (function () {
         var playingButton = this._createPlayingButton(nextKey, prevKey, configuration, component);
         var arrows = this._createSequenceArrows(nextKey, prevKey, configuration, interaction, navigator);
         var containerProperties = {
+            oncontextmenu: function (event) { event.preventDefault(); },
             style: { height: (0.27 * containerWidth) + "px", width: containerWidth + "px" },
         };
         return vd.h("div.SequenceContainer", containerProperties, arrows.concat([playingButton]));
@@ -23868,7 +25477,7 @@ exports.SequenceDOMRenderer = SequenceDOMRenderer;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SequenceDOMRenderer;
 
-},{"../../Edge":218,"virtual-dom":173}],260:[function(require,module,exports){
+},{"../../Edge":225,"virtual-dom":180}],276:[function(require,module,exports){
 "use strict";
 var GeometryTagError_1 = require("./error/GeometryTagError");
 exports.GeometryTagError = GeometryTagError_1.GeometryTagError;
@@ -23887,7 +25496,7 @@ exports.Alignment = Alignment_1.Alignment;
 var TagComponent_1 = require("./TagComponent");
 exports.TagComponent = TagComponent_1.TagComponent;
 
-},{"./TagComponent":261,"./error/GeometryTagError":267,"./geometry/PointGeometry":269,"./geometry/PolygonGeometry":270,"./geometry/RectGeometry":271,"./tag/Alignment":273,"./tag/OutlineTag":276,"./tag/SpotTag":279}],261:[function(require,module,exports){
+},{"./TagComponent":277,"./error/GeometryTagError":283,"./geometry/PointGeometry":285,"./geometry/PolygonGeometry":286,"./geometry/RectGeometry":287,"./tag/Alignment":289,"./tag/OutlineTag":292,"./tag/SpotTag":295}],277:[function(require,module,exports){
 /// <reference path="../../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -23925,7 +25534,7 @@ var Geo_1 = require("../../Geo");
 var Render_1 = require("../../Render");
 /**
  * @class TagComponent
- * @classdesc Component for showing and editing tags with different geometries.
+ * @classdesc Component for showing and editing 2D tags with different geometries.
  */
 var TagComponent = (function (_super) {
     __extends(TagComponent, _super);
@@ -24005,10 +25614,8 @@ var TagComponent = (function (_super) {
         })
             .share();
         _this._tagInteractionAbort$ = Observable_1.Observable
-            .merge(_this._container.mouseService.mouseUp$, _this._container.mouseService.mouseLeave$)
-            .map(function (e) {
-            return;
-        })
+            .merge(_this._container.mouseService.documentMouseUp$)
+            .map(function (e) { })
             .share();
         _this._activeTag$ = _this._renderTags$
             .switchMap(function (tags) {
@@ -24148,6 +25755,10 @@ var TagComponent = (function (_super) {
     };
     TagComponent.prototype._activate = function () {
         var _this = this;
+        this._preventDefaultSubscription = Observable_1.Observable.merge(this._container.mouseService.documentCanvasMouseDown$, this._container.mouseService.documentCanvasMouseMove$)
+            .subscribe(function (event) {
+            event.preventDefault(); // prevent selection of content outside the viewer
+        });
         this._geometryCreatedEventSubscription = this._geometryCreated$
             .subscribe(function (geometry) {
             _this.fire(TagComponent.geometrycreated, geometry);
@@ -24202,7 +25813,7 @@ var TagComponent = (function (_super) {
         })
             .subscribe(this._pointGeometryCreated$);
         this._setCreateVertexSubscription = Observable_1.Observable
-            .combineLatest(this._container.mouseService.mouseMove$, this._tagCreator.tag$, this._container.renderService.renderCamera$)
+            .combineLatest(this._container.mouseService.documentCanvasMouseMove$, this._tagCreator.tag$, this._container.renderService.renderCamera$)
             .filter(function (etr) {
             return etr[1] != null;
         })
@@ -24238,6 +25849,15 @@ var TagComponent = (function (_super) {
             var tag = bt[1];
             tag.addPoint(basic);
         });
+        this._containerClassListSubscription = this._creating$
+            .subscribe(function (creating) {
+            if (creating) {
+                _this._container.element.classList.add("component-tag-create");
+            }
+            else {
+                _this._container.element.classList.remove("component-tag-create");
+            }
+        });
         this._deleteCreatedSubscription = this._creating$
             .subscribe(function (creating) {
             _this._tagCreator.delete$.next(null);
@@ -24263,7 +25883,7 @@ var TagComponent = (function (_super) {
             .subscribe(this._tagGlRendererOperation$);
         this._claimMouseSubscription = this._tagInterationInitiated$
             .switchMap(function (id) {
-            return _this._container.mouseService.mouseMove$
+            return _this._container.mouseService.documentCanvasMouseMove$
                 .takeUntil(_this._tagInteractionAbort$)
                 .take(1);
         })
@@ -24271,7 +25891,7 @@ var TagComponent = (function (_super) {
             _this._container.mouseService.claimMouse(_this._name, 1);
         });
         this._mouseDragSubscription = this._activeTag$
-            .withLatestFrom(this._container.mouseService.mouseMove$, function (a, e) {
+            .withLatestFrom(this._container.mouseService.documentCanvasMouseMove$, function (a, e) {
             return [a, e];
         })
             .switchMap(function (args) {
@@ -24282,7 +25902,7 @@ var TagComponent = (function (_super) {
             }
             var mouseDrag$ = Observable_1.Observable
                 .of(mouseMove)
-                .concat(_this._container.mouseService.filtered$(_this._name, _this._container.mouseService.mouseDrag$));
+                .concat(_this._container.mouseService.filtered$(_this._name, _this._container.mouseService.documentCanvasMouseDrag$));
             return Observable_1.Observable
                 .combineLatest(mouseDrag$, _this._container.renderService.renderCamera$)
                 .withLatestFrom(Observable_1.Observable.of(activeTag), _this._navigator.stateService.currentTransform$, function (ec, a, t) {
@@ -24307,7 +25927,7 @@ var TagComponent = (function (_super) {
             }
         });
         this._unclaimMouseSubscription = this._container.mouseService
-            .filtered$(this._name, this._container.mouseService.mouseDragEnd$)
+            .filtered$(this._name, this._container.mouseService.documentCanvasMouseDragEnd$)
             .subscribe(function (e) {
             _this._container.mouseService.unclaimMouse(_this._name);
         });
@@ -24343,16 +25963,16 @@ var TagComponent = (function (_super) {
                 vnode: _this._tagDomRenderer.clear(),
             });
         })
-            .combineLatest(this._container.renderService.renderCamera$, this._container.spriteService.spriteAtlas$, this._tagChanged$.startWith(null), this._tagCreator.tag$.merge(this._createGeometryChanged$).startWith(null), this._configuration$, function (renderTags, rc, atlas, tag, ct, c) {
-            return [rc, atlas, renderTags, tag, ct, c];
+            .combineLatest(this._container.renderService.renderCamera$, this._container.spriteService.spriteAtlas$, this._tagChanged$.startWith(null), this._tagCreator.tag$.merge(this._createGeometryChanged$).startWith(null), function (renderTags, rc, atlas, tag, ct) {
+            return [rc, atlas, renderTags, tag, ct];
         })
             .withLatestFrom(this._navigator.stateService.currentTransform$, function (args, transform) {
-            return [args[0], args[1], args[2], args[3], args[4], args[5], transform];
+            return [args[0], args[1], args[2], args[3], args[4], transform];
         })
             .map(function (args) {
             return {
                 name: _this._name,
-                vnode: _this._tagDomRenderer.render(args[2], args[4], args[1], args[0].perspective, args[6], args[5]),
+                vnode: _this._tagDomRenderer.render(args[2], args[4], args[1], args[0].perspective, args[5]),
             };
         })
             .subscribe(this._container.domRenderer.render$);
@@ -24397,6 +26017,8 @@ var TagComponent = (function (_super) {
         this._addPointSubscription.unsubscribe();
         this._deleteCreatedSubscription.unsubscribe();
         this._setGLCreateTagSubscription.unsubscribe();
+        this._preventDefaultSubscription.unsubscribe();
+        this._containerClassListSubscription.unsubscribe();
         this._domSubscription.unsubscribe();
         this._glSubscription.unsubscribe();
         this._geometryCreatedEventSubscription.unsubscribe();
@@ -24411,12 +26033,8 @@ var TagComponent = (function (_super) {
     TagComponent.prototype._mouseEventToBasic = function (event, element, camera, transform, offsetX, offsetY) {
         offsetX = offsetX != null ? offsetX : 0;
         offsetY = offsetY != null ? offsetY : 0;
-        var clientRect = element.getBoundingClientRect();
-        var canvasX = event.clientX - clientRect.left - offsetX;
-        var canvasY = event.clientY - clientRect.top - offsetY;
-        var canvasWidth = element.offsetWidth;
-        var canvasHeight = element.offsetHeight;
-        var basic = this._viewportCoords.canvasToBasic(canvasX, canvasY, canvasWidth, canvasHeight, transform, camera.perspective);
+        var _a = this._viewportCoords.canvasPosition(event, element), canvasX = _a[0], canvasY = _a[1];
+        var basic = this._viewportCoords.canvasToBasic(canvasX - offsetX, canvasY - offsetY, element, transform, camera.perspective);
         return basic;
     };
     return TagComponent;
@@ -24449,7 +26067,7 @@ Component_1.ComponentService.register(TagComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TagComponent;
 
-},{"../../Component":217,"../../Geo":220,"../../Render":223,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/observable/combineLatest":37,"rxjs/add/observable/empty":39,"rxjs/add/observable/from":40,"rxjs/add/observable/merge":43,"rxjs/add/observable/of":44,"rxjs/add/operator/combineLatest":50,"rxjs/add/operator/concat":51,"rxjs/add/operator/distinctUntilChanged":55,"rxjs/add/operator/do":56,"rxjs/add/operator/filter":58,"rxjs/add/operator/map":62,"rxjs/add/operator/merge":63,"rxjs/add/operator/mergeMap":65,"rxjs/add/operator/publishReplay":69,"rxjs/add/operator/scan":70,"rxjs/add/operator/share":71,"rxjs/add/operator/skip":72,"rxjs/add/operator/skipUntil":73,"rxjs/add/operator/startWith":75,"rxjs/add/operator/switchMap":76,"rxjs/add/operator/take":77,"rxjs/add/operator/takeUntil":78,"rxjs/add/operator/withLatestFrom":80}],262:[function(require,module,exports){
+},{"../../Component":224,"../../Geo":227,"../../Render":230,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/observable/combineLatest":37,"rxjs/add/observable/empty":39,"rxjs/add/observable/from":40,"rxjs/add/observable/merge":43,"rxjs/add/observable/of":44,"rxjs/add/operator/combineLatest":52,"rxjs/add/operator/concat":53,"rxjs/add/operator/distinctUntilChanged":57,"rxjs/add/operator/do":58,"rxjs/add/operator/filter":60,"rxjs/add/operator/map":64,"rxjs/add/operator/merge":65,"rxjs/add/operator/mergeMap":67,"rxjs/add/operator/publishReplay":71,"rxjs/add/operator/scan":72,"rxjs/add/operator/share":73,"rxjs/add/operator/skip":74,"rxjs/add/operator/skipUntil":75,"rxjs/add/operator/startWith":77,"rxjs/add/operator/switchMap":78,"rxjs/add/operator/take":79,"rxjs/add/operator/takeUntil":80,"rxjs/add/operator/withLatestFrom":82}],278:[function(require,module,exports){
 "use strict";
 var Subject_1 = require("rxjs/Subject");
 require("rxjs/add/operator/map");
@@ -24539,7 +26157,7 @@ exports.TagCreator = TagCreator;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TagCreator;
 
-},{"../../Component":217,"rxjs/Subject":33,"rxjs/add/operator/map":62,"rxjs/add/operator/scan":70,"rxjs/add/operator/share":71,"rxjs/add/operator/withLatestFrom":80}],263:[function(require,module,exports){
+},{"../../Component":224,"rxjs/Subject":33,"rxjs/add/operator/map":64,"rxjs/add/operator/scan":72,"rxjs/add/operator/share":73,"rxjs/add/operator/withLatestFrom":82}],279:[function(require,module,exports){
 /// <reference path="../../../typings/index.d.ts" />
 "use strict";
 var THREE = require("three");
@@ -24547,7 +26165,7 @@ var vd = require("virtual-dom");
 var TagDOMRenderer = (function () {
     function TagDOMRenderer() {
     }
-    TagDOMRenderer.prototype.render = function (tags, createTag, atlas, camera, transform, configuration) {
+    TagDOMRenderer.prototype.render = function (tags, createTag, atlas, camera, transform) {
         var matrixWorldInverse = new THREE.Matrix4().getInverse(camera.matrixWorld);
         var projectionMatrix = camera.projectionMatrix;
         var vNodes = [];
@@ -24558,12 +26176,7 @@ var TagDOMRenderer = (function () {
         if (createTag != null) {
             vNodes = vNodes.concat(createTag.getDOMObjects(transform, matrixWorldInverse, projectionMatrix));
         }
-        var properties = {
-            style: {
-                "pointer-events": configuration.creating ? "all" : "none",
-            },
-        };
-        return vd.h("div.TagContainer", properties, vNodes);
+        return vd.h("div.TagContainer", {}, vNodes);
     };
     TagDOMRenderer.prototype.clear = function () {
         return vd.h("div", {}, []);
@@ -24572,7 +26185,7 @@ var TagDOMRenderer = (function () {
 }());
 exports.TagDOMRenderer = TagDOMRenderer;
 
-},{"three":167,"virtual-dom":173}],264:[function(require,module,exports){
+},{"three":174,"virtual-dom":180}],280:[function(require,module,exports){
 /// <reference path="../../../typings/index.d.ts" />
 "use strict";
 var THREE = require("three");
@@ -24665,7 +26278,7 @@ var TagGLRenderer = (function () {
 }());
 exports.TagGLRenderer = TagGLRenderer;
 
-},{"three":167}],265:[function(require,module,exports){
+},{"three":174}],281:[function(require,module,exports){
 "use strict";
 var TagOperation;
 (function (TagOperation) {
@@ -24676,7 +26289,7 @@ var TagOperation;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TagOperation;
 
-},{}],266:[function(require,module,exports){
+},{}],282:[function(require,module,exports){
 "use strict";
 var Subject_1 = require("rxjs/Subject");
 require("rxjs/add/operator/map");
@@ -24727,7 +26340,7 @@ exports.TagSet = TagSet;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TagSet;
 
-},{"rxjs/Subject":33,"rxjs/add/operator/map":62,"rxjs/add/operator/scan":70,"rxjs/add/operator/share":71}],267:[function(require,module,exports){
+},{"rxjs/Subject":33,"rxjs/add/operator/map":64,"rxjs/add/operator/scan":72,"rxjs/add/operator/share":73}],283:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -24748,7 +26361,7 @@ exports.GeometryTagError = GeometryTagError;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Error_1.MapillaryError;
 
-},{"../../../Error":219}],268:[function(require,module,exports){
+},{"../../../Error":226}],284:[function(require,module,exports){
 "use strict";
 var Subject_1 = require("rxjs/Subject");
 /**
@@ -24786,7 +26399,7 @@ exports.Geometry = Geometry;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Geometry;
 
-},{"rxjs/Subject":33}],269:[function(require,module,exports){
+},{"rxjs/Subject":33}],285:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -24859,7 +26472,7 @@ var PointGeometry = (function (_super) {
 }(Component_1.Geometry));
 exports.PointGeometry = PointGeometry;
 
-},{"../../../Component":217}],270:[function(require,module,exports){
+},{"../../../Component":224}],286:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -25092,7 +26705,7 @@ exports.PolygonGeometry = PolygonGeometry;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = PolygonGeometry;
 
-},{"../../../Component":217}],271:[function(require,module,exports){
+},{"../../../Component":224}],287:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -25401,7 +27014,7 @@ exports.RectGeometry = RectGeometry;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = RectGeometry;
 
-},{"../../../Component":217}],272:[function(require,module,exports){
+},{"../../../Component":224}],288:[function(require,module,exports){
 /// <reference path="../../../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -25464,7 +27077,7 @@ exports.VertexGeometry = VertexGeometry;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = VertexGeometry;
 
-},{"../../../Component":217,"earcut":6}],273:[function(require,module,exports){
+},{"../../../Component":224,"earcut":6}],289:[function(require,module,exports){
 "use strict";
 var Alignment;
 (function (Alignment) {
@@ -25474,7 +27087,7 @@ var Alignment;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Alignment;
 
-},{}],274:[function(require,module,exports){
+},{}],290:[function(require,module,exports){
 /// <reference path="../../../../typings/index.d.ts" />
 "use strict";
 var THREE = require("three");
@@ -25661,7 +27274,7 @@ exports.OutlineCreateTag = OutlineCreateTag;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = OutlineCreateTag;
 
-},{"../../../Component":217,"rxjs/Subject":33,"three":167,"virtual-dom":173}],275:[function(require,module,exports){
+},{"../../../Component":224,"rxjs/Subject":33,"three":174,"virtual-dom":180}],291:[function(require,module,exports){
 /// <reference path="../../../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -26057,7 +27670,7 @@ var OutlineRenderTag = (function (_super) {
 }(Component_1.RenderTag));
 exports.OutlineRenderTag = OutlineRenderTag;
 
-},{"../../../Component":217,"../../../Viewer":227,"three":167,"virtual-dom":173}],276:[function(require,module,exports){
+},{"../../../Component":224,"../../../Viewer":234,"three":174,"virtual-dom":180}],292:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -26393,7 +28006,7 @@ exports.OutlineTag = OutlineTag;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = OutlineTag;
 
-},{"../../../Component":217,"rxjs/Subject":33}],277:[function(require,module,exports){
+},{"../../../Component":224,"rxjs/Subject":33}],293:[function(require,module,exports){
 /// <reference path="../../../../typings/index.d.ts" />
 "use strict";
 var THREE = require("three");
@@ -26452,7 +28065,7 @@ exports.RenderTag = RenderTag;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = RenderTag;
 
-},{"rxjs/Subject":33,"three":167}],278:[function(require,module,exports){
+},{"rxjs/Subject":33,"three":174}],294:[function(require,module,exports){
 /// <reference path="../../../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -26560,7 +28173,7 @@ var SpotRenderTag = (function (_super) {
 }(Component_1.RenderTag));
 exports.SpotRenderTag = SpotRenderTag;
 
-},{"../../../Component":217,"../../../Viewer":227,"virtual-dom":173}],279:[function(require,module,exports){
+},{"../../../Component":224,"../../../Viewer":234,"virtual-dom":180}],295:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -26722,7 +28335,7 @@ exports.SpotTag = SpotTag;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SpotTag;
 
-},{"../../../Component":217}],280:[function(require,module,exports){
+},{"../../../Component":224}],296:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -26832,7 +28445,7 @@ exports.Tag = Tag;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Tag;
 
-},{"../../../Utils":226,"rxjs/Subject":33,"rxjs/add/operator/map":62,"rxjs/add/operator/share":71}],281:[function(require,module,exports){
+},{"../../../Utils":233,"rxjs/Subject":33,"rxjs/add/operator/map":64,"rxjs/add/operator/share":73}],297:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -26853,7 +28466,7 @@ exports.ArgumentMapillaryError = ArgumentMapillaryError;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ArgumentMapillaryError;
 
-},{"./MapillaryError":283}],282:[function(require,module,exports){
+},{"./MapillaryError":299}],298:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -26874,7 +28487,7 @@ exports.GraphMapillaryError = GraphMapillaryError;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = GraphMapillaryError;
 
-},{"./MapillaryError":283}],283:[function(require,module,exports){
+},{"./MapillaryError":299}],299:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -26894,7 +28507,7 @@ exports.MapillaryError = MapillaryError;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = MapillaryError;
 
-},{}],284:[function(require,module,exports){
+},{}],300:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var THREE = require("three");
@@ -27043,7 +28656,7 @@ var Camera = (function () {
 }());
 exports.Camera = Camera;
 
-},{"three":167}],285:[function(require,module,exports){
+},{"three":174}],301:[function(require,module,exports){
 "use strict";
 /**
  * @class GeoCoords
@@ -27267,7 +28880,7 @@ exports.GeoCoords = GeoCoords;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = GeoCoords;
 
-},{}],286:[function(require,module,exports){
+},{}],302:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var THREE = require("three");
@@ -27280,13 +28893,21 @@ var Spatial = (function () {
     function Spatial() {
         this._epsilon = 1e-9;
     }
+    /**
+     * Converts azimuthal phi rotation (counter-clockwise with origin on X-axis) to
+     * bearing (clockwise with origin at north or Y-axis).
+     *
+     * @param {number} phi - Azimuthal phi angle in radians.
+     * @returns {number} Bearing in radians.
+     */
     Spatial.prototype.azimuthalToBearing = function (phi) {
         return -phi + Math.PI / 2;
     };
     /**
      * Converts degrees to radians.
      *
-     * @param {number} deg Degrees.
+     * @param {number} deg - Degrees.
+     * @returns {number} Radians.
      */
     Spatial.prototype.degToRad = function (deg) {
         return Math.PI * deg / 180;
@@ -27294,7 +28915,8 @@ var Spatial = (function () {
     /**
      * Converts radians to degrees.
      *
-     * @param {number} rad Radians.
+     * @param {number} rad - Radians.
+     * @returns {number} Degrees.
      */
     Spatial.prototype.radToDeg = function (rad) {
         return 180 * rad / Math.PI;
@@ -27302,7 +28924,8 @@ var Spatial = (function () {
     /**
      * Creates a rotation matrix from an angle-axis vector.
      *
-     * @param {Array<number>} angleAxis Angle-axis representation of a rotation.
+     * @param {Array<number>} angleAxis - Angle-axis representation of a rotation.
+     * @returns {THREE.Matrix4} Rotation matrix.
      */
     Spatial.prototype.rotationMatrix = function (angleAxis) {
         var axis = new THREE.Vector3(angleAxis[0], angleAxis[1], angleAxis[2]);
@@ -27313,8 +28936,9 @@ var Spatial = (function () {
     /**
      * Rotates a vector according to a angle-axis rotation vector.
      *
-     * @param {Array<number>} vector Vector to rotate.
-     * @param {Array<number>} angleAxis Angle-axis representation of a rotation.
+     * @param {Array<number>} vector - Vector to rotate.
+     * @param {Array<number>} angleAxis - Angle-axis representation of a rotation.
+     * @returns {THREE.Vector3} Rotated vector.
      */
     Spatial.prototype.rotate = function (vector, angleAxis) {
         var v = new THREE.Vector3(vector[0], vector[1], vector[2]);
@@ -27327,8 +28951,9 @@ var Spatial = (function () {
      * on the angle-axis representation and a translation vector
      * according to C = -R^T t.
      *
-     * @param {Array<number>} rotation Angle-axis representation of a rotation.
-     * @param {Array<number>} translation Translation vector.
+     * @param {Array<number>} rotation - Angle-axis representation of a rotation.
+     * @param {Array<number>} translation - Translation vector.
+     * @returns {THREE.Vector3} Optical center.
      */
     Spatial.prototype.opticalCenter = function (rotation, translation) {
         var angleAxis = [-rotation[0], -rotation[1], -rotation[2]];
@@ -27339,7 +28964,8 @@ var Spatial = (function () {
      * Calculates the viewing direction from a rotation vector
      * on the angle-axis representation.
      *
-     * @param {number[]} rotation Angle-axis representation of a rotation.
+     * @param {number[]} rotation - Angle-axis representation of a rotation.
+     * @returns {THREE.Vector3} Viewing direction.
      */
     Spatial.prototype.viewingDirection = function (rotation) {
         var angleAxis = [-rotation[0], -rotation[1], -rotation[2]];
@@ -27348,11 +28974,10 @@ var Spatial = (function () {
     /**
      * Wrap a number on the interval [min, max].
      *
-     * @param {number} value Value to wrap.
-     * @param {number} min Lower endpoint of interval.
-     * @param {number} max Upper endpoint of interval.
-     *
-     * @returs {number} The wrapped number.
+     * @param {number} value - Value to wrap.
+     * @param {number} min - Lower endpoint of interval.
+     * @param {number} max - Upper endpoint of interval.
+     * @returns {number} The wrapped number.
      */
     Spatial.prototype.wrap = function (value, min, max) {
         if (max < min) {
@@ -27372,9 +28997,8 @@ var Spatial = (function () {
     /**
      * Wrap an angle on the interval [-Pi, Pi].
      *
-     * @param {number} angle Value to wrap.
-     *
-     * @returs {number} The wrapped angle.
+     * @param {number} angle - Value to wrap.
+     * @returns {number} Wrapped angle.
      */
     Spatial.prototype.wrapAngle = function (angle) {
         return this.wrap(angle, -Math.PI, Math.PI);
@@ -27383,11 +29007,10 @@ var Spatial = (function () {
      * Limit the value to the interval [min, max] by changing the value to
      * the nearest available one when it is outside the interval.
      *
-     * @param {number} value Value to clamp.
-     * @param {number} min Minimum of the interval.
-     * @param {number} max Maximum of the interval.
-     *
-     * @returns {number} The clamped value.
+     * @param {number} value - Value to clamp.
+     * @param {number} min - Minimum of the interval.
+     * @param {number} max - Maximum of the interval.
+     * @returns {number} Clamped value.
      */
     Spatial.prototype.clamp = function (value, min, max) {
         if (value < min) {
@@ -27402,10 +29025,11 @@ var Spatial = (function () {
      * Calculates the counter-clockwise angle from the first
      * vector (x1, y1)^T to the second (x2, y2)^T.
      *
-     * @param {number} x1 X-value of first vector.
-     * @param {number} y1 Y-value of first vector.
-     * @param {number} x2 X-value of second vector.
-     * @param {number} y2 Y-value of second vector.
+     * @param {number} x1 - X coordinate of first vector.
+     * @param {number} y1 - Y coordinate of first vector.
+     * @param {number} x2 - X coordinate of second vector.
+     * @param {number} y2 - Y coordinate of second vector.
+     * @returns {number} Counter clockwise angle between the vectors.
      */
     Spatial.prototype.angleBetweenVector2 = function (x1, y1, x2, y2) {
         var angle = Math.atan2(y2, x2) - Math.atan2(y1, x1);
@@ -27415,8 +29039,9 @@ var Spatial = (function () {
      * Calculates the minimum (absolute) angle change for rotation
      * from one angle to another on the [-Pi, Pi] interval.
      *
-     * @param {number} angle1 The origin angle.
-     * @param {number} angle2 The destination angle.
+     * @param {number} angle1 - Start angle.
+     * @param {number} angle2 - Destination angle.
+     * @returns {number} Absolute angle change between angles.
      */
     Spatial.prototype.angleDifference = function (angle1, angle2) {
         var angle = angle2 - angle1;
@@ -27426,8 +29051,9 @@ var Spatial = (function () {
      * Calculates the relative rotation angle between two
      * angle-axis vectors.
      *
-     * @param {number} rotation1 First angle-axis vector.
-     * @param {number} rotation2 Second angle-axis vector.
+     * @param {number} rotation1 - First angle-axis vector.
+     * @param {number} rotation2 - Second angle-axis vector.
+     * @returns {number} Relative rotation angle.
      */
     Spatial.prototype.relativeRotationAngle = function (rotation1, rotation2) {
         var R1T = this.rotationMatrix([-rotation1[0], -rotation1[1], -rotation1[2]]);
@@ -27441,8 +29067,9 @@ var Spatial = (function () {
     /**
      * Calculates the angle from a vector to a plane.
      *
-     * @param {Array<number>} vector The vector.
-     * @param {Array<number>} planeNormal Normal of the plane.
+     * @param {Array<number>} vector - The vector.
+     * @param {Array<number>} planeNormal - Normal of the plane.
+     * @returns {number} Angle from between plane and vector.
      */
     Spatial.prototype.angleToPlane = function (vector, planeNormal) {
         var v = new THREE.Vector3().fromArray(vector);
@@ -27458,10 +29085,11 @@ var Spatial = (function () {
      * (latitude longitude pairs) in meters according to
      * the haversine formula.
      *
-     * @param {number} lat1 The latitude of the first coordinate.
-     * @param {number} lon1 The longitude of the first coordinate.
-     * @param {number} lat2 The latitude of the second coordinate.
-     * @param {number} lon2 The longitude of the second coordinate.
+     * @param {number} lat1 - Latitude of the first coordinate.
+     * @param {number} lon1 - Longitude of the first coordinate.
+     * @param {number} lat2 - Latitude of the second coordinate.
+     * @param {number} lon2 - Longitude of the second coordinate.
+     * @returns {number} Distance between lat lon positions.
      */
     Spatial.prototype.distanceFromLatLon = function (lat1, lon1, lat2, lon2) {
         var r = 6371000;
@@ -27479,7 +29107,7 @@ exports.Spatial = Spatial;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Spatial;
 
-},{"three":167}],287:[function(require,module,exports){
+},{"three":174}],303:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var THREE = require("three");
@@ -27994,7 +29622,7 @@ var Transform = (function () {
 }());
 exports.Transform = Transform;
 
-},{"three":167}],288:[function(require,module,exports){
+},{"three":174}],304:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var THREE = require("three");
@@ -28032,15 +29660,14 @@ var ViewportCoords = (function () {
      *
      * @param {number} basicX - Basic X coordinate.
      * @param {number} basicY - Basic Y coordinate.
-     * @param {number} canvasWidth - Width of canvas.
-     * @param {number} canvasHeight - Height of canvas.
+     * @param {HTMLElement} container - The viewer container.
      * @param {Transform} transform - Transform of the node to unproject from.
      * @param {THREE.PerspectiveCamera} perspectiveCamera - Perspective camera used in rendering.
      * @returns {Array<number>} 2D canvas coordinates.
      */
-    ViewportCoords.prototype.basicToCanvas = function (basicX, basicY, canvasWidth, canvasHeight, transform, perspectiveCamera) {
+    ViewportCoords.prototype.basicToCanvas = function (basicX, basicY, container, transform, perspectiveCamera) {
         var point3d = transform.unprojectBasic([basicX, basicY], this._unprojectDepth);
-        var canvas = this.projectToCanvas(point3d, canvasWidth, canvasHeight, perspectiveCamera);
+        var canvas = this.projectToCanvas(point3d, container, perspectiveCamera);
         return canvas;
     };
     /**
@@ -28051,16 +29678,27 @@ var ViewportCoords = (function () {
      *
      * @param {number} basicX - Basic X coordinate.
      * @param {number} basicY - Basic Y coordinate.
-     * @param {number} canvasWidth - Width of canvas.
-     * @param {number} canvasHeight - Height of canvas.
      * @param {Transform} transform - Transform of the node to unproject from.
      * @param {THREE.PerspectiveCamera} perspectiveCamera - Perspective camera used in rendering.
-     * @returns {Array<number>} 2D canvas coordinates.
+     * @returns {Array<number>} 2D viewport coordinates.
      */
     ViewportCoords.prototype.basicToViewport = function (basicX, basicY, transform, perspectiveCamera) {
         var point3d = transform.unprojectBasic([basicX, basicY], this._unprojectDepth);
         var viewport = this.projectToViewport(point3d, perspectiveCamera);
         return viewport;
+    };
+    /**
+     * Get canvas pixel position from event.
+     *
+     * @param {Event} event - Event containing clientX and clientY properties.
+     * @param {HTMLElement} element - HTML element.
+     * @returns {Array<number>} 2D canvas coordinates.
+     */
+    ViewportCoords.prototype.canvasPosition = function (event, element) {
+        var clientRect = element.getBoundingClientRect();
+        var canvasX = event.clientX - clientRect.left - element.clientLeft;
+        var canvasY = event.clientY - clientRect.top - element.clientTop;
+        return [canvasX, canvasY];
     };
     /**
      * Convert canvas coordinates to basic coordinates.
@@ -28070,14 +29708,13 @@ var ViewportCoords = (function () {
      *
      * @param {number} canvasX - Canvas X coordinate.
      * @param {number} canvasY - Canvas Y coordinate.
-     * @param {number} canvasWidth - Width of canvas.
-     * @param {number} canvasHeight - Height of canvas.
+     * @param {HTMLElement} container - The viewer container.
      * @param {Transform} transform - Transform of the node to unproject from.
      * @param {THREE.PerspectiveCamera} perspectiveCamera - Perspective camera used in rendering.
      * @returns {Array<number>} 2D basic coordinates.
      */
-    ViewportCoords.prototype.canvasToBasic = function (canvasX, canvasY, canvasWidth, canvasHeight, transform, perspectiveCamera) {
-        var point3d = this.unprojectFromCanvas(canvasX, canvasY, canvasWidth, canvasHeight, perspectiveCamera)
+    ViewportCoords.prototype.canvasToBasic = function (canvasX, canvasY, container, transform, perspectiveCamera) {
+        var point3d = this.unprojectFromCanvas(canvasX, canvasY, container, perspectiveCamera)
             .toArray();
         var basic = transform.projectBasic(point3d);
         return basic;
@@ -28087,14 +29724,23 @@ var ViewportCoords = (function () {
      *
      * @param {number} canvasX - Canvas X coordinate.
      * @param {number} canvasY - Canvas Y coordinate.
-     * @param {number} canvasWidth - Width of canvas.
-     * @param {number} canvasHeight - Height of canvas.
+     * @param {HTMLElement} container - The viewer container.
      * @returns {Array<number>} 2D viewport coordinates.
      */
-    ViewportCoords.prototype.canvasToViewport = function (canvasX, canvasY, canvasWidth, canvasHeight) {
+    ViewportCoords.prototype.canvasToViewport = function (canvasX, canvasY, container) {
+        var _a = this.containerToCanvas(container), canvasWidth = _a[0], canvasHeight = _a[1];
         var viewportX = 2 * canvasX / canvasWidth - 1;
         var viewportY = 1 - 2 * canvasY / canvasHeight;
         return [viewportX, viewportY];
+    };
+    /**
+     * Determines the width and height of the container in canvas coordinates.
+     *
+     * @param {HTMLElement} container - The viewer container.
+     * @returns {Array<number>} 2D canvas coordinates.
+     */
+    ViewportCoords.prototype.containerToCanvas = function (container) {
+        return [container.offsetWidth, container.offsetHeight];
     };
     /**
      * Determine basic distances from image to canvas corners.
@@ -28147,13 +29793,12 @@ var ViewportCoords = (function () {
      *
      * Determines the smallest pixel distance for every side of the canvas.
      *
-     * @param {number} canvasWidth - Width of canvas.
-     * @param {number} canvasHeight - Height of canvas.
+     * @param {HTMLElement} container - The viewer container.
      * @param {Transform} transform - Transform of the node to unproject from.
      * @param {THREE.PerspectiveCamera} perspectiveCamera - Perspective camera used in rendering.
      * @returns {Array<number>} Array of pixel distances as [top, right, bottom, left].
      */
-    ViewportCoords.prototype.getPixelDistances = function (canvasWidth, canvasHeight, transform, perspectiveCamera) {
+    ViewportCoords.prototype.getPixelDistances = function (container, transform, perspectiveCamera) {
         var topLeftBasic = this.viewportToBasic(-1, 1, transform, perspectiveCamera);
         var topRightBasic = this.viewportToBasic(1, 1, transform, perspectiveCamera);
         var bottomRightBasic = this.viewportToBasic(1, -1, transform, perspectiveCamera);
@@ -28162,48 +29807,66 @@ var ViewportCoords = (function () {
         var rightPixelDistance = 0;
         var bottomPixelDistance = 0;
         var leftPixelDistance = 0;
+        var _a = this.containerToCanvas(container), canvasWidth = _a[0], canvasHeight = _a[1];
         if (topLeftBasic[1] < 0 && topRightBasic[1] < 0) {
             var basicX = topLeftBasic[1] > topRightBasic[1] ?
                 topLeftBasic[0] :
                 topRightBasic[0];
-            var canvas = this.basicToCanvas(basicX, 0, canvasWidth, canvasHeight, transform, perspectiveCamera);
+            var canvas = this.basicToCanvas(basicX, 0, container, transform, perspectiveCamera);
             topPixelDistance = canvas[1] > 0 ? canvas[1] : 0;
         }
         if (topRightBasic[0] > 1 && bottomRightBasic[0] > 1) {
             var basicY = topRightBasic[0] < bottomRightBasic[0] ?
                 topRightBasic[1] :
                 bottomRightBasic[1];
-            var canvas = this.basicToCanvas(1, basicY, canvasWidth, canvasHeight, transform, perspectiveCamera);
+            var canvas = this.basicToCanvas(1, basicY, container, transform, perspectiveCamera);
             rightPixelDistance = canvas[0] < canvasWidth ? canvasWidth - canvas[0] : 0;
         }
         if (bottomRightBasic[1] > 1 && bottomLeftBasic[1] > 1) {
             var basicX = bottomRightBasic[1] < bottomLeftBasic[1] ?
                 bottomRightBasic[0] :
                 bottomLeftBasic[0];
-            var canvas = this.basicToCanvas(basicX, 1, canvasWidth, canvasHeight, transform, perspectiveCamera);
+            var canvas = this.basicToCanvas(basicX, 1, container, transform, perspectiveCamera);
             bottomPixelDistance = canvas[1] < canvasHeight ? canvasHeight - canvas[1] : 0;
         }
         if (bottomLeftBasic[0] < 0 && topLeftBasic[0] < 0) {
             var basicY = bottomLeftBasic[0] > topLeftBasic[0] ?
                 bottomLeftBasic[1] :
                 topLeftBasic[1];
-            var canvas = this.basicToCanvas(0, basicY, canvasWidth, canvasHeight, transform, perspectiveCamera);
+            var canvas = this.basicToCanvas(0, basicY, container, transform, perspectiveCamera);
             leftPixelDistance = canvas[0] > 0 ? canvas[0] : 0;
         }
         return [topPixelDistance, rightPixelDistance, bottomPixelDistance, leftPixelDistance];
     };
     /**
+     * Determine if an event occured inside an element.
+     *
+     * @param {Event} event - Event containing clientX and clientY properties.
+     * @param {HTMLElement} element - HTML element.
+     * @returns {boolean} Value indicating if the event occured inside the element or not.
+     */
+    ViewportCoords.prototype.insideElement = function (event, element) {
+        var clientRect = element.getBoundingClientRect();
+        var minX = clientRect.left + element.clientLeft;
+        var maxX = minX + element.clientWidth;
+        var minY = clientRect.top + element.clientTop;
+        var maxY = minY + element.clientHeight;
+        return event.clientX > minX &&
+            event.clientX < maxX &&
+            event.clientY > minY &&
+            event.clientY < maxY;
+    };
+    /**
      * Project 3D world coordinates to canvas coordinates.
      *
      * @param {Array<number>} point3D - 3D world coordinates.
-     * @param {number} canvasWidth - Width of canvas.
-     * @param {number} canvasHeight - Height of canvas.
+     * @param {HTMLElement} container - The viewer container.
      * @param {THREE.PerspectiveCamera} perspectiveCamera - Perspective camera used in rendering.
-     * @returns {Array<number>} 3D world coordinates.
+     * @returns {Array<number>} 2D canvas coordinates.
      */
-    ViewportCoords.prototype.projectToCanvas = function (point3d, canvasWidth, canvasHeight, perspectiveCamera) {
+    ViewportCoords.prototype.projectToCanvas = function (point3d, container, perspectiveCamera) {
         var viewport = this.projectToViewport(point3d, perspectiveCamera);
-        var canvas = this.viewportToCanvas(viewport[0], viewport[1], canvasWidth, canvasHeight);
+        var canvas = this.viewportToCanvas(viewport[0], viewport[1], container);
         return canvas;
     };
     /**
@@ -28211,31 +29874,24 @@ var ViewportCoords = (function () {
      *
      * @param {Array<number>} point3D - 3D world coordinates.
      * @param {THREE.PerspectiveCamera} perspectiveCamera - Perspective camera used in rendering.
-     * @returns {Array<number>} 3D world coordinates.
+     * @returns {Array<number>} 2D viewport coordinates.
      */
     ViewportCoords.prototype.projectToViewport = function (point3d, perspectiveCamera) {
-        var projected = new THREE.Vector3(point3d[0], point3d[1], point3d[2])
+        var viewport = new THREE.Vector3(point3d[0], point3d[1], point3d[2])
             .project(perspectiveCamera);
-        var z = Math.abs(projected.z) < 1e-9 ?
-            projected.z < 0 ?
-                -1e-9 : 1e-9 :
-            projected.z;
-        var viewportX = projected.x / z;
-        var viewportY = projected.y / z;
-        return [viewportX, viewportY];
+        return [viewport.x, viewport.y];
     };
     /**
      * Uproject canvas coordinates to 3D world coordinates.
      *
      * @param {number} canvasX - Canvas X coordinate.
      * @param {number} canvasY - Canvas Y coordinate.
-     * @param {number} canvasWidth - Width of canvas.
-     * @param {number} canvasHeight - Height of canvas.
+     * @param {HTMLElement} container - The viewer container.
      * @param {THREE.PerspectiveCamera} perspectiveCamera - Perspective camera used in rendering.
      * @returns {Array<number>} 3D world coordinates.
      */
-    ViewportCoords.prototype.unprojectFromCanvas = function (canvasX, canvasY, canvasWidth, canvasHeight, perspectiveCamera) {
-        var viewport = this.canvasToViewport(canvasX, canvasY, canvasWidth, canvasHeight);
+    ViewportCoords.prototype.unprojectFromCanvas = function (canvasX, canvasY, container, perspectiveCamera) {
+        var viewport = this.canvasToViewport(canvasX, canvasY, container);
         var point3d = this.unprojectFromViewport(viewport[0], viewport[1], perspectiveCamera);
         return point3d;
     };
@@ -28276,11 +29932,11 @@ var ViewportCoords = (function () {
      *
      * @param {number} viewportX - Viewport X coordinate.
      * @param {number} viewportY - Viewport Y coordinate.
-     * @param {number} canvasWidth - Width of canvas.
-     * @param {number} canvasHeight - Height of canvas.
+     * @param {HTMLElement} container - The viewer container.
      * @returns {Array<number>} 2D canvas coordinates.
      */
-    ViewportCoords.prototype.viewportToCanvas = function (viewportX, viewportY, canvasWidth, canvasHeight) {
+    ViewportCoords.prototype.viewportToCanvas = function (viewportX, viewportY, container) {
+        var _a = this.containerToCanvas(container), canvasWidth = _a[0], canvasHeight = _a[1];
         var canvasX = canvasWidth * (viewportX + 1) / 2;
         var canvasY = -canvasHeight * (viewportY - 1) / 2;
         return [canvasX, canvasY];
@@ -28291,7 +29947,7 @@ exports.ViewportCoords = ViewportCoords;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ViewportCoords;
 
-},{"three":167}],289:[function(require,module,exports){
+},{"three":174}],305:[function(require,module,exports){
 "use strict";
 /**
  * @class Filter
@@ -28379,7 +30035,7 @@ exports.FilterCreator = FilterCreator;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = FilterCreator;
 
-},{}],290:[function(require,module,exports){
+},{}],306:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var rbush = require("rbush");
@@ -29379,7 +31035,7 @@ exports.Graph = Graph;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Graph;
 
-},{"../Edge":218,"../Error":219,"../Graph":221,"rbush":24,"rxjs/Subject":33,"rxjs/add/observable/from":40,"rxjs/add/operator/catch":49,"rxjs/add/operator/do":56,"rxjs/add/operator/finally":59,"rxjs/add/operator/map":62,"rxjs/add/operator/publish":68}],291:[function(require,module,exports){
+},{"../Edge":225,"../Error":226,"../Graph":228,"rbush":24,"rxjs/Subject":33,"rxjs/add/observable/from":40,"rxjs/add/operator/catch":51,"rxjs/add/operator/do":58,"rxjs/add/operator/finally":61,"rxjs/add/operator/map":64,"rxjs/add/operator/publish":70}],307:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var geohash = require("latlon-geohash");
@@ -29541,7 +31197,7 @@ exports.GraphCalculator = GraphCalculator;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = GraphCalculator;
 
-},{"../Geo":220,"latlon-geohash":20,"three":167}],292:[function(require,module,exports){
+},{"../Geo":227,"latlon-geohash":20,"three":174}],308:[function(require,module,exports){
 "use strict";
 var Observable_1 = require("rxjs/Observable");
 var Subject_1 = require("rxjs/Subject");
@@ -29846,7 +31502,7 @@ exports.GraphService = GraphService;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = GraphService;
 
-},{"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/operator/catch":49,"rxjs/add/operator/concat":51,"rxjs/add/operator/do":56,"rxjs/add/operator/expand":57,"rxjs/add/operator/finally":59,"rxjs/add/operator/first":60,"rxjs/add/operator/last":61,"rxjs/add/operator/map":62,"rxjs/add/operator/mergeMap":65,"rxjs/add/operator/publishReplay":69}],293:[function(require,module,exports){
+},{"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/operator/catch":51,"rxjs/add/operator/concat":53,"rxjs/add/operator/do":58,"rxjs/add/operator/expand":59,"rxjs/add/operator/finally":61,"rxjs/add/operator/first":62,"rxjs/add/operator/last":63,"rxjs/add/operator/map":64,"rxjs/add/operator/mergeMap":67,"rxjs/add/operator/publishReplay":71}],309:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var Subject_1 = require("rxjs/Subject");
@@ -29880,7 +31536,7 @@ var ImageLoadingService = (function () {
 }());
 exports.ImageLoadingService = ImageLoadingService;
 
-},{"rxjs/Subject":33}],294:[function(require,module,exports){
+},{"rxjs/Subject":33}],310:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var Pbf = require("pbf");
@@ -29903,7 +31559,7 @@ var MeshReader = (function () {
 }());
 exports.MeshReader = MeshReader;
 
-},{"pbf":22}],295:[function(require,module,exports){
+},{"pbf":22}],311:[function(require,module,exports){
 "use strict";
 require("rxjs/add/observable/combineLatest");
 require("rxjs/add/operator/map");
@@ -29915,6 +31571,9 @@ require("rxjs/add/operator/map");
 var Node = (function () {
     /**
      * Create a new node instance.
+     *
+     * @description Nodes are always created internally by the library.
+     * Nodes can not be added to the library through any API method.
      *
      * @param {ICoreNode} coreNode - Raw core node data.
      */
@@ -30519,7 +32178,7 @@ exports.Node = Node;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Node;
 
-},{"rxjs/add/observable/combineLatest":37,"rxjs/add/operator/map":62}],296:[function(require,module,exports){
+},{"rxjs/add/observable/combineLatest":37,"rxjs/add/operator/map":64}],312:[function(require,module,exports){
 (function (Buffer){
 "use strict";
 var Subject_1 = require("rxjs/Subject");
@@ -30926,7 +32585,7 @@ exports.default = NodeCache;
 
 }).call(this,require("buffer").Buffer)
 
-},{"../Graph":221,"../Utils":226,"buffer":5,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/observable/combineLatest":37,"rxjs/add/operator/publishReplay":69}],297:[function(require,module,exports){
+},{"../Graph":228,"../Utils":233,"buffer":5,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/observable/combineLatest":37,"rxjs/add/operator/publishReplay":71}],313:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var _ = require("underscore");
@@ -31016,7 +32675,7 @@ exports.Sequence = Sequence;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Sequence;
 
-},{"underscore":168}],298:[function(require,module,exports){
+},{"underscore":175}],314:[function(require,module,exports){
 /// <reference path="../../../typings/index.d.ts" />
 "use strict";
 var THREE = require("three");
@@ -31601,7 +33260,7 @@ exports.EdgeCalculator = EdgeCalculator;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = EdgeCalculator;
 
-},{"../../Edge":218,"../../Error":219,"../../Geo":220,"three":167}],299:[function(require,module,exports){
+},{"../../Edge":225,"../../Error":226,"../../Geo":227,"three":174}],315:[function(require,module,exports){
 "use strict";
 var EdgeCalculatorCoefficients = (function () {
     function EdgeCalculatorCoefficients() {
@@ -31627,7 +33286,7 @@ exports.EdgeCalculatorCoefficients = EdgeCalculatorCoefficients;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = EdgeCalculatorCoefficients;
 
-},{}],300:[function(require,module,exports){
+},{}],316:[function(require,module,exports){
 "use strict";
 var Edge_1 = require("../../Edge");
 var EdgeCalculatorDirections = (function () {
@@ -31699,7 +33358,7 @@ var EdgeCalculatorDirections = (function () {
 }());
 exports.EdgeCalculatorDirections = EdgeCalculatorDirections;
 
-},{"../../Edge":218}],301:[function(require,module,exports){
+},{"../../Edge":225}],317:[function(require,module,exports){
 "use strict";
 var EdgeCalculatorSettings = (function () {
     function EdgeCalculatorSettings() {
@@ -31736,7 +33395,7 @@ exports.EdgeCalculatorSettings = EdgeCalculatorSettings;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = EdgeCalculatorSettings;
 
-},{}],302:[function(require,module,exports){
+},{}],318:[function(require,module,exports){
 "use strict";
 /**
  * Enumeration for edge directions
@@ -31794,7 +33453,7 @@ var EdgeDirection;
 })(EdgeDirection = exports.EdgeDirection || (exports.EdgeDirection = {}));
 ;
 
-},{}],303:[function(require,module,exports){
+},{}],319:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var _ = require("underscore");
@@ -31893,10 +33552,10 @@ var DOMRenderer = (function () {
                 style: {
                     bottom: offset.bottom + "px",
                     left: offset.left + "px",
+                    "pointer-events": "none",
                     position: "absolute",
                     right: offset.right + "px",
                     top: offset.top + "px",
-                    zIndex: -1,
                 },
             };
             return {
@@ -31982,7 +33641,7 @@ exports.DOMRenderer = DOMRenderer;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = DOMRenderer;
 
-},{"../Render":223,"rxjs/Subject":33,"rxjs/add/operator/combineLatest":50,"rxjs/add/operator/distinctUntilChanged":55,"rxjs/add/operator/filter":58,"rxjs/add/operator/map":62,"rxjs/add/operator/pluck":67,"rxjs/add/operator/scan":70,"underscore":168,"virtual-dom":173}],304:[function(require,module,exports){
+},{"../Render":230,"rxjs/Subject":33,"rxjs/add/operator/combineLatest":52,"rxjs/add/operator/distinctUntilChanged":57,"rxjs/add/operator/filter":60,"rxjs/add/operator/map":64,"rxjs/add/operator/pluck":69,"rxjs/add/operator/scan":72,"underscore":175,"virtual-dom":180}],320:[function(require,module,exports){
 "use strict";
 var GLRenderStage;
 (function (GLRenderStage) {
@@ -31992,7 +33651,7 @@ var GLRenderStage;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = GLRenderStage;
 
-},{}],305:[function(require,module,exports){
+},{}],321:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var THREE = require("three");
@@ -32010,7 +33669,7 @@ require("rxjs/add/operator/share");
 require("rxjs/add/operator/startWith");
 var Render_1 = require("../Render");
 var GLRenderer = (function () {
-    function GLRenderer(renderService) {
+    function GLRenderer(canvasContainer, renderService) {
         var _this = this;
         this._renderFrame$ = new Subject_1.Subject();
         this._renderCameraOperation$ = new Subject_1.Subject();
@@ -32134,8 +33793,8 @@ var GLRenderer = (function () {
             webGLRenderer.setSize(element.offsetWidth, element.offsetHeight);
             webGLRenderer.setClearColor(new THREE.Color(0x202020), 1.0);
             webGLRenderer.autoClear = false;
-            webGLRenderer.sortObjects = false;
-            element.appendChild(webGLRenderer.domElement);
+            webGLRenderer.domElement.style.position = "absolute";
+            canvasContainer.appendChild(webGLRenderer.domElement);
             return webGLRenderer;
         })
             .publishReplay(1)
@@ -32240,7 +33899,7 @@ exports.GLRenderer = GLRenderer;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = GLRenderer;
 
-},{"../Render":223,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/observable/combineLatest":37,"rxjs/add/operator/distinctUntilChanged":55,"rxjs/add/operator/filter":58,"rxjs/add/operator/first":60,"rxjs/add/operator/map":62,"rxjs/add/operator/merge":63,"rxjs/add/operator/mergeMap":65,"rxjs/add/operator/scan":70,"rxjs/add/operator/share":71,"rxjs/add/operator/startWith":75,"three":167}],306:[function(require,module,exports){
+},{"../Render":230,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/observable/combineLatest":37,"rxjs/add/operator/distinctUntilChanged":57,"rxjs/add/operator/filter":60,"rxjs/add/operator/first":62,"rxjs/add/operator/map":64,"rxjs/add/operator/merge":65,"rxjs/add/operator/mergeMap":67,"rxjs/add/operator/scan":72,"rxjs/add/operator/share":73,"rxjs/add/operator/startWith":77,"three":174}],322:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var THREE = require("three");
@@ -32357,7 +34016,7 @@ exports.RenderCamera = RenderCamera;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = RenderCamera;
 
-},{"../Geo":220,"../Render":223,"three":167}],307:[function(require,module,exports){
+},{"../Geo":227,"../Render":230,"three":174}],323:[function(require,module,exports){
 "use strict";
 /**
  * Enumeration for render mode
@@ -32393,7 +34052,7 @@ var RenderMode;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = RenderMode;
 
-},{}],308:[function(require,module,exports){
+},{}],324:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var Subject_1 = require("rxjs/Subject");
@@ -32569,7 +34228,7 @@ exports.RenderService = RenderService;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = RenderService;
 
-},{"../Geo":220,"../Render":223,"rxjs/BehaviorSubject":25,"rxjs/Subject":33,"rxjs/add/observable/combineLatest":37,"rxjs/add/operator/do":56,"rxjs/add/operator/filter":58,"rxjs/add/operator/map":62,"rxjs/add/operator/publishReplay":69,"rxjs/add/operator/scan":70,"rxjs/add/operator/skip":72,"rxjs/add/operator/startWith":75,"rxjs/add/operator/withLatestFrom":80}],309:[function(require,module,exports){
+},{"../Geo":227,"../Render":230,"rxjs/BehaviorSubject":25,"rxjs/Subject":33,"rxjs/add/observable/combineLatest":37,"rxjs/add/operator/do":58,"rxjs/add/operator/filter":60,"rxjs/add/operator/map":64,"rxjs/add/operator/publishReplay":71,"rxjs/add/operator/scan":72,"rxjs/add/operator/skip":74,"rxjs/add/operator/startWith":77,"rxjs/add/operator/withLatestFrom":82}],325:[function(require,module,exports){
 "use strict";
 var State;
 (function (State) {
@@ -32579,7 +34238,7 @@ var State;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = State;
 
-},{}],310:[function(require,module,exports){
+},{}],326:[function(require,module,exports){
 "use strict";
 var State_1 = require("../State");
 var Geo_1 = require("../Geo");
@@ -32769,7 +34428,7 @@ var StateContext = (function () {
 }());
 exports.StateContext = StateContext;
 
-},{"../Geo":220,"../State":224}],311:[function(require,module,exports){
+},{"../Geo":227,"../State":231}],327:[function(require,module,exports){
 "use strict";
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 var Subject_1 = require("rxjs/Subject");
@@ -33168,7 +34827,7 @@ var StateService = (function () {
 }());
 exports.StateService = StateService;
 
-},{"../State":224,"rxjs/BehaviorSubject":25,"rxjs/Subject":33,"rxjs/add/operator/bufferCount":48,"rxjs/add/operator/distinctUntilChanged":55,"rxjs/add/operator/do":56,"rxjs/add/operator/filter":58,"rxjs/add/operator/first":60,"rxjs/add/operator/map":62,"rxjs/add/operator/pairwise":66,"rxjs/add/operator/publishReplay":69,"rxjs/add/operator/scan":70,"rxjs/add/operator/startWith":75,"rxjs/add/operator/switchMap":76,"rxjs/add/operator/withLatestFrom":80,"rxjs/util/AnimationFrame":150}],312:[function(require,module,exports){
+},{"../State":231,"rxjs/BehaviorSubject":25,"rxjs/Subject":33,"rxjs/add/operator/bufferCount":49,"rxjs/add/operator/distinctUntilChanged":57,"rxjs/add/operator/do":58,"rxjs/add/operator/filter":60,"rxjs/add/operator/first":62,"rxjs/add/operator/map":64,"rxjs/add/operator/pairwise":68,"rxjs/add/operator/publishReplay":71,"rxjs/add/operator/scan":72,"rxjs/add/operator/startWith":77,"rxjs/add/operator/switchMap":78,"rxjs/add/operator/withLatestFrom":82,"rxjs/util/AnimationFrame":155}],328:[function(require,module,exports){
 /// <reference path="../../../typings/index.d.ts" />
 "use strict";
 var Error_1 = require("../../Error");
@@ -33481,7 +35140,7 @@ var StateBase = (function () {
 }());
 exports.StateBase = StateBase;
 
-},{"../../Error":219,"../../Geo":220}],313:[function(require,module,exports){
+},{"../../Error":226,"../../Geo":227}],329:[function(require,module,exports){
 /// <reference path="../../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -34006,7 +35665,7 @@ var TraversingState = (function (_super) {
 }(State_1.StateBase));
 exports.TraversingState = TraversingState;
 
-},{"../../State":224,"three":167,"unitbezier":169}],314:[function(require,module,exports){
+},{"../../State":231,"three":174,"unitbezier":176}],330:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -34077,7 +35736,7 @@ var WaitingState = (function (_super) {
 }(State_1.StateBase));
 exports.WaitingState = WaitingState;
 
-},{"../../State":224}],315:[function(require,module,exports){
+},{"../../State":231}],331:[function(require,module,exports){
 "use strict";
 var Observable_1 = require("rxjs/Observable");
 /**
@@ -34169,7 +35828,7 @@ exports.ImageTileLoader = ImageTileLoader;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ImageTileLoader;
 
-},{"rxjs/Observable":28}],316:[function(require,module,exports){
+},{"rxjs/Observable":28}],332:[function(require,module,exports){
 "use strict";
 /**
  * @class ImageTileStore
@@ -34237,7 +35896,7 @@ exports.ImageTileStore = ImageTileStore;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ImageTileStore;
 
-},{}],317:[function(require,module,exports){
+},{}],333:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var Geo_1 = require("../Geo");
@@ -34261,26 +35920,28 @@ var RegionOfInterestCalculator = (function () {
      * @returns {IRegionOfInterest} A region of interest.
      */
     RegionOfInterestCalculator.prototype.computeRegionOfInterest = function (renderCamera, size, transform) {
-        var canvasPoints = this._canvasBoundaryPoints(4);
-        var bbox = this._canvasPointsBoundingBox(canvasPoints, renderCamera, transform);
+        var viewportBoundaryPoints = this._viewportBoundaryPoints(4);
+        var bbox = this._viewportPointsBoundingBox(viewportBoundaryPoints, renderCamera, transform);
         this._clipBoundingBox(bbox);
-        var centralPixel = [
-            [0.5 - 0.5 / size.width, 0.5 - 0.5 / size.height],
-            [0.5 + 0.5 / size.width, 0.5 - 0.5 / size.height],
-            [0.5 + 0.5 / size.width, 0.5 + 0.5 / size.height],
-            [0.5 - 0.5 / size.width, 0.5 + 0.5 / size.height],
+        var viewportPixelWidth = 2 / size.width;
+        var viewportPixelHeight = 2 / size.height;
+        var centralViewportPixel = [
+            [-0.5 * viewportPixelWidth, 0.5 * viewportPixelHeight],
+            [0.5 * viewportPixelWidth, 0.5 * viewportPixelHeight],
+            [0.5 * viewportPixelWidth, -0.5 * viewportPixelHeight],
+            [-0.5 * viewportPixelWidth, -0.5 * viewportPixelHeight],
         ];
-        var cpbox = this._canvasPointsBoundingBox(centralPixel, renderCamera, transform);
+        var cpbox = this._viewportPointsBoundingBox(centralViewportPixel, renderCamera, transform);
         return {
             bbox: bbox,
             pixelHeight: cpbox.maxY - cpbox.minY,
             pixelWidth: cpbox.maxX - cpbox.minX + (cpbox.minX < cpbox.maxX ? 0 : 1),
         };
     };
-    RegionOfInterestCalculator.prototype._canvasBoundaryPoints = function (pointsPerSide) {
+    RegionOfInterestCalculator.prototype._viewportBoundaryPoints = function (pointsPerSide) {
         var points = [];
-        var os = [[0, 0], [1, 0], [1, 1], [0, 1]];
-        var ds = [[1, 0], [0, 1], [-1, 0], [0, -1]];
+        var os = [[-1, 1], [1, 1], [1, -1], [-1, -1]];
+        var ds = [[2, 0], [0, -2], [-2, 0], [0, 2]];
         for (var side = 0; side < 4; ++side) {
             var o = os[side];
             var d = ds[side];
@@ -34291,11 +35952,12 @@ var RegionOfInterestCalculator = (function () {
         }
         return points;
     };
-    RegionOfInterestCalculator.prototype._canvasPointsBoundingBox = function (canvasPoints, renderCamera, transform) {
+    RegionOfInterestCalculator.prototype._viewportPointsBoundingBox = function (viewportPoints, renderCamera, transform) {
         var _this = this;
-        var basicPoints = canvasPoints.map(function (point) {
+        var basicPoints = viewportPoints
+            .map(function (point) {
             return _this._viewportCoords
-                .canvasToBasic(point[0], point[1], 1, 1, transform, renderCamera.perspective);
+                .viewportToBasic(point[0], point[1], transform, renderCamera.perspective);
         });
         if (transform.gpano != null) {
             return this._boundingBoxPano(basicPoints);
@@ -34375,7 +36037,7 @@ exports.RegionOfInterestCalculator = RegionOfInterestCalculator;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = RegionOfInterestCalculator;
 
-},{"../Geo":220}],318:[function(require,module,exports){
+},{"../Geo":227}],334:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var THREE = require("three");
@@ -34523,6 +36185,10 @@ var TextureProvider = (function () {
      * aborts all outstanding image tile requests.
      */
     TextureProvider.prototype.dispose = function () {
+        if (this._disposed) {
+            console.warn("Texture already disposed (" + this._key + ")");
+            return;
+        }
         this.abort();
         if (this._renderTarget != null) {
             this._renderTarget.dispose();
@@ -34848,7 +36514,7 @@ exports.TextureProvider = TextureProvider;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TextureProvider;
 
-},{"rxjs/Subject":33,"three":167}],319:[function(require,module,exports){
+},{"rxjs/Subject":33,"three":174}],335:[function(require,module,exports){
 "use strict";
 var EventEmitter = (function () {
     function EventEmitter() {
@@ -34907,7 +36573,7 @@ exports.EventEmitter = EventEmitter;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = EventEmitter;
 
-},{}],320:[function(require,module,exports){
+},{}],336:[function(require,module,exports){
 "use strict";
 var Viewer_1 = require("../Viewer");
 var Settings = (function () {
@@ -34951,7 +36617,7 @@ exports.Settings = Settings;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Settings;
 
-},{"../Viewer":227}],321:[function(require,module,exports){
+},{"../Viewer":234}],337:[function(require,module,exports){
 "use strict";
 var Urls = (function () {
     function Urls() {
@@ -34992,7 +36658,7 @@ exports.Urls = Urls;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Urls;
 
-},{}],322:[function(require,module,exports){
+},{}],338:[function(require,module,exports){
 "use strict";
 require("rxjs/add/operator/bufferCount");
 require("rxjs/add/operator/delay");
@@ -35049,13 +36715,14 @@ exports.CacheService = CacheService;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = CacheService;
 
-},{"rxjs/add/operator/bufferCount":48,"rxjs/add/operator/delay":53,"rxjs/add/operator/distinctUntilChanged":55,"rxjs/add/operator/map":62,"rxjs/add/operator/switchMap":76}],323:[function(require,module,exports){
+},{"rxjs/add/operator/bufferCount":49,"rxjs/add/operator/delay":55,"rxjs/add/operator/distinctUntilChanged":57,"rxjs/add/operator/map":64,"rxjs/add/operator/switchMap":78}],339:[function(require,module,exports){
 "use strict";
 var Component_1 = require("../Component");
 var ComponentController = (function () {
-    function ComponentController(container, navigator, key, options) {
+    function ComponentController(container, navigator, observer, key, options) {
         var _this = this;
         this._container = container;
+        this._observer = observer;
         this._navigator = navigator;
         this._options = options != null ? options : {};
         this._key = key;
@@ -35077,6 +36744,7 @@ var ComponentController = (function () {
                 _this._coverComponent.configure({ key: _this._key, loading: false, visible: false });
                 _this._subscribeCoverComponent();
                 _this._navigator.stateService.start();
+                _this._observer.startEmit();
             });
         }
     }
@@ -35107,7 +36775,6 @@ var ComponentController = (function () {
         this._uFalse(options.navigation, "navigation");
         this._uFalse(options.route, "route");
         this._uFalse(options.slider, "slider");
-        this._uFalse(options.stats, "stats");
         this._uFalse(options.tag, "tag");
         this._uTrue(options.attribution, "attribution");
         this._uTrue(options.bearing, "bearing");
@@ -35118,6 +36785,7 @@ var ComponentController = (function () {
         this._uTrue(options.loading, "loading");
         this._uTrue(options.mouse, "mouse");
         this._uTrue(options.sequence, "sequence");
+        this._uTrue(options.stats, "stats");
     };
     ComponentController.prototype._initilizeCoverComponent = function () {
         var options = this._options;
@@ -35143,6 +36811,7 @@ var ComponentController = (function () {
                 })
                     .subscribe(function (node) {
                     _this._navigator.stateService.start();
+                    _this._observer.startEmit();
                     _this._coverComponent.configure({ loading: false, visible: false });
                     _this._componentService.deactivateCover();
                 }, function (error) {
@@ -35151,6 +36820,7 @@ var ComponentController = (function () {
                 });
             }
             else if (conf.visible) {
+                _this._observer.stopEmit();
                 _this._navigator.stateService.stop();
                 _this._componentService.activateCover();
             }
@@ -35194,102 +36864,46 @@ var ComponentController = (function () {
 }());
 exports.ComponentController = ComponentController;
 
-},{"../Component":217}],324:[function(require,module,exports){
+},{"../Component":224}],340:[function(require,module,exports){
 "use strict";
 var Render_1 = require("../Render");
 var Viewer_1 = require("../Viewer");
 var Container = (function () {
     function Container(id, stateService, options) {
         this.id = id;
-        this.element = document.getElementById(id);
-        this.element.classList.add("mapillary-js");
-        this.renderService = new Render_1.RenderService(this.element, stateService.currentState$, options.renderMode);
-        this.glRenderer = new Render_1.GLRenderer(this.renderService);
-        this.domRenderer = new Render_1.DOMRenderer(this.element, this.renderService, stateService.currentState$);
-        this.mouseService = new Viewer_1.MouseService(this.element);
-        this.touchService = new Viewer_1.TouchService(this.element);
+        this._container = document.getElementById(id);
+        this._container.classList.add("mapillary-js");
+        this._canvasContainer = document.createElement("div");
+        this._canvasContainer.className = "mapillary-js-interactive";
+        this._container.appendChild(this._canvasContainer);
+        this.renderService = new Render_1.RenderService(this._container, stateService.currentState$, options.renderMode);
+        this.glRenderer = new Render_1.GLRenderer(this._canvasContainer, this.renderService);
+        this.domRenderer = new Render_1.DOMRenderer(this._container, this.renderService, stateService.currentState$);
+        this.mouseService = new Viewer_1.MouseService(this._canvasContainer, this._container);
+        this.touchService = new Viewer_1.TouchService(this._canvasContainer);
         this.spriteService = new Viewer_1.SpriteService(options.sprite);
     }
+    Object.defineProperty(Container.prototype, "element", {
+        get: function () {
+            return this._container;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Container.prototype, "canvasContainer", {
+        get: function () {
+            return this.canvasContainer;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Container;
 }());
 exports.Container = Container;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Container;
 
-},{"../Render":223,"../Viewer":227}],325:[function(require,module,exports){
-"use strict";
-var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/observable/combineLatest");
-require("rxjs/add/operator/distinctUntilChanged");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/throttleTime");
-var Viewer_1 = require("../Viewer");
-var EventLauncher = (function () {
-    function EventLauncher(eventEmitter, navigator, container) {
-        var _this = this;
-        this._container = container;
-        this._eventEmitter = eventEmitter;
-        this._navigator = navigator;
-        this._loadingSubscription = this._navigator.loadingService.loading$
-            .subscribe(function (loading) {
-            _this._eventEmitter.fire(Viewer_1.Viewer.loadingchanged, loading);
-        });
-        this._currentNodeSubscription = this._navigator.stateService.currentNodeExternal$
-            .subscribe(function (node) {
-            _this._eventEmitter.fire(Viewer_1.Viewer.nodechanged, node);
-        });
-        this._sequenceEdgesSubscription = this._navigator.stateService.currentNodeExternal$
-            .switchMap(function (node) {
-            return node.sequenceEdges$;
-        })
-            .subscribe(function (status) {
-            _this._eventEmitter.fire(Viewer_1.Viewer.sequenceedgeschanged, status);
-        });
-        this._spatialEdgesSubscription = this._navigator.stateService.currentNodeExternal$
-            .switchMap(function (node) {
-            return node.spatialEdges$;
-        })
-            .subscribe(function (status) {
-            _this._eventEmitter.fire(Viewer_1.Viewer.spatialedgeschanged, status);
-        });
-        this._moveSubscription = Observable_1.Observable
-            .combineLatest(this._navigator.stateService.inMotion$, this._container.mouseService.active$, this._container.touchService.active$)
-            .map(function (values) {
-            return values[0] || values[1] || values[2];
-        })
-            .distinctUntilChanged()
-            .subscribe(function (started) {
-            if (started) {
-                _this._eventEmitter.fire(Viewer_1.Viewer.movestart, null);
-            }
-            else {
-                _this._eventEmitter.fire(Viewer_1.Viewer.moveend, null);
-            }
-        });
-        this._bearingSubscription = this._container.renderService.bearing$
-            .throttleTime(100)
-            .distinctUntilChanged(function (b1, b2) {
-            return Math.abs(b2 - b1) < 1;
-        })
-            .subscribe(function (bearing) {
-            _this._eventEmitter.fire(Viewer_1.Viewer.bearingchanged, bearing);
-        });
-    }
-    EventLauncher.prototype.dispose = function () {
-        this._bearingSubscription.unsubscribe();
-        this._loadingSubscription.unsubscribe();
-        this._currentNodeSubscription.unsubscribe();
-        this._moveSubscription.unsubscribe();
-        this._sequenceEdgesSubscription.unsubscribe();
-        this._spatialEdgesSubscription.unsubscribe();
-    };
-    return EventLauncher;
-}());
-exports.EventLauncher = EventLauncher;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = EventLauncher;
-
-},{"../Viewer":227,"rxjs/Observable":28,"rxjs/add/observable/combineLatest":37,"rxjs/add/operator/distinctUntilChanged":55,"rxjs/add/operator/map":62,"rxjs/add/operator/throttleTime":79}],326:[function(require,module,exports){
+},{"../Render":230,"../Viewer":234}],341:[function(require,module,exports){
 "use strict";
 /**
  * Enumeration for image sizes
@@ -35317,7 +36931,7 @@ var ImageSize;
     ImageSize[ImageSize["Size2048"] = 2048] = "Size2048";
 })(ImageSize = exports.ImageSize || (exports.ImageSize = {}));
 
-},{}],327:[function(require,module,exports){
+},{}],342:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var _ = require("underscore");
@@ -35376,7 +36990,7 @@ exports.LoadingService = LoadingService;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = LoadingService;
 
-},{"rxjs/Subject":33,"rxjs/add/operator/debounceTime":52,"rxjs/add/operator/distinctUntilChanged":55,"rxjs/add/operator/map":62,"rxjs/add/operator/publishReplay":69,"rxjs/add/operator/scan":70,"rxjs/add/operator/startWith":75,"underscore":168}],328:[function(require,module,exports){
+},{"rxjs/Subject":33,"rxjs/add/operator/debounceTime":54,"rxjs/add/operator/distinctUntilChanged":57,"rxjs/add/operator/map":64,"rxjs/add/operator/publishReplay":71,"rxjs/add/operator/scan":72,"rxjs/add/operator/startWith":77,"underscore":175}],343:[function(require,module,exports){
 "use strict";
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 var Observable_1 = require("rxjs/Observable");
@@ -35391,97 +37005,115 @@ require("rxjs/add/operator/publishReplay");
 require("rxjs/add/operator/scan");
 require("rxjs/add/operator/switchMap");
 require("rxjs/add/operator/withLatestFrom");
+var Geo_1 = require("../Geo");
 var MouseService = (function () {
-    function MouseService(element) {
+    function MouseService(canvasContainer, container, viewportCoords) {
         var _this = this;
-        this._element = element;
+        this._canvasContainer = canvasContainer;
+        this._container = container;
+        this._viewportCoords = viewportCoords != null ? viewportCoords : new Geo_1.ViewportCoords();
         this._activeSubject$ = new BehaviorSubject_1.BehaviorSubject(false);
         this._active$ = this._activeSubject$
             .distinctUntilChanged()
             .publishReplay(1)
             .refCount();
-        this._preventMouseDownOperation$ = new Subject_1.Subject();
-        this._preventMouseDown$ = new Subject_1.Subject();
-        this._mouseMoveOperation$ = new Subject_1.Subject();
         this._claimMouse$ = new Subject_1.Subject();
-        this._mouseDown$ = Observable_1.Observable.fromEvent(element, "mousedown");
-        this._mouseLeave$ = Observable_1.Observable.fromEvent(element, "mouseleave");
-        this._mouseUp$ = Observable_1.Observable.fromEvent(element, "mouseup");
-        this._mouseOver$ = Observable_1.Observable.fromEvent(element, "mouseover");
-        this._click$ = Observable_1.Observable.fromEvent(element, "click");
-        this._mouseWheel$ = Observable_1.Observable.fromEvent(element, "wheel");
-        this._mouseWheel$
+        this._documentMouseDown$ = Observable_1.Observable.fromEvent(document, "mousedown")
+            .filter(function (event) {
+            return _this._viewportCoords.insideElement(event, _this._container);
+        })
+            .share();
+        this._documentMouseMove$ = Observable_1.Observable.fromEvent(document, "mousemove");
+        this._documentMouseUp$ = Observable_1.Observable.fromEvent(document, "mouseup");
+        this._documentCanvasMouseMove$ = this._documentMouseMove$
+            .filter(function (event) {
+            return _this._viewportCoords.insideElement(event, _this._container);
+        })
+            .share();
+        this._mouseDown$ = Observable_1.Observable.fromEvent(canvasContainer, "mousedown");
+        this._mouseLeave$ = Observable_1.Observable.fromEvent(canvasContainer, "mouseleave");
+        this._mouseMove$ = Observable_1.Observable.fromEvent(canvasContainer, "mousemove");
+        this._mouseUp$ = Observable_1.Observable.fromEvent(canvasContainer, "mouseup");
+        this._mouseOut$ = Observable_1.Observable.fromEvent(canvasContainer, "mouseout");
+        this._mouseOver$ = Observable_1.Observable.fromEvent(canvasContainer, "mouseover");
+        this._click$ = Observable_1.Observable.fromEvent(canvasContainer, "click");
+        this._dblClick$ = Observable_1.Observable.fromEvent(canvasContainer, "dblclick");
+        this._dblClick$
             .subscribe(function (event) {
             event.preventDefault();
         });
-        this._preventMouseDownOperation$
-            .scan(function (prevent, operation) {
-            return operation(prevent);
-        }, true)
-            .subscribe(function () { });
-        this._preventMouseDown$
-            .map(function (prevent) {
-            return function (previous) {
-                return prevent;
-            };
+        this._contextMenu$ = Observable_1.Observable.fromEvent(canvasContainer, "contextmenu");
+        this._contextMenu$
+            .subscribe(function (event) {
+            event.preventDefault();
+        });
+        this._mouseWheel$ = Observable_1.Observable.fromEvent(document, "wheel")
+            .filter(function (event) {
+            return _this._viewportCoords.insideElement(event, _this._container);
         })
-            .subscribe(this._preventMouseDownOperation$);
-        this._mouseDown$
-            .map(function (e) {
-            return function (prevent) {
-                if (prevent) {
-                    e.preventDefault();
-                }
-                return prevent;
-            };
+            .share();
+        this._consistentContextMenu$ = Observable_1.Observable
+            .merge(this._mouseDown$, this._mouseMove$, this._mouseOut$, this._mouseUp$, this._contextMenu$)
+            .bufferCount(3, 1)
+            .filter(function (events) {
+            // fire context menu on mouse up both on mac and windows
+            return events[0].type === "mousedown" &&
+                events[1].type === "contextmenu" &&
+                events[2].type === "mouseup";
         })
-            .subscribe(this._preventMouseDownOperation$);
-        this._mouseMove$ = this._mouseMoveOperation$
-            .scan(function (e, operation) {
-            return operation(e);
-        }, null);
-        Observable_1.Observable
-            .fromEvent(element, "mousemove")
-            .map(function (e) {
-            return function (previous) {
-                if (previous == null) {
-                    previous = e;
-                }
-                if (e.movementX == null) {
-                    Object.defineProperty(e, "movementX", {
-                        configurable: false,
-                        enumerable: false,
-                        value: e.clientX - previous.clientX,
-                        writable: false,
-                    });
-                }
-                if (e.movementY == null) {
-                    Object.defineProperty(e, "movementY", {
-                        configurable: false,
-                        enumerable: false,
-                        value: e.clientY - previous.clientY,
-                        writable: false,
-                    });
-                }
-                return e;
-            };
+            .map(function (events) {
+            return events[1];
         })
-            .subscribe(this._mouseMoveOperation$);
+            .share();
         var dragStop$ = Observable_1.Observable
-            .merge(this._mouseLeave$, this._mouseUp$);
-        this._mouseDragStart$ = this._mouseDown$
+            .merge(this._documentMouseUp$.filter(function (e) {
+            return e.button === 0;
+        }))
+            .share();
+        var leftButtonDown$ = this._mouseDown$
+            .filter(function (e) {
+            return e.button === 0;
+        })
+            .share();
+        this._mouseDragStart$ = leftButtonDown$
             .mergeMap(function (e) {
-            return _this._mouseMove$
+            return _this._documentMouseMove$
                 .takeUntil(dragStop$)
                 .take(1);
         });
-        this._mouseDrag$ = this._mouseDown$
+        this._mouseDrag$ = leftButtonDown$
             .mergeMap(function (e) {
-            return _this._mouseMove$
+            return _this._documentMouseMove$
                 .skip(1)
                 .takeUntil(dragStop$);
         });
         this._mouseDragEnd$ = this._mouseDragStart$
+            .mergeMap(function (e) {
+            return dragStop$.first();
+        });
+        this._documentCanvasMouseDown$ = this._documentMouseDown$
+            .filter(function (e) {
+            return _this._viewportCoords.insideElement(e, _this._container);
+        })
+            .share();
+        var documentCanvasLeftButtonDown$ = this._documentCanvasMouseDown$
+            .filter(function (e) {
+            return e.button === 0;
+        })
+            .share();
+        this._documentCanvasMouseDragStart$ = documentCanvasLeftButtonDown$
+            .mergeMap(function (e) {
+            return _this._documentCanvasMouseMove$
+                .takeUntil(dragStop$)
+                .take(1);
+        });
+        this._documentCanvasMouseDrag$ = documentCanvasLeftButtonDown$
+            .mergeMap(function (e) {
+            return _this._documentCanvasMouseMove$
+                .skip(1)
+                .takeUntil(dragStop$);
+        });
+        this._documentCanvasMouseDragEnd$ = this._documentCanvasMouseDragStart$
             .mergeMap(function (e) {
             return dragStop$.first();
         });
@@ -35516,6 +37148,7 @@ var MouseService = (function () {
         })
             .publishReplay(1)
             .refCount();
+        this._mouseOwner$.subscribe(function () { });
     }
     Object.defineProperty(MouseService.prototype, "active$", {
         get: function () {
@@ -35527,6 +37160,55 @@ var MouseService = (function () {
     Object.defineProperty(MouseService.prototype, "activate$", {
         get: function () {
             return this._activeSubject$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MouseService.prototype, "documentCanvasMouseDown$", {
+        get: function () {
+            return this._documentCanvasMouseDown$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MouseService.prototype, "documentCanvasMouseMove$", {
+        get: function () {
+            return this._documentCanvasMouseMove$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MouseService.prototype, "documentCanvasMouseDragStart$", {
+        get: function () {
+            return this._documentCanvasMouseDragStart$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MouseService.prototype, "documentCanvasMouseDrag$", {
+        get: function () {
+            return this._documentCanvasMouseDrag$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MouseService.prototype, "documentCanvasMouseDragEnd$", {
+        get: function () {
+            return this._documentCanvasMouseDragEnd$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MouseService.prototype, "documentMouseMove$", {
+        get: function () {
+            return this._documentMouseMove$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MouseService.prototype, "documentMouseUp$", {
+        get: function () {
+            return this._documentMouseUp$;
         },
         enumerable: true,
         configurable: true
@@ -35559,6 +37241,20 @@ var MouseService = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(MouseService.prototype, "mouseOut$", {
+        get: function () {
+            return this._mouseOut$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MouseService.prototype, "mouseOver$", {
+        get: function () {
+            return this._mouseOver$;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(MouseService.prototype, "mouseUp$", {
         get: function () {
             return this._mouseUp$;
@@ -35569,6 +37265,20 @@ var MouseService = (function () {
     Object.defineProperty(MouseService.prototype, "click$", {
         get: function () {
             return this._click$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MouseService.prototype, "dblClick$", {
+        get: function () {
+            return this._dblClick$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MouseService.prototype, "contextMenu$", {
+        get: function () {
+            return this._consistentContextMenu$;
         },
         enumerable: true,
         configurable: true
@@ -35608,13 +37318,6 @@ var MouseService = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(MouseService.prototype, "preventDefaultMouseDown$", {
-        get: function () {
-            return this._preventMouseDown$;
-        },
-        enumerable: true,
-        configurable: true
-    });
     MouseService.prototype.claimMouse = function (name, zindex) {
         this._claimMouse$.next({ name: name, zindex: zindex });
     };
@@ -35639,7 +37342,7 @@ exports.MouseService = MouseService;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = MouseService;
 
-},{"rxjs/BehaviorSubject":25,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/observable/fromEvent":41,"rxjs/add/operator/distinctUntilChanged":55,"rxjs/add/operator/filter":58,"rxjs/add/operator/map":62,"rxjs/add/operator/merge":63,"rxjs/add/operator/mergeMap":65,"rxjs/add/operator/publishReplay":69,"rxjs/add/operator/scan":70,"rxjs/add/operator/switchMap":76,"rxjs/add/operator/withLatestFrom":80}],329:[function(require,module,exports){
+},{"../Geo":227,"rxjs/BehaviorSubject":25,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/observable/fromEvent":41,"rxjs/add/operator/distinctUntilChanged":57,"rxjs/add/operator/filter":60,"rxjs/add/operator/map":64,"rxjs/add/operator/merge":65,"rxjs/add/operator/mergeMap":67,"rxjs/add/operator/publishReplay":71,"rxjs/add/operator/scan":72,"rxjs/add/operator/switchMap":78,"rxjs/add/operator/withLatestFrom":82}],344:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
@@ -35867,7 +37570,194 @@ exports.Navigator = Navigator;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Navigator;
 
-},{"../API":216,"../Edge":218,"../Graph":221,"../State":224,"../Viewer":227,"rxjs/BehaviorSubject":25,"rxjs/Observable":28,"rxjs/add/observable/throw":45,"rxjs/add/operator/do":56,"rxjs/add/operator/finally":59,"rxjs/add/operator/first":60,"rxjs/add/operator/map":62,"rxjs/add/operator/mergeMap":65}],330:[function(require,module,exports){
+},{"../API":223,"../Edge":225,"../Graph":228,"../State":231,"../Viewer":234,"rxjs/BehaviorSubject":25,"rxjs/Observable":28,"rxjs/add/observable/throw":45,"rxjs/add/operator/do":58,"rxjs/add/operator/finally":61,"rxjs/add/operator/first":62,"rxjs/add/operator/map":64,"rxjs/add/operator/mergeMap":67}],345:[function(require,module,exports){
+"use strict";
+var Observable_1 = require("rxjs/Observable");
+require("rxjs/add/observable/combineLatest");
+require("rxjs/add/operator/distinctUntilChanged");
+require("rxjs/add/operator/map");
+require("rxjs/add/operator/throttleTime");
+var Viewer_1 = require("../Viewer");
+var Observer = (function () {
+    function Observer(eventEmitter, navigator, container) {
+        this._container = container;
+        this._eventEmitter = eventEmitter;
+        this._navigator = navigator;
+        this._projection = new Viewer_1.Projection();
+        this._started = false;
+    }
+    Object.defineProperty(Observer.prototype, "started", {
+        get: function () {
+            return this._started;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Observer.prototype.startEmit = function () {
+        var _this = this;
+        if (this._started) {
+            return;
+        }
+        this._started = true;
+        this._loadingSubscription = this._navigator.loadingService.loading$
+            .subscribe(function (loading) {
+            _this._eventEmitter.fire(Viewer_1.Viewer.loadingchanged, loading);
+        });
+        this._currentNodeSubscription = this._navigator.stateService.currentNodeExternal$
+            .subscribe(function (node) {
+            _this._eventEmitter.fire(Viewer_1.Viewer.nodechanged, node);
+        });
+        this._sequenceEdgesSubscription = this._navigator.stateService.currentNodeExternal$
+            .switchMap(function (node) {
+            return node.sequenceEdges$;
+        })
+            .subscribe(function (status) {
+            _this._eventEmitter.fire(Viewer_1.Viewer.sequenceedgeschanged, status);
+        });
+        this._spatialEdgesSubscription = this._navigator.stateService.currentNodeExternal$
+            .switchMap(function (node) {
+            return node.spatialEdges$;
+        })
+            .subscribe(function (status) {
+            _this._eventEmitter.fire(Viewer_1.Viewer.spatialedgeschanged, status);
+        });
+        this._moveSubscription = Observable_1.Observable
+            .combineLatest(this._navigator.stateService.inMotion$, this._container.mouseService.active$, this._container.touchService.active$)
+            .map(function (values) {
+            return values[0] || values[1] || values[2];
+        })
+            .distinctUntilChanged()
+            .subscribe(function (started) {
+            if (started) {
+                _this._eventEmitter.fire(Viewer_1.Viewer.movestart, null);
+            }
+            else {
+                _this._eventEmitter.fire(Viewer_1.Viewer.moveend, null);
+            }
+        });
+        this._bearingSubscription = this._container.renderService.bearing$
+            .throttleTime(100)
+            .distinctUntilChanged(function (b1, b2) {
+            return Math.abs(b2 - b1) < 1;
+        })
+            .subscribe(function (bearing) {
+            _this._eventEmitter.fire(Viewer_1.Viewer.bearingchanged, bearing);
+        });
+        var mouseMove$ = this._container.mouseService.active$
+            .switchMap(function (active) {
+            return active ?
+                Observable_1.Observable.empty() :
+                _this._container.mouseService.mouseMove$;
+        });
+        this._viewerMouseEventSubscription = Observable_1.Observable
+            .merge(this._mapMouseEvent$(Viewer_1.Viewer.click, this._container.mouseService.staticClick$), this._mapMouseEvent$(Viewer_1.Viewer.contextmenu, this._container.mouseService.contextMenu$), this._mapMouseEvent$(Viewer_1.Viewer.dblclick, this._container.mouseService.dblClick$), this._mapMouseEvent$(Viewer_1.Viewer.mousedown, this._container.mouseService.mouseDown$), this._mapMouseEvent$(Viewer_1.Viewer.mousemove, mouseMove$), this._mapMouseEvent$(Viewer_1.Viewer.mouseout, this._container.mouseService.mouseOut$), this._mapMouseEvent$(Viewer_1.Viewer.mouseover, this._container.mouseService.mouseOver$), this._mapMouseEvent$(Viewer_1.Viewer.mouseup, this._container.mouseService.mouseUp$))
+            .withLatestFrom(this._container.renderService.renderCamera$, this._navigator.stateService.reference$, this._navigator.stateService.currentTransform$)
+            .map(function (_a) {
+            var _b = _a[0], type = _b[0], event = _b[1], render = _a[1], reference = _a[2], transform = _a[3];
+            var unprojection = _this._projection.unprojectFromEvent(event, _this._container.element, render, reference, transform);
+            return {
+                basicPoint: unprojection.basicPoint,
+                latLon: unprojection.latLon,
+                originalEvent: event,
+                pixelPoint: unprojection.pixelPoint,
+                target: _this._eventEmitter,
+                type: type,
+            };
+        })
+            .subscribe(function (event) {
+            _this._eventEmitter.fire(event.type, event);
+        });
+    };
+    Observer.prototype.stopEmit = function () {
+        if (!this.started) {
+            return;
+        }
+        this._started = false;
+        this._bearingSubscription.unsubscribe();
+        this._loadingSubscription.unsubscribe();
+        this._currentNodeSubscription.unsubscribe();
+        this._moveSubscription.unsubscribe();
+        this._sequenceEdgesSubscription.unsubscribe();
+        this._spatialEdgesSubscription.unsubscribe();
+        this._viewerMouseEventSubscription.unsubscribe();
+        this._bearingSubscription = null;
+        this._loadingSubscription = null;
+        this._currentNodeSubscription = null;
+        this._moveSubscription = null;
+        this._sequenceEdgesSubscription = null;
+        this._spatialEdgesSubscription = null;
+        this._viewerMouseEventSubscription = null;
+    };
+    Observer.prototype.unproject$ = function (pixelPoint) {
+        var _this = this;
+        return Observable_1.Observable
+            .combineLatest(this._container.renderService.renderCamera$, this._navigator.stateService.reference$, this._navigator.stateService.currentTransform$)
+            .first()
+            .map(function (_a) {
+            var render = _a[0], reference = _a[1], transform = _a[2];
+            var unprojection = _this._projection.unprojectFromCanvas(pixelPoint, _this._container.element, render, reference, transform);
+            return unprojection.latLon;
+        });
+    };
+    Observer.prototype._mapMouseEvent$ = function (type, mouseEvent$) {
+        return mouseEvent$.map(function (event) {
+            return [type, event];
+        });
+    };
+    return Observer;
+}());
+exports.Observer = Observer;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Observer;
+
+},{"../Viewer":234,"rxjs/Observable":28,"rxjs/add/observable/combineLatest":37,"rxjs/add/operator/distinctUntilChanged":57,"rxjs/add/operator/map":64,"rxjs/add/operator/throttleTime":81}],346:[function(require,module,exports){
+/// <reference path="../../typings/index.d.ts" />
+"use strict";
+var THREE = require("three");
+var Geo_1 = require("../Geo");
+var Projection = (function () {
+    function Projection(geoCoords, viewportCoords) {
+        this._geoCoords = !!geoCoords ? geoCoords : new Geo_1.GeoCoords();
+        this._viewportCoords = !!viewportCoords ? viewportCoords : new Geo_1.ViewportCoords();
+    }
+    Projection.prototype.unprojectFromEvent = function (event, container, renderCamera, reference, transform) {
+        var pixelPoint = this._viewportCoords.canvasPosition(event, container);
+        return this.unprojectFromCanvas(pixelPoint, container, renderCamera, reference, transform);
+    };
+    Projection.prototype.unprojectFromCanvas = function (pixelPoint, container, render, reference, transform) {
+        var canvasX = pixelPoint[0];
+        var canvasY = pixelPoint[1];
+        var _a = this._viewportCoords.canvasToViewport(canvasX, canvasY, container), viewportX = _a[0], viewportY = _a[1];
+        var point3d = new THREE.Vector3(viewportX, viewportY, 1)
+            .unproject(render.perspective);
+        var basicPoint = transform.projectBasic(point3d.toArray());
+        if (basicPoint[0] < 0 || basicPoint[0] > 1 || basicPoint[1] < 0 || basicPoint[1] > 1) {
+            basicPoint = null;
+        }
+        var direction3d = point3d.clone().sub(render.camera.position).normalize();
+        var dist = -2 / direction3d.z;
+        var latLon = null;
+        if (dist > 0 && dist < 100 && !!basicPoint) {
+            var point = direction3d.clone().multiplyScalar(dist).add(render.camera.position);
+            var latLonArray = this._geoCoords
+                .enuToGeodetic(point.x, point.y, point.z, reference.lat, reference.lon, reference.alt)
+                .slice(0, 2);
+            latLon = { lat: latLonArray[0], lon: latLonArray[1] };
+        }
+        var unprojection = {
+            basicPoint: basicPoint,
+            latLon: latLon,
+            pixelPoint: [canvasX, canvasY],
+        };
+        return unprojection;
+    };
+    return Projection;
+}());
+exports.Projection = Projection;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Projection;
+
+},{"../Geo":227,"three":174}],347:[function(require,module,exports){
 "use strict";
 var SpriteAlignment;
 (function (SpriteAlignment) {
@@ -35878,7 +37768,7 @@ var SpriteAlignment;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SpriteAlignment;
 
-},{}],331:[function(require,module,exports){
+},{}],348:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var THREE = require("three");
@@ -36070,35 +37960,18 @@ exports.SpriteService = SpriteService;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SpriteService;
 
-},{"../Viewer":227,"rxjs/Subject":33,"rxjs/add/operator/publishReplay":69,"rxjs/add/operator/scan":70,"rxjs/add/operator/startWith":75,"three":167,"virtual-dom":173}],332:[function(require,module,exports){
+},{"../Viewer":234,"rxjs/Subject":33,"rxjs/add/operator/publishReplay":71,"rxjs/add/operator/scan":72,"rxjs/add/operator/startWith":77,"three":174,"virtual-dom":180}],349:[function(require,module,exports){
 "use strict";
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 var Observable_1 = require("rxjs/Observable");
 var Subject_1 = require("rxjs/Subject");
+require("rxjs/add/observable/timer");
+require("rxjs/add/operator/bufferWhen");
 require("rxjs/add/operator/filter");
 require("rxjs/add/operator/map");
 require("rxjs/add/operator/merge");
 require("rxjs/add/operator/scan");
 require("rxjs/add/operator/switchMap");
-var TouchMove = (function () {
-    function TouchMove(touch) {
-        this.movementX = 0;
-        this.movementY = 0;
-        if (touch == null) {
-            return;
-        }
-        this.identifier = touch.identifier;
-        this.clientX = touch.clientX;
-        this.clientY = touch.clientY;
-        this.pageX = touch.pageX;
-        this.pageY = touch.pageY;
-        this.screenX = touch.screenX;
-        this.screenY = touch.screenY;
-        this.target = touch.target;
-    }
-    return TouchMove;
-}());
-exports.TouchMove = TouchMove;
 var TouchService = (function () {
     function TouchService(element) {
         var _this = this;
@@ -36112,49 +37985,38 @@ var TouchService = (function () {
         this._touchMove$ = Observable_1.Observable.fromEvent(element, "touchmove");
         this._touchEnd$ = Observable_1.Observable.fromEvent(element, "touchend");
         this._touchCancel$ = Observable_1.Observable.fromEvent(element, "touchcancel");
-        this._preventTouchMoveOperation$ = new Subject_1.Subject();
-        this._preventTouchMove$ = new Subject_1.Subject();
-        this._preventTouchMoveOperation$
-            .scan(function (prevent, operation) {
-            return operation(prevent);
-        }, true)
-            .subscribe(function () { });
-        this._preventTouchMove$
-            .map(function (prevent) {
-            return function (previous) {
-                return prevent;
-            };
-        })
-            .subscribe(this._preventTouchMoveOperation$);
-        this._touchMove$
-            .map(function (te) {
-            return function (prevent) {
-                if (prevent) {
-                    te.preventDefault();
-                }
-                return prevent;
-            };
-        })
-            .subscribe(this._preventTouchMoveOperation$);
-        this._singleTouchMoveOperation$ = new Subject_1.Subject();
-        this._singleTouchMove$ = this._singleTouchMoveOperation$
-            .scan(function (touch, operation) {
-            return operation(touch);
-        }, new TouchMove());
-        this._touchMove$
+        var tapStart$ = this._touchStart$
             .filter(function (te) {
             return te.touches.length === 1 && te.targetTouches.length === 1;
         })
-            .map(function (te) {
-            return function (previous) {
-                var touch = te.touches[0];
-                var current = new TouchMove(touch);
-                current.movementX = touch.pageX - previous.pageX;
-                current.movementY = touch.pageY - previous.pageY;
-                return current;
-            };
+            .share();
+        this._doubleTap$ = tapStart$
+            .bufferWhen(function () {
+            return tapStart$
+                .first()
+                .switchMap(function (event) {
+                return Observable_1.Observable
+                    .timer(300)
+                    .merge(tapStart$)
+                    .take(1);
+            });
         })
-            .subscribe(this._singleTouchMoveOperation$);
+            .filter(function (events) {
+            return events.length === 2;
+        })
+            .map(function (events) {
+            return events[events.length - 1];
+        })
+            .share();
+        this._doubleTap$
+            .subscribe(function (event) {
+            event.preventDefault();
+        });
+        this._singleTouchMove$ = this._touchMove$
+            .filter(function (te) {
+            return te.touches.length === 1 && te.targetTouches.length === 1;
+        })
+            .share();
         var singleTouchStart$ = Observable_1.Observable
             .merge(this._touchStart$, this._touchEnd$, this._touchCancel$)
             .filter(function (te) {
@@ -36170,19 +38032,19 @@ var TouchService = (function () {
             .filter(function (te) {
             return te.touches.length === 0;
         });
-        this._singleTouchMoveStart$ = singleTouchStart$
+        this._singleTouchDragStart$ = singleTouchStart$
             .mergeMap(function (e) {
             return _this._singleTouchMove$
                 .takeUntil(Observable_1.Observable.merge(touchStop$, multipleTouchStart$))
                 .take(1);
         });
-        this._singleTouchMoveEnd$ = singleTouchStart$
+        this._singleTouchDragEnd$ = singleTouchStart$
             .mergeMap(function (e) {
             return Observable_1.Observable
                 .merge(touchStop$, multipleTouchStart$)
                 .first();
         });
-        this._singleTouch$ = singleTouchStart$
+        this._singleTouchDrag$ = singleTouchStart$
             .switchMap(function (te) {
             return _this._singleTouchMove$
                 .skip(1)
@@ -36191,11 +38053,11 @@ var TouchService = (function () {
         });
         var touchesChanged$ = Observable_1.Observable
             .merge(this._touchStart$, this._touchEnd$, this._touchCancel$);
-        var pinchStart$ = touchesChanged$
+        this._pinchStart$ = touchesChanged$
             .filter(function (te) {
             return te.touches.length === 2 && te.targetTouches.length === 2;
         });
-        var pinchStop$ = touchesChanged$
+        this._pinchEnd$ = touchesChanged$
             .filter(function (te) {
             return te.touches.length !== 2 || te.targetTouches.length !== 2;
         });
@@ -36204,18 +38066,19 @@ var TouchService = (function () {
             .scan(function (pinch, operation) {
             return operation(pinch);
         }, {
-            centerClientX: 0,
-            centerClientY: 0,
-            centerPageX: 0,
-            centerPageY: 0,
-            centerScreenX: 0,
-            centerScreenY: 0,
             changeX: 0,
             changeY: 0,
+            clientX: 0,
+            clientY: 0,
             distance: 0,
             distanceChange: 0,
             distanceX: 0,
             distanceY: 0,
+            originalEvent: null,
+            pageX: 0,
+            pageY: 0,
+            screenX: 0,
+            screenY: 0,
             touch1: null,
             touch2: null,
         });
@@ -36244,18 +38107,19 @@ var TouchService = (function () {
                 var changeX = distanceX - previous.distanceX;
                 var changeY = distanceY - previous.distanceY;
                 var current = {
-                    centerClientX: centerClientX,
-                    centerClientY: centerClientY,
-                    centerPageX: centerPageX,
-                    centerPageY: centerPageY,
-                    centerScreenX: centerScreenX,
-                    centerScreenY: centerScreenY,
                     changeX: changeX,
                     changeY: changeY,
+                    clientX: centerClientX,
+                    clientY: centerClientY,
                     distance: distance,
                     distanceChange: distanceChange,
                     distanceX: distanceX,
                     distanceY: distanceY,
+                    originalEvent: te,
+                    pageX: centerPageX,
+                    pageY: centerPageY,
+                    screenX: centerScreenX,
+                    screenY: centerScreenY,
                     touch1: touch1,
                     touch2: touch2,
                 };
@@ -36263,11 +38127,11 @@ var TouchService = (function () {
             };
         })
             .subscribe(this._pinchOperation$);
-        this._pinchChange$ = pinchStart$
+        this._pinchChange$ = this._pinchStart$
             .switchMap(function (te) {
             return _this._pinch$
                 .skip(1)
-                .takeUntil(pinchStop$);
+                .takeUntil(_this._pinchEnd$);
         });
     }
     Object.defineProperty(TouchService.prototype, "active$", {
@@ -36280,6 +38144,13 @@ var TouchService = (function () {
     Object.defineProperty(TouchService.prototype, "activate$", {
         get: function () {
             return this._activeSubject$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TouchService.prototype, "doubleTap$", {
+        get: function () {
+            return this._doubleTap$;
         },
         enumerable: true,
         configurable: true
@@ -36312,23 +38183,23 @@ var TouchService = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(TouchService.prototype, "singleTouchMoveStart$", {
+    Object.defineProperty(TouchService.prototype, "singleTouchDragStart$", {
         get: function () {
-            return this._singleTouchMoveStart$;
+            return this._singleTouchDragStart$;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(TouchService.prototype, "singleTouchMove$", {
+    Object.defineProperty(TouchService.prototype, "singleTouchDrag$", {
         get: function () {
-            return this._singleTouch$;
+            return this._singleTouchDrag$;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(TouchService.prototype, "singleTouchMoveEnd$", {
+    Object.defineProperty(TouchService.prototype, "singleTouchDragEnd$", {
         get: function () {
-            return this._singleTouchMoveEnd$;
+            return this._singleTouchDragEnd$;
         },
         enumerable: true,
         configurable: true
@@ -36340,9 +38211,16 @@ var TouchService = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(TouchService.prototype, "preventDefaultTouchMove$", {
+    Object.defineProperty(TouchService.prototype, "pinchStart$", {
         get: function () {
-            return this._preventTouchMove$;
+            return this._pinchStart$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TouchService.prototype, "pinchEnd$", {
+        get: function () {
+            return this._pinchEnd$;
         },
         enumerable: true,
         configurable: true
@@ -36351,7 +38229,7 @@ var TouchService = (function () {
 }());
 exports.TouchService = TouchService;
 
-},{"rxjs/BehaviorSubject":25,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/operator/filter":58,"rxjs/add/operator/map":62,"rxjs/add/operator/merge":63,"rxjs/add/operator/scan":70,"rxjs/add/operator/switchMap":76}],333:[function(require,module,exports){
+},{"rxjs/BehaviorSubject":25,"rxjs/Observable":28,"rxjs/Subject":33,"rxjs/add/observable/timer":46,"rxjs/add/operator/bufferWhen":50,"rxjs/add/operator/filter":60,"rxjs/add/operator/map":64,"rxjs/add/operator/merge":65,"rxjs/add/operator/scan":72,"rxjs/add/operator/switchMap":78}],350:[function(require,module,exports){
 /// <reference path="../../typings/index.d.ts" />
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
@@ -36385,6 +38263,11 @@ var Viewer = (function (_super) {
      * specifing Viewer's initial setup.
      * @param {string} [token] - Optional bearer token for API requests of
      * protected resources.
+     *
+     * @example
+     * ```
+     * var viewer = new Viewer("<element-id>", "<client-id>", "<my key>");
+     * ```
      */
     function Viewer(id, clientId, key, options, token) {
         var _this = _super.call(this) || this;
@@ -36392,14 +38275,19 @@ var Viewer = (function (_super) {
         Utils_1.Settings.setOptions(options);
         _this._navigator = new Viewer_1.Navigator(clientId, token);
         _this._container = new Viewer_1.Container(id, _this._navigator.stateService, options);
-        _this._eventLauncher = new Viewer_1.EventLauncher(_this, _this._navigator, _this._container);
-        _this._componentController = new Viewer_1.ComponentController(_this._container, _this._navigator, key, options.component);
+        _this._observer = new Viewer_1.Observer(_this, _this._navigator, _this._container);
+        _this._componentController = new Viewer_1.ComponentController(_this._container, _this._navigator, _this._observer, key, options.component);
         return _this;
     }
     /**
      * Activate a component.
      *
      * @param {string} name - Name of the component which will become active.
+     *
+     * @example
+     * ```
+     * viewer.activateComponent("mouse");
+     * ```
      */
     Viewer.prototype.activateComponent = function (name) {
         this._componentController.activate(name);
@@ -36414,6 +38302,11 @@ var Viewer = (function (_super) {
      * Deactivate a component.
      *
      * @param {string} name - Name of component which become inactive.
+     *
+     * @example
+     * ```
+     * viewer.deactivateComponent("mouse");
+     * ```
      */
     Viewer.prototype.deactivateComponent = function (name) {
         this._componentController.deactivate(name);
@@ -36437,6 +38330,11 @@ var Viewer = (function (_super) {
      *
      * @returns {Promise<number>} Promise to the bearing
      * of the current viewer camera.
+     *
+     * @example
+     * ```
+     * viewer.getBearing().then((b) => { console.log(b); });
+     * ```
      */
     Viewer.prototype.getBearing = function () {
         var _this = this;
@@ -36461,6 +38359,11 @@ var Viewer = (function (_super) {
      *
      * @returns {Promise<number[]>} Promise to the basic coordinates
      * of the current photo at the center for the viewport.
+     *
+     * @example
+     * ```
+     * viewer.getCenter().then((c) => { console.log(c); });
+     * ```
      */
     Viewer.prototype.getCenter = function () {
         var _this = this;
@@ -36478,6 +38381,11 @@ var Viewer = (function (_super) {
      *
      * @param {string} name - Name of component.
      * @returns {Component} The requested component.
+     *
+     * @example
+     * ```
+     * var mouseComponent = viewer.getComponent("mouse");
+     * ```
      */
     Viewer.prototype.getComponent = function (name) {
         return this._componentController.get(name);
@@ -36487,6 +38395,11 @@ var Viewer = (function (_super) {
      *
      * @returns {Promise<number>} Promise to the viewers's current
      * zoom level.
+     *
+     * @example
+     * ```
+     * viewer.getZoom().then((z) => { console.log(z); });
+     * ```
      */
     Viewer.prototype.getZoom = function () {
         var _this = this;
@@ -36502,12 +38415,22 @@ var Viewer = (function (_super) {
     /**
      * Move close to given latitude and longitude.
      *
+     * @description Because the method propagates IO errors, these potential errors
+     * need to be handled by the method caller (see example).
+     *
      * @param {Number} lat - Latitude, in degrees.
      * @param {Number} lon - Longitude, in degrees.
      * @returns {Promise<Node>} Promise to the node that was navigated to.
      * @throws {Error} If no nodes exist close to provided latitude
      * longitude.
      * @throws {Error} Propagates any IO errors to the caller.
+     *
+     * @example
+     * ```
+     * viewer.moveCloseTo(0, 0).then(
+     *     (n) => { console.log(n); },
+     *     (e) => { console.error(e); });
+     * ```
      */
     Viewer.prototype.moveCloseTo = function (lat, lon) {
         var _this = this;
@@ -36530,7 +38453,12 @@ var Viewer = (function (_super) {
      * or the edges has not yet been cached.
      * @throws {Error} Propagates any IO errors to the caller.
      *
-     * @example `viewer.moveDir(Mapillary.EdgeDirection.Next);`
+     * @example
+     * ```
+     * viewer.moveDir(Mapillary.EdgeDirection.Next).then(
+     *     (n) => { console.log(n); },
+     *     (e) => { console.error(e); });
+     * ```
      */
     Viewer.prototype.moveDir = function (dir) {
         var _this = this;
@@ -36548,6 +38476,13 @@ var Viewer = (function (_super) {
      * @param {string} key - A valid Mapillary photo key.
      * @returns {Promise<Node>} Promise to the node that was navigated to.
      * @throws {Error} Propagates any IO errors to the caller.
+     *
+     * @example
+     * ```
+     * viewer.moveToKey("<my key>").then(
+     *     (n) => { console.log(n); },
+     *     (e) => { console.error(e); });
+     * ```
      */
     Viewer.prototype.moveToKey = function (key) {
         var _this = this;
@@ -36564,6 +38499,11 @@ var Viewer = (function (_super) {
      *
      * @description The components will also detect the viewer's
      * new size and resize their rendered elements if needed.
+     *
+     * @example
+     * ```
+     * viewer.resize();
+     * ```
      */
     Viewer.prototype.resize = function () {
         this._container.renderService.resize$.next(null);
@@ -36584,6 +38524,12 @@ var Viewer = (function (_super) {
      * @param {string} [token] token - Bearer token.
      * @returns {Promise<void>} Promise that resolves after token
      * is set.
+     *
+     * @example
+     * ```
+     * viewer.setAuthToken("<my token>")
+     *     .then(() => { console.log("token set"); });
+     * ```
      */
     Viewer.prototype.setAuthToken = function (token) {
         var _this = this;
@@ -36607,6 +38553,11 @@ var Viewer = (function (_super) {
      *
      * @param {number[]} The basic coordinates of the current
      * photo to be at the center for the viewport.
+     *
+     * @example
+     * ```
+     * viewer.setCenter([0.5, 0.5]);
+     * ```
      */
     Viewer.prototype.setCenter = function (center) {
         this._navigator.stateService.setCenter(center);
@@ -36650,7 +38601,10 @@ var Viewer = (function (_super) {
      * @param {FilterExpression} filter - The filter expression.
      * @returns {Promise<void>} Promise that resolves after filter is applied.
      *
-     * @example `viewer.setFilter(["==", "sequenceKey", "<my sequence key>"]);`
+     * @example
+     * ```
+     * viewer.setFilter(["==", "sequenceKey", "<my sequence key>"]);
+     * ```
      */
     Viewer.prototype.setFilter = function (filter) {
         var _this = this;
@@ -36668,7 +38622,10 @@ var Viewer = (function (_super) {
      *
      * @param {RenderMode} renderMode - Render mode.
      *
-     * @example `viewer.setRenderMode(Mapillary.RenderMode.Letterbox);`
+     * @example
+     * ```
+     * viewer.setRenderMode(Mapillary.RenderMode.Letterbox);
+     * ```
      */
     Viewer.prototype.setRenderMode = function (renderMode) {
         this._container.renderService.renderMode$.next(renderMode);
@@ -36681,19 +38638,73 @@ var Viewer = (function (_super) {
      * shows the highest level of detail.
      *
      * @param {number} The photo's current zoom level.
+     *
+     * @example
+     * ```
+     * viewer.setZoom(2);
+     * ```
      */
     Viewer.prototype.setZoom = function (zoom) {
         this._navigator.stateService.setZoom(zoom);
+    };
+    /**
+     *
+     * Returns an ILatLon representing geographical coordinates that correspond
+     * to the specified pixel coordinates.
+     *
+     * @description The pixel point may not always correspond to geographical
+     * coordinates. In the case of no correspondence the returned value will
+     * be `null`.
+     *
+     * @param {Array<number>} pixelPoint - Pixel coordinates to unproject.
+     * @returns {Promise<ILatLon>} Promise to the latLon corresponding to the pixel point.
+     *
+     * @example
+     * ```
+     * viewer.unproject([100, 100])
+     *     .then((latLon) => { console.log(latLon); });
+     * ```
+     */
+    Viewer.prototype.unproject = function (pixelPoint) {
+        var _this = this;
+        return when.promise(function (resolve, reject) {
+            _this._observer.unproject$(pixelPoint)
+                .subscribe(function (latLon) {
+                resolve(latLon);
+            }, function (error) {
+                reject(error);
+            });
+        });
     };
     return Viewer;
 }(Utils_1.EventEmitter));
 /**
  * Fired when the viewing direction of the camera changes.
  * @event
- * @type {boolean} bearing - Value indicating the current bearing
+ * @type {number} bearing - Value indicating the current bearing
  * measured in degrees clockwise with respect to north.
  */
 Viewer.bearingchanged = "bearingchanged";
+/**
+ * Fired when a pointing device (usually a mouse) is pressed and released at
+ * the same point in the viewer.
+ * @event
+ * @type {IViewerMouseEvent} event - Viewer mouse event data.
+ */
+Viewer.click = "click";
+/**
+ * Fired when the right button of the mouse is clicked within the viewer.
+ * @event
+ * @type {IViewerMouseEvent} event - Viewer mouse event data.
+ */
+Viewer.contextmenu = "contextmenu";
+/**
+ * Fired when a pointing device (usually a mouse) is clicked twice at
+ * the same point in the viewer.
+ * @event
+ * @type {IViewerMouseEvent} event - Viewer mouse event data.
+ */
+Viewer.dblclick = "dblclick";
 /**
  * Fired when the viewer is loading more data.
  * @event
@@ -36701,14 +38712,46 @@ Viewer.bearingchanged = "bearingchanged";
  */
 Viewer.loadingchanged = "loadingchanged";
 /**
- * Fired when the viewer finishes transitioning and is in a fixed
+ * Fired when a pointing device (usually a mouse) is pressed within the viewer.
+ * @event
+ * @type {IViewerMouseEvent} event - Viewer mouse event data.
+ */
+Viewer.mousedown = "mousedown";
+/**
+ * Fired when a pointing device (usually a mouse) is moved within the viewer.
+ * @description Will not fire when the mouse is actively used, e.g. for drag pan.
+ * @event
+ * @type {IViewerMouseEvent} event - Viewer mouse event data.
+ */
+Viewer.mousemove = "mousemove";
+/**
+ * Fired when a pointing device (usually a mouse) leaves the viewer's canvas.
+ * @event
+ * @type {IViewerMouseEvent} event - Viewer mouse event data.
+ */
+Viewer.mouseout = "mouseout";
+/**
+ * Fired when a pointing device (usually a mouse) is moved onto the viewer's canvas.
+ * @event
+ * @type {IViewerMouseEvent} event - Viewer mouse event data.
+ */
+Viewer.mouseover = "mouseover";
+/**
+ * Fired when a pointing device (usually a mouse) is released within the viewer.
+ * @event
+ * @type {IViewerMouseEvent} event - Viewer mouse event data.
+ */
+Viewer.mouseup = "mouseup";
+/**
+ * Fired when the viewer motion stops and it is in a fixed
  * position with a fixed point of view.
  * @event
  */
 Viewer.moveend = "moveend";
 /**
- * Fired when the viewer starts transitioning from one view to another,
- * either by changing the node or by interaction such as pan and zoom.
+ * Fired when the motion from one view to another start,
+ * either by changing the position (e.g. when changing node) or
+ * when changing point of view (e.g. by interaction such as pan and zoom).
  * @event
  */
 Viewer.movestart = "movestart";
@@ -36732,6 +38775,6 @@ Viewer.sequenceedgeschanged = "sequenceedgeschanged";
 Viewer.spatialedgeschanged = "spatialedgeschanged";
 exports.Viewer = Viewer;
 
-},{"../Utils":226,"../Viewer":227,"when":214}]},{},[222])(222)
+},{"../Utils":233,"../Viewer":234,"when":221}]},{},[229])(229)
 });
 //# sourceMappingURL=mapillary.js.map
