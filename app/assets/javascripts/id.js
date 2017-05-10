@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var id = iD.Context()
       .embed(true)
       .assetPath("iD/")
-      .assetMap(container.dataset.assetMap)
+      .assetMap(JSON.parse(container.dataset.assetMap))
       .locale(container.dataset.locale, container.dataset.localePath)
       .preauth({
         urlroot: location.protocol + "//" + location.host,
