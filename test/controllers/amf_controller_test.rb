@@ -1112,11 +1112,21 @@ class AmfControllerTest < ActionController::TestCase
 
   # check that we can delete a way
   def test_deleteway_valid
-    way = current_ways(:way_with_multiple_nodes)
+    way = create(:way_with_nodes, :nodes_count => 3)
     nodes = way.nodes.each_with_object({}) { |n, ns| ns[n.id] = n.version }
-    cs_id = changesets(:public_user_first_change).id
+    cs_id = way.changeset.id
+    user = way.changeset.user
 
-    amf_content "deleteway", "/1", ["test@example.com:test", cs_id, way.id, way.version, nodes]
+    # Of the three nodes, two should be kept since they are used in
+    # a different way, and the third deleted since it's unused
+
+    a = way.nodes[0]
+    create(:way_node, :node => a)
+    b = way.nodes[1]
+    create(:way_node, :node => b)
+    c = way.nodes[2]
+
+    amf_content "deleteway", "/1", ["#{user.email}:test", cs_id, way.id, way.version, nodes]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1127,7 +1137,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal "", result[1]
     assert_equal way.id, result[2]
     assert_equal way.version + 1, result[3]
-    assert_equal({ "11" => 2 }, result[4])
+    assert_equal({ c.id.to_s => 2 }, result[4])
 
     new_way = Way.find(way.id)
     assert_equal way.version + 1, new_way.version
@@ -1140,11 +1150,13 @@ class AmfControllerTest < ActionController::TestCase
 
   # check that we can't delete a way that is in use
   def test_deleteway_inuse
-    way = current_ways(:used_way)
+    way = create(:way_with_nodes, :nodes_count => 4)
+    create(:relation_member, :member => way)
     nodes = way.nodes.each_with_object({}) { |n, ns| ns[n.id] = n.version }
-    cs_id = changesets(:public_user_first_change).id
+    cs_id = way.changeset.id
+    user = way.changeset.user
 
-    amf_content "deleteway", "/1", ["test@example.com:test", cs_id, way.id, way.version, nodes]
+    amf_content "deleteway", "/1", ["#{user.email}:test", cs_id, way.id, way.version, nodes]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1165,9 +1177,15 @@ class AmfControllerTest < ActionController::TestCase
 
   # check that we can create a relation
   def test_putrelation_create_valid
-    cs_id = changesets(:public_user_first_change).id
+    changeset = create(:changeset)
+    user = changeset.user
+    cs_id = changeset.id
 
-    amf_content "putrelation", "/1", ["test@example.com:test", cs_id, 0, -1, { "test" => "new" }, [["Node", 3, "node"], ["Way", 7, "way"], ["Relation", 1, "relation"]], true]
+    node = create(:node)
+    way = create(:way_with_nodes, :nodes_count => 2)
+    relation = create(:relation)
+
+    amf_content "putrelation", "/1", ["#{user.email}:test", cs_id, 0, -1, { "test" => "new" }, [["Node", node.id, "node"], ["Way", way.id, "way"], ["Relation", relation.id, "relation"]], true]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1183,18 +1201,20 @@ class AmfControllerTest < ActionController::TestCase
 
     new_relation = Relation.find(new_relation_id)
     assert_equal 1, new_relation.version
-    assert_equal [["Node", 3, "node"], ["Way", 7, "way"], ["Relation", 1, "relation"]], new_relation.members
+    assert_equal [["Node", node.id, "node"], ["Way", way.id, "way"], ["Relation", relation.id, "relation"]], new_relation.members
     assert_equal({ "test" => "new" }, new_relation.tags)
     assert_equal true, new_relation.visible
   end
 
   # check that we can update a relation
   def test_putrelation_update_valid
-    relation = current_relations(:visible_relation)
-    cs_id = changesets(:public_user_first_change).id
+    relation = create(:relation)
+    create(:relation_member, :relation => relation)
+    user = relation.changeset.user
+    cs_id = relation.changeset.id
 
     assert_not_equal({ "test" => "ok" }, relation.tags)
-    amf_content "putrelation", "/1", ["test@example.com:test", cs_id, relation.version, relation.id, { "test" => "ok" }, relation.members, true]
+    amf_content "putrelation", "/1", ["#{user.email}:test", cs_id, relation.version, relation.id, { "test" => "ok" }, relation.members, true]
     post :amf_write
     assert_response :success
     amf_parse_response
