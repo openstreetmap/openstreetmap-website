@@ -582,7 +582,8 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getpoi_without_timestamp
-    node = current_nodes(:node_with_versions)
+    node = create(:node, :with_history, :version => 4)
+    create(:node_tag, :node => node)
 
     amf_content "getpoi", "/1", [node.id, ""]
     post :amf_read
@@ -612,10 +613,14 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getpoi_with_timestamp
-    node = nodes(:node_with_versions_v2)
-    current_node = current_nodes(:node_with_versions)
+    current_node = create(:node, :with_history, :version => 4)
+    node = current_node.old_nodes.find_by(:version => 2)
 
-    amf_content "getpoi", "/1", [node.node_id, node.timestamp.xmlschema]
+    # Timestamps are stored with microseconds, but xmlschema truncates them to
+    # previous whole second, causing <= comparison to fail
+    timestamp = (node.timestamp + 1.second).xmlschema
+
+    amf_content "getpoi", "/1", [node.node_id, timestamp]
     post :amf_read
     assert_response :success
     amf_parse_response
@@ -658,9 +663,10 @@ class AmfControllerTest < ActionController::TestCase
 
   # check that we can update a poi
   def test_putpoi_update_valid
-    nd = current_nodes(:visible_node)
-    cs_id = changesets(:public_user_first_change).id
-    amf_content "putpoi", "/1", ["test@example.com:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, nd.visible]
+    nd = create(:node)
+    cs_id = nd.changeset.id
+    user = nd.changeset.user
+    amf_content "putpoi", "/1", ["#{user.email}:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, nd.visible]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -676,7 +682,7 @@ class AmfControllerTest < ActionController::TestCase
     # Now try to update again, with a different lat/lon, using the updated version number
     lat = nd.lat + 0.1
     lon = nd.lon - 0.1
-    amf_content "putpoi", "/2", ["test@example.com:test", cs_id, nd.version + 1, nd.id, lon, lat, nd.tags, nd.visible]
+    amf_content "putpoi", "/2", ["#{user.email}:test", cs_id, nd.version + 1, nd.id, lon, lat, nd.tags, nd.visible]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -834,9 +840,11 @@ class AmfControllerTest < ActionController::TestCase
 
   # try deleting a node
   def test_putpoi_delete_valid
-    nd = current_nodes(:visible_node)
-    cs_id = changesets(:public_user_first_change).id
-    amf_content "putpoi", "/1", ["test@example.com:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, false]
+    nd = create(:node)
+    cs_id = nd.changeset.id
+    user = nd.changeset.user
+
+    amf_content "putpoi", "/1", ["#{user.email}:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, false]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -855,9 +863,11 @@ class AmfControllerTest < ActionController::TestCase
 
   # try deleting a node that is already deleted
   def test_putpoi_delete_already_deleted
-    nd = current_nodes(:invisible_node)
-    cs_id = changesets(:public_user_first_change).id
-    amf_content "putpoi", "/1", ["test@example.com:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, false]
+    nd = create(:node, :deleted)
+    cs_id = nd.changeset.id
+    user = nd.changeset.user
+
+    amf_content "putpoi", "/1", ["#{user.email}:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, false]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -871,8 +881,11 @@ class AmfControllerTest < ActionController::TestCase
 
   # try deleting a node that has never existed
   def test_putpoi_delete_not_found
-    cs_id = changesets(:public_user_first_change).id
-    amf_content "putpoi", "/1", ["test@example.com:test", cs_id, 1, 999999, 0, 0, {}, false]
+    changeset = create(:changeset)
+    cs_id = changeset.id
+    user = changeset.user
+
+    amf_content "putpoi", "/1", ["#{user.email}:test", cs_id, 1, 999999, 0, 0, {}, false]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -886,9 +899,11 @@ class AmfControllerTest < ActionController::TestCase
 
   # try setting an invalid location on a node
   def test_putpoi_invalid_latlon
-    nd = current_nodes(:visible_node)
-    cs_id = changesets(:public_user_first_change).id
-    amf_content "putpoi", "/1", ["test@example.com:test", cs_id, nd.version, nd.id, 200, 100, nd.tags, true]
+    nd = create(:node)
+    cs_id = nd.changeset.id
+    user = nd.changeset.user
+
+    amf_content "putpoi", "/1", ["#{user.email}:test", cs_id, nd.version, nd.id, 200, 100, nd.tags, true]
     post :amf_write
     assert_response :success
     amf_parse_response
