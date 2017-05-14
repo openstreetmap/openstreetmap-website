@@ -101,6 +101,9 @@ gem "canonical-rails"
 # Used to generate logstash friendly log files
 gem "logstasher"
 
+# Used to share diaries on Social Media 
+gem 'social-share-button'
+
 # Gems useful for development
 group :development do
   gem "vendorer"
