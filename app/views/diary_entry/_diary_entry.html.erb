@@ -8,6 +8,8 @@
 
     <small class='deemphasize'>
       <%= raw(t 'diary_entry.diary_entry.posted_by', :link_user => (link_to h(diary_entry.user.display_name), :controller => 'user', :action => 'view', :display_name => diary_entry.user.display_name), :created => l(diary_entry.created_at, :format => :blog), :language_link => (link_to h(diary_entry.language.name), :controller => 'diary_entry', :action => 'list', :display_name => nil, :language => diary_entry.language_code)) %>
+      <p>Why not share on social media?</p>
+      <p> <%= social_share_button_tag(diary_entry.title) %><p>
     </small>
 
   </div>
