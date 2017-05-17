@@ -68,21 +68,65 @@ class RelationControllerTest < ActionController::TestCase
   # check that all relations containing a particular node, and no extra
   # relations, are returned from the relations_for_node call.
   def test_relations_for_node
+    node = create(:node)
+    # should include relations with that node as a member
+    relation_with_node = create(:relation_member, :member => node).relation
+    # should ignore relations without that node as a member
+    _relation_without_node = create(:relation_member).relation
+    # should ignore relations with the node involved indirectly, via a way
+    way = create(:way_node, :node => node).way
+    _relation_with_way = create(:relation_member, :member => way).relation
+    # should ignore relations with the node involved indirectly, via a relation
+    second_relation = create(:relation_member, :member => node).relation
+    _super_relation = create(:relation_member, :member => second_relation).relation
+    # should combine multiple relation_member references into just one relation entry
+    create(:relation_member, :member => node, :relation => relation_with_node, :sequence_id => 2)
+    # should not include deleted relations
+    deleted_relation = create(:relation, :deleted)
+    create(:relation_member, :member => node, :relation => deleted_relation)
+
     check_relations_for_element(:relations_for_node, "node",
-                                current_nodes(:node_used_by_relationship).id,
-                                [:visible_relation, :used_relation])
+                                node.id,
+                                [relation_with_node, second_relation])
   end
 
   def test_relations_for_way
+    way = create(:way)
+    # should include relations with that way as a member
+    relation_with_way = create(:relation_member, :member => way).relation
+    # should ignore relations without that way as a member
+    _relation_without_way = create(:relation_member).relation
+    # should ignore relations with the way involved indirectly, via a relation
+    second_relation = create(:relation_member, :member => way).relation
+    _super_relation = create(:relation_member, :member => second_relation).relation
+    # should combine multiple relation_member references into just one relation entry
+    create(:relation_member, :member => way, :relation => relation_with_way, :sequence_id => 2)
+    # should not include deleted relations
+    deleted_relation = create(:relation, :deleted)
+    create(:relation_member, :member => way, :relation => deleted_relation)
+
     check_relations_for_element(:relations_for_way, "way",
-                                current_ways(:used_way).id,
-                                [:visible_relation])
+                                way.id,
+                                [relation_with_way, second_relation])
   end
 
   def test_relations_for_relation
+    relation = create(:relation)
+    # should include relations with that relation as a member
+    relation_with_relation = create(:relation_member, :member => relation).relation
+    # should ignore any relation without that relation as a member
+    _relation_without_relation = create(:relation_member).relation
+    # should ignore relations with the relation involved indirectly, via a relation
+    second_relation = create(:relation_member, :member => relation).relation
+    _super_relation = create(:relation_member, :member => second_relation).relation
+    # should combine multiple relation_member references into just one relation entry
+    create(:relation_member, :member => relation, :relation => relation_with_relation, :sequence_id => 2)
+    # should not include deleted relations
+    deleted_relation = create(:relation, :deleted)
+    create(:relation_member, :member => relation, :relation => deleted_relation)
     check_relations_for_element(:relations_for_relation, "relation",
-                                current_relations(:used_relation).id,
-                                [:visible_relation])
+                                relation.id,
+                                [relation_with_relation, second_relation])
   end
 
   def check_relations_for_element(method, type, id, expected_relations)
@@ -96,10 +140,11 @@ class RelationControllerTest < ActionController::TestCase
     # we should have only the expected number of relations
     assert_select "osm>relation", expected_relations.size
 
-    # and each of them should contain the node we originally searched for
-    expected_relations.each do |r|
-      relation_id = current_relations(r).id
-      assert_select "osm>relation[id='#{relation_id}']>member[type='#{type}'][ref='#{id}']", 1
+    # and each of them should contain the element we originally searched for
+    expected_relations.each do |relation|
+      # The relation should appear once, but the element could appear multiple times
+      assert_select "osm>relation[id='#{relation.id}']", 1
+      assert_select "osm>relation[id='#{relation.id}']>member[type='#{type}'][ref='#{id}']"
     end
   end
 
