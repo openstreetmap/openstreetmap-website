@@ -193,13 +193,17 @@ class RelationControllerTest < ActionController::TestCase
   # -------------------------------------
 
   def test_create
-    basic_authorization users(:normal_user).email, "test"
+    private_user = create(:user, :data_public => false)
+    private_changeset = create(:changeset, :user => private_user)
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    node = create(:node)
+    way = create(:way_with_nodes, :nodes_count => 2)
 
-    # put the relation in a dummy fixture changset
-    changeset_id = changesets(:normal_user_first_change).id
+    basic_authorization private_user.email, "test"
 
     # create an relation without members
-    content "<osm><relation changeset='#{changeset_id}'><tag k='test' v='yes' /></relation></osm>"
+    content "<osm><relation changeset='#{private_changeset.id}'><tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for forbidden, due to user
     assert_response :forbidden,
@@ -208,9 +212,8 @@ class RelationControllerTest < ActionController::TestCase
     ###
     # create an relation with a node as member
     # This time try with a role attribute in the relation
-    nid = current_nodes(:used_node_1).id
-    content "<osm><relation changeset='#{changeset_id}'>" +
-            "<member  ref='#{nid}' type='node' role='some'/>" +
+    content "<osm><relation changeset='#{private_changeset.id}'>" +
+            "<member  ref='#{node.id}' type='node' role='some'/>" +
             "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for forbidden due to user
@@ -220,9 +223,8 @@ class RelationControllerTest < ActionController::TestCase
     ###
     # create an relation with a node as member, this time test that we don't
     # need a role attribute to be included
-    nid = current_nodes(:used_node_1).id
-    content "<osm><relation changeset='#{changeset_id}'>" +
-            "<member  ref='#{nid}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
+    content "<osm><relation changeset='#{private_changeset.id}'>" +
+            "<member  ref='#{node.id}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for forbidden due to user
     assert_response :forbidden,
@@ -230,11 +232,9 @@ class RelationControllerTest < ActionController::TestCase
 
     ###
     # create an relation with a way and a node as members
-    nid = current_nodes(:used_node_1).id
-    wid = current_ways(:used_way).id
-    content "<osm><relation changeset='#{changeset_id}'>" +
-            "<member type='node' ref='#{nid}' role='some'/>" +
-            "<member type='way' ref='#{wid}' role='other'/>" +
+    content "<osm><relation changeset='#{private_changeset.id}'>" +
+            "<member type='node' ref='#{node.id}' role='some'/>" +
+            "<member type='way' ref='#{way.id}' role='other'/>" +
             "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for forbidden, due to user
@@ -242,13 +242,10 @@ class RelationControllerTest < ActionController::TestCase
                     "relation upload did not return success status"
 
     ## Now try with the public user
-    basic_authorization users(:public_user).email, "test"
-
-    # put the relation in a dummy fixture changset
-    changeset_id = changesets(:public_user_first_change).id
+    basic_authorization user.email, "test"
 
     # create an relation without members
-    content "<osm><relation changeset='#{changeset_id}'><tag k='test' v='yes' /></relation></osm>"
+    content "<osm><relation changeset='#{changeset.id}'><tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
     assert_response :success,
@@ -263,9 +260,9 @@ class RelationControllerTest < ActionController::TestCase
                  "saved relation contains members but should not"
     assert_equal checkrelation.tags.length, 1,
                  "saved relation does not contain exactly one tag"
-    assert_equal changeset_id, checkrelation.changeset.id,
+    assert_equal changeset.id, checkrelation.changeset.id,
                  "saved relation does not belong in the changeset it was assigned to"
-    assert_equal users(:public_user).id, checkrelation.changeset.user_id,
+    assert_equal user.id, checkrelation.changeset.user_id,
                  "saved relation does not belong to user that created it"
     assert_equal true, checkrelation.visible,
                  "saved relation is not visible"
@@ -276,9 +273,8 @@ class RelationControllerTest < ActionController::TestCase
     ###
     # create an relation with a node as member
     # This time try with a role attribute in the relation
-    nid = current_nodes(:used_node_1).id
-    content "<osm><relation changeset='#{changeset_id}'>" +
-            "<member  ref='#{nid}' type='node' role='some'/>" +
+    content "<osm><relation changeset='#{changeset.id}'>" +
+            "<member  ref='#{node.id}' type='node' role='some'/>" +
             "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
@@ -294,9 +290,9 @@ class RelationControllerTest < ActionController::TestCase
                  "saved relation does not contain exactly one member"
     assert_equal checkrelation.tags.length, 1,
                  "saved relation does not contain exactly one tag"
-    assert_equal changeset_id, checkrelation.changeset.id,
+    assert_equal changeset.id, checkrelation.changeset.id,
                  "saved relation does not belong in the changeset it was assigned to"
-    assert_equal users(:public_user).id, checkrelation.changeset.user_id,
+    assert_equal user.id, checkrelation.changeset.user_id,
                  "saved relation does not belong to user that created it"
     assert_equal true, checkrelation.visible,
                  "saved relation is not visible"
@@ -308,9 +304,8 @@ class RelationControllerTest < ActionController::TestCase
     ###
     # create an relation with a node as member, this time test that we don't
     # need a role attribute to be included
-    nid = current_nodes(:used_node_1).id
-    content "<osm><relation changeset='#{changeset_id}'>" +
-            "<member  ref='#{nid}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
+    content "<osm><relation changeset='#{changeset.id}'>" +
+            "<member  ref='#{node.id}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
     assert_response :success,
@@ -325,9 +320,9 @@ class RelationControllerTest < ActionController::TestCase
                  "saved relation does not contain exactly one member"
     assert_equal checkrelation.tags.length, 1,
                  "saved relation does not contain exactly one tag"
-    assert_equal changeset_id, checkrelation.changeset.id,
+    assert_equal changeset.id, checkrelation.changeset.id,
                  "saved relation does not belong in the changeset it was assigned to"
-    assert_equal users(:public_user).id, checkrelation.changeset.user_id,
+    assert_equal user.id, checkrelation.changeset.user_id,
                  "saved relation does not belong to user that created it"
     assert_equal true, checkrelation.visible,
                  "saved relation is not visible"
@@ -338,11 +333,9 @@ class RelationControllerTest < ActionController::TestCase
 
     ###
     # create an relation with a way and a node as members
-    nid = current_nodes(:used_node_1).id
-    wid = current_ways(:used_way).id
-    content "<osm><relation changeset='#{changeset_id}'>" +
-            "<member type='node' ref='#{nid}' role='some'/>" +
-            "<member type='way' ref='#{wid}' role='other'/>" +
+    content "<osm><relation changeset='#{changeset.id}'>" +
+            "<member type='node' ref='#{node.id}' role='some'/>" +
+            "<member type='way' ref='#{way.id}' role='other'/>" +
             "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
@@ -358,9 +351,9 @@ class RelationControllerTest < ActionController::TestCase
                  "saved relation does not have exactly two members"
     assert_equal checkrelation.tags.length, 1,
                  "saved relation does not contain exactly one tag"
-    assert_equal changeset_id, checkrelation.changeset.id,
+    assert_equal changeset.id, checkrelation.changeset.id,
                  "saved relation does not belong in the changeset it was assigned to"
-    assert_equal users(:public_user).id, checkrelation.changeset.user_id,
+    assert_equal user.id, checkrelation.changeset.user_id,
                  "saved relation does not belong to user that created it"
     assert_equal true, checkrelation.visible,
                  "saved relation is not visible"
@@ -472,14 +465,15 @@ class RelationControllerTest < ActionController::TestCase
   # Test creating a relation, with some invalid XML
   # -------------------------------------
   def test_create_invalid_xml
-    basic_authorization users(:public_user).email, "test"
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    node = create(:node)
 
-    # put the relation in a dummy fixture changeset that works
-    changeset_id = changesets(:public_user_first_change).id
+    basic_authorization user.email, "test"
 
     # create some xml that should return an error
-    content "<osm><relation changeset='#{changeset_id}'>" +
-            "<member type='type' ref='#{current_nodes(:used_node_1).id}' role=''/>" +
+    content "<osm><relation changeset='#{changeset.id}'>" +
+            "<member type='type' ref='#{node.id}' role=''/>" +
             "<tag k='tester' v='yep'/></relation></osm>"
     put :create
     # expect failure
