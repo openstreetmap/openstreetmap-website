@@ -403,16 +403,18 @@ class RelationControllerTest < ActionController::TestCase
   # and the API gives sensible results. this is to test a case that
   # gregory marler noticed and posted to josm-dev.
   def test_update_relation_tags_via_upload
-    basic_authorization users(:public_user).email, "test"
-    rel_id = current_relations(:multi_tag_relation).id
-    create_list(:relation_tag, 4, :relation => current_relations(:multi_tag_relation))
-    cs_id = changesets(:public_user_first_change).id
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    relation = create(:relation)
+    create_list(:relation_tag, 4, :relation => relation)
 
-    with_relation(rel_id) do |rel|
+    basic_authorization user.email, "test"
+
+    with_relation(relation.id) do |rel|
       # alter one of the tags
       tag = rel.find("//osm/relation/tag").first
       tag["v"] = "some changed value"
-      update_changeset(rel, cs_id)
+      update_changeset(rel, changeset.id)
 
       # check that the downloaded tags are the same as the uploaded tags...
       new_version = with_update_diff(rel) do |new_rel|
@@ -420,22 +422,24 @@ class RelationControllerTest < ActionController::TestCase
       end
 
       # check the original one in the current_* table again
-      with_relation(rel_id) { |r| assert_tags_equal rel, r }
+      with_relation(relation.id) { |r| assert_tags_equal rel, r }
 
       # now check the version in the history
-      with_relation(rel_id, new_version) { |r| assert_tags_equal rel, r }
+      with_relation(relation.id, new_version) { |r| assert_tags_equal rel, r }
     end
   end
 
   def test_update_wrong_id
-    basic_authorization users(:public_user).email, "test"
-    rel_id = current_relations(:multi_tag_relation).id
-    cs_id = changesets(:public_user_first_change).id
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    relation = create(:relation)
+    other_relation = create(:relation)
 
-    with_relation(rel_id) do |rel|
-      update_changeset(rel, cs_id)
+    basic_authorization user.email, "test"
+    with_relation(relation.id) do |rel|
+      update_changeset(rel, changeset.id)
       content rel
-      put :update, :id => current_relations(:visible_relation).id
+      put :update, :id => other_relation.id
       assert_response :bad_request
     end
   end
@@ -445,13 +449,13 @@ class RelationControllerTest < ActionController::TestCase
   # -------------------------------------
 
   def test_create_invalid
-    basic_authorization users(:public_user).email, "test"
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
 
-    # put the relation in a dummy fixture changset
-    changeset_id = changesets(:public_user_first_change).id
+    basic_authorization user.email, "test"
 
     # create a relation with non-existing node as member
-    content "<osm><relation changeset='#{changeset_id}'>" +
+    content "<osm><relation changeset='#{changeset.id}'>" +
             "<member type='node' ref='0'/><tag k='test' v='yes' />" +
             "</relation></osm>"
     put :create
@@ -487,52 +491,58 @@ class RelationControllerTest < ActionController::TestCase
   # -------------------------------------
 
   def test_delete
+    private_user = create(:user, :data_public => false)
+    private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
+    user = create(:user)
+    closed_changeset = create(:changeset, :closed, :user => user)
+    changeset = create(:changeset, :user => user)
+    relation = create(:relation)
+    used_relation = create(:relation)
+    super_relation = create(:relation_member, :member => used_relation).relation
+    deleted_relation = create(:relation, :deleted)
+    multi_tag_relation = create(:relation)
+    create_list(:relation_tag, 4, :relation => multi_tag_relation)
+
     ## First try to delete relation without auth
-    delete :delete, :id => current_relations(:visible_relation).id
+    delete :delete, :id => relation.id
     assert_response :unauthorized
 
     ## Then try with the private user, to make sure that you get a forbidden
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(private_user.email, "test")
 
     # this shouldn't work, as we should need the payload...
-    delete :delete, :id => current_relations(:visible_relation).id
+    delete :delete, :id => relation.id
     assert_response :forbidden
 
     # try to delete without specifying a changeset
-    content "<osm><relation id='#{current_relations(:visible_relation).id}'/></osm>"
-    delete :delete, :id => current_relations(:visible_relation).id
+    content "<osm><relation id='#{relation.id}'/></osm>"
+    delete :delete, :id => relation.id
     assert_response :forbidden
 
     # try to delete with an invalid (closed) changeset
-    content update_changeset(current_relations(:visible_relation).to_xml,
-                             changesets(:normal_user_closed_change).id)
-    delete :delete, :id => current_relations(:visible_relation).id
+    content update_changeset(relation.to_xml,
+                             private_user_closed_changeset.id)
+    delete :delete, :id => relation.id
     assert_response :forbidden
 
     # try to delete with an invalid (non-existent) changeset
-    content update_changeset(current_relations(:visible_relation).to_xml, 0)
-    delete :delete, :id => current_relations(:visible_relation).id
+    content update_changeset(relation.to_xml, 0)
+    delete :delete, :id => relation.id
     assert_response :forbidden
 
     # this won't work because the relation is in-use by another relation
-    content(relations(:used_relation).to_xml)
-    delete :delete, :id => current_relations(:used_relation).id
+    content(used_relation.to_xml)
+    delete :delete, :id => used_relation.id
     assert_response :forbidden
 
     # this should work when we provide the appropriate payload...
-    content(relations(:visible_relation).to_xml)
-    delete :delete, :id => current_relations(:visible_relation).id
+    content(relation.to_xml)
+    delete :delete, :id => relation.id
     assert_response :forbidden
 
     # this won't work since the relation is already deleted
-    content(relations(:invisible_relation).to_xml)
-    delete :delete, :id => current_relations(:invisible_relation).id
-    assert_response :forbidden
-
-    # this works now because the relation which was using this one
-    # has been deleted.
-    content(relations(:used_relation).to_xml)
-    delete :delete, :id => current_relations(:used_relation).id
+    content(deleted_relation.to_xml)
+    delete :delete, :id => deleted_relation.id
     assert_response :forbidden
 
     # this won't work since the relation never existed
@@ -540,72 +550,71 @@ class RelationControllerTest < ActionController::TestCase
     assert_response :forbidden
 
     ## now set auth for the public user
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     # this shouldn't work, as we should need the payload...
-    delete :delete, :id => current_relations(:visible_relation).id
+    delete :delete, :id => relation.id
     assert_response :bad_request
 
     # try to delete without specifying a changeset
-    content "<osm><relation id='#{current_relations(:visible_relation).id}' version='#{current_relations(:visible_relation).version}' /></osm>"
-    delete :delete, :id => current_relations(:visible_relation).id
+    content "<osm><relation id='#{relation.id}' version='#{relation.version}' /></osm>"
+    delete :delete, :id => relation.id
     assert_response :bad_request
     assert_match(/Changeset id is missing/, @response.body)
 
     # try to delete with an invalid (closed) changeset
-    content update_changeset(current_relations(:visible_relation).to_xml,
-                             changesets(:normal_user_closed_change).id)
-    delete :delete, :id => current_relations(:visible_relation).id
+    content update_changeset(relation.to_xml,
+                             closed_changeset.id)
+    delete :delete, :id => relation.id
     assert_response :conflict
 
     # try to delete with an invalid (non-existent) changeset
-    content update_changeset(current_relations(:visible_relation).to_xml, 0)
-    delete :delete, :id => current_relations(:visible_relation).id
+    content update_changeset(relation.to_xml, 0)
+    delete :delete, :id => relation.id
     assert_response :conflict
 
     # this won't work because the relation is in a changeset owned by someone else
-    content(relations(:used_relation).to_xml)
-    delete :delete, :id => current_relations(:used_relation).id
+    content update_changeset(relation.to_xml, create(:changeset).id)
+    delete :delete, :id => relation.id
     assert_response :conflict,
                     "shouldn't be able to delete a relation in a changeset owned by someone else (#{@response.body})"
 
     # this won't work because the relation in the payload is different to that passed
-    content(relations(:public_used_relation).to_xml)
-    delete :delete, :id => current_relations(:used_relation).id
-    assert_not_equal relations(:public_used_relation).id, current_relations(:used_relation).id
+    content update_changeset(relation.to_xml, changeset.id)
+    delete :delete, :id => create(:relation).id
     assert_response :bad_request, "shouldn't be able to delete a relation when payload is different to the url"
 
     # this won't work because the relation is in-use by another relation
-    content(relations(:public_used_relation).to_xml)
-    delete :delete, :id => current_relations(:public_used_relation).id
+    content update_changeset(used_relation.to_xml, changeset.id)
+    delete :delete, :id => used_relation.id
     assert_response :precondition_failed,
                     "shouldn't be able to delete a relation used in a relation (#{@response.body})"
-    assert_equal "Precondition failed: The relation 5 is used in relation 6.", @response.body
+    assert_equal "Precondition failed: The relation #{used_relation.id} is used in relation #{super_relation.id}.", @response.body
 
     # this should work when we provide the appropriate payload...
-    content(relations(:multi_tag_relation).to_xml)
-    delete :delete, :id => current_relations(:multi_tag_relation).id
+    content update_changeset(multi_tag_relation.to_xml, changeset.id)
+    delete :delete, :id => multi_tag_relation.id
     assert_response :success
 
     # valid delete should return the new version number, which should
     # be greater than the old version number
-    assert @response.body.to_i > current_relations(:visible_relation).version,
+    assert @response.body.to_i > multi_tag_relation.version,
            "delete request should return a new version number for relation"
 
     # this won't work since the relation is already deleted
-    content(relations(:invisible_relation).to_xml)
-    delete :delete, :id => current_relations(:invisible_relation).id
+    content update_changeset(deleted_relation.to_xml, changeset.id)
+    delete :delete, :id => deleted_relation.id
     assert_response :gone
 
     # Public visible relation needs to be deleted
-    content(relations(:public_visible_relation).to_xml)
-    delete :delete, :id => current_relations(:public_visible_relation).id
+    content update_changeset(super_relation.to_xml, changeset.id)
+    delete :delete, :id => super_relation.id
     assert_response :success
 
     # this works now because the relation which was using this one
     # has been deleted.
-    content(relations(:public_used_relation).to_xml)
-    delete :delete, :id => current_relations(:public_used_relation).id
+    content update_changeset(used_relation.to_xml, changeset.id)
+    delete :delete, :id => used_relation.id
     assert_response :success,
                     "should be able to delete a relation used in an old relation (#{@response.body})"
 
