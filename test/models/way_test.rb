@@ -10,11 +10,16 @@ class WayTest < ActiveSupport::TestCase
   end
 
   def test_bbox
-    node = current_nodes(:used_node_1)
-    [:visible_way,
-     :invisible_way,
-     :used_way].each do |way_symbol|
-      way = current_ways(way_symbol)
+    node = create(:node)
+    visible_way = create(:way)
+    create(:way_node, :way => visible_way, :node => node)
+    invisible_way = create(:way)
+    create(:way_node, :way => invisible_way, :node => node)
+    used_way = create(:way)
+    create(:way_node, :way => used_way, :node => node)
+    create(:relation_member, :member => used_way)
+
+    [visible_way, invisible_way, used_way].each do |way|
       assert_equal node.bbox.min_lon, way.bbox.min_lon, "min_lon"
       assert_equal node.bbox.min_lat, way.bbox.min_lat, "min_lat"
       assert_equal node.bbox.max_lon, way.bbox.max_lon, "max_lon"
@@ -25,18 +30,22 @@ class WayTest < ActiveSupport::TestCase
   # Check that the preconditions fail when you are over the defined limit of
   # the maximum number of nodes in each way.
   def test_max_nodes_per_way_limit
+    node_a = create(:node)
+    node_b = create(:node)
+    node_c = create(:node)
+    way = create(:way_with_nodes, :nodes_count => 1)
     # Take one of the current ways and add nodes to it until we are near the limit
     way = Way.find(current_ways(:visible_way).id)
     assert way.valid?
     # it already has 1 node
     1.upto(MAX_NUMBER_OF_WAY_NODES / 2) do
-      way.add_nd_num(current_nodes(:used_node_1).id)
-      way.add_nd_num(current_nodes(:used_node_2).id)
+      way.add_nd_num(node_a.id)
+      way.add_nd_num(node_b.id)
     end
     way.save
     # print way.nds.size
     assert way.valid?
-    way.add_nd_num(current_nodes(:visible_node).id)
+    way.add_nd_num(node_c.id)
     assert way.valid?
   end
 
