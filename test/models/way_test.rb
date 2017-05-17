@@ -13,7 +13,7 @@ class WayTest < ActiveSupport::TestCase
     node = create(:node)
     visible_way = create(:way)
     create(:way_node, :way => visible_way, :node => node)
-    invisible_way = create(:way)
+    invisible_way = create(:way, :deleted)
     create(:way_node, :way => invisible_way, :node => node)
     used_way = create(:way)
     create(:way_node, :way => used_way, :node => node)
