@@ -26,6 +26,9 @@ OSM.Directions = function (map) {
     Endpoint($("input[name='route_to']"), OSM.MARKER_RED)
   ];
 
+  var expiry = new Date();
+  expiry.setYear(expiry.getFullYear() + 10);
+
   function Endpoint(input, iconUrl) {
     var endpoint = {};
 
@@ -292,10 +295,15 @@ OSM.Directions = function (map) {
     select.append("<option value='" + i + "'>" + I18n.t('javascripts.directions.engines.' + engine.id) + "</option>");
   });
 
-  setEngine('osrm_car');
+  var chosenEngineId = $.cookie('_osm_directions_engine');
+  if(!chosenEngineId) {
+    chosenEngineId = 'osrm_car';
+  }
+  setEngine(chosenEngineId);
 
   select.on("change", function (e) {
     chosenEngine = engines[e.target.selectedIndex];
+    $.cookie('_osm_directions_engine', chosenEngine.id, { expires: expiry, path: '/' });
     if (map.hasLayer(polyline)) {
       getRoute();
     }
