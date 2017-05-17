@@ -29,14 +29,16 @@ class NodeControllerTest < ActionController::TestCase
   end
 
   def test_create
-    # cannot read password from fixture as it is stored as MD5 digest
-    ## First try with no auth
+    private_user = create(:user, :data_public => false)
+    private_changeset = create(:changeset, :user => private_user)
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
 
     # create a node with random lat/lon
     lat = rand(100) - 50 + rand
     lon = rand(100) - 50 + rand
-    # normal user has a changeset open, so we'll use that.
-    changeset = changesets(:normal_user_first_change)
+
+    ## First try with no auth
     # create a minimal xml file
     content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>")
     assert_difference("OldNode.count", 0) do
@@ -46,15 +48,10 @@ class NodeControllerTest < ActionController::TestCase
     assert_response :unauthorized, "node upload did not return unauthorized status"
 
     ## Now try with the user which doesn't have their data public
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(private_user.email, "test")
 
-    # create a node with random lat/lon
-    lat = rand(100) - 50 + rand
-    lon = rand(100) - 50 + rand
-    # normal user has a changeset open, so we'll use that.
-    changeset = changesets(:normal_user_first_change)
     # create a minimal xml file
-    content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>")
+    content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{private_changeset.id}'/></osm>")
     assert_difference("Node.count", 0) do
       put :create
     end
@@ -62,13 +59,8 @@ class NodeControllerTest < ActionController::TestCase
     assert_require_public_data "node create did not return forbidden status"
 
     ## Now try with the user that has the public data
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
-    # create a node with random lat/lon
-    lat = rand(100) - 50 + rand
-    lon = rand(100) - 50 + rand
-    # normal user has a changeset open, so we'll use that.
-    changeset = changesets(:public_user_first_change)
     # create a minimal xml file
     content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>")
     put :create
@@ -82,17 +74,18 @@ class NodeControllerTest < ActionController::TestCase
     # compare values
     assert_in_delta lat * 10000000, checknode.latitude, 1, "saved node does not match requested latitude"
     assert_in_delta lon * 10000000, checknode.longitude, 1, "saved node does not match requested longitude"
-    assert_equal changesets(:public_user_first_change).id, checknode.changeset_id, "saved node does not belong to changeset that it was created in"
+    assert_equal changeset.id, checknode.changeset_id, "saved node does not belong to changeset that it was created in"
     assert_equal true, checknode.visible, "saved node is not visible"
   end
 
   def test_create_invalid_xml
     ## Only test public user here, as test_create should cover what's the forbiddens
     ## that would occur here
-    # Initial setup
-    basic_authorization(users(:public_user).email, "test")
-    # normal user has a changeset open, so we'll use that.
-    changeset = changesets(:public_user_first_change)
+
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+
+    basic_authorization(user.email, "test")
     lat = 3.434
     lon = 3.23
 
@@ -489,25 +482,28 @@ class NodeControllerTest < ActionController::TestCase
 
   # test whether string injection is possible
   def test_string_injection
+    private_user = create(:user, :data_public => false)
+    private_changeset = create(:changeset, :user => private_user)
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+
     ## First try with the non-data public user
-    basic_authorization(users(:normal_user).email, "test")
-    changeset_id = changesets(:normal_user_first_change).id
+    basic_authorization(private_user.email, "test")
 
     # try and put something into a string that the API might
     # use unquoted and therefore allow code injection...
-    content "<osm><node lat='0' lon='0' changeset='#{changeset_id}'>" +
+    content "<osm><node lat='0' lon='0' changeset='#{private_changeset.id}'>" +
             '<tag k="#{@user.inspect}" v="0"/>' +
             "</node></osm>"
     put :create
     assert_require_public_data "Shouldn't be able to create with non-public user"
 
     ## Then try with the public data user
-    basic_authorization(users(:public_user).email, "test")
-    changeset_id = changesets(:public_user_first_change).id
+    basic_authorization(user.email, "test")
 
     # try and put something into a string that the API might
     # use unquoted and therefore allow code injection...
-    content "<osm><node lat='0' lon='0' changeset='#{changeset_id}'>" +
+    content "<osm><node lat='0' lon='0' changeset='#{changeset.id}'>" +
             '<tag k="#{@user.inspect}" v="0"/>' +
             "</node></osm>"
     put :create
