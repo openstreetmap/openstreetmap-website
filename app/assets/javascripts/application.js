@@ -17,6 +17,7 @@
 //= require piwik
 //= require richtext
 //= require querystring
+//= require social-share-button
 
 var querystring = require('querystring-component');
 
