@@ -14,18 +14,19 @@ function GraphHopperEngine(id, vehicleType) {
 
   return {
     id: id,
-    creditline: '<a href="https://graphhopper.com/" target="_blank">Graphhopper</a>',
+    creditline: '<a href="https://www.graphhopper.com/" target="_blank">Graphhopper</a>',
     draggable: false,
 
     getRoute: function (points, callback) {
       // GraphHopper Directions API documentation
-      // https://github.com/graphhopper/directions-api/blob/master/docs-routing.md
+      // https://graphhopper.com/api/1/docs/routing/
       return $.ajax({
         url: document.location.protocol + OSM.GRAPHHOPPER_URL,
         data: {
           vehicle: vehicleType,
           locale: I18n.currentLocale(),
           key: "LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn",
+          "ch.disable": vehicleType === "car",
           type: "jsonp",
           elevation: false,
           instructions: true,
@@ -79,5 +80,6 @@ function GraphHopperEngine(id, vehicleType) {
   };
 }
 
+OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_car", "car"), true);
 OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_bicycle", "bike"), true);
 OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_foot", "foot"), true);
