@@ -64,6 +64,26 @@ OSM.initializeContextMenu = function (map) {
   });
 
   map.contextmenu.addItem({
+    text: I18n.t("javascripts.context.open_tile_image"),
+    callback: function openTileImage(e) {
+      for (var i = 0; i < map.baseLayers.length; i++) {
+        if (map.hasLayer(map.baseLayers[i])) {
+          var latlng = e.latlng.wrap(),
+              pixel = map.project(latlng, map.getZoom()).floor(),
+              tileSize = map.baseLayers[i].getTileSize(),
+              coords = pixel.unscaleBy(tileSize).floor(),
+              url = map.baseLayers[i].getTileUrl(coords);
+
+          if (url)
+            window.open(url);
+
+          break;
+        }
+      }
+    }
+  });
+
+  map.contextmenu.addItem({
     text: I18n.t("javascripts.context.centre_map"),
     callback: function centreMap(e) {
       map.panTo(e.latlng);
