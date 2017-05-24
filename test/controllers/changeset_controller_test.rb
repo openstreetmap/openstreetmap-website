@@ -1523,6 +1523,13 @@ EOF
   ##
   # test the query functionality of changesets
   def test_query
+    private_user = create(:user, :data_public => false)
+    private_user_changeset = create(:changeset, :user => private_user)
+    private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    closed_changeset = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 1, 1, 0, 0, 0), :closed_at => Time.utc(2008, 1, 2, 0, 0, 0))
+
     get :query, :bbox => "-10,-10, 10, 10"
     assert_response :success, "can't get changesets in bbox"
     assert_changesets [1, 4, 6]
@@ -1538,60 +1545,60 @@ EOF
     assert_response :not_found
 
     # can't get changesets of user 1 without authenticating
-    get :query, :user => users(:normal_user).id
+    get :query, :user => private_user.id
     assert_response :not_found, "shouldn't be able to get changesets by non-public user (ID)"
-    get :query, :display_name => users(:normal_user).display_name
+    get :query, :display_name => private_user.display_name
     assert_response :not_found, "shouldn't be able to get changesets by non-public user (name)"
 
     # but this should work
-    basic_authorization "test@openstreetmap.org", "test"
-    get :query, :user => users(:normal_user).id
+    basic_authorization private_user.email, "test"
+    get :query, :user => private_user.id
     assert_response :success, "can't get changesets by user ID"
-    assert_changesets [1, 3, 6, 8]
+    assert_changesets [private_user_changeset.id, private_user_closed_changeset.id]
 
-    get :query, :display_name => users(:normal_user).display_name
+    get :query, :display_name => private_user.display_name
     assert_response :success, "can't get changesets by user name"
-    assert_changesets [1, 3, 6, 8]
+    assert_changesets [private_user_changeset.id, private_user_closed_changeset.id]
 
     # check that the correct error is given when we provide both UID and name
-    get :query, :user => users(:normal_user).id, :display_name => users(:normal_user).display_name
+    get :query, :user => private_user.id, :display_name => private_user.display_name
     assert_response :bad_request, "should be a bad request to have both ID and name specified"
 
-    get :query, :user => users(:normal_user).id, :open => true
+    get :query, :user => private_user.id, :open => true
     assert_response :success, "can't get changesets by user and open"
-    assert_changesets [1]
+    assert_changesets [private_user_changeset.id]
 
     get :query, :time => "2007-12-31"
     assert_response :success, "can't get changesets by time-since"
-    assert_changesets [1, 2, 4, 5, 6]
+    assert_changesets [1, 2, 4, 5, 6, private_user_changeset.id, private_user_closed_changeset.id, changeset.id, closed_changeset.id]
 
     get :query, :time => "2008-01-01T12:34Z"
     assert_response :success, "can't get changesets by time-since with hour"
-    assert_changesets [1, 2, 4, 5, 6]
+    assert_changesets [1, 2, 4, 5, 6, private_user_changeset.id, private_user_closed_changeset.id, changeset.id, closed_changeset.id]
 
-    get :query, :time => "2007-12-31T23:59Z,2008-01-01T00:01Z"
+    get :query, :time => "2007-12-31T23:59Z,2008-01-02T00:01Z"
     assert_response :success, "can't get changesets by time-range"
-    assert_changesets [1, 5, 6]
+    assert_changesets [1, 5, 6, closed_changeset.id]
 
     get :query, :open => "true"
     assert_response :success, "can't get changesets by open-ness"
-    assert_changesets [1, 2, 4]
+    assert_changesets [1, 2, 4, private_user_changeset.id, changeset.id]
 
     get :query, :closed => "true"
     assert_response :success, "can't get changesets by closed-ness"
-    assert_changesets [3, 5, 6, 7, 8, 9]
+    assert_changesets [3, 5, 6, 7, 8, 9, private_user_closed_changeset.id, closed_changeset.id]
 
-    get :query, :closed => "true", :user => users(:normal_user).id
+    get :query, :closed => "true", :user => private_user.id
     assert_response :success, "can't get changesets by closed-ness and user"
-    assert_changesets [3, 6, 8]
+    assert_changesets [private_user_closed_changeset.id]
 
-    get :query, :closed => "true", :user => users(:public_user).id
+    get :query, :closed => "true", :user => user.id
     assert_response :success, "can't get changesets by closed-ness and user"
-    assert_changesets [7]
+    assert_changesets [closed_changeset.id]
 
-    get :query, :changesets => "1,2,3"
+    get :query, :changesets => "#{private_user_changeset.id},#{changeset.id},#{closed_changeset.id}"
     assert_response :success, "can't get changesets by id (as comma-separated string)"
-    assert_changesets [1, 2, 3]
+    assert_changesets [private_user_changeset.id, changeset.id, closed_changeset.id]
 
     get :query, :changesets => ""
     assert_response :bad_request, "should be a bad request since changesets is empty"
