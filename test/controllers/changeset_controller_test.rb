@@ -1820,7 +1820,9 @@ EOF
   ##
   # Checks the display of the user changesets listing
   def test_list_user
-    user = users(:public_user)
+    user = create(:user)
+    create(:changeset, :user => user)
+    create(:changeset, :closed, :user => user)
 
     get :list, :format => "html", :display_name => user.display_name
     assert_response :success
@@ -1836,13 +1838,15 @@ EOF
   ##
   # Checks the display of the user changesets listing for a private user
   def test_list_private_user
-    user = users(:normal_user)
+    private_user = create(:user, :data_public => false)
+    create(:changeset, :user => private_user)
+    create(:changeset, :closed, :user => private_user)
 
-    get :list, :format => "html", :display_name => user.display_name
+    get :list, :format => "html", :display_name => private_user.display_name
     assert_response :success
     assert_template "history"
 
-    xhr :get, :list, :format => "html", :display_name => user.display_name, :list => "1"
+    xhr :get, :list, :format => "html", :display_name => private_user.display_name, :list => "1"
     assert_response :success
     assert_template "list"
 
@@ -1864,13 +1868,15 @@ EOF
   ##
   # Checks the display of the friends changesets listing
   def test_list_friends
-    user = users(:normal_user)
+    private_user = create(:user, :data_public => true)
+    friend = create(:friend, :befriender => private_user)
+    create(:changeset, :user => friend.befriendee)
 
     get :list, :friends => true
     assert_response :redirect
     assert_redirected_to :controller => :user, :action => :login, :referer => friend_changesets_path
 
-    session[:user] = user.id
+    session[:user] = private_user.id
 
     get :list, :friends => true
     assert_response :success
@@ -1880,19 +1886,21 @@ EOF
     assert_response :success
     assert_template "list"
 
-    check_list_result(Changeset.where(:user => user.friend_users.identifiable))
+    check_list_result(Changeset.where(:user => private_user.friend_users.identifiable))
   end
 
   ##
   # Checks the display of the nearby user changesets listing
   def test_list_nearby
-    user = users(:normal_user)
+    private_user = create(:user, :data_public => false, :home_lat => 51.1, :home_lon => 1.0)
+    user = create(:user, :home_lat => 51.0, :home_lon => 1.0)
+    create(:changeset, :user => user)
 
     get :list, :nearby => true
     assert_response :redirect
     assert_redirected_to :controller => :user, :action => :login, :referer => nearby_changesets_path
 
-    session[:user] = user.id
+    session[:user] = private_user.id
 
     get :list, :nearby => true
     assert_response :success
@@ -1946,7 +1954,8 @@ EOF
   ##
   # Checks the display of the user changesets feed
   def test_feed_user
-    user = users(:public_user)
+    user = create(:user)
+    create_list(:changeset, 3, :user => user, :num_changes => 4)
 
     get :feed, :format => :atom, :display_name => user.display_name
     assert_response :success
@@ -1990,20 +1999,27 @@ EOF
   ##
   # create comment success
   def test_create_comment_success
-    basic_authorization(users(:public_user).email, "test")
+    user = create(:user)
+    user2 = create(:user)
+    private_user = create(:user, :data_public => false)
+    suspended_user = create(:user, :suspended)
+    deleted_user = create(:user, :deleted)
+    private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
+
+    basic_authorization(user.email, "test")
 
     assert_difference "ChangesetComment.count", 1 do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
-        post :comment, :id => changesets(:normal_user_closed_change).id, :text => "This is a comment"
+        post :comment, :id => private_user_closed_changeset.id, :text => "This is a comment"
       end
     end
     assert_response :success
 
-    changeset = changesets(:normal_user_subscribed_change)
-    changeset.subscribers.push(users(:normal_user))
-    changeset.subscribers.push(users(:public_user))
-    changeset.subscribers.push(users(:suspended_user))
-    changeset.subscribers.push(users(:deleted_user))
+    changeset = create(:changeset, :closed, :user => private_user)
+    changeset.subscribers.push(private_user)
+    changeset.subscribers.push(user)
+    changeset.subscribers.push(suspended_user)
+    changeset.subscribers.push(deleted_user)
 
     assert_difference "ChangesetComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 1 do
@@ -2014,12 +2030,12 @@ EOF
 
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.length
-    assert_equal "[OpenStreetMap] test2 has commented on one of your changesets", email.subject
-    assert_equal "test@openstreetmap.org", email.to.first
+    assert_equal "[OpenStreetMap] #{user.display_name} has commented on one of your changesets", email.subject
+    assert_equal private_user.email, email.to.first
 
     ActionMailer::Base.deliveries.clear
 
-    basic_authorization(users(:second_public_user).email, "test")
+    basic_authorization(user2.email, "test")
 
     assert_difference "ChangesetComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 2 do
@@ -2028,15 +2044,15 @@ EOF
     end
     assert_response :success
 
-    email = ActionMailer::Base.deliveries.find { |e| e.to.first == "test@openstreetmap.org" }
+    email = ActionMailer::Base.deliveries.find { |e| e.to.first == private_user.email }
     assert_not_nil email
     assert_equal 1, email.to.length
-    assert_equal "[OpenStreetMap] pulibc_test2 has commented on one of your changesets", email.subject
+    assert_equal "[OpenStreetMap] #{user2.display_name} has commented on one of your changesets", email.subject
 
-    email = ActionMailer::Base.deliveries.find { |e| e.to.first == "test@example.com" }
+    email = ActionMailer::Base.deliveries.find { |e| e.to.first == user.email }
     assert_not_nil email
     assert_equal 1, email.to.length
-    assert_equal "[OpenStreetMap] pulibc_test2 has commented on a changeset you are interested in", email.subject
+    assert_equal "[OpenStreetMap] #{user2.display_name} has commented on a changeset you are interested in", email.subject
 
     ActionMailer::Base.deliveries.clear
   end
