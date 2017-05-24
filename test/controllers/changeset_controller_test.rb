@@ -178,7 +178,7 @@ class ChangesetControllerTest < ActionController::TestCase
   # check that the changeset can be read and returns the correct
   # document structure.
   def test_read
-    changeset_id = changesets(:normal_user_first_change).id
+    changeset_id = create(:changeset).id
 
     get :read, :id => changeset_id
     assert_response :success, "cannot get first changeset"
@@ -195,7 +195,7 @@ class ChangesetControllerTest < ActionController::TestCase
     assert_select "osm>changeset>discussion", 1
     assert_select "osm>changeset>discussion>comment", 0
 
-    changeset_id = changesets(:normal_user_closed_change).id
+    changeset_id = create(:changeset, :closed).id
     create_list(:changeset_comment, 3, :changeset_id => changeset_id)
 
     get :read, :id => changeset_id, :include_discussion => true
@@ -223,19 +223,24 @@ class ChangesetControllerTest < ActionController::TestCase
   ##
   # test that the user who opened a change can close it
   def test_close
+    private_user = create(:user, :data_public => false)
+    private_changeset = create(:changeset, :user => private_user)
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+
     ## Try without authentication
-    put :close, :id => changesets(:public_user_first_change).id
+    put :close, :id => changeset.id
     assert_response :unauthorized
 
     ## Try using the non-public user
-    basic_authorization changesets(:normal_user_first_change).user.email, "test"
-    put :close, :id => changesets(:normal_user_first_change).id
+    basic_authorization private_user.email, "test"
+    put :close, :id => private_changeset.id
     assert_require_public_data
 
     ## The try with the public user
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
+    basic_authorization user.email, "test"
 
-    cs_id = changesets(:public_user_first_change).id
+    cs_id = changeset.id
     put :close, :id => cs_id
     assert_response :success
 
@@ -248,9 +253,12 @@ class ChangesetControllerTest < ActionController::TestCase
   ##
   # test that a different user can't close another user's changeset
   def test_close_invalid
-    basic_authorization create(:user).email, "test"
+    user = create(:user)
+    changeset = create(:changeset)
 
-    put :close, :id => changesets(:normal_user_first_change).id
+    basic_authorization user.email, "test"
+
+    put :close, :id => changeset.id
     assert_response :conflict
     assert_equal "The user doesn't own that changeset", @response.body
   end
@@ -258,13 +266,15 @@ class ChangesetControllerTest < ActionController::TestCase
   ##
   # test that you can't close using another method
   def test_close_method_invalid
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
 
-    cs_id = changesets(:public_user_first_change).id
-    get :close, :id => cs_id
+    basic_authorization user.email, "test"
+
+    get :close, :id => changeset.id
     assert_response :method_not_allowed
 
-    post :close, :id => cs_id
+    post :close, :id => changeset.id
     assert_response :method_not_allowed
   end
 
@@ -300,24 +310,38 @@ class ChangesetControllerTest < ActionController::TestCase
   # be read back ok
   # Also try without auth and another user.
   def test_upload_simple_valid
+    private_user = create(:user, :data_public => false)
+    private_changeset = create(:changeset, :user => private_user)
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+
+    node = create(:node)
+    way = create(:way)
+    relation = create(:relation)
+    other_relation = create(:relation)
+    # create some tags, since we test that they are removed later
+    create(:node_tag, :node => node)
+    create(:way_tag, :way => way)
+    create(:relation_tag, :relation => relation)
+
     ## Try with no auth
-    changeset_id = changesets(:public_user_first_change).id
+    changeset_id = changeset.id
 
     # simple diff to change a node, way and relation by removing
     # their tags
     diff = <<EOF
 <osmChange>
  <modify>
-  <node id='1' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
-  <way id='1' changeset='#{changeset_id}' version='1'>
-   <nd ref='3'/>
+  <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
+  <way id='#{way.id}' changeset='#{changeset_id}' version='1'>
+   <nd ref='#{node.id}'/>
   </way>
  </modify>
  <modify>
-  <relation id='1' changeset='#{changeset_id}' version='1'>
-   <member type='way' role='some' ref='3'/>
-   <member type='node' role='some' ref='5'/>
-   <member type='relation' role='some' ref='3'/>
+  <relation id='#{relation.id}' changeset='#{changeset_id}' version='1'>
+   <member type='way' role='some' ref='#{way.id}'/>
+   <member type='node' role='some' ref='#{node.id}'/>
+   <member type='relation' role='some' ref='#{other_relation.id}'/>
   </relation>
  </modify>
 </osmChange>
@@ -327,27 +351,27 @@ EOF
     content diff
     post :upload, :id => changeset_id
     assert_response :unauthorized,
-                    "shouldnn't be able to upload a simple valid diff to changeset: #{@response.body}"
+                    "shouldn't be able to upload a simple valid diff to changeset: #{@response.body}"
 
     ## Now try with a private user
-    basic_authorization changesets(:normal_user_first_change).user.email, "test"
-    changeset_id = changesets(:normal_user_first_change).id
+    basic_authorization private_user.email, "test"
+    changeset_id = private_changeset.id
 
     # simple diff to change a node, way and relation by removing
     # their tags
     diff = <<EOF
 <osmChange>
  <modify>
-  <node id='1' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
-  <way id='1' changeset='#{changeset_id}' version='1'>
-   <nd ref='3'/>
+  <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
+  <way id='#{way.id}' changeset='#{changeset_id}' version='1'>
+   <nd ref='#{node.id}'/>
   </way>
  </modify>
  <modify>
-  <relation id='1' changeset='#{changeset_id}' version='1'>
-   <member type='way' role='some' ref='3'/>
-   <member type='node' role='some' ref='5'/>
-   <member type='relation' role='some' ref='3'/>
+  <relation id='#{relation.id}' changeset='#{changeset_id}' version='1'>
+   <member type='way' role='some' ref='#{way.id}'/>
+   <member type='node' role='some' ref='#{node.id}'/>
+   <member type='relation' role='some' ref='#{other_relation.id}'/>
   </relation>
  </modify>
 </osmChange>
@@ -360,24 +384,24 @@ EOF
                     "can't upload a simple valid diff to changeset: #{@response.body}"
 
     ## Now try with the public user
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
-    changeset_id = changesets(:public_user_first_change).id
+    basic_authorization user.email, "test"
+    changeset_id = changeset.id
 
     # simple diff to change a node, way and relation by removing
     # their tags
     diff = <<EOF
 <osmChange>
  <modify>
-  <node id='1' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
-  <way id='1' changeset='#{changeset_id}' version='1'>
-   <nd ref='3'/>
+  <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
+  <way id='#{way.id}' changeset='#{changeset_id}' version='1'>
+   <nd ref='#{node.id}'/>
   </way>
  </modify>
  <modify>
-  <relation id='1' changeset='#{changeset_id}' version='1'>
-   <member type='way' role='some' ref='3'/>
-   <member type='node' role='some' ref='5'/>
-   <member type='relation' role='some' ref='3'/>
+  <relation id='#{relation.id}' changeset='#{changeset_id}' version='1'>
+   <member type='way' role='some' ref='#{way.id}'/>
+   <member type='node' role='some' ref='#{node.id}'/>
+   <member type='relation' role='some' ref='#{other_relation.id}'/>
   </relation>
  </modify>
 </osmChange>
@@ -390,31 +414,33 @@ EOF
                     "can't upload a simple valid diff to changeset: #{@response.body}"
 
     # check that the changes made it into the database
-    assert_equal 0, Node.find(1).tags.size, "node 1 should now have no tags"
-    assert_equal 0, Way.find(1).tags.size, "way 1 should now have no tags"
-    assert_equal 0, Relation.find(1).tags.size, "relation 1 should now have no tags"
+    assert_equal 0, Node.find(node.id).tags.size, "node #{node.id} should now have no tags"
+    assert_equal 0, Way.find(way.id).tags.size, "way #{way.id} should now have no tags"
+    assert_equal 0, Relation.find(relation.id).tags.size, "relation #{relation.id} should now have no tags"
   end
 
   ##
   # upload something which creates new objects using placeholders
   def test_upload_create_valid
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
-    cs_id = changesets(:public_user_first_change).id
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+
+    basic_authorization user.email, "test"
 
     # simple diff to create a node way and relation using placeholders
     diff = <<EOF
 <osmChange>
  <create>
-  <node id='-1' lon='0' lat='0' changeset='#{cs_id}'>
+  <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
    <tag k='foo' v='bar'/>
    <tag k='baz' v='bat'/>
   </node>
-  <way id='-1' changeset='#{cs_id}'>
+  <way id='-1' changeset='#{changeset.id}'>
    <nd ref='3'/>
   </way>
  </create>
  <create>
-  <relation id='-1' changeset='#{cs_id}'>
+  <relation id='-1' changeset='#{changeset.id}'>
    <member type='way' role='some' ref='3'/>
    <member type='node' role='some' ref='5'/>
    <member type='relation' role='some' ref='3'/>
@@ -425,7 +451,7 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => cs_id
+    post :upload, :id => changeset.id
     assert_response :success,
                     "can't upload a simple valid creation to changeset: #{@response.body}"
 
