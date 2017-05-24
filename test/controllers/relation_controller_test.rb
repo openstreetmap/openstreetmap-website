@@ -708,15 +708,23 @@ class RelationControllerTest < ActionController::TestCase
   ##
   # check that relations are ordered
   def test_relation_member_ordering
-    basic_authorization(users(:public_user).email, "test")
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    node1 = create(:node)
+    node2 = create(:node)
+    node3 = create(:node)
+    way1 = create(:way_with_nodes, :nodes_count => 2)
+    way2 = create(:way_with_nodes, :nodes_count => 2)
+
+    basic_authorization(user.email, "test")
 
     doc_str = <<OSM
 <osm>
- <relation changeset='4'>
-  <member ref='1' type='node' role='first'/>
-  <member ref='3' type='node' role='second'/>
-  <member ref='1' type='way' role='third'/>
-  <member ref='3' type='way' role='fourth'/>
+ <relation changeset='#{changeset.id}'>
+  <member ref='#{node1.id}' type='node' role='first'/>
+  <member ref='#{node2.id}' type='node' role='second'/>
+  <member ref='#{way1.id}' type='way' role='third'/>
+  <member ref='#{way2.id}' type='way' role='fourth'/>
  </relation>
 </osm>
 OSM
@@ -734,7 +742,7 @@ OSM
 
     # insert a member at the front
     new_member = XML::Node.new "member"
-    new_member["ref"] = 5.to_s
+    new_member["ref"] = node3.id.to_s
     new_member["type"] = "node"
     new_member["role"] = "new first"
     doc.find("//osm/relation").first.child.prev = new_member
@@ -764,27 +772,33 @@ OSM
   ##
   # check that relations can contain duplicate members
   def test_relation_member_duplicates
+    private_user = create(:user, :data_public => false)
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    node1 = create(:node)
+    node2 = create(:node)
+
     doc_str = <<OSM
 <osm>
- <relation changeset='4'>
-  <member ref='1' type='node' role='forward'/>
-  <member ref='3' type='node' role='forward'/>
-  <member ref='1' type='node' role='forward'/>
-  <member ref='3' type='node' role='forward'/>
+ <relation changeset='#{changeset.id}'>
+  <member ref='#{node1.id}' type='node' role='forward'/>
+  <member ref='#{node2.id}' type='node' role='forward'/>
+  <member ref='#{node1.id}' type='node' role='forward'/>
+  <member ref='#{node2.id}' type='node' role='forward'/>
  </relation>
 </osm>
 OSM
     doc = XML::Parser.string(doc_str).parse
 
     ## First try with the private user
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(private_user.email, "test")
 
     content doc
     put :create
     assert_response :forbidden
 
     ## Now try with the public user
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     content doc
     put :create
@@ -800,18 +814,25 @@ OSM
   ##
   # test that the ordering of elements in the history is the same as in current.
   def test_history_ordering
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    node1 = create(:node)
+    node2 = create(:node)
+    node3 = create(:node)
+    node4 = create(:node)
+
     doc_str = <<OSM
 <osm>
- <relation changeset='4'>
-  <member ref='1' type='node' role='forward'/>
-  <member ref='5' type='node' role='forward'/>
-  <member ref='4' type='node' role='forward'/>
-  <member ref='3' type='node' role='forward'/>
+ <relation changeset='#{changeset.id}'>
+  <member ref='#{node1.id}' type='node' role='forward'/>
+  <member ref='#{node4.id}' type='node' role='forward'/>
+  <member ref='#{node3.id}' type='node' role='forward'/>
+  <member ref='#{node2.id}' type='node' role='forward'/>
  </relation>
 </osm>
 OSM
     doc = XML::Parser.string(doc_str).parse
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     content doc
     put :create
