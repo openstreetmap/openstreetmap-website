@@ -70,8 +70,10 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_read_changeset
-    browse_check "changeset", changesets(:normal_user_first_change).id, "browse/changeset"
-    browse_check "changeset", changesets(:public_user_first_change).id, "browse/changeset"
+    private_changeset = create(:changeset, :user => create(:user, :data_public => false))
+    changeset = create(:changeset)
+    browse_check "changeset", private_changeset.id, "browse/changeset"
+    browse_check "changeset", changeset.id, "browse/changeset"
   end
 
   def test_read_changeset_hidden_comments

@@ -406,7 +406,7 @@ class WayControllerTest < ActionController::TestCase
 
     # try and update in a closed changeset
     content update_changeset(private_way.to_xml,
-                             create(:changeset, :closed, :user => private_user))
+                             create(:changeset, :closed, :user => private_user).id)
     put :update, :id => private_way.id
     assert_require_public_data "update with closed changeset should be forbidden, when data isn't public"
 
@@ -444,7 +444,7 @@ class WayControllerTest < ActionController::TestCase
 
     # try and update in a closed changeset
     content update_changeset(way.to_xml,
-                             changesets(:normal_user_closed_change).id)
+                             create(:changeset, :closed, :user => user).id)
     put :update, :id => way.id
     assert_response :conflict, "update with closed changeset should be rejected"
 

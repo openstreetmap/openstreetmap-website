@@ -373,16 +373,18 @@ class RelationControllerTest < ActionController::TestCase
   # josm-dev.
   ## FIXME Move this to an integration test
   def test_update_relation_tags
-    basic_authorization "test@example.com", "test"
-    rel_id = current_relations(:multi_tag_relation).id
-    create_list(:relation_tag, 4, :relation => current_relations(:multi_tag_relation))
-    cs_id = changesets(:public_user_first_change).id
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    relation = create(:relation)
+    create_list(:relation_tag, 4, :relation => relation)
 
-    with_relation(rel_id) do |rel|
+    basic_authorization user.email, "test"
+
+    with_relation(relation.id) do |rel|
       # alter one of the tags
       tag = rel.find("//osm/relation/tag").first
       tag["v"] = "some changed value"
-      update_changeset(rel, cs_id)
+      update_changeset(rel, changeset.id)
 
       # check that the downloaded tags are the same as the uploaded tags...
       new_version = with_update(rel) do |new_rel|
@@ -390,10 +392,10 @@ class RelationControllerTest < ActionController::TestCase
       end
 
       # check the original one in the current_* table again
-      with_relation(rel_id) { |r| assert_tags_equal rel, r }
+      with_relation(relation.id) { |r| assert_tags_equal rel, r }
 
       # now check the version in the history
-      with_relation(rel_id, new_version) { |r| assert_tags_equal rel, r }
+      with_relation(relation.id, new_version) { |r| assert_tags_equal rel, r }
     end
   end
 
