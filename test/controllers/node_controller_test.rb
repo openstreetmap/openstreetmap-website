@@ -1,8 +1,6 @@
 require "test_helper"
 
 class NodeControllerTest < ActionController::TestCase
-  api_fixtures
-
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -430,6 +428,12 @@ class NodeControllerTest < ActionController::TestCase
   ##
   # test fetching multiple nodes
   def test_nodes
+    node1 = create(:node)
+    node2 = create(:node, :deleted)
+    node3 = create(:node)
+    node4 = create(:node, :with_history, :version => 2)
+    node5 = create(:node, :deleted, :with_history, :version => 2)
+
     # check error when no parameter provided
     get :nodes
     assert_response :bad_request
@@ -439,19 +443,19 @@ class NodeControllerTest < ActionController::TestCase
     assert_response :bad_request
 
     # test a working call
-    get :nodes, :nodes => "1,2,4,15,17"
+    get :nodes, :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}"
     assert_response :success
     assert_select "osm" do
       assert_select "node", :count => 5
-      assert_select "node[id='1'][visible='true']", :count => 1
-      assert_select "node[id='2'][visible='false']", :count => 1
-      assert_select "node[id='4'][visible='true']", :count => 1
-      assert_select "node[id='15'][visible='true']", :count => 1
-      assert_select "node[id='17'][visible='false']", :count => 1
+      assert_select "node[id='#{node1.id}'][visible='true']", :count => 1
+      assert_select "node[id='#{node2.id}'][visible='false']", :count => 1
+      assert_select "node[id='#{node3.id}'][visible='true']", :count => 1
+      assert_select "node[id='#{node4.id}'][visible='true']", :count => 1
+      assert_select "node[id='#{node5.id}'][visible='false']", :count => 1
     end
 
     # check error when a non-existent node is included
-    get :nodes, :nodes => "1,2,4,15,17,400"
+    get :nodes, :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id},400"
     assert_response :not_found
   end
 
