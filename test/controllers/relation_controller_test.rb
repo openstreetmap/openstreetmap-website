@@ -2,8 +2,6 @@ require "test_helper"
 require "relation_controller"
 
 class RelationControllerTest < ActionController::TestCase
-  api_fixtures
-
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -164,6 +162,12 @@ class RelationControllerTest < ActionController::TestCase
   ##
   # test fetching multiple relations
   def test_relations
+    relation1 = create(:relation)
+    relation2 = create(:relation, :deleted)
+    relation3 = create(:relation, :with_history, :version => 2)
+    relation4 = create(:relation, :with_history, :version => 2)
+    relation4.old_relations.find_by(:version => 1).redact!(create(:redaction))
+
     # check error when no parameter provided
     get :relations
     assert_response :bad_request
@@ -173,18 +177,18 @@ class RelationControllerTest < ActionController::TestCase
     assert_response :bad_request
 
     # test a working call
-    get :relations, :relations => "1,2,4,7"
+    get :relations, :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}"
     assert_response :success
     assert_select "osm" do
       assert_select "relation", :count => 4
-      assert_select "relation[id='1'][visible='true']", :count => 1
-      assert_select "relation[id='2'][visible='false']", :count => 1
-      assert_select "relation[id='4'][visible='true']", :count => 1
-      assert_select "relation[id='7'][visible='true']", :count => 1
+      assert_select "relation[id='#{relation1.id}'][visible='true']", :count => 1
+      assert_select "relation[id='#{relation2.id}'][visible='false']", :count => 1
+      assert_select "relation[id='#{relation3.id}'][visible='true']", :count => 1
+      assert_select "relation[id='#{relation4.id}'][visible='true']", :count => 1
     end
 
     # check error when a non-existent relation is included
-    get :relations, :relations => "1,2,4,7,400"
+    get :relations, :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},400"
     assert_response :not_found
   end
 
