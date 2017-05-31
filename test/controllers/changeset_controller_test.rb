@@ -487,28 +487,36 @@ EOF
   # test a complex delete where we delete elements which rely on eachother
   # in the same transaction.
   def test_upload_delete
-    basic_authorization changesets(:public_user_first_change).user.display_name, "test"
+    changeset = create(:changeset)
+    super_relation = create(:relation)
+    used_relation = create(:relation)
+    used_way = create(:way)
+    used_node = create(:node)
+    create(:relation_member, :relation => super_relation, :member => used_relation)
+    create(:relation_member, :relation => super_relation, :member => used_way)
+    create(:relation_member, :relation => super_relation, :member => used_node)
+
+    basic_authorization changeset.user.display_name, "test"
 
     diff = XML::Document.new
     diff.root = XML::Node.new "osmChange"
     delete = XML::Node.new "delete"
     diff.root << delete
-    delete << current_relations(:visible_relation).to_xml_node
-    delete << current_relations(:used_relation).to_xml_node
-    delete << current_ways(:used_way).to_xml_node
-    delete << current_nodes(:node_used_by_relationship).to_xml_node
+    delete << super_relation.to_xml_node
+    delete << used_relation.to_xml_node
+    delete << used_way.to_xml_node
+    delete << used_node.to_xml_node
 
     # update the changeset to one that this user owns
-    changeset_id = changesets(:public_user_first_change).id
     %w(node way relation).each do |type|
       delete.find("//osmChange/delete/#{type}").each do |n|
-        n["changeset"] = changeset_id.to_s
+        n["changeset"] = changeset.id.to_s
       end
     end
 
     # upload it
     content diff
-    post :upload, :id => changeset_id
+    post :upload, :id => changeset.id
     assert_response :success,
                     "can't upload a deletion diff to changeset: #{@response.body}"
 
@@ -518,25 +526,25 @@ EOF
     assert_select "diffResult>relation", 2
 
     # check that everything was deleted
-    assert_equal false, Node.find(current_nodes(:node_used_by_relationship).id).visible
-    assert_equal false, Way.find(current_ways(:used_way).id).visible
-    assert_equal false, Relation.find(current_relations(:visible_relation).id).visible
-    assert_equal false, Relation.find(current_relations(:used_relation).id).visible
+    assert_equal false, Node.find(used_node.id).visible
+    assert_equal false, Way.find(used_way.id).visible
+    assert_equal false, Relation.find(super_relation.id).visible
+    assert_equal false, Relation.find(used_relation.id).visible
   end
 
   ##
   # test uploading a delete with no lat/lon, as they are optional in
   # the osmChange spec.
   def test_upload_nolatlon_delete
-    basic_authorization changesets(:public_user_first_change).user.display_name, "test"
+    node = create(:node)
+    changeset = create(:changeset)
 
-    node = current_nodes(:public_visible_node)
-    cs = changesets(:public_user_first_change)
-    diff = "<osmChange><delete><node id='#{node.id}' version='#{node.version}' changeset='#{cs.id}'/></delete></osmChange>"
+    basic_authorization changeset.user.display_name, "test"
+    diff = "<osmChange><delete><node id='#{node.id}' version='#{node.version}' changeset='#{changeset.id}'/></delete></osmChange>"
 
     # upload it
     content diff
-    post :upload, :id => cs.id
+    post :upload, :id => changeset.id
     assert_response :success,
                     "can't upload a deletion diff to changeset: #{@response.body}"
 
@@ -617,48 +625,78 @@ EOF
   # test that deleting stuff in a transaction doesn't bypass the checks
   # to ensure that used elements are not deleted.
   def test_upload_delete_invalid
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
-    cs = changesets(:public_user_first_change)
+    changeset = create(:changeset)
+    relation = create(:relation)
+    other_relation = create(:relation)
+    used_way = create(:way)
+    used_node = create(:node)
+    create(:relation_member, :relation => relation, :member => used_way)
+    create(:relation_member, :relation => relation, :member => used_node)
+
+    basic_authorization changeset.user.email, "test"
 
     diff = XML::Document.new
     diff.root = XML::Node.new "osmChange"
     delete = XML::Node.new "delete"
     diff.root << delete
-    delete << current_relations(:public_visible_relation).to_xml_node
-    delete << current_ways(:used_way).to_xml_node
-    delete << current_nodes(:node_used_by_relationship).to_xml_node
+    delete << other_relation.to_xml_node
+    delete << used_way.to_xml_node
+    delete << used_node.to_xml_node
+
+    # update the changeset to one that this user owns
+    %w(node way relation).each do |type|
+      delete.find("//osmChange/delete/#{type}").each do |n|
+        n["changeset"] = changeset.id.to_s
+      end
+    end
 
     # upload it
     content diff
-    post :upload, :id => cs.id
+    post :upload, :id => changeset.id
     assert_response :precondition_failed,
                     "shouldn't be able to upload a invalid deletion diff: #{@response.body}"
-    assert_equal "Precondition failed: Way 3 is still used by relations 1.", @response.body
+    assert_equal "Precondition failed: Way #{used_way.id} is still used by relations #{relation.id}.", @response.body
 
     # check that nothing was, in fact, deleted
-    assert_equal true, Node.find(current_nodes(:node_used_by_relationship).id).visible
-    assert_equal true, Way.find(current_ways(:used_way).id).visible
-    assert_equal true, Relation.find(current_relations(:visible_relation).id).visible
+    assert_equal true, Node.find(used_node.id).visible
+    assert_equal true, Way.find(used_way.id).visible
+    assert_equal true, Relation.find(relation.id).visible
+    assert_equal true, Relation.find(other_relation.id).visible
   end
 
   ##
   # test that a conditional delete of an in use object works.
   def test_upload_delete_if_unused
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
-    cs = changesets(:public_user_first_change)
+    changeset = create(:changeset)
+    super_relation = create(:relation)
+    used_relation = create(:relation)
+    used_way = create(:way)
+    used_node = create(:node)
+    create(:relation_member, :relation => super_relation, :member => used_relation)
+    create(:relation_member, :relation => super_relation, :member => used_way)
+    create(:relation_member, :relation => super_relation, :member => used_node)
+
+    basic_authorization changeset.user.email, "test"
 
     diff = XML::Document.new
     diff.root = XML::Node.new "osmChange"
     delete = XML::Node.new "delete"
     diff.root << delete
     delete["if-unused"] = ""
-    delete << current_relations(:public_used_relation).to_xml_node
-    delete << current_ways(:used_way).to_xml_node
-    delete << current_nodes(:node_used_by_relationship).to_xml_node
+    delete << used_relation.to_xml_node
+    delete << used_way.to_xml_node
+    delete << used_node.to_xml_node
+
+    # update the changeset to one that this user owns
+    %w(node way relation).each do |type|
+      delete.find("//osmChange/delete/#{type}").each do |n|
+        n["changeset"] = changeset.id.to_s
+      end
+    end
 
     # upload it
     content diff
-    post :upload, :id => cs.id
+    post :upload, :id => changeset.id
     assert_response :success,
                     "can't do a conditional delete of in use objects: #{@response.body}"
 
@@ -672,37 +710,38 @@ EOF
     doc = XML::Parser.string(@response.body).parse
 
     # check the old IDs are all present and what we expect
-    assert_equal current_nodes(:node_used_by_relationship).id, doc.find("//diffResult/node").first["old_id"].to_i
-    assert_equal current_ways(:used_way).id, doc.find("//diffResult/way").first["old_id"].to_i
-    assert_equal current_relations(:public_used_relation).id, doc.find("//diffResult/relation").first["old_id"].to_i
+    assert_equal used_node.id, doc.find("//diffResult/node").first["old_id"].to_i
+    assert_equal used_way.id, doc.find("//diffResult/way").first["old_id"].to_i
+    assert_equal used_relation.id, doc.find("//diffResult/relation").first["old_id"].to_i
 
     # check the new IDs are all present and unchanged
-    assert_equal current_nodes(:node_used_by_relationship).id, doc.find("//diffResult/node").first["new_id"].to_i
-    assert_equal current_ways(:used_way).id, doc.find("//diffResult/way").first["new_id"].to_i
-    assert_equal current_relations(:public_used_relation).id, doc.find("//diffResult/relation").first["new_id"].to_i
+    assert_equal used_node.id, doc.find("//diffResult/node").first["new_id"].to_i
+    assert_equal used_way.id, doc.find("//diffResult/way").first["new_id"].to_i
+    assert_equal used_relation.id, doc.find("//diffResult/relation").first["new_id"].to_i
 
     # check the new versions are all present and unchanged
-    assert_equal current_nodes(:node_used_by_relationship).version, doc.find("//diffResult/node").first["new_version"].to_i
-    assert_equal current_ways(:used_way).version, doc.find("//diffResult/way").first["new_version"].to_i
-    assert_equal current_relations(:public_used_relation).version, doc.find("//diffResult/relation").first["new_version"].to_i
+    assert_equal used_node.version, doc.find("//diffResult/node").first["new_version"].to_i
+    assert_equal used_way.version, doc.find("//diffResult/way").first["new_version"].to_i
+    assert_equal used_relation.version, doc.find("//diffResult/relation").first["new_version"].to_i
 
     # check that nothing was, in fact, deleted
-    assert_equal true, Node.find(current_nodes(:node_used_by_relationship).id).visible
-    assert_equal true, Way.find(current_ways(:used_way).id).visible
-    assert_equal true, Relation.find(current_relations(:public_used_relation).id).visible
+    assert_equal true, Node.find(used_node.id).visible
+    assert_equal true, Way.find(used_way.id).visible
+    assert_equal true, Relation.find(used_relation.id).visible
   end
 
   ##
   # upload an element with a really long tag value
   def test_upload_invalid_too_long_tag
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
-    cs_id = changesets(:public_user_first_change).id
+    changeset = create(:changeset)
+
+    basic_authorization changeset.user.email, "test"
 
     # simple diff to create a node way and relation using placeholders
     diff = <<EOF
 <osmChange>
  <create>
-  <node id='-1' lon='0' lat='0' changeset='#{cs_id}'>
+  <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
    <tag k='foo' v='#{'x' * 256}'/>
   </node>
  </create>
@@ -711,7 +750,7 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => cs_id
+    post :upload, :id => changeset.id
     assert_response :bad_request,
                     "shoudln't be able to upload too long a tag to changeset: #{@response.body}"
   end
@@ -720,27 +759,33 @@ EOF
   # upload something which creates new objects and inserts them into
   # existing containers using placeholders.
   def test_upload_complex
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
-    cs_id = changesets(:public_user_first_change).id
+    way = create(:way)
+    node = create(:node)
+    relation = create(:relation)
+    create(:way_node, :way => way, :node => node)
+
+    changeset = create(:changeset)
+
+    basic_authorization changeset.user.email, "test"
 
     # simple diff to create a node way and relation using placeholders
     diff = <<EOF
 <osmChange>
  <create>
-  <node id='-1' lon='0' lat='0' changeset='#{cs_id}'>
+  <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
    <tag k='foo' v='bar'/>
    <tag k='baz' v='bat'/>
   </node>
  </create>
  <modify>
-  <way id='1' changeset='#{cs_id}' version='1'>
+  <way id='#{way.id}' changeset='#{changeset.id}' version='1'>
    <nd ref='-1'/>
-   <nd ref='3'/>
+   <nd ref='#{node.id}'/>
   </way>
-  <relation id='1' changeset='#{cs_id}' version='1'>
-   <member type='way' role='some' ref='3'/>
+  <relation id='#{relation.id}' changeset='#{changeset.id}' version='1'>
+   <member type='way' role='some' ref='#{way.id}'/>
    <member type='node' role='some' ref='-1'/>
-   <member type='relation' role='some' ref='3'/>
+   <member type='relation' role='some' ref='#{relation.id}'/>
   </relation>
  </modify>
 </osmChange>
@@ -748,7 +793,7 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => cs_id
+    post :upload, :id => changeset.id
     assert_response :success,
                     "can't upload a complex diff to changeset: #{@response.body}"
 
@@ -764,8 +809,8 @@ EOF
 
     # check that the changes made it into the database
     assert_equal 2, Node.find(new_node_id).tags.size, "new node should have two tags"
-    assert_equal [new_node_id, 3], Way.find(1).nds, "way nodes should match"
-    Relation.find(1).members.each do |type, id, _role|
+    assert_equal [new_node_id, node.id], Way.find(way.id).nds, "way nodes should match"
+    Relation.find(relation.id).members.each do |type, id, _role|
       if type == "node"
         assert_equal new_node_id, id, "relation should contain new node"
       end
