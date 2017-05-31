@@ -424,6 +424,9 @@ EOF
   def test_upload_create_valid
     user = create(:user)
     changeset = create(:changeset, :user => user)
+    node = create(:node)
+    way = create(:way_with_nodes, :nodes_count => 2)
+    relation = create(:relation)
 
     basic_authorization user.email, "test"
 
@@ -436,14 +439,14 @@ EOF
    <tag k='baz' v='bat'/>
   </node>
   <way id='-1' changeset='#{changeset.id}'>
-   <nd ref='3'/>
+   <nd ref='#{node.id}'/>
   </way>
  </create>
  <create>
   <relation id='-1' changeset='#{changeset.id}'>
-   <member type='way' role='some' ref='3'/>
-   <member type='node' role='some' ref='5'/>
-   <member type='relation' role='some' ref='3'/>
+   <member type='way' role='some' ref='#{way.id}'/>
+   <member type='node' role='some' ref='#{node.id}'/>
+   <member type='relation' role='some' ref='#{relation.id}'/>
   </relation>
  </create>
 </osmChange>
@@ -870,6 +873,7 @@ EOF
   ##
   # upload multiple versions of the same element in the same diff.
   def test_upload_multiple_valid
+    node = create(:node)
     changeset = create(:changeset)
     basic_authorization changeset.user.email, "test"
 
@@ -879,14 +883,14 @@ EOF
     diff = <<EOF
 <osmChange>
  <modify>
-  <node id='1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
-  <node id='1' lon='1' lat='0' changeset='#{changeset.id}' version='2'/>
-  <node id='1' lon='1' lat='1' changeset='#{changeset.id}' version='3'/>
-  <node id='1' lon='1' lat='2' changeset='#{changeset.id}' version='4'/>
-  <node id='1' lon='2' lat='2' changeset='#{changeset.id}' version='5'/>
-  <node id='1' lon='3' lat='2' changeset='#{changeset.id}' version='6'/>
-  <node id='1' lon='3' lat='3' changeset='#{changeset.id}' version='7'/>
-  <node id='1' lon='9' lat='9' changeset='#{changeset.id}' version='8'/>
+  <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+  <node id='#{node.id}' lon='1' lat='0' changeset='#{changeset.id}' version='2'/>
+  <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset.id}' version='3'/>
+  <node id='#{node.id}' lon='1' lat='2' changeset='#{changeset.id}' version='4'/>
+  <node id='#{node.id}' lon='2' lat='2' changeset='#{changeset.id}' version='5'/>
+  <node id='#{node.id}' lon='3' lat='2' changeset='#{changeset.id}' version='6'/>
+  <node id='#{node.id}' lon='3' lat='3' changeset='#{changeset.id}' version='7'/>
+  <node id='#{node.id}' lon='9' lat='9' changeset='#{changeset.id}' version='8'/>
  </modify>
 </osmChange>
 EOF
@@ -907,6 +911,7 @@ EOF
   # upload multiple versions of the same element in the same diff, but
   # keep the version numbers the same.
   def test_upload_multiple_duplicate
+    node = create(:node)
     changeset = create(:changeset)
 
     basic_authorization changeset.user.email, "test"
@@ -914,8 +919,8 @@ EOF
     diff = <<EOF
 <osmChange>
  <modify>
-  <node id='1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
-  <node id='1' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
+  <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+  <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
  </modify>
 </osmChange>
 EOF
@@ -1315,6 +1320,8 @@ EOF
   # when we make some simple changes we get the same changes back from the
   # diff download.
   def test_diff_download_simple
+    node = create(:node)
+
     ## First try with a non-public user, which should get a forbidden
     basic_authorization(create(:user, :data_public => false).email, "test")
 
@@ -1340,14 +1347,14 @@ EOF
     diff = <<EOF
 <osmChange>
  <modify>
-  <node id='1' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
-  <node id='1' lon='1' lat='0' changeset='#{changeset_id}' version='2'/>
-  <node id='1' lon='1' lat='1' changeset='#{changeset_id}' version='3'/>
-  <node id='1' lon='1' lat='2' changeset='#{changeset_id}' version='4'/>
-  <node id='1' lon='2' lat='2' changeset='#{changeset_id}' version='5'/>
-  <node id='1' lon='3' lat='2' changeset='#{changeset_id}' version='6'/>
-  <node id='1' lon='3' lat='3' changeset='#{changeset_id}' version='7'/>
-  <node id='1' lon='9' lat='9' changeset='#{changeset_id}' version='8'/>
+  <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
+  <node id='#{node.id}' lon='1' lat='0' changeset='#{changeset_id}' version='2'/>
+  <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset_id}' version='3'/>
+  <node id='#{node.id}' lon='1' lat='2' changeset='#{changeset_id}' version='4'/>
+  <node id='#{node.id}' lon='2' lat='2' changeset='#{changeset_id}' version='5'/>
+  <node id='#{node.id}' lon='3' lat='2' changeset='#{changeset_id}' version='6'/>
+  <node id='#{node.id}' lon='3' lat='3' changeset='#{changeset_id}' version='7'/>
+  <node id='#{node.id}' lon='9' lat='9' changeset='#{changeset_id}' version='8'/>
  </modify>
 </osmChange>
 EOF
@@ -1431,6 +1438,9 @@ OSMFILE
   # when we make some complex changes we get the same changes back from the
   # diff download.
   def test_diff_download_complex
+    node = create(:node)
+    node2 = create(:node)
+    way = create(:way)
     basic_authorization(create(:user).email, "test")
 
     # create a temporary changeset
@@ -1445,7 +1455,7 @@ OSMFILE
     diff = <<EOF
 <osmChange>
  <delete>
-  <node id='1' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
+  <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
  </delete>
  <create>
   <node id='-1' lon='9' lat='9' changeset='#{changeset_id}' version='0'/>
@@ -1453,9 +1463,9 @@ OSMFILE
   <node id='-3' lon='7' lat='9' changeset='#{changeset_id}' version='0'/>
  </create>
  <modify>
-  <node id='3' lon='20' lat='15' changeset='#{changeset_id}' version='1'/>
-  <way id='1' changeset='#{changeset_id}' version='1'>
-   <nd ref='3'/>
+  <node id='#{node2.id}' lon='20' lat='15' changeset='#{changeset_id}' version='1'/>
+  <way id='#{way.id}' changeset='#{changeset_id}' version='1'>
+   <nd ref='#{node2.id}'/>
    <nd ref='-1'/>
    <nd ref='-2'/>
    <nd ref='-3'/>
