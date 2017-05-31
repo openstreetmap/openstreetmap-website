@@ -3,8 +3,6 @@ require "stringio"
 include Potlatch
 
 class AmfControllerTest < ActionController::TestCase
-  api_fixtures
-
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -537,7 +535,9 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_findgpx_by_name
-    amf_content "findgpx", "/1", ["Trace", "test@example.com:test"]
+    user = create(:user)
+
+    amf_content "findgpx", "/1", ["Trace", "#{user.email}:test"]
     post :amf_read
     assert_response :success
     amf_parse_response
@@ -1318,7 +1318,9 @@ class AmfControllerTest < ActionController::TestCase
 
   # check that we can open a changeset
   def test_startchangeset_valid
-    amf_content "startchangeset", "/1", ["test@example.com:test", { "source" => "new" }, nil, "new", 1]
+    user = create(:user)
+
+    amf_content "startchangeset", "/1", ["#{user.email}:test", { "source" => "new" }, nil, "new", 1]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1335,7 +1337,7 @@ class AmfControllerTest < ActionController::TestCase
 
     old_cs_id = new_cs_id
 
-    amf_content "startchangeset", "/1", ["test@example.com:test", { "source" => "newer" }, old_cs_id, "newer", 1]
+    amf_content "startchangeset", "/1", ["#{user.email}:test", { "source" => "newer" }, old_cs_id, "newer", 1]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1358,7 +1360,7 @@ class AmfControllerTest < ActionController::TestCase
 
     old_cs_id = new_cs_id
 
-    amf_content "startchangeset", "/1", ["test@example.com:test", {}, old_cs_id, "", 0]
+    amf_content "startchangeset", "/1", ["#{user.email}:test", {}, old_cs_id, "", 0]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1376,7 +1378,10 @@ class AmfControllerTest < ActionController::TestCase
 
   # check that we can't close somebody elses changeset
   def test_startchangeset_invalid_wrong_user
-    amf_content "startchangeset", "/1", ["test@example.com:test", { "source" => "new" }, nil, "new", 1]
+    user = create(:user)
+    user2 = create(:user)
+
+    amf_content "startchangeset", "/1", ["#{user.email}:test", { "source" => "new" }, nil, "new", 1]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1391,7 +1396,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal true, cs.is_open?
     assert_equal({ "comment" => "new", "source" => "new" }, cs.tags)
 
-    amf_content "startchangeset", "/1", ["test@openstreetmap.org:test", {}, cs_id, "delete", 0]
+    amf_content "startchangeset", "/1", ["#{user2.email}:test", {}, cs_id, "delete", 0]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1408,10 +1413,12 @@ class AmfControllerTest < ActionController::TestCase
 
   # check that invalid characters are stripped from changeset tags
   def test_startchangeset_invalid_xmlchar_comment
+    user = create(:user)
+
     invalid = "\035\022"
     comment = "foo#{invalid}bar"
 
-    amf_content "startchangeset", "/1", ["test@example.com:test", {}, nil, comment, 1]
+    amf_content "startchangeset", "/1", ["#{user.email}:test", {}, nil, comment, 1]
     post :amf_write
     assert_response :success
     amf_parse_response
