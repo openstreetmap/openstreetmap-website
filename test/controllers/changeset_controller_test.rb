@@ -2036,37 +2036,46 @@ EOF
   ##
   # This should display the last 20 changesets closed
   def test_feed
+    changeset = create(:changeset, :num_changes => 1)
+    _empty_changeset = create(:changeset, :num_changes => 0)
+
     get :feed, :format => :atom
     assert_response :success
     assert_template "list"
     assert_equal "application/atom+xml", response.content_type
 
-    check_feed_result(Changeset.all)
+    check_feed_result([changeset])
   end
 
   ##
   # This should display the last 20 changesets closed in a specific area
   def test_feed_bbox
+    changeset = create(:changeset, :num_changes => 1, :min_lat => 5 * GeoRecord::SCALE, :min_lon => 5 * GeoRecord::SCALE, :max_lat => 5 * GeoRecord::SCALE, :max_lon => 5 * GeoRecord::SCALE)
+    closed_changeset = create(:changeset, :closed, :num_changes => 1, :min_lat => 5 * GeoRecord::SCALE, :min_lon => 5 * GeoRecord::SCALE, :max_lat => 5 * GeoRecord::SCALE, :max_lon => 5 * GeoRecord::SCALE)
+    _elsewhere_changeset = create(:changeset, :num_changes => 1, :min_lat => -5 * GeoRecord::SCALE, :min_lon => -5 * GeoRecord::SCALE, :max_lat => -5 * GeoRecord::SCALE, :max_lon => -5 * GeoRecord::SCALE)
+    _empty_changeset = create(:changeset, :num_changes => 0, :min_lat => -5 * GeoRecord::SCALE, :min_lon => -5 * GeoRecord::SCALE, :max_lat => -5 * GeoRecord::SCALE, :max_lon => -5 * GeoRecord::SCALE)
+
     get :feed, :format => :atom, :bbox => "4.5,4.5,5.5,5.5"
     assert_response :success
     assert_template "list"
     assert_equal "application/atom+xml", response.content_type
 
-    check_feed_result(Changeset.where("min_lon < 55000000 and max_lon > 45000000 and min_lat < 55000000 and max_lat > 45000000"))
+    check_feed_result([changeset, closed_changeset])
   end
 
   ##
   # Checks the display of the user changesets feed
   def test_feed_user
     user = create(:user)
-    create_list(:changeset, 3, :user => user, :num_changes => 4)
+    changesets = create_list(:changeset, 3, :user => user, :num_changes => 4)
+    _other_changeset = create(:changeset)
 
     get :feed, :format => :atom, :display_name => user.display_name
     assert_response :success
     assert_template "list"
     assert_equal "application/atom+xml", response.content_type
 
-    check_feed_result(user.changesets)
+    check_feed_result(changesets)
   end
 
   ##
@@ -2480,9 +2489,6 @@ EOF
   ##
   # check the result of a feed
   def check_feed_result(changesets)
-    changesets = changesets.where("num_changes > 0")
-                           .order(:created_at => :desc)
-                           .limit(20)
     assert changesets.size <= 20
 
     assert_select "feed", :count => [changesets.size, 1].min do
