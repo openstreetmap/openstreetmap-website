@@ -46,19 +46,19 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_read_relation
-    browse_check "relation", relations(:visible_relation).relation_id, "browse/feature"
+    browse_check "relation", create(:relation).id, "browse/feature"
   end
 
   def test_read_relation_history
-    browse_check "relation_history", relations(:visible_relation).relation_id, "browse/history"
+    browse_check "relation_history", create(:relation, :with_history).id, "browse/history"
   end
 
   def test_read_way
-    browse_check "way", ways(:visible_way).way_id, "browse/feature"
+    browse_check "way", create(:way).id, "browse/feature"
   end
 
   def test_read_way_history
-    browse_check "way_history", ways(:visible_way).way_id, "browse/history"
+    browse_check "way_history", create(:way, :with_history).id, "browse/history"
   end
 
   def test_read_node
@@ -171,7 +171,13 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_redacted_way_history
-    get :way_history, :id => ways(:way_with_redacted_versions_v1).way_id
+    way = create(:way, :with_history, :version => 4)
+    way_v1 = way.old_ways.find_by(:version => 1)
+    way_v1.redact!(create(:redaction))
+    way_v3 = way.old_ways.find_by(:version => 3)
+    way_v3.redact!(create(:redaction))
+
+    get :way_history, :id => way.id
     assert_response :success
     assert_template "browse/history"
 
@@ -183,7 +189,13 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_redacted_relation_history
-    get :relation_history, :id => relations(:relation_with_redacted_versions_v1).relation_id
+    relation = create(:relation, :with_history, :version => 4)
+    relation_v1 = relation.old_relations.find_by(:version => 1)
+    relation_v1.redact!(create(:redaction))
+    relation_v3 = relation.old_relations.find_by(:version => 3)
+    relation_v3.redact!(create(:redaction))
+
+    get :relation_history, :id => relation.id
     assert_response :success
     assert_template "browse/history"
 

@@ -254,7 +254,9 @@ class SiteControllerTest < ActionController::TestCase
   # Test editing a specific way
   def test_edit_with_way
     user = create(:user)
-    way  = current_ways(:visible_way)
+    node = create(:node, :lat => 3, :lon => 3)
+    way  = create(:way)
+    create(:way_node, :node => node, :way => way)
 
     get :edit, { :way => way.id }, { :user => user }
     assert_response :success
