@@ -1662,9 +1662,13 @@ EOF
   ##
   # check updating tags on a changeset
   def test_changeset_update
+    private_user = create(:user, :data_public => false)
+    private_changeset = create(:changeset, :user => private_user)
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+
     ## First try with a non-public user
-    changeset = changesets(:normal_user_first_change)
-    new_changeset = changeset.to_xml
+    new_changeset = private_changeset.to_xml
     new_tag = XML::Node.new "tag"
     new_tag["k"] = "tagtesting"
     new_tag["v"] = "valuetesting"
@@ -1672,21 +1676,20 @@ EOF
     content new_changeset
 
     # try without any authorization
-    put :update, :id => changeset.id
+    put :update, :id => private_changeset.id
     assert_response :unauthorized
 
     # try with the wrong authorization
     basic_authorization create(:user).email, "test"
-    put :update, :id => changeset.id
+    put :update, :id => private_changeset.id
     assert_response :conflict
 
     # now this should get an unauthorized
-    basic_authorization changeset.user.email, "test"
-    put :update, :id => changeset.id
+    basic_authorization private_user.email, "test"
+    put :update, :id => private_changeset.id
     assert_require_public_data "user with their data non-public, shouldn't be able to edit their changeset"
 
     ## Now try with the public user
-    changeset = changesets(:public_user_first_change)
     create(:changeset_tag, :changeset => changeset)
     new_changeset = changeset.to_xml
     new_tag = XML::Node.new "tag"
@@ -1706,7 +1709,7 @@ EOF
     assert_response :conflict
 
     # now this should work...
-    basic_authorization changeset.user.email, "test"
+    basic_authorization user.email, "test"
     put :update, :id => changeset.id
     assert_response :success
 
@@ -1721,7 +1724,7 @@ EOF
   def test_changeset_update_invalid
     basic_authorization create(:user).email, "test"
 
-    changeset = changesets(:normal_user_first_change)
+    changeset = create(:changeset)
     new_changeset = changeset.to_xml
     new_tag = XML::Node.new "tag"
     new_tag["k"] = "testing"
@@ -2010,16 +2013,19 @@ EOF
   # check that the changeset download for a changeset with a redacted
   # element in it doesn't contain that element.
   def test_diff_download_redacted
-    changeset_id = changesets(:public_user_first_change).id
+    changeset = create(:changeset)
+    node = create(:node, :with_history, :version => 2, :changeset => changeset)
+    node_v1 = node.old_nodes.find_by(:version => 1)
+    node_v1.redact!(create(:redaction))
 
-    get :download, :id => changeset_id
+    get :download, :id => changeset.id
     assert_response :success
 
     assert_select "osmChange", 1
-    # this changeset contains node 17 in versions 1 & 2, but 1 should
+    # this changeset contains the node in versions 1 & 2, but 1 should
     # be hidden.
-    assert_select "osmChange node[id='17']", 1
-    assert_select "osmChange node[id='17'][version='1']", 0
+    assert_select "osmChange node[id='#{node.id}']", 1
+    assert_select "osmChange node[id='#{node.id}'][version='1']", 0
   end
 
   ##
@@ -2087,7 +2093,7 @@ EOF
   # create comment fail
   def test_create_comment_fail
     # unauthorized
-    post :comment, :id => changesets(:normal_user_closed_change).id, :text => "This is a comment"
+    post :comment, :id => create(:changeset, :closed).id, :text => "This is a comment"
     assert_response :unauthorized
 
     basic_authorization(create(:user).email, "test")
@@ -2100,19 +2106,19 @@ EOF
 
     # not closed changeset
     assert_no_difference "ChangesetComment.count" do
-      post :comment, :id => changesets(:normal_user_first_change).id, :text => "This is a comment"
+      post :comment, :id => create(:changeset).id, :text => "This is a comment"
     end
     assert_response :conflict
 
     # no text
     assert_no_difference "ChangesetComment.count" do
-      post :comment, :id => changesets(:normal_user_closed_change).id
+      post :comment, :id => create(:changeset, :closed).id
     end
     assert_response :bad_request
 
     # empty text
     assert_no_difference "ChangesetComment.count" do
-      post :comment, :id => changesets(:normal_user_closed_change).id, :text => ""
+      post :comment, :id => create(:changeset, :closed).id, :text => ""
     end
     assert_response :bad_request
   end
@@ -2121,7 +2127,7 @@ EOF
   # test subscribe success
   def test_subscribe_success
     basic_authorization(create(:user).email, "test")
-    changeset = changesets(:normal_user_closed_change)
+    changeset = create(:changeset, :closed)
 
     assert_difference "changeset.subscribers.count", 1 do
       post :subscribe, :id => changeset.id
@@ -2135,7 +2141,7 @@ EOF
     user = create(:user)
 
     # unauthorized
-    changeset = changesets(:normal_user_closed_change)
+    changeset = create(:changeset, :closed)
     assert_no_difference "changeset.subscribers.count" do
       post :subscribe, :id => changeset.id
     end
@@ -2150,14 +2156,14 @@ EOF
     assert_response :not_found
 
     # not closed changeset
-    changeset = changesets(:normal_user_first_change)
+    changeset = create(:changeset)
     assert_no_difference "changeset.subscribers.count" do
       post :subscribe, :id => changeset.id
     end
     assert_response :conflict
 
     # trying to subscribe when already subscribed
-    changeset = changesets(:normal_user_subscribed_change)
+    changeset = create(:changeset, :closed)
     changeset.subscribers.push(user)
     assert_no_difference "changeset.subscribers.count" do
       post :subscribe, :id => changeset.id
@@ -2170,7 +2176,7 @@ EOF
   def test_unsubscribe_success
     user = create(:user)
     basic_authorization(user.email, "test")
-    changeset = changesets(:normal_user_subscribed_change)
+    changeset = create(:changeset, :closed)
     changeset.subscribers.push(user)
 
     assert_difference "changeset.subscribers.count", -1 do
@@ -2183,7 +2189,7 @@ EOF
   # test unsubscribe fail
   def test_unsubscribe_fail
     # unauthorized
-    changeset = changesets(:normal_user_closed_change)
+    changeset = create(:changeset, :closed)
     assert_no_difference "changeset.subscribers.count" do
       post :unsubscribe, :id => changeset.id
     end
@@ -2198,14 +2204,14 @@ EOF
     assert_response :not_found
 
     # not closed changeset
-    changeset = changesets(:normal_user_first_change)
+    changeset = create(:changeset)
     assert_no_difference "changeset.subscribers.count" do
       post :unsubscribe, :id => changeset.id
     end
     assert_response :conflict
 
     # trying to unsubscribe when not subscribed
-    changeset = changesets(:normal_user_closed_change)
+    changeset = create(:changeset, :closed)
     assert_no_difference "changeset.subscribers.count" do
       post :unsubscribe, :id => changeset.id
     end
@@ -2293,7 +2299,8 @@ EOF
   ##
   # test comments feed
   def test_comments_feed
-    create_list(:changeset_comment, 3, :changeset_id => changesets(:normal_user_closed_change).id)
+    changeset = create(:changeset, :closed)
+    create_list(:changeset_comment, 3, :changeset => changeset)
 
     get :comments_feed, :format => "rss"
     assert_response :success
@@ -2313,7 +2320,7 @@ EOF
       end
     end
 
-    get :comments_feed, :id => changesets(:normal_user_closed_change), :format => "rss"
+    get :comments_feed, :id => changeset.id, :format => "rss"
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
