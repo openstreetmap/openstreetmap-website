@@ -35,7 +35,6 @@ class WayTest < ActiveSupport::TestCase
     node_c = create(:node)
     way = create(:way_with_nodes, :nodes_count => 1)
     # Take one of the current ways and add nodes to it until we are near the limit
-    way = Way.find(current_ways(:visible_way).id)
     assert way.valid?
     # it already has 1 node
     1.upto(MAX_NUMBER_OF_WAY_NODES / 2) do
@@ -146,34 +145,46 @@ class WayTest < ActiveSupport::TestCase
   end
 
   def test_way_nodes
-    way = current_ways(:way_with_multiple_nodes)
+    way = create(:way)
+    node1 = create(:way_node, :way => way, :sequence_id => 1).node
+    node2 = create(:way_node, :way => way, :sequence_id => 2).node
+    node3 = create(:way_node, :way => way, :sequence_id => 3).node
+
     nodes = Way.find(way.id).way_nodes
     assert_equal 3, nodes.count
-    assert_equal 4, nodes[0].node_id
-    assert_equal 15, nodes[1].node_id
-    assert_equal 11, nodes[2].node_id
+    assert_equal node1.id, nodes[0].node_id
+    assert_equal node2.id, nodes[1].node_id
+    assert_equal node3.id, nodes[2].node_id
   end
 
   def test_nodes
-    way = current_ways(:way_with_multiple_nodes)
+    way = create(:way)
+    node1 = create(:way_node, :way => way, :sequence_id => 1).node
+    node2 = create(:way_node, :way => way, :sequence_id => 2).node
+    node3 = create(:way_node, :way => way, :sequence_id => 3).node
+
     nodes = Way.find(way.id).nodes
     assert_equal 3, nodes.count
-    assert_equal 4, nodes[0].id
-    assert_equal 15, nodes[1].id
-    assert_equal 11, nodes[2].id
+    assert_equal node1.id, nodes[0].id
+    assert_equal node2.id, nodes[1].id
+    assert_equal node3.id, nodes[2].id
   end
 
   def test_nds
-    way = current_ways(:way_with_multiple_nodes)
+    way = create(:way)
+    node1 = create(:way_node, :way => way, :sequence_id => 1).node
+    node2 = create(:way_node, :way => way, :sequence_id => 2).node
+    node3 = create(:way_node, :way => way, :sequence_id => 3).node
+
     nodes = Way.find(way.id).nds
     assert_equal 3, nodes.count
-    assert_equal 4, nodes[0]
-    assert_equal 15, nodes[1]
-    assert_equal 11, nodes[2]
+    assert_equal node1.id, nodes[0]
+    assert_equal node2.id, nodes[1]
+    assert_equal node3.id, nodes[2]
   end
 
   def test_way_tags
-    way = current_ways(:way_with_versions)
+    way = create(:way)
     taglist = create_list(:way_tag, 2, :way => way)
     tags = Way.find(way.id).way_tags.order(:k)
     assert_equal taglist.count, tags.count
@@ -184,7 +195,7 @@ class WayTest < ActiveSupport::TestCase
   end
 
   def test_tags
-    way = current_ways(:way_with_versions)
+    way = create(:way)
     taglist = create_list(:way_tag, 2, :way => way)
     tags = Way.find(way.id).tags
     assert_equal taglist.count, tags.count
@@ -194,19 +205,25 @@ class WayTest < ActiveSupport::TestCase
   end
 
   def test_containing_relation_members
-    way = current_ways(:used_way)
+    way = create(:way)
+    relation = create(:relation)
+    create(:relation_member, :relation => relation, :member => way)
+
     crm = Way.find(way.id).containing_relation_members.order(:relation_id)
     #    assert_equal 1, crm.size
-    assert_equal 1, crm.first.relation_id
+    assert_equal relation.id, crm.first.relation_id
     assert_equal "Way", crm.first.member_type
     assert_equal way.id, crm.first.member_id
-    assert_equal 1, crm.first.relation.id
+    assert_equal relation.id, crm.first.relation.id
   end
 
   def test_containing_relations
-    way = current_ways(:used_way)
+    way = create(:way)
+    relation = create(:relation)
+    create(:relation_member, :relation => relation, :member => way)
+
     cr = Way.find(way.id).containing_relations.order(:id)
     assert_equal 1, cr.size
-    assert_equal 1, cr.first.id
+    assert_equal relation.id, cr.first.id
   end
 end
