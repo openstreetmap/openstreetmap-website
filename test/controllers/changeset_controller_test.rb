@@ -2,8 +2,6 @@ require "test_helper"
 require "changeset_controller"
 
 class ChangesetControllerTest < ActionController::TestCase
-  api_fixtures
-
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -1640,14 +1638,16 @@ EOF
     user = create(:user)
     changeset = create(:changeset, :user => user)
     closed_changeset = create(:changeset, :closed, :user => user, :created_at => Time.utc(2008, 1, 1, 0, 0, 0), :closed_at => Time.utc(2008, 1, 2, 0, 0, 0))
+    changeset2 = create(:changeset, :min_lat => 5 * GeoRecord::SCALE, :min_lon => 5 * GeoRecord::SCALE, :max_lat => 15 * GeoRecord::SCALE, :max_lon => 15 * GeoRecord::SCALE)
+    changeset3 = create(:changeset, :min_lat => 4.5 * GeoRecord::SCALE, :min_lon => 4.5 * GeoRecord::SCALE, :max_lat => 5 * GeoRecord::SCALE, :max_lon => 5 * GeoRecord::SCALE)
 
     get :query, :bbox => "-10,-10, 10, 10"
     assert_response :success, "can't get changesets in bbox"
-    assert_changesets [1, 4, 6]
+    assert_changesets [changeset2.id, changeset3.id]
 
     get :query, :bbox => "4.5,4.5,4.6,4.6"
     assert_response :success, "can't get changesets in bbox"
-    assert_changesets [1]
+    assert_changesets [changeset3.id]
 
     # not found when looking for changesets of non-existing users
     get :query, :user => User.maximum(:id) + 1
@@ -1681,23 +1681,23 @@ EOF
 
     get :query, :time => "2007-12-31"
     assert_response :success, "can't get changesets by time-since"
-    assert_changesets [1, 2, 4, 5, 6, private_user_changeset.id, private_user_closed_changeset.id, changeset.id, closed_changeset.id]
+    assert_changesets [private_user_changeset.id, private_user_closed_changeset.id, changeset.id, closed_changeset.id, changeset2.id, changeset3.id]
 
     get :query, :time => "2008-01-01T12:34Z"
     assert_response :success, "can't get changesets by time-since with hour"
-    assert_changesets [1, 2, 4, 5, 6, private_user_changeset.id, private_user_closed_changeset.id, changeset.id, closed_changeset.id]
+    assert_changesets [private_user_changeset.id, private_user_closed_changeset.id, changeset.id, closed_changeset.id, changeset2.id, changeset3.id]
 
     get :query, :time => "2007-12-31T23:59Z,2008-01-02T00:01Z"
     assert_response :success, "can't get changesets by time-range"
-    assert_changesets [1, 5, 6, closed_changeset.id]
+    assert_changesets [closed_changeset.id]
 
     get :query, :open => "true"
     assert_response :success, "can't get changesets by open-ness"
-    assert_changesets [1, 2, 4, private_user_changeset.id, changeset.id]
+    assert_changesets [private_user_changeset.id, changeset.id, changeset2.id, changeset3.id]
 
     get :query, :closed => "true"
     assert_response :success, "can't get changesets by closed-ness"
-    assert_changesets [3, 5, 6, 7, 8, 9, private_user_closed_changeset.id, closed_changeset.id]
+    assert_changesets [private_user_closed_changeset.id, closed_changeset.id]
 
     get :query, :closed => "true", :user => private_user.id
     assert_response :success, "can't get changesets by closed-ness and user"
