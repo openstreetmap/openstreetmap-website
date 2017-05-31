@@ -1,8 +1,6 @@
 require "test_helper"
 
 class UserControllerTest < ActionController::TestCase
-  api_fixtures
-
   def setup
     stub_hostip_requests
   end
@@ -1408,6 +1406,9 @@ class UserControllerTest < ActionController::TestCase
 
     session[:user] = create(:administrator_user).id
 
+    # 100 examples, an administrator, and a granter for the admin.
+    assert_equal 102, User.count
+
     get :list
     assert_response :success
     assert_template :list
@@ -1421,7 +1422,7 @@ class UserControllerTest < ActionController::TestCase
     get :list, :page => 3
     assert_response :success
     assert_template :list
-    assert_select "table#user_list tr", :count => 28
+    assert_select "table#user_list tr", :count => 3
   end
 
   def test_list_post_confirm
