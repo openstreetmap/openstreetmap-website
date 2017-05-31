@@ -1348,44 +1348,55 @@ class UserControllerTest < ActionController::TestCase
   end
 
   def test_list_get
+    user = create(:user)
+    moderator_user = create(:moderator_user)
+    administrator_user = create(:administrator_user)
+    suspended_user = create(:user, :suspended)
+    ip_user = create(:user, :creation_ip => "1.2.3.4")
+
+    # There are now 7 users - the five above, plus two extra "granters" for the
+    # moderator_user and administrator_user
+    assert_equal 7, User.count
+
     # Shouldn't work when not logged in
     get :list
     assert_response :redirect
     assert_redirected_to :action => :login, :referer => users_path
 
-    session[:user] = create(:user).id
+    session[:user] = user.id
 
     # Shouldn't work when logged in as a normal user
     get :list
     assert_response :redirect
     assert_redirected_to :action => :login, :referer => users_path
 
-    session[:user] = create(:moderator_user).id
+    session[:user] = moderator_user.id
 
     # Shouldn't work when logged in as a moderator
     get :list
     assert_response :redirect
     assert_redirected_to :action => :login, :referer => users_path
 
-    session[:user] = create(:administrator_user).id
+    session[:user] = administrator_user.id
 
+    # Note there is a header row, so all row counts are users + 1
     # Should work when logged in as an administrator
     get :list
     assert_response :success
     assert_template :list
-    assert_select "table#user_list tr", :count => User.count + 1
+    assert_select "table#user_list tr", :count => 7 + 1
 
     # Should be able to limit by status
     get :list, :status => "suspended"
     assert_response :success
     assert_template :list
-    assert_select "table#user_list tr", :count => User.where(:status => "suspended").count + 1
+    assert_select "table#user_list tr", :count => 1 + 1
 
     # Should be able to limit by IP address
     get :list, :ip => "1.2.3.4"
     assert_response :success
     assert_template :list
-    assert_select "table#user_list tr", :count => User.where(:creation_ip => "1.2.3.4").count + 1
+    assert_select "table#user_list tr", :count => 1 + 1
   end
 
   def test_list_get_paginated
