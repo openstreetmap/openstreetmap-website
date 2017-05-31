@@ -52,11 +52,11 @@ class RelationControllerTest < ActionController::TestCase
 
   def test_read
     # check that a visible relation is returned properly
-    get :read, :id => current_relations(:visible_relation).id
+    get :read, :id => create(:relation).id
     assert_response :success
 
     # check that an invisible relation is not returned
-    get :read, :id => current_relations(:invisible_relation).id
+    get :read, :id => create(:relation, :deleted).id
     assert_response :gone
 
     # check chat a non-existent relation is not returned
@@ -153,10 +153,10 @@ class RelationControllerTest < ActionController::TestCase
     get :full, :id => 999999
     assert_response :not_found
 
-    get :full, :id => current_relations(:invisible_relation).id
+    get :full, :id => create(:relation, :deleted).id
     assert_response :gone
 
-    get :full, :id => current_relations(:visible_relation).id
+    get :full, :id => create(:relation).id
     assert_response :success
     # FIXME: check whether this contains the stuff we want!
   end
@@ -629,11 +629,18 @@ class RelationControllerTest < ActionController::TestCase
   # when a relation's tag is modified then it should put the bounding
   # box of all its members into the changeset.
   def test_tag_modify_bounding_box
-    # in current fixtures, relation 5 contains nodes 3 and 5 (node 3
-    # indirectly via way 3), so the bbox should be [3,3,5,5].
+    relation = create(:relation)
+    node1 = create(:node, :lat => 3, :lon => 3)
+    node2 = create(:node, :lat => 5, :lon => 5)
+    way = create(:way)
+    create(:way_node, :way => way, :node => node1)
+    create(:relation_member, :relation => relation, :member => way)
+    create(:relation_member, :relation => relation, :member => node2)
+    # the relation contains nodes1 and node2 (node1
+    # indirectly via the way), so the bbox should be [3,3,5,5].
     check_changeset_modify(BoundingBox.new(3, 3, 5, 5)) do |changeset_id|
       # add a tag to an existing relation
-      relation_xml = current_relations(:visible_relation).to_xml
+      relation_xml = relation.to_xml
       relation_element = relation_xml.find("//osm/relation").first
       new_tag = XML::Node.new("tag")
       new_tag["k"] = "some_new_tag"
@@ -645,7 +652,7 @@ class RelationControllerTest < ActionController::TestCase
 
       # upload the change
       content relation_xml
-      put :update, :id => current_relations(:visible_relation).id
+      put :update, :id => relation.id
       assert_response :success, "can't update relation for tag/bbox test"
     end
   end
@@ -694,11 +701,17 @@ class RelationControllerTest < ActionController::TestCase
   # remove a member from a relation and check the bounding box is
   # only that element.
   def test_remove_member_bounding_box
+    relation = create(:relation)
+    node1 = create(:node, :lat => 3, :lon => 3)
+    node2 = create(:node, :lat => 5, :lon => 5)
+    create(:relation_member, :relation => relation, :member => node1)
+    create(:relation_member, :relation => relation, :member => node2)
+
     check_changeset_modify(BoundingBox.new(5, 5, 5, 5)) do |changeset_id|
       # remove node 5 (5,5) from an existing relation
-      relation_xml = current_relations(:visible_relation).to_xml
+      relation_xml = relation.to_xml
       relation_xml
-        .find("//osm/relation/member[@type='node'][@ref='5']")
+        .find("//osm/relation/member[@type='node'][@ref='#{node2.id}']")
         .first.remove!
 
       # update changeset ID to point to new changeset
@@ -706,7 +719,7 @@ class RelationControllerTest < ActionController::TestCase
 
       # upload the change
       content relation_xml
-      put :update, :id => current_relations(:visible_relation).id
+      put :update, :id => relation.id
       assert_response :success, "can't update relation for remove node/bbox test"
     end
   end
@@ -862,8 +875,16 @@ OSM
   # remove all the members from a relation. the result is pretty useless, but
   # still technically valid.
   def test_remove_all_members
+    relation = create(:relation)
+    node1 = create(:node, :lat => 3, :lon => 3)
+    node2 = create(:node, :lat => 5, :lon => 5)
+    way = create(:way)
+    create(:way_node, :way => way, :node => node1)
+    create(:relation_member, :relation => relation, :member => way)
+    create(:relation_member, :relation => relation, :member => node2)
+
     check_changeset_modify(BoundingBox.new(3, 3, 5, 5)) do |changeset_id|
-      relation_xml = current_relations(:visible_relation).to_xml
+      relation_xml = relation.to_xml
       relation_xml
         .find("//osm/relation/member")
         .each(&:remove!)
@@ -873,9 +894,9 @@ OSM
 
       # upload the change
       content relation_xml
-      put :update, :id => current_relations(:visible_relation).id
+      put :update, :id => relation.id
       assert_response :success, "can't update relation for remove all members test"
-      checkrelation = Relation.find(current_relations(:visible_relation).id)
+      checkrelation = Relation.find(relation.id)
       assert_not_nil(checkrelation,
                      "uploaded relation not found in database after upload")
       assert_equal(0, checkrelation.members.length,

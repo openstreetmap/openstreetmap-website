@@ -68,10 +68,14 @@ class SearchControllerTest < ActionController::TestCase
   ##
   # test searching relations
   def test_search_relations
-    [:visible_relation, :invisible_relation, :used_relation].each do |relation|
-      create(:relation_tag, :relation => current_relations(relation), :k => "test", :v => "yes")
+    first_relation = create(:relation)
+    deleted_relation = create(:relation)
+    third_relation = create(:relation)
+
+    [first_relation, deleted_relation, third_relation].each do |relation|
+      create(:relation_tag, :relation => relation, :k => "test", :v => "yes")
     end
-    create(:relation_tag, :relation => current_relations(:used_relation), :k => "name", :v => "Test Relation")
+    create(:relation_tag, :relation => third_relation, :k => "name", :v => "Test Relation")
 
     get :search_relations, :type => "test"
     assert_response :service_unavailable
