@@ -654,15 +654,19 @@ class RelationControllerTest < ActionController::TestCase
   # add a member to a relation and check the bounding box is only that
   # element.
   def test_add_member_bounding_box
-    relation_id = current_relations(:visible_relation).id
+    relation = create(:relation)
+    node1 = create(:node, :lat => 4, :lon => 4)
+    node2 = create(:node, :lat => 7, :lon => 7)
+    way1 = create(:way)
+    create(:way_node, :way => way1, :node => create(:node, :lat => 8, :lon => 8))
+    way2 = create(:way)
+    create(:way_node, :way => way2, :node => create(:node, :lat => 9, :lon => 9), :sequence_id => 1)
+    create(:way_node, :way => way2, :node => create(:node, :lat => 10, :lon => 10), :sequence_id => 2)
 
-    [current_nodes(:used_node_1),
-     current_nodes(:used_node_2),
-     current_ways(:used_way),
-     current_ways(:way_with_versions)].each_with_index do |element, _version|
+    [node1, node2, way1, way2].each do |element|
       bbox = element.bbox.to_unscaled
       check_changeset_modify(bbox) do |changeset_id|
-        relation_xml = Relation.find(relation_id).to_xml
+        relation_xml = Relation.find(relation.id).to_xml
         relation_element = relation_xml.find("//osm/relation").first
         new_member = XML::Node.new("member")
         new_member["ref"] = element.id.to_s
@@ -675,11 +679,11 @@ class RelationControllerTest < ActionController::TestCase
 
         # upload the change
         content relation_xml
-        put :update, :id => current_relations(:visible_relation).id
+        put :update, :id => relation.id
         assert_response :success, "can't update relation for add #{element.class}/bbox test: #{@response.body}"
 
         # get it back and check the ordering
-        get :read, :id => relation_id
+        get :read, :id => relation.id
         assert_response :success, "can't read back the relation: #{@response.body}"
         check_ordering(relation_xml, @response.body)
       end
@@ -907,7 +911,7 @@ OSM
   # that the changeset bounding box is +bbox+.
   def check_changeset_modify(bbox)
     ## First test with the private user to check that you get a forbidden
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(create(:user, :data_public => false).email, "test")
 
     # create a new changeset for this operation, so we are assured
     # that the bounding box will be newly-generated.
@@ -918,7 +922,7 @@ OSM
     end
 
     ## Now do the whole thing with the public user
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:user).email, "test")
 
     # create a new changeset for this operation, so we are assured
     # that the bounding box will be newly-generated.

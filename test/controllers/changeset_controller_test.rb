@@ -1235,14 +1235,15 @@ EOF
     assert_response :success
     changeset_id = @response.body.to_i
 
-    old_way = current_ways(:visible_way)
+    old_way = create(:way)
+    create(:way_node, :way => old_way, :node => create(:node, :lat => 1, :lon => 1))
 
     diff = XML::Document.new
     diff.root = XML::Node.new "osmChange"
     modify = XML::Node.new "modify"
     xml_old_way = old_way.to_xml_node
     nd_ref = XML::Node.new "nd"
-    nd_ref["ref"] = current_nodes(:visible_node).id.to_s
+    nd_ref["ref"] = create(:node, :lat => 3, :lon => 3).id.to_s
     xml_old_way << nd_ref
     xml_old_way["changeset"] = changeset_id.to_s
     modify << xml_old_way
@@ -1510,6 +1511,9 @@ EOF
   # check that the bounding box of a changeset gets updated correctly
   # FIXME: This should really be moded to a integration test due to the with_controller
   def test_changeset_bbox
+    way = create(:way)
+    create(:way_node, :way => way, :node => create(:node, :lat => 3, :lon => 3))
+
     basic_authorization create(:user).email, "test"
 
     # create a new changeset
@@ -1550,9 +1554,8 @@ EOF
 
     # add (delete) a way to it, which contains a point at (3,3)
     with_controller(WayController.new) do
-      content update_changeset(current_ways(:visible_way).to_xml,
-                               changeset_id)
-      put :delete, :id => current_ways(:visible_way).id
+      content update_changeset(way.to_xml, changeset_id)
+      put :delete, :id => way.id
       assert_response :success, "Couldn't delete a way."
     end
 
