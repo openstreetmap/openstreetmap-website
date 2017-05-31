@@ -2,8 +2,6 @@ require "test_helper"
 require "redactions_controller"
 
 class RedactionsControllerTest < ActionController::TestCase
-  api_fixtures
-
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -38,6 +36,8 @@ class RedactionsControllerTest < ActionController::TestCase
   end
 
   def test_index
+    create(:redaction)
+
     get :index
     assert_response :success
     assert_template :index
