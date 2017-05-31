@@ -1643,11 +1643,11 @@ EOF
 
     get :query, :bbox => "-10,-10, 10, 10"
     assert_response :success, "can't get changesets in bbox"
-    assert_changesets [changeset2.id, changeset3.id]
+    assert_changesets [changeset2, changeset3]
 
     get :query, :bbox => "4.5,4.5,4.6,4.6"
     assert_response :success, "can't get changesets in bbox"
-    assert_changesets [changeset3.id]
+    assert_changesets [changeset3]
 
     # not found when looking for changesets of non-existing users
     get :query, :user => User.maximum(:id) + 1
@@ -1665,11 +1665,11 @@ EOF
     basic_authorization private_user.email, "test"
     get :query, :user => private_user.id
     assert_response :success, "can't get changesets by user ID"
-    assert_changesets [private_user_changeset.id, private_user_closed_changeset.id]
+    assert_changesets [private_user_changeset, private_user_closed_changeset]
 
     get :query, :display_name => private_user.display_name
     assert_response :success, "can't get changesets by user name"
-    assert_changesets [private_user_changeset.id, private_user_closed_changeset.id]
+    assert_changesets [private_user_changeset, private_user_closed_changeset]
 
     # check that the correct error is given when we provide both UID and name
     get :query, :user => private_user.id, :display_name => private_user.display_name
@@ -1677,39 +1677,39 @@ EOF
 
     get :query, :user => private_user.id, :open => true
     assert_response :success, "can't get changesets by user and open"
-    assert_changesets [private_user_changeset.id]
+    assert_changesets [private_user_changeset]
 
     get :query, :time => "2007-12-31"
     assert_response :success, "can't get changesets by time-since"
-    assert_changesets [private_user_changeset.id, private_user_closed_changeset.id, changeset.id, closed_changeset.id, changeset2.id, changeset3.id]
+    assert_changesets [private_user_changeset, private_user_closed_changeset, changeset, closed_changeset, changeset2, changeset3]
 
     get :query, :time => "2008-01-01T12:34Z"
     assert_response :success, "can't get changesets by time-since with hour"
-    assert_changesets [private_user_changeset.id, private_user_closed_changeset.id, changeset.id, closed_changeset.id, changeset2.id, changeset3.id]
+    assert_changesets [private_user_changeset, private_user_closed_changeset, changeset, closed_changeset, changeset2, changeset3]
 
     get :query, :time => "2007-12-31T23:59Z,2008-01-02T00:01Z"
     assert_response :success, "can't get changesets by time-range"
-    assert_changesets [closed_changeset.id]
+    assert_changesets [closed_changeset]
 
     get :query, :open => "true"
     assert_response :success, "can't get changesets by open-ness"
-    assert_changesets [private_user_changeset.id, changeset.id, changeset2.id, changeset3.id]
+    assert_changesets [private_user_changeset, changeset, changeset2, changeset3]
 
     get :query, :closed => "true"
     assert_response :success, "can't get changesets by closed-ness"
-    assert_changesets [private_user_closed_changeset.id, closed_changeset.id]
+    assert_changesets [private_user_closed_changeset, closed_changeset]
 
     get :query, :closed => "true", :user => private_user.id
     assert_response :success, "can't get changesets by closed-ness and user"
-    assert_changesets [private_user_closed_changeset.id]
+    assert_changesets [private_user_closed_changeset]
 
     get :query, :closed => "true", :user => user.id
     assert_response :success, "can't get changesets by closed-ness and user"
-    assert_changesets [closed_changeset.id]
+    assert_changesets [closed_changeset]
 
     get :query, :changesets => "#{private_user_changeset.id},#{changeset.id},#{closed_changeset.id}"
     assert_response :success, "can't get changesets by id (as comma-separated string)"
-    assert_changesets [private_user_changeset.id, changeset.id, closed_changeset.id]
+    assert_changesets [private_user_changeset, changeset, closed_changeset]
 
     get :query, :changesets => ""
     assert_response :bad_request, "should be a bad request since changesets is empty"
@@ -2439,10 +2439,10 @@ EOF
   ##
   # boilerplate for checking that certain changesets exist in the
   # output.
-  def assert_changesets(ids)
-    assert_select "osm>changeset", ids.size
-    ids.each do |id|
-      assert_select "osm>changeset[id='#{id}']", 1
+  def assert_changesets(changesets)
+    assert_select "osm>changeset", changesets.size
+    changesets.each do |changeset|
+      assert_select "osm>changeset[id='#{changeset.id}']", 1
     end
   end
 
