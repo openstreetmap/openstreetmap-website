@@ -253,12 +253,15 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_whichways_deleted
-    node = create(:node, :lat => 3.0, :lon => 3.0)
-    way = create(:way)
-    deleted_way = create(:way, :deleted)
+    node = create(:node, :with_history, :lat => 24.0, :lon => 24.0)
+    way = create(:way, :with_history)
+    way_v1 = way.old_ways.find_by(:version => 1)
+    deleted_way = create(:way, :with_history, :deleted)
+    deleted_way_v1 = deleted_way.old_ways.find_by(:version => 1)
     create(:way_node, :way => way, :node => node)
     create(:way_node, :way => deleted_way, :node => node)
-    create(:way_tag, :way => way)
+    create(:old_way_node, :old_way => way_v1, :node => node)
+    create(:old_way_node, :old_way => deleted_way_v1, :node => node)
 
     minlon = node.lon - 0.1
     minlat = node.lat - 0.1
@@ -276,9 +279,9 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal Array, map[2].class, "third map element should be an array"
     # TODO: looks like amf_controller changed since this test was written
     # so someone who knows what they're doing should check this!
-    assert !map[2].include?(current_ways(:used_way).id),
-           "map should not include used way"
-    assert map[2].include?(current_ways(:invisible_way).id),
+    assert !map[2].include?(way.id),
+           "map should not include visible way"
+    assert map[2].include?(deleted_way.id),
            "map should include deleted way"
   end
 
@@ -331,14 +334,16 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getway_old
+    latest = create(:way, :version => 2)
+    v1 = create(:old_way, :current_way => latest, :version => 1, :timestamp => Time.now.utc - 2.minutes)
+    _v2 = create(:old_way, :current_way => latest, :version => 2, :timestamp => Time.now.utc - 1.minute)
+
     # try to get the last visible version (specified by <0) (should be current version)
-    latest = current_ways(:way_with_versions)
     # NOTE: looks from the API changes that this now expects a timestamp
     # instead of a version number...
     # try to get version 1
-    v1 = ways(:way_with_versions_v2)
     { latest.id => "",
-      v1.way_id => v1.timestamp.strftime("%d %b %Y, %H:%M:%S") }.each do |id, t|
+      v1.way_id => (v1.timestamp + 1).strftime("%d %b %Y, %H:%M:%S") }.each do |id, t|
       amf_content "getway_old", "/1", [id, t]
       post :amf_read
       assert_response :success
@@ -355,7 +360,7 @@ class AmfControllerTest < ActionController::TestCase
   # test that the server doesn't fall over when rubbish is passed
   # into the method args.
   def test_getway_old_invalid
-    way_id = current_ways(:way_with_versions).id
+    way_id = create(:way, :with_history, :version => 2).id
     { "foo"  => "bar",
       way_id => "not a date",
       way_id => "2009-03-25 00:00:00",                   # <- wrong format
@@ -375,7 +380,8 @@ class AmfControllerTest < ActionController::TestCase
 
   def test_getway_old_nonexistent
     # try to get the last version-10 (shoudn't exist)
-    v1 = ways(:way_with_versions_v1)
+    way = create(:way, :with_history, :version => 2)
+    v1 = way.old_ways.find_by(:version => 1)
     # try to get last visible version of non-existent way
     # try to get specific version of non-existent way
     [[0, ""],
@@ -394,7 +400,8 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getway_old_invisible
-    v1 = ways(:invisible_way)
+    way = create(:way, :deleted, :with_history, :version => 1)
+    v1 = way.old_ways.find_by(:version => 1)
     # try to get deleted version
     [[v1.way_id, (v1.timestamp + 10).strftime("%d %b %Y, %H:%M:%S")]].each do |id, t|
       amf_content "getway_old", "/1", [id, t]
@@ -410,8 +417,9 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getway_history
-    latest = current_ways(:way_with_versions)
-    oldest = ways(:way_with_versions_v1)
+    latest = create(:way, :version => 2)
+    oldest = create(:old_way, :current_way => latest, :version => 1, :timestamp => latest.timestamp - 2.minutes)
+    create(:old_way, :current_way => latest, :version => 2, :timestamp => latest.timestamp)
 
     amf_content "getway_history", "/1", [latest.id]
     post :amf_read
