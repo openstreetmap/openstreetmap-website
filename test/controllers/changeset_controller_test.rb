@@ -821,55 +821,57 @@ EOF
   # create a diff which references several changesets, which should cause
   # a rollback and none of the diff gets committed
   def test_upload_invalid_changesets
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
-    cs_id = changesets(:public_user_first_change).id
+    changeset = create(:changeset)
+    other_changeset = create(:changeset, :user => changeset.user)
+    node = create(:node)
+    way = create(:way)
+    relation = create(:relation)
+    other_relation = create(:relation)
+
+    basic_authorization changeset.user.email, "test"
 
     # simple diff to create a node way and relation using placeholders
     diff = <<EOF
 <osmChange>
  <modify>
-  <node id='1' lon='0' lat='0' changeset='#{cs_id}' version='1'/>
-  <way id='1' changeset='#{cs_id}' version='1'>
-   <nd ref='3'/>
+  <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+  <way id='#{way.id}' changeset='#{changeset.id}' version='1'>
+   <nd ref='#{node.id}'/>
   </way>
  </modify>
  <modify>
-  <relation id='1' changeset='#{cs_id}' version='1'>
-   <member type='way' role='some' ref='3'/>
-   <member type='node' role='some' ref='5'/>
-   <member type='relation' role='some' ref='3'/>
+  <relation id='#{relation.id}' changeset='#{changeset.id}' version='1'>
+   <member type='way' role='some' ref='#{way.id}'/>
+   <member type='node' role='some' ref='#{node.id}'/>
+   <member type='relation' role='some' ref='#{other_relation.id}'/>
   </relation>
  </modify>
  <create>
-  <node id='-1' lon='0' lat='0' changeset='4'>
+  <node id='-1' lon='0' lat='0' changeset='#{other_changeset.id}'>
    <tag k='foo' v='bar'/>
    <tag k='baz' v='bat'/>
   </node>
  </create>
 </osmChange>
 EOF
-    # cache the objects before uploading them
-    node = current_nodes(:visible_node)
-    way = current_ways(:visible_way)
-    rel = current_relations(:visible_relation)
 
     # upload it
     content diff
-    post :upload, :id => cs_id
+    post :upload, :id => changeset.id
     assert_response :conflict,
-                    "uploading a diff with multiple changsets should have failed"
+                    "uploading a diff with multiple changesets should have failed"
 
     # check that objects are unmodified
-    assert_nodes_are_equal(node, Node.find(1))
-    assert_ways_are_equal(way, Way.find(1))
-    assert_relations_are_equal(rel, Relation.find(1))
+    assert_nodes_are_equal(node, Node.find(node.id))
+    assert_ways_are_equal(way, Way.find(way.id))
+    assert_relations_are_equal(relation, Relation.find(relation.id))
   end
 
   ##
   # upload multiple versions of the same element in the same diff.
   def test_upload_multiple_valid
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
-    cs_id = changesets(:public_user_first_change).id
+    changeset = create(:changeset)
+    basic_authorization changeset.user.email, "test"
 
     # change the location of a node multiple times, each time referencing
     # the last version. doesn't this depend on version numbers being
@@ -877,21 +879,21 @@ EOF
     diff = <<EOF
 <osmChange>
  <modify>
-  <node id='1' lon='0' lat='0' changeset='#{cs_id}' version='1'/>
-  <node id='1' lon='1' lat='0' changeset='#{cs_id}' version='2'/>
-  <node id='1' lon='1' lat='1' changeset='#{cs_id}' version='3'/>
-  <node id='1' lon='1' lat='2' changeset='#{cs_id}' version='4'/>
-  <node id='1' lon='2' lat='2' changeset='#{cs_id}' version='5'/>
-  <node id='1' lon='3' lat='2' changeset='#{cs_id}' version='6'/>
-  <node id='1' lon='3' lat='3' changeset='#{cs_id}' version='7'/>
-  <node id='1' lon='9' lat='9' changeset='#{cs_id}' version='8'/>
+  <node id='1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+  <node id='1' lon='1' lat='0' changeset='#{changeset.id}' version='2'/>
+  <node id='1' lon='1' lat='1' changeset='#{changeset.id}' version='3'/>
+  <node id='1' lon='1' lat='2' changeset='#{changeset.id}' version='4'/>
+  <node id='1' lon='2' lat='2' changeset='#{changeset.id}' version='5'/>
+  <node id='1' lon='3' lat='2' changeset='#{changeset.id}' version='6'/>
+  <node id='1' lon='3' lat='3' changeset='#{changeset.id}' version='7'/>
+  <node id='1' lon='9' lat='9' changeset='#{changeset.id}' version='8'/>
  </modify>
 </osmChange>
 EOF
 
     # upload it
     content diff
-    post :upload, :id => cs_id
+    post :upload, :id => changeset.id
     assert_response :success,
                     "can't upload multiple versions of an element in a diff: #{@response.body}"
 
@@ -905,21 +907,22 @@ EOF
   # upload multiple versions of the same element in the same diff, but
   # keep the version numbers the same.
   def test_upload_multiple_duplicate
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
-    cs_id = changesets(:public_user_first_change).id
+    changeset = create(:changeset)
+
+    basic_authorization changeset.user.email, "test"
 
     diff = <<EOF
 <osmChange>
  <modify>
-  <node id='1' lon='0' lat='0' changeset='#{cs_id}' version='1'/>
-  <node id='1' lon='1' lat='1' changeset='#{cs_id}' version='1'/>
+  <node id='1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+  <node id='1' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
  </modify>
 </osmChange>
 EOF
 
     # upload it
     content diff
-    post :upload, :id => cs_id
+    post :upload, :id => changeset.id
     assert_response :conflict,
                     "shouldn't be able to upload the same element twice in a diff: #{@response.body}"
   end
@@ -927,20 +930,21 @@ EOF
   ##
   # try to upload some elements without specifying the version
   def test_upload_missing_version
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
-    cs_id = changesets(:public_user_first_change).id
+    changeset = create(:changeset)
+
+    basic_authorization changeset.user.email, "test"
 
     diff = <<EOF
 <osmChange>
  <modify>
- <node id='1' lon='1' lat='1' changeset='cs_id'/>
+ <node id='1' lon='1' lat='1' changeset='#{changeset.id}'/>
  </modify>
 </osmChange>
 EOF
 
     # upload it
     content diff
-    post :upload, :id => cs_id
+    post :upload, :id => changeset.id
     assert_response :bad_request,
                     "shouldn't be able to upload an element without version: #{@response.body}"
   end
@@ -948,18 +952,19 @@ EOF
   ##
   # try to upload with commands other than create, modify, or delete
   def test_action_upload_invalid
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
-    cs_id = changesets(:public_user_first_change).id
+    changeset = create(:changeset)
+
+    basic_authorization changeset.user.email, "test"
 
     diff = <<EOF
 <osmChange>
   <ping>
-   <node id='1' lon='1' lat='1' changeset='#{cs_id}' />
+   <node id='1' lon='1' lat='1' changeset='#{changeset.id}' />
   </ping>
 </osmChange>
 EOF
     content diff
-    post :upload, :id => cs_id
+    post :upload, :id => changeset.id
     assert_response :bad_request, "Shouldn't be able to upload a diff with the action ping"
     assert_equal @response.body, "Unknown action ping, choices are create, modify, delete"
   end
@@ -968,26 +973,32 @@ EOF
   # upload a valid changeset which has a mixture of whitespace
   # to check a bug reported by ivansanchez (#1565).
   def test_upload_whitespace_valid
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
-    changeset_id = changesets(:public_user_first_change).id
+    changeset = create(:changeset)
+    node = create(:node)
+    way = create(:way_with_nodes, :nodes_count => 2)
+    relation = create(:relation)
+    other_relation = create(:relation)
+    create(:relation_tag, :relation => relation)
+
+    basic_authorization changeset.user.email, "test"
 
     diff = <<EOF
 <osmChange>
- <modify><node id='1' lon='0' lat='0' changeset='#{changeset_id}'
+ <modify><node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}'
   version='1'></node>
-  <node id='1' lon='1' lat='1' changeset='#{changeset_id}' version='2'><tag k='k' v='v'/></node></modify>
+  <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset.id}' version='2'><tag k='k' v='v'/></node></modify>
  <modify>
- <relation id='1' changeset='#{changeset_id}' version='1'><member
-   type='way' role='some' ref='3'/><member
-    type='node' role='some' ref='5'/>
-   <member type='relation' role='some' ref='3'/>
+ <relation id='#{relation.id}' changeset='#{changeset.id}' version='1'><member
+   type='way' role='some' ref='#{way.id}'/><member
+    type='node' role='some' ref='#{node.id}'/>
+   <member type='relation' role='some' ref='#{other_relation.id}'/>
   </relation>
  </modify></osmChange>
 EOF
 
     # upload it
     content diff
-    post :upload, :id => changeset_id
+    post :upload, :id => changeset.id
     assert_response :success,
                     "can't upload a valid diff with whitespace variations to changeset: #{@response.body}"
 
@@ -996,36 +1007,36 @@ EOF
     assert_select "diffResult>relation", 1
 
     # check that the changes made it into the database
-    assert_equal 1, Node.find(1).tags.size, "node 1 should now have one tag"
-    assert_equal 0, Relation.find(1).tags.size, "relation 1 should now have no tags"
+    assert_equal 1, Node.find(node.id).tags.size, "node #{node.id} should now have one tag"
+    assert_equal 0, Relation.find(relation.id).tags.size, "relation #{relation.id} should now have no tags"
   end
 
   ##
-  # upload a valid changeset which has a mixture of whitespace
-  # to check a bug reported by ivansanchez.
+  # test that a placeholder can be reused within the same upload.
   def test_upload_reuse_placeholder_valid
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
-    changeset_id = changesets(:public_user_first_change).id
+    changeset = create(:changeset)
+
+    basic_authorization changeset.user.email, "test"
 
     diff = <<EOF
 <osmChange>
  <create>
-  <node id='-1' lon='0' lat='0' changeset='#{changeset_id}'>
+  <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
    <tag k="foo" v="bar"/>
   </node>
  </create>
  <modify>
-  <node id='-1' lon='1' lat='1' changeset='#{changeset_id}' version='1'/>
+  <node id='-1' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
  </modify>
  <delete>
-  <node id='-1' lon='2' lat='2' changeset='#{changeset_id}' version='2'/>
+  <node id='-1' lon='2' lat='2' changeset='#{changeset.id}' version='2'/>
  </delete>
 </osmChange>
 EOF
 
     # upload it
     content diff
-    post :upload, :id => changeset_id
+    post :upload, :id => changeset.id
     assert_response :success,
                     "can't upload a valid diff with re-used placeholders to changeset: #{@response.body}"
 
@@ -1038,22 +1049,23 @@ EOF
   # test what happens if a diff upload re-uses placeholder IDs in an
   # illegal way.
   def test_upload_placeholder_invalid
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
-    changeset_id = changesets(:public_user_first_change).id
+    changeset = create(:changeset)
+
+    basic_authorization changeset.user.email, "test"
 
     diff = <<EOF
 <osmChange>
  <create>
-  <node id='-1' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
-  <node id='-1' lon='1' lat='1' changeset='#{changeset_id}' version='1'/>
-  <node id='-1' lon='2' lat='2' changeset='#{changeset_id}' version='2'/>
+  <node id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+  <node id='-1' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
+  <node id='-1' lon='2' lat='2' changeset='#{changeset.id}' version='2'/>
  </create>
 </osmChange>
 EOF
 
     # upload it
     content diff
-    post :upload, :id => changeset_id
+    post :upload, :id => changeset.id
     assert_response :bad_request,
                     "shouldn't be able to re-use placeholder IDs"
   end
@@ -1062,16 +1074,18 @@ EOF
   # test that uploading a way referencing invalid placeholders gives a
   # proper error, not a 500.
   def test_upload_placeholder_invalid_way
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
-    changeset_id = changesets(:public_user_first_change).id
+    changeset = create(:changeset)
+    way = create(:way)
+
+    basic_authorization changeset.user.email, "test"
 
     diff = <<EOF
 <osmChange>
  <create>
-  <node id="-1" lon="0" lat="0" changeset="#{changeset_id}" version="1"/>
-  <node id="-2" lon="1" lat="1" changeset="#{changeset_id}" version="1"/>
-  <node id="-3" lon="2" lat="2" changeset="#{changeset_id}" version="1"/>
-  <way id="-1" changeset="#{changeset_id}" version="1">
+  <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
+  <node id="-2" lon="1" lat="1" changeset="#{changeset.id}" version="1"/>
+  <node id="-3" lon="2" lat="2" changeset="#{changeset.id}" version="1"/>
+  <way id="-1" changeset="#{changeset.id}" version="1">
    <nd ref="-1"/>
    <nd ref="-2"/>
    <nd ref="-3"/>
@@ -1083,7 +1097,7 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => changeset_id
+    post :upload, :id => changeset.id
     assert_response :bad_request,
                     "shouldn't be able to use invalid placeholder IDs"
     assert_equal "Placeholder node not found for reference -4 in way -1", @response.body
@@ -1092,10 +1106,10 @@ EOF
     diff = <<EOF
 <osmChange>
  <create>
-  <node id="-1" lon="0" lat="0" changeset="#{changeset_id}" version="1"/>
-  <node id="-2" lon="1" lat="1" changeset="#{changeset_id}" version="1"/>
-  <node id="-3" lon="2" lat="2" changeset="#{changeset_id}" version="1"/>
-  <way id="1" changeset="#{changeset_id}" version="1">
+  <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
+  <node id="-2" lon="1" lat="1" changeset="#{changeset.id}" version="1"/>
+  <node id="-3" lon="2" lat="2" changeset="#{changeset.id}" version="1"/>
+  <way id="#{way.id}" changeset="#{changeset.id}" version="1">
    <nd ref="-1"/>
    <nd ref="-2"/>
    <nd ref="-3"/>
@@ -1107,26 +1121,28 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => changeset_id
+    post :upload, :id => changeset.id
     assert_response :bad_request,
                     "shouldn't be able to use invalid placeholder IDs"
-    assert_equal "Placeholder node not found for reference -4 in way 1", @response.body
+    assert_equal "Placeholder node not found for reference -4 in way #{way.id}", @response.body
   end
 
   ##
   # test that uploading a relation referencing invalid placeholders gives a
   # proper error, not a 500.
   def test_upload_placeholder_invalid_relation
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
-    changeset_id = changesets(:public_user_first_change).id
+    changeset = create(:changeset)
+    relation = create(:relation)
+
+    basic_authorization changeset.user.email, "test"
 
     diff = <<EOF
 <osmChange>
  <create>
-  <node id="-1" lon="0" lat="0" changeset="#{changeset_id}" version="1"/>
-  <node id="-2" lon="1" lat="1" changeset="#{changeset_id}" version="1"/>
-  <node id="-3" lon="2" lat="2" changeset="#{changeset_id}" version="1"/>
-  <relation id="-1" changeset="#{changeset_id}" version="1">
+  <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
+  <node id="-2" lon="1" lat="1" changeset="#{changeset.id}" version="1"/>
+  <node id="-3" lon="2" lat="2" changeset="#{changeset.id}" version="1"/>
+  <relation id="-1" changeset="#{changeset.id}" version="1">
    <member type="node" role="foo" ref="-1"/>
    <member type="node" role="foo" ref="-2"/>
    <member type="node" role="foo" ref="-3"/>
@@ -1138,19 +1154,19 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => changeset_id
+    post :upload, :id => changeset.id
     assert_response :bad_request,
                     "shouldn't be able to use invalid placeholder IDs"
     assert_equal "Placeholder Node not found for reference -4 in relation -1.", @response.body
 
-    # the same again, but this time use an existing way
+    # the same again, but this time use an existing relation
     diff = <<EOF
 <osmChange>
  <create>
-  <node id="-1" lon="0" lat="0" changeset="#{changeset_id}" version="1"/>
-  <node id="-2" lon="1" lat="1" changeset="#{changeset_id}" version="1"/>
-  <node id="-3" lon="2" lat="2" changeset="#{changeset_id}" version="1"/>
-  <relation id="1" changeset="#{changeset_id}" version="1">
+  <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
+  <node id="-2" lon="1" lat="1" changeset="#{changeset.id}" version="1"/>
+  <node id="-3" lon="2" lat="2" changeset="#{changeset.id}" version="1"/>
+  <relation id="#{relation.id}" changeset="#{changeset.id}" version="1">
    <member type="node" role="foo" ref="-1"/>
    <member type="node" role="foo" ref="-2"/>
    <member type="node" role="foo" ref="-3"/>
@@ -1162,10 +1178,10 @@ EOF
 
     # upload it
     content diff
-    post :upload, :id => changeset_id
+    post :upload, :id => changeset.id
     assert_response :bad_request,
                     "shouldn't be able to use invalid placeholder IDs"
-    assert_equal "Placeholder Way not found for reference -1 in relation 1.", @response.body
+    assert_equal "Placeholder Way not found for reference -1 in relation #{relation.id}.", @response.body
   end
 
   ##
@@ -1181,7 +1197,7 @@ EOF
     assert_response :success
     changeset_id = @response.body.to_i
 
-    old_node = current_nodes(:visible_node)
+    old_node = create(:node, :lat => 1, :lon => 1)
 
     diff = XML::Document.new
     diff.root = XML::Node.new "osmChange"
@@ -1249,7 +1265,9 @@ EOF
   ##
   # test for more issues in #1568
   def test_upload_empty_invalid
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
+    changeset = create(:changeset)
+
+    basic_authorization changeset.user.email, "test"
 
     ["<osmChange/>",
      "<osmChange></osmChange>",
@@ -1257,7 +1275,7 @@ EOF
      "<osmChange><modify></modify></osmChange>"].each do |diff|
       # upload it
       content diff
-      post :upload, :id => changesets(:public_user_first_change).id
+      post :upload, :id => changeset.id
       assert_response(:success, "should be able to upload " +
                       "empty changeset: " + diff)
     end
@@ -1266,20 +1284,23 @@ EOF
   ##
   # test that the X-Error-Format header works to request XML errors
   def test_upload_xml_errors
-    basic_authorization changesets(:public_user_first_change).user.email, "test"
-    cs = changesets(:public_user_first_change)
+    changeset = create(:changeset)
+    node = create(:node)
+    create(:relation_member, :member => node)
+
+    basic_authorization changeset.user.email, "test"
 
     # try and delete a node that is in use
     diff = XML::Document.new
     diff.root = XML::Node.new "osmChange"
     delete = XML::Node.new "delete"
     diff.root << delete
-    delete << current_nodes(:node_used_by_relationship).to_xml_node
+    delete << node.to_xml_node
 
     # upload it
     content diff
     error_format "xml"
-    post :upload, :id => cs.id
+    post :upload, :id => changeset.id
     assert_response :success,
                     "failed to return error in XML format"
 
@@ -1462,9 +1483,15 @@ EOF
   end
 
   def test_changeset_download
-    tag = create(:old_node_tag, :old_node => nodes(:used_node_2))
+    changeset = create(:changeset)
+    node = create(:node, :with_history, :version => 1, :changeset => changeset)
+    tag = create(:old_node_tag, :old_node => node.old_nodes.find_by(:version => 1))
+    node2 = create(:node, :with_history, :version => 1, :changeset => changeset)
+    _node3 = create(:node, :with_history, :deleted, :version => 1, :changeset => changeset)
+    _relation = create(:relation, :with_history, :version => 1, :changeset => changeset)
+    _relation2 = create(:relation, :with_history, :deleted, :version => 1, :changeset => changeset)
 
-    get :download, :id => changesets(:normal_user_first_change).id
+    get :download, :id => changeset.id
 
     assert_response :success
     assert_template nil
@@ -1472,10 +1499,10 @@ EOF
     # FIXME: needs more assert_select tests
     assert_select "osmChange[version='#{API_VERSION}'][generator='#{GENERATOR}']" do
       assert_select "create", :count => 5
-      assert_select "create>node[id='#{nodes(:used_node_2).node_id}'][visible='#{nodes(:used_node_2).visible?}'][version='#{nodes(:used_node_2).version}']" do
+      assert_select "create>node[id='#{node.id}'][visible='#{node.visible?}'][version='#{node.version}']" do
         assert_select "tag[k='#{tag.k}'][v='#{tag.v}']"
       end
-      assert_select "create>node[id='#{nodes(:visible_node).node_id}']"
+      assert_select "create>node[id='#{node2.id}']"
     end
   end
 
