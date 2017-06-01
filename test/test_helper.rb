@@ -5,7 +5,6 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path("../../config/environment", __FILE__)
 require "rails/test_help"
 require "webmock/minitest"
-load "composite_primary_keys/fixtures.rb"
 
 module ActiveSupport
   class TestCase
