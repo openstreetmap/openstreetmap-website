@@ -1349,8 +1349,8 @@ class UserControllerTest < ActionController::TestCase
     user = create(:user)
     moderator_user = create(:moderator_user)
     administrator_user = create(:administrator_user)
-    suspended_user = create(:user, :suspended)
-    ip_user = create(:user, :creation_ip => "1.2.3.4")
+    _suspended_user = create(:user, :suspended)
+    _ip_user = create(:user, :creation_ip => "1.2.3.4")
 
     # There are now 7 users - the five above, plus two extra "granters" for the
     # moderator_user and administrator_user
