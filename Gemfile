@@ -106,6 +106,11 @@ group :development do
   gem "vendorer"
 end
 
+# Gems useful for development
+group :development do
+  gem 'vendorer'
+end
+
 # Gems needed for running tests
 group :test do
   gem "minitest", "~> 5.1", :platforms => [:ruby_19, :ruby_20]
