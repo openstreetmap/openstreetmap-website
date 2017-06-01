@@ -1,20 +1,18 @@
 module OSM
-  module SchemaStatements
-    def add_index_options(table_name, column_name, options = {})
-      columns = options.delete(:columns)
-      index_name, index_type, index_columns, index_options, algorithm, using = super(table_name, column_name, options)
-      [index_name, index_type, columns || index_columns, index_options, algorithm, using]
-    end
-  end
-
-  module PostgreSQL
-    module Quoting
-      def quote_column_name(name)
-        Array(name).map { |n| super(n) }.join(", ")
+  module ActiveRecord
+    module AbstractAdapter
+      def add_index_options(table_name, column_name, options = {})
+        columns = options.delete(:columns)
+        index_name, index_type, index_columns, index_options, algorithm, using = super(table_name, column_name, options)
+        [index_name, index_type, columns || index_columns, index_options, algorithm, using]
       end
     end
 
-    module SchemaStatements
+    module PostgreSQLAdapter
+      def quote_column_name(name)
+        Array(name).map { |n| super(n) }.join(", ")
+      end
+
       def add_primary_key(table_name, column_name, _options = {})
         execute "ALTER TABLE #{quote_table_name(table_name)} ADD PRIMARY KEY (#{quote_column_name(column_name)})"
       end
@@ -43,6 +41,5 @@ module OSM
   end
 end
 
-ActiveRecord::ConnectionAdapters::SchemaStatements.extend(OSM::SchemaStatements)
-ActiveRecord::ConnectionAdapters::PostgreSQL::Quoting.extend(OSM::PostgreSQL::Quoting)
-ActiveRecord::ConnectionAdapters::PostgreSQL::SchemaStatements.extend(OSM::PostgreSQL::SchemaStatements)
+ActiveRecord::ConnectionAdapters::AbstractAdapter.prepend(OSM::ActiveRecord::AbstractAdapter)
+ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.prepend(OSM::ActiveRecord::PostgreSQLAdapter)
