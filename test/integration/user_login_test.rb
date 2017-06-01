@@ -775,7 +775,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_template "user/login"
     get auth_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "github")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -795,7 +795,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_template "user/login"
     get auth_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "github")
     follow_redirect!
     assert_response :redirect
     assert_redirected_to auth_failure_path(:strategy => "github", :message => "connection_failed", :origin => "/login?referer=%2Fhistory")
@@ -819,7 +819,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_template "user/login"
     get auth_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "github")
     follow_redirect!
     assert_response :redirect
     assert_redirected_to auth_failure_path(:strategy => "github", :message => "invalid_credentials", :origin => "/login?referer=%2Fhistory")
@@ -843,7 +843,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_template "user/login"
     get auth_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "github")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
