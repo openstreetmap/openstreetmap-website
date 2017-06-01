@@ -2,8 +2,6 @@ require "test_helper"
 require "old_node_controller"
 
 class OldNodeControllerTest < ActionController::TestCase
-  api_fixtures
-
   #
   # TODO: test history
   #

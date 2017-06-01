@@ -2,8 +2,6 @@ require "test_helper"
 require "old_relation_controller"
 
 class OldRelationControllerTest < ActionController::TestCase
-  api_fixtures
-
   ##
   # test all routes which lead to this controller
   def test_routes

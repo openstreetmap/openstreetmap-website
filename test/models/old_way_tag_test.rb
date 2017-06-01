@@ -1,8 +1,6 @@
 require "test_helper"
 
 class OldWayTagTest < ActiveSupport::TestCase
-  api_fixtures
-
   def test_length_key_valid
     tag = create(:old_way_tag)
     (0..255).each do |i|

@@ -1,8 +1,6 @@
 require "test_helper"
 
 class OldWayTest < ActiveSupport::TestCase
-  api_fixtures
-
   def test_old_nodes
     old_way_v1 = create(:old_way, :version => 1)
     old_way_v2 = create(:old_way, :current_way => old_way_v1.current_way, :version => 2)

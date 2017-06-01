@@ -1,8 +1,6 @@
 require "test_helper"
 
 class RelationTagTest < ActiveSupport::TestCase
-  api_fixtures
-
   def test_length_key_valid
     tag = create(:relation_tag)
     (0..255).each do |i|

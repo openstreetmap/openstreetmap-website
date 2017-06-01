@@ -2,8 +2,6 @@
 require "test_helper"
 
 class MessageTest < ActiveSupport::TestCase
-  api_fixtures
-
   EURO = "\xe2\x82\xac".freeze # euro symbol
 
   def test_check_empty_message_fails

@@ -1,8 +1,6 @@
 require "test_helper"
 
 class SwfControllerTest < ActionController::TestCase
-  api_fixtures
-
   ##
   # test all routes which lead to this controller
   def test_routes

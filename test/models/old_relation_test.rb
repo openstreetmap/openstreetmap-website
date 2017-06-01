@@ -1,8 +1,6 @@
 require "test_helper"
 
 class OldRelationTest < ActiveSupport::TestCase
-  api_fixtures
-
   def test_relation_tags
     old_relation_v1 = create(:old_relation, :version => 1)
     old_relation_v2 = create(:old_relation, :current_relation => old_relation_v1.current_relation, :version => 2)

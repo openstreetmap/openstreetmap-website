@@ -1,8 +1,6 @@
 require "test_helper"
 
 class SiteControllerTest < ActionController::TestCase
-  api_fixtures
-
   ##
   # setup oauth keys
   def setup

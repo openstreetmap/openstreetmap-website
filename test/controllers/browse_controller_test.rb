@@ -2,8 +2,6 @@ require "test_helper"
 require "browse_controller"
 
 class BrowseControllerTest < ActionController::TestCase
-  api_fixtures
-
   ##
   # test all routes which lead to this controller
   def test_routes

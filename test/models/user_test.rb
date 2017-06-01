@@ -4,9 +4,6 @@ require "test_helper"
 class UserTest < ActiveSupport::TestCase
   include Rails::Dom::Testing::Assertions::SelectorAssertions
 
-  api_fixtures
-  fixtures :user_roles
-
   def test_invalid_with_empty_attributes
     user = User.new
     assert !user.valid?

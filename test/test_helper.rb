@@ -11,43 +11,6 @@ module ActiveSupport
   class TestCase
     include FactoryGirl::Syntax::Methods
 
-    # Load standard fixtures needed to test API methods
-    def self.api_fixtures
-      # print "setting up the api_fixtures"
-      fixtures :users, :user_roles
-      fixtures :changesets
-
-      fixtures :current_nodes, :nodes
-      set_fixture_class :current_nodes => Node
-      set_fixture_class :nodes => OldNode
-
-      fixtures :current_ways
-      set_fixture_class :current_ways => Way
-
-      fixtures :current_way_nodes
-      set_fixture_class :current_way_nodes => WayNode
-
-      fixtures :ways
-      set_fixture_class :ways => OldWay
-
-      fixtures :way_nodes
-      set_fixture_class :way_nodes => OldWayNode
-
-      fixtures :current_relations
-      set_fixture_class :current_relations => Relation
-
-      fixtures :current_relation_members
-      set_fixture_class :current_relation_members => RelationMember
-
-      fixtures :relations
-      set_fixture_class :relations => OldRelation
-
-      fixtures :relation_members
-      set_fixture_class :relation_members => OldRelationMember
-
-      fixtures :redactions
-    end
-
     ##
     # takes a block which is executed in the context of a different
     # ActionController instance. this is used so that code can call methods

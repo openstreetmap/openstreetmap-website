@@ -1,12 +1,6 @@
 require "test_helper"
 
 class RelationTest < ActiveSupport::TestCase
-  api_fixtures
-
-  def test_relation_count
-    assert_equal 8, Relation.count
-  end
-
   def test_from_xml_no_id
     noid = "<osm><relation version='12' changeset='23' /></osm>"
     assert_nothing_raised(OSM::APIBadXMLError) do

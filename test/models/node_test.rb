@@ -1,8 +1,6 @@
 require "test_helper"
 
 class NodeTest < ActiveSupport::TestCase
-  api_fixtures
-
   def test_node_too_far_north
     node = build(:node, :latitude => 90.01 * OldNode::SCALE)
     assert_equal false, node.valid?
