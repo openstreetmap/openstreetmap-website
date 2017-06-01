@@ -2,8 +2,6 @@ require "test_helper"
 require "api_controller"
 
 class ApiControllerTest < ActionController::TestCase
-  api_fixtures
-
   def setup
     super
     @badbigbbox = %w(-0.1,-0.1,1.1,1.1 10,10,11,11)
@@ -295,12 +293,20 @@ class ApiControllerTest < ActionController::TestCase
   # http://wiki.openstreetmap.org/wiki/Rails#Installing_the_quadtile_functions
   # or by looking at the readme in db/README
   def test_changes_simple
+    # create a selection of nodes
+    (1..5).each do |n|
+      create(:node, :timestamp => Time.utc(2007, 1, 1, 0, 0, 0), :lat => n, :lon => n)
+    end
+    # deleted nodes should also be counted
+    create(:node, :deleted, :timestamp => Time.utc(2007, 1, 1, 0, 0, 0), :lat => 6, :lon => 6)
+    # nodes in the same tile won't change the total
+    create(:node, :timestamp => Time.utc(2007, 1, 1, 0, 0, 0), :lat => 6, :lon => 6)
+    # nodes with a different timestamp should be ignored
+    create(:node, :timestamp => Time.utc(2008, 1, 1, 0, 0, 0), :lat => 7, :lon => 7)
+
     Timecop.freeze(Time.utc(2010, 4, 3, 10, 55, 0))
     get :changes
     assert_response :success
-    # print @response.body
-    # As we have loaded the fixtures, we can assume that there are no
-    # changes at the time we have frozen at
     now = Time.now.getutc
     hourago = now - 1.hour
     assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
@@ -320,7 +326,7 @@ class ApiControllerTest < ActionController::TestCase
     hourago = now - 1.hour
     assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
       assert_select "changes[starttime='#{hourago.xmlschema}'][endtime='#{now.xmlschema}']", :count => 1 do
-        assert_select "tile", :count => 10
+        assert_select "tile", :count => 6
       end
     end
     Timecop.return
