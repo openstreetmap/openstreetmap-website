@@ -6,8 +6,6 @@ class BrowseHelperTest < ActionView::TestCase
   include ERB::Util
   include ApplicationHelper
 
-  api_fixtures
-
   def setup
     I18n.locale = "en"
   end

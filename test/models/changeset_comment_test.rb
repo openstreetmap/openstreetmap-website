@@ -2,8 +2,6 @@
 require "test_helper"
 
 class ChangesetCommentTest < ActiveSupport::TestCase
-  fixtures :changesets, :users
-
   # validations
   def test_does_not_accept_invalid_author
     comment = create(:changeset_comment)

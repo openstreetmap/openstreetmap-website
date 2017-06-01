@@ -2,8 +2,6 @@
 require "test_helper"
 
 class NoteCommentTest < ActiveSupport::TestCase
-  fixtures :users
-
   def test_event_valid
     ok = %w(opened closed reopened commented hidden)
     bad = %w(expropriated fubared)

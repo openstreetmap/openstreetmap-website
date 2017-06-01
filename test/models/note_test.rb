@@ -2,8 +2,6 @@
 require "test_helper"
 
 class NoteTest < ActiveSupport::TestCase
-  fixtures :users
-
   def test_status_valid
     ok = %w(open closed hidden)
     bad = %w(expropriated fubared)
