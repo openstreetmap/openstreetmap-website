@@ -8,30 +8,31 @@ module I18n
         ex.entry[:other]
       end
     end
-
-    class Simple
-      def store_translations_with_normalisation(locale, data, options = {})
-        locale = I18n::Locale::Tag::Rfc4646.tag(locale).to_s
-
-        store_translations_without_normalisation(locale, data, options)
-      end
-
-      alias_method_chain :store_translations, :normalisation
-    end
   end
+end
 
-  module JS
-    class FallbackLocales
-      def default_fallbacks_with_validation
-        default_fallbacks_without_validation.select do |locale|
+module OSM
+  module I18n
+    module NormaliseLocales
+      def store_translations(locale, data, options = {})
+        locale = ::I18n::Locale::Tag::Rfc4646.tag(locale).to_s
+
+        super(locale, data, options)
+      end
+    end
+
+    module ValidateLocales
+      def default_fallbacks
+        super.select do |locale|
           ::I18n.available_locales.include?(locale)
         end
       end
-
-      alias_method_chain :default_fallbacks, :validation
     end
   end
 end
+
+I18n::Backend::Simple.prepend(OSM::I18n::NormaliseLocales)
+I18n::JS::FallbackLocales.prepend(OSM::I18n::ValidateLocales)
 
 I18n::Backend::Simple.include(I18n::Backend::PluralizationFallback)
 I18n::Backend::Simple.include(I18n::Backend::Fallbacks)

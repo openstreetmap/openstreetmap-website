@@ -1,21 +1,17 @@
 if defined?(ActiveRecord::ConnectionAdaptors::AbstractAdapter)
-  module ActiveRecord
-    module ConnectionAdapters
-      class AbstractAdapter
-        protected
-
-        alias old_log log
-
-        def translate_exception_class_with_timeout(e, sql)
+  module OSM
+    module AbstractAdapter
+      module PropagateTimeouts
+        def translate_exception_class(e, sql)
           if e.is_a?(Timeout::Error) || e.is_a?(OSM::APITimeoutError)
             e
           else
-            translate_exception_class_without_timeout(e, sql)
+            super(e, sql)
           end
         end
-
-        alias_method_chain :translate_exception_class, :timeout
       end
     end
   end
+
+  ActiveRecord::ConnectionAdaptors::AbstractAdapter.prepend(OSM::AbstractAdapter::PropagateTimeouts)
 end
