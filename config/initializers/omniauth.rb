@@ -38,16 +38,3 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   provider :github, GITHUB_AUTH_ID, GITHUB_AUTH_SECRET, github_options if defined?(GITHUB_AUTH_ID)
   provider :mediawiki, WIKIPEDIA_AUTH_ID, WIKIPEDIA_AUTH_SECRET, wikipedia_options if defined?(WIKIPEDIA_AUTH_ID)
 end
-
-# Pending fix for: https://github.com/intridea/omniauth/pull/795
-module OmniAuth
-  module Strategy
-    def mock_callback_call_with_origin
-      @env["omniauth.origin"] = session["omniauth.origin"]
-
-      mock_callback_call_without_origin
-    end
-
-    alias_method_chain :mock_callback_call, :origin
-  end
-end
