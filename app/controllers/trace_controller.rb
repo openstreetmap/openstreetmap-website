@@ -21,7 +21,7 @@ class TraceController < ApplicationController
   def list
     # from display name, pick up user id if one user's traces only
     display_name = params[:display_name]
-    unless display_name.blank?
+    if display_name.present?
       target_user = User.active.where(:display_name => display_name).first
       if target_user.nil?
         render_unknown_user display_name

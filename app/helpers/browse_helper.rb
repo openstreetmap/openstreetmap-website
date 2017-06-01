@@ -99,7 +99,7 @@ module BrowseHelper
 
   private
 
-  ICON_TAGS = %w(aeroway amenity barrier building highway historic landuse leisure man_made natural railway shop tourism waterway).freeze
+  ICON_TAGS = %w[aeroway amenity barrier building highway historic landuse leisure man_made natural railway shop tourism waterway].freeze
 
   def icon_tags(object)
     object.tags.find_all { |k, _v| ICON_TAGS.include? k }.sort

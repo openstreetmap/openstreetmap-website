@@ -49,7 +49,7 @@ class I18nTest < ActiveSupport::TestCase
         end
       end
 
-      assert %w(ltr rtl).include?(I18n.t("html.dir", :locale => locale)), "html.dir must be ltr or rtl"
+      assert %w[ltr rtl].include?(I18n.t("html.dir", :locale => locale)), "html.dir must be ltr or rtl"
     end
   end
 

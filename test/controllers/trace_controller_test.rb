@@ -539,7 +539,7 @@ class TraceControllerTest < ActionController::TestCase
     trace = Trace.order(:id => :desc).first
     assert_equal "a.gpx", trace.name
     assert_equal "New Trace", trace.description
-    assert_equal %w(new trace), trace.tags.order(:tag).collect(&:tag)
+    assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
     assert_equal "trackable", trace.visibility
     assert_equal false, trace.inserted
     assert_equal File.new(fixture).read, File.new(trace.trace_name).read
@@ -817,7 +817,7 @@ class TraceControllerTest < ActionController::TestCase
     trace = Trace.find(response.body.to_i)
     assert_equal "a.gpx", trace.name
     assert_equal "New Trace", trace.description
-    assert_equal %w(new trace), trace.tags.order(:tag).collect(&:tag)
+    assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
     assert_equal "trackable", trace.visibility
     assert_equal false, trace.inserted
     assert_equal File.new(fixture).read, File.new(trace.trace_name).read
@@ -835,7 +835,7 @@ class TraceControllerTest < ActionController::TestCase
     trace = Trace.find(response.body.to_i)
     assert_equal "a.gpx", trace.name
     assert_equal "New Trace", trace.description
-    assert_equal %w(new trace), trace.tags.order(:tag).collect(&:tag)
+    assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
     assert_equal "public", trace.visibility
     assert_equal false, trace.inserted
     assert_equal File.new(fixture).read, File.new(trace.trace_name).read
@@ -854,7 +854,7 @@ class TraceControllerTest < ActionController::TestCase
     trace = Trace.find(response.body.to_i)
     assert_equal "a.gpx", trace.name
     assert_equal "New Trace", trace.description
-    assert_equal %w(new trace), trace.tags.order(:tag).collect(&:tag)
+    assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
     assert_equal "private", trace.visibility
     assert_equal false, trace.inserted
     assert_equal File.new(fixture).read, File.new(trace.trace_name).read

@@ -18,7 +18,7 @@ class PopulateNodeTagsAndRemove < ActiveRecord::Migration
       args = conn_opts.map(&:to_s) + [prefix]
       raise "#{cmd} failed" unless system cmd, *args
 
-      tempfiles = %w(nodes node_tags current_nodes current_node_tags)
+      tempfiles = %w[nodes node_tags current_nodes current_node_tags]
                   .map { |base| prefix + base }
       nodes, node_tags, current_nodes, current_node_tags = tempfiles
     end

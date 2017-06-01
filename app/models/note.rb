@@ -7,7 +7,7 @@ class Note < ActiveRecord::Base
                  :numericality => { :on => :update, :integer_only => true }
   validates :latitude, :longitude, :numericality => { :only_integer => true }
   validates :closed_at, :presence => true, :if => proc { :status == "closed" }
-  validates :status, :inclusion => %w(open closed hidden)
+  validates :status, :inclusion => %w[open closed hidden]
 
   validate :validate_position
 

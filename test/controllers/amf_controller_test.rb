@@ -17,8 +17,8 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getpresets
-    user_en_de = create(:user, :languages => %w(en de))
-    user_de = create(:user, :languages => %w(de))
+    user_en_de = create(:user, :languages => %w[en de])
+    user_de = create(:user, :languages => %w[de])
     [user_en_de, user_de].each do |user|
       amf_content "getpresets", "/1", ["#{user.email}:test", ""]
       post :amf_read

@@ -253,7 +253,7 @@ class GeocoderControllerTest < ActionController::TestCase
     ].each do |code|
       post :search, :query => code
       assert_response :success
-      assert_equal %w(us_postcode osm_nominatim), assigns(:sources)
+      assert_equal %w[us_postcode osm_nominatim], assigns(:sources)
     end
   end
 
@@ -269,20 +269,20 @@ class GeocoderControllerTest < ActionController::TestCase
       "CR2 6XH",
       "DN55 1PT"
     ].each do |code|
-      search_check code, %w(uk_postcode osm_nominatim)
+      search_check code, %w[uk_postcode osm_nominatim]
     end
   end
 
   ##
   # Test identification of Canadian postcodes
   def test_identify_ca_postcode
-    search_check "A1B 2C3", %w(ca_postcode osm_nominatim)
+    search_check "A1B 2C3", %w[ca_postcode osm_nominatim]
   end
 
   ##
   # Test identification fall through to the default case
   def test_identify_default
-    search_check "foo bar baz", %w(osm_nominatim geonames)
+    search_check "foo bar baz", %w[osm_nominatim geonames]
   end
 
   ##
@@ -467,7 +467,7 @@ class GeocoderControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :search
     assert_template :layout => "map"
-    assert_equal %w(latlon osm_nominatim_reverse geonames_reverse), assigns(:sources)
+    assert_equal %w[latlon osm_nominatim_reverse geonames_reverse], assigns(:sources)
     assert_nil @controller.params[:query]
     assert_in_delta lat, @controller.params[:lat]
     assert_in_delta lon, @controller.params[:lon]
@@ -476,7 +476,7 @@ class GeocoderControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :search
     assert_template :layout => "xhr"
-    assert_equal %w(latlon osm_nominatim_reverse geonames_reverse), assigns(:sources)
+    assert_equal %w[latlon osm_nominatim_reverse geonames_reverse], assigns(:sources)
     assert_nil @controller.params[:query]
     assert_in_delta lat, @controller.params[:lat]
     assert_in_delta lon, @controller.params[:lon]

@@ -21,7 +21,7 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "current_way_segments", "id", :bigint, :null => false
     change_column "current_way_segments", "segment_id", :bigint, :null => false
     change_column "current_way_segments", "sequence_id", :bigint, :null => false
-    add_primary_key "current_way_segments", %w(id sequence_id)
+    add_primary_key "current_way_segments", %w[id sequence_id]
     remove_index "current_way_segments", :name => "current_way_segments_id_idx"
 
     change_column "current_way_tags", "id", :bigint, :null => false
@@ -40,7 +40,7 @@ class CleanupOsmDb < ActiveRecord::Migration
     remove_index "gps_points", :name => "points_uid_idx"
     remove_index "gps_points", :name => "points_idx"
     remove_column "gps_points", "user_id"
-    add_index "gps_points", %w(latitude longitude), :name => "points_idx"
+    add_index "gps_points", %w[latitude longitude], :name => "points_idx"
     change_column "gps_points", "trackid", :integer, :null => false
     change_column "gps_points", "latitude", :integer, :null => false
     change_column "gps_points", "longitude", :integer, :null => false
@@ -204,7 +204,7 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "current_way_segments", "segment_id", :bigint
     change_column "current_way_segments", "id", :bigint
 
-    add_index "current_segments", %w(id visible), :name => "current_segments_id_visible_idx"
+    add_index "current_segments", %w[id visible], :name => "current_segments_id_visible_idx"
     remove_primary_key "current_segments"
     change_column "current_segments", "timestamp", :datetime
     change_column "current_segments", "visible", :boolean

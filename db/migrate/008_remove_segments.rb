@@ -19,7 +19,7 @@ class RemoveSegments < ActiveRecord::Migration
       args = conn_opts.map(&:to_s) + [prefix]
       raise "#{cmd} failed" unless system cmd, *args
 
-      tempfiles = %w(ways way_nodes way_tags relations relation_members relation_tags)
+      tempfiles = %w[ways way_nodes way_tags relations relation_members relation_tags]
                   .map { |base| prefix + base }
       ways, way_nodes, way_tags,
   relations, relation_members, relation_tags = tempfiles

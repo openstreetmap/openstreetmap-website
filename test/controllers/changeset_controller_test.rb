@@ -327,22 +327,22 @@ class ChangesetControllerTest < ActionController::TestCase
 
     # simple diff to change a node, way and relation by removing
     # their tags
-    diff = <<EOF
-<osmChange>
- <modify>
-  <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
-  <way id='#{way.id}' changeset='#{changeset_id}' version='1'>
-   <nd ref='#{node.id}'/>
-  </way>
- </modify>
- <modify>
-  <relation id='#{relation.id}' changeset='#{changeset_id}' version='1'>
-   <member type='way' role='some' ref='#{way.id}'/>
-   <member type='node' role='some' ref='#{node.id}'/>
-   <member type='relation' role='some' ref='#{other_relation.id}'/>
-  </relation>
- </modify>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <modify>
+        <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
+        <way id='#{way.id}' changeset='#{changeset_id}' version='1'>
+         <nd ref='#{node.id}'/>
+        </way>
+       </modify>
+       <modify>
+        <relation id='#{relation.id}' changeset='#{changeset_id}' version='1'>
+         <member type='way' role='some' ref='#{way.id}'/>
+         <member type='node' role='some' ref='#{node.id}'/>
+         <member type='relation' role='some' ref='#{other_relation.id}'/>
+        </relation>
+       </modify>
+      </osmChange>
 EOF
 
     # upload it
@@ -357,22 +357,22 @@ EOF
 
     # simple diff to change a node, way and relation by removing
     # their tags
-    diff = <<EOF
-<osmChange>
- <modify>
-  <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
-  <way id='#{way.id}' changeset='#{changeset_id}' version='1'>
-   <nd ref='#{node.id}'/>
-  </way>
- </modify>
- <modify>
-  <relation id='#{relation.id}' changeset='#{changeset_id}' version='1'>
-   <member type='way' role='some' ref='#{way.id}'/>
-   <member type='node' role='some' ref='#{node.id}'/>
-   <member type='relation' role='some' ref='#{other_relation.id}'/>
-  </relation>
- </modify>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <modify>
+        <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
+        <way id='#{way.id}' changeset='#{changeset_id}' version='1'>
+         <nd ref='#{node.id}'/>
+        </way>
+       </modify>
+       <modify>
+        <relation id='#{relation.id}' changeset='#{changeset_id}' version='1'>
+         <member type='way' role='some' ref='#{way.id}'/>
+         <member type='node' role='some' ref='#{node.id}'/>
+         <member type='relation' role='some' ref='#{other_relation.id}'/>
+        </relation>
+       </modify>
+      </osmChange>
 EOF
 
     # upload it
@@ -387,22 +387,22 @@ EOF
 
     # simple diff to change a node, way and relation by removing
     # their tags
-    diff = <<EOF
-<osmChange>
- <modify>
-  <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
-  <way id='#{way.id}' changeset='#{changeset_id}' version='1'>
-   <nd ref='#{node.id}'/>
-  </way>
- </modify>
- <modify>
-  <relation id='#{relation.id}' changeset='#{changeset_id}' version='1'>
-   <member type='way' role='some' ref='#{way.id}'/>
-   <member type='node' role='some' ref='#{node.id}'/>
-   <member type='relation' role='some' ref='#{other_relation.id}'/>
-  </relation>
- </modify>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <modify>
+        <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
+        <way id='#{way.id}' changeset='#{changeset_id}' version='1'>
+         <nd ref='#{node.id}'/>
+        </way>
+       </modify>
+       <modify>
+        <relation id='#{relation.id}' changeset='#{changeset_id}' version='1'>
+         <member type='way' role='some' ref='#{way.id}'/>
+         <member type='node' role='some' ref='#{node.id}'/>
+         <member type='relation' role='some' ref='#{other_relation.id}'/>
+        </relation>
+       </modify>
+      </osmChange>
 EOF
 
     # upload it
@@ -429,25 +429,25 @@ EOF
     basic_authorization user.email, "test"
 
     # simple diff to create a node way and relation using placeholders
-    diff = <<EOF
-<osmChange>
- <create>
-  <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
-   <tag k='foo' v='bar'/>
-   <tag k='baz' v='bat'/>
-  </node>
-  <way id='-1' changeset='#{changeset.id}'>
-   <nd ref='#{node.id}'/>
-  </way>
- </create>
- <create>
-  <relation id='-1' changeset='#{changeset.id}'>
-   <member type='way' role='some' ref='#{way.id}'/>
-   <member type='node' role='some' ref='#{node.id}'/>
-   <member type='relation' role='some' ref='#{relation.id}'/>
-  </relation>
- </create>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <create>
+        <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
+         <tag k='foo' v='bar'/>
+         <tag k='baz' v='bat'/>
+        </node>
+        <way id='-1' changeset='#{changeset.id}'>
+         <nd ref='#{node.id}'/>
+        </way>
+       </create>
+       <create>
+        <relation id='-1' changeset='#{changeset.id}'>
+         <member type='way' role='some' ref='#{way.id}'/>
+         <member type='node' role='some' ref='#{node.id}'/>
+         <member type='relation' role='some' ref='#{relation.id}'/>
+        </relation>
+       </create>
+      </osmChange>
 EOF
 
     # upload it
@@ -509,7 +509,7 @@ EOF
     delete << used_node.to_xml_node
 
     # update the changeset to one that this user owns
-    %w(node way relation).each do |type|
+    %w[node way relation].each do |type|
       delete.find("//osmChange/delete/#{type}").each do |n|
         n["changeset"] = changeset.id.to_s
       end
@@ -582,29 +582,29 @@ EOF
 
     # upload some widely-spaced nodes, spiralling positive and negative to cause
     # largest bbox over-expansion possible.
-    diff = <<EOF
-<osmChange>
- <create>
-  <node id='-1' lon='-20' lat='-10' changeset='#{changeset_id}'/>
-  <node id='-10' lon='20'  lat='10' changeset='#{changeset_id}'/>
-  <node id='-2' lon='-40' lat='-20' changeset='#{changeset_id}'/>
-  <node id='-11' lon='40'  lat='20' changeset='#{changeset_id}'/>
-  <node id='-3' lon='-60' lat='-30' changeset='#{changeset_id}'/>
-  <node id='-12' lon='60'  lat='30' changeset='#{changeset_id}'/>
-  <node id='-4' lon='-80' lat='-40' changeset='#{changeset_id}'/>
-  <node id='-13' lon='80'  lat='40' changeset='#{changeset_id}'/>
-  <node id='-5' lon='-100' lat='-50' changeset='#{changeset_id}'/>
-  <node id='-14' lon='100'  lat='50' changeset='#{changeset_id}'/>
-  <node id='-6' lon='-120' lat='-60' changeset='#{changeset_id}'/>
-  <node id='-15' lon='120'  lat='60' changeset='#{changeset_id}'/>
-  <node id='-7' lon='-140' lat='-70' changeset='#{changeset_id}'/>
-  <node id='-16' lon='140'  lat='70' changeset='#{changeset_id}'/>
-  <node id='-8' lon='-160' lat='-80' changeset='#{changeset_id}'/>
-  <node id='-17' lon='160'  lat='80' changeset='#{changeset_id}'/>
-  <node id='-9' lon='-179.9' lat='-89.9' changeset='#{changeset_id}'/>
-  <node id='-18' lon='179.9'  lat='89.9' changeset='#{changeset_id}'/>
- </create>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <create>
+        <node id='-1' lon='-20' lat='-10' changeset='#{changeset_id}'/>
+        <node id='-10' lon='20'  lat='10' changeset='#{changeset_id}'/>
+        <node id='-2' lon='-40' lat='-20' changeset='#{changeset_id}'/>
+        <node id='-11' lon='40'  lat='20' changeset='#{changeset_id}'/>
+        <node id='-3' lon='-60' lat='-30' changeset='#{changeset_id}'/>
+        <node id='-12' lon='60'  lat='30' changeset='#{changeset_id}'/>
+        <node id='-4' lon='-80' lat='-40' changeset='#{changeset_id}'/>
+        <node id='-13' lon='80'  lat='40' changeset='#{changeset_id}'/>
+        <node id='-5' lon='-100' lat='-50' changeset='#{changeset_id}'/>
+        <node id='-14' lon='100'  lat='50' changeset='#{changeset_id}'/>
+        <node id='-6' lon='-120' lat='-60' changeset='#{changeset_id}'/>
+        <node id='-15' lon='120'  lat='60' changeset='#{changeset_id}'/>
+        <node id='-7' lon='-140' lat='-70' changeset='#{changeset_id}'/>
+        <node id='-16' lon='140'  lat='70' changeset='#{changeset_id}'/>
+        <node id='-8' lon='-160' lat='-80' changeset='#{changeset_id}'/>
+        <node id='-17' lon='160'  lat='80' changeset='#{changeset_id}'/>
+        <node id='-9' lon='-179.9' lat='-89.9' changeset='#{changeset_id}'/>
+        <node id='-18' lon='179.9'  lat='89.9' changeset='#{changeset_id}'/>
+       </create>
+      </osmChange>
 EOF
 
     # upload it, which used to cause an error like "PGError: ERROR:
@@ -645,7 +645,7 @@ EOF
     delete << used_node.to_xml_node
 
     # update the changeset to one that this user owns
-    %w(node way relation).each do |type|
+    %w[node way relation].each do |type|
       delete.find("//osmChange/delete/#{type}").each do |n|
         n["changeset"] = changeset.id.to_s
       end
@@ -689,7 +689,7 @@ EOF
     delete << used_node.to_xml_node
 
     # update the changeset to one that this user owns
-    %w(node way relation).each do |type|
+    %w[node way relation].each do |type|
       delete.find("//osmChange/delete/#{type}").each do |n|
         n["changeset"] = changeset.id.to_s
       end
@@ -739,14 +739,14 @@ EOF
     basic_authorization changeset.user.email, "test"
 
     # simple diff to create a node way and relation using placeholders
-    diff = <<EOF
-<osmChange>
- <create>
-  <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
-   <tag k='foo' v='#{'x' * 256}'/>
-  </node>
- </create>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <create>
+        <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
+         <tag k='foo' v='#{'x' * 256}'/>
+        </node>
+       </create>
+      </osmChange>
 EOF
 
     # upload it
@@ -770,26 +770,26 @@ EOF
     basic_authorization changeset.user.email, "test"
 
     # simple diff to create a node way and relation using placeholders
-    diff = <<EOF
-<osmChange>
- <create>
-  <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
-   <tag k='foo' v='bar'/>
-   <tag k='baz' v='bat'/>
-  </node>
- </create>
- <modify>
-  <way id='#{way.id}' changeset='#{changeset.id}' version='1'>
-   <nd ref='-1'/>
-   <nd ref='#{node.id}'/>
-  </way>
-  <relation id='#{relation.id}' changeset='#{changeset.id}' version='1'>
-   <member type='way' role='some' ref='#{way.id}'/>
-   <member type='node' role='some' ref='-1'/>
-   <member type='relation' role='some' ref='#{relation.id}'/>
-  </relation>
- </modify>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <create>
+        <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
+         <tag k='foo' v='bar'/>
+         <tag k='baz' v='bat'/>
+        </node>
+       </create>
+       <modify>
+        <way id='#{way.id}' changeset='#{changeset.id}' version='1'>
+         <nd ref='-1'/>
+         <nd ref='#{node.id}'/>
+        </way>
+        <relation id='#{relation.id}' changeset='#{changeset.id}' version='1'>
+         <member type='way' role='some' ref='#{way.id}'/>
+         <member type='node' role='some' ref='-1'/>
+         <member type='relation' role='some' ref='#{relation.id}'/>
+        </relation>
+       </modify>
+      </osmChange>
 EOF
 
     # upload it
@@ -832,28 +832,28 @@ EOF
     basic_authorization changeset.user.email, "test"
 
     # simple diff to create a node way and relation using placeholders
-    diff = <<EOF
-<osmChange>
- <modify>
-  <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
-  <way id='#{way.id}' changeset='#{changeset.id}' version='1'>
-   <nd ref='#{node.id}'/>
-  </way>
- </modify>
- <modify>
-  <relation id='#{relation.id}' changeset='#{changeset.id}' version='1'>
-   <member type='way' role='some' ref='#{way.id}'/>
-   <member type='node' role='some' ref='#{node.id}'/>
-   <member type='relation' role='some' ref='#{other_relation.id}'/>
-  </relation>
- </modify>
- <create>
-  <node id='-1' lon='0' lat='0' changeset='#{other_changeset.id}'>
-   <tag k='foo' v='bar'/>
-   <tag k='baz' v='bat'/>
-  </node>
- </create>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <modify>
+        <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+        <way id='#{way.id}' changeset='#{changeset.id}' version='1'>
+         <nd ref='#{node.id}'/>
+        </way>
+       </modify>
+       <modify>
+        <relation id='#{relation.id}' changeset='#{changeset.id}' version='1'>
+         <member type='way' role='some' ref='#{way.id}'/>
+         <member type='node' role='some' ref='#{node.id}'/>
+         <member type='relation' role='some' ref='#{other_relation.id}'/>
+        </relation>
+       </modify>
+       <create>
+        <node id='-1' lon='0' lat='0' changeset='#{other_changeset.id}'>
+         <tag k='foo' v='bar'/>
+         <tag k='baz' v='bat'/>
+        </node>
+       </create>
+      </osmChange>
 EOF
 
     # upload it
@@ -878,19 +878,19 @@ EOF
     # change the location of a node multiple times, each time referencing
     # the last version. doesn't this depend on version numbers being
     # sequential?
-    diff = <<EOF
-<osmChange>
- <modify>
-  <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
-  <node id='#{node.id}' lon='1' lat='0' changeset='#{changeset.id}' version='2'/>
-  <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset.id}' version='3'/>
-  <node id='#{node.id}' lon='1' lat='2' changeset='#{changeset.id}' version='4'/>
-  <node id='#{node.id}' lon='2' lat='2' changeset='#{changeset.id}' version='5'/>
-  <node id='#{node.id}' lon='3' lat='2' changeset='#{changeset.id}' version='6'/>
-  <node id='#{node.id}' lon='3' lat='3' changeset='#{changeset.id}' version='7'/>
-  <node id='#{node.id}' lon='9' lat='9' changeset='#{changeset.id}' version='8'/>
- </modify>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <modify>
+        <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+        <node id='#{node.id}' lon='1' lat='0' changeset='#{changeset.id}' version='2'/>
+        <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset.id}' version='3'/>
+        <node id='#{node.id}' lon='1' lat='2' changeset='#{changeset.id}' version='4'/>
+        <node id='#{node.id}' lon='2' lat='2' changeset='#{changeset.id}' version='5'/>
+        <node id='#{node.id}' lon='3' lat='2' changeset='#{changeset.id}' version='6'/>
+        <node id='#{node.id}' lon='3' lat='3' changeset='#{changeset.id}' version='7'/>
+        <node id='#{node.id}' lon='9' lat='9' changeset='#{changeset.id}' version='8'/>
+       </modify>
+      </osmChange>
 EOF
 
     # upload it
@@ -914,13 +914,13 @@ EOF
 
     basic_authorization changeset.user.email, "test"
 
-    diff = <<EOF
-<osmChange>
- <modify>
-  <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
-  <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
- </modify>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <modify>
+        <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+        <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
+       </modify>
+      </osmChange>
 EOF
 
     # upload it
@@ -937,12 +937,12 @@ EOF
 
     basic_authorization changeset.user.email, "test"
 
-    diff = <<EOF
-<osmChange>
- <modify>
- <node id='1' lon='1' lat='1' changeset='#{changeset.id}'/>
- </modify>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <modify>
+       <node id='1' lon='1' lat='1' changeset='#{changeset.id}'/>
+       </modify>
+      </osmChange>
 EOF
 
     # upload it
@@ -959,12 +959,12 @@ EOF
 
     basic_authorization changeset.user.email, "test"
 
-    diff = <<EOF
-<osmChange>
-  <ping>
-   <node id='1' lon='1' lat='1' changeset='#{changeset.id}' />
-  </ping>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+        <ping>
+         <node id='1' lon='1' lat='1' changeset='#{changeset.id}' />
+        </ping>
+      </osmChange>
 EOF
     content diff
     post :upload, :id => changeset.id
@@ -985,18 +985,18 @@ EOF
 
     basic_authorization changeset.user.email, "test"
 
-    diff = <<EOF
-<osmChange>
- <modify><node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}'
-  version='1'></node>
-  <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset.id}' version='2'><tag k='k' v='v'/></node></modify>
- <modify>
- <relation id='#{relation.id}' changeset='#{changeset.id}' version='1'><member
-   type='way' role='some' ref='#{way.id}'/><member
-    type='node' role='some' ref='#{node.id}'/>
-   <member type='relation' role='some' ref='#{other_relation.id}'/>
-  </relation>
- </modify></osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <modify><node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}'
+        version='1'></node>
+        <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset.id}' version='2'><tag k='k' v='v'/></node></modify>
+       <modify>
+       <relation id='#{relation.id}' changeset='#{changeset.id}' version='1'><member
+         type='way' role='some' ref='#{way.id}'/><member
+          type='node' role='some' ref='#{node.id}'/>
+         <member type='relation' role='some' ref='#{other_relation.id}'/>
+        </relation>
+       </modify></osmChange>
 EOF
 
     # upload it
@@ -1021,20 +1021,20 @@ EOF
 
     basic_authorization changeset.user.email, "test"
 
-    diff = <<EOF
-<osmChange>
- <create>
-  <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
-   <tag k="foo" v="bar"/>
-  </node>
- </create>
- <modify>
-  <node id='-1' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
- </modify>
- <delete>
-  <node id='-1' lon='2' lat='2' changeset='#{changeset.id}' version='2'/>
- </delete>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <create>
+        <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
+         <tag k="foo" v="bar"/>
+        </node>
+       </create>
+       <modify>
+        <node id='-1' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
+       </modify>
+       <delete>
+        <node id='-1' lon='2' lat='2' changeset='#{changeset.id}' version='2'/>
+       </delete>
+      </osmChange>
 EOF
 
     # upload it
@@ -1056,14 +1056,14 @@ EOF
 
     basic_authorization changeset.user.email, "test"
 
-    diff = <<EOF
-<osmChange>
- <create>
-  <node id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
-  <node id='-1' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
-  <node id='-1' lon='2' lat='2' changeset='#{changeset.id}' version='2'/>
- </create>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <create>
+        <node id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+        <node id='-1' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
+        <node id='-1' lon='2' lat='2' changeset='#{changeset.id}' version='2'/>
+       </create>
+      </osmChange>
 EOF
 
     # upload it
@@ -1082,20 +1082,20 @@ EOF
 
     basic_authorization changeset.user.email, "test"
 
-    diff = <<EOF
-<osmChange>
- <create>
-  <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
-  <node id="-2" lon="1" lat="1" changeset="#{changeset.id}" version="1"/>
-  <node id="-3" lon="2" lat="2" changeset="#{changeset.id}" version="1"/>
-  <way id="-1" changeset="#{changeset.id}" version="1">
-   <nd ref="-1"/>
-   <nd ref="-2"/>
-   <nd ref="-3"/>
-   <nd ref="-4"/>
-  </way>
- </create>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <create>
+        <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
+        <node id="-2" lon="1" lat="1" changeset="#{changeset.id}" version="1"/>
+        <node id="-3" lon="2" lat="2" changeset="#{changeset.id}" version="1"/>
+        <way id="-1" changeset="#{changeset.id}" version="1">
+         <nd ref="-1"/>
+         <nd ref="-2"/>
+         <nd ref="-3"/>
+         <nd ref="-4"/>
+        </way>
+       </create>
+      </osmChange>
 EOF
 
     # upload it
@@ -1106,20 +1106,20 @@ EOF
     assert_equal "Placeholder node not found for reference -4 in way -1", @response.body
 
     # the same again, but this time use an existing way
-    diff = <<EOF
-<osmChange>
- <create>
-  <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
-  <node id="-2" lon="1" lat="1" changeset="#{changeset.id}" version="1"/>
-  <node id="-3" lon="2" lat="2" changeset="#{changeset.id}" version="1"/>
-  <way id="#{way.id}" changeset="#{changeset.id}" version="1">
-   <nd ref="-1"/>
-   <nd ref="-2"/>
-   <nd ref="-3"/>
-   <nd ref="-4"/>
-  </way>
- </create>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <create>
+        <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
+        <node id="-2" lon="1" lat="1" changeset="#{changeset.id}" version="1"/>
+        <node id="-3" lon="2" lat="2" changeset="#{changeset.id}" version="1"/>
+        <way id="#{way.id}" changeset="#{changeset.id}" version="1">
+         <nd ref="-1"/>
+         <nd ref="-2"/>
+         <nd ref="-3"/>
+         <nd ref="-4"/>
+        </way>
+       </create>
+      </osmChange>
 EOF
 
     # upload it
@@ -1139,20 +1139,20 @@ EOF
 
     basic_authorization changeset.user.email, "test"
 
-    diff = <<EOF
-<osmChange>
- <create>
-  <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
-  <node id="-2" lon="1" lat="1" changeset="#{changeset.id}" version="1"/>
-  <node id="-3" lon="2" lat="2" changeset="#{changeset.id}" version="1"/>
-  <relation id="-1" changeset="#{changeset.id}" version="1">
-   <member type="node" role="foo" ref="-1"/>
-   <member type="node" role="foo" ref="-2"/>
-   <member type="node" role="foo" ref="-3"/>
-   <member type="node" role="foo" ref="-4"/>
-  </relation>
- </create>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <create>
+        <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
+        <node id="-2" lon="1" lat="1" changeset="#{changeset.id}" version="1"/>
+        <node id="-3" lon="2" lat="2" changeset="#{changeset.id}" version="1"/>
+        <relation id="-1" changeset="#{changeset.id}" version="1">
+         <member type="node" role="foo" ref="-1"/>
+         <member type="node" role="foo" ref="-2"/>
+         <member type="node" role="foo" ref="-3"/>
+         <member type="node" role="foo" ref="-4"/>
+        </relation>
+       </create>
+      </osmChange>
 EOF
 
     # upload it
@@ -1163,20 +1163,20 @@ EOF
     assert_equal "Placeholder Node not found for reference -4 in relation -1.", @response.body
 
     # the same again, but this time use an existing relation
-    diff = <<EOF
-<osmChange>
- <create>
-  <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
-  <node id="-2" lon="1" lat="1" changeset="#{changeset.id}" version="1"/>
-  <node id="-3" lon="2" lat="2" changeset="#{changeset.id}" version="1"/>
-  <relation id="#{relation.id}" changeset="#{changeset.id}" version="1">
-   <member type="node" role="foo" ref="-1"/>
-   <member type="node" role="foo" ref="-2"/>
-   <member type="node" role="foo" ref="-3"/>
-   <member type="way" role="bar" ref="-1"/>
-  </relation>
- </create>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <create>
+        <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
+        <node id="-2" lon="1" lat="1" changeset="#{changeset.id}" version="1"/>
+        <node id="-3" lon="2" lat="2" changeset="#{changeset.id}" version="1"/>
+        <relation id="#{relation.id}" changeset="#{changeset.id}" version="1">
+         <member type="node" role="foo" ref="-1"/>
+         <member type="node" role="foo" ref="-2"/>
+         <member type="node" role="foo" ref="-3"/>
+         <member type="way" role="bar" ref="-1"/>
+        </relation>
+       </create>
+      </osmChange>
 EOF
 
     # upload it
@@ -1342,19 +1342,19 @@ EOF
     changeset_id = @response.body.to_i
 
     # add a diff to it
-    diff = <<EOF
-<osmChange>
- <modify>
-  <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
-  <node id='#{node.id}' lon='1' lat='0' changeset='#{changeset_id}' version='2'/>
-  <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset_id}' version='3'/>
-  <node id='#{node.id}' lon='1' lat='2' changeset='#{changeset_id}' version='4'/>
-  <node id='#{node.id}' lon='2' lat='2' changeset='#{changeset_id}' version='5'/>
-  <node id='#{node.id}' lon='3' lat='2' changeset='#{changeset_id}' version='6'/>
-  <node id='#{node.id}' lon='3' lat='3' changeset='#{changeset_id}' version='7'/>
-  <node id='#{node.id}' lon='9' lat='9' changeset='#{changeset_id}' version='8'/>
- </modify>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <modify>
+        <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
+        <node id='#{node.id}' lon='1' lat='0' changeset='#{changeset_id}' version='2'/>
+        <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset_id}' version='3'/>
+        <node id='#{node.id}' lon='1' lat='2' changeset='#{changeset_id}' version='4'/>
+        <node id='#{node.id}' lon='2' lat='2' changeset='#{changeset_id}' version='5'/>
+        <node id='#{node.id}' lon='3' lat='2' changeset='#{changeset_id}' version='6'/>
+        <node id='#{node.id}' lon='3' lat='3' changeset='#{changeset_id}' version='7'/>
+        <node id='#{node.id}' lon='9' lat='9' changeset='#{changeset_id}' version='8'/>
+       </modify>
+      </osmChange>
 EOF
 
     # upload it
@@ -1387,33 +1387,33 @@ EOF
     assert_response :success
     changeset_id = @response.body.to_i
 
-    diff = <<OSMFILE
-<osmChange version="0.6" generator="JOSM">
-<create version="0.6" generator="JOSM">
-  <node id='-1' visible='true' changeset='#{changeset_id}' lat='51.49619982187321' lon='-0.18722061869438314' />
-  <node id='-2' visible='true' changeset='#{changeset_id}' lat='51.496359883909605' lon='-0.18653093576241928' />
-  <node id='-3' visible='true' changeset='#{changeset_id}' lat='51.49598132358285' lon='-0.18719613290981638' />
-  <node id='-4' visible='true' changeset='#{changeset_id}' lat='51.4961591711078' lon='-0.18629015888084607' />
-  <node id='-5' visible='true' changeset='#{changeset_id}' lat='51.49582126021711' lon='-0.18708186591517145' />
-  <node id='-6' visible='true' changeset='#{changeset_id}' lat='51.49591018437858' lon='-0.1861432441734455' />
-  <node id='-7' visible='true' changeset='#{changeset_id}' lat='51.49560784152179' lon='-0.18694719410005425' />
-  <node id='-8' visible='true' changeset='#{changeset_id}' lat='51.49567389979617' lon='-0.1860289771788006' />
-  <node id='-9' visible='true' changeset='#{changeset_id}' lat='51.49543761398892' lon='-0.186820684213126' />
-  <way id='-10' action='modiy' visible='true' changeset='#{changeset_id}'>
-    <nd ref='-1' />
-    <nd ref='-2' />
-    <nd ref='-3' />
-    <nd ref='-4' />
-    <nd ref='-5' />
-    <nd ref='-6' />
-    <nd ref='-7' />
-    <nd ref='-8' />
-    <nd ref='-9' />
-    <tag k='highway' v='residential' />
-    <tag k='name' v='Foobar Street' />
-  </way>
-</create>
-</osmChange>
+    diff = <<OSMFILE.strip_heredoc
+      <osmChange version="0.6" generator="JOSM">
+      <create version="0.6" generator="JOSM">
+        <node id='-1' visible='true' changeset='#{changeset_id}' lat='51.49619982187321' lon='-0.18722061869438314' />
+        <node id='-2' visible='true' changeset='#{changeset_id}' lat='51.496359883909605' lon='-0.18653093576241928' />
+        <node id='-3' visible='true' changeset='#{changeset_id}' lat='51.49598132358285' lon='-0.18719613290981638' />
+        <node id='-4' visible='true' changeset='#{changeset_id}' lat='51.4961591711078' lon='-0.18629015888084607' />
+        <node id='-5' visible='true' changeset='#{changeset_id}' lat='51.49582126021711' lon='-0.18708186591517145' />
+        <node id='-6' visible='true' changeset='#{changeset_id}' lat='51.49591018437858' lon='-0.1861432441734455' />
+        <node id='-7' visible='true' changeset='#{changeset_id}' lat='51.49560784152179' lon='-0.18694719410005425' />
+        <node id='-8' visible='true' changeset='#{changeset_id}' lat='51.49567389979617' lon='-0.1860289771788006' />
+        <node id='-9' visible='true' changeset='#{changeset_id}' lat='51.49543761398892' lon='-0.186820684213126' />
+        <way id='-10' action='modiy' visible='true' changeset='#{changeset_id}'>
+          <nd ref='-1' />
+          <nd ref='-2' />
+          <nd ref='-3' />
+          <nd ref='-4' />
+          <nd ref='-5' />
+          <nd ref='-6' />
+          <nd ref='-7' />
+          <nd ref='-8' />
+          <nd ref='-9' />
+          <tag k='highway' v='residential' />
+          <tag k='name' v='Foobar Street' />
+        </way>
+      </create>
+      </osmChange>
 OSMFILE
 
     # upload it
@@ -1450,26 +1450,26 @@ OSMFILE
     changeset_id = @response.body.to_i
 
     # add a diff to it
-    diff = <<EOF
-<osmChange>
- <delete>
-  <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
- </delete>
- <create>
-  <node id='-1' lon='9' lat='9' changeset='#{changeset_id}' version='0'/>
-  <node id='-2' lon='8' lat='9' changeset='#{changeset_id}' version='0'/>
-  <node id='-3' lon='7' lat='9' changeset='#{changeset_id}' version='0'/>
- </create>
- <modify>
-  <node id='#{node2.id}' lon='20' lat='15' changeset='#{changeset_id}' version='1'/>
-  <way id='#{way.id}' changeset='#{changeset_id}' version='1'>
-   <nd ref='#{node2.id}'/>
-   <nd ref='-1'/>
-   <nd ref='-2'/>
-   <nd ref='-3'/>
-  </way>
- </modify>
-</osmChange>
+    diff = <<EOF.strip_heredoc
+      <osmChange>
+       <delete>
+        <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
+       </delete>
+       <create>
+        <node id='-1' lon='9' lat='9' changeset='#{changeset_id}' version='0'/>
+        <node id='-2' lon='8' lat='9' changeset='#{changeset_id}' version='0'/>
+        <node id='-3' lon='7' lat='9' changeset='#{changeset_id}' version='0'/>
+       </create>
+       <modify>
+        <node id='#{node2.id}' lon='20' lat='15' changeset='#{changeset_id}' version='1'/>
+        <way id='#{way.id}' changeset='#{changeset_id}' version='1'>
+         <nd ref='#{node2.id}'/>
+         <nd ref='-1'/>
+         <nd ref='-2'/>
+         <nd ref='-3'/>
+        </way>
+       </modify>
+      </osmChange>
 EOF
 
     # upload it

@@ -34,7 +34,7 @@ module OpenStreetMap
     config.active_record.raise_in_transactional_callbacks = true unless STATUS == :database_offline
 
     # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W[#{config.root}/lib]
 
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,

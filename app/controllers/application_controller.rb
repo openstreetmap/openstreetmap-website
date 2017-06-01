@@ -410,9 +410,9 @@ class ApplicationController < ActionController::Base
 
   def map_layout
     append_content_security_policy_directives(
-      :connect_src => %w(nominatim.openstreetmap.org overpass-api.de router.project-osrm.org valhalla.mapzen.com),
-      :script_src => %w(graphhopper.com open.mapquestapi.com),
-      :img_src => %w(developer.mapquest.com)
+      :connect_src => %w[nominatim.openstreetmap.org overpass-api.de router.project-osrm.org valhalla.mapzen.com],
+      :script_src => %w[graphhopper.com open.mapquestapi.com],
+      :img_src => %w[developer.mapquest.com]
     )
 
     if STATUS == :database_offline || STATUS == :api_offline

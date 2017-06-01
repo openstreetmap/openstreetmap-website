@@ -10,7 +10,7 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   def test_linkify
-    %w(http://example.com/test ftp://example.com/test https://example.com/test).each do |link|
+    %w[http://example.com/test ftp://example.com/test https://example.com/test].each do |link|
       text = "Test #{link} is made into a link"
 
       html = linkify(text)
@@ -22,7 +22,7 @@ class ApplicationHelperTest < ActionView::TestCase
       assert_dom_equal "Test <a href=\"#{link}\" rel=\"nofollow\">#{link}</a> is made into a link", html
     end
 
-    %w(test@example.com mailto:test@example.com).each do |link|
+    %w[test@example.com mailto:test@example.com].each do |link|
       text = "Test #{link} is not made into a link"
 
       html = linkify(text)

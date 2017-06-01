@@ -7,14 +7,14 @@ class Trace < ActiveRecord::Base
 
   scope :visible, -> { where(:visible => true) }
   scope :visible_to, ->(u) { visible.where("visibility IN ('public', 'identifiable') OR user_id = ?", u) }
-  scope :visible_to_all, -> { where(:visibility => %w(public identifiable)) }
+  scope :visible_to_all, -> { where(:visibility => %w[public identifiable]) }
   scope :tagged, ->(t) { joins(:tags).where(:gpx_file_tags => { :tag => t }) }
 
   validates :user, :presence => true, :associated => true
   validates :name, :presence => true, :length => 1..255
   validates :description, :presence => { :on => :create }, :length => 1..255
   validates :timestamp, :presence => true
-  validates :visibility, :inclusion => %w(private public trackable identifiable)
+  validates :visibility, :inclusion => %w[private public trackable identifiable]
 
   def destroy
     super
@@ -29,7 +29,7 @@ class Trace < ActiveRecord::Base
 
   def tagstring=(s)
     self.tags = if s.include? ","
-                  s.split(/\s*,\s*/).select { |tag| tag !~ /^\s*$/ }.collect do |tag|
+                  s.split(/\s*,\s*/).reject { |tag| tag =~ /^\s*$/ }.collect do |tag|
                     tt = Tracetag.new
                     tt.tag = tag
                     tt

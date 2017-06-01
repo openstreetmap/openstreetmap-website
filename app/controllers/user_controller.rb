@@ -81,7 +81,7 @@ class UserController < ApplicationController
         @user.terms_agreed = Time.now.getutc
         @user.terms_seen = true
 
-        if @user.auth_uid.nil? || @user.auth_uid.empty?
+        if @user.auth_uid.blank?
           @user.auth_provider = nil
           @user.auth_uid = nil
         end

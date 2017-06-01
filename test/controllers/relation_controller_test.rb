@@ -741,15 +741,15 @@ class RelationControllerTest < ActionController::TestCase
 
     basic_authorization(user.email, "test")
 
-    doc_str = <<OSM
-<osm>
- <relation changeset='#{changeset.id}'>
-  <member ref='#{node1.id}' type='node' role='first'/>
-  <member ref='#{node2.id}' type='node' role='second'/>
-  <member ref='#{way1.id}' type='way' role='third'/>
-  <member ref='#{way2.id}' type='way' role='fourth'/>
- </relation>
-</osm>
+    doc_str = <<OSM.strip_heredoc
+      <osm>
+       <relation changeset='#{changeset.id}'>
+        <member ref='#{node1.id}' type='node' role='first'/>
+        <member ref='#{node2.id}' type='node' role='second'/>
+        <member ref='#{way1.id}' type='way' role='third'/>
+        <member ref='#{way2.id}' type='way' role='fourth'/>
+       </relation>
+      </osm>
 OSM
     doc = XML::Parser.string(doc_str).parse
 
@@ -801,15 +801,15 @@ OSM
     node1 = create(:node)
     node2 = create(:node)
 
-    doc_str = <<OSM
-<osm>
- <relation changeset='#{changeset.id}'>
-  <member ref='#{node1.id}' type='node' role='forward'/>
-  <member ref='#{node2.id}' type='node' role='forward'/>
-  <member ref='#{node1.id}' type='node' role='forward'/>
-  <member ref='#{node2.id}' type='node' role='forward'/>
- </relation>
-</osm>
+    doc_str = <<OSM.strip_heredoc
+      <osm>
+       <relation changeset='#{changeset.id}'>
+        <member ref='#{node1.id}' type='node' role='forward'/>
+        <member ref='#{node2.id}' type='node' role='forward'/>
+        <member ref='#{node1.id}' type='node' role='forward'/>
+        <member ref='#{node2.id}' type='node' role='forward'/>
+       </relation>
+      </osm>
 OSM
     doc = XML::Parser.string(doc_str).parse
 
@@ -844,15 +844,15 @@ OSM
     node3 = create(:node)
     node4 = create(:node)
 
-    doc_str = <<OSM
-<osm>
- <relation changeset='#{changeset.id}'>
-  <member ref='#{node1.id}' type='node' role='forward'/>
-  <member ref='#{node4.id}' type='node' role='forward'/>
-  <member ref='#{node3.id}' type='node' role='forward'/>
-  <member ref='#{node2.id}' type='node' role='forward'/>
- </relation>
-</osm>
+    doc_str = <<OSM.strip_heredoc
+      <osm>
+       <relation changeset='#{changeset.id}'>
+        <member ref='#{node1.id}' type='node' role='forward'/>
+        <member ref='#{node4.id}' type='node' role='forward'/>
+        <member ref='#{node3.id}' type='node' role='forward'/>
+        <member ref='#{node2.id}' type='node' role='forward'/>
+       </relation>
+      </osm>
 OSM
     doc = XML::Parser.string(doc_str).parse
     basic_authorization(user.email, "test")

@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   has_many :messages, -> { where(:to_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :foreign_key => :to_user_id
   has_many :new_messages, -> { where(:to_user_visible => true, :message_read => false).order(:sent_on => :desc) }, :class_name => "Message", :foreign_key => :to_user_id
   has_many :sent_messages, -> { where(:from_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :class_name => "Message", :foreign_key => :from_user_id
-  has_many :friends, -> { joins(:befriendee).where(:users => { :status => %w(active confirmed) }) }
+  has_many :friends, -> { joins(:befriendee).where(:users => { :status => %w[active confirmed] }) }
   has_many :friend_users, :through => :friends, :source => :befriendee
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
@@ -28,8 +28,8 @@ class User < ActiveRecord::Base
 
   has_many :roles, :class_name => "UserRole"
 
-  scope :visible, -> { where(:status => %w(pending active confirmed)) }
-  scope :active, -> { where(:status => %w(active confirmed)) }
+  scope :visible, -> { where(:status => %w[pending active confirmed]) }
+  scope :active, -> { where(:status => %w[active confirmed]) }
   scope :identifiable, -> { where(:data_public => true) }
 
   has_attached_file :image,
@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
                     :styles => { :large => "100x100>", :small => "50x50>" }
 
   validates :display_name, :presence => true, :allow_nil => true, :length => 3..255,
-                           :exclusion => %w(new terms save confirm confirm-email go_public reset-password forgot-password suspended)
+                           :exclusion => %w[new terms save confirm confirm-email go_public reset-password forgot-password suspended]
   validates :display_name, :if => proc { |u| u.display_name_changed? },
                            :uniqueness => { :case_sensitive => false }
   validates :display_name, :if => proc { |u| u.display_name_changed? },
@@ -161,13 +161,13 @@ class User < ActiveRecord::Base
   ##
   # returns true if a user is visible
   def visible?
-    %w(pending active confirmed).include? status
+    %w[pending active confirmed].include? status
   end
 
   ##
   # returns true if a user is active
   def active?
-    %w(active confirmed).include? status
+    %w[active confirmed].include? status
   end
 
   ##

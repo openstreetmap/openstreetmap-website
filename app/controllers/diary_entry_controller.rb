@@ -128,7 +128,7 @@ class DiaryEntryController < ApplicationController
         return
       end
     else
-      @entries = DiaryEntry.joins(:user).where(:users => { :status => %w(active confirmed) })
+      @entries = DiaryEntry.joins(:user).where(:users => { :status => %w[active confirmed] })
 
       if params[:language]
         @title = t "diary_entry.list.in_language_title", :language => Language.find(params[:language]).english_name
@@ -162,7 +162,7 @@ class DiaryEntryController < ApplicationController
         return
       end
     else
-      @entries = DiaryEntry.joins(:user).where(:users => { :status => %w(active confirmed) })
+      @entries = DiaryEntry.joins(:user).where(:users => { :status => %w[active confirmed] })
 
       if params[:language]
         @entries = @entries.where(:language_code => params[:language])

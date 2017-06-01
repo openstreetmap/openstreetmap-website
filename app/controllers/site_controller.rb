@@ -69,11 +69,11 @@ class SiteController < ApplicationController
       require_user
     end
 
-    if editor == "potlatch" || editor == "potlatch2"
+    if %w[potlatch potlatch2].include?(editor)
       append_content_security_policy_directives(
-        :object_src => %w(*),
-        :plugin_types => %w(application/x-shockwave-flash),
-        :script_src => %w('unsafe-inline')
+        :object_src => %w[*],
+        :plugin_types => %w[application/x-shockwave-flash],
+        :script_src => %w['unsafe-inline']
       )
     end
 
@@ -120,9 +120,9 @@ class SiteController < ApplicationController
 
   def id
     append_content_security_policy_directives(
-      :connect_src => %w(taginfo.openstreetmap.org *.mapillary.com),
-      :img_src => %w(*),
-      :script_src => %w(dev.virtualearth.net)
+      :connect_src => %w[taginfo.openstreetmap.org *.mapillary.com],
+      :img_src => %w[*],
+      :script_src => %w[dev.virtualearth.net]
     )
 
     render "id", :layout => false

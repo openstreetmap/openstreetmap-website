@@ -11,9 +11,9 @@ class UserTest < ActiveSupport::TestCase
     assert user.errors[:pass_crypt].any?
     assert user.errors[:display_name].any?
     assert user.errors[:email].any?
-    assert !user.errors[:home_lat].any?
-    assert !user.errors[:home_lon].any?
-    assert !user.errors[:home_zoom].any?
+    assert user.errors[:home_lat].none?
+    assert user.errors[:home_lon].none?
+    assert user.errors[:home_zoom].none?
   end
 
   def test_unique_email
@@ -45,10 +45,10 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_email_valid
-    ok = %w(a@s.com test@shaunmcdonald.me.uk hello_local@ping-d.ng
-            test_local@openstreetmap.org test-local@example.com)
-    bad = %w(hi ht@ n@ @.com help@.me.uk help"hi.me.uk も対@応します
-             輕觸搖晃的遊戲@ah.com も対応します@s.name)
+    ok = %w[a@s.com test@shaunmcdonald.me.uk hello_local@ping-d.ng
+            test_local@openstreetmap.org test-local@example.com]
+    bad = %w[hi ht@ n@ @.com help@.me.uk help"hi.me.uk も対@応します
+             輕觸搖晃的遊戲@ah.com も対応します@s.name]
 
     ok.each do |name|
       user = build(:user)
@@ -217,13 +217,13 @@ class UserTest < ActiveSupport::TestCase
 
     user = create(:user, :languages => ["en"])
     assert_equal ["en"], user.languages
-    user.languages = %w(de fr en)
-    assert_equal %w(de fr en), user.languages
-    user.languages = %w(fr de sl)
+    user.languages = %w[de fr en]
+    assert_equal %w[de fr en], user.languages
+    user.languages = %w[fr de sl]
     assert_equal "de", user.preferred_language
-    assert_equal %w(fr de sl), user.preferred_languages.map(&:to_s)
-    user = create(:user, :languages => %w(en de))
-    assert_equal %w(en de), user.languages
+    assert_equal %w[fr de sl], user.preferred_languages.map(&:to_s)
+    user = create(:user, :languages => %w[en de])
+    assert_equal %w[en de], user.languages
   end
 
   def test_visible?

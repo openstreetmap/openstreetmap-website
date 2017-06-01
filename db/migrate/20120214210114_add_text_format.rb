@@ -2,7 +2,7 @@ require "migrate"
 
 class AddTextFormat < ActiveRecord::Migration
   def up
-    create_enumeration :format_enum, %w(html markdown text)
+    create_enumeration :format_enum, %w[html markdown text]
     add_column :users, :description_format, :format_enum, :null => false, :default => "html"
     add_column :user_blocks, :reason_format, :format_enum, :null => false, :default => "html"
     add_column :diary_entries, :body_format, :format_enum, :null => false, :default => "html"

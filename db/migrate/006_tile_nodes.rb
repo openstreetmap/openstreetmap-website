@@ -96,7 +96,7 @@ class TileNodes < ActiveRecord::Migration
       t.column "timestamp", :datetime, :null => false
     end
 
-    add_index "current_nodes", %w(latitude longitude), :name => "current_nodes_lat_lon_idx"
+    add_index "current_nodes", %w[latitude longitude], :name => "current_nodes_lat_lon_idx"
     add_index "current_nodes", ["timestamp"], :name => "current_nodes_timestamp_idx"
 
     downgrade_table "current_nodes_v6", "current_nodes"
@@ -116,7 +116,7 @@ class TileNodes < ActiveRecord::Migration
     end
 
     add_index "nodes", ["id"], :name => "nodes_uid_idx"
-    add_index "nodes", %w(latitude longitude), :name => "nodes_latlon_idx"
+    add_index "nodes", %w[latitude longitude], :name => "nodes_latlon_idx"
     add_index "nodes", ["timestamp"], :name => "nodes_timestamp_idx"
 
     downgrade_table "nodes_v6", "nodes"

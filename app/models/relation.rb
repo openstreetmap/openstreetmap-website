@@ -33,7 +33,7 @@ class Relation < ActiveRecord::Base
   scope :ways, ->(*ids) { joins(:relation_members).where(:current_relation_members => { :member_type => "Way", :member_id => ids.flatten }) }
   scope :relations, ->(*ids) { joins(:relation_members).where(:current_relation_members => { :member_type => "Relation", :member_id => ids.flatten }) }
 
-  TYPES = %w(node way relation).freeze
+  TYPES = %w[node way relation].freeze
 
   def self.from_xml(xml, create = false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
