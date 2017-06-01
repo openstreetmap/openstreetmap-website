@@ -2044,9 +2044,10 @@ EOF
   end
 
   ##
-  # This should display the last 20 changesets closed
+  # This should display the last 20 non-empty changesets
   def test_feed
     changeset = create(:changeset, :num_changes => 1)
+    closed_changeset = create(:changeset, :closed, :num_changes => 1)
     _empty_changeset = create(:changeset, :num_changes => 0)
 
     get :feed, :format => :atom
@@ -2054,7 +2055,7 @@ EOF
     assert_template "list"
     assert_equal "application/atom+xml", response.content_type
 
-    check_feed_result([changeset])
+    check_feed_result([changeset, closed_changeset])
   end
 
   ##
