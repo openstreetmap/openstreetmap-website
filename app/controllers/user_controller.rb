@@ -437,7 +437,7 @@ class UserController < ApplicationController
     if @friend
       if request.post?
         if @user.is_friends_with?(@friend)
-          Friend.delete_all "user_id = #{@user.id} AND friend_user_id = #{@friend.id}"
+          Friend.where(:user_id => @user.id, :friend_user_id => @friend.id).delete_all
           flash[:notice] = t "user.remove_friend.success", :name => @friend.display_name
         else
           flash[:error] = t "user.remove_friend.not_a_friend", :name => @friend.display_name

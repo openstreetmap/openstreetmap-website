@@ -243,7 +243,7 @@ class Node < ActiveRecord::Base
 
       # Create a NodeTag
       tags = self.tags
-      NodeTag.delete_all(:node_id => id)
+      NodeTag.where(:node_id => id).delete_all
       tags.each do |k, v|
         tag = NodeTag.new
         tag.node_id = id

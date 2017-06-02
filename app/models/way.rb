@@ -271,7 +271,7 @@ class Way < ActiveRecord::Base
       clone.save!
 
       tags = self.tags
-      WayTag.delete_all(:way_id => id)
+      WayTag.where(:way_id => id).delete_all
       tags.each do |k, v|
         tag = WayTag.new
         tag.way_id = id
@@ -281,7 +281,7 @@ class Way < ActiveRecord::Base
       end
 
       nds = self.nds
-      WayNode.delete_all(:way_id => id)
+      WayNode.where(:way_id => id).delete_all
       sequence = 1
       nds.each do |n|
         nd = WayNode.new

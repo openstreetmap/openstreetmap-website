@@ -317,7 +317,7 @@ class Relation < ActiveRecord::Base
       # if there are left-over tags then they are new and will have to
       # be added.
       tags_changed |= !tags.empty?
-      RelationTag.delete_all(:relation_id => id)
+      RelationTag.where(:relation_id => id).delete_all
       self.tags.each do |k, v|
         tag = RelationTag.new
         tag.relation_id = id
@@ -347,7 +347,7 @@ class Relation < ActiveRecord::Base
       # members may be in a different order and i don't feel like implementing
       # a longest common subsequence algorithm to optimise this.
       members = self.members
-      RelationMember.delete_all(:relation_id => id)
+      RelationMember.where(:relation_id => id).delete_all
       members.each_with_index do |m, i|
         mem = RelationMember.new
         mem.relation_id = id

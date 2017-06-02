@@ -261,7 +261,7 @@ class Trace < ActiveRecord::Base
     first = true
 
     # If there are any existing points for this trace then delete them
-    Tracepoint.delete_all(:gpx_id => id)
+    Tracepoint.where(:gpx_id => id).delete_all
 
     gpx.points do |point|
       if first

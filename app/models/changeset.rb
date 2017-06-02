@@ -149,7 +149,7 @@ class Changeset < ActiveRecord::Base
       save!
 
       tags = self.tags
-      ChangesetTag.delete_all(:changeset_id => id)
+      ChangesetTag.where(:changeset_id => id).delete_all
 
       tags.each do |k, v|
         tag = ChangesetTag.new
