@@ -73,8 +73,8 @@ class SiteControllerTest < ActionController::TestCase
       { :controller => "site", :action => "permalink", :code => "shortcode" }
     )
     assert_routing(
-      { :path => "/preview/formatname", :method => :post },
-      { :controller => "site", :action => "preview", :format => "formatname" }
+      { :path => "/preview/typename", :method => :post },
+      { :controller => "site", :action => "preview", :type => "typename" }
     )
     assert_routing(
       { :path => "/id", :method => :get },
@@ -365,13 +365,13 @@ class SiteControllerTest < ActionController::TestCase
 
   # Test the rich text preview
   def test_preview
-    xhr :post, :preview, :format => "html"
+    xhr :post, :preview, :type => "html"
     assert_response :success
 
-    xhr :post, :preview, :format => "markdown"
+    xhr :post, :preview, :type => "markdown"
     assert_response :success
 
-    xhr :post, :preview, :format => "text"
+    xhr :post, :preview, :type => "text"
     assert_response :success
   end
 

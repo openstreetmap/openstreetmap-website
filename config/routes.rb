@@ -184,7 +184,7 @@ OpenStreetMap::Application.routes.draw do
   match "/go/:code" => "site#permalink", :via => :get, :code => /[a-zA-Z0-9_@~]+[=-]*/
 
   # rich text preview
-  match "/preview/:format" => "site#preview", :via => :post, :as => :preview
+  match "/preview/:type" => "site#preview", :via => :post, :as => :preview
 
   # traces
   match "/user/:display_name/traces/tag/:tag/page/:page" => "trace#list", :via => :get, :page => /[1-9][0-9]*/

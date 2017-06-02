@@ -115,7 +115,7 @@ class SiteController < ApplicationController
   def offline; end
 
   def preview
-    render :html => RichText.new(params[:format], params[:text]).to_html
+    render :html => RichText.new(params[:type], params[:text]).to_html
   end
 
   def id
