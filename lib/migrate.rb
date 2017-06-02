@@ -1,4 +1,4 @@
-module OSM
+module OpenStreetMap
   module ActiveRecord
     module AbstractAdapter
       def add_index_options(table_name, column_name, options = {})
@@ -41,5 +41,5 @@ module OSM
   end
 end
 
-ActiveRecord::ConnectionAdapters::AbstractAdapter.prepend(OSM::ActiveRecord::AbstractAdapter)
-ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.prepend(OSM::ActiveRecord::PostgreSQLAdapter)
+ActiveRecord::ConnectionAdapters::AbstractAdapter.prepend(OpenStreetMap::ActiveRecord::AbstractAdapter)
+ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.prepend(OpenStreetMap::ActiveRecord::PostgreSQLAdapter)

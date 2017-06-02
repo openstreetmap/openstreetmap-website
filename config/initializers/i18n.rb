@@ -11,7 +11,7 @@ module I18n
   end
 end
 
-module OSM
+module OpenStreetMap
   module I18n
     module NormaliseLocales
       def store_translations(locale, data, options = {})
@@ -31,8 +31,8 @@ module OSM
   end
 end
 
-I18n::Backend::Simple.prepend(OSM::I18n::NormaliseLocales)
-I18n::JS::FallbackLocales.prepend(OSM::I18n::ValidateLocales)
+I18n::Backend::Simple.prepend(OpenStreetMap::I18n::NormaliseLocales)
+I18n::JS::FallbackLocales.prepend(OpenStreetMap::I18n::ValidateLocales)
 
 I18n::Backend::Simple.include(I18n::Backend::PluralizationFallback)
 I18n::Backend::Simple.include(I18n::Backend::Fallbacks)

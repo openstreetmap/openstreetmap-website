@@ -1,5 +1,5 @@
 if defined?(ActiveRecord::ConnectionAdaptors::AbstractAdapter)
-  module OSM
+  module OpenStreetMap
     module AbstractAdapter
       module PropagateTimeouts
         def translate_exception_class(e, sql)
@@ -13,5 +13,5 @@ if defined?(ActiveRecord::ConnectionAdaptors::AbstractAdapter)
     end
   end
 
-  ActiveRecord::ConnectionAdaptors::AbstractAdapter.prepend(OSM::AbstractAdapter::PropagateTimeouts)
+  ActiveRecord::ConnectionAdaptors::AbstractAdapter.prepend(OpenStreetMap::AbstractAdapter::PropagateTimeouts)
 end
