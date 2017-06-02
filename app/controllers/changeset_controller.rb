@@ -335,7 +335,7 @@ class ChangesetController < ApplicationController
     changeset.subscribers << @user unless changeset.subscribers.exists?(@user.id)
 
     # Return a copy of the updated changeset
-    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
+    render :text => changeset.to_xml(true).to_s, :content_type => "text/xml"
   end
 
   ##
@@ -356,7 +356,7 @@ class ChangesetController < ApplicationController
     changeset.subscribers << @user
 
     # Return a copy of the updated changeset
-    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
+    render :text => changeset.to_xml(true).to_s, :content_type => "text/xml"
   end
 
   ##
@@ -377,7 +377,7 @@ class ChangesetController < ApplicationController
     changeset.subscribers.delete(@user)
 
     # Return a copy of the updated changeset
-    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
+    render :text => changeset.to_xml(true).to_s, :content_type => "text/xml"
   end
 
   ##
@@ -396,7 +396,7 @@ class ChangesetController < ApplicationController
     comment.update(:visible => false)
 
     # Return a copy of the updated changeset
-    render :text => comment.changeset.to_xml.to_s, :content_type => "text/xml"
+    render :text => comment.changeset.to_xml(true).to_s, :content_type => "text/xml"
   end
 
   ##
@@ -415,7 +415,7 @@ class ChangesetController < ApplicationController
     comment.update(:visible => true)
 
     # Return a copy of the updated changeset
-    render :text => comment.changeset.to_xml.to_s, :content_type => "text/xml"
+    render :text => comment.changeset.to_xml(true).to_s, :content_type => "text/xml"
   end
 
   ##

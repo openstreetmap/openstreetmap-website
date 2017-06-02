@@ -2141,6 +2141,8 @@ EOF
       end
     end
     assert_response :success
+    assert_select "osm > changeset > discussion > comment > text", 4
+    assert_select "osm > changeset > discussion > comment > text", "This is a comment"
 
     changeset = create(:changeset, :closed, :user => private_user)
     changeset.subscribers.push(private_user)
@@ -2228,6 +2230,7 @@ EOF
       post :subscribe, :id => changeset.id
     end
     assert_response :success
+    assert_select "osm > changeset > discussion > comment > text", 3
   end
 
   ##
@@ -2278,6 +2281,7 @@ EOF
       post :unsubscribe, :id => changeset.id
     end
     assert_response :success
+    assert_select "osm > changeset > discussion > comment > text", 0
   end
 
   ##
@@ -2350,6 +2354,8 @@ EOF
     post :hide_comment, :id => comment.id
     assert_response :success
     assert_equal false, comment.reload.visible
+    assert_select "osm > changeset > discussion > comment > text", 2
+    assert_select "osm > changeset > discussion > comment > text", :count => 0, :text => comment.body
   end
 
   ##
@@ -2389,6 +2395,8 @@ EOF
     post :unhide_comment, :id => comment.id
     assert_response :success
     assert_equal true, comment.reload.visible
+    assert_select "osm > changeset > discussion > comment > text", 4
+    assert_select "osm > changeset > discussion > comment > text", :count => 1, :text => comment.body
   end
 
   ##
