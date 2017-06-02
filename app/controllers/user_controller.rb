@@ -480,9 +480,11 @@ class UserController < ApplicationController
 
       redirect_to url_for(:status => params[:status], :ip => params[:ip], :page => params[:page])
     else
+      @params = params.permit(:status, :ip)
+
       conditions = {}
-      conditions[:status] = params[:status] if params[:status]
-      conditions[:creation_ip] = params[:ip] if params[:ip]
+      conditions[:status] = @params[:status] if @params[:status]
+      conditions[:creation_ip] = @params[:ip] if @params[:ip]
 
       @user_pages, @users = paginate(:users,
                                      :conditions => conditions,

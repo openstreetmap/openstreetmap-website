@@ -24,7 +24,7 @@
               :count => @user_pages.current_page.last_item - @user_pages.current_page.first_item + 1
           %>
           <% if @user_pages.page_count > 1 %>
-          | <%= raw pagination_links_each(@user_pages, {}) { |n| link_to n, params.merge(:page => n) } %>
+          | <%= raw pagination_links_each(@user_pages, {}) { |n| link_to n, @params.merge(:page => n) } %>
           <% end %>
         </td>
         <td>

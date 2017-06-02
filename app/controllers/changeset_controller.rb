@@ -250,46 +250,48 @@ class ChangesetController < ApplicationController
   ##
   # list non-empty changesets in reverse chronological order
   def list
-    if request.format == :atom && params[:max_id]
-      redirect_to url_for(params.merge(:max_id => nil)), :status => :moved_permanently
+    @params = params.permit(:display_name, :bbox, :friends, :nearby, :max_id, :list)
+
+    if request.format == :atom && @params[:max_id]
+      redirect_to url_for(@params.merge(:max_id => nil)), :status => :moved_permanently
       return
     end
 
-    if params[:display_name]
-      user = User.find_by(:display_name => params[:display_name])
+    if @params[:display_name]
+      user = User.find_by(:display_name => @params[:display_name])
       if !user || !user.active?
-        render_unknown_user params[:display_name]
+        render_unknown_user @params[:display_name]
         return
       end
     end
 
-    if (params[:friends] || params[:nearby]) && !@user
+    if (@params[:friends] || @params[:nearby]) && !@user
       require_user
       return
     end
 
-    if request.format == :html && !params[:list]
+    if request.format == :html && !@params[:list]
       require_oauth
       render :action => :history, :layout => map_layout
     else
       changesets = conditions_nonempty(Changeset.all)
 
-      if params[:display_name]
+      if @params[:display_name]
         changesets = if user.data_public? || user == @user
                        changesets.where(:user_id => user.id)
                      else
                        changesets.where("false")
                      end
-      elsif params[:bbox]
+      elsif @params[:bbox]
         changesets = conditions_bbox(changesets, BoundingBox.from_bbox_params(params))
-      elsif params[:friends] && @user
+      elsif @params[:friends] && @user
         changesets = changesets.where(:user_id => @user.friend_users.identifiable)
-      elsif params[:nearby] && @user
+      elsif @params[:nearby] && @user
         changesets = changesets.where(:user_id => @user.nearby)
       end
 
-      if params[:max_id]
-        changesets = changesets.where("changesets.id <= ?", params[:max_id])
+      if @params[:max_id]
+        changesets = changesets.where("changesets.id <= ?", @params[:max_id])
       end
 
       @edits = changesets.order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
