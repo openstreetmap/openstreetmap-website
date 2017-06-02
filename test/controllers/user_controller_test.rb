@@ -785,6 +785,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Updating the description should work
     user.description = "new description"
+    user.preferred_editor = "default"
     post :account, :params => { :display_name => user.display_name, :user => user.attributes }, :session => { :user => user }
     assert_response :success
     assert_template :account
@@ -1434,7 +1435,7 @@ class UserControllerTest < ActionController::TestCase
       post :list, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
     end
     assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path(:confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 })
+    assert_redirected_to :action => :login, :referer => users_path
     assert_equal "pending", inactive_user.reload.status
     assert_equal "suspended", suspended_user.reload.status
 
@@ -1445,7 +1446,7 @@ class UserControllerTest < ActionController::TestCase
       post :list, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
     end
     assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path(:confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 })
+    assert_redirected_to :action => :login, :referer => users_path
     assert_equal "pending", inactive_user.reload.status
     assert_equal "suspended", suspended_user.reload.status
 
@@ -1456,7 +1457,7 @@ class UserControllerTest < ActionController::TestCase
       post :list, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
     end
     assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path(:confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 })
+    assert_redirected_to :action => :login, :referer => users_path
     assert_equal "pending", inactive_user.reload.status
     assert_equal "suspended", suspended_user.reload.status
 
@@ -1481,7 +1482,7 @@ class UserControllerTest < ActionController::TestCase
       post :list, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
     end
     assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path(:hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 })
+    assert_redirected_to :action => :login, :referer => users_path
     assert_equal "active", normal_user.reload.status
     assert_equal "confirmed", confirmed_user.reload.status
 
@@ -1492,7 +1493,7 @@ class UserControllerTest < ActionController::TestCase
       post :list, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
     end
     assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path(:hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 })
+    assert_redirected_to :action => :login, :referer => users_path
     assert_equal "active", normal_user.reload.status
     assert_equal "confirmed", confirmed_user.reload.status
 
@@ -1503,7 +1504,7 @@ class UserControllerTest < ActionController::TestCase
       post :list, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
     end
     assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path(:hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 })
+    assert_redirected_to :action => :login, :referer => users_path
     assert_equal "active", normal_user.reload.status
     assert_equal "confirmed", confirmed_user.reload.status
 
