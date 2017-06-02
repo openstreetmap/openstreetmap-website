@@ -28,7 +28,7 @@ class RedactionTest < ActiveSupport::TestCase
     r = create(:redaction)
 
     assert_equal(false, node_v1.redacted?, "Expected node to not be redacted already.")
-    assert_nothing_raised(OSM::APICannotRedactError) do
+    assert_nothing_raised do
       node_v1.redact!(r)
     end
     assert_equal(true, node_v1.redacted?, "Expected node version 1 to be redacted after redact! call.")

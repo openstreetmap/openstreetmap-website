@@ -42,7 +42,7 @@ class WayTest < ActiveSupport::TestCase
 
   def test_from_xml_no_id
     noid = "<osm><way version='12' changeset='23' /></osm>"
-    assert_nothing_raised(OSM::APIBadXMLError) do
+    assert_nothing_raised do
       Way.from_xml(noid, true)
     end
     message = assert_raise(OSM::APIBadXMLError) do
@@ -65,7 +65,7 @@ class WayTest < ActiveSupport::TestCase
 
   def test_from_xml_no_version
     no_version = "<osm><way id='123' changeset='23' /></osm>"
-    assert_nothing_raised(OSM::APIBadXMLError) do
+    assert_nothing_raised do
       Way.from_xml(no_version, true)
     end
     message_update = assert_raise(OSM::APIBadXMLError) do
@@ -78,7 +78,7 @@ class WayTest < ActiveSupport::TestCase
     id_list = ["", "0", "00", "0.0", "a"]
     id_list.each do |id|
       zero_id = "<osm><way id='#{id}' changeset='33' version='23' /></osm>"
-      assert_nothing_raised(OSM::APIBadUserInput) do
+      assert_nothing_raised do
         Way.from_xml(zero_id, true)
       end
       message_update = assert_raise(OSM::APIBadUserInput) do

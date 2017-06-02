@@ -166,7 +166,7 @@ class NodeTest < ActiveSupport::TestCase
     version = 1
     noid = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset}' version='#{version}' /></osm>"
     # First try a create which doesn't need the id
-    assert_nothing_raised(OSM::APIBadXMLError) do
+    assert_nothing_raised do
       Node.from_xml(noid, true)
     end
     # Now try an update with no id, and make sure that it gives the appropriate exception
@@ -214,7 +214,7 @@ class NodeTest < ActiveSupport::TestCase
 
   def test_from_xml_no_version
     no_version = "<osm><node id='123' lat='23' lon='23' changeset='23' /></osm>"
-    assert_nothing_raised(OSM::APIBadXMLError) do
+    assert_nothing_raised do
       Node.from_xml(no_version, true)
     end
     message_update = assert_raise(OSM::APIBadXMLError) do
@@ -239,7 +239,7 @@ class NodeTest < ActiveSupport::TestCase
     id_list = ["", "0", "00", "0.0", "a"]
     id_list.each do |id|
       zero_id = "<osm><node id='#{id}' lat='12.3' lon='12.3' changeset='33' version='23' /></osm>"
-      assert_nothing_raised(OSM::APIBadUserInput) do
+      assert_nothing_raised do
         Node.from_xml(zero_id, true)
       end
       message_update = assert_raise(OSM::APIBadUserInput) do

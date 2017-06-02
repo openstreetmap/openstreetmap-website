@@ -151,7 +151,7 @@ class BoundingBoxTest < ActiveSupport::TestCase
 
   def test_good_bbox_boundaries
     @good_bbox.each do |bbox_string|
-      assert_nothing_raised(OSM::APIBadBoundingBox) { BoundingBox.from_s(bbox_string).check_boundaries }
+      assert_nothing_raised { BoundingBox.from_s(bbox_string).check_boundaries }
     end
   end
 
@@ -196,14 +196,14 @@ class BoundingBoxTest < ActiveSupport::TestCase
 
   def test_good_bbox_size
     @good_bbox.each do |bbox_string|
-      assert_nothing_raised(OSM::APIBadBoundingBox) { BoundingBox.from_s(bbox_string).check_size }
+      assert_nothing_raised { BoundingBox.from_s(bbox_string).check_size }
     end
   end
 
   def test_size_to_big
     @bad_big_bbox.each do |bbox_string|
       bbox = nil
-      assert_nothing_raised(OSM::APIBadBoundingBox) { bbox = BoundingBox.from_bbox_params(:bbox => bbox_string).check_boundaries }
+      assert_nothing_raised { bbox = BoundingBox.from_bbox_params(:bbox => bbox_string).check_boundaries }
       exception = assert_raise(OSM::APIBadBoundingBox) { bbox.check_size }
       assert_equal(@size_error_message, exception.message)
     end
