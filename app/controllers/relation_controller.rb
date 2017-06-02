@@ -16,16 +16,16 @@ class RelationController < ApplicationController
 
     # Assume that Relation.from_xml has thrown an exception if there is an error parsing the xml
     relation.create_with_history @user
-    render :text => relation.id.to_s, :content_type => "text/plain"
+    render :plain => relation.id.to_s
   end
 
   def read
     relation = Relation.find(params[:id])
     response.last_modified = relation.timestamp
     if relation.visible
-      render :text => relation.to_xml.to_s, :content_type => "text/xml"
+      render :xml => relation.to_xml.to_s
     else
-      render :text => "", :status => :gone
+      head :gone
     end
   end
 
@@ -40,7 +40,7 @@ class RelationController < ApplicationController
     end
 
     relation.update_from new_relation, @user
-    render :text => relation.version.to_s, :content_type => "text/plain"
+    render :plain => relation.version.to_s
   end
 
   def delete
@@ -48,9 +48,9 @@ class RelationController < ApplicationController
     new_relation = Relation.from_xml(request.raw_post)
     if new_relation && new_relation.id == relation.id
       relation.delete_with_history!(new_relation, @user)
-      render :text => relation.version.to_s, :content_type => "text/plain"
+      render :plain => relation.version.to_s
     else
-      render :text => "", :status => :bad_request
+      head :bad_request
     end
   end
 
@@ -119,10 +119,10 @@ class RelationController < ApplicationController
 
       # finally add self and output
       doc.root << relation.to_xml_node(visible_members, changeset_cache, user_display_name_cache)
-      render :text => doc.to_s, :content_type => "text/xml"
+      render :xml => doc.to_s
 
     else
-      render :text => "", :status => :gone
+      head :gone
     end
   end
 
@@ -143,7 +143,7 @@ class RelationController < ApplicationController
       doc.root << relation.to_xml_node
     end
 
-    render :text => doc.to_s, :content_type => "text/xml"
+    render :xml => doc.to_s
   end
 
   def relations_for_way
@@ -167,6 +167,6 @@ class RelationController < ApplicationController
       doc.root << relation.to_xml_node if relation.visible
     end
 
-    render :text => doc.to_s, :content_type => "text/xml"
+    render :xml => doc.to_s
   end
 end

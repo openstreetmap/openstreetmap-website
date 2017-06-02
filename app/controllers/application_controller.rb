@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
       if request.get?
         redirect_to :controller => "user", :action => "login", :referer => request.fullpath
       else
-        render :text => "", :status => :forbidden
+        head :forbidden
       end
     end
   end
@@ -127,7 +127,7 @@ class ApplicationController < ActionController::Base
         flash[:error] = t("application.require_moderator.not_a_moderator")
         redirect_to :action => "index"
       else
-        render :text => "", :status => :forbidden
+        head :forbidden
       end
     end
   end
@@ -181,7 +181,7 @@ class ApplicationController < ActionController::Base
     unless @user
       # no auth, the user does not exist or the password was wrong
       response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
-      render :text => errormessage, :status => :unauthorized
+      render :plain => errormessage, :status => :unauthorized
       return false
     end
   end
@@ -197,7 +197,7 @@ class ApplicationController < ActionController::Base
   def authorize_moderator(errormessage = "Access restricted to moderators")
     # check user is a moderator
     unless @user.moderator?
-      render :text => errormessage, :status => :forbidden
+      render :plain => errormessage, :status => :forbidden
       false
     end
   end
@@ -288,9 +288,9 @@ class ApplicationController < ActionController::Base
       result.root << (XML::Node.new("status") << "#{Rack::Utils.status_code(status)} #{Rack::Utils::HTTP_STATUS_CODES[status]}")
       result.root << (XML::Node.new("message") << message)
 
-      render :text => result.to_s, :content_type => "text/xml"
+      render :xml => result.to_s
     else
-      render :text => message, :status => status, :content_type => "text/plain"
+      render :plain => message, :status => status
     end
   end
 
@@ -321,7 +321,7 @@ class ApplicationController < ActionController::Base
   def api_call_handle_error
     yield
   rescue ActiveRecord::RecordNotFound => ex
-    render :text => "", :status => :not_found
+    head :not_found
   rescue LibXML::XML::Error, ArgumentError => ex
     report_error ex.message, :bad_request
   rescue ActiveRecord::RecordInvalid => ex
@@ -391,7 +391,7 @@ class ApplicationController < ActionController::Base
 
     respond_to do |format|
       format.html { render :template => "user/no_such_user", :status => :not_found }
-      format.all { render :text => "", :status => :not_found }
+      format.all { head :not_found }
     end
   end
 

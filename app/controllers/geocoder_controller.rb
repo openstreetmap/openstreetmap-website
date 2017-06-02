@@ -35,7 +35,7 @@ class GeocoderController < ApplicationController
     end
 
     if @sources.empty?
-      render :text => "", :status => :bad_request
+      head :bad_request
     else
       render :layout => map_layout
     end

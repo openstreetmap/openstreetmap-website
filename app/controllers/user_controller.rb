@@ -194,7 +194,7 @@ class UserController < ApplicationController
         redirect_to :action => "lost_password"
       end
     else
-      render :text => "", :status => :bad_request
+      head :bad_request
     end
   end
 
@@ -375,7 +375,7 @@ class UserController < ApplicationController
     if @this_user.visible?
       render :action => :api_read, :content_type => "text/xml"
     else
-      render :text => "", :status => :gone
+      head :gone
     end
   end
 
@@ -389,7 +389,7 @@ class UserController < ApplicationController
     @user.traces.reload.each do |trace|
       doc.root << trace.to_xml_node
     end
-    render :text => doc.to_s, :content_type => "text/xml"
+    render :xml => doc.to_s
   end
 
   def view
@@ -752,9 +752,7 @@ class UserController < ApplicationController
   ##
   # require that the user in the URL is the logged in user
   def require_self
-    if params[:display_name] != @user.display_name
-      render :text => "", :status => :forbidden
-    end
+    head :forbidden if params[:display_name] != @user.display_name
   end
 
   ##

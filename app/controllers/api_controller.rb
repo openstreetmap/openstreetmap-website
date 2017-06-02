@@ -100,7 +100,7 @@ class ApiController < ApplicationController
 
     response.headers["Content-Disposition"] = "attachment; filename=\"tracks.gpx\""
 
-    render :text => doc.to_s, :content_type => "text/xml"
+    render :xml => doc.to_s
   end
 
   # This is probably the most common call of all. It is used for getting the
@@ -198,7 +198,7 @@ class ApiController < ApplicationController
 
     response.headers["Content-Disposition"] = "attachment; filename=\"map.osm\""
 
-    render :text => doc.to_s, :content_type => "text/xml"
+    render :xml => doc.to_s
   end
 
   # Get a list of the tiles that have changed within a specified time
@@ -241,9 +241,9 @@ class ApiController < ApplicationController
 
       doc.root << changes
 
-      render :text => doc.to_s, :content_type => "text/xml"
+      render :xml => doc.to_s
     else
-      render :text => "Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours", :status => :bad_request
+      render :plain => "Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours", :status => :bad_request
     end
   end
 
@@ -294,7 +294,7 @@ class ApiController < ApplicationController
     policy << blacklist
     doc.root << policy
 
-    render :text => doc.to_s, :content_type => "text/xml"
+    render :xml => doc.to_s
   end
 
   # External apps that use the api are able to query which permissions

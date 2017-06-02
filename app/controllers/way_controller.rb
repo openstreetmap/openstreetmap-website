@@ -16,7 +16,7 @@ class WayController < ApplicationController
 
     # Assume that Way.from_xml has thrown an exception if there is an error parsing the xml
     way.create_with_history @user
-    render :text => way.id.to_s, :content_type => "text/plain"
+    render :plain => way.id.to_s
   end
 
   def read
@@ -25,9 +25,9 @@ class WayController < ApplicationController
     response.last_modified = way.timestamp
 
     if way.visible
-      render :text => way.to_xml.to_s, :content_type => "text/xml"
+      render :xml => way.to_xml.to_s
     else
-      render :text => "", :status => :gone
+      head :gone
     end
   end
 
@@ -40,7 +40,7 @@ class WayController < ApplicationController
     end
 
     way.update_from(new_way, @user)
-    render :text => way.version.to_s, :content_type => "text/plain"
+    render :plain => way.version.to_s
   end
 
   # This is the API call to delete a way
@@ -50,9 +50,9 @@ class WayController < ApplicationController
 
     if new_way && new_way.id == way.id
       way.delete_with_history!(new_way, @user)
-      render :text => way.version.to_s, :content_type => "text/plain"
+      render :plain => way.version.to_s
     else
-      render :text => "", :status => :bad_request
+      head :bad_request
     end
   end
 
@@ -73,9 +73,9 @@ class WayController < ApplicationController
       end
       doc.root << way.to_xml_node(visible_nodes, changeset_cache, user_display_name_cache)
 
-      render :text => doc.to_s, :content_type => "text/xml"
+      render :xml => doc.to_s
     else
-      render :text => "", :status => :gone
+      head :gone
     end
   end
 
@@ -96,7 +96,7 @@ class WayController < ApplicationController
       doc.root << way.to_xml_node
     end
 
-    render :text => doc.to_s, :content_type => "text/xml"
+    render :xml => doc.to_s
   end
 
   ##
@@ -112,6 +112,6 @@ class WayController < ApplicationController
       doc.root << way.to_xml_node if way.visible
     end
 
-    render :text => doc.to_s, :content_type => "text/xml"
+    render :xml => doc.to_s
   end
 end

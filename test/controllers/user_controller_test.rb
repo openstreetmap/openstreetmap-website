@@ -1122,7 +1122,7 @@ class UserControllerTest < ActionController::TestCase
     basic_authorization(user.email, "test")
     get :api_gpx_files
     assert_response :success
-    assert_equal "text/xml", response.content_type
+    assert_equal "application/xml", response.content_type
 
     # check the data that is returned
     assert_select "gpx_file[id='#{trace1.id}']", 1 do

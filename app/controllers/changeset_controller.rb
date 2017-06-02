@@ -34,7 +34,7 @@ class ChangesetController < ApplicationController
     # Subscribe user to changeset comments
     cs.subscribers << @user
 
-    render :text => cs.id.to_s, :content_type => "text/plain"
+    render :plain => cs.id.to_s
   end
 
   ##
@@ -43,7 +43,7 @@ class ChangesetController < ApplicationController
   def read
     changeset = Changeset.find(params[:id])
 
-    render :text => changeset.to_xml(params[:include_discussion].presence).to_s, :content_type => "text/xml"
+    render :xml => changeset.to_xml(params[:include_discussion].presence).to_s
   end
 
   ##
@@ -61,7 +61,7 @@ class ChangesetController < ApplicationController
     changeset.set_closed_time_now
 
     changeset.save!
-    render :text => ""
+    render :nothing => true
   end
 
   ##
@@ -104,7 +104,7 @@ class ChangesetController < ApplicationController
     # save the larger bounding box and return the changeset, which
     # will include the bigger bounding box.
     cs.save!
-    render :text => cs.to_xml.to_s, :content_type => "text/xml"
+    render :xml => cs.to_xml.to_s
   end
 
   ##
@@ -132,7 +132,7 @@ class ChangesetController < ApplicationController
     diff_reader = DiffReader.new(request.raw_post, changeset)
     Changeset.transaction do
       result = diff_reader.commit
-      render :text => result.to_s, :content_type => "text/xml"
+      render :xml => result.to_s
     end
   end
 
@@ -197,7 +197,7 @@ class ChangesetController < ApplicationController
         end
     end
 
-    render :text => result.to_s, :content_type => "text/xml"
+    render :xml => result.to_s
   end
 
   ##
@@ -224,7 +224,7 @@ class ChangesetController < ApplicationController
       results.root << cs.to_xml_node
     end
 
-    render :text => results.to_s, :content_type => "text/xml"
+    render :xml => results.to_s
   end
 
   ##
@@ -244,7 +244,7 @@ class ChangesetController < ApplicationController
 
     check_changeset_consistency(changeset, @user)
     changeset.update_from(new_changeset, @user)
-    render :text => changeset.to_xml, :mime_type => "text/xml"
+    render :xml => changeset.to_xml
   end
 
   ##
@@ -335,7 +335,7 @@ class ChangesetController < ApplicationController
     changeset.subscribers << @user unless changeset.subscribers.exists?(@user.id)
 
     # Return a copy of the updated changeset
-    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
+    render :xml => changeset.to_xml.to_s
   end
 
   ##
@@ -356,7 +356,7 @@ class ChangesetController < ApplicationController
     changeset.subscribers << @user
 
     # Return a copy of the updated changeset
-    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
+    render :xml => changeset.to_xml.to_s
   end
 
   ##
@@ -377,7 +377,7 @@ class ChangesetController < ApplicationController
     changeset.subscribers.delete(@user)
 
     # Return a copy of the updated changeset
-    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
+    render :xml => changeset.to_xml.to_s
   end
 
   ##
@@ -396,7 +396,7 @@ class ChangesetController < ApplicationController
     comment.update(:visible => false)
 
     # Return a copy of the updated changeset
-    render :text => comment.changeset.to_xml.to_s, :content_type => "text/xml"
+    render :xml => comment.changeset.to_xml.to_s
   end
 
   ##
@@ -415,7 +415,7 @@ class ChangesetController < ApplicationController
     comment.update(:visible => true)
 
     # Return a copy of the updated changeset
-    render :text => comment.changeset.to_xml.to_s, :content_type => "text/xml"
+    render :xml => comment.changeset.to_xml.to_s
   end
 
   ##
@@ -440,7 +440,7 @@ class ChangesetController < ApplicationController
       format.rss
     end
   rescue OSM::APIBadUserInput
-    render :text => "", :status => :bad_request
+    head :bad_request
   end
 
   private

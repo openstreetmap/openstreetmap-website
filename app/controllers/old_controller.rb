@@ -33,12 +33,12 @@ class OldController < ApplicationController
       doc.root << element.to_xml_node
     end
 
-    render :text => doc.to_s, :content_type => "text/xml"
+    render :xml => doc.to_s
   end
 
   def version
     if @old_element.redacted? && !show_redactions?
-      render :text => "", :status => :forbidden
+      head :forbidden
 
     else
       response.last_modified = @old_element.timestamp
@@ -46,7 +46,7 @@ class OldController < ApplicationController
       doc = OSM::API.new.get_xml_doc
       doc.root << @old_element.to_xml_node
 
-      render :text => doc.to_s, :content_type => "text/xml"
+      render :xml => doc.to_s
     end
   end
 
@@ -64,7 +64,7 @@ class OldController < ApplicationController
     end
 
     # just return an empty 200 OK for success
-    render :text => ""
+    render :nothing => true
   end
 
   private

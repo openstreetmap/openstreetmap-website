@@ -53,7 +53,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     # try the read again
     get :read
     assert_response :success
-    assert_equal "text/xml", @response.content_type
+    assert_equal "application/xml", @response.content_type
     assert_select "osm" do
       assert_select "preferences", :count => 1 do
         assert_select "preference", :count => 2
