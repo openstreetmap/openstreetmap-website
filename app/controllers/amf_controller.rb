@@ -46,7 +46,7 @@ class AmfController < ApplicationController
 
   def amf_read
     self.status = :ok
-    self.content_type = Mime::AMF
+    self.content_type = Mime[:amf]
     self.response_body = Dispatcher.new(request.raw_post) do |message, *args|
       logger.info("Executing AMF #{message}(#{args.join(',')})")
 
@@ -74,7 +74,7 @@ class AmfController < ApplicationController
     err = false                       # Abort batch on error
 
     self.status = :ok
-    self.content_type = Mime::AMF
+    self.content_type = Mime[:amf]
     self.response_body = Dispatcher.new(request.raw_post) do |message, *args|
       logger.info("Executing AMF #{message}")
 

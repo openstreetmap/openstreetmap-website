@@ -146,9 +146,9 @@ class TraceController < ApplicationController
     if trace.visible? && (trace.public? || (@user && @user == trace.user))
       if Acl.no_trace_download(request.remote_ip)
         head :forbidden
-      elsif request.format == Mime::XML
+      elsif request.format == Mime[:xml]
         send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => "attachment")
-      elsif request.format == Mime::GPX
+      elsif request.format == Mime[:gpx]
         send_file(trace.xml_file, :filename => "#{trace.id}.gpx", :type => request.format.to_s, :disposition => "attachment")
       else
         send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => "attachment")
@@ -295,9 +295,9 @@ class TraceController < ApplicationController
     trace = Trace.visible.find(params[:id])
 
     if trace.public? || trace.user == @user
-      if request.format == Mime::XML
+      if request.format == Mime[:xml]
         send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => "attachment")
-      elsif request.format == Mime::GPX
+      elsif request.format == Mime[:gpx]
         send_file(trace.xml_file, :filename => "#{trace.id}.gpx", :type => request.format.to_s, :disposition => "attachment")
       else
         send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => "attachment")
