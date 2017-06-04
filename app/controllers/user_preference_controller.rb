@@ -57,7 +57,7 @@ class UserPreferenceController < ApplicationController
 
     new_preferences.each_value(&:save!)
 
-    render :nothing => true, :content_type => "text/plain"
+    render :plain => ""
   end
 
   ##
@@ -74,7 +74,7 @@ class UserPreferenceController < ApplicationController
     pref.v = request.raw_post.chomp
     pref.save!
 
-    render :nothing => true, :content_type => "text/plain"
+    render :plain => ""
   end
 
   ##
@@ -82,6 +82,6 @@ class UserPreferenceController < ApplicationController
   def delete_one
     UserPreference.find([@user.id, params[:preference_key]]).delete
 
-    render :nothing => true, :content_type => "text/plain"
+    render :plain => ""
   end
 end

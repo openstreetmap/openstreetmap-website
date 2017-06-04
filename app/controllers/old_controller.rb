@@ -64,7 +64,7 @@ class OldController < ApplicationController
     end
 
     # just return an empty 200 OK for success
-    render :nothing => true
+    head :ok
   end
 
   private
