@@ -61,7 +61,7 @@ class ChangesetController < ApplicationController
     changeset.set_closed_time_now
 
     changeset.save!
-    render :nothing => true
+    head :ok
   end
 
   ##
