@@ -50,7 +50,7 @@ class SiteController < ApplicationController
     new_params[:anchor] = "map=#{zoom}/#{lat}/#{lon}"
     new_params[:anchor] += "&layers=#{params[:layers]}" if params.key? :layers
 
-    redirect_to Hash[new_params]
+    redirect_to new_params.to_unsafe_h
   end
 
   def key
@@ -158,7 +158,7 @@ class SiteController < ApplicationController
     end
 
     if anchor.present?
-      redirect_to Hash[params].merge(:anchor => anchor.join("&"))
+      redirect_to params.to_unsafe_h.merge(:anchor => anchor.join("&"))
     end
   end
 end
