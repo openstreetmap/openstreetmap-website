@@ -496,7 +496,7 @@ class UserController < ApplicationController
   ##
   # omniauth success callback
   def auth_success
-    auth_info = env["omniauth.auth"]
+    auth_info = request.env["omniauth.auth"]
 
     provider = auth_info[:provider]
     uid = auth_info[:uid]
@@ -545,7 +545,7 @@ class UserController < ApplicationController
         when "pending" then
           unconfirmed_login(user)
         when "active", "confirmed" then
-          successful_login(user, env["omniauth.params"]["referer"])
+          successful_login(user, request.env["omniauth.params"]["referer"])
         when "suspended" then
           failed_login t("user.login.account is suspended", :webmaster => "mailto:#{SUPPORT_EMAIL}")
         else
