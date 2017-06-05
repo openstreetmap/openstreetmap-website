@@ -725,8 +725,8 @@ class UserController < ApplicationController
             # Ignore errors sending email
           end
         else
-          @user.errors.set(:new_email, @user.errors.get(:email))
-          @user.errors.set(:email, [])
+          @user.errors.add(:new_email, @user.errors[:email])
+          @user.errors.add(:email, [])
         end
 
         user.restore_email!
