@@ -63,7 +63,7 @@ class ApiControllerTest < ActionController::TestCase
     maxlon = node.lon + 0.1
     maxlat = node.lat + 0.1
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
-    get :map, :bbox => bbox
+    get :map, :params => { :bbox => bbox }
     if $VERBOSE
       print @request.to_yaml
       print @response.body
@@ -93,7 +93,7 @@ class ApiControllerTest < ActionController::TestCase
     relation = create(:relation_member, :member => node).relation
 
     bbox = "#{node.lon},#{node.lat},#{node.lon},#{node.lat}"
-    get :map, :bbox => bbox
+    get :map, :params => { :bbox => bbox }
     assert_response :success, "The map call should have succeeded"
     assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
       assert_select "bounds[minlon='#{node.lon}'][minlat='#{node.lat}'][maxlon='#{node.lon}'][maxlat='#{node.lat}']", :count => 1
@@ -121,7 +121,7 @@ class ApiControllerTest < ActionController::TestCase
     relation = create(:relation_member, :member => way1).relation
 
     bbox = "#{node.lon},#{node.lat},#{node.lon},#{node.lat}"
-    get :map, :bbox => bbox
+    get :map, :params => { :bbox => bbox }
     assert_response :success, "The map call should have succeeded"
     assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
       assert_select "bounds[minlon='#{node.lon}'][minlat='#{node.lat}'][maxlon='#{node.lon}'][maxlat='#{node.lat}']", :count => 1
@@ -138,7 +138,7 @@ class ApiControllerTest < ActionController::TestCase
   end
 
   def test_map_empty
-    get :map, :bbox => "179.998,89.998,179.999.1,89.999"
+    get :map, :params => { :bbox => "179.998,89.998,179.999.1,89.999" }
     assert_response :success, "The map call should have succeeded"
     assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
       assert_select "bounds[minlon='179.9980000'][minlat='89.9980000'][maxlon='179.9990000'][maxlat='89.9990000']", :count => 1
@@ -157,7 +157,7 @@ class ApiControllerTest < ActionController::TestCase
     maxlon = point.longitude + 0.001
     maxlat = point.latitude + 0.001
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
-    get :trackpoints, :bbox => bbox
+    get :trackpoints, :params => { :bbox => bbox }
     assert_response :success
     assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
       assert_select "trk" do
@@ -176,7 +176,7 @@ class ApiControllerTest < ActionController::TestCase
     maxlon = point.longitude + 0.002
     maxlat = point.latitude + 0.002
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
-    get :trackpoints, :bbox => bbox
+    get :trackpoints, :params => { :bbox => bbox }
     assert_response :success
     assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
       assert_select "trk", :count => 1 do
@@ -200,7 +200,7 @@ class ApiControllerTest < ActionController::TestCase
     maxlon = point.longitude + 0.002
     maxlat = point.latitude + 0.002
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
-    get :trackpoints, :bbox => bbox
+    get :trackpoints, :params => { :bbox => bbox }
     assert_response :success
     assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
       assert_select "trk", :count => 1 do
@@ -226,12 +226,12 @@ class ApiControllerTest < ActionController::TestCase
 
   def test_traces_page_less_than_0
     -10.upto(-1) do |i|
-      get :trackpoints, :page => i, :bbox => "-0.1,-0.1,0.1,0.1"
+      get :trackpoints, :params => { :page => i, :bbox => "-0.1,-0.1,0.1,0.1" }
       assert_response :bad_request
       assert_equal "Page number must be greater than or equal to 0", @response.body, "The page number was #{i}"
     end
     0.upto(10) do |i|
-      get :trackpoints, :page => i, :bbox => "-0.1,-0.1,0.1,0.1"
+      get :trackpoints, :params => { :page => i, :bbox => "-0.1,-0.1,0.1,0.1" }
       assert_response :success, "The page number was #{i} and should have been accepted"
     end
   end
@@ -239,7 +239,7 @@ class ApiControllerTest < ActionController::TestCase
   def test_bbox_too_big
     @badbigbbox.each do |bbox|
       %w[trackpoints map].each do |tq|
-        get tq, :bbox => bbox
+        get tq, :params => { :bbox => bbox }
         assert_response :bad_request, "The bbox:#{bbox} was expected to be too big"
         assert_equal "The maximum bbox size is #{MAX_REQUEST_AREA}, and your request was too large. Either request a smaller area, or use planet.osm", @response.body, "bbox: #{bbox}"
       end
@@ -249,7 +249,7 @@ class ApiControllerTest < ActionController::TestCase
   def test_bbox_malformed
     @badmalformedbbox.each do |bbox|
       %w[trackpoints map].each do |tq|
-        get tq, :bbox => bbox
+        get tq, :params => { :bbox => bbox }
         assert_response :bad_request, "The bbox:#{bbox} was expected to be malformed"
         assert_equal "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat", @response.body, "bbox: #{bbox}"
       end
@@ -259,7 +259,7 @@ class ApiControllerTest < ActionController::TestCase
   def test_bbox_lon_mixedup
     @badlonmixedbbox.each do |bbox|
       %w[trackpoints map].each do |tq|
-        get tq, :bbox => bbox
+        get tq, :params => { :bbox => bbox }
         assert_response :bad_request, "The bbox:#{bbox} was expected to have the longitude mixed up"
         assert_equal "The minimum longitude must be less than the maximum longitude, but it wasn't", @response.body, "bbox: #{bbox}"
       end
@@ -269,7 +269,7 @@ class ApiControllerTest < ActionController::TestCase
   def test_bbox_lat_mixedup
     @badlatmixedbbox.each do |bbox|
       %w[trackpoints map].each do |tq|
-        get tq, :bbox => bbox
+        get tq, :params => { :bbox => bbox }
         assert_response :bad_request, "The bbox:#{bbox} was expected to have the latitude mixed up"
         assert_equal "The minimum latitude must be less than the maximum latitude, but it wasn't", @response.body, "bbox: #{bbox}"
       end
@@ -335,7 +335,7 @@ class ApiControllerTest < ActionController::TestCase
   def test_changes_zoom_invalid
     zoom_to_test = %w[p -1 0 17 one two]
     zoom_to_test.each do |zoom|
-      get :changes, :zoom => zoom
+      get :changes, :params => { :zoom => zoom }
       assert_response :bad_request
       assert_equal @response.body, "Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours"
     end
@@ -343,7 +343,7 @@ class ApiControllerTest < ActionController::TestCase
 
   def test_changes_zoom_valid
     1.upto(16) do |zoom|
-      get :changes, :zoom => zoom
+      get :changes, :params => { :zoom => zoom }
       assert_response :success
       # NOTE: there was a test here for the timing, but it was too sensitive to be a good test
       # and it was annoying.
@@ -356,7 +356,7 @@ class ApiControllerTest < ActionController::TestCase
   def test_changes_hours_invalid
     invalid = %w[-21 335 -1 0 25 26 100 one two three ping pong :]
     invalid.each do |hour|
-      get :changes, :hours => hour
+      get :changes, :params => { :hours => hour }
       assert_response :bad_request, "Problem with the hour: #{hour}"
       assert_equal @response.body, "Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours", "Problem with the hour: #{hour}."
     end
@@ -364,19 +364,19 @@ class ApiControllerTest < ActionController::TestCase
 
   def test_changes_hours_valid
     1.upto(24) do |hour|
-      get :changes, :hours => hour
+      get :changes, :params => { :hours => hour }
       assert_response :success
     end
   end
 
   def test_changes_start_end_invalid
-    get :changes, :start => "2010-04-03 10:55:00", :end => "2010-04-03 09:55:00"
+    get :changes, :params => { :start => "2010-04-03 10:55:00", :end => "2010-04-03 09:55:00" }
     assert_response :bad_request
     assert_equal @response.body, "Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours"
   end
 
   def test_changes_start_end_valid
-    get :changes, :start => "2010-04-03 09:55:00", :end => "2010-04-03 10:55:00"
+    get :changes, :params => { :start => "2010-04-03 09:55:00", :end => "2010-04-03 10:55:00" }
     assert_response :success
   end
 

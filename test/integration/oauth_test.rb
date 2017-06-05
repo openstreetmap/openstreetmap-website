@@ -10,7 +10,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def test_oauth10_web_app
     client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
-    post "/login", :username => client.user.email, :password => "test"
+    post "/login", :params => { :username => client.user.email, :password => "test" }
     follow_redirect!
     follow_redirect!
     assert_response :success
@@ -23,7 +23,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def test_oauth10_desktop_app
     client = create(:client_application, :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
-    post "/login", :username => client.user.email, :password => "test"
+    post "/login", :params => { :username => client.user.email, :password => "test" }
     follow_redirect!
     follow_redirect!
     assert_response :success
@@ -35,7 +35,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def test_oauth10a_web_app
     client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
-    post "/login", :username => client.user.email, :password => "test"
+    post "/login", :params => { :username => client.user.email, :password => "test" }
     follow_redirect!
     follow_redirect!
     assert_response :success
@@ -48,7 +48,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def test_oauth10a_desktop_app
     client = create(:client_application, :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
-    post "/login", :username => client.user.email, :password => "test"
+    post "/login", :params => { :username => client.user.email, :password => "test" }
     follow_redirect!
     follow_redirect!
     assert_response :success
@@ -62,13 +62,13 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def oauth10_without_callback(client)
     token = get_request_token(client)
 
-    get "/oauth/authorize", :oauth_token => token.token
+    get "/oauth/authorize", :params => { :oauth_token => token.token }
     assert_response :success
     assert_template :authorize
 
     post "/oauth/authorize",
-         :oauth_token => token.token,
-         :allow_read_prefs => true, :allow_write_prefs => true
+         :params => { :oauth_token => token.token,
+                      :allow_read_prefs => true, :allow_write_prefs => true }
     if client.callback_url
       assert_response :redirect
       assert_redirected_to "#{client.callback_url}?oauth_token=#{token.token}"
@@ -101,7 +101,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     signed_get "/api/0.6/gpx/2", :consumer => client, :token => token
     assert_response :forbidden
 
-    post "/oauth/revoke", :token => token.token
+    post "/oauth/revoke", :params => { :token => token.token }
     assert_redirected_to oauth_clients_url(token.user.display_name)
     token = OauthToken.find_by(:token => token.token)
     assert_not_nil token.invalidated_at
@@ -113,11 +113,11 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def oauth10_refused(client)
     token = get_request_token(client)
 
-    get "/oauth/authorize", :oauth_token => token.token
+    get "/oauth/authorize", :params => { :oauth_token => token.token }
     assert_response :success
     assert_template :authorize
 
-    post "/oauth/authorize", :oauth_token => token.token
+    post "/oauth/authorize", :params => { :oauth_token => token.token }
     assert_response :success
     assert_template :authorize_failure
     assert_select "p", "You have denied application #{client.name} access to your account."
@@ -125,7 +125,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.authorized_at
     assert_not_nil token.invalidated_at
 
-    get "/oauth/authorize", :oauth_token => token.token
+    get "/oauth/authorize", :params => { :oauth_token => token.token }
     assert_response :success
     assert_template :authorize_failure
     assert_select "p", "The authorization token is not valid."
@@ -133,7 +133,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.authorized_at
     assert_not_nil token.invalidated_at
 
-    post "/oauth/authorize", :oauth_token => token.token
+    post "/oauth/authorize", :params => { :oauth_token => token.token }
     assert_response :success
     assert_template :authorize_failure
     assert_select "p", "The authorization token is not valid."
@@ -145,13 +145,13 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def oauth10_with_callback(client, callback_url)
     token = get_request_token(client)
 
-    get "/oauth/authorize", :oauth_token => token.token
+    get "/oauth/authorize", :params => { :oauth_token => token.token }
     assert_response :success
     assert_template :authorize
 
     post "/oauth/authorize",
-         :oauth_token => token.token, :oauth_callback => callback_url,
-         :allow_write_api => true, :allow_read_gpx => true
+         :params => { :oauth_token => token.token, :oauth_callback => callback_url,
+                      :allow_write_api => true, :allow_read_gpx => true }
     assert_response :redirect
     assert_redirected_to "#{callback_url}?oauth_token=#{token.token}"
     token.reload
@@ -180,7 +180,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     signed_get "/api/0.6/user/details", :consumer => client, :token => token
     assert_response :forbidden
 
-    post "/oauth/revoke", :token => token.token
+    post "/oauth/revoke", :params => { :token => token.token }
     assert_redirected_to oauth_clients_url(token.user.display_name)
     token = OauthToken.find_by(:token => token.token)
     assert_not_nil token.invalidated_at
@@ -192,13 +192,13 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def oauth10a_without_callback(client)
     token = get_request_token(client, :oauth_callback => "oob")
 
-    get "/oauth/authorize", :oauth_token => token.token
+    get "/oauth/authorize", :params => { :oauth_token => token.token }
     assert_response :success
     assert_template :authorize
 
     post "/oauth/authorize",
-         :oauth_token => token.token,
-         :allow_read_prefs => true, :allow_write_prefs => true
+         :params => { :oauth_token => token.token,
+                      :allow_read_prefs => true, :allow_write_prefs => true }
     if client.callback_url
       assert_response :redirect
       verifier = parse_verifier(response)
@@ -240,7 +240,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     signed_get "/api/0.6/gpx/#{trace.id}", :consumer => client, :token => token
     assert_response :forbidden
 
-    post "/oauth/revoke", :token => token.token
+    post "/oauth/revoke", :params => { :token => token.token }
     assert_redirected_to oauth_clients_url(token.user.display_name)
     token = OauthToken.find_by(:token => token.token)
     assert_not_nil token.invalidated_at
@@ -252,13 +252,13 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def oauth10a_with_callback(client, callback_url)
     token = get_request_token(client, :oauth_callback => callback_url)
 
-    get "/oauth/authorize", :oauth_token => token.token
+    get "/oauth/authorize", :params => { :oauth_token => token.token }
     assert_response :success
     assert_template :authorize
 
     post "/oauth/authorize",
-         :oauth_token => token.token,
-         :allow_write_api => true, :allow_read_gpx => true
+         :params => { :oauth_token => token.token,
+                      :allow_write_api => true, :allow_read_gpx => true }
     assert_response :redirect
     verifier = parse_verifier(response)
     assert_redirected_to "#{callback_url}?oauth_token=#{token.token}&oauth_verifier=#{verifier}"
@@ -292,7 +292,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     signed_get "/api/0.6/user/details", :consumer => client, :token => token
     assert_response :forbidden
 
-    post "/oauth/revoke", :token => token.token
+    post "/oauth/revoke", :params => { :token => token.token }
     assert_redirected_to oauth_clients_url(token.user.display_name)
     token = OauthToken.find_by(:token => token.token)
     assert_not_nil token.invalidated_at
@@ -304,11 +304,11 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def oauth10a_refused(client)
     token = get_request_token(client, :oauth_callback => "oob")
 
-    get "/oauth/authorize", :oauth_token => token.token
+    get "/oauth/authorize", :params => { :oauth_token => token.token }
     assert_response :success
     assert_template :authorize
 
-    post "/oauth/authorize", :oauth_token => token.token
+    post "/oauth/authorize", :params => { :oauth_token => token.token }
     assert_response :success
     assert_template :authorize_failure
     assert_select "p", "You have denied application #{client.name} access to your account."
@@ -316,7 +316,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.authorized_at
     assert_not_nil token.invalidated_at
 
-    get "/oauth/authorize", :oauth_token => token.token
+    get "/oauth/authorize", :params => { :oauth_token => token.token }
     assert_response :success
     assert_template :authorize_failure
     assert_select "p", "The authorization token is not valid."
@@ -324,7 +324,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.authorized_at
     assert_not_nil token.invalidated_at
 
-    post "/oauth/authorize", :oauth_token => token.token
+    post "/oauth/authorize", :params => { :oauth_token => token.token }
     assert_response :success
     assert_template :authorize_failure
     assert_select "p", "The authorization token is not valid."

@@ -9,14 +9,14 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
     with_terms_seen(true) do
       user = create(:user, :terms_seen => false)
 
-      get "/api/#{API_VERSION}/user/preferences", nil, auth_header(user.display_name, "test")
+      get "/api/#{API_VERSION}/user/preferences", :headers => auth_header(user.display_name, "test")
       assert_response :forbidden
 
       # touch it so that the user has seen the terms
       user.terms_seen = true
       user.save
 
-      get "/api/#{API_VERSION}/user/preferences", nil, auth_header(user.display_name, "test")
+      get "/api/#{API_VERSION}/user/preferences", :headers => auth_header(user.display_name, "test")
       assert_response :success
     end
   end
@@ -30,7 +30,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       follow_redirect!
       assert_response :success
       assert_template "user/login"
-      post "/login", :username => user.email, :password => "test", :referer => "/diary/new"
+      post "/login", :params => { :username => user.email, :password => "test", :referer => "/diary/new" }
       assert_response :redirect
       # but now we need to look at the terms
       assert_redirected_to :controller => :user, :action => :terms, :referer => "/diary/new"
@@ -38,7 +38,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       assert_response :success
 
       # don't agree to the terms, but hit decline
-      post "/user/save", :decline => true, :referer => "/diary/new"
+      post "/user/save", :params => { :decline => true, :referer => "/diary/new" }
       assert_redirected_to "/diary/new"
       follow_redirect!
 
@@ -57,7 +57,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       follow_redirect!
       assert_response :success
       assert_template "user/login"
-      post "/login", :username => user.email, :password => "test", :referer => "/diary/new"
+      post "/login", :params => { :username => user.email, :password => "test", :referer => "/diary/new" }
       assert_response :redirect
       # but now we need to look at the terms
       assert_redirected_to :controller => :user, :action => :terms, :referer => "/diary/new"
@@ -66,7 +66,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       # back to the terms page.
       get "/traces/mine"
       assert_redirected_to :controller => :user, :action => :terms, :referer => "/traces/mine"
-      get "/traces/mine", :referer => "/diary/new"
+      get "/traces/mine", :params => { :referer => "/diary/new" }
       assert_redirected_to :controller => :user, :action => :terms, :referer => "/diary/new"
     end
   end

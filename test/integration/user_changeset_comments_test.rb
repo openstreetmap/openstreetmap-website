@@ -30,7 +30,7 @@ class UserChangesetCommentsTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "user/login"
     # We can now login
-    post "/login", "username" => user.email, "password" => "test"
+    post "/login", :params => { "username" => user.email, "password" => "test" }
     assert_response :redirect
 
     get "/changeset/#{changeset.id}"

@@ -11,7 +11,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
     get "/api/#{API_VERSION}/user/details"
     assert_response :unauthorized
 
-    get "/api/#{API_VERSION}/user/details", nil, auth_header(blocked_user.display_name, "test")
+    get "/api/#{API_VERSION}/user/details", :headers => auth_header(blocked_user.display_name, "test")
     assert_response :success
 
     # now block the user
@@ -21,7 +21,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
       :reason => "testing",
       :ends_at => Time.now.getutc + 5.minutes
     )
-    get "/api/#{API_VERSION}/user/details", nil, auth_header(blocked_user.display_name, "test")
+    get "/api/#{API_VERSION}/user/details", :headers => auth_header(blocked_user.display_name, "test")
     assert_response :forbidden
   end
 
@@ -35,18 +35,18 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
       :reason => "testing",
       :ends_at => Time.now.getutc + 5.minutes
     )
-    get "/api/#{API_VERSION}/user/details", nil, auth_header(blocked_user.display_name, "test")
+    get "/api/#{API_VERSION}/user/details", :headers => auth_header(blocked_user.display_name, "test")
     assert_response :forbidden
 
     # revoke the ban
     get "/login"
     assert_response :success
-    post "/login", "username" => moderator.email, "password" => "test", :referer => "/blocks/#{block.id}/revoke"
+    post "/login", :params => { "username" => moderator.email, "password" => "test", :referer => "/blocks/#{block.id}/revoke" }
     assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template "user_blocks/revoke"
-    post "/blocks/#{block.id}/revoke", "confirm" => "yes"
+    post "/blocks/#{block.id}/revoke", :params => { "confirm" => "yes" }
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -54,7 +54,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
     reset!
 
     # access the API again. this time it should work
-    get "/api/#{API_VERSION}/user/details", nil, auth_header(blocked_user.display_name, "test")
+    get "/api/#{API_VERSION}/user/details", :headers => auth_header(blocked_user.display_name, "test")
     assert_response :success
   end
 end

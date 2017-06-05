@@ -97,12 +97,12 @@ class BrowseControllerTest < ActionController::TestCase
   def test_read_hidden_note
     hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
 
-    get :note, :id => hidden_note_with_comment.id
+    get :note, :params => { :id => hidden_note_with_comment.id }
     assert_response :not_found
     assert_template "browse/not_found"
     assert_template :layout => "map"
 
-    xhr :get, :note, :id => hidden_note_with_comment.id
+    get :note, :params => { :id => hidden_note_with_comment.id }, :xhr => true
     assert_response :not_found
     assert_template "browse/not_found"
     assert_template :layout => "xhr"
@@ -139,7 +139,7 @@ class BrowseControllerTest < ActionController::TestCase
     node_v1 = node.old_nodes.find_by(:version => 1)
     node_v1.redact!(create(:redaction))
 
-    get :node, :id => node.id
+    get :node, :params => { :id => node.id }
     assert_response :success
     assert_template "feature"
 
@@ -155,7 +155,7 @@ class BrowseControllerTest < ActionController::TestCase
     node_v1 = node.old_nodes.find_by(:version => 1)
     node_v1.redact!(create(:redaction))
 
-    get :node_history, :id => node.id
+    get :node_history, :params => { :id => node.id }
     assert_response :success
     assert_template "browse/history"
 
@@ -175,7 +175,7 @@ class BrowseControllerTest < ActionController::TestCase
     way_v3 = way.old_ways.find_by(:version => 3)
     way_v3.redact!(create(:redaction))
 
-    get :way_history, :id => way.id
+    get :way_history, :params => { :id => way.id }
     assert_response :success
     assert_template "browse/history"
 
@@ -193,7 +193,7 @@ class BrowseControllerTest < ActionController::TestCase
     relation_v3 = relation.old_relations.find_by(:version => 3)
     relation_v3.redact!(create(:redaction))
 
-    get :relation_history, :id => relation.id
+    get :relation_history, :params => { :id => relation.id }
     assert_response :success
     assert_template "browse/history"
 
@@ -216,25 +216,25 @@ class BrowseControllerTest < ActionController::TestCase
     end
 
     assert_raise ActionController::UrlGenerationError do
-      get type, :id => -10 # we won't have an id that's negative
+      get type, :params => { :id => -10 } # we won't have an id that's negative
     end
 
-    get type, :id => 0
+    get type, :params => { :id => 0 }
     assert_response :not_found
     assert_template "browse/not_found"
     assert_template :layout => "map"
 
-    xhr :get, type, :id => 0
+    get type, :params => { :id => 0 }, :xhr => true
     assert_response :not_found
     assert_template "browse/not_found"
     assert_template :layout => "xhr"
 
-    get type, :id => id
+    get type, :params => { :id => id }
     assert_response :success
     assert_template template
     assert_template :layout => "map"
 
-    xhr :get, type, :id => id
+    get type, :params => { :id => id }, :xhr => true
     assert_response :success
     assert_template template
     assert_template :layout => "xhr"

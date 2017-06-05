@@ -134,15 +134,15 @@ class NodeControllerTest < ActionController::TestCase
 
   def test_read
     # check that a visible node is returned properly
-    get :read, :id => create(:node).id
+    get :read, :params => { :id => create(:node).id }
     assert_response :success
 
     # check that an deleted node is not returned
-    get :read, :id => create(:node, :deleted).id
+    get :read, :params => { :id => create(:node, :deleted).id }
     assert_response :gone
 
     # check chat a non-existent node is not returned
-    get :read, :id => 0
+    get :read, :params => { :id => 0 }
     assert_response :not_found
   end
 
@@ -156,7 +156,7 @@ class NodeControllerTest < ActionController::TestCase
     private_deleted_node = create(:node, :deleted, :changeset => private_user_changeset)
 
     ## first try to delete node without auth
-    delete :delete, :id => private_node.id
+    delete :delete, :params => { :id => private_node.id }
     assert_response :unauthorized
 
     ## now set auth for the non-data public user
@@ -164,26 +164,26 @@ class NodeControllerTest < ActionController::TestCase
 
     # try to delete with an invalid (closed) changeset
     content update_changeset(private_node.to_xml, private_user_closed_changeset.id)
-    delete :delete, :id => private_node.id
+    delete :delete, :params => { :id => private_node.id }
     assert_require_public_data("non-public user shouldn't be able to delete node")
 
     # try to delete with an invalid (non-existent) changeset
     content update_changeset(private_node.to_xml, 0)
-    delete :delete, :id => private_node.id
+    delete :delete, :params => { :id => private_node.id }
     assert_require_public_data("shouldn't be able to delete node, when user's data is private")
 
     # valid delete now takes a payload
     content(private_node.to_xml)
-    delete :delete, :id => private_node.id
+    delete :delete, :params => { :id => private_node.id }
     assert_require_public_data("shouldn't be able to delete node when user's data isn't public'")
 
     # this won't work since the node is already deleted
     content(private_deleted_node.to_xml)
-    delete :delete, :id => private_deleted_node.id
+    delete :delete, :params => { :id => private_deleted_node.id }
     assert_require_public_data
 
     # this won't work since the node never existed
-    delete :delete, :id => 0
+    delete :delete, :params => { :id => 0 }
     assert_require_public_data
 
     ## these test whether nodes which are in-use can be deleted:
@@ -192,7 +192,7 @@ class NodeControllerTest < ActionController::TestCase
     create(:way_node, :node => private_used_node)
 
     content(private_used_node.to_xml)
-    delete :delete, :id => private_used_node.id
+    delete :delete, :params => { :id => private_used_node.id }
     assert_require_public_data "shouldn't be able to delete a node used in a way (#{@response.body})"
 
     # in a relation...
@@ -200,7 +200,7 @@ class NodeControllerTest < ActionController::TestCase
     create(:relation_member, :member => private_used_node2)
 
     content(private_used_node2.to_xml)
-    delete :delete, :id => private_used_node2.id
+    delete :delete, :params => { :id => private_used_node2.id }
     assert_require_public_data "shouldn't be able to delete a node used in a relation (#{@response.body})"
 
     ## now setup for the public data user
@@ -212,30 +212,30 @@ class NodeControllerTest < ActionController::TestCase
 
     # try to delete with an invalid (closed) changeset
     content update_changeset(node.to_xml, closed_changeset.id)
-    delete :delete, :id => node.id
+    delete :delete, :params => { :id => node.id }
     assert_response :conflict
 
     # try to delete with an invalid (non-existent) changeset
     content update_changeset(node.to_xml, 0)
-    delete :delete, :id => node.id
+    delete :delete, :params => { :id => node.id }
     assert_response :conflict
 
     # try to delete a node with a different ID
     other_node = create(:node)
     content(other_node.to_xml)
-    delete :delete, :id => node.id
+    delete :delete, :params => { :id => node.id }
     assert_response :bad_request,
                     "should not be able to delete a node with a different ID from the XML"
 
     # try to delete a node rubbish in the payloads
     content("<delete/>")
-    delete :delete, :id => node.id
+    delete :delete, :params => { :id => node.id }
     assert_response :bad_request,
                     "should not be able to delete a node without a valid XML payload"
 
     # valid delete now takes a payload
     content(node.to_xml)
-    delete :delete, :id => node.id
+    delete :delete, :params => { :id => node.id }
     assert_response :success
 
     # valid delete should return the new version number, which should
@@ -245,11 +245,11 @@ class NodeControllerTest < ActionController::TestCase
 
     # deleting the same node twice doesn't work
     content(node.to_xml)
-    delete :delete, :id => node.id
+    delete :delete, :params => { :id => node.id }
     assert_response :gone
 
     # this won't work since the node never existed
-    delete :delete, :id => 0
+    delete :delete, :params => { :id => 0 }
     assert_response :not_found
 
     ## these test whether nodes which are in-use can be deleted:
@@ -259,7 +259,7 @@ class NodeControllerTest < ActionController::TestCase
     way_node2 = create(:way_node, :node => used_node)
 
     content(used_node.to_xml)
-    delete :delete, :id => used_node.id
+    delete :delete, :params => { :id => used_node.id }
     assert_response :precondition_failed,
                     "shouldn't be able to delete a node used in a way (#{@response.body})"
     assert_equal "Precondition failed: Node #{used_node.id} is still used by ways #{way_node.way.id},#{way_node2.way.id}.", @response.body
@@ -270,7 +270,7 @@ class NodeControllerTest < ActionController::TestCase
     relation_member2 = create(:relation_member, :member => used_node2)
 
     content(used_node2.to_xml)
-    delete :delete, :id => used_node2.id
+    delete :delete, :params => { :id => used_node2.id }
     assert_response :precondition_failed,
                     "shouldn't be able to delete a node used in a relation (#{@response.body})"
     assert_equal "Precondition failed: Node #{used_node2.id} is still used by relations #{relation_member.relation.id},#{relation_member2.relation.id}.", @response.body
@@ -289,7 +289,7 @@ class NodeControllerTest < ActionController::TestCase
     node = create(:node, :changeset => create(:changeset, :user => user))
 
     content node.to_xml
-    put :update, :id => node.id
+    put :update, :params => { :id => node.id }
     assert_response :unauthorized
 
     ## Second test with the private user
@@ -302,40 +302,40 @@ class NodeControllerTest < ActionController::TestCase
     # try and update in someone else's changeset
     content update_changeset(private_node.to_xml,
                              create(:changeset).id)
-    put :update, :id => private_node.id
+    put :update, :params => { :id => private_node.id }
     assert_require_public_data "update with other user's changeset should be forbidden when data isn't public"
 
     # try and update in a closed changeset
     content update_changeset(private_node.to_xml,
                              create(:changeset, :closed, :user => private_user).id)
-    put :update, :id => private_node.id
+    put :update, :params => { :id => private_node.id }
     assert_require_public_data "update with closed changeset should be forbidden, when data isn't public"
 
     # try and update in a non-existant changeset
     content update_changeset(private_node.to_xml, 0)
-    put :update, :id => private_node.id
+    put :update, :params => { :id => private_node.id }
     assert_require_public_data "update with changeset=0 should be forbidden, when data isn't public"
 
     ## try and submit invalid updates
     content xml_attr_rewrite(private_node.to_xml, "lat", 91.0)
-    put :update, :id => private_node.id
+    put :update, :params => { :id => private_node.id }
     assert_require_public_data "node at lat=91 should be forbidden, when data isn't public"
 
     content xml_attr_rewrite(private_node.to_xml, "lat", -91.0)
-    put :update, :id => private_node.id
+    put :update, :params => { :id => private_node.id }
     assert_require_public_data "node at lat=-91 should be forbidden, when data isn't public"
 
     content xml_attr_rewrite(private_node.to_xml, "lon", 181.0)
-    put :update, :id => private_node.id
+    put :update, :params => { :id => private_node.id }
     assert_require_public_data "node at lon=181 should be forbidden, when data isn't public"
 
     content xml_attr_rewrite(private_node.to_xml, "lon", -181.0)
-    put :update, :id => private_node.id
+    put :update, :params => { :id => private_node.id }
     assert_require_public_data "node at lon=-181 should be forbidden, when data isn't public"
 
     ## finally, produce a good request which still won't work
     content private_node.to_xml
-    put :update, :id => private_node.id
+    put :update, :params => { :id => private_node.id }
     assert_require_public_data "should have failed with a forbidden when data isn't public"
 
     ## Finally test with the public user
@@ -343,7 +343,7 @@ class NodeControllerTest < ActionController::TestCase
     # try and update a node without authorisation
     # first try to update node without auth
     content node.to_xml
-    put :update, :id => node.id
+    put :update, :params => { :id => node.id }
     assert_response :forbidden
 
     # setup auth
@@ -354,35 +354,35 @@ class NodeControllerTest < ActionController::TestCase
     # try and update in someone else's changeset
     content update_changeset(node.to_xml,
                              create(:changeset).id)
-    put :update, :id => node.id
+    put :update, :params => { :id => node.id }
     assert_response :conflict, "update with other user's changeset should be rejected"
 
     # try and update in a closed changeset
     content update_changeset(node.to_xml,
                              create(:changeset, :closed, :user => user).id)
-    put :update, :id => node.id
+    put :update, :params => { :id => node.id }
     assert_response :conflict, "update with closed changeset should be rejected"
 
     # try and update in a non-existant changeset
     content update_changeset(node.to_xml, 0)
-    put :update, :id => node.id
+    put :update, :params => { :id => node.id }
     assert_response :conflict, "update with changeset=0 should be rejected"
 
     ## try and submit invalid updates
     content xml_attr_rewrite(node.to_xml, "lat", 91.0)
-    put :update, :id => node.id
+    put :update, :params => { :id => node.id }
     assert_response :bad_request, "node at lat=91 should be rejected"
 
     content xml_attr_rewrite(node.to_xml, "lat", -91.0)
-    put :update, :id => node.id
+    put :update, :params => { :id => node.id }
     assert_response :bad_request, "node at lat=-91 should be rejected"
 
     content xml_attr_rewrite(node.to_xml, "lon", 181.0)
-    put :update, :id => node.id
+    put :update, :params => { :id => node.id }
     assert_response :bad_request, "node at lon=181 should be rejected"
 
     content xml_attr_rewrite(node.to_xml, "lon", -181.0)
-    put :update, :id => node.id
+    put :update, :params => { :id => node.id }
     assert_response :bad_request, "node at lon=-181 should be rejected"
 
     ## next, attack the versioning
@@ -391,37 +391,37 @@ class NodeControllerTest < ActionController::TestCase
     # try and submit a version behind
     content xml_attr_rewrite(node.to_xml,
                              "version", current_node_version - 1)
-    put :update, :id => node.id
+    put :update, :params => { :id => node.id }
     assert_response :conflict, "should have failed on old version number"
 
     # try and submit a version ahead
     content xml_attr_rewrite(node.to_xml,
                              "version", current_node_version + 1)
-    put :update, :id => node.id
+    put :update, :params => { :id => node.id }
     assert_response :conflict, "should have failed on skipped version number"
 
     # try and submit total crap in the version field
     content xml_attr_rewrite(node.to_xml,
                              "version", "p1r4t3s!")
-    put :update, :id => node.id
+    put :update, :params => { :id => node.id }
     assert_response :conflict,
                     "should not be able to put 'p1r4at3s!' in the version field"
 
     ## try an update with the wrong ID
     content create(:node).to_xml
-    put :update, :id => node.id
+    put :update, :params => { :id => node.id }
     assert_response :bad_request,
                     "should not be able to update a node with a different ID from the XML"
 
     ## try an update with a minimal valid XML doc which isn't a well-formed OSM doc.
     content "<update/>"
-    put :update, :id => node.id
+    put :update, :params => { :id => node.id }
     assert_response :bad_request,
                     "should not be able to update a node with non-OSM XML doc."
 
     ## finally, produce a good request which should work
     content node.to_xml
-    put :update, :id => node.id
+    put :update, :params => { :id => node.id }
     assert_response :success, "a valid update request failed"
   end
 
@@ -439,11 +439,11 @@ class NodeControllerTest < ActionController::TestCase
     assert_response :bad_request
 
     # check error when no parameter value provided
-    get :nodes, :nodes => ""
+    get :nodes, :params => { :nodes => "" }
     assert_response :bad_request
 
     # test a working call
-    get :nodes, :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}"
+    get :nodes, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}" }
     assert_response :success
     assert_select "osm" do
       assert_select "node", :count => 5
@@ -455,7 +455,7 @@ class NodeControllerTest < ActionController::TestCase
     end
 
     # check error when a non-existent node is included
-    get :nodes, :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id},400"
+    get :nodes, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id},400" }
     assert_response :not_found
   end
 
@@ -478,7 +478,7 @@ class NodeControllerTest < ActionController::TestCase
 
     # try and upload it
     content node_xml
-    put :update, :id => existing_tag.node.id
+    put :update, :params => { :id => existing_tag.node.id }
     assert_response :bad_request,
                     "adding duplicate tags to a node should fail with 'bad request'"
     assert_equal "Element node/#{existing_tag.node.id} has duplicate tags with key #{existing_tag.k}", @response.body
@@ -519,7 +519,7 @@ class NodeControllerTest < ActionController::TestCase
     assert_not_nil checknode, "node not found in data base after upload"
 
     # and grab it using the api
-    get :read, :id => nodeid
+    get :read, :params => { :id => nodeid }
     assert_response :success
     apinode = Node.from_xml(@response.body)
     assert_not_nil apinode, "downloaded node is nil, but shouldn't be"

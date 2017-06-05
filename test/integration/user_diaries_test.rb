@@ -13,7 +13,7 @@ class UserDiariesTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "user/login"
     # We can now login
-    post "/login", "username" => user.email, "password" => "test", :referer => "/diary/new"
+    post "/login", :params => { "username" => user.email, "password" => "test", :referer => "/diary/new" }
     assert_response :redirect
     # print @response.body
     # Check that there is some payload alerting the user to the redirect
