@@ -24,7 +24,8 @@ class UserChangesetCommentsTest < ActionDispatch::IntegrationTest
     user = create(:user)
     changeset = create(:changeset, :closed)
 
-    get_via_redirect "/login"
+    get "/login"
+    follow_redirect!
     # We should now be at the login page
     assert_response :success
     assert_template "user/login"

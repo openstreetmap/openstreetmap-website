@@ -6,7 +6,9 @@ class UserDiariesTest < ActionDispatch::IntegrationTest
   def test_showing_create_diary_entry
     user = create(:user)
 
-    get_via_redirect "/diary/new"
+    get "/diary/new"
+    follow_redirect!
+    follow_redirect!
     # We should now be at the login page
     assert_response :success
     assert_template "user/login"

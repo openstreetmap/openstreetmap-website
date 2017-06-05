@@ -26,7 +26,8 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       user = create(:user, :terms_seen => false)
 
       # try to log in
-      get_via_redirect "/login"
+      get "/login"
+      follow_redirect!
       assert_response :success
       assert_template "user/login"
       post "/login", :username => user.email, :password => "test", :referer => "/diary/new"
@@ -52,7 +53,8 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       user = create(:user, :terms_seen => false)
 
       # try to log in
-      get_via_redirect "/login"
+      get "/login"
+      follow_redirect!
       assert_response :success
       assert_template "user/login"
       post "/login", :username => user.email, :password => "test", :referer => "/diary/new"

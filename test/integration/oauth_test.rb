@@ -10,7 +10,9 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def test_oauth10_web_app
     client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
-    post_via_redirect "/login", :username => client.user.email, :password => "test"
+    post "/login", :username => client.user.email, :password => "test"
+    follow_redirect!
+    follow_redirect!
     assert_response :success
 
     oauth10_without_callback(client)
@@ -21,7 +23,9 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def test_oauth10_desktop_app
     client = create(:client_application, :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
-    post_via_redirect "/login", :username => client.user.email, :password => "test"
+    post "/login", :username => client.user.email, :password => "test"
+    follow_redirect!
+    follow_redirect!
     assert_response :success
 
     oauth10_without_callback(client)
@@ -31,7 +35,9 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def test_oauth10a_web_app
     client = create(:client_application, :callback_url => "http://some.web.app.example.org/callback", :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
-    post_via_redirect "/login", :username => client.user.email, :password => "test"
+    post "/login", :username => client.user.email, :password => "test"
+    follow_redirect!
+    follow_redirect!
     assert_response :success
 
     oauth10a_without_callback(client)
@@ -42,7 +48,9 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def test_oauth10a_desktop_app
     client = create(:client_application, :allow_read_prefs => true, :allow_write_api => true, :allow_read_gpx => true)
 
-    post_via_redirect "/login", :username => client.user.email, :password => "test"
+    post "/login", :username => client.user.email, :password => "test"
+    follow_redirect!
+    follow_redirect!
     assert_response :success
 
     oauth10a_without_callback(client)
