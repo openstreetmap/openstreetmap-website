@@ -54,7 +54,6 @@ folder 'vendor/assets' do
     from 'git://github.com/openstreetmap/iD', :branch => 'release' do
       folder 'iD/img', 'dist/img'
       folder 'iD/locales', 'dist/locales'
-      folder 'iD/traffico', 'dist/traffico'
       folder 'iD/mapillary-js', 'dist/mapillary-js'
 
       file 'iD.css.erb', 'dist/iD.css' do |path|
@@ -62,14 +61,6 @@ folder 'vendor/assets' do
           content.gsub(/url\('?(img\/[^')]+)'?\)/, 'url(<%= asset_path("iD/\1") %>)')
         end
       end
-
-      file 'iD/traffico/stylesheets/traffico.css.erb', 'dist/traffico/stylesheets/traffico.css' do |path|
-        rewrite(path) do |content|
-          content.gsub(/url\("?\.\.\/([^#?")]+)([^"]*)"?\)/, 'url(<%= asset_path("iD/traffico/\1") %>\2)')
-        end
-      end
-
-      File.delete('vendor/assets/iD/iD/traffico/stylesheets/traffico.css')
 
       file 'iD.js', 'dist/iD.js'
     end
