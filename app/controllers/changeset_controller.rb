@@ -244,7 +244,7 @@ class ChangesetController < ApplicationController
 
     check_changeset_consistency(changeset, @user)
     changeset.update_from(new_changeset, @user)
-    render :xml => changeset.to_xml
+    render :xml => changeset.to_xml.to_s
   end
 
   ##
