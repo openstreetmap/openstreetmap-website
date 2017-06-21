@@ -70,31 +70,31 @@ module Potlatch
 
     # Pack variables as AMF
     def self.encodevalue(n)
-      case n.class.to_s
-      when "Array"
+      case n
+      when Array
         a = 10.chr + encodelong(n.length)
         n.each do |b|
           a += encodevalue(b)
         end
         a
-      when "Hash"
+      when Hash
         a = 3.chr
         n.each do |k, v|
           a += encodestring(k.to_s) + encodevalue(v)
         end
         a + 0.chr + 0.chr + 9.chr
-      when "String"
+      when String
         2.chr + encodestring(n)
-      when "Bignum", "Fixnum", "Float"
+      when Numeric
         0.chr + encodedouble(n)
-      when "NilClass"
+      when NilClass
         5.chr
-      when "TrueClass"
+      when TrueClass
         0.chr + encodedouble(1)
-      when "FalseClass"
+      when FalseClass
         0.chr + encodedouble(0)
       else
-        Rails.logger.error("Unexpected Ruby type for AMF conversion: " + n.class.to_s)
+        raise "Unexpected Ruby type for AMF conversion: #{n.class.name}"
       end
     end
 
