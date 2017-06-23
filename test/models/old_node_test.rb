@@ -59,6 +59,14 @@ class OldNodeTest < ActiveSupport::TestCase
     assert_in_delta 76.543 * OldNode::SCALE, node.longitude, 0.000001
   end
 
+  # Ensure the lat/lon is formatted as a decimal e.g. not 4.0e-05
+  def test_lat_lon_xml_format
+    old_node = build(:old_node, :latitude => 0.00004 * OldNode::SCALE, :longitude => 0.00008 * OldNode::SCALE)
+
+    assert_match /lat="0.0000400"/, old_node.to_xml.to_s
+    assert_match /lon="0.0000800"/, old_node.to_xml.to_s
+  end
+
   def test_node_tags
     node_v1 = create(:old_node, :version => 1)
     node_v2 = create(:old_node, :node_id => node_v1.node_id, :version => 2)

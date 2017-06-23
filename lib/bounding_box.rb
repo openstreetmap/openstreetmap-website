@@ -137,10 +137,10 @@ class BoundingBox
   # there are two forms used for bounds with and without an underscore,
   # cater for both forms eg minlon and min_lon
   def add_bounds_to(hash, underscore = "")
-    hash["min#{underscore}lat"] = min_lat.to_s
-    hash["min#{underscore}lon"] = min_lon.to_s
-    hash["max#{underscore}lat"] = max_lat.to_s
-    hash["max#{underscore}lon"] = max_lon.to_s
+    hash["min#{underscore}lat"] = format("%.7f", min_lat)
+    hash["min#{underscore}lon"] = format("%.7f", min_lon)
+    hash["max#{underscore}lat"] = format("%.7f", max_lat)
+    hash["max#{underscore}lon"] = format("%.7f", max_lon)
     hash
   end
 

@@ -185,8 +185,8 @@ class Node < ActiveRecord::Base
     add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
     if visible?
-      el["lat"] = format("%.7f", lat)
-      el["lon"] = format("%.7f", lon)
+      el["lat"] = lat.to_s
+      el["lon"] = lon.to_s
     end
 
     add_tags_to_xml_node(el, node_tags)

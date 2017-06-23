@@ -265,19 +265,19 @@ class BoundingBoxTest < ActiveSupport::TestCase
   def test_add_bounds_to_no_underscore
     bounds = @bbox_from_string.add_bounds_to({})
     assert_equal 4, bounds.size
-    assert_equal @min_lon.to_s, bounds["minlon"]
-    assert_equal @min_lat.to_s, bounds["minlat"]
-    assert_equal @max_lon.to_s, bounds["maxlon"]
-    assert_equal @max_lat.to_s, bounds["maxlat"]
+    assert_equal format("%.7f", @min_lon), bounds["minlon"]
+    assert_equal format("%.7f", @min_lat), bounds["minlat"]
+    assert_equal format("%.7f", @max_lon), bounds["maxlon"]
+    assert_equal format("%.7f", @max_lat), bounds["maxlat"]
   end
 
   def test_add_bounds_to_with_underscore
     bounds = @bbox_from_string.add_bounds_to({}, "_")
     assert_equal 4, bounds.size
-    assert_equal @min_lon.to_s, bounds["min_lon"]
-    assert_equal @min_lat.to_s, bounds["min_lat"]
-    assert_equal @max_lon.to_s, bounds["max_lon"]
-    assert_equal @max_lat.to_s, bounds["max_lat"]
+    assert_equal format("%.7f", @min_lon), bounds["min_lon"]
+    assert_equal format("%.7f", @min_lat), bounds["min_lat"]
+    assert_equal format("%.7f", @max_lon), bounds["max_lon"]
+    assert_equal format("%.7f", @max_lat), bounds["max_lat"]
   end
 
   def test_to_scaled

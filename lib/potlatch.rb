@@ -85,7 +85,7 @@ module Potlatch
         a + 0.chr + 0.chr + 9.chr
       when String
         2.chr + encodestring(n)
-      when Numeric
+      when Numeric, GeoRecord::Coord
         0.chr + encodedouble(n)
       when NilClass
         5.chr
@@ -107,7 +107,7 @@ module Potlatch
 
     # Encode number as eight-byte double precision float
     def self.encodedouble(n)
-      [n].pack("G")
+      [n.to_f].pack("G")
     end
 
     # Encode number as four-byte long
