@@ -59,6 +59,8 @@ class TraceController < ApplicationController
 
     @traces = @traces.tagged(params[:tag]) if params[:tag]
 
+    @params = params.permit(:display_name, :tag)
+
     @page = (params[:page] || 1).to_i
     @page_size = 20
 

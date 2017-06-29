@@ -138,6 +138,8 @@ class DiaryEntryController < ApplicationController
       end
     end
 
+    @params = params.permit(:display_name, :friends, :nearby, :language)
+
     @page = (params[:page] || 1).to_i
     @page_size = 20
 
