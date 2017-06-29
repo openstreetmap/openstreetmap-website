@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   include SessionPersistence
 
-  protect_from_forgery
+  protect_from_forgery :with => :exception
 
   before_action :fetch_body
 

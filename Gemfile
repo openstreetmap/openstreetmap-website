@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "4.2.9"
+gem "rails", "5.0.4"
 
 # Require things which have moved to gems in ruby 1.9
 gem "bigdecimal", "~> 1.1.0", :platforms => :ruby_19
@@ -22,7 +22,7 @@ gem "sass-rails", "~> 5.0"
 gem "uglifier", ">= 1.3.0"
 
 # Use CoffeeScript for .js.coffee assets and views
-gem "coffee-rails", "~> 4.1.0"
+gem "coffee-rails", "~> 4.2"
 
 # Use jquery as the JavaScript library
 gem "jquery-rails"
@@ -42,7 +42,7 @@ gem "image_optim_rails"
 
 # Load rails plugins
 gem "actionpack-page_caching"
-gem "composite_primary_keys", "~> 8.1.0"
+gem "composite_primary_keys", "~> 9.0.7"
 gem "deadlock_retry", ">= 1.2.0"
 gem "dynamic_form"
 gem "http_accept_language", "~> 2.0.0"
@@ -51,6 +51,7 @@ gem "oauth-plugin", ">= 0.5.1"
 gem "paperclip", "~> 4.0"
 gem "rack-cors"
 gem "rails-i18n", "~> 4.0.0"
+gem "record_tag_helper"
 gem "rinku", ">= 1.2.2", :require => "rails_rinku"
 gem "validates_email_format_of", ">= 1.5.1"
 
@@ -103,12 +104,14 @@ gem "logstasher"
 
 # Gems useful for development
 group :development do
+  gem "listen"
   gem "vendorer"
 end
 
 # Gems needed for running tests
 group :test do
   gem "minitest", "~> 5.1", :platforms => [:ruby_19, :ruby_20]
+  gem "rails-controller-testing"
   gem "rubocop"
   gem "timecop"
   gem "webmock"
@@ -119,6 +122,6 @@ group :development, :test do
   gem "coveralls", :require => false
   gem "factory_girl_rails"
   gem "jshint"
-  gem "konacha"
+  #  gem "konacha"
   gem "poltergeist"
 end

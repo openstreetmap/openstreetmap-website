@@ -70,20 +70,20 @@ class UserPreferenceControllerTest < ActionController::TestCase
     create(:user_preference, :user => user, :k => "key", :v => "value")
 
     # try a read without auth
-    get :read_one, :preference_key => "key"
+    get :read_one, :params => { :preference_key => "key" }
     assert_response :unauthorized, "should be authenticated"
 
     # authenticate as a user with preferences
     basic_authorization(user.email, "test")
 
     # try the read again
-    get :read_one, :preference_key => "key"
+    get :read_one, :params => { :preference_key => "key" }
     assert_response :success
     assert_equal "text/plain", @response.content_type
     assert_equal "value", @response.body
 
     # try the read again for a non-existent key
-    get :read_one, :preference_key => "unknown_key"
+    get :read_one, :params => { :preference_key => "unknown_key" }
     assert_response :not_found
   end
 
@@ -150,7 +150,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     # try a put without auth
     assert_no_difference "UserPreference.count" do
       content "new_value"
-      put :update_one, :preference_key => "new_key"
+      put :update_one, :params => { :preference_key => "new_key" }
     end
     assert_response :unauthorized, "should be authenticated"
     assert_raises ActiveRecord::RecordNotFound do
@@ -163,7 +163,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     # try adding a new preference
     assert_difference "UserPreference.count", 1 do
       content "new_value"
-      put :update_one, :preference_key => "new_key"
+      put :update_one, :params => { :preference_key => "new_key" }
     end
     assert_response :success
     assert_equal "text/plain", @response.content_type
@@ -173,7 +173,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     # try changing the value of a preference
     assert_no_difference "UserPreference.count" do
       content "newer_value"
-      put :update_one, :preference_key => "new_key"
+      put :update_one, :params => { :preference_key => "new_key" }
     end
     assert_response :success
     assert_equal "text/plain", @response.content_type
@@ -189,7 +189,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
 
     # try a delete without auth
     assert_no_difference "UserPreference.count" do
-      delete :delete_one, :preference_key => "key"
+      delete :delete_one, :params => { :preference_key => "key" }
     end
     assert_response :unauthorized, "should be authenticated"
     assert_equal "value", UserPreference.find([user.id, "key"]).v
@@ -199,7 +199,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
 
     # try the delete again
     assert_difference "UserPreference.count", -1 do
-      get :delete_one, :preference_key => "key"
+      get :delete_one, :params => { :preference_key => "key" }
     end
     assert_response :success
     assert_equal "text/plain", @response.content_type
@@ -210,7 +210,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
 
     # try the delete again for the same key
     assert_no_difference "UserPreference.count" do
-      get :delete_one, :preference_key => "key"
+      get :delete_one, :params => { :preference_key => "key" }
     end
     assert_response :not_found
     assert_raises ActiveRecord::RecordNotFound do

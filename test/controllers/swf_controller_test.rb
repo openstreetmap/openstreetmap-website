@@ -23,19 +23,19 @@ class SwfControllerTest < ActionController::TestCase
       create(:tracepoint, :trace => trace, :latitude => (51.512 * GeoRecord::SCALE).to_i, :longitude => (0.142 * GeoRecord::SCALE).to_i)
     end
 
-    get :trackpoints, :xmin => -1, :xmax => 1, :ymin => 51, :ymax => 52, :baselong => 0, :basey => 0, :masterscale => 1
+    get :trackpoints, :params => { :xmin => -1, :xmax => 1, :ymin => 51, :ymax => 52, :baselong => 0, :basey => 0, :masterscale => 1 }
     assert_response :success
     assert_equal "application/x-shockwave-flash", response.content_type
     assert_match /^FWS/, response.body
     assert_equal 80, response.body.length
 
-    get :trackpoints, :xmin => -1, :xmax => 1, :ymin => 51, :ymax => 52, :baselong => 0, :basey => 0, :masterscale => 1, :token => other_user.tokens.create.token
+    get :trackpoints, :params => { :xmin => -1, :xmax => 1, :ymin => 51, :ymax => 52, :baselong => 0, :basey => 0, :masterscale => 1, :token => other_user.tokens.create.token }
     assert_response :success
     assert_equal "application/x-shockwave-flash", response.content_type
     assert_match /^FWS/, response.body
     assert_equal 67, response.body.length
 
-    get :trackpoints, :xmin => -1, :xmax => 1, :ymin => 51, :ymax => 52, :baselong => 0, :basey => 0, :masterscale => 1, :token => user.tokens.create.token
+    get :trackpoints, :params => { :xmin => -1, :xmax => 1, :ymin => 51, :ymax => 52, :baselong => 0, :basey => 0, :masterscale => 1, :token => user.tokens.create.token }
     assert_response :success
     assert_equal "application/x-shockwave-flash", response.content_type
     assert_match /^FWS/, response.body

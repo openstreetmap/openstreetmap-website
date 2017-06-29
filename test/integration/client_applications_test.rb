@@ -12,7 +12,7 @@ class ClientApplicationsTest < ActionDispatch::IntegrationTest
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-    post "/login", "username" => user.email, "password" => "test", :referer => "/user/#{URI.encode(user.display_name)}"
+    post "/login", :params => { "username" => user.email, "password" => "test", :referer => "/user/#{URI.encode(user.display_name)}" }
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -50,10 +50,11 @@ class ClientApplicationsTest < ActionDispatch::IntegrationTest
       end
     end
 
-    post "/user/#{URI.encode(user.display_name)}/oauth_clients", "client_application[name]" => "My New App",
-                                                                 "client_application[url]" => "http://my.new.app.org/",
-                                                                 "client_application[callback_url]" => "http://my.new.app.org/callback",
-                                                                 "client_application[support_url]" => "http://my.new.app.org/support"
+    post "/user/#{URI.encode(user.display_name)}/oauth_clients",
+         :params => { "client_application[name]" => "My New App",
+                      "client_application[url]" => "http://my.new.app.org/",
+                      "client_application[callback_url]" => "http://my.new.app.org/callback",
+                      "client_application[support_url]" => "http://my.new.app.org/support" }
     assert_response :redirect
     follow_redirect!
     assert_response :success
