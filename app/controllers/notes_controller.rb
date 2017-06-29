@@ -1,6 +1,7 @@
 class NotesController < ApplicationController
   layout "site", :only => [:mine]
 
+  skip_before_action :verify_authenticity_token, :except => [:mine]
   before_action :check_api_readable
   before_action :authorize_web, :only => [:mine]
   before_action :setup_user_auth, :only => [:create, :comment]
