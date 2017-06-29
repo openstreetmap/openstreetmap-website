@@ -12,6 +12,7 @@ class UserBlocksController < ApplicationController
   before_action :check_database_writable, :only => [:create, :update, :revoke]
 
   def index
+    @params = params.permit
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,
                                                 :include => [:user, :creator, :revoker],
                                                 :order => "user_blocks.ends_at DESC",
@@ -88,6 +89,7 @@ class UserBlocksController < ApplicationController
   ##
   # shows a list of all the blocks on the given user
   def blocks_on
+    @params = params.permit(:display_name)
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,
                                                 :include => [:user, :creator, :revoker],
                                                 :conditions => { :user_id => @this_user.id },
@@ -98,6 +100,7 @@ class UserBlocksController < ApplicationController
   ##
   # shows a list of all the blocks by the given user.
   def blocks_by
+    @params = params.permit(:display_name)
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,
                                                 :include => [:user, :creator, :revoker],
                                                 :conditions => { :creator_id => @this_user.id },

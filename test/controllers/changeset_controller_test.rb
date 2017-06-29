@@ -2045,6 +2045,18 @@ EOF
   end
 
   ##
+  # Check that a list with a next page link works
+  def test_list_more
+    create_list(:changeset, 50)
+
+    get :list, :params => { :format => "html" }
+    assert_response :success
+
+    get :list, :params => { :format => "html" }, :xhr => true
+    assert_response :success
+  end
+
+  ##
   # This should display the last 20 non-empty changesets
   def test_feed
     changeset = create(:changeset, :num_changes => 1)

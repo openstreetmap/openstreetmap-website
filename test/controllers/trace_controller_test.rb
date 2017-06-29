@@ -257,6 +257,26 @@ class TraceControllerTest < ActionController::TestCase
     assert_template "user/no_such_user"
   end
 
+  # Check a multi-page list
+  def test_list_paged
+    # Create several pages worth of traces
+    create_list(:trace, 50)
+
+    # Try and get the list
+    get :list
+    assert_response :success
+    assert_select "table#trace_list tbody", :count => 1 do
+      assert_select "tr", :count => 20
+    end
+
+    # Try and get the second page
+    get :list, :params => { :page => 2 }
+    assert_response :success
+    assert_select "table#trace_list tbody", :count => 1 do
+      assert_select "tr", :count => 20
+    end
+  end
+
   # Check that the rss loads
   def test_rss
     user = create(:user)

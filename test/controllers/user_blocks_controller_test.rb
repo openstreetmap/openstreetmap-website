@@ -74,6 +74,24 @@ class UserBlocksControllerTest < ActionController::TestCase
   end
 
   ##
+  # test the index action with multiple pages
+  def test_index_paged
+    create_list(:user_block, 50)
+
+    get :index
+    assert_response :success
+    assert_select "table#block_list", :count => 1 do
+      assert_select "tr", :count => 21
+    end
+
+    get :index, :params => { :page => 2 }
+    assert_response :success
+    assert_select "table#block_list", :count => 1 do
+      assert_select "tr", :count => 21
+    end
+  end
+
+  ##
   # test the show action
   def test_show
     active_block = create(:user_block, :needs_view)
@@ -422,6 +440,25 @@ class UserBlocksControllerTest < ActionController::TestCase
   end
 
   ##
+  # test the blocks_on action with multiple pages
+  def test_blocks_on_paged
+    user = create(:user)
+    create_list(:user_block, 50, :user => user)
+
+    get :blocks_on, :params => { :display_name => user.display_name }
+    assert_response :success
+    assert_select "table#block_list", :count => 1 do
+      assert_select "tr", :count => 21
+    end
+
+    get :blocks_on, :params => { :display_name => user.display_name, :page => 2 }
+    assert_response :success
+    assert_select "table#block_list", :count => 1 do
+      assert_select "tr", :count => 21
+    end
+  end
+
+  ##
   # test the blocks_by action
   def test_blocks_by
     moderator_user = create(:moderator_user)
@@ -464,5 +501,24 @@ class UserBlocksControllerTest < ActionController::TestCase
     assert_response :success
     assert_select "table#block_list", false
     assert_select "p", "#{normal_user.display_name} has not made any blocks yet."
+  end
+
+  ##
+  # test the blocks_by action with multiple pages
+  def test_blocks_by_paged
+    user = create(:moderator_user)
+    create_list(:user_block, 50, :creator => user)
+
+    get :blocks_by, :params => { :display_name => user.display_name }
+    assert_response :success
+    assert_select "table#block_list", :count => 1 do
+      assert_select "tr", :count => 21
+    end
+
+    get :blocks_by, :params => { :display_name => user.display_name, :page => 2 }
+    assert_response :success
+    assert_select "table#block_list", :count => 1 do
+      assert_select "tr", :count => 21
+    end
   end
 end

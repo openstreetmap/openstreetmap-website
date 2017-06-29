@@ -570,6 +570,21 @@ class DiaryEntryControllerTest < ActionController::TestCase
     check_diary_list
   end
 
+  def test_list_paged
+    # Create several pages worth of diary entries
+    create_list(:diary_entry, 50)
+
+    # Try and get the list
+    get :list
+    assert_response :success
+    assert_select "div.diary_post", :count => 20
+
+    # Try and get the second page
+    get :list, :params => { :page => 2 }
+    assert_response :success
+    assert_select "div.diary_post", :count => 20
+  end
+
   def test_rss
     create(:language, :code => "de")
     create(:diary_entry, :language_code => "en")

@@ -999,4 +999,20 @@ class NotesControllerTest < ActionController::TestCase
     get :mine, :params => { :display_name => "non-existent" }
     assert_response :not_found
   end
+
+  def test_mine_paged
+    user = create(:user)
+
+    create_list(:note, 50) do |note|
+      create(:note_comment, :note => note, :author => user)
+    end
+
+    get :mine, :params => { :display_name => user.display_name }
+    assert_response :success
+    assert_select "table.note_list tr", :count => 11
+
+    get :mine, :params => { :display_name => user.display_name, :page => 2 }
+    assert_response :success
+    assert_select "table.note_list tr", :count => 11
+  end
 end
