@@ -2,12 +2,6 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.provider "virtualbox" do |vb|
-    vb.customize ["modifyvm", :id, "--memory", "8192"]
-  end
-end
-
-Vagrant.configure("2") do |config|
   # use official ubuntu image for virtualbox
   config.vm.provider "virtualbox" do |vb, override|
     override.vm.box = "ubuntu/trusty64"
