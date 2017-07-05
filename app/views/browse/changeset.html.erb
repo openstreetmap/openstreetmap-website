@@ -10,17 +10,14 @@
   <% end %>
 </h2>
 
-
-
 <div class="browse-section">
   <h4><%= linkify(h(@changeset.tags['comment'].to_s.presence || t('browse.no_comment'))) %></h4>
   <div class="details"><%= changeset_details(@changeset) %></div>
 
-
   <%= render :partial => "tag_details", :object => @changeset.tags.except('comment') %>
 
   <h4 class="comments-header"><%= t('browse.changeset.discussion') %></h4>
-  
+
   <div class="buttons clearfix subscribe-buttons">
     <form action="#" class="hide_unless_logged_in">
       <% if @user and @changeset.subscribers.exists?(@user.id) %>
