@@ -1007,6 +1007,34 @@ class UserControllerTest < ActionController::TestCase
     end
   end
 
+  # Test whether information about contributor terms is shown for users who haven't agreed
+  def test_terms_not_agreed
+    agreed_user = create(:user, :terms_agreed => 3.days.ago)
+    seen_user = create(:user, :terms_seen => true)
+    not_seen_user = create(:user, :terms_seen => false)
+
+    get :view, :params => { :display_name => agreed_user.display_name }
+    assert_response :success
+    assert_select "div#userinformation" do
+      assert_select "p", :count => 0, :text => /Contributor terms/
+    end
+
+    get :view, :params => { :display_name => seen_user.display_name }
+    assert_response :success
+    # put @response.body
+    assert_select "div#userinformation" do
+      assert_select "p", :count => 1, :text => /Contributor terms/
+      assert_select "p", /Declined/
+    end
+
+    get :view, :params => { :display_name => not_seen_user.display_name }
+    assert_response :success
+    assert_select "div#userinformation" do
+      assert_select "p", :count => 1, :text => /Contributor terms/
+      assert_select "p", /Undecided/
+    end
+  end
+
   def test_api_read
     user = create(:user, :description => "test", :terms_agreed => Date.yesterday)
     # check that a visible user is returned properly
