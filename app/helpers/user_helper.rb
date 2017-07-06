@@ -57,6 +57,8 @@ module UserHelper
     )
   end
 
+  private
+
   # Gravatar support
 
   # See http://en.gravatar.com/site/implement/images/ for details.
