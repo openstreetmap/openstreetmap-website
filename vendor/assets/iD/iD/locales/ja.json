@@ -348,19 +348,6 @@
             "list": "{users} による編集",
             "truncated_list": "{users} とその他 {count} 人による編集"
         },
-        "infobox": {
-            "selected": "{n} 個を選択中",
-            "geometry": "ジオメトリ",
-            "closed": "閉店中",
-            "center": "中央部",
-            "perimeter": "周辺部",
-            "length": "長さ",
-            "area": "エリア",
-            "centroid": "中央に表示",
-            "location": "ロケーション",
-            "metric": "メトリック",
-            "imperial": "ヤード・ポンド法"
-        },
         "geometry": {
             "point": "ポイント",
             "vertex": "交点",
@@ -429,7 +416,6 @@
             "switch": "背景に切り替え",
             "custom": "カスタム",
             "custom_button": "カスタム背景の編集",
-            "custom_prompt": "タイルURLのテンプレートを入力してください。有効なトークンは Z/X/Y 用に {zoom}, {x}, {y} と、クアッドタイル用に {u} です。",
             "fix_misalignment": "画像の位置を調整",
             "imagery_source_faq": "この写真の出典元",
             "reset": "設定リセット",
@@ -513,9 +499,7 @@
         },
         "restore": {
             "heading": "OSMにアップロードされていない編集内容があります",
-            "description": "前回作業した編集内容がアップロードされていません。編集内容を復元しますか？",
-            "restore": "復元",
-            "reset": "破棄"
+            "description": "前回作業した編集内容がアップロードされていません。編集内容を復元しますか？"
         },
         "save": {
             "title": "保存",
@@ -728,7 +712,6 @@
                 "title": "エリア",
                 "add_playground": "*エリア*は、湖や建物、居住区域など、境界線のある地物を描くために使われます。{br}また、ポイントで表現される地物をより詳細に描く目的でも使われます。**{button}エリアボタンをクリックすると新しいエリアを描くことができます。**",
                 "start_playground": "この公園をエリアとしてマップしてみましょう。エリアは、地物の外周の形に*ノード*を配置することで描くことができます。**クリックするかスペースキーを押して、公園の角のどこかを配置してみましょう。**",
-                "continue_playground": "引き続き、公園の外周に沿ってノードを配置することで、エリアの形を描いてください。既存の歩道と接続してしまっても問題はありません。{br}補足: Altキーを押しながら作業すると、既存の地物を接続せずに新しくノードを配置することができます。**公園の四隅をクリックして、公園の形を描いてみましょう。**",
                 "finish_playground": "エリアの描画を終了する際は、エンターキーを押すか、あるいは描き始めや描き終わりのノードで連続して二回同じ場所でクリックしてください。**公園をエリアとして描いてみましょう。**",
                 "search_playground": "**'{preset}'を検索**",
                 "choose_playground": "**一覧から{preset}を選択**",
@@ -793,13 +776,19 @@
             },
             "startediting": {
                 "title": "編集開始",
-                "help": "それでは、OpenStreetMap編集をはじめてみましょう！{br}このウォークスルーは、{button}ヘルプボタンをクリックすると何度でも行なうことができます。ヘルプにはより詳しい説明もありますので、ぜひご覧ください。",
                 "save": "変更内容はこまめに保存するよう気をつけてください！",
                 "start": "マッピング開始！（これ以降は練習ではなく実際にデータが登録されますので注意してください）"
             }
         },
         "shortcuts": {
             "title": "ショートカットキー",
+            "tooltip": "キーボードショートカット画面を表示",
+            "key": {
+                "space": "スペース"
+            },
+            "gesture": {
+                "drag": "ドラッグ"
+            },
             "or": "-または-",
             "browsing": {
                 "title": "閲覧",
@@ -817,6 +806,7 @@
                     "background": "背景オプションを表示",
                     "background_switch": "前の背景に切り替え",
                     "map_data": "地図データオプションを表示",
+                    "fullscreen": "全画面モードに入る",
                     "wireframe": "ワイヤーフレームモード切替",
                     "minimap": "ミニマップの表示/非表示"
                 },
@@ -839,7 +829,9 @@
                 }
             },
             "editing": {
+                "title": "編集",
                 "drawing": {
+                    "title": "描画",
                     "add_point": "「ポイントの追加」モード",
                     "add_line": "「ラインの追加」モード",
                     "add_area": "「エリアの追加」モード",
@@ -850,6 +842,14 @@
                 "operations": {
                     "title": "操作",
                     "continue_line": "選択モードでラインを継続",
+                    "merge": "選択した地物を連結",
+                    "disconnect": "選択したノードで地物を切り離し",
+                    "split": "選択したノードでラインを2つに分割",
+                    "reverse": "ラインを反転",
+                    "move": "選択した地物を移動",
+                    "rotate": "選択した地物を回転",
+                    "orthogonalize": "ラインを直線化 / エリアの角を直角化",
+                    "circularize": "クローズドラインやエリアを円形化",
                     "reflect_long": "地物を長軸で反転",
                     "reflect_short": "地物を短軸で反転",
                     "delete": "選択された地物を削除"
@@ -914,7 +914,7 @@
                     "label": "通行可",
                     "options": {
                         "designated": {
-                            "description": "特定の地方条例や標識等で通行制限が行われている",
+                            "description": "標識等や特定の地方条例で通行が許可されている",
                             "title": "特定種の通行禁止"
                         },
                         "destination": {
@@ -2860,6 +2860,10 @@
                     "name": "菓子屋",
                     "terms": "駄菓子屋, パシティエ"
                 },
+                "craft/distillery": {
+                    "name": "蒸留所",
+                    "terms": "<translate with synonyms or related terms for 'Distillery', separated by commas>"
+                },
                 "craft/dressmaker": {
                     "name": "衣服製造所",
                     "terms": "衣服製造所"
@@ -3700,8 +3704,8 @@
                     "terms": "ガスタンク"
                 },
                 "man_made/groyne": {
-                    "name": "突堤",
-                    "terms": "突堤"
+                    "name": "水制",
+                    "terms": "水制, ケレップ水制, 防波堤, 突堤"
                 },
                 "man_made/lighthouse": {
                     "name": "灯台",
@@ -4944,6 +4948,177 @@
                     "name": "堰",
                     "terms": "堰"
                 }
+            }
+        },
+        "imagery": {
+            "Bing": {
+                "description": "衛星・航空画像です。",
+                "name": "Bing航空画像"
+            },
+            "DigitalGlobe-Premium": {
+                "attribution": {
+                    "text": "規約＆フィードバック"
+                },
+                "description": "DigitalGlobeのプレミアム衛星画像です。",
+                "name": "DigitalGlobeプレミアム画像"
+            },
+            "DigitalGlobe-Standard": {
+                "attribution": {
+                    "text": "規約＆フィードバック"
+                },
+                "description": "DigitalGlobeの標準衛星画像です。",
+                "name": "DigitalGlobe標準画像"
+            },
+            "MAPNIK": {
+                "attribution": {
+                    "text": "© OpenStreetMap contributors, CC-BY-SA"
+                },
+                "description": "OpenStreetMap標準レイヤーです。",
+                "name": "OpenStreetMap (標準)"
+            },
+            "Mapbox": {
+                "attribution": {
+                    "text": "規約＆フィードバック"
+                },
+                "description": "衛星・航空画像です。",
+                "name": "Mapbox衛星画像"
+            },
+            "OSM_Inspector-Addresses": {
+                "attribution": {
+                    "text": "© Geofabrik GmbH, OpenStreetMap contributors, CC-BY-SA"
+                },
+                "name": "OSM Inspector: 住所"
+            },
+            "OSM_Inspector-Geometry": {
+                "attribution": {
+                    "text": "© Geofabrik GmbH, OpenStreetMap contributors, CC-BY-SA"
+                },
+                "name": "OSM Inspector: ジオメトリ"
+            },
+            "OSM_Inspector-Highways": {
+                "attribution": {
+                    "text": "© Geofabrik GmbH, OpenStreetMap contributors, CC-BY-SA"
+                },
+                "name": "OSM Inspector: 道路"
+            },
+            "OSM_Inspector-Multipolygon": {
+                "attribution": {
+                    "text": "© Geofabrik GmbH, OpenStreetMap contributors, CC-BY-SA"
+                },
+                "name": "OSM Inspector: エリア"
+            },
+            "OSM_Inspector-Places": {
+                "attribution": {
+                    "text": "© Geofabrik GmbH, OpenStreetMap contributors, CC-BY-SA"
+                },
+                "name": "OSM Inspector: 場所"
+            },
+            "OSM_Inspector-Routing": {
+                "attribution": {
+                    "text": "© Geofabrik GmbH, OpenStreetMap contributors, CC-BY-SA"
+                },
+                "name": "OSM Inspector: ルーティング"
+            },
+            "OSM_Inspector-Tagging": {
+                "attribution": {
+                    "text": "© Geofabrik GmbH, OpenStreetMap contributors, CC-BY-SA"
+                },
+                "name": "OSM Inspector: タグ付け"
+            },
+            "Waymarked_Trails-Cycling": {
+                "attribution": {
+                    "text": "© Sarah Hoffmann, CC by-SA 3.0, map data OpenStreetMap contributors, ODbL 1.0"
+                },
+                "name": "Waymarked Trails: サイクリング"
+            },
+            "Waymarked_Trails-Hiking": {
+                "attribution": {
+                    "text": "© Sarah Hoffmann, CC by-SA 3.0, map data OpenStreetMap contributors, ODbL 1.0"
+                },
+                "name": "Waymarked Trails: ハイキング"
+            },
+            "Waymarked_Trails-MTB": {
+                "attribution": {
+                    "text": "© Sarah Hoffmann, CC by-SA 3.0, map data OpenStreetMap contributors, ODbL 1.0"
+                },
+                "name": "Waymarked Trails: MTB"
+            },
+            "Waymarked_Trails-Skating": {
+                "attribution": {
+                    "text": "© Sarah Hoffmann, CC by-SA 3.0, map data OpenStreetMap contributors, ODbL 1.0"
+                },
+                "name": "Waymarked Trails: スケート"
+            },
+            "Waymarked_Trails-Winter_Sports": {
+                "attribution": {
+                    "text": "© Michael Spreng, CC by-SA 3.0, map data OpenStreetMap contributors, ODbL 1.0"
+                },
+                "name": "Waymarked Trails: 冬季スポーツ"
+            },
+            "hike_n_bike": {
+                "attribution": {
+                    "text": "© OpenStreetMap contributors"
+                },
+                "name": "Hike & Bike"
+            },
+            "mapbox_locator_overlay": {
+                "attribution": {
+                    "text": "規約 & フィードバック"
+                }
+            },
+            "openpt_map": {
+                "attribution": {
+                    "text": "© OpenStreetMap contributors, CC-BY-SA"
+                },
+                "name": "OpenPT Map (オーバーレイ)"
+            },
+            "osm-gps": {
+                "attribution": {
+                    "text": "© OpenStreetMap contributors"
+                },
+                "description": "OpenStreetMapにアップロードされた公開GPSトレースです。",
+                "name": "OpenStreetMap GPSトレース"
+            },
+            "osm-mapnik-black_and_white": {
+                "attribution": {
+                    "text": "© OpenStreetMap contributors, CC-BY-SA"
+                },
+                "name": "OpenStreetMap (Standard Black & White)"
+            },
+            "osm-mapnik-german_style": {
+                "attribution": {
+                    "text": "© OpenStreetMap contributors, CC-BY-SA"
+                },
+                "name": "OpenStreetMap (ドイツスタイル)"
+            },
+            "qa_no_address": {
+                "attribution": {
+                    "text": "Simon Poole, Data ©OpenStreetMap contributors"
+                }
+            },
+            "skobbler": {
+                "attribution": {
+                    "text": "© Tiles: skobbler Map data: OpenStreetMap contributors"
+                },
+                "name": "skobbler"
+            },
+            "stamen-terrain-background": {
+                "attribution": {
+                    "text": "Map tiles by Stamen Design, under CC BY 3.0"
+                },
+                "name": "Stamen 地形図"
+            },
+            "tf-cycle": {
+                "attribution": {
+                    "text": "Maps © Thunderforest, Data © OpenStreetMap contributors"
+                },
+                "name": "Thunderforest OpenCycleMap"
+            },
+            "tf-landscape": {
+                "attribution": {
+                    "text": "Maps © Thunderforest, Data © OpenStreetMap contributors"
+                },
+                "name": "Thunderforest Landscape"
             }
         }
     }
