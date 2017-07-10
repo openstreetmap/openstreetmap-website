@@ -304,32 +304,32 @@ class ApiControllerTest < ActionController::TestCase
     # nodes with a different timestamp should be ignored
     create(:node, :timestamp => Time.utc(2008, 1, 1, 0, 0, 0), :lat => 7, :lon => 7)
 
-    Timecop.freeze(Time.utc(2010, 4, 3, 10, 55, 0))
-    get :changes
-    assert_response :success
-    now = Time.now.getutc
-    hourago = now - 1.hour
-    assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
-      assert_select "changes[starttime='#{hourago.xmlschema}'][endtime='#{now.xmlschema}']", :count => 1 do
-        assert_select "tile", :count => 0
+    travel_to Time.utc(2010, 4, 3, 10, 55, 0) do
+      get :changes
+      assert_response :success
+      now = Time.now.getutc
+      hourago = now - 1.hour
+      assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
+        assert_select "changes[starttime='#{hourago.xmlschema}'][endtime='#{now.xmlschema}']", :count => 1 do
+          assert_select "tile", :count => 0
+        end
       end
     end
-    Timecop.return
 
-    Timecop.freeze(Time.utc(2007, 1, 1, 0, 30, 0))
-    get :changes
-    assert_response :success
-    # print @response.body
-    # As we have loaded the fixtures, we can assume that there are some
-    # changes at the time we have frozen at
-    now = Time.now.getutc
-    hourago = now - 1.hour
-    assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
-      assert_select "changes[starttime='#{hourago.xmlschema}'][endtime='#{now.xmlschema}']", :count => 1 do
-        assert_select "tile", :count => 6
+    travel_to Time.utc(2007, 1, 1, 0, 30, 0) do
+      get :changes
+      assert_response :success
+      # print @response.body
+      # As we have loaded the fixtures, we can assume that there are some
+      # changes at the time we have frozen at
+      now = Time.now.getutc
+      hourago = now - 1.hour
+      assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
+        assert_select "changes[starttime='#{hourago.xmlschema}'][endtime='#{now.xmlschema}']", :count => 1 do
+          assert_select "tile", :count => 6
+        end
       end
     end
-    Timecop.return
   end
 
   def test_changes_zoom_invalid
