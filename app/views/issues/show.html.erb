@@ -3,7 +3,7 @@
 <p><%= report_type(@issue.reportable_type) %> : <%= reportable_url(@issue.reportable) %></p>
 <p class="deemphasize">
   <small>
-    <%= @issue.reports.count %> reports | First reported: <%= l @issue.created_at.to_datetime, :format => :friendly %>  <%= "| Last resolved at #{l(@issue.resolved_at.to_datetime, :format =>:friendly)}" if @issue.resolved_at? %> <%= "| Last updated at #{l(@issue.updated_at.to_datetime, :format => :friendly)} by #{@updated_by_admin.display_name}" if @updated_by_admin %>
+    <%= @issue.reports.count %> reports | First reported: <%= l @issue.created_at.to_datetime, :format => :friendly %>  <%= "| Last resolved at #{l(@issue.resolved_at.to_datetime, :format =>:friendly)}" if @issue.resolved_at? %> <%= "| Last updated at #{l(@issue.updated_at.to_datetime, :format => :friendly)} by #{@issue.user_updated.display_name}" if @issue.user_updated %>
   </small>
 </p>
 <p>

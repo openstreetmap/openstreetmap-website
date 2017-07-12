@@ -60,8 +60,6 @@ class IssuesController < ApplicationController
     @unread_reports = @issue.unread_reports
     @comments = @issue.comments
     @related_issues = @issue.reported_user.issues.where(:issue_type => @user_role)
-
-    @updated_by_admin = User.find(@issue.updated_by) if @issue.updated_by
   end
 
   def new
