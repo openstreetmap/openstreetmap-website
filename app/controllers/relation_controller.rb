@@ -15,7 +15,7 @@ class RelationController < ApplicationController
     relation = Relation.from_xml(request.raw_post, true)
 
     # Assume that Relation.from_xml has thrown an exception if there is an error parsing the xml
-    relation.create_with_history @user
+    relation.create_with_history current_user
     render :plain => relation.id.to_s
   end
 
@@ -39,7 +39,7 @@ class RelationController < ApplicationController
       raise OSM::APIBadUserInput.new("The id in the url (#{relation.id}) is not the same as provided in the xml (#{new_relation.id})")
     end
 
-    relation.update_from new_relation, @user
+    relation.update_from new_relation, current_user
     render :plain => relation.version.to_s
   end
 
@@ -47,7 +47,7 @@ class RelationController < ApplicationController
     relation = Relation.find(params[:id])
     new_relation = Relation.from_xml(request.raw_post)
     if new_relation && new_relation.id == relation.id
-      relation.delete_with_history!(new_relation, @user)
+      relation.delete_with_history!(new_relation, current_user)
       render :plain => relation.version.to_s
     else
       head :bad_request

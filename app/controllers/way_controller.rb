@@ -15,7 +15,7 @@ class WayController < ApplicationController
     way = Way.from_xml(request.raw_post, true)
 
     # Assume that Way.from_xml has thrown an exception if there is an error parsing the xml
-    way.create_with_history @user
+    way.create_with_history current_user
     render :plain => way.id.to_s
   end
 
@@ -39,7 +39,7 @@ class WayController < ApplicationController
       raise OSM::APIBadUserInput.new("The id in the url (#{way.id}) is not the same as provided in the xml (#{new_way.id})")
     end
 
-    way.update_from(new_way, @user)
+    way.update_from(new_way, current_user)
     render :plain => way.version.to_s
   end
 
@@ -49,7 +49,7 @@ class WayController < ApplicationController
     new_way = Way.from_xml(request.raw_post)
 
     if new_way && new_way.id == way.id
-      way.delete_with_history!(new_way, @user)
+      way.delete_with_history!(new_way, current_user)
       render :plain => way.version.to_s
     else
       head :bad_request

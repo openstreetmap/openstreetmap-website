@@ -11,7 +11,7 @@ class UserPreferenceController < ApplicationController
   def read
     doc = OSM::API.new.get_xml_doc
 
-    prefs = @user.preferences
+    prefs = current_user.preferences
 
     el1 = XML::Node.new "preferences"
 
@@ -26,14 +26,14 @@ class UserPreferenceController < ApplicationController
   ##
   # return the value for a single preference
   def read_one
-    pref = UserPreference.find([@user.id, params[:preference_key]])
+    pref = UserPreference.find([current_user.id, params[:preference_key]])
 
     render :plain => pref.v.to_s
   end
 
   # update the entire set of preferences
   def update
-    old_preferences = @user.preferences.each_with_object({}) do |preference, preferences|
+    old_preferences = current_user.preferences.each_with_object({}) do |preference, preferences|
       preferences[preference.k] = preference
     end
 
@@ -47,7 +47,7 @@ class UserPreferenceController < ApplicationController
       elsif new_preferences.include?(pt["k"])
         raise OSM::APIDuplicatePreferenceError.new(pt["k"])
       else
-        preference = @user.preferences.build(:k => pt["k"], :v => pt["v"])
+        preference = current_user.preferences.build(:k => pt["k"], :v => pt["v"])
       end
 
       new_preferences[preference.k] = preference
@@ -64,10 +64,10 @@ class UserPreferenceController < ApplicationController
   # update the value of a single preference
   def update_one
     begin
-      pref = UserPreference.find([@user.id, params[:preference_key]])
+      pref = UserPreference.find([current_user.id, params[:preference_key]])
     rescue ActiveRecord::RecordNotFound
       pref = UserPreference.new
-      pref.user = @user
+      pref.user = current_user
       pref.k = params[:preference_key]
     end
 
@@ -80,7 +80,7 @@ class UserPreferenceController < ApplicationController
   ##
   # delete a single preference
   def delete_one
-    UserPreference.find([@user.id, params[:preference_key]]).delete
+    UserPreference.find([current_user.id, params[:preference_key]]).delete
 
     render :plain => ""
   end

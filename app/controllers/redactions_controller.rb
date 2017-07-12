@@ -19,7 +19,7 @@ class RedactionsController < ApplicationController
 
   def create
     @redaction = Redaction.new
-    @redaction.user = @user
+    @redaction.user = current_user
     @redaction.title = params[:redaction][:title]
     @redaction.description = params[:redaction][:description]
     # note that the description format will default to 'markdown'

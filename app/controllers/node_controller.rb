@@ -18,7 +18,7 @@ class NodeController < ApplicationController
     node = Node.from_xml(request.raw_post, true)
 
     # Assume that Node.from_xml has thrown an exception if there is an error parsing the xml
-    node.create_with_history @user
+    node.create_with_history current_user
     render :plain => node.id.to_s
   end
 
@@ -44,7 +44,7 @@ class NodeController < ApplicationController
       raise OSM::APIBadUserInput.new("The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})")
     end
 
-    node.update_from(new_node, @user)
+    node.update_from(new_node, current_user)
     render :plain => node.version.to_s
   end
 
@@ -58,7 +58,7 @@ class NodeController < ApplicationController
     unless new_node && new_node.id == node.id
       raise OSM::APIBadUserInput.new("The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})")
     end
-    node.delete_with_history!(new_node, @user)
+    node.delete_with_history!(new_node, current_user)
     render :plain => node.version.to_s
   end
 
