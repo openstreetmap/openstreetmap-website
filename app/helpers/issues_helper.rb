@@ -54,7 +54,7 @@ module IssuesHelper
       arrow = direction == "desc" ? ["25B2".hex].pack("U") : ["25BC".hex].pack("U")
       title += arrow
     end
-    link_to title, params.merge(:sort => column, :direction => direction)
+    # FIXME: link_to title, params.merge(:sort => column, :direction => direction)
   end
 
   def report_type(report_class)
