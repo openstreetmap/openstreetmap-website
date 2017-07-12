@@ -1,4 +1,4 @@
-<head>
+<%= content_tag :head, :data => application_data do %>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
   <!--[if lt IE 9]><%= javascript_include_tag "html5shiv" %><![endif]-->
@@ -18,12 +18,16 @@
   <%= favicon_link_tag "favicon-96x96.png", :rel => "icon", :sizes => "96x96", :type => "image/png" %>
   <%= favicon_link_tag "android-chrome-192x192.png", :rel => "icon", :sizes => "192x192", :type => "image/png" %>
   <%= favicon_link_tag "favicon-16x16.png", :rel => "icon", :sizes => "16x16", :type => "image/png" %>
+  <%= tag("link", { :rel => "mask-icon", :href => asset_path("tag-icon.svg"), :color => "#7ebc6f" }) %>
   <%= tag("link", { :rel => "manifest", :href => asset_path("manifest.json") }) %>
   <%= tag("meta", { :name => "msapplication-config", :content => asset_path("browserconfig.xml") }) %>
   <%= tag("meta", { :name => "msapplication-TileColor", :content => "#00a300" }) %>
   <%= tag("meta", { :name => "msapplication-TileImage", :content => image_path("mstile-144x144.png") }) %>
   <%= tag("meta", { :name => "theme-color", :content => "#ffffff" }) %>
-  <%= tag("link", { :rel => "publisher", :href => "https://plus.google.com/111953119785824514010" }) %>
+  <%= canonical_tag %>
+  <% if defined?(PUBLISHER_URL) -%>
+  <%= tag("link", { :rel => "publisher", :href => PUBLISHER_URL }) %>
+  <% end -%>
   <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => asset_path("osm.xml") }) %>
   <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>
   <%= opengraph_tags(@title) %>
@@ -34,26 +38,5 @@
   <%= yield :head %>
   <%= yield :auto_discovery_link_tag %>
   <%= csrf_meta_tag %>
-  <script type="text/javascript">
-    I18n.defaultLocale = "<%= I18n.default_locale %>";
-    I18n.locale = "<%= I18n.locale %>";
-    I18n.fallbacks = true;
-    <% if @user -%>
-    OSM.user = <%= @user.id.to_json.html_safe %>;
-    <% unless @user.home_lon.nil? or @user.home_lat.nil? -%>
-    OSM.home = <%= { :lat => @user.home_lat, :lon => @user.home_lon }.to_json.html_safe %>;
-    <% end -%>
-    <% end -%>
-    <% if session[:location] -%>
-    OSM.location = <%= session[:location].to_json.html_safe %>;
-    <% end -%>
-    OSM.preferred_editor = <%= preferred_editor.to_json.html_safe %>;
-    <% if @oauth -%>
-    OSM.oauth_token = "<%= @oauth.token %>";
-    OSM.oauth_token_secret = "<%= @oauth.secret %>";
-    OSM.oauth_consumer_key = "<%= @oauth.client_application.key %>";
-    OSM.oauth_consumer_secret = "<%= @oauth.client_application.secret %>";
-    <% end -%>
-  </script>
   <title><%= t 'layouts.project_name.title' %><%= ' | ' + @title if @title %></title>
-</head>
+<% end %>

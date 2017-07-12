@@ -14,18 +14,19 @@ function GraphHopperEngine(id, vehicleType) {
 
   return {
     id: id,
-    creditline: '<a href="https://graphhopper.com/" target="_blank">Graphhopper</a>',
+    creditline: '<a href="https://www.graphhopper.com/" target="_blank">Graphhopper</a>',
     draggable: false,
 
     getRoute: function (points, callback) {
       // GraphHopper Directions API documentation
-      // https://github.com/graphhopper/directions-api/blob/master/docs-routing.md
+      // https://graphhopper.com/api/1/docs/routing/
       return $.ajax({
         url: document.location.protocol + OSM.GRAPHHOPPER_URL,
         data: {
           vehicle: vehicleType,
           locale: I18n.currentLocale(),
           key: "LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn",
+          "ch.disable": vehicleType === "car",
           type: "jsonp",
           elevation: false,
           instructions: true,
@@ -49,12 +50,16 @@ function GraphHopperEngine(id, vehicleType) {
             instrText += instr.text;
             var latLng = line[instr.interval[0]];
             var distInMeter = instr.distance;
+            var lineseg = [];
+            for (var j = instr.interval[0]; j <= instr.interval[1]; j++) {
+              lineseg.push({lat: line[j][0], lng: line[j][1]});
+            }
             steps.push([
-              {lat: latLng.lat, lng: latLng.lng},
+              {lat: latLng[0], lng: latLng[1]},
               instrCode,
               instrText,
               distInMeter,
-              []
+              lineseg
             ]); // TODO does graphhopper map instructions onto line indices?
           }
 
@@ -62,7 +67,9 @@ function GraphHopperEngine(id, vehicleType) {
             line: line,
             steps: steps,
             distance: path.distance,
-            time: path.time / 1000
+            time: path.time / 1000,
+            ascend: path.ascend,
+            descend: path.descend
           });
         },
         error: function () {
@@ -73,5 +80,6 @@ function GraphHopperEngine(id, vehicleType) {
   };
 }
 
+OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_car", "car"), true);
 OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_bicycle", "bike"), true);
 OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_foot", "foot"), true);

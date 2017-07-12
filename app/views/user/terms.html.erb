@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "user" %>
+<% end %>
+
 <% content_for :heading do %>
   <h1><%= t 'user.terms.heading' %></h1>
   <div class='header-illustration new-user-terms'></div>
@@ -13,15 +17,9 @@
     <% [['france', 'FR'], ['italy', 'IT'], ['rest_of_world', 'GB']].each do |name, legale| %>
       <div class="form-row">
         <label for="legale_<%= legale %>">
-          <%= radio_button_tag 'legale', legale, @legale == legale %>
+          <%= radio_button_tag 'legale', legale, @legale == legale, :data => { :url => url_for(:legale => legale) } %>
           <%= t('user.terms.legale_names.' + name) %>
         </label>
-        <script>
-          $("#legale_<%= legale %>").change(function () {
-            $("#contributorTerms").html("<%=j image_tag 'searching.gif' %>");
-            $("#contributorTerms").load("<%= url_for :legale => legale %>");
-          });
-        </script>
       </div>
     <% end %>
   </div>

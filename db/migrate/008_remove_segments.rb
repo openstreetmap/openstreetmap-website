@@ -2,7 +2,7 @@ require "migrate"
 
 class RemoveSegments < ActiveRecord::Migration
   def self.up
-    have_segs = select_value("SELECT count(*) FROM current_segments").to_i != 0
+    have_segs = select_value("SELECT count(*) FROM current_segments").to_i.nonzero?
 
     if have_segs
       prefix = File.join Dir.tmpdir, "008_remove_segments.#{$PROCESS_ID}."
@@ -19,7 +19,7 @@ class RemoveSegments < ActiveRecord::Migration
       args = conn_opts.map(&:to_s) + [prefix]
       raise "#{cmd} failed" unless system cmd, *args
 
-      tempfiles = %w(ways way_nodes way_tags relations relation_members relation_tags)
+      tempfiles = %w[ways way_nodes way_tags relations relation_members relation_tags]
                   .map { |base| prefix + base }
       ways, way_nodes, way_tags,
   relations, relation_members, relation_tags = tempfiles

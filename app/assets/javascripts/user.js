@@ -12,13 +12,24 @@ $(document).ready(function () {
     L.OSM.zoom({position: position})
       .addTo(map);
 
-    L.control.locate({
+    var locate = L.control.locate({
       position: position,
+      icon: 'icon geolocate',
+      iconLoading: 'icon geolocate',
       strings: {
         title: I18n.t('javascripts.map.locate.title'),
         popup: I18n.t('javascripts.map.locate.popup')
       }
     }).addTo(map);
+
+    var locateContainer = locate.getContainer();
+
+    $(locateContainer)
+      .removeClass('leaflet-control-locate leaflet-bar')
+      .addClass('control-locate')
+      .children("a")
+      .removeClass('leaflet-bar-part leaflet-bar-part-single')
+      .addClass('control-button');
 
     if (OSM.home) {
       map.setView([OSM.home.lat, OSM.home.lon], 12);
@@ -92,4 +103,20 @@ $(document).ready(function () {
   } else {
     enableAuth();
   }
+
+  $("#user_all").change(function () {
+    $("#user_list input[type=checkbox]").prop("checked", $("#user_all").prop("checked"));
+  });
+
+  $("#content.user_confirm").each(function () {
+    $(this).hide();
+    $(this).find("#confirm").submit();
+  });
+
+  $("input[name=legale]").change(function () {
+    var url = $(this).data("url");
+
+    $("#contributorTerms").html("<img src='" + OSM.SEARCHING + "' />");
+    $("#contributorTerms").load(url);
+  });
 });

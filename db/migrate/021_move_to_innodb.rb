@@ -1,9 +1,9 @@
 require "migrate"
 
 class MoveToInnodb < ActiveRecord::Migration
-  @conv_tables = %w(nodes ways way_tags way_nodes current_way_tags relation_members relations relation_tags current_relation_tags)
+  @conv_tables = %w[nodes ways way_tags way_nodes current_way_tags relation_members relations relation_tags current_relation_tags]
 
-  @ver_tbl = %w(nodes ways relations)
+  @ver_tbl = %w[nodes ways relations]
 
   def self.up
     remove_index :current_way_tags, :name => :current_way_tags_v_idx

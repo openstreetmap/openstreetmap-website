@@ -24,19 +24,13 @@
   <div id="sidebar">
     <%= render :partial => "layouts/search", :locals => { :autofocus => true } %>
 
-    <% if STATUS == :database_offline or STATUS == :api_offline %>
-      <p class="error"><%= t 'layouts.osm_offline' %></p>
-    <% elsif STATUS == :database_readonly or STATUS == :api_readonly %>
-      <p class="error"><%= t 'layouts.osm_read_only' %></p>
-    <% end %>
-
     <div id="flash">
       <%= render :partial => "layouts/flash" %>
     </div>
 
     <div id="browse_status"></div>
 
-    <div id="sidebar_loader" style="display: none;">
+    <div id="sidebar_loader">
       <img alt="<%= t('browse.start_rjs.loading') %>" class="loader" src="<%= image_path("searching.gif") %>">
     </div>
 
@@ -49,6 +43,12 @@
         <h2><%= t 'layouts.intro_header' %></h2>
         <div class="close-wrap"><span class="icon close"></span></div>
         <p><%= t 'layouts.intro_text' %></p>
+        <p><%= t 'layouts.partners_html',
+               :ucl => link_to(t('layouts.partners_ucl'), "http://www.ucl.ac.uk"),
+               :ic => link_to(t('layouts.partners_ic'), "http://www.imperial.ac.uk/"),
+               :bytemark => link_to(t('layouts.partners_bytemark'), "http://www.bytemark.co.uk"),
+               :partners => link_to(t('layouts.partners_partners'), "https://hardware.openstreetmap.org/thanks/") %>
+        </p>
         <a class="button learn-more" href="<%= about_path %>"><%= t('layouts.learn_more') %></a>
         <a class="button sign-up" href="<%= user_new_path %>"><%= t('layouts.start_mapping') %></a>
       </div>

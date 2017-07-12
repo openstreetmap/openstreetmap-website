@@ -13,7 +13,7 @@ class CreateOsmDb < ActiveRecord::Migration
     end
 
     add_index "current_nodes", ["id"], :name => "current_nodes_id_idx"
-    add_index "current_nodes", %w(latitude longitude), :name => "current_nodes_lat_lon_idx"
+    add_index "current_nodes", %w[latitude longitude], :name => "current_nodes_lat_lon_idx"
     add_index "current_nodes", ["timestamp"], :name => "current_nodes_timestamp_idx"
 
     create_table "current_segments", :id => false do |t|
@@ -26,7 +26,7 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "timestamp", :datetime
     end
 
-    add_index "current_segments", %w(id visible), :name => "current_segments_id_visible_idx"
+    add_index "current_segments", %w[id visible], :name => "current_segments_id_visible_idx"
     add_index "current_segments", ["node_a"], :name => "current_segments_a_idx"
     add_index "current_segments", ["node_b"], :name => "current_segments_b_idx"
 
@@ -82,7 +82,7 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "timestamp", :datetime
     end
 
-    add_index "gps_points", %w(latitude longitude user_id), :name => "points_idx"
+    add_index "gps_points", %w[latitude longitude user_id], :name => "points_idx"
     add_index "gps_points", ["user_id"], :name => "points_uid_idx"
     add_index "gps_points", ["gpx_id"], :name => "points_gpxid_idx"
 
@@ -109,7 +109,7 @@ class CreateOsmDb < ActiveRecord::Migration
     end
 
     add_index "gpx_files", ["timestamp"], :name => "gpx_files_timestamp_idx"
-    add_index "gpx_files", %w(visible public), :name => "gpx_files_visible_public_idx"
+    add_index "gpx_files", %w[visible public], :name => "gpx_files_visible_public_idx"
 
     create_table "gpx_pending_files", :id => false do |t|
       t.column "originalname", :string
@@ -148,7 +148,7 @@ class CreateOsmDb < ActiveRecord::Migration
     end
 
     add_index "nodes", ["id"], :name => "nodes_uid_idx"
-    add_index "nodes", %w(latitude longitude), :name => "nodes_latlon_idx"
+    add_index "nodes", %w[latitude longitude], :name => "nodes_latlon_idx"
 
     create_table "segments", :id => false do |t|
       t.column "id",        :bigint
@@ -193,7 +193,7 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "sequence_id", :bigint, :null => false
     end
 
-    add_primary_key "way_segments", %w(id version sequence_id)
+    add_primary_key "way_segments", %w[id version sequence_id]
 
     create_table "way_tags", :id => false do |t|
       t.column "id",      :bigint, :default => 0, :null => false
@@ -202,7 +202,7 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "version", :bigint
     end
 
-    add_index "way_tags", %w(id version), :name => "way_tags_id_version_idx"
+    add_index "way_tags", %w[id version], :name => "way_tags_id_version_idx"
 
     create_table "ways", :id => false do |t|
       t.column "id",        :bigint, :default => 0, :null => false
@@ -212,10 +212,9 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "visible",   :boolean, :default => true
     end
 
-    add_primary_key "ways", %w(id version)
+    add_primary_key "ways", %w[id version]
     add_index "ways", ["id"], :name => "ways_id_version_idx"
   end
 
-  def self.down
-  end
+  def self.down; end
 end

@@ -1,90 +1,83 @@
 require "test_helper"
 
 class NodeTest < ActiveSupport::TestCase
-  api_fixtures
-
-  def test_node_count
-    assert_equal 19, Node.count
-  end
-
   def test_node_too_far_north
-    invalid_node_test(:node_too_far_north)
+    node = build(:node, :latitude => 90.01 * OldNode::SCALE)
+    assert_equal false, node.valid?
   end
 
   def test_node_north_limit
-    valid_node_test(:node_north_limit)
-  end
-
-  def test_node_too_far_south
-    invalid_node_test(:node_too_far_south)
-  end
-
-  def test_node_south_limit
-    valid_node_test(:node_south_limit)
-  end
-
-  def test_node_too_far_west
-    invalid_node_test(:node_too_far_west)
-  end
-
-  def test_node_west_limit
-    valid_node_test(:node_west_limit)
-  end
-
-  def test_node_too_far_east
-    invalid_node_test(:node_too_far_east)
-  end
-
-  def test_node_east_limit
-    valid_node_test(:node_east_limit)
-  end
-
-  def test_totally_wrong
-    invalid_node_test(:node_totally_wrong)
-  end
-
-  # This helper method will check to make sure that a node is within the world, and
-  # has the the same lat, lon and timestamp than what was put into the db by
-  # the fixture
-  def valid_node_test(nod)
-    node = current_nodes(nod)
-    dbnode = Node.find(node.id)
-    assert_equal dbnode.lat, node.latitude.to_f / Node::SCALE
-    assert_equal dbnode.lon, node.longitude.to_f / Node::SCALE
-    assert_equal dbnode.changeset_id, node.changeset_id
-    assert_equal dbnode.timestamp, node.timestamp
-    assert_equal dbnode.version, node.version
-    assert_equal dbnode.visible, node.visible
-    # assert_equal node.tile, QuadTile.tile_for_point(node.lat, node.lon)
+    node = build(:node, :latitude => 90 * OldNode::SCALE)
     assert node.valid?
   end
 
-  # This helper method will check to make sure that a node is outwith the world,
-  # and has the same lat, lon and timesamp than what was put into the db by the
-  # fixture
-  def invalid_node_test(nod)
-    node = current_nodes(nod)
-    dbnode = Node.find(node.id)
-    assert_equal dbnode.lat, node.latitude.to_f / Node::SCALE
-    assert_equal dbnode.lon, node.longitude.to_f / Node::SCALE
-    assert_equal dbnode.changeset_id, node.changeset_id
-    assert_equal dbnode.timestamp, node.timestamp
-    assert_equal dbnode.version, node.version
-    assert_equal dbnode.visible, node.visible
-    # assert_equal node.tile, QuadTile.tile_for_point(node.lat, node.lon)
-    assert_equal false, dbnode.valid?
+  def test_node_too_far_south
+    node = build(:node, :latitude => -90.01 * OldNode::SCALE)
+    assert_equal false, node.valid?
+  end
+
+  def test_node_south_limit
+    node = build(:node, :latitude => -90 * OldNode::SCALE)
+    assert node.valid?
+  end
+
+  def test_node_too_far_west
+    node = build(:node, :longitude => -180.01 * OldNode::SCALE)
+    assert_equal false, node.valid?
+  end
+
+  def test_node_west_limit
+    node = build(:node, :longitude => -180 * OldNode::SCALE)
+    assert node.valid?
+  end
+
+  def test_node_too_far_east
+    node = build(:node, :longitude => 180.01 * OldNode::SCALE)
+    assert_equal false, node.valid?
+  end
+
+  def test_node_east_limit
+    node = build(:node, :longitude => 180 * OldNode::SCALE)
+    assert node.valid?
+  end
+
+  def test_totally_wrong
+    node = build(:node, :latitude => 200 * OldNode::SCALE, :longitude => 200 * OldNode::SCALE)
+    assert_equal false, node.valid?
+  end
+
+  def test_lat_lon
+    node = build(:node, :latitude => 12.345 * OldNode::SCALE, :longitude => 34.567 * OldNode::SCALE)
+
+    assert_in_delta 12.345, node.lat, 0.0000001
+    assert_in_delta 34.567, node.lon, 0.0000001
+
+    node.lat = 54.321
+    node.lon = 76.543
+
+    assert_in_delta 54.321 * OldNode::SCALE, node.latitude, 0.000001
+    assert_in_delta 76.543 * OldNode::SCALE, node.longitude, 0.000001
+  end
+
+  # Ensure the lat/lon is formatted as a decimal e.g. not 4.0e-05
+  def test_lat_lon_xml_format
+    node = build(:node, :latitude => 0.00004 * OldNode::SCALE, :longitude => 0.00008 * OldNode::SCALE)
+
+    assert_match /lat="0.0000400"/, node.to_xml.to_s
+    assert_match /lon="0.0000800"/, node.to_xml.to_s
   end
 
   # Check that you can create a node and store it
   def test_create
+    changeset = create(:changeset)
     node_template = Node.new(
       :latitude => 12.3456,
       :longitude => 65.4321,
-      :changeset_id => changesets(:normal_user_first_change).id,
+      :changeset_id => changeset.id,
       :visible => 1,
       :version => 1
     )
-    assert node_template.create_with_history(users(:normal_user))
+    assert node_template.create_with_history(changeset.user)
 
     node = Node.find(node_template.id)
     assert_not_nil node
@@ -106,17 +99,18 @@ class NodeTest < ActiveSupport::TestCase
   end
 
   def test_update
-    node_template = Node.find(current_nodes(:visible_node).id)
-    assert_not_nil node_template
+    node = create(:node)
+    create(:old_node, :node_id => node.id, :version => 1)
+    node_template = Node.find(node.id)
 
+    assert_not_nil node_template
     assert_equal OldNode.where(:node_id => node_template.id).count, 1
-    node = Node.find(node_template.id)
     assert_not_nil node
 
     node_template.latitude = 12.3456
     node_template.longitude = 65.4321
     # node_template.tags = "updated=yes"
-    assert node.update_from(node_template, users(:normal_user))
+    assert node.update_from(node_template, node.changeset.user)
 
     node = Node.find(node_template.id)
     assert_not_nil node
@@ -137,14 +131,15 @@ class NodeTest < ActiveSupport::TestCase
   end
 
   def test_delete
-    node_template = Node.find(current_nodes(:visible_node).id)
-    assert_not_nil node_template
+    node = create(:node)
+    create(:old_node, :node_id => node.id, :version => 1)
+    node_template = Node.find(node.id)
 
+    assert_not_nil node_template
     assert_equal OldNode.where(:node_id => node_template.id).count, 1
-    node = Node.find(node_template.id)
     assert_not_nil node
 
-    assert node.delete_with_history!(node_template, users(:normal_user))
+    assert node.delete_with_history!(node_template, node.changeset.user)
 
     node = Node.find(node_template.id)
     assert_not_nil node
@@ -171,7 +166,7 @@ class NodeTest < ActiveSupport::TestCase
     version = 1
     noid = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset}' version='#{version}' /></osm>"
     # First try a create which doesn't need the id
-    assert_nothing_raised(OSM::APIBadXMLError) do
+    assert_nothing_raised do
       Node.from_xml(noid, true)
     end
     # Now try an update with no id, and make sure that it gives the appropriate exception
@@ -219,7 +214,7 @@ class NodeTest < ActiveSupport::TestCase
 
   def test_from_xml_no_version
     no_version = "<osm><node id='123' lat='23' lon='23' changeset='23' /></osm>"
-    assert_nothing_raised(OSM::APIBadXMLError) do
+    assert_nothing_raised do
       Node.from_xml(no_version, true)
     end
     message_update = assert_raise(OSM::APIBadXMLError) do
@@ -244,7 +239,7 @@ class NodeTest < ActiveSupport::TestCase
     id_list = ["", "0", "00", "0.0", "a"]
     id_list.each do |id|
       zero_id = "<osm><node id='#{id}' lat='12.3' lon='12.3' changeset='33' version='23' /></osm>"
-      assert_nothing_raised(OSM::APIBadUserInput) do
+      assert_nothing_raised do
         Node.from_xml(zero_id, true)
       end
       message_update = assert_raise(OSM::APIBadUserInput) do
@@ -315,47 +310,57 @@ class NodeTest < ActiveSupport::TestCase
   end
 
   def test_node_tags
-    node = current_nodes(:node_with_versions)
+    node = create(:node)
+    taglist = create_list(:node_tag, 2, :node => node)
     tags = Node.find(node.id).node_tags.order(:k)
-    assert_equal 2, tags.count
-    assert_equal "testing", tags[0].k
-    assert_equal "added in node version 3", tags[0].v
-    assert_equal "testing two", tags[1].k
-    assert_equal "modified in node version 4", tags[1].v
+    assert_equal taglist.count, tags.count
+    taglist.sort_by!(&:k).each_index do |i|
+      assert_equal taglist[i].k, tags[i].k
+      assert_equal taglist[i].v, tags[i].v
+    end
   end
 
   def test_tags
-    node = current_nodes(:node_with_versions)
+    node = create(:node)
+    taglist = create_list(:node_tag, 2, :node => node)
     tags = Node.find(node.id).tags
-    assert_equal 2, tags.size
-    assert_equal "added in node version 3", tags["testing"]
-    assert_equal "modified in node version 4", tags["testing two"]
+    assert_equal taglist.count, tags.count
+    taglist.each do |tag|
+      assert_equal tag.v, tags[tag.k]
+    end
   end
 
   def test_containing_relation_members
-    node = current_nodes(:node_used_by_relationship)
+    node = create(:node)
+    relation_member1 = create(:relation_member, :member => node)
+    relation_member2 = create(:relation_member, :member => node)
+    relation_member3 = create(:relation_member, :member => node)
     crm = Node.find(node.id).containing_relation_members.order(:relation_id)
     #    assert_equal 3, crm.size
-    assert_equal 1, crm.first.relation_id
+    assert_equal relation_member1.relation_id, crm.first.relation_id
     assert_equal "Node", crm.first.member_type
     assert_equal node.id, crm.first.member_id
-    assert_equal 1, crm.first.relation.id
-    assert_equal 2, crm.second.relation_id
+    assert_equal relation_member1.relation_id, crm.first.relation.id
+    assert_equal relation_member2.relation_id, crm.second.relation_id
     assert_equal "Node", crm.second.member_type
     assert_equal node.id, crm.second.member_id
-    assert_equal 2, crm.second.relation.id
-    assert_equal 3, crm.third.relation_id
+    assert_equal relation_member2.relation_id, crm.second.relation.id
+    assert_equal relation_member3.relation_id, crm.third.relation_id
     assert_equal "Node", crm.third.member_type
     assert_equal node.id, crm.third.member_id
-    assert_equal 3, crm.third.relation.id
+    assert_equal relation_member3.relation_id, crm.third.relation.id
   end
 
   def test_containing_relations
-    node = current_nodes(:node_used_by_relationship)
+    node = create(:node)
+    relation_member1 = create(:relation_member, :member => node)
+    relation_member2 = create(:relation_member, :member => node)
+    relation_member3 = create(:relation_member, :member => node)
     cr = Node.find(node.id).containing_relations.order(:id)
+
     assert_equal 3, cr.size
-    assert_equal 1, cr.first.id
-    assert_equal 2, cr.second.id
-    assert_equal 3, cr.third.id
+    assert_equal relation_member1.relation.id, cr.first.id
+    assert_equal relation_member2.relation.id, cr.second.id
+    assert_equal relation_member3.relation.id, cr.third.id
   end
 end

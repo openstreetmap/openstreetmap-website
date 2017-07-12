@@ -117,11 +117,17 @@ sco:
       way_paginated: Ways (%{x}-%{y} of %{count})
       relation: Relations (%{count})
       relation_paginated: Relations (%{x}-%{y} of %{count})
+      comment: Comments (%{count})
+      hidden_commented_by: Hidden comment frae %{user} <abbr title='%{exact_time}'>%{when}
+        ago</abbr>
+      commented_by: Comment frae %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
       changesetxml: Chyngeset XML
       osmchangexml: osmChange XML
       feed:
         title: Chyngeset %{id}
         title_comment: Chyngeset %{id} - %{comment}
+      join_discussion: Log in tae jyn the discussion
+      discussion: Discussion
     node:
       title: 'Node: %{name}'
       history_title: 'Node History: %{name}'
@@ -177,6 +183,7 @@ sco:
       wiki_link:
         key: The wiki description page for the %{key} tag
         tag: The wiki description page for the %{key}=%{value} tag%{value}
+      wikidata_link: The %{page} item on Wikidata
       wikipedia_link: The %{page} airticle on Wikipaedia
       telephone_link: Caw %{phone_number}
     note:
@@ -228,6 +235,9 @@ sco:
       load_more: Load mair
     timeout:
       sorry: Sorry, the leet o chyngesets ye requestit teuk too lang tae retrieve.
+    rss:
+      commented_at_html: Updatit %{when} ago
+      commented_at_by_html: Updatit %{when} ago bi %{user}
   diary_entry:
     new:
       title: New Diary Entry
@@ -479,6 +489,9 @@ sco:
           "yes": Brig
         building:
           "yes": Biggin
+        craft:
+          gardener: Gairdener
+          painter: Penter
         emergency:
           phone: Emergency Phone
         highway:
@@ -524,11 +537,12 @@ sco:
           archaeological_site: Airchaeological Steid
           battlefield: Battlefield
           boundary_stone: Boondary Stane
-          building: Biggin
+          building: Historic Biggin
           castle: Castle
           church: Kirk
           citywalls: Ceety Waws
           fort: Fort
+          heritage: Heritage Steid
           house: Hoose
           icon: Icon
           manor: Manor
@@ -536,6 +550,7 @@ sco:
           mine: Mine
           monument: Monument
           ruins: Ruins
+          stone: Stane
           tomb: Tomb
           tower: Touer
           wayside_cross: Wayside Cross
@@ -572,14 +587,17 @@ sco:
           road: Road Aurie
           village_green: Village Green
           vineyard: Vineyard
+          "yes": Launduise
         leisure:
           beach_resort: Beach Resort
           bird_hide: Bird Hide
           common: Common Laund
+          dog_park: Dug Pairk
           fishing: Fishin Aurie
           fitness_station: Fitness Station
           garden: Gairden
           golf_course: Gowf Coorse
+          horse_riding: Horse Ridin
           ice_rink: Ice Rink
           marina: Marina
           miniature_golf: Miniature Gowf
@@ -588,6 +606,7 @@ sco:
           pitch: Sports Pitch
           playground: Playgrund
           recreation_ground: Recreation Grund
+          resort: Resort
           sauna: Sauna
           slipway: Slipway
           sports_centre: Sports Centre
@@ -595,6 +614,10 @@ sco:
           swimming_pool: Swimmin Puil
           track: Runnin Track
           water_park: Watter Pairk
+          "yes": Leisur
+        man_made:
+          lighthouse: Lichthoose
+          tower: Tour
         military:
           airfield: Militar Airfield
           barracks: Barracks
@@ -614,6 +637,7 @@ sco:
           forest: Forest
           geyser: Geyser
           glacier: Glacier
+          grassland: Gressland
           heath: Heath
           hill: Hill
           island: Island
@@ -626,6 +650,7 @@ sco:
           reef: Reef
           ridge: Ridge
           rock: Rock
+          sand: Saund
           scree: Scree
           scrub: Scrub
           spring: Spring
@@ -639,6 +664,7 @@ sco:
           wood: Wid
         office:
           accountant: Accoontant
+          administrative: Admeenistration
           architect: Airchitect
           company: Company
           employment_agency: Employment Agency
@@ -815,6 +841,7 @@ sco:
           wadi: Wadi
           waterfall: Watterfaw
           weir: Weir
+          "yes": Watterwey
       admin_levels:
         level2: Kintra Boondary
         level4: State Boondary
@@ -899,9 +926,10 @@ sco:
     legal_babble:
       title_html: Copyricht an License
       intro_1_html: |-
-        OpenStreetMap is <i>open data</i>, licensed unner the <a
+        OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> is <i>open data</i>, licensed unner the <a
         href="http://opendatacommons.org/licenses/odbl/">Open Data
-        Commons Open Database License</a> (ODbL).
+        Commons Open Database License</a> (ODbL) bi the  <a
+        href="http://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF).
       intro_2_html: |-
         Ye are free tae copy, distribute, transmit an adapt oor data,
         as lang as ye credit OpenStreetMap an its
@@ -936,7 +964,8 @@ sco:
         title: Attreibution example
       more_title_html: Findin oot mair
       more_1_html: |-
-        Read mair aboot uisin oor data, an how tae credit us, at the <a
+        Read mair aboot uisin oor data, an hou tae credit us, at the <a
+        href="http://osmfoundation.org/Licence">OSMF Licence page</a> an the commonty <a
         href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Legal
         FAQ</a>.
       more_2_html: |-
@@ -976,6 +1005,23 @@ sco:
       contributors_nz_html: |-
         <strong>New Zealand</strong>: Contains data soorced frae
         Land Information New Zealand. Crown Copyricht reserved.
+      infringement_title_html: Copyricht infringement
+  welcome_page:
+    title: Walcome!
+    introduction_html: |-
+      Walcome tae OpenStreetMap, the free an eeditable cairt o the warld. Nou that ye're signed
+      up, ye're aw set tae get stairtit cairttin. Here's a quick guide wi the maist important
+      things ye need tae ken.
+    whats_on_the_map:
+      title: Whit's on the Cairt
+      on_html: |-
+        OpenStreetMap is a place for cairttin things that are baith <em>real an current</em> -
+        it includes millions o biggins, roads, an ither details aboot places. Ye can cairt
+        whitever real-warld featurs are interestin tae ye.
+      off_html: |-
+        Whit it <em>disna</em> include is opinionatit data lik ratins, historical or
+        hypothetical featurs, an data frae copyrichtit soorces. Unless ye hae special
+        permission, dinna copy frae online or paper cairts.
   fixthemap:
     how_to_help:
       join_the_community:
@@ -987,6 +1033,98 @@ sco:
         the contents please see oor\n<a href='/copyright'>copiericht page</a> fer
         mair legal information, or contact the appropriate \n<a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF
         wairkin groop</a>."
+  notifier:
+    lost_password_plain:
+      hopefully_you: Someane (possibly ye) haes asked for the passwird tae be reset
+        on this email address's openstreetmap.org accoont.
+      click_the_link: If this is ye, please click the airtin ablo tae reset yer passwird.
+    lost_password_html:
+      greeting: Hi,
+      hopefully_you: Someane (possibly ye) has asked for the passwird tae be reset
+        on this email address's openstreetmap.org accoont.
+      click_the_link: If this is ye, please click the airtin ablo tae reset yer passwird.
+    note_comment_notification:
+      anonymous: An anonymous uiser
+      greeting: Hi,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} haes commentit on ane o yer notes'
+        subject_other: '[OpenStreetMap] %{commenter} haes commentit on a note ye are
+          interestit in'
+  site:
+    sidebar:
+      search_results: Sairch Results
+    search:
+      search: Sairch
+      to: Tae
+      where_am_i: Whaur am I?
+      where_am_i_title: Descrive the current location uisin the sairch ingine
+      submit_text: Gae
+    key:
+      table:
+        entry:
+          wood: Wid
+          golf: Gowf coorse
+          park: Pairk
+          resident: Residential aurie
+          retail: Retail aurie
+          industrial: Industrial aurie
+          commercial: Commercial aurie
+          lake:
+          - Loch
+          farm: Ferm
+          military: Militar aurie
+          school:
+          - Schuil
+          - varsity
+          building: Signeeficant biggin
+    richtext_area:
+      edit: Eedit
+    markdown_help:
+      headings: Heidins
+  trace:
+    create:
+      upload_trace: Uplaid GPS Trace
+  user:
+    login:
+      auth_providers:
+        google:
+          title: Login wi Google
+          alt: Login wi a Google OpenID
+        facebook:
+          title: Login wi Facebook
+          alt: Login wi a Facebook Accoont
+        windowslive:
+          title: Login wi Windows Live
+          alt: Login wi a Windows Live Accoont
+        github:
+          title: Login wi GitHub
+          alt: Login wi a GitHub Account
+        wikipedia:
+          title: Login wi Wikipedia
+          alt: Login wi a Wikipedia Accoont
+        yahoo:
+          title: Login wi Yahoo
+          alt: Login wi a Yahoo OpenID
+        wordpress:
+          title: Login wi Wordpress
+          alt: Login wi a Wordpress OpenID
+        aol:
+          title: Login wi AOL
+          alt: Login wi an AOL OpenID
+    logout:
+      title: Logoot
+      heading: Logoot frae OpenStreetMap
+      logout_button: Logoot
+    lost_password:
+      title: Lost password
+      heading: Forgotten Passwird?
+    view:
+      edits: Eedits
+      created from: 'Creautit frae:'
+      user location: Uiser location
+      your friends: Yer friends
+    account:
+      title: Eedit accoont
   javascripts:
     share:
       image_size: Eemage will shaw the staundairt layer at
@@ -995,4 +1133,62 @@ sco:
         intro: Spotted ae mistake or sommit missin? Lat ither mappers ken sae that
           we can fix it. Muiv the maurker til the richt poseetion n type ae few wairds
           tae explain the proablem. (Please dinna enter personal information here.)
+    directions:
+      errors:
+        no_place: Sairy - couldna find that place.
+      instructions:
+        continue_without_exit: Conteena on %{name}
+        slight_right_without_exit: Slicht richt ontae %{name}
+        offramp_right_without_exit: Tak the ramp on the richt ontae %{name}
+        onramp_right_without_exit: Turn richt on the ramp ontae %{name}
+        endofroad_right_without_exit: At the end o the road turn richt ontae %{name}
+        merge_right_without_exit: Merge richt ontae %{name}
+        fork_right_without_exit: At the fork turn richt ontae %{name}
+        turn_right_without_exit: Turn richt ontae %{name}
+        sharp_right_without_exit: Shairp richt ontae %{name}
+        uturn_without_exit: U-turn alang %{name}
+        sharp_left_without_exit: Shairp left ontae %{name}
+        turn_left_without_exit: Turn left ontae %{name}
+        offramp_left_without_exit: Tak the ramp on the left ontae %{name}
+        onramp_left_without_exit: Turn left on the ramp ontae %{name}
+        endofroad_left_without_exit: At the end o the road turn left ontae %{name}
+        merge_left_without_exit: Merge left ontae %{name}
+        fork_left_without_exit: At the fork turn left ontae %{name}
+        slight_left_without_exit: Slicht left ontae %{name}
+        via_point_without_exit: (via pynt)
+        follow_without_exit: Follae %{name}
+        roundabout_without_exit: At roondaboot tak %{name}
+        leave_roundabout_without_exit: Leave roondaboot - %{name}
+        stay_roundabout_without_exit: Stay on roondaboot - %{name}
+        start_without_exit: Stairt at end o %{name}
+        destination_without_exit: Reak destination
+        against_oneway_without_exit: Gae against ane-wey on %{name}
+        end_oneway_without_exit: End o ane-wey on %{name}
+        roundabout_with_exit: At roondaboot tak exit %{exit} ontae %{name}
+        turn_left_with_exit: At roondaboot turn left ontae %{name}
+        slight_left_with_exit: At roondaboot slicht left ontae %{name}
+        turn_right_with_exit: At roondaboot turn richt ontae %{name}
+        slight_right_with_exit: At roondaboot slicht richt ontae %{name}
+        continue_with_exit: At roondaboot continue straicht ontae %{name}
+        unnamed: unnamed road
+        courtesy: Directions coortesy o %{link}
+      time: Time
+    query:
+      node: Node
+      way: Wey
+      relation: Relation
+      nothing_found: Na featurs foond
+      error: 'Error contactin %{server}: %{error}'
+      timeout: Timeoot contactin %{server}
+    context:
+      directions_from: Directions frae here
+      directions_to: Directions tae here
+      add_note: Add a note here
+      show_address: Shaw address
+      query_features: Query featurs
+      centre_map: Centre cairt here
+  redaction:
+    edit:
+      description: Description
+      heading: Eedit redaction
 ...

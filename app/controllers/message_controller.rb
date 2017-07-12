@@ -13,7 +13,7 @@ class MessageController < ApplicationController
   # clicks send.
   # The display_name param is the display name of the user that the message is being sent to.
   def new
-    if params[:message]
+    if request.post?
       if @user.sent_messages.where("sent_on >= ?", Time.now.getutc - 1.hour).count >= MAX_MESSAGES_PER_HOUR
         flash[:error] = t "message.new.limit_exceeded"
       else
@@ -25,12 +25,12 @@ class MessageController < ApplicationController
         if @message.save
           flash[:notice] = t "message.new.message_sent"
           Notifier.message_notification(@message).deliver_now
-          redirect_to :controller => "message", :action => "inbox", :display_name => @user.display_name
+          redirect_to :action => "inbox", :display_name => @user.display_name
         end
       end
     end
 
-    @message ||= Message.new(:recipient => @this_user)
+    @message ||= Message.new(message_params.merge(:recipient => @this_user))
     @title = t "message.new.title"
   end
 
@@ -39,7 +39,7 @@ class MessageController < ApplicationController
     message = Message.find(params[:message_id])
 
     if message.to_user_id == @user.id
-      message.update_attribute(:message_read, true)
+      message.update(:message_read => true)
 
       @message = Message.new(
         :recipient => message.sender,
@@ -81,7 +81,7 @@ class MessageController < ApplicationController
     @title = t "message.inbox.title"
     if @user && params[:display_name] == @user.display_name
     else
-      redirect_to :controller => "message", :action => "inbox", :display_name => @user.display_name
+      redirect_to :action => "inbox", :display_name => @user.display_name
     end
   end
 
@@ -90,7 +90,7 @@ class MessageController < ApplicationController
     @title = t "message.outbox.title"
     if @user && params[:display_name] == @user.display_name
     else
-      redirect_to :controller => "message", :action => "outbox", :display_name => @user.display_name
+      redirect_to :action => "outbox", :display_name => @user.display_name
     end
   end
 
@@ -107,7 +107,7 @@ class MessageController < ApplicationController
     @message.message_read = message_read
     if @message.save && !request.xhr?
       flash[:notice] = notice
-      redirect_to :controller => "message", :action => "inbox", :display_name => @user.display_name
+      redirect_to :action => "inbox", :display_name => @user.display_name
     end
   rescue ActiveRecord::RecordNotFound
     @title = t "message.no_such_message.title"
@@ -125,7 +125,7 @@ class MessageController < ApplicationController
       if params[:referer]
         redirect_to params[:referer]
       else
-        redirect_to :controller => "message", :action => "inbox", :display_name => @user.display_name
+        redirect_to :action => "inbox", :display_name => @user.display_name
       end
     end
   rescue ActiveRecord::RecordNotFound
@@ -139,5 +139,7 @@ class MessageController < ApplicationController
   # return permitted message parameters
   def message_params
     params.require(:message).permit(:title, :body)
+  rescue ActionController::ParameterMissing
+    ActionController::Parameters.new.permit(:title, :body)
   end
 end

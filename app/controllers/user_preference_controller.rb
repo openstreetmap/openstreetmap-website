@@ -20,7 +20,7 @@ class UserPreferenceController < ApplicationController
     end
 
     doc.root << el1
-    render :text => doc.to_s, :content_type => "text/xml"
+    render :xml => doc.to_s
   end
 
   ##
@@ -28,7 +28,7 @@ class UserPreferenceController < ApplicationController
   def read_one
     pref = UserPreference.find([@user.id, params[:preference_key]])
 
-    render :text => pref.v.to_s, :content_type => "text/plain"
+    render :plain => pref.v.to_s
   end
 
   # update the entire set of preferences
@@ -39,7 +39,7 @@ class UserPreferenceController < ApplicationController
 
     new_preferences = {}
 
-    doc = XML::Parser.string(request.raw_post).parse
+    doc = XML::Parser.string(request.raw_post, :options => XML::Parser::Options::NOERROR).parse
 
     doc.find("//preferences/preference").each do |pt|
       if preference = old_preferences.delete(pt["k"])
@@ -57,7 +57,7 @@ class UserPreferenceController < ApplicationController
 
     new_preferences.each_value(&:save!)
 
-    render :text => "", :content_type => "text/plain"
+    render :plain => ""
   end
 
   ##
@@ -74,7 +74,7 @@ class UserPreferenceController < ApplicationController
     pref.v = request.raw_post.chomp
     pref.save!
 
-    render :text => "", :content_type => "text/plain"
+    render :plain => ""
   end
 
   ##
@@ -82,6 +82,6 @@ class UserPreferenceController < ApplicationController
   def delete_one
     UserPreference.find([@user.id, params[:preference_key]]).delete
 
-    render :text => "", :content_type => "text/plain"
+    render :plain => ""
   end
 end

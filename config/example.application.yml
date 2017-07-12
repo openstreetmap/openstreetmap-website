@@ -1,16 +1,19 @@
 defaults: &defaults
-  # The server URL
-  server_url: "www.openstreetmap.org"
+  # The server protocol and host
+  server_protocol: "http"
+  server_url: "openstreetmap.example.com"
+  # Publisher
+  #publisher_url: ""
   # The generator
   generator: "OpenStreetMap server"
   copyright_owner: "OpenStreetMap and contributors"
   attribution_url: "http://www.openstreetmap.org/copyright"
   license_url: "http://opendatacommons.org/licenses/odbl/1-0/"
   # Support email address
-  support_email: support@openstreetmap.org
+  support_email: "openstreetmap@example.com"
   # Sender addresses for emails
-  email_from: "OpenStreetMap <support@openstreetmap.org>"
-  email_return_path: "bounces@openstreetmap.org"
+  email_from: "OpenStreetMap <openstreetmap@example.com>"
+  email_return_path: "openstreetmap@example.com"
   # API version
   api_version: "0.6"
   # Application status - possible values are:
@@ -90,6 +93,10 @@ defaults: &defaults
     # Current Google imagery URLs have google or googleapis in the domain
     # with a vt or kh endpoint, and x, y and z query parameters
     - ".*\\.google(apis)?\\..*/(vt|kh)[\\?/].*([xyz]=.*){3}.*"
+    # Blacklist VWorld
+    - "http://xdworld\\.vworld\\.kr:8080/.*"
+    # Blacklist here
+    - ".*\\.here\\.com[/:].*"
   # URL of Overpass instance to use for feature queries
   overpass_url: "//overpass-api.de/api/interpreter"
   # Routing endpoints
@@ -107,10 +114,18 @@ defaults: &defaults
   #windowslive_auth_secret: ""
   #github_auth_id: ""
   #github_auth_secret: ""
+  #wikipedia_auth_id: ""
+  #wikipedia_auth_secret: ""
   # MapQuest authentication details
   #mapquest_key: ""
   # Mapzen authentication details
   #mapzen_valhalla_key: ""
+  # Thunderforest authentication details
+  #thunderforest_key: ""
+  # Key for generating TOTP tokens
+  #totp_key: ""
+  # URL for reporting Content-Security-Policy violations
+  #csp_report_url: ""
 
 development:
   <<: *defaults
@@ -132,3 +147,5 @@ test:
   windowslive_auth_secret: "dummy"
   github_auth_id: "dummy"
   github_auth_secret: "dummy"
+  wikipedia_auth_id: "dummy"
+  wikipedia_auth_secret: "dummy"

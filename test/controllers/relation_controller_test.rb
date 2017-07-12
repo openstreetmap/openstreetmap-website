@@ -2,8 +2,6 @@ require "test_helper"
 require "relation_controller"
 
 class RelationControllerTest < ActionController::TestCase
-  api_fixtures
-
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -52,15 +50,15 @@ class RelationControllerTest < ActionController::TestCase
 
   def test_read
     # check that a visible relation is returned properly
-    get :read, :id => current_relations(:visible_relation).id
+    get :read, :params => { :id => create(:relation).id }
     assert_response :success
 
     # check that an invisible relation is not returned
-    get :read, :id => current_relations(:invisible_relation).id
+    get :read, :params => { :id => create(:relation, :deleted).id }
     assert_response :gone
 
     # check chat a non-existent relation is not returned
-    get :read, :id => 0
+    get :read, :params => { :id => 0 }
     assert_response :not_found
   end
 
@@ -68,26 +66,70 @@ class RelationControllerTest < ActionController::TestCase
   # check that all relations containing a particular node, and no extra
   # relations, are returned from the relations_for_node call.
   def test_relations_for_node
+    node = create(:node)
+    # should include relations with that node as a member
+    relation_with_node = create(:relation_member, :member => node).relation
+    # should ignore relations without that node as a member
+    _relation_without_node = create(:relation_member).relation
+    # should ignore relations with the node involved indirectly, via a way
+    way = create(:way_node, :node => node).way
+    _relation_with_way = create(:relation_member, :member => way).relation
+    # should ignore relations with the node involved indirectly, via a relation
+    second_relation = create(:relation_member, :member => node).relation
+    _super_relation = create(:relation_member, :member => second_relation).relation
+    # should combine multiple relation_member references into just one relation entry
+    create(:relation_member, :member => node, :relation => relation_with_node, :sequence_id => 2)
+    # should not include deleted relations
+    deleted_relation = create(:relation, :deleted)
+    create(:relation_member, :member => node, :relation => deleted_relation)
+
     check_relations_for_element(:relations_for_node, "node",
-                                current_nodes(:node_used_by_relationship).id,
-                                [:visible_relation, :used_relation])
+                                node.id,
+                                [relation_with_node, second_relation])
   end
 
   def test_relations_for_way
+    way = create(:way)
+    # should include relations with that way as a member
+    relation_with_way = create(:relation_member, :member => way).relation
+    # should ignore relations without that way as a member
+    _relation_without_way = create(:relation_member).relation
+    # should ignore relations with the way involved indirectly, via a relation
+    second_relation = create(:relation_member, :member => way).relation
+    _super_relation = create(:relation_member, :member => second_relation).relation
+    # should combine multiple relation_member references into just one relation entry
+    create(:relation_member, :member => way, :relation => relation_with_way, :sequence_id => 2)
+    # should not include deleted relations
+    deleted_relation = create(:relation, :deleted)
+    create(:relation_member, :member => way, :relation => deleted_relation)
+
     check_relations_for_element(:relations_for_way, "way",
-                                current_ways(:used_way).id,
-                                [:visible_relation])
+                                way.id,
+                                [relation_with_way, second_relation])
   end
 
   def test_relations_for_relation
+    relation = create(:relation)
+    # should include relations with that relation as a member
+    relation_with_relation = create(:relation_member, :member => relation).relation
+    # should ignore any relation without that relation as a member
+    _relation_without_relation = create(:relation_member).relation
+    # should ignore relations with the relation involved indirectly, via a relation
+    second_relation = create(:relation_member, :member => relation).relation
+    _super_relation = create(:relation_member, :member => second_relation).relation
+    # should combine multiple relation_member references into just one relation entry
+    create(:relation_member, :member => relation, :relation => relation_with_relation, :sequence_id => 2)
+    # should not include deleted relations
+    deleted_relation = create(:relation, :deleted)
+    create(:relation_member, :member => relation, :relation => deleted_relation)
     check_relations_for_element(:relations_for_relation, "relation",
-                                current_relations(:used_relation).id,
-                                [:visible_relation])
+                                relation.id,
+                                [relation_with_relation, second_relation])
   end
 
   def check_relations_for_element(method, type, id, expected_relations)
     # check the "relations for relation" mode
-    get method, :id => id
+    get method, :params => { :id => id }
     assert_response :success
 
     # count one osm element
@@ -96,22 +138,23 @@ class RelationControllerTest < ActionController::TestCase
     # we should have only the expected number of relations
     assert_select "osm>relation", expected_relations.size
 
-    # and each of them should contain the node we originally searched for
-    expected_relations.each do |r|
-      relation_id = current_relations(r).id
-      assert_select "osm>relation[id='#{relation_id}']>member[type='#{type}'][ref='#{id}']", 1
+    # and each of them should contain the element we originally searched for
+    expected_relations.each do |relation|
+      # The relation should appear once, but the element could appear multiple times
+      assert_select "osm>relation[id='#{relation.id}']", 1
+      assert_select "osm>relation[id='#{relation.id}']>member[type='#{type}'][ref='#{id}']"
     end
   end
 
   def test_full
     # check the "full" mode
-    get :full, :id => 999999
+    get :full, :params => { :id => 999999 }
     assert_response :not_found
 
-    get :full, :id => current_relations(:invisible_relation).id
+    get :full, :params => { :id => create(:relation, :deleted).id }
     assert_response :gone
 
-    get :full, :id => current_relations(:visible_relation).id
+    get :full, :params => { :id => create(:relation).id }
     assert_response :success
     # FIXME: check whether this contains the stuff we want!
   end
@@ -119,27 +162,33 @@ class RelationControllerTest < ActionController::TestCase
   ##
   # test fetching multiple relations
   def test_relations
+    relation1 = create(:relation)
+    relation2 = create(:relation, :deleted)
+    relation3 = create(:relation, :with_history, :version => 2)
+    relation4 = create(:relation, :with_history, :version => 2)
+    relation4.old_relations.find_by(:version => 1).redact!(create(:redaction))
+
     # check error when no parameter provided
     get :relations
     assert_response :bad_request
 
     # check error when no parameter value provided
-    get :relations, :relations => ""
+    get :relations, :params => { :relations => "" }
     assert_response :bad_request
 
     # test a working call
-    get :relations, :relations => "1,2,4,7"
+    get :relations, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}" }
     assert_response :success
     assert_select "osm" do
       assert_select "relation", :count => 4
-      assert_select "relation[id='1'][visible='true']", :count => 1
-      assert_select "relation[id='2'][visible='false']", :count => 1
-      assert_select "relation[id='4'][visible='true']", :count => 1
-      assert_select "relation[id='7'][visible='true']", :count => 1
+      assert_select "relation[id='#{relation1.id}'][visible='true']", :count => 1
+      assert_select "relation[id='#{relation2.id}'][visible='false']", :count => 1
+      assert_select "relation[id='#{relation3.id}'][visible='true']", :count => 1
+      assert_select "relation[id='#{relation4.id}'][visible='true']", :count => 1
     end
 
     # check error when a non-existent relation is included
-    get :relations, :relations => "1,2,4,7,400"
+    get :relations, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},400" }
     assert_response :not_found
   end
 
@@ -148,13 +197,17 @@ class RelationControllerTest < ActionController::TestCase
   # -------------------------------------
 
   def test_create
-    basic_authorization users(:normal_user).email, "test"
+    private_user = create(:user, :data_public => false)
+    private_changeset = create(:changeset, :user => private_user)
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    node = create(:node)
+    way = create(:way_with_nodes, :nodes_count => 2)
 
-    # put the relation in a dummy fixture changset
-    changeset_id = changesets(:normal_user_first_change).id
+    basic_authorization private_user.email, "test"
 
     # create an relation without members
-    content "<osm><relation changeset='#{changeset_id}'><tag k='test' v='yes' /></relation></osm>"
+    content "<osm><relation changeset='#{private_changeset.id}'><tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for forbidden, due to user
     assert_response :forbidden,
@@ -163,9 +216,8 @@ class RelationControllerTest < ActionController::TestCase
     ###
     # create an relation with a node as member
     # This time try with a role attribute in the relation
-    nid = current_nodes(:used_node_1).id
-    content "<osm><relation changeset='#{changeset_id}'>" +
-            "<member  ref='#{nid}' type='node' role='some'/>" +
+    content "<osm><relation changeset='#{private_changeset.id}'>" +
+            "<member  ref='#{node.id}' type='node' role='some'/>" +
             "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for forbidden due to user
@@ -175,9 +227,8 @@ class RelationControllerTest < ActionController::TestCase
     ###
     # create an relation with a node as member, this time test that we don't
     # need a role attribute to be included
-    nid = current_nodes(:used_node_1).id
-    content "<osm><relation changeset='#{changeset_id}'>" +
-            "<member  ref='#{nid}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
+    content "<osm><relation changeset='#{private_changeset.id}'>" +
+            "<member  ref='#{node.id}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for forbidden due to user
     assert_response :forbidden,
@@ -185,11 +236,9 @@ class RelationControllerTest < ActionController::TestCase
 
     ###
     # create an relation with a way and a node as members
-    nid = current_nodes(:used_node_1).id
-    wid = current_ways(:used_way).id
-    content "<osm><relation changeset='#{changeset_id}'>" +
-            "<member type='node' ref='#{nid}' role='some'/>" +
-            "<member type='way' ref='#{wid}' role='other'/>" +
+    content "<osm><relation changeset='#{private_changeset.id}'>" +
+            "<member type='node' ref='#{node.id}' role='some'/>" +
+            "<member type='way' ref='#{way.id}' role='other'/>" +
             "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for forbidden, due to user
@@ -197,13 +246,10 @@ class RelationControllerTest < ActionController::TestCase
                     "relation upload did not return success status"
 
     ## Now try with the public user
-    basic_authorization users(:public_user).email, "test"
-
-    # put the relation in a dummy fixture changset
-    changeset_id = changesets(:public_user_first_change).id
+    basic_authorization user.email, "test"
 
     # create an relation without members
-    content "<osm><relation changeset='#{changeset_id}'><tag k='test' v='yes' /></relation></osm>"
+    content "<osm><relation changeset='#{changeset.id}'><tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
     assert_response :success,
@@ -218,22 +264,21 @@ class RelationControllerTest < ActionController::TestCase
                  "saved relation contains members but should not"
     assert_equal checkrelation.tags.length, 1,
                  "saved relation does not contain exactly one tag"
-    assert_equal changeset_id, checkrelation.changeset.id,
+    assert_equal changeset.id, checkrelation.changeset.id,
                  "saved relation does not belong in the changeset it was assigned to"
-    assert_equal users(:public_user).id, checkrelation.changeset.user_id,
+    assert_equal user.id, checkrelation.changeset.user_id,
                  "saved relation does not belong to user that created it"
     assert_equal true, checkrelation.visible,
                  "saved relation is not visible"
     # ok the relation is there but can we also retrieve it?
-    get :read, :id => relationid
+    get :read, :params => { :id => relationid }
     assert_response :success
 
     ###
     # create an relation with a node as member
     # This time try with a role attribute in the relation
-    nid = current_nodes(:used_node_1).id
-    content "<osm><relation changeset='#{changeset_id}'>" +
-            "<member  ref='#{nid}' type='node' role='some'/>" +
+    content "<osm><relation changeset='#{changeset.id}'>" +
+            "<member  ref='#{node.id}' type='node' role='some'/>" +
             "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
@@ -249,23 +294,22 @@ class RelationControllerTest < ActionController::TestCase
                  "saved relation does not contain exactly one member"
     assert_equal checkrelation.tags.length, 1,
                  "saved relation does not contain exactly one tag"
-    assert_equal changeset_id, checkrelation.changeset.id,
+    assert_equal changeset.id, checkrelation.changeset.id,
                  "saved relation does not belong in the changeset it was assigned to"
-    assert_equal users(:public_user).id, checkrelation.changeset.user_id,
+    assert_equal user.id, checkrelation.changeset.user_id,
                  "saved relation does not belong to user that created it"
     assert_equal true, checkrelation.visible,
                  "saved relation is not visible"
     # ok the relation is there but can we also retrieve it?
 
-    get :read, :id => relationid
+    get :read, :params => { :id => relationid }
     assert_response :success
 
     ###
     # create an relation with a node as member, this time test that we don't
     # need a role attribute to be included
-    nid = current_nodes(:used_node_1).id
-    content "<osm><relation changeset='#{changeset_id}'>" +
-            "<member  ref='#{nid}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
+    content "<osm><relation changeset='#{changeset.id}'>" +
+            "<member  ref='#{node.id}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
     assert_response :success,
@@ -280,24 +324,22 @@ class RelationControllerTest < ActionController::TestCase
                  "saved relation does not contain exactly one member"
     assert_equal checkrelation.tags.length, 1,
                  "saved relation does not contain exactly one tag"
-    assert_equal changeset_id, checkrelation.changeset.id,
+    assert_equal changeset.id, checkrelation.changeset.id,
                  "saved relation does not belong in the changeset it was assigned to"
-    assert_equal users(:public_user).id, checkrelation.changeset.user_id,
+    assert_equal user.id, checkrelation.changeset.user_id,
                  "saved relation does not belong to user that created it"
     assert_equal true, checkrelation.visible,
                  "saved relation is not visible"
     # ok the relation is there but can we also retrieve it?
 
-    get :read, :id => relationid
+    get :read, :params => { :id => relationid }
     assert_response :success
 
     ###
     # create an relation with a way and a node as members
-    nid = current_nodes(:used_node_1).id
-    wid = current_ways(:used_way).id
-    content "<osm><relation changeset='#{changeset_id}'>" +
-            "<member type='node' ref='#{nid}' role='some'/>" +
-            "<member type='way' ref='#{wid}' role='other'/>" +
+    content "<osm><relation changeset='#{changeset.id}'>" +
+            "<member type='node' ref='#{node.id}' role='some'/>" +
+            "<member type='way' ref='#{way.id}' role='other'/>" +
             "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
@@ -313,14 +355,14 @@ class RelationControllerTest < ActionController::TestCase
                  "saved relation does not have exactly two members"
     assert_equal checkrelation.tags.length, 1,
                  "saved relation does not contain exactly one tag"
-    assert_equal changeset_id, checkrelation.changeset.id,
+    assert_equal changeset.id, checkrelation.changeset.id,
                  "saved relation does not belong in the changeset it was assigned to"
-    assert_equal users(:public_user).id, checkrelation.changeset.user_id,
+    assert_equal user.id, checkrelation.changeset.user_id,
                  "saved relation does not belong to user that created it"
     assert_equal true, checkrelation.visible,
                  "saved relation is not visible"
     # ok the relation is there but can we also retrieve it?
-    get :read, :id => relationid
+    get :read, :params => { :id => relationid }
     assert_response :success
   end
 
@@ -335,15 +377,18 @@ class RelationControllerTest < ActionController::TestCase
   # josm-dev.
   ## FIXME Move this to an integration test
   def test_update_relation_tags
-    basic_authorization "test@example.com", "test"
-    rel_id = current_relations(:multi_tag_relation).id
-    cs_id = changesets(:public_user_first_change).id
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    relation = create(:relation)
+    create_list(:relation_tag, 4, :relation => relation)
 
-    with_relation(rel_id) do |rel|
+    basic_authorization user.email, "test"
+
+    with_relation(relation.id) do |rel|
       # alter one of the tags
       tag = rel.find("//osm/relation/tag").first
       tag["v"] = "some changed value"
-      update_changeset(rel, cs_id)
+      update_changeset(rel, changeset.id)
 
       # check that the downloaded tags are the same as the uploaded tags...
       new_version = with_update(rel) do |new_rel|
@@ -351,10 +396,10 @@ class RelationControllerTest < ActionController::TestCase
       end
 
       # check the original one in the current_* table again
-      with_relation(rel_id) { |r| assert_tags_equal rel, r }
+      with_relation(relation.id) { |r| assert_tags_equal rel, r }
 
       # now check the version in the history
-      with_relation(rel_id, new_version) { |r| assert_tags_equal rel, r }
+      with_relation(relation.id, new_version) { |r| assert_tags_equal rel, r }
     end
   end
 
@@ -364,15 +409,18 @@ class RelationControllerTest < ActionController::TestCase
   # and the API gives sensible results. this is to test a case that
   # gregory marler noticed and posted to josm-dev.
   def test_update_relation_tags_via_upload
-    basic_authorization users(:public_user).email, "test"
-    rel_id = current_relations(:multi_tag_relation).id
-    cs_id = changesets(:public_user_first_change).id
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    relation = create(:relation)
+    create_list(:relation_tag, 4, :relation => relation)
 
-    with_relation(rel_id) do |rel|
+    basic_authorization user.email, "test"
+
+    with_relation(relation.id) do |rel|
       # alter one of the tags
       tag = rel.find("//osm/relation/tag").first
       tag["v"] = "some changed value"
-      update_changeset(rel, cs_id)
+      update_changeset(rel, changeset.id)
 
       # check that the downloaded tags are the same as the uploaded tags...
       new_version = with_update_diff(rel) do |new_rel|
@@ -380,22 +428,24 @@ class RelationControllerTest < ActionController::TestCase
       end
 
       # check the original one in the current_* table again
-      with_relation(rel_id) { |r| assert_tags_equal rel, r }
+      with_relation(relation.id) { |r| assert_tags_equal rel, r }
 
       # now check the version in the history
-      with_relation(rel_id, new_version) { |r| assert_tags_equal rel, r }
+      with_relation(relation.id, new_version) { |r| assert_tags_equal rel, r }
     end
   end
 
   def test_update_wrong_id
-    basic_authorization users(:public_user).email, "test"
-    rel_id = current_relations(:multi_tag_relation).id
-    cs_id = changesets(:public_user_first_change).id
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    relation = create(:relation)
+    other_relation = create(:relation)
 
-    with_relation(rel_id) do |rel|
-      update_changeset(rel, cs_id)
+    basic_authorization user.email, "test"
+    with_relation(relation.id) do |rel|
+      update_changeset(rel, changeset.id)
       content rel
-      put :update, :id => current_relations(:visible_relation).id
+      put :update, :params => { :id => other_relation.id }
       assert_response :bad_request
     end
   end
@@ -405,13 +455,13 @@ class RelationControllerTest < ActionController::TestCase
   # -------------------------------------
 
   def test_create_invalid
-    basic_authorization users(:public_user).email, "test"
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
 
-    # put the relation in a dummy fixture changset
-    changeset_id = changesets(:public_user_first_change).id
+    basic_authorization user.email, "test"
 
     # create a relation with non-existing node as member
-    content "<osm><relation changeset='#{changeset_id}'>" +
+    content "<osm><relation changeset='#{changeset.id}'>" +
             "<member type='node' ref='0'/><tag k='test' v='yes' />" +
             "</relation></osm>"
     put :create
@@ -425,14 +475,15 @@ class RelationControllerTest < ActionController::TestCase
   # Test creating a relation, with some invalid XML
   # -------------------------------------
   def test_create_invalid_xml
-    basic_authorization users(:public_user).email, "test"
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    node = create(:node)
 
-    # put the relation in a dummy fixture changeset that works
-    changeset_id = changesets(:public_user_first_change).id
+    basic_authorization user.email, "test"
 
     # create some xml that should return an error
-    content "<osm><relation changeset='#{changeset_id}'>" +
-            "<member type='type' ref='#{current_nodes(:used_node_1).id}' role=''/>" +
+    content "<osm><relation changeset='#{changeset.id}'>" +
+            "<member type='type' ref='#{node.id}' role=''/>" +
             "<tag k='tester' v='yep'/></relation></osm>"
     put :create
     # expect failure
@@ -446,130 +497,135 @@ class RelationControllerTest < ActionController::TestCase
   # -------------------------------------
 
   def test_delete
+    private_user = create(:user, :data_public => false)
+    private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
+    user = create(:user)
+    closed_changeset = create(:changeset, :closed, :user => user)
+    changeset = create(:changeset, :user => user)
+    relation = create(:relation)
+    used_relation = create(:relation)
+    super_relation = create(:relation_member, :member => used_relation).relation
+    deleted_relation = create(:relation, :deleted)
+    multi_tag_relation = create(:relation)
+    create_list(:relation_tag, 4, :relation => multi_tag_relation)
+
     ## First try to delete relation without auth
-    delete :delete, :id => current_relations(:visible_relation).id
+    delete :delete, :params => { :id => relation.id }
     assert_response :unauthorized
 
     ## Then try with the private user, to make sure that you get a forbidden
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(private_user.email, "test")
 
     # this shouldn't work, as we should need the payload...
-    delete :delete, :id => current_relations(:visible_relation).id
+    delete :delete, :params => { :id => relation.id }
     assert_response :forbidden
 
     # try to delete without specifying a changeset
-    content "<osm><relation id='#{current_relations(:visible_relation).id}'/></osm>"
-    delete :delete, :id => current_relations(:visible_relation).id
+    content "<osm><relation id='#{relation.id}'/></osm>"
+    delete :delete, :params => { :id => relation.id }
     assert_response :forbidden
 
     # try to delete with an invalid (closed) changeset
-    content update_changeset(current_relations(:visible_relation).to_xml,
-                             changesets(:normal_user_closed_change).id)
-    delete :delete, :id => current_relations(:visible_relation).id
+    content update_changeset(relation.to_xml,
+                             private_user_closed_changeset.id)
+    delete :delete, :params => { :id => relation.id }
     assert_response :forbidden
 
     # try to delete with an invalid (non-existent) changeset
-    content update_changeset(current_relations(:visible_relation).to_xml, 0)
-    delete :delete, :id => current_relations(:visible_relation).id
+    content update_changeset(relation.to_xml, 0)
+    delete :delete, :params => { :id => relation.id }
     assert_response :forbidden
 
     # this won't work because the relation is in-use by another relation
-    content(relations(:used_relation).to_xml)
-    delete :delete, :id => current_relations(:used_relation).id
+    content(used_relation.to_xml)
+    delete :delete, :params => { :id => used_relation.id }
     assert_response :forbidden
 
     # this should work when we provide the appropriate payload...
-    content(relations(:visible_relation).to_xml)
-    delete :delete, :id => current_relations(:visible_relation).id
+    content(relation.to_xml)
+    delete :delete, :params => { :id => relation.id }
     assert_response :forbidden
 
     # this won't work since the relation is already deleted
-    content(relations(:invisible_relation).to_xml)
-    delete :delete, :id => current_relations(:invisible_relation).id
-    assert_response :forbidden
-
-    # this works now because the relation which was using this one
-    # has been deleted.
-    content(relations(:used_relation).to_xml)
-    delete :delete, :id => current_relations(:used_relation).id
+    content(deleted_relation.to_xml)
+    delete :delete, :params => { :id => deleted_relation.id }
     assert_response :forbidden
 
     # this won't work since the relation never existed
-    delete :delete, :id => 0
+    delete :delete, :params => { :id => 0 }
     assert_response :forbidden
 
     ## now set auth for the public user
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     # this shouldn't work, as we should need the payload...
-    delete :delete, :id => current_relations(:visible_relation).id
+    delete :delete, :params => { :id => relation.id }
     assert_response :bad_request
 
     # try to delete without specifying a changeset
-    content "<osm><relation id='#{current_relations(:visible_relation).id}' version='#{current_relations(:visible_relation).version}' /></osm>"
-    delete :delete, :id => current_relations(:visible_relation).id
+    content "<osm><relation id='#{relation.id}' version='#{relation.version}' /></osm>"
+    delete :delete, :params => { :id => relation.id }
     assert_response :bad_request
     assert_match(/Changeset id is missing/, @response.body)
 
     # try to delete with an invalid (closed) changeset
-    content update_changeset(current_relations(:visible_relation).to_xml,
-                             changesets(:normal_user_closed_change).id)
-    delete :delete, :id => current_relations(:visible_relation).id
+    content update_changeset(relation.to_xml,
+                             closed_changeset.id)
+    delete :delete, :params => { :id => relation.id }
     assert_response :conflict
 
     # try to delete with an invalid (non-existent) changeset
-    content update_changeset(current_relations(:visible_relation).to_xml, 0)
-    delete :delete, :id => current_relations(:visible_relation).id
+    content update_changeset(relation.to_xml, 0)
+    delete :delete, :params => { :id => relation.id }
     assert_response :conflict
 
     # this won't work because the relation is in a changeset owned by someone else
-    content(relations(:used_relation).to_xml)
-    delete :delete, :id => current_relations(:used_relation).id
+    content update_changeset(relation.to_xml, create(:changeset).id)
+    delete :delete, :params => { :id => relation.id }
     assert_response :conflict,
                     "shouldn't be able to delete a relation in a changeset owned by someone else (#{@response.body})"
 
     # this won't work because the relation in the payload is different to that passed
-    content(relations(:public_used_relation).to_xml)
-    delete :delete, :id => current_relations(:used_relation).id
-    assert_not_equal relations(:public_used_relation).id, current_relations(:used_relation).id
+    content update_changeset(relation.to_xml, changeset.id)
+    delete :delete, :params => { :id => create(:relation).id }
     assert_response :bad_request, "shouldn't be able to delete a relation when payload is different to the url"
 
     # this won't work because the relation is in-use by another relation
-    content(relations(:public_used_relation).to_xml)
-    delete :delete, :id => current_relations(:public_used_relation).id
+    content update_changeset(used_relation.to_xml, changeset.id)
+    delete :delete, :params => { :id => used_relation.id }
     assert_response :precondition_failed,
                     "shouldn't be able to delete a relation used in a relation (#{@response.body})"
-    assert_equal "Precondition failed: The relation 5 is used in relation 6.", @response.body
+    assert_equal "Precondition failed: The relation #{used_relation.id} is used in relation #{super_relation.id}.", @response.body
 
     # this should work when we provide the appropriate payload...
-    content(relations(:multi_tag_relation).to_xml)
-    delete :delete, :id => current_relations(:multi_tag_relation).id
+    content update_changeset(multi_tag_relation.to_xml, changeset.id)
+    delete :delete, :params => { :id => multi_tag_relation.id }
     assert_response :success
 
     # valid delete should return the new version number, which should
     # be greater than the old version number
-    assert @response.body.to_i > current_relations(:visible_relation).version,
+    assert @response.body.to_i > multi_tag_relation.version,
            "delete request should return a new version number for relation"
 
     # this won't work since the relation is already deleted
-    content(relations(:invisible_relation).to_xml)
-    delete :delete, :id => current_relations(:invisible_relation).id
+    content update_changeset(deleted_relation.to_xml, changeset.id)
+    delete :delete, :params => { :id => deleted_relation.id }
     assert_response :gone
 
     # Public visible relation needs to be deleted
-    content(relations(:public_visible_relation).to_xml)
-    delete :delete, :id => current_relations(:public_visible_relation).id
+    content update_changeset(super_relation.to_xml, changeset.id)
+    delete :delete, :params => { :id => super_relation.id }
     assert_response :success
 
     # this works now because the relation which was using this one
     # has been deleted.
-    content(relations(:public_used_relation).to_xml)
-    delete :delete, :id => current_relations(:public_used_relation).id
+    content update_changeset(used_relation.to_xml, changeset.id)
+    delete :delete, :params => { :id => used_relation.id }
     assert_response :success,
                     "should be able to delete a relation used in an old relation (#{@response.body})"
 
     # this won't work since the relation never existed
-    delete :delete, :id => 0
+    delete :delete, :params => { :id => 0 }
     assert_response :not_found
   end
 
@@ -577,11 +633,18 @@ class RelationControllerTest < ActionController::TestCase
   # when a relation's tag is modified then it should put the bounding
   # box of all its members into the changeset.
   def test_tag_modify_bounding_box
-    # in current fixtures, relation 5 contains nodes 3 and 5 (node 3
-    # indirectly via way 3), so the bbox should be [3,3,5,5].
+    relation = create(:relation)
+    node1 = create(:node, :lat => 3, :lon => 3)
+    node2 = create(:node, :lat => 5, :lon => 5)
+    way = create(:way)
+    create(:way_node, :way => way, :node => node1)
+    create(:relation_member, :relation => relation, :member => way)
+    create(:relation_member, :relation => relation, :member => node2)
+    # the relation contains nodes1 and node2 (node1
+    # indirectly via the way), so the bbox should be [3,3,5,5].
     check_changeset_modify(BoundingBox.new(3, 3, 5, 5)) do |changeset_id|
       # add a tag to an existing relation
-      relation_xml = current_relations(:visible_relation).to_xml
+      relation_xml = relation.to_xml
       relation_element = relation_xml.find("//osm/relation").first
       new_tag = XML::Node.new("tag")
       new_tag["k"] = "some_new_tag"
@@ -593,7 +656,7 @@ class RelationControllerTest < ActionController::TestCase
 
       # upload the change
       content relation_xml
-      put :update, :id => current_relations(:visible_relation).id
+      put :update, :params => { :id => relation.id }
       assert_response :success, "can't update relation for tag/bbox test"
     end
   end
@@ -602,15 +665,19 @@ class RelationControllerTest < ActionController::TestCase
   # add a member to a relation and check the bounding box is only that
   # element.
   def test_add_member_bounding_box
-    relation_id = current_relations(:visible_relation).id
+    relation = create(:relation)
+    node1 = create(:node, :lat => 4, :lon => 4)
+    node2 = create(:node, :lat => 7, :lon => 7)
+    way1 = create(:way)
+    create(:way_node, :way => way1, :node => create(:node, :lat => 8, :lon => 8))
+    way2 = create(:way)
+    create(:way_node, :way => way2, :node => create(:node, :lat => 9, :lon => 9), :sequence_id => 1)
+    create(:way_node, :way => way2, :node => create(:node, :lat => 10, :lon => 10), :sequence_id => 2)
 
-    [current_nodes(:used_node_1),
-     current_nodes(:used_node_2),
-     current_ways(:used_way),
-     current_ways(:way_with_versions)].each_with_index do |element, _version|
+    [node1, node2, way1, way2].each do |element|
       bbox = element.bbox.to_unscaled
       check_changeset_modify(bbox) do |changeset_id|
-        relation_xml = Relation.find(relation_id).to_xml
+        relation_xml = Relation.find(relation.id).to_xml
         relation_element = relation_xml.find("//osm/relation").first
         new_member = XML::Node.new("member")
         new_member["ref"] = element.id.to_s
@@ -623,11 +690,11 @@ class RelationControllerTest < ActionController::TestCase
 
         # upload the change
         content relation_xml
-        put :update, :id => current_relations(:visible_relation).id
+        put :update, :params => { :id => relation.id }
         assert_response :success, "can't update relation for add #{element.class}/bbox test: #{@response.body}"
 
         # get it back and check the ordering
-        get :read, :id => relation_id
+        get :read, :params => { :id => relation.id }
         assert_response :success, "can't read back the relation: #{@response.body}"
         check_ordering(relation_xml, @response.body)
       end
@@ -638,11 +705,17 @@ class RelationControllerTest < ActionController::TestCase
   # remove a member from a relation and check the bounding box is
   # only that element.
   def test_remove_member_bounding_box
+    relation = create(:relation)
+    node1 = create(:node, :lat => 3, :lon => 3)
+    node2 = create(:node, :lat => 5, :lon => 5)
+    create(:relation_member, :relation => relation, :member => node1)
+    create(:relation_member, :relation => relation, :member => node2)
+
     check_changeset_modify(BoundingBox.new(5, 5, 5, 5)) do |changeset_id|
       # remove node 5 (5,5) from an existing relation
-      relation_xml = current_relations(:visible_relation).to_xml
+      relation_xml = relation.to_xml
       relation_xml
-        .find("//osm/relation/member[@type='node'][@ref='5']")
+        .find("//osm/relation/member[@type='node'][@ref='#{node2.id}']")
         .first.remove!
 
       # update changeset ID to point to new changeset
@@ -650,7 +723,7 @@ class RelationControllerTest < ActionController::TestCase
 
       # upload the change
       content relation_xml
-      put :update, :id => current_relations(:visible_relation).id
+      put :update, :params => { :id => relation.id }
       assert_response :success, "can't update relation for remove node/bbox test"
     end
   end
@@ -658,17 +731,25 @@ class RelationControllerTest < ActionController::TestCase
   ##
   # check that relations are ordered
   def test_relation_member_ordering
-    basic_authorization(users(:public_user).email, "test")
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    node1 = create(:node)
+    node2 = create(:node)
+    node3 = create(:node)
+    way1 = create(:way_with_nodes, :nodes_count => 2)
+    way2 = create(:way_with_nodes, :nodes_count => 2)
 
-    doc_str = <<OSM
-<osm>
- <relation changeset='4'>
-  <member ref='1' type='node' role='first'/>
-  <member ref='3' type='node' role='second'/>
-  <member ref='1' type='way' role='third'/>
-  <member ref='3' type='way' role='fourth'/>
- </relation>
-</osm>
+    basic_authorization(user.email, "test")
+
+    doc_str = <<OSM.strip_heredoc
+      <osm>
+       <relation changeset='#{changeset.id}'>
+        <member ref='#{node1.id}' type='node' role='first'/>
+        <member ref='#{node2.id}' type='node' role='second'/>
+        <member ref='#{way1.id}' type='way' role='third'/>
+        <member ref='#{way2.id}' type='way' role='fourth'/>
+       </relation>
+      </osm>
 OSM
     doc = XML::Parser.string(doc_str).parse
 
@@ -678,13 +759,13 @@ OSM
     relation_id = @response.body.to_i
 
     # get it back and check the ordering
-    get :read, :id => relation_id
+    get :read, :params => { :id => relation_id }
     assert_response :success, "can't read back the relation: #{@response.body}"
     check_ordering(doc, @response.body)
 
     # insert a member at the front
     new_member = XML::Node.new "member"
-    new_member["ref"] = 5.to_s
+    new_member["ref"] = node3.id.to_s
     new_member["type"] = "node"
     new_member["role"] = "new first"
     doc.find("//osm/relation").first.child.prev = new_member
@@ -694,18 +775,18 @@ OSM
 
     # upload the next version of the relation
     content doc
-    put :update, :id => relation_id
+    put :update, :params => { :id => relation_id }
     assert_response :success, "can't update relation: #{@response.body}"
     assert_equal 2, @response.body.to_i
 
     # get it back again and check the ordering again
-    get :read, :id => relation_id
+    get :read, :params => { :id => relation_id }
     assert_response :success, "can't read back the relation: #{@response.body}"
     check_ordering(doc, @response.body)
 
     # check the ordering in the history tables:
     with_controller(OldRelationController.new) do
-      get :version, :id => relation_id, :version => 2
+      get :version, :params => { :id => relation_id, :version => 2 }
       assert_response :success, "can't read back version 2 of the relation #{relation_id}"
       check_ordering(doc, @response.body)
     end
@@ -714,27 +795,33 @@ OSM
   ##
   # check that relations can contain duplicate members
   def test_relation_member_duplicates
-    doc_str = <<OSM
-<osm>
- <relation changeset='4'>
-  <member ref='1' type='node' role='forward'/>
-  <member ref='3' type='node' role='forward'/>
-  <member ref='1' type='node' role='forward'/>
-  <member ref='3' type='node' role='forward'/>
- </relation>
-</osm>
+    private_user = create(:user, :data_public => false)
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    node1 = create(:node)
+    node2 = create(:node)
+
+    doc_str = <<OSM.strip_heredoc
+      <osm>
+       <relation changeset='#{changeset.id}'>
+        <member ref='#{node1.id}' type='node' role='forward'/>
+        <member ref='#{node2.id}' type='node' role='forward'/>
+        <member ref='#{node1.id}' type='node' role='forward'/>
+        <member ref='#{node2.id}' type='node' role='forward'/>
+       </relation>
+      </osm>
 OSM
     doc = XML::Parser.string(doc_str).parse
 
     ## First try with the private user
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(private_user.email, "test")
 
     content doc
     put :create
     assert_response :forbidden
 
     ## Now try with the public user
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     content doc
     put :create
@@ -742,7 +829,7 @@ OSM
     relation_id = @response.body.to_i
 
     # get it back and check the ordering
-    get :read, :id => relation_id
+    get :read, :params => { :id => relation_id }
     assert_response :success, "can't read back the relation: #{relation_id}"
     check_ordering(doc, @response.body)
   end
@@ -750,18 +837,25 @@ OSM
   ##
   # test that the ordering of elements in the history is the same as in current.
   def test_history_ordering
-    doc_str = <<OSM
-<osm>
- <relation changeset='4'>
-  <member ref='1' type='node' role='forward'/>
-  <member ref='5' type='node' role='forward'/>
-  <member ref='4' type='node' role='forward'/>
-  <member ref='3' type='node' role='forward'/>
- </relation>
-</osm>
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    node1 = create(:node)
+    node2 = create(:node)
+    node3 = create(:node)
+    node4 = create(:node)
+
+    doc_str = <<OSM.strip_heredoc
+      <osm>
+       <relation changeset='#{changeset.id}'>
+        <member ref='#{node1.id}' type='node' role='forward'/>
+        <member ref='#{node4.id}' type='node' role='forward'/>
+        <member ref='#{node3.id}' type='node' role='forward'/>
+        <member ref='#{node2.id}' type='node' role='forward'/>
+       </relation>
+      </osm>
 OSM
     doc = XML::Parser.string(doc_str).parse
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
     content doc
     put :create
@@ -769,13 +863,13 @@ OSM
     relation_id = @response.body.to_i
 
     # check the ordering in the current tables:
-    get :read, :id => relation_id
+    get :read, :params => { :id => relation_id }
     assert_response :success, "can't read back the relation: #{@response.body}"
     check_ordering(doc, @response.body)
 
     # check the ordering in the history tables:
     with_controller(OldRelationController.new) do
-      get :version, :id => relation_id, :version => 1
+      get :version, :params => { :id => relation_id, :version => 1 }
       assert_response :success, "can't read back version 1 of the relation: #{@response.body}"
       check_ordering(doc, @response.body)
     end
@@ -785,8 +879,16 @@ OSM
   # remove all the members from a relation. the result is pretty useless, but
   # still technically valid.
   def test_remove_all_members
+    relation = create(:relation)
+    node1 = create(:node, :lat => 3, :lon => 3)
+    node2 = create(:node, :lat => 5, :lon => 5)
+    way = create(:way)
+    create(:way_node, :way => way, :node => node1)
+    create(:relation_member, :relation => relation, :member => way)
+    create(:relation_member, :relation => relation, :member => node2)
+
     check_changeset_modify(BoundingBox.new(3, 3, 5, 5)) do |changeset_id|
-      relation_xml = current_relations(:visible_relation).to_xml
+      relation_xml = relation.to_xml
       relation_xml
         .find("//osm/relation/member")
         .each(&:remove!)
@@ -796,9 +898,9 @@ OSM
 
       # upload the change
       content relation_xml
-      put :update, :id => current_relations(:visible_relation).id
+      put :update, :params => { :id => relation.id }
       assert_response :success, "can't update relation for remove all members test"
-      checkrelation = Relation.find(current_relations(:visible_relation).id)
+      checkrelation = Relation.find(relation.id)
       assert_not_nil(checkrelation,
                      "uploaded relation not found in database after upload")
       assert_equal(0, checkrelation.members.length,
@@ -834,7 +936,7 @@ OSM
   # that the changeset bounding box is +bbox+.
   def check_changeset_modify(bbox)
     ## First test with the private user to check that you get a forbidden
-    basic_authorization(users(:normal_user).email, "test")
+    basic_authorization(create(:user, :data_public => false).email, "test")
 
     # create a new changeset for this operation, so we are assured
     # that the bounding box will be newly-generated.
@@ -845,7 +947,7 @@ OSM
     end
 
     ## Now do the whole thing with the public user
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:user).email, "test")
 
     # create a new changeset for this operation, so we are assured
     # that the bounding box will be newly-generated.
@@ -861,14 +963,14 @@ OSM
 
     # now download the changeset to check its bounding box
     with_controller(ChangesetController.new) do
-      get :read, :id => changeset_id
+      get :read, :params => { :id => changeset_id }
       assert_response :success, "can't re-read changeset for modify test"
       assert_select "osm>changeset", 1, "Changeset element doesn't exist in #{@response.body}"
       assert_select "osm>changeset[id='#{changeset_id}']", 1, "Changeset id=#{changeset_id} doesn't exist in #{@response.body}"
-      assert_select "osm>changeset[min_lon='#{bbox.min_lon}']", 1, "Changeset min_lon wrong in #{@response.body}"
-      assert_select "osm>changeset[min_lat='#{bbox.min_lat}']", 1, "Changeset min_lat wrong in #{@response.body}"
-      assert_select "osm>changeset[max_lon='#{bbox.max_lon}']", 1, "Changeset max_lon wrong in #{@response.body}"
-      assert_select "osm>changeset[max_lat='#{bbox.max_lat}']", 1, "Changeset max_lat wrong in #{@response.body}"
+      assert_select "osm>changeset[min_lon='#{format('%.7f', bbox.min_lon)}']", 1, "Changeset min_lon wrong in #{@response.body}"
+      assert_select "osm>changeset[min_lat='#{format('%.7f', bbox.min_lat)}']", 1, "Changeset min_lat wrong in #{@response.body}"
+      assert_select "osm>changeset[max_lon='#{format('%.7f', bbox.max_lon)}']", 1, "Changeset max_lon wrong in #{@response.body}"
+      assert_select "osm>changeset[max_lat='#{format('%.7f', bbox.max_lat)}']", 1, "Changeset max_lat wrong in #{@response.body}"
     end
   end
 
@@ -878,10 +980,10 @@ OSM
   # doc is returned.
   def with_relation(id, ver = nil)
     if ver.nil?
-      get :read, :id => id
+      get :read, :params => { :id => id }
     else
       with_controller(OldRelationController.new) do
-        get :version, :id => id, :version => ver
+        get :version, :params => { :id => id, :version => ver }
       end
     end
     assert_response :success
@@ -895,12 +997,12 @@ OSM
   def with_update(rel)
     rel_id = rel.find("//osm/relation").first["id"].to_i
     content rel
-    put :update, :id => rel_id
+    put :update, :params => { :id => rel_id }
     assert_response :success, "can't update relation: #{@response.body}"
     version = @response.body.to_i
 
     # now get the new version
-    get :read, :id => rel_id
+    get :read, :params => { :id => rel_id }
     assert_response :success
     new_rel = xml_parse(@response.body)
 
@@ -927,13 +1029,13 @@ OSM
       modify << doc.import(rel.find("//osm/relation").first)
 
       content doc.to_s
-      post :upload, :id => cs_id
+      post :upload, :params => { :id => cs_id }
       assert_response :success, "can't upload diff relation: #{@response.body}"
       version = xml_parse(@response.body).find("//diffResult/relation").first["new_version"].to_i
     end
 
     # now get the new version
-    get :read, :id => rel_id
+    get :read, :params => { :id => rel_id }
     assert_response :success
     new_rel = xml_parse(@response.body)
 

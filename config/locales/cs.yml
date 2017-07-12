@@ -24,6 +24,7 @@
 # Author: Nemo bis
 # Author: Paxt
 # Author: Reaperman
+# Author: StenSoft
 # Author: Tchoř
 # Author: Urbanecm
 # Author: Veritaslibero
@@ -790,7 +791,7 @@ cs:
           abandoned: Zrušená železniční trať
           construction: Železnice ve výstavbě
           disused: Nepoužívaná železniční trať
-          disused_station: Nepoužívaná železniční stanice
+          disused_station: Zrušená železniční stanice
           funicular: Lanová dráha
           halt: Železniční zastávka
           historic_station: Nádraží historické železnice
@@ -936,7 +937,7 @@ cs:
         level6: Hranice okresu
         level8: Hranice obce
         level9: Hranice vesnice
-        level10: Hranice čtvrti
+        level10: Hranice městské části
     description:
       title:
         osm_nominatim: Poloha podle <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
@@ -975,11 +976,10 @@ cs:
       pod otevřenou licencí.
     intro_2_create_account: Vytvořit uživatelský účet
     partners_html: Hosting podporují %{ucl}, %{ic} a %{bytemark} a další %{partners}.
-    partners_ucl: středisko VR UCL
+    partners_ucl: UCL
     partners_ic: Imperial College London
     partners_bytemark: Bytemark Hosting
     partners_partners: partneři
-    partners_url: http://wiki.openstreetmap.org/wiki/Partners?uselang=cs
     osm_offline: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné
       údržbě mimo provoz.
     osm_read_only: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné
@@ -1044,7 +1044,7 @@ cs:
         FAQ</a>.
       more_2_html: |-
         Přestože OpenStreetMap tvoří svobodná data, nemůžeme zdarma poskytovat třetím stranám mapové API.
-        Vizte naše <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">Pravidla použití API</a>, <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Pravidla použití dlaždic</a> a <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Pravidla použití Nominatimu</a>.
+        Vizte naše <a href="https://operations.osmfoundation.org/policies/api/">Pravidla použití API</a>, <a href="https://operations.osmfoundation.org/policies/tiles/">Pravidla použití dlaždic</a> a <a href="https://operations.osmfoundation.org/policies/nominatim/">Pravidla použití Nominatimu</a>.
       contributors_title_html: Naši přispěvatelé
       contributors_intro_html: 'Našimi přispěvateli jsou tisíce jednotlivců. Také
         zahrnujeme svobodně licencovaná data z národních zeměměřických úřadů a dalších
@@ -1222,16 +1222,16 @@ cs:
       práva a licence</a>.'
     legal_title: Právní informace
     legal_html: |-
-      Tento web a mnoho dalších souvisejících služeb za komunitu oficiálně provozuje <a href='http://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF).
+      Tento web a mnoho dalších souvisejících služeb za komunitu oficiálně provozuje <a href='http://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF). Použití všech služeb provozovaných OSMF podléhá našim <a href="http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Pravidlům přijatelného užití</a> a našim <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy">Pravidlům ochrany osobních údajů</a>.
       <br>
       Pokud máte problémy či dotazy týkající se licencování, autorských práv či jiných právních záležitostí, <a href='http://osmfoundation.org/Contact'>kontaktujte prosím OSMF</a>.
     partners_title: Partneři
   notifier:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} okomentoval váš deníčkový záznam'
+      subject: '[OpenStreetMap] %{user} okomentoval deníčkový záznam'
       hi: Ahoj, uživateli %{to_user},
-      header: '%{from_user} okomentoval váš nedávný záznam v deníčku na OpenStreetMap
-        s předmětem %{subject}:'
+      header: '%{from_user} okomentoval záznam v deníčku na OpenStreetMap s předmětem
+        %{subject}:'
       footer: Také si můžete komentář přečíst na %{readurl}, komentovat na %{commenturl}
         nebo odpovědět na %{replyurl}
     message_notification:
@@ -1241,6 +1241,7 @@ cs:
       footer_html: Zprávu si také můžete přečíst na %{readurl} a odpovědět můžete
         na %{replyurl}
     friend_notification:
+      hi: Dobrý den, uživateli %{to_user},
       subject: '[OpenStreetMap] %{user} si vás přidal jako přítele'
       had_added_you: '%{user} si vás na OpenStreetMap přidal(a) jako přítele.'
       see_their_profile: Jeho/její profil si můžete prohlédnout na %{userurl}.
@@ -1326,6 +1327,7 @@ cs:
           Poznámka je umístěna poblíž %{place}.'
       details: Podrobnosti k poznámce můžete najít na %{url}.
     changeset_comment_notification:
+      hi: Dobrý den, uživateli %{to_user},
       greeting: Ahoj,
       commented:
         subject_own: '[OpenStreetMap] %{commenter} okomentoval jednu z vašich sad
@@ -1339,6 +1341,8 @@ cs:
         partial_changeset_with_comment: s komentářem „%{changeset_comment}“
         partial_changeset_without_comment: bez komentáře
       details: Více informací o této sadě změn lze nalézt na %{url}.
+      unsubscribe: Pro odhlášení z aktualizací této sady změn jděte na %{url} a klikněte
+        na „Zrušit odebírání“.
   message:
     inbox:
       title: Doručená pošta
@@ -1673,6 +1677,8 @@ cs:
     require_moderator:
       not_a_moderator: K provedení této akce musíte být moderátor.
     setup_user_auth:
+      blocked_zero_hour: Na webu OpenStreetMap máte urgentní zprávu. Tuto zprávu si
+        musíte přečíst, než budete moci ukládat své editace.
       blocked: Váš přístup k API byl zablokován. Další informace zjistíte přihlášením
         do webového rozhraní.
       need_to_see_terms: Váš přístup k API byl dočasně zablokován. Přihlašte se prosím
@@ -1703,6 +1709,8 @@ cs:
       invalid: Autorizační token je neplatný.
     revoke:
       flash: Přístup pro aplikaci %{application} byl odvolán.
+    permissions:
+      missing: Aplikaci jste nedovolili přístup k této funkci
   oauth_clients:
     new:
       title: Registrace nové aplikace
@@ -1806,6 +1814,9 @@ cs:
         github:
           title: Přihlásit se přes GitHub
           alt: Přihlásit se pomocí GitHub účtu
+        wikipedia:
+          title: Přihlásit se účtem na Wikipedii
+          alt: Přihlásit se účtem na Wikipedii
         yahoo:
           title: Přihlásit se prostřednictvím Yahoo
           alt: Přihlášení pomocí Yahoo OpenID
@@ -1852,9 +1863,10 @@ cs:
         pro přispěvatele</a>.
       email address: 'E-mailová adresa:'
       confirm email address: 'Potvrdit e-mailovou adresu:'
-      not displayed publicly: Nezobrazuje se veřejně (vizte <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
-        title="Pravidla ochrany osobních údajů na wiki, včetně části o e-mailových
-        adresách">pravidla ochrany osobních údajů</a>)
+      not displayed publicly: Vaše adresa se nezobrazuje veřejně, více informací získáte
+        v našich <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Pravidla
+        ochrany osobních údajů OSMF, včetně části o e-mailových adresách">pravidlech
+        ochrany osobních údajů</a>
       display name: 'Zobrazované jméno:'
       display name description: Vaše veřejně zobrazované uživatelské jméno. Můžete
         si ho později změnit ve svém nastavení.
@@ -2011,6 +2023,8 @@ cs:
         gravatar: Používat Gravatar
         link: http://wiki.openstreetmap.org/wiki/CS:Gravatar
         link text: co to znamená?
+        disabled: Gravatar byl zakázán.
+        enabled: Zobrazování vašeho Gravataru bylo povoleno.
       new image: Přidat obrázek
       keep image: Zachovat stávající obrázek
       delete image: Odstranit stávající obrázek
@@ -2204,6 +2218,7 @@ cs:
     helper:
       time_future: Končí za %{time}.
       until_login: Aktivní dokud se uživatel nepřihlásí.
+      time_future_and_until_login: Končí za %{time} a až se uživatel přihlásí.
       time_past: Ukončeno před %{time}.
     blocks_on:
       title: Zablokování uživatele %{name}
@@ -2288,7 +2303,7 @@ cs:
     key:
       title: Legenda
       tooltip: Legenda
-      tooltip_disabled: Legenda je dostupná pouze pro vrstvu Standardní
+      tooltip_disabled: Pro tuto vrstvu není legenda dostupná
     map:
       zoom:
         in: Přiblížit
@@ -2305,6 +2320,7 @@ cs:
         header: Mapové vrstvy
         notes: Poznámky k mapě
         data: Data k mapě
+        gps: Veřejné GPS stopy
         overlays: Zapnout vrstvy pro ladění mapy
         title: Vrstvy
       copyright: © <a href='%{copyright_url}'>přispěvatelé OpenStreetMap</a>
@@ -2343,8 +2359,10 @@ cs:
     edit_help: Posuňte si mapu a zvětšete si místo, které chcete editovat, a klikněte
       zde.
     directions:
+      ascend: Vystupte
       engines:
         graphhopper_bicycle: Na kole (GraphHopper)
+        graphhopper_car: Autem (GraphHopper)
         graphhopper_foot: Pěšky (GraphHopper)
         mapquest_bicycle: Na kole (MapQuest)
         mapquest_car: Autem (MapQuest)
@@ -2353,6 +2371,7 @@ cs:
         mapzen_bicycle: Na kole (Mapzen)
         mapzen_car: Autem (Mapzen)
         mapzen_foot: Pěšky (Mapzen)
+      descend: Sestupte
       directions: Pokyny
       distance: Vzdálenost
       errors:
@@ -2387,6 +2406,11 @@ cs:
         against_oneway_without_exit: Jeďte protisměrem na %{name}
         end_oneway_without_exit: Konec jednosměrky na %{name}
         roundabout_with_exit: Na kruhovém objezdu vyjeďte %{exit}. výjezdem na %{name}
+        turn_left_with_exit: Na kruhovém objezdu odbočte vlevo na %{name}
+        slight_left_with_exit: Na kruhovém objezdu mírně vlevo na %{name}
+        turn_right_with_exit: Na kruhovém objezdu odbočte vpravo na %{name}
+        slight_right_with_exit: Na kruhovém objezdu mírně vpravo na %{name}
+        continue_with_exit: Na kruhovém objezdu pokračujte rovně na %{name}
         unnamed: nepojmenovaná cesta
         courtesy: Trasa díky %{link}
       time: Čas
@@ -2397,6 +2421,13 @@ cs:
       nothing_found: Žádné nalezené objekty
       error: 'Chyba při připojování k %{server}: %{error}'
       timeout: Vypršel čas při připojování k %{server}
+    context:
+      directions_from: Navigovat odtud
+      directions_to: Navigovat sem
+      add_note: Přidat sem poznámku
+      show_address: Zobrazit adresu
+      query_features: Průzkum prvků
+      centre_map: Zde vystředit mapu
   redaction:
     edit:
       description: Popis

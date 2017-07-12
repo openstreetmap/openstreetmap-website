@@ -46,7 +46,7 @@ class AmfController < ApplicationController
 
   def amf_read
     self.status = :ok
-    self.content_type = Mime::AMF
+    self.content_type = Mime[:amf]
     self.response_body = Dispatcher.new(request.raw_post) do |message, *args|
       logger.info("Executing AMF #{message}(#{args.join(',')})")
 
@@ -74,7 +74,7 @@ class AmfController < ApplicationController
     err = false                       # Abort batch on error
 
     self.status = :ok
-    self.content_type = Mime::AMF
+    self.content_type = Mime[:amf]
     self.response_body = Dispatcher.new(request.raw_post) do |message, *args|
       logger.info("Executing AMF #{message}")
 
@@ -86,14 +86,14 @@ class AmfController < ApplicationController
           orn = renumberednodes.dup
           result = putway(renumberednodes, *args)
           result[4] = renumberednodes.reject { |k, _v| orn.key?(k) }
-          renumberedways[result[2]] = result[3] if result[0] == 0 && result[2] != result[3]
+          renumberedways[result[2]] = result[3] if result[0].zero? && result[2] != result[3]
         when "putrelation" then
           result = putrelation(renumberednodes, renumberedways, *args)
         when "deleteway" then
           result = deleteway(*args)
         when "putpoi" then
           result = putpoi(*args)
-          renumberednodes[result[2]] = result[3] if result[0] == 0 && result[2] != result[3]
+          renumberednodes[result[2]] = result[3] if result[0].zero? && result[2] != result[3]
         when "startchangeset" then
           result = startchangeset(*args)
         end
@@ -163,7 +163,7 @@ class AmfController < ApplicationController
       end
 
       # open a new changeset
-      if opennew != 0
+      if opennew.nonzero?
         cs = Changeset.new
         cs.tags = cstags
         cs.user_id = user.id
@@ -220,14 +220,14 @@ class AmfController < ApplicationController
     loaded_lang = "en"
 
     # Load English defaults
-    en = YAML.load(File.open("#{Rails.root}/config/potlatch/locales/en.yml"))["en"]
+    en = YAML.safe_load(File.open(Rails.root.join("config", "potlatch", "locales", "en.yml")))["en"]
 
     if lang == "en"
       return [loaded_lang, en]
     else
       # Use English as a fallback
       begin
-        other = YAML.load(File.open("#{Rails.root}/config/potlatch/locales/#{lang}.yml"))[lang]
+        other = YAML.safe_load(File.open(Rails.root.join("config", "potlatch", "locales", "#{lang}.yml")))[lang]
         loaded_lang = lang
       rescue
         other = en
@@ -540,7 +540,7 @@ class AmfController < ApplicationController
       tags = strip_non_xml_chars tags
 
       relid = relid.to_i
-      visible = (visible.to_i != 0)
+      visible = visible.to_i.nonzero?
 
       new_relation = nil
       relation = nil
@@ -644,7 +644,7 @@ class AmfController < ApplicationController
           id = a[2].to_i
           version = a[3].to_i
 
-          return -2, "Server error - node with id 0 found in way #{originalway}." if id == 0
+          return -2, "Server error - node with id 0 found in way #{originalway}." if id.zero?
           return -2, "Server error - node with latitude -90 found in way #{originalway}." if lat == 90
 
           id = renumberednodes[id] if renumberednodes[id]
@@ -868,14 +868,14 @@ class AmfController < ApplicationController
 
   def getuser(token) #:doc:
     if token =~ /^(.+)\:(.+)$/
-      User.authenticate(:username => $1, :password => $2)
+      User.authenticate(:username => Regexp.last_match(1), :password => Regexp.last_match(2))
     else
       User.authenticate(:token => token)
     end
   end
 
   def getlocales
-    @locales ||= Locale.list(Dir.glob("#{Rails.root}/config/potlatch/locales/*").collect { |f| File.basename(f, ".yml") })
+    @locales ||= Locale.list(Dir.glob(Rails.root.join("config", "potlatch", "locales", "*")).collect { |f| File.basename(f, ".yml") })
   end
 
   ##
@@ -914,7 +914,7 @@ class AmfController < ApplicationController
     INNER JOIN current_ways  ON current_ways.id =current_way_nodes.id
        WHERE current_nodes.visible=TRUE
        AND current_ways.visible=TRUE
-       AND #{OSM.sql_for_area(bbox, "current_nodes.")}
+       AND #{OSM.sql_for_area(bbox, 'current_nodes.')}
     EOF
     ActiveRecord::Base.connection.select_all(sql).collect { |a| [a["wayid"].to_i, a["version"].to_i] }
   end
@@ -927,7 +927,7 @@ class AmfController < ApplicationController
        LEFT OUTER JOIN current_way_nodes cwn ON cwn.node_id=current_nodes.id
        WHERE current_nodes.visible=TRUE
        AND cwn.id IS NULL
-       AND #{OSM.sql_for_area(bbox, "current_nodes.")}
+       AND #{OSM.sql_for_area(bbox, 'current_nodes.')}
     EOF
     ActiveRecord::Base.connection.select_all(sql).each do |row|
       poitags = {}
@@ -947,7 +947,7 @@ class AmfController < ApplicationController
       FROM current_relations cr
       INNER JOIN current_relation_members crm ON crm.id=cr.id
       INNER JOIN current_nodes cn ON crm.member_id=cn.id AND crm.member_type='Node'
-       WHERE #{OSM.sql_for_area(bbox, "cn.")}
+       WHERE #{OSM.sql_for_area(bbox, 'cn.')}
       EOF
     unless way_ids.empty?
       sql += <<-EOF

@@ -1,4 +1,8 @@
 module RichText
+  SPAMMY_PHRASES = [
+    "Business Description:", "Additional Keywords:"
+  ].freeze
+
   def self.new(format, text)
     case format
     when "html" then HTML.new(text || "")
@@ -36,7 +40,13 @@ module RichText
         link_proportion = link_size.to_f / doc.content.length.to_f
       end
 
-      [link_proportion - 0.2, 0.0].max * 200 + link_count * 40
+      spammy_phrases = SPAMMY_PHRASES.count do |phrase|
+        doc.content.include?(phrase)
+      end
+
+      [link_proportion - 0.2, 0.0].max * 200 +
+        link_count * 40 +
+        spammy_phrases * 40
     end
 
     protected

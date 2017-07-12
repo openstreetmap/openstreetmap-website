@@ -47,16 +47,15 @@ module Potlatch
     # Parse and get value
     def self.getvalue(s)
       case s.getbyte
-      when 0 then return getdouble(s)                  # number
-      when 1 then return s.getbyte                     # boolean
-      when 2 then return getstring(s)                  # string
-      when 3 then return getobject(s)                  # object/hash
-      when 5 then return nil                           # null
-      when 6 then return nil                           # undefined
-      when 8 then s.read(4)                            # mixedArray
-                  return getobject(s)                  #  |
-      when 10 then return getarray(s)                  # array
-      else         return nil                          # error
+      when 0 then getdouble(s)                  # number
+      when 1 then s.getbyte                     # boolean
+      when 2 then getstring(s)                  # string
+      when 3 then getobject(s)                  # object/hash
+      when 5 then nil                           # null
+      when 6 then nil                           # undefined
+      when 8 then s.read(4) # mixedArray
+                  getobject(s)                  #  |
+      when 10 then getarray(s)                  # array
       end
     end
 
@@ -71,31 +70,31 @@ module Potlatch
 
     # Pack variables as AMF
     def self.encodevalue(n)
-      case n.class.to_s
-      when "Array"
+      case n
+      when Array
         a = 10.chr + encodelong(n.length)
         n.each do |b|
           a += encodevalue(b)
         end
         a
-      when "Hash"
+      when Hash
         a = 3.chr
         n.each do |k, v|
           a += encodestring(k.to_s) + encodevalue(v)
         end
         a + 0.chr + 0.chr + 9.chr
-      when "String"
+      when String
         2.chr + encodestring(n)
-      when "Bignum", "Fixnum", "Float"
+      when Numeric, GeoRecord::Coord
         0.chr + encodedouble(n)
-      when "NilClass"
+      when NilClass
         5.chr
-      when "TrueClass"
+      when TrueClass
         0.chr + encodedouble(1)
-      when "FalseClass"
+      when FalseClass
         0.chr + encodedouble(0)
       else
-        Rails.logger.error("Unexpected Ruby type for AMF conversion: " + n.class.to_s)
+        raise "Unexpected Ruby type for AMF conversion: #{n.class.name}"
       end
     end
 
@@ -108,7 +107,7 @@ module Potlatch
 
     # Encode number as eight-byte double precision float
     def self.encodedouble(n)
-      [n].pack("G")
+      [n.to_f].pack("G")
     end
 
     # Encode number as four-byte long
@@ -178,21 +177,21 @@ module Potlatch
       presettype = ""
       presetcategory = ""
       #	StringIO.open(txt) do |file|
-      File.open("#{Rails.root}/config/potlatch/presets.txt") do |file|
+      File.open(Rails.root.join("config", "potlatch", "presets.txt")) do |file|
         file.each_line do |line|
           t = line.chomp
           if t =~ %r{(\w+)/(\w+)}
-            presettype = $1
-            presetcategory = $2
+            presettype = Regexp.last_match(1)
+            presetcategory = Regexp.last_match(2)
             presetmenus[presettype].push(presetcategory)
             presetnames[presettype][presetcategory] = ["(no preset)"]
           elsif t =~ /^([\w\s]+):\s?(.+)$/
-            pre = $1
-            kv = $2
+            pre = Regexp.last_match(1)
+            kv = Regexp.last_match(2)
             presetnames[presettype][presetcategory].push(pre)
             presets[pre] = {}
             kv.split(",").each do |a|
-              presets[pre][$1] = $2 if a =~ /^(.+)=(.*)$/
+              presets[pre][Regexp.last_match(1)] = Regexp.last_match(2) if a =~ /^(.+)=(.*)$/
             end
           end
         end
@@ -202,14 +201,14 @@ module Potlatch
       colours = {}
       casing = {}
       areas = {}
-      File.open("#{Rails.root}/config/potlatch/colours.txt") do |file|
+      File.open(Rails.root.join("config", "potlatch", "colours.txt")) do |file|
         file.each_line do |line|
           next unless line.chomp =~ /(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/
 
-          tag = $1
-          colours[tag] = $2.hex if $2 != "-"
-          casing[tag] = $3.hex if $3 != "-"
-          areas[tag] = $4.hex if $4 != "-"
+          tag = Regexp.last_match(1)
+          colours[tag] = Regexp.last_match(2).hex if Regexp.last_match(2) != "-"
+          casing[tag] = Regexp.last_match(3).hex if Regexp.last_match(3) != "-"
+          areas[tag] = Regexp.last_match(4).hex if Regexp.last_match(4) != "-"
         end
       end
 
@@ -217,21 +216,21 @@ module Potlatch
       relcolours = {}
       relalphas = {}
       relwidths = {}
-      File.open("#{Rails.root}/config/potlatch/relation_colours.txt") do |file|
+      File.open(Rails.root.join("config", "potlatch", "relation_colours.txt")) do |file|
         file.each_line do |line|
           next unless line.chomp =~ /(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/
 
-          tag = $1
-          relcolours[tag] = $2.hex if $2 != "-"
-          relalphas[tag] = $3.to_i if $3 != "-"
-          relwidths[tag] = $4.to_i if $4 != "-"
+          tag = Regexp.last_match(1)
+          relcolours[tag] = Regexp.last_match(2).hex if Regexp.last_match(2) != "-"
+          relalphas[tag] = Regexp.last_match(3).to_i if Regexp.last_match(3) != "-"
+          relwidths[tag] = Regexp.last_match(4).to_i if Regexp.last_match(4) != "-"
         end
       end
 
       # Read POI presets
       icon_list = []
       icon_tags = {}
-      File.open("#{Rails.root}/config/potlatch/icon_presets.txt") do |file|
+      File.open(Rails.root.join("config", "potlatch", "icon_presets.txt")) do |file|
         file.each_line do |line|
           (icon, tags) = line.chomp.split("\t")
           icon_list.push(icon)
@@ -242,13 +241,13 @@ module Potlatch
 
       # Read auto-complete
       autotags = { "point" => {}, "way" => {}, "POI" => {} }
-      File.open("#{Rails.root}/config/potlatch/autocomplete.txt") do |file|
+      File.open(Rails.root.join("config", "potlatch", "autocomplete.txt")) do |file|
         file.each_line do |line|
           next unless line.chomp =~ %r{^([\w:]+)/(\w+)\s+(.+)$}
 
-          tag = $1
-          type = $2
-          values = $3
+          tag = Regexp.last_match(1)
+          type = Regexp.last_match(2)
+          values = Regexp.last_match(3)
           autotags[type][tag] = if values == "-"
                                   []
                                 else

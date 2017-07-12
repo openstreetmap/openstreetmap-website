@@ -19,7 +19,7 @@ class NodeController < ApplicationController
 
     # Assume that Node.from_xml has thrown an exception if there is an error parsing the xml
     node.create_with_history @user
-    render :text => node.id.to_s, :content_type => "text/plain"
+    render :plain => node.id.to_s
   end
 
   # Dump the details on a node given in params[:id]
@@ -29,9 +29,9 @@ class NodeController < ApplicationController
     response.last_modified = node.timestamp
 
     if node.visible
-      render :text => node.to_xml.to_s, :content_type => "text/xml"
+      render :xml => node.to_xml.to_s
     else
-      render :text => "", :status => :gone
+      head :gone
     end
   end
 
@@ -45,7 +45,7 @@ class NodeController < ApplicationController
     end
 
     node.update_from(new_node, @user)
-    render :text => node.version.to_s, :content_type => "text/plain"
+    render :plain => node.version.to_s
   end
 
   # Delete a node. Doesn't actually delete it, but retains its history
@@ -59,7 +59,7 @@ class NodeController < ApplicationController
       raise OSM::APIBadUserInput.new("The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})")
     end
     node.delete_with_history!(new_node, @user)
-    render :text => node.version.to_s, :content_type => "text/plain"
+    render :plain => node.version.to_s
   end
 
   # Dump the details on many nodes whose ids are given in the "nodes" parameter.
@@ -79,6 +79,6 @@ class NodeController < ApplicationController
       doc.root << node.to_xml_node
     end
 
-    render :text => doc.to_s, :content_type => "text/xml"
+    render :xml => doc.to_s
   end
 end

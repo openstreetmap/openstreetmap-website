@@ -8,65 +8,17 @@
   <!-- <![endif]-->
 </head>
 <body>
-<div id='id-container'></div>
-<script>
-  if (typeof iD == 'undefined' || !iD.detect().support) {
-    document.getElementById('id-container').innerHTML = 'This editor is supported ' +
-      'in Firefox, Chrome, Safari, Opera, and Internet Explorer 11 and above. ' +
-      'Please upgrade your browser or use Potlatch 2 to edit the map.';
-    document.getElementById('id-container').className = 'unsupported';
-  } else {
-    <% locale = ID::LOCALES.preferred(preferred_languages).to_s %>
-
-    var id = iD()
-      .presets(iD.data.presets)
-      .imagery(iD.data.imagery)
-      .taginfo(iD.services.taginfo())
-      .embed(true)
-      .assetPath("iD/")
-      .assetMap(<%= assets("iD").to_json.html_safe %>)
-      .locale("<%= locale %>", "<%= asset_path("iD/locales/#{locale}.json") %>")
-      .preauth({
-        <% token = @user.access_token(ID_KEY) %>
-        url: "<%= request.protocol + request.host_with_port %>",
-        oauth_consumer_key: "<%= token.client_application.key %>",
-        oauth_secret: "<%= token.client_application.secret %>",
-        oauth_token: "<%= token.token %>",
-        oauth_token_secret: "<%= token.secret %>"
-      });
-
-    id.map().on('move.embed', parent.$.throttle(250, function() {
-      if (id.inIntro()) return;
-      var zoom = ~~id.map().zoom(),
-        center = id.map().center(),
-        llz = { lon: center[0], lat: center[1], zoom: zoom };
-
-      parent.updateLinks(llz, zoom);
-
-      // Manually resolve URL to avoid iframe JS context weirdness.
-      // http://bl.ocks.org/jfirebaugh/5439412
-      var hash = parent.OSM.formatHash(llz);
-      if (hash !== parent.location.hash) {
-        parent.location.replace(parent.location.href.replace(/(#.*|$)/, hash));
-      }
-    }));
-
-    parent.$("body").on("click", "a.set_position", function (e) {
-      e.preventDefault();
-      var data = parent.$(this).data();
-
-      // 0ms timeout to avoid iframe JS context weirdness.
-      // http://bl.ocks.org/jfirebaugh/5439412
-      setTimeout(function() {
-        id.map().centerZoom(
-          [data.lon, data.lat],
-          Math.max(data.zoom || 15, 13));
-      }, 0);
-    });
-
-    d3.select('#id-container')
-      .call(id.ui());
-  }
-</script>
+<% data = {} -%>
+<% if defined? ID_KEY %>
+<% token = @user.access_token(ID_KEY) %>
+<% data[:token] = token.token -%>
+<% data[:token_secret] = token.secret -%>
+<% data[:consumer_key] = token.client_application.key -%>
+<% data[:consumer_secret] = token.client_application.secret -%>
+<% end %>
+<% data[:locale] = ID::LOCALES.preferred(preferred_languages).to_s -%>
+<% data[:locale_path] = asset_path("iD/locales/#{data[:locale]}.json") -%>
+<% data[:asset_map] = assets("iD").to_json -%>
+<%= content_tag :div, "", :id => "id-container", :data => data %>
 </body>
 </html>

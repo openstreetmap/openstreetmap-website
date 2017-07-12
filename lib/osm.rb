@@ -505,20 +505,16 @@ module OSM
   end
 
   def self.ip_to_country(ip_address)
-    Timer.timeout(4) do
-      ipinfo = Quova::IpInfo.new(ip_address) if defined?(QUOVA_USERNAME)
+    ipinfo = geoip_database.country(ip_address) if defined?(GEOIP_DATABASE)
 
-      if ipinfo && ipinfo.status == Quova::SUCCESS
-        country = ipinfo.country_code
-      else
-        country = http_client.get("http://api.hostip.info/country.php?ip=#{ip_address}").body
-        country = "GB" if country == "UK"
-      end
-
-      return country.upcase
+    if ipinfo
+      country = ipinfo.country_code2
+    else
+      country = http_client.get("http://api.hostip.info/country.php?ip=#{ip_address}").body
+      country = "GB" if country == "UK"
     end
 
-    return nil
+    return country
   rescue StandardError
     return nil
   end
@@ -526,7 +522,7 @@ module OSM
   def self.ip_location(ip_address)
     code = OSM.ip_to_country(ip_address)
 
-    if code && country = Country.find_by_code(code)
+    if code && country = Country.find(code)
       return { :minlon => country.min_lon, :minlat => country.min_lat, :maxlon => country.max_lon, :maxlat => country.max_lat }
     end
 
@@ -563,8 +559,8 @@ module OSM
 
   # Return the terms and conditions text for a given country
   def self.legal_text_for_country(country_code)
-    file_name = File.join(Rails.root, "config", "legales", country_code.to_s + ".yml")
-    file_name = File.join(Rails.root, "config", "legales", DEFAULT_LEGALE + ".yml") unless File.exist? file_name
+    file_name = Rails.root.join("config", "legales", country_code.to_s + ".yml")
+    file_name = Rails.root.join("config", "legales", DEFAULT_LEGALE + ".yml") unless File.exist? file_name
     YAML.load_file(file_name)
   end
 
@@ -573,8 +569,8 @@ module OSM
     @http_client ||= Faraday.new
   end
 
-  # Set the HTTP client to use
-  def self.http_client=(client)
-    @http_client = client
+  # Return the GeoIP database handle
+  def self.geoip_database
+    @geoip_database ||= GeoIP.new(GEOIP_DATABASE) if defined?(GEOIP_DATABASE)
   end
 end

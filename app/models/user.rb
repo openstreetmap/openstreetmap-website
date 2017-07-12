@@ -4,10 +4,12 @@ class User < ActiveRecord::Base
   has_many :traces, -> { where(:visible => true) }
   has_many :diary_entries, -> { order(:created_at => :desc) }
   has_many :diary_comments, -> { order(:created_at => :desc) }
+  has_many :diary_entry_subscriptions, :class_name => "DiaryEntrySubscription"
+  has_many :diary_subscriptions, :through => :diary_entry_subscriptions, :source => :diary_entry
   has_many :messages, -> { where(:to_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :foreign_key => :to_user_id
   has_many :new_messages, -> { where(:to_user_visible => true, :message_read => false).order(:sent_on => :desc) }, :class_name => "Message", :foreign_key => :to_user_id
   has_many :sent_messages, -> { where(:from_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :class_name => "Message", :foreign_key => :from_user_id
-  has_many :friends, -> { joins(:befriendee).where(:users => { :status => %w(active confirmed) }) }
+  has_many :friends, -> { joins(:befriendee).where(:users => { :status => %w[active confirmed] }) }
   has_many :friend_users, :through => :friends, :source => :befriendee
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
@@ -32,8 +34,8 @@ class User < ActiveRecord::Base
 
   has_many :reports
 
-  scope :visible, -> { where(:status => %w(pending active confirmed)) }
-  scope :active, -> { where(:status => %w(active confirmed)) }
+  scope :visible, -> { where(:status => %w[pending active confirmed]) }
+  scope :active, -> { where(:status => %w[active confirmed]) }
   scope :identifiable, -> { where(:data_public => true) }
 
   has_attached_file :image,
@@ -41,7 +43,7 @@ class User < ActiveRecord::Base
                     :styles => { :large => "100x100>", :small => "50x50>" }
 
   validates :display_name, :presence => true, :allow_nil => true, :length => 3..255,
-                           :exclusion => %w(new terms save confirm confirm-email go_public reset-password forgot-password suspended)
+                           :exclusion => %w[new terms save confirm confirm-email go_public reset-password forgot-password suspended]
   validates :display_name, :if => proc { |u| u.display_name_changed? },
                            :uniqueness => { :case_sensitive => false }
   validates :display_name, :if => proc { |u| u.display_name_changed? },
@@ -87,7 +89,7 @@ class User < ActiveRecord::Base
         user = nil
       end
     elsif options[:token]
-      token = UserToken.find_by_token(options[:token])
+      token = UserToken.find_by(:token => options[:token])
       user = token.user if token
     end
 
@@ -98,7 +100,7 @@ class User < ActiveRecord::Base
       user = nil
     end
 
-    token.update_column(:expiry, 1.week.from_now) if token && user
+    token.update(:expiry => 1.week.from_now) if token && user
 
     user
   end
@@ -165,13 +167,13 @@ class User < ActiveRecord::Base
   ##
   # returns true if a user is visible
   def visible?
-    %w(pending active confirmed).include? status
+    %w[pending active confirmed].include? status
   end
 
   ##
   # returns true if a user is active
   def active?
-    %w(active confirmed).include? status
+    %w[active confirmed].include? status
   end
 
   ##
@@ -220,8 +222,8 @@ class User < ActiveRecord::Base
   def spam_score
     changeset_score = changesets.size * 50
     trace_score = traces.size * 50
-    diary_entry_score = diary_entries.inject(0) { |a, e| a + e.body.spam_score }
-    diary_comment_score = diary_comments.inject(0) { |a, e| a + e.body.spam_score }
+    diary_entry_score = diary_entries.inject(0) { |acc, elem| acc + elem.body.spam_score }
+    diary_comment_score = diary_comments.inject(0) { |acc, elem| acc + elem.body.spam_score }
 
     score = description.spam_score / 4.0
     score += diary_entries.where("created_at > ?", 1.day.ago).count * 10
@@ -237,14 +239,14 @@ class User < ActiveRecord::Base
   # perform a spam check on a user
   def spam_check
     if status == "active" && spam_score > SPAM_THRESHOLD
-      update_column(:status, "suspended")
+      update(:status => "suspended")
     end
   end
 
   ##
   # return an oauth access token for a specified application
   def access_token(application_key)
-    ClientApplication.find_by_key(application_key).access_token_for_user(self)
+    ClientApplication.find_by(:key => application_key).access_token_for_user(self)
   end
 
   private

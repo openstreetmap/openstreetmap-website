@@ -7,14 +7,14 @@ class Trace < ActiveRecord::Base
 
   scope :visible, -> { where(:visible => true) }
   scope :visible_to, ->(u) { visible.where("visibility IN ('public', 'identifiable') OR user_id = ?", u) }
-  scope :visible_to_all, -> { where(:visibility => %w(public identifiable)) }
+  scope :visible_to_all, -> { where(:visibility => %w[public identifiable]) }
   scope :tagged, ->(t) { joins(:tags).where(:gpx_file_tags => { :tag => t }) }
 
   validates :user, :presence => true, :associated => true
   validates :name, :presence => true, :length => 1..255
   validates :description, :presence => { :on => :create }, :length => 1..255
   validates :timestamp, :presence => true
-  validates :visibility, :inclusion => %w(private public trackable identifiable)
+  validates :visibility, :inclusion => %w[private public trackable identifiable]
 
   def destroy
     super
@@ -29,7 +29,7 @@ class Trace < ActiveRecord::Base
 
   def tagstring=(s)
     self.tags = if s.include? ","
-                  s.split(/\s*,\s*/).select { |tag| tag !~ /^\s*$/ }.collect do |tag|
+                  s.split(/\s*,\s*/).reject { |tag| tag =~ /^\s*$/ }.collect do |tag|
                     tt = Tracetag.new
                     tt.tag = tag
                     tt
@@ -95,7 +95,7 @@ class Trace < ActiveRecord::Base
   end
 
   def mime_type
-    filetype = `/usr/bin/file -bz #{trace_name}`.chomp
+    filetype = `/usr/bin/file -Lbz #{trace_name}`.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
@@ -117,7 +117,7 @@ class Trace < ActiveRecord::Base
   end
 
   def extension_name
-    filetype = `/usr/bin/file -bz #{trace_name}`.chomp
+    filetype = `/usr/bin/file -Lbz #{trace_name}`.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
@@ -174,7 +174,7 @@ class Trace < ActiveRecord::Base
 
   # Read in xml as text and return it's Node object representation
   def self.from_xml(xml, create = false)
-    p = XML::Parser.string(xml)
+    p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
 
     doc.find("//osm/gpx_file").each do |pt|
@@ -197,7 +197,7 @@ class Trace < ActiveRecord::Base
       trace.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
-      raise OSM::APIBadUserInput.new("ID of trace cannot be zero when updating.") if trace.id == 0
+      raise OSM::APIBadUserInput.new("ID of trace cannot be zero when updating.") if trace.id.zero?
     end
 
     # We don't care about the time, as it is explicitly set on create/update/delete
@@ -218,7 +218,7 @@ class Trace < ActiveRecord::Base
 
   def xml_file
     # TODO: *nix specific, could do to work on windows... would be functionally inferior though - check for '.gz'
-    filetype = `/usr/bin/file -bz #{trace_name}`.chomp
+    filetype = `/usr/bin/file -Lbz #{trace_name}`.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
@@ -261,7 +261,7 @@ class Trace < ActiveRecord::Base
     first = true
 
     # If there are any existing points for this trace then delete them
-    Tracepoint.delete_all(:gpx_id => id)
+    Tracepoint.where(:gpx_id => id).delete_all
 
     gpx.points do |point|
       if first

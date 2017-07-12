@@ -49,7 +49,7 @@ class Node < ActiveRecord::Base
 
   # Read in xml as text and return it's Node object representation
   def self.from_xml(xml, create = false)
-    p = XML::Parser.string(xml)
+    p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
 
     doc.find("//osm/node").each do |pt|
@@ -81,7 +81,7 @@ class Node < ActiveRecord::Base
       node.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
-      raise OSM::APIBadUserInput.new("ID of node cannot be zero when updating.") if node.id == 0
+      raise OSM::APIBadUserInput.new("ID of node cannot be zero when updating.") if node.id.zero?
     end
 
     # We don't care about the time, as it is explicitly set on create/update/delete
@@ -120,10 +120,10 @@ class Node < ActiveRecord::Base
       lock!
       check_consistency(self, new_node, user)
       ways = Way.joins(:way_nodes).where(:visible => true, :current_way_nodes => { :node_id => id }).order(:id)
-      raise OSM::APIPreconditionFailedError.new("Node #{id} is still used by ways #{ways.collect(&:id).join(",")}.") unless ways.empty?
+      raise OSM::APIPreconditionFailedError.new("Node #{id} is still used by ways #{ways.collect(&:id).join(',')}.") unless ways.empty?
 
       rels = Relation.joins(:relation_members).where(:visible => true, :current_relation_members => { :member_type => "Node", :member_id => id }).order(:id)
-      raise OSM::APIPreconditionFailedError.new("Node #{id} is still used by relations #{rels.collect(&:id).join(",")}.") unless rels.empty?
+      raise OSM::APIPreconditionFailedError.new("Node #{id} is still used by relations #{rels.collect(&:id).join(',')}.") unless rels.empty?
 
       self.changeset_id = new_node.changeset_id
       self.tags = {}
@@ -232,14 +232,18 @@ class Node < ActiveRecord::Base
 
   def save_with_history!
     t = Time.now.getutc
+
+    self.version += 1
+    self.timestamp = t
+
     Node.transaction do
-      self.version += 1
-      self.timestamp = t
-      save!
+      # clone the object before saving it so that the original is
+      # still marked as dirty if we retry the transaction
+      clone.save!
 
       # Create a NodeTag
       tags = self.tags
-      NodeTag.delete_all(:node_id => id)
+      NodeTag.where(:node_id => id).delete_all
       tags.each do |k, v|
         tag = NodeTag.new
         tag.node_id = id

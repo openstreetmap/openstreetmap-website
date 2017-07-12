@@ -16,38 +16,51 @@ L.OSM.Map = L.Map.extend({
     var copyright = I18n.t('javascripts.map.copyright', {copyright_url: '/copyright'});
     var donate = I18n.t('javascripts.map.donate_link_text', {donate_url: 'http://donate.openstreetmap.org'});
 
-    this.baseLayers = [
-      new L.OSM.Mapnik({
-        attribution: copyright + " &hearts; " + donate,
-        code: "M",
-        keyid: "mapnik",
-        name: I18n.t("javascripts.map.base.standard")
-      }),
-      new L.OSM.CycleMap({
+    this.baseLayers = [];
+
+    this.baseLayers.push(new L.OSM.Mapnik({
+      attribution: copyright + " &hearts; " + donate,
+      code: "M",
+      keyid: "mapnik",
+      name: I18n.t("javascripts.map.base.standard")
+    }));
+
+    if (OSM.THUNDERFOREST_KEY) {
+      this.baseLayers.push(new L.OSM.CycleMap({
         attribution: copyright + ". Tiles courtesy of <a href='http://www.thunderforest.com/' target='_blank'>Andy Allan</a>",
+        apikey: OSM.THUNDERFOREST_KEY,
         code: "C",
         keyid: "cyclemap",
         name: I18n.t("javascripts.map.base.cycle_map")
-      }),
-      new L.OSM.TransportMap({
+      }));
+
+      this.baseLayers.push(new L.OSM.TransportMap({
         attribution: copyright + ". Tiles courtesy of <a href='http://www.thunderforest.com/' target='_blank'>Andy Allan</a>",
+        apikey: OSM.THUNDERFOREST_KEY,
         code: "T",
         keyid: "transportmap",
         name: I18n.t("javascripts.map.base.transport_map")
-      }),
-      new L.OSM.HOT({
-        attribution: copyright + ". Tiles courtesy of <a href='http://hot.openstreetmap.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>",
-        code: "H",
-        keyid: "hot",
-        name: I18n.t("javascripts.map.base.hot")
-      })
-    ];
+      }));
+    }
+
+    this.baseLayers.push(new L.OSM.HOT({
+      attribution: copyright + ". Tiles courtesy of <a href='http://hot.openstreetmap.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>",
+      code: "H",
+      keyid: "hot",
+      name: I18n.t("javascripts.map.base.hot")
+    }));
 
     this.noteLayer = new L.FeatureGroup();
     this.noteLayer.options = {code: 'N'};
 
     this.dataLayer = new L.OSM.DataLayer(null);
     this.dataLayer.options.code = 'D';
+
+    this.gpsLayer = new L.OSM.GPS({
+      pane: "overlayPane",
+      code: "G",
+      name: I18n.t("javascripts.map.base.gps")
+    });
   },
 
   updateLayers: function(layerParam) {
@@ -94,7 +107,7 @@ L.OSM.Map = L.Map.extend({
       params.mlon = latLng.lng.toFixed(precision);
     }
 
-    var url = 'http://' + OSM.SERVER_URL + '/',
+    var url = window.location.protocol + '//' + OSM.SERVER_URL + '/',
       query = querystring.stringify(params),
       hash = OSM.formatHash(this);
 
@@ -108,7 +121,8 @@ L.OSM.Map = L.Map.extend({
     var zoom = this.getZoom(),
       latLng = marker && this.hasLayer(marker) ? marker.getLatLng().wrap() : this.getCenter().wrap(),
       str = window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
-        'http://osm.org/go/' : 'http://' + window.location.hostname + '/go/',
+        window.location.protocol + '//osm.org/go/' :
+        window.location.protocol + '//' + window.location.hostname + '/go/',
       char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~",
       x = Math.round((latLng.lng + 180.0) * ((1 << 30) / 90.0)),
       y = Math.round((latLng.lat + 90.0) * ((1 << 30) / 45.0)),
@@ -195,19 +209,18 @@ L.OSM.Map = L.Map.extend({
       color: '#FF9500',
       opacity: 1,
       fillOpacity: 0,
-      clickable: false
+      interactive: false
     };
 
-    this._object = object;
-
-    if (this._objectLoader) this._objectLoader.abort();
-    if (this._objectLayer) this.removeLayer(this._objectLayer);
+    this.removeObject();
 
     var map = this;
     this._objectLoader = $.ajax({
       url: OSM.apiUrl(object),
       dataType: "xml",
       success: function (xml) {
+        map._object = object;
+
         map._objectLayer = new L.OSM.DataLayer(null, {
           styles: {
             node: objectStyle,
@@ -270,7 +283,7 @@ L.OSM.Map = L.Map.extend({
   }
 });
 
-L.Icon.Default.imagePath = "/images";
+L.Icon.Default.imagePath = "/images/";
 
 L.Icon.Default.imageUrls = {
   "/images/marker-icon.png": OSM.MARKER_ICON,

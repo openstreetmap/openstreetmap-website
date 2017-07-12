@@ -16,12 +16,16 @@ OSM = {
   MAPQUEST_DIRECTIONS_URL: <%= MAPQUEST_DIRECTIONS_URL.to_json %>,
   MAPZEN_VALHALLA_URL:     <%= MAPZEN_VALHALLA_URL.to_json %>,
   OSRM_URL:                <%= OSRM_URL.to_json %>,
+  DEFAULT_LOCALE:          <%= I18n.default_locale.to_json %>,
 
 <% if defined?(MAPQUEST_KEY) %>
   MAPQUEST_KEY:            <%= MAPQUEST_KEY.to_json %>,
 <% end %>
 <% if defined?(MAPZEN_VALHALLA_KEY) %>
   MAPZEN_VALHALLA_KEY:     <%= MAPZEN_VALHALLA_KEY.to_json %>,
+<% end %>
+<% if defined?(THUNDERFOREST_KEY) %>
+  THUNDERFOREST_KEY:       <%= THUNDERFOREST_KEY.to_json %>,
 <% end %>
 
   MARKER_GREEN:            <%= image_path("marker-green.png").to_json %>,
@@ -34,6 +38,8 @@ OSM = {
   NEW_NOTE_MARKER:         <%= image_path("new_note_marker.png").to_json %>,
   OPEN_NOTE_MARKER:        <%= image_path("open_note_marker.png").to_json %>,
   CLOSED_NOTE_MARKER:      <%= image_path("closed_note_marker.png").to_json %>,
+
+  SEARCHING:               <%= image_path("searching.gif").to_json %>,
 
   apiUrl: function (object) {
     var url = "/api/" + OSM.API_VERSION + "/" + object.type + "/" + object.id;

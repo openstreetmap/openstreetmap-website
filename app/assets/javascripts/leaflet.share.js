@@ -213,6 +213,15 @@ L.OSM.share = function (options) {
       .attr('type', 'hidden')
       .appendTo($form);
 
+    var csrf_param = $("meta[name=csrf-param]").attr("content"),
+        csrf_token = $("meta[name=csrf-token]").attr("content");
+
+    $('<input>')
+      .attr('name', csrf_param)
+      .attr('value', csrf_token)
+      .attr('type', 'hidden')
+      .appendTo($form);
+
     $('<p>')
       .attr('class', 'deemphasize')
       .html(I18n.t('javascripts.share.image_size') + ' <span id="mapnik_image_width"></span> x <span id="mapnik_image_height"></span>')

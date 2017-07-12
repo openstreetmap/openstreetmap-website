@@ -15,7 +15,7 @@ class UserRolesController < ApplicationController
   end
 
   def revoke
-    UserRole.delete_all(:user_id => @this_user.id, :role => @role)
+    UserRole.where(:user_id => @this_user.id, :role => @role).delete_all
     redirect_to :controller => "user", :action => "view", :display_name => @this_user.display_name
   end
 

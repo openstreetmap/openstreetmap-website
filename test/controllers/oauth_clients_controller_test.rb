@@ -1,8 +1,6 @@
 require "test_helper"
 
 class OauthClientsControllerTest < ActionController::TestCase
-  fixtures :users, :client_applications
-
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -37,26 +35,33 @@ class OauthClientsControllerTest < ActionController::TestCase
   end
 
   def test_index
-    user = users(:public_user)
+    user = create(:user)
+    create_list(:client_application, 2, :user => user)
 
-    get :index, :display_name => user.display_name
+    get :index,
+        :params => { :display_name => user.display_name }
     assert_response :redirect
     assert_redirected_to login_path(:referer => oauth_clients_path(:display_name => user.display_name))
 
-    get :index, { :display_name => user.display_name }, { :user => user }
+    get :index,
+        :params => { :display_name => user.display_name },
+        :session => { :user => user }
     assert_response :success
     assert_template "index"
     assert_select "div.client_application", 2
   end
 
   def test_new
-    user = users(:public_user)
+    user = create(:user)
 
-    get :new, :display_name => user.display_name
+    get :new,
+        :params => { :display_name => user.display_name }
     assert_response :redirect
     assert_redirected_to login_path(:referer => new_oauth_client_path(:display_name => user.display_name))
 
-    get :new, { :display_name => user.display_name }, { :user => user }
+    get :new,
+        :params => { :display_name => user.display_name },
+        :session => { :user => user }
     assert_response :success
     assert_template "new"
     assert_select "form", 1 do
@@ -71,67 +76,75 @@ class OauthClientsControllerTest < ActionController::TestCase
   end
 
   def test_create
-    user = users(:public_user)
+    user = create(:user)
 
     assert_difference "ClientApplication.count", 0 do
-      post :create, :display_name => user.display_name
+      post :create, :params => { :display_name => user.display_name }
     end
     assert_response :forbidden
 
     assert_difference "ClientApplication.count", 0 do
-      post :create, {
-        :display_name => user.display_name,
-        :client_application => {
-          :name => "Test Application"
-        }
-      }, { :user => user }
+      post :create,
+           :params => { :display_name => user.display_name,
+                        :client_application => { :name => "Test Application" } },
+           :session => { :user => user }
     end
     assert_response :success
     assert_template "new"
 
     assert_difference "ClientApplication.count", 1 do
-      post :create, {
-        :display_name => user.display_name,
-        :client_application => {
-          :name => "Test Application",
-          :url => "http://test.example.com/"
-        }
-      }, { :user => user }
+      post :create,
+           :params => { :display_name => user.display_name,
+                        :client_application => { :name => "Test Application",
+                                                 :url => "http://test.example.com/" } },
+           :session => { :user => user }
     end
     assert_response :redirect
-    assert_redirected_to oauth_client_path(:id => ClientApplication.find_by_name("Test Application").id)
+    assert_redirected_to oauth_client_path(:id => ClientApplication.find_by(:name => "Test Application").id)
   end
 
   def test_show
-    user = users(:public_user)
-    client = client_applications(:oauth_web_app)
+    user = create(:user)
+    client = create(:client_application, :user => user)
+    other_client = create(:client_application)
 
-    get :show, :display_name => user.display_name, :id => client.id
+    get :show,
+        :params => { :display_name => user.display_name, :id => client.id }
     assert_response :redirect
     assert_redirected_to login_path(:referer => oauth_client_path(:display_name => user.display_name, :id => client.id))
 
-    get :show, { :display_name => user.display_name, :id => client_applications(:normal_user_app).id }, { :user => user }
+    get :show,
+        :params => { :display_name => user.display_name, :id => other_client.id },
+        :session => { :user => user }
     assert_response :not_found
     assert_template "not_found"
 
-    get :show, { :display_name => user.display_name, :id => client.id }, { :user => user }
+    get :show,
+        :params => { :display_name => user.display_name, :id => client.id },
+        :session => { :user => user }
     assert_response :success
     assert_template "show"
   end
 
   def test_edit
-    user = users(:public_user)
-    client = client_applications(:oauth_web_app)
+    user = create(:user)
+    client = create(:client_application, :user => user)
+    other_client = create(:client_application)
 
-    get :edit, :display_name => user.display_name, :id => client.id
+    get :edit,
+        :params => { :display_name => user.display_name, :id => client.id }
     assert_response :redirect
     assert_redirected_to login_path(:referer => edit_oauth_client_path(:display_name => user.display_name, :id => client.id))
 
-    get :edit, { :display_name => user.display_name, :id => client_applications(:normal_user_app).id }, { :user => user }
+    get :edit,
+        :params => { :display_name => user.display_name, :id => other_client.id },
+        :session => { :user => user }
     assert_response :not_found
     assert_template "not_found"
 
-    get :edit, { :display_name => user.display_name, :id => client.id }, { :user => user }
+    get :edit,
+        :params => { :display_name => user.display_name, :id => client.id },
+        :session => { :user => user }
     assert_response :success
     assert_template "edit"
     assert_select "form", 1 do
@@ -146,56 +159,60 @@ class OauthClientsControllerTest < ActionController::TestCase
   end
 
   def test_update
-    user = users(:public_user)
-    client = client_applications(:oauth_web_app)
+    user = create(:user)
+    client = create(:client_application, :user => user)
+    other_client = create(:client_application)
 
-    put :update, :display_name => user.display_name, :id => client.id
+    put :update,
+        :params => { :display_name => user.display_name, :id => client.id }
     assert_response :forbidden
 
-    put :update, { :display_name => user.display_name, :id => client_applications(:normal_user_app).id }, { :user => user }
+    put :update,
+        :params => { :display_name => user.display_name, :id => other_client.id },
+        :session => { :user => user }
     assert_response :not_found
     assert_template "not_found"
 
-    put :update, {
-      :display_name => user.display_name,
-      :id => client.id,
-      :client_application => {
-        :name => "New Name",
-        :url => nil
-      }
-    }, { :user => user }
+    put :update,
+        :params => { :display_name => user.display_name,
+                     :id => client.id,
+                     :client_application => { :name => "New Name", :url => nil } },
+        :session => { :user => user }
     assert_response :success
     assert_template "edit"
 
-    put :update, {
-      :display_name => user.display_name,
-      :id => client.id,
-      :client_application => {
-        :name => "New Name",
-        :url => "http://new.example.com/url"
-      }
-    }, { :user => user }
+    put :update,
+        :params => { :display_name => user.display_name,
+                     :id => client.id,
+                     :client_application => { :name => "New Name", :url => "http://new.example.com/url" } },
+        :session => { :user => user }
     assert_response :redirect
     assert_redirected_to oauth_client_path(:id => client.id)
   end
 
   def test_destroy
-    user = users(:public_user)
-    client = client_applications(:oauth_web_app)
+    user = create(:user)
+    client = create(:client_application, :user => user)
+    other_client = create(:client_application)
 
     assert_difference "ClientApplication.count", 0 do
-      delete :destroy, :display_name => user.display_name, :id => client.id
+      delete :destroy,
+             :params => { :display_name => user.display_name, :id => client.id }
     end
     assert_response :forbidden
 
     assert_difference "ClientApplication.count", 0 do
-      delete :destroy, { :display_name => user.display_name, :id => client_applications(:normal_user_app).id }, { :user => user }
+      delete :destroy,
+             :params => { :display_name => user.display_name, :id => other_client.id },
+             :session => { :user => user }
     end
     assert_response :not_found
     assert_template "not_found"
 
     assert_difference "ClientApplication.count", -1 do
-      delete :destroy, { :display_name => user.display_name, :id => client.id }, { :user => user }
+      delete :destroy,
+             :params => { :display_name => user.display_name, :id => client.id },
+             :session => { :user => user }
     end
     assert_response :redirect
     assert_redirected_to oauth_clients_path(:display_name => user.display_name)

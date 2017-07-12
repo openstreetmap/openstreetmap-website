@@ -2,7 +2,7 @@ require "migrate"
 
 class PopulateNodeTagsAndRemove < ActiveRecord::Migration
   def self.up
-    have_nodes = select_value("SELECT count(*) FROM current_nodes").to_i != 0
+    have_nodes = select_value("SELECT count(*) FROM current_nodes").to_i.nonzero?
 
     if have_nodes
       prefix = File.join Dir.tmpdir, "020_populate_node_tags_and_remove.#{$PROCESS_ID}."
@@ -18,7 +18,7 @@ class PopulateNodeTagsAndRemove < ActiveRecord::Migration
       args = conn_opts.map(&:to_s) + [prefix]
       raise "#{cmd} failed" unless system cmd, *args
 
-      tempfiles = %w(nodes node_tags current_nodes current_node_tags)
+      tempfiles = %w[nodes node_tags current_nodes current_node_tags]
                   .map { |base| prefix + base }
       nodes, node_tags, current_nodes, current_node_tags = tempfiles
     end

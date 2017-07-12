@@ -32,7 +32,7 @@ class Changeset < ActiveRecord::Base
   EXPAND = 0.1
 
   # maximum number of elements allowed in a changeset
-  MAX_ELEMENTS = 50000
+  MAX_ELEMENTS = 10000
 
   # maximum time a changeset is allowed to be open for.
   MAX_TIME_OPEN = 1.day
@@ -149,7 +149,7 @@ class Changeset < ActiveRecord::Base
       save!
 
       tags = self.tags
-      ChangesetTag.delete_all(:changeset_id => id)
+      ChangesetTag.where(:changeset_id => id).delete_all
 
       tags.each do |k, v|
         tag = ChangesetTag.new

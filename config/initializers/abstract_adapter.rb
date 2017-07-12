@@ -1,29 +1,17 @@
 if defined?(ActiveRecord::ConnectionAdaptors::AbstractAdapter)
-  module ActiveRecord
-    module ConnectionAdapters
-      class AbstractAdapter
-        protected
-
-        alias old_log log
-
-        def log(sql, name)
-          if block_given?
-            old_log(sql, name) do
-              yield
-            end
+  module OpenStreetMap
+    module AbstractAdapter
+      module PropagateTimeouts
+        def translate_exception_class(e, sql)
+          if e.is_a?(Timeout::Error) || e.is_a?(OSM::APITimeoutError)
+            e
           else
-            old_log(sql, name)
-          end
-        rescue ActiveRecord::StatementInvalid => ex
-          if ex.message =~ /^OSM::APITimeoutError: /
-            raise OSM::APITimeoutError.new
-          elsif ex.message =~ /^Timeout::Error: /
-            raise Timeout::Error.new("time's up!")
-          else
-            raise
+            super(e, sql)
           end
         end
       end
     end
   end
+
+  ActiveRecord::ConnectionAdaptors::AbstractAdapter.prepend(OpenStreetMap::AbstractAdapter::PropagateTimeouts)
 end

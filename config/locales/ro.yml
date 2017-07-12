@@ -259,6 +259,7 @@ ro:
   diary_entry:
     new:
       title: O nouă înregistrare în jurnal
+      publish_button: Publică
     list:
       title: Jurnalele utilizatorilor
       title_friends: Jurnalele prietenilor
@@ -668,6 +669,7 @@ ro:
           locality: Localitate
           moor: Baltă
           municipality: Comună
+          neighbourhood: Cartier
           postcode: Cod poștal
           region: Regiune
           sea: Mare
@@ -710,6 +712,7 @@ ro:
           clothes: Magazin de haine
           confectionery: Cofetărie
           cosmetics: Magazin de cosmetice
+          deli: Deli
           dry_cleaning: Curățătorie chimică
           electronics: Magazin de electronice
           estate_agent: Agent imobiliar
@@ -754,6 +757,8 @@ ro:
           museum: Muzeu
           theme_park: Parc tematic
           zoo: Gradină zoologică
+        tunnel:
+          "yes": Tunel
         waterway:
           canal: Canal
           dam: Baraj
@@ -787,8 +792,13 @@ ro:
     edit: Modificare
     history: Istoric
     export: Exportă
+    data: Date
+    export_data: Exportă datele
+    gps_traces: Track-uri GPS
+    user_diaries: Jurnalele utilizatorilor
     edit_with: Modificare cu %{editor}
     intro_header: Bine ați venit la OpenStreetMap!
+    intro_2_create_account: Creează un cont de utilizator
     partners_partners: parteneri
     help: Ajutor
     about: Despre
@@ -808,28 +818,50 @@ ro:
       title: Despre această traducere
     native:
       title: Despre această pagină
+      mapping_link: Începeți să cartografiați
     legal_babble:
       title_html: Drepturi de autor și licență
+      contributors_title_html: Contribuitorii noștri
       infringement_title_html: Încălcarea drepturilor de autor
+      trademarks_title_html: <span id="trademarks"></span>Mărci înregistrate
   welcome_page:
     title: Bun venit!
+    basic_terms:
+      editor_html: Un <strong>editor</strong> este un program sau website pe care
+        îl puteți utiliza pentru a edita harta.
     rules:
       title: Reguli
     questions:
       title: Întrebări?
+    start_mapping: Începeți să cartografiați
+    add_a_note:
+      title: <h3>Nu aveți timp pentru editare? Adaugați o notiță<h3>
   fixthemap:
     how_to_help:
+      title: <h3>Cum poți ajuta<h3>
       join_the_community:
         title: Alăturați-vă comunității
   help_page:
     welcome:
+      url: Bun venit
       title: Bine ați venit la OSM
     beginners_guide:
       url: http://wiki.openstreetmap.org/wiki/Ro:Beginners%27_guide
+      title: Ghidul începătorilor
+    help:
+      url: https://help.openstreetmap.org/
+      title: help.openstreetmap.org
+  about_page:
+    next: Înainte
+    partners_title: Parteneri
   notifier:
     message_notification:
       hi: Salut, %{to_user},
+    friend_notification:
+      hi: Salut %{to_user},
     gpx_notification:
+      greeting: Salut,
+    email_confirm_plain:
       greeting: Salut,
     email_confirm_html:
       greeting: Salut,
@@ -840,14 +872,23 @@ ro:
     note_comment_notification:
       greeting: Salut,
     changeset_comment_notification:
+      hi: Salut %{to_user},
       greeting: Salut,
+      commented:
+        partial_changeset_without_comment: fără comentarii
   message:
     inbox:
+      title: Mesaje primite
       from: De la
+      subject: Subiect
+      date: Dată
     message_summary:
       delete_button: Şterge
     new:
+      title: Trimite mesajul
       subject: Subiect
+      send_button: Trimite
+      back_to_inbox: Înapoi la mesaje primite
       message_sent: Mesaj trimis
     outbox:
       title: Mesaje trimise
@@ -867,6 +908,7 @@ ro:
       date: Dată
       reply_button: Răspunde
       unread_button: Marchează ca necitit
+      back: Înapoi
       to: Către
     sent_message_summary:
       delete_button: Şterge
@@ -876,15 +918,30 @@ ro:
     index:
       permalink: Legătură permanentă
       shortlink: Legătură scurtată
+      createnote: Adaugă o notă
     edit:
       user_page_link: pagină de utilizator
     sidebar:
       close: Închide
     search:
+      search: Căutare
+      get_directions: Indicații de orientare
       from: De la
       to: Către
       where_am_i: Unde sunt eu?
       where_am_i_title: Descrie locaţia curentă folosind motorul de căutare
+    key:
+      table:
+        entry:
+          rail: Cale ferată
+          subway: Stație de metrou
+          tram:
+            1: tramvai
+          apron:
+            1: terminal
+          park: Parc
+    markdown_help:
+      title_html: Parsat cu <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
   trace:
     edit:
       visibility: 'Vizibilitate:'
@@ -921,6 +978,7 @@ ro:
       required: Necesar
   user:
     login:
+      email or username: 'Adresa de e-mail sau numele de utilizator:'
       password: 'Parolă:'
     reset_password:
       password: 'Parola:'
@@ -928,8 +986,35 @@ ro:
       reset: Resetează parola
       flash changed: Parola dumneavoastră a fost schimbată.
     new:
+      confirm email address: 'Confirmați adresa de e-mail:'
       password: 'Parolă:'
       confirm password: 'Confirmați parola:'
+    terms:
+      consider_pd_why: Ce este aceasta?
+    view:
+      my messages: Mesajele mele
+      my profile: Profilul meu
+      my settings: Setările mele
+      my comments: Comentariile mele
+      email address: 'Adresa de e-mail:'
+    account:
+      my settings: Setările mele
+      current email address: 'Adresa de e-mail actuală:'
+      external auth: 'Autentificare externă:'
+      openid:
+        link text: Ce este aceasta?
+      public editing:
+        enabled link text: Ce este aceasta?
+      contributor terms:
+        link text: Ce este aceasta?
+      preferred editor: 'Editor preferat:'
+      gravatar:
+        link text: Ce este aceasta?
+  user_block:
+    partial:
+      show: Arată
+    show:
+      show: Arată
   javascripts:
     share:
       title: Distribuie
@@ -941,4 +1026,6 @@ ro:
         title: Arată locația mea
     site:
       edit_disabled_tooltip: Măriți pentru a edita harta
+    context:
+      show_address: Arată adresa
 ...

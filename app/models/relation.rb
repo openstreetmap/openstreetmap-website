@@ -33,10 +33,10 @@ class Relation < ActiveRecord::Base
   scope :ways, ->(*ids) { joins(:relation_members).where(:current_relation_members => { :member_type => "Way", :member_id => ids.flatten }) }
   scope :relations, ->(*ids) { joins(:relation_members).where(:current_relation_members => { :member_type => "Relation", :member_id => ids.flatten }) }
 
-  TYPES = %w(node way relation).freeze
+  TYPES = %w[node way relation].freeze
 
   def self.from_xml(xml, create = false)
-    p = XML::Parser.string(xml)
+    p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
 
     doc.find("//osm/relation").each do |pt|
@@ -60,7 +60,7 @@ class Relation < ActiveRecord::Base
       relation.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
-      raise OSM::APIBadUserInput.new("ID of relation cannot be zero when updating.") if relation.id == 0
+      raise OSM::APIBadUserInput.new("ID of relation cannot be zero when updating.") if relation.id.zero?
     end
 
     # We don't care about the timestamp nor the visibility as these are either
@@ -281,15 +281,19 @@ class Relation < ActiveRecord::Base
   private
 
   def save_with_history!
+    t = Time.now.getutc
+
+    self.version += 1
+    self.timestamp = t
+
     Relation.transaction do
       # have to be a little bit clever here - to detect if any tags
       # changed then we have to monitor their before and after state.
       tags_changed = false
 
-      t = Time.now.getutc
-      self.version += 1
-      self.timestamp = t
-      save!
+      # clone the object before saving it so that the original is
+      # still marked as dirty if we retry the transaction
+      clone.save!
 
       tags = self.tags.clone
       relation_tags.each do |old_tag|
@@ -313,7 +317,7 @@ class Relation < ActiveRecord::Base
       # if there are left-over tags then they are new and will have to
       # be added.
       tags_changed |= !tags.empty?
-      RelationTag.delete_all(:relation_id => id)
+      RelationTag.where(:relation_id => id).delete_all
       self.tags.each do |k, v|
         tag = RelationTag.new
         tag.relation_id = id
@@ -343,7 +347,7 @@ class Relation < ActiveRecord::Base
       # members may be in a different order and i don't feel like implementing
       # a longest common subsequence algorithm to optimise this.
       members = self.members
-      RelationMember.delete_all(:relation_id => id)
+      RelationMember.where(:relation_id => id).delete_all
       members.each_with_index do |m, i|
         mem = RelationMember.new
         mem.relation_id = id
@@ -370,7 +374,7 @@ class Relation < ActiveRecord::Base
       # materially change the rest of the relation.
       any_relations =
         changed_members.collect { |_id, type| type == "relation" }
-                       .inject(false) { |a, e| a || e }
+                       .inject(false) { |acc, elem| acc || elem }
 
       update_members = if tags_changed || any_relations
                          # add all non-relation bounding boxes to the changeset

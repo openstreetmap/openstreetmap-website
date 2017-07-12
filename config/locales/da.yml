@@ -12,10 +12,12 @@
 # Author: Hein0170
 # Author: Hylle
 # Author: Jens Jensen
+# Author: Jhertel
 # Author: JrOsm
 # Author: Kaare
 # Author: Luckas
 # Author: Macofe
+# Author: Mikini
 # Author: Nemo bis
 # Author: OleLaursen
 # Author: Peter Alberti
@@ -26,7 +28,7 @@
 da:
   time:
     formats:
-      friendly: '%e %B %Y kl. %H:%M'
+      friendly: '%e. %B %Y kl. %H:%M'
   activerecord:
     models:
       acl: Adgangskontrolliste
@@ -196,7 +198,7 @@ da:
         way: vej
         relation: relation
     start_rjs:
-      feature_warning: Henter %{num_features} funktioner, som kan gøre din browser
+      feature_warning: Henter %{num_features} kortobjekter, som kan gøre din browser
         langsom eller få den til at ikke at svare. Er du sikker på du ønsker at få
         vist disse data?
       load_data: Indlæs data
@@ -232,10 +234,10 @@ da:
         siden</abbr>
       hidden_by: Skjult af %{user} for <abbr title='%{exact_time}'>%{when} siden</abbr>
     query:
-      title: Forespørgselsfunktioner
-      introduction: Klik på kortet for at finde funktioner i nærheden.
-      nearby: Funktioner i nærheden
-      enclosing: Indkapslede områder
+      title: Find kortobjekter
+      introduction: Klik på kortet for at finde kortobjekter i nærheden.
+      nearby: Kortobjekter i nærheden
+      enclosing: Omgivende kortobjekter
   changeset:
     changeset_paging_nav:
       showing_page: Side %{page}
@@ -255,7 +257,7 @@ da:
       title: Ændringssæt
       title_user: Ændringssæt af %{user}
       title_friend: Ændringssæt af dine venner
-      title_nearby: Ændringssæt af nærliggende brugere
+      title_nearby: Ændringssæt af brugere i nærheden
       empty: Ingen ændringssæt er fundet.
       empty_area: Ingen ændringssæt i dette område.
       empty_user: Ingen ændringssæt af denne bruger.
@@ -452,7 +454,7 @@ da:
           cinema: Biograf
           clinic: Klinik
           clock: Ur
-          college: Videregående uddanelsesinstitution
+          college: Videregående uddannelsesinstitution
           community_centre: Forsamlingshus / lokalcenter
           courthouse: Retsbygning
           crematorium: Krematorium
@@ -1042,12 +1044,12 @@ da:
         href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">juridiske
         FAQ</a>.
       more_2_html: |-
-        Selvom OpenStreetMap er åbne data, kan vi ikke levere en
-        gratis kort-API til tredjeparts-udviklere.
+        Selvom OpenStreetMap er åbne data, kan vi ikke levere et
+        gratis kort-API til tredjeparter.
 
-        Se vores <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">politik for API-brug</a>,
-        <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">politik for brug af kortbilleder</a>
-        og <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">politik for brug af Nominatim</a>.
+        Se vores <a href="https://operations.osmfoundation.org/policies/api/">Politik for brug af API</a>,
+        <a href="https://operations.osmfoundation.org/policies/tiles/">Politik for brug af kortbilleder</a>
+        og <a href="https://operations.osmfoundation.org/policies/nominatim/">politik for brug af Nominatim</a>.
       contributors_title_html: Vores bidragsydere
       contributors_intro_html: |-
         Vores bidragsydere er tusinder af individer. Vi medtager også
@@ -1107,9 +1109,9 @@ da:
          vores <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">procedure til fjernelse a materiale</a> eller udfyld formular direkte på vores
         <a href="http://dmca.openstreetmap.org/">on-line side</a>.
       trademarks_title_html: <span id="trademarks"></span>Varemærker
-      trademarks_1_html: OpenStreetMap og forstørrelsesglaslogoet er registrerede
-        varemærker for OpenStreetMap Foundation. Hvis du har spørgsmål om din brug
-        af mærkerne, bedes du sende dine spørgsmål til <a href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">Licens-arbejdsgruppen</a>.
+      trademarks_1_html: OpenStreetMap, forstørrelsesglas-logoet og "State of the
+        Map" er registrerede varemærker til OpenStreetMap Foundation. Hvis du har
+        spørgsmål om din brug af mærkerne, bedes du sende dine spørgsmål til <a href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">Licens-arbejdsgruppen</a>.
   welcome_page:
     title: Velkommen!
     introduction_html: Velkommen til OpenStreetMap, det frie brugerredigerede verdenskort.
@@ -1154,13 +1156,13 @@ da:
         <a href='%{help_url}'>OpenStreetMaps hjælpeside</a>.
     start_mapping: Editér kortet
     add_a_note:
-      title: Har du ikke tid til at kortlægge selv? Tilføj en note!
+      title: Ikke tid til redigering? Tilføj en bemærkning!
       paragraph_1_html: Hvis du bare vil have en lille detalje rettet, men ikke har
         tid til at gøre det selv, så kan du tilføje en note.
       paragraph_2_html: |-
-        Bare gå ind på <a href='%{map_url}'>kortet</a> og klik på note-ikonet:
-        <span class='icon note'></span>. Dette vil tilføje et symbol som du kan trække rundt på kortet. Tilføj din besked,
-        klik på gem og lad andre brugere undersøge sagen.
+        Bare gå ind på <a href='%{map_url}'>kortet</a> og klik på bemærknings-ikonet:
+        <span class='icon note'></span>. Dette vil tilføje en markør som du kan trække rundt på kortet. Tilføj din besked,
+        klik på gem og andre brugere vil undersøge sagen.
   fixthemap:
     title: Rapportér et problem / Ret kortet
     how_to_help:
@@ -1174,8 +1176,7 @@ da:
       add_a_note:
         instructions_html: |-
           Bare klik på <a class='icon note'></a> eller det samme ikon på kortvisningen.
-          Dette vil tilføje en markør til kort, som du kan flytte
-          ved at trække. Tilføj din besked, klik så på gem, og andre kortlæggere vil undersøge.
+          Dette vil tilføje en markør som du kan trække rundt på kortet. Tilføj din besked, klik på gem og andre brugere vil undersøge sagen.
     other_concerns:
       title: Andre bekymringer
       explanation_html: |-
@@ -1247,18 +1248,20 @@ da:
       bygger oven på data på bestemte måder, må du kun distribuere resultatet under
       den samme licens. Se siden om <a href='%{copyright_path}'>ophavsret og licens</a> for detaljer.
     legal_title: Juridisk
-    legal_html: "Dette websted og mange andre relaterede ydelser er formelt drevet
+    legal_html: "Dette websted og mange andre relaterede tjenester er formelt drevet
       af \n<a href=\"http://osmfoundation.org/\">OpenStreetMap Foundation</a> (OSMF)
-      \npå vegne af fællesskabet.\n<br> \nDu bedes <a href=\"http://osmfoundation.org/Contact\">kontakte
-      OSMF</a> \nhvis du har spørgsmål om licenser, ophavsret eller andre juridiske
-      spørgsmål og problemstillinger."
+      på vegne af fællesskabet. Brug af alle OSMF-drevne tjenester er underlagt vores
+      <a href=\"http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">Politikker
+      for acceptabel brug</a> og vores <a href=\"http://wiki.osmfoundation.org/wiki/Privacy_Policy\">Privatlivs-poltik</a>.\n<br>
+      \nDu bedes <a href=\"http://osmfoundation.org/Contact\">kontakte OSMF</a> \nhvis
+      du har spørgsmål om licenser, ophavsret eller andre juridiske spørgsmål og problemstillinger."
     partners_title: Partnere
   notifier:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} kommenterede på dit blogindlæg'
+      subject: '[OpenStreetMap] %{user} kommenterede på et blogindlæg'
       hi: Hej %{to_user},
-      header: '%{from_user} har kommenteret på dit nylige OpenStreetMap-blogindlæg
-        med emnet %{subject}:'
+      header: '%{from_user} har kommenteret på OpenStreetMap-blogindlægget med emnet
+        %{subject}:'
       footer: Du kan også læse kommentaren på %{readurl}, og du kan kommentere på
         %{commenturl} eller svare på %{replyurl}
     message_notification:
@@ -1267,6 +1270,7 @@ da:
         %{subject}:'
       footer_html: Du kan også læse beskeden på %{readurl} og du kan svare på %{replyurl}
     friend_notification:
+      hi: Hej %{to_user},
       subject: '[OpenStreetMap] %{user} tilføjede dig som ven'
       had_added_you: '%{user} har tilføjet dig som ven på OpenStreetMap.'
       see_their_profile: Du kan se deres profil på %{userurl}.
@@ -1351,6 +1355,7 @@ da:
           Bemærkningen er i nærheden af %{place}.'
       details: Flere oplysninger om bemærkningen kan findes på %{url}.
     changeset_comment_notification:
+      hi: Hej %{to_user},
       greeting: Hej,
       commented:
         subject_own: '[OpenStreetMap] %{commenter} har kommenteret på et af dine ændringssæt'
@@ -1363,6 +1368,8 @@ da:
         partial_changeset_with_comment: med kommentaren '%{changeset_comment}'
         partial_changeset_without_comment: uden kommentar
       details: Flere oplysninger om ændringssættet kan findes på %{url}.
+      unsubscribe: For at afmelde opdateringer til dette ændringssæt, kan du besøge
+        %{url} og klikke "Afmeld".
   message:
     inbox:
       title: Indbakke
@@ -1494,6 +1501,9 @@ da:
           track: Hjulspor
           bridleway: Ridesti
           cycleway: Cykelsti
+          cycleway_national: National cykelsti
+          cycleway_regional: Regional cykelsti
+          cycleway_local: Lokal cykelsti
           footway: Gangsti
           rail: Jernbane
           subway: Undergrundsbane
@@ -1546,6 +1556,9 @@ da:
           private: Privat adgang
           destination: Ærindekørsel tilladt
           construction: Veje under konstruktion
+          bicycle_shop: Cykelhandler
+          bicycle_parking: Cykelparkering
+          toilets: Toiletter
     richtext_area:
       edit: Redigér
       preview: Forhåndsvisning
@@ -1685,6 +1698,8 @@ da:
     require_moderator:
       not_a_moderator: Du skal være moderator for at udføre denne handling.
     setup_user_auth:
+      blocked_zero_hour: Du har en vigtig besked på OpenStreetMap-hjemmesiden. Du
+        skal læse denne besked, før du kan gemme dine redigeringer.
       blocked: Din adgang til API'et er blokeret. Log ind på webinterfacet for a finde
         ud mere.
       need_to_see_terms: Din adgang til API-et er midlertidig stoppet. Log ind på
@@ -1715,6 +1730,8 @@ da:
       invalid: Godkendelse token er ikke gyldigt.
     revoke:
       flash: Du har tilbagekaldt adgang for %{application}
+    permissions:
+      missing: Du har ikke givet applikationen adgang til denne facilitet
   oauth_clients:
     new:
       title: Registrere en ny applikation
@@ -1815,6 +1832,12 @@ da:
         windowslive:
           title: Log på med Windows Live
           alt: Log på med en Windows Live-konto
+        github:
+          title: Log ind med GitHub
+          alt: Log ind med en GitHub-konto
+        wikipedia:
+          title: Log ind med Wikipedia
+          alt: Log ind med en Wikipedia-konto
         yahoo:
           title: Log på med Yahoo
           alt: Log på med et Yahoo OpenID
@@ -1862,8 +1885,9 @@ da:
         for bidragsydere</a>.
       email address: 'E-mailadresse:'
       confirm email address: 'Bekræft e-mailadresse:'
-      not displayed publicly: Vises ikke offentligt (se <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
-        title="Privatlivspolitik for wikien inklusiv sektion om e-mailadresser">privatlivspolitik</a>)
+      not displayed publicly: Din adresse vises ikke offentligt; se vores <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy"
+        title="OSMF-privatlivspolitik inklusive afsnittet om e-mailadresser">privatlivspolitik</a>
+        for mere information
       display name: 'Vist navn:'
       display name description: Dit offentligt synlige brugernavn. Du kan ændre dette
         senere i indstillingerne.
@@ -1956,16 +1980,16 @@ da:
         revoke:
           administrator: Fjern administrator-adgang
           moderator: Fjern moderator-adgang
-      block_history: tildelte blokeringer
-      moderator_history: uddelte blokeringer
+      block_history: Aktive blokeringer
+      moderator_history: Uddelte blokeringer
       comments: Kommentarer
-      create_block: bloker denne bruger
-      activate_user: aktiver denne bruger
-      deactivate_user: deaktiver denne bruger
-      confirm_user: bekræft denne bruger
-      hide_user: skjul denne bruger
-      unhide_user: stop med at skjule denne bruger
-      delete_user: slet denne bruger
+      create_block: Blokér denne bruger
+      activate_user: Aktivér denne bruger
+      deactivate_user: Deaktivér denne bruger
+      confirm_user: Bekræft denne bruger
+      hide_user: Skjul denne bruger
+      unhide_user: Skjul ikke længere denne bruger
+      delete_user: Slet denne bruger
       confirm: Bekræft
       friends_changesets: venners ændringssæt
       friends_diaries: venners blogindlæg
@@ -2019,6 +2043,8 @@ da:
         gravatar: Brug Gravatar
         link: http://wiki.openstreetmap.org/wiki/Gravatar
         link text: hvad er dette?
+        disabled: Gravatar er blevet deaktiveret.
+        enabled: Visning af din Gravatar er blevet aktiveret.
       new image: Tilføj et billede
       keep image: Behold det nuværende billede
       delete image: Fjern det nuværende billede
@@ -2033,7 +2059,7 @@ da:
       make edits public button: Gør alle mine rettelser offentlige
       return to profile: Tilbage til profil
       flash update success confirm needed: Brugeroplysningerne blev opdateret. Tjek
-        din e-mail for en nøgle til at bekræfte din nye e-mailadresse.
+        din e-mail for en besked om at bekræfte din nye e-mailadresse.
       flash update success: Brugerinformation opdateret.
     confirm:
       heading: Tjek din e-mail!
@@ -2215,6 +2241,8 @@ da:
     helper:
       time_future: Slutter om %{time}.
       until_login: Aktiv, indtil brugeren logger på.
+      time_future_and_until_login: Slutter om %{time} og efter brugeren er logget
+        ind.
       time_past: Sluttede %{time} siden.
     blocks_on:
       title: Blokeringer af %{name}
@@ -2293,10 +2321,13 @@ da:
       center_marker: Centrér kortet på markøren
       paste_html: Indsæt HTML som skal indlejres i websiden
       view_larger_map: Vis større kort
+      only_standard_layer: Kun standardlaget kan eksporteres som et billede
+    embed:
+      report_problem: Rapporter et problem
     key:
       title: Kortsymboler
       tooltip: Kortsymboler
-      tooltip_disabled: Kortnøgle findes kun til standard lag
+      tooltip_disabled: Kortnøgle findes ikke til dette lag
     map:
       zoom:
         in: Zoom ind
@@ -2313,6 +2344,7 @@ da:
         header: Kortlag
         notes: Kortbemærkninger
         data: Kortdata
+        gps: Offentlige GPS-spor
         overlays: Aktiver overlejringer til fejlfinding af kortet
         title: Lag
       copyright: © <a href='%{copyright_url}'>OpenStreetMap-bidragsydere</a>
@@ -2324,8 +2356,8 @@ da:
       createnote_disabled_tooltip: Zoom ind for at tilføje en bemærkning til kortet
       map_notes_zoom_in_tooltip: Zoom ind for at se kort kommentarer
       map_data_zoom_in_tooltip: Zoom ind for at se kortdata
-      queryfeature_tooltip: Forespørgselsfunktioner
-      queryfeature_disabled_tooltip: Zoom ind for at få forespørgselsfunktioner
+      queryfeature_tooltip: Find kortobjekter
+      queryfeature_disabled_tooltip: Zoom ind for at finde kortobjekter
     changesets:
       show:
         comment: Kommentar
@@ -2368,11 +2400,23 @@ da:
       instructions:
         continue_without_exit: Fortsæt ad %{name}
         slight_right_without_exit: Svagt til højre ind på %{name}
+        offramp_right_without_exit: Tag afkørslen til højre ud på %{name}
+        onramp_right_without_exit: Hold til højre ud på %{name}
+        endofroad_right_without_exit: Ved slutningen af vejen drej til højre ud på
+          %{name}
+        merge_right_without_exit: Flet til højre ind på %{name}
+        fork_right_without_exit: Ved forgreningen drej til højre ud på %{name}
         turn_right_without_exit: Drej til højre ind på %{name}
         sharp_right_without_exit: Skarpt til højre ind på %{name}
         uturn_without_exit: U-vending langs %{name}
         sharp_left_without_exit: Skarpt til venstre ind på %{name}
         turn_left_without_exit: Drej til venstre ind på %{name}
+        offramp_left_without_exit: Tag afkørslen til venstre ud på %{name}
+        onramp_left_without_exit: Hold til venstre ud på %{name}
+        endofroad_left_without_exit: Ved slutningen af vejen drej til venstre ud på
+          %{name}
+        merge_left_without_exit: Flet til venstre ind på %{name}
+        fork_left_without_exit: Ved forgreningen drej til venstre ud på %{name}
         slight_left_without_exit: Svagt til venstre ind på %{name}
         via_point_without_exit: (via punkt)
         follow_without_exit: Følg %{name}
@@ -2384,6 +2428,11 @@ da:
         against_oneway_without_exit: Kør mod ensretningen på %{name}
         end_oneway_without_exit: Slutningen af ensretningen på %{name}
         roundabout_with_exit: Ved rundkørslen, tag afkørsel %{exit} mod %{name}
+        turn_left_with_exit: Ved rundkørslen drej til venstre ud på %{name}
+        slight_left_with_exit: Ved rundkørslen blødt venstresving ud på %{name}
+        turn_right_with_exit: Ved rundkørslen drej til højre ud på %{name}
+        slight_right_with_exit: Ved rundkørslen blødt højresving ud på %{name}
+        continue_with_exit: Ved rundkørslen fortsæt ligeud på %{name}
         unnamed: unavngiven vej
         courtesy: Anvisninger stillet til rådighed af %{link}
       time: Tid
@@ -2391,9 +2440,16 @@ da:
       node: Punkt
       way: Vej
       relation: Relation
-      nothing_found: Ingen funktioner fundet
+      nothing_found: Ingen kortobjekter fundet
       error: 'Fejl med at kontakte %{server}: %{error}'
       timeout: Timeout for kontakt til %{server}
+    context:
+      directions_from: Rutevejledning herfra
+      directions_to: Rutevejledning hertil
+      add_note: Tilføj note her
+      show_address: Vis adresse
+      query_features: Find kortobjekter
+      centre_map: Centrer kort her
   redaction:
     edit:
       description: Beskrivelse

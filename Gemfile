@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "4.2.7"
+gem "rails", "5.0.4"
 
 # Require things which have moved to gems in ruby 1.9
 gem "bigdecimal", "~> 1.1.0", :platforms => :ruby_19
@@ -22,7 +22,7 @@ gem "sass-rails", "~> 5.0"
 gem "uglifier", ">= 1.3.0"
 
 # Use CoffeeScript for .js.coffee assets and views
-gem "coffee-rails", "~> 4.1.0"
+gem "coffee-rails", "~> 4.2"
 
 # Use jquery as the JavaScript library
 gem "jquery-rails"
@@ -38,32 +38,34 @@ gem "r2"
 gem "autoprefixer-rails"
 
 # Use image_optim to optimise images
-gem "image_optim", ">= 0.22.0"
+gem "image_optim_rails"
 
 # Load rails plugins
-gem "rails-i18n", "~> 4.0.0"
-gem "dynamic_form"
-gem "rinku", ">= 1.2.2", :require => "rails_rinku"
-gem "oauth-plugin", ">= 0.5.1"
-gem "validates_email_format_of", ">= 1.5.1"
-gem "composite_primary_keys", "~> 8.1.0"
-gem "http_accept_language", "~> 2.0.0"
-gem "paperclip", "~> 4.0"
-gem "deadlock_retry", ">= 1.2.0"
-gem "i18n-js", ">= 3.0.0.rc10"
-gem "rack-cors"
 gem "actionpack-page_caching"
+gem "composite_primary_keys", "~> 9.0.7"
+gem "deadlock_retry", ">= 1.2.0"
+gem "dynamic_form"
+gem "http_accept_language", "~> 2.0.0"
+gem "i18n-js", ">= 3.0.0"
+gem "oauth-plugin", ">= 0.5.1"
+gem "paperclip", "~> 4.0"
+gem "rack-cors"
+gem "rails-i18n", "~> 4.0.0"
+gem "record_tag_helper"
+gem "rinku", ">= 1.2.2", :require => "rails_rinku"
+gem "validates_email_format_of", ">= 1.5.1"
 
 # Sanitise URIs
 gem "rack-uri_sanitizer"
 
 # Omniauth for authentication
 gem "omniauth"
-gem "omniauth-openid"
-gem "omniauth-google-oauth2", ">= 0.2.7"
 gem "omniauth-facebook"
-gem "omniauth-windowslive"
 gem "omniauth-github"
+gem "omniauth-google-oauth2", ">= 0.2.7"
+gem "omniauth-mediawiki", ">= 0.0.3"
+gem "omniauth-openid"
+gem "omniauth-windowslive"
 
 # Markdown formatting support
 gem "redcarpet"
@@ -75,8 +77,8 @@ gem "aasm"
 gem "libxml-ruby", ">= 2.0.5", :require => "libxml"
 
 # Use for HTML sanitisation
-gem "sanitize"
 gem "htmlentities"
+gem "sanitize"
 
 # Load SystemTimer for implementing request timeouts
 gem "SystemTimer", ">= 1.1.3", :require => "system_timer", :platforms => :ruby_18
@@ -84,33 +86,44 @@ gem "SystemTimer", ">= 1.1.3", :require => "system_timer", :platforms => :ruby_1
 # Load faraday for mockable HTTP client
 gem "faraday"
 
-# Load httpclient and soap4r for SOAP support for Quova GeoIP queries
-gem "httpclient"
-gem "soap4r-ruby1.9"
+# Load geoip for querying Maxmind GeoIP database
+gem "geoip"
+
+# Load rotp to generate TOTP tokens
+gem "rotp"
 
 # Load memcache client in case we are using it
 gem "dalli"
 gem "kgio"
+
+# Load secure_headers for Content-Security-Policy support
+gem "secure_headers"
+
+# Load canonical-rails to generate canonical URLs
+gem "canonical-rails"
 
 # Used to generate logstash friendly log files
 gem "logstasher"
 
 # Gems useful for development
 group :development do
+  gem "listen"
   gem "vendorer"
 end
 
 # Gems needed for running tests
 group :test do
-  gem "rubocop"
-  gem "timecop"
   gem "minitest", "~> 5.1", :platforms => [:ruby_19, :ruby_20]
+  gem "rails-controller-testing"
+  gem "rubocop"
+  gem "webmock"
 end
 
 # Needed in development as well so rake can see konacha tasks
 group :development, :test do
-  gem "jshint"
-  gem "konacha"
-  gem "poltergeist"
   gem "coveralls", :require => false
+  gem "factory_girl_rails"
+  gem "jshint"
+  #  gem "konacha"
+  gem "poltergeist"
 end

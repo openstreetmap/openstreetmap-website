@@ -6,7 +6,7 @@ require "digest/md5"
 module PasswordHash
   SALT_BYTE_SIZE = 32
   HASH_BYTE_SIZE = 32
-  PBKDF2_ITERATIONS = 1000
+  PBKDF2_ITERATIONS = 10000
   DIGEST_ALGORITHM = "sha512".freeze
 
   def self.create(password)

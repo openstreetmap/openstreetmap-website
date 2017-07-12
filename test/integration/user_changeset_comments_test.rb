@@ -1,11 +1,11 @@
 require "test_helper"
 
 class UserChangesetCommentsTest < ActionDispatch::IntegrationTest
-  fixtures :users, :changesets, :changeset_comments
-
   # Test 'log in to comment' message for nonlogged in user
   def test_log_in_message
-    get "/changeset/#{changesets(:normal_user_closed_change).id}"
+    changeset = create(:changeset, :closed)
+
+    get "/changeset/#{changeset.id}"
     assert_response :success
 
     assert_select "div#content" do
@@ -21,15 +21,19 @@ class UserChangesetCommentsTest < ActionDispatch::IntegrationTest
 
   # Test if the form is shown
   def test_displaying_form
-    get_via_redirect "/login"
+    user = create(:user)
+    changeset = create(:changeset, :closed)
+
+    get "/login"
+    follow_redirect!
     # We should now be at the login page
     assert_response :success
     assert_template "user/login"
     # We can now login
-    post "/login", "username" => "test@openstreetmap.org", "password" => "test"
+    post "/login", :params => { "username" => user.email, "password" => "test" }
     assert_response :redirect
 
-    get "/changeset/#{changesets(:normal_user_closed_change).id}"
+    get "/changeset/#{changeset.id}"
 
     assert_response :success
     assert_template "browse/changeset"

@@ -59,16 +59,16 @@ module ApplicationHelper
 
   def richtext_area(object_name, method, options = {})
     id = "#{object_name}_#{method}"
-    format = options.delete(:format) || "markdown"
+    type = options.delete(:format) || "markdown"
 
     content_tag(:div, :id => "#{id}_container", :class => "richtext_container") do
       output_buffer << content_tag(:div, :id => "#{id}_content", :class => "richtext_content") do
-        output_buffer << text_area(object_name, method, options.merge("data-preview-url" => preview_url(:format => format)))
+        output_buffer << text_area(object_name, method, options.merge("data-preview-url" => preview_url(:type => type)))
         output_buffer << content_tag(:div, "", :id => "#{id}_preview", :class => "richtext_preview richtext")
       end
 
       output_buffer << content_tag(:div, :id => "#{id}_help", :class => "richtext_help") do
-        output_buffer << render("site/#{format}_help")
+        output_buffer << render("site/#{type}_help")
         output_buffer << content_tag(:div, :class => "buttons") do
           output_buffer << submit_tag(I18n.t("site.richtext_area.edit"), :id => "#{id}_doedit", :class => "richtext_doedit deemphasize", :disabled => true)
           output_buffer << submit_tag(I18n.t("site.richtext_area.preview"), :id => "#{id}_dopreview", :class => "richtext_dopreview deemphasize")
@@ -99,5 +99,31 @@ module ApplicationHelper
 
   def current_page_class(path)
     :current if current_page?(path)
+  end
+
+  def application_data
+    data = {
+      :locale => I18n.locale,
+      :preferred_editor => preferred_editor
+    }
+
+    if @user
+      data[:user] = @user.id.to_json
+
+      unless @user.home_lon.nil? || @user.home_lat.nil?
+        data[:user_home] = { :lat => @user.home_lat, :lon => @user.home_lon }
+      end
+    end
+
+    data[:location] = session[:location] if session[:location]
+
+    if @oauth
+      data[:token] = @oauth.token
+      data[:token_secret] = @oauth.secret
+      data[:consumer_key] = @oauth.client_application.key
+      data[:consumer_secret] = @oauth.client_application.secret
+    end
+
+    data
   end
 end

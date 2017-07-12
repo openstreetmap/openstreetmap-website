@@ -4,6 +4,7 @@
 # Author: 9and3r
 # Author: An13sa
 # Author: Asieriko
+# Author: Gorkaazk
 # Author: MikelEH
 # Author: PerroVerd
 # Author: Subi
@@ -71,10 +72,15 @@ eu:
       name: Potlatch 2
     remote:
       name: Urrutiko Agintea
+      description: Urrutiko kontrola (JOSM edo Merkaartor)
   browse:
     created: Sortua
     closed: Itxita
+    created_html: <abbr title='%{title}'>Duela %{time}</abbr> sortua
+    closed_html: <abbr title='%{title}'>Duela %{time}</abbr> itxia
     version: Bertsioa
+    anonymous: anonimoa
+    no_comment: (iruzkinik gabe)
     download_xml: XML deskargatu
     view_history: Ikusi historia
     view_details: Ikusi Xehetasunak
@@ -186,6 +192,7 @@ eu:
       manually_select: Aukeratu eskuz eremu ezberdin bat
       format_to_export: Esportatzeko formatua
       osm_xml_data: OpenStreetMap XML Data
+      map_image: Maparen Irudia (geruza estandarra erakusten du)
       embeddable_html: HTML integragarria
       licence: Lizentzia
       export_details: OpenStreetMap-eko datuak <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
@@ -644,7 +651,7 @@ eu:
     logo:
       alt_text: OpenStreetMap logoa
     home: Hasierara joan
-    logout: Saioa itxi
+    logout: Itxi saioa
     log_in: Saioa hasi
     sign_up: Eman izena
     start_mapping: Hasi mapeatzen
@@ -752,6 +759,7 @@ eu:
       anonymous: Erabiltzale anonimoa
       greeting: Kaixo,
     changeset_comment_notification:
+      hi: Kaixo, %{to_user}
       greeting: Kaixo,
   message:
     inbox:
@@ -802,6 +810,10 @@ eu:
     delete:
       deleted: Mezua ezabatuta
   site:
+    index:
+      permalink: Lotura iraunkorra
+      shortlink: Lotura laburra
+      createnote: Gehitu oharra
     edit:
       user_page_link: Lankide orria
     sidebar:
@@ -859,6 +871,10 @@ eu:
           summit:
           - Tontorra
           - gailurra
+          private: Sarbide pribatua
+          bicycle_shop: Bizikleta-denda
+          bicycle_parking: Bizikleta-aparkalekua
+          toilets: Komunak
     richtext_area:
       edit: Aldatu
       preview: Aurrikusi
@@ -928,6 +944,8 @@ eu:
     edit:
       submit: Aldatu
     show:
+      edit: Editatu xehetasunak
+      delete: Ezabatu bezeroa
       confirm: Ziur zaude?
       allow_write_api: mapa aldatu.
     index:
@@ -1019,16 +1037,17 @@ eu:
       your friends: Zure lagunak
       km away: '%{count} km-tara'
       m away: '%{count} m-tara'
+      nearby users: Gertuko beste erabiltzaile batzuk
       role:
         administrator: Lankide hau administratzailea da
         moderator: Lankide hau moderatzailea da
       comments: Iruzkinak
       create_block: Blokeatu erabiltzaile hau
-      activate_user: erabiltzaile hau gaitu
-      deactivate_user: erabiltzaile hau ezgaitu
-      confirm_user: erabiltzaile hau baieztatu
+      activate_user: Erabiltzaile hau gaitu
+      deactivate_user: Erabiltzaile hau ezgaitu
+      confirm_user: Erabiltzaile hau baieztatu
       hide_user: Erabiltzaile hau ezkutatu
-      delete_user: lankide hau ezabatu
+      delete_user: Erabiltzaile hau ezabatu
       confirm: Berretsi
     popup:
       your location: Zure kokapena
@@ -1098,21 +1117,37 @@ eu:
       edit: Aldatu
       confirm: Ziur zaude?
   note:
+    description:
+      opened_at_html: Duela %{when} sortua
+      commented_at_html: Duela %{when} eguneratua
     mine:
       creator: Sortzailea
       description: Deskribapena
+      ago_html: Duela %{when}
   javascripts:
     close: Itxi
     share:
       title: Partekatu
       cancel: Utzi
       image: Irudia
+      long_link: Lotura
+      short_link: Lotura laburra
       format: 'Formatua:'
       scale: 'Eskala:'
+      download: Deskargatu
+      short_url: URL laburra
+      view_larger_map: Ikusi mapa handiagoa
+    embed:
+      report_problem: Arazo baten berri eman
     map:
+      locate:
+        title: Erakutsi nire kokapena
       base:
         transport_map: Garraio-mapa
       layers:
+        header: Maparen geruzak
+        notes: Maparen oharrak
+        data: Maparen datuak
         title: Geruzak
     site:
       edit_tooltip: Editatu mapa
@@ -1141,7 +1176,13 @@ eu:
       distance: Distantzia
       instructions:
         unnamed: izenik gabe
+    context:
+      show_address: Erakutsi helbidea
   redaction:
+    edit:
+      description: Deskribapena
+    new:
+      description: Deskribapena
     show:
       description: 'Deskribapena:'
       user: 'Sortzailea:'

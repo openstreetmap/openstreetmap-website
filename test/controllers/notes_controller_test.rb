@@ -1,7 +1,11 @@
 require "test_helper"
 
 class NotesControllerTest < ActionController::TestCase
-  fixtures :users, :user_roles, :notes, :note_comments
+  def setup
+    # Stub nominatim response for note locations
+    stub_request(:get, %r{^http://nominatim\.openstreetmap\.org/reverse\?})
+      .to_return(:status => 404)
+  end
 
   ##
   # test all routes which lead to this controller
@@ -124,7 +128,7 @@ class NotesControllerTest < ActionController::TestCase
   def test_create_success
     assert_difference "Note.count", 1 do
       assert_difference "NoteComment.count", 1 do
-        post :create, :lat => -1.0, :lon => -1.0, :text => "This is a comment", :format => "json"
+        post :create, :params => { :lat => -1.0, :lon => -1.0, :text => "This is a comment", :format => "json" }
       end
     end
     assert_response :success
@@ -140,7 +144,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_nil js["properties"]["comments"].last["user"]
     id = js["properties"]["id"]
 
-    get :show, :id => id, :format => "json"
+    get :show, :params => { :id => id, :format => "json" }
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
@@ -158,122 +162,139 @@ class NotesControllerTest < ActionController::TestCase
   def test_create_fail
     assert_no_difference "Note.count" do
       assert_no_difference "NoteComment.count" do
-        post :create, :lon => -1.0, :text => "This is a comment"
+        post :create, :params => { :lon => -1.0, :text => "This is a comment" }
       end
     end
     assert_response :bad_request
 
     assert_no_difference "Note.count" do
       assert_no_difference "NoteComment.count" do
-        post :create, :lat => -1.0, :text => "This is a comment"
+        post :create, :params => { :lat => -1.0, :text => "This is a comment" }
       end
     end
     assert_response :bad_request
 
     assert_no_difference "Note.count" do
       assert_no_difference "NoteComment.count" do
-        post :create, :lat => -1.0, :lon => -1.0
+        post :create, :params => { :lat => -1.0, :lon => -1.0 }
       end
     end
     assert_response :bad_request
 
     assert_no_difference "Note.count" do
       assert_no_difference "NoteComment.count" do
-        post :create, :lat => -1.0, :lon => -1.0, :text => ""
+        post :create, :params => { :lat => -1.0, :lon => -1.0, :text => "" }
       end
     end
     assert_response :bad_request
 
     assert_no_difference "Note.count" do
       assert_no_difference "NoteComment.count" do
-        post :create, :lat => -100.0, :lon => -1.0, :text => "This is a comment"
+        post :create, :params => { :lat => -100.0, :lon => -1.0, :text => "This is a comment" }
       end
     end
     assert_response :bad_request
 
     assert_no_difference "Note.count" do
       assert_no_difference "NoteComment.count" do
-        post :create, :lat => -1.0, :lon => -200.0, :text => "This is a comment"
+        post :create, :params => { :lat => -1.0, :lon => -200.0, :text => "This is a comment" }
       end
     end
     assert_response :bad_request
 
     assert_no_difference "Note.count" do
       assert_no_difference "NoteComment.count" do
-        post :create, :lat => "abc", :lon => -1.0, :text => "This is a comment"
+        post :create, :params => { :lat => "abc", :lon => -1.0, :text => "This is a comment" }
       end
     end
     assert_response :bad_request
 
     assert_no_difference "Note.count" do
       assert_no_difference "NoteComment.count" do
-        post :create, :lat => -1.0, :lon => "abc", :text => "This is a comment"
+        post :create, :params => { :lat => -1.0, :lon => "abc", :text => "This is a comment" }
+      end
+    end
+    assert_response :bad_request
+
+    assert_no_difference "Note.count" do
+      assert_no_difference "NoteComment.count" do
+        post :create, :params => { :lat => -1.0, :lon => -1.0, :text => "x\u0000y" }
       end
     end
     assert_response :bad_request
   end
 
   def test_comment_success
+    open_note_with_comment = create(:note_with_comments)
     assert_difference "NoteComment.count", 1 do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
-        post :comment, :id => notes(:open_note_with_comment).id, :text => "This is an additional comment", :format => "json"
+        post :comment, :params => { :id => open_note_with_comment.id, :text => "This is an additional comment", :format => "json" }
       end
     end
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
     assert_equal "Feature", js["type"]
-    assert_equal notes(:open_note_with_comment).id, js["properties"]["id"]
+    assert_equal open_note_with_comment.id, js["properties"]["id"]
     assert_equal "open", js["properties"]["status"]
-    assert_equal 5, js["properties"]["comments"].count
+    assert_equal 2, js["properties"]["comments"].count
     assert_equal "commented", js["properties"]["comments"].last["action"]
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
     assert_nil js["properties"]["comments"].last["user"]
 
-    get :show, :id => notes(:open_note_with_comment).id, :format => "json"
+    get :show, :params => { :id => open_note_with_comment.id, :format => "json" }
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
     assert_equal "Feature", js["type"]
-    assert_equal notes(:open_note_with_comment).id, js["properties"]["id"]
+    assert_equal open_note_with_comment.id, js["properties"]["id"]
     assert_equal "open", js["properties"]["status"]
-    assert_equal 5, js["properties"]["comments"].count
+    assert_equal 2, js["properties"]["comments"].count
     assert_equal "commented", js["properties"]["comments"].last["action"]
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
     assert_nil js["properties"]["comments"].last["user"]
 
+    # Ensure that emails are sent to users
+    first_user = create(:user)
+    second_user = create(:user)
+    third_user = create(:user)
+
+    note_with_comments_by_users = create(:note) do |note|
+      create(:note_comment, :note => note, :author => first_user)
+      create(:note_comment, :note => note, :author => second_user)
+    end
     assert_difference "NoteComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 2 do
-        post :comment, :id => notes(:note_with_comments_by_users).id, :text => "This is an additional comment", :format => "json"
+        post :comment, :params => { :id => note_with_comments_by_users.id, :text => "This is an additional comment", :format => "json" }
       end
     end
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
     assert_equal "Feature", js["type"]
-    assert_equal notes(:note_with_comments_by_users).id, js["properties"]["id"]
+    assert_equal note_with_comments_by_users.id, js["properties"]["id"]
     assert_equal "open", js["properties"]["status"]
     assert_equal 3, js["properties"]["comments"].count
     assert_equal "commented", js["properties"]["comments"].last["action"]
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
     assert_nil js["properties"]["comments"].last["user"]
 
-    email = ActionMailer::Base.deliveries.find { |e| e.to.first == "test@openstreetmap.org" }
+    email = ActionMailer::Base.deliveries.find { |e| e.to.first == first_user.email }
     assert_not_nil email
     assert_equal 1, email.to.length
     assert_equal "[OpenStreetMap] An anonymous user has commented on one of your notes", email.subject
 
-    email = ActionMailer::Base.deliveries.find { |e| e.to.first == "public@OpenStreetMap.org" }
+    email = ActionMailer::Base.deliveries.find { |e| e.to.first == second_user.email }
     assert_not_nil email
     assert_equal 1, email.to.length
     assert_equal "[OpenStreetMap] An anonymous user has commented on a note you are interested in", email.subject
 
-    get :show, :id => notes(:note_with_comments_by_users).id, :format => "json"
+    get :show, :params => { :id => note_with_comments_by_users.id, :format => "json" }
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
     assert_equal "Feature", js["type"]
-    assert_equal notes(:note_with_comments_by_users).id, js["properties"]["id"]
+    assert_equal note_with_comments_by_users.id, js["properties"]["id"]
     assert_equal "open", js["properties"]["status"]
     assert_equal 3, js["properties"]["comments"].count
     assert_equal "commented", js["properties"]["comments"].last["action"]
@@ -282,315 +303,361 @@ class NotesControllerTest < ActionController::TestCase
 
     ActionMailer::Base.deliveries.clear
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(third_user.email, "test")
 
     assert_difference "NoteComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 2 do
-        post :comment, :id => notes(:note_with_comments_by_users).id, :text => "This is an additional comment", :format => "json"
+        post :comment, :params => { :id => note_with_comments_by_users.id, :text => "This is an additional comment", :format => "json" }
       end
     end
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
     assert_equal "Feature", js["type"]
-    assert_equal notes(:note_with_comments_by_users).id, js["properties"]["id"]
+    assert_equal note_with_comments_by_users.id, js["properties"]["id"]
     assert_equal "open", js["properties"]["status"]
     assert_equal 4, js["properties"]["comments"].count
     assert_equal "commented", js["properties"]["comments"].last["action"]
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
-    assert_equal "test2", js["properties"]["comments"].last["user"]
+    assert_equal third_user.display_name, js["properties"]["comments"].last["user"]
 
-    email = ActionMailer::Base.deliveries.find { |e| e.to.first == "test@openstreetmap.org" }
+    email = ActionMailer::Base.deliveries.find { |e| e.to.first == first_user.email }
     assert_not_nil email
     assert_equal 1, email.to.length
-    assert_equal "[OpenStreetMap] test2 has commented on one of your notes", email.subject
-    assert_equal "test@openstreetmap.org", email.to.first
+    assert_equal "[OpenStreetMap] #{third_user.display_name} has commented on one of your notes", email.subject
+    assert_equal first_user.email, email.to.first
 
-    email = ActionMailer::Base.deliveries.find { |e| e.to.first == "public@OpenStreetMap.org" }
+    email = ActionMailer::Base.deliveries.find { |e| e.to.first == second_user.email }
     assert_not_nil email
     assert_equal 1, email.to.length
-    assert_equal "[OpenStreetMap] test2 has commented on a note you are interested in", email.subject
+    assert_equal "[OpenStreetMap] #{third_user.display_name} has commented on a note you are interested in", email.subject
 
-    get :show, :id => notes(:note_with_comments_by_users).id, :format => "json"
+    get :show, :params => { :id => note_with_comments_by_users.id, :format => "json" }
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
     assert_equal "Feature", js["type"]
-    assert_equal notes(:note_with_comments_by_users).id, js["properties"]["id"]
+    assert_equal note_with_comments_by_users.id, js["properties"]["id"]
     assert_equal "open", js["properties"]["status"]
     assert_equal 4, js["properties"]["comments"].count
     assert_equal "commented", js["properties"]["comments"].last["action"]
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
-    assert_equal "test2", js["properties"]["comments"].last["user"]
+    assert_equal third_user.display_name, js["properties"]["comments"].last["user"]
 
     ActionMailer::Base.deliveries.clear
   end
 
   def test_comment_fail
+    open_note_with_comment = create(:note_with_comments)
+
     assert_no_difference "NoteComment.count" do
-      post :comment, :text => "This is an additional comment"
+      post :comment, :params => { :text => "This is an additional comment" }
     end
     assert_response :bad_request
 
     assert_no_difference "NoteComment.count" do
-      post :comment, :id => notes(:open_note_with_comment).id
+      post :comment, :params => { :id => open_note_with_comment.id }
     end
     assert_response :bad_request
 
     assert_no_difference "NoteComment.count" do
-      post :comment, :id => notes(:open_note_with_comment).id, :text => ""
+      post :comment, :params => { :id => open_note_with_comment.id, :text => "" }
     end
     assert_response :bad_request
 
     assert_no_difference "NoteComment.count" do
-      post :comment, :id => 12345, :text => "This is an additional comment"
+      post :comment, :params => { :id => 12345, :text => "This is an additional comment" }
     end
     assert_response :not_found
 
+    hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
+
     assert_no_difference "NoteComment.count" do
-      post :comment, :id => notes(:hidden_note_with_comment).id, :text => "This is an additional comment"
+      post :comment, :params => { :id => hidden_note_with_comment.id, :text => "This is an additional comment" }
     end
     assert_response :gone
 
+    closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now)
+
     assert_no_difference "NoteComment.count" do
-      post :comment, :id => notes(:closed_note_with_comment).id, :text => "This is an additional comment"
+      post :comment, :params => { :id => closed_note_with_comment.id, :text => "This is an additional comment" }
     end
     assert_response :conflict
+
+    assert_no_difference "NoteComment.count" do
+      post :comment, :params => { :id => open_note_with_comment.id, :text => "x\u0000y" }
+    end
+    assert_response :bad_request
   end
 
   def test_close_success
-    post :close, :id => notes(:open_note_with_comment).id, :text => "This is a close comment", :format => "json"
+    open_note_with_comment = create(:note_with_comments)
+    user = create(:user)
+
+    post :close, :params => { :id => open_note_with_comment.id, :text => "This is a close comment", :format => "json" }
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
-    post :close, :id => notes(:open_note_with_comment).id, :text => "This is a close comment", :format => "json"
+    post :close, :params => { :id => open_note_with_comment.id, :text => "This is a close comment", :format => "json" }
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
     assert_equal "Feature", js["type"]
-    assert_equal notes(:open_note_with_comment).id, js["properties"]["id"]
+    assert_equal open_note_with_comment.id, js["properties"]["id"]
     assert_equal "closed", js["properties"]["status"]
-    assert_equal 5, js["properties"]["comments"].count
+    assert_equal 2, js["properties"]["comments"].count
     assert_equal "closed", js["properties"]["comments"].last["action"]
     assert_equal "This is a close comment", js["properties"]["comments"].last["text"]
-    assert_equal "test2", js["properties"]["comments"].last["user"]
+    assert_equal user.display_name, js["properties"]["comments"].last["user"]
 
-    get :show, :id => notes(:open_note_with_comment).id, :format => "json"
+    get :show, :params => { :id => open_note_with_comment.id, :format => "json" }
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
     assert_equal "Feature", js["type"]
-    assert_equal notes(:open_note_with_comment).id, js["properties"]["id"]
+    assert_equal open_note_with_comment.id, js["properties"]["id"]
     assert_equal "closed", js["properties"]["status"]
-    assert_equal 5, js["properties"]["comments"].count
+    assert_equal 2, js["properties"]["comments"].count
     assert_equal "closed", js["properties"]["comments"].last["action"]
     assert_equal "This is a close comment", js["properties"]["comments"].last["text"]
-    assert_equal "test2", js["properties"]["comments"].last["user"]
+    assert_equal user.display_name, js["properties"]["comments"].last["user"]
   end
 
   def test_close_fail
     post :close
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:user).email, "test")
 
     post :close
     assert_response :bad_request
 
-    post :close, :id => 12345
+    post :close, :params => { :id => 12345 }
     assert_response :not_found
 
-    post :close, :id => notes(:hidden_note_with_comment).id
+    hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
+
+    post :close, :params => { :id => hidden_note_with_comment.id }
     assert_response :gone
 
-    post :close, :id => notes(:closed_note_with_comment).id
+    closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now)
+
+    post :close, :params => { :id => closed_note_with_comment.id }
     assert_response :conflict
   end
 
   def test_reopen_success
-    post :reopen, :id => notes(:closed_note_with_comment).id, :text => "This is a reopen comment", :format => "json"
+    closed_note_with_comment = create(:note_with_comments, :status => "closed", :closed_at => Time.now)
+    user = create(:user)
+
+    post :reopen, :params => { :id => closed_note_with_comment.id, :text => "This is a reopen comment", :format => "json" }
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
-    post :reopen, :id => notes(:closed_note_with_comment).id, :text => "This is a reopen comment", :format => "json"
+    post :reopen, :params => { :id => closed_note_with_comment.id, :text => "This is a reopen comment", :format => "json" }
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
     assert_equal "Feature", js["type"]
-    assert_equal notes(:closed_note_with_comment).id, js["properties"]["id"]
+    assert_equal closed_note_with_comment.id, js["properties"]["id"]
     assert_equal "open", js["properties"]["status"]
     assert_equal 2, js["properties"]["comments"].count
     assert_equal "reopened", js["properties"]["comments"].last["action"]
     assert_equal "This is a reopen comment", js["properties"]["comments"].last["text"]
-    assert_equal "test2", js["properties"]["comments"].last["user"]
+    assert_equal user.display_name, js["properties"]["comments"].last["user"]
 
-    get :show, :id => notes(:closed_note_with_comment).id, :format => "json"
+    get :show, :params => { :id => closed_note_with_comment.id, :format => "json" }
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
     assert_equal "Feature", js["type"]
-    assert_equal notes(:closed_note_with_comment).id, js["properties"]["id"]
+    assert_equal closed_note_with_comment.id, js["properties"]["id"]
     assert_equal "open", js["properties"]["status"]
     assert_equal 2, js["properties"]["comments"].count
     assert_equal "reopened", js["properties"]["comments"].last["action"]
     assert_equal "This is a reopen comment", js["properties"]["comments"].last["text"]
-    assert_equal "test2", js["properties"]["comments"].last["user"]
+    assert_equal user.display_name, js["properties"]["comments"].last["user"]
   end
 
   def test_reopen_fail
-    post :reopen, :id => notes(:hidden_note_with_comment).id
+    hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
+
+    post :reopen, :params => { :id => hidden_note_with_comment.id }
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(create(:user).email, "test")
 
-    post :reopen, :id => 12345
+    post :reopen, :params => { :id => 12345 }
     assert_response :not_found
 
-    post :reopen, :id => notes(:hidden_note_with_comment).id
+    post :reopen, :params => { :id => hidden_note_with_comment.id }
     assert_response :gone
 
-    post :reopen, :id => notes(:open_note_with_comment).id
+    open_note_with_comment = create(:note_with_comments)
+
+    post :reopen, :params => { :id => open_note_with_comment.id }
     assert_response :conflict
   end
 
   def test_show_success
-    get :show, :id => notes(:open_note).id, :format => "xml"
+    open_note = create(:note_with_comments)
+
+    get :show, :params => { :id => open_note.id, :format => "xml" }
     assert_response :success
     assert_equal "application/xml", @response.content_type
     assert_select "osm", :count => 1 do
-      assert_select "note[lat='#{notes(:open_note).lat}'][lon='#{notes(:open_note).lon}']", :count => 1 do
-        assert_select "id", notes(:open_note).id
-        assert_select "url", note_url(notes(:open_note), :format => "xml")
-        assert_select "comment_url", comment_note_url(notes(:open_note), :format => "xml")
-        assert_select "close_url", close_note_url(notes(:open_note), :format => "xml")
-        assert_select "date_created", notes(:open_note).created_at.to_s
-        assert_select "status", notes(:open_note).status
+      assert_select "note[lat='#{open_note.lat}'][lon='#{open_note.lon}']", :count => 1 do
+        assert_select "id", open_note.id.to_s
+        assert_select "url", note_url(open_note, :format => "xml")
+        assert_select "comment_url", comment_note_url(open_note, :format => "xml")
+        assert_select "close_url", close_note_url(open_note, :format => "xml")
+        assert_select "date_created", open_note.created_at.to_s
+        assert_select "status", open_note.status
         assert_select "comments", :count => 1 do
           assert_select "comment", :count => 1
         end
       end
     end
 
-    get :show, :id => notes(:open_note).id, :format => "rss"
+    get :show, :params => { :id => open_note.id, :format => "rss" }
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
       assert_select "channel", :count => 1 do
         assert_select "item", :count => 1 do
-          assert_select "link", browse_note_url(notes(:open_note))
-          assert_select "guid", note_url(notes(:open_note))
-          assert_select "pubDate", notes(:open_note).created_at.to_s(:rfc822)
-          #          assert_select "geo:lat", notes(:open_note).lat.to_s
-          #          assert_select "geo:long", notes(:open_note).lon
-          #          assert_select "georss:point", "#{notes(:open_note).lon} #{notes(:open_note).lon}"
+          assert_select "link", browse_note_url(open_note)
+          assert_select "guid", note_url(open_note)
+          assert_select "pubDate", open_note.created_at.to_s(:rfc822)
+          #          assert_select "geo:lat", open_note.lat.to_s
+          #          assert_select "geo:long", open_note.lon
+          #          assert_select "georss:point", "#{open_note.lon} #{open_note.lon}"
         end
       end
     end
 
-    get :show, :id => notes(:open_note).id, :format => "json"
+    get :show, :params => { :id => open_note.id, :format => "json" }
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
     assert_equal "Feature", js["type"]
     assert_equal "Point", js["geometry"]["type"]
-    assert_equal notes(:open_note).lat, js["geometry"]["coordinates"][0]
-    assert_equal notes(:open_note).lon, js["geometry"]["coordinates"][1]
-    assert_equal notes(:open_note).id, js["properties"]["id"]
-    assert_equal note_url(notes(:open_note), :format => "json"), js["properties"]["url"]
-    assert_equal comment_note_url(notes(:open_note), :format => "json"), js["properties"]["comment_url"]
-    assert_equal close_note_url(notes(:open_note), :format => "json"), js["properties"]["close_url"]
-    assert_equal notes(:open_note).created_at, js["properties"]["date_created"]
-    assert_equal notes(:open_note).status, js["properties"]["status"]
+    assert_equal open_note.lat, js["geometry"]["coordinates"][0]
+    assert_equal open_note.lon, js["geometry"]["coordinates"][1]
+    assert_equal open_note.id, js["properties"]["id"]
+    assert_equal note_url(open_note, :format => "json"), js["properties"]["url"]
+    assert_equal comment_note_url(open_note, :format => "json"), js["properties"]["comment_url"]
+    assert_equal close_note_url(open_note, :format => "json"), js["properties"]["close_url"]
+    assert_equal open_note.created_at.to_s, js["properties"]["date_created"]
+    assert_equal open_note.status, js["properties"]["status"]
 
-    get :show, :id => notes(:open_note).id, :format => "gpx"
+    get :show, :params => { :id => open_note.id, :format => "gpx" }
     assert_response :success
     assert_equal "application/gpx+xml", @response.content_type
     assert_select "gpx", :count => 1 do
-      assert_select "wpt[lat='#{notes(:open_note).lat}'][lon='#{notes(:open_note).lon}']", :count => 1 do
+      assert_select "wpt[lat='#{open_note.lat}'][lon='#{open_note.lon}']", :count => 1 do
         assert_select "time", :count => 1
-        assert_select "name", "Note: #{notes(:open_note).id}"
+        assert_select "name", "Note: #{open_note.id}"
         assert_select "desc", :count => 1
-        assert_select "link[href='http://www.openstreetmap.org/note/#{notes(:open_note).id}']", :count => 1
+        assert_select "link[href='http://test.host/note/#{open_note.id}']", :count => 1
         assert_select "extensions", :count => 1 do
-          assert_select "id", notes(:open_note).id
-          assert_select "url", note_url(notes(:open_note), :format => "gpx")
-          assert_select "comment_url", comment_note_url(notes(:open_note), :format => "gpx")
-          assert_select "close_url", close_note_url(notes(:open_note), :format => "gpx")
+          assert_select "id", open_note.id.to_s
+          assert_select "url", note_url(open_note, :format => "gpx")
+          assert_select "comment_url", comment_note_url(open_note, :format => "gpx")
+          assert_select "close_url", close_note_url(open_note, :format => "gpx")
         end
       end
     end
   end
 
   def test_show_hidden_comment
-    get :show, :id => notes(:note_with_hidden_comment).id, :format => "json"
+    note_with_hidden_comment = create(:note) do |note|
+      create(:note_comment, :note => note, :body => "Valid comment for hidden note")
+      create(:note_comment, :note => note, :visible => false)
+      create(:note_comment, :note => note, :body => "Another valid comment for hidden note")
+    end
+
+    get :show, :params => { :id => note_with_hidden_comment.id, :format => "json" }
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
     assert_equal "Feature", js["type"]
-    assert_equal notes(:note_with_hidden_comment).id, js["properties"]["id"]
+    assert_equal note_with_hidden_comment.id, js["properties"]["id"]
     assert_equal 2, js["properties"]["comments"].count
-    assert_equal "Valid comment for note 5", js["properties"]["comments"][0]["text"]
-    assert_equal "Another valid comment for note 5", js["properties"]["comments"][1]["text"]
+    assert_equal "Valid comment for hidden note", js["properties"]["comments"][0]["text"]
+    assert_equal "Another valid comment for hidden note", js["properties"]["comments"][1]["text"]
   end
 
   def test_show_fail
-    get :show, :id => 12345
+    get :show, :params => { :id => 12345 }
     assert_response :not_found
 
-    get :show, :id => notes(:hidden_note_with_comment).id
+    get :show, :params => { :id => create(:note, :status => "hidden").id }
     assert_response :gone
   end
 
   def test_destroy_success
-    delete :destroy, :id => notes(:open_note_with_comment).id, :text => "This is a hide comment", :format => "json"
+    open_note_with_comment = create(:note_with_comments)
+    user = create(:user)
+    moderator_user = create(:moderator_user)
+
+    delete :destroy, :params => { :id => open_note_with_comment.id, :text => "This is a hide comment", :format => "json" }
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
-    delete :destroy, :id => notes(:open_note_with_comment).id, :text => "This is a hide comment", :format => "json"
+    delete :destroy, :params => { :id => open_note_with_comment.id, :text => "This is a hide comment", :format => "json" }
     assert_response :forbidden
 
-    basic_authorization(users(:moderator_user).email, "test")
+    basic_authorization(moderator_user.email, "test")
 
-    delete :destroy, :id => notes(:open_note_with_comment).id, :text => "This is a hide comment", :format => "json"
+    delete :destroy, :params => { :id => open_note_with_comment.id, :text => "This is a hide comment", :format => "json" }
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
     assert_equal "Feature", js["type"]
-    assert_equal notes(:open_note_with_comment).id, js["properties"]["id"]
+    assert_equal open_note_with_comment.id, js["properties"]["id"]
     assert_equal "hidden", js["properties"]["status"]
-    assert_equal 5, js["properties"]["comments"].count
+    assert_equal 2, js["properties"]["comments"].count
     assert_equal "hidden", js["properties"]["comments"].last["action"]
     assert_equal "This is a hide comment", js["properties"]["comments"].last["text"]
-    assert_equal "moderator", js["properties"]["comments"].last["user"]
+    assert_equal moderator_user.display_name, js["properties"]["comments"].last["user"]
 
-    get :show, :id => notes(:open_note_with_comment).id, :format => "json"
+    get :show, :params => { :id => open_note_with_comment.id, :format => "json" }
     assert_response :gone
   end
 
   def test_destroy_fail
-    delete :destroy, :id => 12345, :format => "json"
+    user = create(:user)
+    moderator_user = create(:moderator_user)
+
+    delete :destroy, :params => { :id => 12345, :format => "json" }
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, "test")
+    basic_authorization(user.email, "test")
 
-    delete :destroy, :id => 12345, :format => "json"
+    delete :destroy, :params => { :id => 12345, :format => "json" }
     assert_response :forbidden
 
-    basic_authorization(users(:moderator_user).email, "test")
+    basic_authorization(moderator_user.email, "test")
 
-    delete :destroy, :id => 12345, :format => "json"
+    delete :destroy, :params => { :id => 12345, :format => "json" }
     assert_response :not_found
 
-    delete :destroy, :id => notes(:hidden_note_with_comment).id, :format => "json"
+    hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
+
+    delete :destroy, :params => { :id => hidden_note_with_comment.id, :format => "json" }
     assert_response :gone
   end
 
   def test_index_success
-    get :index, :bbox => "1,1,1.2,1.2", :format => "rss"
+    position = (1.1 * GeoRecord::SCALE).to_i
+    create(:note_with_comments, :latitude => position, :longitude => position)
+    create(:note_with_comments, :latitude => position, :longitude => position)
+
+    get :index, :params => { :bbox => "1,1,1.2,1.2", :format => "rss" }
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
@@ -599,7 +666,7 @@ class NotesControllerTest < ActionController::TestCase
       end
     end
 
-    get :index, :bbox => "1,1,1.2,1.2", :format => "json"
+    get :index, :params => { :bbox => "1,1,1.2,1.2", :format => "json" }
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
@@ -607,14 +674,14 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "FeatureCollection", js["type"]
     assert_equal 2, js["features"].count
 
-    get :index, :bbox => "1,1,1.2,1.2", :format => "xml"
+    get :index, :params => { :bbox => "1,1,1.2,1.2", :format => "xml" }
     assert_response :success
     assert_equal "application/xml", @response.content_type
     assert_select "osm", :count => 1 do
       assert_select "note", :count => 2
     end
 
-    get :index, :bbox => "1,1,1.2,1.2", :format => "gpx"
+    get :index, :params => { :bbox => "1,1,1.2,1.2", :format => "gpx" }
     assert_response :success
     assert_equal "application/gpx+xml", @response.content_type
     assert_select "gpx", :count => 1 do
@@ -623,7 +690,11 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_index_limit
-    get :index, :bbox => "1,1,1.2,1.2", :limit => 1, :format => "rss"
+    position = (1.1 * GeoRecord::SCALE).to_i
+    create(:note_with_comments, :latitude => position, :longitude => position)
+    create(:note_with_comments, :latitude => position, :longitude => position)
+
+    get :index, :params => { :bbox => "1,1,1.2,1.2", :limit => 1, :format => "rss" }
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
@@ -632,7 +703,7 @@ class NotesControllerTest < ActionController::TestCase
       end
     end
 
-    get :index, :bbox => "1,1,1.2,1.2", :limit => 1, :format => "json"
+    get :index, :params => { :bbox => "1,1,1.2,1.2", :limit => 1, :format => "json" }
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
@@ -640,14 +711,14 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "FeatureCollection", js["type"]
     assert_equal 1, js["features"].count
 
-    get :index, :bbox => "1,1,1.2,1.2", :limit => 1, :format => "xml"
+    get :index, :params => { :bbox => "1,1,1.2,1.2", :limit => 1, :format => "xml" }
     assert_response :success
     assert_equal "application/xml", @response.content_type
     assert_select "osm", :count => 1 do
       assert_select "note", :count => 1
     end
 
-    get :index, :bbox => "1,1,1.2,1.2", :limit => 1, :format => "gpx"
+    get :index, :params => { :bbox => "1,1,1.2,1.2", :limit => 1, :format => "gpx" }
     assert_response :success
     assert_equal "application/gpx+xml", @response.content_type
     assert_select "gpx", :count => 1 do
@@ -656,7 +727,7 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_index_empty_area
-    get :index, :bbox => "5,5,5.1,5.1", :format => "rss"
+    get :index, :params => { :bbox => "5,5,5.1,5.1", :format => "rss" }
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
@@ -665,7 +736,7 @@ class NotesControllerTest < ActionController::TestCase
       end
     end
 
-    get :index, :bbox => "5,5,5.1,5.1", :format => "json"
+    get :index, :params => { :bbox => "5,5,5.1,5.1", :format => "json" }
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
@@ -673,14 +744,14 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "FeatureCollection", js["type"]
     assert_equal 0, js["features"].count
 
-    get :index, :bbox => "5,5,5.1,5.1", :format => "xml"
+    get :index, :params => { :bbox => "5,5,5.1,5.1", :format => "xml" }
     assert_response :success
     assert_equal "application/xml", @response.content_type
     assert_select "osm", :count => 1 do
       assert_select "note", :count => 0
     end
 
-    get :index, :bbox => "5,5,5.1,5.1", :format => "gpx"
+    get :index, :params => { :bbox => "5,5,5.1,5.1", :format => "gpx" }
     assert_response :success
     assert_equal "application/gpx+xml", @response.content_type
     assert_select "gpx", :count => 1 do
@@ -689,84 +760,40 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_index_large_area
-    get :index, :bbox => "-2.5,-2.5,2.5,2.5", :format => :json
+    get :index, :params => { :bbox => "-2.5,-2.5,2.5,2.5", :format => :json }
     assert_response :success
     assert_equal "application/json", @response.content_type
 
-    get :index, :l => "-2.5", :b => "-2.5", :r => "2.5", :t => "2.5", :format => :json
+    get :index, :params => { :l => "-2.5", :b => "-2.5", :r => "2.5", :t => "2.5", :format => :json }
     assert_response :success
     assert_equal "application/json", @response.content_type
 
-    get :index, :bbox => "-10,-10,12,12", :format => :json
+    get :index, :params => { :bbox => "-10,-10,12,12", :format => :json }
     assert_response :bad_request
-    assert_equal "text/plain", @response.content_type
+    assert_equal "application/json", @response.content_type
 
-    get :index, :l => "-10", :b => "-10", :r => "12", :t => "12", :format => :json
+    get :index, :params => { :l => "-10", :b => "-10", :r => "12", :t => "12", :format => :json }
     assert_response :bad_request
-    assert_equal "text/plain", @response.content_type
+    assert_equal "application/json", @response.content_type
   end
 
   def test_index_closed
-    get :index, :bbox => "1,1,1.7,1.7", :closed => "7", :format => "json"
+    create(:note_with_comments, :status => "closed", :closed_at => Time.now - 5.days)
+    create(:note_with_comments, :status => "closed", :closed_at => Time.now - 100.days)
+    create(:note_with_comments, :status => "hidden")
+    create(:note_with_comments)
+
+    # Open notes + closed in last 7 days
+    get :index, :params => { :bbox => "1,1,1.7,1.7", :closed => "7", :format => "json" }
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
     assert_equal "FeatureCollection", js["type"]
-    assert_equal 4, js["features"].count
+    assert_equal 2, js["features"].count
 
-    get :index, :bbox => "1,1,1.7,1.7", :closed => "0", :format => "json"
-    assert_response :success
-    assert_equal "application/json", @response.content_type
-    js = ActiveSupport::JSON.decode(@response.body)
-    assert_not_nil js
-    assert_equal "FeatureCollection", js["type"]
-    assert_equal 4, js["features"].count
-
-    get :index, :bbox => "1,1,1.7,1.7", :closed => "-1", :format => "json"
-    assert_response :success
-    assert_equal "application/json", @response.content_type
-    js = ActiveSupport::JSON.decode(@response.body)
-    assert_not_nil js
-    assert_equal "FeatureCollection", js["type"]
-    assert_equal 6, js["features"].count
-  end
-
-  def test_index_bad_params
-    get :index, :bbox => "-2.5,-2.5,2.5"
-    assert_response :bad_request
-
-    get :index, :bbox => "-2.5,-2.5,2.5,2.5,2.5"
-    assert_response :bad_request
-
-    get :index, :b => "-2.5", :r => "2.5", :t => "2.5"
-    assert_response :bad_request
-
-    get :index, :l => "-2.5", :r => "2.5", :t => "2.5"
-    assert_response :bad_request
-
-    get :index, :l => "-2.5", :b => "-2.5", :t => "2.5"
-    assert_response :bad_request
-
-    get :index, :l => "-2.5", :b => "-2.5", :r => "2.5"
-    assert_response :bad_request
-
-    get :index, :bbox => "1,1,1.7,1.7", :limit => "0", :format => "json"
-    assert_response :bad_request
-
-    get :index, :bbox => "1,1,1.7,1.7", :limit => "10001", :format => "json"
-    assert_response :bad_request
-  end
-
-  def test_search_success
-    get :search, :q => "note 1", :format => "xml"
-    assert_response :success
-    assert_equal "application/xml", @response.content_type
-    assert_select "osm", :count => 1 do
-      assert_select "note", :count => 1
-    end
-
-    get :search, :q => "note 1", :format => "json"
+    # Only open notes
+    get :index, :params => { :bbox => "1,1,1.7,1.7", :closed => "0", :format => "json" }
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
@@ -774,7 +801,61 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "FeatureCollection", js["type"]
     assert_equal 1, js["features"].count
 
-    get :search, :q => "note 1", :format => "rss"
+    # Open notes + all closed notes
+    get :index, :params => { :bbox => "1,1,1.7,1.7", :closed => "-1", :format => "json" }
+    assert_response :success
+    assert_equal "application/json", @response.content_type
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal "FeatureCollection", js["type"]
+    assert_equal 3, js["features"].count
+  end
+
+  def test_index_bad_params
+    get :index, :params => { :bbox => "-2.5,-2.5,2.5" }
+    assert_response :bad_request
+
+    get :index, :params => { :bbox => "-2.5,-2.5,2.5,2.5,2.5" }
+    assert_response :bad_request
+
+    get :index, :params => { :b => "-2.5", :r => "2.5", :t => "2.5" }
+    assert_response :bad_request
+
+    get :index, :params => { :l => "-2.5", :r => "2.5", :t => "2.5" }
+    assert_response :bad_request
+
+    get :index, :params => { :l => "-2.5", :b => "-2.5", :t => "2.5" }
+    assert_response :bad_request
+
+    get :index, :params => { :l => "-2.5", :b => "-2.5", :r => "2.5" }
+    assert_response :bad_request
+
+    get :index, :params => { :bbox => "1,1,1.7,1.7", :limit => "0", :format => "json" }
+    assert_response :bad_request
+
+    get :index, :params => { :bbox => "1,1,1.7,1.7", :limit => "10001", :format => "json" }
+    assert_response :bad_request
+  end
+
+  def test_search_success
+    create(:note_with_comments)
+
+    get :search, :params => { :q => "note comment", :format => "xml" }
+    assert_response :success
+    assert_equal "application/xml", @response.content_type
+    assert_select "osm", :count => 1 do
+      assert_select "note", :count => 1
+    end
+
+    get :search, :params => { :q => "note comment", :format => "json" }
+    assert_response :success
+    assert_equal "application/json", @response.content_type
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal "FeatureCollection", js["type"]
+    assert_equal 1, js["features"].count
+
+    get :search, :params => { :q => "note comment", :format => "rss" }
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
@@ -783,7 +864,7 @@ class NotesControllerTest < ActionController::TestCase
       end
     end
 
-    get :search, :q => "note 1", :format => "gpx"
+    get :search, :params => { :q => "note comment", :format => "gpx" }
     assert_response :success
     assert_equal "application/gpx+xml", @response.content_type
     assert_select "gpx", :count => 1 do
@@ -792,14 +873,16 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_search_no_match
-    get :search, :q => "no match", :format => "xml"
+    create(:note_with_comments)
+
+    get :search, :params => { :q => "no match", :format => "xml" }
     assert_response :success
     assert_equal "application/xml", @response.content_type
     assert_select "osm", :count => 1 do
       assert_select "note", :count => 0
     end
 
-    get :search, :q => "no match", :format => "json"
+    get :search, :params => { :q => "no match", :format => "json" }
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
@@ -807,7 +890,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "FeatureCollection", js["type"]
     assert_equal 0, js["features"].count
 
-    get :search, :q => "no match", :format => "rss"
+    get :search, :params => { :q => "no match", :format => "rss" }
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
@@ -816,7 +899,7 @@ class NotesControllerTest < ActionController::TestCase
       end
     end
 
-    get :search, :q => "no match", :format => "gpx"
+    get :search, :params => { :q => "no match", :format => "gpx" }
     assert_response :success
     assert_equal "application/gpx+xml", @response.content_type
     assert_select "gpx", :count => 1 do
@@ -828,70 +911,108 @@ class NotesControllerTest < ActionController::TestCase
     get :search
     assert_response :bad_request
 
-    get :search, :q => "no match", :limit => "0", :format => "json"
+    get :search, :params => { :q => "no match", :limit => "0", :format => "json" }
     assert_response :bad_request
 
-    get :search, :q => "no match", :limit => "10001", :format => "json"
+    get :search, :params => { :q => "no match", :limit => "10001", :format => "json" }
     assert_response :bad_request
   end
 
   def test_feed_success
-    get :feed, :format => "rss"
+    position = (1.1 * GeoRecord::SCALE).to_i
+    create(:note_with_comments, :latitude => position, :longitude => position)
+    create(:note_with_comments, :latitude => position, :longitude => position)
+    position = (1.5 * GeoRecord::SCALE).to_i
+    create(:note_with_comments, :latitude => position, :longitude => position)
+    create(:note_with_comments, :latitude => position, :longitude => position)
+
+    get :feed, :params => { :format => "rss" }
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
       assert_select "channel", :count => 1 do
-        assert_select "item", :count => 10
+        assert_select "item", :count => 4
       end
     end
 
-    get :feed, :bbox => "1,1,1.2,1.2", :format => "rss"
+    get :feed, :params => { :bbox => "1,1,1.2,1.2", :format => "rss" }
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
       assert_select "channel", :count => 1 do
-        assert_select "item", :count => 5
+        assert_select "item", :count => 2
       end
     end
   end
 
   def test_feed_fail
-    get :feed, :bbox => "1,1,1.2", :format => "rss"
+    get :feed, :params => { :bbox => "1,1,1.2", :format => "rss" }
     assert_response :bad_request
 
-    get :feed, :bbox => "1,1,1.2,1.2,1.2", :format => "rss"
+    get :feed, :params => { :bbox => "1,1,1.2,1.2,1.2", :format => "rss" }
     assert_response :bad_request
 
-    get :feed, :bbox => "1,1,1.2,1.2", :limit => "0", :format => "rss"
+    get :feed, :params => { :bbox => "1,1,1.2,1.2", :limit => "0", :format => "rss" }
     assert_response :bad_request
 
-    get :feed, :bbox => "1,1,1.2,1.2", :limit => "10001", :format => "rss"
+    get :feed, :params => { :bbox => "1,1,1.2,1.2", :limit => "10001", :format => "rss" }
     assert_response :bad_request
   end
 
   def test_mine_success
-    get :mine, :display_name => "test"
+    first_user = create(:user)
+    second_user = create(:user)
+    moderator_user = create(:moderator_user)
+
+    create(:note) do |note|
+      create(:note_comment, :note => note, :author => first_user)
+    end
+    create(:note) do |note|
+      create(:note_comment, :note => note, :author => second_user)
+    end
+    create(:note, :status => "hidden") do |note|
+      create(:note_comment, :note => note, :author => second_user)
+    end
+
+    # Note that the table rows include a header row
+    get :mine, :params => { :display_name => first_user.display_name }
     assert_response :success
     assert_select "table.note_list tr", :count => 2
 
-    get :mine, :display_name => "pulibc_test2"
+    get :mine, :params => { :display_name => second_user.display_name }
+    assert_response :success
+    assert_select "table.note_list tr", :count => 2
+
+    get :mine, :params => { :display_name => "non-existent" }
+    assert_response :not_found
+
+    session[:user] = moderator_user.id
+
+    get :mine, :params => { :display_name => first_user.display_name }
+    assert_response :success
+    assert_select "table.note_list tr", :count => 2
+
+    get :mine, :params => { :display_name => second_user.display_name }
     assert_response :success
     assert_select "table.note_list tr", :count => 3
 
-    get :mine, :display_name => "non-existent"
+    get :mine, :params => { :display_name => "non-existent" }
     assert_response :not_found
+  end
 
-    session[:user] = users(:moderator_user).id
+  def test_mine_paged
+    user = create(:user)
 
-    get :mine, :display_name => "test"
+    create_list(:note, 50) do |note|
+      create(:note_comment, :note => note, :author => user)
+    end
+
+    get :mine, :params => { :display_name => user.display_name }
     assert_response :success
-    assert_select "table.note_list tr", :count => 2
+    assert_select "table.note_list tr", :count => 11
 
-    get :mine, :display_name => "pulibc_test2"
+    get :mine, :params => { :display_name => user.display_name, :page => 2 }
     assert_response :success
-    assert_select "table.note_list tr", :count => 4
-
-    get :mine, :display_name => "non-existent"
-    assert_response :not_found
+    assert_select "table.note_list tr", :count => 11
   end
 end

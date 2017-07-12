@@ -33,13 +33,13 @@ class SearchController < ApplicationController
 
     if do_nodes
       response.headers["Error"] = "Searching of nodes is currently unavailable"
-      render :text => "", :status => :service_unavailable
+      head :service_unavailable
       return false
     end
 
     unless value
       response.headers["Error"] = "Searching for a key without value is currently unavailable"
-      render :text => "", :status => :service_unavailable
+      head :service_unavailable
       return false
     end
 
@@ -94,6 +94,6 @@ class SearchController < ApplicationController
       doc.root << rel.to_xml_node(nil, changeset_cache, user_display_name_cache)
     end
 
-    render :text => doc.to_s, :content_type => "text/xml"
+    render :xml => doc.to_s
   end
 end

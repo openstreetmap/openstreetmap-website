@@ -5,7 +5,7 @@ require "generator"
 
 addresses = User.count(
   :conditions => {
-    :status => %w(suspended deleted),
+    :status => %w[suspended deleted],
     :creation_time => Time.now - 28.days..Time.now
   },
   :group => :creation_ip

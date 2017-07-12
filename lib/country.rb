@@ -9,7 +9,7 @@ class Country
     @max_lon = max_lon
   end
 
-  def self.find_by_code(code)
+  def self.find(code)
     countries[code]
   end
 

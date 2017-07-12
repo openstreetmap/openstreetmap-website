@@ -11,13 +11,18 @@ folder 'vendor/assets' do
   end
 
   folder 'leaflet' do
-    file 'leaflet.js', 'http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet-src.js'
-    file 'leaflet.css', 'http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css'
+    file 'leaflet.js', 'https://unpkg.com/leaflet@1.1.0/dist/leaflet-src.js'
+    file 'leaflet.css', 'https://unpkg.com/leaflet@1.1.0/dist/leaflet.css'
 
     [ 'layers.png', 'layers-2x.png',
       'marker-icon.png', 'marker-icon-2x.png',
       'marker-shadow.png' ].each do |image|
-      file "images/#{image}", "http://cdn.leafletjs.com/leaflet/v0.7.7/images/#{image}"
+      file "images/#{image}", "https://unpkg.com/leaflet@1.1.0/dist/images/#{image}"
+    end
+
+    from 'git://github.com/aratcliffe/Leaflet.contextmenu.git', :tag => 'v1.2.1' do
+      file 'leaflet.contextmenu.js', 'dist/leaflet.contextmenu.js'
+      file 'leaflet.contextmenu.css', 'dist/leaflet.contextmenu.css'
     end
 
     from 'git://github.com/kajic/leaflet-locationfilter.git' do
@@ -26,7 +31,7 @@ folder 'vendor/assets' do
       folder 'img', 'src/img'
     end
 
-    from 'git://github.com/domoritz/leaflet-locatecontrol.git' do
+    from 'git://github.com/domoritz/leaflet-locatecontrol.git', :tag => 'v0.54.0' do
       file 'leaflet.locate.js', 'src/L.Control.Locate.js'
     end
 
@@ -34,7 +39,7 @@ folder 'vendor/assets' do
       file 'leaflet.osm.js', 'leaflet-osm.js'
     end
 
-    from 'git://github.com/jieter/Leaflet.encoded.git' do
+    from 'git://github.com/jieter/Leaflet.encoded.git', :tag => '0.0.8' do
       file 'leaflet.polyline.js', 'Polyline.encoded.js'
     end
   end
@@ -49,7 +54,7 @@ folder 'vendor/assets' do
     from 'git://github.com/openstreetmap/iD', :branch => 'release' do
       folder 'iD/img', 'dist/img'
       folder 'iD/locales', 'dist/locales'
-      folder 'iD/traffico', 'dist/traffico'
+      folder 'iD/mapillary-js', 'dist/mapillary-js'
 
       file 'iD.css.erb', 'dist/iD.css' do |path|
         rewrite(path) do |content|
@@ -57,17 +62,7 @@ folder 'vendor/assets' do
         end
       end
 
-      file 'iD/traffico/stylesheets/traffico.css.erb', 'dist/traffico/stylesheets/traffico.css' do |path|
-        rewrite(path) do |content|
-          content.gsub(/url\("?\.\.\/([^#?")]+)([^"]*)"?\)/, 'url(<%= asset_path("iD/traffico/\1") %>\2)')
-        end
-      end
-
-      File.delete('vendor/assets/iD/iD/traffico/stylesheets/traffico.css')
-
       file 'iD.js', 'dist/iD.js'
-      file 'presets.js', 'dist/presets.js'
-      file 'imagery.js', 'dist/imagery.js'
     end
   end
 

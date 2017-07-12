@@ -148,6 +148,8 @@ small, aside {
 
 .red { color: $red; }
 
+.piwik { border: 0; }
+
 /* Rules for icons */
 
 .icon {
@@ -491,7 +493,8 @@ body.compact {
     background-color: black;
   }
 
-  &.disabled {
+  &.disabled,
+  &.leaflet-disabled {
     background-color: #333;
     background-color: rgba(0,0,0,.5);
     cursor: default;
@@ -547,6 +550,10 @@ body.compact {
     background: #fff;
     font-size: 12px;
 
+    #sidebar_loader {
+      display: none;
+    }
+
     > div {
       position: relative;
       float: left;
@@ -582,12 +589,19 @@ body.compact {
 
     .icon.close {
       float: right;
+      cursor: pointer;
     }
 
-    p.error {
-      background-color: #ff7070;
-      padding: 10px;
-      font-weight: bold;
+    .flash {
+      padding: 15px;
+
+      picture {
+        margin-right: -25px;
+      }
+
+      div.message {
+        margin-left: 30px;
+      }
     }
   }
 
@@ -724,7 +738,7 @@ body.compact {
         font-size: 16px;
         text-stroke: 2px #fff;
         background: rgba(255,255,255,.9);
-        z-index: 2; // For IE9
+        z-index: 1000;
         input[type="radio"] {
           display: none;
         }
@@ -869,10 +883,15 @@ body.compact {
 
 #sidebar {
   #sidebar_loader,
+  .search_more {
+    width: 100%;
+    margin: $lineheight auto;
+  }
+
   .loader,
   .load_more {
     text-align: center;
-    margin: $lineheight auto;
+    margin: auto;
     width: 40px;
     display: block;
   }
@@ -1175,6 +1194,7 @@ tr.turn:hover {
       width: 50%;
       padding: 6px 10px;
       word-wrap: break-word;
+      white-space: pre-wrap;
     }
 
     .browse-tag-k {
@@ -1469,6 +1489,18 @@ tr.turn:hover {
   }
 }
 
+/* Rules for the trace view */
+
+.trace-view {
+  .trace_pending {
+    color: red;
+  }
+
+  .geo {
+    display: inline;
+  }
+}
+
 /* Rules for the new trace form */
 
 #new_trace {
@@ -1674,6 +1706,13 @@ tr.turn:hover {
   float: left;
 }
 
+
+.diary-subscribe-buttons {
+  position:relative;
+  top: -30px;
+  left: 130px;
+}
+
 /* Rules for the log in page */
 
 #login_auth_buttons {
@@ -1694,6 +1733,14 @@ tr.turn:hover {
     margin-bottom: $lineheight;
     overflow: auto;
     height: 20em;
+
+    li {
+      list-style: inherit;
+    }
+
+    ol ol {
+      list-style-type: lower-alpha;
+    }
   }
 
   #decline {
@@ -1750,6 +1797,12 @@ tr.turn:hover {
 
 .oauth_clients .buttons .oauth-delete {
   border-radius: 0 2px 2px 0;
+}
+
+/* Rules for the oauth authorization page */
+
+.oauth-authorize ul {
+  list-style: none;
 }
 
 /* Rules for messages pages */

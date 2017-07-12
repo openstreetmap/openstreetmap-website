@@ -7,6 +7,8 @@
 //= require leaflet.share
 //= require leaflet.polyline
 //= require leaflet.query
+//= require leaflet.contextmenu
+//= require index/contextmenu
 //= require index/search
 //= require index/browse
 //= require index/export
@@ -77,7 +79,8 @@ $(document).ready(function () {
 
   var map = new L.OSM.Map("map", {
     zoomControl: false,
-    layerControl: false
+    layerControl: false,
+    contextmenu: true
   });
 
   map.attributionControl.setPrefix('');
@@ -95,13 +98,24 @@ $(document).ready(function () {
   L.OSM.zoom({position: position})
     .addTo(map);
 
-  L.control.locate({
+  var locate = L.control.locate({
     position: position,
+    icon: 'icon geolocate',
+    iconLoading: 'icon geolocate',
     strings: {
       title: I18n.t('javascripts.map.locate.title'),
       popup: I18n.t('javascripts.map.locate.popup')
     }
   }).addTo(map);
+
+  var locateContainer = locate.getContainer();
+
+  $(locateContainer)
+    .removeClass('leaflet-control-locate leaflet-bar')
+    .addClass('control-locate')
+    .children("a")
+    .removeClass('leaflet-bar-part leaflet-bar-part-single')
+    .addClass('control-button');
 
   var sidebar = L.OSM.sidebar('#map-ui')
     .addTo(map);
@@ -136,6 +150,8 @@ $(document).ready(function () {
   L.control.scale()
     .addTo(map);
 
+  OSM.initializeContextMenu(map);
+
   if (OSM.STATUS !== 'api_offline' && OSM.STATUS !== 'database_offline') {
     OSM.initializeNotes(map);
     if (params.layers.indexOf(map.noteLayer.options.code) >= 0) {
@@ -145,6 +161,10 @@ $(document).ready(function () {
     OSM.initializeBrowse(map);
     if (params.layers.indexOf(map.dataLayer.options.code) >= 0) {
       map.addLayer(map.dataLayer);
+    }
+
+    if (params.layers.indexOf(map.gpsLayer.options.code) >= 0) {
+      map.addLayer(map.gpsLayer);
     }
   }
 
@@ -175,7 +195,7 @@ $(document).ready(function () {
   });
 
   var bannerExpiry = new Date();
-  expiry.setYear(expiry.getFullYear() + 1);
+  bannerExpiry.setYear(bannerExpiry.getFullYear() + 1);
 
   $('#banner .close-wrap').on('click', function(e) {
     var cookieId = e.target.id;

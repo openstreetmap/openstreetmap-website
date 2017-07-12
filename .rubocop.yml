@@ -1,19 +1,43 @@
 inherit_from: .rubocop_todo.yml
 
+AllCops:
+  Include:
+    - '**/*.gemspec'
+    - '**/*.podspec'
+    - '**/*.jbuilder'
+    - '**/*.rake'
+    - '**/*.opal'
+    - '**/config.ru'
+    - '**/Gemfile'
+    - '**/Rakefile'
+    - '**/Capfile'
+    - '**/Guardfile'
+    - '**/Podfile'
+    - '**/Thorfile'
+    - '**/Vagrantfile'
+    - '**/Berksfile'
+    - '**/Cheffile'
+    - '**/Vagabondfile'
+    - '**/Fastfile'
+    - '**/*.builder'
+
 Rails:
   Enabled: true
 
+Layout/ExtraSpacing:
+  AllowForAlignment: true
+
 Style/BracesAroundHashParameters:
   EnforcedStyle: context_dependent
-
-Style/ExtraSpacing:
-  AllowForAlignment: true
 
 Style/FileName:
   Exclude:
     - 'script/deliver-message'
     - 'script/locale/reload-languages'
     - 'script/update-spam-blocks'
+
+Style/FormatStringToken:
+  EnforcedStyle: template
 
 Style/IfInsideElse:
   Enabled: false
@@ -33,3 +57,22 @@ Style/HashSyntax:
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Rails/ApplicationRecord:
+  Enabled: false
+
+Rails/HttpPositionalArguments:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Exclude:
+    - 'db/migrate/*.rb'
+    - 'app/controllers/user_controller.rb'
+
+Lint/PercentStringArray:
+  Exclude:
+    - 'config/initializers/secure_headers.rb'
+    - 'app/controllers/site_controller.rb'

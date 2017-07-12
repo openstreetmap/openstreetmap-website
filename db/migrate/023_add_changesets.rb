@@ -1,7 +1,7 @@
 require "migrate"
 
 class AddChangesets < ActiveRecord::Migration
-  @conv_user_tables = %w(current_nodes current_relations current_ways nodes relations ways)
+  @conv_user_tables = %w[current_nodes current_relations current_ways nodes relations ways]
 
   def self.up
     create_table "changesets", :id => false do |t|

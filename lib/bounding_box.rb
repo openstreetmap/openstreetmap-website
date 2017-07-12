@@ -43,14 +43,22 @@ class BoundingBox
     # only try to expand the bbox if there is a value for every coordinate
     # which there will be from the previous line as long as array does not contain a nil
     if bbox.complete?
-      @min_lon = [-SCALED_LON_LIMIT,
-                  bbox.min_lon + margin * (min_lon - max_lon)].max if bbox.min_lon < min_lon
-      @min_lat = [-SCALED_LAT_LIMIT,
-                  bbox.min_lat + margin * (min_lat - max_lat)].max if bbox.min_lat < min_lat
-      @max_lon = [+SCALED_LON_LIMIT,
-                  bbox.max_lon + margin * (max_lon - min_lon)].min if bbox.max_lon > max_lon
-      @max_lat = [+SCALED_LAT_LIMIT,
-                  bbox.max_lat + margin * (max_lat - min_lat)].min if bbox.max_lat > max_lat
+      if bbox.min_lon < min_lon
+        @min_lon = [-SCALED_LON_LIMIT,
+                    bbox.min_lon + margin * (min_lon - max_lon)].max
+      end
+      if bbox.min_lat < min_lat
+        @min_lat = [-SCALED_LAT_LIMIT,
+                    bbox.min_lat + margin * (min_lat - max_lat)].max
+      end
+      if bbox.max_lon > max_lon
+        @max_lon = [+SCALED_LON_LIMIT,
+                    bbox.max_lon + margin * (max_lon - min_lon)].min
+      end
+      if bbox.max_lat > max_lat
+        @max_lat = [+SCALED_LAT_LIMIT,
+                    bbox.max_lat + margin * (max_lat - min_lat)].min
+      end
     end
     self
   end
@@ -129,10 +137,10 @@ class BoundingBox
   # there are two forms used for bounds with and without an underscore,
   # cater for both forms eg minlon and min_lon
   def add_bounds_to(hash, underscore = "")
-    hash["min#{underscore}lat"] = min_lat.to_s
-    hash["min#{underscore}lon"] = min_lon.to_s
-    hash["max#{underscore}lat"] = max_lat.to_s
-    hash["max#{underscore}lon"] = max_lon.to_s
+    hash["min#{underscore}lat"] = format("%.7f", min_lat)
+    hash["min#{underscore}lon"] = format("%.7f", min_lon)
+    hash["max#{underscore}lat"] = format("%.7f", max_lat)
+    hash["max#{underscore}lon"] = format("%.7f", max_lon)
     hash
   end
 

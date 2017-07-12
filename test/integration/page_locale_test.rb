@@ -1,10 +1,9 @@
 require "test_helper"
 
 class PageLocaleTest < ActionDispatch::IntegrationTest
-  fixtures :users
-
   def setup
     I18n.locale = "en"
+    stub_hostip_requests
   end
 
   def teardown
@@ -12,34 +11,36 @@ class PageLocaleTest < ActionDispatch::IntegrationTest
   end
 
   def test_defaulting
-    user = users(:second_public_user)
+    user = create(:user, :languages => [])
 
-    post_via_redirect "/login", :username => user.email, :password => "test"
+    post "/login", :params => { :username => user.email, :password => "test" }
+    follow_redirect!
 
-    get "/diary/new", {}
+    get "/diary/new"
     assert_equal [], User.find(user.id).languages
     assert_select "html[lang=?]", "en"
 
-    get "/diary/new", {}, { "HTTP_ACCEPT_LANGUAGE" => "fr, en" }
-    assert_equal %w(fr en), User.find(user.id).languages
+    get "/diary/new", :headers => { "HTTP_ACCEPT_LANGUAGE" => "fr, en" }
+    assert_equal %w[fr en], User.find(user.id).languages
     assert_select "html[lang=?]", "fr"
   end
 
   def test_override
-    user = users(:german_user)
+    user = create(:user, :languages => ["de"])
 
     get "/diary"
     assert_select "html[lang=?]", "en"
 
-    get "/diary", :locale => "es"
+    get "/diary", :params => { :locale => "es" }
     assert_select "html[lang=?]", "es"
 
-    post_via_redirect "/login", :username => user.email, :password => "test"
+    post "/login", :params => { :username => user.email, :password => "test" }
+    follow_redirect!
 
     get "/diary"
     assert_select "html[lang=?]", "de"
 
-    get "/diary", :locale => "fr"
+    get "/diary", :params => { :locale => "fr" }
     assert_select "html[lang=?]", "fr"
   end
 end

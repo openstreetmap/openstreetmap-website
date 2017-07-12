@@ -2,7 +2,7 @@ json.type "Feature"
 
 json.geometry do
   json.type "Point"
-  json.coordinates [ note.lon, note.lat ]
+  json.coordinates [ note.lon.to_f, note.lat.to_f ]
 end
 
 json.properties do
@@ -26,7 +26,7 @@ json.properties do
     if comment.author
       json.uid comment.author.id
       json.user comment.author.display_name
-      json.user_url user_url(:display_name => comment.author.display_name, :host => SERVER_URL)
+      json.user_url user_url(:display_name => comment.author.display_name, :only_path => false)
     end
 
     json.action comment.event

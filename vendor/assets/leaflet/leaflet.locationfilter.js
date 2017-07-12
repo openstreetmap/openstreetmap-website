@@ -90,7 +90,7 @@ L.Control.ButtonContainer = L.Control.extend({
     }
 });
 
-L.LocationFilter = L.Class.extend({
+L.LocationFilter = L.Layer.extend({
     includes: L.Mixin.Events,
 
     options: {

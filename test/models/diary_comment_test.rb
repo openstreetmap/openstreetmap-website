@@ -1,10 +1,14 @@
 require "test_helper"
 
 class DiaryCommentTest < ActiveSupport::TestCase
-  api_fixtures
-  fixtures :diary_comments
+  def setup
+    # Create the default language for diary entries
+    create(:language, :code => "en")
+  end
 
-  def test_diary_comment_count
-    assert_equal 4, DiaryComment.count
+  test "body must be present" do
+    comment = build(:diary_comment, :body => "")
+    assert_not comment.valid?
+    assert_not_nil comment.errors[:body], "no validation error for missing body"
   end
 end

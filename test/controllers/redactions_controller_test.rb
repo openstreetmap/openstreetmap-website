@@ -2,8 +2,6 @@ require "test_helper"
 require "redactions_controller"
 
 class RedactionsControllerTest < ActionController::TestCase
-  api_fixtures
-
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -38,6 +36,8 @@ class RedactionsControllerTest < ActionController::TestCase
   end
 
   def test_index
+    create(:redaction)
+
     get :index
     assert_response :success
     assert_template :index
@@ -53,7 +53,7 @@ class RedactionsControllerTest < ActionController::TestCase
   end
 
   def test_new_moderator
-    session[:user] = users(:moderator_user).id
+    session[:user] = create(:moderator_user).id
 
     get :new
     assert_response :success
@@ -61,7 +61,7 @@ class RedactionsControllerTest < ActionController::TestCase
   end
 
   def test_new_non_moderator
-    session[:user] = users(:public_user).id
+    session[:user] = create(:user).id
 
     get :new
     assert_response :redirect
@@ -69,108 +69,108 @@ class RedactionsControllerTest < ActionController::TestCase
   end
 
   def test_create_moderator
-    session[:user] = users(:moderator_user).id
+    session[:user] = create(:moderator_user).id
 
-    post :create, :redaction => { :title => "Foo", :description => "Description here." }
+    post :create, :params => { :redaction => { :title => "Foo", :description => "Description here." } }
     assert_response :redirect
-    assert_redirected_to(redaction_path(Redaction.find_by_title("Foo")))
+    assert_redirected_to(redaction_path(Redaction.find_by(:title => "Foo")))
   end
 
   def test_create_moderator_invalid
-    session[:user] = users(:moderator_user).id
+    session[:user] = create(:moderator_user).id
 
-    post :create, :redaction => { :title => "Foo", :description => "" }
+    post :create, :params => { :redaction => { :title => "Foo", :description => "" } }
     assert_response :success
     assert_template :new
   end
 
   def test_create_non_moderator
-    session[:user] = users(:public_user).id
+    session[:user] = create(:user).id
 
-    post :create, :redaction => { :title => "Foo", :description => "Description here." }
+    post :create, :params => { :redaction => { :title => "Foo", :description => "Description here." } }
     assert_response :forbidden
   end
 
   def test_destroy_moderator_empty
-    session[:user] = users(:moderator_user).id
+    session[:user] = create(:moderator_user).id
 
-    # remove all elements from the redaction
-    redaction = redactions(:example)
-    redaction.old_nodes.each     { |n| n.update!(:redaction => nil) }
-    redaction.old_ways.each      { |w| w.update!(:redaction => nil) }
-    redaction.old_relations.each { |r| r.update!(:redaction => nil) }
+    # create an empty redaction
+    redaction = create(:redaction)
 
-    delete :destroy, :id => redaction.id
+    delete :destroy, :params => { :id => redaction.id }
     assert_response :redirect
     assert_redirected_to(redactions_path)
   end
 
   def test_destroy_moderator_non_empty
-    session[:user] = users(:moderator_user).id
+    session[:user] = create(:moderator_user).id
 
-    # leave elements in the redaction
-    redaction = redactions(:example)
+    # create elements in the redaction
+    redaction = create(:redaction)
+    create(:old_node, :redaction => redaction)
 
-    delete :destroy, :id => redaction.id
+    delete :destroy, :params => { :id => redaction.id }
     assert_response :redirect
     assert_redirected_to(redaction_path(redaction))
     assert_match /^Redaction is not empty/, flash[:error]
   end
 
   def test_delete_non_moderator
-    session[:user] = users(:public_user).id
+    session[:user] = create(:user).id
 
-    delete :destroy, :id => redactions(:example).id
+    delete :destroy, :params => { :id => create(:redaction).id }
     assert_response :forbidden
   end
 
   def test_edit
-    get :edit, :id => redactions(:example).id
+    redaction = create(:redaction)
+
+    get :edit, :params => { :id => redaction.id }
     assert_response :redirect
-    assert_redirected_to login_path(:referer => edit_redaction_path(redactions(:example)))
+    assert_redirected_to login_path(:referer => edit_redaction_path(redaction))
   end
 
   def test_edit_moderator
-    session[:user] = users(:moderator_user).id
+    session[:user] = create(:moderator_user).id
 
-    get :edit, :id => redactions(:example).id
+    get :edit, :params => { :id => create(:redaction).id }
     assert_response :success
   end
 
   def test_edit_non_moderator
-    session[:user] = users(:public_user).id
+    session[:user] = create(:user).id
 
-    get :edit, :id => redactions(:example).id
+    get :edit, :params => { :id => create(:redaction).id }
     assert_response :redirect
     assert_redirected_to(redactions_path)
   end
 
   def test_update_moderator
-    session[:user] = users(:moderator_user).id
+    session[:user] = create(:moderator_user).id
 
-    redaction = redactions(:example)
+    redaction = create(:redaction)
 
-    put :update, :id => redaction.id, :redaction => { :title => "Foo", :description => "Description here." }
+    put :update, :params => { :id => redaction.id, :redaction => { :title => "Foo", :description => "Description here." } }
     assert_response :redirect
     assert_redirected_to(redaction_path(redaction))
   end
 
   def test_update_moderator_invalid
-    session[:user] = users(:moderator_user).id
+    session[:user] = create(:moderator_user).id
 
-    redaction = redactions(:example)
+    redaction = create(:redaction)
 
-    put :update, :id => redaction.id, :redaction => { :title => "Foo", :description => "" }
+    put :update, :params => { :id => redaction.id, :redaction => { :title => "Foo", :description => "" } }
     assert_response :success
     assert_template :edit
   end
 
   def test_updated_non_moderator
-    session[:user] = users(:public_user).id
+    session[:user] = create(:user).id
 
-    redaction = redactions(:example)
+    redaction = create(:redaction)
 
-    put :update, :id => redaction.id, :redaction => { :title => "Foo", :description => "Description here." }
+    put :update, :params => { :id => redaction.id, :redaction => { :title => "Foo", :description => "Description here." } }
     assert_response :forbidden
   end
 end

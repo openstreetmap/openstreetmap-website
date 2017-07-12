@@ -7,6 +7,7 @@
 # Author: Avatar
 # Author: Campmaster
 # Author: Candid Dauth
+# Author: CarstenG
 # Author: ChrisiPK
 # Author: CygnusOlor
 # Author: Daswaldhorn
@@ -23,6 +24,7 @@
 # Author: Jacobbraeutigam
 # Author: John07
 # Author: Jupiter
+# Author: KPFC
 # Author: Katpatuka
 # Author: Kerosin
 # Author: Kghbln
@@ -53,7 +55,7 @@
 de:
   time:
     formats:
-      friendly: '%e. %B %Y um %H:%M'
+      friendly: '%e. %B %Y um %H:%M Uhr'
   activerecord:
     models:
       acl: Zugangskontrollliste
@@ -998,11 +1000,10 @@ de:
     intro_2_create_account: Erstelle ein Benutzerkonto
     partners_html: Das Hosting wird %{ucl}, %{ic}, %{bytemark} sowie von anderen %{partners}
       unterstützt.
-    partners_ucl: vom UCL VR Centre
+    partners_ucl: UCL
     partners_ic: dem Imperial College London
     partners_bytemark: Bytemark Hosting
     partners_partners: Partnern
-    partners_url: http://wiki.openstreetmap.org/wiki/Partners
     osm_offline: Die OpenStreetMap-Datenbank ist im Moment wegen wichtiger Wartungsarbeiten
       nicht verfügbar.
     osm_read_only: Die OpenStreetMap-Datenbank ist im Moment wegen wichtiger Wartungsarbeiten
@@ -1079,10 +1080,12 @@ de:
         Mehr Informationen dazu, wie unsere Daten verwendet werden können und wie man auf unsere Urheberschaft hinweist,
         kann man auf unserer <a href="http://osmfoundation.org/Licence">OSMF-Lizenzseite</a> und in den
         <a href="http://wiki.openstreetmap.org/wiki/DE:Legal_FAQ">Häufigen rechtlichen Fragen (Legal FAQ)</a> nachlesen.
-      more_2_html: "Obwohl OpenStreetMap „Open Data“ ist, können wir keine \nunentgeltliche
-        Karten-API für Drittparteienentwickler bereitstellen.\nSiehe unsere <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">API-Verwendungsrichtlinie</a>,\n<a
-        href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Kachelverwendungsrichtlinie</a>\nund
-        <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Nominatim-Verwendungsrichtlinie</a>."
+      more_2_html: |-
+        Obwohl OpenStreetMap „Open Data“ ist, können wir keine
+        unentgeltliche Karten-API für Drittparteien bereitstellen.
+        Siehe unsere <a href="https://operations.osmfoundation.org/policies/api/">API-Verwendungsrichtlinie</a>,
+        die <a href="https://operations.osmfoundation.org/policies/tiles/">Kachelverwendungsrichtlinie</a>
+        und die <a href="https://operations.osmfoundation.org/policies/nominatim/">Nominatim-Verwendungsrichtlinie</a>.
       contributors_title_html: Unsere Mitwirkenden
       contributors_intro_html: 'Unsere Mitwirkenden sind tausende einzelne Menschen.
         Wir beziehen auch offen lizenzierte Daten von nationalen Kartenagenturen und
@@ -1135,10 +1138,9 @@ de:
         zum Entfernen von Inhalten</a> oder melde dies direkt mit unserem
         <a href="http://dmca.openstreetmap.org/">Onlineformular</a>.
       trademarks_title_html: <span id="trademarks"></span>Markenzeichen
-      trademarks_1_html: OpenStreetMap, das Lupenlogo und die Beschaffenheit der Karte
-        sind eingetragene Warenzeichen der OpenStreetMap Foundation. Falls du Fragen
-        über deine Verwendung der Marken hast, sende deine Fragen bitte an die <a
-        href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">Lizenz-Arbeitsgruppe</a>.
+      trademarks_1_html: OpenStreetMap, das Lupenlogo und „State of the Map“ sind
+        eingetragene Warenzeichen der OpenStreetMap Foundation. Falls du Fragen über
+        deine Verwendung der Marken hast, sende deine Fragen bitte an die <a href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">Lizenz-Arbeitsgruppe</a>.
   welcome_page:
     title: Willkommen!
     introduction_html: |-
@@ -1279,17 +1281,23 @@ de:
       der gleichen Lizenz verbreiten. Siehe die
       <a href='%{copyright_path}'>Urheberrechts- und Lizenzseite</a> für Einzelheiten.
     legal_title: Rechtliche Hinweise
-    legal_html: "Diese Website und viele damit in Zusammenhang stehende Dienste werden
-      \nvon der <a href='http://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF)
-      für die OSM-Gemeinschaft betrieben.\n<br>\nBitte <a href='http://osmfoundation.org/Contact'>kontaktiere
-      die OSMF</a>,\nfalls du Lizenz-, Urheberrechts- oder andere rechtliche Fragen
-      und Probleme hast."
+    legal_html: |-
+      Diese Website und viele damit in Zusammenhang stehende Dienste werden
+      von der <a href='http://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF)
+      für die OSM-Gemeinschaft betrieben. Die Verwendung aller OSMF-betriebenen Dienste
+      ist Thema unserer
+      „<a href="http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Acceptable Use Policies</a>“
+      und unserer <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy">Datenschutzrichtlinie</a>.
+      <br>
+      Bitte <a href='http://osmfoundation.org/Contact'>kontaktiere die OSMF</a>,
+      falls du Lizenz-, Urheberrechts- oder andere rechtliche Fragen und Probleme hast.
     partners_title: Partner
   notifier:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} hat deinen Blogeintrag kommentiert'
+      subject: '[OpenStreetMap] %{user} hat zu einem Blogeintrag kommentiert'
       hi: Hallo %{to_user},
-      header: '%{from_user} hat deinen Blogeintrag %{subject} kommentiert:'
+      header: '%{from_user} hat zu dem OpenStreetMap-Blogeintrag mit dem Thema %{subject}
+        kommentiert:'
       footer: Hier gehts zum Eintrag %{readurl}, du kannst ihn kommentieren %{commenturl}
         oder direkt beantworten %{replyurl}.
     message_notification:
@@ -1299,6 +1307,7 @@ de:
       footer_html: Du kannst auch die Nachricht unter %{readurl} lesen und unter %{replyurl}
         antworten
     friend_notification:
+      hi: Hallo %{to_user},
       subject: '[OpenStreetMap] %{user} hat dich als Freund hinzugefügt'
       had_added_you: '%{user} hat dich als Freund hinzugefügt.'
       see_their_profile: Du kannst sein/ihr Profil unter %{userurl} ansehen.
@@ -1388,6 +1397,7 @@ de:
           den du kommentiert hattest, reaktivert.'
       details: Weitere Details über den Hinweis findest du unter %{url}.
     changeset_comment_notification:
+      hi: Hallo %{to_user},
       greeting: Hallo,
       commented:
         subject_own: '[OpenStreetMap] %{commenter} hat einen deiner Änderungssätze
@@ -1403,6 +1413,8 @@ de:
         partial_changeset_without_comment: ohne Kommentar
       details: Weitere Details über den Änderungssatz können gefunden werden unter
         %{url}.
+      unsubscribe: Um die Aktualisierungen an diesem Änderungssatz abzubestellen,
+        besuche %{url} und klicke auf „Abmelden“.
   message:
     inbox:
       title: Posteingang
@@ -1735,6 +1747,8 @@ de:
     require_moderator:
       not_a_moderator: Du musst Moderator sein, um diese Aktion durchführen zu können.
     setup_user_auth:
+      blocked_zero_hour: Du hast eine dringende Nachricht auf der OpenStreetMap-Website.
+        Du musst sie zuerst lesen, bevor du deine Bearbeitungen speichern kannst.
       blocked: Dein Zugriff auf die API wurde gesperrt. Bitte melde dich auf der Web-Oberfläche
         an, um mehr zu erfahren.
       need_to_see_terms: Dein Zugriff auf die API wurde vorübergehend ausgesetzt.
@@ -1766,6 +1780,8 @@ de:
       invalid: Der Autorisierungstoken ist nicht gültig.
     revoke:
       flash: Du hast die Berechtigung für %{application} zurückgezogen
+    permissions:
+      missing: Du hast den Anwendungszugriff auf diese Einrichtung nicht zugelassen.
   oauth_clients:
     new:
       title: Eine neue Anwendung registrieren
@@ -1870,6 +1886,9 @@ de:
         github:
           title: Mit GitHub anmelden
           alt: Mit einem GitHub-Konto anmelden
+        wikipedia:
+          title: Mit Wikipedia anmelden
+          alt: Mit einem Wikipedia-Benutzerkonto anmelden
         yahoo:
           title: Mit Yahoo anmelden
           alt: Mit einer Yahoo-OpenID anmelden
@@ -1922,7 +1941,10 @@ de:
         für Mitwirkende</a> zustimmen.
       email address: 'E-Mail-Adresse:'
       confirm email address: 'Bitte wiederhole die E-Mail-Adresse:'
-      not displayed publicly: Nicht öffentlich sichtbar (<a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy">Datenschutzrichtlinie</a>)
+      not displayed publicly: Deine Anrede wird nicht öffentlich angezeigt, siehe
+        unsere <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF-Datenschutzrichtlinie
+        inklusive des Abschnitts zu E-Mail-Adressen">Datenschutzrichtlinie</a> für
+        weitere Informationen.
       display name: 'Benutzername:'
       display name description: Dein öffentlich angezeigter Benutzername. Er kann
         später in den Einstellungen geändert werden.
@@ -2289,6 +2311,8 @@ de:
     helper:
       time_future: Endet in %{time}.
       until_login: Aktiv, bis der Benutzer sich anmeldet.
+      time_future_and_until_login: Endet in %{time} und nachdem sich der Benutzer
+        angemeldet hat.
       time_past: Endete vor %{time}
     blocks_on:
       title: Sperren für %{name}
@@ -2374,7 +2398,7 @@ de:
     key:
       title: Legende
       tooltip: Legende
-      tooltip_disabled: Die Legende ist nur für die Standardebene verfügbar
+      tooltip_disabled: Die Legende ist nicht für diese Ebene verfügbar
     map:
       zoom:
         in: Vergrößern
@@ -2391,6 +2415,7 @@ de:
         header: Kartenebenen
         notes: Hinweise/Fehlermeldungen
         data: Kartendaten
+        gps: Öffentliche GPS-Tracks
         overlays: Overlays zur Fehlersuche aktivieren
         title: Ebenen
       copyright: © <a href='%{copyright_url}'>OpenStreetMap-Mitwirkende</a>
@@ -2431,8 +2456,10 @@ de:
     edit_help: Wähle eine höhere Zoomstufe und verschiebe die Karte an einen Ort,
       den du bearbeiten möchtest, und klicke hier.
     directions:
+      ascend: Aufsteigend
       engines:
         graphhopper_bicycle: Fahrrad (GraphHopper)
+        graphhopper_car: Auto (GraphHopper)
         graphhopper_foot: Fuß (GraphHopper)
         mapquest_bicycle: Fahrrad (MapQuest)
         mapquest_car: Auto (MapQuest)
@@ -2441,6 +2468,7 @@ de:
         mapzen_bicycle: Fahrrad (Mapzen)
         mapzen_car: Auto (Mapzen)
         mapzen_foot: Fuß (Mapzen)
+      descend: Absteigend
       directions: 'Routenanweisungen:'
       distance: Distanz
       errors:
@@ -2475,6 +2503,11 @@ de:
         against_oneway_without_exit: Gegen die Einbahnstraße gehen auf %{name}
         end_oneway_without_exit: Ende der Einbahnstraße auf %{name}
         roundabout_with_exit: Beim Kreisverkehr nimm die Ausfahrt %{exit} auf %{name}
+        turn_left_with_exit: Beim Kreisverkehr links abbiegen auf %{name}
+        slight_left_with_exit: Beim Kreisverkehr leicht links abbiegen auf %{name}
+        turn_right_with_exit: Beim Kreisverkehr rechts abbiegen auf %{name}
+        slight_right_with_exit: Beim Kreisverkehr leicht rechts abbiegen auf %{name}
+        continue_with_exit: Beim Kreisverkehr geradeaus bleiben auf %{name}
         unnamed: unbekannt
         courtesy: Routenanweisungen stammen von %{link}
       time: Zeit
@@ -2485,6 +2518,13 @@ de:
       nothing_found: Keine Objekte gefunden
       error: 'Fehler beim Kontaktieren von %{server}: %{error}'
       timeout: Zeitüberschreitung beim Kontaktieren von %{server}
+    context:
+      directions_from: Route von hier
+      directions_to: Route nach hier
+      add_note: Einen Hinweis/Kartenfehler hier melden
+      show_address: Adresse anzeigen
+      query_features: Abfrage-Funktionen
+      centre_map: Karte hier zentrieren
   redaction:
     edit:
       description: Beschreibung

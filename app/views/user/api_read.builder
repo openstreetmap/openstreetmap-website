@@ -3,16 +3,14 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
   xml.tag! "user", :id => @this_user.id,
                    :display_name => @this_user.display_name,
                    :account_created => @this_user.creation_time.xmlschema do
-    if @this_user.description
-      xml.tag! "description", @this_user.description
-    end
+    xml.tag! "description", @this_user.description if @this_user.description
     if @user && @user == @this_user
-      xml.tag! "contributor-terms", :agreed => !!@this_user.terms_agreed,
-                                    :pd => !!@this_user.consider_pd
+      xml.tag! "contributor-terms", :agreed => @this_user.terms_agreed.present?,
+                                    :pd => @this_user.consider_pd
     else
-      xml.tag! "contributor-terms", :agreed => !!@this_user.terms_agreed
+      xml.tag! "contributor-terms", :agreed => @this_user.terms_agreed.present?
     end
-    if @this_user.image.file? or @this_user.image_use_gravatar
+    if @this_user.image.file? || @this_user.image_use_gravatar
       xml.tag! "img", :href => user_image_url(@this_user, :size => 256)
     end
     xml.tag! "roles" do
@@ -31,7 +29,7 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
       end
     end
     if @user && @user == @this_user
-      if @this_user.home_lat and @this_user.home_lon
+      if @this_user.home_lat && @this_user.home_lon
         xml.tag! "home", :lat => @this_user.home_lat,
                          :lon => @this_user.home_lon,
                          :zoom => @this_user.home_zoom

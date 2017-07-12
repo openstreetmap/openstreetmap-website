@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   include SessionPersistence
 
-  protect_from_forgery
+  protect_from_forgery :with => :exception
 
   before_action :fetch_body
 
@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
       if request.get?
         redirect_to :controller => "user", :action => "login", :referer => request.fullpath
       else
-        render :text => "", :status => :forbidden
+        head :forbidden
       end
     end
   end
@@ -61,8 +61,9 @@ class ApplicationController < ActionController::Base
     # method, otherwise an OAuth token was used, which has to be checked.
     unless current_token.nil?
       unless current_token.read_attribute(cap)
-        report_error "OAuth token doesn't have that capability.", :forbidden
-        return false
+        set_locale
+        report_error t("oauth.permissions.missing"), :forbidden
+        false
       end
     end
   end
@@ -73,8 +74,8 @@ class ApplicationController < ActionController::Base
     if request.cookies["_osm_session"].to_s == ""
       if params[:cookie_test].nil?
         session[:cookie_test] = true
-        redirect_to Hash[params].merge(:cookie_test => "true")
-        return false
+        redirect_to params.to_unsafe_h.merge(:cookie_test => "true")
+        false
       else
         flash.now[:warning] = t "application.require_cookies.cookies_needed"
       end
@@ -126,7 +127,7 @@ class ApplicationController < ActionController::Base
         flash[:error] = t("application.require_moderator.not_a_moderator")
         redirect_to :action => "index"
       else
-        render :text => "", :status => :forbidden
+        head :forbidden
       end
     end
   end
@@ -152,9 +153,14 @@ class ApplicationController < ActionController::Base
     # have we identified the user?
     if @user
       # check if the user has been banned
-      if @user.blocks.active.exists?
-        # NOTE: need slightly more helpful message than this.
-        report_error t("application.setup_user_auth.blocked"), :forbidden
+      user_block = @user.blocks.active.take
+      unless user_block.nil?
+        set_locale
+        if user_block.zero_hour?
+          report_error t("application.setup_user_auth.blocked_zero_hour"), :forbidden
+        else
+          report_error t("application.setup_user_auth.blocked"), :forbidden
+        end
       end
 
       # if the user hasn't seen the contributor terms then don't
@@ -175,7 +181,7 @@ class ApplicationController < ActionController::Base
     unless @user
       # no auth, the user does not exist or the password was wrong
       response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
-      render :text => errormessage, :status => :unauthorized
+      render :plain => errormessage, :status => :unauthorized
       return false
     end
   end
@@ -191,8 +197,8 @@ class ApplicationController < ActionController::Base
   def authorize_moderator(errormessage = "Access restricted to moderators")
     # check user is a moderator
     unless @user.moderator?
-      render :text => errormessage, :status => :forbidden
-      return false
+      render :plain => errormessage, :status => :forbidden
+      false
     end
   end
 
@@ -220,14 +226,14 @@ class ApplicationController < ActionController::Base
   def check_api_readable
     if api_status == :offline
       report_error "Database offline for maintenance", :service_unavailable
-      return false
+      false
     end
   end
 
   def check_api_writable
     unless api_status == :online
       report_error "Database offline for maintenance", :service_unavailable
-      return false
+      false
     end
   end
 
@@ -262,7 +268,7 @@ class ApplicationController < ActionController::Base
   def require_public_data
     unless @user.data_public?
       report_error "You must make your edits public to upload new data", :forbidden
-      return false
+      false
     end
   end
 
@@ -282,9 +288,9 @@ class ApplicationController < ActionController::Base
       result.root << (XML::Node.new("status") << "#{Rack::Utils.status_code(status)} #{Rack::Utils::HTTP_STATUS_CODES[status]}")
       result.root << (XML::Node.new("message") << message)
 
-      render :text => result.to_s, :content_type => "text/xml"
+      render :xml => result.to_s
     else
-      render :text => message, :status => status, :content_type => "text/plain"
+      render :plain => message, :status => status
     end
   end
 
@@ -315,7 +321,7 @@ class ApplicationController < ActionController::Base
   def api_call_handle_error
     yield
   rescue ActiveRecord::RecordNotFound => ex
-    render :text => "", :status => :not_found
+    head :not_found
   rescue LibXML::XML::Error, ArgumentError => ex
     report_error ex.message, :bad_request
   rescue ActiveRecord::RecordInvalid => ex
@@ -343,7 +349,7 @@ class ApplicationController < ActionController::Base
   ##
   # wrap an api call in a timeout
   def api_call_timeout
-    OSM::Timer.timeout(API_TIMEOUT) do
+    OSM::Timer.timeout(API_TIMEOUT, Timeout::Error) do
       yield
     end
   rescue Timeout::Error
@@ -353,17 +359,14 @@ class ApplicationController < ActionController::Base
   ##
   # wrap a web page in a timeout
   def web_timeout
-    OSM::Timer.timeout(WEB_TIMEOUT) do
+    OSM::Timer.timeout(WEB_TIMEOUT, Timeout::Error) do
       yield
     end
   rescue ActionView::Template::Error => ex
     ex = ex.original_exception
 
-    if ex.is_a?(ActiveRecord::StatementInvalid) && ex.message =~ /execution expired/
-      ex = Timeout::Error.new
-    end
-
-    if ex.is_a?(Timeout::Error)
+    if ex.is_a?(Timeout::Error) ||
+       (ex.is_a?(ActiveRecord::StatementInvalid) && ex.message =~ /execution expired/)
       render :action => "timeout"
     else
       raise
@@ -375,7 +378,7 @@ class ApplicationController < ActionController::Base
   ##
   # ensure that there is a "this_user" instance variable
   def lookup_this_user
-    unless @this_user = User.active.find_by_display_name(params[:display_name])
+    unless @this_user = User.active.find_by(:display_name => params[:display_name])
       render_unknown_user params[:display_name]
     end
   end
@@ -388,7 +391,7 @@ class ApplicationController < ActionController::Base
 
     respond_to do |format|
       format.html { render :template => "user/no_such_user", :status => :not_found }
-      format.all { render :text => "", :status => :not_found }
+      format.all { head :not_found }
     end
   end
 
@@ -406,6 +409,18 @@ class ApplicationController < ActionController::Base
   end
 
   def map_layout
+    append_content_security_policy_directives(
+      :connect_src => %w[nominatim.openstreetmap.org overpass-api.de router.project-osrm.org valhalla.mapzen.com],
+      :script_src => %w[graphhopper.com open.mapquestapi.com],
+      :img_src => %w[developer.mapquest.com]
+    )
+
+    if STATUS == :database_offline || STATUS == :api_offline
+      flash.now[:warning] = t("layouts.osm_offline")
+    elsif STATUS == :database_readonly || STATUS == :api_readonly
+      flash.now[:warning] = t("layouts.osm_read_only")
+    end
+
     request.xhr? ? "xhr" : "map"
   end
 
@@ -422,6 +437,16 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :preferred_editor
+
+  def update_totp
+    if defined?(TOTP_KEY)
+      cookies["_osm_totp_token"] = {
+        :value => ROTP::TOTP.new(TOTP_KEY, :interval => 3600).now,
+        :domain => "openstreetmap.org",
+        :expires => 1.hour.from_now
+      }
+    end
+  end
 
   private
 
@@ -452,6 +477,5 @@ class ApplicationController < ActionController::Base
   end
 
   # override to stop oauth plugin sending errors
-  def invalid_oauth_response
-  end
+  def invalid_oauth_response; end
 end

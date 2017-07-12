@@ -1,4 +1,6 @@
 class Acl < ActiveRecord::Base
+  validates :k, :presence => true
+
   def self.match(address, domain = nil)
     if domain
       Acl.where("address >>= ? OR domain = ?", address, domain)

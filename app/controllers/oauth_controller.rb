@@ -27,7 +27,7 @@ class OauthController < ApplicationController
   end
 
   def revoke
-    @token = current_user.oauth_tokens.find_by_token params[:token]
+    @token = current_user.oauth_tokens.find_by :token => params[:token]
     if @token
       @token.invalidate!
       flash[:notice] = t("oauth.revoke.flash", :application => @token.client_application.name)
@@ -49,7 +49,7 @@ class OauthController < ApplicationController
                        else
                          @token.oob? ? @token.client_application.callback_url : @token.callback_url
                        end
-        @redirect_url = URI.parse(callback_url) unless callback_url.blank?
+        @redirect_url = URI.parse(callback_url) if callback_url.present?
 
         if @redirect_url.to_s.blank?
           render :action => "authorize_success"

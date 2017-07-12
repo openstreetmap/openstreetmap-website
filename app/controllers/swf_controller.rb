@@ -92,7 +92,7 @@ class SwfController < ApplicationController
     m = pack_rect(bounds_left, bounds_right, bounds_bottom, bounds_top) + 0.chr + 12.chr + pack_u16(1) + m
     m = "FWS" + 6.chr + pack_u32(m.length + 8) + m
 
-    render :text => m, :content_type => "application/x-shockwave-flash"
+    render :body => m, :content_type => "application/x-shockwave-flash"
   end
 
   private
@@ -161,10 +161,10 @@ class SwfController < ApplicationController
   def swf_record(id, r)
     if r.length > 62
       # Long header: tag id, 0x3F, length
-      return pack_u16((id << 6) + 0x3F) + pack_u32(r.length) + r
+      pack_u16((id << 6) + 0x3F) + pack_u32(r.length) + r
     else
       # Short header: tag id, length
-      return pack_u16((id << 6) + r.length) + r
+      pack_u16((id << 6) + r.length) + r
     end
   end
 
@@ -195,7 +195,7 @@ class SwfController < ApplicationController
   # Find number of bits required to store arbitrary-length binary
 
   def length_sb(n)
-    Math.frexp(n + (n == 0 ? 1 : 0))[1] + 1
+    Math.frexp(n + (n.zero? ? 1 : 0))[1] + 1
   end
 
   # ====================================================================

@@ -32,39 +32,39 @@ class LocaleTest < ActiveSupport::TestCase
   end
 
   def test_script
-    assert_equal EN.script, Locale.tag("en").script
-    assert_equal EN_GB.script, Locale.tag("en-GB").script
-    assert_equal FR.script, Locale.tag("fr").script
-    assert_equal ZH_HANS.script, Locale.tag("zh-Hans").script
-    assert_equal ZH_HANT_TW.script, Locale.tag("zh-Hant-TW").script
-    assert_equal ZH_YUE.script, Locale.tag("zh-yue").script
-    assert_equal ZH_YUE.script, Locale.tag("zh-YUE").script
-    assert_equal BE_TARASK.script, Locale.tag("be-tarask").script
-    assert_equal BE_TARASK.script, Locale.tag("be-Tarask").script
+    assert_equal_allowing_nil EN.script, Locale.tag("en").script
+    assert_equal_allowing_nil EN_GB.script, Locale.tag("en-GB").script
+    assert_equal_allowing_nil FR.script, Locale.tag("fr").script
+    assert_equal_allowing_nil ZH_HANS.script, Locale.tag("zh-Hans").script
+    assert_equal_allowing_nil ZH_HANT_TW.script, Locale.tag("zh-Hant-TW").script
+    assert_equal_allowing_nil ZH_YUE.script, Locale.tag("zh-yue").script
+    assert_equal_allowing_nil ZH_YUE.script, Locale.tag("zh-YUE").script
+    assert_equal_allowing_nil BE_TARASK.script, Locale.tag("be-tarask").script
+    assert_equal_allowing_nil BE_TARASK.script, Locale.tag("be-Tarask").script
   end
 
   def test_region
-    assert_equal EN.region, Locale.tag("en").region
-    assert_equal EN_GB.region, Locale.tag("en-GB").region
-    assert_equal FR.region, Locale.tag("fr").region
-    assert_equal ZH_HANS.region, Locale.tag("zh-Hans").region
-    assert_equal ZH_HANT_TW.region, Locale.tag("zh-Hant-TW").region
-    assert_equal ZH_YUE.region, Locale.tag("zh-yue").region
-    assert_equal ZH_YUE.region, Locale.tag("zh-YUE").region
-    assert_equal BE_TARASK.region, Locale.tag("be-tarask").region
-    assert_equal BE_TARASK.region, Locale.tag("be-Tarask").region
+    assert_equal_allowing_nil EN.region, Locale.tag("en").region
+    assert_equal_allowing_nil EN_GB.region, Locale.tag("en-GB").region
+    assert_equal_allowing_nil FR.region, Locale.tag("fr").region
+    assert_equal_allowing_nil ZH_HANS.region, Locale.tag("zh-Hans").region
+    assert_equal_allowing_nil ZH_HANT_TW.region, Locale.tag("zh-Hant-TW").region
+    assert_equal_allowing_nil ZH_YUE.region, Locale.tag("zh-yue").region
+    assert_equal_allowing_nil ZH_YUE.region, Locale.tag("zh-YUE").region
+    assert_equal_allowing_nil BE_TARASK.region, Locale.tag("be-tarask").region
+    assert_equal_allowing_nil BE_TARASK.region, Locale.tag("be-Tarask").region
   end
 
   def test_variant
-    assert_equal EN.variant, Locale.tag("en").variant
-    assert_equal EN_GB.variant, Locale.tag("en-GB").variant
-    assert_equal FR.variant, Locale.tag("fr").variant
-    assert_equal ZH_HANS.variant, Locale.tag("zh-Hans").variant
-    assert_equal ZH_HANT_TW.variant, Locale.tag("zh-Hant-TW").variant
-    assert_equal ZH_YUE.variant, Locale.tag("zh-yue").variant
-    assert_equal ZH_YUE.variant, Locale.tag("zh-YUE").variant
-    assert_equal BE_TARASK.variant, Locale.tag("be-tarask").variant
-    assert_equal BE_TARASK.variant, Locale.tag("be-Tarask").variant
+    assert_equal_allowing_nil EN.variant, Locale.tag("en").variant
+    assert_equal_allowing_nil EN_GB.variant, Locale.tag("en-GB").variant
+    assert_equal_allowing_nil FR.variant, Locale.tag("fr").variant
+    assert_equal_allowing_nil ZH_HANS.variant, Locale.tag("zh-Hans").variant
+    assert_equal_allowing_nil ZH_HANT_TW.variant, Locale.tag("zh-Hant-TW").variant
+    assert_equal_allowing_nil ZH_YUE.variant, Locale.tag("zh-yue").variant
+    assert_equal_allowing_nil ZH_YUE.variant, Locale.tag("zh-YUE").variant
+    assert_equal_allowing_nil BE_TARASK.variant, Locale.tag("be-tarask").variant
+    assert_equal_allowing_nil BE_TARASK.variant, Locale.tag("be-Tarask").variant
   end
 
   def test_list

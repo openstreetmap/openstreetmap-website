@@ -1,0 +1,61 @@
+//= require swfobject
+
+$(document).ready(function () {
+  window.changesaved = true;
+
+  window.markChanged = function (saved) {
+    window.changesaved = saved;
+  }
+
+  $(window).on("beforeunload", function() {
+    if (!window.changesaved) {
+      return I18n.t("site.edit.potlatch_unsaved_changes");
+    }
+  });
+
+  window.updatelinks = function (lon, lat, zoom, layers, minlon, minlat, maxlon, maxlat, object) {
+    var hash = OSM.formatHash({ lon: lon, lat: lat, zoom: zoom });
+
+    if (hash !== location.hash) {
+      location.replace(hash);
+    }
+
+    updateLinks({ lon: lon, lat: lat }, zoom);
+  }
+
+  var potlatch = $("#potlatch"),
+      urlparams = OSM.params(),
+      potlatch_swf = <%= asset_path("potlatch/potlatch.swf").to_json %>,
+      install_swf = <%= asset_path("expressInstall.swf").to_json %>,
+      flashvars = {},
+      params = {},
+      attributes = {};
+
+  flashvars.winie = document.all && window.print ? true : false;
+  flashvars.token = potlatch.data("token");
+
+  if (potlatch.data("lat") && potlatch.data("lon")) {
+    flashvars.lat = potlatch.data("lat");
+    flashvars.long = potlatch.data("lon");
+    flashvars.scale = potlatch.data("zoom");
+  } else {
+    var mapParams = OSM.mapParams();
+
+    flashvars.lat = mapParams.lat;
+    flashvars.long = mapParams.lon;
+    flashvars.scale = mapParams.zoom || 17;
+  }
+
+  if (flashvars.scale < 11) flashvars.scale = 11;
+
+  if (urlparams.gpx) flashvars.gpx = urlparams.gpx;
+  if (urlparams.way) flashvars.way = urlparams.way;
+  if (urlparams.node) flashvars.node = urlparams.node;
+  if (urlparams.custombg) flashvars.custombg = urlparams.custombg;
+
+  attributes.id = "potlatch";
+  attributes.bgcolor = "#FFFFFF";
+
+  swfobject.embedSWF(potlatch_swf, "potlatch", "100%", "100%", "6",
+                     install_swf, flashvars, params, attributes);
+});

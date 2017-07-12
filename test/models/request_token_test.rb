@@ -1,8 +1,6 @@
 require "test_helper"
 
 class RequestTokenTest < ActiveSupport::TestCase
-  api_fixtures
-
   def test_oob
     assert_equal true, RequestToken.new.oob?
     assert_equal true, RequestToken.new(:callback_url => "oob").oob?

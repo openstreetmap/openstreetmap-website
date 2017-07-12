@@ -1,6 +1,7 @@
 class NotesController < ApplicationController
   layout "site", :only => [:mine]
 
+  skip_before_action :verify_authenticity_token, :except => [:mine]
   before_action :check_api_readable
   before_action :authorize_web, :only => [:mine]
   before_action :setup_user_auth, :only => [:create, :comment]
@@ -127,7 +128,7 @@ class NotesController < ApplicationController
     comment = params[:text]
 
     # Find the note and check it is valid
-    @note = Note.find_by_id(id)
+    @note = Note.find_by(:id => id)
     raise OSM::APINotFoundError unless @note
     raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
     raise OSM::APINoteAlreadyClosedError.new(@note) if @note.closed?
@@ -157,7 +158,7 @@ class NotesController < ApplicationController
     comment = params[:text]
 
     # Find the note and check it is valid
-    @note = Note.find_by_id(id)
+    @note = Note.find_by(:id => id)
     raise OSM::APINotFoundError unless @note
     raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || @user.moderator?
     raise OSM::APINoteAlreadyOpenError.new(@note) unless @note.closed? || !@note.visible?
@@ -277,7 +278,8 @@ class NotesController < ApplicationController
   # Display a list of notes by a specified user
   def mine
     if params[:display_name]
-      if @this_user = User.active.find_by_display_name(params[:display_name])
+      if @this_user = User.active.find_by(:display_name => params[:display_name])
+        @params = params.permit(:display_name)
         @title = t "note.mine.title", :user => @this_user.display_name
         @heading = t "note.mine.heading", :user => @this_user.display_name
         @description = t "note.mine.subheading", :user => render_to_string(:partial => "user", :object => @this_user)
@@ -285,7 +287,7 @@ class NotesController < ApplicationController
         @page_size = 10
         @notes = @this_user.notes
         @notes = @notes.visible unless @user && @user.moderator?
-        @notes = @notes.order("updated_at DESC, id").uniq.offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author).to_a
+        @notes = @notes.order("updated_at DESC, id").distinct.offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author).to_a
       else
         @title = t "user.no_such_user.title"
         @not_found_user = params[:display_name]
@@ -316,7 +318,7 @@ class NotesController < ApplicationController
   end
 
   ##
-  # Generate a condition to choose which bugs we want based
+  # Generate a condition to choose which notes we want based
   # on their status and the user's request parameters
   def closed_condition(notes)
     closed_since = if params[:closed]
@@ -345,7 +347,7 @@ class NotesController < ApplicationController
       attributes[:author_ip] = request.remote_ip
     end
 
-    comment = note.comments.create(attributes)
+    comment = note.comments.create!(attributes)
 
     note.comments.map(&:author).uniq.each do |user|
       if notify && user && user != @user && user.visible?

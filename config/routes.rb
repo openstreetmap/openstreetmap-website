@@ -184,7 +184,7 @@ OpenStreetMap::Application.routes.draw do
   match "/go/:code" => "site#permalink", :via => :get, :code => /[a-zA-Z0-9_@~]+[=-]*/
 
   # rich text preview
-  match "/preview/:format" => "site#preview", :via => :post, :as => :preview
+  match "/preview/:type" => "site#preview", :via => :post, :as => :preview
 
   # traces
   match "/user/:display_name/traces/tag/:tag/page/:page" => "trace#list", :via => :get, :page => /[1-9][0-9]*/
@@ -208,7 +208,7 @@ OpenStreetMap::Application.routes.draw do
   match "/traces/mine" => "trace#mine", :via => :get
   match "/trace/create" => "trace#create", :via => [:get, :post]
   match "/trace/:id/data" => "trace#data", :via => :get, :id => /\d+/, :as => "trace_data"
-  match "/trace/:id/edit" => "trace#edit", :via => [:get, :post, :patch], :id => /\d+/, :as => "trace_edit"
+  match "/trace/:id/edit" => "trace#edit", :via => [:get, :post], :id => /\d+/, :as => "trace_edit"
   match "/trace/:id/delete" => "trace#delete", :via => :post, :id => /\d+/
 
   # diary pages
@@ -228,6 +228,8 @@ OpenStreetMap::Application.routes.draw do
   match "/user/:display_name/diary/:id/edit" => "diary_entry#edit", :via => [:get, :post], :id => /\d+/
   match "/user/:display_name/diary/:id/hide" => "diary_entry#hide", :via => :post, :id => /\d+/, :as => :hide_diary_entry
   match "/user/:display_name/diary/:id/hidecomment/:comment" => "diary_entry#hidecomment", :via => :post, :id => /\d+/, :comment => /\d+/, :as => :hide_diary_comment
+  match "/user/:display_name/diary/:id/subscribe" => "diary_entry#subscribe", :via => :post, :as => :diary_entry_subscribe, :id => /\d+/
+  match "/user/:display_name/diary/:id/unsubscribe" => "diary_entry#unsubscribe", :via => :post, :as => :diary_entry_unsubscribe, :id => /\d+/
 
   # user pages
   match "/user/:display_name" => "user#view", :via => :get, :as => "user"

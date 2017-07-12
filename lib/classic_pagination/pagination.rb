@@ -93,9 +93,10 @@ module ActionController
       valid_options << :actions unless in_action
 
       unknown_option_keys = options.keys - valid_options
-      raise ActionController::ActionControllerError,
-            "Unknown options: #{unknown_option_keys.join(', ')}" unless
-              unknown_option_keys.empty?
+      unless unknown_option_keys.empty?
+        raise ActionController::ActionControllerError,
+              "Unknown options: #{unknown_option_keys.join(', ')}"
+      end
 
       options[:singular_name] ||= ActiveSupport::Inflector.singularize(collection_id.to_s)
       options[:class_name] ||= ActiveSupport::Inflector.camelize(options[:singular_name])
@@ -135,7 +136,7 @@ module ActionController
 
     # These methods become class methods on any controller
     module ClassMethods
-      # Creates a +before_filter+ which automatically paginates an Active
+      # Creates a +before_action+ which automatically paginates an Active
       # Record model for all actions in a controller (or certain actions if
       # specified with the <tt>:actions</tt> option).
       #
@@ -146,7 +147,7 @@ module ActionController
       def paginate(collection_id, options = {})
         Pagination.validate_options!(collection_id, options, false)
         module_eval do
-          before_filter :create_paginators_and_retrieve_collections
+          before_action :create_paginators_and_retrieve_collections
           OPTIONS[self] ||= {}
           OPTIONS[self][collection_id] = options
         end
@@ -273,7 +274,7 @@ module ActionController
                           1
                         else
                           q, r = @item_count.divmod(@items_per_page)
-                          r == 0 ? q : q + 1
+                          r.zero? ? q : q + 1
                         end
       end
 

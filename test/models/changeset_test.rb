@@ -1,12 +1,6 @@
 require "test_helper"
 
 class ChangesetTest < ActiveSupport::TestCase
-  api_fixtures
-
-  def test_changeset_count
-    assert_equal 9, Changeset.count
-  end
-
   def test_from_xml_no_text
     no_text = ""
     message_create = assert_raise(OSM::APIBadXMLError) do
@@ -70,10 +64,10 @@ class ChangesetTest < ActiveSupport::TestCase
   def test_from_xml_valid
     # Example taken from the Update section on the API_v0.6 docs on the wiki
     xml = "<osm><changeset><tag k=\"comment\" v=\"Just adding some streetnames and a restaurant\"/></changeset></osm>"
-    assert_nothing_raised(OSM::APIBadXMLError) do
+    assert_nothing_raised do
       Changeset.from_xml(xml, false)
     end
-    assert_nothing_raised(OSM::APIBadXMLError) do
+    assert_nothing_raised do
       Changeset.from_xml(xml, true)
     end
   end

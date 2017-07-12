@@ -184,7 +184,6 @@ path.shadow {
     pointer-events: stroke;
 }
 
-
 /* points */
 
 g.point .stroke {
@@ -196,10 +195,11 @@ g.point .stroke {
 g.point .shadow {
     fill: none;
     stroke: #f6634f;
-    stroke-width: 8;
+    stroke-width: 16;
     stroke-opacity: 0;
 }
 
+g.point.related:not(.selected) .shadow,
 g.point.hover:not(.selected) .shadow {
     stroke-opacity: 0.5;
 }
@@ -211,6 +211,15 @@ g.point.selected .shadow {
 g.point.active, g.point.active * {
     pointer-events: none;
 }
+
+g.point ellipse.stroke {
+    display: none;
+}
+
+.mode-drag-node g.point.active ellipse.stroke {
+    display: block;
+}
+
 
 /* vertices and midpoints */
 
@@ -225,7 +234,7 @@ g.vertex .stroke {
 }
 
 g.vertex.shared .stroke {
-    fill: #aaa;
+    fill: #bbb;
 }
 
 g.midpoint .fill {
@@ -235,21 +244,9 @@ g.midpoint .fill {
     opacity: .7;
 }
 
-g.midpoint.tag-highway-corridor .fill,
-g.midpoint.tag-highway-pedestrian .fill,
-g.midpoint.tag-highway-steps .fill,
-g.midpoint.tag-highway-path .fill,
-g.midpoint.tag-highway-footway .fill,
-g.midpoint.tag-highway-cycleway .fill,
-g.midpoint.tag-highway-bridleway .fill {
-    fill: #fff;
-    stroke: #333;
-    stroke-opacity: .8;
-    opacity: .8;
-}
-
 g.vertex .shadow,
 g.midpoint .shadow {
+    stroke-width: 6;
     fill: #f6634f;
     fill-opacity: 0;
 }
@@ -267,7 +264,18 @@ g.vertex.vertex-hover {
     display: block;
 }
 
+.mode-draw-area .hover-disabled g.vertex.vertex-hover,
+.mode-draw-line .hover-disabled g.vertex.vertex-hover,
+.mode-add-area  .hover-disabled g.vertex.vertex-hover,
+.mode-add-line  .hover-disabled g.vertex.vertex-hover,
+.mode-add-point .hover-disabled g.vertex.vertex-hover,
+.mode-drag-node .hover-disabled g.vertex.vertex-hover {
+    display: none;
+}
+
+g.vertex.related:not(.selected) .shadow,
 g.vertex.hover:not(.selected) .shadow,
+g.midpoint.related:not(.selected) .shadow,
 g.midpoint.hover:not(.selected) .shadow {
     fill-opacity: 0.5;
 }
@@ -303,10 +311,11 @@ path.stroke {
 
 path.shadow {
     stroke: #f6634f;
-    stroke-width: 10;
+    stroke-width: 16;
     stroke-opacity: 0;
 }
 
+path.shadow.related:not(.selected),
 path.shadow.hover:not(.selected) {
     stroke-opacity: 0.4;
 }
@@ -318,6 +327,111 @@ path.shadow.selected {
 path.line.stroke {
     stroke: #fff;
     stroke-width: 2;
+}
+
+
+/* Labels / Markers */
+
+text {
+    font-size:10px;
+    pointer-events: none;
+    color: #222;
+    opacity: 1;
+}
+
+.oneway .textpath.tag-waterway {
+    fill: #002F35;
+}
+
+path.oneway {
+    stroke-width: 6px;
+}
+
+
+text.arealabel-halo,
+text.linelabel-halo,
+text.pointlabel-halo,
+text.arealabel,
+text.linelabel,
+text.pointlabel {
+    dominant-baseline: middle;
+    text-anchor: middle;
+    font-size: 12px;
+    font-weight: bold;
+    fill: #333;
+    pointer-events: none;
+    -webkit-transition: opacity 100ms linear;
+    transition: opacity 100ms linear;
+    -moz-transition: opacity 100ms linear;
+}
+
+/* Opera doesn't support dominant-baseline. See #715 */
+/* Safari 10 seems to have regressed too */
+.linelabel-halo .textpath,
+.linelabel .textpath {
+  baseline-shift: -33%;
+  dominant-baseline: auto;
+}
+
+.layer-halo text {
+    opacity: 0.7;
+    stroke: #fff;
+    stroke-width: 5px;
+    stroke-miterlimit: 1;
+}
+
+text.proximate {
+    opacity: 0;
+}
+
+text.point {
+    font-size: 10px;
+}
+
+.icon.areaicon-halo {
+    opacity: 0.6;
+    stroke: #999;
+    stroke-width: 2px;
+    stroke-miterlimit: 1;
+}
+
+.icon.areaicon {
+    fill: #222;
+    opacity: 0.8;
+}
+
+
+/* Turns */
+
+g.turn rect,
+g.turn circle {
+    fill: none;
+    pointer-events: all;
+}
+
+.form-field-restrictions .vertex {
+    pointer-events: none;
+    cursor: auto !important;
+}
+
+.lasso #map {
+    pointer-events: visibleStroke;
+}
+
+/* GPX Paths */
+
+.layer-gpx {
+    pointer-events: none;
+}
+
+path.gpx {
+    stroke: #FF26D4;
+    stroke-width: 2;
+    fill: none;
+}
+
+text.gpx {
+    fill: #FF26D4;
 }
 
 path.area.stroke {
@@ -333,6 +447,12 @@ path.area.fill {
 .preset-icon-fill-area {
     border: 1px solid rgb(170, 170, 170);
     background-color: rgba(170, 170, 170, 0.3);
+}
+
+path.shadow.old-multipolygon,
+path.stroke.old-multipolygon {
+    stroke-dasharray: 100, 5;
+    stroke-linecap: butt;
 }
 
 path.stroke.tag-natural {
@@ -383,13 +503,17 @@ path.fill.tag-leisure-park {
 path.stroke.tag-amenity-swimming_pool,
 path.stroke.tag-leisure-swimming_pool,
 path.stroke.tag-natural-water,
+path.stroke.tag-landuse-aquaculture,
 path.stroke.tag-landuse-basin,
+path.stroke.tag-landuse-harbour,
 path.stroke.tag-landuse-reservoir {
     stroke: rgb(119, 211, 222);
 }
 path.fill.tag-amenity-swimming_pool,
 path.fill.tag-leisure-swimming_pool,
+path.fill.tag-landuse-aquaculture,
 path.fill.tag-landuse-basin,
+path.fill.tag-landuse-harbour,
 path.fill.tag-landuse-reservoir,
 path.fill.tag-natural-water {
     stroke: rgba(119, 211, 222, 0.3);
@@ -397,7 +521,9 @@ path.fill.tag-natural-water {
 }
 .preset-icon-fill-area.tag-amenity-swimming_pool,
 .preset-icon-fill-area.tag-leisure-swimming_pool,
+.preset-icon-fill-area.tag-landuse-aquaculture,
 .preset-icon-fill-area.tag-landuse-basin,
+.preset-icon-fill-area.tag-landuse-harbour,
 .preset-icon-fill-area.tag-landuse-reservoir,
 .preset-icon-fill-area.tag-natural-water {
     border-color: rgb(119, 211, 222);
@@ -424,7 +550,7 @@ path.fill.tag-amenity-university {
 .preset-icon-fill-area.tag-amenity-school,
 .preset-icon-fill-area.tag-amenity-college,
 .preset-icon-fill-area.tag-amenity-university {
-    border-color: rgb(255, 255, 148);
+    border-color: rgb(232, 232, 0);
     background-color: rgba(255, 255, 148, 0.15);
 }
 
@@ -455,25 +581,37 @@ path.fill.tag-landuse-commercial {
     background-color: rgba(214, 136, 26, 0.3);
 }
 
-path.stroke.tag-landuse-industrial {
+path.stroke.tag-landuse-industrial,
+path.stroke.tag-power-plant {
     stroke: rgb(228, 164, 245);
 }
-path.fill.tag-landuse-industrial {
+path.fill.tag-landuse-industrial,
+path.fill.tag-power-plant {
     stroke: rgba(228, 164, 245, 0.3);
     fill: rgba(228, 164, 245, 0.3);
 }
-.preset-icon-fill-area.tag-landuse-industrial {
+.preset-icon-fill-area.tag-landuse-industrial,
+.preset-icon-fill-area.tag-power-plant {
     border-color: rgb(228, 164, 245);
     background-color: rgba(228, 164, 245, 0.3);
 }
 
+path.stroke.tag-natural-bare_rock,
+path.stroke.tag-natural-scree,
+path.stroke.tag-landuse-railway,
 path.stroke.tag-landuse-quarry {
     stroke: rgb(166, 149, 123);
 }
+path.fill.tag-natural-bare_rock,
+path.fill.tag-natural-scree,
+path.fill.tag-landuse-railway,
 path.fill.tag-landuse-quarry {
     stroke: rgba(166, 149, 123, 0.2);
     fill: rgba(166, 149, 123, 0.2);
 }
+.preset-icon-fill-area.tag-natural-bare_rock,
+.preset-icon-fill-area.tag-natural-scree,
+.preset-icon-fill-area.tag-landuse-railway,
 .preset-icon-fill-area.tag-landuse-quarry {
     border-color: rgb(166, 149, 123);
     background-color: rgba(166, 149, 123, 0.2);
@@ -494,21 +632,26 @@ path.fill.tag-landuse-landfill {
 .pattern-color-construction {
     fill: rgba(196, 189, 25, 0.2);
 }
-path.stroke.tag-landuse.tag-status {
+path.stroke.tag-landuse.tag-status,
+path.stroke.tag-landuse-construction {
     stroke: rgb(196, 189, 25);
 }
-.preset-icon-fill-area.tag-landuse.tag-status {
+.preset-icon-fill-area.tag-landuse.tag-status,
+.preset-icon-fill-area.tag-landuse-construction {
     border-color: rgb(196, 189, 25);
     background-color: rgba(196, 189, 25, 0.2);
 }
 
+path.stroke.tag-military,
 path.stroke.tag-landuse-military {
     stroke: rgb(214, 136, 26);
 }
+path.fill.tag-military,
 path.fill.tag-landuse-military {
     stroke: rgba(214, 136, 26, 0.2);
     fill: rgba(214, 136, 26, 0.2);
 }
+.preset-icon-fill-area.tag-military,
 .preset-icon-fill-area.tag-landuse-military {
     border-color: rgb(214, 136, 26);
     background-color: rgba(214, 136, 26, 0.2);
@@ -536,13 +679,16 @@ path.stroke.tag-landuse-meadow {
     background-color: rgba(182, 225, 153, 0.2);
 }
 
-.pattern-color-beach {
+.pattern-color-beach,
+.pattern-color-sand {
     fill: rgba(255, 255, 126, 0.2);
 }
-path.stroke.tag-natural-beach {
+path.stroke.tag-natural-beach,
+path.stroke.tag-natural-sand {
     stroke: rgb(255, 255, 126);
 }
-.preset-icon-fill-area.tag-natural-beach {
+.preset-icon-fill-area.tag-natural-beach,
+.preset-icon-fill-area.tag-natural-sand {
     border-color: rgb(255, 255, 126);
     background-color: rgba(255, 255, 126, 0.2);
 }
@@ -571,6 +717,18 @@ path.stroke.tag-landuse-farmland {
     background-color: rgba(140, 208, 95, 0.2);
 }
 
+path.stroke.tag-landuse-farmyard {
+    stroke: rgb(245, 220, 186);
+}
+path.fill.tag-landuse-farmyard {
+    stroke: rgba(245, 220, 186, 0.3);
+    fill: rgba(245, 220, 186, 0.3);
+}
+.preset-icon-fill-area.tag-landuse-farmyard {
+    border-color: rgb(226, 177, 111);
+    background: rgba(245, 220, 186, 0.3);
+}
+
 .pattern-color-cemetery,
 .pattern-color-orchard {
     fill: rgba(140, 208, 95, 0.2);
@@ -596,42 +754,47 @@ path.fill.tag-amenity-parking {
     background-color: rgba(170, 170, 170, 0.3);
 }
 
+/* highways */
+
+.preset-icon .icon.tag-highway.other-line {
+    color: #fff;
+    fill: #777;
+}
+path.casing.tag-highway {
+    stroke: #444;
+}
+path.stroke.tag-highway {
+    stroke: #ccc;
+}
 
 /* highway areas */
 
 path.stroke.area.tag-highway {
-    stroke:#fff;
+    stroke: #fff;
     stroke-dasharray: none;
     stroke-width: 2;
 }
 
 /* wide highways */
 
-.preset-icon .icon.tag-highway.other-line {
-    color: #fff;
-    fill: #777;
-}
-
 path.shadow.tag-highway {
-    stroke-width:16;
+    stroke-width: 20;
 }
 path.casing.tag-highway {
-    stroke:#444;
-    stroke-width:10;
+    stroke-width: 10;
 }
 path.stroke.tag-highway {
-    stroke:#ccc;
-    stroke-width:8;
+    stroke-width: 8;
 }
 
 .low-zoom path.shadow.tag-highway {
-    stroke-width:12;
+    stroke-width: 16;
 }
 .low-zoom path.casing.tag-highway {
-    stroke-width:6;
+    stroke-width: 7;
 }
 .low-zoom path.stroke.tag-highway {
-    stroke-width:4;
+    stroke-width: 5;
 }
 
 .preset-icon .icon.highway-motorway,
@@ -822,33 +985,54 @@ path.casing.tag-unclassified {
 
 
 /* narrow highways */
-path.stroke.tag-highway-living_street,
-path.stroke.tag-highway-service,
-path.stroke.tag-highway-track,
-path.stroke.tag-highway-path,
-path.stroke.tag-highway-footway,
-path.stroke.tag-highway-cycleway,
-path.stroke.tag-highway-bridleway,
-path.stroke.tag-highway-corridor,
-path.stroke.tag-highway-pedestrian,
-path.stroke.tag-highway-steps,
-path.stroke.tag-highway-road,
-path.stroke.tag-living_street,
-path.stroke.tag-service,
-path.stroke.tag-track,
-path.stroke.tag-path,
-path.stroke.tag-footway,
-path.stroke.tag-cycleway,
-path.stroke.tag-bridleway,
-path.stroke.tag-corridor,
-path.stroke.tag-pedestrian,
-path.stroke.tag-steps,
-path.stroke.tag-road {
-    stroke-width:4;
+
+path.shadow.tag-highway-living_street,
+path.shadow.tag-highway-service,
+path.shadow.tag-highway-track,
+path.shadow.tag-highway-road,
+path.shadow.tag-living_street,
+path.shadow.tag-service,
+path.shadow.tag-track,
+path.shadow.tag-road {
+    stroke-width: 16;
 }
 path.casing.tag-highway-living_street,
 path.casing.tag-highway-service,
 path.casing.tag-highway-track,
+path.casing.tag-highway-road,
+path.casing.tag-living_street,
+path.casing.tag-service,
+path.casing.tag-track,
+path.casing.tag-road {
+    stroke-width: 7;
+}
+path.stroke.tag-highway-living_street,
+path.stroke.tag-highway-service,
+path.stroke.tag-highway-track,
+path.stroke.tag-highway-road,
+path.stroke.tag-living_street,
+path.stroke.tag-service,
+path.stroke.tag-track,
+path.stroke.tag-road {
+    stroke-width: 5;
+}
+
+path.shadow.tag-highway-path,
+path.shadow.tag-highway-footway,
+path.shadow.tag-highway-cycleway,
+path.shadow.tag-highway-bridleway,
+path.shadow.tag-highway-corridor,
+path.shadow.tag-highway-pedestrian,
+path.shadow.tag-highway-steps,
+path.shadow.tag-path,
+path.shadow.tag-footway,
+path.shadow.tag-cycleway,
+path.shadow.tag-bridleway,
+path.shadow.tag-corridor,
+path.shadow.tag-pedestrian,
+path.shadow.tag-steps {
+    stroke-width: 16;
+}
 path.casing.tag-highway-path,
 path.casing.tag-highway-footway,
 path.casing.tag-highway-cycleway,
@@ -856,48 +1040,79 @@ path.casing.tag-highway-bridleway,
 path.casing.tag-highway-corridor,
 path.casing.tag-highway-pedestrian,
 path.casing.tag-highway-steps,
-path.casing.tag-highway-road,
-path.casing.tag-living_street,
-path.casing.tag-service,
-path.casing.tag-track,
 path.casing.tag-path,
 path.casing.tag-footway,
 path.casing.tag-cycleway,
 path.casing.tag-bridleway,
 path.casing.tag-corridor,
 path.casing.tag-pedestrian,
-path.casing.tag-steps,
-path.casing.tag-road {
-    stroke-width:6;
+path.casing.tag-steps {
+    stroke-width: 5;
+}
+path.stroke.tag-highway-path,
+path.stroke.tag-highway-footway,
+path.stroke.tag-highway-cycleway,
+path.stroke.tag-highway-bridleway,
+path.stroke.tag-highway-corridor,
+path.stroke.tag-highway-pedestrian,
+path.stroke.tag-highway-steps,
+path.stroke.tag-path,
+path.stroke.tag-footway,
+path.stroke.tag-cycleway,
+path.stroke.tag-bridleway,
+path.stroke.tag-corridor,
+path.stroke.tag-pedestrian,
+path.stroke.tag-steps {
+    stroke-width: 3;
 }
 
-.low-zoom path.stroke.tag-highway-living_street,
-.low-zoom path.stroke.tag-highway-service,
-.low-zoom path.stroke.tag-highway-track,
-.low-zoom path.stroke.tag-highway-path,
-.low-zoom path.stroke.tag-highway-footway,
-.low-zoom path.stroke.tag-highway-cycleway,
-.low-zoom path.stroke.tag-highway-bridleway,
-.low-zoom path.stroke.tag-highway-corridor,
-.low-zoom path.stroke.tag-highway-pedestrian,
-.low-zoom path.stroke.tag-highway-steps,
-.low-zoom path.stroke.tag-highway-road,
-.low-zoom path.stroke.tag-living_street,
-.low-zoom path.stroke.tag-service,
-.low-zoom path.stroke.tag-track,
-.low-zoom path.stroke.tag-path,
-.low-zoom path.stroke.tag-footway,
-.low-zoom path.stroke.tag-cycleway,
-.low-zoom path.stroke.tag-bridleway,
-.low-zoom path.stroke.tag-corridor,
-.low-zoom path.stroke.tag-pedestrian,
-.low-zoom path.stroke.tag-steps,
-.low-zoom path.stroke.tag-road {
-    stroke-width:2;
+.low-zoom path.shadow.tag-highway-living_street,
+.low-zoom path.shadow.tag-highway-service,
+.low-zoom path.shadow.tag-highway-track,
+.low-zoom path.shadow.tag-highway-road,
+.low-zoom path.shadow.tag-living_street,
+.low-zoom path.shadow.tag-service,
+.low-zoom path.shadow.tag-track,
+.low-zoom path.shadow.tag-road {
+    stroke-width: 12;
 }
 .low-zoom path.casing.tag-highway-living_street,
 .low-zoom path.casing.tag-highway-service,
 .low-zoom path.casing.tag-highway-track,
+.low-zoom path.casing.tag-highway-road,
+.low-zoom path.casing.tag-living_street,
+.low-zoom path.casing.tag-service,
+.low-zoom path.casing.tag-track,
+.low-zoom path.casing.tag-road {
+    stroke-width: 5;
+}
+.low-zoom path.stroke.tag-highway-living_street,
+.low-zoom path.stroke.tag-highway-service,
+.low-zoom path.stroke.tag-highway-track,
+.low-zoom path.stroke.tag-highway-road,
+.low-zoom path.stroke.tag-living_street,
+.low-zoom path.stroke.tag-service,
+.low-zoom path.stroke.tag-track,
+.low-zoom path.stroke.tag-road {
+    stroke-width: 3;
+}
+
+.low-zoom path.shadow.tag-highway-path,
+.low-zoom path.shadow.tag-highway-footway,
+.low-zoom path.shadow.tag-highway-cycleway,
+.low-zoom path.shadow.tag-highway-bridleway,
+.low-zoom path.shadow.tag-highway-corridor,
+.low-zoom path.shadow.tag-highway-pedestrian,
+.low-zoom path.shadow.tag-highway-steps,
+.low-zoom path.shadow.tag-path,
+.low-zoom path.shadow.tag-footway,
+.low-zoom path.shadow.tag-cycleway,
+.low-zoom path.shadow.tag-bridleway,
+.low-zoom path.shadow.tag-corridor,
+.low-zoom path.shadow.tag-pedestrian,
+.low-zoom path.shadow.tag-steps {
+    stroke-width: 12;
+}
 .low-zoom path.casing.tag-highway-path,
 .low-zoom path.casing.tag-highway-footway,
 .low-zoom path.casing.tag-highway-cycleway,
@@ -905,32 +1120,44 @@ path.casing.tag-road {
 .low-zoom path.casing.tag-highway-corridor,
 .low-zoom path.casing.tag-highway-pedestrian,
 .low-zoom path.casing.tag-highway-steps,
-.low-zoom path.casing.tag-highway-road,
-.low-zoom path.casing.tag-living_street,
-.low-zoom path.casing.tag-service,
-.low-zoom path.casing.tag-track,
 .low-zoom path.casing.tag-path,
 .low-zoom path.casing.tag-footway,
 .low-zoom path.casing.tag-cycleway,
 .low-zoom path.casing.tag-bridleway,
 .low-zoom path.casing.tag-corridor,
 .low-zoom path.casing.tag-pedestrian,
-.low-zoom path.casing.tag-steps,
-.low-zoom path.casing.tag-road {
-    stroke-width:4;
+.low-zoom path.casing.tag-steps {
+    stroke-width: 3;
+}
+.low-zoom path.stroke.tag-highway-path,
+.low-zoom path.stroke.tag-highway-footway,
+.low-zoom path.stroke.tag-highway-cycleway,
+.low-zoom path.stroke.tag-highway-bridleway,
+.low-zoom path.stroke.tag-highway-corridor,
+.low-zoom path.stroke.tag-highway-pedestrian,
+.low-zoom path.stroke.tag-highway-steps,
+.low-zoom path.stroke.tag-path,
+.low-zoom path.stroke.tag-footway,
+.low-zoom path.stroke.tag-cycleway,
+.low-zoom path.stroke.tag-bridleway,
+.low-zoom path.stroke.tag-corridor,
+.low-zoom path.stroke.tag-pedestrian,
+.low-zoom path.stroke.tag-steps {
+    stroke-width: 1;
 }
 
+
 .preset-icon .icon.highway-living-street {
-    color: #ccc;
-    fill: #fff;
+    color: #bbb;
+    fill: #ddd;
 }
 path.stroke.tag-highway-living_street,
 path.stroke.tag-living_street {
-    stroke:#ccc;
+    stroke: #ccc;
 }
 path.casing.tag-highway-living_street,
 path.casing.tag-living_street {
-    stroke:#fff;
+    stroke: #fff;
 }
 
 .preset-icon .icon.highway-footway.tag-highway-corridor,
@@ -944,6 +1171,12 @@ path.stroke.tag-corridor,
 path.stroke.tag-pedestrian {
     stroke:#fff;
     stroke-dasharray: 2, 8;
+}
+.low-zoom path.stroke.tag-highway-corridor,
+.low-zoom path.stroke.tag-highway-pedestrian,
+.low-zoom path.stroke.tag-corridor,
+.low-zoom path.stroke.tag-pedestrian {
+    stroke-dasharray: 1, 4;
 }
 path.casing.tag-highway-corridor,
 path.casing.tag-highway-pedestrian,
@@ -1004,6 +1237,13 @@ path.stroke.tag-highway-bridleway {
     stroke-linecap: butt;
     stroke-dasharray: 6, 6;
 }
+.low-zoom path.stroke.tag-highway-path,
+.low-zoom path.stroke.tag-highway-footway,
+.low-zoom path.stroke.tag-highway-cycleway,
+.low-zoom path.stroke.tag-highway-bridleway {
+    stroke-linecap: butt;
+    stroke-dasharray: 3, 3;
+}
 
 path.casing.tag-highway-path,
 path.casing.tag-highway-path.tag-unpaved {
@@ -1048,6 +1288,9 @@ path.stroke.tag-highway-footway.tag-crossing {
     stroke: #444;
     stroke-dasharray: 6, 4;
 }
+.low-zoom path.stroke.tag-highway-footway.tag-crossing {
+    stroke-dasharray: 3, 2;
+}
 
 .preset-icon .icon.tag-route-bicycle,
 .preset-icon .icon.highway-cycleway {
@@ -1076,6 +1319,9 @@ path.stroke.tag-highway-steps {
     stroke-linecap: butt;
     stroke-dasharray: 3, 3;
 }
+.low-zoom path.stroke.tag-highway-steps {
+    stroke-dasharray: 2, 2;
+}
 path.casing.tag-highway-steps,
 path.casing.tag-highway-steps.tag-unpaved {
     stroke: #fff;
@@ -1083,14 +1329,86 @@ path.casing.tag-highway-steps.tag-unpaved {
     stroke-dasharray: none;
 }
 
+/* highway midpoints */
 
+g.midpoint.tag-highway-corridor .fill,
+g.midpoint.tag-highway-pedestrian .fill,
+g.midpoint.tag-highway-steps .fill,
+g.midpoint.tag-highway-path .fill,
+g.midpoint.tag-highway-footway .fill,
+g.midpoint.tag-highway-cycleway .fill,
+g.midpoint.tag-highway-bridleway .fill {
+    fill: #fff;
+    stroke: #333;
+    stroke-opacity: .8;
+    opacity: .8;
+}
 /* aeroways */
-path.stroke.tag-aeroway-taxiway {
-    stroke: #805C80;
-    stroke-width: 4;
+
+/* areas */
+path.stroke.area.tag-aeroway {
+    stroke:#fff;
+    stroke-dasharray: none;
+    stroke-width: 2;
+}
+
+/* narrow aeroways (taxiway) */
+
+path.shadow.tag-aeroway-taxiway,
+path.shadow.tag-taxiway {
+    stroke-width: 16;
+}
+path.casing.tag-aeroway-taxiway,
+path.casing.tag-taxiway {
+    stroke-width: 7;
+}
+path.stroke.tag-aeroway-taxiway,
+path.stroke.tag-taxiway {
+    stroke-width: 5;
+}
+
+.low-zoom path.shadow.tag-aeroway-taxiway,
+.low-zoom path.shadow.tag-taxiway {
+    stroke-width: 12;
+}
+.low-zoom path.casing.tag-aeroway-taxiway,
+.low-zoom path.casing.tag-taxiway {
+    stroke-width: 5;
+}
+.low-zoom path.stroke.tag-aeroway-taxiway,
+.low-zoom path.stroke.tag-taxiway {
+    stroke-width: 3;
+}
+
+.preset-icon .icon.tag-aeroway-taxiway,
+.preset-icon .icon.tag-taxiway {
+    color: #ff0;
+    fill: #666;
+}
+path.stroke.tag-aeroway-taxiway,
+path.stroke.tag-taxiway {
+    stroke: #ff0;
+}
+path.casing.tag-aeroway-taxiway,
+path.casing.tag-taxiway {
+    stroke: #666;
+}
+
+
+/* wide aeroways (runway) */
+
+.preset-icon .icon.tag-aeroway-runway,
+.preset-icon .icon.tag-runway {
+    color: #444;
+    fill: #000;
 }
 path.shadow.tag-aeroway-runway {
     stroke-width: 20;
+}
+path.casing.tag-aeroway-runway {
+    stroke-width: 10;
+    stroke: #000;
+    stroke-linecap: square;
 }
 path.stroke.tag-aeroway-runway {
     stroke: #fff;
@@ -1098,25 +1416,25 @@ path.stroke.tag-aeroway-runway {
     stroke-linecap: butt;
     stroke-dasharray: 24, 48;
 }
-path.casing.tag-aeroway-runway {
-    stroke-width: 10;
-    stroke: #000;
-    stroke-linecap: square;
+
+.low-zoom path.shadow.tag-aeroway-runway {
+    stroke-width: 16;
 }
+.low-zoom path.casing.tag-aeroway-runway {
+    stroke-width: 7;
+}
+.low-zoom path.stroke.tag-aeroway-runway {
+    stroke-width: 2;
+    stroke-dasharray: 12, 24;
+}
+
 path.fill.tag-aeroway-runway {
     stroke: rgba(0, 0, 0, 0.6);
     fill: rgba(0, 0, 0, 0.6);
 }
-path.stroke.tag-aeroway-apron {
-    stroke: #805C80;
-}
-path.fill.tag-aeroway-apron {
-    stroke: rgba(128, 92, 128, 0.2);
-    fill: rgba(128, 92, 128, 0.2);
-}
-
 
 /* railways */
+
 .preset-icon .icon.tag-railway.other-line {
     color: #fff;
     fill: #777;
@@ -1125,48 +1443,77 @@ path.fill.tag-aeroway-apron {
     color: #555;
     fill: #eee;
 }
+
+/* narrow widths */
+
+path.shadow.tag-railway {
+    stroke-width: 16;
+}
+path.casing.tag-railway {
+    stroke-width: 7;
+}
 path.stroke.tag-railway {
-    stroke: #eee;
     stroke-width: 2;
     stroke-linecap: butt;
     stroke-dasharray: 12,12;
 }
+
+.low-zoom path.shadow.tag-railway {
+    stroke-width: 12;
+}
+.low-zoom path.casing.tag-railway {
+    stroke-width: 5;
+}
+.low-zoom path.stroke.tag-railway {
+    stroke-width: 2;
+    stroke-dasharray: 6,6;
+}
+
+
+/* styles */
+
 path.casing.tag-railway {
     stroke: #555;
-    stroke-width: 4;
 }
+path.stroke.tag-railway {
+    stroke: #eee;
+}
+
 
 .preset-icon .icon.tag-railway-disused,
 .preset-icon .icon.tag-railway-abandoned {
     color: #999;
     fill: #eee;
 }
-path.stroke.tag-railway-abandoned {
-    stroke: #eee;
-}
 path.casing.tag-railway-abandoned {
     stroke: #999;
 }
+path.stroke.tag-railway-abandoned {
+    stroke: #eee;
+}
+
 
 .preset-icon .icon.tag-railway-subway {
     color: #222;
     fill: #bbb;
 }
-path.stroke.tag-railway-subway {
-    stroke: #bbb;
-}
 path.casing.tag-railway-subway {
     stroke: #222;
 }
+path.stroke.tag-railway-subway {
+    stroke: #bbb;
+}
 
+
+path.casing.tag-railway-platform {
+    stroke: none;
+}
 path.stroke.tag-railway-platform {
     stroke: #999;
     stroke-width: 4;
     stroke-dasharray: none;
 }
-path.casing.tag-railway-platform {
-    stroke: none;
-}
+
 
 .area.stroke.tag-railway {
     stroke: white;
@@ -1176,9 +1523,8 @@ path.casing.tag-railway-platform {
 .area.casing.tag-railway {
     stroke: none;
 }
-
-
 /* waterways */
+
 .preset-icon .icon.tag-waterway.other-line {
     color: #77d3de;
     fill: #77d3de;
@@ -1194,34 +1540,71 @@ path.fill.tag-waterway {
     stroke: rgba(119, 211, 222, 0.3);
     fill: rgba(119, 211, 222, 0.3);
 }
-
+path.casing.tag-waterway {
+    stroke: #3d6c71;
+}
 path.stroke.tag-waterway {
     stroke: #77d3de;
-    stroke-width: 2;
+}
+
+
+/* narrow waterways (default) */
+
+path.shadow.tag-waterway {
+    stroke-width: 16;
 }
 path.casing.tag-waterway {
-    stroke: #77d3de;
-    stroke-width: 4;
+    stroke-width: 7;
+}
+path.stroke.tag-waterway {
+    stroke-width: 5;
 }
 
-path.stroke.tag-waterway-river {
-    stroke-width: 4;
+.low-zoom path.shadow.tag-waterway {
+    stroke-width: 12;
 }
-path.casing.tag-waterway-river {
-    stroke-width: 6;
+.low-zoom path.casing.tag-waterway {
+    stroke-width: 5;
 }
-
-.preset-icon .icon.tag-waterway-ditch {
-    color: #6591ff;
-}
-path.stroke.tag-waterway-ditch {
-    stroke: #6591ff;
-    stroke-width: 1;
-}
-path.casing.tag-waterway-ditch {
-    stroke: #6591ff;
+.low-zoom path.stroke.tag-waterway {
     stroke-width: 3;
 }
+
+
+/* wide waterways (river) */
+
+path.shadow.tag-waterway-river {
+    stroke-width: 20;
+}
+path.casing.tag-waterway-river {
+    stroke-width: 10;
+}
+path.stroke.tag-waterway-river {
+    stroke-width: 8;
+}
+
+.low-zoom path.shadow.tag-waterway-river {
+    stroke-width: 16;
+}
+.low-zoom path.casing.tag-waterway-river {
+    stroke-width: 7;
+}
+.low-zoom path.stroke.tag-waterway-river {
+    stroke-width: 5;
+}
+
+
+/* ditch */
+
+.preset-icon .icon.tag-waterway-ditch {
+    color: #8eabf3;
+}
+path.stroke.tag-waterway-ditch {
+    stroke: #8eabf3;
+}
+
+
+/* waterway areas */
 
 path.area.stroke.tag-waterway-dock,
 path.area.stroke.tag-waterway-boatyard,
@@ -1240,7 +1623,6 @@ path.area.fill.tag-waterway-fuel {
     stroke: rgba(255, 255, 255, 0.3);
     fill: rgba(255, 255, 255, 0.3);
 }
-
 
 /* power */
 .preset-icon .icon.tag-man_made-pipeline,
@@ -1292,7 +1674,6 @@ path.stroke.tag-barrier {
 
 /* bridges */
 path.casing.tag-bridge {
-    stroke-width: 16;
     stroke-opacity: 0.6;
     stroke: #000;
     stroke-linecap: butt;
@@ -1300,7 +1681,30 @@ path.casing.tag-bridge {
 }
 
 path.shadow.tag-bridge {
-    stroke-width: 22;
+    stroke-width: 24;
+}
+path.casing.tag-bridge {
+    stroke-width: 16;
+}
+.low-zoom path.shadow.tag-bridge {
+    stroke-width: 16;
+}
+.low-zoom path.casing.tag-bridge {
+    stroke-width: 10;
+}
+
+path.shadow.line.tag-railway.tag-bridge,
+path.shadow.tag-highway-living_street.tag-bridge,
+path.shadow.tag-highway-path.tag-bridge,
+path.shadow.tag-highway-corridor.tag-bridge,
+path.shadow.line.tag-highway-pedestrian.tag-bridge,
+path.shadow.tag-highway-service.tag-bridge,
+path.shadow.tag-highway-track.tag-bridge,
+path.shadow.tag-highway-steps.tag-bridge,
+path.shadow.tag-highway-footway.tag-bridge,
+path.shadow.tag-highway-cycleway.tag-bridge,
+path.shadow.tag-highway-bridleway.tag-bridge {
+    stroke-width: 18;
 }
 path.casing.line.tag-railway.tag-bridge,
 path.casing.tag-highway-living_street.tag-bridge,
@@ -1315,39 +1719,6 @@ path.casing.tag-highway-cycleway.tag-bridge,
 path.casing.tag-highway-bridleway.tag-bridge {
     stroke-width: 10;
 }
-path.shadow.line.tag-railway.tag-bridge,
-path.shadow.tag-highway-living_street.tag-bridge,
-path.shadow.tag-highway-path.tag-bridge,
-path.shadow.tag-highway-corridor.tag-bridge,
-path.shadow.line.tag-highway-pedestrian.tag-bridge,
-path.shadow.tag-highway-service.tag-bridge,
-path.shadow.tag-highway-track.tag-bridge,
-path.shadow.tag-highway-steps.tag-bridge,
-path.shadow.tag-highway-footway.tag-bridge,
-path.shadow.tag-highway-cycleway.tag-bridge,
-path.shadow.tag-highway-bridleway.tag-bridge {
-    stroke-width: 17;
-}
-.low-zoom path.casing.tag-bridge {
-    stroke-width: 10;
-}
-.low-zoom path.shadow.tag-bridge {
-    stroke-width: 14;
-}
-
-.low-zoom path.casing.line.tag-railway.tag-bridge,
-.low-zoom path.casing.tag-highway-living_street.tag-bridge,
-.low-zoom path.casing.tag-highway-path.tag-bridge,
-.low-zoom path.casing.tag-highway-corridor.tag-bridge,
-.low-zoom path.casing.line.tag-highway-pedestrian.tag-bridge,
-.low-zoom path.casing.tag-highway-service.tag-bridge,
-.low-zoom path.casing.tag-highway-track.tag-bridge,
-.low-zoom path.casing.tag-highway-steps.tag-bridge,
-.low-zoom path.casing.tag-highway-footway.tag-bridge,
-.low-zoom path.casing.tag-highway-cycleway.tag-bridge,
-.low-zoom path.casing.tag-highway-bridleway.tag-bridge {
-    stroke-width: 6;
-}
 
 .low-zoom path.shadow.line.tag-railway.tag-bridge,
 .low-zoom path.shadow.tag-highway-living_street.tag-bridge,
@@ -1360,7 +1731,20 @@ path.shadow.tag-highway-bridleway.tag-bridge {
 .low-zoom path.shadow.tag-highway-footway.tag-bridge,
 .low-zoom path.shadow.tag-highway-cycleway.tag-bridge,
 .low-zoom path.shadow.tag-highway-bridleway.tag-bridge {
-    stroke-width: 13;
+    stroke-width: 14;
+}
+.low-zoom path.casing.line.tag-railway.tag-bridge,
+.low-zoom path.casing.tag-highway-living_street.tag-bridge,
+.low-zoom path.casing.tag-highway-path.tag-bridge,
+.low-zoom path.casing.tag-highway-corridor.tag-bridge,
+.low-zoom path.casing.line.tag-highway-pedestrian.tag-bridge,
+.low-zoom path.casing.tag-highway-service.tag-bridge,
+.low-zoom path.casing.tag-highway-track.tag-bridge,
+.low-zoom path.casing.tag-highway-steps.tag-bridge,
+.low-zoom path.casing.tag-highway-footway.tag-bridge,
+.low-zoom path.casing.tag-highway-cycleway.tag-bridge,
+.low-zoom path.casing.tag-highway-bridleway.tag-bridge {
+    stroke-width: 6;
 }
 
 
@@ -1376,6 +1760,10 @@ path.casing.tag-tunnel {
 
 
 /* embankments / cuttings */
+path.shadow.tag-embankment,
+path.shadow.tag-cutting {
+    stroke-width: 28;
+}
 path.casing.tag-embankment,
 path.casing.tag-cutting {
     stroke-opacity: 0.5;
@@ -1385,19 +1773,13 @@ path.casing.tag-cutting {
     stroke-linecap: butt;
 }
 
-path.shadow.tag-embankment,
-path.shadow.tag-cutting {
-    stroke-width: 28;
-}
-
-.low-zoom path.casing.tag-embankment,
-.low-zoom path.casing.tag-cutting {
-    stroke-width: 10;
-}
-
 .low-zoom path.shadow.tag-embankment,
 .low-zoom path.shadow.tag-cutting {
     stroke-width: 14;
+}
+.low-zoom path.casing.tag-embankment,
+.low-zoom path.casing.tag-cutting {
+    stroke-width: 10;
 }
 
 
@@ -1447,82 +1829,6 @@ path.fill.tag-amenity-shelter {
     border-color: rgb(224, 110, 95);
     background-color: rgba(224, 110, 95, 0.3);
 }
-
-
-/* Labels / Markers */
-
-text {
-    font-size:10px;
-    pointer-events: none;
-    color: #222;
-    opacity: 1;
-}
-
-.oneway .textpath.tag-waterway {
-    fill: #002F35;
-}
-
-path.oneway {
-    stroke-width: 6px;
-}
-
-
-text.arealabel-halo,
-text.linelabel-halo,
-text.pointlabel-halo,
-text.arealabel,
-text.linelabel,
-text.pointlabel {
-    font-size: 12px;
-    font-weight: bold;
-    fill: #333;
-    text-anchor: middle;
-    pointer-events: none;
-    -webkit-transition: opacity 100ms linear;
-    transition: opacity 100ms linear;
-    -moz-transition: opacity 100ms linear;
-}
-
-.linelabel-halo .textpath,
-.linelabel .textpath {
-  dominant-baseline: middle;
-}
-
-/* Opera doesn't support dominant-baseline. See #715 */
-.opera .linelabel-halo .textpath,
-.opera .linelabel .textpath {
-  baseline-shift: -33%;
-  dominant-baseline: auto;
-}
-
-.layer-halo text {
-    opacity: 0.7;
-    stroke: #fff;
-    stroke-width: 5px;
-    stroke-miterlimit: 1;
-}
-
-text.proximate {
-    opacity: 0;
-}
-
-text.point {
-  font-size: 10px;
-}
-
-/* Turns */
-
-g.turn rect,
-g.turn circle {
-    fill: none;
-    pointer-events: all;
-}
-
-.form-field-restrictions .vertex {
-    pointer-events: none;
-    cursor: auto !important;
-}
-
 /* Cursors */
 
 .map-in-map,
@@ -1629,26 +1935,6 @@ g.turn circle {
     cursor: pointer; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-pointer.png") %>) 6 1, pointer; /* FF */
 }
-
-.lasso #map {
-    pointer-events: visibleStroke;
-}
-
-/* GPX Paths */
-.layer-gpx {
-    pointer-events: none;
-}
-
-path.gpx {
-    stroke: #FF26D4;
-    stroke-width: 2;
-    fill: none;
-}
-
-text.gpx {
-    fill: #FF26D4;
-}
-
 /* Mapillary Image Layer */
 
 .layer-mapillary-images {
@@ -1695,7 +1981,7 @@ text.gpx {
     pointer-events: none;
 }
 
-.layer-mapillary-signs .icon-sign body {
+.layer-mapillary-signs .icon-sign .icon-sign-body {
     min-width: 20px;
     height: 28px;
     width: 28px;
@@ -1704,14 +1990,15 @@ text.gpx {
     cursor: pointer; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-select-mapillary.png") %>) 6 1, pointer; /* FF */
     z-index: 70;
+    overflow: visible;
 }
 
-.layer-mapillary-signs .icon-sign:hover body {
+.layer-mapillary-signs .icon-sign:hover .icon-sign-body {
     border: 2px solid rgba(255,198,0,0.8);
     z-index: 80;
  }
 
-.layer-mapillary-signs .icon-sign.selected body {
+.layer-mapillary-signs .icon-sign.selected .icon-sign-body {
     border: 2px solid rgba(255,0,0,0.8);
     z-index: 80;
  }
@@ -1719,12 +2006,48 @@ text.gpx {
 .layer-mapillary-signs .icon-sign .t {
     font-size: 28px;
     z-index: 70;
-    position: absolute;
 }
 
 .layer-mapillary-signs .icon-sign:hover .t,
 .layer-mapillary-signs .icon-sign.selected .t {
     z-index: 80;
+}
+/* Fill Styles */
+
+.low-zoom.fill-wireframe path.stroke,
+.fill-wireframe path.stroke {
+    stroke-width: 1 !important;
+    stroke-opacity: 0.5 !important;
+    stroke-dasharray: none !important;
+    fill: none !important;
+}
+
+.low-zoom.fill-wireframe path.shadow,
+.fill-wireframe path.shadow {
+    stroke-width: 12;
+}
+
+.fill-wireframe path.shadow.related:not(.selected),
+.fill-wireframe path.shadow.hover:not(.selected) {
+    stroke-opacity: 0.4;
+}
+.fill-wireframe path.shadow.selected {
+    stroke-opacity: 0.6;
+}
+
+.fill-wireframe .point,
+.fill-wireframe .areaicon,
+.fill-wireframe .areaicon-halo,
+.fill-wireframe path.casing,
+.fill-wireframe path.fill,
+.fill-wireframe path.oneway {
+    display: none !important;
+}
+
+.fill-partial path.area.fill {
+    fill-opacity: 0;
+    stroke-width: 60px;
+    pointer-events: visibleStroke;
 }
 
 /* Modes */
@@ -1742,49 +2065,13 @@ text.gpx {
 }
 
 /* Ensure drawing doesn't interact with area fills. */
-.mode-add-point .area.fill,
-.mode-draw-line .area.fill,
-.mode-draw-area .area.fill,
-.mode-add-line .area.fill,
-.mode-add-area .area.fill,
-.mode-drag-node .area.fill {
+.mode-add-point path.area.fill,
+.mode-draw-line path.area.fill,
+.mode-draw-area path.area.fill,
+.mode-add-line path.area.fill,
+.mode-add-area path.area.fill,
+.mode-drag-node path.area.fill {
     pointer-events: none;
-}
-
-
-/* Fill Styles */
-.low-zoom.fill-wireframe path.stroke,
-.fill-wireframe path.stroke {
-    stroke-width: 1;
-    stroke-opacity: 0.5;
-    stroke-dasharray: none;
-    fill: none;
-}
-
-.low-zoom.fill-wireframe path.shadow,
-.fill-wireframe path.shadow {
-    stroke-width: 8;
-}
-
-.fill-wireframe path.shadow.hover:not(.selected) {
-    stroke-opacity: 0.4;
-}
-.fill-wireframe path.shadow.selected {
-    stroke-opacity: 0.6;
-}
-
-.fill-wireframe .point,
-.fill-wireframe .areaicon,
-.fill-wireframe path.casing,
-.fill-wireframe path.fill,
-.fill-wireframe path.oneway {
-    display: none;
-}
-
-.fill-partial path.fill {
-    fill-opacity: 0;
-    stroke-width: 60px;
-    pointer-events: visibleStroke;
 }
 /* Basics
 ------------------------------------------------------- */
@@ -1799,12 +2086,16 @@ html, body {
 }
 
 body {
-    font:normal 12px/1.6667 'Helvetica Neue', Arial, sans-serif;
+    font: normal 12px/1.6667 "-apple-system", BlinkMacSystemFont,
+        "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+        "Fira Sans", "Droid Sans", "Helvetica Neue", "Arial",
+        sans-serif;
     margin:0;
     padding:0;
     min-width: 768px;
     color:#333;
     overflow: hidden;
+    -ms-user-select: none;
 }
 
 .unsupported {
@@ -1824,6 +2115,20 @@ body {
     position: relative;
     overflow: hidden;
     height: 100%;
+}
+
+#content.active {
+    -webkit-filter: none !important;
+    filter: none !important;
+    -webkit-duration: 200ms;
+    transition-duration: 200ms;
+}
+
+#content.inactive {
+    -webkit-filter: grayscale(80%) brightness(80%);
+    filter: grayscale(80%) brightness(80%);
+    -webkit-duration: 200ms;
+    transition-duration: 200ms;
 }
 
 #defs {
@@ -1847,6 +2152,9 @@ body {
     opacity: .5;
     float: right;
 }
+[dir='rtl'] .spinner {
+    float: left;
+}
 
 .spinner img {
     height: 40px;
@@ -1855,6 +2163,17 @@ body {
     margin-right: 10px;
     background: black;
 }
+[dir='rtl'] .spinner img {
+    margin-left: 10px;
+    margin-right: auto;
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
 
 div, textarea, label, input, form, span, ul, li, ol, a, button, h1, h2, h3, h4, h5, p, img {
     -moz-box-sizing: border-box;
@@ -1928,7 +2247,7 @@ a:visited, a {
 }
 
 a:hover {
-    color:#597be7;
+    color: #597be7;
 }
 
 /* Forms
@@ -1936,7 +2255,10 @@ a:hover {
 
 textarea  {
     resize: vertical;
-    font:normal 12px/20px 'Helvetica Neue', Arial, sans-serif;
+    font:normal 12px/20px "-apple-system", BlinkMacSystemFont,
+        "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+        "Fira Sans", "Droid Sans", "Helvetica Neue", "Arial",
+        sans-serif;
 }
 
 textarea,
@@ -1949,11 +2271,20 @@ input[type=email] {
     background-color: white;
     color: #333;
     border:1px solid #ccc;
-    padding:5px 10px;
+    padding:5px 20px 5px 10px;
     height:30px;
     width: 100%;
     border-radius:4px;
     text-overflow: ellipsis;
+}
+[dir='rtl'] textarea,
+[dir='rtl'] input[type=text],
+[dir='rtl'] input[type=search],
+[dir='rtl'] input[type=number],
+[dir='rtl'] input[type=url],
+[dir='rtl'] input[type=tel],
+[dir='rtl'] input[type=email] {
+    padding:5px 10px 5px 20px;
 }
 
 textarea:focus,
@@ -2172,6 +2503,9 @@ button.minor {
     border-radius: 0;
     background-color: #fafafa;
 }
+[dir='rtl'] button.minor {
+    right: auto;
+}
 
 button.minor .icon {
     opacity: .5;
@@ -2238,10 +2572,6 @@ button.secondary-action:hover {
     background: #cccccc;
 }
 
-button.save.has-count {
-    padding: 9px;
-}
-
 button.save .count {
     display: none;
 }
@@ -2259,7 +2589,7 @@ button.save.has-count .count {
     line-height: 12px;
     border-radius: 4px;
     margin: auto;
-    margin-left: 8.3333%;
+    margin-left: 9.3333%;
 }
 
 button.save.has-count .count::before {
@@ -2294,7 +2624,7 @@ button.save.has-count .count::before {
 }
 
 .icon.pre-text {
-    margin-right: 3px;
+    margin-right: 5px;
 }
 
 .icon.light {
@@ -2335,6 +2665,7 @@ button.save.has-count .count::before {
     z-index: 9;
     min-width: 768px;
 }
+
 
 /* Header for modals / panes
 ------------------------------------------------------- */
@@ -2390,7 +2721,7 @@ button.save.has-count .count::before {
     position: absolute;
     right: 0;
     top: 0;
-    height: 59px;
+    height: 60px;
     z-index: 50;
 }
 
@@ -2401,6 +2732,7 @@ button.save.has-count .count::before {
     border-top: 1px solid #ccc;
     background-color: #fafafa;
     width: 100%;
+    z-index: 1;
 }
 
 .sidebar-component .body {
@@ -2421,6 +2753,7 @@ button.save.has-count .count::before {
     overflow: hidden;
     z-index: 10;
     background: #f6f6f6;
+    -ms-user-select: element;
 }
 
 .sidebar-component {
@@ -2448,8 +2781,6 @@ button.save.has-count .count::before {
     left: 0;
     bottom: 0;
 }
-
-
 
 
 .feature-list-pane .inspector-body {
@@ -2510,9 +2841,24 @@ button.save.has-count .count::before {
     border-radius: 0;
 }
 
+.feature-list-item {
+    background-color: white;
+    font-weight: bold;
+    height: 40px;
+    line-height: 20px;
+}
+
+.feature-list-item:hover {
+    background-color: #ececec;
+}
+
+.feature-list-item button {
+    background: transparent;
+}
+
 .feature-list-item .label {
     text-align: left;
-    padding: 5px 10px;
+    padding: 10px 10px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -2523,8 +2869,13 @@ button.save.has-count .count::before {
     opacity: .5;
 }
 
-.feature-list-item:hover .label {
-    background-color: #ececec;
+.feature-list-item .close {
+    float: right;
+    padding: 10px;
+}
+
+.feature-list-item .close .icon {
+    opacity: 1;
 }
 
 .feature-list-item .entity-type {
@@ -2579,6 +2930,24 @@ button.save.has-count .count::before {
     top: 10px;
 }
 
+.preset-icon-fill-vertex {
+    height: 40px;
+    width: 40px;
+    margin: auto;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    border: 1.5px solid #333;
+    border-radius: 20px;
+    background-color: #efefef;
+}
+
+[dir='rtl'] .preset-icon-fill-vertex,
+[dir='rtl'] .preset-icon-fill-area {
+  left: auto;
+  right: 10px;
+}
+
 .preset-icon-frame {
     position: absolute;
     top: 7px;
@@ -2586,6 +2955,10 @@ button.save.has-count .count::before {
     height: 42px;
     width: 42px;
     margin: auto;
+}
+[dir='rtl'] .preset-icon-frame {
+  left: auto;
+  right: 7px;
 }
 
 .preset-icon-frame .icon {
@@ -2617,16 +2990,28 @@ button.save.has-count .count::before {
     height: 44px;
 }
 
-.preset-icon-32 {
+.preset-icon-28 {
     position: absolute;
-    top: 14px;
-    left: 13px;   /* Maki icons off center? */
+    top: 16px;
+    left: 16px;
     margin: auto;
 }
 
-.preset-icon-32 .icon {
-    width: 32px;
-    height: 32px;
+.preset-icon-28 .icon {
+    width: 28px;
+    height: 28px;
+}
+
+.preset-icon-24 {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    margin: auto;
+}
+
+.preset-icon-24 .icon {
+    width: 24px;
+    height: 24px;
 }
 
 .preset-list-button .label {
@@ -2755,6 +3140,9 @@ button.save.has-count .count::before {
     border-radius: 4px 4px 0 0;
     overflow: hidden;
 }
+[dir='rtl'] .form-label {
+    padding: 5px 10px 5px 0;
+}
 
 .form-label-button-wrap {
     position: absolute;
@@ -2764,6 +3152,9 @@ button.save.has-count .count::before {
     width: 100%;
     background: transparent;
     text-align: right;
+}
+[dir='rtl'] .form-label-button-wrap {
+    text-align: left;
 }
 
 .form-label-button-wrap .tag-reference-button {
@@ -2780,6 +3171,11 @@ button.save.has-count .count::before {
     height: 100%;
     border-radius: 0;
     background: #f6f6f6;
+}
+[dir='rtl'] .form-label button {
+    border-left: none;
+    border-right: 1px solid #CCC;
+    border-radius: 4px 0 0 0;
 }
 .form-label button:hover {
     background: #f1f1f1;
@@ -2818,6 +3214,7 @@ button.save.has-count .count::before {
 .inspector-hover .checkselect label:last-of-type,
 .inspector-hover .preset-input-wrap .label,
 .inspector-hover .form-field-multicombo,
+.inspector-hover .structure-extras-wrap,
 .inspector-hover input,
 .inspector-hover label {
     background: #ececec;
@@ -2876,13 +3273,25 @@ button.save.has-count .count::before {
 .inspector-hover .tag-row:first-child input.value {
     border-top-right-radius: 4px;
 }
+[dir='rtl'] .inspector-hover .tag-row:first-child input.value {
+    border-top-right-radius: 0;
+    border-top-left-radius: 4px;
+}
 
 .inspector-hover .tag-row:last-child input.value {
     border-bottom-right-radius: 4px;
 }
+[dir='rtl'] .inspector-hover .tag-row:last-child input.value {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 4px;
+}
 
 .inspector-hover .tag-row:last-child input.key {
     border-bottom-left-radius: 4px;
+}
+[dir='rtl'] .inspector-hover .tag-row:last-child input.key {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 4px;
 }
 
 .inspector-hover .more-fields {
@@ -2931,10 +3340,21 @@ button.save.has-count .count::before {
     font-weight: bold;
 }
 
-.more-fields label { padding: 5px 10px 5px 0; }
-.more-fields input { width: 50%;}
+.more-fields label {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
 
-/* preset form access */
+.more-fields input {
+    margin-left: 10px;
+    flex: 1 1 50%;
+}
+[dir='rtl'] .more-fields input {
+    margin-left: auto;
+    margin-right: 10px;
+}
 
 .preset-input-wrap .label {
     height: 30px;
@@ -2942,22 +3362,50 @@ button.save.has-count .count::before {
     padding: 5px 10px;
 }
 
+
+
+/* preset form access */
+/* preset form cycleway */
+
+.form-field-structure .structure-extras-wrap li,
+.form-field-cycleway .preset-input-wrap li,
 .form-field-access .preset-input-wrap li {
-    border-bottom: 1px solid #CCC;
+    border-bottom: 1px solid #ccc;
 }
+.form-field-structure .structure-extras-wrap li:last-child,
+.form-field-cycleway .preset-input-wrap li:last-child,
 .form-field-access .preset-input-wrap li:last-child {
     border-bottom: 0;
 }
-
+.structure-input-type-wrap input,
+.structure-input-layer-wrap input,
+.preset-input-cycleway-wrap input,
 .preset-input-access-wrap input {
     border-radius: 0;
     border-width: 0;
     border-left-width: 1px;
 }
+[dir='rtl'] .structure-input-type-wrap input,
+[dir='rtl'] .structure-input-layer-wrap input,
+[dir='rtl'] .preset-input-cycleway-wrap input,
+[dir='rtl'] .preset-input-access-wrap input {
+    border-left-width: 0;
+    border-right-width: 1px;
+}
 
 .preset-input-wrap li:last-child input {
     border-bottom-right-radius: 4px;
 }
+
+.structure-extras-wrap {
+    padding: 10px 10px;
+    background: #fff;
+}
+.structure-extras-wrap ul {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 
 /* preset form multicombo */
 
@@ -3016,20 +3464,6 @@ button.save.has-count .count::before {
     border-radius: 4px !important;
 }
 
-/* preset form cycleway */
-
-.form-field-cycleway .preset-input-wrap li {
-    border-bottom: 1px solid #CCC;
-}
-.form-field-cycleway .preset-input-wrap li:last-child {
-    border-bottom: 0;
-}
-
-.preset-input-cycleway-wrap input {
-    border-radius: 0;
-    border-width: 0;
-    border-left-width: 1px;
-}
 
 /* preset form numbers */
 
@@ -3104,6 +3538,21 @@ input[type=number] {
     opacity: .5;
 }
 
+.checkselect .reverser.button {
+    display: block;
+    float: right;
+    background-color: #eff2f7;
+    border: 1px solid #ccd5e3;
+    border-radius: 2px;
+    padding: 0px 8px;
+}
+[dir='rtl'] .checkselect .reverser.button {
+    float: left;
+}
+.checkselect .reverser.button.hide {
+    display: none;
+}
+
 /* Preset form radio button */
 
 .toggle-list button.remove {
@@ -3119,45 +3568,52 @@ input[type=number] {
     content: none;
 }
 
-.form-field .wiki-lang {
-    border-radius: 0;
-}
-
-.form-field .wiki-title {
-    padding-right: 10%;
-}
-
-.form-field .wiki-title ~ .combobox-caret {
-    margin-left: -18%;
-    margin-right: 9%;
-}
-
-.form-field .wiki-link {
-    float: right;
-    background: #fafafa;
-    padding: 5px;
-    text-align: center;
-}
-
-.form-field .wiki-link:hover {
-    background: #f1f1f1;
-}
-
 #preset-input-maxspeed {
     border-right: none;
     border-radius: 0 0 0 4px;
     width: 80%;
+}
+[dir='rtl'] #preset-input-maxspeed {
+    border-right: 1px solid #ccc;
+    border-radius: 0 0 4px 0;
 }
 
 .form-field .maxspeed-unit {
     border-radius: 0 0 4px 0;
     width: 20%;
 }
+[dir='rtl'] .form-field .maxspeed-unit {
+    border-right: 0;
+    border-radius: 0 0 0 4px;
+}
 
-/* Name + translate form */
+/* Wikipedia field */
+.form-field .wiki-lang {
+    border-radius: 0;
+}
+.form-field .wiki-title {
+    padding-right: 20%;
+}
+[dir='rtl'] .form-field .wiki-title {
+    padding-left: 20%;
+    padding-right: 10px;
+}
 
+.form-field .wiki-title ~ .combobox-caret {
+    right: 10%;
+}
+[dir='rtl'] .form-field .wiki-title ~ .combobox-caret {
+    right: auto;
+    left: 10%;
+}
+
+/* Localized field */
 .form-field .localized-main {
-    padding-right: 10%;
+    padding-right: 12%;
+}
+[dir='rtl'] .form-field .localized-main {
+    padding-left: 12%;
+    padding-right: 10px;
 }
 
 .form-field .button-input-action {
@@ -3171,6 +3627,12 @@ input[type=number] {
     border-radius: 0 0 4px 0;
     height: 30px;
     vertical-align: top;
+}
+[dir='rtl'] .form-field .button-input-action {
+    margin-left: 0;
+    margin-right: -10%;
+    border-right-width: 1px;
+    border-radius: 0 0 0 4px;
 }
 
 .form-field .localized-wrap {
@@ -3215,6 +3677,10 @@ input[type=number] {
     border-right: 0;
     border-bottom: 0;
 }
+[dir='rtl'] .addr-row input {
+    border-right: 1px solid #ccc;
+    border-left: 0;
+}
 
 .addr-row:first-of-type input {
     border-top: 0;
@@ -3222,6 +3688,9 @@ input[type=number] {
 
 .addr-row input:first-of-type {
     border-left: 0;
+}
+[dir='rtl'] .addr-row input:first-of-type {
+    border-right: 0;
 }
 
 .addr-row input {
@@ -3231,9 +3700,15 @@ input[type=number] {
 .addr-row:last-of-type input:first-of-type {
     border-radius: 0 0 0 4px;
 }
+[dir='rtl'] .addr-row:last-of-type input:first-of-type {
+    border-radius: 0 0 4px 0;
+}
 
 .addr-row:last-of-type input:last-of-type {
     border-radius: 0 0 4px 0;
+}
+[dir='rtl'] .addr-row:last-of-type input:last-of-type {
+    border-radius: 0 0 0 4px;
 }
 
 /* Restrictions editor */
@@ -3243,7 +3718,7 @@ input[type=number] {
     height: 300px;
 }
 
-.form-field-restrictions svg {
+.form-field-restrictions svg.surface {
     width: 100%;
     height: 100%;
 }
@@ -3325,6 +3800,15 @@ div.combobox {
     clear: both;
 }
 
+.tag-row.readonly,
+.tag-row.readonly input.key,
+.tag-row.readonly input.value,
+.tag-row.readonly button.remove {
+    color: #777777;
+    background-color: #eee;
+    cursor: not-allowed;
+}
+
 .tag-row input {
     height: 31px;
     border: 0;
@@ -3332,12 +3816,20 @@ div.combobox {
     border-bottom: 1px solid #CCC;
     border-left: 1px solid #CCC;
 }
+[dir='rtl'] .tag-row input {
+    border-left: none;
+    border-right: 1px solid #CCC;
+}
 
 .tag-row .key-wrap,
 .tag-row .input-wrap-position {
     width: 40%;
     float: left;
     height: 30px;
+}
+[dir='rtl'] .tag-row .key-wrap,
+[dir='rtl'] .tag-row .input-wrap-position {
+    float: right;
 }
 
 .tag-row input.key {
@@ -3348,10 +3840,17 @@ div.combobox {
 .tag-row input.value {
     border-right: 1px solid #CCC;
 }
+[dir='rtl'] .tag-row input.value {
+    border-left: 1px solid #CCC;
+}
 
 .tag-row:first-child input.key {
     border-top: 1px solid #CCC;
     border-top-left-radius: 4px;
+}
+[dir='rtl'] .tag-row:first-child input.key {
+    border-top-left-radius: 0;
+    border-top-right-radius: 4px;
 }
 
 .tag-row:first-child input.value {
@@ -3365,6 +3864,11 @@ div.combobox {
     border: 1px solid #CCC;
     border-top-width: 0;
     border-left-width: 0;
+}
+[dir='rtl'] .tag-row button {
+    left: 10%;
+    border-left-width: 1px;
+    border-right-width: 0;
 }
 
 .tag-row button:hover {
@@ -3382,9 +3886,17 @@ div.combobox {
 .tag-row:first-child .tag-reference-button {
     border-top-right-radius: 4px;
 }
+[dir='rtl'] .tag-row:first-child .tag-reference-button {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 0;
+}
 
 .tag-row:last-child .tag-reference-button {
     border-bottom-right-radius: 4px;
+}
+[dir='rtl'] .tag-row:last-child .tag-reference-button {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 0;
 }
 
 .tag-row .tag-reference-button {
@@ -3394,10 +3906,17 @@ div.combobox {
     top: 0;
     background: #fafafa;
 }
+[dir='rtl'] .tag-row .tag-reference-button {
+    left: auto;
+    right: auto;
+    margin-right: 35px;
+    border-left-width: 1px;
+    border-right-width: 0;
+}
 
 /* Adding form fields to tag editor */
 
-.inspector-inner .add-tag {
+.raw-tag-editor .add-tag {
     width: 40%;
     height: 30px;
     border-top: 0;
@@ -3405,11 +3924,11 @@ div.combobox {
     border-radius: 0 0 4px 4px;
 }
 
-.inspector-inner .add-tag:hover {
+.raw-tag-editor .add-tag:hover {
     background: rgba(0,0,0,.8);
 }
 
-.inspector-inner .add-tag .label {
+.raw-tag-editor .add-tag .label {
     display: none;
 }
 
@@ -3974,16 +4493,21 @@ div.full-screen > button:hover {
     border-radius: 4px 4px 0 0;
 }
 
-.help-wrap .toc li:nth-last-child(2) a {
+.help-wrap .toc li:nth-last-child(3) a {
     border-bottom: 1px solid #CCC;
     border-radius: 0 0 4px 4px
 }
 
+.help-wrap .toc li.shortcuts a,
 .help-wrap .toc li.walkthrough a {
     overflow: hidden;
     margin-top: 10px;
     border-bottom: 1px solid #ccc;
     border-radius: 4px;
+}
+
+.help-wrap .toc li.walkthrough a {
+    text-align: center;
 }
 
 .help-wrap .nav {
@@ -4035,13 +4559,16 @@ img.tile {
 }
 
 .tile-label-debug {
+    font-size: 10px;
     background: rgba(0, 0, 0, 0.7);
     color: #fff;
     position: absolute;
     text-align: center;
-    width: 128px;
+    padding: 5px;
     border-radius: 3px;
     z-index: 2;
+    margin-left: -50px;
+    margin-top: -20px;
 
     transform-origin:0 0;
     -ms-transform-origin:0 0;
@@ -4056,7 +4583,7 @@ img.tile {
 }
 
 img.tile-debug {
-    border: 1px solid red;
+    outline: 1px solid red;
 }
 
 img.tile-loaded {
@@ -4076,6 +4603,10 @@ img.tile-removing {
     overflow:hidden;
     height:100%;
     background:#000;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 #supersurface {
@@ -4084,11 +4615,6 @@ img.tile-removing {
     -webkit-transform-origin:0 0;
     -moz-transform-origin:0 0;
     -o-transform-origin:0 0;
-
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 #supersurface, .layer {
@@ -4196,36 +4722,95 @@ img.tile-removing {
 
 /* Info Box
 ------------------------------------------------------- */
-.infobox {
+.info-panels {
+    display: flex;
+    flex-flow: row-reverse wrap-reverse;
     position: absolute;
     z-index: 1;
     right: 0;
     bottom: 30px;
-    width: 240px;
-    border-radius: 4px 0 0 0;
-    border-bottom: 1px solid black;
+    -ms-user-select: element;
 }
 
-.infobox .infobox-heading {
-    display: block;
-    border-radius: 4px 0 0 0;
+.info-panels h1,
+.info-panels h2,
+.info-panels h3,
+.info-panels h4,
+.info-panels h5 {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.info-panels h1,
+.info-panels h2,
+.info-panels h3 {
+    color: #ff8;
+}
+
+.panel-container {
+    flex: 0 0 auto;
+    margin: 2px 0 0 2px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.75);
+    padding-bottom: 10px;
+    width: 250px;
+}
+
+.panel-container .panel-title {
+    border-radius: 4px 4px 0 0;
+}
+
+.panel-title {
     padding: 5px 10px;
-    height: 30px;
 }
 
-.infobox ul {
+.panel-title button.close {
+    float: right;
+    height: 20px;
+    background: none;
+    color: #ddd;
+}
+
+.panel-title button.close:hover {
+    color: #fff;
+}
+
+.panel-title button.close .icon {
+    height: 20px;
+    width: 16px;
+}
+
+.panel-content {
     padding: 5px 10px;
+    position: relative;
 }
 
-.infobox .button {
-    position: absolute;
+.panel-content .button {
+    display: inline-block;
     background: #7092ff;
     border-radius: 2px;
     padding: 0 4px;
+    margin-top: 10px;
     color: white;
-    top: 40px;
-    right: 10px;
 }
+
+.panel-content-history .links a {
+    margin-left: 10px;
+}
+[dir='rtl'] .panel-content-history .links a {
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+.panel-content-history .view-history-on-osm {
+    display: block;
+    margin-top: 10px;
+}
+
+.panel-content-location .location-info {
+    margin-top: 10px;
+}
+
 
 /* About Section
 ------------------------------------------------------- */
@@ -4237,14 +4822,15 @@ img.tile-removing {
     bottom:0;
     border-radius: 0;
     pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    -ms-user-select: element;
 }
 
 #attrib {
     width: 100%;
     height: 20px;
     margin-bottom: 5px;
-    float: left;
-    clear: both;
 }
 
 #attrib * { pointer-events: all; }
@@ -4252,7 +4838,7 @@ img.tile-removing {
 .base-layer-attribution,
 .overlay-layer-attribution {
     position: absolute;
-    color: #888;
+    color: #ccc;
     font-size: 10px;
 }
 
@@ -4268,25 +4854,96 @@ img.tile-removing {
     content: '; ';
 }
 
-.source-image {
-    height:20px;
-    vertical-align:top;
+.attribution a,
+.attribution a:visited {
+    color: #ccf;
 }
+
+.attribution a:hover {
+    color: #aaf;
+}
+
+.attribution .source-image {
+    height: 20px;
+    vertical-align: middle;
+    border-radius: 3px;
+}
+
+.attribution span {
+    margin: 0 3px;
+}
+
 
 #footer {
-    width: 100%;
-    float: left;
-    clear: both;
     pointer-events: all;
+    display: block;
+    height: 30px;
 }
 
+
+#flash-wrap {
+    display: flex;
+    flex: 0 0 100%;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    max-height: 30px;
+    position: absolute;
+    right: 0;
+    left: 0;
+}
+
+#flash-wrap .content {
+    display: flex;
+    flex: 1 0 auto;
+    flex-flow: row nowrap;
+    align-items: center;
+    padding: 2px;
+    height: 30px;
+}
+
+
+#flash-wrap svg.operation-icon {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    margin: 0 8px;
+}
+
+#flash-wrap div.operation-tip {
+    flex: 1 1 auto;
+}
+
+#footer-wrap {
+    display: flex;
+    flex: 0 0 100%;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    max-height: 30px;
+    position: absolute;
+    right: 0;
+    left: 0;
+}
+
+.footer-show {
+    bottom: 0px;
+    transition: bottom 75ms linear;
+    -moz-transition: bottom 75ms linear;
+    -webkit-transition: bottom 75ms linear;
+}
+
+.footer-hide {
+    bottom: -35px;
+    transition: bottom 75ms linear;
+    -moz-transition: bottom 75ms linear;
+    -webkit-transition: bottom 75ms linear;
+}
+
+
 #scale-block {
-    display: table-cell;
     vertical-align: bottom;
     width: 250px;
     max-height: 30px;
-    float: left;
-    clear: left;
+    flex: 0 0 250px;
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
@@ -4295,12 +4952,15 @@ img.tile-removing {
 
 #info-block {
     max-height: 30px;
-    clear: right;
+    flex: 1 1 auto;
 }
 
 #scale {
     height: 30px;
     width: 100%;
+}
+[dir='rtl'] #scale {
+    transform: scaleX(-1);
 }
 
 #scale:hover {
@@ -4313,6 +4973,9 @@ img.tile-removing {
     fill: #ccc;
     text-anchor: start;
 }
+[dir='rtl'] #scale text {
+    transform: scaleX(-1);
+}
 
 #scale path {
     fill: none;
@@ -4321,11 +4984,18 @@ img.tile-removing {
     shape-rendering: crispEdges;
 }
 
+
 #about-list {
     text-align: right;
     margin-right: 10px;
     clear: right;
     overflow: hidden;
+}
+[dir='rtl'] #about-list {
+    text-align: left;
+    clear: left;
+    margin-left: 10px;
+    margin-right: 0;
 }
 
 #about-list li {
@@ -4334,11 +5004,23 @@ img.tile-removing {
     padding: 5px 0 5px 5px;
     margin-left: 5px;
 }
+[dir='rtl'] #about-list li {
+    float: left;
+    border-left: none;
+    border-right: 1px solid rgba(255,255,255,.5);
+    margin-left: 0;
+    margin-right: 5px;
+    padding: 5px 5px 5px 0;
+}
+
 
 #about-list li:last-child {
     border-left: 0;
     margin-left: 0;
     padding-left: 0;
+}
+[dir='rtl'] #about-list li:last-child {
+    border-right: none;
 }
 
 .source-switch a {
@@ -4362,18 +5044,54 @@ img.tile-removing {
 }
 
 .api-status {
-    float: right;
-    clear: both;
     text-align: right;
-    width: 100%;
     padding: 0px 10px;
+    color: #eee;
+    flex: 1 1 auto;
+}
+[dir='rtl'] .api-status {
+    text-align: left;
 }
 
 .api-status.offline,
 .api-status.readonly,
 .api-status.error {
-    background: red;
+    background: #a22;
 }
+
+.api-status-login {
+    color: #aaf;
+}
+.api-status-login:hover {
+    color: #ccf;
+}
+
+.badge {
+    display: inline-block;
+    background: #d32232;
+    width: 21px;
+    height: 20px;
+    border-radius: 11px;
+    margin-left: 6px;
+}
+[dir='rtl'] .badge {
+    margin-left: 0;
+    margin-right: 6px;
+}
+.badge a {
+    margin-right: 5px;
+}
+[dir='rtl'] .badge a {
+    margin-right: 0;
+    margin-left: 5px;
+}
+.badge .icon {
+    vertical-align: baseline;
+    width: 11px;
+    height: 11px;
+    fill: white;
+}
+
 
 /* Modals
 ------------------------------------------------------- */
@@ -4463,20 +5181,14 @@ img.tile-removing {
     background-color: #ececec;
 }
 
-.modal-actions button:before,
-.save-success a.button.osm:before,
-.walkthrough a:before {
-    display: block;
-    content: '';
+.logo {
     height: 100px;
     width: 100%;
     max-width: 100px;
     margin: auto;
-    margin-bottom: 10px;
-    background:transparent url(<%= asset_path("iD/img/iD-sprite.svg") %>) no-repeat -200px -460px;
 }
 
-.modal-actions :first-child {
+.modal-actions > :first-child {
     border-right: 1px solid #CCC;
 }
 
@@ -4486,57 +5198,149 @@ img.tile-removing {
 
 /* Restore Modal
 ------------------------------------------------------- */
-
-.modal-actions .restore:before {
-    background-position: -500px -460px;
+.modal-actions .logo-restore {
+    color: #7092FF;
 }
-
-.modal-actions .reset:before {
-    background-position: -600px -460px;
+.modal-actions .logo-reset {
+    color: #E06C5E;
 }
 
 /* Success Modal
 ------------------------------------------------------- */
-
 .save-success p {
     padding: 15px 15px 0 15px;
 }
 .save-success a.details {
-  padding-left: 15px;
+    padding-left: 15px;
 }
 .save-success .button {
     padding-top: 15px;
 }
-
+.save-success .logo-osm {
+    color: #7092FF;
+    margin-bottom: 10px;
+}
 .save-success a.button.social {
     height: auto;
+    border-bottom: none;
 }
-
 .save-success .icon.social {
     height: 80px;
     width: 80px;
     color: #7092FF;
 }
 
-.save-success .button.osm:before {
-    background-position: -200px -460px;
-}
-
 /* Splash Modal
 ------------------------------------------------------- */
-
-.modal-actions .walkthrough:before,
-.walkthrough a:before {
-    background-position: -300px -460px;
+.modal-actions .logo-walkthrough,
+.modal-actions .logo-features {
+    color: #7092FF;
 }
 
-.modal-actions .start:before {
-    background-position: -400px -460px;
-}
 
-/* Commit Modal
+/* Shortcuts Modal
 ------------------------------------------------------- */
+.modal-shortcuts {
+    width: 90%;
+    max-width: 950px;
+}
 
+.modal-shortcuts .modal-section:last-child {
+    padding-top: 10px;
+    min-height: 275px;
+}
+
+.modal-shortcuts .tabs-bar {
+    text-align: center;
+    padding-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.modal-shortcuts .tab {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    color: #666;
+}
+.modal-shortcuts .tab.active {
+    color: #7092ff;
+}
+.modal-shortcuts .tab:hover {
+    color: #597be7;
+    background-color: #efefef;
+}
+
+.modal-shortcuts .shortcut-tab {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.modal-shortcuts .shortcut-column {
+    flex: 1 1 50%;
+    width: 50%;
+}
+
+.modal-shortcuts .shortcut-tab-tools .shortcut-column {
+    flex: 1 1 100%;
+    width: 100%;
+}
+
+.modal-shortcuts td {
+    padding-bottom: 5px;
+}
+
+.modal-shortcuts .shortcut-section {
+    padding: 20px 0 10px 0;
+}
+
+.modal-shortcuts .shortcut-keys {
+    padding-right: 10px;
+    color: #767676;
+    text-align: right;
+}
+[dir='rtl'] .modal-shortcuts .shortcut-keys {
+    padding-right: auto;
+    padding-left: 10px;
+    text-align: left;
+}
+
+.modal-shortcuts .shortcut-keys kbd {
+    display: inline-block;
+    text-align: center;
+    padding: 3px 5px;
+    font-size: 11px;
+    line-height: 12px;
+    min-width: 12px;
+    color: #555;
+    vertical-align: baseline;
+    background-color: #fcfcfc;
+    border: solid 1px #ccc;
+    margin: 0 2px;
+    border-bottom-color: #bbb;
+    border-radius: 3px;
+    box-shadow: inset 0 -1px 0 #bbb;
+}
+
+.modal-shortcuts .shortcut-keys svg.mouseclick use.left {
+    fill: rgba(112, 146, 255, 1);
+    color: rgba(112, 146, 255, 0);
+}
+.modal-shortcuts .shortcut-keys svg.mouseclick use.right {
+    fill: rgba(112, 146, 255, 0);
+    color: rgba(112, 146, 255, 1);
+}
+
+.modal-shortcuts .shortcut-keys .gesture {
+    color: #333;
+    padding: 3px;
+}
+
+
+
+/* Save Mode
+------------------------------------------------------- */
 .mode-save a.user-info {
     display: inline-block;
 }
@@ -4696,12 +5500,11 @@ img.tile-removing {
     position: absolute;
     display: none;
     color:#333;
-    text-align: left;
     font-size: 12px;
 }
 
 .tooltip.in {
-    opacity: 0.8;
+    opacity: 0.9;
     z-index: 1030;
     height: auto;
     display: block;
@@ -4714,6 +5517,7 @@ img.tile-removing {
 
 .tooltip.right {
     margin-left: 20px;
+    text-align: left;
 }
 
 .tooltip.bottom {
@@ -4825,15 +5629,25 @@ img.tile-removing {
     border-width: 0 5px 5px;
 }
 
+.tooltip-heading {
+    font-weight: bold;
+    background: #F6F6F6;
+    padding: 10px;
+    margin: -10px -10px 10px -10px;
+    border-radius: 3px 3px 0 0;
+    font-size: 14px;
+}
+
 .keyhint-wrap {
     background: #F6F6F6;
     padding: 10px;
-    margin: 10px -10px -10px;
+    margin: 10px -10px -10px -10px;
     border-radius: 0 0 3px 3px;
 }
 
 .tooltip-inner .keyhint {
     font-weight: bold;
+    margin-left: 5px;
 }
 
 /* Exceptions for tooltip layouts */
@@ -4864,6 +5678,7 @@ img.tile-removing {
 }
 
 .map-overlay .tooltip-inner,
+.map-overlay .tooltip-heading,
 .map-overlay .keyhint-wrap,
 .entity-editor-pane .tooltip-inner,
 .warning-section .tooltip-inner {
@@ -4879,15 +5694,45 @@ img.tile-removing {
 .map-control .tooltip {
     min-width: 160px;
 }
+.map-control .shortcuts .tooltip {
+    max-width: 160px;
+}
+
 /* Move over tooltips that are near the edge of screen */
 .add-point .tooltip {
     left: 33.3333% !important;
 }
-
-.curtain-tooltip.intro-points-add .tooltip-arrow,
 .add-point .tooltip .tooltip-arrow {
     left: 60px;
 }
+[dir='rtl'] .add-point .tooltip .tooltip-arrow {
+    left: auto;
+    right: 60px;
+}
+
+li:first-of-type .badge .tooltip,
+li.hide + li.version .badge .tooltip {
+    left: auto !important;
+    right: 5px !important;
+}
+[dir='rtl'] li:first-of-type .badge .tooltip,
+[dir='rtl'] li.hide + li.version .badge .tooltip {
+    left: 5px !important;
+    right: auto !important;
+}
+li:first-of-type .badge .tooltip .tooltip-arrow,
+li.hide + li.version .badge .tooltip .tooltip-arrow {
+    right: 15px !important;
+    left: auto !important;
+}
+[dir='rtl'] li:first-of-type .badge .tooltip .tooltip-arrow,
+[dir='rtl'] li.hide + li.version .badge .tooltip .tooltip-arrow {
+    left: 15px !important;
+    right: auto !important;
+}
+
+
+/* radial menu (deprecated) */
 
 .radial-menu-tooltip {
     opacity: 0.8;
@@ -4925,6 +5770,46 @@ img.tile-removing {
     fill: rgba(32,32,32,.5);
     color: rgba(40,40,40,.5);
 }
+
+/* edit menu */
+
+.edit-menu-tooltip {
+    display: none;
+    position: absolute;
+    width: 200px;
+}
+
+.edit-menu-background {
+    fill: #eee;
+}
+
+.edit-menu-item rect {
+    fill: #eee;
+}
+
+.edit-menu-item rect:active,
+.edit-menu-item rect:hover {
+    fill: #ccc;
+}
+
+.edit-menu-item.disabled rect {
+    cursor: not-allowed;
+}
+.edit-menu-item.disabled rect:hover {
+    cursor: not-allowed;
+    fill: #eee;
+}
+
+.edit-menu-item use {
+    fill: #222;
+    color: #79f;
+}
+
+.edit-menu-item.disabled use {
+    fill: rgba(32,32,32,.2);
+    color: rgba(40,40,40,.2);
+}
+
 
 .lasso-path {
     fill-opacity:0.3;
@@ -4995,6 +5880,8 @@ img.tile-removing {
 }
 
 .intro-nav-wrap {
+    display: flex;
+    flex-direction: row;
     position: absolute;
     left: 0;
     right: 0;
@@ -5003,33 +5890,67 @@ img.tile-removing {
     z-index: 1001;
 }
 
-.intro-nav-wrap button.step {
-    width: 20%;
+.intro-nav-wrap .intro-nav-wrap-logo {
+    flex: 0 0 auto;
+    height: 40px;
+    width: 40px;
+    color: white;
+    margin: 0px 20px;
+    vertical-align: middle;
 }
 
-.intro-nav-wrap button.step.finished {
+.intro-nav-wrap .joined {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.intro-nav-wrap button.chapter {
+    flex: 1 1 100%;
+    padding: 0px 20px;
+}
+
+.intro-nav-wrap button.chapter.next {
+    animation-duration: 1s;
+    animation-name: pulse;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+@keyframes pulse {
+    from  { background: #7092ff; }
+    to    { background: #c6d4ff; }
+}
+
+.intro-nav-wrap button.chapter.finished {
     background: #8cd05f;
 }
 
-.intro-nav-wrap button.step .icon {
+.intro-nav-wrap button.chapter .status {
     display: none;
 }
 
-.intro-nav-wrap button.step.finished .icon {
+.intro-nav-wrap button.chapter.finished .status {
     display: inline-block;
 }
 
-
-.curtain-tooltip .tooltip-inner {
+.curtain-tooltip.tooltip.in {
+    opacity: 1;
+}
+.curtain-tooltip.tooltip {
     text-align: left;
-    padding: 20px;
+}
+[dir='rtl'] .curtain-tooltip.tooltip {
+    text-align: right;
 }
 
 .curtain-tooltip .tooltip-inner {
     font-size: 15px;
+    position: relative;
+    padding: 20px;
 }
 
-.curtain-tooltip .tooltip-inner .bold {
+.curtain-tooltip .tooltip-inner .button-section,
+.curtain-tooltip .tooltip-inner .instruction {
     font-weight: bold;
     display: block;
     border-top: 1px solid #CCC;
@@ -5039,35 +5960,66 @@ img.tile-removing {
     padding: 10px 20px 0 20px;
 }
 
-.curtain-tooltip .tooltip-inner .bold:only-child {
+[dir='rtl'] .curtain-tooltip .tooltip-inner .button-section button.col8 {
+    float: right;
+}
+
+.curtain-tooltip .tooltip-inner .instruction:only-child {
     border: 0;
     padding: 0;
     margin: 0;
 }
 
-.curtain-tooltip.intro-points-describe {
+.curtain-tooltip .tooltip-inner .icon.pre-text {
+    vertical-align: text-top;
+    margin-right: 0;
+    margin-left: 0;
+    display: inline-block;
+}
+
+.curtain-tooltip.intro-points-describe ,
+.curtain-tooltip.intro-lines-name_road {
     top: 133px !important;
 }
 
-/* Tooltip illustrations */
-
-.intro-points-add .tooltip-inner::before,
-.intro-areas-add .tooltip-inner::before,
-.intro-lines-add .tooltip-inner::before {
-    margin-left: -20px;
-    display: block;
-    content: "";
+.tooltip-illustration {
     height: 80px;
     width: 200px;
-    background:transparent url(<%= asset_path("iD/img/iD-sprite.svg") %>) no-repeat 0 -320px;
+    margin-left: -20px;
+    margin-top: -10px;
+}
+[dir='rtl'] .tooltip-illustration {
+    margin-left: auto;
+    margin-right: -20px;
 }
 
-.intro-areas-add .tooltip-inner::before {
-    background-position: 0 -400px;
+.curtain-tooltip.intro-mouse {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-.intro-lines-add .tooltip-inner::before {
-    background-position: 0 -480px;
+.curtain-tooltip.intro-mouse .counter {
+    position: absolute;
+    display: block;
+    top: 50px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 1003;
+}
+
+.curtain-tooltip.intro-mouse .tooltip-illustration use {
+    fill: rgba(112, 146, 255, 0);
+    color: rgba(112, 146, 255, 0);
+}
+.curtain-tooltip.intro-mouse.leftclick .tooltip-illustration use {
+    fill: rgba(112, 146, 255, 1);
+}
+.curtain-tooltip.intro-mouse.rightclick .tooltip-illustration use {
+    color: rgba(112, 146, 255, 1);
 }
 
 .huge-modal-button {
@@ -5079,12 +6031,9 @@ img.tile-removing {
 .huge-modal-button .illustration {
     height: 100px;
     width: 100px;
-    background: rgba(0, 0, 0, 0) url(<%= asset_path("iD/img/iD-sprite.svg") %>) no-repeat -300px -460px;
-    margin: auto;
+    color: #7092FF;
 }
 
-/* Mapillary
-------------------------------------------------------- */
 .mapillary-wrap {
     position: absolute;
     bottom: 30px;
@@ -5098,15 +6047,6 @@ img.tile-removing {
     visibility: hidden;
 }
 
-.mapillary-wrap .uil-ripple-css {
-  top: -9px;
-  left: -15px;
-}
-
-.mapillary-wrap .uil-ripple-css div {
-    top: 38px;
-}
-
 .mapillary-wrap button.thumb-hide {
     border-radius: 0;
     padding: 5px;
@@ -5117,9 +6057,229 @@ img.tile-removing {
 }
 
 .mly-wrapper {
-  visibility: hidden;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
 }
 
 .mly-wrapper.active {
-  visibility: visible;
+    visibility: visible;
 }
+
+/* Right-to-left localization settings */
+
+[dir='rtl'] #sidebar {
+  float: right;
+}
+
+[dir='rtl'] #sidebar .search-header .icon {
+  left: auto;
+  right: 10px;
+}
+
+/* header */
+[dir='rtl'] .header h3 {
+  text-align: right;
+  padding: 20px 40px 20px 20px;
+}
+
+[dir='rtl'] .entity-editor-pane .header button.preset-choose {
+  left: auto;
+  right: 0;
+}
+
+[dir='rtl'] .entity-editor-pane .header button.preset-close, [dir='rtl'] .preset-list-pane .header button.preset-choose {
+  left: 0;
+  right: auto;
+}
+
+[dir='rtl'] .map-data-control .layer-list button, [dir='rtl'] .background-control .layer-list button {
+  float: left;
+  border-left: none;
+  border-right: 1px solid #CCC;
+}
+
+[dir='rtl'] .map-data-control .layer-list button:first-of-type, [dir='rtl'] .background-control .layer-list button:first-of-type {
+  border-radius: 3px 0 0 3px;
+}
+
+/* search */
+[dir='rtl'] .feature-list-item .label {
+  text-align: right;
+}
+
+[dir='rtl'] .feature-list-item .entity-name {
+  padding-left: 0;
+  padding-right: 10px;
+}
+
+/* preset form */
+
+[dir='rtl'] .combobox-caret {
+  margin-left: 0;
+  margin-right: -30px;
+}
+
+[dir='rtl'] .icon.pre-text {
+  margin-left: 5px;
+  margin-right: 0;
+}
+
+[dir='rtl'] .notice .zoom-to .icon {
+  margin-left: 10px;
+  margin-right: 0;
+}
+
+[dir='rtl'] .preset-list-button .label {
+  text-align: right;
+  left: 0;
+  right: 60px;
+  border-left: none;
+  border-right: 1px solid rgba(0, 0, 0, .1);
+  border-radius: 3px 0 0 3px;
+}
+
+[dir='rtl'] .preset-list-item button.tag-reference-button {
+  left: 0;
+  right: auto;
+  border-radius: 3px 0 0 3px;
+}
+
+[dir='rtl'] .preset-list-button-wrap .preset-icon {
+  left: auto;
+  right: auto;
+}
+
+[dir='rtl'] .preset-list-button-wrap .preset-icon-28 {
+  right: 16px;
+}
+
+[dir='rtl'] .preset-list-button-wrap .preset-icon-24 {
+  right: 18px;
+}
+
+[dir='rtl'] input[type="checkbox"], [dir='rtl'] input[type="radio"] {
+  float: right;
+  margin-left: 5px;
+  margin-right: 0;
+}
+
+[dir='rtl'] .preset-input-wrap .col6 {
+  float: right;
+}
+
+/* map control buttons */
+[dir='rtl'] .map-controls {
+  left: 0;
+  right: auto;
+}
+
+[dir='rtl'] .background-control button,
+[dir='rtl'] .zoombuttons button.zoom-in {
+  border-radius: 0 4px 0 0;
+}
+
+[dir='rtl'] .help-control button,
+[dir='rtl'] .geolocate-control button {
+  border-radius: 0 0 4px 0;
+}
+
+[dir='rtl'] .list-item-gpx-browse svg {
+  transform: rotateY(180deg);
+}
+
+/* map control button overlays */
+[dir='rtl'] .map-overlay {
+  padding: 20px 20px 20px 50px;
+  left: 0;
+  right: auto !important;
+}
+
+[dir='rtl'] .opacity-options {
+  left: 50px;
+  right: auto;
+}
+
+[dir='rtl'] .hide-toggle {
+  padding-left: 0;
+  padding-right: 12px;
+}
+
+[dir='rtl'] .hide-toggle:before {
+  left: auto;
+  right: 0;
+  border-left: none;
+  border-right: 8px solid #7092ff;
+}
+
+[dir='rtl'] .hide-toggle.expanded:before {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+}
+
+/* navbar */
+[dir='rtl'] #bar .spacer,
+[dir='rtl'] #bar .button-wrap,
+[dir='rtl'] #bar .button-wrap button {
+  float: right;
+}
+
+[dir='rtl'] .add-point .tooltip {
+  left: inherit !important;
+}
+
+[dir='rtl'] .button-wrap:last-of-type {
+  padding-left: 0;
+  padding-right: 10px;
+}
+
+[dir='rtl'] button.save.has-count .count {
+  margin-left: auto;
+  margin-right: 8%;
+}
+
+[dir='rtl'] button.save.has-count .count::before {
+  border-left: 6px solid rgba(255,255,255,.5);
+  border-right: none;
+  left: auto;
+  right: -6px;
+}
+
+[dir='rtl'] .joined button {
+  border-left: 1px solid rgba(0,0,0,.5);
+  border-right: none;
+}
+
+[dir='rtl'] .joined button:first-child {
+  border-radius: 0 4px 4px 0;
+}
+
+[dir='rtl'] .joined button:last-child {
+  border-radius: 4px 0 0 4px;
+}
+
+
+/* increment / decrement control - code by Naoufel Razouane */
+
+[dir='rtl'] .spin-control{
+  margin-left: 0;
+  margin-right: -20%;
+}
+[dir='rtl'] .spin-control button{
+  border-left: 0;
+  border-right: 1px solid #CCC;
+}
+[dir='rtl'] .spin-control button.decrement{
+  border-bottom-right-radius: 0;
+}
+[dir='rtl'] .spin-control button.increment{
+  border-bottom-left-radius: 3px;
+}
+/* modal */
+[dir='rtl'] .modal > button {
+    position: absolute;
+    left: 0;
+    right: unset;
+    top: 0;
+}
+

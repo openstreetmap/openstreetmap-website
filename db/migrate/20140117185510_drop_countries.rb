@@ -1,5 +1,5 @@
 class DropCountries < ActiveRecord::Migration
-  def change
+  def up
     drop_table :countries
   end
 end

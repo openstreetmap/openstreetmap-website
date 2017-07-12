@@ -4,63 +4,11 @@ Coveralls.wear!("rails")
 ENV["RAILS_ENV"] = "test"
 require File.expand_path("../../config/environment", __FILE__)
 require "rails/test_help"
-load "composite_primary_keys/fixtures.rb"
+require "webmock/minitest"
 
 module ActiveSupport
   class TestCase
-    # Load standard fixtures needed to test API methods
-    def self.api_fixtures
-      # print "setting up the api_fixtures"
-      fixtures :users, :user_roles, :user_blocks
-      fixtures :changesets, :changeset_tags, :changeset_comments
-
-      fixtures :current_nodes, :nodes
-      set_fixture_class :current_nodes => Node
-      set_fixture_class :nodes => OldNode
-
-      fixtures :current_node_tags, :node_tags
-      set_fixture_class :current_node_tags => NodeTag
-      set_fixture_class :node_tags => OldNodeTag
-
-      fixtures :current_ways
-      set_fixture_class :current_ways => Way
-
-      fixtures :current_way_nodes, :current_way_tags
-      set_fixture_class :current_way_nodes => WayNode
-      set_fixture_class :current_way_tags => WayTag
-
-      fixtures :ways
-      set_fixture_class :ways => OldWay
-
-      fixtures :way_nodes, :way_tags
-      set_fixture_class :way_nodes => OldWayNode
-      set_fixture_class :way_tags => OldWayTag
-
-      fixtures :current_relations
-      set_fixture_class :current_relations => Relation
-
-      fixtures :current_relation_members, :current_relation_tags
-      set_fixture_class :current_relation_members => RelationMember
-      set_fixture_class :current_relation_tags => RelationTag
-
-      fixtures :relations
-      set_fixture_class :relations => OldRelation
-
-      fixtures :relation_members, :relation_tags
-      set_fixture_class :relation_members => OldRelationMember
-      set_fixture_class :relation_tags => OldRelationTag
-
-      fixtures :gpx_files, :gps_points, :gpx_file_tags
-      set_fixture_class :gpx_files => Trace
-      set_fixture_class :gps_points => Tracepoint
-      set_fixture_class :gpx_file_tags => Tracetag
-
-      fixtures :client_applications
-
-      fixtures :redactions
-
-      fixtures :notes, :note_comments
-    end
+    include FactoryGirl::Syntax::Methods
 
     ##
     # takes a block which is executed in the context of a different
@@ -73,6 +21,19 @@ module ActiveSupport
         yield
       ensure
         @controller = controller_save
+      end
+    end
+
+    ##
+    # work round minitest insanity that causes it to tell you
+    # to use assert_nil to test for nil, which is fine if you're
+    # comparing to a nil constant but not if you're comparing
+    # an expression that might be nil sometimes
+    def assert_equal_allowing_nil(exp, act, msg = nil)
+      if exp.nil?
+        assert_nil act, msg
+      else
+        assert_equal exp, act, msg
       end
     end
 
@@ -160,22 +121,33 @@ module ActiveSupport
     ##
     # execute a block with a given set of HTTP responses stubbed
     def with_http_stubs(stubs_file)
-      http_client_save = OSM.http_client
+      stubs = YAML.load_file(File.expand_path("../http/#{stubs_file}.yml", __FILE__))
+      stubs.each do |url, response|
+        stub_request(:get, Regexp.new(Regexp.quote(url))).to_return(:status => response["code"], :body => response["body"])
+      end
 
-      begin
-        stubs = YAML.load_file(File.expand_path("../http/#{stubs_file}.yml", __FILE__))
+      yield
+    end
 
-        OSM.http_client = Faraday.new do |builder|
-          builder.adapter :test do |stub|
-            stubs.each do |url, response|
-              stub.get(url) { |_env| [response["code"], {}, response["body"]] }
-            end
-          end
+    def stub_gravatar_request(email, status = 200, body = nil)
+      hash = Digest::MD5.hexdigest(email.downcase)
+      url = "https://www.gravatar.com/avatar/#{hash}?d=404"
+      stub_request(:get, url).and_return(:status => status, :body => body)
+    end
+
+    def stub_hostip_requests
+      # Controller tests and integration tests use different IPs
+      stub_request(:get, "http://api.hostip.info/country.php?ip=0.0.0.0")
+      stub_request(:get, "http://api.hostip.info/country.php?ip=127.0.0.1")
+    end
+
+    def email_text_parts(message)
+      message.parts.each_with_object([]) do |part, text_parts|
+        if part.content_type.start_with?("text/")
+          text_parts.push(part)
+        elsif part.multipart?
+          text_parts.concat(email_text_parts(part))
         end
-
-        yield
-      ensure
-        OSM.http_client = http_client_save
       end
     end
   end

@@ -141,14 +141,14 @@
       <p class='deemphasize'>
         <small>
           <%= t 'user.view.mapper since' %> <%= l @this_user.creation_time.to_date, :format => :long %>
-          |
-          <%= t 'user.view.ct status' %>
-          <% if not @this_user.terms_agreed.nil? -%>
-          <%= t 'user.view.ct accepted', :ago =>time_ago_in_words(@this_user.terms_agreed)  %>
-          <% elsif not @this_user.terms_seen? -%>
-          <%= t 'user.view.ct undecided' %>
-          <% else -%>
-          <%= t 'user.view.ct declined' %>
+          <% unless @this_user.terms_agreed %>
+            |
+            <%= t 'user.view.ct status' %>
+            <% if @this_user.terms_seen? -%>
+              <%= t 'user.view.ct declined' %>
+            <% else -%>
+              <%= t 'user.view.ct undecided' %>
+            <% end -%>
           <% end -%>
         </small>
       </p>

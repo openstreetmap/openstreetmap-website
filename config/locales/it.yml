@@ -22,17 +22,21 @@
 # Author: Lollo
 # Author: LucioGE
 # Author: Macofe
+# Author: Margherita.mignanelli
 # Author: Massimo itaca
 # Author: McDutchie
 # Author: Nemo bis
 # Author: Od1n
 # Author: Ontsed
 # Author: Paolopoz
+# Author: Partyfan
 # Author: Purodha
 # Author: Raoli
+# Author: Redredsonia
 # Author: Ricordisamoa
 # Author: Rippitippi
 # Author: Ruila
+# Author: Selven
 # Author: Shirayuki
 # Author: Simone
 # Author: SimoneSVC
@@ -790,7 +794,7 @@ it:
           state: Regione
           subdivision: Suddivisione
           suburb: Quartiere
-          town: Paese
+          town: Villaggio
           unincorporated_area: Area non inclusa
           village: Frazione
           "yes": Luogo
@@ -938,13 +942,13 @@ it:
           weir: Sbarramento idrico
           "yes": Corso d'acqua
       admin_levels:
-        level2: Confine di paese
-        level4: Confine di stato
-        level5: Confine regionale
-        level6: Confine di Contea
-        level8: Confine di Città
-        level9: Confine Paese
-        level10: Confine Quartiere
+        level2: Confine Amministrativo 2º Livello - Stato Nazionale
+        level4: Confine amministrativo 4º livello - Subnazionale
+        level5: Confine amministrativo 5º livello - Area regionale
+        level6: Confine amministrativo 6º livello - Subregionale
+        level8: Confine amministrativo 8º livello - Città
+        level9: Confine amministrativo 9º livello - Subcittadino, borgo
+        level10: Confine amministrativo 10º livello - Subcittadino, quartiere
     description:
       title:
         osm_nominatim: Località da <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
@@ -984,7 +988,7 @@ it:
     intro_2_create_account: Crea un account utente
     partners_html: L'hosting è supportato da %{ucl}, %{ic}, %{bytemark} e da altri
       %{partners}.
-    partners_ucl: UCL VR Centre
+    partners_ucl: UCL
     partners_ic: Imperial College (Londra)
     partners_bytemark: Bytemark Hosting
     partners_partners: partner
@@ -1050,10 +1054,10 @@ it:
         OSMF</a> e le <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Domande
         legali frequenti</a> della community.
       more_2_html: |-
-        Anche se i dati OpenStreetMap sono aperti, non possiamo fornire accesso alle API della mappa gratuitamente per gli sviluppatori di terze parti.
-        Vedi la nostra <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">Politica di utilizzo delle API</a>, la
-        <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Politica di utilizzo delle tavole della mappa</a>
-        e la <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Politica di utilizzo di Nominatim</a>.
+        Anche se i dati OpenStreetMap sono aperti, non possiamo fornire accesso alle API della mappa gratuitamente per terze parti.
+        Vedi la nostra <a href="https://operations.osmfoundation.org/policies/api/">Politica di utilizzo delle API</a>, la
+        <a href="https://operations.osmfoundation.org/policies/tiles/">Politica di utilizzo delle tavole della mappa</a>
+        e la <a href="https://operations.osmfoundation.org/policies/nominatim/">Politica di utilizzo di Nominatim</a>.
       contributors_title_html: Nostri collaboratori
       contributors_intro_html: 'I nostri contributori sono migliaia di individui.
         Includiamo anche dati distribuiti sotto licenze aperte provenienti da agenzie
@@ -1253,16 +1257,19 @@ it:
     legal_title: Note legali
     legal_html: "Questo sito e molti altri servizi correlati sono formalmente gestiti
       dalla \n<a href=\"http://osmfoundation.org/\">OpenStreetMap Foundation</a> (OSMF)
-      \nper conto della comunità.\n<br> \nSi prega di <a href=\"http://osmfoundation.org/Contact\">contattare
+      \nper conto della comunità. L'uso di tutti i servizi gestiti dalla OSMF è soggetto
+      \nalle nostre <a href=\"http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nregole
+      di utilizzo accettabile</a> ed alla nostra <a href=\"http://wiki.osmfoundation.org/wiki/Privacy_Policy\">informativa
+      sulla privacy</a>\n<br> \nSi prega di <a href=\"http://osmfoundation.org/Contact\">contattare
       la OSMF</a> \nin caso di dubbi e problemi di licenza, copyright o altre questioni
       legali."
     partners_title: Partner
   notifier:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} ha commentato la tua voce del diario'
-      hi: Salve %{to_user},
-      header: '%{from_user} ha commentato la tua recente voce del diario OpenStreetMap
-        con l''oggetto %{subject}:'
+      subject: '[OpenStreetMap] %{user} ha commentato una voce del diario'
+      hi: Ciao %{to_user},
+      header: '%{from_user} ha commentato la voce del diario OpenStreetMap con l''oggetto
+        %{subject}:'
       footer: Puoi anche leggere il commento su %{readurl} e puoi commentare su %{commenturl}
         oppure rispondere su %{replyurl}
     message_notification:
@@ -1272,6 +1279,7 @@ it:
       footer_html: Puoi anche leggere il messaggio al %{readurl} e puoi rispondere
         al %{replyurl}
     friend_notification:
+      hi: Ciao %{to_user},
       subject: '[OpenStreetMap] %{user} ti ha aggiunto come amico'
       had_added_you: '%{user} ti ha aggiunto come suo amico su OpenStreetMap.'
       see_their_profile: Puoi vedere il suo profilo su %{userurl}.
@@ -1358,6 +1366,7 @@ it:
           La nota si trova vicino a %{place}.'
       details: Ulteriori dettagli sulla nota possono essere trovati su %{url}.
     changeset_comment_notification:
+      hi: Ciao %{to_user},
       greeting: Ciao,
       commented:
         subject_own: '[OpenStreetMap] %{commenter} ha commentato uno dei tuoi changeset'
@@ -1371,6 +1380,8 @@ it:
         partial_changeset_without_comment: senza commento
       details: Ulteriori dettagli sul gruppo di modifiche possono essere trovati su
         %{url}.
+      unsubscribe: Per cancellarsi dagli aggiornamenti di questo insieme di modifiche,
+        visita %{url} e fai clic su "Cancellazione".
   message:
     inbox:
       title: Posta in arrivo
@@ -1702,6 +1713,8 @@ it:
     require_moderator:
       not_a_moderator: Devi essere un moderatore per eseguire questa operazione.
     setup_user_auth:
+      blocked_zero_hour: Hai un messaggio urgente sul sito di OpenStreetMap. Per poter
+        salvare le tue modifiche devi prima leggere quel messaggio.
       blocked: Il tuo accesso alle API è stato bloccato. Si prega di fare log-in all'interfaccia
         web per saperne di più.
       need_to_see_terms: Il tuo accesso alle API è temporaneamente sospeso. Si prega
@@ -1732,6 +1745,8 @@ it:
       invalid: Il token di autorizzazione non è valido.
     revoke:
       flash: Hai revocato il token per %{application}
+    permissions:
+      missing: Non hai autorizzato l'applicazione ad accedere a questa funzione
   oauth_clients:
     new:
       title: Registra una nuova applicazione
@@ -1811,7 +1826,7 @@ it:
       to make changes: Per apportare modifiche ai dati di OpenStreetMap, è necessario
         disporre di un account.
       create account minute: Crea un account. Richiede solo un minuto.
-      no account: Non hai un account?
+      no account: Non hai un'utenza?
       account not active: Spiacenti, il tuo profilo non è ancora attivo.<br />Si prega
         di utilizzare il collegamento presente nell'email di conferma per attivare
         il proprio profilo, oppure <a href="%{reconfirm}">richiedere l'invio di una
@@ -1836,6 +1851,9 @@ it:
         github:
           title: Accedi con GitHub
           alt: Effettua l'acceso con un'utenza GitHub
+        wikipedia:
+          title: Accedi con Wikipedia
+          alt: Accedi con un'utenza Wikipedia
         yahoo:
           title: Accedi con Yahoo
           alt: Accedi con un OpenID di Yahoo
@@ -1853,7 +1871,7 @@ it:
       title: password persa
       heading: Password dimenticata?
       email address: 'Indirizzo email:'
-      new password button: Spediscimi una nuova password
+      new password button: Reimposta password
       help_text: Inserire l'indirizzo email che si è utilizzato per l'iscrizione,
         a cui verrà inviato un collegamento che permetterà la reimpostazione della
         propria password.
@@ -1887,9 +1905,10 @@ it:
         per contribuire</a>.
       email address: 'Indirizzo email:'
       confirm email address: 'Conferma indirizzo email:'
-      not displayed publicly: Non visualizzato pubblicamente (vedi le <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
-        title="wiki privacy policy including section on email addresses">norme sulla
-        privacy</a>)
+      not displayed publicly: Il tuo indirizzo non visualizzato pubblicamente, vedi
+        l'<a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF
+        privacy policy including section on email addresses">informativa sulla privacy</a>
+        per ulteriori informazioni
       display name: 'Nome visualizzato:'
       display name description: Il proprio nome utente visualizzato pubblicamente.
         Può essere modificato più tardi nelle preferenze.
@@ -1913,7 +1932,7 @@ it:
         attuali e futuri.
       consider_pd: In aggiunta al contratto di cui sopra, considero che i miei contributi
         sono in Pubblico Dominio
-      consider_pd_why: che cos'è questo?
+      consider_pd_why: cos'è questo?
       guidance: 'Informazioni utili a capire questi termini: un <a href="%{summary}">riassunto
         leggibile</a> ed alcune <a href="%{translations}">traduzioni informali</a>'
       agree: Accetto
@@ -2046,6 +2065,8 @@ it:
       gravatar:
         gravatar: Usa Gravatar
         link text: che cos'è questo?
+        disabled: Gravatar è stato disattivato.
+        enabled: La visualizzazione del vostro Gravatar è stata attivata.
       new image: Aggiungi un'immagine
       keep image: Mantieni l'immagine attuale
       delete image: Rimuovi l'immagine attuale
@@ -2244,6 +2265,8 @@ it:
     helper:
       time_future: Termina fra %{time}.
       until_login: Attivo finché l'utente non si collega.
+      time_future_and_until_login: Termina tra %{time} e una volta che l'utente avrà
+        effettuato l'accesso.
       time_past: Terminato %{time} fa.
     blocks_on:
       title: Blocchi su %{name}
@@ -2328,7 +2351,7 @@ it:
     key:
       title: Legenda
       tooltip: Legenda
-      tooltip_disabled: La legenda è disponibile solo per il livello Standard
+      tooltip_disabled: La legenda non è disponibile per questo livello
     map:
       zoom:
         in: Zoom avanti
@@ -2345,6 +2368,7 @@ it:
         header: Livelli mappa
         notes: Note sulla mappa
         data: Dati della mappa
+        gps: Tracciati GPS pubblici
         overlays: Abilita sovrapposizioni per la risoluzione dei problemi della mappa
         title: Livelli
       copyright: © <a href='%{copyright_url}'>OpenStreetMap contributors</a>
@@ -2384,6 +2408,7 @@ it:
     edit_help: Sposta la mappa e usa lo zoom sulla posizione che vuoi modificare,
       quindi clicca qui.
     directions:
+      ascend: Salita
       engines:
         graphhopper_bicycle: Bicicletta (GraphHopper)
         graphhopper_foot: A piedi (GraphHopper)
@@ -2394,6 +2419,7 @@ it:
         mapzen_bicycle: Bicicletta (Mapzen)
         mapzen_car: Auto (Mapzen)
         mapzen_foot: Piedi (Mapzen)
+      descend: Discesa
       directions: Indicazioni
       distance: Distanza
       errors:
@@ -2428,6 +2454,11 @@ it:
         against_oneway_without_exit: Vai contro il senso unico in %{name}
         end_oneway_without_exit: Fine del senso unico in %{name}
         roundabout_with_exit: Alla rotonda prendi l'uscita n° %{exit} su %{name}
+        turn_left_with_exit: Alla rotonda svolta a sinistra in %{name}
+        slight_left_with_exit: Alla rotonda svolta leggermente a sinistra in %{name}
+        turn_right_with_exit: Alla rotonda svolta a destra in %{name}
+        slight_right_with_exit: Alla rotonda svolta leggermente a destra in %{name}
+        continue_with_exit: Alla rotonda prosegui dritto in %{name}
         unnamed: senza nome
         courtesy: Indicazioni per gentile concessione di %{link}
       time: Tempo
@@ -2438,6 +2469,13 @@ it:
       nothing_found: Nessun elemento trovato
       error: Errore durante la connessione a %{server}, %{error}
       timeout: Tempo scaduto per la connessione a %{server}
+    context:
+      directions_from: Indicazioni da qui
+      directions_to: Indicazioni fino a qua
+      add_note: Aggiungi una nota qui
+      show_address: Mostra indirizzo
+      query_features: Ricerca di elementi
+      centre_map: Centra la mappa qui
   redaction:
     edit:
       description: Descrizione
@@ -2446,8 +2484,8 @@ it:
       title: Modifica revisione
     index:
       empty: Nessuna revisione disponibile.
-      heading: Lista Revisioni
-      title: Lista Revisioni
+      heading: Elenco di revisioni
+      title: Elenco di revisioni
     new:
       description: Descrizione
       heading: Inserire informazioni per una nuova revisione

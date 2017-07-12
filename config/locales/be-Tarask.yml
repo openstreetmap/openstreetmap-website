@@ -98,12 +98,22 @@ be-Tarask:
     created: Створана
     closed: Закрытае
     changeset:
-      title: Набор зьменаў
+      title: 'Набор зьменаў: %{id}'
+      belongs_to: Аўтар
+      node: Пункты (%{count})
+      node_paginated: Пункты (%{x}-%{y} з %{count})
+      way: Лініі (%{count})
+      way_paginated: Лініі (%{x}-%{y} з %{count})
+      relation: Сувязі (%{count})
+      relation_paginated: Сувязі (%{x}-%{y} з %{count})
+      comment: Камэнтары (%{count})
       changesetxml: Набор зьменаў у фармаце XML
       osmchangexml: osmChange XML
       feed:
         title: Набор зьменаў %{id}
         title_comment: Набор зьменаў %{id} - %{comment}
+    way:
+      nodes: Вузлы
     relation_member:
       entry_role: '%{type} %{name} як %{role}'
       type:
@@ -114,7 +124,7 @@ be-Tarask:
       entry: Адносіны %{relation_name}
       entry_role: Адносіны %{relation_name} (як %{relation_role})
     not_found:
-      sorry: Прабачце, %{type} з ідэнтыфікатарам %{id} ня знойдзены.
+      sorry: Прабачце, %{type} № %{id} ня знойдзены.
       type:
         node: вузел
         way: шлях
@@ -140,13 +150,13 @@ be-Tarask:
       load_data: Загрузіць зьвесткі
       loading: Загрузка…
     tag_details:
-      tags: 'Меткі:'
+      tags: Меткі
       wiki_link:
         key: Старонка вікі, якая апісвае тэг %{key}
         tag: Старонка вікі, якая апісвае тэг %{key}=%{value}
       wikipedia_link: Артыкул %{page} у Вікіпэдыі
     note:
-      title: Нататка
+      title: 'Нататка: %{id}'
   changeset:
     changeset_paging_nav:
       showing_page: Старонка %{page}
@@ -409,7 +419,7 @@ be-Tarask:
           archaeological_site: Археалягічныя раскопкі
           battlefield: Поле гістарычнай бойкі
           boundary_stone: Памежны камень
-          building: Будынак
+          building: Гістарычны будынак
           castle: Замак
           church: Царква
           citywalls: Мескія муры
@@ -561,7 +571,7 @@ be-Tarask:
           preserved: Закансэрваваная чыгуначная каляя
           spur: Чыгуначнае разгалінаваньне
           station: Чыгуначная станцыя
-          subway: Станцыя мэтро
+          subway: Мэтро
           subway_entrance: Уваход у мэтро
           switch: Чыгуначная стрэлка
           tram: Трамвайная каляя
@@ -689,11 +699,11 @@ be-Tarask:
   layouts:
     logo:
       alt_text: Лягатып OpenStreetMap
-    home: дамоў
-    logout: выйсьці
-    log_in: увайсьці
+    home: Перайсьці дамоў
+    logout: Выйсьці
+    log_in: Увайсьці
     log_in_tooltip: Увайсьці з існуючым рахункам
-    sign_up: зарэгістравацца
+    sign_up: Зарэгістравацца
     sign_up_tooltip: Стварыць рахунак для рэдагаваньня
     edit: Рэдагаваць
     history: Гісторыя
@@ -714,7 +724,7 @@ be-Tarask:
       для чытаньня, таму што праводзяцца неабходныя тэхнічныя работы.
     donate: Падтрымайце OpenStreetMap %{link} у фонд абнаўленьня абсталяваньня.
     help: Дапамога
-    copyright: Аўтарскія правы і ліцэнзія
+    copyright: Аўтарскія правы
     community_blogs: Блёгі супольнасьці
     community_blogs_title: Блёгі чальцоў супольнасьці OpenStreetMap
     foundation: Фундацыя
@@ -738,43 +748,33 @@ be-Tarask:
     legal_babble:
       title_html: Аўтарскія правы і ліцэнзія
       intro_1_html: |-
-        OpenStreetMap is <i>open data</i>, licensed under the <a
-        href="http://opendatacommons.org/licenses/odbl/">Open Data
-        Commons Open Database License</a> (ODbL).
-      intro_2_html: |-
-        Вы можаце капіяваць, распаўсюджваць, перадаваць і зьмяняць нашыя мапы
-        і зьвесткі, да той пары, пакуль Вы спасылаецеся на OpenStreetMap і яе
-        ўдзельнікаў. Калі Вы зьмяняеце ці выкарыстоўваеце нашыя мапы і зьвесткі, Вы можаце
-        распаўсюджваць вынікі толькі на ўмовах такой жа ліцэнзіі. Поўны тэкст ліцэнзіі
-        <a
-        href="http://creativecommons.org/licenses/by-sa/2.0/legalcode">legal
-        code</a> растлумачыць Вам правы і адказнасьці.
+        OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> — <i>вольныя зьвесткі</i>, ліцэнзаваныя паводле <a
+        href="http://opendatacommons.org/licenses/odbl/">ліцэнзіі Адкрытых баз зьвестак Адкрытых агульных зьвестак</a> (ODbL) <a
+        href="http://osmfoundation.org/">Фундацыяй OpenStreetMap Foundation</a> (OSMF).
+      intro_2_html: Вы можаце капіяваць, распаўсюджваць, перадаваць і зьмяняць нашыя
+        зьвесткі да той пары, пакуль Вы спасылаецеся на OpenStreetMap і яе ўдзельнікаў.
+        Калі Вы зьмяняеце ці выкарыстоўваеце нашыя зьвесткі, Вы можаце распаўсюджваць
+        вынікі толькі на ўмовах такой жа ліцэнзіі. Поўны <a href="http://opendatacommons.org/licenses/odbl/1.0/">тэкст
+        ліцэнзіі</a> растлумачыць Вам правы і адказнасьці.
       credit_title_html: Як спасылацца на OpenStreetMap
       credit_1_html: |-
-        Калі Вы выкарыстоўваеце выявы мапаў OpenStreetMap, мы патрабуем, каб
-        Вы рабілі спасылку хаця б &ldquo;&copy; удзельнікі OpenStreetMap
-        , CC BY-SA&rdquo;. Калі Вы выкарыстоўваеце толькі картаграфічныя зьвесткі,
-        мы патрабуем наяўнасьць &ldquo;Картаграфічныя зьвесткі &copy; Удзельнікі OpenStreetMap,
-        CC BY-SA&rdquo;.
+        Мы патрабуем, каб
+        Вы пазначалі &ldquo;&copy; удзельнікі OpenStreetMap&rdquo;.
       credit_2_html: |-
-        Дзе магчыма, павінна быць гіпэр-спасылка на OpenStreetMap <a
-        href="http://www.openstreetmap.org/">http://www.openstreetmap.org/</a>
-        і на CC BY-SA <a
-        href="http://creativecommons.org/licenses/by-sa/2.0/">http://creativecommons.org/licenses/by-sa/2.0/</a>. Калі
+        Мусіце таксама яўна пазначыць, што зьвесткі даступныя паводле ліцэнзіі Open Database, а калі карыстаецеся нашымі кавалкамі мапаў, што картаграфія ліцэнзаваная паводле CC BY-SA. Гэта можна зрабіць, спаслаўшыся на <a href="http://www.openstreetmap.org/copyright">гэтую старонку правоў</a>. Калі вы распаўсюджваеце OSM у фармаце зьвестак, вы мусіце разьмяшчаць наўпроставую спасылку на ліцэнзіі. Калі
         Вы выкарыстоўваеце носьбіты, дзе выкарыстаньне спасылак немагчымае (напр.
-        друкаваныя працы), мы прапануем накіроўваць Вашым чытачоў на
+        друкаваныя працы), мы прапануем накіроўваць Вашых чытачоў на
         www.openstreetmap.org (магчымае выкарыстаньне поўнага адрасу
-        &lsquo;OpenStreetMap&rsquo;) і на
+        &lsquo;OpenStreetMap&rsquo;), на opendatacommons.org і, пры неабходнасьці, на
         www.creativecommons.org.
       more_title_html: Даведацца болей
       more_1_html: |-
-        Даведайцеся болей пра выкарыстаньне нашых зьвестак на <a
-        href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">старонцы адказаў
+        Даведайцеся болей пра выкарыстаньне нашых зьвестак і пра спасыланьне на нас на <a
+        href="http://osmfoundation.org/Licence">старонцы ліцэнзіі OSMF</a> і <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">старонцы адказаў
         і пытаньняў</a>.
       more_2_html: |-
-        Удзельнікі OSM павінны памятаць пра тое, што забаронена дадаваць зьвесткі
-        з любых крыніцаў абароненых аўтарскім правам (напрыклад, Google Maps ці друкаваных мапаў)
-        без папярэдняга дазволу ўладальнікаў аўтарскіх правоў.
+        Хоць OpenStreetMap ёсьць адкрытымі зьвесткамі, мы ня здольныя прадаставіць бяскоштны API мапаў для староньніх распрацоўнікаў. Глядзіце нашыя <a href="https://operations.osmfoundation.org/policies/api/">правілы карыстаньня API</a>, <a href="https://operations.osmfoundation.org/policies/tiles/">правілы карыстаньня частак мапаў</a>
+        і <a href="https://operations.osmfoundation.org/policies/nominatim/">правілы карыстаньня Nominatim</a>.
       contributors_title_html: Нашыя ўдзельнікі
       contributors_intro_html: |-
         Нашая ліцэнзія CC BY-SA патрабуе ад Вас &ldquo;падаць арыгінальнага аўтара
@@ -803,17 +803,17 @@ be-Tarask:
       contributors_gb_html: |-
         <strong>Вялікабрытанія</strong>: Утрымлівае зьвесткі Ordnance
         Survey &copy; Crown copyright and database right
-        2010.
+        2010—2012.
       contributors_footer_2_html: |-
         Уключэньне зьвестак у OpenStreetMap не азначае, што пастаўшчыкі пачатковых зьвестак
         якім-небудзь чынам падтрымліваюць OpenStreetMap, прадстаўляюць гарантыі, ці
         прымаюць на сябе якую-небудзь адказнасьць.
   notifier:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} пакінуў камэнтар у Вашым дзёньніку'
+      subject: Карыстальнік [OpenStreetMap] %{user} пакінуў камэнтар у дзёньніку
       hi: Вітаем, %{to_user},
-      header: '%{from_user} пракамэнтаваў Ваш апошні запіс у дзёньніку на OpenStreetMap
-        з тэмай %{subject}:'
+      header: '%{from_user} пракамэнтаваў запіс у дзёньніку на OpenStreetMap з тэмай
+        %{subject}:'
       footer: Вы таксама можаце чытаць камэнтар %{readurl} і Вы можаце камэнтаваць
         на %{commenturl} ці адказаць на %{replyurl}
     message_notification:
@@ -840,7 +840,7 @@ be-Tarask:
         loaded_successfully: пасьпяхова загружаны %{trace_points} пунктаў з магчымых
           %{possible_points}.
     signup_confirm:
-      subject: '[OpenStreetMap] Пацьвердзіце Ваш адрас электроннай пошты'
+      subject: '[OpenStreetMap] Вітаем у OpenStreetMap'
     email_confirm:
       subject: '[OpenStreetMap] Пацьвердзіце Ваш адрас электроннай пошты'
     email_confirm_plain:
@@ -872,14 +872,12 @@ be-Tarask:
       outbox: зыходзячыя
       messages: Вы маеце %{new_messages} і %{old_messages}
       new_messages:
-        few: '%{count} новыя паведамленьні'
-        many: '%{count} новых паведамленьняў'
         one: '%{count} новае паведамленьне'
+        few: '%{count} новыя паведамленьні'
         other: '%{count} новых паведамленьняў'
       old_messages:
-        few: '%{count} старыя паведамленьня'
-        many: '%{count} старых паведамленьняў'
         one: '%{count} старое паведамленьне'
+        few: '%{count} старыя паведамленьні'
         other: '%{count} старых паведамленьняў'
       from: Ад
       subject: Тэма
@@ -911,9 +909,8 @@ be-Tarask:
       inbox: уваходзячыя
       outbox: зыходзячыя
       messages:
-        few: Вы маеце %{count} дасланыя паведамленьня
-        many: Вы маеце %{count} дасланых паведамленьняў
         one: Вы маеце %{count} дасланае паведамленьне
+        few: Вы маеце %{count} дасланыя паведамленьні
         other: Вы маеце %{count} дасланых паведамленьняў
       to: Да
       subject: Тэма
@@ -1095,9 +1092,16 @@ be-Tarask:
       upload_trace: Загрузіць трэк
       see_all_traces: Паказаць усе трэкі
       see_your_traces: Паказаць усе Вашыя трэкі
-      traces_waiting: У Вас %{count} трэкаў, якія чакаюць загрузкі. Калі ласка, пачакайце
-        сканчэньня перадачы гэтых трэкаў, перад тым як загружаць іншыя, гэта дазволіць
-        не блякаваць чаргу для іншых удзельнікаў.
+      traces_waiting:
+        one: Вы маеце %{count} трэк, які чакае загрузкі. Калі ласка, пачакайце сканчэньня
+          перадачы гэтага трэку перад тым, як загружаць іншыя, гэта дазволіць не блякаваць
+          чаргу для іншых удзельнікаў.
+        few: Вы маеце %{count} трэкі, якія чакаюць загрузкі. Калі ласка, пачакайце
+          сканчэньня перадачы гэтых трэкаў перад тым, як загружаць іншыя, гэта дазволіць
+          не блякаваць чаргу для іншых удзельнікаў.
+        other: Вы маеце %{count} трэкаў, якія чакаюць загрузкі. Калі ласка, пачакайце
+          сканчэньня перадачы гэтых трэкаў перад тым, як загружаць іншыя, гэта дазволіць
+          не блякаваць чаргу для іншых удзельнікаў.
     trace_optionals:
       tags: Тэгі
     view:
@@ -1120,7 +1124,7 @@ be-Tarask:
       trace_not_found: Трэк ня знойдзены!
       visibility: 'Бачнасьць:'
     trace_paging_nav:
-      showing_page: Паказаная старонка %{page}
+      showing_page: Старонка %{page}
     trace:
       pending: ЧАКАЕ
       count_points: '%{count} пунктаў'
@@ -1189,8 +1193,7 @@ be-Tarask:
       url: 'URL-адрас ключа запыту:'
       access_url: 'URL-адрас ключа доступу:'
       authorize_url: 'URL-адрас аўтарызацыі:'
-      support_notice: Мы падтрымліваем HMAC-SHA1 (рэкамэндуецца) і звычайны тэкст
-        у SSL-рэжыме.
+      support_notice: Мы падтрымліваем HMAC-SHA1 (рэкамэндуецца) і подпісы RSA-SHA1.
       edit: Рэдагаваць падрабязнасьці
       requests: 'Запыт наступных дазволаў ад удзельніка:'
       allow_read_prefs: чытаць іх налады ўдзельніка.
@@ -1283,7 +1286,7 @@ be-Tarask:
       flash changed: Ваш пароль быў зьменены.
       flash token bad: Немагчыма знайсьці такі ключ, можа праверце URL-адрас?
     new:
-      title: Стварыць рахунак
+      title: Зарэгістравацца
       no_auto_account_create: На жаль, мы зараз ня можам стварыць для Вас рахунак
         аўтаматычна.
       contact_webmaster: Калі ласка, зьвяжыцеся з <a href="%{webmaster}">вэбмайстрам</a>
@@ -1336,17 +1339,17 @@ be-Tarask:
       my diary: мой дзёньнік
       new diary entry: новы запіс у дзёньніку
       my edits: мае рэдагаваньні
-      my traces: мае трэкі
-      my settings: мае налады
+      my traces: Мае трэкі
+      my settings: Мае налады
       oauth settings: налады OAuth
-      blocks on me: атрыманыя блякаваньні
-      blocks by me: заблякаваныя мной
-      send message: даслаць паведамленьне
-      diary: дзёньнік
-      edits: рэдагаваньні
-      traces: трэкі
-      remove as friend: выдаліць зь сяброў
-      add as friend: дадаць у сябры
+      blocks on me: Атрыманыя блякаваньні
+      blocks by me: Заблякаваныя мной
+      send message: Адаслаць паведамленьне
+      diary: Дзёньнік
+      edits: Рэдагаваньні
+      traces: Трэкі
+      remove as friend: Выдаліць зь сяброў
+      add as friend: Дадаць у сябры
       mapper since: 'Стварае мапы з:'
       ago: (%{time_in_words_ago} таму)
       ct status: 'Умовы супрацоўніцтва:'
@@ -1360,9 +1363,8 @@ be-Tarask:
       spam score: 'Адзнака спаму:'
       description: Апісаньне
       user location: Меcцазнаходжаньне ўдзельніка
-      if set location: Калі Вы пазначыце Вашае месцазнаходжаньне, тут зьявіцца прыгожая
-        мапа і дадатковыя інструмэнты. Вы можаце пазначыць Вашае месцазнаходжаньне
-        на Вашай старонцы %{settings_link}.
+      if set location: Пазначце Вашае месцазнаходжаньне на старонцы %{settings_link},
+        каб пабачыць карыстальнікаў па суседзтве.
       settings_link_text: налады
       your friends: Вашыя сябры
       no friends: Пакуль што Вы не дадалі нікога ў сябры.
@@ -1380,20 +1382,20 @@ be-Tarask:
         revoke:
           administrator: Скасаваць правы адміністратара
           moderator: Скасаваць доступ мадэратара
-      block_history: паказаць атрыманыя блякаваньні
-      moderator_history: паказаць пададзеныя блякаваньні
-      create_block: заблякаваць гэтага ўдзельніка
-      activate_user: актывізаваць гэтага удзельніка
-      deactivate_user: дэактывізаваць гэтага удзельніка
-      confirm_user: пацьвердзіць гэтага карыстальніка
-      hide_user: схаваць гэтага ўдзельніка
-      unhide_user: паказаць гэтага ўдзельніка
-      delete_user: выдаліць гэтага ўдзельніка
+      block_history: Актыўныя блякаваньні
+      moderator_history: Пададзеныя блякаваньні
+      create_block: Заблякаваць гэтага ўдзельніка
+      activate_user: Актываваць гэтага ўдзельніка
+      deactivate_user: Дэактываваць гэтага ўдзельніка
+      confirm_user: Пацьвердзіць гэтага ўдзельніка
+      hide_user: Схаваць гэтага ўдзельніка
+      unhide_user: Паказаць гэтага ўдзельніка
+      delete_user: Выдаліць гэтага ўдзельніка
       confirm: Пацьвердзіць
       friends_changesets: Праглядзець усе наборы зьменаў сяброў
-      friends_diaries: Праглядзець усе запісы дзёньнікаў сяброў
-      nearby_changesets: Праглядзець усе наборы зьменаў суседніх удзельнікаў
-      nearby_diaries: Праглядзець усе запісы дзёньнікаў суседніх удзельнікаў
+      friends_diaries: запісы сяброўскіх дзёньнікаў
+      nearby_changesets: наборы зьменаў суседніх удзельнікаў
+      nearby_diaries: запісы дзёньнікаў суседніх удзельнікаў
     popup:
       your location: Вашае месцазнаходжаньне
       nearby mapper: Бліжэйшы стваральнік мапаў
@@ -1457,13 +1459,13 @@ be-Tarask:
         электроннай пошты.
       flash update success: Зьвесткі пра карыстальніка пасьпяхова абноўленыя.
     confirm:
-      heading: Пацьверджаньне рахунку
+      heading: Праверце электронную пошту!
       press confirm button: Націсьніце кнопку «Пацьвердзіць» для актывацыі Вашага
         рахунку.
       button: Пацьвердзіць
       success: Ваш рахунак пацьверджаны, дзякуй за рэгістрацыю!
       already active: Гэты рахунак ужо пацьверджаны.
-      unknown token: Выглядае, што гэты ключ не існуе.
+      unknown token: Гэты код пацьверджаньня скончыўся альбо не існуе.
     confirm_resend:
       success: Мы даслалі новы ліст з пацьверджаньнем на адрас %{email} і, як толькі
         Вы пацьвердзіце Ваш рахунак, Вы зможаце пачаць працаваць з мапамі.<br /><br
@@ -1476,7 +1478,7 @@ be-Tarask:
       press confirm button: Націсьніце кнопку пацьверджаньня ніжэй, каб пацьвердзіць
         Ваш новы адрас электроннай пошты.
       button: Пацьвердзіць
-      success: Ваш адрас электроннай пошты пацьверджаны, дзякуй за рэгістрацыю!
+      success: Зьмена Вашага адрасу электроннай пошты пацьверджаная!
       failure: Адрас электроннай пошты ужо быў пацьверджаны гэтым ключом.
     set_home:
       flash success: Вашае месцазнаходжаньне пасьпяхова захаванае
@@ -1484,7 +1486,7 @@ be-Tarask:
       flash success: Усе Вашыя рэдагаваньні цяпер публічныя, і цяпер Вам дазволена
         рэдагаваньне.
     make_friend:
-      success: Цяпер %{name} — Ваш сябар.
+      success: Цяпер %{name} — Ваш сябар!
       failed: Прабачце, немагчыма дадаць %{name} да сьпісу сяброў.
       already_a_friend: Вы ўжо сябруеце з %{name}.
     remove_friend:
@@ -1497,8 +1499,8 @@ be-Tarask:
       title: Удзельнікі
       heading: Карыстальнікі
       showing:
-        one: Паказаная старонка %{page} з (%{first_item} %{items})
-        other: Паказаныя старонкі %{page} (%{first_item}-%{last_item} з %{items})
+        one: Старонка %{page} (%{first_item} з %{items})
+        other: Старонкі %{page} (%{first_item}—%{last_item} з %{items})
       summary: '%{name} створаны з %{ip_address}, %{date}'
       summary_no_ip: '%{name} створаны %{date}'
       confirm: Пацьвердзіць выбраных карыстальнікаў
@@ -1597,9 +1599,8 @@ be-Tarask:
       revoke: Адклікаць!
       flash: Гэтае блякаваньне было адкліканае.
     period:
-      few: '%{count} гадзіны'
-      many: '%{count} гадзінаў'
       one: '%{count} гадзіна'
+      few: '%{count} гадзіны'
       other: '%{count} гадзінаў'
     partial:
       show: Паказаць

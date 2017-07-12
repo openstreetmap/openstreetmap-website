@@ -16,6 +16,7 @@ te:
   activerecord:
     models:
       acl: అనుమతి నియంత్రణ జాబితా
+      changeset: మార్పుల సమితి
       country: దేశం
       diary_comment: డైరీ వ్యాఖ్య
       diary_entry: దినచర్య పద్దు
@@ -89,7 +90,14 @@ te:
       way: మార్గాలు (%{count})
       relation: సంబంధాలు (%{count})
       relation_paginated: '%{count} లో %{x}-%{y} యొక్క సంబంధాలు'
+      comment: వ్యాఖ్యలు (%{count})
+      commented_by: '%{user} నుండి వ్యాఖ్య <abbr title=''%{exact_time}''>%{when} క్రితం</abbr>'
       discussion: చర్చ
+    node:
+      title: 'బిందువు: %{name}'
+    way:
+      title: 'దారి: %{name}'
+      history_title: 'దారి చరిత్ర: %{name}'
     relation:
       title: 'సంబంధం: %{name}'
       history_title: 'సంబంధపు చరిత్ర: %{name}'
@@ -123,7 +131,7 @@ te:
       new_note: కొత్త గమనిక
       description: వివరణ
     query:
-      nearby: daggarlo unna lakshanalu
+      nearby: దగ్గర్లోని విశేషాలు
   changeset:
     changeset_paging_nav:
       showing_page: పేజీ %{page}
@@ -146,9 +154,11 @@ te:
   diary_entry:
     new:
       title: కొత్త దినచర్య పద్దు
+      publish_button: ప్రచురించు
     list:
       title: వాడుకరుల డైరీలు
       title_friends: స్నేహితుల దినచర్యలు
+      title_nearby: చుట్టుపక్కల వాడుకరుల డైరీలు
       user_title: '%{user} యొక్క దినచర్య'
       in_language_title: '%{language}లో ఉన్న డైరీ పద్దులు'
       new: కొత్త దినచర్య పద్దు
@@ -157,7 +167,7 @@ te:
       older_entries: పాత పద్దులు
       newer_entries: కొత్త పద్దులు
     edit:
-      title: dairy lo unna entry ni marchu
+      title: డైరీ పద్దును మార్చు
       subject: 'విషయం:'
       body: 'వివరణ:'
       language: 'భాష:'
@@ -280,6 +290,7 @@ te:
           marketplace: సంత
           nursery: పిల్లల బడి
           office: కార్యాలయం
+          parking: పార్కింగు
           pharmacy: మందుల దుకాణం
           place_of_worship: పూజా స్థలం
           police: పోలీసు
@@ -305,7 +316,7 @@ te:
         building:
           "yes": భవనం
         craft:
-          painter: chitrakarudu
+          painter: పెయింటర్
           photographer: చాయాగ్రాహకుడు
           tailor: దర్జీ
         highway:
@@ -322,10 +333,11 @@ te:
           secondary_link: ద్వితీయ శ్రేణి రహదారి
           steps: మెట్లు
           street_lamp: వీధి దీపం
+          "yes": దారి
         historic:
           battlefield: యుద్ధరంగం
           boundary_stone: సరిహద్దు రాయి
-          building: భవనం
+          building: చారిత్రక కట్టడం
           castle: కోట
           church: చర్చి
           citywalls: నగర గోడలు
@@ -338,6 +350,8 @@ te:
           ruins: శిథిలాలు
           tomb: సమాధి
           tower: గోపురం
+        junction:
+          "yes": కూడలి
         landuse:
           cemetery: శ్మశానం
           commercial: వాణిజ్య ప్రదేశం
@@ -358,6 +372,7 @@ te:
           reservoir: జలాశయం
           reservoir_watershed: జలాశయం
           residential: నివాస ప్రాంతం
+          "yes": భూఉపయోగం
         leisure:
           beach_resort: బీచి రిసార్టు
           bird_hide: పక్షులకు ఆవాసం
@@ -378,6 +393,7 @@ te:
           mud: బురద
           peak: శిఖరం
           rock: రాయి
+          sand: ఇసుక
           spring: ఊట
           stone: రాయి
           strait: జలసంధి
@@ -402,6 +418,8 @@ te:
           house: ఇల్లు
           houses: ఇళ్ళు
           island: దీవి
+          postcode: తపాలా సంకేతం
+          region: ప్రాంతం
           sea: సముద్రం
           state: రాష్ట్రం
           subdivision: ఉపవిభాగం
@@ -417,6 +435,7 @@ te:
           toys: బొమ్మల అంగడి
           "yes": దుకాణం
         tourism:
+          apartment: అపార్టుమెంట్
           hotel: హోటెల్
           information: సమాచారం
           museum: ప్రదర్శన శాల
@@ -480,11 +499,17 @@ te:
       title: ఈ పుట గురించి
     legal_babble:
       title_html: కాపీహక్కులు మరియు లైసెన్సు
+      attribution_example:
+        title: ఆపాదింపు ఉదాహరణ
+      more_title_html: మరింత తెలుసుకోవడం
       infringement_title_html: కాపీహక్కుల ఉల్లంఘన
+      trademarks_title_html: <span id="trademarks"></span>ట్రేడుమార్కులు
   welcome_page:
     title: స్వాగతం!
     whats_on_the_map:
       title: పటంలో ఏముంది
+    rules:
+      title: నియమాలు!
     questions:
       title: సందేహాలున్నాయా?
     add_a_note:
@@ -494,11 +519,17 @@ te:
       title: ఎలా తోడ్పడాలి
   help_page:
     title: సహాయం పొందడం
+    welcome:
+      title: OSMకి స్వాగతం
   about_page:
     next: తదుపరి
     local_knowledge_title: స్థానిక పరిజ్ఞానం
     partners_title: భాగస్వాములు
   notifier:
+    diary_comment_notification:
+      hi: హలో %{to_user},
+    message_notification:
+      hi: హలో %{to_user},
     gpx_notification:
       with_description: వివరణతో
     signup_confirm:
@@ -512,6 +543,8 @@ te:
       click_the_link: అది మీరే అయితే, మార్పుని నిర్ధారించడానికి ఈ క్రింది లంకెను నొక్కండి.
     note_comment_notification:
       anonymous: అజ్ఞాత వాడుకరి
+    changeset_comment_notification:
+      hi: '%{to_user} గారూ,'
   message:
     inbox:
       my_inbox: నా ఇన్‌బాక్స్
@@ -579,6 +612,7 @@ te:
           building: ప్రముఖ కట్టడము
           station: రైల్వే స్టేషన్
           construction: నిర్మాణంలో ఉన్న రహదార్లు
+          toilets: మరుగుదొడ్లు
     richtext_area:
       edit: మార్చు
       preview: మునుజూపు
@@ -663,9 +697,9 @@ te:
       title: నమోదవ్వండి
       email address: 'ఈమెయిలు చిరునామా:'
       confirm email address: 'ఈమెయిలు చిరునామాని నిర్ధారించండి:'
-      not displayed publicly: బహిరంగంగా చూపించబడదు (<a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
-        title="wiki privacy policy including section on email addresses">గోప్యతా విధానాన్ని</a>
-        చూడండి)
+      not displayed publicly: మీ చిరునామా బహిరంగంగా చూపబడదు, మరింత సమాచారం కోసం మా
+        <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF గోప్యతా
+        విధానం, ఈమెయిలు చిరునామాల విభాగం కూడా ఉంది">గోప్యతా విధానాన్ని</a> చూడండి
       display name: 'చూపించే పేరు:'
       password: 'సంకేతపదం:'
       confirm password: 'సంకేతపదాన్ని నిర్ధారించండి:'
@@ -727,8 +761,10 @@ te:
       new email address: 'కొత్త ఈమెయిల్ చిరునామా:'
       email never displayed publicly: (బహిరంగంగా ఎన్నటికీ చూపించబడదు)
       openid:
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: ఇది ఏమిటి?
       public editing:
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: ఇది ఏమిటి?
         disabled link text: నేను ఎందుకు మార్చలేను?
       contributor terms:
@@ -762,7 +798,7 @@ te:
       press confirm button: మీ కొత్త ఈమెయిలు చిరునామాను నిర్ధారించడానికి క్రింది నిర్ధారింపు
         బొత్తాన్ని నొక్కండి.
       button: నిర్ధారించు
-      success: మీ ఈమెయిలు చిరునామా నిర్ధారణ అయింది, నమోదైనందుకు ధన్యవాదాలు!
+      success: మీ ఈమెయిలు చిరునామా నిర్ధారణ అయింది!
     go_public:
       flash success: ఇప్పుడు మీ మార్పుచేర్పులన్నీ బహిరంగం, మీరు ఇక నుండి దిద్దుబాట్లు
         చేయవచ్చు.
@@ -806,6 +842,7 @@ te:
     show:
       time_future: '%{time}లో ముగుస్తుంది'
       time_past: '%{time} క్రితం ముగిసింది'
+      ago: '%{time} క్రితం'
       status: స్థితి
       show: చూపించు
       edit: మార్చు
@@ -840,12 +877,31 @@ te:
       layers:
         notes: పటపు గమనికలు
         data: పటం భోగట్టా
+      copyright: © <a href='%{copyright_url}'>ఓపెన్‌స్ట్రీట్‌మాప్ తోడ్పాటుదార్లు</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>విరాళం ఇవ్వండి</a>
+    changesets:
+      show:
+        comment: వ్యాఖ్య
+        subscribe: చందాచేరు
+        unsubscribe: చందావిరమించు
+        hide_comment: దాచు
+        unhide_comment: చూపించు
     notes:
       show:
         hide: దాచు
         comment_and_resolve: వ్యాఖ్యానించి పరిష్కరించండి
         comment: వ్యాఖ్యానించండి
+    directions:
+      directions: దిశలు
+      distance: దూరం
+      time: సమయం
+    query:
+      relation: సంబంధం
+    context:
+      directions_from: ఇక్కడి నుండి దిశలు
+      directions_to: ఇక్కడికి దిశలు
+      show_address: చిరునామా చూపించు
+      centre_map: ఈచోటును పటానికి కేంద్రం చేయి
   redaction:
     edit:
       description: వివరణ

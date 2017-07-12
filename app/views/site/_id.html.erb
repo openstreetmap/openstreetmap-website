@@ -1,47 +1,10 @@
-<% if defined? ID_KEY %>
-  <div id="map">
-    <iframe frameBorder="0" id="id-embed" class="id-embed" allowfullscreen></iframe>
-  </div>
-  <script>
-    var params = {};
+<%= javascript_include_tag "edit/id" %>
 
-    var mapParams = OSM.mapParams();
-    if (mapParams.object) {
-      params.id = mapParams.object.type[0] + mapParams.object.id;
-      mapParams = OSM.parseHash(location.hash);
-      if (mapParams.center) {
-        params.map = mapParams.zoom + '/' + mapParams.center.lng + '/' + mapParams.center.lat;
-      }
-    } else {
-<% if @lat && @lon -%>
-      params.map = '16/<%= @lon %>/<%= @lat %>';
-<% else -%>
-      params.map = (mapParams.zoom || 17) + '/' + mapParams.lon + '/' + mapParams.lat;
-<% end -%>
-    }
-
-    var hashParams = OSM.params(location.hash.substring(1));
-
-    if (hashParams.background) {
-      params.background = hashParams.background;
-    }
-    if (hashParams.comment) {
-      params.comment = hashParams.comment;
-    }
-    if (hashParams.offset) {
-      params.offset = hashParams.offset;
-    }
-
-<% if params[:gpx] -%>
-    params.gpx = '<%= trace_data_url(params[:gpx], :format => :xml) %>';
-<% else -%>
-    if (hashParams.gpx) {
-      params.gpx = hashParams.gpx;
-    }
-<% end -%>
-
-    $('#id-embed').attr('src', '<%= id_url :locale => params[:locale] %>#' + querystring.stringify(params));
-  </script>
-<% else %>
-  <script type="text/javascript">alert("<%= t 'site.edit.id_not_configured' %>")</script>
-<% end %>
+<div id="map">
+  <% data = { :key => ID_KEY } -%>
+  <% data[:lat] = @lat if @lat -%>
+  <% data[:lon] = @lon if @lon -%>
+  <% data[:gpx] = trace_data_url(params[:gpx], :format => :xml) if params[:gpx] -%>
+  <% data[:url] = id_url(:locale => params[:locale]) -%>
+  <%= content_tag :iframe, "", :frameBorder => 0, :id => "id-embed", :class => "id-embed", :allowfullscreen => "", :data => data %>
+</div>

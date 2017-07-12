@@ -25,7 +25,7 @@ module SessionPersistence
 
     # Install filter when we are included
     def included(controller)
-      controller.after_filter :persist_session
+      controller.after_action :persist_session
     end
   end
 

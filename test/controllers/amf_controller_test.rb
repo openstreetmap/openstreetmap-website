@@ -3,8 +3,6 @@ require "stringio"
 include Potlatch
 
 class AmfControllerTest < ActionController::TestCase
-  api_fixtures
-
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -19,9 +17,9 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getpresets
-    [:public_user, :german_user].each do |id|
-      user = users(id)
-
+    user_en_de = create(:user, :languages => %w[en de])
+    user_de = create(:user, :languages => %w[de])
+    [user_en_de, user_de].each do |user|
       amf_content "getpresets", "/1", ["#{user.email}:test", ""]
       post :amf_read
       assert_response :success
@@ -47,87 +45,105 @@ class AmfControllerTest < ActionController::TestCase
 
   def test_getway
     # check a visible way
-    id = current_ways(:visible_way).id
-    amf_content "getway", "/1", [id]
+    way = create(:way_with_nodes, :nodes_count => 1)
+    node = way.nodes.first
+    user = way.changeset.user
+
+    amf_content "getway", "/1", [way.id]
     post :amf_read
     assert_response :success
     amf_parse_response
-    way = amf_result("/1")
-    assert_equal 0, way[0]
-    assert_equal "", way[1]
-    assert_equal id, way[2]
-    assert_equal 1, way[3].length
-    assert_equal 3, way[3][0][2]
-    assert_equal 1, way[5]
-    assert_equal 2, way[6]
+    result = amf_result("/1")
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_equal way.id, result[2]
+    assert_equal 1, result[3].length
+    assert_equal node.id, result[3][0][2]
+    assert_equal way.version, result[5]
+    assert_equal user.id, result[6]
   end
 
   def test_getway_invisible
     # check an invisible way
-    id = current_ways(:invisible_way).id
+    id = create(:way, :deleted).id
+
     amf_content "getway", "/1", [id]
     post :amf_read
     assert_response :success
     amf_parse_response
-    way = amf_result("/1")
-    assert_equal -4, way[0], -4
-    assert_equal "way", way[1]
-    assert_equal id, way[2]
-    assert(way[3].nil?) && way[4].nil? && way[5].nil? && way[6].nil?
+    result = amf_result("/1")
+    assert_equal -4, result[0]
+    assert_equal "way", result[1]
+    assert_equal id, result[2]
+    assert(result[3].nil? && result[4].nil? && result[5].nil? && result[6].nil?)
   end
 
   def test_getway_with_versions
     # check a way with multiple versions
-    id = current_ways(:way_with_versions).id
-    amf_content "getway", "/1", [id]
+    way = create(:way, :with_history, :version => 4)
+    create(:way_node, :way => way)
+    node = way.nodes.first
+    user = way.changeset.user
+
+    amf_content "getway", "/1", [way.id]
     post :amf_read
     assert_response :success
     amf_parse_response
-    way = amf_result("/1")
-    assert_equal 0, way[0]
-    assert_equal "", way[1]
-    assert_equal id, way[2]
-    assert_equal 1, way[3].length
-    assert_equal 15, way[3][0][2]
-    assert_equal 4, way[5]
-    assert_equal 2, way[6]
+    result = amf_result("/1")
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_equal way.id, result[2]
+    assert_equal 1, result[3].length
+    assert_equal node.id, result[3][0][2]
+    assert_equal way.version, result[5]
+    assert_equal user.id, result[6]
   end
 
   def test_getway_with_duplicate_nodes
     # check a way with duplicate nodes
-    id = current_ways(:way_with_duplicate_nodes).id
-    amf_content "getway", "/1", [id]
+    way = create(:way)
+    node = create(:node)
+    create(:way_node, :way => way, :node => node, :sequence_id => 1)
+    create(:way_node, :way => way, :node => node, :sequence_id => 2)
+    user = way.changeset.user
+
+    amf_content "getway", "/1", [way.id]
     post :amf_read
     assert_response :success
     amf_parse_response
-    way = amf_result("/1")
-    assert_equal 0, way[0]
-    assert_equal "", way[1]
-    assert_equal id, way[2]
-    assert_equal 2, way[3].length
-    assert_equal 4, way[3][0][2]
-    assert_equal 4, way[3][1][2]
-    assert_equal 1, way[5]
-    assert_equal 2, way[6]
+    result = amf_result("/1")
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_equal way.id, result[2]
+    assert_equal 2, result[3].length
+    assert_equal node.id, result[3][0][2]
+    assert_equal node.id, result[3][1][2]
+    assert_equal way.version, result[5]
+    assert_equal user.id, result[6]
   end
 
   def test_getway_with_multiple_nodes
     # check a way with multiple nodes
-    id = current_ways(:way_with_multiple_nodes).id
-    amf_content "getway", "/1", [id]
+    way = create(:way_with_nodes, :nodes_count => 3)
+    a = way.nodes[0].id
+    b = way.nodes[1].id
+    c = way.nodes[2].id
+    user = way.changeset.user
+
+    amf_content "getway", "/1", [way.id]
     post :amf_read
     assert_response :success
     amf_parse_response
-    way = amf_result("/1")
-    assert_equal 0, way[0]
-    assert_equal "", way[1]
-    assert_equal id, way[2]
-    assert_equal 3, way[3].length
-    assert_equal 4, way[3][0][2]
-    assert_equal 15, way[3][1][2]
-    assert_equal 11, way[3][2][2]
-    assert_equal 2, way[5]
-    assert_equal 2, way[6]
+    result = amf_result("/1")
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_equal way.id, result[2]
+    assert_equal 3, result[3].length
+    assert_equal a, result[3][0][2]
+    assert_equal b, result[3][1][2]
+    assert_equal c, result[3][2][2]
+    assert_equal way.version, result[5]
+    assert_equal user.id, result[6]
   end
 
   def test_getway_nonexistent
@@ -144,7 +160,13 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_whichways
-    node = current_nodes(:used_node_1)
+    node = create(:node, :lat => 3.0, :lon => 3.0)
+    way = create(:way)
+    deleted_way = create(:way, :deleted)
+    create(:way_node, :way => way, :node => node)
+    create(:way_node, :way => deleted_way, :node => node)
+    create(:way_tag, :way => way)
+
     minlon = node.lon - 0.1
     minlat = node.lat - 0.1
     maxlon = node.lon + 0.1
@@ -190,9 +212,9 @@ class AmfControllerTest < ActionController::TestCase
     # TODO: looks like amf_controller changed since this test was written
     # so someone who knows what they're doing should check this!
     ways = map[2].collect { |x| x[0] }
-    assert ways.include?(current_ways(:used_way).id),
+    assert ways.include?(way.id),
            "map should include used way"
-    assert !ways.include?(current_ways(:invisible_way).id),
+    assert !ways.include?(deleted_way.id),
            "map should not include deleted way"
   end
 
@@ -229,7 +251,16 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_whichways_deleted
-    node = current_nodes(:used_node_1)
+    node = create(:node, :with_history, :lat => 24.0, :lon => 24.0)
+    way = create(:way, :with_history)
+    way_v1 = way.old_ways.find_by(:version => 1)
+    deleted_way = create(:way, :with_history, :deleted)
+    deleted_way_v1 = deleted_way.old_ways.find_by(:version => 1)
+    create(:way_node, :way => way, :node => node)
+    create(:way_node, :way => deleted_way, :node => node)
+    create(:old_way_node, :old_way => way_v1, :node => node)
+    create(:old_way_node, :old_way => deleted_way_v1, :node => node)
+
     minlon = node.lon - 0.1
     minlat = node.lat - 0.1
     maxlon = node.lon + 0.1
@@ -246,9 +277,9 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal Array, map[2].class, "third map element should be an array"
     # TODO: looks like amf_controller changed since this test was written
     # so someone who knows what they're doing should check this!
-    assert !map[2].include?(current_ways(:used_way).id),
-           "map should not include used way"
-    assert map[2].include?(current_ways(:invisible_way).id),
+    assert !map[2].include?(way.id),
+           "map should not include visible way"
+    assert map[2].include?(deleted_way.id),
            "map should include deleted way"
   end
 
@@ -264,7 +295,7 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getrelation
-    id = current_relations(:visible_relation).id
+    id = create(:relation).id
     amf_content "getrelation", "/1", [id]
     post :amf_read
     assert_response :success
@@ -275,7 +306,7 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getrelation_invisible
-    id = current_relations(:invisible_relation).id
+    id = create(:relation, :deleted).id
     amf_content "getrelation", "/1", [id]
     post :amf_read
     assert_response :success
@@ -301,14 +332,16 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getway_old
+    latest = create(:way, :version => 2)
+    v1 = create(:old_way, :current_way => latest, :version => 1, :timestamp => Time.now.utc - 2.minutes)
+    _v2 = create(:old_way, :current_way => latest, :version => 2, :timestamp => Time.now.utc - 1.minute)
+
     # try to get the last visible version (specified by <0) (should be current version)
-    latest = current_ways(:way_with_versions)
     # NOTE: looks from the API changes that this now expects a timestamp
     # instead of a version number...
     # try to get version 1
-    v1 = ways(:way_with_versions_v2)
     { latest.id => "",
-      v1.way_id => v1.timestamp.strftime("%d %b %Y, %H:%M:%S") }.each do |id, t|
+      v1.way_id => (v1.timestamp + 1).strftime("%d %b %Y, %H:%M:%S") }.each do |id, t|
       amf_content "getway_old", "/1", [id, t]
       post :amf_read
       assert_response :success
@@ -325,7 +358,7 @@ class AmfControllerTest < ActionController::TestCase
   # test that the server doesn't fall over when rubbish is passed
   # into the method args.
   def test_getway_old_invalid
-    way_id = current_ways(:way_with_versions).id
+    way_id = create(:way, :with_history, :version => 2).id
     { "foo"  => "bar",
       way_id => "not a date",
       way_id => "2009-03-25 00:00:00",                   # <- wrong format
@@ -345,7 +378,8 @@ class AmfControllerTest < ActionController::TestCase
 
   def test_getway_old_nonexistent
     # try to get the last version-10 (shoudn't exist)
-    v1 = ways(:way_with_versions_v1)
+    way = create(:way, :with_history, :version => 2)
+    v1 = way.old_ways.find_by(:version => 1)
     # try to get last visible version of non-existent way
     # try to get specific version of non-existent way
     [[0, ""],
@@ -364,7 +398,8 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getway_old_invisible
-    v1 = ways(:invisible_way)
+    way = create(:way, :deleted, :with_history, :version => 1)
+    v1 = way.old_ways.find_by(:version => 1)
     # try to get deleted version
     [[v1.way_id, (v1.timestamp + 10).strftime("%d %b %Y, %H:%M:%S")]].each do |id, t|
       amf_content "getway_old", "/1", [id, t]
@@ -380,8 +415,9 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getway_history
-    latest = current_ways(:way_with_versions)
-    oldest = ways(:way_with_versions_v1)
+    latest = create(:way, :version => 2)
+    oldest = create(:old_way, :current_way => latest, :version => 1, :timestamp => latest.timestamp - 2.minutes)
+    create(:old_way, :current_way => latest, :version => 2, :timestamp => latest.timestamp)
 
     amf_content "getway_history", "/1", [latest.id]
     post :amf_read
@@ -414,8 +450,12 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getnode_history
-    latest = current_nodes(:node_with_versions)
-    amf_content "getnode_history", "/1", [latest.id]
+    node = create(:node, :version => 2)
+    node_v1 = create(:old_node, :current_node => node, :version => 1, :timestamp => 3.days.ago)
+    _node_v2 = create(:old_node, :current_node => node, :version => 2, :timestamp => 2.days.ago)
+    node_v3 = create(:old_node, :current_node => node, :version => 3, :timestamp => 1.day.ago)
+
+    amf_content "getnode_history", "/1", [node.id]
     post :amf_read
     assert_response :success
     amf_parse_response
@@ -426,13 +466,13 @@ class AmfControllerTest < ActionController::TestCase
     # to the next second
     assert_equal history[0], "node",
                  'first element should be "node"'
-    assert_equal history[1], latest.id,
+    assert_equal history[1], node.id,
                  "second element should be the input node ID"
     assert_equal history[2].first[0],
-                 (latest.timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
+                 (node_v3.timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
                  "first element in third element (array) should be the latest version"
     assert_equal history[2].last[0],
-                 (nodes(:node_with_versions_v1).timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
+                 (node_v1.timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
                  "last element in third element (array) should be the initial version"
   end
 
@@ -460,7 +500,9 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal -1, result[0]
     assert_match /must be logged in/, result[1]
 
-    amf_content "findgpx", "/1", [1, "blocked@openstreetmap.org:test"]
+    blocked_user = create(:user)
+    create(:user_block, :user => blocked_user)
+    amf_content "findgpx", "/1", [1, "#{blocked_user.email}:test"]
     post :amf_read
     assert_response :success
     amf_parse_response
@@ -472,9 +514,10 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_findgpx_by_id
-    trace = gpx_files(:anon_trace_file)
+    user = create(:user)
+    trace = create(:trace, :visibility => "private", :user => user)
 
-    amf_content "findgpx", "/1", [trace.id, "test@example.com:test"]
+    amf_content "findgpx", "/1", [trace.id, "#{user.email}:test"]
     post :amf_read
     assert_response :success
     amf_parse_response
@@ -492,7 +535,9 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_findgpx_by_name
-    amf_content "findgpx", "/1", ["Trace", "test@example.com:test"]
+    user = create(:user)
+
+    amf_content "findgpx", "/1", ["Trace", "#{user.email}:test"]
     post :amf_read
     assert_response :success
     amf_parse_response
@@ -504,7 +549,7 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_findrelations_by_id
-    relation = current_relations(:relation_with_versions)
+    relation = create(:relation, :version => 4)
 
     amf_content "findrelations", "/1", [relation.id]
     post :amf_read
@@ -529,8 +574,13 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_findrelations_by_tags
-    visible_relation = current_relations(:visible_relation)
-    used_relation = current_relations(:used_relation)
+    visible_relation = create(:relation)
+    create(:relation_tag, :relation => visible_relation, :k => "test", :v => "yes")
+    used_relation = create(:relation)
+    super_relation = create(:relation)
+    create(:relation_member, :relation => super_relation, :member => used_relation)
+    create(:relation_tag, :relation => used_relation, :k => "test", :v => "yes")
+    create(:relation_tag, :relation => used_relation, :k => "name", :v => "Test Relation")
 
     amf_content "findrelations", "/1", ["yes"]
     post :amf_read
@@ -560,7 +610,8 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getpoi_without_timestamp
-    node = current_nodes(:node_with_versions)
+    node = create(:node, :with_history, :version => 4)
+    create(:node_tag, :node => node)
 
     amf_content "getpoi", "/1", [node.id, ""]
     post :amf_read
@@ -590,10 +641,14 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getpoi_with_timestamp
-    node = nodes(:node_with_versions_v2)
-    current_node = current_nodes(:node_with_versions)
+    current_node = create(:node, :with_history, :version => 4)
+    node = current_node.old_nodes.find_by(:version => 2)
 
-    amf_content "getpoi", "/1", [node.node_id, node.timestamp.xmlschema]
+    # Timestamps are stored with microseconds, but xmlschema truncates them to
+    # previous whole second, causing <= comparison to fail
+    timestamp = (node.timestamp + 1.second).xmlschema
+
+    amf_content "getpoi", "/1", [node.node_id, timestamp]
     post :amf_read
     assert_response :success
     amf_parse_response
@@ -636,9 +691,10 @@ class AmfControllerTest < ActionController::TestCase
 
   # check that we can update a poi
   def test_putpoi_update_valid
-    nd = current_nodes(:visible_node)
-    cs_id = changesets(:public_user_first_change).id
-    amf_content "putpoi", "/1", ["test@example.com:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, nd.visible]
+    nd = create(:node)
+    cs_id = nd.changeset.id
+    user = nd.changeset.user
+    amf_content "putpoi", "/1", ["#{user.email}:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, nd.visible]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -654,7 +710,7 @@ class AmfControllerTest < ActionController::TestCase
     # Now try to update again, with a different lat/lon, using the updated version number
     lat = nd.lat + 0.1
     lon = nd.lon - 0.1
-    amf_content "putpoi", "/2", ["test@example.com:test", cs_id, nd.version + 1, nd.id, lon, lat, nd.tags, nd.visible]
+    amf_content "putpoi", "/2", ["#{user.email}:test", cs_id, nd.version + 1, nd.id, lon, lat, nd.tags, nd.visible]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -676,10 +732,11 @@ class AmfControllerTest < ActionController::TestCase
     # create a node with random lat/lon
     lat = rand(100) - 50 + rand
     lon = rand(100) - 50 + rand
-    # normal user has a changeset open
-    changeset = changesets(:public_user_first_change)
 
-    amf_content "putpoi", "/1", ["test@example.com:test", changeset.id, nil, nil, lon, lat, {}, nil]
+    changeset = create(:changeset)
+    user = changeset.user
+
+    amf_content "putpoi", "/1", ["#{user.email}:test", changeset.id, nil, nil, lon, lat, {}, nil]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -701,7 +758,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal 0, current_node.tags.size, "There seems to be a tag that has been added to the node"
     assert_equal result[4], current_node.version, "The version returned, is different to the one returned by the amf"
     # Now check the history table
-    historic_nodes = Node.where(:id => result[3])
+    historic_nodes = OldNode.where(:node_id => result[3])
     assert_equal 1, historic_nodes.size, "There should only be one historic node created"
     first_historic_node = historic_nodes.first
     assert_in_delta lat, first_historic_node.lat, 0.00001, "The latitude was not retreived correctly"
@@ -715,10 +772,8 @@ class AmfControllerTest < ActionController::TestCase
     # create a node with random lat/lon
     lat = rand(100) - 50 + rand
     lon = rand(100) - 50 + rand
-    # normal user has a changeset open
-    changeset = changesets(:public_user_first_change)
 
-    amf_content "putpoi", "/2", ["test@example.com:test", changeset.id, nil, nil, lon, lat, { "key" => "value", "ping" => "pong" }, nil]
+    amf_content "putpoi", "/2", ["#{user.email}:test", changeset.id, nil, nil, lon, lat, { "key" => "value", "ping" => "pong" }, nil]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -741,7 +796,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal({ "key" => "value", "ping" => "pong" }, current_node.tags, "tags are different")
     assert_equal result[4], current_node.version, "The version returned, is different to the one returned by the amf"
     # Now check the history table
-    historic_nodes = Node.where(:id => result[3])
+    historic_nodes = OldNode.where(:node_id => result[3])
     assert_equal 1, historic_nodes.size, "There should only be one historic node created"
     first_historic_node = historic_nodes.first
     assert_in_delta lat, first_historic_node.lat, 0.00001, "The latitude was not retreived correctly"
@@ -758,13 +813,14 @@ class AmfControllerTest < ActionController::TestCase
     # create a node with random lat/lon
     lat = rand(100) - 50 + rand
     lon = rand(100) - 50 + rand
-    # normal user has a changeset open
-    changeset = changesets(:public_user_first_change)
+
+    changeset = create(:changeset)
+    user = changeset.user
 
     mostly_invalid = (0..31).to_a.map(&:chr).join
     tags = { "something" => "foo#{mostly_invalid}bar" }
 
-    amf_content "putpoi", "/1", ["test@example.com:test", changeset.id, nil, nil, lon, lat, tags, nil]
+    amf_content "putpoi", "/1", ["#{user.email}:test", changeset.id, nil, nil, lon, lat, tags, nil]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -793,13 +849,14 @@ class AmfControllerTest < ActionController::TestCase
     # create a node with random lat/lon
     lat = rand(100) - 50 + rand
     lon = rand(100) - 50 + rand
-    # normal user has a changeset open
-    changeset = changesets(:public_user_first_change)
+
+    changeset = create(:changeset)
+    user = changeset.user
 
     invalid = "\xc0\xc0"
     tags = { "something" => "foo#{invalid}bar" }
 
-    amf_content "putpoi", "/1", ["test@example.com:test", changeset.id, nil, nil, lon, lat, tags, nil]
+    amf_content "putpoi", "/1", ["#{user.email}:test", changeset.id, nil, nil, lon, lat, tags, nil]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -812,9 +869,11 @@ class AmfControllerTest < ActionController::TestCase
 
   # try deleting a node
   def test_putpoi_delete_valid
-    nd = current_nodes(:visible_node)
-    cs_id = changesets(:public_user_first_change).id
-    amf_content "putpoi", "/1", ["test@example.com:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, false]
+    nd = create(:node)
+    cs_id = nd.changeset.id
+    user = nd.changeset.user
+
+    amf_content "putpoi", "/1", ["#{user.email}:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, false]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -833,9 +892,11 @@ class AmfControllerTest < ActionController::TestCase
 
   # try deleting a node that is already deleted
   def test_putpoi_delete_already_deleted
-    nd = current_nodes(:invisible_node)
-    cs_id = changesets(:public_user_first_change).id
-    amf_content "putpoi", "/1", ["test@example.com:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, false]
+    nd = create(:node, :deleted)
+    cs_id = nd.changeset.id
+    user = nd.changeset.user
+
+    amf_content "putpoi", "/1", ["#{user.email}:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, false]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -849,8 +910,11 @@ class AmfControllerTest < ActionController::TestCase
 
   # try deleting a node that has never existed
   def test_putpoi_delete_not_found
-    cs_id = changesets(:public_user_first_change).id
-    amf_content "putpoi", "/1", ["test@example.com:test", cs_id, 1, 999999, 0, 0, {}, false]
+    changeset = create(:changeset)
+    cs_id = changeset.id
+    user = changeset.user
+
+    amf_content "putpoi", "/1", ["#{user.email}:test", cs_id, 1, 999999, 0, 0, {}, false]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -864,9 +928,11 @@ class AmfControllerTest < ActionController::TestCase
 
   # try setting an invalid location on a node
   def test_putpoi_invalid_latlon
-    nd = current_nodes(:visible_node)
-    cs_id = changesets(:public_user_first_change).id
-    amf_content "putpoi", "/1", ["test@example.com:test", cs_id, nd.version, nd.id, 200, 100, nd.tags, true]
+    nd = create(:node)
+    cs_id = nd.changeset.id
+    user = nd.changeset.user
+
+    amf_content "putpoi", "/1", ["#{user.email}:test", cs_id, nd.version, nd.id, 200, 100, nd.tags, true]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -879,9 +945,17 @@ class AmfControllerTest < ActionController::TestCase
 
   # check that we can create a way
   def test_putway_create_valid
-    cs_id = changesets(:public_user_first_change).id
+    changeset = create(:changeset)
+    cs_id = changeset.id
+    user = changeset.user
 
-    amf_content "putway", "/1", ["test@example.com:test", cs_id, 0, -1, [1, 4, 7], { "test" => "new" }, [], {}]
+    a = create(:node).id
+    b = create(:node).id
+    c = create(:node).id
+    d = create(:node).id
+    e = create(:node).id
+
+    amf_content "putway", "/1", ["#{user.email}:test", cs_id, 0, -1, [a, b, c], { "test" => "new" }, [], {}]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -900,10 +974,10 @@ class AmfControllerTest < ActionController::TestCase
 
     new_way = Way.find(new_way_id)
     assert_equal 1, new_way.version
-    assert_equal [1, 4, 7], new_way.nds
+    assert_equal [a, b, c], new_way.nds
     assert_equal({ "test" => "new" }, new_way.tags)
 
-    amf_content "putway", "/1", ["test@example.com:test", cs_id, 0, -1, [4, 6, 15, 1], { "test" => "newer" }, [], {}]
+    amf_content "putway", "/1", ["#{user.email}:test", cs_id, 0, -1, [b, d, e, a], { "test" => "newer" }, [], {}]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -922,10 +996,10 @@ class AmfControllerTest < ActionController::TestCase
 
     new_way = Way.find(new_way_id)
     assert_equal 1, new_way.version
-    assert_equal [4, 6, 15, 1], new_way.nds
+    assert_equal [b, d, e, a], new_way.nds
     assert_equal({ "test" => "newer" }, new_way.tags)
 
-    amf_content "putway", "/1", ["test@example.com:test", cs_id, 0, -1, [4, -1, 6, 15], { "test" => "newest" }, [[4.56, 12.34, -1, 0, { "test" => "new" }], [12.34, 4.56, 6, 1, { "test" => "ok" }]], { 1 => 1 }]
+    amf_content "putway", "/1", ["#{user.email}:test", cs_id, 0, -1, [b, -1, d, e], { "test" => "newest" }, [[4.56, 12.34, -1, 0, { "test" => "new" }], [12.34, 4.56, d, 1, { "test" => "ok" }]], { a => 1 }]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -940,12 +1014,12 @@ class AmfControllerTest < ActionController::TestCase
     assert_not_equal -1, result[3]
     assert_equal({ "-1" => new_node_id }, result[4])
     assert_equal 1, result[5]
-    assert_equal({ new_node_id.to_s => 1, "6" => 2 }, result[6])
-    assert_equal({ "1" => 1 }, result[7])
+    assert_equal({ new_node_id.to_s => 1, d.to_s => 2 }, result[6])
+    assert_equal({ a.to_s => 1 }, result[7])
 
     new_way = Way.find(new_way_id)
     assert_equal 1, new_way.version
-    assert_equal [4, new_node_id, 6, 15], new_way.nds
+    assert_equal [b, new_node_id, d, e], new_way.nds
     assert_equal({ "test" => "newest" }, new_way.tags)
 
     new_node = Node.find(new_node_id)
@@ -955,7 +1029,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal 12.34, new_node.lat
     assert_equal({ "test" => "new" }, new_node.tags)
 
-    changed_node = Node.find(6)
+    changed_node = Node.find(d)
     assert_equal 2, changed_node.version
     assert_equal true, changed_node.visible
     assert_equal 12.34, changed_node.lon
@@ -963,18 +1037,19 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal({ "test" => "ok" }, changed_node.tags)
 
     # node is not deleted because our other ways are using it
-    deleted_node = Node.find(1)
+    deleted_node = Node.find(a)
     assert_equal 1, deleted_node.version
     assert_equal true, deleted_node.visible
   end
 
   # check that we can update a way
   def test_putway_update_valid
-    way = current_ways(:way_with_multiple_nodes)
-    cs_id = changesets(:public_user_first_change).id
+    way = create(:way_with_nodes, :nodes_count => 3)
+    cs_id = way.changeset.id
+    user = way.changeset.user
 
     assert_not_equal({ "test" => "ok" }, way.tags)
-    amf_content "putway", "/1", ["test@example.com:test", cs_id, way.version, way.id, way.nds, { "test" => "ok" }, [], {}]
+    amf_content "putway", "/1", ["#{user.email}:test", cs_id, way.version, way.id, way.nds, { "test" => "ok" }, [], {}]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -995,8 +1070,14 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal way.nds, new_way.nds
     assert_equal({ "test" => "ok" }, new_way.tags)
 
-    assert_not_equal [4, 6, 15, 1], way.tags
-    amf_content "putway", "/1", ["test@example.com:test", cs_id, way.version + 1, way.id, [4, 6, 15, 1], way.tags, [], {}]
+    # Test changing the nodes in the way
+    a = create(:node).id
+    b = create(:node).id
+    c = create(:node).id
+    d = create(:node).id
+
+    assert_not_equal [a, b, c, d], way.nds
+    amf_content "putway", "/1", ["#{user.email}:test", cs_id, way.version + 1, way.id, [a, b, c, d], way.tags, [], {}]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1014,10 +1095,10 @@ class AmfControllerTest < ActionController::TestCase
 
     new_way = Way.find(way.id)
     assert_equal way.version + 2, new_way.version
-    assert_equal [4, 6, 15, 1], new_way.nds
+    assert_equal [a, b, c, d], new_way.nds
     assert_equal way.tags, new_way.tags
 
-    amf_content "putway", "/1", ["test@example.com:test", cs_id, way.version + 2, way.id, [4, -1, 6, 15], way.tags, [[4.56, 12.34, -1, 0, { "test" => "new" }], [12.34, 4.56, 6, 1, { "test" => "ok" }]], { 1 => 1 }]
+    amf_content "putway", "/1", ["#{user.email}:test", cs_id, way.version + 2, way.id, [a, -1, b, c], way.tags, [[4.56, 12.34, -1, 0, { "test" => "new" }], [12.34, 4.56, b, 1, { "test" => "ok" }]], { d => 1 }]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1031,12 +1112,12 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal way.id, result[3]
     assert_equal({ "-1" => new_node_id }, result[4])
     assert_equal way.version + 3, result[5]
-    assert_equal({ new_node_id.to_s => 1, "6" => 2 }, result[6])
-    assert_equal({ "1" => 1 }, result[7])
+    assert_equal({ new_node_id.to_s => 1, b.to_s => 2 }, result[6])
+    assert_equal({ d.to_s => 1 }, result[7])
 
     new_way = Way.find(way.id)
     assert_equal way.version + 3, new_way.version
-    assert_equal [4, new_node_id, 6, 15], new_way.nds
+    assert_equal [a, new_node_id, b, c], new_way.nds
     assert_equal way.tags, new_way.tags
 
     new_node = Node.find(new_node_id)
@@ -1046,25 +1127,35 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal 12.34, new_node.lat
     assert_equal({ "test" => "new" }, new_node.tags)
 
-    changed_node = Node.find(6)
+    changed_node = Node.find(b)
     assert_equal 2, changed_node.version
     assert_equal true, changed_node.visible
     assert_equal 12.34, changed_node.lon
     assert_equal 4.56, changed_node.lat
     assert_equal({ "test" => "ok" }, changed_node.tags)
 
-    deleted_node = Node.find(1)
+    deleted_node = Node.find(d)
     assert_equal 2, deleted_node.version
     assert_equal false, deleted_node.visible
   end
 
   # check that we can delete a way
   def test_deleteway_valid
-    way = current_ways(:way_with_multiple_nodes)
+    way = create(:way_with_nodes, :nodes_count => 3)
     nodes = way.nodes.each_with_object({}) { |n, ns| ns[n.id] = n.version }
-    cs_id = changesets(:public_user_first_change).id
+    cs_id = way.changeset.id
+    user = way.changeset.user
 
-    amf_content "deleteway", "/1", ["test@example.com:test", cs_id, way.id, way.version, nodes]
+    # Of the three nodes, two should be kept since they are used in
+    # a different way, and the third deleted since it's unused
+
+    a = way.nodes[0]
+    create(:way_node, :node => a)
+    b = way.nodes[1]
+    create(:way_node, :node => b)
+    c = way.nodes[2]
+
+    amf_content "deleteway", "/1", ["#{user.email}:test", cs_id, way.id, way.version, nodes]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1075,7 +1166,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal "", result[1]
     assert_equal way.id, result[2]
     assert_equal way.version + 1, result[3]
-    assert_equal({ "11" => 2 }, result[4])
+    assert_equal({ c.id.to_s => 2 }, result[4])
 
     new_way = Way.find(way.id)
     assert_equal way.version + 1, new_way.version
@@ -1088,11 +1179,13 @@ class AmfControllerTest < ActionController::TestCase
 
   # check that we can't delete a way that is in use
   def test_deleteway_inuse
-    way = current_ways(:used_way)
+    way = create(:way_with_nodes, :nodes_count => 4)
+    create(:relation_member, :member => way)
     nodes = way.nodes.each_with_object({}) { |n, ns| ns[n.id] = n.version }
-    cs_id = changesets(:public_user_first_change).id
+    cs_id = way.changeset.id
+    user = way.changeset.user
 
-    amf_content "deleteway", "/1", ["test@example.com:test", cs_id, way.id, way.version, nodes]
+    amf_content "deleteway", "/1", ["#{user.email}:test", cs_id, way.id, way.version, nodes]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1113,9 +1206,15 @@ class AmfControllerTest < ActionController::TestCase
 
   # check that we can create a relation
   def test_putrelation_create_valid
-    cs_id = changesets(:public_user_first_change).id
+    changeset = create(:changeset)
+    user = changeset.user
+    cs_id = changeset.id
 
-    amf_content "putrelation", "/1", ["test@example.com:test", cs_id, 0, -1, { "test" => "new" }, [["Node", 3, "node"], ["Way", 7, "way"], ["Relation", 1, "relation"]], true]
+    node = create(:node)
+    way = create(:way_with_nodes, :nodes_count => 2)
+    relation = create(:relation)
+
+    amf_content "putrelation", "/1", ["#{user.email}:test", cs_id, 0, -1, { "test" => "new" }, [["Node", node.id, "node"], ["Way", way.id, "way"], ["Relation", relation.id, "relation"]], true]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1131,18 +1230,20 @@ class AmfControllerTest < ActionController::TestCase
 
     new_relation = Relation.find(new_relation_id)
     assert_equal 1, new_relation.version
-    assert_equal [["Node", 3, "node"], ["Way", 7, "way"], ["Relation", 1, "relation"]], new_relation.members
+    assert_equal [["Node", node.id, "node"], ["Way", way.id, "way"], ["Relation", relation.id, "relation"]], new_relation.members
     assert_equal({ "test" => "new" }, new_relation.tags)
     assert_equal true, new_relation.visible
   end
 
   # check that we can update a relation
   def test_putrelation_update_valid
-    relation = current_relations(:visible_relation)
-    cs_id = changesets(:public_user_first_change).id
+    relation = create(:relation)
+    create(:relation_member, :relation => relation)
+    user = relation.changeset.user
+    cs_id = relation.changeset.id
 
     assert_not_equal({ "test" => "ok" }, relation.tags)
-    amf_content "putrelation", "/1", ["test@example.com:test", cs_id, relation.version, relation.id, { "test" => "ok" }, relation.members, true]
+    amf_content "putrelation", "/1", ["#{user.email}:test", cs_id, relation.version, relation.id, { "test" => "ok" }, relation.members, true]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1164,10 +1265,13 @@ class AmfControllerTest < ActionController::TestCase
 
   # check that we can delete a relation
   def test_putrelation_delete_valid
-    relation = current_relations(:visible_relation)
-    cs_id = changesets(:public_user_first_change).id
+    relation = create(:relation)
+    create(:relation_member, :relation => relation)
+    create(:relation_tag, :relation => relation)
+    cs_id = relation.changeset.id
+    user = relation.changeset.user
 
-    amf_content "putrelation", "/1", ["test@example.com:test", cs_id, relation.version, relation.id, relation.tags, relation.members, false]
+    amf_content "putrelation", "/1", ["#{user.email}:test", cs_id, relation.version, relation.id, relation.tags, relation.members, false]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1189,10 +1293,13 @@ class AmfControllerTest < ActionController::TestCase
 
   # check that we can't delete a relation that is in use
   def test_putrelation_delete_inuse
-    relation = current_relations(:public_used_relation)
-    cs_id = changesets(:public_user_first_change).id
+    relation = create(:relation)
+    super_relation = create(:relation)
+    create(:relation_member, :relation => super_relation, :member => relation)
+    cs_id = relation.changeset.id
+    user = relation.changeset.user
 
-    amf_content "putrelation", "/1", ["test@example.com:test", cs_id, relation.version, relation.id, relation.tags, relation.members, false]
+    amf_content "putrelation", "/1", ["#{user.email}:test", cs_id, relation.version, relation.id, relation.tags, relation.members, false]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1211,7 +1318,9 @@ class AmfControllerTest < ActionController::TestCase
 
   # check that we can open a changeset
   def test_startchangeset_valid
-    amf_content "startchangeset", "/1", ["test@example.com:test", { "source" => "new" }, nil, "new", 1]
+    user = create(:user)
+
+    amf_content "startchangeset", "/1", ["#{user.email}:test", { "source" => "new" }, nil, "new", 1]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1228,7 +1337,7 @@ class AmfControllerTest < ActionController::TestCase
 
     old_cs_id = new_cs_id
 
-    amf_content "startchangeset", "/1", ["test@example.com:test", { "source" => "newer" }, old_cs_id, "newer", 1]
+    amf_content "startchangeset", "/1", ["#{user.email}:test", { "source" => "newer" }, old_cs_id, "newer", 1]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1251,7 +1360,7 @@ class AmfControllerTest < ActionController::TestCase
 
     old_cs_id = new_cs_id
 
-    amf_content "startchangeset", "/1", ["test@example.com:test", {}, old_cs_id, "", 0]
+    amf_content "startchangeset", "/1", ["#{user.email}:test", {}, old_cs_id, "", 0]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1269,7 +1378,10 @@ class AmfControllerTest < ActionController::TestCase
 
   # check that we can't close somebody elses changeset
   def test_startchangeset_invalid_wrong_user
-    amf_content "startchangeset", "/1", ["test@example.com:test", { "source" => "new" }, nil, "new", 1]
+    user = create(:user)
+    user2 = create(:user)
+
+    amf_content "startchangeset", "/1", ["#{user.email}:test", { "source" => "new" }, nil, "new", 1]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1284,7 +1396,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal true, cs.is_open?
     assert_equal({ "comment" => "new", "source" => "new" }, cs.tags)
 
-    amf_content "startchangeset", "/1", ["test@openstreetmap.org:test", {}, cs_id, "delete", 0]
+    amf_content "startchangeset", "/1", ["#{user2.email}:test", {}, cs_id, "delete", 0]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -1301,10 +1413,12 @@ class AmfControllerTest < ActionController::TestCase
 
   # check that invalid characters are stripped from changeset tags
   def test_startchangeset_invalid_xmlchar_comment
+    user = create(:user)
+
     invalid = "\035\022"
     comment = "foo#{invalid}bar"
 
-    amf_content "startchangeset", "/1", ["test@example.com:test", {}, nil, comment, 1]
+    amf_content "startchangeset", "/1", ["#{user.email}:test", {}, nil, comment, 1]
     post :amf_write
     assert_response :success
     amf_parse_response

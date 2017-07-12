@@ -1,7 +1,7 @@
 module QuadTile
   begin
     require "quad_tile/quad_tile_so"
-  rescue MissingSourceFile
+  rescue LoadError
     def self.tile_for_point(lat, lon)
       x = ((lon.to_f + 180) * 65535 / 360).round
       y = ((lat.to_f + 90) * 65535 / 180).round

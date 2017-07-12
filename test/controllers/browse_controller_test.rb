@@ -2,8 +2,6 @@ require "test_helper"
 require "browse_controller"
 
 class BrowseControllerTest < ActionController::TestCase
-  api_fixtures
-
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -46,71 +44,85 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_read_relation
-    browse_check "relation", relations(:visible_relation).relation_id, "browse/feature"
+    browse_check "relation", create(:relation).id, "browse/feature"
   end
 
   def test_read_relation_history
-    browse_check "relation_history", relations(:visible_relation).relation_id, "browse/history"
+    browse_check "relation_history", create(:relation, :with_history).id, "browse/history"
   end
 
   def test_read_way
-    browse_check "way", ways(:visible_way).way_id, "browse/feature"
+    browse_check "way", create(:way).id, "browse/feature"
   end
 
   def test_read_way_history
-    browse_check "way_history", ways(:visible_way).way_id, "browse/history"
+    browse_check "way_history", create(:way, :with_history).id, "browse/history"
   end
 
   def test_read_node
-    browse_check "node", nodes(:visible_node).node_id, "browse/feature"
+    browse_check "node", create(:node).id, "browse/feature"
   end
 
   def test_read_node_history
-    browse_check "node_history", nodes(:visible_node).node_id, "browse/history"
+    browse_check "node_history", create(:node, :with_history).id, "browse/history"
   end
 
   def test_read_changeset
-    browse_check "changeset", changesets(:normal_user_first_change).id, "browse/changeset"
-    browse_check "changeset", changesets(:public_user_first_change).id, "browse/changeset"
+    private_changeset = create(:changeset, :user => create(:user, :data_public => false))
+    changeset = create(:changeset)
+    browse_check "changeset", private_changeset.id, "browse/changeset"
+    browse_check "changeset", changeset.id, "browse/changeset"
   end
 
   def test_read_changeset_hidden_comments
-    browse_check "changeset", changesets(:normal_user_closed_change).id, "browse/changeset"
+    changeset = create(:changeset)
+    create_list(:changeset_comment, 3, :changeset => changeset)
+    create(:changeset_comment, :visible => false, :changeset => changeset)
+
+    browse_check "changeset", changeset.id, "browse/changeset"
     assert_select "div.changeset-comments ul li", :count => 3
 
-    session[:user] = users(:moderator_user).id
+    session[:user] = create(:moderator_user).id
 
-    browse_check "changeset", changesets(:normal_user_closed_change).id, "browse/changeset"
+    browse_check "changeset", changeset.id, "browse/changeset"
     assert_select "div.changeset-comments ul li", :count => 4
   end
 
   def test_read_note
-    browse_check "note", notes(:open_note).id, "browse/note"
+    open_note = create(:note_with_comments)
+
+    browse_check "note", open_note.id, "browse/note"
   end
 
   def test_read_hidden_note
-    get :note, :id => notes(:hidden_note_with_comment).id
+    hidden_note_with_comment = create(:note_with_comments, :status => "hidden")
+
+    get :note, :params => { :id => hidden_note_with_comment.id }
     assert_response :not_found
     assert_template "browse/not_found"
     assert_template :layout => "map"
 
-    xhr :get, :note, :id => notes(:hidden_note_with_comment).id
+    get :note, :params => { :id => hidden_note_with_comment.id }, :xhr => true
     assert_response :not_found
     assert_template "browse/not_found"
     assert_template :layout => "xhr"
 
-    session[:user] = users(:moderator_user).id
+    session[:user] = create(:moderator_user).id
 
-    browse_check "note", notes(:hidden_note_with_comment).id, "browse/note"
+    browse_check "note", hidden_note_with_comment.id, "browse/note"
   end
 
   def test_read_note_hidden_comments
-    browse_check "note", notes(:note_with_hidden_comment).id, "browse/note"
+    note_with_hidden_comment = create(:note_with_comments, :comments_count => 2) do |note|
+      create(:note_comment, :note => note, :visible => false)
+    end
+
+    browse_check "note", note_with_hidden_comment.id, "browse/note"
     assert_select "div.note-comments ul li", :count => 1
 
-    session[:user] = users(:moderator_user).id
+    session[:user] = create(:moderator_user).id
 
-    browse_check "note", notes(:note_with_hidden_comment).id, "browse/note"
+    browse_check "note", note_with_hidden_comment.id, "browse/note"
     assert_select "div.note-comments ul li", :count => 2
   end
 
@@ -123,7 +135,11 @@ class BrowseControllerTest < ActionController::TestCase
   # then please make it more easily (and robustly) testable!
   ##
   def test_redacted_node
-    get :node, :id => current_nodes(:redacted_node).id
+    node = create(:node, :with_history, :deleted, :version => 2)
+    node_v1 = node.old_nodes.find_by(:version => 1)
+    node_v1.redact!(create(:redaction))
+
+    get :node, :params => { :id => node.id }
     assert_response :success
     assert_template "feature"
 
@@ -135,7 +151,11 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_redacted_node_history
-    get :node_history, :id => nodes(:redacted_node_redacted_version).node_id
+    node = create(:node, :with_history, :deleted, :version => 2)
+    node_v1 = node.old_nodes.find_by(:version => 1)
+    node_v1.redact!(create(:redaction))
+
+    get :node_history, :params => { :id => node.id }
     assert_response :success
     assert_template "browse/history"
 
@@ -149,7 +169,13 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_redacted_way_history
-    get :way_history, :id => ways(:way_with_redacted_versions_v1).way_id
+    way = create(:way, :with_history, :version => 4)
+    way_v1 = way.old_ways.find_by(:version => 1)
+    way_v1.redact!(create(:redaction))
+    way_v3 = way.old_ways.find_by(:version => 3)
+    way_v3.redact!(create(:redaction))
+
+    get :way_history, :params => { :id => way.id }
     assert_response :success
     assert_template "browse/history"
 
@@ -161,7 +187,13 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_redacted_relation_history
-    get :relation_history, :id => relations(:relation_with_redacted_versions_v1).relation_id
+    relation = create(:relation, :with_history, :version => 4)
+    relation_v1 = relation.old_relations.find_by(:version => 1)
+    relation_v1.redact!(create(:redaction))
+    relation_v3 = relation.old_relations.find_by(:version => 3)
+    relation_v3.redact!(create(:redaction))
+
+    get :relation_history, :params => { :id => relation.id }
     assert_response :success
     assert_template "browse/history"
 
@@ -184,25 +216,25 @@ class BrowseControllerTest < ActionController::TestCase
     end
 
     assert_raise ActionController::UrlGenerationError do
-      get type, :id => -10 # we won't have an id that's negative
+      get type, :params => { :id => -10 } # we won't have an id that's negative
     end
 
-    get type, :id => 0
+    get type, :params => { :id => 0 }
     assert_response :not_found
     assert_template "browse/not_found"
     assert_template :layout => "map"
 
-    xhr :get, type, :id => 0
+    get type, :params => { :id => 0 }, :xhr => true
     assert_response :not_found
     assert_template "browse/not_found"
     assert_template :layout => "xhr"
 
-    get type, :id => id
+    get type, :params => { :id => id }
     assert_response :success
     assert_template template
     assert_template :layout => "map"
 
-    xhr :get, type, :id => id
+    get type, :params => { :id => id }, :xhr => true
     assert_response :success
     assert_template template
     assert_template :layout => "xhr"

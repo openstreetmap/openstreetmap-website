@@ -34,7 +34,7 @@ class Way < ActiveRecord::Base
 
   # Read in xml as text and return it's Way object representation
   def self.from_xml(xml, create = false)
-    p = XML::Parser.string(xml)
+    p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
 
     doc.find("//osm/way").each do |pt|
@@ -58,7 +58,7 @@ class Way < ActiveRecord::Base
       way.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
-      raise OSM::APIBadUserInput.new("ID of way cannot be zero when updating.") if way.id == 0
+      raise OSM::APIBadUserInput.new("ID of way cannot be zero when updating.") if way.id.zero?
     end
 
     # We don't care about the timestamp nor the visibility as these are either
@@ -222,7 +222,7 @@ class Way < ActiveRecord::Base
       lock!
       check_consistency(self, new_way, user)
       rels = Relation.joins(:relation_members).where(:visible => true, :current_relation_members => { :member_type => "Way", :member_id => id }).order(:id)
-      raise OSM::APIPreconditionFailedError.new("Way #{id} is still used by relations #{rels.collect(&:id).join(",")}.") unless rels.empty?
+      raise OSM::APIPreconditionFailedError.new("Way #{id} is still used by relations #{rels.collect(&:id).join(',')}.") unless rels.empty?
 
       self.changeset_id = new_way.changeset_id
       self.changeset = new_way.changeset
@@ -255,6 +255,9 @@ class Way < ActiveRecord::Base
   def save_with_history!
     t = Time.now.getutc
 
+    self.version += 1
+    self.timestamp = t
+
     # update the bounding box, note that this has to be done both before
     # and after the save, so that nodes from both versions are included in the
     # bbox. we use a copy of the changeset so that it isn't reloaded
@@ -263,12 +266,12 @@ class Way < ActiveRecord::Base
     cs.update_bbox!(bbox) unless nodes.empty?
 
     Way.transaction do
-      self.version += 1
-      self.timestamp = t
-      save!
+      # clone the object before saving it so that the original is
+      # still marked as dirty if we retry the transaction
+      clone.save!
 
       tags = self.tags
-      WayTag.delete_all(:way_id => id)
+      WayTag.where(:way_id => id).delete_all
       tags.each do |k, v|
         tag = WayTag.new
         tag.way_id = id
@@ -278,7 +281,7 @@ class Way < ActiveRecord::Base
       end
 
       nds = self.nds
-      WayNode.delete_all(:way_id => id)
+      WayNode.where(:way_id => id).delete_all
       sequence = 1
       nds.each do |n|
         nd = WayNode.new

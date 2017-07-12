@@ -26,6 +26,9 @@ OSM.Directions = function (map) {
     Endpoint($("input[name='route_to']"), OSM.MARKER_RED)
   ];
 
+  var expiry = new Date();
+  expiry.setYear(expiry.getFullYear() + 10);
+
   function Endpoint(input, iconUrl) {
     var endpoint = {};
 
@@ -207,8 +210,13 @@ OSM.Directions = function (map) {
         '<span class="icon close"></span></a>' + I18n.t('javascripts.directions.directions') +
         '</h2><p id="routing_summary">' +
         I18n.t('javascripts.directions.distance') + ': ' + formatDistance(route.distance) + '. ' +
-        I18n.t('javascripts.directions.time') + ': ' + formatTime(route.time) + '.</p>' +
-        '<table id="turnbyturn" />';
+        I18n.t('javascripts.directions.time') + ': ' + formatTime(route.time) + '.';
+      if (typeof route.ascend !== 'undefined' && typeof route.descend !== 'undefined') {
+        html += '<br />' +
+          I18n.t('javascripts.directions.ascend') + ': ' + Math.round(route.ascend) + 'm. ' +
+          I18n.t('javascripts.directions.descend') + ': ' + Math.round(route.descend) +'m.';
+      }
+      html += '</p><table id="turnbyturn" />';
 
       $('#sidebar_content')
         .html(html);
@@ -287,10 +295,15 @@ OSM.Directions = function (map) {
     select.append("<option value='" + i + "'>" + I18n.t('javascripts.directions.engines.' + engine.id) + "</option>");
   });
 
-  setEngine('osrm_car');
+  var chosenEngineId = $.cookie('_osm_directions_engine');
+  if(!chosenEngineId) {
+    chosenEngineId = 'osrm_car';
+  }
+  setEngine(chosenEngineId);
 
   select.on("change", function (e) {
     chosenEngine = engines[e.target.selectedIndex];
+    $.cookie('_osm_directions_engine', chosenEngine.id, { expires: expiry, path: '/' });
     if (map.hasLayer(polyline)) {
       getRoute();
     }
@@ -302,10 +315,14 @@ OSM.Directions = function (map) {
   });
 
   $(".routing_marker").on('dragstart', function (e) {
-    e.originalEvent.dataTransfer.effectAllowed = 'move';
-    e.originalEvent.dataTransfer.setData('type', $(this).data('type'));
-    var img = $("<img>").attr("src", $(e.originalEvent.target).attr("src"));
-    e.originalEvent.dataTransfer.setDragImage(img.get(0), 12, 21);
+    var dt = e.originalEvent.dataTransfer;
+    dt.effectAllowed = 'move';
+    var dragData = { type: $(this).data('type') };
+    dt.setData('text', JSON.stringify(dragData));
+    if (dt.setDragImage) {
+      var img = $("<img>").attr("src", $(e.originalEvent.target).attr("src"));
+      dt.setDragImage(img.get(0), 12, 21);
+    }
   });
 
   var page = {};
@@ -321,7 +338,8 @@ OSM.Directions = function (map) {
     $("#map").on('drop', function (e) {
       e.preventDefault();
       var oe = e.originalEvent;
-      var type = oe.dataTransfer.getData('type');
+      var dragData = JSON.parse(oe.dataTransfer.getData('text'));
+      var type = dragData.type;
       var pt = L.DomEvent.getMousePosition(oe, map.getContainer());  // co-ordinates of the mouse pointer at present
       pt.y += 20;
       var ll = map.containerPointToLatLng(pt);

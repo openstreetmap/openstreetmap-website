@@ -19,20 +19,20 @@ class BoundingBoxTest < ActiveSupport::TestCase
     @max_lon = 3.0
     @max_lat = 4.0
 
-    @bad_positive_boundary_bbox  = %w(181,91,0,0 0,0,181,91)
-    @bad_negative_boundary_bbox  = %w(-181,-91,0,0 0,0,-181,-91)
-    @bad_big_bbox       = %w(-0.1,-0.1,1.1,1.1 10,10,11,11)
-    @bad_malformed_bbox = %w(-0.1 hello 10N2W10.1N2.1W)
-    @bad_lat_mixed_bbox  = %w(0,0.1,0.1,0 -0.1,80,0.1,70 0.24,54.34,0.25,54.33)
-    @bad_lon_mixed_bbox  = %w(80,-0.1,70,0.1 54.34,0.24,54.33,0.25)
-    @bad_limit_bbox = %w(-180.1,-90,180,90 -180,-90.1,180,90 -180,-90,180.1,90 -180,-90,180,90.1)
-    @good_bbox = %w(-0.1,-0.1,0.1,0.1 51.1,-0.1,51.2,0 -0.1,%20-0.1,%200.1,%200.1
-                    -0.1edcd,-0.1d,0.1,0.1 -0.1E,-0.1E,0.1S,0.1N S0.1,W0.1,N0.1,E0.1)
+    @bad_positive_boundary_bbox  = %w[181,91,0,0 0,0,181,91]
+    @bad_negative_boundary_bbox  = %w[-181,-91,0,0 0,0,-181,-91]
+    @bad_big_bbox       = %w[-0.1,-0.1,1.1,1.1 10,10,11,11]
+    @bad_malformed_bbox = %w[-0.1 hello 10N2W10.1N2.1W]
+    @bad_lat_mixed_bbox  = %w[0,0.1,0.1,0 -0.1,80,0.1,70 0.24,54.34,0.25,54.33]
+    @bad_lon_mixed_bbox  = %w[80,-0.1,70,0.1 54.34,0.24,54.33,0.25]
+    @bad_limit_bbox = %w[-180.1,-90,180,90 -180,-90.1,180,90 -180,-90,180.1,90 -180,-90,180,90.1]
+    @good_bbox = %w[-0.1,-0.1,0.1,0.1 51.1,-0.1,51.2,0 -0.1,%20-0.1,%200.1,%200.1
+                    -0.1edcd,-0.1d,0.1,0.1 -0.1E,-0.1E,0.1S,0.1N S0.1,W0.1,N0.1,E0.1]
 
-    @expand_min_lon_array = %w(2,10,10,10 1,10,10,10 0,10,10,10 -1,10,10,10 -2,10,10,10 -8,10,10,10)
-    @expand_min_lat_array = %w(10,2,10,10 10,1,10,10 10,0,10,10 10,-1,10,10 10,-2,10,10 10,-8,10,10)
-    @expand_max_lon_array = %w(-2,-2,-1,-2 -2,-2,0,-2 -2,-2,1,-2 -2,-2,2,-2)
-    @expand_max_lat_array = %w(-2,-2,-2,-1 -2,-2,-2,0 -2,-2,-2,1 -2,-2,-2,2)
+    @expand_min_lon_array = %w[2,10,10,10 1,10,10,10 0,10,10,10 -1,10,10,10 -2,10,10,10 -8,10,10,10]
+    @expand_min_lat_array = %w[10,2,10,10 10,1,10,10 10,0,10,10 10,-1,10,10 10,-2,10,10 10,-8,10,10]
+    @expand_max_lon_array = %w[-2,-2,-1,-2 -2,-2,0,-2 -2,-2,1,-2 -2,-2,2,-2]
+    @expand_max_lat_array = %w[-2,-2,-2,-1 -2,-2,-2,0 -2,-2,-2,1 -2,-2,-2,2]
     @expand_min_lon_margin_response = [[2, 10, 10, 10], [-7, 10, 10, 10], [-7, 10, 10, 10], [-7, 10, 10, 10], [-7, 10, 10, 10], [-25, 10, 10, 10]]
     @expand_min_lat_margin_response = [[10, 2, 10, 10], [10, -7, 10, 10], [10, -7, 10, 10], [10, -7, 10, 10], [10, -7, 10, 10], [10, -25, 10, 10]]
     @expand_max_lon_margin_response = [[-2, -2, -1, -2], [-2, -2, 1, -2], [-2, -2, 1, -2], [-2, -2, 5, -2]]
@@ -151,7 +151,7 @@ class BoundingBoxTest < ActiveSupport::TestCase
 
   def test_good_bbox_boundaries
     @good_bbox.each do |bbox_string|
-      assert_nothing_raised(OSM::APIBadBoundingBox) { BoundingBox.from_s(bbox_string).check_boundaries }
+      assert_nothing_raised { BoundingBox.from_s(bbox_string).check_boundaries }
     end
   end
 
@@ -196,14 +196,14 @@ class BoundingBoxTest < ActiveSupport::TestCase
 
   def test_good_bbox_size
     @good_bbox.each do |bbox_string|
-      assert_nothing_raised(OSM::APIBadBoundingBox) { BoundingBox.from_s(bbox_string).check_size }
+      assert_nothing_raised { BoundingBox.from_s(bbox_string).check_size }
     end
   end
 
   def test_size_to_big
     @bad_big_bbox.each do |bbox_string|
       bbox = nil
-      assert_nothing_raised(OSM::APIBadBoundingBox) { bbox = BoundingBox.from_bbox_params(:bbox => bbox_string).check_boundaries }
+      assert_nothing_raised { bbox = BoundingBox.from_bbox_params(:bbox => bbox_string).check_boundaries }
       exception = assert_raise(OSM::APIBadBoundingBox) { bbox.check_size }
       assert_equal(@size_error_message, exception.message)
     end
@@ -265,19 +265,19 @@ class BoundingBoxTest < ActiveSupport::TestCase
   def test_add_bounds_to_no_underscore
     bounds = @bbox_from_string.add_bounds_to({})
     assert_equal 4, bounds.size
-    assert_equal @min_lon.to_s, bounds["minlon"]
-    assert_equal @min_lat.to_s, bounds["minlat"]
-    assert_equal @max_lon.to_s, bounds["maxlon"]
-    assert_equal @max_lat.to_s, bounds["maxlat"]
+    assert_equal format("%.7f", @min_lon), bounds["minlon"]
+    assert_equal format("%.7f", @min_lat), bounds["minlat"]
+    assert_equal format("%.7f", @max_lon), bounds["maxlon"]
+    assert_equal format("%.7f", @max_lat), bounds["maxlat"]
   end
 
   def test_add_bounds_to_with_underscore
     bounds = @bbox_from_string.add_bounds_to({}, "_")
     assert_equal 4, bounds.size
-    assert_equal @min_lon.to_s, bounds["min_lon"]
-    assert_equal @min_lat.to_s, bounds["min_lat"]
-    assert_equal @max_lon.to_s, bounds["max_lon"]
-    assert_equal @max_lat.to_s, bounds["max_lat"]
+    assert_equal format("%.7f", @min_lon), bounds["min_lon"]
+    assert_equal format("%.7f", @min_lat), bounds["min_lat"]
+    assert_equal format("%.7f", @max_lon), bounds["max_lon"]
+    assert_equal format("%.7f", @max_lat), bounds["max_lat"]
   end
 
   def test_to_scaled
@@ -312,9 +312,9 @@ class BoundingBoxTest < ActiveSupport::TestCase
   end
 
   def check_bbox(bbox, result)
-    assert_equal result[0], bbox.min_lon, "min_lon"
-    assert_equal result[1], bbox.min_lat, "min_lat"
-    assert_equal result[2], bbox.max_lon, "max_lon"
-    assert_equal result[3], bbox.max_lat, "max_lat"
+    assert_equal_allowing_nil result[0], bbox.min_lon, "min_lon"
+    assert_equal_allowing_nil result[1], bbox.min_lat, "min_lat"
+    assert_equal_allowing_nil result[2], bbox.max_lon, "max_lon"
+    assert_equal_allowing_nil result[3], bbox.max_lat, "max_lat"
   end
 end
