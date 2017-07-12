@@ -108,7 +108,7 @@ class IssuesController < ApplicationController
         redirect_back "/", :notice => t("issues.create.successful_report")
       end
     else
-      redirect_to new_issue_path(:reportable_type => @issue.reportable_type, :reportable_id => @issue.reportable_id, :reported_user_id => @issue.reported_user_id), :notice => t("issues.create.provide_details")
+      redirect_to new_issue_path(:reportable_type => @issue.reportable_type, :reportable_id => @issue.reportable_id), :notice => t("issues.create.provide_details")
     end
   end
 
@@ -142,7 +142,7 @@ class IssuesController < ApplicationController
         redirect_back "/", :notice => notice
       end
     else
-      redirect_to new_issue_path(:reportable_type => @issue.reportable_type, :reportable_id => @issue.reportable_id, :reported_user_id => @issue.reported_user_id), :notice => t("issues.update.provide_details")
+      redirect_to new_issue_path(:reportable_type => @issue.reportable_type, :reportable_id => @issue.reportable_id), :notice => t("issues.update.provide_details")
     end
   end
 
@@ -249,11 +249,11 @@ class IssuesController < ApplicationController
   end
 
   def create_new_issue_params
-    params.permit(:reportable_id, :reportable_type, :reported_user_id)
+    params.permit(:reportable_id, :reportable_type)
   end
 
   def issue_params
-    params[:issue].permit(:reportable_id, :reportable_type, :reported_user_id)
+    params[:issue].permit(:reportable_id, :reportable_type)
   end
 
   def report_params

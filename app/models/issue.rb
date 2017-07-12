@@ -9,6 +9,8 @@ class Issue < ActiveRecord::Base
   validates :reportable_id, :uniqueness => { :scope => [:reportable_type] }
   validates :reported_user_id, :presence => true
 
+  before_validation :set_reported_user
+
   # Check if more statuses are needed
   enum :status => %w[open ignored resolved]
   enum :type => %w[administrator moderator]
@@ -44,5 +46,18 @@ class Issue < ActiveRecord::Base
       transitions :from => :resolved, :to => :open
       transitions :from => :ignored, :to => :open
     end
+  end
+
+  private
+
+  def set_reported_user
+    self.reported_user = case reportable.class.name
+                         when "User"
+                           reportable
+                         when "Note"
+                           reportable.author
+                         else
+                           reportable.user
+                         end
   end
 end
