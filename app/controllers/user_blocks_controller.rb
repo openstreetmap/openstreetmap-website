@@ -20,7 +20,7 @@ class UserBlocksController < ApplicationController
   end
 
   def show
-    if @user && @user.id == @user_block.user_id
+    if current_user && current_user.id == @user_block.user_id
       @user_block.needs_view = false
       @user_block.save!
     end
@@ -38,7 +38,7 @@ class UserBlocksController < ApplicationController
     if @valid_params
       @user_block = UserBlock.new(
         :user_id => @this_user.id,
-        :creator_id => @user.id,
+        :creator_id => current_user.id,
         :reason => params[:user_block][:reason],
         :ends_at => Time.now.getutc + @block_period.hours,
         :needs_view => params[:user_block][:needs_view]
@@ -57,7 +57,7 @@ class UserBlocksController < ApplicationController
 
   def update
     if @valid_params
-      if @user_block.creator_id != @user.id
+      if @user_block.creator_id != current_user.id
         flash[:error] = t("user_block.update.only_creator_can_edit")
         redirect_to :action => "edit"
       elsif @user_block.update_attributes(
@@ -79,7 +79,7 @@ class UserBlocksController < ApplicationController
   # revokes the block, setting the end_time to now
   def revoke
     if params[:confirm]
-      if @user_block.revoke! @user
+      if @user_block.revoke! current_user
         flash[:notice] = t "user_block.revoke.flash"
         redirect_to(@user_block)
       end

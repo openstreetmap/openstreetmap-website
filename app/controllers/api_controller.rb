@@ -305,7 +305,7 @@ class ApiController < ApplicationController
   def permissions
     @permissions = if current_token.present?
                      ClientApplication.all_permissions.select { |p| current_token.read_attribute(p) }
-                   elsif @user
+                   elsif current_user
                      ClientApplication.all_permissions
                    else
                      []

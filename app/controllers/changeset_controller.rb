@@ -28,11 +28,11 @@ class ChangesetController < ApplicationController
     cs = Changeset.from_xml(request.raw_post, true)
 
     # Assume that Changeset.from_xml has thrown an exception if there is an error parsing the xml
-    cs.user_id = @user.id
+    cs.user_id = current_user.id
     cs.save_with_tags!
 
     # Subscribe user to changeset comments
-    cs.subscribers << @user
+    cs.subscribers << current_user
 
     render :plain => cs.id.to_s
   end
@@ -53,7 +53,7 @@ class ChangesetController < ApplicationController
     assert_method :put
 
     changeset = Changeset.find(params[:id])
-    check_changeset_consistency(changeset, @user)
+    check_changeset_consistency(changeset, current_user)
 
     # to close the changeset, we'll just set its closed_at time to
     # now. this might not be enough if there are concurrency issues,
@@ -75,7 +75,7 @@ class ChangesetController < ApplicationController
     assert_method :post
 
     cs = Changeset.find(params[:id])
-    check_changeset_consistency(cs, @user)
+    check_changeset_consistency(cs, current_user)
 
     # keep an array of lons and lats
     lon = []
@@ -127,7 +127,7 @@ class ChangesetController < ApplicationController
     assert_method :post
 
     changeset = Changeset.find(params[:id])
-    check_changeset_consistency(changeset, @user)
+    check_changeset_consistency(changeset, current_user)
 
     diff_reader = DiffReader.new(request.raw_post, changeset)
     Changeset.transaction do
@@ -242,8 +242,8 @@ class ChangesetController < ApplicationController
     changeset = Changeset.find(params[:id])
     new_changeset = Changeset.from_xml(request.raw_post)
 
-    check_changeset_consistency(changeset, @user)
-    changeset.update_from(new_changeset, @user)
+    check_changeset_consistency(changeset, current_user)
+    changeset.update_from(new_changeset, current_user)
     render :xml => changeset.to_xml.to_s
   end
 
@@ -265,7 +265,7 @@ class ChangesetController < ApplicationController
       end
     end
 
-    if (@params[:friends] || @params[:nearby]) && !@user
+    if (@params[:friends] || @params[:nearby]) && !current_user
       require_user
       return
     end
@@ -277,17 +277,17 @@ class ChangesetController < ApplicationController
       changesets = conditions_nonempty(Changeset.all)
 
       if @params[:display_name]
-        changesets = if user.data_public? || user == @user
+        changesets = if user.data_public? || user == current_user
                        changesets.where(:user_id => user.id)
                      else
                        changesets.where("false")
                      end
       elsif @params[:bbox]
         changesets = conditions_bbox(changesets, BoundingBox.from_bbox_params(params))
-      elsif @params[:friends] && @user
-        changesets = changesets.where(:user_id => @user.friend_users.identifiable)
-      elsif @params[:nearby] && @user
-        changesets = changesets.where(:user_id => @user.nearby)
+      elsif @params[:friends] && current_user
+        changesets = changesets.where(:user_id => current_user.friend_users.identifiable)
+      elsif @params[:nearby] && current_user
+        changesets = changesets.where(:user_id => current_user.nearby)
       end
 
       if @params[:max_id]
@@ -324,17 +324,17 @@ class ChangesetController < ApplicationController
     # Add a comment to the changeset
     comment = changeset.comments.create(:changeset => changeset,
                                         :body => body,
-                                        :author => @user)
+                                        :author => current_user)
 
     # Notify current subscribers of the new comment
     changeset.subscribers.visible.each do |user|
-      if @user != user
+      if current_user != user
         Notifier.changeset_comment_notification(comment, user).deliver_now
       end
     end
 
     # Add the commenter to the subscribers if necessary
-    changeset.subscribers << @user unless changeset.subscribers.exists?(@user.id)
+    changeset.subscribers << current_user unless changeset.subscribers.exists?(current_user.id)
 
     # Return a copy of the updated changeset
     render :xml => changeset.to_xml.to_s
@@ -352,10 +352,10 @@ class ChangesetController < ApplicationController
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
     raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
-    raise OSM::APIChangesetAlreadySubscribedError.new(changeset) if changeset.subscribers.exists?(@user.id)
+    raise OSM::APIChangesetAlreadySubscribedError.new(changeset) if changeset.subscribers.exists?(current_user.id)
 
     # Add the subscriber
-    changeset.subscribers << @user
+    changeset.subscribers << current_user
 
     # Return a copy of the updated changeset
     render :xml => changeset.to_xml.to_s
@@ -373,10 +373,10 @@ class ChangesetController < ApplicationController
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
     raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
-    raise OSM::APIChangesetNotSubscribedError.new(changeset) unless changeset.subscribers.exists?(@user.id)
+    raise OSM::APIChangesetNotSubscribedError.new(changeset) unless changeset.subscribers.exists?(current_user.id)
 
     # Remove the subscriber
-    changeset.subscribers.delete(@user)
+    changeset.subscribers.delete(current_user)
 
     # Return a copy of the updated changeset
     render :xml => changeset.to_xml.to_s
@@ -496,7 +496,7 @@ class ChangesetController < ApplicationController
         # changesets if they're non-public
         setup_user_auth
 
-        raise OSM::APINotFoundError if @user.nil? || @user.id != u.id
+        raise OSM::APINotFoundError if current_user.nil? || current_user.id != u.id
       end
 
       changesets.where(:user_id => u.id)
