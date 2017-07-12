@@ -22,8 +22,8 @@ class IssuesController < ApplicationController
     @issues = Issue.where(:issue_type => @user_role).order(sort_column + " " + sort_direction)
 
     # If search
-    if params[:search_by_user] && !params[:search_by_user].blank?
-      @find_user = User.find_by_display_name(params[:search_by_user])
+    if params[:search_by_user] && params[:search_by_user].present?
+      @find_user = User.find_by(:display_name => params[:search_by_user])
       if @find_user
         @issues = @issues.where(:reported_user_id => @find_user.id)
       else
@@ -31,23 +31,23 @@ class IssuesController < ApplicationController
       end
     end
 
-    if params[:status] && !params[:status][0].blank?
+    if params[:status] && params[:status][0].present?
       @issues = @issues.where(:status => params[:status][0].to_i)
     end
 
-    if params[:issue_type] && !params[:issue_type][0].blank?
+    if params[:issue_type] && params[:issue_type][0].present?
       @issues = @issues.where(:reportable_type => params[:issue_type][0])
     end
 
     # If last_updated_by
-    if params[:last_updated_by] && !params[:last_updated_by][0].blank?
+    if params[:last_updated_by] && params[:last_updated_by][0].present?
       last_updated_by = params[:last_updated_by][0].to_s == "nil" ? nil : params[:last_updated_by][0].to_i
       @issues = @issues.where(:updated_by => last_updated_by)
     end
 
     notice = t("issues.index.search.issues_not_found") if @issues.first.nil?
 
-    if params[:last_reported_by] && !params[:last_reported_by][0].blank?
+    if params[:last_reported_by] && params[:last_reported_by][0].present?
       last_reported_by = params[:last_reported_by][0].to_s == "nil" ? nil : params[:last_reported_by][0].to_i
       @issues = @issues.where(:updated_by => last_reported_by)
     end
@@ -65,7 +65,7 @@ class IssuesController < ApplicationController
   end
 
   def new
-    unless create_new_issue_params.blank?
+    if create_new_issue_params.present?
       @issue = Issue.find_or_initialize_by(create_new_issue_params)
       path = "issues.report_strings." + @issue.reportable.class.name.to_s
       @report_strings_yaml = t(path)
@@ -73,7 +73,7 @@ class IssuesController < ApplicationController
   end
 
   def create
-    @issue = Issue.find_by_reportable_id_and_reportable_type(params[:reportable_id], params[:reportable_type])
+    @issue = Issue.find_by(:reportable_id => params[:reportable_id], :reportable_type => params[:reportable_type])
     # Check if Issue already exists
     unless @issue
       @issue = Issue.find_or_initialize_by(issue_params)
@@ -212,8 +212,8 @@ class IssuesController < ApplicationController
   end
 
   def set_issues
-    @admin_issues = %w(DiaryEntry DiaryComment User)
-    @moderator_issues = %w(Changeset Note)
+    @admin_issues = %w[DiaryEntry DiaryComment User]
+    @moderator_issues = %w[Changeset Note]
   end
 
   def setup_user_role
@@ -223,9 +223,9 @@ class IssuesController < ApplicationController
 
   def check_if_updated
     if @issue.reportable && (@issue.ignored? || @issue.resolved?) && @issue.reportable.has_attribute?(:updated_by) && @issue.reportable.updated_at > @last_report.updated_at
-      return true
+      true
     else
-      return false
+      false
     end
   end
 
@@ -269,7 +269,7 @@ class IssuesController < ApplicationController
   end
 
   def sort_direction
-    %w(asc desc).include?(params[:direction]) ? params[:direction] : "asc"
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 
   # back-port of ActionController#redirect_back from rails 5

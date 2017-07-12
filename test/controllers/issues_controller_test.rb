@@ -104,7 +104,7 @@ class IssuesControllerTest < ActionController::TestCase
            }
     end
     assert_response :redirect
-    assert_equal Issue.find_by_reportable_id_and_reportable_type(target_user.id, "User").reports.count, 1
+    assert_equal Issue.find_by(:reportable_id => target_user.id, :reportable_type => "User").reports.count, 1
 
     # Report without details
     assert_no_difference "Issue.count" do
@@ -115,7 +115,7 @@ class IssuesControllerTest < ActionController::TestCase
            }
     end
     assert_response :redirect
-    assert_equal Issue.find_by_reportable_id_and_reportable_type(target_user.id, "User").reports.count, 1
+    assert_equal Issue.find_by(:reportable_id => target_user.id, :reportable_type => "User").reports.count, 1
   end
 
   def test_new_report_with_complete_details
@@ -156,7 +156,7 @@ class IssuesControllerTest < ActionController::TestCase
            }
     end
     assert_response :redirect
-    report_count = Issue.find_by_reportable_id_and_reportable_type(target_user.id, "User").reports.count
+    report_count = Issue.find_by(:reportable_id => target_user.id, :reportable_type => "User").reports.count
     assert_equal report_count, 2
   end
 
@@ -184,17 +184,17 @@ class IssuesControllerTest < ActionController::TestCase
 
     # Test 'Resolved'
     get :resolve, :params => { :id => issue.id }
-    assert_equal Issue.find_by_reportable_id_and_reportable_type(target_user.id, "User").resolved?, true
+    assert_equal Issue.find_by(:reportable_id => target_user.id, :reportable_type => "User").resolved?, true
     assert_response :redirect
 
     # Test 'Reopen'
     get :reopen, :params => { :id => issue.id }
-    assert_equal Issue.find_by_reportable_id_and_reportable_type(target_user.id, "User").open?, true
+    assert_equal Issue.find_by(:reportable_id => target_user.id, :reportable_type => "User").open?, true
     assert_response :redirect
 
     # Test 'Ignored'
     get :ignore, :params => { :id => issue.id }
-    assert_equal Issue.find_by_reportable_id_and_reportable_type(target_user, "User").ignored?, true
+    assert_equal Issue.find_by(:reportable_id => target_user, :reportable_type => "User").ignored?, true
     assert_response :redirect
   end
 

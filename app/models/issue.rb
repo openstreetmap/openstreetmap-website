@@ -10,10 +10,10 @@ class Issue < ActiveRecord::Base
   validates :reported_user_id, :presence => true
 
   # Check if more statuses are needed
-  enum :status => %w(open ignored resolved)
-  enum :type => %w(administrator moderator)
+  enum :status => %w[open ignored resolved]
+  enum :type => %w[administrator moderator]
 
-  scope :with_status, -> (issue_status) { where(:status => statuses[issue_status]) }
+  scope :with_status, ->(issue_status) { where(:status => statuses[issue_status]) }
 
   def read_reports
     resolved_at.present? ? reports.where("updated_at < ?", resolved_at) : nil
