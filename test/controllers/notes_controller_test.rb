@@ -303,7 +303,7 @@ class NotesControllerTest < ActionController::TestCase
 
     ActionMailer::Base.deliveries.clear
 
-    basic_authorization(third_user.email, "test")
+    basic_authorization third_user.email, "test"
 
     assert_difference "NoteComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 2 do
@@ -397,7 +397,7 @@ class NotesControllerTest < ActionController::TestCase
     post :close, :params => { :id => open_note_with_comment.id, :text => "This is a close comment", :format => "json" }
     assert_response :unauthorized
 
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     post :close, :params => { :id => open_note_with_comment.id, :text => "This is a close comment", :format => "json" }
     assert_response :success
@@ -428,7 +428,7 @@ class NotesControllerTest < ActionController::TestCase
     post :close
     assert_response :unauthorized
 
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     post :close
     assert_response :bad_request
@@ -454,7 +454,7 @@ class NotesControllerTest < ActionController::TestCase
     post :reopen, :params => { :id => closed_note_with_comment.id, :text => "This is a reopen comment", :format => "json" }
     assert_response :unauthorized
 
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     post :reopen, :params => { :id => closed_note_with_comment.id, :text => "This is a reopen comment", :format => "json" }
     assert_response :success
@@ -487,7 +487,7 @@ class NotesControllerTest < ActionController::TestCase
     post :reopen, :params => { :id => hidden_note_with_comment.id }
     assert_response :unauthorized
 
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     post :reopen, :params => { :id => 12345 }
     assert_response :not_found
@@ -606,12 +606,12 @@ class NotesControllerTest < ActionController::TestCase
     delete :destroy, :params => { :id => open_note_with_comment.id, :text => "This is a hide comment", :format => "json" }
     assert_response :unauthorized
 
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     delete :destroy, :params => { :id => open_note_with_comment.id, :text => "This is a hide comment", :format => "json" }
     assert_response :forbidden
 
-    basic_authorization(moderator_user.email, "test")
+    basic_authorization moderator_user.email, "test"
 
     delete :destroy, :params => { :id => open_note_with_comment.id, :text => "This is a hide comment", :format => "json" }
     assert_response :success
@@ -636,12 +636,12 @@ class NotesControllerTest < ActionController::TestCase
     delete :destroy, :params => { :id => 12345, :format => "json" }
     assert_response :unauthorized
 
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     delete :destroy, :params => { :id => 12345, :format => "json" }
     assert_response :forbidden
 
-    basic_authorization(moderator_user.email, "test")
+    basic_authorization moderator_user.email, "test"
 
     delete :destroy, :params => { :id => 12345, :format => "json" }
     assert_response :not_found

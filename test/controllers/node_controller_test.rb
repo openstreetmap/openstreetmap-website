@@ -46,7 +46,7 @@ class NodeControllerTest < ActionController::TestCase
     assert_response :unauthorized, "node upload did not return unauthorized status"
 
     ## Now try with the user which doesn't have their data public
-    basic_authorization(private_user.email, "test")
+    basic_authorization private_user.email, "test"
 
     # create a minimal xml file
     content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{private_changeset.id}'/></osm>")
@@ -57,7 +57,7 @@ class NodeControllerTest < ActionController::TestCase
     assert_require_public_data "node create did not return forbidden status"
 
     ## Now try with the user that has the public data
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     # create a minimal xml file
     content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>")
@@ -83,7 +83,7 @@ class NodeControllerTest < ActionController::TestCase
     user = create(:user)
     changeset = create(:changeset, :user => user)
 
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
     lat = 3.434
     lon = 3.23
 
@@ -160,7 +160,7 @@ class NodeControllerTest < ActionController::TestCase
     assert_response :unauthorized
 
     ## now set auth for the non-data public user
-    basic_authorization(private_user.email, "test")
+    basic_authorization private_user.email, "test"
 
     # try to delete with an invalid (closed) changeset
     content update_changeset(private_node.to_xml, private_user_closed_changeset.id)
@@ -208,7 +208,7 @@ class NodeControllerTest < ActionController::TestCase
     changeset = create(:changeset, :user => user)
     closed_changeset = create(:changeset, :closed, :user => user)
     node = create(:node, :changeset => changeset)
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     # try to delete with an invalid (closed) changeset
     content update_changeset(node.to_xml, closed_changeset.id)
@@ -295,7 +295,7 @@ class NodeControllerTest < ActionController::TestCase
     ## Second test with the private user
 
     # setup auth
-    basic_authorization(private_user.email, "test")
+    basic_authorization private_user.email, "test"
 
     ## trying to break changesets
 
@@ -347,7 +347,7 @@ class NodeControllerTest < ActionController::TestCase
     assert_response :forbidden
 
     # setup auth
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     ## trying to break changesets
 
@@ -465,7 +465,7 @@ class NodeControllerTest < ActionController::TestCase
     existing_tag = create(:node_tag)
     assert_equal true, existing_tag.node.changeset.user.data_public
     # setup auth
-    basic_authorization(existing_tag.node.changeset.user.email, "test")
+    basic_authorization existing_tag.node.changeset.user.email, "test"
 
     # add an identical tag to the node
     tag_xml = XML::Node.new("tag")
@@ -492,7 +492,7 @@ class NodeControllerTest < ActionController::TestCase
     changeset = create(:changeset, :user => user)
 
     ## First try with the non-data public user
-    basic_authorization(private_user.email, "test")
+    basic_authorization private_user.email, "test"
 
     # try and put something into a string that the API might
     # use unquoted and therefore allow code injection...
@@ -503,7 +503,7 @@ class NodeControllerTest < ActionController::TestCase
     assert_require_public_data "Shouldn't be able to create with non-public user"
 
     ## Then try with the public data user
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     # try and put something into a string that the API might
     # use unquoted and therefore allow code injection...

@@ -514,7 +514,7 @@ class RelationControllerTest < ActionController::TestCase
     assert_response :unauthorized
 
     ## Then try with the private user, to make sure that you get a forbidden
-    basic_authorization(private_user.email, "test")
+    basic_authorization private_user.email, "test"
 
     # this shouldn't work, as we should need the payload...
     delete :delete, :params => { :id => relation.id }
@@ -556,7 +556,7 @@ class RelationControllerTest < ActionController::TestCase
     assert_response :forbidden
 
     ## now set auth for the public user
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     # this shouldn't work, as we should need the payload...
     delete :delete, :params => { :id => relation.id }
@@ -739,7 +739,7 @@ class RelationControllerTest < ActionController::TestCase
     way1 = create(:way_with_nodes, :nodes_count => 2)
     way2 = create(:way_with_nodes, :nodes_count => 2)
 
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     doc_str = <<OSM.strip_heredoc
       <osm>
@@ -814,14 +814,14 @@ OSM
     doc = XML::Parser.string(doc_str).parse
 
     ## First try with the private user
-    basic_authorization(private_user.email, "test")
+    basic_authorization private_user.email, "test"
 
     content doc
     put :create
     assert_response :forbidden
 
     ## Now try with the public user
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     content doc
     put :create
@@ -855,7 +855,7 @@ OSM
       </osm>
 OSM
     doc = XML::Parser.string(doc_str).parse
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     content doc
     put :create
@@ -936,7 +936,7 @@ OSM
   # that the changeset bounding box is +bbox+.
   def check_changeset_modify(bbox)
     ## First test with the private user to check that you get a forbidden
-    basic_authorization(create(:user, :data_public => false).email, "test")
+    basic_authorization create(:user, :data_public => false).email, "test"
 
     # create a new changeset for this operation, so we are assured
     # that the bounding box will be newly-generated.
@@ -947,7 +947,7 @@ OSM
     end
 
     ## Now do the whole thing with the public user
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     # create a new changeset for this operation, so we are assured
     # that the bounding box will be newly-generated.

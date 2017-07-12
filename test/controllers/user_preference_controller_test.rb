@@ -34,7 +34,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     assert_response :unauthorized, "should be authenticated"
 
     # authenticate as a user with no preferences
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     # try the read again
     get :read
@@ -48,7 +48,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     user = create(:user)
     user_preference = create(:user_preference, :user => user)
     user_preference2 = create(:user_preference, :user => user)
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     # try the read again
     get :read
@@ -74,7 +74,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     assert_response :unauthorized, "should be authenticated"
 
     # authenticate as a user with preferences
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     # try the read again
     get :read_one, :params => { :preference_key => "key" }
@@ -107,7 +107,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     end
 
     # authenticate as a user with preferences
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     # try the put again
     assert_no_difference "UserPreference.count" do
@@ -158,7 +158,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     end
 
     # authenticate as a user with preferences
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     # try adding a new preference
     assert_difference "UserPreference.count", 1 do
@@ -195,7 +195,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     assert_equal "value", UserPreference.find([user.id, "key"]).v
 
     # authenticate as a user with preferences
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     # try the delete again
     assert_difference "UserPreference.count", -1 do

@@ -1321,7 +1321,7 @@ EOF
     node = create(:node)
 
     ## First try with a non-public user, which should get a forbidden
-    basic_authorization(create(:user, :data_public => false).email, "test")
+    basic_authorization create(:user, :data_public => false).email, "test"
 
     # create a temporary changeset
     content "<osm><changeset>" +
@@ -1331,7 +1331,7 @@ EOF
     assert_response :forbidden
 
     ## Now try with a normal user
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     # create a temporary changeset
     content "<osm><changeset>" +
@@ -1377,7 +1377,7 @@ EOF
   #
   # NOTE: the error turned out to be something else completely!
   def test_josm_upload
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     # create a temporary changeset
     content "<osm><changeset>" +
@@ -1439,7 +1439,7 @@ OSMFILE
     node = create(:node)
     node2 = create(:node)
     way = create(:way)
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     # create a temporary changeset
     content "<osm><changeset>" +
@@ -2147,7 +2147,7 @@ EOF
     deleted_user = create(:user, :deleted)
     private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
 
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     assert_difference "ChangesetComment.count", 1 do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
@@ -2176,7 +2176,7 @@ EOF
 
     ActionMailer::Base.deliveries.clear
 
-    basic_authorization(user2.email, "test")
+    basic_authorization user2.email, "test"
 
     assert_difference "ChangesetComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 2 do
@@ -2205,7 +2205,7 @@ EOF
     post :comment, :params => { :id => create(:changeset, :closed).id, :text => "This is a comment" }
     assert_response :unauthorized
 
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     # bad changeset id
     assert_no_difference "ChangesetComment.count" do
@@ -2235,7 +2235,7 @@ EOF
   ##
   # test subscribe success
   def test_subscribe_success
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
     changeset = create(:changeset, :closed)
 
     assert_difference "changeset.subscribers.count", 1 do
@@ -2256,7 +2256,7 @@ EOF
     end
     assert_response :unauthorized
 
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     # bad changeset id
     assert_no_difference "changeset.subscribers.count" do
@@ -2284,7 +2284,7 @@ EOF
   # test unsubscribe success
   def test_unsubscribe_success
     user = create(:user)
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
     changeset = create(:changeset, :closed)
     changeset.subscribers.push(user)
 
@@ -2304,7 +2304,7 @@ EOF
     end
     assert_response :unauthorized
 
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     # bad changeset id
     assert_no_difference "changeset.subscribers.count" do
@@ -2338,14 +2338,14 @@ EOF
     assert_response :unauthorized
     assert_equal true, comment.reload.visible
 
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     # not a moderator
     post :hide_comment, :params => { :id => comment.id }
     assert_response :forbidden
     assert_equal true, comment.reload.visible
 
-    basic_authorization(create(:moderator_user).email, "test")
+    basic_authorization create(:moderator_user).email, "test"
 
     # bad comment id
     post :hide_comment, :params => { :id => 999111 }
@@ -2359,7 +2359,7 @@ EOF
     comment = create(:changeset_comment)
     assert_equal true, comment.visible
 
-    basic_authorization(create(:moderator_user).email, "test")
+    basic_authorization create(:moderator_user).email, "test"
 
     post :hide_comment, :params => { :id => comment.id }
     assert_response :success
@@ -2377,14 +2377,14 @@ EOF
     assert_response :unauthorized
     assert_equal false, comment.reload.visible
 
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     # not a moderator
     post :unhide_comment, :params => { :id => comment.id }
     assert_response :forbidden
     assert_equal false, comment.reload.visible
 
-    basic_authorization(create(:moderator_user).email, "test")
+    basic_authorization create(:moderator_user).email, "test"
 
     # bad comment id
     post :unhide_comment, :params => { :id => 999111 }
@@ -2398,7 +2398,7 @@ EOF
     comment = create(:changeset_comment, :visible => false)
     assert_equal false, comment.visible
 
-    basic_authorization(create(:moderator_user).email, "test")
+    basic_authorization create(:moderator_user).email, "test"
 
     post :unhide_comment, :params => { :id => comment.id }
     assert_response :success

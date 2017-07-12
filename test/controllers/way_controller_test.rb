@@ -278,7 +278,7 @@ class WayControllerTest < ActionController::TestCase
     assert_response :unauthorized
 
     # now set auth using the private user
-    basic_authorization(private_user.email, "test")
+    basic_authorization private_user.email, "test"
 
     # this shouldn't work as with the 0.6 api we need pay load to delete
     delete :delete, :params => { :id => private_way.id }
@@ -327,7 +327,7 @@ class WayControllerTest < ActionController::TestCase
 
     ### Now check with a public user
     # now set auth
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     # this shouldn't work as with the 0.6 api we need pay load to delete
     delete :delete, :params => { :id => way.id }
@@ -397,7 +397,7 @@ class WayControllerTest < ActionController::TestCase
     ## Second test with the private user
 
     # setup auth
-    basic_authorization(private_user.email, "test")
+    basic_authorization private_user.email, "test"
 
     ## trying to break changesets
 
@@ -435,7 +435,7 @@ class WayControllerTest < ActionController::TestCase
     ## Finally test with the public user
 
     # setup auth
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     ## trying to break changesets
 
@@ -519,7 +519,7 @@ class WayControllerTest < ActionController::TestCase
 
     ## Try with the non-public user
     # setup auth
-    basic_authorization(private_user.email, "test")
+    basic_authorization private_user.email, "test"
 
     # add an identical tag to the way
     tag_xml = XML::Node.new("tag")
@@ -538,7 +538,7 @@ class WayControllerTest < ActionController::TestCase
 
     ## Now try with the public user
     # setup auth
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     # add an identical tag to the way
     tag_xml = XML::Node.new("tag")
@@ -569,7 +569,7 @@ class WayControllerTest < ActionController::TestCase
 
     ## Try with the non-public user
     # setup auth
-    basic_authorization(private_user.email, "test")
+    basic_authorization private_user.email, "test"
 
     # add an identical tag to the way
     tag_xml = XML::Node.new("tag")
@@ -588,7 +588,7 @@ class WayControllerTest < ActionController::TestCase
 
     ## Now try with the public user
     # setup auth
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     # add an identical tag to the way
     tag_xml = XML::Node.new("tag")
@@ -617,7 +617,7 @@ class WayControllerTest < ActionController::TestCase
 
     ## First test with the non-public user so should be rejected
     # setup auth
-    basic_authorization(private_user.email, "test")
+    basic_authorization private_user.email, "test"
 
     # create duplicate tag
     tag_xml = XML::Node.new("tag")
@@ -638,7 +638,7 @@ class WayControllerTest < ActionController::TestCase
 
     ## Now test with the public user
     # setup auth
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     # create duplicate tag
     tag_xml = XML::Node.new("tag")
@@ -671,7 +671,7 @@ class WayControllerTest < ActionController::TestCase
 
     ## First make sure that you can't with a non-public user
     # setup auth
-    basic_authorization(private_user.email, "test")
+    basic_authorization private_user.email, "test"
 
     # add the tag into the existing xml
     way_str = "<osm><way changeset='#{private_changeset.id}'>"
@@ -687,7 +687,7 @@ class WayControllerTest < ActionController::TestCase
 
     ## Now do it with a public user
     # setup auth
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
 
     # add the tag into the existing xml
     way_str = "<osm><way changeset='#{changeset.id}'>"

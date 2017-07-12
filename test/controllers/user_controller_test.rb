@@ -1093,7 +1093,7 @@ class UserControllerTest < ActionController::TestCase
     assert_response :unauthorized
 
     # check that we get a response when logged in
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
     get :api_details
     assert_response :success
     assert_equal "text/xml", response.content_type
@@ -1148,7 +1148,7 @@ class UserControllerTest < ActionController::TestCase
     assert_response :unauthorized
 
     # check that we get a response when logged in
-    basic_authorization(user.email, "test")
+    basic_authorization user.email, "test"
     get :api_gpx_files
     assert_response :success
     assert_equal "application/xml", response.content_type

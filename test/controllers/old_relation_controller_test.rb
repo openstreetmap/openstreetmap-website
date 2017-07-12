@@ -50,7 +50,7 @@ class OldRelationControllerTest < ActionController::TestCase
     relation = create(:relation, :with_history, :version => 4)
     relation_v3 = relation.old_relations.find_by(:version => 3)
 
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     do_redact_relation(relation_v3, create(:redaction))
     assert_response :forbidden, "should need to be moderator to redact."
@@ -63,7 +63,7 @@ class OldRelationControllerTest < ActionController::TestCase
     relation = create(:relation, :with_history, :version => 4)
     relation_latest = relation.old_relations.last
 
-    basic_authorization(create(:moderator_user).email, "test")
+    basic_authorization create(:moderator_user).email, "test"
 
     do_redact_relation(relation_latest, create(:redaction))
     assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
@@ -81,7 +81,7 @@ class OldRelationControllerTest < ActionController::TestCase
     assert_response :forbidden, "Redacted relation shouldn't be visible via the version API."
 
     # not even to a logged-in user
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
     get :version, :params => { :id => relation_v1.relation_id, :version => relation_v1.version }
     assert_response :forbidden, "Redacted relation shouldn't be visible via the version API, even when logged in."
   end
@@ -98,7 +98,7 @@ class OldRelationControllerTest < ActionController::TestCase
     assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 0, "redacted relation #{relation_v1.relation_id} version #{relation_v1.version} shouldn't be present in the history."
 
     # not even to a logged-in user
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
     get :version, :params => { :id => relation_v1.relation_id, :version => relation_v1.version }
     get :history, :params => { :id => relation_v1.relation_id }
     assert_response :success, "Redaction shouldn't have stopped history working."
@@ -112,7 +112,7 @@ class OldRelationControllerTest < ActionController::TestCase
     relation = create(:relation, :with_history, :version => 4)
     relation_v3 = relation.old_relations.find_by(:version => 3)
 
-    basic_authorization(create(:moderator_user).email, "test")
+    basic_authorization create(:moderator_user).email, "test"
 
     do_redact_relation(relation_v3, create(:redaction))
     assert_response :success, "should be OK to redact old version as moderator."
@@ -139,13 +139,13 @@ class OldRelationControllerTest < ActionController::TestCase
     relation = create(:relation, :with_history, :version => 4)
     relation_v3 = relation.old_relations.find_by(:version => 3)
 
-    basic_authorization(create(:moderator_user).email, "test")
+    basic_authorization create(:moderator_user).email, "test"
 
     do_redact_relation(relation_v3, create(:redaction))
     assert_response :success, "should be OK to redact old version as moderator."
 
     # re-auth as non-moderator
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     # check can't see the redacted data
     get :version, :params => { :id => relation_v3.relation_id, :version => relation_v3.version }
@@ -177,7 +177,7 @@ class OldRelationControllerTest < ActionController::TestCase
     relation_v1 = relation.old_relations.find_by(:version => 1)
     relation_v1.redact!(create(:redaction))
 
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     post :redact, :params => { :id => relation_v1.relation_id, :version => relation_v1.version }
     assert_response :forbidden, "should need to be moderator to unredact."
@@ -191,7 +191,7 @@ class OldRelationControllerTest < ActionController::TestCase
     relation_v1 = relation.old_relations.find_by(:version => 1)
     relation_v1.redact!(create(:redaction))
 
-    basic_authorization(create(:moderator_user).email, "test")
+    basic_authorization create(:moderator_user).email, "test"
 
     post :redact, :params => { :id => relation_v1.relation_id, :version => relation_v1.version }
     assert_response :success, "should be OK to unredact old version as moderator."
@@ -206,7 +206,7 @@ class OldRelationControllerTest < ActionController::TestCase
     assert_response :success, "Redaction shouldn't have stopped history working."
     assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 1, "relation #{relation_v1.relation_id} version #{relation_v1.version} should still be present in the history for moderators."
 
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     # check normal user can now see the redacted data
     get :version, :params => { :id => relation_v1.relation_id, :version => relation_v1.version }
