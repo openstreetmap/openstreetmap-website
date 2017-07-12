@@ -162,7 +162,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_change_status_by_normal_user
     target_user = create(:user)
-    issue = create(:issue, :reportable => target_user, :reported_user_id => target_user.id)
+    issue = create(:issue, :reportable => target_user, :reported_user => target_user)
 
     # Login as normal user
     session[:user] = create(:user).id
@@ -177,7 +177,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_change_status_by_admin
     target_user = create(:user)
-    issue = create(:issue, :reportable => target_user, :reported_user_id => target_user.id)
+    issue = create(:issue, :reportable => target_user, :reported_user => target_user)
 
     # Login as administrator
     session[:user] = create(:administrator_user).id
@@ -201,7 +201,7 @@ class IssuesControllerTest < ActionController::TestCase
   def test_search_issues
     good_user = create(:user)
     bad_user = create(:user)
-    create(:issue, :reportable => bad_user, :reported_user_id => bad_user.id, :issue_type => "administrator")
+    create(:issue, :reportable => bad_user, :reported_user => bad_user, :issue_type => "administrator")
     # Login as administrator
     session[:user] = create(:administrator_user).id
 

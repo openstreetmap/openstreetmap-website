@@ -59,7 +59,7 @@ class IssuesController < ApplicationController
     @read_reports = @issue.read_reports
     @unread_reports = @issue.unread_reports
     @comments = @issue.comments
-    @related_issues = @issue.user.issues.where(:issue_type => @user_role)
+    @related_issues = @issue.reported_user.issues.where(:issue_type => @user_role)
 
     @updated_by_admin = User.find(@issue.updated_by) if @issue.updated_by
   end

@@ -2,8 +2,6 @@ FactoryGirl.define do
   factory :issue do
     # Default to reporting users
     association :reportable, :factory => :user
-
-    # reported_user_id
-    association :user, :factory => :user
+    association :reported_user, :factory => :user
   end
 end
