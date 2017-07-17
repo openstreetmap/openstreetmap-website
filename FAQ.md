@@ -7,10 +7,11 @@ drive.  This is a great way to reach a lot of people!
 1. Please review [openstreetmap/operations#150](https://github.com/openstreetmap/operations/issues/150) to
 know whether your event qualifies for a front-page banner.
 
-2. Create the banner image.  It should be 350px wide and saved in a standard
-web image format (.gif, .jpg, .png).  Also note that a close 'X' will be drawn
-over the top right 60x60px corner of the banner, so please do not put anything
-important in that space.
+2. Create the banner image.  Some guidelines:
+  * Image should be 350px wide (exactly) x 350px tall (or shorter).
+  * Use a standard web image format (.gif, .jpg, .png)
+  * Note that a close 'X' button will be drawn over the top right 60x60px
+  corner of the banner, so please do not put anything important in that space.
 
 3. Prepare a pull request which includes the following:
   * The banner should be saved under the
