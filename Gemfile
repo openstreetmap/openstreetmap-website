@@ -32,7 +32,7 @@ gem "jquery-rails"
 gem "jsonify-rails"
 
 # Use R2 for RTL conversion
-gem "r2"
+gem "r2", "~> 0.2.7"
 
 # Use autoprefixer to generate CSS prefixes
 gem "autoprefixer-rails"
