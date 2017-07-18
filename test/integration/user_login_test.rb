@@ -113,7 +113,9 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     assert_template "login"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/
+    assert_select "div.flash.error", /your account has been suspended/ do
+      assert_select "a[href='mailto:openstreetmap@example.com']", "webmaster"
+    end
   end
 
   def test_login_email_password_suspended_upcase
@@ -123,7 +125,9 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     assert_template "login"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/
+    assert_select "div.flash.error", /your account has been suspended/ do
+      assert_select "a[href='mailto:openstreetmap@example.com']", "webmaster"
+    end
   end
 
   def test_login_email_password_suspended_titlecase
@@ -133,7 +137,9 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     assert_template "login"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/
+    assert_select "div.flash.error", /your account has been suspended/ do
+      assert_select "a[href='mailto:openstreetmap@example.com']", "webmaster"
+    end
   end
 
   def test_login_email_password_blocked
@@ -264,7 +270,9 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     assert_template "login"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/
+    assert_select "div.flash.error", /your account has been suspended/ do
+      assert_select "a[href='mailto:openstreetmap@example.com']", "webmaster"
+    end
   end
 
   def test_login_username_password_suspended_upcase
@@ -274,7 +282,9 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     assert_template "login"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/
+    assert_select "div.flash.error", /your account has been suspended/ do
+      assert_select "a[href='mailto:openstreetmap@example.com']", "webmaster"
+    end
   end
 
   def test_login_username_password_suspended_downcase
@@ -284,7 +294,9 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     assert_template "login"
     assert_select "span.username", false
-    assert_select "div.flash.error", /your account has been suspended/
+    assert_select "div.flash.error", /your account has been suspended/ do
+      assert_select "a[href='mailto:openstreetmap@example.com']", "webmaster"
+    end
   end
 
   def test_login_username_password_blocked
