@@ -7,9 +7,9 @@ class ApplicationController < ActionController::Base
 
   def authorize_web
     if session[:user]
-      @user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
+      self.current_user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
 
-      if @user.status == "suspended"
+      if current_user.status == "suspended"
         session.delete(:user)
         session_expires_automatically
 
@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
 
       # don't allow access to any auth-requiring part of the site unless
       # the new CTs have been seen (and accept/decline chosen).
-      elsif !@user.terms_seen && flash[:skip_terms].nil?
+      elsif !current_user.terms_seen && flash[:skip_terms].nil?
         flash[:notice] = t "user.terms.you need to accept or decline"
         if params[:referer]
           redirect_to :controller => "user", :action => "terms", :referer => params[:referer]
@@ -26,18 +26,18 @@ class ApplicationController < ActionController::Base
         end
       end
     elsif session[:token]
-      if @user = User.authenticate(:token => session[:token])
-        session[:user] = @user.id
+      if self.current_user = User.authenticate(:token => session[:token])
+        session[:user] = current_user.id
       end
     end
   rescue StandardError => ex
     logger.info("Exception authorizing user: #{ex}")
     reset_session
-    @user = nil
+    self.current_user = nil
   end
 
   def require_user
-    unless @user
+    unless current_user
       if request.get?
         redirect_to :controller => "user", :action => "login", :referer => request.fullpath
       else
@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_oauth
-    @oauth = @user.access_token(OAUTH_KEY) if @user && defined? OAUTH_KEY
+    @oauth = @user.access_token(OAUTH_KEY) if current_user && defined? OAUTH_KEY
   end
 
   ##
@@ -100,7 +100,7 @@ class ApplicationController < ActionController::Base
   def require_allow_write_api
     require_capability(:allow_write_api)
 
-    if REQUIRE_TERMS_AGREED && @user.terms_agreed.nil?
+    if REQUIRE_TERMS_AGREED && current_user.terms_agreed.nil?
       report_error "You must accept the contributor terms before you can edit.", :forbidden
       return false
     end
@@ -122,7 +122,7 @@ class ApplicationController < ActionController::Base
   # require that the user is a moderator, or fill out a helpful error message
   # and return them to the index for the controller this is wrapped from.
   def require_moderator
-    unless @user.moderator?
+    unless current_user.moderator?
       if request.get?
         flash[:error] = t("application.require_moderator.not_a_moderator")
         redirect_to :action => "index"
@@ -133,7 +133,7 @@ class ApplicationController < ActionController::Base
   end
 
   ##
-  # sets up the @user object for use by other methods. this is mostly called
+  # sets up the current_user for use by other methods. this is mostly called
   # from the authorize method, but can be called elsewhere if authorisation
   # is optional.
   def setup_user_auth
@@ -141,19 +141,19 @@ class ApplicationController < ActionController::Base
     unless Authenticator.new(self, [:token]).allow?
       username, passwd = get_auth_data # parse from headers
       # authenticate per-scheme
-      @user = if username.nil?
-                nil # no authentication provided - perhaps first connect (client should retry after 401)
-              elsif username == "token"
-                User.authenticate(:token => passwd) # preferred - random token for user from db, passed in basic auth
-              else
-                User.authenticate(:username => username, :password => passwd) # basic auth
-              end
+      self.current_user = if username.nil?
+                            nil # no authentication provided - perhaps first connect (client should retry after 401)
+                          elsif username == "token"
+                            User.authenticate(:token => passwd) # preferred - random token for user from db, passed in basic auth
+                          else
+                            User.authenticate(:username => username, :password => passwd) # basic auth
+                          end
     end
 
     # have we identified the user?
-    if @user
+    if current_user
       # check if the user has been banned
-      user_block = @user.blocks.active.take
+      user_block = current_user.blocks.active.take
       unless user_block.nil?
         set_locale
         if user_block.zero_hour?
@@ -166,7 +166,7 @@ class ApplicationController < ActionController::Base
       # if the user hasn't seen the contributor terms then don't
       # allow editing - they have to go to the web site and see
       # (but can decline) the CTs to continue.
-      if REQUIRE_TERMS_SEEN && !@user.terms_seen && flash[:skip_terms].nil?
+      if REQUIRE_TERMS_SEEN && !current_user.terms_seen && flash[:skip_terms].nil?
         set_locale
         report_error t("application.setup_user_auth.need_to_see_terms"), :forbidden
       end
@@ -178,7 +178,7 @@ class ApplicationController < ActionController::Base
     setup_user_auth
 
     # handle authenticate pass/fail
-    unless @user
+    unless current_user
       # no auth, the user does not exist or the password was wrong
       response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
       render :plain => errormessage, :status => :unauthorized
@@ -196,7 +196,7 @@ class ApplicationController < ActionController::Base
   # good idea to do that in this branch.
   def authorize_moderator(errormessage = "Access restricted to moderators")
     # check user is a moderator
-    unless @user.moderator?
+    unless current_user.moderator?
       render :plain => errormessage, :status => :forbidden
       false
     end
@@ -266,7 +266,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_public_data
-    unless @user.data_public?
+    unless current_user.data_public?
       report_error "You must make your edits public to upload new data", :forbidden
       false
     end
@@ -297,8 +297,8 @@ class ApplicationController < ActionController::Base
   def preferred_languages
     @languages ||= if params[:locale]
                      Locale.list(params[:locale])
-                   elsif @user
-                     @user.preferred_languages
+                   elsif current_user
+                     current_user.preferred_languages
                    else
                      Locale.list(http_accept_language.user_preferred_languages)
                    end
@@ -307,9 +307,9 @@ class ApplicationController < ActionController::Base
   helper_method :preferred_languages
 
   def set_locale
-    if @user && @user.languages.empty? && !http_accept_language.user_preferred_languages.empty?
-      @user.languages = http_accept_language.user_preferred_languages
-      @user.save
+    if current_user && current_user.languages.empty? && !http_accept_language.user_preferred_languages.empty?
+      current_user.languages = http_accept_language.user_preferred_languages
+      current_user.save
     end
 
     I18n.locale = Locale.available.preferred(preferred_languages)
@@ -427,8 +427,8 @@ class ApplicationController < ActionController::Base
   def preferred_editor
     editor = if params[:editor]
                params[:editor]
-             elsif @user && @user.preferred_editor
-               @user.preferred_editor
+             elsif current_user && current_user.preferred_editor
+               current_user.preferred_editor
              else
                DEFAULT_EDITOR
              end
@@ -466,12 +466,12 @@ class ApplicationController < ActionController::Base
     [user, pass]
   end
 
-  # used by oauth plugin to get the current user
+  # used to get the current logged in user
   def current_user
     @user
   end
 
-  # used by oauth plugin to set the current user
+  # used to set the current logged in user
   def current_user=(user)
     @user = user
   end
