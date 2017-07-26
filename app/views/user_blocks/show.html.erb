@@ -12,10 +12,10 @@
                                      {:controller => 'user', :action => 'view', :display_name => @user_block.creator.display_name})) %></h1>
 <ul class='secondary-actions clearfix'>
   <% if @user_block.ends_at > Time.now.getutc %>
-    <% if @user and @user.id == @user_block.creator_id %>
+    <% if current_user and current_user.id == @user_block.creator_id %>
       <li><%= link_to t('user_block.show.edit'), edit_user_block_path(@user_block) %></li>
     <% end %>
-    <% if @user and @user.moderator? %>
+    <% if current_user and current_user.moderator? %>
       <li><%= link_to(t('user_block.show.revoke'),{:controller => 'user_blocks', :action => 'revoke', :id => @user_block.id}) %></li>
     <% end %>
   <% end %>

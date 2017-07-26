@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   before_action :fetch_body
 
+  helper_method :current_user
+
   def authorize_web
     if session[:user]
       self.current_user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
