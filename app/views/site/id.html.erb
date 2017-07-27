@@ -10,7 +10,7 @@
 <body>
 <% data = {} -%>
 <% if defined? ID_KEY %>
-<% token = @user.access_token(ID_KEY) %>
+<% token = current_user.access_token(ID_KEY) %>
 <% data[:token] = token.token -%>
 <% data[:token_secret] = token.secret -%>
 <% data[:consumer_key] = token.client_application.key -%>

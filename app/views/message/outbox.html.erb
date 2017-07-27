@@ -1,10 +1,10 @@
 <% content_for :heading do %>
-  <h2><%= raw(t'message.outbox.my_inbox', :inbox_link => link_to(t('message.outbox.inbox'), inbox_path(@user.display_name))) %>/<%= t'message.outbox.outbox' %></h2>
+  <h2><%= raw(t'message.outbox.my_inbox', :inbox_link => link_to(t('message.outbox.inbox'), inbox_path(current_user.display_name))) %>/<%= t'message.outbox.outbox' %></h2>
 <% end %>
 
-<h4><%= t'message.outbox.messages', :count => @user.sent_messages.size %></h4>
+<h4><%= t'message.outbox.messages', :count => current_user.sent_messages.size %></h4>
 
-<% if @user.sent_messages.size > 0 %>
+<% if current_user.sent_messages.size > 0 %>
   <table class="messages">
     <thead>
       <tr>
@@ -15,9 +15,9 @@
       </tr>
     </thead>
     <tbody>
-      <%= render :partial => "sent_message_summary", :collection => @user.sent_messages %>
+      <%= render :partial => "sent_message_summary", :collection => current_user.sent_messages %>
     </tbody>
   </table>
 <% else %>
-  <div class="messages"><%= raw(t'message.outbox.no_sent_messages', :people_mapping_nearby_link => link_to(t('message.outbox.people_mapping_nearby'), :controller => 'user', :action => 'view', :display_name => @user.display_name)) %></div>
+  <div class="messages"><%= raw(t'message.outbox.no_sent_messages', :people_mapping_nearby_link => link_to(t('message.outbox.people_mapping_nearby'), :controller => 'user', :action => 'view', :display_name => current_user.display_name)) %></div>
 <% end %>

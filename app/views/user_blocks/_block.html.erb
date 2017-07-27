@@ -17,7 +17,7 @@
     <% end %>
   </td>
   <td class="<%= c1 %>"><%= link_to t('user_block.partial.show'), block %></td>
-  <td class="<%= c1 %>"><% if @user and @user.id == block.creator_id and block.active? %><%= link_to t('user_block.partial.edit'), edit_user_block_path(block) %><% end %></td>
+  <td class="<%= c1 %>"><% if current_user and current_user.id == block.creator_id and block.active? %><%= link_to t('user_block.partial.edit'), edit_user_block_path(block) %><% end %></td>
   <% if show_revoke_link %>
   <td class="<%= c1 %>"><% if block.active? %><%= link_to t('user_block.partial.revoke'), :controller => 'user_blocks', :action => 'revoke', :id => block.id %><% end %></td>
   <% end %>

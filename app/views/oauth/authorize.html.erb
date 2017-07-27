@@ -2,7 +2,7 @@
   <h1><%= t "oauth.oauthorize.title" %></h1>
 <% end %>
 
-<p><%= raw t("oauth.oauthorize.request_access", :app_name => link_to(@token.client_application.name, @token.client_application.url), :user => link_to(@user.display_name, :controller => :user, :action => :view, :display_name => @user.display_name)) %></p>
+<p><%= raw t("oauth.oauthorize.request_access", :app_name => link_to(@token.client_application.name, @token.client_application.url), :user => link_to(current_user.display_name, :controller => :user, :action => :view, :display_name => current_user.display_name)) %></p>
 
 <%= form_tag authorize_url do %>
   <%= hidden_field_tag "oauth_token", @token.token %>
