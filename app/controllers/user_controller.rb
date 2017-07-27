@@ -220,6 +220,8 @@ class UserController < ApplicationController
       flash.now[:notice] = render_to_string :partial => "auth_association"
     else
       check_signup_allowed
+
+      self.current_user = User.new
     end
   end
 
