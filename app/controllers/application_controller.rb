@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   before_action :fetch_body
 
+  attr_accessor :current_user
   helper_method :current_user
 
   def authorize_web
@@ -466,16 +467,6 @@ class ApplicationController < ActionController::Base
       user, pass = Base64.decode64(authdata[1]).split(":", 2)
     end
     [user, pass]
-  end
-
-  # used to get the current logged in user
-  def current_user
-    @user
-  end
-
-  # used to set the current logged in user
-  def current_user=(user)
-    @user = user
   end
 
   # override to stop oauth plugin sending errors
