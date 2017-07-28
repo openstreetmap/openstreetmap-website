@@ -6,7 +6,7 @@ module UserRolesHelper
   end
 
   def role_icon(user, role)
-    if @user && @user.administrator?
+    if current_user && current_user.administrator?
       if user.has_role?(role)
         image = "roles/#{role}"
         alt = t("user.view.role.revoke.#{role}")

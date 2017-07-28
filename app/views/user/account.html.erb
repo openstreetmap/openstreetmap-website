@@ -10,8 +10,8 @@
   </ul>
 <% end %>
 
-<%= error_messages_for 'user' %>
-<%= form_for :user, :html => { :multipart => true, :id => 'accountForm', :class => 'standard-form', :autocomplete => :off } do |f| %>
+<%= error_messages_for current_user %>
+<%= form_for current_user, :html => { :multipart => true, :id => 'accountForm', :class => 'standard-form', :autocomplete => :off } do |f| %>
   <fieldset>
     <div class="form-row">
       <label class="standard-label"><%= t 'user.new.display name' %></label>
@@ -92,7 +92,7 @@
   <fieldset class="form-divider">
     <div class='form-row'>
       <label class="standard-label"><%= t 'user.account.profile description' %></label>
-      <%= richtext_area :user, :description, :cols => 80, :rows => 20 %>
+      <%= richtext_area :user, :description, :object => current_user, :cols => 80, :rows => 20 %>
     </div>
 
     <div class="form-row">

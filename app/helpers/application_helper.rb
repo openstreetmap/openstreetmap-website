@@ -21,12 +21,12 @@ module ApplicationHelper
     css = ""
 
     css << ".hidden { display: none !important }"
-    css << ".hide_unless_logged_in { display: none !important }" unless @user
-    css << ".hide_if_logged_in { display: none !important }" if @user
-    css << ".hide_if_user_#{@user.id} { display: none !important }" if @user
-    css << ".show_if_user_#{@user.id} { display: inline !important }" if @user
-    css << ".hide_unless_administrator { display: none !important }" unless @user && @user.administrator?
-    css << ".hide_unless_moderator { display: none !important }" unless @user && @user.moderator?
+    css << ".hide_unless_logged_in { display: none !important }" unless current_user
+    css << ".hide_if_logged_in { display: none !important }" if current_user
+    css << ".hide_if_user_#{current_user.id} { display: none !important }" if current_user
+    css << ".show_if_user_#{current_user.id} { display: inline !important }" if current_user
+    css << ".hide_unless_administrator { display: none !important }" unless current_user && current_user.administrator?
+    css << ".hide_unless_moderator { display: none !important }" unless current_user && current_user.moderator?
 
     content_tag(:style, css, :type => "text/css")
   end
@@ -107,11 +107,11 @@ module ApplicationHelper
       :preferred_editor => preferred_editor
     }
 
-    if @user
-      data[:user] = @user.id.to_json
+    if current_user
+      data[:user] = current_user.id.to_json
 
-      unless @user.home_lon.nil? || @user.home_lat.nil?
-        data[:user_home] = { :lat => @user.home_lat, :lon => @user.home_lon }
+      unless current_user.home_lon.nil? || current_user.home_lat.nil?
+        data[:user_home] = { :lat => current_user.home_lat, :lon => current_user.home_lon }
       end
     end
 
