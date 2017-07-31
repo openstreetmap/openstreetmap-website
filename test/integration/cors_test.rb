@@ -8,15 +8,20 @@ class CORSTest < ActionDispatch::IntegrationTest
     }
 
     assert_response :success
-    assert_equal "http://www.example.com", response.headers["Access-Control-Allow-Origin"]
+    assert_equal "*", response.headers["Access-Control-Allow-Origin"]
+    assert_equal "text/plain", response.content_type
+    assert_equal "", response.body
   end
 
   def test_non_api_routes_dont_allow_cross_origin_requests
-    assert_raises ActionController::RoutingError do
-      process :options, "/", :headers => {
-        "HTTP_ORIGIN" => "http://www.example.com",
-        "HTTP_ACCESS_CONTROL_REQUEST_METHOD" => "GET"
-      }
-    end
+    process :options, "/", :headers => {
+      "HTTP_ORIGIN" => "http://www.example.com",
+      "HTTP_ACCESS_CONTROL_REQUEST_METHOD" => "GET"
+    }
+
+    assert_response :success
+    assert_nil response.headers["Access-Control-Allow-Origin"]
+    assert_nil response.content_type
+    assert_equal "", response.body
   end
 end
