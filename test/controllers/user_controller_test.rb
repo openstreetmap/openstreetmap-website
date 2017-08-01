@@ -782,6 +782,10 @@ class UserControllerTest < ActionController::TestCase
     get :account, :params => { :display_name => user.display_name }, :session => { :user => user }
     assert_response :success
     assert_template :account
+    assert_select "form#accountForm" do |form|
+      assert_equal "post", form.attr("method").to_s
+      assert_equal "/user/#{URI.encode(user.display_name)}/account", form.attr("action").to_s
+    end
 
     # Updating the description should work
     user.description = "new description"
