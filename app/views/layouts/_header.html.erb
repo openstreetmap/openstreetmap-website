@@ -38,7 +38,7 @@
   </nav>
   <nav class='secondary'>
     <ul>
-      <% if @user and ( @user.administrator? or @user.moderator? ) %>
+      <% if current_user and ( current_user.administrator? or current_user.moderator? ) %>
         <li class="compact-hide <%= current_page_class(issues_path) %>"><b><%= link_to t('layouts.reports'), issues_path %></b></li>
       <% end %>
       <li class="compact-hide <%= current_page_class(traces_path) %>"><%= link_to t('layouts.gps_traces'), traces_path %></li>

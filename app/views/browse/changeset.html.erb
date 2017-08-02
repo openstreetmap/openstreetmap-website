@@ -3,7 +3,7 @@
 <h2>
   <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
   <%= t('browse.changeset.title', :id => @changeset.id) %>
-  <% if @user and @user.id != @changeset.user.id %>
+  <% if current_user and current_user.id != @changeset.user.id %>
     <%= link_to new_issue_url(reportable_id: @changeset.id, reportable_type: @changeset.class.name, referer: request.fullpath), :title => t('browse.changeset.report') do %>
         &nbsp;&#9872;
     <% end %>

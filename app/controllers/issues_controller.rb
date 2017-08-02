@@ -11,7 +11,7 @@ class IssuesController < ApplicationController
   helper_method :sort_column, :sort_direction
 
   def index
-    if @user.moderator?
+    if current_user.moderator?
       @issue_types = @moderator_issues
       @users = User.joins(:roles).where(:user_roles => { :role => "moderator" })
     else
@@ -86,7 +86,7 @@ class IssuesController < ApplicationController
     if check_report_params
       @report = @issue.reports.build(report_params)
       details = report_details
-      @report.reporter_user_id = @user.id
+      @report.reporter_user_id = current_user.id
       @report.details = details
       # Checking if instance has been updated since last report
       @last_report = @issue.reports.order(:updated_at => :desc).last
@@ -114,11 +114,11 @@ class IssuesController < ApplicationController
     @issue = Issue.find_by(issue_params)
     # Check if details provided are sufficient
     if check_report_params
-      @report = @issue.reports.where(:reporter_user_id => @user.id).first
+      @report = @issue.reports.where(:reporter_user_id => current_user.id).first
 
       if @report.nil?
         @report = @issue.reports.build(report_params)
-        @report.reporter_user_id = @user.id
+        @report.reporter_user_id = current_user.id
         notice = t("issues.update.new_report")
       end
 
@@ -150,13 +150,13 @@ class IssuesController < ApplicationController
       notice = t("issues.comment.provide_details")
     else
       @issue_comment = @issue.comments.build(issue_comment_params)
-      @issue_comment.commenter_user_id = @user.id
+      @issue_comment.commenter_user_id = current_user.id
       if params[:reassign]
         reassign_issue
         @issue_comment.reassign = true
       end
       @issue_comment.save!
-      @issue.updated_by = @user.id
+      @issue.updated_by = current_user.id
       @issue.save!
       notice = t("issues.comment.comment_created")
     end
@@ -175,7 +175,7 @@ class IssuesController < ApplicationController
 
   def ignore
     if @issue.ignore
-      @issue.updated_by = @user.id
+      @issue.updated_by = current_user.id
       @issue.save!
       redirect_to @issue, :notice => t("issues.ignored")
     else
@@ -185,7 +185,7 @@ class IssuesController < ApplicationController
 
   def reopen
     if @issue.reopen
-      @issue.updated_by = @user.id
+      @issue.updated_by = current_user.id
       @issue.save!
       redirect_to @issue, :notice => t("issues.reopened")
     else
@@ -216,7 +216,7 @@ class IssuesController < ApplicationController
 
   def setup_user_role
     # Get user role
-    @user_role = @user.administrator? ? "administrator" : "moderator"
+    @user_role = current_user.administrator? ? "administrator" : "moderator"
   end
 
   def check_if_updated
@@ -240,7 +240,7 @@ class IssuesController < ApplicationController
   end
 
   def check_permission
-    unless @user.administrator? || @user.moderator?
+    unless current_user.administrator? || current_user.moderator?
       flash[:error] = t("application.require_admin.not_an_admin")
       redirect_to root_path
     end

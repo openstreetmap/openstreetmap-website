@@ -154,7 +154,7 @@
       </p>
     </div>
 
-    <% if @user and @this_user.id != @user.id %>
+    <% if current_user and @this_user.id != current_user.id %>
       <div class="report-button">
          <%= link_to new_issue_url(reportable_id: @this_user.id, reportable_type: @this_user.class.name, referer: request.fullpath), :title => t('user.view.report') do%>
             &nbsp;&#9872;
