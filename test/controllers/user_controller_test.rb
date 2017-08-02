@@ -784,6 +784,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "form#accountForm" do |form|
       assert_equal "post", form.attr("method").to_s
+      assert_select "input[name='_method']", false
       assert_equal "/user/#{URI.encode(user.display_name)}/account", form.attr("action").to_s
     end
 
