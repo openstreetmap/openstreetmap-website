@@ -160,7 +160,7 @@ class NotesController < ApplicationController
     # Find the note and check it is valid
     @note = Note.find_by(:id => id)
     raise OSM::APINotFoundError unless @note
-    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || @user.moderator?
+    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || current_user.moderator?
     raise OSM::APINoteAlreadyOpenError.new(@note) unless @note.closed? || !@note.visible?
 
     # Reopen the note and add a comment
@@ -286,7 +286,7 @@ class NotesController < ApplicationController
         @page = (params[:page] || 1).to_i
         @page_size = 10
         @notes = @this_user.notes
-        @notes = @notes.visible unless @user && @user.moderator?
+        @notes = @notes.visible unless current_user && current_user.moderator?
         @notes = @notes.order("updated_at DESC, id").distinct.offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author).to_a
       else
         @title = t "user.no_such_user.title"
@@ -341,8 +341,8 @@ class NotesController < ApplicationController
   def add_comment(note, text, event, notify = true)
     attributes = { :visible => true, :event => event, :body => text }
 
-    if @user
-      attributes[:author_id] = @user.id
+    if current_user
+      attributes[:author_id] = current_user.id
     else
       attributes[:author_ip] = request.remote_ip
     end
@@ -350,7 +350,7 @@ class NotesController < ApplicationController
     comment = note.comments.create!(attributes)
 
     note.comments.map(&:author).uniq.each do |user|
-      if notify && user && user != @user && user.visible?
+      if notify && user && user != current_user && user.visible?
         Notifier.note_comment_notification(comment, user).deliver_now
       end
     end

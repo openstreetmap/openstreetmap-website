@@ -5,13 +5,13 @@
 <% content_for :heading do %>
   <h1><%= t 'user.account.my settings' %></h1>
   <ul class='secondary-actions clearfix'>
-    <li><%= link_to t('user.account.return to profile'), :controller => 'user', :action => 'view', :display_name => @user.display_name %></li>
+    <li><%= link_to t('user.account.return to profile'), :controller => 'user', :action => 'view', :display_name => current_user.display_name %></li>
     <li><%= link_to t('user.view.oauth settings'), :controller => 'oauth_clients', :action => 'index' %></li>
   </ul>
 <% end %>
 
-<%= error_messages_for 'user' %>
-<%= form_for :user, :html => { :multipart => true, :id => 'accountForm', :class => 'standard-form', :autocomplete => :off } do |f| %>
+<%= error_messages_for current_user %>
+<%= form_for current_user, :url => { :action => :account }, :html => { :multipart => true, :id => 'accountForm', :class => 'standard-form', :autocomplete => :off } do |f| %>
   <fieldset>
     <div class="form-row">
       <label class="standard-label"><%= t 'user.new.display name' %></label>
@@ -22,7 +22,7 @@
   <fieldset>
     <div class="form-row">
       <label class="standard-label"><%= t 'user.account.current email address' %></label>
-      <input type="email" disabled value="<%= @user.email %>" />
+      <input type="email" disabled value="<%= current_user.email %>" />
       <span class="form-help deemphasize"><%= t 'user.account.email never displayed publicly' %></span>
     </div>
 
@@ -58,7 +58,7 @@
     <div class="form-row">
       <label class="standard-label"><%= t 'user.account.public editing.heading' %></label>
       <span class="form-help deemphasize">
-        <% if @user.data_public? %>
+        <% if current_user.data_public? %>
           <%= t 'user.account.public editing.enabled' %>
           (<a href="<%= t 'user.account.public editing.enabled link' %>" target="_new"><%= t 'user.account.public editing.enabled link text' %></a>)
         <% else %>
@@ -71,10 +71,10 @@
     <div class="form-row">
       <label class="standard-label"><%= t 'user.account.contributor terms.heading' %></label>
       <span class="form-help deemphasize">
-        <% if @user.terms_agreed? %>
+        <% if current_user.terms_agreed? %>
           <%= t 'user.account.contributor terms.agreed' %>
           (<a href="<%= t 'user.account.contributor terms.link' %>" target="_new"><%= t 'user.account.contributor terms.link text' %></a>)
-          <% if @user.consider_pd? %>
+          <% if current_user.consider_pd? %>
             <%= t 'user.account.contributor terms.agreed_with_pd' %>
           <% end %>
         <% else %>
@@ -92,7 +92,7 @@
   <fieldset class="form-divider">
     <div class='form-row'>
       <label class="standard-label"><%= t 'user.account.profile description' %></label>
-      <%= richtext_area :user, :description, :cols => 80, :rows => 20 %>
+      <%= richtext_area :user, :description, :object => current_user, :cols => 80, :rows => 20 %>
     </div>
 
     <div class="form-row">
@@ -102,21 +102,21 @@
 
     <div class='form-row accountImage'>
       <label class="standard-label"><%= t 'user.account.image' %></label>
-        <%= user_image @user %>
+        <%= user_image current_user %>
         <ul class='form-list accountImage-options'>
-        <% if @user.image.file? %>
+        <% if current_user.image.file? %>
         <li>
-          <%= radio_button_tag "image_action", "keep", !@user.image_use_gravatar %>
+          <%= radio_button_tag "image_action", "keep", !current_user.image_use_gravatar %>
           <label class='standard-label' for='image_action_keep'><%= t 'user.account.keep image' %></label>
         </li>
         <% end %>
-        <% if @user.image.file? || @user.image_use_gravatar? %>
+        <% if current_user.image.file? || current_user.image_use_gravatar? %>
         <li>
           <%= radio_button_tag "image_action", "delete" %>
           <label class='standard-label' for='image_action_delete'><%= t 'user.account.delete image' %></label>
         </li>
         <% end %>
-        <% if @user.image.file? %>
+        <% if current_user.image.file? %>
           <li>
             <%= radio_button_tag "image_action", "new" %>
             <label class='standard-label' for='image_action_new'>
@@ -136,7 +136,7 @@
         </li>
         <% end %>
         <li>
-          <%= radio_button_tag "image_action", "gravatar", @user.image_use_gravatar %>
+          <%= radio_button_tag "image_action", "gravatar", current_user.image_use_gravatar %>
           <label class='standard-label' for='image_action_gravatar'>
             <%= t 'user.account.gravatar.gravatar' %>
             <span class='form-help deemphasize'> (<a href="<%= t 'user.account.gravatar.link' %>" target="_new"><%= t 'user.account.gravatar.link text' %></a>)</span>
@@ -149,7 +149,7 @@
   <fieldset class="form-divider">
     <div class='form-row location clearfix'>
     <label class="standard-label"><%= t 'user.account.home location' %></label>
-    <div id="homerow" <% unless @user.home_lat and @user.home_lon %>class="nohome"<%end%> >
+    <div id="homerow" <% unless current_user.home_lat and current_user.home_lon %>class="nohome"<%end%> >
       <p class="message form-help deemphasize"><%= t 'user.account.no home location' %></p>
         <div class='form-column'>
           <label class="standard-label secondary"><%= t 'user.account.latitude' %></label>
@@ -163,7 +163,7 @@
     </div>
 
     <div class="form-row">
-      <input type="checkbox" name="updatehome" value="1" <% unless @user.home_lat and @user.home_lon %> checked="checked" <% end %> id="updatehome" />
+      <input type="checkbox" name="updatehome" value="1" <% unless current_user.home_lat and current_user.home_lon %> checked="checked" <% end %> id="updatehome" />
       <label class="standard-label" for="updatehome"><%= t 'user.account.update home location on click' %></label>
     </div>
     <%= content_tag "div", "", :id => "map", :class => "content_map settings_map set_location" %>
@@ -172,7 +172,7 @@
   <%= submit_tag t('user.account.save changes button') %>
 <% end %>
 
-<% unless @user.data_public? %>
+<% unless current_user.data_public? %>
 <a name="public"></a>
 <h2><%= t 'user.account.public editing note.heading' %></h2>
 <%= raw t 'user.account.public editing note.text' %>

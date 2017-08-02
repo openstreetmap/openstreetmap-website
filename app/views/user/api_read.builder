@@ -4,7 +4,7 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
                    :display_name => @this_user.display_name,
                    :account_created => @this_user.creation_time.xmlschema do
     xml.tag! "description", @this_user.description if @this_user.description
-    if @user && @user == @this_user
+    if current_user && current_user == @this_user
       xml.tag! "contributor-terms", :agreed => @this_user.terms_agreed.present?,
                                     :pd => @this_user.consider_pd
     else
@@ -28,7 +28,7 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
                            :active => @this_user.blocks_created.active.size
       end
     end
-    if @user && @user == @this_user
+    if current_user && current_user == @this_user
       if @this_user.home_lat && @this_user.home_lon
         xml.tag! "home", :lat => @this_user.home_lat,
                          :lon => @this_user.home_lon,

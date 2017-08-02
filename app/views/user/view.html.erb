@@ -3,42 +3,42 @@
     <%= user_image @this_user %>
     <div class='userinformation-inner'>
       <h1><%= @this_user.display_name %><%= role_icons(@this_user) %></h1>
-      <% if @user and @this_user.id == @user.id %>
+      <% if current_user and @this_user.id == current_user.id %>
         <!-- Displaying user's own profile page to themself -->
         <ul class='secondary-actions clearfix'>
           <li>
-            <%= link_to t('user.view.my edits'), :controller => 'changeset', :action => 'list', :display_name => @user.display_name %>
-            <span class='count-number'><%= number_with_delimiter(@user.changesets.size) %></span>
+            <%= link_to t('user.view.my edits'), :controller => 'changeset', :action => 'list', :display_name => current_user.display_name %>
+            <span class='count-number'><%= number_with_delimiter(current_user.changesets.size) %></span>
           </li>
           <li>
             <%= link_to t('user.view.my notes'), :controller => 'notes', :action=> 'mine' %>
           </li>
           <li>
             <%= link_to t('user.view.my traces'), :controller => 'trace', :action=>'mine' %>
-            <span class='count-number'><%= number_with_delimiter(@user.traces.size) %></span>
+            <span class='count-number'><%= number_with_delimiter(current_user.traces.size) %></span>
           </li>
           <li>
-            <%= link_to t('user.view.my diary'), :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name %>
-            <span class='count-number'><%= number_with_delimiter(@user.diary_entries.size) %></span>
+            <%= link_to t('user.view.my diary'), :controller => 'diary_entry', :action => 'list', :display_name => current_user.display_name %>
+            <span class='count-number'><%= number_with_delimiter(current_user.diary_entries.size) %></span>
           </li>
           <li>
-            <%= link_to t('user.view.my comments' ), :controller => 'diary_entry', :action => 'comments', :display_name => @user.display_name %>
+            <%= link_to t('user.view.my comments' ), :controller => 'diary_entry', :action => 'comments', :display_name => current_user.display_name %>
           </li>
           <li>
-            <%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name %>
+            <%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => current_user.display_name %>
           </li>
 
-          <% if @user.blocks.exists? %>
+          <% if current_user.blocks.exists? %>
             <li>
-              <%= link_to t('user.view.blocks on me'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => @user.display_name %>
-              <span class='count-number'><%= number_with_delimiter(@user.blocks.active.size) %></span>
+              <%= link_to t('user.view.blocks on me'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => current_user.display_name %>
+              <span class='count-number'><%= number_with_delimiter(current_user.blocks.active.size) %></span>
             </li>
           <% end %>
 
-          <% if @user and @user.moderator? and @user.blocks_created.exists? %>
+          <% if current_user and current_user.moderator? and current_user.blocks_created.exists? %>
             <li>
-              <%= link_to t('user.view.blocks by me'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => @user.display_name %>
-              <span class='count-number'><%= number_with_delimiter(@user.blocks_created.active.size) %></span>
+              <%= link_to t('user.view.blocks by me'), :controller => 'user_blocks', :action => 'blocks_by', :display_name => current_user.display_name %>
+              <span class='count-number'><%= number_with_delimiter(current_user.blocks_created.active.size) %></span>
             </li>
           <% end %>
 
@@ -73,9 +73,9 @@
             <%= link_to t('user.view.comments'), :controller => 'diary_entry', :action => 'comments', :display_name => @this_user.display_name %>
           </li>
           <li>
-            <% if @user and @user.is_friends_with?(@this_user) %>
+            <% if current_user and current_user.is_friends_with?(@this_user) %>
               <%= link_to t('user.view.remove as friend'), remove_friend_path(:display_name => @this_user.display_name), :method => :post %>
-            <% elsif @user %>
+            <% elsif current_user %>
               <%= link_to t('user.view.add as friend'), make_friend_path(:display_name => @this_user.display_name), :method => :post %>
             <% else %>
               <%= link_to t('user.view.add as friend'), make_friend_path(:display_name => @this_user.display_name) %>
@@ -96,7 +96,7 @@
             </li>
           <% end %>
 
-          <% if @user and @user.moderator? %>
+          <% if current_user and current_user.moderator? %>
             <li>
             <%= link_to t('user.view.create_block'), :controller => 'user_blocks', :action => 'new', :display_name => @this_user.display_name %>
             </li>
@@ -106,7 +106,7 @@
 
       <% end %>
 
-      <% if @user and @user.administrator? %>
+      <% if current_user and current_user.administrator? %>
 
         <ul class='secondary-actions clearfix'>
           <% if ["active", "confirmed"].include? @this_user.status %>
@@ -166,7 +166,7 @@
 
   </div>
 
-  <% if @user and @user.administrator? -%>
+  <% if current_user and current_user.administrator? -%>
     <div class='admin-user-info deemphasize'>
       <small><b><%= t 'user.view.email address' %></b> <%= @this_user.email %></small>
       <% unless @this_user.creation_ip.nil? -%>
@@ -179,10 +179,10 @@
 
 <% end %>
 
-  <% if @user and @this_user.id == @user.id %>
+  <% if current_user and @this_user.id == current_user.id %>
     <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
       <div id="map" class="content_map">
-        <p id="no_home_location"><%= raw(t 'user.view.if set location', :settings_link => (link_to t('user.view.settings_link_text'), :controller => 'user', :action => 'account', :display_name => @user.display_name)) %></p>
+        <p id="no_home_location"><%= raw(t 'user.view.if set location', :settings_link => (link_to t('user.view.settings_link_text'), :controller => 'user', :action => 'account', :display_name => current_user.display_name)) %></p>
       </div>
     <% else %>
       <% content_for :head do %>
@@ -190,10 +190,10 @@
       <% end %>
       <%
         user_data = {
-          :lon => @user.home_lon,
-          :lat => @user.home_lat,
+          :lon => current_user.home_lon,
+          :lat => current_user.home_lat,
           :icon => image_path("marker-red.png"),
-          :description => render(:partial => "popup", :object => @user, :locals => {:type => "your location"})
+          :description => render(:partial => "popup", :object => current_user, :locals => {:type => "your location"})
         }
       %>
       <%= content_tag "div", "", :id => "map", :class => "content_map", :data => {:user => user_data} %>

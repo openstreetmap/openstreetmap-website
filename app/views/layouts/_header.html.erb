@@ -57,26 +57,26 @@
         </ul>
       </li>
     </ul>
-    <% if @user && @user.id %>
+    <% if current_user && current_user.id %>
       <div class='dropdown user-menu logged-in'>
         <a class='dropdown-toggle' data-toggle='dropdown' href="#">
-          <%= user_thumbnail_tiny(@user, :width => 25, :height => 25)
+          <%= user_thumbnail_tiny(current_user, :width => 25, :height => 25)
           %><%= render :partial => 'layouts/inbox'
-        %><span class="user-button"><span class='username'><%= @user.display_name %></span>
+        %><span class="user-button"><span class='username'><%= current_user.display_name %></span>
           <b class="caret"></b></span>
         </a>
         <ul class='dropdown-menu'>
           <li>
-            <%= link_to inbox_path(:display_name => @user.display_name) do %>
-              <span class='count-number'><%= number_with_delimiter(@user.new_messages.size) %></span>
+            <%= link_to inbox_path(:display_name => current_user.display_name) do %>
+              <span class='count-number'><%= number_with_delimiter(current_user.new_messages.size) %></span>
               <%= t('user.view.my messages') %>
             <% end %>
           </li>
           <li>
-            <%= link_to t('user.view.my profile'), user_path(:display_name => @user.display_name) %>
+            <%= link_to t('user.view.my profile'), user_path(:display_name => current_user.display_name) %>
           </li>
           <li>
-            <%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name %>
+            <%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => current_user.display_name %>
           </li>
           <li class="divider"></li>
           <li>

@@ -28,10 +28,10 @@ class UserController < ApplicationController
     else
       @title = t "user.terms.title"
 
-      if @user && @user.terms_agreed?
+      if current_user && current_user.terms_agreed?
         # Already agreed to terms, so just show settings
-        redirect_to :action => :account, :display_name => @user.display_name
-      elsif @user.nil? && session[:new_user].nil?
+        redirect_to :action => :account, :display_name => current_user.display_name
+      elsif current_user.nil? && session[:new_user].nil?
         redirect_to :action => :login, :referer => request.fullpath
       end
     end
@@ -41,52 +41,52 @@ class UserController < ApplicationController
     @title = t "user.new.title"
 
     if params[:decline]
-      if @user
-        @user.terms_seen = true
+      if current_user
+        current_user.terms_seen = true
 
-        if @user.save
+        if current_user.save
           flash[:notice] = t("user.new.terms declined", :url => t("user.new.terms declined url")).html_safe
         end
 
         if params[:referer]
           redirect_to params[:referer]
         else
-          redirect_to :action => :account, :display_name => @user.display_name
+          redirect_to :action => :account, :display_name => current_user.display_name
         end
       else
         redirect_to t("user.terms.declined")
       end
-    elsif @user
-      unless @user.terms_agreed?
-        @user.consider_pd = params[:user][:consider_pd]
-        @user.terms_agreed = Time.now.getutc
-        @user.terms_seen = true
+    elsif current_user
+      unless current_user.terms_agreed?
+        current_user.consider_pd = params[:user][:consider_pd]
+        current_user.terms_agreed = Time.now.getutc
+        current_user.terms_seen = true
 
-        flash[:notice] = t "user.new.terms accepted" if @user.save
+        flash[:notice] = t "user.new.terms accepted" if current_user.save
       end
 
       if params[:referer]
         redirect_to params[:referer]
       else
-        redirect_to :action => :account, :display_name => @user.display_name
+        redirect_to :action => :account, :display_name => current_user.display_name
       end
     else
-      @user = session.delete(:new_user)
+      self.current_user = session.delete(:new_user)
 
-      if check_signup_allowed(@user.email)
-        @user.data_public = true
-        @user.description = "" if @user.description.nil?
-        @user.creation_ip = request.remote_ip
-        @user.languages = http_accept_language.user_preferred_languages
-        @user.terms_agreed = Time.now.getutc
-        @user.terms_seen = true
+      if check_signup_allowed(current_user.email)
+        current_user.data_public = true
+        current_user.description = "" if current_user.description.nil?
+        current_user.creation_ip = request.remote_ip
+        current_user.languages = http_accept_language.user_preferred_languages
+        current_user.terms_agreed = Time.now.getutc
+        current_user.terms_seen = true
 
-        if @user.auth_uid.blank?
-          @user.auth_provider = nil
-          @user.auth_uid = nil
+        if current_user.auth_uid.blank?
+          current_user.auth_provider = nil
+          current_user.auth_uid = nil
         end
 
-        if @user.save
+        if current_user.save
           flash[:piwik_goal] = PIWIK["goals"]["signup"] if defined?(PIWIK)
 
           referer = welcome_path
@@ -103,13 +103,13 @@ class UserController < ApplicationController
             # Use default
           end
 
-          if @user.status == "active"
+          if current_user.status == "active"
             session[:referer] = referer
-            successful_login(@user)
+            successful_login(current_user)
           else
-            session[:token] = @user.tokens.create.token
-            Notifier.signup_confirm(@user, @user.tokens.create(:referer => referer)).deliver_now
-            redirect_to :action => "confirm", :display_name => @user.display_name
+            session[:token] = current_user.tokens.create.token
+            Notifier.signup_confirm(current_user, current_user.tokens.create(:referer => referer)).deliver_now
+            redirect_to :action => "confirm", :display_name => current_user.display_name
           end
         else
           render :action => "new", :referer => params[:referer]
@@ -120,29 +120,29 @@ class UserController < ApplicationController
 
   def account
     @title = t "user.account.title"
-    @tokens = @user.oauth_tokens.authorized
+    @tokens = current_user.oauth_tokens.authorized
 
     if params[:user] && params[:user][:display_name] && params[:user][:description]
       if params[:user][:auth_provider].blank? ||
-         (params[:user][:auth_provider] == @user.auth_provider &&
-          params[:user][:auth_uid] == @user.auth_uid)
-        update_user(@user, params)
+         (params[:user][:auth_provider] == current_user.auth_provider &&
+          params[:user][:auth_uid] == current_user.auth_uid)
+        update_user(current_user, params)
       else
         session[:new_user_settings] = params
         redirect_to auth_url(params[:user][:auth_provider], params[:user][:auth_uid])
       end
     elsif errors = session.delete(:user_errors)
       errors.each do |attribute, error|
-        @user.errors.add(attribute, error)
+        current_user.errors.add(attribute, error)
       end
     end
   end
 
   def go_public
-    @user.data_public = true
-    @user.save
+    current_user.data_public = true
+    current_user.save
     flash[:notice] = t "user.go_public.flash success"
-    redirect_to :action => "account", :display_name => @user.display_name
+    redirect_to :action => "account", :display_name => current_user.display_name
   end
 
   def lost_password
@@ -175,18 +175,18 @@ class UserController < ApplicationController
       token = UserToken.find_by(:token => params[:token])
 
       if token
-        @user = token.user
+        self.current_user = token.user
 
         if params[:user]
-          @user.pass_crypt = params[:user][:pass_crypt]
-          @user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
-          @user.status = "active" if @user.status == "pending"
-          @user.email_valid = true
+          current_user.pass_crypt = params[:user][:pass_crypt]
+          current_user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
+          current_user.status = "active" if current_user.status == "pending"
+          current_user.email_valid = true
 
-          if @user.save
+          if current_user.save
             token.destroy
             flash[:notice] = t "user.reset_password.flash changed"
-            successful_login(@user)
+            successful_login(current_user)
           end
         end
       else
@@ -202,7 +202,7 @@ class UserController < ApplicationController
     @title = t "user.new.title"
     @referer = params[:referer] || session[:referer]
 
-    if @user
+    if current_user
       # The user is logged in already, so don't show them the signup
       # page, instead send them to the home page
       if @referer
@@ -211,43 +211,45 @@ class UserController < ApplicationController
         redirect_to :controller => "site", :action => "index"
       end
     elsif params.key?(:auth_provider) && params.key?(:auth_uid)
-      @user = User.new(:email => params[:email],
-                       :email_confirmation => params[:email],
-                       :display_name => params[:nickname],
-                       :auth_provider => params[:auth_provider],
-                       :auth_uid => params[:auth_uid])
+      self.current_user = User.new(:email => params[:email],
+                                   :email_confirmation => params[:email],
+                                   :display_name => params[:nickname],
+                                   :auth_provider => params[:auth_provider],
+                                   :auth_uid => params[:auth_uid])
 
       flash.now[:notice] = render_to_string :partial => "auth_association"
     else
       check_signup_allowed
+
+      self.current_user = User.new
     end
   end
 
   def create
-    @user = User.new(user_params)
+    self.current_user = User.new(user_params)
 
-    if check_signup_allowed(@user.email)
+    if check_signup_allowed(current_user.email)
       session[:referer] = params[:referer]
 
-      @user.status = "pending"
+      current_user.status = "pending"
 
-      if @user.auth_provider.present? && @user.pass_crypt.empty?
+      if current_user.auth_provider.present? && current_user.pass_crypt.empty?
         # We are creating an account with external authentication and
         # no password was specified so create a random one
-        @user.pass_crypt = SecureRandom.base64(16)
-        @user.pass_crypt_confirmation = @user.pass_crypt
+        current_user.pass_crypt = SecureRandom.base64(16)
+        current_user.pass_crypt_confirmation = current_user.pass_crypt
       end
 
-      if @user.invalid?
+      if current_user.invalid?
         # Something is wrong with a new user, so rerender the form
         render :action => "new"
-      elsif @user.auth_provider.present?
+      elsif current_user.auth_provider.present?
         # Verify external authenticator before moving on
-        session[:new_user] = @user
-        redirect_to auth_url(@user.auth_provider, @user.auth_uid)
+        session[:new_user] = current_user
+        redirect_to auth_url(current_user.auth_provider, current_user.auth_uid)
       else
         # Save the user record
-        session[:new_user] = @user
+        session[:new_user] = current_user
         redirect_to :action => :terms
       end
     end
@@ -345,23 +347,23 @@ class UserController < ApplicationController
     if request.post?
       token = UserToken.find_by(:token => params[:confirm_string])
       if token && token.user.new_email?
-        @user = token.user
-        @user.email = @user.new_email
-        @user.new_email = nil
-        @user.email_valid = true
-        gravatar_enabled = gravatar_enable(@user)
-        if @user.save
+        self.current_user = token.user
+        current_user.email = current_user.new_email
+        current_user.new_email = nil
+        current_user.email_valid = true
+        gravatar_enabled = gravatar_enable(current_user)
+        if current_user.save
           flash[:notice] = if gravatar_enabled
-                             t("user.confirm_email.success") + " " + gravatar_status_message(@user)
+                             t("user.confirm_email.success") + " " + gravatar_status_message(current_user)
                            else
                              t("user.confirm_email.success")
                            end
         else
-          flash[:errors] = @user.errors
+          flash[:errors] = current_user.errors
         end
         token.destroy
-        session[:user] = @user.id
-        redirect_to :action => "account", :display_name => @user.display_name
+        session[:user] = current_user.id
+        redirect_to :action => "account", :display_name => current_user.display_name
       elsif token
         flash[:error] = t "user.confirm_email.failure"
         redirect_to :action => "account", :display_name => token.user.display_name
@@ -380,13 +382,13 @@ class UserController < ApplicationController
   end
 
   def api_details
-    @this_user = @user
+    @this_user = current_user
     render :action => :api_read, :content_type => "text/xml"
   end
 
   def api_gpx_files
     doc = OSM::API.new.get_xml_doc
-    @user.traces.reload.each do |trace|
+    current_user.traces.reload.each do |trace|
       doc.root << trace.to_xml_node
     end
     render :xml => doc.to_s
@@ -396,7 +398,7 @@ class UserController < ApplicationController
     @this_user = User.find_by(:display_name => params[:display_name])
 
     if @this_user &&
-       (@this_user.visible? || (@user && @user.administrator?))
+       (@this_user.visible? || (current_user && current_user.administrator?))
       @title = @this_user.display_name
     else
       render_unknown_user params[:display_name]
@@ -409,9 +411,9 @@ class UserController < ApplicationController
     if @new_friend
       if request.post?
         friend = Friend.new
-        friend.user_id = @user.id
+        friend.user_id = current_user.id
         friend.friend_user_id = @new_friend.id
-        if @user.is_friends_with?(@new_friend)
+        if current_user.is_friends_with?(@new_friend)
           flash[:warning] = t "user.make_friend.already_a_friend", :name => @new_friend.display_name
         elsif friend.save
           flash[:notice] = t "user.make_friend.success", :name => @new_friend.display_name
@@ -436,8 +438,8 @@ class UserController < ApplicationController
 
     if @friend
       if request.post?
-        if @user.is_friends_with?(@friend)
-          Friend.where(:user_id => @user.id, :friend_user_id => @friend.id).delete_all
+        if current_user.is_friends_with?(@friend)
+          Friend.where(:user_id => current_user.id, :friend_user_id => @friend.id).delete_all
           flash[:notice] = t "user.remove_friend.success", :name => @friend.display_name
         else
           flash[:error] = t "user.remove_friend.not_a_friend", :name => @friend.display_name
@@ -514,14 +516,14 @@ class UserController < ApplicationController
     end
 
     if settings = session.delete(:new_user_settings)
-      @user.auth_provider = provider
-      @user.auth_uid = uid
+      current_user.auth_provider = provider
+      current_user.auth_uid = uid
 
-      update_user(@user, settings)
+      update_user(current_user, settings)
 
-      session[:user_errors] = @user.errors.as_json
+      session[:user_errors] = current_user.errors.as_json
 
-      redirect_to :action => "account", :display_name => @user.display_name
+      redirect_to :action => "account", :display_name => current_user.display_name
     elsif session[:new_user]
       session[:new_user].auth_provider = provider
       session[:new_user].auth_uid = uid
@@ -547,7 +549,7 @@ class UserController < ApplicationController
         when "active", "confirmed" then
           successful_login(user, request.env["omniauth.params"]["referer"])
         when "suspended" then
-          failed_login t("user.login.account is suspended", :webmaster => "mailto:#{SUPPORT_EMAIL}")
+          failed_login t("user.login.account is suspended", :webmaster => "mailto:#{SUPPORT_EMAIL}").html_safe
         else
           failed_login t("user.login.auth failure")
         end
@@ -575,7 +577,7 @@ class UserController < ApplicationController
     elsif user = User.authenticate(:username => username, :password => password, :pending => true)
       unconfirmed_login(user)
     elsif User.authenticate(:username => username, :password => password, :suspended => true)
-      failed_login t("user.login.account is suspended", :webmaster => "mailto:#{SUPPORT_EMAIL}"), username
+      failed_login t("user.login.account is suspended", :webmaster => "mailto:#{SUPPORT_EMAIL}").html_safe, username
     else
       failed_login t("user.login.auth failure"), username
     end
@@ -725,8 +727,8 @@ class UserController < ApplicationController
             # Ignore errors sending email
           end
         else
-          @user.errors.add(:new_email, @user.errors[:email])
-          @user.errors.add(:email, [])
+          current_user.errors.add(:new_email, current_user.errors[:email])
+          current_user.errors.add(:email, [])
         end
 
         user.restore_email!
@@ -738,7 +740,7 @@ class UserController < ApplicationController
   # require that the user is a administrator, or fill out a helpful error message
   # and return them to the user page.
   def require_administrator
-    if @user && !@user.administrator?
+    if current_user && !current_user.administrator?
       flash[:error] = t("user.filter.not_an_administrator")
 
       if params[:display_name]
@@ -746,7 +748,7 @@ class UserController < ApplicationController
       else
         redirect_to :action => "login", :referer => request.fullpath
       end
-    elsif !@user
+    elsif !current_user
       redirect_to :action => "login", :referer => request.fullpath
     end
   end
@@ -754,7 +756,7 @@ class UserController < ApplicationController
   ##
   # require that the user in the URL is the logged in user
   def require_self
-    head :forbidden if params[:display_name] != @user.display_name
+    head :forbidden if params[:display_name] != current_user.display_name
   end
 
   ##

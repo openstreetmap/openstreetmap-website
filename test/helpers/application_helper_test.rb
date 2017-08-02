@@ -1,6 +1,8 @@
 require "test_helper"
 
 class ApplicationHelperTest < ActionView::TestCase
+  attr_accessor :current_user
+
   def setup
     I18n.locale = "en"
   end
@@ -46,7 +48,7 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   def test_style_rules
-    @user = nil
+    self.current_user = nil
 
     css = style_rules
     assert_match /\.hidden /, css
@@ -57,36 +59,36 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_match /\.hide_unless_administrator /, css
     assert_match /\.hide_unless_moderator /, css
 
-    @user = create(:user)
+    self.current_user = create(:user)
 
     css = style_rules
     assert_match /\.hidden /, css
     assert_no_match /\.hide_unless_logged_in /, css
     assert_match /\.hide_if_logged_in /, css
-    assert_match /\.hide_if_user_#{@user.id} /, css
-    assert_match /\.show_if_user_#{@user.id} /, css
+    assert_match /\.hide_if_user_#{current_user.id} /, css
+    assert_match /\.show_if_user_#{current_user.id} /, css
     assert_match /\.hide_unless_administrator /, css
     assert_match /\.hide_unless_moderator /, css
 
-    @user = create(:moderator_user)
+    self.current_user = create(:moderator_user)
 
     css = style_rules
     assert_match /\.hidden /, css
     assert_no_match /\.hide_unless_logged_in /, css
     assert_match /\.hide_if_logged_in /, css
-    assert_match /\.hide_if_user_#{@user.id} /, css
-    assert_match /\.show_if_user_#{@user.id} /, css
+    assert_match /\.hide_if_user_#{current_user.id} /, css
+    assert_match /\.show_if_user_#{current_user.id} /, css
     assert_match /\.hide_unless_administrator /, css
     assert_no_match /\.hide_unless_moderator /, css
 
-    @user = create(:administrator_user)
+    self.current_user = create(:administrator_user)
 
     css = style_rules
     assert_match /\.hidden /, css
     assert_no_match /\.hide_unless_logged_in /, css
     assert_match /\.hide_if_logged_in /, css
-    assert_match /\.hide_if_user_#{@user.id} /, css
-    assert_match /\.show_if_user_#{@user.id} /, css
+    assert_match /\.hide_if_user_#{current_user.id} /, css
+    assert_match /\.show_if_user_#{current_user.id} /, css
     assert_no_match /\.hide_unless_administrator /, css
     assert_match /\.hide_unless_moderator /, css
   end

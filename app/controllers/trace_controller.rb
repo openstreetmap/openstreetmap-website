@@ -32,7 +32,7 @@ class TraceController < ApplicationController
     # set title
     @title = if target_user.nil?
                t "trace.list.public_traces"
-             elsif @user && @user == target_user
+             elsif current_user && current_user == target_user
                t "trace.list.your_traces"
              else
                t "trace.list.public_traces_from", :user => target_user.display_name
@@ -46,13 +46,13 @@ class TraceController < ApplicationController
     # 3 - user's traces, logged in as same user = all user's traces
     # 4 - user's traces, not logged in as that user = all user's public traces
     @traces = if target_user.nil? # all traces
-                if @user
-                  Trace.visible_to(@user) # 1
+                if current_user
+                  Trace.visible_to(current_user) # 1
                 else
                   Trace.visible_to_all # 2
                 end
-              elsif @user && @user == target_user
-                @user.traces # 3 (check vs user id, so no join + can't pick up non-public traces by changing name)
+              elsif current_user && current_user == target_user
+                current_user.traces # 3 (check vs user id, so no join + can't pick up non-public traces by changing name)
               else
                 target_user.traces.visible_to_all # 4
               end
@@ -86,14 +86,14 @@ class TraceController < ApplicationController
   end
 
   def mine
-    redirect_to :action => :list, :display_name => @user.display_name
+    redirect_to :action => :list, :display_name => current_user.display_name
   end
 
   def view
     @trace = Trace.find(params[:id])
 
     if @trace && @trace.visible? &&
-       (@trace.public? || @trace.user == @user)
+       (@trace.public? || @trace.user == current_user)
       @title = t "trace.view.title", :name => @trace.name
     else
       flash[:error] = t "trace.view.trace_not_found"
@@ -119,18 +119,18 @@ class TraceController < ApplicationController
         if @trace.id
           flash[:notice] = t "trace.create.trace_uploaded"
 
-          if @user.traces.where(:inserted => false).count > 4
-            flash[:warning] = t "trace.trace_header.traces_waiting", :count => @user.traces.where(:inserted => false).count
+          if current_user.traces.where(:inserted => false).count > 4
+            flash[:warning] = t "trace.trace_header.traces_waiting", :count => current_user.traces.where(:inserted => false).count
           end
 
-          redirect_to :action => :list, :display_name => @user.display_name
+          redirect_to :action => :list, :display_name => current_user.display_name
         end
       else
         @trace = Trace.new(:name => "Dummy",
                            :tagstring => params[:trace][:tagstring],
                            :description => params[:trace][:description],
                            :visibility => params[:trace][:visibility],
-                           :inserted => false, :user => @user,
+                           :inserted => false, :user => current_user,
                            :timestamp => Time.now.getutc)
         @trace.valid?
         @trace.errors.add(:gpx_file, "can't be blank")
@@ -145,7 +145,7 @@ class TraceController < ApplicationController
   def data
     trace = Trace.find(params[:id])
 
-    if trace.visible? && (trace.public? || (@user && @user == trace.user))
+    if trace.visible? && (trace.public? || (current_user && current_user == trace.user))
       if Acl.no_trace_download(request.remote_ip)
         head :forbidden
       elsif request.format == Mime[:xml]
@@ -167,7 +167,7 @@ class TraceController < ApplicationController
 
     if !@trace.visible?
       head :not_found
-    elsif @user.nil? || @trace.user != @user
+    elsif current_user.nil? || @trace.user != current_user
       head :forbidden
     else
       @title = t "trace.edit.title", :name => @trace.name
@@ -177,7 +177,7 @@ class TraceController < ApplicationController
         @trace.tagstring = params[:trace][:tagstring]
         @trace.visibility = params[:trace][:visibility]
         if @trace.save
-          redirect_to :action => "view", :display_name => @user.display_name
+          redirect_to :action => "view", :display_name => current_user.display_name
         end
       end
     end
@@ -190,13 +190,13 @@ class TraceController < ApplicationController
 
     if !trace.visible?
       head :not_found
-    elsif @user.nil? || trace.user != @user
+    elsif current_user.nil? || trace.user != current_user
       head :forbidden
     else
       trace.visible = false
       trace.save
       flash[:notice] = t "trace.delete.scheduled_for_deletion"
-      redirect_to :action => :list, :display_name => @user.display_name
+      redirect_to :action => :list, :display_name => current_user.display_name
     end
   rescue ActiveRecord::RecordNotFound
     head :not_found
@@ -219,7 +219,7 @@ class TraceController < ApplicationController
     trace = Trace.find(params[:id])
 
     if trace.visible? && trace.inserted?
-      if trace.public? || (@user && @user == trace.user)
+      if trace.public? || (current_user && current_user == trace.user)
         expires_in 7.days, :private => !trace.public?, :public => trace.public?
         send_file(trace.large_picture_name, :filename => "#{trace.id}.gif", :type => "image/gif", :disposition => "inline")
       else
@@ -236,7 +236,7 @@ class TraceController < ApplicationController
     trace = Trace.find(params[:id])
 
     if trace.visible? && trace.inserted?
-      if trace.public? || (@user && @user == trace.user)
+      if trace.public? || (current_user && current_user == trace.user)
         expires_in 7.days, :private => !trace.public?, :public => trace.public?
         send_file(trace.icon_picture_name, :filename => "#{trace.id}_icon.gif", :type => "image/gif", :disposition => "inline")
       else
@@ -252,7 +252,7 @@ class TraceController < ApplicationController
   def api_read
     trace = Trace.visible.find(params[:id])
 
-    if trace.public? || trace.user == @user
+    if trace.public? || trace.user == current_user
       render :xml => trace.to_xml.to_s
     else
       head :forbidden
@@ -262,7 +262,7 @@ class TraceController < ApplicationController
   def api_update
     trace = Trace.visible.find(params[:id])
 
-    if trace.user == @user
+    if trace.user == current_user
       new_trace = Trace.from_xml(request.raw_post)
 
       unless new_trace && new_trace.id == trace.id
@@ -283,7 +283,7 @@ class TraceController < ApplicationController
   def api_delete
     trace = Trace.visible.find(params[:id])
 
-    if trace.user == @user
+    if trace.user == current_user
       trace.visible = false
       trace.save!
 
@@ -296,7 +296,7 @@ class TraceController < ApplicationController
   def api_data
     trace = Trace.visible.find(params[:id])
 
-    if trace.public? || trace.user == @user
+    if trace.public? || trace.user == current_user
       if request.format == Mime[:xml]
         send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => "attachment")
       elsif request.format == Mime[:gpx]
@@ -357,7 +357,7 @@ class TraceController < ApplicationController
       :description => description,
       :visibility => visibility,
       :inserted => true,
-      :user => @user,
+      :user => current_user,
       :timestamp => Time.now.getutc
     )
 
@@ -390,11 +390,11 @@ class TraceController < ApplicationController
     end
 
     # Finally save the user's preferred privacy level
-    if pref = @user.preferences.where(:k => "gps.trace.visibility").first
+    if pref = current_user.preferences.where(:k => "gps.trace.visibility").first
       pref.v = visibility
       pref.save
     else
-      @user.preferences.create(:k => "gps.trace.visibility", :v => visibility)
+      current_user.preferences.create(:k => "gps.trace.visibility", :v => visibility)
     end
   end
 
@@ -407,11 +407,11 @@ class TraceController < ApplicationController
   end
 
   def default_visibility
-    visibility = @user.preferences.where(:k => "gps.trace.visibility").first
+    visibility = current_user.preferences.where(:k => "gps.trace.visibility").first
 
     if visibility
       visibility.v
-    elsif @user.preferences.where(:k => "gps.trace.public", :v => "default").first.nil?
+    elsif current_user.preferences.where(:k => "gps.trace.public", :v => "default").first.nil?
       "private"
     else
       "public"

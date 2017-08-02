@@ -1,11 +1,12 @@
 require "test_helper"
 
 class UserRolesHelperTest < ActionView::TestCase
-  def test_role_icon_normal
-    user = create(:user)
-    @user = user
+  attr_accessor :current_user
 
-    icon = role_icon(user, "moderator")
+  def test_role_icon_normal
+    self.current_user = create(:user)
+
+    icon = role_icon(current_user, "moderator")
     assert_dom_equal "", icon
 
     icon = role_icon(create(:moderator_user), "moderator")
@@ -13,7 +14,7 @@ class UserRolesHelperTest < ActionView::TestCase
   end
 
   def test_role_icon_administrator
-    @user = create(:administrator_user)
+    self.current_user = create(:administrator_user)
 
     user = create(:user)
     icon = role_icon(user, "moderator")
@@ -25,10 +26,9 @@ class UserRolesHelperTest < ActionView::TestCase
   end
 
   def test_role_icons_normal
-    user = create(:user)
-    @user = user
+    self.current_user = create(:user)
 
-    icons = role_icons(user)
+    icons = role_icons(current_user)
     assert_dom_equal "  ", icons
 
     icons = role_icons(create(:moderator_user))
@@ -39,7 +39,7 @@ class UserRolesHelperTest < ActionView::TestCase
   end
 
   def test_role_icons_administrator
-    @user = create(:administrator_user)
+    self.current_user = create(:administrator_user)
 
     user = create(:user)
     icons = role_icons(user)

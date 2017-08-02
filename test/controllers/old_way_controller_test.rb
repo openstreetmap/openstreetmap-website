@@ -90,7 +90,7 @@ class OldWayControllerTest < ActionController::TestCase
   # test the redaction of an old version of a way, while being
   # authorised as a normal user.
   def test_redact_way_normal_user
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
     way = create(:way, :with_history, :version => 4)
     way_v3 = way.old_ways.find_by(:version => 3)
 
@@ -102,7 +102,7 @@ class OldWayControllerTest < ActionController::TestCase
   # test that, even as moderator, the current version of a way
   # can't be redacted.
   def test_redact_way_current_version
-    basic_authorization(create(:moderator_user).email, "test")
+    basic_authorization create(:moderator_user).email, "test"
     way = create(:way, :with_history, :version => 4)
     way_latest = way.old_ways.last
 
@@ -122,7 +122,7 @@ class OldWayControllerTest < ActionController::TestCase
     assert_response :forbidden, "Redacted way shouldn't be visible via the version API."
 
     # not even to a logged-in user
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
     get :version, :params => { :id => way_v1.way_id, :version => way_v1.version }
     assert_response :forbidden, "Redacted way shouldn't be visible via the version API, even when logged in."
   end
@@ -139,7 +139,7 @@ class OldWayControllerTest < ActionController::TestCase
     assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 0, "redacted way #{way_v1.way_id} version #{way_v1.version} shouldn't be present in the history."
 
     # not even to a logged-in user
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
     get :version, :params => { :id => way_v1.way_id, :version => way_v1.version }
     get :history, :params => { :id => way_v1.way_id }
     assert_response :success, "Redaction shouldn't have stopped history working."
@@ -152,7 +152,7 @@ class OldWayControllerTest < ActionController::TestCase
   def test_redact_way_moderator
     way = create(:way, :with_history, :version => 4)
     way_v3 = way.old_ways.find_by(:version => 3)
-    basic_authorization(create(:moderator_user).email, "test")
+    basic_authorization create(:moderator_user).email, "test"
 
     do_redact_way(way_v3, create(:redaction))
     assert_response :success, "should be OK to redact old version as moderator."
@@ -178,13 +178,13 @@ class OldWayControllerTest < ActionController::TestCase
   def test_redact_way_is_redacted
     way = create(:way, :with_history, :version => 4)
     way_v3 = way.old_ways.find_by(:version => 3)
-    basic_authorization(create(:moderator_user).email, "test")
+    basic_authorization create(:moderator_user).email, "test"
 
     do_redact_way(way_v3, create(:redaction))
     assert_response :success, "should be OK to redact old version as moderator."
 
     # re-auth as non-moderator
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     # check can't see the redacted data
     get :version, :params => { :id => way_v3.way_id, :version => way_v3.version }
@@ -216,7 +216,7 @@ class OldWayControllerTest < ActionController::TestCase
     way_v1 = way.old_ways.find_by(:version => 1)
     way_v1.redact!(create(:redaction))
 
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     post :redact, :params => { :id => way_v1.way_id, :version => way_v1.version }
     assert_response :forbidden, "should need to be moderator to unredact."
@@ -231,7 +231,7 @@ class OldWayControllerTest < ActionController::TestCase
     way_v1 = way.old_ways.find_by(:version => 1)
     way_v1.redact!(create(:redaction))
 
-    basic_authorization(moderator_user.email, "test")
+    basic_authorization moderator_user.email, "test"
 
     post :redact, :params => { :id => way_v1.way_id, :version => way_v1.version }
     assert_response :success, "should be OK to unredact old version as moderator."
@@ -246,7 +246,7 @@ class OldWayControllerTest < ActionController::TestCase
     assert_response :success, "Unredaction shouldn't have stopped history working."
     assert_select "osm way[id='#{way_v1.way_id}'][version='#{way_v1.version}']", 1, "way #{way_v1.way_id} version #{way_v1.version} should still be present in the history for moderators."
 
-    basic_authorization(create(:user).email, "test")
+    basic_authorization create(:user).email, "test"
 
     # check normal user can now see the unredacted data
     get :version, :params => { :id => way_v1.way_id, :version => way_v1.version }

@@ -20,7 +20,7 @@
 
   <div class="buttons clearfix subscribe-buttons">
     <form action="#" class="hide_unless_logged_in">
-      <% if @user and @changeset.subscribers.exists?(@user.id) %>
+      <% if current_user and @changeset.subscribers.exists?(current_user.id) %>
         <input class="action-button" type="submit" name="unsubscribe" value="<%= t('javascripts.changesets.show.unsubscribe') %>" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>" />
       <% else %>
         <input class="action-button" type="submit" name="subscribe" value="<%= t('javascripts.changesets.show.subscribe') %>" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>" />
@@ -42,13 +42,13 @@
                     :when => friendly_date(comment.created_at), :exact_time => l(comment.created_at),
                     :user => link_to(h(comment.author.display_name), {:controller => "user", :action => "view",
                     :display_name => comment.author.display_name})).html_safe %>
-                  <% if @user and @user.moderator? %>
+                  <% if current_user and current_user.moderator? %>
                     — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_hide_url(comment.id) %>"><%= t('javascripts.changesets.show.hide_comment') %></span>
                   <% end %>
                 </small>
                 <%= comment.body.to_html %>
               </li>
-            <% elsif @user and @user.moderator? %>
+            <% elsif current_user and current_user.moderator? %>
               <li id="c<%= comment.id %>">
                 <small class='deemphasize'>
                   <%= t("browse.changeset.hidden_commented_by",

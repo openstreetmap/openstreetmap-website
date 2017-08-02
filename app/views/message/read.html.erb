@@ -1,4 +1,4 @@
-<% if @user == @message.recipient %>
+<% if current_user == @message.recipient %>
   <% content_for :heading do %>
     <h2><%= h(@message.title) %></h2>
   <% end %>
@@ -36,5 +36,5 @@
 
 <% end %>
 
-  <%= link_to t('message.read.back'), {:controller => 'message', :action => 'outbox', :display_name => @user.display_name }, :class => "button deemphasize" %>
+  <%= link_to t('message.read.back'), {:controller => 'message', :action => 'outbox', :display_name => current_user.display_name }, :class => "button deemphasize" %>
   </div>

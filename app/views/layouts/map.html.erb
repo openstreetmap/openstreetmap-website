@@ -4,14 +4,14 @@
 
 <% content_for(:body_class) { "map-layout" } %>
 
-<% if @user and !@user.home_lon.nil? and !@user.home_lat.nil? %>
+<% if current_user and !current_user.home_lon.nil? and !current_user.home_lat.nil? %>
   <% content_for :greeting do %>
     <%= link_to t("layouts.home"),
                 "#",
                 :id => "homeanchor",
                 :class => "set_position",
-                :data => { :lat => @user.home_lat,
-                           :lon => @user.home_lon,
+                :data => { :lat => current_user.home_lat,
+                           :lon => current_user.home_lon,
                            :zoom => 15 } %>
   <% end %>
 <% end %>
@@ -38,7 +38,7 @@
       <%= yield %>
     </div>
 
-    <% unless @user %>
+    <% unless current_user %>
       <div class="welcome">
         <h2><%= t 'layouts.intro_header' %></h2>
         <div class="close-wrap"><span class="icon close"></span></div>

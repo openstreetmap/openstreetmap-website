@@ -10,7 +10,7 @@ class UserRolesController < ApplicationController
   before_action :in_role, :only => [:revoke]
 
   def grant
-    @this_user.roles.create(:role => @role, :granter_id => @user.id)
+    @this_user.roles.create(:role => @role, :granter_id => current_user.id)
     redirect_to :controller => "user", :action => "view", :display_name => @this_user.display_name
   end
 
@@ -25,7 +25,7 @@ class UserRolesController < ApplicationController
   # require that the user is an administrator, or fill out a helpful error message
   # and return them to theuser page.
   def require_administrator
-    unless @user.administrator?
+    unless current_user.administrator?
       flash[:error] = t "user_role.filter.not_an_administrator"
       redirect_to :controller => "user", :action => "view", :display_name => @this_user.display_name
     end
