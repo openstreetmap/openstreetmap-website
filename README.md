@@ -40,3 +40,8 @@ We're always keen to have more developers! Pull requests are very welcome.
 * IRC - there is the #osm-dev channel on irc.oftc.net.
 
 More details on contributing to the code are in the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+
+# Maintainers
+
+* Tom Hughes [@tomhughes](https://github.com/tomhughes/)
+* Andy Allan [@gravitystorm](https://github.com/gravitystorm/)
