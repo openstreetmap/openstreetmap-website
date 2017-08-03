@@ -43,7 +43,7 @@ gem "image_optim_rails"
 # Load rails plugins
 gem "actionpack-page_caching"
 gem "composite_primary_keys", "~> 9.0.7"
-gem "deadlock_retry", ">= 1.2.0"
+gem "openstreetmap-deadlock_retry", ">= 1.3.0", :require => "deadlock_retry"
 gem "dynamic_form"
 gem "http_accept_language", "~> 2.0.0"
 gem "i18n-js", ">= 3.0.0"
