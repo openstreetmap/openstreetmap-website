@@ -749,6 +749,12 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :reset_password
 
+    # Test that errors are reported for erroneous submissions
+    post :reset_password, :params => { :token => token.token, :user => { :pass_crypt => "new_password", :pass_crypt_confirmation => "different_password" } }
+    assert_response :success
+    assert_template :reset_password
+    assert_select "div#errorExplanation"
+
     # Test setting a new password
     post :reset_password, :params => { :token => token.token, :user => { :pass_crypt => "new_password", :pass_crypt_confirmation => "new_password" } }
     assert_response :redirect
