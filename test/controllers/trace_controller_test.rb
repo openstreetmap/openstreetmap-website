@@ -931,6 +931,20 @@ class TraceControllerTest < ActionController::TestCase
     assert_equal nt.visibility, t.visibility
   end
 
+  # Test that updating a trace doesn't duplicate the tags
+  def test_api_update_tags
+    tracetag = create(:tracetag)
+    trace = tracetag.trace
+    basic_authorization trace.user.display_name, "test"
+
+    content trace.to_xml
+    put :api_update, :params => { :id => trace.id }
+    assert_response :success
+
+    updated = Trace.find(trace.id)
+    assert_equal trace.tags, updated.tags
+  end
+
   # Check deleting a trace through the api
   def test_api_delete
     public_trace_file = create(:trace, :visibility => "public")
