@@ -942,7 +942,10 @@ class TraceControllerTest < ActionController::TestCase
     assert_response :success
 
     updated = Trace.find(trace.id)
-    assert_equal trace.tags, updated.tags
+    # Ensure there's only one tag in the database after updating
+    assert_equal Tracetag.count, 1
+    # The new tag object might have a different id, so check the string representation
+    assert_equal trace.tagstring, updated.tagstring
   end
 
   # Check deleting a trace through the api
