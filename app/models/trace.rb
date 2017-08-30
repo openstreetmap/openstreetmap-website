@@ -172,12 +172,12 @@ class Trace < ActiveRecord::Base
     el1
   end
 
-  def from_xml(xml, create = false)
+  def update_from_xml(xml, create = false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
 
     doc.find("//osm/gpx_file").each do |pt|
-      return from_xml_node(pt, create)
+      return update_from_xml_node(pt, create)
     end
 
     raise OSM::APIBadXMLError.new("trace", xml, "XML doesn't contain an osm/gpx_file element.")
@@ -185,7 +185,7 @@ class Trace < ActiveRecord::Base
     raise OSM::APIBadXMLError.new("trace", xml, ex.message)
   end
 
-  def from_xml_node(pt, create = false)
+  def update_from_xml_node(pt, create = false)
     raise OSM::APIBadXMLError.new("trace", pt, "visibility missing") if pt["visibility"].nil?
     self.visibility = pt["visibility"]
 

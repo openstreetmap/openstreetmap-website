@@ -263,7 +263,7 @@ class TraceController < ApplicationController
     trace = Trace.visible.find(params[:id])
 
     if trace.user == current_user
-      trace.from_xml(request.raw_post)
+      trace.update_from_xml(request.raw_post)
       trace.save!
 
       head :ok
