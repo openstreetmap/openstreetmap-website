@@ -172,13 +172,12 @@ class Trace < ActiveRecord::Base
     el1
   end
 
-  # Read in xml as text and return it's Node object representation
-  def self.from_xml(xml, create = false)
+  def update_from_xml(xml, create = false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
 
     doc.find("//osm/gpx_file").each do |pt|
-      return Trace.from_xml_node(pt, create)
+      return update_from_xml_node(pt, create)
     end
 
     raise OSM::APIBadXMLError.new("trace", xml, "XML doesn't contain an osm/gpx_file element.")
@@ -186,34 +185,31 @@ class Trace < ActiveRecord::Base
     raise OSM::APIBadXMLError.new("trace", xml, ex.message)
   end
 
-  def self.from_xml_node(pt, create = false)
-    trace = Trace.new
-
+  def update_from_xml_node(pt, create = false)
     raise OSM::APIBadXMLError.new("trace", pt, "visibility missing") if pt["visibility"].nil?
-    trace.visibility = pt["visibility"]
+    self.visibility = pt["visibility"]
 
     unless create
       raise OSM::APIBadXMLError.new("trace", pt, "ID is required when updating.") if pt["id"].nil?
-      trace.id = pt["id"].to_i
+      id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
-      raise OSM::APIBadUserInput.new("ID of trace cannot be zero when updating.") if trace.id.zero?
+      raise OSM::APIBadUserInput.new("ID of trace cannot be zero when updating.") if id.zero?
+      raise OSM::APIBadUserInput.new("The id in the url (#{self.id}) is not the same as provided in the xml (#{id})") unless self.id == id
     end
 
     # We don't care about the time, as it is explicitly set on create/update/delete
     # We don't care about the visibility as it is implicit based on the action
     # and set manually before the actual delete
-    trace.visible = true
+    self.visible = true
 
     description = pt.find("description").first
     raise OSM::APIBadXMLError.new("trace", pt, "description missing") if description.nil?
-    trace.description = description.content
+    self.description = description.content
 
-    pt.find("tag").each do |tag|
-      trace.tags.build(:tag => tag.content)
+    self.tags = pt.find("tag").collect do |tag|
+      Tracetag.new(:tag => tag.content)
     end
-
-    trace
   end
 
   def xml_file

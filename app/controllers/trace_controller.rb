@@ -263,15 +263,7 @@ class TraceController < ApplicationController
     trace = Trace.visible.find(params[:id])
 
     if trace.user == current_user
-      new_trace = Trace.from_xml(request.raw_post)
-
-      unless new_trace && new_trace.id == trace.id
-        raise OSM::APIBadUserInput.new("The id in the url (#{trace.id}) is not the same as provided in the xml (#{new_trace.id})")
-      end
-
-      trace.description = new_trace.description
-      trace.tags = new_trace.tags
-      trace.visibility = new_trace.visibility
+      trace.update_from_xml(request.raw_post)
       trace.save!
 
       head :ok
