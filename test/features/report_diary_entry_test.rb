@@ -6,6 +6,13 @@ class ReportDiaryEntryTest < Capybara::Rails::TestCase
     @diary_entry = create(:diary_entry)
   end
 
+  def test_no_flag_when_not_logged_in
+    visit diary_entry_path(@diary_entry.user.display_name, @diary_entry)
+    assert page.has_content?(@diary_entry.title)
+
+    assert !page.has_content?("\u2690")
+  end
+
   def test_it_works
     sign_in_as(create(:user))
     visit diary_entry_path(@diary_entry.user.display_name, @diary_entry)
