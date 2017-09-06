@@ -25,7 +25,7 @@ class CreateIssuesAndReports < ActiveRecord::Migration
     create_table :reports do |t|
       t.integer :issue_id
       t.integer :reporter_user_id
-      t.text :details
+      t.text :details, :null => false
       t.datetime :created_at
       t.datetime :updated_at
 
