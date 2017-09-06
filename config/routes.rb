@@ -300,6 +300,8 @@ OpenStreetMap::Application.routes.draw do
     end
   end
 
+  resources :reports
+
   post "/comment" => "issues#comment"
 
   # redactions

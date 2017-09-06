@@ -1,5 +1,5 @@
 <% content_for :heading do %>
-  <h1>Report <%= reportable_url(@issue.reportable) %></h1>
+  <h1>Report <%= reportable_url(@report.issue.reportable) %></h1>
 <% end %>
 
 <div class="disclaimer">
@@ -11,13 +11,13 @@
     </ul>
 </div>
 
-<%= form_for(@issue) do |f| %>
+<%= form_for(@report) do |f| %>
   <%= f.error_messages %>
   <fieldset>
-    <div class='form-row'>
-      <%= f.hidden_field :reportable_id %>
-      <%= f.hidden_field :reportable_type %>
-    </div>
+    <%= f.fields_for @report.issue do |issue_form| %>
+      <%= issue_form.hidden_field :reportable_id %>
+      <%= issue_form.hidden_field :reportable_type %>
+    <% end %>
 
     <div class='form-row' style='width:600px'>
       <p><%= t('issues.new.select') %>:</p>

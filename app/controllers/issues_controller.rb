@@ -62,54 +62,6 @@ class IssuesController < ApplicationController
     @related_issues = @issue.reported_user.issues.where(:issue_type => @user_role)
   end
 
-  def new
-    if create_new_issue_params.present?
-      @issue = Issue.find_or_initialize_by(create_new_issue_params)
-      path = "issues.report_strings." + @issue.reportable.class.name.to_s
-      @report_strings_yaml = t(path)
-    end
-  end
-
-  def create
-    @issue = Issue.find_by(:reportable_id => params[:reportable_id], :reportable_type => params[:reportable_type])
-    # Check if Issue already exists
-    unless @issue
-      @issue = Issue.find_or_initialize_by(issue_params)
-      @issue.updated_by = nil
-
-      # Reassign to moderators if it is a moderator issue
-      @issue.issue_type = "administrator"
-      reassign_issue if @moderator_issues.include? @issue.reportable.class.name
-    end
-
-    # Check if details provided are sufficient
-    if check_report_params
-      @report = @issue.reports.build(report_params)
-      details = report_details
-      @report.reporter_user_id = current_user.id
-      @report.details = details
-      # Checking if instance has been updated since last report
-      @last_report = @issue.reports.order(:updated_at => :desc).last
-      if check_if_updated
-        @issue.save! if @issue.reopen
-      end
-
-      if @issue.save!
-        @issue.report_count = @issue.reports.count
-        @issue.save!
-
-        @admins_or_mods = UserRole.where(:role => @issue.issue_type)
-        @admins_or_mods.each do |user|
-          Notifier.new_issue_notification(@issue.id, User.find(user.user_id)).deliver_now
-        end
-
-        redirect_back :fallback_location => "/", :notice => t("issues.create.successful_report")
-      end
-    else
-      redirect_to new_issue_path(:reportable_type => @issue.reportable_type, :reportable_id => @issue.reportable_id), :notice => t("issues.create.provide_details")
-    end
-  end
-
   def update
     @issue = Issue.find_by(issue_params)
     # Check if details provided are sufficient
@@ -244,10 +196,6 @@ class IssuesController < ApplicationController
       flash[:error] = t("application.require_admin.not_an_admin")
       redirect_to root_path
     end
-  end
-
-  def create_new_issue_params
-    params.permit(:reportable_id, :reportable_type)
   end
 
   def issue_params
