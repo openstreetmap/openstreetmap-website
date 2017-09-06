@@ -5,6 +5,7 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path("../../config/environment", __FILE__)
 require "rails/test_help"
 require "webmock/minitest"
+require "minitest/rails/capybara"
 
 module ActiveSupport
   class TestCase
@@ -149,6 +150,14 @@ module ActiveSupport
           text_parts.concat(email_text_parts(part))
         end
       end
+    end
+
+    def sign_in_as(user)
+      stub_hostip_requests
+      visit login_path
+      fill_in "username", :with => user.email
+      fill_in "password", :with => "test"
+      click_on "Login", :match => :first
     end
   end
 end

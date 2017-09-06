@@ -223,7 +223,7 @@ OpenStreetMap::Application.routes.draw do
   match "/user/:display_name/diary" => "diary_entry#list", :via => :get
   match "/diary/:language" => "diary_entry#list", :via => :get
   match "/diary" => "diary_entry#list", :via => :get
-  match "/user/:display_name/diary/:id" => "diary_entry#view", :via => :get, :id => /\d+/
+  match "/user/:display_name/diary/:id" => "diary_entry#view", :via => :get, :id => /\d+/, :as => :diary_entry
   match "/user/:display_name/diary/:id/newcomment" => "diary_entry#comment", :via => :post, :id => /\d+/
   match "/user/:display_name/diary/:id/edit" => "diary_entry#edit", :via => [:get, :post], :id => /\d+/
   match "/user/:display_name/diary/:id/hide" => "diary_entry#hide", :via => :post, :id => /\d+/, :as => :hide_diary_entry
