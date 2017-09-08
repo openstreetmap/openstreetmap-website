@@ -9,7 +9,7 @@ if defined?(CSP_REPORT_URL)
     :img_src => %w['self' data: www.gravatar.com *.wp.com *.tile.openstreetmap.org *.tile.thunderforest.com *.openstreetmap.fr],
     :media_src => %w['none'],
     :object_src => %w['self'],
-    :plugin_types => %w['none'],
+    :plugin_types => %w[],
     :script_src => %w['self'],
     :style_src => %w['self' 'unsafe-inline'],
     :report_uri => [CSP_REPORT_URL]
