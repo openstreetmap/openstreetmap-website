@@ -34,19 +34,21 @@
     <%= render :partial => 'diary_list_entry', :collection => @entries %>
   <% end %>
 
-  <% if @entries.size < @page_size -%>
-    <%= t('diary_entry.list.older_entries') %>
-  <% else -%>
-    <%= link_to t('diary_entry.list.older_entries'), @params.merge(:page => @page + 1 ) %>
-  <% end -%>
+  <div class="pagination">
+    <% if @entries.size < @page_size -%>
+      <%= t('diary_entry.list.older_entries') %>
+    <% else -%>
+      <%= link_to t('diary_entry.list.older_entries'), @params.merge(:page => @page + 1 ) %>
+    <% end -%>
 
-  |
+    |
 
-  <% if @page > 1 -%>
-    <%= link_to t('diary_entry.list.newer_entries'), @params.merge(:page => @page - 1) %>
-  <% else -%>
-    <%= t('diary_entry.list.newer_entries') %>
-  <% end -%>
+    <% if @page > 1 -%>
+      <%= link_to t('diary_entry.list.newer_entries'), @params.merge(:page => @page - 1) %>
+    <% else -%>
+      <%= t('diary_entry.list.newer_entries') %>
+    <% end -%>
+  </div>
 <% end %>
 
 <% unless params[:friends] or params[:nearby] -%>
