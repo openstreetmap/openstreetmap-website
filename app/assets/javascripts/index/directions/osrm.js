@@ -108,7 +108,7 @@ function OSRMEngine() {
     getRoute: function (points, callback) {
 
       var params = [
-        { name: "access_token": value: "pk.eyJ1Ijoib3NybSIsImEiOiJjajdiOHNna28wcGVhMnFvOTVkOWlpNWUzIn0.7V3lSL-vVZ_RSf8_Pc1Ebw" },
+        { name: "access_token", value: "pk.eyJ1Ijoib3NybSIsImEiOiJjajdiOHNna28wcGVhMnFvOTVkOWlpNWUzIn0.7V3lSL-vVZ_RSf8_Pc1Ebw" },
         { name: "overview", value: "false" },
         { name: "geometries", value: "polyline" },
         { name: "steps", value: true }
