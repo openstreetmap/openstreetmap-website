@@ -3,4 +3,6 @@ class IssueComment < ActiveRecord::Base
   belongs_to :user, :class_name => "User", :foreign_key => :commenter_user_id
 
   validates :body, :presence => true
+  validates :user, :presence => true
+  validates :issue, :presence => true
 end

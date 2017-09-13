@@ -1,9 +1,9 @@
 class CreateIssueComments < ActiveRecord::Migration
   def change
     create_table :issue_comments do |t|
-      t.integer :issue_id
-      t.integer :commenter_user_id
-      t.text :body
+      t.integer :issue_id, :null => false
+      t.integer :commenter_user_id, :null => false
+      t.text :body, :null => false
       t.boolean :reassign
       t.timestamps :null => false
     end

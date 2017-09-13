@@ -691,9 +691,9 @@ ALTER SEQUENCE gpx_files_id_seq OWNED BY gpx_files.id;
 
 CREATE TABLE issue_comments (
     id integer NOT NULL,
-    issue_id integer,
-    commenter_user_id integer,
-    body text,
+    issue_id integer NOT NULL,
+    commenter_user_id integer NOT NULL,
+    body text NOT NULL,
     reassign boolean,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
