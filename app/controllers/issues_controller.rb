@@ -45,8 +45,6 @@ class IssuesController < ApplicationController
       @issues = @issues.where(:updated_by => last_updated_by)
     end
 
-    notice = t("issues.index.search.issues_not_found") if @issues.first.nil?
-
     if params[:last_reported_by] && params[:last_reported_by][0].present?
       last_reported_by = params[:last_reported_by][0].to_s == "nil" ? nil : params[:last_reported_by][0].to_i
       @issues = @issues.where(:updated_by => last_reported_by)

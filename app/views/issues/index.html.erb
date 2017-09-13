@@ -1,5 +1,3 @@
-<p id= "notice"><%= notice %></p>
-
 <% content_for :heading do %>
   <h1>List of <%= @user_role %> issues:</h1>
 <% end %>
@@ -13,6 +11,11 @@ Search for a particular issue(s):  <br/>
 <%= submit_tag "Search" %>
 <% end %>
 <br/>
+
+<% if @issues.length == 0 %>
+  <p><%= t ".search.issues_not_found" %></p>
+<% end %>
+
 <br/>
 
 <table>
