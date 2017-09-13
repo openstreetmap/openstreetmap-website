@@ -1,15 +1,14 @@
 <% reports.each do |report| %>
-  <% details =  report.details.split("--||--") %>
   <div class="reports">
     <div style="float:left">
       <%= link_to user_thumbnail(report.user), :controller => :user, :action =>:view, :display_name => report.user.display_name %>
     </div>
-    Reported as <b><%= details[1].delete('[').delete(']').downcase %></b> by <b><%= link_to report.user.display_name, :controller => :user,:action =>:view, :display_name => report.user.display_name %></b> <br/>
+    Reported by <b><%= link_to report.user.display_name, :controller => :user, :action =>:view, :display_name => report.user.display_name %></b> <br/>
     <span class="deemphasize">
       On <%= l report.updated_at.to_datetime, :format => :friendly %>
     </span>
     <br/>
-    <%= details[0] %>
+    <%= report.details %>
     <br/>
   </div>
   <hr>
