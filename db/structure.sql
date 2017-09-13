@@ -735,7 +735,7 @@ CREATE TABLE issues (
     updated_by integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    report_count integer DEFAULT 0
+    reports_count integer DEFAULT 0
 );
 
 
