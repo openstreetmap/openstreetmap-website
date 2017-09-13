@@ -10,10 +10,7 @@ class CreateIssuesAndReports < ActiveRecord::Migration
       t.string :issue_type
       t.datetime :resolved_at
       t.integer :resolved_by
-      t.datetime :created_at
-      t.datetime :updated_at
       t.integer :updated_by
-
       t.timestamps :null => false
     end
 
@@ -26,9 +23,6 @@ class CreateIssuesAndReports < ActiveRecord::Migration
       t.integer :issue_id
       t.integer :reporter_user_id
       t.text :details, :null => false
-      t.datetime :created_at
-      t.datetime :updated_at
-
       t.timestamps :null => false
     end
 

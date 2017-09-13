@@ -694,8 +694,8 @@ CREATE TABLE issue_comments (
     issue_id integer,
     commenter_user_id integer,
     body text,
-    created_at timestamp without time zone NOT NULL,
     reassign boolean,
+    created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
 
@@ -732,9 +732,9 @@ CREATE TABLE issues (
     issue_type character varying,
     resolved_at timestamp without time zone,
     resolved_by integer,
+    updated_by integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    updated_by integer,
     report_count integer DEFAULT 0
 );
 
