@@ -2,7 +2,7 @@
   <% details =  report.details.split("--||--") %>
   <div class="reports">
     <div style="float:left">
-      <%= link_to user_thumbnail(report.user), :controller => :user,:action =>:view, :display_name => report.user.display_name %>
+      <%= link_to user_thumbnail(report.user), :controller => :user, :action =>:view, :display_name => report.user.display_name %>
     </div>
     Reported as <b><%= details[1].delete('[').delete(']').downcase %></b> by <b><%= link_to report.user.display_name, :controller => :user,:action =>:view, :display_name => report.user.display_name %></b> <br/>
     <span class="deemphasize">
