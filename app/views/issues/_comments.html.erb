@@ -20,7 +20,7 @@
 </div>
 <br/>
 <div class="comment">
-  <%= form_for :issue_comment, :url => { :action => 'comment', :id => @issue.id } do |f| %>
+  <%= form_for @new_comment, url: issue_comments_path(@issue) do |f| %>
   <%= richtext_area :issue_comment, :body, :cols => 10, :rows => 8, :required => true %>
   <%= label_tag t('issues.show.comments.reassign_param') %> <%= check_box_tag :reassign, true %>
   <br/>

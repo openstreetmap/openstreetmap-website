@@ -292,6 +292,7 @@ OpenStreetMap::Application.routes.draw do
 
   # issues and reports
   resources :issues do
+    resources :comments, :controller => :issue_comments
     member do
       post "resolve"
       post "assign"
@@ -301,8 +302,6 @@ OpenStreetMap::Application.routes.draw do
   end
 
   resources :reports
-
-  post "/comment" => "issues#comment"
 
   # redactions
   resources :redactions

@@ -58,6 +58,7 @@ class IssuesController < ApplicationController
     @unread_reports = @issue.unread_reports
     @comments = @issue.comments
     @related_issues = @issue.reported_user.issues.where(:issue_type => @user_role)
+    @new_comment = IssueComment.new(:issue => @issue)
   end
 
   def update
@@ -92,25 +93,6 @@ class IssuesController < ApplicationController
     else
       redirect_to new_issue_path(:reportable_type => @issue.reportable_type, :reportable_id => @issue.reportable_id), :notice => t("issues.update.provide_details")
     end
-  end
-
-  def comment
-    @issue = Issue.find(params[:id])
-    if issue_comment_params.blank?
-      notice = t("issues.comment.provide_details")
-    else
-      @issue_comment = @issue.comments.build(issue_comment_params)
-      @issue_comment.commenter_user_id = current_user.id
-      if params[:reassign]
-        reassign_issue
-        @issue_comment.reassign = true
-      end
-      @issue_comment.save!
-      @issue.updated_by = current_user.id
-      @issue.save!
-      notice = t("issues.comment.comment_created")
-    end
-    redirect_to @issue, :notice => notice
   end
 
   # Status Transistions
