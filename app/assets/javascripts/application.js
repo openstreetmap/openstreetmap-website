@@ -79,18 +79,6 @@ $(document).ready(function () {
   var headerWidth = 0,
       compactWidth = 0;
 
-  $("header").children(":visible").each(function (i,e) {
-    headerWidth = headerWidth + $(e).outerWidth();
-  });
-
-  $("body").addClass("compact");
-
-  $("header").children(":visible").each(function (i,e) {
-    compactWidth = compactWidth + $(e).outerWidth();
-  });
-
-  $("body").removeClass("compact");
-
   function updateHeader() {
     var windowWidth = $(window).width();
 
@@ -103,9 +91,29 @@ $(document).ready(function () {
     }
   }
 
-  updateHeader();
+  /*
+   * Chrome 60 and later seem to fire the "ready" callback
+   * before the DOM is fully ready causing us to measure the
+   * wrong sizes for the header elements - use a 0ms timeout
+   * to defer the measurement slightly as a workaround.
+   */
+  setTimeout(function () {
+    $("header").children(":visible").each(function (i,e) {
+      headerWidth = headerWidth + $(e).outerWidth();
+    });
 
-  $(window).resize(updateHeader);
+    $("body").addClass("compact");
+
+    $("header").children(":visible").each(function (i,e) {
+      compactWidth = compactWidth + $(e).outerWidth();
+    });
+
+    $("body").removeClass("compact");
+
+    updateHeader();
+
+    $(window).resize(updateHeader);
+  }, 0);
 
   $("#menu-icon").on("click", function(e) {
     e.preventDefault();
