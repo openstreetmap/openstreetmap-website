@@ -231,6 +231,16 @@ OpenStreetMap::Application.routes.draw do
   match "/user/:display_name/diary/:id/subscribe" => "diary_entry#subscribe", :via => :post, :as => :diary_entry_subscribe, :id => /\d+/
   match "/user/:display_name/diary/:id/unsubscribe" => "diary_entry#unsubscribe", :via => :post, :as => :diary_entry_unsubscribe, :id => /\d+/
 
+  # changeset comments pages
+  match "/changesets/comments" => "changeset_comments#all", :via => :get
+  match "/changesets/comments/page/:page" => "changeset_comments#all", :via => :get
+  match "/user/:display_name/changesets/comments" => "changeset_comments#user", :via => :get
+  match "/user/:display_name/changesets/comments/page/:page" => "changeset_comments#user", :via => :get
+  match "/user/:display_name/changesets/comments/received" => "changeset_comments#received", :via => :get
+  match "/user/:display_name/changesets/comments/received/page/:page" => "changeset_comments#received", :via => :get
+  match "/user/:display_name/changesets/comments/subscribed" => "changeset_comments#subscribed", :via => :get
+  match "/user/:display_name/changesets/comments/subscribed/page/:page" => "changeset_comments#subscribed", :via => :get
+
   # user pages
   match "/user/:display_name" => "user#view", :via => :get, :as => "user"
   match "/user/:display_name/make_friend" => "user#make_friend", :via => [:get, :post], :as => "make_friend"

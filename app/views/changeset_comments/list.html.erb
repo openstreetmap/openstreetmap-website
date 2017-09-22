@@ -1,0 +1,35 @@
+<% @title = t "changeset_comments.list.title.#{action_name}", :user => @target_user.try(:display_name) %>
+<% content_for :heading do %>
+  <h1><%= @title %></h1>
+  <ul class="secondary-actions clearfix">
+    <li><%= link_to t("changeset_comments.list.heading_links.all_comments"), :controller => "changeset_comments", :action => "all", :page => nil %></li>
+    <% if @link_user.present? %>
+    <li><%= link_to user_comments_link_text(@link_user), :controller => "changeset_comments", :action => "user", :page => nil, :display_name => @link_user.display_name %></li>
+    <li><%= link_to user_received_comments_link_text(@link_user), :controller => "changeset_comments", :action => "received", :page => nil, :display_name => @link_user.display_name %></li>
+      <% if current_user == @link_user %>
+    <li><%= link_to t("changeset_comments.list.heading_links.current_user_subscribed_comments"), :controller => "changeset_comments", :action => "subscribed", :page => nil, :display_name => @link_user.display_name %></li>
+      <% end %>
+    <% end %>
+  </ul>
+<% end %>
+
+<% if @comments.empty? %>
+  <h2><%= t "changeset_comments.list.empty" %></h2>
+<% else %>
+  <ul id="changeset-comments">
+    <%= render @comments %>
+  </ul>
+  <div class="pagination">
+    <% if @comments.size < @page_size -%>
+      <%= t("changeset_comments.list.older_records") %>
+    <% else -%>
+      <%= link_to t("changeset_comments.list.older_records"), @params.merge(:page => @page + 1 ) %>
+    <% end -%>
+    |
+    <% if @page > 1 -%>
+      <%= link_to t("changeset_comments.list.newer_records"), @params.merge(:page => @page - 1) %>
+    <% else -%>
+      <%= t("changeset_comments.list.newer_records") %>
+    <% end -%>
+  </div>
+<% end %>

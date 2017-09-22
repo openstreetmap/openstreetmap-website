@@ -9,6 +9,8 @@ class ChangesetComment < ActiveRecord::Base
   validates :visible, :inclusion => [true, false]
   validates :body, :format => /\A[^\x00-\x08\x0b-\x0c\x0e-\x1f\x7f\ufffe\uffff]*\z/
 
+  scope :visible, -> { where(:visible => true) }
+
   # Return the comment text
   def body
     RichText.new("text", self[:body])

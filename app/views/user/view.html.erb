@@ -25,6 +25,10 @@
             <%= link_to t('user.view.my comments' ), :controller => 'diary_entry', :action => 'comments', :display_name => current_user.display_name %>
           </li>
           <li>
+            <%= link_to t('user.view.my_changeset_comments' ), :controller => 'changeset_comments', :action => 'user', :display_name => current_user.display_name %>
+            <span class='count-number'><%= number_with_delimiter(current_user.changeset_comments.size) %></span>
+          </li>
+          <li>
             <%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => current_user.display_name %>
           </li>
 
@@ -71,6 +75,10 @@
           </li>
           <li>
             <%= link_to t('user.view.comments'), :controller => 'diary_entry', :action => 'comments', :display_name => @this_user.display_name %>
+          </li>
+          <li>
+            <%= link_to t('user.view.changeset_comments' ), :controller => 'changeset_comments', :action => 'user', :display_name => @this_user.display_name %>
+            <span class='count-number'><%= number_with_delimiter(@this_user.changeset_comments.size) %></span>
           </li>
           <li>
             <% if current_user and current_user.is_friends_with?(@this_user) %>

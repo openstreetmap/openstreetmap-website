@@ -6,5 +6,13 @@ FactoryGirl.define do
     changeset
 
     association :author, :factory => :user
+
+    trait :visible do
+      visible true
+    end
+
+    trait :hidden do
+      visible false
+    end
   end
 end
