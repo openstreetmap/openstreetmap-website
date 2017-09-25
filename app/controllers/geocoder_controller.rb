@@ -19,7 +19,6 @@ class GeocoderController < ApplicationController
       @sources.push "geonames_reverse" if defined?(GEONAMES_USERNAME)
     elsif @params[:query]
       if @params[:query] =~ /^\d{5}(-\d{4})?$/
-        @sources.push "us_postcode"
         @sources.push "osm_nominatim"
       elsif @params[:query] =~ /^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i
         @sources.push "uk_postcode"
@@ -56,31 +55,6 @@ class GeocoderController < ApplicationController
 
       render :action => "results"
     end
-  end
-
-  def search_us_postcode
-    # get query parameters
-    query = params[:query]
-
-    # create result array
-    @results = []
-
-    # ask geocoder.us (they have a non-commercial use api)
-    response = fetch_text("http://rpc.geocoder.us/service/csv?zip=#{escape_query(query)}")
-
-    # parse the response
-    unless response =~ /couldn't find this zip/
-      data = response.split(/\s*,\s+/) # lat,long,town,state,zip
-      @results.push(:lat => data[0], :lon => data[1],
-                    :zoom => POSTCODE_ZOOM,
-                    :prefix => "#{data[2]}, #{data[3]},",
-                    :name => data[4])
-    end
-
-    render :action => "results"
-  rescue StandardError => ex
-    @error = "Error contacting rpc.geocoder.us: #{ex}"
-    render :action => "error"
   end
 
   def search_uk_postcode
