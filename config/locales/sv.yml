@@ -6,6 +6,7 @@
 # Author: Adrianod
 # Author: Ainali
 # Author: Balp
+# Author: Bengtsson96
 # Author: Cohan
 # Author: Cybjit
 # Author: Dan Koehl
@@ -56,7 +57,7 @@ sv:
       language: Språk
       message: Meddelande
       node: Nod
-      node_tag: Nodtagg
+      node_tag: Nodetikett
       notifier: Meddelande
       old_node: Gammal nod
       old_node_tag: Gammal nodtagg
@@ -65,7 +66,7 @@ sv:
       old_relation_tag: Gammal relationstagg
       old_way: Gammal sträcka
       old_way_node: Gammal sträcknod
-      old_way_tag: Gammal sträcktagg
+      old_way_tag: Gammal sträcketikett
       relation: Relation
       relation_member: Relationsmedlem
       relation_tag: Relationstagg
@@ -74,11 +75,11 @@ sv:
       tracepoint: Spårpunkt
       tracetag: Spåretikett
       user: Användare
-      user_preference: Användarinställningar
+      user_preference: Användarinställning
       user_token: Användarnyckel
       way: Sträcka
       way_node: Sträcknod
-      way_tag: Vägtagg
+      way_tag: Sträcketikett
     attributes:
       diary_comment:
         body: Brödtext
@@ -131,12 +132,14 @@ sv:
   browse:
     created: Skapad
     closed: Stängd
-    created_html: Skapade <abbr title='%{title}'>%{time} sedan</abbr>
-    closed_html: Stängde <abbr title='%{title}'> för %{time} sedan</abbr>
-    created_by_html: Skapade <abbr title='%{title}'>%{time} sedan</abbr> av %{user}
-    deleted_by_html: Raderade <abbr title='%{title}'>%{time} sedan</abbr> av %{user}
-    edited_by_html: Redigerade <abbr title='%{title}'>%{time} sedan</abbr> av %{user}
-    closed_by_html: Stängde <abbr title='%{title}'> för %{time} sedan</abbr> av %{user}
+    created_html: Skapades <abbr title='%{title}'>för %{time} sedan</abbr>
+    closed_html: Stängdes <abbr title='%{title}'>för %{time} sedan</abbr>
+    created_by_html: Skapades <abbr title='%{title}'>för %{time} sedan</abbr> av %{user}
+    deleted_by_html: Raderades <abbr title='%{title}'>för %{time} sedan</abbr> av
+      %{user}
+    edited_by_html: Redigerades <abbr title='%{title}'>för %{time} sedan</abbr> av
+      %{user}
+    closed_by_html: Stängdes <abbr title='%{title}'> för %{time} sedan</abbr> av %{user}
     version: Version
     in_changeset: Ändringsset
     anonymous: anonym
@@ -218,9 +221,9 @@ sv:
         webbläsare långsam eller få den att sluta svara. Är säker på att du vill visa
         denna data?
       load_data: Ladda data
-      loading: Läser in...
+      loading: Läser in …
     tag_details:
-      tags: Taggar
+      tags: Etiketter
       wiki_link:
         key: Wiki-beskrivningssidan för %{key}-taggen
         tag: Wiki-beskrivningssidan för %{key}=%{value}-taggen
@@ -237,17 +240,19 @@ sv:
       open_by: Skapad av %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
       open_by_anonymous: Skapad av anonym <abbr title='%{exact_time}'>%{when} sedan</abbr>
       commented_by: Kommentar från %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
-      commented_by_anonymous: Kommentar från anonym <abbr title='%{exact_time}'>%{when}
+      commented_by_anonymous: Kommentar från en anonym användare <abbr title='%{exact_time}'>för
+        %{when} sedan</abbr>
+      closed_by: Löst av %{user} <abbr title='%{exact_time}'>för %{when} sedan</abbr>
+      closed_by_anonymous: Löst av en anonym användare <abbr title='%{exact_time}'>för
+        %{when} sedan</abbr>
+      reopened_by: Återaktiverades av %{user} <abbr title='%{exact_time}'>för %{when}
         sedan</abbr>
-      closed_by: Löst av %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
-      closed_by_anonymous: Löst av anonym <abbr title='%{exact_time}'>%{when} sedan</abbr>
-      reopened_by: Återaktiverad av %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
-      reopened_by_anonymous: Återaktiverad av anonym <abbr title='%{exact_time}'>%{when}
-        sedan</abbr>
-      hidden_by: Gömd av %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
+      reopened_by_anonymous: Återaktiverades av en anonym användare <abbr title='%{exact_time}'>för
+        %{when} sedan</abbr>
+      hidden_by: Doldes av %{user} <abbr title='%{exact_time}'>för %{when} sedan</abbr>
     query:
       title: Undersök kartobjekt
-      introduction: Klicka på kartan för att hitta närliggande funktioner.
+      introduction: Klicka på kartan för att hitta funktioner i närheten.
       nearby: Finns i närheten
       enclosing: Omgivande kartobjekt
   changeset:
@@ -414,7 +419,6 @@ sv:
     search:
       title:
         latlon: Resultat från <a href="http://openstreetmap.org/">OpenStreetMap</a>
-        us_postcode: Resultat från <a href="http://geocoder.us/">Geocoder.us</a>
         uk_postcode: Resultat från <a href="http://www.npemap.org.uk/">NPEMap / Free
           The Postcode</a>
         ca_postcode: Resultat från <a href="http://geocoder.ca/">Geocoder.CA</a>
@@ -1444,6 +1448,7 @@ sv:
       date: Datum
       reply_button: Svara
       unread_button: Markera som oläst
+      delete_button: Radera
       back: Tillbaka
       to: Till
       wrong_user: Du är inloggad som '%{user}', men meddelandet du har bett om att

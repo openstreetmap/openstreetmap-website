@@ -8,6 +8,7 @@
 # Author: Nemo bis
 # Author: Nikola Smolenski
 # Author: Obsuser
+# Author: Prevodim
 # Author: Rancher
 # Author: Sawa
 # Author: Srdjan m
@@ -386,7 +387,6 @@ sr:
     search:
       title:
         latlon: <a href="http://openstreetmap.org/">Унутрашњи резултати</a>
-        us_postcode: Резултати са сајта <a href="http://geocoder.us/">Geocoder.us</a>
         uk_postcode: Резултати са сајта <a href="http://www.npemap.org.uk/">NPEMap/FreeThe
           Postcode</a>
         ca_postcode: Резултати са сајта <a href="http://geocoder.ca/">Geocoder.ca</a>
@@ -1144,10 +1144,17 @@ sr:
     welcome:
       title: Добродошли на ОСМ
       description: Почни са овим брзим водичем који покрива основе ОпенСтритМапа
+    beginners_guide:
+      title: Водич за почетничке
+      description: Водич за почетнике
     help:
       description: Постави питање или нађи одговор на ОСМ страници за питања и одговоре.
+    mailing_lists:
+      title: Дописне листе
     forums:
       title: Форуми
+    irc:
+      description: Интерактивни разговор на многим језицима и на многе теме.
     wiki:
       url: http://wiki.openstreetmap.org/wiki/Sr:Main_Page
       title: wiki.openstreetmap.org/wiki/Sr:Main_Page
@@ -1229,6 +1236,7 @@ sr:
       anonymous: Анонимни корисник
       greeting: Поздрав,
     changeset_comment_notification:
+      hi: Поздрав, %{to_user},
       greeting: Поздрав,
       commented:
         partial_changeset_without_comment: без коментара
@@ -1240,10 +1248,10 @@ sr:
       messages: Имате %{new_messages} и %{old_messages}
       new_messages:
         one: '%{count} нова порука'
-        other: '%{count} нове поруке'
+        other: '%{count} нових порука'
       old_messages:
         one: '%{count} стара порука'
-        other: '%{count} старе поруке'
+        other: '%{count} старих порука'
       from: Од
       subject: Наслов
       date: Датум
@@ -1293,6 +1301,7 @@ sr:
       date: Датум
       reply_button: Одговори
       unread_button: Означи као непрочитано
+      delete_button: Обриши
       back: Назад
       to: За
       wrong_user: Пријављени сте као %{user}, али порука коју сте желели да прочитате
@@ -1340,6 +1349,9 @@ sr:
       close: Затвори
     search:
       search: Претрага
+      get_directions: Тражите упутства
+      from: Од
+      to: До
       where_am_i: Где сам?
       where_am_i_title: Установите тренутну локацију помоћу претраживача
       submit_text: Иди
@@ -1355,6 +1367,9 @@ sr:
           track: Макадам
           bridleway: Коњичка стаза
           cycleway: Бициклистичка стаза
+          cycleway_national: Национална бициклистичка стаза
+          cycleway_regional: Регионална бициклистичка стаза
+          cycleway_local: Локална бициклистичка стаза
           footway: Пешачка стаза
           rail: Железничка пруга
           subway: Подземна железница
@@ -1407,6 +1422,9 @@ sr:
           private: Приватни посед
           destination: Приступ одредишту
           construction: Путеви у изградњи
+          bicycle_shop: Продавница бицикала
+          bicycle_parking: Паркинг за бицикле
+          toilets: Тоалети
     richtext_area:
       edit: Уреди
       preview: Преглед
@@ -1554,6 +1572,8 @@ sr:
       allow_write_api: мења мапу.
       allow_read_gpx: чита ваше приватне GPS трагове.
       allow_write_gpx: отпрема GPS трагове.
+      allow_write_notes: измени белешке.
+      grant_access: Додели приступ
     revoke:
       flash: Опозвали сте новчић за %{application}
   oauth_clients:
@@ -1643,8 +1663,20 @@ sr:
       auth_providers:
         openid:
           title: Пријавити се са OpenID
+        google:
+          title: Пријава преко Гугла
         facebook:
           title: Пријавити се са Facebook-ом
+        github:
+          title: Пријава коришћењем GitHub-а
+          alt: Пријава коришћењем GitHub налога
+        wikipedia:
+          title: Пријава преко Википедије
+          alt: Пријава коришћењем Википедија налога
+        yahoo:
+          title: Пријава преко Јахуа
+        wordpress:
+          title: Пријава коришћењем Wordpress-а
     logout:
       title: Одјава
       heading: Одјава
@@ -1715,6 +1747,7 @@ sr:
       heading: Корисник %{user} не постоји
       body: Не постоји корисник с именом %{user}. Проверите исправност уписа или везе
         коју сте кликнули.
+      deleted: обрисано
     view:
       my diary: Мој дневник
       new diary entry: нови дневнички запис
@@ -2021,6 +2054,8 @@ sr:
       heading: '%{block_on} је блокиран/а од %{block_by}'
       time_future: Завршава се у %{time}
       time_past: Завршено пре %{time}
+      created: Направљено
+      ago: пре %{time}
       status: Стање
       show: Прикажи
       edit: Уреди
@@ -2082,6 +2117,8 @@ sr:
       center_marker: Центрирај карту на ознаку
       paste_html: Налепи HTML да га уградиш у веб страницу
       view_larger_map: Погледај већу карту
+    embed:
+      report_problem: Пријави проблем
     key:
       title: Легенда
       tooltip: Легенда карте
@@ -2139,6 +2176,7 @@ sr:
         comment: Коментариши
     edit_help: Помери карту и увећај на место које хоћеш да уредиш, затим кликни овде.
     directions:
+      ascend: Растуће
       engines:
         graphhopper_bicycle: Бициклом (GraphHopper)
         graphhopper_foot: Пешке (GraphHopper)
@@ -2149,6 +2187,7 @@ sr:
         mapzen_bicycle: Бициклом (Mapzen)
         mapzen_car: Аутомобилом (Mapzen)
         mapzen_foot: Пешке (Mapzen)
+      descend: Опадајуће
       directions: Путања
       distance: Удаљеност
       errors:
@@ -2173,6 +2212,11 @@ sr:
         against_oneway_without_exit: Идите једносмерном на %{name}
         end_oneway_without_exit: Крај једносмерне на %{name}
         roundabout_with_exit: На кружном току изаберите излаз %{exit} на %{name}
+        turn_left_with_exit: На кружном току скрените лево у %{name}
+        slight_left_with_exit: На кружном току скрените благо лево у %{name}
+        turn_right_with_exit: На кружном току скрените десно у %{name}
+        slight_right_with_exit: На кружном току скрените благо десно у %{name}
+        continue_with_exit: На кружном току наставите право у %{name}
         unnamed: без имена
         courtesy: Путању је омогућио %{link}
       time: Време
@@ -2183,6 +2227,12 @@ sr:
       nothing_found: Нема објеката у близини
       error: 'Грешка при повезивању са %{server}: %{error}%{error}'
       timeout: Истекло је време за повезивање са %{server}
+    context:
+      directions_from: Упути одавде
+      directions_to: Упути довде
+      add_note: Додај белешку овде
+      show_address: Прикажи адресу
+      centre_map: Центрирај мапу овде
   redaction:
     edit:
       description: Опис

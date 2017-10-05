@@ -91,18 +91,31 @@ tl:
   editor:
     default: Likas na pagtatakda (kasalukuyang %{name})
     potlatch:
-      name: Pagbibigay-daan 1
-      description: Pagbibigay-daan 1 (patnugot na nasa loob ng pantingin-tingin)
+      name: Potlatch 1
+      description: Potlatch 1 (patnugot na nasa loob ng pantingin-tingin)
+    id:
+      name: iD
+      description: iD (patnugot na nasa loob ng pantingin-tingin)
     potlatch2:
-      name: Pagbibigay-daan 2
-      description: Pagbibigay-daan 2 (patnugot na nasa loob ng pantingin-tingin)
+      name: Potlatch 2
+      description: Potlatch 2 (patnugot na nasa loob ng pantingin-tingin)
     remote:
       name: Pangmalayong Pantaban
       description: Pangmalayong Pantaban (JOSM o Merkaartor)
   browse:
     created: Nilikha
     closed: Isinara
+    created_html: Nilikha <abbr title='%{title}'>%{time} ang nakaraan</abbr>
+    closed_html: Isinara <abbr title='%{title}'>%{time} ang nakaraan</abbr>
+    created_by_html: Nilikha <abbr title='%{title}'>%{time} ang nakaraan</abbr> ni
+      %{user}
+    deleted_by_html: Binura <abbr title='%{title}'>%{time} ang nakaraan</abbr> ni
+      %{user}
+    edited_by_html: Binago <abbr title='%{title}'>%{time} ang nakaraan</abbr> ni %{user}
+    closed_by_html: Isinara <abbr title='%{title}'>%{time} ang nakaraan</abbr> ni
+      %{user}
     version: Bersyon
+    in_changeset: Pangkat ng pagbabago
     anonymous: Hindi nagpapakilala (anonimo)
     no_comment: (walang mga puna)
     part_of: Bahagi ng
@@ -118,6 +131,7 @@ tl:
       feed:
         title: '%{id} ng pangkat ng pagbabago'
         title_comment: '%{id} ng angkat ng pagbabago - %{comment}'
+      join_discussion: Lumagda para sumali sa talakayan
     relation:
       members: Mga kasapi
     relation_member:
@@ -131,7 +145,7 @@ tl:
       entry: Kaugnayan %{relation_name}
       entry_role: Kaugnayan %{relation_name} (bilang %{relation_role})
     not_found:
-      sorry: Paumanhin, ang %{type} na may ID na %{id}, ay hindi matagpuan.
+      sorry: 'Paumanhin, %{type} #%{id} ay hindi matagpuan.'
       type:
         node: buko
         way: daan
@@ -186,6 +200,8 @@ tl:
       title_friend: Mga pangkat ng pagbabago ng mga kaibigan mo
       title_nearby: Mga pangkat ng pagbabago ng kalapit na mga tagagamit
       empty: Walang natagpuang mga aparato/gadyet.
+      empty_user: Walang pangkat ng pagbabago mula sa tagagamit na ito.
+      no_more_area: Walang pangkat ng pagbabago sa lugar na ito.
       load_more: Magkarga pa
     timeout:
       sorry: Paumanhin, ang talaan ng mga pangkat ng pagbabagong hiniling mo ay naging
@@ -235,7 +251,8 @@ tl:
       comment_link: Punahin ang pagpapasok na ito
       reply_link: Tumugon sa pagpapasok na ito
       comment_count:
-        one: 1 puna
+        zero: Wala pang mga puna
+        one: '%{count} puna'
         other: '%{count} mga puna'
       edit_link: Baguhin ang ipinasok na ito
       hide_link: Itago ang ipinasok na ito
@@ -284,6 +301,8 @@ tl:
       too_large:
         body: Masyadong malaki ang lugar na ito upang mailuwas bilang Dato ng XML
           ng OpenStreetMap. Mangyaring lumapit o pumili ng isang mas maliit na pook.
+        overpass:
+          title: Overpass API
         other:
           title: Iba pang mga Pinagmulan
       options: Mga mapagpipilian
@@ -302,7 +321,6 @@ tl:
     search:
       title:
         latlon: Mga kinalabasan mula sa <a href="http://openstreetmap.org/">Panloob</a>
-        us_postcode: Mga kinalabasan mula sa <a href="http://geocoder.us/">Geocoder.us</a>
         uk_postcode: Mga kinalabasan mula sa  <a href="http://www.npemap.org.uk/">NPEMap
           / FreeThe Postcode</a>
         ca_postcode: Mga kinalabasan mula sa <a href="http://geocoder.ca/">Geocoder.CA</a>
@@ -324,6 +342,7 @@ tl:
           taxiway: Daanan ng Taksi
           terminal: Terminal
         amenity:
+          animal_shelter: Kanlungan ng hayop
           arts_centre: Lunduyan ng Sining
           atm: ATM
           bank: Bangko
@@ -333,6 +352,7 @@ tl:
           bicycle_parking: Paradahan ng Bisikleta
           bicycle_rental: Arkilahan ng Bisikleta
           biergarten: Inuman ng Serbesa
+          boat_rental: Arkilahan ng Bangka
           brothel: Bahay-aliwan
           bureau_de_change: Tanggapang Palitan ng Pera
           bus_station: Himpilan ng Bus
@@ -374,11 +394,14 @@ tl:
           library: Aklatan
           market: Pamilihan
           marketplace: Palengke
+          monastery: Monasteryo
+          motorcycle_parking: Paradahan ng Motorsiklo
           nightclub: Alibangbang
           nursery: Alagaan ng mga Bata
           nursing_home: Alagaan ng mga Matatanda
           office: Tanggapan
           parking: Paradahan
+          parking_entrance: Pasukan ng Paradahan
           pharmacy: Botika
           place_of_worship: Sambahan
           police: Pulis
@@ -428,8 +451,11 @@ tl:
         craft:
           carpenter: Anluwage
           gardener: Hardinero
+          painter: Pintor
           photographer: Litratista
+          tailor: Mananahi
         emergency:
+          ambulance_station: Istasyon ng Ambulansya
           phone: Teleponong Pangsakuna
         highway:
           abandoned: Pinabayaang daang-bayan
@@ -465,6 +491,7 @@ tl:
           tertiary: Pampangatlong Kalsada
           tertiary_link: Pampangatlong Kalsada
           track: Pinak
+          traffic_signals: Mga Senyas sa Trapiko
           trail: Bulaos
           trunk: Pangunahing Ruta
           trunk_link: Pangunahing Ruta
@@ -549,6 +576,7 @@ tl:
           water_park: Liwasang Tubigan
           "yes": Pampalipas oras
         man_made:
+          pipeline: Linya ng tubo
           tower: Tore
           works: Pabrika
           "yes": Gawa ng tao
@@ -723,6 +751,7 @@ tl:
           sports: Tindahang Pampalakasan
           stationery: Tindahan ng Papel
           supermarket: Malaking Pamilihan
+          tailor: Mananahi
           toys: Tindahan ng Laruan
           travel_agency: Ahensiya ng Paglalakbay
           video: Tindahan ng Bidyo
@@ -767,6 +796,8 @@ tl:
           wadi: Tuyot na Ilog
           waterfall: Talon
           weir: Pilapil
+      admin_levels:
+        level8: Hangganan ng Lungsod
     description:
       title:
         osm_nominatim: Kinalalagyan mula sa <a href="http://nominatim.openstreetmap.org/">Nominatim
@@ -795,6 +826,7 @@ tl:
     edit: Baguhin
     history: Kasaysayan
     export: Iluwas
+    export_data: Iluwas ang Data
     gps_traces: Mga Bakas ng GPS
     gps_traces_tooltip: Pamahalaan ang mga Bakas ng GPS
     user_diaries: Mga Talaarawan ng mga Tagagamit
@@ -805,7 +837,7 @@ tl:
     intro_2_create_account: Lumikha ng isang akawnt ng tagagamit
     partners_html: Ang pagpapasinaya ay sinusuportahan ng %{ucl}, %{ic} at %{bytemark},
       at iba pang %{partners}.
-    partners_ucl: Ang Sentro ng UCL VR
+    partners_ucl: UCL
     partners_ic: Dalubhasaang Pang-imperyo Londres
     partners_bytemark: Pagpapasinaya ng Bytemark
     partners_partners: mga kawaksi
@@ -818,7 +850,7 @@ tl:
       ng Uri ng Hardwer.
     help: Tulong
     about: Patungkol
-    copyright: Karapatang-ari at Lisensiya
+    copyright: Karapatang-ari
     community: Pamayanan
     community_blogs: Mga Blog ng Pamayanan
     community_blogs_title: Mga blog mula sa mga kasapi ng pamayanan ng OpenStreetMap
@@ -924,6 +956,7 @@ tl:
         ay hindi nagpapahiwatig na ang orihinal \nna tagapagbigay ng dato ay tumatangkilik
         sa OpenStreetMap, nagbibigay ng anumang garantiya, o \ntumatanggap ng anumang
         pananagutan."
+      trademarks_title_html: Mga Trademark
   welcome_page:
     title: Maligayang pagdating!
     whats_on_the_map:
@@ -954,6 +987,7 @@ tl:
       header: 'Nagpadala sa iyo si %{from_user} ng isang mensahe sa pamamagitan ng
         OpenStreetMap na may paksang %{subject}:'
     friend_notification:
+      hi: Kumusta %{to_user},
       subject: Idinagdag ka ni %{user} ng [OpenStreetMap] bilang isang kaibigan
       had_added_you: Idinagdag ka ni %{user} bilang isang kaibigan doon sa OpenStreetMap.
       see_their_profile: Maaari mong makita ang kanilang balangkas sa %{userurl}.
@@ -1004,6 +1038,9 @@ tl:
       click_the_link: Kung ikaw ito, mangyaring pindutin ang kawing na nasa ibaba
         upang itakdang muli ang hudyat mo.
     note_comment_notification:
+      anonymous: Isang di-nagpakilalang tagagamit
+      greeting: Kumusta,
+    changeset_comment_notification:
       greeting: Kumusta,
   message:
     inbox:
@@ -1067,6 +1104,7 @@ tl:
       date: Petsa
       reply_button: Tumugon
       unread_button: Tatakan bilang hindi pa nababasa
+      delete_button: Burahin
       back: Bumalik
       to: Para kay
       wrong_user: Lumagda ka bilang si `%{user}' ngunit ang mensaheng hiniling mong
@@ -1185,6 +1223,7 @@ tl:
           private: Pribadong pagpunta
           destination: Pagpapapunta sa patutunguhan
           construction: Mga kalsadang ginagawa
+          bicycle_parking: Paradahan ng bisikleta
           toilets: Mga banyo
     richtext_area:
       edit: Baguhin
@@ -1313,7 +1352,7 @@ tl:
       message: Pangkasalukuyang hindi makukuha ang sistema ng pagkakarga ng talaksang
         GPX
     offline:
-      heading: Hindi nakaugnay sa Internet na Imbakan ng GPX
+      heading: Hindi nakaugnay sa Internet ang imbakan ng GPX
       message: Pangkasalukuyang hindi makukuha ang sistema ng pagkakarga at pag-iimbak
         ng talaksang GPX.
   application:
@@ -1566,14 +1605,12 @@ tl:
       deactivate_user: Tanggalin ang prebelehiyo ng 'User'
       confirm_user: Tiyakin ang tagagamit na ito
       hide_user: itago ang tagagamit na ito
-      unhide_user: huwag itago ang tagagamit na ito
-      delete_user: burahin ang tagagamit na ito
+      unhide_user: Huwag itago ang Tagagamit na ito
+      delete_user: Burahin ang Tagagamit na ito
       confirm: Tiyakin
-      friends_changesets: Tumingin-tingin sa lahat ng pagtatakda ng mga pagbabago
-        ng mga kaibigan
-      friends_diaries: Tumingin-tingin sa lahat ng mga lahok ng mga kaibigan
-      nearby_changesets: Tumingin-tingin sa lahat ng mga pagtatakda ng pagbabago ng
-        kanugnog na mga tagagamit
+      friends_changesets: mga pagbabago ng mga kaibigan
+      friends_diaries: mga lahok ng mga kaibigan
+      nearby_changesets: mga pagtatakda ng pagbabago mula sa kalapit na mga tagagamit
       nearby_diaries: Tumingin-tingin sa lahat ng mga inilahok sa talaarawan ng kanugnog
         na mga tagagamit
     popup:

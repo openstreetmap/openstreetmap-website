@@ -48,6 +48,7 @@ lb:
       message:
         sender: Sender
         title: Sujet
+        recipient: Empfänger
       user:
         email: E-Mail
         active: Aktiv
@@ -62,10 +63,14 @@ lb:
     id:
       name: iD
   browse:
+    created: Ugeluecht
     closed: Zou
+    created_html: Ugeluecht <abbr title='%{title}'>viru(n) %{time}</abbr>
     closed_html: Zougemaach <abbr title='%{title}'>viru(n) %{time}</abbr>
+    created_by_html: Ugeluecht <abbr title='%{title}'>viru(n) %{time}</abbr> vum %{user}
     deleted_by_html: Geläscht <abbr title='%{title}'>viru(n) %{time}</abbr> vum %{user}
     edited_by_html: Geännert <abbr title='%{title}'>viru(n) %{time}</abbr> vum %{user}
+    closed_by_html: Zougemaach <abbr title='%{title}'>viru(n) %{time}</abbr> vum %{user}
     version: Versioun
     in_changeset: Set vun Ännerungen
     anonymous: anonym
@@ -87,6 +92,7 @@ lb:
       comment: Bemierkungen (%{count})
       hidden_commented_by: Verstoppt Bemierkung vum %{user} <abbr title='%{exact_time}'>
         viru(n) %{when}</abbr>
+      commented_by: Bemierkung vum %{user} <abbr title='%{exact_time}'> viru(n) %{when}</abbr>
       changesetxml: XML mam Set vun Ännerungen
       osmchangexml: osmChange XML
       feed:
@@ -196,6 +202,7 @@ lb:
       publish_button: Verëffentlechen
     list:
       title: Blogge vun de Benotzer
+      user_title: Blog vum %{user}
     edit:
       subject: 'Sujet:'
       language: 'Sprooch:'
@@ -210,6 +217,7 @@ lb:
       login: Aloggen
       save_button: Späicheren
     diary_entry:
+      posted_by: Vum %{link_user} matgedeelt de(n) %{created} op %{language_link}
       comment_count:
         one: '%{count} Bemierkung'
         zero: Keng Bemierkungen
@@ -232,6 +240,7 @@ lb:
   export:
     title: Exportéieren
     start:
+      area_to_export: Beräich fir den Export
       manually_select: Sicht manuell eng aner Géigend eraus
       format_to_export: Format fir z'exportéieren
       osm_xml_data: OpenStreetMap-XML-Daten
@@ -249,12 +258,14 @@ lb:
       max: max
       image_size: Gréisst vum Bild
       zoom: Zoom
+      latitude: 'Geographesch Breet:'
+      longitude: 'Geographesch Längt:'
+      output: Resultat
       export_button: Exportéieren
   geocoder:
     search:
       title:
         latlon: Resultater vun <a href="http://openstreetmap.org/">Internal</a>
-        us_postcode: Resultater vu <a href="http://geocoder.us/">Geocoder.us</a>
         uk_postcode: Resultater vun <a href="http://www.npemap.org.uk/">NPEMap / FreeThe
           Postcode</a>
         ca_postcode: Resultater vu <a href="http://geocoder.ca/">Geocoder.ca</a>
@@ -262,12 +273,16 @@ lb:
         geonames_reverse: Resultater vun <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
+        aerialway:
+          cable_car: Kabelwon
         aeroway:
           aerodrome: Fluchhafen
           gate: Paart
+          helipad: Helikopterlandeplaz
           runway: Start- a Landepist
           terminal: Terminal
         amenity:
+          arts_centre: Konschtzentrum
           atm: Bancomat
           bank: Bank
           bar: Bar
@@ -286,9 +301,11 @@ lb:
           cinema: Kino
           clinic: Klinik
           clock: Auer
+          courthouse: Geriicht
           crematorium: Crematoire
           dentist: Zänndokter
           doctors: Dokteren
+          dormitory: Studentewunnengen
           drinking_water: Drénkwaasser
           driving_school: Fahrschoul
           embassy: Ambassade
@@ -306,6 +323,7 @@ lb:
           market: Maart
           marketplace: Maartplaz
           monastery: Klouschter
+          nursery: Crèche
           office: Büro
           parking: Parking
           pharmacy: Apdikt
@@ -315,6 +333,7 @@ lb:
           preschool: Spillschoul
           prison: Prisong
           pub: Bistro
+          public_building: Ëffentlecht Gebai
           reception_area: Rezeptiounsberäich
           recycling: Recycling-Center
           restaurant: Restaurant
@@ -338,14 +357,19 @@ lb:
         boundary:
           national_park: Nationalpark
         bridge:
+          aqueduct: Aquädukt
           suspension: Hänkbréck
+          swing: Dréibréck
           viaduct: Viadukt
           "yes": Bréck
         building:
           "yes": Gebai
         craft:
+          brewery: Brauerei
+          carpenter: Zammermann
           electrician: Elektriker
           gardener: Gäertner
+          painter: Usträicher
           photographer: Fotograf
           shoemaker: Schouster
           tailor: Schneider
@@ -355,6 +379,7 @@ lb:
         highway:
           bridleway: Wee fir Päerd
           bus_guideway: Busspur
+          bus_stop: Busarrêt
           construction: Autobunn (am Bau)
           elevator: Lift
           footway: Fousswee
@@ -386,6 +411,7 @@ lb:
           citywalls: Stadmaueren
           house: Haus
           memorial: Monument
+          mine: Minn
           monument: Monument
           roman_road: Réimerwee
           ruins: Ruinen
@@ -393,6 +419,8 @@ lb:
           tomb: Graf
           tower: Tuerm
           wreck: Wrack
+        junction:
+          "yes": Kräizung
         landuse:
           cemetery: Kierfecht
           farm: Bauerenhaff
@@ -403,6 +431,7 @@ lb:
           grass: Wiss
           industrial: Industriezone
           military: Militairegebitt
+          mine: Minn
           orchard: Bongert
           quarry: Steekaul
           railway: Eisebunn
@@ -494,7 +523,9 @@ lb:
           construction: Eisebunn (am Bau)
           disused: Fréier Eisebunn
           historic_station: Historesch Eisebunnsstatioun
+          junction: Eisebunnskräizung
           miniature: Miniatur-Eisebunn
+          platform: Zuchquai
           proposed: Proposéiert Eisebunnslinn
           station: Gare (Eisebunn)
           subway: Metro
@@ -557,6 +588,7 @@ lb:
           "yes": Tunnel
         waterway:
           canal: Kanal
+          dam: Staudamm
           river: Floss
           wadi: Wadi
           waterfall: Waasserfall
@@ -636,6 +668,7 @@ lb:
       title: Wëllkomm bäi OSM
     beginners_guide:
       url: http://wiki.openstreetmap.org/wiki/Beginners%27_guide
+      title: Guide fir nei Benotzer
     help:
       url: https://help.openstreetmap.org/
       title: help.openstreetmap.org
@@ -690,6 +723,8 @@ lb:
       subject: '[OpenStreetMap] Ufro fir d''Passwuert zréckzesetzen'
     lost_password_plain:
       greeting: Salut,
+      click_the_link: Wann Dir dat sidd da klickt w.e.g. op de Link hei drënner fir
+        Äert Passwuert zréckzesetzen.
     lost_password_html:
       greeting: Salut,
       click_the_link: Wann Dir dat sidd da klickt w.e.g. op de Link hei drënner fir
@@ -701,6 +736,8 @@ lb:
     changeset_comment_notification:
       hi: Salut %{to_user},
       greeting: Salut,
+      commented:
+        partial_changeset_without_comment: ouni Kommentar
   message:
     inbox:
       messages: Dir hutt %{new_messages} a(n) %{old_messages}
@@ -734,17 +771,22 @@ lb:
       date: Datum
       reply_button: Äntwerten
       unread_button: Als net geliest markéieren
+      delete_button: Läschen
       back: Zréck
     sent_message_summary:
       delete_button: Läschen
     mark:
       as_read: Message als geliest markéiert
+      as_unread: Message als net geliest markéiert
     delete:
       deleted: Message geläscht
   site:
     index:
+      js_1: Dir hutt entweder e Browser dee JavaScript net ënnerstëtzt oder Dir hutt
+        JavaScript desaktivéiert.
       createnote: Eng Notiz derbäisetzen
     edit:
+      not_public: Dir hutt net agestallt datt Är Ännerungen ëffentlech sinn.
       user_page_link: Benotzersäit
       anon_edits_link_text: Fannt eraus firwat dat de Fall ass.
     sidebar:
@@ -882,6 +924,7 @@ lb:
       allow_write_api: Kaart änneren
     index:
       title: Meng OAuth Detailer
+      revoke: Ophiewen!
     form:
       name: Numm
       required: Obligatoresch

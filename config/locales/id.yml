@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: Arief
 # Author: Arifin.wijaya
+# Author: Atriwidada
 # Author: C5st4wr6ch
 # Author: Dewisulistio
 # Author: Emirhartato
@@ -16,6 +17,7 @@
 # Author: JakArtisan
 # Author: Kenrick95
 # Author: Macofe
+# Author: Rachmat04
 # Author: Relly Komaruzaman
 # Author: Rizkiahmadz
 # Author: Vasanthi
@@ -403,7 +405,6 @@ id:
     search:
       title:
         latlon: Hasil dari <a href="http://openstreetmap.org/">Internal</a>
-        us_postcode: Hasil dari <a href="http://geocoder.us/">Geocoder.us</a>
         uk_postcode: Hasil dari <a href="http://www.npemap.org.uk/">NPEMap / FreeThe
           Postcode</a>
         ca_postcode: Hasil dari <a href="http://geocoder.ca/">Geocoder.CA</a>
@@ -970,7 +971,7 @@ id:
     intro_2_create_account: Buat Akun
     partners_html: Hosting didukung oleh %{ucl}, %{ic} dan %{bytemark} dan %{partners}
       lainnya.
-    partners_ucl: Pusat UCL VR
+    partners_ucl: UCL
     partners_ic: Imperial College London
     partners_bytemark: Hosting Bytemark
     partners_partners: mitra
@@ -1045,10 +1046,10 @@ id:
         Baca lebih lanjut tentang pemakaian data kami, dan cara memberi kami kredit, di <a
         href="http://osmfoundation.org/License">halaman lisensi OSMF</a> dan <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Pertanyaan Legal yang sering diajukan (FAQ)</a> komunitas.
       more_2_html: |-
-        Meskipun OpenStreetMap merupakan data yang terbuka, kami tidak dapat menyediakan API peta gratis bagi pengembang (developer) pihak ketiga.
-        Lihat <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">Kebijakan Penggunaan API</a>,
-        <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Kebijakan Penggunaan Tile</a>
-        dan <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Kebijakan Penggunaan Nominatim</a>.
+        Meskipun OpenStreetMap merupakan data yang terbuka, kami tidak dapat menyediakan API peta gratis bagi pihak ketiga.
+        Lihat <a href="ttps://operations.osmfoundation.org/policies/api">Kebijakan Penggunaan API</a>,
+        <a href="https://operations.osmfoundation.org/policies/tiles/">Kebijakan Penggunaan Tile</a>
+        dan <a href="https://operations.osmfoundation.org/policies/nominatim/">Kebijakan Penggunaan Nominatim</a>.
       contributors_title_html: Kontributor kami
       contributors_intro_html: 'Kontributor kami terdiri dari ribuan orang. Kami juga
         memasukkan data dengan lisensi terbuka yang didapat dari badan-badan pemetaan
@@ -1253,10 +1254,10 @@ id:
     partners_title: Rekan
   notifier:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} mengomentari entri catatan harian Anda'
+      subject: '[OpenStreetMap] %{user} mengomentari sebuah entri catatan harian'
       hi: Halo %{to_user},
       header: '%{from_user} mengomentari entri terbaru dari catatan harian OpenStreetMap
-        Anda dengan subjek %{subject}:'
+        dengan subjek %{subject}:'
       footer: Anda juga dapat membaca komentar pada %{readurl} dan Anda juga dapat
         berkomentar pada %{commenturl} atau membalas pada %{replyurl}
     message_notification:
@@ -1266,6 +1267,7 @@ id:
       footer_html: Anda juga dapat membaca pesan di  %{readurl} dan membalasnya di
         %{replyurl}
     friend_notification:
+      hi: Halo %{to_user},
       subject: '[OpenStreetMap] %{user} menambahkan Anda sebagai teman'
       had_added_you: '%{user} telah menambahkan Anda sebagai teman pada OpenStreetMap.'
       see_their_profile: Anda dapat melihat profilnya pada %{userurl}.
@@ -1355,6 +1357,7 @@ id:
           yang Anda komentari. Catatan ini dekat %{place}.'
       details: Rincian lebih lanjut mengenai catatan dapat ditemukan di %{url}.
     changeset_comment_notification:
+      hi: Halo %{to_user},
       greeting: Halo,
       commented:
         subject_own: '[OpenStreetMap] %{commenter} mengomentari salah satu perubahan
@@ -1429,6 +1432,7 @@ id:
       date: Tanggal
       reply_button: Balas
       unread_button: Tandai belum dibaca
+      delete_button: Hapus
       back: Kembali
       to: Kepada
       wrong_user: Anda login sebagai '%{user}' tetapi pesan yang anda balas tidak
@@ -1726,6 +1730,8 @@ id:
       invalid: Otorisasi token ini tidak berlaku.
     revoke:
       flash: Anda telah menolak token untuk %(application}
+    permissions:
+      missing: Anda tidak mengizinkan akses aplikasi ke fasilitas ini
   oauth_clients:
     new:
       title: Daftar aplikasi baru
@@ -1830,6 +1836,9 @@ id:
         github:
           title: Masuk dengan GitHub.
           alt: Masuk dengan Akun GitHub.
+        wikipedia:
+          title: Masuk log dengan Wikipedia
+          alt: Masuk log dengan akun Wikipedia
         yahoo:
           title: Masuk log dengan Yahoo
           alt: Masuk log dengan Yahoo OpenID
@@ -2243,6 +2252,7 @@ id:
     helper:
       time_future: Berakhir pada %{time}.
       until_login: Aktif sampai pengguna melakukan log in.
+      time_future_and_until_login: Berakhir dalam %{time} dan setelah pengguna masuk.
       time_past: Berakhir %{time} yang lalu.
     blocks_on:
       title: Diblokir pada %{name}
@@ -2327,7 +2337,7 @@ id:
     key:
       title: Kunci Peta
       tooltip: Kunci Peta
-      tooltip_disabled: Kunci Peta tersedia hanya untuk lapisan standar
+      tooltip_disabled: Legenda tidak tersedia untuk lapisan ini
     map:
       zoom:
         in: Perbesar
@@ -2344,6 +2354,7 @@ id:
         header: Layer Peta
         notes: Catatan Peta
         data: Data Peta
+        gps: Jejak GPS Umum
         overlays: Mengaktifkan overlay untuk penyelesaian masalah peta
         title: Lapisan
       copyright: © <a href='%{copyright_url}'>Kontributor OpenStreetMap</a>
@@ -2382,8 +2393,10 @@ id:
     edit_help: Memindahkan peta dan memperbesar lokasi yang ingin Anda sunting, kemudian
       klik di sini.
     directions:
+      ascend: Naik
       engines:
         graphhopper_bicycle: Sepeda (GraphHopper)
+        graphhopper_car: Mobil (GraphHopper)
         graphhopper_foot: Jalan Kaki (GraphHopper)
         mapquest_bicycle: Sepeda (MapQuest)
         mapquest_car: Mobil (MapQuest)
@@ -2392,6 +2405,7 @@ id:
         mapzen_bicycle: Sepeda (Mapzen)
         mapzen_car: Mobil (Mapzen)
         mapzen_foot: Kaki (Mapzen)
+      descend: Turun
       directions: Petunjuk Arah
       distance: Jarak
       errors:
@@ -2426,6 +2440,11 @@ id:
         against_oneway_without_exit: Lawan arah pada %{name}
         end_oneway_without_exit: Akhir dari satu arah pada %{name}
         roundabout_with_exit: Di bundaran keluar %{exit} menuju %{name}
+        turn_left_with_exit: Pada bundaran belok kiri ke %{name}
+        slight_left_with_exit: Pada bundaran belok kiri sedikit ke %{name}
+        turn_right_with_exit: Pada bundaran belok kanan ke %{name}
+        slight_right_with_exit: Pada bundaran belok kanan sedikit ke %{name}
+        continue_with_exit: Pada bundaran lurus saja ke %{name}
         unnamed: jalan tanpa nama
         courtesy: Petunjuk arah disediakan oleh %{link}
       time: Waktu tempuh
@@ -2437,8 +2456,12 @@ id:
       error: 'Kelasahan menghubungi %{server}: %{error}'
       timeout: Waktu habis menghubungi %{server}
     context:
+      directions_from: Petunjuk arah dari sini
+      directions_to: Petunjuk arah ke sini
       add_note: Tambahkan sebuah catatan disini
       show_address: Tampilkan alamat
+      query_features: Fitur-fitur kueri
+      centre_map: Pusatkan peta di sini
   redaction:
     edit:
       description: Deskripsi
