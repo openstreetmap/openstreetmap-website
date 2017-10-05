@@ -778,7 +778,7 @@ class UserControllerTest < ActionController::TestCase
     # you are not logged in
     get :account, :params => { :display_name => user.display_name }
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => "login", :referer => "/user/#{URI.encode(user.display_name)}/account"
+    assert_redirected_to :controller => :user, :action => "login", :referer => "/user/#{ERB::Util.u(user.display_name)}/account"
 
     # Make sure that you are blocked when not logged in as the right user
     get :account, :params => { :display_name => user.display_name }, :session => { :user => create(:user) }
@@ -791,7 +791,7 @@ class UserControllerTest < ActionController::TestCase
     assert_select "form#accountForm" do |form|
       assert_equal "post", form.attr("method").to_s
       assert_select "input[name='_method']", false
-      assert_equal "/user/#{URI.encode(user.display_name)}/account", form.attr("action").to_s
+      assert_equal "/user/#{ERB::Util.u(user.display_name)}/account", form.attr("action").to_s
     end
 
     # Updating the description should work
@@ -859,7 +859,7 @@ class UserControllerTest < ActionController::TestCase
     # Adding external authentication should redirect to the auth provider
     post :account, :params => { :display_name => user.display_name, :user => user.attributes.merge(:auth_provider => "openid", :auth_uid => "gmail.com") }, :session => { :user => user }
     assert_response :redirect
-    assert_redirected_to auth_path(:provider => "openid", :openid_url => "https://www.google.com/accounts/o8/id", :origin => "/user/#{URI.encode(user.display_name)}/account")
+    assert_redirected_to auth_path(:provider => "openid", :openid_url => "https://www.google.com/accounts/o8/id", :origin => "/user/#{ERB::Util.u(user.display_name)}/account")
 
     # Changing name to one that exists should fail
     new_attributes = user.attributes.dup.merge(:display_name => create(:user).display_name)
@@ -941,14 +941,14 @@ class UserControllerTest < ActionController::TestCase
     get :view, :params => { :display_name => user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href^='/user/#{URI.encode(user.display_name)}/history']", 1
-      assert_select "a[href='/user/#{URI.encode(user.display_name)}/traces']", 1
-      assert_select "a[href='/user/#{URI.encode(user.display_name)}/diary']", 1
-      assert_select "a[href='/user/#{URI.encode(user.display_name)}/diary/comments']", 1
-      assert_select "a[href='/user/#{URI.encode(user.display_name)}/account']", 0
-      assert_select "a[href='/user/#{URI.encode(user.display_name)}/blocks']", 0
-      assert_select "a[href='/user/#{URI.encode(user.display_name)}/blocks_by']", 0
-      assert_select "a[href='/blocks/new/#{URI.encode(user.display_name)}']", 0
+      assert_select "a[href^='/user/#{ERB::Util.u(user.display_name)}/history']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/traces']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary/comments']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/account']", 0
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks']", 0
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks_by']", 0
+      assert_select "a[href='/blocks/new/#{ERB::Util.u(user.display_name)}']", 0
     end
 
     # Test a user who has been blocked
@@ -957,14 +957,14 @@ class UserControllerTest < ActionController::TestCase
     get :view, :params => { :display_name => blocked_user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href^='/user/#{URI.encode(blocked_user.display_name)}/history']", 1
-      assert_select "a[href='/user/#{URI.encode(blocked_user.display_name)}/traces']", 1
-      assert_select "a[href='/user/#{URI.encode(blocked_user.display_name)}/diary']", 1
-      assert_select "a[href='/user/#{URI.encode(blocked_user.display_name)}/diary/comments']", 1
-      assert_select "a[href='/user/#{URI.encode(blocked_user.display_name)}/account']", 0
-      assert_select "a[href='/user/#{URI.encode(blocked_user.display_name)}/blocks']", 1
-      assert_select "a[href='/user/#{URI.encode(blocked_user.display_name)}/blocks_by']", 0
-      assert_select "a[href='/blocks/new/#{URI.encode(blocked_user.display_name)}']", 0
+      assert_select "a[href^='/user/#{ERB::Util.u(blocked_user.display_name)}/history']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(blocked_user.display_name)}/traces']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(blocked_user.display_name)}/diary']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(blocked_user.display_name)}/diary/comments']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(blocked_user.display_name)}/account']", 0
+      assert_select "a[href='/user/#{ERB::Util.u(blocked_user.display_name)}/blocks']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(blocked_user.display_name)}/blocks_by']", 0
+      assert_select "a[href='/blocks/new/#{ERB::Util.u(blocked_user.display_name)}']", 0
     end
 
     # Test a moderator who has applied blocks
@@ -973,14 +973,14 @@ class UserControllerTest < ActionController::TestCase
     get :view, :params => { :display_name => moderator_user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href^='/user/#{URI.encode(moderator_user.display_name)}/history']", 1
-      assert_select "a[href='/user/#{URI.encode(moderator_user.display_name)}/traces']", 1
-      assert_select "a[href='/user/#{URI.encode(moderator_user.display_name)}/diary']", 1
-      assert_select "a[href='/user/#{URI.encode(moderator_user.display_name)}/diary/comments']", 1
-      assert_select "a[href='/user/#{URI.encode(moderator_user.display_name)}/account']", 0
-      assert_select "a[href='/user/#{URI.encode(moderator_user.display_name)}/blocks']", 0
-      assert_select "a[href='/user/#{URI.encode(moderator_user.display_name)}/blocks_by']", 1
-      assert_select "a[href='/blocks/new/#{URI.encode(moderator_user.display_name)}']", 0
+      assert_select "a[href^='/user/#{ERB::Util.u(moderator_user.display_name)}/history']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(moderator_user.display_name)}/traces']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(moderator_user.display_name)}/diary']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(moderator_user.display_name)}/diary/comments']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(moderator_user.display_name)}/account']", 0
+      assert_select "a[href='/user/#{ERB::Util.u(moderator_user.display_name)}/blocks']", 0
+      assert_select "a[href='/user/#{ERB::Util.u(moderator_user.display_name)}/blocks_by']", 1
+      assert_select "a[href='/blocks/new/#{ERB::Util.u(moderator_user.display_name)}']", 0
     end
 
     # Login as a normal user
@@ -990,14 +990,14 @@ class UserControllerTest < ActionController::TestCase
     get :view, :params => { :display_name => user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href^='/user/#{URI.encode(user.display_name)}/history']", 1
+      assert_select "a[href^='/user/#{ERB::Util.u(user.display_name)}/history']", 1
       assert_select "a[href='/traces/mine']", 1
-      assert_select "a[href='/user/#{URI.encode(user.display_name)}/diary']", 1
-      assert_select "a[href='/user/#{URI.encode(user.display_name)}/diary/comments']", 1
-      assert_select "a[href='/user/#{URI.encode(user.display_name)}/account']", 1
-      assert_select "a[href='/user/#{URI.encode(user.display_name)}/blocks']", 0
-      assert_select "a[href='/user/#{URI.encode(user.display_name)}/blocks_by']", 0
-      assert_select "a[href='/blocks/new/#{URI.encode(user.display_name)}']", 0
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary/comments']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/account']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks']", 0
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks_by']", 0
+      assert_select "a[href='/blocks/new/#{ERB::Util.u(user.display_name)}']", 0
     end
 
     # Login as a moderator
@@ -1007,14 +1007,14 @@ class UserControllerTest < ActionController::TestCase
     get :view, :params => { :display_name => user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href^='/user/#{URI.encode(user.display_name)}/history']", 1
-      assert_select "a[href='/user/#{URI.encode(user.display_name)}/traces']", 1
-      assert_select "a[href='/user/#{URI.encode(user.display_name)}/diary']", 1
-      assert_select "a[href='/user/#{URI.encode(user.display_name)}/diary/comments']", 1
-      assert_select "a[href='/user/#{URI.encode(user.display_name)}/account']", 0
-      assert_select "a[href='/user/#{URI.encode(user.display_name)}/blocks']", 0
-      assert_select "a[href='/user/#{URI.encode(user.display_name)}/blocks_by']", 0
-      assert_select "a[href='/blocks/new/#{URI.encode(user.display_name)}']", 1
+      assert_select "a[href^='/user/#{ERB::Util.u(user.display_name)}/history']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/traces']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/diary/comments']", 1
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/account']", 0
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks']", 0
+      assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks_by']", 0
+      assert_select "a[href='/blocks/new/#{ERB::Util.u(user.display_name)}']", 1
     end
   end
 

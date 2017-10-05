@@ -1,4 +1,3 @@
-# coding: utf-8
 
 require "test_helper"
 require "geocoder_controller"

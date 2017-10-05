@@ -6,6 +6,6 @@ module NotRedactable
   end
 
   def redact!(_r)
-    raise OSM::APICannotRedactError.new
+    raise OSM::APICannotRedactError
   end
 end

@@ -151,7 +151,7 @@ class AmfController < ApplicationController
         cs = Changeset.find(closeid.to_i)
         cs.set_closed_time_now
         if cs.user_id != user.id
-          raise OSM::APIUserChangesetMismatchError.new
+          raise OSM::APIUserChangesetMismatchError
         elsif closecomment.empty?
           cs.save!
         else
@@ -229,7 +229,7 @@ class AmfController < ApplicationController
       begin
         other = YAML.safe_load(File.open(Rails.root.join("config", "potlatch", "locales", "#{lang}.yml")))[lang]
         loaded_lang = lang
-      rescue
+      rescue StandardError
         other = en
       end
 
@@ -907,7 +907,7 @@ class AmfController < ApplicationController
   # Alternative SQL queries for getway/whichways
 
   def sql_find_ways_in_area(bbox)
-    sql = <<-EOF
+    sql = <<-SQL
     SELECT DISTINCT current_ways.id AS wayid,current_ways.version AS version
       FROM current_way_nodes
     INNER JOIN current_nodes ON current_nodes.id=current_way_nodes.node_id
@@ -915,20 +915,20 @@ class AmfController < ApplicationController
        WHERE current_nodes.visible=TRUE
        AND current_ways.visible=TRUE
        AND #{OSM.sql_for_area(bbox, 'current_nodes.')}
-    EOF
+    SQL
     ActiveRecord::Base.connection.select_all(sql).collect { |a| [a["wayid"].to_i, a["version"].to_i] }
   end
 
   def sql_find_pois_in_area(bbox)
     pois = []
-    sql = <<-EOF
+    sql = <<-SQL
       SELECT current_nodes.id,current_nodes.latitude*0.0000001 AS lat,current_nodes.longitude*0.0000001 AS lon,current_nodes.version
       FROM current_nodes
        LEFT OUTER JOIN current_way_nodes cwn ON cwn.node_id=current_nodes.id
        WHERE current_nodes.visible=TRUE
        AND cwn.id IS NULL
        AND #{OSM.sql_for_area(bbox, 'current_nodes.')}
-    EOF
+    SQL
     ActiveRecord::Base.connection.select_all(sql).each do |row|
       poitags = {}
       ActiveRecord::Base.connection.select_all("SELECT k,v FROM current_node_tags WHERE id=#{row['id']}").each do |n|
@@ -942,36 +942,36 @@ class AmfController < ApplicationController
   def sql_find_relations_in_area_and_ways(bbox, way_ids)
     # ** It would be more Potlatchy to get relations for nodes within ways
     #    during 'getway', not here
-    sql = <<-EOF
+    sql = <<-SQL
       SELECT DISTINCT cr.id AS relid,cr.version AS version
       FROM current_relations cr
       INNER JOIN current_relation_members crm ON crm.id=cr.id
       INNER JOIN current_nodes cn ON crm.member_id=cn.id AND crm.member_type='Node'
        WHERE #{OSM.sql_for_area(bbox, 'cn.')}
-      EOF
+      SQL
     unless way_ids.empty?
-      sql += <<-EOF
+      sql += <<-SQL
        UNION
         SELECT DISTINCT cr.id AS relid,cr.version AS version
         FROM current_relations cr
         INNER JOIN current_relation_members crm ON crm.id=cr.id
          WHERE crm.member_type='Way'
          AND crm.member_id IN (#{way_ids.join(',')})
-        EOF
+        SQL
     end
     ActiveRecord::Base.connection.select_all(sql).collect { |a| [a["relid"].to_i, a["version"].to_i] }
   end
 
   def sql_get_nodes_in_way(wayid)
     points = []
-    sql = <<-EOF
+    sql = <<-SQL
       SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,current_nodes.id,current_nodes.version
       FROM current_way_nodes,current_nodes
        WHERE current_way_nodes.id=#{wayid.to_i}
        AND current_way_nodes.node_id=current_nodes.id
        AND current_nodes.visible=TRUE
       ORDER BY sequence_id
-    EOF
+    SQL
     ActiveRecord::Base.connection.select_all(sql).each do |row|
       nodetags = {}
       ActiveRecord::Base.connection.select_all("SELECT k,v FROM current_node_tags WHERE id=#{row['id']}").each do |n|

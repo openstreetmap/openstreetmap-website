@@ -45,7 +45,7 @@ class UserPreferenceController < ApplicationController
       if preference = old_preferences.delete(pt["k"])
         preference.v = pt["v"]
       elsif new_preferences.include?(pt["k"])
-        raise OSM::APIDuplicatePreferenceError.new(pt["k"])
+        raise OSM::APIDuplicatePreferenceError, pt["k"]
       else
         preference = current_user.preferences.build(:k => pt["k"], :v => pt["v"])
       end

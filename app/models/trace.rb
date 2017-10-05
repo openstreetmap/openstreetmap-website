@@ -194,8 +194,8 @@ class Trace < ActiveRecord::Base
       id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
-      raise OSM::APIBadUserInput.new("ID of trace cannot be zero when updating.") if id.zero?
-      raise OSM::APIBadUserInput.new("The id in the url (#{self.id}) is not the same as provided in the xml (#{id})") unless self.id == id
+      raise OSM::APIBadUserInput, "ID of trace cannot be zero when updating." if id.zero?
+      raise OSM::APIBadUserInput, "The id in the url (#{self.id}) is not the same as provided in the xml (#{id})" unless self.id == id
     end
 
     # We don't care about the time, as it is explicitly set on create/update/delete

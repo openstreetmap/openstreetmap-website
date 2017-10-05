@@ -55,7 +55,7 @@ module SessionPersistence
     if session[session_persistence_key]
       request.session_options[:expire_after] = session[session_persistence_key]
     end
-  rescue
+  rescue StandardError
     reset_session
   end
 end

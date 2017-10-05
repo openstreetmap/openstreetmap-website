@@ -58,7 +58,7 @@ class Way < ActiveRecord::Base
       way.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
-      raise OSM::APIBadUserInput.new("ID of way cannot be zero when updating.") if way.id.zero?
+      raise OSM::APIBadUserInput, "ID of way cannot be zero when updating." if way.id.zero?
     end
 
     # We don't care about the timestamp nor the visibility as these are either
@@ -138,12 +138,12 @@ class Way < ActiveRecord::Base
   attr_writer :tags
 
   def add_nd_num(n)
-    @nds = [] unless @nds
+    @nds ||= []
     @nds << n.to_i
   end
 
   def add_tag_keyval(k, v)
-    @tags = {} unless @tags
+    @tags ||= {}
 
     # duplicate tags are now forbidden, so we can't allow values
     # in the hash to be overwritten.
@@ -166,7 +166,7 @@ class Way < ActiveRecord::Base
       lock!
       check_consistency(self, new_way, user)
       unless new_way.preconditions_ok?(nds)
-        raise OSM::APIPreconditionFailedError.new("Cannot update way #{id}: data is invalid.")
+        raise OSM::APIPreconditionFailedError, "Cannot update way #{id}: data is invalid."
       end
 
       self.changeset_id = new_way.changeset_id
@@ -181,7 +181,7 @@ class Way < ActiveRecord::Base
   def create_with_history(user)
     check_create_consistency(self, user)
     unless preconditions_ok?
-      raise OSM::APIPreconditionFailedError.new("Cannot create way: data is invalid.")
+      raise OSM::APIPreconditionFailedError, "Cannot create way: data is invalid."
     end
     self.version = 0
     self.visible = true
@@ -205,7 +205,7 @@ class Way < ActiveRecord::Base
 
       if db_nds.length < new_nds.length
         missing = new_nds - db_nds.collect(&:id)
-        raise OSM::APIPreconditionFailedError.new("Way #{id} requires the nodes with id in (#{missing.join(',')}), which either do not exist, or are not visible.")
+        raise OSM::APIPreconditionFailedError, "Way #{id} requires the nodes with id in (#{missing.join(',')}), which either do not exist, or are not visible."
       end
     end
 
@@ -222,7 +222,7 @@ class Way < ActiveRecord::Base
       lock!
       check_consistency(self, new_way, user)
       rels = Relation.joins(:relation_members).where(:visible => true, :current_relation_members => { :member_type => "Way", :member_id => id }).order(:id)
-      raise OSM::APIPreconditionFailedError.new("Way #{id} is still used by relations #{rels.collect(&:id).join(',')}.") unless rels.empty?
+      raise OSM::APIPreconditionFailedError, "Way #{id} is still used by relations #{rels.collect(&:id).join(',')}." unless rels.empty?
 
       self.changeset_id = new_way.changeset_id
       self.changeset = new_way.changeset
@@ -242,7 +242,7 @@ class Way < ActiveRecord::Base
     nds.map! do |node_id|
       if node_id < 0
         new_id = id_map[:node][node_id]
-        raise OSM::APIBadUserInput.new("Placeholder node not found for reference #{node_id} in way #{id.nil? ? placeholder_id : id}") if new_id.nil?
+        raise OSM::APIBadUserInput, "Placeholder node not found for reference #{node_id} in way #{id.nil? ? placeholder_id : id}" if new_id.nil?
         new_id
       else
         node_id

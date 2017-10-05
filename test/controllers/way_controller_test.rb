@@ -128,8 +128,8 @@ class WayControllerTest < ActionController::TestCase
     changeset_id = private_changeset.id
 
     # create a way with pre-existing nodes
-    content "<osm><way changeset='#{changeset_id}'>" +
-            "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" +
+    content "<osm><way changeset='#{changeset_id}'>" \
+            "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
             "<tag k='test' v='yes' /></way></osm>"
     put :create
     # hope for failure
@@ -143,8 +143,8 @@ class WayControllerTest < ActionController::TestCase
     changeset_id = changeset.id
 
     # create a way with pre-existing nodes
-    content "<osm><way changeset='#{changeset_id}'>" +
-            "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" +
+    content "<osm><way changeset='#{changeset_id}'>" \
+            "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
             "<tag k='test' v='yes' /></way></osm>"
     put :create
     # hope for success
@@ -188,7 +188,7 @@ class WayControllerTest < ActionController::TestCase
 
     # use the first user's open changeset
     # create a way with non-existing node
-    content "<osm><way changeset='#{private_open_changeset.id}'>" +
+    content "<osm><way changeset='#{private_open_changeset.id}'>" \
             "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
     put :create
     # expect failure
@@ -196,7 +196,7 @@ class WayControllerTest < ActionController::TestCase
                     "way upload with invalid node using a private user did not return 'forbidden'"
 
     # create a way with no nodes
-    content "<osm><way changeset='#{private_open_changeset.id}'>" +
+    content "<osm><way changeset='#{private_open_changeset.id}'>" \
             "<tag k='test' v='yes' /></way></osm>"
     put :create
     # expect failure
@@ -204,7 +204,7 @@ class WayControllerTest < ActionController::TestCase
                     "way upload with no node using a private userdid not return 'forbidden'"
 
     # create a way inside a closed changeset
-    content "<osm><way changeset='#{private_closed_changeset.id}'>" +
+    content "<osm><way changeset='#{private_closed_changeset.id}'>" \
             "<nd ref='#{node.id}'/></way></osm>"
     put :create
     # expect failure
@@ -216,7 +216,7 @@ class WayControllerTest < ActionController::TestCase
 
     # use the first user's open changeset
     # create a way with non-existing node
-    content "<osm><way changeset='#{open_changeset.id}'>" +
+    content "<osm><way changeset='#{open_changeset.id}'>" \
             "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
     put :create
     # expect failure
@@ -225,7 +225,7 @@ class WayControllerTest < ActionController::TestCase
     assert_equal "Precondition failed: Way  requires the nodes with id in (0), which either do not exist, or are not visible.", @response.body
 
     # create a way with no nodes
-    content "<osm><way changeset='#{open_changeset.id}'>" +
+    content "<osm><way changeset='#{open_changeset.id}'>" \
             "<tag k='test' v='yes' /></way></osm>"
     put :create
     # expect failure
@@ -234,7 +234,7 @@ class WayControllerTest < ActionController::TestCase
     assert_equal "Precondition failed: Cannot create way: data is invalid.", @response.body
 
     # create a way inside a closed changeset
-    content "<osm><way changeset='#{closed_changeset.id}'>" +
+    content "<osm><way changeset='#{closed_changeset.id}'>" \
             "<nd ref='#{node.id}'/></way></osm>"
     put :create
     # expect failure
@@ -242,9 +242,9 @@ class WayControllerTest < ActionController::TestCase
                     "way upload to closed changeset did not return 'conflict'"
 
     # create a way with a tag which is too long
-    content "<osm><way changeset='#{open_changeset.id}'>" +
-            "<nd ref='#{node.id}'/>" +
-            "<tag k='foo' v='#{'x' * 256}'/>" +
+    content "<osm><way changeset='#{open_changeset.id}'>" \
+            "<nd ref='#{node.id}'/>" \
+            "<tag k='foo' v='#{'x' * 256}'/>" \
             "</way></osm>"
     put :create
     # expect failure

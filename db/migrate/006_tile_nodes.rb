@@ -3,33 +3,33 @@ require "migrate"
 class TileNodes < ActiveRecord::Migration
   def self.upgrade_table(from_table, to_table, model)
     if ENV["USE_DB_FUNCTIONS"]
-      execute <<-END_SQL
+      execute <<-SQL
       INSERT INTO #{to_table} (id, latitude, longitude, user_id, visible, tags, timestamp, tile)
       SELECT id, ROUND(latitude * 10000000), ROUND(longitude * 10000000),
              user_id, visible, tags, timestamp,
              tile_for_point(CAST(ROUND(latitude * 10000000) AS INTEGER),
                             CAST(ROUND(longitude * 10000000) AS INTEGER))
       FROM #{from_table}
-      END_SQL
+      SQL
     else
-      execute <<-END_SQL
+      execute <<-SQL
       INSERT INTO #{to_table} (id, latitude, longitude, user_id, visible, tags, timestamp, tile)
       SELECT id, ROUND(latitude * 10000000), ROUND(longitude * 10000000),
              user_id, visible, tags, timestamp, 0
       FROM #{from_table}
-      END_SQL
+      SQL
 
       model.all.each(&:save!)
     end
   end
 
   def self.downgrade_table(from_table, to_table)
-    execute <<-END_SQL
+    execute <<-SQL
     INSERT INTO #{to_table} (id, latitude, longitude, user_id, visible, tags, timestamp)
     SELECT id, latitude / 10000000, longitude / 10000000,
            user_id, visible, tags, timestamp
     FROM #{from_table}
-    END_SQL
+    SQL
   end
 
   def self.up

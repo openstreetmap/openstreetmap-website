@@ -4,7 +4,7 @@ module BannerHelper
       enddate = v[:enddate]
       begin
         parsed = enddate && Date.parse(enddate)
-      rescue
+      rescue StandardError
         parsed = nil
       end
       !parsed.is_a?(Date) || (parsed.is_a?(Date) && parsed.past?)

@@ -254,7 +254,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     get :edit,
         :params => { :display_name => entry.user.display_name, :id => entry.id }
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => "/user/#{URI.encode(entry.user.display_name)}/diary/#{entry.id}/edit"
+    assert_redirected_to :controller => :user, :action => :login, :referer => "/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}/edit"
 
     # Verify that you get a not found error, when you pass a bogus id
     get :edit,
@@ -284,7 +284,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
       assert_select "h1", :text => /Edit diary entry/, :count => 1
     end
     assert_select "div#content", :count => 1 do
-      assert_select "form[action='/user/#{URI.encode(entry.user.display_name)}/diary/#{entry.id}/edit'][method=post]", :count => 1 do
+      assert_select "form[action='/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}/edit'][method=post]", :count => 1 do
         assert_select "input#diary_entry_title[name='diary_entry[title]'][value='#{entry.title}']", :count => 1
         assert_select "textarea#diary_entry_body[name='diary_entry[body]']", :text => entry.body, :count => 1
         assert_select "select#diary_entry_language_code", :count => 1
@@ -329,7 +329,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
       assert_select "abbr[class='geo'][title='#{number_with_precision(new_latitude, :precision => 4)}; #{number_with_precision(new_longitude, :precision => 4)}']", :count => 1
       # As we're not logged in, check that you cannot edit
       # print @response.body
-      assert_select "a[href='/user/#{URI.encode(entry.user.display_name)}/diary/#{entry.id}/edit']", :text => "Edit this entry", :count => 1
+      assert_select "a[href='/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}/edit']", :text => "Edit this entry", :count => 1
     end
 
     # and when not logged in as the user who wrote the entry
@@ -350,7 +350,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
       assert_select "abbr[class=geo][title='#{number_with_precision(new_latitude, :precision => 4)}; #{number_with_precision(new_longitude, :precision => 4)}']", :count => 1
       # As we're not logged in, check that you cannot edit
       assert_select "li[class='hidden show_if_user_#{entry.user.id}']", :count => 1 do
-        assert_select "a[href='/user/#{URI.encode(entry.user.display_name)}/diary/#{entry.id}/edit']", :text => "Edit this entry", :count => 1
+        assert_select "a[href='/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}/edit']", :text => "Edit this entry", :count => 1
       end
     end
   end
@@ -430,7 +430,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_response :success
     assert_select ".diary-comment", :count => 1 do
       assert_select "#comment#{comment.id}", :count => 1 do
-        assert_select "a[href='/user/#{URI.encode(other_user.display_name)}']", :text => other_user.display_name, :count => 1
+        assert_select "a[href='/user/#{ERB::Util.u(other_user.display_name)}']", :text => other_user.display_name, :count => 1
       end
       assert_select ".richtext", :text => /New comment/, :count => 1
     end
@@ -890,7 +890,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_select "div.diary_post", entries.count
 
     entries.each do |entry|
-      assert_select "a[href=?]", "/user/#{URI.encode(entry.user.display_name)}/diary/#{entry.id}"
+      assert_select "a[href=?]", "/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}"
     end
   end
 end

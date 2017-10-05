@@ -216,8 +216,8 @@ class RelationControllerTest < ActionController::TestCase
     ###
     # create an relation with a node as member
     # This time try with a role attribute in the relation
-    content "<osm><relation changeset='#{private_changeset.id}'>" +
-            "<member  ref='#{node.id}' type='node' role='some'/>" +
+    content "<osm><relation changeset='#{private_changeset.id}'>" \
+            "<member  ref='#{node.id}' type='node' role='some'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for forbidden due to user
@@ -227,7 +227,7 @@ class RelationControllerTest < ActionController::TestCase
     ###
     # create an relation with a node as member, this time test that we don't
     # need a role attribute to be included
-    content "<osm><relation changeset='#{private_changeset.id}'>" +
+    content "<osm><relation changeset='#{private_changeset.id}'>" \
             "<member  ref='#{node.id}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for forbidden due to user
@@ -236,9 +236,9 @@ class RelationControllerTest < ActionController::TestCase
 
     ###
     # create an relation with a way and a node as members
-    content "<osm><relation changeset='#{private_changeset.id}'>" +
-            "<member type='node' ref='#{node.id}' role='some'/>" +
-            "<member type='way' ref='#{way.id}' role='other'/>" +
+    content "<osm><relation changeset='#{private_changeset.id}'>" \
+            "<member type='node' ref='#{node.id}' role='some'/>" \
+            "<member type='way' ref='#{way.id}' role='other'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for forbidden, due to user
@@ -277,8 +277,8 @@ class RelationControllerTest < ActionController::TestCase
     ###
     # create an relation with a node as member
     # This time try with a role attribute in the relation
-    content "<osm><relation changeset='#{changeset.id}'>" +
-            "<member  ref='#{node.id}' type='node' role='some'/>" +
+    content "<osm><relation changeset='#{changeset.id}'>" \
+            "<member  ref='#{node.id}' type='node' role='some'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
@@ -308,7 +308,7 @@ class RelationControllerTest < ActionController::TestCase
     ###
     # create an relation with a node as member, this time test that we don't
     # need a role attribute to be included
-    content "<osm><relation changeset='#{changeset.id}'>" +
+    content "<osm><relation changeset='#{changeset.id}'>" \
             "<member  ref='#{node.id}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
@@ -337,9 +337,9 @@ class RelationControllerTest < ActionController::TestCase
 
     ###
     # create an relation with a way and a node as members
-    content "<osm><relation changeset='#{changeset.id}'>" +
-            "<member type='node' ref='#{node.id}' role='some'/>" +
-            "<member type='way' ref='#{way.id}' role='other'/>" +
+    content "<osm><relation changeset='#{changeset.id}'>" \
+            "<member type='node' ref='#{node.id}' role='some'/>" \
+            "<member type='way' ref='#{way.id}' role='other'/>" \
             "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
@@ -461,8 +461,8 @@ class RelationControllerTest < ActionController::TestCase
     basic_authorization user.email, "test"
 
     # create a relation with non-existing node as member
-    content "<osm><relation changeset='#{changeset.id}'>" +
-            "<member type='node' ref='0'/><tag k='test' v='yes' />" +
+    content "<osm><relation changeset='#{changeset.id}'>" \
+            "<member type='node' ref='0'/><tag k='test' v='yes' />" \
             "</relation></osm>"
     put :create
     # expect failure
@@ -482,8 +482,8 @@ class RelationControllerTest < ActionController::TestCase
     basic_authorization user.email, "test"
 
     # create some xml that should return an error
-    content "<osm><relation changeset='#{changeset.id}'>" +
-            "<member type='type' ref='#{node.id}' role=''/>" +
+    content "<osm><relation changeset='#{changeset.id}'>" \
+            "<member type='type' ref='#{node.id}' role=''/>" \
             "<tag k='tester' v='yep'/></relation></osm>"
     put :create
     # expect failure
@@ -1063,7 +1063,7 @@ OSM
     assert_equal a_tags.keys, b_tags.keys, "Tag keys should be identical."
     a_tags.each do |k, v|
       assert_equal v, b_tags[k],
-                   "Tags which were not altered should be the same. " +
+                   "Tags which were not altered should be the same. " \
                    "#{a_tags.inspect} != #{b_tags.inspect}"
     end
   end

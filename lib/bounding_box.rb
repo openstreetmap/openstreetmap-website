@@ -66,18 +66,14 @@ class BoundingBox
   def check_boundaries
     # check the bbox is sane
     if min_lon > max_lon
-      raise OSM::APIBadBoundingBox.new(
-        "The minimum longitude must be less than the maximum longitude, but it wasn't"
-      )
+      raise OSM::APIBadBoundingBox, "The minimum longitude must be less than the maximum longitude, but it wasn't"
     end
     if min_lat > max_lat
-      raise OSM::APIBadBoundingBox.new(
-        "The minimum latitude must be less than the maximum latitude, but it wasn't"
-      )
+      raise OSM::APIBadBoundingBox, "The minimum latitude must be less than the maximum latitude, but it wasn't"
     end
     if min_lon < -LON_LIMIT || min_lat < -LAT_LIMIT || max_lon > +LON_LIMIT || max_lat > +LAT_LIMIT
-      raise OSM::APIBadBoundingBox.new("The latitudes must be between #{-LAT_LIMIT} and #{LAT_LIMIT}," +
-                                       " and longitudes between #{-LON_LIMIT} and #{LON_LIMIT}")
+      raise OSM::APIBadBoundingBox, "The latitudes must be between #{-LAT_LIMIT} and #{LAT_LIMIT}," \
+                                       " and longitudes between #{-LON_LIMIT} and #{LON_LIMIT}"
     end
     self
   end
@@ -85,8 +81,8 @@ class BoundingBox
   def check_size(max_area = MAX_REQUEST_AREA)
     # check the bbox isn't too large
     if area > max_area
-      raise OSM::APIBadBoundingBox.new("The maximum bbox size is " + max_area.to_s +
-        ", and your request was too large. Either request a smaller area, or use planet.osm")
+      raise OSM::APIBadBoundingBox, "The maximum bbox size is " + max_area.to_s +
+                                    ", and your request was too large. Either request a smaller area, or use planet.osm"
     end
     self
   end
@@ -171,9 +167,7 @@ class BoundingBox
 
     def from_bbox_array(bbox_array)
       unless bbox_array
-        raise OSM::APIBadUserInput.new(
-          "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat"
-        )
+        raise OSM::APIBadUserInput, "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat"
       end
       # Take an array of length 4, create a bounding box with min_lon, min_lat, max_lon and
       # max_lat within their respective boundaries.

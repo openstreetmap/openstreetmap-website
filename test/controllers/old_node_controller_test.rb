@@ -137,7 +137,7 @@ class OldNodeControllerTest < ActionController::TestCase
     end
 
     # check all the versions
-    versions.keys.each do |key|
+    versions.each_key do |key|
       get :version, :params => { :id => nodeid, :version => key.to_i }
 
       assert_response :success,

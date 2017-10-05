@@ -99,7 +99,7 @@ class UserController < ApplicationController
                                        "lat" => m[2],
                                        "lon" => m[3] }.merge(editor))
             end
-          rescue
+          rescue StandardError
             # Use default
           end
 
@@ -723,7 +723,7 @@ class UserController < ApplicationController
 
           begin
             Notifier.email_confirm(user, user.tokens.create).deliver_now
-          rescue
+          rescue StandardError
             # Ignore errors sending email
           end
         else

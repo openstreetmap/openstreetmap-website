@@ -133,7 +133,7 @@ class Changeset < ActiveRecord::Base
   attr_writer :tags
 
   def add_tag_keyval(k, v)
-    @tags = {} unless @tags
+    @tags ||= {}
 
     # duplicate tags are now forbidden, so we can't allow values
     # in the hash to be overwritten.
@@ -241,10 +241,10 @@ class Changeset < ActiveRecord::Base
   # bounding box, only the tags of the changeset.
   def update_from(other, user)
     # ensure that only the user who opened the changeset may modify it.
-    raise OSM::APIUserChangesetMismatchError.new unless user.id == user_id
+    raise OSM::APIUserChangesetMismatchError unless user.id == user_id
 
     # can't change a closed changeset
-    raise OSM::APIChangesetAlreadyClosedError.new(self) unless is_open?
+    raise OSM::APIChangesetAlreadyClosedError, self unless is_open?
 
     # copy the other's tags
     self.tags = other.tags

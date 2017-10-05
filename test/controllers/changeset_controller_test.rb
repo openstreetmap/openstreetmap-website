@@ -98,16 +98,16 @@ class ChangesetControllerTest < ActionController::TestCase
   def test_create
     basic_authorization create(:user, :data_public => false).email, "test"
     # Create the first user's changeset
-    content "<osm><changeset>" +
-            "<tag k='created_by' v='osm test suite checking changesets'/>" +
+    content "<osm><changeset>" \
+            "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
     put :create
     assert_require_public_data
 
     basic_authorization create(:user).email, "test"
     # Create the first user's changeset
-    content "<osm><changeset>" +
-            "<tag k='created_by' v='osm test suite checking changesets'/>" +
+    content "<osm><changeset>" \
+            "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
     put :create
 
@@ -327,7 +327,7 @@ class ChangesetControllerTest < ActionController::TestCase
 
     # simple diff to change a node, way and relation by removing
     # their tags
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <modify>
         <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
@@ -343,7 +343,7 @@ class ChangesetControllerTest < ActionController::TestCase
         </relation>
        </modify>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -357,7 +357,7 @@ EOF
 
     # simple diff to change a node, way and relation by removing
     # their tags
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <modify>
         <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
@@ -373,7 +373,7 @@ EOF
         </relation>
        </modify>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -387,7 +387,7 @@ EOF
 
     # simple diff to change a node, way and relation by removing
     # their tags
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <modify>
         <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
@@ -403,7 +403,7 @@ EOF
         </relation>
        </modify>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -429,7 +429,7 @@ EOF
     basic_authorization user.email, "test"
 
     # simple diff to create a node way and relation using placeholders
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <create>
         <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
@@ -448,7 +448,7 @@ EOF
         </relation>
        </create>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -561,8 +561,8 @@ EOF
       basic_authorization create(:user).email, "test"
 
       # create a temporary changeset
-      content "<osm><changeset>" +
-              "<tag k='created_by' v='osm test suite checking changesets'/>" +
+      content "<osm><changeset>" \
+              "<tag k='created_by' v='osm test suite checking changesets'/>" \
               "</changeset></osm>"
       assert_difference "Changeset.count", 1 do
         put :create
@@ -582,7 +582,7 @@ EOF
 
     # upload some widely-spaced nodes, spiralling positive and negative to cause
     # largest bbox over-expansion possible.
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <create>
         <node id='-1' lon='-20' lat='-10' changeset='#{changeset_id}'/>
@@ -605,7 +605,7 @@ EOF
         <node id='-18' lon='179.9'  lat='89.9' changeset='#{changeset_id}'/>
        </create>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it, which used to cause an error like "PGError: ERROR:
     # integer out of range" (bug #2152). but shouldn't any more.
@@ -739,7 +739,7 @@ EOF
     basic_authorization changeset.user.email, "test"
 
     # simple diff to create a node way and relation using placeholders
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <create>
         <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
@@ -747,7 +747,7 @@ EOF
         </node>
        </create>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -770,7 +770,7 @@ EOF
     basic_authorization changeset.user.email, "test"
 
     # simple diff to create a node way and relation using placeholders
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <create>
         <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
@@ -790,7 +790,7 @@ EOF
         </relation>
        </modify>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -832,7 +832,7 @@ EOF
     basic_authorization changeset.user.email, "test"
 
     # simple diff to create a node way and relation using placeholders
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <modify>
         <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
@@ -854,7 +854,7 @@ EOF
         </node>
        </create>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -878,7 +878,7 @@ EOF
     # change the location of a node multiple times, each time referencing
     # the last version. doesn't this depend on version numbers being
     # sequential?
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <modify>
         <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
@@ -891,7 +891,7 @@ EOF
         <node id='#{node.id}' lon='9' lat='9' changeset='#{changeset.id}' version='8'/>
        </modify>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -914,14 +914,14 @@ EOF
 
     basic_authorization changeset.user.email, "test"
 
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <modify>
         <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
         <node id='#{node.id}' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
        </modify>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -937,13 +937,13 @@ EOF
 
     basic_authorization changeset.user.email, "test"
 
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <modify>
        <node id='1' lon='1' lat='1' changeset='#{changeset.id}'/>
        </modify>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -959,13 +959,13 @@ EOF
 
     basic_authorization changeset.user.email, "test"
 
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
         <ping>
          <node id='1' lon='1' lat='1' changeset='#{changeset.id}' />
         </ping>
       </osmChange>
-EOF
+CHANGESET
     content diff
     post :upload, :params => { :id => changeset.id }
     assert_response :bad_request, "Shouldn't be able to upload a diff with the action ping"
@@ -985,7 +985,7 @@ EOF
 
     basic_authorization changeset.user.email, "test"
 
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <modify><node id='#{node.id}' lon='0' lat='0' changeset='#{changeset.id}'
         version='1'></node>
@@ -997,7 +997,7 @@ EOF
          <member type='relation' role='some' ref='#{other_relation.id}'/>
         </relation>
        </modify></osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -1021,7 +1021,7 @@ EOF
 
     basic_authorization changeset.user.email, "test"
 
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <create>
         <node id='-1' lon='0' lat='0' changeset='#{changeset.id}'>
@@ -1035,7 +1035,7 @@ EOF
         <node id='-1' lon='2' lat='2' changeset='#{changeset.id}' version='2'/>
        </delete>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -1056,7 +1056,7 @@ EOF
 
     basic_authorization changeset.user.email, "test"
 
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <create>
         <node id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
@@ -1064,7 +1064,7 @@ EOF
         <node id='-1' lon='2' lat='2' changeset='#{changeset.id}' version='2'/>
        </create>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -1082,7 +1082,7 @@ EOF
 
     basic_authorization changeset.user.email, "test"
 
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <create>
         <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
@@ -1096,7 +1096,7 @@ EOF
         </way>
        </create>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -1106,7 +1106,7 @@ EOF
     assert_equal "Placeholder node not found for reference -4 in way -1", @response.body
 
     # the same again, but this time use an existing way
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <create>
         <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
@@ -1120,7 +1120,7 @@ EOF
         </way>
        </create>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -1139,7 +1139,7 @@ EOF
 
     basic_authorization changeset.user.email, "test"
 
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <create>
         <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
@@ -1153,7 +1153,7 @@ EOF
         </relation>
        </create>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -1163,7 +1163,7 @@ EOF
     assert_equal "Placeholder Node not found for reference -4 in relation -1.", @response.body
 
     # the same again, but this time use an existing relation
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <create>
         <node id="-1" lon="0" lat="0" changeset="#{changeset.id}" version="1"/>
@@ -1177,7 +1177,7 @@ EOF
         </relation>
        </create>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -1193,8 +1193,8 @@ EOF
   def test_upload_node_move
     basic_authorization create(:user).email, "test"
 
-    content "<osm><changeset>" +
-            "<tag k='created_by' v='osm test suite checking changesets'/>" +
+    content "<osm><changeset>" \
+            "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
     put :create
     assert_response :success
@@ -1231,8 +1231,8 @@ EOF
   def test_upload_way_extend
     basic_authorization create(:user).email, "test"
 
-    content "<osm><changeset>" +
-            "<tag k='created_by' v='osm test suite checking changesets'/>" +
+    content "<osm><changeset>" \
+            "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
     put :create
     assert_response :success
@@ -1280,7 +1280,7 @@ EOF
       # upload it
       content diff
       post :upload, :params => { :id => changeset.id }
-      assert_response(:success, "should be able to upload " +
+      assert_response(:success, "should be able to upload " \
                       "empty changeset: " + diff)
     end
   end
@@ -1324,8 +1324,8 @@ EOF
     basic_authorization create(:user, :data_public => false).email, "test"
 
     # create a temporary changeset
-    content "<osm><changeset>" +
-            "<tag k='created_by' v='osm test suite checking changesets'/>" +
+    content "<osm><changeset>" \
+            "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
     put :create
     assert_response :forbidden
@@ -1334,15 +1334,15 @@ EOF
     basic_authorization create(:user).email, "test"
 
     # create a temporary changeset
-    content "<osm><changeset>" +
-            "<tag k='created_by' v='osm test suite checking changesets'/>" +
+    content "<osm><changeset>" \
+            "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
     put :create
     assert_response :success
     changeset_id = @response.body.to_i
 
     # add a diff to it
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <modify>
         <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
@@ -1355,7 +1355,7 @@ EOF
         <node id='#{node.id}' lon='9' lat='9' changeset='#{changeset_id}' version='8'/>
        </modify>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -1380,8 +1380,8 @@ EOF
     basic_authorization create(:user).email, "test"
 
     # create a temporary changeset
-    content "<osm><changeset>" +
-            "<tag k='created_by' v='osm test suite checking changesets'/>" +
+    content "<osm><changeset>" \
+            "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
     put :create
     assert_response :success
@@ -1442,15 +1442,15 @@ OSMFILE
     basic_authorization create(:user).email, "test"
 
     # create a temporary changeset
-    content "<osm><changeset>" +
-            "<tag k='created_by' v='osm test suite checking changesets'/>" +
+    content "<osm><changeset>" \
+            "<tag k='created_by' v='osm test suite checking changesets'/>" \
             "</changeset></osm>"
     put :create
     assert_response :success
     changeset_id = @response.body.to_i
 
     # add a diff to it
-    diff = <<EOF.strip_heredoc
+    diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <delete>
         <node id='#{node.id}' lon='0' lat='0' changeset='#{changeset_id}' version='1'/>
@@ -1470,7 +1470,7 @@ OSMFILE
         </way>
        </modify>
       </osmChange>
-EOF
+CHANGESET
 
     # upload it
     content diff
@@ -1880,7 +1880,7 @@ EOF
 
     # check that the changeset is now closed as well
     assert(!changeset.is_open?,
-           "changeset should have been auto-closed by exceeding " +
+           "changeset should have been auto-closed by exceeding " \
            "element limit.")
   end
 

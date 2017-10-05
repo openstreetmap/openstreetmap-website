@@ -1,4 +1,4 @@
-require "uri"
+require "cgi"
 
 module BrowseHelper
   def printable_name(object, version = false)
@@ -114,9 +114,17 @@ module BrowseHelper
     # the correct page.
     lookup_us = lookup.tr(" ", "_")
 
-    if page = WIKI_PAGES[locale][type][lookup_us] rescue nil
+    if page = begin
+                WIKI_PAGES[locale][type][lookup_us]
+              rescue
+                nil
+              end
       url = "http://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
-    elsif page = WIKI_PAGES["en"][type][lookup_us] rescue nil
+    elsif page = begin
+                   WIKI_PAGES["en"][type][lookup_us]
+                 rescue
+                   nil
+                 end
       url = "http://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
     end
 
@@ -151,7 +159,7 @@ module BrowseHelper
       # Must break it up to correctly build the url
       value = Regexp.last_match(1)
       section = "#" + Regexp.last_match(2)
-      encoded_section = "#" + URI.encode(Regexp.last_match(2).gsub(/ +/, "_"), /[^A-Za-z0-9:_]/).tr("%", ".")
+      encoded_section = "#" + CGI.escape(Regexp.last_match(2).gsub(/ +/, "_")).tr("%", ".")
     else
       section = ""
       encoded_section = ""

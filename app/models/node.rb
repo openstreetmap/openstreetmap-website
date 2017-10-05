@@ -70,7 +70,7 @@ class Node < ActiveRecord::Base
     raise OSM::APIBadXMLError.new("node", pt, "Changeset id is missing") if pt["changeset"].nil?
     node.changeset_id = pt["changeset"].to_i
 
-    raise OSM::APIBadUserInput.new("The node is outside this world") unless node.in_world?
+    raise OSM::APIBadUserInput, "The node is outside this world" unless node.in_world?
 
     # version must be present unless creating
     raise OSM::APIBadXMLError.new("node", pt, "Version is required when updating") unless create || !pt["version"].nil?
@@ -81,7 +81,7 @@ class Node < ActiveRecord::Base
       node.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
-      raise OSM::APIBadUserInput.new("ID of node cannot be zero when updating.") if node.id.zero?
+      raise OSM::APIBadUserInput, "ID of node cannot be zero when updating." if node.id.zero?
     end
 
     # We don't care about the time, as it is explicitly set on create/update/delete
@@ -120,10 +120,10 @@ class Node < ActiveRecord::Base
       lock!
       check_consistency(self, new_node, user)
       ways = Way.joins(:way_nodes).where(:visible => true, :current_way_nodes => { :node_id => id }).order(:id)
-      raise OSM::APIPreconditionFailedError.new("Node #{id} is still used by ways #{ways.collect(&:id).join(',')}.") unless ways.empty?
+      raise OSM::APIPreconditionFailedError, "Node #{id} is still used by ways #{ways.collect(&:id).join(',')}." unless ways.empty?
 
       rels = Relation.joins(:relation_members).where(:visible => true, :current_relation_members => { :member_type => "Node", :member_id => id }).order(:id)
-      raise OSM::APIPreconditionFailedError.new("Node #{id} is still used by relations #{rels.collect(&:id).join(',')}.") unless rels.empty?
+      raise OSM::APIPreconditionFailedError, "Node #{id} is still used by relations #{rels.collect(&:id).join(',')}." unless rels.empty?
 
       self.changeset_id = new_node.changeset_id
       self.tags = {}
@@ -205,7 +205,7 @@ class Node < ActiveRecord::Base
   attr_writer :tags
 
   def add_tag_key_val(k, v)
-    @tags = {} unless @tags
+    @tags ||= {}
 
     # duplicate tags are now forbidden, so we can't allow values
     # in the hash to be overwritten.

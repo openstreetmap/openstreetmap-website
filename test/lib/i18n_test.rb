@@ -13,7 +13,7 @@ class I18nTest < ActiveSupport::TestCase
         if default_value.is_a?(Hash)
           variables.push("count")
 
-          default_value.each do |_subkey, subvalue|
+          default_value.each_value do |subvalue|
             subvalue.scan(/%\{(\w+)\}/) do
               variables.push(Regexp.last_match(1))
             end
