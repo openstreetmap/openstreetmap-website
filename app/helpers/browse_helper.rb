@@ -114,17 +114,9 @@ module BrowseHelper
     # the correct page.
     lookup_us = lookup.tr(" ", "_")
 
-    if page = begin
-                WIKI_PAGES[locale][type][lookup_us]
-              rescue
-                nil
-              end
+    if page = WIKI_PAGES.dig(locale, type, lookup_us)
       url = "http://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
-    elsif page = begin
-                   WIKI_PAGES["en"][type][lookup_us]
-                 rescue
-                   nil
-                 end
+    elsif page = WIKI_PAGES.dig("en", type, lookup_us)
       url = "http://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
     end
 
