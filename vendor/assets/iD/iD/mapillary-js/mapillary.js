@@ -19902,13 +19902,18 @@ exports.APIv3 = APIv3_1.APIv3;
 var ModelCreator_1 = require("./api/ModelCreator");
 exports.ModelCreator = ModelCreator_1.ModelCreator;
 
-},{"./api/APIv3":237,"./api/ModelCreator":238}],226:[function(require,module,exports){
+},{"./api/APIv3":238,"./api/ModelCreator":239}],226:[function(require,module,exports){
 "use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 var Component_1 = require("./component/Component");
 exports.Component = Component_1.Component;
 var ComponentService_1 = require("./component/ComponentService");
 exports.ComponentService = ComponentService_1.ComponentService;
+var HandlerBase_1 = require("./component/utils/HandlerBase");
+exports.HandlerBase = HandlerBase_1.HandlerBase;
 var AttributionComponent_1 = require("./component/AttributionComponent");
 exports.AttributionComponent = AttributionComponent_1.AttributionComponent;
 var BackgroundComponent_1 = require("./component/BackgroundComponent");
@@ -19929,8 +19934,14 @@ var DirectionDOMRenderer_1 = require("./component/direction/DirectionDOMRenderer
 exports.DirectionDOMRenderer = DirectionDOMRenderer_1.DirectionDOMRenderer;
 var ImageComponent_1 = require("./component/ImageComponent");
 exports.ImageComponent = ImageComponent_1.ImageComponent;
-var KeyboardComponent_1 = require("./component/KeyboardComponent");
+var KeyboardComponent_1 = require("./component/keyboard/KeyboardComponent");
 exports.KeyboardComponent = KeyboardComponent_1.KeyboardComponent;
+var KeyZoomHandler_1 = require("./component/keyboard/KeyZoomHandler");
+exports.KeyZoomHandler = KeyZoomHandler_1.KeyZoomHandler;
+var KeySequenceNavigationHandler_1 = require("./component/keyboard/KeySequenceNavigationHandler");
+exports.KeySequenceNavigationHandler = KeySequenceNavigationHandler_1.KeySequenceNavigationHandler;
+var KeySpatialNavigationHandler_1 = require("./component/keyboard/KeySpatialNavigationHandler");
+exports.KeySpatialNavigationHandler = KeySpatialNavigationHandler_1.KeySpatialNavigationHandler;
 var LoadingComponent_1 = require("./component/LoadingComponent");
 exports.LoadingComponent = LoadingComponent_1.LoadingComponent;
 var Marker_1 = require("./component/marker/marker/Marker");
@@ -19943,8 +19954,6 @@ var MarkerSet_1 = require("./component/marker/MarkerSet");
 exports.MarkerSet = MarkerSet_1.MarkerSet;
 var MouseComponent_1 = require("./component/mouse/MouseComponent");
 exports.MouseComponent = MouseComponent_1.MouseComponent;
-var MouseHandlerBase_1 = require("./component/mouse/MouseHandlerBase");
-exports.MouseHandlerBase = MouseHandlerBase_1.MouseHandlerBase;
 var BounceHandler_1 = require("./component/mouse/BounceHandler");
 exports.BounceHandler = BounceHandler_1.BounceHandler;
 var DragPanHandler_1 = require("./component/mouse/DragPanHandler");
@@ -20027,8 +20036,9 @@ var PolygonGeometry_1 = require("./component/tag/geometry/PolygonGeometry");
 exports.PolygonGeometry = PolygonGeometry_1.PolygonGeometry;
 var GeometryTagError_1 = require("./component/tag/error/GeometryTagError");
 exports.GeometryTagError = GeometryTagError_1.GeometryTagError;
+__export(require("./component/interfaces/interfaces"));
 
-},{"./component/AttributionComponent":239,"./component/BackgroundComponent":240,"./component/BearingComponent":241,"./component/CacheComponent":242,"./component/Component":243,"./component/ComponentService":244,"./component/CoverComponent":245,"./component/DebugComponent":246,"./component/ImageComponent":247,"./component/KeyboardComponent":248,"./component/LoadingComponent":249,"./component/NavigationComponent":250,"./component/RouteComponent":251,"./component/StatsComponent":252,"./component/direction/DirectionComponent":253,"./component/direction/DirectionDOMCalculator":254,"./component/direction/DirectionDOMRenderer":255,"./component/imageplane/ImagePlaneComponent":256,"./component/imageplane/ImagePlaneFactory":257,"./component/imageplane/ImagePlaneGLRenderer":258,"./component/imageplane/ImagePlaneScene":259,"./component/imageplane/ImagePlaneShaders":260,"./component/imageplane/SliderComponent":261,"./component/marker/MarkerComponent":263,"./component/marker/MarkerScene":264,"./component/marker/MarkerSet":265,"./component/marker/marker/CircleMarker":266,"./component/marker/marker/Marker":267,"./component/marker/marker/SimpleMarker":268,"./component/mouse/BounceHandler":269,"./component/mouse/DoubleClickZoomHandler":270,"./component/mouse/DragPanHandler":271,"./component/mouse/MouseComponent":272,"./component/mouse/MouseHandlerBase":273,"./component/mouse/ScrollZoomHandler":274,"./component/mouse/TouchZoomHandler":275,"./component/popup/PopupComponent":277,"./component/popup/popup/Popup":278,"./component/sequence/SequenceComponent":279,"./component/sequence/SequenceDOMInteraction":280,"./component/sequence/SequenceDOMRenderer":281,"./component/tag/TagComponent":283,"./component/tag/TagCreator":284,"./component/tag/TagDOMRenderer":285,"./component/tag/TagMode":286,"./component/tag/TagOperation":287,"./component/tag/TagScene":288,"./component/tag/TagSet":289,"./component/tag/error/GeometryTagError":290,"./component/tag/geometry/Geometry":291,"./component/tag/geometry/PointGeometry":292,"./component/tag/geometry/PolygonGeometry":293,"./component/tag/geometry/RectGeometry":294,"./component/tag/geometry/VertexGeometry":295,"./component/tag/tag/OutlineCreateTag":296,"./component/tag/tag/OutlineRenderTag":297,"./component/tag/tag/OutlineTag":298,"./component/tag/tag/RenderTag":299,"./component/tag/tag/SpotRenderTag":300,"./component/tag/tag/SpotTag":301,"./component/tag/tag/Tag":302}],227:[function(require,module,exports){
+},{"./component/AttributionComponent":240,"./component/BackgroundComponent":241,"./component/BearingComponent":242,"./component/CacheComponent":243,"./component/Component":244,"./component/ComponentService":245,"./component/CoverComponent":246,"./component/DebugComponent":247,"./component/ImageComponent":248,"./component/LoadingComponent":249,"./component/NavigationComponent":250,"./component/RouteComponent":251,"./component/StatsComponent":252,"./component/direction/DirectionComponent":253,"./component/direction/DirectionDOMCalculator":254,"./component/direction/DirectionDOMRenderer":255,"./component/imageplane/ImagePlaneComponent":256,"./component/imageplane/ImagePlaneFactory":257,"./component/imageplane/ImagePlaneGLRenderer":258,"./component/imageplane/ImagePlaneScene":259,"./component/imageplane/ImagePlaneShaders":260,"./component/imageplane/SliderComponent":261,"./component/interfaces/interfaces":263,"./component/keyboard/KeySequenceNavigationHandler":264,"./component/keyboard/KeySpatialNavigationHandler":265,"./component/keyboard/KeyZoomHandler":266,"./component/keyboard/KeyboardComponent":267,"./component/marker/MarkerComponent":269,"./component/marker/MarkerScene":270,"./component/marker/MarkerSet":271,"./component/marker/marker/CircleMarker":272,"./component/marker/marker/Marker":273,"./component/marker/marker/SimpleMarker":274,"./component/mouse/BounceHandler":275,"./component/mouse/DoubleClickZoomHandler":276,"./component/mouse/DragPanHandler":277,"./component/mouse/MouseComponent":278,"./component/mouse/ScrollZoomHandler":279,"./component/mouse/TouchZoomHandler":280,"./component/popup/PopupComponent":282,"./component/popup/popup/Popup":283,"./component/sequence/SequenceComponent":284,"./component/sequence/SequenceDOMInteraction":285,"./component/sequence/SequenceDOMRenderer":286,"./component/tag/TagComponent":288,"./component/tag/TagCreator":289,"./component/tag/TagDOMRenderer":290,"./component/tag/TagMode":291,"./component/tag/TagOperation":292,"./component/tag/TagScene":293,"./component/tag/TagSet":294,"./component/tag/error/GeometryTagError":295,"./component/tag/geometry/Geometry":296,"./component/tag/geometry/PointGeometry":297,"./component/tag/geometry/PolygonGeometry":298,"./component/tag/geometry/RectGeometry":299,"./component/tag/geometry/VertexGeometry":300,"./component/tag/tag/OutlineCreateTag":301,"./component/tag/tag/OutlineRenderTag":302,"./component/tag/tag/OutlineTag":303,"./component/tag/tag/RenderTag":304,"./component/tag/tag/SpotRenderTag":305,"./component/tag/tag/SpotTag":306,"./component/tag/tag/Tag":307,"./component/utils/HandlerBase":308}],227:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EdgeDirection_1 = require("./graph/edge/EdgeDirection");
@@ -20042,7 +20052,7 @@ exports.EdgeCalculatorCoefficients = EdgeCalculatorCoefficients_1.EdgeCalculator
 var EdgeCalculator_1 = require("./graph/edge/EdgeCalculator");
 exports.EdgeCalculator = EdgeCalculator_1.EdgeCalculator;
 
-},{"./graph/edge/EdgeCalculator":320,"./graph/edge/EdgeCalculatorCoefficients":321,"./graph/edge/EdgeCalculatorDirections":322,"./graph/edge/EdgeCalculatorSettings":323,"./graph/edge/EdgeDirection":324}],228:[function(require,module,exports){
+},{"./graph/edge/EdgeCalculator":326,"./graph/edge/EdgeCalculatorCoefficients":327,"./graph/edge/EdgeCalculatorDirections":328,"./graph/edge/EdgeCalculatorSettings":329,"./graph/edge/EdgeDirection":330}],228:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ArgumentMapillaryError_1 = require("./error/ArgumentMapillaryError");
@@ -20052,7 +20062,7 @@ exports.GraphMapillaryError = GraphMapillaryError_1.GraphMapillaryError;
 var MapillaryError_1 = require("./error/MapillaryError");
 exports.MapillaryError = MapillaryError_1.MapillaryError;
 
-},{"./error/ArgumentMapillaryError":303,"./error/GraphMapillaryError":304,"./error/MapillaryError":305}],229:[function(require,module,exports){
+},{"./error/ArgumentMapillaryError":309,"./error/GraphMapillaryError":310,"./error/MapillaryError":311}],229:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Camera_1 = require("./geo/Camera");
@@ -20066,7 +20076,7 @@ exports.Spatial = Spatial_1.Spatial;
 var Transform_1 = require("./geo/Transform");
 exports.Transform = Transform_1.Transform;
 
-},{"./geo/Camera":306,"./geo/GeoCoords":307,"./geo/Spatial":308,"./geo/Transform":309,"./geo/ViewportCoords":310}],230:[function(require,module,exports){
+},{"./geo/Camera":312,"./geo/GeoCoords":313,"./geo/Spatial":314,"./geo/Transform":315,"./geo/ViewportCoords":316}],230:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var FilterCreator_1 = require("./graph/FilterCreator");
@@ -20088,13 +20098,17 @@ exports.NodeCache = NodeCache_1.NodeCache;
 var Sequence_1 = require("./graph/Sequence");
 exports.Sequence = Sequence_1.Sequence;
 
-},{"./graph/FilterCreator":311,"./graph/Graph":312,"./graph/GraphCalculator":313,"./graph/GraphService":314,"./graph/ImageLoadingService":315,"./graph/MeshReader":316,"./graph/Node":317,"./graph/NodeCache":318,"./graph/Sequence":319}],231:[function(require,module,exports){
+},{"./graph/FilterCreator":317,"./graph/Graph":318,"./graph/GraphCalculator":319,"./graph/GraphService":320,"./graph/ImageLoadingService":321,"./graph/MeshReader":322,"./graph/Node":323,"./graph/NodeCache":324,"./graph/Sequence":325}],231:[function(require,module,exports){
 "use strict";
 /**
  * MapillaryJS is a WebGL JavaScript library for exploring street level imagery
  * @name Mapillary
  */
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
 Object.defineProperty(exports, "__esModule", { value: true });
+__export(require("./Support"));
 var Edge_1 = require("./Edge");
 exports.EdgeDirection = Edge_1.EdgeDirection;
 var Render_1 = require("./Render");
@@ -20110,7 +20124,7 @@ exports.MarkerComponent = MarkerComponent;
 var PopupComponent = require("./component/popup/Popup");
 exports.PopupComponent = PopupComponent;
 
-},{"./Edge":227,"./Render":232,"./Viewer":236,"./component/marker/Marker":262,"./component/popup/Popup":276,"./component/tag/Tag":282}],232:[function(require,module,exports){
+},{"./Edge":227,"./Render":232,"./Support":234,"./Viewer":237,"./component/marker/Marker":268,"./component/popup/Popup":281,"./component/tag/Tag":287}],232:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var DOMRenderer_1 = require("./render/DOMRenderer");
@@ -20126,7 +20140,7 @@ exports.RenderMode = RenderMode_1.RenderMode;
 var RenderService_1 = require("./render/RenderService");
 exports.RenderService = RenderService_1.RenderService;
 
-},{"./render/DOMRenderer":325,"./render/GLRenderStage":326,"./render/GLRenderer":327,"./render/RenderCamera":328,"./render/RenderMode":329,"./render/RenderService":330}],233:[function(require,module,exports){
+},{"./render/DOMRenderer":331,"./render/GLRenderStage":332,"./render/GLRenderer":333,"./render/RenderCamera":334,"./render/RenderMode":335,"./render/RenderService":336}],233:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var State_1 = require("./state/State");
@@ -20142,7 +20156,46 @@ exports.TraversingState = TraversingState_1.TraversingState;
 var WaitingState_1 = require("./state/states/WaitingState");
 exports.WaitingState = WaitingState_1.WaitingState;
 
-},{"./state/State":331,"./state/StateContext":332,"./state/StateService":333,"./state/states/StateBase":334,"./state/states/TraversingState":335,"./state/states/WaitingState":336}],234:[function(require,module,exports){
+},{"./state/State":337,"./state/StateContext":338,"./state/StateService":339,"./state/states/StateBase":340,"./state/states/TraversingState":341,"./state/states/WaitingState":342}],234:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var support = require("./utils/Support");
+/**
+ * Test whether the current browser supports the full
+ * functionality of MapillaryJS.
+ *
+ * @description The full functionality includes WebGL rendering.
+ *
+ * @return {boolean}
+ *
+ * @example `var supported = Mapillary.isSupported();`
+ */
+function isSupported() {
+    return isFallbackSupported() &&
+        support.isWebGLSupportedCached();
+}
+exports.isSupported = isSupported;
+/**
+ * Test whether the current browser supports the fallback
+ * functionality of MapillaryJS.
+ *
+ * @description The fallback functionality does not include WebGL
+ * rendering, only 2D canvas rendering.
+ *
+ * @return {boolean}
+ *
+ * @example `var fallbackSupported = Mapillary.isFallbackSupported();`
+ */
+function isFallbackSupported() {
+    return support.isBrowser() &&
+        support.isArraySupported() &&
+        support.isFunctionSupported() &&
+        support.isJSONSupported() &&
+        support.isObjectSupported();
+}
+exports.isFallbackSupported = isFallbackSupported;
+
+},{"./utils/Support":349}],235:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ImageTileLoader_1 = require("./tiles/ImageTileLoader");
@@ -20154,17 +20207,21 @@ exports.TextureProvider = TextureProvider_1.TextureProvider;
 var RegionOfInterestCalculator_1 = require("./tiles/RegionOfInterestCalculator");
 exports.RegionOfInterestCalculator = RegionOfInterestCalculator_1.RegionOfInterestCalculator;
 
-},{"./tiles/ImageTileLoader":337,"./tiles/ImageTileStore":338,"./tiles/RegionOfInterestCalculator":339,"./tiles/TextureProvider":340}],235:[function(require,module,exports){
+},{"./tiles/ImageTileLoader":343,"./tiles/ImageTileStore":344,"./tiles/RegionOfInterestCalculator":345,"./tiles/TextureProvider":346}],236:[function(require,module,exports){
 "use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 var EventEmitter_1 = require("./utils/EventEmitter");
 exports.EventEmitter = EventEmitter_1.EventEmitter;
 var Settings_1 = require("./utils/Settings");
 exports.Settings = Settings_1.Settings;
+__export(require("./utils/Support"));
 var Urls_1 = require("./utils/Urls");
 exports.Urls = Urls_1.Urls;
 
-},{"./utils/EventEmitter":341,"./utils/Settings":342,"./utils/Urls":343}],236:[function(require,module,exports){
+},{"./utils/EventEmitter":347,"./utils/Settings":348,"./utils/Support":349,"./utils/Urls":350}],237:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Alignment_1 = require("./viewer/Alignment");
@@ -20179,6 +20236,8 @@ var Observer_1 = require("./viewer/Observer");
 exports.Observer = Observer_1.Observer;
 var ImageSize_1 = require("./viewer/ImageSize");
 exports.ImageSize = ImageSize_1.ImageSize;
+var KeyboardService_1 = require("./viewer/KeyboardService");
+exports.KeyboardService = KeyboardService_1.KeyboardService;
 var LoadingService_1 = require("./viewer/LoadingService");
 exports.LoadingService = LoadingService_1.LoadingService;
 var MouseService_1 = require("./viewer/MouseService");
@@ -20194,7 +20253,7 @@ exports.TouchService = TouchService_1.TouchService;
 var Viewer_1 = require("./viewer/Viewer");
 exports.Viewer = Viewer_1.Viewer;
 
-},{"./viewer/Alignment":344,"./viewer/CacheService":345,"./viewer/ComponentController":346,"./viewer/Container":347,"./viewer/ImageSize":348,"./viewer/LoadingService":349,"./viewer/MouseService":350,"./viewer/Navigator":351,"./viewer/Observer":352,"./viewer/Projection":353,"./viewer/SpriteService":354,"./viewer/TouchService":355,"./viewer/Viewer":356}],237:[function(require,module,exports){
+},{"./viewer/Alignment":351,"./viewer/CacheService":352,"./viewer/ComponentController":353,"./viewer/Container":354,"./viewer/ImageSize":355,"./viewer/KeyboardService":356,"./viewer/LoadingService":357,"./viewer/MouseService":358,"./viewer/Navigator":359,"./viewer/Observer":360,"./viewer/Projection":361,"./viewer/SpriteService":362,"./viewer/TouchService":363,"./viewer/Viewer":364}],238:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -20406,7 +20465,7 @@ var APIv3 = (function () {
 exports.APIv3 = APIv3;
 exports.default = APIv3;
 
-},{"../API":225,"rxjs/Observable":29,"rxjs/add/observable/defer":39,"rxjs/add/observable/fromPromise":43,"rxjs/add/operator/catch":52,"rxjs/add/operator/map":65}],238:[function(require,module,exports){
+},{"../API":225,"rxjs/Observable":29,"rxjs/add/observable/defer":39,"rxjs/add/observable/fromPromise":43,"rxjs/add/operator/catch":52,"rxjs/add/operator/map":65}],239:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -20450,7 +20509,7 @@ var ModelCreator = (function () {
 exports.ModelCreator = ModelCreator;
 exports.default = ModelCreator;
 
-},{"../Utils":235,"falcor":15,"falcor-http-datasource":10}],239:[function(require,module,exports){
+},{"../Utils":236,"falcor":15,"falcor-http-datasource":10}],240:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -20505,7 +20564,7 @@ exports.AttributionComponent = AttributionComponent;
 Component_1.ComponentService.register(AttributionComponent);
 exports.default = AttributionComponent;
 
-},{"../Component":226,"virtual-dom":182}],240:[function(require,module,exports){
+},{"../Component":226,"virtual-dom":182}],241:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -20549,7 +20608,7 @@ exports.BackgroundComponent = BackgroundComponent;
 Component_1.ComponentService.register(BackgroundComponent);
 exports.default = BackgroundComponent;
 
-},{"../Component":226,"virtual-dom":182}],241:[function(require,module,exports){
+},{"../Component":226,"virtual-dom":182}],242:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -20699,7 +20758,7 @@ exports.BearingComponent = BearingComponent;
 Component_1.ComponentService.register(BearingComponent);
 exports.default = BearingComponent;
 
-},{"../Component":226,"../Geo":229,"rxjs/Observable":29,"virtual-dom":182}],242:[function(require,module,exports){
+},{"../Component":226,"../Geo":229,"rxjs/Observable":29,"virtual-dom":182}],243:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -20857,7 +20916,7 @@ exports.CacheComponent = CacheComponent;
 Component_1.ComponentService.register(CacheComponent);
 exports.default = CacheComponent;
 
-},{"../Component":226,"../Edge":227,"rxjs/Observable":29,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/from":41,"rxjs/add/observable/merge":44,"rxjs/add/observable/of":45,"rxjs/add/observable/zip":48,"rxjs/add/operator/catch":52,"rxjs/add/operator/combineLatest":53,"rxjs/add/operator/distinct":57,"rxjs/add/operator/expand":60,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/mergeAll":67,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/skip":75,"rxjs/add/operator/switchMap":79}],243:[function(require,module,exports){
+},{"../Component":226,"../Edge":227,"rxjs/Observable":29,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/from":41,"rxjs/add/observable/merge":44,"rxjs/add/observable/of":45,"rxjs/add/observable/zip":48,"rxjs/add/operator/catch":52,"rxjs/add/operator/combineLatest":53,"rxjs/add/operator/distinct":57,"rxjs/add/operator/expand":60,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/mergeAll":67,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/skip":75,"rxjs/add/operator/switchMap":79}],244:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -20980,7 +21039,7 @@ var Component = (function (_super) {
 exports.Component = Component;
 exports.default = Component;
 
-},{"../Utils":235,"rxjs/BehaviorSubject":26,"rxjs/Subject":34,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/startWith":78}],244:[function(require,module,exports){
+},{"../Utils":236,"rxjs/BehaviorSubject":26,"rxjs/Subject":34,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/startWith":78}],245:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -21010,6 +21069,13 @@ var ComponentService = (function () {
     ComponentService.registerCover = function (coverComponent) {
         ComponentService.registeredCoverComponent = coverComponent;
     };
+    Object.defineProperty(ComponentService.prototype, "coverActivated", {
+        get: function () {
+            return this._coverActivated;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ComponentService.prototype.activateCover = function () {
         if (this._coverActivated) {
             return;
@@ -21077,7 +21143,7 @@ var ComponentService = (function () {
 exports.ComponentService = ComponentService;
 exports.default = ComponentService;
 
-},{"../Error":228,"underscore":178}],245:[function(require,module,exports){
+},{"../Error":228,"underscore":178}],246:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -21107,10 +21173,14 @@ var CoverComponent = (function (_super) {
             .withLatestFrom(this._configuration$, function (node, configuration) {
             return [node, configuration];
         })
-            .filter(function (nc) {
-            return nc[0].key !== nc[1].key;
+            .filter(function (_a) {
+            var node = _a[0], configuration = _a[1];
+            return node.key !== configuration.key;
         })
-            .map(function (nc) { return nc[0]; })
+            .map(function (_a) {
+            var node = _a[0], configuration = _a[1];
+            return node;
+        })
             .map(function (node) {
             return { key: node.key, src: node.image.src };
         })
@@ -21120,7 +21190,7 @@ var CoverComponent = (function (_super) {
             if (!conf.key) {
                 return { name: _this._name, vnode: vd.h("div", []) };
             }
-            if (!conf.visible) {
+            if (conf.state === Component_1.CoverState.Hidden) {
                 return { name: _this._name, vnode: vd.h("div.Cover.CoverDone", [_this._getCoverBackgroundVNode(conf)]) };
             }
             return { name: _this._name, vnode: _this._getCoverButtonVNode(conf) };
@@ -21132,14 +21202,14 @@ var CoverComponent = (function (_super) {
         this._keyDisposable.unsubscribe();
     };
     CoverComponent.prototype._getDefaultConfiguration = function () {
-        return { "loading": false, "visible": true };
+        return { state: Component_1.CoverState.Visible };
     };
     CoverComponent.prototype._getCoverButtonVNode = function (conf) {
         var _this = this;
-        var cover = conf.loading ? "div.Cover.CoverLoading" : "div.Cover";
+        var cover = conf.state === Component_1.CoverState.Loading ? "div.Cover.CoverLoading" : "div.Cover";
         return vd.h(cover, [
             this._getCoverBackgroundVNode(conf),
-            vd.h("button.CoverButton", { onclick: function () { _this.configure({ loading: true }); } }, ["Explore"]),
+            vd.h("button.CoverButton", { onclick: function () { _this.configure({ state: Component_1.CoverState.Loading }); } }, ["Explore"]),
             vd.h("a.CoverLogo", { href: "https://www.mapillary.com", target: "_blank" }, []),
         ]);
     };
@@ -21149,7 +21219,7 @@ var CoverComponent = (function (_super) {
             "url(https://d1cuyjsrcm0gby.cloudfront.net/" + conf.key + "/thumb-640.jpg)";
         var properties = { style: { backgroundImage: url } };
         var children = [];
-        if (conf.loading) {
+        if (conf.state === Component_1.CoverState.Loading) {
             children.push(vd.h("div.Spinner", {}, []));
         }
         children.push(vd.h("div.CoverBackgroundGradient", {}, []));
@@ -21162,7 +21232,7 @@ exports.CoverComponent = CoverComponent;
 Component_1.ComponentService.registerCover(CoverComponent);
 exports.default = CoverComponent;
 
-},{"../Component":226,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/withLatestFrom":83,"virtual-dom":182}],246:[function(require,module,exports){
+},{"../Component":226,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/withLatestFrom":83,"virtual-dom":182}],247:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -21276,7 +21346,7 @@ exports.DebugComponent = DebugComponent;
 Component_1.ComponentService.register(DebugComponent);
 exports.default = DebugComponent;
 
-},{"../Component":226,"rxjs/BehaviorSubject":26,"rxjs/add/operator/combineLatest":53,"underscore":178,"virtual-dom":182}],247:[function(require,module,exports){
+},{"../Component":226,"rxjs/BehaviorSubject":26,"rxjs/add/operator/combineLatest":53,"underscore":178,"virtual-dom":182}],248:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -21291,6 +21361,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var vd = require("virtual-dom");
+var Observable_1 = require("rxjs/Observable");
 require("rxjs/add/operator/combineLatest");
 var Component_1 = require("../Component");
 var ImageComponent = (function (_super) {
@@ -21302,24 +21373,34 @@ var ImageComponent = (function (_super) {
     }
     ImageComponent.prototype._activate = function () {
         var _this = this;
-        this.drawSubscription = this._container.domRenderer.element$
-            .combineLatest(this._navigator.stateService.currentNode$, function (element, node) {
-            var canvas = document.getElementById(_this._canvasId);
-            return { canvas: canvas, node: node };
+        var canvasSize$ = this._container.domRenderer.element$
+            .map(function (element) {
+            return document.getElementById(_this._canvasId);
         })
-            .subscribe(function (canvasNode) {
-            var canvas = canvasNode.canvas;
-            var node = canvasNode.node;
-            if (!node || !canvas) {
-                return null;
-            }
+            .filter(function (canvas) {
+            return !!canvas;
+        })
+            .map(function (canvas) {
             var adaptableDomRenderer = canvas.parentElement;
             var width = adaptableDomRenderer.offsetWidth;
             var height = adaptableDomRenderer.offsetHeight;
-            canvas.width = width;
-            canvas.height = height;
-            var ctx = canvas.getContext("2d");
-            ctx.drawImage(node.image, 0, 0, width, height);
+            return [canvas, { height: height, width: width }];
+        })
+            .distinctUntilChanged(function (s1, s2) {
+            return s1.height === s2.height && s1.width === s2.width;
+        }, function (_a) {
+            var canvas = _a[0], size = _a[1];
+            return size;
+        });
+        this.drawSubscription = Observable_1.Observable
+            .combineLatest(canvasSize$, this._navigator.stateService.currentNode$)
+            .subscribe(function (_a) {
+            var _b = _a[0], canvas = _b[0], size = _b[1], node = _a[1];
+            canvas.width = size.width;
+            canvas.height = size.height;
+            canvas
+                .getContext("2d")
+                .drawImage(node.image, 0, 0, size.width, size.height);
         });
         this._container.domRenderer.renderAdaptive$.next({ name: this._name, vnode: vd.h("canvas#" + this._canvasId, []) });
     };
@@ -21336,215 +21417,7 @@ exports.ImageComponent = ImageComponent;
 Component_1.ComponentService.register(ImageComponent);
 exports.default = ImageComponent;
 
-},{"../Component":226,"rxjs/add/operator/combineLatest":53,"virtual-dom":182}],248:[function(require,module,exports){
-"use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/observable/fromEvent");
-require("rxjs/add/operator/withLatestFrom");
-var Edge_1 = require("../Edge");
-var Component_1 = require("../Component");
-var Geo_1 = require("../Geo");
-var KeyboardComponent = (function (_super) {
-    __extends(KeyboardComponent, _super);
-    function KeyboardComponent(name, container, navigator) {
-        var _this = _super.call(this, name, container, navigator) || this;
-        _this._spatial = new Geo_1.Spatial();
-        _this._perspectiveDirections = [
-            Edge_1.EdgeDirection.StepForward,
-            Edge_1.EdgeDirection.StepBackward,
-            Edge_1.EdgeDirection.StepLeft,
-            Edge_1.EdgeDirection.StepRight,
-            Edge_1.EdgeDirection.TurnLeft,
-            Edge_1.EdgeDirection.TurnRight,
-            Edge_1.EdgeDirection.TurnU,
-        ];
-        return _this;
-    }
-    KeyboardComponent.prototype._activate = function () {
-        var _this = this;
-        var sequenceEdges$ = this._navigator.stateService.currentNode$
-            .switchMap(function (node) {
-            return node.sequenceEdges$;
-        });
-        var spatialEdges$ = this._navigator.stateService.currentNode$
-            .switchMap(function (node) {
-            return node.spatialEdges$;
-        });
-        this._disposable = Observable_1.Observable
-            .fromEvent(document, "keydown")
-            .withLatestFrom(this._navigator.stateService.currentState$, sequenceEdges$, spatialEdges$, function (event, frame, sequenceEdges, spatialEdges) {
-            return { event: event, frame: frame, sequenceEdges: sequenceEdges, spatialEdges: spatialEdges };
-        })
-            .subscribe(function (kf) {
-            if (!kf.frame.state.currentNode.pano) {
-                _this._navigatePerspective(kf.event, kf.sequenceEdges, kf.spatialEdges);
-            }
-            else {
-                _this._navigatePanorama(kf.event, kf.sequenceEdges, kf.spatialEdges, kf.frame.state.camera);
-            }
-        });
-    };
-    KeyboardComponent.prototype._deactivate = function () {
-        this._disposable.unsubscribe();
-    };
-    KeyboardComponent.prototype._getDefaultConfiguration = function () {
-        return {};
-    };
-    KeyboardComponent.prototype._navigatePanorama = function (event, sequenceEdges, spatialEdges, camera) {
-        var navigationAngle = 0;
-        var stepDirection = null;
-        var sequenceDirection = null;
-        var phi = this._rotationFromCamera(camera).phi;
-        switch (event.keyCode) {
-            case 37:// left
-                if (event.shiftKey || event.altKey) {
-                    break;
-                }
-                navigationAngle = Math.PI / 2 + phi;
-                stepDirection = Edge_1.EdgeDirection.StepLeft;
-                break;
-            case 38:// up
-                if (event.shiftKey) {
-                    break;
-                }
-                if (event.altKey) {
-                    sequenceDirection = Edge_1.EdgeDirection.Next;
-                    break;
-                }
-                navigationAngle = phi;
-                stepDirection = Edge_1.EdgeDirection.StepForward;
-                break;
-            case 39:// right
-                if (event.shiftKey || event.altKey) {
-                    break;
-                }
-                navigationAngle = -Math.PI / 2 + phi;
-                stepDirection = Edge_1.EdgeDirection.StepRight;
-                break;
-            case 40:// down
-                if (event.shiftKey) {
-                    break;
-                }
-                if (event.altKey) {
-                    sequenceDirection = Edge_1.EdgeDirection.Prev;
-                    break;
-                }
-                navigationAngle = Math.PI + phi;
-                stepDirection = Edge_1.EdgeDirection.StepBackward;
-                break;
-            default:
-                return;
-        }
-        event.preventDefault();
-        if (sequenceDirection != null) {
-            this._moveInDir(sequenceDirection, sequenceEdges);
-            return;
-        }
-        if (stepDirection == null || !spatialEdges.cached) {
-            return;
-        }
-        navigationAngle = this._spatial.wrapAngle(navigationAngle);
-        var threshold = Math.PI / 4;
-        var edges = spatialEdges.edges.filter(function (e) {
-            return e.data.direction === Edge_1.EdgeDirection.Pano ||
-                e.data.direction === stepDirection;
-        });
-        var smallestAngle = Number.MAX_VALUE;
-        var toKey = null;
-        for (var _i = 0, edges_1 = edges; _i < edges_1.length; _i++) {
-            var edge = edges_1[_i];
-            var angle = Math.abs(this._spatial.wrapAngle(edge.data.worldMotionAzimuth - navigationAngle));
-            if (angle < Math.min(smallestAngle, threshold)) {
-                smallestAngle = angle;
-                toKey = edge.to;
-            }
-        }
-        if (toKey == null) {
-            return;
-        }
-        this._navigator.moveToKey$(toKey)
-            .subscribe(function (n) { return; }, function (e) { console.error(e); });
-    };
-    KeyboardComponent.prototype._rotationFromCamera = function (camera) {
-        var direction = camera.lookat.clone().sub(camera.position);
-        var upProjection = direction.clone().dot(camera.up);
-        var planeProjection = direction.clone().sub(camera.up.clone().multiplyScalar(upProjection));
-        var phi = Math.atan2(planeProjection.y, planeProjection.x);
-        var theta = Math.PI / 2 - this._spatial.angleToPlane(direction.toArray(), [0, 0, 1]);
-        return { phi: phi, theta: theta };
-    };
-    KeyboardComponent.prototype._navigatePerspective = function (event, sequenceEdges, spatialEdges) {
-        var direction = null;
-        var sequenceDirection = null;
-        switch (event.keyCode) {
-            case 37:// left
-                if (event.altKey) {
-                    break;
-                }
-                direction = event.shiftKey ? Edge_1.EdgeDirection.TurnLeft : Edge_1.EdgeDirection.StepLeft;
-                break;
-            case 38:// up
-                if (event.altKey) {
-                    sequenceDirection = Edge_1.EdgeDirection.Next;
-                    break;
-                }
-                direction = event.shiftKey ? Edge_1.EdgeDirection.Pano : Edge_1.EdgeDirection.StepForward;
-                break;
-            case 39:// right
-                if (event.altKey) {
-                    break;
-                }
-                direction = event.shiftKey ? Edge_1.EdgeDirection.TurnRight : Edge_1.EdgeDirection.StepRight;
-                break;
-            case 40:// down
-                if (event.altKey) {
-                    sequenceDirection = Edge_1.EdgeDirection.Prev;
-                    break;
-                }
-                direction = event.shiftKey ? Edge_1.EdgeDirection.TurnU : Edge_1.EdgeDirection.StepBackward;
-                break;
-            default:
-                return;
-        }
-        event.preventDefault();
-        if (sequenceDirection != null) {
-            this._moveInDir(sequenceDirection, sequenceEdges);
-            return;
-        }
-        this._moveInDir(direction, spatialEdges);
-    };
-    KeyboardComponent.prototype._moveInDir = function (direction, edgeStatus) {
-        if (!edgeStatus.cached) {
-            return;
-        }
-        for (var _i = 0, _a = edgeStatus.edges; _i < _a.length; _i++) {
-            var edge = _a[_i];
-            if (edge.data.direction === direction) {
-                this._navigator.moveToKey$(edge.to)
-                    .subscribe(function (n) { return; }, function (e) { console.error(e); });
-                return;
-            }
-        }
-    };
-    KeyboardComponent.componentName = "keyboard";
-    return KeyboardComponent;
-}(Component_1.Component));
-exports.KeyboardComponent = KeyboardComponent;
-Component_1.ComponentService.register(KeyboardComponent);
-exports.default = KeyboardComponent;
-
-},{"../Component":226,"../Edge":227,"../Geo":229,"rxjs/Observable":29,"rxjs/add/observable/fromEvent":42,"rxjs/add/operator/withLatestFrom":83}],249:[function(require,module,exports){
+},{"../Component":226,"rxjs/Observable":29,"rxjs/add/operator/combineLatest":53,"virtual-dom":182}],249:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -21637,42 +21510,71 @@ require("rxjs/add/operator/map");
 require("rxjs/add/operator/first");
 var Edge_1 = require("../Edge");
 var Component_1 = require("../Component");
+/**
+ * @class NavigationComponent
+ *
+ * @classdesc Fallback navigation component for environments without WebGL support.
+ *
+ * Replaces the functionality in the Direction and Sequence components.
+ */
 var NavigationComponent = (function (_super) {
     __extends(NavigationComponent, _super);
     function NavigationComponent(name, container, navigator) {
         var _this = _super.call(this, name, container, navigator) || this;
-        _this._dirNames = {};
-        _this._dirNames[Edge_1.EdgeDirection.StepForward] = "Forward";
-        _this._dirNames[Edge_1.EdgeDirection.StepBackward] = "Backward";
-        _this._dirNames[Edge_1.EdgeDirection.StepLeft] = "Left";
-        _this._dirNames[Edge_1.EdgeDirection.StepRight] = "Right";
-        _this._dirNames[Edge_1.EdgeDirection.TurnLeft] = "Turnleft";
-        _this._dirNames[Edge_1.EdgeDirection.TurnRight] = "Turnright";
-        _this._dirNames[Edge_1.EdgeDirection.TurnU] = "Turnaround";
+        _this._seqNames = {};
+        _this._seqNames[Edge_1.EdgeDirection[Edge_1.EdgeDirection.Prev]] = "Prev";
+        _this._seqNames[Edge_1.EdgeDirection[Edge_1.EdgeDirection.Next]] = "Next";
+        _this._spaTopNames = {};
+        _this._spaTopNames[Edge_1.EdgeDirection[Edge_1.EdgeDirection.TurnLeft]] = "Turnleft";
+        _this._spaTopNames[Edge_1.EdgeDirection[Edge_1.EdgeDirection.StepLeft]] = "Left";
+        _this._spaTopNames[Edge_1.EdgeDirection[Edge_1.EdgeDirection.StepForward]] = "Forward";
+        _this._spaTopNames[Edge_1.EdgeDirection[Edge_1.EdgeDirection.StepRight]] = "Right";
+        _this._spaTopNames[Edge_1.EdgeDirection[Edge_1.EdgeDirection.TurnRight]] = "Turnright";
+        _this._spaBottomNames = {};
+        _this._spaBottomNames[Edge_1.EdgeDirection[Edge_1.EdgeDirection.TurnU]] = "Turnaround";
+        _this._spaBottomNames[Edge_1.EdgeDirection[Edge_1.EdgeDirection.StepBackward]] = "Backward";
         return _this;
     }
     NavigationComponent.prototype._activate = function () {
         var _this = this;
-        this._renderSubscription = this._navigator.stateService.currentNode$
-            .switchMap(function (node) {
-            return node.pano ?
-                Observable_1.Observable.of([]) :
-                Observable_1.Observable.combineLatest(node.sequenceEdges$, node.spatialEdges$, function (seq, spa) {
-                    return seq.edges.concat(spa.edges);
-                });
+        this._renderSubscription = Observable_1.Observable
+            .combineLatest(this._navigator.stateService.currentNode$, this._configuration$)
+            .switchMap(function (_a) {
+            var node = _a[0], configuration = _a[1];
+            var sequenceEdges$ = configuration.sequence ?
+                node.sequenceEdges$
+                    .map(function (status) {
+                    return status.edges
+                        .map(function (edge) {
+                        return edge.data.direction;
+                    });
+                }) :
+                Observable_1.Observable.of([]);
+            var spatialEdges$ = !node.pano && configuration.spatial ?
+                node.spatialEdges$
+                    .map(function (status) {
+                    return status.edges
+                        .map(function (edge) {
+                        return edge.data.direction;
+                    });
+                }) :
+                Observable_1.Observable.of([]);
+            return Observable_1.Observable
+                .combineLatest(sequenceEdges$, spatialEdges$)
+                .map(function (_a) {
+                var seq = _a[0], spa = _a[1];
+                return seq.concat(spa);
+            });
         })
-            .map(function (edges) {
-            var btns = [];
-            for (var _i = 0, edges_1 = edges; _i < edges_1.length; _i++) {
-                var edge = edges_1[_i];
-                var direction = edge.data.direction;
-                var name_1 = _this._dirNames[direction];
-                if (name_1 == null) {
-                    continue;
-                }
-                btns.push(_this._createVNode(direction, name_1));
-            }
-            return { name: _this._name, vnode: vd.h("div.NavigationComponent", btns) };
+            .map(function (edgeDirections) {
+            var seqs = _this._createArrowRow(_this._seqNames, edgeDirections);
+            var spaTops = _this._createArrowRow(_this._spaTopNames, edgeDirections);
+            var spaBottoms = _this._createArrowRow(_this._spaBottomNames, edgeDirections);
+            var seqContainer = vd.h("div.NavigationSequence", seqs);
+            var spaTopContainer = vd.h("div.NavigationSpatialTop", spaTops);
+            var spaBottomContainer = vd.h("div.NavigationSpatialBottom", spaBottoms);
+            var spaContainer = vd.h("div.NavigationSpatial", [spaTopContainer, spaBottomContainer]);
+            return { name: _this._name, vnode: vd.h("div.NavigationContainer", [seqContainer, spaContainer]) };
         })
             .subscribe(this._container.domRenderer.render$);
     };
@@ -21680,14 +21582,33 @@ var NavigationComponent = (function (_super) {
         this._renderSubscription.unsubscribe();
     };
     NavigationComponent.prototype._getDefaultConfiguration = function () {
-        return {};
+        return { sequence: true, spatial: true };
     };
-    NavigationComponent.prototype._createVNode = function (direction, name) {
+    NavigationComponent.prototype._createArrowRow = function (arrowNames, edgeDirections) {
+        var arrows = [];
+        for (var arrowName in arrowNames) {
+            if (!(arrowNames.hasOwnProperty(arrowName))) {
+                continue;
+            }
+            var direction = Edge_1.EdgeDirection[arrowName];
+            if (edgeDirections.indexOf(direction) !== -1) {
+                arrows.push(this._createVNode(direction, arrowNames[arrowName], "visible"));
+            }
+            else {
+                arrows.push(this._createVNode(direction, arrowNames[arrowName], "hidden"));
+            }
+        }
+        return arrows;
+    };
+    NavigationComponent.prototype._createVNode = function (direction, name, visibility) {
         var _this = this;
         return vd.h("span.Direction.Direction" + name, {
             onclick: function (ev) {
                 _this._navigator.moveDir$(direction)
                     .subscribe(function (node) { return; }, function (error) { console.error(error); });
+            },
+            style: {
+                visibility: visibility,
             },
         }, []);
     };
@@ -22038,9 +21959,11 @@ var Component_1 = require("../../Component");
  */
 var DirectionComponent = (function (_super) {
     __extends(DirectionComponent, _super);
-    function DirectionComponent(name, container, navigator) {
+    function DirectionComponent(name, container, navigator, directionDOMRenderer) {
         var _this = _super.call(this, name, container, navigator) || this;
-        _this._renderer = new Component_1.DirectionDOMRenderer(_this.defaultConfiguration, container.element);
+        _this._renderer = !!directionDOMRenderer ?
+            directionDOMRenderer :
+            new Component_1.DirectionDOMRenderer(_this.defaultConfiguration, container.element);
         _this._hoveredKeySubject$ = new Subject_1.Subject();
         _this._hoveredKey$ = _this._hoveredKeySubject$.share();
         return _this;
@@ -22119,21 +22042,21 @@ var DirectionComponent = (function (_super) {
             _this._renderer.setNode(node);
         })
             .withLatestFrom(this._configuration$)
-            .switchMap(function (nc) {
-            var node = nc[0];
-            var configuration = nc[1];
-            return node.spatialEdges$
-                .withLatestFrom(configuration.distinguishSequence ?
+            .switchMap(function (_a) {
+            var node = _a[0], configuration = _a[1];
+            return Observable_1.Observable
+                .combineLatest(node.spatialEdges$, configuration.distinguishSequence ?
                 _this._navigator.graphService
                     .cacheSequence$(node.sequenceKey)
                     .catch(function (error, caught) {
                     console.error("Failed to cache sequence (" + node.sequenceKey + ")", error);
-                    return Observable_1.Observable.empty();
+                    return Observable_1.Observable.of(null);
                 }) :
                 Observable_1.Observable.of(null));
         })
-            .subscribe(function (es) {
-            _this._renderer.setEdges(es[0], es[1]);
+            .subscribe(function (_a) {
+            var edgeStatus = _a[0], sequence = _a[1];
+            _this._renderer.setEdges(edgeStatus, sequence);
         });
         this._renderCameraSubscription = this._container.renderService.renderCameraFrame$
             .do(function (renderCamera) {
@@ -23066,7 +22989,7 @@ exports.ImagePlaneComponent = ImagePlaneComponent;
 Component_1.ComponentService.register(ImagePlaneComponent);
 exports.default = ImagePlaneComponent;
 
-},{"../../Component":226,"../../Render":232,"../../Tiles":234,"../../Utils":235,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/operator/catch":52,"rxjs/add/operator/combineLatest":53,"rxjs/add/operator/debounceTime":55,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/pairwise":69,"rxjs/add/operator/publish":71,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/skipWhile":77,"rxjs/add/operator/startWith":78,"rxjs/add/operator/switchMap":79,"rxjs/add/operator/takeUntil":81,"rxjs/add/operator/withLatestFrom":83}],257:[function(require,module,exports){
+},{"../../Component":226,"../../Render":232,"../../Tiles":235,"../../Utils":236,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/operator/catch":52,"rxjs/add/operator/combineLatest":53,"rxjs/add/operator/debounceTime":55,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/pairwise":69,"rxjs/add/operator/publish":71,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/skipWhile":77,"rxjs/add/operator/startWith":78,"rxjs/add/operator/switchMap":79,"rxjs/add/operator/takeUntil":81,"rxjs/add/operator/withLatestFrom":83}],257:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -24011,7 +23934,444 @@ exports.SliderComponent = SliderComponent;
 Component_1.ComponentService.register(SliderComponent);
 exports.default = SliderComponent;
 
-},{"../../Component":226,"../../Render":232,"../../State":233,"../../Utils":235,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/fromEvent":42,"rxjs/add/observable/of":45,"rxjs/add/observable/zip":48,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/first":63,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/scan":73,"rxjs/add/operator/switchMap":79,"rxjs/add/operator/withLatestFrom":83,"rxjs/add/operator/zip":84}],262:[function(require,module,exports){
+},{"../../Component":226,"../../Render":232,"../../State":233,"../../Utils":236,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/fromEvent":42,"rxjs/add/observable/of":45,"rxjs/add/observable/zip":48,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/first":63,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/scan":73,"rxjs/add/operator/switchMap":79,"rxjs/add/operator/withLatestFrom":83,"rxjs/add/operator/zip":84}],262:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var CoverState;
+(function (CoverState) {
+    CoverState[CoverState["Hidden"] = 0] = "Hidden";
+    CoverState[CoverState["Loading"] = 1] = "Loading";
+    CoverState[CoverState["Visible"] = 2] = "Visible";
+})(CoverState = exports.CoverState || (exports.CoverState = {}));
+
+},{}],263:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var ICoverConfiguration_1 = require("./ICoverConfiguration");
+exports.CoverState = ICoverConfiguration_1.CoverState;
+
+},{"./ICoverConfiguration":262}],264:[function(require,module,exports){
+"use strict";
+/// <reference path="../../../typings/index.d.ts" />
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+require("rxjs/add/operator/switchMap");
+require("rxjs/add/operator/withLatestFrom");
+var Component_1 = require("../../Component");
+var Edge_1 = require("../../Edge");
+/**
+ * The `KeySequenceNavigationHandler` allows the user navigate through a sequence using the
+ * following key commands:
+ *
+ * `ALT` + `Up Arrow`: Navigate to next image in the sequence.
+ * `ALT` + `Down Arrow`: Navigate to previous image in sequence.
+ *
+ * @example
+ * ```
+ * var keyboardComponent = viewer.getComponent("keyboard");
+ *
+ * keyboardComponent.keySequenceNavigation.disable();
+ * keyboardComponent.keySequenceNavigation.enable();
+ *
+ * var isEnabled = keyboardComponent.keySequenceNavigation.isEnabled;
+ * ```
+ */
+var KeySequenceNavigationHandler = (function (_super) {
+    __extends(KeySequenceNavigationHandler, _super);
+    function KeySequenceNavigationHandler() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    KeySequenceNavigationHandler.prototype._enable = function () {
+        var _this = this;
+        var sequenceEdges$ = this._navigator.stateService.currentNode$
+            .switchMap(function (node) {
+            return node.sequenceEdges$;
+        });
+        this._keyDownSubscription = this._container.keyboardService.keyDown$
+            .withLatestFrom(sequenceEdges$)
+            .subscribe(function (_a) {
+            var event = _a[0], edgeStatus = _a[1];
+            var direction = null;
+            switch (event.keyCode) {
+                case 38:// up
+                    direction = Edge_1.EdgeDirection.Next;
+                    break;
+                case 40:// down
+                    direction = Edge_1.EdgeDirection.Prev;
+                    break;
+                default:
+                    return;
+            }
+            event.preventDefault();
+            if (!event.altKey || event.shiftKey || !edgeStatus.cached) {
+                return;
+            }
+            for (var _i = 0, _b = edgeStatus.edges; _i < _b.length; _i++) {
+                var edge = _b[_i];
+                if (edge.data.direction === direction) {
+                    _this._navigator.moveToKey$(edge.to)
+                        .subscribe(function (n) { return; }, function (e) { console.error(e); });
+                    return;
+                }
+            }
+        });
+    };
+    KeySequenceNavigationHandler.prototype._disable = function () {
+        this._keyDownSubscription.unsubscribe();
+    };
+    KeySequenceNavigationHandler.prototype._getConfiguration = function (enable) {
+        return { keySequenceNavigation: enable };
+    };
+    return KeySequenceNavigationHandler;
+}(Component_1.HandlerBase));
+exports.KeySequenceNavigationHandler = KeySequenceNavigationHandler;
+exports.default = KeySequenceNavigationHandler;
+
+},{"../../Component":226,"../../Edge":227,"rxjs/add/operator/switchMap":79,"rxjs/add/operator/withLatestFrom":83}],265:[function(require,module,exports){
+"use strict";
+/// <reference path="../../../typings/index.d.ts" />
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+require("rxjs/add/operator/switchMap");
+require("rxjs/add/operator/withLatestFrom");
+var Component_1 = require("../../Component");
+var Edge_1 = require("../../Edge");
+/**
+ * The `KeySpatialNavigationHandler` allows the user navigate through a sequence using the
+ * following key commands:
+ *
+ * `Up Arrow`: Step forward.
+ * `Down Arrow`: Step backward.
+ * `Left Arrow`: Step to the left.
+ * `Rigth Arrow`: Step to the right.
+ * `SHIFT` + `Down Arrow`: Turn around.
+ * `SHIFT` + `Left Arrow`: Turn to the left.
+ * `SHIFT` + `Rigth Arrow`: Turn to the right.
+ *
+ * @example
+ * ```
+ * var keyboardComponent = viewer.getComponent("keyboard");
+ *
+ * keyboardComponent.keySpatialNavigation.disable();
+ * keyboardComponent.keySpatialNavigation.enable();
+ *
+ * var isEnabled = keyboardComponent.keySpatialNavigation.isEnabled;
+ * ```
+ */
+var KeySpatialNavigationHandler = (function (_super) {
+    __extends(KeySpatialNavigationHandler, _super);
+    function KeySpatialNavigationHandler(component, container, navigator, spatial) {
+        var _this = _super.call(this, component, container, navigator) || this;
+        _this._spatial = spatial;
+        return _this;
+    }
+    KeySpatialNavigationHandler.prototype._enable = function () {
+        var _this = this;
+        var spatialEdges$ = this._navigator.stateService.currentNode$
+            .switchMap(function (node) {
+            return node.spatialEdges$;
+        });
+        this._keyDownSubscription = this._container.keyboardService.keyDown$
+            .withLatestFrom(spatialEdges$, this._navigator.stateService.currentState$)
+            .subscribe(function (_a) {
+            var event = _a[0], edgeStatus = _a[1], frame = _a[2];
+            var pano = frame.state.currentNode.pano;
+            var direction = null;
+            switch (event.keyCode) {
+                case 37:// left
+                    direction = event.shiftKey && !pano ? Edge_1.EdgeDirection.TurnLeft : Edge_1.EdgeDirection.StepLeft;
+                    break;
+                case 38:// up
+                    direction = event.shiftKey && !pano ? Edge_1.EdgeDirection.Pano : Edge_1.EdgeDirection.StepForward;
+                    break;
+                case 39:// right
+                    direction = event.shiftKey && !pano ? Edge_1.EdgeDirection.TurnRight : Edge_1.EdgeDirection.StepRight;
+                    break;
+                case 40:// down
+                    direction = event.shiftKey && !pano ? Edge_1.EdgeDirection.TurnU : Edge_1.EdgeDirection.StepBackward;
+                    break;
+                default:
+                    return;
+            }
+            event.preventDefault();
+            if (event.altKey || !edgeStatus.cached ||
+                (event.shiftKey && pano)) {
+                return;
+            }
+            if (!pano) {
+                _this._moveDir(direction, edgeStatus);
+            }
+            else {
+                var shifts = {};
+                shifts[Edge_1.EdgeDirection.StepBackward] = Math.PI;
+                shifts[Edge_1.EdgeDirection.StepForward] = 0;
+                shifts[Edge_1.EdgeDirection.StepLeft] = Math.PI / 2;
+                shifts[Edge_1.EdgeDirection.StepRight] = -Math.PI / 2;
+                var phi = _this._rotationFromCamera(frame.state.camera).phi;
+                var navigationAngle = _this._spatial.wrapAngle(phi + shifts[direction]);
+                var threshold = Math.PI / 4;
+                var edges = edgeStatus.edges.filter(function (e) {
+                    return e.data.direction === Edge_1.EdgeDirection.Pano || e.data.direction === direction;
+                });
+                var smallestAngle = Number.MAX_VALUE;
+                var toKey = null;
+                for (var _i = 0, edges_1 = edges; _i < edges_1.length; _i++) {
+                    var edge = edges_1[_i];
+                    var angle = Math.abs(_this._spatial.wrapAngle(edge.data.worldMotionAzimuth - navigationAngle));
+                    if (angle < Math.min(smallestAngle, threshold)) {
+                        smallestAngle = angle;
+                        toKey = edge.to;
+                    }
+                }
+                if (toKey == null) {
+                    return;
+                }
+                _this._moveToKey(toKey);
+            }
+        });
+    };
+    KeySpatialNavigationHandler.prototype._disable = function () {
+        this._keyDownSubscription.unsubscribe();
+    };
+    KeySpatialNavigationHandler.prototype._getConfiguration = function (enable) {
+        return { keySpatialNavigation: enable };
+    };
+    KeySpatialNavigationHandler.prototype._moveDir = function (direction, edgeStatus) {
+        for (var _i = 0, _a = edgeStatus.edges; _i < _a.length; _i++) {
+            var edge = _a[_i];
+            if (edge.data.direction === direction) {
+                this._moveToKey(edge.to);
+                return;
+            }
+        }
+    };
+    KeySpatialNavigationHandler.prototype._moveToKey = function (key) {
+        this._navigator.moveToKey$(key)
+            .subscribe(function (n) { }, function (e) { console.error(e); });
+    };
+    KeySpatialNavigationHandler.prototype._rotationFromCamera = function (camera) {
+        var direction = camera.lookat.clone().sub(camera.position);
+        var upProjection = direction.clone().dot(camera.up);
+        var planeProjection = direction.clone().sub(camera.up.clone().multiplyScalar(upProjection));
+        var phi = Math.atan2(planeProjection.y, planeProjection.x);
+        var theta = Math.PI / 2 - this._spatial.angleToPlane(direction.toArray(), [0, 0, 1]);
+        return { phi: phi, theta: theta };
+    };
+    return KeySpatialNavigationHandler;
+}(Component_1.HandlerBase));
+exports.KeySpatialNavigationHandler = KeySpatialNavigationHandler;
+exports.default = KeySpatialNavigationHandler;
+
+},{"../../Component":226,"../../Edge":227,"rxjs/add/operator/switchMap":79,"rxjs/add/operator/withLatestFrom":83}],266:[function(require,module,exports){
+"use strict";
+/// <reference path="../../../typings/index.d.ts" />
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+require("rxjs/add/operator/withLatestFrom");
+var Component_1 = require("../../Component");
+/**
+ * The `KeyZoomHandler` allows the user zoom in and out using the
+ * following key commands:
+ *
+ * `+`: Zoom in.
+ * `-`: Zoom out.
+ *
+ * @example
+ * ```
+ * var keyboardComponent = viewer.getComponent("keyboard");
+ *
+ * keyboardComponent.keyZoom.disable();
+ * keyboardComponent.keyZoom.enable();
+ *
+ * var isEnabled = keyboardComponent.keyZoom.isEnabled;
+ * ```
+ */
+var KeyZoomHandler = (function (_super) {
+    __extends(KeyZoomHandler, _super);
+    function KeyZoomHandler(component, container, navigator, viewportCoords) {
+        var _this = _super.call(this, component, container, navigator) || this;
+        _this._viewportCoords = viewportCoords;
+        return _this;
+    }
+    KeyZoomHandler.prototype._enable = function () {
+        var _this = this;
+        this._keyDownSubscription = this._container.keyboardService.keyDown$
+            .withLatestFrom(this._container.renderService.renderCamera$, this._navigator.stateService.currentTransform$)
+            .subscribe(function (_a) {
+            var event = _a[0], render = _a[1], transform = _a[2];
+            if (event.altKey || event.shiftKey || event.ctrlKey || event.metaKey) {
+                return;
+            }
+            var delta = 0;
+            switch (event.key) {
+                case "+":
+                    delta = 1;
+                    break;
+                case "-":
+                    delta = -1;
+                    break;
+                default:
+                    return;
+            }
+            event.preventDefault();
+            var unprojected = _this._viewportCoords.unprojectFromViewport(0, 0, render.perspective);
+            var reference = transform.projectBasic(unprojected.toArray());
+            _this._navigator.stateService.zoomIn(delta, reference);
+        });
+    };
+    KeyZoomHandler.prototype._disable = function () {
+        this._keyDownSubscription.unsubscribe();
+    };
+    KeyZoomHandler.prototype._getConfiguration = function (enable) {
+        return { keyZoom: enable };
+    };
+    return KeyZoomHandler;
+}(Component_1.HandlerBase));
+exports.KeyZoomHandler = KeyZoomHandler;
+exports.default = KeyZoomHandler;
+
+},{"../../Component":226,"rxjs/add/operator/withLatestFrom":83}],267:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var Component_1 = require("../../Component");
+var Geo_1 = require("../../Geo");
+/**
+ * @class KeyboardComponent
+ *
+ * @classdesc Component for keyboard event handling.
+ *
+ * To retrive and use the keyboard component
+ *
+ * @example
+ * ```
+ * var viewer = new Mapillary.Viewer(
+ *     "<element-id>",
+ *     "<client-id>",
+ *     "<my key>");
+ *
+ * var keyboardComponent = viewer.getComponent("keyboard");
+ * ```
+ */
+var KeyboardComponent = (function (_super) {
+    __extends(KeyboardComponent, _super);
+    function KeyboardComponent(name, container, navigator) {
+        var _this = _super.call(this, name, container, navigator) || this;
+        _this._keyZoomHandler = new Component_1.KeyZoomHandler(_this, container, navigator, new Geo_1.ViewportCoords());
+        _this._keySequenceNavigationHandler = new Component_1.KeySequenceNavigationHandler(_this, container, navigator);
+        _this._keySpatialNavigationHandler = new Component_1.KeySpatialNavigationHandler(_this, container, navigator, new Geo_1.Spatial());
+        return _this;
+    }
+    Object.defineProperty(KeyboardComponent.prototype, "keyZoom", {
+        /**
+         * Get key zoom.
+         *
+         * @returns {KeyZoomHandler} The key zoom handler.
+         */
+        get: function () {
+            return this._keyZoomHandler;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(KeyboardComponent.prototype, "keySequenceNavigation", {
+        /**
+         * Get key sequence navigation.
+         *
+         * @returns {KeySequenceNavigationHandler} The key sequence navigation handler.
+         */
+        get: function () {
+            return this._keySequenceNavigationHandler;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(KeyboardComponent.prototype, "keySpatialNavigation", {
+        /**
+         * Get spatial.
+         *
+         * @returns {KeySpatialNavigationHandler} The spatial handler.
+         */
+        get: function () {
+            return this._keySpatialNavigationHandler;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    KeyboardComponent.prototype._activate = function () {
+        var _this = this;
+        this._configurationSubscription = this._configuration$
+            .subscribe(function (configuration) {
+            if (configuration.keyZoom) {
+                _this._keyZoomHandler.enable();
+            }
+            else {
+                _this._keyZoomHandler.disable();
+            }
+            if (configuration.keySequenceNavigation) {
+                _this._keySequenceNavigationHandler.enable();
+            }
+            else {
+                _this._keySequenceNavigationHandler.disable();
+            }
+            if (configuration.keySpatialNavigation) {
+                _this._keySpatialNavigationHandler.enable();
+            }
+            else {
+                _this._keySpatialNavigationHandler.disable();
+            }
+        });
+    };
+    KeyboardComponent.prototype._deactivate = function () {
+        this._configurationSubscription.unsubscribe();
+    };
+    KeyboardComponent.prototype._getDefaultConfiguration = function () {
+        return { keySequenceNavigation: true, keySpatialNavigation: true, keyZoom: true };
+    };
+    KeyboardComponent.componentName = "keyboard";
+    return KeyboardComponent;
+}(Component_1.Component));
+exports.KeyboardComponent = KeyboardComponent;
+Component_1.ComponentService.register(KeyboardComponent);
+exports.default = KeyboardComponent;
+
+},{"../../Component":226,"../../Geo":229}],268:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var MarkerComponent_1 = require("./MarkerComponent");
@@ -24021,7 +24381,7 @@ exports.SimpleMarker = SimpleMarker_1.SimpleMarker;
 var CircleMarker_1 = require("./marker/CircleMarker");
 exports.CircleMarker = CircleMarker_1.CircleMarker;
 
-},{"./MarkerComponent":263,"./marker/CircleMarker":266,"./marker/SimpleMarker":268}],263:[function(require,module,exports){
+},{"./MarkerComponent":269,"./marker/CircleMarker":272,"./marker/SimpleMarker":274}],269:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -24368,7 +24728,7 @@ var MarkerComponent = (function (_super) {
             .map(function (event) {
             return false;
         });
-        var dragging$ = Observable_1.Observable
+        var filteredDragging$ = Observable_1.Observable
             .merge(draggingStarted$, draggingStopped$)
             .startWith(false);
         this._dragEventSubscription = draggingStarted$
@@ -24386,15 +24746,20 @@ var MarkerComponent = (function (_super) {
             var markerEvent = { marker: marker, target: _this, type: eventType };
             _this.fire(eventType, markerEvent);
         });
+        var mouseDown$ = Observable_1.Observable
+            .merge(this._container.mouseService.mouseDown$
+            .map(function (event) { return true; }), this._container.mouseService.documentMouseUp$
+            .map(function (event) { return false; }))
+            .startWith(false);
         this._mouseClaimSubscription = Observable_1.Observable
-            .combineLatest(this._container.mouseService.active$, hoveredMarkerId$, dragging$)
+            .combineLatest(this._container.mouseService.active$, hoveredMarkerId$.distinctUntilChanged(), mouseDown$, filteredDragging$)
             .map(function (_a) {
-            var active = _a[0], markerId = _a[1], dragging = _a[2];
-            return (!active && markerId != null) || dragging;
+            var active = _a[0], markerId = _a[1], mouseDown = _a[2], filteredDragging = _a[3];
+            return (!active && markerId != null && mouseDown) || filteredDragging;
         })
             .distinctUntilChanged()
-            .subscribe(function (hovered) {
-            if (hovered) {
+            .subscribe(function (claim) {
+            if (claim) {
                 _this._container.mouseService.claimMouse(_this._name, 1);
             }
             else {
@@ -24507,7 +24872,7 @@ exports.MarkerComponent = MarkerComponent;
 Component_1.ComponentService.register(MarkerComponent);
 exports.default = MarkerComponent;
 
-},{"../../Component":226,"../../Geo":229,"../../Graph":230,"../../Render":232,"rxjs/Observable":29,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/map":65,"three":176,"when":223}],264:[function(require,module,exports){
+},{"../../Component":226,"../../Geo":229,"../../Graph":230,"../../Render":232,"rxjs/Observable":29,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/map":65,"three":176,"when":223}],270:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -24630,7 +24995,7 @@ var MarkerScene = (function () {
 exports.MarkerScene = MarkerScene;
 exports.default = MarkerScene;
 
-},{"three":176}],265:[function(require,module,exports){
+},{"three":176}],271:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -24751,7 +25116,7 @@ var MarkerSet = (function () {
 exports.MarkerSet = MarkerSet;
 exports.default = MarkerSet;
 
-},{"rbush":25,"rxjs/Subject":34,"rxjs/add/operator/map":65,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73}],266:[function(require,module,exports){
+},{"rbush":25,"rxjs/Subject":34,"rxjs/add/operator/map":65,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73}],272:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -24834,7 +25199,7 @@ var CircleMarker = (function (_super) {
 exports.CircleMarker = CircleMarker;
 exports.default = CircleMarker;
 
-},{"../../../Component":226,"three":176}],267:[function(require,module,exports){
+},{"../../../Component":226,"three":176}],273:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -24921,7 +25286,7 @@ var Marker = (function () {
 exports.Marker = Marker;
 exports.default = Marker;
 
-},{}],268:[function(require,module,exports){
+},{}],274:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -25070,7 +25435,7 @@ var SimpleMarker = (function (_super) {
 exports.SimpleMarker = SimpleMarker;
 exports.default = SimpleMarker;
 
-},{"../../../Component":226,"three":176}],269:[function(require,module,exports){
+},{"../../../Component":226,"three":176}],275:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -25093,8 +25458,9 @@ var Component_1 = require("../../Component");
 var BounceHandler = (function (_super) {
     __extends(BounceHandler, _super);
     function BounceHandler(component, container, navigator, viewportCoords, spatial) {
-        var _this = _super.call(this, component, container, navigator, viewportCoords) || this;
+        var _this = _super.call(this, component, container, navigator) || this;
         _this._spatial = spatial;
+        _this._viewportCoords = viewportCoords;
         _this._basicDistanceThreshold = 1e-3;
         _this._basicRotationThreshold = 5e-2;
         _this._bounceCoeff = 1e-1;
@@ -25175,11 +25541,11 @@ var BounceHandler = (function (_super) {
         return {};
     };
     return BounceHandler;
-}(Component_1.MouseHandlerBase));
+}(Component_1.HandlerBase));
 exports.BounceHandler = BounceHandler;
 exports.default = BounceHandler;
 
-},{"../../Component":226,"rxjs/Observable":29}],270:[function(require,module,exports){
+},{"../../Component":226,"rxjs/Observable":29}],276:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -25209,8 +25575,10 @@ var Component_1 = require("../../Component");
  */
 var DoubleClickZoomHandler = (function (_super) {
     __extends(DoubleClickZoomHandler, _super);
-    function DoubleClickZoomHandler() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function DoubleClickZoomHandler(component, container, navigator, viewportCoords) {
+        var _this = _super.call(this, component, container, navigator) || this;
+        _this._viewportCoords = viewportCoords;
+        return _this;
     }
     DoubleClickZoomHandler.prototype._enable = function () {
         var _this = this;
@@ -25239,11 +25607,11 @@ var DoubleClickZoomHandler = (function (_super) {
         return { doubleClickZoom: enable };
     };
     return DoubleClickZoomHandler;
-}(Component_1.MouseHandlerBase));
+}(Component_1.HandlerBase));
 exports.DoubleClickZoomHandler = DoubleClickZoomHandler;
 exports.default = DoubleClickZoomHandler;
 
-},{"../../Component":226,"rxjs/Observable":29}],271:[function(require,module,exports){
+},{"../../Component":226,"rxjs/Observable":29}],277:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -25276,8 +25644,9 @@ var Component_1 = require("../../Component");
 var DragPanHandler = (function (_super) {
     __extends(DragPanHandler, _super);
     function DragPanHandler(component, container, navigator, viewportCoords, spatial) {
-        var _this = _super.call(this, component, container, navigator, viewportCoords) || this;
+        var _this = _super.call(this, component, container, navigator) || this;
         _this._spatial = spatial;
+        _this._viewportCoords = viewportCoords;
         _this._basicRotationThreshold = 5e-2;
         _this._forceCoeff = 2e-1;
         return _this;
@@ -25435,11 +25804,11 @@ var DragPanHandler = (function (_super) {
         return { dragPan: enable };
     };
     return DragPanHandler;
-}(Component_1.MouseHandlerBase));
+}(Component_1.HandlerBase));
 exports.DragPanHandler = DragPanHandler;
 exports.default = DragPanHandler;
 
-},{"../../Component":226,"rxjs/Observable":29,"three":176}],272:[function(require,module,exports){
+},{"../../Component":226,"rxjs/Observable":29,"three":176}],278:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -25578,63 +25947,7 @@ exports.MouseComponent = MouseComponent;
 Component_1.ComponentService.register(MouseComponent);
 exports.default = MouseComponent;
 
-},{"../../Component":226,"../../Geo":229,"rxjs/add/observable/merge":44,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/withLatestFrom":83}],273:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var MouseHandlerBase = (function () {
-    function MouseHandlerBase(component, container, navigator, viewportCoords) {
-        this._component = component;
-        this._container = container;
-        this._navigator = navigator;
-        this._viewportCoords = viewportCoords;
-        this._enabled = false;
-    }
-    Object.defineProperty(MouseHandlerBase.prototype, "isEnabled", {
-        /**
-         * Returns a Boolean indicating whether the interaction is enabled.
-         *
-         * @returns {boolean} `true` if the interaction is enabled.
-         */
-        get: function () {
-            return this._enabled;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * Enables the interaction.
-     *
-     * @example ```mouseComponent.<handler-name>.enable();```
-     */
-    MouseHandlerBase.prototype.enable = function () {
-        if (this._enabled || !this._component.activated) {
-            return;
-        }
-        this._enable();
-        this._enabled = true;
-        this._component.configure(this._getConfiguration(true));
-    };
-    /**
-     * Disables the interaction.
-     *
-     * @example ```mouseComponent.<handler-name>.disable();```
-     */
-    MouseHandlerBase.prototype.disable = function () {
-        if (!this._enabled) {
-            return;
-        }
-        this._disable();
-        this._enabled = false;
-        if (this._component.activated) {
-            this._component.configure(this._getConfiguration(false));
-        }
-    };
-    return MouseHandlerBase;
-}());
-exports.MouseHandlerBase = MouseHandlerBase;
-exports.default = MouseHandlerBase;
-
-},{}],274:[function(require,module,exports){
+},{"../../Component":226,"../../Geo":229,"rxjs/add/observable/merge":44,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/withLatestFrom":83}],279:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -25663,8 +25976,10 @@ var Component_1 = require("../../Component");
  */
 var ScrollZoomHandler = (function (_super) {
     __extends(ScrollZoomHandler, _super);
-    function ScrollZoomHandler() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function ScrollZoomHandler(component, container, navigator, viewportCoords) {
+        var _this = _super.call(this, component, container, navigator) || this;
+        _this._viewportCoords = viewportCoords;
+        return _this;
     }
     ScrollZoomHandler.prototype._enable = function () {
         var _this = this;
@@ -25717,11 +26032,11 @@ var ScrollZoomHandler = (function (_super) {
         return { scrollZoom: enable };
     };
     return ScrollZoomHandler;
-}(Component_1.MouseHandlerBase));
+}(Component_1.HandlerBase));
 exports.ScrollZoomHandler = ScrollZoomHandler;
 exports.default = ScrollZoomHandler;
 
-},{"../../Component":226}],275:[function(require,module,exports){
+},{"../../Component":226}],280:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -25752,8 +26067,10 @@ var Component_1 = require("../../Component");
  */
 var TouchZoomHandler = (function (_super) {
     __extends(TouchZoomHandler, _super);
-    function TouchZoomHandler() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function TouchZoomHandler(component, container, navigator, viewportCoords) {
+        var _this = _super.call(this, component, container, navigator) || this;
+        _this._viewportCoords = viewportCoords;
+        return _this;
     }
     TouchZoomHandler.prototype._enable = function () {
         var _this = this;
@@ -25804,11 +26121,11 @@ var TouchZoomHandler = (function (_super) {
         return { touchZoom: enable };
     };
     return TouchZoomHandler;
-}(Component_1.MouseHandlerBase));
+}(Component_1.HandlerBase));
 exports.TouchZoomHandler = TouchZoomHandler;
 exports.default = TouchZoomHandler;
 
-},{"../../Component":226,"rxjs/Observable":29}],276:[function(require,module,exports){
+},{"../../Component":226,"rxjs/Observable":29}],281:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Popup_1 = require("./popup/Popup");
@@ -25816,7 +26133,7 @@ exports.Popup = Popup_1.Popup;
 var PopupComponent_1 = require("./PopupComponent");
 exports.PopupComponent = PopupComponent_1.PopupComponent;
 
-},{"./PopupComponent":277,"./popup/Popup":278}],277:[function(require,module,exports){
+},{"./PopupComponent":282,"./popup/Popup":283}],282:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -26000,7 +26317,7 @@ exports.PopupComponent = PopupComponent;
 Component_1.ComponentService.register(PopupComponent);
 exports.default = PopupComponent;
 
-},{"../../Component":226,"rxjs/Observable":29,"rxjs/Subject":34}],278:[function(require,module,exports){
+},{"../../Component":226,"rxjs/Observable":29,"rxjs/Subject":34}],283:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -26454,7 +26771,7 @@ var Popup = (function () {
 exports.Popup = Popup;
 exports.default = Popup;
 
-},{"../../../Geo":229,"../../../Viewer":236,"rxjs/Subject":34}],279:[function(require,module,exports){
+},{"../../../Geo":229,"../../../Viewer":237,"rxjs/Subject":34}],284:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -26806,7 +27123,7 @@ exports.SequenceComponent = SequenceComponent;
 Component_1.ComponentService.register(SequenceComponent);
 exports.default = SequenceComponent;
 
-},{"../../Component":226,"../../Edge":227,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/of":45,"rxjs/add/operator/bufferCount":50,"rxjs/add/operator/concat":54,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/finally":62,"rxjs/add/operator/first":63,"rxjs/add/operator/map":65,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/share":74,"rxjs/add/operator/switchMap":79,"rxjs/add/operator/takeUntil":81,"rxjs/add/operator/withLatestFrom":83}],280:[function(require,module,exports){
+},{"../../Component":226,"../../Edge":227,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/of":45,"rxjs/add/operator/bufferCount":50,"rxjs/add/operator/concat":54,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/finally":62,"rxjs/add/operator/first":63,"rxjs/add/operator/map":65,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/share":74,"rxjs/add/operator/switchMap":79,"rxjs/add/operator/takeUntil":81,"rxjs/add/operator/withLatestFrom":83}],285:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Subject_1 = require("rxjs/Subject");
@@ -26834,7 +27151,7 @@ var SequenceDOMInteraction = (function () {
 exports.SequenceDOMInteraction = SequenceDOMInteraction;
 exports.default = SequenceDOMInteraction;
 
-},{"rxjs/Subject":34}],281:[function(require,module,exports){
+},{"rxjs/Subject":34}],286:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -26951,7 +27268,7 @@ var SequenceDOMRenderer = (function () {
 exports.SequenceDOMRenderer = SequenceDOMRenderer;
 exports.default = SequenceDOMRenderer;
 
-},{"../../Edge":227,"virtual-dom":182}],282:[function(require,module,exports){
+},{"../../Edge":227,"virtual-dom":182}],287:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var GeometryTagError_1 = require("./error/GeometryTagError");
@@ -26971,7 +27288,7 @@ exports.TagComponent = TagComponent_1.TagComponent;
 var TagMode_1 = require("./TagMode");
 exports.TagMode = TagMode_1.TagMode;
 
-},{"./TagComponent":283,"./TagMode":286,"./error/GeometryTagError":290,"./geometry/PointGeometry":292,"./geometry/PolygonGeometry":293,"./geometry/RectGeometry":294,"./tag/OutlineTag":298,"./tag/SpotTag":301}],283:[function(require,module,exports){
+},{"./TagComponent":288,"./TagMode":291,"./error/GeometryTagError":295,"./geometry/PointGeometry":297,"./geometry/PolygonGeometry":298,"./geometry/RectGeometry":299,"./tag/OutlineTag":303,"./tag/SpotTag":306}],288:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -27685,7 +28002,7 @@ exports.TagComponent = TagComponent;
 Component_1.ComponentService.register(TagComponent);
 exports.default = TagComponent;
 
-},{"../../Component":226,"../../Geo":229,"../../Render":232,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/empty":40,"rxjs/add/observable/from":41,"rxjs/add/observable/merge":44,"rxjs/add/observable/of":45,"rxjs/add/operator/combineLatest":53,"rxjs/add/operator/concat":54,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/do":59,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/share":74,"rxjs/add/operator/skip":75,"rxjs/add/operator/skipUntil":76,"rxjs/add/operator/startWith":78,"rxjs/add/operator/switchMap":79,"rxjs/add/operator/take":80,"rxjs/add/operator/takeUntil":81,"rxjs/add/operator/withLatestFrom":83,"when":223}],284:[function(require,module,exports){
+},{"../../Component":226,"../../Geo":229,"../../Render":232,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/empty":40,"rxjs/add/observable/from":41,"rxjs/add/observable/merge":44,"rxjs/add/observable/of":45,"rxjs/add/operator/combineLatest":53,"rxjs/add/operator/concat":54,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/do":59,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/share":74,"rxjs/add/operator/skip":75,"rxjs/add/operator/skipUntil":76,"rxjs/add/operator/startWith":78,"rxjs/add/operator/switchMap":79,"rxjs/add/operator/take":80,"rxjs/add/operator/takeUntil":81,"rxjs/add/operator/withLatestFrom":83,"when":223}],289:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Subject_1 = require("rxjs/Subject");
@@ -27766,7 +28083,7 @@ var TagCreator = (function () {
 exports.TagCreator = TagCreator;
 exports.default = TagCreator;
 
-},{"../../Component":226,"rxjs/Subject":34,"rxjs/add/operator/map":65,"rxjs/add/operator/scan":73,"rxjs/add/operator/share":74,"rxjs/add/operator/withLatestFrom":83}],285:[function(require,module,exports){
+},{"../../Component":226,"rxjs/Subject":34,"rxjs/add/operator/map":65,"rxjs/add/operator/scan":73,"rxjs/add/operator/share":74,"rxjs/add/operator/withLatestFrom":83}],290:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -27792,7 +28109,7 @@ var TagDOMRenderer = (function () {
 }());
 exports.TagDOMRenderer = TagDOMRenderer;
 
-},{"virtual-dom":182}],286:[function(require,module,exports){
+},{"virtual-dom":182}],291:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -27822,7 +28139,7 @@ var TagMode;
 })(TagMode = exports.TagMode || (exports.TagMode = {}));
 exports.default = TagMode;
 
-},{}],287:[function(require,module,exports){
+},{}],292:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var TagOperation;
@@ -27833,7 +28150,7 @@ var TagOperation;
 })(TagOperation = exports.TagOperation || (exports.TagOperation = {}));
 exports.default = TagOperation;
 
-},{}],288:[function(require,module,exports){
+},{}],293:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -28001,7 +28318,7 @@ var TagScene = (function () {
 exports.TagScene = TagScene;
 exports.default = TagScene;
 
-},{"three":176}],289:[function(require,module,exports){
+},{"three":176}],294:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Subject_1 = require("rxjs/Subject");
@@ -28155,7 +28472,7 @@ var TagSet = (function () {
 exports.TagSet = TagSet;
 exports.default = TagSet;
 
-},{"../../Component":226,"rxjs/Subject":34,"rxjs/add/operator/map":65,"rxjs/add/operator/scan":73,"rxjs/add/operator/share":74}],290:[function(require,module,exports){
+},{"../../Component":226,"rxjs/Subject":34,"rxjs/add/operator/map":65,"rxjs/add/operator/scan":73,"rxjs/add/operator/share":74}],295:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -28181,7 +28498,7 @@ var GeometryTagError = (function (_super) {
 exports.GeometryTagError = GeometryTagError;
 exports.default = Error_1.MapillaryError;
 
-},{"../../../Error":228}],291:[function(require,module,exports){
+},{"../../../Error":228}],296:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Subject_1 = require("rxjs/Subject");
@@ -28220,7 +28537,7 @@ var Geometry = (function () {
 exports.Geometry = Geometry;
 exports.default = Geometry;
 
-},{"rxjs/Subject":34}],292:[function(require,module,exports){
+},{"rxjs/Subject":34}],297:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -28315,7 +28632,7 @@ var PointGeometry = (function (_super) {
 }(Component_1.Geometry));
 exports.PointGeometry = PointGeometry;
 
-},{"../../../Component":226}],293:[function(require,module,exports){
+},{"../../../Component":226}],298:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -28587,7 +28904,7 @@ var PolygonGeometry = (function (_super) {
 exports.PolygonGeometry = PolygonGeometry;
 exports.default = PolygonGeometry;
 
-},{"../../../Component":226}],294:[function(require,module,exports){
+},{"../../../Component":226}],299:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -28946,7 +29263,7 @@ var RectGeometry = (function (_super) {
 exports.RectGeometry = RectGeometry;
 exports.default = RectGeometry;
 
-},{"../../../Component":226}],295:[function(require,module,exports){
+},{"../../../Component":226}],300:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -29028,7 +29345,7 @@ var VertexGeometry = (function (_super) {
 exports.VertexGeometry = VertexGeometry;
 exports.default = VertexGeometry;
 
-},{"../../../Component":226,"@mapbox/polylabel":1,"earcut":8}],296:[function(require,module,exports){
+},{"../../../Component":226,"@mapbox/polylabel":1,"earcut":8}],301:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -29252,7 +29569,7 @@ var OutlineCreateTag = (function () {
 exports.OutlineCreateTag = OutlineCreateTag;
 exports.default = OutlineCreateTag;
 
-},{"../../../Component":226,"../../../Geo":229,"rxjs/Subject":34,"three":176,"virtual-dom":182}],297:[function(require,module,exports){
+},{"../../../Component":226,"../../../Geo":229,"rxjs/Subject":34,"three":176,"virtual-dom":182}],302:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -29616,7 +29933,7 @@ var OutlineRenderTag = (function (_super) {
 }(Component_1.RenderTag));
 exports.OutlineRenderTag = OutlineRenderTag;
 
-},{"../../../Component":226,"three":176,"virtual-dom":182}],298:[function(require,module,exports){
+},{"../../../Component":226,"three":176,"virtual-dom":182}],303:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -29994,7 +30311,7 @@ var OutlineTag = (function (_super) {
 exports.OutlineTag = OutlineTag;
 exports.default = OutlineTag;
 
-},{"../../../Component":226,"../../../Viewer":236,"rxjs/Subject":34}],299:[function(require,module,exports){
+},{"../../../Component":226,"../../../Viewer":237,"rxjs/Subject":34}],304:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -30034,7 +30351,7 @@ var RenderTag = (function () {
 exports.RenderTag = RenderTag;
 exports.default = RenderTag;
 
-},{"../../../Geo":229,"rxjs/Subject":34}],300:[function(require,module,exports){
+},{"../../../Geo":229,"rxjs/Subject":34}],305:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -30148,7 +30465,7 @@ var SpotRenderTag = (function (_super) {
 }(Component_1.RenderTag));
 exports.SpotRenderTag = SpotRenderTag;
 
-},{"../../../Component":226,"../../../Viewer":236,"virtual-dom":182}],301:[function(require,module,exports){
+},{"../../../Component":226,"../../../Viewer":237,"virtual-dom":182}],306:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -30328,7 +30645,7 @@ var SpotTag = (function (_super) {
 exports.SpotTag = SpotTag;
 exports.default = SpotTag;
 
-},{"../../../Component":226}],302:[function(require,module,exports){
+},{"../../../Component":226}],307:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -30445,7 +30762,62 @@ var Tag = (function (_super) {
 exports.Tag = Tag;
 exports.default = Tag;
 
-},{"../../../Utils":235,"rxjs/Subject":34,"rxjs/add/operator/map":65,"rxjs/add/operator/share":74}],303:[function(require,module,exports){
+},{"../../../Utils":236,"rxjs/Subject":34,"rxjs/add/operator/map":65,"rxjs/add/operator/share":74}],308:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var HandlerBase = (function () {
+    function HandlerBase(component, container, navigator) {
+        this._component = component;
+        this._container = container;
+        this._navigator = navigator;
+        this._enabled = false;
+    }
+    Object.defineProperty(HandlerBase.prototype, "isEnabled", {
+        /**
+         * Returns a Boolean indicating whether the interaction is enabled.
+         *
+         * @returns {boolean} `true` if the interaction is enabled.
+         */
+        get: function () {
+            return this._enabled;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Enables the interaction.
+     *
+     * @example ```<component-name>.<handler-name>.enable();```
+     */
+    HandlerBase.prototype.enable = function () {
+        if (this._enabled || !this._component.activated) {
+            return;
+        }
+        this._enable();
+        this._enabled = true;
+        this._component.configure(this._getConfiguration(true));
+    };
+    /**
+     * Disables the interaction.
+     *
+     * @example ```<component-name>.<handler-name>.disable();```
+     */
+    HandlerBase.prototype.disable = function () {
+        if (!this._enabled) {
+            return;
+        }
+        this._disable();
+        this._enabled = false;
+        if (this._component.activated) {
+            this._component.configure(this._getConfiguration(false));
+        }
+    };
+    return HandlerBase;
+}());
+exports.HandlerBase = HandlerBase;
+exports.default = HandlerBase;
+
+},{}],309:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -30471,7 +30843,7 @@ var ArgumentMapillaryError = (function (_super) {
 exports.ArgumentMapillaryError = ArgumentMapillaryError;
 exports.default = ArgumentMapillaryError;
 
-},{"./MapillaryError":305}],304:[function(require,module,exports){
+},{"./MapillaryError":311}],310:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -30497,7 +30869,7 @@ var GraphMapillaryError = (function (_super) {
 exports.GraphMapillaryError = GraphMapillaryError;
 exports.default = GraphMapillaryError;
 
-},{"./MapillaryError":305}],305:[function(require,module,exports){
+},{"./MapillaryError":311}],311:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -30522,7 +30894,7 @@ var MapillaryError = (function (_super) {
 exports.MapillaryError = MapillaryError;
 exports.default = MapillaryError;
 
-},{}],306:[function(require,module,exports){
+},{}],312:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -30672,7 +31044,7 @@ var Camera = (function () {
 }());
 exports.Camera = Camera;
 
-},{"three":176}],307:[function(require,module,exports){
+},{"three":176}],313:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -30896,7 +31268,7 @@ var GeoCoords = (function () {
 exports.GeoCoords = GeoCoords;
 exports.default = GeoCoords;
 
-},{}],308:[function(require,module,exports){
+},{}],314:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -31125,7 +31497,7 @@ var Spatial = (function () {
 exports.Spatial = Spatial;
 exports.default = Spatial;
 
-},{"three":176}],309:[function(require,module,exports){
+},{"three":176}],315:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -31654,7 +32026,7 @@ var Transform = (function () {
 }());
 exports.Transform = Transform;
 
-},{"three":176}],310:[function(require,module,exports){
+},{"three":176}],316:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -32028,7 +32400,7 @@ var ViewportCoords = (function () {
 exports.ViewportCoords = ViewportCoords;
 exports.default = ViewportCoords;
 
-},{"three":176}],311:[function(require,module,exports){
+},{"three":176}],317:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -32116,7 +32488,7 @@ var FilterCreator = (function () {
 exports.FilterCreator = FilterCreator;
 exports.default = FilterCreator;
 
-},{}],312:[function(require,module,exports){
+},{}],318:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -33116,7 +33488,7 @@ var Graph = (function () {
 exports.Graph = Graph;
 exports.default = Graph;
 
-},{"../Edge":227,"../Error":228,"../Graph":230,"rbush":25,"rxjs/Subject":34,"rxjs/add/observable/from":41,"rxjs/add/operator/catch":52,"rxjs/add/operator/do":59,"rxjs/add/operator/finally":62,"rxjs/add/operator/map":65,"rxjs/add/operator/publish":71}],313:[function(require,module,exports){
+},{"../Edge":227,"../Error":228,"../Graph":230,"rbush":25,"rxjs/Subject":34,"rxjs/add/observable/from":41,"rxjs/add/operator/catch":52,"rxjs/add/operator/do":59,"rxjs/add/operator/finally":62,"rxjs/add/operator/map":65,"rxjs/add/operator/publish":71}],319:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -33278,7 +33650,7 @@ var GraphCalculator = (function () {
 exports.GraphCalculator = GraphCalculator;
 exports.default = GraphCalculator;
 
-},{"../Geo":229,"latlon-geohash":21,"three":176}],314:[function(require,module,exports){
+},{"../Geo":229,"latlon-geohash":21,"three":176}],320:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
@@ -33583,7 +33955,7 @@ var GraphService = (function () {
 exports.GraphService = GraphService;
 exports.default = GraphService;
 
-},{"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/operator/catch":52,"rxjs/add/operator/concat":54,"rxjs/add/operator/do":59,"rxjs/add/operator/expand":60,"rxjs/add/operator/finally":62,"rxjs/add/operator/first":63,"rxjs/add/operator/last":64,"rxjs/add/operator/map":65,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/publishReplay":72}],315:[function(require,module,exports){
+},{"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/operator/catch":52,"rxjs/add/operator/concat":54,"rxjs/add/operator/do":59,"rxjs/add/operator/expand":60,"rxjs/add/operator/finally":62,"rxjs/add/operator/first":63,"rxjs/add/operator/last":64,"rxjs/add/operator/map":65,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/publishReplay":72}],321:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -33618,7 +33990,7 @@ var ImageLoadingService = (function () {
 }());
 exports.ImageLoadingService = ImageLoadingService;
 
-},{"rxjs/Subject":34}],316:[function(require,module,exports){
+},{"rxjs/Subject":34}],322:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -33642,7 +34014,7 @@ var MeshReader = (function () {
 }());
 exports.MeshReader = MeshReader;
 
-},{"pbf":23}],317:[function(require,module,exports){
+},{"pbf":23}],323:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("rxjs/add/observable/combineLatest");
@@ -34285,7 +34657,7 @@ var Node = (function () {
 exports.Node = Node;
 exports.default = Node;
 
-},{"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/map":65}],318:[function(require,module,exports){
+},{"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/map":65}],324:[function(require,module,exports){
 (function (Buffer){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -34692,7 +35064,7 @@ exports.default = NodeCache;
 
 }).call(this,require("buffer").Buffer)
 
-},{"../Graph":230,"../Utils":235,"buffer":7,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/publishReplay":72}],319:[function(require,module,exports){
+},{"../Graph":230,"../Utils":236,"buffer":7,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/publishReplay":72}],325:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -34782,7 +35154,7 @@ var Sequence = (function () {
 exports.Sequence = Sequence;
 exports.default = Sequence;
 
-},{"underscore":178}],320:[function(require,module,exports){
+},{"underscore":178}],326:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -35385,7 +35757,7 @@ var EdgeCalculator = (function () {
 exports.EdgeCalculator = EdgeCalculator;
 exports.default = EdgeCalculator;
 
-},{"../../Edge":227,"../../Error":228,"../../Geo":229,"three":176}],321:[function(require,module,exports){
+},{"../../Edge":227,"../../Error":228,"../../Geo":229,"three":176}],327:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EdgeCalculatorCoefficients = (function () {
@@ -35411,7 +35783,7 @@ var EdgeCalculatorCoefficients = (function () {
 exports.EdgeCalculatorCoefficients = EdgeCalculatorCoefficients;
 exports.default = EdgeCalculatorCoefficients;
 
-},{}],322:[function(require,module,exports){
+},{}],328:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Edge_1 = require("../../Edge");
@@ -35484,7 +35856,7 @@ var EdgeCalculatorDirections = (function () {
 }());
 exports.EdgeCalculatorDirections = EdgeCalculatorDirections;
 
-},{"../../Edge":227}],323:[function(require,module,exports){
+},{"../../Edge":227}],329:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EdgeCalculatorSettings = (function () {
@@ -35521,7 +35893,7 @@ var EdgeCalculatorSettings = (function () {
 exports.EdgeCalculatorSettings = EdgeCalculatorSettings;
 exports.default = EdgeCalculatorSettings;
 
-},{}],324:[function(require,module,exports){
+},{}],330:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -35579,7 +35951,7 @@ var EdgeDirection;
     EdgeDirection[EdgeDirection["Similar"] = 10] = "Similar";
 })(EdgeDirection = exports.EdgeDirection || (exports.EdgeDirection = {}));
 
-},{}],325:[function(require,module,exports){
+},{}],331:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -35767,7 +36139,7 @@ var DOMRenderer = (function () {
 exports.DOMRenderer = DOMRenderer;
 exports.default = DOMRenderer;
 
-},{"../Render":232,"rxjs/Subject":34,"rxjs/add/operator/combineLatest":53,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/pluck":70,"rxjs/add/operator/scan":73,"underscore":178,"virtual-dom":182}],326:[function(require,module,exports){
+},{"../Render":232,"rxjs/Subject":34,"rxjs/add/operator/combineLatest":53,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/pluck":70,"rxjs/add/operator/scan":73,"underscore":178,"virtual-dom":182}],332:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var GLRenderStage;
@@ -35777,7 +36149,7 @@ var GLRenderStage;
 })(GLRenderStage = exports.GLRenderStage || (exports.GLRenderStage = {}));
 exports.default = GLRenderStage;
 
-},{}],327:[function(require,module,exports){
+},{}],333:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -35914,14 +36286,17 @@ var GLRenderer = (function () {
         this._webGLRenderer$ = this._render$
             .first()
             .map(function (hash) {
+            var canvas = document.createElement("canvas");
+            canvas.className = "mapillary-js-canvas";
+            canvas.style.position = "absolute";
+            canvas.setAttribute("tabindex", "0");
+            canvasContainer.appendChild(canvas);
             var element = renderService.element;
-            var webGLRenderer = new THREE.WebGLRenderer();
+            var webGLRenderer = new THREE.WebGLRenderer({ canvas: canvas });
             webGLRenderer.setPixelRatio(window.devicePixelRatio);
             webGLRenderer.setSize(element.offsetWidth, element.offsetHeight);
             webGLRenderer.setClearColor(new THREE.Color(0x202020), 1.0);
             webGLRenderer.autoClear = false;
-            webGLRenderer.domElement.style.position = "absolute";
-            canvasContainer.appendChild(webGLRenderer.domElement);
             return webGLRenderer;
         })
             .publishReplay(1)
@@ -36025,7 +36400,7 @@ var GLRenderer = (function () {
 exports.GLRenderer = GLRenderer;
 exports.default = GLRenderer;
 
-},{"../Render":232,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/first":63,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/scan":73,"rxjs/add/operator/share":74,"rxjs/add/operator/startWith":78,"three":176}],328:[function(require,module,exports){
+},{"../Render":232,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/first":63,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/scan":73,"rxjs/add/operator/share":74,"rxjs/add/operator/startWith":78,"three":176}],334:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -36151,7 +36526,7 @@ var RenderCamera = (function () {
 exports.RenderCamera = RenderCamera;
 exports.default = RenderCamera;
 
-},{"../Geo":229,"../Render":232,"three":176}],329:[function(require,module,exports){
+},{"../Geo":229,"../Render":232,"three":176}],335:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -36187,7 +36562,7 @@ var RenderMode;
 })(RenderMode = exports.RenderMode || (exports.RenderMode = {}));
 exports.default = RenderMode;
 
-},{}],330:[function(require,module,exports){
+},{}],336:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -36363,7 +36738,7 @@ var RenderService = (function () {
 exports.RenderService = RenderService;
 exports.default = RenderService;
 
-},{"../Geo":229,"../Render":232,"rxjs/BehaviorSubject":26,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/do":59,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/skip":75,"rxjs/add/operator/startWith":78,"rxjs/add/operator/withLatestFrom":83}],331:[function(require,module,exports){
+},{"../Geo":229,"../Render":232,"rxjs/BehaviorSubject":26,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/do":59,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/skip":75,"rxjs/add/operator/startWith":78,"rxjs/add/operator/withLatestFrom":83}],337:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var State;
@@ -36373,7 +36748,7 @@ var State;
 })(State = exports.State || (exports.State = {}));
 exports.default = State;
 
-},{}],332:[function(require,module,exports){
+},{}],338:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var State_1 = require("../State");
@@ -36564,7 +36939,7 @@ var StateContext = (function () {
 }());
 exports.StateContext = StateContext;
 
-},{"../Geo":229,"../State":233}],333:[function(require,module,exports){
+},{"../Geo":229,"../State":233}],339:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
@@ -36964,7 +37339,7 @@ var StateService = (function () {
 }());
 exports.StateService = StateService;
 
-},{"../State":233,"rxjs/BehaviorSubject":26,"rxjs/Subject":34,"rxjs/add/operator/bufferCount":50,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/do":59,"rxjs/add/operator/filter":61,"rxjs/add/operator/first":63,"rxjs/add/operator/map":65,"rxjs/add/operator/pairwise":69,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/startWith":78,"rxjs/add/operator/switchMap":79,"rxjs/add/operator/withLatestFrom":83,"rxjs/util/AnimationFrame":157}],334:[function(require,module,exports){
+},{"../State":233,"rxjs/BehaviorSubject":26,"rxjs/Subject":34,"rxjs/add/operator/bufferCount":50,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/do":59,"rxjs/add/operator/filter":61,"rxjs/add/operator/first":63,"rxjs/add/operator/map":65,"rxjs/add/operator/pairwise":69,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/startWith":78,"rxjs/add/operator/switchMap":79,"rxjs/add/operator/withLatestFrom":83,"rxjs/util/AnimationFrame":157}],340:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -37278,7 +37653,7 @@ var StateBase = (function () {
 }());
 exports.StateBase = StateBase;
 
-},{"../../Error":228,"../../Geo":229}],335:[function(require,module,exports){
+},{"../../Error":228,"../../Geo":229}],341:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -37809,7 +38184,7 @@ var TraversingState = (function (_super) {
 }(State_1.StateBase));
 exports.TraversingState = TraversingState;
 
-},{"../../State":233,"@mapbox/unitbezier":2,"three":176}],336:[function(require,module,exports){
+},{"../../State":233,"@mapbox/unitbezier":2,"three":176}],342:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -37886,7 +38261,7 @@ var WaitingState = (function (_super) {
 }(State_1.StateBase));
 exports.WaitingState = WaitingState;
 
-},{"../../State":233}],337:[function(require,module,exports){
+},{"../../State":233}],343:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
@@ -37978,7 +38353,7 @@ var ImageTileLoader = (function () {
 exports.ImageTileLoader = ImageTileLoader;
 exports.default = ImageTileLoader;
 
-},{"rxjs/Observable":29}],338:[function(require,module,exports){
+},{"rxjs/Observable":29}],344:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -38046,7 +38421,7 @@ var ImageTileStore = (function () {
 exports.ImageTileStore = ImageTileStore;
 exports.default = ImageTileStore;
 
-},{}],339:[function(require,module,exports){
+},{}],345:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -38187,7 +38562,7 @@ var RegionOfInterestCalculator = (function () {
 exports.RegionOfInterestCalculator = RegionOfInterestCalculator;
 exports.default = RegionOfInterestCalculator;
 
-},{"../Geo":229}],340:[function(require,module,exports){
+},{"../Geo":229}],346:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -38664,7 +39039,7 @@ var TextureProvider = (function () {
 exports.TextureProvider = TextureProvider;
 exports.default = TextureProvider;
 
-},{"rxjs/Subject":34,"three":176}],341:[function(require,module,exports){
+},{"rxjs/Subject":34,"three":176}],347:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EventEmitter = (function () {
@@ -38723,7 +39098,7 @@ var EventEmitter = (function () {
 exports.EventEmitter = EventEmitter;
 exports.default = EventEmitter;
 
-},{}],342:[function(require,module,exports){
+},{}],348:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Viewer_1 = require("../Viewer");
@@ -38767,7 +39142,73 @@ var Settings = (function () {
 exports.Settings = Settings;
 exports.default = Settings;
 
-},{"../Viewer":236}],343:[function(require,module,exports){
+},{"../Viewer":237}],349:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function isBrowser() {
+    return typeof window !== "undefined" && typeof document !== "undefined";
+}
+exports.isBrowser = isBrowser;
+function isArraySupported() {
+    return !!(Array.prototype &&
+        Array.prototype.filter &&
+        Array.prototype.indexOf &&
+        Array.prototype.map);
+}
+exports.isArraySupported = isArraySupported;
+function isFunctionSupported() {
+    return !!(Function.prototype && Function.prototype.bind);
+}
+exports.isFunctionSupported = isFunctionSupported;
+function isJSONSupported() {
+    return "JSON" in window && "parse" in JSON && "stringify" in JSON;
+}
+exports.isJSONSupported = isJSONSupported;
+function isObjectSupported() {
+    return !!(Object.keys &&
+        Object.assign);
+}
+exports.isObjectSupported = isObjectSupported;
+var isWebGLSupportedCache = undefined;
+function isWebGLSupportedCached() {
+    if (isWebGLSupportedCache === undefined) {
+        isWebGLSupportedCache = isWebGLSupported();
+    }
+    return isWebGLSupportedCache;
+}
+exports.isWebGLSupportedCached = isWebGLSupportedCached;
+function isWebGLSupported() {
+    var webGLContextAttributes = {
+        alpha: false,
+        antialias: false,
+        depth: true,
+        failIfMajorPerformanceCaveat: false,
+        premultipliedAlpha: true,
+        preserveDrawingBuffer: false,
+        stencil: true,
+    };
+    var canvas = document.createElement("canvas");
+    var context = canvas.getContext("webgl", webGLContextAttributes) ||
+        canvas.getContext("experimental-webgl", webGLContextAttributes);
+    if (!context) {
+        return false;
+    }
+    var requiredExtensions = [
+        "OES_texture_float",
+        "OES_standard_derivatives",
+    ];
+    var supportedExtensions = context.getSupportedExtensions();
+    for (var _i = 0, requiredExtensions_1 = requiredExtensions; _i < requiredExtensions_1.length; _i++) {
+        var requiredExtension = requiredExtensions_1[_i];
+        if (supportedExtensions.indexOf(requiredExtension) === -1) {
+            return false;
+        }
+    }
+    return true;
+}
+exports.isWebGLSupported = isWebGLSupported;
+
+},{}],350:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Urls = (function () {
@@ -38808,7 +39249,7 @@ var Urls = (function () {
 exports.Urls = Urls;
 exports.default = Urls;
 
-},{}],344:[function(require,module,exports){
+},{}],351:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -38857,7 +39298,7 @@ var Alignment;
 })(Alignment = exports.Alignment || (exports.Alignment = {}));
 exports.default = Alignment;
 
-},{}],345:[function(require,module,exports){
+},{}],352:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("rxjs/add/operator/bufferCount");
@@ -38914,19 +39355,22 @@ var CacheService = (function () {
 exports.CacheService = CacheService;
 exports.default = CacheService;
 
-},{"rxjs/add/operator/bufferCount":50,"rxjs/add/operator/delay":56,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/map":65,"rxjs/add/operator/switchMap":79}],346:[function(require,module,exports){
+},{"rxjs/add/operator/bufferCount":50,"rxjs/add/operator/delay":56,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/map":65,"rxjs/add/operator/switchMap":79}],353:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Component_1 = require("../Component");
 var ComponentController = (function () {
-    function ComponentController(container, navigator, observer, key, options) {
+    function ComponentController(container, navigator, observer, key, options, componentService) {
         var _this = this;
         this._container = container;
         this._observer = observer;
         this._navigator = navigator;
         this._options = options != null ? options : {};
         this._key = key;
-        this._componentService = new Component_1.ComponentService(this._container, this._navigator);
+        this._navigable = key == null;
+        this._componentService = !!componentService ?
+            componentService :
+            new Component_1.ComponentService(this._container, this._navigator);
         this._coverComponent = this._componentService.getCover();
         this._initializeComponents();
         if (key) {
@@ -38941,13 +39385,20 @@ var ComponentController = (function () {
                 .subscribe(function (k) {
                 _this._key = k;
                 _this._componentService.deactivateCover();
-                _this._coverComponent.configure({ key: _this._key, loading: false, visible: false });
+                _this._coverComponent.configure({ key: _this._key, state: Component_1.CoverState.Hidden });
                 _this._subscribeCoverComponent();
                 _this._navigator.stateService.start();
                 _this._observer.startEmit();
             });
         }
     }
+    Object.defineProperty(ComponentController.prototype, "navigable", {
+        get: function () {
+            return this._navigable;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ComponentController.prototype.get = function (name) {
         return this._componentService.get(name);
     };
@@ -38955,13 +39406,13 @@ var ComponentController = (function () {
         this._componentService.activate(name);
     };
     ComponentController.prototype.activateCover = function () {
-        this._coverComponent.configure({ loading: false, visible: true });
+        this._coverComponent.configure({ state: Component_1.CoverState.Visible });
     };
     ComponentController.prototype.deactivate = function (name) {
         this._componentService.deactivate(name);
     };
     ComponentController.prototype.deactivateCover = function () {
-        this._coverComponent.configure({ loading: true, visible: true });
+        this._coverComponent.configure({ state: Component_1.CoverState.Loading });
     };
     ComponentController.prototype.resize = function () {
         this._componentService.resize();
@@ -38998,14 +39449,25 @@ var ComponentController = (function () {
             this.deactivateCover();
         }
     };
+    ComponentController.prototype._setNavigable = function (navigable) {
+        if (this._navigable === navigable) {
+            return;
+        }
+        this._navigable = navigable;
+        this._observer.navigable$.next(navigable);
+    };
     ComponentController.prototype._subscribeCoverComponent = function () {
         var _this = this;
         this._coverComponent.configuration$.subscribe(function (conf) {
-            if (conf.loading) {
+            if (conf.state === Component_1.CoverState.Loading) {
                 _this._navigator.stateService.currentKey$
                     .first()
                     .switchMap(function (key) {
-                    return key == null || key !== conf.key ?
+                    var keyChanged = key == null || key !== conf.key;
+                    if (keyChanged) {
+                        _this._setNavigable(false);
+                    }
+                    return keyChanged ?
                         _this._navigator.moveToKey$(conf.key) :
                         _this._navigator.stateService.currentNode$
                             .first();
@@ -39013,17 +39475,19 @@ var ComponentController = (function () {
                     .subscribe(function (node) {
                     _this._navigator.stateService.start();
                     _this._observer.startEmit();
-                    _this._coverComponent.configure({ loading: false, visible: false });
+                    _this._coverComponent.configure({ state: Component_1.CoverState.Hidden });
                     _this._componentService.deactivateCover();
+                    _this._setNavigable(true);
                 }, function (error) {
                     console.error("Failed to deactivate cover.", error);
-                    _this._coverComponent.configure({ loading: false, visible: true });
+                    _this._coverComponent.configure({ state: Component_1.CoverState.Visible });
                 });
             }
-            else if (conf.visible) {
+            else if (conf.state === Component_1.CoverState.Visible) {
                 _this._observer.stopEmit();
                 _this._navigator.stateService.stop();
                 _this._componentService.activateCover();
+                _this._setNavigable(conf.key == null);
             }
         });
     };
@@ -39065,7 +39529,7 @@ var ComponentController = (function () {
 }());
 exports.ComponentController = ComponentController;
 
-},{"../Component":226}],347:[function(require,module,exports){
+},{"../Component":226}],354:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Render_1 = require("../Render");
@@ -39087,6 +39551,7 @@ var Container = (function () {
         this.renderService = new Render_1.RenderService(this._container, stateService.currentState$, options.renderMode);
         this.glRenderer = new Render_1.GLRenderer(this._canvasContainer, this.renderService);
         this.domRenderer = new Render_1.DOMRenderer(this._domContainer, this.renderService, stateService.currentState$);
+        this.keyboardService = new Viewer_1.KeyboardService(this._canvasContainer);
         this.mouseService = new Viewer_1.MouseService(this._container, this._canvasContainer, this._domContainer);
         this.touchService = new Viewer_1.TouchService(this._canvasContainer, this._domContainer);
         this.spriteService = new Viewer_1.SpriteService(options.sprite);
@@ -39100,7 +39565,7 @@ var Container = (function () {
     });
     Object.defineProperty(Container.prototype, "canvasContainer", {
         get: function () {
-            return this.canvasContainer;
+            return this._canvasContainer;
         },
         enumerable: true,
         configurable: true
@@ -39110,7 +39575,7 @@ var Container = (function () {
 exports.Container = Container;
 exports.default = Container;
 
-},{"../Render":232,"../Viewer":236}],348:[function(require,module,exports){
+},{"../Render":232,"../Viewer":237}],355:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -39139,7 +39604,27 @@ var ImageSize;
     ImageSize[ImageSize["Size2048"] = 2048] = "Size2048";
 })(ImageSize = exports.ImageSize || (exports.ImageSize = {}));
 
-},{}],349:[function(require,module,exports){
+},{}],356:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Observable_1 = require("rxjs/Observable");
+var KeyboardService = (function () {
+    function KeyboardService(canvasContainer) {
+        this._keyDown$ = Observable_1.Observable.fromEvent(canvasContainer, "keydown");
+    }
+    Object.defineProperty(KeyboardService.prototype, "keyDown$", {
+        get: function () {
+            return this._keyDown$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return KeyboardService;
+}());
+exports.KeyboardService = KeyboardService;
+exports.default = KeyboardService;
+
+},{"rxjs/Observable":29}],357:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -39198,7 +39683,7 @@ var LoadingService = (function () {
 exports.LoadingService = LoadingService;
 exports.default = LoadingService;
 
-},{"rxjs/Subject":34,"rxjs/add/operator/debounceTime":55,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/map":65,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/startWith":78,"underscore":178}],350:[function(require,module,exports){
+},{"rxjs/Subject":34,"rxjs/add/operator/debounceTime":55,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/map":65,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/startWith":78,"underscore":178}],358:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
@@ -39548,7 +40033,7 @@ var MouseService = (function () {
 exports.MouseService = MouseService;
 exports.default = MouseService;
 
-},{"../Geo":229,"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/fromEvent":42,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/switchMap":79,"rxjs/add/operator/withLatestFrom":83}],351:[function(require,module,exports){
+},{"../Geo":229,"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/fromEvent":42,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/switchMap":79,"rxjs/add/operator/withLatestFrom":83}],359:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -39697,6 +40182,7 @@ var Navigator = (function () {
                     .last();
             }
             return _this._keyRequested$
+                .first()
                 .mergeMap(function (requestedKey) {
                 if (requestedKey != null) {
                     return _this._graphService.setFilter$(filter)
@@ -39807,10 +40293,11 @@ var Navigator = (function () {
 exports.Navigator = Navigator;
 exports.default = Navigator;
 
-},{"../API":225,"../Edge":227,"../Graph":230,"../State":233,"../Viewer":236,"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/ReplaySubject":32,"rxjs/add/observable/throw":46,"rxjs/add/operator/do":59,"rxjs/add/operator/finally":62,"rxjs/add/operator/first":63,"rxjs/add/operator/map":65,"rxjs/add/operator/mergeMap":68}],352:[function(require,module,exports){
+},{"../API":225,"../Edge":227,"../Graph":230,"../State":233,"../Viewer":237,"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/ReplaySubject":32,"rxjs/add/observable/throw":46,"rxjs/add/operator/do":59,"rxjs/add/operator/finally":62,"rxjs/add/operator/first":63,"rxjs/add/operator/map":65,"rxjs/add/operator/mergeMap":68}],360:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
+var Subject_1 = require("rxjs/Subject");
 require("rxjs/add/observable/combineLatest");
 require("rxjs/add/operator/distinctUntilChanged");
 require("rxjs/add/operator/map");
@@ -39824,7 +40311,12 @@ var Observer = (function () {
         this._navigator = navigator;
         this._projection = new Viewer_1.Projection();
         this._started = false;
-        // loading should always emit, also when cover is activated
+        this._navigable$ = new Subject_1.Subject();
+        // navigable and loading should always emit, also when cover is activated.
+        this._navigable$
+            .subscribe(function (navigable) {
+            _this._eventEmitter.fire(Viewer_1.Viewer.navigablechanged, navigable);
+        });
         this._navigator.loadingService.loading$
             .subscribe(function (loading) {
             _this._eventEmitter.fire(Viewer_1.Viewer.loadingchanged, loading);
@@ -39833,6 +40325,13 @@ var Observer = (function () {
     Object.defineProperty(Observer.prototype, "started", {
         get: function () {
             return this._started;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Observer.prototype, "navigable$", {
+        get: function () {
+            return this._navigable$;
         },
         enumerable: true,
         configurable: true
@@ -39968,7 +40467,7 @@ var Observer = (function () {
 exports.Observer = Observer;
 exports.default = Observer;
 
-},{"../Viewer":236,"rxjs/Observable":29,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/map":65,"rxjs/add/operator/throttleTime":82}],353:[function(require,module,exports){
+},{"../Viewer":237,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/map":65,"rxjs/add/operator/throttleTime":82}],361:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -40027,7 +40526,7 @@ var Projection = (function () {
 exports.Projection = Projection;
 exports.default = Projection;
 
-},{"../Geo":229,"three":176}],354:[function(require,module,exports){
+},{"../Geo":229,"three":176}],362:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -40226,7 +40725,7 @@ var SpriteService = (function () {
 exports.SpriteService = SpriteService;
 exports.default = SpriteService;
 
-},{"../Viewer":236,"rxjs/Subject":34,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/startWith":78,"three":176,"virtual-dom":182}],355:[function(require,module,exports){
+},{"../Viewer":237,"rxjs/Subject":34,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":73,"rxjs/add/operator/startWith":78,"three":176,"virtual-dom":182}],363:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
@@ -40501,7 +41000,7 @@ var TouchService = (function () {
 }());
 exports.TouchService = TouchService;
 
-},{"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/timer":47,"rxjs/add/operator/bufferWhen":51,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/scan":73,"rxjs/add/operator/switchMap":79}],356:[function(require,module,exports){
+},{"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/timer":47,"rxjs/add/operator/bufferWhen":51,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/scan":73,"rxjs/add/operator/switchMap":79}],364:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -40516,6 +41015,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var when = require("when");
+var Observable_1 = require("rxjs/Observable");
 var Viewer_1 = require("../Viewer");
 var Utils_1 = require("../Utils");
 /**
@@ -40598,6 +41098,26 @@ var Viewer = (function (_super) {
         _this._componentController = new Viewer_1.ComponentController(_this._container, _this._navigator, _this._observer, key, options.component);
         return _this;
     }
+    Object.defineProperty(Viewer.prototype, "isNavigable", {
+        /**
+         * Return a boolean indicating if the viewer is in a navigable state.
+         *
+         * @description The navigable state indicates if the viewer supports
+         * moving, i.e. calling the `moveToKey`, `moveDir` and `moveCloseTo`
+         * methods. The viewer will not be in a navigable state if the cover
+         * is activated and the viewer has been supplied a key. When the cover
+         * is deactivated or activated without being supplied a key it will
+         * be navigable.
+         *
+         * @event
+         * @returns {boolean} Boolean indicating whether the viewer is navigable.
+         */
+        get: function () {
+            return this._componentController.navigable;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Activate a component.
      *
@@ -40751,6 +41271,7 @@ var Viewer = (function (_super) {
      * @throws {Error} If no nodes exist close to provided latitude
      * longitude.
      * @throws {Error} Propagates any IO errors to the caller.
+     * @throws {Error} When viewer is not navigable.
      *
      * @example
      * ```
@@ -40760,9 +41281,11 @@ var Viewer = (function (_super) {
      * ```
      */
     Viewer.prototype.moveCloseTo = function (lat, lon) {
-        var _this = this;
+        var moveCloseTo$ = this.isNavigable ?
+            this._navigator.moveCloseTo$(lat, lon) :
+            Observable_1.Observable.throw(new Error("Calling moveCloseTo is not supported when viewer is not navigable."));
         return when.promise(function (resolve, reject) {
-            _this._navigator.moveCloseTo$(lat, lon).subscribe(function (node) {
+            moveCloseTo$.subscribe(function (node) {
                 resolve(node);
             }, function (error) {
                 reject(error);
@@ -40779,6 +41302,7 @@ var Viewer = (function (_super) {
      * @throws {Error} If the current node does not have the edge direction
      * or the edges has not yet been cached.
      * @throws {Error} Propagates any IO errors to the caller.
+     * @throws {Error} When viewer is not navigable.
      *
      * @example
      * ```
@@ -40788,9 +41312,11 @@ var Viewer = (function (_super) {
      * ```
      */
     Viewer.prototype.moveDir = function (dir) {
-        var _this = this;
+        var moveDir$ = this.isNavigable ?
+            this._navigator.moveDir$(dir) :
+            Observable_1.Observable.throw(new Error("Calling moveDir is not supported when viewer is not navigable."));
         return when.promise(function (resolve, reject) {
-            _this._navigator.moveDir$(dir).subscribe(function (node) {
+            moveDir$.subscribe(function (node) {
                 resolve(node);
             }, function (error) {
                 reject(error);
@@ -40803,6 +41329,7 @@ var Viewer = (function (_super) {
      * @param {string} key - A valid Mapillary photo key.
      * @returns {Promise<Node>} Promise to the node that was navigated to.
      * @throws {Error} Propagates any IO errors to the caller.
+     * @throws {Error} When viewer is not navigable.
      *
      * @example
      * ```
@@ -40812,9 +41339,11 @@ var Viewer = (function (_super) {
      * ```
      */
     Viewer.prototype.moveToKey = function (key) {
-        var _this = this;
+        var moveToKey$ = this.isNavigable ?
+            this._navigator.moveToKey$(key) :
+            Observable_1.Observable.throw(new Error("Calling moveToKey is not supported when viewer is not navigable."));
         return when.promise(function (resolve, reject) {
-            _this._navigator.moveToKey$(key).subscribe(function (node) {
+            moveToKey$.subscribe(function (node) {
                 resolve(node);
             }, function (error) {
                 reject(error);
@@ -40880,6 +41409,8 @@ var Viewer = (function (_super) {
      * @returns {Promise<void>} Promise that resolves after token
      * is set.
      *
+     * @throws {Error} When viewer is not navigable.
+     *
      * @example
      * ```
      * viewer.setAuthToken("<my token>")
@@ -40887,9 +41418,11 @@ var Viewer = (function (_super) {
      * ```
      */
     Viewer.prototype.setAuthToken = function (token) {
-        var _this = this;
+        var setToken$ = this.isNavigable ?
+            this._navigator.setToken$(token) :
+            Observable_1.Observable.throw(new Error("Calling setAuthToken is not supported when viewer is not navigable."));
         return when.promise(function (resolve, reject) {
-            _this._navigator.setToken$(token)
+            setToken$
                 .subscribe(function () {
                 resolve(undefined);
             }, function (error) {
@@ -41089,7 +41622,7 @@ var Viewer = (function (_super) {
     /**
      * Fired when the viewer is loading more data.
      * @event
-     * @type {boolean} loading - Value indicating whether the viewer is loading.
+     * @type {boolean} loading - Boolean indicating whether the viewer is loading.
      */
     Viewer.loadingchanged = "loadingchanged";
     /**
@@ -41137,6 +41670,20 @@ var Viewer = (function (_super) {
      */
     Viewer.movestart = "movestart";
     /**
+     * Fired when the navigable state of the viewer changes.
+     *
+     * @description The navigable state indicates if the viewer supports
+     * moving, i.e. calling the `moveToKey`, `moveDir` and `moveCloseTo`
+     * methods. The viewer will not be in a navigable state if the cover
+     * is activated and the viewer has been supplied a key. When the cover
+     * is deactivated or activated without being supplied a key it will
+     * be navigable.
+     *
+     * @event
+     * @type {boolean} navigable - Boolean indicating whether the viewer is navigable.
+     */
+    Viewer.navigablechanged = "navigablechanged";
+    /**
      * Fired every time the viewer navigates to a new node.
      * @event
      * @type {Node} node - Current node.
@@ -41158,6 +41705,6 @@ var Viewer = (function (_super) {
 }(Utils_1.EventEmitter));
 exports.Viewer = Viewer;
 
-},{"../Utils":235,"../Viewer":236,"when":223}]},{},[231])(231)
+},{"../Utils":236,"../Viewer":237,"rxjs/Observable":29,"when":223}]},{},[231])(231)
 });
 //# sourceMappingURL=mapillary.js.map

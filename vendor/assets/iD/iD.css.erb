@@ -1539,6 +1539,7 @@ g.midpoint.tag-railway-platform .fill {
 }
 .preset-icon .icon.category-water,
 .preset-icon .icon.tag-route-ferry,
+.preset-icon .icon.tag-type-waterway,
 .preset-icon .icon.tag-waterway {
     color: #77d3de;
     fill: #fff;
@@ -1940,8 +1941,7 @@ path.fill.tag-amenity-shelter {
 
 .turn rect,
 .turn circle {
-    cursor: pointer; /* Opera */
-    cursor: url(<%= asset_path("iD/img/cursor-pointer.png") %>) 6 1, pointer; /* FF */
+    cursor: pointer;
 }
 /* Mapillary Image Layer */
 
@@ -2018,7 +2018,7 @@ path.fill.tag-amenity-shelter {
     background-color: rgba(0, 0, 0, 0.4);
     padding: 0 4px;
     border-radius: 4px;
-    transform: translate(-50%, -120%) !important;
+    top: -25px;
 }
 
 #mly .domRenderer .Attribution {
@@ -2177,6 +2177,22 @@ body {
     transition-duration: 200ms;
 }
 
+/* Firefox has its own ideas about fixed positioning when a css filter is active - #4348 */
+/* https://stackoverflow.com/questions/37949942/firefox-position-bug-by-parent-with-filter */
+@-moz-document url-prefix() {
+    #content > #bar {
+        width: 100vw;
+    }
+    #content.inactive > #bar > .spacer.col4 {
+        width: 0px;
+    }
+    #content.active > #bar > .spacer.col4 {
+        width: 33.3333%;
+        transition-duration: 200ms;
+        transition-timing-function: step-end;
+    }
+}
+
 #defs {
     /* Can't be display: none or the clippaths are ignored. */
     position: absolute;
@@ -2237,8 +2253,7 @@ button,
 .checkselect label:hover,
 .opacity-options li,
 .radial-menu-item {
-    cursor: pointer; /* Opera */
-    cursor: url(<%= asset_path("iD/img/cursor-pointer.png") %>) 6 1, pointer; /* FF */
+    cursor: pointer;
 }
 
 h2 {
@@ -3526,12 +3541,12 @@ button.save.has-count .count::before {
 /* preset form cycleway */
 /* preset form structure extras */
 
-.form-field-structure .structure-extras-wrap li,
+.structure-extras-wrap li,
 .form-field-cycleway .preset-input-wrap li,
 .form-field-access .preset-input-wrap li {
     border-bottom: 1px solid #ccc;
 }
-.form-field-structure .structure-extras-wrap li:last-child,
+.structure-extras-wrap li:last-child,
 .form-field-cycleway .preset-input-wrap li:last-child,
 .form-field-access .preset-input-wrap li:last-child {
     border-bottom: 0;
@@ -3616,14 +3631,15 @@ button.save.has-count .count::before {
 }
 
 .form-field-multicombo li {
+    display: inline-flex;
+    flex-flow: row nowrap;
+    align-items: center;
     background-color: #eff2f7;
     border: 1px solid #ccd5e3;
     border-radius: 4px;
     line-height: 25px;
-    display: inline-block;
     padding: 2px 5px;
     margin: 3px;
-    height: 30px;
 }
 
 .form-field-multicombo a {
@@ -3641,6 +3657,7 @@ button.save.has-count .count::before {
     border: 1px solid #ddd;
     width: 100px;
     margin: 3px;
+    height: 31px;
 }
 
 .form-field-multicombo .combobox-caret {
@@ -5649,10 +5666,15 @@ img.tile-removing {
     margin-bottom: 10px;
 }
 
+.mode-save .request-review label {
+    cursor: pointer;
+}
+
 .mode-save .changeset-list {
     border: 1px solid #ccc;
     border-radius: 4px;
     background: #fff;
+    margin-bottom: 10px;
 }
 
 .mode-save .warning-section {
@@ -5748,30 +5770,29 @@ img.tile-removing {
 
 .notice {
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: 50%;
+    bottom: 50%;
     left: 0;
     right: 0;
     text-align: center;
-    background: #fff;
 }
 
 .notice .zoom-to {
     margin: auto;
-    width: 80%;
-    height: 100px;
-    border-radius: 5px;
-    line-height: 40px;
-    color: #000;
-    opacity: 0.9;
+    width: 300px;
+    height: 80px;
+    font-size: 150%;
+    border-radius: 8px;
 }
 
 .notice .zoom-to:hover {
-    background: #d8e1ff;
+    background: rgba(0,0,0,0.6);
 }
 
 .notice .zoom-to .icon {
-    margin-top: 10px;
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
     margin-right: 10px;
 }
 [dir='rtl'] .notice .zoom-to .icon {
@@ -6323,4 +6344,3 @@ li.hide + li.version .badge .tooltip .tooltip-arrow {
     width: 100px;
     color: #7092FF;
 }
-
