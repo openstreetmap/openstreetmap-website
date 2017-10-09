@@ -149,9 +149,9 @@ class TraceController < ApplicationController
       if Acl.no_trace_download(request.remote_ip)
         head :forbidden
       elsif request.format == Mime[:xml]
-        send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => "attachment")
+        send_data(trace.xml_file.read, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => "attachment")
       elsif request.format == Mime[:gpx]
-        send_file(trace.xml_file, :filename => "#{trace.id}.gpx", :type => request.format.to_s, :disposition => "attachment")
+        send_data(trace.xml_file.read, :filename => "#{trace.id}.gpx", :type => request.format.to_s, :disposition => "attachment")
       else
         send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => "attachment")
       end
@@ -290,9 +290,9 @@ class TraceController < ApplicationController
 
     if trace.public? || trace.user == current_user
       if request.format == Mime[:xml]
-        send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => "attachment")
+        send_data(trace.xml_file.read, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => "attachment")
       elsif request.format == Mime[:gpx]
-        send_file(trace.xml_file, :filename => "#{trace.id}.gpx", :type => request.format.to_s, :disposition => "attachment")
+        send_data(trace.xml_file.read, :filename => "#{trace.id}.gpx", :type => request.format.to_s, :disposition => "attachment")
       else
         send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => "attachment")
       end
