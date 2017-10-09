@@ -1,6 +1,6 @@
 require "migrate"
 
-class CreateUserBlocks < ActiveRecord::Migration
+class CreateUserBlocks < ActiveRecord::Migration[5.0]
   def change
     create_table :user_blocks do |t|
       t.column :user_id,      :bigint,   :null => false

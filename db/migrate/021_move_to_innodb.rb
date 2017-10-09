@@ -1,6 +1,6 @@
 require "migrate"
 
-class MoveToInnodb < ActiveRecord::Migration
+class MoveToInnodb < ActiveRecord::Migration[5.0]
   @conv_tables = %w[nodes ways way_tags way_nodes current_way_tags relation_members relations relation_tags current_relation_tags]
 
   @ver_tbl = %w[nodes ways relations]

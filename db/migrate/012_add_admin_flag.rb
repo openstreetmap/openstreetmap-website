@@ -1,4 +1,4 @@
-class AddAdminFlag < ActiveRecord::Migration
+class AddAdminFlag < ActiveRecord::Migration[5.0]
   def self.up
     add_column "users", "administrator", :boolean, :default => false, :null => false
   end

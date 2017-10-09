@@ -1,4 +1,4 @@
-class ChangeDefaultFormats < ActiveRecord::Migration
+class ChangeDefaultFormats < ActiveRecord::Migration[5.0]
   def up
     change_column_default :diary_entries, :body_format, "markdown"
     change_column_default :diary_comments, :body_format, "markdown"

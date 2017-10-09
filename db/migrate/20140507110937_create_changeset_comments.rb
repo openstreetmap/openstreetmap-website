@@ -1,6 +1,6 @@
 require "migrate"
 
-class CreateChangesetComments < ActiveRecord::Migration
+class CreateChangesetComments < ActiveRecord::Migration[5.0]
   def change
     create_table :changeset_comments do |t|
       t.column :changeset_id, :bigint, :null => false

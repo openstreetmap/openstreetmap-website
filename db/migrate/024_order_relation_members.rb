@@ -1,6 +1,6 @@
 require "migrate"
 
-class OrderRelationMembers < ActiveRecord::Migration
+class OrderRelationMembers < ActiveRecord::Migration[5.0]
   def self.up
     # add sequence column. rails won't let us define an ordering here,
     # as defaults must be constant.

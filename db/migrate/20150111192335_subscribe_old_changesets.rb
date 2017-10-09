@@ -1,4 +1,4 @@
-class SubscribeOldChangesets < ActiveRecord::Migration
+class SubscribeOldChangesets < ActiveRecord::Migration[5.0]
   def up
     Changeset.find_each do |changeset|
       changeset.subscribers << changeset.user unless changeset.subscribers.exists?(changeset.user.id)
