@@ -57,9 +57,9 @@ module RichText
 
     def linkify(text)
       if text.html_safe?
-        Rinku.auto_link(text, :urls, tag_options(:rel => "nofollow")).html_safe
+        Rinku.auto_link(text, :urls, tag_builder.tag_options(:rel => "nofollow")).html_safe
       else
-        Rinku.auto_link(text, :urls, tag_options(:rel => "nofollow"))
+        Rinku.auto_link(text, :urls, tag_builder.tag_options(:rel => "nofollow"))
       end
     end
   end
