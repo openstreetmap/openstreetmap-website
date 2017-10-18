@@ -28,6 +28,7 @@ $(document).ready(function () {
       .removeClass('leaflet-control-locate leaflet-bar')
       .addClass('control-locate')
       .children("a")
+      .attr('href', '#')
       .removeClass('leaflet-bar-part leaflet-bar-part-single')
       .addClass('control-button');
 
