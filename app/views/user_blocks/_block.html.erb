@@ -7,6 +7,7 @@
   <% if show_creator_name %>
   <td class="<%= c1 %>"><%= link_to h(block.creator.display_name), :controller => 'user', :action => 'view', :display_name => block.creator.display_name %></td>
   <% end %>
+  <td class="<%= c1 %>"><%= raw t'user_block.show.ago', :time => friendly_date(block.created_at) %></td>
   <td class="<%= c1 %>"><%=h truncate(block.reason) %></td>
   <td class="<%= c1 %>"><%=h block_status(block) %></td>
   <td class="<%= c1 %>">

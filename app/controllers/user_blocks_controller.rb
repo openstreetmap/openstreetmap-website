@@ -15,7 +15,7 @@ class UserBlocksController < ApplicationController
     @params = params.permit
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,
                                                 :include => [:user, :creator, :revoker],
-                                                :order => "user_blocks.ends_at DESC",
+                                                :order => (params[:sort] == "created_at" ? "user_blocks.created_at DESC" : "user_blocks.ends_at DESC"),
                                                 :per_page => 20)
   end
 

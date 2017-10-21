@@ -6,8 +6,17 @@
     <% if show_creator_name %>
     <th><%= t'user_block.partial.creator_name' %></th>
     <% end %>
+    <th><%= link_to t('user_block.partial.created_at'), @params.merge({ :sort => "created_at" }) %> 
+    <% if params[:sort] == 'created_at' -%>
+    <%= image_tag("down.png", :alt => 'sort') %>
+    <% end -%>
+    </th>
     <th><%= t'user_block.partial.reason' %></th>
-    <th><%= t'user_block.partial.status' %></th>
+    <th><%= link_to t('user_block.partial.status'), @params.merge({ :sort => "ends_at" }) %>
+    <% if params[:sort] != 'created_at' -%>
+    <%= image_tag("down.png", :alt => 'sort') %>
+    <% end -%>
+    </th>
     <th><%= t'user_block.partial.revoker_name' %></th>
     <th></th>
     <th></th>
