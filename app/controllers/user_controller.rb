@@ -411,8 +411,8 @@ class UserController < ApplicationController
     if @new_friend
       if request.post?
         friend = Friend.new
-        friend.user_id = current_user.id
-        friend.friend_user_id = @new_friend.id
+        friend.befriender = current_user
+        friend.befriendee = @new_friend
         if current_user.is_friends_with?(@new_friend)
           flash[:warning] = t "user.make_friend.already_a_friend", :name => @new_friend.display_name
         elsif friend.save

@@ -20,7 +20,7 @@ class UserBlocksController < ApplicationController
   end
 
   def show
-    if current_user && current_user.id == @user_block.user_id
+    if current_user && current_user == @user_block.user
       @user_block.needs_view = false
       @user_block.save!
     end
@@ -37,8 +37,8 @@ class UserBlocksController < ApplicationController
   def create
     if @valid_params
       @user_block = UserBlock.new(
-        :user_id => @this_user.id,
-        :creator_id => current_user.id,
+        :user => @this_user,
+        :creator => current_user,
         :reason => params[:user_block][:reason],
         :ends_at => Time.now.getutc + @block_period.hours,
         :needs_view => params[:user_block][:needs_view]
@@ -57,7 +57,7 @@ class UserBlocksController < ApplicationController
 
   def update
     if @valid_params
-      if @user_block.creator_id != current_user.id
+      if @user_block.creator != current_user
         flash[:error] = t("user_block.update.only_creator_can_edit")
         redirect_to :action => "edit"
       elsif @user_block.update_attributes(
