@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: oauth_nonces
+#
+#  id         :integer          not null, primary key
+#  nonce      :string
+#  timestamp  :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+# Indexes
+#
+#  index_oauth_nonces_on_nonce_and_timestamp  (nonce,timestamp) UNIQUE
+#
+
 # Simple store of nonces. The OAuth Spec requires that any given pair of nonce and timestamps are unique.
 # Thus you can use the same nonce with a different timestamp and viceversa.
 class OauthNonce < ActiveRecord::Base

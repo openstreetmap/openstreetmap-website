@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: node_tags
+#
+#  node_id :integer          not null, primary key
+#  version :integer          not null, primary key
+#  k       :string           default(""), not null, primary key
+#  v       :string           default(""), not null
+#
+# Foreign Keys
+#
+#  node_tags_id_fkey  (node_id => nodes.node_id)
+#
+
 class OldNodeTag < ActiveRecord::Base
   self.table_name = "node_tags"
   self.primary_keys = "node_id", "version", "k"

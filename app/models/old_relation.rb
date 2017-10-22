@@ -1,3 +1,25 @@
+# == Schema Information
+#
+# Table name: relations
+#
+#  relation_id  :integer          default(0), not null, primary key
+#  changeset_id :integer          not null
+#  timestamp    :datetime         not null
+#  version      :integer          not null, primary key
+#  visible      :boolean          default(TRUE), not null
+#  redaction_id :integer
+#
+# Indexes
+#
+#  relations_changeset_id_idx  (changeset_id)
+#  relations_timestamp_idx     (timestamp)
+#
+# Foreign Keys
+#
+#  relations_changeset_id_fkey  (changeset_id => changesets.id)
+#  relations_redaction_id_fkey  (redaction_id => redactions.id)
+#
+
 class OldRelation < ActiveRecord::Base
   include ConsistencyValidations
   include ObjectMetadata

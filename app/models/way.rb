@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: current_ways
+#
+#  id           :integer          not null, primary key
+#  changeset_id :integer          not null
+#  timestamp    :datetime         not null
+#  visible      :boolean          not null
+#  version      :integer          not null
+#
+# Indexes
+#
+#  current_ways_timestamp_idx  (timestamp)
+#
+# Foreign Keys
+#
+#  current_ways_changeset_id_fkey  (changeset_id => changesets.id)
+#
+
 class Way < ActiveRecord::Base
   require "xml/libxml"
 

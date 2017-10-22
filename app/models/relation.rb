@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: current_relations
+#
+#  id           :integer          not null, primary key
+#  changeset_id :integer          not null
+#  timestamp    :datetime         not null
+#  visible      :boolean          not null
+#  version      :integer          not null
+#
+# Indexes
+#
+#  current_relations_timestamp_idx  (timestamp)
+#
+# Foreign Keys
+#
+#  current_relations_changeset_id_fkey  (changeset_id => changesets.id)
+#
+
 class Relation < ActiveRecord::Base
   require "xml/libxml"
 
