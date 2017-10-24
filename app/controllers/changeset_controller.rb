@@ -28,7 +28,7 @@ class ChangesetController < ApplicationController
     cs = Changeset.from_xml(request.raw_post, true)
 
     # Assume that Changeset.from_xml has thrown an exception if there is an error parsing the xml
-    cs.user_id = current_user.id
+    cs.user = current_user
     cs.save_with_tags!
 
     # Subscribe user to changeset comments
@@ -496,7 +496,7 @@ class ChangesetController < ApplicationController
         # changesets if they're non-public
         setup_user_auth
 
-        raise OSM::APINotFoundError if current_user.nil? || current_user.id != u.id
+        raise OSM::APINotFoundError if current_user.nil? || current_user != u
       end
 
       changesets.where(:user_id => u.id)
