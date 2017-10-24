@@ -1,3 +1,29 @@
+# == Schema Information
+#
+# Table name: messages
+#
+#  id                :integer          not null, primary key
+#  from_user_id      :integer          not null
+#  title             :string           not null
+#  body              :text             not null
+#  sent_on           :datetime         not null
+#  message_read      :boolean          default(FALSE), not null
+#  to_user_id        :integer          not null
+#  to_user_visible   :boolean          default(TRUE), not null
+#  from_user_visible :boolean          default(TRUE), not null
+#  body_format       :enum             default("markdown"), not null
+#
+# Indexes
+#
+#  messages_from_user_id_idx  (from_user_id)
+#  messages_to_user_id_idx    (to_user_id)
+#
+# Foreign Keys
+#
+#  messages_from_user_id_fkey  (from_user_id => users.id)
+#  messages_to_user_id_fkey    (to_user_id => users.id)
+#
+
 require "validators"
 
 class Message < ActiveRecord::Base

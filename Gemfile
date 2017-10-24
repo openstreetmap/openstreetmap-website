@@ -104,6 +104,7 @@ gem "logstasher"
 
 # Gems useful for development
 group :development do
+  gem "annotate"
   gem "listen"
   gem "vendorer"
 end

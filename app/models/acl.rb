@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: acls
+#
+#  id      :integer          not null, primary key
+#  address :inet
+#  k       :string           not null
+#  v       :string
+#  domain  :string
+#
+# Indexes
+#
+#  acls_k_idx  (k)
+#
+
 class Acl < ActiveRecord::Base
   validates :k, :presence => true
 

@@ -1,3 +1,27 @@
+# == Schema Information
+#
+# Table name: diary_comments
+#
+#  id             :integer          not null, primary key
+#  diary_entry_id :integer          not null
+#  user_id        :integer          not null
+#  body           :text             not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  visible        :boolean          default(TRUE), not null
+#  body_format    :enum             default("markdown"), not null
+#
+# Indexes
+#
+#  diary_comment_user_id_created_at_index  (user_id,created_at)
+#  diary_comments_entry_id_idx             (diary_entry_id,id) UNIQUE
+#
+# Foreign Keys
+#
+#  diary_comments_diary_entry_id_fkey  (diary_entry_id => diary_entries.id)
+#  diary_comments_user_id_fkey         (user_id => users.id)
+#
+
 class DiaryComment < ActiveRecord::Base
   belongs_to :user
   belongs_to :diary_entry

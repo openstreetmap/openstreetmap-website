@@ -1,3 +1,29 @@
+# == Schema Information
+#
+# Table name: nodes
+#
+#  node_id      :integer          not null, primary key
+#  latitude     :integer          not null
+#  longitude    :integer          not null
+#  changeset_id :integer          not null
+#  visible      :boolean          not null
+#  timestamp    :datetime         not null
+#  tile         :integer          not null
+#  version      :integer          not null, primary key
+#  redaction_id :integer
+#
+# Indexes
+#
+#  nodes_changeset_id_idx  (changeset_id)
+#  nodes_tile_idx          (tile)
+#  nodes_timestamp_idx     (timestamp)
+#
+# Foreign Keys
+#
+#  nodes_changeset_id_fkey  (changeset_id => changesets.id)
+#  nodes_redaction_id_fkey  (redaction_id => redactions.id)
+#
+
 class OldNode < ActiveRecord::Base
   include GeoRecord
   include ConsistencyValidations

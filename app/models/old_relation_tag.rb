@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: relation_tags
+#
+#  relation_id :integer          default(0), not null, primary key
+#  k           :string           default(""), not null, primary key
+#  v           :string           default(""), not null
+#  version     :integer          not null, primary key
+#
+# Foreign Keys
+#
+#  relation_tags_id_fkey  (relation_id => relations.relation_id)
+#
+
 class OldRelationTag < ActiveRecord::Base
   self.table_name = "relation_tags"
   self.primary_keys = "relation_id", "version", "k"

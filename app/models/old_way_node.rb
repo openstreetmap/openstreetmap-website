@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: way_nodes
+#
+#  way_id      :integer          not null, primary key
+#  node_id     :integer          not null
+#  version     :integer          not null, primary key
+#  sequence_id :integer          not null, primary key
+#
+# Indexes
+#
+#  way_nodes_node_idx  (node_id)
+#
+# Foreign Keys
+#
+#  way_nodes_id_fkey  (way_id => ways.way_id)
+#
+
 class OldWayNode < ActiveRecord::Base
   self.table_name = "way_nodes"
   self.primary_keys = "way_id", "version", "sequence_id"
