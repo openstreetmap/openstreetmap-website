@@ -1,4 +1,4 @@
-class AddVisibleToDiaries < ActiveRecord::Migration
+class AddVisibleToDiaries < ActiveRecord::Migration[5.0]
   def self.up
     add_column :diary_entries, :visible, :boolean, :null => false, :default => true
     add_column :diary_comments, :visible, :boolean, :null => false, :default => true

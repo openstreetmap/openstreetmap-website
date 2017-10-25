@@ -1,6 +1,6 @@
 require "migrate"
 
-class DropSessionTable < ActiveRecord::Migration
+class DropSessionTable < ActiveRecord::Migration[5.0]
   def up
     drop_table "sessions"
   end

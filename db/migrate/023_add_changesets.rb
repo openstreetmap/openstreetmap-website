@@ -1,6 +1,6 @@
 require "migrate"
 
-class AddChangesets < ActiveRecord::Migration
+class AddChangesets < ActiveRecord::Migration[5.0]
   @conv_user_tables = %w[current_nodes current_relations current_ways nodes relations ways]
 
   def self.up

@@ -1,6 +1,6 @@
 require "migrate"
 
-class RefactorMapBugTables < ActiveRecord::Migration
+class RefactorMapBugTables < ActiveRecord::Migration[5.0]
   def self.up
     create_table :map_bug_comment do |t|
       t.column :bug_id, :bigint, :null => false

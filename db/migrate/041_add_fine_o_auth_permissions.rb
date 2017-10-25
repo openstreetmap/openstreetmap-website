@@ -1,4 +1,4 @@
-class AddFineOAuthPermissions < ActiveRecord::Migration
+class AddFineOAuthPermissions < ActiveRecord::Migration[5.0]
   PERMISSIONS = [:allow_read_prefs, :allow_write_prefs, :allow_write_diary, :allow_write_api, :allow_read_gpx, :allow_write_gpx].freeze
 
   def self.up
