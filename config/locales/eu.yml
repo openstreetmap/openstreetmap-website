@@ -5,6 +5,7 @@
 # Author: An13sa
 # Author: Asieriko
 # Author: Gorkaazk
+# Author: Mikel Ibaiba
 # Author: MikelEH
 # Author: PerroVerd
 # Author: Subi
@@ -17,22 +18,38 @@ eu:
       friendly: '%e %B %Y %H:%M-ean'
   activerecord:
     models:
+      acl: Kontrol Zerrendara Sartu
+      changeset: Aldaketak
+      changeset_tag: Etiketa aldaketa
       country: Herrialdea
+      diary_comment: Eguneroko Iruzkina
+      diary_entry: Eguneroko Sarrera
       friend: Laguna
       language: Hizkuntza
       message: Mezua
       node: Nodo
       node_tag: Nodoaren etiketa
+      notifier: Jakinarazpentzailea
       old_node: Nodo zaharra
+      old_node_tag: Nodo Etiketa Zaharra
       old_relation: Erlazio zaharra
+      old_relation_member: Erlazio Zaharreko Kidea
+      old_relation_tag: Erlazio Zaharreko Etiketa
       old_way: Bide zaharra
+      old_way_node: Nodo Bide Zaharra
+      old_way_tag: Bide Zahar Etiketa
       relation: Erlazioa
+      relation_member: Erlazio Kidea
+      relation_tag: Erlazio Etiketa
       session: Saioa
       trace: Trazoa
       tracepoint: Trazo puntua
       tracetag: Trazo etiketa
       user: Lankide
+      user_preference: Erabiltzaile lehentasunak
+      user_token: Erabiltzaile Token-a
       way: Bidea
+      way_node: Nodo Bidea
       way_tag: Bidearen etiketa
     attributes:
       diary_comment:
@@ -62,14 +79,22 @@ eu:
         recipient: Hartzailea
       user:
         email: Eposta
+        active: Aktibo
+        display_name: Bistaratze Izena
         description: Deskribapen
         languages: Hizkuntzak
         pass_crypt: Pasahitza
   editor:
+    default: Lehenetsia (orain %{name})
     potlatch:
       name: Potlatch 1
+      description: Potlatch 1 (Arakatzaile barneko editorea)
+    id:
+      name: iD-a
+      description: iD (Arakatzaile barneko editorea)
     potlatch2:
       name: Potlatch 2
+      description: Potlatch 2 (Arakatzaile barneko editorea)
     remote:
       name: Urrutiko Agintea
       description: Urrutiko kontrola (JOSM edo Merkaartor)
@@ -78,19 +103,48 @@ eu:
     closed: Itxita
     created_html: <abbr title='%{title}'>Duela %{time}</abbr> sortua
     closed_html: <abbr title='%{title}'>Duela %{time}</abbr> itxia
+    created_by_html: '%{user} erabiltzaileak <abbr title=''%{title}''> duela %{time}
+      sortua'
+    deleted_by_html: '%{user} erabiltzaileak <abbr title=''%{title}''> duela %{time}
+      ezabatua'
+    edited_by_html: '%{user} erabiltzaileak <abbr title=''%{title}''> duela %{time}
+      aldatua'
+    closed_by_html: '%{user} erabiltzaileak <abbr title=''%{title}''> duela %{time}
+      itxia'
     version: Bertsioa
+    in_changeset: Aldaketak
     anonymous: anonimoa
     no_comment: (iruzkinik gabe)
+    part_of: Zati bat
     download_xml: XML deskargatu
     view_history: Ikusi historia
     view_details: Ikusi Xehetasunak
     location: 'Kokapena:'
     changeset:
+      title: 'Aldaketa: %{id}'
       belongs_to: Egilea
+      node: Nodoak (%{count})
+      node_paginated: (%{count}ren) %{x}-%{y} nodoak
+      way: Bideak (%{count})
+      relation: Erlazioak (%{count})
+      relation_paginated: Erlazioak (%{count}ren %{x}-%{y})
+      comment: Iruzkinak (%{count})
+      changesetxml: XML Aldaketak
+      feed:
+        title: '%{id} aldaketak'
+        title_comment: '%{id} - %{comment} aldaketak'
+      join_discussion: Saioa hasi eztabaidan parte hartzeko
       discussion: Eztabaida
+    node:
+      title: 'Nodoa: %{name}'
+      history_title: 'Nodo Historia: %{name}'
     way:
+      title: 'Bidea: %{name}'
+      history_title: 'Historia Bidea: %{name}'
       nodes: Nodoak
     relation:
+      title: 'Erlazioa: %{name}'
+      history_title: 'Historia Erlazioa: %{name}'
       members: Kideak
     relation_member:
       type:
@@ -104,8 +158,20 @@ eu:
         node: nodo
         way: bide
         relation: erlazio
+        changeset: aldaketak
+        note: oharra
     timeout:
       type:
+        node: nodo
+        way: bide
+        relation: erlazio
+        changeset: aldaketak
+        note: oharra
+    redacted:
+      redaction: '%{id} erredakzioa'
+      type:
+        node: nodo
+        way: bide
         relation: erlazio
     start_rjs:
       load_data: Kargatu datuak
@@ -134,6 +200,16 @@ eu:
       comment: Iruzkina
       area: Eremua
     list:
+      title: Aldaketak
+      title_user: '%{user} egindako aldaketak'
+      title_friend: Zure lagunek egindako aldaketak
+      title_nearby: Hurbil dauden erabiltzaileek egindako aldaketak
+      empty: Ez da aldaketarik aurkitu.
+      empty_area: Inguru honetan ez dago aldaketarik.
+      empty_user: Erabiltzaile honek ez du aldaketarik egin.
+      no_more: Aldaketa gehiagorik ez da aurkitu.
+      no_more_area: Inguru honetan ez dago aldaketa gehiagorik.
+      no_more_user: Erabiltzaile honek ez du aldaketa gehiagorik egin.
       load_more: Gehiago kargatu
     rss:
       commented_at_html: Eguneratua duela %{when}
@@ -141,15 +217,21 @@ eu:
       full: Eztabaida osoa
   diary_entry:
     new:
+      title: Eguneroko Sarrera Berria
       publish_button: Argitaratu
     list:
       title: Erabiltzaileen egunerokoak
       title_friends: Lagunen egunerokoak
       title_nearby: Hurbileko erabiltzaileen egunerokoak
       user_title: '%{user}(r)en egunerokoa'
+      in_language_title: Eguneroko Sarrerak %{language} Hizkuntzan
+      new: Eguneroko Sarrera Berria
+      no_entries: Eguneroko sarrerarik ez
+      recent_entries: Azkenengoko eguneroko sarrerak
       older_entries: Sarrera zaharragoak
       newer_entries: Sarrera berriagoak
     edit:
+      title: Eguneroko sarrera aldatu
       subject: 'Gaia:'
       body: 'Testua:'
       language: 'Hizkuntza:'
@@ -158,11 +240,15 @@ eu:
       longitude: 'Longitude:'
       use_map_link: mapa erabili
       save_button: Gorde
+      marker_text: Eguneroko sarrera helbidea
     view:
       user_title: '%{user}(r)en egunerokoa'
       leave_a_comment: Iruzkin bat utzi
       login: Saioa hasi
       save_button: Gorde
+    no_such_entry:
+      title: Ez dago horrelako eguneroko sarrerarik
+      heading: '%{id} id-arekin ez dago sarrerarik'
     diary_entry:
       reply_link: Sarrera honi erantzun
       comment_count:
@@ -180,6 +266,7 @@ eu:
       view: Ikusi
       edit: Aldatu
     comments:
+      post: Argitaratu
       when: Noiz
       comment: Iruzkina
       ago: Duela %{ago}
@@ -204,6 +291,8 @@ eu:
           title: Overpass API
         geofabrik:
           title: Geofabrik Deskargak
+        metro:
+          title: Metro Laburpenak
         other:
           title: Bestelako Jatorriak
       options: Aukerak
@@ -212,6 +301,7 @@ eu:
       max: max
       image_size: Irudiaren tamaina
       zoom: Zooma
+      add_marker: Mapari markatzailea gehitu
       latitude: 'Lat:'
       longitude: 'Lon:'
       output: Irteera
@@ -222,14 +312,18 @@ eu:
         aerialway:
           cable_car: Teleferikoa
           chair_lift: Teleaulkia
+          drag_lift: Arrastatuzko  Igogailua
+          gondola: Gondola Igogailua
         aeroway:
           aerodrome: Aerodromoa
           apron: Pista
           gate: Atea
           helipad: Heliportua
           runway: Lurreratze pista
+          taxiway: Taxi bidea
           terminal: Terminala
         amenity:
+          animal_shelter: Animalia Aterpea
           arts_centre: Arte Zentroa
           atm: Kutxazain automatikoa
           bank: Banku
@@ -294,6 +388,7 @@ eu:
           post_office: Postetxe
           preschool: Eskolaurre
           prison: Espetxe
+          pub: Pub-a
           public_building: Eraikin publiko
           reception_area: Harrera lekua
           recycling: Birziklatze gune
@@ -305,6 +400,8 @@ eu:
           shop: Denda
           shower: Dutxa
           social_centre: Gizarte zentroa
+          social_club: Klub soziala
+          social_facility: Gizarte Instalazioa
           studio: Estudio
           swimming_pool: Igerilekua
           taxi: Taxi
@@ -316,6 +413,7 @@ eu:
           vending_machine: Salmenta automatiko
           veterinary: Albaitaritza klinika
           village_hall: Herriko aretoa
+          waste_basket: Hondakin Saskia
           youth_centre: Gaztelekua
         boundary:
           administrative: Muga Administratiboa
@@ -356,8 +454,10 @@ eu:
           emergency_access_point: Larrialdi Sarbide Gunea
           footway: Oinezkoen bide
           ford: Ibia
+          living_street: Etxebizitza Kalea
           milestone: Mugarria
           motorway: Autobide
+          motorway_junction: Autopistarekiko Lotura
           motorway_link: Autobidea
           path: Bidea
           pedestrian: Oinezkoen gunea
@@ -380,6 +480,8 @@ eu:
           tertiary_link: Hirugarren mailako errepide
           track: Pista
           traffic_signals: Trafiko seinaleak
+          trunk: Errepide Nagusia
+          trunk_link: Errepide Nagusia
           unclassified: Sailkatu gabeko errepidea
           unsurfaced: Alfastatu gabeko errepidea
           "yes": Errepidea
@@ -391,6 +493,7 @@ eu:
           bunker: Bunkerra
           castle: Gaztelu
           church: Eliza
+          city_gate: Hirirako Sarbidea
           citywalls: Hiriko harresiak
           fort: Gotorlekua
           heritage: Gizateriaren Ondarea
@@ -405,10 +508,13 @@ eu:
           tomb: Hilobia
           tower: Dorre
         landuse:
+          basin: Arroa
           cemetery: Hilerri
           commercial: Merkataritza Eremua
           construction: Eraikuntza
           farm: Baserria
+          farmland: Nekazari landa
+          farmyard: Nekazari zelaia
           forest: Baso
           garages: Garajeak
           grass: Belardia
@@ -421,10 +527,12 @@ eu:
           railway: Trenbide
           reservoir: Urtegi
           retail: Merkataritza gunea
+          road: Errepide Area
           village_green: Udal parkea
           vineyard: Mahastia
         leisure:
           beach_resort: Hondartza konplexu
+          club: Kluba
           common: Lur Komunak
           dog_park: Txakurrentzako parkea
           fishing: Arrantza Lekua
@@ -461,6 +569,7 @@ eu:
           beach: Hondartza
           cape: Lurmuturra
           cave_entrance: Kobazulo Sarrera
+          cliff: Labarra
           crater: Kraterra
           dune: Duna
           fjord: Fiordoa
@@ -501,6 +610,7 @@ eu:
           travel_agent: Bidaia-agentzia
           "yes": Bulegoa
         place:
+          block: Blokea
           airport: Aireportu
           city: Hiria
           country: Herrialdea
@@ -602,6 +712,7 @@ eu:
           "yes": Denda
         tourism:
           alpine_hut: Aterpe alpinoa
+          apartment: Apartamentua
           artwork: Artelana
           attraction: Atrakzio
           bed_and_breakfast: Ohe eta gosari (B&B)
@@ -687,6 +798,7 @@ eu:
     legal_babble:
       title_html: Egile-eskubideak eta lizentzia
       more_title_html: Jakin ezazu gehiago
+      contributors_title_html: Gure kolaboratzaileak
       contributors_at_html: |-
         <strong>Austria</strong>: Honako iturrietatik ateratako datuak ditu:
         <a href="http://data.wien.gv.at/">Stadt Wien</a> (<a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a> lizentziapean),
@@ -707,6 +819,8 @@ eu:
     questions:
       title: Galderarik?
     start_mapping: Hasi mapeatzen
+    add_a_note:
+      title: Editatzeko denborarik ez? Gehitu ohar bat!
   fixthemap:
     title: Arazo baten berri eman / Mapa zuzendu
     how_to_help:
@@ -735,16 +849,37 @@ eu:
     next: Hurrengoa
     local_knowledge_title: Tokiko Ezagutza
     open_data_title: Datu Irekiak
+    legal_title: Legala
+    partners_title: Parte-hartzaileak
   notifier:
     diary_comment_notification:
+      subject: '[OpenStreetMap] %{user} eguneroko sarrera batean iruzkina utzi du'
       hi: Kaixo %{to_user},
+      header: '%{from_user}k OpenStreetMap eguneroko sarrera batean iruzkina utzi
+        du %{subject} gaiaren barnean:'
     message_notification:
       hi: Kaixo %{to_user},
+    friend_notification:
+      hi: Kaixo %{to_user},
+      subject: '[OpenStreetMap] %{user} lagun bezala gehitu zaitu'
+      had_added_you: '%{user} lagun bezala gehitu zaitu OpenStreetMap-en.'
+      see_their_profile: Haien profila %{userurl}n ikusi dezakezu.
+      befriend_them: Haiek ere lagun bezala gehitu ditzakezu %{befriendurl}n.
     gpx_notification:
       greeting: Kaixo,
+      your_gpx_file: Zure GPX fitxategia bezala dirudi
+      with_description: deskribapenarekin
+      and_the_tags: 'eta hurrengo etiketak:'
+      and_no_tags: eta etiketarik ez.
+      failure:
+        failed_to_import: 'inportzean kale egin du. Hemen dago akatsa:'
+        more_info_2: 'hemen aurkitu daitezke:'
     signup_confirm:
       subject: '[OpenStreetMap] Ongi etorri OpenStreetMapera'
       greeting: Kaixo!
+      created: Norbaitek (zuk espero) %{site_url}n kontua sortu egin du.
+      confirm: 'Ezer egin baino lehen, eskaera hau zugandik datorrela baieztatu behar
+        dugu, horrela izan bada beheko linka klikatu zure kontua baieztatzeko mesedez:'
     email_confirm:
       subject: '[OpenStreetMap] Baieztatu zure eposta helbidea'
     email_confirm_plain:
@@ -761,6 +896,8 @@ eu:
     changeset_comment_notification:
       hi: Kaixo, %{to_user}
       greeting: Kaixo,
+      commented:
+        partial_changeset_without_comment: iruzkinik gabe
   message:
     inbox:
       title: Sarrera-ontzia
@@ -800,6 +937,7 @@ eu:
       date: Data
       reply_button: Erantzun
       unread_button: Markatu irakurri gabekotzat
+      delete_button: Ezabatu
       back: Atzera
       to: Hartzailea
     sent_message_summary:
@@ -821,6 +959,8 @@ eu:
       close: Itxi
     search:
       search: Bilatu
+      get_directions: Norabideak lortu
+      get_directions_title: Bi puntuen arteko norabideak aurkitu
       from: Abiagunea
       to: Helmuga
       where_am_i: Non nago?
@@ -846,6 +986,7 @@ eu:
           - teleaulkia
           runway:
           - Aireportuko Pista
+          - taxi bidea
           apron:
             1: terminala
           admin: Muga administratiboa
@@ -879,6 +1020,8 @@ eu:
       edit: Aldatu
       preview: Aurrikusi
     markdown_help:
+      first: Lehenengo itema
+      second: Bigarren itema
       link: Lotura
       text: Testua
       image: Irudia
@@ -922,6 +1065,8 @@ eu:
       tags: 'Etiketak:'
       none: Ezer
       visibility: 'Ikusgarritasuna:'
+    trace_paging_nav:
+      showing_page: '%{page}. orria'
     trace:
       pending: PRIBATUA
       count_points: '%{count} puntu'
@@ -932,7 +1077,10 @@ eu:
       edit_map: Mapa aldatu
       public: PUBLIKOA
       private: PRIBATUA
+      in: barruan
       map: mapa
+    list:
+      tagged_with: '%{tags}(r)ekin etiketatua'
   oauth:
     oauthorize:
       allow_write_api: mapa aldatu.
@@ -944,15 +1092,20 @@ eu:
     edit:
       submit: Aldatu
     show:
+      key: 'Kontsumitzaile Giltza:'
+      secret: 'Kontsumitzaile Sekretua:'
       edit: Editatu xehetasunak
       delete: Ezabatu bezeroa
       confirm: Ziur zaude?
       allow_write_api: mapa aldatu.
+      allow_write_notes: oharrak aldatu.
     index:
       application: Aplikazioaren izena
     form:
       name: Izena
       required: Nahitaezkoa
+      allow_write_api: mapa aldatu.
+      allow_write_notes: oharrak aldatu.
   user:
     login:
       title: Saio-hasiera
@@ -968,13 +1121,20 @@ eu:
       create account minute: Sortu kontu bat. Minutu bat besterik ez duzu behar.
       no account: Ez al duzu konturik?
       auth_providers:
+        openid:
+          title: ID irekiarekin saioa hasi
+          alt: ID irekia duen URL-arekin saioa hasi
         google:
           title: Saioa hasi Googlekin
+          alt: Google ID irekiarekin saioa hasi
         facebook:
           title: Saioa hasi Facebookekin
           alt: Saioa hasi Facebookekin
         windowslive:
           title: Saioa hasi Windows Livekin
+          alt: Windows Live kontu batekin saioa hasi
+        github:
+          title: GitHub-rekin saioa hasi
         yahoo:
           title: Saioa hasi Yahoorekin
     logout:
