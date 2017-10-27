@@ -366,7 +366,7 @@ class ApplicationController < ActionController::Base
       yield
     end
   rescue ActionView::Template::Error => ex
-    ex = ex.original_exception
+    ex = ex.cause
 
     if ex.is_a?(Timeout::Error) ||
        (ex.is_a?(ActiveRecord::StatementInvalid) && ex.message =~ /execution expired/)
