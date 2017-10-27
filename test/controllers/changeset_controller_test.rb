@@ -2060,6 +2060,8 @@ CHANGESET
   # This should display the last 20 non-empty changesets
   def test_feed
     changeset = create(:changeset, :num_changes => 1)
+    create(:changeset_tag, :changeset => changeset)
+    create(:changeset_tag, :changeset => changeset, :k => "website", :v => "http://example.com/")
     closed_changeset = create(:changeset, :closed, :num_changes => 1)
     _empty_changeset = create(:changeset, :num_changes => 0)
 
@@ -2075,6 +2077,8 @@ CHANGESET
   # This should display the last 20 changesets closed in a specific area
   def test_feed_bbox
     changeset = create(:changeset, :num_changes => 1, :min_lat => 5 * GeoRecord::SCALE, :min_lon => 5 * GeoRecord::SCALE, :max_lat => 5 * GeoRecord::SCALE, :max_lon => 5 * GeoRecord::SCALE)
+    create(:changeset_tag, :changeset => changeset)
+    create(:changeset_tag, :changeset => changeset, :k => "website", :v => "http://example.com/")
     closed_changeset = create(:changeset, :closed, :num_changes => 1, :min_lat => 5 * GeoRecord::SCALE, :min_lon => 5 * GeoRecord::SCALE, :max_lat => 5 * GeoRecord::SCALE, :max_lon => 5 * GeoRecord::SCALE)
     _elsewhere_changeset = create(:changeset, :num_changes => 1, :min_lat => -5 * GeoRecord::SCALE, :min_lon => -5 * GeoRecord::SCALE, :max_lat => -5 * GeoRecord::SCALE, :max_lon => -5 * GeoRecord::SCALE)
     _empty_changeset = create(:changeset, :num_changes => 0, :min_lat => -5 * GeoRecord::SCALE, :min_lon => -5 * GeoRecord::SCALE, :max_lat => -5 * GeoRecord::SCALE, :max_lon => -5 * GeoRecord::SCALE)
@@ -2092,6 +2096,8 @@ CHANGESET
   def test_feed_user
     user = create(:user)
     changesets = create_list(:changeset, 3, :user => user, :num_changes => 4)
+    create(:changeset_tag, :changeset => changesets[1])
+    create(:changeset_tag, :changeset => changesets[1], :k => "website", :v => "http://example.com/")
     _other_changeset = create(:changeset)
 
     get :feed, :params => { :format => :atom, :display_name => user.display_name }
