@@ -75,7 +75,7 @@ class ClientApplication < ActiveRecord::Base
     @oauth_client ||= OAuth::Consumer.new(key, secret)
   end
 
-  def create_request_token(params = {})
+  def create_request_token(_params = {})
     params = { :client_application => self, :callback_url => token_callback_url }
     permissions.each do |p|
       params[p] = true

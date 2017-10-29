@@ -516,13 +516,13 @@ class ChangesetController < ApplicationController
       times = time.split(/,/)
       raise OSM::APIBadUserInput, "bad time range" if times.size != 2
 
-      from, to = times.collect { |t| DateTime.parse(t) }
+      from, to = times.collect { |t| Time.parse(t) }
       return changesets.where("closed_at >= ? and created_at <= ?", from, to)
     else
       # if there is no comma, assume its a lower limit on time
-      return changesets.where("closed_at >= ?", DateTime.parse(time))
+      return changesets.where("closed_at >= ?", Time.parse(time))
     end
-    # stupid DateTime seems to throw both of these for bad parsing, so
+    # stupid Time seems to throw both of these for bad parsing, so
     # we have to catch both and ensure the correct code path is taken.
   rescue ArgumentError => ex
     raise OSM::APIBadUserInput, ex.message.to_s

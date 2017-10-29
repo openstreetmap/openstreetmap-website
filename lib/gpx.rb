@@ -31,7 +31,7 @@ module GPX
           elsif reader.name == "ele" && point
             point.altitude = reader.read_string.to_f
           elsif reader.name == "time" && point
-            point.timestamp = DateTime.parse(reader.read_string)
+            point.timestamp = Time.parse(reader.read_string)
           end
         elsif reader.node_type == XML::Reader::TYPE_END_ELEMENT
           if reader.name == "trkpt" && point && point.valid?
