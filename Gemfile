@@ -119,9 +119,10 @@ end
 
 # Needed in development as well so rake can see konacha tasks
 group :development, :test do
+  gem "capybara", "~> 2.13"
   gem "coveralls", :require => false
   gem "factory_bot_rails"
   gem "jshint"
-  #  gem "konacha"
   gem "poltergeist"
+  gem "puma", "~> 3.7"
 end
