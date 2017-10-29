@@ -120,7 +120,7 @@ end
 # Needed in development as well so rake can see konacha tasks
 group :development, :test do
   gem "coveralls", :require => false
-  gem "factory_girl_rails"
+  gem "factory_bot_rails"
   gem "jshint"
   #  gem "konacha"
   gem "poltergeist"

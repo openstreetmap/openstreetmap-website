@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :trace do
     sequence(:name) { |n| "Trace #{n}.gpx" }
     sequence(:description) { |n| "This is trace #{n}" }

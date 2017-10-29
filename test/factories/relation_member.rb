@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :relation_member do
     member_role ""
 

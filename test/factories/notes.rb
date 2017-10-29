@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :note do
     latitude 1 * GeoRecord::SCALE
     longitude 1 * GeoRecord::SCALE

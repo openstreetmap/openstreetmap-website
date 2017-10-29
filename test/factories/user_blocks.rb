@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :user_block do
     sequence(:reason) { |n| "User Block #{n}" }
     ends_at Time.now + 1.day

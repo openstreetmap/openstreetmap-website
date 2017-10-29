@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :tracepoint do
     trackid 1
     latitude 1 * GeoRecord::SCALE

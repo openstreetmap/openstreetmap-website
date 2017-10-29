@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :tracetag do
     sequence(:tag) { |n| "Tag #{n}" }
 
