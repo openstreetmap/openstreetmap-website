@@ -1,5 +1,5 @@
 if defined?(CSP_REPORT_URL)
-  policy = {
+  csp_policy = {
     :default_src => %w['self'],
     :child_src => %w['self'],
     :connect_src => %w['self'],
@@ -15,13 +15,19 @@ if defined?(CSP_REPORT_URL)
     :report_uri => [CSP_REPORT_URL]
   }
 
-  policy[:script_src] << PIWIK["location"] if defined?(PIWIK)
+  csp_policy[:script_src] << PIWIK["location"] if defined?(PIWIK)
 else
-  policy = SecureHeaders::OPT_OUT
+  csp_policy = SecureHeaders::OPT_OUT
 end
+
+cookie_policy = {
+  :secure => SecureHeaders::OPT_OUT,
+  :httponly => SecureHeaders::OPT_OUT
+}
 
 SecureHeaders::Configuration.default do |config|
   config.hsts = "max-age=0"
   config.csp = SecureHeaders::OPT_OUT
-  config.csp_report_only = policy
+  config.csp_report_only = csp_policy
+  config.cookies = cookie_policy
 end
