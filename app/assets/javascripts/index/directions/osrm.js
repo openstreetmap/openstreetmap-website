@@ -1,12 +1,10 @@
 // OSRM car engine
-// Doesn't yet support hints
 
 function OSRMEngine() {
-  var cachedHints = [];
 
   return {
     id: "osrm_car",
-    creditline: '<a href="http://project-osrm.org/" target="_blank">OSRM</a>',
+    creditline: '<a href="https://www.mapbox.com/navigation/" target="_blank">Mapbox</a>',
     draggable: true,
 
     _transformSteps: function(input_steps, line) {
@@ -110,18 +108,11 @@ function OSRMEngine() {
     getRoute: function (points, callback) {
 
       var params = [
+        { name: "access_token", value: "pk.eyJ1Ijoib3NybSIsImEiOiJjajdiOHNna28wcGVhMnFvOTVkOWlpNWUzIn0.7V3lSL-vVZ_RSf8_Pc1Ebw" },
         { name: "overview", value: "false" },
         { name: "geometries", value: "polyline" },
         { name: "steps", value: true }
       ];
-
-
-      if (cachedHints.length === points.length) {
-        params.push({name: "hints", value: cachedHints.join(";")});
-      } else {
-        // invalidate cache
-        cachedHints = [];
-      }
 
       var encoded_coords = points.map(function(p) {
         return p.lng + ',' + p.lat;
@@ -132,10 +123,6 @@ function OSRMEngine() {
       var onResponse = function (data) {
         if (data.code !== 'Ok')
           return callback(true);
-
-        cachedHints = data.waypoints.map(function(wp) {
-          return wp.hint;
-        });
 
         var line = [];
         var transformLeg = function (leg) {
