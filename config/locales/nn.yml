@@ -98,6 +98,7 @@ nn:
       description: Potlatch 1 (rediger i nettlesaren)
     id:
       name: ID
+      description: iD (redigering i nettlesaren)
     potlatch2:
       name: Potlatch 2
       description: Potlatch 2 (rediger i nettleseran)
@@ -107,6 +108,10 @@ nn:
   browse:
     created: Oppretta
     closed: Attlaten
+    created_html: Oppretta for <abbr title='%{title}'>%{time} sidan</abbr>
+    created_by_html: Oppretta for <abbr title='%{title}'>%{time} sidan</abbr> av %{user}
+    deleted_by_html: Sletta for <abbr title='%{title}'>%{time} sidan</abbr> av %{user}
+    edited_by_html: Redigert for <abbr title='%{title}'>%{time} sidan</abbr> av %{user}
     version: 'Versjon:'
     anonymous: anonym
     no_comment: (ingen kommentar)
@@ -117,6 +122,8 @@ nn:
     changeset:
       title: Endringssett %{id}
       belongs_to: Skapar
+      way: Strekningar (%{count})
+      way_paginated: Strekningar (%{x}-%{y} av %{count})
       comment: Kommentarar (%{count})
       changesetxml: XML for endringssett
       osmchangexml: osmChange XML
@@ -124,6 +131,8 @@ nn:
         title: Endringssett %{id}
         title_comment: 'Endringssett: %{id} - %{comment}'
       discussion: Ordskifte
+    relation:
+      members: Medlemmar
     relation_member:
       entry: '%{type} %{name}'
       entry_role: '%{type} %{name} som %{role}'
@@ -141,6 +150,7 @@ nn:
         way: veg
         relation: relasjon
         changeset: endringssett
+        note: merknad
     timeout:
       sorry: Beklagar, data for %{type} med id %{id} tok for lang tid å hente.
       type:
@@ -148,6 +158,7 @@ nn:
         way: veg
         relation: relasjon
         changeset: endringssett
+        note: merknad
     redacted:
       redaction: Maskering %{id}
       message_html: Versjon %{version} av denne %{type} kan ikkje visast fordi den
@@ -293,6 +304,8 @@ nn:
       too_large:
         body: Dette området er for stort for å eksporterast som OpenStreetMap XML-data.
           Zoom inn eller vel eit mindre område.
+        planet:
+          title: Planet OSM
         other:
           title: Andre kjelder
       options: Val
@@ -442,6 +455,7 @@ nn:
           "yes": Bygning
         craft:
           brewery: Bryggeri
+          carpenter: Tømrar
           electrician: Elektrikar
           gardener: Gartnar
           painter: Målar
@@ -452,7 +466,11 @@ nn:
           "yes": Handverkbutikk
         emergency:
           ambulance_station: Ambulansestasjon
+          defibrillator: Hjartestartar
+          landing_site: Nødlandingsplass
+          phone: Nødtelefon
         highway:
+          abandoned: Forlaten motorveg
           bridleway: Rideveg
           bus_guideway: Leidde bussfelt
           bus_stop: Busstopp
@@ -472,6 +490,7 @@ nn:
           platform: Perrong
           primary: Primær veg
           primary_link: Primær veg
+          proposed: Føreslått veg
           raceway: Racerbane
           residential: Bustadveg
           rest_area: Rasteplass
@@ -486,6 +505,7 @@ nn:
           tertiary: Tertiær veg
           tertiary_link: Kommunal veg
           track: Sti
+          traffic_signals: Trafikklys
           trail: Sti
           trunk: Hovedveg
           trunk_link: Hovedveg
@@ -503,6 +523,7 @@ nn:
           city_gate: Byport
           citywalls: Bymurar
           fort: Fort
+          heritage: Verdsarvsstad
           house: Hus
           icon: Ikon
           manor: Herregard
@@ -512,10 +533,13 @@ nn:
           roman_road: Romersk veg
           ruins: Ruinar
           stone: Stein
+          tomb: Grav
           tower: Tårn
           wayside_cross: Vegkant kross
           wayside_shrine: Vegkant alter
           wreck: Vrak
+        junction:
+          "yes": Kryss
         landuse:
           allotments: Kolonihagar
           basin: Elveområde
@@ -577,6 +601,8 @@ nn:
           water_park: Vannpark
           "yes": Fritid
         man_made:
+          lighthouse: Fyr
+          pipeline: Røyrleidning
           tower: Tårn
           works: Fabrikk
           "yes": Menneskeskapt
@@ -625,6 +651,7 @@ nn:
           wood: Skog
         office:
           accountant: Revisor
+          administrative: Administrasjon
           architect: Arkitekt
           company: Bedrift
           employment_agency: Bemanningsbedrift
@@ -1256,6 +1283,7 @@ nn:
           private: Privat tilgjenge
           destination: Destinasjonstilgang
           construction: Vegar under konstruksjon
+          bicycle_parking: Sykkelparkering
           toilets: Toalett
     richtext_area:
       edit: Endre
