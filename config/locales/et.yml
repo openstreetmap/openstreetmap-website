@@ -14,7 +14,8 @@
 et:
   time:
     formats:
-      friendly: '%e %B %Y kell %H:%M'
+      friendly: '%e. %B %Y, kell %H:%M'
+      blog: '%e. %B %Y'
   activerecord:
     models:
       acl: Pääsuloend
@@ -40,9 +41,9 @@ et:
       relation_member: Relatsiooni liige
       relation_tag: Relatsiooni silt
       session: Seanss
-      trace: Jälg
-      tracepoint: Jälje punkt
-      tracetag: Jälje silt
+      trace: Rada
+      tracepoint: Rajapunkt
+      tracetag: Rajasilt
       user: Kasutaja
       user_preference: Kasutaja eelistused
       user_token: Kasutaja tunnus
@@ -271,7 +272,7 @@ et:
       in_language_title: Päeviku sissekanded %{language}
       new: Uus päeviku sissekanne
       new_title: Lisa päevikusse uus sissekanne
-      no_entries: Päevikus pole sissekandeid
+      no_entries: Päevikus pole sissekandeid.
       recent_entries: Hiljutised päeviku sissekanded
       older_entries: Vanemad...
       newer_entries: Uuemad...
@@ -1228,6 +1229,11 @@ et:
           mis on loodud kuupäeval %{time}'
         commented_changeset: '%{commenter} on jätnud kommentaari kaardi muudatuskogumile,
           mida sa jälgid ja mille on loonud %{changeset_author} kuupäeval %{time}'
+        partial_changeset_with_comment: kommentaariga '%{changeset_comment}'.
+        partial_changeset_without_comment: ilma kommentaarita.
+      details: Üksikasjad muudatuskogumi kohta leiad aadressilt %{url}.
+      unsubscribe: Et selle muudatuskogumi uuendusteadetest ära ütelda, mine aadressile
+        %{url} ja klõpsa nuppu "Lõpeta tellimus".
   message:
     inbox:
       title: Saabunud kirjad
@@ -1252,11 +1258,11 @@ et:
       delete_button: Kustuta
     new:
       title: Saada sõnum
-      send_message_to: Saada kasutajale %{name} uus sõnum
+      send_message_to: Sõnumi saatmine kasutajale %{name}
       subject: Teema
       body: Sisu
       send_button: Saada
-      back_to_inbox: Tagasi saabunud kirjade juurde
+      back_to_inbox: Tagasi minu postkasti
       message_sent: Sõnum saadetud
       limit_exceeded: Sa oled hiljuti saatnud palju sõnumeid. Palun oota mõnda aega
         enne kui proovid veel sõnumeid saata.
@@ -1428,12 +1434,12 @@ et:
   trace:
     visibility:
       private: Privaatne (jagatud ainult anonüümselt, järjestamata punktid)
-      public: Avalik (nähtav jälgede loendis ja anonüümsena, järjestamata punktid)
+      public: Avalik (nähtav rajaloendis ja anonüümsena, järjestamata punktid)
       trackable: Jälgitav (jagatud ainult anonüümselt, järjestatud punktid koos ajatemplitega)
-      identifiable: Tuvastatav (nähtav jälgede loendis ja tuvastatav, järjestatud
-        punktid koos ajatemplitega)
+      identifiable: Tuvastatav (nähtav rajaloendis ja tuvastatav, järjestatud punktid
+        koos ajatemplitega)
     create:
-      upload_trace: Laadi üles GPS-rada
+      upload_trace: GPS-raja üleslaadimine
       trace_uploaded: Sinu GPX-fail on üles laaditud ja ootab andmebaasi sisestamist.
         See võtab aega tavaliselt pool tundi kuni tund. Peale lõpetamist saadetakse
         sulle meil.
@@ -1451,7 +1457,7 @@ et:
       tags_help: komaga eraldatud
       save_button: Salvesta muudatused
       visibility: 'Nähtavus:'
-      visibility_help: Mida see tähendab?
+      visibility_help: mida see tähendab?
     trace_form:
       upload_gpx: 'Laadi üles GPX-fail:'
       description: 'Kirjeldus:'
@@ -1468,6 +1474,8 @@ et:
     trace_optionals:
       tags: Sildid
     view:
+      title: Raja %{name} vaatamine
+      heading: Raja %{name} vaatamine
       pending: OOTEL
       filename: 'Failinimi:'
       download: laadi alla
@@ -1481,19 +1489,19 @@ et:
       tags: 'Sildid:'
       none: Puuduvad
       edit_track: Muuda seda rada
-      delete_track: Kustuta see jälg
-      trace_not_found: Jälge ei leitud!
+      delete_track: Kustuta see rada
+      trace_not_found: Rada ei leitud!
       visibility: 'Nähtavus:'
     trace_paging_nav:
       showing_page: Leht %{page}
-      older: Vanemad jäljed
-      newer: Uuemad jäljed
+      older: Vanemad rajad
+      newer: Uuemad rajad
     trace:
       pending: OOTEL
       count_points: '%{count} punkti'
       ago: '%{time_in_words_ago} tagasi'
       more: rohkem
-      trace_details: Vaata jälje teavet
+      trace_details: Vaata raja üksikasju
       view_map: Vaata kaarti
       edit: redigeeri
       edit_map: Redigeeri kaarti
@@ -1508,12 +1516,14 @@ et:
       public_traces: Avalikud GPS-rajad
       your_traces: Sinu GPS-rajad
       public_traces_from: Kasutaja %{user} avalikud GPS-rajad
-      description: Sirvi viimati üles laaditud GPS-radasid
-      tagged_with: ', millel on järgmised sildid: %{tags}'
+      description: Viimati üles laaditud GPS-radade sirvimine
+      tagged_with: ', millel on silt %{tags}'
+      empty_html: Siin pole veel midagi. <a href='%{upload_link}'>Laadi üles uus rada</a>
+        või uuri GPS-radade kohta <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>vikileheküljelt</a>.
   application:
     require_cookies:
-      cookies_needed: Sul on ilmselt küpsised keelatud - palun luba brauseris küpsised
-        enne jätkamist.
+      cookies_needed: Paistab, et sul on küpsised keelatud. Enne jätkamist luba palun
+        brauseris küpsised.
     require_moderator:
       not_a_moderator: Selle tegevuse sooritamiseks pead sa olema moderaator.
     setup_user_auth:
@@ -1533,8 +1543,8 @@ et:
       allow_write_prefs: muuta sinu kasutajaeelistusi.
       allow_write_diary: luua päeviku sissekandeid, kommentaare ja saada sõbraks.
       allow_write_api: muuta kaarti.
-      allow_read_gpx: lugeda sinu privaatseid GPS jälgi.
-      allow_write_gpx: laadida üles GPS jälgi.
+      allow_read_gpx: lugeda sinu privaatseid GPS-radu.
+      allow_write_gpx: laadida üles GPS-radu.
       allow_write_notes: muuta märkuseid.
       grant_access: Luba juurdepääs
     oauthorize_success:
@@ -1735,7 +1745,7 @@ et:
       my diary: Minu päevik
       new diary entry: uus päevikusissekanne
       my edits: Minu muutmised
-      my traces: Minu jäljelogid
+      my traces: Minu rajaloend
       my notes: Minu märkused
       my messages: Minu sõnumid
       my profile: Minu profiil
@@ -1747,10 +1757,10 @@ et:
       send message: Saada sõnum
       diary: Päevik
       edits: Muudatused
-      traces: Jäljelogid
+      traces: Rajaloend
       notes: Märkused
       remove as friend: eemalda sõprade hulgast
-      add as friend: lisa sõbraks
+      add as friend: Lisa sõbraks
       mapper since: 'Kaardistaja alates:'
       ago: (%{time_in_words_ago} tagasi)
       ct status: 'Kaastöötingimused:'
@@ -1785,7 +1795,7 @@ et:
           moderator: Eemalda moderaatori õigused
       block_history: Aktiivsed blokeeringud
       moderator_history: Antud blokeeringud
-      comments: kommentaarid
+      comments: Kommentaarid
       create_block: Blokeeri see kasutaja
       activate_user: Aktiveeri see kasutaja
       deactivate_user: Desaktiveeri see kasutaja
