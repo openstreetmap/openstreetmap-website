@@ -8,7 +8,8 @@ OSM.initializeContextMenu = function (map) {
           lng = latlng.lng.toFixed(precision);
 
       OSM.router.route("/directions?" + querystring.stringify({
-        route: lat + "," + lng + ";" + $("#route_to").val()
+        from: lat + "," + lng,
+        to: $("#route_to").val()
       }));
     }
   });
@@ -22,7 +23,8 @@ OSM.initializeContextMenu = function (map) {
           lng = latlng.lng.toFixed(precision);
 
       OSM.router.route("/directions?" + querystring.stringify({
-        route: $("#route_from").val() + ";" + lat + "," + lng
+        from: $("#route_from").val(),
+        to: lat + "," + lng
       }));
     }
   });
