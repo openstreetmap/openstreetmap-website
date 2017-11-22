@@ -122,25 +122,13 @@ class Relation < ActiveRecord::Base
     doc
   end
 
-  def to_xml_node(visible_members = nil, changeset_cache = {}, user_display_name_cache = {})
+  def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el = XML::Node.new "relation"
     el["id"] = id.to_s
 
     add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
     relation_members.each do |member|
-      p = 0
-
-      if visible_members
-        # if there is a list of visible members then use that to weed out deleted segments
-        p = 1 if visible_members[member.member_type][member.member_id]
-      else
-        # otherwise, manually go to the db to check things
-        p = 1 if member.member.visible?
-      end
-
-      next unless p
-
       member_el = XML::Node.new "member"
       member_el["type"] = member.member_type.downcase
       member_el["ref"] = member.member_id.to_s

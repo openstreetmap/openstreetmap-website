@@ -91,7 +91,6 @@ class RelationController < ApplicationController
       # create XML.
       doc = OSM::API.new.get_xml_doc
       visible_nodes = {}
-      visible_members = { "Node" => {}, "Way" => {}, "Relation" => {} }
       changeset_cache = {}
       user_display_name_cache = {}
 
@@ -100,25 +99,22 @@ class RelationController < ApplicationController
 
         doc.root << node.to_xml_node(changeset_cache, user_display_name_cache)
         visible_nodes[node.id] = node
-        visible_members["Node"][node.id] = true
       end
 
       ways.each do |way|
         next unless way.visible? # should be unnecessary if data is consistent.
 
         doc.root << way.to_xml_node(visible_nodes, changeset_cache, user_display_name_cache)
-        visible_members["Way"][way.id] = true
       end
 
       relations.each do |rel|
         next unless rel.visible? # should be unnecessary if data is consistent.
 
-        doc.root << rel.to_xml_node(nil, changeset_cache, user_display_name_cache)
-        visible_members["Relation"][rel.id] = true
+        doc.root << rel.to_xml_node(changeset_cache, user_display_name_cache)
       end
 
       # finally add self and output
-      doc.root << relation.to_xml_node(visible_members, changeset_cache, user_display_name_cache)
+      doc.root << relation.to_xml_node(changeset_cache, user_display_name_cache)
       render :xml => doc.to_s
 
     else
