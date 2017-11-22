@@ -32,10 +32,10 @@
   <%= opengraph_tags(@title) %>
   <% if flash[:piwik_goal] -%>
   <%= tag("meta", :name => "piwik-goal", :content => flash[:piwik_goal]) %>
-  <% end -%>  
+  <% end -%>
   <%= style_rules %>
   <%= yield :head %>
   <%= yield :auto_discovery_link_tag %>
   <%= csrf_meta_tag %>
-  <title><%= t 'layouts.project_name.title' %><%= ' | ' + @title if @title %></title>
+  <title><%= @title + ' | ' if @title %><%= t 'layouts.project_name.title' %></title>
 <% end %>

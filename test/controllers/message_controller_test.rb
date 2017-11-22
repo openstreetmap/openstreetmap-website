@@ -63,7 +63,7 @@ class MessageControllerTest < ActionController::TestCase
     get :new, :params => { :display_name => recipient_user.display_name }
     assert_response :success
     assert_template "new"
-    assert_select "title", "OpenStreetMap | Send message"
+    assert_select "title", "Send message | OpenStreetMap"
     assert_select "form[action='#{new_message_path(:display_name => recipient_user.display_name)}']", :count => 1 do
       assert_select "input#message_title", :count => 1
       assert_select "textarea#message_body", :count => 1
@@ -89,7 +89,7 @@ class MessageControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_template "new"
-    assert_select "title", "OpenStreetMap | Send message"
+    assert_select "title", "Send message | OpenStreetMap"
     assert_select "form[action='#{new_message_path(:display_name => recipient_user.display_name)}']", :count => 1 do
       assert_select "input#message_title", :count => 1 do
         assert_select "[value='Test Message']"
@@ -117,7 +117,7 @@ class MessageControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_template "new"
-    assert_select "title", "OpenStreetMap | Send message"
+    assert_select "title", "Send message | OpenStreetMap"
     assert_select "form[action='#{new_message_path(:display_name => recipient_user.display_name)}']", :count => 1 do
       assert_select "input#message_title", :count => 1 do
         assert_select "[value='Test Message']"
@@ -145,7 +145,7 @@ class MessageControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_template "new"
-    assert_select "title", "OpenStreetMap | Send message"
+    assert_select "title", "Send message | OpenStreetMap"
     assert_select "form[action='#{new_message_path(:display_name => recipient_user.display_name)}']", :count => 1 do
       assert_select "input#message_title", :count => 1 do
         assert_select "[value='']"
@@ -244,7 +244,7 @@ class MessageControllerTest < ActionController::TestCase
     get :reply, :params => { :message_id => unread_message.id }
     assert_response :success
     assert_template "new"
-    assert_select "title", "OpenStreetMap | Re: #{unread_message.title}"
+    assert_select "title", "Re: #{unread_message.title} | OpenStreetMap"
     assert_select "form[action='#{new_message_path(:display_name => user.display_name)}']", :count => 1 do
       assert_select "input#message_title[value='Re: #{unread_message.title}']", :count => 1
       assert_select "textarea#message_body", :count => 1
