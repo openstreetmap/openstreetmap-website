@@ -18,6 +18,7 @@ class UserController < ApplicationController
   around_action :api_call_handle_error, :only => [:api_read, :api_details, :api_gpx_files]
   before_action :lookup_user_by_id, :only => [:api_read]
   before_action :lookup_user_by_name, :only => [:set_status, :delete]
+  before_action :allow_thirdparty_images, :only => [:view, :account]
 
   def terms
     @legale = params[:legale] || OSM.ip_to_country(request.remote_ip) || DEFAULT_LEGALE

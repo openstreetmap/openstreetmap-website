@@ -427,6 +427,10 @@ class ApplicationController < ActionController::Base
     request.xhr? ? "xhr" : "map"
   end
 
+  def allow_thirdparty_images
+    append_content_security_policy_directives(:img_src => %w[*])
+  end
+
   def preferred_editor
     editor = if params[:editor]
                params[:editor]
