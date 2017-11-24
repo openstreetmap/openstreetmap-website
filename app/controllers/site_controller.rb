@@ -120,9 +120,9 @@ class SiteController < ApplicationController
 
   def id
     append_content_security_policy_directives(
-      :connect_src => %w[nominatim.openstreetmap.org taginfo.openstreetmap.org *.mapillary.com openstreetcam.org],
-      :img_src => %w[*],
-      :script_src => %w[dev.virtualearth.net]
+      :connect_src => %w[nominatim.openstreetmap.org taginfo.openstreetmap.org *.mapillary.com d1cuyjsrcm0gby.cloudfront.net d1brzeo354iq2l.cloudfront.net openstreetcam.org],
+      :img_src => %w[* blob:],
+      :script_src => %w[dev.virtualearth.net 'unsafe-eval']
     )
 
     render "id", :layout => false
