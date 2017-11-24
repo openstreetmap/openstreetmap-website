@@ -120,7 +120,7 @@ class SiteController < ApplicationController
 
   def id
     append_content_security_policy_directives(
-      :connect_src => %w[taginfo.openstreetmap.org *.mapillary.com openstreetcam.org],
+      :connect_src => %w[nominatim.openstreetmap.org taginfo.openstreetmap.org *.mapillary.com openstreetcam.org],
       :img_src => %w[*],
       :script_src => %w[dev.virtualearth.net]
     )
