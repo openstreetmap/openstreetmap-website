@@ -203,6 +203,10 @@ class UserController < ApplicationController
     @title = t "user.new.title"
     @referer = params[:referer] || session[:referer]
 
+    append_content_security_policy_directives(
+      :form_action => %w[accounts.google.com *.facebook.com login.live.com github.com meta.wikimedia.org]
+    )
+
     if current_user
       # The user is logged in already, so don't show them the signup
       # page, instead send them to the home page
