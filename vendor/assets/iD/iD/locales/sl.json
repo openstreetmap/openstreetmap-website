@@ -310,7 +310,7 @@
             "localized_translation_language": "Izbor jezika",
             "localized_translation_name": "Naziv"
         },
-        "zoom_in_edit": "Za urejanje približajte pogled",
+        "zoom_in_edit": "Približaj za urejanje",
         "login": "prijava",
         "logout": "odjava",
         "loading_auth": "Vzpostavljanje povezave z OpenStreetMap ...",
@@ -328,13 +328,13 @@
         },
         "commit": {
             "title": "Pošlji na OpenStreetMap",
-            "description_placeholder": "Kratek opis sprememb (zahtevan vpis)",
-            "message_label": "Povzetek sprememb",
             "upload_explanation": "Spremembe, ki ji boste naložili, bodo vidne na vseh zemljevidih, ki uporabljajo podatke OpenStreetMap.",
             "upload_explanation_with_user": "Spremembe, ki jih objavite kot uporabnik {user}, bodo vidne na vseh zemljevidih, ki uporabljajo podatke OpenStreetMap.",
+            "request_review": "Nekdo naj preveri moje urejanje.",
             "save": "Pošlji",
             "cancel": "Prekliči",
             "changes": "{count} sprememb",
+            "download_changes": "Prejmi datoteko osmChange",
             "warnings": "Opozorila",
             "modified": "Spremenjeno",
             "deleted": "Izbrisano",
@@ -355,6 +355,10 @@
                 "title": "Ozadje",
                 "zoom": "Približaj",
                 "vintage": "Starinsko",
+                "source": "Vir",
+                "description": "Opis",
+                "resolution": "Ločljivost",
+                "accuracy": "Natančnost",
                 "unknown": "Neznano",
                 "show_tiles": "Pokaži sličice",
                 "hide_tiles": "Skrij sličice"
@@ -476,6 +480,12 @@
             "description": "Prikaz zemljevida",
             "key": "F",
             "data_layers": "Podatkovne plasti",
+            "layers": {
+                "osm": {
+                    "tooltip": "Kartografski podatki OpenStreetMap",
+                    "title": "Podatki OpenStreetMap"
+                }
+            },
             "fill_area": "Zapolnjevanje polj",
             "map_features": "Predmeti zemljevida",
             "autohidden": "Nekateri predmeti so samodejno skriti, da jih na zaslonu ni prikazanih preveč. Za urejanje je treba zemljevid približati."
@@ -569,7 +579,7 @@
                 "keep_remote": "Uporabi spremembe drugih",
                 "restore": "Obnovi",
                 "delete": "Pusti izbrisano",
-                "download_changes": "Ali pa prejmite spremembe.",
+                "download_changes": "Lahko tudi prejmete datoteko osmChange",
                 "done": "Vsi spori so razrešeni!",
                 "help": "Nekatere spremembe, ki ste jih vnesli, je spreminjal tudi drug uporabnik.\nKliknite na vsak predmet spodaj, si oglejte podrobnosti neskladnosti in se odločite, ali želite spremembe obdržati ali povrniti na spremembe drugega uporabnika.\n"
             }
@@ -602,7 +612,7 @@
             "welcome": "Dobrodošli v iD, urejevalniku podatkov OpenStreetMap",
             "text": "Urejevalnik iD je zmogljivo, uporabniku prijazno orodje za vnašanje podatkov na najboljši brezplačni svetovni zemljevid. Uporabljena je zadnja različica {version}. Več podrobnosti o urejevalniku je na voljo na {website}, poročila o hroščih pa se zbirajo na spletišču {github}.",
             "walkthrough": "Predstavitev orodja",
-            "start": "Urejevalnik"
+            "start": "Uredi takoj"
         },
         "source_switch": {
             "live": "objavljeno",
@@ -661,14 +671,10 @@
             "title": "Pomoč",
             "key": "H",
             "help": "# Pomoč\n\nUrejevalnik ID je orodje za urejanje [OpenStreetMap](http://www.openstreetmap.org/), brezplačnih in prostih zemljevidov sveta. Uporabljate ga lahko za posodabljanje podatkov in s tem izboljševanje odprto-kodnega in odprto-podatkovnega zemljevida za vse uporabnike.\n\nSpremembe, ki jih naredite na zemljevidu, bodo na voljo vsem uporabnikom, ki uporabljajo OpenStreetMap. Za urejanje se je treba najprej [prijaviti](https://www.openstreetmap.org/login).\n\nUrejevalnik [iD editor](http://ideditor.com/) je zasnovan kot odprt projekt s prosto dostopno kodo na [GitHub](https://github.com/openstreetmap/iD).\n",
-            "editing_saving": "# Urejanje in shranjevanje\n\nUrejevalnik je zasnovan za delo na spletu in ravnokar imate omogočen dostop prek spletišča.\n\n### Izbira predmetov\n\nZa izbor predmeta, kot je cesta, točka ali polje, kliknite nanj. Obris predmeta bo poudarjen, na levi strani okna pa se bo odprlo polje z vpisnimi polji. Med njimi so tudi spustni meniji, prek katerih lahko natančneje opredelite posamezni predmet.\n\nZa izbor več predmetov, zadržite dvigalko »Shift« in nato kliknite na vse predmete, ki jih želite izbrati oziroma med držanjem dvigalke potegnite kazalko miške med predmeti in tako izberite želeno polje.\nIzrisalo se bo polje, znotraj katerega bodo vsi predmeti izbrani.\n\n### Shranjevanje urejanja\n\nKadarkoli naredite spremembe na poteh, zgradbah ali točkah, se ti samodejno shranjujejo krajevno. Spremembe lahko dodajate, razveljavljate, brišete in ponovno uveljavljate. Ko ste s spremembami zadovoljni, in bi jih želeli objaviti na zemljevidu, kliknite na gumb za shranjevanje in podatki bodo poslani na splet.\n\nS klikom na gumb »Shrani« se paket sprememb – na primer urejeno področje dela mesta – pripravi za objavo. Prikaže se seznam sprememb in morebitna opozorila, ki jih lahko pregledate in odpravite. Sistem ponudi tudi priporočila za urejanje.\n\nČe se vam zdijo spremembe ustrezne in so opozorila odpravljena, s ponovnim klikom na gumb »Shrani« paket tudi zares objavite na [OpenStreetMap.org](http://www.openstreetmap.org/), kjer so podatki na voljo vsem uporabnikom zemljevida.\n\nKadar vam urejanja nekega območja ne uspe končati naenkrat, lahko okno urejevalnika pustite odprto in nadaljujete z urejanjem kasneje (velja za isti brskalnik na istem računalniku). Ob ponovnem odprtju strani bo urejevalnik samodejno obnovil že narejene spremembe.\n\n### Uporaba urejevalnika\n\nDo seznama tipkovnih bližnjic je mogoče dostop s pritiskom tipke »?«.\n",
-            "roads": "# Ceste\n\nZ urejevalnikom je mogoče poti dodajati, popravljati in jih izbrisati. Poti so lahko vseh vrst: pešpoti, kolovozi, kolesarske steze, avtoceste in druge – vrisan naj bi bil vsak del ceste, tudi prehodi in počivališča.\n\n### Izbiranje\n\nCesto izberemo s klikom nanjo. Pokaže se obris ceste, ob njem pa meni z orodji in stransko okno z več podrobnostmi o tej cesti.\n\n### Spreminjanje\n\nPogosto boste opazili črte cest, ki se ne skladajo s potekom ceste na sliki v ozadju oziroma s sledjo GPS. Take ceste lahko popravite, da odražajo stanje v naravi.\n\nNajprej kliknite na cesto, ki jo želite spremeniti. Črta ceste bo poudarjena in vzdolž nje bodo pokazana vozlišča, ki jih je mogoče premakniti na pravo mesto. Če želite dodati novo vozlišče za bolj podroben potek ceste, dvokliknite na del ceste, ki še nima vozlišča, in pojavilo se bo novo.\nČe se cesta dotika druge ceste, vendar na zemljevidu ni pravilno povezana, lahko enega od njenih vozlišč premaknete na drugo cesto in ju tako povežete. Pravilno povezane ceste so pomembne in nujne za samodejno iskanje poti med različnimi kraji.\nS klikom na gumb »Premakni« ali s pritiskom tipke »M« na tipkovnici lahko omogočite orodje za premik celotne ceste naenkrat; premik potrdite z drugim klikom.\n\n### Odstranjevanje\n\nČe je potek ceste v celoti napačno vrisan – ko na primer cesta na satelitskem posnetku sploh ne obstaja ali pa ko iz prve roke veste, da je ni – jo lahko izbrišete ter tako odstranite z zemljevida. Pri brisanju predmetov bodite pozorni – pri vsakem urejanju bodo spremembe vidne vsakomur.\nVčasih so satelitski posnetki zastareli in morda zato kakšne ceste na njih še ni.\nCesto izbrišete tako, da najprej kliknete nanjo, nato pa kliknete na ikono za smetnjak ali pa pritisnete tipko »Izbriši«.\n\n### Dodajanje poti\n\nAli ste opazili, da na zemljevidu manjka kakšna cesta? Za začetek risanja kliknite gumb »Črta« v urejevalniku levo zgoraj ali pa pritisnite tipko »2«.\nKliknite na zemljevid na začetek nove ceste. Če se cesta odcepi z že obstoječe ceste, začnite s klikom na mesto, kjer se ločita.\nNato klikajte na točke vzdolž ceste v pravi smeri (glede na satelitske posnetke ali GPS).\nČe cesta, ki jo rišete, križa drugo cesto, ju povežite s klikom na mestu križišča.\nKo končate, dvokliknite z miško ali na tipkovnici pritisnite vnosno tipko.\n",
             "gps": "# GPS\n\nSledi GPS so pomemben vir podatkov za zemljevide OpenStreetMap. Urejevalnik podpira datoteke sledi *.gpx*. Sledi je mogoče zbirati s pomočjo posebnih programov na pametnih telefonih ali pa s posebnimi navigacijskimi napravami.\n\nZa večč podrobnosti o sledeh GPS si oglejte dokumentacijo o [Kartografiji s pametnimi telefoni, z napravami GPS in zdrugimi načini](http://learnosm.org/en/mobile-mapping/).\n\nZa uporabo sledi GPX, datoteko s podatki enostavno povlecite v okno urejevalnika. Če so podatki v datoteki ustrezni in brez napak, bo sled kot svetla rožnata črta dodana na zemljevid. S klikom na meni »Podatki zemljevida« omogočite oziroma skrijete plast s potjo.\n\nSled GPX ni samodejno poslana na strežnik OpenStreetMap. Najboljši način je podatke vrisati na zemljevid, dodati predmete in urediti obstoječe, to pa nato objaviti na [OpenStreetMap](http://www.openstreetmap.org/trace/create)\nza druge uporabnike.\n",
             "imagery": "# Slikovni posnetki\n\nSatelitski posnetki in fotografije iz zraka so pomemben vir za kartiranje. Različne slike letalskih in satelitskih posnetkov ter drugi slikovni viri so v urejevalniku na voljo prek »Nastavitev ozadja« v meniju.\nPrivzeto so uporabljeni satelitski posnetki prek iskalnika [Bing Maps](http://www.bing.com/maps/), pri približevanju zemljevida pa so prikazani tudi drugi razpoložljivi viri.\nV nekaterih državah, kot so ZDA, Francija ali Danska, so za posamezna območja na voljo tudi posnetki z zelo visoko ločljivostjo.\nSlikovni posnetki so zaradi napak na strani ponudnika včasih zamaknjeni glede na zemljevid.\nČe opazite, da je več cest zamaknjenih glede na posnetek v ozadju, cest ne premikajte. V tem primeru lahko premaknete sliko v ozadju tako, da se prekriva z že narisanimi predmeti zemljevidu. To storite s klikom na »Premakni podlogo zemljevida« na dnu uporabniškega vmesnika »Nastavitev ozadja«.\n\n",
             "addresses": "# Naslovi\n\nNaslovi so **najbolj uporabna** podrobnost zemljevida!\n\nČeprav so naslovi pogosto opredeljeni kot deli ulic, so na zemljevidu OpenStreetMap zabeležni kot lastnost stavb in točk ob ulicah.\n\nNaslove je mogoče dodeliti točkovnim predmetom in obrisom stavb.\nNajustreznejši vir naslova je seveda poznavanje mesta oziroma lastno zbiranje podatkov. Tako kot za vse podatke, tudi za naslove velja, da je kopiranje iz različnih tržno orientiranih virov, kot je na primer Googlov zemljevid, **strogo prepovedano**.\n\n",
-            "inspector": "# Uporaba urejevalnika predmetov\n\nUrejevalnik predmetov je polje na levem delu zaslona, ki omogoča urejanje podrobnosti – oznak – izbranega predmeta.\n\n### Izbira vrste predmeta\n\nKo na zemljevid dodate točko, črto ali mnogokotnik, je treba najprej izbrati vrsto predmeta, ki ga ti opredeljujejo; na primer, ali je črta avtocesta oziroma stanovanjska ulica, ali je polje veleblagovnica oziroma točka gostilna v njej. V urejevalniku predmetov so najprej pokazane možnosti za najpogosteje uporabljene predmete, vse ostale pa je mogoče odbrati prek iskalnega polja.\n\nZa več podrobnosti o posameznem predmetu, kliknite na črko »*i*« na desnem robu opisa. S klikom na izbran gumb, se potrdi vrsta predmeta.\n\n### Uporaba vnosnih polj in urejanje oznak\n\nKo je predmet, katerega vrsta je že določena, izbran, se pokažejo vpisna polja z oznakami o predmetu, kot so naziv, naslov, položaj in druga.\n\nOznake lahko dodate s klikom na spustni meni »Dodaj polje«, na primer povezavo na Wikipedijo, dostopnost za invalidske vozičke in podobno.\n\nNa dnu urejevalnika predmetov lahko s klikom na gumb »Dodatne oznake« opredelite tudi številne druge oznake. Spletišče [Taginfo](http://taginfo.openstreetmap.org/) je odličen vir podrobnosti o najpogosteje uporabljanih oznakah in njihova raba.\n\nSpremembe, ki jih ustvarite, se krajevno shranjujejo samodejno in jih lahko kadarkoli razveljavite s klikom na gumb »Razveljavi«.\n\nVse spremembe se objavijo na zemljevid skupaj s podatki zemljevida.\n",
-            "buildings": "# Zgradbe\n\nNa zemljevidu OpenStreetMap je največja svetovna zbirka zgradb; lahko jo soustvarjate in izboljšujete.\n\n### Izbiranje\n\nZgradbo lahko izberete s klikom na njen obris. predmet bo izbran, pokazal pa se bosta tudi meni z orodji in stransko okno s podrobnostmi o predmetu.\n\n### Spreminjanje\n\nVčasih so predmeti na napačnem mestu ali pa imajo vnesene napačne oznake.\n\nZa premikanje celotne stavbe je treba to najprej izbrati. S klikom na orodje »Premakni« se omogoči premikanje z miško, s ponovnim klikom, pa se položaj shrani.\n\nZa popravilo določenega dela zgradbe kliknite in vlecite vozlišče, dokler oblika ne bo ustrezna.\n\n### Ustvarjanje\n\nEna od glavnih značilnosti zgradb na zemljevidu je, da so lahko opredeljene kot mnogokotniki ali kot točke. Priporočljivo je _zgradbe opredeljevati kot mnogokotnike, kadar je to mogoče_, podjetja, domove, ustanove in vse ostalo, kar se dogaja v teh zgradbah pa kot točke, ki jih umestimo znotraj mnogokotnika stavbe.\n\nZa začetek risanja zgradbe kliknite na gumb »Mnogokotnik«,\nrisanje pa lahko končate s pritiskom vnosne tipke ali pa s klikom na prvo oziroma zadnje vozlišče te zgradbe.\n\n### Odstranjevanje\n\nČe je zgradba prikazana popolnoma napačno – če je na primer ni na satelitskem posnetku oziroma ste prepričani, da je ni iz prve roke – jo lahko odstranite z zemljevida.\nPri brisanju predmetov bodite natančni – kot pri vseh urejanjih bodo spremembe vidne vsakomur.\nVčasih so satelitski posnetki zastareli in morda zato kakšne stavbe na njih še ni.\n\nZgradbo odstranite tako, da jo s klikom izberete, nato pa kliknete ikono smetnjaka ali pritisnete tipko za izbris.\n",
-            "relations": "# Zveza\n\nZveza je posebna vrsta predmeta, ki ostale predmete povezuje v skupine.\nNajpogostejše vrste zvez so na primer *cestne povezave* odsekov, ki pripadajo določeni prometnici\n(avtocesti, regionalni cesti, drugi poti) ali pa *več mnogokotnikov*, ki skupaj določajo kompleksno območje (na primer na več delov razkosano območje ali pa območja z vrzelmi).\n\nSkupina predmetov v zvezi so *člani* zveze. V stranski vrstici urejevalnika so navedene zveze za vsak predmet. S klikom na zvezo pa se izpiše seznam vseh njenih članov, sočasno pa so prikazani na zemljevidu.\n\nV večini primerov urejevalnik iD zveze samodejno vzdržuje, pri brisanju in ponovnem risanju pa se lahko pojavijo neskladja zvez. Ceste je na primer treba po posodobitvi dodati v isto skupino, kot pred brisanjem.\n\n## Urejanje zvez\n\nZa dodajanje predmeta v zvezo je treba predmet izbrati in klikniti gumb + v odseku \\Vse zveze\\ v stranski vrstici, nato pa predmet izbrati in vpisati ime zveze.\n\nZa ustvarjanje nove zveze je treba najprej izbrati predmet, ki bo član skupine, nato klikniti gumb + v odseku \\Vse zveze\\, na koncu pa izbrati možnost \\Nova zveza ...\\.\n\nOdstranitev predmeta iz zveze je enostavna; najprej je treba predmet izbrati, nato pa klikniti na ikono smetnjaka ob zvezi.\n\nVeč mnogokotnikov z vrzelmi lahko ustvarite z orodjem za združevanje. Dve narisani območji (zunanje\nin notranje) izberemo z miško sočasno s pritisnjeno tipko dvigalko Shift in kliknemo gumb \\Združi\\ +.\n\n"
+            "inspector": "# Uporaba urejevalnika predmetov\n\nUrejevalnik predmetov je polje na levem delu zaslona, ki omogoča urejanje podrobnosti – oznak – izbranega predmeta.\n\n### Izbira vrste predmeta\n\nKo na zemljevid dodate točko, črto ali mnogokotnik, je treba najprej izbrati vrsto predmeta, ki ga ti opredeljujejo; na primer, ali je črta avtocesta oziroma stanovanjska ulica, ali je polje veleblagovnica oziroma točka gostilna v njej. V urejevalniku predmetov so najprej pokazane možnosti za najpogosteje uporabljene predmete, vse ostale pa je mogoče odbrati prek iskalnega polja.\n\nZa več podrobnosti o posameznem predmetu, kliknite na črko »*i*« na desnem robu opisa. S klikom na izbran gumb, se potrdi vrsta predmeta.\n\n### Uporaba vnosnih polj in urejanje oznak\n\nKo je predmet, katerega vrsta je že določena, izbran, se pokažejo vpisna polja z oznakami o predmetu, kot so naziv, naslov, položaj in druga.\n\nOznake lahko dodate s klikom na spustni meni »Dodaj polje«, na primer povezavo na Wikipedijo, dostopnost za invalidske vozičke in podobno.\n\nNa dnu urejevalnika predmetov lahko s klikom na gumb »Dodatne oznake« opredelite tudi številne druge oznake. Spletišče [Taginfo](http://taginfo.openstreetmap.org/) je odličen vir podrobnosti o najpogosteje uporabljanih oznakah in njihova raba.\n\nSpremembe, ki jih ustvarite, se krajevno shranjujejo samodejno in jih lahko kadarkoli razveljavite s klikom na gumb »Razveljavi«.\n\nVse spremembe se objavijo na zemljevid skupaj s podatki zemljevida.\n"
         },
         "intro": {
             "done": "končano",
@@ -1127,9 +1133,6 @@
                 "access_simple": {
                     "label": "Dovoljen dostop"
                 },
-                "access_toilets": {
-                    "label": "Dostop"
-                },
                 "address": {
                     "label": "Naslov",
                     "placeholders": {
@@ -1282,6 +1285,10 @@
                 "brand": {
                     "label": "Znamka"
                 },
+                "bridge": {
+                    "label": "Vrsta",
+                    "placeholder": "Privzeto"
+                },
                 "building": {
                     "label": "Zgradba"
                 },
@@ -1341,6 +1348,9 @@
                         "clockwise": "V smeri urinega kazalca"
                     }
                 },
+                "clothes": {
+                    "label": "Oblačila"
+                },
                 "club": {
                     "label": "Vrsta"
                 },
@@ -1356,6 +1366,9 @@
                 "contact/webcam": {
                     "label": "Naslov URL spletne kamere",
                     "placeholder": "http://www.naslov.si/"
+                },
+                "content": {
+                    "label": "Vsebina"
                 },
                 "country": {
                     "label": "Država"
@@ -1524,15 +1537,14 @@
                 "generator/method": {
                     "label": "Način"
                 },
+                "generator/output/electricity": {
+                    "placeholder": "50 MW, 100 MW, 200 MW ..."
+                },
                 "generator/source": {
                     "label": "Vir podatkov"
                 },
                 "generator/type": {
                     "label": "Vrsta"
-                },
-                "golf_hole": {
-                    "label": "Referenca",
-                    "placeholder": "Številka luknje (1-18)"
                 },
                 "grape_variety": {
                     "label": "Sorte vinske trte"
@@ -1882,6 +1894,9 @@
                 "plant": {
                     "label": "Rastlina"
                 },
+                "plant/output/electricity": {
+                    "placeholder": "500 MW, 1000 MW, 2000 MW ..."
+                },
                 "population": {
                     "label": "Število prebivalcev"
                 },
@@ -1911,7 +1926,13 @@
                     }
                 },
                 "ref": {
-                    "label": "Referenca"
+                    "label": "Sklicna številka"
+                },
+                "ref_aeroway_gate": {
+                    "label": "Številka vrat"
+                },
+                "ref_golf_hole": {
+                    "label": "Številka luknje"
                 },
                 "relation": {
                     "label": "Vrsta"
@@ -2023,9 +2044,6 @@
                 "social_facility": {
                     "label": "Vrsta"
                 },
-                "source": {
-                    "label": "Vir"
-                },
                 "sport": {
                     "label": "Vrste športa"
                 },
@@ -2132,7 +2150,7 @@
                     "label": "Vrsta stolpa"
                 },
                 "tracktype": {
-                    "label": "Tip kolovoza",
+                    "label": "Vrsta kolovoza",
                     "options": {
                         "grade1": "Trdno: asfaltirano ali močno zbito vozišče",
                         "grade2": "Pretežno trdno: prodniki/kamni, pomešani z mehkejšim materialom",
@@ -2162,9 +2180,6 @@
                 },
                 "trees": {
                     "label": "Drevesa"
-                },
-                "tunnel": {
-                    "label": "Predor"
                 },
                 "vending": {
                     "label": "Vrsta dobrin"
@@ -2552,6 +2567,9 @@
                     "name": "Cerkev",
                     "terms": "stolnica,katedrala,bogoslužje"
                 },
+                "amenity/place_of_worship/hindu": {
+                    "name": "Hindujski tempel"
+                },
                 "amenity/place_of_worship/jewish": {
                     "name": "Sinagoga",
                     "terms": "židovski verski objekt,  judovski verski objekt, judovska sinagoga, judaizem"
@@ -2709,6 +2727,9 @@
                 "amenity/veterinary": {
                     "name": "Veterinar",
                     "terms": "veterinarska klinika,klinika za pse,klinika za mačke"
+                },
+                "amenity/waste/dog_excrement": {
+                    "name": "Koš za pasje iztrebke"
                 },
                 "amenity/waste_basket": {
                     "name": "Koš za odpadke",
@@ -2994,9 +3015,6 @@
                     "name": "Urar",
                     "terms": "urar,urarstvo,popravljanje ur"
                 },
-                "craft/confectionery": {
-                    "name": "Slaščičarna"
-                },
                 "craft/distillery": {
                     "name": "Destilarna",
                     "terms": "žganjarna,pivovarna,vino, vinarna,alkohol,žganje,pijača "
@@ -3097,10 +3115,6 @@
                     "name": "Gradbeni odri",
                     "terms": "postavljalec gradbenih odrov"
                 },
-                "craft/sculpter": {
-                    "name": "Kiparstvo",
-                    "terms": "kipar,rezbar"
-                },
                 "craft/shoemaker": {
                     "name": "Čevljarstvo",
                     "terms": "čevljar"
@@ -3108,10 +3122,6 @@
                 "craft/stonemason": {
                     "name": "Klesarstvo",
                     "terms": "klesar"
-                },
-                "craft/sweep": {
-                    "name": "Dimnikarstvo",
-                    "terms": "dimnikar"
                 },
                 "craft/tailor": {
                     "name": "Krojaštvo"
@@ -3294,9 +3304,6 @@
                 "highway/path": {
                     "name": "Pot",
                     "terms": "steza,gaz"
-                },
-                "highway/pedestrian": {
-                    "name": "Ulica namenjena pešcem"
                 },
                 "highway/primary": {
                     "name": "Glavna cesta",
@@ -3857,6 +3864,12 @@
                     "name": "Vodovod",
                     "terms": "vodno črpališče,vodno zajetje"
                 },
+                "man_made/watermill": {
+                    "name": "Vodni mlin"
+                },
+                "man_made/windmill": {
+                    "name": "Mlin na veter"
+                },
                 "man_made/works": {
                     "name": "Tovarna",
                     "terms": "tvornica,obrat,fabrika"
@@ -3864,6 +3877,9 @@
                 "manhole": {
                     "name": "Jašek",
                     "terms": "jašek, vhodna odprtina, kanalizacija, elektro, vodovod, telekom, cestni jašek"
+                },
+                "manhole/drain": {
+                    "name": "Odtočni kanal"
                 },
                 "natural": {
                     "name": "Naravna prvina",
@@ -3977,17 +3993,9 @@
                     "name": "Urad",
                     "terms": "pisarna"
                 },
-                "office/accountant": {
-                    "name": "Računovodstvo",
-                    "terms": "računovodja,davčno svetovanje,finančno svetovanje"
-                },
                 "office/administrative": {
                     "name": "Upravna enota",
                     "terms": "Upravni urad,upravna pisarna"
-                },
-                "office/architect": {
-                    "name": "Arhitekt",
-                    "terms": "arhitekturni biro"
                 },
                 "office/company": {
                     "name": "Podjetje",
@@ -4020,10 +4028,6 @@
                     "name": "Zavarovalnica",
                     "terms": "zavarovalniški agent,zavarovalni agent,zavarovalni posrednik"
                 },
-                "office/it": {
-                    "name": "Strokovnjak za informacijske tehnologije",
-                    "terms": "IT strokovnjak,informacijski strokovnjak"
-                },
                 "office/lawyer": {
                     "name": "Pravna pisarna",
                     "terms": "pravni urad,advokat,odvetništvo"
@@ -4031,17 +4035,12 @@
                 "office/lawyer/notary": {
                     "name": "Notarska pisarna"
                 },
-                "office/newspaper": {
-                    "name": "Časopisna hiša",
-                    "terms": "časopis"
-                },
                 "office/ngo": {
                     "name": "Sedež nevladne organizacije",
                     "terms": "nevladna organizacija"
                 },
                 "office/physician": {
-                    "name": "Ambulanta",
-                    "terms": "zdravnik,zdravnica"
+                    "name": "Ambulanta"
                 },
                 "office/political_party": {
                     "name": "Politična stranka",
@@ -4054,10 +4053,6 @@
                 "office/telecommunication": {
                     "name": "Telekomunikacijska pisarna",
                     "terms": "telekomunikacije,telekom"
-                },
-                "office/therapist": {
-                    "name": "Terapevt",
-                    "terms": "terapevtka,psihoterapevt,psihoterapevtka,psihiater,psihiatrinja"
                 },
                 "office/travel_agent": {
                     "name": "Potovalna agencija"
@@ -4124,6 +4119,12 @@
                 "power/generator": {
                     "name": "Elektrarna",
                     "terms": "agregat,električni generator"
+                },
+                "power/generator/source_nuclear": {
+                    "name": "Jedrski reaktor"
+                },
+                "power/generator/source_wind": {
+                    "name": "Vetrna turbina"
                 },
                 "power/line": {
                     "name": "Daljnovod (stolpi)",
@@ -4215,6 +4216,9 @@
                 "railway/subway_entrance": {
                     "name": "Vhod podzemne železnice",
                     "terms": "vhod v podzemno železnico"
+                },
+                "railway/switch": {
+                    "name": "Kretnica"
                 },
                 "railway/tram": {
                     "name": "Tramvaj",
@@ -4655,10 +4659,6 @@
                     "name": "Parkirišče za avtodome",
                     "terms": "parkirišče za karavaning"
                 },
-                "tourism/chalet": {
-                    "name": "Apartma",
-                    "terms": "stanovanje"
-                },
                 "tourism/gallery": {
                     "name": "Umetnostna galerija"
                 },
@@ -4739,10 +4739,6 @@
                 "traffic_calming/rumble_strip": {
                     "name": "Cestne tresavke",
                     "terms": "grobi opozoril pas, cestni, opozorilni pas, tresavke, ležeči policaj, grbine"
-                },
-                "traffic_calming/table": {
-                    "name": "Dvignjen prehod za pešce",
-                    "terms": "prehod za pešce, grbina, zebra"
                 },
                 "type/boundary": {
                     "name": "Meja",
@@ -4935,9 +4931,6 @@
                 },
                 "description": "Satelitski posnetki in posnetki iz zraka",
                 "name": "Posnetki Mapbox Satellite"
-            },
-            "New_and_Misaligned_TIGER_Roads-2013": {
-                "description": "Pri približanju do ravni 16+ so podatki zemljevida v javni domeni z dovoljenjem US Census. Pri večjih približanjih, pa so prikazane le spremembe od leta 2006 naprej, neupoštevajoč sprememb, ki so že vključene v OpenStreetMap"
             },
             "OSM_Inspector-Addresses": {
                 "attribution": {

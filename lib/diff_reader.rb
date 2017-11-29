@@ -86,8 +86,8 @@ class DiffReader
     with_element do |model_name, _model_attributes|
       model = MODELS[model_name]
       if model.nil?
-        raise OSM::APIBadUserInput.new("Unexpected element type #{model_name}, " +
-                                       "expected node, way or relation.")
+        raise OSM::APIBadUserInput, "Unexpected element type #{model_name}, " \
+                                       "expected node, way or relation."
       end
       # new in libxml-ruby >= 2, expand returns an element not associated
       # with a document. this means that there's no encoding parameter,
@@ -130,7 +130,7 @@ class DiffReader
 
     # take the first element and check that it is an osmChange element
     @reader.read
-    raise OSM::APIBadUserInput.new("Document element should be 'osmChange'.") if @reader.name != "osmChange"
+    raise OSM::APIBadUserInput, "Document element should be 'osmChange'." if @reader.name != "osmChange"
 
     result = OSM::API.new.get_xml_doc
     result.root.name = "diffResult"
@@ -152,7 +152,7 @@ class DiffReader
           # check if the placeholder ID has been given before and throw
           # an exception if it has - we can't create the same element twice.
           model_sym = model.to_s.downcase.to_sym
-          raise OSM::APIBadUserInput.new("Placeholder IDs must be unique for created elements.") if ids[model_sym].include? placeholder_id
+          raise OSM::APIBadUserInput, "Placeholder IDs must be unique for created elements." if ids[model_sym].include? placeholder_id
 
           # some elements may have placeholders for other elements in the
           # diff, so we must fix these before saving the element.
@@ -252,7 +252,7 @@ class DiffReader
 
       else
         # no other actions to choose from, so it must be the users fault!
-        raise OSM::APIChangesetActionInvalid.new(action_name)
+        raise OSM::APIChangesetActionInvalid, action_name
       end
     end
 

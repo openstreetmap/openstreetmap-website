@@ -10,7 +10,7 @@ class UserRolesController < ApplicationController
   before_action :in_role, :only => [:revoke]
 
   def grant
-    @this_user.roles.create(:role => @role, :granter_id => current_user.id)
+    @this_user.roles.create(:role => @role, :granter => current_user)
     redirect_to :controller => "user", :action => "view", :display_name => @this_user.display_name
   end
 

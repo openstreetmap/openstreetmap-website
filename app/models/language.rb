@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: languages
+#
+#  code         :string           not null, primary key
+#  english_name :string           not null
+#  native_name  :string
+#
+
 class Language < ActiveRecord::Base
   self.primary_key = "code"
 

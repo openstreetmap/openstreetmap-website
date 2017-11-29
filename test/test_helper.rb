@@ -9,7 +9,7 @@ require "minitest/rails/capybara"
 
 module ActiveSupport
   class TestCase
-    include FactoryGirl::Syntax::Methods
+    include FactoryBot::Syntax::Methods
 
     ##
     # takes a block which is executed in the context of a different

@@ -151,7 +151,7 @@ class AmfController < ApplicationController
         cs = Changeset.find(closeid.to_i)
         cs.set_closed_time_now
         if cs.user_id != user.id
-          raise OSM::APIUserChangesetMismatchError.new
+          raise OSM::APIUserChangesetMismatchError
         elsif closecomment.empty?
           cs.save!
         else
@@ -186,7 +186,7 @@ class AmfController < ApplicationController
   # Return presets (default tags, localisation etc.):
   # uses POTLATCH_PRESETS global, set up in OSM::Potlatch.
 
-  def getpresets(usertoken, lang) #:doc:
+  def getpresets(usertoken, _lang)
     user = getuser(usertoken)
 
     langs = if user && !user.languages.empty?
@@ -229,7 +229,7 @@ class AmfController < ApplicationController
       begin
         other = YAML.safe_load(File.open(Rails.root.join("config", "potlatch", "locales", "#{lang}.yml")))[lang]
         loaded_lang = lang
-      rescue
+      rescue StandardError
         other = en
       end
 
@@ -253,7 +253,7 @@ class AmfController < ApplicationController
   # nodes in the bbox, nodes are any visible nodes in the bbox but not
   # used in any way, rel is any relation which refers to either a way
   # or node that we're returning.
-  def whichways(xmin, ymin, xmax, ymax) #:doc:
+  def whichways(xmin, ymin, xmax, ymax)
     amf_handle_error_with_timeout("'whichways'", nil, nil) do
       enlarge = [(xmax - xmin) / 8, 0.01].min
       xmin -= enlarge
@@ -297,7 +297,7 @@ class AmfController < ApplicationController
   # Find deleted ways in current bounding box (similar to whichways, but ways
   # with a deleted node only - not POIs or relations).
 
-  def whichways_deleted(xmin, ymin, xmax, ymax) #:doc:
+  def whichways_deleted(xmin, ymin, xmax, ymax)
     amf_handle_error_with_timeout("'whichways_deleted'", nil, nil) do
       enlarge = [(xmax - xmin) / 8, 0.01].min
       xmin -= enlarge
@@ -321,7 +321,7 @@ class AmfController < ApplicationController
   # Get a way including nodes and tags.
   # Returns the way id, a Potlatch-style array of points, a hash of tags, the version number, and the user ID.
 
-  def getway(wayid) #:doc:
+  def getway(wayid)
     amf_handle_error_with_timeout("'getway' #{wayid}", "way", wayid) do
       if POTLATCH_USE_SQL
         points = sql_get_nodes_in_way(wayid)
@@ -366,7 +366,7 @@ class AmfController < ApplicationController
   # 4. version,
   # 5. is this the current, visible version? (boolean)
 
-  def getway_old(id, timestamp) #:doc:
+  def getway_old(id, timestamp)
     amf_handle_error_with_timeout("'getway_old' #{id}, #{timestamp}", "way", id) do
       if timestamp == ""
         # undelete
@@ -375,7 +375,7 @@ class AmfController < ApplicationController
       else
         begin
           # revert
-          timestamp = DateTime.strptime(timestamp.to_s, "%d %b %Y, %H:%M:%S")
+          timestamp = Time.strptime(timestamp.to_s, "%d %b %Y, %H:%M:%S")
           old_way = OldWay.where("way_id = ? AND timestamp <= ?", id, timestamp).unredacted.order("timestamp DESC").first
           unless old_way.nil?
             if old_way.visible
@@ -411,7 +411,7 @@ class AmfController < ApplicationController
   # sort and collapse list (to within 2 seconds); trim all dates before the
   # start date of the way.
 
-  def getway_history(wayid) #:doc:
+  def getway_history(wayid)
     revdates = []
     revusers = {}
     Way.find(wayid).old_ways.unredacted.collect do |a|
@@ -444,7 +444,7 @@ class AmfController < ApplicationController
 
   # Find history of a node. Returns 'node', id, and an array of previous versions as above.
 
-  def getnode_history(nodeid) #:doc:
+  def getnode_history(nodeid)
     history = Node.find(nodeid).old_nodes.unredacted.reverse.collect do |old_node|
       [(old_node.timestamp + 1).strftime("%d %b %Y, %H:%M:%S")] + change_user(old_node)
     end
@@ -492,7 +492,7 @@ class AmfController < ApplicationController
   # 4. list of members,
   # 5. version.
 
-  def getrelation(relid) #:doc:
+  def getrelation(relid)
     amf_handle_error("'getrelation' #{relid}", "relation", relid) do
       rel = Relation.where(:id => relid).first
 
@@ -528,7 +528,7 @@ class AmfController < ApplicationController
   # 2. new relation id,
   # 3. version.
 
-  def putrelation(renumberednodes, renumberedways, usertoken, changeset_id, version, relid, tags, members, visible) #:doc:
+  def putrelation(renumberednodes, renumberedways, usertoken, changeset_id, version, relid, tags, members, visible)
     amf_handle_error("'putrelation' #{relid}", "relation", relid) do
       user = getuser(usertoken)
 
@@ -582,7 +582,7 @@ class AmfController < ApplicationController
           new_relation.id = relid
           relation.delete_with_history!(new_relation, user)
         end
-      end # transaction
+      end
 
       if relid <= 0
         return [0, "", relid, new_relation.id, new_relation.version]
@@ -616,7 +616,7 @@ class AmfController < ApplicationController
   # 6. hash of changed node versions (node=>version)
   # 7. hash of deleted node versions (node=>version)
 
-  def putway(renumberednodes, usertoken, changeset_id, wayversion, originalway, pointlist, attributes, nodes, deletednodes) #:doc:
+  def putway(renumberednodes, usertoken, changeset_id, wayversion, originalway, pointlist, attributes, nodes, deletednodes)
     amf_handle_error("'putway' #{originalway}", "way", originalway) do
       # -- Initialise
 
@@ -679,7 +679,7 @@ class AmfController < ApplicationController
 
         pointlist.collect! do |a|
           renumberednodes[a] ? renumberednodes[a] : a
-        end # renumber nodes
+        end
         new_way = Way.new
         new_way.tags = attributes
         new_way.nds = pointlist
@@ -711,7 +711,7 @@ class AmfController < ApplicationController
             # and we don't want to delete it
           end
         end
-      end # transaction
+      end
 
       [0, "", originalway, way.id, renumberednodes, way.version, nodeversions, deletednodes]
     end
@@ -726,7 +726,7 @@ class AmfController < ApplicationController
   # 3. new node id,
   # 4. version.
 
-  def putpoi(usertoken, changeset_id, version, id, lon, lat, tags, visible) #:doc:
+  def putpoi(usertoken, changeset_id, version, id, lon, lat, tags, visible)
     amf_handle_error("'putpoi' #{id}", "node", id) do
       user = getuser(usertoken)
       return -1, "You are not logged in, so the point could not be saved." unless user
@@ -772,7 +772,7 @@ class AmfController < ApplicationController
           new_node.id = id
           node.delete_with_history!(new_node, user)
         end
-      end # transaction
+      end
 
       if id <= 0
         return [0, "", id, new_node.id, new_node.version]
@@ -787,7 +787,7 @@ class AmfController < ApplicationController
   #
   # Returns array of id, long, lat, hash of tags, (current) version.
 
-  def getpoi(id, timestamp) #:doc:
+  def getpoi(id, timestamp)
     amf_handle_error("'getpoi' #{id}", "node", id) do
       id = id.to_i
       n = Node.where(:id => id).first
@@ -816,7 +816,7 @@ class AmfController < ApplicationController
   # of the nodes have been changed by someone else then, there is a problem!
   # Returns 0 (success), unchanged way id, new way version, new node versions.
 
-  def deleteway(usertoken, changeset_id, way_id, way_version, deletednodes) #:doc:
+  def deleteway(usertoken, changeset_id, way_id, way_version, deletednodes)
     amf_handle_error("'deleteway' #{way_id}", "way", way_id) do
       user = getuser(usertoken)
       return -1, "You are not logged in, so the way could not be deleted." unless user
@@ -853,7 +853,7 @@ class AmfController < ApplicationController
             # elsewhere and we don't want to delete it
           end
         end
-      end # transaction
+      end
       [0, "", way_id, old_way.version, nodeversions]
     end
   end
@@ -866,7 +866,7 @@ class AmfController < ApplicationController
   # When we are writing to the api, we need the actual user model,
   # not just the id, hence this abstraction
 
-  def getuser(token) #:doc:
+  def getuser(token)
     if token =~ /^(.+)\:(.+)$/
       User.authenticate(:username => Regexp.last_match(1), :password => Regexp.last_match(2))
     else
@@ -907,7 +907,7 @@ class AmfController < ApplicationController
   # Alternative SQL queries for getway/whichways
 
   def sql_find_ways_in_area(bbox)
-    sql = <<-EOF
+    sql = <<-SQL
     SELECT DISTINCT current_ways.id AS wayid,current_ways.version AS version
       FROM current_way_nodes
     INNER JOIN current_nodes ON current_nodes.id=current_way_nodes.node_id
@@ -915,20 +915,20 @@ class AmfController < ApplicationController
        WHERE current_nodes.visible=TRUE
        AND current_ways.visible=TRUE
        AND #{OSM.sql_for_area(bbox, 'current_nodes.')}
-    EOF
+    SQL
     ActiveRecord::Base.connection.select_all(sql).collect { |a| [a["wayid"].to_i, a["version"].to_i] }
   end
 
   def sql_find_pois_in_area(bbox)
     pois = []
-    sql = <<-EOF
+    sql = <<-SQL
       SELECT current_nodes.id,current_nodes.latitude*0.0000001 AS lat,current_nodes.longitude*0.0000001 AS lon,current_nodes.version
       FROM current_nodes
        LEFT OUTER JOIN current_way_nodes cwn ON cwn.node_id=current_nodes.id
        WHERE current_nodes.visible=TRUE
        AND cwn.id IS NULL
        AND #{OSM.sql_for_area(bbox, 'current_nodes.')}
-    EOF
+    SQL
     ActiveRecord::Base.connection.select_all(sql).each do |row|
       poitags = {}
       ActiveRecord::Base.connection.select_all("SELECT k,v FROM current_node_tags WHERE id=#{row['id']}").each do |n|
@@ -942,36 +942,36 @@ class AmfController < ApplicationController
   def sql_find_relations_in_area_and_ways(bbox, way_ids)
     # ** It would be more Potlatchy to get relations for nodes within ways
     #    during 'getway', not here
-    sql = <<-EOF
+    sql = <<-SQL
       SELECT DISTINCT cr.id AS relid,cr.version AS version
       FROM current_relations cr
       INNER JOIN current_relation_members crm ON crm.id=cr.id
       INNER JOIN current_nodes cn ON crm.member_id=cn.id AND crm.member_type='Node'
        WHERE #{OSM.sql_for_area(bbox, 'cn.')}
-      EOF
+      SQL
     unless way_ids.empty?
-      sql += <<-EOF
+      sql += <<-SQL
        UNION
         SELECT DISTINCT cr.id AS relid,cr.version AS version
         FROM current_relations cr
         INNER JOIN current_relation_members crm ON crm.id=cr.id
          WHERE crm.member_type='Way'
          AND crm.member_id IN (#{way_ids.join(',')})
-        EOF
+        SQL
     end
     ActiveRecord::Base.connection.select_all(sql).collect { |a| [a["relid"].to_i, a["version"].to_i] }
   end
 
   def sql_get_nodes_in_way(wayid)
     points = []
-    sql = <<-EOF
+    sql = <<-SQL
       SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,current_nodes.id,current_nodes.version
       FROM current_way_nodes,current_nodes
        WHERE current_way_nodes.id=#{wayid.to_i}
        AND current_way_nodes.node_id=current_nodes.id
        AND current_nodes.visible=TRUE
       ORDER BY sequence_id
-    EOF
+    SQL
     ActiveRecord::Base.connection.select_all(sql).each do |row|
       nodetags = {}
       ActiveRecord::Base.connection.select_all("SELECT k,v FROM current_node_tags WHERE id=#{row['id']}").each do |n|

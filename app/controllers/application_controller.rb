@@ -346,7 +346,7 @@ class ApplicationController < ActionController::Base
   # or raises a suitable error. +method+ should be a symbol, e.g: :put or :get.
   def assert_method(method)
     ok = request.send((method.to_s.downcase + "?").to_sym)
-    raise OSM::APIBadMethodError.new(method) unless ok
+    raise OSM::APIBadMethodError, method unless ok
   end
 
   ##
@@ -366,7 +366,7 @@ class ApplicationController < ActionController::Base
       yield
     end
   rescue ActionView::Template::Error => ex
-    ex = ex.original_exception
+    ex = ex.cause
 
     if ex.is_a?(Timeout::Error) ||
        (ex.is_a?(ActiveRecord::StatementInvalid) && ex.message =~ /execution expired/)
@@ -413,7 +413,9 @@ class ApplicationController < ActionController::Base
 
   def map_layout
     append_content_security_policy_directives(
+      :child_src => %w[127.0.0.1:8111 127.0.0.1:8112],
       :connect_src => %w[nominatim.openstreetmap.org overpass-api.de router.project-osrm.org valhalla.mapzen.com],
+      :form_action => %w[render.openstreetmap.org],
       :script_src => %w[graphhopper.com open.mapquestapi.com],
       :img_src => %w[developer.mapquest.com]
     )
@@ -425,6 +427,10 @@ class ApplicationController < ActionController::Base
     end
 
     request.xhr? ? "xhr" : "map"
+  end
+
+  def allow_thirdparty_images
+    append_content_security_policy_directives(:img_src => %w[*])
   end
 
   def preferred_editor

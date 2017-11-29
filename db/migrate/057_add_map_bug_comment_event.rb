@@ -1,6 +1,6 @@
 require "migrate"
 
-class AddMapBugCommentEvent < ActiveRecord::Migration
+class AddMapBugCommentEvent < ActiveRecord::Migration[5.0]
   def self.up
     create_enumeration :map_bug_event_enum, %w[opened closed reopened commented hidden]
 

@@ -403,7 +403,6 @@ tr:
     search:
       title:
         latlon: <a href="http://openstreetmap.org/">OSM</a>'in sonuçları
-        us_postcode: <a href="http://geocoder.us/">Geocoder.us</a>'ın sonuçları
         uk_postcode: <a href="http://www.npemap.org.uk/">FreeThe Postcode</a> sonuçları
           (İngiltere)
         ca_postcode: <a href="http://geocoder.ca/">Geocoder.CA</a>'dan sonuçları
@@ -1098,6 +1097,7 @@ tr:
       header: 'OpenStreetMap kullanıcı %{from_user} sana %{subject} konulu bir mesaj
         gönderdi:'
     friend_notification:
+      hi: Merhaba %{to_user},
       subject: '[OpenStreetMap] kullanıcı %{user} seni arkadaş olarak ekledi'
       had_added_you: Kullanıcı %{user} seni arkadaş olarak OpenStreetMap'te ekledi.
       see_their_profile: '%{userurl} üzerinden profillerini görebilirsiniz.'
@@ -1115,10 +1115,14 @@ tr:
       subject: '[OpenStreetMap]''e hoşgeldin'
       greeting: Merhaba!
       created: Birisi (umarım sen) %{site_url} sitesinde yeni bir hesap açtı.
+      welcome: Hesabınızı doğruladıktan sonra size, başlamanız için gereken bazı ek
+        bilgiler vereceğiz.
     email_confirm:
       subject: '[OpenStreetMap] E-posta adresi onaylama mesajı'
     email_confirm_plain:
       greeting: Merhaba,
+      hopefully_you: Birisi (umarız ki siz) %{server_url} adresindeki e-posta adresinizi
+        %{new_address} olarak değiştirmek istiyor.
       click_the_link: Bu e-posta adresi sana aitse onaylamak için aşağıdaki bağlantıyı
         tıkla.
     email_confirm_html:
@@ -1131,10 +1135,14 @@ tr:
       subject: '[OpenStreetMap] Parola sıfırlama isteği'
     lost_password_plain:
       greeting: Merhaba,
+      hopefully_you: Birisi (muhtemelen siz) bu e-posta adresinin openstreetmap.org
+        hesabındaki şifresinin sıfırlanmasını istedi.
       click_the_link: Bu sizseniz, lütfen parolanızı sıfırlamak için aşağıdaki bağlantıya
         tıklayın.
     lost_password_html:
       greeting: Merhaba,
+      hopefully_you: Birisi (muhtemelen siz) bu e-posta adresinin openstreetmap.org
+        hesabındaki şifresinin sıfırlanmasını istedi.
       click_the_link: Bu sizseniz, lütfen parolanızı sıfırlamak için aşağıdaki bağlantıya
         tıklayın.
     note_comment_notification:
@@ -1143,6 +1151,27 @@ tr:
       commented:
         subject_own: '[OpenStreetMap] notlarından birisini %{commenter} tarafından
           yorumlandı'
+        subject_other: '[OpenStreetMap] %{commenter}, ilgilendiğiniz bir not üzerinde
+          yorum yaptı.'
+        your_note: '%{commenter}, %{place} yakınlarındaki harita notlarınızdan biri
+          üzerinde bir yorum yaptı.'
+        commented_note: '%{commenter}, yorum yaptığınız bir harita notu üzerine yorum
+          yaptı. Bu not %{place} yakınlarında.'
+      closed:
+        subject_own: '[OpenStreetMap] %{commenter}, notlarınızdan birini çözdü.'
+        subject_other: '[OpenStreetMap] %{commenter}, ilgilendiğiniz notlardan birini
+          çözdü'
+        your_note: '%{commenter}, %{place} yakınlarındaki harita notlarınızdan birini
+          çözdü.'
+        commented_note: '%{commenter} yorum yaptığınız harita notlarınızdan birini
+          çözdü. Bu not %{place} yakınlarında.'
+      reopened:
+        subject_own: '[OpenStreetMap] %{commenter}, notlarınızdan birini yeniden etkinleştirdi.'
+        subject_other: '[OpenStreetMap] %{commenter}, ilgilendiğiniz bir notu yeniden
+          etkinleştirdi'
+        your_note: '%{commenter}, %{place} yakınlarındaki harita notlarınızdan birini
+          yeniden etkinleştirdi.'
+      details: Not hakkındaki ayrıntılı bilgiler %{url} bağlantısında görülebilir.
     changeset_comment_notification:
       hi: Merhaba %{to_user},
       greeting: Merhaba,
@@ -1193,6 +1222,7 @@ tr:
       date: Tarih
       reply_button: Yanıtla
       unread_button: Okunmadı olarak işaretle
+      delete_button: Sil
       back: Geri
       to: Alıcı
     sent_message_summary:
@@ -1204,15 +1234,21 @@ tr:
       deleted: Mesaj silindi
   site:
     index:
+      js_1: JavaScript desteklemeyen bir tarayıcı kullanıyorsunuz ya da JavaScript
+        devre dışı bırakılmış.
       js_2: OpenStreetMap harita gösterim için JavaScript kullanıyor.
       permalink: Kalıcı Bağlantı
       shortlink: Kısa Bağlantı
       createnote: Bir not ekle
       license:
         copyright: Telif Hakkı OpenStreetMap ve katılımcılar, açık lisans altında
+      remote_failed: Düzenleme başarısız - JOSM veya Merkaartor'un yüklendiğinden
+        ve uzaktan kontrol seçeneğinin etkinleştirildiğinden emin olun.
     edit:
       user_page_link: kullanıcı sayfası
       anon_edits: (%{link})
+      potlatch2_unsaved_changes: Kaydedilmemiş değişiklikleriniz var. (Potlatch 2'de
+        kaydetmek için kaydet'e tıklamalısınız.)
       id_not_configured: iD yapılandırılmamış
       no_iframe_support: Bu özelliği görüntülemek için gerekli olan HTML iframe tarayıcınız
         desteklemiyor.
@@ -1288,6 +1324,8 @@ tr:
           private: Özel giriş
           destination: Hedef noktası
           construction: yapım aşamasında yolu
+          bicycle_shop: Bisikletçi
+          bicycle_parking: Bisiklet parkı
           toilets: Tuvaletler
     richtext_area:
       edit: Düzenle
@@ -1401,6 +1439,9 @@ tr:
       heading: GPX Yükleme Servisi Çevrimdışı
     georss:
       title: OpenStreetMap GPS İzleri
+  application:
+    require_moderator:
+      not_a_moderator: Bu eylemi gerçekleştirebilmek için moderatör olmalısınız.
   oauth:
     oauthorize_success:
       verification: Doğrulama kodu %{code}.

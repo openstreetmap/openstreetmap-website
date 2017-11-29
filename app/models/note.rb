@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: notes
+#
+#  id         :integer          not null, primary key
+#  latitude   :integer          not null
+#  longitude  :integer          not null
+#  tile       :integer          not null
+#  updated_at :datetime         not null
+#  created_at :datetime         not null
+#  status     :enum             not null
+#  closed_at  :datetime
+#
+# Indexes
+#
+#  notes_created_at_idx   (created_at)
+#  notes_tile_status_idx  (tile,status)
+#  notes_updated_at_idx   (updated_at)
+#
+
 class Note < ActiveRecord::Base
   include GeoRecord
 

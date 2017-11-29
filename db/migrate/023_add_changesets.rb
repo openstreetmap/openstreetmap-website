@@ -1,6 +1,6 @@
 require "migrate"
 
-class AddChangesets < ActiveRecord::Migration
+class AddChangesets < ActiveRecord::Migration[5.0]
   @conv_user_tables = %w[current_nodes current_relations current_ways nodes relations ways]
 
   def self.up
@@ -28,7 +28,7 @@ class AddChangesets < ActiveRecord::Migration
     # all edits up to the API change,
     # all the changesets will have the id of the user that made them.
     # We need to generate a changeset for each user in the database
-    execute "INSERT INTO changesets (id, user_id, created_at, open)" +
+    execute "INSERT INTO changesets (id, user_id, created_at, open)" \
             "SELECT id, id, creation_time, false from users;"
 
     @conv_user_tables.each do |tbl|

@@ -1,4 +1,3 @@
-# coding: utf-8
 
 require "test_helper"
 require "geocoder_controller"
@@ -14,10 +13,6 @@ class GeocoderControllerTest < ActionController::TestCase
     assert_routing(
       { :path => "/geocoder/search_latlon", :method => :get },
       { :controller => "geocoder", :action => "search_latlon" }
-    )
-    assert_routing(
-      { :path => "/geocoder/search_us_postcode", :method => :get },
-      { :controller => "geocoder", :action => "search_us_postcode" }
     )
     assert_routing(
       { :path => "/geocoder/search_uk_postcode", :method => :get },
@@ -253,7 +248,7 @@ class GeocoderControllerTest < ActionController::TestCase
     ].each do |code|
       post :search, :params => { :query => code }
       assert_response :success
-      assert_equal %w[us_postcode osm_nominatim], assigns(:sources)
+      assert_equal %w[osm_nominatim], assigns(:sources)
     end
   end
 
@@ -302,25 +297,6 @@ class GeocoderControllerTest < ActionController::TestCase
 
     get :search_latlon, :params => { :lat => 1.23, :lon => 180.23, :zoom => 16 }, :xhr => true
     results_check_error "Longitude 180.23 out of range"
-  end
-
-  ##
-  # Test the US postcode search
-  def test_search_us_postcode
-    with_http_stubs "geocoder_us" do
-      get :search_us_postcode, :xhr => true,
-                               :params => { :query => "90210", :zoom => 10,
-                                            :minlon => -0.559, :minlat => 51.217,
-                                            :maxlon => 0.836, :maxlat => 51.766 }
-      results_check :prefix => "Beverly Hills, CA,", :name => "90210",
-                    :lat => 34.088808, :lon => -118.40612
-
-      get :search_us_postcode, :xhr => true,
-                               :params => { :query => "00000", :zoom => 10,
-                                            :minlon => -0.559, :minlat => 51.217,
-                                            :maxlon => 0.836, :maxlat => 51.766 }
-      results_check
-    end
   end
 
   ##

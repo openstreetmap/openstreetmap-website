@@ -6,6 +6,7 @@
 # Author: Snævar
 # Author: Sveinki
 # Author: Sveinn í Felli
+# Author: Vignir
 # Author: Ævar Arnfjörð Bjarmason
 ---
 is:
@@ -77,7 +78,7 @@ is:
         body: Texti
         recipient: Móttakandi
       user:
-        email: Tölvupóstfang
+        email: Netfang
         active: Virkur
         display_name: Sýnilegt nafn
         description: Lýsing
@@ -166,7 +167,7 @@ is:
         node: hnútur
         way: leið
         relation: vensl
-        changeset: fannst ekki breytingasett
+        changeset: breytingasett
         note: minnispunktur
     timeout:
       sorry: Ekki var hægt að ná í gögn fyrir %{type} með kennitöluna %{id}, það tók
@@ -178,6 +179,7 @@ is:
         changeset: breytingasettið
         note: minnispunktur
     redacted:
+      redaction: Endurskoðun %{id}
       type:
         node: hnút
         way: leið
@@ -191,8 +193,8 @@ is:
     tag_details:
       tags: Merki
       wiki_link:
-        key: Wiki-síðan fyrir %{key} merkið
-        tag: Wiki-síðan fyrir %{key}=%{value} merkið
+        key: Wiki-síðan fyrir merkið %{key}
+        tag: Wiki-síðan fyrir merkið %{key}=%{value}
       wikidata_link: Atriðið %{page} á Wikidata
       wikipedia_link: „%{page}“ greinin á Wikipedia
       telephone_link: Hringja í %{phone_number}
@@ -225,8 +227,8 @@ is:
   changeset:
     changeset_paging_nav:
       showing_page: Síða %{page}
-      next: Næsta »
-      previous: « Fyrra
+      next: Áfram »
+      previous: « Til baka
     changeset:
       anonymous: Nafnlaus
       no_edits: (engar breytingar)
@@ -241,17 +243,17 @@ is:
       title: Breytingasett
       title_user: Breytingar eftir %{user}
       title_friend: Breytingar eftir vini þína
-      title_nearby: Breytingasett eftir nálæga notendur
+      title_nearby: Breytingar eftir nálæga notendur
       empty: Engin breytingasett fundust.
       load_more: Hlaða inn fleiri
     rss:
-      commented_at_html: Uppfært fyrir %{when} síðan
-      commented_at_by_html: Uppfært fyrir %{when} síðan af %{user}
+      commented_at_html: Uppfært fyrir %{when}
+      commented_at_by_html: Uppfært fyrir %{when} af %{user}
       full: Öll umræðan
   diary_entry:
     new:
       title: Ný bloggfærsla
-      publish_button: Gefa út
+      publish_button: Birta
     list:
       title: Blogg notenda
       title_friends: Blogg vina
@@ -362,7 +364,6 @@ is:
     search:
       title:
         latlon: Niðurstöður frá <a href="http://openstreetmap.org/">Internal</a>
-        us_postcode: Niðurstöður frá <a href="http://geocoder.us/">Geocoder.us</a>
         uk_postcode: Niðurstöður frá <a href="http://www.npemap.org.uk/">NPEMap /
           FreeThe Postcode</a>
         ca_postcode: Niðurstöður frá <a href="http://geocoder.ca/">Geocoder.CA</a>
@@ -376,7 +377,7 @@ is:
       prefix_format: '%{name}:'
       prefix:
         aerialway:
-          cable_car: Kláflyfta
+          cable_car: Kláfur
           chair_lift: Stólalyfta
           drag_lift: Toglyfta
           gondola: Eggjalyfta
@@ -386,7 +387,7 @@ is:
           gate: Hlið
           helipad: Þyrlupallur
           runway: Flugbraut
-          taxiway: Akstursbraut
+          taxiway: Akbraut flugvéla
           terminal: Flugstöð
         amenity:
           animal_shelter: Dýraheimili
@@ -404,15 +405,15 @@ is:
           bureau_de_change: Gjaldeyrisskipti
           bus_station: Strætóstöð
           cafe: Kaffihús
-          car_rental: Bílaleigan
-          car_wash: Bílaþvottastöðin
+          car_rental: Bílaleiga
+          car_wash: Bílaþvottastöð
           casino: Spilavíti
           charging_station: Hleðslustöð
           childcare: Barnagæsla
           cinema: Kvikmyndahús
           clinic: Heilsugæsla
           clock: Klukka
-          college: Framhaldskóli
+          college: Framhaldsskóli
           community_centre: Samfélagsmiðstöð
           courthouse: Dómshús
           crematorium: Bálstofa
@@ -603,7 +604,9 @@ is:
           club: Klúbbur
           common: Almenningur
           dog_park: Hundagarður
+          fishing: Fiskveiði
           fitness_centre: Líkamsræktarstöð
+          fitness_station: Líkamsræktarstöð
           garden: Garður
           golf_course: Golfvöllur
           horse_riding: Hestaferðir
@@ -614,7 +617,9 @@ is:
           park: Almenningsgarður
           pitch: Íþróttavöllur
           playground: Leikvöllur
+          recreation_ground: Leikvöllur
           sauna: Gufubað
+          slipway: Slippur
           sports_centre: Íþróttamiðstöð
           stadium: Íþróttaleikvangur
           swimming_pool: Sundlaug
@@ -872,8 +877,10 @@ is:
     edit_with: Breyta með %{editor}
     tag_line: Frjálsa wiki heimskortið
     intro_header: Velkomin í OpenStreetMap!
+    intro_text: OpenStreetMap er heimskort búið til af fólki eins og þér. Það er gefið
+      út með opnu hugbúnaðarleyfi og það kostar ekkert að nota það.
     intro_2_create_account: Búa til notandaaðgang
-    partners_ucl: UCL VR Centre
+    partners_ucl: UCL
     partners_ic: Imperial College London
     partners_bytemark: Bytemark Hosting
     partners_partners: samstarfsaðilar
@@ -1102,6 +1109,7 @@ is:
       date: Dags
       reply_button: Svara
       unread_button: Merkja sem ólesin
+      delete_button: Eyða
       back: Til baka
       to: Til
     sent_message_summary:
@@ -1148,7 +1156,7 @@ is:
       to: Til
       where_am_i: Hvar er ég?
       where_am_i_title: Notar leitarvélina til að lýsa núverandi staðsetningu á kortinu
-      submit_text: Fara
+      submit_text: Byrja
     key:
       table:
         entry:
@@ -1688,6 +1696,7 @@ is:
       failed: Gat ekki bætt %{name} á vinalistann þinn.
       already_a_friend: '%{name} er þegar vinur þinn.'
     remove_friend:
+      heading: Hætta að vera vinur %{user}?
       button: fjarlægja úr vinahópi
       success: '%{name} er ekki lengur vinur þinn.'
       not_a_friend: '%{name} er ekki vinur þinn.'
@@ -1829,6 +1838,7 @@ is:
     rss:
       title: Minnispunktar OpenStreetMap
       opened: nýr minnispunktur (nálægt %{place})
+      commented: ný athugasemd (nálægt %{place})
       closed: lokaður minnispunktur (nálægt %{place})
       reopened: endurvirkjaður minnispunktur (nálægt %{place})
     entry:
@@ -1913,6 +1923,7 @@ is:
     directions:
       engines:
         graphhopper_bicycle: Reiðhjól (GraphHopper)
+        graphhopper_car: Bíll (GraphHopper)
         graphhopper_foot: Fótgangandi (GraphHopper)
         mapquest_bicycle: Reiðhjól (MapQuest)
         mapquest_car: Bíll (MapQuest)
@@ -1927,9 +1938,19 @@ is:
         no_route: Gat ekki fundið leið á milli þessara tveggja staða.
         no_place: Því miður, gat ekki fundið þennan stað.
       instructions:
-        continue_without_exit: Halda áfram á %{name}
+        continue_without_exit: Haltu áfram á %{name}
+        endofroad_right_without_exit: Við enda vegarins skaltu beygja til hægri inn
+          á %{name}
+        turn_right_without_exit: Beygðu til hægri inn á %{name}
+        sharp_right_without_exit: Kröpp hægribeygja inn á %{name}
+        sharp_left_without_exit: Kröpp vinstribeygja inn á %{name}
+        endofroad_left_without_exit: Við enda vegarins skaltu beygja til vinstri inn
+          á %{name}
         follow_without_exit: Fylgja %{name}
+        start_without_exit: Byrjaðu við endann á %{name}
+        destination_without_exit: Farðu á leiðarenda
         unnamed: ónefnd gata
+        courtesy: Leiðarlýsing í boði %{link}
       time: Tími
     query:
       node: Hnútur
@@ -1938,6 +1959,13 @@ is:
       nothing_found: Engar fitjur fundust
       error: 'Villa við að tengjast %{server}: %{error}'
       timeout: Rann út á tíma við að tengjast %{server}
+    context:
+      directions_from: Vegvísun héðan
+      directions_to: Vegvísun hingað
+      add_note: Bæta við minnispunkti hér
+      show_address: Sjá heimilisfang
+      query_features: Rannsaka fitjur
+      centre_map: Miðjusetja kort hér
   redaction:
     edit:
       description: Lýsing

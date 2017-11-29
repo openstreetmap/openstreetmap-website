@@ -1,3 +1,35 @@
+# == Schema Information
+#
+# Table name: client_applications
+#
+#  id                :integer          not null, primary key
+#  name              :string
+#  url               :string
+#  support_url       :string
+#  callback_url      :string
+#  key               :string(50)
+#  secret            :string(50)
+#  user_id           :integer
+#  created_at        :datetime
+#  updated_at        :datetime
+#  allow_read_prefs  :boolean          default(FALSE), not null
+#  allow_write_prefs :boolean          default(FALSE), not null
+#  allow_write_diary :boolean          default(FALSE), not null
+#  allow_write_api   :boolean          default(FALSE), not null
+#  allow_read_gpx    :boolean          default(FALSE), not null
+#  allow_write_gpx   :boolean          default(FALSE), not null
+#  allow_write_notes :boolean          default(FALSE), not null
+#
+# Indexes
+#
+#  index_client_applications_on_key      (key) UNIQUE
+#  index_client_applications_on_user_id  (user_id)
+#
+# Foreign Keys
+#
+#  client_applications_user_id_fkey  (user_id => users.id)
+#
+
 require "oauth"
 
 class ClientApplication < ActiveRecord::Base
@@ -43,7 +75,7 @@ class ClientApplication < ActiveRecord::Base
     @oauth_client ||= OAuth::Consumer.new(key, secret)
   end
 
-  def create_request_token(params = {})
+  def create_request_token(_params = {})
     params = { :client_application => self, :callback_url => token_callback_url }
     permissions.each do |p|
       params[p] = true

@@ -91,7 +91,7 @@ class SearchController < ApplicationController
     end
 
     relations.each do |rel|
-      doc.root << rel.to_xml_node(nil, changeset_cache, user_display_name_cache)
+      doc.root << rel.to_xml_node(changeset_cache, user_display_name_cache)
     end
 
     render :xml => doc.to_s

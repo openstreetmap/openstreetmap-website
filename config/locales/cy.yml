@@ -31,6 +31,8 @@ cy:
       old_way_node: Nod Hen Ffordd
       old_way_tag: Tag Hen Ffordd
       relation: Perthynas
+      relation_member: Aelod Perthynol
+      relation_tag: Tag Perthynas
       session: Sesiwn
       trace: Dargopïo
       tracepoint: Pwynt Dargopïo
@@ -76,11 +78,18 @@ cy:
         pass_crypt: Cyfrinair
   editor:
     default: (currently %{name}) diofyn
+    potlatch:
+      name: Potlatch 1
+      description: Potlatch 1 (golygygu gyda'r porwr)
     id:
       name: iD
       description: iD (golygydd y porwr)
+    potlatch2:
+      name: Potlatch 2
+      description: Potlatch 2 (golygu gyda'r porwr)
     remote:
       name: Rheolaeth o bell
+      description: Pellreolwr (JOSM neu Merkaartor)
   browse:
     created: Crewyd
     closed: Wedi cau
@@ -91,6 +100,7 @@ cy:
     edited_by_html: Golygwyd <abbr title='%{title}'>%{time} yn ôl</abbr> gan %{user}
     closed_by_html: Caewyd <abbr title='%{title}'>%{time} yn ôl</abbr> gan %{user}
     version: Fersiwn
+    in_changeset: Set-newid
     anonymous: dienw
     no_comment: (dim sylw)
     part_of: Rhan o
@@ -105,20 +115,37 @@ cy:
       node_paginated: Cygnau (%{x}-%{y} o %{count})
       way: Llwybrau %{count}
       way_paginated: Llwybrau (%{x}-%{y} o %{count})
+      relation: Perthynas %{count}
+      relation_paginated: Perthynas (%{x}-%{y} o %{count})
       comment: Sylwadau (%{count})
       hidden_commented_by: Sylw cudd gan %{user} <abbr title='%{exact_time}'>%{when}
         yn ôl</abbr>
       commented_by: Sylw gan %{user} <abbr title='%{exact_time}'>%{when} yn ôl</abbr>
+      changesetxml: Set-newid XML
+      osmchangexml: osmChange XML
+      feed:
+        title: Set-newid %{id}
+        title_comment: Set-newid %{id} - %{comment}
       join_discussion: Mewngofnodwch i ymuno yn y sgwrs
       discussion: Sgwrs
+    node:
+      title: 'Nod: %{name}'
+      history_title: 'Hanes y Nod: %{name}'
     way:
       title: 'Llwybr: %{name}'
       history_title: 'Hanes Llwybr: %{name}'
+      nodes: Nodau
+      also_part_of:
+        one: rhan o'r ffordd %{related_ways}
+        other: rhan o'r ffyrdd %{related_ways}
     relation:
       title: 'Perthynas: %{name}'
+      history_title: 'Hanes y Perthynas: %{name}'
       members: Aelodau
     relation_member:
+      entry_role: '%{type} %{name} fel %{role}'
       type:
+        node: Nod
         way: Llwybr
         relation: Perthynas
     containing_relation:
@@ -127,13 +154,23 @@ cy:
     not_found:
       sorry: 'Ymddiheurwn, ni ellir canfod %{type} #%{id}.'
       type:
-        way: llwybr
-    timeout:
-      type:
+        node: nod
         way: llwybr
         relation: perthynas
-    redacted:
+        changeset: set-newid
+        note: nod
+    timeout:
+      sorry: Cymerodd yn rhy hir i adalw data math %{type} (gydag ID %{id})!
       type:
+        node: nod
+        way: llwybr
+        relation: perthynas
+        changeset: set-newid
+        note: nodyn
+    redacted:
+      redaction: Golygiad %{id}
+      type:
+        node: nod
         way: llwybr
         relation: perthynas
     start_rjs:
@@ -178,14 +215,27 @@ cy:
       comment: Sylw
       area: Maes
     list:
+      title: Setiau-newid
+      title_user: Set-newid gan %{user}
+      title_friend: Setiau-newid eich cyfeillion
+      title_nearby: Setiau-newid defnyddwyr cyfagos
+      empty: Ni chanfuwyd setiau-newid.
+      empty_area: Dim setiau-newid yn yr ardal yma.
+      empty_user: Dim setiau-newid gan y defnyddiwr hwn.
+      no_more: Dim rhagor o setiau-newid.
+      no_more_area: Dim rhagor o setiau-newid yn yr ardal yma.
       load_more: Llwytho mwy
     rss:
+      title_all: Trafodaeth OpenStreetMa o'r setiau-newid
+      title_particular: 'Trafodaeth OpenStreetMap set-newid #%{changeset_id}'
+      comment: Sylw newydd ar set-newid %{changeset_id} gan awdur %{author}
       commented_at_html: Diweddarwyd %{when} yn ôl
       commented_at_by_html: Diweddarwyd %{when} yn ôl gan %{user}
       full: Sgwrs llawn
   diary_entry:
     new:
       title: Cofnod Dyddiadur Newydd
+      publish_button: Cyhoeddi
     list:
       title: Dyddiaduron defnyddwyr
       title_friends: Dyddiaduron ffrindiau
@@ -268,10 +318,12 @@ cy:
       format_to_export: Fformatiwch i'w Hallforio
       osm_xml_data: Data XML OpenStreetMap
       map_image: Delwedd y Map (dangoser yr haen safonol)
+      embeddable_html: Mewnosod HTML
       licence: Trwydded
       export_details: Trwyddedir OpenStreetMap ar drwydded <a href="http://opendatacommons.org/licenses/odbl/1.0/">Comin
         Data Agored (Open Data Commons Open Database License)</a> (ODbL).
       too_large:
+        advice: 'Os yw''r allforio''n methu, ystyriwch un o''r canlynol:'
         other:
           title: Ffynonellau eraill
           description: Ffynonellau ychwanegol a nodir ar wici OpenStreetMap
@@ -290,7 +342,6 @@ cy:
     search:
       title:
         latlon: Canlyniadau o <a href="http://openstreetmap.org/">Internal</a>
-        us_postcode: Canlyniadau o <a href="http://geocoder.us/">Geocoder.us</a>
         uk_postcode: Canlyniadau o <a href="http://www.npemap.org.uk/">NPEMap / FreeThe
           Postcode</a>
         ca_postcode: Canlyniadau o <a href="http://geocoder.ca/">Geocoder.CA</a>
@@ -314,6 +365,7 @@ cy:
           gate: Giat
           helipad: Pad Hofrennydd
           runway: Rhedfa Awyr
+          taxiway: Safle tacsi
           terminal: Terfynell
         amenity:
           animal_shelter: Cysgod Anifeiliaid
@@ -353,14 +405,17 @@ cy:
           emergency_phone: Ffôn Argyfwng
           fast_food: Bwyd Parod
           ferry_terminal: Terfynell Fferi
+          fire_hydrant: Hydrant tân
           fire_station: Gorsaf Dân
           food_court: Cwrt Fwydydd
           fountain: Ffynnon
           fuel: Tanwydd
+          gambling: Gamblo
           grave_yard: Mynwent
           gym: Canolfan Ffitrwydd / Campfa
           health_centre: Canolfan Iechyd
           hospital: Ysbyty
+          hunting_stand: Llwyfan Hela
           ice_cream: Hufen Iâ
           kindergarten: Meithrinfa
           library: Llyfrgell
@@ -403,17 +458,21 @@ cy:
           toilets: Tai bach
           townhall: Neuadd Dref
           university: Prifysgol
+          vending_machine: Peiriant Gwerthu
           veterinary: Milfeddygfa
           village_hall: Neuadd Bentref
           waste_basket: Bin sbwriel
+          waste_disposal: Gwaredu Sbwriel
           youth_centre: Canolfan Ieuenctid
         boundary:
+          administrative: Ffin Gweinyddol
           census: Ffin Cyfrifiad
           national_park: Parc Cenedlaethol
           protected_area: Ardal Warchodol
         bridge:
           aqueduct: Dyfrbont
           suspension: Pont Grog
+          swing: Pont Droelli
           viaduct: Pont Trenau
           "yes": Pont
         building:
@@ -426,19 +485,26 @@ cy:
           painter: Peintiwr
           photographer: Ffotograffydd
           plumber: Plymar
+          shoemaker: Crudd
+          tailor: Teiliwr
           "yes": Siop Grefftau
         emergency:
           ambulance_station: Gorsaf Ambiwlans
+          defibrillator: Diffibriliwr
+          landing_site: Man Glanio Mewn Argyfwng
           phone: Ffôn Argyfwng
         highway:
+          abandoned: Hen Briffordd
           bridleway: Llwybr Ceffyl
           bus_guideway: Lon Bysiau
           bus_stop: Stop Bysiau
           construction: Priffordd yn cael ei Adeiladu
           cycleway: Llwybr Beicio
+          elevator: Codwr
           emergency_access_point: Pwynt Mynediad Argyfwng
           footway: Llwybr Cerdded
           ford: Rhyd
+          living_street: Stryd Byw
           milestone: Carreg Filltir
           motorway: Traffordd
           motorway_junction: Cyffordd Traffordd
@@ -449,6 +515,7 @@ cy:
           primary: Priffordd
           primary_link: Priffordd
           proposed: Ffordd Arfaethedig
+          raceway: Trac Rasio
           residential: Ffordd
           rest_area: Man Gorffwys
           road: Ffordd
@@ -522,18 +589,25 @@ cy:
           railway: Rheilffordd
           recreation_ground: Maes Chwarae
           reservoir: Cronfa Ddŵr
+          reservoir_watershed: Gwahanfa Ddŵr
+          residential: Ardal Breswyl
           retail: Adwerthu
+          road: Ardal Ffordd
           village_green: Llain Pentref
           vineyard: Gwinllan
+          "yes": Defnydd Tir
         leisure:
           beach_resort: Ardal Wyliau
+          bird_hide: Cuddle Adar
           club: Clwb
           common: Tir Comin
           dog_park: Parc Cwn
           fishing: Man Pysgota
           fitness_centre: Canolfan Gadw'n Heini
+          fitness_station: Lle Cadw'n Heini
           garden: Gardd
           golf_course: Cwrs Golff
+          horse_riding: Llain Marchogaeth
           ice_rink: Llawr Sglefrio
           marina: Marina
           miniature_golf: Golff Pitw
@@ -542,6 +616,7 @@ cy:
           pitch: Maes Chwarae
           playground: Lle Chwarae
           recreation_ground: Maes Hamdden
+          resort: Cyrchfan Gwyliau
           sauna: Sawna
           slipway: Llithrffordd
           sports_centre: Canolfan Chwaraeon
@@ -549,9 +624,11 @@ cy:
           swimming_pool: Pwll Nofio
           track: Trac Rhedeg
           water_park: Parc Dŵr
+          "yes": Hamdden
         man_made:
           lighthouse: Goleudy
           pipeline: Pibell
+          tower: Tŵr
           works: Ffatri
           "yes": Wnaed gan Ddyn
         military:
@@ -568,6 +645,7 @@ cy:
           cliff: Clogwyn
           crater: Crater
           dune: Twyn
+          fell: Rhostir
           fjord: Ffiord
           forest: Coedwig
           geyser: Geiser
@@ -585,6 +663,7 @@ cy:
           reef: Riff
           ridge: Cefn
           rock: Craig
+          saddle: Cyfrwy
           sand: Tywod
           scree: Sgri
           scrub: Llwyni
@@ -607,10 +686,13 @@ cy:
           government: Swyddfa Llywodraeth
           insurance: Swyddfa Yswiriant
           lawyer: Cyfreithiwr
+          ngo: Swyddfa'r NGO
           telecommunication: Swyddfa Telegyfathrebu
           travel_agent: Asiantaeth Deithio
           "yes": Swyddfa
         place:
+          allotments: Rhandiroedd
+          block: Bloc
           airport: Maes Awyr
           city: Dinas
           country: Gwlad
@@ -633,7 +715,9 @@ cy:
           subdivision: Is-adran
           suburb: Maestref
           town: Tref
+          unincorporated_area: Ardal Anghorfforedig
           village: Pentref
+          "yes": Lle
         railway:
           abandoned: Hen Reilffordd
           construction: Rheilffordd yn cael ei Osod
@@ -644,7 +728,9 @@ cy:
           historic_station: Hen Orsaf Trenau
           junction: Cyffordd Rheilffyrdd
           level_crossing: Croesfan Wastad
+          light_rail: Rheilffordd Ysgafn
           miniature: Lein Fach
+          monorail: Trên Un Gledren
           narrow_gauge: Lein Fach Gul
           platform: Platfform Drenau
           preserved: Rheilffordd ar Gadw
@@ -652,8 +738,9 @@ cy:
           spur: Cainc Rheilffordd
           station: Gorsaf Drenau
           stop: Siop Reilffordd
-          subway: Gorsaf Drenau Tanddaearol
+          subway: Gorsaf Tanddaearol
           subway_entrance: Mynedfa at Drenau Tanddaearol
+          switch: Pwyntiau Atal (Rheilffyrdd)
           tram: Tramffordd
           tram_stop: Stop Tramiau
         shop:
@@ -733,6 +820,7 @@ cy:
           "yes": Siop
         tourism:
           alpine_hut: Cwt Mynydd
+          apartment: Rhandai neu fflatiau
           artwork: Gwaith Celf
           attraction: Atyniad
           bed_and_breakfast: Gweldy a Brecwast
@@ -755,6 +843,7 @@ cy:
           culvert: Twnel Ddŵr
           "yes": Twnel
         waterway:
+          artificial: Dyfrffyrdd Artiffisial
           boatyard: Iard Gychod
           canal: Camlas
           dam: Argae
@@ -771,6 +860,7 @@ cy:
           wadi: Sychnant
           waterfall: Rheadr
           weir: Cored
+          "yes": Dyfrffyrdd
       admin_levels:
         level2: Ffin Gwledydd
         level4: Ffin Taleithiau
@@ -807,6 +897,7 @@ cy:
     data: Data
     export_data: Allforio Data
     gps_traces: Dargopiadau GPS
+    gps_traces_tooltip: Rheoli Amlinellau GPS
     user_diaries: Dyddiaduron Defnyddwyr
     user_diaries_tooltip: Gweld dyddiaduron defnyddwyr
     edit_with: Golygu gyda %{editor}
@@ -872,6 +963,7 @@ cy:
     add_a_note:
       title: Dim amser i olygu? Ychwanegwch nodyn!
   fixthemap:
+    title: Adrodd am broblem / Cywiro map
     how_to_help:
       title: Sut i Helpu
       join_the_community:
@@ -883,6 +975,8 @@ cy:
     welcome:
       url: /croeso
       title: Croeso i OSM
+    beginners_guide:
+      title: Llawlyfr Dechreuwyr
   about_page:
     next: Nesaf
     copyright_html: <span>&copy;</span>cyfrannwyr<br>OpenStreetMap
@@ -890,6 +984,10 @@ cy:
     open_data_title: Data Agored
     partners_title: Partneriaid
   notifier:
+    message_notification:
+      hi: Pa hwyl %{to_user}?
+    friend_notification:
+      hi: Henffych %{to_user}!
     gpx_notification:
       greeting: Pa hwyl?
       with_description: gyda'r disgrifiad
@@ -953,6 +1051,7 @@ cy:
       date: Dyddiad
       reply_button: Ateb
       unread_button: Nodi nad yw wedi ei ddarllen
+      delete_button: Dileu
       back: Yn ôl
       to: At
     sent_message_summary:
@@ -977,7 +1076,7 @@ cy:
       close: Cau
     search:
       search: Chwilio
-      where_am_i: Ble ydw i?
+      where_am_i: Ble mae hwn?
       where_am_i_title: Disgrifiwch eich lleoliad presennol gan ddefnyddio peiriant
         chwilio.
       submit_text: Mynd
@@ -985,22 +1084,38 @@ cy:
       table:
         entry:
           motorway: Traffordd
+          main_road: Prif ffordd
           trunk: Cefnffordd
           primary: Priffordd
           secondary: Ffordd eilaidd
           unclassified: Ffordd annosbarthedig
           track: Trac
+          bridleway: Llwybr ceffyl
+          cycleway: Llwybr beicio
+          cycleway_national: Llwybr beicio cenedlaethol
+          cycleway_regional: Llwybr beicio rhanbarthol
+          cycleway_local: Llwybr beicio lleol
           footway: Ffordd droed
           rail: Rheilffordd
           subway: Trenau Tanddaearyddol
           tram:
-            1: tram
+          - Rheilffordd ysgafn
+          - tram
           cable:
           - Car codi
+          - Lifft cadair
+          runway:
+          - Llwybr glanio'r maes awyr
+          - atredfa
+          apron:
+          - Ffedog (y maes awyr)
+          - terminws
+          admin: Ffin gweinyddol
           forest: Coedwig
           wood: Coed
           golf: Cwrs golff
           park: Parc
+          resident: Ardal breswyl
           common:
           - Comin
           - dôl
@@ -1028,6 +1143,10 @@ cy:
           - Crib
           private: Mynediad preifat
           destination: Mynediad cyrchfan
+          construction: Ffyrdd wrthi'n cael eu hadeiladu
+          bicycle_shop: Siop feics
+          bicycle_parking: Man parcio beics
+          toilets: Lle chwech
     richtext_area:
       edit: Golygu
       preview: Rhagolwg
@@ -1251,14 +1370,17 @@ cy:
         administrator: Mae'r defnyddiwr hwn yn weinyddwr.
         moderator: Mae'r defnyddiwr hwn yn gymedrolwr.
       comments: Sylwadau
-      create_block: rhwystro'r defnyddiwr hwn
-      activate_user: actifadu'r defnyddiwr hwn
-      confirm_user: cadarnhau'r defnyddiwr
-      hide_user: cuddio'r defnyddiwr
-      unhide_user: datguddio'r defnyddiwr
-      delete_user: dileu'r defnyddiwr
+      create_block: Rhwystro'r Defnyddiwr hwn
+      activate_user: Gwneud y cyfri'n fyw
+      deactivate_user: Atal y cyfri
+      confirm_user: Cadarnhau'r Defnyddiwr
+      hide_user: Cuddio'r Defnyddiwr
+      unhide_user: Datguddio'r Defnyddiwr
+      delete_user: Dileu'r Defnyddiwr
       confirm: Cadarnhau
+      friends_changesets: setiau-newid eich cyfeillion
       friends_diaries: cofnodion dyddiaduron cyfeillion
+      nearby_changesets: setiau-newid gerllaw
       nearby_diaries: cofnodion dyddiaduron defnyddwyr gerllaw
     popup:
       your location: Eich lleoliad
@@ -1304,9 +1426,11 @@ cy:
       save changes button: Cadw'r Newidiadau
       make edits public button: Gwneud fy holl olygiadau yn gyhoeddus
       return to profile: Dychwelyd i'r proffil
+    confirm:
+      button: Cadarnhau
     confirm_email:
       button: Cadarnhau
-      success: Wedi cadarnhau eich cyfeiriad ebost! Diolch am gofrestru.
+      success: Cadarnhewch eich cyfeiriad ebost newydd!
       failure: Mae cyfeiriad ebost eisoes wedi ei gadarnhau gyda'r tocyn hwn.
     set_home:
       flash success: Wedi cadw'r lleoliad cartref

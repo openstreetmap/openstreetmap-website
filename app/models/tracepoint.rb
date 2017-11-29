@@ -1,3 +1,25 @@
+# == Schema Information
+#
+# Table name: gps_points
+#
+#  altitude  :float
+#  trackid   :integer          not null
+#  latitude  :integer          not null
+#  longitude :integer          not null
+#  gpx_id    :integer          not null
+#  timestamp :datetime
+#  tile      :integer
+#
+# Indexes
+#
+#  points_gpxid_idx  (gpx_id)
+#  points_tile_idx   (tile)
+#
+# Foreign Keys
+#
+#  gps_points_gpx_id_fkey  (gpx_id => gpx_files.id)
+#
+
 class Tracepoint < ActiveRecord::Base
   include GeoRecord
 

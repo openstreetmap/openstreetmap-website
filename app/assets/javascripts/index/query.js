@@ -146,7 +146,7 @@ OSM.Query = function(map) {
 
     if (feature.type === "node" && feature.lat && feature.lon) {
       geometry = L.circleMarker([feature.lat, feature.lon], featureStyle);
-    } else if (feature.type === "way" && feature.geometry) {
+    } else if (feature.type === "way" && feature.geometry && feature.geometry.length > 0) {
       geometry = L.polyline(feature.geometry.filter(function (point) {
         return point !== null;
       }).map(function (point) {

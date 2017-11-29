@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "5.0.5"
+gem "rails", "5.1.4"
 
 # Require things which have moved to gems in ruby 1.9
 gem "bigdecimal", "~> 1.1.0", :platforms => :ruby_19
@@ -32,7 +32,7 @@ gem "jquery-rails"
 gem "jsonify-rails"
 
 # Use R2 for RTL conversion
-gem "r2"
+gem "r2", "~> 0.2.7"
 
 # Use autoprefixer to generate CSS prefixes
 gem "autoprefixer-rails"
@@ -42,12 +42,12 @@ gem "image_optim_rails"
 
 # Load rails plugins
 gem "actionpack-page_caching"
-gem "composite_primary_keys", "~> 9.0.7"
-gem "deadlock_retry", ">= 1.2.0"
+gem "composite_primary_keys", "~> 10.0.0"
 gem "dynamic_form"
 gem "http_accept_language", "~> 2.0.0"
 gem "i18n-js", ">= 3.0.0"
 gem "oauth-plugin", ">= 0.5.1"
+gem "openstreetmap-deadlock_retry", ">= 1.3.0", :require => "deadlock_retry"
 gem "paperclip", "~> 4.0"
 gem "rack-cors"
 gem "rails-i18n", "~> 4.0.0"
@@ -107,6 +107,7 @@ gem "logstasher"
 
 # Gems useful for development
 group :development do
+  gem "annotate"
   gem "listen"
   gem "vendorer"
 end
@@ -122,9 +123,10 @@ end
 
 # Needed in development as well so rake can see konacha tasks
 group :development, :test do
+  gem "capybara", "~> 2.13"
   gem "coveralls", :require => false
-  gem "factory_girl_rails"
+  gem "factory_bot_rails"
   gem "jshint"
-  #  gem "konacha"
   gem "poltergeist"
+  gem "puma", "~> 3.7"
 end

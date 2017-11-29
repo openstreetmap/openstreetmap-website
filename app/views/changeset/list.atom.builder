@@ -62,7 +62,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
                 td.table :cellpadding => "0" do |table|
                   changeset.tags.sort.each do |tag|
                     table.tr do |tr|
-                      tr.td << "#{h(tag[0])} = #{auto_link(h(tag[1]))}"
+                      tr.td << "#{h(tag[0])} = #{linkify(h(tag[1]))}"
                     end
                   end
                 end

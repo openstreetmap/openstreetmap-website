@@ -1,4 +1,4 @@
-class AddTimestampIndexes < ActiveRecord::Migration
+class AddTimestampIndexes < ActiveRecord::Migration[5.0]
   def self.up
     add_index :current_ways, :timestamp, :name => :current_ways_timestamp_idx
     add_index :current_relations, :timestamp, :name => :current_relations_timestamp_idx

@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: current_relations
+#
+#  id           :integer          not null, primary key
+#  changeset_id :integer          not null
+#  timestamp    :datetime         not null
+#  visible      :boolean          not null
+#  version      :integer          not null
+#
+# Indexes
+#
+#  current_relations_timestamp_idx  (timestamp)
+#
+# Foreign Keys
+#
+#  current_relations_changeset_id_fkey  (changeset_id => changesets.id)
+#
+
 class Relation < ActiveRecord::Base
   require "xml/libxml"
 
@@ -60,7 +79,7 @@ class Relation < ActiveRecord::Base
       relation.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
-      raise OSM::APIBadUserInput.new("ID of relation cannot be zero when updating.") if relation.id.zero?
+      raise OSM::APIBadUserInput, "ID of relation cannot be zero when updating." if relation.id.zero?
     end
 
     # We don't care about the timestamp nor the visibility as these are either
@@ -92,7 +111,7 @@ class Relation < ActiveRecord::Base
       member["role"] ||= "" # Allow  the upload to not include this, in which case we default to an empty string.
       relation.add_member(member["type"].classify, member["ref"], member["role"])
     end
-    raise OSM::APIBadUserInput.new("Some bad xml in relation") if relation.nil?
+    raise OSM::APIBadUserInput, "Some bad xml in relation" if relation.nil?
 
     relation
   end
@@ -103,25 +122,13 @@ class Relation < ActiveRecord::Base
     doc
   end
 
-  def to_xml_node(visible_members = nil, changeset_cache = {}, user_display_name_cache = {})
+  def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el = XML::Node.new "relation"
     el["id"] = id.to_s
 
     add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
     relation_members.each do |member|
-      p = 0
-
-      if visible_members
-        # if there is a list of visible members then use that to weed out deleted segments
-        p = 1 if visible_members[member.member_type][member.member_id]
-      else
-        # otherwise, manually go to the db to check things
-        p = 1 if member.member.visible?
-      end
-
-      next unless p
-
       member_el = XML::Node.new "member"
       member_el["type"] = member.member_type.downcase
       member_el["ref"] = member.member_id.to_s
@@ -155,7 +162,7 @@ class Relation < ActiveRecord::Base
   end
 
   def add_tag_keyval(k, v)
-    @tags = {} unless @tags
+    @tags ||= {}
 
     # duplicate tags are now forbidden, so we can't allow values
     # in the hash to be overwritten.
@@ -187,7 +194,7 @@ class Relation < ActiveRecord::Base
       check_consistency(self, new_relation, user)
       # This will check to see if this relation is used by another relation
       rel = RelationMember.joins(:relation).find_by("visible = ? AND member_type = 'Relation' and member_id = ? ", true, id)
-      raise OSM::APIPreconditionFailedError.new("The relation #{new_relation.id} is used in relation #{rel.relation.id}.") unless rel.nil?
+      raise OSM::APIPreconditionFailedError, "The relation #{new_relation.id} is used in relation #{rel.relation.id}." unless rel.nil?
 
       self.changeset_id = new_relation.changeset_id
       self.tags = {}
@@ -202,7 +209,7 @@ class Relation < ActiveRecord::Base
       lock!
       check_consistency(self, new_relation, user)
       unless new_relation.preconditions_ok?(members)
-        raise OSM::APIPreconditionFailedError.new("Cannot update relation #{id}: data or member data is invalid.")
+        raise OSM::APIPreconditionFailedError, "Cannot update relation #{id}: data or member data is invalid."
       end
       self.changeset_id = new_relation.changeset_id
       self.changeset = new_relation.changeset
@@ -216,7 +223,7 @@ class Relation < ActiveRecord::Base
   def create_with_history(user)
     check_create_consistency(self, user)
     unless preconditions_ok?
-      raise OSM::APIPreconditionFailedError.new("Cannot create relation: data or member data is invalid.")
+      raise OSM::APIPreconditionFailedError, "Cannot create relation: data or member data is invalid."
     end
     self.version = 0
     self.visible = true
@@ -253,7 +260,7 @@ class Relation < ActiveRecord::Base
 
       # and check that it is OK to use.
       unless element && element.visible? && element.preconditions_ok?
-        raise OSM::APIPreconditionFailedError.new("Relation with id #{id} cannot be saved due to #{m[0]} with id #{m[1]}")
+        raise OSM::APIPreconditionFailedError, "Relation with id #{id} cannot be saved due to #{m[0]} with id #{m[1]}"
       end
       hash[m[1]] = true
     end
@@ -270,7 +277,7 @@ class Relation < ActiveRecord::Base
       old_id = id.to_i
       if old_id < 0
         new_id = id_map[type.downcase.to_sym][old_id]
-        raise OSM::APIBadUserInput.new("Placeholder #{type} not found for reference #{old_id} in relation #{self.id.nil? ? placeholder_id : self.id}.") if new_id.nil?
+        raise OSM::APIBadUserInput, "Placeholder #{type} not found for reference #{old_id} in relation #{self.id.nil? ? placeholder_id : self.id}." if new_id.nil?
         [type, new_id, role]
       else
         [type, id, role]

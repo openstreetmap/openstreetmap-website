@@ -28,7 +28,7 @@ class ChangesetController < ApplicationController
     cs = Changeset.from_xml(request.raw_post, true)
 
     # Assume that Changeset.from_xml has thrown an exception if there is an error parsing the xml
-    cs.user_id = current_user.id
+    cs.user = current_user
     cs.save_with_tags!
 
     # Subscribe user to changeset comments
@@ -310,8 +310,8 @@ class ChangesetController < ApplicationController
   # Add a comment to a changeset
   def comment
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
-    raise OSM::APIBadUserInput.new("No text was given") if params[:text].blank?
+    raise OSM::APIBadUserInput, "No id was given" unless params[:id]
+    raise OSM::APIBadUserInput, "No text was given" if params[:text].blank?
 
     # Extract the arguments
     id = params[:id].to_i
@@ -319,7 +319,7 @@ class ChangesetController < ApplicationController
 
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
-    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
+    raise OSM::APIChangesetNotYetClosedError, changeset if changeset.is_open?
 
     # Add a comment to the changeset
     comment = changeset.comments.create(:changeset => changeset,
@@ -344,15 +344,15 @@ class ChangesetController < ApplicationController
   # Adds a subscriber to the changeset
   def subscribe
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
 
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
-    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
-    raise OSM::APIChangesetAlreadySubscribedError.new(changeset) if changeset.subscribers.exists?(current_user.id)
+    raise OSM::APIChangesetNotYetClosedError, changeset if changeset.is_open?
+    raise OSM::APIChangesetAlreadySubscribedError, changeset if changeset.subscribers.exists?(current_user.id)
 
     # Add the subscriber
     changeset.subscribers << current_user
@@ -365,15 +365,15 @@ class ChangesetController < ApplicationController
   # Removes a subscriber from the changeset
   def unsubscribe
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
 
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
-    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
-    raise OSM::APIChangesetNotSubscribedError.new(changeset) unless changeset.subscribers.exists?(current_user.id)
+    raise OSM::APIChangesetNotYetClosedError, changeset if changeset.is_open?
+    raise OSM::APIChangesetNotSubscribedError, changeset unless changeset.subscribers.exists?(current_user.id)
 
     # Remove the subscriber
     changeset.subscribers.delete(current_user)
@@ -386,7 +386,7 @@ class ChangesetController < ApplicationController
   # Sets visible flag on comment to false
   def hide_comment
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
@@ -405,7 +405,7 @@ class ChangesetController < ApplicationController
   # Sets visible flag on comment to true
   def unhide_comment
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
@@ -434,7 +434,7 @@ class ChangesetController < ApplicationController
       @comments = changeset.comments.includes(:author, :changeset).limit(comments_limit)
     else
       # Return comments
-      @comments = ChangesetComment.includes(:author, :changeset).where(:visible => :true).order("created_at DESC").limit(comments_limit).preload(:changeset)
+      @comments = ChangesetComment.includes(:author, :changeset).where(:visible => true).order("created_at DESC").limit(comments_limit).preload(:changeset)
     end
 
     # Render the result
@@ -475,19 +475,19 @@ class ChangesetController < ApplicationController
       changesets
     else
       # shouldn't provide both name and UID
-      raise OSM::APIBadUserInput.new("provide either the user ID or display name, but not both") if user && name
+      raise OSM::APIBadUserInput, "provide either the user ID or display name, but not both" if user && name
 
       # use either the name or the UID to find the user which we're selecting on.
       u = if name.nil?
             # user input checking, we don't have any UIDs < 1
-            raise OSM::APIBadUserInput.new("invalid user ID") if user.to_i < 1
+            raise OSM::APIBadUserInput, "invalid user ID" if user.to_i < 1
             u = User.find(user.to_i)
           else
             u = User.find_by(:display_name => name)
           end
 
       # make sure we found a user
-      raise OSM::APINotFoundError.new if u.nil?
+      raise OSM::APINotFoundError if u.nil?
 
       # should be able to get changesets of public users only, or
       # our own changesets regardless of public-ness.
@@ -496,7 +496,7 @@ class ChangesetController < ApplicationController
         # changesets if they're non-public
         setup_user_auth
 
-        raise OSM::APINotFoundError if current_user.nil? || current_user.id != u.id
+        raise OSM::APINotFoundError if current_user.nil? || current_user != u
       end
 
       changesets.where(:user_id => u.id)
@@ -514,20 +514,20 @@ class ChangesetController < ApplicationController
 
       # check that we actually have 2 elements in the array
       times = time.split(/,/)
-      raise OSM::APIBadUserInput.new("bad time range") if times.size != 2
+      raise OSM::APIBadUserInput, "bad time range" if times.size != 2
 
-      from, to = times.collect { |t| DateTime.parse(t) }
+      from, to = times.collect { |t| Time.parse(t) }
       return changesets.where("closed_at >= ? and created_at <= ?", from, to)
     else
       # if there is no comma, assume its a lower limit on time
-      return changesets.where("closed_at >= ?", DateTime.parse(time))
+      return changesets.where("closed_at >= ?", Time.parse(time))
     end
-    # stupid DateTime seems to throw both of these for bad parsing, so
+    # stupid Time seems to throw both of these for bad parsing, so
     # we have to catch both and ensure the correct code path is taken.
   rescue ArgumentError => ex
-    raise OSM::APIBadUserInput.new(ex.message.to_s)
+    raise OSM::APIBadUserInput, ex.message.to_s
   rescue RuntimeError => ex
-    raise OSM::APIBadUserInput.new(ex.message.to_s)
+    raise OSM::APIBadUserInput, ex.message.to_s
   end
 
   ##
@@ -563,7 +563,7 @@ class ChangesetController < ApplicationController
     if ids.nil?
       changesets
     elsif ids.empty?
-      raise OSM::APIBadUserInput.new("No changesets were given to search for")
+      raise OSM::APIBadUserInput, "No changesets were given to search for"
     else
       ids = ids.split(",").collect(&:to_i)
       changesets.where(:id => ids)
@@ -584,7 +584,7 @@ class ChangesetController < ApplicationController
       if params[:limit].to_i > 0 && params[:limit].to_i <= 10000
         params[:limit].to_i
       else
-        raise OSM::APIBadUserInput.new("Comments limit must be between 1 and 10000")
+        raise OSM::APIBadUserInput, "Comments limit must be between 1 and 10000"
       end
     else
       100

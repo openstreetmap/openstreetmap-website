@@ -246,7 +246,6 @@ OpenStreetMap::Application.routes.draw do
   # geocoder
   match "/search" => "geocoder#search", :via => :get, :as => :search
   match "/geocoder/search_latlon" => "geocoder#search_latlon", :via => :get
-  match "/geocoder/search_us_postcode" => "geocoder#search_us_postcode", :via => :get
   match "/geocoder/search_uk_postcode" => "geocoder#search_uk_postcode", :via => :get
   match "/geocoder/search_ca_postcode" => "geocoder#search_ca_postcode", :via => :get
   match "/geocoder/search_osm_nominatim" => "geocoder#search_osm_nominatim", :via => :get

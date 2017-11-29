@@ -1,6 +1,6 @@
 require "migrate"
 
-class AddUserForeignKeys < ActiveRecord::Migration
+class AddUserForeignKeys < ActiveRecord::Migration[5.0]
   def change
     add_foreign_key :changesets, :users, :name => "changesets_user_id_fkey"
     add_foreign_key :diary_comments, :users, :name => "diary_comments_user_id_fkey"

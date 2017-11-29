@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: redactions
+#
+#  id                 :integer          not null, primary key
+#  title              :string
+#  description        :text
+#  created_at         :datetime
+#  updated_at         :datetime
+#  user_id            :integer          not null
+#  description_format :enum             default("markdown"), not null
+#
+# Foreign Keys
+#
+#  redactions_user_id_fkey  (user_id => users.id)
+#
+
 ##
 # Redaction represents a record associated with a particular
 # action on the database to hide revisions from the history

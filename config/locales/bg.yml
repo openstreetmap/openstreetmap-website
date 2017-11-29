@@ -6,6 +6,7 @@
 # Author: MrPanyGoff
 # Author: Plamen
 # Author: Ricordo.tenerissimo
+# Author: ShockD
 # Author: StanProg
 # Author: Vodnokon4e
 # Author: АдмиралАнимЕ
@@ -25,6 +26,7 @@ bg:
       node: Възел
       notifier: Известител
       old_node: Стар възел
+      old_relation: Стара релация
       relation: Релация
       relation_member: Член на релация
       relation_tag: Таг на релация
@@ -101,8 +103,8 @@ bg:
     changeset:
       title: 'Списък с промени: %{id}'
       belongs_to: Автор
-      node: Точки (%{count})
-      node_paginated: Точки (%{x}-%{y} от %{count})
+      node: Възли (%{count})
+      node_paginated: Възли (%{x}-%{y} от %{count})
       way: Пътища (%{count})
       way_paginated: Пътища (%{x}-%{y} от общо %{count})
       relation: Релации (%{count})
@@ -114,12 +116,12 @@ bg:
       join_discussion: Впишете се, за да се присъедините към обсъждането
       discussion: Обсъждане
     node:
-      title: 'Точка: %{name}'
+      title: 'Възел: %{name}'
       history_title: 'История на точка: %{name}'
     way:
       title: 'Път: %{name}'
       history_title: 'История на пътя: %{name}'
-      nodes: Точки
+      nodes: Възли
       also_part_of:
         one: част от път %{related_ways}
         other: част от пътища %{related_ways}
@@ -143,7 +145,7 @@ bg:
         way: път
         relation: релация
         changeset: списък с промени
-        note: Бележка
+        note: бележка
     timeout:
       type:
         node: възел
@@ -162,6 +164,8 @@ bg:
       loading: Зареждане...
     tag_details:
       tags: Етикети
+      wikidata_link: Обектът %{page} в Уикиданни
+      wikipedia_link: Статията %{page} в Уикипедия
       telephone_link: Позвънете на %{phone_number}
     note:
       title: 'Бележка: %{id}'
@@ -188,9 +192,13 @@ bg:
       area: Област
     list:
       title: Списък с промени
+      title_user: Списък с промени на %{user}
+      title_friend: Списъци с промени на Ваши приятели
+      title_nearby: Списъци с промени от потребители наблизо
       empty: Няма намерени списъци с промени.
       empty_area: Няма списъци с промени в този район.
       empty_user: Няма списъци с промени от този потребител.
+      no_more: Не са намерени повече списъци с промени.
       load_more: Зареждане на още
     rss:
       commented_at_html: Обновено преди %{when}
@@ -239,7 +247,7 @@ bg:
       hide_link: Скриване на този пост
       confirm: Потвърди
     diary_comment:
-      hide_link: Скрий този коментар
+      hide_link: Скриване на коментара
       confirm: Потвърждаване
     location:
       location: 'Местоположение:'
@@ -284,7 +292,6 @@ bg:
     search:
       title:
         latlon: <a href="http://openstreetmap.org/">Вътрешни</a> резултати
-        us_postcode: Резултати от <a href="http://geocoder.us/">Geocoder.us</a>
         uk_postcode: Резултати от <a href="http://www.npemap.org.uk/">NPEMap / FreeThe
           Postcode</a>
         ca_postcode: Резултати от <a href="http://geocoder.us/">Geocoder.CA</a>
@@ -300,7 +307,9 @@ bg:
           cable_car: Кабинков лифт
           chair_lift: Седалков лифт
         aeroway:
+          gate: Врата
           helipad: Вертолетна площадка
+          runway: Писта
           taxiway: Път за рулиране
           terminal: Терминал
         amenity:
@@ -313,12 +322,16 @@ bg:
           bench: Пейка
           bicycle_parking: Паркинг за велосипеди
           bicycle_rental: Велосипеди под наем
+          biergarten: Бирария на открито
+          boat_rental: Наем на лодки
+          brothel: Бордел
           bureau_de_change: Обменно бюро
           bus_station: Автобусна спирка
           cafe: Кафене
           car_rental: Коли под наем
           car_wash: Автомивка
           casino: Казино
+          charging_station: Зарядна станция
           cinema: Кино
           clinic: Поликлиника
           clock: Часовник
@@ -330,6 +343,7 @@ bg:
           doctors: Лекари
           dormitory: Пансион
           drinking_water: Питейна вода
+          driving_school: Автошкола
           embassy: Посолство
           emergency_phone: Телефон за спешни повиквания
           fast_food: Заведения за бързо хранене
@@ -351,6 +365,7 @@ bg:
           nightclub: Нощен клуб
           office: Офис
           parking: Паркинг
+          parking_entrance: Вход на паркинг
           pharmacy: Аптека
           place_of_worship: Място за поклонение
           police: Полиция
@@ -403,12 +418,12 @@ bg:
           tailor: Шивач
           "yes": Работилница
         emergency:
-          ambulance_station: Пожарна
+          ambulance_station: Станция за линейки
           defibrillator: Дефибрилатор
           landing_site: Място за аварийно кацане
           phone: Телефон за спешни повиквания
         highway:
-          abandoned: Изоставена железопътна линия
+          abandoned: Изоставена магистрала
           bridleway: Конен път
           bus_stop: Автобусна спирка
           construction: Магистрала в строеж
@@ -436,13 +451,14 @@ bg:
           speed_camera: Камера за контрол на скоростта
           steps: Стълбище
           street_lamp: Улична лампа
-          track: Полски път
-          trunk: Скоростен път
-          trunk_link: Скоростен път
+          track: Селски път
+          traffic_signals: Светофар
+          trunk: Междуградски път
+          trunk_link: Междуградски път
           unsurfaced: Път без настилка
           "yes": Път
         historic:
-          archaeological_site: Археологическа зона
+          archaeological_site: Разкопки
           battlefield: Бойно поле
           boundary_stone: Граничен камък
           building: Историческа сграда
@@ -456,7 +472,7 @@ bg:
           house: Къща
           icon: Икона
           manor: Имение
-          memorial: Паметник
+          memorial: Мемориал
           mine: Рудник
           monument: Паметник
           roman_road: Римски път
@@ -465,6 +481,8 @@ bg:
           tomb: Гробница
           tower: Кула
           wreck: Потънал кораб
+        junction:
+          "yes": Кръстовище
         landuse:
           allotments: Градини
           basin: Басейн
@@ -498,7 +516,7 @@ bg:
           fitness_centre: Фитнес център
           garden: Градина
           golf_course: Игрище за голф
-          horse_riding: Конна езда
+          horse_riding: Конна база
           ice_rink: Ледена пързалка
           marina: Пристанище за лодки
           miniature_golf: Мини-голф
@@ -542,7 +560,7 @@ bg:
           peak: Връх
           reef: Риф
           rock: Скала
-          saddle: Седло
+          saddle: Седловина
           sand: Пясък
           spring: Ручей
           stone: Камък
@@ -550,7 +568,7 @@ bg:
           valley: Долина
           volcano: Вулкан
           water: Вода
-          wood: Дърво
+          wood: Гора
         office:
           accountant: Счетоводител
           architect: Архитект
@@ -588,12 +606,13 @@ bg:
         railway:
           abandoned: Изоставена железопътна линия
           construction: Железопътна линия в строеж
+          disused: Изоставена ж.п. линия
           disused_station: изоставена гара
           halt: Железопътна спирка
           historic_station: Гара с историческо значение
           junction: Железопътен възел
           level_crossing: Прелез
-          light_rail: Бърз трамвай
+          light_rail: Лека железница
           monorail: Монорелсов  път
           narrow_gauge: Теснолинейка
           platform: Железопътна платформа
@@ -605,14 +624,14 @@ bg:
           tram_stop: Трамвайна спирка
         shop:
           antiques: Антики
-          art: Магазин на изкуствата
+          art: Арт магазин
           bakery: Пекарна
           beauty: Салон за красота
           beverages: Магазин за напитки
           bicycle: Магазин за велосипеди
           books: Книжарница
           boutique: Бутик
-          butcher: Месарница
+          butcher: Месар
           car: Автосалон
           car_parts: Авточасти
           car_repair: Автосервиз
@@ -629,7 +648,7 @@ bg:
           general: Смесен магазин
           gift: Магазин за подаръци
           greengrocer: Плод и зеленчук
-          grocery: Бакалия
+          grocery: Магазин за хранителни стоки
           hairdresser: Фризьорски салон
           insurance: Застраховане
           jewelry: Бижутериен магазин
@@ -654,12 +673,12 @@ bg:
         tourism:
           apartment: Апартамент
           artwork: Произведения на изкуството
-          chalet: Хижа
+          chalet: Бунгало
           gallery: Галерия
           guest_house: Къща за гости
           hostel: Хостел
           hotel: Хотел
-          information: Сведения
+          information: Информация
           motel: Мотел
           museum: Музей
           picnic_site: Място за пикник
@@ -669,7 +688,7 @@ bg:
           "yes": Тунел
         waterway:
           canal: Канал
-          dam: Яз
+          dam: Язовирна стена
           river: Река
           waterfall: Водопад
       admin_levels:
@@ -682,11 +701,14 @@ bg:
         level10: Граница на предградията
     description:
       types:
+        towns: Градове
         places: Места
     results:
       no_results: Не бяха открити резултати
       more_results: Повече резултати
   layouts:
+    logo:
+      alt_text: Лого на OpenStreetMap
     home: Моят дом
     logout: Излизане
     log_in: Влизане
@@ -700,17 +722,19 @@ bg:
     export_data: Изнасяне на данни
     gps_traces: GPS-следи
     gps_traces_tooltip: Управление на GPS-следи
-    user_diaries: Дневник
+    user_diaries: Потребителски дневник
     user_diaries_tooltip: Дневници на потребители
     edit_with: Редактиране с %{editor}
     tag_line: Свободна Wiki-карта на света
     intro_header: Добре дошли в OpenStreetMap!
     intro_2_create_account: Създаване на сметка
+    partners_ucl: UCL
     partners_partners: партньори
     help: Помощ
     about: За проекта
     copyright: Авторски права
     community: Общност
+    foundation: Фондация
     make_a_donation:
       text: Направете дарение
     learn_more: Научете повече
@@ -726,6 +750,9 @@ bg:
       mapping_link: картографиране
     legal_babble:
       title_html: Авторски права и лиценз
+      contributors_fr_html: |-
+        <strong>Франция</strong>: Съдържа данни от
+        Главната данъчна дирекция.
       infringement_title_html: Нарушаване на авторските права
       trademarks_title_html: <span id="trademarks"></span>Търговски марки
       trademarks_1_html: OpenStreetMap и логото с лупата са регистрирани търговски
@@ -743,6 +770,8 @@ bg:
   fixthemap:
     how_to_help:
       title: Как да помогна
+      join_the_community:
+        title: Присъединете са към общността
   help_page:
     welcome:
       title: Добре дошли в OSM
@@ -750,6 +779,7 @@ bg:
       title: Наръчник за начинаещи
     help:
       url: https://help.openstreetmap.org/
+      title: help.openstreetmap.org
     mailing_lists:
       title: Пощенски списъци
     forums:
@@ -764,6 +794,7 @@ bg:
   about_page:
     next: Следващ
     legal_title: Правни въпроси
+    partners_title: Партньори
   notifier:
     diary_comment_notification:
       hi: Здравейте %{to_user},
@@ -797,6 +828,8 @@ bg:
     note_comment_notification:
       anonymous: Анонимен потребител
       greeting: Здравейте,
+      commented:
+        subject_other: '[OpenStreetMap] %{commenter} коментира бележка, която ви интересува'
     changeset_comment_notification:
       hi: Здравейте %{to_user},
       greeting: Здравейте,
@@ -828,6 +861,7 @@ bg:
       title: Изпратете съобщение
       send_message_to: Изпратете ново съобщение на %{name}
       subject: Тема
+      body: Текст
       send_button: Изпращане
       message_sent: Съобщението е изпратено
     no_such_message:
@@ -850,6 +884,7 @@ bg:
       date: Дата
       reply_button: Отговор
       unread_button: Отбелязване като непрочетено
+      delete_button: Изтриване
       back: Назад
       to: До
     sent_message_summary:
@@ -858,6 +893,8 @@ bg:
       deleted: Съобщението беше изтрито
   site:
     index:
+      permalink: Постоянна връзка
+      shortlink: Къса връзка
       createnote: Добавяне на бележка
     sidebar:
       search_results: Резултати от търсенето
@@ -951,6 +988,7 @@ bg:
       filename: 'Име на файл:'
       download: сваляне
       uploaded_at: 'Качени:'
+      points: 'Точки:'
       map: карта
       edit: редактиране
       owner: 'Собственик:'
@@ -976,6 +1014,7 @@ bg:
     view:
       pending: Обработва се
       filename: 'Име на файл:'
+      download: изтегляне
       map: карта
       edit: редактиране
       owner: 'Собственик:'
@@ -992,6 +1031,9 @@ bg:
       view_map: Вижте на картата
       edit: редактиране
       edit_map: Редактиране на картата
+      public: ПУБЛИЧНО
+      private: ЧАСТНО
+      trackable: ПРОСЛЕДИМО
       by: от
       in: в
       map: карта
@@ -999,6 +1041,8 @@ bg:
       public_traces: Публични GPS-следи
       your_traces: Вашите GPS-следи
       public_traces_from: Публични GPS-следи от потребител %{user}
+    description:
+      description_without_count: GPX-файл от %{user}
   oauth:
     oauthorize:
       allow_write_api: промени картата.
@@ -1089,6 +1133,7 @@ bg:
     no_such_user:
       title: Няма такъв потребител
       heading: Потребителят %{user} не съществува
+      deleted: изтрито
     view:
       my edits: Mоите редакции
       my traces: Моите следи
@@ -1108,15 +1153,21 @@ bg:
       latest edit: 'Последна редакция %{ago}:'
       email address: 'Електронна поща:'
       created from: 'Създадено от:'
+      status: 'Състояние:'
+      spam score: 'Оценка за спам:'
       description: Описание
       user location: Местоположение
       settings_link_text: настройки
       your friends: Вашите приятели
       no friends: Все още нямате добавени приятели.
       km away: '%{count} км от вас'
+      nearby users: Други потребители наблизо
       comments: Коментари
       create_block: Блокиране на този потребител
       delete_user: Изтриване на този потребител
+      confirm: Потвърдете
+    popup:
+      friend: Приятел
     account:
       title: Редакция на профил
       my settings: Моите настройки
@@ -1160,6 +1211,7 @@ bg:
       success: '%{name} беше премахнат от списъка с приятелите.'
     list:
       title: Потребители
+      heading: Потребители
   user_role:
     grant:
       confirm: Потвърждаване
@@ -1182,6 +1234,7 @@ bg:
     entry:
       comment: Коментар
     mine:
+      creator: Автор
       ago_html: преди %{when}
   javascripts:
     share:
@@ -1231,6 +1284,8 @@ bg:
     notes:
       new:
         add: Добавяне на бележка
+      show:
+        comment: Коментар
     directions:
       engines:
         graphhopper_bicycle: Велосипед (GraphHopper)
@@ -1254,6 +1309,8 @@ bg:
         destination_without_exit: Пристигнахте на местоназначението
         unnamed: неименуван път
       time: Време
+    query:
+      node: Възел
     context:
       add_note: Добавете бележка тук
 ...

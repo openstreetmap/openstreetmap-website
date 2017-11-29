@@ -18,6 +18,7 @@ class UserController < ApplicationController
   around_action :api_call_handle_error, :only => [:api_read, :api_details, :api_gpx_files]
   before_action :lookup_user_by_id, :only => [:api_read]
   before_action :lookup_user_by_name, :only => [:set_status, :delete]
+  before_action :allow_thirdparty_images, :only => [:view, :account]
 
   def terms
     @legale = params[:legale] || OSM.ip_to_country(request.remote_ip) || DEFAULT_LEGALE
@@ -99,7 +100,7 @@ class UserController < ApplicationController
                                        "lat" => m[2],
                                        "lon" => m[3] }.merge(editor))
             end
-          rescue
+          rescue StandardError
             # Use default
           end
 
@@ -201,6 +202,10 @@ class UserController < ApplicationController
   def new
     @title = t "user.new.title"
     @referer = params[:referer] || session[:referer]
+
+    append_content_security_policy_directives(
+      :form_action => %w[accounts.google.com *.facebook.com login.live.com github.com meta.wikimedia.org]
+    )
 
     if current_user
       # The user is logged in already, so don't show them the signup
@@ -411,8 +416,8 @@ class UserController < ApplicationController
     if @new_friend
       if request.post?
         friend = Friend.new
-        friend.user_id = current_user.id
-        friend.friend_user_id = @new_friend.id
+        friend.befriender = current_user
+        friend.befriendee = @new_friend
         if current_user.is_friends_with?(@new_friend)
           flash[:warning] = t "user.make_friend.already_a_friend", :name => @new_friend.display_name
         elsif friend.save
@@ -723,7 +728,7 @@ class UserController < ApplicationController
 
           begin
             Notifier.email_confirm(user, user.tokens.create).deliver_now
-          rescue
+          rescue StandardError
             # Ignore errors sending email
           end
         else

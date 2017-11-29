@@ -1,3 +1,30 @@
+# == Schema Information
+#
+# Table name: changesets
+#
+#  id          :integer          not null, primary key
+#  user_id     :integer          not null
+#  created_at  :datetime         not null
+#  min_lat     :integer
+#  max_lat     :integer
+#  min_lon     :integer
+#  max_lon     :integer
+#  closed_at   :datetime         not null
+#  num_changes :integer          default(0), not null
+#
+# Indexes
+#
+#  changesets_bbox_idx                (min_lat,max_lat,min_lon,max_lon)
+#  changesets_closed_at_idx           (closed_at)
+#  changesets_created_at_idx          (created_at)
+#  changesets_user_id_created_at_idx  (user_id,created_at)
+#  changesets_user_id_id_idx          (user_id,id)
+#
+# Foreign Keys
+#
+#  changesets_user_id_fkey  (user_id => users.id)
+#
+
 class Changeset < ActiveRecord::Base
   require "xml/libxml"
 
@@ -133,7 +160,7 @@ class Changeset < ActiveRecord::Base
   attr_writer :tags
 
   def add_tag_keyval(k, v)
-    @tags = {} unless @tags
+    @tags ||= {}
 
     # duplicate tags are now forbidden, so we can't allow values
     # in the hash to be overwritten.
@@ -241,10 +268,10 @@ class Changeset < ActiveRecord::Base
   # bounding box, only the tags of the changeset.
   def update_from(other, user)
     # ensure that only the user who opened the changeset may modify it.
-    raise OSM::APIUserChangesetMismatchError.new unless user.id == user_id
+    raise OSM::APIUserChangesetMismatchError unless user.id == user_id
 
     # can't change a closed changeset
-    raise OSM::APIChangesetAlreadyClosedError.new(self) unless is_open?
+    raise OSM::APIChangesetAlreadyClosedError, self unless is_open?
 
     # copy the other's tags
     self.tags = other.tags

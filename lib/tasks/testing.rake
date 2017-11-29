@@ -1,6 +1,10 @@
+task "test" do
+  Rails::TestUnit::Runner.rake_run(["test/system"])
+end
+
 namespace :test do
   task "lib" => "test:prepare" do
     $LOAD_PATH << "test"
-    Minitest.rake_run(["test/lib"])
+    Rails::TestUnit::Runner.rake_run(["test/lib"])
   end
 end

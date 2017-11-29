@@ -1,6 +1,6 @@
 require "migrate"
 
-class RemoveSegments < ActiveRecord::Migration
+class RemoveSegments < ActiveRecord::Migration[5.0]
   def self.up
     have_segs = select_value("SELECT count(*) FROM current_segments").to_i.nonzero?
 
@@ -10,7 +10,7 @@ class RemoveSegments < ActiveRecord::Migration
       cmd = "db/migrate/008_remove_segments_helper"
       src = "#{cmd}.cc"
       if !File.exist?(cmd) || File.mtime(cmd) < File.mtime(src)
-        system("c++ -O3 -Wall `mysql_config --cflags --libs` " +
+        system("c++ -O3 -Wall `mysql_config --cflags --libs` " \
           "#{src} -o #{cmd}") || raise
       end
 

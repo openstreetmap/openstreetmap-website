@@ -32,7 +32,7 @@ class UserRolesTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     target_user = create(:user)
-    post "/user/#{URI.encode(target_user.display_name)}/role/#{role}/#{action}"
+    post "/user/#{ERB::Util.u(target_user.display_name)}/role/#{role}/#{action}"
     assert_redirected_to :controller => "user", :action => "view", :display_name => target_user.display_name
 
     reset!
@@ -50,7 +50,7 @@ class UserRolesTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     target_user = create(:user)
-    post "/user/#{URI.encode(target_user.display_name)}/role/#{role}/#{action}"
+    post "/user/#{ERB::Util.u(target_user.display_name)}/role/#{role}/#{action}"
     assert_redirected_to :controller => "user", :action => "view", :display_name => target_user.display_name
 
     reset!

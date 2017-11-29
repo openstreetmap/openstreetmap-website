@@ -1,4 +1,5 @@
 require "test_helper"
+require "digest"
 require "minitest/mock"
 
 class TraceControllerTest < ActionController::TestCase
@@ -355,15 +356,15 @@ class TraceControllerTest < ActionController::TestCase
 
     # First with no auth, which should work since the trace is public
     get :data, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }
-    check_trace_data public_trace_file
+    check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
 
     # Now with some other user, which should work since the trace is public
     get :data, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => create(:user) }
-    check_trace_data public_trace_file
+    check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
 
     # And finally we should be able to do it with the owner of the trace
     get :data, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => public_trace_file.user }
-    check_trace_data public_trace_file
+    check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
   end
 
   # Test downloading a compressed trace
@@ -372,15 +373,15 @@ class TraceControllerTest < ActionController::TestCase
 
     # First get the data as is
     get :data, :params => { :display_name => identifiable_trace_file.user.display_name, :id => identifiable_trace_file.id }
-    check_trace_data identifiable_trace_file, "application/x-gzip", "gpx.gz"
+    check_trace_data identifiable_trace_file, "c6422a3d8750faae49ed70e7e8a51b93", "application/x-gzip", "gpx.gz"
 
     # Now ask explicitly for XML format
     get :data, :params => { :display_name => identifiable_trace_file.user.display_name, :id => identifiable_trace_file.id, :format => "xml" }
-    check_trace_data identifiable_trace_file, "application/xml", "xml"
+    check_trace_data identifiable_trace_file, "abd6675fdf3024a84fc0a1deac147c0d", "application/xml", "xml"
 
     # Now ask explicitly for GPX format
     get :data, :params => { :display_name => identifiable_trace_file.user.display_name, :id => identifiable_trace_file.id, :format => "gpx" }
-    check_trace_data identifiable_trace_file
+    check_trace_data identifiable_trace_file, "abd6675fdf3024a84fc0a1deac147c0d"
   end
 
   # Check an anonymous trace can't be downloaded by another user
@@ -397,7 +398,7 @@ class TraceControllerTest < ActionController::TestCase
 
     # And finally we should be able to do it with the owner of the trace
     get :data, :params => { :display_name => anon_trace_file.user.display_name, :id => anon_trace_file.id }, :session => { :user => anon_trace_file.user }
-    check_trace_data anon_trace_file
+    check_trace_data anon_trace_file, "66179ca44f1e93d8df62e2b88cbea732"
   end
 
   # Test downloading a trace that doesn't exist
@@ -751,12 +752,12 @@ class TraceControllerTest < ActionController::TestCase
     # Now with some other user, which should work since the trace is public
     basic_authorization create(:user).display_name, "test"
     get :api_data, :params => { :id => public_trace_file.id }
-    check_trace_data public_trace_file
+    check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
 
     # And finally we should be able to do it with the owner of the trace
     basic_authorization public_trace_file.user.display_name, "test"
     get :api_data, :params => { :id => public_trace_file.id }
-    check_trace_data public_trace_file
+    check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
   end
 
   # Test downloading a compressed trace through the api
@@ -768,15 +769,15 @@ class TraceControllerTest < ActionController::TestCase
 
     # First get the data as is
     get :api_data, :params => { :id => identifiable_trace_file.id }
-    check_trace_data identifiable_trace_file, "application/x-gzip", "gpx.gz"
+    check_trace_data identifiable_trace_file, "c6422a3d8750faae49ed70e7e8a51b93", "application/x-gzip", "gpx.gz"
 
     # Now ask explicitly for XML format
     get :api_data, :params => { :id => identifiable_trace_file.id, :format => "xml" }
-    check_trace_data identifiable_trace_file, "application/xml", "xml"
+    check_trace_data identifiable_trace_file, "abd6675fdf3024a84fc0a1deac147c0d", "application/xml", "xml"
 
     # Now ask explicitly for GPX format
     get :api_data, :params => { :id => identifiable_trace_file.id, :format => "gpx" }
-    check_trace_data identifiable_trace_file
+    check_trace_data identifiable_trace_file, "abd6675fdf3024a84fc0a1deac147c0d"
   end
 
   # Check an anonymous trace can't be downloaded by another user through the api
@@ -795,7 +796,7 @@ class TraceControllerTest < ActionController::TestCase
     # And finally we should be able to do it with the owner of the trace
     basic_authorization anon_trace_file.user.display_name, "test"
     get :api_data, :params => { :id => anon_trace_file.id }
-    check_trace_data anon_trace_file
+    check_trace_data anon_trace_file, "66179ca44f1e93d8df62e2b88cbea732"
   end
 
   # Test downloading a trace that doesn't exist through the api
@@ -931,6 +932,23 @@ class TraceControllerTest < ActionController::TestCase
     assert_equal nt.visibility, t.visibility
   end
 
+  # Test that updating a trace doesn't duplicate the tags
+  def test_api_update_tags
+    tracetag = create(:tracetag)
+    trace = tracetag.trace
+    basic_authorization trace.user.display_name, "test"
+
+    content trace.to_xml
+    put :api_update, :params => { :id => trace.id }
+    assert_response :success
+
+    updated = Trace.find(trace.id)
+    # Ensure there's only one tag in the database after updating
+    assert_equal Tracetag.count, 1
+    # The new tag object might have a different id, so check the string representation
+    assert_equal trace.tagstring, updated.tagstring
+  end
+
   # Check deleting a trace through the api
   def test_api_delete
     public_trace_file = create(:trace, :visibility => "public")
@@ -1017,8 +1035,9 @@ class TraceControllerTest < ActionController::TestCase
     end
   end
 
-  def check_trace_data(trace, content_type = "application/gpx+xml", extension = "gpx")
+  def check_trace_data(trace, digest, content_type = "application/gpx+xml", extension = "gpx")
     assert_response :success
+    assert_equal digest, Digest::MD5.hexdigest(response.body)
     assert_equal content_type, response.content_type
     assert_equal "attachment; filename=\"#{trace.id}.#{extension}\"", @response.header["Content-Disposition"]
   end

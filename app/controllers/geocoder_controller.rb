@@ -1,5 +1,3 @@
-# coding: utf-8
-
 class GeocoderController < ApplicationController
   require "cgi"
   require "uri"
@@ -19,7 +17,6 @@ class GeocoderController < ApplicationController
       @sources.push "geonames_reverse" if defined?(GEONAMES_USERNAME)
     elsif @params[:query]
       if @params[:query] =~ /^\d{5}(-\d{4})?$/
-        @sources.push "us_postcode"
         @sources.push "osm_nominatim"
       elsif @params[:query] =~ /^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i
         @sources.push "uk_postcode"
@@ -56,31 +53,6 @@ class GeocoderController < ApplicationController
 
       render :action => "results"
     end
-  end
-
-  def search_us_postcode
-    # get query parameters
-    query = params[:query]
-
-    # create result array
-    @results = []
-
-    # ask geocoder.us (they have a non-commercial use api)
-    response = fetch_text("http://rpc.geocoder.us/service/csv?zip=#{escape_query(query)}")
-
-    # parse the response
-    unless response =~ /couldn't find this zip/
-      data = response.split(/\s*,\s+/) # lat,long,town,state,zip
-      @results.push(:lat => data[0], :lon => data[1],
-                    :zoom => POSTCODE_ZOOM,
-                    :prefix => "#{data[2]}, #{data[3]},",
-                    :name => data[4])
-    end
-
-    render :action => "results"
-  rescue StandardError => ex
-    @error = "Error contacting rpc.geocoder.us: #{ex}"
-    render :action => "error"
   end
 
   def search_uk_postcode
@@ -313,7 +285,7 @@ class GeocoderController < ApplicationController
   end
 
   def escape_query(query)
-    URI.escape(query, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]", false, "N"))
+    CGI.escape(query)
   end
 
   def normalize_params
@@ -348,7 +320,7 @@ class GeocoderController < ApplicationController
       Float(captures[0])
       lat = !captures[2].casecmp("s").zero? ? captures[0].to_f : -captures[0].to_f
       lon = !captures[5].casecmp("w").zero? ? captures[3].to_f : -captures[3].to_f
-    rescue
+    rescue StandardError
       lat = !captures[0].casecmp("s").zero? ? captures[1].to_f : -captures[1].to_f
       lon = !captures[3].casecmp("w").zero? ? captures[4].to_f : -captures[4].to_f
     end
@@ -360,7 +332,7 @@ class GeocoderController < ApplicationController
       Float(captures[0])
       lat = !captures[3].casecmp("s").zero? ? captures[0].to_f + captures[1].to_f / 60 : -(captures[0].to_f + captures[1].to_f / 60)
       lon = !captures[7].casecmp("w").zero? ? captures[4].to_f + captures[5].to_f / 60 : -(captures[4].to_f + captures[5].to_f / 60)
-    rescue
+    rescue StandardError
       lat = !captures[0].casecmp("s").zero? ? captures[1].to_f + captures[2].to_f / 60 : -(captures[1].to_f + captures[2].to_f / 60)
       lon = !captures[4].casecmp("w").zero? ? captures[5].to_f + captures[6].to_f / 60 : -(captures[5].to_f + captures[6].to_f / 60)
     end
@@ -372,7 +344,7 @@ class GeocoderController < ApplicationController
       Float(captures[0])
       lat = !captures[4].casecmp("s").zero? ? captures[0].to_f + (captures[1].to_f + captures[2].to_f / 60) / 60 : -(captures[0].to_f + (captures[1].to_f + captures[2].to_f / 60) / 60)
       lon = !captures[9].casecmp("w").zero? ? captures[5].to_f + (captures[6].to_f + captures[7].to_f / 60) / 60 : -(captures[5].to_f + (captures[6].to_f + captures[7].to_f / 60) / 60)
-    rescue
+    rescue StandardError
       lat = !captures[0].casecmp("s").zero? ? captures[1].to_f + (captures[2].to_f + captures[3].to_f / 60) / 60 : -(captures[1].to_f + (captures[2].to_f + captures[3].to_f / 60) / 60)
       lon = !captures[5].casecmp("w").zero? ? captures[6].to_f + (captures[7].to_f + captures[8].to_f / 60) / 60 : -(captures[6].to_f + (captures[7].to_f + captures[8].to_f / 60) / 60)
     end

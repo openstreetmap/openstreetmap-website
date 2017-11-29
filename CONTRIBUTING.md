@@ -42,7 +42,8 @@ sudo gem install rcov
 rcov -x gems test/*/*.rb
 ```
 
-The tests are automatically run on commit with the results shown at [http://cruise.openstreetmap.org/](http://cruise.openstreetmap.org/)
+The tests are automatically run on Pull Requests and other commits with the
+results shown on [Travis CI](https://travis-ci.org/openstreetmap/openstreetmap-website).
 
 ## Comments
 
@@ -96,4 +97,3 @@ Otherwise you should either push your changes to a publicly visible git reposito
 and send the details to the [rails-dev](http://lists.openstreetmap.org/listinfo/rails-dev)
 list or generate patches with `git format-patch` and send them to the
 [rails-dev](http://lists.openstreetmap.org/listinfo/rails-dev) list.
-

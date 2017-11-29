@@ -28,6 +28,7 @@ $(document).ready(function () {
       .removeClass('leaflet-control-locate leaflet-bar')
       .addClass('control-locate')
       .children("a")
+      .attr('href', '#')
       .removeClass('leaflet-bar-part leaflet-bar-part-single')
       .addClass('control-button');
 
@@ -83,6 +84,10 @@ $(document).ready(function () {
   updateAuthUID();
 
   $("select#user_auth_provider").on("change", updateAuthUID);
+
+  $("input#user_image").on("change", function () {
+    $("#image_action_new").prop("checked", true);
+  });
 
   function enableAuth() {
     $("#auth_prompt").hide();

@@ -26,8 +26,8 @@ L.OSM.Mapnik = L.OSM.TileLayer.extend({
 L.OSM.CycleMap = L.OSM.TileLayer.extend({
   options: {
     url: document.location.protocol === 'https:' ?
-      'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey={apikey}' :
-      'http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey={apikey}',
+      'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}{r}.png?apikey={apikey}' :
+      'http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}{r}.png?apikey={apikey}',
     attribution: '© <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://www.thunderforest.com/" target="_blank">Andy Allan</a>'
   }
 });
@@ -35,8 +35,8 @@ L.OSM.CycleMap = L.OSM.TileLayer.extend({
 L.OSM.TransportMap = L.OSM.TileLayer.extend({
   options: {
     url:  document.location.protocol === 'https:' ?
-      'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey={apikey}' :
-      'http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey={apikey}',
+      'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}{r}.png?apikey={apikey}' :
+      'http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}{r}.png?apikey={apikey}',
     attribution: '© <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://www.thunderforest.com/" target="_blank">Andy Allan</a>'
   }
 });

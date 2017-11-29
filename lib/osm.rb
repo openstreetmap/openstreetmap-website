@@ -532,7 +532,7 @@ module OSM
   # Parse a float, raising a specified exception on failure
   def self.parse_float(str, klass, *args)
     Float(str)
-  rescue
+  rescue StandardError
     raise klass.new(*args)
   end
 
@@ -553,7 +553,7 @@ module OSM
     tilesql = QuadTile.sql_for_area(bbox, prefix)
     bbox = bbox.to_scaled
 
-    "#{tilesql} AND #{prefix}latitude BETWEEN #{bbox.min_lat} AND #{bbox.max_lat} " +
+    "#{tilesql} AND #{prefix}latitude BETWEEN #{bbox.min_lat} AND #{bbox.max_lat} " \
       "AND #{prefix}longitude BETWEEN #{bbox.min_lon} AND #{bbox.max_lon}"
   end
 

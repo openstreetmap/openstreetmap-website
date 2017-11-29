@@ -41,7 +41,7 @@ module SessionPersistence
   #   session_expires_after 1.hour
   #   session_expires_after 2.weeks
   def session_expires_after(seconds)
-    session[session_persistence_key] = seconds
+    session[session_persistence_key] = seconds.to_i
   end
 
   # Expire the session.
@@ -55,7 +55,7 @@ module SessionPersistence
     if session[session_persistence_key]
       request.session_options[:expire_after] = session[session_persistence_key]
     end
-  rescue
+  rescue StandardError
     reset_session
   end
 end

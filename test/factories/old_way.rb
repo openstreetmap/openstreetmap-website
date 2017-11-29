@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :old_way do
     timestamp Time.now
     visible true

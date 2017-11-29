@@ -27,14 +27,33 @@ Rails:
 Layout/ExtraSpacing:
   AllowForAlignment: true
 
-Style/BracesAroundHashParameters:
-  EnforcedStyle: context_dependent
+Lint/PercentStringArray:
+  Exclude:
+    - 'config/initializers/secure_headers.rb'
+    - 'app/controllers/site_controller.rb'
 
-Style/FileName:
+Naming/FileName:
   Exclude:
     - 'script/deliver-message'
     - 'script/locale/reload-languages'
     - 'script/update-spam-blocks'
+
+Rails/ApplicationRecord:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+Rails/HttpPositionalArguments:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Exclude:
+    - 'db/migrate/*.rb'
+    - 'app/controllers/user_controller.rb'
+
+Style/BracesAroundHashParameters:
+  EnforcedStyle: context_dependent
 
 Style/FormatStringToken:
   EnforcedStyle: template
@@ -60,19 +79,3 @@ Style/StringLiterals:
 
 Style/SymbolArray:
   EnforcedStyle: brackets
-
-Rails/ApplicationRecord:
-  Enabled: false
-
-Rails/HttpPositionalArguments:
-  Enabled: false
-
-Rails/SkipsModelValidations:
-  Exclude:
-    - 'db/migrate/*.rb'
-    - 'app/controllers/user_controller.rb'
-
-Lint/PercentStringArray:
-  Exclude:
-    - 'config/initializers/secure_headers.rb'
-    - 'app/controllers/site_controller.rb'

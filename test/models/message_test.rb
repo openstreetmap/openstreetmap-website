@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require "test_helper"
 
 class MessageTest < ActiveSupport::TestCase

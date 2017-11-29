@@ -49,7 +49,7 @@ L.OSM.layers = function(options) {
         .appendTo(item);
 
       map.whenReady(function() {
-        var miniMap = L.map(div[0], {attributionControl: false, zoomControl: false})
+        var miniMap = L.map(div[0], {attributionControl: false, zoomControl: false, keyboard: false})
           .addLayer(new layer.constructor({ apikey: layer.options.apikey }));
 
         miniMap.dragging.disable();

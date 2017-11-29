@@ -306,7 +306,7 @@ class BoundingBoxTest < ActiveSupport::TestCase
 
   def check_expand(bbox, array_string, margin = 0, result = nil)
     array = array_string.split(",").collect(&:to_f)
-    result = array unless result
+    result ||= array
     bbox.expand!(BoundingBox.new(array[0], array[1], array[2], array[3]), margin)
     check_bbox(bbox, result)
   end

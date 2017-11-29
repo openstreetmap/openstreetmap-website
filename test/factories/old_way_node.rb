@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :old_way_node do
     sequence_id 1
 

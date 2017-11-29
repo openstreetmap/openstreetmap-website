@@ -7,6 +7,7 @@ class MessageController < ApplicationController
   before_action :lookup_this_user, :only => [:new]
   before_action :check_database_readable
   before_action :check_database_writable, :only => [:new, :reply, :mark]
+  before_action :allow_thirdparty_images, :only => [:new, :read]
 
   # Allow the user to write a new message to another user. This action also
   # deals with the sending of that message to the other user when the user
@@ -18,8 +19,8 @@ class MessageController < ApplicationController
         flash[:error] = t "message.new.limit_exceeded"
       else
         @message = Message.new(message_params)
-        @message.to_user_id = @this_user.id
-        @message.from_user_id = current_user.id
+        @message.recipient = @this_user
+        @message.sender = current_user
         @message.sent_on = Time.now.getutc
 
         if @message.save
@@ -38,7 +39,7 @@ class MessageController < ApplicationController
   def reply
     message = Message.find(params[:message_id])
 
-    if message.to_user_id == current_user.id
+    if message.recipient == current_user
       message.update(:message_read => true)
 
       @message = Message.new(
@@ -64,8 +65,8 @@ class MessageController < ApplicationController
     @title = t "message.read.title"
     @message = Message.find(params[:message_id])
 
-    if @message.to_user_id == current_user.id || @message.from_user_id == current_user.id
-      @message.message_read = true if @message.to_user_id == current_user.id
+    if @message.recipient == current_user || @message.sender == current_user
+      @message.message_read = true if @message.recipient == current_user
       @message.save
     else
       flash[:notice] = t "message.read.wrong_user", :user => current_user.display_name

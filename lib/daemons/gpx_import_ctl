@@ -6,7 +6,7 @@ require "erb"
 
 class Hash
   def with_symbols!
-    keys.each { |key| self[key.to_s.to_sym] = self[key] }
+    each_key { |key| self[key.to_s.to_sym] = self[key] }
     self
   end
 end
