@@ -219,26 +219,4 @@ class IssuesControllerTest < ActionController::TestCase
     get :index, :params => { :search_by_user => bad_user.display_name }
     assert_response :success
   end
-
-  def test_comment_by_normal_user
-    issue = create(:issue)
-
-    # Login as normal user
-    session[:user] = create(:user).id
-
-    get :comment, :params => { :id => issue.id }
-    assert_response :redirect
-    assert_redirected_to root_path
-  end
-
-  def test_comment
-    issue = create(:issue)
-
-    # Login as administrator
-    session[:user] = create(:administrator_user).id
-
-    get :comment, :params => { :id => issue.id, :issue_comment => { :body => "test comment" } }
-    assert_response :redirect
-    assert_redirected_to issue
-  end
 end
