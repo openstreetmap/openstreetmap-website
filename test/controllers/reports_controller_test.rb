@@ -62,20 +62,6 @@ class ReportsControllerTest < ActionController::TestCase
     get :new, :params => { :reportable_id => target_user.id, :reportable_type => "User" }
     assert_response :success
 
-    # Report without report_type
-    assert_no_difference "Issue.count" do
-      details = "Details of another report under the same issue"
-      post :create,
-           :params => {
-             :report => {
-               :details => details,
-               :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
-             }
-           }
-    end
-    assert_response :redirect
-    assert_equal 1, Issue.find_by(:reportable_id => target_user.id, :reportable_type => "User").reports.count
-
     # Report without details
     assert_no_difference "Issue.count" do
       post :create,
