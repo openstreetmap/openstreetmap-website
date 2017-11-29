@@ -550,6 +550,9 @@ class TraceControllerTest < ActionController::TestCase
     post :create, :params => { :trace => { :gpx_file => file, :description => "New Trace", :tagstring => "new,trace", :visibility => "trackable" } }
     assert_response :forbidden
 
+    # Rewind the file
+    file.rewind
+
     # Now authenticated
     create(:user_preference, :user => user, :k => "gps.trace.visibility", :v => "identifiable")
     assert_not_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
@@ -828,6 +831,9 @@ class TraceControllerTest < ActionController::TestCase
     # First with no auth
     post :api_create, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }
     assert_response :unauthorized
+
+    # Rewind the file
+    file.rewind
 
     # Now authenticated
     create(:user_preference, :user => user, :k => "gps.trace.visibility", :v => "identifiable")
