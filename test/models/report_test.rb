@@ -5,7 +5,7 @@ class ReportTest < ActiveSupport::TestCase
     report = create(:report)
 
     assert report.valid?
-    report.details = ''
+    report.details = ""
     assert !report.valid?
   end
 end
