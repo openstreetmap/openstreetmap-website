@@ -6,11 +6,6 @@
       </div>
       <b> <%= link_to comment.user.display_name, :controller => :user, :action =>:view, :display_name => comment.user.display_name %> </b> <br/>
       <%= comment.body %>
-
-      <% if comment.reassign %>
-      <br/>
-      <i><%= t('issues.show.comments.reassign') %></i>
-      <% end %>
     </div>
     <span class="deemphasize">
       On <%= l comment.created_at.to_datetime, :format => :friendly %>
