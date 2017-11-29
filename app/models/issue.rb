@@ -1,3 +1,32 @@
+# == Schema Information
+#
+# Table name: issues
+#
+#  id               :integer          not null, primary key
+#  reportable_type  :string           not null
+#  reportable_id    :integer          not null
+#  reported_user_id :integer          not null
+#  status           :integer
+#  issue_type       :string
+#  resolved_at      :datetime
+#  resolved_by      :integer
+#  updated_by       :integer
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  reports_count    :integer          default(0)
+#
+# Indexes
+#
+#  index_issues_on_reportable_id_and_reportable_type  (reportable_id,reportable_type)
+#  index_issues_on_reported_user_id                   (reported_user_id)
+#  index_issues_on_updated_by                         (updated_by)
+#
+# Foreign Keys
+#
+#  issues_reported_user_id_fkey  (reported_user_id => users.id) ON DELETE => cascade
+#  issues_updated_by_fkey        (updated_by => users.id) ON DELETE => cascade
+#
+
 class Issue < ActiveRecord::Base
   belongs_to :reportable, :polymorphic => true
   belongs_to :reported_user, :class_name => "User", :foreign_key => :reported_user_id
