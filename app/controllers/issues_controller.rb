@@ -8,8 +8,6 @@ class IssuesController < ApplicationController
   before_action :find_issue, :only => [:show, :resolve, :reopen, :ignore]
   before_action :setup_user_role, :only => [:show, :index]
 
-  helper_method :sort_column, :sort_direction
-
   def index
     if current_user.moderator?
       @issue_types = @moderator_issues
@@ -19,7 +17,7 @@ class IssuesController < ApplicationController
       @users = User.joins(:roles).where(:user_roles => { :role => "administrator" })
     end
 
-    @issues = Issue.where(:issue_type => @user_role).order(sort_column + " " + sort_direction)
+    @issues = Issue.where(:issue_type => @user_role)
 
     # If search
     if params[:search_by_user] && params[:search_by_user].present?

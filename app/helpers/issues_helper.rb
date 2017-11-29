@@ -47,16 +47,6 @@ module IssuesHelper
     end
   end
 
-  def sortable(column, title = nil)
-    title ||= column.titleize
-    direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
-    if column == sort_column
-      arrow = direction == "desc" ? ["25B2".hex].pack("U") : ["25BC".hex].pack("U")
-      title += arrow
-    end
-    # FIXME: link_to title, params.merge(:sort => column, :direction => direction)
-  end
-
   def report_type(report_class)
     case report_class
     when "DiaryEntry"
