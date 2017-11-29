@@ -22,28 +22,28 @@ class CreateIssuesAndReports < ActiveRecord::Migration[5.0]
 
     create_table :reports do |t|
       t.integer :issue_id
-      t.integer :reporter_user_id
+      t.integer :user_id
       t.text :details, :null => false
       t.timestamps :null => false
     end
 
     add_foreign_key :reports, :issues, :name => "reports_issue_id_fkey", :on_delete => :cascade
-    add_foreign_key :reports, :users, :column => :reporter_user_id, :name => "reports_reporter_user_id_fkey", :on_delete => :cascade
+    add_foreign_key :reports, :users, :column => :user_id, :name => "reports_user_id_fkey", :on_delete => :cascade
 
-    add_index :reports, :reporter_user_id
+    add_index :reports, :user_id
     add_index :reports, :issue_id
 
     create_table :issue_comments do |t|
       t.integer :issue_id, :null => false
-      t.integer :commenter_user_id, :null => false
+      t.integer :user_id, :null => false
       t.text :body, :null => false
       t.timestamps :null => false
     end
 
     add_foreign_key :issue_comments, :issues, :name => "issue_comments_issue_id_fkey", :on_delete => :cascade
-    add_foreign_key :issue_comments, :users, :column => :commenter_user_id, :name => "issue_comments_commenter_user_id", :on_delete => :cascade
+    add_foreign_key :issue_comments, :users, :column => :user_id, :name => "issue_comments_user_id", :on_delete => :cascade
 
-    add_index :issue_comments, :commenter_user_id
+    add_index :issue_comments, :user_id
     add_index :issue_comments, :issue_id
   end
 end

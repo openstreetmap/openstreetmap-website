@@ -692,7 +692,7 @@ ALTER SEQUENCE gpx_files_id_seq OWNED BY gpx_files.id;
 CREATE TABLE issue_comments (
     id integer NOT NULL,
     issue_id integer NOT NULL,
-    commenter_user_id integer NOT NULL,
+    user_id integer NOT NULL,
     body text NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -1065,7 +1065,7 @@ CREATE TABLE relations (
 CREATE TABLE reports (
     id integer NOT NULL,
     issue_id integer,
-    reporter_user_id integer,
+    user_id integer,
     details text NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -2031,17 +2031,17 @@ CREATE INDEX index_diary_entry_subscriptions_on_diary_entry_id ON diary_entry_su
 
 
 --
--- Name: index_issue_comments_on_commenter_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_issue_comments_on_commenter_user_id ON issue_comments USING btree (commenter_user_id);
-
-
---
 -- Name: index_issue_comments_on_issue_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_issue_comments_on_issue_id ON issue_comments USING btree (issue_id);
+
+
+--
+-- Name: index_issue_comments_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_issue_comments_on_user_id ON issue_comments USING btree (user_id);
 
 
 --
@@ -2108,10 +2108,10 @@ CREATE INDEX index_reports_on_issue_id ON reports USING btree (issue_id);
 
 
 --
--- Name: index_reports_on_reporter_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_reports_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_reports_on_reporter_user_id ON reports USING btree (reporter_user_id);
+CREATE INDEX index_reports_on_user_id ON reports USING btree (user_id);
 
 
 --
@@ -2527,19 +2527,19 @@ ALTER TABLE ONLY gpx_files
 
 
 --
--- Name: issue_comments_commenter_user_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY issue_comments
-    ADD CONSTRAINT issue_comments_commenter_user_id FOREIGN KEY (commenter_user_id) REFERENCES users(id) ON DELETE CASCADE;
-
-
---
 -- Name: issue_comments_issue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY issue_comments
     ADD CONSTRAINT issue_comments_issue_id_fkey FOREIGN KEY (issue_id) REFERENCES issues(id) ON DELETE CASCADE;
+
+
+--
+-- Name: issue_comments_user_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY issue_comments
+    ADD CONSTRAINT issue_comments_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
 
 --
@@ -2679,11 +2679,11 @@ ALTER TABLE ONLY reports
 
 
 --
--- Name: reports_reporter_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: reports_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY reports
-    ADD CONSTRAINT reports_reporter_user_id_fkey FOREIGN KEY (reporter_user_id) REFERENCES users(id) ON DELETE CASCADE;
+    ADD CONSTRAINT reports_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
 
 --
