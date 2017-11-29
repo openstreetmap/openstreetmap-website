@@ -21,16 +21,12 @@ class IssuesControllerTest < ActionController::TestCase
     # Access issues_path by admin
     session[:user] = create(:administrator_user).id
     get :index
-    # this is redirected because there are no issues?!
-    assert_response :redirect
-    assert_redirected_to issues_path
+    assert_response :success
 
     # Access issues_path by moderator
     session[:user] = create(:moderator_user).id
     get :index
-    # this is redirected because there are no issues?!
-    assert_response :redirect
-    assert_redirected_to issues_path
+    assert_response :success
   end
 
   def test_new_issue_without_login
