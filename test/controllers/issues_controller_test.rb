@@ -66,26 +66,4 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal true, Issue.find_by(:reportable_id => target_user, :reportable_type => "User").ignored?
     assert_response :redirect
   end
-
-  def test_search_issues
-    good_user = create(:user)
-    bad_user = create(:user)
-    create(:issue, :reportable => bad_user, :reported_user => bad_user, :issue_type => "administrator")
-    # Login as administrator
-    session[:user] = create(:administrator_user).id
-
-    # No issues against the user
-    get :index, :params => { :search_by_user => good_user.display_name }
-    assert_response :redirect
-    assert_redirected_to issues_path
-
-    # User doesn't exist
-    get :index, :params => { :search_by_user => "test1000" }
-    assert_response :redirect
-    assert_redirected_to issues_path
-
-    # Find Issue against bad_user
-    get :index, :params => { :search_by_user => bad_user.display_name }
-    assert_response :success
-  end
 end

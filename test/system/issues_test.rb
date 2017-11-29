@@ -23,6 +23,32 @@ class IssuesTest < ApplicationSystemTestCase
     assert page.has_content?(issues.first.reported_user.display_name)
   end
 
+  def test_search_issues_by_user
+    good_user = create(:user)
+    bad_user = create(:user)
+    create(:issue, :reportable => bad_user, :reported_user => bad_user, :issue_type => "administrator")
+
+    sign_in_as(create(:administrator_user))
+
+    # No issues against the user
+    visit issues_path
+    fill_in "search_by_user", :with => good_user.display_name
+    click_on "Search"
+    assert page.has_content?(I18n.t(".issues.index.search.issues_not_found"))
+
+    # User doesn't exist
+    visit issues_path
+    fill_in "search_by_user", :with => "Nonexistant User"
+    click_on "Search"
+    assert page.has_content?(I18n.t(".issues.index.search.user_not_found"))
+
+    # Find Issue against bad_user
+    visit issues_path
+    fill_in "search_by_user", :with => bad_user.display_name
+    click_on "Search"
+    assert !page.has_content?(I18n.t(".issues.index.search.issues_not_found"))
+  end
+
   def test_commenting
     issue = create(:issue)
     sign_in_as(create(:moderator_user))
