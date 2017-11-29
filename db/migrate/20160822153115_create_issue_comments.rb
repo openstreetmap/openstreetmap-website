@@ -1,4 +1,4 @@
-class CreateIssueComments < ActiveRecord::Migration
+class CreateIssueComments < ActiveRecord::Migration[5.0]
   def change
     create_table :issue_comments do |t|
       t.integer :issue_id, :null => false
