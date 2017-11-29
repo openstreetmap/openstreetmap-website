@@ -11,9 +11,9 @@
 #  resolved_at      :datetime
 #  resolved_by      :integer
 #  updated_by       :integer
+#  reports_count    :integer          default(0)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  reports_count    :integer          default(0)
 #
 # Indexes
 #

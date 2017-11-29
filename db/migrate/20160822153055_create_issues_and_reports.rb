@@ -9,13 +9,16 @@ class CreateIssuesAndReports < ActiveRecord::Migration[5.0]
       t.datetime :resolved_at
       t.integer :resolved_by
       t.integer :updated_by
+      t.integer :reports_count, :default => 0
       t.timestamps :null => false
     end
 
     add_foreign_key :issues, :users, :column => :reported_user_id, :name => "issues_reported_user_id_fkey", :on_delete => :cascade
+    add_foreign_key :issues, :users, :column => :updated_by, :name => "issues_updated_by_fkey", :on_delete => :cascade
 
     add_index :issues, :reported_user_id
     add_index :issues, [:reportable_id, :reportable_type]
+    add_index :issues, :updated_by
 
     create_table :reports do |t|
       t.integer :issue_id
@@ -29,5 +32,18 @@ class CreateIssuesAndReports < ActiveRecord::Migration[5.0]
 
     add_index :reports, :reporter_user_id
     add_index :reports, :issue_id
+
+    create_table :issue_comments do |t|
+      t.integer :issue_id, :null => false
+      t.integer :commenter_user_id, :null => false
+      t.text :body, :null => false
+      t.timestamps :null => false
+    end
+
+    add_foreign_key :issue_comments, :issues, :name => "issue_comments_issue_id_fkey", :on_delete => :cascade
+    add_foreign_key :issue_comments, :users, :column => :commenter_user_id, :name => "issue_comments_commenter_user_id", :on_delete => :cascade
+
+    add_index :issue_comments, :commenter_user_id
+    add_index :issue_comments, :issue_id
   end
 end

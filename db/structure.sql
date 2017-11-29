@@ -732,9 +732,9 @@ CREATE TABLE issues (
     resolved_at timestamp without time zone,
     resolved_by integer,
     updated_by integer,
+    reports_count integer DEFAULT 0,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    reports_count integer DEFAULT 0
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -1066,7 +1066,7 @@ CREATE TABLE reports (
     id integer NOT NULL,
     issue_id integer,
     reporter_user_id integer,
-    details text,
+    details text NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -2830,8 +2830,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20150222101847'),
 ('20150818224516'),
 ('20160822153055'),
-('20160822153115'),
-('20160822153153'),
 ('20161002153425'),
 ('20161011010929'),
 ('20170222134109'),
