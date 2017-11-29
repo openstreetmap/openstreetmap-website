@@ -115,7 +115,6 @@ end
 # Gems needed for running tests
 group :test do
   gem "minitest", "~> 5.1", :platforms => [:ruby_19, :ruby_20]
-  gem "minitest-rails-capybara"
   gem "rails-controller-testing"
   gem "rubocop"
   gem "webmock"

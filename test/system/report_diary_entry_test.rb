@@ -1,6 +1,6 @@
-require "test_helper"
+require "application_system_test_case"
 
-class ReportDiaryEntryTest < Capybara::Rails::TestCase
+class ReportDiaryEntryTest < ApplicationSystemTestCase
   def setup
     create(:language, :code => "en")
     @diary_entry = create(:diary_entry)

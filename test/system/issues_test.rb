@@ -1,6 +1,6 @@
-require "test_helper"
+require "application_system_test_case"
 
-class IssuesTest < Capybara::Rails::TestCase
+class IssuesTest < ApplicationSystemTestCase
   def test_view_issues_normal_user
     sign_in_as(create(:user))
 
