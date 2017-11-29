@@ -4,7 +4,6 @@ class CreateIssueComments < ActiveRecord::Migration[5.0]
       t.integer :issue_id, :null => false
       t.integer :commenter_user_id, :null => false
       t.text :body, :null => false
-      t.boolean :reassign
       t.timestamps :null => false
     end
 

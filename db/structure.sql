@@ -694,7 +694,6 @@ CREATE TABLE issue_comments (
     issue_id integer NOT NULL,
     commenter_user_id integer NOT NULL,
     body text NOT NULL,
-    reassign boolean,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
