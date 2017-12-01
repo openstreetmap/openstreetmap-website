@@ -32,6 +32,8 @@ OSM.Directions = function (map) {
   function Endpoint(input, iconUrl) {
     var endpoint = {};
 
+    endpoint.input = input;
+
     endpoint.marker = L.marker([0, 0], {
       icon: L.icon({
         iconUrl: iconUrl,
@@ -110,6 +112,20 @@ OSM.Directions = function (map) {
 
     return endpoint;
   }
+
+  $(".directions_form .reverse_directions").on("click", function() {
+    var input_from = endpoints[0].input.val();
+    var input_to = endpoints[1].input.val();
+    var latlng_from = endpoints[0].latlng;
+    var latlng_to = endpoints[1].latlng;
+
+    endpoints[0].setLatLng(latlng_to);
+    endpoints[1].setLatLng(latlng_from);
+    endpoints[0].input.val(input_to);
+    endpoints[1].input.val(input_from);
+
+    getRoute();
+  });
 
   $(".directions_form .close").on("click", function(e) {
     e.preventDefault();
