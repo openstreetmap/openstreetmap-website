@@ -6,7 +6,6 @@ class IssuesController < ApplicationController
   before_action :set_issues
   before_action :check_permission, :only => [:index, :show, :resolve, :open, :ignore, :comment]
   before_action :find_issue, :only => [:show, :resolve, :reopen, :ignore]
-  before_action :setup_user_role, :only => [:show, :index]
 
   def index
     if current_user.moderator?
@@ -17,7 +16,7 @@ class IssuesController < ApplicationController
       @users = User.joins(:roles).where(:user_roles => { :role => "administrator" })
     end
 
-    @issues = Issue.where(:assigned_role => @user_role)
+    @issues = Issue.where(:assigned_role => current_user.roles.map(&:role))
 
     # If search
     if params[:search_by_user] && params[:search_by_user].present?
@@ -55,7 +54,7 @@ class IssuesController < ApplicationController
     @read_reports = @issue.read_reports
     @unread_reports = @issue.unread_reports
     @comments = @issue.comments
-    @related_issues = @issue.reported_user.issues.where(:assigned_role => @user_role)
+    @related_issues = @issue.reported_user.issues.where(:assigned_role => current_user.roles.map(&:role))
     @new_comment = IssueComment.new(:issue => @issue)
   end
 
@@ -128,11 +127,6 @@ class IssuesController < ApplicationController
   def set_issues
     @admin_issues = %w[DiaryEntry DiaryComment User]
     @moderator_issues = %w[Changeset Note]
-  end
-
-  def setup_user_role
-    # Get user role
-    @user_role = current_user.administrator? ? "administrator" : "moderator"
   end
 
   def check_if_updated

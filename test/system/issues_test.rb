@@ -78,4 +78,20 @@ class IssuesTest < ApplicationSystemTestCase
     issue.reload
     assert_equal "moderator", issue.assigned_role
   end
+
+  def test_issue_index_with_multiple_roles
+    user1 = create(:user)
+    user2 = create(:user)
+    issue1 = create(:issue, :reportable => user1, :assigned_role => "administrator")
+    issue2 = create(:issue, :reportable => user2, :assigned_role => "moderator")
+
+    user = create(:administrator_user)
+    create(:user_role, :user => user, :role => "moderator")
+    sign_in_as(user)
+
+    visit issues_path
+
+    assert page.has_link?(user1.display_name, :href => issue_path(issue1))
+    assert page.has_link?(user2.display_name, :href => issue_path(issue2))
+  end
 end
