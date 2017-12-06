@@ -728,7 +728,7 @@ CREATE TABLE issues (
     reportable_id integer NOT NULL,
     reported_user_id integer NOT NULL,
     status integer,
-    issue_type character varying,
+    assigned_role user_role_enum NOT NULL,
     resolved_at timestamp without time zone,
     resolved_by integer,
     updated_by integer,
@@ -2877,3 +2877,5 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('7'),
 ('8'),
 ('9');
+
+

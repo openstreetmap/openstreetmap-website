@@ -5,7 +5,7 @@ class CreateIssuesAndReports < ActiveRecord::Migration[5.0]
       t.integer :reportable_id, :null => false
       t.integer :reported_user_id, :null => false
       t.integer :status
-      t.string :issue_type
+      t.column :assigned_role, :user_role_enum, :null => false
       t.datetime :resolved_at
       t.integer :resolved_by
       t.integer :updated_by

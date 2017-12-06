@@ -7,7 +7,7 @@
 #  reportable_id    :integer          not null
 #  reported_user_id :integer          not null
 #  status           :integer
-#  issue_type       :string
+#  assigned_role    :enum             not null
 #  resolved_at      :datetime
 #  resolved_by      :integer
 #  updated_by       :integer
@@ -38,6 +38,7 @@ class Issue < ActiveRecord::Base
   validates :reportable_id, :uniqueness => { :scope => [:reportable_type] }
   validates :reported_user_id, :presence => true
 
+  before_validation :set_default_assigned_role
   before_validation :set_reported_user
 
   # Check if more statuses are needed
@@ -88,5 +89,10 @@ class Issue < ActiveRecord::Base
                          else
                            reportable.user
                          end
+  end
+
+  def set_default_assigned_role
+    role = %w[Changeset Note].include?(reportable.class.name) ? "moderator" : "administrator"
+    self.assigned_role = role if assigned_role.blank?
   end
 end

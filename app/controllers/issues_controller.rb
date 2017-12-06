@@ -17,7 +17,7 @@ class IssuesController < ApplicationController
       @users = User.joins(:roles).where(:user_roles => { :role => "administrator" })
     end
 
-    @issues = Issue.where(:issue_type => @user_role)
+    @issues = Issue.where(:assigned_role => @user_role)
 
     # If search
     if params[:search_by_user] && params[:search_by_user].present?
@@ -55,7 +55,7 @@ class IssuesController < ApplicationController
     @read_reports = @issue.read_reports
     @unread_reports = @issue.unread_reports
     @comments = @issue.comments
-    @related_issues = @issue.reported_user.issues.where(:issue_type => @user_role)
+    @related_issues = @issue.reported_user.issues.where(:assigned_role => @user_role)
     @new_comment = IssueComment.new(:issue => @issue)
   end
 
@@ -125,7 +125,7 @@ class IssuesController < ApplicationController
 
   # Reassign Issues between Administrators and Moderators
   def reassign_issue
-    @issue.issue_type = upgrade_issue(@issue.issue_type)
+    @issue.assigned_role = upgrade_issue(@issue.assigned_role)
     @issue.save!
   end
 

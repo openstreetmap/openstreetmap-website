@@ -17,7 +17,7 @@ class IssuesTest < ApplicationSystemTestCase
 
   def test_view_issues
     sign_in_as(create(:moderator_user))
-    issues = create_list(:issue, 3, :issue_type => "moderator")
+    issues = create_list(:issue, 3, :assigned_role => "moderator")
 
     visit issues_path
     assert page.has_content?(issues.first.reported_user.display_name)
@@ -26,7 +26,7 @@ class IssuesTest < ApplicationSystemTestCase
   def test_search_issues_by_user
     good_user = create(:user)
     bad_user = create(:user)
-    create(:issue, :reportable => bad_user, :reported_user => bad_user, :issue_type => "administrator")
+    create(:issue, :reportable => bad_user, :reported_user => bad_user, :assigned_role => "administrator")
 
     sign_in_as(create(:administrator_user))
 
