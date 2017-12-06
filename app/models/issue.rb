@@ -37,7 +37,9 @@ class Issue < ActiveRecord::Base
 
   validates :reportable_id, :uniqueness => { :scope => [:reportable_type] }
   validates :reported_user_id, :presence => true
-  validates :assigned_role, :presence => true, :inclusion => %w[administrator moderator]
+
+  ASSIGNED_ROLES = %w[administrator moderator].freeze
+  validates :assigned_role, :presence => true, :inclusion => ASSIGNED_ROLES
 
   before_validation :set_default_assigned_role
   before_validation :set_reported_user

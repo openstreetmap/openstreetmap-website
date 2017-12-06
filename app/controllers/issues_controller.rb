@@ -123,21 +123,7 @@ class IssuesController < ApplicationController
     end
   end
 
-  # Reassign Issues between Administrators and Moderators
-  def reassign_issue
-    @issue.assigned_role = upgrade_issue(@issue.assigned_role)
-    @issue.save!
-  end
-
   private
-
-  def upgrade_issue(type)
-    if type == "moderator"
-      "administrator"
-    else
-      "moderator"
-    end
-  end
 
   def set_issues
     @admin_issues = %w[DiaryEntry DiaryComment User]

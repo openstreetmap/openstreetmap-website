@@ -9,12 +9,9 @@ class IssueCommentsController < ApplicationController
     @issue = Issue.find(params[:issue_id])
     comment = @issue.comments.build(issue_comment_params)
     comment.user = current_user
-    # if params[:reassign]
-    #   reassign_issue
-    #   @issue_comment.reassign = true
-    # end
     comment.save!
     notice = t("issues.comment.comment_created")
+    reassign_issue(@issue) if params[:reassign]
     redirect_to @issue, :notice => notice
   end
 
@@ -29,5 +26,12 @@ class IssueCommentsController < ApplicationController
       flash[:error] = t("application.require_admin.not_an_admin")
       redirect_to root_path
     end
+  end
+
+  # This sort of assumes there are only two roles
+  def reassign_issue(issue)
+    role = (Issue::ASSIGNED_ROLES - [issue.assigned_role]).first
+    issue.assigned_role = role
+    issue.save!
   end
 end

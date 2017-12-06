@@ -63,4 +63,19 @@ class IssuesTest < ApplicationSystemTestCase
     issue.reload
     assert_equal issue.comments.first.body, "test comment"
   end
+
+  def test_reassign_issue
+    issue = create(:issue)
+    assert_equal "administrator", issue.assigned_role
+    sign_in_as(create(:administrator_user))
+
+    visit issue_path(issue)
+
+    fill_in :issue_comment_body, :with => "reassigning to moderators"
+    check :reassign
+    click_on "Submit"
+
+    issue.reload
+    assert_equal "moderator", issue.assigned_role
+  end
 end
