@@ -87,6 +87,8 @@ Installing other dependencies:
 
 Note that OS X does not have a /home directory by default, so if you are using the GPX functions, you will need to change the directories specified in config/application.yml.
 
+If you run into trouble installing the `libxml-ruby` gem, follow [these steps](https://gist.github.com/unixcharles/1226596#gistcomment-2217297).
+
 ## Cloning the repository
 
 The repository is reasonably large (~150MB) and it's unlikely that you need the full history. If you are happy to wait for it all to download, run:
