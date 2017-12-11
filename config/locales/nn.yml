@@ -119,9 +119,12 @@ nn:
     download_xml: Last ned XML
     view_history: Vis historikk
     view_details: Vis detaljar
+    location: 'Plassering:'
     changeset:
       title: Endringssett %{id}
       belongs_to: Skapar
+      node: Punkt (%{count})
+      node_paginated: Punkt (%{x}-%{y} av %{count})
       way: Strekningar (%{count})
       way_paginated: Strekningar (%{x}-%{y} av %{count})
       comment: Kommentarar (%{count})
@@ -130,14 +133,25 @@ nn:
       feed:
         title: Endringssett %{id}
         title_comment: 'Endringssett: %{id} - %{comment}'
+      join_discussion: Logg inn for å vere med i diskusjonen
       discussion: Ordskifte
+    node:
+      title: 'Punkt: %{name}'
+      history_title: 'Punkthistorikk: %{name}'
+    way:
+      title: 'Strekning: %{name}'
+      history_title: 'Strekningshistorikk: %{name}'
+      nodes: Punkt
+      also_part_of:
+        one: delstrekning %{related_ways}
+        other: delstrekningar %{related_ways}
     relation:
       members: Medlemmar
     relation_member:
       entry: '%{type} %{name}'
       entry_role: '%{type} %{name} som %{role}'
       type:
-        node: Node
+        node: Punkt
         way: Veg
         relation: Relasjon
     containing_relation:
@@ -154,7 +168,7 @@ nn:
     timeout:
       sorry: Beklagar, data for %{type} med id %{id} tok for lang tid å hente.
       type:
-        node: node
+        node: punkt
         way: veg
         relation: relasjon
         changeset: endringssett
@@ -164,7 +178,7 @@ nn:
       message_html: Versjon %{version} av denne %{type} kan ikkje visast fordi den
         er blitt maskert. Sjå %{redaction_link} for detaljar.
       type:
-        node: noden
+        node: punkt
         way: vegen
         relation: relasjonen
     start_rjs:
@@ -183,6 +197,14 @@ nn:
       description: Skildring
       open_title: 'Uavklart merknad #%{note_name}'
       closed_title: 'Avklart merknad: #%{note_name}'
+      hidden_title: 'Gøymd merknad #%{note_name}'
+      open_by: Oppretta av %{user} <abbr title='%{exact_time}'>%{when} sidan</abbr>
+      open_by_anonymous: Oppretta av anonym <abbr title='%{exact_time}'>%{when} sidan</abbr>
+      commented_by: Kommentar frå %{user} <abbr title='%{exact_time}'>%{when} sidan</abbr>
+      commented_by_anonymous: Kommentar frå anonym <abbr title='%{exact_time}'>%{when}
+        sidan</abbr>
+      closed_by: Løyst av %{user} <abbr title='%{exact_time}'>%{when} sidan</abbr>
+      closed_by_anonymous: Løyst av anonym <abbr title='%{exact_time}'>%{when} sidan</abbr>
     query:
       title: Førespurnadsfunksjonar
       nearby: Nærliggjande funksjonar
@@ -330,6 +352,8 @@ nn:
         osm_nominatim: Resultat frå <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames: Resultat frå <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse: Resultat frå <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a>
     search_osm_nominatim:
       prefix_format: '%{name}'
       prefix:
@@ -865,6 +889,8 @@ nn:
     edit_with: Rediger med %{editor}
     tag_line: Fritt Wiki-verdenskart
     intro_header: Velkomen til OpenStreetMap!
+    intro_text: OpenStreetMap er eit verdskart, laga av folks som deg, det er ope
+      og gratis å bruke, med ein open lisens.
     intro_2_create_account: Opprett ein brukarkonto
     partners_html: Drifta er støtta av %{ucl}, %{ic}, %{bytemark} og andre %{partners}.
     partners_ucl: UCL VR-senteret
@@ -1999,6 +2025,8 @@ nn:
       zoom:
         in: Vis større
         out: Vis mindre
+      locate:
+        title: Vis plassering
       base:
         standard: Standard
         cycle_map: Sykkelkart
@@ -2012,6 +2040,7 @@ nn:
     site:
       edit_tooltip: Rediger kartet
       edit_disabled_tooltip: Zoom inn for å redigere kartet
+      createnote_tooltip: Legg til ein merknad på kartet
     changesets:
       show:
         comment: Kommentar
