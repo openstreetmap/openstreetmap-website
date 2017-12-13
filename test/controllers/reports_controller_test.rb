@@ -20,10 +20,12 @@ class ReportsControllerTest < ActionController::TestCase
     assert_response :success
     assert_difference "Issue.count", 1 do
       details = "Details of a report"
+      category = "other"
       post :create,
            :params => {
              :report => {
                :details => details,
+               :category => category,
                :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
              }
            }
@@ -47,10 +49,12 @@ class ReportsControllerTest < ActionController::TestCase
     assert_response :success
     assert_difference "Issue.count", 1 do
       details = "Details of a report"
+      category = "other"
       post :create,
            :params => {
              :report => {
                :details => details,
+               :category => category,
                :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
              }
            }
@@ -64,9 +68,11 @@ class ReportsControllerTest < ActionController::TestCase
 
     # Report without details
     assert_no_difference "Issue.count" do
+      category = "other"
       post :create,
            :params => {
              :report => {
+               :category => category,
                :issue => { :reportable_id => 1, :reportable_type => "User" }
              }
            }
@@ -89,10 +95,12 @@ class ReportsControllerTest < ActionController::TestCase
     assert_response :success
     assert_difference "Issue.count", 1 do
       details = "Details of a report"
+      category = "other"
       post :create,
            :params => {
              :report => {
                :details => details,
+               :category => category,
                :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
              }
            }
@@ -106,10 +114,12 @@ class ReportsControllerTest < ActionController::TestCase
     assert_response :success
     assert_no_difference "Issue.count" do
       details = "Details of another report under the same issue"
+      category = "other"
       post :create,
            :params => {
              :report => {
                :details => details,
+               :category => category,
                :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
              }
            }

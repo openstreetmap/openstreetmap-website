@@ -8,4 +8,12 @@ class ReportTest < ActiveSupport::TestCase
     report.details = ""
     assert !report.valid?
   end
+
+  def test_category_required
+    report = create(:report)
+
+    assert report.valid?
+    report.category = ""
+    assert !report.valid?
+  end
 end

@@ -1067,6 +1067,7 @@ CREATE TABLE reports (
     issue_id integer,
     user_id integer,
     details text NOT NULL,
+    category character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );

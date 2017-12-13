@@ -24,6 +24,7 @@ class CreateIssuesAndReports < ActiveRecord::Migration[5.0]
       t.integer :issue_id
       t.integer :user_id
       t.text :details, :null => false
+      t.string :category, :null => false
       t.timestamps :null => false
     end
 

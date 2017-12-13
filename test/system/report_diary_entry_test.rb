@@ -22,7 +22,7 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
     assert page.has_content? "Report"
     assert page.has_content? I18n.t("issues.new.disclaimer.intro")
 
-    choose "report_type__SPAM" # FIXME: use label text when the radio button labels are working
+    choose I18n.t("reports.categories.DiaryEntry.spam")
     fill_in "report_details", :with => "This is advertising"
     click_on "Save changes"
 

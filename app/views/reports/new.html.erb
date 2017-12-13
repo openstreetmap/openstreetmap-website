@@ -23,10 +23,10 @@
       <p><%= t('issues.new.select') %>:</p>
 
       <div class="new-report-form">
-        <% @report_strings_yaml.each do |k,v| %>
+        <% Report.categories_for(@report.issue.reportable).each do |c| %>
           <div style="padding-left:5px">
-            <%= radio_button_tag :report_type, v[:type].to_s %>
-            <%= label_tag v[:details].to_s %> <br/>
+            <%= radio_button :report, :category, c %>
+            <%= label_tag "report_category_#{c}", t("reports.categories.#{@report.issue.reportable.class.name}.#{c}") %> <br/>
           </div>
         <% end %>
       </div>

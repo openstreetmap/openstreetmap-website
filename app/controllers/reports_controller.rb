@@ -8,8 +8,6 @@ class ReportsController < ApplicationController
     if create_new_report_params.present?
       @report = Report.new
       @report.issue = Issue.find_or_initialize_by(create_new_report_params)
-      path = "issues.report_strings." + @report.issue.reportable.class.name.to_s
-      @report_strings_yaml = t(path)
     end
   end
 
@@ -34,6 +32,6 @@ class ReportsController < ApplicationController
   end
 
   def report_params
-    params[:report].permit(:details)
+    params[:report].permit(:details, :category)
   end
 end

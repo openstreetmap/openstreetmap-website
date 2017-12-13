@@ -6,6 +6,7 @@
 #  issue_id   :integer
 #  user_id    :integer
 #  details    :text             not null
+#  category   :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
@@ -25,4 +26,16 @@ class Report < ActiveRecord::Base
   belongs_to :user
 
   validates :details, :presence => true
+  validates :category, :presence => true
+
+  def self.categories_for(reportable)
+    case reportable.class.name
+    when "DiaryEntry" then %w[spam offensive threat other]
+    when "DiaryComment" then %w[spam offensive threat other]
+    when "User" then %w[spam offensive threat vandal other]
+    when "Changeset" then %w[undiscussed_import mechanical_edit edit_error spam vandalism other]
+    when "Note" then %w[spam vandalism personal abusive other]
+    else %w[other]
+    end
+  end
 end
