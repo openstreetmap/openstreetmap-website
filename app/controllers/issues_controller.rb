@@ -58,40 +58,6 @@ class IssuesController < ApplicationController
     @new_comment = IssueComment.new(:issue => @issue)
   end
 
-  def update
-    @issue = Issue.find_by(issue_params)
-    # Check if details provided are sufficient
-    if check_report_params
-      @report = @issue.reports.where(:reporter_user_id => current_user.id).first
-
-      if @report.nil?
-        @report = @issue.reports.build(report_params)
-        @report.reporter_user_id = current_user.id
-        notice = t("issues.update.new_report")
-      end
-
-      details = report_details
-      @report.details = details
-
-      # Checking if instance has been updated since last report
-      @last_report = @issue.reports.order(:updated_at => :desc).last
-      if check_if_updated
-        @issue.reopen
-        @issue.save!
-      end
-
-      notice = t("issues.update.successful_update") if notice.nil?
-
-      if @report.save!
-        @issue.report_count = @issue.reports.count
-        @issue.save!
-        redirect_back :fallback_location => "/", :notice => notice
-      end
-    else
-      redirect_to new_issue_path(:reportable_type => @issue.reportable_type, :reportable_id => @issue.reportable_id), :notice => t("issues.update.provide_details")
-    end
-  end
-
   # Status Transistions
   def resolve
     if @issue.resolve
@@ -135,14 +101,6 @@ class IssuesController < ApplicationController
     else
       false
     end
-  end
-
-  def report_details
-    params[:report][:details] + "--||--" + params[:report_type].to_s + "--||--"
-  end
-
-  def check_report_params
-    params[:report] && params[:report][:details] && params[:report_type]
   end
 
   def find_issue
