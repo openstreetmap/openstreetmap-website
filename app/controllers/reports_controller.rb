@@ -18,7 +18,6 @@ class ReportsController < ApplicationController
     if @report.save
       @report.issue.save
       # FIXME: reopen issue if necessary
-      # FIXME: new issue notification (or via model observer)
       redirect_to root_path, :notice => t("issues.create.successful_report")
     else
       redirect_to new_report_path(:reportable_type => @report.issue.reportable_type, :reportable_id => @report.issue.reportable_id), :notice => t("issues.create.provide_details")
