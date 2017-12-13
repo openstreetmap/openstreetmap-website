@@ -4,7 +4,7 @@ class IssuesController < ApplicationController
   before_action :authorize_web
   before_action :require_user
   before_action :set_issues
-  before_action :check_permission, :only => [:index, :show, :resolve, :open, :ignore, :comment]
+  before_action :check_permission
   before_action :find_issue, :only => [:show, :resolve, :reopen, :ignore]
 
   def index
