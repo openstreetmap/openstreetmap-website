@@ -2248,6 +2248,13 @@ CHANGESET
       post :subscribe, :params => { :id => changeset.id }
     end
     assert_response :success
+
+    # not closed changeset
+    changeset = create(:changeset)
+    assert_difference "changeset.subscribers.count", 1 do
+      post :subscribe, :params => { :id => changeset.id }
+    end
+    assert_response :success
   end
 
   ##
@@ -2270,12 +2277,6 @@ CHANGESET
     end
     assert_response :not_found
 
-    # not closed changeset
-    changeset = create(:changeset)
-    assert_no_difference "changeset.subscribers.count" do
-      post :subscribe, :params => { :id => changeset.id }
-    end
-    assert_response :conflict
 
     # trying to subscribe when already subscribed
     changeset = create(:changeset, :closed)
@@ -2292,6 +2293,15 @@ CHANGESET
     user = create(:user)
     basic_authorization user.email, "test"
     changeset = create(:changeset, :closed)
+    changeset.subscribers.push(user)
+
+    assert_difference "changeset.subscribers.count", -1 do
+      post :unsubscribe, :params => { :id => changeset.id }
+    end
+    assert_response :success
+
+    # not closed changeset
+    changeset = create(:changeset)
     changeset.subscribers.push(user)
 
     assert_difference "changeset.subscribers.count", -1 do
@@ -2317,13 +2327,6 @@ CHANGESET
       post :unsubscribe, :params => { :id => 999111 }
     end
     assert_response :not_found
-
-    # not closed changeset
-    changeset = create(:changeset)
-    assert_no_difference "changeset.subscribers.count" do
-      post :unsubscribe, :params => { :id => changeset.id }
-    end
-    assert_response :conflict
 
     # trying to unsubscribe when not subscribed
     changeset = create(:changeset, :closed)
