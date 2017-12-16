@@ -2277,7 +2277,6 @@ CHANGESET
     end
     assert_response :not_found
 
-
     # trying to subscribe when already subscribed
     changeset = create(:changeset, :closed)
     changeset.subscribers.push(user)
