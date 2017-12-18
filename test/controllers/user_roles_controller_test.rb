@@ -138,5 +138,6 @@ class UserRolesControllerTest < ActionController::TestCase
     # Revoking administrator role from current user should fail
     post :revoke, :params => { :display_name => administrator_user.display_name, :role => "administrator" }
     assert_redirected_to user_path(administrator_user.display_name)
+    assert_equal "Cannot revoke administrator role from current user.", flash[:error]
   end
 end
