@@ -105,7 +105,7 @@ class WayControllerTest < ActionController::TestCase
     end
 
     # check error when a non-existent way is included
-    get :ways, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id},400" }
+    get :ways, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id},0" }
     assert_response :not_found
   end
 
