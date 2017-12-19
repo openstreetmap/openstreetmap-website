@@ -15,7 +15,12 @@ class UserRolesController < ApplicationController
   end
 
   def revoke
-    UserRole.where(:user_id => @this_user.id, :role => @role).delete_all
+    # checks that administrator role is not revoked from current user
+    if current_user == @this_user && @role == "administrator"
+      flash[:error] = t("user_role.filter.not_revoke_admin_current_user")
+    else
+      UserRole.where(:user_id => @this_user.id, :role => @role).delete_all
+    end
     redirect_to :controller => "user", :action => "view", :display_name => @this_user.display_name
   end
 
