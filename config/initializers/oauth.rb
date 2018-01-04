@@ -47,6 +47,25 @@ module OpenStreetMap
       end
     end
   end
+
+  module OAuthFilter
+    def oauth1_verify(request, options = {}, &block)
+      signature = OAuth::Signature.build(request, options, &block)
+      return false unless OauthNonce.remember(signature.request.nonce, signature.request.timestamp)
+      value = signature.verify
+      if request.ssl? && !value
+        http_request = request.dup
+        http_request.define_singleton_method(:scheme) { "http" }
+        http_request.define_singleton_method(:port) { 80 }
+        signature = OAuth::Signature.build(http_request, options, &block)
+        value = signature.verify
+      end
+      value
+    rescue OAuth::Signature::UnknownSignatureMethod
+      false
+    end
+  end
 end
 
 OAuth::Controllers::ProviderController.prepend(OpenStreetMap::ProviderController)
+OAuth::Rack::OAuthFilter.prepend(OpenStreetMap::OAuthFilter)
