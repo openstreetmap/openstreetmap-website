@@ -183,10 +183,20 @@ tl:
       wikipedia_link: Ang %{page} ng artikulo sa Wikipedia
       telephone_link: Tawagan ang %{phone_number}
     note:
+      title: 'Tala: %{id}'
+      new_note: Bagong Tala
       description: Paglalarawan
+      hidden_title: 'Nakatagong tala #%{note_name}'
+      open_by: Nilikha ni %{user} <abbr title='%{exact_time}'>%{when} ang nakaraan</abbr>
+      open_by_anonymous: Nilikha ng isang di-nagpakilalang tagagamit <abbr title='%{exact_time}'>%{when}
+        ang nakaraan</abbr>
       commented_by: Puna mula kay %{user} <abbr title='%{exact_time}'>%{when} ang
         nakaraan</abbr>
+      commented_by_anonymous: Puna ng isang di-nagpakilalang tagagamit <abbr title='%{exact_time}'>%{when}
+        ang nakaraan</abbr>
       hidden_by: Itinago ni %{user} <abbr title='%{exact_time}'>%{when} ang nakaraan</abbr>
+    query:
+      nearby: Mga kalapit na tampok
   changeset:
     changeset_paging_nav:
       showing_page: Ika-%{page} na pahina
@@ -315,10 +325,16 @@ tl:
       too_large:
         body: Masyadong malaki ang lugar na ito upang mailuwas bilang Dato ng XML
           ng OpenStreetMap. Mangyaring lumapit o pumili ng isang mas maliit na pook.
+        planet:
+          title: Planet OSM
         overpass:
           title: Overpass API
+        metro:
+          title: Metro Extracts
         other:
           title: Iba pang mga Pinagmulan
+          description: Karagdagang mga mapagkukunan na nakalista sa OpenStreetMap
+            Wiki
       options: Mga mapagpipilian
       format: Anyo
       scale: Sukat
@@ -468,6 +484,8 @@ tl:
           gardener: Hardinero
           painter: Pintor
           photographer: Litratista
+          plumber: Tubero
+          shoemaker: Sapatero
           tailor: Mananahi
         emergency:
           ambulance_station: Istasyon ng Ambulansya
@@ -479,6 +497,7 @@ tl:
           bus_stop: Hintuan ng Bus
           construction: Ginagawang Punong Lansangan
           cycleway: Daanan ng Bisikleta
+          elevator: Asensor
           emergency_access_point: Tuldok na Puntahan na Pangsakuna
           footway: Makitid na Lakaran ng Tao
           ford: Bagtasan ng Tao
@@ -494,7 +513,7 @@ tl:
           primary_link: Pangunahing Kalsada
           proposed: Iminungkahing Daan
           raceway: Kanal na Daluyan ng Tubig
-          residential: Pamahayan
+          residential: Daang pamahayan
           rest_area: Pook Pahingahan
           road: Lansangan
           secondary: Pampangalawang Lansangan
@@ -696,7 +715,7 @@ tl:
           preserved: Pinangangalagaang Daambakal
           spur: Tahid ng Daambakal
           station: Himpilan ng Daambakal
-          subway: Himpilan ng Pang-ilalim na Daambakal
+          subway: Pang-ilalim na Daambakal
           subway_entrance: Pasukan sa Pang-ilalim na Daambakal
           switch: Mga Tuldok na Pangdaambakal
           tram: Riles ng Trambya
@@ -853,7 +872,7 @@ tl:
     intro_text: Ang OpenStreetMap ay isang mapa ng mundo na nilikha ng mga taong katulad
       mo at malayang gamitin sa ilalim ng isang bukas na lisensya.
     intro_2_create_account: Lumikha ng isang akawnt ng tagagamit
-    partners_html: Ang pagpapasinaya ay sinusuportahan ng %{ucl}, %{ic} at %{bytemark},
+    partners_html: Ang pagpapasinaya ay sinusuportahan ng %{ucl}, %{bytemark}, %{ic},
       at iba pang %{partners}.
     partners_ucl: UCL
     partners_ic: Dalubhasaang Pang-imperyo Londres
@@ -896,9 +915,9 @@ tl:
     legal_babble:
       title_html: Karapatan sa Paglalathala at Lisensiya
       intro_1_html: |-
-        Ang OpenStreetMap ay <i>open data</i>, nakalisensiya sa ilalim ng lisensiyang <a
+        Ang OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> ay <i>bukas na datos</i>, nakalisensiya sa ilalim ng lisensiyang <a
         href="http://opendatacommons.org/licenses/odbl/">Open Data
-        Commons Open Database License</a> (ODbL).
+        Commons Open Database License</a> (ODbL) ng <a href="http://osmfoundation.org/">OpenStreetMap Foundation</a> o OSMF.
       intro_2_html: "Malaya mong makokopya, maipapamahagi, maipahahatid at mahahalaw
         ang aming mga dato,\nbasta't babanggitin mo ang OpenStreetMap at ang mga tagapag-ambag\nnito.
         Kapag binago mo o nagbuo sa pamamagitan ng aming mga dato, maaari\nmong ipamahagi
@@ -923,9 +942,10 @@ tl:
       attribution_example:
         title: Halimbawa ng Atribusyon
       more_title_html: Ang pagtuklas ng mas marami pang iba
-      more_1_html: "Magbasa ng mas marami pa hinggil sa paggamit ng dato namin doon
-        sa <a\nhref=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Mga Palaging
-        Itinatanong \nna Makabatas</a>."
+      more_1_html: |-
+        Magbasa ng mas marami pa hinggil sa paggamit ng dato namin at kung paano kaming banggitin sa <a
+        href="http://osmfoundation.org/Licence">pahina ng Lisensya ng OSMF</a> at sa <a
+        href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Mga Palaging Itinatanong na Makabatas</a>.
       more_2_html: |-
         Ipinapaalala sa mga tagapag-ambag ng OpenStreetMap (OSM) na huwag kailanman magdaragdag ng dato magmula sa anumang
         mga pinagmulan na mayroong karapatan sa paglalathala (halimbawa na ang Google Maps o nakalimbag na mga mapa) na wala
@@ -944,8 +964,8 @@ tl:
         sa \n<a href=\"http://data.wien.gv.at/\">Stadt Wien</a> (na nasa ilalim ng
         \n<a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>),\n<a
         href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land
-        Vorarlberg</a> at ng\nLand Tirol (na nasa ilalim ng <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC-BY
-        AT na mayroong mga susog</a>)."
+        Vorarlberg</a> at ng\nLand Tirol (na nasa ilalim ng <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC
+        BY AT na mayroong mga susog</a>)."
       contributors_ca_html: "<strong>Canada</strong>: Naglalaman ng dato mula sa\nGeoBase&reg;,
         GeoGratis (&copy; Kagawaran ng Likas na Yaman ng \nCanada), CanVec (&copy;
         Kagawaran ng Likas na Yaman ng Canada), at StatCan \n(Dibisyon ng Heograpiya,
@@ -995,9 +1015,14 @@ tl:
       title: Papaano tumulong
   help_page:
     welcome:
+      url: /welcome
       title: Maligayang pagdating sa OSM
+    beginners_guide:
+      url: http://wiki.openstreetmap.org/wiki/Beginners%27_guide
     irc:
       title: IRC
+    switch2osm:
+      title: switch2osm
   about_page:
     next: Kasunod
     copyright_html: <span>&copy;</span>Mga tagapag-ambag<br>ng OpenStreetMap
@@ -1088,11 +1113,22 @@ tl:
     note_comment_notification:
       anonymous: Isang di-nagpakilalang tagagamit
       greeting: Kumusta,
+      commented:
+        subject_own: '[OpenStreetMap] Pinuna ni %{commenter} ang isa sa iyong mga
+          tala'
+        your_note: Nag-iwan si %{commenter} ng komento sa isa sa iyong mga tala malapit
+          sa %{place}.
+      details: Higit pang mga detalye tungkol sa tala ay matatagpuan sa %{url}.
     changeset_comment_notification:
       hi: Kumusta %{to_user},
       greeting: Kumusta,
       commented:
+        subject_own: '[OpenStreetMap] Pinuna ni %{commenter} ang isa sa iyong mga
+          pangkat ng pagbabago'
+        partial_changeset_with_comment: na may puna na '%{changeset_comment}'
         partial_changeset_without_comment: walang puna
+      details: Higit pang mga detalye tungkol sa pangkat ng pagbabago ay matatagpuan
+        sa %{url}.
   message:
     inbox:
       title: Kahon ng pumapasok
@@ -1209,7 +1245,7 @@ tl:
       search: Maghanap
       from: Mula sa
       to: Papunta sa
-      where_am_i: Nasaan ba ako?
+      where_am_i: Nasaan ba ito?
       where_am_i_title: Ilarawan ang pangkasalukuyang kinalalagyan na ginagamit ang
         makinang panghanap
       submit_text: Gawin
@@ -1563,9 +1599,10 @@ tl:
         tuntunin ng tagapag-ambag</a>.
       email address: 'Tirahan ng E-liham:'
       confirm email address: 'Patotohanan ang Tirahan ng E-liham:'
-      not displayed publicly: Hindi ipinapakita sa madla (tingnan ang <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
-        title="wiki privacy policy including section on email addresses">patakaran
-        sa pagsasarilinan</a>)
+      not displayed publicly: Ang iyong tirahan ng e-liham ay hindi ipinapakita sa
+        madla, tingnan ang ating <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
+        title="OSMF privacy policy including section on email addresses">patakaran
+        sa pagsasarilinan</a> para sa karagdagang impormasyon
       display name: 'Pangalang Ipinapakita:'
       display name description: Ang iyong pangalan ng tagagamit na ipinapakita sa
         madla. Maaari mo itong baguhin mamaya sa loob ng mga kanaisan.
@@ -1610,6 +1647,7 @@ tl:
       new diary entry: Bagong pagpapasok sa talaarawan
       my edits: mga pamamatnugot ko
       my traces: Mga Bakas Ko
+      my notes: Aking Talaan
       my settings: mga pagtatakda ko
       my comments: mga puna ko
       oauth settings: mga pagtatakda ng oauth
@@ -1785,9 +1823,8 @@ tl:
       title: Mga tagagamit
       heading: Mga tagagamit
       showing:
-        one: Ipinapakita ang pahinang %{page} (%{first_item} ng  %{items})
-        other: Ipinapakita ang pahinang %{page}  (%{first_item}-%{last_item} ng  mga
-          %{items})
+        one: Pahina %{page} (%{first_item} ng  %{items})
+        other: Pahina %{page}  (%{first_item}-%{last_item} ng  mga %{items})
       summary: Nilikha ang %{name} mula sa %{ip_address} noong %{date}
       summary_no_ip: Nilikha ang %{name} noong %{date}
       confirm: Tiyakin ang Napiling mga Tagagamit
@@ -1931,6 +1968,7 @@ tl:
       heading: '%{block_on} hinadlangan ni %{block_by}'
       time_future: Magwawakas sa %{time}
       time_past: Nagwakas noong %{time} na ang nakalilipas
+      created: Nilikha
       ago: '%{time} ang nakaraan'
       status: Kalagayan
       show: Ipakita
@@ -1943,9 +1981,15 @@ tl:
       needs_view: Ang tagagamit ay kailangang lumagda muna bago mahawi ang hadlang
         na ito.
   note:
+    description:
+      opened_at_html: Nilikha %{when} ang nakaraan
+      opened_at_by_html: Nilikha %{when} ang nakaraan ni %{user}
+      closed_at_html: Nalutas %{when} ang nakaraan
+      closed_at_by_html: Nalutas %{when} ang nakaraan ni %{user}
     rss:
       commented: bagong puna (malapit sa %{place})
     mine:
+      heading: mga tala ni %{user}
       id: Id
       description: Paglalarawan
       created_at: Nilikha Noong
@@ -1961,6 +2005,8 @@ tl:
     map:
       zoom:
         in: Lumapit
+      locate:
+        title: Ipakita ang Aking Lokasyon
       base:
         standard: Pamantayan
         cycle_map: Mapa ng Pagbibisikleta
@@ -1971,14 +2017,43 @@ tl:
     site:
       edit_tooltip: Baguhin ang mapa
       edit_disabled_tooltip: Lumapit upang baguhin ang mapa
+      createnote_tooltip: Maglagay ng tala sa mapa
+      createnote_disabled_tooltip: Lumapit upang ilagay ang tala sa mapa
       map_data_zoom_in_tooltip: Lumapit upang makita ang datos ng mapa
+    changesets:
+      show:
+        hide_comment: itago
+        unhide_comment: pawalang-bisa ang pag-tago
     notes:
+      new:
+        add: Magdagdag ng Tala
       show:
         hide: Itago
         resolve: Lutasin
         comment_and_resolve: Pumuna at Lutasin
+    directions:
+      engines:
+        graphhopper_bicycle: Bisikleta (GraphHopper)
+        graphhopper_car: Kotse (GraphHopper)
+        mapquest_bicycle: Bisikleta (MapQuest)
+        mapquest_car: Kotse (MapQuest)
+        osrm_car: Kotse (OSRM)
+      directions: Mga Direksyon
+      distance: Layo
+      instructions:
+        follow_without_exit: Sundan %{name}
+        start_without_exit: Magsimula sa dulo ng %{name}
+        destination_without_exit: Abutin ang patutunguhan
+      time: Oras
     query:
+      node: Buko
+      way: Daan
       relation: Kaugnayan
+    context:
+      directions_from: Mga direksyon mula rito
+      directions_to: Mga direksyon papunta rito
+      add_note: Magdagdag ng tala dito
+      centre_map: Igitna ang mapa dito
   redaction:
     edit:
       description: Paglalarawan
