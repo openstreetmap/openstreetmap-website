@@ -69,7 +69,7 @@ For MacOSX, you will need XCode installed from the Mac App Store; OS X 10.7 (Lio
 
 Installing PostgreSQL:
 
-* Install Postgres.app from http://postgresapp.com/
+* Install Postgres.app from https://postgresapp.com/
 * Add PostgreSQL to your path, by editing your profile:
 
 `nano ~/.profile`
@@ -80,7 +80,7 @@ and adding:
 
 Installing other dependencies:
 
-* Install Homebrew from http://brew.sh/
+* Install Homebrew from https://brew.sh/
 * Install the latest version of Ruby: `brew install ruby`
 * Install ImageMagick: `brew install imagemagick`
 * Install libxml2: `brew install libxml2 --with-xml2-config`

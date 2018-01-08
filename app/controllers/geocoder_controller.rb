@@ -87,7 +87,7 @@ class GeocoderController < ApplicationController
     @results = []
 
     # ask geocoder.ca (note - they have a per-day limit)
-    response = fetch_xml("http://geocoder.ca/?geoit=XML&postal=#{escape_query(query)}")
+    response = fetch_xml("https://geocoder.ca/?geoit=XML&postal=#{escape_query(query)}")
 
     # parse the response
     if response.get_elements("geodata/error").empty?

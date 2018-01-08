@@ -104,7 +104,7 @@ class BrowseHelperTest < ActionView::TestCase
 
   def test_format_key
     html = format_key("highway")
-    assert_dom_equal "<a href=\"http://wiki.openstreetmap.org/wiki/Key:highway?uselang=en\" title=\"The wiki description page for the highway tag\">highway</a>", html
+    assert_dom_equal "<a href=\"https://wiki.openstreetmap.org/wiki/Key:highway?uselang=en\" title=\"The wiki description page for the highway tag\">highway</a>", html
 
     html = format_key("unknown")
     assert_dom_equal "unknown", html
@@ -112,7 +112,7 @@ class BrowseHelperTest < ActionView::TestCase
 
   def test_format_value
     html = format_value("highway", "primary")
-    assert_dom_equal "<a href=\"http://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=en\" title=\"The wiki description page for the highway=primary tag\">primary</a>", html
+    assert_dom_equal "<a href=\"https://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=en\" title=\"The wiki description page for the highway=primary tag\">primary</a>", html
 
     html = format_value("highway", "unknown")
     assert_dom_equal "unknown", html
@@ -124,7 +124,7 @@ class BrowseHelperTest < ActionView::TestCase
     assert_dom_equal "<a href=\"tel:+1234567890\" title=\"Call +1234567890\">+1234567890</a>", html
 
     html = format_value("wikipedia", "Test")
-    assert_dom_equal "<a title=\"The Test article on Wikipedia\" href=\"http://en.wikipedia.org/wiki/Test?uselang=en\">Test</a>", html
+    assert_dom_equal "<a title=\"The Test article on Wikipedia\" href=\"https://en.wikipedia.org/wiki/Test?uselang=en\">Test</a>", html
 
     html = format_value("wikidata", "Q42")
     assert_dom_equal "<a title=\"The Q42 item on Wikidata\" href=\"//www.wikidata.org/wiki/Q42?uselang=en\">Q42</a>", html
@@ -165,26 +165,26 @@ class BrowseHelperTest < ActionView::TestCase
 
   def test_wiki_link
     link = wiki_link("key", "highway")
-    assert_equal "http://wiki.openstreetmap.org/wiki/Key:highway?uselang=en", link
+    assert_equal "https://wiki.openstreetmap.org/wiki/Key:highway?uselang=en", link
 
     link = wiki_link("tag", "highway=primary")
-    assert_equal "http://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=en", link
+    assert_equal "https://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=en", link
 
     I18n.locale = "de"
 
     link = wiki_link("key", "highway")
-    assert_equal "http://wiki.openstreetmap.org/wiki/DE:Key:highway?uselang=de", link
+    assert_equal "https://wiki.openstreetmap.org/wiki/DE:Key:highway?uselang=de", link
 
     link = wiki_link("tag", "highway=primary")
-    assert_equal "http://wiki.openstreetmap.org/wiki/DE:Tag:highway=primary?uselang=de", link
+    assert_equal "https://wiki.openstreetmap.org/wiki/DE:Tag:highway=primary?uselang=de", link
 
     I18n.locale = "tr"
 
     link = wiki_link("key", "highway")
-    assert_equal "http://wiki.openstreetmap.org/wiki/Tr:Key:highway?uselang=tr", link
+    assert_equal "https://wiki.openstreetmap.org/wiki/Tr:Key:highway?uselang=tr", link
 
     link = wiki_link("tag", "highway=primary")
-    assert_equal "http://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=tr", link
+    assert_equal "https://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=tr", link
   end
 
   def test_wikidata_links
@@ -268,33 +268,33 @@ class BrowseHelperTest < ActionView::TestCase
     assert_nil link
 
     link = wikipedia_link("wikipedia", "Test")
-    assert_equal "http://en.wikipedia.org/wiki/Test?uselang=en", link[:url]
+    assert_equal "https://en.wikipedia.org/wiki/Test?uselang=en", link[:url]
     assert_equal "Test", link[:title]
 
     link = wikipedia_link("wikipedia", "de:Test")
-    assert_equal "http://de.wikipedia.org/wiki/de:Test?uselang=en", link[:url]
+    assert_equal "https://de.wikipedia.org/wiki/de:Test?uselang=en", link[:url]
     assert_equal "de:Test", link[:title]
 
     link = wikipedia_link("wikipedia:fr", "de:Test")
-    assert_equal "http://fr.wikipedia.org/wiki/de:Test?uselang=en", link[:url]
+    assert_equal "https://fr.wikipedia.org/wiki/de:Test?uselang=en", link[:url]
     assert_equal "de:Test", link[:title]
 
     link = wikipedia_link("wikipedia", "de:Englischer Garten (München)#Japanisches Teehaus")
-    assert_equal "http://de.wikipedia.org/wiki/de:Englischer Garten (München)?uselang=en#Japanisches_Teehaus", link[:url]
+    assert_equal "https://de.wikipedia.org/wiki/de:Englischer Garten (München)?uselang=en#Japanisches_Teehaus", link[:url]
     assert_equal "de:Englischer Garten (München)#Japanisches Teehaus", link[:title]
 
     link = wikipedia_link("wikipedia", "de:Alte Brücke (Heidelberg)#Brückenaffe")
-    assert_equal "http://de.wikipedia.org/wiki/de:Alte Brücke (Heidelberg)?uselang=en#Br.C3.BCckenaffe", link[:url]
+    assert_equal "https://de.wikipedia.org/wiki/de:Alte Brücke (Heidelberg)?uselang=en#Br.C3.BCckenaffe", link[:url]
     assert_equal "de:Alte Brücke (Heidelberg)#Brückenaffe", link[:title]
 
     link = wikipedia_link("wikipedia", "de:Liste der Baudenkmäler in Eichstätt#Brückenstraße 1, Ehemaliges Bauernhaus")
-    assert_equal "http://de.wikipedia.org/wiki/de:Liste der Baudenkmäler in Eichstätt?uselang=en#Br.C3.BCckenstra.C3.9Fe_1.2C_Ehemaliges_Bauernhaus", link[:url]
+    assert_equal "https://de.wikipedia.org/wiki/de:Liste der Baudenkmäler in Eichstätt?uselang=en#Br.C3.BCckenstra.C3.9Fe_1.2C_Ehemaliges_Bauernhaus", link[:url]
     assert_equal "de:Liste der Baudenkmäler in Eichstätt#Brückenstraße 1, Ehemaliges Bauernhaus", link[:title]
 
     I18n.locale = "pt-BR"
 
     link = wikipedia_link("wikipedia", "zh-classical:Test#Section")
-    assert_equal "http://zh-classical.wikipedia.org/wiki/zh-classical:Test?uselang=pt-BR#Section", link[:url]
+    assert_equal "https://zh-classical.wikipedia.org/wiki/zh-classical:Test?uselang=pt-BR#Section", link[:url]
     assert_equal "zh-classical:Test#Section", link[:title]
 
     link = wikipedia_link("foo", "Test")

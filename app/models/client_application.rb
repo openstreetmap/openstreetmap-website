@@ -68,7 +68,7 @@ class ClientApplication < ActiveRecord::Base
   end
 
   def oauth_server
-    @oauth_server ||= OAuth::Server.new("http://" + SERVER_URL)
+    @oauth_server ||= OAuth::Server.new("https://" + SERVER_URL)
   end
 
   def credentials
