@@ -241,9 +241,7 @@ $(document).ready(function () {
 
   function remoteEditHandler(bbox, object) {
     var loaded = false,
-        url = document.location.protocol === "https:" ?
-        "https://127.0.0.1:8112/load_and_zoom?" :
-        "http://127.0.0.1:8111/load_and_zoom?",
+        url = "http://127.0.0.1:8111/load_and_zoom?",
         query = {
           left: bbox.getWest() - 0.0001,
           top: bbox.getNorth() + 0.0001,
