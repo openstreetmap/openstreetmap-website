@@ -25,5 +25,8 @@ Rails.configuration.middleware.use OpenStreetMap::Cors do
     origins "*"
     resource "/oauth/*", :headers => :any, :methods => [:get, :post]
     resource "/api/*", :headers => :any, :methods => [:get, :post, :put, :delete]
+    resource "/diary/rss", :headers => :any, :methods => [:get]
+    resource "/diary/*/rss", :headers => :any, :methods => [:get]
+    resource "/user/*/diary/rss", :headers => :any, :methods => [:get]
   end
 end
