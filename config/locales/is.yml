@@ -384,7 +384,7 @@ is:
       max: hámark
       image_size: Stærð myndar
       zoom: Aðdráttur
-      add_marker: Bæta punkti á kortið
+      add_marker: Bæta kortamerki á kortið
       latitude: 'Lengd:'
       longitude: 'Breidd:'
       output: Úttak
@@ -437,6 +437,7 @@ is:
           bus_station: Strætóstöð
           cafe: Kaffihús
           car_rental: Bílaleiga
+          car_sharing: Deiling bíla
           car_wash: Bílaþvottastöð
           casino: Spilavíti
           charging_station: Hleðslustöð
@@ -963,7 +964,7 @@ is:
     partners_ucl: UCL
     partners_ic: Imperial College London
     partners_bytemark: Bytemark Hosting
-    partners_partners: samstarfsaðilar
+    partners_partners: samstarfsaðilum
     osm_offline: OpenStreetMap gagnagrunnurinn er niðri vegna viðhalds.
     osm_read_only: Ekki er hægt að skrifa í OpenStreetMap gagnagrunninn í augnablikinu
       vegna viðhalds.
@@ -1020,7 +1021,7 @@ is:
         OpenStreetMap verkefninu&rdquo;.
       credit_2_html: "Þú þarft líka að taka skýrt fram að gögnin séu tiltæk með Open\nDatabase
         notkunarleyfi, og ef verið sé að nota kortaflísar frá okkur, að kortagögnin
-        \nséu með CC BY-SA notkunarleyfi. Þú getur gert það með því að tengja\ná<a
+        \nséu með CC BY-SA notkunarleyfi. Þú getur gert það með því að tengja\ná <a
         href=\"https://www.openstreetmap.org/copyright\">þessa höfundarréttarsíðu</a>.\nAnnars,
         og þess er krafist ef þú ert að dreifa OSM á einhverju\ngagnaformi, geturðu
         talið upp og tengt beint á leyfishafana. Í miðlum\nþar sem tenglar eru varla
@@ -1035,7 +1036,7 @@ is:
         title: Dæmi um tilvísun
       more_title_html: Finna út meira
       more_1_html: |-
-        Lestu meira um notkun á gögnunum okkar og hvernig eigi að vísa til okkar á síðunni<a
+        Lestu meira um notkun á gögnunum okkar og hvernig eigi að vísa til okkar á síðunni <a
         href="https://osmfoundation.org/Licence">OSMF notkunarleyfi</a>.
       more_2_html: |-
         Þó OpenStreetMap snúist um opin gögn, getum við ekki
@@ -1104,7 +1105,7 @@ is:
         Ef þú heldur að höfundarréttarvarið efni hafi ranglega verið bætt í
         OpenStreetMap gagnagrunninn eða á þetta vefsvæði, skaltu skoða
         <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">fjarlægingarferlið</a> okkar eða skrá fyrirspurn beint á
-         veflægu<a href="http://dmca.openstreetmap.org/">kröfugerðarsíðuna</a> okkar.
+         veflægu <a href="http://dmca.openstreetmap.org/">kröfugerðarsíðuna</a> okkar.
       trademarks_title_html: <span id="trademarks"></span>Vörumerki
       trademarks_1_html: OpenStreetMap, merkið með stækkunarglerinu staða kortsins
         eru skrásett vörumerki OpenStreetMap Foundation sjálfseignarstofnuninnar.
@@ -1319,11 +1320,27 @@ is:
     note_comment_notification:
       anonymous: Nafnlaus notandi
       greeting: Hæ,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} hefur gert athugasemd við einn
+          af minnispunktunum þínum'
+        subject_other: '[OpenStreetMap@] %{commenter} hefur gert athugasemd við minnispunkt
+          sem þú hefur áhuga á'
+      closed:
+        subject_own: '[OpenStreetMap] %{commenter} hefur leyst einn af minnispunktunum
+          þínum'
+        subject_other: '[OpenStreetMap@] %{commenter} hefur leyst minnispunkt sem
+          þú hefur áhuga á'
+      reopened:
+        subject_own: '[OpenStreetMap] %{commenter} hefur endurvirkjað einn af minnispunktunum
+          þínum'
+        subject_other: '[OpenStreetMap@] %{commenter} hefur endurvirkjað minnispunkt
+          sem þú hefur áhuga á'
       details: Nánari upplýsingar um minnispunktinn er að finna á %{url}.
     changeset_comment_notification:
       hi: Hæ %{to_user},
       greeting: Hæ,
       commented:
+        partial_changeset_with_comment: með umsögninni '%{changeset_comment}'
         partial_changeset_without_comment: án athugasemdar
       details: Nánari upplýsingar um breytingasettið er að finna á %{url}.
   message:
@@ -1418,6 +1435,11 @@ is:
       potlatch_unsaved_changes: Þú ert með óvistaðar breytingar. Til að vista í Potlatch
         þarf að af-velja núverandi val ef þú ert í „Live“-ham, eða ýta á „Save“ hnappinn
         til að vista ef sá hnappur er sjáanlegur.
+      potlatch2_not_configured: Potlatch 2 hefur ekki verið stillt - skoðaðu https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
+        til að sjá nánari upplýsingar
+      potlatch2_unsaved_changes: Þú ert með óvistaðar breytingar. (Til að vista í
+        Potlatch 2 ættirðu að ýta á vistunarhnappinn.)
+      id_not_configured: Það er ekki búið að setja upp auðkenni
       no_iframe_support: Því miður styður vafrinn þinn ekki HTML-iframes, sem er nauðsynlegt
         ef nota á þennan eiginleika.
     sidebar:
@@ -2007,6 +2029,9 @@ is:
       button: Staðfesta
       success: Notandinn þinn hefur verið staðfestur.
       already active: Þessi notandaaðgangur hefur þegar verið staðfestur.
+      unknown token: Þessi staðfestingarkóði er útrunninn eða er ekki til staðar.
+      reconfirm_html: Ef þú vilt að við sendum þér staðfestingarpóstinn aftur, <a
+        href="%{reconfirm}">smelltu hér</a>.
     confirm_resend:
       failure: Notandinn %{name} fannst ekki.
     confirm_email:
@@ -2015,6 +2040,7 @@ is:
       button: Staðfesta
       success: Breyting á netfanginu þínu hefur verið staðfest.
       failure: Netfang hefur þegar verið staðfest með þessum lykli.
+      unknown_token: Þessi staðfestingarkóði er útrunninn eða er ekki til staðar.
     set_home:
       flash success: Staðsetning þín hefur verið stillt
     go_public:
@@ -2038,6 +2064,8 @@ is:
       showing:
         one: Síða %{page} (%{first_item} af %{items})
         other: Síða %{page} (%{first_item}-%{last_item} af %{items})
+      summary: '%{name} var útbúinn frá %{ip_address} þann %{date}'
+      summary_no_ip: '%{name} útbúinn þann %{date}'
       confirm: Staðfesta valda notendur
       hide: Fela valda notendur
       empty: Engir samsvarandi notendur fundust
@@ -2045,6 +2073,9 @@ is:
       title: Aðgangur frystur
       heading: Aðgangur frystur
       webmaster: vefstjóri
+      body: "<p>\nÞví miður, notandaaðgangurinn þinn hefur verið frystur vegna grunsamlegrar
+        \nvirkni.\n</p>\n<p>\nHafðu samband við <a href=\"%{webmaster}\">vefstjóra</a>
+        ef þú \nvilt ræða þetta mál.\n</p>"
     auth_failure:
       no_authorization_code: Enginn auðkenningarkóði
       unknown_signature_algorithm: Óþekkt reiknirit undirritunar
@@ -2085,6 +2116,8 @@ is:
       period: Hversu lengi á að banna notandann frá því að nota forritunarviðmótið?
       submit: Banna notandann
       tried_contacting: Ég hef haft samband við notandann og beðið hann að hætta.
+      tried_waiting: Ég hef gefið notandanum sanngjarnan frest til að svara þessum
+        skilaboðum.
       needs_view: Notandinn þarf að innskrá sig áður en bannið fellur úr gildi.
       back: Listi yfir öll bönn
     edit:
@@ -2099,6 +2132,10 @@ is:
     filter:
       block_period: Banntíminn verður að vera í forstillingunum.
     create:
+      try_contacting: Endilega reyndu að hafa samband við notendur áður en þú bannar
+        þá og gefðu þeim sanngjarnan frest til að svara.
+      try_waiting: Endilega reyndu að gefa notendum sanngjarnan frest til að svara
+        áður en þú bannar þá.
       flash: Bjó til bann gegn %{name}.
     update:
       only_creator_can_edit: Aðeins stjórnandinn sem bjó til bannið getur breytt því.
@@ -2205,7 +2242,8 @@ is:
       scale: 'Kvarði:'
       download: Sækja
       short_url: Stutt URL-slóð
-      center_marker: Miðja kort á merki
+      include_marker: Hafa með kortamerkið
+      center_marker: Miðja kort á kortamerki
       paste_html: Notaðu þennan HTML kóða til að bæta kortinu á vefsíðu
       view_larger_map: Skoða stærra kort
     embed:
@@ -2252,6 +2290,9 @@ is:
         unhide_comment: hætta að fela
     notes:
       new:
+        intro: Fannstu mistök eða eitthvað sem vantar? Láttu aðra kortagerðarmenn
+          vita svo hægt sé að laga það. Færðu kortamerkið á réttan stað og skrifaðu
+          minnispunkt til að útskýra vandamálið.
         add: Bæta við minnispunkti
       show:
         hide: Fela
