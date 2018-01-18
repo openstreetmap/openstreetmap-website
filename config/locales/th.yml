@@ -1021,6 +1021,9 @@ th:
         Survey data &copy; ลิขสิทธิ์ราชการและสิทธิ์แห่งฐานข้อมูล
         2010-12
       infringement_title_html: การละเมิดลิขสิทธิ์
+      infringement_2_html: |-
+        หากท่านเชื่อว่าข้อมูลละเมิดลิขสิทธิ์ปรากฏในเว็บไซต์นี้หรือในฐานข้อมูล OpenStreetMap โปรดดู <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">ขั้นตอนการลบข้อมูลละเมิดลิขสิทธิ์</a> หรือแจ้งได้ที่
+        <a href="http://dmca.openstreetmap.org/">หน้ารับแจ้งการละเมิดข้อมูลลิขสิทธิ์</a>
       trademarks_title_html: <span id="trademarks"></span>เครืองหมายการค้า
   welcome_page:
     title: ยินดีต้อนรับ!
@@ -1071,7 +1074,15 @@ th:
         explanation_html: หากท่านประสบปัญหาเกี่ยวกับข้อมูลแผนที่ของเรา หรือพบข้อผิดพลาด
           เช่น ถนนหายไป หรือมีข้อผิดพลาดด้านที่อยู่ วิธีที่ดีที่สุดคือสมัครเป็นสมาชิก
           OpenStreetMap เพื่อดำเนินการแก้ไขด้วยตัวท่านเอง
+    other_concerns:
+      title: ข้อกังวลอื่น ๆ
+      explanation_html: หากท่านมีข้อกังวลเกี่ยวกับการใช้ข้อมูลของเราหรือเกี่ยวกับเนื้อหา
+        โปรดดู<a href='/copyright'>หน้าลิขสิทธิ์</a> เพื่อดูรายละเอียดทางกฎหมาย หรือติดต่อคณะทำงาน
+        <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF </a>
   help_page:
+    title: ขอรับความช่วยเหลือ
+    welcome:
+      title: ยินดีต้อนรับสู่ OSM
     beginners_guide:
       url: http://wiki.openstreetmap.org/wiki/Th:Beginners%27_guide
       title: คำแนะนำสำหรับผู้เริ่มต้น
@@ -1407,7 +1418,10 @@ th:
       identifiable: ระบุได้ (แสดงเป็นชื่อให้ติดตามได้ แต่ละจุดมีเวลากำกับ)
     create:
       upload_trace: อัปโหลดรอยทาง GPS
+      trace_uploaded: แฟ้มข้อมูล GPX ของท่านอัปโหลดเข้าระบบแล้ว กำลังรอบรรจุเข้าฐานข้อมูล
+        ซึ่งจะใช้เวลาประมาณครึ่งชั่วโมง เมื่อกระบวนการเรียบร้อยแล้วจะมีอีเมลแจ้งท่านให้ทราบ
     edit:
+      filename: 'ชื่อแฟ้ม:'
       tags_help: คั่นด้วยจุลภาค
       save_button: บันทึกการเปลี่ยนแปลง
       visibility: 'สถานะการแสดง:'
@@ -1431,7 +1445,7 @@ th:
       title: แสดงรอยทางชื่อ %{name}
       heading: แสดงรอยทางชื่อ %{name}
       pending: ค้างอยู่
-      filename: 'ชื่อไฟล์:'
+      filename: 'ชื่อแฟ้ม:'
       download: ดาวน์โหลด
       uploaded: 'อัปโหลดเมื่อ:'
       points: 'จุด:'
@@ -1472,8 +1486,32 @@ th:
       public_traces_from: รอยทางจีพีเอสสาธารณะโดยผู้ใช้ %{user}
       description: ค้นหาการอัปโหลดรอยทางจีพีเอสล่าสุด
       tagged_with: ระบุด้วยป้าย %{tags}
+    offline_warning:
+      message: ระบบอัปโหลดแฟ้มข้อมูล GPX ไม่พร้อมใช้งานในขณะนี้
+    offline:
+      message: หน่วยจัดเก็บแฟ้มข้อมูล GPX และระบบอัปโหลดไม่พร้อมใช้งานในขณะนี้
+    description:
+      description_with_count: แฟ้มข้อมูล GPX จำนวน %{count} จุด จากผู้ใช้ %{user}
+      description_without_count: แฟ้มข้อมูล GPX จากผู้ใช้ %{user}
+  oauth:
+    oauthorize:
+      allow_write_notes: แก้ไขหมายเหตุ
+      grant_access: อนุญาตการเข้าถึง
+    oauthorize_success:
+      title: การขอรับอนุญาตได้รับอนุมัติแล้ว
+      allowed: ท่านได้อนุญาตให้แอปพลิเคชัน %{app_name} เข้าถึงบัญชีของท่านแล้ว
+      verification: รหัสยืนยันคือ %{code}
+    oauthorize_failure:
+      title: การขอรับอนุญาตล้มเหลว
+      denied: ท่านได้อนุญาตให้แอปพลิเคชัน %{app_name} เข้าถึงบัญชีของท่านแล้ว
+      invalid: ข้อมูลการอนุญาตไม่ถูกต้อง
+    revoke:
+      flash: ท่านได้ยกเลิกข้อมูลสำหรับแอปพลิเคชัน %{application}
+    permissions:
+      missing: ท่านไม่ได้อนุญาตให้แอปพลิเคชันเข้าใช้งานส่วนนี้
   oauth_clients:
     new:
+      title: ลงทะเบียนแอปพลิเคชันใหม่
       submit: ลงทะเบียน
     edit:
       title: แก้ไขการสมัครของท่าน
@@ -1505,10 +1543,44 @@ th:
       issued_at: ออกให้ที่
       revoke: เพิกถอน
       my_apps: แอปพลิเคชันผู้ใช้ของฉัน
+      no_apps: ท่านมีแอปพลิเคชันที่ต้องการลงทะเบียนกับเรา โดยใช้มาตรฐาน %{oauth} หรือไม่?
+        ท่านจะต้องลงทะเบียนเว็บแอปพลิเคชันก่อนที่แอปพลิเคชันดังกล่าวจะสามารถขอรับการอนุญาต
+        requests มายังบริการของเราได้
+      registered_apps: 'ท่านมีแอปพลิเคชันฝั่งผู้ใช้ที่ลงทะเบียนไว้แล้วดังนี้:'
+      register_new: ลงทะเบียนแอปพลิเคชันของท่าน
     form:
+      name: ชื่อ
       required: จำเป็น
+      url: ที่อยู่เว็บแอปพลิเคชันหลัก
+      callback_url: ที่อยู่เว็บเรียกกลับ
+      support_url: ที่อยู่เว็บสำหรับสนับสนุน
+      requests: 'ขอรับการอนุญาตต่อไปนี้จากผู้ใช้:'
+      allow_read_prefs: อ่านการตั้งค่าผู้ใช้
+      allow_write_prefs: แก้ไขการตั้งค่าผู้ใช้
+      allow_write_diary: สร้างรายการบันทึก ข้อคิดเห็น และพบเพื่อนใหม่
+      allow_write_api: แก้ไขแผนที่
+      allow_read_gpx: อ่านรอยทาง GPS ส่วนบุคคล
+      allow_write_gpx: อัปโหลดรอยทาง GPS
+      allow_write_notes: แก้ไขหมายเหตุ
+    not_found:
+      sorry: ขออภัย ชนิด %{type} หาไม่พบ
+    create:
+      flash: ลงทะเบียนข้อมูลเรียบร้อยแล้ว
+    update:
+      flash: ปรับปรุงข้อมูลฝั่งผู้ใช้เรียบร้อยแล้ว
+    destroy:
+      flash: ถอนการลงทะเบียนแอปพลิเคชันฝั่งผู้ใช้แล้ว
   user:
     login:
+      title: ลงชื่อเข้าใช้
+      heading: ลงชื่อเข้าใช้
+      remember: จดจำฉันไว้ในระบบ
+      lost password link: ลืมรหัสผ่านหรือ?
+      login_button: ลงชื่อเข้าใช้
+      register now: ลงทะเบียนเดี๋ยวนี้
+      with username: มีบัญชี OpenStreetMap แล้วหรือยัง? ถ้ามีโปรดเข้าระบบด้วยชื่อผู้ใช้และรหัสผ่านที่ท่านมี
+      with external: นอกจากนี้ ท่านสามารถใช้บัญชีผู้ใช้จากเว็บอื่นในการเข้าใช้งานได้
+      new to osm: เพิ่งเริ่มใช้ OpenStreetMap หรือ?
       openid_logo_alt: เข้าใช้งานด้วย OpenID
       auth_providers:
         openid:
@@ -1523,6 +1595,19 @@ th:
         windowslive:
           title: เข้าใช้งานด้วย Windows Live
           alt: เข้าใช้งานด้วยบัญชี Windows Live
+        github:
+          title: เข้าใช้งานด้วย GitHub
+          alt: เข้าใช้งานด้วยบัญชี GitHub
+        wikipedia:
+          title: เข้าใช้งานด้วยวิกิพีเดีย
+        yahoo:
+          title: เข้าใช้งานด้วย Yahoo
+          alt: เข้าใช้งานด้วย Yahoo OpenID
+        wordpress:
+          title: เข้าใช้งานด้วย Wordpress
+        aol:
+          title: เข้าใช้งานด้วย AOL
+          alt: เข้าใช้งานด้วย AOL OpenID
     logout:
       title: ออกจากระบบ
       heading: ออกจากระบบ OpenStreetMap

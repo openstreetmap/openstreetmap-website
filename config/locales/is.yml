@@ -184,7 +184,7 @@ is:
         changeset: breytingasettið
         note: minnispunktur
     redacted:
-      redaction: Endurskoðun %{id}
+      redaction: Leiðrétting %{id}
       message_html: Ekki er hægt að birta útgáfu %{version} af þessu %{type} því hún
         hefur verið endurskoðuð. Endilega skoðaðu %{redaction_link} til að sjá nánari
         upplýsingar.
@@ -501,6 +501,7 @@ is:
           shop: Verslun
           shower: Steypibað
           social_centre: Félagsmiðstöð
+          social_club: Samfélagsklúbbur
           social_facility: Félagsþjónusta
           studio: Stúdíó
           swimming_pool: Sundlaug
@@ -548,6 +549,7 @@ is:
         highway:
           abandoned: Ónotuð hraðbraut
           bridleway: Reiðstígur
+          bus_guideway: Strætisvagnaakrein með stýringu
           bus_stop: Strætisvagnabiðstöð
           construction: Hraðbraut í byggingu
           cycleway: Hjólastígur
@@ -1738,6 +1740,8 @@ is:
       name: Nafn
       required: þetta þarf
       url: Slóð á forritið
+      callback_url: Svarslóð
+      support_url: Slóð á aðstoð
       requests: 'Óska eftir eftirfarandi leyfum frá notandanum:'
       allow_read_prefs: lesa notandastillingar.
       allow_write_prefs: Breyta notandastillingum.
@@ -2236,16 +2240,19 @@ is:
       link: Tengill eða HTML
       long_link: Tengill
       short_link: Stuttur tengill
+      geo_uri: Slóð hnattstaðsetningar
       embed: HTML
       custom_dimensions: Setja sérsniðnar stærðir
       format: 'Snið:'
       scale: 'Kvarði:'
+      image_size: Mynd mun sýna staðallagið á \
       download: Sækja
       short_url: Stutt URL-slóð
       include_marker: Hafa með kortamerkið
       center_marker: Miðja kort á kortamerki
       paste_html: Notaðu þennan HTML kóða til að bæta kortinu á vefsíðu
       view_larger_map: Skoða stærra kort
+      only_standard_layer: Eingöngu er hægt að flytja staðallagið út sem mynd
     embed:
       report_problem: Tilkynna vandamál
     key:
@@ -2321,14 +2328,23 @@ is:
       instructions:
         continue_without_exit: Haltu áfram á %{name}
         slight_right_without_exit: Beygðu lítillega til hægri yfir á %{name}
+        offramp_right_without_exit: Farðu á rampinn til hægri yfir á %{name}
+        onramp_right_without_exit: Beygðu til hægri á rampinum inn á %{name}
         endofroad_right_without_exit: Við enda vegarins skaltu beygja til hægri inn
           á %{name}
+        merge_right_without_exit: Hliðraðu þér inn á akreinina til hægri inn á %{name}
+        fork_right_without_exit: Við kvíslunina skaltu beygja til hægri inn á %{name}
         turn_right_without_exit: Beygðu til hægri inn á %{name}
         sharp_right_without_exit: Kröpp hægribeygja inn á %{name}
+        uturn_without_exit: U-beygja meðfram %{name}
         sharp_left_without_exit: Kröpp vinstribeygja inn á %{name}
         turn_left_without_exit: Beygðu til vinstri yfir á %{name}
+        offramp_left_without_exit: Farðu á rampinn til vinstri yfir á %{name}
+        onramp_left_without_exit: Beygðu til vinstri á rampinum inn á %{name}
         endofroad_left_without_exit: Við enda vegarins skaltu beygja til vinstri inn
           á %{name}
+        merge_left_without_exit: Hliðraðu þér inn á akreinina til vinstri inn á %{name}
+        fork_left_without_exit: Við kvíslunina skaltu beygja til vinstri inn á %{name}
         slight_left_without_exit: Beygðu lítillega til vinstri yfir á %{name}
         via_point_without_exit: (um punkt)
         follow_without_exit: Fylgja %{name}
@@ -2368,12 +2384,33 @@ is:
   redaction:
     edit:
       description: Lýsing
+      heading: Breyta leiðréttingu
+      submit: Vista leiðréttingu
+      title: Breyta leiðréttingu
+    index:
+      empty: Engar leiðréttingar sem hægt er að birta.
+      heading: Listi yfir leiðréttingar
+      title: Listi yfir leiðréttingar
     new:
       description: Lýsing
+      heading: Settu inn upplýsingar um nýju leiðréttinguna
+      submit: Búa til leiðréttingu
+      title: Bý til nýja leiðréttingu
     show:
       description: 'Lýsing:'
+      heading: Birti leiðréttinguna "%{title}"
+      title: Birti leiðréttingu
       user: 'Gert af:'
+      edit: Breyta þessari leiðréttingu
+      destroy: Fjarlægja þessa leiðréttingu
       confirm: Ertu viss?
+    create:
+      flash: Leiðrétting útbúin.
     update:
       flash: Breytingar vistaðar.
+    destroy:
+      not_empty: Leiðréttingin er ekki auð. Taktu aftur allar útgáfur sem tilheyra
+        þessari leiðréttingu áður en henni er eytt.
+      flash: Leiðréttingu eytt.
+      error: Það kom upp villa við að eyða þessari leiðréttingu.
 ...
