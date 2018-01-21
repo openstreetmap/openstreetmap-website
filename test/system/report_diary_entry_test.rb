@@ -28,4 +28,25 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
 
     assert page.has_content? "Your report has been registered sucessfully"
   end
+
+  def test_it_reopens_issue
+    issue = create(:issue, :reportable => @diary_entry)
+    issue.resolve!
+
+    sign_in_as(create(:user))
+    visit diary_entry_path(@diary_entry.user.display_name, @diary_entry)
+    assert page.has_content? @diary_entry.title
+
+    click_on "\u2690"
+    assert page.has_content? "Report"
+    assert page.has_content? I18n.t("issues.new.disclaimer.intro")
+
+    choose I18n.t("reports.categories.DiaryEntry.spam")
+    fill_in "report_details", :with => "This is advertising"
+    click_on "Save changes"
+
+    issue.reload
+    assert !issue.resolved?
+    assert issue.open?
+  end
 end
