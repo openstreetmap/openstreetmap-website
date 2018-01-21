@@ -216,6 +216,12 @@ class ChangesetController < ApplicationController
     changesets = conditions_closed(changesets, params["closed"])
     changesets = conditions_ids(changesets, params["changesets"])
 
+    # sort and limit the changesets
+    changesets = changesets.order("created_at DESC").limit(100)
+
+    # preload users, tags and comments
+    changesets = changesets.preload(:user, :changeset_tags, :comments)
+
     # create the results document
     results = OSM::API.new.get_xml_doc
 

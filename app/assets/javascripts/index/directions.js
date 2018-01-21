@@ -76,7 +76,7 @@ OSM.Directions = function (map) {
 
       endpoint.awaitingGeocode = true;
 
-      $.getJSON(document.location.protocol + OSM.NOMINATIM_URL + 'search?q=' + encodeURIComponent(endpoint.value) + '&format=json', function (json) {
+      $.getJSON(OSM.NOMINATIM_URL + 'search?q=' + encodeURIComponent(endpoint.value) + '&format=json', function (json) {
         endpoint.awaitingGeocode = false;
         endpoint.hasGeocode = true;
         if (json.length === 0) {

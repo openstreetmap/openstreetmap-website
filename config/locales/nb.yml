@@ -145,6 +145,8 @@ nb:
         title_comment: 'Endringsforløp: %{id} - %{comment}'
       join_discussion: Logg inn for å delta i diskusjonen
       discussion: Diskusjon
+      still_open: Endringssettet er fortsatt åpent – diskusjonen åpner når endringssettet
+        er lukket.
     node:
       title: 'Node: %{name}'
       history_title: 'Node-historikk: %{name}'
@@ -228,7 +230,7 @@ nb:
         siden</abbr>
       hidden_by: Skjult av %{user} for <abbr title='%{exact_time}'>%{when} siden</abbr>
     query:
-      title: Forespørselsesfunksjoner
+      title: Se over elementer
       introduction: Klikk på kartet for å finne nærliggende funksjoner.
       nearby: Nærliggende funksjoner
       enclosing: Regionsfunksjoner
@@ -962,7 +964,7 @@ nb:
     intro_text: OpenStreetMap er et kart over verden, skapt av mennesker som deg,
       og gratis å bruke under en åpen lisens.
     intro_2_create_account: Opprett en brukerkonto
-    partners_html: Hosting er støttet av %{ucl}, %{ic}, %{bytemark} og andre %{partners}.
+    partners_html: Hosting støttes av %{ucl}, %{bytemark}, %{ic}, og andre %{partners}.
     partners_ucl: UCL
     partners_ic: Imperial College London
     partners_bytemark: Bytemark Hosting
@@ -1032,9 +1034,7 @@ nb:
         title: Eksempel på kildehenvisning
       more_title_html: Finner ut mer
       more_1_html: Les mer om hvordan du kan bruke dataene våre og hvordan du oppgir
-        oss som kilde på <a href="http://osmfoundation.org/Licence">siden om OSMF-lisensen</a>
-        og i den <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">juridiske
-        FAQ-en</a>.
+        oss som kilde på <a href="http://osmfoundation.org/Licence">siden om OSMF-lisensen</a>.
       more_2_html: |-
         Selv om OpenStreetMap er åpent data, kan vi ikke bidra med gratis kart-API for tredjepartsutviklere.
         Se vår <a href="https://operations.osmfoundation.org/policies/api/">API Usage Policy</a>,
@@ -1215,9 +1215,11 @@ nb:
       for at OSM er nøyaktig og oppdatert.
     community_driven_title: Fellesskapsdrevet
     community_driven_html: |-
-      Gemenskapen i OpenStreetMap er mangfoldig, brennende, og den vokser for hver dag som går.
-      I våre rekker kan en finne entusiast-kartografer, GIS-proffer, ingeniører som kjører OSM-tjenere, humanister som kartlegger katestroferammede områder, og flere til.
-      For å lære mer om samholdet, sjekk ut <a href='%{diary_path}'>brukererkjennelser</a>, og <a href='http://www.osmfoundation.org/'>OSM-stiftelsens</a> nettside.
+      OpenStreetMap's samfunn er mangfoldig, lidenskapelig, og den vokser for hver dag som går.
+      Blant våre bidragsytere finner man entusiast-kartleggere, GIS-proffer, ingeniører som kjører OSM-tjenere, humanister som kartlegger katastroferammede områder, og mange flere.
+      For å lære mer om samfunnet, sjekk ut <a href='https://blog.openstreetmap.org'>OpenStreetMap Bloggen</a>,
+      <a href='%{diary_path}'>brukerdagbøker</a>,
+      <a href='http://blogs.openstreetmap.org/'>samfunnsblogger</a>, og <a href='http://www.osmfoundation.org/'>OSM Foundation</a> nettstedet.
     open_data_title: Åpne Data
     open_data_html: 'OpenStreetMap er <i>åpne data</i>: Du kan fritt bruke det for
       alle formål, så lenge du krediterer OpenStreetMap og dets bidragsytere. Hvis
@@ -1454,7 +1456,7 @@ nb:
       get_directions_title: Finn veien mellom to punkter
       from: Fra
       to: Til
-      where_am_i: Hvor er jeg?
+      where_am_i: Hvor er dette?
       where_am_i_title: Bruke søkemotoren til å beskrive gjeldende lokasjon.
       submit_text: Gå
     key:
@@ -2107,6 +2109,8 @@ nb:
       not_a_role: Strengen "%{role}" er ikke en gyldig rolle.
       already_has_role: Brukeren har allerede rollen %{role}.
       doesnt_have_role: Brukeren har ikke rollen %{role}.
+      not_revoke_admin_current_user: Kan ikke fjerne administratorrollen fra gjeldende
+        bruker.
     grant:
       title: Bekreft rolletildeling
       heading: Bekreft rolletildeling
@@ -2315,8 +2319,8 @@ nb:
       createnote_disabled_tooltip: Forstørr utvalg for å legge til en merknad på kartet
       map_notes_zoom_in_tooltip: Forstørr utvalg for å se kartmerknader
       map_data_zoom_in_tooltip: Forstørr utvalg for å se kartdata
-      queryfeature_tooltip: Forespørselsesfunksjoner
-      queryfeature_disabled_tooltip: Forstørr utvalg for å kjøre spørringsfunksjoner
+      queryfeature_tooltip: Se over elementer
+      queryfeature_disabled_tooltip: Forstørr utvalg for å se over elementer
     changesets:
       show:
         comment: Kommentar
@@ -2328,8 +2332,10 @@ nb:
       new:
         intro: Funnet en feil eller noe som mangler? La andre kartleggere få vite
           det så vi kan fikse det. Flytt markøren til riktig posisjon og skriv en
-          merknad som forklarer problemet. (Ikke oppgi personlig informasjon eller
-          informasjon fra opphavsrettsbeskyttede kart eller katalogoppføringer.)
+          merknad som beskriver problemet.
+        advice: Merknaden din blir publisert offentlig og blir brukt av kartleggere
+          for å oppdatere kartet, så ikke inkluder personlig info eller informasjon
+          fra opphavsrett-beskyttede kart eller kataloger.
         add: Legg til merknad
       show:
         anonymous_warning: Denne merknaden inneholder kommentarer fra anonyme brukere
@@ -2351,9 +2357,6 @@ nb:
         mapquest_car: Bil (MapQuest)
         mapquest_foot: Til fots (MapQuest)
         osrm_car: Bil (OSRM)
-        mapzen_bicycle: Sykkel (Mapzen)
-        mapzen_car: Bil (Mapzen)
-        mapzen_foot: Fot (Mapzen)
       descend: Avtagende
       directions: Veianvisninger
       distance: Avstand
@@ -2409,7 +2412,7 @@ nb:
       directions_to: Veibeskrivelser hit
       add_note: Legg til merknad her
       show_address: Vis adresse
-      query_features: Spørringsfunksjoner
+      query_features: Se over elementer
       centre_map: Sentrer kartet her
   redaction:
     edit:

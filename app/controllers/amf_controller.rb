@@ -375,7 +375,7 @@ class AmfController < ApplicationController
       else
         begin
           # revert
-          timestamp = Time.strptime(timestamp.to_s, "%d %b %Y, %H:%M:%S")
+          timestamp = Time.zone.strptime(timestamp.to_s, "%d %b %Y, %H:%M:%S")
           old_way = OldWay.where("way_id = ? AND timestamp <= ?", id, timestamp).unredacted.order("timestamp DESC").first
           unless old_way.nil?
             if old_way.visible

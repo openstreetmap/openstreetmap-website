@@ -115,9 +115,9 @@ module BrowseHelper
     lookup_us = lookup.tr(" ", "_")
 
     if page = WIKI_PAGES.dig(locale, type, lookup_us)
-      url = "http://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
+      url = "https://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
     elsif page = WIKI_PAGES.dig("en", type, lookup_us)
-      url = "http://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
+      url = "https://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
     end
 
     url
@@ -158,7 +158,7 @@ module BrowseHelper
     end
 
     {
-      :url => "http://#{lang}.wikipedia.org/wiki/#{value}?uselang=#{I18n.locale}#{encoded_section}",
+      :url => "https://#{lang}.wikipedia.org/wiki/#{value}?uselang=#{I18n.locale}#{encoded_section}",
       :title => value + section
     }
   end

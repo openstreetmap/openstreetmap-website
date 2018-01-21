@@ -9,7 +9,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
   feed.logo image_url("mag_map-rss2.0.png")
 
   feed.rights :type => "xhtml" do |xhtml|
-    xhtml.a :href => "http://creativecommons.org/licenses/by-sa/2.0/" do |a|
+    xhtml.a :href => "https://creativecommons.org/licenses/by-sa/2.0/" do |a|
       a.img :src => image_url("cc_button.png"), :alt => "CC by-sa 2.0"
     end
   end

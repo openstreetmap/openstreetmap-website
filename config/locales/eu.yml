@@ -19,9 +19,9 @@ eu:
       friendly: '%e %B %Y %H:%M-ean'
   activerecord:
     models:
-      acl: Kontrol Zerrendara Sartu
+      acl: Kontrol zerrendara sartu
       changeset: Aldaketak
-      changeset_tag: Etiketa Aldaketa
+      changeset_tag: Etiketa aldaketa
       country: Herrialdea
       diary_comment: Eguneroko iruzkina
       diary_entry: Eguneroko sarrera
@@ -32,16 +32,16 @@ eu:
       node_tag: Nodoaren etiketa
       notifier: Jakinarazpentzailea
       old_node: Nodo zaharra
-      old_node_tag: Nodo Etiketa Zaharra
+      old_node_tag: Nodo etiketa zaharra
       old_relation: Erlazio zaharra
-      old_relation_member: Erlazio Zaharreko Kidea
-      old_relation_tag: Erlazio Zaharreko Etiketa
+      old_relation_member: Erlazio zaharreko kidea
+      old_relation_tag: Erlazio zaharreko etiketa
       old_way: Bide zaharra
-      old_way_node: Nodo Bide Zaharra
-      old_way_tag: Bide Zahar Etiketa
+      old_way_node: Nodo bide zaharra
+      old_way_tag: Bide zahar etiketa
       relation: Erlazioa
-      relation_member: Erlazio Kidea
-      relation_tag: Erlazio Etiketa
+      relation_member: Erlazio kidea
+      relation_tag: Erlazio etiketa
       session: Saioa
       trace: Trazoa
       tracepoint: Trazo puntua
@@ -50,7 +50,7 @@ eu:
       user_preference: Erabiltzaile hobespenak
       user_token: Erabiltzaile token-a
       way: Bidea
-      way_node: Nodo Bidea
+      way_node: Nodo bidea
       way_tag: Bidearen etiketa
     attributes:
       diary_comment:
@@ -141,6 +141,8 @@ eu:
         title_comment: '%{id} - %{comment} aldaketak'
       join_discussion: Hasi saioa eztabaidan parte hartzeko
       discussion: Eztabaida
+      still_open: Aldaketak oraindik zabalik - eztabaida aldaketak itxi ondoren irekiko
+        da.
     node:
       title: 'Nodoa: %{name}'
       history_title: 'Nodoaren historia: %{name}'
@@ -1211,13 +1213,14 @@ eu:
       aireko irudiak erabiltzen dituzte, GPS gailuak eta teknologia baxuko eremuko
       mapak OSMrako egiaztapen zehatza eta eguneratua egiteko.
     community_driven_title: Komunitatearen Ahotsa
-    community_driven_html: "OpenStreetMap komunitatea anitza, sutsua eta egunero hazten
-      den mugimendua da.\nGure laguntzaileen artean, mapa zaleak, GIS profesionalek,
-      \nOSM zerbitzariak exekutatzen dituzten ingeniariak, hondamendia kaltetutako
-      eremuak mapatzen dituztenek,\neta askoz gehiagok osatzen dute.\nKomunitateari
-      buruz gehiago jakiteko, ikusi <a href='%{diary_path}'> erabiltzaileen egunkariak
-      </a>,\n<a href='http://blogs.openstreetmap.org/'> komunitatearen blogak </a>,
-      eta\n<a href='http://www.osmfoundation.org/'> OSM Fundazio </a> webgunea."
+    community_driven_html: "OpenStreetMap komunitatea anitza eta sutsua da, egunero
+      haziz doa.\nGure laguntzaileen artean daude, mapazaleak, GIS arloko profesionalak,
+      \nOSM zerbitzariak exekutatzen dituzten ingeniariak, hondamendiek kaltetutako
+      eremuak mapatzen dituzten boluntarioak,\neta askoz gehiagok.\nKomunitateari
+      buruz gehiago jakiteko, ikus <a href='https://blog.openstreetmap.org'>OpenStreetMap
+      bloga</a>,\n<a href='%{diary_path}'>erabiltzaileen egunerokoak</a>,\n<a href='http://blogs.openstreetmap.org/'>komunitate
+      blogak</a> eta <a href='http://www.osmfoundation.org/'>OSM Fundazioaren</a>
+      webgunea."
     open_data_title: Datu Irekiak
     open_data_html: |-
       OpenStreetMap <i> datu irekiak </i> ditu: edozein gauzarako erabil dezakezu betiere OpenStreetMap-ek eta bere kolaboratzaileek aipatzen badituzu. Moduren batean datuen gainean edukia eraikiz, emaitza bakarrik banatu ahal izango duzu lizentzia beraren azpian. Ikusi <a href='%{copyright_path}'> Copyright eta
@@ -2128,6 +2131,8 @@ eu:
       not_a_role: '''%{role}'' katea ez da baliozko rola.'
       already_has_role: Erabiltzaileak %{role} rola dauka jadanik.
       doesnt_have_role: Erabiltzaileak ez dauka %{role} rolik.
+      not_revoke_admin_current_user: Ezin da administratzaile rola uneko erabiltzaileari
+        errebokatu.
     grant:
       title: Berretsi eginkizuna ematea
       heading: Berretsi eginkizuna ematea
@@ -2347,10 +2352,12 @@ eu:
         unhide_comment: erakutsi
     notes:
       new:
-        intro: Akats bat edo zerbait falta zaizu? Utzi beste mapa editatzaileek jakin
-          dezaten, beraz konpon dezakegun. Mugitu markatzailea posizio egokira eta
-          idatzi ohar bat arazoa azaltzeko. (Mesedez, ez sartu informazio pertsonala
-          edo informazioa copyrighteko mapa edo direktorioa zerrendetatik.)
+        intro: Akats bat edo zerbait falta zaizula ikusi duzu? Utzi beste mapa editatzaileek
+          jakin dezaten, beraz konpon dezakegun. Mugitu markatzailea posizio egokira
+          eta idatzi ohar bat arazoa azaltzeko.
+        advice: "Zure oharra publikoa da eta mapa eguneratzeko erabili daiteke. Horregatik,
+          ez sartu informazio pertsonala edo \ncopyright-dun mapei edo direktorio
+          zerrendei buruzko informaziorik."
         add: Gehitu oharra
       show:
         anonymous_warning: Ohar honek independenteak izan behar diren erabiltzaile
@@ -2372,9 +2379,6 @@ eu:
         mapquest_car: Autoz (MapQuest)
         mapquest_foot: Oinez (MapQuest)
         osrm_car: Autoz (OSRM)
-        mapzen_bicycle: Bizikletaz (Mapzen)
-        mapzen_car: Autoz (Mapzen)
-        mapzen_foot: Oinez (Mapzen)
       descend: Jaitsi
       directions: Norabideak
       distance: Distantzia

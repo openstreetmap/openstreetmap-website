@@ -27,7 +27,7 @@ cookie_policy = {
 }
 
 SecureHeaders::Configuration.default do |config|
-  config.hsts = "max-age=0"
+  config.hsts = SecureHeaders::OPT_OUT
   config.csp = SecureHeaders::OPT_OUT
   config.csp_report_only = csp_policy
   config.cookies = cookie_policy

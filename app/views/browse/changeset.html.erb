@@ -77,6 +77,10 @@
         <input type="submit" name="comment" value="<%= t('javascripts.changesets.show.comment') %>" data-changeset-id="<%= @changeset.id %>" data-method="POST" data-url="<%= changeset_comment_url(@changeset) %>" disabled="1"/>
       </div>
     </form>
+  <% else %>
+    <div class="notice hide_unless_logged_in">
+    <%= t('browse.changeset.still_open') %>
+    </div>
   <% end %>
 
   <% unless @ways.empty? %>

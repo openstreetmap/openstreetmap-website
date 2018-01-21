@@ -455,7 +455,7 @@ class NodeControllerTest < ActionController::TestCase
     end
 
     # check error when a non-existent node is included
-    get :nodes, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id},400" }
+    get :nodes, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id},0" }
     assert_response :not_found
   end
 

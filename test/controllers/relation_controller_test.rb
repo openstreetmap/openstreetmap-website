@@ -188,7 +188,7 @@ class RelationControllerTest < ActionController::TestCase
     end
 
     # check error when a non-existent relation is included
-    get :relations, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},400" }
+    get :relations, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},0" }
     assert_response :not_found
   end
 

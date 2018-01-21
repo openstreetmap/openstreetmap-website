@@ -87,12 +87,12 @@ class GeocoderController < ApplicationController
     @results = []
 
     # ask geocoder.ca (note - they have a per-day limit)
-    response = fetch_xml("http://geocoder.ca/?geoit=XML&postal=#{escape_query(query)}")
+    response = fetch_xml("https://geocoder.ca/?geoit=XML&postal=#{escape_query(query)}")
 
     # parse the response
     if response.get_elements("geodata/error").empty?
-      @results.push(:lat => response.get_text("geodata/latt").to_s,
-                    :lon => response.get_text("geodata/longt").to_s,
+      @results.push(:lat => response.text("geodata/latt"),
+                    :lon => response.text("geodata/longt"),
                     :zoom => POSTCODE_ZOOM,
                     :name => query.upcase)
     end
@@ -120,7 +120,7 @@ class GeocoderController < ApplicationController
     exclude = "&exclude_place_ids=#{params[:exclude]}" if params[:exclude]
 
     # ask nominatim
-    response = fetch_xml("http:#{NOMINATIM_URL}search?format=xml&extratags=1&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
+    response = fetch_xml("#{NOMINATIM_URL}search?format=xml&extratags=1&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
 
     # extract the results from the response
     results =  response.elements["searchresults"]
@@ -138,12 +138,12 @@ class GeocoderController < ApplicationController
 
     # parse the response
     results.elements.each("place") do |place|
-      lat = place.attributes["lat"].to_s
-      lon = place.attributes["lon"].to_s
-      klass = place.attributes["class"].to_s
-      type = place.attributes["type"].to_s
-      name = place.attributes["display_name"].to_s
-      min_lat, max_lat, min_lon, max_lon = place.attributes["boundingbox"].to_s.split(",")
+      lat = place.attributes["lat"]
+      lon = place.attributes["lon"]
+      klass = place.attributes["class"]
+      type = place.attributes["type"]
+      name = place.attributes["display_name"]
+      min_lat, max_lat, min_lon, max_lon = place.attributes["boundingbox"].split(",")
       prefix_name = if type.empty?
                       ""
                     else
@@ -190,10 +190,11 @@ class GeocoderController < ApplicationController
 
     # parse the response
     response.elements.each("geonames/geoname") do |geoname|
-      lat = geoname.get_text("lat").to_s
-      lon = geoname.get_text("lng").to_s
-      name = geoname.get_text("name").to_s
-      country = geoname.get_text("countryName").to_s
+      lat = geoname.text("lat")
+      lon = geoname.text("lng")
+      name = geoname.text("name")
+      country = geoname.text("countryName")
+
       @results.push(:lat => lat, :lon => lon,
                     :zoom => GEONAMES_ZOOM,
                     :name => name,
@@ -216,15 +217,15 @@ class GeocoderController < ApplicationController
     @results = []
 
     # ask nominatim
-    response = fetch_xml("http:#{NOMINATIM_URL}reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
+    response = fetch_xml("#{NOMINATIM_URL}reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
 
     # parse the response
     response.elements.each("reversegeocode/result") do |result|
-      lat = result.attributes["lat"].to_s
-      lon = result.attributes["lon"].to_s
+      lat = result.attributes["lat"]
+      lon = result.attributes["lon"]
       object_type = result.attributes["osm_type"]
       object_id = result.attributes["osm_id"]
-      description = result.get_text.to_s
+      description = result.text
 
       @results.push(:lat => lat, :lon => lon,
                     :zoom => zoom,
@@ -254,8 +255,9 @@ class GeocoderController < ApplicationController
 
     # parse the response
     response.elements.each("geonames/countrySubdivision") do |geoname|
-      name = geoname.get_text("adminName1").to_s
-      country = geoname.get_text("countryName").to_s
+      name = geoname.text("adminName1")
+      country = geoname.text("countryName")
+
       @results.push(:lat => lat, :lon => lon,
                     :zoom => GEONAMES_ZOOM,
                     :name => name,

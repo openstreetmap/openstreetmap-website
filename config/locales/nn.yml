@@ -109,9 +109,11 @@ nn:
     created: Oppretta
     closed: Attlaten
     created_html: Oppretta for <abbr title='%{title}'>%{time} sidan</abbr>
+    closed_html: Stengt <abbr title='%{title}'>%{time} sidan</abbr>
     created_by_html: Oppretta for <abbr title='%{title}'>%{time} sidan</abbr> av %{user}
     deleted_by_html: Sletta for <abbr title='%{title}'>%{time} sidan</abbr> av %{user}
     edited_by_html: Redigert for <abbr title='%{title}'>%{time} sidan</abbr> av %{user}
+    closed_by_html: Stengt for <abbr title='%{title}'>%{time} sidan</abbr> by %{user}
     version: 'Versjon:'
     anonymous: anonym
     no_comment: (ingen kommentar)
@@ -119,9 +121,12 @@ nn:
     download_xml: Last ned XML
     view_history: Vis historikk
     view_details: Vis detaljar
+    location: 'Plassering:'
     changeset:
       title: Endringssett %{id}
       belongs_to: Skapar
+      node: Punkt (%{count})
+      node_paginated: Punkt (%{x}-%{y} av %{count})
       way: Strekningar (%{count})
       way_paginated: Strekningar (%{x}-%{y} av %{count})
       comment: Kommentarar (%{count})
@@ -130,14 +135,25 @@ nn:
       feed:
         title: Endringssett %{id}
         title_comment: 'Endringssett: %{id} - %{comment}'
+      join_discussion: Logg inn for å vere med i diskusjonen
       discussion: Ordskifte
+    node:
+      title: 'Punkt: %{name}'
+      history_title: 'Punkthistorikk: %{name}'
+    way:
+      title: 'Strekning: %{name}'
+      history_title: 'Strekningshistorikk: %{name}'
+      nodes: Punkt
+      also_part_of:
+        one: delstrekning %{related_ways}
+        other: delstrekningar %{related_ways}
     relation:
       members: Medlemmar
     relation_member:
       entry: '%{type} %{name}'
       entry_role: '%{type} %{name} som %{role}'
       type:
-        node: Node
+        node: Punkt
         way: Veg
         relation: Relasjon
     containing_relation:
@@ -154,7 +170,7 @@ nn:
     timeout:
       sorry: Beklagar, data for %{type} med id %{id} tok for lang tid å hente.
       type:
-        node: node
+        node: punkt
         way: veg
         relation: relasjon
         changeset: endringssett
@@ -164,7 +180,7 @@ nn:
       message_html: Versjon %{version} av denne %{type} kan ikkje visast fordi den
         er blitt maskert. Sjå %{redaction_link} for detaljar.
       type:
-        node: noden
+        node: punkt
         way: vegen
         relation: relasjonen
     start_rjs:
@@ -175,6 +191,7 @@ nn:
       wiki_link:
         key: Wiki-beskrivelsessiden for %{key}-elementet
         tag: Wiki-beskrivelsessiden for %{key}=%{value}-elementet
+      wikidata_link: Elementet %{page} på Wikidata
       wikipedia_link: Artikkelen %{page} på Wikipedia
       telephone_link: Ring %{phone_number}
     note:
@@ -183,6 +200,17 @@ nn:
       description: Skildring
       open_title: 'Uavklart merknad #%{note_name}'
       closed_title: 'Avklart merknad: #%{note_name}'
+      hidden_title: 'Gøymd merknad #%{note_name}'
+      open_by: Oppretta av %{user} <abbr title='%{exact_time}'>%{when} sidan</abbr>
+      open_by_anonymous: Oppretta av anonym <abbr title='%{exact_time}'>%{when} sidan</abbr>
+      commented_by: Kommentar frå %{user} <abbr title='%{exact_time}'>%{when} sidan</abbr>
+      commented_by_anonymous: Kommentar frå anonym <abbr title='%{exact_time}'>%{when}
+        sidan</abbr>
+      closed_by: Løyst av %{user} <abbr title='%{exact_time}'>%{when} sidan</abbr>
+      closed_by_anonymous: Løyst av anonym <abbr title='%{exact_time}'>%{when} sidan</abbr>
+      reopened_by: Reaktivert av %{user} <abbr title='%{exact_time}'>%{when} sidan</abbr>
+      reopened_by_anonymous: Reaktivert av anonym for <abbr title='%{exact_time}'>%{when}
+        sidan</abbr>
     query:
       title: Førespurnadsfunksjonar
       nearby: Nærliggjande funksjonar
@@ -206,6 +234,12 @@ nn:
       title_user: Endringssett av %{user}
       title_friend: Endringssett av venene dine
       title_nearby: Endringssett av naboar
+      empty: Fann ingen endringssett.
+      empty_area: Ingen endringssett i dette området.
+      empty_user: Ingen endringssett av denne brukaren.
+      no_more: Fann ingen fleire endringssett.
+      no_more_area: Ingen fleire endringssett i dette området.
+      no_more_user: Ingen fleire endringssett av denne brukaren.
       load_more: Last inn meir
     timeout:
       sorry: Lista over endringssett tok for lang tid å hente.
@@ -330,6 +364,9 @@ nn:
         osm_nominatim: Resultat frå <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames: Resultat frå <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse: Resultat frå <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a>
+        geonames_reverse: Resultat frå <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix_format: '%{name}'
       prefix:
@@ -348,6 +385,7 @@ nn:
           taxiway: Taksebane
           terminal: Terminal
         amenity:
+          animal_shelter: Dyrehospits
           arts_centre: Kunstsenter
           atm: Minibank
           bank: Bank
@@ -356,7 +394,7 @@ nn:
           bench: Benk
           bicycle_parking: Sykkelparkering
           bicycle_rental: Sykkelutleige
-          biergarten: Ølhage
+          biergarten: Uteservering
           boat_rental: Båtutleige
           brothel: Bordell
           bureau_de_change: Vekslingskontor
@@ -367,6 +405,7 @@ nn:
           car_wash: Bilvask
           casino: Kasino
           charging_station: Ladestation
+          childcare: Barnepass
           cinema: Kino
           clinic: Klinikk
           clock: Klokke
@@ -427,6 +466,7 @@ nn:
           shower: Dusj
           social_centre: Samfunnshus
           social_club: Sosial klubb
+          social_facility: Sosialteneste
           studio: Studio
           swimming_pool: Symjebaseng
           taxi: Drosje
@@ -439,6 +479,7 @@ nn:
           veterinary: Veterinærklinikk
           village_hall: Forsamlingshus
           waste_basket: Søppelkasse
+          waste_disposal: Avfallshandtering
           youth_centre: Ungdomssenter
         boundary:
           administrative: Administrativ grense
@@ -571,8 +612,9 @@ nn:
           road: Vegområde
           village_green: landsbypark
           vineyard: Vingård
+          "yes": Arealbruk
         leisure:
-          beach_resort: Strandsted
+          beach_resort: Badestrand
           bird_hide: Fugletårn
           club: Klubb
           common: Allmenning
@@ -625,6 +667,7 @@ nn:
           forest: Skog
           geyser: Geysir
           glacier: Isbre
+          grassland: Grasslette
           heath: Vidde
           hill: Ås
           island: Øy
@@ -637,6 +680,7 @@ nn:
           reef: Rev
           ridge: Rygg
           rock: Stein
+          saddle: Sal
           sand: Sand
           scree: Ur
           scrub: Kratt
@@ -664,6 +708,7 @@ nn:
           travel_agent: Reisebyrå
           "yes": Kontor
         place:
+          allotments: Kolonihagar
           block: Blokk
           airport: Flyplass
           city: By
@@ -709,7 +754,8 @@ nn:
           proposed: Føreslått jernbane
           spur: Jernbaneforgrening
           station: Jernbanestasjon
-          subway: T-banestasjon
+          stop: Jernbanestopp
+          subway: T-bane
           subway_entrance: T-baneinngang
           switch: Sporveksel
           tram: Sporveg
@@ -723,6 +769,7 @@ nn:
           beverages: Drikkevarebutikk
           bicycle: Sykkelbutikk
           books: Bokhandel
+          boutique: Luksusforretning
           butcher: Slaktar
           car: Bilbutikk
           car_parts: Bildeler
@@ -736,6 +783,7 @@ nn:
           convenience: Nærbutikk
           copyshop: Kopieringsbutikk
           cosmetics: Kosmetikkforretning
+          deli: Delikatessebutikk
           department_store: Varehus
           discount: Tilbudsbutikk
           doityourself: Gjer-det-sjølv
@@ -752,9 +800,9 @@ nn:
           gallery: Galleri
           garden_centre: Hagesenter
           general: Landhandel
-          gift: Gavebutikk
-          greengrocer: Grønnsakshandel
-          grocery: Dagligvarebutikk
+          gift: Gåvebutikk
+          greengrocer: Grønsakshandel
+          grocery: Daglegvarebutikk
           hairdresser: Frisør
           hardware: Jernvarehandel
           hifi: Hi-fi
@@ -768,10 +816,11 @@ nn:
           motorcycle: Motorsykkelbutikk
           music: Musikkbutikk
           newsagent: Nyhetsbyrå
-          optician: Optiker
+          optician: Optikar
           organic: Organisk matbutikk
           outdoor: Utandørs butikk
           pet: Dyrebutikk
+          pharmacy: Apotek
           photo: Fotobutikk
           salon: Salong
           second_hand: Bruktbutikk
@@ -781,7 +830,7 @@ nn:
           stationery: Papirbutikk
           supermarket: Supermarked
           tailor: Skreddar
-          toys: Lekebutikk
+          toys: Leikebutikk
           travel_agency: Reisebyrå
           video: Videobutikk
           wine: Utanfor lisens
@@ -808,6 +857,7 @@ nn:
           viewpoint: Utsiktspunkt
           zoo: Dyrepark
         tunnel:
+          culvert: Stikkrenne
           "yes": Tunnel
         waterway:
           artificial: Kunstig vassdrag
@@ -828,6 +878,13 @@ nn:
           waterfall: Foss
           weir: Overløpskant
           "yes": Vassveg
+      admin_levels:
+        level2: Riksgrense
+        level4: Statsgrense
+        level5: Regiongrense
+        level8: Bygrense
+        level9: Landsbygrense
+        level10: Forstadsgrense
     description:
       title:
         osm_nominatim: Posisjon frå <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
@@ -865,6 +922,8 @@ nn:
     edit_with: Rediger med %{editor}
     tag_line: Fritt Wiki-verdenskart
     intro_header: Velkomen til OpenStreetMap!
+    intro_text: OpenStreetMap er eit verdskart, laga av folks som deg, det er ope
+      og gratis å bruke, med ein open lisens.
     intro_2_create_account: Opprett ein brukarkonto
     partners_html: Drifta er støtta av %{ucl}, %{ic}, %{bytemark} og andre %{partners}.
     partners_ucl: UCL VR-senteret
@@ -995,17 +1054,25 @@ nn:
         skjema</a>."
   welcome_page:
     title: Velkomen!
+    whats_on_the_map:
+      title: Kva som finst på kartet
+    basic_terms:
+      title: Grunnleggande termar
     rules:
       title: Reglar!
     questions:
       title: Spørsmål?
     start_mapping: Start kartlegging
+    add_a_note:
+      title: Ikkje tid til å kartleggje sjølv? Legg inn ein merknad.
   fixthemap:
     title: Rapporter eit problem/Korriger kartet
     how_to_help:
       title: Korleis hjelpe til
       join_the_community:
         title: Ver med i fellesskapen
+    other_concerns:
+      title: Andre problemstillingar
   help_page:
     title: Få hjelp
     welcome:
@@ -1013,8 +1080,13 @@ nn:
       title: Velkomen til OSM
     beginners_guide:
       url: http://wiki.openstreetmap.org/wiki/Nn:Beginners%27_guide
+      title: Hjelp for nybegynnarar
+      description: Dugnadsbasert guide for nybegynnarar.
     help:
+      url: https://help.openstreetmap.org/
       title: help.openstreetmap.org
+      description: Still spørsmål eller finn eit svar på spørsmål- og svar-sidene
+        til OSM.
     mailing_lists:
       title: E-postlister
     forums:
@@ -1214,6 +1286,7 @@ nn:
       potlatch2_not_configured: Potlatch 2 har ikkje vorte konfigurert - sjå http://wiki.openstreetmap.org/wiki/The_rails_port
       potlatch2_unsaved_changes: Du har endringar som ikkje er lagra. (For å lagre
         i Potlatch 2, må du klikke lagre.)
+      id_not_configured: iD er ikkje konfigurert
       no_iframe_support: Nettlesaren din støttar ikkje HTML iframes som er naudsynt
         for denne eigenskapen.
     sidebar:
@@ -1221,6 +1294,8 @@ nn:
       close: Lukk
     search:
       search: Søk
+      get_directions: Få køyrerettleiing
+      get_directions_title: Finn vegen mellom to punkt
       from: Frå
       to: Til
       where_am_i: Kor er eg?
@@ -1421,6 +1496,8 @@ nn:
       heading: GPX-lagring er utilgjengelig
       message: Systemet for opplasting og lagring av GPX-filer er ikkje tilgjengeleg
         for augneblunken.
+    georss:
+      title: OpenStreetMap GPS-spor
     description:
       description_without_count: GPX-fil frå %{user}
   application:
@@ -1437,6 +1514,7 @@ nn:
         men du må lese dei.
   oauth:
     oauthorize:
+      title: Autoriser tilgang til kontoen din
       request_access: Applikasjonen %{app_name} ber om tilgjenge til kontoen din,
         %{user}. Sjekk om du vil at applikasjonen skal ha følgjande løyve. Du kan
         velje så mange eller så få som du vil.
@@ -1449,6 +1527,14 @@ nn:
       allow_write_gpx: laste opp GPS-spor.
       allow_write_notes: endre notisar.
       grant_access: Gje tilgang
+    oauthorize_success:
+      title: Autorisasjonsførespurnad tillaten
+      allowed: Du har gitt programmet %{app_name} tilgang til kontoen din.
+      verification: Stadfestingskoden er %{code}.
+    oauthorize_failure:
+      title: Mislykka førespurnad om autorisering
+      denied: Du har nekta programmet %{app_name} tilgang til kontoen din.
+      invalid: Autoriseringsnykelen (token) er ikkje gyldig.
     revoke:
       flash: Du sletta nøkkelen for %{application}
   oauth_clients:
@@ -1525,6 +1611,7 @@ nn:
       register now: Registrer deg no
       with username: 'Har du allereie ein OpenStreetMap-konto? Logg inn med brukernavnet
         og passordet ditt:'
+      with external: 'Alternativt kan du bruke ein tredjepart til å logge inn:'
       new to osm: Ny på OpenStreetMap?
       to make changes: For å gjere endringar på OpenStreetMap-data, må du ha ein konto.
       create account minute: Opprett ein konto. Det tek berre eitt minutt.
@@ -1932,6 +2019,8 @@ nn:
     helper:
       time_future: Sluttar om %{time}.
       until_login: Aktiv inntil brukaren loggar inn.
+      time_future_and_until_login: Sluttar om %{time} og etter at brukaren har logga
+        inn.
       time_past: Slutta %{time} sidan.
     blocks_on:
       title: Blokkeringar av %{name}
@@ -1965,10 +2054,16 @@ nn:
       commented_at_by_html: Oppdatert for %{when} sidan av %{user}
       closed_at_html: Løyst for %{when} sidan
       closed_at_by_html: Løyst for %{when} sidan av %{user}
+      reopened_at_html: Reaktivert for %{when} sidan
+      reopened_at_by_html: Reaktivert %{when} sidan av %{user}
+    rss:
+      title: OpenStreetMap-merknadar
     entry:
       comment: Kommentar
       full: Fullstendig merknad
     mine:
+      heading: '%{user} sine merknadar'
+      subheading: Merknadar sendt inn eller kommentert av %{user}
       id: ID
       creator: Skapar
       description: Skildring
@@ -1986,19 +2081,30 @@ nn:
       short_link: Kortlenkje
       geo_uri: Geo-URI
       embed: HTML
+      custom_dimensions: Still inn eigendefinerte dimensjonar
       format: 'Format:'
       scale: 'Skala:'
+      image_size: Bildet vil vise standard lag ved
       download: Last ned
       short_url: Kort-URL
       include_marker: Inkluder markør
+      center_marker: Sentrer kartet på markøren
+      paste_html: Lim inn HTML for å publisere på ei nettside
       view_larger_map: Vis større kart
+      only_standard_layer: Berre standardlaget kan eksporterast som bilde
+    embed:
+      report_problem: Rapporter eit problem
     key:
       title: Kartsymbol
       tooltip: Kartsymbol
+      tooltip_disabled: Kartnøkkel ikkje tilgjengeleg for dette laget
     map:
       zoom:
         in: Vis større
         out: Vis mindre
+      locate:
+        title: Vis plassering
+        popup: Du er innanfor {distance} {unit} frå dette punktet
       base:
         standard: Standard
         cycle_map: Sykkelkart
@@ -2008,24 +2114,37 @@ nn:
         header: Kartlag
         notes: Kartmerknadar
         data: Kartdata
+        gps: Offentlege GPS-sporingar
+        overlays: Aktiver lag for å feilsøke i kartet
         title: Lag
+      copyright: © <a href='%{copyright_url}'>OpenStreetMap bidragsytarar</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Doner</a>
     site:
       edit_tooltip: Rediger kartet
       edit_disabled_tooltip: Zoom inn for å redigere kartet
+      createnote_tooltip: Legg til ein merknad på kartet
+      createnote_disabled_tooltip: Zoom inn for å leggje til ein merknad på kartet
+      map_notes_zoom_in_tooltip: Zoom inn for å sjå kartmerknadar
+      map_data_zoom_in_tooltip: Zoom inn for å sjå kartdata
+      queryfeature_tooltip: Førespurnadsfunksjonar
     changesets:
       show:
         comment: Kommentar
         subscribe: Abonnér
         unsubscribe: Avslutt abonnement
         hide_comment: gøym
+        unhide_comment: vis
     notes:
       new:
         add: Legg til merknad
       show:
         hide: Gøym
         resolve: Løys
+        reactivate: Reaktiver
+        comment_and_resolve: Kommenter og løys
         comment: Kommenter
     directions:
+      ascend: Stigande
       engines:
         graphhopper_bicycle: Sykkel (GraphHopper)
         graphhopper_car: Bil (GraphHopper)
@@ -2034,25 +2153,65 @@ nn:
         mapquest_car: Bil (MapQuest)
         mapquest_foot: Til fots (MapQuest)
         osrm_car: Bil (OSRM)
-        mapzen_bicycle: Sykkel (Mapzen)
-        mapzen_car: Bil (Mapzen)
-        mapzen_foot: Til fots (Mapzen)
       descend: Fallande
+      directions: Vegskildringar
       distance: Avstand
+      errors:
+        no_route: Klarte ikkje å finne vegen mellom desse to plassane.
+        no_place: Beklagar - klarte ikkje å finne den plassen.
       instructions:
+        continue_without_exit: Fortset på %{name}
+        slight_right_without_exit: Svak høgresving inn på %{name}
+        offramp_right_without_exit: Ta avkøyrselen til høgre ut på %{name}
+        onramp_right_without_exit: Ta til høgre ut på %{name}
+        endofroad_right_without_exit: Ved slutten av vegen, sving til høgre inn på
+          %{name}
+        merge_right_without_exit: Sving rett inn på %{name}
+        fork_right_without_exit: Ved vegskiljet, ta til høgre inn på %{name}
+        turn_right_without_exit: Ta til høgre inn på %{name}
+        sharp_right_without_exit: Skarp høgresving inn på %{name}
+        uturn_without_exit: U-sving langs %{name}
         sharp_left_without_exit: Skarp venstresving inn på %{name}
         turn_left_without_exit: Ta til venstre inn på %{name}
         offramp_left_without_exit: Ta rampen til venstre til %{name}
+        onramp_left_without_exit: Sving til venstre på rampen inn til %{name}
+        endofroad_left_without_exit: Ved slutten av vegen, sving til venstre inn på
+          %{name}
+        merge_left_without_exit: Flett til venstre inn på %{name}
+        fork_left_without_exit: Ved vegskiljet, ta til venstre inn på %{name}
+        slight_left_without_exit: Svak venstersving inn på %{name}
         via_point_without_exit: (via punkt)
         follow_without_exit: Følg %{name}
         roundabout_without_exit: Ved rundkøyringa, ta til %{name}
+        leave_roundabout_without_exit: Forlat rundkøyringa - %{name}
+        stay_roundabout_without_exit: Ver i rundkøyringa - %{name}
+        start_without_exit: Begynn ved slutten av %{name}
+        destination_without_exit: Nå målet
+        against_oneway_without_exit: Køyr mot einvegskøyring på %{name}
+        end_oneway_without_exit: Slutt på einvegskøyring på %{name}
+        roundabout_with_exit: Ved rundkøyringa, ta avkøyrselen %{exit} mot %{name}
+        turn_left_with_exit: Ved rundkøyringa, ta til venstre inn på %{name}
+        slight_left_with_exit: Ved rundkøyringa, ta til venstre inn på %{name}
+        turn_right_with_exit: Ved rundkøyringa, ta til høgre inn på %{name}
+        slight_right_with_exit: Ved rundkøyringa, ta til høgre inn på %{name}
+        continue_with_exit: Ved rundkøyringa, fortset rett fram på %{name}
         unnamed: namnlaus veg
+        courtesy: Vegskildringar med velvillig løyve frå %{link}
       time: Tid
     query:
       node: Node
       way: Veg
+      relation: Relasjon
+      nothing_found: Ingen treff
+      error: 'Problem med å kontakte %{server}: %{error}'
+      timeout: Tidsavbrot ved kontakt med %{server}
     context:
+      directions_from: Vegskildring herifrå
+      directions_to: Vegskildring hit
+      add_note: Legg til ein merknad her
       show_address: Vis adresse
+      query_features: Søkjefunksjonar
+      centre_map: Sentrer kartet her
   redaction:
     edit:
       description: Skildring

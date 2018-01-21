@@ -1,4 +1,4 @@
-* http://www.ruby-lang.org/ - The homepage of Ruby which has more links and some great tutorials.
+* https://www.ruby-lang.org/ - The homepage of Ruby which has more links and some great tutorials.
 * http://rubyonrails.org/ - The homepage of Rails, also has links and tutorials
 
 ## Coding style
@@ -94,6 +94,6 @@ If you have forked on GitHub then the best way to submit your patches is to
 push your changes back to GitHub and then send a "pull request" on GitHub.
 
 Otherwise you should either push your changes to a publicly visible git repository
-and send the details to the [rails-dev](http://lists.openstreetmap.org/listinfo/rails-dev)
+and send the details to the [rails-dev](https://lists.openstreetmap.org/listinfo/rails-dev)
 list or generate patches with `git format-patch` and send them to the
-[rails-dev](http://lists.openstreetmap.org/listinfo/rails-dev) list.
+[rails-dev](https://lists.openstreetmap.org/listinfo/rails-dev) list.

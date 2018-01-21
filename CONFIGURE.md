@@ -6,7 +6,7 @@ After [installing](INSTALL.md) this software, you may need to carry out some of 
 
 Your installation comes with no geographic data loaded. You can either create new data using one of the editors (Potlatch 2, iD, JOSM etc) or by loading an OSM extract.
 
-After installing but before creating any users or data, import an extract with [Osmosis](http://wiki.openstreetmap.org/wiki/Osmosis) and the [``--write-apidb``](http://wiki.openstreetmap.org/wiki/Osmosis/Detailed_Usage#--write-apidb_.28--wd.29) task.
+After installing but before creating any users or data, import an extract with [Osmosis](https://wiki.openstreetmap.org/wiki/Osmosis) and the [``--write-apidb``](https://wiki.openstreetmap.org/wiki/Osmosis/Detailed_Usage#--write-apidb_.28--wd.29) task.
 
 ```
 osmosis --read-pbf greater-london-latest.osm.pbf \
@@ -14,7 +14,7 @@ osmosis --read-pbf greater-london-latest.osm.pbf \
   user="openstreetmap" password="" validateSchemaVersion="no"
 ```
 
-Loading an apidb database with Osmosis is about **twenty** times slower than loading the equivalent data with osm2pgsql into a rendering database. [``--log-progress``](http://wiki.openstreetmap.org/wiki/Osmosis/Detailed_Usage#--log-progress_.28--lp.29) may be desirable for status updates.
+Loading an apidb database with Osmosis is about **twenty** times slower than loading the equivalent data with osm2pgsql into a rendering database. [``--log-progress``](https://wiki.openstreetmap.org/wiki/Osmosis/Detailed_Usage#--log-progress_.28--lp.29) may be desirable for status updates.
 
 To be able to edit the data you have loaded, you will need to use this [yet-to-be-written script](https://github.com/openstreetmap/openstreetmap-website/issues/282).
 
@@ -94,7 +94,7 @@ Rails has its own log.  To inspect the log, do this:
 tail -f log/development.log
 ```
 
-If you have more problems, please ask on the [rails-dev@openstreetmap.org mailing list](http://lists.openstreetmap.org/listinfo/rails-dev) or on the [#osm-dev IRC Channel](http://wiki.openstreetmap.org/wiki/IRC)
+If you have more problems, please ask on the [rails-dev@openstreetmap.org mailing list](https://lists.openstreetmap.org/listinfo/rails-dev) or on the [#osm-dev IRC Channel](https://wiki.openstreetmap.org/wiki/IRC)
 
 ## Maintaining your installation
 
@@ -110,7 +110,7 @@ bundle exec rake db:migrate
 
 ## Testing on the osm dev server
 
-For example, after developing a patch for the rails_port, you might want to demonstrate it to others or ask for comments and testing. To do this one can [set up an instance of the rails_port on the dev server in ones user directory](http://wiki.openstreetmap.org/wiki/Using_the_dev_server#Rails_Applications).
+For example, after developing a patch for the rails_port, you might want to demonstrate it to others or ask for comments and testing. To do this one can [set up an instance of the rails_port on the dev server in ones user directory](https://wiki.openstreetmap.org/wiki/Using_the_dev_server#Rails_Applications).
 
 # Contributing
 
@@ -124,6 +124,6 @@ If you want to deploy The Rails Port for production use, you'll need to make a f
 * Passenger will, by design, use the Production environment and therefore the production database - make sure it contains the appropriate data and user accounts.
 * Your production database will also need the extensions and functions installed - see [INSTALL.md](INSTALL.md)
 * The included version of the map call is quite slow and eats a lot of memory. You should consider using [CGIMap](https://github.com/zerebubuth/openstreetmap-cgimap) instead.
-* The included version of the GPX importer is slow and/or completely inoperable. You should consider using [the high-speed GPX importer](http://git.openstreetmap.org/gpx-import.git/).
+* The included version of the GPX importer is slow and/or completely inoperable. You should consider using [the high-speed GPX importer](https://git.openstreetmap.org/gpx-import.git/).
 * Make sure you precompile the production assets: `RAILS_ENV=production rake assets:precompile`
 * Make sure the web server user as well as the rails user can read, write and create directories in `tmp/`.

@@ -21,7 +21,7 @@ function GraphHopperEngine(id, vehicleType) {
       // GraphHopper Directions API documentation
       // https://graphhopper.com/api/1/docs/routing/
       return $.ajax({
-        url: document.location.protocol + OSM.GRAPHHOPPER_URL,
+        url: OSM.GRAPHHOPPER_URL,
         data: {
           vehicle: vehicleType,
           locale: I18n.currentLocale(),

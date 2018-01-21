@@ -127,7 +127,7 @@ function OSRMEngine() {
         return p.lng + ',' + p.lat;
       }).join(';');
 
-      var req_url = document.location.protocol + OSM.OSRM_URL + encoded_coords;
+      var req_url = OSM.OSRM_URL + encoded_coords;
 
       var onResponse = function (data) {
         if (data.code !== 'Ok')

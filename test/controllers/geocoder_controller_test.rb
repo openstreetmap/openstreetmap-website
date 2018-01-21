@@ -1,4 +1,3 @@
-
 require "test_helper"
 require "geocoder_controller"
 
@@ -425,6 +424,12 @@ class GeocoderControllerTest < ActionController::TestCase
       results_check :name => "Dinant Link Road, Broxbourne, Hertfordshire, East of England, England, EN11 8HX, United Kingdom",
                     :lat => 51.7634883, :lon => -0.0088373,
                     :type => "way", :id => 3489841, :zoom => 17
+
+      get :search_osm_nominatim_reverse, :xhr => true,
+                                         :params => { :lat => 13.7709, :lon => 100.50507, :zoom => 19 }
+      results_check :name => "MM Steak&Grill, ถนนศรีอยุธยา, บางขุนพรหม, กรุงเทพมหานคร, เขตดุสิต, กรุงเทพมหานคร, 10300, ประเทศไทย",
+                    :lat => 13.7708691, :lon => 100.505073233221,
+                    :type => "way", :id => 542901374, :zoom => 19
     end
   end
 
