@@ -4,10 +4,10 @@ rvm:
   - 2.3.1
 cache: bundler
 addons:
-  postgresql: 9.1
+  postgresql: 9.5
   apt:
     packages:
-      - postgresql-server-dev-9.1
+      - postgresql-server-dev-9.5
 services:
   - memcached
 env:
@@ -18,9 +18,10 @@ before_script:
   - psql -U postgres -c "CREATE DATABASE openstreetmap"
   - psql -U postgres -c "CREATE EXTENSION btree_gist" openstreetmap
   - make -C db/functions libpgosm.so
-  - psql -U postgres -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '${PWD}/db/functions/libpgosm', 'maptile_for_point' LANGUAGE C STRICT" openstreetmap
-  - psql -U postgres -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '${PWD}/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT" openstreetmap
-  - psql -U postgres -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '${PWD}/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT" openstreetmap
+  - ln db/functions/libpgosm.so /tmp
+  - psql -U postgres -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '/tmp/libpgosm', 'maptile_for_point' LANGUAGE C STRICT" openstreetmap
+  - psql -U postgres -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '/tmp/libpgosm', 'tile_for_point' LANGUAGE C STRICT" openstreetmap
+  - psql -U postgres -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '/tmp/libpgosm', 'xid_to_int4' LANGUAGE C STRICT" openstreetmap
   - cp config/travis.database.yml config/database.yml
   - bundle exec rake db:migrate
 script:

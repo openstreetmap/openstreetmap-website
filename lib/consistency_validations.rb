@@ -7,26 +7,26 @@ module ConsistencyValidations
   # This will throw an exception if there is an inconsistency
   def check_consistency(old, new, user)
     if new.id != old.id || new.id.nil? || old.id.nil?
-      raise OSM::APIPreconditionFailedError.new("New and old IDs don't match on #{new.class}. #{new.id} != #{old.id}.")
+      raise OSM::APIPreconditionFailedError, "New and old IDs don't match on #{new.class}. #{new.id} != #{old.id}."
     elsif new.version != old.version
       raise OSM::APIVersionMismatchError.new(new.id, new.class.to_s, new.version, old.version)
     elsif new.changeset.nil?
-      raise OSM::APIChangesetMissingError.new
+      raise OSM::APIChangesetMissingError
     elsif new.changeset.user_id != user.id
-      raise OSM::APIUserChangesetMismatchError.new
+      raise OSM::APIUserChangesetMismatchError
     elsif !new.changeset.is_open?
-      raise OSM::APIChangesetAlreadyClosedError.new(new.changeset)
+      raise OSM::APIChangesetAlreadyClosedError, new.changeset
     end
   end
 
   # This is similar to above, just some validations don't apply
   def check_create_consistency(new, user)
     if new.changeset.nil?
-      raise OSM::APIChangesetMissingError.new
+      raise OSM::APIChangesetMissingError
     elsif new.changeset.user_id != user.id
-      raise OSM::APIUserChangesetMismatchError.new
+      raise OSM::APIUserChangesetMismatchError
     elsif !new.changeset.is_open?
-      raise OSM::APIChangesetAlreadyClosedError.new(new.changeset)
+      raise OSM::APIChangesetAlreadyClosedError, new.changeset
     end
   end
 
@@ -37,11 +37,11 @@ module ConsistencyValidations
     # check user credentials - only the user who opened a changeset
     # may alter it.
     if changeset.nil?
-      raise OSM::APIChangesetMissingError.new
+      raise OSM::APIChangesetMissingError
     elsif user.id != changeset.user_id
-      raise OSM::APIUserChangesetMismatchError.new
+      raise OSM::APIUserChangesetMismatchError
     elsif !changeset.is_open?
-      raise OSM::APIChangesetAlreadyClosedError.new(changeset)
+      raise OSM::APIChangesetAlreadyClosedError, changeset
     end
   end
 end

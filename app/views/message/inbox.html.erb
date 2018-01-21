@@ -1,10 +1,10 @@
 <% content_for :heading do %>
-  <h2><%= t'message.inbox.my_inbox'%>/<%= link_to t('message.inbox.outbox'), outbox_path(@user.display_name) %></h2>
+  <h2><%= t'message.inbox.my_inbox'%>/<%= link_to t('message.inbox.outbox'), outbox_path(current_user.display_name) %></h2>
 <% end %>
 
   <h4><%= render :partial => "message_count" %></h4>
 
-<% if @user.messages.size > 0 %>
+<% if current_user.messages.size > 0 %>
   <table class="messages">
     <thead>
       <tr>
@@ -16,9 +16,9 @@
       </tr>
     </thead>
     <tbody>
-        <%= render :partial => "message_summary", :collection => @user.messages %>
+        <%= render :partial => "message_summary", :collection => current_user.messages %>
     </tbody>
   </table>
 <% else %>
-  <div><%= raw(t'message.inbox.no_messages_yet', :people_mapping_nearby_link => link_to(t('message.inbox.people_mapping_nearby'), :controller => 'user', :action => 'view', :display_name => @user.display_name)) %></div>
+  <div><%= raw(t'message.inbox.no_messages_yet', :people_mapping_nearby_link => link_to(t('message.inbox.people_mapping_nearby'), :controller => 'user', :action => 'view', :display_name => current_user.display_name)) %></div>
 <% end %>

@@ -1,6 +1,6 @@
 #include <math.h>
 
-inline unsigned int xy2tile(unsigned int x, unsigned int y)
+static inline unsigned int xy2tile(unsigned int x, unsigned int y)
 {
    unsigned int tile = 0;
    int          i;
@@ -14,12 +14,12 @@ inline unsigned int xy2tile(unsigned int x, unsigned int y)
    return tile;
 }
 
-inline unsigned int lon2x(double lon)
+static inline unsigned int lon2x(double lon)
 {
    return round((lon + 180.0) * 65535.0 / 360.0);
 }
 
-inline unsigned int lat2y(double lat)
+static inline unsigned int lat2y(double lat)
 {
    return round((lat + 90.0) * 65535.0 / 180.0);
 }

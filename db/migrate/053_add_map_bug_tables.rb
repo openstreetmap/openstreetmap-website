@@ -1,8 +1,8 @@
 require "migrate"
 
-class AddMapBugTables < ActiveRecord::Migration
+class AddMapBugTables < ActiveRecord::Migration[5.0]
   def self.up
-    create_enumeration :map_bug_status_enum, %w(open closed hidden)
+    create_enumeration :map_bug_status_enum, %w[open closed hidden]
 
     create_table :map_bugs do |t|
       t.integer :latitude, :null => false

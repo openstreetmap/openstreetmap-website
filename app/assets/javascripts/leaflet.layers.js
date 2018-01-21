@@ -49,7 +49,7 @@ L.OSM.layers = function(options) {
         .appendTo(item);
 
       map.whenReady(function() {
-        var miniMap = L.map(div[0], {attributionControl: false, zoomControl: false})
+        var miniMap = L.map(div[0], {attributionControl: false, zoomControl: false, keyboard: false})
           .addLayer(new layer.constructor({ apikey: layer.options.apikey }));
 
         miniMap.dragging.disable();
@@ -176,6 +176,7 @@ L.OSM.layers = function(options) {
 
       addOverlay(map.noteLayer, 'notes', OSM.MAX_NOTE_REQUEST_AREA);
       addOverlay(map.dataLayer, 'data', OSM.MAX_REQUEST_AREA);
+      addOverlay(map.gpsLayer, 'gps', Number.POSITIVE_INFINITY);
     }
 
     options.sidebar.addPane($ui);

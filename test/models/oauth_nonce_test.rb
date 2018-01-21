@@ -1,8 +1,6 @@
 require "test_helper"
 
 class OauthNonceTest < ActiveSupport::TestCase
-  api_fixtures
-
   ##
   # the nonce has only one property, that it is a unique pair of
   # string and timestamp.

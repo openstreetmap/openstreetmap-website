@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: Cedric31
 # Author: Macofe
+# Author: OpenStreetMap-oc
 ---
 oc:
   time:
@@ -381,14 +382,13 @@ oc:
     search:
       title:
         latlon: Resultats <a href="http://openstreetmap.org/">intèrnes</a>
-        us_postcode: Resultats dempuèi <a href="http://geocoder.us/">Geocoder.us</a>
         uk_postcode: Resultats dempuèi <a href="http://www.npemap.org.uk/">NPEMap
           / FreeThe Postcode</a>
         ca_postcode: Resultats dempuèi <a href="http://geocoder.ca/">Geocoder.CA</a>
         osm_nominatim: Resultats de <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames: Resultats dempuèi <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse: Resultatts de <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        osm_nominatim_reverse: Resultats de <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames_reverse: Resultats de <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
@@ -703,6 +703,7 @@ oc:
           reef: Estèu
           ridge: Cresta
           rock: Ròca
+          saddle: Sèla
           sand: Sabla
           scree: Esbudèl
           scrub: Boissa
@@ -752,7 +753,7 @@ oc:
           sea: Mar
           state: Estat / província
           subdivision: Subdivision
-          suburb: Barri
+          suburb: Quartier
           town: Vila
           unincorporated_area: Luòc pas organizat
           village: Vilatge
@@ -947,7 +948,7 @@ oc:
     intro_2_create_account: Creatz un compte d'utilizaire
     partners_html: L'albergament es pres en carga per %{ucl}, %{ic} e %{bytemark},
       e d'autres %{partners}.
-    partners_ucl: lo VR Centre de l'UCL
+    partners_ucl: UCL
     partners_ic: lo Collègi Imperial de Londres
     partners_bytemark: Albergament Bytemark
     partners_partners: partenaris
@@ -1090,7 +1091,7 @@ oc:
     wiki:
       url: http://wiki.openstreetmap.org/
       title: wiki.openstreetmap.org
-      description: Pzrcorrètz lo wiki per la documentacion aprigondida d’OSM
+      description: Percorrètz lo wiki per la documentacion aprigondida d’OSM
   about_page:
     next: Seguent
     copyright_html: <span>&copy;</span>Contributors<br /> d’OpenStreetMap
@@ -1107,14 +1108,16 @@ oc:
     partners_title: Partenaris
   notifier:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} a apondut un comentari sus vòstra entrada
-        del jornal'
+      subject: '[OpenStreetMap] %{user} a postat un comentari sus un article de jornal'
       hi: Bonjorn %{to_user},
+      footer: Tanben podètz legir lo comentari sus %{readurl}, lo comentar sus %{commenturl}
+        o respondre sus %{replyurl}
     message_notification:
       hi: Bonjorn %{to_user},
-      footer_html: Podètz tanben legir lo messatge a %{readurl} e i podètz respondre
+      footer_html: Tanben podètz legir lo messatge a %{readurl} e i podètz respondre
         a %{replyurl}
     friend_notification:
+      hi: Bonjorn %{to_user},
       subject: '[OpenStreetMap] %{user} vos a apondut coma amic'
       had_added_you: '%{user} vos a apondut coma amic dins OpenStreetMap.'
       see_their_profile: 'Podètz veire son perfil aicí : %{userurl}.'
@@ -1188,9 +1191,14 @@ oc:
           La nòta se tròba prèp de %{place}.'
       details: Mai de detalh sus la nòta pòt èsser obtengut a %{url}.
     changeset_comment_notification:
+      hi: Bonjorn %{to_user},
       greeting: Bonjorn,
       commented:
-        partial_changeset_with_comment: amb lo comentari '%{changeset_comment}'
+        subject_own: '[OpenStreetMap] %{commenter} a comentat un de vòstres ensembles
+          de cambiaments'
+        subject_other: '[OpenStreetMap] %{commenter} a comentat un ensemble de cambiaments
+          al qual vos interessatz'
+        partial_changeset_with_comment: amb lo comentari  «&nbsp;%{changeset_comment}'&nbsp;»
         partial_changeset_without_comment: sens comentari
   message:
     inbox:
@@ -1254,6 +1262,7 @@ oc:
       date: Data
       reply_button: Respondre
       unread_button: Marcar coma pas legit
+      delete_button: Suprimir
       back: Retorn
       to: A
       wrong_user: Sètz identificat(-ada) coma « %{user} » mas lo messatge qu'ensajatz
@@ -1609,6 +1618,9 @@ oc:
         github:
           title: Connexion amb GitHub
           alt: Connexion amb un Compte GitHub
+        wikipedia:
+          title: Se connectar amb Wikipèdia
+          alt: Se connectar amb un compte de Wikipèdia
         yahoo:
           title: Se connectar amb Yahoo
           alt: Se connectar amb l'OpenID de Yahoo
@@ -2015,7 +2027,7 @@ oc:
     key:
       title: Legenda
       tooltip: Legenda
-      tooltip_disabled: La legenda es pas disponibla que pel jaç estandard
+      tooltip_disabled: La legenda es pas disponibla que per aqueste jaç
     map:
       zoom:
         in: Zoom avant
@@ -2032,6 +2044,7 @@ oc:
         header: Jaces de mapa
         notes: Nòtas de la mapa
         data: Donadas de mapa
+        gps: Traças GPS publicas
         overlays: Autorizar las superposicions per reparar la mapa
         title: Jaces
       copyright: © <a href='%{copyright_url}'>Contributors d'OpenStreetMap</a>
@@ -2066,16 +2079,16 @@ oc:
         comment_and_resolve: Comentar e resòlvre
         comment: Comentari
     directions:
+      ascend: Creissent
       engines:
         graphhopper_bicycle: A bicicleta (GraphHopper)
+        graphhopper_car: En veitura (GraphHopper)
         graphhopper_foot: A pè (GraphHopper)
         mapquest_bicycle: A bicicleta (MapQuest)
         mapquest_car: En veitura (MapQuest)
         mapquest_foot: A pè (MapQuest)
         osrm_car: En veitura (OSRM)
-        mapzen_bicycle: A bicicleta (Mapzen)
-        mapzen_car: En veitura (Mapzen)
-        mapzen_foot: A pè (Mapzen)
+      descend: Descreissent
       directions: Itineraris
       distance: Distància
       errors:
@@ -2110,6 +2123,12 @@ oc:
         against_oneway_without_exit: Remontatz a contrasens sus %{name}
         end_oneway_without_exit: Fin del sens unic a %{name}
         roundabout_with_exit: A la rotonda, prene la sortida %{exit} sus %{name}
+        turn_left_with_exit: A la rotonda, viratz a esquèrra cap a %{name}
+        slight_left_with_exit: A la rotonda, viratz leugièrament a esquèrra cap a
+          %{name}
+        turn_right_with_exit: A la rotonda viratz a dreita cap a %{name}
+        slight_right_with_exit: A la rotonda viratz leugièrament a dreita cap a %{name}
+        continue_with_exit: A la rotonda, contunhatz tot dreit cap a %{name}
         unnamed: via sens nom
         courtesy: Itinerari peovesit per %{link}
       time: Temps
@@ -2120,6 +2139,13 @@ oc:
       nothing_found: Cap d'objècte pas trobat
       error: 'Error en contactant %{server}: %{error}'
       timeout: Relambi depassat en contactant %{server}
+    context:
+      directions_from: Direccions dempuèi aicí
+      directions_to: Direccions cap a aicí
+      add_note: Apondre una nòta aicí
+      show_address: Afichar l’adreça
+      query_features: Requèsta sus las foncionalitats
+      centre_map: Centrar la mapa aicí
   redaction:
     edit:
       description: Descripcion

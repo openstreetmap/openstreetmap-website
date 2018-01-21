@@ -184,7 +184,7 @@ OpenStreetMap::Application.routes.draw do
   match "/go/:code" => "site#permalink", :via => :get, :code => /[a-zA-Z0-9_@~]+[=-]*/
 
   # rich text preview
-  match "/preview/:format" => "site#preview", :via => :post, :as => :preview
+  match "/preview/:type" => "site#preview", :via => :post, :as => :preview
 
   # traces
   match "/user/:display_name/traces/tag/:tag/page/:page" => "trace#list", :via => :get, :page => /[1-9][0-9]*/
@@ -208,7 +208,7 @@ OpenStreetMap::Application.routes.draw do
   match "/traces/mine" => "trace#mine", :via => :get
   match "/trace/create" => "trace#create", :via => [:get, :post]
   match "/trace/:id/data" => "trace#data", :via => :get, :id => /\d+/, :as => "trace_data"
-  match "/trace/:id/edit" => "trace#edit", :via => [:get, :post, :patch], :id => /\d+/, :as => "trace_edit"
+  match "/trace/:id/edit" => "trace#edit", :via => [:get, :post], :id => /\d+/, :as => "trace_edit"
   match "/trace/:id/delete" => "trace#delete", :via => :post, :id => /\d+/
 
   # diary pages
@@ -246,7 +246,6 @@ OpenStreetMap::Application.routes.draw do
   # geocoder
   match "/search" => "geocoder#search", :via => :get, :as => :search
   match "/geocoder/search_latlon" => "geocoder#search_latlon", :via => :get
-  match "/geocoder/search_us_postcode" => "geocoder#search_us_postcode", :via => :get
   match "/geocoder/search_uk_postcode" => "geocoder#search_uk_postcode", :via => :get
   match "/geocoder/search_ca_postcode" => "geocoder#search_ca_postcode", :via => :get
   match "/geocoder/search_osm_nominatim" => "geocoder#search_osm_nominatim", :via => :get

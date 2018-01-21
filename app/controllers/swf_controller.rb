@@ -92,7 +92,7 @@ class SwfController < ApplicationController
     m = pack_rect(bounds_left, bounds_right, bounds_bottom, bounds_top) + 0.chr + 12.chr + pack_u16(1) + m
     m = "FWS" + 6.chr + pack_u32(m.length + 8) + m
 
-    render :text => m, :content_type => "application/x-shockwave-flash"
+    render :body => m, :content_type => "application/x-shockwave-flash"
   end
 
   private

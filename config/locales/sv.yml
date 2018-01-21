@@ -6,6 +6,7 @@
 # Author: Adrianod
 # Author: Ainali
 # Author: Balp
+# Author: Bengtsson96
 # Author: Cohan
 # Author: Cybjit
 # Author: Dan Koehl
@@ -35,6 +36,7 @@
 # Author: The real emj
 # Author: Tor.klingberg
 # Author: Ufred
+# Author: Umeaboy
 # Author: VickyC
 # Author: WikiPhoenix
 # Author: Zvenzzon
@@ -55,7 +57,7 @@ sv:
       language: Språk
       message: Meddelande
       node: Nod
-      node_tag: Nodtagg
+      node_tag: Nodetikett
       notifier: Meddelande
       old_node: Gammal nod
       old_node_tag: Gammal nodtagg
@@ -64,7 +66,7 @@ sv:
       old_relation_tag: Gammal relationstagg
       old_way: Gammal sträcka
       old_way_node: Gammal sträcknod
-      old_way_tag: Gammal sträcktagg
+      old_way_tag: Gammal sträcketikett
       relation: Relation
       relation_member: Relationsmedlem
       relation_tag: Relationstagg
@@ -73,11 +75,11 @@ sv:
       tracepoint: Spårpunkt
       tracetag: Spåretikett
       user: Användare
-      user_preference: Användarinställningar
+      user_preference: Användarinställning
       user_token: Användarnyckel
       way: Sträcka
       way_node: Sträcknod
-      way_tag: Vägtagg
+      way_tag: Sträcketikett
     attributes:
       diary_comment:
         body: Brödtext
@@ -130,12 +132,14 @@ sv:
   browse:
     created: Skapad
     closed: Stängd
-    created_html: Skapade <abbr title='%{title}'>%{time} sedan</abbr>
-    closed_html: Stängde <abbr title='%{title}'> för %{time} sedan</abbr>
-    created_by_html: Skapade <abbr title='%{title}'>%{time} sedan</abbr> av %{user}
-    deleted_by_html: Raderade <abbr title='%{title}'>%{time} sedan</abbr> av %{user}
-    edited_by_html: Redigerade <abbr title='%{title}'>%{time} sedan</abbr> av %{user}
-    closed_by_html: Stängde <abbr title='%{title}'> för %{time} sedan</abbr> av %{user}
+    created_html: Skapades <abbr title='%{title}'>för %{time} sedan</abbr>
+    closed_html: Stängdes <abbr title='%{title}'>för %{time} sedan</abbr>
+    created_by_html: Skapades <abbr title='%{title}'>för %{time} sedan</abbr> av %{user}
+    deleted_by_html: Raderades <abbr title='%{title}'>för %{time} sedan</abbr> av
+      %{user}
+    edited_by_html: Redigerades <abbr title='%{title}'>för %{time} sedan</abbr> av
+      %{user}
+    closed_by_html: Stängdes <abbr title='%{title}'> för %{time} sedan</abbr> av %{user}
     version: Version
     in_changeset: Ändringsset
     anonymous: anonym
@@ -165,6 +169,8 @@ sv:
         title_comment: Ändringsset %{id} - %{comment}
       join_discussion: Logga in för att delta i diskussionen
       discussion: Diskussion
+      still_open: Ändringsset är fortfarande öppet - diskussionen kommer att öppnas
+        när ändringsset har stängts.
     node:
       title: 'Nod: %{name}'
       history_title: 'Nodhistorik: %{name}'
@@ -217,9 +223,9 @@ sv:
         webbläsare långsam eller få den att sluta svara. Är säker på att du vill visa
         denna data?
       load_data: Ladda data
-      loading: Läser in...
+      loading: Läser in …
     tag_details:
-      tags: Taggar
+      tags: Etiketter
       wiki_link:
         key: Wiki-beskrivningssidan för %{key}-taggen
         tag: Wiki-beskrivningssidan för %{key}=%{value}-taggen
@@ -236,17 +242,19 @@ sv:
       open_by: Skapad av %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
       open_by_anonymous: Skapad av anonym <abbr title='%{exact_time}'>%{when} sedan</abbr>
       commented_by: Kommentar från %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
-      commented_by_anonymous: Kommentar från anonym <abbr title='%{exact_time}'>%{when}
+      commented_by_anonymous: Kommentar från en anonym användare <abbr title='%{exact_time}'>för
+        %{when} sedan</abbr>
+      closed_by: Löst av %{user} <abbr title='%{exact_time}'>för %{when} sedan</abbr>
+      closed_by_anonymous: Löst av en anonym användare <abbr title='%{exact_time}'>för
+        %{when} sedan</abbr>
+      reopened_by: Återaktiverades av %{user} <abbr title='%{exact_time}'>för %{when}
         sedan</abbr>
-      closed_by: Löst av %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
-      closed_by_anonymous: Löst av anonym <abbr title='%{exact_time}'>%{when} sedan</abbr>
-      reopened_by: Återaktiverad av %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
-      reopened_by_anonymous: Återaktiverad av anonym <abbr title='%{exact_time}'>%{when}
-        sedan</abbr>
-      hidden_by: Gömd av %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
+      reopened_by_anonymous: Återaktiverades av en anonym användare <abbr title='%{exact_time}'>för
+        %{when} sedan</abbr>
+      hidden_by: Doldes av %{user} <abbr title='%{exact_time}'>för %{when} sedan</abbr>
     query:
       title: Undersök kartobjekt
-      introduction: Klicka på kartan för att hitta närliggande funktioner.
+      introduction: Klicka på kartan för att hitta funktioner i närheten.
       nearby: Finns i närheten
       enclosing: Omgivande kartobjekt
   changeset:
@@ -413,7 +421,6 @@ sv:
     search:
       title:
         latlon: Resultat från <a href="http://openstreetmap.org/">OpenStreetMap</a>
-        us_postcode: Resultat från <a href="http://geocoder.us/">Geocoder.us</a>
         uk_postcode: Resultat från <a href="http://www.npemap.org.uk/">NPEMap / Free
           The Postcode</a>
         ca_postcode: Resultat från <a href="http://geocoder.ca/">Geocoder.CA</a>
@@ -572,7 +579,7 @@ sv:
           bridleway: Ridstig
           bus_guideway: Spårbussväg
           bus_stop: Busshållplats
-          construction: Motorväg under konstruktion
+          construction: Väg under byggnad
           cycleway: Cykelspår
           elevator: Hiss
           emergency_access_point: Utryckningsplats
@@ -982,12 +989,11 @@ sv:
     intro_text: OpenStreetMap är en karta över världen, skapad av människor som du
       och fri att använda under en öppen licens.
     intro_2_create_account: Skapa ett användarkonto
-    partners_html: Hosting via %{ucl}, %{ic} och %{bytemark}, med flera %{partners}.
-    partners_ucl: UCL VR Center
+    partners_html: Drivs via %{ucl}, %{ic}, %{bytemark}, %{ic} och andra %{partners}.
+    partners_ucl: University College London
     partners_ic: Imperial College London
     partners_bytemark: Bytemark Hosting
     partners_partners: partners
-    partners_url: http://wiki.openstreetmap.org/wiki/Partners
     osm_offline: OpenStreetMap-databasen är inte tillgänglig just nu, då nödvändigt
       databasunderhåll pågår.
     osm_read_only: OpenStreetMap-databasen är skrivskyddad just nu, då nödvändigt
@@ -1057,15 +1063,13 @@ sv:
         title: Exempel på källhänvisning.
       more_title_html: Mer information
       more_1_html: |-
-        Läs mer om användning av vår data, och hur du anger oss som källa, på <a
-        href="http://osmfoundation.org/Licence">OSMF licenssida</a> och gemenskapens <a
-        href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">juridiska
-        FAQ</a>.
+        Läs mer om användning av vår data och hur du anger oss som källa på <a
+        href="http://osmfoundation.org/Licence">OSMF:s licenssida</a>.
       more_2_html: |-
-        Även om OpenStreetMap är öppen data, kan vi inte tillhandahålla något gratis kart-API för tredjepartsutvecklare.
-        Se vår <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">användningspolicy för API</a>,
-        <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">användningspolicy för kartrutor</a>
-        och <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">användningspolicy för Nominatim</a>.
+        Även om OpenStreetMap är öppen data, kan vi inte tillhandahålla något gratis kart-API för tredjeparter.
+        Se vår <a href="https://operations.osmfoundation.org/policies/api/">användningspolicy för API</a>,
+        <a href="https://operations.osmfoundation.org/policies/tiles/">användningspolicy för kartrutor</a>
+        och <a href="https://operations.osmfoundation.org/policies/nominatim/">användningspolicy för Nominatim</a>.
       contributors_title_html: Våra bidragsgivare
       contributors_intro_html: |-
         Våra bidragsgivare är tusentals individer. Vi inkluderar också
@@ -1251,7 +1255,7 @@ sv:
     community_driven_html: |-
       OpenStreetMaps gemenskap är blandad, passionerad och växer varje dag.
       Bland våra bidragsgivare finns kartentusiaster, GIS-proffs, ingenjörer som håller igång OSM:s servrar, frivilliga som kartlägger katastrofområden, och många andra.
-      För mer information om gemenskapen, se <a href='%{diary_path}'>användardagböcker</a>, <a href='http://blogs.openstreetmap.org/'>gemenskapens bloggar</a>, och <a href='http://www.osmfoundation.org/'>OSM-stiftelsens</a> webbplats.
+      För mer information om gemenskapen, se <a href='https://blog.openstreetmap.org'>OpenStreetMap-bloggen</a>, <a href='%{diary_path}'>användardagböcker</a>, <a href='http://blogs.openstreetmap.org/'>gemenskapens bloggar</a>, och <a href='http://www.osmfoundation.org/'>OSM-stiftelsens</a> webbplats.
     open_data_title: Öppna data
     open_data_html: 'OpenStreetMap är <i>öppna data</i>: du kan fritt använda den
       för valfritt syfte så länge du anger OpenStreetMap och dess bidragsgivare som
@@ -1261,9 +1265,12 @@ sv:
     legal_title: Juridik
     legal_html: "Denna sida och många andra liknande tjänster drivs formellt av \n<a
       href=\"http://osmfoundation.org/\">OpenStreetMap Foundation</a> (OSMF) \npå
-      gemenskapens vägnar.\n<br> \nVänligen <a href=\"http://osmfoundation.org/Contact\">kontakta
-      OSMF</a> \nom du har frågor eller funderingar om licenser, upphovsrätt eller
-      andra rättsliga frågor."
+      gemenskapens vägnar. Användning av alla OSMF-opererade tjänster är föremål\nför
+      våra <a href=\"http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\npolicyer
+      för acceptabel användning</a> och vår <a href=\"http://wiki.osmfoundation.org/wiki/Privacy_Policy\">integritetspolicy</a>\n<br>
+      \nVänligen <a href=\"http://osmfoundation.org/Contact\">kontakta OSMF</a> \nom
+      du har frågor eller funderingar om licenser, upphovsrätt eller andra rättsliga
+      frågor."
     partners_title: Partners
   notifier:
     diary_comment_notification:
@@ -1280,6 +1287,7 @@ sv:
       footer_html: Du kan också läsa meddelandet på %{readurl} och du kan svara på
         %{replyurl}
     friend_notification:
+      hi: Hej %{to_user},
       subject: '[OpenStreetMap] %{user} lade till dig som en vän'
       had_added_you: '%{user} har lagt till dig som vän på OpenStreetMap.'
       see_their_profile: Du kan se deras profil på %{userurl}.
@@ -1363,6 +1371,7 @@ sv:
           på. Noteringen är nära %{place}.'
       details: Mer detaljer om anteckningen finns på %{url}.
     changeset_comment_notification:
+      hi: Hej %{to_user},
       greeting: Hej,
       commented:
         subject_own: '[OpenStreetMap] %{commenter} har kommenterat på en av dina ändringsset'
@@ -1375,6 +1384,8 @@ sv:
         partial_changeset_with_comment: med kommentar '%{changeset_comment}'
         partial_changeset_without_comment: utan kommentar
       details: Mer detaljer om ändringssetet finns på %{url}.
+      unsubscribe: För att avsluta prenumerationen från uppdatering i denna ändringsgrupp,
+        besök %{url} och klicka på "Avprenumerera".
   message:
     inbox:
       title: Inkorg
@@ -1437,6 +1448,7 @@ sv:
       date: Datum
       reply_button: Svara
       unread_button: Markera som oläst
+      delete_button: Radera
       back: Tillbaka
       to: Till
       wrong_user: Du är inloggad som '%{user}', men meddelandet du har bett om att
@@ -1490,7 +1502,7 @@ sv:
       get_directions_title: Hitta vägen mellan två punkter
       from: Från
       to: Till
-      where_am_i: Var är jag?
+      where_am_i: Var är detta?
       where_am_i_title: Beskriv den aktuella platsen med hjälp av sökmotorn
       submit_text: Gå
     key:
@@ -1691,7 +1703,7 @@ sv:
       title: OpenStreetMap GPS-spår
     description:
       description_with_count:
-        one: GPX-fil med %{count} punkter från %{user}
+        one: GPX-fil med %{count} punkt från %{user}
         other: GPX-fil med %{count} punkter från %{user}
       description_without_count: GPX-fil från %{user}
   application:
@@ -1701,6 +1713,9 @@ sv:
     require_moderator:
       not_a_moderator: Du måste vara administratör för att utföra åtgärden.
     setup_user_auth:
+      blocked_zero_hour: Du har ett brådskande meddelande väntande på hemsidan för
+        OpenStreetMap. Du behöver läsa meddelandet innan du ges möjlighet att spara
+        dina redigeringar.
       blocked: Du har blivit blockerad från API:et. Var god logga in via webinterfacet
         för att få reda på mer.
       need_to_see_terms: Din tillgång till API:t är tillfälligt avstängd. Logga in
@@ -1732,6 +1747,8 @@ sv:
       invalid: Auktoriserings-nyckeln är inte giltig.
     revoke:
       flash: Du tagit bort nyckeln för %{application}
+    permissions:
+      missing: Du har inte gett applikationen åtkomst till den här byggnaden
   oauth_clients:
     new:
       title: Registrera ett nytt program
@@ -1836,6 +1853,9 @@ sv:
         github:
           title: Logga in med GitHub
           alt: Logga in med ett GitHub-Konto
+        wikipedia:
+          title: Logga in med Wikipedia
+          alt: Logga in med ett Wikipedia-konto
         yahoo:
           title: Logga in med Yahoo
           alt: Logga in med ett Yahoo OpenID
@@ -1880,8 +1900,9 @@ sv:
       license_agreement: När du bekräftar ditt konto måste du samtycka till <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">bidragsgivarvillkoren</a>.
       email address: 'E-postadress:'
       confirm email address: 'Bekräfta e-postadress:'
-      not displayed publicly: Visas inte offentligt (se <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
-        title="wikins integritetspolicy (inkluderar avsnitt om e-postadresser)">integritetspolicyn</a>)
+      not displayed publicly: Din adress visas inte offentligt, se vår <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
+        title="OSMF-integritetspolicy som inkluderar avsnitt om e-postadresser">integritetspolicy</a>
+        för mer information
       display name: 'Visat namn:'
       display name description: Ditt offentligt visade användarnamn. Du kan ändra
         detta senare i inställningarna.
@@ -2145,6 +2166,8 @@ sv:
       not_a_role: Strängen `%{role}' är inte en korrekt roll.
       already_has_role: Användaren har redan rollen %{role}.
       doesnt_have_role: Användaren har inte rollen %{role}.
+      not_revoke_admin_current_user: Kan inte återkalla administratörsroll från nuvarande
+        användare.
     grant:
       title: Bekräfta rolltilldelning
       heading: Bekräfta rolltilldelning
@@ -2239,6 +2262,8 @@ sv:
     helper:
       time_future: Slutar om %{time}.
       until_login: Aktiv till dess användaren loggar in.
+      time_future_and_until_login: Slutar %{time} och efter att användaren har loggat
+        in.
       time_past: Avslutades för %{time} sedan.
     blocks_on:
       title: Blockeringar på %{name}
@@ -2340,6 +2365,7 @@ sv:
         header: Kartskikt
         notes: Kartanteckningar
         data: Kartdata
+        gps: Offentliga GPS-spår
         overlays: Aktivera lager för felsökning av kartan
         title: Lager
       copyright: © <a href='%{copyright_url}'>OpenStreetMaps bidragsgivare</a>
@@ -2364,8 +2390,10 @@ sv:
       new:
         intro: Upptäckt ett misstag eller något som saknas? Låt andra karterare veta
           så att vi kan fixa det. Flytta markören till rätt position och skriv in
-          en kommentar som förklarar problemet. (Vänligen ange inte personuppgifter
-          eller information från upphovsrättsligt skyddade kartor eller kataloger.)
+          en kommentar som förklarar problemet.
+        advice: Din anteckning är offentlig och kan användas för att uppdatera kartan,
+          så skriv inte personuppgifter eller information från upphovsrättsligt skyddade
+          kartor eller kataloger.
         add: Lägg till anteckning
       show:
         anonymous_warning: Denna anteckning innehåller kommentarer från anonyma användare
@@ -2378,16 +2406,16 @@ sv:
     edit_help: Flytta kartan och zooma in på en plats som du vill redigera, klicka
       sedan här.
     directions:
+      ascend: Stigande
       engines:
         graphhopper_bicycle: Cykel (GraphHopper)
+        graphhopper_car: Bil (GraphHopper)
         graphhopper_foot: Gående (GraphHopper)
         mapquest_bicycle: Cykel (MapQuest)
         mapquest_car: Bil (MapQuest)
         mapquest_foot: Gående (MapQuest)
         osrm_car: Bil (OSRM)
-        mapzen_bicycle: Cykel (Mapzen)
-        mapzen_car: Bil (Mapzen)
-        mapzen_foot: Fot (Mapzen)
+      descend: Fallande
       directions: Vägbeskrivning
       distance: Avstånd
       errors:
@@ -2422,6 +2450,11 @@ sv:
         against_oneway_without_exit: Kör mot enkelriktat på %{name}
         end_oneway_without_exit: Slutet av enkelriktat på %{name}
         roundabout_with_exit: Vid rondellen, ta avfart %{exit} mot %{name}
+        turn_left_with_exit: I rondellen, sväng vänster till %{name}
+        slight_left_with_exit: I rondellen, sväng vänster till %{name}
+        turn_right_with_exit: I rondellen, sväng höger till %{name}
+        slight_right_with_exit: I rondellen, sväng höger till %{name}
+        continue_with_exit: I rondellen, fortsätt rakt fram till %{name}
         unnamed: namnlös
         courtesy: Vägbeskrivning med tillstånd av %{link}
       time: Tid
@@ -2432,6 +2465,13 @@ sv:
       nothing_found: Inga sökresultat hittades
       error: 'Problem med att kontakta %{server}: %{error}'
       timeout: Timeout vid kontakt med %{server}
+    context:
+      directions_from: Vägbeskrivning härifrån
+      directions_to: Vägbeskrivning hit
+      add_note: Lägg till en anteckning här
+      show_address: Visa adress
+      query_features: Sökfunktioner
+      centre_map: Centrera kartan här
   redaction:
     edit:
       description: Beskrivning

@@ -1,35 +1,35 @@
 require "migrate"
 
-class TileNodes < ActiveRecord::Migration
+class TileNodes < ActiveRecord::Migration[5.0]
   def self.upgrade_table(from_table, to_table, model)
     if ENV["USE_DB_FUNCTIONS"]
-      execute <<-END_SQL
+      execute <<-SQL
       INSERT INTO #{to_table} (id, latitude, longitude, user_id, visible, tags, timestamp, tile)
       SELECT id, ROUND(latitude * 10000000), ROUND(longitude * 10000000),
              user_id, visible, tags, timestamp,
              tile_for_point(CAST(ROUND(latitude * 10000000) AS INTEGER),
                             CAST(ROUND(longitude * 10000000) AS INTEGER))
       FROM #{from_table}
-      END_SQL
+      SQL
     else
-      execute <<-END_SQL
+      execute <<-SQL
       INSERT INTO #{to_table} (id, latitude, longitude, user_id, visible, tags, timestamp, tile)
       SELECT id, ROUND(latitude * 10000000), ROUND(longitude * 10000000),
              user_id, visible, tags, timestamp, 0
       FROM #{from_table}
-      END_SQL
+      SQL
 
       model.all.each(&:save!)
     end
   end
 
   def self.downgrade_table(from_table, to_table)
-    execute <<-END_SQL
+    execute <<-SQL
     INSERT INTO #{to_table} (id, latitude, longitude, user_id, visible, tags, timestamp)
     SELECT id, latitude / 10000000, longitude / 10000000,
            user_id, visible, tags, timestamp
     FROM #{from_table}
-    END_SQL
+    SQL
   end
 
   def self.up
@@ -96,7 +96,7 @@ class TileNodes < ActiveRecord::Migration
       t.column "timestamp", :datetime, :null => false
     end
 
-    add_index "current_nodes", %w(latitude longitude), :name => "current_nodes_lat_lon_idx"
+    add_index "current_nodes", %w[latitude longitude], :name => "current_nodes_lat_lon_idx"
     add_index "current_nodes", ["timestamp"], :name => "current_nodes_timestamp_idx"
 
     downgrade_table "current_nodes_v6", "current_nodes"
@@ -116,7 +116,7 @@ class TileNodes < ActiveRecord::Migration
     end
 
     add_index "nodes", ["id"], :name => "nodes_uid_idx"
-    add_index "nodes", %w(latitude longitude), :name => "nodes_latlon_idx"
+    add_index "nodes", %w[latitude longitude], :name => "nodes_latlon_idx"
     add_index "nodes", ["timestamp"], :name => "nodes_timestamp_idx"
 
     downgrade_table "nodes_v6", "nodes"

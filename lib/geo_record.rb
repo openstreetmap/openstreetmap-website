@@ -1,4 +1,19 @@
+require "delegate"
+
 module GeoRecord
+  # Ensure that when coordinates are printed that they are always in decimal degrees,
+  # and not e.g. 4.0e-05
+  # Unfortunately you can't extend Numeric classes directly (e.g. `Coord < Float`).
+  class Coord < DelegateClass(Float)
+    def initialize(obj)
+      super(obj)
+    end
+
+    def to_s
+      format("%.7f", self)
+    end
+  end
+
   # This scaling factor is used to convert between the float lat/lon that is
   # returned by the API, and the integer lat/lon equivalent that is stored in
   # the database.
@@ -31,11 +46,11 @@ module GeoRecord
 
   # Return WGS84 latitude
   def lat
-    latitude.to_f / SCALE
+    Coord.new(latitude.to_f / SCALE)
   end
 
   # Return WGS84 longitude
   def lon
-    longitude.to_f / SCALE
+    Coord.new(longitude.to_f / SCALE)
   end
 end

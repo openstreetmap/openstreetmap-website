@@ -12,6 +12,7 @@ class UserBlocksController < ApplicationController
   before_action :check_database_writable, :only => [:create, :update, :revoke]
 
   def index
+    @params = params.permit
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,
                                                 :include => [:user, :creator, :revoker],
                                                 :order => "user_blocks.ends_at DESC",
@@ -19,7 +20,7 @@ class UserBlocksController < ApplicationController
   end
 
   def show
-    if @user && @user.id == @user_block.user_id
+    if current_user && current_user == @user_block.user
       @user_block.needs_view = false
       @user_block.save!
     end
@@ -36,8 +37,8 @@ class UserBlocksController < ApplicationController
   def create
     if @valid_params
       @user_block = UserBlock.new(
-        :user_id => @this_user.id,
-        :creator_id => @user.id,
+        :user => @this_user,
+        :creator => current_user,
         :reason => params[:user_block][:reason],
         :ends_at => Time.now.getutc + @block_period.hours,
         :needs_view => params[:user_block][:needs_view]
@@ -56,7 +57,7 @@ class UserBlocksController < ApplicationController
 
   def update
     if @valid_params
-      if @user_block.creator_id != @user.id
+      if @user_block.creator != current_user
         flash[:error] = t("user_block.update.only_creator_can_edit")
         redirect_to :action => "edit"
       elsif @user_block.update_attributes(
@@ -78,7 +79,7 @@ class UserBlocksController < ApplicationController
   # revokes the block, setting the end_time to now
   def revoke
     if params[:confirm]
-      if @user_block.revoke! @user
+      if @user_block.revoke! current_user
         flash[:notice] = t "user_block.revoke.flash"
         redirect_to(@user_block)
       end
@@ -88,6 +89,7 @@ class UserBlocksController < ApplicationController
   ##
   # shows a list of all the blocks on the given user
   def blocks_on
+    @params = params.permit(:display_name)
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,
                                                 :include => [:user, :creator, :revoker],
                                                 :conditions => { :user_id => @this_user.id },
@@ -98,6 +100,7 @@ class UserBlocksController < ApplicationController
   ##
   # shows a list of all the blocks by the given user.
   def blocks_by
+    @params = params.permit(:display_name)
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,
                                                 :include => [:user, :creator, :revoker],
                                                 :conditions => { :creator_id => @this_user.id },

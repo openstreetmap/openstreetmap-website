@@ -6,8 +6,8 @@ class OauthClientsController < ApplicationController
   before_action :require_user
 
   def index
-    @client_applications = @user.client_applications
-    @tokens = @user.oauth_tokens.authorized
+    @client_applications = current_user.client_applications
+    @tokens = current_user.oauth_tokens.authorized
   end
 
   def new
@@ -15,7 +15,7 @@ class OauthClientsController < ApplicationController
   end
 
   def create
-    @client_application = @user.client_applications.build(application_params)
+    @client_application = current_user.client_applications.build(application_params)
     if @client_application.save
       flash[:notice] = t "oauth_clients.create.flash"
       redirect_to :action => "show", :id => @client_application.id
@@ -25,21 +25,21 @@ class OauthClientsController < ApplicationController
   end
 
   def show
-    @client_application = @user.client_applications.find(params[:id])
+    @client_application = current_user.client_applications.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     @type = "client application"
     render :action => "not_found", :status => :not_found
   end
 
   def edit
-    @client_application = @user.client_applications.find(params[:id])
+    @client_application = current_user.client_applications.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     @type = "client application"
     render :action => "not_found", :status => :not_found
   end
 
   def update
-    @client_application = @user.client_applications.find(params[:id])
+    @client_application = current_user.client_applications.find(params[:id])
     if @client_application.update_attributes(application_params)
       flash[:notice] = t "oauth_clients.update.flash"
       redirect_to :action => "show", :id => @client_application.id
@@ -52,7 +52,7 @@ class OauthClientsController < ApplicationController
   end
 
   def destroy
-    @client_application = @user.client_applications.find(params[:id])
+    @client_application = current_user.client_applications.find(params[:id])
     @client_application.destroy
     flash[:notice] = t "oauth_clients.destroy.flash"
     redirect_to :action => "index"

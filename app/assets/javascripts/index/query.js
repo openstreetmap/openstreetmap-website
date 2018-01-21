@@ -1,8 +1,7 @@
 //= require jquery.simulate
 
 OSM.Query = function(map) {
-  var protocol = document.location.protocol === "https:" ? "https:" : "http:",
-    url = protocol + OSM.OVERPASS_URL,
+  var url = OSM.OVERPASS_URL,
     queryButton = $(".control-query .control-button"),
     uninterestingTags = ['source', 'source_ref', 'source:ref', 'history', 'attribution', 'created_by', 'tiger:county', 'tiger:tlid', 'tiger:upload_uuid', 'KSJ2:curve_id', 'KSJ2:lat', 'KSJ2:lon', 'KSJ2:coordinate', 'KSJ2:filename', 'note:ja'],
     marker;
@@ -12,7 +11,7 @@ OSM.Query = function(map) {
     weight: 4,
     opacity: 1,
     fillOpacity: 0.5,
-    clickable: false
+    interactive: false
   };
 
   queryButton.on("click", function (e) {
@@ -146,7 +145,7 @@ OSM.Query = function(map) {
 
     if (feature.type === "node" && feature.lat && feature.lon) {
       geometry = L.circleMarker([feature.lat, feature.lon], featureStyle);
-    } else if (feature.type === "way" && feature.geometry) {
+    } else if (feature.type === "way" && feature.geometry && feature.geometry.length > 0) {
       geometry = L.polyline(feature.geometry.filter(function (point) {
         return point !== null;
       }).map(function (point) {

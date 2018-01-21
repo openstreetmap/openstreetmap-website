@@ -8,7 +8,7 @@
   <div class='header-illustration new-user-arm'></div>
 <% end %>
 
-<%= form_for :user, :url => { :action => 'create' }, :html => { :class => 'standard-form fillL col6 inner22' } do %>
+<%= form_for current_user, :url => { :action => 'create' }, :html => { :class => 'standard-form fillL col6 inner22' } do |f| %>
   <%= hidden_field_tag('referer', h(@referer)) unless @referer.nil? %>
 
   <fieldset>
@@ -16,15 +16,15 @@
       <label for="email" class="standard-label">
         <%= t 'user.new.email address' %>
       </label>
-      <%= email_field(:user, :email, { :tabindex => 1 }) %>
-      <%= error_message_on(:user, :email) %>
+      <%= f.email_field(:email, { :tabindex => 1 }) %>
+      <%= f.error_message_on(:email) %>
     </div>
     <div class="form-row">
       <label for="email_confirmation" class="standard-label">
         <%= t 'user.new.confirm email address' %>
       </label>
-      <%= email_field(:user, :email_confirmation, { :tabindex => 2 }) %>
-      <%= error_message_on(:user, :email_confirmation) %>
+      <%= f.email_field(:email_confirmation, { :tabindex => 2 }) %>
+      <%= f.error_message_on(:email_confirmation) %>
     </div>
     <span class="form-help deemphasize"><%= raw(t 'user.new.not displayed publicly') %></span>
   </fieldset>
@@ -34,8 +34,8 @@
       <label for="display_name" class="standard-label">
         <%= t 'user.new.display name' %>
       </label>
-      <%= text_field(:user, :display_name, { :tabindex => 3 }) %>
-      <%= error_message_on(:user, :display_name) %>
+      <%= f.text_field(:display_name, { :tabindex => 3 }) %>
+      <%= f.error_message_on(:display_name) %>
     </div>
     <span class="form-help deemphasize"><%= t 'user.new.display name description' %></span>
   </fieldset>
@@ -45,9 +45,9 @@
       <label for="openid_url" class="standard-label">
         <%= raw t 'user.new.external auth' %>
       </label>
-      <%= select(:user, :auth_provider, Auth::PROVIDERS, { :default => "", :tabindex => 4 }) %>
-      <%= text_field(:user, :auth_uid, { :tabindex => 5 }) %>
-      <%= error_message_on(:user, :auth_uid) %>
+      <%= f.select(:auth_provider, Auth::PROVIDERS, { :default => "", :tabindex => 4 }) %>
+      <%= f.text_field(:auth_uid, { :tabindex => 5 }) %>
+      <%= f.error_message_on(:auth_uid) %>
     </div>
     <span class="form-help deemphasize"><%= t 'user.new.auth no password' %></span>
   </fieldset>
@@ -57,15 +57,15 @@
       <label for='user[pass_crypt]' class="standard-label">
         <%= t 'user.new.password' %>
       </label>
-      <%= password_field(:user, :pass_crypt, { :tabindex => 6 }) %>
-      <%= error_message_on(:user, :pass_crypt) %>
+      <%= f.password_field(:pass_crypt, { :tabindex => 6 }) %>
+      <%= f.error_message_on(:pass_crypt) %>
     </div>
     <div class="form-row">
       <label class="standard-label">
         <%= t 'user.new.confirm password' %>
       </label>
-      <%= password_field(:user, :pass_crypt_confirmation, { :tabindex => 7 }) %>
-      <%= error_message_on(:user, :pass_crypt_confirmation) %>
+      <%= f.password_field(:pass_crypt_confirmation, { :tabindex => 7 }) %>
+      <%= f.error_message_on(:pass_crypt_confirmation) %>
     </div>
   </fieldset>
 

@@ -1,6 +1,6 @@
 require "migrate"
 
-class UserEnhancements < ActiveRecord::Migration
+class UserEnhancements < ActiveRecord::Migration[5.0]
   def self.up
     add_column "diary_entries", "latitude", :float, :limit => 53
     add_column "diary_entries", "longitude", :float, :limit => 53
@@ -12,7 +12,7 @@ class UserEnhancements < ActiveRecord::Migration
       t.column "v", :string, :null => false
     end
 
-    add_primary_key "user_preferences", %w(user_id k)
+    add_primary_key "user_preferences", %w[user_id k]
 
     create_table "user_tokens", :id => false do |t|
       t.column "id", :bigserial, :primary_key => true, :null => false

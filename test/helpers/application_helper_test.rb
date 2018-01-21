@@ -1,7 +1,7 @@
 require "test_helper"
 
 class ApplicationHelperTest < ActionView::TestCase
-  fixtures :users, :user_roles
+  attr_accessor :current_user
 
   def setup
     I18n.locale = "en"
@@ -12,7 +12,7 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   def test_linkify
-    %w(http://example.com/test ftp://example.com/test https://example.com/test).each do |link|
+    %w[http://example.com/test ftp://example.com/test https://example.com/test].each do |link|
       text = "Test #{link} is made into a link"
 
       html = linkify(text)
@@ -24,7 +24,7 @@ class ApplicationHelperTest < ActionView::TestCase
       assert_dom_equal "Test <a href=\"#{link}\" rel=\"nofollow\">#{link}</a> is made into a link", html
     end
 
-    %w(test@example.com mailto:test@example.com).each do |link|
+    %w[test@example.com mailto:test@example.com].each do |link|
       text = "Test #{link} is not made into a link"
 
       html = linkify(text)
@@ -48,7 +48,7 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   def test_style_rules
-    @user = nil
+    self.current_user = nil
 
     css = style_rules
     assert_match /\.hidden /, css
@@ -59,36 +59,36 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_match /\.hide_unless_administrator /, css
     assert_match /\.hide_unless_moderator /, css
 
-    @user = users(:normal_user)
+    self.current_user = create(:user)
 
     css = style_rules
     assert_match /\.hidden /, css
     assert_no_match /\.hide_unless_logged_in /, css
     assert_match /\.hide_if_logged_in /, css
-    assert_match /\.hide_if_user_1 /, css
-    assert_match /\.show_if_user_1 /, css
+    assert_match /\.hide_if_user_#{current_user.id} /, css
+    assert_match /\.show_if_user_#{current_user.id} /, css
     assert_match /\.hide_unless_administrator /, css
     assert_match /\.hide_unless_moderator /, css
 
-    @user = users(:moderator_user)
+    self.current_user = create(:moderator_user)
 
     css = style_rules
     assert_match /\.hidden /, css
     assert_no_match /\.hide_unless_logged_in /, css
     assert_match /\.hide_if_logged_in /, css
-    assert_match /\.hide_if_user_5 /, css
-    assert_match /\.show_if_user_5 /, css
+    assert_match /\.hide_if_user_#{current_user.id} /, css
+    assert_match /\.show_if_user_#{current_user.id} /, css
     assert_match /\.hide_unless_administrator /, css
     assert_no_match /\.hide_unless_moderator /, css
 
-    @user = users(:administrator_user)
+    self.current_user = create(:administrator_user)
 
     css = style_rules
     assert_match /\.hidden /, css
     assert_no_match /\.hide_unless_logged_in /, css
     assert_match /\.hide_if_logged_in /, css
-    assert_match /\.hide_if_user_6 /, css
-    assert_match /\.show_if_user_6 /, css
+    assert_match /\.hide_if_user_#{current_user.id} /, css
+    assert_match /\.show_if_user_#{current_user.id} /, css
     assert_no_match /\.hide_unless_administrator /, css
     assert_match /\.hide_unless_moderator /, css
   end
@@ -110,11 +110,13 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   def test_if_user
-    html = if_user(users(:normal_user)) { "Test 1" }
-    assert_dom_equal "<div class=\"hidden show_if_user_1\">Test 1</div>", html
+    user = create(:user)
 
-    html = if_user(users(:normal_user), :span) { "Test 2" }
-    assert_dom_equal "<span class=\"hidden show_if_user_1\">Test 2</span>", html
+    html = if_user(user) { "Test 1" }
+    assert_dom_equal "<div class=\"hidden show_if_user_#{user.id}\">Test 1</div>", html
+
+    html = if_user(user, :span) { "Test 2" }
+    assert_dom_equal "<span class=\"hidden show_if_user_#{user.id}\">Test 2</span>", html
 
     html = if_user(nil) { "Test 3" }
     assert_nil html
@@ -124,11 +126,13 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   def test_unless_user
-    html = unless_user(users(:normal_user)) { "Test 1" }
-    assert_dom_equal "<div class=\"hide_if_user_1\">Test 1</div>", html
+    user = create(:user)
 
-    html = unless_user(users(:normal_user), :span) { "Test 2" }
-    assert_dom_equal "<span class=\"hide_if_user_1\">Test 2</span>", html
+    html = unless_user(user) { "Test 1" }
+    assert_dom_equal "<div class=\"hide_if_user_#{user.id}\">Test 1</div>", html
+
+    html = unless_user(user, :span) { "Test 2" }
+    assert_dom_equal "<span class=\"hide_if_user_#{user.id}\">Test 2</span>", html
 
     html = unless_user(nil) { "Test 3" }
     assert_dom_equal "<div>Test 3</div>", html
@@ -183,9 +187,7 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_match %r{^<span title=".*">4 months</span>$}, date
   end
 
-  def test_body_class
-  end
+  def test_body_class; end
 
-  def test_current_page_class
-  end
+  def test_current_page_class; end
 end

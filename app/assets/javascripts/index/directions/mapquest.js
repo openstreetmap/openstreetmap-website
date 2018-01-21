@@ -1,6 +1,6 @@
 // For docs, see:
-// http://developer.mapquest.com/web/products/open/directions-service
-// http://open.mapquestapi.com/directions/
+// https://developer.mapquest.com/web/products/open/directions-service
+// https://open.mapquestapi.com/directions/
 // https://github.com/apmon/openstreetmap-website/blob/21edc353a4558006f0ce23f5ec3930be6a7d4c8b/app/controllers/routing_controller.rb#L153
 
 function MapQuestEngine(id, routeType) {
@@ -28,7 +28,7 @@ function MapQuestEngine(id, routeType) {
 
   return {
     id: id,
-    creditline: '<a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="' + document.location.protocol + '//developer.mapquest.com/content/osm/mq_logo.png">',
+    creditline: '<a href="https://www.mapquest.com/" target="_blank">MapQuest</a> <img src="' + document.location.protocol + '//developer.mapquest.com/content/osm/mq_logo.png">',
     draggable: false,
 
     getRoute: function (points, callback) {
@@ -36,7 +36,7 @@ function MapQuestEngine(id, routeType) {
       var to = points[points.length - 1];
 
       return $.ajax({
-        url: document.location.protocol + OSM.MAPQUEST_DIRECTIONS_URL,
+        url: OSM.MAPQUEST_DIRECTIONS_URL,
         data: {
           key: OSM.MAPQUEST_KEY,
           from: from.lat + "," + from.lng,

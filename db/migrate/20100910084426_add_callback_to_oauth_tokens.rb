@@ -1,4 +1,4 @@
-class AddCallbackToOauthTokens < ActiveRecord::Migration
+class AddCallbackToOauthTokens < ActiveRecord::Migration[5.0]
   def self.up
     add_column :oauth_tokens, :callback_url, :string
     add_column :oauth_tokens, :verifier, :string, :limit => 20

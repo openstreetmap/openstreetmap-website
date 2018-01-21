@@ -1,15 +1,9 @@
 require "test_helper"
 
 class RelationTest < ActiveSupport::TestCase
-  api_fixtures
-
-  def test_relation_count
-    assert_equal 8, Relation.count
-  end
-
   def test_from_xml_no_id
     noid = "<osm><relation version='12' changeset='23' /></osm>"
-    assert_nothing_raised(OSM::APIBadXMLError) do
+    assert_nothing_raised do
       Relation.from_xml(noid, true)
     end
     message = assert_raise(OSM::APIBadXMLError) do
@@ -32,7 +26,7 @@ class RelationTest < ActiveSupport::TestCase
 
   def test_from_xml_no_version
     no_version = "<osm><relation id='123' changeset='23' /></osm>"
-    assert_nothing_raised(OSM::APIBadXMLError) do
+    assert_nothing_raised do
       Relation.from_xml(no_version, true)
     end
     message_update = assert_raise(OSM::APIBadXMLError) do
@@ -45,7 +39,7 @@ class RelationTest < ActiveSupport::TestCase
     id_list = ["", "0", "00", "0.0", "a"]
     id_list.each do |id|
       zero_id = "<osm><relation id='#{id}' changeset='332' version='23' /></osm>"
-      assert_nothing_raised(OSM::APIBadUserInput) do
+      assert_nothing_raised do
         Relation.from_xml(zero_id, true)
       end
       message_update = assert_raise(OSM::APIBadUserInput) do
@@ -104,61 +98,86 @@ class RelationTest < ActiveSupport::TestCase
   end
 
   def test_relation_members
-    relation = current_relations(:relation_with_versions)
+    relation = create(:relation)
+    node = create(:node)
+    way = create(:way)
+    other_relation = create(:relation)
+    create(:relation_member, :relation => relation, :member => node, :member_role => "some node")
+    create(:relation_member, :relation => relation, :member => way, :member_role => "some way")
+    create(:relation_member, :relation => relation, :member => other_relation, :member_role => "some relation")
+
     members = Relation.find(relation.id).relation_members
     assert_equal 3, members.count
     assert_equal "some node", members[0].member_role
     assert_equal "Node", members[0].member_type
-    assert_equal 15, members[0].member_id
+    assert_equal node.id, members[0].member_id
     assert_equal "some way", members[1].member_role
     assert_equal "Way", members[1].member_type
-    assert_equal 4, members[1].member_id
+    assert_equal way.id, members[1].member_id
     assert_equal "some relation", members[2].member_role
     assert_equal "Relation", members[2].member_type
-    assert_equal 7, members[2].member_id
+    assert_equal other_relation.id, members[2].member_id
   end
 
   def test_relations
-    relation = current_relations(:relation_with_versions)
+    relation = create(:relation)
+    node = create(:node)
+    way = create(:way)
+    other_relation = create(:relation)
+    create(:relation_member, :relation => relation, :member => node, :member_role => "some node")
+    create(:relation_member, :relation => relation, :member => way, :member_role => "some way")
+    create(:relation_member, :relation => relation, :member => other_relation, :member_role => "some relation")
+
     members = Relation.find(relation.id).members
     assert_equal 3, members.count
-    assert_equal ["Node", 15, "some node"], members[0]
-    assert_equal ["Way", 4, "some way"], members[1]
-    assert_equal ["Relation", 7, "some relation"], members[2]
+    assert_equal ["Node", node.id, "some node"], members[0]
+    assert_equal ["Way", way.id, "some way"], members[1]
+    assert_equal ["Relation", other_relation.id, "some relation"], members[2]
   end
 
   def test_relation_tags
-    relation = current_relations(:relation_with_versions)
+    relation = create(:relation)
+    taglist = create_list(:relation_tag, 2, :relation => relation)
+
     tags = Relation.find(relation.id).relation_tags.order(:k)
-    assert_equal 2, tags.count
-    assert_equal "testing", tags[0].k
-    assert_equal "added in relation version 3", tags[0].v
-    assert_equal "testing two", tags[1].k
-    assert_equal "modified in relation version 4", tags[1].v
+    assert_equal taglist.count, tags.count
+    taglist.sort_by!(&:k).each_index do |i|
+      assert_equal taglist[i].k, tags[i].k
+      assert_equal taglist[i].v, tags[i].v
+    end
   end
 
   def test_tags
-    relation = current_relations(:relation_with_versions)
+    relation = create(:relation)
+    taglist = create_list(:relation_tag, 2, :relation => relation)
+
     tags = Relation.find(relation.id).tags
-    assert_equal 2, tags.size
-    assert_equal "added in relation version 3", tags["testing"]
-    assert_equal "modified in relation version 4", tags["testing two"]
+    assert_equal taglist.count, tags.count
+    taglist.each do |tag|
+      assert_equal tag.v, tags[tag.k]
+    end
   end
 
   def test_containing_relation_members
-    relation = current_relations(:used_relation)
+    relation = create(:relation)
+    super_relation = create(:relation)
+    create(:relation_member, :relation => super_relation, :member => relation)
+
     crm = Relation.find(relation.id).containing_relation_members.order(:relation_id)
     #    assert_equal 1, crm.size
-    assert_equal 1, crm.first.relation_id
+    assert_equal super_relation.id, crm.first.relation_id
     assert_equal "Relation", crm.first.member_type
     assert_equal relation.id, crm.first.member_id
-    assert_equal 1, crm.first.relation.id
+    assert_equal super_relation.id, crm.first.relation.id
   end
 
   def test_containing_relations
-    relation = current_relations(:used_relation)
+    relation = create(:relation)
+    super_relation = create(:relation)
+    create(:relation_member, :relation => super_relation, :member => relation)
+
     cr = Relation.find(relation.id).containing_relations.order(:id)
     assert_equal 1, cr.size
-    assert_equal 1, cr.first.id
+    assert_equal super_relation.id, cr.first.id
   end
 end

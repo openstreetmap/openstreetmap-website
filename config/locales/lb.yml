@@ -48,6 +48,7 @@ lb:
       message:
         sender: Sender
         title: Sujet
+        recipient: Empfänger
       user:
         email: E-Mail
         active: Aktiv
@@ -62,10 +63,14 @@ lb:
     id:
       name: iD
   browse:
+    created: Ugeluecht
     closed: Zou
+    created_html: Ugeluecht <abbr title='%{title}'>viru(n) %{time}</abbr>
     closed_html: Zougemaach <abbr title='%{title}'>viru(n) %{time}</abbr>
+    created_by_html: Ugeluecht <abbr title='%{title}'>viru(n) %{time}</abbr> vum %{user}
     deleted_by_html: Geläscht <abbr title='%{title}'>viru(n) %{time}</abbr> vum %{user}
     edited_by_html: Geännert <abbr title='%{title}'>viru(n) %{time}</abbr> vum %{user}
+    closed_by_html: Zougemaach <abbr title='%{title}'>viru(n) %{time}</abbr> vum %{user}
     version: Versioun
     in_changeset: Set vun Ännerungen
     anonymous: anonym
@@ -87,6 +92,7 @@ lb:
       comment: Bemierkungen (%{count})
       hidden_commented_by: Verstoppt Bemierkung vum %{user} <abbr title='%{exact_time}'>
         viru(n) %{when}</abbr>
+      commented_by: Bemierkung vum %{user} <abbr title='%{exact_time}'> viru(n) %{when}</abbr>
       changesetxml: XML mam Set vun Ännerungen
       osmchangexml: osmChange XML
       feed:
@@ -196,6 +202,7 @@ lb:
       publish_button: Verëffentlechen
     list:
       title: Blogge vun de Benotzer
+      user_title: Blog vum %{user}
     edit:
       subject: 'Sujet:'
       language: 'Sprooch:'
@@ -210,6 +217,7 @@ lb:
       login: Aloggen
       save_button: Späicheren
     diary_entry:
+      posted_by: Vum %{link_user} matgedeelt de(n) %{created} op %{language_link}
       comment_count:
         one: '%{count} Bemierkung'
         zero: Keng Bemierkungen
@@ -232,6 +240,7 @@ lb:
   export:
     title: Exportéieren
     start:
+      area_to_export: Beräich fir den Export
       manually_select: Sicht manuell eng aner Géigend eraus
       format_to_export: Format fir z'exportéieren
       osm_xml_data: OpenStreetMap-XML-Daten
@@ -249,25 +258,31 @@ lb:
       max: max
       image_size: Gréisst vum Bild
       zoom: Zoom
+      latitude: 'Geographesch Breet:'
+      longitude: 'Geographesch Längt:'
+      output: Resultat
       export_button: Exportéieren
   geocoder:
     search:
       title:
-        latlon: Resultater vun <a href="http://openstreetmap.org/">Internal</a>
-        us_postcode: Resultater vu <a href="http://geocoder.us/">Geocoder.us</a>
+        latlon: Resultater vun <a href="https://openstreetmap.org/">Internal</a>
         uk_postcode: Resultater vun <a href="http://www.npemap.org.uk/">NPEMap / FreeThe
           Postcode</a>
-        ca_postcode: Resultater vu <a href="http://geocoder.ca/">Geocoder.ca</a>
+        ca_postcode: Resultater vu <a href="https://geocoder.ca/">Geocoder.ca</a>
         geonames: Resultater vu <a href="http://www.geonames.org/">GeoNames</a>
         geonames_reverse: Resultater vun <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
+        aerialway:
+          cable_car: Kabelwon
         aeroway:
           aerodrome: Fluchhafen
           gate: Paart
+          helipad: Helikopterlandeplaz
           runway: Start- a Landepist
           terminal: Terminal
         amenity:
+          arts_centre: Konschtzentrum
           atm: Bancomat
           bank: Bank
           bar: Bar
@@ -286,9 +301,11 @@ lb:
           cinema: Kino
           clinic: Klinik
           clock: Auer
+          courthouse: Geriicht
           crematorium: Crematoire
           dentist: Zänndokter
           doctors: Dokteren
+          dormitory: Studentewunnengen
           drinking_water: Drénkwaasser
           driving_school: Fahrschoul
           embassy: Ambassade
@@ -306,6 +323,7 @@ lb:
           market: Maart
           marketplace: Maartplaz
           monastery: Klouschter
+          nursery: Crèche
           office: Büro
           parking: Parking
           pharmacy: Apdikt
@@ -315,6 +333,7 @@ lb:
           preschool: Spillschoul
           prison: Prisong
           pub: Bistro
+          public_building: Ëffentlecht Gebai
           reception_area: Rezeptiounsberäich
           recycling: Recycling-Center
           restaurant: Restaurant
@@ -338,14 +357,19 @@ lb:
         boundary:
           national_park: Nationalpark
         bridge:
+          aqueduct: Aquädukt
           suspension: Hänkbréck
+          swing: Dréibréck
           viaduct: Viadukt
           "yes": Bréck
         building:
           "yes": Gebai
         craft:
+          brewery: Brauerei
+          carpenter: Zammermann
           electrician: Elektriker
           gardener: Gäertner
+          painter: Usträicher
           photographer: Fotograf
           shoemaker: Schouster
           tailor: Schneider
@@ -355,6 +379,7 @@ lb:
         highway:
           bridleway: Wee fir Päerd
           bus_guideway: Busspur
+          bus_stop: Busarrêt
           construction: Autobunn (am Bau)
           elevator: Lift
           footway: Fousswee
@@ -386,6 +411,7 @@ lb:
           citywalls: Stadmaueren
           house: Haus
           memorial: Monument
+          mine: Minn
           monument: Monument
           roman_road: Réimerwee
           ruins: Ruinen
@@ -393,6 +419,8 @@ lb:
           tomb: Graf
           tower: Tuerm
           wreck: Wrack
+        junction:
+          "yes": Kräizung
         landuse:
           cemetery: Kierfecht
           farm: Bauerenhaff
@@ -403,6 +431,7 @@ lb:
           grass: Wiss
           industrial: Industriezone
           military: Militairegebitt
+          mine: Minn
           orchard: Bongert
           quarry: Steekaul
           railway: Eisebunn
@@ -494,7 +523,9 @@ lb:
           construction: Eisebunn (am Bau)
           disused: Fréier Eisebunn
           historic_station: Historesch Eisebunnsstatioun
+          junction: Eisebunnskräizung
           miniature: Miniatur-Eisebunn
+          platform: Zuchquai
           proposed: Proposéiert Eisebunnslinn
           station: Gare (Eisebunn)
           subway: Metro
@@ -557,6 +588,7 @@ lb:
           "yes": Tunnel
         waterway:
           canal: Kanal
+          dam: Staudamm
           river: Floss
           wadi: Wadi
           waterfall: Waasserfall
@@ -585,6 +617,7 @@ lb:
     intro_text: OpenStreetMap ass eng Kaart vun der Welt, déi vu Leit wéi Iech gemaach
       gouf an déi fräi ënner enger oppener Lizenz benotzt ka ginn.
     intro_2_create_account: E Benotzerkont uleeën
+    partners_ucl: '''''University College'''' zu London'
     partners_partners: Partner
     osm_offline: D'OpenStreetMap Datebank ass elo net disponibel well dru geschafft
       muss ginn.
@@ -619,7 +652,7 @@ lb:
     questions:
       title: Nach Froen?
     add_a_note:
-      title: Keng Zäit fir z'änneren? Setzt eng Notiz derbäi!
+      title: Keng Zäit fir z'änneren? Setzt eng Notiz dobäi!
   fixthemap:
     title: E Problem mellen / D'Kaart verbesseren
     how_to_help:
@@ -634,7 +667,8 @@ lb:
       url: /welcome
       title: Wëllkomm bäi OSM
     beginners_guide:
-      url: http://wiki.openstreetmap.org/wiki/Beginners%27_guide
+      url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
+      title: Guide fir nei Benotzer
     help:
       url: https://help.openstreetmap.org/
       title: help.openstreetmap.org
@@ -647,7 +681,7 @@ lb:
     irc:
       title: IRC
     wiki:
-      url: http://wiki.openstreetmap.org/
+      url: https://wiki.openstreetmap.org/
       title: wiki.openstreetmap.org
   about_page:
     next: Weider
@@ -663,9 +697,10 @@ lb:
       footer_html: Dir kënnt de Message och op %{readurl} liesen an Dir kënnt op %{replyurl}
         äntwerten
     friend_notification:
-      had_added_you: '%{user} hat Iech als Frënd op OpenStrett Maap derbäigesat.'
+      hi: Salut %{to_user},
+      had_added_you: '%{user} hat Iech als Frënd op OpenStreet Map dobäigesat.'
       see_their_profile: Dir kënnt säin/hire Profil op %{userurl} kucken.
-      befriend_them: Dir kënnt hien/si och als Frënd op %{befriendurl} derbäisetzen.
+      befriend_them: Dir kënnt hien/si och als Frënd op %{befriendurl} dobäisetzen.
     gpx_notification:
       greeting: Salut,
       your_gpx_file: Et gesäit aus wéi Äre GPX-Fichier
@@ -688,6 +723,8 @@ lb:
       subject: '[OpenStreetMap] Ufro fir d''Passwuert zréckzesetzen'
     lost_password_plain:
       greeting: Salut,
+      click_the_link: Wann Dir dat sidd da klickt w.e.g. op de Link hei drënner fir
+        Äert Passwuert zréckzesetzen.
     lost_password_html:
       greeting: Salut,
       click_the_link: Wann Dir dat sidd da klickt w.e.g. op de Link hei drënner fir
@@ -697,7 +734,10 @@ lb:
       greeting: Salut,
       details: Méi Detailer iwwer d'Notiz fannt Dir op %{url}.
     changeset_comment_notification:
+      hi: Salut %{to_user},
       greeting: Salut,
+      commented:
+        partial_changeset_without_comment: ouni Kommentar
   message:
     inbox:
       messages: Dir hutt %{new_messages} a(n) %{old_messages}
@@ -731,17 +771,22 @@ lb:
       date: Datum
       reply_button: Äntwerten
       unread_button: Als net geliest markéieren
+      delete_button: Läschen
       back: Zréck
     sent_message_summary:
       delete_button: Läschen
     mark:
       as_read: Message als geliest markéiert
+      as_unread: Message als net geliest markéiert
     delete:
       deleted: Message geläscht
   site:
     index:
-      createnote: Eng Notiz derbäisetzen
+      js_1: Dir hutt entweder e Browser dee JavaScript net ënnerstëtzt oder Dir hutt
+        JavaScript desaktivéiert.
+      createnote: Eng Notiz dobäisetzen
     edit:
+      not_public: Dir hutt net agestallt datt Är Ännerungen ëffentlech sinn.
       user_page_link: Benotzersäit
       anon_edits_link_text: Fannt eraus firwat dat de Fall ass.
     sidebar:
@@ -749,7 +794,7 @@ lb:
       close: Zoumaachen
     search:
       search: Sichen
-      where_am_i: Wou sinn ech?
+      where_am_i: Wou ass dat?
       submit_text: Lass
     key:
       table:
@@ -879,6 +924,7 @@ lb:
       allow_write_api: Kaart änneren
     index:
       title: Meng OAuth Detailer
+      revoke: Ophiewen!
     form:
       name: Numm
       required: Obligatoresch
@@ -914,6 +960,9 @@ lb:
         github:
           title: Mat GitHub aloggen
           alt: Mat engem GitHub-Konto aloggen
+        wikipedia:
+          title: Mat Wikipedia aloggen
+          alt: Mat engem Wikipedia-Benotzerkont aloggen
         yahoo:
           title: Alogge mat Yahoo
           alt: Alogge mat enger Yahoo OpenID
@@ -949,7 +998,7 @@ lb:
       email address: 'E-Mail-Adress:'
       confirm email address: 'E-Mail-Adress confirméieren:'
       not displayed publicly: Är Adress gëtt net ëffentlech gewisen, kuckt eis <a
-        href="http://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF privacy
+        href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF privacy
         policy including section on email addresses">Dateschutzrichtlinn</a> fir méi
         Informatiounen
       display name: Numm weisen
@@ -981,7 +1030,7 @@ lb:
       edits: Ännerungen
       notes: Notizen op der Kaart
       remove as friend: Frënd ewechhuelen
-      add as friend: Frënd derbäisetzen
+      add as friend: Frënd dobäisetzen
       ago: (viru(n) %{time_in_words_ago})
       ct accepted: Viru(n) %{ago} akzeptéert
       latest edit: 'Lescht Ännerung %{ago}:'
@@ -990,7 +1039,7 @@ lb:
       description: Beschreiwung
       settings_link_text: Astellungen
       your friends: Är Frënn
-      no friends: Dir hutt nach keng Frënn derbäi gesat.
+      no friends: Dir hutt nach keng Frënn dobäi gesat.
       km away: '%{count} km ewech'
       m away: '%{count} m ewech'
       nearby users: Aner Benotzer nobäi
@@ -1022,7 +1071,7 @@ lb:
       new email address: 'Nei E-Mail-Adress:'
       email never displayed publicly: (ni ëffentlech gewisen)
       openid:
-        link: http://wiki.openstreetmap.org/wiki/OpenID
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: wat ass dat?
       public editing:
         enabled link text: wat ass dëst?
@@ -1036,7 +1085,7 @@ lb:
         link text: wat ass dat?
         disabled: Gravatar gouf desaktivéiert.
         enabled: D'Weise vun Ärem Gravatar gouf aktivéiert.
-      new image: E Bild derbäisetzen
+      new image: E Bild dobäisetzen
       keep image: Dat aktuellt Bild behalen
       delete image: Dat aktuellt Bild ewechhuelen
       replace image: Dat aktuellt Bild ersetzen
@@ -1061,10 +1110,10 @@ lb:
     go_public:
       flash success: All Är Ännerunge sinn elo ëffentlech, an Dir däerft elo änneren.
     make_friend:
-      heading: '%{user} als Frënd derbäisetzen?'
-      button: Als Frënd derbäisetzen
+      heading: '%{user} als Frënd dobäisetzen?'
+      button: Als Frënd dobäisetzen
       success: '%{name} ass elo Äre Frënd!'
-      failed: Pardon, %{name} konnt net als Frënd derbäigesat ginn.
+      failed: Pardon, %{name} konnt net als Frënd dobäigesat ginn.
       already_a_friend: Dir sidd schonn de Frënd vum %{name}.
     remove_friend:
       success: '%{name} gouf als Äre Frënd ewechgeholl.'
@@ -1092,6 +1141,8 @@ lb:
       not_a_role: D'Zeechen '%{role}' ass keng valabel Roll.
       already_has_role: De Benotzer huet d'Roll %{role} schonn.
       doesnt_have_role: De Benotzer huet d'Roll %{role} net.
+      not_revoke_admin_current_user: Et ass net méiglech dem Aktuelle Benotzer d'Administrateursrechter
+        ewechzehuelen.
     grant:
       title: Confirméiert d'Zoudeele vun der Roll
       heading: Confirméiert d'Zoudeele vun der Roll
@@ -1187,6 +1238,8 @@ lb:
         standard: Standard
         cycle_map: Vëloskaart
         hot: Humanitär
+      layers:
+        gps: Ëffentlech GPS Spueren
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Maacht een Don</a>
     site:
       edit_tooltip: Kaart änneren
@@ -1198,15 +1251,15 @@ lb:
         unhide_comment: nees weisen
     notes:
       new:
-        add: Notiz derbäisetzen
+        add: Notiz dobäisetzen
       show:
         hide: Verstoppen
         resolve: Léisen
         reactivate: Reaktivéieren
         comment: Bemierkung
     directions:
-      engines:
-        mapzen_bicycle: Vëlo (Mapzen)
+      ascend: Vu kleng op grouss
+      descend: Vu grouss op kleng
       directions: Richtungen
       distance: Distanz
       instructions:
@@ -1227,11 +1280,22 @@ lb:
         roundabout_without_exit: Am Kreesverkéier huelt %{name}
         leave_roundabout_without_exit: Aus dem Kreesverkéier erausgoen - %{name}
         stay_roundabout_without_exit: Am Kreesverkéier bleiwen - %{name}
+        turn_left_with_exit: Am  Kreesverkéier lénks ofbéien op %{name}
+        slight_left_with_exit: Am Kreesverkéier liicht no lénks op %{name} ofbéien
+        turn_right_with_exit: Am Kreesverkéier riets ofbéien op %{name}
+        slight_right_with_exit: Am Kreesverkéier liicht no riets op %{name} ofbéien
+        continue_with_exit: Am Kreesverkéier riicht viru fueren op %{name}
         unnamed: Strooss ouni Numm
       time: Zäit
     query:
       way: Wee
       relation: Relatioun
+    context:
+      directions_from: Vun hei fort
+      directions_to: Heihinn
+      add_note: Eng Notiz hei dobäisetzen
+      show_address: Adress weisen
+      centre_map: Kaart hei zentréieren
   redaction:
     edit:
       description: Beschreiwung

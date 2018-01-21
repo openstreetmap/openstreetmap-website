@@ -1,8 +1,6 @@
 require "test_helper"
 
 class UserBlocksControllerTest < ActionController::TestCase
-  fixtures :users, :user_roles
-
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -76,6 +74,24 @@ class UserBlocksControllerTest < ActionController::TestCase
   end
 
   ##
+  # test the index action with multiple pages
+  def test_index_paged
+    create_list(:user_block, 50)
+
+    get :index
+    assert_response :success
+    assert_select "table#block_list", :count => 1 do
+      assert_select "tr", :count => 21
+    end
+
+    get :index, :params => { :page => 2 }
+    assert_response :success
+    assert_select "table#block_list", :count => 1 do
+      assert_select "tr", :count => 21
+    end
+  end
+
+  ##
   # test the show action
   def test_show
     active_block = create(:user_block, :needs_view)
@@ -88,21 +104,21 @@ class UserBlocksControllerTest < ActionController::TestCase
     end
 
     # Viewing a block should fail when a bogus ID is given
-    get :show, :id => 99999
+    get :show, :params => { :id => 99999 }
     assert_response :not_found
     assert_template "not_found"
     assert_select "p", "Sorry, the user block with ID 99999 could not be found."
 
     # Viewing an expired block should work
-    get :show, :id => expired_block.id
+    get :show, :params => { :id => expired_block.id }
     assert_response :success
 
     # Viewing a revoked block should work
-    get :show, :id => revoked_block.id
+    get :show, :params => { :id => revoked_block.id }
     assert_response :success
 
     # Viewing an active block should work, but shouldn't mark it as seen
-    get :show, :id => active_block.id
+    get :show, :params => { :id => active_block.id }
     assert_response :success
     assert_equal true, UserBlock.find(active_block.id).needs_view
 
@@ -110,7 +126,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     session[:user] = active_block.user.id
 
     # Now viewing it should mark it as seen
-    get :show, :id => active_block.id
+    get :show, :params => { :id => active_block.id }
     assert_response :success
     assert_equal false, UserBlock.find(active_block.id).needs_view
   end
@@ -118,23 +134,25 @@ class UserBlocksControllerTest < ActionController::TestCase
   ##
   # test the new action
   def test_new
+    target_user = create(:user)
+
     # Check that the block creation page requires us to login
-    get :new, :display_name => users(:normal_user).display_name
-    assert_redirected_to login_path(:referer => new_user_block_path(:display_name => users(:normal_user).display_name))
+    get :new, :params => { :display_name => target_user.display_name }
+    assert_redirected_to login_path(:referer => new_user_block_path(:display_name => target_user.display_name))
 
     # Login as a normal user
-    session[:user] = users(:public_user).id
+    session[:user] = create(:user).id
 
     # Check that normal users can't load the block creation page
-    get :new, :display_name => users(:normal_user).display_name
+    get :new, :params => { :display_name => target_user.display_name }
     assert_redirected_to user_blocks_path
     assert_equal "You need to be a moderator to perform that action.", flash[:error]
 
     # Login as a moderator
-    session[:user] = users(:moderator_user).id
+    session[:user] = create(:moderator_user).id
 
     # Check that the block creation page loads for moderators
-    get :new, :display_name => users(:normal_user).display_name
+    get :new, :params => { :display_name => target_user.display_name }
     assert_response :success
     assert_select "form#new_user_block", :count => 1 do
       assert_select "textarea#user_block_reason", :count => 1
@@ -151,7 +169,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     assert_select "h1", "The user  does not exist"
 
     # We should get an error if the user doesn't exist
-    get :new, :display_name => "non_existent_user"
+    get :new, :params => { :display_name => "non_existent_user" }
     assert_response :not_found
     assert_template "user/no_such_user"
     assert_select "h1", "The user non_existent_user does not exist"
@@ -163,22 +181,22 @@ class UserBlocksControllerTest < ActionController::TestCase
     active_block = create(:user_block)
 
     # Check that the block edit page requires us to login
-    get :edit, :id => active_block.id
+    get :edit, :params => { :id => active_block.id }
     assert_redirected_to login_path(:referer => edit_user_block_path(:id => active_block.id))
 
     # Login as a normal user
-    session[:user] = users(:public_user).id
+    session[:user] = create(:user).id
 
     # Check that normal users can't load the block edit page
-    get :edit, :id => active_block.id
+    get :edit, :params => { :id => active_block.id }
     assert_redirected_to user_blocks_path
     assert_equal "You need to be a moderator to perform that action.", flash[:error]
 
     # Login as a moderator
-    session[:user] = users(:moderator_user).id
+    session[:user] = create(:moderator_user).id
 
     # Check that the block edit page loads for moderators
-    get :edit, :id => active_block.id
+    get :edit, :params => { :id => active_block.id }
     assert_response :success
     assert_select "form#edit_user_block_#{active_block.id}", :count => 1 do
       assert_select "textarea#user_block_reason", :count => 1
@@ -193,7 +211,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     end
 
     # We should get an error if the user doesn't exist
-    get :edit, :id => 99999
+    get :edit, :params => { :id => 99999 }
     assert_response :not_found
     assert_template "not_found"
     assert_select "p", "Sorry, the user block with ID 99999 could not be found."
@@ -202,39 +220,42 @@ class UserBlocksControllerTest < ActionController::TestCase
   ##
   # test the create action
   def test_create
+    target_user = create(:user)
+    moderator_user = create(:moderator_user)
+
     # Not logged in yet, so creating a block should fail
     post :create
     assert_response :forbidden
 
     # Login as a normal user
-    session[:user] = users(:public_user).id
+    session[:user] = create(:user).id
 
     # Check that normal users can't create blocks
     post :create
     assert_response :forbidden
 
     # Login as a moderator
-    session[:user] = users(:moderator_user).id
+    session[:user] = moderator_user.id
 
     # A bogus block period should result in an error
     assert_no_difference "UserBlock.count" do
       post :create,
-           :display_name => users(:unblocked_user).display_name,
-           :user_block_period => "99"
+           :params => { :display_name => target_user.display_name,
+                        :user_block_period => "99" }
     end
-    assert_redirected_to new_user_block_path(:display_name => users(:unblocked_user).display_name)
+    assert_redirected_to new_user_block_path(:display_name => target_user.display_name)
     assert_equal "The blocking period must be one of the values selectable in the drop-down list.", flash[:error]
 
     # Check that creating a block works
     assert_difference "UserBlock.count", 1 do
       post :create,
-           :display_name => users(:unblocked_user).display_name,
-           :user_block_period => "12",
-           :user_block => { :needs_view => false, :reason => "Vandalism" }
+           :params => { :display_name => target_user.display_name,
+                        :user_block_period => "12",
+                        :user_block => { :needs_view => false, :reason => "Vandalism" } }
     end
     id = UserBlock.order(:id).ids.last
     assert_redirected_to user_block_path(:id => id)
-    assert_equal "Created a block on user #{users(:unblocked_user).display_name}.", flash[:notice]
+    assert_equal "Created a block on user #{target_user.display_name}.", flash[:notice]
     b = UserBlock.find(id)
     assert_in_delta Time.now, b.created_at, 1
     assert_in_delta Time.now, b.updated_at, 1
@@ -242,7 +263,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     assert_equal false, b.needs_view
     assert_equal "Vandalism", b.reason
     assert_equal "markdown", b.reason_format
-    assert_equal users(:moderator_user).id, b.creator_id
+    assert_equal moderator_user.id, b.creator_id
 
     # We should get an error if no user is specified
     post :create
@@ -251,7 +272,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     assert_select "h1", "The user  does not exist"
 
     # We should get an error if the user doesn't exist
-    post :create, :display_name => "non_existent_user"
+    post :create, :params => { :display_name => "non_existent_user" }
     assert_response :not_found
     assert_template "user/no_such_user"
     assert_select "h1", "The user non_existent_user does not exist"
@@ -260,40 +281,42 @@ class UserBlocksControllerTest < ActionController::TestCase
   ##
   # test the update action
   def test_update
-    active_block = create(:user_block, :creator => users(:moderator_user))
+    moderator_user = create(:moderator_user)
+    second_moderator_user = create(:moderator_user)
+    active_block = create(:user_block, :creator => moderator_user)
 
     # Not logged in yet, so updating a block should fail
-    put :update, :id => active_block.id
+    put :update, :params => { :id => active_block.id }
     assert_response :forbidden
 
     # Login as a normal user
-    session[:user] = users(:public_user).id
+    session[:user] = create(:user).id
 
     # Check that normal users can't update blocks
-    put :update, :id => active_block.id
+    put :update, :params => { :id => active_block.id }
     assert_response :forbidden
 
     # Login as the wrong moderator
-    session[:user] = users(:second_moderator_user).id
+    session[:user] = second_moderator_user.id
 
     # Check that only the person who created a block can update it
     assert_no_difference "UserBlock.count" do
       put :update,
-          :id => active_block.id,
-          :user_block_period => "12",
-          :user_block => { :needs_view => true, :reason => "Vandalism" }
+          :params => { :id => active_block.id,
+                       :user_block_period => "12",
+                       :user_block => { :needs_view => true, :reason => "Vandalism" } }
     end
     assert_redirected_to edit_user_block_path(:id => active_block.id)
     assert_equal "Only the moderator who created this block can edit it.", flash[:error]
 
     # Login as the correct moderator
-    session[:user] = users(:moderator_user).id
+    session[:user] = moderator_user.id
 
     # A bogus block period should result in an error
     assert_no_difference "UserBlock.count" do
       put :update,
-          :id => active_block.id,
-          :user_block_period => "99"
+          :params => { :id => active_block.id,
+                       :user_block_period => "99" }
     end
     assert_redirected_to edit_user_block_path(:id => active_block.id)
     assert_equal "The blocking period must be one of the values selectable in the drop-down list.", flash[:error]
@@ -301,9 +324,9 @@ class UserBlocksControllerTest < ActionController::TestCase
     # Check that updating a block works
     assert_no_difference "UserBlock.count" do
       put :update,
-          :id => active_block.id,
-          :user_block_period => "12",
-          :user_block => { :needs_view => true, :reason => "Vandalism" }
+          :params => { :id => active_block.id,
+                       :user_block_period => "12",
+                       :user_block => { :needs_view => true, :reason => "Vandalism" } }
     end
     assert_redirected_to user_block_path(:id => active_block.id)
     assert_equal "Block updated.", flash[:notice]
@@ -318,7 +341,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     end
 
     # We should get an error if the block doesn't exist
-    put :update, :id => 99999
+    put :update, :params => { :id => 99999 }
     assert_response :not_found
     assert_template "not_found"
     assert_select "p", "Sorry, the user block with ID 99999 could not be found."
@@ -330,22 +353,22 @@ class UserBlocksControllerTest < ActionController::TestCase
     active_block = create(:user_block)
 
     # Check that the block revoke page requires us to login
-    get :revoke, :id => active_block.id
+    get :revoke, :params => { :id => active_block.id }
     assert_redirected_to login_path(:referer => revoke_user_block_path(:id => active_block.id))
 
     # Login as a normal user
-    session[:user] = users(:public_user).id
+    session[:user] = create(:user).id
 
     # Check that normal users can't load the block revoke page
-    get :revoke, :id => active_block.id
+    get :revoke, :params => { :id => active_block.id }
     assert_redirected_to user_blocks_path
     assert_equal "You need to be a moderator to perform that action.", flash[:error]
 
     # Login as a moderator
-    session[:user] = users(:moderator_user).id
+    session[:user] = create(:moderator_user).id
 
     # Check that the block revoke page loads for moderators
-    get :revoke, :id => active_block.id
+    get :revoke, :params => { :id => active_block.id }
     assert_response :success
     assert_template "revoke"
     assert_select "form", :count => 1 do
@@ -354,7 +377,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     end
 
     # Check that revoking a block works
-    post :revoke, :id => active_block.id, :confirm => true
+    post :revoke, :params => { :id => active_block.id, :confirm => true }
     assert_redirected_to user_block_path(:id => active_block.id)
     b = UserBlock.find(active_block.id)
     assert_in_delta Time.now, b.ends_at, 1
@@ -365,7 +388,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     end
 
     # We should get an error if the block doesn't exist
-    get :revoke, :id => 99999
+    get :revoke, :params => { :id => 99999 }
     assert_response :not_found
     assert_template "not_found"
     assert_select "p", "Sorry, the user block with ID 99999 could not be found."
@@ -374,9 +397,12 @@ class UserBlocksControllerTest < ActionController::TestCase
   ##
   # test the blocks_on action
   def test_blocks_on
-    active_block = create(:user_block, :user => users(:blocked_user))
-    revoked_block = create(:user_block, :revoked, :user => users(:blocked_user))
-    expired_block = create(:user_block, :expired, :user => users(:unblocked_user))
+    blocked_user = create(:user)
+    unblocked_user = create(:user)
+    normal_user = create(:user)
+    active_block = create(:user_block, :user => blocked_user)
+    revoked_block = create(:user_block, :revoked, :user => blocked_user)
+    expired_block = create(:user_block, :expired, :user => unblocked_user)
 
     # Asking for a list of blocks with no user name should fail
     assert_raise ActionController::UrlGenerationError do
@@ -384,19 +410,19 @@ class UserBlocksControllerTest < ActionController::TestCase
     end
 
     # Asking for a list of blocks with a bogus user name should fail
-    get :blocks_on, :display_name => "non_existent_user"
+    get :blocks_on, :params => { :display_name => "non_existent_user" }
     assert_response :not_found
     assert_template "user/no_such_user"
     assert_select "h1", "The user non_existent_user does not exist"
 
     # Check the list of blocks for a user that has never been blocked
-    get :blocks_on, :display_name => users(:normal_user).display_name
+    get :blocks_on, :params => { :display_name => normal_user.display_name }
     assert_response :success
     assert_select "table#block_list", false
-    assert_select "p", "#{users(:normal_user).display_name} has not been blocked yet."
+    assert_select "p", "#{normal_user.display_name} has not been blocked yet."
 
     # Check the list of blocks for a user that is currently blocked
-    get :blocks_on, :display_name => users(:blocked_user).display_name
+    get :blocks_on, :params => { :display_name => blocked_user.display_name }
     assert_response :success
     assert_select "table#block_list", :count => 1 do
       assert_select "tr", 3
@@ -405,7 +431,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     end
 
     # Check the list of blocks for a user that has previously been blocked
-    get :blocks_on, :display_name => users(:unblocked_user).display_name
+    get :blocks_on, :params => { :display_name => unblocked_user.display_name }
     assert_response :success
     assert_select "table#block_list", :count => 1 do
       assert_select "tr", 2
@@ -414,11 +440,33 @@ class UserBlocksControllerTest < ActionController::TestCase
   end
 
   ##
+  # test the blocks_on action with multiple pages
+  def test_blocks_on_paged
+    user = create(:user)
+    create_list(:user_block, 50, :user => user)
+
+    get :blocks_on, :params => { :display_name => user.display_name }
+    assert_response :success
+    assert_select "table#block_list", :count => 1 do
+      assert_select "tr", :count => 21
+    end
+
+    get :blocks_on, :params => { :display_name => user.display_name, :page => 2 }
+    assert_response :success
+    assert_select "table#block_list", :count => 1 do
+      assert_select "tr", :count => 21
+    end
+  end
+
+  ##
   # test the blocks_by action
   def test_blocks_by
-    active_block = create(:user_block, :creator => users(:moderator_user))
-    expired_block = create(:user_block, :expired, :creator => users(:second_moderator_user))
-    revoked_block = create(:user_block, :revoked, :creator => users(:second_moderator_user))
+    moderator_user = create(:moderator_user)
+    second_moderator_user = create(:moderator_user)
+    normal_user = create(:user)
+    active_block = create(:user_block, :creator => moderator_user)
+    expired_block = create(:user_block, :expired, :creator => second_moderator_user)
+    revoked_block = create(:user_block, :revoked, :creator => second_moderator_user)
 
     # Asking for a list of blocks with no user name should fail
     assert_raise ActionController::UrlGenerationError do
@@ -426,13 +474,13 @@ class UserBlocksControllerTest < ActionController::TestCase
     end
 
     # Asking for a list of blocks with a bogus user name should fail
-    get :blocks_by, :display_name => "non_existent_user"
+    get :blocks_by, :params => { :display_name => "non_existent_user" }
     assert_response :not_found
     assert_template "user/no_such_user"
     assert_select "h1", "The user non_existent_user does not exist"
 
     # Check the list of blocks given by one moderator
-    get :blocks_by, :display_name => users(:moderator_user).display_name
+    get :blocks_by, :params => { :display_name => moderator_user.display_name }
     assert_response :success
     assert_select "table#block_list", :count => 1 do
       assert_select "tr", 2
@@ -440,7 +488,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     end
 
     # Check the list of blocks given by a different moderator
-    get :blocks_by, :display_name => users(:second_moderator_user).display_name
+    get :blocks_by, :params => { :display_name => second_moderator_user.display_name }
     assert_response :success
     assert_select "table#block_list", :count => 1 do
       assert_select "tr", 3
@@ -449,9 +497,28 @@ class UserBlocksControllerTest < ActionController::TestCase
     end
 
     # Check the list of blocks (not) given by a normal user
-    get :blocks_by, :display_name => users(:normal_user).display_name
+    get :blocks_by, :params => { :display_name => normal_user.display_name }
     assert_response :success
     assert_select "table#block_list", false
-    assert_select "p", "#{users(:normal_user).display_name} has not made any blocks yet."
+    assert_select "p", "#{normal_user.display_name} has not made any blocks yet."
+  end
+
+  ##
+  # test the blocks_by action with multiple pages
+  def test_blocks_by_paged
+    user = create(:moderator_user)
+    create_list(:user_block, 50, :creator => user)
+
+    get :blocks_by, :params => { :display_name => user.display_name }
+    assert_response :success
+    assert_select "table#block_list", :count => 1 do
+      assert_select "tr", :count => 21
+    end
+
+    get :blocks_by, :params => { :display_name => user.display_name, :page => 2 }
+    assert_response :success
+    assert_select "table#block_list", :count => 1 do
+      assert_select "tr", :count => 21
+    end
   end
 end

@@ -1,4 +1,4 @@
-* http://www.ruby-lang.org/ - The homepage of Ruby which has more links and some great tutorials.
+* https://www.ruby-lang.org/ - The homepage of Ruby which has more links and some great tutorials.
 * http://rubyonrails.org/ - The homepage of Rails, also has links and tutorials
 
 ## Coding style
@@ -6,7 +6,7 @@
 When writing code it is generally a good idea to try and match your
 formatting to that of any existing code in the same file, or to other
 similar files if you are writing new code. Consistency of layout is
-far more important that the layout itself as it makes reading code
+far more important than the layout itself as it makes reading code
 much easier.
 
 One golden rule of formatting -- please don't use tabs in your code
@@ -42,7 +42,8 @@ sudo gem install rcov
 rcov -x gems test/*/*.rb
 ```
 
-The tests are automatically run on commit with the results shown at [http://cruise.openstreetmap.org/](http://cruise.openstreetmap.org/)
+The tests are automatically run on Pull Requests and other commits with the
+results shown on [Travis CI](https://travis-ci.org/openstreetmap/openstreetmap-website).
 
 ## Comments
 
@@ -93,7 +94,6 @@ If you have forked on GitHub then the best way to submit your patches is to
 push your changes back to GitHub and then send a "pull request" on GitHub.
 
 Otherwise you should either push your changes to a publicly visible git repository
-and send the details to the [rails-dev](http://lists.openstreetmap.org/listinfo/rails-dev)
+and send the details to the [rails-dev](https://lists.openstreetmap.org/listinfo/rails-dev)
 list or generate patches with `git format-patch` and send them to the
-[rails-dev](http://lists.openstreetmap.org/listinfo/rails-dev) list.
-
+[rails-dev](https://lists.openstreetmap.org/listinfo/rails-dev) list.

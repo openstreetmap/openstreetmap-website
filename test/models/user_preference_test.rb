@@ -1,13 +1,11 @@
 require "test_helper"
 
 class UserPreferenceTest < ActiveSupport::TestCase
-  api_fixtures
-
   # Checks that you cannot add a new preference, that is a duplicate
   def test_add_duplicate_preference
     up = create(:user_preference)
     new_up = UserPreference.new
-    new_up.user = users(:normal_user)
+    new_up.user = up.user
     new_up.k = up.k
     new_up.v = "some other value"
     assert_not_equal new_up.v, up.v
@@ -19,7 +17,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
     val = "v"
     (1..255).each do |i|
       up = UserPreference.new
-      up.user = users(:normal_user)
+      up.user = create(:user)
       up.k = key * i
       up.v = val * i
       assert up.valid?
@@ -35,7 +33,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
     val = "v"
     [0, 256].each do |i|
       up = UserPreference.new
-      up.user = users(:normal_user)
+      up.user = create(:user)
       up.k = key * i
       up.v = val * i
       assert_equal false, up.valid?

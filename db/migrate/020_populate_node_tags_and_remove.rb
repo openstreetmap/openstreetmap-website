@@ -1,6 +1,6 @@
 require "migrate"
 
-class PopulateNodeTagsAndRemove < ActiveRecord::Migration
+class PopulateNodeTagsAndRemove < ActiveRecord::Migration[5.0]
   def self.up
     have_nodes = select_value("SELECT count(*) FROM current_nodes").to_i.nonzero?
 
@@ -10,7 +10,7 @@ class PopulateNodeTagsAndRemove < ActiveRecord::Migration
       cmd = "db/migrate/020_populate_node_tags_and_remove_helper"
       src = "#{cmd}.c"
       if !File.exist?(cmd) || File.mtime(cmd) < File.mtime(src)
-        system("cc -O3 -Wall `mysql_config --cflags --libs` " +
+        system("cc -O3 -Wall `mysql_config --cflags --libs` " \
           "#{src} -o #{cmd}") || raise
       end
 
@@ -18,7 +18,7 @@ class PopulateNodeTagsAndRemove < ActiveRecord::Migration
       args = conn_opts.map(&:to_s) + [prefix]
       raise "#{cmd} failed" unless system cmd, *args
 
-      tempfiles = %w(nodes node_tags current_nodes current_node_tags)
+      tempfiles = %w[nodes node_tags current_nodes current_node_tags]
                   .map { |base| prefix + base }
       nodes, node_tags, current_nodes, current_node_tags = tempfiles
     end

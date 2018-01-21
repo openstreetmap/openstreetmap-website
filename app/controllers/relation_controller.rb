@@ -15,17 +15,17 @@ class RelationController < ApplicationController
     relation = Relation.from_xml(request.raw_post, true)
 
     # Assume that Relation.from_xml has thrown an exception if there is an error parsing the xml
-    relation.create_with_history @user
-    render :text => relation.id.to_s, :content_type => "text/plain"
+    relation.create_with_history current_user
+    render :plain => relation.id.to_s
   end
 
   def read
     relation = Relation.find(params[:id])
     response.last_modified = relation.timestamp
     if relation.visible
-      render :text => relation.to_xml.to_s, :content_type => "text/xml"
+      render :xml => relation.to_xml.to_s
     else
-      render :text => "", :status => :gone
+      head :gone
     end
   end
 
@@ -36,21 +36,21 @@ class RelationController < ApplicationController
     new_relation = Relation.from_xml(request.raw_post)
 
     unless new_relation && new_relation.id == relation.id
-      raise OSM::APIBadUserInput.new("The id in the url (#{relation.id}) is not the same as provided in the xml (#{new_relation.id})")
+      raise OSM::APIBadUserInput, "The id in the url (#{relation.id}) is not the same as provided in the xml (#{new_relation.id})"
     end
 
-    relation.update_from new_relation, @user
-    render :text => relation.version.to_s, :content_type => "text/plain"
+    relation.update_from new_relation, current_user
+    render :plain => relation.version.to_s
   end
 
   def delete
     relation = Relation.find(params[:id])
     new_relation = Relation.from_xml(request.raw_post)
     if new_relation && new_relation.id == relation.id
-      relation.delete_with_history!(new_relation, @user)
-      render :text => relation.version.to_s, :content_type => "text/plain"
+      relation.delete_with_history!(new_relation, current_user)
+      render :plain => relation.version.to_s
     else
-      render :text => "", :status => :bad_request
+      head :bad_request
     end
   end
 
@@ -91,7 +91,6 @@ class RelationController < ApplicationController
       # create XML.
       doc = OSM::API.new.get_xml_doc
       visible_nodes = {}
-      visible_members = { "Node" => {}, "Way" => {}, "Relation" => {} }
       changeset_cache = {}
       user_display_name_cache = {}
 
@@ -100,41 +99,38 @@ class RelationController < ApplicationController
 
         doc.root << node.to_xml_node(changeset_cache, user_display_name_cache)
         visible_nodes[node.id] = node
-        visible_members["Node"][node.id] = true
       end
 
       ways.each do |way|
         next unless way.visible? # should be unnecessary if data is consistent.
 
         doc.root << way.to_xml_node(visible_nodes, changeset_cache, user_display_name_cache)
-        visible_members["Way"][way.id] = true
       end
 
       relations.each do |rel|
         next unless rel.visible? # should be unnecessary if data is consistent.
 
-        doc.root << rel.to_xml_node(nil, changeset_cache, user_display_name_cache)
-        visible_members["Relation"][rel.id] = true
+        doc.root << rel.to_xml_node(changeset_cache, user_display_name_cache)
       end
 
       # finally add self and output
-      doc.root << relation.to_xml_node(visible_members, changeset_cache, user_display_name_cache)
-      render :text => doc.to_s, :content_type => "text/xml"
+      doc.root << relation.to_xml_node(changeset_cache, user_display_name_cache)
+      render :xml => doc.to_s
 
     else
-      render :text => "", :status => :gone
+      head :gone
     end
   end
 
   def relations
     unless params["relations"]
-      raise OSM::APIBadUserInput.new("The parameter relations is required, and must be of the form relations=id[,id[,id...]]")
+      raise OSM::APIBadUserInput, "The parameter relations is required, and must be of the form relations=id[,id[,id...]]"
     end
 
     ids = params["relations"].split(",").collect(&:to_i)
 
     if ids.empty?
-      raise OSM::APIBadUserInput.new("No relations were given to search for")
+      raise OSM::APIBadUserInput, "No relations were given to search for"
     end
 
     doc = OSM::API.new.get_xml_doc
@@ -143,7 +139,7 @@ class RelationController < ApplicationController
       doc.root << relation.to_xml_node
     end
 
-    render :text => doc.to_s, :content_type => "text/xml"
+    render :xml => doc.to_s
   end
 
   def relations_for_way
@@ -167,6 +163,6 @@ class RelationController < ApplicationController
       doc.root << relation.to_xml_node if relation.visible
     end
 
-    render :text => doc.to_s, :content_type => "text/xml"
+    render :xml => doc.to_s
   end
 end

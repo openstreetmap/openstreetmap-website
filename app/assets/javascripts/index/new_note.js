@@ -69,7 +69,7 @@ OSM.NewNote = function(map) {
     var marker = L.marker(feature.geometry.coordinates.reverse(), {
       icon: noteIcons[feature.properties.status],
       opacity: 0.9,
-      clickable: true
+      interactive: true
     });
     marker.id = feature.properties.id;
     marker.addTo(noteLayer);
@@ -77,7 +77,9 @@ OSM.NewNote = function(map) {
   }
 
   page.pushstate = page.popstate = function (path) {
-    OSM.loadSidebarContent(path, page.load);
+    OSM.loadSidebarContent(path, function () {
+      page.load(path);
+    });
   };
 
   function newHalo(loc, a) {
@@ -97,7 +99,7 @@ OSM.NewNote = function(map) {
     }
   }
 
-  page.load = function () {
+  page.load = function (path) {
     if (addNoteButton.hasClass("disabled")) return;
     if (addNoteButton.hasClass("active")) return;
 
@@ -105,12 +107,34 @@ OSM.NewNote = function(map) {
 
     map.addLayer(noteLayer);
 
-    var mapSize = map.getSize();
-    var markerPosition;
+    var params = querystring.parse(path.substring(path.indexOf('?') + 1));
+    var markerLatlng;
 
-    markerPosition = [mapSize.x / 2, mapSize.y / 2];
+    if (params.lat && params.lon) {
+      markerLatlng = L.latLng(params.lat, params.lon);
 
-    newNote = L.marker(map.containerPointToLatLng(markerPosition), {
+      var markerPosition = map.latLngToContainerPoint(markerLatlng),
+          mapSize = map.getSize(),
+          panBy = L.point(0, 0);
+
+      if (markerPosition.x < 50) {
+        panBy.x = markerPosition.x - 50;
+      } else if (markerPosition.x > mapSize.x - 50) {
+        panBy.x = 50 - mapSize.x + markerPosition.x;
+      }
+
+      if (markerPosition.y < 50) {
+        panBy.y = markerPosition.y - 50;
+      } else if (markerPosition.y > mapSize.y - 50) {
+        panBy.y = 50 - mapSize.y + markerPosition.y;
+      }
+
+      map.panBy(panBy);
+    } else {
+      markerLatlng = map.getCenter();
+    }
+
+    newNote = L.marker(markerLatlng, {
       icon: noteIcons["new"],
       opacity: 0.9,
       draggable: true

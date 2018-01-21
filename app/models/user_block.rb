@@ -1,3 +1,29 @@
+# == Schema Information
+#
+# Table name: user_blocks
+#
+#  id            :integer          not null, primary key
+#  user_id       :integer          not null
+#  creator_id    :integer          not null
+#  reason        :text             not null
+#  ends_at       :datetime         not null
+#  needs_view    :boolean          default(FALSE), not null
+#  revoker_id    :integer
+#  created_at    :datetime
+#  updated_at    :datetime
+#  reason_format :enum             default("markdown"), not null
+#
+# Indexes
+#
+#  index_user_blocks_on_user_id  (user_id)
+#
+# Foreign Keys
+#
+#  user_blocks_moderator_id_fkey  (creator_id => users.id)
+#  user_blocks_revoker_id_fkey    (revoker_id => users.id)
+#  user_blocks_user_id_fkey       (user_id => users.id)
+#
+
 class UserBlock < ActiveRecord::Base
   validate :moderator_permissions
 
@@ -24,6 +50,13 @@ class UserBlock < ActiveRecord::Base
   # use the API).
   def active?
     needs_view || ends_at > Time.now.getutc
+  end
+
+  ##
+  # returns true if the block is a "zero hour" block
+  def zero_hour?
+    # if the times differ more than 1 minute we probably have more important issues
+    needs_view && (ends_at.to_i - updated_at.to_i) < 60
   end
 
   ##

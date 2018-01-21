@@ -87,7 +87,7 @@ OSM.Note = function (map) {
     currentNote = L.marker(latLng, {
       icon: noteIcons[data.status],
       opacity: 1,
-      clickable: true
+      interactive: true
     });
 
     map.addLayer(currentNote);

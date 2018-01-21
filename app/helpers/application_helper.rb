@@ -3,9 +3,9 @@ module ApplicationHelper
 
   def linkify(text)
     if text.html_safe?
-      Rinku.auto_link(text, :urls, tag_options(:rel => "nofollow")).html_safe
+      Rinku.auto_link(text, :urls, tag_builder.tag_options(:rel => "nofollow")).html_safe
     else
-      Rinku.auto_link(text, :urls, tag_options(:rel => "nofollow"))
+      Rinku.auto_link(text, :urls, tag_builder.tag_options(:rel => "nofollow"))
     end
   end
 
@@ -21,12 +21,12 @@ module ApplicationHelper
     css = ""
 
     css << ".hidden { display: none !important }"
-    css << ".hide_unless_logged_in { display: none !important }" unless @user
-    css << ".hide_if_logged_in { display: none !important }" if @user
-    css << ".hide_if_user_#{@user.id} { display: none !important }" if @user
-    css << ".show_if_user_#{@user.id} { display: inline !important }" if @user
-    css << ".hide_unless_administrator { display: none !important }" unless @user && @user.administrator?
-    css << ".hide_unless_moderator { display: none !important }" unless @user && @user.moderator?
+    css << ".hide_unless_logged_in { display: none !important }" unless current_user
+    css << ".hide_if_logged_in { display: none !important }" if current_user
+    css << ".hide_if_user_#{current_user.id} { display: none !important }" if current_user
+    css << ".show_if_user_#{current_user.id} { display: inline !important }" if current_user
+    css << ".hide_unless_administrator { display: none !important }" unless current_user && current_user.administrator?
+    css << ".hide_unless_moderator { display: none !important }" unless current_user && current_user.moderator?
 
     content_tag(:style, css, :type => "text/css")
   end
@@ -59,16 +59,16 @@ module ApplicationHelper
 
   def richtext_area(object_name, method, options = {})
     id = "#{object_name}_#{method}"
-    format = options.delete(:format) || "markdown"
+    type = options.delete(:format) || "markdown"
 
     content_tag(:div, :id => "#{id}_container", :class => "richtext_container") do
       output_buffer << content_tag(:div, :id => "#{id}_content", :class => "richtext_content") do
-        output_buffer << text_area(object_name, method, options.merge("data-preview-url" => preview_url(:format => format)))
+        output_buffer << text_area(object_name, method, options.merge("data-preview-url" => preview_url(:type => type)))
         output_buffer << content_tag(:div, "", :id => "#{id}_preview", :class => "richtext_preview richtext")
       end
 
       output_buffer << content_tag(:div, :id => "#{id}_help", :class => "richtext_help") do
-        output_buffer << render("site/#{format}_help")
+        output_buffer << render("site/#{type}_help")
         output_buffer << content_tag(:div, :class => "buttons") do
           output_buffer << submit_tag(I18n.t("site.richtext_area.edit"), :id => "#{id}_doedit", :class => "richtext_doedit deemphasize", :disabled => true)
           output_buffer << submit_tag(I18n.t("site.richtext_area.preview"), :id => "#{id}_dopreview", :class => "richtext_dopreview deemphasize")
@@ -99,5 +99,31 @@ module ApplicationHelper
 
   def current_page_class(path)
     :current if current_page?(path)
+  end
+
+  def application_data
+    data = {
+      :locale => I18n.locale,
+      :preferred_editor => preferred_editor
+    }
+
+    if current_user
+      data[:user] = current_user.id.to_json
+
+      unless current_user.home_lon.nil? || current_user.home_lat.nil?
+        data[:user_home] = { :lat => current_user.home_lat, :lon => current_user.home_lon }
+      end
+    end
+
+    data[:location] = session[:location] if session[:location]
+
+    if @oauth
+      data[:token] = @oauth.token
+      data[:token_secret] = @oauth.secret
+      data[:consumer_key] = @oauth.client_application.key
+      data[:consumer_secret] = @oauth.client_application.secret
+    end
+
+    data
   end
 end

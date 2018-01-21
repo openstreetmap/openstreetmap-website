@@ -38,6 +38,8 @@ class OauthController < ApplicationController
   protected
 
   def oauth1_authorize
+    append_content_security_policy_directives(:form_action => %w[*])
+
     if @token.invalidated?
       @message = t "oauth.oauthorize_failure.invalid"
       render :action => "authorize_failure"
@@ -49,7 +51,7 @@ class OauthController < ApplicationController
                        else
                          @token.oob? ? @token.client_application.callback_url : @token.callback_url
                        end
-        @redirect_url = URI.parse(callback_url) unless callback_url.blank?
+        @redirect_url = URI.parse(callback_url) if callback_url.present?
 
         if @redirect_url.to_s.blank?
           render :action => "authorize_success"

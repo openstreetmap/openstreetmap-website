@@ -130,6 +130,6 @@ module ActionView
 
         html
       end
-    end # PaginationHelper
-  end # Helpers
-end # ActionView
+    end
+  end
+end

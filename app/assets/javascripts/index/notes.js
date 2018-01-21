@@ -47,7 +47,7 @@ OSM.initializeNotes = function (map) {
         icon: noteIcons[feature.properties.status],
         title: feature.properties.comments[0].text,
         opacity: 0.8,
-        clickable: true
+        interactive: true
       });
       marker.id = feature.properties.id;
       marker.addTo(noteLayer);

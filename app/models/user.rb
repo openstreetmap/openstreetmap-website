@@ -1,3 +1,48 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  email               :string           not null
+#  id                  :integer          not null, primary key
+#  pass_crypt          :string           not null
+#  creation_time       :datetime         not null
+#  display_name        :string           default(""), not null
+#  data_public         :boolean          default(FALSE), not null
+#  description         :text             default(""), not null
+#  home_lat            :float
+#  home_lon            :float
+#  home_zoom           :integer          default(3)
+#  nearby              :integer          default(50)
+#  pass_salt           :string
+#  image_file_name     :text
+#  email_valid         :boolean          default(FALSE), not null
+#  new_email           :string
+#  creation_ip         :string
+#  languages           :string
+#  status              :enum             default("pending"), not null
+#  terms_agreed        :datetime
+#  consider_pd         :boolean          default(FALSE), not null
+#  auth_uid            :string
+#  preferred_editor    :string
+#  terms_seen          :boolean          default(FALSE), not null
+#  description_format  :enum             default("markdown"), not null
+#  image_fingerprint   :string
+#  changesets_count    :integer          default(0), not null
+#  traces_count        :integer          default(0), not null
+#  diary_entries_count :integer          default(0), not null
+#  image_use_gravatar  :boolean          default(FALSE), not null
+#  image_content_type  :string
+#  auth_provider       :string
+#
+# Indexes
+#
+#  users_auth_idx                (auth_provider,auth_uid) UNIQUE
+#  users_display_name_idx        (display_name) UNIQUE
+#  users_display_name_lower_idx  (lower((display_name)::text))
+#  users_email_idx               (email) UNIQUE
+#  users_email_lower_idx         (lower((email)::text))
+#
+
 class User < ActiveRecord::Base
   require "xml/libxml"
 
@@ -9,7 +54,7 @@ class User < ActiveRecord::Base
   has_many :messages, -> { where(:to_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :foreign_key => :to_user_id
   has_many :new_messages, -> { where(:to_user_visible => true, :message_read => false).order(:sent_on => :desc) }, :class_name => "Message", :foreign_key => :to_user_id
   has_many :sent_messages, -> { where(:from_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :class_name => "Message", :foreign_key => :from_user_id
-  has_many :friends, -> { joins(:befriendee).where(:users => { :status => %w(active confirmed) }) }
+  has_many :friends, -> { joins(:befriendee).where(:users => { :status => %w[active confirmed] }) }
   has_many :friend_users, :through => :friends, :source => :befriendee
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
@@ -28,8 +73,8 @@ class User < ActiveRecord::Base
 
   has_many :roles, :class_name => "UserRole"
 
-  scope :visible, -> { where(:status => %w(pending active confirmed)) }
-  scope :active, -> { where(:status => %w(active confirmed)) }
+  scope :visible, -> { where(:status => %w[pending active confirmed]) }
+  scope :active, -> { where(:status => %w[active confirmed]) }
   scope :identifiable, -> { where(:data_public => true) }
 
   has_attached_file :image,
@@ -37,7 +82,7 @@ class User < ActiveRecord::Base
                     :styles => { :large => "100x100>", :small => "50x50>" }
 
   validates :display_name, :presence => true, :allow_nil => true, :length => 3..255,
-                           :exclusion => %w(new terms save confirm confirm-email go_public reset-password forgot-password suspended)
+                           :exclusion => %w[new terms save confirm confirm-email go_public reset-password forgot-password suspended]
   validates :display_name, :if => proc { |u| u.display_name_changed? },
                            :uniqueness => { :case_sensitive => false }
   validates :display_name, :if => proc { |u| u.display_name_changed? },
@@ -94,7 +139,7 @@ class User < ActiveRecord::Base
       user = nil
     end
 
-    token.update_column(:expiry, 1.week.from_now) if token && user
+    token.update(:expiry => 1.week.from_now) if token && user
 
     user
   end
@@ -161,13 +206,13 @@ class User < ActiveRecord::Base
   ##
   # returns true if a user is visible
   def visible?
-    %w(pending active confirmed).include? status
+    %w[pending active confirmed].include? status
   end
 
   ##
   # returns true if a user is active
   def active?
-    %w(active confirmed).include? status
+    %w[active confirmed].include? status
   end
 
   ##
@@ -233,7 +278,7 @@ class User < ActiveRecord::Base
   # perform a spam check on a user
   def spam_check
     if status == "active" && spam_score > SPAM_THRESHOLD
-      update_column(:status, "suspended")
+      update(:status => "suspended")
     end
   end
 

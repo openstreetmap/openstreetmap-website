@@ -1,12 +1,9 @@
-# -*- coding: utf-8 -*-
 require "test_helper"
 
 class NoteCommentTest < ActiveSupport::TestCase
-  fixtures :users
-
   def test_event_valid
-    ok = %w(opened closed reopened commented hidden)
-    bad = %w(expropriated fubared)
+    ok = %w[opened closed reopened commented hidden]
+    bad = %w[expropriated fubared]
 
     ok.each do |event|
       note_comment = create(:note_comment)
@@ -22,8 +19,8 @@ class NoteCommentTest < ActiveSupport::TestCase
   end
 
   def test_body_valid
-    ok = %W(Name vergrößern foo\nbar
-            ルシステムにも対応します 輕觸搖晃的遊戲)
+    ok = %W[Name vergrößern foo\nbar
+            ルシステムにも対応します 輕觸搖晃的遊戲]
     bad = ["foo\x00bar", "foo\x08bar", "foo\x1fbar", "foo\x7fbar",
            "foo\ufffebar", "foo\uffffbar"]
 

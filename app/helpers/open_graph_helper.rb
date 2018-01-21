@@ -2,7 +2,7 @@ module OpenGraphHelper
   def opengraph_tags(title = nil)
     tags = {
       "og:site_name" => t("layouts.project_name.title"),
-      "og:title" => [t("layouts.project_name.title"), title].compact.join(" | "),
+      "og:title" => [title, t("layouts.project_name.title")].compact.join(" | "),
       "og:type" => "website",
       "og:image" => image_url("osm_logo_256.png", :protocol => "http"),
       "og:image:secure_url" => image_url("osm_logo_256.png", :protocol => "https"),

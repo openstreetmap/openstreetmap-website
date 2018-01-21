@@ -70,31 +70,31 @@ module Potlatch
 
     # Pack variables as AMF
     def self.encodevalue(n)
-      case n.class.to_s
-      when "Array"
+      case n
+      when Array
         a = 10.chr + encodelong(n.length)
         n.each do |b|
           a += encodevalue(b)
         end
         a
-      when "Hash"
+      when Hash
         a = 3.chr
         n.each do |k, v|
           a += encodestring(k.to_s) + encodevalue(v)
         end
         a + 0.chr + 0.chr + 9.chr
-      when "String"
+      when String
         2.chr + encodestring(n)
-      when "Bignum", "Fixnum", "Float"
+      when Numeric, GeoRecord::Coord
         0.chr + encodedouble(n)
-      when "NilClass"
+      when NilClass
         5.chr
-      when "TrueClass"
+      when TrueClass
         0.chr + encodedouble(1)
-      when "FalseClass"
+      when FalseClass
         0.chr + encodedouble(0)
       else
-        Rails.logger.error("Unexpected Ruby type for AMF conversion: " + n.class.to_s)
+        raise "Unexpected Ruby type for AMF conversion: #{n.class.name}"
       end
     end
 
@@ -107,7 +107,7 @@ module Potlatch
 
     # Encode number as eight-byte double precision float
     def self.encodedouble(n)
-      [n].pack("G")
+      [n.to_f].pack("G")
     end
 
     # Encode number as four-byte long
@@ -177,7 +177,7 @@ module Potlatch
       presettype = ""
       presetcategory = ""
       #	StringIO.open(txt) do |file|
-      File.open("#{Rails.root}/config/potlatch/presets.txt") do |file|
+      File.open(Rails.root.join("config", "potlatch", "presets.txt")) do |file|
         file.each_line do |line|
           t = line.chomp
           if t =~ %r{(\w+)/(\w+)}
@@ -201,7 +201,7 @@ module Potlatch
       colours = {}
       casing = {}
       areas = {}
-      File.open("#{Rails.root}/config/potlatch/colours.txt") do |file|
+      File.open(Rails.root.join("config", "potlatch", "colours.txt")) do |file|
         file.each_line do |line|
           next unless line.chomp =~ /(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/
 
@@ -216,7 +216,7 @@ module Potlatch
       relcolours = {}
       relalphas = {}
       relwidths = {}
-      File.open("#{Rails.root}/config/potlatch/relation_colours.txt") do |file|
+      File.open(Rails.root.join("config", "potlatch", "relation_colours.txt")) do |file|
         file.each_line do |line|
           next unless line.chomp =~ /(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/
 
@@ -230,7 +230,7 @@ module Potlatch
       # Read POI presets
       icon_list = []
       icon_tags = {}
-      File.open("#{Rails.root}/config/potlatch/icon_presets.txt") do |file|
+      File.open(Rails.root.join("config", "potlatch", "icon_presets.txt")) do |file|
         file.each_line do |line|
           (icon, tags) = line.chomp.split("\t")
           icon_list.push(icon)
@@ -241,7 +241,7 @@ module Potlatch
 
       # Read auto-complete
       autotags = { "point" => {}, "way" => {}, "POI" => {} }
-      File.open("#{Rails.root}/config/potlatch/autocomplete.txt") do |file|
+      File.open(Rails.root.join("config", "potlatch", "autocomplete.txt")) do |file|
         file.each_line do |line|
           next unless line.chomp =~ %r{^([\w:]+)/(\w+)\s+(.+)$}
 

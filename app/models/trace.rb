@@ -1,3 +1,30 @@
+# == Schema Information
+#
+# Table name: gpx_files
+#
+#  id          :integer          not null, primary key
+#  user_id     :integer          not null
+#  visible     :boolean          default(TRUE), not null
+#  name        :string           default(""), not null
+#  size        :integer
+#  latitude    :float
+#  longitude   :float
+#  timestamp   :datetime         not null
+#  description :string           default(""), not null
+#  inserted    :boolean          not null
+#  visibility  :enum             default("public"), not null
+#
+# Indexes
+#
+#  gpx_files_timestamp_idx           (timestamp)
+#  gpx_files_user_id_idx             (user_id)
+#  gpx_files_visible_visibility_idx  (visible,visibility)
+#
+# Foreign Keys
+#
+#  gpx_files_user_id_fkey  (user_id => users.id)
+#
+
 class Trace < ActiveRecord::Base
   self.table_name = "gpx_files"
 
@@ -7,14 +34,14 @@ class Trace < ActiveRecord::Base
 
   scope :visible, -> { where(:visible => true) }
   scope :visible_to, ->(u) { visible.where("visibility IN ('public', 'identifiable') OR user_id = ?", u) }
-  scope :visible_to_all, -> { where(:visibility => %w(public identifiable)) }
+  scope :visible_to_all, -> { where(:visibility => %w[public identifiable]) }
   scope :tagged, ->(t) { joins(:tags).where(:gpx_file_tags => { :tag => t }) }
 
   validates :user, :presence => true, :associated => true
   validates :name, :presence => true, :length => 1..255
   validates :description, :presence => { :on => :create }, :length => 1..255
   validates :timestamp, :presence => true
-  validates :visibility, :inclusion => %w(private public trackable identifiable)
+  validates :visibility, :inclusion => %w[private public trackable identifiable]
 
   def destroy
     super
@@ -29,7 +56,7 @@ class Trace < ActiveRecord::Base
 
   def tagstring=(s)
     self.tags = if s.include? ","
-                  s.split(/\s*,\s*/).select { |tag| tag !~ /^\s*$/ }.collect do |tag|
+                  s.split(/\s*,\s*/).reject { |tag| tag =~ /^\s*$/ }.collect do |tag|
                     tt = Tracetag.new
                     tt.tag = tag
                     tt
@@ -95,7 +122,7 @@ class Trace < ActiveRecord::Base
   end
 
   def mime_type
-    filetype = `/usr/bin/file -bz #{trace_name}`.chomp
+    filetype = `/usr/bin/file -Lbz #{trace_name}`.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
@@ -117,7 +144,7 @@ class Trace < ActiveRecord::Base
   end
 
   def extension_name
-    filetype = `/usr/bin/file -bz #{trace_name}`.chomp
+    filetype = `/usr/bin/file -Lbz #{trace_name}`.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
@@ -172,13 +199,12 @@ class Trace < ActiveRecord::Base
     el1
   end
 
-  # Read in xml as text and return it's Node object representation
-  def self.from_xml(xml, create = false)
+  def update_from_xml(xml, create = false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
 
     doc.find("//osm/gpx_file").each do |pt|
-      return Trace.from_xml_node(pt, create)
+      return update_from_xml_node(pt, create)
     end
 
     raise OSM::APIBadXMLError.new("trace", xml, "XML doesn't contain an osm/gpx_file element.")
@@ -186,39 +212,36 @@ class Trace < ActiveRecord::Base
     raise OSM::APIBadXMLError.new("trace", xml, ex.message)
   end
 
-  def self.from_xml_node(pt, create = false)
-    trace = Trace.new
-
+  def update_from_xml_node(pt, create = false)
     raise OSM::APIBadXMLError.new("trace", pt, "visibility missing") if pt["visibility"].nil?
-    trace.visibility = pt["visibility"]
+    self.visibility = pt["visibility"]
 
     unless create
       raise OSM::APIBadXMLError.new("trace", pt, "ID is required when updating.") if pt["id"].nil?
-      trace.id = pt["id"].to_i
+      id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
-      raise OSM::APIBadUserInput.new("ID of trace cannot be zero when updating.") if trace.id.zero?
+      raise OSM::APIBadUserInput, "ID of trace cannot be zero when updating." if id.zero?
+      raise OSM::APIBadUserInput, "The id in the url (#{self.id}) is not the same as provided in the xml (#{id})" unless self.id == id
     end
 
     # We don't care about the time, as it is explicitly set on create/update/delete
     # We don't care about the visibility as it is implicit based on the action
     # and set manually before the actual delete
-    trace.visible = true
+    self.visible = true
 
     description = pt.find("description").first
     raise OSM::APIBadXMLError.new("trace", pt, "description missing") if description.nil?
-    trace.description = description.content
+    self.description = description.content
 
-    pt.find("tag").each do |tag|
-      trace.tags.build(:tag => tag.content)
+    self.tags = pt.find("tag").collect do |tag|
+      Tracetag.new(:tag => tag.content)
     end
-
-    trace
   end
 
   def xml_file
     # TODO: *nix specific, could do to work on windows... would be functionally inferior though - check for '.gz'
-    filetype = `/usr/bin/file -bz #{trace_name}`.chomp
+    filetype = `/usr/bin/file -Lbz #{trace_name}`.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
@@ -261,7 +284,7 @@ class Trace < ActiveRecord::Base
     first = true
 
     # If there are any existing points for this trace then delete them
-    Tracepoint.delete_all(:gpx_id => id)
+    Tracepoint.where(:gpx_id => id).delete_all
 
     gpx.points do |point|
       if first

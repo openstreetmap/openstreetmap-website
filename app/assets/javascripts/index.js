@@ -7,6 +7,8 @@
 //= require leaflet.share
 //= require leaflet.polyline
 //= require leaflet.query
+//= require leaflet.contextmenu
+//= require index/contextmenu
 //= require index/search
 //= require index/browse
 //= require index/export
@@ -77,7 +79,8 @@ $(document).ready(function () {
 
   var map = new L.OSM.Map("map", {
     zoomControl: false,
-    layerControl: false
+    layerControl: false,
+    contextmenu: true
   });
 
   map.attributionControl.setPrefix('');
@@ -111,6 +114,7 @@ $(document).ready(function () {
     .removeClass('leaflet-control-locate leaflet-bar')
     .addClass('control-locate')
     .children("a")
+    .attr('href', '#')
     .removeClass('leaflet-bar-part leaflet-bar-part-single')
     .addClass('control-button');
 
@@ -147,6 +151,8 @@ $(document).ready(function () {
   L.control.scale()
     .addTo(map);
 
+  OSM.initializeContextMenu(map);
+
   if (OSM.STATUS !== 'api_offline' && OSM.STATUS !== 'database_offline') {
     OSM.initializeNotes(map);
     if (params.layers.indexOf(map.noteLayer.options.code) >= 0) {
@@ -156,6 +162,10 @@ $(document).ready(function () {
     OSM.initializeBrowse(map);
     if (params.layers.indexOf(map.dataLayer.options.code) >= 0) {
       map.addLayer(map.dataLayer);
+    }
+
+    if (params.layers.indexOf(map.gpsLayer.options.code) >= 0) {
+      map.addLayer(map.gpsLayer);
     }
   }
 
@@ -231,9 +241,7 @@ $(document).ready(function () {
 
   function remoteEditHandler(bbox, object) {
     var loaded = false,
-        url = document.location.protocol === "https:" ?
-        "https://127.0.0.1:8112/load_and_zoom?" :
-        "http://127.0.0.1:8111/load_and_zoom?",
+        url = "http://127.0.0.1:8111/load_and_zoom?",
         query = {
           left: bbox.getWest() - 0.0001,
           top: bbox.getNorth() + 0.0001,

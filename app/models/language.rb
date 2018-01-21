@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: languages
+#
+#  code         :string           not null, primary key
+#  english_name :string           not null
+#  native_name  :string
+#
+
 class Language < ActiveRecord::Base
   self.primary_key = "code"
 
@@ -5,7 +14,7 @@ class Language < ActiveRecord::Base
 
   def self.load(file)
     Language.transaction do
-      YAML.load(File.read(file)).each do |k, v|
+      YAML.safe_load(File.read(file)).each do |k, v|
         begin
           Language.update(k, :english_name => v["english"], :native_name => v["native"])
         rescue ActiveRecord::RecordNotFound

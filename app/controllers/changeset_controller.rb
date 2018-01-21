@@ -28,13 +28,13 @@ class ChangesetController < ApplicationController
     cs = Changeset.from_xml(request.raw_post, true)
 
     # Assume that Changeset.from_xml has thrown an exception if there is an error parsing the xml
-    cs.user_id = @user.id
+    cs.user = current_user
     cs.save_with_tags!
 
     # Subscribe user to changeset comments
-    cs.subscribers << @user
+    cs.subscribers << current_user
 
-    render :text => cs.id.to_s, :content_type => "text/plain"
+    render :plain => cs.id.to_s
   end
 
   ##
@@ -43,7 +43,7 @@ class ChangesetController < ApplicationController
   def read
     changeset = Changeset.find(params[:id])
 
-    render :text => changeset.to_xml(params[:include_discussion].presence).to_s, :content_type => "text/xml"
+    render :xml => changeset.to_xml(params[:include_discussion].presence).to_s
   end
 
   ##
@@ -53,7 +53,7 @@ class ChangesetController < ApplicationController
     assert_method :put
 
     changeset = Changeset.find(params[:id])
-    check_changeset_consistency(changeset, @user)
+    check_changeset_consistency(changeset, current_user)
 
     # to close the changeset, we'll just set its closed_at time to
     # now. this might not be enough if there are concurrency issues,
@@ -61,7 +61,7 @@ class ChangesetController < ApplicationController
     changeset.set_closed_time_now
 
     changeset.save!
-    render :text => ""
+    head :ok
   end
 
   ##
@@ -75,7 +75,7 @@ class ChangesetController < ApplicationController
     assert_method :post
 
     cs = Changeset.find(params[:id])
-    check_changeset_consistency(cs, @user)
+    check_changeset_consistency(cs, current_user)
 
     # keep an array of lons and lats
     lon = []
@@ -104,7 +104,7 @@ class ChangesetController < ApplicationController
     # save the larger bounding box and return the changeset, which
     # will include the bigger bounding box.
     cs.save!
-    render :text => cs.to_xml.to_s, :content_type => "text/xml"
+    render :xml => cs.to_xml.to_s
   end
 
   ##
@@ -127,12 +127,12 @@ class ChangesetController < ApplicationController
     assert_method :post
 
     changeset = Changeset.find(params[:id])
-    check_changeset_consistency(changeset, @user)
+    check_changeset_consistency(changeset, current_user)
 
     diff_reader = DiffReader.new(request.raw_post, changeset)
     Changeset.transaction do
       result = diff_reader.commit
-      render :text => result.to_s, :content_type => "text/xml"
+      render :xml => result.to_s
     end
   end
 
@@ -197,7 +197,7 @@ class ChangesetController < ApplicationController
         end
     end
 
-    render :text => result.to_s, :content_type => "text/xml"
+    render :xml => result.to_s
   end
 
   ##
@@ -216,6 +216,12 @@ class ChangesetController < ApplicationController
     changesets = conditions_closed(changesets, params["closed"])
     changesets = conditions_ids(changesets, params["changesets"])
 
+    # sort and limit the changesets
+    changesets = changesets.order("created_at DESC").limit(100)
+
+    # preload users, tags and comments
+    changesets = changesets.preload(:user, :changeset_tags, :comments)
+
     # create the results document
     results = OSM::API.new.get_xml_doc
 
@@ -224,7 +230,7 @@ class ChangesetController < ApplicationController
       results.root << cs.to_xml_node
     end
 
-    render :text => results.to_s, :content_type => "text/xml"
+    render :xml => results.to_s
   end
 
   ##
@@ -242,54 +248,56 @@ class ChangesetController < ApplicationController
     changeset = Changeset.find(params[:id])
     new_changeset = Changeset.from_xml(request.raw_post)
 
-    check_changeset_consistency(changeset, @user)
-    changeset.update_from(new_changeset, @user)
-    render :text => changeset.to_xml, :mime_type => "text/xml"
+    check_changeset_consistency(changeset, current_user)
+    changeset.update_from(new_changeset, current_user)
+    render :xml => changeset.to_xml.to_s
   end
 
   ##
-  # list edits (open changesets) in reverse chronological order
+  # list non-empty changesets in reverse chronological order
   def list
-    if request.format == :atom && params[:max_id]
-      redirect_to url_for(params.merge(:max_id => nil)), :status => :moved_permanently
+    @params = params.permit(:display_name, :bbox, :friends, :nearby, :max_id, :list)
+
+    if request.format == :atom && @params[:max_id]
+      redirect_to url_for(@params.merge(:max_id => nil)), :status => :moved_permanently
       return
     end
 
-    if params[:display_name]
-      user = User.find_by(:display_name => params[:display_name])
+    if @params[:display_name]
+      user = User.find_by(:display_name => @params[:display_name])
       if !user || !user.active?
-        render_unknown_user params[:display_name]
+        render_unknown_user @params[:display_name]
         return
       end
     end
 
-    if (params[:friends] || params[:nearby]) && !@user
+    if (@params[:friends] || @params[:nearby]) && !current_user
       require_user
       return
     end
 
-    if request.format == :html && !params[:list]
+    if request.format == :html && !@params[:list]
       require_oauth
       render :action => :history, :layout => map_layout
     else
       changesets = conditions_nonempty(Changeset.all)
 
-      if params[:display_name]
-        changesets = if user.data_public? || user == @user
+      if @params[:display_name]
+        changesets = if user.data_public? || user == current_user
                        changesets.where(:user_id => user.id)
                      else
                        changesets.where("false")
                      end
-      elsif params[:bbox]
+      elsif @params[:bbox]
         changesets = conditions_bbox(changesets, BoundingBox.from_bbox_params(params))
-      elsif params[:friends] && @user
-        changesets = changesets.where(:user_id => @user.friend_users.identifiable)
-      elsif params[:nearby] && @user
-        changesets = changesets.where(:user_id => @user.nearby)
+      elsif @params[:friends] && current_user
+        changesets = changesets.where(:user_id => current_user.friend_users.identifiable)
+      elsif @params[:nearby] && current_user
+        changesets = changesets.where(:user_id => current_user.nearby)
       end
 
-      if params[:max_id]
-        changesets = changesets.where("changesets.id <= ?", params[:max_id])
+      if @params[:max_id]
+        changesets = changesets.where("changesets.id <= ?", @params[:max_id])
       end
 
       @edits = changesets.order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
@@ -308,8 +316,8 @@ class ChangesetController < ApplicationController
   # Add a comment to a changeset
   def comment
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
-    raise OSM::APIBadUserInput.new("No text was given") if params[:text].blank?
+    raise OSM::APIBadUserInput, "No id was given" unless params[:id]
+    raise OSM::APIBadUserInput, "No text was given" if params[:text].blank?
 
     # Extract the arguments
     id = params[:id].to_i
@@ -317,74 +325,74 @@ class ChangesetController < ApplicationController
 
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
-    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
+    raise OSM::APIChangesetNotYetClosedError, changeset if changeset.is_open?
 
     # Add a comment to the changeset
     comment = changeset.comments.create(:changeset => changeset,
                                         :body => body,
-                                        :author => @user)
+                                        :author => current_user)
 
     # Notify current subscribers of the new comment
     changeset.subscribers.visible.each do |user|
-      if @user != user
+      if current_user != user
         Notifier.changeset_comment_notification(comment, user).deliver_now
       end
     end
 
     # Add the commenter to the subscribers if necessary
-    changeset.subscribers << @user unless changeset.subscribers.exists?(@user.id)
+    changeset.subscribers << current_user unless changeset.subscribers.exists?(current_user.id)
 
     # Return a copy of the updated changeset
-    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
+    render :xml => changeset.to_xml.to_s
   end
 
   ##
   # Adds a subscriber to the changeset
   def subscribe
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
 
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
-    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
-    raise OSM::APIChangesetAlreadySubscribedError.new(changeset) if changeset.subscribers.exists?(@user.id)
+    raise OSM::APIChangesetNotYetClosedError, changeset if changeset.is_open?
+    raise OSM::APIChangesetAlreadySubscribedError, changeset if changeset.subscribers.exists?(current_user.id)
 
     # Add the subscriber
-    changeset.subscribers << @user
+    changeset.subscribers << current_user
 
     # Return a copy of the updated changeset
-    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
+    render :xml => changeset.to_xml.to_s
   end
 
   ##
   # Removes a subscriber from the changeset
   def unsubscribe
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
 
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
-    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
-    raise OSM::APIChangesetNotSubscribedError.new(changeset) unless changeset.subscribers.exists?(@user.id)
+    raise OSM::APIChangesetNotYetClosedError, changeset if changeset.is_open?
+    raise OSM::APIChangesetNotSubscribedError, changeset unless changeset.subscribers.exists?(current_user.id)
 
     # Remove the subscriber
-    changeset.subscribers.delete(@user)
+    changeset.subscribers.delete(current_user)
 
     # Return a copy of the updated changeset
-    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
+    render :xml => changeset.to_xml.to_s
   end
 
   ##
   # Sets visible flag on comment to false
   def hide_comment
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
@@ -396,14 +404,14 @@ class ChangesetController < ApplicationController
     comment.update(:visible => false)
 
     # Return a copy of the updated changeset
-    render :text => comment.changeset.to_xml.to_s, :content_type => "text/xml"
+    render :xml => comment.changeset.to_xml.to_s
   end
 
   ##
   # Sets visible flag on comment to true
   def unhide_comment
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
@@ -415,7 +423,7 @@ class ChangesetController < ApplicationController
     comment.update(:visible => true)
 
     # Return a copy of the updated changeset
-    render :text => comment.changeset.to_xml.to_s, :content_type => "text/xml"
+    render :xml => comment.changeset.to_xml.to_s
   end
 
   ##
@@ -432,7 +440,7 @@ class ChangesetController < ApplicationController
       @comments = changeset.comments.includes(:author, :changeset).limit(comments_limit)
     else
       # Return comments
-      @comments = ChangesetComment.includes(:author, :changeset).where(:visible => :true).order("created_at DESC").limit(comments_limit).preload(:changeset)
+      @comments = ChangesetComment.includes(:author, :changeset).where(:visible => true).order("created_at DESC").limit(comments_limit).preload(:changeset)
     end
 
     # Render the result
@@ -440,7 +448,7 @@ class ChangesetController < ApplicationController
       format.rss
     end
   rescue OSM::APIBadUserInput
-    render :text => "", :status => :bad_request
+    head :bad_request
   end
 
   private
@@ -473,19 +481,19 @@ class ChangesetController < ApplicationController
       changesets
     else
       # shouldn't provide both name and UID
-      raise OSM::APIBadUserInput.new("provide either the user ID or display name, but not both") if user && name
+      raise OSM::APIBadUserInput, "provide either the user ID or display name, but not both" if user && name
 
       # use either the name or the UID to find the user which we're selecting on.
       u = if name.nil?
             # user input checking, we don't have any UIDs < 1
-            raise OSM::APIBadUserInput.new("invalid user ID") if user.to_i < 1
+            raise OSM::APIBadUserInput, "invalid user ID" if user.to_i < 1
             u = User.find(user.to_i)
           else
             u = User.find_by(:display_name => name)
           end
 
       # make sure we found a user
-      raise OSM::APINotFoundError.new if u.nil?
+      raise OSM::APINotFoundError if u.nil?
 
       # should be able to get changesets of public users only, or
       # our own changesets regardless of public-ness.
@@ -494,7 +502,7 @@ class ChangesetController < ApplicationController
         # changesets if they're non-public
         setup_user_auth
 
-        raise OSM::APINotFoundError if @user.nil? || @user.id != u.id
+        raise OSM::APINotFoundError if current_user.nil? || current_user != u
       end
 
       changesets.where(:user_id => u.id)
@@ -512,20 +520,20 @@ class ChangesetController < ApplicationController
 
       # check that we actually have 2 elements in the array
       times = time.split(/,/)
-      raise OSM::APIBadUserInput.new("bad time range") if times.size != 2
+      raise OSM::APIBadUserInput, "bad time range" if times.size != 2
 
-      from, to = times.collect { |t| DateTime.parse(t) }
+      from, to = times.collect { |t| Time.parse(t) }
       return changesets.where("closed_at >= ? and created_at <= ?", from, to)
     else
       # if there is no comma, assume its a lower limit on time
-      return changesets.where("closed_at >= ?", DateTime.parse(time))
+      return changesets.where("closed_at >= ?", Time.parse(time))
     end
-    # stupid DateTime seems to throw both of these for bad parsing, so
+    # stupid Time seems to throw both of these for bad parsing, so
     # we have to catch both and ensure the correct code path is taken.
   rescue ArgumentError => ex
-    raise OSM::APIBadUserInput.new(ex.message.to_s)
+    raise OSM::APIBadUserInput, ex.message.to_s
   rescue RuntimeError => ex
-    raise OSM::APIBadUserInput.new(ex.message.to_s)
+    raise OSM::APIBadUserInput, ex.message.to_s
   end
 
   ##
@@ -561,7 +569,7 @@ class ChangesetController < ApplicationController
     if ids.nil?
       changesets
     elsif ids.empty?
-      raise OSM::APIBadUserInput.new("No changesets were given to search for")
+      raise OSM::APIBadUserInput, "No changesets were given to search for"
     else
       ids = ids.split(",").collect(&:to_i)
       changesets.where(:id => ids)
@@ -582,7 +590,7 @@ class ChangesetController < ApplicationController
       if params[:limit].to_i > 0 && params[:limit].to_i <= 10000
         params[:limit].to_i
       else
-        raise OSM::APIBadUserInput.new("Comments limit must be between 1 and 10000")
+        raise OSM::APIBadUserInput, "Comments limit must be between 1 and 10000"
       end
     else
       100

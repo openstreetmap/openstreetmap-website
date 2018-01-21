@@ -28,6 +28,7 @@ $(document).ready(function () {
       .removeClass('leaflet-control-locate leaflet-bar')
       .addClass('control-locate')
       .children("a")
+      .attr('href', '#')
       .removeClass('leaflet-bar-part leaflet-bar-part-single')
       .addClass('control-button');
 
@@ -84,6 +85,10 @@ $(document).ready(function () {
 
   $("select#user_auth_provider").on("change", updateAuthUID);
 
+  $("input#user_image").on("change", function () {
+    $("#image_action_new").prop("checked", true);
+  });
+
   function enableAuth() {
     $("#auth_prompt").hide();
     $("#auth_field").show();
@@ -103,4 +108,20 @@ $(document).ready(function () {
   } else {
     enableAuth();
   }
+
+  $("#user_all").change(function () {
+    $("#user_list input[type=checkbox]").prop("checked", $("#user_all").prop("checked"));
+  });
+
+  $("#content.user_confirm").each(function () {
+    $(this).hide();
+    $(this).find("#confirm").submit();
+  });
+
+  $("input[name=legale]").change(function () {
+    var url = $(this).data("url");
+
+    $("#contributorTerms").html("<img src='" + OSM.SEARCHING + "' />");
+    $("#contributorTerms").load(url);
+  });
 });

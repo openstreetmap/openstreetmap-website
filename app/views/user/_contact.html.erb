@@ -37,7 +37,7 @@
     <ul class='secondary-actions clearfix deemphasize'>
       <li><%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => contact.display_name %></li>
       <li>
-        <% if @user.is_friends_with?(contact) %>
+        <% if current_user.is_friends_with?(contact) %>
           <%= link_to t('user.view.remove as friend'), remove_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
         <% else %>
           <%= link_to t('user.view.add as friend'), make_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>

@@ -19,7 +19,7 @@ class RedactionsController < ApplicationController
 
   def create
     @redaction = Redaction.new
-    @redaction.user = @user
+    @redaction.user = current_user
     @redaction.title = params[:redaction][:title]
     @redaction.description = params[:redaction][:description]
     # note that the description format will default to 'markdown'
@@ -32,11 +32,9 @@ class RedactionsController < ApplicationController
     end
   end
 
-  def show
-  end
+  def show; end
 
-  def edit
-  end
+  def edit; end
 
   def update
     # note - don't update the user ID

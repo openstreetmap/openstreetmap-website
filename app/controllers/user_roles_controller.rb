@@ -10,12 +10,17 @@ class UserRolesController < ApplicationController
   before_action :in_role, :only => [:revoke]
 
   def grant
-    @this_user.roles.create(:role => @role, :granter_id => @user.id)
+    @this_user.roles.create(:role => @role, :granter => current_user)
     redirect_to :controller => "user", :action => "view", :display_name => @this_user.display_name
   end
 
   def revoke
-    UserRole.delete_all(:user_id => @this_user.id, :role => @role)
+    # checks that administrator role is not revoked from current user
+    if current_user == @this_user && @role == "administrator"
+      flash[:error] = t("user_role.filter.not_revoke_admin_current_user")
+    else
+      UserRole.where(:user_id => @this_user.id, :role => @role).delete_all
+    end
     redirect_to :controller => "user", :action => "view", :display_name => @this_user.display_name
   end
 
@@ -25,7 +30,7 @@ class UserRolesController < ApplicationController
   # require that the user is an administrator, or fill out a helpful error message
   # and return them to theuser page.
   def require_administrator
-    unless @user.administrator?
+    unless current_user.administrator?
       flash[:error] = t "user_role.filter.not_an_administrator"
       redirect_to :controller => "user", :action => "view", :display_name => @this_user.display_name
     end

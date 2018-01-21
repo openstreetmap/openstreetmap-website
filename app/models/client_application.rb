@@ -1,3 +1,35 @@
+# == Schema Information
+#
+# Table name: client_applications
+#
+#  id                :integer          not null, primary key
+#  name              :string
+#  url               :string
+#  support_url       :string
+#  callback_url      :string
+#  key               :string(50)
+#  secret            :string(50)
+#  user_id           :integer
+#  created_at        :datetime
+#  updated_at        :datetime
+#  allow_read_prefs  :boolean          default(FALSE), not null
+#  allow_write_prefs :boolean          default(FALSE), not null
+#  allow_write_diary :boolean          default(FALSE), not null
+#  allow_write_api   :boolean          default(FALSE), not null
+#  allow_read_gpx    :boolean          default(FALSE), not null
+#  allow_write_gpx   :boolean          default(FALSE), not null
+#  allow_write_notes :boolean          default(FALSE), not null
+#
+# Indexes
+#
+#  index_client_applications_on_key      (key) UNIQUE
+#  index_client_applications_on_user_id  (user_id)
+#
+# Foreign Keys
+#
+#  client_applications_user_id_fkey  (user_id => users.id)
+#
+
 require "oauth"
 
 class ClientApplication < ActiveRecord::Base
@@ -36,14 +68,14 @@ class ClientApplication < ActiveRecord::Base
   end
 
   def oauth_server
-    @oauth_server ||= OAuth::Server.new("http://" + SERVER_URL)
+    @oauth_server ||= OAuth::Server.new("https://" + SERVER_URL)
   end
 
   def credentials
     @oauth_client ||= OAuth::Consumer.new(key, secret)
   end
 
-  def create_request_token(params = {})
+  def create_request_token(_params = {})
     params = { :client_application => self, :callback_url => token_callback_url }
     permissions.each do |p|
       params[p] = true
@@ -75,9 +107,7 @@ class ClientApplication < ActiveRecord::Base
   # this is the set of permissions that the client can ask for. clients
   # have to say up-front what permissions they want and when users sign up they
   # can agree or not agree to each of them.
-  PERMISSIONS = [:allow_read_prefs, :allow_write_prefs, :allow_write_diary,
-                 :allow_write_api, :allow_read_gpx, :allow_write_gpx,
-                 :allow_write_notes].freeze
+  PERMISSIONS = [:allow_read_prefs, :allow_write_prefs, :allow_write_diary, :allow_write_api, :allow_read_gpx, :allow_write_gpx, :allow_write_notes].freeze
 
   def generate_keys
     self.key = OAuth::Helper.generate_key(40)[0, 40]

@@ -148,6 +148,8 @@ small, aside {
 
 .red { color: $red; }
 
+.piwik { border: 0; }
+
 /* Rules for icons */
 
 .icon {
@@ -161,24 +163,24 @@ small, aside {
   overflow: hidden;
 }
 
-.icon.search      { background-position: 0 0; }
-.icon.donate      { background-position: -20px 0; }
-.icon.zoomin      { background-position: -40px 0; }
-.icon.zoomout     { background-position: -60px 0; }
-.icon.geolocate   { background-position: -80px 0; }
-.active .icon.geolocate   { background-position: -80px -20px; }
-.icon.layers      { background-position: -100px 0; }
-.icon.key         { background-position: -120px 0; }
-.icon.share       { background-position: -140px 0; }
-.icon.clipboard   { background-position: -160px 0; }
-.icon.link        { background-position: -180px 0; }
-.icon.close       { background-position: -200px 0; }
+.icon.search      { /* no-r2 */ background-position: 0 0; }
+.icon.donate      { /* no-r2 */ background-position: -20px 0; }
+.icon.zoomin      { /* no-r2 */ background-position: -40px 0; }
+.icon.zoomout     { /* no-r2 */ background-position: -60px 0; }
+.icon.geolocate   { /* no-r2 */ background-position: -80px 0; }
+.active .icon.geolocate   { /* no-r2 */ background-position: -80px -20px; }
+.icon.layers      { /* no-r2 */ background-position: -100px 0; }
+.icon.key         { /* no-r2 */ background-position: -120px 0; }
+.icon.share       { /* no-r2 */ background-position: -140px 0; }
+.icon.clipboard   { /* no-r2 */ background-position: -160px 0; }
+.icon.link        { /* no-r2 */ background-position: -180px 0; }
+.icon.close       { /* no-r2 */ background-position: -200px 0; }
 .close-wrap:hover .icon.close,
-.icon.close:hover { background-position: -200px -20px; }
-.icon.check       { background-position: -220px 0; }
-.icon.note        { background-position: -240px 0; }
-.icon.note.grey   { background-position: -240px -20px; }
-.icon.query       { background-position: -260px 0; }
+.icon.close:hover { /* no-r2 */ background-position: -200px -20px; }
+.icon.check       { /* no-r2 */ background-position: -220px 0; }
+.icon.note        { /* no-r2 */ background-position: -240px 0; }
+.icon.note.grey   { /* no-r2 */ background-position: -240px -20px; }
+.icon.query       { /* no-r2 */ background-position: -260px 0; }
 
 /* Rules for links */
 
@@ -548,6 +550,10 @@ body.compact {
     background: #fff;
     font-size: 12px;
 
+    #sidebar_loader {
+      display: none;
+    }
+
     > div {
       position: relative;
       float: left;
@@ -586,10 +592,16 @@ body.compact {
       cursor: pointer;
     }
 
-    p.error {
-      background-color: #ff7070;
-      padding: 10px;
-      font-weight: bold;
+    .flash {
+      padding: 15px;
+
+      picture {
+        margin-right: -25px;
+      }
+
+      div.message {
+        margin-left: 30px;
+      }
     }
   }
 
@@ -1182,6 +1194,7 @@ tr.turn:hover {
       width: 50%;
       padding: 6px 10px;
       word-wrap: break-word;
+      white-space: pre-wrap;
     }
 
     .browse-tag-k {
@@ -1196,9 +1209,8 @@ tr.turn:hover {
   }
 
   .warning {
-    margin: $lineheight/2 0;
-    padding: $lineheight/2;
-    font-size: 90%;
+    margin: 0 0 $lineheight/2 0;
+    padding: 0 $lineheight/2;
   }
 
   .note-comments li, .changeset-comments li {
@@ -1476,6 +1488,18 @@ tr.turn:hover {
   }
 }
 
+/* Rules for the trace view */
+
+.trace-view {
+  .trace_pending {
+    color: red;
+  }
+
+  .geo {
+    display: inline;
+  }
+}
+
 /* Rules for the new trace form */
 
 #new_trace {
@@ -1639,6 +1663,10 @@ tr.turn:hover {
   display: inline;
 }
 
+.pagination {
+  padding-top: $lineheight;
+}
+
 /* Rules for the diary entry page */
 
 .diary_entry {
@@ -1708,6 +1736,14 @@ tr.turn:hover {
     margin-bottom: $lineheight;
     overflow: auto;
     height: 20em;
+
+    li {
+      list-style: inherit;
+    }
+
+    ol ol {
+      list-style-type: lower-alpha;
+    }
   }
 
   #decline {
@@ -1764,6 +1800,12 @@ tr.turn:hover {
 
 .oauth_clients .buttons .oauth-delete {
   border-radius: 0 2px 2px 0;
+}
+
+/* Rules for the oauth authorization page */
+
+.oauth-authorize ul {
+  list-style: none;
 }
 
 /* Rules for messages pages */
@@ -2737,12 +2779,30 @@ input.richtext_title[type="text"] {
     vertical-align: middle;
     background: 40px 40px image-url('about/sprite.png') no-repeat;
 
-    &.local        { background-position: 0px    0px; }
-    &.community    { background-position: 0px  -40px; }
-    &.open         { background-position: 0px  -80px; }
-    &.partners     { background-position: 0px -120px; }
-    &.infringement { background-position: 0px -160px; }
-    &.legal        { background-position: -45px -160px; }
+    &.local {
+      /* no-r2 */
+      background-position: 0px 0px;
+    }
+    &.community {
+      /* no-r2 */
+      background-position: 0px -40px;
+    }
+    &.open {
+      /* no-r2 */
+      background-position: 0px -80px;
+    }
+    &.partners {
+      /* no-r2 */
+      background-position: 0px -120px;
+    }
+    &.infringement {
+      /* no-r2 */
+      background-position: 0px -160px;
+    }
+    &.legal {
+      /* no-r2 */
+      background-position: -45px -160px;
+    }
   }
 }
 

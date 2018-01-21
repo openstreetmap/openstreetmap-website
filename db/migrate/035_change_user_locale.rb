@@ -1,6 +1,6 @@
 require "migrate"
 
-class ChangeUserLocale < ActiveRecord::Migration
+class ChangeUserLocale < ActiveRecord::Migration[5.0]
   def self.up
     remove_foreign_key :users, :column => :locale, :name => "users_locale_fkey"
 

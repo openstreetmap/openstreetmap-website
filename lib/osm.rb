@@ -532,7 +532,7 @@ module OSM
   # Parse a float, raising a specified exception on failure
   def self.parse_float(str, klass, *args)
     Float(str)
-  rescue
+  rescue StandardError
     raise klass.new(*args)
   end
 
@@ -553,14 +553,14 @@ module OSM
     tilesql = QuadTile.sql_for_area(bbox, prefix)
     bbox = bbox.to_scaled
 
-    "#{tilesql} AND #{prefix}latitude BETWEEN #{bbox.min_lat} AND #{bbox.max_lat} " +
+    "#{tilesql} AND #{prefix}latitude BETWEEN #{bbox.min_lat} AND #{bbox.max_lat} " \
       "AND #{prefix}longitude BETWEEN #{bbox.min_lon} AND #{bbox.max_lon}"
   end
 
   # Return the terms and conditions text for a given country
   def self.legal_text_for_country(country_code)
-    file_name = File.join(Rails.root, "config", "legales", country_code.to_s + ".yml")
-    file_name = File.join(Rails.root, "config", "legales", DEFAULT_LEGALE + ".yml") unless File.exist? file_name
+    file_name = Rails.root.join("config", "legales", country_code.to_s + ".yml")
+    file_name = Rails.root.join("config", "legales", DEFAULT_LEGALE + ".yml") unless File.exist? file_name
     YAML.load_file(file_name)
   end
 

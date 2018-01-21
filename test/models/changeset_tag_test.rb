@@ -1,13 +1,13 @@
 require "test_helper"
 
 class ChangesetTagTest < ActiveSupport::TestCase
-  api_fixtures
-
   def test_length_key_valid
+    changeset = create(:changeset)
+
     key = "k"
     (0..255).each do |i|
       tag = ChangesetTag.new
-      tag.changeset_id = 1
+      tag.changeset_id = changeset.id
       tag.k = key * i
       tag.v = "v"
       assert tag.valid?
@@ -15,10 +15,12 @@ class ChangesetTagTest < ActiveSupport::TestCase
   end
 
   def test_length_value_valid
+    changeset = create(:changeset)
+
     val = "v"
     (0..255).each do |i|
       tag = ChangesetTag.new
-      tag.changeset_id = 1
+      tag.changeset_id = changeset.id
       tag.k = "k"
       tag.v = val * i
       assert tag.valid?

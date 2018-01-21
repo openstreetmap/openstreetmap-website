@@ -136,7 +136,7 @@ module ActionController
 
     # These methods become class methods on any controller
     module ClassMethods
-      # Creates a +before_filter+ which automatically paginates an Active
+      # Creates a +before_action+ which automatically paginates an Active
       # Record model for all actions in a controller (or certain actions if
       # specified with the <tt>:actions</tt> option).
       #
@@ -147,7 +147,7 @@ module ActionController
       def paginate(collection_id, options = {})
         Pagination.validate_options!(collection_id, options, false)
         module_eval do
-          before_filter :create_paginators_and_retrieve_collections
+          before_action :create_paginators_and_retrieve_collections
           OPTIONS[self] ||= {}
           OPTIONS[self][collection_id] = options
         end
