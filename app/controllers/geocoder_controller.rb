@@ -112,9 +112,7 @@ class GeocoderController < ApplicationController
     maxlat = params[:maxlat]
 
     # get view box
-    if minlon && minlat && maxlon && maxlat
-      viewbox = "&viewbox=#{minlon},#{maxlat},#{maxlon},#{minlat}"
-    end
+    viewbox = "&viewbox=#{minlon},#{maxlat},#{maxlon},#{minlat}" if minlon && minlat && maxlon && maxlat
 
     # get objects to excude
     exclude = "&exclude_place_ids=#{params[:exclude]}" if params[:exclude]
@@ -153,9 +151,7 @@ class GeocoderController < ApplicationController
         rank = (place.attributes["place_rank"].to_i + 1) / 2
         prefix_name = t "geocoder.search_osm_nominatim.admin_levels.level#{rank}", :default => prefix_name
         place.elements["extratags"].elements.each("tag") do |extratag|
-          if extratag.attributes["key"] == "place"
-            prefix_name = t "geocoder.search_osm_nominatim.prefix.place.#{extratag.attributes['value']}", :default => prefix_name
-          end
+          prefix_name = t "geocoder.search_osm_nominatim.prefix.place.#{extratag.attributes['value']}", :default => prefix_name if extratag.attributes["key"] == "place"
         end
       end
       prefix = t "geocoder.search_osm_nominatim.prefix_format", :name => prefix_name

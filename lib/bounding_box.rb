@@ -18,23 +18,17 @@ class BoundingBox
   end
 
   def self.from_bbox_params(params)
-    if params[:bbox] && params[:bbox].count(",") == 3
-      bbox_array = params[:bbox].split(",")
-    end
+    bbox_array = params[:bbox].split(",") if params[:bbox] && params[:bbox].count(",") == 3
     from_bbox_array(bbox_array)
   end
 
   def self.from_lon_lat_params(params)
-    if params[:minlon] && params[:minlat] && params[:maxlon] && params[:maxlat]
-      bbox_array = [params[:minlon], params[:minlat], params[:maxlon], params[:maxlat]]
-    end
+    bbox_array = [params[:minlon], params[:minlat], params[:maxlon], params[:maxlat]] if params[:minlon] && params[:minlat] && params[:maxlon] && params[:maxlat]
     from_bbox_array(bbox_array)
   end
 
   def self.from_lrbt_params(params)
-    if params[:l] && params[:b] && params[:t] && params[:t]
-      bbox_array = [params[:l], params[:b], params[:r], params[:t]]
-    end
+    bbox_array = [params[:l], params[:b], params[:r], params[:t]] if params[:l] && params[:b] && params[:t] && params[:t]
     from_bbox_array(bbox_array)
   end
 
@@ -65,12 +59,8 @@ class BoundingBox
 
   def check_boundaries
     # check the bbox is sane
-    if min_lon > max_lon
-      raise OSM::APIBadBoundingBox, "The minimum longitude must be less than the maximum longitude, but it wasn't"
-    end
-    if min_lat > max_lat
-      raise OSM::APIBadBoundingBox, "The minimum latitude must be less than the maximum latitude, but it wasn't"
-    end
+    raise OSM::APIBadBoundingBox, "The minimum longitude must be less than the maximum longitude, but it wasn't" if min_lon > max_lon
+    raise OSM::APIBadBoundingBox, "The minimum latitude must be less than the maximum latitude, but it wasn't" if min_lat > max_lat
     if min_lon < -LON_LIMIT || min_lat < -LAT_LIMIT || max_lon > +LON_LIMIT || max_lat > +LAT_LIMIT
       raise OSM::APIBadBoundingBox, "The latitudes must be between #{-LAT_LIMIT} and #{LAT_LIMIT}," \
                                        " and longitudes between #{-LON_LIMIT} and #{LON_LIMIT}"
@@ -166,9 +156,7 @@ class BoundingBox
     private
 
     def from_bbox_array(bbox_array)
-      unless bbox_array
-        raise OSM::APIBadUserInput, "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat"
-      end
+      raise OSM::APIBadUserInput, "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat" unless bbox_array
       # Take an array of length 4, create a bounding box with min_lon, min_lat, max_lon and
       # max_lat within their respective boundaries.
       min_lon = [[bbox_array[0].to_f, -LON_LIMIT].max, +LON_LIMIT].min

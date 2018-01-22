@@ -182,9 +182,7 @@ class Relation < ActiveRecord::Base
   end
 
   def delete_with_history!(new_relation, user)
-    unless visible
-      raise OSM::APIAlreadyDeletedError.new("relation", new_relation.id)
-    end
+    raise OSM::APIAlreadyDeletedError.new("relation", new_relation.id) unless visible
 
     # need to start the transaction here, so that the database can
     # provide repeatable reads for the used-by checks. this means it
@@ -208,9 +206,7 @@ class Relation < ActiveRecord::Base
     Relation.transaction do
       lock!
       check_consistency(self, new_relation, user)
-      unless new_relation.preconditions_ok?(members)
-        raise OSM::APIPreconditionFailedError, "Cannot update relation #{id}: data or member data is invalid."
-      end
+      raise OSM::APIPreconditionFailedError, "Cannot update relation #{id}: data or member data is invalid." unless new_relation.preconditions_ok?(members)
       self.changeset_id = new_relation.changeset_id
       self.changeset = new_relation.changeset
       self.tags = new_relation.tags
@@ -222,9 +218,7 @@ class Relation < ActiveRecord::Base
 
   def create_with_history(user)
     check_create_consistency(self, user)
-    unless preconditions_ok?
-      raise OSM::APIPreconditionFailedError, "Cannot create relation: data or member data is invalid."
-    end
+    raise OSM::APIPreconditionFailedError, "Cannot create relation: data or member data is invalid." unless preconditions_ok?
     self.version = 0
     self.visible = true
     save_with_history!
@@ -259,9 +253,7 @@ class Relation < ActiveRecord::Base
       element = model.lock("for share").find_by(:id => m[1])
 
       # and check that it is OK to use.
-      unless element && element.visible? && element.preconditions_ok?
-        raise OSM::APIPreconditionFailedError, "Relation with id #{id} cannot be saved due to #{m[0]} with id #{m[1]}"
-      end
+      raise OSM::APIPreconditionFailedError, "Relation with id #{id} cannot be saved due to #{m[0]} with id #{m[1]}" unless element && element.visible? && element.preconditions_ok?
       hash[m[1]] = true
     end
 

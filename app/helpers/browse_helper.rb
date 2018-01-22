@@ -8,18 +8,14 @@ module BrowseHelper
            object.id
          end
     name = t "printable_name.with_id", :id => id.to_s
-    if version
-      name = t "printable_name.with_version", :id => name, :version => object.version.to_s
-    end
+    name = t "printable_name.with_version", :id => name, :version => object.version.to_s if version
 
     # don't look at object tags if redacted, so as to avoid giving
     # away redacted version tag information.
     unless object.redacted?
       locale = I18n.locale.to_s
 
-      while locale =~ /-[^-]+/ && !object.tags.include?("name:#{I18n.locale}")
-        locale = locale.sub(/-[^-]+/, "")
-      end
+      locale = locale.sub(/-[^-]+/, "") while locale =~ /-[^-]+/ && !object.tags.include?("name:#{I18n.locale}")
 
       if object.tags.include? "name:#{locale}"
         name = t "printable_name.with_name_html", :name => content_tag(:bdi, object.tags["name:#{locale}"].to_s), :id => content_tag(:bdi, name)

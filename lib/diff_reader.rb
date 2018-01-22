@@ -60,9 +60,7 @@ class DiffReader
           attributes = {}
 
           if @reader.has_attributes?
-            while @reader.move_to_next_attribute == 1
-              attributes[@reader.name] = @reader.value
-            end
+            attributes[@reader.name] = @reader.value while @reader.move_to_next_attribute == 1
 
             @reader.move_to_element
           end
@@ -112,9 +110,7 @@ class DiffReader
   # such as save_ and delete_with_history.
   def check(model, xml, new)
     raise OSM::APIBadXMLError.new(model, xml) if new.nil?
-    unless new.changeset_id == @changeset.id
-      raise OSM::APIChangesetMismatchError.new(new.changeset_id, @changeset.id)
-    end
+    raise OSM::APIChangesetMismatchError.new(new.changeset_id, @changeset.id) unless new.changeset_id == @changeset.id
   end
 
   ##

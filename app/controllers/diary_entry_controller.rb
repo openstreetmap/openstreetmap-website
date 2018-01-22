@@ -65,9 +65,7 @@ class DiaryEntryController < ApplicationController
 
       # Notify current subscribers of the new comment
       @entry.subscribers.visible.each do |user|
-        if current_user != user
-          Notifier.diary_comment_notification(@diary_comment, user).deliver_now
-        end
+        Notifier.diary_comment_notification(@diary_comment, user).deliver_now if current_user != user
       end
 
       # Add the commenter to the subscribers if necessary

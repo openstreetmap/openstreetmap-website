@@ -24,9 +24,7 @@ class I18nTest < ActiveSupport::TestCase
           end
         end
 
-        if key =~ /^(active(model|record)\.)?errors\./
-          variables.push("attribute")
-        end
+        variables.push("attribute") if key =~ /^(active(model|record)\.)?errors\./
 
         value = I18n.t(key, :locale => locale, :fallback => true)
 

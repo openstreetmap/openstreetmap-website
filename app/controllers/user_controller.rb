@@ -45,9 +45,7 @@ class UserController < ApplicationController
       if current_user
         current_user.terms_seen = true
 
-        if current_user.save
-          flash[:notice] = t("user.new.terms declined", :url => t("user.new.terms declined url")).html_safe
-        end
+        flash[:notice] = t("user.new.terms declined", :url => t("user.new.terms declined url")).html_safe if current_user.save
 
         if params[:referer]
           redirect_to params[:referer]
@@ -533,9 +531,7 @@ class UserController < ApplicationController
       session[:new_user].auth_provider = provider
       session[:new_user].auth_uid = uid
 
-      if email_verified && email == session[:new_user].email
-        session[:new_user].status = "active"
-      end
+      session[:new_user].status = "active" if email_verified && email == session[:new_user].email
 
       redirect_to :action => "terms"
     else

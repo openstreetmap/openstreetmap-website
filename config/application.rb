@@ -34,9 +34,7 @@ module OpenStreetMap
     config.paths["app/models"].skip_eager_load! if STATUS == :database_offline
 
     # Use memcached for caching if required
-    if defined?(MEMCACHE_SERVERS)
-      config.cache_store = :mem_cache_store, MEMCACHE_SERVERS, { :namespace => "rails:cache" }
-    end
+    config.cache_store = :mem_cache_store, MEMCACHE_SERVERS, { :namespace => "rails:cache" } if defined?(MEMCACHE_SERVERS)
 
     # Use logstash for logging if required
     if defined?(LOGSTASH_PATH)
