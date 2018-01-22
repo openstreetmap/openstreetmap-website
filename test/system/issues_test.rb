@@ -12,7 +12,7 @@ class IssuesTest < ApplicationSystemTestCase
     sign_in_as(create(:moderator_user))
 
     visit issues_path
-    assert page.has_content?(I18n.t(".issues.index.search.issues_not_found"))
+    assert page.has_content?(I18n.t(".issues.index.issues_not_found"))
   end
 
   def test_view_issues
@@ -34,19 +34,19 @@ class IssuesTest < ApplicationSystemTestCase
     visit issues_path
     fill_in "search_by_user", :with => good_user.display_name
     click_on "Search"
-    assert page.has_content?(I18n.t(".issues.index.search.issues_not_found"))
+    assert page.has_content?(I18n.t(".issues.index.issues_not_found"))
 
     # User doesn't exist
     visit issues_path
     fill_in "search_by_user", :with => "Nonexistant User"
     click_on "Search"
-    assert page.has_content?(I18n.t(".issues.index.search.user_not_found"))
+    assert page.has_content?(I18n.t(".issues.index.user_not_found"))
 
     # Find Issue against bad_user
     visit issues_path
     fill_in "search_by_user", :with => bad_user.display_name
     click_on "Search"
-    assert !page.has_content?(I18n.t(".issues.index.search.issues_not_found"))
+    assert !page.has_content?(I18n.t(".issues.index.issues_not_found"))
   end
 
   def test_commenting

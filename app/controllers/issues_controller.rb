@@ -8,6 +8,8 @@ class IssuesController < ApplicationController
   before_action :find_issue, :only => [:show, :resolve, :reopen, :ignore]
 
   def index
+    @title = t ".title"
+
     if current_user.moderator?
       @issue_types = @moderator_issues
       @users = User.joins(:roles).where(:user_roles => { :role => "moderator" })
@@ -24,7 +26,7 @@ class IssuesController < ApplicationController
       if @find_user
         @issues = @issues.where(:reported_user_id => @find_user.id)
       else
-        notice = t("issues.index.search.user_not_found")
+        notice = t("issues.index.user_not_found")
       end
     end
 

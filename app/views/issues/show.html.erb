@@ -1,13 +1,13 @@
 <% content_for :heading do %>
-<h2> <%= @issue.status.humanize %> Issue #<%= @issue.id %> <br/></h2>
+<h2><%= t ".title", :status => @issue.status.humanize, :issue_id => @issue.id %></h2>
 <p><%= report_type(@issue.reportable_type) %> : <%= reportable_url(@issue.reportable) %></p>
 <p class="deemphasize">
   <small>
     <%= @issue.assigned_role %>
-    | <%= @issue.reports.count %> reports
-    | First reported: <%= l @issue.created_at.to_datetime, :format => :friendly %>
-    <%= "| Last resolved at #{l(@issue.resolved_at.to_datetime, :format =>:friendly)}" if @issue.resolved_at? %>
-    <%= "| Last updated at #{l(@issue.updated_at.to_datetime, :format => :friendly)} by #{@issue.user_updated.display_name}" if @issue.user_updated %>
+    | <%= t ".reports", :count => @issue.reports.count %>
+    | <%= t ".report_created_at", :datetime => l(@issue.created_at.to_datetime, :format => :friendly) %>
+    <%= " | " + t(".last_resolved_at", :datetime => l(@issue.resolved_at.to_datetime, :format =>:friendly)) if @issue.resolved_at? %>
+    <%= " | " + t(".last_updated_at", :datetime => l(@issue.updated_at.to_datetime, :format => :friendly), :displayname => @issue.user_updated.display_name ) if @issue.user_updated %>
   </small>
 </p>
 <p>
@@ -22,28 +22,26 @@
 <div class="report-related-block">
 
   <div class="report-block">
-    <h3>Reports under this issue:</h3>
+    <h3><%= t ".reports_of_this_issue" %></h3>
 
     <% if @read_reports.present? %>
     <div class="read-reports">
-      <h4>Read Reports:</h4>
-      <br/>
-      <%= render 'reports',reports: @read_reports %>
+      <h4><%= t ".read_reports" %></h4>
+      <%= render 'reports', reports: @read_reports %>
     </div>
     <% end %>
 
     <% if @unread_reports.any? %>
     <div class="unread-reports">
-      <h4>New Reports:</h4>
-      <br/>
-      <%= render 'reports',reports: @unread_reports %>
+      <h4><%= t ".new_reports" %></h4>
+      <%= render 'reports', reports: @unread_reports %>
     </div>
     <% end %>
     <br/>
   </div>
 
   <div class="related-block">
-    <h3> Other issues against this user: </h3>
+    <h3><%= t ".other_issues_against_this_user" %></h3>
     <div class="unread-reports">
       <% if @related_issues.count > 1 %>
         <% @related_issues.each do |issue| %>
@@ -52,13 +50,13 @@
           <% end %>
         <% end %>
       <% else %>
-        <p>No other reports against this user!</p>
+        <p><%= t ".no_other_issues" %></p>
       <% end %>
     </div>
   </div>
 </div>
 
-<h3>Comments on this issue:</h3>
+<h3><%= t ".comments_on_this_issue" %></h3>
 <div class="unread-reports">
   <%= render 'comments', comments: @comments %>
 </div>
