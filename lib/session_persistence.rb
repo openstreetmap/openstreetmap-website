@@ -52,9 +52,7 @@ module SessionPersistence
 
   # Filter callback
   def persist_session
-    if session[session_persistence_key]
-      request.session_options[:expire_after] = session[session_persistence_key]
-    end
+    request.session_options[:expire_after] = session[session_persistence_key] if session[session_persistence_key]
   rescue StandardError
     reset_session
   end

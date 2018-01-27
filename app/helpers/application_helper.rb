@@ -40,9 +40,7 @@ module ApplicationHelper
   end
 
   def if_user(user, tag = :div, &block)
-    if user
-      content_tag(tag, capture(&block), :class => "hidden show_if_user_#{user.id}")
-    end
+    content_tag(tag, capture(&block), :class => "hidden show_if_user_#{user.id}") if user
   end
 
   def unless_user(user, tag = :div, &block)
@@ -110,9 +108,7 @@ module ApplicationHelper
     if current_user
       data[:user] = current_user.id.to_json
 
-      unless current_user.home_lon.nil? || current_user.home_lat.nil?
-        data[:user_home] = { :lat => current_user.home_lat, :lon => current_user.home_lon }
-      end
+      data[:user_home] = { :lat => current_user.home_lat, :lon => current_user.home_lon } unless current_user.home_lon.nil? || current_user.home_lat.nil?
     end
 
     data[:location] = session[:location] if session[:location]

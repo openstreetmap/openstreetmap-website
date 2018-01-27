@@ -11,9 +11,7 @@ class SiteController < ApplicationController
   before_action :update_totp, :only => [:index]
 
   def index
-    unless STATUS == :database_readonly || STATUS == :database_offline
-      session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"])
-    end
+    session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"]) unless STATUS == :database_readonly || STATUS == :database_offline
   end
 
   def permalink
@@ -147,9 +145,7 @@ class SiteController < ApplicationController
   def redirect_map_params
     anchor = []
 
-    if params[:lat] && params[:lon]
-      anchor << "map=#{params.delete(:zoom) || 5}/#{params.delete(:lat)}/#{params.delete(:lon)}"
-    end
+    anchor << "map=#{params.delete(:zoom) || 5}/#{params.delete(:lat)}/#{params.delete(:lon)}" if params[:lat] && params[:lon]
 
     if params[:layers]
       anchor << "layers=#{params.delete(:layers)}"
@@ -157,8 +153,6 @@ class SiteController < ApplicationController
       anchor << "layers=N"
     end
 
-    if anchor.present?
-      redirect_to params.to_unsafe_h.merge(:anchor => anchor.join("&"))
-    end
+    redirect_to params.to_unsafe_h.merge(:anchor => anchor.join("&")) if anchor.present?
   end
 end

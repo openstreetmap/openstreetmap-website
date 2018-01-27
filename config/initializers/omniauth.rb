@@ -26,9 +26,7 @@ windowslive_options = { :name => "windowslive", :scope => "wl.signin,wl.emails" 
 github_options = { :name => "github", :scope => "user:email" }
 wikipedia_options = { :name => "wikipedia", :client_options => { :site => "https://meta.wikimedia.org" } }
 
-if defined?(GOOGLE_OPENID_REALM)
-  google_options[:openid_realm] = GOOGLE_OPENID_REALM
-end
+google_options[:openid_realm] = GOOGLE_OPENID_REALM if defined?(GOOGLE_OPENID_REALM)
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :openid, openid_options

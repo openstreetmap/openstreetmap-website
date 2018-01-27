@@ -74,7 +74,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
   private
 
   def auth_header(user, pass)
-    { "HTTP_AUTHORIZATION" => format("Basic %s", Base64.encode64("#{user}:#{pass}")) }
+    { "HTTP_AUTHORIZATION" => format("Basic %{auth}", :auth => Base64.encode64("#{user}:#{pass}")) }
   end
 
   def with_terms_seen(value)

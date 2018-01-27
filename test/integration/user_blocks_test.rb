@@ -2,7 +2,7 @@ require "test_helper"
 
 class UserBlocksTest < ActionDispatch::IntegrationTest
   def auth_header(user, pass)
-    { "HTTP_AUTHORIZATION" => format("Basic %s", Base64.encode64("#{user}:#{pass}")) }
+    { "HTTP_AUTHORIZATION" => format("Basic %{auth}", :auth => Base64.encode64("#{user}:#{pass}")) }
   end
 
   def test_api_blocked

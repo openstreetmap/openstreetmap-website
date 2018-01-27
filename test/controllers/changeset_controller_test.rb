@@ -812,9 +812,7 @@ CHANGESET
     assert_equal 2, Node.find(new_node_id).tags.size, "new node should have two tags"
     assert_equal [new_node_id, node.id], Way.find(way.id).nds, "way nodes should match"
     Relation.find(relation.id).members.each do |type, id, _role|
-      if type == "node"
-        assert_equal new_node_id, id, "relation should contain new node"
-      end
+      assert_equal new_node_id, id, "relation should contain new node" if type == "node"
     end
   end
 

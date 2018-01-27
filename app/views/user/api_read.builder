@@ -10,9 +10,7 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
     else
       xml.tag! "contributor-terms", :agreed => @this_user.terms_agreed.present?
     end
-    if @this_user.image.file? || @this_user.image_use_gravatar
-      xml.tag! "img", :href => user_image_url(@this_user, :size => 256)
-    end
+    xml.tag! "img", :href => user_image_url(@this_user, :size => 256) if @this_user.image.file? || @this_user.image_use_gravatar
     xml.tag! "roles" do
       @this_user.roles.each do |role|
         xml.tag! role.role

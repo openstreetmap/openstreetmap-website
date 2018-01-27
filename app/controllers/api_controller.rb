@@ -157,9 +157,7 @@ class ApiController < ApplicationController
     # - [0] in case some thing links to node 0 which doesn't exist. Shouldn't actually ever happen but it does. FIXME: file a ticket for this
     nodes_to_fetch = (list_of_way_nodes.uniq - node_ids) - [0]
 
-    unless nodes_to_fetch.empty?
-      nodes += Node.includes(:node_tags).find(nodes_to_fetch)
-    end
+    nodes += Node.includes(:node_tags).find(nodes_to_fetch) unless nodes_to_fetch.empty?
 
     visible_nodes = {}
     changeset_cache = {}
