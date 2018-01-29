@@ -14,10 +14,6 @@ class GeocoderControllerTest < ActionController::TestCase
       { :controller => "geocoder", :action => "search_latlon" }
     )
     assert_routing(
-      { :path => "/geocoder/search_uk_postcode", :method => :get },
-      { :controller => "geocoder", :action => "search_uk_postcode" }
-    )
-    assert_routing(
       { :path => "/geocoder/search_ca_postcode", :method => :get },
       { :controller => "geocoder", :action => "search_ca_postcode" }
     )
@@ -263,7 +259,7 @@ class GeocoderControllerTest < ActionController::TestCase
       "CR2 6XH",
       "DN55 1PT"
     ].each do |code|
-      search_check code, %w[uk_postcode osm_nominatim]
+      search_check code, %w[osm_nominatim]
     end
   end
 
@@ -296,24 +292,6 @@ class GeocoderControllerTest < ActionController::TestCase
 
     get :search_latlon, :params => { :lat => 1.23, :lon => 180.23, :zoom => 16 }, :xhr => true
     results_check_error "Longitude 180.23 out of range"
-  end
-
-  ##
-  # Test the UK postcode search
-  def test_search_uk_postcode
-    with_http_stubs "npemap" do
-      get :search_uk_postcode, :xhr => true,
-                               :params => { :query => "CV4 7AL", :zoom => 10,
-                                            :minlon => -0.559, :minlat => 51.217,
-                                            :maxlon => 0.836, :maxlat => 51.766 }
-      results_check :name => "CV4 7AL", :lat => 52.381748701968, :lon => -1.56176420939232
-
-      get :search_uk_postcode, :xhr => true,
-                               :params => { :query => "XX9 9XX", :zoom => 10,
-                                            :minlon => -0.559, :minlat => 51.217,
-                                            :maxlon => 0.836, :maxlat => 51.766 }
-      results_check
-    end
   end
 
   ##
