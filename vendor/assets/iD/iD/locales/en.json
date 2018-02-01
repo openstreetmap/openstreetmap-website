@@ -389,7 +389,8 @@
                 "title": "Measurement",
                 "selected": "{n} selected",
                 "geometry": "Geometry",
-                "closed": "closed",
+                "closed_line": "closed line",
+                "closed_area": "closed area",
                 "center": "Center",
                 "perimeter": "Perimeter",
                 "length": "Length",
@@ -470,7 +471,7 @@
             "switch": "Switch back to this background",
             "custom": "Custom",
             "custom_button": "Edit custom background",
-            "custom_prompt": "Enter a tile URL template. Valid tokens are:\n   - {zoom}/{z}, {x}, {y} for Z/X/Y tile scheme\n   - {ty} for flipped TMS-style Y coordinates\n   - {u} for quadtile scheme\n   - {switch:a,b,c} for DNS server multiplexing\n\nExample:\n{example}",
+            "custom_prompt": "Enter a tile URL template. Valid tokens are:\n   - {zoom} or {z}, {x}, {y} for Z/X/Y tile scheme\n   - {-y} or {ty} for flipped TMS-style Y coordinates\n   - {u} for quadtile scheme\n   - {switch:a,b,c} for DNS server multiplexing\n\nExample:\n{example}",
             "overlays": "Overlays",
             "imagery_source_faq": "Imagery Info / Report a Problem",
             "reset": "reset",
@@ -654,7 +655,7 @@
             "untagged_area_tooltip": "Select a feature type that describes what this area is.",
             "untagged_relation": "Untagged relation",
             "untagged_relation_tooltip": "Select a feature type that describes what this relation is.",
-            "many_deletions": "You're deleting {n} features. Are you sure you want to do this? This will delete them from the map that everyone else sees on openstreetmap.org.",
+            "many_deletions": "You're deleting {n} features: {p} nodes, {l} lines, {a} areas, {r} relations. Are you sure you want to do this? This will delete them from the map that everyone else sees on openstreetmap.org.",
             "tag_suggests_area": "The tag {tag} suggests line should be area, but it is not an area",
             "deprecated_tags": "Deprecated tags: {tags}"
         },
@@ -1220,6 +1221,28 @@
                     "measurement": "Toggle measurement panel"
                 }
             }
+        },
+        "units": {
+            "feet": "{quantity} ft",
+            "miles": "{quantity} mi",
+            "square_feet": "{quantity} sq ft",
+            "square_miles": "{quantity} sq mi",
+            "acres": "{quantity} ac",
+            "meters": "{quantity} m",
+            "kilometers": "{quantity} km",
+            "square_meters": "{quantity} m²",
+            "square_kilometers": "{quantity} km²",
+            "hectares": "{quantity} ha",
+            "area_pair": "{area1} ({area2})",
+            "arcdegrees": "{quantity}°",
+            "arcminutes": "{quantity}′",
+            "arcseconds": "{quantity}″",
+            "north": "N",
+            "south": "S",
+            "east": "E",
+            "west": "W",
+            "coordinate": "{coordinate}{direction}",
+            "coordinate_pair": "{latitude}, {longitude}"
         },
         "presets": {
             "categories": {
@@ -3144,6 +3167,10 @@
                     "name": "Shower",
                     "terms": "rain closet"
                 },
+                "amenity/smoking_area": {
+                    "name": "Smoking Area",
+                    "terms": ""
+                },
                 "amenity/social_facility": {
                     "name": "Social Facility",
                     "terms": ""
@@ -3374,6 +3401,10 @@
                 },
                 "barrier/hedge": {
                     "name": "Hedge",
+                    "terms": ""
+                },
+                "barrier/kerb": {
+                    "name": "Kerb",
                     "terms": ""
                 },
                 "barrier/kissing_gate": {
@@ -3839,6 +3870,10 @@
                 "emergency/phone": {
                     "name": "Emergency Phone",
                     "terms": ""
+                },
+                "emergency/water_tank": {
+                    "name": "Emergency Water Tank",
+                    "terms": "water tank,cistern,reservoir"
                 },
                 "entrance": {
                     "name": "Entrance/Exit",
@@ -6333,6 +6368,13 @@
                 },
                 "description": "Esri world imagery.",
                 "name": "Esri World Imagery"
+            },
+            "EsriWorldImageryClarity": {
+                "attribution": {
+                    "text": "Terms & Feedback"
+                },
+                "description": "Esri archive imagery that may be clearer and more accurate than the default layer.",
+                "name": "Esri World Imagery (Clarity) Beta"
             },
             "MAPNIK": {
                 "attribution": {
