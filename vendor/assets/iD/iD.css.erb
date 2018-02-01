@@ -163,7 +163,7 @@ input::-moz-focus-inner {
 }
 /* base styles */
 .layer-osm path:not(.oneway-marker-path) {                /* IE/Edge needs :not(.oneway) */
-    fill: none; 
+    fill: none;
 }
 .layer-osm path.viewfield-marker-path {                   /* IE/Edge rule for <use> marker style */
     fill: #333;
@@ -434,9 +434,24 @@ path.gpx {
     fill: none;
 }
 
-text.gpx {
+text.gpxlabel-halo,
+text.gpxlabel {
+    font-size: 10px;
+    font-weight: bold;
+    dominant-baseline: middle;
+}
+
+text.gpxlabel {
     fill: #ff26d4;
 }
+
+text.gpxlabel-halo {
+    opacity: 0.7;
+    stroke: #000;
+    stroke-width: 5px;
+    stroke-miterlimit: 1;
+}
+
 
 /* Default - light gray */
 path.area.stroke {
@@ -2217,6 +2232,7 @@ path.fill.tag-amenity-shelter {
 }
 
 .fill-wireframe .point,
+.fill-wireframe .vertex.active,
 .fill-wireframe .areaicon,
 .fill-wireframe .areaicon-halo,
 .fill-wireframe path.casing,
