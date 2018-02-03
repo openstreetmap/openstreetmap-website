@@ -60,11 +60,16 @@ OSM.Directions = function (map) {
       endpoint.setValue(value);
     });
 
-    endpoint.setValue = function(value) {
+    endpoint.setValue = function(value, latlng) {
       endpoint.value = value;
       delete endpoint.latlng;
       input.val(value);
-      endpoint.getGeocode();
+
+      if (latlng) {
+        endpoint.setLatLng(latlng);
+      } else {
+        endpoint.getGeocode();
+      }
     };
 
     endpoint.getGeocode = function() {
@@ -359,22 +364,18 @@ OSM.Directions = function (map) {
     });
 
     var params = querystring.parse(location.search.substring(1)),
-      route = (params.route || '').split(';');
+        route = (params.route || '').split(';'),
+        from = route[0] && L.latLng(route[0].split(',')),
+        to = route[1] && L.latLng(route[1].split(','));
 
     if (params.engine) {
       setEngine(params.engine);
     }
 
-    endpoints[0].setValue(params.from || "");
-    endpoints[1].setValue(params.to || "");
+    endpoints[0].setValue(params.from || "", from);
+    endpoints[1].setValue(params.to || "", to);
 
-    var o = route[0] && L.latLng(route[0].split(',')),
-        d = route[1] && L.latLng(route[1].split(','));
-
-    if (o) endpoints[0].setLatLng(o);
-    if (d) endpoints[1].setLatLng(d);
-
-    map.setSidebarOverlaid(!o || !d);
+    map.setSidebarOverlaid(!from || !to);
 
     getRoute();
   };
