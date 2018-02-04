@@ -33,6 +33,7 @@
 #  image_use_gravatar  :boolean          default(FALSE), not null
 #  image_content_type  :string
 #  auth_provider       :string
+#  home_tile           :integer
 #
 # Indexes
 #
@@ -41,6 +42,7 @@
 #  users_display_name_lower_idx  (lower((display_name)::text))
 #  users_email_idx               (email) UNIQUE
 #  users_email_lower_idx         (lower((email)::text))
+#  users_home_idx                (home_tile)
 #
 
 class User < ActiveRecord::Base
@@ -107,6 +109,7 @@ class User < ActiveRecord::Base
 
   after_initialize :set_defaults
   before_save :encrypt_password
+  before_save :update_tile
   after_save :spam_check
 
   def self.authenticate(options)
@@ -297,5 +300,9 @@ class User < ActiveRecord::Base
       self.pass_crypt, self.pass_salt = PasswordHash.create(pass_crypt)
       self.pass_crypt_confirmation = nil
     end
+  end
+
+  def update_tile
+    self.home_tile = QuadTile.tile_for_point(home_lat, home_lon) if home_lat && home_lon
   end
 end
