@@ -190,8 +190,14 @@ class User < ActiveRecord::Base
   def nearby(radius = NEARBY_RADIUS, num = NEARBY_USERS)
     if home_lon && home_lat
       gc = OSM::GreatCircle.new(home_lat, home_lon)
+      sql_for_area = QuadTile.sql_for_area(gc.bounds(radius), "home_")
       sql_for_distance = gc.sql_for_distance("home_lat", "home_lon")
-      nearby = User.where("id != ? AND status IN (\'active\', \'confirmed\') AND data_public = ? AND #{sql_for_distance} <= ?", id, true, radius).order(sql_for_distance).limit(num)
+      nearby = User.active.identifiable
+                   .where("id != ?", id)
+                   .where(sql_for_area)
+                   .where("#{sql_for_distance} <= ?", radius)
+                   .order(sql_for_distance)
+                   .limit(num)
     else
       nearby = []
     end
