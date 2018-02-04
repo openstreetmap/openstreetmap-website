@@ -480,7 +480,7 @@ module OSM
       minlon = [(@lon - lonradius) * 180 / PI, -180].max
       maxlon = [(@lon + lonradius) * 180 / PI, 180].min
 
-      { :minlat => minlat, :maxlat => maxlat, :minlon => minlon, :maxlon => maxlon }
+      BoundingBox.new(minlon, minlat, maxlon, maxlat)
     end
 
     # get the SQL to use to calculate distance
