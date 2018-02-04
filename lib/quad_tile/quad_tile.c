@@ -14,10 +14,10 @@ static tilelist_t tilelist_for_area(unsigned int minx, unsigned int miny, unsign
    unsigned int maxtilec;
 
    maxtilec = 256;
-   
+
    tl.tilev = malloc(maxtilec * sizeof(unsigned int));
    tl.tilec = 0;
-   
+
    for (x = minx; x <= maxx; x++)
    {
       for (y = miny; y <= maxy; y++)
@@ -75,7 +75,7 @@ static VALUE tiles_for_area(VALUE self, VALUE bbox)
 
    for (t = 0; t < tl.tilec; t++)
    {
-      rb_ary_push(tiles, UINT2NUM(tl.tilev[tl.tilec]));
+      rb_ary_push(tiles, UINT2NUM(tl.tilev[t]));
    }
 
    free(tl.tilev);
