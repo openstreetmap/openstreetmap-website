@@ -353,7 +353,6 @@ class ChangesetController < ApplicationController
 
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
-    raise OSM::APIChangesetNotYetClosedError, changeset if changeset.is_open?
     raise OSM::APIChangesetAlreadySubscribedError, changeset if changeset.subscribers.exists?(current_user.id)
 
     # Add the subscriber
@@ -374,7 +373,6 @@ class ChangesetController < ApplicationController
 
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
-    raise OSM::APIChangesetNotYetClosedError, changeset if changeset.is_open?
     raise OSM::APIChangesetNotSubscribedError, changeset unless changeset.subscribers.exists?(current_user.id)
 
     # Remove the subscriber
