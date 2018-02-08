@@ -185,7 +185,7 @@ th:
       wiki_link:
         key: หน้าคำอธิบายวิกิาสำหรับป้ายระบุ %{key}
         tag: หน้าคำอธิบายวิกิาสำหรับป้ายระบุ %{key}=%{value}
-      wikidata_link: รายการ %{page} ที่วิกิข้อมูล
+      wikidata_link: รายการ %{page} ที่วิกิสนเทศ
       wikipedia_link: บทความ %{page} ที่วิกิพีเดีย
       telephone_link: โทรศัพท์ไปเลขหมาย %{phone_number}
     note:
@@ -213,8 +213,8 @@ th:
     query:
       title: ส่วนประกอบในพื้นที่
       introduction: คลิกที่แผนที่เพื่อค้นหาคุณสมบัติต่าง ๆ ที่อยู่ใกล้เคียง
-      nearby: คุณสมบัติที่อยู่ใกล้เคียง
-      enclosing: คุณสมบัติที่ปิดล้อม
+      nearby: ส่วนประกอบที่อยู่ใกล้เคียง
+      enclosing: ส่วนประกอบที่ปิดล้อม
   changeset:
     changeset_paging_nav:
       showing_page: หน้า %{page}
@@ -690,6 +690,7 @@ th:
           airfield: สนามบินทหาร
           barracks: โรงทหาร
           bunker: หลุมหลบภัย
+          "yes": เขตทหาร
         mountain_pass:
           "yes": ช่องเขา
         natural:
@@ -848,7 +849,7 @@ th:
           kitchen: ร้านเครื่องครัว
           laundry: ร้านซักรีด
           lottery: ร้านขายสลาก
-          mall: ห้างสรรพสินค้าขนาดใหญ่
+          mall: ศูนย์การค้า
           market: ตลาด
           massage: ร้านนวด
           mobile_phone: ร้านโทรศัพท์มือถือ
@@ -868,7 +869,7 @@ th:
           shoes: ร้านขายรองเท้า
           sports: ร้านขายอุปกรณ์กีฬา
           stationery: ร้านขายเครื่องเขียน
-          supermarket: ห้างสรรพสินค้า
+          supermarket: ซุปเปอร์มาร์เก็ต
           tailor: ช่างตัดเสื้อผ้า
           ticket: ร้านขายตั๋ว
           tobacco: ร้านขายยาสูบ
@@ -1673,6 +1674,7 @@ th:
       heading: 'ตั้วรหัสผ่านใหม่สำหรับ: %{user}'
       password: 'รหัสผ่าน:'
       confirm password: 'ยืนยันรหัสผ่าน:'
+      reset: ตั้งรหัสผ่านใหม่
       flash changed: เปลี่ยนรหัสผ่านของคุณแล้วเรียบร้อย
     new:
       title: สมัครสมาชิก
@@ -1681,7 +1683,7 @@ th:
       email address: 'ที่อยู่อีเมล:'
       confirm email address: 'ยืนยันที่อยู่อีเมล:'
       not displayed publicly: ที่อยู่ของท่านจะไม่แสดงให้บุคคลภายนอกเห็น โปรดดู <a
-        href="http://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF privacy
+        href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF privacy
         policy including section on email addresses">นโบายความเป็นส่วนบุคคล</a> ถ้าต้องการรายละเอียดเพิ่มเติม
       display name: 'ชื่อที่ใช้แสดง:'
       display name description: ชื่อที่แสดงต่อสาธารณะ ท่านสามารถเปลี่ยนในภายหลังได้ในหน้าการตั้งค่า
@@ -1757,8 +1759,10 @@ th:
       create_block: กีดกันผู้ใช้นี้
       activate_user: เปิดใช้งานผู้ใช้นี้
       deactivate_user: ปิดใช้งานผู้ใช้นี้
+      confirm: ยืนยัน
     popup:
       your location: ตำแหน่งของคุณ
+      friend: เพื่อน
     account:
       title: แก้ไขบัญชี
       my settings: การตั้งค่าของฉัน
@@ -1770,6 +1774,7 @@ th:
         link text: นี้คืออะไร?
       public editing:
         heading: 'แก้ไขโดยเปิดเผย:'
+        enabled link text: นี้คืออะไร?
       contributor terms:
         link text: นี้คืออะไร?
       profile description: 'คำอธิบายหน้าประวัติส่วนตัว:'
@@ -1931,6 +1936,9 @@ th:
       heading: รายการการกีดกันผู้ใช้
       empty: ยังไม่มีการกีดกันใด ๆ
     partial:
+      show: แสดง
+      edit: แก้ไข
+      status: สถานะ
       next: ถัดไป »
       previous: « ก่อนหน้า
     helper:
@@ -1939,6 +1947,10 @@ th:
       title: การกีดกันบน %{name}
       heading: รายการการกีดกันบน %{name}
       empty: '%{name} ยังไม่ได้ถูกกีดกัน'
+    show:
+      status: สถานะ
+      show: แสดง
+      edit: แก้ไข
   note:
     rss:
       title: หมายเหตุแผนที่ บน OpenStreetMap
@@ -1950,8 +1962,14 @@ th:
     share:
       title: แบ่งปัน
       cancel: ยกเลิก
+      image: ภาพ
+      link: ลิงก์ หรือ HTML
+      long_link: ลิงก์
+      short_link: ลิงก์สั้น
+      custom_dimensions: กำหนดขนาดแผนที่เอง
       format: 'รูปแบบ:'
       scale: 'ขนาด:'
+      download: ดาวน์โหลด
       short_url: URL สั้น
       include_marker: แสดงไอคอนหมุด
     embed:
@@ -1974,6 +1992,7 @@ th:
         header: ชั้นแผนที่
         notes: หมายเหตุแผนที่
         data: ข้อมูลแผนที่
+        gps: รอยทาง GPS สาธารณะ
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>บริจาค</a>
     site:
       edit_tooltip: แก้ไขแผนที่
@@ -1993,6 +2012,9 @@ th:
         add: เพิ่มหมายเหตุ
       show:
         hide: ซ่อน
+        resolve: ปิดเรื่อง
+        comment_and_resolve: แสดงความเห็น และปิดเรื่อง
+        comment: แสดงความเห็น
     directions:
       ascend: ลาดขึ้น
       descend: ลาดลง
