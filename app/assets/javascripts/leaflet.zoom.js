@@ -53,7 +53,7 @@ L.OSM.Zoom = L.Control.extend({
 
 	_updateDisabled: function () {
 		var map = this._map,
-			className = 'leaflet-disabled';
+			className = 'disabled';
 
 		L.DomUtil.removeClass(this._zoomInButton, className);
 		L.DomUtil.removeClass(this._zoomOutButton, className);
