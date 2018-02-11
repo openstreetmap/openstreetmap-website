@@ -186,7 +186,7 @@ class TraceController < ApplicationController
 
     if !trace.visible?
       head :not_found
-    elsif current_user.nil? || trace.user != current_user
+    elsif current_user.nil? || (trace.user != current_user && !current_user.administrator? && !current_user.moderator?)
       head :forbidden
     else
       trace.visible = false
