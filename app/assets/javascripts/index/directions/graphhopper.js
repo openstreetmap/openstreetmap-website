@@ -47,7 +47,14 @@ function GraphHopperEngine(id, vehicleType) {
             var instr = path.instructions[i];
             var instrCode = (i === len - 1) ? 14 : GH_INSTR_MAP[instr.sign];
             var instrText = "<b>" + (i + 1) + ".</b> ";
-            instrText += instr.text;
+
+            var directionText = instr.text;
+            if (directionText.includes(" onto ")) {
+              var directions = directionText.split(" onto ");
+              directionText = directions[0] + " onto <b>" + directions[1] + "</b>";
+            }
+
+            instrText += directionText;
             var latLng = line[instr.interval[0]];
             var distInMeter = instr.distance;
             var lineseg = [];

@@ -95,7 +95,22 @@ function OSRMEngine() {
         Array.prototype.push.apply(line, step_geometry);
 
         var instText = "<b>" + (idx + 1) + ".</b> ";
-        var name = step.name ? "<b>" + step.name + "</b>" : I18n.t('javascripts.directions.instructions.unnamed');
+        var name, ref;
+
+        if (step.ref) {
+          ref = step.ref.replace(/ \$\w+/g, "");
+        }
+
+        if (step.name && step.ref) {
+          name = "<b>" + step.name + " (" + ref + ")</b>";
+        } else if (step.name) {
+          name = "<b>" + step.name + "</b>";
+        } else if (step.ref) {
+          name = "<b>" + ref + "</b>";
+        } else {
+          name = I18n.t('javascripts.directions.instructions.unnamed');
+        }
+
         if (step.maneuver.type.match(/rotary|roundabout/)) {
           instText += I18n.t(template + '_with_exit', { exit: step.maneuver.exit, name: name } );
         } else {
