@@ -95,14 +95,18 @@ function OSRMEngine() {
         Array.prototype.push.apply(line, step_geometry);
 
         var instText = "<b>" + (idx + 1) + ".</b> ";
-        var name;
+        var name, ref;
+
+        if (step.ref) {
+          ref = step.ref.replace(/ \$\w+/g, "");
+        }
 
         if (step.name && step.ref) {
-          name = "<b>" + step.name + " (" + step.ref + ")</b>";
+          name = "<b>" + step.name + " (" + ref + ")</b>";
         } else if (step.name) {
           name = "<b>" + step.name + "</b>";
         } else if (step.ref) {
-          name = "<b>" + step.ref + "</b>";
+          name = "<b>" + ref + "</b>";
         } else {
           name = I18n.t('javascripts.directions.instructions.unnamed');
         }
