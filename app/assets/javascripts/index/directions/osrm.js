@@ -98,6 +98,9 @@ function OSRMEngine() {
         var name = step.name ? "<b>" + step.name + "</b>" : I18n.t('javascripts.directions.instructions.unnamed');
         if (step.maneuver.type.match(/rotary|roundabout/)) {
           instText += I18n.t(template + '_with_exit', { exit: step.maneuver.exit, name: name } );
+        } else if (step.maneuver.type.match(/on ramp|off ramp/) && step.destinations) {
+          var destinations = "<b>" + step.destinations + "</b>";
+          instText += I18n.t(template + '_with_directions', { directions: destinations } );
         } else {
           instText += I18n.t(template + '_without_exit', { name: name });
         }
