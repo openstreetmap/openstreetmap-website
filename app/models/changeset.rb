@@ -55,9 +55,6 @@ class Changeset < ActiveRecord::Base
 
   before_save :update_closed_at
 
-  # over-expansion factor to use when updating the bounding box
-  EXPAND = 0.1
-
   # maximum number of elements allowed in a changeset
   MAX_ELEMENTS = 10000
 
@@ -127,12 +124,9 @@ class Changeset < ActiveRecord::Base
   end
 
   ##
-  # expand the bounding box to include the given bounding box. also,
-  # expand a little bit more in the direction of the expansion, so that
-  # further expansions may be unnecessary. this is an optimisation
-  # suggested on the wiki page by kleptog.
+  # expand the bounding box to include the given bounding box.
   def update_bbox!(bbox_update)
-    bbox.expand!(bbox_update, EXPAND)
+    bbox.expand!(bbox_update)
 
     # update active record. rails 2.1's dirty handling should take care of
     # whether this object needs saving or not.
@@ -141,8 +135,7 @@ class Changeset < ActiveRecord::Base
 
   ##
   # the number of elements is also passed in so that we can ensure that
-  # a single changeset doesn't contain too many elements. this, of course,
-  # destroys the optimisation described in the bbox method above.
+  # a single changeset doesn't contain too many elements.
   def add_changes!(elements)
     self.num_changes += elements
   end

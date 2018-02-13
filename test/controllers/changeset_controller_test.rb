@@ -581,7 +581,6 @@ CHANGESET
     changeset_id = @response.body.to_i
 
     # upload some widely-spaced nodes, spiralling positive and negative to cause
-    # largest bbox over-expansion possible.
     diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <create>
@@ -619,7 +618,7 @@ CHANGESET
     assert cs.min_lon >= -180 * GeoRecord::SCALE, "Minimum longitude (#{cs.min_lon / GeoRecord::SCALE}) should be >= -180 to be valid."
     assert cs.max_lon <= 180 * GeoRecord::SCALE, "Maximum longitude (#{cs.max_lon / GeoRecord::SCALE}) should be <= 180 to be valid."
     assert cs.min_lat >= -90 * GeoRecord::SCALE, "Minimum latitude (#{cs.min_lat / GeoRecord::SCALE}) should be >= -90 to be valid."
-    assert cs.max_lat >= 90 * GeoRecord::SCALE, "Maximum latitude (#{cs.max_lat / GeoRecord::SCALE}) should be <= 90 to be valid."
+    assert cs.max_lat <= 90 * GeoRecord::SCALE, "Maximum latitude (#{cs.max_lat / GeoRecord::SCALE}) should be <= 90 to be valid."
   end
 
   ##
@@ -1568,11 +1567,10 @@ CHANGESET
     # get the bounding box back from the changeset
     get :read, :params => { :id => changeset_id }
     assert_response :success, "Couldn't read back changeset for the third time."
-    # note that the 3.1 here is because of the bbox overexpansion
     assert_select "osm>changeset[min_lon='1.0000000']", 1
-    assert_select "osm>changeset[max_lon='3.1000000']", 1
+    assert_select "osm>changeset[max_lon='3.0000000']", 1
     assert_select "osm>changeset[min_lat='1.0000000']", 1
-    assert_select "osm>changeset[max_lat='3.1000000']", 1
+    assert_select "osm>changeset[max_lat='3.0000000']", 1
   end
 
   ##
