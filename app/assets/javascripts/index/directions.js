@@ -7,7 +7,7 @@ OSM.Directions = function (map) {
   var dragging;        // true if the user is dragging a start/end point
   var chosenEngine;
 
-  var popup = L.popup();
+  var popup = L.popup({autoPanPadding: [100, 100]});
 
   var polyline = L.polyline([], {
     color: '#03f',
