@@ -580,7 +580,7 @@ CHANGESET
     assert_response :success, "Should be able to create a changeset: #{@response.body}"
     changeset_id = @response.body.to_i
 
-    # upload some widely-spaced nodes, spiralling positive and negative to cause
+    # upload some widely-spaced nodes, spiralling positive and negative
     diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <create>
