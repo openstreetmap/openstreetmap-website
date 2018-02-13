@@ -6,6 +6,7 @@ OSM.Directions = function (map) {
   var awaitingRoute;   // true if we've asked the engine for a route and are waiting to hear back
   var dragging;        // true if the user is dragging a start/end point
   var chosenEngine;
+  var distanceUnits = "km";
 
   var popup = L.popup({autoPanPadding: [100, 100]});
 
@@ -137,13 +138,26 @@ OSM.Directions = function (map) {
     }
   });
 
+  $(".directions_form .distance_units a").on("click", function() {
+    $(".directions_form .distance_units a").removeClass("selected");
+    $(this).addClass("selected");
+    distanceUnits = $(this).data("unit");
+    getRoute();
+  });
+
   function formatDistance(m) {
-    if (m < 1000) {
-      return Math.round(m) + "m";
-    } else if (m < 10000) {
-      return (m / 1000.0).toFixed(1) + "km";
+    var unitAbbr = (distanceUnits === "km" ? "km" : I18n.t('javascripts.directions.measurements.imperial_unit_abbr'));
+    var unitSize = (distanceUnits === "km" ? 1000 : I18n.t('javascripts.directions.measurements.imperial_unit_size_in_meters'));
+    var subunitAbbr = (distanceUnits === "km" ? "m" : I18n.t('javascripts.directions.measurements.imperial_subunit_abbr'));
+    var subunitSize = (distanceUnits === "km" ? 1 : I18n.t('javascripts.directions.measurements.imperial_subunit_size_in_meters'));
+    var subunitScope = (distanceUnits === "km" ? 1000 : (unitSize * 0.2));
+
+    if (m < subunitScope) {
+      return Math.round(m / subunitSize) + subunitAbbr;
+    } else if (m < (unitSize * 10.0)) {
+      return (m / unitSize).toFixed(1) + unitAbbr;
     } else {
-      return Math.round(m / 1000) + "km";
+      return Math.round(m / unitSize) + unitAbbr;
     }
   }
 
@@ -248,16 +262,20 @@ OSM.Directions = function (map) {
 
         cumulative += dist;
 
-        if (dist < 5) {
-          dist = "";
-        } else if (dist < 200) {
-          dist = Math.round(dist / 10) * 10 + "m";
-        } else if (dist < 1500) {
-          dist = Math.round(dist / 100) * 100 + "m";
-        } else if (dist < 5000) {
-          dist = Math.round(dist / 100) / 10 + "km";
-        } else {
-          dist = Math.round(dist / 1000) + "km";
+        dist = formatDistance(dist);
+
+        // if dist is in meters or feet/yards, then parse further
+        var r = dist.match(/^(\d+)(yds|ft|m)$/);
+        if (r) {
+          var d = parseInt(r[1]);
+
+          if (d < 5) {
+            dist = "";
+          } else if (d < 200) {
+            dist = Math.round(d / 10.0) * 10 + r[2];
+          } else {
+            dist = Math.round(d / 100.0) * 100 + r[2];
+          }
         }
 
         var row = $("<tr class='turn'/>");
