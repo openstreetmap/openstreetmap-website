@@ -679,12 +679,20 @@ class TraceControllerTest < ActionController::TestCase
     post :delete, :params => { :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id }, :session => { :user => deleted_trace_file.user }
     assert_response :not_found
 
-    # Finally with a trace that we are allowed to delete
+    # Now with a trace that we are allowed to delete
     post :delete, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => public_trace_file.user }
     assert_response :redirect
     assert_redirected_to :action => :list, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
     assert_equal false, trace.visible
+
+    # Finally with a trace that is deleted by an admin
+    post :delete, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => create(:administrator_user) }
+    assert_response :redirect
+    assert_redirected_to :action => :list, :display_name => public_trace_file.user.display_name
+    trace = Trace.find(public_trace_file.id)
+    assert_equal false, trace.visible
+
   end
 
   # Check getting a specific trace through the api
