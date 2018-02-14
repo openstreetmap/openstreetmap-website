@@ -5,6 +5,7 @@ OSM.Directions = function (map) {
   var awaitingGeocode; // true if the user has requested a route, but we're waiting on a geocode result
   var awaitingRoute;   // true if we've asked the engine for a route and are waiting to hear back
   var dragging;        // true if the user is dragging a start/end point
+  var dragEnd;         // true for one iteration of getRoute() after dropping start/end point
   var chosenEngine;
 
   var popup = L.popup({autoPanPadding: [100, 100]});
@@ -46,11 +47,14 @@ OSM.Directions = function (map) {
 
     endpoint.marker.on('drag dragend', function (e) {
       dragging = (e.type === 'drag');
+      dragEnd = (e.type === 'dragend');
       if (dragging && !chosenEngine.draggable) return;
       if (dragging && awaitingRoute) return;
       endpoint.setLatLng(e.target.getLatLng());
       if (map.hasLayer(polyline)) {
         getRoute();
+      } else {
+        dragEnd = false;
       }
     });
 
@@ -207,8 +211,10 @@ OSM.Directions = function (map) {
       if (err) {
         map.removeLayer(polyline);
 
-        if (!dragging) {
+        if (!dragging && !dragEnd) {
           $('#sidebar_content').html('<p class="search_results_error">' + I18n.t('javascripts.directions.errors.no_route') + '</p>');
+        } else {
+          dragEnd = false;
         }
 
         return;
@@ -218,8 +224,10 @@ OSM.Directions = function (map) {
         .setLatLngs(route.line)
         .addTo(map);
 
-      if (!dragging) {
+      if (!dragging && !dragEnd) {
         map.fitBounds(polyline.getBounds().pad(0.05));
+      } else {
+        dragEnd = false;
       }
 
       var html = '<h2><a class="geolink" href="#">' +
