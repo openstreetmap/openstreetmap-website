@@ -123,7 +123,7 @@ OSM.Directions = function (map) {
     OSM.router.route("/directions?" + querystring.stringify({
       from: $("#route_to").val(),
       to: $("#route_from").val(),
-      route: from.lat + "," + from.lng + ";" + to.lat + "," + to.lng
+      route: to.lat + "," + to.lng + ";" + from.lat + "," + from.lng
     }));
   });
 
