@@ -62,11 +62,12 @@ OSM.Directions = function (map) {
     endpoint.setValue = function(value, latlng) {
       endpoint.value = value;
       delete endpoint.latlng;
-      input.val(value);
 
       if (latlng) {
         endpoint.setLatLng(latlng);
+        input.val(value);
       } else {
+        input.val(value);
         endpoint.getGeocode();
       }
     };
