@@ -4,7 +4,6 @@
 OSM.Directions = function (map) {
   var awaitingGeocode; // true if the user has requested a route, but we're waiting on a geocode result
   var awaitingRoute;   // true if we've asked the engine for a route and are waiting to hear back
-  var dragging;        // true if the user is dragging a start/end point
   var chosenEngine;
 
   var popup = L.popup({autoPanPadding: [100, 100]});
@@ -45,12 +44,12 @@ OSM.Directions = function (map) {
     });
 
     endpoint.marker.on('drag dragend', function (e) {
-      dragging = (e.type === 'drag');
+      var dragging = (e.type === 'drag');
       if (dragging && !chosenEngine.draggable) return;
       if (dragging && awaitingRoute) return;
       endpoint.setLatLng(e.target.getLatLng());
       if (map.hasLayer(polyline)) {
-        getRoute(false);
+        getRoute(false, !dragging);
       }
     });
 
@@ -98,7 +97,7 @@ OSM.Directions = function (map) {
 
         if (awaitingGeocode) {
           awaitingGeocode = false;
-          getRoute(true);
+          getRoute(true, true);
         }
       });
     };
@@ -163,7 +162,7 @@ OSM.Directions = function (map) {
     });
   }
 
-  function getRoute(fitRoute) {
+  function getRoute(fitRoute, reportErrors) {
     // Cancel any route that is already in progress
     if (awaitingRoute) awaitingRoute.abort();
 
@@ -207,7 +206,7 @@ OSM.Directions = function (map) {
       if (err) {
         map.removeLayer(polyline);
 
-        if (!dragging) {
+        if (reportErrors) {
           $('#sidebar_content').html('<p class="search_results_error">' + I18n.t('javascripts.directions.errors.no_route') + '</p>');
         }
 
@@ -321,13 +320,13 @@ OSM.Directions = function (map) {
     chosenEngine = engines[e.target.selectedIndex];
     $.cookie('_osm_directions_engine', chosenEngine.id, { expires: expiry, path: '/' });
     if (map.hasLayer(polyline)) {
-      getRoute(true);
+      getRoute(true, true);
     }
   });
 
   $(".directions_form").on("submit", function(e) {
     e.preventDefault();
-    getRoute(true);
+    getRoute(true, true);
   });
 
   $(".routing_marker").on('dragstart', function (e) {
@@ -360,7 +359,7 @@ OSM.Directions = function (map) {
       pt.y += 20;
       var ll = map.containerPointToLatLng(pt);
       endpoints[type === 'from' ? 0 : 1].setLatLng(ll);
-      getRoute(true);
+      getRoute(true, true);
     });
 
     var params = querystring.parse(location.search.substring(1)),
@@ -377,7 +376,7 @@ OSM.Directions = function (map) {
 
     map.setSidebarOverlaid(!from || !to);
 
-    getRoute(true);
+    getRoute(true, true);
   };
 
   page.load = function() {
