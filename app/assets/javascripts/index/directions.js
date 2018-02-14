@@ -54,6 +54,8 @@ OSM.Directions = function (map) {
     });
 
     input.on("change", function (e) {
+      awaitingGeocode = true;
+      
       // make text the same in both text boxes
       var value = e.target.value;
       endpoint.setValue(value);
@@ -88,12 +90,9 @@ OSM.Directions = function (map) {
           return;
         }
 
-        input.val(json[0].display_name);
+        endpoint.setLatLng(L.latLng(json[0]));
 
-        endpoint.latlng = L.latLng(json[0]);
-        endpoint.marker
-          .setLatLng(endpoint.latlng)
-          .addTo(map);
+        input.val(json[0].display_name);
 
         if (awaitingGeocode) {
           awaitingGeocode = false;
