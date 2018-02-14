@@ -50,7 +50,7 @@ OSM.Directions = function (map) {
       if (dragging && awaitingRoute) return;
       endpoint.setLatLng(e.target.getLatLng());
       if (map.hasLayer(polyline)) {
-        getRoute();
+        getRoute(false);
       }
     });
 
@@ -98,7 +98,7 @@ OSM.Directions = function (map) {
 
         if (awaitingGeocode) {
           awaitingGeocode = false;
-          getRoute();
+          getRoute(true);
         }
       });
     };
@@ -163,7 +163,7 @@ OSM.Directions = function (map) {
     });
   }
 
-  function getRoute() {
+  function getRoute(fitRoute) {
     // Cancel any route that is already in progress
     if (awaitingRoute) awaitingRoute.abort();
 
@@ -218,7 +218,7 @@ OSM.Directions = function (map) {
         .setLatLngs(route.line)
         .addTo(map);
 
-      if (!dragging) {
+      if (fitRoute) {
         map.fitBounds(polyline.getBounds().pad(0.05));
       }
 
@@ -321,13 +321,13 @@ OSM.Directions = function (map) {
     chosenEngine = engines[e.target.selectedIndex];
     $.cookie('_osm_directions_engine', chosenEngine.id, { expires: expiry, path: '/' });
     if (map.hasLayer(polyline)) {
-      getRoute();
+      getRoute(true);
     }
   });
 
   $(".directions_form").on("submit", function(e) {
     e.preventDefault();
-    getRoute();
+    getRoute(true);
   });
 
   $(".routing_marker").on('dragstart', function (e) {
@@ -360,7 +360,7 @@ OSM.Directions = function (map) {
       pt.y += 20;
       var ll = map.containerPointToLatLng(pt);
       endpoints[type === 'from' ? 0 : 1].setLatLng(ll);
-      getRoute();
+      getRoute(true);
     });
 
     var params = querystring.parse(location.search.substring(1)),
@@ -377,7 +377,7 @@ OSM.Directions = function (map) {
 
     map.setSidebarOverlaid(!from || !to);
 
-    getRoute();
+    getRoute(true);
   };
 
   page.load = function() {
