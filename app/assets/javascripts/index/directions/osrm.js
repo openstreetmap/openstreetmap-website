@@ -111,7 +111,11 @@ function OSRMEngine() {
         }
 
         if (step.maneuver.type.match(/rotary|roundabout/)) {
-          instText += I18n.t(template + '_with_exit', { exit: step.maneuver.exit, name: name } );
+          if (step.maneuver.exit) {
+            instText += I18n.t(template + '_with_exit', { exit: step.maneuver.exit, name: name } );
+          } else {
+            instText += I18n.t(template + '_without_exit', { name: name } );
+          }
         } else if (step.maneuver.type.match(/on ramp|off ramp/)) {
           if (step.destinations) {
             if (namedRoad) {

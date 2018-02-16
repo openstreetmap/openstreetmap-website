@@ -4,7 +4,6 @@
 OSM.Directions = function (map) {
   var awaitingGeocode; // true if the user has requested a route, but we're waiting on a geocode result
   var awaitingRoute;   // true if we've asked the engine for a route and are waiting to hear back
-  var dragging;        // true if the user is dragging a start/end point
   var chosenEngine;
   var distanceUnits = "km";
 
@@ -46,16 +45,18 @@ OSM.Directions = function (map) {
     });
 
     endpoint.marker.on('drag dragend', function (e) {
-      dragging = (e.type === 'drag');
+      var dragging = (e.type === 'drag');
       if (dragging && !chosenEngine.draggable) return;
       if (dragging && awaitingRoute) return;
       endpoint.setLatLng(e.target.getLatLng());
       if (map.hasLayer(polyline)) {
-        getRoute();
+        getRoute(false, !dragging);
       }
     });
 
     input.on("change", function (e) {
+      awaitingGeocode = true;
+      
       // make text the same in both text boxes
       var value = e.target.value;
       endpoint.setValue(value);
@@ -90,16 +91,13 @@ OSM.Directions = function (map) {
           return;
         }
 
-        input.val(json[0].display_name);
+        endpoint.setLatLng(L.latLng(json[0]));
 
-        endpoint.latlng = L.latLng(json[0]);
-        endpoint.marker
-          .setLatLng(endpoint.latlng)
-          .addTo(map);
+        input.val(json[0].display_name);
 
         if (awaitingGeocode) {
           awaitingGeocode = false;
-          getRoute();
+          getRoute(true, true);
         }
       });
     };
@@ -124,7 +122,7 @@ OSM.Directions = function (map) {
     OSM.router.route("/directions?" + querystring.stringify({
       from: $("#route_to").val(),
       to: $("#route_from").val(),
-      route: from.lat + "," + from.lng + ";" + to.lat + "," + to.lng
+      route: to.lat + "," + to.lng + ";" + from.lat + "," + from.lng
     }));
   });
 
@@ -177,7 +175,7 @@ OSM.Directions = function (map) {
     });
   }
 
-  function getRoute() {
+  function getRoute(fitRoute, reportErrors) {
     // Cancel any route that is already in progress
     if (awaitingRoute) awaitingRoute.abort();
 
@@ -221,7 +219,7 @@ OSM.Directions = function (map) {
       if (err) {
         map.removeLayer(polyline);
 
-        if (!dragging) {
+        if (reportErrors) {
           $('#sidebar_content').html('<p class="search_results_error">' + I18n.t('javascripts.directions.errors.no_route') + '</p>');
         }
 
@@ -232,7 +230,7 @@ OSM.Directions = function (map) {
         .setLatLngs(route.line)
         .addTo(map);
 
-      if (!dragging) {
+      if (fitRoute) {
         map.fitBounds(polyline.getBounds().pad(0.05));
       }
 
@@ -339,13 +337,13 @@ OSM.Directions = function (map) {
     chosenEngine = engines[e.target.selectedIndex];
     $.cookie('_osm_directions_engine', chosenEngine.id, { expires: expiry, path: '/' });
     if (map.hasLayer(polyline)) {
-      getRoute();
+      getRoute(true, true);
     }
   });
 
   $(".directions_form").on("submit", function(e) {
     e.preventDefault();
-    getRoute();
+    getRoute(true, true);
   });
 
   $(".routing_marker").on('dragstart', function (e) {
@@ -378,7 +376,7 @@ OSM.Directions = function (map) {
       pt.y += 20;
       var ll = map.containerPointToLatLng(pt);
       endpoints[type === 'from' ? 0 : 1].setLatLng(ll);
-      getRoute();
+      getRoute(true, true);
     });
 
     var params = querystring.parse(location.search.substring(1)),
@@ -395,7 +393,7 @@ OSM.Directions = function (map) {
 
     map.setSidebarOverlaid(!from || !to);
 
-    getRoute();
+    getRoute(true, true);
   };
 
   page.load = function() {
