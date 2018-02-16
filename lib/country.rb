@@ -19,7 +19,7 @@ class Country
 
   def self.load_countries
     countries = {}
-    xml = REXML::Document.new(File.read("config/countries.xml"))
+    xml = REXML::Document.new(File.read(Rails.root.join("config", "countries.xml")))
 
     xml.elements.each("geonames/country") do |ele|
       code = ele.get_text("countryCode").to_s
