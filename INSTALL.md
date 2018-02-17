@@ -28,7 +28,7 @@ of packages required before you can get the various gems installed.
 These can be installed on Ubuntu 16.04 or later with:
 
 ```
-sudo apt-get install ruby2.3 libruby2.3 ruby2.3-dev \
+sudo apt-get install autoconf ruby2.3 libruby2.3 ruby2.3-dev \
                      libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
                      apache2 apache2-dev build-essential git-core \
                      postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
