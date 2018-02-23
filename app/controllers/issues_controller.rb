@@ -38,15 +38,9 @@ class IssuesController < ApplicationController
       @issues = @issues.where(:reportable_type => params[:issue_type][0])
     end
 
-    # If last_updated_by
     if params[:last_updated_by] && params[:last_updated_by][0].present?
       last_updated_by = params[:last_updated_by][0].to_s == "nil" ? nil : params[:last_updated_by][0].to_i
       @issues = @issues.where(:updated_by => last_updated_by)
-    end
-
-    if params[:last_reported_by] && params[:last_reported_by][0].present?
-      last_reported_by = params[:last_reported_by][0].to_s == "nil" ? nil : params[:last_reported_by][0].to_i
-      @issues = @issues.where(:updated_by => last_reported_by)
     end
 
     redirect_to issues_path, :notice => notice if notice
