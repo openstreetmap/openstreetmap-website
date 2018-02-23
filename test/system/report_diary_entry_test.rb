@@ -24,7 +24,7 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
 
     choose I18n.t("reports.categories.DiaryEntry.spam")
     fill_in "report_details", :with => "This is advertising"
-    click_on "Save changes"
+    click_on "Create Report"
 
     assert page.has_content? "Your report has been registered sucessfully"
   end
@@ -43,7 +43,7 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
 
     choose I18n.t("reports.categories.DiaryEntry.spam")
     fill_in "report_details", :with => "This is advertising"
-    click_on "Save changes"
+    click_on "Create Report"
 
     issue.reload
     assert !issue.resolved?
