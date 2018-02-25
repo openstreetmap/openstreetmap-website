@@ -119,7 +119,7 @@ function OSRMEngine() {
         } else if (step.maneuver.type.match(/on ramp|off ramp/)) {
           var params = {};
           if (step.exits && step.maneuver.type.match(/off ramp/)) params.exit = step.exits;
-          if (step.destinations) params.directions = step.destinations;
+          if (step.destinations) params.directions = destinations;
           if (namedRoad) params.directions = name;
           if (Object.keys(params).length > 0) {
             template = template + "_with_" + Object.keys(params).join("_");
