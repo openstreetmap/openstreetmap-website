@@ -26,6 +26,8 @@ class DiaryComment < ActiveRecord::Base
   belongs_to :user
   belongs_to :diary_entry
 
+  scope :visible, -> { where(:visible => true) }
+
   validates :body, :presence => true
   validates :diary_entry, :user, :associated => true
 
