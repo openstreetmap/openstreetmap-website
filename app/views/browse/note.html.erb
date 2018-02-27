@@ -19,6 +19,11 @@
     <% end %>
   </div>
 
+  <div class="details geo">
+  <%= t 'browse.note.location' %>
+  <%= link_to(content_tag(:span, number_with_delimiter(@note.lat), :class => "latitude") + ", " + content_tag(:span, number_with_delimiter(@note.lon), :class => "longitude"), {:controller => 'site', :action => 'index', :anchor => "map=18/#{@note.lat}/#{@note.lon}"}) %>
+  </div>
+
   <% if @note_comments.find { |comment| comment.author.nil? } -%>
     <p class='warning'><%= t "javascripts.notes.show.anonymous_warning" %></p>
   <% end -%>
