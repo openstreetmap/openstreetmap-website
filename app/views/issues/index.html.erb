@@ -4,7 +4,7 @@
 
 <%= form_tag(issues_path, :method => :get) do %>
 <p><%= t ".search_guidance" %></p>
-<%= select :status, nil, Issue.aasm.states.map(&:name).map{|state| [t(".states.#{state}"), state]}, { :include_blank => t(".select_status")}, data: { behavior: 'category_dropdown' } %>
+<%= select :status, nil, Issue.aasm.states.map(&:name).map{|state| [t("issues.states.#{state}"), state]}, { :include_blank => t(".select_status")}, data: { behavior: 'category_dropdown' } %>
 <%= select :issue_type, nil, @issue_types, { :include_blank => t(".select_type")}, data: { behavior: 'category_dropdown' } %>
 <%= text_field_tag :search_by_user, params[:search_by_user], placeholder: t(".reported_user") %>
 <%= select :last_updated_by, nil, @users.all.collect  {|f| [f.display_name, f.id]} << [ t(".not_updated"), "nil"], { :include_blank => t(".select_last_updated_by")}, data: { behavior: 'category_dropdown' } %>
@@ -33,7 +33,7 @@
   <tbody>
     <% @issues.each do |issue| %>
       <tr>
-        <td><%= issue.status.humanize %></td>
+        <td><%= t "issues.states.#{issue.status}" %></td>
         <td style="text-align:center;"><%= issue.reports_count %></td>
         <td><%= l(issue.updated_at.to_datetime, :format => :friendly) %></td>
         <td><% if issue.user_updated %> <%= issue.user_updated.display_name %> <% else %> - <% end %></td>
