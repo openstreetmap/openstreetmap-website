@@ -31,7 +31,7 @@ class IssuesController < ApplicationController
     end
 
     if params[:status] && params[:status][0].present?
-      @issues = @issues.where(:status => params[:status][0].to_i)
+      @issues = @issues.where(:status => params[:status][0])
     end
 
     if params[:issue_type] && params[:issue_type][0].present?
