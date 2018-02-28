@@ -39,7 +39,7 @@
         <td><% if issue.user_updated %> <%= issue.user_updated.display_name %> <% else %> - <% end %></td>
         <td><%= link_to reportable_title(issue.reportable), issue %></td>
         <td><%= link_to issue.reported_user.display_name , :controller => :user, :action => :view, :display_name => issue.reported_user.display_name %></td>
-        <td><%= instance_url(issue.reportable) %></td>
+        <td><%= link_to t(".show_instance"), reportable_url(issue.reportable) %></td>
       </tr>
     <% end %>
   </tbody>
