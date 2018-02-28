@@ -19,7 +19,6 @@ class GeocoderController < ApplicationController
       if @params[:query] =~ /^\d{5}(-\d{4})?$/
         @sources.push "osm_nominatim"
       elsif @params[:query] =~ /^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i
-        @sources.push "uk_postcode"
         @sources.push "osm_nominatim"
       elsif @params[:query] =~ /^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i
         @sources.push "ca_postcode"
@@ -53,32 +52,6 @@ class GeocoderController < ApplicationController
 
       render :action => "results"
     end
-  end
-
-  def search_uk_postcode
-    # get query parameters
-    query = params[:query]
-
-    # create result array
-    @results = []
-
-    # ask npemap.org.uk to do a combined npemap + freethepostcode search
-    response = fetch_text("http://www.npemap.org.uk/cgi/geocoder.fcgi?format=text&postcode=#{escape_query(query)}")
-
-    # parse the response
-    unless response =~ /Error/
-      dataline = response.split(/\n/)[1]
-      data = dataline.split(/,/) # easting,northing,postcode,lat,long
-      postcode = data[2].delete("'")
-      zoom = POSTCODE_ZOOM - postcode.count("#")
-      @results.push(:lat => data[3], :lon => data[4], :zoom => zoom,
-                    :name => postcode)
-    end
-
-    render :action => "results"
-  rescue StandardError => ex
-    @error = "Error contacting www.npemap.org.uk: #{ex}"
-    render :action => "error"
   end
 
   def search_ca_postcode
