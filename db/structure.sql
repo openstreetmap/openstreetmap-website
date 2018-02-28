@@ -726,7 +726,7 @@ CREATE TABLE issues (
     id integer NOT NULL,
     reportable_type character varying NOT NULL,
     reportable_id integer NOT NULL,
-    reported_user_id integer NOT NULL,
+    reported_user_id integer,
     status integer,
     assigned_role user_role_enum NOT NULL,
     resolved_at timestamp without time zone,

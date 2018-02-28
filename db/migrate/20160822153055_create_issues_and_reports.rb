@@ -3,7 +3,7 @@ class CreateIssuesAndReports < ActiveRecord::Migration[5.0]
     create_table :issues do |t|
       t.string :reportable_type, :null => false
       t.integer :reportable_id, :null => false
-      t.integer :reported_user_id, :null => false
+      t.integer :reported_user_id
       t.integer :status
       t.column :assigned_role, :user_role_enum, :null => false
       t.datetime :resolved_at

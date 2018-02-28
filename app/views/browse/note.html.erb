@@ -3,7 +3,7 @@
 <h2>
   <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
   <%= t "browse.note.#{@note.status}_title", :note_name => @note.id %>
-  <% if current_user && @note.author && current_user.id != @note.author.id %>
+  <% if current_user && current_user != @note.author %>
     <%= link_to new_report_url(reportable_id: @note.id, reportable_type: @note.class.name), :title => t('browse.note.report') do %>
         &nbsp;&#9872;
     <% end %>

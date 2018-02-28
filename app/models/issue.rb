@@ -5,7 +5,7 @@
 #  id               :integer          not null, primary key
 #  reportable_type  :string           not null
 #  reportable_id    :integer          not null
-#  reported_user_id :integer          not null
+#  reported_user_id :integer
 #  status           :integer
 #  assigned_role    :enum             not null
 #  resolved_at      :datetime
@@ -36,7 +36,6 @@ class Issue < ActiveRecord::Base
   has_many :comments, :class_name => "IssueComment", :dependent => :destroy
 
   validates :reportable_id, :uniqueness => { :scope => [:reportable_type] }
-  validates :reported_user_id, :presence => true
 
   ASSIGNED_ROLES = %w[administrator moderator].freeze
   validates :assigned_role, :presence => true, :inclusion => ASSIGNED_ROLES

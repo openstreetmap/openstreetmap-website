@@ -1,6 +1,8 @@
 require "application_system_test_case"
 
 class IssuesTest < ApplicationSystemTestCase
+  include IssuesHelper
+
   def test_view_issues_normal_user
     sign_in_as(create(:user))
 
@@ -21,6 +23,18 @@ class IssuesTest < ApplicationSystemTestCase
 
     visit issues_path
     assert page.has_content?(issues.first.reported_user.display_name)
+  end
+
+  def test_view_issues_with_no_reported_user
+    sign_in_as(create(:moderator_user))
+    anonymous_note = create(:note_with_comments)
+    issue = create(:issue, :reportable => anonymous_note)
+
+    visit issues_path
+    assert page.has_content?(reportable_title(anonymous_note))
+
+    visit issue_path(issue)
+    assert page.has_content?(reportable_title(anonymous_note))
   end
 
   def test_search_issues_by_user

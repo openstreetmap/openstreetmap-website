@@ -40,20 +40,22 @@
     <br/>
   </div>
 
-  <div class="related-block">
-    <h3><%= t ".other_issues_against_this_user" %></h3>
-    <div class="unread-reports">
-      <% if @related_issues.count > 1 %>
-        <% @related_issues.each do |issue| %>
-          <% if issue.id != @issue.id %>
-            <%= link_to reportable_title(issue.reportable), issue %> <br/>
+  <% if @issue.reported_user %>
+    <div class="related-block">
+      <h3><%= t ".other_issues_against_this_user" %></h3>
+      <div class="unread-reports">
+        <% if @related_issues.count > 1 %>
+          <% @related_issues.each do |issue| %>
+            <% if issue.id != @issue.id %>
+              <%= link_to reportable_title(issue.reportable), issue %> <br/>
+            <% end %>
           <% end %>
+        <% else %>
+          <p><%= t ".no_other_issues" %></p>
         <% end %>
-      <% else %>
-        <p><%= t ".no_other_issues" %></p>
-      <% end %>
+      </div>
     </div>
-  </div>
+  <% end %>
 </div>
 
 <h3><%= t ".comments_on_this_issue" %></h3>

@@ -50,7 +50,7 @@ class IssuesController < ApplicationController
     @read_reports = @issue.read_reports
     @unread_reports = @issue.unread_reports
     @comments = @issue.comments
-    @related_issues = @issue.reported_user.issues.where(:assigned_role => current_user.roles.map(&:role))
+    @related_issues = @issue.reported_user.issues.where(:assigned_role => current_user.roles.map(&:role)) if @issue.reported_user
     @new_comment = IssueComment.new(:issue => @issue)
   end
 
