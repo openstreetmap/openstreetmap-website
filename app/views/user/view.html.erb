@@ -102,6 +102,13 @@
             </li>
           <% end %>
 
+          <% if current_user and @this_user.id != current_user.id %>
+            <li>
+              <%= link_to new_report_url(reportable_id: @this_user.id, reportable_type: @this_user.class.name), :title => t('user.view.report') do %>
+                &nbsp;&#9872;
+              <% end %>
+            </li>
+          <% end %>
         </ul>
 
       <% end %>
@@ -153,14 +160,6 @@
         </small>
       </p>
     </div>
-
-    <% if current_user and @this_user.id != current_user.id %>
-      <div class="report-button">
-         <%= link_to new_report_url(reportable_id: @this_user.id, reportable_type: @this_user.class.name), :title => t('user.view.report') do %>
-            &nbsp;&#9872;
-         <% end %>
-      </div>
-    <% end %>
 
     <div class="user-description richtext"><%= @this_user.description.to_html %></div>
 
