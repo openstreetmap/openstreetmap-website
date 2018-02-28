@@ -7,7 +7,7 @@ module IssuesHelper
     when "User"
       link_to reportable.display_name.to_s, :controller => reportable.class.name.underscore, :action => :view, :display_name => reportable.display_name
     when "DiaryComment"
-      link_to "#{reportable.diary_entry.title}, Comment id ##{reportable.id}", :controller => reportable.diary_entry.class.name.underscore, :action => :view, :display_name => reportable.diary_entry.user.display_name, :id => reportable.diary_entry.id, :comment_id => reportable.id
+      link_to "#{reportable.diary_entry.title}, Comment id ##{reportable.id}", :controller => reportable.diary_entry.class.name.underscore, :action => :view, :display_name => reportable.diary_entry.user.display_name, :id => reportable.diary_entry.id, :anchor => "comment#{reportable.id}"
     when "Changeset"
       link_to "Changeset ##{reportable.id}", :controller => :browse, :action => :changeset, :id => reportable.id
     when "Note"
@@ -39,7 +39,7 @@ module IssuesHelper
     when "User"
       link_to "Show Instance", :controller => reportable.class.name.underscore, :action => :view, :display_name => reportable.display_name
     when "DiaryComment"
-      link_to "Show Instance", :controller => reportable.diary_entry.class.name.underscore, :action => :view, :display_name => reportable.diary_entry.user.display_name, :id => reportable.diary_entry.id, :comment_id => reportable.id
+      link_to "Show Instance", :controller => reportable.diary_entry.class.name.underscore, :action => :view, :display_name => reportable.diary_entry.user.display_name, :id => reportable.diary_entry.id, :anchor => "comment#{reportable.id}"
     when "Changeset"
       link_to "Show Instance", :controller => :browse, :action => :changeset, :id => reportable.id
     when "Note"
