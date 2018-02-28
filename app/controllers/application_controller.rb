@@ -29,9 +29,7 @@ class ApplicationController < ActionController::Base
         end
       end
     elsif session[:token]
-      if self.current_user = User.authenticate(:token => session[:token])
-        session[:user] = current_user.id
-      end
+      session[:user] = current_user.id if self.current_user = User.authenticate(:token => session[:token])
     end
   rescue StandardError => ex
     logger.info("Exception authorizing user: #{ex}")
@@ -381,9 +379,7 @@ class ApplicationController < ActionController::Base
   ##
   # ensure that there is a "this_user" instance variable
   def lookup_this_user
-    unless @this_user = User.active.find_by(:display_name => params[:display_name])
-      render_unknown_user params[:display_name]
-    end
+    render_unknown_user params[:display_name] unless @this_user = User.active.find_by(:display_name => params[:display_name])
   end
 
   ##
@@ -469,9 +465,7 @@ class ApplicationController < ActionController::Base
       authdata = request.env["HTTP_AUTHORIZATION"].to_s.split
     end
     # only basic authentication supported
-    if authdata && authdata[0] == "Basic"
-      user, pass = Base64.decode64(authdata[1]).split(":", 2)
-    end
+    user, pass = Base64.decode64(authdata[1]).split(":", 2) if authdata && authdata[0] == "Basic"
     [user, pass]
   end
 

@@ -580,8 +580,7 @@ CHANGESET
     assert_response :success, "Should be able to create a changeset: #{@response.body}"
     changeset_id = @response.body.to_i
 
-    # upload some widely-spaced nodes, spiralling positive and negative to cause
-    # largest bbox over-expansion possible.
+    # upload some widely-spaced nodes, spiralling positive and negative
     diff = <<CHANGESET.strip_heredoc
       <osmChange>
        <create>
@@ -619,7 +618,7 @@ CHANGESET
     assert cs.min_lon >= -180 * GeoRecord::SCALE, "Minimum longitude (#{cs.min_lon / GeoRecord::SCALE}) should be >= -180 to be valid."
     assert cs.max_lon <= 180 * GeoRecord::SCALE, "Maximum longitude (#{cs.max_lon / GeoRecord::SCALE}) should be <= 180 to be valid."
     assert cs.min_lat >= -90 * GeoRecord::SCALE, "Minimum latitude (#{cs.min_lat / GeoRecord::SCALE}) should be >= -90 to be valid."
-    assert cs.max_lat >= 90 * GeoRecord::SCALE, "Maximum latitude (#{cs.max_lat / GeoRecord::SCALE}) should be <= 90 to be valid."
+    assert cs.max_lat <= 90 * GeoRecord::SCALE, "Maximum latitude (#{cs.max_lat / GeoRecord::SCALE}) should be <= 90 to be valid."
   end
 
   ##
@@ -812,9 +811,7 @@ CHANGESET
     assert_equal 2, Node.find(new_node_id).tags.size, "new node should have two tags"
     assert_equal [new_node_id, node.id], Way.find(way.id).nds, "way nodes should match"
     Relation.find(relation.id).members.each do |type, id, _role|
-      if type == "node"
-        assert_equal new_node_id, id, "relation should contain new node"
-      end
+      assert_equal new_node_id, id, "relation should contain new node" if type == "node"
     end
   end
 
@@ -1570,11 +1567,10 @@ CHANGESET
     # get the bounding box back from the changeset
     get :read, :params => { :id => changeset_id }
     assert_response :success, "Couldn't read back changeset for the third time."
-    # note that the 3.1 here is because of the bbox overexpansion
     assert_select "osm>changeset[min_lon='1.0000000']", 1
-    assert_select "osm>changeset[max_lon='3.1000000']", 1
+    assert_select "osm>changeset[max_lon='3.0000000']", 1
     assert_select "osm>changeset[min_lat='1.0000000']", 1
-    assert_select "osm>changeset[max_lat='3.1000000']", 1
+    assert_select "osm>changeset[max_lat='3.0000000']", 1
   end
 
   ##
@@ -2248,6 +2244,13 @@ CHANGESET
       post :subscribe, :params => { :id => changeset.id }
     end
     assert_response :success
+
+    # not closed changeset
+    changeset = create(:changeset)
+    assert_difference "changeset.subscribers.count", 1 do
+      post :subscribe, :params => { :id => changeset.id }
+    end
+    assert_response :success
   end
 
   ##
@@ -2270,13 +2273,6 @@ CHANGESET
     end
     assert_response :not_found
 
-    # not closed changeset
-    changeset = create(:changeset)
-    assert_no_difference "changeset.subscribers.count" do
-      post :subscribe, :params => { :id => changeset.id }
-    end
-    assert_response :conflict
-
     # trying to subscribe when already subscribed
     changeset = create(:changeset, :closed)
     changeset.subscribers.push(user)
@@ -2292,6 +2288,15 @@ CHANGESET
     user = create(:user)
     basic_authorization user.email, "test"
     changeset = create(:changeset, :closed)
+    changeset.subscribers.push(user)
+
+    assert_difference "changeset.subscribers.count", -1 do
+      post :unsubscribe, :params => { :id => changeset.id }
+    end
+    assert_response :success
+
+    # not closed changeset
+    changeset = create(:changeset)
     changeset.subscribers.push(user)
 
     assert_difference "changeset.subscribers.count", -1 do
@@ -2317,13 +2322,6 @@ CHANGESET
       post :unsubscribe, :params => { :id => 999111 }
     end
     assert_response :not_found
-
-    # not closed changeset
-    changeset = create(:changeset)
-    assert_no_difference "changeset.subscribers.count" do
-      post :unsubscribe, :params => { :id => changeset.id }
-    end
-    assert_response :conflict
 
     # trying to unsubscribe when not subscribed
     changeset = create(:changeset, :closed)

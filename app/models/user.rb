@@ -283,9 +283,7 @@ class User < ActiveRecord::Base
   ##
   # perform a spam check on a user
   def spam_check
-    if status == "active" && spam_score > SPAM_THRESHOLD
-      update(:status => "suspended")
-    end
+    update(:status => "suspended") if status == "active" && spam_score > SPAM_THRESHOLD
   end
 
   ##

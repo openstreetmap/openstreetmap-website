@@ -5,6 +5,7 @@
 # Author: Ajank
 # Author: Alan ffm
 # Author: Andrzej aa
+# Author: Anwar2
 # Author: BdgwksxD
 # Author: BeginaFelicysym
 # Author: Chrumps
@@ -220,9 +221,9 @@ pl:
         note: Uwaga
     redacted:
       redaction: Poprawka %{id}
-      message_html: Ten %{type} w wersji %{version} nie może zostać wyświetlony, ponieważ
-        został poprawiony. Proszę zapoznać się z %{redaction_link}, aby uzyskać więcej
-        informacji.
+      message_html: '%{type} w wersji %{version} nie może zostać wyświetlony z powodu
+        ocenzurowania. Proszę zapoznać się z %{redaction_link}, aby uzyskać więcej
+        informacji.'
       type:
         node: węzeł
         way: linia
@@ -389,7 +390,7 @@ pl:
       map_image: Obraz mapy (standardowa warstwa)
       embeddable_html: Kod HTML do osadzenia
       licence: Licencja
-      export_details: Dane OpenStreetMap udostępnione są na licencji <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
+      export_details: Dane OpenStreetMap udostępnione są na licencji <a href="https://opendatacommons.org/licenses/odbl/1.0/">Open
         Data Commons Open Database License</a> (ODbL).
       too_large:
         advice: 'Jeśli eksportowanie się nie uda, proszę rozważyć użycie jednego z
@@ -429,14 +430,14 @@ pl:
   geocoder:
     search:
       title:
-        latlon: Wyniki z <a href="http://openstreetmap.org/">Internal</a>
+        latlon: Wyniki z <a href="https://openstreetmap.org/">Internal</a>
         uk_postcode: Wyniki z <a href="http://www.npemap.org.uk/">NPEMap / FreeThe
           Postcode</a>
-        ca_postcode: Wyniki z <a href="http://geocoder.ca/">Geocoder.CA</a>
+        ca_postcode: Wyniki z <a href="https://geocoder.ca/">Geocoder.CA</a>
         osm_nominatim: Wyniki z <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames: Wyniki z <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse: Wyniki z <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        osm_nominatim_reverse: Wyniki z <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames_reverse: Wyniki z <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
@@ -448,6 +449,7 @@ pl:
           drag_lift: Wyciąg orczykowy
           gondola: Kolej gondolowa
           station: Stacja wyciągu krzesełkowego
+          t-bar: Wyciąg orczykowy
         aeroway:
           aerodrome: Lotnisko
           apron: Płyta postojowa
@@ -487,37 +489,31 @@ pl:
           crematorium: Krematorium
           dentist: Gabinet dentystyczny
           doctors: Lekarze
-          dormitory: Akademik/internat
           drinking_water: Źródło wody pitnej
           driving_school: Szkoła nauki jazdy
           embassy: Ambasada
-          emergency_phone: Telefon alarmowy
           fast_food: Bar (fast food)
           ferry_terminal: Terminal promowy
-          fire_hydrant: Hydrant
           fire_station: Remiza strażacka
           food_court: Współdzielone miejsce do spożywania posiłków
           fountain: Fontanna
           fuel: Stacja paliw
           gambling: Hazard
           grave_yard: Cmentarz przykościelny
-          gym: Centrum Fitness / Sala Gimnastyczna
-          health_centre: Ośrodek zdrowia
           hospital: Szpital
           hunting_stand: Ambona myśliwska
           ice_cream: Lodziarnia
           kindergarten: Przedszkole/żłobek
           library: Biblioteka
-          market: Targowisko
           marketplace: Plac targowy
           monastery: Klasztor
           motorcycle_parking: Parking dla motocykli
           nightclub: Klub nocny
-          nursery: Żłobek
           nursing_home: Dom opieki
           office: Biuro
           parking: Parking
           parking_entrance: Wjazd na parking
+          parking_space: Miejsce parkingowe
           pharmacy: Apteka
           place_of_worship: Miejsce kultu
           police: Policja lub straż miejska/gminna
@@ -527,7 +523,6 @@ pl:
           prison: Więzienie/areszt
           pub: Pub
           public_building: Budynek publiczny
-          reception_area: Recepcja
           recycling: Miejsce recyklingu
           restaurant: Restauracja
           retirement_home: Dom seniora
@@ -552,6 +547,7 @@ pl:
           village_hall: Urząd gminy
           waste_basket: Kosz na śmieci
           waste_disposal: Śmietnik
+          water_point: Punkt Wody
           youth_centre: Centrum młodzieżowe
         boundary:
           administrative: Granica gminy
@@ -560,6 +556,7 @@ pl:
           protected_area: Obszar chroniony
         bridge:
           aqueduct: Akwedukt
+          boardwalk: Promenada
           suspension: Most wiszący
           swing: Most obrotowy
           viaduct: Most wieloprzęsłowy
@@ -588,11 +585,13 @@ pl:
           bus_guideway: Droga dla autobusów
           bus_stop: Przystanek autobusowy
           construction: Droga w trakcie budowy
+          corridor: Korytarz
           cycleway: Droga rowerowa
           elevator: Winda
           emergency_access_point: Miejsce zbiórki ewakuacyjnej
           footway: Droga dla pieszych
           ford: Bród
+          give_way: Znak drogowy "Ustąp pierwszeństwa przejazdu"
           living_street: Strefa zamieszkania (znak D-40)
           milestone: Słupek pikietażowy
           motorway: Autostrada
@@ -614,6 +613,7 @@ pl:
           services: Miejsce Obsługi Podróżnych
           speed_camera: Fotoradar
           steps: Schody
+          stop: Znak drogowy "Stop"
           street_lamp: Lampa uliczna
           tertiary: Droga trzeciorzędna
           tertiary_link: Droga trzeciorzędna - łącznik
@@ -623,7 +623,6 @@ pl:
           trunk: Droga główna/ekspresowa
           trunk_link: Droga główna/ekspresowa – dojazd
           unclassified: Droga czwartorzędna
-          unsurfaced: Droga polna lub leśna
           "yes": Droga
         historic:
           archaeological_site: Stanowisko archeologiczne
@@ -688,7 +687,6 @@ pl:
         leisure:
           beach_resort: Strzeżona plaża
           bird_hide: Ukryj ptaki
-          club: Klub
           common: Błonie
           dog_park: Park dla psów
           fishing: Łowisko
@@ -715,9 +713,23 @@ pl:
           water_park: Park wodny
           "yes": Rekreacja
         man_made:
+          adit: Szyb
+          beehive: Ul
+          breakwater: Falochron
+          bridge: Most
+          chimney: Komin
+          crane: Żuraw (dźwig)
+          dyke: Grobla
           lighthouse: Latarnia morska
+          mine: Kopalnia
+          pier: Molo/pomost
           pipeline: Rurociąg
           tower: Wieża
+          wastewater_plant: Oczyszczalnia ścieków
+          watermill: Młyn wodny
+          water_tower: Wieża ciśnień
+          water_well: Studnia
+          water_works: Wodociągi
           works: Fabryka
           "yes": Sztuczny
         military:
@@ -781,8 +793,6 @@ pl:
           "yes": Biuro
         place:
           allotments: Ogródki działkowe
-          block: Blok
-          airport: Lotnisko
           city: Miasto
           country: Kraj
           county: Powiat
@@ -794,12 +804,12 @@ pl:
           islet: Wysepka
           isolated_dwelling: Pojedynczy dom-gospodarstwo
           locality: Miejsce nazwane
-          moor: Wrzosowisko
           municipality: Gmina
           neighbourhood: Sąsiedztwo
           postcode: Kod pocztowy
           region: Rejon
           sea: Morze
+          square: Plac
           state: Województwo/stan/prowincja
           subdivision: Dzielnica
           suburb: Osiedle
@@ -811,10 +821,8 @@ pl:
           abandoned: Dawna linia kolejowa
           construction: Budowana linia kolejowa
           disused: Nieczynna linia kolejowa
-          disused_station: Nieczynna stacja kolejowa
           funicular: Kolejka linowa
           halt: Przystanek kolejowy
-          historic_station: Historyczna stacja kolejowa
           junction: Węzeł kolejowy
           level_crossing: Przejazd kolejowy
           light_rail: Lekka kolej
@@ -878,7 +886,6 @@ pl:
           hairdresser: Fryzjernia
           hardware: Sklep ze sprzętem
           hifi: Hi-Fi
-          insurance: Agent ubezpieczeniowy
           jewelry: Sklep z biżuterią
           kiosk: Kiosk
           laundry: Pralnia
@@ -891,21 +898,22 @@ pl:
           optician: Optyk
           organic: Sklep z produktami organicznymi
           outdoor: Sklep turystyczny
+          pawnbroker: Lombard
           pet: Sklep ze zwierzętami
           pharmacy: Apteka
           photo: Sklep fotograficzny
-          salon: Salon
+          seafood: Owoce morza
           second_hand: Lumpeks
           shoes: Sklep obuwniczy
-          shopping_centre: Centrum handlowe
           sports: Sklep sportowy
           stationery: Sklep papierniczy
           supermarket: Supermarket
           tailor: Krawiec
           toys: Sklep z zabawkami
           travel_agency: Biuro podróży
+          vacant: Sklep zamknięty
           video: Sklep filmowy
-          wine: Winiarnia
+          wine: Sklep z winami
           "yes": Sklep
         tourism:
           alpine_hut: Chata alpejska
@@ -960,7 +968,7 @@ pl:
         level10: Granica przedmieścia
     description:
       title:
-        osm_nominatim: Położenie według <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        osm_nominatim: Położenie według <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames: Położenie według <a href="http://www.geonames.org/">Geonames</a>
       types:
@@ -1037,8 +1045,8 @@ pl:
     legal_babble:
       title_html: Prawa autorskie i&nbsp;licencja
       intro_1_html: |-
-        OpenStreetMap<sup><a href="#trademarks">®</a></sup> to projekt <i>open data</i>, rozpowszechniany na licencji <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL) przez <a
-        href="http://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF).
+        OpenStreetMap<sup><a href="#trademarks">®</a></sup> to projekt <i>open data</i>, rozpowszechniany na licencji <a href="https://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL) przez <a
+        href="https://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF).
       intro_2_html: Możesz swobodnie kopiować, rozpowszechniać, przekazywać innym
         i dostosowywać nasze dane, pod warunkiem podania OpenStreetMap i jego autorów
         jako źródło. Jeśli zmienisz, przekształcisz lub wykorzystasz nasze dane, wynik
@@ -1229,7 +1237,7 @@ pl:
       description: Pomoc firmom i organizacjom w przejściu do mapy OpenStreetMap i
         inne usługi.
     wiki:
-      url: http://wiki.openstreetmap.org/wiki/Pl:Main_Page
+      url: https://wiki.openstreetmap.org/wiki/Pl:Main_Page
       title: Wiki OpenStreetMap
       description: Zapoznaj się z wiki, aby uzyskać szczegółową dokumentację OSM.
   about_page:
@@ -1249,8 +1257,8 @@ pl:
        Aby dowiedzieć się więcej na temat wspólnoty, odwiedź
       <a href='https://blog.openstreetmap.org'>Blog OpenStreetMap</a>,
       <a href='%{diary_path}'>blogi użytkowników</a>,
-      <a href='http://blogs.openstreetmap.org/'>blogi społeczności</a> oraz
-      <a href='http://openstreetmap.org.pl'>stronę OSM Polska</a>.
+      <a href='https://blogs.openstreetmap.org/'>blogi społeczności</a> oraz
+      <a href='https://openstreetmap.org.pl'>stronę OSM Polska</a>.
     open_data_title: Otwarte dane
     open_data_html: 'OpenStreetMap to <i>otwarte dane</i>: możesz używać ich jak tylko
       chcesz pod warunkiem, że dodasz, że pochodzą one z  OpenStreetMap i jego członków.
@@ -1898,7 +1906,7 @@ pl:
         html: <p>W przeciwieństwie do innych map, OpenStreetMap jest całkowicie tworzone
           przez ludzi takich jak ty. Wszyscy mogą tu wprowadzać poprawki i aktualizacje
           oraz pobierać i używać map za darmo.</p>
-      license_agreement: Zakładając konto użytkownika wyrażasz zgodę na <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">Warunki
+      license_agreement: Zakładając konto użytkownika wyrażasz zgodę na <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">Warunki
         uczestnictwa</a>.
       email address: 'Adres e-mail:'
       confirm email address: 'Potwierdzenie adresu e-mail:'
@@ -2028,12 +2036,12 @@ pl:
       email never displayed publicly: (nie jest wyświetlany publicznie)
       external auth: 'Zewnętrzne uwierzytelnienie:'
       openid:
-        link: http://wiki.openstreetmap.org/wiki/PL:OpenID
+        link: https://wiki.openstreetmap.org/wiki/PL:OpenID
         link text: co to jest?
       public editing:
         heading: 'Edycje publiczne:'
         enabled: Włączone. Nie anonimowy i uprawniony do edycji danych.
-        enabled link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
+        enabled link: https://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
         enabled link text: co to jest?
         disabled: Wyłączone i nieuprawniony do edycji danych, wszystkie wcześniejsze
           edycje są anonimowe.

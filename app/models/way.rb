@@ -120,14 +120,10 @@ class Way < ActiveRecord::Base
     way_nodes.each do |nd|
       if visible_nodes
         # if there is a list of visible nodes then use that to weed out deleted nodes
-        if visible_nodes[nd.node_id]
-          ordered_nodes[nd.sequence_id] = nd.node_id.to_s
-        end
+        ordered_nodes[nd.sequence_id] = nd.node_id.to_s if visible_nodes[nd.node_id]
       else
         # otherwise, manually go to the db to check things
-        if nd.node && nd.node.visible?
-          ordered_nodes[nd.sequence_id] = nd.node_id.to_s
-        end
+        ordered_nodes[nd.sequence_id] = nd.node_id.to_s if nd.node && nd.node.visible?
       end
     end
 
@@ -184,9 +180,7 @@ class Way < ActiveRecord::Base
     Way.transaction do
       lock!
       check_consistency(self, new_way, user)
-      unless new_way.preconditions_ok?(nds)
-        raise OSM::APIPreconditionFailedError, "Cannot update way #{id}: data is invalid."
-      end
+      raise OSM::APIPreconditionFailedError, "Cannot update way #{id}: data is invalid." unless new_way.preconditions_ok?(nds)
 
       self.changeset_id = new_way.changeset_id
       self.changeset = new_way.changeset
@@ -199,9 +193,7 @@ class Way < ActiveRecord::Base
 
   def create_with_history(user)
     check_create_consistency(self, user)
-    unless preconditions_ok?
-      raise OSM::APIPreconditionFailedError, "Cannot create way: data is invalid."
-    end
+    raise OSM::APIPreconditionFailedError, "Cannot create way: data is invalid." unless preconditions_ok?
     self.version = 0
     self.visible = true
     save_with_history!
@@ -209,9 +201,7 @@ class Way < ActiveRecord::Base
 
   def preconditions_ok?(old_nodes = [])
     return false if nds.empty?
-    if nds.length > MAX_NUMBER_OF_WAY_NODES
-      raise OSM::APITooManyWayNodesError.new(id, nds.length, MAX_NUMBER_OF_WAY_NODES)
-    end
+    raise OSM::APITooManyWayNodesError.new(id, nds.length, MAX_NUMBER_OF_WAY_NODES) if nds.length > MAX_NUMBER_OF_WAY_NODES
 
     # check only the new nodes, for efficiency - old nodes having been checked last time and can't
     # be deleted when they're in-use.

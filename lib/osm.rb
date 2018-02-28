@@ -475,10 +475,10 @@ module OSM
         lonradius = PI
       end
 
-      minlat = (@lat - latradius) * 180 / PI
-      maxlat = (@lat + latradius) * 180 / PI
-      minlon = (@lon - lonradius) * 180 / PI
-      maxlon = (@lon + lonradius) * 180 / PI
+      minlat = [(@lat - latradius) * 180 / PI, -90].max
+      maxlat = [(@lat + latradius) * 180 / PI, 90].min
+      minlon = [(@lon - lonradius) * 180 / PI, -180].max
+      maxlon = [(@lon + lonradius) * 180 / PI, 180].min
 
       { :minlat => minlat, :maxlat => maxlat, :minlon => minlon, :maxlon => maxlon }
     end

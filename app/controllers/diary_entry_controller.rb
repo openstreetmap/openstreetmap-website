@@ -65,9 +65,7 @@ class DiaryEntryController < ApplicationController
 
       # Notify current subscribers of the new comment
       @entry.subscribers.visible.each do |user|
-        if current_user != user
-          Notifier.diary_comment_notification(@diary_comment, user).deliver_now
-        end
+        Notifier.diary_comment_notification(@diary_comment, user).deliver_now if current_user != user
       end
 
       # Add the commenter to the subscribers if necessary
@@ -159,7 +157,7 @@ class DiaryEntryController < ApplicationController
         @entries = user.diary_entries
         @title = I18n.t("diary_entry.feed.user.title", :user => user.display_name)
         @description = I18n.t("diary_entry.feed.user.description", :user => user.display_name)
-        @link = "http://#{SERVER_URL}/user/#{user.display_name}/diary"
+        @link = "#{SERVER_PROTOCOL}://#{SERVER_URL}/user/#{user.display_name}/diary"
       else
         head :not_found
         return
@@ -171,11 +169,11 @@ class DiaryEntryController < ApplicationController
         @entries = @entries.where(:language_code => params[:language])
         @title = I18n.t("diary_entry.feed.language.title", :language_name => Language.find(params[:language]).english_name)
         @description = I18n.t("diary_entry.feed.language.description", :language_name => Language.find(params[:language]).english_name)
-        @link = "http://#{SERVER_URL}/diary/#{params[:language]}"
+        @link = "#{SERVER_PROTOCOL}://#{SERVER_URL}/diary/#{params[:language]}"
       else
         @title = I18n.t("diary_entry.feed.all.title")
         @description = I18n.t("diary_entry.feed.all.description")
-        @link = "http://#{SERVER_URL}/diary"
+        @link = "#{SERVER_PROTOCOL}://#{SERVER_URL}/diary"
       end
     end
 

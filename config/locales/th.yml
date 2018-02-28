@@ -185,7 +185,7 @@ th:
       wiki_link:
         key: หน้าคำอธิบายวิกิาสำหรับป้ายระบุ %{key}
         tag: หน้าคำอธิบายวิกิาสำหรับป้ายระบุ %{key}=%{value}
-      wikidata_link: รายการ %{page} ที่วิกิข้อมูล
+      wikidata_link: รายการ %{page} ที่วิกิสนเทศ
       wikipedia_link: บทความ %{page} ที่วิกิพีเดีย
       telephone_link: โทรศัพท์ไปเลขหมาย %{phone_number}
     note:
@@ -211,10 +211,10 @@ th:
         ก่อน</abbr>
       hidden_by: ซ่อนโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when} ก่อน</abbr>
     query:
-      title: คุณสมบัติการสอบถาม
+      title: ส่วนประกอบในพื้นที่
       introduction: คลิกที่แผนที่เพื่อค้นหาคุณสมบัติต่าง ๆ ที่อยู่ใกล้เคียง
-      nearby: คุณสมบัติที่อยู่ใกล้เคียง
-      enclosing: คุณสมบัติที่ปิดล้อม
+      nearby: ส่วนประกอบที่อยู่ใกล้เคียง
+      enclosing: ส่วนประกอบที่ปิดล้อม
   changeset:
     changeset_paging_nav:
       showing_page: หน้า %{page}
@@ -386,11 +386,15 @@ th:
           chair_lift: รถกระเช้าเปลือย
           drag_lift: ลิฟต์ลากสกี
           gondola: รถกระเช้า
+          platter: กระเช้าลาก
+          pylon: เสากระเช้า
           station: สถานีรถกระเช้า
         aeroway:
           aerodrome: ลานบิน
+          airstrip: ลานบินขนาดเล็ก
           apron: ลานจอดเครื่องบิน
           gate: ประตูขึ้นเครื่อง
+          hangar: โรงเก็บเครื่องบิน
           helipad: ลานจอดเฮลิคอปเตอร์
           runway: ทางวิ่งเครื่องบิน
           taxiway: ทางขับเครื่องบิน
@@ -426,37 +430,31 @@ th:
           crematorium: ฌาปนสถาน
           dentist: ทันตแพทย์
           doctors: แพทย์
-          dormitory: หอพักนักศึกษา
-          drinking_water: น้ำดื่ม
+          drinking_water: ก๊อกน้ำดื่ม
           driving_school: โรงเรียนสอนขับรถ
           embassy: สถานทูต
-          emergency_phone: โทรศัพท์ฉุกเฉิน
           fast_food: อาหารจานด่วน
           ferry_terminal: สถานีเรือข้ามฟาก
-          fire_hydrant: หัวดับเพลิง
           fire_station: สถานีดับเพลิง
           food_court: ศูนย์อาหาร
           fountain: น้ำพุ
           fuel: สถานีบริการเชื้อเพลิง
           gambling: การพนัน
           grave_yard: สุสาน
-          gym: สถานออกกำลังกาย
-          health_centre: ศูนย์สุขภาพ
           hospital: โรงพยาบาล
           hunting_stand: บังไพรล่าสัตว์
           ice_cream: ร้านไอศกรีม
           kindergarten: โรงเรียนอนุบาล
           library: ห้องสมุด
-          market: ตลาด
           marketplace: ตลาด
           monastery: สำนักสงฆ์
           motorcycle_parking: ที่จอดรถจักรยานยนต์
           nightclub: สถานบันเทิง
-          nursery: สถานรับเลี้ยงเด็ก
           nursing_home: สถานสงเคราะห์หรือบ้านพักคนชรา
           office: สำนักงาน
           parking: ที่จอดรถ
           parking_entrance: ทางเข้าที่จอดรถ
+          parking_space: ซองจอดรถ
           pharmacy: ร้านขายยา
           place_of_worship: สถานที่ประกอบพิธีทางศาสนา
           police: สถานีตำรวจ
@@ -466,7 +464,6 @@ th:
           prison: ทัณฑสถาน
           pub: ร้านเหล้า
           public_building: อาคารสาธารณะ
-          reception_area: พื้นที่ต้อนรับ
           recycling: จุดรีไซเคิล
           restaurant: ร้านอาหาร
           retirement_home: บ้านพักวัยเกษียณ
@@ -491,6 +488,7 @@ th:
           village_hall: ศาลากลางหมู่บ้าน
           waste_basket: ถังขยะ
           waste_disposal: ที่ทิ้งขยะ
+          water_point: จุดเติมน้ำดื่ม
           youth_centre: ศูนย์เยาวชน
         boundary:
           administrative: ขอบเขตการปกครอง
@@ -499,6 +497,7 @@ th:
           protected_area: พื้นที่ปกป้อง
         bridge:
           aqueduct: สะพานส่งน้ำ
+          boardwalk: ทางเดินไม้กระดาน
           suspension: สะพานแขวน
           swing: สะพานหันข้าง
           viaduct: สะพานบก
@@ -518,20 +517,24 @@ th:
           "yes": ร้านงานฝีมือ
         emergency:
           ambulance_station: สถานีรถพยาบาล
+          assembly_point: จุดรวมพล
           defibrillator: เครื่องช่วยกระตุ้นหัวใจ
           landing_site: พื้นที่ลงจอดฉุกเฉิน
           phone: โทรศัพท์ฉุกเฉิน
+          "yes": อุปกรณ์ฉุกเฉิน
         highway:
           abandoned: ทางหลวงที่เลิกใช้แล้ว
           bridleway: ทางเกวียน
           bus_guideway: ทางรถสาธารณะชนิดบังคับล้อได้
           bus_stop: ที่หยุดรถสาธารณะ
           construction: ทางหลวงกำลังสร้าง
+          corridor: ระเบียงทางเดิน
           cycleway: ทางจักรยาน
           elevator: ลิฟต์
           emergency_access_point: จุดเข้าถึงฉุกเฉิน
           footway: ทางเดินเท้า
           ford: ถนนตัดทางน้ำ
+          give_way: ป้ายให้ทาง
           living_street: ถนนใช้ร่วมรถและคน
           milestone: หลักไมล์
           motorway: ทางหลวงพิเศษ
@@ -552,7 +555,8 @@ th:
           service: ถนนสำหรับซ่อมบำรุง
           services: บริการทางหลวงพิเศษ
           speed_camera: กล้องจับความเร็ว
-          steps: ขั้น
+          steps: ขั้นบันใด
+          stop: ป้ายหยุด
           street_lamp: ไฟถนน
           tertiary: ถนนสายย่อย
           tertiary_link: ถนนสายย่อย
@@ -562,7 +566,6 @@ th:
           trunk: ถนนสายประธาน
           trunk_link: ถนนสายประธาน
           unclassified: ถนนที่มิได้จำแนก
-          unsurfaced: ถนนที่ยังไม่ปูลาด
           "yes": ถนน
         historic:
           archaeological_site: สถานที่ทางโบราณคดี
@@ -581,6 +584,7 @@ th:
           manor: บ้านสวน
           memorial: อนุสรณ์
           mine: เหมือง
+          mine_shaft: ปล่องเหมืองเก่า
           monument: อนุสาวรีย์
           roman_road: ถนนโรมัน
           ruins: ซากโบราณสถาน
@@ -590,6 +594,7 @@ th:
           wayside_cross: กางเขนข้างทาง
           wayside_shrine: ศาลเจ้าข้างทาง
           wreck: ซากปรักหักพัง
+          "yes": สถานที่ประวัติศาสตร์
         junction:
           "yes": ทางแยก
         landuse:
@@ -619,7 +624,7 @@ th:
           reservoir: อ่างเก็บน้ำ
           reservoir_watershed: สันปันน้ำ
           residential: เขตที่พักอาศัย
-          retail: ร้านค้าขายปลีก
+          retail: พื้นที่ร้านค้า
           road: พื้นที่ถนน
           village_green: ลานหญ้าในเขตหมู่บ้าน
           vineyard: ไร่องุ่น
@@ -627,9 +632,9 @@ th:
         leisure:
           beach_resort: สถานตากอากาศชายหาด
           bird_hide: บังไพรดูนก
-          club: สโมสร
           common: พื้นที่สาธารณประโยชน์
           dog_park: สวนสุนัข
+          firepit: จุดก่อกองไฟ
           fishing: พื้นที่ตกปลา
           fitness_centre: ศูนย์ออกกำลังกาย
           fitness_station: ศูนย์ออกกำลังกาย
@@ -654,15 +659,38 @@ th:
           water_park: สวนน้ำ
           "yes": สถานที่เพื่อนันทนาการ
         man_made:
+          beacon: เสาไฟสัญญาณ
+          beehive: คอนเลี้ยงผึ้ง
+          bridge: สะพาน
+          chimney: ปล่องไฟ
+          crane: ปั้นจั่น
+          dolphin: หลักผูกเรือ
+          flagpole: เสาธง
+          gasometer: ถุงเก็บแก๊ส
+          kiln: เตาเผา
           lighthouse: ประภาคาร/กระโจมไฟ
+          mast: เสา
+          mine: เหมือง
+          mineshaft: ปล่องเหมือง
+          monitoring_station: สถานีตรวจอากาศ
+          petroleum_well: บ่อน้ำมัน
           pipeline: ท่อส่งน้ำมัน
+          storage_tank: ถังกักเก็บ
+          surveillance: กล้องวงจรปิด
           tower: หอคอย
+          wastewater_plant: โรงบำบัดน้ำเสีย
+          watermill: กังหันน้ำ
+          water_tower: หอเก็บน้ำ
+          water_well: บ่อน้ำ
+          water_works: โรงประปา
+          windmill: กังหันลม
           works: โรงงาน
           "yes": ที่มนุษย์สร้างขึ้น
         military:
           airfield: สนามบินทหาร
           barracks: โรงทหาร
           bunker: หลุมหลบภัย
+          "yes": เขตทหาร
         mountain_pass:
           "yes": ช่องเขา
         natural:
@@ -708,7 +736,9 @@ th:
           accountant: นักบัญชี
           administrative: การปกครอง
           architect: สถาปนิก
+          association: สมาคม
           company: บริษัท
+          educational_institution: สถาบันการศึกษา
           employment_agency: บริษัทจัดหางาน
           estate_agent: บริษัทอสังหาริมทรัพย์
           government: สำนักงานของรัฐบาล
@@ -720,8 +750,6 @@ th:
           "yes": สำนักงาน
         place:
           allotments: ที่ดินแบ่งใช้
-          block: ช่วงตึก
-          airport: สนามบิน
           city: เมือง
           country: ประเทศ
           county: จังหวัด
@@ -733,12 +761,12 @@ th:
           islet: เกาะขนาดเล็ก
           isolated_dwelling: ที่อยู่อาศัยโดด
           locality: ชุมชน
-          moor: ทุ่งหญ้าที่สูง
           municipality: เทศบาล
           neighbourhood: ชุมชน
           postcode: รหัสไปรษณีย์
           region: ภูมิภาค
           sea: ทะเล
+          square: จตุรัส
           state: รัฐ
           subdivision: เขตการปกครองย่อย
           suburb: ชานเมือง
@@ -750,10 +778,8 @@ th:
           abandoned: ทางรถไฟที่เลิกใช้แล้ว
           construction: ทางรถไฟกำลังสร้าง
           disused: ทางรถไฟเลิกใช้แล้ว
-          disused_station: สถานีรถไฟยุบแล้ว
           funicular: รถไฟขึ้นลงเนิน
           halt: ที่หยุดรถไฟ
-          historic_station: สถานีรถไฟในอดีต
           junction: ชุมทางรถไฟ
           level_crossing: ทางผ่านเสมอระดับ
           light_rail: รถไฟเบา
@@ -817,12 +843,15 @@ th:
           hairdresser: ร้านทำผม
           hardware: ร้านวัสดุก่อสร้าง
           hifi: เครื่องเสียง
-          insurance: ประกันภัย
+          houseware: ร้านขายเครื่องใช้ในบ้าน
           jewelry: ร้านเครื่องประดับ
           kiosk: ร้านแผงลอย
+          kitchen: ร้านเครื่องครัว
           laundry: ร้านซักรีด
-          mall: ห้างสรรพสินค้าขนาดใหญ่
+          lottery: ร้านขายสลาก
+          mall: ศูนย์การค้า
           market: ตลาด
+          massage: ร้านนวด
           mobile_phone: ร้านโทรศัพท์มือถือ
           motorcycle: ร้านรถจักรยานยนต์
           music: ร้านดนตรี
@@ -830,19 +859,25 @@ th:
           optician: จักษุแพทย์
           organic: ร้านขายอาหารอินทรีย์
           outdoor: ร้านขายอุปกรณ์ผจญภัย
+          paint: ร้านขายสี
+          pawnbroker: โรงรับจำนำ
           pet: ร้านขายสัตว์เลี้ยงและอุปกรณ์
           pharmacy: ร้านขายยา
           photo: ร้านถ่ายภาพ
-          salon: ร้านทำผมสตรี
+          seafood: ร้านขายอาหารทะเล
           second_hand: ร้านขายของมือสอง
           shoes: ร้านขายรองเท้า
-          shopping_centre: ห้างสรรพสินค้า
           sports: ร้านขายอุปกรณ์กีฬา
           stationery: ร้านขายเครื่องเขียน
-          supermarket: ห้างสรรพสินค้า
+          supermarket: ซุปเปอร์มาร์เก็ต
           tailor: ช่างตัดเสื้อผ้า
+          ticket: ร้านขายตั๋ว
+          tobacco: ร้านขายยาสูบ
           toys: ร้านขายของเล่น
           travel_agency: ตัวแทนการเดินทาง
+          tyres: ร้านขายยางรถ
+          vacant: ร้านทิ้งร้าง
+          variety_store: ร้านขายของจุกจิก
           video: ร้านขายภาพยนตร์
           wine: ร้านขายสุรา
           "yes": ร้านค้า
@@ -868,6 +903,7 @@ th:
           viewpoint: จุดชมวิว
           zoo: สวนสัตว์
         tunnel:
+          building_passage: ทางลอดตึก
           culvert: ท่อระบายน้ำ
           "yes": อุโมงค์
         waterway:
@@ -971,16 +1007,16 @@ th:
       title_html: ลิขสิทธิ์และสัญญาอนุญาต
       intro_1_html: |-
         OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> เป็น<i>ข้อมูลเปิดให้ใช้งาน</i> และอนุญาตให้ใช้งานภายใต้สัญญาอนุญาต <a
-        href="http://opendatacommons.org/licenses/odbl/">Open Data
+        href="https://opendatacommons.org/licenses/odbl/">Open Data
         Commons Open Database License</a> (ODbL) โดย<a
-        href="http://osmfoundation.org/">มูลนิธิ OpenStreetMap</a> (OSMF).
+        href="https://osmfoundation.org/">มูลนิธิ OpenStreetMap</a> (OSMF).
       intro_2_html: "ท่านสามารถทำสำเนา แจกจ่าย แพร่ภาพ และปรับใช้ข้อมูลของเรา\nตราบเท่าที่ได้ระบุชื่อ
         OpenStreetMap ตลอดจนผู้ร่วมจัดทำไว้ในคำขอบคุณหรือที่มา\nถ้าท่านปรับแก้ไขหรือสร้างสรรค์งานใหม่โดยใช้ข้อมูลของเราเป็นพื้น
         ท่านสามารถ\nแจกจ่ายผลลัพธ์ที่ได้ภายใต้สัญญาอนุญาตเดียวกันเท่านั้น โปรดดู <a
-        href=\"http://opendatacommons.org/licenses/odbl/1.0/\">ข้อกำหนดทางกฎหมาย</a>
+        href=\"https://opendatacommons.org/licenses/odbl/1.0/\">ข้อกำหนดทางกฎหมาย</a>
         \nซึ่งจะอธิบายสิทธิและหน้าที่ที่ท่านพึงมี"
       intro_3_html: |-
-        ภาพร่าง ลายเส้นแผนที่ตามที่ปรากฏ และเอกสารกำกับ อนุญาตให้ใช้งานตามสัญญาอนุญาต <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+        ภาพร่าง ลายเส้นแผนที่ตามที่ปรากฏ และเอกสารกำกับ อนุญาตให้ใช้งานตามสัญญาอนุญาต <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
         Commons Attribution-ShareAlike 2.0</a> (CC BY-SA)
       credit_title_html: วิธีการแสดงที่มาหรือคำขอบคุณ OpenStreetMap
       credit_1_html: |-
@@ -990,7 +1026,7 @@ th:
         ท่านจะต้องระบุให้ชัดเจนเจาะจงว่าข้อมูลอนุญาตให้ใช้ตามสัญญาอนุญาต Open
         Database License และถ้ามีการนำรูปแผนที่ไปใช้ รูปนั้นอนุญาตให้ใช้ตามสัญญาอนุญาต
          CC BY-SA ในการนี้อาจจะลิงก์ไปยังหน้า
-        <a href="http://www.openstreetmap.org/copyright">ข้อมูลลิขสิทธิ์</a>
+        <a href="https://www.openstreetmap.org/copyright">ข้อมูลลิขสิทธิ์</a>
         นอกจากนี้ (จำเป็นหากท่านจ่ายแจกข้อมูล OSM) ท่านสามารถลิงก์ไปยังสัญญาอนุญาตโดยตรง
         ในสื่ออย่างอื่น อาทิ สิ่งพิมพ์ ซึ่งไม่สามารถลิงก์ข้อมูลได้แนะนำให้ระบุเพียง openstreetmap.org
         และ/หรือ opendatacommons.org และ/หรือ creativecommons.org
@@ -998,10 +1034,10 @@ th:
       contributors_title_html: ผู้ร่วมสร้างสรรค์ของเรา
       contributors_at_html: |-
         <strong>ออสเตรีย</strong>: มีข้อมูลจาก
-        <a href="http://data.wien.gv.at/">Stadt Wien</a> (under
-        <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
-        <a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> และ
-        Land Tirol (under <a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT with amendments</a>).
+        <a href="https://data.wien.gv.at/">Stadt Wien</a> (under
+        <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
+        <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> และ
+        Land Tirol (under <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT with amendments</a>).
       contributors_ca_html: |-
         <strong>แคนาดา</strong>: มีข้อมูลจาก
         GeoBase&reg;, GeoGratis (&copy; Department of Natural
@@ -1012,7 +1048,7 @@ th:
         <strong>ฟินแลนด์</strong>: มีข้อมูลจาก
         ฐานข้อมูลการสำรวจภูมิศาสตร์แห่งชาติฟินแลนด์และฐานข้อมูลอื่น
         อนุญาตให้ใช้ตาม
-        <a href="http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501">สัญญาอนุญาต NLSFI</a>.
+        <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">สัญญาอนุญาต NLSFI</a>.
       contributors_fr_html: |-
         <strong>ฝรั่งเศส</strong>: มีข้อมูลจากอธิบดีกรมภาษี (
         Direction Générale des Impôts)
@@ -1084,12 +1120,14 @@ th:
     welcome:
       title: ยินดีต้อนรับสู่ OSM
     beginners_guide:
-      url: http://wiki.openstreetmap.org/wiki/Th:Beginners%27_guide
+      url: https://wiki.openstreetmap.org/wiki/Th:Beginners%27_guide
       title: คำแนะนำสำหรับผู้เริ่มต้น
     mailing_lists:
       title: รายการอีเมลรับข่าวสาร
     forums:
       title: กระดานสนทนา
+    irc:
+      title: ไออาร์ซี
   about_page:
     next: ถัดไป
     used_by: '%{name} - ข้อมูลแผนที่ซึ่งขับเคลื่อนเว็บไซต์ แอปพลิเคชั่นมือถือ และอุปกรณ์นำทางมากมายรอบตัวคุณ'
@@ -1397,7 +1435,7 @@ th:
       edit: แก้ไข
       preview: แสดงตัวอย่าง
     markdown_help:
-      title_html: ตัดอ่านโดย <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: เขียนด้วยรูปแบบ <a href="https://daringfireball.net/projects/markdown/">Markdown</a>
       headings: หัวเรื่องหลัก
       heading: หัวเรื่องหลัก
       subheading: หัวเรื่องย่อย
@@ -1422,6 +1460,13 @@ th:
         ซึ่งจะใช้เวลาประมาณครึ่งชั่วโมง เมื่อกระบวนการเรียบร้อยแล้วจะมีอีเมลแจ้งท่านให้ทราบ
     edit:
       filename: 'ชื่อแฟ้ม:'
+      download: ดาวน์โหลด
+      uploaded_at: 'อัปโหลดเมื่อ:'
+      points: 'จุด:'
+      start_coord: 'เริ่มจากตำแหน่ง:'
+      map: แผนที่
+      edit: แก้ไข
+      tags: 'ป้ายกำกับ:'
       tags_help: คั่นด้วยจุลภาค
       save_button: บันทึกการเปลี่ยนแปลง
       visibility: 'สถานะการแสดง:'
@@ -1495,6 +1540,11 @@ th:
       description_without_count: แฟ้มข้อมูล GPX จากผู้ใช้ %{user}
   oauth:
     oauthorize:
+      title: อนุญาตการเข้าถึงบัญชีของคุณ
+      allow_to: 'อนุญาตให้โปรแกรมสามารถ:'
+      allow_read_prefs: อ่านการตั้งค่าผู้ใช้ของคุณ
+      allow_write_prefs: แก้ไขการตั้งค่าผู้ใช้ของคุณ
+      allow_write_api: แก้ไขแผนที่
       allow_write_notes: แก้ไขหมายเหตุ
       grant_access: อนุญาตการเข้าถึง
     oauthorize_success:
@@ -1574,6 +1624,8 @@ th:
     login:
       title: ลงชื่อเข้าใช้
       heading: ลงชื่อเข้าใช้
+      email or username: 'อีเมลหรือชื่อผู้ใช้:'
+      password: 'รหัสผ่าน:'
       remember: จดจำฉันไว้ในระบบ
       lost password link: ลืมรหัสผ่านหรือ?
       login_button: ลงชื่อเข้าใช้
@@ -1615,16 +1667,23 @@ th:
     lost_password:
       title: ตั้งรหัสผ่านใหม่
       heading: ลืมรหัสผ่านหรือ?
+      email address: 'ที่อยู่อีเมล:'
       new password button: ตั้งรหัสผ่านใหม่
     reset_password:
+      title: ตั้งรหัสผ่านใหม่
+      heading: 'ตั้วรหัสผ่านใหม่สำหรับ: %{user}'
       password: 'รหัสผ่าน:'
       confirm password: 'ยืนยันรหัสผ่าน:'
+      reset: ตั้งรหัสผ่านใหม่
+      flash changed: เปลี่ยนรหัสผ่านของคุณแล้วเรียบร้อย
     new:
       title: สมัครสมาชิก
+      about:
+        header: เสรีและแก้ไขได้
       email address: 'ที่อยู่อีเมล:'
       confirm email address: 'ยืนยันที่อยู่อีเมล:'
       not displayed publicly: ที่อยู่ของท่านจะไม่แสดงให้บุคคลภายนอกเห็น โปรดดู <a
-        href="http://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF privacy
+        href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF privacy
         policy including section on email addresses">นโบายความเป็นส่วนบุคคล</a> ถ้าต้องการรายละเอียดเพิ่มเติม
       display name: 'ชื่อที่ใช้แสดง:'
       display name description: ชื่อที่แสดงต่อสาธารณะ ท่านสามารถเปลี่ยนในภายหลังได้ในหน้าการตั้งค่า
@@ -1665,7 +1724,7 @@ th:
       my profile: ประวัติของฉัน
       my settings: การตั้งค่าของฉัน
       my comments: ความคิดเห็นของฉัน
-      oauth settings: การตั้งค่าoauth
+      oauth settings: ตั้งค่าการอนุญาต OAuth
       blocks on me: ผู้ใช้ที่กีดกันข้าพเจ้า
       blocks by me: ผู้ใช้ที่ข้าพเจ้ากีดกัน
       send message: ส่งข้อความ
@@ -1688,27 +1747,34 @@ th:
       spam score: 'คะแนนสแปม:'
       description: คำอธิบาย
       user location: ตำแหน่งผู้ใช้
+      if set location: เพื่อค้นหาผู้ใช้ที่อยู่ข้างเคียง ให้ตั้งค่าตำแหน่งบ้านในหน้า%{settings_link}
       settings_link_text: การตั้งค่า
       your friends: เพื่อนของท่าน
       no friends: ท่านยังไม่ได้เพิ่มเพื่อนใด ๆ
       km away: ห่างออกไป %{count}km
       m away: ห่างออกไป %{count}m
       nearby users: ผู้ใช้ท่านอื่นที่ใกล้เคียง
+      no nearby users: ไม่ได้มีผู้ใดแสดงตัวว่าทำแผนที่อยู่ใกล้เคียง
       comments: ความเห็นที่เขียน
       create_block: กีดกันผู้ใช้นี้
       activate_user: เปิดใช้งานผู้ใช้นี้
       deactivate_user: ปิดใช้งานผู้ใช้นี้
+      confirm: ยืนยัน
     popup:
       your location: ตำแหน่งของคุณ
+      friend: เพื่อน
     account:
       title: แก้ไขบัญชี
       my settings: การตั้งค่าของฉัน
       current email address: 'ที่อยู่อีเมลปัจจุบัน:'
       new email address: 'ที่อยู่อีเมลใหม่:'
       email never displayed publicly: (จะไม่แสดงต่อสาธารณะ)
-      external auth: 'การอนุญาตจากภายนอก:'
+      external auth: 'เชื่อมโยงตัวตนจากบริการอื่น:'
       openid:
         link text: นี้คืออะไร?
+      public editing:
+        heading: 'แก้ไขโดยเปิดเผย:'
+        enabled link text: นี้คืออะไร?
       contributor terms:
         link text: นี้คืออะไร?
       profile description: 'คำอธิบายหน้าประวัติส่วนตัว:'
@@ -1801,7 +1867,7 @@ th:
       connection_failed: การเชื่อมต่อกับผู้ให้บริการบัญชีภายนอกล้มเหลว
       invalid_credentials: ชื่อผู้ใช้และ/หรือรหัสผ่านไม่ถูกต้อง
       no_authorization_code: ไม่มีรหัสยืนยัน
-      unknown_signature_algorithm: ขั้นตอนวิธีลายมือชื่อไม่ทราบ
+      unknown_signature_algorithm: ลายเซ็นดิจิตอลที่ใช้เป็นระบบที่ไม่รู้จัก
       invalid_scope: ขอบข่ายผิดพลาด
     auth_association:
       heading: บัญชีภายนอกของท่านยังมิได้ต่อเชื่อมกับบัญชี OpenStreetMap
@@ -1870,6 +1936,9 @@ th:
       heading: รายการการกีดกันผู้ใช้
       empty: ยังไม่มีการกีดกันใด ๆ
     partial:
+      show: แสดง
+      edit: แก้ไข
+      status: สถานะ
       next: ถัดไป »
       previous: « ก่อนหน้า
     helper:
@@ -1878,6 +1947,10 @@ th:
       title: การกีดกันบน %{name}
       heading: รายการการกีดกันบน %{name}
       empty: '%{name} ยังไม่ได้ถูกกีดกัน'
+    show:
+      status: สถานะ
+      show: แสดง
+      edit: แก้ไข
   note:
     rss:
       title: หมายเหตุแผนที่ บน OpenStreetMap
@@ -1889,8 +1962,14 @@ th:
     share:
       title: แบ่งปัน
       cancel: ยกเลิก
+      image: ภาพ
+      link: ลิงก์ หรือ HTML
+      long_link: ลิงก์
+      short_link: ลิงก์สั้น
+      custom_dimensions: กำหนดขนาดแผนที่เอง
       format: 'รูปแบบ:'
       scale: 'ขนาด:'
+      download: ดาวน์โหลด
       short_url: URL สั้น
       include_marker: แสดงไอคอนหมุด
     embed:
@@ -1913,12 +1992,14 @@ th:
         header: ชั้นแผนที่
         notes: หมายเหตุแผนที่
         data: ข้อมูลแผนที่
+        gps: รอยทาง GPS สาธารณะ
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>บริจาค</a>
     site:
       edit_tooltip: แก้ไขแผนที่
       edit_disabled_tooltip: ขยายเพื่อแก้ไขแผนที่
       createnote_tooltip: ใส่หมายเหตุลงในแผนที่
-      queryfeature_tooltip: สอบถามส่วนประกอบ
+      queryfeature_tooltip: แสดงส่วนประกอบ
+      queryfeature_disabled_tooltip: ต้องซูมเข้ามากกว่านี้ จึงจะตรวจสอบส่วนประกอบได้
     changesets:
       show:
         comment: ความคิดเห็น
@@ -1931,6 +2012,9 @@ th:
         add: เพิ่มหมายเหตุ
       show:
         hide: ซ่อน
+        resolve: ปิดเรื่อง
+        comment_and_resolve: แสดงความเห็น และปิดเรื่อง
+        comment: แสดงความเห็น
     directions:
       ascend: ลาดขึ้น
       descend: ลาดลง
@@ -1974,7 +2058,7 @@ th:
       directions_to: เส้นทางมาที่นี่
       add_note: เพิ่มหมายเหตุตรงนี้
       show_address: แสดงที่อยู่
-      query_features: สอบถามส่วนประกอบ
+      query_features: แสดงส่วนประกอบ
       centre_map: วางแผนที่ตรงกลางที่นี่
   redaction:
     edit:

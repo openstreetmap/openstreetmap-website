@@ -1,8 +1,9 @@
 require "test_helper"
 require "stringio"
-include Potlatch
 
 class AmfControllerTest < ActionController::TestCase
+  include Potlatch
+
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -730,8 +731,8 @@ class AmfControllerTest < ActionController::TestCase
     # This node has no tags
 
     # create a node with random lat/lon
-    lat = rand(100) - 50 + rand
-    lon = rand(100) - 50 + rand
+    lat = rand(-50..49) + rand
+    lon = rand(-50..49) + rand
 
     changeset = create(:changeset)
     user = changeset.user
@@ -770,8 +771,8 @@ class AmfControllerTest < ActionController::TestCase
     # This node has some tags
 
     # create a node with random lat/lon
-    lat = rand(100) - 50 + rand
-    lon = rand(100) - 50 + rand
+    lat = rand(-50..49) + rand
+    lon = rand(-50..49) + rand
 
     amf_content "putpoi", "/2", ["#{user.email}:test", changeset.id, nil, nil, lon, lat, { "key" => "value", "ping" => "pong" }, nil]
     post :amf_write
@@ -811,8 +812,8 @@ class AmfControllerTest < ActionController::TestCase
     # This node has no tags
 
     # create a node with random lat/lon
-    lat = rand(100) - 50 + rand
-    lon = rand(100) - 50 + rand
+    lat = rand(-50..49) + rand
+    lon = rand(-50..49) + rand
 
     changeset = create(:changeset)
     user = changeset.user
@@ -847,8 +848,8 @@ class AmfControllerTest < ActionController::TestCase
     # This node has no tags
 
     # create a node with random lat/lon
-    lat = rand(100) - 50 + rand
-    lon = rand(100) - 50 + rand
+    lat = rand(-50..49) + rand
+    lon = rand(-50..49) + rand
 
     changeset = create(:changeset)
     user = changeset.user

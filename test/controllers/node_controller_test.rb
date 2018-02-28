@@ -33,8 +33,8 @@ class NodeControllerTest < ActionController::TestCase
     changeset = create(:changeset, :user => user)
 
     # create a node with random lat/lon
-    lat = rand(100) - 50 + rand
-    lon = rand(100) - 50 + rand
+    lat = rand(-50..50) + rand
+    lon = rand(-50..50) + rand
 
     ## First try with no auth
     # create a minimal xml file

@@ -63,9 +63,7 @@ class OauthController < ApplicationController
                                     "&oauth_token=#{@token.token}"
                                 end
 
-          unless @token.oauth10?
-            @redirect_url.query += "&oauth_verifier=#{@token.verifier}"
-          end
+          @redirect_url.query += "&oauth_verifier=#{@token.verifier}" unless @token.oauth10?
 
           redirect_to @redirect_url.to_s
         end

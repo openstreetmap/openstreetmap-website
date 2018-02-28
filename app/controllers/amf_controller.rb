@@ -508,14 +508,10 @@ class AmfController < ApplicationController
     rels = []
     if searchterm.to_i > 0
       rel = Relation.where(:id => searchterm.to_i).first
-      if rel && rel.visible
-        rels.push([rel.id, rel.tags, rel.members, rel.version])
-      end
+      rels.push([rel.id, rel.tags, rel.members, rel.version]) if rel && rel.visible
     else
       RelationTag.where("v like ?", "%#{searchterm}%").limit(11).each do |t|
-        if t.relation.visible
-          rels.push([t.relation.id, t.relation.tags, t.relation.members, t.relation.version])
-        end
+        rels.push([t.relation.id, t.relation.tags, t.relation.members, t.relation.version]) if t.relation.visible
       end
     end
     rels
@@ -558,9 +554,7 @@ class AmfController < ApplicationController
             mid = renumberednodes[mid] if m[0] == "Node"
             mid = renumberedways[mid] if m[0] == "Way"
           end
-          if mid
-            typedmembers << [m[0], mid, m[2].delete("\000-\037\ufffe\uffff", "^\011\012\015")]
-          end
+          typedmembers << [m[0], mid, m[2].delete("\000-\037\ufffe\uffff", "^\011\012\015")] if mid
         end
 
         # assign new contents
@@ -748,9 +742,7 @@ class AmfController < ApplicationController
             return [-4, "node", id]
           end
 
-          unless visible || node.ways.empty?
-            return -1, "Point #{id} has since become part of a way, so you cannot save it as a POI.", id, id, version
-          end
+          return -1, "Point #{id} has since become part of a way, so you cannot save it as a POI.", id, id, version unless visible || node.ways.empty?
         end
         # We always need a new node, based on the data that has been sent to us
         new_node = Node.new
@@ -793,9 +785,7 @@ class AmfController < ApplicationController
       n = Node.where(:id => id).first
       if n
         v = n.version
-        unless timestamp == ""
-          n = OldNode.where("node_id = ? AND timestamp <= ?", id, timestamp).unredacted.order("timestamp DESC").first
-        end
+        n = OldNode.where("node_id = ? AND timestamp <= ?", id, timestamp).unredacted.order("timestamp DESC").first unless timestamp == ""
       end
 
       if n
