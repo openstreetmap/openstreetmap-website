@@ -88,7 +88,7 @@ class IssuesController < ApplicationController
 
   def set_issues
     @admin_issues = %w[DiaryEntry DiaryComment User]
-    @moderator_issues = %w[Changeset Note]
+    @moderator_issues = %w[Note]
   end
 
   def check_if_updated

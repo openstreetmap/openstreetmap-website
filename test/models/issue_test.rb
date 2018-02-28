@@ -25,7 +25,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_default_assigned_role
     create(:language, :code => "en")
     diary_entry = create(:diary_entry)
-    changeset = create(:changeset)
+    note = create(:note_with_comments)
 
     issue = Issue.new
     issue.reportable = diary_entry
@@ -33,7 +33,7 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal "administrator", issue.assigned_role
 
     issue = Issue.new
-    issue.reportable = changeset
+    issue.reportable = note
     issue.save!
     assert_equal "moderator", issue.assigned_role
 

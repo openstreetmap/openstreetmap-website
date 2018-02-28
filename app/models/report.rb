@@ -33,7 +33,6 @@ class Report < ActiveRecord::Base
     when "DiaryEntry" then %w[spam offensive threat other]
     when "DiaryComment" then %w[spam offensive threat other]
     when "User" then %w[spam offensive threat vandal other]
-    when "Changeset" then %w[undiscussed_import mechanical_edit edit_error spam vandalism other]
     when "Note" then %w[spam vandalism personal abusive other]
     else %w[other]
     end

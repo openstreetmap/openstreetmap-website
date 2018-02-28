@@ -7,8 +7,6 @@ module IssuesHelper
       url_for(:controller => reportable.class.name.underscore, :action => :view, :display_name => reportable.display_name)
     when DiaryComment
       url_for(:controller => reportable.diary_entry.class.name.underscore, :action => :view, :display_name => reportable.diary_entry.user.display_name, :id => reportable.diary_entry.id, :anchor => "comment#{reportable.id}")
-    when Changeset
-      url_for(:controller => :browse, :action => :changeset, :id => reportable.id)
     when Note
       url_for(:controller => :browse, :action => :note, :id => reportable.id)
     end
@@ -22,8 +20,6 @@ module IssuesHelper
       reportable.display_name
     when DiaryComment
       "#{reportable.diary_entry.title}, Comment id ##{reportable.id}"
-    when Changeset
-      "Changeset ##{reportable.id}"
     when Note
       "Note ##{reportable.id}"
     end

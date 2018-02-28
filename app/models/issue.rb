@@ -93,7 +93,7 @@ class Issue < ActiveRecord::Base
   end
 
   def set_default_assigned_role
-    role = %w[Changeset Note].include?(reportable.class.name) ? "moderator" : "administrator"
+    role = %w[Note].include?(reportable.class.name) ? "moderator" : "administrator"
     self.assigned_role = role if assigned_role.blank?
   end
 end
