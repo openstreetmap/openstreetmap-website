@@ -1,6 +1,6 @@
 <% content_for :heading do %>
 <h2><%= t ".title", :status => @issue.status.humanize, :issue_id => @issue.id %></h2>
-<p><%= report_type(@issue.reportable_type) %> : <%= reportable_url(@issue.reportable) %></p>
+<p><%= @issue.reportable.model_name.human %> : <%= reportable_url(@issue.reportable) %></p>
 <p class="deemphasize">
   <small>
     <%= @issue.assigned_role %>

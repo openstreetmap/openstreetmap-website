@@ -46,19 +46,4 @@ module IssuesHelper
       link_to "Show Instance", :controller => :browse, :action => :note, :id => reportable.id
     end
   end
-
-  def report_type(report_class)
-    case report_class
-    when "DiaryEntry"
-      t("activerecord.models.diary_entry")
-    when "User"
-      t("activerecord.models.user")
-    when "DiaryComment"
-      t("activerecord.models.diary_comment")
-    when "Changeset"
-      t("activerecord.models.changeset")
-    when "Note"
-      t("activerecord.models.note")
-    end
-  end
 end
