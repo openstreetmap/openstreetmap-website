@@ -37,7 +37,7 @@
         <td style="text-align:center;"><%= issue.reports_count %></td>
         <td><%= l(issue.updated_at.to_datetime, :format => :friendly) %></td>
         <td><% if issue.user_updated %> <%= issue.user_updated.display_name %> <% else %> - <% end %></td>
-        <td><%= reports_url(issue) %></td>
+        <td><%= link_to reportable_title(issue.reportable), issue %></td>
         <td><%= link_to issue.reported_user.display_name , :controller => :user, :action => :view, :display_name => issue.reported_user.display_name %></td>
         <td><%= instance_url(issue.reportable) %></td>
       </tr>

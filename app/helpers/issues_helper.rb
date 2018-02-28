@@ -15,19 +15,18 @@ module IssuesHelper
     end
   end
 
-  def reports_url(issue)
-    class_name = issue.reportable.class.name
-    case class_name
-    when "DiaryEntry"
-      link_to issue.reportable.title, issue
-    when "User"
-      link_to issue.reportable.display_name.to_s, issue
-    when "DiaryComment"
-      link_to "#{issue.reportable.diary_entry.title}, Comment id ##{issue.reportable.id}", issue
-    when "Changeset"
-      link_to "Changeset ##{issue.reportable.id}", issue
-    when "Note"
-      link_to "Note ##{issue.reportable.id}", issue
+  def reportable_title(reportable)
+    case reportable
+    when DiaryEntry
+      reportable.title
+    when User
+      reportable.display_name
+    when DiaryComment
+      "#{reportable.diary_entry.title}, Comment id ##{reportable.id}"
+    when Changeset
+      "Changeset ##{reportable.id}"
+    when Note
+      "Note ##{reportable.id}"
     end
   end
 
