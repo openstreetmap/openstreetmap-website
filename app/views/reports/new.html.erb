@@ -2,13 +2,13 @@
   <h1><%= t ".title_html", :link => link_to(reportable_title(@report.issue.reportable), reportable_url(@report.issue.reportable)) %></h1>
 <% end %>
 
-<div class="disclaimer">
+<div class="report-disclaimer">
+  <%= t('issues.new.disclaimer.intro') %>
   <ul>
-    <%= t('issues.new.disclaimer.intro') %>:
-      <li> <%= t('issues.new.disclaimer.not_just_mistake') %> </li>
-      <li> <%= t('issues.new.disclaimer.unable_to_fix') %> </li>
-      <li> <%= t('issues.new.disclaimer.resolve_with_user') %> </li>
-    </ul>
+    <li> <%= t('issues.new.disclaimer.not_just_mistake') %> </li>
+    <li> <%= t('issues.new.disclaimer.unable_to_fix') %> </li>
+    <li> <%= t('issues.new.disclaimer.resolve_with_user') %> </li>
+  </ul>
 </div>
 
 <%= form_for(@report) do |f| %>
@@ -19,20 +19,20 @@
       <%= issue_form.hidden_field :reportable_type %>
     <% end %>
 
-    <div class='form-row' style='width:600px'>
-      <p><%= t('issues.new.select') %>:</p>
+    <div class='form-row'>
+      <p><%= t('issues.new.select') %></p>
+      <ul>
+      <% Report.categories_for(@report.issue.reportable).each do |c| %>
+        <li>
+          <%= radio_button :report, :category, c %>
+          <%= label_tag "report_category_#{c}", t("reports.categories.#{@report.issue.reportable.class.name}.#{c}") %> <br/>
+        </li>
+      <% end %>
+      </ul>
+    </div>
 
-      <div class="new-report-form">
-        <% Report.categories_for(@report.issue.reportable).each do |c| %>
-          <div style="padding-left:5px">
-            <%= radio_button :report, :category, c %>
-            <%= label_tag "report_category_#{c}", t("reports.categories.#{@report.issue.reportable.class.name}.#{c}") %> <br/>
-          </div>
-        <% end %>
-      </div>
-
-      <br/>
-      <%= text_area :report, :details, :cols => 20, :rows => 3, placeholder: t('issues.new.details'), required: true %>
+    <div class='form-row'>
+      <%= text_area :report, :details, :cols => 20, :rows => 5, placeholder: t('issues.new.details'), required: true %>
     </div>
 
     <div class='buttons'>
