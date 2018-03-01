@@ -6,9 +6,10 @@ class SiteController < ApplicationController
   before_action :set_locale
   before_action :redirect_browse_params, :only => :index
   before_action :redirect_map_params, :only => [:index, :edit, :export]
-  before_action :require_user, :only => [:welcome]
   before_action :require_oauth, :only => [:index]
   before_action :update_totp, :only => [:index]
+
+  authorize_resource :class => false
 
   def index
     session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"]) unless STATUS == :database_readonly || STATUS == :database_offline

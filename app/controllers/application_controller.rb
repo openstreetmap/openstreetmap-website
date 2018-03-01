@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include SessionPersistence
+  check_authorization
 
   protect_from_forgery :with => :exception
 
@@ -465,6 +466,11 @@ class ApplicationController < ActionController::Base
     )
 
     raise
+  end
+
+  rescue_from CanCan::AccessDenied do |exception|
+    raise "Access denied on #{exception.action} #{exception.subject.inspect}"
+    # ...
   end
 
   private
