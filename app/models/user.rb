@@ -2,37 +2,39 @@
 #
 # Table name: users
 #
-#  email               :string           not null
-#  id                  :integer          not null, primary key
-#  pass_crypt          :string           not null
-#  creation_time       :datetime         not null
-#  display_name        :string           default(""), not null
-#  data_public         :boolean          default(FALSE), not null
-#  description         :text             default(""), not null
-#  home_lat            :float
-#  home_lon            :float
-#  home_zoom           :integer          default(3)
-#  nearby              :integer          default(50)
-#  pass_salt           :string
-#  image_file_name     :text
-#  email_valid         :boolean          default(FALSE), not null
-#  new_email           :string
-#  creation_ip         :string
-#  languages           :string
-#  status              :enum             default("pending"), not null
-#  terms_agreed        :datetime
-#  consider_pd         :boolean          default(FALSE), not null
-#  auth_uid            :string
-#  preferred_editor    :string
-#  terms_seen          :boolean          default(FALSE), not null
-#  description_format  :enum             default("markdown"), not null
-#  image_fingerprint   :string
-#  changesets_count    :integer          default(0), not null
-#  traces_count        :integer          default(0), not null
-#  diary_entries_count :integer          default(0), not null
-#  image_use_gravatar  :boolean          default(FALSE), not null
-#  image_content_type  :string
-#  auth_provider       :string
+#  email                :string           not null
+#  id                   :integer          not null, primary key
+#  pass_crypt           :string           not null
+#  creation_time        :datetime         not null
+#  display_name         :string           default(""), not null
+#  data_public          :boolean          default(FALSE), not null
+#  description          :text             default(""), not null
+#  home_lat             :float
+#  home_lon             :float
+#  home_zoom            :integer          default(3)
+#  nearby               :integer          default(50)
+#  pass_salt            :string
+#  image_file_name      :text
+#  email_valid          :boolean          default(FALSE), not null
+#  new_email            :string
+#  creation_ip          :string
+#  languages            :string
+#  status               :enum             default("pending"), not null
+#  terms_agreed         :datetime
+#  consider_pd          :boolean          default(FALSE), not null
+#  auth_uid             :string
+#  preferred_editor     :string
+#  terms_seen           :boolean          default(FALSE), not null
+#  description_format   :enum             default("markdown"), not null
+#  image_fingerprint    :string
+#  changesets_count     :integer          default(0), not null
+#  traces_count         :integer          default(0), not null
+#  diary_entries_count  :integer          default(0), not null
+#  image_use_gravatar   :boolean          default(FALSE), not null
+#  image_content_type   :string
+#  auth_provider        :string
+#  notes_count          :integer          default(0), not null
+#  diary_comments_count :integer          default(0), not null
 #
 # Indexes
 #
