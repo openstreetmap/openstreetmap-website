@@ -156,7 +156,7 @@ function getSegDistSq(px, py, a, b) {
     return dx * dx + dy * dy;
 }
 
-},{"tinyqueue":232}],2:[function(require,module,exports){
+},{"tinyqueue":242}],2:[function(require,module,exports){
 /*
  * Copyright (C) 2008 Apple Inc. All Rights Reserved.
  *
@@ -5394,7 +5394,7 @@ var BehaviorSubject = (function (_super) {
 }(Subject_1.Subject));
 exports.BehaviorSubject = BehaviorSubject;
 
-},{"./Subject":34,"./util/ObjectUnsubscribedError":211}],27:[function(require,module,exports){
+},{"./Subject":34,"./util/ObjectUnsubscribedError":221}],27:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -5865,7 +5865,7 @@ var Observable = (function () {
 }());
 exports.Observable = Observable;
 
-},{"./symbol/observable":206,"./util/pipe":226,"./util/root":227,"./util/toSubscriber":229}],30:[function(require,module,exports){
+},{"./symbol/observable":216,"./util/pipe":236,"./util/root":237,"./util/toSubscriber":239}],30:[function(require,module,exports){
 "use strict";
 exports.empty = {
     closed: true,
@@ -6008,7 +6008,7 @@ var ReplayEvent = (function () {
     return ReplayEvent;
 }());
 
-},{"./Subject":34,"./SubjectSubscription":35,"./Subscription":37,"./operators/observeOn":174,"./scheduler/queue":204,"./util/ObjectUnsubscribedError":211}],33:[function(require,module,exports){
+},{"./Subject":34,"./SubjectSubscription":35,"./Subscription":37,"./operators/observeOn":182,"./scheduler/queue":214,"./util/ObjectUnsubscribedError":221}],33:[function(require,module,exports){
 "use strict";
 /**
  * An execution context and a data structure to order tasks and schedule their
@@ -6227,7 +6227,7 @@ var AnonymousSubject = (function (_super) {
 }(Subject));
 exports.AnonymousSubject = AnonymousSubject;
 
-},{"./Observable":29,"./SubjectSubscription":35,"./Subscriber":36,"./Subscription":37,"./symbol/rxSubscriber":207,"./util/ObjectUnsubscribedError":211}],35:[function(require,module,exports){
+},{"./Observable":29,"./SubjectSubscription":35,"./Subscriber":36,"./Subscription":37,"./symbol/rxSubscriber":217,"./util/ObjectUnsubscribedError":221}],35:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -6533,7 +6533,7 @@ var SafeSubscriber = (function (_super) {
     return SafeSubscriber;
 }(Subscriber));
 
-},{"./Observer":30,"./Subscription":37,"./symbol/rxSubscriber":207,"./util/isFunction":220}],37:[function(require,module,exports){
+},{"./Observer":30,"./Subscription":37,"./symbol/rxSubscriber":217,"./util/isFunction":230}],37:[function(require,module,exports){
 "use strict";
 var isArray_1 = require('./util/isArray');
 var isObject_1 = require('./util/isObject');
@@ -6727,317 +6727,335 @@ function flattenUnsubscriptionErrors(errors) {
     return errors.reduce(function (errs, err) { return errs.concat((err instanceof UnsubscriptionError_1.UnsubscriptionError) ? err.errors : err); }, []);
 }
 
-},{"./util/UnsubscriptionError":214,"./util/errorObject":215,"./util/isArray":217,"./util/isFunction":220,"./util/isObject":222,"./util/tryCatch":230}],38:[function(require,module,exports){
+},{"./util/UnsubscriptionError":224,"./util/errorObject":225,"./util/isArray":227,"./util/isFunction":230,"./util/isObject":232,"./util/tryCatch":240}],38:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var combineLatest_1 = require('../../observable/combineLatest');
 Observable_1.Observable.combineLatest = combineLatest_1.combineLatest;
 
-},{"../../Observable":29,"../../observable/combineLatest":101}],39:[function(require,module,exports){
+},{"../../Observable":29,"../../observable/combineLatest":104}],39:[function(require,module,exports){
+"use strict";
+var Observable_1 = require('../../Observable');
+var concat_1 = require('../../observable/concat');
+Observable_1.Observable.concat = concat_1.concat;
+
+},{"../../Observable":29,"../../observable/concat":105}],40:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var defer_1 = require('../../observable/defer');
 Observable_1.Observable.defer = defer_1.defer;
 
-},{"../../Observable":29,"../../observable/defer":103}],40:[function(require,module,exports){
+},{"../../Observable":29,"../../observable/defer":106}],41:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var empty_1 = require('../../observable/empty');
 Observable_1.Observable.empty = empty_1.empty;
 
-},{"../../Observable":29,"../../observable/empty":104}],41:[function(require,module,exports){
+},{"../../Observable":29,"../../observable/empty":107}],42:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var from_1 = require('../../observable/from');
 Observable_1.Observable.from = from_1.from;
 
-},{"../../Observable":29,"../../observable/from":105}],42:[function(require,module,exports){
+},{"../../Observable":29,"../../observable/from":108}],43:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var fromEvent_1 = require('../../observable/fromEvent');
 Observable_1.Observable.fromEvent = fromEvent_1.fromEvent;
 
-},{"../../Observable":29,"../../observable/fromEvent":106}],43:[function(require,module,exports){
+},{"../../Observable":29,"../../observable/fromEvent":109}],44:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var fromPromise_1 = require('../../observable/fromPromise');
 Observable_1.Observable.fromPromise = fromPromise_1.fromPromise;
 
-},{"../../Observable":29,"../../observable/fromPromise":107}],44:[function(require,module,exports){
+},{"../../Observable":29,"../../observable/fromPromise":110}],45:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var merge_1 = require('../../observable/merge');
 Observable_1.Observable.merge = merge_1.merge;
 
-},{"../../Observable":29,"../../observable/merge":108}],45:[function(require,module,exports){
+},{"../../Observable":29,"../../observable/merge":111}],46:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var of_1 = require('../../observable/of');
 Observable_1.Observable.of = of_1.of;
 
-},{"../../Observable":29,"../../observable/of":109}],46:[function(require,module,exports){
+},{"../../Observable":29,"../../observable/of":112}],47:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var throw_1 = require('../../observable/throw');
 Observable_1.Observable.throw = throw_1._throw;
 
-},{"../../Observable":29,"../../observable/throw":110}],47:[function(require,module,exports){
+},{"../../Observable":29,"../../observable/throw":113}],48:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var timer_1 = require('../../observable/timer');
 Observable_1.Observable.timer = timer_1.timer;
 
-},{"../../Observable":29,"../../observable/timer":111}],48:[function(require,module,exports){
+},{"../../Observable":29,"../../observable/timer":114}],49:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var zip_1 = require('../../observable/zip');
 Observable_1.Observable.zip = zip_1.zip;
 
-},{"../../Observable":29,"../../observable/zip":112}],49:[function(require,module,exports){
+},{"../../Observable":29,"../../observable/zip":115}],50:[function(require,module,exports){
+"use strict";
+var Observable_1 = require('../../Observable');
+var auditTime_1 = require('../../operator/auditTime');
+Observable_1.Observable.prototype.auditTime = auditTime_1.auditTime;
+
+},{"../../Observable":29,"../../operator/auditTime":116}],51:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var buffer_1 = require('../../operator/buffer');
 Observable_1.Observable.prototype.buffer = buffer_1.buffer;
 
-},{"../../Observable":29,"../../operator/buffer":113}],50:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/buffer":117}],52:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var bufferCount_1 = require('../../operator/bufferCount');
 Observable_1.Observable.prototype.bufferCount = bufferCount_1.bufferCount;
 
-},{"../../Observable":29,"../../operator/bufferCount":114}],51:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/bufferCount":118}],53:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var bufferWhen_1 = require('../../operator/bufferWhen');
 Observable_1.Observable.prototype.bufferWhen = bufferWhen_1.bufferWhen;
 
-},{"../../Observable":29,"../../operator/bufferWhen":115}],52:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/bufferWhen":119}],54:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var catch_1 = require('../../operator/catch');
 Observable_1.Observable.prototype.catch = catch_1._catch;
 Observable_1.Observable.prototype._catch = catch_1._catch;
 
-},{"../../Observable":29,"../../operator/catch":116}],53:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/catch":120}],55:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var combineLatest_1 = require('../../operator/combineLatest');
 Observable_1.Observable.prototype.combineLatest = combineLatest_1.combineLatest;
 
-},{"../../Observable":29,"../../operator/combineLatest":117}],54:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/combineLatest":121}],56:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var concat_1 = require('../../operator/concat');
 Observable_1.Observable.prototype.concat = concat_1.concat;
 
-},{"../../Observable":29,"../../operator/concat":118}],55:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/concat":122}],57:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var debounceTime_1 = require('../../operator/debounceTime');
 Observable_1.Observable.prototype.debounceTime = debounceTime_1.debounceTime;
 
-},{"../../Observable":29,"../../operator/debounceTime":119}],56:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/debounceTime":123}],58:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var delay_1 = require('../../operator/delay');
 Observable_1.Observable.prototype.delay = delay_1.delay;
 
-},{"../../Observable":29,"../../operator/delay":120}],57:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/delay":124}],59:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var distinct_1 = require('../../operator/distinct');
 Observable_1.Observable.prototype.distinct = distinct_1.distinct;
 
-},{"../../Observable":29,"../../operator/distinct":121}],58:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/distinct":125}],60:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var distinctUntilChanged_1 = require('../../operator/distinctUntilChanged');
 Observable_1.Observable.prototype.distinctUntilChanged = distinctUntilChanged_1.distinctUntilChanged;
 
-},{"../../Observable":29,"../../operator/distinctUntilChanged":122}],59:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/distinctUntilChanged":126}],61:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var do_1 = require('../../operator/do');
 Observable_1.Observable.prototype.do = do_1._do;
 Observable_1.Observable.prototype._do = do_1._do;
 
-},{"../../Observable":29,"../../operator/do":123}],60:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/do":127}],62:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var expand_1 = require('../../operator/expand');
 Observable_1.Observable.prototype.expand = expand_1.expand;
 
-},{"../../Observable":29,"../../operator/expand":124}],61:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/expand":128}],63:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var filter_1 = require('../../operator/filter');
 Observable_1.Observable.prototype.filter = filter_1.filter;
 
-},{"../../Observable":29,"../../operator/filter":125}],62:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/filter":129}],64:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var finally_1 = require('../../operator/finally');
 Observable_1.Observable.prototype.finally = finally_1._finally;
 Observable_1.Observable.prototype._finally = finally_1._finally;
 
-},{"../../Observable":29,"../../operator/finally":126}],63:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/finally":130}],65:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var first_1 = require('../../operator/first');
 Observable_1.Observable.prototype.first = first_1.first;
 
-},{"../../Observable":29,"../../operator/first":127}],64:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/first":131}],66:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var last_1 = require('../../operator/last');
 Observable_1.Observable.prototype.last = last_1.last;
 
-},{"../../Observable":29,"../../operator/last":128}],65:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/last":132}],67:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var map_1 = require('../../operator/map');
 Observable_1.Observable.prototype.map = map_1.map;
 
-},{"../../Observable":29,"../../operator/map":129}],66:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/map":133}],68:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var merge_1 = require('../../operator/merge');
 Observable_1.Observable.prototype.merge = merge_1.merge;
 
-},{"../../Observable":29,"../../operator/merge":130}],67:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/merge":134}],69:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var mergeAll_1 = require('../../operator/mergeAll');
 Observable_1.Observable.prototype.mergeAll = mergeAll_1.mergeAll;
 
-},{"../../Observable":29,"../../operator/mergeAll":131}],68:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/mergeAll":135}],70:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var mergeMap_1 = require('../../operator/mergeMap');
 Observable_1.Observable.prototype.mergeMap = mergeMap_1.mergeMap;
 Observable_1.Observable.prototype.flatMap = mergeMap_1.mergeMap;
 
-},{"../../Observable":29,"../../operator/mergeMap":132}],69:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/mergeMap":136}],71:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var pairwise_1 = require('../../operator/pairwise');
 Observable_1.Observable.prototype.pairwise = pairwise_1.pairwise;
 
-},{"../../Observable":29,"../../operator/pairwise":133}],70:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/pairwise":137}],72:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var pluck_1 = require('../../operator/pluck');
 Observable_1.Observable.prototype.pluck = pluck_1.pluck;
 
-},{"../../Observable":29,"../../operator/pluck":134}],71:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/pluck":138}],73:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var publish_1 = require('../../operator/publish');
 Observable_1.Observable.prototype.publish = publish_1.publish;
 
-},{"../../Observable":29,"../../operator/publish":135}],72:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/publish":139}],74:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var publishReplay_1 = require('../../operator/publishReplay');
 Observable_1.Observable.prototype.publishReplay = publishReplay_1.publishReplay;
 
-},{"../../Observable":29,"../../operator/publishReplay":136}],73:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/publishReplay":140}],75:[function(require,module,exports){
+"use strict";
+var Observable_1 = require('../../Observable');
+var reduce_1 = require('../../operator/reduce');
+Observable_1.Observable.prototype.reduce = reduce_1.reduce;
+
+},{"../../Observable":29,"../../operator/reduce":141}],76:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var retry_1 = require('../../operator/retry');
 Observable_1.Observable.prototype.retry = retry_1.retry;
 
-},{"../../Observable":29,"../../operator/retry":137}],74:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/retry":142}],77:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var sample_1 = require('../../operator/sample');
 Observable_1.Observable.prototype.sample = sample_1.sample;
 
-},{"../../Observable":29,"../../operator/sample":138}],75:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/sample":143}],78:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var scan_1 = require('../../operator/scan');
 Observable_1.Observable.prototype.scan = scan_1.scan;
 
-},{"../../Observable":29,"../../operator/scan":139}],76:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/scan":144}],79:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var share_1 = require('../../operator/share');
 Observable_1.Observable.prototype.share = share_1.share;
 
-},{"../../Observable":29,"../../operator/share":140}],77:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/share":145}],80:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var skip_1 = require('../../operator/skip');
 Observable_1.Observable.prototype.skip = skip_1.skip;
 
-},{"../../Observable":29,"../../operator/skip":141}],78:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/skip":146}],81:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var skipUntil_1 = require('../../operator/skipUntil');
 Observable_1.Observable.prototype.skipUntil = skipUntil_1.skipUntil;
 
-},{"../../Observable":29,"../../operator/skipUntil":142}],79:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/skipUntil":147}],82:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var skipWhile_1 = require('../../operator/skipWhile');
 Observable_1.Observable.prototype.skipWhile = skipWhile_1.skipWhile;
 
-},{"../../Observable":29,"../../operator/skipWhile":143}],80:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/skipWhile":148}],83:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var startWith_1 = require('../../operator/startWith');
 Observable_1.Observable.prototype.startWith = startWith_1.startWith;
 
-},{"../../Observable":29,"../../operator/startWith":144}],81:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/startWith":149}],84:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var switchMap_1 = require('../../operator/switchMap');
 Observable_1.Observable.prototype.switchMap = switchMap_1.switchMap;
 
-},{"../../Observable":29,"../../operator/switchMap":145}],82:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/switchMap":150}],85:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var take_1 = require('../../operator/take');
 Observable_1.Observable.prototype.take = take_1.take;
 
-},{"../../Observable":29,"../../operator/take":146}],83:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/take":151}],86:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var takeUntil_1 = require('../../operator/takeUntil');
 Observable_1.Observable.prototype.takeUntil = takeUntil_1.takeUntil;
 
-},{"../../Observable":29,"../../operator/takeUntil":147}],84:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/takeUntil":152}],87:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var takeWhile_1 = require('../../operator/takeWhile');
 Observable_1.Observable.prototype.takeWhile = takeWhile_1.takeWhile;
 
-},{"../../Observable":29,"../../operator/takeWhile":148}],85:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/takeWhile":153}],88:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var throttleTime_1 = require('../../operator/throttleTime');
 Observable_1.Observable.prototype.throttleTime = throttleTime_1.throttleTime;
 
-},{"../../Observable":29,"../../operator/throttleTime":149}],86:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/throttleTime":154}],89:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var timeout_1 = require('../../operator/timeout');
 Observable_1.Observable.prototype.timeout = timeout_1.timeout;
 
-},{"../../Observable":29,"../../operator/timeout":150}],87:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/timeout":155}],90:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var withLatestFrom_1 = require('../../operator/withLatestFrom');
 Observable_1.Observable.prototype.withLatestFrom = withLatestFrom_1.withLatestFrom;
 
-},{"../../Observable":29,"../../operator/withLatestFrom":151}],88:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/withLatestFrom":156}],91:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var zip_1 = require('../../operator/zip');
 Observable_1.Observable.prototype.zip = zip_1.zipProto;
 
-},{"../../Observable":29,"../../operator/zip":152}],89:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/zip":157}],92:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7108,7 +7126,7 @@ var ArrayLikeObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.ArrayLikeObservable = ArrayLikeObservable;
 
-},{"../Observable":29,"./EmptyObservable":93,"./ScalarObservable":99}],90:[function(require,module,exports){
+},{"../Observable":29,"./EmptyObservable":96,"./ScalarObservable":102}],93:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7231,7 +7249,7 @@ var ArrayObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.ArrayObservable = ArrayObservable;
 
-},{"../Observable":29,"../util/isScheduler":224,"./EmptyObservable":93,"./ScalarObservable":99}],91:[function(require,module,exports){
+},{"../Observable":29,"../util/isScheduler":234,"./EmptyObservable":96,"./ScalarObservable":102}],94:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7402,7 +7420,7 @@ var RefCountSubscriber = (function (_super) {
     return RefCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Observable":29,"../Subject":34,"../Subscriber":36,"../Subscription":37,"../operators/refCount":179}],92:[function(require,module,exports){
+},{"../Observable":29,"../Subject":34,"../Subscriber":36,"../Subscription":37,"../operators/refCount":188}],95:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7502,7 +7520,7 @@ var DeferSubscriber = (function (_super) {
     return DeferSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../Observable":29,"../OuterSubscriber":31,"../util/subscribeToResult":228}],93:[function(require,module,exports){
+},{"../Observable":29,"../OuterSubscriber":31,"../util/subscribeToResult":238}],96:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7584,7 +7602,7 @@ var EmptyObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.EmptyObservable = EmptyObservable;
 
-},{"../Observable":29}],94:[function(require,module,exports){
+},{"../Observable":29}],97:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7668,7 +7686,7 @@ var ErrorObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.ErrorObservable = ErrorObservable;
 
-},{"../Observable":29}],95:[function(require,module,exports){
+},{"../Observable":29}],98:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7885,7 +7903,7 @@ var FromEventObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.FromEventObservable = FromEventObservable;
 
-},{"../Observable":29,"../Subscription":37,"../util/errorObject":215,"../util/isFunction":220,"../util/tryCatch":230}],96:[function(require,module,exports){
+},{"../Observable":29,"../Subscription":37,"../util/errorObject":225,"../util/isFunction":230,"../util/tryCatch":240}],99:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8008,7 +8026,7 @@ var FromObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.FromObservable = FromObservable;
 
-},{"../Observable":29,"../operators/observeOn":174,"../symbol/iterator":205,"../symbol/observable":206,"../util/isArray":217,"../util/isArrayLike":218,"../util/isPromise":223,"./ArrayLikeObservable":89,"./ArrayObservable":90,"./IteratorObservable":97,"./PromiseObservable":98}],97:[function(require,module,exports){
+},{"../Observable":29,"../operators/observeOn":182,"../symbol/iterator":215,"../symbol/observable":216,"../util/isArray":227,"../util/isArrayLike":228,"../util/isPromise":233,"./ArrayLikeObservable":92,"./ArrayObservable":93,"./IteratorObservable":100,"./PromiseObservable":101}],100:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8172,7 +8190,7 @@ function sign(value) {
     return valueAsNumber < 0 ? -1 : 1;
 }
 
-},{"../Observable":29,"../symbol/iterator":205,"../util/root":227}],98:[function(require,module,exports){
+},{"../Observable":29,"../symbol/iterator":215,"../util/root":237}],101:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8294,7 +8312,7 @@ function dispatchError(arg) {
     }
 }
 
-},{"../Observable":29,"../util/root":227}],99:[function(require,module,exports){
+},{"../Observable":29,"../util/root":237}],102:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8353,7 +8371,7 @@ var ScalarObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.ScalarObservable = ScalarObservable;
 
-},{"../Observable":29}],100:[function(require,module,exports){
+},{"../Observable":29}],103:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8461,7 +8479,7 @@ var TimerObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.TimerObservable = TimerObservable;
 
-},{"../Observable":29,"../scheduler/async":203,"../util/isDate":219,"../util/isNumeric":221,"../util/isScheduler":224}],101:[function(require,module,exports){
+},{"../Observable":29,"../scheduler/async":213,"../util/isDate":229,"../util/isNumeric":231,"../util/isScheduler":234}],104:[function(require,module,exports){
 "use strict";
 var isScheduler_1 = require('../util/isScheduler');
 var isArray_1 = require('../util/isArray');
@@ -8598,7 +8616,7 @@ function combineLatest() {
 }
 exports.combineLatest = combineLatest;
 
-},{"../operators/combineLatest":157,"../util/isArray":217,"../util/isScheduler":224,"./ArrayObservable":90}],102:[function(require,module,exports){
+},{"../operators/combineLatest":164,"../util/isArray":227,"../util/isScheduler":234,"./ArrayObservable":93}],105:[function(require,module,exports){
 "use strict";
 var isScheduler_1 = require('../util/isScheduler');
 var of_1 = require('./of');
@@ -8710,57 +8728,109 @@ function concat() {
 }
 exports.concat = concat;
 
-},{"../operators/concatAll":159,"../util/isScheduler":224,"./from":105,"./of":109}],103:[function(require,module,exports){
+},{"../operators/concatAll":166,"../util/isScheduler":234,"./from":108,"./of":112}],106:[function(require,module,exports){
 "use strict";
 var DeferObservable_1 = require('./DeferObservable');
 exports.defer = DeferObservable_1.DeferObservable.create;
 
-},{"./DeferObservable":92}],104:[function(require,module,exports){
+},{"./DeferObservable":95}],107:[function(require,module,exports){
 "use strict";
 var EmptyObservable_1 = require('./EmptyObservable');
 exports.empty = EmptyObservable_1.EmptyObservable.create;
 
-},{"./EmptyObservable":93}],105:[function(require,module,exports){
+},{"./EmptyObservable":96}],108:[function(require,module,exports){
 "use strict";
 var FromObservable_1 = require('./FromObservable');
 exports.from = FromObservable_1.FromObservable.create;
 
-},{"./FromObservable":96}],106:[function(require,module,exports){
+},{"./FromObservable":99}],109:[function(require,module,exports){
 "use strict";
 var FromEventObservable_1 = require('./FromEventObservable');
 exports.fromEvent = FromEventObservable_1.FromEventObservable.create;
 
-},{"./FromEventObservable":95}],107:[function(require,module,exports){
+},{"./FromEventObservable":98}],110:[function(require,module,exports){
 "use strict";
 var PromiseObservable_1 = require('./PromiseObservable');
 exports.fromPromise = PromiseObservable_1.PromiseObservable.create;
 
-},{"./PromiseObservable":98}],108:[function(require,module,exports){
+},{"./PromiseObservable":101}],111:[function(require,module,exports){
 "use strict";
 var merge_1 = require('../operator/merge');
 exports.merge = merge_1.mergeStatic;
 
-},{"../operator/merge":130}],109:[function(require,module,exports){
+},{"../operator/merge":134}],112:[function(require,module,exports){
 "use strict";
 var ArrayObservable_1 = require('./ArrayObservable');
 exports.of = ArrayObservable_1.ArrayObservable.of;
 
-},{"./ArrayObservable":90}],110:[function(require,module,exports){
+},{"./ArrayObservable":93}],113:[function(require,module,exports){
 "use strict";
 var ErrorObservable_1 = require('./ErrorObservable');
 exports._throw = ErrorObservable_1.ErrorObservable.create;
 
-},{"./ErrorObservable":94}],111:[function(require,module,exports){
+},{"./ErrorObservable":97}],114:[function(require,module,exports){
 "use strict";
 var TimerObservable_1 = require('./TimerObservable');
 exports.timer = TimerObservable_1.TimerObservable.create;
 
-},{"./TimerObservable":100}],112:[function(require,module,exports){
+},{"./TimerObservable":103}],115:[function(require,module,exports){
 "use strict";
 var zip_1 = require('../operators/zip');
 exports.zip = zip_1.zipStatic;
 
-},{"../operators/zip":197}],113:[function(require,module,exports){
+},{"../operators/zip":207}],116:[function(require,module,exports){
+"use strict";
+var async_1 = require('../scheduler/async');
+var auditTime_1 = require('../operators/auditTime');
+/**
+ * Ignores source values for `duration` milliseconds, then emits the most recent
+ * value from the source Observable, then repeats this process.
+ *
+ * <span class="informal">When it sees a source values, it ignores that plus
+ * the next ones for `duration` milliseconds, and then it emits the most recent
+ * value from the source.</span>
+ *
+ * <img src="./img/auditTime.png" width="100%">
+ *
+ * `auditTime` is similar to `throttleTime`, but emits the last value from the
+ * silenced time window, instead of the first value. `auditTime` emits the most
+ * recent value from the source Observable on the output Observable as soon as
+ * its internal timer becomes disabled, and ignores source values while the
+ * timer is enabled. Initially, the timer is disabled. As soon as the first
+ * source value arrives, the timer is enabled. After `duration` milliseconds (or
+ * the time unit determined internally by the optional `scheduler`) has passed,
+ * the timer is disabled, then the most recent source value is emitted on the
+ * output Observable, and this process repeats for the next source value.
+ * Optionally takes a {@link IScheduler} for managing timers.
+ *
+ * @example <caption>Emit clicks at a rate of at most one click per second</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var result = clicks.auditTime(1000);
+ * result.subscribe(x => console.log(x));
+ *
+ * @see {@link audit}
+ * @see {@link debounceTime}
+ * @see {@link delay}
+ * @see {@link sampleTime}
+ * @see {@link throttleTime}
+ *
+ * @param {number} duration Time to wait before emitting the most recent source
+ * value, measured in milliseconds or the time unit determined internally
+ * by the optional `scheduler`.
+ * @param {Scheduler} [scheduler=async] The {@link IScheduler} to use for
+ * managing the timers that handle the rate-limiting behavior.
+ * @return {Observable<T>} An Observable that performs rate-limiting of
+ * emissions from the source Observable.
+ * @method auditTime
+ * @owner Observable
+ */
+function auditTime(duration, scheduler) {
+    if (scheduler === void 0) { scheduler = async_1.async; }
+    return auditTime_1.auditTime(duration, scheduler)(this);
+}
+exports.auditTime = auditTime;
+
+},{"../operators/auditTime":159,"../scheduler/async":213}],117:[function(require,module,exports){
 "use strict";
 var buffer_1 = require('../operators/buffer');
 /**
@@ -8800,7 +8870,7 @@ function buffer(closingNotifier) {
 }
 exports.buffer = buffer;
 
-},{"../operators/buffer":153}],114:[function(require,module,exports){
+},{"../operators/buffer":160}],118:[function(require,module,exports){
 "use strict";
 var bufferCount_1 = require('../operators/bufferCount');
 /**
@@ -8850,7 +8920,7 @@ function bufferCount(bufferSize, startBufferEvery) {
 }
 exports.bufferCount = bufferCount;
 
-},{"../operators/bufferCount":154}],115:[function(require,module,exports){
+},{"../operators/bufferCount":161}],119:[function(require,module,exports){
 "use strict";
 var bufferWhen_1 = require('../operators/bufferWhen');
 /**
@@ -8891,7 +8961,7 @@ function bufferWhen(closingSelector) {
 }
 exports.bufferWhen = bufferWhen;
 
-},{"../operators/bufferWhen":155}],116:[function(require,module,exports){
+},{"../operators/bufferWhen":162}],120:[function(require,module,exports){
 "use strict";
 var catchError_1 = require('../operators/catchError');
 /**
@@ -8958,7 +9028,7 @@ function _catch(selector) {
 }
 exports._catch = _catch;
 
-},{"../operators/catchError":156}],117:[function(require,module,exports){
+},{"../operators/catchError":163}],121:[function(require,module,exports){
 "use strict";
 var combineLatest_1 = require('../operators/combineLatest');
 /* tslint:enable:max-line-length */
@@ -9014,7 +9084,7 @@ function combineLatest() {
 }
 exports.combineLatest = combineLatest;
 
-},{"../operators/combineLatest":157}],118:[function(require,module,exports){
+},{"../operators/combineLatest":164}],122:[function(require,module,exports){
 "use strict";
 var concat_1 = require('../operators/concat');
 /* tslint:enable:max-line-length */
@@ -9076,7 +9146,7 @@ function concat() {
 }
 exports.concat = concat;
 
-},{"../operators/concat":158}],119:[function(require,module,exports){
+},{"../operators/concat":165}],123:[function(require,module,exports){
 "use strict";
 var async_1 = require('../scheduler/async');
 var debounceTime_1 = require('../operators/debounceTime');
@@ -9132,7 +9202,7 @@ function debounceTime(dueTime, scheduler) {
 }
 exports.debounceTime = debounceTime;
 
-},{"../operators/debounceTime":160,"../scheduler/async":203}],120:[function(require,module,exports){
+},{"../operators/debounceTime":167,"../scheduler/async":213}],124:[function(require,module,exports){
 "use strict";
 var async_1 = require('../scheduler/async');
 var delay_1 = require('../operators/delay');
@@ -9181,7 +9251,7 @@ function delay(delay, scheduler) {
 }
 exports.delay = delay;
 
-},{"../operators/delay":161,"../scheduler/async":203}],121:[function(require,module,exports){
+},{"../operators/delay":169,"../scheduler/async":213}],125:[function(require,module,exports){
 "use strict";
 var distinct_1 = require('../operators/distinct');
 /**
@@ -9234,7 +9304,7 @@ function distinct(keySelector, flushes) {
 }
 exports.distinct = distinct;
 
-},{"../operators/distinct":162}],122:[function(require,module,exports){
+},{"../operators/distinct":170}],126:[function(require,module,exports){
 "use strict";
 var distinctUntilChanged_1 = require('../operators/distinctUntilChanged');
 /* tslint:enable:max-line-length */
@@ -9282,7 +9352,7 @@ function distinctUntilChanged(compare, keySelector) {
 }
 exports.distinctUntilChanged = distinctUntilChanged;
 
-},{"../operators/distinctUntilChanged":163}],123:[function(require,module,exports){
+},{"../operators/distinctUntilChanged":171}],127:[function(require,module,exports){
 "use strict";
 var tap_1 = require('../operators/tap');
 /* tslint:enable:max-line-length */
@@ -9334,7 +9404,7 @@ function _do(nextOrObserver, error, complete) {
 }
 exports._do = _do;
 
-},{"../operators/tap":192}],124:[function(require,module,exports){
+},{"../operators/tap":202}],128:[function(require,module,exports){
 "use strict";
 var expand_1 = require('../operators/expand');
 /* tslint:enable:max-line-length */
@@ -9391,7 +9461,7 @@ function expand(project, concurrent, scheduler) {
 }
 exports.expand = expand;
 
-},{"../operators/expand":164}],125:[function(require,module,exports){
+},{"../operators/expand":172}],129:[function(require,module,exports){
 "use strict";
 var filter_1 = require('../operators/filter');
 /* tslint:enable:max-line-length */
@@ -9439,7 +9509,7 @@ function filter(predicate, thisArg) {
 }
 exports.filter = filter;
 
-},{"../operators/filter":165}],126:[function(require,module,exports){
+},{"../operators/filter":173}],130:[function(require,module,exports){
 "use strict";
 var finalize_1 = require('../operators/finalize');
 /**
@@ -9455,7 +9525,7 @@ function _finally(callback) {
 }
 exports._finally = _finally;
 
-},{"../operators/finalize":166}],127:[function(require,module,exports){
+},{"../operators/finalize":174}],131:[function(require,module,exports){
 "use strict";
 var first_1 = require('../operators/first');
 /**
@@ -9512,7 +9582,7 @@ function first(predicate, resultSelector, defaultValue) {
 }
 exports.first = first;
 
-},{"../operators/first":167}],128:[function(require,module,exports){
+},{"../operators/first":175}],132:[function(require,module,exports){
 "use strict";
 var last_1 = require('../operators/last');
 /* tslint:enable:max-line-length */
@@ -9538,7 +9608,7 @@ function last(predicate, resultSelector, defaultValue) {
 }
 exports.last = last;
 
-},{"../operators/last":168}],129:[function(require,module,exports){
+},{"../operators/last":176}],133:[function(require,module,exports){
 "use strict";
 var map_1 = require('../operators/map');
 /**
@@ -9579,7 +9649,7 @@ function map(project, thisArg) {
 }
 exports.map = map;
 
-},{"../operators/map":169}],130:[function(require,module,exports){
+},{"../operators/map":177}],134:[function(require,module,exports){
 "use strict";
 var merge_1 = require('../operators/merge');
 var merge_2 = require('../operators/merge');
@@ -9640,7 +9710,7 @@ function merge() {
 }
 exports.merge = merge;
 
-},{"../operators/merge":170}],131:[function(require,module,exports){
+},{"../operators/merge":178}],135:[function(require,module,exports){
 "use strict";
 var mergeAll_1 = require('../operators/mergeAll');
 /**
@@ -9693,7 +9763,7 @@ function mergeAll(concurrent) {
 }
 exports.mergeAll = mergeAll;
 
-},{"../operators/mergeAll":171}],132:[function(require,module,exports){
+},{"../operators/mergeAll":179}],136:[function(require,module,exports){
 "use strict";
 var mergeMap_1 = require('../operators/mergeMap');
 /* tslint:enable:max-line-length */
@@ -9761,7 +9831,7 @@ function mergeMap(project, resultSelector, concurrent) {
 }
 exports.mergeMap = mergeMap;
 
-},{"../operators/mergeMap":172}],133:[function(require,module,exports){
+},{"../operators/mergeMap":180}],137:[function(require,module,exports){
 "use strict";
 var pairwise_1 = require('../operators/pairwise');
 /**
@@ -9804,7 +9874,7 @@ function pairwise() {
 }
 exports.pairwise = pairwise;
 
-},{"../operators/pairwise":175}],134:[function(require,module,exports){
+},{"../operators/pairwise":183}],138:[function(require,module,exports){
 "use strict";
 var pluck_1 = require('../operators/pluck');
 /**
@@ -9842,7 +9912,7 @@ function pluck() {
 }
 exports.pluck = pluck;
 
-},{"../operators/pluck":176}],135:[function(require,module,exports){
+},{"../operators/pluck":184}],139:[function(require,module,exports){
 "use strict";
 var publish_1 = require('../operators/publish');
 /* tslint:enable:max-line-length */
@@ -9864,7 +9934,7 @@ function publish(selector) {
 }
 exports.publish = publish;
 
-},{"../operators/publish":177}],136:[function(require,module,exports){
+},{"../operators/publish":185}],140:[function(require,module,exports){
 "use strict";
 var publishReplay_1 = require('../operators/publishReplay');
 /* tslint:enable:max-line-length */
@@ -9882,7 +9952,68 @@ function publishReplay(bufferSize, windowTime, selectorOrScheduler, scheduler) {
 }
 exports.publishReplay = publishReplay;
 
-},{"../operators/publishReplay":178}],137:[function(require,module,exports){
+},{"../operators/publishReplay":186}],141:[function(require,module,exports){
+"use strict";
+var reduce_1 = require('../operators/reduce');
+/* tslint:enable:max-line-length */
+/**
+ * Applies an accumulator function over the source Observable, and returns the
+ * accumulated result when the source completes, given an optional seed value.
+ *
+ * <span class="informal">Combines together all values emitted on the source,
+ * using an accumulator function that knows how to join a new source value into
+ * the accumulation from the past.</span>
+ *
+ * <img src="./img/reduce.png" width="100%">
+ *
+ * Like
+ * [Array.prototype.reduce()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce),
+ * `reduce` applies an `accumulator` function against an accumulation and each
+ * value of the source Observable (from the past) to reduce it to a single
+ * value, emitted on the output Observable. Note that `reduce` will only emit
+ * one value, only when the source Observable completes. It is equivalent to
+ * applying operator {@link scan} followed by operator {@link last}.
+ *
+ * Returns an Observable that applies a specified `accumulator` function to each
+ * item emitted by the source Observable. If a `seed` value is specified, then
+ * that value will be used as the initial value for the accumulator. If no seed
+ * value is specified, the first item of the source is used as the seed.
+ *
+ * @example <caption>Count the number of click events that happened in 5 seconds</caption>
+ * var clicksInFiveSeconds = Rx.Observable.fromEvent(document, 'click')
+ *   .takeUntil(Rx.Observable.interval(5000));
+ * var ones = clicksInFiveSeconds.mapTo(1);
+ * var seed = 0;
+ * var count = ones.reduce((acc, one) => acc + one, seed);
+ * count.subscribe(x => console.log(x));
+ *
+ * @see {@link count}
+ * @see {@link expand}
+ * @see {@link mergeScan}
+ * @see {@link scan}
+ *
+ * @param {function(acc: R, value: T, index: number): R} accumulator The accumulator function
+ * called on each source value.
+ * @param {R} [seed] The initial accumulation value.
+ * @return {Observable<R>} An Observable that emits a single value that is the
+ * result of accumulating the values emitted by the source Observable.
+ * @method reduce
+ * @owner Observable
+ */
+function reduce(accumulator, seed) {
+    // providing a seed of `undefined` *should* be valid and trigger
+    // hasSeed! so don't use `seed !== undefined` checks!
+    // For this reason, we have to check it here at the original call site
+    // otherwise inside Operator/Subscriber we won't know if `undefined`
+    // means they didn't provide anything or if they literally provided `undefined`
+    if (arguments.length >= 2) {
+        return reduce_1.reduce(accumulator, seed)(this);
+    }
+    return reduce_1.reduce(accumulator)(this);
+}
+exports.reduce = reduce;
+
+},{"../operators/reduce":187}],142:[function(require,module,exports){
 "use strict";
 var retry_1 = require('../operators/retry');
 /**
@@ -9907,7 +10038,7 @@ function retry(count) {
 }
 exports.retry = retry;
 
-},{"../operators/retry":180}],138:[function(require,module,exports){
+},{"../operators/retry":189}],143:[function(require,module,exports){
 "use strict";
 var sample_1 = require('../operators/sample');
 /**
@@ -9949,7 +10080,7 @@ function sample(notifier) {
 }
 exports.sample = sample;
 
-},{"../operators/sample":181}],139:[function(require,module,exports){
+},{"../operators/sample":190}],144:[function(require,module,exports){
 "use strict";
 var scan_1 = require('../operators/scan');
 /* tslint:enable:max-line-length */
@@ -9998,7 +10129,7 @@ function scan(accumulator, seed) {
 }
 exports.scan = scan;
 
-},{"../operators/scan":182}],140:[function(require,module,exports){
+},{"../operators/scan":191}],145:[function(require,module,exports){
 "use strict";
 var share_1 = require('../operators/share');
 /**
@@ -10023,7 +10154,7 @@ function share() {
 exports.share = share;
 ;
 
-},{"../operators/share":183}],141:[function(require,module,exports){
+},{"../operators/share":192}],146:[function(require,module,exports){
 "use strict";
 var skip_1 = require('../operators/skip');
 /**
@@ -10042,7 +10173,7 @@ function skip(count) {
 }
 exports.skip = skip;
 
-},{"../operators/skip":184}],142:[function(require,module,exports){
+},{"../operators/skip":193}],147:[function(require,module,exports){
 "use strict";
 var skipUntil_1 = require('../operators/skipUntil');
 /**
@@ -10062,7 +10193,7 @@ function skipUntil(notifier) {
 }
 exports.skipUntil = skipUntil;
 
-},{"../operators/skipUntil":185}],143:[function(require,module,exports){
+},{"../operators/skipUntil":194}],148:[function(require,module,exports){
 "use strict";
 var skipWhile_1 = require('../operators/skipWhile');
 /**
@@ -10082,7 +10213,7 @@ function skipWhile(predicate) {
 }
 exports.skipWhile = skipWhile;
 
-},{"../operators/skipWhile":186}],144:[function(require,module,exports){
+},{"../operators/skipWhile":195}],149:[function(require,module,exports){
 "use strict";
 var startWith_1 = require('../operators/startWith');
 /* tslint:enable:max-line-length */
@@ -10109,7 +10240,7 @@ function startWith() {
 }
 exports.startWith = startWith;
 
-},{"../operators/startWith":187}],145:[function(require,module,exports){
+},{"../operators/startWith":196}],150:[function(require,module,exports){
 "use strict";
 var switchMap_1 = require('../operators/switchMap');
 /* tslint:enable:max-line-length */
@@ -10165,7 +10296,7 @@ function switchMap(project, resultSelector) {
 }
 exports.switchMap = switchMap;
 
-},{"../operators/switchMap":188}],146:[function(require,module,exports){
+},{"../operators/switchMap":197}],151:[function(require,module,exports){
 "use strict";
 var take_1 = require('../operators/take');
 /**
@@ -10206,7 +10337,7 @@ function take(count) {
 }
 exports.take = take;
 
-},{"../operators/take":189}],147:[function(require,module,exports){
+},{"../operators/take":198}],152:[function(require,module,exports){
 "use strict";
 var takeUntil_1 = require('../operators/takeUntil');
 /**
@@ -10247,7 +10378,7 @@ function takeUntil(notifier) {
 }
 exports.takeUntil = takeUntil;
 
-},{"../operators/takeUntil":190}],148:[function(require,module,exports){
+},{"../operators/takeUntil":200}],153:[function(require,module,exports){
 "use strict";
 var takeWhile_1 = require('../operators/takeWhile');
 /**
@@ -10291,7 +10422,7 @@ function takeWhile(predicate) {
 }
 exports.takeWhile = takeWhile;
 
-},{"../operators/takeWhile":191}],149:[function(require,module,exports){
+},{"../operators/takeWhile":201}],154:[function(require,module,exports){
 "use strict";
 var async_1 = require('../scheduler/async');
 var throttle_1 = require('../operators/throttle');
@@ -10342,7 +10473,7 @@ function throttleTime(duration, scheduler, config) {
 }
 exports.throttleTime = throttleTime;
 
-},{"../operators/throttle":193,"../operators/throttleTime":194,"../scheduler/async":203}],150:[function(require,module,exports){
+},{"../operators/throttle":203,"../operators/throttleTime":204,"../scheduler/async":213}],155:[function(require,module,exports){
 "use strict";
 var async_1 = require('../scheduler/async');
 var timeout_1 = require('../operators/timeout');
@@ -10417,7 +10548,7 @@ function timeout(due, scheduler) {
 }
 exports.timeout = timeout;
 
-},{"../operators/timeout":195,"../scheduler/async":203}],151:[function(require,module,exports){
+},{"../operators/timeout":205,"../scheduler/async":213}],156:[function(require,module,exports){
 "use strict";
 var withLatestFrom_1 = require('../operators/withLatestFrom');
 /* tslint:enable:max-line-length */
@@ -10468,7 +10599,7 @@ function withLatestFrom() {
 }
 exports.withLatestFrom = withLatestFrom;
 
-},{"../operators/withLatestFrom":196}],152:[function(require,module,exports){
+},{"../operators/withLatestFrom":206}],157:[function(require,module,exports){
 "use strict";
 var zip_1 = require('../operators/zip');
 /* tslint:enable:max-line-length */
@@ -10487,7 +10618,179 @@ function zipProto() {
 }
 exports.zipProto = zipProto;
 
-},{"../operators/zip":197}],153:[function(require,module,exports){
+},{"../operators/zip":207}],158:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var tryCatch_1 = require('../util/tryCatch');
+var errorObject_1 = require('../util/errorObject');
+var OuterSubscriber_1 = require('../OuterSubscriber');
+var subscribeToResult_1 = require('../util/subscribeToResult');
+/**
+ * Ignores source values for a duration determined by another Observable, then
+ * emits the most recent value from the source Observable, then repeats this
+ * process.
+ *
+ * <span class="informal">It's like {@link auditTime}, but the silencing
+ * duration is determined by a second Observable.</span>
+ *
+ * <img src="./img/audit.png" width="100%">
+ *
+ * `audit` is similar to `throttle`, but emits the last value from the silenced
+ * time window, instead of the first value. `audit` emits the most recent value
+ * from the source Observable on the output Observable as soon as its internal
+ * timer becomes disabled, and ignores source values while the timer is enabled.
+ * Initially, the timer is disabled. As soon as the first source value arrives,
+ * the timer is enabled by calling the `durationSelector` function with the
+ * source value, which returns the "duration" Observable. When the duration
+ * Observable emits a value or completes, the timer is disabled, then the most
+ * recent source value is emitted on the output Observable, and this process
+ * repeats for the next source value.
+ *
+ * @example <caption>Emit clicks at a rate of at most one click per second</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var result = clicks.audit(ev => Rx.Observable.interval(1000));
+ * result.subscribe(x => console.log(x));
+ *
+ * @see {@link auditTime}
+ * @see {@link debounce}
+ * @see {@link delayWhen}
+ * @see {@link sample}
+ * @see {@link throttle}
+ *
+ * @param {function(value: T): SubscribableOrPromise} durationSelector A function
+ * that receives a value from the source Observable, for computing the silencing
+ * duration, returned as an Observable or a Promise.
+ * @return {Observable<T>} An Observable that performs rate-limiting of
+ * emissions from the source Observable.
+ * @method audit
+ * @owner Observable
+ */
+function audit(durationSelector) {
+    return function auditOperatorFunction(source) {
+        return source.lift(new AuditOperator(durationSelector));
+    };
+}
+exports.audit = audit;
+var AuditOperator = (function () {
+    function AuditOperator(durationSelector) {
+        this.durationSelector = durationSelector;
+    }
+    AuditOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new AuditSubscriber(subscriber, this.durationSelector));
+    };
+    return AuditOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var AuditSubscriber = (function (_super) {
+    __extends(AuditSubscriber, _super);
+    function AuditSubscriber(destination, durationSelector) {
+        _super.call(this, destination);
+        this.durationSelector = durationSelector;
+        this.hasValue = false;
+    }
+    AuditSubscriber.prototype._next = function (value) {
+        this.value = value;
+        this.hasValue = true;
+        if (!this.throttled) {
+            var duration = tryCatch_1.tryCatch(this.durationSelector)(value);
+            if (duration === errorObject_1.errorObject) {
+                this.destination.error(errorObject_1.errorObject.e);
+            }
+            else {
+                var innerSubscription = subscribeToResult_1.subscribeToResult(this, duration);
+                if (innerSubscription.closed) {
+                    this.clearThrottle();
+                }
+                else {
+                    this.add(this.throttled = innerSubscription);
+                }
+            }
+        }
+    };
+    AuditSubscriber.prototype.clearThrottle = function () {
+        var _a = this, value = _a.value, hasValue = _a.hasValue, throttled = _a.throttled;
+        if (throttled) {
+            this.remove(throttled);
+            this.throttled = null;
+            throttled.unsubscribe();
+        }
+        if (hasValue) {
+            this.value = null;
+            this.hasValue = false;
+            this.destination.next(value);
+        }
+    };
+    AuditSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex) {
+        this.clearThrottle();
+    };
+    AuditSubscriber.prototype.notifyComplete = function () {
+        this.clearThrottle();
+    };
+    return AuditSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+
+},{"../OuterSubscriber":31,"../util/errorObject":225,"../util/subscribeToResult":238,"../util/tryCatch":240}],159:[function(require,module,exports){
+"use strict";
+var async_1 = require('../scheduler/async');
+var audit_1 = require('./audit');
+var timer_1 = require('../observable/timer');
+/**
+ * Ignores source values for `duration` milliseconds, then emits the most recent
+ * value from the source Observable, then repeats this process.
+ *
+ * <span class="informal">When it sees a source values, it ignores that plus
+ * the next ones for `duration` milliseconds, and then it emits the most recent
+ * value from the source.</span>
+ *
+ * <img src="./img/auditTime.png" width="100%">
+ *
+ * `auditTime` is similar to `throttleTime`, but emits the last value from the
+ * silenced time window, instead of the first value. `auditTime` emits the most
+ * recent value from the source Observable on the output Observable as soon as
+ * its internal timer becomes disabled, and ignores source values while the
+ * timer is enabled. Initially, the timer is disabled. As soon as the first
+ * source value arrives, the timer is enabled. After `duration` milliseconds (or
+ * the time unit determined internally by the optional `scheduler`) has passed,
+ * the timer is disabled, then the most recent source value is emitted on the
+ * output Observable, and this process repeats for the next source value.
+ * Optionally takes a {@link IScheduler} for managing timers.
+ *
+ * @example <caption>Emit clicks at a rate of at most one click per second</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var result = clicks.auditTime(1000);
+ * result.subscribe(x => console.log(x));
+ *
+ * @see {@link audit}
+ * @see {@link debounceTime}
+ * @see {@link delay}
+ * @see {@link sampleTime}
+ * @see {@link throttleTime}
+ *
+ * @param {number} duration Time to wait before emitting the most recent source
+ * value, measured in milliseconds or the time unit determined internally
+ * by the optional `scheduler`.
+ * @param {Scheduler} [scheduler=async] The {@link IScheduler} to use for
+ * managing the timers that handle the rate-limiting behavior.
+ * @return {Observable<T>} An Observable that performs rate-limiting of
+ * emissions from the source Observable.
+ * @method auditTime
+ * @owner Observable
+ */
+function auditTime(duration, scheduler) {
+    if (scheduler === void 0) { scheduler = async_1.async; }
+    return audit_1.audit(function () { return timer_1.timer(duration, scheduler); });
+}
+exports.auditTime = auditTime;
+
+},{"../observable/timer":114,"../scheduler/async":213,"./audit":158}],160:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -10566,7 +10869,7 @@ var BufferSubscriber = (function (_super) {
     return BufferSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../util/subscribeToResult":228}],154:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],161:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -10709,7 +11012,7 @@ var BufferSkipCountSubscriber = (function (_super) {
     return BufferSkipCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],155:[function(require,module,exports){
+},{"../Subscriber":36}],162:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -10834,7 +11137,7 @@ var BufferWhenSubscriber = (function (_super) {
     return BufferWhenSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../Subscription":37,"../util/errorObject":215,"../util/subscribeToResult":228,"../util/tryCatch":230}],156:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../Subscription":37,"../util/errorObject":225,"../util/subscribeToResult":238,"../util/tryCatch":240}],163:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -10951,7 +11254,7 @@ var CatchSubscriber = (function (_super) {
     return CatchSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../util/subscribeToResult":228}],157:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],164:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11103,7 +11406,7 @@ var CombineLatestSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.CombineLatestSubscriber = CombineLatestSubscriber;
 
-},{"../OuterSubscriber":31,"../observable/ArrayObservable":90,"../util/isArray":217,"../util/subscribeToResult":228}],158:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../observable/ArrayObservable":93,"../util/isArray":227,"../util/subscribeToResult":238}],165:[function(require,module,exports){
 "use strict";
 var concat_1 = require('../observable/concat');
 /* tslint:enable:max-line-length */
@@ -11165,7 +11468,7 @@ function concat() {
 }
 exports.concat = concat;
 
-},{"../observable/concat":102}],159:[function(require,module,exports){
+},{"../observable/concat":105}],166:[function(require,module,exports){
 "use strict";
 var mergeAll_1 = require('./mergeAll');
 /**
@@ -11221,7 +11524,7 @@ function concatAll() {
 }
 exports.concatAll = concatAll;
 
-},{"./mergeAll":171}],160:[function(require,module,exports){
+},{"./mergeAll":179}],167:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11338,7 +11641,85 @@ function dispatchNext(subscriber) {
     subscriber.debouncedNext();
 }
 
-},{"../Subscriber":36,"../scheduler/async":203}],161:[function(require,module,exports){
+},{"../Subscriber":36,"../scheduler/async":213}],168:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscriber_1 = require('../Subscriber');
+/* tslint:enable:max-line-length */
+/**
+ * Emits a given value if the source Observable completes without emitting any
+ * `next` value, otherwise mirrors the source Observable.
+ *
+ * <span class="informal">If the source Observable turns out to be empty, then
+ * this operator will emit a default value.</span>
+ *
+ * <img src="./img/defaultIfEmpty.png" width="100%">
+ *
+ * `defaultIfEmpty` emits the values emitted by the source Observable or a
+ * specified default value if the source Observable is empty (completes without
+ * having emitted any `next` value).
+ *
+ * @example <caption>If no clicks happen in 5 seconds, then emit "no clicks"</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var clicksBeforeFive = clicks.takeUntil(Rx.Observable.interval(5000));
+ * var result = clicksBeforeFive.defaultIfEmpty('no clicks');
+ * result.subscribe(x => console.log(x));
+ *
+ * @see {@link empty}
+ * @see {@link last}
+ *
+ * @param {any} [defaultValue=null] The default value used if the source
+ * Observable is empty.
+ * @return {Observable} An Observable that emits either the specified
+ * `defaultValue` if the source Observable emits no items, or the values emitted
+ * by the source Observable.
+ * @method defaultIfEmpty
+ * @owner Observable
+ */
+function defaultIfEmpty(defaultValue) {
+    if (defaultValue === void 0) { defaultValue = null; }
+    return function (source) { return source.lift(new DefaultIfEmptyOperator(defaultValue)); };
+}
+exports.defaultIfEmpty = defaultIfEmpty;
+var DefaultIfEmptyOperator = (function () {
+    function DefaultIfEmptyOperator(defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+    DefaultIfEmptyOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new DefaultIfEmptySubscriber(subscriber, this.defaultValue));
+    };
+    return DefaultIfEmptyOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var DefaultIfEmptySubscriber = (function (_super) {
+    __extends(DefaultIfEmptySubscriber, _super);
+    function DefaultIfEmptySubscriber(destination, defaultValue) {
+        _super.call(this, destination);
+        this.defaultValue = defaultValue;
+        this.isEmpty = true;
+    }
+    DefaultIfEmptySubscriber.prototype._next = function (value) {
+        this.isEmpty = false;
+        this.destination.next(value);
+    };
+    DefaultIfEmptySubscriber.prototype._complete = function () {
+        if (this.isEmpty) {
+            this.destination.next(this.defaultValue);
+        }
+        this.destination.complete();
+    };
+    return DefaultIfEmptySubscriber;
+}(Subscriber_1.Subscriber));
+
+},{"../Subscriber":36}],169:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11474,7 +11855,7 @@ var DelayMessage = (function () {
     return DelayMessage;
 }());
 
-},{"../Notification":28,"../Subscriber":36,"../scheduler/async":203,"../util/isDate":219}],162:[function(require,module,exports){
+},{"../Notification":28,"../Subscriber":36,"../scheduler/async":213,"../util/isDate":229}],170:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11595,7 +11976,7 @@ var DistinctSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.DistinctSubscriber = DistinctSubscriber;
 
-},{"../OuterSubscriber":31,"../util/Set":212,"../util/subscribeToResult":228}],163:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/Set":222,"../util/subscribeToResult":238}],171:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11704,7 +12085,7 @@ var DistinctUntilChangedSubscriber = (function (_super) {
     return DistinctUntilChangedSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36,"../util/errorObject":215,"../util/tryCatch":230}],164:[function(require,module,exports){
+},{"../Subscriber":36,"../util/errorObject":225,"../util/tryCatch":240}],172:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11856,7 +12237,7 @@ var ExpandSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.ExpandSubscriber = ExpandSubscriber;
 
-},{"../OuterSubscriber":31,"../util/errorObject":215,"../util/subscribeToResult":228,"../util/tryCatch":230}],165:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/errorObject":225,"../util/subscribeToResult":238,"../util/tryCatch":240}],173:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11951,7 +12332,7 @@ var FilterSubscriber = (function (_super) {
     return FilterSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],166:[function(require,module,exports){
+},{"../Subscriber":36}],174:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11995,7 +12376,7 @@ var FinallySubscriber = (function (_super) {
     return FinallySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36,"../Subscription":37}],167:[function(require,module,exports){
+},{"../Subscriber":36,"../Subscription":37}],175:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -12148,7 +12529,7 @@ var FirstSubscriber = (function (_super) {
     return FirstSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36,"../util/EmptyError":210}],168:[function(require,module,exports){
+},{"../Subscriber":36,"../util/EmptyError":220}],176:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -12268,7 +12649,7 @@ var LastSubscriber = (function (_super) {
     return LastSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36,"../util/EmptyError":210}],169:[function(require,module,exports){
+},{"../Subscriber":36,"../util/EmptyError":220}],177:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -12358,7 +12739,7 @@ var MapSubscriber = (function (_super) {
     return MapSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],170:[function(require,module,exports){
+},{"../Subscriber":36}],178:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../Observable');
 var ArrayObservable_1 = require('../observable/ArrayObservable');
@@ -12458,7 +12839,7 @@ function mergeStatic() {
 }
 exports.mergeStatic = mergeStatic;
 
-},{"../Observable":29,"../observable/ArrayObservable":90,"../util/isScheduler":224,"./mergeAll":171}],171:[function(require,module,exports){
+},{"../Observable":29,"../observable/ArrayObservable":93,"../util/isScheduler":234,"./mergeAll":179}],179:[function(require,module,exports){
 "use strict";
 var mergeMap_1 = require('./mergeMap');
 var identity_1 = require('../util/identity');
@@ -12512,7 +12893,7 @@ function mergeAll(concurrent) {
 }
 exports.mergeAll = mergeAll;
 
-},{"../util/identity":216,"./mergeMap":172}],172:[function(require,module,exports){
+},{"../util/identity":226,"./mergeMap":180}],180:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -12686,7 +13067,7 @@ var MergeMapSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.MergeMapSubscriber = MergeMapSubscriber;
 
-},{"../OuterSubscriber":31,"../util/subscribeToResult":228}],173:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],181:[function(require,module,exports){
 "use strict";
 var ConnectableObservable_1 = require('../observable/ConnectableObservable');
 /* tslint:enable:max-line-length */
@@ -12746,7 +13127,7 @@ var MulticastOperator = (function () {
 }());
 exports.MulticastOperator = MulticastOperator;
 
-},{"../observable/ConnectableObservable":91}],174:[function(require,module,exports){
+},{"../observable/ConnectableObservable":94}],182:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -12862,7 +13243,7 @@ var ObserveOnMessage = (function () {
 }());
 exports.ObserveOnMessage = ObserveOnMessage;
 
-},{"../Notification":28,"../Subscriber":36}],175:[function(require,module,exports){
+},{"../Notification":28,"../Subscriber":36}],183:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -12940,7 +13321,7 @@ var PairwiseSubscriber = (function (_super) {
     return PairwiseSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],176:[function(require,module,exports){
+},{"../Subscriber":36}],184:[function(require,module,exports){
 "use strict";
 var map_1 = require('./map');
 /**
@@ -12998,7 +13379,7 @@ function plucker(props, length) {
     return mapper;
 }
 
-},{"./map":169}],177:[function(require,module,exports){
+},{"./map":177}],185:[function(require,module,exports){
 "use strict";
 var Subject_1 = require('../Subject');
 var multicast_1 = require('./multicast');
@@ -13023,7 +13404,7 @@ function publish(selector) {
 }
 exports.publish = publish;
 
-},{"../Subject":34,"./multicast":173}],178:[function(require,module,exports){
+},{"../Subject":34,"./multicast":181}],186:[function(require,module,exports){
 "use strict";
 var ReplaySubject_1 = require('../ReplaySubject');
 var multicast_1 = require('./multicast');
@@ -13038,7 +13419,77 @@ function publishReplay(bufferSize, windowTime, selectorOrScheduler, scheduler) {
 }
 exports.publishReplay = publishReplay;
 
-},{"../ReplaySubject":32,"./multicast":173}],179:[function(require,module,exports){
+},{"../ReplaySubject":32,"./multicast":181}],187:[function(require,module,exports){
+"use strict";
+var scan_1 = require('./scan');
+var takeLast_1 = require('./takeLast');
+var defaultIfEmpty_1 = require('./defaultIfEmpty');
+var pipe_1 = require('../util/pipe');
+/* tslint:enable:max-line-length */
+/**
+ * Applies an accumulator function over the source Observable, and returns the
+ * accumulated result when the source completes, given an optional seed value.
+ *
+ * <span class="informal">Combines together all values emitted on the source,
+ * using an accumulator function that knows how to join a new source value into
+ * the accumulation from the past.</span>
+ *
+ * <img src="./img/reduce.png" width="100%">
+ *
+ * Like
+ * [Array.prototype.reduce()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce),
+ * `reduce` applies an `accumulator` function against an accumulation and each
+ * value of the source Observable (from the past) to reduce it to a single
+ * value, emitted on the output Observable. Note that `reduce` will only emit
+ * one value, only when the source Observable completes. It is equivalent to
+ * applying operator {@link scan} followed by operator {@link last}.
+ *
+ * Returns an Observable that applies a specified `accumulator` function to each
+ * item emitted by the source Observable. If a `seed` value is specified, then
+ * that value will be used as the initial value for the accumulator. If no seed
+ * value is specified, the first item of the source is used as the seed.
+ *
+ * @example <caption>Count the number of click events that happened in 5 seconds</caption>
+ * var clicksInFiveSeconds = Rx.Observable.fromEvent(document, 'click')
+ *   .takeUntil(Rx.Observable.interval(5000));
+ * var ones = clicksInFiveSeconds.mapTo(1);
+ * var seed = 0;
+ * var count = ones.reduce((acc, one) => acc + one, seed);
+ * count.subscribe(x => console.log(x));
+ *
+ * @see {@link count}
+ * @see {@link expand}
+ * @see {@link mergeScan}
+ * @see {@link scan}
+ *
+ * @param {function(acc: R, value: T, index: number): R} accumulator The accumulator function
+ * called on each source value.
+ * @param {R} [seed] The initial accumulation value.
+ * @return {Observable<R>} An Observable that emits a single value that is the
+ * result of accumulating the values emitted by the source Observable.
+ * @method reduce
+ * @owner Observable
+ */
+function reduce(accumulator, seed) {
+    // providing a seed of `undefined` *should* be valid and trigger
+    // hasSeed! so don't use `seed !== undefined` checks!
+    // For this reason, we have to check it here at the original call site
+    // otherwise inside Operator/Subscriber we won't know if `undefined`
+    // means they didn't provide anything or if they literally provided `undefined`
+    if (arguments.length >= 2) {
+        return function reduceOperatorFunctionWithSeed(source) {
+            return pipe_1.pipe(scan_1.scan(accumulator, seed), takeLast_1.takeLast(1), defaultIfEmpty_1.defaultIfEmpty(seed))(source);
+        };
+    }
+    return function reduceOperatorFunction(source) {
+        return pipe_1.pipe(scan_1.scan(function (acc, value, index) {
+            return accumulator(acc, value, index + 1);
+        }), takeLast_1.takeLast(1))(source);
+    };
+}
+exports.reduce = reduce;
+
+},{"../util/pipe":236,"./defaultIfEmpty":168,"./scan":191,"./takeLast":199}],188:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13124,7 +13575,7 @@ var RefCountSubscriber = (function (_super) {
     return RefCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],180:[function(require,module,exports){
+},{"../Subscriber":36}],189:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13190,7 +13641,7 @@ var RetrySubscriber = (function (_super) {
     return RetrySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],181:[function(require,module,exports){
+},{"../Subscriber":36}],190:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13279,7 +13730,7 @@ var SampleSubscriber = (function (_super) {
     return SampleSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../util/subscribeToResult":228}],182:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],191:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13401,7 +13852,7 @@ var ScanSubscriber = (function (_super) {
     return ScanSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],183:[function(require,module,exports){
+},{"../Subscriber":36}],192:[function(require,module,exports){
 "use strict";
 var multicast_1 = require('./multicast');
 var refCount_1 = require('./refCount');
@@ -13427,7 +13878,7 @@ function share() {
 exports.share = share;
 ;
 
-},{"../Subject":34,"./multicast":173,"./refCount":179}],184:[function(require,module,exports){
+},{"../Subject":34,"./multicast":181,"./refCount":188}],193:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13479,7 +13930,7 @@ var SkipSubscriber = (function (_super) {
     return SkipSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],185:[function(require,module,exports){
+},{"../Subscriber":36}],194:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13551,7 +14002,7 @@ var SkipUntilSubscriber = (function (_super) {
     return SkipUntilSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../util/subscribeToResult":228}],186:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],195:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13618,7 +14069,7 @@ var SkipWhileSubscriber = (function (_super) {
     return SkipWhileSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],187:[function(require,module,exports){
+},{"../Subscriber":36}],196:[function(require,module,exports){
 "use strict";
 var ArrayObservable_1 = require('../observable/ArrayObservable');
 var ScalarObservable_1 = require('../observable/ScalarObservable');
@@ -13667,7 +14118,7 @@ function startWith() {
 }
 exports.startWith = startWith;
 
-},{"../observable/ArrayObservable":90,"../observable/EmptyObservable":93,"../observable/ScalarObservable":99,"../observable/concat":102,"../util/isScheduler":224}],188:[function(require,module,exports){
+},{"../observable/ArrayObservable":93,"../observable/EmptyObservable":96,"../observable/ScalarObservable":102,"../observable/concat":105,"../util/isScheduler":234}],197:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13810,7 +14261,7 @@ var SwitchMapSubscriber = (function (_super) {
     return SwitchMapSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../util/subscribeToResult":228}],189:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],198:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13902,7 +14353,117 @@ var TakeSubscriber = (function (_super) {
     return TakeSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36,"../observable/EmptyObservable":93,"../util/ArgumentOutOfRangeError":209}],190:[function(require,module,exports){
+},{"../Subscriber":36,"../observable/EmptyObservable":96,"../util/ArgumentOutOfRangeError":219}],199:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscriber_1 = require('../Subscriber');
+var ArgumentOutOfRangeError_1 = require('../util/ArgumentOutOfRangeError');
+var EmptyObservable_1 = require('../observable/EmptyObservable');
+/**
+ * Emits only the last `count` values emitted by the source Observable.
+ *
+ * <span class="informal">Remembers the latest `count` values, then emits those
+ * only when the source completes.</span>
+ *
+ * <img src="./img/takeLast.png" width="100%">
+ *
+ * `takeLast` returns an Observable that emits at most the last `count` values
+ * emitted by the source Observable. If the source emits fewer than `count`
+ * values then all of its values are emitted. This operator must wait until the
+ * `complete` notification emission from the source in order to emit the `next`
+ * values on the output Observable, because otherwise it is impossible to know
+ * whether or not more values will be emitted on the source. For this reason,
+ * all values are emitted synchronously, followed by the complete notification.
+ *
+ * @example <caption>Take the last 3 values of an Observable with many values</caption>
+ * var many = Rx.Observable.range(1, 100);
+ * var lastThree = many.takeLast(3);
+ * lastThree.subscribe(x => console.log(x));
+ *
+ * @see {@link take}
+ * @see {@link takeUntil}
+ * @see {@link takeWhile}
+ * @see {@link skip}
+ *
+ * @throws {ArgumentOutOfRangeError} When using `takeLast(i)`, it delivers an
+ * ArgumentOutOrRangeError to the Observer's `error` callback if `i < 0`.
+ *
+ * @param {number} count The maximum number of values to emit from the end of
+ * the sequence of values emitted by the source Observable.
+ * @return {Observable<T>} An Observable that emits at most the last count
+ * values emitted by the source Observable.
+ * @method takeLast
+ * @owner Observable
+ */
+function takeLast(count) {
+    return function takeLastOperatorFunction(source) {
+        if (count === 0) {
+            return new EmptyObservable_1.EmptyObservable();
+        }
+        else {
+            return source.lift(new TakeLastOperator(count));
+        }
+    };
+}
+exports.takeLast = takeLast;
+var TakeLastOperator = (function () {
+    function TakeLastOperator(total) {
+        this.total = total;
+        if (this.total < 0) {
+            throw new ArgumentOutOfRangeError_1.ArgumentOutOfRangeError;
+        }
+    }
+    TakeLastOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new TakeLastSubscriber(subscriber, this.total));
+    };
+    return TakeLastOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var TakeLastSubscriber = (function (_super) {
+    __extends(TakeLastSubscriber, _super);
+    function TakeLastSubscriber(destination, total) {
+        _super.call(this, destination);
+        this.total = total;
+        this.ring = new Array();
+        this.count = 0;
+    }
+    TakeLastSubscriber.prototype._next = function (value) {
+        var ring = this.ring;
+        var total = this.total;
+        var count = this.count++;
+        if (ring.length < total) {
+            ring.push(value);
+        }
+        else {
+            var index = count % total;
+            ring[index] = value;
+        }
+    };
+    TakeLastSubscriber.prototype._complete = function () {
+        var destination = this.destination;
+        var count = this.count;
+        if (count > 0) {
+            var total = this.count >= this.total ? this.total : this.count;
+            var ring = this.ring;
+            for (var i = 0; i < total; i++) {
+                var idx = (count++) % total;
+                destination.next(ring[idx]);
+            }
+        }
+        destination.complete();
+    };
+    return TakeLastSubscriber;
+}(Subscriber_1.Subscriber));
+
+},{"../Subscriber":36,"../observable/EmptyObservable":96,"../util/ArgumentOutOfRangeError":219}],200:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13978,7 +14539,7 @@ var TakeUntilSubscriber = (function (_super) {
     return TakeUntilSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../util/subscribeToResult":228}],191:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],201:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -14071,7 +14632,7 @@ var TakeWhileSubscriber = (function (_super) {
     return TakeWhileSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],192:[function(require,module,exports){
+},{"../Subscriber":36}],202:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -14185,7 +14746,7 @@ var DoSubscriber = (function (_super) {
     return DoSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],193:[function(require,module,exports){
+},{"../Subscriber":36}],203:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -14328,7 +14889,7 @@ var ThrottleSubscriber = (function (_super) {
     return ThrottleSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../util/subscribeToResult":228}],194:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],204:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -14445,7 +15006,7 @@ function dispatchNext(arg) {
     subscriber.clearThrottle();
 }
 
-},{"../Subscriber":36,"../scheduler/async":203,"./throttle":193}],195:[function(require,module,exports){
+},{"../Subscriber":36,"../scheduler/async":213,"./throttle":203}],205:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -14587,7 +15148,7 @@ var TimeoutSubscriber = (function (_super) {
     return TimeoutSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36,"../scheduler/async":203,"../util/TimeoutError":213,"../util/isDate":219}],196:[function(require,module,exports){
+},{"../Subscriber":36,"../scheduler/async":213,"../util/TimeoutError":223,"../util/isDate":229}],206:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -14720,7 +15281,7 @@ var WithLatestFromSubscriber = (function (_super) {
     return WithLatestFromSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../util/subscribeToResult":228}],197:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],207:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15002,7 +15563,7 @@ var ZipBufferIterator = (function (_super) {
     return ZipBufferIterator;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../Subscriber":36,"../observable/ArrayObservable":90,"../symbol/iterator":205,"../util/isArray":217,"../util/subscribeToResult":228}],198:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../Subscriber":36,"../observable/ArrayObservable":93,"../symbol/iterator":215,"../util/isArray":227,"../util/subscribeToResult":238}],208:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15047,7 +15608,7 @@ var Action = (function (_super) {
 }(Subscription_1.Subscription));
 exports.Action = Action;
 
-},{"../Subscription":37}],199:[function(require,module,exports){
+},{"../Subscription":37}],209:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15190,7 +15751,7 @@ var AsyncAction = (function (_super) {
 }(Action_1.Action));
 exports.AsyncAction = AsyncAction;
 
-},{"../util/root":227,"./Action":198}],200:[function(require,module,exports){
+},{"../util/root":237,"./Action":208}],210:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15242,7 +15803,7 @@ var AsyncScheduler = (function (_super) {
 }(Scheduler_1.Scheduler));
 exports.AsyncScheduler = AsyncScheduler;
 
-},{"../Scheduler":33}],201:[function(require,module,exports){
+},{"../Scheduler":33}],211:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15292,7 +15853,7 @@ var QueueAction = (function (_super) {
 }(AsyncAction_1.AsyncAction));
 exports.QueueAction = QueueAction;
 
-},{"./AsyncAction":199}],202:[function(require,module,exports){
+},{"./AsyncAction":209}],212:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15309,7 +15870,7 @@ var QueueScheduler = (function (_super) {
 }(AsyncScheduler_1.AsyncScheduler));
 exports.QueueScheduler = QueueScheduler;
 
-},{"./AsyncScheduler":200}],203:[function(require,module,exports){
+},{"./AsyncScheduler":210}],213:[function(require,module,exports){
 "use strict";
 var AsyncAction_1 = require('./AsyncAction');
 var AsyncScheduler_1 = require('./AsyncScheduler');
@@ -15357,7 +15918,7 @@ var AsyncScheduler_1 = require('./AsyncScheduler');
  */
 exports.async = new AsyncScheduler_1.AsyncScheduler(AsyncAction_1.AsyncAction);
 
-},{"./AsyncAction":199,"./AsyncScheduler":200}],204:[function(require,module,exports){
+},{"./AsyncAction":209,"./AsyncScheduler":210}],214:[function(require,module,exports){
 "use strict";
 var QueueAction_1 = require('./QueueAction');
 var QueueScheduler_1 = require('./QueueScheduler');
@@ -15424,7 +15985,7 @@ var QueueScheduler_1 = require('./QueueScheduler');
  */
 exports.queue = new QueueScheduler_1.QueueScheduler(QueueAction_1.QueueAction);
 
-},{"./QueueAction":201,"./QueueScheduler":202}],205:[function(require,module,exports){
+},{"./QueueAction":211,"./QueueScheduler":212}],215:[function(require,module,exports){
 "use strict";
 var root_1 = require('../util/root');
 function symbolIteratorPonyfill(root) {
@@ -15463,7 +16024,7 @@ exports.iterator = symbolIteratorPonyfill(root_1.root);
  */
 exports.$$iterator = exports.iterator;
 
-},{"../util/root":227}],206:[function(require,module,exports){
+},{"../util/root":237}],216:[function(require,module,exports){
 "use strict";
 var root_1 = require('../util/root');
 function getSymbolObservable(context) {
@@ -15490,7 +16051,7 @@ exports.observable = getSymbolObservable(root_1.root);
  */
 exports.$$observable = exports.observable;
 
-},{"../util/root":227}],207:[function(require,module,exports){
+},{"../util/root":237}],217:[function(require,module,exports){
 "use strict";
 var root_1 = require('../util/root');
 var Symbol = root_1.root.Symbol;
@@ -15501,7 +16062,7 @@ exports.rxSubscriber = (typeof Symbol === 'function' && typeof Symbol.for === 'f
  */
 exports.$$rxSubscriber = exports.rxSubscriber;
 
-},{"../util/root":227}],208:[function(require,module,exports){
+},{"../util/root":237}],218:[function(require,module,exports){
 "use strict";
 var root_1 = require('./root');
 var RequestAnimationFrameDefinition = (function () {
@@ -15536,7 +16097,7 @@ var RequestAnimationFrameDefinition = (function () {
 exports.RequestAnimationFrameDefinition = RequestAnimationFrameDefinition;
 exports.AnimationFrame = new RequestAnimationFrameDefinition(root_1.root);
 
-},{"./root":227}],209:[function(require,module,exports){
+},{"./root":237}],219:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15565,7 +16126,7 @@ var ArgumentOutOfRangeError = (function (_super) {
 }(Error));
 exports.ArgumentOutOfRangeError = ArgumentOutOfRangeError;
 
-},{}],210:[function(require,module,exports){
+},{}],220:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15594,7 +16155,7 @@ var EmptyError = (function (_super) {
 }(Error));
 exports.EmptyError = EmptyError;
 
-},{}],211:[function(require,module,exports){
+},{}],221:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15622,7 +16183,7 @@ var ObjectUnsubscribedError = (function (_super) {
 }(Error));
 exports.ObjectUnsubscribedError = ObjectUnsubscribedError;
 
-},{}],212:[function(require,module,exports){
+},{}],222:[function(require,module,exports){
 "use strict";
 var root_1 = require('./root');
 function minimalSetImpl() {
@@ -15656,7 +16217,7 @@ function minimalSetImpl() {
 exports.minimalSetImpl = minimalSetImpl;
 exports.Set = root_1.root.Set || minimalSetImpl();
 
-},{"./root":227}],213:[function(require,module,exports){
+},{"./root":237}],223:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15682,7 +16243,7 @@ var TimeoutError = (function (_super) {
 }(Error));
 exports.TimeoutError = TimeoutError;
 
-},{}],214:[function(require,module,exports){
+},{}],224:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15708,41 +16269,41 @@ var UnsubscriptionError = (function (_super) {
 }(Error));
 exports.UnsubscriptionError = UnsubscriptionError;
 
-},{}],215:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 "use strict";
 // typeof any so that it we don't have to cast when comparing a result to the error object
 exports.errorObject = { e: {} };
 
-},{}],216:[function(require,module,exports){
+},{}],226:[function(require,module,exports){
 "use strict";
 function identity(x) {
     return x;
 }
 exports.identity = identity;
 
-},{}],217:[function(require,module,exports){
+},{}],227:[function(require,module,exports){
 "use strict";
 exports.isArray = Array.isArray || (function (x) { return x && typeof x.length === 'number'; });
 
-},{}],218:[function(require,module,exports){
+},{}],228:[function(require,module,exports){
 "use strict";
 exports.isArrayLike = (function (x) { return x && typeof x.length === 'number'; });
 
-},{}],219:[function(require,module,exports){
+},{}],229:[function(require,module,exports){
 "use strict";
 function isDate(value) {
     return value instanceof Date && !isNaN(+value);
 }
 exports.isDate = isDate;
 
-},{}],220:[function(require,module,exports){
+},{}],230:[function(require,module,exports){
 "use strict";
 function isFunction(x) {
     return typeof x === 'function';
 }
 exports.isFunction = isFunction;
 
-},{}],221:[function(require,module,exports){
+},{}],231:[function(require,module,exports){
 "use strict";
 var isArray_1 = require('../util/isArray');
 function isNumeric(val) {
@@ -15755,34 +16316,34 @@ function isNumeric(val) {
 exports.isNumeric = isNumeric;
 ;
 
-},{"../util/isArray":217}],222:[function(require,module,exports){
+},{"../util/isArray":227}],232:[function(require,module,exports){
 "use strict";
 function isObject(x) {
     return x != null && typeof x === 'object';
 }
 exports.isObject = isObject;
 
-},{}],223:[function(require,module,exports){
+},{}],233:[function(require,module,exports){
 "use strict";
 function isPromise(value) {
     return value && typeof value.subscribe !== 'function' && typeof value.then === 'function';
 }
 exports.isPromise = isPromise;
 
-},{}],224:[function(require,module,exports){
+},{}],234:[function(require,module,exports){
 "use strict";
 function isScheduler(value) {
     return value && typeof value.schedule === 'function';
 }
 exports.isScheduler = isScheduler;
 
-},{}],225:[function(require,module,exports){
+},{}],235:[function(require,module,exports){
 "use strict";
 /* tslint:disable:no-empty */
 function noop() { }
 exports.noop = noop;
 
-},{}],226:[function(require,module,exports){
+},{}],236:[function(require,module,exports){
 "use strict";
 var noop_1 = require('./noop');
 /* tslint:enable:max-line-length */
@@ -15808,7 +16369,7 @@ function pipeFromArray(fns) {
 }
 exports.pipeFromArray = pipeFromArray;
 
-},{"./noop":225}],227:[function(require,module,exports){
+},{"./noop":235}],237:[function(require,module,exports){
 (function (global){
 "use strict";
 // CommonJS / Node have global context exposed as "global" variable.
@@ -15831,7 +16392,7 @@ exports.root = _root;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],228:[function(require,module,exports){
+},{}],238:[function(require,module,exports){
 "use strict";
 var root_1 = require('./root');
 var isArrayLike_1 = require('./isArrayLike');
@@ -15911,7 +16472,7 @@ function subscribeToResult(outerSubscriber, result, outerValue, outerIndex) {
 }
 exports.subscribeToResult = subscribeToResult;
 
-},{"../InnerSubscriber":27,"../Observable":29,"../symbol/iterator":205,"../symbol/observable":206,"./isArrayLike":218,"./isObject":222,"./isPromise":223,"./root":227}],229:[function(require,module,exports){
+},{"../InnerSubscriber":27,"../Observable":29,"../symbol/iterator":215,"../symbol/observable":216,"./isArrayLike":228,"./isObject":232,"./isPromise":233,"./root":237}],239:[function(require,module,exports){
 "use strict";
 var Subscriber_1 = require('../Subscriber');
 var rxSubscriber_1 = require('../symbol/rxSubscriber');
@@ -15932,7 +16493,7 @@ function toSubscriber(nextOrObserver, error, complete) {
 }
 exports.toSubscriber = toSubscriber;
 
-},{"../Observer":30,"../Subscriber":36,"../symbol/rxSubscriber":207}],230:[function(require,module,exports){
+},{"../Observer":30,"../Subscriber":36,"../symbol/rxSubscriber":217}],240:[function(require,module,exports){
 "use strict";
 var errorObject_1 = require('./errorObject');
 var tryCatchTarget;
@@ -15952,7 +16513,7 @@ function tryCatch(fn) {
 exports.tryCatch = tryCatch;
 ;
 
-},{"./errorObject":215}],231:[function(require,module,exports){
+},{"./errorObject":225}],241:[function(require,module,exports){
 // threejs.org/license
 (function(m,ja){"object"===typeof exports&&"undefined"!==typeof module?ja(exports):"function"===typeof define&&define.amd?define(["exports"],ja):ja(m.THREE=m.THREE||{})})(this,function(m){function ja(){}function C(a,b){this.x=a||0;this.y=b||0}function K(){this.elements=[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];0<arguments.length&&console.error("THREE.Matrix4: the constructor no longer reads arguments. use .set() instead.")}function Z(a,b,c,d){this._x=a||0;this._y=b||0;this._z=c||0;this._w=void 0!==d?d:1}
 function p(a,b,c){this.x=a||0;this.y=b||0;this.z=c||0}function ra(){this.elements=[1,0,0,0,1,0,0,0,1];0<arguments.length&&console.error("THREE.Matrix3: the constructor no longer reads arguments. use .set() instead.")}function ea(a,b,c,d,e,f,g,h,k,l){Object.defineProperty(this,"id",{value:kf++});this.uuid=R.generateUUID();this.name="";this.image=void 0!==a?a:ea.DEFAULT_IMAGE;this.mipmaps=[];this.mapping=void 0!==b?b:ea.DEFAULT_MAPPING;this.wrapS=void 0!==c?c:1001;this.wrapT=void 0!==d?d:1001;this.magFilter=
@@ -16852,7 +17413,7 @@ var e=new $d;e.setCrossOrigin(this.crossOrigin);a=e.load(a,c,void 0,d);b&&(a.map
 function(a,b){console.warn("THREE.Projector: .projectVector() is now vector.project().");a.project(b)};this.unprojectVector=function(a,b){console.warn("THREE.Projector: .unprojectVector() is now vector.unproject().");a.unproject(b)};this.pickingRay=function(){console.error("THREE.Projector: .pickingRay() is now raycaster.setFromCamera().")}};m.CanvasRenderer=function(){console.error("THREE.CanvasRenderer has been moved to /examples/js/renderers/CanvasRenderer.js");this.domElement=document.createElementNS("http://www.w3.org/1999/xhtml",
 "canvas");this.clear=function(){};this.render=function(){};this.setClearColor=function(){};this.setSize=function(){}};Object.defineProperty(m,"__esModule",{value:!0})});
 
-},{}],232:[function(require,module,exports){
+},{}],242:[function(require,module,exports){
 'use strict';
 
 module.exports = TinyQueue;
@@ -16939,7 +17500,7 @@ TinyQueue.prototype = {
     }
 };
 
-},{}],233:[function(require,module,exports){
+},{}],243:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -18489,22 +19050,22 @@ TinyQueue.prototype = {
   }
 }.call(this));
 
-},{}],234:[function(require,module,exports){
+},{}],244:[function(require,module,exports){
 var createElement = require("./vdom/create-element.js")
 
 module.exports = createElement
 
-},{"./vdom/create-element.js":240}],235:[function(require,module,exports){
+},{"./vdom/create-element.js":250}],245:[function(require,module,exports){
 var diff = require("./vtree/diff.js")
 
 module.exports = diff
 
-},{"./vtree/diff.js":260}],236:[function(require,module,exports){
+},{"./vtree/diff.js":270}],246:[function(require,module,exports){
 var h = require("./virtual-hyperscript/index.js")
 
 module.exports = h
 
-},{"./virtual-hyperscript/index.js":247}],237:[function(require,module,exports){
+},{"./virtual-hyperscript/index.js":257}],247:[function(require,module,exports){
 var diff = require("./diff.js")
 var patch = require("./patch.js")
 var h = require("./h.js")
@@ -18521,12 +19082,12 @@ module.exports = {
     VText: VText
 }
 
-},{"./create-element.js":234,"./diff.js":235,"./h.js":236,"./patch.js":238,"./vnode/vnode.js":256,"./vnode/vtext.js":258}],238:[function(require,module,exports){
+},{"./create-element.js":244,"./diff.js":245,"./h.js":246,"./patch.js":248,"./vnode/vnode.js":266,"./vnode/vtext.js":268}],248:[function(require,module,exports){
 var patch = require("./vdom/patch.js")
 
 module.exports = patch
 
-},{"./vdom/patch.js":243}],239:[function(require,module,exports){
+},{"./vdom/patch.js":253}],249:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook.js")
 
@@ -18625,7 +19186,7 @@ function getPrototype(value) {
     }
 }
 
-},{"../vnode/is-vhook.js":251,"is-object":20}],240:[function(require,module,exports){
+},{"../vnode/is-vhook.js":261,"is-object":20}],250:[function(require,module,exports){
 var document = require("global/document")
 
 var applyProperties = require("./apply-properties")
@@ -18673,7 +19234,7 @@ function createElement(vnode, opts) {
     return node
 }
 
-},{"../vnode/handle-thunk.js":249,"../vnode/is-vnode.js":252,"../vnode/is-vtext.js":253,"../vnode/is-widget.js":254,"./apply-properties":239,"global/document":16}],241:[function(require,module,exports){
+},{"../vnode/handle-thunk.js":259,"../vnode/is-vnode.js":262,"../vnode/is-vtext.js":263,"../vnode/is-widget.js":264,"./apply-properties":249,"global/document":16}],251:[function(require,module,exports){
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
 // We don't want to read all of the DOM nodes in the tree so we use
 // the in-order tree indexing to eliminate recursion down certain branches.
@@ -18760,7 +19321,7 @@ function ascending(a, b) {
     return a > b ? 1 : -1
 }
 
-},{}],242:[function(require,module,exports){
+},{}],252:[function(require,module,exports){
 var applyProperties = require("./apply-properties")
 
 var isWidget = require("../vnode/is-widget.js")
@@ -18913,7 +19474,7 @@ function replaceRoot(oldRoot, newRoot) {
     return newRoot;
 }
 
-},{"../vnode/is-widget.js":254,"../vnode/vpatch.js":257,"./apply-properties":239,"./update-widget":244}],243:[function(require,module,exports){
+},{"../vnode/is-widget.js":264,"../vnode/vpatch.js":267,"./apply-properties":249,"./update-widget":254}],253:[function(require,module,exports){
 var document = require("global/document")
 var isArray = require("x-is-array")
 
@@ -18995,7 +19556,7 @@ function patchIndices(patches) {
     return indices
 }
 
-},{"./create-element":240,"./dom-index":241,"./patch-op":242,"global/document":16,"x-is-array":279}],244:[function(require,module,exports){
+},{"./create-element":250,"./dom-index":251,"./patch-op":252,"global/document":16,"x-is-array":289}],254:[function(require,module,exports){
 var isWidget = require("../vnode/is-widget.js")
 
 module.exports = updateWidget
@@ -19012,7 +19573,7 @@ function updateWidget(a, b) {
     return false
 }
 
-},{"../vnode/is-widget.js":254}],245:[function(require,module,exports){
+},{"../vnode/is-widget.js":264}],255:[function(require,module,exports){
 'use strict';
 
 var EvStore = require('ev-store');
@@ -19041,7 +19602,7 @@ EvHook.prototype.unhook = function(node, propertyName) {
     es[propName] = undefined;
 };
 
-},{"ev-store":9}],246:[function(require,module,exports){
+},{"ev-store":9}],256:[function(require,module,exports){
 'use strict';
 
 module.exports = SoftSetHook;
@@ -19060,7 +19621,7 @@ SoftSetHook.prototype.hook = function (node, propertyName) {
     }
 };
 
-},{}],247:[function(require,module,exports){
+},{}],257:[function(require,module,exports){
 'use strict';
 
 var isArray = require('x-is-array');
@@ -19199,7 +19760,7 @@ function errorString(obj) {
     }
 }
 
-},{"../vnode/is-thunk":250,"../vnode/is-vhook":251,"../vnode/is-vnode":252,"../vnode/is-vtext":253,"../vnode/is-widget":254,"../vnode/vnode.js":256,"../vnode/vtext.js":258,"./hooks/ev-hook.js":245,"./hooks/soft-set-hook.js":246,"./parse-tag.js":248,"x-is-array":279}],248:[function(require,module,exports){
+},{"../vnode/is-thunk":260,"../vnode/is-vhook":261,"../vnode/is-vnode":262,"../vnode/is-vtext":263,"../vnode/is-widget":264,"../vnode/vnode.js":266,"../vnode/vtext.js":268,"./hooks/ev-hook.js":255,"./hooks/soft-set-hook.js":256,"./parse-tag.js":258,"x-is-array":289}],258:[function(require,module,exports){
 'use strict';
 
 var split = require('browser-split');
@@ -19255,7 +19816,7 @@ function parseTag(tag, props) {
     return props.namespace ? tagName : tagName.toUpperCase();
 }
 
-},{"browser-split":5}],249:[function(require,module,exports){
+},{"browser-split":5}],259:[function(require,module,exports){
 var isVNode = require("./is-vnode")
 var isVText = require("./is-vtext")
 var isWidget = require("./is-widget")
@@ -19297,14 +19858,14 @@ function renderThunk(thunk, previous) {
     return renderedThunk
 }
 
-},{"./is-thunk":250,"./is-vnode":252,"./is-vtext":253,"./is-widget":254}],250:[function(require,module,exports){
+},{"./is-thunk":260,"./is-vnode":262,"./is-vtext":263,"./is-widget":264}],260:[function(require,module,exports){
 module.exports = isThunk
 
 function isThunk(t) {
     return t && t.type === "Thunk"
 }
 
-},{}],251:[function(require,module,exports){
+},{}],261:[function(require,module,exports){
 module.exports = isHook
 
 function isHook(hook) {
@@ -19313,7 +19874,7 @@ function isHook(hook) {
        typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
 }
 
-},{}],252:[function(require,module,exports){
+},{}],262:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -19322,7 +19883,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":255}],253:[function(require,module,exports){
+},{"./version":265}],263:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -19331,17 +19892,17 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":255}],254:[function(require,module,exports){
+},{"./version":265}],264:[function(require,module,exports){
 module.exports = isWidget
 
 function isWidget(w) {
     return w && w.type === "Widget"
 }
 
-},{}],255:[function(require,module,exports){
+},{}],265:[function(require,module,exports){
 module.exports = "2"
 
-},{}],256:[function(require,module,exports){
+},{}],266:[function(require,module,exports){
 var version = require("./version")
 var isVNode = require("./is-vnode")
 var isWidget = require("./is-widget")
@@ -19415,7 +19976,7 @@ function VirtualNode(tagName, properties, children, key, namespace) {
 VirtualNode.prototype.version = version
 VirtualNode.prototype.type = "VirtualNode"
 
-},{"./is-thunk":250,"./is-vhook":251,"./is-vnode":252,"./is-widget":254,"./version":255}],257:[function(require,module,exports){
+},{"./is-thunk":260,"./is-vhook":261,"./is-vnode":262,"./is-widget":264,"./version":265}],267:[function(require,module,exports){
 var version = require("./version")
 
 VirtualPatch.NONE = 0
@@ -19439,7 +20000,7 @@ function VirtualPatch(type, vNode, patch) {
 VirtualPatch.prototype.version = version
 VirtualPatch.prototype.type = "VirtualPatch"
 
-},{"./version":255}],258:[function(require,module,exports){
+},{"./version":265}],268:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = VirtualText
@@ -19451,7 +20012,7 @@ function VirtualText(text) {
 VirtualText.prototype.version = version
 VirtualText.prototype.type = "VirtualText"
 
-},{"./version":255}],259:[function(require,module,exports){
+},{"./version":265}],269:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook")
 
@@ -19511,7 +20072,7 @@ function getPrototype(value) {
   }
 }
 
-},{"../vnode/is-vhook":251,"is-object":20}],260:[function(require,module,exports){
+},{"../vnode/is-vhook":261,"is-object":20}],270:[function(require,module,exports){
 var isArray = require("x-is-array")
 
 var VPatch = require("../vnode/vpatch")
@@ -19940,7 +20501,7 @@ function appendPatch(apply, patch) {
     }
 }
 
-},{"../vnode/handle-thunk":249,"../vnode/is-thunk":250,"../vnode/is-vnode":252,"../vnode/is-vtext":253,"../vnode/is-widget":254,"../vnode/vpatch":257,"./diff-props":259,"x-is-array":279}],261:[function(require,module,exports){
+},{"../vnode/handle-thunk":259,"../vnode/is-thunk":260,"../vnode/is-vnode":262,"../vnode/is-vtext":263,"../vnode/is-widget":264,"../vnode/vpatch":267,"./diff-props":269,"x-is-array":289}],271:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -19959,7 +20520,7 @@ define(function (require) {
 });
 })(typeof define === 'function' && define.amd ? define : function (factory) { module.exports = factory(require); });
 
-},{"./Scheduler":262,"./env":274,"./makePromise":276}],262:[function(require,module,exports){
+},{"./Scheduler":272,"./env":284,"./makePromise":286}],272:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20041,7 +20602,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],263:[function(require,module,exports){
+},{}],273:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20069,7 +20630,7 @@ define(function() {
 	return TimeoutError;
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
-},{}],264:[function(require,module,exports){
+},{}],274:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20126,7 +20687,7 @@ define(function() {
 
 
 
-},{}],265:[function(require,module,exports){
+},{}],275:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20427,7 +20988,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../apply":264,"../state":277}],266:[function(require,module,exports){
+},{"../apply":274,"../state":287}],276:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20589,7 +21150,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],267:[function(require,module,exports){
+},{}],277:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20618,7 +21179,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],268:[function(require,module,exports){
+},{}],278:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20640,7 +21201,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../state":277}],269:[function(require,module,exports){
+},{"../state":287}],279:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20707,7 +21268,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],270:[function(require,module,exports){
+},{}],280:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20733,7 +21294,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],271:[function(require,module,exports){
+},{}],281:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20813,7 +21374,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../TimeoutError":263,"../env":274}],272:[function(require,module,exports){
+},{"../TimeoutError":273,"../env":284}],282:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20901,7 +21462,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../env":274,"../format":275}],273:[function(require,module,exports){
+},{"../env":284,"../format":285}],283:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20941,7 +21502,7 @@ define(function() {
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
 
-},{}],274:[function(require,module,exports){
+},{}],284:[function(require,module,exports){
 (function (process){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
@@ -21019,7 +21580,7 @@ define(function(require) {
 
 }).call(this,require('_process'))
 
-},{"_process":6}],275:[function(require,module,exports){
+},{"_process":6}],285:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -21077,7 +21638,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],276:[function(require,module,exports){
+},{}],286:[function(require,module,exports){
 (function (process){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
@@ -22037,7 +22598,7 @@ define(function() {
 
 }).call(this,require('_process'))
 
-},{"_process":6}],277:[function(require,module,exports){
+},{"_process":6}],287:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -22074,7 +22635,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],278:[function(require,module,exports){
+},{}],288:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 
 /**
@@ -22304,7 +22865,7 @@ define(function (require) {
 });
 })(typeof define === 'function' && define.amd ? define : function (factory) { module.exports = factory(require); });
 
-},{"./lib/Promise":261,"./lib/TimeoutError":263,"./lib/apply":264,"./lib/decorators/array":265,"./lib/decorators/flow":266,"./lib/decorators/fold":267,"./lib/decorators/inspect":268,"./lib/decorators/iterate":269,"./lib/decorators/progress":270,"./lib/decorators/timed":271,"./lib/decorators/unhandledRejection":272,"./lib/decorators/with":273}],279:[function(require,module,exports){
+},{"./lib/Promise":271,"./lib/TimeoutError":273,"./lib/apply":274,"./lib/decorators/array":275,"./lib/decorators/flow":276,"./lib/decorators/fold":277,"./lib/decorators/inspect":278,"./lib/decorators/iterate":279,"./lib/decorators/progress":280,"./lib/decorators/timed":281,"./lib/decorators/unhandledRejection":282,"./lib/decorators/with":283}],289:[function(require,module,exports){
 var nativeIsArray = Array.isArray
 var toString = Object.prototype.toString
 
@@ -22314,7 +22875,7 @@ function isArray(obj) {
     return toString.call(obj) === "[object Array]"
 }
 
-},{}],280:[function(require,module,exports){
+},{}],290:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var APIv3_1 = require("./api/APIv3");
@@ -22322,7 +22883,7 @@ exports.APIv3 = APIv3_1.APIv3;
 var ModelCreator_1 = require("./api/ModelCreator");
 exports.ModelCreator = ModelCreator_1.ModelCreator;
 
-},{"./api/APIv3":293,"./api/ModelCreator":294}],281:[function(require,module,exports){
+},{"./api/APIv3":303,"./api/ModelCreator":304}],291:[function(require,module,exports){
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -22398,10 +22959,8 @@ var SequenceComponent_1 = require("./component/sequence/SequenceComponent");
 exports.SequenceComponent = SequenceComponent_1.SequenceComponent;
 var SequenceDOMRenderer_1 = require("./component/sequence/SequenceDOMRenderer");
 exports.SequenceDOMRenderer = SequenceDOMRenderer_1.SequenceDOMRenderer;
-var SequenceDOMInteraction_1 = require("./component/sequence/SequenceDOMInteraction");
-exports.SequenceDOMInteraction = SequenceDOMInteraction_1.SequenceDOMInteraction;
-var ControlMode_1 = require("./component/sequence/ControlMode");
-exports.ControlMode = ControlMode_1.ControlMode;
+var SequenceMode_1 = require("./component/sequence/SequenceMode");
+exports.SequenceMode = SequenceMode_1.SequenceMode;
 var ImagePlaneComponent_1 = require("./component/imageplane/ImagePlaneComponent");
 exports.ImagePlaneComponent = ImagePlaneComponent_1.ImagePlaneComponent;
 var ImagePlaneFactory_1 = require("./component/imageplane/ImagePlaneFactory");
@@ -22478,7 +23037,7 @@ var GeometryTagError_1 = require("./component/tag/error/GeometryTagError");
 exports.GeometryTagError = GeometryTagError_1.GeometryTagError;
 __export(require("./component/interfaces/interfaces"));
 
-},{"./component/AttributionComponent":295,"./component/BackgroundComponent":296,"./component/BearingComponent":297,"./component/CacheComponent":298,"./component/Component":299,"./component/ComponentService":300,"./component/CoverComponent":301,"./component/DebugComponent":302,"./component/ImageComponent":303,"./component/LoadingComponent":304,"./component/NavigationComponent":305,"./component/RouteComponent":306,"./component/StatsComponent":307,"./component/direction/DirectionComponent":308,"./component/direction/DirectionDOMCalculator":309,"./component/direction/DirectionDOMRenderer":310,"./component/imageplane/ImagePlaneComponent":311,"./component/imageplane/ImagePlaneFactory":312,"./component/imageplane/ImagePlaneGLRenderer":313,"./component/imageplane/ImagePlaneScene":314,"./component/imageplane/ImagePlaneShaders":315,"./component/imageplane/SliderComponent":316,"./component/interfaces/interfaces":318,"./component/keyboard/KeyPlayHandler":319,"./component/keyboard/KeySequenceNavigationHandler":320,"./component/keyboard/KeySpatialNavigationHandler":321,"./component/keyboard/KeyZoomHandler":322,"./component/keyboard/KeyboardComponent":323,"./component/marker/MarkerComponent":325,"./component/marker/MarkerScene":326,"./component/marker/MarkerSet":327,"./component/marker/marker/CircleMarker":328,"./component/marker/marker/Marker":329,"./component/marker/marker/SimpleMarker":330,"./component/mouse/BounceHandler":331,"./component/mouse/DoubleClickZoomHandler":332,"./component/mouse/DragPanHandler":333,"./component/mouse/MouseComponent":334,"./component/mouse/ScrollZoomHandler":335,"./component/mouse/TouchZoomHandler":336,"./component/popup/PopupComponent":338,"./component/popup/popup/Popup":339,"./component/sequence/ControlMode":340,"./component/sequence/SequenceComponent":341,"./component/sequence/SequenceDOMInteraction":342,"./component/sequence/SequenceDOMRenderer":343,"./component/tag/TagComponent":345,"./component/tag/TagCreator":346,"./component/tag/TagDOMRenderer":347,"./component/tag/TagMode":348,"./component/tag/TagOperation":349,"./component/tag/TagScene":350,"./component/tag/TagSet":351,"./component/tag/error/GeometryTagError":352,"./component/tag/geometry/Geometry":353,"./component/tag/geometry/PointGeometry":354,"./component/tag/geometry/PolygonGeometry":355,"./component/tag/geometry/RectGeometry":356,"./component/tag/geometry/VertexGeometry":357,"./component/tag/handlers/CreateHandlerBase":358,"./component/tag/handlers/CreatePointHandler":359,"./component/tag/handlers/CreatePolygonHandler":360,"./component/tag/handlers/CreateRectDragHandler":361,"./component/tag/handlers/CreateRectHandler":362,"./component/tag/handlers/CreateVertexHandler":363,"./component/tag/handlers/EditVertexHandler":364,"./component/tag/handlers/TagHandlerBase":365,"./component/tag/tag/OutlineCreateTag":366,"./component/tag/tag/OutlineRenderTag":367,"./component/tag/tag/OutlineTag":368,"./component/tag/tag/RenderTag":369,"./component/tag/tag/SpotRenderTag":370,"./component/tag/tag/SpotTag":371,"./component/tag/tag/Tag":372,"./component/utils/HandlerBase":373}],282:[function(require,module,exports){
+},{"./component/AttributionComponent":305,"./component/BackgroundComponent":306,"./component/BearingComponent":307,"./component/CacheComponent":308,"./component/Component":309,"./component/ComponentService":310,"./component/CoverComponent":311,"./component/DebugComponent":312,"./component/ImageComponent":313,"./component/LoadingComponent":314,"./component/NavigationComponent":315,"./component/RouteComponent":316,"./component/StatsComponent":317,"./component/direction/DirectionComponent":318,"./component/direction/DirectionDOMCalculator":319,"./component/direction/DirectionDOMRenderer":320,"./component/imageplane/ImagePlaneComponent":321,"./component/imageplane/ImagePlaneFactory":322,"./component/imageplane/ImagePlaneGLRenderer":323,"./component/imageplane/ImagePlaneScene":324,"./component/imageplane/ImagePlaneShaders":325,"./component/imageplane/SliderComponent":326,"./component/interfaces/interfaces":328,"./component/keyboard/KeyPlayHandler":329,"./component/keyboard/KeySequenceNavigationHandler":330,"./component/keyboard/KeySpatialNavigationHandler":331,"./component/keyboard/KeyZoomHandler":332,"./component/keyboard/KeyboardComponent":333,"./component/marker/MarkerComponent":335,"./component/marker/MarkerScene":336,"./component/marker/MarkerSet":337,"./component/marker/marker/CircleMarker":338,"./component/marker/marker/Marker":339,"./component/marker/marker/SimpleMarker":340,"./component/mouse/BounceHandler":341,"./component/mouse/DoubleClickZoomHandler":342,"./component/mouse/DragPanHandler":343,"./component/mouse/MouseComponent":344,"./component/mouse/ScrollZoomHandler":345,"./component/mouse/TouchZoomHandler":346,"./component/popup/PopupComponent":348,"./component/popup/popup/Popup":349,"./component/sequence/SequenceComponent":350,"./component/sequence/SequenceDOMRenderer":351,"./component/sequence/SequenceMode":352,"./component/tag/TagComponent":354,"./component/tag/TagCreator":355,"./component/tag/TagDOMRenderer":356,"./component/tag/TagMode":357,"./component/tag/TagOperation":358,"./component/tag/TagScene":359,"./component/tag/TagSet":360,"./component/tag/error/GeometryTagError":361,"./component/tag/geometry/Geometry":362,"./component/tag/geometry/PointGeometry":363,"./component/tag/geometry/PolygonGeometry":364,"./component/tag/geometry/RectGeometry":365,"./component/tag/geometry/VertexGeometry":366,"./component/tag/handlers/CreateHandlerBase":367,"./component/tag/handlers/CreatePointHandler":368,"./component/tag/handlers/CreatePolygonHandler":369,"./component/tag/handlers/CreateRectDragHandler":370,"./component/tag/handlers/CreateRectHandler":371,"./component/tag/handlers/CreateVertexHandler":372,"./component/tag/handlers/EditVertexHandler":373,"./component/tag/handlers/TagHandlerBase":374,"./component/tag/tag/OutlineCreateTag":375,"./component/tag/tag/OutlineRenderTag":376,"./component/tag/tag/OutlineTag":377,"./component/tag/tag/RenderTag":378,"./component/tag/tag/SpotRenderTag":379,"./component/tag/tag/SpotTag":380,"./component/tag/tag/Tag":381,"./component/utils/HandlerBase":382}],292:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EdgeDirection_1 = require("./graph/edge/EdgeDirection");
@@ -22492,9 +23051,11 @@ exports.EdgeCalculatorCoefficients = EdgeCalculatorCoefficients_1.EdgeCalculator
 var EdgeCalculator_1 = require("./graph/edge/EdgeCalculator");
 exports.EdgeCalculator = EdgeCalculator_1.EdgeCalculator;
 
-},{"./graph/edge/EdgeCalculator":392,"./graph/edge/EdgeCalculatorCoefficients":393,"./graph/edge/EdgeCalculatorDirections":394,"./graph/edge/EdgeCalculatorSettings":395,"./graph/edge/EdgeDirection":396}],283:[function(require,module,exports){
+},{"./graph/edge/EdgeCalculator":402,"./graph/edge/EdgeCalculatorCoefficients":403,"./graph/edge/EdgeCalculatorDirections":404,"./graph/edge/EdgeCalculatorSettings":405,"./graph/edge/EdgeDirection":406}],293:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var AbortMapillaryError_1 = require("./error/AbortMapillaryError");
+exports.AbortMapillaryError = AbortMapillaryError_1.AbortMapillaryError;
 var ArgumentMapillaryError_1 = require("./error/ArgumentMapillaryError");
 exports.ArgumentMapillaryError = ArgumentMapillaryError_1.ArgumentMapillaryError;
 var GraphMapillaryError_1 = require("./error/GraphMapillaryError");
@@ -22502,7 +23063,7 @@ exports.GraphMapillaryError = GraphMapillaryError_1.GraphMapillaryError;
 var MapillaryError_1 = require("./error/MapillaryError");
 exports.MapillaryError = MapillaryError_1.MapillaryError;
 
-},{"./error/ArgumentMapillaryError":374,"./error/GraphMapillaryError":375,"./error/MapillaryError":376}],284:[function(require,module,exports){
+},{"./error/AbortMapillaryError":383,"./error/ArgumentMapillaryError":384,"./error/GraphMapillaryError":385,"./error/MapillaryError":386}],294:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Camera_1 = require("./geo/Camera");
@@ -22516,7 +23077,7 @@ exports.Spatial = Spatial_1.Spatial;
 var Transform_1 = require("./geo/Transform");
 exports.Transform = Transform_1.Transform;
 
-},{"./geo/Camera":377,"./geo/GeoCoords":378,"./geo/Spatial":379,"./geo/Transform":380,"./geo/ViewportCoords":381}],285:[function(require,module,exports){
+},{"./geo/Camera":387,"./geo/GeoCoords":388,"./geo/Spatial":389,"./geo/Transform":390,"./geo/ViewportCoords":391}],295:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var FilterCreator_1 = require("./graph/FilterCreator");
@@ -22540,7 +23101,7 @@ exports.NodeCache = NodeCache_1.NodeCache;
 var Sequence_1 = require("./graph/Sequence");
 exports.Sequence = Sequence_1.Sequence;
 
-},{"./graph/FilterCreator":382,"./graph/Graph":383,"./graph/GraphCalculator":384,"./graph/GraphMode":385,"./graph/GraphService":386,"./graph/ImageLoadingService":387,"./graph/MeshReader":388,"./graph/Node":389,"./graph/NodeCache":390,"./graph/Sequence":391}],286:[function(require,module,exports){
+},{"./graph/FilterCreator":392,"./graph/Graph":393,"./graph/GraphCalculator":394,"./graph/GraphMode":395,"./graph/GraphService":396,"./graph/ImageLoadingService":397,"./graph/MeshReader":398,"./graph/Node":399,"./graph/NodeCache":400,"./graph/Sequence":401}],296:[function(require,module,exports){
 "use strict";
 /**
  * MapillaryJS is a WebGL JavaScript library for exploring street level imagery
@@ -22555,6 +23116,8 @@ var Edge_1 = require("./Edge");
 exports.EdgeDirection = Edge_1.EdgeDirection;
 var Render_1 = require("./Render");
 exports.RenderMode = Render_1.RenderMode;
+var State_1 = require("./State");
+exports.TransitionMode = State_1.TransitionMode;
 var Viewer_1 = require("./Viewer");
 exports.Alignment = Viewer_1.Alignment;
 exports.ImageSize = Viewer_1.ImageSize;
@@ -22566,7 +23129,7 @@ exports.MarkerComponent = MarkerComponent;
 var PopupComponent = require("./component/popup/Popup");
 exports.PopupComponent = PopupComponent;
 
-},{"./Edge":282,"./Render":287,"./Support":289,"./Viewer":292,"./component/marker/Marker":324,"./component/popup/Popup":337,"./component/tag/Tag":344}],287:[function(require,module,exports){
+},{"./Edge":292,"./Render":297,"./State":298,"./Support":299,"./Viewer":302,"./component/marker/Marker":334,"./component/popup/Popup":347,"./component/tag/Tag":353}],297:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var DOMRenderer_1 = require("./render/DOMRenderer");
@@ -22582,7 +23145,7 @@ exports.RenderMode = RenderMode_1.RenderMode;
 var RenderService_1 = require("./render/RenderService");
 exports.RenderService = RenderService_1.RenderService;
 
-},{"./render/DOMRenderer":397,"./render/GLRenderStage":398,"./render/GLRenderer":399,"./render/RenderCamera":400,"./render/RenderMode":401,"./render/RenderService":402}],288:[function(require,module,exports){
+},{"./render/DOMRenderer":407,"./render/GLRenderStage":408,"./render/GLRenderer":409,"./render/RenderCamera":410,"./render/RenderMode":411,"./render/RenderService":412}],298:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var State_1 = require("./state/State");
@@ -22593,12 +23156,14 @@ var StateContext_1 = require("./state/StateContext");
 exports.StateContext = StateContext_1.StateContext;
 var StateService_1 = require("./state/StateService");
 exports.StateService = StateService_1.StateService;
+var TransitionMode_1 = require("./state/TransitionMode");
+exports.TransitionMode = TransitionMode_1.TransitionMode;
 var TraversingState_1 = require("./state/states/TraversingState");
 exports.TraversingState = TraversingState_1.TraversingState;
 var WaitingState_1 = require("./state/states/WaitingState");
 exports.WaitingState = WaitingState_1.WaitingState;
 
-},{"./state/State":403,"./state/StateContext":404,"./state/StateService":405,"./state/states/StateBase":406,"./state/states/TraversingState":407,"./state/states/WaitingState":408}],289:[function(require,module,exports){
+},{"./state/State":413,"./state/StateContext":414,"./state/StateService":415,"./state/TransitionMode":416,"./state/states/StateBase":417,"./state/states/TraversingState":418,"./state/states/WaitingState":419}],299:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var support = require("./utils/Support");
@@ -22637,7 +23202,7 @@ function isFallbackSupported() {
 }
 exports.isFallbackSupported = isFallbackSupported;
 
-},{"./utils/Support":416}],290:[function(require,module,exports){
+},{"./utils/Support":427}],300:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ImageTileLoader_1 = require("./tiles/ImageTileLoader");
@@ -22649,7 +23214,7 @@ exports.TextureProvider = TextureProvider_1.TextureProvider;
 var RegionOfInterestCalculator_1 = require("./tiles/RegionOfInterestCalculator");
 exports.RegionOfInterestCalculator = RegionOfInterestCalculator_1.RegionOfInterestCalculator;
 
-},{"./tiles/ImageTileLoader":409,"./tiles/ImageTileStore":410,"./tiles/RegionOfInterestCalculator":411,"./tiles/TextureProvider":412}],291:[function(require,module,exports){
+},{"./tiles/ImageTileLoader":420,"./tiles/ImageTileStore":421,"./tiles/RegionOfInterestCalculator":422,"./tiles/TextureProvider":423}],301:[function(require,module,exports){
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -22665,7 +23230,7 @@ __export(require("./utils/Support"));
 var Urls_1 = require("./utils/Urls");
 exports.Urls = Urls_1.Urls;
 
-},{"./utils/DOM":413,"./utils/EventEmitter":414,"./utils/Settings":415,"./utils/Support":416,"./utils/Urls":417}],292:[function(require,module,exports){
+},{"./utils/DOM":424,"./utils/EventEmitter":425,"./utils/Settings":426,"./utils/Support":427,"./utils/Urls":428}],302:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Alignment_1 = require("./viewer/Alignment");
@@ -22699,7 +23264,7 @@ exports.TouchService = TouchService_1.TouchService;
 var Viewer_1 = require("./viewer/Viewer");
 exports.Viewer = Viewer_1.Viewer;
 
-},{"./viewer/Alignment":418,"./viewer/CacheService":419,"./viewer/ComponentController":420,"./viewer/Container":421,"./viewer/ImageSize":422,"./viewer/KeyboardService":423,"./viewer/LoadingService":424,"./viewer/MouseService":425,"./viewer/Navigator":426,"./viewer/Observer":427,"./viewer/PlayService":428,"./viewer/Projection":429,"./viewer/SpriteService":430,"./viewer/TouchService":431,"./viewer/Viewer":432}],293:[function(require,module,exports){
+},{"./viewer/Alignment":429,"./viewer/CacheService":430,"./viewer/ComponentController":431,"./viewer/Container":432,"./viewer/ImageSize":433,"./viewer/KeyboardService":434,"./viewer/LoadingService":435,"./viewer/MouseService":436,"./viewer/Navigator":437,"./viewer/Observer":438,"./viewer/PlayService":439,"./viewer/Projection":440,"./viewer/SpriteService":441,"./viewer/TouchService":442,"./viewer/Viewer":443}],303:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -22737,11 +23302,14 @@ var APIv3 = /** @class */ (function () {
         this._propertiesCore = [
             "cl",
             "l",
-            "sequence",
+            "sequence_key",
         ];
         this._propertiesFill = [
             "captured_at",
+            "captured_with_camera_uuid",
             "user",
+            "organization_key",
+            "private",
             "project",
         ];
         this._propertiesKey = [
@@ -22826,11 +23394,10 @@ var APIv3 = /** @class */ (function () {
             hs,
             { from: 0, to: this._pageCount },
             this._propertiesKey
-                .concat(this._propertiesCore),
-            this._propertiesKey
+                .concat(this._propertiesCore)
         ]))
             .map(function (value) {
-            if (value == null) {
+            if (!value) {
                 value = { json: { imagesByH: {} } };
                 for (var _i = 0, hs_1 = hs; _i < hs_1.length; _i++) {
                     var h = hs_1[_i];
@@ -22868,6 +23435,16 @@ var APIv3 = /** @class */ (function () {
                 .concat(this._propertiesSequence)
         ]))
             .map(function (value) {
+            if (!value) {
+                value = { json: { sequenceByKey: {} } };
+            }
+            for (var _i = 0, sequenceKeys_1 = sequenceKeys; _i < sequenceKeys_1.length; _i++) {
+                var sequenceKey = sequenceKeys_1[_i];
+                if (!(sequenceKey in value.json.sequenceByKey)) {
+                    console.warn("Sequence data missing (" + sequenceKey + ")");
+                    value.json.sequenceByKey[sequenceKey] = { key: sequenceKey, keys: [] };
+                }
+            }
             return value.json.sequenceByKey;
         }), this._pathSequenceByKey, sequenceKeys);
     };
@@ -22911,7 +23488,7 @@ var APIv3 = /** @class */ (function () {
 exports.APIv3 = APIv3;
 exports.default = APIv3;
 
-},{"../API":280,"rxjs/Observable":29,"rxjs/add/observable/defer":39,"rxjs/add/observable/fromPromise":43,"rxjs/add/operator/catch":52,"rxjs/add/operator/map":65}],294:[function(require,module,exports){
+},{"../API":290,"rxjs/Observable":29,"rxjs/add/observable/defer":40,"rxjs/add/observable/fromPromise":44,"rxjs/add/operator/catch":54,"rxjs/add/operator/map":67}],304:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -22955,7 +23532,7 @@ var ModelCreator = /** @class */ (function () {
 exports.ModelCreator = ModelCreator;
 exports.default = ModelCreator;
 
-},{"../Utils":291,"falcor":15,"falcor-http-datasource":10}],295:[function(require,module,exports){
+},{"../Utils":301,"falcor":15,"falcor-http-datasource":10}],305:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -22971,6 +23548,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var vd = require("virtual-dom");
 var Component_1 = require("../Component");
+var Utils_1 = require("../Utils");
 var AttributionComponent = /** @class */ (function (_super) {
     __extends(AttributionComponent, _super);
     function AttributionComponent(name, container, navigator) {
@@ -22992,12 +23570,12 @@ var AttributionComponent = /** @class */ (function (_super) {
     };
     AttributionComponent.prototype._getAttributionNode = function (username, key) {
         return vd.h("div.Attribution", {}, [
-            vd.h("a", { href: "https://www.mapillary.com/app/user/" + username,
+            vd.h("a", { href: Utils_1.Urls.exporeUser(username),
                 target: "_blank",
                 textContent: "@" + username,
             }, []),
             vd.h("span", { textContent: "|" }, []),
-            vd.h("a", { href: "https://www.mapillary.com/app/?pKey=" + key + "&focus=photo",
+            vd.h("a", { href: Utils_1.Urls.exporeImage(key),
                 target: "_blank",
                 textContent: "mapillary.com",
             }, []),
@@ -23010,7 +23588,7 @@ exports.AttributionComponent = AttributionComponent;
 Component_1.ComponentService.register(AttributionComponent);
 exports.default = AttributionComponent;
 
-},{"../Component":281,"virtual-dom":237}],296:[function(require,module,exports){
+},{"../Component":291,"../Utils":301,"virtual-dom":247}],306:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -23054,7 +23632,7 @@ exports.BackgroundComponent = BackgroundComponent;
 Component_1.ComponentService.register(BackgroundComponent);
 exports.default = BackgroundComponent;
 
-},{"../Component":281,"virtual-dom":237}],297:[function(require,module,exports){
+},{"../Component":291,"virtual-dom":247}],307:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -23204,7 +23782,7 @@ exports.BearingComponent = BearingComponent;
 Component_1.ComponentService.register(BearingComponent);
 exports.default = BearingComponent;
 
-},{"../Component":281,"../Geo":284,"rxjs/Observable":29,"virtual-dom":237}],298:[function(require,module,exports){
+},{"../Component":291,"../Geo":294,"rxjs/Observable":29,"virtual-dom":247}],308:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -23362,7 +23940,7 @@ exports.CacheComponent = CacheComponent;
 Component_1.ComponentService.register(CacheComponent);
 exports.default = CacheComponent;
 
-},{"../Component":281,"../Edge":282,"rxjs/Observable":29,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/from":41,"rxjs/add/observable/merge":44,"rxjs/add/observable/of":45,"rxjs/add/observable/zip":48,"rxjs/add/operator/catch":52,"rxjs/add/operator/combineLatest":53,"rxjs/add/operator/distinct":57,"rxjs/add/operator/expand":60,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/mergeAll":67,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/skip":77,"rxjs/add/operator/switchMap":81}],299:[function(require,module,exports){
+},{"../Component":291,"../Edge":292,"rxjs/Observable":29,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/from":42,"rxjs/add/observable/merge":45,"rxjs/add/observable/of":46,"rxjs/add/observable/zip":49,"rxjs/add/operator/catch":54,"rxjs/add/operator/combineLatest":55,"rxjs/add/operator/distinct":59,"rxjs/add/operator/expand":62,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/merge":68,"rxjs/add/operator/mergeAll":69,"rxjs/add/operator/mergeMap":70,"rxjs/add/operator/skip":80,"rxjs/add/operator/switchMap":84}],309:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -23485,7 +24063,7 @@ var Component = /** @class */ (function (_super) {
 exports.Component = Component;
 exports.default = Component;
 
-},{"../Utils":291,"rxjs/BehaviorSubject":26,"rxjs/Subject":34,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":75,"rxjs/add/operator/startWith":80}],300:[function(require,module,exports){
+},{"../Utils":301,"rxjs/BehaviorSubject":26,"rxjs/Subject":34,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78,"rxjs/add/operator/startWith":83}],310:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -23587,7 +24165,7 @@ var ComponentService = /** @class */ (function () {
 exports.ComponentService = ComponentService;
 exports.default = ComponentService;
 
-},{"../Error":283,"underscore":233}],301:[function(require,module,exports){
+},{"../Error":293,"underscore":243}],311:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -23606,6 +24184,8 @@ require("rxjs/add/operator/filter");
 require("rxjs/add/operator/map");
 require("rxjs/add/operator/withLatestFrom");
 var Component_1 = require("../Component");
+var Utils_1 = require("../Utils");
+var Viewer_1 = require("../Viewer");
 var CoverComponent = /** @class */ (function (_super) {
     __extends(CoverComponent, _super);
     function CoverComponent(name, container, navigator) {
@@ -23654,14 +24234,13 @@ var CoverComponent = /** @class */ (function (_super) {
         return vd.h(cover, [
             this._getCoverBackgroundVNode(conf),
             vd.h("button.CoverButton", { onclick: function () { _this.configure({ state: Component_1.CoverState.Loading }); } }, ["Explore"]),
-            vd.h("a.CoverLogo", { href: "https://www.mapillary.com", target: "_blank" }, []),
+            vd.h("a.CoverLogo", { href: Utils_1.Urls.explore, target: "_blank" }, []),
         ]);
     };
     CoverComponent.prototype._getCoverBackgroundVNode = function (conf) {
         var url = conf.src != null ?
-            "url(" + conf.src + ")" :
-            "url(https://d1cuyjsrcm0gby.cloudfront.net/" + conf.key + "/thumb-640.jpg)";
-        var properties = { style: { backgroundImage: url } };
+            conf.src : Utils_1.Urls.thumbnail(conf.key, Viewer_1.ImageSize.Size640);
+        var properties = { style: { backgroundImage: "url(" + url + ")" } };
         var children = [];
         if (conf.state === Component_1.CoverState.Loading) {
             children.push(vd.h("div.Spinner", {}, []));
@@ -23676,7 +24255,7 @@ exports.CoverComponent = CoverComponent;
 Component_1.ComponentService.registerCover(CoverComponent);
 exports.default = CoverComponent;
 
-},{"../Component":281,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/withLatestFrom":87,"virtual-dom":237}],302:[function(require,module,exports){
+},{"../Component":291,"../Utils":301,"../Viewer":302,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/withLatestFrom":90,"virtual-dom":247}],312:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -23789,7 +24368,7 @@ exports.DebugComponent = DebugComponent;
 Component_1.ComponentService.register(DebugComponent);
 exports.default = DebugComponent;
 
-},{"../Component":281,"rxjs/BehaviorSubject":26,"rxjs/add/operator/combineLatest":53,"underscore":233,"virtual-dom":237}],303:[function(require,module,exports){
+},{"../Component":291,"rxjs/BehaviorSubject":26,"rxjs/add/operator/combineLatest":55,"underscore":243,"virtual-dom":247}],313:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -23862,7 +24441,7 @@ exports.ImageComponent = ImageComponent;
 Component_1.ComponentService.register(ImageComponent);
 exports.default = ImageComponent;
 
-},{"../Component":281,"../Utils":291,"rxjs/Observable":29,"rxjs/add/operator/combineLatest":53,"virtual-dom":237}],304:[function(require,module,exports){
+},{"../Component":291,"../Utils":301,"rxjs/Observable":29,"rxjs/add/operator/combineLatest":55,"virtual-dom":247}],314:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -23938,7 +24517,7 @@ exports.LoadingComponent = LoadingComponent;
 Component_1.ComponentService.register(LoadingComponent);
 exports.default = LoadingComponent;
 
-},{"../Component":281,"rxjs/Observable":29,"rxjs/add/operator/combineLatest":53,"underscore":233,"virtual-dom":237}],305:[function(require,module,exports){
+},{"../Component":291,"rxjs/Observable":29,"rxjs/add/operator/combineLatest":55,"underscore":243,"virtual-dom":247}],315:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -23957,6 +24536,7 @@ var Observable_1 = require("rxjs/Observable");
 require("rxjs/add/operator/map");
 require("rxjs/add/operator/first");
 var Edge_1 = require("../Edge");
+var Error_1 = require("../Error");
 var Component_1 = require("../Component");
 /**
  * @class NavigationComponent
@@ -24053,7 +24633,11 @@ var NavigationComponent = /** @class */ (function (_super) {
         return vd.h("span.Direction.Direction" + name, {
             onclick: function (ev) {
                 _this._navigator.moveDir$(direction)
-                    .subscribe(function (node) { return; }, function (error) { console.error(error); });
+                    .subscribe(undefined, function (error) {
+                    if (!(error instanceof Error_1.AbortMapillaryError)) {
+                        console.error(error);
+                    }
+                });
             },
             style: {
                 visibility: visibility,
@@ -24067,7 +24651,7 @@ exports.NavigationComponent = NavigationComponent;
 Component_1.ComponentService.register(NavigationComponent);
 exports.default = NavigationComponent;
 
-},{"../Component":281,"../Edge":282,"rxjs/Observable":29,"rxjs/add/operator/first":63,"rxjs/add/operator/map":65,"virtual-dom":237}],306:[function(require,module,exports){
+},{"../Component":291,"../Edge":292,"../Error":293,"rxjs/Observable":29,"rxjs/add/operator/first":65,"rxjs/add/operator/map":67,"virtual-dom":247}],316:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -24287,7 +24871,7 @@ exports.RouteComponent = RouteComponent;
 Component_1.ComponentService.register(RouteComponent);
 exports.default = RouteComponent;
 
-},{"../Component":281,"rxjs/Observable":29,"rxjs/add/observable/fromPromise":43,"rxjs/add/observable/of":45,"rxjs/add/operator/combineLatest":53,"rxjs/add/operator/distinct":57,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/pluck":70,"rxjs/add/operator/scan":75,"underscore":233,"virtual-dom":237}],307:[function(require,module,exports){
+},{"../Component":291,"rxjs/Observable":29,"rxjs/add/observable/fromPromise":44,"rxjs/add/observable/of":46,"rxjs/add/operator/combineLatest":55,"rxjs/add/operator/distinct":59,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/mergeMap":70,"rxjs/add/operator/pluck":72,"rxjs/add/operator/scan":78,"underscore":243,"virtual-dom":247}],317:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -24377,7 +24961,7 @@ exports.StatsComponent = StatsComponent;
 Component_1.ComponentService.register(StatsComponent);
 exports.default = StatsComponent;
 
-},{"../Component":281,"rxjs/Observable":29,"rxjs/add/operator/buffer":49,"rxjs/add/operator/debounceTime":55,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/scan":75}],308:[function(require,module,exports){
+},{"../Component":291,"rxjs/Observable":29,"rxjs/add/operator/buffer":51,"rxjs/add/operator/debounceTime":57,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/scan":78}],318:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -24563,7 +25147,7 @@ exports.DirectionComponent = DirectionComponent;
 Component_1.ComponentService.register(DirectionComponent);
 exports.default = DirectionComponent;
 
-},{"../../Component":281,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/do":59,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/share":76,"virtual-dom":237}],309:[function(require,module,exports){
+},{"../../Component":291,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/do":61,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/share":79,"virtual-dom":247}],319:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Geo_1 = require("../../Geo");
@@ -24802,13 +25386,14 @@ var DirectionDOMCalculator = /** @class */ (function () {
 exports.DirectionDOMCalculator = DirectionDOMCalculator;
 exports.default = DirectionDOMCalculator;
 
-},{"../../Geo":284}],310:[function(require,module,exports){
+},{"../../Geo":294}],320:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
 var vd = require("virtual-dom");
 var Component_1 = require("../../Component");
 var Edge_1 = require("../../Edge");
+var Error_1 = require("../../Error");
 var Geo_1 = require("../../Geo");
 /**
  * @class DirectionDOMRenderer
@@ -25049,21 +25634,33 @@ var DirectionDOMRenderer = /** @class */ (function () {
     DirectionDOMRenderer.prototype._createVNodeByKey = function (navigator, key, azimuth, rotation, offset, className, shiftVertically) {
         var onClick = function (e) {
             navigator.moveToKey$(key)
-                .subscribe(function (node) { return; }, function (error) { console.error(error); });
+                .subscribe(undefined, function (error) {
+                if (!(error instanceof Error_1.AbortMapillaryError)) {
+                    console.error(error);
+                }
+            });
         };
         return this._createVNode(key, azimuth, rotation, offset, className, "DirectionsCircle", onClick, shiftVertically);
     };
     DirectionDOMRenderer.prototype._createVNodeByDirection = function (navigator, key, azimuth, rotation, direction) {
         var onClick = function (e) {
             navigator.moveDir$(direction)
-                .subscribe(function (node) { return; }, function (error) { console.error(error); });
+                .subscribe(undefined, function (error) {
+                if (!(error instanceof Error_1.AbortMapillaryError)) {
+                    console.error(error);
+                }
+            });
         };
         return this._createVNode(key, azimuth, rotation, this._calculator.outerRadius, "DirectionsArrowStep", "DirectionsCircle", onClick);
     };
     DirectionDOMRenderer.prototype._createVNodeByTurn = function (navigator, key, className, direction) {
         var onClick = function (e) {
             navigator.moveDir$(direction)
-                .subscribe(function (node) { return; }, function (error) { console.error(error); });
+                .subscribe(undefined, function (error) {
+                if (!(error instanceof Error_1.AbortMapillaryError)) {
+                    console.error(error);
+                }
+            });
         };
         var style = {
             height: this._calculator.turnCircleSizeCss,
@@ -25169,7 +25766,7 @@ var DirectionDOMRenderer = /** @class */ (function () {
 exports.DirectionDOMRenderer = DirectionDOMRenderer;
 exports.default = DirectionDOMRenderer;
 
-},{"../../Component":281,"../../Edge":282,"../../Geo":284,"virtual-dom":237}],311:[function(require,module,exports){
+},{"../../Component":291,"../../Edge":292,"../../Error":293,"../../Geo":294,"virtual-dom":247}],321:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -25466,7 +26063,7 @@ exports.ImagePlaneComponent = ImagePlaneComponent;
 Component_1.ComponentService.register(ImagePlaneComponent);
 exports.default = ImagePlaneComponent;
 
-},{"../../Component":281,"../../Render":287,"../../Tiles":290,"../../Utils":291,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/operator/catch":52,"rxjs/add/operator/combineLatest":53,"rxjs/add/operator/debounceTime":55,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/pairwise":69,"rxjs/add/operator/publish":71,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":75,"rxjs/add/operator/skipWhile":79,"rxjs/add/operator/startWith":80,"rxjs/add/operator/switchMap":81,"rxjs/add/operator/takeUntil":83,"rxjs/add/operator/withLatestFrom":87}],312:[function(require,module,exports){
+},{"../../Component":291,"../../Render":297,"../../Tiles":300,"../../Utils":301,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/operator/catch":54,"rxjs/add/operator/combineLatest":55,"rxjs/add/operator/debounceTime":57,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/pairwise":71,"rxjs/add/operator/publish":73,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78,"rxjs/add/operator/skipWhile":82,"rxjs/add/operator/startWith":83,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/takeUntil":86,"rxjs/add/operator/withLatestFrom":90}],322:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -25695,7 +26292,7 @@ var ImagePlaneFactory = /** @class */ (function () {
 exports.ImagePlaneFactory = ImagePlaneFactory;
 exports.default = ImagePlaneFactory;
 
-},{"../../Component":281,"three":231}],313:[function(require,module,exports){
+},{"../../Component":291,"three":241}],323:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -25857,7 +26454,7 @@ var ImagePlaneGLRenderer = /** @class */ (function () {
 exports.ImagePlaneGLRenderer = ImagePlaneGLRenderer;
 exports.default = ImagePlaneGLRenderer;
 
-},{"../../Component":281}],314:[function(require,module,exports){
+},{"../../Component":291}],324:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -25934,7 +26531,7 @@ var ImagePlaneScene = /** @class */ (function () {
 exports.ImagePlaneScene = ImagePlaneScene;
 exports.default = ImagePlaneScene;
 
-},{"three":231}],315:[function(require,module,exports){
+},{"three":241}],325:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -25955,7 +26552,7 @@ var ImagePlaneShaders = /** @class */ (function () {
 }());
 exports.ImagePlaneShaders = ImagePlaneShaders;
 
-},{"path":22}],316:[function(require,module,exports){
+},{"path":22}],326:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -26399,7 +26996,7 @@ exports.SliderComponent = SliderComponent;
 Component_1.ComponentService.register(SliderComponent);
 exports.default = SliderComponent;
 
-},{"../../Component":281,"../../Render":287,"../../State":288,"../../Utils":291,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/fromEvent":42,"rxjs/add/observable/of":45,"rxjs/add/observable/zip":48,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/first":63,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/scan":75,"rxjs/add/operator/switchMap":81,"rxjs/add/operator/withLatestFrom":87,"rxjs/add/operator/zip":88}],317:[function(require,module,exports){
+},{"../../Component":291,"../../Render":297,"../../State":298,"../../Utils":301,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/fromEvent":43,"rxjs/add/observable/of":46,"rxjs/add/observable/zip":49,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/filter":63,"rxjs/add/operator/first":65,"rxjs/add/operator/map":67,"rxjs/add/operator/merge":68,"rxjs/add/operator/mergeMap":70,"rxjs/add/operator/scan":78,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/withLatestFrom":90,"rxjs/add/operator/zip":91}],327:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var CoverState;
@@ -26409,13 +27006,13 @@ var CoverState;
     CoverState[CoverState["Visible"] = 2] = "Visible";
 })(CoverState = exports.CoverState || (exports.CoverState = {}));
 
-},{}],318:[function(require,module,exports){
+},{}],328:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ICoverConfiguration_1 = require("./ICoverConfiguration");
 exports.CoverState = ICoverConfiguration_1.CoverState;
 
-},{"./ICoverConfiguration":317}],319:[function(require,module,exports){
+},{"./ICoverConfiguration":327}],329:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -26519,7 +27116,7 @@ var KeyPlayHandler = /** @class */ (function (_super) {
 exports.KeyPlayHandler = KeyPlayHandler;
 exports.default = KeyPlayHandler;
 
-},{"../../Component":281,"../../Edge":282}],320:[function(require,module,exports){
+},{"../../Component":291,"../../Edge":292}],330:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -26537,6 +27134,7 @@ require("rxjs/add/operator/switchMap");
 require("rxjs/add/operator/withLatestFrom");
 var Component_1 = require("../../Component");
 var Edge_1 = require("../../Edge");
+var Error_1 = require("../../Error");
 /**
  * The `KeySequenceNavigationHandler` allows the user to navigate through a sequence using the
  * following key commands:
@@ -26588,7 +27186,11 @@ var KeySequenceNavigationHandler = /** @class */ (function (_super) {
                 var edge = _b[_i];
                 if (edge.data.direction === direction) {
                     _this._navigator.moveToKey$(edge.to)
-                        .subscribe(function (n) { return; }, function (e) { console.error(e); });
+                        .subscribe(undefined, function (error) {
+                        if (!(error instanceof Error_1.AbortMapillaryError)) {
+                            console.error(error);
+                        }
+                    });
                     return;
                 }
             }
@@ -26605,7 +27207,7 @@ var KeySequenceNavigationHandler = /** @class */ (function (_super) {
 exports.KeySequenceNavigationHandler = KeySequenceNavigationHandler;
 exports.default = KeySequenceNavigationHandler;
 
-},{"../../Component":281,"../../Edge":282,"rxjs/add/operator/switchMap":81,"rxjs/add/operator/withLatestFrom":87}],321:[function(require,module,exports){
+},{"../../Component":291,"../../Edge":292,"../../Error":293,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/withLatestFrom":90}],331:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -26623,6 +27225,7 @@ require("rxjs/add/operator/switchMap");
 require("rxjs/add/operator/withLatestFrom");
 var Component_1 = require("../../Component");
 var Edge_1 = require("../../Edge");
+var Error_1 = require("../../Error");
 /**
  * The `KeySpatialNavigationHandler` allows the user to navigate through a sequence using the
  * following key commands:
@@ -26734,7 +27337,11 @@ var KeySpatialNavigationHandler = /** @class */ (function (_super) {
     };
     KeySpatialNavigationHandler.prototype._moveToKey = function (key) {
         this._navigator.moveToKey$(key)
-            .subscribe(function (n) { }, function (e) { console.error(e); });
+            .subscribe(undefined, function (error) {
+            if (!(error instanceof Error_1.AbortMapillaryError)) {
+                console.error(error);
+            }
+        });
     };
     KeySpatialNavigationHandler.prototype._rotationFromCamera = function (camera) {
         var direction = camera.lookat.clone().sub(camera.position);
@@ -26749,7 +27356,7 @@ var KeySpatialNavigationHandler = /** @class */ (function (_super) {
 exports.KeySpatialNavigationHandler = KeySpatialNavigationHandler;
 exports.default = KeySpatialNavigationHandler;
 
-},{"../../Component":281,"../../Edge":282,"rxjs/add/operator/switchMap":81,"rxjs/add/operator/withLatestFrom":87}],322:[function(require,module,exports){
+},{"../../Component":291,"../../Edge":292,"../../Error":293,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/withLatestFrom":90}],332:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -26826,7 +27433,7 @@ var KeyZoomHandler = /** @class */ (function (_super) {
 exports.KeyZoomHandler = KeyZoomHandler;
 exports.default = KeyZoomHandler;
 
-},{"../../Component":281,"rxjs/add/operator/withLatestFrom":87}],323:[function(require,module,exports){
+},{"../../Component":291,"rxjs/add/operator/withLatestFrom":90}],333:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -26963,7 +27570,7 @@ exports.KeyboardComponent = KeyboardComponent;
 Component_1.ComponentService.register(KeyboardComponent);
 exports.default = KeyboardComponent;
 
-},{"../../Component":281,"../../Geo":284}],324:[function(require,module,exports){
+},{"../../Component":291,"../../Geo":294}],334:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var MarkerComponent_1 = require("./MarkerComponent");
@@ -26973,7 +27580,7 @@ exports.SimpleMarker = SimpleMarker_1.SimpleMarker;
 var CircleMarker_1 = require("./marker/CircleMarker");
 exports.CircleMarker = CircleMarker_1.CircleMarker;
 
-},{"./MarkerComponent":325,"./marker/CircleMarker":328,"./marker/SimpleMarker":330}],325:[function(require,module,exports){
+},{"./MarkerComponent":335,"./marker/CircleMarker":338,"./marker/SimpleMarker":340}],335:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -27466,7 +28073,7 @@ exports.MarkerComponent = MarkerComponent;
 Component_1.ComponentService.register(MarkerComponent);
 exports.default = MarkerComponent;
 
-},{"../../Component":281,"../../Geo":284,"../../Graph":285,"../../Render":287,"rxjs/Observable":29,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/map":65,"three":231,"when":278}],326:[function(require,module,exports){
+},{"../../Component":291,"../../Geo":294,"../../Graph":295,"../../Render":297,"rxjs/Observable":29,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/map":67,"three":241,"when":288}],336:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -27589,7 +28196,7 @@ var MarkerScene = /** @class */ (function () {
 exports.MarkerScene = MarkerScene;
 exports.default = MarkerScene;
 
-},{"three":231}],327:[function(require,module,exports){
+},{"three":241}],337:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -27710,7 +28317,7 @@ var MarkerSet = /** @class */ (function () {
 exports.MarkerSet = MarkerSet;
 exports.default = MarkerSet;
 
-},{"rbush":25,"rxjs/Subject":34,"rxjs/add/operator/map":65,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":75}],328:[function(require,module,exports){
+},{"rbush":25,"rxjs/Subject":34,"rxjs/add/operator/map":67,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78}],338:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -27793,7 +28400,7 @@ var CircleMarker = /** @class */ (function (_super) {
 exports.CircleMarker = CircleMarker;
 exports.default = CircleMarker;
 
-},{"../../../Component":281,"three":231}],329:[function(require,module,exports){
+},{"../../../Component":291,"three":241}],339:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -27880,7 +28487,7 @@ var Marker = /** @class */ (function () {
 exports.Marker = Marker;
 exports.default = Marker;
 
-},{}],330:[function(require,module,exports){
+},{}],340:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -28027,7 +28634,7 @@ var SimpleMarker = /** @class */ (function (_super) {
 exports.SimpleMarker = SimpleMarker;
 exports.default = SimpleMarker;
 
-},{"../../../Component":281,"three":231}],331:[function(require,module,exports){
+},{"../../../Component":291,"three":241}],341:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -28137,7 +28744,7 @@ var BounceHandler = /** @class */ (function (_super) {
 exports.BounceHandler = BounceHandler;
 exports.default = BounceHandler;
 
-},{"../../Component":281,"rxjs/Observable":29}],332:[function(require,module,exports){
+},{"../../Component":291,"rxjs/Observable":29}],342:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -28203,7 +28810,7 @@ var DoubleClickZoomHandler = /** @class */ (function (_super) {
 exports.DoubleClickZoomHandler = DoubleClickZoomHandler;
 exports.default = DoubleClickZoomHandler;
 
-},{"../../Component":281,"rxjs/Observable":29}],333:[function(require,module,exports){
+},{"../../Component":291,"rxjs/Observable":29}],343:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -28456,7 +29063,7 @@ var DragPanHandler = /** @class */ (function (_super) {
 exports.DragPanHandler = DragPanHandler;
 exports.default = DragPanHandler;
 
-},{"../../Component":281,"rxjs/Observable":29,"rxjs/add/operator/concat":54,"rxjs/add/operator/sample":74,"rxjs/add/operator/takeWhile":84,"three":231}],334:[function(require,module,exports){
+},{"../../Component":291,"rxjs/Observable":29,"rxjs/add/operator/concat":56,"rxjs/add/operator/sample":77,"rxjs/add/operator/takeWhile":87,"three":241}],344:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -28595,7 +29202,7 @@ var MouseComponent = /** @class */ (function (_super) {
         this._touchZoomHandler.disable();
     };
     MouseComponent.prototype._getDefaultConfiguration = function () {
-        return { doubleClickZoom: true, dragPan: true, scrollZoom: true, touchZoom: true };
+        return { doubleClickZoom: false, dragPan: true, scrollZoom: true, touchZoom: true };
     };
     /** @inheritdoc */
     MouseComponent.componentName = "mouse";
@@ -28605,7 +29212,7 @@ exports.MouseComponent = MouseComponent;
 Component_1.ComponentService.register(MouseComponent);
 exports.default = MouseComponent;
 
-},{"../../Component":281,"../../Geo":284,"rxjs/add/observable/merge":44,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/withLatestFrom":87}],335:[function(require,module,exports){
+},{"../../Component":291,"../../Geo":294,"rxjs/add/observable/merge":45,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/withLatestFrom":90}],345:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -28696,7 +29303,7 @@ var ScrollZoomHandler = /** @class */ (function (_super) {
 exports.ScrollZoomHandler = ScrollZoomHandler;
 exports.default = ScrollZoomHandler;
 
-},{"../../Component":281}],336:[function(require,module,exports){
+},{"../../Component":291}],346:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -28785,7 +29392,7 @@ var TouchZoomHandler = /** @class */ (function (_super) {
 exports.TouchZoomHandler = TouchZoomHandler;
 exports.default = TouchZoomHandler;
 
-},{"../../Component":281,"rxjs/Observable":29}],337:[function(require,module,exports){
+},{"../../Component":291,"rxjs/Observable":29}],347:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Popup_1 = require("./popup/Popup");
@@ -28793,7 +29400,7 @@ exports.Popup = Popup_1.Popup;
 var PopupComponent_1 = require("./PopupComponent");
 exports.PopupComponent = PopupComponent_1.PopupComponent;
 
-},{"./PopupComponent":338,"./popup/Popup":339}],338:[function(require,module,exports){
+},{"./PopupComponent":348,"./popup/Popup":349}],348:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -28977,7 +29584,7 @@ exports.PopupComponent = PopupComponent;
 Component_1.ComponentService.register(PopupComponent);
 exports.default = PopupComponent;
 
-},{"../../Component":281,"../../Utils":291,"rxjs/Observable":29,"rxjs/Subject":34}],339:[function(require,module,exports){
+},{"../../Component":291,"../../Utils":301,"rxjs/Observable":29,"rxjs/Subject":34}],349:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -29463,17 +30070,7 @@ var Popup = /** @class */ (function () {
 exports.Popup = Popup;
 exports.default = Popup;
 
-},{"../../../Geo":284,"../../../Utils":291,"../../../Viewer":292,"rxjs/Subject":34}],340:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var ControlMode;
-(function (ControlMode) {
-    ControlMode[ControlMode["Default"] = 0] = "Default";
-    ControlMode[ControlMode["Playback"] = 1] = "Playback";
-})(ControlMode = exports.ControlMode || (exports.ControlMode = {}));
-exports.default = ControlMode;
-
-},{}],341:[function(require,module,exports){
+},{"../../../Geo":294,"../../../Utils":301,"../../../Viewer":302,"rxjs/Subject":34}],350:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -29491,6 +30088,8 @@ var Observable_1 = require("rxjs/Observable");
 var Subject_1 = require("rxjs/Subject");
 require("rxjs/add/observable/combineLatest");
 require("rxjs/add/observable/of");
+require("rxjs/add/observable/concat");
+require("rxjs/add/operator/auditTime");
 require("rxjs/add/operator/bufferCount");
 require("rxjs/add/operator/concat");
 require("rxjs/add/operator/distinctUntilChanged");
@@ -29507,6 +30106,7 @@ require("rxjs/add/operator/takeUntil");
 require("rxjs/add/operator/withLatestFrom");
 var Component_1 = require("../../Component");
 var Edge_1 = require("../../Edge");
+var Graph_1 = require("../../Graph");
 /**
  * @class SequenceComponent
  * @classdesc Component showing navigation arrows for sequence directions
@@ -29514,10 +30114,10 @@ var Edge_1 = require("../../Edge");
  */
 var SequenceComponent = /** @class */ (function (_super) {
     __extends(SequenceComponent, _super);
-    function SequenceComponent(name, container, navigator) {
+    function SequenceComponent(name, container, navigator, renderer, scheduler) {
         var _this = _super.call(this, name, container, navigator) || this;
-        _this._sequenceDOMRenderer = new Component_1.SequenceDOMRenderer(container);
-        _this._sequenceDOMInteraction = new Component_1.SequenceDOMInteraction();
+        _this._sequenceDOMRenderer = !!renderer ? renderer : new Component_1.SequenceDOMRenderer(container);
+        _this._scheduler = scheduler;
         _this._containerWidth$ = new Subject_1.Subject();
         _this._hoveredKeySubject$ = new Subject_1.Subject();
         _this._hoveredKey$ = _this._hoveredKeySubject$.share();
@@ -29658,12 +30258,135 @@ var SequenceComponent = /** @class */ (function (_super) {
         })
             .publishReplay(1)
             .refCount();
-        this._renderSubscription = Observable_1.Observable
-            .combineLatest(edgeStatus$, this._configuration$, this._containerWidth$, this._sequenceDOMRenderer.changed$.startWith(this._sequenceDOMRenderer), this._navigator.playService.speed$)
+        var sequence$ = this._navigator.stateService.currentNode$
+            .distinctUntilChanged(undefined, function (node) {
+            return node.sequenceKey;
+        })
+            .switchMap(function (node) {
+            return Observable_1.Observable
+                .concat(Observable_1.Observable.of(null), _this._navigator.graphService.cacheSequence$(node.sequenceKey)
+                .retry(3)
+                .catch(function (e) {
+                console.error("Failed to cache sequence", e);
+                return Observable_1.Observable.of(null);
+            }));
+        })
+            .startWith(null)
+            .publishReplay(1)
+            .refCount();
+        this._sequenceSubscription = sequence$.subscribe();
+        var rendererKey$ = this._sequenceDOMRenderer.index$
+            .withLatestFrom(sequence$)
             .map(function (_a) {
-            var edgeStatus = _a[0], configuration = _a[1], containerWidth = _a[2], renderer = _a[3], speed = _a[4];
+            var index = _a[0], sequence = _a[1];
+            return sequence != null ? sequence.keys[index] : null;
+        })
+            .filter(function (key) {
+            return !!key;
+        })
+            .distinctUntilChanged()
+            .publish()
+            .refCount();
+        this._moveSubscription = Observable_1.Observable
+            .merge(rendererKey$.debounceTime(100, this._scheduler), rendererKey$.auditTime(400, this._scheduler))
+            .distinctUntilChanged()
+            .switchMap(function (key) {
+            return _this._navigator.moveToKey$(key)
+                .catch(function (e) {
+                return Observable_1.Observable.empty();
+            });
+        })
+            .subscribe();
+        this._setSequenceGraphModeSubscription = this._sequenceDOMRenderer.changingPositionChanged$
+            .filter(function (changing) {
+            return changing;
+        })
+            .subscribe(function () {
+            _this._navigator.graphService.setGraphMode(Graph_1.GraphMode.Sequence);
+        });
+        this._setSpatialGraphModeSubscription = this._sequenceDOMRenderer.changingPositionChanged$
+            .filter(function (changing) {
+            return !changing;
+        })
+            .subscribe(function () {
+            _this._navigator.graphService.setGraphMode(Graph_1.GraphMode.Spatial);
+        });
+        this._navigator.graphService.graphMode$
+            .switchMap(function (mode) {
+            return mode === Graph_1.GraphMode.Spatial ?
+                _this._navigator.stateService.currentNode$
+                    .take(2) :
+                Observable_1.Observable.empty();
+        })
+            .filter(function (node) {
+            return !node.spatialEdges.cached;
+        })
+            .switchMap(function (node) {
+            return _this._navigator.graphService.cacheNode$(node.key)
+                .catch(function (e) {
+                return Observable_1.Observable.empty();
+            });
+        })
+            .subscribe();
+        this._stopSubscription = this._sequenceDOMRenderer.changingPositionChanged$
+            .filter(function (changing) {
+            return changing;
+        })
+            .subscribe(function () {
+            _this._navigator.playService.stop();
+        });
+        this._cacheSequenceNodesSubscription = Observable_1.Observable
+            .combineLatest(this._navigator.graphService.graphMode$, this._sequenceDOMRenderer.changingPositionChanged$
+            .startWith(false)
+            .distinctUntilChanged())
+            .withLatestFrom(this._navigator.stateService.currentNode$)
+            .switchMap(function (_a) {
+            var _b = _a[0], mode = _b[0], changing = _b[1], node = _a[1];
+            return changing && mode === Graph_1.GraphMode.Sequence ?
+                _this._navigator.graphService.cacheSequenceNodes$(node.sequenceKey, node.key)
+                    .retry(3)
+                    .catch(function (error) {
+                    console.error("Failed to cache sequence nodes.", error);
+                    return Observable_1.Observable.empty();
+                }) :
+                Observable_1.Observable.empty();
+        })
+            .subscribe();
+        var position$ = sequence$
+            .switchMap(function (sequence) {
+            if (!sequence) {
+                return Observable_1.Observable.of({ index: null, max: null });
+            }
+            var firstCurrentKey = true;
+            return _this._sequenceDOMRenderer.changingPositionChanged$
+                .startWith(false)
+                .distinctUntilChanged()
+                .switchMap(function (changingPosition) {
+                var skip = !changingPosition && firstCurrentKey ? 0 : 1;
+                firstCurrentKey = false;
+                return changingPosition ?
+                    rendererKey$ :
+                    _this._navigator.stateService.currentNode$
+                        .map(function (node) {
+                        return node.key;
+                    })
+                        .distinctUntilChanged()
+                        .skip(skip);
+            })
+                .map(function (key) {
+                var index = sequence.keys.indexOf(key);
+                if (index === -1) {
+                    return { index: null, max: null };
+                }
+                return { index: index, max: sequence.keys.length - 1 };
+            });
+        });
+        this._renderSubscription = Observable_1.Observable
+            .combineLatest(edgeStatus$, this._configuration$, this._containerWidth$, this._sequenceDOMRenderer.changed$.startWith(this._sequenceDOMRenderer), this._navigator.playService.speed$, position$)
+            .map(function (_a) {
+            var edgeStatus = _a[0], configuration = _a[1], containerWidth = _a[2], renderer = _a[3], speed = _a[4], position = _a[5];
             var vNode = _this._sequenceDOMRenderer
-                .render(edgeStatus, configuration, containerWidth, speed, _this, _this._sequenceDOMInteraction, _this._navigator);
+                .render(edgeStatus, configuration, containerWidth, speed, position.index, position.max, _this, _this._navigator);
             return { name: _this._name, vnode: vNode };
         })
             .subscribe(this._container.domRenderer.render$);
@@ -29702,7 +30425,7 @@ var SequenceComponent = /** @class */ (function (_super) {
                 _this._navigator.playService.stop();
             }
         });
-        this._hoveredKeySubscription = this._sequenceDOMInteraction.mouseEnterDirection$
+        this._hoveredKeySubscription = this._sequenceDOMRenderer.mouseEnterDirection$
             .switchMap(function (direction) {
             return edgeStatus$
                 .map(function (edgeStatus) {
@@ -29714,7 +30437,7 @@ var SequenceComponent = /** @class */ (function (_super) {
                 }
                 return null;
             })
-                .takeUntil(_this._sequenceDOMInteraction.mouseLeaveDirection$)
+                .takeUntil(_this._sequenceDOMRenderer.mouseLeaveDirection$)
                 .concat(Observable_1.Observable.of(null));
         })
             .distinctUntilChanged()
@@ -29727,6 +30450,12 @@ var SequenceComponent = /** @class */ (function (_super) {
         this._hoveredKeySubscription.unsubscribe();
         this._setSpeedSubscription.unsubscribe();
         this._setDirectionSubscription.unsubscribe();
+        this._setSequenceGraphModeSubscription.unsubscribe();
+        this._setSpatialGraphModeSubscription.unsubscribe();
+        this._sequenceSubscription.unsubscribe();
+        this._moveSubscription.unsubscribe();
+        this._cacheSequenceNodesSubscription.unsubscribe();
+        this._stopSubscription.unsubscribe();
         this._sequenceDOMRenderer.deactivate();
     };
     SequenceComponent.prototype._getDefaultConfiguration = function () {
@@ -29753,35 +30482,7 @@ exports.SequenceComponent = SequenceComponent;
 Component_1.ComponentService.register(SequenceComponent);
 exports.default = SequenceComponent;
 
-},{"../../Component":281,"../../Edge":282,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/of":45,"rxjs/add/operator/bufferCount":50,"rxjs/add/operator/concat":54,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/finally":62,"rxjs/add/operator/first":63,"rxjs/add/operator/map":65,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/retry":73,"rxjs/add/operator/scan":75,"rxjs/add/operator/share":76,"rxjs/add/operator/switchMap":81,"rxjs/add/operator/takeUntil":83,"rxjs/add/operator/withLatestFrom":87}],342:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var Subject_1 = require("rxjs/Subject");
-var SequenceDOMInteraction = /** @class */ (function () {
-    function SequenceDOMInteraction() {
-        this._mouseEnterDirection$ = new Subject_1.Subject();
-        this._mouseLeaveDirection$ = new Subject_1.Subject();
-    }
-    Object.defineProperty(SequenceDOMInteraction.prototype, "mouseEnterDirection$", {
-        get: function () {
-            return this._mouseEnterDirection$;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(SequenceDOMInteraction.prototype, "mouseLeaveDirection$", {
-        get: function () {
-            return this._mouseLeaveDirection$;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return SequenceDOMInteraction;
-}());
-exports.SequenceDOMInteraction = SequenceDOMInteraction;
-exports.default = SequenceDOMInteraction;
-
-},{"rxjs/Subject":34}],343:[function(require,module,exports){
+},{"../../Component":291,"../../Edge":292,"../../Graph":295,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/concat":39,"rxjs/add/observable/of":46,"rxjs/add/operator/auditTime":50,"rxjs/add/operator/bufferCount":52,"rxjs/add/operator/concat":56,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/filter":63,"rxjs/add/operator/finally":64,"rxjs/add/operator/first":65,"rxjs/add/operator/map":67,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/retry":76,"rxjs/add/operator/scan":78,"rxjs/add/operator/share":79,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/takeUntil":86,"rxjs/add/operator/withLatestFrom":90}],351:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -29790,6 +30491,7 @@ var Observable_1 = require("rxjs/Observable");
 var Subject_1 = require("rxjs/Subject");
 var Component_1 = require("../../Component");
 var Edge_1 = require("../../Edge");
+var Error_1 = require("../../Error");
 var SequenceDOMRenderer = /** @class */ (function () {
     function SequenceDOMRenderer(container) {
         this._container = container;
@@ -29798,25 +30500,31 @@ var SequenceDOMRenderer = /** @class */ (function () {
         this._minThresholdHeight = 240;
         this._maxThresholdHeight = 820;
         this._stepperDefaultWidth = 108;
-        this._controlsDefaultWidth = 52;
+        this._controlsDefaultWidth = 88;
         this._defaultHeight = 30;
         this._expandControls = false;
-        this._mode = Component_1.ControlMode.Default;
+        this._mode = Component_1.SequenceMode.Default;
         this._speed = 0.5;
         this._changingSpeed = false;
+        this._index = null;
+        this._changingPosition = false;
+        this._mouseEnterDirection$ = new Subject_1.Subject();
+        this._mouseLeaveDirection$ = new Subject_1.Subject();
         this._notifyChanged$ = new Subject_1.Subject();
+        this._notifyChangingPositionChanged$ = new Subject_1.Subject();
         this._notifySpeedChanged$ = new Subject_1.Subject();
+        this._notifyIndexChanged$ = new Subject_1.Subject();
     }
-    Object.defineProperty(SequenceDOMRenderer.prototype, "speed", {
+    Object.defineProperty(SequenceDOMRenderer.prototype, "changed$", {
         get: function () {
-            return this._speed;
+            return this._notifyChanged$;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(SequenceDOMRenderer.prototype, "changed$", {
+    Object.defineProperty(SequenceDOMRenderer.prototype, "changingPositionChanged$", {
         get: function () {
-            return this._notifyChanged$;
+            return this._notifyChangingPositionChanged$;
         },
         enumerable: true,
         configurable: true
@@ -29828,12 +30536,33 @@ var SequenceDOMRenderer = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(SequenceDOMRenderer.prototype, "index$", {
+        get: function () {
+            return this._notifyIndexChanged$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SequenceDOMRenderer.prototype, "mouseEnterDirection$", {
+        get: function () {
+            return this._mouseEnterDirection$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SequenceDOMRenderer.prototype, "mouseLeaveDirection$", {
+        get: function () {
+            return this._mouseLeaveDirection$;
+        },
+        enumerable: true,
+        configurable: true
+    });
     SequenceDOMRenderer.prototype.activate = function () {
         var _this = this;
-        if (!!this._changingSpeedSubscription) {
+        if (!!this._changingSubscription) {
             return;
         }
-        this._changingSpeedSubscription = Observable_1.Observable
+        this._changingSubscription = Observable_1.Observable
             .merge(this._container.mouseService.documentMouseUp$, this._container.touchService.touchEnd$
             .filter(function (touchEvent) {
             return touchEvent.touches.length === 0;
@@ -29842,26 +30571,31 @@ var SequenceDOMRenderer = /** @class */ (function () {
             if (_this._changingSpeed) {
                 _this._changingSpeed = false;
             }
+            if (_this._changingPosition) {
+                _this._setChangingPosition(false);
+            }
         });
     };
     SequenceDOMRenderer.prototype.deactivate = function () {
-        if (!this._changingSpeedSubscription) {
+        if (!this._changingSubscription) {
             return;
         }
         this._changingSpeed = false;
+        this._changingPosition = false;
         this._expandControls = false;
-        this._mode = Component_1.ControlMode.Default;
-        this._changingSpeedSubscription.unsubscribe();
-        this._changingSpeedSubscription = null;
+        this._mode = Component_1.SequenceMode.Default;
+        this._changingSubscription.unsubscribe();
+        this._changingSubscription = null;
     };
-    SequenceDOMRenderer.prototype.render = function (edgeStatus, configuration, containerWidth, speed, component, interaction, navigator) {
+    SequenceDOMRenderer.prototype.render = function (edgeStatus, configuration, containerWidth, speed, index, max, component, navigator) {
         if (configuration.visible === false) {
             return vd.h("div.SequenceContainer", {}, []);
         }
-        var stepper = this._createStepper(edgeStatus, configuration, containerWidth, component, interaction, navigator);
+        var stepper = this._createStepper(edgeStatus, configuration, containerWidth, component, navigator);
         var controls = this._createSequenceControls(containerWidth);
         var playback = this._createPlaybackControls(containerWidth, speed, component, configuration);
-        return vd.h("div.SequenceContainer", [stepper, controls, playback]);
+        var timeline = this._createTimelineControls(containerWidth, index, max);
+        return vd.h("div.SequenceContainer", [stepper, controls, playback, timeline]);
     };
     SequenceDOMRenderer.prototype.getContainerWidth = function (element, configuration) {
         var elementWidth = element.offsetWidth;
@@ -29875,6 +30609,54 @@ var SequenceDOMRenderer = /** @class */ (function () {
         var relativeHeight = (elementHeight - this._minThresholdHeight) / (this._maxThresholdHeight - this._minThresholdHeight);
         var coeff = Math.max(0, Math.min(1, Math.min(relativeWidth, relativeHeight)));
         return minWidth + coeff * (maxWidth - minWidth);
+    };
+    SequenceDOMRenderer.prototype._createPositionInput = function (index, max) {
+        var _this = this;
+        this._index = index;
+        var onPosition = function (e) {
+            _this._index = Number(e.target.value);
+            _this._notifyIndexChanged$.next(_this._index);
+        };
+        var boundingRect = this._container.domContainer.getBoundingClientRect();
+        var width = Math.max(276, Math.min(410, 5 + 0.8 * boundingRect.width)) - 65;
+        var onStart = function (e) {
+            e.stopPropagation();
+            _this._setChangingPosition(true);
+        };
+        var onMove = function (e) {
+            if (_this._changingPosition === true) {
+                e.stopPropagation();
+            }
+        };
+        var onKeyDown = function (e) {
+            if (e.key === "ArrowDown" || e.key === "ArrowLeft" ||
+                e.key === "ArrowRight" || e.key === "ArrowUp") {
+                e.preventDefault();
+            }
+        };
+        var positionInputProperties = {
+            max: max != null ? max : 1,
+            min: 0,
+            onchange: onPosition,
+            oninput: onPosition,
+            onkeydown: onKeyDown,
+            onmousedown: onStart,
+            onmousemove: onMove,
+            ontouchmove: onMove,
+            ontouchstart: onStart,
+            style: {
+                width: width + "px",
+            },
+            type: "range",
+            value: index != null ? index : 0,
+        };
+        var disabled = index == null || max == null || max <= 1;
+        if (disabled) {
+            positionInputProperties.disabled = "true";
+        }
+        var positionInput = vd.h("input.SequencePosition", positionInputProperties, []);
+        var positionContainerClass = disabled ? ".SequencePositionContainerDisabled" : ".SequencePositionContainer";
+        return vd.h("div" + positionContainerClass, [positionInput]);
     };
     SequenceDOMRenderer.prototype._createSpeedInput = function (speed) {
         var _this = this;
@@ -29894,11 +30676,18 @@ var SequenceDOMRenderer = /** @class */ (function () {
                 e.stopPropagation();
             }
         };
+        var onKeyDown = function (e) {
+            if (e.key === "ArrowDown" || e.key === "ArrowLeft" ||
+                e.key === "ArrowRight" || e.key === "ArrowUp") {
+                e.preventDefault();
+            }
+        };
         var speedInput = vd.h("input.SequenceSpeed", {
             max: 1000,
             min: 0,
             onchange: onSpeed,
             oninput: onSpeed,
+            onkeydown: onKeyDown,
             onmousedown: onStart,
             onmousemove: onMove,
             ontouchmove: onMove,
@@ -29913,7 +30702,7 @@ var SequenceDOMRenderer = /** @class */ (function () {
     };
     SequenceDOMRenderer.prototype._createPlaybackControls = function (containerWidth, speed, component, configuration) {
         var _this = this;
-        if (this._mode !== Component_1.ControlMode.Playback) {
+        if (this._mode !== Component_1.SequenceMode.Playback) {
             return vd.h("div.SequencePlayback", []);
         }
         var switchIcon = vd.h("div.SequenceSwitchIcon.SequenceIconVisible", []);
@@ -29936,7 +30725,7 @@ var SequenceDOMRenderer = /** @class */ (function () {
         var closeIcon = vd.h("div.SequenceCloseIcon.SequenceIconVisible", []);
         var closeButtonProperties = {
             onclick: function () {
-                _this._mode = Component_1.ControlMode.Default;
+                _this._mode = Component_1.SequenceMode.Default;
                 _this._notifyChanged$.next(_this);
             },
         };
@@ -29973,7 +30762,7 @@ var SequenceDOMRenderer = /** @class */ (function () {
         var expanderProperties = {
             onclick: function () {
                 _this._expandControls = !_this._expandControls;
-                _this._mode = Component_1.ControlMode.Default;
+                _this._mode = Component_1.SequenceMode.Default;
                 _this._notifyChanged$.next(_this);
             },
             style: {
@@ -29983,18 +30772,30 @@ var SequenceDOMRenderer = /** @class */ (function () {
         };
         var expanderBar = vd.h("div.SequenceExpanderBar", []);
         var expander = vd.h("div.SequenceExpanderButton", expanderProperties, [expanderBar]);
-        var fastIconClassName = this._mode === Component_1.ControlMode.Playback ?
+        var fastIconClassName = this._mode === Component_1.SequenceMode.Playback ?
             ".SequenceFastIconGrey.SequenceIconVisible" : ".SequenceFastIcon";
         var fastIcon = vd.h("div" + fastIconClassName, []);
         var playbackProperties = {
             onclick: function () {
-                _this._mode = _this._mode === Component_1.ControlMode.Playback ?
-                    Component_1.ControlMode.Default :
-                    Component_1.ControlMode.Playback;
+                _this._mode = _this._mode === Component_1.SequenceMode.Playback ?
+                    Component_1.SequenceMode.Default :
+                    Component_1.SequenceMode.Playback;
                 _this._notifyChanged$.next(_this);
             },
         };
-        var controls = vd.h("div.SequencePlaybackButton", playbackProperties, [fastIcon]);
+        var playback = vd.h("div.SequencePlaybackButton", playbackProperties, [fastIcon]);
+        var timelineIconClassName = this._mode === Component_1.SequenceMode.Timeline ?
+            ".SequenceTimelineIconGrey.SequenceIconVisible" : ".SequenceTimelineIcon";
+        var timelineIcon = vd.h("div" + timelineIconClassName, []);
+        var timelineProperties = {
+            onclick: function () {
+                _this._mode = _this._mode === Component_1.SequenceMode.Timeline ?
+                    Component_1.SequenceMode.Default :
+                    Component_1.SequenceMode.Timeline;
+                _this._notifyChanged$.next(_this);
+            },
+        };
+        var timeline = vd.h("div.SequenceTimelineButton", timelineProperties, [timelineIcon]);
         var properties = {
             style: {
                 height: (this._defaultHeight / this._stepperDefaultWidth * containerWidth) + "px",
@@ -30004,29 +30805,38 @@ var SequenceDOMRenderer = /** @class */ (function () {
         };
         var className = ".SequenceControls" +
             (this._expandControls ? ".SequenceControlsExpanded" : "");
-        return vd.h("div" + className, properties, [controls, expander]);
+        return vd.h("div" + className, properties, [playback, timeline, expander]);
     };
-    SequenceDOMRenderer.prototype._createSequenceArrows = function (nextKey, prevKey, containerWidth, configuration, interaction, navigator) {
+    SequenceDOMRenderer.prototype._createSequenceArrows = function (nextKey, prevKey, containerWidth, configuration, navigator) {
+        var _this = this;
         var nextProperties = {
             onclick: nextKey != null ?
                 function (e) {
                     navigator.moveDir$(Edge_1.EdgeDirection.Next)
-                        .subscribe(function (node) { return; }, function (error) { console.error(error); });
+                        .subscribe(undefined, function (error) {
+                        if (!(error instanceof Error_1.AbortMapillaryError)) {
+                            console.error(error);
+                        }
+                    });
                 } :
                 null,
-            onmouseenter: function (e) { interaction.mouseEnterDirection$.next(Edge_1.EdgeDirection.Next); },
-            onmouseleave: function (e) { interaction.mouseLeaveDirection$.next(Edge_1.EdgeDirection.Next); },
+            onmouseenter: function (e) { _this._mouseEnterDirection$.next(Edge_1.EdgeDirection.Next); },
+            onmouseleave: function (e) { _this._mouseLeaveDirection$.next(Edge_1.EdgeDirection.Next); },
         };
         var borderRadius = Math.round(8 / this._stepperDefaultWidth * containerWidth);
         var prevProperties = {
             onclick: prevKey != null ?
                 function (e) {
                     navigator.moveDir$(Edge_1.EdgeDirection.Prev)
-                        .subscribe(function (node) { return; }, function (error) { console.error(error); });
+                        .subscribe(undefined, function (error) {
+                        if (!(error instanceof Error_1.AbortMapillaryError)) {
+                            console.error(error);
+                        }
+                    });
                 } :
                 null,
-            onmouseenter: function (e) { interaction.mouseEnterDirection$.next(Edge_1.EdgeDirection.Prev); },
-            onmouseleave: function (e) { interaction.mouseLeaveDirection$.next(Edge_1.EdgeDirection.Prev); },
+            onmouseenter: function (e) { _this._mouseEnterDirection$.next(Edge_1.EdgeDirection.Prev); },
+            onmouseleave: function (e) { _this._mouseLeaveDirection$.next(Edge_1.EdgeDirection.Prev); },
             style: {
                 "border-bottom-left-radius": borderRadius + "px",
                 "border-top-left-radius": borderRadius + "px",
@@ -30041,7 +30851,7 @@ var SequenceDOMRenderer = /** @class */ (function () {
             vd.h("div." + nextClass, nextProperties, [nextIcon]),
         ];
     };
-    SequenceDOMRenderer.prototype._createStepper = function (edgeStatus, configuration, containerWidth, component, interaction, navigator) {
+    SequenceDOMRenderer.prototype._createStepper = function (edgeStatus, configuration, containerWidth, component, navigator) {
         var nextKey = null;
         var prevKey = null;
         for (var _i = 0, _a = edgeStatus.edges; _i < _a.length; _i++) {
@@ -30054,7 +30864,7 @@ var SequenceDOMRenderer = /** @class */ (function () {
             }
         }
         var playingButton = this._createPlayingButton(nextKey, prevKey, configuration, component);
-        var buttons = this._createSequenceArrows(nextKey, prevKey, containerWidth, configuration, interaction, navigator);
+        var buttons = this._createSequenceArrows(nextKey, prevKey, containerWidth, configuration, navigator);
         buttons.splice(1, 0, playingButton);
         var containerProperties = {
             oncontextmenu: function (event) { event.preventDefault(); },
@@ -30064,6 +30874,24 @@ var SequenceDOMRenderer = /** @class */ (function () {
             },
         };
         return vd.h("div.SequenceStepper", containerProperties, buttons);
+    };
+    SequenceDOMRenderer.prototype._createTimelineControls = function (containerWidth, index, max) {
+        var _this = this;
+        if (this._mode !== Component_1.SequenceMode.Timeline) {
+            return vd.h("div.SequenceTimeline", []);
+        }
+        var positionInput = this._createPositionInput(index, max);
+        var closeIcon = vd.h("div.SequenceCloseIcon.SequenceIconVisible", []);
+        var closeButtonProperties = {
+            onclick: function () {
+                _this._mode = Component_1.SequenceMode.Default;
+                _this._notifyChanged$.next(_this);
+            },
+        };
+        var closeButton = vd.h("div.SequenceCloseButton", closeButtonProperties, [closeIcon]);
+        var top = Math.round(containerWidth / this._stepperDefaultWidth * this._defaultHeight + 10);
+        var playbackProperties = { style: { top: top + "px" } };
+        return vd.h("div.SequenceTimeline", playbackProperties, [positionInput, closeButton]);
     };
     SequenceDOMRenderer.prototype._getStepClassName = function (direction, key, highlightKey) {
         var className = direction === Edge_1.EdgeDirection.Next ?
@@ -30079,12 +30907,27 @@ var SequenceDOMRenderer = /** @class */ (function () {
         }
         return className;
     };
+    SequenceDOMRenderer.prototype._setChangingPosition = function (value) {
+        this._changingPosition = value;
+        this._notifyChangingPositionChanged$.next(value);
+    };
     return SequenceDOMRenderer;
 }());
 exports.SequenceDOMRenderer = SequenceDOMRenderer;
 exports.default = SequenceDOMRenderer;
 
-},{"../../Component":281,"../../Edge":282,"rxjs/Observable":29,"rxjs/Subject":34,"virtual-dom":237}],344:[function(require,module,exports){
+},{"../../Component":291,"../../Edge":292,"../../Error":293,"rxjs/Observable":29,"rxjs/Subject":34,"virtual-dom":247}],352:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var SequenceMode;
+(function (SequenceMode) {
+    SequenceMode[SequenceMode["Default"] = 0] = "Default";
+    SequenceMode[SequenceMode["Playback"] = 1] = "Playback";
+    SequenceMode[SequenceMode["Timeline"] = 2] = "Timeline";
+})(SequenceMode = exports.SequenceMode || (exports.SequenceMode = {}));
+exports.default = SequenceMode;
+
+},{}],353:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var GeometryTagError_1 = require("./error/GeometryTagError");
@@ -30104,7 +30947,7 @@ exports.TagComponent = TagComponent_1.TagComponent;
 var TagMode_1 = require("./TagMode");
 exports.TagMode = TagMode_1.TagMode;
 
-},{"./TagComponent":345,"./TagMode":348,"./error/GeometryTagError":352,"./geometry/PointGeometry":354,"./geometry/PolygonGeometry":355,"./geometry/RectGeometry":356,"./tag/OutlineTag":368,"./tag/SpotTag":371}],345:[function(require,module,exports){
+},{"./TagComponent":354,"./TagMode":357,"./error/GeometryTagError":361,"./geometry/PointGeometry":363,"./geometry/PolygonGeometry":364,"./geometry/RectGeometry":365,"./tag/OutlineTag":377,"./tag/SpotTag":380}],354:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -30663,7 +31506,7 @@ exports.TagComponent = TagComponent;
 Component_1.ComponentService.register(TagComponent);
 exports.default = TagComponent;
 
-},{"../../Component":281,"../../Geo":284,"../../Render":287,"rxjs/Observable":29,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/empty":40,"rxjs/add/observable/from":41,"rxjs/add/observable/merge":44,"rxjs/add/observable/of":45,"rxjs/add/operator/combineLatest":53,"rxjs/add/operator/concat":54,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/do":59,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":75,"rxjs/add/operator/share":76,"rxjs/add/operator/skip":77,"rxjs/add/operator/skipUntil":78,"rxjs/add/operator/startWith":80,"rxjs/add/operator/switchMap":81,"rxjs/add/operator/take":82,"rxjs/add/operator/takeUntil":83,"rxjs/add/operator/withLatestFrom":87,"when":278}],346:[function(require,module,exports){
+},{"../../Component":291,"../../Geo":294,"../../Render":297,"rxjs/Observable":29,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/empty":41,"rxjs/add/observable/from":42,"rxjs/add/observable/merge":45,"rxjs/add/observable/of":46,"rxjs/add/operator/combineLatest":55,"rxjs/add/operator/concat":56,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/do":61,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/merge":68,"rxjs/add/operator/mergeMap":70,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78,"rxjs/add/operator/share":79,"rxjs/add/operator/skip":80,"rxjs/add/operator/skipUntil":81,"rxjs/add/operator/startWith":83,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/take":85,"rxjs/add/operator/takeUntil":86,"rxjs/add/operator/withLatestFrom":90,"when":288}],355:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Subject_1 = require("rxjs/Subject");
@@ -30755,7 +31598,7 @@ var TagCreator = /** @class */ (function () {
 exports.TagCreator = TagCreator;
 exports.default = TagCreator;
 
-},{"../../Component":281,"rxjs/Subject":34,"rxjs/add/operator/map":65,"rxjs/add/operator/scan":75,"rxjs/add/operator/share":76,"rxjs/add/operator/withLatestFrom":87}],347:[function(require,module,exports){
+},{"../../Component":291,"rxjs/Subject":34,"rxjs/add/operator/map":67,"rxjs/add/operator/scan":78,"rxjs/add/operator/share":79,"rxjs/add/operator/withLatestFrom":90}],356:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -30781,7 +31624,7 @@ var TagDOMRenderer = /** @class */ (function () {
 }());
 exports.TagDOMRenderer = TagDOMRenderer;
 
-},{"virtual-dom":237}],348:[function(require,module,exports){
+},{"virtual-dom":247}],357:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -30818,7 +31661,7 @@ var TagMode;
 })(TagMode = exports.TagMode || (exports.TagMode = {}));
 exports.default = TagMode;
 
-},{}],349:[function(require,module,exports){
+},{}],358:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var TagOperation;
@@ -30829,7 +31672,7 @@ var TagOperation;
 })(TagOperation = exports.TagOperation || (exports.TagOperation = {}));
 exports.default = TagOperation;
 
-},{}],350:[function(require,module,exports){
+},{}],359:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -30997,7 +31840,7 @@ var TagScene = /** @class */ (function () {
 exports.TagScene = TagScene;
 exports.default = TagScene;
 
-},{"three":231}],351:[function(require,module,exports){
+},{"three":241}],360:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Subject_1 = require("rxjs/Subject");
@@ -31151,7 +31994,7 @@ var TagSet = /** @class */ (function () {
 exports.TagSet = TagSet;
 exports.default = TagSet;
 
-},{"../../Component":281,"rxjs/Subject":34,"rxjs/add/operator/map":65,"rxjs/add/operator/scan":75,"rxjs/add/operator/share":76}],352:[function(require,module,exports){
+},{"../../Component":291,"rxjs/Subject":34,"rxjs/add/operator/map":67,"rxjs/add/operator/scan":78,"rxjs/add/operator/share":79}],361:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -31177,7 +32020,7 @@ var GeometryTagError = /** @class */ (function (_super) {
 exports.GeometryTagError = GeometryTagError;
 exports.default = Error_1.MapillaryError;
 
-},{"../../../Error":283}],353:[function(require,module,exports){
+},{"../../../Error":293}],362:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Subject_1 = require("rxjs/Subject");
@@ -31216,7 +32059,7 @@ var Geometry = /** @class */ (function () {
 exports.Geometry = Geometry;
 exports.default = Geometry;
 
-},{"rxjs/Subject":34}],354:[function(require,module,exports){
+},{"rxjs/Subject":34}],363:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -31311,7 +32154,7 @@ var PointGeometry = /** @class */ (function (_super) {
 }(Component_1.Geometry));
 exports.PointGeometry = PointGeometry;
 
-},{"../../../Component":281}],355:[function(require,module,exports){
+},{"../../../Component":291}],364:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -31583,7 +32426,7 @@ var PolygonGeometry = /** @class */ (function (_super) {
 exports.PolygonGeometry = PolygonGeometry;
 exports.default = PolygonGeometry;
 
-},{"../../../Component":281}],356:[function(require,module,exports){
+},{"../../../Component":291}],365:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -32229,7 +33072,7 @@ var RectGeometry = /** @class */ (function (_super) {
 exports.RectGeometry = RectGeometry;
 exports.default = RectGeometry;
 
-},{"../../../Component":281}],357:[function(require,module,exports){
+},{"../../../Component":291}],366:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -32311,7 +33154,7 @@ var VertexGeometry = /** @class */ (function (_super) {
 exports.VertexGeometry = VertexGeometry;
 exports.default = VertexGeometry;
 
-},{"../../../Component":281,"@mapbox/polylabel":1,"earcut":8}],358:[function(require,module,exports){
+},{"../../../Component":291,"@mapbox/polylabel":1,"earcut":8}],367:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -32369,7 +33212,7 @@ var CreateHandlerBase = /** @class */ (function (_super) {
 exports.CreateHandlerBase = CreateHandlerBase;
 exports.default = CreateHandlerBase;
 
-},{"../../../Component":281,"rxjs/Subject":34}],359:[function(require,module,exports){
+},{"../../../Component":291,"rxjs/Subject":34}],368:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -32409,7 +33252,7 @@ var CreatePointHandler = /** @class */ (function (_super) {
 exports.CreatePointHandler = CreatePointHandler;
 exports.default = CreatePointHandler;
 
-},{"../../../Component":281}],360:[function(require,module,exports){
+},{"../../../Component":291}],369:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -32449,7 +33292,7 @@ var CreatePolygonHandler = /** @class */ (function (_super) {
 exports.CreatePolygonHandler = CreatePolygonHandler;
 exports.default = CreatePolygonHandler;
 
-},{"../../../Component":281}],361:[function(require,module,exports){
+},{"../../../Component":291}],370:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -32555,7 +33398,7 @@ var CreateRectDragHandler = /** @class */ (function (_super) {
 exports.CreateRectDragHandler = CreateRectDragHandler;
 exports.default = CreateRectDragHandler;
 
-},{"../../../Component":281,"rxjs/Observable":29}],362:[function(require,module,exports){
+},{"../../../Component":291,"rxjs/Observable":29}],371:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -32613,7 +33456,7 @@ var CreateRectHandler = /** @class */ (function (_super) {
 exports.CreateRectHandler = CreateRectHandler;
 exports.default = CreateRectHandler;
 
-},{"../../../Component":281}],363:[function(require,module,exports){
+},{"../../../Component":291}],372:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -32700,7 +33543,7 @@ var CreateVertexHandler = /** @class */ (function (_super) {
 exports.CreateVertexHandler = CreateVertexHandler;
 exports.default = CreateVertexHandler;
 
-},{"../../../Component":281,"rxjs/Observable":29}],364:[function(require,module,exports){
+},{"../../../Component":291,"rxjs/Observable":29}],373:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -32832,7 +33675,7 @@ var EditVertexHandler = /** @class */ (function (_super) {
 exports.EditVertexHandler = EditVertexHandler;
 exports.default = EditVertexHandler;
 
-},{"../../../Component":281,"rxjs/Observable":29}],365:[function(require,module,exports){
+},{"../../../Component":291,"rxjs/Observable":29}],374:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -32870,7 +33713,7 @@ var TagHandlerBase = /** @class */ (function (_super) {
 exports.TagHandlerBase = TagHandlerBase;
 exports.default = TagHandlerBase;
 
-},{"../../../Component":281}],366:[function(require,module,exports){
+},{"../../../Component":291}],375:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -33096,7 +33939,7 @@ var OutlineCreateTag = /** @class */ (function () {
 exports.OutlineCreateTag = OutlineCreateTag;
 exports.default = OutlineCreateTag;
 
-},{"../../../Component":281,"../../../Geo":284,"rxjs/Subject":34,"three":231,"virtual-dom":237}],367:[function(require,module,exports){
+},{"../../../Component":291,"../../../Geo":294,"rxjs/Subject":34,"three":241,"virtual-dom":247}],376:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -33461,7 +34304,7 @@ var OutlineRenderTag = /** @class */ (function (_super) {
 }(Component_1.RenderTag));
 exports.OutlineRenderTag = OutlineRenderTag;
 
-},{"../../../Component":281,"three":231,"virtual-dom":237}],368:[function(require,module,exports){
+},{"../../../Component":291,"three":241,"virtual-dom":247}],377:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -33839,7 +34682,7 @@ var OutlineTag = /** @class */ (function (_super) {
 exports.OutlineTag = OutlineTag;
 exports.default = OutlineTag;
 
-},{"../../../Component":281,"../../../Viewer":292,"rxjs/Subject":34}],369:[function(require,module,exports){
+},{"../../../Component":291,"../../../Viewer":302,"rxjs/Subject":34}],378:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -33879,7 +34722,7 @@ var RenderTag = /** @class */ (function () {
 exports.RenderTag = RenderTag;
 exports.default = RenderTag;
 
-},{"../../../Geo":284,"rxjs/Subject":34}],370:[function(require,module,exports){
+},{"../../../Geo":294,"rxjs/Subject":34}],379:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -33994,7 +34837,7 @@ var SpotRenderTag = /** @class */ (function (_super) {
 }(Component_1.RenderTag));
 exports.SpotRenderTag = SpotRenderTag;
 
-},{"../../../Component":281,"../../../Viewer":292,"virtual-dom":237}],371:[function(require,module,exports){
+},{"../../../Component":291,"../../../Viewer":302,"virtual-dom":247}],380:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -34174,7 +35017,7 @@ var SpotTag = /** @class */ (function (_super) {
 exports.SpotTag = SpotTag;
 exports.default = SpotTag;
 
-},{"../../../Component":281}],372:[function(require,module,exports){
+},{"../../../Component":291}],381:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -34291,7 +35134,7 @@ var Tag = /** @class */ (function (_super) {
 exports.Tag = Tag;
 exports.default = Tag;
 
-},{"../../../Utils":291,"rxjs/Subject":34,"rxjs/add/operator/map":65,"rxjs/add/operator/share":76}],373:[function(require,module,exports){
+},{"../../../Utils":301,"rxjs/Subject":34,"rxjs/add/operator/map":67,"rxjs/add/operator/share":79}],382:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var HandlerBase = /** @class */ (function () {
@@ -34346,7 +35189,34 @@ var HandlerBase = /** @class */ (function () {
 exports.HandlerBase = HandlerBase;
 exports.default = HandlerBase;
 
-},{}],374:[function(require,module,exports){
+},{}],383:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var MapillaryError_1 = require("./MapillaryError");
+var AbortMapillaryError = /** @class */ (function (_super) {
+    __extends(AbortMapillaryError, _super);
+    function AbortMapillaryError(message) {
+        var _this = _super.call(this, message != null ? message : "The request was aborted.") || this;
+        Object.setPrototypeOf(_this, AbortMapillaryError.prototype);
+        _this.name = "AbortMapillaryError";
+        return _this;
+    }
+    return AbortMapillaryError;
+}(MapillaryError_1.MapillaryError));
+exports.AbortMapillaryError = AbortMapillaryError;
+exports.default = AbortMapillaryError;
+
+},{"./MapillaryError":386}],384:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -34364,6 +35234,7 @@ var ArgumentMapillaryError = /** @class */ (function (_super) {
     __extends(ArgumentMapillaryError, _super);
     function ArgumentMapillaryError(message) {
         var _this = _super.call(this, message != null ? message : "The argument is not valid.") || this;
+        Object.setPrototypeOf(_this, ArgumentMapillaryError.prototype);
         _this.name = "ArgumentMapillaryError";
         return _this;
     }
@@ -34372,7 +35243,7 @@ var ArgumentMapillaryError = /** @class */ (function (_super) {
 exports.ArgumentMapillaryError = ArgumentMapillaryError;
 exports.default = ArgumentMapillaryError;
 
-},{"./MapillaryError":376}],375:[function(require,module,exports){
+},{"./MapillaryError":386}],385:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -34390,6 +35261,7 @@ var GraphMapillaryError = /** @class */ (function (_super) {
     __extends(GraphMapillaryError, _super);
     function GraphMapillaryError(message) {
         var _this = _super.call(this, message) || this;
+        Object.setPrototypeOf(_this, GraphMapillaryError.prototype);
         _this.name = "GraphMapillaryError";
         return _this;
     }
@@ -34398,7 +35270,7 @@ var GraphMapillaryError = /** @class */ (function (_super) {
 exports.GraphMapillaryError = GraphMapillaryError;
 exports.default = GraphMapillaryError;
 
-},{"./MapillaryError":376}],376:[function(require,module,exports){
+},{"./MapillaryError":386}],386:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -34415,6 +35287,7 @@ var MapillaryError = /** @class */ (function (_super) {
     __extends(MapillaryError, _super);
     function MapillaryError(message) {
         var _this = _super.call(this, message) || this;
+        Object.setPrototypeOf(_this, MapillaryError.prototype);
         _this.name = "MapillaryError";
         return _this;
     }
@@ -34423,7 +35296,7 @@ var MapillaryError = /** @class */ (function (_super) {
 exports.MapillaryError = MapillaryError;
 exports.default = MapillaryError;
 
-},{}],377:[function(require,module,exports){
+},{}],387:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -34573,7 +35446,7 @@ var Camera = /** @class */ (function () {
 }());
 exports.Camera = Camera;
 
-},{"three":231}],378:[function(require,module,exports){
+},{"three":241}],388:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -34797,7 +35670,7 @@ var GeoCoords = /** @class */ (function () {
 exports.GeoCoords = GeoCoords;
 exports.default = GeoCoords;
 
-},{}],379:[function(require,module,exports){
+},{}],389:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -35005,18 +35878,18 @@ var Spatial = /** @class */ (function () {
      * (latitude longitude pairs) in meters according to
      * the haversine formula.
      *
-     * @param {number} lat1 - Latitude of the first coordinate.
-     * @param {number} lon1 - Longitude of the first coordinate.
-     * @param {number} lat2 - Latitude of the second coordinate.
-     * @param {number} lon2 - Longitude of the second coordinate.
-     * @returns {number} Distance between lat lon positions.
+     * @param {number} lat1 - Latitude of the first coordinate in degrees.
+     * @param {number} lon1 - Longitude of the first coordinate in degrees.
+     * @param {number} lat2 - Latitude of the second coordinate in degrees.
+     * @param {number} lon2 - Longitude of the second coordinate in degrees.
+     * @returns {number} Distance between lat lon positions in meters.
      */
     Spatial.prototype.distanceFromLatLon = function (lat1, lon1, lat2, lon2) {
         var r = 6371000;
         var dLat = this.degToRad(lat2 - lat1);
         var dLon = this.degToRad(lon2 - lon1);
         var hav = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(lat1) * Math.cos(lat2) *
+            Math.cos(this.degToRad(lat1)) * Math.cos(this.degToRad(lat2)) *
                 Math.sin(dLon / 2) * Math.sin(dLon / 2);
         var d = 2 * r * Math.atan2(Math.sqrt(hav), Math.sqrt(1 - hav));
         return d;
@@ -35026,7 +35899,7 @@ var Spatial = /** @class */ (function () {
 exports.Spatial = Spatial;
 exports.default = Spatial;
 
-},{"three":231}],380:[function(require,module,exports){
+},{"three":241}],390:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -35555,7 +36428,7 @@ var Transform = /** @class */ (function () {
 }());
 exports.Transform = Transform;
 
-},{"three":231}],381:[function(require,module,exports){
+},{"three":241}],391:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -35929,7 +36802,7 @@ var ViewportCoords = /** @class */ (function () {
 exports.ViewportCoords = ViewportCoords;
 exports.default = ViewportCoords;
 
-},{"three":231}],382:[function(require,module,exports){
+},{"three":241}],392:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -36017,7 +36890,7 @@ var FilterCreator = /** @class */ (function () {
 exports.FilterCreator = FilterCreator;
 exports.default = FilterCreator;
 
-},{}],383:[function(require,module,exports){
+},{}],393:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -36028,8 +36901,10 @@ require("rxjs/add/observable/from");
 require("rxjs/add/operator/catch");
 require("rxjs/add/operator/do");
 require("rxjs/add/operator/finally");
+require("rxjs/add/operator/last");
 require("rxjs/add/operator/map");
 require("rxjs/add/operator/publish");
+require("rxjs/add/operator/reduce");
 var Edge_1 = require("../Edge");
 var Error_1 = require("../Error");
 var Graph_1 = require("../Graph");
@@ -36101,6 +36976,92 @@ var Graph = /** @class */ (function () {
         configurable: true
     });
     /**
+     * Caches the full node data for all images within a bounding
+     * box.
+     *
+     * @description The node assets are not cached.
+     *
+     * @param {ILatLon} sw - South west corner of bounding box.
+     * @param {ILatLon} ne - North east corner of bounding box.
+     * @returns {Observable<Graph>} Observable emitting the full
+     * nodes in the bounding box.
+     */
+    Graph.prototype.cacheBoundingBox$ = function (sw, ne) {
+        var _this = this;
+        var cacheTiles$ = this._graphCalculator.encodeHsFromBoundingBox(sw, ne)
+            .filter(function (h) {
+            return !(h in _this._cachedTiles);
+        })
+            .map(function (h) {
+            return h in _this._cachingTiles$ ?
+                _this._cachingTiles$[h] :
+                _this._cacheTile$(h);
+        });
+        if (cacheTiles$.length === 0) {
+            cacheTiles$.push(Observable_1.Observable.of(this));
+        }
+        return Observable_1.Observable
+            .from(cacheTiles$)
+            .mergeAll()
+            .last()
+            .mergeMap(function (graph) {
+            var nodes = _this._nodeIndex
+                .search({
+                maxX: ne.lat,
+                maxY: ne.lon,
+                minX: sw.lat,
+                minY: sw.lon,
+            })
+                .map(function (item) {
+                return item.node;
+            });
+            var fullNodes = [];
+            var coreNodes = [];
+            for (var _i = 0, nodes_1 = nodes; _i < nodes_1.length; _i++) {
+                var node = nodes_1[_i];
+                if (node.full) {
+                    fullNodes.push(node);
+                }
+                else {
+                    coreNodes.push(node.key);
+                }
+            }
+            var coreNodeBatches = [];
+            var batchSize = 200;
+            while (coreNodes.length > 0) {
+                coreNodeBatches.push(coreNodes.splice(0, batchSize));
+            }
+            var fullNodes$ = Observable_1.Observable.of(fullNodes);
+            var fillNodes$ = coreNodeBatches
+                .map(function (batch) {
+                return _this._apiV3.imageByKeyFill$(batch)
+                    .map(function (imageByKeyFill) {
+                    var filledNodes = [];
+                    for (var fillKey in imageByKeyFill) {
+                        if (!imageByKeyFill.hasOwnProperty(fillKey)) {
+                            continue;
+                        }
+                        if (_this.hasNode(fillKey)) {
+                            var node = _this.getNode(fillKey);
+                            if (!node.full) {
+                                _this._makeFull(node, imageByKeyFill[fillKey]);
+                            }
+                            filledNodes.push(node);
+                        }
+                    }
+                    return filledNodes;
+                });
+            });
+            return Observable_1.Observable
+                .merge(fullNodes$, Observable_1.Observable
+                .from(fillNodes$)
+                .mergeAll());
+        })
+            .reduce(function (acc, value) {
+            return acc.concat(value);
+        });
+    };
+    /**
      * Retrieve and cache node fill properties.
      *
      * @param {string} key - Key of node to fill.
@@ -36171,8 +37132,8 @@ var Graph = /** @class */ (function () {
                 }
             }
             else {
-                if (fn.sequence == null || fn.sequence.key == null) {
-                    throw new Error_1.GraphMapillaryError("Node has no sequence (" + key + ").");
+                if (fn.sequence_key == null) {
+                    throw new Error_1.GraphMapillaryError("Node has no sequence key (" + key + ").");
                 }
                 var node = new Graph_1.Node(fn);
                 _this._makeFull(node, fn);
@@ -36268,22 +37229,11 @@ var Graph = /** @class */ (function () {
         }
         var batches = [];
         var keys = sequence.keys.slice();
-        if (!!referenceNodeKey) {
+        var referenceBatchSize = 50;
+        if (!!referenceNodeKey && keys.length > referenceBatchSize) {
             var referenceIndex = keys.indexOf(referenceNodeKey);
-            if (referenceIndex !== -1) {
-                for (var _i = 0, _a = [20, 40]; _i < _a.length; _i++) {
-                    var referenceBatchSize = _a[_i];
-                    if (referenceIndex < keys.length - 1) {
-                        batches.push(keys.splice(referenceIndex, referenceBatchSize));
-                    }
-                    if (referenceIndex > 0) {
-                        var shift = referenceIndex === keys.length - 1 ? 1 : 0;
-                        var batch = keys.splice(Math.max(0, referenceIndex + shift - referenceBatchSize), referenceBatchSize);
-                        batches.push(batch);
-                        referenceIndex -= batch.length;
-                    }
-                }
-            }
+            var startIndex = Math.max(0, Math.min(referenceIndex - referenceBatchSize / 2, keys.length - referenceBatchSize));
+            batches.push(keys.splice(startIndex, referenceBatchSize));
         }
         var batchSize = 200;
         while (keys.length > 0) {
@@ -36307,8 +37257,8 @@ var Graph = /** @class */ (function () {
                         }
                     }
                     else {
-                        if (fn.sequence == null || fn.sequence.key == null) {
-                            console.warn("Sequence missing, discarding (" + fn.key + ")");
+                        if (fn.sequence_key == null) {
+                            console.warn("Sequence missing, discarding node (" + fn.key + ")");
                         }
                         var node = new Graph_1.Node(fn);
                         _this._makeFull(node, fn);
@@ -36472,8 +37422,8 @@ var Graph = /** @class */ (function () {
      * Retrieve and cache geohash tiles for a node.
      *
      * @param {string} key - Key of node for which to retrieve tiles.
-     * @returns {Observable<Graph>} Observable emitting the graph
-     * when the tiles required for the node has been cached.
+     * @returns {Array<Observable<Graph>>} Array of observables emitting
+     * the graph for each tile required for the node has been cached.
      * @throws {GraphMapillaryError} When the operation is not valid on the
      * current graph.
      */
@@ -36501,73 +37451,9 @@ var Graph = /** @class */ (function () {
         nodeTiles.cache = [];
         var cacheTiles$ = [];
         var _loop_2 = function (h) {
-            var cacheTile$ = null;
-            if (h in this_2._cachingTiles$) {
-                cacheTile$ = this_2._cachingTiles$[h];
-            }
-            else {
-                cacheTile$ = this_2._apiV3.imagesByH$([h])
-                    .do(function (imagesByH) {
-                    var coreNodes = imagesByH[h];
-                    if (h in _this._cachedTiles) {
-                        return;
-                    }
-                    _this._nodeIndexTiles[h] = [];
-                    _this._cachedTiles[h] = { accessed: new Date().getTime(), nodes: [] };
-                    var hCache = _this._cachedTiles[h].nodes;
-                    var preStored = _this._removeFromPreStore(h);
-                    for (var index in coreNodes) {
-                        if (!coreNodes.hasOwnProperty(index)) {
-                            continue;
-                        }
-                        var coreNode = coreNodes[index];
-                        if (coreNode == null) {
-                            break;
-                        }
-                        if (coreNode.sequence == null ||
-                            coreNode.sequence.key == null) {
-                            console.warn("Sequence missing, discarding (" + coreNode.key + ")");
-                            continue;
-                        }
-                        if (preStored != null && coreNode.key in preStored) {
-                            var preStoredNode = preStored[coreNode.key];
-                            delete preStored[coreNode.key];
-                            hCache.push(preStoredNode);
-                            var preStoredNodeIndexItem = {
-                                lat: preStoredNode.latLon.lat,
-                                lon: preStoredNode.latLon.lon,
-                                node: preStoredNode,
-                            };
-                            _this._nodeIndex.insert(preStoredNodeIndexItem);
-                            _this._nodeIndexTiles[h].push(preStoredNodeIndexItem);
-                            _this._nodeToTile[preStoredNode.key] = h;
-                            continue;
-                        }
-                        var node = new Graph_1.Node(coreNode);
-                        hCache.push(node);
-                        var nodeIndexItem = {
-                            lat: node.latLon.lat,
-                            lon: node.latLon.lon,
-                            node: node,
-                        };
-                        _this._nodeIndex.insert(nodeIndexItem);
-                        _this._nodeIndexTiles[h].push(nodeIndexItem);
-                        _this._nodeToTile[node.key] = h;
-                        _this._setNode(node);
-                    }
-                    delete _this._cachingTiles$[h];
-                })
-                    .map(function (imagesByH) {
-                    return _this;
-                })
-                    .catch(function (error) {
-                    delete _this._cachingTiles$[h];
-                    throw error;
-                })
-                    .publish()
-                    .refCount();
-                this_2._cachingTiles$[h] = cacheTile$;
-            }
+            var cacheTile$ = h in this_2._cachingTiles$ ?
+                this_2._cachingTiles$[h] :
+                this_2._cacheTile$(h);
             cacheTiles$.push(cacheTile$
                 .do(function (graph) {
                 var index = nodeTiles.caching.indexOf(h);
@@ -36898,8 +37784,8 @@ var Graph = /** @class */ (function () {
         this._nodes = {};
         this._nodeToTile = {};
         this._preStored = {};
-        for (var _c = 0, nodes_1 = nodes; _c < nodes_1.length; _c++) {
-            var node = nodes_1[_c];
+        for (var _c = 0, nodes_2 = nodes; _c < nodes_2.length; _c++) {
+            var node = nodes_2[_c];
             this._nodes[node.key] = node;
             var h = this._graphCalculator.encodeH(node.originalLatLon, this._tilePrecision);
             this._preStore(h, node);
@@ -37104,6 +37990,69 @@ var Graph = /** @class */ (function () {
             .refCount();
         return this._cachingSequences$[sequenceKey];
     };
+    Graph.prototype._cacheTile$ = function (h) {
+        var _this = this;
+        this._cachingTiles$[h] = this._apiV3.imagesByH$([h])
+            .do(function (imagesByH) {
+            var coreNodes = imagesByH[h];
+            if (h in _this._cachedTiles) {
+                return;
+            }
+            _this._nodeIndexTiles[h] = [];
+            _this._cachedTiles[h] = { accessed: new Date().getTime(), nodes: [] };
+            var hCache = _this._cachedTiles[h].nodes;
+            var preStored = _this._removeFromPreStore(h);
+            for (var index in coreNodes) {
+                if (!coreNodes.hasOwnProperty(index)) {
+                    continue;
+                }
+                var coreNode = coreNodes[index];
+                if (coreNode == null) {
+                    break;
+                }
+                if (coreNode.sequence_key == null) {
+                    console.warn("Sequence missing, discarding node (" + coreNode.key + ")");
+                    continue;
+                }
+                if (preStored != null && coreNode.key in preStored) {
+                    var preStoredNode = preStored[coreNode.key];
+                    delete preStored[coreNode.key];
+                    hCache.push(preStoredNode);
+                    var preStoredNodeIndexItem = {
+                        lat: preStoredNode.latLon.lat,
+                        lon: preStoredNode.latLon.lon,
+                        node: preStoredNode,
+                    };
+                    _this._nodeIndex.insert(preStoredNodeIndexItem);
+                    _this._nodeIndexTiles[h].push(preStoredNodeIndexItem);
+                    _this._nodeToTile[preStoredNode.key] = h;
+                    continue;
+                }
+                var node = new Graph_1.Node(coreNode);
+                hCache.push(node);
+                var nodeIndexItem = {
+                    lat: node.latLon.lat,
+                    lon: node.latLon.lon,
+                    node: node,
+                };
+                _this._nodeIndex.insert(nodeIndexItem);
+                _this._nodeIndexTiles[h].push(nodeIndexItem);
+                _this._nodeToTile[node.key] = h;
+                _this._setNode(node);
+            }
+            delete _this._cachingTiles$[h];
+        })
+            .map(function (imagesByH) {
+            return _this;
+        })
+            .catch(function (error) {
+            delete _this._cachingTiles$[h];
+            throw error;
+        })
+            .publish()
+            .refCount();
+        return this._cachingTiles$[h];
+    };
     Graph.prototype._makeFull = function (node, fillNode) {
         if (fillNode.calt == null) {
             fillNode.calt = this._defaultAlt;
@@ -37209,12 +38158,13 @@ var Graph = /** @class */ (function () {
 exports.Graph = Graph;
 exports.default = Graph;
 
-},{"../Edge":282,"../Error":283,"../Graph":285,"rbush":25,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/from":41,"rxjs/add/operator/catch":52,"rxjs/add/operator/do":59,"rxjs/add/operator/finally":62,"rxjs/add/operator/map":65,"rxjs/add/operator/publish":71}],384:[function(require,module,exports){
+},{"../Edge":292,"../Error":293,"../Graph":295,"rbush":25,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/from":42,"rxjs/add/operator/catch":54,"rxjs/add/operator/do":61,"rxjs/add/operator/finally":64,"rxjs/add/operator/last":66,"rxjs/add/operator/map":67,"rxjs/add/operator/publish":73,"rxjs/add/operator/reduce":75}],394:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
 var geohash = require("latlon-geohash");
 var THREE = require("three");
+var Error_1 = require("../Error");
 var Geo_1 = require("../Geo");
 var GeoHashDirections = /** @class */ (function () {
     function GeoHashDirections() {
@@ -37312,6 +38262,32 @@ var GraphCalculator = /** @class */ (function () {
         return hs;
     };
     /**
+     * Encode the minimum set of geohash tiles containing a bounding box.
+     *
+     * @description The current algorithm does expect the bounding box
+     * to be sufficiently small to be contained in an area with the size
+     * of maximally four tiles. Up to nine adjacent tiles may be returned.
+     * The method currently uses the largest side as the threshold leading to
+     * more tiles being returned than needed in edge cases.
+     *
+     * @param {ILatLon} sw - South west corner of bounding box.
+     * @param {ILatLon} ne - North east corner of bounding box.
+     * @param {number} precision - Precision of the encoding.
+     *
+     * @returns {string} The geohash tiles containing the bounding box.
+     */
+    GraphCalculator.prototype.encodeHsFromBoundingBox = function (sw, ne, precision) {
+        if (precision === void 0) { precision = 7; }
+        if (ne.lat <= sw.lat || ne.lon <= sw.lon) {
+            throw new Error_1.GraphMapillaryError("North east needs to be top right of south west");
+        }
+        var centerLat = (sw.lat + ne.lat) / 2;
+        var centerLon = (sw.lon + ne.lon) / 2;
+        var enu = this._geoCoords.geodeticToEnu(ne.lat, ne.lon, 0, centerLat, centerLon, 0);
+        var threshold = Math.max(enu[0], enu[1]);
+        return this.encodeHs({ lat: centerLat, lon: centerLon }, precision, threshold);
+    };
+    /**
      * Get the bounding box corners for a circle with radius of a threshold
      * with center in a geodetic position.
      *
@@ -37371,7 +38347,7 @@ var GraphCalculator = /** @class */ (function () {
 exports.GraphCalculator = GraphCalculator;
 exports.default = GraphCalculator;
 
-},{"../Geo":284,"latlon-geohash":21,"three":231}],385:[function(require,module,exports){
+},{"../Error":293,"../Geo":294,"latlon-geohash":21,"three":241}],395:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -37403,7 +38379,7 @@ var GraphMode;
 })(GraphMode = exports.GraphMode || (exports.GraphMode = {}));
 exports.default = GraphMode;
 
-},{}],386:[function(require,module,exports){
+},{}],396:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
@@ -37465,6 +38441,28 @@ var GraphService = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Cache full nodes in a bounding box.
+     *
+     * @description When called, the full properties of
+     * the node are retrieved. The node cache is not initialized
+     * for any new nodes retrieved and the node assets are not
+     * retrieved, {@link cacheNode$} needs to be called for caching
+     * assets.
+     *
+     * @param {ILatLon} sw - South west corner of bounding box.
+     * @param {ILatLon} ne - North east corner of bounding box.
+     * @return {Observable<Array<Node>>} Observable emitting a single item,
+     * the nodes of the bounding box, when they have all been retrieved.
+     * @throws {Error} Propagates any IO node caching errors to the caller.
+     */
+    GraphService.prototype.cacheBoundingBox$ = function (sw, ne) {
+        return this._graph$
+            .first()
+            .mergeMap(function (graph) {
+            return graph.cacheBoundingBox$(sw, ne);
+        });
+    };
     /**
      * Cache a node in the graph and retrieve it.
      *
@@ -37806,7 +38804,7 @@ var GraphService = /** @class */ (function () {
 exports.GraphService = GraphService;
 exports.default = GraphService;
 
-},{"../Graph":285,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/operator/catch":52,"rxjs/add/operator/concat":54,"rxjs/add/operator/do":59,"rxjs/add/operator/expand":60,"rxjs/add/operator/finally":62,"rxjs/add/operator/first":63,"rxjs/add/operator/last":64,"rxjs/add/operator/map":65,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/publishReplay":72}],387:[function(require,module,exports){
+},{"../Graph":295,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/operator/catch":54,"rxjs/add/operator/concat":56,"rxjs/add/operator/do":61,"rxjs/add/operator/expand":62,"rxjs/add/operator/finally":64,"rxjs/add/operator/first":65,"rxjs/add/operator/last":66,"rxjs/add/operator/map":67,"rxjs/add/operator/mergeMap":70,"rxjs/add/operator/publishReplay":74}],397:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -37860,7 +38858,7 @@ var ImageLoadingService = /** @class */ (function () {
 }());
 exports.ImageLoadingService = ImageLoadingService;
 
-},{"rxjs/Subject":34}],388:[function(require,module,exports){
+},{"rxjs/Subject":34}],398:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -37884,7 +38882,7 @@ var MeshReader = /** @class */ (function () {
 }());
 exports.MeshReader = MeshReader;
 
-},{"pbf":23}],389:[function(require,module,exports){
+},{"pbf":23}],399:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("rxjs/add/observable/combineLatest");
@@ -37897,16 +38895,16 @@ require("rxjs/add/operator/map");
  * Explanation of position and bearing properties:
  *
  * When images are uploaded they will have GPS information in the EXIF, this is what
- * is called `originalLatLon`(@link Node#originalLatLon).
+ * is called `originalLatLon` {@link Node.originalLatLon}.
  *
  * When Structure from Motions has been run for a node a `computedLatLon` that
  * differs from the `originalLatLon` will be created. It is different because
  * GPS positions are not very exact and SfM aligns the camera positions according
- * to the 3D reconstruction (@link Node#computedLatLon).
+ * to the 3D reconstruction {@link Node.computedLatLon}.
  *
  * At last there exist a `latLon` property which evaluates to
  * the `computedLatLon` from SfM if it exists but falls back
- * to the `originalLatLon` from the EXIF GPS otherwise (@link Node#latlon).
+ * to the `originalLatLon` from the EXIF GPS otherwise {@link Node.latlon}.
  *
  * Everything that is done in in the Viewer is based on the SfM positions,
  * i.e. `computedLatLon`. That is why the smooth transitions go in the right
@@ -37992,6 +38990,22 @@ var Node = /** @class */ (function () {
          */
         get: function () {
             return this._fill.captured_at;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Node.prototype, "cameraUuid", {
+        /**
+         * Get camera uuid.
+         *
+         * @description Will be undefined if the camera uuid was not
+         * recorded in the image exif information.
+         *
+         * @returns {string} Universally unique id for camera used
+         * when capturing image.
+         */
+        get: function () {
+            return this._fill.captured_with_camera_uuid;
         },
         enumerable: true,
         configurable: true
@@ -38214,6 +39228,20 @@ var Node = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Node.prototype, "organizationKey", {
+        /**
+         * Get organizationKey.
+         *
+         * @returns {string} Unique key of the organization to which
+         * the node belongs. If the node does not belong to an
+         * organization the organization key will be undefined.
+         */
+        get: function () {
+            return this._fill.organization_key;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Node.prototype, "orientation", {
         /**
          * Get orientation.
@@ -38266,12 +39294,29 @@ var Node = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Node.prototype, "private", {
+        /**
+         * Get private.
+         *
+         * @returns {boolean} Value specifying if image is accessible to
+         * organization members only or to everyone.
+         */
+        get: function () {
+            return this._fill.private;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Node.prototype, "projectKey", {
         /**
          * Get projectKey.
          *
          * @returns {string} Unique key of the project to which
-         * the node belongs.
+         * the node belongs. If the node does not belong to a
+         * project the project key will be undefined.
+         *
+         * @deprecated This property will be deprecated in favor
+         * of the organization key and private properties.
          */
         get: function () {
             return this._fill.project != null ?
@@ -38317,7 +39362,7 @@ var Node = /** @class */ (function () {
          * the node belongs.
          */
         get: function () {
-            return this._core.sequence.key;
+            return this._core.sequence_key;
         },
         enumerable: true,
         configurable: true
@@ -38527,7 +39572,7 @@ var Node = /** @class */ (function () {
 exports.Node = Node;
 exports.default = Node;
 
-},{"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/map":65}],390:[function(require,module,exports){
+},{"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/map":67}],400:[function(require,module,exports){
 (function (Buffer){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -38801,7 +39846,7 @@ var NodeCache = /** @class */ (function () {
         var _this = this;
         return Observable_1.Observable.create(function (subscriber) {
             var xmlHTTP = new XMLHttpRequest();
-            xmlHTTP.open("GET", Utils_1.Urls.thumbnail(key, imageSize), true);
+            xmlHTTP.open("GET", Utils_1.Urls.thumbnail(key, imageSize, Utils_1.Urls.origin), true);
             xmlHTTP.responseType = "arraybuffer";
             xmlHTTP.timeout = 15000;
             xmlHTTP.onload = function (pe) {
@@ -38934,7 +39979,7 @@ exports.default = NodeCache;
 
 }).call(this,require("buffer").Buffer)
 
-},{"../Graph":285,"../Utils":291,"buffer":7,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/publishReplay":72}],391:[function(require,module,exports){
+},{"../Graph":295,"../Utils":301,"buffer":7,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/publishReplay":74}],401:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -39024,7 +40069,7 @@ var Sequence = /** @class */ (function () {
 exports.Sequence = Sequence;
 exports.default = Sequence;
 
-},{"underscore":233}],392:[function(require,module,exports){
+},{"underscore":243}],402:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -39627,7 +40672,7 @@ var EdgeCalculator = /** @class */ (function () {
 exports.EdgeCalculator = EdgeCalculator;
 exports.default = EdgeCalculator;
 
-},{"../../Edge":282,"../../Error":283,"../../Geo":284,"three":231}],393:[function(require,module,exports){
+},{"../../Edge":292,"../../Error":293,"../../Geo":294,"three":241}],403:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EdgeCalculatorCoefficients = /** @class */ (function () {
@@ -39653,7 +40698,7 @@ var EdgeCalculatorCoefficients = /** @class */ (function () {
 exports.EdgeCalculatorCoefficients = EdgeCalculatorCoefficients;
 exports.default = EdgeCalculatorCoefficients;
 
-},{}],394:[function(require,module,exports){
+},{}],404:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Edge_1 = require("../../Edge");
@@ -39726,7 +40771,7 @@ var EdgeCalculatorDirections = /** @class */ (function () {
 }());
 exports.EdgeCalculatorDirections = EdgeCalculatorDirections;
 
-},{"../../Edge":282}],395:[function(require,module,exports){
+},{"../../Edge":292}],405:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EdgeCalculatorSettings = /** @class */ (function () {
@@ -39763,7 +40808,7 @@ var EdgeCalculatorSettings = /** @class */ (function () {
 exports.EdgeCalculatorSettings = EdgeCalculatorSettings;
 exports.default = EdgeCalculatorSettings;
 
-},{}],396:[function(require,module,exports){
+},{}],406:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -39821,7 +40866,7 @@ var EdgeDirection;
     EdgeDirection[EdgeDirection["Similar"] = 10] = "Similar";
 })(EdgeDirection = exports.EdgeDirection || (exports.EdgeDirection = {}));
 
-},{}],397:[function(require,module,exports){
+},{}],407:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -40009,7 +41054,7 @@ var DOMRenderer = /** @class */ (function () {
 exports.DOMRenderer = DOMRenderer;
 exports.default = DOMRenderer;
 
-},{"../Render":287,"rxjs/Subject":34,"rxjs/add/operator/combineLatest":53,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/pluck":70,"rxjs/add/operator/scan":75,"underscore":233,"virtual-dom":237}],398:[function(require,module,exports){
+},{"../Render":297,"rxjs/Subject":34,"rxjs/add/operator/combineLatest":55,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/pluck":72,"rxjs/add/operator/scan":78,"underscore":243,"virtual-dom":247}],408:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var GLRenderStage;
@@ -40019,7 +41064,7 @@ var GLRenderStage;
 })(GLRenderStage = exports.GLRenderStage || (exports.GLRenderStage = {}));
 exports.default = GLRenderStage;
 
-},{}],399:[function(require,module,exports){
+},{}],409:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -40271,7 +41316,7 @@ var GLRenderer = /** @class */ (function () {
 exports.GLRenderer = GLRenderer;
 exports.default = GLRenderer;
 
-},{"../Render":287,"../Utils":291,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/first":63,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/scan":75,"rxjs/add/operator/share":76,"rxjs/add/operator/startWith":80,"three":231}],400:[function(require,module,exports){
+},{"../Render":297,"../Utils":301,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/filter":63,"rxjs/add/operator/first":65,"rxjs/add/operator/map":67,"rxjs/add/operator/merge":68,"rxjs/add/operator/mergeMap":70,"rxjs/add/operator/scan":78,"rxjs/add/operator/share":79,"rxjs/add/operator/startWith":83,"three":241}],410:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -40397,7 +41442,7 @@ var RenderCamera = /** @class */ (function () {
 exports.RenderCamera = RenderCamera;
 exports.default = RenderCamera;
 
-},{"../Geo":284,"../Render":287,"three":231}],401:[function(require,module,exports){
+},{"../Geo":294,"../Render":297,"three":241}],411:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -40433,7 +41478,7 @@ var RenderMode;
 })(RenderMode = exports.RenderMode || (exports.RenderMode = {}));
 exports.default = RenderMode;
 
-},{}],402:[function(require,module,exports){
+},{}],412:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -40609,7 +41654,7 @@ var RenderService = /** @class */ (function () {
 exports.RenderService = RenderService;
 exports.default = RenderService;
 
-},{"../Geo":284,"../Render":287,"rxjs/BehaviorSubject":26,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/do":59,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":75,"rxjs/add/operator/skip":77,"rxjs/add/operator/startWith":80,"rxjs/add/operator/withLatestFrom":87}],403:[function(require,module,exports){
+},{"../Geo":294,"../Render":297,"rxjs/BehaviorSubject":26,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/do":61,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78,"rxjs/add/operator/skip":80,"rxjs/add/operator/startWith":83,"rxjs/add/operator/withLatestFrom":90}],413:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var State;
@@ -40619,19 +41664,20 @@ var State;
 })(State = exports.State || (exports.State = {}));
 exports.default = State;
 
-},{}],404:[function(require,module,exports){
+},{}],414:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var State_1 = require("../State");
 var Geo_1 = require("../Geo");
 var StateContext = /** @class */ (function () {
-    function StateContext() {
+    function StateContext(transitionMode) {
         this._state = new State_1.TraversingState({
             alpha: 1,
             camera: new Geo_1.Camera(),
             currentIndex: -1,
             reference: { alt: 0, lat: 0, lon: 0 },
             trajectory: [],
+            transitionMode: transitionMode == null ? State_1.TransitionMode.Default : transitionMode,
             zoom: 0,
         });
     }
@@ -40812,11 +41858,14 @@ var StateContext = /** @class */ (function () {
     StateContext.prototype.setSpeed = function (speed) {
         this._state.setSpeed(speed);
     };
+    StateContext.prototype.setTransitionMode = function (mode) {
+        this._state.setTransitionMode(mode);
+    };
     return StateContext;
 }());
 exports.StateContext = StateContext;
 
-},{"../Geo":284,"../State":288}],405:[function(require,module,exports){
+},{"../Geo":294,"../State":298}],415:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
@@ -40836,7 +41885,7 @@ require("rxjs/add/operator/switchMap");
 require("rxjs/add/operator/withLatestFrom");
 var State_1 = require("../State");
 var StateService = /** @class */ (function () {
-    function StateService() {
+    function StateService(transitionMode) {
         var _this = this;
         this._appendNode$ = new Subject_1.Subject();
         this._start$ = new Subject_1.Subject();
@@ -40848,7 +41897,7 @@ var StateService = /** @class */ (function () {
         this._context$ = this._contextOperation$
             .scan(function (context, operation) {
             return operation(context);
-        }, new State_1.StateContext())
+        }, new State_1.StateContext(transitionMode))
             .publishReplay(1)
             .refCount();
         this._state$ = this._context$
@@ -41191,6 +42240,9 @@ var StateService = /** @class */ (function () {
     StateService.prototype.setSpeed = function (speed) {
         this._invokeContextOperation(function (context) { context.setSpeed(speed); });
     };
+    StateService.prototype.setTransitionMode = function (mode) {
+        this._invokeContextOperation(function (context) { context.setTransitionMode(mode); });
+    };
     StateService.prototype.setZoom = function (zoom) {
         this._inMotionOperation$.next(true);
         this._invokeContextOperation(function (context) { context.setZoom(zoom); });
@@ -41223,17 +42275,50 @@ var StateService = /** @class */ (function () {
 }());
 exports.StateService = StateService;
 
-},{"../State":288,"rxjs/BehaviorSubject":26,"rxjs/Subject":34,"rxjs/add/operator/bufferCount":50,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/do":59,"rxjs/add/operator/filter":61,"rxjs/add/operator/first":63,"rxjs/add/operator/map":65,"rxjs/add/operator/pairwise":69,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":75,"rxjs/add/operator/startWith":80,"rxjs/add/operator/switchMap":81,"rxjs/add/operator/withLatestFrom":87,"rxjs/util/AnimationFrame":208}],406:[function(require,module,exports){
+},{"../State":298,"rxjs/BehaviorSubject":26,"rxjs/Subject":34,"rxjs/add/operator/bufferCount":52,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/do":61,"rxjs/add/operator/filter":63,"rxjs/add/operator/first":65,"rxjs/add/operator/map":67,"rxjs/add/operator/pairwise":71,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78,"rxjs/add/operator/startWith":83,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/withLatestFrom":90,"rxjs/util/AnimationFrame":218}],416:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Enumeration for transition mode
+ * @enum {number}
+ * @readonly
+ * @description Modes for specifying how transitions
+ * between nodes are performed.
+ */
+var TransitionMode;
+(function (TransitionMode) {
+    /**
+     * Default transitions.
+     *
+     * @description The viewer dynamically determines
+     * whether transitions should be performed with or
+     * without motion and blending for each transition
+     * based on the underlying data.
+     */
+    TransitionMode[TransitionMode["Default"] = 0] = "Default";
+    /**
+     * Instantaneous transitions.
+     *
+     * @description All transitions are performed
+     * without motion or blending.
+     */
+    TransitionMode[TransitionMode["Instantaneous"] = 1] = "Instantaneous";
+})(TransitionMode = exports.TransitionMode || (exports.TransitionMode = {}));
+exports.default = TransitionMode;
+
+},{}],417:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
 var Error_1 = require("../../Error");
 var Geo_1 = require("../../Geo");
+var State_1 = require("../../State");
 var StateBase = /** @class */ (function () {
     function StateBase(state) {
         this._spatial = new Geo_1.Spatial();
         this._geoCoords = new Geo_1.GeoCoords();
         this._referenceThreshold = 0.01;
+        this._transitionMode = state.transitionMode;
         this._reference = state.reference;
         this._alpha = state.alpha;
         this._camera = state.camera.clone();
@@ -41348,6 +42433,13 @@ var StateBase = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(StateBase.prototype, "transitionMode", {
+        get: function () {
+            return this._transitionMode;
+        },
+        enumerable: true,
+        configurable: true
+    });
     StateBase.prototype.append = function (nodes) {
         if (nodes.length < 1) {
             throw Error("Trajectory can not be empty");
@@ -41421,6 +42513,9 @@ var StateBase = /** @class */ (function () {
             this.currentTransform.projectBasic(this._camera.lookat.toArray()) :
             [0.5, 0.5];
     };
+    StateBase.prototype.setTransitionMode = function (mode) {
+        this._transitionMode = mode;
+    };
     StateBase.prototype._setCurrent = function () {
         this._setCurrentNode();
         var referenceReset = this._setReference(this._currentNode);
@@ -41437,10 +42532,10 @@ var StateBase = /** @class */ (function () {
     };
     StateBase.prototype._motionlessTransition = function () {
         var nodesSet = this._currentNode != null && this._previousNode != null;
-        return nodesSet && !(this._currentNode.merged &&
+        return nodesSet && (this._transitionMode === State_1.TransitionMode.Instantaneous || !(this._currentNode.merged &&
             this._previousNode.merged &&
             this._withinOriginalDistance() &&
-            this._sameConnectedComponent());
+            this._sameConnectedComponent()));
     };
     StateBase.prototype._setReference = function (node) {
         // do not reset reference if node is within threshold distance
@@ -41537,7 +42632,7 @@ var StateBase = /** @class */ (function () {
 }());
 exports.StateBase = StateBase;
 
-},{"../../Error":283,"../../Geo":284}],407:[function(require,module,exports){
+},{"../../Error":293,"../../Geo":294,"../../State":298}],418:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -42086,7 +43181,7 @@ var TraversingState = /** @class */ (function (_super) {
 }(State_1.StateBase));
 exports.TraversingState = TraversingState;
 
-},{"../../State":288,"@mapbox/unitbezier":2,"three":231}],408:[function(require,module,exports){
+},{"../../State":298,"@mapbox/unitbezier":2,"three":241}],419:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -42165,7 +43260,7 @@ var WaitingState = /** @class */ (function (_super) {
 }(State_1.StateBase));
 exports.WaitingState = WaitingState;
 
-},{"../../State":288}],409:[function(require,module,exports){
+},{"../../State":298}],420:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
@@ -42257,7 +43352,7 @@ var ImageTileLoader = /** @class */ (function () {
 exports.ImageTileLoader = ImageTileLoader;
 exports.default = ImageTileLoader;
 
-},{"rxjs/Observable":29}],410:[function(require,module,exports){
+},{"rxjs/Observable":29}],421:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -42325,7 +43420,7 @@ var ImageTileStore = /** @class */ (function () {
 exports.ImageTileStore = ImageTileStore;
 exports.default = ImageTileStore;
 
-},{}],411:[function(require,module,exports){
+},{}],422:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -42466,7 +43561,7 @@ var RegionOfInterestCalculator = /** @class */ (function () {
 exports.RegionOfInterestCalculator = RegionOfInterestCalculator;
 exports.default = RegionOfInterestCalculator;
 
-},{"../Geo":284}],412:[function(require,module,exports){
+},{"../Geo":294}],423:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -42947,7 +44042,7 @@ var TextureProvider = /** @class */ (function () {
 exports.TextureProvider = TextureProvider;
 exports.default = TextureProvider;
 
-},{"rxjs/Subject":34,"three":231}],413:[function(require,module,exports){
+},{"rxjs/Subject":34,"three":241}],424:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var DOM = /** @class */ (function () {
@@ -42976,7 +44071,7 @@ var DOM = /** @class */ (function () {
 exports.DOM = DOM;
 exports.default = DOM;
 
-},{}],414:[function(require,module,exports){
+},{}],425:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EventEmitter = /** @class */ (function () {
@@ -43035,7 +44130,7 @@ var EventEmitter = /** @class */ (function () {
 exports.EventEmitter = EventEmitter;
 exports.default = EventEmitter;
 
-},{}],415:[function(require,module,exports){
+},{}],426:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Viewer_1 = require("../Viewer");
@@ -43079,7 +44174,7 @@ var Settings = /** @class */ (function () {
 exports.Settings = Settings;
 exports.default = Settings;
 
-},{"../Viewer":292}],416:[function(require,module,exports){
+},{"../Viewer":302}],427:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function isBrowser() {
@@ -43145,48 +44240,92 @@ function isWebGLSupported() {
 }
 exports.isWebGLSupported = isWebGLSupported;
 
-},{}],417:[function(require,module,exports){
+},{}],428:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Urls = /** @class */ (function () {
     function Urls() {
     }
-    Object.defineProperty(Urls, "tileScheme", {
+    Object.defineProperty(Urls, "explore", {
         get: function () {
-            return "https";
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Urls, "tileDomain", {
-        get: function () {
-            return "d2qb1440i7l50o.cloudfront.net";
+            return Urls._scheme + "://" + Urls._exploreHost;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(Urls, "origin", {
         get: function () {
-            return "mapillary.webgl";
+            return Urls._origin;
         },
         enumerable: true,
         configurable: true
     });
-    Urls.thumbnail = function (key, size) {
-        return "https://d1cuyjsrcm0gby.cloudfront.net/" + key + "/thumb-" + size + ".jpg?origin=" + this.origin;
+    Object.defineProperty(Urls, "tileScheme", {
+        get: function () {
+            return Urls._scheme;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Urls, "tileDomain", {
+        get: function () {
+            return Urls._imageTileHost;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Urls.exporeImage = function (key) {
+        return Urls._scheme + "://" + Urls._exploreHost + "/app/?pKey=" + key + "&focus=photo";
+    };
+    Urls.exporeUser = function (username) {
+        return Urls._scheme + "://" + Urls._exploreHost + "/app/user/" + username;
     };
     Urls.falcorModel = function (clientId) {
-        return "https://a.mapillary.com/v3/model.json?client_id=" + clientId;
+        return Urls._scheme + "://" + Urls._apiHost + "/v3/model.json?client_id=" + clientId;
     };
     Urls.protoMesh = function (key) {
-        return "https://d1brzeo354iq2l.cloudfront.net/v2/mesh/" + key;
+        return Urls._scheme + "://" + Urls._meshHost + "/v2/mesh/" + key;
     };
+    Urls.thumbnail = function (key, size, origin) {
+        var query = !!origin ? "?origin=" + origin : "";
+        return Urls._scheme + "://" + Urls._imageHost + "/" + key + "/thumb-" + size + ".jpg" + query;
+    };
+    Urls.setOptions = function (options) {
+        if (!options) {
+            return;
+        }
+        if (!!options.apiHost) {
+            Urls._apiHost = options.apiHost;
+        }
+        if (!!options.exploreHost) {
+            Urls._exploreHost = options.exploreHost;
+        }
+        if (!!options.imageHost) {
+            Urls._imageHost = options.imageHost;
+        }
+        if (!!options.imageTileHost) {
+            Urls._imageTileHost = options.imageTileHost;
+        }
+        if (!!options.meshHost) {
+            Urls._meshHost = options.meshHost;
+        }
+        if (!!options.scheme) {
+            Urls._scheme = options.scheme;
+        }
+    };
+    Urls._apiHost = "a.mapillary.com";
+    Urls._exploreHost = "www.mapillary.com";
+    Urls._imageHost = "d1cuyjsrcm0gby.cloudfront.net";
+    Urls._imageTileHost = "d2qb1440i7l50o.cloudfront.net";
+    Urls._meshHost = "d1brzeo354iq2l.cloudfront.net";
+    Urls._origin = "mapillary.webgl";
+    Urls._scheme = "https";
     return Urls;
 }());
 exports.Urls = Urls;
 exports.default = Urls;
 
-},{}],418:[function(require,module,exports){
+},{}],429:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -43235,7 +44374,7 @@ var Alignment;
 })(Alignment = exports.Alignment || (exports.Alignment = {}));
 exports.default = Alignment;
 
-},{}],419:[function(require,module,exports){
+},{}],430:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
@@ -43338,7 +44477,7 @@ var CacheService = /** @class */ (function () {
 exports.CacheService = CacheService;
 exports.default = CacheService;
 
-},{"../Graph":285,"rxjs/Observable":29,"rxjs/add/operator/bufferCount":50,"rxjs/add/operator/delay":56,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/map":65,"rxjs/add/operator/switchMap":81,"rxjs/add/operator/timeout":86}],420:[function(require,module,exports){
+},{"../Graph":295,"rxjs/Observable":29,"rxjs/add/operator/bufferCount":52,"rxjs/add/operator/delay":58,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/map":67,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/timeout":89}],431:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Component_1 = require("../Component");
@@ -43516,7 +44655,7 @@ var ComponentController = /** @class */ (function () {
 }());
 exports.ComponentController = ComponentController;
 
-},{"../Component":281}],421:[function(require,module,exports){
+},{"../Component":291}],432:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Render_1 = require("../Render");
@@ -43567,7 +44706,7 @@ var Container = /** @class */ (function () {
 exports.Container = Container;
 exports.default = Container;
 
-},{"../Render":287,"../Utils":291,"../Viewer":292}],422:[function(require,module,exports){
+},{"../Render":297,"../Utils":301,"../Viewer":302}],433:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -43596,7 +44735,7 @@ var ImageSize;
     ImageSize[ImageSize["Size2048"] = 2048] = "Size2048";
 })(ImageSize = exports.ImageSize || (exports.ImageSize = {}));
 
-},{}],423:[function(require,module,exports){
+},{}],434:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
@@ -43616,7 +44755,7 @@ var KeyboardService = /** @class */ (function () {
 exports.KeyboardService = KeyboardService;
 exports.default = KeyboardService;
 
-},{"rxjs/Observable":29}],424:[function(require,module,exports){
+},{"rxjs/Observable":29}],435:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -43675,7 +44814,7 @@ var LoadingService = /** @class */ (function () {
 exports.LoadingService = LoadingService;
 exports.default = LoadingService;
 
-},{"rxjs/Subject":34,"rxjs/add/operator/debounceTime":55,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/map":65,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":75,"rxjs/add/operator/startWith":80,"underscore":233}],425:[function(require,module,exports){
+},{"rxjs/Subject":34,"rxjs/add/operator/debounceTime":57,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/map":67,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78,"rxjs/add/operator/startWith":83,"underscore":243}],436:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
@@ -44127,7 +45266,7 @@ var MouseService = /** @class */ (function () {
 exports.MouseService = MouseService;
 exports.default = MouseService;
 
-},{"../Geo":284,"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/fromEvent":42,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/mergeMap":68,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":75,"rxjs/add/operator/switchMap":81,"rxjs/add/operator/withLatestFrom":87}],426:[function(require,module,exports){
+},{"../Geo":294,"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/fromEvent":43,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/merge":68,"rxjs/add/operator/mergeMap":70,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/withLatestFrom":90}],437:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -44143,10 +45282,11 @@ require("rxjs/add/operator/mergeMap");
 var API_1 = require("../API");
 var Graph_1 = require("../Graph");
 var Edge_1 = require("../Edge");
+var Error_1 = require("../Error");
 var State_1 = require("../State");
 var Viewer_1 = require("../Viewer");
 var Navigator = /** @class */ (function () {
-    function Navigator(clientId, token, apiV3, graphService, imageLoadingService, loadingService, stateService, cacheService, playService) {
+    function Navigator(clientId, options, token, apiV3, graphService, imageLoadingService, loadingService, stateService, cacheService, playService) {
         this._apiV3 = apiV3 != null ? apiV3 : new API_1.APIv3(clientId, token);
         this._imageLoadingService = imageLoadingService != null ? imageLoadingService : new Graph_1.ImageLoadingService();
         this._graphService = graphService != null ?
@@ -44154,7 +45294,7 @@ var Navigator = /** @class */ (function () {
             new Graph_1.GraphService(new Graph_1.Graph(this.apiV3), this._imageLoadingService);
         this._loadingService = loadingService != null ? loadingService : new Viewer_1.LoadingService();
         this._loadingName = "navigator";
-        this._stateService = stateService != null ? stateService : new State_1.StateService();
+        this._stateService = stateService != null ? stateService : new State_1.StateService(options.transitionMode);
         this._cacheService = cacheService != null ?
             cacheService :
             new Viewer_1.CacheService(this._graphService, this._stateService);
@@ -44355,7 +45495,7 @@ var Navigator = /** @class */ (function () {
             this._nodeRequestSubscription = null;
         }
         if (this._request$ != null) {
-            this._request$.error(new Error("Request aborted by a subsequent request " + reason + "."));
+            this._request$.error(new Error_1.AbortMapillaryError("Request aborted by a subsequent request " + reason + "."));
             this._request$ = null;
         }
     };
@@ -44400,7 +45540,7 @@ var Navigator = /** @class */ (function () {
 exports.Navigator = Navigator;
 exports.default = Navigator;
 
-},{"../API":280,"../Edge":282,"../Graph":285,"../State":288,"../Viewer":292,"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/ReplaySubject":32,"rxjs/add/observable/throw":46,"rxjs/add/operator/do":59,"rxjs/add/operator/finally":62,"rxjs/add/operator/first":63,"rxjs/add/operator/map":65,"rxjs/add/operator/mergeMap":68}],427:[function(require,module,exports){
+},{"../API":290,"../Edge":292,"../Error":293,"../Graph":295,"../State":298,"../Viewer":302,"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/ReplaySubject":32,"rxjs/add/observable/throw":47,"rxjs/add/operator/do":61,"rxjs/add/operator/finally":64,"rxjs/add/operator/first":65,"rxjs/add/operator/map":67,"rxjs/add/operator/mergeMap":70}],438:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
@@ -44574,7 +45714,7 @@ var Observer = /** @class */ (function () {
 exports.Observer = Observer;
 exports.default = Observer;
 
-},{"../Viewer":292,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":58,"rxjs/add/operator/map":65,"rxjs/add/operator/throttleTime":85}],428:[function(require,module,exports){
+},{"../Viewer":302,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/map":67,"rxjs/add/operator/throttleTime":88}],439:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
@@ -44583,9 +45723,10 @@ require("rxjs/add/operator/timeout");
 var Edge_1 = require("../Edge");
 var Graph_1 = require("../Graph");
 var PlayService = /** @class */ (function () {
-    function PlayService(graphService, stateService) {
+    function PlayService(graphService, stateService, graphCalculator) {
         this._graphService = graphService;
         this._stateService = stateService;
+        this._graphCalculator = !!graphCalculator ? graphCalculator : new Graph_1.GraphCalculator();
         this._directionSubject$ = new Subject_1.Subject();
         this._direction$ = this._directionSubject$
             .startWith(Edge_1.EdgeDirection.Next)
@@ -44607,6 +45748,7 @@ var PlayService = /** @class */ (function () {
             .refCount();
         this._speed$.subscribe();
         this._nodesAhead = this._mapNodesAhead(this._mapSpeed(this._speed));
+        this._bridging$ = null;
     }
     Object.defineProperty(PlayService.prototype, "playing", {
         get: function () {
@@ -44670,7 +45812,8 @@ var PlayService = /** @class */ (function () {
                 _this._graphService.cacheSequenceNodes$(sequenceKey, nodeKey) :
                 _this._graphService.cacheSequence$(sequenceKey))
                 .retry(3)
-                .catch(function () {
+                .catch(function (error) {
+                console.error(error);
                 return Observable_1.Observable.of(undefined);
             });
             return Observable_1.Observable
@@ -44723,15 +45866,28 @@ var PlayService = /** @class */ (function () {
             .filter(function (frame) {
             return frame.state.nodesAhead < _this._nodesAhead;
         })
-            .map(function (frame) {
-            return frame.state.lastNode;
+            .distinctUntilChanged(undefined, function (frame) {
+            return frame.state.lastNode.key;
         })
-            .distinctUntilChanged(undefined, function (lastNode) {
-            return lastNode.key;
+            .map(function (frame) {
+            var lastNode = frame.state.lastNode;
+            var trajectory = frame.state.trajectory;
+            var increasingTime = undefined;
+            for (var i = trajectory.length - 2; i >= 0; i--) {
+                var node = trajectory[i];
+                if (node.sequenceKey !== lastNode.sequenceKey) {
+                    break;
+                }
+                if (node.capturedAt !== lastNode.capturedAt) {
+                    increasingTime = node.capturedAt < lastNode.capturedAt;
+                    break;
+                }
+            }
+            return [frame.state.lastNode, increasingTime];
         })
             .withLatestFrom(this._direction$)
             .switchMap(function (_a) {
-            var node = _a[0], direction = _a[1];
+            var _b = _a[0], node = _b[0], increasingTime = _b[1], direction = _a[1];
             return ([Edge_1.EdgeDirection.Next, Edge_1.EdgeDirection.Prev].indexOf(direction) > -1 ?
                 node.sequenceEdges$ :
                 node.spatialEdges$)
@@ -44750,11 +45906,13 @@ var PlayService = /** @class */ (function () {
                 }
                 return null;
             })
-                .filter(function (key) {
-                return key != null;
-            })
                 .switchMap(function (key) {
-                return _this._graphService.cacheNode$(key);
+                return key != null ?
+                    _this._graphService.cacheNode$(key) :
+                    _this._bridge$(node, increasingTime)
+                        .filter(function (n) {
+                        return !!n;
+                    });
             });
         })
             .subscribe(function (node) {
@@ -44769,8 +45927,26 @@ var PlayService = /** @class */ (function () {
             _this._stateService.clearPriorNodes();
         });
         this._setPlaying(true);
+        var currentLastNodes$ = this._stateService.currentState$
+            .map(function (frame) {
+            return frame.state;
+        })
+            .distinctUntilChanged(function (_a, _b) {
+            var kc1 = _a[0], kl1 = _a[1];
+            var kc2 = _b[0], kl2 = _b[1];
+            return kc1 === kc2 && kl1 === kl2;
+        }, function (state) {
+            return [state.currentNode.key, state.lastNode.key];
+        })
+            .filter(function (state) {
+            return state.currentNode.key === state.lastNode.key &&
+                state.currentIndex === state.trajectory.length - 1;
+        })
+            .map(function (state) {
+            return state.currentNode;
+        });
         this._stopSubscription = Observable_1.Observable
-            .combineLatest(this._stateService.currentNode$, this._direction$)
+            .combineLatest(currentLastNodes$, this._direction$)
             .switchMap(function (_a) {
             var node = _a[0], direction = _a[1];
             var edgeStatus$ = ([Edge_1.EdgeDirection.Next, Edge_1.EdgeDirection.Prev].indexOf(direction) > -1 ?
@@ -44785,17 +45961,30 @@ var PlayService = /** @class */ (function () {
                 return Observable_1.Observable.of({ cached: false, edges: [] });
             });
             return Observable_1.Observable
-                .combineLatest(Observable_1.Observable.of(direction), edgeStatus$);
-        })
-            .map(function (_a) {
-            var direction = _a[0], edgeStatus = _a[1];
-            for (var _i = 0, _b = edgeStatus.edges; _i < _b.length; _i++) {
-                var edge = _b[_i];
-                if (edge.data.direction === direction) {
-                    return true;
+                .combineLatest(Observable_1.Observable.of(direction), edgeStatus$)
+                .map(function (_a) {
+                var d = _a[0], es = _a[1];
+                for (var _i = 0, _b = es.edges; _i < _b.length; _i++) {
+                    var edge = _b[_i];
+                    if (edge.data.direction === d) {
+                        return true;
+                    }
                 }
+                return false;
+            });
+        })
+            .mergeMap(function (hasEdge) {
+            if (hasEdge || !_this._bridging$) {
+                return Observable_1.Observable.of(hasEdge);
             }
-            return false;
+            return _this._bridging$
+                .map(function (node) {
+                return node != null;
+            })
+                .catch(function (error) {
+                console.error(error);
+                return Observable_1.Observable.of(false);
+            });
         })
             .first(function (hasEdge) {
             return !hasEdge;
@@ -44842,6 +46031,43 @@ var PlayService = /** @class */ (function () {
         this._graphService.setGraphMode(Graph_1.GraphMode.Spatial);
         this._setPlaying(false);
     };
+    PlayService.prototype._bridge$ = function (node, increasingTime) {
+        var _this = this;
+        if (increasingTime === undefined) {
+            return Observable_1.Observable.of(null);
+        }
+        var boundingBox = this._graphCalculator.boundingBoxCorners(node.latLon, 25);
+        this._bridging$ = this._graphService.cacheBoundingBox$(boundingBox[0], boundingBox[1])
+            .mergeMap(function (nodes) {
+            var nextNode = null;
+            for (var _i = 0, nodes_1 = nodes; _i < nodes_1.length; _i++) {
+                var n = nodes_1[_i];
+                if (n.sequenceKey === node.sequenceKey ||
+                    !n.cameraUuid ||
+                    n.cameraUuid !== node.cameraUuid ||
+                    n.capturedAt === node.capturedAt ||
+                    n.capturedAt > node.capturedAt !== increasingTime) {
+                    continue;
+                }
+                var delta = Math.abs(n.capturedAt - node.capturedAt);
+                if (delta > 15000) {
+                    continue;
+                }
+                if (!nextNode || delta < Math.abs(nextNode.capturedAt - node.capturedAt)) {
+                    nextNode = n;
+                }
+            }
+            return !!nextNode ?
+                _this._graphService.cacheNode$(nextNode.key) :
+                Observable_1.Observable.of(null);
+        })
+            .finally(function () {
+            _this._bridging$ = null;
+        })
+            .publish()
+            .refCount();
+        return this._bridging$;
+    };
     PlayService.prototype._mapSpeed = function (speed) {
         var x = 2 * speed - 1;
         return Math.pow(10, x) - 0.2 * x;
@@ -44864,7 +46090,7 @@ var PlayService = /** @class */ (function () {
 exports.PlayService = PlayService;
 exports.default = PlayService;
 
-},{"../Edge":282,"../Graph":285,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/operator/timeout":86}],429:[function(require,module,exports){
+},{"../Edge":292,"../Graph":295,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/operator/timeout":89}],440:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -44923,7 +46149,7 @@ var Projection = /** @class */ (function () {
 exports.Projection = Projection;
 exports.default = Projection;
 
-},{"../Geo":284,"three":231}],430:[function(require,module,exports){
+},{"../Geo":294,"three":241}],441:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -45122,7 +46348,7 @@ var SpriteService = /** @class */ (function () {
 exports.SpriteService = SpriteService;
 exports.default = SpriteService;
 
-},{"../Viewer":292,"rxjs/Subject":34,"rxjs/add/operator/publishReplay":72,"rxjs/add/operator/scan":75,"rxjs/add/operator/startWith":80,"three":231,"virtual-dom":237}],431:[function(require,module,exports){
+},{"../Viewer":302,"rxjs/Subject":34,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78,"rxjs/add/operator/startWith":83,"three":241,"virtual-dom":247}],442:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
@@ -45395,7 +46621,7 @@ var TouchService = /** @class */ (function () {
 }());
 exports.TouchService = TouchService;
 
-},{"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/timer":47,"rxjs/add/operator/bufferWhen":51,"rxjs/add/operator/filter":61,"rxjs/add/operator/map":65,"rxjs/add/operator/merge":66,"rxjs/add/operator/scan":75,"rxjs/add/operator/switchMap":81}],432:[function(require,module,exports){
+},{"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/timer":48,"rxjs/add/operator/bufferWhen":53,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/merge":68,"rxjs/add/operator/scan":78,"rxjs/add/operator/switchMap":84}],443:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -45470,14 +46696,21 @@ var Viewer = /** @class */ (function (_super) {
      * @description It is possible to initialize the viewer with or
      * without a key.
      *
+     * When you want to show a specific image in the viewer from
+     * the start you should initialize it with a key.
+     *
+     * When you do not know the first image key at implementation
+     * time, e.g. in a map-viewer application you should initialize
+     * the viewer without a key and call `moveToKey` instead.
+     *
      * When initializing with a key the viewer is bound to that key
-     * until the node/image for that key has been successfully loaded.
+     * until the node for that key has been successfully loaded.
      * Also, a cover with the image of the key will be shown.
      * If the data for that key can not be loaded because the key is
      * faulty or other errors occur it is not possible to navigate
      * to another key because the viewer is not navigable. The viewer
-     * becomes navigable when the data for the has been loaded and
-     * the image is shown in the viewer. This wayof initializing
+     * becomes navigable when the data for the key has been loaded and
+     * the image is shown in the viewer. This way of initializing
      * the viewer is mostly for embedding in blog posts and similar
      * where one wants to show a specific image initially.
      *
@@ -45514,7 +46747,8 @@ var Viewer = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         options = options != null ? options : {};
         Utils_1.Settings.setOptions(options);
-        _this._navigator = new Viewer_1.Navigator(clientId, token);
+        Utils_1.Urls.setOptions(options.url);
+        _this._navigator = new Viewer_1.Navigator(clientId, options, token);
         _this._container = new Viewer_1.Container(id, _this._navigator.stateService, options);
         _this._observer = new Viewer_1.Observer(_this, _this._navigator, _this._container);
         _this._componentController = new Viewer_1.ComponentController(_this._container, _this._navigator, _this._observer, key, options.component);
@@ -45525,11 +46759,12 @@ var Viewer = /** @class */ (function (_super) {
          * Return a boolean indicating if the viewer is in a navigable state.
          *
          * @description The navigable state indicates if the viewer supports
-         * moving, i.e. calling the `moveToKey`, `moveDir` and `moveCloseTo`
-         * methods. The viewer will not be in a navigable state if the cover
-         * is activated and the viewer has been supplied a key. When the cover
-         * is deactivated or activated without being supplied a key it will
-         * be navigable.
+         * moving, i.e. calling the {@link moveToKey}, {@link moveDir`}
+         * and {@link moveCloseTo} methods or changing the authentication state,
+         * i.e. calling {@link setAuthToken}. The viewer will not be in a navigable
+         * state if the cover is activated and the viewer has been supplied a key.
+         * When the cover is deactivated or the viewer is activated without being
+         * supplied a key it will be navigable.
          *
          * @returns {boolean} Boolean indicating whether the viewer is navigable.
          */
@@ -45779,7 +47014,7 @@ var Viewer = /** @class */ (function (_super) {
      * pixel point that lies in the visible area of the viewer container.
      *
      * @param {Array<number>} basicPoint - Basic images coordinates to project.
-     * @returns {Promise<ILatLon>} Promise to the pixel coordinates corresponding
+     * @returns {Promise<Array<number>>} Promise to the pixel coordinates corresponding
      * to the basic image point.
      *
      * @example
@@ -45904,8 +47139,9 @@ var Viewer = /** @class */ (function (_super) {
      *
      * `["all", f0, ..., fn]` logical `AND`: `f0 ∧ ... ∧ fn`
      *
-     * A key must be a string that identifies a node property name. A value must be
-     * a string, number, or boolean. Strictly-typed comparisons are used. The values
+     * A key must be a string that identifies a property name of a
+     * simple {@link Node} property. A value must be a string, number, or
+     * boolean. Strictly-typed comparisons are used. The values
      * `f0, ..., fn` of the combining filter must be filter expressions.
      *
      * Clear the filter by setting it to null or empty array.
@@ -45941,6 +47177,19 @@ var Viewer = /** @class */ (function (_super) {
      */
     Viewer.prototype.setRenderMode = function (renderMode) {
         this._container.renderService.renderMode$.next(renderMode);
+    };
+    /**
+     * Set the viewer's transition mode.
+     *
+     * @param {TransitionMode} transitionMode - Transition mode.
+     *
+     * @example
+     * ```
+     * viewer.setTransitionMode(Mapillary.TransitionMode.Instantaneous);
+     * ```
+     */
+    Viewer.prototype.setTransitionMode = function (transitionMode) {
+        this._navigator.stateService.setTransitionMode(transitionMode);
     };
     /**
      * Set the image's current zoom level.
@@ -46129,6 +47378,6 @@ var Viewer = /** @class */ (function (_super) {
 }(Utils_1.EventEmitter));
 exports.Viewer = Viewer;
 
-},{"../Utils":291,"../Viewer":292,"rxjs/Observable":29,"when":278}]},{},[286])(286)
+},{"../Utils":301,"../Viewer":302,"rxjs/Observable":29,"when":288}]},{},[296])(296)
 });
 //# sourceMappingURL=mapillary.js.map
