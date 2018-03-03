@@ -690,9 +690,9 @@ class TraceControllerTest < ActionController::TestCase
     public_trace_file = create(:trace, :visibility => "public")
     admin = create(:administrator_user)
 
-    post :delete, :params => { :display_name => admin.display_name, :id => public_trace_file.id }, :session => { :user => admin }
+    post :delete, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => admin }
     assert_response :redirect
-    assert_redirected_to :action => :list, :display_name => admin.display_name
+    assert_redirected_to :action => :list, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
     assert_equal false, trace.visible
   end

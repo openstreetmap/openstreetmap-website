@@ -192,7 +192,11 @@ class TraceController < ApplicationController
       trace.visible = false
       trace.save
       flash[:notice] = t "trace.delete.scheduled_for_deletion"
-      redirect_to :action => :list, :display_name => current_user.display_name
+      if current_user.administrator? || current_user.moderator?
+        redirect_to :action => :list, :display_name => trace.user.display_name
+      else
+        redirect_to :action => :list, :display_name => current_user.display_name
+      end
     end
   rescue ActiveRecord::RecordNotFound
     head :not_found
