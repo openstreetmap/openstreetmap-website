@@ -131,6 +131,9 @@ class BrowseHelperTest < ActionView::TestCase
 
     html = format_value("operator:wikidata", "Q12;Q98")
     assert_dom_equal "<a title=\"The Q12 item on Wikidata\" href=\"//www.wikidata.org/wiki/Q12?uselang=en\">Q12</a>;<a title=\"The Q98 item on Wikidata\" href=\"//www.wikidata.org/wiki/Q98?uselang=en\">Q98</a>", html
+
+    html = format_value("name:etymology:wikidata", "Q123")
+    assert_dom_equal "<a title=\"The Q123 item on Wikidata\" href=\"//www.wikidata.org/wiki/Q123?uselang=en\">Q123</a>", html
   end
 
   def test_icon_tags

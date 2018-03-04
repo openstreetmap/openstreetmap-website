@@ -167,7 +167,7 @@ module BrowseHelper
         :title => value
       }]
     # Key has to be one of the accepted wikidata-tags
-    elsif key =~ /(architect|artist|brand|operator|subject):wikidata/ &&
+    elsif key =~ /(architect|artist|brand|name:etymology|network|operator|subject):wikidata/ &&
           # Value has to be a semicolon-separated list of wikidata-IDs (whitespaces allowed before and after semicolons)
           value =~ /^[Qq][1-9][0-9]*(\s*;\s*[Qq][1-9][0-9]*)*$/
       # Splitting at every semicolon to get a separate hash for each wikidata-ID
