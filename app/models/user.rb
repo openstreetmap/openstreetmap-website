@@ -97,7 +97,8 @@ class User < ActiveRecord::Base
   validates :email, :if => proc { |u| u.email_changed? },
                     :uniqueness => { :case_sensitive => false }
   validates :pass_crypt, :confirmation => true, :length => 8..255
-  validates :home_lat, :home_lon, :allow_nil => true, :numericality => true
+  validates :home_lat, :allow_nil => true, :numericality => true, :inclusion => { :in => -90..90 }
+  validates :home_lon, :allow_nil => true, :numericality => true, :inclusion => { :in => -180..180 }
   validates :home_zoom, :allow_nil => true, :numericality => { :only_integer => true }
   validates :preferred_editor, :inclusion => Editors::ALL_EDITORS, :allow_nil => true
   validates :image, :attachment_content_type => { :content_type => %r{\Aimage/.*\Z} }
