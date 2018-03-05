@@ -87,14 +87,6 @@ class IssuesController < ApplicationController
     @moderator_issues = %w[Note]
   end
 
-  def check_if_updated
-    if @issue.reportable && (@issue.ignored? || @issue.resolved?) && @issue.reportable.has_attribute?(:updated_by) && @issue.reportable.updated_at > @last_report.updated_at
-      true
-    else
-      false
-    end
-  end
-
   def find_issue
     @issue = Issue.find(params[:id])
   end
@@ -104,25 +96,5 @@ class IssuesController < ApplicationController
       flash[:error] = t("application.require_admin.not_an_admin")
       redirect_to root_path
     end
-  end
-
-  def issue_params
-    params[:issue].permit(:reportable_id, :reportable_type)
-  end
-
-  def report_params
-    params[:report].permit(:details)
-  end
-
-  def issue_comment_params
-    params.require(:issue_comment).permit(:body)
-  end
-
-  def sort_column
-    Issue.column_names.include?(params[:sort]) ? params[:sort] : "status"
-  end
-
-  def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 end
