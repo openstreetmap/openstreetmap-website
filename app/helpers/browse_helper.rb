@@ -76,6 +76,8 @@ module BrowseHelper
       link_to h(value), url, :title => t("browse.tag_details.wiki_link.tag", :key => key, :value => value)
     elsif url = telephone_link(key, value)
       link_to h(value), url, :title => t("browse.tag_details.telephone_link", :phone_number => value)
+    elsif colour_value = colour_preview(key, value)
+      %( <div class="colour-preview-box" style="background-color:#{h(value)}" title="#{h(t('browse.tag_details.colour_preview', :colour_value => colour_value))}"></div>#{h(value)} )
     else
       linkify h(value)
     end
@@ -187,5 +189,17 @@ module BrowseHelper
     value_no_whitespace = value.gsub(/\s+/, "")
 
     "tel:#{value_no_whitespace}"
+  end
+
+  def colour_preview(key, value)
+    return nil unless key =~ /^(|building:|ref:|roof:)colour$/ && !value.nil?
+    # does value look like a colour? ( 3 or 6 digit hex code or w3c colour name)
+    w3c_colors =
+      %w[aliceblue antiquewhite aqua aquamarine azure beige bisque black blanchedalmond blue blueviolet brown burlywood cadetblue chartreuse chocolate coral cornflowerblue cornsilk crimson cyan darkblue darkcyan darkgoldenrod darkgray darkgrey darkgreen darkkhaki darkmagenta darkolivegreen darkorange darkorchid darkred darksalmon darkseagreen darkslateblue darkslategray
+         darkslategrey darkturquoise darkviolet deeppink deepskyblue dimgray dimgrey dodgerblue firebrick floralwhite forestgreen fuchsia gainsboro ghostwhite gold goldenrod gray grey green greenyellow honeydew hotpink indianred indigo ivory khaki lavender lavenderblush lawngreen lemonchiffon lightblue lightcoral lightcyan lightgoldenrodyellow lightgray lightgrey lightgreen
+         lightpink lightsalmon lightseagreen lightskyblue lightslategray lightslategrey lightsteelblue lightyellow lime limegreen linen magenta maroon mediumaquamarine mediumblue mediumorchid mediumpurple mediumseagreen mediumslateblue mediumspringgreen mediumturquoise mediumvioletred midnightblue mintcream mistyrose moccasin navajowhite navy oldlace olive olivedrab orange
+         orangered orchid palegoldenrod palegreen paleturquoise palevioletred papayawhip peachpuff peru pink plum powderblue purple red rosybrown royalblue saddlebrown salmon sandybrown seagreen seashell sienna silver skyblue slateblue slategray slategrey snow springgreen steelblue tan teal thistle tomato turquoise violet wheat white whitesmoke yellow yellowgreen]
+    return nil unless value =~ /^#([0-9a-fA-F]{3}){1,2}$/ || w3c_colors.include?(value.downcase)
+    value
   end
 end

@@ -134,6 +134,9 @@ class BrowseHelperTest < ActionView::TestCase
 
     html = format_value("name:etymology:wikidata", "Q123")
     assert_dom_equal "<a title=\"The Q123 item on Wikidata\" href=\"//www.wikidata.org/wiki/Q123?uselang=en\">Q123</a>", html
+
+    html = format_value("colour", "#f00")
+    assert_dom_equal %( <div class="colour-preview-box" style="background-color:#f00" title="Colour #f00 preview"></div>#f00 ), html
   end
 
   def test_icon_tags
@@ -346,6 +349,93 @@ class BrowseHelperTest < ActionView::TestCase
 
     link = telephone_link("phone", "+1 (234) 567-890")
     assert_equal "tel:+1(234)567-890", link
+  end
+
+  def test_colour_preview
+    # basic positive tests
+    colour = colour_preview("colour", "red")
+    assert_equal "red", colour
+
+    colour = colour_preview("colour", "Red")
+    assert_equal "Red", colour
+
+    colour = colour_preview("colour", "darkRed")
+    assert_equal "darkRed", colour
+
+    colour = colour_preview("colour", "#f00")
+    assert_equal "#f00", colour
+
+    colour = colour_preview("colour", "#fF0000")
+    assert_equal "#fF0000", colour
+
+    # other tag variants:
+    colour = colour_preview("building:colour", "#f00")
+    assert_equal "#f00", colour
+
+    colour = colour_preview("ref:colour", "#f00")
+    assert_equal "#f00", colour
+
+    colour = colour_preview("roof:colour", "#f00")
+    assert_equal "#f00", colour
+
+    # negative tests:
+    colour = colour_preview("color", "")
+    assert_nil colour
+
+    colour = colour_preview("color", "   ")
+    assert_nil colour
+
+    colour = colour_preview("color", nil)
+    assert_nil colour
+
+    # ignore US spelling variant
+    colour = colour_preview("color", "red")
+    assert_nil colour
+
+    # irrelevant tag names
+    colour = colour_preview("building", "red")
+    assert_nil colour
+
+    # invalid hex codes
+    colour = colour_preview("colour", "#")
+    assert_nil colour
+
+    colour = colour_preview("colour", "#ff")
+    assert_nil colour
+
+    colour = colour_preview("colour", "#ffff")
+    assert_nil colour
+
+    colour = colour_preview("colour", "#fffffff")
+    assert_nil colour
+
+    colour = colour_preview("colour", "#ggg")
+    assert_nil colour
+
+    colour = colour_preview("colour", "#ff 00 00")
+    assert_nil colour
+
+    # invalid w3c color names:
+    colour = colour_preview("colour", "r")
+    assert_nil colour
+
+    colour = colour_preview("colour", "ffffff")
+    assert_nil colour
+
+    colour = colour_preview("colour", "f00")
+    assert_nil colour
+
+    colour = colour_preview("colour", "xxxred")
+    assert_nil colour
+
+    colour = colour_preview("colour", "dark red")
+    assert_nil colour
+
+    colour = colour_preview("colour", "dark_red")
+    assert_nil colour
+
+    colour = colour_preview("colour", "ADarkDummyLongColourNameWithAPurpleUndertone")
+    assert_nil colour
   end
 
   def add_old_tags_selection(old_node)
