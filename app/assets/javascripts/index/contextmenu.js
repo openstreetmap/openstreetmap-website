@@ -72,6 +72,23 @@ OSM.initializeContextMenu = function (map) {
     }
   });
 
+  map.contextmenu.addItem({
+    separator: true
+  });
+
+  map.contextmenu.addItem({
+    text: I18n.t("javascripts.context.tile_details"),
+    callback: function tileDetails(e) {
+      var zoom = map.getZoom(),
+          precision = OSM.zoomPrecision(zoom),
+          latlng = e.latlng.wrap(),
+          lat = latlng.lat.toFixed(precision),
+          lng = latlng.lng.toFixed(precision);
+
+      OSM.router.route("/tileinfo?lat=" + lat + "&lon=" + lng + "&zoom=" + zoom);
+    }
+  });
+
   map.on("mousedown", function (e) {
     if (e.originalEvent.shiftKey) map.contextmenu.disable();
     else map.contextmenu.enable();

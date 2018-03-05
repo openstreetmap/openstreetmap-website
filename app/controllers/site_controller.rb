@@ -1,6 +1,6 @@
 class SiteController < ApplicationController
   layout "site"
-  layout :map_layout, :only => [:index, :export]
+  layout :map_layout, :only => [:index, :export, :tileinfo]
 
   before_action :authorize_web
   before_action :set_locale

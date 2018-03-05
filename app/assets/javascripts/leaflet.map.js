@@ -63,6 +63,12 @@ L.OSM.Map = L.Map.extend({
     });
   },
 
+  getBaseLayer: function() {
+    for (var i = 0; i < this.baseLayers.length; i++) {
+      if (this.hasLayer(this.baseLayers[i])) return this.baseLayers[i];
+    }
+  },
+
   updateLayers: function(layerParam) {
     layerParam = layerParam || "M";
     var layersAdded = "";

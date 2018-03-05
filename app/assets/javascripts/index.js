@@ -19,6 +19,7 @@
 //= require index/directions
 //= require index/changeset
 //= require index/query
+//= require index/tileinfo
 //= require router
 
 $(document).ready(function () {
@@ -360,7 +361,8 @@ $(document).ready(function () {
     "/way/:id(/history)":          OSM.Browse(map, 'way'),
     "/relation/:id(/history)":     OSM.Browse(map, 'relation'),
     "/changeset/:id":              OSM.Changeset(map),
-    "/query":                      OSM.Query(map)
+    "/query":                      OSM.Query(map),
+    "/tileinfo":                   OSM.TileInfo(map)
   });
 
   if (OSM.preferred_editor === "remote" && document.location.pathname === "/edit") {
