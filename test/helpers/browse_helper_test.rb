@@ -375,6 +375,21 @@ class BrowseHelperTest < ActionView::TestCase
     colour = colour_preview("ref:colour", "#f00")
     assert_equal "#f00", colour
 
+    colour = colour_preview("ref:colour_bg", "#fF0")
+    assert_equal "#fF0", colour
+
+    colour = colour_preview("ref:colour_tx", "#fa0")
+    assert_equal "#fa0", colour
+
+    colour = colour_preview("int_ref:colour", "green")
+    assert_equal "green", colour
+
+    colour = colour_preview("int_ref:colour_bg", "#00f")
+    assert_equal "#00f", colour
+
+    colour = colour_preview("int_ref:colour_tx", "WHITE")
+    assert_equal "WHITE", colour
+
     colour = colour_preview("roof:colour", "#f00")
     assert_equal "#f00", colour
 
@@ -394,6 +409,15 @@ class BrowseHelperTest < ActionView::TestCase
 
     # irrelevant tag names
     colour = colour_preview("building", "red")
+    assert_nil colour
+
+    colour = colour_preview("ref:colour_no", "red")
+    assert_nil colour
+
+    colour = colour_preview("ref:colour-bg", "red")
+    assert_nil colour
+
+    colour = colour_preview("int_ref", "red")
     assert_nil colour
 
     # invalid hex codes
