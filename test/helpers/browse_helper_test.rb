@@ -375,32 +375,23 @@ class BrowseHelperTest < ActionView::TestCase
     colour = colour_preview("ref:colour", "#f00")
     assert_equal "#f00", colour
 
-    colour = colour_preview("ref:colour_bg", "#fF0")
-    assert_equal "#fF0", colour
-
-    colour = colour_preview("ref:colour_tx", "#fa0")
-    assert_equal "#fa0", colour
-
     colour = colour_preview("int_ref:colour", "green")
     assert_equal "green", colour
-
-    colour = colour_preview("int_ref:colour_bg", "#00f")
-    assert_equal "#00f", colour
-
-    colour = colour_preview("int_ref:colour_tx", "WHITE")
-    assert_equal "WHITE", colour
 
     colour = colour_preview("roof:colour", "#f00")
     assert_equal "#f00", colour
 
+    colour = colour_preview("seamark:beacon_lateral:colour", "#f00")
+    assert_equal "#f00", colour
+
     # negative tests:
-    colour = colour_preview("color", "")
+    colour = colour_preview("colour", "")
     assert_nil colour
 
-    colour = colour_preview("color", "   ")
+    colour = colour_preview("colour", "   ")
     assert_nil colour
 
-    colour = colour_preview("color", nil)
+    colour = colour_preview("colour", nil)
     assert_nil colour
 
     # ignore US spelling variant

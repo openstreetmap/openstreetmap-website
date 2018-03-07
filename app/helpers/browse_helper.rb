@@ -192,7 +192,7 @@ module BrowseHelper
   end
 
   def colour_preview(key, value)
-    return nil unless (key =~ /^(|building:|ref:|roof:)colour$/ || key =~ /^(int_)?ref:colour(_(bg|tx))?$/) && !value.nil?
+    return nil unless key =~ /^(?>.+:)?colour$/ && !value.nil? # see discussion at https://github.com/openstreetmap/openstreetmap-website/pull/1779
     # does value look like a colour? ( 3 or 6 digit hex code or w3c colour name)
     w3c_colors =
       %w[aliceblue antiquewhite aqua aquamarine azure beige bisque black blanchedalmond blue blueviolet brown burlywood cadetblue chartreuse chocolate coral cornflowerblue cornsilk crimson cyan darkblue darkcyan darkgoldenrod darkgray darkgrey darkgreen darkkhaki darkmagenta darkolivegreen darkorange darkorchid darkred darksalmon darkseagreen darkslateblue darkslategray
