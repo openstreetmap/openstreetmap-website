@@ -186,13 +186,13 @@ class TraceController < ApplicationController
 
     if !trace.visible?
       head :not_found
-    elsif current_user.nil? || trace.user != current_user
+    elsif current_user.nil? || (trace.user != current_user && !current_user.administrator? && !current_user.moderator?)
       head :forbidden
     else
       trace.visible = false
       trace.save
       flash[:notice] = t "trace.delete.scheduled_for_deletion"
-      redirect_to :action => :list, :display_name => current_user.display_name
+      redirect_to :action => :list, :display_name => trace.user.display_name
     end
   rescue ActiveRecord::RecordNotFound
     head :not_found
