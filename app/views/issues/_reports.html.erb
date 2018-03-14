@@ -1,9 +1,10 @@
 <% reports.each do |report| %>
   <div class="reports">
     <div style="float:left">
-      <%= link_to user_thumbnail(report.user), :controller => :user, :action =>:view, :display_name => report.user.display_name %>
+      <%= link_to user_thumbnail(report.user), user_path(report.user.display_name) %>
     </div>
-    <%= t(".reported_by_html", :category => report.category, :user_name => report.user.display_name, :user_url => url_for(:controller => :user, :action => :view, :display_name => report.user.display_name)) %> <br/>
+    <%= t ".reported_by_html", :category => report.category, :user => link_to(report.user.display_name, user_path(report.user.display_name)) %>
+    <br/>
     <span class="deemphasize">
       <%= t(".updated_at", :datetime => l(report.updated_at.to_datetime, :format => :friendly)) %>
     </span>
