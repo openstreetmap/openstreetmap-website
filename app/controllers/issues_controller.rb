@@ -3,7 +3,6 @@ class IssuesController < ApplicationController
 
   before_action :authorize_web
   before_action :require_user
-  before_action :set_issues
   before_action :check_permission
   before_action :find_issue, :only => [:show, :resolve, :reopen, :ignore]
 
@@ -11,10 +10,10 @@ class IssuesController < ApplicationController
     @title = t ".title"
 
     if current_user.moderator?
-      @issue_types = @moderator_issues
+      @issue_types = %w[Note]
       @users = User.joins(:roles).where(:user_roles => { :role => "moderator" })
     else
-      @issue_types = @admin_issues
+      @issue_types = %w[DiaryEntry DiaryComment User]
       @users = User.joins(:roles).where(:user_roles => { :role => "administrator" })
     end
 
@@ -81,11 +80,6 @@ class IssuesController < ApplicationController
   end
 
   private
-
-  def set_issues
-    @admin_issues = %w[DiaryEntry DiaryComment User]
-    @moderator_issues = %w[Note]
-  end
 
   def find_issue
     @issue = Issue.find(params[:id])
