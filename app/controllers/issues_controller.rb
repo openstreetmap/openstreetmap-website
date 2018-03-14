@@ -9,11 +9,9 @@ class IssuesController < ApplicationController
   def index
     @title = t ".title"
 
-    if current_user.moderator?
-      @issue_types = %w[Note]
-    else
-      @issue_types = %w[DiaryEntry DiaryComment User]
-    end
+    @issue_types = []
+    @issue_types.concat %w[Note] if current_user.moderator?
+    @issue_types.concat %w[DiaryEntry DiaryComment User] if current_user.administrator?
 
     @users = User.joins(:roles).where(:user_roles => { :role => current_user.roles.map(&:role) }).distinct
     @issues = Issue.where(:assigned_role => current_user.roles.map(&:role))
