@@ -25,8 +25,7 @@
       <td><b><%= t ".reports" %></b></td>
       <td><b><%= t ".reported_item" %></b></td>
       <td><b><%= t ".reported_user" %></b></td>
-      <td><b><%= t ".last_updated_by" %></b></td>
-      <td><b><%= t ".last_updated_at" %></b></td>
+      <td><b><%= t ".last_updated" %></b></td>
     </tr>
   </thead>
   <tbody>
@@ -36,8 +35,16 @@
         <td><%= link_to t(".reports_count", :count => issue.reports_count), issue %></td>
         <td><%= link_to reportable_title(issue.reportable), reportable_url(issue.reportable) %></td>
         <td><%= link_to issue.reported_user.display_name, :controller => :user, :action => :view, :display_name => issue.reported_user.display_name if issue.reported_user %></td>
-        <td><% if issue.user_updated %> <%= issue.user_updated.display_name %> <% else %> - <% end %></td>
-        <td><%= l(issue.updated_at.to_datetime, :format => :friendly) %></td>
+        <td>
+          <% if issue.user_updated %>
+            <%= t ".last_updated_time_user_html", :user => link_to(issue.user_updated.display_name, :controller => :user, :action => :view, :display_name => issue.user_updated.display_name),
+                                                  :time => distance_of_time_in_words_to_now(issue.updated_at),
+                                                  :title => l(issue.updated_at) %>
+          <% else %>
+            <%= t ".last_updated_time_html", :time => distance_of_time_in_words_to_now(issue.updated_at),
+                                             :title => l(issue.updated_at) %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
