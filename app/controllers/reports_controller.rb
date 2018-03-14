@@ -5,9 +5,11 @@ class ReportsController < ApplicationController
   before_action :require_user
 
   def new
-    if create_new_report_params.present?
+    if required_new_report_params_present?
       @report = Report.new
       @report.issue = Issue.find_or_initialize_by(create_new_report_params)
+    else
+      redirect_to root_path, :notice => t("reports.new.missing_params")
     end
   end
 
@@ -25,6 +27,10 @@ class ReportsController < ApplicationController
   end
 
   private
+
+  def required_new_report_params_present?
+    create_new_report_params['reportable_id'].present? && create_new_report_params['reportable_type'].present?
+  end
 
   def create_new_report_params
     params.permit(:reportable_id, :reportable_type)

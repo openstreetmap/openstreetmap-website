@@ -49,4 +49,10 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
     assert !issue.resolved?
     assert issue.open?
   end
+
+  def test_missing_report_params
+    sign_in_as(create(:user))
+    visit new_report_path
+    assert page.has_content? I18n.t("reports.new.missing_params")
+  end
 end
