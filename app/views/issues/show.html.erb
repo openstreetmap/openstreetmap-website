@@ -41,19 +41,19 @@
   </div>
 
   <% if @issue.reported_user %>
-    <div class="related-block">
+    <div class="related-reports">
       <h3><%= t ".other_issues_against_this_user" %></h3>
-      <div class="unread-reports">
-        <% if @related_issues.count > 1 %>
+      <% if @related_issues.count > 1 %>
+        <ul>
           <% @related_issues.each do |issue| %>
             <% if issue.id != @issue.id %>
-              <%= link_to reportable_title(issue.reportable), issue %> <br/>
+              <li><%= link_to reportable_title(issue.reportable), issue %></li>
             <% end %>
           <% end %>
-        <% else %>
-          <p><%= t ".no_other_issues" %></p>
-        <% end %>
-      </div>
+        </ul>
+      <% else %>
+        <p><%= t ".no_other_issues" %></p>
+      <% end %>
     </div>
   <% end %>
 </div>
