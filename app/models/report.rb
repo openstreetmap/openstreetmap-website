@@ -33,7 +33,7 @@ class Report < ActiveRecord::Base
     when "DiaryEntry" then %w[spam offensive threat other]
     when "DiaryComment" then %w[spam offensive threat other]
     when "User" then %w[spam offensive threat vandal other]
-    when "Note" then %w[spam vandalism personal abusive other]
+    when "Note" then %w[spam personal abusive other]
     else %w[other]
     end
   end
