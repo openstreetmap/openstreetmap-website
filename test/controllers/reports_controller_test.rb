@@ -32,7 +32,7 @@ class ReportsControllerTest < ActionController::TestCase
     end
     assert_equal 1, Issue.count
     assert_response :redirect
-    assert_redirected_to root_path
+    assert_redirected_to user_path(target_user.display_name)
   end
 
   def test_new_report_with_incomplete_details
@@ -61,7 +61,7 @@ class ReportsControllerTest < ActionController::TestCase
     end
     assert_equal 1, Issue.count
     assert_response :redirect
-    assert_redirected_to root_path
+    assert_redirected_to user_path(target_user.display_name)
 
     get :new, :params => { :reportable_id => target_user.id, :reportable_type => "User" }
     assert_response :success
@@ -107,7 +107,7 @@ class ReportsControllerTest < ActionController::TestCase
     end
     assert_equal 1, Issue.count
     assert_response :redirect
-    assert_redirected_to root_path
+    assert_redirected_to user_path(target_user.display_name)
 
     # Create a report for an existing Issue
     get :new, :params => { :reportable_id => target_user.id, :reportable_type => "User" }
