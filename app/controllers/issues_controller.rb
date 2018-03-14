@@ -11,12 +11,11 @@ class IssuesController < ApplicationController
 
     if current_user.moderator?
       @issue_types = %w[Note]
-      @users = User.joins(:roles).where(:user_roles => { :role => "moderator" })
     else
       @issue_types = %w[DiaryEntry DiaryComment User]
-      @users = User.joins(:roles).where(:user_roles => { :role => "administrator" })
     end
 
+    @users = User.joins(:roles).where(:user_roles => { :role => current_user.roles.map(&:role) }).distinct
     @issues = Issue.where(:assigned_role => current_user.roles.map(&:role))
 
     # If search
