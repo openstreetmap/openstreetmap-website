@@ -22,7 +22,7 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
     assert page.has_content? "Report"
     assert page.has_content? I18n.t("issues.new.disclaimer.intro")
 
-    choose I18n.t("reports.categories.DiaryEntry.spam")
+    choose I18n.t("reports.categories.diary_entry.spam")
     fill_in "report_details", :with => "This is advertising"
     click_on "Create Report"
 
@@ -41,7 +41,7 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
     assert page.has_content? "Report"
     assert page.has_content? I18n.t("issues.new.disclaimer.intro")
 
-    choose I18n.t("reports.categories.DiaryEntry.spam")
+    choose I18n.t("reports.categories.diary_entry.spam")
     fill_in "report_details", :with => "This is advertising"
     click_on "Create Report"
 
