@@ -21,8 +21,8 @@ class CreateIssuesAndReports < ActiveRecord::Migration[5.0]
     add_index :issues, :updated_by
 
     create_table :reports do |t|
-      t.integer :issue_id
-      t.integer :user_id
+      t.integer :issue_id, :null => false
+      t.integer :user_id, :null => false
       t.text :details, :null => false
       t.string :category, :null => false
       t.timestamps :null => false

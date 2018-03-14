@@ -25,6 +25,8 @@ class Report < ActiveRecord::Base
   belongs_to :issue, :counter_cache => true
   belongs_to :user
 
+  validates :issue, :presence => true
+  validates :user, :presence => true
   validates :details, :presence => true
   validates :category, :presence => true
 

@@ -1064,8 +1064,8 @@ CREATE TABLE relations (
 
 CREATE TABLE reports (
     id integer NOT NULL,
-    issue_id integer,
-    user_id integer,
+    issue_id integer NOT NULL,
+    user_id integer NOT NULL,
     details text NOT NULL,
     category character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
