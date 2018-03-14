@@ -16,8 +16,8 @@
 #
 # Foreign Keys
 #
-#  issue_comments_issue_id_fkey  (issue_id => issues.id) ON DELETE => cascade
-#  issue_comments_user_id        (user_id => users.id) ON DELETE => cascade
+#  issue_comments_issue_id_fkey  (issue_id => issues.id)
+#  issue_comments_user_id_fkey   (user_id => users.id)
 #
 
 class IssueComment < ActiveRecord::Base

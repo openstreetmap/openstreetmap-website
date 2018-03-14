@@ -2046,10 +2046,10 @@ CREATE INDEX index_issue_comments_on_user_id ON issue_comments USING btree (user
 
 
 --
--- Name: index_issues_on_reportable_id_and_reportable_type; Type: INDEX; Schema: public; Owner: -
+-- Name: index_issues_on_reportable_type_and_reportable_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_issues_on_reportable_id_and_reportable_type ON issues USING btree (reportable_id, reportable_type);
+CREATE INDEX index_issues_on_reportable_type_and_reportable_id ON issues USING btree (reportable_type, reportable_id);
 
 
 --
@@ -2532,15 +2532,15 @@ ALTER TABLE ONLY gpx_files
 --
 
 ALTER TABLE ONLY issue_comments
-    ADD CONSTRAINT issue_comments_issue_id_fkey FOREIGN KEY (issue_id) REFERENCES issues(id) ON DELETE CASCADE;
+    ADD CONSTRAINT issue_comments_issue_id_fkey FOREIGN KEY (issue_id) REFERENCES issues(id);
 
 
 --
--- Name: issue_comments_user_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: issue_comments_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY issue_comments
-    ADD CONSTRAINT issue_comments_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+    ADD CONSTRAINT issue_comments_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -2548,7 +2548,15 @@ ALTER TABLE ONLY issue_comments
 --
 
 ALTER TABLE ONLY issues
-    ADD CONSTRAINT issues_reported_user_id_fkey FOREIGN KEY (reported_user_id) REFERENCES users(id) ON DELETE CASCADE;
+    ADD CONSTRAINT issues_reported_user_id_fkey FOREIGN KEY (reported_user_id) REFERENCES users(id);
+
+
+--
+-- Name: issues_resolved_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY issues
+    ADD CONSTRAINT issues_resolved_by_fkey FOREIGN KEY (resolved_by) REFERENCES users(id);
 
 
 --
@@ -2556,7 +2564,7 @@ ALTER TABLE ONLY issues
 --
 
 ALTER TABLE ONLY issues
-    ADD CONSTRAINT issues_updated_by_fkey FOREIGN KEY (updated_by) REFERENCES users(id) ON DELETE CASCADE;
+    ADD CONSTRAINT issues_updated_by_fkey FOREIGN KEY (updated_by) REFERENCES users(id);
 
 
 --
@@ -2676,7 +2684,7 @@ ALTER TABLE ONLY relations
 --
 
 ALTER TABLE ONLY reports
-    ADD CONSTRAINT reports_issue_id_fkey FOREIGN KEY (issue_id) REFERENCES issues(id) ON DELETE CASCADE;
+    ADD CONSTRAINT reports_issue_id_fkey FOREIGN KEY (issue_id) REFERENCES issues(id);
 
 
 --
@@ -2684,7 +2692,7 @@ ALTER TABLE ONLY reports
 --
 
 ALTER TABLE ONLY reports
-    ADD CONSTRAINT reports_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+    ADD CONSTRAINT reports_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --

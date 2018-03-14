@@ -17,19 +17,21 @@
 #
 # Indexes
 #
-#  index_issues_on_reportable_id_and_reportable_type  (reportable_id,reportable_type)
+#  index_issues_on_reportable_type_and_reportable_id  (reportable_type,reportable_id)
 #  index_issues_on_reported_user_id                   (reported_user_id)
 #  index_issues_on_updated_by                         (updated_by)
 #
 # Foreign Keys
 #
-#  issues_reported_user_id_fkey  (reported_user_id => users.id) ON DELETE => cascade
-#  issues_updated_by_fkey        (updated_by => users.id) ON DELETE => cascade
+#  issues_reported_user_id_fkey  (reported_user_id => users.id)
+#  issues_resolved_by_fkey       (resolved_by => users.id)
+#  issues_updated_by_fkey        (updated_by => users.id)
 #
 
 class Issue < ActiveRecord::Base
   belongs_to :reportable, :polymorphic => true
   belongs_to :reported_user, :class_name => "User", :foreign_key => :reported_user_id
+  belongs_to :user_resolved, :class_name => "User", :foreign_key => :resolved_by
   belongs_to :user_updated, :class_name => "User", :foreign_key => :updated_by
 
   has_many :reports, :dependent => :destroy

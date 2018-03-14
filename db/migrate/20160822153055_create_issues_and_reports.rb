@@ -13,11 +13,12 @@ class CreateIssuesAndReports < ActiveRecord::Migration[5.0]
       t.timestamps :null => false
     end
 
-    add_foreign_key :issues, :users, :column => :reported_user_id, :name => "issues_reported_user_id_fkey", :on_delete => :cascade
-    add_foreign_key :issues, :users, :column => :updated_by, :name => "issues_updated_by_fkey", :on_delete => :cascade
+    add_foreign_key :issues, :users, :column => :reported_user_id, :name => "issues_reported_user_id_fkey"
+    add_foreign_key :issues, :users, :column => :resolved_by, :name => "issues_resolved_by_fkey"
+    add_foreign_key :issues, :users, :column => :updated_by, :name => "issues_updated_by_fkey"
 
     add_index :issues, :reported_user_id
-    add_index :issues, [:reportable_id, :reportable_type]
+    add_index :issues, [:reportable_type, :reportable_id]
     add_index :issues, :updated_by
 
     create_table :reports do |t|
@@ -28,8 +29,8 @@ class CreateIssuesAndReports < ActiveRecord::Migration[5.0]
       t.timestamps :null => false
     end
 
-    add_foreign_key :reports, :issues, :name => "reports_issue_id_fkey", :on_delete => :cascade
-    add_foreign_key :reports, :users, :column => :user_id, :name => "reports_user_id_fkey", :on_delete => :cascade
+    add_foreign_key :reports, :issues, :name => "reports_issue_id_fkey"
+    add_foreign_key :reports, :users, :column => :user_id, :name => "reports_user_id_fkey"
 
     add_index :reports, :user_id
     add_index :reports, :issue_id
@@ -41,8 +42,8 @@ class CreateIssuesAndReports < ActiveRecord::Migration[5.0]
       t.timestamps :null => false
     end
 
-    add_foreign_key :issue_comments, :issues, :name => "issue_comments_issue_id_fkey", :on_delete => :cascade
-    add_foreign_key :issue_comments, :users, :column => :user_id, :name => "issue_comments_user_id", :on_delete => :cascade
+    add_foreign_key :issue_comments, :issues, :name => "issue_comments_issue_id_fkey"
+    add_foreign_key :issue_comments, :users, :column => :user_id, :name => "issue_comments_user_id_fkey"
 
     add_index :issue_comments, :user_id
     add_index :issue_comments, :issue_id

@@ -3,8 +3,8 @@
 # Table name: reports
 #
 #  id         :integer          not null, primary key
-#  issue_id   :integer
-#  user_id    :integer
+#  issue_id   :integer          not null
+#  user_id    :integer          not null
 #  details    :text             not null
 #  category   :string           not null
 #  created_at :datetime         not null
@@ -17,8 +17,8 @@
 #
 # Foreign Keys
 #
-#  reports_issue_id_fkey  (issue_id => issues.id) ON DELETE => cascade
-#  reports_user_id_fkey   (user_id => users.id) ON DELETE => cascade
+#  reports_issue_id_fkey  (issue_id => issues.id)
+#  reports_user_id_fkey   (user_id => users.id)
 #
 
 class Report < ActiveRecord::Base
