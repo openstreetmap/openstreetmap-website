@@ -77,7 +77,7 @@ module BrowseHelper
     elsif url = telephone_link(key, value)
       link_to h(value), url, :title => t("browse.tag_details.telephone_link", :phone_number => value)
     elsif colour_value = colour_preview(key, value)
-      %( <div class="colour-preview-box" style="background-color:#{h(value)}" title="#{h(t('browse.tag_details.colour_preview', :colour_value => colour_value))}"></div>#{h(value)} )
+      %( <div class="colour-preview-box" style="background-color:#{h(value)}" title="#{h(t('browse.tag_details.colour_preview', :colour_value => colour_value))}"></div>#{h(value)} ).html_safe
     else
       linkify h(value)
     end
