@@ -136,7 +136,7 @@ class BrowseHelperTest < ActionView::TestCase
     assert_dom_equal "<a title=\"The Q123 item on Wikidata\" href=\"//www.wikidata.org/wiki/Q123?uselang=en\">Q123</a>", html
 
     html = format_value("colour", "#f00")
-    assert_dom_equal %( <div class="colour-preview-box" style="background-color:#f00" title="Colour #f00 preview"></div>#f00 ), html
+    assert_dom_equal %(<span class="colour-preview-box" style="background-color:#f00" title="Colour #f00 preview"></span>#f00), html
   end
 
   def test_icon_tags
