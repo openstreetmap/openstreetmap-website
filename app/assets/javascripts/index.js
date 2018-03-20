@@ -335,7 +335,7 @@ $(document).ready(function () {
         }
       });
       
-      $('.colour-preview-box').each(function (index, value) {
+      $('.colour-preview-box').each(function () {
         $(this).css("background-color", $(this).data("colour"));
       });
     }
