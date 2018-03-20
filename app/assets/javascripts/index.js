@@ -334,6 +334,11 @@ $(document).ready(function () {
           });
         }
       });
+      
+      $('.colour-preview-box').each(function (index, value) {
+        console.log($(this));
+        $(this).css("background-color", $(this).data("colour"));
+      });
     }
 
     page.unload = function() {
