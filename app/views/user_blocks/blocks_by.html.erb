@@ -1,6 +1,6 @@
 <% @title = t('user_block.blocks_by.title', :name => h(@this_user.display_name)) %>
 <% content_for :heading do %>
-  <h1><%= raw(t('user_block.blocks_by.heading', :name => link_to(h(@this_user.display_name), {:controller => 'user', :action => 'view', :display_name => @this_user.display_name}))) %></h1>
+  <h1><%= raw(t('user_block.blocks_by.heading', :name => link_to(h(@this_user.display_name), user_path(@this_user)))) %></h1>
 <% end %>
 
 <% unless @user_blocks.empty? %>

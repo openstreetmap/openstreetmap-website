@@ -6,10 +6,10 @@
   <h1><%= raw t('user_block.show.heading',
                 :block_on => link_to(
                                      h(@user_block.user.display_name),
-                                     {:controller => 'user', :action => 'view', :display_name => @user_block.user.display_name}),
+                                     user_path(@user_block.user)),
                 :block_by => link_to(
                                      h(@user_block.creator.display_name),
-                                     {:controller => 'user', :action => 'view', :display_name => @user_block.creator.display_name})) %></h1>
+                                     user_path(@user_block.creator))) %></h1>
 <ul class='secondary-actions clearfix'>
   <% if @user_block.ends_at > Time.now.getutc %>
     <% if current_user and current_user.id == @user_block.creator_id %>
@@ -26,7 +26,7 @@
 <% if @user_block.revoker %>
 <p>
   <b><%= t'user_block.show.revoker' %></b>
-  <%= link_to h(@user_block.revoker.display_name), :controller => 'user', :action => 'view', :display_name => @user_block.revoker.display_name %>
+  <%= link_to h(@user_block.revoker.display_name), user_path(@user_block.revoker) %>
 </p>
 <% end %>
 

@@ -7,7 +7,7 @@
     <h2><%= link_to h(diary_entry.title), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></h2>
 
     <small class='deemphasize'>
-      <%= raw(t 'diary_entry.diary_entry.posted_by', :link_user => (link_to h(diary_entry.user.display_name), :controller => 'user', :action => 'view', :display_name => diary_entry.user.display_name), :created => l(diary_entry.created_at, :format => :blog), :language_link => (link_to h(diary_entry.language.name), :controller => 'diary_entry', :action => 'list', :display_name => nil, :language => diary_entry.language_code)) %>
+      <%= raw(t 'diary_entry.diary_entry.posted_by', :link_user => (link_to h(diary_entry.user.display_name), user_path(diary_entry.user)), :created => l(diary_entry.created_at, :format => :blog), :language_link => (link_to h(diary_entry.language.name), :controller => 'diary_entry', :action => 'list', :display_name => nil, :language => diary_entry.language_code)) %>
     </small>
 
   </div>
