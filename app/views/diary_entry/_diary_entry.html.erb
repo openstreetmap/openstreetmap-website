@@ -6,12 +6,6 @@
 
     <h2><%= link_to h(diary_entry.title), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></h2>
 
-    <% if current_user and diary_entry.user != current_user %>
-           <%= link_to new_report_url(reportable_id: diary_entry.id, reportable_type: diary_entry.class.name), :title => t('diary_entry.diary_entry.report') do %>
-            &nbsp;&#9872;
-          <% end %>
-    <% end %>
-
     <small class='deemphasize'>
       <%= raw(t 'diary_entry.diary_entry.posted_by', :link_user => (link_to h(diary_entry.user.display_name), :controller => 'user', :action => 'view', :display_name => diary_entry.user.display_name), :created => l(diary_entry.created_at, :format => :blog), :language_link => (link_to h(diary_entry.language.name), :controller => 'diary_entry', :action => 'list', :display_name => nil, :language => diary_entry.language_code)) %>
     </small>
@@ -35,6 +29,12 @@
 
     <%= if_user(diary_entry.user, :li) do %>
       <%= link_to t('diary_entry.diary_entry.edit_link'), :action => 'edit', :display_name => diary_entry.user.display_name, :id => diary_entry.id %>
+    <% end %>
+
+    <% if current_user and diary_entry.user != current_user %>
+      <li>
+        <%= report_link(t(".report"), diary_entry) %>
+      </li>
     <% end %>
 
     <%= if_administrator(:li) do %>

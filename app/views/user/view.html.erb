@@ -104,9 +104,7 @@
 
           <% if current_user and @this_user.id != current_user.id %>
             <li>
-              <%= link_to new_report_url(reportable_id: @this_user.id, reportable_type: @this_user.class.name), :title => t('user.view.report') do %>
-                &nbsp;&#9872;
-              <% end %>
+              <%= report_link(t(".report"), @this_user) %>
             </li>
           <% end %>
         </ul>

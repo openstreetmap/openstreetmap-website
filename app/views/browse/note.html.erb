@@ -17,16 +17,15 @@
       <br/>
       <%= note_event(@note.status, @note.closed_at, @note_comments.last.author) %>
     <% end %>
-    <% if current_user && current_user != @note.author %>
-      <%= link_to new_report_url(reportable_id: @note.id, reportable_type: @note.class.name), :title => t('browse.note.report') do %>
-          &nbsp;&#9872;
-      <% end %>
-    <% end %>
   </div>
 
   <% if @note_comments.find { |comment| comment.author.nil? } -%>
     <p class='warning'><%= t "javascripts.notes.show.anonymous_warning" %></p>
   <% end -%>
+
+  <% if current_user && current_user != @note.author %>
+    <p class="deemphasize"><%= report_link(t(".report"), @note) %></p>
+  <% end %>
 
   <% if @note_comments.length > 1 %>
     <div class='note-comments'>

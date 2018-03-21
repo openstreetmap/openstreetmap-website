@@ -29,7 +29,7 @@ class ReportsController < ApplicationController
   private
 
   def required_new_report_params_present?
-    create_new_report_params['reportable_id'].present? && create_new_report_params['reportable_type'].present?
+    create_new_report_params["reportable_id"].present? && create_new_report_params["reportable_type"].present?
   end
 
   def create_new_report_params
