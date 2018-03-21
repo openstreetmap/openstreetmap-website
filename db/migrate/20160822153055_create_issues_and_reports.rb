@@ -1,10 +1,14 @@
+require "migrate"
+
 class CreateIssuesAndReports < ActiveRecord::Migration[5.0]
-  def change
+  def up
+    create_enumeration :issue_status_enum, %w[open ignored resolved]
+
     create_table :issues do |t|
       t.string :reportable_type, :null => false
       t.integer :reportable_id, :null => false
       t.integer :reported_user_id
-      t.integer :status
+      t.column :status, :issue_status_enum, :null => false, :default => "open"
       t.column :assigned_role, :user_role_enum, :null => false
       t.datetime :resolved_at
       t.integer :resolved_by
@@ -47,5 +51,12 @@ class CreateIssuesAndReports < ActiveRecord::Migration[5.0]
 
     add_index :issue_comments, :user_id
     add_index :issue_comments, :issue_id
+  end
+
+  def down
+    drop_table :issue_comments
+    drop_table :reports
+    drop_table :issues
+    drop_enumeration :issue_status_enum
   end
 end

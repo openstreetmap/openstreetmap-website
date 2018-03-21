@@ -67,6 +67,17 @@ CREATE TYPE gpx_visibility_enum AS ENUM (
 
 
 --
+-- Name: issue_status_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE issue_status_enum AS ENUM (
+    'open',
+    'ignored',
+    'resolved'
+);
+
+
+--
 -- Name: note_event_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -727,7 +738,7 @@ CREATE TABLE issues (
     reportable_type character varying NOT NULL,
     reportable_id integer NOT NULL,
     reported_user_id integer,
-    status integer,
+    status issue_status_enum DEFAULT 'open'::public.issue_status_enum NOT NULL,
     assigned_role user_role_enum NOT NULL,
     resolved_at timestamp without time zone,
     resolved_by integer,

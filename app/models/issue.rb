@@ -6,7 +6,7 @@
 #  reportable_type  :string           not null
 #  reportable_id    :integer          not null
 #  reported_user_id :integer
-#  status           :integer
+#  status           :enum             default(NULL), not null
 #  assigned_role    :enum             not null
 #  resolved_at      :datetime
 #  resolved_by      :integer
@@ -44,9 +44,6 @@ class Issue < ActiveRecord::Base
 
   before_validation :set_default_assigned_role
   before_validation :set_reported_user
-
-  # Check if more statuses are needed
-  enum :status => %w[open ignored resolved]
 
   scope :with_status, ->(issue_status) { where(:status => statuses[issue_status]) }
 
