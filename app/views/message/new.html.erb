@@ -1,5 +1,5 @@
 <% content_for :heading do %>
-  <h2><%= raw(t'message.new.send_message_to', :name => link_to(h(@message.recipient.display_name), {:controller => 'user', :action => 'view', :display_name => @message.recipient.display_name})) %></h2>
+  <h2><%= raw(t'message.new.send_message_to', :name => link_to(h(@message.recipient.display_name), user_path(@message.recipient))) %></h2>
 <% end %>
 
 <%= error_messages_for 'message' %>

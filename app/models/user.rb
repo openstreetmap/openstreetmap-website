@@ -113,6 +113,10 @@ class User < ActiveRecord::Base
   before_save :update_tile
   after_save :spam_check
 
+  def to_param
+    display_name
+  end
+
   def self.authenticate(options)
     if options[:username] && options[:password]
       user = find_by("email = ? OR display_name = ?", options[:username], options[:username])
