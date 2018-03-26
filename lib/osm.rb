@@ -514,9 +514,9 @@ module OSM
       country = "GB" if country == "UK"
     end
 
-    return country
+    country
   rescue StandardError
-    return nil
+    nil
   end
 
   def self.ip_location(ip_address)

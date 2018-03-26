@@ -40,7 +40,7 @@ module Potlatch
         break if key == ""
         arr[key] = getvalue(s)
       end
-      s.getbyte	# skip the 9 'end of object' value
+      s.getbyte # skip the 9 'end of object' value
       arr
     end
 
@@ -162,11 +162,11 @@ module Potlatch
   # The Potlatch class is a helper for Potlatch
   class Potlatch
     # ----- getpresets
-    #		  in:   none
-    #		  does: reads tag preset menus, colours, and autocomplete config files
-    #	      out:  [0] presets, [1] presetmenus, [2] presetnames,
-    #				[3] colours, [4] casing, [5] areas, [6] autotags
-    #				(all hashes)
+    #      in:   none
+    #      does: reads tag preset menus, colours, and autocomplete config files
+    #        out:  [0] presets, [1] presetmenus, [2] presetnames,
+    #        [3] colours, [4] casing, [5] areas, [6] autotags
+    #        (all hashes)
     def self.get_presets
       Rails.logger.info("  Message: getpresets")
 
@@ -176,7 +176,7 @@ module Potlatch
       presetnames = { "point" => {}, "way" => {}, "POI" => {} }
       presettype = ""
       presetcategory = ""
-      #	StringIO.open(txt) do |file|
+      #  StringIO.open(txt) do |file|
       File.open(Rails.root.join("config", "potlatch", "presets.txt")) do |file|
         file.each_line do |line|
           t = line.chomp

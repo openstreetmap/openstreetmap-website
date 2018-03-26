@@ -296,13 +296,13 @@ class ApplicationController < ActionController::Base
   end
 
   def preferred_languages
-    @languages ||= if params[:locale]
-                     Locale.list(params[:locale])
-                   elsif current_user
-                     current_user.preferred_languages
-                   else
-                     Locale.list(http_accept_language.user_preferred_languages)
-                   end
+    @preferred_languages ||= if params[:locale]
+                               Locale.list(params[:locale])
+                             elsif current_user
+                               current_user.preferred_languages
+                             else
+                               Locale.list(http_accept_language.user_preferred_languages)
+                             end
   end
 
   helper_method :preferred_languages

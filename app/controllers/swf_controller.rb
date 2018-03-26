@@ -10,10 +10,10 @@ class SwfController < ApplicationController
   # ====================================================================
   # Public methods
 
-  # ---- trackpoints	compile SWF of trackpoints
+  # ---- trackpoints  compile SWF of trackpoints
 
   def trackpoints
-    # -	Initialise
+    # -  Initialise
 
     baselong = params["baselong"].to_f
     basey = params["basey"].to_f
@@ -23,7 +23,7 @@ class SwfController < ApplicationController
                            params["xmax"], params["ymax"])
     start = params["start"].to_i
 
-    # -	Begin movie
+    # -  Begin movie
 
     bounds_left = 0
     bounds_right = 320 * 20
@@ -31,13 +31,13 @@ class SwfController < ApplicationController
     bounds_top = 240 * 20
 
     m = ""
-    m += swf_record(9, 255.chr + 155.chr + 155.chr)	# Background
+    m += swf_record(9, 255.chr + 155.chr + 155.chr) # Background
     absx = 0
     absy = 0
     xl = yb = 9999999
     xr = yt = -9999999
 
-    # -	Send SQL for GPS tracks
+    # -  Send SQL for GPS tracks
 
     b = ""
     lasttime = 0
@@ -84,7 +84,7 @@ class SwfController < ApplicationController
     m += swf_record(2, pack_u16(1) + pack_rect(xl, xr, yb, yt) + r)
     m += swf_record(4, pack_u16(1) + pack_u16(1))
 
-    # -	Create Flash header and write to browser
+    # -  Create Flash header and write to browser
 
     m += swf_record(1, "")									# Show frame
     m += swf_record(0, "")									# End
@@ -108,7 +108,7 @@ class SwfController < ApplicationController
     s += 2.chr                                   # Two line styles
     s += pack_u16(0) + 0.chr + 255.chr + 255.chr # Width 5, RGB #00FFFF
     s += pack_u16(0) + 255.chr + 0.chr + 255.chr # Width 5, RGB #FF00FF
-    s += 34.chr	                                 # 2 fill, 2 line index bits
+    s += 34.chr # 2 fill, 2 line index bits
     s
   end
 
@@ -120,7 +120,7 @@ class SwfController < ApplicationController
     d = "001001"	# Line style change, moveTo
     l = [length_sb(x), length_sb(y)].max
     d += format("%05b%0*b%0*b", l, l, x, l, y)
-    d += col	# Select line style
+    d += col # Select line style
     d
   end
 

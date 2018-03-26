@@ -507,7 +507,7 @@ class ChangesetController < ApplicationController
   # restrict changes to those closed during a particular time period
   def conditions_time(changesets, time)
     if time.nil?
-      return changesets
+      changesets
     elsif time.count(",") == 1
       # if there is a range, i.e: comma separated, then the first is
       # low, second is high - same as with bounding boxes.
@@ -517,10 +517,10 @@ class ChangesetController < ApplicationController
       raise OSM::APIBadUserInput, "bad time range" if times.size != 2
 
       from, to = times.collect { |t| Time.parse(t) }
-      return changesets.where("closed_at >= ? and created_at <= ?", from, to)
+      changesets.where("closed_at >= ? and created_at <= ?", from, to)
     else
       # if there is no comma, assume its a lower limit on time
-      return changesets.where("closed_at >= ?", Time.parse(time))
+      changesets.where("closed_at >= ?", Time.parse(time))
     end
     # stupid Time seems to throw both of these for bad parsing, so
     # we have to catch both and ensure the correct code path is taken.

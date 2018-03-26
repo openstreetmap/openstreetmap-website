@@ -48,7 +48,7 @@ class DiaryEntryController < ApplicationController
 
     if current_user != @diary_entry.user
       redirect_to :action => "view", :id => params[:id]
-    elsif params[:diary_entry] && @diary_entry.update_attributes(entry_params)
+    elsif params[:diary_entry] && @diary_entry.update(entry_params)
       redirect_to :action => "view", :id => params[:id]
     end
 
@@ -192,13 +192,13 @@ class DiaryEntryController < ApplicationController
 
   def hide
     entry = DiaryEntry.find(params[:id])
-    entry.update_attributes(:visible => false)
+    entry.update(:visible => false)
     redirect_to :action => "list", :display_name => entry.user.display_name
   end
 
   def hidecomment
     comment = DiaryComment.find(params[:comment])
-    comment.update_attributes(:visible => false)
+    comment.update(:visible => false)
     redirect_to :action => "view", :display_name => comment.diary_entry.user.display_name, :id => comment.diary_entry.id
   end
 

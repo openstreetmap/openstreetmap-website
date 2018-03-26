@@ -189,7 +189,7 @@ class User < ActiveRecord::Base
   end
 
   def preferred_languages
-    @locales ||= Locale.list(languages)
+    @preferred_languages ||= Locale.list(languages)
   end
 
   def nearby(radius = NEARBY_RADIUS, num = NEARBY_USERS)

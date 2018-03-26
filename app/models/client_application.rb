@@ -72,7 +72,7 @@ class ClientApplication < ActiveRecord::Base
   end
 
   def credentials
-    @oauth_client ||= OAuth::Consumer.new(key, secret)
+    @credentials ||= OAuth::Consumer.new(key, secret)
   end
 
   def create_request_token(_params = {})

@@ -60,7 +60,7 @@ class UserBlocksController < ApplicationController
       if @user_block.creator != current_user
         flash[:error] = t("user_block.update.only_creator_can_edit")
         redirect_to :action => "edit"
-      elsif @user_block.update_attributes(
+      elsif @user_block.update(
         :ends_at => Time.now.getutc + @block_period.hours,
         :reason => params[:user_block][:reason],
         :needs_view => params[:user_block][:needs_view]

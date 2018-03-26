@@ -38,8 +38,8 @@ class PopulateNodeTagsAndRemove < ActiveRecord::Migration[5.0]
     create_table :node_tags, :id => false do |t|
       t.column :id,          :bigint, :null => false
       t.column :version,     :bigint, :null => false
-      t.column :k,	     :string, :default => "", :null => false
-      t.column :v,	     :string, :default => "", :null => false
+      t.column :k,           :string, :default => "", :null => false
+      t.column :v,           :string, :default => "", :null => false
     end
 
     # now get the data back
