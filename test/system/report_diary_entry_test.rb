@@ -6,7 +6,7 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
     @diary_entry = create(:diary_entry)
   end
 
-  def test_no_flag_when_not_logged_in
+  def test_no_link_when_not_logged_in
     visit diary_entry_path(@diary_entry.user.display_name, @diary_entry)
     assert page.has_content?(@diary_entry.title)
 
