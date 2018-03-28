@@ -6,13 +6,13 @@
     <li><%= link_to t('trace.trace_header.upload_trace'), :action => 'create' %></li>
     <% if @tag %>
       <li><%= link_to t('trace.trace_header.see_all_traces'), :controller => 'trace', :action => 'list', :display_name => nil, :tag => nil, :page => nil %></li>
-      <li><%= link_to t('trace.trace_header.see_your_traces'), :action => 'mine', :tag => nil, :page => nil %></li>
+      <li><%= link_to t('trace.trace_header.see_my_traces'), :action => 'mine', :tag => nil, :page => nil %></li>
     <% else %>
       <% if @display_name %>
         <li><%= link_to t('trace.trace_header.see_all_traces'), :controller => 'trace', :action => 'list', :display_name => nil, :tag => nil, :page => nil %></li>
       <% end %>
       <%= unless_user(@target_user, :li) do %>
-        <%= link_to t('trace.trace_header.see_your_traces'), :action => 'mine', :tag => nil, :page => nil %>
+        <%= link_to t('trace.trace_header.see_my_traces'), :action => 'mine', :tag => nil, :page => nil %>
       <% end %>
     <% end %>
   </ul>
