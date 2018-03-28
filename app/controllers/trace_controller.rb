@@ -33,7 +33,7 @@ class TraceController < ApplicationController
     @title = if target_user.nil?
                t "trace.list.public_traces"
              elsif current_user && current_user == target_user
-               t "trace.list.your_traces"
+               t "trace.list.my_traces"
              else
                t "trace.list.public_traces_from", :user => target_user.display_name
              end
