@@ -141,13 +141,13 @@ OpenStreetMap::Application.routes.draw do
 
   # web site
   root :to => "site#index", :via => [:get, :post]
-  get "/edit" => "site#edit", :as => :edit
+  get "/edit" => "site#edit"
   get "/copyright/:copyright_locale" => "site#copyright"
   get "/copyright" => "site#copyright"
-  get "/welcome" => "site#welcome", :as => :welcome
-  get "/fixthemap" => "site#fixthemap", :as => :fixthemap
-  get "/help" => "site#help", :as => :help
-  get "/about" => "site#about", :as => :about
+  get "/welcome" => "site#welcome"
+  get "/fixthemap" => "site#fixthemap"
+  get "/help" => "site#help"
+  get "/about" => "site#about"
   get "/history" => "changeset#list"
   get "/history/feed" => "changeset#feed", :defaults => { :format => :atom }
   get "/history/comments/feed" => "changeset#comments_feed", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
@@ -244,7 +244,7 @@ OpenStreetMap::Application.routes.draw do
   match "/users/:status" => "user#list", :via => [:get, :post]
 
   # geocoder
-  get "/search" => "geocoder#search", :as => :search
+  get "/search" => "geocoder#search"
   get "/geocoder/search_latlon" => "geocoder#search_latlon"
   get "/geocoder/search_ca_postcode" => "geocoder#search_ca_postcode"
   get "/geocoder/search_osm_nominatim" => "geocoder#search_osm_nominatim"
@@ -253,7 +253,7 @@ OpenStreetMap::Application.routes.draw do
   get "/geocoder/search_geonames_reverse" => "geocoder#search_geonames_reverse"
 
   # directions
-  get "/directions" => "directions#search", :as => :directions
+  get "/directions" => "directions#search"
 
   # export
   post "/export/finish" => "export#finish"
