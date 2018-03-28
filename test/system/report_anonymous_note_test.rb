@@ -6,7 +6,7 @@ class ReportAnonymousNoteTest < ApplicationSystemTestCase
     visit browse_note_path(note)
     assert page.has_content?(note.comments.first.body)
 
-    assert !page.has_content?("\u2690")
+    assert !page.has_content?(I18n.t("browse.note.report"))
   end
 
   def test_can_report_anonymous_notes
@@ -14,7 +14,7 @@ class ReportAnonymousNoteTest < ApplicationSystemTestCase
     sign_in_as(create(:user))
     visit browse_note_path(note)
 
-    click_on "\u2690"
+    click_on I18n.t("browse.note.report")
     assert page.has_content? "Report"
     assert page.has_content? I18n.t("issues.new.disclaimer.intro")
 

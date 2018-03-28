@@ -10,7 +10,7 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
     visit diary_entry_path(@diary_entry.user.display_name, @diary_entry)
     assert page.has_content?(@diary_entry.title)
 
-    assert !page.has_content?("\u2690")
+    assert !page.has_content?(I18n.t("diary_entry.diary_entry.report"))
   end
 
   def test_it_works
@@ -18,7 +18,7 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
     visit diary_entry_path(@diary_entry.user.display_name, @diary_entry)
     assert page.has_content? @diary_entry.title
 
-    click_on "\u2690"
+    click_on I18n.t("diary_entry.diary_entry.report")
     assert page.has_content? "Report"
     assert page.has_content? I18n.t("issues.new.disclaimer.intro")
 
@@ -37,7 +37,7 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
     visit diary_entry_path(@diary_entry.user.display_name, @diary_entry)
     assert page.has_content? @diary_entry.title
 
-    click_on "\u2690"
+    click_on I18n.t("diary_entry.diary_entry.report")
     assert page.has_content? "Report"
     assert page.has_content? I18n.t("issues.new.disclaimer.intro")
 
