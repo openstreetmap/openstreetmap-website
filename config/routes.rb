@@ -1,91 +1,92 @@
 OpenStreetMap::Application.routes.draw do
   # API
   get "api/capabilities" => "api#capabilities"
-  get "api/0.6/capabilities" => "api#capabilities"
-  get "api/0.6/permissions" => "api#permissions"
 
-  put "api/0.6/changeset/create" => "changeset#create"
-  post "api/0.6/changeset/:id/upload" => "changeset#upload", :id => /\d+/
-  get "api/0.6/changeset/:id/download" => "changeset#download", :as => :changeset_download, :id => /\d+/
-  post "api/0.6/changeset/:id/expand_bbox" => "changeset#expand_bbox", :id => /\d+/
-  get "api/0.6/changeset/:id" => "changeset#read", :as => :changeset_read, :id => /\d+/
-  post "api/0.6/changeset/:id/subscribe" => "changeset#subscribe", :as => :changeset_subscribe, :id => /\d+/
-  post "api/0.6/changeset/:id/unsubscribe" => "changeset#unsubscribe", :as => :changeset_unsubscribe, :id => /\d+/
-  put "api/0.6/changeset/:id" => "changeset#update", :id => /\d+/
-  put "api/0.6/changeset/:id/close" => "changeset#close", :id => /\d+/
-  get "api/0.6/changesets" => "changeset#query"
-  post "api/0.6/changeset/:id/comment" => "changeset#comment", :as => :changeset_comment, :id => /\d+/
-  post "api/0.6/changeset/comment/:id/hide" => "changeset#hide_comment", :as => :changeset_comment_hide, :id => /\d+/
-  post "api/0.6/changeset/comment/:id/unhide" => "changeset#unhide_comment", :as => :changeset_comment_unhide, :id => /\d+/
-
-  put "api/0.6/node/create" => "node#create"
-  get "api/0.6/node/:id/ways" => "way#ways_for_node", :id => /\d+/
-  get "api/0.6/node/:id/relations" => "relation#relations_for_node", :id => /\d+/
-  get "api/0.6/node/:id/history" => "old_node#history", :id => /\d+/
-  post "api/0.6/node/:id/:version/redact" => "old_node#redact", :version => /\d+/, :id => /\d+/
-  get "api/0.6/node/:id/:version" => "old_node#version", :id => /\d+/, :version => /\d+/
-  get "api/0.6/node/:id" => "node#read", :id => /\d+/
-  put "api/0.6/node/:id" => "node#update", :id => /\d+/
-  delete "api/0.6/node/:id" => "node#delete", :id => /\d+/
-  get "api/0.6/nodes" => "node#nodes"
-
-  put "api/0.6/way/create" => "way#create"
-  get "api/0.6/way/:id/history" => "old_way#history", :id => /\d+/
-  get "api/0.6/way/:id/full" => "way#full", :id => /\d+/
-  get "api/0.6/way/:id/relations" => "relation#relations_for_way", :id => /\d+/
-  post "api/0.6/way/:id/:version/redact" => "old_way#redact", :version => /\d+/, :id => /\d+/
-  get "api/0.6/way/:id/:version" => "old_way#version", :id => /\d+/, :version => /\d+/
-  get "api/0.6/way/:id" => "way#read", :id => /\d+/
-  put "api/0.6/way/:id" => "way#update", :id => /\d+/
-  delete "api/0.6/way/:id" => "way#delete", :id => /\d+/
-  get "api/0.6/ways" => "way#ways"
-
-  put "api/0.6/relation/create" => "relation#create"
-  get "api/0.6/relation/:id/relations" => "relation#relations_for_relation", :id => /\d+/
-  get "api/0.6/relation/:id/history" => "old_relation#history", :id => /\d+/
-  get "api/0.6/relation/:id/full" => "relation#full", :id => /\d+/
-  post "api/0.6/relation/:id/:version/redact" => "old_relation#redact", :version => /\d+/, :id => /\d+/
-  get "api/0.6/relation/:id/:version" => "old_relation#version", :id => /\d+/, :version => /\d+/
-  get "api/0.6/relation/:id" => "relation#read", :id => /\d+/
-  put "api/0.6/relation/:id" => "relation#update", :id => /\d+/
-  delete "api/0.6/relation/:id" => "relation#delete", :id => /\d+/
-  get "api/0.6/relations" => "relation#relations"
-
-  get "api/0.6/map" => "api#map"
-
-  get "api/0.6/trackpoints" => "api#trackpoints"
-
-  get "api/0.6/changes" => "api#changes"
-
-  get "api/0.6/search" => "search#search_all"
-  get "api/0.6/ways/search" => "search#search_ways"
-  get "api/0.6/relations/search" => "search#search_relations"
-  get "api/0.6/nodes/search" => "search#search_nodes"
-
-  get "api/0.6/user/:id" => "user#api_read", :id => /\d+/
-  get "api/0.6/user/details" => "user#api_details"
-  get "api/0.6/user/gpx_files" => "user#api_gpx_files"
-
-  get "api/0.6/user/preferences" => "user_preference#read"
-  get "api/0.6/user/preferences/:preference_key" => "user_preference#read_one"
-  put "api/0.6/user/preferences" => "user_preference#update"
-  put "api/0.6/user/preferences/:preference_key" => "user_preference#update_one"
-  delete "api/0.6/user/preferences/:preference_key" => "user_preference#delete_one"
-
-  post "api/0.6/gpx/create" => "trace#api_create"
-  get "api/0.6/gpx/:id" => "trace#api_read", :id => /\d+/
-  put "api/0.6/gpx/:id" => "trace#api_update", :id => /\d+/
-  delete "api/0.6/gpx/:id" => "trace#api_delete", :id => /\d+/
-  get "api/0.6/gpx/:id/details" => "trace#api_read", :id => /\d+/
-  get "api/0.6/gpx/:id/data" => "trace#api_data"
-
-  # AMF (ActionScript) API
-  post "api/0.6/amf/read" => "amf#amf_read"
-  post "api/0.6/amf/write" => "amf#amf_write"
-  get "api/0.6/swf/trackpoints" => "swf#trackpoints"
-
-  # Map notes API
   scope "api/0.6" do
+    get "capabilities" => "api#capabilities"
+    get "permissions" => "api#permissions"
+
+    put "changeset/create" => "changeset#create"
+    post "changeset/:id/upload" => "changeset#upload", :id => /\d+/
+    get "changeset/:id/download" => "changeset#download", :as => :changeset_download, :id => /\d+/
+    post "changeset/:id/expand_bbox" => "changeset#expand_bbox", :id => /\d+/
+    get "changeset/:id" => "changeset#read", :as => :changeset_read, :id => /\d+/
+    post "changeset/:id/subscribe" => "changeset#subscribe", :as => :changeset_subscribe, :id => /\d+/
+    post "changeset/:id/unsubscribe" => "changeset#unsubscribe", :as => :changeset_unsubscribe, :id => /\d+/
+    put "changeset/:id" => "changeset#update", :id => /\d+/
+    put "changeset/:id/close" => "changeset#close", :id => /\d+/
+    get "changesets" => "changeset#query"
+    post "changeset/:id/comment" => "changeset#comment", :as => :changeset_comment, :id => /\d+/
+    post "changeset/comment/:id/hide" => "changeset#hide_comment", :as => :changeset_comment_hide, :id => /\d+/
+    post "changeset/comment/:id/unhide" => "changeset#unhide_comment", :as => :changeset_comment_unhide, :id => /\d+/
+
+    put "node/create" => "node#create"
+    get "node/:id/ways" => "way#ways_for_node", :id => /\d+/
+    get "node/:id/relations" => "relation#relations_for_node", :id => /\d+/
+    get "node/:id/history" => "old_node#history", :id => /\d+/
+    post "node/:id/:version/redact" => "old_node#redact", :version => /\d+/, :id => /\d+/
+    get "node/:id/:version" => "old_node#version", :id => /\d+/, :version => /\d+/
+    get "node/:id" => "node#read", :id => /\d+/
+    put "node/:id" => "node#update", :id => /\d+/
+    delete "node/:id" => "node#delete", :id => /\d+/
+    get "nodes" => "node#nodes"
+
+    put "way/create" => "way#create"
+    get "way/:id/history" => "old_way#history", :id => /\d+/
+    get "way/:id/full" => "way#full", :id => /\d+/
+    get "way/:id/relations" => "relation#relations_for_way", :id => /\d+/
+    post "way/:id/:version/redact" => "old_way#redact", :version => /\d+/, :id => /\d+/
+    get "way/:id/:version" => "old_way#version", :id => /\d+/, :version => /\d+/
+    get "way/:id" => "way#read", :id => /\d+/
+    put "way/:id" => "way#update", :id => /\d+/
+    delete "way/:id" => "way#delete", :id => /\d+/
+    get "ways" => "way#ways"
+
+    put "relation/create" => "relation#create"
+    get "relation/:id/relations" => "relation#relations_for_relation", :id => /\d+/
+    get "relation/:id/history" => "old_relation#history", :id => /\d+/
+    get "relation/:id/full" => "relation#full", :id => /\d+/
+    post "relation/:id/:version/redact" => "old_relation#redact", :version => /\d+/, :id => /\d+/
+    get "relation/:id/:version" => "old_relation#version", :id => /\d+/, :version => /\d+/
+    get "relation/:id" => "relation#read", :id => /\d+/
+    put "relation/:id" => "relation#update", :id => /\d+/
+    delete "relation/:id" => "relation#delete", :id => /\d+/
+    get "relations" => "relation#relations"
+
+    get "map" => "api#map"
+
+    get "trackpoints" => "api#trackpoints"
+
+    get "changes" => "api#changes"
+
+    get "search" => "search#search_all", :as => "api_search"
+    get "ways/search" => "search#search_ways"
+    get "relations/search" => "search#search_relations"
+    get "nodes/search" => "search#search_nodes"
+
+    get "user/:id" => "user#api_read", :id => /\d+/
+    get "user/details" => "user#api_details"
+    get "user/gpx_files" => "user#api_gpx_files"
+
+    get "user/preferences" => "user_preference#read"
+    get "user/preferences/:preference_key" => "user_preference#read_one"
+    put "user/preferences" => "user_preference#update"
+    put "user/preferences/:preference_key" => "user_preference#update_one"
+    delete "user/preferences/:preference_key" => "user_preference#delete_one"
+
+    post "gpx/create" => "trace#api_create"
+    get "gpx/:id" => "trace#api_read", :id => /\d+/
+    put "gpx/:id" => "trace#api_update", :id => /\d+/
+    delete "gpx/:id" => "trace#api_delete", :id => /\d+/
+    get "gpx/:id/details" => "trace#api_read", :id => /\d+/
+    get "gpx/:id/data" => "trace#api_data"
+
+    # AMF (ActionScript) API
+    post "amf/read" => "amf#amf_read"
+    post "amf/write" => "amf#amf_write"
+    get "swf/trackpoints" => "swf#trackpoints"
+
+    # Map notes API
     resources :notes, :except => [:new, :edit, :update], :constraints => { :id => /\d+/ }, :defaults => { :format => "xml" } do
       collection do
         get "search"
