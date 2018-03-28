@@ -4,6 +4,8 @@ require "capybara/poltergeist"
 WebMock.disable_net_connect!(:allow_localhost => true)
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  ActionDispatch::SystemTesting::Server.silence_puma = true
+
   driven_by :poltergeist, :screen_size => [1400, 1400]
 
   def initialize(*args)
