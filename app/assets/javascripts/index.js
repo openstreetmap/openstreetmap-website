@@ -239,9 +239,37 @@ $(document).ready(function () {
     L.marker(center, {icon: OSM.getUserIcon()}).addTo(map);
   });
 
+  var isMobile = {
+    Windows: function() {
+        return /IEMobile/i.test(navigator.userAgent);
+    },
+    Android: function() {
+        return /Android/i.test(navigator.userAgent);
+    },
+    BlackBerry: function() {
+        return /BlackBerry/i.test(navigator.userAgent);
+    },
+    iOS: function() {
+        return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows());
+    }
+  };
+
+  function url() {
+    if (isMobile.Android()) {
+      return "intent:/load_and_zoom?";
+    } else {
+      return document.location.protocol === "https:" ?
+            "https://127.0.0.1:8112/load_and_zoom?" :
+            "http://127.0.0.1:8111/load_and_zoom?";
+    }
+  }
+   
   function remoteEditHandler(bbox, object) {
     var loaded = false,
-        url = "http://127.0.0.1:8111/load_and_zoom?",
+        android = isMobile.Android(),
         query = {
           left: bbox.getWest() - 0.0001,
           top: bbox.getNorth() + 0.0001,
@@ -254,17 +282,17 @@ $(document).ready(function () {
     var iframe = $('<iframe>')
         .hide()
         .appendTo('body')
-        .attr("src", url + querystring.stringify(query))
+        .attr("src", url() + querystring.stringify(query) + (android ? '#Intent;scheme=josm;end;':''))
         .on('load', function() {
           $(this).remove();
           loaded = true;
         });
 
     setTimeout(function () {
-      if (!loaded) {
+      if (!android && !loaded) {
         alert(I18n.t('site.index.remote_failed'));
-        iframe.remove();
       }
+      iframe.remove();
     }, 1000);
 
     return false;
