@@ -54,7 +54,7 @@ OSM.Directions = function (map) {
     });
 
     input.on("keydown", function() {
-      input.css("background-color", "#fff");
+      input.removeClass("highlight_error");
     });
 
     input.on("change", function (e) {
@@ -91,7 +91,7 @@ OSM.Directions = function (map) {
         endpoint.hasGeocode = true;
         if (json.length === 0) {
           alert(I18n.t('javascripts.directions.errors.no_place', {place: endpoint.value}));
-          input.css("background-color", "rgba(255, 0, 0, 0.5)");
+          input.addClass("highlight_error");
           return;
         }
 
