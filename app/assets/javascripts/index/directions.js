@@ -90,7 +90,7 @@ OSM.Directions = function (map) {
         endpoint.awaitingGeocode = false;
         endpoint.hasGeocode = true;
         if (json.length === 0) {
-          alert(I18n.t('javascripts.directions.errors.no_place_with_name', {place: endpoint.value}));
+          alert(I18n.t('javascripts.directions.errors.no_place', {place: endpoint.value}));
           input.css("background-color", "rgba(255, 0, 0, 0.5)");
           return;
         }
