@@ -40,7 +40,8 @@ OSM.Directions = function (map) {
         shadowUrl: OSM.MARKER_SHADOW,
         shadowSize: [41, 41]
       }),
-      draggable: true
+      draggable: true,
+      autoPan: true
     });
 
     endpoint.marker.on('drag dragend', function (e) {
