@@ -60,6 +60,20 @@ function OSRMEngine() {
         'depart': 8,
         'arrive': 14
       };
+      var convertExitNumber = function(exitNum) {
+        var j = exitNum % 10,
+        k = exitNum % 100;
+        if (j === 1 && k !== 11) {
+            return exitNum + "st";
+        }
+        if (j === 2 && k !== 12) {
+            return exitNum + "nd";
+        }
+        if (j === 3 && k !== 13) {
+            return exitNum + "rd";
+        }
+        return exitNum + "th";
+      };
       var transformed_steps = input_steps.map(function(step, idx) {
         var maneuver_id;
 
@@ -112,7 +126,7 @@ function OSRMEngine() {
 
         if (step.maneuver.type.match(/rotary|roundabout/)) {
           if (step.maneuver.exit) {
-            instText += I18n.t(template + '_with_exit', { exit: step.maneuver.exit, name: name } );
+            instText += I18n.t(template + '_with_exit', { exit: convertExitNumber(step.maneuver.exit), name: name } );
           } else {
             instText += I18n.t(template + '_without_exit', { name: name } );
           }
