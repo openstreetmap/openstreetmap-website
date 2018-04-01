@@ -119,14 +119,17 @@ function OSRMEngine() {
         } else if (step.maneuver.type.match(/on ramp|off ramp/)) {
           var params = {};
           if (step.exits && step.maneuver.type.match(/off ramp/)) params.exit = step.exits;
-          if (step.destinations) params.directions = destinations;
-          if (namedRoad) params.directions = name;
+          if (namedRoad) params.name = name;
           if (Object.keys(params).length > 0) {
             template = template + "_with_" + Object.keys(params).join("_");
           }
           instText += I18n.t(template, params);
         } else {
           instText += I18n.t(template + '_without_exit', { name: name });
+        }
+
+        if (step.destinations) {
+          instText += I18n.t('javascripts.directions.instructions.towards_destination', { destination: destinations });
         }
         return [[step.maneuver.location[1], step.maneuver.location[0]], ICON_MAP[maneuver_id], instText, step.distance, step_geometry];
       });
