@@ -53,6 +53,10 @@ OSM.Directions = function (map) {
       }
     });
 
+    input.on("keydown", function() {
+      input.removeClass("highlight_error");
+    });
+
     input.on("change", function (e) {
       awaitingGeocode = true;
       
@@ -86,7 +90,8 @@ OSM.Directions = function (map) {
         endpoint.awaitingGeocode = false;
         endpoint.hasGeocode = true;
         if (json.length === 0) {
-          alert(I18n.t('javascripts.directions.errors.no_place'));
+          alert(I18n.t('javascripts.directions.errors.no_place', {place: endpoint.value}));
+          input.addClass("highlight_error");
           return;
         }
 
