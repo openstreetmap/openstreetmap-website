@@ -79,6 +79,9 @@ function OSRMEngine() {
             maneuver_id = step.maneuver.type;
             break;
           case 'roundabout turn':
+          case 'rotary turn':
+            maneuver_id = "roundabout";
+            break;
           case 'turn':
             maneuver_id = "turn " + step.maneuver.modifier;
             break;
@@ -110,24 +113,27 @@ function OSRMEngine() {
           namedRoad = false;
         }
 
+        var params = {};
         if (step.maneuver.type.match(/rotary|roundabout/)) {
-          if (step.maneuver.exit) {
-            instText += I18n.t(template + '_with_exit', { exit: step.maneuver.exit, name: name } );
-          } else {
-            instText += I18n.t(template + '_without_exit', { name: name } );
+          if (step.maneuver.exit) params.exit = step.maneuver.exit;
+          if (step.maneuver.type.match(/exit/)) {
+            template = template.substr(0, template.lastIndexOf(".")) + ".exit_roundabout_" + template.substr(template.lastIndexOf(".")+1);
+            params.name = name;
+            delete params.exit;
           }
         } else if (step.maneuver.type.match(/on ramp|off ramp/)) {
-          var params = {};
           if (step.exits && step.maneuver.type.match(/off ramp/)) params.exit = step.exits;
           if (step.destinations) params.directions = destinations;
-          if (namedRoad) params.directions = name;
-          if (Object.keys(params).length > 0) {
-            template = template + "_with_" + Object.keys(params).join("_");
-          }
-          instText += I18n.t(template, params);
         } else {
-          instText += I18n.t(template + '_without_exit', { name: name });
+          params.name = name;
         }
+
+        if (namedRoad) params.name = name;
+        if (Object.keys(params).length > 0) {
+          template = template + "_with_" + Object.keys(params).sort().join("_");
+        }
+        instText += I18n.t(template, params);
+
         return [[step.maneuver.location[1], step.maneuver.location[0]], ICON_MAP[maneuver_id], instText, step.distance, step_geometry];
       });
 
