@@ -130,7 +130,7 @@ function OSRMEngine() {
 
         if (namedRoad) params.name = name;
         if (Object.keys(params).length > 0) {
-          template = template + "_with_" + Object.keys(params).join("_");
+          template = template + "_with_" + Object.keys(params).sort().join("_");
         }
         instText += I18n.t(template, params);
 
