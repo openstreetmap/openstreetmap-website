@@ -248,6 +248,7 @@ OpenStreetMap::Application.routes.draw do
   get "/search" => "geocoder#search"
   get "/geocoder/search_latlon" => "geocoder#search_latlon"
   get "/geocoder/search_ca_postcode" => "geocoder#search_ca_postcode"
+  get "/geocoder/search_overpass_gss" => "geocoder#search_overpass_gss"
   get "/geocoder/search_osm_nominatim" => "geocoder#search_osm_nominatim"
   get "/geocoder/search_geonames" => "geocoder#search_geonames"
   get "/geocoder/search_osm_nominatim_reverse" => "geocoder#search_osm_nominatim_reverse"

@@ -23,6 +23,8 @@ class GeocoderController < ApplicationController
       elsif @params[:query] =~ /^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i
         @sources.push "ca_postcode"
         @sources.push "osm_nominatim"
+      elsif @params[:query] =~ /^([EWSN]92|E[0-3][0-9]|E4[0-6]|W[0-3][0-9]|W40|S[0-2][0-9]|S3[0-2]|N00|N06|N07|N10|K0[1-6]|L93|L00|M83|M00|M01)0[0-9]{5}$/i
+        @sources.push "overpass_gss"
       else
         @sources.push "osm_nominatim"
         @sources.push "geonames" if defined?(GEONAMES_USERNAME)
@@ -173,6 +175,49 @@ class GeocoderController < ApplicationController
     render :action => "results"
   rescue StandardError => ex
     @error = "Error contacting api.geonames.org: #{ex}"
+    render :action => "error"
+  end
+
+  def search_overpass_gss
+    gss = params[:query]
+
+    overpass_query = "[out:xml][timeout:10];rel['ref:gss'=#{gss}];out bb tags;"
+
+    response = fetch_xml("#{OVERPASS_URL}?data=#{CGI.escape(overpass_query)}")
+
+    @results = []
+
+    response.elements.each("osm/relation") do |rel|
+      rel_id = rel.attributes["id"]
+      name = rel.elements["tag[@k='name']"].attributes["v"]
+      bounds = rel.elements["bounds"]
+
+      designation = rel.elements["tag[@k='designation']"]
+      if designation
+        v = designation.attributes["v"].sub("_", " ")
+        suffix = "(#{v})"
+      else
+        suffix = nil
+      end
+
+      min_lat = bounds["minlat"].to_f
+      min_lon = bounds["minlon"].to_f
+      max_lat = bounds["maxlat"].to_f
+      max_lon = bounds["maxlon"].to_f
+
+      lat = (min_lat + max_lat) / 2
+      lon = (min_lon + max_lon) / 2
+
+      @results.push(:lat => lat, :lon => lon, :name => name,
+                    :min_lat => min_lat, :max_lat => max_lat,
+                    :min_lon => min_lon, :max_lon => max_lon,
+                    :suffix => suffix,
+                    :type => "relation", :id => rel_id)
+    end
+
+    render :action => "results"
+  rescue StandardError => ex
+    @error = "Error contacting Overpass API: #{ex}"
     render :action => "error"
   end
 
