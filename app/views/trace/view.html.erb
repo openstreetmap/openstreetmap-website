@@ -59,6 +59,6 @@
     <%= if_user(@trace.user) do %>
       <%= button_to t('trace.view.edit_track'), trace_edit_path(@trace) %>
     <% end %>
-    <%= button_to t('trace.view.delete_track'), :controller => 'trace', :action => 'delete', :id => @trace.id %>
+    <%= button_to t('trace.view.delete_track'), { :controller => 'trace', :action => 'delete', :id => @trace.id }, :data => { :confirm => t('trace.view.confirm_delete') } %>
   </div>
 <% end %>
