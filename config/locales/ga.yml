@@ -880,6 +880,8 @@ ga:
           optician: Radharceolaí
           organic: Siopa Bia Orgánaigh
           outdoor: Siopa Earraí don Taobh Amuigh
+          paint: Siopa Péinte
+          pawnbroker: Geallbhróicéir
           pet: Siopa Peataí
           pharmacy: Cógaslann
           photo: Siopa Grianghrafadóireachta
@@ -894,6 +896,7 @@ ga:
           tobacco: Siopa tobac
           toys: Siopa Bréagán
           travel_agency: Gníomhaireacht Taistil
+          tyres: Siopa bonn
           vacant: Siopa folamh
           video: Siopa Scannán ar Cíos
           wine: Siopa fíona
@@ -1617,6 +1620,7 @@ ga:
       map: léarscáil
     list:
       public_traces: Loirg GPS phoiblí
+      my_traces: Mo loirg GPS
       public_traces_from: Loirg GPS phoiblí ó %{user}
       description: Brabhsáil rianta GPS a uaslódáladh le déanaí
       tagged_with: a bhfuil na clibeanna %{tags} acu
@@ -1648,6 +1652,9 @@ ga:
     require_moderator:
       not_a_moderator: Is gá duit a bheith i do mhodhnóir chun an gníomh sin a dhéanamh.
     setup_user_auth:
+      blocked_zero_hour: Tá teachtaireacht phráinneach againn duit ar shuíomh gréasáin
+        OpenStreetMap. Ní mór duit an teachtaireacht a léamh sula mbeidh tú in ann
+        do chuid athruithe a shábháil.
       blocked: Tá bac curtha ar do rochtain ar an API. Logáil isteach ar an gcomhéadan
         gréasáin chun tuilleadh eolais a fháil.
       need_to_see_terms: Cuireadh do rochtain ar an API ar fionraí go sealadach. Logáil
@@ -1679,6 +1686,8 @@ ga:
       invalid: Níl an ceadchomhartha bailí.
     revoke:
       flash: Tharraing tú siar an ceadchomhartha le haghaidh %{application}
+    permissions:
+      missing: Níor thug tú cead don fheidhmchlár rochtain a fháil ar an áis seo
   oauth_clients:
     new:
       title: Iarratas nua a chlárú
@@ -1762,6 +1771,9 @@ ga:
       create account minute: Is féidir cuntas a chruthú, ní thógfaidh sé ach nóiméad
         ort.
       no account: Níl cuntas agat?
+      account is suspended: Ár leithscéal, cuireadh do chuntas ar fionraí i ngeall
+        ar ghníomhaíocht amhrasach.<br />Téigh i dteagmháil leis an <a href="%{webmaster}">riarthóir
+        gréasáin</a> más mian leat é seo a phlé.
       auth failure: Ár leithscéil, níorbh fhéidir logáil isteach leis na sonraí sin.
       openid_logo_alt: Logáil isteach le OpenID
       auth_providers:
@@ -1839,6 +1851,7 @@ ga:
       confirm password: 'Deimhnigh an Focal Faire:'
       use external auth: Nó, bain úsáid as tríú páirtí le logáil isteach
       continue: Cláraigh
+      terms accepted: Go raibh maith agat as glacadh leis na téarmaí nua do rannchuiditheoirí.
     terms:
       title: Téarmaí do rannchuiditheoirí
       heading: Téarmaí do rannchuiditheoirí
@@ -1896,17 +1909,26 @@ ga:
       moderator_history: Baic a Tugadh
       comments: 'Nótaí tráchta:'
       create_block: Cuir bac ar an Úsáideoir seo
+      hide_user: Cuir an tÚsáideoir seo i bhfolach
+      unhide_user: Taispeáin an tÚsáideoir seo
+      delete_user: Scrios an tÚsáideoir seo
       confirm: Deimhnigh
+      friends_diaries: iontrálacha dialainne do chairde
     popup:
+      nearby mapper: Léarscálaí in aice láimhe
       friend: Cara
     account:
+      title: Cuir an cuntas in eagar
       my settings: Mo chuid socruithe
+      current email address: 'An seoladh ríomhphoist reatha:'
+      new email address: 'An seoladh ríomhphoist nua:'
       email never displayed publicly: (nach dtaispeántar go poiblí riamh)
       external auth: 'Fíordheimhniú Seachtrach:'
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: céard é seo?
       public editing:
+        heading: 'Eagarthóireacht phoiblí:'
         enabled link text: céard é seo?
       contributor terms:
         heading: 'Téarmaí do Rannchuiditheoirí:'
@@ -1935,8 +1957,20 @@ ga:
       introduction_1: Tá ríomhphost chun é a dheimhniú seolta chugat againn.
       introduction_2: Deimhnigh do chuntas trí chliceáil ar an nasc sa ríomhphost
         agus beidh tú in ann tosú ar léirscáiliú a dhéanamh.
+      button: Deimhnigh
+      success: Deimhníodh do chuntas, go raibh maith agat as clárú!
+      already active: Deimhníodh an cuntas seo cheana féin.
+      unknown token: Tá an cód deimhniúcháin seo imithe in éag, é sin nó níl sé ann.
     confirm_resend:
       failure: Níor aimsíodh an t-úsáideoir %{name}.
+    confirm_email:
+      button: Deimhnigh
+      success: Deimhníodh an t-athrú ar an seoladh ríomhphoist!
+    make_friend:
+      heading: Cuir %{user} leis mar chara?
+      button: Cuir leis mar chara
+      success: Is cara leat %{name} anois!
+      failed: Ár leithscéal, níorbh fhéidir %{name} a chur leis mar chara.
     list:
       title: Úsáideoirí
       heading: Úsáideoirí
@@ -1978,6 +2012,7 @@ ga:
       needs_view: Ní mór don úsáideoir logáil isteach sula nglanfar an bac seo.
   note:
     rss:
+      title: Nótaí OpenStreetMap
       description_item: Fotha RSS don nóta %{id}
       opened: 'nóta nua (gar do: %{place})'
       commented: 'nóta tráchta nua (gar do: %{place})'
@@ -2048,17 +2083,21 @@ ga:
       new:
         add: Cuir Nóta Leis
       show:
+        comment_and_resolve: Fág nóta tráchta agus réitigh é
         comment: Déan nóta tráchta
     edit_help: Bog an léarscáil agus zúmáil isteach ar áit is mian leat a chur in
       eagar, ansin cliceáil anseo.
     directions:
+      ascend: Dul suas
       engines:
         graphhopper_bicycle: Rothar (GraphHopper)
+        graphhopper_car: Carr (GraphHopper)
         graphhopper_foot: Ag Siúl (GraphHopper)
         mapquest_bicycle: Rothar (MapQuest)
         mapquest_car: Carr (MapQuest)
         mapquest_foot: Ag Siúl (MapQuest)
         osrm_car: Carr (OSRM)
+      descend: Dul síos
       directions: Treoracha
       distance: Fad
       errors:
@@ -2067,11 +2106,47 @@ ga:
       instructions:
         continue_without_exit: Lean ar aghaidh ar %{name}
         slight_right_without_exit: Beagán ar dheis go %{name}
+        offramp_right: Tógáil an rampa ar dheis
+        offramp_right_with_exit: Tóg an tslí amach %{exit} ar dheis
+        offramp_right_with_exit_name: Tóg an tslí amach %{exit} ar dheis go %{name}
+        offramp_right_with_exit_directions: Tóg an tslí amach %{exit} ar dheis i dtreo
+          %{directions}
+        offramp_right_with_exit_name_directions: Tóg an tslí amach %{exit} ar dheis
+          go %{name}, i dtreo %{directions}
+        offramp_right_with_name: Tóg an rampa ar dheis go %{name}
+        offramp_right_with_directions: Tóg an rampa ar dheis i dtreo %{directions}
+        offramp_right_with_name_directions: Tóg an rampa ar dheis go %{name}, i dtreo
+          %{directions}
+        onramp_right_without_exit: Cas ar dheis ar an rampa go %{name}
+        onramp_right_with_directions: Cas ar dheis ar an rampa i dtreo %{directions}
+        onramp_right_with_name_directions: Cas ar dheis ar an an rampa go %{name},
+          i dtreo %{directions}
+        onramp_right_without_directions: Cas ar dheis ar an rampa
+        endofroad_right_without_exit: Ag ceann an bhóthair cas ar dheis go %{name}
+        fork_right_without_exit: Ag an ngabhal, cas ar dheis go %{name}
         turn_right_without_exit: Cas ar dheis agus tóg %{name}
         sharp_right_without_exit: Casadh géar ar dheis go %{name}
         uturn_without_exit: U-chasadh feadh %{name}
         sharp_left_without_exit: Casadh géar ar chlé go %{name}
         turn_left_without_exit: Cas ar chlé agus tóg %{name}
+        offramp_left: Tógáil an rampa ar chlé
+        offramp_left_with_exit: Tóg an tslí amach %{exit} ar chlé
+        offramp_left_with_exit_name: Tóg an tslí amach %{exit} ar chlé go %{name}
+        offramp_left_with_exit_directions: Tóg an tslí amach %{exit} ar chlé i dtreo
+          %{directions}
+        offramp_left_with_exit_name_directions: Tóg an tslí amach %{exit} ar chlé
+          go %{name}, i dtreo %{directions}
+        offramp_left_with_name: Tóg an rampa ar chlé go %{name}
+        offramp_left_with_directions: Tóg an rampa ar chlé i dtreo %{directions}
+        offramp_left_with_name_directions: Tóg an rampa ar chlé go %{name}, i dtreo
+          %{directions}
+        onramp_left_without_exit: Cas ar chlé ar an rampa go %{name}
+        onramp_left_with_directions: Cas ar chlé ar an rampa i dtreo %{directions}
+        onramp_left_with_name_directions: Cas ar chlé ar an an rampa go %{name}, i
+          dtreo %{directions}
+        onramp_left_without_directions: Cas ar chlé ar an rampa
+        endofroad_left_without_exit: Ag ceann an bhóthair cas ar chlé go %{name}
+        fork_left_without_exit: Ag an ngabhal, cas ar chlé go %{name}
         slight_left_without_exit: Beagán ar chlé go %{name}
         via_point_without_exit: (tríd an bpointe)
         follow_without_exit: Lean %{name}
@@ -2079,10 +2154,15 @@ ga:
         leave_roundabout_without_exit: Fág an timpeallán - %{name}
         stay_roundabout_without_exit: Fan ar an timpeallán - %{name}
         start_without_exit: Tosaigh ar %{name}
-        destination_without_exit: Ceann scríbe baint amach
+        destination_without_exit: Ceann scríbe bainte amach
         against_oneway_without_exit: Téigh i gcoinne treo an aontreo ar %{name}
         end_oneway_without_exit: Deireadh an aontreo ar %{name}
         roundabout_with_exit: Ag an timpeallán, tóg bealach amach %{exit} go %{name}
+        turn_left_with_exit: Ag an timpeallán cas ar chlé go %{name}
+        slight_left_with_exit: Ag an timpeallán téigh beagán ar chlé go %{name}
+        turn_right_with_exit: Ag an timpeallán cas ar dheis go %{name}
+        slight_right_with_exit: Ag an timpeallán téigh beagán ar dheis go %{name}
+        continue_with_exit: Ag an timpeallán lean díreach ar aghaidh go %{name}
         unnamed: bóthar gan ainm
         courtesy: Treoracha le caoinchead %{link}
       time: Am
@@ -2092,10 +2172,16 @@ ga:
       relation: Gaol
       error: 'Earráid ag dul i dteagmháil le %{server}: %{error}'
       timeout: Am istigh ag déanamh teagmhála le %{server}
+    context:
+      directions_from: Treoracha as seo
+      directions_to: Treoracha go dtí seo
   redaction:
     edit:
       description: Cur síos
+    new:
+      description: Cur síos
     show:
+      description: 'Cur síos:'
       title: Ceilt á taispeáint
       user: 'Cruthaitheoir:'
       edit: Cuir an cheilt seo in eagar

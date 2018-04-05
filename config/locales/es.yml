@@ -18,6 +18,7 @@
 # Author: Idontknow
 # Author: Indiralena
 # Author: Invadinado
+# Author: James
 # Author: Javiersanp
 # Author: Johnarupire
 # Author: Jynus
@@ -277,7 +278,7 @@ es:
     list:
       title: Conjuntos de cambios
       title_user: Conjunto de cambios por %{user}
-      title_friend: Conjuntos de cambios realizados por tus amigos
+      title_friend: Conjuntos de cambios realizados por mis amigos
       title_nearby: Conjuntos de cambios realizados por usuarios cercanos
       empty: No hay conjuntos de cambios encontrados.
       empty_area: No hay conjuntos de cambios en esta área.
@@ -308,7 +309,7 @@ es:
       user_title: Diario de %{user}
       in_language_title: Entradas de diario en %{language}
       new: Nueva entrada en el diario
-      new_title: Redactar una nueva entrada en tu diario de usuario
+      new_title: Redactar una nueva entrada en mi diario de usuario
       no_entries: No hay entradas en el diario
       recent_entries: Entradas recientes en el diario
       older_entries: Entradas más antiguas
@@ -450,6 +451,8 @@ es:
           gate: Puerta
           hangar: Hangar
           helipad: Helipuerto
+          holding_position: Punto de espera
+          parking_position: Punto de estacionamiento
           runway: Pista
           taxiway: Calle de rodaje
           terminal: Terminal
@@ -542,6 +545,7 @@ es:
           village_hall: Sala del pueblo
           waste_basket: Papelera
           waste_disposal: Contenedor de basura
+          water_point: Punto de agua
           youth_centre: Centro juvenil
         boundary:
           administrative: Frontera administrativa
@@ -712,6 +716,7 @@ es:
           water_park: Parque acuático
           "yes": Ocio
         man_made:
+          beacon: Baliza
           beehive: Colmena
           breakwater: Rompeolas
           bridge: Puente
@@ -728,14 +733,17 @@ es:
           mast: Mástil
           mine: Mina
           mineshaft: Pozo minero
+          monitoring_station: Estación de monitorización
           petroleum_well: Pozo petrolífero
           pier: Muelle
           pipeline: Tubería
           silo: Silo
+          storage_tank: Tanque de almacenamiento
           surveillance: Vigilancia
           tower: Torre
           wastewater_plant: Planta de tratamiento de aguas
           watermill: Molino hidráulico
+          water_tower: Torre de agua
           water_well: Pozo
           windmill: Molino de viento
           works: Fábrica
@@ -797,6 +805,7 @@ es:
           estate_agent: Inmobiliaria
           government: Oficina gubernamental
           insurance: Oficina de seguros
+          it: Oficina de TI
           lawyer: Abogado
           ngo: Oficina de ONG
           telecommunication: Oficina de telecomunicaciones
@@ -819,6 +828,7 @@ es:
           municipality: Municipio
           neighbourhood: Barrio
           postcode: Código postal
+          quarter: Cuatrimestre
           region: Región
           sea: Mar
           square: Plaza
@@ -926,10 +936,13 @@ es:
           stationery: Papelería
           supermarket: Supermercado
           tailor: Sastre
+          ticket: Tienda de Tickets
           tobacco: Tabaquería
           toys: Juguetería
           travel_agency: Agencia de viajes
+          tyres: Tienda de neumáticos
           vacant: Tienda vacante
+          variety_store: Tienda de variedades
           video: Videoclub
           wine: Vinatería
           "yes": Tienda
@@ -1662,6 +1675,7 @@ es:
     trace_header:
       upload_trace: Subir una traza
       see_all_traces: Ver todas las trazas
+      see_my_traces: Ver mis rastros
       traces_waiting:
         one: Tienes %{count} traza esperando por subir. Por favor, considera esperar
           a que esta termine antes de subir más, para no bloquear la cola a otros
@@ -1712,10 +1726,11 @@ es:
       map: mapa
     list:
       public_traces: Trazas GPS públicas
+      my_traces: Mis rastos de GPS
       public_traces_from: Trazas GPS públicas de %{user}
       description: Explorar los itinerarios GPS recién subidos
       tagged_with: etiquetado con %{tags}
-      empty_html: No hay nada aquí todavía. <a href='%{upload_link}'>Sube una nueva
+      empty_html: Todavía no hay nada aquí. <a href='%{upload_link}'>Sube una nueva
         traza</a> o aprende más sobre trazas GPS en la <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>página
         wiki</a>.
     delete:
@@ -2014,6 +2029,7 @@ es:
       if set location: Configure su lugar de origen en la página %{settings_link}
         para ver los usuarios cercanos.
       settings_link_text: preferencias
+      my friends: Mis amigos
       no friends: No has añadido ningún amigo aún.
       km away: '%{count} km de distancia'
       m away: '%{count} m de distancia'
@@ -2073,7 +2089,7 @@ es:
           botón inferior. <b>Desde la migración a la API 0.6, sólo los usuarios públicos
           pueden editar el mapa</b> (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">más
           detalles aquí</a>) <ul><li>Su dirección de correo no será revelada por el
-          hecho de ser público. </li><li>Esta acción no puede ser revertida y todos
+          hecho de ser público. </li><li>Esta acción no puede ser deshecha y todos
           los nuevos usuarios son públicos por omisión.</li></ul>
       contributor terms:
         heading: 'Términos de Colaborador:'
@@ -2461,10 +2477,17 @@ es:
       distance: Distancia
       errors:
         no_route: No se pudo encontrar una ruta entre esos dos lugares.
-        no_place: Lo sentimos - no se pudo encontrar ese lugar.
+        no_place: No se pudo localizar «%{place}».
       instructions:
         continue_without_exit: Continuar en %{name}
         slight_right_without_exit: Gire un poco a la derecha hacia %{name}
+        offramp_right: Use la rampa de la derecha
+        offramp_right_with_exit: Use la salida %{exit} de la derecha
+        offramp_right_with_exit_name: Tome la salida %{exit} a la derecha hacia %{name}
+        offramp_right_with_exit_directions: Toma la salida %{exit} a la derecha hacia
+          %{directions}
+        offramp_right_with_exit_name_directions: Toma la salida %{exit} a la derecha
+          hacia %{name}, en dirección %{directions}
         offramp_right_with_name: Tome la salida a la derecha hacia %{name}
         offramp_right_with_directions: Toma la salida a la derecha hacia %{directions}
         onramp_right_without_exit: Gira a la derecha en la salida hacia %{name}
