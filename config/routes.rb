@@ -232,6 +232,16 @@ OpenStreetMap::Application.routes.draw do
   post "/user/:display_name/diary/:id/subscribe" => "diary_entry#subscribe", :as => :diary_entry_subscribe, :id => /\d+/
   post "/user/:display_name/diary/:id/unsubscribe" => "diary_entry#unsubscribe", :as => :diary_entry_unsubscribe, :id => /\d+/
 
+  # changeset comments pages
+  match "/changesets/comments" => "changeset_comments#all", :via => :get
+  match "/changesets/comments/page/:page" => "changeset_comments#all", :via => :get
+  match "/user/:display_name/changesets/comments" => "changeset_comments#user", :via => :get
+  match "/user/:display_name/changesets/comments/page/:page" => "changeset_comments#user", :via => :get
+  match "/user/:display_name/changesets/comments/received" => "changeset_comments#received", :via => :get
+  match "/user/:display_name/changesets/comments/received/page/:page" => "changeset_comments#received", :via => :get
+  match "/user/:display_name/changesets/comments/subscribed" => "changeset_comments#subscribed", :via => :get
+  match "/user/:display_name/changesets/comments/subscribed/page/:page" => "changeset_comments#subscribed", :via => :get
+
   # user pages
   get "/user/:display_name" => "user#view", :as => "user"
   match "/user/:display_name/make_friend" => "user#make_friend", :via => [:get, :post], :as => "make_friend"

@@ -1,0 +1,19 @@
+<li>
+  <h2>
+    <a href="<%= changeset_path(changeset_comment.changeset.id) %>">
+      <%= t "changeset_comments.list.comment_heading_link_text", :id => changeset_comment.changeset.id %>
+    </a> <%= changeset_comment.changeset.tags["comment"].to_s %>
+  </h2>
+  <small class="deemphasize">
+    <%= t("changeset_comments.list.comment_detail",
+              :when       => friendly_date(changeset_comment.created_at),
+              :exact_time => l(changeset_comment.created_at),
+              :user       => link_to(h(changeset_comment.author.display_name), {
+                                  :controller   => "user",
+                                  :action       => "view",
+                                  :display_name => changeset_comment.author.display_name }
+                              )
+         ).html_safe %>
+  </small>
+  <%= changeset_comment.body.to_html %>
+</li>
