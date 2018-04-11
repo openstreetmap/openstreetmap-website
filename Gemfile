@@ -86,6 +86,9 @@ gem "faraday"
 # Load geoip for querying Maxmind GeoIP database
 gem "geoip"
 
+# Load plus_codes to generate OpenLocationCodes
+gem "plus_codes"
+
 # Load rotp to generate TOTP tokens
 gem "rotp"
 

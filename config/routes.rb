@@ -252,6 +252,7 @@ OpenStreetMap::Application.routes.draw do
   get "/geocoder/search_geonames" => "geocoder#search_geonames"
   get "/geocoder/search_osm_nominatim_reverse" => "geocoder#search_osm_nominatim_reverse"
   get "/geocoder/search_geonames_reverse" => "geocoder#search_geonames_reverse"
+  get "/geocoder/search_plus_code" => "geocoder#search_plus_code"
 
   # directions
   get "/directions" => "directions#search"
