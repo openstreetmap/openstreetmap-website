@@ -4,7 +4,7 @@ class MessageController < ApplicationController
   before_action :authorize_web
   before_action :set_locale
   before_action :require_user
-  before_action :lookup_this_user, :only => [:new]
+  before_action :lookup_user, :only => [:new]
   before_action :check_database_readable
   before_action :check_database_writable, :only => [:new, :reply, :mark]
   before_action :allow_thirdparty_images, :only => [:new, :read]
@@ -19,7 +19,7 @@ class MessageController < ApplicationController
         flash[:error] = t "message.new.limit_exceeded"
       else
         @message = Message.new(message_params)
-        @message.recipient = @this_user
+        @message.recipient = @user
         @message.sender = current_user
         @message.sent_on = Time.now.getutc
 
@@ -31,7 +31,7 @@ class MessageController < ApplicationController
       end
     end
 
-    @message ||= Message.new(message_params.merge(:recipient => @this_user))
+    @message ||= Message.new(message_params.merge(:recipient => @user))
     @title = t "message.new.title"
   end
 
