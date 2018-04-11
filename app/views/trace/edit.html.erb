@@ -10,7 +10,7 @@
   <fieldset>
     <div class='form-row'>
       <label class='standard-label'><%= t'trace.edit.filename' %></label>
-      <p class='deemphasize'><%= @trace.name %> (<%= link_to t('trace.edit.download'), :controller => 'trace', :action => 'data', :id => @trace.id %>)</p>
+      <p class='deemphasize'><%= @trace.name %> (<%= link_to t('trace.edit.download'), trace_data_path(@trace) %>)</p>
     </div>
     <div class='form-row'>
       <label class='standard-label'><%= t'trace.edit.uploaded_at' %></label>
@@ -32,7 +32,7 @@
   <% end %>
     <div class='form-row'>
       <label class='standard-label'><%= t'trace.edit.owner' %></label>
-      <p class='deemphasize'><%= link_to h(@trace.user.display_name), {:controller => 'user', :action => 'view', :display_name => @trace.user.display_name} %></p>
+      <p class='deemphasize'><%= link_to h(@trace.user.display_name), user_path(@trace.user) %></p>
     </div>
     <div class='form-row'>
       <label class='standard-label'><%= t'trace.edit.description' %></label>

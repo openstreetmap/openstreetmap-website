@@ -40,7 +40,8 @@ OSM.Directions = function (map) {
         shadowUrl: OSM.MARKER_SHADOW,
         shadowSize: [41, 41]
       }),
-      draggable: true
+      draggable: true,
+      autoPan: true
     });
 
     endpoint.marker.on('drag dragend', function (e) {
@@ -51,6 +52,10 @@ OSM.Directions = function (map) {
       if (map.hasLayer(polyline)) {
         getRoute(false, !dragging);
       }
+    });
+
+    input.on("keydown", function() {
+      input.removeClass("error");
     });
 
     input.on("change", function (e) {
@@ -86,7 +91,8 @@ OSM.Directions = function (map) {
         endpoint.awaitingGeocode = false;
         endpoint.hasGeocode = true;
         if (json.length === 0) {
-          alert(I18n.t('javascripts.directions.errors.no_place'));
+          input.addClass("error");
+          alert(I18n.t('javascripts.directions.errors.no_place', {place: endpoint.value}));
           return;
         }
 

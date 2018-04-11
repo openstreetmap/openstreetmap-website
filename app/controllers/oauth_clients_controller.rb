@@ -40,7 +40,7 @@ class OauthClientsController < ApplicationController
 
   def update
     @client_application = current_user.client_applications.find(params[:id])
-    if @client_application.update_attributes(application_params)
+    if @client_application.update(application_params)
       flash[:notice] = t "oauth_clients.update.flash"
       redirect_to :action => "show", :id => @client_application.id
     else

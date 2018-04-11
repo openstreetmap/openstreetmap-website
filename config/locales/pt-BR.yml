@@ -274,7 +274,7 @@ pt-BR:
     list:
       title: Conjuntos de alterações
       title_user: Conjuntos de alterações de %{user}
-      title_friend: Conjuntos de alterações dos seus amigos
+      title_friend: Conjuntos de alterações feitos pelos meus amigos
       title_nearby: Conjuntos de alterações de usuários próximos
       empty: Nenhum conjunto de alterações encontrado.
       empty_area: Nenhum conjunto de alterações nesta área.
@@ -304,7 +304,7 @@ pt-BR:
       user_title: Diário de %{user}
       in_language_title: Publicações de Diário em %{language}
       new: Nova Publicação no Diário
-      new_title: Escrever nova publicação em seu diário
+      new_title: Escrever uma nova entrada no meu diário de usuário
       no_entries: Sem publicações no diário
       recent_entries: Publicações recentes no diário
       older_entries: Publicações mais antigas
@@ -422,8 +422,6 @@ pt-BR:
     search:
       title:
         latlon: Resultados <a href="https://openstreetmap.org/">internos</a>
-        uk_postcode: Resultados do <a href="http://www.npemap.org.uk/">NPEMap / FreeThe
-          Postcode</a>
         ca_postcode: Resultados de <a href="https://geocoder.ca/">Geocoder.CA</a>
         osm_nominatim: Resultados de <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
@@ -1698,7 +1696,7 @@ pt-BR:
     trace_header:
       upload_trace: Enviar uma trilha
       see_all_traces: Ver todas as trilhas
-      see_your_traces: Ver todas as suas trilhas
+      see_my_traces: Ver meus trilhos
       traces_waiting: '{{PLURAL|one=Você tem %{count} trilha esperando para enviar.
         Por favor considere esperar que ela termine antes de enviar, para não bloquear
         a fila para outros usuários.|Você tem %{count} trilhas esperando para enviar.
@@ -1725,6 +1723,7 @@ pt-BR:
       delete_track: Apague esta trilha
       trace_not_found: Trilha não encontrada!
       visibility: 'Visibilidade:'
+      confirm_delete: Eliminar esta trilha?
     trace_paging_nav:
       showing_page: Página %{page}
       older: Trilhas mais antigas
@@ -1747,9 +1746,9 @@ pt-BR:
       map: mapa
     list:
       public_traces: Trilhas Públicas de GPS
-      your_traces: Suas Trilhas de GPS
+      my_traces: Meus trilhos GPS
       public_traces_from: Trilhas de GPS públicas de %{user}
-      description: Consultar últimos carregamentos de trilhas de GPS
+      description: Procurar recentes carregamentos de rastreamento de GPS
       tagged_with: ' etiquetadas com %{tags}'
       empty_html: Ainda não enviou nenhum trilho GPS. <a href='%{upload_link}'>Envie
         um novo trilho GPS</a> ou saiba mais sobre trilhos GPS na <a href='https://wiki.openstreetmap.org/wiki/Pt:Beginners_Guide_1.2'>página
@@ -2050,7 +2049,7 @@ pt-BR:
       if set location: Defina seu local principal na página de %{settings_link} para
         ver usuários próximos.
       settings_link_text: configurações
-      your friends: Seus amigos
+      my friends: Meus amigos
       no friends: Você ainda não adicionou amigos.
       km away: '%{count}km de distância'
       m away: '%{count}m de distância'
@@ -2488,21 +2487,27 @@ pt-BR:
       distance: Distância
       errors:
         no_route: Rota entre esses dois lugares não encontrada.
-        no_place: Não foi possível encontrar esse lugar.
+        no_place: Desculpe - não foi possível encontrar '%{place}'.
       instructions:
         continue_without_exit: Continuar em %{name}
         slight_right_without_exit: Curva suave à direita para %{name}
-        offramp_right_without_exit: Pegue a via de acesso à direita na %{name}
+        offramp_right: Conduza até a rampa do lado direito
+        offramp_right_with_exit: Pegue a saída %{exit} a direita
+        offramp_right_with_exit_name: Pegue a saída %{exit} à direita na %{name}
+        offramp_right_with_exit_directions: Pegue a saída %{exit} à direita para %{directions}
+        offramp_right_with_exit_name_directions: Pegue a saída %{exit} à direita na
+          %{name}, em direção %{directions}
+        offramp_right_with_name: Pegue a via de acesso à direita na %{name}
         offramp_right_with_directions: Conduza até a rampa do lado direito em direção
           a %{directions}
-        offramp_right_with_name_and_directions: Conduza até a rampa do lado direito
-          para %{name}, em direção a %{directions}
-        offramp_right_without_directions: Conduza até a rampa do lado direito
+        offramp_right_with_name_directions: Conduza até a rampa do lado direito para
+          %{name}, em direção a %{directions}
         onramp_right_without_exit: Vire à direita, na via de acesso, na %{name}
         onramp_right_with_directions: Vire à direita na rampa em direção a %{directions}
-        onramp_right_with_name_and_directions: Vire à direita na rampa para %{name},
-          em direção a %{directions}
+        onramp_right_with_name_directions: Vire à direita na rampa para %{name}, em
+          direção a %{directions}
         onramp_right_without_directions: Vire à direita na rampa
+        onramp_right: Vire à direita para a rampa
         endofroad_right_without_exit: No fim da estrada, vire à direita na %{name}
         merge_right_without_exit: Entre à direita na %{name}
         fork_right_without_exit: Na bifurcação, vire à direita na %{name}
@@ -2511,17 +2516,23 @@ pt-BR:
         uturn_without_exit: Retorno em %{name}
         sharp_left_without_exit: Curva acentuada à esquerda para %{name}
         turn_left_without_exit: Vire à esquerda para %{name}
-        offramp_left_without_exit: Pegue a via de acesso à esquerda na %{name}
+        offramp_left: Conduza até a rampa do lado esquerdo
+        offramp_left_with_exit: Pegue a saída %{exit} à esquerda
+        offramp_left_with_exit_name: Pegue a saída %{exit} à esquerda na %{name}
+        offramp_left_with_exit_directions: Pegue a saída %{exit} à esquerda para %{directions}
+        offramp_left_with_exit_name_directions: Pegue a saída %{exit} à esquerda na
+          %{name}, em direção %{directions}
+        offramp_left_with_name: Pegue a via de acesso à esquerda na %{name}
         offramp_left_with_directions: Conduza até a rampa do lado esquerdo em direção
           a %{directions}
-        offramp_left_with_name_and_directions: Conduza até a tampa do lado esquerdo
-          para %{name}, em direção a %{directions}
-        offramp_left_without_directions: Conduza até a rampa do lado esquerdo
+        offramp_left_with_name_directions: Conduza até a tampa do lado esquerdo para
+          %{name}, em direção a %{directions}
         onramp_left_without_exit: Vire à esquerda, na via de acesso, na %{name}
         onramp_left_with_directions: Vire à esquerda na rampa em direção a %{directions}
-        onramp_left_with_name_and_directions: Vire à esquerda na rampa para %{name},
-          em direção a %{directions}
+        onramp_left_with_name_directions: Vire à esquerda na rampa para %{name}, em
+          direção a %{directions}
         onramp_left_without_directions: Vire à esquerda na rampa
+        onramp_left: Vire à esquerda para a rampa
         endofroad_left_without_exit: No fim da estrada, vire à esquerda na %{name}
         merge_left_without_exit: Entre à esquerda na %{name}
         fork_left_without_exit: Na bifurcação, vire à esquerda na %{name}

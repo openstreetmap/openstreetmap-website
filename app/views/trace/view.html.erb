@@ -13,7 +13,7 @@
 <table border="0">
   <tr>
     <td><%= t'trace.view.filename' %></td>
-    <td><%= @trace.name %> (<%= link_to t('trace.view.download'), :controller => 'trace', :action => 'data', :id => @trace.id %>)</td>
+    <td><%= @trace.name %> (<%= link_to t('trace.view.download'), trace_data_path(@trace) %>)</td>
   </tr>
   <tr>
     <td><%= t'trace.view.uploaded' %></td>
@@ -30,7 +30,7 @@
   <% end %>
   <tr>
     <td><%= t'trace.view.owner' %></td>
-    <td><%= link_to h(@trace.user.display_name), {:controller => 'user', :action => 'view', :display_name => @trace.user.display_name} %></td>
+    <td><%= link_to h(@trace.user.display_name), user_path(@trace.user) %></td>
   </tr>
   <tr>
     <td><%= t'trace.view.description' %></td>
@@ -54,9 +54,11 @@
 
 <br /><br />
 
-<%= if_user(@trace.user) do %>
+<% if current_user && (current_user==@trace.user || current_user.administrator? || current_user.moderator?)%>
   <div class="buttons">
-    <%= button_to t('trace.view.edit_track'), :controller => 'trace', :action => 'edit', :id => @trace.id %>
-    <%= button_to t('trace.view.delete_track'), :controller => 'trace', :action => 'delete', :id => @trace.id %>
+    <%= if_user(@trace.user) do %>
+      <%= button_to t('trace.view.edit_track'), trace_edit_path(@trace) %>
+    <% end %>
+    <%= button_to t('trace.view.delete_track'), { :controller => 'trace', :action => 'delete', :id => @trace.id }, :data => { :confirm => t('trace.view.confirm_delete') } %>
   </div>
 <% end %>

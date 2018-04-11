@@ -22,6 +22,7 @@
 # Author: Pesder
 # Author: Reke
 # Author: Ruila
+# Author: Sanmosa
 # Author: Shangkuanlc
 # Author: Simon Shek
 # Author: StephDC
@@ -64,7 +65,7 @@ zh-TW:
       trace: 軌跡
       tracepoint: 軌跡點
       tracetag: 軌跡標籤
-      user: 使用者
+      user: 用戶
       user_preference: 使用者偏好設定
       user_token: 使用者權杖
       way: 路徑
@@ -74,16 +75,16 @@ zh-TW:
       diary_comment:
         body: 內文
       diary_entry:
-        user: 使用者
+        user: 用戶
         title: 標題
         latitude: 緯度
         longitude: 經度
         language: 語言
       friend:
-        user: 使用者
+        user: 用戶
         friend: 好友
       trace:
-        user: 使用者
+        user: 用戶
         visible: 可見的
         name: 名稱
         size: 大小
@@ -248,13 +249,13 @@ zh-TW:
     changesets:
       id: ID
       saved_at: 已儲存於
-      user: 使用者
+      user: 用戶
       comment: 評論
       area: 區域
     list:
       title: 變更集
       title_user: '%{user} 的變更集'
-      title_friend: 您好友的變更集
+      title_friend: 我的好友之變更集
       title_nearby: 附近使用者的變更集
       empty: 查無變更集。
       empty_area: 此地區沒有變更集。
@@ -283,7 +284,7 @@ zh-TW:
       user_title: '%{user} 的日記'
       in_language_title: 日記 (語言為 %{language})
       new: 新增日記項目
-      new_title: 在您的日記中撰寫新的項目
+      new_title: 在我的使用者日記裡撰寫新內容
       no_entries: 沒有日記項目
       recent_entries: 最近的日記項目
       older_entries: 較舊的項目
@@ -393,7 +394,6 @@ zh-TW:
     search:
       title:
         latlon: 來自<a href="https://openstreetmap.org/">內部</a>的結果
-        uk_postcode: 來自<a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>的結果
         ca_postcode: 來自 <a href="https://geocoder.ca/">Geocoder.CA</a> 的結果
         osm_nominatim: 來自 <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a> 的結果
@@ -593,7 +593,7 @@ zh-TW:
           trail: 步徑
           trunk: 快速道路
           trunk_link: 主要幹道連接路
-          turning_loop: 交流道
+          turning_loop: 環形迴車道
           unclassified: 無分級道路
           "yes": 道路
         historic:
@@ -1546,7 +1546,7 @@ zh-TW:
     trace_header:
       upload_trace: 上傳軌跡
       see_all_traces: 查看所有的軌跡
-      see_your_traces: 查看您所有的軌跡
+      see_my_traces: 查看我的軌跡
       traces_waiting: 您有 %{count} 個軌跡等待上傳。請先等待先前的軌跡處理完後，再來繼續上傳其他軌跡，以免影響其他使用者的排程。
     trace_optionals:
       tags: 標籤
@@ -1569,6 +1569,7 @@ zh-TW:
       delete_track: 刪除這個軌跡
       trace_not_found: 找不到軌跡！
       visibility: 可見性：
+      confirm_delete: 刪除這個軌跡？
     trace_paging_nav:
       showing_page: 第 %{page} 頁
       older: 較舊軌跡
@@ -1591,7 +1592,7 @@ zh-TW:
       map: 地圖
     list:
       public_traces: 公開 GPS 軌跡
-      your_traces: 您的 GPS 軌跡
+      my_traces: 我的 GPS 軌跡
       public_traces_from: '%{user} 的公開 GPS 軌跡'
       description: 瀏覽最近的 GPS 軌跡上傳
       tagged_with: 有如下標籤：%{tags}
@@ -1855,7 +1856,7 @@ zh-TW:
       user location: 使用者位置
       if set location: 您可以在 %{settings_link} 頁面設定您家的位置，以檢視附近的使用者。
       settings_link_text: 設定
-      your friends: 您的好友
+      my friends: 我的好友
       no friends: 您尚未加入任何好友。
       km away: '%{count} 公里遠'
       m away: '%{count} 公尺遠'
@@ -1981,8 +1982,8 @@ zh-TW:
     filter:
       not_an_administrator: 您需要一個行政員才可執行該動作。
     list:
-      title: 使用者
-      heading: 使用者
+      title: 用戶
+      heading: 用戶
       showing:
         one: 頁面 %{page} (%{first_item} / %{items})
         other: 頁面 %{page} (%{first_item}-%{last_item} / %{items})
@@ -2244,18 +2245,23 @@ zh-TW:
       distance: 距離
       errors:
         no_route: 查無兩個地點間的路徑。
-        no_place: 抱歉 - 查無該地點。
+        no_place: 抱歉 - 查無地點「%{place}」。
       instructions:
         continue_without_exit: 繼續行駛 %{name}
         slight_right_without_exit: 靠右至 %{name}
-        offramp_right_without_exit: 在右側上坡前往%{name}
+        offramp_right: 往右側上坡
+        offramp_right_with_exit: 在右側往出口 %{exit}
+        offramp_right_with_exit_name: 在右側沿著出口 %{exit} 前往 %{name}
+        offramp_right_with_exit_directions: 在右側沿著出口 %{exit} 朝 %{directions}
+        offramp_right_with_exit_name_directions: 在右側沿著出口 %{exit} 前往 %{name} 朝 %{directions}
+        offramp_right_with_name: 在右側上坡前往%{name}
         offramp_right_with_directions: 在右側上坡朝%{directions}
-        offramp_right_with_name_and_directions: 在右側往%{name}的上坡朝%{directions}
-        offramp_right_without_directions: 往右側上坡
+        offramp_right_with_name_directions: 在右側往%{name}的上坡朝%{directions}
         onramp_right_without_exit: 右轉上坡至%{name}
         onramp_right_with_directions: 右轉前往上坡朝%{directions}
-        onramp_right_with_name_and_directions: 在往%{name}的上坡右轉朝%{directions}
+        onramp_right_with_name_directions: 在往%{name}的上坡右轉朝%{directions}
         onramp_right_without_directions: 右轉前往上坡
+        onramp_right: 右轉前往上坡
         endofroad_right_without_exit: 在道路盡頭右轉至%{name}
         merge_right_without_exit: 向右併線至%{name}
         fork_right_without_exit: 在叉路口右轉至%{name}
@@ -2264,14 +2270,19 @@ zh-TW:
         uturn_without_exit: 迴轉沿著 %{name}
         sharp_left_without_exit: 左急轉至 %{name}
         turn_left_without_exit: 左轉至 %{name}
-        offramp_left_without_exit: 在左側上坡前往%{name}
+        offramp_left: 往左側上坡
+        offramp_left_with_exit: 在左側往出口 %{exit}
+        offramp_left_with_exit_name: 在左側沿著出口 %{exit} 前往 %{name}
+        offramp_left_with_exit_directions: 在左側沿著出口 %{exit} 朝 %{directions}
+        offramp_left_with_exit_name_directions: 在左側沿著出口 %{exit} 前往 %{name} 朝 %{directions}
+        offramp_left_with_name: 在左側上坡前往%{name}
         offramp_left_with_directions: 在左側上坡朝%{directions}
-        offramp_left_with_name_and_directions: 在左側往%{name}的上坡朝%{directions}
-        offramp_left_without_directions: 往左側上坡
+        offramp_left_with_name_directions: 在左側往%{name}的上坡朝%{directions}
         onramp_left_without_exit: 左轉上坡至%{name}
         onramp_left_with_directions: 左轉前往上坡朝%{directions}
-        onramp_left_with_name_and_directions: 在往%{name}的上坡左轉朝%{directions}
+        onramp_left_with_name_directions: 在往%{name}的上坡左轉朝%{directions}
         onramp_left_without_directions: 左轉前往上坡
+        onramp_left: 左轉前往上坡
         endofroad_left_without_exit: 在道路盡頭左轉至%{name}
         merge_left_without_exit: 向左併線至%{name}
         fork_left_without_exit: 在叉路口左轉至%{name}

@@ -1,12 +1,6 @@
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 9.5.7
--- Dumped by pg_dump version 9.5.7
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -1260,7 +1254,8 @@ CREATE TABLE users (
     diary_entries_count integer DEFAULT 0 NOT NULL,
     image_use_gravatar boolean DEFAULT false NOT NULL,
     image_content_type character varying(255),
-    auth_provider character varying
+    auth_provider character varying(255),
+    home_tile bigint
 );
 
 
@@ -1322,91 +1317,91 @@ CREATE TABLE ways (
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: acls id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY acls ALTER COLUMN id SET DEFAULT nextval('acls_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: changeset_comments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY changeset_comments ALTER COLUMN id SET DEFAULT nextval('changeset_comments_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: changesets id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY changesets ALTER COLUMN id SET DEFAULT nextval('changesets_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: client_applications id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY client_applications ALTER COLUMN id SET DEFAULT nextval('client_applications_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: current_nodes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_nodes ALTER COLUMN id SET DEFAULT nextval('current_nodes_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: current_relations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_relations ALTER COLUMN id SET DEFAULT nextval('current_relations_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: current_ways id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_ways ALTER COLUMN id SET DEFAULT nextval('current_ways_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: diary_comments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY diary_comments ALTER COLUMN id SET DEFAULT nextval('diary_comments_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: diary_entries id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY diary_entries ALTER COLUMN id SET DEFAULT nextval('diary_entries_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: friends id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY friends ALTER COLUMN id SET DEFAULT nextval('friends_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: gpx_file_tags id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY gpx_file_tags ALTER COLUMN id SET DEFAULT nextval('gpx_file_tags_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: gpx_files id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY gpx_files ALTER COLUMN id SET DEFAULT nextval('gpx_files_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: messages id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY issue_comments ALTER COLUMN id SET DEFAULT nextval('issue_comments_id_seq'::regclass);
@@ -1427,42 +1422,42 @@ ALTER TABLE ONLY messages ALTER COLUMN id SET DEFAULT nextval('messages_id_seq':
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: note_comments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY note_comments ALTER COLUMN id SET DEFAULT nextval('note_comments_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: notes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY notes ALTER COLUMN id SET DEFAULT nextval('notes_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: oauth_nonces id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY oauth_nonces ALTER COLUMN id SET DEFAULT nextval('oauth_nonces_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: oauth_tokens id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY oauth_tokens ALTER COLUMN id SET DEFAULT nextval('oauth_tokens_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: redactions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY redactions ALTER COLUMN id SET DEFAULT nextval('redactions_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: user_blocks id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY reports ALTER COLUMN id SET DEFAULT nextval('reports_id_seq'::regclass);
@@ -1476,28 +1471,28 @@ ALTER TABLE ONLY user_blocks ALTER COLUMN id SET DEFAULT nextval('user_blocks_id
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: user_roles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_roles ALTER COLUMN id SET DEFAULT nextval('user_roles_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: user_tokens id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_tokens ALTER COLUMN id SET DEFAULT nextval('user_tokens_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
 --
--- Name: acls_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: acls acls_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY acls
@@ -1505,7 +1500,7 @@ ALTER TABLE ONLY acls
 
 
 --
--- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY ar_internal_metadata
@@ -1513,7 +1508,7 @@ ALTER TABLE ONLY ar_internal_metadata
 
 
 --
--- Name: changeset_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: changeset_comments changeset_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY changeset_comments
@@ -1521,7 +1516,7 @@ ALTER TABLE ONLY changeset_comments
 
 
 --
--- Name: changesets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: changesets changesets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY changesets
@@ -1529,7 +1524,7 @@ ALTER TABLE ONLY changesets
 
 
 --
--- Name: client_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: client_applications client_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY client_applications
@@ -1537,7 +1532,7 @@ ALTER TABLE ONLY client_applications
 
 
 --
--- Name: current_node_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: current_node_tags current_node_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_node_tags
@@ -1545,7 +1540,7 @@ ALTER TABLE ONLY current_node_tags
 
 
 --
--- Name: current_nodes_pkey1; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: current_nodes current_nodes_pkey1; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_nodes
@@ -1553,7 +1548,7 @@ ALTER TABLE ONLY current_nodes
 
 
 --
--- Name: current_relation_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: current_relation_members current_relation_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_relation_members
@@ -1561,7 +1556,7 @@ ALTER TABLE ONLY current_relation_members
 
 
 --
--- Name: current_relation_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: current_relation_tags current_relation_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_relation_tags
@@ -1569,7 +1564,7 @@ ALTER TABLE ONLY current_relation_tags
 
 
 --
--- Name: current_relations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: current_relations current_relations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_relations
@@ -1577,7 +1572,7 @@ ALTER TABLE ONLY current_relations
 
 
 --
--- Name: current_way_nodes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: current_way_nodes current_way_nodes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_way_nodes
@@ -1585,7 +1580,7 @@ ALTER TABLE ONLY current_way_nodes
 
 
 --
--- Name: current_way_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: current_way_tags current_way_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_way_tags
@@ -1593,7 +1588,7 @@ ALTER TABLE ONLY current_way_tags
 
 
 --
--- Name: current_ways_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: current_ways current_ways_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_ways
@@ -1601,7 +1596,7 @@ ALTER TABLE ONLY current_ways
 
 
 --
--- Name: diary_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: diary_comments diary_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY diary_comments
@@ -1609,7 +1604,7 @@ ALTER TABLE ONLY diary_comments
 
 
 --
--- Name: diary_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: diary_entries diary_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY diary_entries
@@ -1617,7 +1612,7 @@ ALTER TABLE ONLY diary_entries
 
 
 --
--- Name: diary_entry_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: diary_entry_subscriptions diary_entry_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY diary_entry_subscriptions
@@ -1625,7 +1620,7 @@ ALTER TABLE ONLY diary_entry_subscriptions
 
 
 --
--- Name: friends_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: friends friends_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY friends
@@ -1633,7 +1628,7 @@ ALTER TABLE ONLY friends
 
 
 --
--- Name: gpx_file_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: gpx_file_tags gpx_file_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY gpx_file_tags
@@ -1641,7 +1636,7 @@ ALTER TABLE ONLY gpx_file_tags
 
 
 --
--- Name: gpx_files_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: gpx_files gpx_files_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY gpx_files
@@ -1665,7 +1660,7 @@ ALTER TABLE ONLY issues
 
 
 --
--- Name: languages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: languages languages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY languages
@@ -1673,7 +1668,7 @@ ALTER TABLE ONLY languages
 
 
 --
--- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: messages messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages
@@ -1681,7 +1676,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: node_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: node_tags node_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY node_tags
@@ -1689,7 +1684,7 @@ ALTER TABLE ONLY node_tags
 
 
 --
--- Name: nodes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: nodes nodes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY nodes
@@ -1697,7 +1692,7 @@ ALTER TABLE ONLY nodes
 
 
 --
--- Name: note_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: note_comments note_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY note_comments
@@ -1705,7 +1700,7 @@ ALTER TABLE ONLY note_comments
 
 
 --
--- Name: notes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: notes notes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY notes
@@ -1713,7 +1708,7 @@ ALTER TABLE ONLY notes
 
 
 --
--- Name: oauth_nonces_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: oauth_nonces oauth_nonces_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY oauth_nonces
@@ -1721,7 +1716,7 @@ ALTER TABLE ONLY oauth_nonces
 
 
 --
--- Name: oauth_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: oauth_tokens oauth_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY oauth_tokens
@@ -1729,7 +1724,7 @@ ALTER TABLE ONLY oauth_tokens
 
 
 --
--- Name: redactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: redactions redactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY redactions
@@ -1737,7 +1732,7 @@ ALTER TABLE ONLY redactions
 
 
 --
--- Name: relation_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: relation_members relation_members_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY relation_members
@@ -1745,7 +1740,7 @@ ALTER TABLE ONLY relation_members
 
 
 --
--- Name: relation_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: relation_tags relation_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY relation_tags
@@ -1753,7 +1748,7 @@ ALTER TABLE ONLY relation_tags
 
 
 --
--- Name: relations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: relations relations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY relations
@@ -1769,7 +1764,7 @@ ALTER TABLE ONLY reports
 
 
 --
--- Name: user_blocks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: user_blocks user_blocks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_blocks
@@ -1777,7 +1772,7 @@ ALTER TABLE ONLY user_blocks
 
 
 --
--- Name: user_preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: user_preferences user_preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_preferences
@@ -1785,7 +1780,7 @@ ALTER TABLE ONLY user_preferences
 
 
 --
--- Name: user_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: user_roles user_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_roles
@@ -1793,7 +1788,7 @@ ALTER TABLE ONLY user_roles
 
 
 --
--- Name: user_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: user_tokens user_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_tokens
@@ -1801,7 +1796,7 @@ ALTER TABLE ONLY user_tokens
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -1809,7 +1804,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: way_nodes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: way_nodes way_nodes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY way_nodes
@@ -1817,7 +1812,7 @@ ALTER TABLE ONLY way_nodes
 
 
 --
--- Name: way_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: way_tags way_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY way_tags
@@ -1825,7 +1820,7 @@ ALTER TABLE ONLY way_tags
 
 
 --
--- Name: ways_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: ways ways_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY ways
@@ -2302,6 +2297,13 @@ CREATE INDEX users_email_lower_idx ON users USING btree (lower((email)::text));
 
 
 --
+-- Name: users_home_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_home_idx ON users USING btree (home_tile);
+
+
+--
 -- Name: way_nodes_node_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2323,7 +2325,7 @@ CREATE INDEX ways_timestamp_idx ON ways USING btree ("timestamp");
 
 
 --
--- Name: changeset_comments_author_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: changeset_comments changeset_comments_author_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY changeset_comments
@@ -2331,7 +2333,7 @@ ALTER TABLE ONLY changeset_comments
 
 
 --
--- Name: changeset_comments_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: changeset_comments changeset_comments_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY changeset_comments
@@ -2339,7 +2341,7 @@ ALTER TABLE ONLY changeset_comments
 
 
 --
--- Name: changeset_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: changeset_tags changeset_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY changeset_tags
@@ -2347,7 +2349,7 @@ ALTER TABLE ONLY changeset_tags
 
 
 --
--- Name: changesets_subscribers_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: changesets_subscribers changesets_subscribers_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY changesets_subscribers
@@ -2355,7 +2357,7 @@ ALTER TABLE ONLY changesets_subscribers
 
 
 --
--- Name: changesets_subscribers_subscriber_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: changesets_subscribers changesets_subscribers_subscriber_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY changesets_subscribers
@@ -2363,7 +2365,7 @@ ALTER TABLE ONLY changesets_subscribers
 
 
 --
--- Name: changesets_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: changesets changesets_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY changesets
@@ -2371,7 +2373,7 @@ ALTER TABLE ONLY changesets
 
 
 --
--- Name: client_applications_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: client_applications client_applications_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY client_applications
@@ -2379,7 +2381,7 @@ ALTER TABLE ONLY client_applications
 
 
 --
--- Name: current_node_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: current_node_tags current_node_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_node_tags
@@ -2387,7 +2389,7 @@ ALTER TABLE ONLY current_node_tags
 
 
 --
--- Name: current_nodes_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: current_nodes current_nodes_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_nodes
@@ -2395,7 +2397,7 @@ ALTER TABLE ONLY current_nodes
 
 
 --
--- Name: current_relation_members_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: current_relation_members current_relation_members_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_relation_members
@@ -2403,7 +2405,7 @@ ALTER TABLE ONLY current_relation_members
 
 
 --
--- Name: current_relation_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: current_relation_tags current_relation_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_relation_tags
@@ -2411,7 +2413,7 @@ ALTER TABLE ONLY current_relation_tags
 
 
 --
--- Name: current_relations_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: current_relations current_relations_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_relations
@@ -2419,7 +2421,7 @@ ALTER TABLE ONLY current_relations
 
 
 --
--- Name: current_way_nodes_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: current_way_nodes current_way_nodes_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_way_nodes
@@ -2427,7 +2429,7 @@ ALTER TABLE ONLY current_way_nodes
 
 
 --
--- Name: current_way_nodes_node_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: current_way_nodes current_way_nodes_node_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_way_nodes
@@ -2435,7 +2437,7 @@ ALTER TABLE ONLY current_way_nodes
 
 
 --
--- Name: current_way_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: current_way_tags current_way_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_way_tags
@@ -2443,7 +2445,7 @@ ALTER TABLE ONLY current_way_tags
 
 
 --
--- Name: current_ways_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: current_ways current_ways_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY current_ways
@@ -2451,7 +2453,7 @@ ALTER TABLE ONLY current_ways
 
 
 --
--- Name: diary_comments_diary_entry_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: diary_comments diary_comments_diary_entry_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY diary_comments
@@ -2459,7 +2461,7 @@ ALTER TABLE ONLY diary_comments
 
 
 --
--- Name: diary_comments_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: diary_comments diary_comments_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY diary_comments
@@ -2467,7 +2469,7 @@ ALTER TABLE ONLY diary_comments
 
 
 --
--- Name: diary_entries_language_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: diary_entries diary_entries_language_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY diary_entries
@@ -2475,7 +2477,7 @@ ALTER TABLE ONLY diary_entries
 
 
 --
--- Name: diary_entries_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: diary_entries diary_entries_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY diary_entries
@@ -2483,7 +2485,7 @@ ALTER TABLE ONLY diary_entries
 
 
 --
--- Name: diary_entry_subscriptions_diary_entry_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: diary_entry_subscriptions diary_entry_subscriptions_diary_entry_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY diary_entry_subscriptions
@@ -2491,7 +2493,7 @@ ALTER TABLE ONLY diary_entry_subscriptions
 
 
 --
--- Name: diary_entry_subscriptions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: diary_entry_subscriptions diary_entry_subscriptions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY diary_entry_subscriptions
@@ -2499,7 +2501,7 @@ ALTER TABLE ONLY diary_entry_subscriptions
 
 
 --
--- Name: friends_friend_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: friends friends_friend_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY friends
@@ -2507,7 +2509,7 @@ ALTER TABLE ONLY friends
 
 
 --
--- Name: friends_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: friends friends_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY friends
@@ -2515,7 +2517,7 @@ ALTER TABLE ONLY friends
 
 
 --
--- Name: gps_points_gpx_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: gps_points gps_points_gpx_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY gps_points
@@ -2523,7 +2525,7 @@ ALTER TABLE ONLY gps_points
 
 
 --
--- Name: gpx_file_tags_gpx_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: gpx_file_tags gpx_file_tags_gpx_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY gpx_file_tags
@@ -2531,7 +2533,7 @@ ALTER TABLE ONLY gpx_file_tags
 
 
 --
--- Name: gpx_files_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: gpx_files gpx_files_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY gpx_files
@@ -2579,7 +2581,7 @@ ALTER TABLE ONLY issues
 
 
 --
--- Name: messages_from_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: messages messages_from_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages
@@ -2587,7 +2589,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: messages_to_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: messages messages_to_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages
@@ -2595,7 +2597,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: node_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: node_tags node_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY node_tags
@@ -2603,7 +2605,7 @@ ALTER TABLE ONLY node_tags
 
 
 --
--- Name: nodes_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: nodes nodes_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY nodes
@@ -2611,7 +2613,7 @@ ALTER TABLE ONLY nodes
 
 
 --
--- Name: nodes_redaction_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: nodes nodes_redaction_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY nodes
@@ -2619,7 +2621,7 @@ ALTER TABLE ONLY nodes
 
 
 --
--- Name: note_comments_author_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: note_comments note_comments_author_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY note_comments
@@ -2627,7 +2629,7 @@ ALTER TABLE ONLY note_comments
 
 
 --
--- Name: note_comments_note_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: note_comments note_comments_note_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY note_comments
@@ -2635,7 +2637,7 @@ ALTER TABLE ONLY note_comments
 
 
 --
--- Name: oauth_tokens_client_application_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: oauth_tokens oauth_tokens_client_application_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY oauth_tokens
@@ -2643,7 +2645,7 @@ ALTER TABLE ONLY oauth_tokens
 
 
 --
--- Name: oauth_tokens_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: oauth_tokens oauth_tokens_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY oauth_tokens
@@ -2651,7 +2653,7 @@ ALTER TABLE ONLY oauth_tokens
 
 
 --
--- Name: redactions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: redactions redactions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY redactions
@@ -2659,7 +2661,7 @@ ALTER TABLE ONLY redactions
 
 
 --
--- Name: relation_members_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: relation_members relation_members_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY relation_members
@@ -2667,7 +2669,7 @@ ALTER TABLE ONLY relation_members
 
 
 --
--- Name: relation_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: relation_tags relation_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY relation_tags
@@ -2675,7 +2677,7 @@ ALTER TABLE ONLY relation_tags
 
 
 --
--- Name: relations_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: relations relations_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY relations
@@ -2683,7 +2685,7 @@ ALTER TABLE ONLY relations
 
 
 --
--- Name: relations_redaction_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: relations relations_redaction_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY relations
@@ -2707,7 +2709,7 @@ ALTER TABLE ONLY reports
 
 
 --
--- Name: user_blocks_moderator_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: user_blocks user_blocks_moderator_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_blocks
@@ -2715,7 +2717,7 @@ ALTER TABLE ONLY user_blocks
 
 
 --
--- Name: user_blocks_revoker_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: user_blocks user_blocks_revoker_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_blocks
@@ -2723,7 +2725,7 @@ ALTER TABLE ONLY user_blocks
 
 
 --
--- Name: user_blocks_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: user_blocks user_blocks_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_blocks
@@ -2731,7 +2733,7 @@ ALTER TABLE ONLY user_blocks
 
 
 --
--- Name: user_preferences_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: user_preferences user_preferences_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_preferences
@@ -2739,7 +2741,7 @@ ALTER TABLE ONLY user_preferences
 
 
 --
--- Name: user_roles_granter_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: user_roles user_roles_granter_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_roles
@@ -2747,7 +2749,7 @@ ALTER TABLE ONLY user_roles
 
 
 --
--- Name: user_roles_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: user_roles user_roles_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_roles
@@ -2755,7 +2757,7 @@ ALTER TABLE ONLY user_roles
 
 
 --
--- Name: user_tokens_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: user_tokens user_tokens_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_tokens
@@ -2763,7 +2765,7 @@ ALTER TABLE ONLY user_tokens
 
 
 --
--- Name: way_nodes_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: way_nodes way_nodes_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY way_nodes
@@ -2771,7 +2773,7 @@ ALTER TABLE ONLY way_nodes
 
 
 --
--- Name: way_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: way_tags way_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY way_tags
@@ -2779,7 +2781,7 @@ ALTER TABLE ONLY way_tags
 
 
 --
--- Name: ways_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: ways ways_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY ways
@@ -2787,7 +2789,7 @@ ALTER TABLE ONLY ways
 
 
 --
--- Name: ways_redaction_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: ways ways_redaction_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY ways
@@ -2853,6 +2855,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20161002153425'),
 ('20161011010929'),
 ('20170222134109'),
+('20180204153242'),
 ('21'),
 ('22'),
 ('23'),
@@ -2897,5 +2900,3 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('7'),
 ('8'),
 ('9');
-
-

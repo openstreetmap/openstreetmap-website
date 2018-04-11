@@ -5,7 +5,7 @@
 
   <div class='info-line clearfix'>
     <%= user_thumbnail_tiny @message.sender %>
-    <%= link_to h(@message.sender.display_name), :controller => 'user', :action => 'view', :display_name => @message.sender.display_name %></td>
+    <%= link_to h(@message.sender.display_name), user_path(@message.sender) %></td>
     <div class='right'>
       <%= l @message.sent_on, :format => :friendly %>
     </div>
@@ -24,7 +24,7 @@
 
   <div class='info-line clearfix'>
     <%= user_thumbnail_tiny @message.recipient %>
-    <%= link_to h(@message.recipient.display_name), :controller => 'user', :action => 'view', :display_name => @message.recipient.display_name %></td>
+    <%= link_to h(@message.recipient.display_name), user_path(@message.recipient) %></td>
     <div class='right'>
       <%= l @message.sent_on, :format => :friendly %>
     </div>

@@ -238,7 +238,7 @@ mk:
     list:
       title: Измени
       title_user: Измени на %{user}
-      title_friend: Измени на ваши пријатели
+      title_friend: Измени на мои пријатели
       title_nearby: Измени од соседни корисници
       empty: Не пронајдов збирови од промени.
       empty_area: Нема збирови од промени во ова подрачје.
@@ -268,7 +268,7 @@ mk:
       user_title: Дневник на %{user}
       in_language_title: Дневнички написи на %{language}
       new: 'Нов дневнички запис:'
-      new_title: Напишете нов запис во вашиот кориснички дневник
+      new_title: Напишете нов запис во корисничкиот дневник
       no_entries: Нема дневнички ставки
       recent_entries: Скорешни дневнички записи
       older_entries: Постари ставки
@@ -385,8 +385,6 @@ mk:
     search:
       title:
         latlon: <a href="https://openstreetmap.org/">Внатрешни</a> исходни ставки
-        uk_postcode: Исход од <a href="http://www.npemap.org.uk/">NPEMap / FreeThe
-          Postcode</a>
         ca_postcode: Исход од <a href="https://geocoder.ca/">Geocoder.CA</a>
         osm_nominatim: Исход од <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
@@ -1657,7 +1655,7 @@ mk:
     trace_header:
       upload_trace: Подигни трага
       see_all_traces: Погледајте ги сите траги
-      see_your_traces: Погледајте ги сите траги
+      see_my_traces: Мои траги
       traces_waiting:
         one: Имате %{count} трага што чека на подигање. Би ве посоветувале да ја почекате
           да заврши пред да подигате други, за да не ја кочите редицата во која чекаат
@@ -1686,6 +1684,7 @@ mk:
       delete_track: Избриши ја трагава
       trace_not_found: Трагата не беше најдена!
       visibility: 'Видливост:'
+      confirm_delete: Да ја избришам трагава?
     trace_paging_nav:
       showing_page: Страница %{page}
       older: Постари траги
@@ -1708,7 +1707,7 @@ mk:
       map: карта
     list:
       public_traces: Јавни ГПС-траги
-      your_traces: Ваши ГПС-траги
+      my_traces: Мои ГПС-траги
       public_traces_from: Јавни ГПС-траги од %{user}
       description: Прелистување на скороподигнати ГПС-траги
       tagged_with: '  означено со %{tags}'
@@ -2009,7 +2008,7 @@ mk:
       if set location: Задајте ја вашата местоположба на страницата %{settings_link}
         за да ги видите соседните корисници околу вас.
       settings_link_text: прилагодувања
-      your friends: Ваши пријатели
+      my friends: Мои пријатели
       no friends: Сè уште немате додадено пријатели.
       km away: '%{count} км од вас'
       m away: '%{count} м од вас'
@@ -2450,20 +2449,26 @@ mk:
       distance: Растојание
       errors:
         no_route: Не можев да најдам маршрута помеѓу тие две места.
-        no_place: За жал, не можев да го најдам тоа место.
+        no_place: За жал, не можев да го најдам  местото „%{place}“.
       instructions:
         continue_without_exit: Продолжете на %{name}
         slight_right_without_exit: Малку надесно на %{name}
-        offramp_right_without_exit: На излезот десно, исклучете се на %{name}
+        offramp_right: Свртете на излезот десно
+        offramp_right_with_exit: Свртете на излезот %{exit} десно
+        offramp_right_with_exit_name: Свртете на излезот %{exit} десно на %{name}
+        offramp_right_with_exit_directions: Свртете на излезот %{exit} десно кон %{directions}
+        offramp_right_with_exit_name_directions: Свртете на излезот %{exit} десно
+          на %{name}, кон %{directions}
+        offramp_right_with_name: На излезот десно, исклучете се на %{name}
         offramp_right_with_directions: На излезот десно, свртете кон %{directions}
-        offramp_right_with_name_and_directions: На излезот десно, свртете на %{name}
-          кон %{directions}
-        offramp_right_without_directions: Свртете на излезот десно
+        offramp_right_with_name_directions: На излезот десно, свртете на %{name} кон
+          %{directions}
         onramp_right_without_exit: На влезот десно приклучете се на %{name}
         onramp_right_with_directions: Свртете на влезот десно кон %{directions}
-        onramp_right_with_name_and_directions: На влезот десно приклучете се на %{name},
+        onramp_right_with_name_directions: На влезот десно приклучете се на %{name},
           кон %{directions}
         onramp_right_without_directions: Свртете во влезот десно
+        onramp_right: Свртете во влезот десно
         endofroad_right_without_exit: На крајот од патот свртете десно на %{name}
         merge_right_without_exit: Навлезете десно во %{name}
         fork_right_without_exit: На разгранокот свртете десно на %{name}
@@ -2472,26 +2477,33 @@ mk:
         uturn_without_exit: Полукружно свртете долж %{name}
         sharp_left_without_exit: Остро налево на %{name}
         turn_left_without_exit: Свртете лево на %{name}
-        offramp_left_without_exit: На левиот исклучок, свртете на %{name}
+        offramp_left: Свртете на излезот лево
+        offramp_left_with_exit: Свртете на излезот %{exit} лево
+        offramp_left_with_exit_name: Свртете на излезот %{exit} лево на %{name}
+        offramp_left_with_exit_directions: Свртете на излезот %{exit} лево кон на
+          %{directions}
+        offramp_left_with_exit_name_directions: Свртете на излезот %{exit} лево на
+          %{name}, кон %{directions}
+        offramp_left_with_name: На левиот исклучок, свртете на %{name}
         offramp_left_with_directions: На излезот лево, свртете кон %{directions}
-        offramp_left_with_name_and_directions: На излезот лево, свртете на %{name}
-          кон %{directions}
-        offramp_left_without_directions: Свртете на излезот лево
+        offramp_left_with_name_directions: На излезот лево, свртете на %{name} кон
+          %{directions}
         onramp_left_without_exit: На влезот лево приклучете се на %{name}
         onramp_left_with_directions: Свртете на влезот лево кон %{directions}
-        onramp_left_with_name_and_directions: На влезот лево приклучете се на %{name},
+        onramp_left_with_name_directions: На влезот лево приклучете се на %{name},
           кон %{directions}
         onramp_left_without_directions: Свртете во влезот лево
+        onramp_left: Свртете во влезот лево
         endofroad_left_without_exit: На крајот од патот свртете лево на %{name}
         merge_left_without_exit: Навлезете лево во %{name}
         fork_left_without_exit: На разгранокот свртете лево на %{name}
         slight_left_without_exit: Малку налево на %{name}
         via_point_without_exit: (преку точката)
         follow_without_exit: Следете го %{name}
-        roundabout_without_exit: На кружниот тек свртете на %{name}
+        roundabout_without_exit: На кружниот тек излезете на %{name}
         leave_roundabout_without_exit: Напуштете го кружниот тек — %{name}
         stay_roundabout_without_exit: Останете на кружниот тек — %{name}
-        start_without_exit: Почнете на крајот од %{name}
+        start_without_exit: Почнете на %{name}
         destination_without_exit: Стигнавте на одредиштето
         against_oneway_without_exit: Оди обратно во еднонасочната на %{name}
         end_oneway_without_exit: Крај на еднонасочната на %{name}

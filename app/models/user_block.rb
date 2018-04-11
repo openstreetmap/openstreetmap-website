@@ -63,7 +63,7 @@ class UserBlock < ActiveRecord::Base
   # revokes the block, allowing the user to use the API again. the argument
   # is the user object who is revoking the ban.
   def revoke!(revoker)
-    update_attributes(
+    update(
       :ends_at => Time.now.getutc,
       :revoker_id => revoker.id,
       :needs_view => false

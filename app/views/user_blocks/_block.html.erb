@@ -2,10 +2,10 @@
   <% c1 = cycle('table0', 'table1') %>
 
   <% if show_user_name %>
-  <td class="<%= c1 %>"><%= link_to h(block.user.display_name), :controller => 'user', :action => 'view', :display_name => block.user.display_name %></td>
+  <td class="<%= c1 %>"><%= link_to h(block.user.display_name), user_path(block.user) %></td>
   <% end %>
   <% if show_creator_name %>
-  <td class="<%= c1 %>"><%= link_to h(block.creator.display_name), :controller => 'user', :action => 'view', :display_name => block.creator.display_name %></td>
+  <td class="<%= c1 %>"><%= link_to h(block.creator.display_name), user_path(block.creator) %></td>
   <% end %>
   <td class="<%= c1 %>"><%=h truncate(block.reason) %></td>
   <td class="<%= c1 %>"><%=h block_status(block) %></td>
@@ -13,7 +13,7 @@
     <% if block.revoker_id.nil? %>
       <%= t('user_block.partial.not_revoked') %>
     <% else %>
-      <%= link_to h(block.revoker.display_name), :controller => 'user', :action => 'view', :display_name => block.revoker.display_name %>
+      <%= link_to h(block.revoker.display_name), user_path(block.revoker) %>
     <% end %>
   </td>
   <td class="<%= c1 %>"><%= link_to t('user_block.partial.show'), block %></td>

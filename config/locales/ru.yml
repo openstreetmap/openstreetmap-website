@@ -29,6 +29,7 @@
 # Author: Facenapalm
 # Author: FreeExec
 # Author: G0rn
+# Author: Happy13241
 # Author: Helpau
 # Author: Ignatus
 # Author: Iluvatar
@@ -304,7 +305,7 @@ ru:
     list:
       title: Пакет правок
       title_user: Пакеты правок пользователя %{user}
-      title_friend: Пакеты правок ваших друзей
+      title_friend: Пакеты правок моих друзей
       title_nearby: Пакеты правок соседних участников
       empty: Пакеты правок не найдены.
       empty_area: Нет пакетов правок в этой области.
@@ -334,7 +335,7 @@ ru:
       user_title: Дневник пользователя %{user}
       in_language_title: Дневниковые записи на языке %{language}
       new: Новая запись в дневнике
-      new_title: Сделать новую запись в своем дневнике
+      new_title: Сделать новую запись в моем дневнике
       no_entries: В дневнике нет записей
       recent_entries: Недавние записи
       older_entries: Более старые записи
@@ -451,8 +452,6 @@ ru:
     search:
       title:
         latlon: <a href="https://openstreetmap.org/">Внутренние результаты</a>
-        uk_postcode: Результаты от <a href="http://www.npemap.org.uk/">NPEMap / FreeThe
-          Postcode</a>
         ca_postcode: Результаты от <a href="http://geocoder.ca/">Geocoder.CA</a>
         osm_nominatim: Результаты от <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
@@ -757,7 +756,7 @@ ru:
           crane: Кран
           dolphin: Причальная тумба
           dyke: Канава
-          embankment: Дамба
+          embankment: Насыпь
           flagpole: Флагшток
           gasometer: Газгольдер
           groyne: Волнорез
@@ -1715,7 +1714,7 @@ ru:
     trace_header:
       upload_trace: Загрузить треки
       see_all_traces: Показать все треки
-      see_your_traces: Показать все ваши треки
+      see_my_traces: Показать мои треки
       traces_waiting:
         one: '%{count} ваш трек ожидает передачи на сервер. Пожалуйста, дождитесь
           окончания передачи этого трека, перед тем как начать передавать на сервер
@@ -1744,6 +1743,7 @@ ru:
       delete_track: Удалить этот трек
       trace_not_found: Трек не найден!
       visibility: 'Видимость:'
+      confirm_delete: Удалить этот трек?
     trace_paging_nav:
       showing_page: Страница %{page}
       older: Более старые треки
@@ -1766,9 +1766,9 @@ ru:
       map: карта
     list:
       public_traces: Общедоступные GPS-треки
-      your_traces: Ваши GPS-треки
+      my_traces: Мои треки GPS
       public_traces_from: Общедоступные треки пользователя %{user}
-      description: Обзор последних загруженных маршрутов GPS
+      description: Просмотр последних загруженных GPS-треков
       tagged_with: 'с тегами: %{tags}'
       empty_html: Пока здесь ничего нет. <a href='%{upload_link}'>Загрузите новый
         трек</a> или почитайте про GPS-треки на <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>вики-странице</a>.
@@ -2068,7 +2068,7 @@ ru:
       if set location: Укажите свое местоположение на вашей странице %{settings_link}
         чтобы увидеть своих соседей.
       settings_link_text: настройки
-      your friends: Ваши друзья
+      my friends: Друзья
       no friends: Вы не добавили ещё ни одного друга.
       km away: '%{count} км от вас'
       m away: '%{count} м от вас'
@@ -2518,20 +2518,27 @@ ru:
       distance: Расстояние
       errors:
         no_route: Не удалось найти маршрут между этими двумя точками.
-        no_place: К сожалению, данное место не найдено.
+        no_place: К сожалению, разместить '%{place}' не найдено.
       instructions:
         continue_without_exit: Продолжите по %{name}
         slight_right_without_exit: Плавно поверните направо на %{name}
-        offramp_right_without_exit: Сверните на правый съезд на %{name}
+        offramp_right: Сверните на правый съезд
+        offramp_right_with_exit: Сверните на правый съезд %{exit}
+        offramp_right_with_exit_name: Сверните на правый съезд %{exit} на %{name}
+        offramp_right_with_exit_directions: Сверните на правый съезд %{exit} в направлении
+          %{directions}
+        offramp_right_with_exit_name_directions: Сверните на правый съезд %{exit}
+          в на %{name} в направлении %{directions}
+        offramp_right_with_name: Сверните на правый съезд на %{name}
         offramp_right_with_directions: Сверните на правый съезд в направлении %{directions}
-        offramp_right_with_name_and_directions: Сверните на правый съезд на %{name}
-          в направлении %{directions}
-        offramp_right_without_directions: Сверните на правый съезд
+        offramp_right_with_name_directions: Сверните на правый съезд на %{name} в
+          направлении %{directions}
         onramp_right_without_exit: Сверните на правый въезд на %{name}
         onramp_right_with_directions: Сверните на правый въезд в направлении %{directions}
-        onramp_right_with_name_and_directions: Сверните на правый въезд на %{name}
-          в направлении %{directions}
+        onramp_right_with_name_directions: Сверните на правый въезд на %{name} в направлении
+          %{directions}
         onramp_right_without_directions: Сверните на правый въезд
+        onramp_right: Сверните на правый въезд
         endofroad_right_without_exit: В конце дороги поверните направо на %{name}
         merge_right_without_exit: Перестройтесь правее на %{name}
         fork_right_without_exit: На развилке поверните направо на %{name}
@@ -2540,16 +2547,23 @@ ru:
         uturn_without_exit: Развернитесь на %{name}
         sharp_left_without_exit: Резко поверните налево на %{name}
         turn_left_without_exit: Поверните налево на %{name}
-        offramp_left_without_exit: Сверните на левый съезд на %{name}
+        offramp_left: Сверните на левый съезд
+        offramp_left_with_exit: Сверните на левый съезд %{exit}
+        offramp_left_with_exit_name: Сверните на левый съезд %{exit} на %{name}
+        offramp_left_with_exit_directions: Сверните на левый съезд %{exit} в направлении
+          %{directions}
+        offramp_left_with_exit_name_directions: Сверните на левый съезд %{exit} на
+          %{name} в направлении %{directions}
+        offramp_left_with_name: Сверните на левый съезд на %{name}
         offramp_left_with_directions: Сверните на левый съезд в направлении %{directions}
-        offramp_left_with_name_and_directions: Сверните на левый съезд на %{name}
-          в направлении %{directions}
-        offramp_left_without_directions: Сверните на левый съезд
+        offramp_left_with_name_directions: Сверните на левый съезд на %{name} в направлении
+          %{directions}
         onramp_left_without_exit: Сверните на левый въезд на %{name}
         onramp_left_with_directions: Сверните на левый въезд в направлении %{directions}
-        onramp_left_with_name_and_directions: Сверните на левый въезд на %{name} в
-          направлении %{directions}
+        onramp_left_with_name_directions: Сверните на левый въезд на %{name} в направлении
+          %{directions}
         onramp_left_without_directions: Сверните на левый въезд
+        onramp_left: Сверните на левый въезд
         endofroad_left_without_exit: В конце дороги поверните налево на %{name}
         merge_left_without_exit: Перестройтесь левее на %{name}
         fork_left_without_exit: На развилке поверните налево на %{name}

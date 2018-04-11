@@ -33,6 +33,7 @@
 #  image_use_gravatar  :boolean          default(FALSE), not null
 #  image_content_type  :string
 #  auth_provider       :string
+#  home_tile           :integer
 #
 # Indexes
 #
@@ -41,6 +42,7 @@
 #  users_display_name_lower_idx  (lower((display_name)::text))
 #  users_email_idx               (email) UNIQUE
 #  users_email_lower_idx         (lower((email)::text))
+#  users_home_idx                (home_tile)
 #
 
 class User < ActiveRecord::Base
@@ -100,7 +102,8 @@ class User < ActiveRecord::Base
   validates :email, :if => proc { |u| u.email_changed? },
                     :uniqueness => { :case_sensitive => false }
   validates :pass_crypt, :confirmation => true, :length => 8..255
-  validates :home_lat, :home_lon, :allow_nil => true, :numericality => true
+  validates :home_lat, :allow_nil => true, :numericality => true, :inclusion => { :in => -90..90 }
+  validates :home_lon, :allow_nil => true, :numericality => true, :inclusion => { :in => -180..180 }
   validates :home_zoom, :allow_nil => true, :numericality => { :only_integer => true }
   validates :preferred_editor, :inclusion => Editors::ALL_EDITORS, :allow_nil => true
   validates :image, :attachment_content_type => { :content_type => %r{\Aimage/.*\Z} }
@@ -112,7 +115,12 @@ class User < ActiveRecord::Base
 
   after_initialize :set_defaults
   before_save :encrypt_password
+  before_save :update_tile
   after_save :spam_check
+
+  def to_param
+    display_name
+  end
 
   def self.authenticate(options)
     if options[:username] && options[:password]
@@ -186,14 +194,20 @@ class User < ActiveRecord::Base
   end
 
   def preferred_languages
-    @locales ||= Locale.list(languages)
+    @preferred_languages ||= Locale.list(languages)
   end
 
   def nearby(radius = NEARBY_RADIUS, num = NEARBY_USERS)
     if home_lon && home_lat
       gc = OSM::GreatCircle.new(home_lat, home_lon)
+      sql_for_area = QuadTile.sql_for_area(gc.bounds(radius), "home_")
       sql_for_distance = gc.sql_for_distance("home_lat", "home_lon")
-      nearby = User.where("id != ? AND status IN (\'active\', \'confirmed\') AND data_public = ? AND #{sql_for_distance} <= ?", id, true, radius).order(sql_for_distance).limit(num)
+      nearby = User.active.identifiable
+                   .where("id != ?", id)
+                   .where(sql_for_area)
+                   .where("#{sql_for_distance} <= ?", radius)
+                   .order(sql_for_distance)
+                   .limit(num)
     else
       nearby = []
     end
@@ -302,5 +316,9 @@ class User < ActiveRecord::Base
       self.pass_crypt, self.pass_salt = PasswordHash.create(pass_crypt)
       self.pass_crypt_confirmation = nil
     end
+  end
+
+  def update_tile
+    self.home_tile = QuadTile.tile_for_point(home_lat, home_lon) if home_lat && home_lon
   end
 end

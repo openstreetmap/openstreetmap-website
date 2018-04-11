@@ -26,6 +26,7 @@
 # Author: 고솜
 # Author: 밥풀떼기
 # Author: 아라
+# Author: 한림
 ---
 ko:
   time:
@@ -284,7 +285,7 @@ ko:
       user_title: '%{user}의 일기'
       in_language_title: '%{language}의 일기 항목'
       new: 새 일기 항목
-      new_title: 사용자 일기에 새 항목 작성
+      new_title: 내 사용자 일기에 새 항목 작성
       no_entries: 일기 항목이 없습니다
       recent_entries: 최근 일기 항목
       older_entries: 이전 항목
@@ -395,8 +396,6 @@ ko:
     search:
       title:
         latlon: <a href="https://openstreetmap.org/">내부</a> 결과
-        uk_postcode: <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>에서의
-          결과
         ca_postcode: <a href="https://geocoder.ca/">Geocoder.CA</a>에서의 결과
         osm_nominatim: <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>에서의 결과
@@ -679,7 +678,10 @@ ko:
           mineshaft: 갱도
           pipeline: 파이프라인
           tower: 탑
+          watermill: 물레방아
+          water_tower: 급수탑
           water_well: 우물
+          water_works: 상수도
           windmill: 풍차
           works: 공장
           "yes": 인공물
@@ -687,6 +689,7 @@ ko:
           airfield: 군용 비행장
           barracks: 막사
           bunker: 벙커
+          "yes": 군대
         mountain_pass:
           "yes": 산길
         natural:
@@ -732,7 +735,9 @@ ko:
           accountant: 공인회계사 사무소
           administrative: 관리
           architect: 건축가
+          association: 협회
           company: 회사
+          educational_institution: 교육 기관
           employment_agency: 직업 소개소
           estate_agent: 부동산 중개
           government: 정부 기관
@@ -746,6 +751,7 @@ ko:
         place:
           allotments: 텃밭
           city: 시
+          city_block: 도시 구획
           country: 국가
           county: 군
           farm: 농장
@@ -761,6 +767,7 @@ ko:
           postcode: 우편 번호
           region: 지역
           sea: 바다
+          square: 광장
           state: 주
           subdivision: 구분
           suburb: 교외
@@ -799,6 +806,7 @@ ko:
           beauty: 미용실
           beverages: 음료 가게
           bicycle: 자전거 가게
+          bookmaker: 마권업자
           books: 서점
           boutique: 부티크
           butcher: 정육점
@@ -837,9 +845,11 @@ ko:
           hairdresser: 미용실
           hardware: 철물점
           hifi: 고급 오디오
+          houseware: 가정용품 상점
           jewelry: 보석 상점
           kiosk: 키오스크 숍
           laundry: 세탁소
+          lottery: 복권
           mall: 쇼핑몰
           market: 시장
           mobile_phone: 휴대폰 상점
@@ -861,8 +871,9 @@ ko:
           tailor: 양복점
           toys: 완구점
           travel_agency: 여행사
+          tyres: 타이어 상점
           video: 비디오 가게
-          wine: 주점
+          wine: 와인 상점
           "yes": 상점
         tourism:
           alpine_hut: 산장
@@ -1546,7 +1557,7 @@ ko:
     trace_header:
       upload_trace: 궤적 올리기
       see_all_traces: 모든 궤적 보기
-      see_your_traces: 내 궤적 보기
+      see_my_traces: 내 추적 보기
       traces_waiting:
         one: 올리기를 기다리는 궤적 %{count}개가 있습니다. 대기중인 다른 사용자의 올리기를 막지 않도록 올리기가 끝날 때까지 더
           기다려주십시오.
@@ -1571,6 +1582,7 @@ ko:
       delete_track: 이 궤적 삭제
       trace_not_found: 추적을 찾을 수 없습니다!
       visibility: '공개 여부:'
+      confirm_delete: 이 궤적을 삭제할까요?
     trace_paging_nav:
       showing_page: '%{page}쪽'
       older: 이전 궤적
@@ -1593,9 +1605,9 @@ ko:
       map: 지도
     list:
       public_traces: 공개 GPS 궤적
-      your_traces: 내 GPS 궤적
+      my_traces: 내 GPS 추적
       public_traces_from: '%{user}님의 공개 GPS 궤적'
-      description: 최근의 GPS 궤적 올리기 둘러보기
+      description: 최근의 GPS 궤적 업로드 항목 둘러보기
       tagged_with: '%{tags}(으)로 태그함'
       empty_html: 여기에는 아직 아무것도 없습니다. <a href='%{upload_link}'>새 궤적 올리기</a>를 사용하거나
         <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>위키 문서</a>에서
@@ -1870,7 +1882,7 @@ ko:
       user location: 사용자 위치
       if set location: 근처 사용자를 보려면 %{settings_link} 페이지에 집 위치를 설정하세요.
       settings_link_text: 설정
-      your friends: 내 친구
+      my friends: 내 친구
       no friends: 아직 어떠한 친구도 추가하지 않았습니다.
       km away: '%{count}km 거리'
       m away: '%{count}m 거리'
@@ -2275,11 +2287,11 @@ ko:
       distance: 거리
       errors:
         no_route: 두 장소 사이의 경로를 찾을 수 없습니다.
-        no_place: 죄송합니다 - 그 장소를 찾을 수 없습니다.
+        no_place: 죄송합니다 - '%{place}'을(를) 찾을 수 없습니다.
       instructions:
         continue_without_exit: '%{name}(으)로 계속 가세요'
         slight_right_without_exit: '%{name}을(를) 따라 오른쪽으로 완만하게 도세요'
-        offramp_right_without_exit: 오른쪽에서 %{name}(으)로 진입하세요
+        offramp_right_with_name: 오른쪽에서 %{name}(으)로 진입하세요
         onramp_right_without_exit: 경사로에서 %{name}(으)로 우회전
         endofroad_right_without_exit: 길 끝쪽에서 %{name}(으)로 우회전
         merge_right_without_exit: '%{name}을(를) 따라 우회전'
@@ -2289,7 +2301,7 @@ ko:
         uturn_without_exit: '%{name}을(를) 따라 유턴하세요'
         sharp_left_without_exit: '%{name}을(를) 따라 왼쪽으로 꺾으세요'
         turn_left_without_exit: '%{name}을(를) 따라 왼쪽으로 도세요'
-        offramp_left_without_exit: '%{name}을(를) 향해 램프로 좌회전'
+        offramp_left_with_name: '%{name}을(를) 향해 램프로 좌회전'
         onramp_left_without_exit: 경사로에서 %{name}(으)로 좌회전
         endofroad_left_without_exit: 길 끝쪽에서 %{name}(으)로 좌회전
         merge_left_without_exit: '%{name}을(를) 따라 좌회전'
@@ -2297,7 +2309,7 @@ ko:
         slight_left_without_exit: '%{name}을(를) 따라 왼쪽으로 완만하게 도세요'
         via_point_without_exit: (점을 통해)
         follow_without_exit: '%{name}을(를) 따라가세요'
-        roundabout_without_exit: '%{name}의 회전교차로에서'
+        roundabout_without_exit: '%{name}의 회전교차로에서 나가세요'
         leave_roundabout_without_exit: 회전교차로를 떠나세요 - %{name}
         stay_roundabout_without_exit: 회전교차로에 머무세요 - %{name}
         start_without_exit: '%{name}에서 시작'

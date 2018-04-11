@@ -62,6 +62,8 @@ lb:
       name: Potlatch 1
     id:
       name: iD
+    potlatch2:
+      name: Potlatch 2
   browse:
     created: Ugeluecht
     closed: Zou
@@ -184,7 +186,7 @@ lb:
     list:
       title: Sette vun Ännerungen
       title_user: Sete vun Ännerunge vum %{user}
-      title_friend: Sette vun Ännerunge vun Äre Frënn
+      title_friend: Ännerunge vun Äre Frënn
       title_nearby: Sette vun Ännerunge vu Benotzer déi nobäi sinn
       empty: Keng Sette vun Ännerunge fonnt.
       empty_area: Keng Sette vun Ännerungen an dëser Géigend.
@@ -266,8 +268,6 @@ lb:
     search:
       title:
         latlon: Resultater vun <a href="https://openstreetmap.org/">Internal</a>
-        uk_postcode: Resultater vun <a href="http://www.npemap.org.uk/">NPEMap / FreeThe
-          Postcode</a>
         ca_postcode: Resultater vu <a href="https://geocoder.ca/">Geocoder.ca</a>
         geonames: Resultater vu <a href="http://www.geonames.org/">GeoNames</a>
         geonames_reverse: Resultater vun <a href="http://www.geonames.org/">GeoNames</a>
@@ -321,6 +321,8 @@ lb:
           library: Bibliothéik
           marketplace: Maartplaz
           monastery: Klouschter
+          nightclub: Bar (Nightclub)
+          nursing_home: Altersheim
           office: Büro
           parking: Parking
           parking_space: Parkplaz(en)
@@ -351,6 +353,7 @@ lb:
           vending_machine: Verkaafsautomat
           veterinary: Déiereklinik
           waste_basket: Drecksback
+          youth_centre: Jugendhaus
         boundary:
           national_park: Nationalpark
         bridge:
@@ -385,6 +388,7 @@ lb:
           ford: Fuert
           milestone: Kilometersteen
           motorway: Autobunn
+          motorway_link: Autobunnsopfaart
           path: Pad
           pedestrian: Fousswee
           platform: Quai
@@ -424,12 +428,14 @@ lb:
           "yes": Kräizung
         landuse:
           cemetery: Kierfecht
+          construction: Chantier
           farm: Bauerenhaff
           farmland: Akerland
           farmyard: Bauerenhaff
           forest: Bësch
           garages: Garagen
           grass: Wiss
+          greenfield: Gréngzone
           industrial: Industriezone
           military: Militairegebitt
           mine: Minn
@@ -446,6 +452,7 @@ lb:
           miniature_golf: Minigolf
           nature_reserve: Naturschutzgebitt
           park: Park
+          pitch: Sportsterrain
           playground: Spillplaz
           sauna: Sauna
           stadium: Stadion
@@ -483,6 +490,7 @@ lb:
           forest: Bësch
           geyser: Geysir
           glacier: Gletscher
+          grassland: Wiss
           hill: Hiwwel
           island: Insel
           land: Land
@@ -535,6 +543,7 @@ lb:
           disused: Fréier Eisebunn
           junction: Eisebunnskräizung
           miniature: Miniatur-Eisebunn
+          monorail: Monorail
           platform: Zuchquai
           proposed: Proposéiert Eisebunnslinn
           station: Gare (Eisebunn)
@@ -563,6 +572,7 @@ lb:
           furniture: Miwwelgeschäft
           gallery: Galerie
           hairdresser: Coiffeur
+          hardware: Quincaillerie
           jewelry: Bijouterie
           laundry: Botzerei
           lottery: Lotterie
@@ -581,6 +591,7 @@ lb:
           tailor: Schneider
           travel_agency: Reesbüro
           tyres: Peuenhändler
+          wine: Vinothéik
           "yes": Geschäft
         tourism:
           apartment: Appartement
@@ -620,6 +631,7 @@ lb:
     home: Op déi Plaz zréckgoen déi als Doheem definéiert ass
     logout: Ausloggen
     log_in: Aloggen
+    sign_up: Mellt Iech un
     edit: Änneren
     history: Versiounen
     export: Exportéieren
@@ -666,7 +678,7 @@ lb:
     questions:
       title: Nach Froen?
     add_a_note:
-      title: Keng Zäit fir z'änneren? Setzt eng Notiz dobäi!
+      title: Keng Zäit fir z'änneren? Setzt eng Notiz derbäi!
   fixthemap:
     title: E Problem mellen / D'Kaart verbesseren
     how_to_help:
@@ -714,7 +726,7 @@ lb:
       hi: Salut %{to_user},
       had_added_you: '%{user} hat Iech als Frënd op OpenStreet Map dobäigesat.'
       see_their_profile: Dir kënnt säin/hire Profil op %{userurl} kucken.
-      befriend_them: Dir kënnt hien/si och als Frënd op %{befriendurl} dobäisetzen.
+      befriend_them: Dir kënnt hien/si och als Frënd op %{befriendurl} derbäisetzen.
     gpx_notification:
       greeting: Salut,
       your_gpx_file: Et gesäit aus wéi Äre GPX-Fichier
@@ -762,8 +774,8 @@ lb:
       subject: Sujet
       date: Datum
     message_summary:
-      unread_button: Als net geliest markéieren
-      read_button: Als geliest markéieren
+      unread_button: Als net gelies markéieren
+      read_button: Als gelies markéieren
       reply_button: Äntwerten
       delete_button: Läschen
     new:
@@ -784,13 +796,14 @@ lb:
       subject: Sujet
       date: Datum
       reply_button: Äntwerten
-      unread_button: Als net geliest markéieren
+      unread_button: Als net gelies markéieren
       delete_button: Läschen
       back: Zréck
+      to: Fir
     sent_message_summary:
       delete_button: Läschen
     mark:
-      as_read: Message als geliest markéiert
+      as_read: Message als gelies markéiert
       as_unread: Message als net geliest markéiert
     delete:
       deleted: Message geläscht
@@ -798,7 +811,9 @@ lb:
     index:
       js_1: Dir hutt entweder e Browser dee JavaScript net ënnerstëtzt oder Dir hutt
         JavaScript desaktivéiert.
-      createnote: Eng Notiz dobäisetzen
+      permalink: Permanentlink
+      shortlink: Kuerze Link
+      createnote: Eng Notiz derbäisetzen
     edit:
       not_public: Dir hutt net agestallt datt Är Ännerungen ëffentlech sinn.
       user_page_link: Benotzersäit
@@ -808,6 +823,7 @@ lb:
       close: Zoumaachen
     search:
       search: Sichen
+      from: Vum
       where_am_i: Wou ass dat?
       submit_text: Lass
     key:
@@ -845,6 +861,8 @@ lb:
           - Universitéit
           summit:
           - Spëtzt
+          private: Privaten Terrain
+          construction: Stroossen am Bau
           bicycle_shop: Vëlosgeschäft
           bicycle_parking: Vëlosparking
           toilets: Toiletten
@@ -917,6 +935,8 @@ lb:
       by: vum
       in: an
       map: Kaart
+    list:
+      my_traces: Meng GPS Spueren
     description:
       description_without_count: GPX-Fichier vum %{user}
   oauth:
@@ -1030,6 +1050,7 @@ lb:
     no_such_user:
       title: Sou e Benotzer gëtt et net
       heading: De Benotzer %{user} gëtt et net
+      deleted: geläscht
     view:
       my diary: Mäi Blog
       my edits: Meng Ännerungen
@@ -1038,13 +1059,14 @@ lb:
       my profile: Mäi Profil
       my settings: Meng Astellungen
       my comments: Meng Bemierkungen
+      oauth settings: OAuth-Astellungen
       blocks by me: vu Mir Gespaart
       send message: Message schécken
       diary: Blog
       edits: Ännerungen
       notes: Notizen op der Kaart
       remove as friend: Frënd ewechhuelen
-      add as friend: Frënd dobäisetzen
+      add as friend: Frënd derbäisetzen
       ago: (viru(n) %{time_in_words_ago})
       ct accepted: Viru(n) %{ago} akzeptéert
       latest edit: 'Lescht Ännerung %{ago}:'
@@ -1052,8 +1074,8 @@ lb:
       status: 'Status:'
       description: Beschreiwung
       settings_link_text: Astellungen
-      your friends: Är Frënn
-      no friends: Dir hutt nach keng Frënn dobäi gesat.
+      my friends: Meng Frënn
+      no friends: Dir hutt nach keng Frënn derbäigesat.
       km away: '%{count} km ewech'
       m away: '%{count} m ewech'
       nearby users: Aner Benotzer nobäi
@@ -1099,10 +1121,12 @@ lb:
         link text: wat ass dat?
         disabled: Gravatar gouf desaktivéiert.
         enabled: D'Weise vun Ärem Gravatar gouf aktivéiert.
-      new image: E Bild dobäisetzen
+      new image: E Bild derbäisetzen
       keep image: Dat aktuellt Bild behalen
       delete image: Dat aktuellt Bild ewechhuelen
       replace image: Dat aktuellt Bild ersetzen
+      latitude: 'Breedegrad:'
+      longitude: 'Längegrad:'
       save changes button: Ännerunge späicheren
       make edits public button: All meng Ännerunge ëffentlech maachen
       return to profile: 'Zréck op de Profil:'
@@ -1124,8 +1148,8 @@ lb:
     go_public:
       flash success: All Är Ännerunge sinn elo ëffentlech, an Dir däerft elo änneren.
     make_friend:
-      heading: '%{user} als Frënd dobäisetzen?'
-      button: Als Frënd dobäisetzen
+      heading: '%{user} als Frënd derbäisetzen?'
+      button: Als Frënd derbäisetzen
       success: '%{name} ass elo Äre Frënd!'
       failed: Pardon, %{name} konnt net als Frënd dobäigesat ginn.
       already_a_friend: Dir sidd schonn de Frënd vum %{name}.
@@ -1172,8 +1196,11 @@ lb:
       fail: D'Roll '%{role}' konnt net vum Benotzer '%{name}' ewechgeholl ginn. Kuckt
         w.e.g. no ob de Benotzer an d'Roll allen zwee valabel sinn.
   user_block:
+    not_found:
+      back: Zréck op d'Iwwersiicht
     new:
       submit: Spär uleeën
+      tried_contacting: Ech hunn de Benotzer kontaktéiert an e gefrot fir opzehalen.
       back: All Späre weisen
     edit:
       submit: Spär aktualiséieren
@@ -1187,6 +1214,7 @@ lb:
       empty: Et goufe nach keng Späre gemaach.
     revoke:
       revoke: Ophiewen!
+      flash: Dës Spär gouf opgehuewen.
     period:
       one: 1 Stonn
       other: '%{count} Stonnen'
@@ -1198,6 +1226,8 @@ lb:
       display_name: Gespaarte Benotzer
       reason: Grond fir d'Spär
       status: Status
+      revoker_name: Opgehuewe vum
+      not_revoked: (net opgehuewen)
       showing_page: Säit %{page}
       next: Nächst »
       previous: « Vireg
@@ -1261,11 +1291,13 @@ lb:
     changesets:
       show:
         comment: Bemierkung
+        subscribe: Abonnéieren
+        unsubscribe: Ofbestellen
         hide_comment: verstoppen
         unhide_comment: nees weisen
     notes:
       new:
-        add: Notiz dobäisetzen
+        add: Notiz derbäisetzen
       show:
         hide: Verstoppen
         resolve: Léisen
@@ -1273,20 +1305,26 @@ lb:
         comment: Bemierkung
     directions:
       ascend: Vu kleng op grouss
+      engines:
+        osrm_car: Auto (OSRM)
       descend: Vu grouss op kleng
       directions: Richtungen
       distance: Distanz
+      errors:
+        no_place: Mir konnten d'Plaz '%{place}' leider net fannen.
       instructions:
         continue_without_exit: Virun op %{name}
-        offramp_right_without_exit: Déi riets Opfaart op %{name} huelen
+        offramp_right_with_name: Déi riets Opfaart op %{name} huelen
         onramp_right_without_exit: Bei der Opfaart riets ofbéien op %{name}
+        onramp_right: Op der Opfaart no riets ofbéien
         endofroad_right_without_exit: Um Ënn vun der Strooss riets ofbéien op %{name}
         merge_right_without_exit: Riets areien op %{name}
         fork_right_without_exit: Um Ënn vun der Strooss riets ofbéien op %{name}
         sharp_right_without_exit: Schaarf riets op %{name}
         sharp_left_without_exit: Schaarf lénks op %{name}
-        offramp_left_without_exit: Déi lénks Opfaart op %{name} huelen
+        offramp_left_with_name: Déi lénks Opfaart op %{name} huelen
         onramp_left_without_exit: Bei der Opfaart lénks ofbéien op %{name}
+        onramp_left: Op der Opfaart no lénks ofbéien
         endofroad_left_without_exit: Um Ënn vun der Strooss lénks ofbéien op %{name}
         merge_left_without_exit: Lénks areien op %{name}
         fork_left_without_exit: Um Ënn vun der Strooss lénks ofbéien op %{name}
@@ -1308,7 +1346,7 @@ lb:
     context:
       directions_from: Vun hei fort
       directions_to: Heihinn
-      add_note: Eng Notiz hei dobäisetzen
+      add_note: Eng Notiz hei derbäisetzen
       show_address: Adress weisen
       centre_map: Kaart hei zentréieren
   redaction:

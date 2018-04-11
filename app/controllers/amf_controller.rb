@@ -110,17 +110,17 @@ class AmfController < ApplicationController
   def amf_handle_error(call, rootobj, rootid)
     yield
   rescue OSM::APIAlreadyDeletedError => ex
-    return [-4, ex.object, ex.object_id]
+    [-4, ex.object, ex.object_id]
   rescue OSM::APIVersionMismatchError => ex
-    return [-3, [rootobj, rootid], [ex.type.downcase, ex.id, ex.latest]]
+    [-3, [rootobj, rootid], [ex.type.downcase, ex.id, ex.latest]]
   rescue OSM::APIUserChangesetMismatchError => ex
-    return [-2, ex.to_s]
+    [-2, ex.to_s]
   rescue OSM::APIBadBoundingBox => ex
-    return [-2, "Sorry - I can't get the map for that area. The server said: #{ex}"]
+    [-2, "Sorry - I can't get the map for that area. The server said: #{ex}"]
   rescue OSM::APIError => ex
-    return [-1, ex.to_s]
+    [-1, ex.to_s]
   rescue StandardError => ex
-    return [-2, "An unusual error happened (in #{call}). The server said: #{ex}"]
+    [-2, "An unusual error happened (in #{call}). The server said: #{ex}"]
   end
 
   def amf_handle_error_with_timeout(call, rootobj, rootid)
@@ -437,9 +437,9 @@ class AmfController < ApplicationController
     revdates.collect! { |d| [(d + 1).strftime("%d %b %Y, %H:%M:%S")] + revusers[d.to_i] }
     revdates.uniq!
 
-    return ["way", wayid, revdates]
+    ["way", wayid, revdates]
   rescue ActiveRecord::RecordNotFound
-    return ["way", wayid, []]
+    ["way", wayid, []]
   end
 
   # Find history of a node. Returns 'node', id, and an array of previous versions as above.
@@ -448,9 +448,9 @@ class AmfController < ApplicationController
     history = Node.find(nodeid).old_nodes.unredacted.reverse.collect do |old_node|
       [(old_node.timestamp + 1).strftime("%d %b %Y, %H:%M:%S")] + change_user(old_node)
     end
-    return ["node", nodeid, history]
+    ["node", nodeid, history]
   rescue ActiveRecord::RecordNotFound
-    return ["node", nodeid, []]
+    ["node", nodeid, []]
   end
 
   def change_user(obj)
@@ -865,7 +865,7 @@ class AmfController < ApplicationController
   end
 
   def getlocales
-    @locales ||= Locale.list(Dir.glob(Rails.root.join("config", "potlatch", "locales", "*")).collect { |f| File.basename(f, ".yml") })
+    @getlocales ||= Locale.list(Dir.glob(Rails.root.join("config", "potlatch", "locales", "*")).collect { |f| File.basename(f, ".yml") })
   end
 
   ##
