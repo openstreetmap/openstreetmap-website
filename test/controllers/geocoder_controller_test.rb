@@ -33,6 +33,10 @@ class GeocoderControllerTest < ActionController::TestCase
       { :path => "/geocoder/search_geonames_reverse", :method => :get },
       { :controller => "geocoder", :action => "search_geonames_reverse" }
     )
+    assert_routing(
+      { :path => "/geocoder/search_plus_code", :method => :get },
+      { :controller => "geocoder", :action => "search_plus_code" }
+    )
   end
 
   ##
@@ -420,6 +424,19 @@ class GeocoderControllerTest < ActionController::TestCase
       results_check :name => "England", :suffix => ", United Kingdom",
                     :lat => 51.7632, :lon => -0.0076
     end
+  end
+
+  ##
+  # Test the plus code search
+  def test_search_plus_code
+    get :search_plus_code, :xhr => true,
+                                  :params => { :query => "6PH57VP3+PQ" }
+    results_check :name => "6PH57VP3+PQ",
+                  :lat => 1.2868125, :lon => 103.85443749999999
+
+    get :search_plus_code, :xhr => true,
+                                  :params => { :query => "X4HP+M5" }
+    results_check_error "X4HP+M5 is not a full Plus Code address"
   end
 
   private

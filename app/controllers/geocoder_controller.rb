@@ -2,6 +2,7 @@ class GeocoderController < ApplicationController
   require "cgi"
   require "uri"
   require "rexml/document"
+  require "plus_codes/open_location_code"
 
   before_action :authorize_web
   before_action :set_locale
@@ -23,6 +24,8 @@ class GeocoderController < ApplicationController
       elsif @params[:query] =~ /^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i
         @sources.push "ca_postcode"
         @sources.push "osm_nominatim"
+      elsif PlusCodes::OpenLocationCode.new.valid?(@params[:query])
+        @sources.push "plus_code"
       else
         @sources.push "osm_nominatim"
         @sources.push "geonames" if defined?(GEONAMES_USERNAME)
@@ -236,6 +239,29 @@ class GeocoderController < ApplicationController
     render :action => "results"
   rescue StandardError => ex
     @error = "Error contacting api.geonames.org: #{ex}"
+    render :action => "error"
+  end
+
+  def search_plus_code
+    # get query parameters
+    code = params[:query]
+
+    olc = PlusCodes::OpenLocationCode.new
+    lat_lon = olc.decode(code)
+
+    @results = []
+    @results.push(:lat => lat_lon.latitude_center, :lon => lat_lon.longitude_center,
+                  :zoom => PLUSCODE_ZOOM,
+                  :name => params[:query])
+
+    render :action => "results"
+  rescue StandardError => ex
+    unless olc.full?(params[:query])
+      @error = "#{params[:query]} is not a full Plus Code address"
+    else
+      @error = ex.message
+    end
+
     render :action => "error"
   end
 
