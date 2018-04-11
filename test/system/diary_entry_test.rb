@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class DiaryEntryTest < ApplicationSystemTestCase
+class DiaryEntrySystemTest < ApplicationSystemTestCase
   def setup
     create(:language, :code => "en")
     @diary_entry = create(:diary_entry)
