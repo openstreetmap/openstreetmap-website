@@ -69,6 +69,7 @@ OSM.Directions = function (map) {
     endpoint.setValue = function(value, latlng) {
       endpoint.value = value;
       delete endpoint.latlng;
+      input.removeClass("error");
       input.val(value);
 
       if (latlng) {
