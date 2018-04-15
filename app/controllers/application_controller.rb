@@ -175,7 +175,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize(realm = "Web Password", errormessage = "Couldn't authenticate you")
-    # make the @user object from any auth sources we have
+    # make the current_user object from any auth sources we have
     setup_user_auth
 
     # handle authenticate pass/fail
@@ -377,9 +377,9 @@ class ApplicationController < ActionController::Base
   end
 
   ##
-  # ensure that there is a "this_user" instance variable
-  def lookup_this_user
-    render_unknown_user params[:display_name] unless @this_user = User.active.find_by(:display_name => params[:display_name])
+  # ensure that there is a "user" instance variable
+  def lookup_user
+    render_unknown_user params[:display_name] unless @user = User.active.find_by(:display_name => params[:display_name])
   end
 
   ##

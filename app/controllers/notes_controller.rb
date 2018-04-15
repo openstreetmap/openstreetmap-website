@@ -278,14 +278,14 @@ class NotesController < ApplicationController
   # Display a list of notes by a specified user
   def mine
     if params[:display_name]
-      if @this_user = User.active.find_by(:display_name => params[:display_name])
+      if @user = User.active.find_by(:display_name => params[:display_name])
         @params = params.permit(:display_name)
-        @title = t "note.mine.title", :user => @this_user.display_name
-        @heading = t "note.mine.heading", :user => @this_user.display_name
-        @description = t "note.mine.subheading", :user => render_to_string(:partial => "user", :object => @this_user)
+        @title = t "note.mine.title", :user => @user.display_name
+        @heading = t "note.mine.heading", :user => @user.display_name
+        @description = t "note.mine.subheading", :user => render_to_string(:partial => "user", :object => @user)
         @page = (params[:page] || 1).to_i
         @page_size = 10
-        @notes = @this_user.notes
+        @notes = @user.notes
         @notes = @notes.visible unless current_user && current_user.moderator?
         @notes = @notes.order("updated_at DESC, id").distinct.offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author).to_a
       else
