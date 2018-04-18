@@ -68,11 +68,11 @@ OpenStreetMap::Application.routes.draw do
     get "user/details" => "user#api_details"
     get "user/gpx_files" => "user#api_gpx_files"
 
-    get "user/preferences" => "user_preference#read"
-    get "user/preferences/:preference_key" => "user_preference#read_one"
-    put "user/preferences" => "user_preference#update"
-    put "user/preferences/:preference_key" => "user_preference#update_one"
-    delete "user/preferences/:preference_key" => "user_preference#delete_one"
+    get "user/preferences" => "user_preferences#read"
+    get "user/preferences/:preference_key" => "user_preferences#read_one"
+    put "user/preferences" => "user_preferences#update"
+    put "user/preferences/:preference_key" => "user_preferences#update_one"
+    delete "user/preferences/:preference_key" => "user_preferences#delete_one"
 
     post "gpx/create" => "trace#api_create"
     get "gpx/:id" => "trace#api_read", :id => /\d+/

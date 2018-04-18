@@ -1,5 +1,5 @@
 # Update and read user preferences, which are arbitrayr key/val pairs
-class UserPreferenceController < ApplicationController
+class UserPreferencesController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :authorize
   before_action :require_allow_read_prefs, :only => [:read_one, :read]
