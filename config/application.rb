@@ -43,8 +43,5 @@ module OpenStreetMap
       config.logstasher.logger_path = LOGSTASH_PATH
       config.logstasher.log_controller_parameters = true
     end
-
-    # Set the host and protocol for all action mailer urls
-    config.action_mailer.default_url_options = { :host => SERVER_URL, :protocol => SERVER_PROTOCOL }
   end
 end
