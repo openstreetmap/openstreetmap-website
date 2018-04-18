@@ -1,28 +1,28 @@
 require "test_helper"
 
-class UserPreferenceControllerTest < ActionController::TestCase
+class UserPreferencesControllerTest < ActionController::TestCase
   ##
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
       { :path => "/api/0.6/user/preferences", :method => :get },
-      { :controller => "user_preference", :action => "read" }
+      { :controller => "user_preferences", :action => "read" }
     )
     assert_routing(
       { :path => "/api/0.6/user/preferences", :method => :put },
-      { :controller => "user_preference", :action => "update" }
+      { :controller => "user_preferences", :action => "update" }
     )
     assert_routing(
       { :path => "/api/0.6/user/preferences/key", :method => :get },
-      { :controller => "user_preference", :action => "read_one", :preference_key => "key" }
+      { :controller => "user_preferences", :action => "read_one", :preference_key => "key" }
     )
     assert_routing(
       { :path => "/api/0.6/user/preferences/key", :method => :put },
-      { :controller => "user_preference", :action => "update_one", :preference_key => "key" }
+      { :controller => "user_preferences", :action => "update_one", :preference_key => "key" }
     )
     assert_routing(
       { :path => "/api/0.6/user/preferences/key", :method => :delete },
-      { :controller => "user_preference", :action => "delete_one", :preference_key => "key" }
+      { :controller => "user_preferences", :action => "delete_one", :preference_key => "key" }
     )
   end
 
