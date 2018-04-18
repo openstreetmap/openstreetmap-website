@@ -6,5 +6,8 @@ ActionMailer::Base.smtp_settings = {
   :enable_starttls_auto => false
 }
 
-# Set the host and protocol for all action mailer urls
-ActionMailer::Base.default_url_options = { :host => SERVER_URL, :protocol => SERVER_PROTOCOL }
+# Set the host and protocol for all ActionMailer URLs
+ActionMailer::Base.default_url_options = {
+  :host => SERVER_URL,
+  :protocol => SERVER_PROTOCOL
+}
