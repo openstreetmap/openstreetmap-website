@@ -45,7 +45,7 @@ class UserBlocksController < ApplicationController
       )
 
       if @user_block.save
-        flash[:notice] = t("user_block.create.flash", :name => @user.display_name)
+        flash[:notice] = t(".flash", :name => @user.display_name)
         redirect_to @user_block
       else
         render :action => "new"
@@ -58,14 +58,14 @@ class UserBlocksController < ApplicationController
   def update
     if @valid_params
       if @user_block.creator != current_user
-        flash[:error] = t("user_block.update.only_creator_can_edit")
+        flash[:error] = t(".only_creator_can_edit")
         redirect_to :action => "edit"
       elsif @user_block.update(
         :ends_at => Time.now.getutc + @block_period.hours,
         :reason => params[:user_block][:reason],
         :needs_view => params[:user_block][:needs_view]
       )
-        flash[:notice] = t("user_block.update.success")
+        flash[:notice] = t(".success")
         redirect_to(@user_block)
       else
         render :action => "edit"
@@ -80,7 +80,7 @@ class UserBlocksController < ApplicationController
   def revoke
     if params[:confirm]
       if @user_block.revoke! current_user
-        flash[:notice] = t "user_block.revoke.flash"
+        flash[:notice] = t ".flash"
         redirect_to(@user_block)
       end
     end
@@ -128,10 +128,10 @@ class UserBlocksController < ApplicationController
     @valid_params = false
 
     if !UserBlock::PERIODS.include?(@block_period)
-      flash[:error] = t("user_block.filter.block_period")
+      flash[:error] = t("user_blocks.filter.block_period")
 
     elsif @user_block && !@user_block.active?
-      flash[:error] = t("user_block.filter.block_expired")
+      flash[:error] = t("user_blocks.filter.block_expired")
 
     else
       @valid_params = true
