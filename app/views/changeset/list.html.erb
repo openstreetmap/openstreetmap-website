@@ -4,14 +4,14 @@
   </ol>
 <% if @edits.size == 20 -%>
   <div class="changeset_more">
-    <%= link_to t('changeset.list.load_more'), url_for(@params.merge(:max_id => @edits.last.id - 1)), :class => "button load_more" %>
+    <%= link_to t('.load_more'), url_for(@params.merge(:max_id => @edits.last.id - 1)), :class => "button load_more" %>
     <%= image_tag "searching.gif", :class => "loader", :style => "display: none;" %>
   </div>
 <% end -%>
 <% elsif params[:bbox] %>
-  <div class="inner22"><%= t(params[:max_id] ? 'changeset.list.no_more_area' : 'changeset.list.empty_area') %></div>
+  <div class="inner22"><%= t(params[:max_id] ? '.no_more_area' : '.empty_area') %></div>
 <% elsif params[:display_name] %>
-  <div class="inner22"><%= t(params[:max_id] ? 'changeset.list.no_more_user' : 'changeset.list.empty_user') %></div>
+  <div class="inner22"><%= t(params[:max_id] ? '.no_more_user' : '.empty_user') %></div>
 <% else %>
-  <div class="inner22"><%= t(params[:max_id] ? 'changeset.list.no_more' : 'changeset.list.empty') %></div>
+  <div class="inner22"><%= t(params[:max_id] ? '.no_more' : '.empty') %></div>
 <% end %>
