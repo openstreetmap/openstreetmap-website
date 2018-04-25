@@ -1,9 +1,9 @@
 <% content_for :heading do %>
-  <h1><%= t "oauth.oauthorize_success.title" %></h1>
+  <h1><%= t ".title" %></h1>
 <% end %>
 
-<p><%= raw t("oauth.oauthorize_success.allowed", :app_name => link_to(@token.client_application.name, @token.client_application.url)) %></p>
+<p><%= raw t(".allowed", :app_name => link_to(@token.client_application.name, @token.client_application.url)) %></p>
 
 <% if @token.oob? and not @token.oauth10? %>
-<p><%= t "oauth.oauthorize_success.verification", :code => @token.verifier %></p>
+<p><%= t ".verification", :code => @token.verifier %></p>
 <% end %>
