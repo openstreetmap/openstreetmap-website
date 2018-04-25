@@ -157,7 +157,7 @@ class DiaryEntryController < ApplicationController
         @entries = user.diary_entries
         @title = I18n.t("diary_entry.feed.user.title", :user => user.display_name)
         @description = I18n.t("diary_entry.feed.user.description", :user => user.display_name)
-        @link = "#{SERVER_PROTOCOL}://#{SERVER_URL}/user/#{user.display_name}/diary"
+        @link = url_for :controller => "diary_entry", :action => "list", :display_name => user.display_name, :host => SERVER_URL, :protocol => SERVER_PROTOCOL
       else
         head :not_found
         return
@@ -169,11 +169,11 @@ class DiaryEntryController < ApplicationController
         @entries = @entries.where(:language_code => params[:language])
         @title = I18n.t("diary_entry.feed.language.title", :language_name => Language.find(params[:language]).english_name)
         @description = I18n.t("diary_entry.feed.language.description", :language_name => Language.find(params[:language]).english_name)
-        @link = "#{SERVER_PROTOCOL}://#{SERVER_URL}/diary/#{params[:language]}"
+        @link = url_for :controller => "diary_entry", :action => "list", :language => params[:language], :host => SERVER_URL, :protocol => SERVER_PROTOCOL
       else
         @title = I18n.t("diary_entry.feed.all.title")
         @description = I18n.t("diary_entry.feed.all.description")
-        @link = "#{SERVER_PROTOCOL}://#{SERVER_URL}/diary"
+        @link = url_for :controller => "diary_entry", :action => "list", :host => SERVER_URL, :protocol => SERVER_PROTOCOL
       end
     end
 
