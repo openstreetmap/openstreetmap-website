@@ -126,11 +126,13 @@ th:
       commented_by: ความคิดเห็นจาก %{user} เมื่อ <abbr title='%{exact_time}'>%{when}
         ก่อน</abbr>
       changesetxml: ชุดการเปลี่ยนแปลง XML
+      osmchangexml: เอ็กซ์เอ็มแอลของ osmChange
       feed:
         title: ชุดการเปลี่ยนแปลง %{id}
         title_comment: ชุดการเปลี่ยนแปลง %{id} - %{comment}
       join_discussion: เข้าสู่ระบบเพื่อเข้าร่วมการอภิปราย
       discussion: การอภิปราย
+      still_open: ชุดการเปลี่ยนแปลงกำลังเปิดอยู่ การอภิปรายจะเริ่มได้หลังจากปิดชุดการเปลี่ยนแปลงแล้ว
     node:
       title: 'หมุด: %{name}'
       history_title: 'ประวัติหมุด: %{name}'
@@ -138,6 +140,9 @@ th:
       title: 'เส้นทาง: %{name}'
       history_title: 'ประวัติเส้นทาง: %{name}'
       nodes: หมุด
+      also_part_of:
+        one: ส่วนของเส้นทาง %{related_ways}
+        other: ส่วนของเส้นทาง %{related_ways}
     relation:
       title: 'ความสัมพันธ์: %{name}'
       history_title: 'ประวัติความสัมพันธ์: %{name}'
@@ -233,7 +238,7 @@ th:
     list:
       title: ชุดการเปลี่ยนแปลง
       title_user: ชุดการเปลี่ยนแปลงที่ทำโดย %{user}
-      title_friend: ชุดการเปลี่ยนแปลงที่ทำโดยเพื่อนของท่าน
+      title_friend: ชุดการเปลี่ยนแปลงที่ทำโดยเพื่อนของฉัน
       title_nearby: ชุดการเปลี่ยนแปลงที่ทำโดยผู้ใช้ที่อยู่ใกล้เคียง
       empty: ไม่พบชุดการเปลี่ยนแปลง
       empty_area: ไม่พบชุดการเปลี่ยนแปลงในพื้นที่นี้
@@ -262,7 +267,7 @@ th:
       user_title: บันทึกของ %{user}
       in_language_title: รายการบันทึกทั้งหมดในภาษา %{language}
       new: สร้างบันทึกใหม่
-      new_title: สร้างบันทึกใหม่ในสมุดบันทึกประจำตัวของท่าน
+      new_title: สร้างบันทึกใหม่ในสมุดบันทึกประจำตัวของฉัน
       no_entries: ไม่มีรายการบันทึก
       recent_entries: รายการบันทึกล่าสุด
       older_entries: รายการก่อนหน้า
@@ -327,45 +332,6 @@ th:
       ago: เมื่อ %{ago} ก่อน
       newer_comments: ความคิดเห็นใหม่กว่า
       older_comments: ความคิดเห็นเก่ากว่า
-  export:
-    title: ส่งออก
-    start:
-      area_to_export: พื้นที่ที่จะส่งออก
-      manually_select: เลือกพื้นที่อื่นด้วยตนเอง
-      format_to_export: รูปแบบที่จะส่งออก
-      osm_xml_data: ข้อมูล XML ของ OpenStreetMap
-      map_image: ภาพแผนที่ (แสดงชั้นภาพมาตรฐาน)
-      embeddable_html: HTML ฝังตัวได้
-      licence: สัญญาอนุญาต
-      export_details: บรรดาข้อมูลที่ปรากฏในเว็บไซต์ OpenStreetMap อนุญาตให้ใช้ภายใต้<a
-        href="https://opendatacommons.org/licenses/odbl/1.0/">สัญญาอนุญาต Open Data
-        Commons Open Database</a> (ODbL).
-      too_large:
-        advice: 'ถ้าการส่งออกข้างต้นล้มเหลว โปรดพิจารณาใช้แหล่งข้อมูลตามที่ระบุด้านล่างนี้:'
-        body: พื้นที่ใหญ่เกินกว่าที่จะส่งออกเป็นข้อมูล XML ของ OpenStreetMap โปรดขยายเข้าหรือเลือกพื้นที่ที่เล็กลง
-          หรืออาจจะใช้แหล่งข้อมูลข้างล่างในการดาวน์โหลดแฟ้มข้อมูลจำนวนมาก
-        planet:
-          description: สำเนาของฐานข้อมูล OpenStreetMap ซึ่งปรับปรุงอย่างสม่ำเสมอ
-        geofabrik:
-          description: รายการทวีป ประเทศ และเมืองสำคัญซึ่งปรับปรุงอย่างสม่ำเสมอ
-        metro:
-          title: เมโทรเอกซ์แทรกซ์
-          description: รายการเมืองสำคัญของโลกและพื้นที่โดยรอบ
-        other:
-          title: แหล่งข้อมูลอื่น
-          description: แหล่งข้อมูลอื่นตามที่ระบุไว้ใน OpenStreetMap wiki
-      options: ตัวเลือก
-      format: รูปแบบ
-      scale: มาตราส่วน
-      max: ขนาดสูงสุด
-      image_size: ขนาดภาพ
-      zoom: ย่อ-ขยาย
-      add_marker: เพิ่มเครื่องหมายลงในแผนที่
-      latitude: 'ละติจูด:'
-      longitude: 'ลองจิจูด:'
-      output: การแสดงผล
-      paste_html: วาง HTML สำหรับนำไปใช้ในเว็บไซต์
-      export_button: ส่งออก
   geocoder:
     search:
       title:
@@ -387,6 +353,7 @@ th:
           platter: กระเช้าลาก
           pylon: เสากระเช้า
           station: สถานีรถกระเช้า
+          t-bar: กระเช้าลากพื้นหิมะ
         aeroway:
           aerodrome: ลานบิน
           airstrip: ลานบินขนาดเล็ก
@@ -394,6 +361,8 @@ th:
           gate: ประตูขึ้นเครื่อง
           hangar: โรงเก็บเครื่องบิน
           helipad: ลานจอดเฮลิคอปเตอร์
+          holding_position: ตำแหน่งยึด
+          parking_position: ตำแหน่งจอด
           runway: ทางวิ่งเครื่องบิน
           taxiway: ทางขับเครื่องบิน
           terminal: อาคารผู้โดยสาร
@@ -439,6 +408,7 @@ th:
           fuel: สถานีบริการเชื้อเพลิง
           gambling: การพนัน
           grave_yard: สุสาน
+          grit_bin: ถังเกลือโรยถนน
           hospital: โรงพยาบาล
           hunting_stand: บังไพรล่าสัตว์
           ice_cream: ร้านไอศกรีม
@@ -519,6 +489,7 @@ th:
           defibrillator: เครื่องช่วยกระตุ้นหัวใจ
           landing_site: พื้นที่ลงจอดฉุกเฉิน
           phone: โทรศัพท์ฉุกเฉิน
+          water_tank: ถังน้ำฉุกเฉิน
           "yes": อุปกรณ์ฉุกเฉิน
         highway:
           abandoned: ทางหลวงที่เลิกใช้แล้ว
@@ -538,6 +509,7 @@ th:
           motorway: ทางหลวงพิเศษ
           motorway_junction: แยกทางหลวงพิเศษ
           motorway_link: ถนนทางหลวงพิเศษ
+          passing_place: ที่หลีกรถ
           path: เส้นทาง
           pedestrian: ทางคนเดิน
           platform: ชานชาลา
@@ -563,6 +535,7 @@ th:
           trail: ทางเดินป่า
           trunk: ถนนสายประธาน
           trunk_link: ถนนสายประธาน
+          turning_loop: ทางโค้งสำหรับกลับรถ
           unclassified: ถนนที่มิได้จำแนก
           "yes": ถนน
         historic:
@@ -657,14 +630,20 @@ th:
           water_park: สวนน้ำ
           "yes": สถานที่เพื่อนันทนาการ
         man_made:
+          adit: ทางระบายน้ำในเหมือง
           beacon: เสาไฟสัญญาณ
           beehive: คอนเลี้ยงผึ้ง
+          breakwater: เขื่อนกันคลื่น
           bridge: สะพาน
+          bunker_silo: หลุมหลบภัย
           chimney: ปล่องไฟ
           crane: ปั้นจั่น
           dolphin: หลักผูกเรือ
+          dyke: กำแพงกันฝั่ง
+          embankment: คันดิน
           flagpole: เสาธง
           gasometer: ถุงเก็บแก๊ส
+          groyne: รอดักทราย
           kiln: เตาเผา
           lighthouse: ประภาคาร/กระโจมไฟ
           mast: เสา
@@ -672,7 +651,9 @@ th:
           mineshaft: ปล่องเหมือง
           monitoring_station: สถานีตรวจอากาศ
           petroleum_well: บ่อน้ำมัน
+          pier: ท่าเรือ
           pipeline: ท่อส่งน้ำมัน
+          silo: ยุ้งฉาง
           storage_tank: ถังกักเก็บ
           surveillance: กล้องวงจรปิด
           tower: หอคอย
@@ -741,6 +722,7 @@ th:
           estate_agent: บริษัทอสังหาริมทรัพย์
           government: สำนักงานของรัฐบาล
           insurance: สำนักงานประกันภัย
+          it: สำนักงานสารสนเทศ
           lawyer: ทนายความ
           ngo: สำนักงานองค์กรเอกชน
           telecommunication: ที่ทำการโทรคมนาคม
@@ -749,6 +731,7 @@ th:
         place:
           allotments: ที่ดินแบ่งใช้
           city: เมือง
+          city_block: ตึกสำนักงาน
           country: ประเทศ
           county: จังหวัด
           farm: ไร่นา
@@ -762,6 +745,7 @@ th:
           municipality: เทศบาล
           neighbourhood: ชุมชน
           postcode: รหัสไปรษณีย์
+          quarter: ย่าน
           region: ภูมิภาค
           sea: ทะเล
           square: จตุรัส
@@ -803,6 +787,7 @@ th:
           beauty: ร้านเสริมสวย
           beverages: ร้านขายเครื่องดื่ม
           bicycle: ร้านขายและเช่าจักรยาน
+          bookmaker: ร้านทำหนังสือ
           books: ร้านขายหนังสือ
           boutique: ร้านเสริมสวย
           butcher: ร้านขายเนื้อ
@@ -842,6 +827,7 @@ th:
           hardware: ร้านวัสดุก่อสร้าง
           hifi: เครื่องเสียง
           houseware: ร้านขายเครื่องใช้ในบ้าน
+          interior_decoration: ร้านขายเครื่องตกแต่งภายใน
           jewelry: ร้านเครื่องประดับ
           kiosk: ร้านแผงลอย
           kitchen: ร้านเครื่องครัว
@@ -989,175 +975,6 @@ th:
       text: บริจาค
     learn_more: เรียนรู้เพิ่มเติม
     more: เพิ่มเติม
-  license_page:
-    foreign:
-      title: เกี่ยวกับการแปลนี้
-      text: หากมีข้อขัดแย้งจากากรตีความหน้าที่แปลนี้กับหน้าเดิมในภาษาอังกฤษ %{english_original_link}
-        ให้ถือภาษาอังกฤษเป็นสำคัญถูกต้องเสมอ
-      english_link: หน้าเดิมในภาษาอังกฤษ
-    native:
-      title: เกี่ยวกับหน้านี้
-      text: ท่านกำลังเรียกดูหน้าข้อมูลลิขสิทธิ์ในภาษาอังกฤษ และสามารถกลับไปที่หน้าภาษา
-        %{native_link} หรือกลับไปยังแผนที่ที่ %{mapping_link}.
-      native_link: รุ่นภาษาTHIS_LANGUAGE_NAME_HERE
-      mapping_link: เริ่มการทำแผนที่
-    legal_babble:
-      title_html: ลิขสิทธิ์และสัญญาอนุญาต
-      intro_1_html: |-
-        OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> เป็น<i>ข้อมูลเปิดให้ใช้งาน</i> และอนุญาตให้ใช้งานภายใต้สัญญาอนุญาต <a
-        href="https://opendatacommons.org/licenses/odbl/">Open Data
-        Commons Open Database License</a> (ODbL) โดย<a
-        href="https://osmfoundation.org/">มูลนิธิ OpenStreetMap</a> (OSMF).
-      intro_2_html: "ท่านสามารถทำสำเนา แจกจ่าย แพร่ภาพ และปรับใช้ข้อมูลของเรา\nตราบเท่าที่ได้ระบุชื่อ
-        OpenStreetMap ตลอดจนผู้ร่วมจัดทำไว้ในคำขอบคุณหรือที่มา\nถ้าท่านปรับแก้ไขหรือสร้างสรรค์งานใหม่โดยใช้ข้อมูลของเราเป็นพื้น
-        ท่านสามารถ\nแจกจ่ายผลลัพธ์ที่ได้ภายใต้สัญญาอนุญาตเดียวกันเท่านั้น โปรดดู <a
-        href=\"https://opendatacommons.org/licenses/odbl/1.0/\">ข้อกำหนดทางกฎหมาย</a>
-        \nซึ่งจะอธิบายสิทธิและหน้าที่ที่ท่านพึงมี"
-      intro_3_html: |-
-        ภาพร่าง ลายเส้นแผนที่ตามที่ปรากฏ และเอกสารกำกับ อนุญาตให้ใช้งานตามสัญญาอนุญาต <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
-        Commons Attribution-ShareAlike 2.0</a> (CC BY-SA)
-      credit_title_html: วิธีการแสดงที่มาหรือคำขอบคุณ OpenStreetMap
-      credit_1_html: |-
-        เราจำเป็นต้องให้ท่านแสดงที่มาหรือคำขอบคุณแก่ &ldquo;&copy; ผู้ร่วมสร้างสรรค์ OpenStreetMap
-        &rdquo;.
-      credit_2_html: |-
-        ท่านจะต้องระบุให้ชัดเจนเจาะจงว่าข้อมูลอนุญาตให้ใช้ตามสัญญาอนุญาต Open
-        Database License และถ้ามีการนำรูปแผนที่ไปใช้ รูปนั้นอนุญาตให้ใช้ตามสัญญาอนุญาต
-         CC BY-SA ในการนี้อาจจะลิงก์ไปยังหน้า
-        <a href="https://www.openstreetmap.org/copyright">ข้อมูลลิขสิทธิ์</a>
-        นอกจากนี้ (จำเป็นหากท่านจ่ายแจกข้อมูล OSM) ท่านสามารถลิงก์ไปยังสัญญาอนุญาตโดยตรง
-        ในสื่ออย่างอื่น อาทิ สิ่งพิมพ์ ซึ่งไม่สามารถลิงก์ข้อมูลได้แนะนำให้ระบุเพียง openstreetmap.org
-        และ/หรือ opendatacommons.org และ/หรือ creativecommons.org
-      more_title_html: ค้นหาเพิ่มเติม
-      contributors_title_html: ผู้ร่วมสร้างสรรค์ของเรา
-      contributors_at_html: |-
-        <strong>ออสเตรีย</strong>: มีข้อมูลจาก
-        <a href="https://data.wien.gv.at/">Stadt Wien</a> (under
-        <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
-        <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> และ
-        Land Tirol (under <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT with amendments</a>).
-      contributors_ca_html: |-
-        <strong>แคนาดา</strong>: มีข้อมูลจาก
-        GeoBase&reg;, GeoGratis (&copy; Department of Natural
-        Resources Canada), CanVec (&copy; Department of Natural
-        Resources Canada) และ StatCan (Geography Division,
-        Statistics Canada)
-      contributors_fi_html: |-
-        <strong>ฟินแลนด์</strong>: มีข้อมูลจาก
-        ฐานข้อมูลการสำรวจภูมิศาสตร์แห่งชาติฟินแลนด์และฐานข้อมูลอื่น
-        อนุญาตให้ใช้ตาม
-        <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">สัญญาอนุญาต NLSFI</a>.
-      contributors_fr_html: |-
-        <strong>ฝรั่งเศส</strong>: มีข้อมูลจากอธิบดีกรมภาษี (
-        Direction Générale des Impôts)
-      contributors_gb_html: |-
-        <strong>สหราชอาณาจักร</strong>: มีข้อมูลจากกองแผนที่ Ordnance
-        Survey data &copy; ลิขสิทธิ์ราชการและสิทธิ์แห่งฐานข้อมูล
-        2010-12
-      infringement_title_html: การละเมิดลิขสิทธิ์
-      infringement_2_html: |-
-        หากท่านเชื่อว่าข้อมูลละเมิดลิขสิทธิ์ปรากฏในเว็บไซต์นี้หรือในฐานข้อมูล OpenStreetMap โปรดดู <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">ขั้นตอนการลบข้อมูลละเมิดลิขสิทธิ์</a> หรือแจ้งได้ที่
-        <a href="http://dmca.openstreetmap.org/">หน้ารับแจ้งการละเมิดข้อมูลลิขสิทธิ์</a>
-      trademarks_title_html: <span id="trademarks"></span>เครืองหมายการค้า
-  welcome_page:
-    title: ยินดีต้อนรับ!
-    introduction_html: 'ยินดิต้อนรับสู่ OpenStreetMap, แผนที่โลกแบบเสรีที่ทุกคนสามารถแก้ไขได้
-      ซึ่งตอนนี้คุณได้ลงทะเบียนมาแล้ว ก่อนจะไปลุยกัน ด้านล่างมีสิ่งสำคัญที่คุณควรจะรู้ไว้ตลอดการทำแผนที่ของคุณ:'
-    whats_on_the_map:
-      title: บนแผนที่ควรมีอะไร
-      on_html: OpenStreetMap เป็นที่ที่คุณบันทึกสิ่งที่<em>มีอยู่จริงบนพื้นโลก</em>
-        และ<em>มีอยู่ในปัจจุบัน</em> - เช่นตึก หรือถนนที่คุณแห็นอยู่ดาษดื่นทั่วไป
-        รวมทั้งรายละเอียดเกี่ยวกับร้านรวงต่างๆ หรือข้อมูลอื่นๆ ที่เห็นได้ของสถานที่เหล่านั้น,
-        โดยคุณจะทำแผนที่โครงสร้างอะไรที่คุณเห็นอยู่บนพื้นดินก็ได้ แล้วแต่ความสนใจของคุณเอง
-      off_html: แต่ที่นี่จะ<em>ไม่รับ</em>ข้อมูลที่มาจากข้อคิดเห็น เช่นคะแนนเรตติ้ง
-        สถานที่ที่เคยมีอยู่แต่ในอดีต (ปัจจุบันไม่มีแล้ว) รวมทั้งสถานที่ที่คาดว่าจะมีในอนาคต,
-        และจะไม่รับข้อมูลจากแหล่งที่มีลิขสิทธิ์อื่นๆ, ฉะนั้นอย่าได้คัดลอกข้อมูลจากแผนที่ออนไลน์หรือแผนที่กระดาษมาใส่
-        (เว้นแต่คุณได้รับอนุญาตจากเจ้าของลิขสิทธิ์แล้ว)
-    basic_terms:
-      title: คำศัพท์พื้นฐานในการทำแผนที่
-      paragraph_1_html: 'เมื่อคุณเข้ามาทำแผนที่ใน OpenStreetMap, คุณจะพบกับศัพท์เฉพาะหลายคำ
-        ซึ่งความหมายจะอธิบายไว้เบื้องต้นที่ด้านล่างนี้:'
-      editor_html: <strong>ตัวแก้ไข</strong> หมายถึงโปรแกรม หรือเว็บไซต์ ที่คุณใช้แก้ไขข้อมูลแผนที่
-      node_html: <strong>หมุด</strong> จะเป็นจุดหนึ่งจุดบนแผนที่, เช่น ร้านอาหารที่ตั้งเดี่ยวๆ
-        หรือต้นไม้
-      way_html: <strong>เส้นทาง</strong> เป็นส่วนที่ลักษณะเป็นเส้นบนแผนที่ เช่นถนน
-        ลำธาร, หรือไม่ก็เป็นรูปปิด เช่นทะเลสาบ หรือตึก
-      tag_html: <strong>ป้ายกำกับ</strong> เป็นข้อมูลรายละเอียดของหมุด หรือเส้นทาง,
-        เช่น ชื่อ (ของร้าน) หรือ ขีดจำกัดความเร็ว (ของถนน)
-    rules:
-      title: อย่าลืมกติกา!
-    questions:
-      title: มีคำถามอีกหรือไม่?
-      paragraph_1_html: "OpenStreetMap มีสื่อสำหรับค้นคว้า สอบถาม ตอบคำถาม \nสนทนาหัวข้อต่างๆ
-        ตลอดจนอภิปรายและจัดทำวิธีการสร้างแผนที่\nซึ่งคุณจะ<a href='%{help_url}'>หาความช่วยเหลือได้ที่นี่</a>"
-    start_mapping: เริ่มการทำแผนที่
-    add_a_note:
-      title: ไม่มีเวลาแก้ไขใช่ไหม? ใส่หมายเหตุไว้แทนได้!
-      paragraph_1_html: หากคุณต้องการจะแก้ไขแค่เล็กน้อย และไม่มีเวลาเข้าใช้ระบบและเรียนรู้วิธีแก้ไขด้วยตัวเอง
-        คุณสามารถจะเขียนหมายเหตุแปะเอาไว้บนจุดที่คุณอยากแก้ไขแทน
-      paragraph_2_html: |-
-        แค่ไปที่<a href='%{map_url}'>แผนที่</a> แล้วคลิกไอคอน หมายเหตุ:
-        <span class='icon note'></span>. จากนั้นจะมีเครื่องหมายมาที่แผนที่ให้ท่านลากไปยัง
-        ตำแหน่งที่ต้องการ ใส่ข้อความที่ต้องการ คลิกบันทึก แล้วผู้ใช้ท่านอื่นจะเข้ามาตรวจสอบให้
-  fixthemap:
-    title: รายงานปัญหา/แก้ไขข้อผิดพลาดในแผนที่
-    how_to_help:
-      title: วิธีการช่วยเหลือ
-      join_the_community:
-        title: เข้าร่วมเป็นสมาชิก
-        explanation_html: หากท่านประสบปัญหาเกี่ยวกับข้อมูลแผนที่ของเรา หรือพบข้อผิดพลาด
-          เช่น ถนนหายไป หรือมีข้อผิดพลาดด้านที่อยู่ วิธีที่ดีที่สุดคือสมัครเป็นสมาชิก
-          OpenStreetMap เพื่อดำเนินการแก้ไขด้วยตัวท่านเอง
-    other_concerns:
-      title: ข้อกังวลอื่น ๆ
-      explanation_html: หากท่านมีข้อกังวลเกี่ยวกับการใช้ข้อมูลของเราหรือเกี่ยวกับเนื้อหา
-        โปรดดู<a href='/copyright'>หน้าลิขสิทธิ์</a> เพื่อดูรายละเอียดทางกฎหมาย หรือติดต่อคณะทำงาน
-        <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF </a>
-  help_page:
-    title: ขอรับความช่วยเหลือ
-    welcome:
-      title: ยินดีต้อนรับสู่ OSM
-    beginners_guide:
-      url: https://wiki.openstreetmap.org/wiki/Th:Beginners%27_guide
-      title: คำแนะนำสำหรับผู้เริ่มต้น
-    mailing_lists:
-      title: รายการอีเมลรับข่าวสาร
-    forums:
-      title: กระดานสนทนา
-    irc:
-      title: ไออาร์ซี
-  about_page:
-    next: ถัดไป
-    used_by: '%{name} - ข้อมูลแผนที่ซึ่งขับเคลื่อนเว็บไซต์ แอปพลิเคชั่นมือถือ และอุปกรณ์นำทางมากมายรอบตัวคุณ'
-    lede_text: OpenStreetMap เป็นโครงการซึ่งสร้างสรรค์ขึ้นจากชุมชนของผู้ใช้และผู้สนใจ
-      ที่ได้ทำการสำรวจ ปรับปรุง แบ่งปันข้อมูลแผนที่ถนน ทางหลวง ทางเดินป่า, รวมถึงสถานที่ที่น่าสนใจอย่าง
-      ร้านกาแฟ สถานีรถไฟ และอื่นๆ อีกมากมาย จากทั่วทุกมุมโลก
-    local_knowledge_title: ความรู้จากท้องถิ่น
-    local_knowledge_html: OpenStreetMap มุ่งเน้นส่งเสริมการใช้และเผยแพร่ความรู้จากคนท้องถิ่น
-      โดยนักทำแผนที่ในท้องถิ่นสามารถใช้ทั้งภาพถ่ายดาวเทียม อุปกรณ์ระบุตำแหน่งจีพีเอส
-      หรือแม้แต่ผังกระดาษ เพื่อเดินสำรวจ เพิ่มเติม และปรับปรุงข้อมูลแผนที่ OpenStreetMap
-      ให้ละเอียด ถูกต้อง ทันสมัยอยู่เสมอได้ด้วยตนเอง ทุกที่ ทุกเวลา
-    community_driven_title: ผลักดันโดยชุมชน
-    community_driven_html: ชุมชนผู้ใช้ OpenStreetMap เติบโตขึ้นมาจากกลุ่มคนที่หลากหลาย
-      ร่วมสร้างสรรค์จากทั้งนักทำแผนที่สมัครเล่น, ผู้เชี่ยวชาญระบบภูมิสารสนเทศ, วิศวกรดูแลเซิร์ฟเวอร์,
-      อาสาสมัครบรรเทาสาธารณภัย และสาขาอาชีพอื่นๆ อีกมากมาย, เรียนรู้เพิ่มเติมเกี่ยวกับชุมชนของเราได้จาก<a
-      href='https://blog.openstreetmap.org'>บล็อกทางการของ OpenStreetMap</a>, รวม<a
-      href='%{diary_path}'>บันทึก</a>และ<a href='https://blogs.openstreetmap.org/'>บล็อกของผู้ใช้</a>ทั่วสารทิศ,
-      และที่เว็บไซต์ของ<a href='https://www.osmfoundation.org/'>มูลนิธิ OpenStreetMap</a>
-    open_data_title: ข้อมูลเปิดเผย
-    open_data_html: |-
-      OpenStreetMap อนุญาตให้ใช้ตามหลักเกณฑ์<i>ข้อมูลเปิดเผย</i> โดยจะนำไปใช้ในวัตถุประสงค์อื่นใดก็ได้
-      แต่ต้องแสดงที่มาหรือให้คำขอบคุณต่อ OpenStreetMap ตลอดจนผู้ร่วมสร้างสรรค์ ถ้าท่านปรับแก้ สร้างสรรค์
-      หรือกระทำการให้เกิดสิ่งอื่นใดใหม่ขึ้นต่องานที่มีนี้ ท่านสามารถแจกจ่ายได้แต่เพียงภายใต้สัญญาอนุญาตเดิม โปรดดู
-       <a href='%{copyright_path}'>หน้าลิขสิทธิ์และสัญญาอนุญาต</a> ถ้าต้องการรายละเอียดเพิ่ม
-    legal_title: ข้อกำหนดทางกฎหมาย
-    legal_html: "เว็บไซต์และบริการที่เกี่ยวข้องนี้ดำเนินการและบำรุงรักษาอย่างเป็นทางการโดย\n<a
-      href='https://osmfoundation.org/'>มูลนิธิ OpenStreetMap</a> (OSMF) \nในนามสมาชิกทุกคน
-      การใช้บริการที่ดำเนินการโดย OSMF จะต้องอยู่ใต้เงื่อนไข<a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nการใช้งานที่ยอมรับได้</a>
-      และ<a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">นโยบายความเป็นส่วนบุคคล</a>\n<br>
-      \nโปรด<a href='https://osmfoundation.org/Contact'>ติดต่อ OSMF</a> \nถ้าท่านมีข้อสงสัยเกี่ยวกับสัญญาอนุญาต
-      ข้อมูลลิขสิทธิ์ คำถามกฎหมายและประเด็นที่เกี่ยวข้อง"
-    partners_title: องค์กรพันธมิตร
   notifier:
     diary_comment_notification:
       subject: '[OpenStreetMap] ผู้ใช้ %{user} แสดงความคิดเห็นต่อรายการบันทึก'
@@ -1336,6 +1153,118 @@ th:
     delete:
       deleted: ข้อความถูกลบแล้ว
   site:
+    about:
+      next: ถัดไป
+      copyright_html: |2-
+
+        <span>&copy;ผู้มีส่วนร่วม </span>OpenStreetMap<br>
+      used_by: '%{name} - ข้อมูลแผนที่ซึ่งขับเคลื่อนเว็บไซต์ แอปพลิเคชั่นมือถือ และอุปกรณ์นำทางมากมายรอบตัวคุณ'
+      lede_text: OpenStreetMap เป็นโครงการซึ่งสร้างสรรค์ขึ้นจากชุมชนของผู้ใช้และผู้สนใจ
+        ที่ได้ทำการสำรวจ ปรับปรุง แบ่งปันข้อมูลแผนที่ถนน ทางหลวง ทางเดินป่า, รวมถึงสถานที่ที่น่าสนใจอย่าง
+        ร้านกาแฟ สถานีรถไฟ และอื่นๆ อีกมากมาย จากทั่วทุกมุมโลก
+      local_knowledge_title: ความรู้จากท้องถิ่น
+      local_knowledge_html: OpenStreetMap มุ่งเน้นส่งเสริมการใช้และเผยแพร่ความรู้จากคนท้องถิ่น
+        โดยนักทำแผนที่ในท้องถิ่นสามารถใช้ทั้งภาพถ่ายดาวเทียม อุปกรณ์ระบุตำแหน่งจีพีเอส
+        หรือแม้แต่ผังกระดาษ เพื่อเดินสำรวจ เพิ่มเติม และปรับปรุงข้อมูลแผนที่ OpenStreetMap
+        ให้ละเอียด ถูกต้อง ทันสมัยอยู่เสมอได้ด้วยตนเอง ทุกที่ ทุกเวลา
+      community_driven_title: ผลักดันโดยชุมชน
+      community_driven_html: ชุมชนผู้ใช้ OpenStreetMap เติบโตขึ้นมาจากกลุ่มคนที่หลากหลาย
+        ร่วมสร้างสรรค์จากทั้งนักทำแผนที่สมัครเล่น, ผู้เชี่ยวชาญระบบภูมิสารสนเทศ, วิศวกรดูแลเซิร์ฟเวอร์,
+        อาสาสมัครบรรเทาสาธารณภัย และสาขาอาชีพอื่นๆ อีกมากมาย, เรียนรู้เพิ่มเติมเกี่ยวกับชุมชนของเราได้จาก<a
+        href='https://blog.openstreetmap.org'>บล็อกทางการของ OpenStreetMap</a>, รวม<a
+        href='%{diary_path}'>บันทึก</a>และ<a href='https://blogs.openstreetmap.org/'>บล็อกของผู้ใช้</a>ทั่วสารทิศ,
+        และที่เว็บไซต์ของ<a href='https://www.osmfoundation.org/'>มูลนิธิ OpenStreetMap</a>
+      open_data_title: ข้อมูลเปิดเผย
+      open_data_html: |-
+        OpenStreetMap อนุญาตให้ใช้ตามหลักเกณฑ์<i>ข้อมูลเปิดเผย</i> โดยจะนำไปใช้ในวัตถุประสงค์อื่นใดก็ได้
+        แต่ต้องแสดงที่มาหรือให้คำขอบคุณต่อ OpenStreetMap ตลอดจนผู้ร่วมสร้างสรรค์ ถ้าท่านปรับแก้ สร้างสรรค์
+        หรือกระทำการให้เกิดสิ่งอื่นใดใหม่ขึ้นต่องานที่มีนี้ ท่านสามารถแจกจ่ายได้แต่เพียงภายใต้สัญญาอนุญาตเดิม โปรดดู
+         <a href='%{copyright_path}'>หน้าลิขสิทธิ์และสัญญาอนุญาต</a> ถ้าต้องการรายละเอียดเพิ่ม
+      legal_title: ข้อกำหนดทางกฎหมาย
+      legal_html: "เว็บไซต์และบริการที่เกี่ยวข้องนี้ดำเนินการและบำรุงรักษาอย่างเป็นทางการโดย\n<a
+        href='https://osmfoundation.org/'>มูลนิธิ OpenStreetMap</a> (OSMF) \nในนามสมาชิกทุกคน
+        การใช้บริการที่ดำเนินการโดย OSMF จะต้องอยู่ใต้เงื่อนไข<a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nการใช้งานที่ยอมรับได้</a>
+        และ<a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">นโยบายความเป็นส่วนบุคคล</a>\n<br>
+        \nโปรด<a href='https://osmfoundation.org/Contact'>ติดต่อ OSMF</a> \nถ้าท่านมีข้อสงสัยเกี่ยวกับสัญญาอนุญาต
+        ข้อมูลลิขสิทธิ์ คำถามกฎหมายและประเด็นที่เกี่ยวข้อง"
+      partners_title: องค์กรพันธมิตร
+    copyright:
+      foreign:
+        title: เกี่ยวกับการแปลนี้
+        text: หากมีข้อขัดแย้งจากากรตีความหน้าที่แปลนี้กับหน้าเดิมในภาษาอังกฤษ %{english_original_link}
+          ให้ถือภาษาอังกฤษเป็นสำคัญถูกต้องเสมอ
+        english_link: หน้าเดิมในภาษาอังกฤษ
+      native:
+        title: เกี่ยวกับหน้านี้
+        text: ท่านกำลังเรียกดูหน้าข้อมูลลิขสิทธิ์ในภาษาอังกฤษ และสามารถกลับไปที่หน้าภาษา
+          %{native_link} หรือกลับไปยังแผนที่ที่ %{mapping_link}.
+        native_link: รุ่นภาษาTHIS_LANGUAGE_NAME_HERE
+        mapping_link: เริ่มการทำแผนที่
+      legal_babble:
+        title_html: ลิขสิทธิ์และสัญญาอนุญาต
+        intro_1_html: |-
+          OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> เป็น<i>ข้อมูลเปิดให้ใช้งาน</i> และอนุญาตให้ใช้งานภายใต้สัญญาอนุญาต <a
+          href="https://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) โดย<a
+          href="https://osmfoundation.org/">มูลนิธิ OpenStreetMap</a> (OSMF).
+        intro_2_html: "ท่านสามารถทำสำเนา แจกจ่าย แพร่ภาพ และปรับใช้ข้อมูลของเรา\nตราบเท่าที่ได้ระบุชื่อ
+          OpenStreetMap ตลอดจนผู้ร่วมจัดทำไว้ในคำขอบคุณหรือที่มา\nถ้าท่านปรับแก้ไขหรือสร้างสรรค์งานใหม่โดยใช้ข้อมูลของเราเป็นพื้น
+          ท่านสามารถ\nแจกจ่ายผลลัพธ์ที่ได้ภายใต้สัญญาอนุญาตเดียวกันเท่านั้น โปรดดู
+          <a href=\"https://opendatacommons.org/licenses/odbl/1.0/\">ข้อกำหนดทางกฎหมาย</a>
+          \nซึ่งจะอธิบายสิทธิและหน้าที่ที่ท่านพึงมี"
+        intro_3_html: |-
+          ภาพร่าง ลายเส้นแผนที่ตามที่ปรากฏ และเอกสารกำกับ อนุญาตให้ใช้งานตามสัญญาอนุญาต <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a> (CC BY-SA)
+        credit_title_html: วิธีการแสดงที่มาหรือคำขอบคุณ OpenStreetMap
+        credit_1_html: |-
+          เราจำเป็นต้องให้ท่านแสดงที่มาหรือคำขอบคุณแก่ &ldquo;&copy; ผู้ร่วมสร้างสรรค์ OpenStreetMap
+          &rdquo;.
+        credit_2_html: |-
+          ท่านจะต้องระบุให้ชัดเจนเจาะจงว่าข้อมูลอนุญาตให้ใช้ตามสัญญาอนุญาต Open
+          Database License และถ้ามีการนำรูปแผนที่ไปใช้ รูปนั้นอนุญาตให้ใช้ตามสัญญาอนุญาต
+           CC BY-SA ในการนี้อาจจะลิงก์ไปยังหน้า
+          <a href="https://www.openstreetmap.org/copyright">ข้อมูลลิขสิทธิ์</a>
+          นอกจากนี้ (จำเป็นหากท่านจ่ายแจกข้อมูล OSM) ท่านสามารถลิงก์ไปยังสัญญาอนุญาตโดยตรง
+          ในสื่ออย่างอื่น อาทิ สิ่งพิมพ์ ซึ่งไม่สามารถลิงก์ข้อมูลได้แนะนำให้ระบุเพียง openstreetmap.org
+          และ/หรือ opendatacommons.org และ/หรือ creativecommons.org
+        credit_3_html: สำหรับแผนที่อิเล็กทรอนิกส์ที่ค้นได้ รายชื่อผู้มีส่วนร่วมควรปรากฏที่มุมของแผนที่
+        attribution_example:
+          alt: ตัวอย่างการอ้างอิง OpenStreetMap บนหน้าเว็บ
+          title: ตัวอย่างการอ้างอิง
+        more_title_html: ค้นหาเพิ่มเติม
+        more_1_html: |-
+          อ่านเพิ่มเติมเกี่ยวกับการใช้ข้อมูลของเรา ตลอดจนการอ้างอิงเราได้ที่ <a
+          href="https://osmfoundation.org/Licence">หน้าสัญญาอนุญาต OSMF</a>
+        contributors_title_html: ผู้ร่วมสร้างสรรค์ของเรา
+        contributors_at_html: |-
+          <strong>ออสเตรีย</strong>: มีข้อมูลจาก
+          <a href="https://data.wien.gv.at/">Stadt Wien</a> (under
+          <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
+          <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> และ
+          Land Tirol (under <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT with amendments</a>).
+        contributors_ca_html: |-
+          <strong>แคนาดา</strong>: มีข้อมูลจาก
+          GeoBase&reg;, GeoGratis (&copy; Department of Natural
+          Resources Canada), CanVec (&copy; Department of Natural
+          Resources Canada) และ StatCan (Geography Division,
+          Statistics Canada)
+        contributors_fi_html: |-
+          <strong>ฟินแลนด์</strong>: มีข้อมูลจาก
+          ฐานข้อมูลการสำรวจภูมิศาสตร์แห่งชาติฟินแลนด์และฐานข้อมูลอื่น
+          อนุญาตให้ใช้ตาม
+          <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">สัญญาอนุญาต NLSFI</a>.
+        contributors_fr_html: |-
+          <strong>ฝรั่งเศส</strong>: มีข้อมูลจากอธิบดีกรมภาษี (
+          Direction Générale des Impôts)
+        contributors_gb_html: |-
+          <strong>สหราชอาณาจักร</strong>: มีข้อมูลจากกองแผนที่ Ordnance
+          Survey data &copy; ลิขสิทธิ์ราชการและสิทธิ์แห่งฐานข้อมูล
+          2010-12
+        infringement_title_html: การละเมิดลิขสิทธิ์
+        infringement_2_html: |-
+          หากท่านเชื่อว่าข้อมูลละเมิดลิขสิทธิ์ปรากฏในเว็บไซต์นี้หรือในฐานข้อมูล OpenStreetMap โปรดดู <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">ขั้นตอนการลบข้อมูลละเมิดลิขสิทธิ์</a> หรือแจ้งได้ที่
+          <a href="http://dmca.openstreetmap.org/">หน้ารับแจ้งการละเมิดข้อมูลลิขสิทธิ์</a>
+        trademarks_title_html: <span id="trademarks"></span>เครืองหมายการค้า
     index:
       js_1: ท่านกำลังใช้เบราว์เซอร์ที่ไม่รองรับจาวาสคริปต์ หรือท่านปิดใช้งานจาวาสคริปต์
       permalink: ลิงก์ถาวร
@@ -1346,7 +1275,74 @@ th:
       not_public_description: ท่านไม่สามารถแก้ไขแผนที่นี้ได้เว้นแต่จะดำเนินการสิ่งอื่นบางอย่าง
         ท่านสามารถตั้งให้การแก้ไขของท่านมองเห็นได้ทั่วไปที่%{user_page}
       user_page_link: หน้าผู้ใช้
+      anon_edits_link_text: ค้นหาว่าทำไมจึงเป็นเช่นนี้
       no_iframe_support: เบราว์เซอร์ของท่านไม่รองรับการใช้งานเฟรมภายในหน้า HTML จึงไม่สามารถใช้ส่วนประกอบนี้ได้
+    export:
+      title: ส่งออก
+      area_to_export: พื้นที่ที่จะส่งออก
+      manually_select: เลือกพื้นที่อื่นด้วยตนเอง
+      format_to_export: รูปแบบที่จะส่งออก
+      osm_xml_data: ข้อมูล XML ของ OpenStreetMap
+      map_image: ภาพแผนที่ (แสดงชั้นภาพมาตรฐาน)
+      embeddable_html: HTML ฝังตัวได้
+      licence: สัญญาอนุญาต
+      export_details: บรรดาข้อมูลที่ปรากฏในเว็บไซต์ OpenStreetMap อนุญาตให้ใช้ภายใต้<a
+        href="https://opendatacommons.org/licenses/odbl/1.0/">สัญญาอนุญาต Open Data
+        Commons Open Database</a> (ODbL).
+      too_large:
+        advice: 'ถ้าการส่งออกข้างต้นล้มเหลว โปรดพิจารณาใช้แหล่งข้อมูลตามที่ระบุด้านล่างนี้:'
+        body: พื้นที่ใหญ่เกินกว่าที่จะส่งออกเป็นข้อมูล XML ของ OpenStreetMap โปรดขยายเข้าหรือเลือกพื้นที่ที่เล็กลง
+          หรืออาจจะใช้แหล่งข้อมูลข้างล่างในการดาวน์โหลดแฟ้มข้อมูลจำนวนมาก
+        planet:
+          description: สำเนาของฐานข้อมูล OpenStreetMap ซึ่งปรับปรุงอย่างสม่ำเสมอ
+        geofabrik:
+          description: รายการทวีป ประเทศ และเมืองสำคัญซึ่งปรับปรุงอย่างสม่ำเสมอ
+        metro:
+          title: เมโทรเอกซ์แทรกซ์
+          description: รายการเมืองสำคัญของโลกและพื้นที่โดยรอบ
+        other:
+          title: แหล่งข้อมูลอื่น
+          description: แหล่งข้อมูลอื่นตามที่ระบุไว้ใน OpenStreetMap wiki
+      options: ตัวเลือก
+      format: รูปแบบ
+      scale: มาตราส่วน
+      max: ขนาดสูงสุด
+      image_size: ขนาดภาพ
+      zoom: ย่อ-ขยาย
+      add_marker: เพิ่มเครื่องหมายลงในแผนที่
+      latitude: 'ละติจูด:'
+      longitude: 'ลองจิจูด:'
+      output: การแสดงผล
+      paste_html: วาง HTML สำหรับนำไปใช้ในเว็บไซต์
+      export_button: ส่งออก
+    fixthemap:
+      title: รายงานปัญหา/แก้ไขข้อผิดพลาดในแผนที่
+      how_to_help:
+        title: วิธีการช่วยเหลือ
+        join_the_community:
+          title: เข้าร่วมเป็นสมาชิก
+          explanation_html: หากท่านประสบปัญหาเกี่ยวกับข้อมูลแผนที่ของเรา หรือพบข้อผิดพลาด
+            เช่น ถนนหายไป หรือมีข้อผิดพลาดด้านที่อยู่ วิธีที่ดีที่สุดคือสมัครเป็นสมาชิก
+            OpenStreetMap เพื่อดำเนินการแก้ไขด้วยตัวท่านเอง
+      other_concerns:
+        title: ข้อกังวลอื่น ๆ
+        explanation_html: หากท่านมีข้อกังวลเกี่ยวกับการใช้ข้อมูลของเราหรือเกี่ยวกับเนื้อหา
+          โปรดดู<a href='/copyright'>หน้าลิขสิทธิ์</a> เพื่อดูรายละเอียดทางกฎหมาย
+          หรือติดต่อคณะทำงาน <a href='https://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF
+          </a>
+    help:
+      title: ขอรับความช่วยเหลือ
+      welcome:
+        title: ยินดีต้อนรับสู่ OSM
+      beginners_guide:
+        url: https://wiki.openstreetmap.org/wiki/Th:Beginners%27_guide
+        title: คำแนะนำสำหรับผู้เริ่มต้น
+      mailing_lists:
+        title: รายการอีเมลรับข่าวสาร
+      forums:
+        title: กระดานสนทนา
+      irc:
+        title: ไออาร์ซี
     sidebar:
       search_results: ผลการค้นหา
       close: ปิด
@@ -1446,6 +1442,46 @@ th:
       image: รูปภาพ
       alt: ข้อความทดแทนภาพ
       url: ที่อยู่ลิงก์
+    welcome:
+      title: ยินดีต้อนรับ!
+      introduction_html: 'ยินดิต้อนรับสู่ OpenStreetMap, แผนที่โลกแบบเสรีที่ทุกคนสามารถแก้ไขได้
+        ซึ่งตอนนี้คุณได้ลงทะเบียนมาแล้ว ก่อนจะไปลุยกัน ด้านล่างมีสิ่งสำคัญที่คุณควรจะรู้ไว้ตลอดการทำแผนที่ของคุณ:'
+      whats_on_the_map:
+        title: บนแผนที่ควรมีอะไร
+        on_html: OpenStreetMap เป็นที่ที่คุณบันทึกสิ่งที่<em>มีอยู่จริงบนพื้นโลก</em>
+          และ<em>มีอยู่ในปัจจุบัน</em> - เช่นตึก หรือถนนที่คุณแห็นอยู่ดาษดื่นทั่วไป
+          รวมทั้งรายละเอียดเกี่ยวกับร้านรวงต่างๆ หรือข้อมูลอื่นๆ ที่เห็นได้ของสถานที่เหล่านั้น,
+          โดยคุณจะทำแผนที่โครงสร้างอะไรที่คุณเห็นอยู่บนพื้นดินก็ได้ แล้วแต่ความสนใจของคุณเอง
+        off_html: แต่ที่นี่จะ<em>ไม่รับ</em>ข้อมูลที่มาจากข้อคิดเห็น เช่นคะแนนเรตติ้ง
+          สถานที่ที่เคยมีอยู่แต่ในอดีต (ปัจจุบันไม่มีแล้ว) รวมทั้งสถานที่ที่คาดว่าจะมีในอนาคต,
+          และจะไม่รับข้อมูลจากแหล่งที่มีลิขสิทธิ์อื่นๆ, ฉะนั้นอย่าได้คัดลอกข้อมูลจากแผนที่ออนไลน์หรือแผนที่กระดาษมาใส่
+          (เว้นแต่คุณได้รับอนุญาตจากเจ้าของลิขสิทธิ์แล้ว)
+      basic_terms:
+        title: คำศัพท์พื้นฐานในการทำแผนที่
+        paragraph_1_html: 'เมื่อคุณเข้ามาทำแผนที่ใน OpenStreetMap, คุณจะพบกับศัพท์เฉพาะหลายคำ
+          ซึ่งความหมายจะอธิบายไว้เบื้องต้นที่ด้านล่างนี้:'
+        editor_html: <strong>ตัวแก้ไข</strong> หมายถึงโปรแกรม หรือเว็บไซต์ ที่คุณใช้แก้ไขข้อมูลแผนที่
+        node_html: <strong>หมุด</strong> จะเป็นจุดหนึ่งจุดบนแผนที่, เช่น ร้านอาหารที่ตั้งเดี่ยวๆ
+          หรือต้นไม้
+        way_html: <strong>เส้นทาง</strong> เป็นส่วนที่ลักษณะเป็นเส้นบนแผนที่ เช่นถนน
+          ลำธาร, หรือไม่ก็เป็นรูปปิด เช่นทะเลสาบ หรือตึก
+        tag_html: <strong>ป้ายกำกับ</strong> เป็นข้อมูลรายละเอียดของหมุด หรือเส้นทาง,
+          เช่น ชื่อ (ของร้าน) หรือ ขีดจำกัดความเร็ว (ของถนน)
+      rules:
+        title: อย่าลืมกติกา!
+      questions:
+        title: มีคำถามอีกหรือไม่?
+        paragraph_1_html: "OpenStreetMap มีสื่อสำหรับค้นคว้า สอบถาม ตอบคำถาม \nสนทนาหัวข้อต่างๆ
+          ตลอดจนอภิปรายและจัดทำวิธีการสร้างแผนที่\nซึ่งคุณจะ<a href='%{help_url}'>หาความช่วยเหลือได้ที่นี่</a>"
+      start_mapping: เริ่มการทำแผนที่
+      add_a_note:
+        title: ไม่มีเวลาแก้ไขใช่ไหม? ใส่หมายเหตุไว้แทนได้!
+        paragraph_1_html: หากคุณต้องการจะแก้ไขแค่เล็กน้อย และไม่มีเวลาเข้าใช้ระบบและเรียนรู้วิธีแก้ไขด้วยตัวเอง
+          คุณสามารถจะเขียนหมายเหตุแปะเอาไว้บนจุดที่คุณอยากแก้ไขแทน
+        paragraph_2_html: |-
+          แค่ไปที่<a href='%{map_url}'>แผนที่</a> แล้วคลิกไอคอน หมายเหตุ:
+          <span class='icon note'></span>. จากนั้นจะมีเครื่องหมายมาที่แผนที่ให้ท่านลากไปยัง
+          ตำแหน่งที่ต้องการ ใส่ข้อความที่ต้องการ คลิกบันทึก แล้วผู้ใช้ท่านอื่นจะเข้ามาตรวจสอบให้
   trace:
     visibility:
       private: ส่วนตัว (เผยแพร่ในนามผู้ไม่ประสงค์ออกนาม แต่ละจุดไม่เรียงลำดับ)
@@ -1535,19 +1571,21 @@ th:
       description_with_count: แฟ้มข้อมูล GPX จำนวน %{count} จุด จากผู้ใช้ %{user}
       description_without_count: แฟ้มข้อมูล GPX จากผู้ใช้ %{user}
   oauth:
-    oauthorize:
+    authorize:
       title: อนุญาตการเข้าถึงบัญชีของคุณ
       allow_to: 'อนุญาตให้โปรแกรมสามารถ:'
       allow_read_prefs: อ่านการตั้งค่าผู้ใช้ของคุณ
       allow_write_prefs: แก้ไขการตั้งค่าผู้ใช้ของคุณ
       allow_write_api: แก้ไขแผนที่
+      allow_read_gpx: อ่านรอยทาง GPS ของท่าน
+      allow_write_gpx: อัปโหลดรอยทาง GPS
       allow_write_notes: แก้ไขหมายเหตุ
       grant_access: อนุญาตการเข้าถึง
-    oauthorize_success:
+    authorize_success:
       title: การขอรับอนุญาตได้รับอนุมัติแล้ว
       allowed: ท่านได้อนุญาตให้แอปพลิเคชัน %{app_name} เข้าถึงบัญชีของท่านแล้ว
       verification: รหัสยืนยันคือ %{code}
-    oauthorize_failure:
+    authorize_failure:
       title: การขอรับอนุญาตล้มเหลว
       denied: ท่านได้อนุญาตให้แอปพลิเคชัน %{app_name} เข้าถึงบัญชีของท่านแล้ว
       invalid: ข้อมูลการอนุญาตไม่ถูกต้อง
@@ -1622,6 +1660,7 @@ th:
       heading: ลงชื่อเข้าใช้
       email or username: 'อีเมลหรือชื่อผู้ใช้:'
       password: 'รหัสผ่าน:'
+      openid: 'โอเพนไอดีของ %{logo}:'
       remember: จดจำฉันไว้ในระบบ
       lost password link: ลืมรหัสผ่านหรือ?
       login_button: ลงชื่อเข้าใช้
@@ -1629,7 +1668,11 @@ th:
       with username: มีบัญชี OpenStreetMap แล้วหรือยัง? ถ้ามีโปรดเข้าระบบด้วยชื่อผู้ใช้และรหัสผ่านที่ท่านมี
       with external: นอกจากนี้ ท่านสามารถใช้บัญชีผู้ใช้จากเว็บอื่นในการเข้าใช้งานได้
       new to osm: เพิ่งเริ่มใช้ OpenStreetMap หรือ?
+      to make changes: หากต้องการเปลี่ยนแปลงข้อมูลใน OpenStreetMap ท่านต้องมีบัญชีเสียก่อน
+      create account minute: สร้างบัญชีเดี๋ยวนี้ ใช้เวลาไม่นาน
       no account: ยังไม่ได้เป็นสมาชิก?
+      account not active: ขออภัย บัญชีของท่านยังไม่เปิดใช้งาน<br/>โปรดใช้ลิงก์ที่ให้ไว้ในอีเมลตอบรับเพื่อเปิดใช้งานบัญชี
+        หรือ<a href="%{reconfirm}">ขออีเมลตอบรับใหม่</a> หากสูญหาย
       openid_logo_alt: เข้าใช้งานด้วย OpenID
       auth_providers:
         openid:
@@ -1890,7 +1933,7 @@ th:
       are_you_sure: ท่านแน่ใจว่าต้องการถอดถอนสถานะ `%{role}' จากผู้ใช้ `%{name}' หรือไม่?
       confirm: ยืนยัน
       fail: ไม่สามารถถอดถอนสถานะ `%{role}' แก่ผู้ใช้ `%{name}' โปรดตรวจสอบว่าทั้งผู้ใช้และสถานะเป็นที่ถูกต้องดีแล้ว
-  user_block:
+  user_blocks:
     model:
       non_moderator_update: ต้องเป็นผู้ดูแลระบบจึงจะสามารถสร้างหรือปรับปรุงการกีดกันได้
       non_moderator_revoke: ต้องเป็นผู้ดูแลระบบจึงจะสามารถเพิกถอนการกีดกันได้
@@ -1941,7 +1984,6 @@ th:
       status: สถานะ
       show: แสดง
       edit: แก้ไข
-  user_blocks:
     block:
       show: แสดง
       edit: แก้ไข
@@ -1949,7 +1991,7 @@ th:
       status: สถานะ
       next: ถัดไป »
       previous: « ก่อนหน้า
-  note:
+  notes:
     rss:
       title: หมายเหตุแผนที่ บน OpenStreetMap
     entry:
@@ -2058,7 +2100,7 @@ th:
       show_address: แสดงที่อยู่
       query_features: แสดงส่วนประกอบ
       centre_map: วางแผนที่ตรงกลางที่นี่
-  redaction:
+  redactions:
     edit:
       description: คำอธิบาย
       heading: แก้ไขการตรวจทาน
