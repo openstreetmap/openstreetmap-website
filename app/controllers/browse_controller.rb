@@ -3,7 +3,7 @@ class BrowseController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
-  before_action :except => [:query] { |c| c.check_database_readable(true) }
+  before_action(:except => [:query]) { |c| c.check_database_readable(true) }
   before_action :require_oauth
   around_action :web_timeout
 
