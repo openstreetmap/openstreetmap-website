@@ -280,9 +280,9 @@ class NotesController < ApplicationController
     if params[:display_name]
       if @user = User.active.find_by(:display_name => params[:display_name])
         @params = params.permit(:display_name)
-        @title = t "note.mine.title", :user => @user.display_name
-        @heading = t "note.mine.heading", :user => @user.display_name
-        @description = t "note.mine.subheading", :user => render_to_string(:partial => "user", :object => @user)
+        @title = t "notes.mine.title", :user => @user.display_name
+        @heading = t "notes.mine.heading", :user => @user.display_name
+        @description = t "notes.mine.subheading", :user => render_to_string(:partial => "user", :object => @user)
         @page = (params[:page] || 1).to_i
         @page_size = 10
         @notes = @user.notes
