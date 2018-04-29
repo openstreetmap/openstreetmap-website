@@ -1,10 +1,15 @@
 #include <postgres.h>
 #include <fmgr.h>
 
-int xid_to_int4(TransactionId xid)
+Datum
+xid_to_int4(PG_FUNCTION_ARGS)
 {
-   return xid;
+   TransactionId xid = PG_GETARG_INT32(0);
+
+   PG_RETURN_INT32(xid);
 }
+
+PG_FUNCTION_INFO_V1(xid_to_int4);
 
 /*
  * To bind this into PGSQL, try something like:

@@ -2,9 +2,9 @@ $(document).ready(function () {
   var id = $("#id-embed");
 
   if (id.data("key")) {
-    var hashParams = OSM.params(location.hash.substring(1)),
-        mapParams = OSM.mapParams(),
-        params = {};
+    var hashParams = OSM.params(location.hash.substring(1));
+    var mapParams = OSM.mapParams();
+    var params = {};
 
     if (mapParams.object) {
       params.id = mapParams.object.type[0] + mapParams.object.id;
@@ -20,8 +20,9 @@ $(document).ready(function () {
 
     if (hashParams.background) params.background = hashParams.background;
     if (hashParams.comment) params.comment = hashParams.comment;
-    if (hashParams.disable_features) params.disable_features = hashParams.disable_features;
     if (hashParams.hashtags) params.hashtags = hashParams.hashtags;
+    if (hashParams.source) params.source = hashParams.source;
+    if (hashParams.disable_features) params.disable_features = hashParams.disable_features;
     if (hashParams.offset) params.offset = hashParams.offset;
     if (hashParams.walkthrough) params.walkthrough = hashParams.walkthrough;
 

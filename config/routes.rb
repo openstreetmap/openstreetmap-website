@@ -68,11 +68,11 @@ OpenStreetMap::Application.routes.draw do
     get "user/details" => "user#api_details"
     get "user/gpx_files" => "user#api_gpx_files"
 
-    get "user/preferences" => "user_preference#read"
-    get "user/preferences/:preference_key" => "user_preference#read_one"
-    put "user/preferences" => "user_preference#update"
-    put "user/preferences/:preference_key" => "user_preference#update_one"
-    delete "user/preferences/:preference_key" => "user_preference#delete_one"
+    get "user/preferences" => "user_preferences#read"
+    get "user/preferences/:preference_key" => "user_preferences#read_one"
+    put "user/preferences" => "user_preferences#update"
+    put "user/preferences/:preference_key" => "user_preferences#update_one"
+    delete "user/preferences/:preference_key" => "user_preferences#delete_one"
 
     post "gpx/create" => "trace#api_create"
     get "gpx/:id" => "trace#api_read", :id => /\d+/
@@ -224,7 +224,7 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/diary" => "diary_entry#list"
   get "/diary/:language" => "diary_entry#list"
   get "/diary" => "diary_entry#list"
-  get "/user/:display_name/diary/:id" => "diary_entry#view", :id => /\d+/
+  get "/user/:display_name/diary/:id" => "diary_entry#view", :id => /\d+/, :as => :diary_entry
   post "/user/:display_name/diary/:id/newcomment" => "diary_entry#comment", :id => /\d+/
   match "/user/:display_name/diary/:id/edit" => "diary_entry#edit", :via => [:get, :post], :id => /\d+/
   post "/user/:display_name/diary/:id/hide" => "diary_entry#hide", :id => /\d+/, :as => :hide_diary_entry

@@ -1,16 +1,16 @@
 <% content_for :heading do %>
-  <h2><%= raw(t'message.outbox.my_inbox', :inbox_link => link_to(t('message.outbox.inbox'), inbox_path(current_user.display_name))) %>/<%= t'message.outbox.outbox' %></h2>
+  <h2><%= raw(t '.my_inbox', :inbox_link => link_to(t('.inbox'), inbox_path(current_user.display_name))) %>/<%= t'.outbox' %></h2>
 <% end %>
 
-<h4><%= t'message.outbox.messages', :count => current_user.sent_messages.size %></h4>
+<h4><%= t '.messages', :count => current_user.sent_messages.size %></h4>
 
 <% if current_user.sent_messages.size > 0 %>
   <table class="messages">
     <thead>
       <tr>
-        <th><%= t'message.outbox.to' %></th>
-        <th><%= t'message.outbox.subject' %></th>
-        <th><%= t'message.outbox.date' %></th>
+        <th><%= t '.to' %></th>
+        <th><%= t '.subject' %></th>
+        <th><%= t '.date' %></th>
         <th></th>
       </tr>
     </thead>
@@ -19,5 +19,5 @@
     </tbody>
   </table>
 <% else %>
-  <div class="messages"><%= raw(t'message.outbox.no_sent_messages', :people_mapping_nearby_link => link_to(t('message.outbox.people_mapping_nearby'), user_path(current_user))) %></div>
+  <div class="messages"><%= raw(t '.no_sent_messages', :people_mapping_nearby_link => link_to(t('.people_mapping_nearby'), user_path(current_user))) %></div>
 <% end %>

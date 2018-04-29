@@ -1,7 +1,7 @@
 <% content_for :heading do %>
   <div id="userinformation" >
     <%= user_image @entry.user %>
-    <h2><%= link_to t('diary_entry.view.user_title', :user => h(@entry.user.display_name)), :action => :list %></h2>
+    <h2><%= link_to t('.user_title', :user => h(@entry.user.display_name)), :action => :list %></h2>
     <p><%= rss_link_to :action => :rss, :display_name => @entry.user.display_name %></p>
   </div>
 <% end %>
@@ -13,13 +13,13 @@
 <%= render :partial => 'diary_comment', :collection => @entry.visible_comments %>
 </div>
 <%= if_logged_in(:div) do %>
-  <h3 id="newcomment"><%= t 'diary_entry.view.leave_a_comment' %></h3>
+  <h3 id="newcomment"><%= t '.leave_a_comment' %></h3>
 
   <%= error_messages_for 'diary_comment' %>
 
   <%= form_for :diary_comment, :url => { :action => 'comment' } do |f| %>
     <%= richtext_area :diary_comment, :body, :cols => 80, :rows => 15 %>
-    <%= submit_tag t('diary_entry.view.save_button') %>
+    <%= submit_tag t('.save_button') %>
   <% end %>
   <% if current_user and @entry.subscribers.exists?(current_user.id) %>
     <div class="diary-subscribe-buttons"><%= link_to t('javascripts.changesets.show.unsubscribe'), diary_entry_unsubscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => :button %></div>
@@ -29,7 +29,7 @@
 <% end %>
 
 <%= if_not_logged_in(:div) do %>
-  <h3 id="newcomment"><%= raw t("diary_entry.view.login_to_leave_a_comment", :login_link => link_to(t("diary_entry.view.login"), :controller => 'user', :action => 'login', :referer => request.fullpath)) %></h3>
+  <h3 id="newcomment"><%= raw t(".login_to_leave_a_comment", :login_link => link_to(t(".login"), :controller => 'user', :action => 'login', :referer => request.fullpath)) %></h3>
 <% end %>
 
 <% content_for :auto_discovery_link_tag do -%>

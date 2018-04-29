@@ -1,33 +1,33 @@
 <% content_for :heading do %>
-  <h1><%= t('oauth_clients.show.title', :app_name => @client_application.name) %></h1>
+  <h1><%= t('.title', :app_name => @client_application.name) %></h1>
 <% end %>
 <div class='prose'>
   <p>
-    <strong><%= t'oauth_clients.show.key' %></strong> <%=@client_application.key %>
+    <strong><%= t '.key' %></strong> <%=@client_application.key %>
   </p>
   <p>
-    <strong><%= t'oauth_clients.show.secret' %></strong> <%=@client_application.secret %>
+    <strong><%= t '.secret' %></strong> <%=@client_application.secret %>
   </p>
   <p>
-    <strong><%= t'oauth_clients.show.url' %></strong> http<%='s' if request.ssl? %>://<%= request.host_with_port %><%=@client_application.oauth_server.request_token_path %>
+    <strong><%= t '.url' %></strong> http<%='s' if request.ssl? %>://<%= request.host_with_port %><%=@client_application.oauth_server.request_token_path %>
   </p>
   <p>
-    <strong><%= t'oauth_clients.show.access_url' %></strong> http<%='s' if request.ssl? %>://<%= request.host_with_port %><%=@client_application.oauth_server.access_token_path %>
+    <strong><%= t '.access_url' %></strong> http<%='s' if request.ssl? %>://<%= request.host_with_port %><%=@client_application.oauth_server.access_token_path %>
   </p>
   <p>
-    <strong><%= t'oauth_clients.show.authorize_url' %></strong> http<%='s' if request.ssl? %>://<%= request.host_with_port %><%=@client_application.oauth_server.authorize_path %>
+    <strong><%= t '.authorize_url' %></strong> http<%='s' if request.ssl? %>://<%= request.host_with_port %><%=@client_application.oauth_server.authorize_path %>
   </p>
 
-  <p><%= t'oauth_clients.show.requests' %></p>
+  <p><%= t '.requests' %></p>
   <ul><% @client_application.permissions.each do |perm| %>
   <div class="field">
     <li><%= t('oauth_clients.form.' + perm.to_s) %></li>
   </div>
   <% end %></ul>
 
-  <p><%= t'oauth_clients.show.support_notice' %></p>
+  <p><%= t '.support_notice' %></p>
 </div>
 <div class="buttons">
-  <%= button_to t('oauth_clients.show.edit'), edit_oauth_client_path(@client_application.user.display_name, @client_application), :method => :get, :class=> "oauth-edit" %>
-  <%= button_to t('oauth_clients.show.delete'), oauth_client_path(@client_application.user.display_name, @client_application), :method => :delete, :data => { :confirm => t('oauth_clients.show.confirm') }, :class=> "oauth-delete deemphasize" %>
+  <%= button_to t('.edit'), edit_oauth_client_path(@client_application.user.display_name, @client_application), :method => :get, :class=> "oauth-edit" %>
+  <%= button_to t('.delete'), oauth_client_path(@client_application.user.display_name, @client_application), :method => :delete, :data => { :confirm => t('.confirm') }, :class=> "oauth-delete deemphasize" %>
 </div>
