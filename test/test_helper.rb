@@ -150,5 +150,13 @@ module ActiveSupport
         end
       end
     end
+
+    def sign_in_as(user)
+      stub_hostip_requests
+      visit login_path
+      fill_in "username", :with => user.email
+      fill_in "password", :with => "test"
+      click_on "Login", :match => :first
+    end
   end
 end

@@ -4,7 +4,7 @@ class DiaryEntryController < ApplicationController
   before_action :authorize_web
   before_action :set_locale
   before_action :require_user, :only => [:new, :edit, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
-  before_action :lookup_this_user, :only => [:view, :comments]
+  before_action :lookup_user, :only => [:view, :comments]
   before_action :check_database_readable
   before_action :check_database_writable, :only => [:new, :edit, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
   before_action :require_administrator, :only => [:hide, :hidecomment]
@@ -101,11 +101,11 @@ class DiaryEntryController < ApplicationController
 
   def list
     if params[:display_name]
-      @this_user = User.active.find_by(:display_name => params[:display_name])
+      @user = User.active.find_by(:display_name => params[:display_name])
 
-      if @this_user
-        @title = t "diary_entry.list.user_title", :user => @this_user.display_name
-        @entries = @this_user.diary_entries
+      if @user
+        @title = t "diary_entry.list.user_title", :user => @user.display_name
+        @entries = @user.diary_entries
       else
         render_unknown_user params[:display_name]
         return
@@ -157,7 +157,7 @@ class DiaryEntryController < ApplicationController
         @entries = user.diary_entries
         @title = I18n.t("diary_entry.feed.user.title", :user => user.display_name)
         @description = I18n.t("diary_entry.feed.user.description", :user => user.display_name)
-        @link = "#{SERVER_PROTOCOL}://#{SERVER_URL}/user/#{user.display_name}/diary"
+        @link = url_for :controller => "diary_entry", :action => "list", :display_name => user.display_name, :host => SERVER_URL, :protocol => SERVER_PROTOCOL
       else
         head :not_found
         return
@@ -169,11 +169,11 @@ class DiaryEntryController < ApplicationController
         @entries = @entries.where(:language_code => params[:language])
         @title = I18n.t("diary_entry.feed.language.title", :language_name => Language.find(params[:language]).english_name)
         @description = I18n.t("diary_entry.feed.language.description", :language_name => Language.find(params[:language]).english_name)
-        @link = "#{SERVER_PROTOCOL}://#{SERVER_URL}/diary/#{params[:language]}"
+        @link = url_for :controller => "diary_entry", :action => "list", :language => params[:language], :host => SERVER_URL, :protocol => SERVER_PROTOCOL
       else
         @title = I18n.t("diary_entry.feed.all.title")
         @description = I18n.t("diary_entry.feed.all.description")
-        @link = "#{SERVER_PROTOCOL}://#{SERVER_URL}/diary"
+        @link = url_for :controller => "diary_entry", :action => "list", :host => SERVER_URL, :protocol => SERVER_PROTOCOL
       end
     end
 
@@ -181,7 +181,7 @@ class DiaryEntryController < ApplicationController
   end
 
   def view
-    @entry = @this_user.diary_entries.visible.where(:id => params[:id]).first
+    @entry = @user.diary_entries.visible.where(:id => params[:id]).first
     if @entry
       @title = t "diary_entry.view.title", :user => params[:display_name], :title => @entry.title
     else
@@ -205,7 +205,7 @@ class DiaryEntryController < ApplicationController
   def comments
     @comment_pages, @comments = paginate(:diary_comments,
                                          :conditions => {
-                                           :user_id => @this_user,
+                                           :user_id => @user,
                                            :visible => true
                                          },
                                          :order => "created_at DESC",

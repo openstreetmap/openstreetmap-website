@@ -1,28 +1,28 @@
 <div class='standard-form'>
   <fieldset>
     <div class="form-row">
-      <label class='standard-label' for="client_application_name"><%= t'oauth_clients.form.name' %> (<%= t'oauth_clients.form.required' %>)</label>
+      <label class='standard-label' for="client_application_name"><%= t '.name' %> (<%= t '.required' %>)</label>
       <%= f.text_field :name %>
     </div>
     <div class="form-row">
-      <label class='standard-label' for="client_application_url"><%= t'oauth_clients.form.url' %> (<%= t'oauth_clients.form.required' %>)</label>
+      <label class='standard-label' for="client_application_url"><%= t '.url' %> (<%= t '.required' %>)</label>
       <%= f.text_field :url %>
     </div>
     <div class="form-row">
-      <label class='standard-label' for="client_application_callback_url"><%= t'oauth_clients.form.callback_url' %></label>
+      <label class='standard-label' for="client_application_callback_url"><%= t '.callback_url' %></label>
       <%= f.text_field :callback_url %>
     </div>
     <div class="form-row">
-      <label class='standard-label' for="client_application_support_url"><%= t'oauth_clients.form.support_url' %></label>
+      <label class='standard-label' for="client_application_support_url"><%= t '.support_url' %></label>
       <%= f.text_field :support_url %>
     </div>
   </fieldset>
   <fieldset class='form-divider'>
-      <p><%= t'oauth_clients.form.requests' %></p>
+      <p><%= t '.requests' %></p>
       <% ClientApplication.all_permissions.each do |perm| %>
         <div class="form-row">
           <%= f.check_box perm %>
-          <label class='standard-label' for="client_application_<%= perm.to_s %>"><%= t('oauth_clients.form.' + perm.to_s) %></label>
+          <label class='standard-label' for="client_application_<%= perm.to_s %>"><%= t('.' + perm.to_s) %></label>
         </div>
       <% end %>
   </fieldset>

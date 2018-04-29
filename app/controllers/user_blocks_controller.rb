@@ -5,7 +5,7 @@ class UserBlocksController < ApplicationController
   before_action :set_locale
   before_action :require_user, :only => [:new, :create, :edit, :update, :revoke]
   before_action :require_moderator, :only => [:new, :create, :edit, :update, :revoke]
-  before_action :lookup_this_user, :only => [:new, :create, :blocks_on, :blocks_by]
+  before_action :lookup_user, :only => [:new, :create, :blocks_on, :blocks_by]
   before_action :lookup_user_block, :only => [:show, :edit, :update, :revoke]
   before_action :require_valid_params, :only => [:create, :update]
   before_action :check_database_readable
@@ -37,7 +37,7 @@ class UserBlocksController < ApplicationController
   def create
     if @valid_params
       @user_block = UserBlock.new(
-        :user => @this_user,
+        :user => @user,
         :creator => current_user,
         :reason => params[:user_block][:reason],
         :ends_at => Time.now.getutc + @block_period.hours,
@@ -45,7 +45,7 @@ class UserBlocksController < ApplicationController
       )
 
       if @user_block.save
-        flash[:notice] = t("user_block.create.flash", :name => @this_user.display_name)
+        flash[:notice] = t(".flash", :name => @user.display_name)
         redirect_to @user_block
       else
         render :action => "new"
@@ -58,14 +58,14 @@ class UserBlocksController < ApplicationController
   def update
     if @valid_params
       if @user_block.creator != current_user
-        flash[:error] = t("user_block.update.only_creator_can_edit")
+        flash[:error] = t(".only_creator_can_edit")
         redirect_to :action => "edit"
       elsif @user_block.update(
         :ends_at => Time.now.getutc + @block_period.hours,
         :reason => params[:user_block][:reason],
         :needs_view => params[:user_block][:needs_view]
       )
-        flash[:notice] = t("user_block.update.success")
+        flash[:notice] = t(".success")
         redirect_to(@user_block)
       else
         render :action => "edit"
@@ -80,7 +80,7 @@ class UserBlocksController < ApplicationController
   def revoke
     if params[:confirm]
       if @user_block.revoke! current_user
-        flash[:notice] = t "user_block.revoke.flash"
+        flash[:notice] = t ".flash"
         redirect_to(@user_block)
       end
     end
@@ -92,7 +92,7 @@ class UserBlocksController < ApplicationController
     @params = params.permit(:display_name)
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,
                                                 :include => [:user, :creator, :revoker],
-                                                :conditions => { :user_id => @this_user.id },
+                                                :conditions => { :user_id => @user.id },
                                                 :order => "user_blocks.ends_at DESC",
                                                 :per_page => 20)
   end
@@ -103,7 +103,7 @@ class UserBlocksController < ApplicationController
     @params = params.permit(:display_name)
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,
                                                 :include => [:user, :creator, :revoker],
-                                                :conditions => { :creator_id => @this_user.id },
+                                                :conditions => { :creator_id => @user.id },
                                                 :order => "user_blocks.ends_at DESC",
                                                 :per_page => 20)
   end
@@ -128,10 +128,10 @@ class UserBlocksController < ApplicationController
     @valid_params = false
 
     if !UserBlock::PERIODS.include?(@block_period)
-      flash[:error] = t("user_block.filter.block_period")
+      flash[:error] = t("user_blocks.filter.block_period")
 
     elsif @user_block && !@user_block.active?
-      flash[:error] = t("user_block.filter.block_expired")
+      flash[:error] = t("user_blocks.filter.block_expired")
 
     else
       @valid_params = true

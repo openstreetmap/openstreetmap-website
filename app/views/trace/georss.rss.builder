@@ -5,8 +5,8 @@ xml.rss("version" => "2.0",
         "xmlns:geo" => "http://www.w3.org/2003/01/geo/wgs84_pos#",
         "xmlns:georss" => "http://www.georss.org/georss") do
   xml.channel do
-    xml.title t("trace.georss.title")
-    xml.description t("trace.georss.title")
+    xml.title t(".title")
+    xml.description t(".title")
     xml.link url_for(:controller => :trace, :action => :list, :only_path => false)
 
     xml.image do

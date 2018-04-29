@@ -1,8 +1,8 @@
-<% set_title(t('browse.changeset.title', :id => @changeset.id)) %>
+<% set_title(t('.title', :id => @changeset.id)) %>
 
 <h2>
   <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-  <%= t('browse.changeset.title', :id => @changeset.id) %>
+  <%= t('.title', :id => @changeset.id) %>
 </h2>
 
 <div class="browse-section">
@@ -11,7 +11,7 @@
 
   <%= render :partial => "tag_details", :object => @changeset.tags.except('comment') %>
 
-  <h4 class="comments-header"><%= t('browse.changeset.discussion') %></h4>
+  <h4 class="comments-header"><%= t('.discussion') %></h4>
 
   <div class="buttons clearfix subscribe-buttons">
     <form action="#" class="hide_unless_logged_in">
@@ -33,7 +33,7 @@
             <% if comment.visible %>
               <li id="c<%= comment.id %>">
                 <small class='deemphasize'>
-                  <%= t("browse.changeset.commented_by",
+                  <%= t(".commented_by",
                     :when => friendly_date(comment.created_at), :exact_time => l(comment.created_at),
                     :user => link_to(h(comment.author.display_name), user_path(comment.author))).html_safe %>
                   <% if current_user and current_user.moderator? %>
@@ -45,7 +45,7 @@
             <% elsif current_user and current_user.moderator? %>
               <li id="c<%= comment.id %>">
                 <small class='deemphasize'>
-                  <%= t("browse.changeset.hidden_commented_by",
+                  <%= t(".hidden_commented_by",
                     :when => friendly_date(comment.created_at), :exact_time => l(comment.created_at),
                     :user => link_to(h(comment.author.display_name), user_path(comment.author))).html_safe %>
                   — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_unhide_url(comment.id) %>"><%= t('javascripts.changesets.show.unhide_comment') %></span>
@@ -60,7 +60,7 @@
   <% end %>
 
   <div class="notice hide_if_logged_in">
-    <%= link_to(t("browse.changeset.join_discussion"), :controller => 'user', :action => 'login', :referer => request.fullpath) %>
+    <%= link_to(t(".join_discussion"), :controller => 'user', :action => 'login', :referer => request.fullpath) %>
   </div>
 
   <% unless @changeset.is_open? %>
@@ -72,7 +72,7 @@
     </form>
   <% else %>
     <div class="notice hide_unless_logged_in">
-    <%= t('browse.changeset.still_open') %>
+    <%= t('.still_open') %>
     </div>
   <% end %>
 
@@ -131,7 +131,7 @@
 <% end %>
 
 <div class='secondary-actions'>
-  <%= link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read") %>
+  <%= link_to(t('.changesetxml'), :controller => "changeset", :action => "read") %>
   &middot;
-  <%= link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %>
+  <%= link_to(t('.osmchangexml'), :controller => "changeset", :action => "download") %>
 </div>

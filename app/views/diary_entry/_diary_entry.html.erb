@@ -1,13 +1,13 @@
 <div class='diary_post'>
   <div class='post_heading clearfix'>
-    <% if !@this_user %>
+    <% if !@user %>
       <%= user_thumbnail diary_entry.user %>
     <% end %>
 
     <h2><%= link_to h(diary_entry.title), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></h2>
 
     <small class='deemphasize'>
-      <%= raw(t 'diary_entry.diary_entry.posted_by', :link_user => (link_to h(diary_entry.user.display_name), user_path(diary_entry.user)), :created => l(diary_entry.created_at, :format => :blog), :language_link => (link_to h(diary_entry.language.name), :controller => 'diary_entry', :action => 'list', :display_name => nil, :language => diary_entry.language_code)) %>
+      <%= raw(t '.posted_by', :link_user => (link_to h(diary_entry.user.display_name), user_path(diary_entry.user)), :created => l(diary_entry.created_at, :format => :blog), :language_link => (link_to h(diary_entry.language.name), :controller => 'diary_entry', :action => 'list', :display_name => nil, :language => diary_entry.language_code)) %>
     </small>
 
   </div>
@@ -22,17 +22,17 @@
 
   <ul class='secondary-actions clearfix'>
     <% if params[:action] == 'list' %>
-      <li><%= link_to t('diary_entry.diary_entry.comment_link'), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'newcomment' %></li>
-      <li><%= link_to t('diary_entry.diary_entry.reply_link'), :controller => 'message', :action => 'new', :display_name => diary_entry.user.display_name, :title => "Re: #{diary_entry.title}" %></li>
-      <li><%= link_to t('diary_entry.diary_entry.comment_count', :count => diary_entry.visible_comments.count), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'comments' %></li>
+      <li><%= link_to t('.comment_link'), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'newcomment' %></li>
+      <li><%= link_to t('.reply_link'), :controller => 'message', :action => 'new', :display_name => diary_entry.user.display_name, :message => { :title => "Re: #{diary_entry.title}" } %></li>
+      <li><%= link_to t('.comment_count', :count => diary_entry.visible_comments.count), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'comments' %></li>
     <% end %>
 
     <%= if_user(diary_entry.user, :li) do %>
-      <%= link_to t('diary_entry.diary_entry.edit_link'), :action => 'edit', :display_name => diary_entry.user.display_name, :id => diary_entry.id %>
+      <%= link_to t('.edit_link'), :action => 'edit', :display_name => diary_entry.user.display_name, :id => diary_entry.id %>
     <% end %>
 
     <%= if_administrator(:li) do %>
-      <%= link_to t('diary_entry.diary_entry.hide_link'), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t('diary_entry.diary_entry.confirm') } %>
+      <%= link_to t('.hide_link'), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t('.confirm') } %>
     <% end %>
   </ul>
 </div>

@@ -1,7 +1,7 @@
 <% content_for :heading do %>
-  <div <% if @this_user %> id="userinformation"<% end %> >
-    <% if @this_user %>
-      <%= user_image @this_user %>
+  <div <% if @user %> id="userinformation"<% end %> >
+    <% if @user %>
+      <%= user_image @user %>
     <% end %>
     <h1><%= h(@title) %></h1>
 
@@ -10,13 +10,13 @@
         <li><%= rss_link_to :action => 'rss', :language => params[:language] %></li>
       <% end -%>
 
-      <% if @this_user %>
-        <%= if_user(@this_user) do %>
-          <li><%= link_to image_tag("new.png", :class => "small_icon", :border=>0) + t('diary_entry.list.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('diary_entry.list.new_title')} %></li>
+      <% if @user %>
+        <%= if_user(@user) do %>
+          <li><%= link_to image_tag("new.png", :class => "small_icon", :border=>0) + t('.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('.new_title')} %></li>
         <% end %>
       <% else %>
         <%= if_logged_in do %>
-          <li><%= link_to image_tag("new.png", :class => "small_icon", :border=>0) + t('diary_entry.list.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('diary_entry.list.new_title')} %></li>
+          <li><%= link_to image_tag("new.png", :class => "small_icon", :border=>0) + t('.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('.new_title')} %></li>
         <% end %>
       <% end %>
     </ul>
@@ -24,11 +24,11 @@
 <% end %>
 
 <% if @entries.empty? %>
-  <h4><%= t 'diary_entry.list.no_entries' %></h4>
+  <h4><%= t '.no_entries' %></h4>
 <% else %>
-  <h4><%= t 'diary_entry.list.recent_entries' %></h4>
+  <h4><%= t '.recent_entries' %></h4>
 
-  <% if @this_user %>
+  <% if @user %>
     <%= render :partial => 'diary_entry', :collection => @entries %>
   <% else %>
     <%= render :partial => 'diary_list_entry', :collection => @entries %>
@@ -36,17 +36,17 @@
 
   <div class="pagination">
     <% if @entries.size < @page_size -%>
-      <%= t('diary_entry.list.older_entries') %>
+      <%= t('.older_entries') %>
     <% else -%>
-      <%= link_to t('diary_entry.list.older_entries'), @params.merge(:page => @page + 1 ) %>
+      <%= link_to t('.older_entries'), @params.merge(:page => @page + 1 ) %>
     <% end -%>
 
     |
 
     <% if @page > 1 -%>
-      <%= link_to t('diary_entry.list.newer_entries'), @params.merge(:page => @page - 1) %>
+      <%= link_to t('.newer_entries'), @params.merge(:page => @page - 1) %>
     <% else -%>
-      <%= t('diary_entry.list.newer_entries') %>
+      <%= t('.newer_entries') %>
     <% end -%>
   </div>
 <% end %>

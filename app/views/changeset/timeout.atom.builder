@@ -6,7 +6,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
 
   feed.subtitle :type => "xhtml" do |xhtml|
     xhtml.p do |p|
-      p << t("changeset.timeout.sorry")
+      p << t(".sorry")
     end
   end
 end

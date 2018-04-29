@@ -1,9 +1,9 @@
-<% @title = t('user_block.revoke.title',
+<% @title = t('.title',
               :block_on => h(@user_block.user.display_name),
               :block_by => h(@user_block.creator.display_name)) %>
 
 <% content_for :heading do %>
-  <h1><%= raw t('user_block.revoke.heading',
+  <h1><%= raw t('.heading',
                 :block_on => link_to(
                                      h(@user_block.user.display_name),
                                      user_path(@user_block.user)),
@@ -14,22 +14,22 @@
 
 <% if @user_block.ends_at > Time.now %>
 <p><b>
-  <%= t('user_block.revoke.time_future', :time => distance_of_time_in_words_to_now(@user_block.ends_at)) %>
+  <%= t('.time_future', :time => distance_of_time_in_words_to_now(@user_block.ends_at)) %>
 </b></p>
 
 <%= form_for :revoke, :url => { :action => "revoke" } do |f| %>
   <%= f.error_messages %>
 <p>
   <%= check_box_tag 'confirm', 'yes' %>
-  <%= label_tag 'confirm', t('user_block.revoke.confirm') %>
+  <%= label_tag 'confirm', t('.confirm') %>
 </p>
 <p>
-  <%= submit_tag t('user_block.revoke.revoke') %>
+  <%= submit_tag t('.revoke') %>
 </p>
 <% end %>
 
 <% else %>
 <p>
-  <%= t('user_block.revoke.past', :time => distance_of_time_in_words_to_now(@user_block.ends_at)) %>
+  <%= t('.past', :time => distance_of_time_in_words_to_now(@user_block.ends_at)) %>
 </p>
 <% end %>
