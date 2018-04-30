@@ -60,6 +60,12 @@ function OSRMEngine() {
         'depart': 8,
         'arrive': 14
       };
+      var numToWord = function(num) {
+        if(num > 10) {
+          num = 11;
+        }
+        return ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "gt_ten"][num];
+      };
       var transformed_steps = input_steps.map(function(step, idx) {
         var maneuver_id;
 
@@ -112,9 +118,13 @@ function OSRMEngine() {
 
         if (step.maneuver.type.match(/rotary|roundabout/)) {
           if (step.maneuver.exit) {
-            instText += I18n.t(template + '_with_exit', { exit: step.maneuver.exit, name: name } );
+            if (step.maneuver.exit <= 10) {
+              instText += I18n.t(template + '_with_exit_ordinal', { exit: I18n.t('javascripts.directions.instructions.exit_counts.' + numToWord(step.maneuver.exit)), name: name });
+            } else {
+              instText += I18n.t(template + '_with_exit', { exit: step.maneuver.exit, name: name });
+            }
           } else {
-            instText += I18n.t(template + '_without_exit', { name: name } );
+            instText += I18n.t(template + '_without_exit', { name: name });
           }
         } else if (step.maneuver.type.match(/on ramp|off ramp/)) {
           var params = {};
