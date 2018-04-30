@@ -61,10 +61,7 @@ function OSRMEngine() {
         'arrive': 14
       };
       var numToWord = function(num) {
-        if(num > 10) {
-          num = 11;
-        }
-        return ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "gt_ten"][num];
+        return ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"][num-1];
       };
       var transformed_steps = input_steps.map(function(step, idx) {
         var maneuver_id;
