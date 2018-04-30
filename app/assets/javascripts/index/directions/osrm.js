@@ -32,6 +32,8 @@ function OSRMEngine() {
         'turn slight left': 'javascripts.directions.instructions.slight_left',
         'roundabout': 'javascripts.directions.instructions.roundabout',
         'rotary': 'javascripts.directions.instructions.roundabout',
+        'exit roundabout': 'javascripts.directions.instructions.exit_roundabout',
+        'exit rotary': 'javascripts.directions.instructions.exit_roundabout',
         'depart': 'javascripts.directions.instructions.start',
         'arrive': 'javascripts.directions.instructions.destination',
       };
@@ -57,6 +59,8 @@ function OSRMEngine() {
         'turn sharp left': 7,
         'roundabout': 10,
         'rotary': 10,
+        'exit roundabout': 10,
+        'exit rotary': 10,
         'depart': 8,
         'arrive': 14
       };
@@ -79,6 +83,8 @@ function OSRMEngine() {
           case 'arrive':
           case 'roundabout':
           case 'rotary':
+          case 'exit roundabout':
+          case 'exit rotary':
             maneuver_id = step.maneuver.type;
             break;
           case 'roundabout turn':
@@ -113,7 +119,9 @@ function OSRMEngine() {
           namedRoad = false;
         }
 
-        if (step.maneuver.type.match(/rotary|roundabout/)) {
+        if (step.maneuver.type.match(/exit (rotary|roundabout)/)) {
+          instText += I18n.t(template, { name: name });
+        } else if (step.maneuver.type.match(/rotary|roundabout/)) {
           if (step.maneuver.exit) {
             if (step.maneuver.exit <= 10) {
               instText += I18n.t(template + '_with_exit_ordinal', { exit: I18n.t('javascripts.directions.instructions.exit_counts.' + numToWord(step.maneuver.exit)), name: name });
