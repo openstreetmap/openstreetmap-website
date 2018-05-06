@@ -738,6 +738,20 @@ class UserController < ApplicationController
   end
 
   ##
+  # Update a user's home location
+  def set_home_location
+    puts "TEST"
+    current_user.home_lat = params[:lat]
+    current_user.home_lon = params[:lon]
+
+    if current_user.save
+      if current_user.valid?
+        flash.now[:notice] = t "flash home location update success"
+      end
+    end
+  end
+
+  ##
   # require that the user is a administrator, or fill out a helpful error message
   # and return them to the user page.
   def require_administrator

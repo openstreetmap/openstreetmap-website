@@ -256,6 +256,9 @@ OpenStreetMap::Application.routes.draw do
   # directions
   get "/directions" => "directions#search"
 
+  # set home location
+  match "/set_home_loc" => "user#set_home_location", :via => [:get, :post]
+
   # export
   post "/export/finish" => "export#finish"
   get "/export/embed" => "export#embed"

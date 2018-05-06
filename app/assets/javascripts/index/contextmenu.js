@@ -72,6 +72,21 @@ OSM.initializeContextMenu = function (map) {
     }
   });
 
+  map.contextmenu.addItem({
+    text: I18n.t("javascripts.context.set_home_location"),
+    callback: function setHomeLocation(e) {
+      var precision = OSM.zoomPrecision(map.getZoom()),
+          latlng = e.latlng.wrap(),
+          lat = latlng.lat.toFixed(precision),
+          lng = latlng.lng.toFixed(precision);
+console.log(lng);
+$.ajax({url: "/api/0.6/set_home_loc?lat=" + lat + "&lon=" + lng, success: function(result){
+        console.log("TREST");
+    }});
+      //OSM.router.route("/set_home_loc?lat=" + lat + "&lon=" + lng);
+    }
+  });
+
   map.on("mousedown", function (e) {
     if (e.originalEvent.shiftKey) map.contextmenu.disable();
     else map.contextmenu.enable();
