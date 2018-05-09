@@ -16,7 +16,7 @@ class MessageController < ApplicationController
   def new
     if request.post?
       if current_user.sent_messages.where("sent_on >= ?", Time.now.getutc - 1.hour).count >= MAX_MESSAGES_PER_HOUR
-        flash[:error] = t "message.new.limit_exceeded"
+        flash[:error] = t ".limit_exceeded"
       else
         @message = Message.new(message_params)
         @message.recipient = @user
@@ -24,7 +24,7 @@ class MessageController < ApplicationController
         @message.sent_on = Time.now.getutc
 
         if @message.save
-          flash[:notice] = t "message.new.message_sent"
+          flash[:notice] = t ".message_sent"
           Notifier.message_notification(@message).deliver_now
           redirect_to :action => "inbox", :display_name => current_user.display_name
         end
@@ -32,7 +32,7 @@ class MessageController < ApplicationController
     end
 
     @message ||= Message.new(message_params.merge(:recipient => @user))
-    @title = t "message.new.title"
+    @title = t ".title"
   end
 
   # Allow the user to reply to another message.
@@ -52,7 +52,7 @@ class MessageController < ApplicationController
 
       render :action => "new"
     else
-      flash[:notice] = t "message.reply.wrong_user", :user => current_user.display_name
+      flash[:notice] = t ".wrong_user", :user => current_user.display_name
       redirect_to :controller => "user", :action => "login", :referer => request.fullpath
     end
   rescue ActiveRecord::RecordNotFound
@@ -62,14 +62,14 @@ class MessageController < ApplicationController
 
   # Show a message
   def read
-    @title = t "message.read.title"
+    @title = t ".title"
     @message = Message.find(params[:message_id])
 
     if @message.recipient == current_user || @message.sender == current_user
       @message.message_read = true if @message.recipient == current_user
       @message.save
     else
-      flash[:notice] = t "message.read.wrong_user", :user => current_user.display_name
+      flash[:notice] = t ".wrong_user", :user => current_user.display_name
       redirect_to :controller => "user", :action => "login", :referer => request.fullpath
     end
   rescue ActiveRecord::RecordNotFound
@@ -79,7 +79,7 @@ class MessageController < ApplicationController
 
   # Display the list of messages that have been sent to the user.
   def inbox
-    @title = t "message.inbox.title"
+    @title = t ".title"
     if current_user && params[:display_name] == current_user.display_name
     else
       redirect_to :action => "inbox", :display_name => current_user.display_name
@@ -88,7 +88,7 @@ class MessageController < ApplicationController
 
   # Display the list of messages that the user has sent to other users.
   def outbox
-    @title = t "message.outbox.title"
+    @title = t ".title"
     if current_user && params[:display_name] == current_user.display_name
     else
       redirect_to :action => "outbox", :display_name => current_user.display_name
@@ -100,10 +100,10 @@ class MessageController < ApplicationController
     @message = Message.where("to_user_id = ? OR from_user_id = ?", current_user.id, current_user.id).find(params[:message_id])
     if params[:mark] == "unread"
       message_read = false
-      notice = t "message.mark.as_unread"
+      notice = t ".as_unread"
     else
       message_read = true
-      notice = t "message.mark.as_read"
+      notice = t ".as_read"
     end
     @message.message_read = message_read
     if @message.save && !request.xhr?
@@ -121,7 +121,7 @@ class MessageController < ApplicationController
     @message.from_user_visible = false if @message.sender == current_user
     @message.to_user_visible = false if @message.recipient == current_user
     if @message.save && !request.xhr?
-      flash[:notice] = t "message.delete.deleted"
+      flash[:notice] = t ".deleted"
 
       if params[:referer]
         redirect_to params[:referer]
