@@ -178,6 +178,7 @@ class MessageControllerTest < ActionController::TestCase
     assert_equal "[OpenStreetMap] Test Message", e.subject
     assert_match /Test message body/, e.text_part.decoded
     assert_match /Test message body/, e.html_part.decoded
+    assert_match %r{#{SERVER_URL}/message/read/}, e.text_part.decoded
     ActionMailer::Base.deliveries.clear
     m = Message.last
     assert_equal user.id, m.from_user_id

@@ -69,10 +69,8 @@ class Notifier < ActionMailer::Base
       @from_user = message.sender.display_name
       @text = message.body
       @title = message.title
-      @readurl = url_for(:controller => "message", :action => "read",
-                         :message_id => message.id)
-      @replyurl = url_for(:controller => "message", :action => "reply",
-                          :message_id => message.id)
+      @readurl = read_message_url(message)
+      @replyurl = reply_message_url(message)
       @author = @from_user
 
       attach_user_avatar(message.sender)
@@ -99,10 +97,7 @@ class Notifier < ActionMailer::Base
                             :display_name => comment.diary_entry.user.display_name,
                             :id => comment.diary_entry.id,
                             :anchor => "newcomment")
-      @replyurl = url_for(:controller => "message",
-                          :action => "new",
-                          :display_name => comment.user.display_name,
-                          :title => "Re: #{comment.diary_entry.title}")
+      @replyurl = new_message_url(comment.user, :message => { :title => "Re: #{comment.diary_entry.title}" })
 
       @author = @from_user
 
