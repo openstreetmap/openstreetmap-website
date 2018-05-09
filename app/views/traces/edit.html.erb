@@ -2,7 +2,7 @@
   <h2><%= t '.heading', :name => h(@trace.name) %></h2>
 <% end %>
 
-<img src="<%= url_for :controller => 'trace', :action => 'picture', :id => @trace.id, :display_name => @trace.user.display_name %>">
+<img src="<%= url_for :controller => 'traces', :action => 'picture', :id => @trace.id, :display_name => @trace.user.display_name %>">
 
 <%= form_for @trace, :method => :post, :url => { :action => "edit" } do |f| %>
 
@@ -44,7 +44,7 @@
     </div>
     <div class='form-row'>
       <label class='standard-label'><%= t '.visibility' %></label>
-      <%= f.select :visibility, [[t('trace.visibility.private'),"private"], [t('trace.visibility.public'),"public"], [t('trace.visibility.trackable'),"trackable"], [t('trace.visibility.identifiable'),"identifiable"]] %> (<a href="<%= t '.visibility_help_url' %>"><%= t '.visibility_help' %></a>)
+      <%= f.select :visibility, [[t('traces.visibility.private'),"private"], [t('traces.visibility.public'),"public"], [t('traces.visibility.trackable'),"trackable"], [t('traces.visibility.identifiable'),"identifiable"]] %> (<a href="<%= t '.visibility_help_url' %>"><%= t '.visibility_help' %></a>)
     </div>
   </fieldset>
 

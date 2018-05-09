@@ -74,12 +74,12 @@ OpenStreetMap::Application.routes.draw do
     put "user/preferences/:preference_key" => "user_preferences#update_one"
     delete "user/preferences/:preference_key" => "user_preferences#delete_one"
 
-    post "gpx/create" => "trace#api_create"
-    get "gpx/:id" => "trace#api_read", :id => /\d+/
-    put "gpx/:id" => "trace#api_update", :id => /\d+/
-    delete "gpx/:id" => "trace#api_delete", :id => /\d+/
-    get "gpx/:id/details" => "trace#api_read", :id => /\d+/
-    get "gpx/:id/data" => "trace#api_data"
+    post "gpx/create" => "traces#api_create"
+    get "gpx/:id" => "traces#api_read", :id => /\d+/
+    put "gpx/:id" => "traces#api_update", :id => /\d+/
+    delete "gpx/:id" => "traces#api_delete", :id => /\d+/
+    get "gpx/:id/details" => "traces#api_read", :id => /\d+/
+    get "gpx/:id/data" => "traces#api_data"
 
     # AMF (ActionScript) API
     post "amf/read" => "amf#amf_read"
@@ -188,29 +188,29 @@ OpenStreetMap::Application.routes.draw do
   post "/preview/:type" => "site#preview", :as => :preview
 
   # traces
-  get "/user/:display_name/traces/tag/:tag/page/:page" => "trace#list", :page => /[1-9][0-9]*/
-  get "/user/:display_name/traces/tag/:tag" => "trace#list"
-  get "/user/:display_name/traces/page/:page" => "trace#list", :page => /[1-9][0-9]*/
-  get "/user/:display_name/traces" => "trace#list"
-  get "/user/:display_name/traces/tag/:tag/rss" => "trace#georss", :defaults => { :format => :rss }
-  get "/user/:display_name/traces/rss" => "trace#georss", :defaults => { :format => :rss }
-  get "/user/:display_name/traces/:id" => "trace#view"
-  get "/user/:display_name/traces/:id/picture" => "trace#picture"
-  get "/user/:display_name/traces/:id/icon" => "trace#icon"
-  get "/traces/tag/:tag/page/:page" => "trace#list", :page => /[1-9][0-9]*/
-  get "/traces/tag/:tag" => "trace#list"
-  get "/traces/page/:page" => "trace#list", :page => /[1-9][0-9]*/
-  get "/traces" => "trace#list"
-  get "/traces/tag/:tag/rss" => "trace#georss", :defaults => { :format => :rss }
-  get "/traces/rss" => "trace#georss", :defaults => { :format => :rss }
-  get "/traces/mine/tag/:tag/page/:page" => "trace#mine", :page => /[1-9][0-9]*/
-  get "/traces/mine/tag/:tag" => "trace#mine"
-  get "/traces/mine/page/:page" => "trace#mine"
-  get "/traces/mine" => "trace#mine"
-  match "/trace/create" => "trace#create", :via => [:get, :post]
-  get "/trace/:id/data" => "trace#data", :id => /\d+/, :as => "trace_data"
-  match "/trace/:id/edit" => "trace#edit", :via => [:get, :post], :id => /\d+/, :as => "trace_edit"
-  post "/trace/:id/delete" => "trace#delete", :id => /\d+/
+  get "/user/:display_name/traces/tag/:tag/page/:page" => "traces#list", :page => /[1-9][0-9]*/
+  get "/user/:display_name/traces/tag/:tag" => "traces#list"
+  get "/user/:display_name/traces/page/:page" => "traces#list", :page => /[1-9][0-9]*/
+  get "/user/:display_name/traces" => "traces#list"
+  get "/user/:display_name/traces/tag/:tag/rss" => "traces#georss", :defaults => { :format => :rss }
+  get "/user/:display_name/traces/rss" => "traces#georss", :defaults => { :format => :rss }
+  get "/user/:display_name/traces/:id" => "traces#view"
+  get "/user/:display_name/traces/:id/picture" => "traces#picture"
+  get "/user/:display_name/traces/:id/icon" => "traces#icon"
+  get "/traces/tag/:tag/page/:page" => "traces#list", :page => /[1-9][0-9]*/
+  get "/traces/tag/:tag" => "traces#list"
+  get "/traces/page/:page" => "traces#list", :page => /[1-9][0-9]*/
+  get "/traces" => "traces#list"
+  get "/traces/tag/:tag/rss" => "traces#georss", :defaults => { :format => :rss }
+  get "/traces/rss" => "traces#georss", :defaults => { :format => :rss }
+  get "/traces/mine/tag/:tag/page/:page" => "traces#mine", :page => /[1-9][0-9]*/
+  get "/traces/mine/tag/:tag" => "traces#mine"
+  get "/traces/mine/page/:page" => "traces#mine"
+  get "/traces/mine" => "traces#mine"
+  match "/trace/create" => "traces#create", :via => [:get, :post]
+  get "/trace/:id/data" => "traces#data", :id => /\d+/, :as => "trace_data"
+  match "/trace/:id/edit" => "traces#edit", :via => [:get, :post], :id => /\d+/, :as => "trace_edit"
+  post "/trace/:id/delete" => "traces#delete", :id => /\d+/
 
   # diary pages
   match "/diary/new" => "diary_entry#new", :via => [:get, :post]
