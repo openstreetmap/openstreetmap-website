@@ -31,14 +31,14 @@ class TraceController < ApplicationController
 
     # set title
     @title = if target_user.nil?
-               t "trace.list.public_traces"
+               t ".public_traces"
              elsif current_user && current_user == target_user
-               t "trace.list.my_traces"
+               t ".my_traces"
              else
-               t "trace.list.public_traces_from", :user => target_user.display_name
+               t ".public_traces_from", :user => target_user.display_name
              end
 
-    @title += t "trace.list.tagged_with", :tags => params[:tag] if params[:tag]
+    @title += t ".tagged_with", :tags => params[:tag] if params[:tag]
 
     # four main cases:
     # 1 - all traces, logged in = all public traces + all user's (i.e + all mine)
@@ -94,13 +94,13 @@ class TraceController < ApplicationController
 
     if @trace && @trace.visible? &&
        (@trace.public? || @trace.user == current_user)
-      @title = t "trace.view.title", :name => @trace.name
+      @title = t ".title", :name => @trace.name
     else
-      flash[:error] = t "trace.view.trace_not_found"
+      flash[:error] = t ".trace_not_found"
       redirect_to :action => "list"
     end
   rescue ActiveRecord::RecordNotFound
-    flash[:error] = t "trace.view.trace_not_found"
+    flash[:error] = t ".trace_not_found"
     redirect_to :action => "list"
   end
 
@@ -117,9 +117,8 @@ class TraceController < ApplicationController
         end
 
         if @trace.id
-          flash[:notice] = t "trace.create.trace_uploaded"
-
-          flash[:warning] = t "trace.trace_header.traces_waiting", :count => current_user.traces.where(:inserted => false).count if current_user.traces.where(:inserted => false).count > 4
+          flash[:notice] = t ".trace_uploaded"
+          flash[:warning] = t ".traces_waiting", :count => current_user.traces.where(:inserted => false).count if current_user.traces.where(:inserted => false).count > 4
 
           redirect_to :action => :list, :display_name => current_user.display_name
         end
@@ -137,7 +136,7 @@ class TraceController < ApplicationController
       @trace = Trace.new(:visibility => default_visibility)
     end
 
-    @title = t "trace.create.upload_trace"
+    @title = t ".upload_trace"
   end
 
   def data
@@ -191,7 +190,7 @@ class TraceController < ApplicationController
     else
       trace.visible = false
       trace.save
-      flash[:notice] = t "trace.delete.scheduled_for_deletion"
+      flash[:notice] = t ".scheduled_for_deletion"
       redirect_to :action => :list, :display_name => trace.user.display_name
     end
   rescue ActiveRecord::RecordNotFound
