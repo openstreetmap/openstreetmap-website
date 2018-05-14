@@ -67,7 +67,7 @@ class ApiController < ApplicationController
           if gpx_file.identifiable?
             track << (XML::Node.new("name") << gpx_file.name)
             track << (XML::Node.new("desc") << gpx_file.description)
-            track << (XML::Node.new("url") << url_for(:controller => "trace", :action => "view", :display_name => gpx_file.user.display_name, :id => gpx_file.id))
+            track << (XML::Node.new("url") << url_for(:controller => "traces", :action => "view", :display_name => gpx_file.user.display_name, :id => gpx_file.id))
           end
         else
           # use the anonymous track segment if the user hasn't allowed

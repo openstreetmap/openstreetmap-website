@@ -4,7 +4,7 @@
 
 <% if STATUS != :gpx_offline %>
   <% if @trace.inserted %>
-    <img src="<%= url_for :controller => 'trace', :action => 'picture', :id => @trace.id, :display_name => @trace.user.display_name %>">
+    <img src="<%= url_for :controller => 'traces', :action => 'picture', :id => @trace.id, :display_name => @trace.user.display_name %>">
   <% else %>
     <span class="trace_pending"><%= t '.pending' %></span>
   <% end %>
@@ -40,7 +40,7 @@
     <td><%= t '.tags' %></td>
     <td>
     <% unless @trace.tags.empty? %>
-      <%= raw(@trace.tags.collect { |tag| link_to tag.tag, { :controller => 'trace', :action => 'list', :tag => tag.tag, :id => nil } }.join(", ")) %>
+      <%= raw(@trace.tags.collect { |tag| link_to tag.tag, { :controller => 'traces', :action => 'list', :tag => tag.tag, :id => nil } }.join(", ")) %>
     <% else %>
       <i><%= t '.none' %></i>
     <% end %>
@@ -48,7 +48,7 @@
   </tr>
   <tr>
     <td><%= t '.visibility' %></td>
-    <td><%= t "trace.visibility.#{@trace.visibility}" %></td>
+    <td><%= t "traces.visibility.#{@trace.visibility}" %></td>
   </tr>
 </table>
 
@@ -59,6 +59,6 @@
     <%= if_user(@trace.user) do %>
       <%= button_to t('.edit_track'), trace_edit_path(@trace) %>
     <% end %>
-    <%= button_to t('.delete_track'), { :controller => 'trace', :action => 'delete', :id => @trace.id }, :data => { :confirm => t('.confirm_delete') } %>
+    <%= button_to t('.delete_track'), { :controller => 'traces', :action => 'delete', :id => @trace.id }, :data => { :confirm => t('.confirm_delete') } %>
   </div>
 <% end %>

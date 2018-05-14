@@ -1,4 +1,4 @@
-class TraceController < ApplicationController
+class TracesController < ApplicationController
   layout "site", :except => :georss
 
   skip_before_action :verify_authenticity_token, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
@@ -167,7 +167,7 @@ class TraceController < ApplicationController
     elsif current_user.nil? || @trace.user != current_user
       head :forbidden
     else
-      @title = t "trace.edit.title", :name => @trace.name
+      @title = t ".title", :name => @trace.name
 
       if request.post? && params[:trace]
         @trace.description = params[:trace][:description]
@@ -384,7 +384,7 @@ class TraceController < ApplicationController
   end
 
   def offline_warning
-    flash.now[:warning] = t "trace.offline_warning.message" if STATUS == :gpx_offline
+    flash.now[:warning] = t "traces.offline_warning.message" if STATUS == :gpx_offline
   end
 
   def offline_redirect

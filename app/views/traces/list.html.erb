@@ -5,11 +5,11 @@
     <li><%= rss_link_to :action => 'georss', :display_name => @display_name, :tag => @tag %></li>
     <li><%= link_to t('.upload_trace'), :action => 'create' %></li>
     <% if @tag %>
-      <li><%= link_to t('.see_all_traces'), :controller => 'trace', :action => 'list', :display_name => nil, :tag => nil, :page => nil %></li>
+      <li><%= link_to t('.see_all_traces'), :controller => 'traces', :action => 'list', :display_name => nil, :tag => nil, :page => nil %></li>
       <li><%= link_to t('.see_my_traces'), :action => 'mine', :tag => nil, :page => nil %></li>
     <% else %>
       <% if @display_name %>
-        <li><%= link_to t('.see_all_traces'), :controller => 'trace', :action => 'list', :display_name => nil, :tag => nil, :page => nil %></li>
+        <li><%= link_to t('.see_all_traces'), :controller => 'traces', :action => 'list', :display_name => nil, :tag => nil, :page => nil %></li>
       <% end %>
       <%= unless_user(@target_user, :li) do %>
         <%= link_to t('.see_my_traces'), :action => 'mine', :tag => nil, :page => nil %>
