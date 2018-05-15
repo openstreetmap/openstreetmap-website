@@ -7,7 +7,7 @@ class MessagesController < ApplicationController
   before_action :lookup_user, :only => [:new]
   before_action :check_database_readable
   before_action :check_database_writable, :only => [:new, :reply, :mark]
-  before_action :allow_thirdparty_images, :only => [:new, :read]
+  before_action :allow_thirdparty_images, :only => [:new, :show]
 
   # Allow the user to write a new message to another user. This action also
   # deals with the sending of that message to the other user when the user
@@ -61,7 +61,7 @@ class MessagesController < ApplicationController
   end
 
   # Show a message
-  def read
+  def show
     @title = t ".title"
     @message = Message.find(params[:message_id])
 

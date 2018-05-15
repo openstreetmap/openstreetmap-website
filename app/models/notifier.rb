@@ -69,7 +69,7 @@ class Notifier < ActionMailer::Base
       @from_user = message.sender.display_name
       @text = message.body
       @title = message.title
-      @readurl = read_message_url(message)
+      @readurl = message_url(message)
       @replyurl = reply_message_url(message)
       @author = @from_user
 
