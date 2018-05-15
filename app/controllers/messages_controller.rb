@@ -6,7 +6,7 @@ class MessagesController < ApplicationController
   before_action :require_user
   before_action :lookup_user, :only => [:new]
   before_action :check_database_readable
-  before_action :check_database_writable, :only => [:new, :reply, :mark]
+  before_action :check_database_writable, :only => [:new, :reply, :mark, :destroy]
   before_action :allow_thirdparty_images, :only => [:new, :show]
 
   # Allow the user to write a new message to another user. This action also
