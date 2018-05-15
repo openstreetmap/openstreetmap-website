@@ -22,7 +22,7 @@ class MessagesControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/message/read/1", :method => :get },
-      { :controller => "messages", :action => "read", :message_id => "1" }
+      { :controller => "messages", :action => "show", :message_id => "1" }
     )
     assert_routing(
       { :path => "/message/mark/1", :method => :post },
@@ -33,12 +33,8 @@ class MessagesControllerTest < ActionController::TestCase
       { :controller => "messages", :action => "reply", :message_id => "1" }
     )
     assert_routing(
-      { :path => "/message/reply/1", :method => :post },
-      { :controller => "messages", :action => "reply", :message_id => "1" }
-    )
-    assert_routing(
       { :path => "/message/delete/1", :method => :post },
-      { :controller => "messages", :action => "delete", :message_id => "1" }
+      { :controller => "messages", :action => "destroy", :message_id => "1" }
     )
   end
 
@@ -265,50 +261,50 @@ class MessagesControllerTest < ActionController::TestCase
   end
 
   ##
-  # test the read action
-  def test_read
+  # test the show action
+  def test_show
     user = create(:user)
     recipient_user = create(:user)
     other_user = create(:user)
     unread_message = create(:message, :unread, :sender => user, :recipient => recipient_user)
 
-    # Check that the read message page requires us to login
-    get :read, :params => { :message_id => unread_message.id }
-    assert_redirected_to login_path(:referer => read_message_path(:message_id => unread_message.id))
+    # Check that the show message page requires us to login
+    get :show, :params => { :message_id => unread_message.id }
+    assert_redirected_to login_path(:referer => message_path(:message_id => unread_message.id))
 
     # Login as the wrong user
     session[:user] = other_user.id
 
     # Check that we can't read the message
-    get :read, :params => { :message_id => unread_message.id }
-    assert_redirected_to login_path(:referer => read_message_path(:message_id => unread_message.id))
+    get :show, :params => { :message_id => unread_message.id }
+    assert_redirected_to login_path(:referer => message_path(:message_id => unread_message.id))
     assert_equal "You are logged in as `#{other_user.display_name}' but the message you have asked to read was not sent by or to that user. Please login as the correct user in order to read it.", flash[:notice]
 
     # Login as the message sender
     session[:user] = user.id
 
     # Check that the message sender can read the message
-    get :read, :params => { :message_id => unread_message.id }
+    get :show, :params => { :message_id => unread_message.id }
     assert_response :success
-    assert_template "read"
+    assert_template "show"
     assert_equal false, Message.find(unread_message.id).message_read
 
     # Login as the message recipient
     session[:user] = recipient_user.id
 
     # Check that the message recipient can read the message
-    get :read, :params => { :message_id => unread_message.id }
+    get :show, :params => { :message_id => unread_message.id }
     assert_response :success
-    assert_template "read"
+    assert_template "show"
     assert_equal true, Message.find(unread_message.id).message_read
 
     # Asking to read a message with no ID should fail
     assert_raise ActionController::UrlGenerationError do
-      get :read
+      get :show
     end
 
     # Asking to read a message with a bogus ID should fail
-    get :read, :params => { :message_id => 99999 }
+    get :show, :params => { :message_id => 99999 }
     assert_response :not_found
     assert_template "no_such_message"
   end
@@ -425,52 +421,52 @@ class MessagesControllerTest < ActionController::TestCase
   end
 
   ##
-  # test the delete action
-  def test_delete
+  # test the destroy action
+  def test_destroy
     user = create(:user)
     second_user = create(:user)
     other_user = create(:user)
     read_message = create(:message, :read, :recipient => user, :sender => second_user)
     sent_message = create(:message, :unread, :recipient => second_user, :sender => user)
 
-    # Check that the deleting a message requires us to login
-    post :delete, :params => { :message_id => read_message.id }
+    # Check that destroying a message requires us to login
+    post :destroy, :params => { :message_id => read_message.id }
     assert_response :forbidden
 
     # Login as a user with no messages
     session[:user] = other_user.id
 
-    # Check that deleting a message we didn't send or receive fails
-    post :delete, :params => { :message_id => read_message.id }
+    # Check that destroying a message we didn't send or receive fails
+    post :destroy, :params => { :message_id => read_message.id }
     assert_response :not_found
     assert_template "no_such_message"
 
     # Login as the message recipient_user
     session[:user] = user.id
 
-    # Check that the deleting a received message works
-    post :delete, :params => { :message_id => read_message.id }
+    # Check that the destroy a received message works
+    post :destroy, :params => { :message_id => read_message.id }
     assert_redirected_to inbox_path(:display_name => user.display_name)
     assert_equal "Message deleted", flash[:notice]
     m = Message.find(read_message.id)
     assert_equal true, m.from_user_visible
     assert_equal false, m.to_user_visible
 
-    # Check that the deleting a sent message works
-    post :delete, :params => { :message_id => sent_message.id, :referer => outbox_path(:display_name => user.display_name) }
+    # Check that the destroying a sent message works
+    post :destroy, :params => { :message_id => sent_message.id, :referer => outbox_path(:display_name => user.display_name) }
     assert_redirected_to outbox_path(:display_name => user.display_name)
     assert_equal "Message deleted", flash[:notice]
     m = Message.find(sent_message.id)
     assert_equal false, m.from_user_visible
     assert_equal true, m.to_user_visible
 
-    # Asking to delete a message with no ID should fail
+    # Asking to destroy a message with no ID should fail
     assert_raise ActionController::UrlGenerationError do
-      post :delete
+      post :destroy
     end
 
-    # Asking to delete a message with a bogus ID should fail
-    post :delete, :params => { :message_id => 99999 }
+    # Asking to destroy a message with a bogus ID should fail
+    post :destroy, :params => { :message_id => 99999 }
     assert_response :not_found
     assert_template "no_such_message"
   end
