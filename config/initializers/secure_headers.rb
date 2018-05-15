@@ -6,6 +6,7 @@ if defined?(CSP_REPORT_URL)
     :font_src => %w['none'],
     :form_action => %w['self'],
     :frame_ancestors => %w['self'],
+    :frame_src => %w['self'],
     :img_src => %w['self' data: www.gravatar.com *.wp.com *.tile.openstreetmap.org *.tile.thunderforest.com *.openstreetmap.fr],
     :media_src => %w['none'],
     :object_src => %w['self'],
