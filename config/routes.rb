@@ -267,7 +267,7 @@ OpenStreetMap::Application.routes.draw do
   get "/message/read/:message_id" => "messages#read", :as => "read_message"
   post "/message/mark/:message_id" => "messages#mark", :as => "mark_message"
   get "/message/reply/:message_id" => "messages#reply", :as => "reply_message"
-  post "/message/delete/:message_id" => "messages#delete", :as => "delete_message"
+  post "/message/delete/:message_id" => "messages#destroy", :as => "destroy_message"
 
   # oauth admin pages (i.e: for setting up new clients, etc...)
   scope "/user/:display_name" do

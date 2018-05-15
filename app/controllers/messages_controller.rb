@@ -115,13 +115,13 @@ class MessagesController < ApplicationController
     render :action => "no_such_message", :status => :not_found
   end
 
-  # Delete the message.
-  def delete
+  # Destroy the message.
+  def destroy
     @message = Message.where("to_user_id = ? OR from_user_id = ?", current_user.id, current_user.id).find(params[:message_id])
     @message.from_user_visible = false if @message.sender == current_user
     @message.to_user_visible = false if @message.recipient == current_user
     if @message.save && !request.xhr?
-      flash[:notice] = t ".deleted"
+      flash[:notice] = t ".destroyed"
 
       if params[:referer]
         redirect_to params[:referer]

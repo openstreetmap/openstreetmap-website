@@ -2,5 +2,5 @@
   <td class="inbox-sender"><%= link_to h(sent_message_summary.recipient.display_name), user_path(sent_message_summary.recipient) %></td>
   <td class="inbox-subject"><%= link_to h(sent_message_summary.title), read_message_path(sent_message_summary) %></td>
   <td class="inbox-sent"><%= l sent_message_summary.sent_on, :format => :friendly %></td>
-  <td class="inbox-delete"><%= button_to t('.delete_button'), delete_message_path(sent_message_summary, :referer => request.fullpath) %></td>
+  <td class="inbox-destroy"><%= button_to t('.destroy_button'), destroy_message_path(sent_message_summary, :referer => request.fullpath) %></td>
 </tr>

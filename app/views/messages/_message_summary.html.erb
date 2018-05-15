@@ -4,5 +4,5 @@
   <td class="inbox-sent"><%= l message_summary.sent_on, :format => :friendly %></td>
   <td class="inbox-mark-unread"><%= button_to t('.unread_button'), mark_message_path(message_summary, :mark => 'unread'), { :remote => true } %></td>
   <td class="inbox-mark-read"><%= button_to t('.read_button'), mark_message_path(message_summary, :mark => 'read'), { :remote => true } %></td>
-  <td class="inbox-delete"><%= button_to t('.delete_button'), delete_message_path(message_summary, :referer => request.fullpath), { :remote => true } %></td>
+  <td class="inbox-destroy"><%= button_to t('.destroy_button'), destroy_message_path(message_summary, :referer => request.fullpath), { :remote => true } %></td>
 </tr>
