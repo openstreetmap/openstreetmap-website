@@ -409,8 +409,8 @@ class ApplicationController < ActionController::Base
 
   def map_layout
     append_content_security_policy_directives(
-      :child_src => %w[http://127.0.0.1:8111],
-      :frame_src => %w[http://127.0.0.1:8111],
+      :child_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
+      :frame_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
       :connect_src => %w[nominatim.openstreetmap.org overpass-api.de router.project-osrm.org],
       :form_action => %w[render.openstreetmap.org],
       :script_src => %w[graphhopper.com open.mapquestapi.com],
