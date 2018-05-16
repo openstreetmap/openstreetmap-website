@@ -11,8 +11,8 @@
       <% if @display_name %>
         <li><%= link_to t('.see_all_traces'), :controller => 'traces', :action => 'list', :display_name => nil, :tag => nil, :page => nil %></li>
       <% end %>
-      <%= unless_user(@target_user, :li) do %>
-        <%= link_to t('.see_my_traces'), :action => 'mine', :tag => nil, :page => nil %>
+      <% if current_user && current_user != @target_user %>
+        <li><%= link_to t('.see_my_traces'), :action => 'mine', :tag => nil, :page => nil %></li>
       <% end %>
     <% end %>
   </ul>

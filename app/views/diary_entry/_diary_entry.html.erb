@@ -27,12 +27,12 @@
       <li><%= link_to t('.comment_count', :count => diary_entry.visible_comments.count), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'comments' %></li>
     <% end %>
 
-    <%= if_user(diary_entry.user, :li) do %>
-      <%= link_to t('.edit_link'), :action => 'edit', :display_name => diary_entry.user.display_name, :id => diary_entry.id %>
+    <% if current_user && current_user == diary_entry.user %>
+      <li><%= link_to t('.edit_link'), :action => 'edit', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></li>
     <% end %>
 
-    <%= if_administrator(:li) do %>
-      <%= link_to t('.hide_link'), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t('.confirm') } %>
+    <% if current_user && current_user.administrator? %>
+      <li><%= link_to t('.hide_link'), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t('.confirm') } %></li>
     <% end %>
   </ul>
 </div>

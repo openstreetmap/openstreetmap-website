@@ -11,12 +11,16 @@
       <% end -%>
 
       <% if @user %>
-        <%= if_user(@user) do %>
-          <li><%= link_to image_tag("new.png", :class => "small_icon", :border=>0) + t('.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('.new_title')} %></li>
+        <% if @user == current_user %>
+          <div>
+            <li><%= link_to image_tag("new.png", :class => "small_icon", :border=>0) + t('.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('.new_title')} %></li>
+          </div>
         <% end %>
       <% else %>
-        <%= if_logged_in do %>
-          <li><%= link_to image_tag("new.png", :class => "small_icon", :border=>0) + t('.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('.new_title')} %></li>
+        <% if current_user %>
+          <div>
+            <li><%= link_to image_tag("new.png", :class => "small_icon", :border=>0) + t('.new'), {:controller => 'diary_entry', :action => 'new'}, {:title => t('.new_title')} %></li>
+          </div>
         <% end %>
       <% end %>
     </ul>

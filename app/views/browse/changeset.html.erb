@@ -13,15 +13,17 @@
 
   <h4 class="comments-header"><%= t('.discussion') %></h4>
 
-  <div class="buttons clearfix subscribe-buttons">
-    <form action="#" class="hide_unless_logged_in">
-      <% if current_user and @changeset.subscribers.exists?(current_user.id) %>
-        <input class="action-button" type="submit" name="unsubscribe" value="<%= t('javascripts.changesets.show.unsubscribe') %>" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>" />
-      <% else %>
-        <input class="action-button" type="submit" name="subscribe" value="<%= t('javascripts.changesets.show.subscribe') %>" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>" />
-      <% end %>
-    </form>
-  </div>
+  <% if current_user %>
+    <div class="buttons clearfix subscribe-buttons">
+      <form action="#">
+        <% if @changeset.subscribers.exists?(current_user.id) %>
+          <input class="action-button" type="submit" name="unsubscribe" value="<%= t('javascripts.changesets.show.unsubscribe') %>" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>" />
+        <% else %>
+          <input class="action-button" type="submit" name="subscribe" value="<%= t('javascripts.changesets.show.subscribe') %>" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>" />
+        <% end %>
+      </form>
+    </div>
+  <% end %>
 
   <div class="clearfix"></div>
 
@@ -59,21 +61,25 @@
     </div>
   <% end %>
 
-  <div class="notice hide_if_logged_in">
-    <%= link_to(t(".join_discussion"), :controller => 'user', :action => 'login', :referer => request.fullpath) %>
-  </div>
-
-  <% unless @changeset.is_open? %>
-    <form action="#" class="hide_unless_logged_in">
-      <textarea class="comment" name="text" cols="40" rows="5"></textarea>
-      <div class="buttons clearfix">
-        <input type="submit" name="comment" value="<%= t('javascripts.changesets.show.comment') %>" data-changeset-id="<%= @changeset.id %>" data-method="POST" data-url="<%= changeset_comment_url(@changeset) %>" disabled="1"/>
-      </div>
-    </form>
-  <% else %>
-    <div class="notice hide_unless_logged_in">
-    <%= t('.still_open') %>
+  <% unless current_user %>
+    <div class="notice">
+      <%= link_to(t(".join_discussion"), :controller => 'user', :action => 'login', :referer => request.fullpath) %>
     </div>
+  <% end %>
+
+  <% if current_user %>
+    <% unless @changeset.is_open? %>
+      <form action="#">
+        <textarea class="comment" name="text" cols="40" rows="5"></textarea>
+        <div class="buttons clearfix">
+          <input type="submit" name="comment" value="<%= t('javascripts.changesets.show.comment') %>" data-changeset-id="<%= @changeset.id %>" data-method="POST" data-url="<%= changeset_comment_url(@changeset) %>" disabled="1"/>
+        </div>
+      </form>
+    <% else %>
+      <div class="notice">
+      <%= t('.still_open') %>
+      </div>
+    <% end %>
   <% end %>
 
   <% unless @ways.empty? %>
