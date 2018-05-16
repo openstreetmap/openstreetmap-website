@@ -229,14 +229,19 @@ $(document).ready(function () {
     L.marker([params.mlat, params.mlon]).addTo(map);
   }
 
+  var homemarker;
   $("#homeanchor").on("click", function(e) {
     e.preventDefault();
 
     var data = $(this).data(),
       center = L.latLng(data.lat, data.lon);
 
+    if (homemarker) {
+      map.removeLayer(homemarker);
+    }
+
     map.setView(center, data.zoom);
-    L.marker(center, {icon: OSM.getUserIcon()}).addTo(map);
+    homemarker = L.marker(center, {icon: OSM.getUserIcon()}).addTo(map);
   });
 
   function remoteEditHandler(bbox, object) {
