@@ -80,7 +80,7 @@ OSM.initializeContextMenu = function (map) {
           lat = latlng.lat.toFixed(precision),
           lng = latlng.lng.toFixed(precision);
       
-      $.ajax({url: "/set_home_loc?lat=" + lat + "&lon=" + lng, success: function(result){
+      $.ajax({url: "/set_home_loc?lat=" + lat + "&lon=" + lng, success: function(){
         $('#homeanchor').data("lat", lat);
         $('#homeanchor').data("lon", lng);
         $('#homeanchor').click();

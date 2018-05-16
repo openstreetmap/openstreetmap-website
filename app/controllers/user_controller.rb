@@ -571,7 +571,7 @@ class UserController < ApplicationController
   ##
   # Update a user's home location
   def set_home_location
-    current_user.update({home_lat: params[:lat], home_lon: params[:lon]});
+    current_user.update(:home_lat => params[:lat], :home_lon => params[:lon])
   end
 
   private
