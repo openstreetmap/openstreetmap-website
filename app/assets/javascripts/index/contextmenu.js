@@ -79,11 +79,12 @@ OSM.initializeContextMenu = function (map) {
           latlng = e.latlng.wrap(),
           lat = latlng.lat.toFixed(precision),
           lng = latlng.lng.toFixed(precision);
-console.log(lng);
-$.ajax({url: "/api/0.6/set_home_loc?lat=" + lat + "&lon=" + lng, success: function(result){
-        console.log("TREST");
-    }});
-      //OSM.router.route("/set_home_loc?lat=" + lat + "&lon=" + lng);
+      
+      $.ajax({url: "/set_home_loc?lat=" + lat + "&lon=" + lng, success: function(result){
+        $('#homeanchor').data("lat", lat);
+        $('#homeanchor').data("lon", lng);
+        $('#homeanchor').click();
+      }});
     }
   });
 

@@ -568,6 +568,12 @@ class UserController < ApplicationController
     redirect_to params[:origin] || login_url
   end
 
+  ##
+  # Update a user's home location
+  def set_home_location
+    current_user.update({home_lat: params[:lat], home_lon: params[:lon]});
+  end
+
   private
 
   ##
@@ -733,20 +739,6 @@ class UserController < ApplicationController
         end
 
         user.restore_email!
-      end
-    end
-  end
-
-  ##
-  # Update a user's home location
-  def set_home_location
-    puts "TEST"
-    current_user.home_lat = params[:lat]
-    current_user.home_lon = params[:lon]
-
-    if current_user.save
-      if current_user.valid?
-        flash.now[:notice] = t "flash home location update success"
       end
     end
   end
