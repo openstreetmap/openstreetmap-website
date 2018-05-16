@@ -33,6 +33,10 @@ class MessagesControllerTest < ActionController::TestCase
       { :controller => "messages", :action => "reply", :message_id => "1" }
     )
     assert_routing(
+      { :path => "/message/reply/1", :method => :post },
+      { :controller => "messages", :action => "reply", :message_id => "1" }
+    )
+    assert_routing(
       { :path => "/message/delete/1", :method => :post },
       { :controller => "messages", :action => "destroy", :message_id => "1" }
     )
