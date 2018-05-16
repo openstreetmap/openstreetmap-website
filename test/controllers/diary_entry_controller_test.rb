@@ -335,7 +335,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     # and when not logged in as the user who wrote the entry
     get :view,
         :params => { :display_name => entry.user.display_name, :id => entry.id },
-        :session => { :user => entry.user }
+        :session => { :user => create(:user) }
     assert_response :success
     assert_template "diary_entry/view"
     assert_select "title", :text => /Users' diaries | /, :count => 1
