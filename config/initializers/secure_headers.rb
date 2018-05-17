@@ -9,11 +9,13 @@ if defined?(CSP_REPORT_URL)
     :frame_ancestors => %w['self'],
     :frame_src => %w['self'],
     :img_src => %w['self' data: www.gravatar.com *.wp.com *.tile.openstreetmap.org *.tile.thunderforest.com *.openstreetmap.fr],
+    :manifest_src => %w['none'],
     :media_src => %w['none'],
     :object_src => %w['self'],
     :plugin_types => %w[],
     :script_src => %w['self'],
     :style_src => %w['self'],
+    :worker_src => %w['none'],
     :report_uri => [CSP_REPORT_URL]
   }
 
