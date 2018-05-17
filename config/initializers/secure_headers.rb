@@ -1,5 +1,6 @@
 if defined?(CSP_REPORT_URL)
   csp_policy = {
+    :preserve_schemes => true,
     :default_src => %w['self'],
     :child_src => %w['self'],
     :connect_src => %w['self'],
