@@ -13,6 +13,7 @@
 # Author: Markosu
 # Author: McSalama
 # Author: Mikahama
+# Author: Moiman
 # Author: MrTapsa
 # Author: Nedergard
 # Author: Nelg
@@ -172,8 +173,8 @@ fi:
       history_title: Viivan %{name} historia
       nodes: Pisteet
       also_part_of:
-        one: osa viivaa %{related_ways}
-        other: osa viivoja %{related_ways}
+        one: osana viivaa %{related_ways}
+        other: osana viivoja %{related_ways}
     relation:
       title: 'Relaatio: %{name}'
       history_title: Relaation %{name} historia
@@ -471,7 +472,7 @@ fi:
           retirement_home: Vanhainkoti
           sauna: Sauna
           school: Koulu
-          shelter: Väestönsuoja
+          shelter: Katos
           shop: Kauppa
           shower: Suihku
           social_centre: Sosiaalikeskus
@@ -1123,7 +1124,7 @@ fi:
       details: 'Lisätietoja muutoskokoelmasta: %{url}'
       unsubscribe: Peruaksesi tilauksen päivityksistä tähän muutoskokoelmaan, vieraile
         sivulla %{url} ja klikkaa "Unsubscribe".
-  message:
+  messages:
     inbox:
       title: Saapuneet
       my_inbox: Saapuneet
@@ -1144,7 +1145,7 @@ fi:
       unread_button: Merkitse lukemattomaksi
       read_button: Merkitse luetuksi
       reply_button: Vastaa
-      delete_button: Poista
+      destroy_button: Poista
     new:
       title: Lähetä viesti
       send_message_to: Lähetä viesti käyttäjälle %{name}
@@ -1177,26 +1178,26 @@ fi:
       wrong_user: Olet kirjautunut sisään tunnuksella `%{user}' mutta viestiä, johon
         tahdot vastata, ei ole lähetetty kyseiselle käyttäjälle. Ole hyvä ja kirjaudu
         sisään oikealla käyttäjätunnuksella vastataksesi.
-    read:
+    show:
       title: Lue viesti
       from: 'Lähettäjä:'
       subject: Otsikko
       date: Päiväys
       reply_button: Vastaa
       unread_button: Merkitse lukemattomaksi
-      delete_button: Poista
+      destroy_button: Poista
       back: Takaisin
       to: 'Vastaanottaja:'
       wrong_user: Olet kirjautunut sisään tunnuksella `%{user}' mutta viestiä, jonka
         tahdot lukea, ei ole lähetetty kyseiselle käyttäjälle. Ole hyvä ja kirjaudu
         sisään oikealla käyttäjätunnukselle lukeaksesi sen.
     sent_message_summary:
-      delete_button: Poista
+      destroy_button: Poista
     mark:
       as_read: Viesti on merkitty luetuksi.
       as_unread: Viesti on merkitty lukemattomaksi.
-    delete:
-      deleted: Viesti on poistettu.
+    destroy:
+      destroyed: Viesti on poistettu.
   site:
     about:
       next: Seuraava
@@ -1449,21 +1450,17 @@ fi:
         description: Etsi vastauksia tai esitä oma kysymyksesi OSM:n kysy- ja vastaa
           -sivustolla. Englanninkielinen.
       mailing_lists:
-        url: https://lists.openstreetmap.org/
         title: Postituslistat
         description: Esitä kysymyksiä tai keskustele laajalti kiinnostavista aiheista
           aiheita koskevilla tai alueellisilla sähköpostilistoilla.
       forums:
-        url: https://forum.openstreetmap.org/
         title: Keskustelupalsta
         description: Kysymykset ja keskustelut niille, jotka haluavat mielummin ilmoitustaulutyylisen
           käyttöliittymän.
       irc:
-        url: https://irc.openstreetmap.org/
         title: IRC
         description: Interaktiivinen chat monilla eri kielillä ja monista eri aiheista.
       switch2osm:
-        url: https://switch2osm.org/
         title: switch2osm (Vaihda OSM:iin)
         description: Auta yrityksiä ja organisaatioita vaihtamaan OpenStreetMapiin
           pohjautuviin karttoihin ja muihin palveluihin.
@@ -1623,7 +1620,7 @@ fi:
           Suomessa olevista virheistä suomeksi ja muualla olevista virheistä paikallisella
           kielellä tai englanniksi. Lopuksi tallenna ilmoitus, jolloin muut kartoittajat
           voivat korjata virheen.'
-  trace:
+  traces:
     visibility:
       private: Yksityinen (vain pisteet ilman nimeä ja aikaleimoja)
       public: Julkinen (näytetään jälkiluettelossa, mutta pisteet ilman nimeä ja aikaleimoja)
@@ -1651,8 +1648,10 @@ fi:
       tags_help: pilkuilla erotettu lista
       visibility: 'Näkyvyys:'
       visibility_help: mitä tämä tarkoittaa?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Fi:GPS-j%C3%A4lkien_julkisuus
       upload_button: Tallenna
       help: Ohje
+      help_url: https://wiki.openstreetmap.org/wiki/Fi:Upload
     edit:
       title: Muokataan jälkeä %{name}
       heading: Jäljen %{name} muokkaus
@@ -2499,6 +2498,9 @@ fi:
         end_oneway_without_exit: Yksisuuntaisen tien %{name} pää
         roundabout_with_exit: Liikenneympyrässä poistu %{exit}. liittymästä tielle
           %{name}
+        roundabout_with_exit_ordinal: Liikenneympyrässä poistu %{exit}. liittymästä
+          tielle %{name}
+        exit_roundabout: Poistu liikenneympyrästä tielle %{name}
         unnamed: nimetön tie
         courtesy: Reittiohjeet tarjoaa %{link}
         exit_counts:
