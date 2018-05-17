@@ -16,6 +16,7 @@ if defined?(CSP_REPORT_URL)
     :report_uri => [CSP_REPORT_URL]
   }
 
+  csp_policy[:connect_src] << PIWIK["location"] if defined?(PIWIK)
   csp_policy[:img_src] << PIWIK["location"] if defined?(PIWIK)
   csp_policy[:script_src] << PIWIK["location"] if defined?(PIWIK)
 else
