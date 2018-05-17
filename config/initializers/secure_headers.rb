@@ -12,10 +12,11 @@ if defined?(CSP_REPORT_URL)
     :object_src => %w['self'],
     :plugin_types => %w[],
     :script_src => %w['self'],
-    :style_src => %w['self' 'unsafe-inline'],
+    :style_src => %w['self'],
     :report_uri => [CSP_REPORT_URL]
   }
 
+  csp_policy[:connect_src] << PIWIK["location"] if defined?(PIWIK)
   csp_policy[:img_src] << PIWIK["location"] if defined?(PIWIK)
   csp_policy[:script_src] << PIWIK["location"] if defined?(PIWIK)
 else

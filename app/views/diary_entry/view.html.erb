@@ -12,25 +12,27 @@
 <div class='comments'>
 <%= render :partial => 'diary_comment', :collection => @entry.visible_comments %>
 </div>
-<%= if_logged_in(:div) do %>
-  <h3 id="newcomment"><%= t '.leave_a_comment' %></h3>
 
-  <%= error_messages_for 'diary_comment' %>
 
-  <%= form_for :diary_comment, :url => { :action => 'comment' } do |f| %>
-    <%= richtext_area :diary_comment, :body, :cols => 80, :rows => 15 %>
-    <%= submit_tag t('.save_button') %>
+<div>
+  <% if current_user %>
+    <h3 id="newcomment"><%= t '.leave_a_comment' %></h3>
+
+    <%= error_messages_for 'diary_comment' %>
+
+    <%= form_for :diary_comment, :url => { :action => 'comment' } do |f| %>
+      <%= richtext_area :diary_comment, :body, :cols => 80, :rows => 15 %>
+      <%= submit_tag t('.save_button') %>
+    <% end %>
+    <% if @entry.subscribers.exists?(current_user.id) %>
+      <div class="diary-subscribe-buttons"><%= link_to t('javascripts.changesets.show.unsubscribe'), diary_entry_unsubscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => :button %></div>
+    <% else %>
+      <div class="diary-subscribe-buttons"><%= link_to t('javascripts.changesets.show.subscribe'), diary_entry_subscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => :button %></div>
+    <% end %>
+  <% else %>
+    <h3 id="newcomment"><%= raw t(".login_to_leave_a_comment", :login_link => link_to(t(".login"), :controller => 'user', :action => 'login', :referer => request.fullpath)) %></h3>
   <% end %>
-  <% if current_user and @entry.subscribers.exists?(current_user.id) %>
-    <div class="diary-subscribe-buttons"><%= link_to t('javascripts.changesets.show.unsubscribe'), diary_entry_unsubscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => :button %></div>
-  <% elsif current_user %>
-    <div class="diary-subscribe-buttons"><%= link_to t('javascripts.changesets.show.subscribe'), diary_entry_subscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => :button %></div>
-  <% end %>
-<% end %>
-
-<%= if_not_logged_in(:div) do %>
-  <h3 id="newcomment"><%= raw t(".login_to_leave_a_comment", :login_link => link_to(t(".login"), :controller => 'user', :action => 'login', :referer => request.fullpath)) %></h3>
-<% end %>
+</div>
 
 <% content_for :auto_discovery_link_tag do -%>
 <%= auto_discovery_link_tag :rss, :action => :rss, :display_name => @entry.user.display_name %>

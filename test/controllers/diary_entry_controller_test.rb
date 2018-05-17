@@ -335,7 +335,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     # and when not logged in as the user who wrote the entry
     get :view,
         :params => { :display_name => entry.user.display_name, :id => entry.id },
-        :session => { :user => entry.user }
+        :session => { :user => create(:user) }
     assert_response :success
     assert_template "diary_entry/view"
     assert_select "title", :text => /Users' diaries | /, :count => 1
@@ -349,9 +349,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
       assert_select "p", :text => /#{new_body}/, :count => 1
       assert_select "abbr[class=geo][title='#{number_with_precision(new_latitude, :precision => 4)}; #{number_with_precision(new_longitude, :precision => 4)}']", :count => 1
       # As we're not logged in, check that you cannot edit
-      assert_select "li[class='hidden show_if_user_#{entry.user.id}']", :count => 1 do
-        assert_select "a[href='/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}/edit']", :text => "Edit this entry", :count => 1
-      end
+      assert_select "a[href='/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}/edit']", false
     end
   end
 

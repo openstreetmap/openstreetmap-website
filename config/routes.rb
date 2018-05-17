@@ -264,10 +264,10 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/inbox" => "messages#inbox", :as => "inbox"
   get "/user/:display_name/outbox" => "messages#outbox", :as => "outbox"
   match "/message/new/:display_name" => "messages#new", :via => [:get, :post], :as => "new_message"
-  get "/message/read/:message_id" => "messages#read", :as => "read_message"
+  get "/message/read/:message_id" => "messages#show", :as => "message"
   post "/message/mark/:message_id" => "messages#mark", :as => "mark_message"
   match "/message/reply/:message_id" => "messages#reply", :via => [:get, :post], :as => "reply_message"
-  post "/message/delete/:message_id" => "messages#delete", :as => "delete_message"
+  post "/message/delete/:message_id" => "messages#destroy", :as => "destroy_message"
 
   # oauth admin pages (i.e: for setting up new clients, etc...)
   scope "/user/:display_name" do

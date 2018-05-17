@@ -6,8 +6,8 @@ class MessagesController < ApplicationController
   before_action :require_user
   before_action :lookup_user, :only => [:new]
   before_action :check_database_readable
-  before_action :check_database_writable, :only => [:new, :reply, :mark]
-  before_action :allow_thirdparty_images, :only => [:new, :read]
+  before_action :check_database_writable, :only => [:new, :reply, :mark, :destroy]
+  before_action :allow_thirdparty_images, :only => [:new, :show]
 
   # Allow the user to write a new message to another user. This action also
   # deals with the sending of that message to the other user when the user
@@ -61,7 +61,7 @@ class MessagesController < ApplicationController
   end
 
   # Show a message
-  def read
+  def show
     @title = t ".title"
     @message = Message.find(params[:message_id])
 
@@ -115,13 +115,13 @@ class MessagesController < ApplicationController
     render :action => "no_such_message", :status => :not_found
   end
 
-  # Delete the message.
-  def delete
+  # Destroy the message.
+  def destroy
     @message = Message.where("to_user_id = ? OR from_user_id = ?", current_user.id, current_user.id).find(params[:message_id])
     @message.from_user_visible = false if @message.sender == current_user
     @message.to_user_visible = false if @message.recipient == current_user
     if @message.save && !request.xhr?
-      flash[:notice] = t ".deleted"
+      flash[:notice] = t ".destroyed"
 
       if params[:referer]
         redirect_to params[:referer]
