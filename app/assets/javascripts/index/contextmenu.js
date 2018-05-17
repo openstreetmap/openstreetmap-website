@@ -72,21 +72,23 @@ OSM.initializeContextMenu = function (map) {
     }
   });
 
-  map.contextmenu.addItem({
-    text: I18n.t("javascripts.context.set_home_location"),
-    callback: function setHomeLocation(e) {
-      var precision = OSM.zoomPrecision(map.getZoom()),
-          latlng = e.latlng.wrap(),
-          lat = latlng.lat.toFixed(precision),
-          lng = latlng.lng.toFixed(precision);
-      
-      $.post({url: "/set_home_loc?lat=" + lat + "&lon=" + lng, success: function(){
-        $('#homeanchor').data("lat", lat);
-        $('#homeanchor').data("lon", lng);
-        $('#homeanchor').click();
-      }});
-    }
-  });
+  if (OSM.user) {
+    map.contextmenu.addItem({
+      text: I18n.t("javascripts.context.set_home_location"),
+      callback: function setHomeLocation(e) {
+        var precision = OSM.zoomPrecision(map.getZoom()),
+            latlng = e.latlng.wrap(),
+            lat = latlng.lat.toFixed(precision),
+            lng = latlng.lng.toFixed(precision);
+        
+        $.post({url: "/set_home_loc?lat=" + lat + "&lon=" + lng, success: function(){
+          $('#homeanchor').data("lat", lat);
+          $('#homeanchor').data("lon", lng);
+          $('#homeanchor').click();
+        }});
+      }
+    });
+  }
 
   map.on("mousedown", function (e) {
     if (e.originalEvent.shiftKey) map.contextmenu.disable();
