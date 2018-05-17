@@ -33,7 +33,7 @@ function GraphHopperEngine(id, vehicleType) {
           point: points.map(function (p) { return p.lat + "," + p.lng; })
         },
         traditional: true,
-        dataType: "jsonp",
+        dataType: "json",
         success: function (data) {
           if (!data.paths || data.paths.length === 0)
             return callback(true);
