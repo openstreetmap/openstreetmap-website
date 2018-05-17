@@ -5,7 +5,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_invalid_with_empty_attributes
     user = User.new
-    assert !user.valid?
+    assert_not user.valid?
     assert user.errors[:email].any?
     assert user.errors[:pass_crypt].any?
     assert user.errors[:display_name].any?
@@ -25,7 +25,7 @@ class UserTest < ActiveSupport::TestCase
       :data_public => 1,
       :description => "desc"
     )
-    assert !new_user.save
+    assert_not new_user.save
     assert new_user.errors[:email].include?("has already been taken")
   end
 
@@ -39,7 +39,7 @@ class UserTest < ActiveSupport::TestCase
       :data_public => 1,
       :description => "desc"
     )
-    assert !new_user.save
+    assert_not new_user.save
     assert new_user.errors[:display_name].include?("has already been taken")
   end
 
@@ -69,12 +69,12 @@ class UserTest < ActiveSupport::TestCase
     user.display_name = "12"
     assert !user.valid?, "should not allow 2 char name"
     user.display_name = ""
-    assert !user.valid?
+    assert_not user.valid?
     user.display_name = nil
     # Don't understand why it isn't allowing a nil value,
     # when the validates statements specifically allow it
     # It appears the database does not allow null values
-    assert !user.valid?
+    assert_not user.valid?
   end
 
   def test_display_name_valid
@@ -110,11 +110,11 @@ class UserTest < ActiveSupport::TestCase
     create(:friend, :befriender => alice, :befriendee => bob)
 
     assert alice.is_friends_with?(bob)
-    assert !alice.is_friends_with?(charlie)
-    assert !bob.is_friends_with?(alice)
-    assert !bob.is_friends_with?(charlie)
-    assert !charlie.is_friends_with?(bob)
-    assert !charlie.is_friends_with?(alice)
+    assert_not alice.is_friends_with?(charlie)
+    assert_not bob.is_friends_with?(alice)
+    assert_not bob.is_friends_with?(charlie)
+    assert_not charlie.is_friends_with?(bob)
+    assert_not charlie.is_friends_with?(alice)
   end
 
   def test_users_nearby

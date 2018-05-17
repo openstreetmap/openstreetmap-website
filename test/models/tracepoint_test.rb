@@ -5,7 +5,7 @@ class TracepointTest < ActiveSupport::TestCase
     tracepoint = create(:tracepoint)
     assert tracepoint.valid?
     tracepoint.timestamp = nil
-    assert !tracepoint.valid?
+    assert_not tracepoint.valid?
   end
 
   # Ensure the lat/lon is formatted as a decimal e.g. not 4.0e-05
