@@ -120,7 +120,8 @@ class SiteController < ApplicationController
     append_content_security_policy_directives(
       :connect_src => %w[*],
       :img_src => %w[* blob:],
-      :script_src => %w[dev.virtualearth.net *.wikipedia.org www.wikidata.org 'unsafe-eval']
+      :script_src => %w[dev.virtualearth.net *.wikipedia.org www.wikidata.org 'unsafe-eval'],
+      :style_src => %w['unsafe-inline']
     )
 
     render "id", :layout => false
