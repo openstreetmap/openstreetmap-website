@@ -567,7 +567,7 @@ class UserControllerTest < ActionController::TestCase
     stub_gravatar_request(user.new_email, 200)
     confirm_string = user.tokens.create.token
     # precondition gravatar should be turned off
-    assert !user.image_use_gravatar
+    assert_not user.image_use_gravatar
     post :confirm_email, :params => { :confirm_string => confirm_string }
     assert_response :redirect
     assert_redirected_to :action => :account, :display_name => user.display_name
@@ -588,7 +588,7 @@ class UserControllerTest < ActionController::TestCase
     assert_redirected_to :action => :account, :display_name => user.display_name
     assert_match /Confirmed your change of email address/, flash[:notice]
     # gravatar use should now be disabled
-    assert !User.find(user.id).image_use_gravatar
+    assert_not User.find(user.id).image_use_gravatar
   end
 
   def test_terms_new_user

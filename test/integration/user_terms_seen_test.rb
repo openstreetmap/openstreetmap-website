@@ -44,7 +44,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
 
       # should be carried through to a normal login with a message
       assert_response :success
-      assert !flash[:notice].nil?
+      assert_not flash[:notice].nil?
     end
   end
 

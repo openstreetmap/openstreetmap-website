@@ -20,7 +20,7 @@ class OldNodeTagTest < ActiveSupport::TestCase
   def test_length_key_invalid
     tag = create(:old_node_tag)
     tag.k = "k" * 256
-    assert !tag.valid?
+    assert_not tag.valid?
     assert tag.errors[:k].any?
   end
 
@@ -45,7 +45,7 @@ class OldNodeTagTest < ActiveSupport::TestCase
     tag.k = existing.k
     tag.v = existing.v
     assert tag.new_record?
-    assert !tag.valid?
+    assert_not tag.valid?
     assert_raise(ActiveRecord::RecordInvalid) { tag.save! }
     assert tag.new_record?
   end

@@ -1,5 +1,6 @@
 if defined?(CSP_REPORT_URL)
   csp_policy = {
+    :preserve_schemes => true,
     :default_src => %w['self'],
     :child_src => %w['self'],
     :connect_src => %w['self'],
@@ -8,14 +9,17 @@ if defined?(CSP_REPORT_URL)
     :frame_ancestors => %w['self'],
     :frame_src => %w['self'],
     :img_src => %w['self' data: www.gravatar.com *.wp.com *.tile.openstreetmap.org *.tile.thunderforest.com *.openstreetmap.fr],
+    :manifest_src => %w['none'],
     :media_src => %w['none'],
     :object_src => %w['self'],
     :plugin_types => %w[],
     :script_src => %w['self'],
-    :style_src => %w['self' 'unsafe-inline'],
+    :style_src => %w['self'],
+    :worker_src => %w['none'],
     :report_uri => [CSP_REPORT_URL]
   }
 
+  csp_policy[:connect_src] << PIWIK["location"] if defined?(PIWIK)
   csp_policy[:img_src] << PIWIK["location"] if defined?(PIWIK)
   csp_policy[:script_src] << PIWIK["location"] if defined?(PIWIK)
 else
