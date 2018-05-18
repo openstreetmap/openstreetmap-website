@@ -82,9 +82,9 @@ OSM.initializeContextMenu = function (map) {
             lng = latlng.lng.toFixed(precision);
         
         $.post({url: "/set_home_loc?lat=" + lat + "&lon=" + lng, success: function(){
+          OSM.setHomeMarker(map, L.latLng(lat, lng));
           $('#homeanchor').data("lat", lat);
           $('#homeanchor').data("lon", lng);
-          $('#homeanchor').click();
         }});
       }
     });
