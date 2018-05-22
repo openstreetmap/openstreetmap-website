@@ -29,7 +29,11 @@ This will take a few minutes to download required software from the internet and
 vagrant ssh
 ```
 
-Within this login shell, you can do development, run the server or the tests. For example, to run the tests:
+Within this login shell, you can do development, run the server or the tests.
+
+You can now setup the application and database, see [INSTALL.md](https://github.com/openstreetmap/openstreetmap-website/blob/master/INSTALL.md#application-setup)
+
+To run the tests:
 
 ```
 cd /srv/openstreetmap-website/
