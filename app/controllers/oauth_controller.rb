@@ -38,7 +38,7 @@ class OauthController < ApplicationController
   protected
 
   def oauth1_authorize
-    append_content_security_policy_directives(:form_action => %w[*])
+    override_content_security_policy_directives(:form_action => false)
 
     if @token.invalidated?
       @message = t "oauth.authorize_failure.invalid"
