@@ -12,7 +12,7 @@
   <p><%= t '.allow_to' %></p>
   <ul>
   <% @token.client_application.permissions.each do |perm| %>
-    <li><%= check_box_tag perm.to_s, "yes", @token.read_attribute(perm) %><%= t ".#{perm}" %></li>
+    <li><%= check_box_tag perm.to_s, "yes", @token.read_attribute(perm) %><%= label_tag perm.to_s, t(".#{perm}") %></li>
   <% end %>
   </ul>
   <p><%= submit_tag t(".grant_access") %></p>
