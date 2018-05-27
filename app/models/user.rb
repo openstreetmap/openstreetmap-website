@@ -112,6 +112,7 @@ class User < ActiveRecord::Base
   before_save :encrypt_password
   before_save :update_tile
   after_save :spam_check
+  after_save :reset_preferred_languages
 
   def to_param
     display_name
@@ -190,6 +191,10 @@ class User < ActiveRecord::Base
 
   def preferred_languages
     @preferred_languages ||= Locale.list(languages)
+  end
+
+  def reset_preferred_languages
+    @preferred_languages = nil
   end
 
   def nearby(radius = NEARBY_RADIUS, num = NEARBY_USERS)
