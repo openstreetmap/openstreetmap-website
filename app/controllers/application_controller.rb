@@ -308,13 +308,13 @@ class ApplicationController < ActionController::Base
 
   helper_method :preferred_languages
 
-  def set_locale
+  def set_locale(reset = false)
     if current_user && current_user.languages.empty? && !http_accept_language.user_preferred_languages.empty?
       current_user.languages = http_accept_language.user_preferred_languages
       current_user.save
     end
 
-    I18n.locale = Locale.available.preferred(preferred_languages(true))
+    I18n.locale = Locale.available.preferred(preferred_languages(reset))
 
     response.headers["Vary"] = "Accept-Language"
     response.headers["Content-Language"] = I18n.locale.to_s

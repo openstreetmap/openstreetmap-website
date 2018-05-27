@@ -712,7 +712,7 @@ class UserController < ApplicationController
     end
 
     if user.save
-      set_locale
+      set_locale(true)
 
       if user.new_email.blank? || user.new_email == user.email
         flash.now[:notice] = t "user.account.flash update success"
