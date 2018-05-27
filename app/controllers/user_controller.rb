@@ -126,6 +126,7 @@ class UserController < ApplicationController
          (params[:user][:auth_provider] == current_user.auth_provider &&
           params[:user][:auth_uid] == current_user.auth_uid)
         update_user(current_user, params)
+        @title = t "user.account.title"
       else
         session[:new_user_settings] = params
         redirect_to auth_url(params[:user][:auth_provider], params[:user][:auth_uid])
@@ -712,6 +713,7 @@ class UserController < ApplicationController
     end
 
     if user.save
+      @preferred_languages = current_user.preferred_languages
       set_locale
 
       if user.new_email.blank? || user.new_email == user.email
