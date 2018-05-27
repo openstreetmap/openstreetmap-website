@@ -118,7 +118,6 @@ class UserController < ApplicationController
   end
 
   def account
-    @title = t "user.account.title"
     @tokens = current_user.oauth_tokens.authorized
 
     if params[:user] && params[:user][:display_name] && params[:user][:description]
@@ -135,6 +134,7 @@ class UserController < ApplicationController
         current_user.errors.add(attribute, error)
       end
     end
+    @title = t "user.account.title"
   end
 
   def go_public
@@ -712,7 +712,7 @@ class UserController < ApplicationController
     end
 
     if user.save
-      set_locale
+      set_locale(true)
 
       if user.new_email.blank? || user.new_email == user.email
         flash.now[:notice] = t "user.account.flash update success"
