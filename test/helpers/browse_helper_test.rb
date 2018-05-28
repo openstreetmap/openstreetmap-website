@@ -127,13 +127,13 @@ class BrowseHelperTest < ActionView::TestCase
     assert_dom_equal "<a title=\"The Test article on Wikipedia\" href=\"https://en.wikipedia.org/wiki/Test?uselang=en\">Test</a>", html
 
     html = format_value("wikidata", "Q42")
-    assert_dom_equal "<a title=\"The Q42 item on Wikidata\" href=\"//www.wikidata.org/wiki/Q42?uselang=en\">Q42</a>", html
+    assert_dom_equal "<a title=\"The Q42 item on Wikidata\" href=\"//www.wikidata.org/entity/Q42?uselang=en\">Q42</a>", html
 
     html = format_value("operator:wikidata", "Q12;Q98")
-    assert_dom_equal "<a title=\"The Q12 item on Wikidata\" href=\"//www.wikidata.org/wiki/Q12?uselang=en\">Q12</a>;<a title=\"The Q98 item on Wikidata\" href=\"//www.wikidata.org/wiki/Q98?uselang=en\">Q98</a>", html
+    assert_dom_equal "<a title=\"The Q12 item on Wikidata\" href=\"//www.wikidata.org/entity/Q12?uselang=en\">Q12</a>;<a title=\"The Q98 item on Wikidata\" href=\"//www.wikidata.org/entity/Q98?uselang=en\">Q98</a>", html
 
     html = format_value("name:etymology:wikidata", "Q123")
-    assert_dom_equal "<a title=\"The Q123 item on Wikidata\" href=\"//www.wikidata.org/wiki/Q123?uselang=en\">Q123</a>", html
+    assert_dom_equal "<a title=\"The Q123 item on Wikidata\" href=\"//www.wikidata.org/entity/Q123?uselang=en\">Q123</a>", html
   end
 
   def test_icon_tags
@@ -198,7 +198,7 @@ class BrowseHelperTest < ActionView::TestCase
     assert_nil links
 
     # No URLs allowed
-    links = wikidata_links("wikidata", "http://www.wikidata.org/wiki/Q1")
+    links = wikidata_links("wikidata", "http://www.wikidata.org/entity/Q1")
     assert_nil links
 
     # No language-prefixes (as wikidata is multilanguage)
@@ -216,14 +216,14 @@ class BrowseHelperTest < ActionView::TestCase
     # A valid value
     links = wikidata_links("wikidata", "Q42")
     assert_equal 1, links.length
-    assert_equal "//www.wikidata.org/wiki/Q42?uselang=en", links[0][:url]
+    assert_equal "//www.wikidata.org/entity/Q42?uselang=en", links[0][:url]
     assert_equal "Q42", links[0][:title]
 
     # the language of the wikidata-page should match the current locale
     I18n.locale = "zh-CN"
     links = wikidata_links("wikidata", "Q1234")
     assert_equal 1, links.length
-    assert_equal "//www.wikidata.org/wiki/Q1234?uselang=zh-CN", links[0][:url]
+    assert_equal "//www.wikidata.org/entity/Q1234?uselang=zh-CN", links[0][:url]
     assert_equal "Q1234", links[0][:title]
     I18n.locale = "en"
 
@@ -235,31 +235,31 @@ class BrowseHelperTest < ActionView::TestCase
 
     # This for example is an allowed key
     links = wikidata_links("operator:wikidata", "Q24")
-    assert_equal "//www.wikidata.org/wiki/Q24?uselang=en", links[0][:url]
+    assert_equal "//www.wikidata.org/entity/Q24?uselang=en", links[0][:url]
     assert_equal "Q24", links[0][:title]
 
     # Another allowed key, this time with multiple values and I18n
     I18n.locale = "dsb"
     links = wikidata_links("brand:wikidata", "Q936;Q2013;Q1568346")
     assert_equal 3, links.length
-    assert_equal "//www.wikidata.org/wiki/Q936?uselang=dsb", links[0][:url]
+    assert_equal "//www.wikidata.org/entity/Q936?uselang=dsb", links[0][:url]
     assert_equal "Q936", links[0][:title]
-    assert_equal "//www.wikidata.org/wiki/Q2013?uselang=dsb", links[1][:url]
+    assert_equal "//www.wikidata.org/entity/Q2013?uselang=dsb", links[1][:url]
     assert_equal "Q2013", links[1][:title]
-    assert_equal "//www.wikidata.org/wiki/Q1568346?uselang=dsb", links[2][:url]
+    assert_equal "//www.wikidata.org/entity/Q1568346?uselang=dsb", links[2][:url]
     assert_equal "Q1568346", links[2][:title]
     I18n.locale = "en"
 
     # and now with whitespaces...
     links = wikidata_links("subject:wikidata", "Q6542248 ;\tQ180\n ;\rQ364\t\n\r ;\nQ4006")
     assert_equal 4, links.length
-    assert_equal "//www.wikidata.org/wiki/Q6542248?uselang=en", links[0][:url]
+    assert_equal "//www.wikidata.org/entity/Q6542248?uselang=en", links[0][:url]
     assert_equal "Q6542248 ", links[0][:title]
-    assert_equal "//www.wikidata.org/wiki/Q180?uselang=en", links[1][:url]
+    assert_equal "//www.wikidata.org/entity/Q180?uselang=en", links[1][:url]
     assert_equal "\tQ180\n ", links[1][:title]
-    assert_equal "//www.wikidata.org/wiki/Q364?uselang=en", links[2][:url]
+    assert_equal "//www.wikidata.org/entity/Q364?uselang=en", links[2][:url]
     assert_equal "\rQ364\t\n\r ", links[2][:title]
-    assert_equal "//www.wikidata.org/wiki/Q4006?uselang=en", links[3][:url]
+    assert_equal "//www.wikidata.org/entity/Q4006?uselang=en", links[3][:url]
     assert_equal "\nQ4006", links[3][:title]
   end
 
