@@ -12,7 +12,7 @@ Rails.application.config.assets.paths << Rails.root.join("config")
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 Rails.application.config.assets.precompile += %w[index.js browse.js welcome.js fixthemap.js]
-Rails.application.config.assets.precompile += %w[user.js login.js diary_entry.js edit/*.js]
+Rails.application.config.assets.precompile += %w[user.js login.js diary_entry.js messages.js edit/*.js]
 Rails.application.config.assets.precompile += %w[screen-ltr.css print-ltr.css]
 Rails.application.config.assets.precompile += %w[screen-rtl.css print-rtl.css]
 Rails.application.config.assets.precompile += %w[leaflet-all.css leaflet.ie.css]
