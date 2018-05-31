@@ -3,6 +3,11 @@ require "capybara/poltergeist"
 
 WebMock.disable_net_connect!(:allow_localhost => true)
 
+# Work around weird debian/ubuntu phantomjs
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=817277
+# https://github.com/ariya/phantomjs/issues/14376
+ENV["QT_QPA_PLATFORM"] = "offscreen"
+
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   ActionDispatch::SystemTesting::Server.silence_puma = true
 
