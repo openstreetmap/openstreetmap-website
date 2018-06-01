@@ -4,7 +4,7 @@
 Vagrant.configure("2") do |config|
   # use official ubuntu image for virtualbox
   config.vm.provider "virtualbox" do |vb, override|
-    override.vm.box = "generic/ubuntu1604"
+    override.vm.box = "ubuntu/xenial64"
     override.vm.synced_folder ".", "/srv/openstreetmap-website"
     vb.customize ["modifyvm", :id, "--memory", "1024"]
     vb.customize ["modifyvm", :id, "--cpus", "2"]
