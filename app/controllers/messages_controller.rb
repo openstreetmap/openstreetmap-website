@@ -56,7 +56,7 @@ class MessagesController < ApplicationController
       redirect_to :controller => "user", :action => "login", :referer => request.fullpath
     end
   rescue ActiveRecord::RecordNotFound
-    @title = t "message.no_such_message.title"
+    @title = t "messages.no_such_message.title"
     render :action => "no_such_message", :status => :not_found
   end
 
@@ -73,7 +73,7 @@ class MessagesController < ApplicationController
       redirect_to :controller => "user", :action => "login", :referer => request.fullpath
     end
   rescue ActiveRecord::RecordNotFound
-    @title = t "message.no_such_message.title"
+    @title = t "messages.no_such_message.title"
     render :action => "no_such_message", :status => :not_found
   end
 
@@ -103,7 +103,7 @@ class MessagesController < ApplicationController
       redirect_to :action => :inbox
     end
   rescue ActiveRecord::RecordNotFound
-    @title = t "message.no_such_message.title"
+    @title = t "messages.no_such_message.title"
     render :action => "no_such_message", :status => :not_found
   end
 
@@ -122,7 +122,7 @@ class MessagesController < ApplicationController
       end
     end
   rescue ActiveRecord::RecordNotFound
-    @title = t "message.no_such_message.title"
+    @title = t "messages.no_such_message.title"
     render :action => "no_such_message", :status => :not_found
   end
 
