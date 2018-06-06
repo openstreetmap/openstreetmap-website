@@ -557,7 +557,7 @@ CHANGESET
   end
 
   def test_repeated_changeset_create
-    30.times do
+    3.times do
       basic_authorization create(:user).email, "test"
 
       # create a temporary changeset
