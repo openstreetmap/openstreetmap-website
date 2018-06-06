@@ -135,11 +135,11 @@ class TracesControllerTest < ActionController::TestCase
     )
 
     assert_routing(
-      { :path => "/trace/create", :method => :get },
-      { :controller => "traces", :action => "create" }
+      { :path => "/traces/new", :method => :get },
+      { :controller => "traces", :action => "new" }
     )
     assert_routing(
-      { :path => "/trace/create", :method => :post },
+      { :path => "/traces", :method => :post },
       { :controller => "traces", :action => "create" }
     )
     assert_routing(
@@ -508,34 +508,34 @@ class TracesControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
-  # Test fetching the create page
-  def test_create_get
+  # Test fetching the new trace page
+  def test_new_get
     # First with no auth
-    get :create
+    get :new
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => trace_create_path
+    assert_redirected_to :controller => :user, :action => :login, :referer => new_trace_path
 
     # Now authenticated as a user with gps.trace.visibility set
     user = create(:user)
     create(:user_preference, :user => user, :k => "gps.trace.visibility", :v => "identifiable")
-    get :create, :session => { :user => user }
+    get :new, :session => { :user => user }
     assert_response :success
-    assert_template :create
+    assert_template :new
     assert_select "select#trace_visibility option[value=identifiable][selected]", 1
 
     # Now authenticated as a user with gps.trace.public set
     second_user = create(:user)
     create(:user_preference, :user => second_user, :k => "gps.trace.public", :v => "default")
-    get :create, :session => { :user => second_user }
+    get :new, :session => { :user => second_user }
     assert_response :success
-    assert_template :create
+    assert_template :new
     assert_select "select#trace_visibility option[value=public][selected]", 1
 
     # Now authenticated as a user with no preferences
     third_user = create(:user)
-    get :create, :session => { :user => third_user }
+    get :new, :session => { :user => third_user }
     assert_response :success
-    assert_template :create
+    assert_template :new
     assert_select "select#trace_visibility option[value=private][selected]", 1
   end
 

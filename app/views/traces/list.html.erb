@@ -3,7 +3,7 @@
   <ul class='secondary-actions clearfix'>
     <li><%= t('.description') %></li>
     <li><%= rss_link_to :action => 'georss', :display_name => @display_name, :tag => @tag %></li>
-    <li><%= link_to t('.upload_trace'), :action => 'create' %></li>
+    <li><%= link_to t('.upload_trace'), new_trace_path %></li>
     <% if @tag %>
       <li><%= link_to t('.see_all_traces'), :controller => 'traces', :action => 'list', :display_name => nil, :tag => nil, :page => nil %></li>
       <li><%= link_to t('.see_my_traces'), :action => 'mine', :tag => nil, :page => nil %></li>
@@ -39,7 +39,7 @@
 
   <%= render :partial => 'trace_paging_nav' %>
 <% else %>
-  <h4><%= t '.empty_html', :upload_link => trace_create_path %></h4>
+  <h4><%= t '.empty_html', :upload_link => new_trace_path %></h4>
 <% end %>
 
 <%= render :partial => 'trace_optionals' %>
