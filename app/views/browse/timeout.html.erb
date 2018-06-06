@@ -1,12 +1,4 @@
-<%
-  browse_timeout_type = {
-    'node' => I18n.t('.type.node'),
-    'way' => I18n.t('.type.way'),
-    'relation' => I18n.t('.type.relation'),
-    'changeset' => I18n.t('.type.changeset'),
-  };
-%>
 <div class="browse-section">
   <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-  <%= t '.sorry', :type=> browse_timeout_type[@type] , :id => params[:id] %>
+  <%= t '.sorry', :type => t(".type.#{@type}"), :id => params[:id] %>
 </div>
