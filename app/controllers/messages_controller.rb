@@ -63,7 +63,7 @@ class MessagesController < ApplicationController
   # Show a message
   def show
     @title = t ".title"
-    @message = Message.find(params[:message_id])
+    @message = Message.find(params[:id])
 
     if @message.recipient == current_user || @message.sender == current_user
       @message.message_read = true if @message.recipient == current_user

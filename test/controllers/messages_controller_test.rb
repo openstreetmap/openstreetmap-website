@@ -21,8 +21,8 @@ class MessagesControllerTest < ActionController::TestCase
       { :controller => "messages", :action => "new", :display_name => "username" }
     )
     assert_routing(
-      { :path => "/message/read/1", :method => :get },
-      { :controller => "messages", :action => "show", :message_id => "1" }
+      { :path => "/messages/1", :method => :get },
+      { :controller => "messages", :action => "show", :id => "1" }
     )
     assert_routing(
       { :path => "/message/mark/1", :method => :post },
@@ -178,7 +178,7 @@ class MessagesControllerTest < ActionController::TestCase
     assert_equal "[OpenStreetMap] Test Message", e.subject
     assert_match /Test message body/, e.text_part.decoded
     assert_match /Test message body/, e.html_part.decoded
-    assert_match %r{#{SERVER_URL}/message/read/}, e.text_part.decoded
+    assert_match %r{#{SERVER_URL}/messages/[0-9]+}, e.text_part.decoded
     ActionMailer::Base.deliveries.clear
     m = Message.last
     assert_equal user.id, m.from_user_id
@@ -273,22 +273,22 @@ class MessagesControllerTest < ActionController::TestCase
     unread_message = create(:message, :unread, :sender => user, :recipient => recipient_user)
 
     # Check that the show message page requires us to login
-    get :show, :params => { :message_id => unread_message.id }
-    assert_redirected_to login_path(:referer => message_path(:message_id => unread_message.id))
+    get :show, :params => { :id => unread_message.id }
+    assert_redirected_to login_path(:referer => message_path(:id => unread_message.id))
 
     # Login as the wrong user
     session[:user] = other_user.id
 
     # Check that we can't read the message
-    get :show, :params => { :message_id => unread_message.id }
-    assert_redirected_to login_path(:referer => message_path(:message_id => unread_message.id))
+    get :show, :params => { :id => unread_message.id }
+    assert_redirected_to login_path(:referer => message_path(:id => unread_message.id))
     assert_equal "You are logged in as `#{other_user.display_name}' but the message you have asked to read was not sent by or to that user. Please login as the correct user in order to read it.", flash[:notice]
 
     # Login as the message sender
     session[:user] = user.id
 
     # Check that the message sender can read the message
-    get :show, :params => { :message_id => unread_message.id }
+    get :show, :params => { :id => unread_message.id }
     assert_response :success
     assert_template "show"
     assert_equal false, Message.find(unread_message.id).message_read
@@ -297,7 +297,7 @@ class MessagesControllerTest < ActionController::TestCase
     session[:user] = recipient_user.id
 
     # Check that the message recipient can read the message
-    get :show, :params => { :message_id => unread_message.id }
+    get :show, :params => { :id => unread_message.id }
     assert_response :success
     assert_template "show"
     assert_equal true, Message.find(unread_message.id).message_read
@@ -308,7 +308,7 @@ class MessagesControllerTest < ActionController::TestCase
     end
 
     # Asking to read a message with a bogus ID should fail
-    get :show, :params => { :message_id => 99999 }
+    get :show, :params => { :id => 99999 }
     assert_response :not_found
     assert_template "no_such_message"
   end
