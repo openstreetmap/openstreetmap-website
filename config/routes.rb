@@ -207,7 +207,9 @@ OpenStreetMap::Application.routes.draw do
   get "/traces/mine/tag/:tag" => "traces#mine"
   get "/traces/mine/page/:page" => "traces#mine"
   get "/traces/mine" => "traces#mine"
-  match "/trace/create" => "traces#create", :via => [:get, :post]
+  resources :traces, :only => [:new, :create]
+  post "/trace/create" => "traces#create" # remove after deployment
+  get "/trace/create", :to => redirect(:path => "/traces/new")
   get "/trace/:id/data" => "traces#data", :id => /\d+/, :as => "trace_data"
   match "/trace/:id/edit" => "traces#edit", :via => [:get, :post], :id => /\d+/, :as => "trace_edit"
   post "/trace/:id/delete" => "traces#delete", :id => /\d+/

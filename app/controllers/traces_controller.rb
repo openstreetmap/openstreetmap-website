@@ -4,16 +4,16 @@ class TracesController < ApplicationController
   skip_before_action :verify_authenticity_token, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
   before_action :authorize_web
   before_action :set_locale
-  before_action :require_user, :only => [:mine, :create, :edit, :delete]
+  before_action :require_user, :only => [:mine, :new, :create, :edit, :delete]
   before_action :authorize, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
   before_action :check_database_readable, :except => [:api_read, :api_data]
-  before_action :check_database_writable, :only => [:create, :edit, :delete, :api_create, :api_update, :api_delete]
+  before_action :check_database_writable, :only => [:new, :create, :edit, :delete, :api_create, :api_update, :api_delete]
   before_action :check_api_readable, :only => [:api_read, :api_data]
   before_action :check_api_writable, :only => [:api_create, :api_update, :api_delete]
   before_action :require_allow_read_gpx, :only => [:api_read, :api_data]
   before_action :require_allow_write_gpx, :only => [:api_create, :api_update, :api_delete]
   before_action :offline_warning, :only => [:mine, :view]
-  before_action :offline_redirect, :only => [:create, :edit, :delete, :data, :api_create, :api_delete, :api_data]
+  before_action :offline_redirect, :only => [:new, :create, :edit, :delete, :data, :api_create, :api_delete, :api_data]
   around_action :api_call_handle_error, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
 
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
@@ -104,39 +104,40 @@ class TracesController < ApplicationController
     redirect_to :action => "list"
   end
 
+  def new
+    @title = t ".upload_trace"
+    @trace = Trace.new(:visibility => default_visibility)
+  end
+
   def create
-    if request.post?
-      logger.info(params[:trace][:gpx_file].class.name)
+    logger.info(params[:trace][:gpx_file].class.name)
 
-      if params[:trace][:gpx_file].respond_to?(:read)
-        begin
-          do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
-                    params[:trace][:description], params[:trace][:visibility])
-        rescue StandardError => ex
-          logger.debug ex
-        end
+    if params[:trace][:gpx_file].respond_to?(:read)
+      begin
+        do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
+                  params[:trace][:description], params[:trace][:visibility])
+      rescue StandardError => ex
+        logger.debug ex
+      end
 
-        if @trace.id
-          flash[:notice] = t ".trace_uploaded"
-          flash[:warning] = t ".traces_waiting", :count => current_user.traces.where(:inserted => false).count if current_user.traces.where(:inserted => false).count > 4
+      if @trace.id
+        flash[:notice] = t ".trace_uploaded"
+        flash[:warning] = t ".traces_waiting", :count => current_user.traces.where(:inserted => false).count if current_user.traces.where(:inserted => false).count > 4
 
-          redirect_to :action => :list, :display_name => current_user.display_name
-        end
-      else
-        @trace = Trace.new(:name => "Dummy",
-                           :tagstring => params[:trace][:tagstring],
-                           :description => params[:trace][:description],
-                           :visibility => params[:trace][:visibility],
-                           :inserted => false, :user => current_user,
-                           :timestamp => Time.now.getutc)
-        @trace.valid?
-        @trace.errors.add(:gpx_file, "can't be blank")
+        redirect_to :action => :list, :display_name => current_user.display_name
       end
     else
-      @trace = Trace.new(:visibility => default_visibility)
+      @trace = Trace.new(:name => "Dummy",
+                         :tagstring => params[:trace][:tagstring],
+                         :description => params[:trace][:description],
+                         :visibility => params[:trace][:visibility],
+                         :inserted => false, :user => current_user,
+                         :timestamp => Time.now.getutc)
+      @trace.valid?
+      @trace.errors.add(:gpx_file, "can't be blank")
+      @title = t ".upload_trace"
+      render :action => "new"
     end
-
-    @title = t ".upload_trace"
   end
 
   def data
