@@ -26,7 +26,7 @@ class MessagesController < ApplicationController
         if @message.save
           flash[:notice] = t ".message_sent"
           Notifier.message_notification(@message).deliver_now
-          redirect_to :action => "inbox", :display_name => current_user.display_name
+          redirect_to :action => :inbox
         end
       end
     end
@@ -56,14 +56,14 @@ class MessagesController < ApplicationController
       redirect_to :controller => "user", :action => "login", :referer => request.fullpath
     end
   rescue ActiveRecord::RecordNotFound
-    @title = t "message.no_such_message.title"
+    @title = t "messages.no_such_message.title"
     render :action => "no_such_message", :status => :not_found
   end
 
   # Show a message
   def show
     @title = t ".title"
-    @message = Message.find(params[:message_id])
+    @message = Message.find(params[:id])
 
     if @message.recipient == current_user || @message.sender == current_user
       @message.message_read = true if @message.recipient == current_user
@@ -73,26 +73,18 @@ class MessagesController < ApplicationController
       redirect_to :controller => "user", :action => "login", :referer => request.fullpath
     end
   rescue ActiveRecord::RecordNotFound
-    @title = t "message.no_such_message.title"
+    @title = t "messages.no_such_message.title"
     render :action => "no_such_message", :status => :not_found
   end
 
   # Display the list of messages that have been sent to the user.
   def inbox
     @title = t ".title"
-    if current_user && params[:display_name] == current_user.display_name
-    else
-      redirect_to :action => "inbox", :display_name => current_user.display_name
-    end
   end
 
   # Display the list of messages that the user has sent to other users.
   def outbox
     @title = t ".title"
-    if current_user && params[:display_name] == current_user.display_name
-    else
-      redirect_to :action => "outbox", :display_name => current_user.display_name
-    end
   end
 
   # Set the message as being read or unread.
@@ -108,10 +100,10 @@ class MessagesController < ApplicationController
     @message.message_read = message_read
     if @message.save && !request.xhr?
       flash[:notice] = notice
-      redirect_to :action => "inbox", :display_name => current_user.display_name
+      redirect_to :action => :inbox
     end
   rescue ActiveRecord::RecordNotFound
-    @title = t "message.no_such_message.title"
+    @title = t "messages.no_such_message.title"
     render :action => "no_such_message", :status => :not_found
   end
 
@@ -126,11 +118,11 @@ class MessagesController < ApplicationController
       if params[:referer]
         redirect_to params[:referer]
       else
-        redirect_to :action => "inbox", :display_name => current_user.display_name
+        redirect_to :action => :inbox
       end
     end
   rescue ActiveRecord::RecordNotFound
-    @title = t "message.no_such_message.title"
+    @title = t "messages.no_such_message.title"
     render :action => "no_such_message", :status => :not_found
   end
 
