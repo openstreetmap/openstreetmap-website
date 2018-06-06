@@ -55,7 +55,7 @@ class OldNodeControllerTest < ActionController::TestCase
     versions[xml_node["version"]] = xml_doc.to_s
 
     # randomly move the node about
-    20.times do
+    3.times do
       # move the node somewhere else
       xml_node["lat"] = precision(rand * 180 - 90).to_s
       xml_node["lon"] = precision(rand * 360 - 180).to_s
@@ -70,7 +70,7 @@ class OldNodeControllerTest < ActionController::TestCase
     end
 
     # add a bunch of random tags
-    30.times do
+    3.times do
       xml_tag = XML::Node.new("tag")
       xml_tag["k"] = random_string
       xml_tag["v"] = random_string
@@ -105,7 +105,7 @@ class OldNodeControllerTest < ActionController::TestCase
     versions[xml_node["version"]] = xml_doc.to_s
 
     # randomly move the node about
-    20.times do
+    3.times do
       # move the node somewhere else
       xml_node["lat"] = precision(rand * 180 - 90).to_s
       xml_node["lon"] = precision(rand * 360 - 180).to_s
@@ -120,7 +120,7 @@ class OldNodeControllerTest < ActionController::TestCase
     end
 
     # add a bunch of random tags
-    30.times do
+    3.times do
       xml_tag = XML::Node.new("tag")
       xml_tag["k"] = random_string
       xml_tag["v"] = random_string
