@@ -261,8 +261,14 @@ OpenStreetMap::Application.routes.draw do
   get "/export/embed" => "export#embed"
 
   # messages
-  get "/user/:display_name/inbox" => "messages#inbox", :as => "inbox"
-  get "/user/:display_name/outbox" => "messages#outbox", :as => "outbox"
+  resources :messages, :only => [] do
+    collection do
+      get :inbox
+      get :outbox
+    end
+  end
+  get "/user/:display_name/inbox", :to => redirect(:path => "/messages/inbox")
+  get "/user/:display_name/outbox", :to => redirect(:path => "/messages/outbox")
   match "/message/new/:display_name" => "messages#new", :via => [:get, :post], :as => "new_message"
   get "/message/read/:message_id" => "messages#show", :as => "message"
   post "/message/mark/:message_id" => "messages#mark", :as => "mark_message"

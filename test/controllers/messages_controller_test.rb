@@ -5,12 +5,12 @@ class MessagesControllerTest < ActionController::TestCase
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
-      { :path => "/user/username/inbox", :method => :get },
-      { :controller => "messages", :action => "inbox", :display_name => "username" }
+      { :path => "/messages/inbox", :method => :get },
+      { :controller => "messages", :action => "inbox" }
     )
     assert_routing(
-      { :path => "/user/username/outbox", :method => :get },
-      { :controller => "messages", :action => "outbox", :display_name => "username" }
+      { :path => "/messages/outbox", :method => :get },
+      { :controller => "messages", :action => "outbox" }
     )
     assert_routing(
       { :path => "/message/new/username", :method => :get },
@@ -171,7 +171,7 @@ class MessagesControllerTest < ActionController::TestCase
                           :message => { :title => "Test Message", :body => "Test message body" } }
       end
     end
-    assert_redirected_to inbox_path(:display_name => user.display_name)
+    assert_redirected_to inbox_messages_path
     assert_equal "Message sent", flash[:notice]
     e = ActionMailer::Base.deliveries.first
     assert_equal [recipient_user.email], e.to
@@ -317,55 +317,45 @@ class MessagesControllerTest < ActionController::TestCase
   # test the inbox action
   def test_inbox
     user = create(:user)
-    other_user = create(:user)
     read_message = create(:message, :read, :recipient => user)
     # Check that the inbox page requires us to login
-    get :inbox, :params => { :display_name => user.display_name }
-    assert_redirected_to login_path(:referer => inbox_path(:display_name => user.display_name))
+    get :inbox
+    assert_redirected_to login_path(:referer => inbox_messages_path)
 
     # Login
     session[:user] = user.id
 
     # Check that we can view our inbox when logged in
-    get :inbox, :params => { :display_name => user.display_name }
+    get :inbox
     assert_response :success
     assert_template "inbox"
     assert_select "table.messages", :count => 1 do
       assert_select "tr", :count => 2
       assert_select "tr#inbox-#{read_message.id}.inbox-row", :count => 1
     end
-
-    # Check that we can't view somebody else's inbox when logged in
-    get :inbox, :params => { :display_name => other_user.display_name }
-    assert_redirected_to inbox_path(:display_name => user.display_name)
   end
 
   ##
   # test the outbox action
   def test_outbox
     user = create(:user)
-    other_user = create(:user)
     create(:message, :sender => user)
 
     # Check that the outbox page requires us to login
-    get :outbox, :params => { :display_name => user.display_name }
-    assert_redirected_to login_path(:referer => outbox_path(:display_name => user.display_name))
+    get :outbox
+    assert_redirected_to login_path(:referer => outbox_messages_path)
 
     # Login
     session[:user] = user.id
 
     # Check that we can view our outbox when logged in
-    get :outbox, :params => { :display_name => user.display_name }
+    get :outbox
     assert_response :success
     assert_template "outbox"
     assert_select "table.messages", :count => 1 do
       assert_select "tr", :count => 2
       assert_select "tr.inbox-row", :count => 1
     end
-
-    # Check that we can't view somebody else's outbox when logged in
-    get :outbox, :params => { :display_name => other_user.display_name }
-    assert_redirected_to outbox_path(:display_name => user.display_name)
   end
 
   ##
@@ -393,12 +383,12 @@ class MessagesControllerTest < ActionController::TestCase
 
     # Check that the marking a message read works
     post :mark, :params => { :message_id => unread_message.id, :mark => "read" }
-    assert_redirected_to inbox_path(:display_name => recipient_user.display_name)
+    assert_redirected_to inbox_messages_path
     assert_equal true, Message.find(unread_message.id).message_read
 
     # Check that the marking a message unread works
     post :mark, :params => { :message_id => unread_message.id, :mark => "unread" }
-    assert_redirected_to inbox_path(:display_name => recipient_user.display_name)
+    assert_redirected_to inbox_messages_path
     assert_equal false, Message.find(unread_message.id).message_read
 
     # Check that the marking a message read via XHR works
@@ -450,15 +440,15 @@ class MessagesControllerTest < ActionController::TestCase
 
     # Check that the destroy a received message works
     post :destroy, :params => { :message_id => read_message.id }
-    assert_redirected_to inbox_path(:display_name => user.display_name)
+    assert_redirected_to inbox_messages_path
     assert_equal "Message deleted", flash[:notice]
     m = Message.find(read_message.id)
     assert_equal true, m.from_user_visible
     assert_equal false, m.to_user_visible
 
     # Check that the destroying a sent message works
-    post :destroy, :params => { :message_id => sent_message.id, :referer => outbox_path(:display_name => user.display_name) }
-    assert_redirected_to outbox_path(:display_name => user.display_name)
+    post :destroy, :params => { :message_id => sent_message.id, :referer => outbox_messages_path }
+    assert_redirected_to outbox_messages_path
     assert_equal "Message deleted", flash[:notice]
     m = Message.find(sent_message.id)
     assert_equal false, m.from_user_visible
