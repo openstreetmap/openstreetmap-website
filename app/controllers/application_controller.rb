@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   include SessionPersistence
-  check_authorization
+  # check_authorization
 
   protect_from_forgery :with => :exception
 
