@@ -469,9 +469,9 @@ CHANGESET
     new_rel_id = doc.find("//diffResult/relation").first["new_id"].to_i
 
     # check the old IDs are all present and negative one
-    assert_equal -1, doc.find("//diffResult/node").first["old_id"].to_i
-    assert_equal -1, doc.find("//diffResult/way").first["old_id"].to_i
-    assert_equal -1, doc.find("//diffResult/relation").first["old_id"].to_i
+    assert_equal(-1, doc.find("//diffResult/node").first["old_id"].to_i)
+    assert_equal(-1, doc.find("//diffResult/way").first["old_id"].to_i)
+    assert_equal(-1, doc.find("//diffResult/relation").first["old_id"].to_i)
 
     # check the versions are present and equal one
     assert_equal 1, doc.find("//diffResult/node").first["new_version"].to_i

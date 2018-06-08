@@ -168,8 +168,8 @@ class BoundingBoxTest < ActiveSupport::TestCase
     @bad_negative_boundary_bbox.each do |bbox_string|
       bbox = BoundingBox.from_bbox_params(:bbox => bbox_string)
       array = bbox.to_a
-      assert_equal -180, [array[0], array[2]].min
-      assert_equal -90, [array[1], array[3]].min
+      assert_equal(-180, [array[0], array[2]].min)
+      assert_equal(-90, [array[1], array[3]].min)
     end
   end
 
