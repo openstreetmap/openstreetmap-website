@@ -161,7 +161,7 @@ class OldNodeControllerTest < ActionController::TestCase
     get :version, :params => { :id => id, :version => version }
     assert_response :not_found
   rescue ActionController::UrlGenerationError => ex
-    assert_match /No route matches/, ex.to_s
+    assert_match(/No route matches/, ex.to_s)
   end
 
   ##

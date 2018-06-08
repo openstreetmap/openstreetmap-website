@@ -106,7 +106,7 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal recipient_user, message.recipient
     assert_equal mail.date, message.sent_on
     assert_equal "Test message", message.title
-    assert_match /^ *This is a test & a message *$/, message.body
+    assert_match(/^ *This is a test & a message *$/, message.body)
     assert_equal "text", message.body_format
   end
 
@@ -153,7 +153,7 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal recipient_user, message.recipient
     assert_equal mail.date, message.sent_on
     assert_equal "Test message", message.title
-    assert_match /^ *This is a test & a message in HTML format *$/, message.body
+    assert_match(/^ *This is a test & a message in HTML format *$/, message.body)
     assert_equal "text", message.body_format
   end
 

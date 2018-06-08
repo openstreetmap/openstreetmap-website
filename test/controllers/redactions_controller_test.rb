@@ -112,7 +112,7 @@ class RedactionsControllerTest < ActionController::TestCase
     delete :destroy, :params => { :id => redaction.id }
     assert_response :redirect
     assert_redirected_to(redaction_path(redaction))
-    assert_match /^Redaction is not empty/, flash[:error]
+    assert_match(/^Redaction is not empty/, flash[:error])
   end
 
   def test_delete_non_moderator

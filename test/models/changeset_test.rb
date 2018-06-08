@@ -6,11 +6,11 @@ class ChangesetTest < ActiveSupport::TestCase
     message_create = assert_raise(OSM::APIBadXMLError) do
       Changeset.from_xml(no_text, true)
     end
-    assert_match /Must specify a string with one or more characters/, message_create.message
+    assert_match(/Must specify a string with one or more characters/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
       Changeset.from_xml(no_text, false)
     end
-    assert_match /Must specify a string with one or more characters/, message_update.message
+    assert_match(/Must specify a string with one or more characters/, message_update.message)
   end
 
   def test_from_xml_no_changeset
@@ -30,11 +30,11 @@ class ChangesetTest < ActiveSupport::TestCase
     message_create = assert_raise(OSM::APIBadXMLError) do
       Changeset.from_xml(nokv, true)
     end
-    assert_match /tag is missing key/, message_create.message
+    assert_match(/tag is missing key/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
       Changeset.from_xml(nokv, false)
     end
-    assert_match /tag is missing key/, message_update.message
+    assert_match(/tag is missing key/, message_update.message)
   end
 
   def test_from_xml_no_v
@@ -42,11 +42,11 @@ class ChangesetTest < ActiveSupport::TestCase
     message_create = assert_raise(OSM::APIBadXMLError) do
       Changeset.from_xml(no_v, true)
     end
-    assert_match /tag is missing value/, message_create.message
+    assert_match(/tag is missing value/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
       Changeset.from_xml(no_v, false)
     end
-    assert_match /tag is missing value/, message_update.message
+    assert_match(/tag is missing value/, message_update.message)
   end
 
   def test_from_xml_duplicate_k

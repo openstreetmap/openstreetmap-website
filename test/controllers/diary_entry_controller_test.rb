@@ -414,8 +414,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
     email = ActionMailer::Base.deliveries.first
     assert_equal [user.email], email.to
     assert_equal "[OpenStreetMap] #{other_user.display_name} commented on a diary entry", email.subject
-    assert_match /New comment/, email.text_part.decoded
-    assert_match /New comment/, email.html_part.decoded
+    assert_match(/New comment/, email.text_part.decoded)
+    assert_match(/New comment/, email.html_part.decoded)
     ActionMailer::Base.deliveries.clear
     comment = DiaryComment.order(:id).last
     assert_equal entry.id, comment.diary_entry_id
