@@ -21,27 +21,27 @@ class Api::ApiControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/capabilities", :method => :get },
-      { :controller => "api", :action => "capabilities" }
+      { :controller => "api/api", :action => "capabilities" }
     )
     assert_recognizes(
-      { :controller => "api", :action => "capabilities" },
+      { :controller => "api/api", :action => "capabilities" },
       { :path => "/api/0.6/capabilities", :method => :get }
     )
     assert_routing(
       { :path => "/api/0.6/permissions", :method => :get },
-      { :controller => "api", :action => "permissions" }
+      { :controller => "api/api", :action => "permissions" }
     )
     assert_routing(
       { :path => "/api/0.6/map", :method => :get },
-      { :controller => "api", :action => "map" }
+      { :controller => "api/api", :action => "map" }
     )
     assert_routing(
       { :path => "/api/0.6/trackpoints", :method => :get },
-      { :controller => "api", :action => "trackpoints" }
+      { :controller => "api/api", :action => "trackpoints" }
     )
     assert_routing(
       { :path => "/api/0.6/changes", :method => :get },
-      { :controller => "api", :action => "changes" }
+      { :controller => "api/api", :action => "changes" }
     )
   end
 
@@ -204,6 +204,9 @@ class Api::ApiControllerTest < ActionController::TestCase
     assert_response :success
     assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
       assert_select "trk", :count => 1 do
+        assert_select "url", :count => 1 do |element|
+          assert_equal element.first.content, "#{@request.base_url}/user/#{ERB::Util.url_encode(point.user.display_name)}/traces/#{point.id}"
+        end
         assert_select "trk>name", :count => 1
         assert_select "trk>desc", :count => 1
         assert_select "trk>url", :count => 1

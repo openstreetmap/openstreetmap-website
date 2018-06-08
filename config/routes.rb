@@ -1,11 +1,17 @@
 OpenStreetMap::Application.routes.draw do
   # API
-  get "api/capabilities" => "api#capabilities"
+  namespace :api, controller: 'api' do
+    get :capabilities
+    scope '0.6' do
+      get :capabilities
+      get :permissions
+      get :map
+      get :trackpoints
+      get :changes
+    end
+  end
 
   scope "api/0.6" do
-    get "capabilities" => "api#capabilities"
-    get "permissions" => "api#permissions"
-
     put "changeset/create" => "changeset#create"
     post "changeset/:id/upload" => "changeset#upload", :id => /\d+/
     get "changeset/:id/download" => "changeset#download", :as => :changeset_download, :id => /\d+/
@@ -52,12 +58,6 @@ OpenStreetMap::Application.routes.draw do
     put "relation/:id" => "relation#update", :id => /\d+/
     delete "relation/:id" => "relation#delete", :id => /\d+/
     get "relations" => "relation#relations"
-
-    get "map" => "api#map"
-
-    get "trackpoints" => "api#trackpoints"
-
-    get "changes" => "api#changes"
 
     get "search" => "search#search_all", :as => "api_search"
     get "ways/search" => "search#search_ways"
