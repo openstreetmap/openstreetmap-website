@@ -1,4 +1,4 @@
-class ApiController < ApplicationController
+class Api::ApiController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :check_api_readable, :except => [:capabilities]
   before_action :setup_user_auth, :only => [:permissions]

@@ -1,7 +1,7 @@
 require "test_helper"
-require "api_controller"
+require "api/api_controller"
 
-class ApiControllerTest < ActionController::TestCase
+class Api::ApiControllerTest < ActionController::TestCase
   def setup
     super
     @badbigbbox = %w[-0.1,-0.1,1.1,1.1 10,10,11,11]
