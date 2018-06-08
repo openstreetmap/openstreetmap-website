@@ -499,7 +499,7 @@ class AmfControllerTest < ActionController::TestCase
 
     assert_equal 2, result.length
     assert_equal -1, result[0]
-    assert_match /must be logged in/, result[1]
+    assert_match(/must be logged in/, result[1])
 
     blocked_user = create(:user)
     create(:user_block, :user => blocked_user)
@@ -511,7 +511,7 @@ class AmfControllerTest < ActionController::TestCase
 
     assert_equal 2, result.length
     assert_equal -1, result[0]
-    assert_match /access to the API has been blocked/, result[1]
+    assert_match(/access to the API has been blocked/, result[1])
   end
 
   def test_findgpx_by_id
@@ -941,7 +941,7 @@ class AmfControllerTest < ActionController::TestCase
 
     assert_equal 2, result.size
     assert_equal -2, result[0]
-    assert_match /Node is not in the world/, result[1]
+    assert_match(/Node is not in the world/, result[1])
   end
 
   # check that we can create a way
@@ -1194,7 +1194,7 @@ class AmfControllerTest < ActionController::TestCase
 
     assert_equal 2, result.size
     assert_equal -1, result[0]
-    assert_match /Way #{way.id} is still used/, result[1]
+    assert_match(/Way #{way.id} is still used/, result[1])
 
     new_way = Way.find(way.id)
     assert_equal way.version, new_way.version
@@ -1308,7 +1308,7 @@ class AmfControllerTest < ActionController::TestCase
 
     assert_equal 2, result.size
     assert_equal -1, result[0]
-    assert_match /relation #{relation.id} is used in/, result[1]
+    assert_match(/relation #{relation.id} is used in/, result[1])
 
     new_relation = Relation.find(relation.id)
     assert_equal relation.version, new_relation.version

@@ -213,7 +213,7 @@ class ChangesetControllerTest < ActionController::TestCase
         get :read, :params => { :id => id }
         assert_response :not_found, "should get a not found"
       rescue ActionController::UrlGenerationError => ex
-        assert_match /No route matches/, ex.to_s
+        assert_match(/No route matches/, ex.to_s)
       end
     end
   end
@@ -287,7 +287,7 @@ class ChangesetControllerTest < ActionController::TestCase
         put :close, :params => { :id => id }
         assert_response :unauthorized, "Shouldn't be able close the non-existant changeset #{id}, when not authorized"
       rescue ActionController::UrlGenerationError => ex
-        assert_match /No route matches/, ex.to_s
+        assert_match(/No route matches/, ex.to_s)
       end
     end
 
@@ -298,7 +298,7 @@ class ChangesetControllerTest < ActionController::TestCase
         put :close, :params => { :id => id }
         assert_response :not_found, "The changeset #{id} doesn't exist, so can't be closed"
       rescue ActionController::UrlGenerationError => ex
-        assert_match /No route matches/, ex.to_s
+        assert_match(/No route matches/, ex.to_s)
       end
     end
   end

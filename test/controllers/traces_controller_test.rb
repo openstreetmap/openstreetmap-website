@@ -593,7 +593,7 @@ class TracesControllerTest < ActionController::TestCase
     post :create, :params => { :trace => { :gpx_file => file, :description => "New Trace", :tagstring => "new,trace", :visibility => "trackable" } }, :session => { :user => user }
     assert_response :redirect
     assert_redirected_to :action => :index, :display_name => user.display_name
-    assert_match /file has been uploaded/, flash[:notice]
+    assert_match(/file has been uploaded/, flash[:notice])
     trace = Trace.order(:id => :desc).first
     assert_equal "a.gpx", trace.name
     assert_equal "New Trace", trace.description
