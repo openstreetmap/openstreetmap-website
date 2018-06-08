@@ -3,9 +3,10 @@ class Ability
 
   def initialize(user)
     can :index, :site
+    can [:permalink, :edit, :help, :fixthemap, :offline, :export, :about, :preview, :copyright, :key, :id, :welcome], :site
 
     if user
-      can :welcome, :site
+      can :weclome, :site
     end
     # Define abilities for the passed in user here. For example:
     #
