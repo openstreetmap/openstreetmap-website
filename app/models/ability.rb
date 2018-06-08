@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class Ability
   include CanCan::Ability
 
-  def initialize(user)
+  def initialize(user, token)
     can :index, :site
     can [:permalink, :edit, :help, :fixthemap, :offline, :export, :about, :preview, :copyright, :key, :id, :welcome], :site
 
@@ -34,5 +36,9 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+  end
+
+  def has_capability?(token, cap)
+    token && token.read_attribute(cap)
   end
 end

@@ -473,6 +473,10 @@ class ApplicationController < ActionController::Base
     # ...
   end
 
+  def current_ability
+    @current_ability ||= Ability.new(current_user, current_token)
+  end
+
   private
 
   # extract authorisation credentials from headers, returns user = nil if none
