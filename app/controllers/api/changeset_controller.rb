@@ -10,9 +10,9 @@ class Api::ChangesetController < ApplicationController
   before_action :require_allow_write_api, :only => [:create, :update, :upload, :close, :comment, :subscribe, :unsubscribe, :hide_comment, :unhide_comment]
   before_action :require_public_data, :only => [:create, :update, :upload, :close, :comment, :subscribe, :unsubscribe]
   before_action :check_api_writable, :only => [:create, :update, :upload, :comment, :subscribe, :unsubscribe, :hide_comment, :unhide_comment]
-  before_action :check_api_readable, :except => [:create, :update, :upload, :download, :index, :list, :feed, :comment, :subscribe, :unsubscribe, :comments_feed]
-  around_action :api_call_handle_error, :except => [:list, :feed, :comments_feed]
-  around_action :api_call_timeout, :except => [:list, :feed, :comments_feed, :upload]
+  before_action :check_api_readable, :except => [:create, :update, :upload, :download, :index, :comment, :subscribe, :unsubscribe]
+  around_action :api_call_handle_error
+  around_action :api_call_timeout, :except => [:upload]
 
   # Helper methods for checking consistency
   include ConsistencyValidations
