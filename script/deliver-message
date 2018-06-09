@@ -2,14 +2,14 @@
 
 require File.dirname(__FILE__) + "/../config/environment"
 
-if recipient = ARGV[0].match(/^c-(\d+)-(\d+)-(.*)$/)
+if (recipient = ARGV[0].match(/^c-(\d+)-(\d+)-(.*)$/))
   comment = DiaryComment.find(recipient[1])
   digest = comment.digest
   date = comment.created_at
   from = User.find(recipient[2])
   to = comment.user
   token = recipient[3]
-elsif recipient = ARGV[0].match(/^m-(\d+)-(.*)$/)
+elsif (recipient = ARGV[0].match(/^m-(\d+)-(.*)$/))
   message = Message.find(recipient[1])
   digest = message.digest
   date = message.sent_on

@@ -55,7 +55,8 @@ module BrowseHelper
   end
 
   def format_key(key)
-    if url = wiki_link("key", key)
+    url = wiki_link("key", key)
+    if url
       link_to h(key), url, :title => t("browse.tag_details.wiki_link.key", :key => key)
     else
       h(key)
@@ -63,18 +64,18 @@ module BrowseHelper
   end
 
   def format_value(key, value)
-    if wp = wikipedia_link(key, value)
+    if (wp = wikipedia_link(key, value))
       link_to h(wp[:title]), wp[:url], :title => t("browse.tag_details.wikipedia_link", :page => wp[:title])
-    elsif wdt = wikidata_links(key, value)
+    elsif (wdt = wikidata_links(key, value))
       # IMPORTANT: Note that wikidata_links() returns an array of hashes, unlike for example wikipedia_link(),
       # which just returns one such hash.
       wdt = wdt.map do |w|
         link_to(w[:title], w[:url], :title => t("browse.tag_details.wikidata_link", :page => w[:title].strip))
       end
       safe_join(wdt, ";")
-    elsif url = wiki_link("tag", "#{key}=#{value}")
+    elsif (url = wiki_link("tag", "#{key}=#{value}"))
       link_to h(value), url, :title => t("browse.tag_details.wiki_link.tag", :key => key, :value => value)
-    elsif url = telephone_link(key, value)
+    elsif (url = telephone_link(key, value))
       link_to h(value), url, :title => t("browse.tag_details.telephone_link", :phone_number => value)
     else
       linkify h(value)
@@ -110,9 +111,9 @@ module BrowseHelper
     # the correct page.
     lookup_us = lookup.tr(" ", "_")
 
-    if page = WIKI_PAGES.dig(locale, type, lookup_us)
+    if (page = WIKI_PAGES.dig(locale, type, lookup_us))
       url = "https://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
-    elsif page = WIKI_PAGES.dig("en", type, lookup_us)
+    elsif (page = WIKI_PAGES.dig("en", type, lookup_us))
       url = "https://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
     end
 
