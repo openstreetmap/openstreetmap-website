@@ -16,7 +16,8 @@ module Nominatim
         response = nil
       end
 
-      if response && result = response.get_text("reversegeocode/result")
+      result = response.get_text("reversegeocode/result")
+      if response && result
         result.to_s
       else
         "#{number_with_precision(lat, :precision => 3)}, #{number_with_precision(lon, :precision => 3)}"

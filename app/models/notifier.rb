@@ -205,7 +205,7 @@ class Notifier < ActionMailer::Base
   end
 
   def from_address(name, type, id, digest, user_id = nil)
-    if Object.const_defined?(:MESSAGES_DOMAIN) && domain = MESSAGES_DOMAIN
+    if Object.const_defined?(:MESSAGES_DOMAIN) && (domain = MESSAGES_DOMAIN)
       if user_id
         "#{name} <#{type}-#{id}-#{user_id}-#{digest[0, 6]}@#{domain}>"
       else
