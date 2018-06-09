@@ -9,7 +9,7 @@ class RelationTest < ActiveSupport::TestCase
     message = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(noid, false)
     end
-    assert_match /ID is required when updating/, message.message
+    assert_match(/ID is required when updating/, message.message)
   end
 
   def test_from_xml_no_changeset_id
@@ -17,11 +17,11 @@ class RelationTest < ActiveSupport::TestCase
     message_create = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(nocs, true)
     end
-    assert_match /Changeset id is missing/, message_create.message
+    assert_match(/Changeset id is missing/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(nocs, false)
     end
-    assert_match /Changeset id is missing/, message_update.message
+    assert_match(/Changeset id is missing/, message_update.message)
   end
 
   def test_from_xml_no_version
@@ -32,7 +32,7 @@ class RelationTest < ActiveSupport::TestCase
     message_update = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(no_version, false)
     end
-    assert_match /Version is required when updating/, message_update.message
+    assert_match(/Version is required when updating/, message_update.message)
   end
 
   def test_from_xml_id_zero
@@ -45,7 +45,7 @@ class RelationTest < ActiveSupport::TestCase
       message_update = assert_raise(OSM::APIBadUserInput) do
         Relation.from_xml(zero_id, false)
       end
-      assert_match /ID of relation cannot be zero when updating/, message_update.message
+      assert_match(/ID of relation cannot be zero when updating/, message_update.message)
     end
   end
 
@@ -54,11 +54,11 @@ class RelationTest < ActiveSupport::TestCase
     message_create = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(no_text, true)
     end
-    assert_match /Must specify a string with one or more characters/, message_create.message
+    assert_match(/Must specify a string with one or more characters/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(no_text, false)
     end
-    assert_match /Must specify a string with one or more characters/, message_update.message
+    assert_match(/Must specify a string with one or more characters/, message_update.message)
   end
 
   def test_from_xml_no_k_v
@@ -66,11 +66,11 @@ class RelationTest < ActiveSupport::TestCase
     message_create = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(nokv, true)
     end
-    assert_match /tag is missing key/, message_create.message
+    assert_match(/tag is missing key/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(nokv, false)
     end
-    assert_match /tag is missing key/, message_update.message
+    assert_match(/tag is missing key/, message_update.message)
   end
 
   def test_from_xml_no_v
@@ -78,11 +78,11 @@ class RelationTest < ActiveSupport::TestCase
     message_create = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(no_v, true)
     end
-    assert_match /tag is missing value/, message_create.message
+    assert_match(/tag is missing value/, message_create.message)
     message_update = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(no_v, false)
     end
-    assert_match /tag is missing value/, message_update.message
+    assert_match(/tag is missing value/, message_update.message)
   end
 
   def test_from_xml_duplicate_k

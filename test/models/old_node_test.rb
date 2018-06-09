@@ -63,8 +63,8 @@ class OldNodeTest < ActiveSupport::TestCase
   def test_lat_lon_xml_format
     old_node = build(:old_node, :latitude => 0.00004 * OldNode::SCALE, :longitude => 0.00008 * OldNode::SCALE)
 
-    assert_match /lat="0.0000400"/, old_node.to_xml.to_s
-    assert_match /lon="0.0000800"/, old_node.to_xml.to_s
+    assert_match(/lat="0.0000400"/, old_node.to_xml.to_s)
+    assert_match(/lon="0.0000800"/, old_node.to_xml.to_s)
   end
 
   def test_node_tags

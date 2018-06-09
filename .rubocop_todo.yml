@@ -6,28 +6,29 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 34
-Lint/AmbiguousOperator:
+# Offense count: 32
+# Configuration parameters: AllowSafeAssignment.
+Lint/AssignmentInCondition:
   Exclude:
-    - 'test/controllers/amf_controller_test.rb'
-    - 'test/controllers/changeset_controller_test.rb'
-    - 'test/lib/bounding_box_test.rb'
-    - 'test/lib/country_test.rb'
-
-# Offense count: 96
-Lint/AmbiguousRegexpLiteral:
-  Enabled: false
+    - 'app/controllers/application_controller.rb'
+    - 'app/controllers/geocoder_controller.rb'
+    - 'app/controllers/notes_controller.rb'
+    - 'app/controllers/traces_controller.rb'
+    - 'app/controllers/user_controller.rb'
+    - 'app/controllers/user_preferences_controller.rb'
+    - 'app/helpers/application_helper.rb'
+    - 'app/helpers/browse_helper.rb'
+    - 'app/models/client_application.rb'
+    - 'app/models/notifier.rb'
+    - 'lib/nominatim.rb'
+    - 'lib/osm.rb'
+    - 'script/deliver-message'
 
 # Offense count: 4
 Lint/HandleExceptions:
   Exclude:
     - 'app/controllers/amf_controller.rb'
     - 'app/controllers/user_controller.rb'
-
-# Offense count: 2
-Lint/ShadowingOuterLocalVariable:
-  Exclude:
-    - 'app/views/changeset/list.atom.builder'
 
 # Offense count: 668
 Metrics/AbcSize:
