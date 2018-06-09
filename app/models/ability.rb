@@ -7,8 +7,16 @@ class Ability
     can :index, :site
     can [:permalink, :edit, :help, :fixthemap, :offline, :export, :about, :preview, :copyright, :key, :id, :welcome], :site
 
+    can [:list, :rss, :view, :comments], DiaryEntry
+
     if user
       can :weclome, :site
+
+      can [:create, :edit, :comment, :subscribe, :unsubscribe], DiaryEntry
+
+      if user.administrator?
+        can [:hide, :hidecomment], [DiaryEntry, DiaryComment]
+      end
     end
     # Define abilities for the passed in user here. For example:
     #
