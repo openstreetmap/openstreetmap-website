@@ -523,9 +523,7 @@ module OSM
     code = OSM.ip_to_country(ip_address)
     country = Country.find(code)
 
-    if code && country
-      return { :minlon => country.min_lon, :minlat => country.min_lat, :maxlon => country.max_lon, :maxlat => country.max_lat }
-    end
+    return { :minlon => country.min_lon, :minlat => country.min_lat, :maxlon => country.max_lon, :maxlat => country.max_lat } if code && country
 
     nil
   end
