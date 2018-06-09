@@ -1,14 +1,13 @@
 # The NodeController is the RESTful interface to Node objects
-
-class NodeController < ApplicationController
+class Api::NodeController < ApplicationController
   require "xml/libxml"
 
   skip_before_action :verify_authenticity_token
-  before_action :authorize, :only => [:create, :update, :delete]
-  before_action :require_allow_write_api, :only => [:create, :update, :delete]
-  before_action :require_public_data, :only => [:create, :update, :delete]
-  before_action :check_api_writable, :only => [:create, :update, :delete]
-  before_action :check_api_readable, :except => [:create, :update, :delete]
+  before_action :authorize, :only => [:create, :update, :destroy]
+  before_action :require_allow_write_api, :only => [:create, :update, :destroy]
+  before_action :require_public_data, :only => [:create, :update, :destroy]
+  before_action :check_api_writable, :only => [:create, :update, :destroy]
+  before_action :check_api_readable, :except => [:create, :update, :destroy]
   around_action :api_call_handle_error, :api_call_timeout
 
   # Create a node from XML.
@@ -23,7 +22,7 @@ class NodeController < ApplicationController
   end
 
   # Dump the details on a node given in params[:id]
-  def read
+  def show
     node = Node.find(params[:id])
 
     response.last_modified = node.timestamp
@@ -49,7 +48,7 @@ class NodeController < ApplicationController
   # Delete a node. Doesn't actually delete it, but retains its history
   # in a wiki-like way. We therefore treat it like an update, so the delete
   # method returns the new version number.
-  def delete
+  def destroy
     node = Node.find(params[:id])
     new_node = Node.from_xml(request.raw_post)
 

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class NodeControllerTest < ActionController::TestCase
+class Api::NodeControllerTest < ActionController::TestCase
   ##
   # test all routes which lead to this controller
   def test_routes
