@@ -9,21 +9,21 @@ module UserRolesHelper
     if current_user && current_user.administrator?
       if user.has_role?(role)
         image = "roles/#{role}"
-        alt = t("user.view.role.revoke.#{role}")
-        title = t("user.view.role.revoke.#{role}")
+        alt = t("user.show.role.revoke.#{role}")
+        title = t("user.show.role.revoke.#{role}")
         url = revoke_role_path(:display_name => user.display_name, :role => role)
         confirm = t("user_role.revoke.are_you_sure", :name => user.display_name, :role => role)
       else
         image = "roles/blank_#{role}"
-        alt = t("user.view.role.grant.#{role}")
-        title = t("user.view.role.grant.#{role}")
+        alt = t("user.show.role.grant.#{role}")
+        title = t("user.show.role.grant.#{role}")
         url = grant_role_path(:display_name => user.display_name, :role => role)
         confirm = t("user_role.grant.are_you_sure", :name => user.display_name, :role => role)
       end
     elsif user.has_role?(role)
       image = "roles/#{role}"
-      alt = t("user.view.role.#{role}")
-      title = t("user.view.role.#{role}")
+      alt = t("user.show.role.#{role}")
+      title = t("user.show.role.#{role}")
     end
 
     if image

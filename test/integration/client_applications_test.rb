@@ -16,7 +16,7 @@ class ClientApplicationsTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "user/view"
+    assert_template "user/show"
     get "/user/#{ERB::Util.u(user.display_name)}/account"
     assert_response :success
     assert_template "user/account"

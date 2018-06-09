@@ -126,7 +126,7 @@ class UserControllerTest < ActionController::TestCase
 
     assert_routing(
       { :path => "/user/username", :method => :get },
-      { :controller => "user", :action => "view", :display_name => "username" }
+      { :controller => "user", :action => "show", :display_name => "username" }
     )
 
     assert_routing(
@@ -183,7 +183,7 @@ class UserControllerTest < ActionController::TestCase
   end
 
   # The user creation page loads
-  def test_new_view
+  def test_new
     get :new
     assert_response :redirect
     assert_redirected_to user_new_path(:cookie_test => "true")
@@ -210,7 +210,7 @@ class UserControllerTest < ActionController::TestCase
     end
   end
 
-  def test_new_view_logged_in
+  def test_new_logged_in
     session[:user] = create(:user).id
 
     get :new
@@ -931,14 +931,14 @@ class UserControllerTest < ActionController::TestCase
 
   # Check that the user account page will display and contains some relevant
   # information for the user
-  def test_view
+  def test_show
     # Test a non-existent user
-    get :view, :params => { :display_name => "unknown" }
+    get :show, :params => { :display_name => "unknown" }
     assert_response :not_found
 
     # Test a normal user
     user = create(:user)
-    get :view, :params => { :display_name => user.display_name }
+    get :show, :params => { :display_name => user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
       assert_select "a[href^='/user/#{ERB::Util.u(user.display_name)}/history']", 1
@@ -954,7 +954,7 @@ class UserControllerTest < ActionController::TestCase
     # Test a user who has been blocked
     blocked_user = create(:user)
     create(:user_block, :user => blocked_user)
-    get :view, :params => { :display_name => blocked_user.display_name }
+    get :show, :params => { :display_name => blocked_user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
       assert_select "a[href^='/user/#{ERB::Util.u(blocked_user.display_name)}/history']", 1
@@ -970,7 +970,7 @@ class UserControllerTest < ActionController::TestCase
     # Test a moderator who has applied blocks
     moderator_user = create(:moderator_user)
     create(:user_block, :creator => moderator_user)
-    get :view, :params => { :display_name => moderator_user.display_name }
+    get :show, :params => { :display_name => moderator_user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
       assert_select "a[href^='/user/#{ERB::Util.u(moderator_user.display_name)}/history']", 1
@@ -987,7 +987,7 @@ class UserControllerTest < ActionController::TestCase
     session[:user] = user.id
 
     # Test the normal user
-    get :view, :params => { :display_name => user.display_name }
+    get :show, :params => { :display_name => user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
       assert_select "a[href^='/user/#{ERB::Util.u(user.display_name)}/history']", 1
@@ -1004,7 +1004,7 @@ class UserControllerTest < ActionController::TestCase
     session[:user] = create(:moderator_user).id
 
     # Test the normal user
-    get :view, :params => { :display_name => user.display_name }
+    get :show, :params => { :display_name => user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
       assert_select "a[href^='/user/#{ERB::Util.u(user.display_name)}/history']", 1
@@ -1024,13 +1024,13 @@ class UserControllerTest < ActionController::TestCase
     seen_user = create(:user, :terms_seen => true)
     not_seen_user = create(:user, :terms_seen => false)
 
-    get :view, :params => { :display_name => agreed_user.display_name }
+    get :show, :params => { :display_name => agreed_user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
       assert_select "p", :count => 0, :text => /Contributor terms/
     end
 
-    get :view, :params => { :display_name => seen_user.display_name }
+    get :show, :params => { :display_name => seen_user.display_name }
     assert_response :success
     # put @response.body
     assert_select "div#userinformation" do
@@ -1038,7 +1038,7 @@ class UserControllerTest < ActionController::TestCase
       assert_select "p", /Declined/
     end
 
-    get :view, :params => { :display_name => not_seen_user.display_name }
+    get :show, :params => { :display_name => not_seen_user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
       assert_select "p", :count => 1, :text => /Contributor terms/
@@ -1344,12 +1344,12 @@ class UserControllerTest < ActionController::TestCase
     # Now try as a normal user
     get :set_status, :params => { :display_name => user.display_name, :status => "suspended" }, :session => { :user => user }
     assert_response :redirect
-    assert_redirected_to :action => :view, :display_name => user.display_name
+    assert_redirected_to :action => :show, :display_name => user.display_name
 
     # Finally try as an administrator
     get :set_status, :params => { :display_name => user.display_name, :status => "suspended" }, :session => { :user => create(:administrator_user) }
     assert_response :redirect
-    assert_redirected_to :action => :view, :display_name => user.display_name
+    assert_redirected_to :action => :show, :display_name => user.display_name
     assert_equal "suspended", User.find(user.id).status
   end
 
@@ -1364,12 +1364,12 @@ class UserControllerTest < ActionController::TestCase
     # Now try as a normal user
     get :delete, :params => { :display_name => user.display_name, :status => "suspended" }, :session => { :user => user }
     assert_response :redirect
-    assert_redirected_to :action => :view, :display_name => user.display_name
+    assert_redirected_to :action => :show, :display_name => user.display_name
 
     # Finally try as an administrator
     get :delete, :params => { :display_name => user.display_name, :status => "suspended" }, :session => { :user => create(:administrator_user) }
     assert_response :redirect
-    assert_redirected_to :action => :view, :display_name => user.display_name
+    assert_redirected_to :action => :show, :display_name => user.display_name
 
     # Check that the user was deleted properly
     user.reload

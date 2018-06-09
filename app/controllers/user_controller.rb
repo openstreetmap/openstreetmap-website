@@ -18,7 +18,7 @@ class UserController < ApplicationController
   around_action :api_call_handle_error, :only => [:api_read, :api_details, :api_gpx_files]
   before_action :lookup_user_by_id, :only => [:api_read]
   before_action :lookup_user_by_name, :only => [:set_status, :delete]
-  before_action :allow_thirdparty_images, :only => [:view, :account]
+  before_action :allow_thirdparty_images, :only => [:show, :account]
 
   def terms
     @legale = params[:legale] || OSM.ip_to_country(request.remote_ip) || DEFAULT_LEGALE
@@ -397,7 +397,7 @@ class UserController < ApplicationController
     render :xml => doc.to_s
   end
 
-  def view
+  def show
     @user = User.find_by(:display_name => params[:display_name])
 
     if @user &&
@@ -428,7 +428,7 @@ class UserController < ApplicationController
         if params[:referer]
           redirect_to params[:referer]
         else
-          redirect_to :action => "view"
+          redirect_to :action => "show"
         end
       end
     else
@@ -451,7 +451,7 @@ class UserController < ApplicationController
         if params[:referer]
           redirect_to params[:referer]
         else
-          redirect_to :action => "view"
+          redirect_to :action => "show"
         end
       end
     else
@@ -464,14 +464,14 @@ class UserController < ApplicationController
   def set_status
     @user.status = params[:status]
     @user.save
-    redirect_to :action => "view", :display_name => params[:display_name]
+    redirect_to :action => "show", :display_name => params[:display_name]
   end
 
   ##
   # delete a user, marking them as deleted and removing personal data
   def delete
     @user.delete
-    redirect_to :action => "view", :display_name => params[:display_name]
+    redirect_to :action => "show", :display_name => params[:display_name]
   end
 
   ##
@@ -746,7 +746,7 @@ class UserController < ApplicationController
       flash[:error] = t("user.filter.not_an_administrator")
 
       if params[:display_name]
-        redirect_to :action => "view", :display_name => params[:display_name]
+        redirect_to :action => "show", :display_name => params[:display_name]
       else
         redirect_to :action => "login", :referer => request.fullpath
       end
@@ -772,7 +772,7 @@ class UserController < ApplicationController
   def lookup_user_by_name
     @user = User.find_by(:display_name => params[:display_name])
   rescue ActiveRecord::RecordNotFound
-    redirect_to :action => "view", :display_name => params[:display_name] unless @user
+    redirect_to :action => "show", :display_name => params[:display_name] unless @user
   end
 
   ##
