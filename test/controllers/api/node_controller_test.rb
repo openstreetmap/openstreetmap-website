@@ -6,23 +6,23 @@ class Api::NodeControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/0.6/node/create", :method => :put },
-      { :controller => "node", :action => "create" }
+      { :controller => "api/node", :action => "create" }
     )
     assert_routing(
       { :path => "/api/0.6/node/1", :method => :get },
-      { :controller => "node", :action => "read", :id => "1" }
+      { :controller => "api/node", :action => "show", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/node/1", :method => :put },
-      { :controller => "node", :action => "update", :id => "1" }
+      { :controller => "api/node", :action => "update", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/node/1", :method => :delete },
-      { :controller => "node", :action => "delete", :id => "1" }
+      { :controller => "api/node", :action => "destroy", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/nodes", :method => :get },
-      { :controller => "node", :action => "nodes" }
+      { :controller => "api/node", :action => "nodes" }
     )
   end
 
@@ -132,23 +132,23 @@ class Api::NodeControllerTest < ActionController::TestCase
     assert_equal ["NodeTag ", " v: is too long (maximum is 255 characters) (\"#{'x' * 256}\")"], @response.body.split(/[0-9]+,foo:/)
   end
 
-  def test_read
+  def test_show
     # check that a visible node is returned properly
-    get :read, :params => { :id => create(:node).id }
+    get :show, :params => { :id => create(:node).id }
     assert_response :success
 
     # check that an deleted node is not returned
-    get :read, :params => { :id => create(:node, :deleted).id }
+    get :show, :params => { :id => create(:node, :deleted).id }
     assert_response :gone
 
     # check chat a non-existent node is not returned
-    get :read, :params => { :id => 0 }
+    get :show, :params => { :id => 0 }
     assert_response :not_found
   end
 
   # this tests deletion restrictions - basic deletion is tested in the unit
   # tests for node!
-  def test_delete
+  def test_destroy
     private_user = create(:user, :data_public => false)
     private_user_changeset = create(:changeset, :user => private_user)
     private_user_closed_changeset = create(:changeset, :closed, :user => private_user)
@@ -156,7 +156,7 @@ class Api::NodeControllerTest < ActionController::TestCase
     private_deleted_node = create(:node, :deleted, :changeset => private_user_changeset)
 
     ## first try to delete node without auth
-    delete :delete, :params => { :id => private_node.id }
+    delete :destroy, :params => { :id => private_node.id }
     assert_response :unauthorized
 
     ## now set auth for the non-data public user
@@ -164,26 +164,26 @@ class Api::NodeControllerTest < ActionController::TestCase
 
     # try to delete with an invalid (closed) changeset
     content update_changeset(private_node.to_xml, private_user_closed_changeset.id)
-    delete :delete, :params => { :id => private_node.id }
+    delete :destroy, :params => { :id => private_node.id }
     assert_require_public_data("non-public user shouldn't be able to delete node")
 
     # try to delete with an invalid (non-existent) changeset
     content update_changeset(private_node.to_xml, 0)
-    delete :delete, :params => { :id => private_node.id }
+    delete :destroy, :params => { :id => private_node.id }
     assert_require_public_data("shouldn't be able to delete node, when user's data is private")
 
     # valid delete now takes a payload
     content(private_node.to_xml)
-    delete :delete, :params => { :id => private_node.id }
+    delete :destroy, :params => { :id => private_node.id }
     assert_require_public_data("shouldn't be able to delete node when user's data isn't public'")
 
     # this won't work since the node is already deleted
     content(private_deleted_node.to_xml)
-    delete :delete, :params => { :id => private_deleted_node.id }
+    delete :destroy, :params => { :id => private_deleted_node.id }
     assert_require_public_data
 
     # this won't work since the node never existed
-    delete :delete, :params => { :id => 0 }
+    delete :destroy, :params => { :id => 0 }
     assert_require_public_data
 
     ## these test whether nodes which are in-use can be deleted:
@@ -192,7 +192,7 @@ class Api::NodeControllerTest < ActionController::TestCase
     create(:way_node, :node => private_used_node)
 
     content(private_used_node.to_xml)
-    delete :delete, :params => { :id => private_used_node.id }
+    delete :destroy, :params => { :id => private_used_node.id }
     assert_require_public_data "shouldn't be able to delete a node used in a way (#{@response.body})"
 
     # in a relation...
@@ -200,7 +200,7 @@ class Api::NodeControllerTest < ActionController::TestCase
     create(:relation_member, :member => private_used_node2)
 
     content(private_used_node2.to_xml)
-    delete :delete, :params => { :id => private_used_node2.id }
+    delete :destroy, :params => { :id => private_used_node2.id }
     assert_require_public_data "shouldn't be able to delete a node used in a relation (#{@response.body})"
 
     ## now setup for the public data user
@@ -212,30 +212,30 @@ class Api::NodeControllerTest < ActionController::TestCase
 
     # try to delete with an invalid (closed) changeset
     content update_changeset(node.to_xml, closed_changeset.id)
-    delete :delete, :params => { :id => node.id }
+    delete :destroy, :params => { :id => node.id }
     assert_response :conflict
 
     # try to delete with an invalid (non-existent) changeset
     content update_changeset(node.to_xml, 0)
-    delete :delete, :params => { :id => node.id }
+    delete :destroy, :params => { :id => node.id }
     assert_response :conflict
 
     # try to delete a node with a different ID
     other_node = create(:node)
     content(other_node.to_xml)
-    delete :delete, :params => { :id => node.id }
+    delete :destroy, :params => { :id => node.id }
     assert_response :bad_request,
                     "should not be able to delete a node with a different ID from the XML"
 
     # try to delete a node rubbish in the payloads
     content("<delete/>")
-    delete :delete, :params => { :id => node.id }
+    delete :destroy, :params => { :id => node.id }
     assert_response :bad_request,
                     "should not be able to delete a node without a valid XML payload"
 
     # valid delete now takes a payload
     content(node.to_xml)
-    delete :delete, :params => { :id => node.id }
+    delete :destroy, :params => { :id => node.id }
     assert_response :success
 
     # valid delete should return the new version number, which should
@@ -245,11 +245,11 @@ class Api::NodeControllerTest < ActionController::TestCase
 
     # deleting the same node twice doesn't work
     content(node.to_xml)
-    delete :delete, :params => { :id => node.id }
+    delete :destroy, :params => { :id => node.id }
     assert_response :gone
 
     # this won't work since the node never existed
-    delete :delete, :params => { :id => 0 }
+    delete :destroy, :params => { :id => 0 }
     assert_response :not_found
 
     ## these test whether nodes which are in-use can be deleted:
@@ -259,7 +259,7 @@ class Api::NodeControllerTest < ActionController::TestCase
     way_node2 = create(:way_node, :node => used_node)
 
     content(used_node.to_xml)
-    delete :delete, :params => { :id => used_node.id }
+    delete :destroy, :params => { :id => used_node.id }
     assert_response :precondition_failed,
                     "shouldn't be able to delete a node used in a way (#{@response.body})"
     assert_equal "Precondition failed: Node #{used_node.id} is still used by ways #{way_node.way.id},#{way_node2.way.id}.", @response.body
@@ -270,7 +270,7 @@ class Api::NodeControllerTest < ActionController::TestCase
     relation_member2 = create(:relation_member, :member => used_node2)
 
     content(used_node2.to_xml)
-    delete :delete, :params => { :id => used_node2.id }
+    delete :destroy, :params => { :id => used_node2.id }
     assert_response :precondition_failed,
                     "shouldn't be able to delete a node used in a relation (#{@response.body})"
     assert_equal "Precondition failed: Node #{used_node2.id} is still used by relations #{relation_member.relation.id},#{relation_member2.relation.id}.", @response.body
@@ -519,7 +519,7 @@ class Api::NodeControllerTest < ActionController::TestCase
     assert_not_nil checknode, "node not found in data base after upload"
 
     # and grab it using the api
-    get :read, :params => { :id => nodeid }
+    get :show, :params => { :id => nodeid }
     assert_response :success
     apinode = Node.from_xml(@response.body)
     assert_not_nil apinode, "downloaded node is nil, but shouldn't be"
