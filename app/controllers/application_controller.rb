@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
         end
       end
     elsif session[:token]
-      session[:user] = current_user.id if self.current_user = User.authenticate(:token => session[:token])
+      session[:user] = current_user.id if (self.current_user = User.authenticate(:token => session[:token]))
     end
   rescue StandardError => ex
     logger.info("Exception authorizing user: #{ex}")
@@ -380,7 +380,7 @@ class ApplicationController < ActionController::Base
   ##
   # ensure that there is a "user" instance variable
   def lookup_user
-    render_unknown_user params[:display_name] unless @user = User.active.find_by(:display_name => params[:display_name])
+    render_unknown_user params[:display_name] unless (@user = User.active.find_by(:display_name => params[:display_name]))
   end
 
   ##

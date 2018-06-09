@@ -522,7 +522,7 @@ module OSM
   def self.ip_location(ip_address)
     code = OSM.ip_to_country(ip_address)
 
-    if code && country = Country.find(code)
+    if code && (country = Country.find(code))
       return { :minlon => country.min_lon, :minlat => country.min_lat, :maxlon => country.max_lon, :maxlat => country.max_lat }
     end
 

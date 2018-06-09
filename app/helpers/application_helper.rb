@@ -38,7 +38,7 @@ module ApplicationHelper
   end
 
   def dir
-    if dir = params[:dir]
+    if (dir = params[:dir])
       dir == "rtl" ? "rtl" : "ltr"
     else
       I18n.t("html.dir")

@@ -129,7 +129,7 @@ class UserController < ApplicationController
         session[:new_user_settings] = params
         redirect_to auth_url(params[:user][:auth_provider], params[:user][:auth_uid])
       end
-    elsif errors = session.delete(:user_errors)
+    elsif (errors = session.delete(:user_errors))
       errors.each do |attribute, error|
         current_user.errors.add(attribute, error)
       end
@@ -518,7 +518,7 @@ class UserController < ApplicationController
       email_verified = false
     end
 
-    if settings = session.delete(:new_user_settings)
+    if (settings = session.delete(:new_user_settings))
       current_user.auth_provider = provider
       current_user.auth_uid = uid
 
@@ -573,9 +573,9 @@ class UserController < ApplicationController
   ##
   # handle password authentication
   def password_authentication(username, password)
-    if user = User.authenticate(:username => username, :password => password)
+    if (user = User.authenticate(:username => username, :password => password))
       successful_login(user)
-    elsif user = User.authenticate(:username => username, :password => password, :pending => true)
+    elsif (user = User.authenticate(:username => username, :password => password, :pending => true))
       unconfirmed_login(user)
     elsif User.authenticate(:username => username, :password => password, :suspended => true)
       failed_login t("user.login.account is suspended", :webmaster => "mailto:#{SUPPORT_EMAIL}").html_safe, username
@@ -800,7 +800,7 @@ class UserController < ApplicationController
                email.split("@").last
              end
 
-    if blocked = Acl.no_account_creation(request.remote_ip, domain)
+    if (blocked = Acl.no_account_creation(request.remote_ip, domain))
       logger.info "Blocked signup from #{request.remote_ip} for #{email}"
 
       render :action => "blocked"

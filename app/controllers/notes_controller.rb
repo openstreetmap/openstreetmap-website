@@ -278,7 +278,7 @@ class NotesController < ApplicationController
   # Display a list of notes by a specified user
   def mine
     if params[:display_name]
-      if @user = User.active.find_by(:display_name => params[:display_name])
+      if (@user = User.active.find_by(:display_name => params[:display_name]))
         @params = params.permit(:display_name)
         @title = t "notes.mine.title", :user => @user.display_name
         @heading = t "notes.mine.heading", :user => @user.display_name
