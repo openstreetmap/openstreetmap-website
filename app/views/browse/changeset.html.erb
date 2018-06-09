@@ -19,7 +19,7 @@
         <% if @changeset.subscribers.exists?(current_user.id) %>
           <input class="action-button" type="submit" name="unsubscribe" value="<%= t('javascripts.changesets.show.unsubscribe') %>" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>" />
         <% else %>
-          <input class="action-button" type="submit" name="subscribe" value="<%= t('javascripts.changesets.show.subscribe') %>" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>" />
+          <input class="action-button" type="submit" name="subscribe" value="<%= t('javascripts.changesets.show.subscribe') %>" data-method="POST" data-url="<%= changeset_subscribe_api_changeset_url(@changeset) %>" />
         <% end %>
       </form>
     </div>
@@ -39,7 +39,7 @@
                     :when => friendly_date(comment.created_at), :exact_time => l(comment.created_at),
                     :user => link_to(h(comment.author.display_name), user_path(comment.author))).html_safe %>
                   <% if current_user and current_user.moderator? %>
-                    — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_hide_url(comment.id) %>"><%= t('javascripts.changesets.show.hide_comment') %></span>
+                    — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_hide_api_comment_url(comment.id) %>"><%= t('javascripts.changesets.show.hide_comment') %></span>
                   <% end %>
                 </small>
                 <%= comment.body.to_html %>
@@ -50,7 +50,7 @@
                   <%= t(".hidden_commented_by",
                     :when => friendly_date(comment.created_at), :exact_time => l(comment.created_at),
                     :user => link_to(h(comment.author.display_name), user_path(comment.author))).html_safe %>
-                  — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_unhide_url(comment.id) %>"><%= t('javascripts.changesets.show.unhide_comment') %></span>
+                  — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_unhide_api_comment_url(comment.id) %>"><%= t('javascripts.changesets.show.unhide_comment') %></span>
                  </small>
                 <%= comment.body.to_html %>
               </li>
@@ -72,7 +72,7 @@
       <form action="#">
         <textarea class="comment" name="text" cols="40" rows="5"></textarea>
         <div class="buttons clearfix">
-          <input type="submit" name="comment" value="<%= t('javascripts.changesets.show.comment') %>" data-changeset-id="<%= @changeset.id %>" data-method="POST" data-url="<%= changeset_comment_url(@changeset) %>" disabled="1"/>
+          <input type="submit" name="comment" value="<%= t('javascripts.changesets.show.comment') %>" data-changeset-id="<%= @changeset.id %>" data-method="POST" data-url="<%= changeset_comment_api_changeset_url(@changeset) %>" disabled="1"/>
         </div>
       </form>
     <% else %>
@@ -137,7 +137,7 @@
 <% end %>
 
 <div class='secondary-actions'>
-  <%= link_to(t('.changesetxml'), :controller => "changeset", :action => "read") %>
+  <%= link_to(t('.changesetxml'), :controller => "api/changeset", :action => "show") %>
   &middot;
-  <%= link_to(t('.osmchangexml'), :controller => "changeset", :action => "download") %>
+  <%= link_to(t('.osmchangexml'), :controller => "api/changeset", :action => "download") %>
 </div>
