@@ -80,8 +80,7 @@ class WayController < ApplicationController
   end
 
   def ways
-    unless params["ways"]
-      raise OSM::APIBadUserInput, "The parameter ways is required, and must be of the form ways=id[,id[,id...]]"
+    raise OSM::APIBadUserInput, "The parameter ways is required, and must be of the form ways=id[,id[,id...]]" unless params["ways"]
     end
 
     ids = params["ways"].split(",").collect(&:to_i)
