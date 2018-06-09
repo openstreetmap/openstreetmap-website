@@ -55,7 +55,8 @@ module BrowseHelper
   end
 
   def format_key(key)
-    if (url = wiki_link("key", key))
+    url = wiki_link("key", key)
+    if url
       link_to h(key), url, :title => t("browse.tag_details.wiki_link.key", :key => key)
     else
       h(key)

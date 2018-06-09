@@ -518,7 +518,8 @@ class UserController < ApplicationController
       email_verified = false
     end
 
-    if (settings = session.delete(:new_user_settings))
+    settings = session.delete(:new_user_settings)
+    if settings
       current_user.auth_provider = provider
       current_user.auth_uid = uid
 
@@ -800,7 +801,8 @@ class UserController < ApplicationController
                email.split("@").last
              end
 
-    if (blocked = Acl.no_account_creation(request.remote_ip, domain))
+    blocked = Acl.no_account_creation(request.remote_ip, domain)
+    if blocked
       logger.info "Blocked signup from #{request.remote_ip} for #{email}"
 
       render :action => "blocked"

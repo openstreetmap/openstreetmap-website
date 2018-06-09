@@ -42,7 +42,8 @@ class UserPreferencesController < ApplicationController
     doc = XML::Parser.string(request.raw_post, :options => XML::Parser::Options::NOERROR).parse
 
     doc.find("//preferences/preference").each do |pt|
-      if (preference = old_preferences.delete(pt["k"]))
+      preference = old_preferences.delete(pt["k"])
+      if preference
         preference.v = pt["v"]
       elsif new_preferences.include?(pt["k"])
         raise OSM::APIDuplicatePreferenceError, pt["k"]

@@ -84,7 +84,8 @@ class ClientApplication < ActiveRecord::Base
   end
 
   def access_token_for_user(user)
-    unless (token = access_tokens.valid.find_by(:user_id => user))
+    token = access_tokens.valid.find_by(:user_id => user)
+    unless token
       params = { :user => user }
 
       permissions.each do |p|

@@ -376,7 +376,8 @@ class TracesController < ApplicationController
     end
 
     # Finally save the user's preferred privacy level
-    if (pref = current_user.preferences.where(:k => "gps.trace.visibility").first)
+    pref = current_user.preferences.where(:k => "gps.trace.visibility").first
+    if pref
       pref.v = visibility
       pref.save
     else
