@@ -476,8 +476,8 @@ class ApplicationController < ActionController::Base
 
   def deny_access(exception)
     if current_user
-      raise "Access denied on #{exception.action} #{exception.subject.inspect}"
-      # ...
+      set_locale
+      report_error t("oauth.permissions.missing"), :forbidden
     else
       require_user
     end

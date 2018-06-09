@@ -14,6 +14,9 @@ class Ability
 
       can [:create, :edit, :comment, :subscribe, :unsubscribe], DiaryEntry
 
+      can [:read, :read_one], UserPreference if has_capability?(token, :allow_read_prefs)
+      can [:update, :update_one, :delete_one], UserPreference if has_capability?(token, :allow_write_prefs)
+
       if user.administrator?
         can [:hide, :hidecomment], [DiaryEntry, DiaryComment]
       end

@@ -16,7 +16,6 @@ class AbilityTest < ActiveSupport::TestCase
     end
   end
 
-
   test "Diary permissions for a normal user" do
     ability = Ability.new(create(:user), [])
 
