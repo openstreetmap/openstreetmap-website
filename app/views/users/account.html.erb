@@ -6,7 +6,7 @@
   <h1><%= t '.my settings' %></h1>
   <ul class='secondary-actions clearfix'>
     <li><%= link_to t('.return to profile'), user_path(current_user) %></li>
-    <li><%= link_to t('user.show.oauth settings'), :controller => 'oauth_clients', :action => 'index' %></li>
+    <li><%= link_to t('users.show.oauth settings'), :controller => 'oauth_clients', :action => 'index' %></li>
   </ul>
 <% end %>
 
@@ -14,7 +14,7 @@
 <%= form_for current_user, :url => { :action => :account }, :method => :post, :html => { :multipart => true, :id => 'accountForm', :class => 'standard-form', :autocomplete => :off } do |f| %>
   <fieldset>
     <div class="form-row">
-      <label class="standard-label"><%= t 'user.new.display name' %></label>
+      <label class="standard-label"><%= t 'users.new.display name' %></label>
       <%= f.text_field :display_name %>
     </div>
   </fieldset>
@@ -35,12 +35,12 @@
 
   <fieldset>
     <div class="form-row">
-        <label class="standard-label"><%= t 'user.new.password' %></label>
+        <label class="standard-label"><%= t 'users.new.password' %></label>
       <%= f.password_field :pass_crypt, {:value => '', :autocomplete => :off} %>
     </div>
 
     <div class="form-row">
-      <label class="standard-label"><%= t 'user.new.confirm password' %></label>
+      <label class="standard-label"><%= t 'users.new.confirm password' %></label>
       <%= f.password_field :pass_crypt_confirmation, {:value => '', :autocomplete => :off} %>
     </div>
   </fieldset>
@@ -79,7 +79,7 @@
           <% end %>
         <% else %>
           <%= t '.contributor terms.not yet agreed' %>
-          <%= link_to t('.contributor terms.review link text'), :controller => 'user', :action => 'terms' %>
+          <%= link_to t('.contributor terms.review link text'), :controller => 'users', :action => 'terms' %>
         <% end %>
       </span>
     </div>
