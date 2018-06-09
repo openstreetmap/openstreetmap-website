@@ -1,6 +1,6 @@
 require "test_helper"
 
-class UserControllerTest < ActionController::TestCase
+class UsersControllerTest < ActionController::TestCase
   def setup
     stub_hostip_requests
   end
@@ -10,175 +10,175 @@ class UserControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/0.6/user/1", :method => :get },
-      { :controller => "user", :action => "api_read", :id => "1" }
+      { :controller => "users", :action => "api_read", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/user/details", :method => :get },
-      { :controller => "user", :action => "api_details" }
+      { :controller => "users", :action => "api_details" }
     )
     assert_routing(
       { :path => "/api/0.6/user/gpx_files", :method => :get },
-      { :controller => "user", :action => "api_gpx_files" }
+      { :controller => "users", :action => "api_gpx_files" }
     )
 
     assert_routing(
       { :path => "/login", :method => :get },
-      { :controller => "user", :action => "login" }
+      { :controller => "users", :action => "login" }
     )
     assert_routing(
       { :path => "/login", :method => :post },
-      { :controller => "user", :action => "login" }
+      { :controller => "users", :action => "login" }
     )
     assert_recognizes(
-      { :controller => "user", :action => "login", :format => "html" },
+      { :controller => "users", :action => "login", :format => "html" },
       { :path => "/login.html", :method => :get }
     )
 
     assert_routing(
       { :path => "/logout", :method => :get },
-      { :controller => "user", :action => "logout" }
+      { :controller => "users", :action => "logout" }
     )
     assert_routing(
       { :path => "/logout", :method => :post },
-      { :controller => "user", :action => "logout" }
+      { :controller => "users", :action => "logout" }
     )
     assert_recognizes(
-      { :controller => "user", :action => "logout", :format => "html" },
+      { :controller => "users", :action => "logout", :format => "html" },
       { :path => "/logout.html", :method => :get }
     )
 
     assert_routing(
       { :path => "/user/new", :method => :get },
-      { :controller => "user", :action => "new" }
+      { :controller => "users", :action => "new" }
     )
 
     assert_routing(
       { :path => "/user/new", :method => :post },
-      { :controller => "user", :action => "create" }
+      { :controller => "users", :action => "create" }
     )
 
     assert_routing(
       { :path => "/user/terms", :method => :get },
-      { :controller => "user", :action => "terms" }
+      { :controller => "users", :action => "terms" }
     )
 
     assert_routing(
       { :path => "/user/save", :method => :post },
-      { :controller => "user", :action => "save" }
+      { :controller => "users", :action => "save" }
     )
 
     assert_routing(
       { :path => "/user/username/confirm", :method => :get },
-      { :controller => "user", :action => "confirm", :display_name => "username" }
+      { :controller => "users", :action => "confirm", :display_name => "username" }
     )
     assert_routing(
       { :path => "/user/username/confirm", :method => :post },
-      { :controller => "user", :action => "confirm", :display_name => "username" }
+      { :controller => "users", :action => "confirm", :display_name => "username" }
     )
     assert_routing(
       { :path => "/user/username/confirm/resend", :method => :get },
-      { :controller => "user", :action => "confirm_resend", :display_name => "username" }
+      { :controller => "users", :action => "confirm_resend", :display_name => "username" }
     )
 
     assert_routing(
       { :path => "/user/confirm", :method => :get },
-      { :controller => "user", :action => "confirm" }
+      { :controller => "users", :action => "confirm" }
     )
     assert_routing(
       { :path => "/user/confirm", :method => :post },
-      { :controller => "user", :action => "confirm" }
+      { :controller => "users", :action => "confirm" }
     )
     assert_routing(
       { :path => "/user/confirm-email", :method => :get },
-      { :controller => "user", :action => "confirm_email" }
+      { :controller => "users", :action => "confirm_email" }
     )
     assert_routing(
       { :path => "/user/confirm-email", :method => :post },
-      { :controller => "user", :action => "confirm_email" }
+      { :controller => "users", :action => "confirm_email" }
     )
 
     assert_routing(
       { :path => "/user/go_public", :method => :post },
-      { :controller => "user", :action => "go_public" }
+      { :controller => "users", :action => "go_public" }
     )
 
     assert_routing(
       { :path => "/user/forgot-password", :method => :get },
-      { :controller => "user", :action => "lost_password" }
+      { :controller => "users", :action => "lost_password" }
     )
     assert_routing(
       { :path => "/user/forgot-password", :method => :post },
-      { :controller => "user", :action => "lost_password" }
+      { :controller => "users", :action => "lost_password" }
     )
     assert_routing(
       { :path => "/user/reset-password", :method => :get },
-      { :controller => "user", :action => "reset_password" }
+      { :controller => "users", :action => "reset_password" }
     )
     assert_routing(
       { :path => "/user/reset-password", :method => :post },
-      { :controller => "user", :action => "reset_password" }
+      { :controller => "users", :action => "reset_password" }
     )
 
     assert_routing(
       { :path => "/user/suspended", :method => :get },
-      { :controller => "user", :action => "suspended" }
+      { :controller => "users", :action => "suspended" }
     )
 
     assert_routing(
       { :path => "/user/username", :method => :get },
-      { :controller => "user", :action => "show", :display_name => "username" }
+      { :controller => "users", :action => "show", :display_name => "username" }
     )
 
     assert_routing(
       { :path => "/user/username/account", :method => :get },
-      { :controller => "user", :action => "account", :display_name => "username" }
+      { :controller => "users", :action => "account", :display_name => "username" }
     )
     assert_routing(
       { :path => "/user/username/account", :method => :post },
-      { :controller => "user", :action => "account", :display_name => "username" }
+      { :controller => "users", :action => "account", :display_name => "username" }
     )
 
     assert_routing(
       { :path => "/user/username/make_friend", :method => :get },
-      { :controller => "user", :action => "make_friend", :display_name => "username" }
+      { :controller => "users", :action => "make_friend", :display_name => "username" }
     )
     assert_routing(
       { :path => "/user/username/make_friend", :method => :post },
-      { :controller => "user", :action => "make_friend", :display_name => "username" }
+      { :controller => "users", :action => "make_friend", :display_name => "username" }
     )
     assert_routing(
       { :path => "/user/username/remove_friend", :method => :get },
-      { :controller => "user", :action => "remove_friend", :display_name => "username" }
+      { :controller => "users", :action => "remove_friend", :display_name => "username" }
     )
     assert_routing(
       { :path => "/user/username/remove_friend", :method => :post },
-      { :controller => "user", :action => "remove_friend", :display_name => "username" }
+      { :controller => "users", :action => "remove_friend", :display_name => "username" }
     )
 
     assert_routing(
       { :path => "/user/username/set_status", :method => :get },
-      { :controller => "user", :action => "set_status", :display_name => "username" }
+      { :controller => "users", :action => "set_status", :display_name => "username" }
     )
     assert_routing(
       { :path => "/user/username/delete", :method => :get },
-      { :controller => "user", :action => "delete", :display_name => "username" }
+      { :controller => "users", :action => "delete", :display_name => "username" }
     )
 
     assert_routing(
       { :path => "/users", :method => :get },
-      { :controller => "user", :action => "list" }
+      { :controller => "users", :action => "list" }
     )
     assert_routing(
       { :path => "/users", :method => :post },
-      { :controller => "user", :action => "list" }
+      { :controller => "users", :action => "list" }
     )
     assert_routing(
       { :path => "/users/status", :method => :get },
-      { :controller => "user", :action => "list", :status => "status" }
+      { :controller => "users", :action => "list", :status => "status" }
     )
     assert_routing(
       { :path => "/users/status", :method => :post },
-      { :controller => "user", :action => "list", :status => "status" }
+      { :controller => "users", :action => "list", :status => "status" }
     )
   end
 
@@ -778,7 +778,7 @@ class UserControllerTest < ActionController::TestCase
     # you are not logged in
     get :account, :params => { :display_name => user.display_name }
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => "login", :referer => "/user/#{ERB::Util.u(user.display_name)}/account"
+    assert_redirected_to :controller => :users, :action => "login", :referer => "/user/#{ERB::Util.u(user.display_name)}/account"
 
     # Make sure that you are blocked when not logged in as the right user
     get :account, :params => { :display_name => user.display_name }, :session => { :user => create(:user) }
@@ -1183,7 +1183,7 @@ class UserControllerTest < ActionController::TestCase
 
     # When not logged in a GET should ask us to login
     get :make_friend, :params => { :display_name => friend.display_name }
-    assert_redirected_to :controller => :user, :action => "login", :referer => make_friend_path(:display_name => friend.display_name)
+    assert_redirected_to :controller => :users, :action => "login", :referer => make_friend_path(:display_name => friend.display_name)
 
     # When not logged in a POST should error
     post :make_friend, :params => { :display_name => friend.display_name }
@@ -1205,7 +1205,7 @@ class UserControllerTest < ActionController::TestCase
       post :make_friend, :params => { :display_name => friend.display_name }, :session => { :user => user }
     end
     assert_redirected_to user_path(:display_name => friend.display_name)
-    assert_match(/is now your friend/, flash[:notice])
+    assert_match /is now your friend/, flash[:notice]
     assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
@@ -1217,7 +1217,7 @@ class UserControllerTest < ActionController::TestCase
       post :make_friend, :params => { :display_name => friend.display_name }, :session => { :user => user }
     end
     assert_redirected_to user_path(:display_name => friend.display_name)
-    assert_match(/You are already friends with/, flash[:warning])
+    assert_match /You are already friends with/, flash[:warning]
     assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
   end
 
@@ -1270,7 +1270,7 @@ class UserControllerTest < ActionController::TestCase
 
     # When not logged in a GET should ask us to login
     get :remove_friend, :params => { :display_name => friend.display_name }
-    assert_redirected_to :controller => :user, :action => "login", :referer => remove_friend_path(:display_name => friend.display_name)
+    assert_redirected_to :controller => :users, :action => "login", :referer => remove_friend_path(:display_name => friend.display_name)
 
     # When not logged in a POST should error
     post :remove_friend, :params => { :display_name => friend.display_name }
@@ -1290,13 +1290,13 @@ class UserControllerTest < ActionController::TestCase
     # When logged in a POST should remove the friendship
     post :remove_friend, :params => { :display_name => friend.display_name }, :session => { :user => user }
     assert_redirected_to user_path(:display_name => friend.display_name)
-    assert_match(/was removed from your friends/, flash[:notice])
+    assert_match /was removed from your friends/, flash[:notice]
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
     # A second POST should report that the friendship does not exist
     post :remove_friend, :params => { :display_name => friend.display_name }, :session => { :user => user }
     assert_redirected_to user_path(:display_name => friend.display_name)
-    assert_match(/is not one of your friends/, flash[:error])
+    assert_match /is not one of your friends/, flash[:error]
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
   end
 

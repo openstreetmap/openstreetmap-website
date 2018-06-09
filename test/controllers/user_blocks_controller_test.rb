@@ -165,13 +165,13 @@ class UserBlocksControllerTest < ActionController::TestCase
     # We should get an error if no user is specified
     get :new
     assert_response :not_found
-    assert_template "user/no_such_user"
+    assert_template "users/no_such_user"
     assert_select "h1", "The user  does not exist"
 
     # We should get an error if the user doesn't exist
     get :new, :params => { :display_name => "non_existent_user" }
     assert_response :not_found
-    assert_template "user/no_such_user"
+    assert_template "users/no_such_user"
     assert_select "h1", "The user non_existent_user does not exist"
   end
 
@@ -268,13 +268,13 @@ class UserBlocksControllerTest < ActionController::TestCase
     # We should get an error if no user is specified
     post :create
     assert_response :not_found
-    assert_template "user/no_such_user"
+    assert_template "users/no_such_user"
     assert_select "h1", "The user  does not exist"
 
     # We should get an error if the user doesn't exist
     post :create, :params => { :display_name => "non_existent_user" }
     assert_response :not_found
-    assert_template "user/no_such_user"
+    assert_template "users/no_such_user"
     assert_select "h1", "The user non_existent_user does not exist"
   end
 
@@ -412,7 +412,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     # Asking for a list of blocks with a bogus user name should fail
     get :blocks_on, :params => { :display_name => "non_existent_user" }
     assert_response :not_found
-    assert_template "user/no_such_user"
+    assert_template "users/no_such_user"
     assert_select "h1", "The user non_existent_user does not exist"
 
     # Check the list of blocks for a user that has never been blocked
@@ -476,7 +476,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     # Asking for a list of blocks with a bogus user name should fail
     get :blocks_by, :params => { :display_name => "non_existent_user" }
     assert_response :not_found
-    assert_template "user/no_such_user"
+    assert_template "users/no_such_user"
     assert_select "h1", "The user non_existent_user does not exist"
 
     # Check the list of blocks given by one moderator

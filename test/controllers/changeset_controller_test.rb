@@ -162,11 +162,11 @@ class ChangesetControllerTest < ActionController::TestCase
   def test_list_user_not_found
     get :list, :params => { :format => "html", :display_name => "Some random user" }
     assert_response :not_found
-    assert_template "user/no_such_user"
+    assert_template "users/no_such_user"
 
     get :list, :params => { :format => "html", :display_name => "Some random user", :list => "1" }, :xhr => true
     assert_response :not_found
-    assert_template "user/no_such_user"
+    assert_template "users/no_such_user"
   end
 
   ##
@@ -178,7 +178,7 @@ class ChangesetControllerTest < ActionController::TestCase
 
     get :list, :params => { :friends => true }
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => friend_changesets_path
+    assert_redirected_to :controller => :users, :action => :login, :referer => friend_changesets_path
 
     session[:user] = private_user.id
 
@@ -202,7 +202,7 @@ class ChangesetControllerTest < ActionController::TestCase
 
     get :list, :params => { :nearby => true }
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => nearby_changesets_path
+    assert_redirected_to :controller => :users, :action => :login, :referer => nearby_changesets_path
 
     session[:user] = private_user.id
 
