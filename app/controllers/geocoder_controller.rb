@@ -260,7 +260,8 @@ class GeocoderController < ApplicationController
   end
 
   def normalize_params
-    if (query = params[:query])
+    query = params[:query]
+    if query
       query.strip!
 
       if (latlon = query.match(/^([NS])\s*(\d{1,3}(\.\d*)?)\W*([EW])\s*(\d{1,3}(\.\d*)?)$/).try(:captures)) # [NSEW] decimal degrees

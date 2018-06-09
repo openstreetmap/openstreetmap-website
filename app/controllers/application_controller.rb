@@ -380,7 +380,8 @@ class ApplicationController < ActionController::Base
   ##
   # ensure that there is a "user" instance variable
   def lookup_user
-    render_unknown_user params[:display_name] unless (@user = User.active.find_by(:display_name => params[:display_name]))
+    @user = User.active.find_by(:display_name => params[:display_name])
+    render_unknown_user params[:display_name] unless @user
   end
 
   ##
