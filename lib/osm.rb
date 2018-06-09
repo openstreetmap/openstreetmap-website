@@ -524,7 +524,6 @@ module OSM
     country = Country.find(code)
 
     return { :minlon => country.min_lon, :minlat => country.min_lat, :maxlon => country.max_lon, :maxlat => country.max_lat } if code && country
-    end
 
     nil
   end
