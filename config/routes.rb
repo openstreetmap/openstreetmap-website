@@ -1,25 +1,40 @@
 OpenStreetMap::Application.routes.draw do
   # API
-  get "api/capabilities" => "api#capabilities"
+  namespace :api, :controller => "api" do
+    get :capabilities
+    scope "0.6" do
+      get :capabilities
+      get :permissions
+      get :map
+      get :trackpoints
+      get :changes
+
+      resources :changeset, :controller => "changeset", :constraints => { :id => /\d+/ }, :only => [:show, :update] do
+        collection do
+          put "create"
+          resources :comment, :constraints => { :id => /\d+/ }, :only => [] do
+            member do
+              post "hide" => "changeset#hide_comment", :as => :changeset_comment_hide
+              post "unhide" => "changeset#unhide_comment", :as => :changeset_comment_unhide
+            end
+          end
+        end
+
+        member do
+          post "upload"
+          get "download", :as => :changeset_download
+          post "expand_bbox"
+          post "subscribe", :as => :changeset_subscribe
+          post "unsubscribe"
+          put "close"
+          post "comment", :as => :changeset_comment
+        end
+      end
+      get "changesets" => "changeset#index"
+    end
+  end
 
   scope "api/0.6" do
-    get "capabilities" => "api#capabilities"
-    get "permissions" => "api#permissions"
-
-    put "changeset/create" => "changeset#create"
-    post "changeset/:id/upload" => "changeset#upload", :id => /\d+/
-    get "changeset/:id/download" => "changeset#download", :as => :changeset_download, :id => /\d+/
-    post "changeset/:id/expand_bbox" => "changeset#expand_bbox", :id => /\d+/
-    get "changeset/:id" => "changeset#read", :as => :changeset_read, :id => /\d+/
-    post "changeset/:id/subscribe" => "changeset#subscribe", :as => :changeset_subscribe, :id => /\d+/
-    post "changeset/:id/unsubscribe" => "changeset#unsubscribe", :as => :changeset_unsubscribe, :id => /\d+/
-    put "changeset/:id" => "changeset#update", :id => /\d+/
-    put "changeset/:id/close" => "changeset#close", :id => /\d+/
-    get "changesets" => "changeset#query"
-    post "changeset/:id/comment" => "changeset#comment", :as => :changeset_comment, :id => /\d+/
-    post "changeset/comment/:id/hide" => "changeset#hide_comment", :as => :changeset_comment_hide, :id => /\d+/
-    post "changeset/comment/:id/unhide" => "changeset#unhide_comment", :as => :changeset_comment_unhide, :id => /\d+/
-
     put "node/create" => "node#create"
     get "node/:id/ways" => "way#ways_for_node", :id => /\d+/
     get "node/:id/relations" => "relation#relations_for_node", :id => /\d+/
@@ -52,12 +67,6 @@ OpenStreetMap::Application.routes.draw do
     put "relation/:id" => "relation#update", :id => /\d+/
     delete "relation/:id" => "relation#delete", :id => /\d+/
     get "relations" => "relation#relations"
-
-    get "map" => "api#map"
-
-    get "trackpoints" => "api#trackpoints"
-
-    get "changes" => "api#changes"
 
     get "search" => "search#search_all", :as => "api_search"
     get "ways/search" => "search#search_ways"
