@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery :with => :exception
 
+  rescue_from CanCan::AccessDenied, :with => :deny_access
+
   before_action :fetch_body
   around_action :better_errors_allow_inline, :if => proc { Rails.env.development? }
 
@@ -468,13 +470,17 @@ class ApplicationController < ActionController::Base
     raise
   end
 
-  rescue_from CanCan::AccessDenied do |exception|
-    raise "Access denied on #{exception.action} #{exception.subject.inspect}"
-    # ...
+  def current_ability
+    Ability.new(current_user, current_token)
   end
 
-  def current_ability
-    @current_ability ||= Ability.new(current_user, current_token)
+  def deny_access(exception)
+    if current_user
+      raise "Access denied on #{exception.action} #{exception.subject.inspect}"
+      # ...
+    else
+      require_user
+    end
   end
 
   private
