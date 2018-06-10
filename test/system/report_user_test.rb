@@ -16,9 +16,9 @@ class ReportUserTest < ApplicationSystemTestCase
 
     click_on I18n.t("user.view.report")
     assert page.has_content? "Report"
-    assert page.has_content? I18n.t("issues.new.disclaimer.intro")
+    assert page.has_content? I18n.t("reports.new.disclaimer.intro")
 
-    choose I18n.t("reports.categories.user.vandal")
+    choose I18n.t("reports.new.categories.user.vandal")
     fill_in "report_details", :with => "This user is a vandal"
     click_on "Create Report"
 

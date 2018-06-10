@@ -23,7 +23,7 @@ class IssuesController < ApplicationController
         @issues = @issues.where(:reported_user_id => @find_user.id)
       else
         @issues = @issues.none
-        flash.now[:warning] = t("issues.index.user_not_found")
+        flash.now[:warning] = t(".user_not_found")
       end
     end
 
@@ -49,7 +49,7 @@ class IssuesController < ApplicationController
   def resolve
     if @issue.resolve
       @issue.save!
-      redirect_to @issue, :notice => t("issues.resolved")
+      redirect_to @issue, :notice => t(".resolved")
     else
       render :show
     end
@@ -59,7 +59,7 @@ class IssuesController < ApplicationController
     if @issue.ignore
       @issue.updated_by = current_user.id
       @issue.save!
-      redirect_to @issue, :notice => t("issues.ignored")
+      redirect_to @issue, :notice => t(".ignored")
     else
       render :show
     end
@@ -69,7 +69,7 @@ class IssuesController < ApplicationController
     if @issue.reopen
       @issue.updated_by = current_user.id
       @issue.save!
-      redirect_to @issue, :notice => t("issues.reopened")
+      redirect_to @issue, :notice => t(".reopened")
     else
       render :show
     end

@@ -9,7 +9,7 @@ class ReportsController < ApplicationController
       @report = Report.new
       @report.issue = Issue.find_or_initialize_by(create_new_report_params)
     else
-      redirect_to root_path, :notice => t("reports.new.missing_params")
+      redirect_to root_path, :notice => t(".missing_params")
     end
   end
 
@@ -20,9 +20,9 @@ class ReportsController < ApplicationController
     if @report.save
       @report.issue.save
       @report.issue.reopen! unless @report.issue.open?
-      redirect_to helpers.reportable_url(@report.issue.reportable), :notice => t("issues.create.successful_report")
+      redirect_to helpers.reportable_url(@report.issue.reportable), :notice => t(".successful_report")
     else
-      redirect_to new_report_path(:reportable_type => @report.issue.reportable_type, :reportable_id => @report.issue.reportable_id), :notice => t("issues.create.provide_details")
+      redirect_to new_report_path(:reportable_type => @report.issue.reportable_type, :reportable_id => @report.issue.reportable_id), :notice => t(".provide_details")
     end
   end
 

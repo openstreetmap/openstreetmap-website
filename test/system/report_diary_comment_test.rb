@@ -21,9 +21,9 @@ class ReportDiaryCommentTest < ApplicationSystemTestCase
 
     click_on I18n.t("diary_entry.diary_comment.report")
     assert page.has_content? "Report"
-    assert page.has_content? I18n.t("issues.new.disclaimer.intro")
+    assert page.has_content? I18n.t("reports.new.disclaimer.intro")
 
-    choose I18n.t("reports.categories.diary_comment.spam")
+    choose I18n.t("reports.new.categories.diary_comment.spam")
     fill_in "report_details", :with => "This comment is spam"
     click_on "Create Report"
 

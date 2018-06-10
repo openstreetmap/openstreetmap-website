@@ -3,11 +3,11 @@
 <% end %>
 
 <div class="report-disclaimer">
-  <%= t('issues.new.disclaimer.intro') %>
+  <%= t('.disclaimer.intro') %>
   <ul>
-    <li> <%= t('issues.new.disclaimer.not_just_mistake') %> </li>
-    <li> <%= t('issues.new.disclaimer.unable_to_fix') %> </li>
-    <li> <%= t('issues.new.disclaimer.resolve_with_user') %> </li>
+    <li> <%= t('.disclaimer.not_just_mistake') %> </li>
+    <li> <%= t('.disclaimer.unable_to_fix') %> </li>
+    <li> <%= t('.disclaimer.resolve_with_user') %> </li>
   </ul>
 </div>
 
@@ -20,19 +20,19 @@
     <% end %>
 
     <div class='form-row'>
-      <p><%= t('issues.new.select') %></p>
+      <p><%= t('.select') %></p>
       <ul>
       <% Report.categories_for(@report.issue.reportable).each do |c| %>
         <li>
           <%= radio_button :report, :category, c %>
-          <%= label_tag "report_category_#{c}", t("reports.categories.#{@report.issue.reportable.class.name.underscore}.#{c}") %> <br/>
+          <%= label_tag "report_category_#{c}", t(".categories.#{@report.issue.reportable.class.name.underscore}.#{c}") %> <br/>
         </li>
       <% end %>
       </ul>
     </div>
 
     <div class='form-row'>
-      <%= text_area :report, :details, :cols => 20, :rows => 5, placeholder: t('issues.new.details'), required: true %>
+      <%= text_area :report, :details, :cols => 20, :rows => 5, placeholder: t('.details'), required: true %>
     </div>
 
     <div class='buttons'>

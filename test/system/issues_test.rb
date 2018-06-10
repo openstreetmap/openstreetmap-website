@@ -19,7 +19,7 @@ class IssuesTest < ApplicationSystemTestCase
     sign_in_as(create(:moderator_user))
 
     visit issues_path
-    assert page.has_content?(I18n.t(".issues.index.issues_not_found"))
+    assert page.has_content?(I18n.t("issues.index.issues_not_found"))
   end
 
   def test_view_issues
@@ -53,19 +53,19 @@ class IssuesTest < ApplicationSystemTestCase
     visit issues_path
     fill_in "search_by_user", :with => good_user.display_name
     click_on "Search"
-    assert page.has_content?(I18n.t(".issues.index.issues_not_found"))
+    assert page.has_content?(I18n.t("issues.index.issues_not_found"))
 
     # User doesn't exist
     visit issues_path
     fill_in "search_by_user", :with => "Nonexistant User"
     click_on "Search"
-    assert page.has_content?(I18n.t(".issues.index.user_not_found"))
+    assert page.has_content?(I18n.t("issues.index.user_not_found"))
 
     # Find Issue against bad_user
     visit issues_path
     fill_in "search_by_user", :with => bad_user.display_name
     click_on "Search"
-    assert !page.has_content?(I18n.t(".issues.index.issues_not_found"))
+    assert !page.has_content?(I18n.t("issues.index.issues_not_found"))
   end
 
   def test_commenting
@@ -76,7 +76,7 @@ class IssuesTest < ApplicationSystemTestCase
 
     fill_in :issue_comment_body, :with => "test comment"
     click_on "Submit"
-    assert page.has_content?(I18n.t(".issues.comment.comment_created"))
+    assert page.has_content?(I18n.t("issue_comments.create.comment_created"))
     assert page.has_content?("test comment")
 
     issue.reload
@@ -110,7 +110,7 @@ class IssuesTest < ApplicationSystemTestCase
 
     visit issues_path
 
-    assert page.has_link?(I18n.t(".issues.index.reports_count", :count => issue1.reports_count), :href => issue_path(issue1))
-    assert page.has_link?(I18n.t(".issues.index.reports_count", :count => issue2.reports_count), :href => issue_path(issue2))
+    assert page.has_link?(I18n.t("issues.index.reports_count", :count => issue1.reports_count), :href => issue_path(issue1))
+    assert page.has_link?(I18n.t("issues.index.reports_count", :count => issue2.reports_count), :href => issue_path(issue2))
   end
 end

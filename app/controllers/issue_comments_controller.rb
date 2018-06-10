@@ -10,7 +10,7 @@ class IssueCommentsController < ApplicationController
     comment = @issue.comments.build(issue_comment_params)
     comment.user = current_user
     comment.save!
-    notice = t("issues.comment.comment_created")
+    notice = t(".comment_created")
     reassign_issue(@issue) if params[:reassign]
     redirect_to @issue, :notice => notice
   end

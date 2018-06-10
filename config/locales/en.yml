@@ -963,10 +963,6 @@ en:
       no_results: "No results found"
       more_results: "More results"
   issues:
-    report: Report
-    resolve: Resolve
-    ignore: Ignore
-    reopen: Reopen
     index:
       title: Issues
       select_status: Select Status
@@ -989,21 +985,14 @@ en:
         one: "1 Report"
         other: "%{count} Reports"
       reported_item: Reported Item
-    create:
-      successful_report: Your report has been registered sucessfully
-      provide_details: Please provide the required details
+      states:
+        ignored: Ignored
+        open: Open
+        resolved: Resolved
     update:
       new_report: Your report has been registered sucessfully
       successful_update: Your report has been updated successfully
       provide_details: Please provide the required details
-    new:
-      details: Please provide some more details about the problem (required).
-      select: "Select a reason for your report:"
-      disclaimer:
-        intro: "Before sending your report to the site moderators, please ensure that:"
-        not_just_mistake: You are certain that the problem is not just a mistake
-        unable_to_fix: You are unable to fix the problem yourself or with the help of your fellow community members
-        resolve_with_user: You have already tried to resolve the problem with the user concerned
     show:
       title: "%{status} Issue #%{issue_id}"
       reports:
@@ -1013,55 +1002,66 @@ en:
       report_created_at: "First reported at %{datetime}"
       last_resolved_at: "Last resolved at %{datetime}"
       last_updated_at: "Last updated at %{datetime} by %{displayname}"
+      resolve: Resolve
+      ignore: Ignore
+      reopen: Reopen
       reports_of_this_issue: Reports of this Issue
       read_reports: Read Reports
       new_reports: New Reports
       other_issues_against_this_user: Other issues against this user
       no_other_issues: No other issues against this user.
       comments_on_this_issue: Comments on this issue
-      comments:
-        reassign_param: Reassign Issue?
-    comment:
-      provide_details: Please provide the required details
-      comment_created: Your comment was successfully created
+    resolve:
+      resolved: Issue status has been set to 'Resolved'
+    ignore:
+      ignored: Issue status has been set to 'Ignored'
+    reopen:
+      reopened: Issue status has been set to 'Open'
     comments:
       created_at: "On %{datetime}"
+      reassign_param: Reassign Issue?
     reports:
       updated_at: "On %{datetime}"
       reported_by_html: "Reported as %{category} by %{user}"
-    resolved: Issue status has been set to 'Resolved'
-    ignored: Issue status has been set to 'Ignored'
-    reopened: Issue status has been set to 'Open'
-    states:
-      ignored: Ignored
-      open: Open
-      resolved: Resolved
+  issue_comments:
+    create:
+      comment_created: Your comment was successfully created
   reports:
     new:
       title_html: "Report %{link}"
       missing_params: "Cannot create a new report"
-    categories:
-      diary_entry:
-        spam: This diary entry is/contains spam
-        offensive: This diary entry is obscene/offensive
-        threat: This diary entry contains a threat
-        other: Other
-      diary_comment:
-        spam: This diary comment is/contains spam
-        offensive: This diary comment is obscene/offensive
-        threat: This diary comment contains a threat
-        other: Other
-      user:
-        spam: This user profile is/contains spam
-        offensive: This user profile is obscene/offensive
-        threat: This user profile contains a threat
-        vandal: This user is a vandal
-        other: Other
-      note:
-        spam: This note is spam
-        personal: This note contains personal data
-        abusive: This note is abusive
-        other: Other
+      details: Please provide some more details about the problem (required).
+      select: "Select a reason for your report:"
+      disclaimer:
+        intro: "Before sending your report to the site moderators, please ensure that:"
+        not_just_mistake: You are certain that the problem is not just a mistake
+        unable_to_fix: You are unable to fix the problem yourself or with the help of your fellow community members
+        resolve_with_user: You have already tried to resolve the problem with the user concerned
+      categories:
+        diary_entry:
+          spam: This diary entry is/contains spam
+          offensive: This diary entry is obscene/offensive
+          threat: This diary entry contains a threat
+          other: Other
+        diary_comment:
+          spam: This diary comment is/contains spam
+          offensive: This diary comment is obscene/offensive
+          threat: This diary comment contains a threat
+          other: Other
+        user:
+          spam: This user profile is/contains spam
+          offensive: This user profile is obscene/offensive
+          threat: This user profile contains a threat
+          vandal: This user is a vandal
+          other: Other
+        note:
+          spam: This note is spam
+          personal: This note contains personal data
+          abusive: This note is abusive
+          other: Other
+    create:
+      successful_report: Your report has been registered sucessfully
+      provide_details: Please provide the required details      
   layouts:
     project_name:
       # in <title>
