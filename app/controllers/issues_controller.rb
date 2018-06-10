@@ -26,12 +26,12 @@ class IssuesController < ApplicationController
       end
     end
 
-    @issues = @issues.where(:status => params[:status][0]) if params[:status] && params[:status][0].present?
+    @issues = @issues.where(:status => params[:status]) if params[:status] && params[:status].present?
 
-    @issues = @issues.where(:reportable_type => params[:issue_type][0]) if params[:issue_type] && params[:issue_type][0].present?
+    @issues = @issues.where(:reportable_type => params[:issue_type]) if params[:issue_type] && params[:issue_type].present?
 
-    if params[:last_updated_by] && params[:last_updated_by][0].present?
-      last_updated_by = params[:last_updated_by][0].to_s == "nil" ? nil : params[:last_updated_by][0].to_i
+    if params[:last_updated_by] && params[:last_updated_by].present?
+      last_updated_by = params[:last_updated_by].to_s == "nil" ? nil : params[:last_updated_by].to_i
       @issues = @issues.where(:updated_by => last_updated_by)
     end
 
