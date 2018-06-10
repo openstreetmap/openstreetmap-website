@@ -49,7 +49,9 @@ class Ability
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
   end
 
+  # If a user provides no tokens, they've authenticated via a non-oauth method
+  # and permission to access to all capabilities is assumed.
   def has_capability?(token, cap)
-    token && token.read_attribute(cap)
+    token.nil? || token.read_attribute(cap)
   end
 end

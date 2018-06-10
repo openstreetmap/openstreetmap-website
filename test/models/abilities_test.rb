@@ -47,6 +47,14 @@ class UserAbilityTest < AbilityTest
 
   test "user preferences" do
     user = create(:user)
+
+    # a user with no tokens
+    ability = Ability.new create(:user), nil
+    [:read, :read_one, :update, :update_one, :delete_one].each do |act|
+      assert ability.can? act, UserPreference
+    end
+
+    # A user with empty tokens
     ability = Ability.new create(:user), tokens
 
     [:read, :read_one, :update, :update_one, :delete_one].each do |act|
