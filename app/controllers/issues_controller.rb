@@ -22,7 +22,8 @@ class IssuesController < ApplicationController
       if @find_user
         @issues = @issues.where(:reported_user_id => @find_user.id)
       else
-        notice = t("issues.index.user_not_found")
+        @issues = @issues.none
+        flash.now[:warning] = t("issues.index.user_not_found")
       end
     end
 
@@ -34,8 +35,6 @@ class IssuesController < ApplicationController
       last_updated_by = params[:last_updated_by].to_s == "nil" ? nil : params[:last_updated_by].to_i
       @issues = @issues.where(:updated_by => last_updated_by)
     end
-
-    redirect_to issues_path, :notice => notice if notice
   end
 
   def show
