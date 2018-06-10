@@ -6,7 +6,7 @@
 #  reportable_type  :string           not null
 #  reportable_id    :integer          not null
 #  reported_user_id :integer
-#  status           :enum             default(NULL), not null
+#  status           :enum             default("open"), not null
 #  assigned_role    :enum             not null
 #  resolved_at      :datetime
 #  resolved_by      :integer
@@ -17,8 +17,10 @@
 #
 # Indexes
 #
+#  index_issues_on_assigned_role                      (assigned_role)
 #  index_issues_on_reportable_type_and_reportable_id  (reportable_type,reportable_id)
 #  index_issues_on_reported_user_id                   (reported_user_id)
+#  index_issues_on_status                             (status)
 #  index_issues_on_updated_by                         (updated_by)
 #
 # Foreign Keys

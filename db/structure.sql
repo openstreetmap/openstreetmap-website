@@ -1401,21 +1401,21 @@ ALTER TABLE ONLY gpx_files ALTER COLUMN id SET DEFAULT nextval('gpx_files_id_seq
 
 
 --
--- Name: messages id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: issue_comments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY issue_comments ALTER COLUMN id SET DEFAULT nextval('issue_comments_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: issues id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY issues ALTER COLUMN id SET DEFAULT nextval('issues_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: messages id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages ALTER COLUMN id SET DEFAULT nextval('messages_id_seq'::regclass);
@@ -1457,14 +1457,14 @@ ALTER TABLE ONLY redactions ALTER COLUMN id SET DEFAULT nextval('redactions_id_s
 
 
 --
--- Name: user_blocks id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: reports id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY reports ALTER COLUMN id SET DEFAULT nextval('reports_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: user_blocks id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_blocks ALTER COLUMN id SET DEFAULT nextval('user_blocks_id_seq'::regclass);
@@ -1644,7 +1644,7 @@ ALTER TABLE ONLY gpx_files
 
 
 --
--- Name: issue_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: issue_comments issue_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY issue_comments
@@ -1652,7 +1652,7 @@ ALTER TABLE ONLY issue_comments
 
 
 --
--- Name: issues_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: issues issues_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY issues
@@ -1756,7 +1756,7 @@ ALTER TABLE ONLY relations
 
 
 --
--- Name: reports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: reports reports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY reports
@@ -2052,6 +2052,13 @@ CREATE INDEX index_issue_comments_on_user_id ON issue_comments USING btree (user
 
 
 --
+-- Name: index_issues_on_assigned_role; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_issues_on_assigned_role ON issues USING btree (assigned_role);
+
+
+--
 -- Name: index_issues_on_reportable_type_and_reportable_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2063,6 +2070,13 @@ CREATE INDEX index_issues_on_reportable_type_and_reportable_id ON issues USING b
 --
 
 CREATE INDEX index_issues_on_reported_user_id ON issues USING btree (reported_user_id);
+
+
+--
+-- Name: index_issues_on_status; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_issues_on_status ON issues USING btree (status);
 
 
 --
@@ -2541,7 +2555,7 @@ ALTER TABLE ONLY gpx_files
 
 
 --
--- Name: issue_comments_issue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: issue_comments issue_comments_issue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY issue_comments
@@ -2549,7 +2563,7 @@ ALTER TABLE ONLY issue_comments
 
 
 --
--- Name: issue_comments_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: issue_comments issue_comments_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY issue_comments
@@ -2557,7 +2571,7 @@ ALTER TABLE ONLY issue_comments
 
 
 --
--- Name: issues_reported_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: issues issues_reported_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY issues
@@ -2565,7 +2579,7 @@ ALTER TABLE ONLY issues
 
 
 --
--- Name: issues_resolved_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: issues issues_resolved_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY issues
@@ -2573,7 +2587,7 @@ ALTER TABLE ONLY issues
 
 
 --
--- Name: issues_updated_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: issues issues_updated_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY issues
@@ -2693,7 +2707,7 @@ ALTER TABLE ONLY relations
 
 
 --
--- Name: reports_issue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: reports reports_issue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY reports
@@ -2701,7 +2715,7 @@ ALTER TABLE ONLY reports
 
 
 --
--- Name: reports_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: reports reports_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY reports
