@@ -9,6 +9,9 @@ class Ability
 
     can [:list, :rss, :view, :comments], DiaryEntry
 
+    can [:search, :search_latlon, :search_ca_postcode, :search_osm_nominatim,
+         :search_geonames, :search_osm_nominatim_reverse, :search_geonames_reverse], :geocoder
+
     if user
       can :weclome, :site
 
