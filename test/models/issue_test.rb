@@ -10,49 +10,79 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_reported_user
+    create(:language, :code => "en")
+    user = create(:user)
     note = create(:note_comment, :author => create(:user)).note
     anonymous_note = create(:note_comment, :author => nil).note
-    user = create(:user)
-    create(:language, :code => "en")
     diary_entry = create(:diary_entry)
-    issue = Issue.new
+    diary_comment = create(:diary_comment, :diary_entry => diary_entry)
 
-    issue.reportable = user
+    issue = Issue.new(:reportable => user)
     issue.save!
     assert_equal issue.reported_user, user
 
-    issue.reportable = note
+    issue = Issue.new(:reportable => note)
     issue.save!
     assert_equal issue.reported_user, note.author
 
-    issue.reportable = anonymous_note
+    issue = Issue.new(:reportable => anonymous_note)
     issue.save!
     assert_nil issue.reported_user
 
-    issue.reportable = diary_entry
+    issue = Issue.new(:reportable => diary_entry)
     issue.save!
     assert_equal issue.reported_user, diary_entry.user
+
+    issue = Issue.new(:reportable => diary_comment)
+    issue.save!
+    assert_equal issue.reported_user, diary_comment.user
   end
 
   def test_default_assigned_role
     create(:language, :code => "en")
-    diary_entry = create(:diary_entry)
+    user = create(:user)
     note = create(:note_with_comments)
+    diary_entry = create(:diary_entry)
+    diary_comment = create(:diary_comment, :diary_entry => diary_entry)
 
-    issue = Issue.new
-    issue.reportable = diary_entry
+    issue = Issue.new(:reportable => user)
     issue.save!
     assert_equal "administrator", issue.assigned_role
 
-    issue = Issue.new
-    issue.reportable = note
+    issue = Issue.new(:reportable => note)
     issue.save!
     assert_equal "moderator", issue.assigned_role
 
-    # check the callback doesn't override an explicitly set role
-    issue.assigned_role = "administrator"
+    issue = Issue.new(:reportable => diary_entry)
     issue.save!
-    issue.reload
     assert_equal "administrator", issue.assigned_role
+
+    issue = Issue.new(:reportable => diary_comment)
+    issue.save!
+    assert_equal "administrator", issue.assigned_role
+  end
+
+  def test_no_default_explicit_role
+    create(:language, :code => "en")
+    user = create(:user)
+    note = create(:note_with_comments)
+    diary_entry = create(:diary_entry)
+    diary_comment = create(:diary_comment, :diary_entry => diary_entry)
+
+    issue = Issue.new(:reportable => user, :assigned_role => "moderator")
+    issue.save!
+    assert_equal "moderator", issue.reload.assigned_role
+
+    issue = Issue.new(:reportable => note, :assigned_role => "administrator")
+    issue.save!
+    assert_equal "administrator", issue.reload.assigned_role
+
+    issue = Issue.new(:reportable => diary_entry, :assigned_role => "moderator")
+    issue.save!
+    assert_equal "moderator", issue.reload.assigned_role
+
+    issue = Issue.new(:reportable => diary_comment, :assigned_role => "moderator")
+    issue.save!
+    assert_equal "moderator", issue.reload.assigned_role
   end
 end
