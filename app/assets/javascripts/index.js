@@ -20,6 +20,7 @@
 //= require index/changeset
 //= require index/query
 //= require router
+//= require bowser
 
 $(document).ready(function () {
   var loaderTimeout;
@@ -241,13 +242,20 @@ $(document).ready(function () {
 
   function remoteEditHandler(bbox, object) {
     var loaded = false,
-        url = "http://127.0.0.1:8111/load_and_zoom?",
+        url,
         query = {
           left: bbox.getWest() - 0.0001,
           top: bbox.getNorth() + 0.0001,
           right: bbox.getEast() + 0.0001,
           bottom: bbox.getSouth() - 0.0001
         };
+
+    if (location.protocol === 'http' ||
+        bowser.check({chrome: "53", firefox: "55"})) {
+      url = "http://127.0.0.1:8111/load_and_zoom?";
+    } else {
+      url = "https://127.0.0.1:8112/load_and_zoom?";
+    }
 
     if (object) query.select = object.type + object.id;
 

@@ -11,7 +11,7 @@ class ReportDiaryCommentTest < ApplicationSystemTestCase
     visit diary_entry_path(@diary_entry.user.display_name, @diary_entry)
     assert page.has_content?(@comment.body)
 
-    assert !page.has_content?(I18n.t("diary_entry.diary_comment.report"))
+    assert_not page.has_content?(I18n.t("diary_entry.diary_comment.report"))
   end
 
   def test_it_works

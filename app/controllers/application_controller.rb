@@ -175,7 +175,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize(realm = "Web Password", errormessage = "Couldn't authenticate you")
-    # make the @user object from any auth sources we have
+    # make the current_user object from any auth sources we have
     setup_user_auth
 
     # handle authenticate pass/fail
@@ -295,7 +295,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def preferred_languages
+  def preferred_languages(reset = false)
+    @preferred_languages = nil if reset
     @preferred_languages ||= if params[:locale]
                                Locale.list(params[:locale])
                              elsif current_user
@@ -307,13 +308,13 @@ class ApplicationController < ActionController::Base
 
   helper_method :preferred_languages
 
-  def set_locale
+  def set_locale(reset = false)
     if current_user && current_user.languages.empty? && !http_accept_language.user_preferred_languages.empty?
       current_user.languages = http_accept_language.user_preferred_languages
       current_user.save
     end
 
-    I18n.locale = Locale.available.preferred(preferred_languages)
+    I18n.locale = Locale.available.preferred(preferred_languages(reset))
 
     response.headers["Vary"] = "Accept-Language"
     response.headers["Content-Language"] = I18n.locale.to_s
@@ -377,9 +378,9 @@ class ApplicationController < ActionController::Base
   end
 
   ##
-  # ensure that there is a "this_user" instance variable
-  def lookup_this_user
-    render_unknown_user params[:display_name] unless @this_user = User.active.find_by(:display_name => params[:display_name])
+  # ensure that there is a "user" instance variable
+  def lookup_user
+    render_unknown_user params[:display_name] unless @user = User.active.find_by(:display_name => params[:display_name])
   end
 
   ##
@@ -409,10 +410,11 @@ class ApplicationController < ActionController::Base
 
   def map_layout
     append_content_security_policy_directives(
-      :child_src => %w[127.0.0.1:8111],
-      :connect_src => %w[nominatim.openstreetmap.org overpass-api.de router.project-osrm.org],
+      :child_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
+      :frame_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
+      :connect_src => %w[nominatim.openstreetmap.org overpass-api.de router.project-osrm.org graphhopper.com],
       :form_action => %w[render.openstreetmap.org],
-      :script_src => %w[graphhopper.com open.mapquestapi.com],
+      :script_src => %w[open.mapquestapi.com],
       :img_src => %w[developer.mapquest.com]
     )
 

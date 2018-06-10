@@ -65,7 +65,7 @@ class IssuesTest < ApplicationSystemTestCase
     visit issues_path
     fill_in "search_by_user", :with => bad_user.display_name
     click_on "Search"
-    assert !page.has_content?(I18n.t("issues.index.issues_not_found"))
+    assert_not page.has_content?(I18n.t("issues.index.issues_not_found"))
   end
 
   def test_commenting

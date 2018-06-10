@@ -1,29 +1,29 @@
-<% @title = t 'user_block.new.title', :name => h(@this_user.display_name) %>
+<% @title = t '.title', :name => h(@user.display_name) %>
 <% content_for :heading do %>
-  <h1><%= raw t('user_block.new.heading',
+  <h1><%= raw t('.heading',
                 :name => link_to(
-                                 h(@this_user.display_name),
-                                 user_path(@this_user))) %></h1>
+                                 h(@user.display_name),
+                                 user_path(@user))) %></h1>
 <% end %>
 <%= form_for(@user_block) do |f| %>
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :reason, t('user_block.new.reason', :name => @this_user.display_name) %><br />
+    <%= f.label :reason, t('.reason', :name => @user.display_name) %><br />
     <%= richtext_area :user_block, :reason, :cols => 80, :rows => 20 %>
   </p>
   <p>
-    <%= label_tag 'user_block_period', t('user_block.new.period') %><br />
-    <%= select_tag('user_block_period', options_for_select(UserBlock::PERIODS.collect { |h| [t('user_block.period', :count => h), h.to_s] }, params[:user_block_period] )) %>
+    <%= label_tag 'user_block_period', t('.period') %><br />
+    <%= select_tag('user_block_period', options_for_select(UserBlock::PERIODS.collect { |h| [t('user_blocks.period', :count => h), h.to_s] }, params[:user_block_period] )) %>
   </p>
   <p>
     <%= f.check_box :needs_view %>
-    <%= f.label :needs_view, t('user_block.new.needs_view') %>
+    <%= f.label :needs_view, t('.needs_view') %>
   </p>
   <p>
-    <%= hidden_field_tag 'display_name', @this_user.display_name %>
-    <%= f.submit t('user_block.new.submit') %>
+    <%= hidden_field_tag 'display_name', @user.display_name %>
+    <%= f.submit t('.submit') %>
   </p>
 <% end %>
 
-<%= link_to t('user_block.new.back'), user_blocks_path %>
+<%= link_to t('.back'), user_blocks_path %>

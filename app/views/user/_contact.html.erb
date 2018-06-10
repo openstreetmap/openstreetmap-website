@@ -11,8 +11,8 @@
   <div class='activity-details'>
     <p class='deemphasize'>
       <%= link_to h(contact.display_name), user_path(contact) %>
-      <% if @this_user.home_lon and @this_user.home_lat and contact.home_lon and contact.home_lat %>
-        <% distance = @this_user.distance(contact) %>
+      <% if @user.home_lon and @user.home_lat and contact.home_lon and contact.home_lat %>
+        <% distance = @user.distance(contact) %>
         <% if distance < 1 %>
           (<%= t 'user.view.m away', :count => (distance * 1000).round %>)
         <% else %>
@@ -35,7 +35,7 @@
     </p>
 
     <ul class='secondary-actions clearfix deemphasize'>
-      <li><%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => contact.display_name %></li>
+      <li><%= link_to t('user.view.send message'), new_message_path(contact) %></li>
       <li>
         <% if current_user.is_friends_with?(contact) %>
           <%= link_to t('user.view.remove as friend'), remove_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>

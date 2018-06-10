@@ -32,6 +32,8 @@ function OSRMEngine() {
         'turn slight left': 'javascripts.directions.instructions.slight_left',
         'roundabout': 'javascripts.directions.instructions.roundabout',
         'rotary': 'javascripts.directions.instructions.roundabout',
+        'exit roundabout': 'javascripts.directions.instructions.exit_roundabout',
+        'exit rotary': 'javascripts.directions.instructions.exit_roundabout',
         'depart': 'javascripts.directions.instructions.start',
         'arrive': 'javascripts.directions.instructions.destination',
       };
@@ -57,8 +59,13 @@ function OSRMEngine() {
         'turn sharp left': 7,
         'roundabout': 10,
         'rotary': 10,
+        'exit roundabout': 10,
+        'exit rotary': 10,
         'depart': 8,
         'arrive': 14
+      };
+      var numToWord = function(num) {
+        return ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"][num-1];
       };
       var transformed_steps = input_steps.map(function(step, idx) {
         var maneuver_id;
@@ -76,6 +83,8 @@ function OSRMEngine() {
           case 'arrive':
           case 'roundabout':
           case 'rotary':
+          case 'exit roundabout':
+          case 'exit rotary':
             maneuver_id = step.maneuver.type;
             break;
           case 'roundabout turn':
@@ -110,11 +119,17 @@ function OSRMEngine() {
           namedRoad = false;
         }
 
-        if (step.maneuver.type.match(/rotary|roundabout/)) {
+        if (step.maneuver.type.match(/exit (rotary|roundabout)/)) {
+          instText += I18n.t(template, { name: name });
+        } else if (step.maneuver.type.match(/rotary|roundabout/)) {
           if (step.maneuver.exit) {
-            instText += I18n.t(template + '_with_exit', { exit: step.maneuver.exit, name: name } );
+            if (step.maneuver.exit <= 10) {
+              instText += I18n.t(template + '_with_exit_ordinal', { exit: I18n.t('javascripts.directions.instructions.exit_counts.' + numToWord(step.maneuver.exit)), name: name });
+            } else {
+              instText += I18n.t(template + '_with_exit', { exit: step.maneuver.exit, name: name });
+            }
           } else {
-            instText += I18n.t(template + '_without_exit', { name: name } );
+            instText += I18n.t(template + '_without_exit', { name: name });
           }
         } else if (step.maneuver.type.match(/on ramp|off ramp/)) {
           var params = {};

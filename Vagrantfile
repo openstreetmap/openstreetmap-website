@@ -12,13 +12,13 @@ Vagrant.configure("2") do |config|
 
   # use third party image and NFS sharing for lxc
   config.vm.provider "lxc" do |_, override|
-    override.vm.box = "sputnik13/trusty64"
+    override.vm.box = "generic/ubuntu1604"
     override.vm.synced_folder ".", "/srv/openstreetmap-website", :type => "nfs"
   end
 
   # use third party image and NFS sharing for libvirt
   config.vm.provider "libvirt" do |_, override|
-    override.vm.box = "sputnik13/trusty64"
+    override.vm.box = "generic/ubuntu1604"
     override.vm.synced_folder ".", "/srv/openstreetmap-website", :type => "nfs"
   end
 

@@ -86,6 +86,9 @@ az:
     potlatch:
       name: Potlatch 1
       description: Potlatch 1 (brauzer üzərindən redaktə)
+    id:
+      name: iD
+      description: iD (brauzerdaxili redaktə)
     potlatch2:
       name: Potlatch 2
       description: Potlatch 2 (brauzer üzərindən redaktə)
@@ -93,15 +96,34 @@ az:
       name: Uzaqdan idarəetmə
       description: Uzaqdan idarəetmə (JOSM və ya Merkaartor)
   browse:
+    created: Yaradılıb
+    closed: Bağlanıb
+    created_html: <abbr title='%{title}'>%{time} əvvəl</abbr> yaradılıb
+    closed_html: <abbr title='%{title}'>%{time} əvvəl</abbr> bağlanılıb
+    created_by_html: <abbr title='%{title}'>%{time} əvvəl</abbr> %{user} tərəfindən
+      yaradılıb
+    deleted_by_html: <abbr title='%{title}'>%{time} əvvəl</abbr>  %{user} tərəfindən
+      silinib
+    edited_by_html: <abbr title='%{title}'>%{time} əvvəl </abbr> %{user} tərəfindən
+      dəyişdirilib
+    closed_by_html: <abbr title='%{title}'>%{time} əvvəl </abbr> %{user} tərəfindən
+      bağlanılıb
+    version: Versiya
+    in_changeset: Dəyişikliklər
+    anonymous: anonim
+    no_comment: (şərhsiz)
     download_xml: XML endir
+    location: 'Yerləşməsi:'
     changeset:
-      title: Dəyişikliklər dəsti
+      title: 'Dəyişikliklər dəsti: %{id}'
       belongs_to: Müəllif
       changesetxml: XML dəyişikliklər dəsti
       osmchangexml: osmChange XML
       feed:
         title: Dəyişikliklər dəsti  %{id}
         title_comment: Dəyişikliklər dəsti %{id} - %{comment}
+    relation:
+      members: İştirakçılar
     relation_member:
       entry_role: '%{role} kimi %{type} %{name}'
       type:
@@ -241,27 +263,6 @@ az:
       ago: '%{ago} əvvəl'
       newer_comments: Yeni şərhlər
       older_comments: Köhnə Şərhlər
-  export:
-    start:
-      area_to_export: İxrac üçün Ərazi
-      manually_select: Digər ərazini seçmək
-      format_to_export: İxracın forması
-      osm_xml_data: OpenStreetMap XML formasında məlumatlar
-      map_image: Xəritənin Şəkili (standart qatı göstərir)
-      embeddable_html: Quraşdırılan HTML
-      licence: Lisenziya
-      options: Nizamlamalar
-      format: Format
-      scale: Miqyas
-      max: maks
-      image_size: Şəkil ölçüsü
-      zoom: Yaxınlaşdır
-      add_marker: Xəritəyə marker əlavə etmək
-      latitude: 'En:'
-      longitude: 'Uz:'
-      output: Nəticə
-      paste_html: Veb sayta quraşdırmaq üçün HTML kod
-      export_button: İxrac etmək
   geocoder:
     search:
       title:
@@ -738,40 +739,6 @@ az:
     make_a_donation:
       title: OpenStreetMap-i dəstəkləmək üçün maddi yardım et
       text: Maddi yardım et
-  license_page:
-    foreign:
-      title: Bu tərcümə haqqında
-      english_link: ingiliscə orijinalına
-    native:
-      title: Bu səhifə haqqında
-      native_link: azərbaycan versiyası
-      mapping_link: kartoqrafiyalaşdırmağa başla
-    legal_babble:
-      title_html: Müəllif hüquqları və Lisenziyalar
-      intro_1_html: |-
-        OpenStreetMap <a
-        href="http://opendatacommons.org/licenses/odbl/">Open Data
-        Commons Open Database License</a> (ODbL) lisenziyası üzrə istifadə olunan <i>açıq məlumatlardan</i> ibarətdir.
-      credit_title_html: OpenStreetMap-ə Necə istinad etmək olar
-      attribution_example:
-        alt: Nümunə üçün, veb-səhifədən OpenStreetMap-ə necə istinad vermək
-        title: Müəllifin göstərilməsinin nümunəsi
-      more_title_html: Daha ətraflı öyrən
-      contributors_title_html: Kimlər bizim layihəyə töhfə verir
-      contributors_ca_html: <strong>Kanada</strong> GeoBase ®, GeoGratis (© Kanadanın
-        Təbii Ehtiyatlar Departamenti), CanVec (© Kanadanın Təbii Ehtiyatlar Departamenti)
-        və StatCan (Kanadanın Statistika şöbəsinin, Coğrafiya bölməsi) tərəfindən
-        məlumatlar.
-      contributors_fr_html: '<strong>Fransa</strong>: Baş Vergi İdarəsi tərəfindən
-        məlumatlar.'
-      contributors_nz_html: <strong>Yeni Zelandiya</strong> Yeni Zelandiyanın torpaq
-        resursları haqqında məlumatlardan. Crown Copyright reserved.
-      contributors_gb_html: <strong>Böyük Britaniya Krallığı</strong> Ordnance Survey
-        © Crown copyright tərəfindən məlumatlar. Verilənlər bazasına icazə 2010-12.
-      infringement_title_html: Müəllif hüquqlarının pozulması
-  help_page:
-    beginners_guide:
-      url: http://wiki.openstreetmap.org/wiki/Az:Beginners%27_guide
   notifier:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} adlı istifadəçi sənin gündəliy yazına şərh
@@ -803,7 +770,7 @@ az:
       greeting: Salam,
       click_the_link: Əgər bu sizsinizsə, zəhmət olmasa, parolunuzu əvəzləmək üçün
         aşağı göstərilmiş istinaddakı ünvana keçin.
-  message:
+  messages:
     inbox:
       title: Gələnlər
       my_inbox: Mənim gələnlər
@@ -825,7 +792,7 @@ az:
       unread_button: Oxunulmamış kimi işarələ
       read_button: Oxunulmuş kimi işarələ
       reply_button: Geri göndər
-      delete_button: Sil
+      destroy_button: Sil
     new:
       title: Mesaj göndər
       send_message_to: '%{name} yeni mesaj göndər'
@@ -849,7 +816,7 @@ az:
       subject: Mövzu
       date: Tarix
       people_mapping_nearby: yaxınlıqdakı istifadəçilərlə
-    read:
+    show:
       title: Mesajı oxu
       from: Kimdən
       subject: Mövzu
@@ -858,17 +825,71 @@ az:
       unread_button: Oxunulmamış kimi işarələ
       to: Kimə
     sent_message_summary:
-      delete_button: Sil
+      destroy_button: Sil
     mark:
       as_read: Mesaj oxunulmuş kimi işarələndi
       as_unread: Mesaj oxunulmamış kimi işarələndi
-    delete:
-      deleted: Mesaj silindi
+    destroy:
+      destroyed: Mesaj silindi
   site:
+    copyright:
+      foreign:
+        title: Bu tərcümə haqqında
+        english_link: ingiliscə orijinalına
+      native:
+        title: Bu səhifə haqqında
+        native_link: azərbaycan versiyası
+        mapping_link: kartoqrafiyalaşdırmağa başla
+      legal_babble:
+        title_html: Müəllif hüquqları və Lisenziyalar
+        intro_1_html: |-
+          OpenStreetMap <a
+          href="http://opendatacommons.org/licenses/odbl/">Open Data
+          Commons Open Database License</a> (ODbL) lisenziyası üzrə istifadə olunan <i>açıq məlumatlardan</i> ibarətdir.
+        credit_title_html: OpenStreetMap-ə Necə istinad etmək olar
+        attribution_example:
+          alt: Nümunə üçün, veb-səhifədən OpenStreetMap-ə necə istinad vermək
+          title: Müəllifin göstərilməsinin nümunəsi
+        more_title_html: Daha ətraflı öyrən
+        contributors_title_html: Kimlər bizim layihəyə töhfə verir
+        contributors_ca_html: <strong>Kanada</strong> GeoBase ®, GeoGratis (© Kanadanın
+          Təbii Ehtiyatlar Departamenti), CanVec (© Kanadanın Təbii Ehtiyatlar Departamenti)
+          və StatCan (Kanadanın Statistika şöbəsinin, Coğrafiya bölməsi) tərəfindən
+          məlumatlar.
+        contributors_fr_html: '<strong>Fransa</strong>: Baş Vergi İdarəsi tərəfindən
+          məlumatlar.'
+        contributors_nz_html: <strong>Yeni Zelandiya</strong> Yeni Zelandiyanın torpaq
+          resursları haqqında məlumatlardan. Crown Copyright reserved.
+        contributors_gb_html: <strong>Böyük Britaniya Krallığı</strong> Ordnance Survey
+          © Crown copyright tərəfindən məlumatlar. Verilənlər bazasına icazə 2010-12.
+        infringement_title_html: Müəllif hüquqlarının pozulması
     index:
       shortlink: Qısa keçid
     edit:
       user_page_link: istifadəçi səhifəsi
+    export:
+      area_to_export: İxrac üçün Ərazi
+      manually_select: Digər ərazini seçmək
+      format_to_export: İxracın forması
+      osm_xml_data: OpenStreetMap XML formasında məlumatlar
+      map_image: Xəritənin Şəkili (standart qatı göstərir)
+      embeddable_html: Quraşdırılan HTML
+      licence: Lisenziya
+      options: Nizamlamalar
+      format: Format
+      scale: Miqyas
+      max: maks
+      image_size: Şəkil ölçüsü
+      zoom: Yaxınlaşdır
+      add_marker: Xəritəyə marker əlavə etmək
+      latitude: 'En:'
+      longitude: 'Uz:'
+      output: Nəticə
+      paste_html: Veb sayta quraşdırmaq üçün HTML kod
+      export_button: İxrac etmək
+    help:
+      beginners_guide:
+        url: http://wiki.openstreetmap.org/wiki/Az:Beginners%27_guide
     sidebar:
       search_results: Axtarış Nəticələri
       close: Bağla
@@ -931,7 +952,10 @@ az:
       image: Şəkil
       alt: Alternativ mətn
       url: URL
-  trace:
+  traces:
+    new:
+      description: 'İzah:'
+      help: Kömək
     edit:
       filename: 'Fayl adı:'
       download: yüklə
@@ -940,9 +964,6 @@ az:
       owner: 'Sahibi:'
       description: 'İzah:'
       save_button: Dəyişiklikləri yadda saxla
-    trace_form:
-      description: 'İzah:'
-      help: Kömək
     view:
       filename: 'Fayl adı:'
       download: yüklə
@@ -1072,7 +1093,7 @@ az:
       confirm: Təsdiq et
     revoke:
       confirm: Təsdiq et
-  user_block:
+  user_blocks:
     new:
       submit: Blok yarat
       back: Bütün blokları göstər
@@ -1093,19 +1114,6 @@ az:
         edilib'
       revoke: Ləğv et!
       flash: Bu blok ləğv edilib.
-    partial:
-      show: Göstər
-      edit: Redaktə et
-      revoke: Ləğv et!
-      confirm: Əminsinizmi?
-      display_name: Bloklanmış İstifadəçilər
-      creator_name: Yaradıcı
-      reason: Bloklanma səbəbi
-      status: Status
-      revoker_name: Tərəfindən ləgv edilib
-      not_revoked: (ləgv edilməyib)
-      next: Növbəti »
-      previous: « Əvvəlki
     helper:
       time_past: '%{time} əvvəl sona çatıb.'
     blocks_by:
@@ -1116,6 +1124,19 @@ az:
       status: Status
       show: 'Göstər:'
       revoke: Ləğv et!
+    block:
+      not_revoked: (ləgv edilməyib)
+      show: Göstər
+      edit: Redaktə et
+      revoke: Ləğv et!
+    blocks:
+      display_name: Bloklanmış İstifadəçilər
+      creator_name: Yaradıcı
+      reason: Bloklanma səbəbi
+      status: Status
+      revoker_name: Tərəfindən ləgv edilib
+      next: Növbəti »
+      previous: « Əvvəlki
   javascripts:
     map:
       base:
@@ -1123,7 +1144,7 @@ az:
         transport_map: Nəqliyyat Xəritəsi
     site:
       edit_tooltip: Xəritəni redaktə et
-  redaction:
+  redactions:
     edit:
       description: Təsvir
     show:

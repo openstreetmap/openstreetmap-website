@@ -6,7 +6,7 @@ class ReportTest < ActiveSupport::TestCase
 
     assert report.valid?
     report.issue = nil
-    assert !report.valid?
+    assert_not report.valid?
   end
 
   def test_user_required
@@ -14,7 +14,7 @@ class ReportTest < ActiveSupport::TestCase
 
     assert report.valid?
     report.user = nil
-    assert !report.valid?
+    assert_not report.valid?
   end
 
   def test_details_required
@@ -22,7 +22,7 @@ class ReportTest < ActiveSupport::TestCase
 
     assert report.valid?
     report.details = ""
-    assert !report.valid?
+    assert_not report.valid?
   end
 
   def test_category_required
@@ -30,6 +30,6 @@ class ReportTest < ActiveSupport::TestCase
 
     assert report.valid?
     report.category = ""
-    assert !report.valid?
+    assert_not report.valid?
   end
 end

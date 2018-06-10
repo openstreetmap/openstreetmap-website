@@ -44,7 +44,7 @@ L.OSM.Map = L.Map.extend({
     }
 
     this.baseLayers.push(new L.OSM.HOT({
-      attribution: copyright + ". Tiles courtesy of <a href='https://www.hotosm.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>",
+      attribution: copyright + ". Tiles style by <a href='https://www.hotosm.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>" + " hosted by <a href='https://openstreetmap.fr/' target='_blank'>OpenStreetMap France</a>",
       code: "H",
       keyid: "hot",
       name: I18n.t("javascripts.map.base.hot")

@@ -68,18 +68,18 @@ OpenStreetMap::Application.routes.draw do
     get "user/details" => "user#api_details"
     get "user/gpx_files" => "user#api_gpx_files"
 
-    get "user/preferences" => "user_preference#read"
-    get "user/preferences/:preference_key" => "user_preference#read_one"
-    put "user/preferences" => "user_preference#update"
-    put "user/preferences/:preference_key" => "user_preference#update_one"
-    delete "user/preferences/:preference_key" => "user_preference#delete_one"
+    get "user/preferences" => "user_preferences#read"
+    get "user/preferences/:preference_key" => "user_preferences#read_one"
+    put "user/preferences" => "user_preferences#update"
+    put "user/preferences/:preference_key" => "user_preferences#update_one"
+    delete "user/preferences/:preference_key" => "user_preferences#delete_one"
 
-    post "gpx/create" => "trace#api_create"
-    get "gpx/:id" => "trace#api_read", :id => /\d+/
-    put "gpx/:id" => "trace#api_update", :id => /\d+/
-    delete "gpx/:id" => "trace#api_delete", :id => /\d+/
-    get "gpx/:id/details" => "trace#api_read", :id => /\d+/
-    get "gpx/:id/data" => "trace#api_data"
+    post "gpx/create" => "traces#api_create"
+    get "gpx/:id" => "traces#api_read", :id => /\d+/
+    put "gpx/:id" => "traces#api_update", :id => /\d+/
+    delete "gpx/:id" => "traces#api_delete", :id => /\d+/
+    get "gpx/:id/details" => "traces#api_read", :id => /\d+/
+    get "gpx/:id/data" => "traces#api_data"
 
     # AMF (ActionScript) API
     post "amf/read" => "amf#amf_read"
@@ -188,29 +188,31 @@ OpenStreetMap::Application.routes.draw do
   post "/preview/:type" => "site#preview", :as => :preview
 
   # traces
-  get "/user/:display_name/traces/tag/:tag/page/:page" => "trace#list", :page => /[1-9][0-9]*/
-  get "/user/:display_name/traces/tag/:tag" => "trace#list"
-  get "/user/:display_name/traces/page/:page" => "trace#list", :page => /[1-9][0-9]*/
-  get "/user/:display_name/traces" => "trace#list"
-  get "/user/:display_name/traces/tag/:tag/rss" => "trace#georss", :defaults => { :format => :rss }
-  get "/user/:display_name/traces/rss" => "trace#georss", :defaults => { :format => :rss }
-  get "/user/:display_name/traces/:id" => "trace#view"
-  get "/user/:display_name/traces/:id/picture" => "trace#picture"
-  get "/user/:display_name/traces/:id/icon" => "trace#icon"
-  get "/traces/tag/:tag/page/:page" => "trace#list", :page => /[1-9][0-9]*/
-  get "/traces/tag/:tag" => "trace#list"
-  get "/traces/page/:page" => "trace#list", :page => /[1-9][0-9]*/
-  get "/traces" => "trace#list"
-  get "/traces/tag/:tag/rss" => "trace#georss", :defaults => { :format => :rss }
-  get "/traces/rss" => "trace#georss", :defaults => { :format => :rss }
-  get "/traces/mine/tag/:tag/page/:page" => "trace#mine", :page => /[1-9][0-9]*/
-  get "/traces/mine/tag/:tag" => "trace#mine"
-  get "/traces/mine/page/:page" => "trace#mine"
-  get "/traces/mine" => "trace#mine"
-  match "/trace/create" => "trace#create", :via => [:get, :post]
-  get "/trace/:id/data" => "trace#data", :id => /\d+/, :as => "trace_data"
-  match "/trace/:id/edit" => "trace#edit", :via => [:get, :post], :id => /\d+/, :as => "trace_edit"
-  post "/trace/:id/delete" => "trace#delete", :id => /\d+/
+  get "/user/:display_name/traces/tag/:tag/page/:page" => "traces#list", :page => /[1-9][0-9]*/
+  get "/user/:display_name/traces/tag/:tag" => "traces#list"
+  get "/user/:display_name/traces/page/:page" => "traces#list", :page => /[1-9][0-9]*/
+  get "/user/:display_name/traces" => "traces#list"
+  get "/user/:display_name/traces/tag/:tag/rss" => "traces#georss", :defaults => { :format => :rss }
+  get "/user/:display_name/traces/rss" => "traces#georss", :defaults => { :format => :rss }
+  get "/user/:display_name/traces/:id" => "traces#view"
+  get "/user/:display_name/traces/:id/picture" => "traces#picture"
+  get "/user/:display_name/traces/:id/icon" => "traces#icon"
+  get "/traces/tag/:tag/page/:page" => "traces#list", :page => /[1-9][0-9]*/
+  get "/traces/tag/:tag" => "traces#list"
+  get "/traces/page/:page" => "traces#list", :page => /[1-9][0-9]*/
+  get "/traces" => "traces#list"
+  get "/traces/tag/:tag/rss" => "traces#georss", :defaults => { :format => :rss }
+  get "/traces/rss" => "traces#georss", :defaults => { :format => :rss }
+  get "/traces/mine/tag/:tag/page/:page" => "traces#mine", :page => /[1-9][0-9]*/
+  get "/traces/mine/tag/:tag" => "traces#mine"
+  get "/traces/mine/page/:page" => "traces#mine"
+  get "/traces/mine" => "traces#mine"
+  resources :traces, :only => [:new, :create]
+  post "/trace/create" => "traces#create" # remove after deployment
+  get "/trace/create", :to => redirect(:path => "/traces/new")
+  get "/trace/:id/data" => "traces#data", :id => /\d+/, :as => "trace_data"
+  match "/trace/:id/edit" => "traces#edit", :via => [:get, :post], :id => /\d+/, :as => "trace_edit"
+  post "/trace/:id/delete" => "traces#delete", :id => /\d+/
 
   # diary pages
   match "/diary/new" => "diary_entry#new", :via => [:get, :post]
@@ -261,13 +263,19 @@ OpenStreetMap::Application.routes.draw do
   get "/export/embed" => "export#embed"
 
   # messages
-  get "/user/:display_name/inbox" => "message#inbox", :as => "inbox"
-  get "/user/:display_name/outbox" => "message#outbox", :as => "outbox"
-  match "/message/new/:display_name" => "message#new", :via => [:get, :post], :as => "new_message"
-  get "/message/read/:message_id" => "message#read", :as => "read_message"
-  post "/message/mark/:message_id" => "message#mark", :as => "mark_message"
-  match "/message/reply/:message_id" => "message#reply", :via => [:get, :post], :as => "reply_message"
-  post "/message/delete/:message_id" => "message#delete", :as => "delete_message"
+  resources :messages, :only => [:show] do
+    collection do
+      get :inbox
+      get :outbox
+    end
+  end
+  get "/user/:display_name/inbox", :to => redirect(:path => "/messages/inbox")
+  get "/user/:display_name/outbox", :to => redirect(:path => "/messages/outbox")
+  match "/message/new/:display_name" => "messages#new", :via => [:get, :post], :as => "new_message"
+  get "/message/read/:message_id", :to => redirect(:path => "/messages/%{message_id}")
+  post "/message/mark/:message_id" => "messages#mark", :as => "mark_message"
+  match "/message/reply/:message_id" => "messages#reply", :via => [:get, :post], :as => "reply_message"
+  post "/message/delete/:message_id" => "messages#destroy", :as => "destroy_message"
 
   # oauth admin pages (i.e: for setting up new clients, etc...)
   scope "/user/:display_name" do

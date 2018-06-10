@@ -1,5 +1,10 @@
 {
     "pt": {
+        "icons": {
+            "information": "info",
+            "remove": "remover",
+            "undo": "desfazer"
+        },
         "modes": {
             "add_area": {
                 "title": "Área",
@@ -145,7 +150,9 @@
                     "vertex": "Linha conectada a outra.",
                     "line": "Linha ou área conectada a outra linha.",
                     "area": "Linha conectada a uma área."
-                }
+                },
+                "relation": "Estes elementos não podem ser conectados porque eles têm funções de relação em conflito.",
+                "restriction": "Estes elementos não podem ser conectados porque iriam danificar a relação \"{relation}\"."
             },
             "disconnect": {
                 "title": "Desconectar",
@@ -163,7 +170,8 @@
                 "annotation": "{n} elementos combinados.",
                 "not_eligible": "Estes elementos não podem ser combinados.",
                 "not_adjacent": "Estes elementos não podem ser unidos porque as suas extremidades não estão conectadas.",
-                "restriction": "Estes elementos não podem ser combinados porque pelo menos um deles é membro da relação \"{relation}\".",
+                "restriction": "Estes elementos não podem ser unidos porque iriam danificar a relação \"{relation}\".",
+                "relation": "Estes elementos não podem ser unidos porque eles têm funções de relação em conflito.",
                 "incomplete_relation": "Estes elementos não podem ser combinados porque pelo menos um deles não está completamente descarregado no mapa.",
                 "conflicting_tags": "Estes elementos não podem ser combinados porque algumas das suas etiquetas entram em conflito."
             },
@@ -402,6 +410,7 @@
                 "key": "H",
                 "title": "Histórico",
                 "selected": "{n} selecionado",
+                "no_history": "Sem histórico (elemento novo)",
                 "version": "Versão",
                 "last_edit": "Última edição",
                 "edited_by": "Editado por",
@@ -639,15 +648,20 @@
             }
         },
         "success": {
-            "edited_osm": "Acabou de editar o OpenStreetMap!",
             "just_edited": "Acaba de editar o OpenStreetMap!",
-            "view_on_osm": "Ver no OpenStreetMap",
-            "facebook": "Partilhar no Facebook",
-            "twitter": "Partilhar no Twitter",
-            "google": "Partilhar no Google+",
-            "help_html": "As suas alterações devem aparecer na \"Camada Padrão\" em poucos minutos. Outras camadas e determinados elementos podem demorar mais tempo.",
+            "thank_you": "Obrigado por melhorares o mapa.",
+            "thank_you_location": "Obrigado por melhorares o mapa em {where}.",
+            "help_html": "As tuas alterações devem aparecer no OpenStreetMap dentro de poucos minutos. Pode demorar mais tempo se for um mapa noutro site dependente do OSM.",
             "help_link_text": "Detalhes",
-            "help_link_url": "https://wiki.openstreetmap.org/wiki/FAQ#I_have_just_made_some_changes_to_the_map._How_do_I_get_to_see_my_changes.3F"
+            "help_link_url": "https://wiki.openstreetmap.org/wiki/FAQ#I_have_just_made_some_changes_to_the_map._How_do_I_get_to_see_my_changes.3F",
+            "view_on_osm": "Ver alterações no OSM",
+            "changeset_id": "O teu conjunto de alterações #: {changeset_id}",
+            "like_osm": "Gostas do OpenStreetMap? Liga-te a outros:",
+            "more": "Mais",
+            "events": "Eventos",
+            "languages": "Línguas: {languages}",
+            "missing": "Falta algo na lista?",
+            "tell_us": "Diz-nos!"
         },
         "confirm": {
             "okay": "Ok",
@@ -888,16 +902,28 @@
                     "title": "Ajuda da restrições de viragem",
                     "about": {
                         "title": "Sobre",
-                        "about": "Este campo permite-lhe inspeccionar e modificar as restrições de viragem. É mostrado um modelo da intersecção seleccionada incluindo as estradas que estão conectadas."
+                        "about": "Este campo permite-lhe inspeccionar e modificar as restrições de viragem. É mostrado um modelo da intersecção seleccionada incluindo as estradas que estão conectadas.",
+                        "from_via_to": "Uma restrição de viragem contém sempre: uma linha **FROM**(de), uma linha **TO**(para), e um nó ou linha **VIA**(através de).",
+                        "maxdist": "Os deslizador \"{distField}\" controla quão longe deve procurar por estradas adicionais ligadas.",
+                        "maxvia": "O deslizador \"{viaField}\" ajusta quantas linhas via podem ser incluídas na pesquisa. (Dica: quanto mais simples, melhor)"
                     },
                     "inspecting": {
-                        "title": "Inspeccionando"
+                        "title": "Inspeccionando",
+                        "from_shadow": "{fromShadow} segmento **FROM** (de)",
+                        "allow_shadow": "{allowShadow} **TO** (para) permitido",
+                        "restrict_shadow": "{restrictShadow} **TO** (para) não permitido",
+                        "only_shadow": "{onlyShadow} **TO** (para) apenas"
                     },
                     "modifying": {
-                        "title": "Modificando"
+                        "title": "Modificando",
+                        "allow_turn": "{allowTurn} **TO** (para) permitido",
+                        "restrict_turn": "{restrictTurn} **TO** (para) não permitido",
+                        "only_turn": "{onlyTurn} **TO** (para) apenas"
                     },
                     "tips": {
-                        "title": "Dicas"
+                        "title": "Dicas",
+                        "simple": "**Prefere restrições simples em vez de complicadas.**",
+                        "indirect_noedit": "Não deverá editar restrições indiretas. Opte por editar a restrição direta mais próxima."
                     }
                 }
             }
@@ -1683,6 +1709,9 @@
                         "cycleway:right": "Lado direito"
                     }
                 },
+                "dance/style": {
+                    "label": "Estilos de Dança"
+                },
                 "date": {
                     "label": "Data"
                 },
@@ -1748,6 +1777,9 @@
                 "display": {
                     "label": "Mostrador"
                 },
+                "distance": {
+                    "label": "Distância total"
+                },
                 "dock": {
                     "label": "Tipo"
                 },
@@ -1802,7 +1834,7 @@
                     "label": "Posição",
                     "options": {
                         "green": "Relvado",
-                        "lane": "Via de trânsito",
+                        "lane": "Faixa de rodagem",
                         "parking_lot": "Estacionamento",
                         "sidewalk": "Passeio"
                     }
@@ -1810,10 +1842,10 @@
                 "fire_hydrant/type": {
                     "label": "Tipo",
                     "options": {
-                        "pillar": "Superfície ",
+                        "pillar": "Marco de incêndio no solo",
                         "pond": "Poça de água",
-                        "underground": "Subterrâneo ",
-                        "wall": "Muro"
+                        "underground": "Boca de incêndio tradicional com portinholas",
+                        "wall": "Marco de incêndio na parede"
                     }
                 },
                 "fitness_station": {
@@ -1899,6 +1931,27 @@
                     "label": "Cestos",
                     "placeholder": "1, 2, 4..."
                 },
+                "horse_dressage": {
+                    "options": {
+                        "equestrian": "Sim",
+                        "undefined": "Não"
+                    }
+                },
+                "horse_riding": {
+                    "options": {
+                        "horse_riding": "Sim",
+                        "undefined": "Não"
+                    }
+                },
+                "horse_scale": {
+                    "placeholder": "Difícil, perigoso..."
+                },
+                "horse_stables": {
+                    "options": {
+                        "stables": "Sim",
+                        "undefined": "Não"
+                    }
+                },
                 "iata": {
                     "label": "IATA"
                 },
@@ -1917,6 +1970,9 @@
                 },
                 "indoor": {
                     "label": "Interior"
+                },
+                "industrial": {
+                    "label": "Tipo"
                 },
                 "information": {
                     "label": "Tipo"
@@ -1956,7 +2012,7 @@
                     "label": "Tipo"
                 },
                 "lanes": {
-                    "label": "Número de vias de trânsito",
+                    "label": "Número de faixas de rodagem",
                     "placeholder": "1, 2, 3..."
                 },
                 "layer": {
@@ -2037,6 +2093,9 @@
                 "maxspeed": {
                     "label": "Limite de velocidade",
                     "placeholder": "50, 90, 100, 120..."
+                },
+                "maxspeed/advisory": {
+                    "placeholder": "40, 50, 60..."
                 },
                 "maxstay": {
                     "label": "Tempo máximo"
@@ -2191,7 +2250,6 @@
                     "placeholder": "1, 2, 3..."
                 },
                 "phone": {
-                    "label": "Telefone / Telemóvel",
                     "placeholder": "+351 211 123456"
                 },
                 "piste/difficulty": {
@@ -2289,6 +2347,9 @@
                 },
                 "ref": {
                     "label": "Código de Referência"
+                },
+                "ref/isil": {
+                    "label": "Código ISIL"
                 },
                 "ref_aeroway_gate": {
                     "label": "Número da Porta"
@@ -2623,8 +2684,17 @@
                     "label": "Tipo",
                     "placeholder": "Padrão"
                 },
+                "usage_rail": {
+                    "label": "Tipo de Utilização",
+                    "options": {
+                        "industrial": "Industrial",
+                        "military": "Militar",
+                        "test": "Testes",
+                        "tourism": "Turismo"
+                    }
+                },
                 "vending": {
-                    "label": "Tipo de produtos"
+                    "label": "Tipos de Produtos"
                 },
                 "visibility": {
                     "label": "Visibilidade",
@@ -2683,6 +2753,9 @@
                 },
                 "wheelchair": {
                     "label": "Acesso cadeira rodas"
+                },
+                "wholesale": {
+                    "label": "Grossista"
                 },
                 "width": {
                     "label": "Largura (metros)"
@@ -3161,6 +3234,10 @@
                 "amenity/shower": {
                     "name": "Chuveiro",
                     "terms": "Shower, chuveiro público, shuveiro, xuveiro, chubeiro, xubeiro, shubeiro, banho"
+                },
+                "amenity/smoking_area": {
+                    "name": "Área para Fumadores",
+                    "terms": "fumadores, fumar"
                 },
                 "amenity/social_facility": {
                     "name": "Centro social",
@@ -3788,7 +3865,7 @@
                 },
                 "emergency/fire_hydrant": {
                     "name": "Boca de incêndio",
-                    "terms": "Fire Hydrant, Hidrante, Marco de Água, Marco de Incêndio"
+                    "terms": "Hidrate, Marco de Água, Marco de Incêndio, boca de incêndio"
                 },
                 "emergency/life_ring": {
                     "name": "Boia de Salvamento",
@@ -4336,7 +4413,7 @@
                     "terms": "<translate with synonyms or related terms for 'Religious Area', separated by commas>"
                 },
                 "landuse/residential": {
-                    "name": "Zona residencial",
+                    "name": "Área residencial",
                     "terms": "Residencial, Urbano, Antrópico, Residential"
                 },
                 "landuse/retail": {
@@ -4370,6 +4447,10 @@
                 "leisure/dance": {
                     "name": "Salão de dança",
                     "terms": "Dance Hall"
+                },
+                "leisure/dancing_school": {
+                    "name": "Escola de Dança",
+                    "terms": "dança, dançar, bailado, bailarina, bailarino"
                 },
                 "leisure/dog_park": {
                     "name": "Parque para cães",
@@ -4645,6 +4726,10 @@
                 "man_made/observation": {
                     "name": "Torre de observação",
                     "terms": "Observatório Tower, Miradouro"
+                },
+                "man_made/observatory": {
+                    "name": "Observatório",
+                    "terms": "Observatório Astronómico, Observação, Observações, Astronomia"
                 },
                 "man_made/petroleum_well": {
                     "name": "Poço de petróleo",
@@ -5165,6 +5250,42 @@
                 "public_transport/linear_platform_bus": {
                     "name": "Paragem de autocarro / plataforma",
                     "terms": "Paragem, terminal, autocarro, bus stop, bus, abrigo paragem"
+                },
+                "public_transport/linear_platform_ferry": {
+                    "name": "Paragem de Ferry / Plataforma",
+                    "terms": "Ferry, Plataforma de Ferry"
+                },
+                "public_transport/linear_platform_train": {
+                    "name": "Paragem de Comboio / Plataforma",
+                    "terms": "Paragem de Comboio, Plataforma de Comboio"
+                },
+                "public_transport/platform_ferry": {
+                    "name": "Paragem de Ferry / Plataforma",
+                    "terms": "Ferry, Plataforma de Ferry"
+                },
+                "public_transport/platform_train": {
+                    "name": "Paragem de Comboio / Plataforma",
+                    "terms": "Paragem de Comboio, Plataforma de Comboio"
+                },
+                "public_transport/station_ferry": {
+                    "name": "Estação de Ferry / Terminal",
+                    "terms": "Ferry, Terminal de Ferry"
+                },
+                "public_transport/station_train": {
+                    "name": "Estação de Comboios",
+                    "terms": "Estação Ferroviária, Estação dos Caminhos de Ferro"
+                },
+                "public_transport/station_train_halt": {
+                    "name": "Apeadeiro Ferroviário",
+                    "terms": "Apeadeiro, Paragem de Comboio"
+                },
+                "public_transport/stop_position_ferry": {
+                    "name": "Localização de Paragem do Ferry",
+                    "terms": "Ferry, Paragem do Ferry"
+                },
+                "public_transport/stop_position_train": {
+                    "name": "Localização de Paragem do Comboio",
+                    "terms": "Comboio, Paragem do Comboio"
                 },
                 "railway": {
                     "name": "Ferrovia"
@@ -5740,6 +5861,10 @@
                     "name": "Loja de armas",
                     "terms": "espingardaria, Loja de Armas, Caça"
                 },
+                "shop/wholesale": {
+                    "name": "Loja Grossista",
+                    "terms": "grossista, atacado, revendedor, revenda"
+                },
                 "shop/window_blind": {
                     "name": "Loja de estores",
                     "terms": "Estores, Estor"
@@ -5790,7 +5915,7 @@
                 },
                 "tourism/guest_house": {
                     "name": "Hospedagem Domiciliar/Casa de Hóspedes",
-                    "terms": "casa se hóspedes, Cama e Pequeno Almoço, Cama e Peq. Almoço, Cama e Almoço"
+                    "terms": "casa de hóspedes, Cama e Pequeno Almoço, Cama e Peq. Almoço, Cama e Almoço, albergaria, hospedaria, pensão"
                 },
                 "tourism/hostel": {
                     "name": "Pousada / Hostel",
@@ -5822,7 +5947,7 @@
                 },
                 "tourism/motel": {
                     "name": "Motel",
-                    "terms": "Albergaria "
+                    "terms": "quartos de motel, albergue, parador, paradores"
                 },
                 "tourism/museum": {
                     "name": "Museu",
@@ -5918,18 +6043,6 @@
                 "type/restriction/no_u_turn": {
                     "name": "Proibição de inversão de marcha",
                     "terms": "Não Inverter o Sentido, inversão de marcha proibida,  proibida a inversão de marcha, não fazer inversão de marcha"
-                },
-                "type/restriction/only_left_turn": {
-                    "name": "Sentido obrigatório para a esquerda",
-                    "terms": "obrigatoriedade de virar à esquerda, virar para a esquerda,"
-                },
-                "type/restriction/only_right_turn": {
-                    "name": "Sentido obrigatório para a direita",
-                    "terms": "obrigatoriedade de virar à direita, virar para a direita,"
-                },
-                "type/restriction/only_straight_on": {
-                    "name": "Sentido obrigatório para a frente",
-                    "terms": "Proibido Virar, seguir em frente"
                 },
                 "type/route": {
                     "name": "Rota",
@@ -6092,7 +6205,7 @@
                 "attribution": {
                     "text": "Termos e Opinião"
                 },
-                "description": "Limites das imagens e datas de captura. As etiquetas aparecem no nível de aproximação 14 ou superior.",
+                "description": "Limites das imagens aéreas e datas de captura. As etiquetas aparecem no nível de magnificação 13 e superiores.",
                 "name": "Imagens DigitalGlobe Premium antigas"
             },
             "DigitalGlobe-Standard": {
@@ -6106,7 +6219,7 @@
                 "attribution": {
                     "text": "Termos e Opinião"
                 },
-                "description": "Limites das imagens e datas de captura. As etiquetas aparecem no nível de aproximação 14 ou superior.",
+                "description": "Limites das imagens aéreas e datas de captura. As etiquetas aparecem no nível de magnificação 13 e superiores.",
                 "name": "Imagens DigitalGlobe Standard antigaas"
             },
             "EsriWorldImagery": {
@@ -6190,6 +6303,10 @@
                 "description": "Amarelo = Informação de mapa em domínio público dos Censos dos EUA. Vermelho = Informação não existente no OpenStreetMap",
                 "name": "Estradas TIGER 2017"
             },
+            "US_Forest_Service_roads_overlay": {
+                "description": "Estrada: cobertura verde = não classificada. cobertura castanha = trilho. Superfície: gravilha = preenchimento castanho claro, asfalto = preto, pavimentado = cinza, terra = branco, cimento = azul, erva = verde. Sazonal = barras brancas",
+                "name": "Sobreposição Estradas Florestais E.U.A."
+            },
             "Waymarked_Trails-Cycling": {
                 "attribution": {
                     "text": "© waymarkedtrails.org, contribuidores OpenStreetMap, CC by-SA 3.0"
@@ -6224,7 +6341,7 @@
                 "attribution": {
                     "text": "basemap.at"
                 },
-                "description": "Mapa base Áustria, baseado em informação govenamental ",
+                "description": "Mapa Base da Áustria, baseado em dados do governo",
                 "name": "basemap.at"
             },
             "basemap.at-orthofoto": {
@@ -6280,13 +6397,13 @@
             },
             "skobbler": {
                 "attribution": {
-                    "text": "© Telas: skobbler, dados do mapa © contribuidores OpenStreetMap"
+                    "text": "© Mosaico: skobbler, dados do mapa © contribuidores OpenStreetMap"
                 },
                 "name": "skobbler"
             },
             "stamen-terrain-background": {
                 "attribution": {
-                    "text": "Telas do mapa por Stamen Design, sob licença CC BY 3.0"
+                    "text": "Mosaico do mapa por Stamen Design, sob CC BY 3.0. Dados por OpenStreetMap, sob ODbL"
                 },
                 "name": "Terreno Stamen"
             },
@@ -6301,6 +6418,111 @@
                     "text": "Mapas © Thunderforest, dados do mapa © contribuidores OpenStreetMap"
                 },
                 "name": "Thunderforest Landscape"
+            }
+        },
+        "community": {
+            "cape-coast-youthmappers": {
+                "description": "Segue-nos no Twitter: {url}"
+            },
+            "osm-gh-facebook": {
+                "name": "OpenStreetMap Gana no Facebook",
+                "description": "Grupo no Facebook para pessoas interessadas no OpenStreetMap."
+            },
+            "osm-gh-twitter": {
+                "name": "OpenStreetMap Gana no Twitter",
+                "description": "Segue-nos no Twitter: {url}"
+            },
+            "talk-gh": {
+                "name": "Lista de Discussão Talk-gh"
+            },
+            "talk-mg": {
+                "name": "Lista de Discussão Talk-mg"
+            },
+            "OSM-india-mailinglist": {
+                "name": "Lista de Discussão do OpenStreetMap na Índia",
+                "description": "Talk-in é a lista de discussão oficial para a comunidade indiana"
+            },
+            "OSM-india-twitter": {
+                "description": "Estamos a um tweet de distância: {url}"
+            },
+            "OSM-IDN-facebook": {
+                "name": "OpenStreetMap Indonésia"
+            },
+            "OSM-japan-mailinglist": {
+                "name": "Lista de Discussão do OpenStreetMap Japão",
+                "description": "Talk-ja é a lista de discussão oficial para a comunidade japonesa"
+            },
+            "OSM-japan-twitter": {
+                "description": "Hashtag no Twitter: {url}"
+            },
+            "OSM-MNG-facebook": {
+                "name": "OpenStreetMap Mongólia"
+            },
+            "OSM-PH-mailinglist": {
+                "name": "Lista de Discussão Talk-ph",
+                "description": "Uma lista de discussão para falar sobre o OpenStreetMap nas Filipinas"
+            },
+            "at-mailinglist": {
+                "name": "Lista de Discussão Talk-at"
+            },
+            "be-mailinglist": {
+                "name": "Lista de Discussão Talk-be"
+            },
+            "talk-cz-mailinglist": {
+                "name": "Lista de Discussão Talk-cz"
+            },
+            "dk-mailinglist": {
+                "name": "Lista de Discussão Talk-dk"
+            },
+            "fr-mailinglist": {
+                "name": "Lista de Discussão Talk-fr",
+                "description": "Lista de Discussão Talk-fr"
+            },
+            "de-berlin-mailinglist": {
+                "name": "Lista de Discussão Berlim"
+            },
+            "de-mailinglist": {
+                "name": "Lista de Discussão Talk-de"
+            },
+            "it-mailinglist": {
+                "name": "Lista de Discussão Talk-it"
+            },
+            "talk-it-lazio": {
+                "extendedDescription": "Lista de Discussão para a área de Roma e Lázio"
+            },
+            "OSM-ES-mailinglist": {
+                "name": "Lista de Discussão Talk-es"
+            },
+            "gb-mailinglist": {
+                "name": "Lista de Discussão Talk-gb"
+            },
+            "GeoPhilly": {
+                "name": "GeoPhilly"
+            },
+            "Mapping-DC-meetup": {
+                "name": "Mapping DC"
+            },
+            "talk-au": {
+                "name": "Lista de Discussão Talk-au"
+            },
+            "OSM-AR-mailinglist": {
+                "name": "Lista de Discussão Talk-ar"
+            },
+            "OSM-BO-mailinglist": {
+                "name": "Lista de Discussão Talk-bo"
+            },
+            "OSM-br-mailinglist": {
+                "name": "Lista de Discussão Talk-br",
+                "description": "Uma lista de discussão para falar sobre o OpenStreetMap no Brasil"
+            },
+            "OSM-CL-mailinglist": {
+                "name": "Lista de Discussão Talk-cl"
+            },
+            "OSM-CO-mailinglist": {
+                "name": "Lista de Discussão Talk-co"
+            },
+            "OSM-PE-mailinglist": {
+                "name": "Lista de Discussão Talk-pe"
             }
         }
     }

@@ -27,13 +27,12 @@ function GraphHopperEngine(id, vehicleType) {
           locale: I18n.currentLocale(),
           key: "LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn",
           "ch.disable": vehicleType === "car",
-          type: "jsonp",
           elevation: false,
           instructions: true,
           point: points.map(function (p) { return p.lat + "," + p.lng; })
         },
         traditional: true,
-        dataType: "jsonp",
+        dataType: "json",
         success: function (data) {
           if (!data.paths || data.paths.length === 0)
             return callback(true);

@@ -6,7 +6,7 @@ class IssueTest < ActiveSupport::TestCase
 
     assert issue.valid?
     issue.assigned_role = "bogus"
-    assert !issue.valid?
+    assert_not issue.valid?
   end
 
   def test_reported_user

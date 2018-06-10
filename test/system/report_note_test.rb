@@ -6,7 +6,7 @@ class ReportNoteTest < ApplicationSystemTestCase
     visit browse_note_path(note)
     assert page.has_content?(note.comments.first.body)
 
-    assert !page.has_content?(I18n.t("browse.note.report"))
+    assert_not page.has_content?(I18n.t("browse.note.report"))
   end
 
   def test_can_report_anonymous_notes

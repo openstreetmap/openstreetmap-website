@@ -8,9 +8,7 @@ class Notifier < ActionMailer::Base
 
   def signup_confirm(user, token)
     with_recipient_locale user do
-      @url = url_for(:host => SERVER_URL,
-                     :protocol => SERVER_PROTOCOL,
-                     :controller => "user", :action => "confirm",
+      @url = url_for(:controller => "user", :action => "confirm",
                      :display_name => user.display_name,
                      :confirm_string => token.token)
 
@@ -22,9 +20,7 @@ class Notifier < ActionMailer::Base
   def email_confirm(user, token)
     with_recipient_locale user do
       @address = user.new_email
-      @url = url_for(:host => SERVER_URL,
-                     :protocol => SERVER_PROTOCOL,
-                     :controller => "user", :action => "confirm_email",
+      @url = url_for(:controller => "user", :action => "confirm_email",
                      :confirm_string => token.token)
 
       mail :to => user.new_email,
@@ -34,9 +30,7 @@ class Notifier < ActionMailer::Base
 
   def lost_password(user, token)
     with_recipient_locale user do
-      @url = url_for(:host => SERVER_URL,
-                     :protocol => SERVER_PROTOCOL,
-                     :controller => "user", :action => "reset_password",
+      @url = url_for(:controller => "user", :action => "reset_password",
                      :token => token.token)
 
       mail :to => user.email,
@@ -75,14 +69,8 @@ class Notifier < ActionMailer::Base
       @from_user = message.sender.display_name
       @text = message.body
       @title = message.title
-      @readurl = url_for(:host => SERVER_URL,
-                         :protocol => SERVER_PROTOCOL,
-                         :controller => "message", :action => "read",
-                         :message_id => message.id)
-      @replyurl = url_for(:host => SERVER_URL,
-                          :protocol => SERVER_PROTOCOL,
-                          :controller => "message", :action => "reply",
-                          :message_id => message.id)
+      @readurl = message_url(message)
+      @replyurl = reply_message_url(message)
       @author = @from_user
 
       attach_user_avatar(message.sender)
@@ -99,26 +87,18 @@ class Notifier < ActionMailer::Base
       @from_user = comment.user.display_name
       @text = comment.body
       @title = comment.diary_entry.title
-      @readurl = url_for(:host => SERVER_URL,
-                         :protocol => SERVER_PROTOCOL,
-                         :controller => "diary_entry",
+      @readurl = url_for(:controller => "diary_entry",
                          :action => "view",
                          :display_name => comment.diary_entry.user.display_name,
                          :id => comment.diary_entry.id,
                          :anchor => "comment#{comment.id}")
-      @commenturl = url_for(:host => SERVER_URL,
-                            :protocol => SERVER_PROTOCOL,
-                            :controller => "diary_entry",
+      @commenturl = url_for(:controller => "diary_entry",
                             :action => "view",
                             :display_name => comment.diary_entry.user.display_name,
                             :id => comment.diary_entry.id,
                             :anchor => "newcomment")
-      @replyurl = url_for(:host => SERVER_URL,
-                          :protocol => SERVER_PROTOCOL,
-                          :controller => "message",
-                          :action => "new",
-                          :display_name => comment.user.display_name,
-                          :title => "Re: #{comment.diary_entry.title}")
+      @replyurl = new_message_url(comment.user, :message => { :title => "Re: #{comment.diary_entry.title}" })
+
       @author = @from_user
 
       attach_user_avatar(comment.user)
@@ -132,13 +112,9 @@ class Notifier < ActionMailer::Base
   def friend_notification(friend)
     with_recipient_locale friend.befriendee do
       @friend = friend
-      @viewurl = url_for(:host => SERVER_URL,
-                         :protocol => SERVER_PROTOCOL,
-                         :controller => "user", :action => "view",
+      @viewurl = url_for(:controller => "user", :action => "view",
                          :display_name => @friend.befriender.display_name)
-      @friendurl = url_for(:host => SERVER_URL,
-                           :protocol => SERVER_PROTOCOL,
-                           :controller => "user", :action => "make_friend",
+      @friendurl = url_for(:controller => "user", :action => "make_friend",
                            :display_name => @friend.befriender.display_name)
       @author = @friend.befriender.display_name
 
@@ -150,7 +126,7 @@ class Notifier < ActionMailer::Base
 
   def note_comment_notification(comment, recipient)
     with_recipient_locale recipient do
-      @noteurl = browse_note_url(comment.note, :host => SERVER_URL)
+      @noteurl = browse_note_url(comment.note)
       @place = Nominatim.describe_location(comment.note.lat, comment.note.lon, 14, I18n.locale)
       @comment = comment.body
       @owner = recipient == comment.note.author
@@ -178,7 +154,7 @@ class Notifier < ActionMailer::Base
   def changeset_comment_notification(comment, recipient)
     with_recipient_locale recipient do
       @to_user = recipient.display_name
-      @changeset_url = changeset_url(comment.changeset, :host => SERVER_URL)
+      @changeset_url = changeset_url(comment.changeset)
       @comment = comment.body
       @owner = recipient == comment.changeset.user
       @commenter = comment.author.display_name
@@ -202,7 +178,7 @@ class Notifier < ActionMailer::Base
   private
 
   def set_shared_template_vars
-    @root_url = root_url(:host => SERVER_URL)
+    @root_url = root_url
   end
 
   def attach_project_logo

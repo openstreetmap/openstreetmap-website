@@ -1,12 +1,12 @@
-<% set_title(t('browse.note.title', :id => @note.id)) %>
+<% set_title(t('.title', :id => @note.id)) %>
 
 <h2>
   <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-  <%= t "browse.note.#{@note.status}_title", :note_name => @note.id %>
+  <%= t ".#{@note.status}_title", :note_name => @note.id %>
 </h2>
 
 <div class="browse-section">
-  <h4><%= t('browse.note.description') %></h4>
+  <h4><%= t('.description') %></h4>
   <div class="note-description">
     <%= h(@note_comments.first.body.to_html) %>
   </div>
@@ -44,8 +44,12 @@
     <form action="#">
       <textarea class="comment" name="text" cols="40" rows="5"></textarea>
       <div class="buttons clearfix">
-        <input type="submit" name="hide" value="<%= t('javascripts.notes.show.hide') %>" class="hide_unless_moderator deemphasize" data-note-id="<%= @note.id %>" data-method="DELETE" data-url="<%= note_url(@note, 'json') %>">
-        <input type="submit" name="close" value="<%= t('javascripts.notes.show.resolve') %>" class="hide_unless_logged_in" data-note-id="<%= @note.id %>" data-method="POST" data-url="<%= close_note_url(@note, 'json') %>">
+        <% if current_user and current_user.moderator? -%>
+          <input type="submit" name="hide" value="<%= t('javascripts.notes.show.hide') %>" class="deemphasize" data-note-id="<%= @note.id %>" data-method="DELETE" data-url="<%= note_url(@note, 'json') %>">
+        <% end -%>
+        <% if current_user -%>
+          <input type="submit" name="close" value="<%= t('javascripts.notes.show.resolve') %>" data-note-id="<%= @note.id %>" data-method="POST" data-url="<%= close_note_url(@note, 'json') %>">
+        <% end -%>
         <input type="submit" name="comment" value="<%= t('javascripts.notes.show.comment') %>" data-note-id="<%= @note.id %>" data-method="POST" data-url="<%= comment_note_url(@note, 'json') %>" disabled="1">
       </div>
     </form>
@@ -53,8 +57,12 @@
     <form action="#">
       <input type="hidden" name="text" value="">
       <div class="buttons clearfix">
-        <input type="submit" name="hide" value="<%= t('javascripts.notes.show.hide') %>" class="hide_unless_moderator deemphasize" data-note-id="<%= @note.id %>" data-method="DELETE" data-url="<%= note_url(@note, 'json') %>">
-        <input type="submit" name="reopen" value="<%= t('javascripts.notes.show.reactivate') %>" class="hide_unless_logged_in" data-note-id="<%= @note.id %>" data-method="POST" data-url="<%= reopen_note_url(@note, 'json') %>">
+        <% if current_user and current_user.moderator? -%>
+          <input type="submit" name="hide" value="<%= t('javascripts.notes.show.hide') %>" class="deemphasize" data-note-id="<%= @note.id %>" data-method="DELETE" data-url="<%= note_url(@note, 'json') %>">
+        <% end -%>
+        <% if current_user -%>
+          <input type="submit" name="reopen" value="<%= t('javascripts.notes.show.reactivate') %>" data-note-id="<%= @note.id %>" data-method="POST" data-url="<%= reopen_note_url(@note, 'json') %>">
+        <% end -%>
       </div>
     </form>
   <% end %>

@@ -2,11 +2,11 @@ xml.item do
   location = describe_location(note.lat, note.lon, 14, locale)
 
   if note.closed?
-    xml.title t("note.rss.closed", :place => location)
+    xml.title t("notes.rss.closed", :place => location)
   elsif note.comments.length > 1
-    xml.title t("note.rss.commented", :place => location)
+    xml.title t("notes.rss.commented", :place => location)
   else
-    xml.title t("note.rss.opened", :place => location)
+    xml.title t("notes.rss.opened", :place => location)
   end
 
   xml.link browse_note_url(note)

@@ -91,8 +91,6 @@ L.Control.ButtonContainer = L.Control.extend({
 });
 
 L.LocationFilter = L.Layer.extend({
-    includes: L.Mixin.Events,
-
     options: {
         enableButton: {
             enableText: "Select area",

@@ -3,49 +3,49 @@
 <% end %>
 
 <% content_for :heading do %>
-  <h1><%= t 'user.login.heading' %></h1>
+  <h1><%= t '.heading' %></h1>
 <% end %>
 
 <div id="login_login">
   <%= form_tag({ :action => "login" }, { :id => "login_form" }) do %>
     <%= hidden_field_tag('referer', h(params[:referer])) %>
 
-    <p class='deemphasize'><%= t 'user.login.no account' %> <%= link_to t('user.login.register now'), :action => :new, :referer => params[:referer] %></p>
+    <p class='deemphasize'><%= t '.no account' %> <%= link_to t('.register now'), :action => :new, :referer => params[:referer] %></p>
 
     <div id="loginForm" class="standard-form">
 
       <fieldset>
         <div class="form-row">
           <label for="username" class="standard-label">
-            <%= t 'user.login.email or username' %>
+            <%= t '.email or username' %>
           </label>
           <%= text_field_tag "username", params[:username], :tabindex => 1 %>
         </div>
         <div class="form-row">
           <label for="password" class="standard-label">
-            <%= t 'user.login.password' %>
+            <%= t '.password' %>
           </label>
           <%= password_field_tag "password", "", :tabindex => 2 %>
         </div>
         <span class="form-help deemphasize">
-          <%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>
+          <%= link_to t('.lost password link'), :controller => 'user', :action => 'lost_password' %>
         </span>
       </fieldset>
 
       <fieldset>
         <%= check_box_tag "remember_me", "yes", params[:remember_me] == "yes", :tabindex => 3 %>
         <label for="remember_me" class="standard-label">
-          <%= t 'user.login.remember' %>
+          <%= t '.remember' %>
         </label>
-        <%= submit_tag t('user.login.login_button'), :tabindex => 4 %>
+        <%= submit_tag t('.login_button'), :tabindex => 4 %>
       </fieldset>
 
       <fieldset class='form-divider'>
 
-        <p class='standard-label'><%= t 'user.login.with external' %></p>
+        <p class='standard-label'><%= t '.with external' %></p>
 
         <ul class='clearfix' id="login_auth_buttons">
-          <li><%= link_to image_tag("openid.png", :alt => t("user.login.auth_providers.openid.title")), "#", :id => "openid_open_url", :title => t("user.login.auth_providers.openid.title") %></li>
+          <li><%= link_to image_tag("openid.png", :alt => t(".auth_providers.openid.title")), "#", :id => "openid_open_url", :title => t(".auth_providers.openid.title") %></li>
           <% if defined?(GOOGLE_AUTH_ID) -%>
           <li><%= auth_button "google", "google" %></li>
           <% end -%>
@@ -67,17 +67,17 @@
         </ul>
 
         <div id='login_openid_url' class='form-row'>
-          <label for='openid_url' class="standard-label"><%= raw t 'user.login.openid', :logo => openid_logo %></label>
+          <label for='openid_url' class="standard-label"><%= raw t '.openid', :logo => openid_logo %></label>
           <%= text_field_tag("openid_url", "", { :tabindex => 3, :class => "openid_url" }) %>
           <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span>
         </div>
 
         <div class='form-row'>
           <%= check_box_tag "remember_me_openid", "yes", false, :tabindex => 5 %>
-          <label class="standard-label" for="remember_me_openid"><%= t 'user.login.remember' %></label>
+          <label class="standard-label" for="remember_me_openid"><%= t '.remember' %></label>
         </div>
 
-        <%= submit_tag t('user.login.login_button'), :tabindex => 6, :id => "login_openid_submit" %>
+        <%= submit_tag t('.login_button'), :tabindex => 6, :id => "login_openid_submit" %>
 
       </fieldset>
 

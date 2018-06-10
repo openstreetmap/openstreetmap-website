@@ -1,20 +1,20 @@
-<% @title = t('redaction.show.title') %>
+<% @title = t('.title') %>
 <% content_for :heading do %>
-  <h1><%= t('redaction.show.heading', :title => @redaction.title) %></h1>
+  <h1><%= t('.heading', :title => @redaction.title) %></h1>
 <% end %>
 
 <p>
-  <b><%= t 'redaction.show.user' %></b>
+  <b><%= t '.user' %></b>
   <%= link_to(@redaction.user.display_name, user_path(@redaction.user)) %>
 </p>
 <p class="richtext">
-  <b><%= t 'redaction.show.description' %></b>
+  <b><%= t '.description' %></b>
   <%= @redaction.description.to_html %>
 </p>
 
 <% if current_user and current_user.moderator? %>
 <div class="buttons">
-  <%= button_to t('redaction.show.edit'), edit_redaction_path(@redaction), :method => :get %></td>
-  <%= button_to t('redaction.show.destroy'), @redaction, :method => "delete", :remote => true, :data => { :confirm => t('redaction.show.confirm') } %>
+  <%= button_to t('.edit'), edit_redaction_path(@redaction), :method => :get %></td>
+  <%= button_to t('.destroy'), @redaction, :method => "delete", :remote => true, :data => { :confirm => t('.confirm') } %>
 </div>
 <% end %>

@@ -44,7 +44,7 @@ class NodeTagTest < ActiveSupport::TestCase
     tag.k = existing.k
     tag.v = existing.v
     assert tag.new_record?
-    assert !tag.valid?
+    assert_not tag.valid?
     assert_raise(ActiveRecord::RecordInvalid) { tag.save! }
     assert tag.new_record?
   end

@@ -108,6 +108,8 @@ gem "logstasher"
 # Gems useful for development
 group :development do
   gem "annotate"
+  gem "better_errors"
+  gem "binding_of_caller"
   gem "listen"
   gem "vendorer"
 end

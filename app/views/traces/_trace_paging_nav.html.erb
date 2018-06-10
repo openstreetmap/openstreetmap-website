@@ -1,0 +1,18 @@
+<p>
+
+<% if @traces.size > 1 %>
+<% if @page > 1 %>
+<%= link_to t('.newer'), @params.merge({ :page => @page - 1 }) %>
+<% else %>
+<%= t('.newer') %>
+<% end %>
+
+| <%= t('.showing_page', :page => @page) %> |
+
+<% if @traces.size < @page_size %>
+<%= t('.older') %>
+<% else %>
+<%= link_to t('.older'), @params.merge({ :page => @page + 1 }) %>
+<% end %>
+<% end %>
+</p>

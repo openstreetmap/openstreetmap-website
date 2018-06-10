@@ -5,11 +5,11 @@ class MessageTest < ActiveSupport::TestCase
 
   def test_check_empty_message_fails
     message = Message.new
-    assert !message.valid?
+    assert_not message.valid?
     assert message.errors[:title].any?
     assert message.errors[:body].any?
     assert message.errors[:sent_on].any?
-    assert !message.message_read
+    assert_not message.message_read
   end
 
   def test_validating_msgs
@@ -23,7 +23,7 @@ class MessageTest < ActiveSupport::TestCase
     message = create(:message, :unread)
     message.sender = nil
     message.recipient = nil
-    assert !message.valid?
+    assert_not message.valid?
 
     assert_raise(ActiveRecord::RecordNotFound) { User.find(0) }
     message.from_user_id = 0

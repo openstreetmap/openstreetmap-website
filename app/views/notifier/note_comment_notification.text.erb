@@ -1,9 +1,9 @@
-<%= t 'notifier.note_comment_notification.greeting' %>
+<%= t '.greeting' %>
 
 <% if @owner %>
-<%= t "notifier.note_comment_notification.#{@event}.your_note", :commenter => @commenter, :place => @place %>
+<%= t ".#{@event}.your_note", :commenter => @commenter, :place => @place %>
 <% else %>
-<%= t "notifier.note_comment_notification.#{@event}.commented_note", :commenter => @commenter, :place => @place %>
+<%= t ".#{@event}.commented_note", :commenter => @commenter, :place => @place %>
 <% end %>
 
 <% unless @comment.empty? %>
@@ -12,4 +12,4 @@
 ==
 
 <% end %>
-<%= t 'notifier.note_comment_notification.details', :url => @noteurl %>
+<%= t '.details', :url => @noteurl %>

@@ -86,6 +86,8 @@ potlatch2_key: "8lFmZPsagHV4l3rkAHq0hWY5vV3Ctl3oEFY1aXth"
 
 Follow the same process for registering and configuring iD (`id_key`) and the website/Notes (`oauth_key`), or to save time, simply reuse the same consumer key for each.
 
+**NOTE:** If you forget to set up OAuth, then you will get an error message similar to `uninitialized constant ActionView::CompiledTemplates::ID_KEY`.
+
 ## Troubleshooting
 
 Rails has its own log.  To inspect the log, do this:

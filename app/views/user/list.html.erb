@@ -1,11 +1,11 @@
-<% @title = t('user.list.title') %>
+<% @title = t('.title') %>
 
 <% content_for :head do %>
   <%= javascript_include_tag "user" %>
 <% end %>
 
 <% content_for :heading do %>
-  <h1><%= t('user.list.heading') %></h1>
+  <h1><%= t('.heading') %></h1>
 <% end %>
 
 <% unless @users.empty? %>
@@ -16,7 +16,7 @@
     <table id="user_list">
       <tr>
         <td colspan="2">
-          <%= t 'user.list.showing',
+          <%= t '.showing',
               :page => @user_pages.current_page.number,
               :first_item => @user_pages.current_page.first_item,
               :last_item => @user_pages.current_page.last_item,
@@ -35,10 +35,10 @@
     </table>
 
     <div id="user_list_actions buttons">
-      <%= submit_tag t('user.list.confirm'), :name => "confirm" %>
-      <%= submit_tag t('user.list.hide'), :name => "hide" %>
+      <%= submit_tag t('.confirm'), :name => "confirm" %>
+      <%= submit_tag t('.hide'), :name => "hide" %>
     </div>
   <% end %>
 <% else %>
-  <p><%= t "user.list.empty" %></p>
+  <p><%= t ".empty" %></p>
 <% end %>

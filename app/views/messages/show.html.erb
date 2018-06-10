@@ -1,0 +1,40 @@
+<% if current_user == @message.recipient %>
+  <% content_for :heading do %>
+    <h2><%= h(@message.title) %></h2>
+  <% end %>
+
+  <div class='info-line clearfix'>
+    <%= user_thumbnail_tiny @message.sender %>
+    <%= link_to h(@message.sender.display_name), user_path(@message.sender) %></td>
+    <div class='right'>
+      <%= l @message.sent_on, :format => :friendly %>
+    </div>
+  </div>
+
+  <div class="richtext"><%= @message.body.to_html %></div>
+
+  <div class='message-buttons buttons'>
+    <%= button_to t('.reply_button'), reply_message_path(@message), :class => 'reply-button' %>
+    <%= button_to t('.unread_button'), mark_message_path(@message, :mark => 'unread'), :class => 'mark-unread-button' %>
+    <%= button_to t('.destroy_button'), destroy_message_path(@message), :class => 'destroy-button' %>
+
+<% else %>
+
+  <h2><%= h(@message.title) %></h2>
+
+  <div class='info-line clearfix'>
+    <%= user_thumbnail_tiny @message.recipient %>
+    <%= link_to h(@message.recipient.display_name), user_path(@message.recipient) %></td>
+    <div class='right'>
+      <%= l @message.sent_on, :format => :friendly %>
+    </div>
+  </div>
+
+  <div class="richtext"><%= @message.body.to_html %></div>
+
+  <div class='message-buttons buttons'>
+
+<% end %>
+
+  <%= link_to t('.back'), outbox_messages_path, :class => "button deemphasize" %>
+  </div>

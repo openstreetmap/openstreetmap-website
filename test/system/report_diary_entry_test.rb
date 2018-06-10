@@ -10,7 +10,7 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
     visit diary_entry_path(@diary_entry.user.display_name, @diary_entry)
     assert page.has_content?(@diary_entry.title)
 
-    assert !page.has_content?(I18n.t("diary_entry.diary_entry.report"))
+    assert_not page.has_content?(I18n.t("diary_entry.diary_entry.report"))
   end
 
   def test_it_works
@@ -46,7 +46,7 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
     click_on "Create Report"
 
     issue.reload
-    assert !issue.resolved?
+    assert_not issue.resolved?
     assert issue.open?
   end
 

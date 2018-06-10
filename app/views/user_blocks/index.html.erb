@@ -1,10 +1,10 @@
-<% @title = t('user_block.index.title') %>
+<% @title = t('.title') %>
 <% content_for :heading do %>
-  <h1><%= t('user_block.index.heading') %></h1>
+  <h1><%= t('.heading') %></h1>
 <% end %>
 
 <% unless @user_blocks.empty? %>
 <%= render :partial => 'blocks', :locals => { :show_revoke_link => (current_user and current_user.moderator?), :show_user_name => true, :show_creator_name => true } %>
 <% else %>
-<p><%= t "user_block.index.empty" %></p>
+<p><%= t ".empty" %></p>
 <% end %>
