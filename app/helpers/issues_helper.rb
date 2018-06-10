@@ -19,9 +19,9 @@ module IssuesHelper
     when User
       reportable.display_name
     when DiaryComment
-      "#{reportable.diary_entry.title}, Comment id ##{reportable.id}"
+      I18n.t("issues.helper.reportable_title.diary_comment", :entry_title => reportable.diary_entry.title, :comment_id => reportable.id)
     when Note
-      "Note ##{reportable.id}"
+      I18n.t("issues.helper.reportable_title.note", :note_id => reportable.id)
     end
   end
 end
