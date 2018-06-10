@@ -9,6 +9,8 @@ class BrowseController < ApplicationController
 
   def relation
     @type = "relation"
+    @controller = "relation"
+    @action = "read"
     @feature = Relation.preload(:relation_tags, :containing_relation_members, :changeset => [:changeset_tags, :user], :relation_members => :member).find(params[:id])
     render "feature"
   rescue ActiveRecord::RecordNotFound
@@ -25,6 +27,8 @@ class BrowseController < ApplicationController
 
   def way
     @type = "way"
+    @controller = "way"
+    @action = "read"
     @feature = Way.preload(:way_tags, :containing_relation_members, :changeset => [:changeset_tags, :user], :nodes => [:node_tags, :ways => :way_tags]).find(params[:id])
     render "feature"
   rescue ActiveRecord::RecordNotFound
@@ -41,6 +45,8 @@ class BrowseController < ApplicationController
 
   def node
     @type = "node"
+    @controller = "api/node"
+    @action = "show"
     @feature = Node.preload(:node_tags, :containing_relation_members, :changeset => [:changeset_tags, :user], :ways => :way_tags).find(params[:id])
     render "feature"
   rescue ActiveRecord::RecordNotFound
