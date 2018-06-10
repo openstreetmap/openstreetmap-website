@@ -471,7 +471,7 @@ class AmfController < ApplicationController
       return -1, t("application.setup_user_auth.blocked") if user.blocks.active.exists?
 
       query = Trace.visible_to(user)
-      query = if searchterm.to_i > 0
+      query = if searchterm.to_i.positive?
                 query.where(:id => searchterm.to_i)
               else
                 query.where("MATCH(name) AGAINST (?)", searchterm).limit(21)
@@ -506,7 +506,7 @@ class AmfController < ApplicationController
 
   def findrelations(searchterm)
     rels = []
-    if searchterm.to_i > 0
+    if searchterm.to_i.positive?
       rel = Relation.where(:id => searchterm.to_i).first
       rels.push([rel.id, rel.tags, rel.members, rel.version]) if rel&.visible
     else
@@ -542,7 +542,7 @@ class AmfController < ApplicationController
       relation = nil
       Relation.transaction do
         # create a new relation, or find the existing one
-        relation = Relation.find(relid) if relid > 0
+        relation = Relation.find(relid) if relid.positive?
         # We always need a new node, based on the data that has been sent to us
         new_relation = Relation.new
 
@@ -550,7 +550,7 @@ class AmfController < ApplicationController
         typedmembers = []
         members.each do |m|
           mid = m[1].to_i
-          if mid < 0
+          if mid.negative?
             mid = renumberednodes[mid] if m[0] == "Node"
             mid = renumberedways[mid] if m[0] == "Way"
           end
@@ -735,7 +735,7 @@ class AmfController < ApplicationController
       node = nil
       new_node = nil
       Node.transaction do
-        if id > 0
+        if id.positive?
           begin
             node = Node.find(id)
           rescue ActiveRecord::RecordNotFound

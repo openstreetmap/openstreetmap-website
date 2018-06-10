@@ -20,7 +20,7 @@ loop do
     begin
       gpx = trace.import
 
-      if gpx.actual_points > 0
+      if gpx.actual_points.positive?
         Notifier.gpx_success(trace, gpx.actual_points).deliver
       else
         Notifier.gpx_failure(trace, "0 points parsed ok. Do they all have lat,lng,alt,timestamp?").deliver

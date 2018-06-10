@@ -178,12 +178,10 @@ module Api
     # check that a changeset that doesn't exist returns an appropriate message
     def test_read_not_found
       [0, -32, 233455644, "afg", "213"].each do |id|
-        begin
-          get :read, :params => { :id => id }
-          assert_response :not_found, "should get a not found"
-        rescue ActionController::UrlGenerationError => ex
-          assert_match /No route matches/, ex.to_s
-        end
+        get :read, :params => { :id => id }
+        assert_response :not_found, "should get a not found"
+      rescue ActionController::UrlGenerationError => ex
+        assert_match(/No route matches/, ex.to_s)
       end
     end
 
@@ -252,23 +250,19 @@ module Api
 
       # First try to do it with no auth
       cs_ids.each do |id|
-        begin
-          put :close, :params => { :id => id }
-          assert_response :unauthorized, "Shouldn't be able close the non-existant changeset #{id}, when not authorized"
-        rescue ActionController::UrlGenerationError => ex
-          assert_match /No route matches/, ex.to_s
-        end
+        put :close, :params => { :id => id }
+        assert_response :unauthorized, "Shouldn't be able close the non-existant changeset #{id}, when not authorized"
+      rescue ActionController::UrlGenerationError => ex
+        assert_match(/No route matches/, ex.to_s)
       end
 
       # Now try with auth
       basic_authorization create(:user).email, "test"
       cs_ids.each do |id|
-        begin
-          put :close, :params => { :id => id }
-          assert_response :not_found, "The changeset #{id} doesn't exist, so can't be closed"
-        rescue ActionController::UrlGenerationError => ex
-          assert_match /No route matches/, ex.to_s
-        end
+        put :close, :params => { :id => id }
+        assert_response :not_found, "The changeset #{id} doesn't exist, so can't be closed"
+      rescue ActionController::UrlGenerationError => ex
+        assert_match(/No route matches/, ex.to_s)
       end
     end
 
@@ -438,9 +432,9 @@ module Api
       new_rel_id = doc.find("//diffResult/relation").first["new_id"].to_i
 
       # check the old IDs are all present and negative one
-      assert_equal -1, doc.find("//diffResult/node").first["old_id"].to_i
-      assert_equal -1, doc.find("//diffResult/way").first["old_id"].to_i
-      assert_equal -1, doc.find("//diffResult/relation").first["old_id"].to_i
+      assert_equal(-1, doc.find("//diffResult/node").first["old_id"].to_i)
+      assert_equal(-1, doc.find("//diffResult/way").first["old_id"].to_i)
+      assert_equal(-1, doc.find("//diffResult/relation").first["old_id"].to_i)
 
       # check the versions are present and equal one
       assert_equal 1, doc.find("//diffResult/node").first["new_version"].to_i
