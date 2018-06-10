@@ -35,9 +35,7 @@ class WayController < ApplicationController
     way = Way.find(params[:id])
     new_way = Way.from_xml(request.raw_post)
 
-    unless new_way && new_way.id == way.id
-      raise OSM::APIBadUserInput, "The id in the url (#{way.id}) is not the same as provided in the xml (#{new_way.id})"
-    end
+    raise OSM::APIBadUserInput, "The id in the url (#{way.id}) is not the same as provided in the xml (#{new_way.id})" unless new_way && new_way.id == way.id
 
     way.update_from(new_way, current_user)
     render :plain => way.version.to_s
