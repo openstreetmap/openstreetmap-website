@@ -13,8 +13,6 @@ class ReportsControllerTest < ActionController::TestCase
 
     session[:user] = create(:user).id
 
-    assert_equal 0, Issue.count
-
     # Create an Issue and a report
     get :new, :params => { :reportable_id => target_user.id, :reportable_type => "User" }
     assert_response :success
@@ -30,7 +28,6 @@ class ReportsControllerTest < ActionController::TestCase
              }
            }
     end
-    assert_equal 1, Issue.count
     assert_response :redirect
     assert_redirected_to user_path(target_user.display_name)
   end
@@ -42,8 +39,6 @@ class ReportsControllerTest < ActionController::TestCase
     # Login
     session[:user] = create(:user).id
 
-    assert_equal 0, Issue.count
-
     # Create an Issue and a report
     get :new, :params => { :reportable_id => target_user.id, :reportable_type => "User" }
     assert_response :success
@@ -59,9 +54,12 @@ class ReportsControllerTest < ActionController::TestCase
              }
            }
     end
-    assert_equal 1, Issue.count
     assert_response :redirect
     assert_redirected_to user_path(target_user.display_name)
+
+    issue = Issue.last
+
+    assert_equal 1, issue.reports.count
 
     get :new, :params => { :reportable_id => target_user.id, :reportable_type => "User" }
     assert_response :success
@@ -78,7 +76,8 @@ class ReportsControllerTest < ActionController::TestCase
            }
     end
     assert_response :redirect
-    assert_equal 1, Issue.find_by(:reportable_id => target_user.id, :reportable_type => "User").reports.count
+
+    assert_equal 1, issue.reports.count
   end
 
   def test_new_report_with_complete_details
@@ -87,8 +86,6 @@ class ReportsControllerTest < ActionController::TestCase
 
     # Login
     session[:user] = create(:user).id
-
-    assert_equal 0, Issue.count
 
     # Create an Issue and a report
     get :new, :params => { :reportable_id => target_user.id, :reportable_type => "User" }
@@ -105,9 +102,12 @@ class ReportsControllerTest < ActionController::TestCase
              }
            }
     end
-    assert_equal 1, Issue.count
     assert_response :redirect
     assert_redirected_to user_path(target_user.display_name)
+
+    issue = Issue.last
+
+    assert_equal 1, issue.reports.count
 
     # Create a report for an existing Issue
     get :new, :params => { :reportable_id => target_user.id, :reportable_type => "User" }
@@ -125,7 +125,7 @@ class ReportsControllerTest < ActionController::TestCase
            }
     end
     assert_response :redirect
-    report_count = Issue.find_by(:reportable_id => target_user.id, :reportable_type => "User").reports.count
-    assert_equal 2, report_count
+
+    assert_equal 2, issue.reports.count
   end
 end
