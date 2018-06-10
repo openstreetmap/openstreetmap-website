@@ -25,11 +25,12 @@ class ReportDiaryCommentTest < ApplicationSystemTestCase
 
     choose I18n.t("reports.new.categories.diary_comment.spam")
     fill_in "report_details", :with => "This comment is spam"
-    click_on "Create Report"
+    assert_difference "Issue.count", 1 do
+      click_on "Create Report"
+    end
 
     assert page.has_content? "Your report has been registered sucessfully"
 
-    assert_equal 1, Issue.count
-    assert Issue.last.reportable == @comment
+    assert_equal @comment, Issue.last.reportable
   end
 end

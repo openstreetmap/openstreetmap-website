@@ -20,12 +20,13 @@ class ReportNoteTest < ApplicationSystemTestCase
 
     choose I18n.t("reports.new.categories.note.spam")
     fill_in "report_details", :with => "This is spam"
-    click_on "Create Report"
+    assert_difference "Issue.count", 1 do
+      click_on "Create Report"
+    end
 
     assert page.has_content? "Your report has been registered sucessfully"
 
-    assert_equal 1, Issue.count
-    assert Issue.last.reportable == note
+    assert_equal note, Issue.last.reportable
   end
 
   def test_can_report_notes_with_author
@@ -39,11 +40,12 @@ class ReportNoteTest < ApplicationSystemTestCase
 
     choose I18n.t("reports.new.categories.note.spam")
     fill_in "report_details", :with => "This is spam"
-    click_on "Create Report"
+    assert_difference "Issue.count", 1 do
+      click_on "Create Report"
+    end
 
     assert page.has_content? "Your report has been registered sucessfully"
 
-    assert_equal 1, Issue.count
-    assert Issue.last.reportable == note
+    assert_equal note, Issue.last.reportable
   end
 end
