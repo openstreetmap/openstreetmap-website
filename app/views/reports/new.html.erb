@@ -24,7 +24,7 @@
       <ul>
       <% Report.categories_for(@report.issue.reportable).each do |c| %>
         <li>
-          <%= radio_button :report, :category, c %>
+          <%= radio_button :report, :category, c, :required => true %>
           <%= label_tag "report_category_#{c}", t(".categories.#{@report.issue.reportable.class.name.underscore}.#{c}") %> <br/>
         </li>
       <% end %>
@@ -32,7 +32,7 @@
     </div>
 
     <div class='form-row'>
-      <%= text_area :report, :details, :cols => 20, :rows => 5, placeholder: t('.details'), required: true %>
+      <%= text_area :report, :details, :cols => 20, :rows => 5, placeholder: t('.details'), :required => true %>
     </div>
 
     <div class='buttons'>
