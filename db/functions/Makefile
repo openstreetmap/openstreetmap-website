@@ -1,7 +1,7 @@
 PG_CONFIG ?= pg_config
 DESTDIR ?= .
 
-QTDIR=../../lib/quad_tile
+QTDIR=./
 
 OS=$(shell uname -s)
 ifeq (${OS},Darwin)
