@@ -56,7 +56,7 @@ gem "rinku", ">= 1.2.2", :require => "rails_rinku"
 gem "validates_email_format_of", ">= 1.5.1"
 
 #
-gem "quad_tile", git: "https://github.com/rubyforgood/quad_tile.git"
+gem "quad_tile"
 
 # Sanitise URIs
 gem "rack-uri_sanitizer"
