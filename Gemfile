@@ -55,6 +55,9 @@ gem "record_tag_helper"
 gem "rinku", ">= 1.2.2", :require => "rails_rinku"
 gem "validates_email_format_of", ">= 1.5.1"
 
+# Native OSM extensions
+gem "quad_tile", "~> 1.0.1"
+
 # Sanitise URIs
 gem "rack-uri_sanitizer"
 
