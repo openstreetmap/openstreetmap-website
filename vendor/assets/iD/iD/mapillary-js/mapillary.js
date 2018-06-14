@@ -156,7 +156,7 @@ function getSegDistSq(px, py, a, b) {
     return dx * dx + dy * dy;
 }
 
-},{"tinyqueue":242}],2:[function(require,module,exports){
+},{"tinyqueue":241}],2:[function(require,module,exports){
 /*
  * Copyright (C) 2008 Apple Inc. All Rights Reserved.
  *
@@ -5394,7 +5394,7 @@ var BehaviorSubject = (function (_super) {
 }(Subject_1.Subject));
 exports.BehaviorSubject = BehaviorSubject;
 
-},{"./Subject":34,"./util/ObjectUnsubscribedError":221}],27:[function(require,module,exports){
+},{"./Subject":34,"./util/ObjectUnsubscribedError":220}],27:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -5865,7 +5865,7 @@ var Observable = (function () {
 }());
 exports.Observable = Observable;
 
-},{"./symbol/observable":216,"./util/pipe":236,"./util/root":237,"./util/toSubscriber":239}],30:[function(require,module,exports){
+},{"./symbol/observable":215,"./util/pipe":235,"./util/root":236,"./util/toSubscriber":238}],30:[function(require,module,exports){
 "use strict";
 exports.empty = {
     closed: true,
@@ -6008,7 +6008,7 @@ var ReplayEvent = (function () {
     return ReplayEvent;
 }());
 
-},{"./Subject":34,"./SubjectSubscription":35,"./Subscription":37,"./operators/observeOn":182,"./scheduler/queue":214,"./util/ObjectUnsubscribedError":221}],33:[function(require,module,exports){
+},{"./Subject":34,"./SubjectSubscription":35,"./Subscription":37,"./operators/observeOn":183,"./scheduler/queue":213,"./util/ObjectUnsubscribedError":220}],33:[function(require,module,exports){
 "use strict";
 /**
  * An execution context and a data structure to order tasks and schedule their
@@ -6227,7 +6227,7 @@ var AnonymousSubject = (function (_super) {
 }(Subject));
 exports.AnonymousSubject = AnonymousSubject;
 
-},{"./Observable":29,"./SubjectSubscription":35,"./Subscriber":36,"./Subscription":37,"./symbol/rxSubscriber":217,"./util/ObjectUnsubscribedError":221}],35:[function(require,module,exports){
+},{"./Observable":29,"./SubjectSubscription":35,"./Subscriber":36,"./Subscription":37,"./symbol/rxSubscriber":216,"./util/ObjectUnsubscribedError":220}],35:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -6533,7 +6533,7 @@ var SafeSubscriber = (function (_super) {
     return SafeSubscriber;
 }(Subscriber));
 
-},{"./Observer":30,"./Subscription":37,"./symbol/rxSubscriber":217,"./util/isFunction":230}],37:[function(require,module,exports){
+},{"./Observer":30,"./Subscription":37,"./symbol/rxSubscriber":216,"./util/isFunction":229}],37:[function(require,module,exports){
 "use strict";
 var isArray_1 = require('./util/isArray');
 var isObject_1 = require('./util/isObject');
@@ -6727,7 +6727,7 @@ function flattenUnsubscriptionErrors(errors) {
     return errors.reduce(function (errs, err) { return errs.concat((err instanceof UnsubscriptionError_1.UnsubscriptionError) ? err.errors : err); }, []);
 }
 
-},{"./util/UnsubscriptionError":224,"./util/errorObject":225,"./util/isArray":227,"./util/isFunction":230,"./util/isObject":232,"./util/tryCatch":240}],38:[function(require,module,exports){
+},{"./util/UnsubscriptionError":223,"./util/errorObject":224,"./util/isArray":226,"./util/isFunction":229,"./util/isObject":231,"./util/tryCatch":239}],38:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var combineLatest_1 = require('../../observable/combineLatest');
@@ -6845,199 +6845,199 @@ Observable_1.Observable.prototype.concat = concat_1.concat;
 },{"../../Observable":29,"../../operator/concat":122}],57:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
+var count_1 = require('../../operator/count');
+Observable_1.Observable.prototype.count = count_1.count;
+
+},{"../../Observable":29,"../../operator/count":123}],58:[function(require,module,exports){
+"use strict";
+var Observable_1 = require('../../Observable');
 var debounceTime_1 = require('../../operator/debounceTime');
 Observable_1.Observable.prototype.debounceTime = debounceTime_1.debounceTime;
 
-},{"../../Observable":29,"../../operator/debounceTime":123}],58:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/debounceTime":124}],59:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var delay_1 = require('../../operator/delay');
 Observable_1.Observable.prototype.delay = delay_1.delay;
 
-},{"../../Observable":29,"../../operator/delay":124}],59:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/delay":125}],60:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var distinct_1 = require('../../operator/distinct');
 Observable_1.Observable.prototype.distinct = distinct_1.distinct;
 
-},{"../../Observable":29,"../../operator/distinct":125}],60:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/distinct":126}],61:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var distinctUntilChanged_1 = require('../../operator/distinctUntilChanged');
 Observable_1.Observable.prototype.distinctUntilChanged = distinctUntilChanged_1.distinctUntilChanged;
 
-},{"../../Observable":29,"../../operator/distinctUntilChanged":126}],61:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/distinctUntilChanged":127}],62:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var do_1 = require('../../operator/do');
 Observable_1.Observable.prototype.do = do_1._do;
 Observable_1.Observable.prototype._do = do_1._do;
 
-},{"../../Observable":29,"../../operator/do":127}],62:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/do":128}],63:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var expand_1 = require('../../operator/expand');
 Observable_1.Observable.prototype.expand = expand_1.expand;
 
-},{"../../Observable":29,"../../operator/expand":128}],63:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/expand":129}],64:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var filter_1 = require('../../operator/filter');
 Observable_1.Observable.prototype.filter = filter_1.filter;
 
-},{"../../Observable":29,"../../operator/filter":129}],64:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/filter":130}],65:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var finally_1 = require('../../operator/finally');
 Observable_1.Observable.prototype.finally = finally_1._finally;
 Observable_1.Observable.prototype._finally = finally_1._finally;
 
-},{"../../Observable":29,"../../operator/finally":130}],65:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/finally":131}],66:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var first_1 = require('../../operator/first');
 Observable_1.Observable.prototype.first = first_1.first;
 
-},{"../../Observable":29,"../../operator/first":131}],66:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/first":132}],67:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var last_1 = require('../../operator/last');
 Observable_1.Observable.prototype.last = last_1.last;
 
-},{"../../Observable":29,"../../operator/last":132}],67:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/last":133}],68:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var map_1 = require('../../operator/map');
 Observable_1.Observable.prototype.map = map_1.map;
 
-},{"../../Observable":29,"../../operator/map":133}],68:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/map":134}],69:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var merge_1 = require('../../operator/merge');
 Observable_1.Observable.prototype.merge = merge_1.merge;
 
-},{"../../Observable":29,"../../operator/merge":134}],69:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/merge":135}],70:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var mergeAll_1 = require('../../operator/mergeAll');
 Observable_1.Observable.prototype.mergeAll = mergeAll_1.mergeAll;
 
-},{"../../Observable":29,"../../operator/mergeAll":135}],70:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/mergeAll":136}],71:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var mergeMap_1 = require('../../operator/mergeMap');
 Observable_1.Observable.prototype.mergeMap = mergeMap_1.mergeMap;
 Observable_1.Observable.prototype.flatMap = mergeMap_1.mergeMap;
 
-},{"../../Observable":29,"../../operator/mergeMap":136}],71:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/mergeMap":137}],72:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var pairwise_1 = require('../../operator/pairwise');
 Observable_1.Observable.prototype.pairwise = pairwise_1.pairwise;
 
-},{"../../Observable":29,"../../operator/pairwise":137}],72:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/pairwise":138}],73:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var pluck_1 = require('../../operator/pluck');
 Observable_1.Observable.prototype.pluck = pluck_1.pluck;
 
-},{"../../Observable":29,"../../operator/pluck":138}],73:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/pluck":139}],74:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var publish_1 = require('../../operator/publish');
 Observable_1.Observable.prototype.publish = publish_1.publish;
 
-},{"../../Observable":29,"../../operator/publish":139}],74:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/publish":140}],75:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var publishReplay_1 = require('../../operator/publishReplay');
 Observable_1.Observable.prototype.publishReplay = publishReplay_1.publishReplay;
 
-},{"../../Observable":29,"../../operator/publishReplay":140}],75:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/publishReplay":141}],76:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var reduce_1 = require('../../operator/reduce');
 Observable_1.Observable.prototype.reduce = reduce_1.reduce;
 
-},{"../../Observable":29,"../../operator/reduce":141}],76:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/reduce":142}],77:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var retry_1 = require('../../operator/retry');
 Observable_1.Observable.prototype.retry = retry_1.retry;
 
-},{"../../Observable":29,"../../operator/retry":142}],77:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/retry":143}],78:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var sample_1 = require('../../operator/sample');
 Observable_1.Observable.prototype.sample = sample_1.sample;
 
-},{"../../Observable":29,"../../operator/sample":143}],78:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/sample":144}],79:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var scan_1 = require('../../operator/scan');
 Observable_1.Observable.prototype.scan = scan_1.scan;
 
-},{"../../Observable":29,"../../operator/scan":144}],79:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/scan":145}],80:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var share_1 = require('../../operator/share');
 Observable_1.Observable.prototype.share = share_1.share;
 
-},{"../../Observable":29,"../../operator/share":145}],80:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/share":146}],81:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var skip_1 = require('../../operator/skip');
 Observable_1.Observable.prototype.skip = skip_1.skip;
 
-},{"../../Observable":29,"../../operator/skip":146}],81:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/skip":147}],82:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var skipUntil_1 = require('../../operator/skipUntil');
 Observable_1.Observable.prototype.skipUntil = skipUntil_1.skipUntil;
 
-},{"../../Observable":29,"../../operator/skipUntil":147}],82:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/skipUntil":148}],83:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var skipWhile_1 = require('../../operator/skipWhile');
 Observable_1.Observable.prototype.skipWhile = skipWhile_1.skipWhile;
 
-},{"../../Observable":29,"../../operator/skipWhile":148}],83:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/skipWhile":149}],84:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var startWith_1 = require('../../operator/startWith');
 Observable_1.Observable.prototype.startWith = startWith_1.startWith;
 
-},{"../../Observable":29,"../../operator/startWith":149}],84:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/startWith":150}],85:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var switchMap_1 = require('../../operator/switchMap');
 Observable_1.Observable.prototype.switchMap = switchMap_1.switchMap;
 
-},{"../../Observable":29,"../../operator/switchMap":150}],85:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/switchMap":151}],86:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var take_1 = require('../../operator/take');
 Observable_1.Observable.prototype.take = take_1.take;
 
-},{"../../Observable":29,"../../operator/take":151}],86:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/take":152}],87:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var takeUntil_1 = require('../../operator/takeUntil');
 Observable_1.Observable.prototype.takeUntil = takeUntil_1.takeUntil;
 
-},{"../../Observable":29,"../../operator/takeUntil":152}],87:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/takeUntil":153}],88:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var takeWhile_1 = require('../../operator/takeWhile');
 Observable_1.Observable.prototype.takeWhile = takeWhile_1.takeWhile;
 
-},{"../../Observable":29,"../../operator/takeWhile":153}],88:[function(require,module,exports){
-"use strict";
-var Observable_1 = require('../../Observable');
-var throttleTime_1 = require('../../operator/throttleTime');
-Observable_1.Observable.prototype.throttleTime = throttleTime_1.throttleTime;
-
-},{"../../Observable":29,"../../operator/throttleTime":154}],89:[function(require,module,exports){
+},{"../../Observable":29,"../../operator/takeWhile":154}],89:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var timeout_1 = require('../../operator/timeout');
@@ -7249,7 +7249,7 @@ var ArrayObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.ArrayObservable = ArrayObservable;
 
-},{"../Observable":29,"../util/isScheduler":234,"./EmptyObservable":96,"./ScalarObservable":102}],94:[function(require,module,exports){
+},{"../Observable":29,"../util/isScheduler":233,"./EmptyObservable":96,"./ScalarObservable":102}],94:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7420,7 +7420,7 @@ var RefCountSubscriber = (function (_super) {
     return RefCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Observable":29,"../Subject":34,"../Subscriber":36,"../Subscription":37,"../operators/refCount":188}],95:[function(require,module,exports){
+},{"../Observable":29,"../Subject":34,"../Subscriber":36,"../Subscription":37,"../operators/refCount":189}],95:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7520,7 +7520,7 @@ var DeferSubscriber = (function (_super) {
     return DeferSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../Observable":29,"../OuterSubscriber":31,"../util/subscribeToResult":238}],96:[function(require,module,exports){
+},{"../Observable":29,"../OuterSubscriber":31,"../util/subscribeToResult":237}],96:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -7903,7 +7903,7 @@ var FromEventObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.FromEventObservable = FromEventObservable;
 
-},{"../Observable":29,"../Subscription":37,"../util/errorObject":225,"../util/isFunction":230,"../util/tryCatch":240}],99:[function(require,module,exports){
+},{"../Observable":29,"../Subscription":37,"../util/errorObject":224,"../util/isFunction":229,"../util/tryCatch":239}],99:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8026,7 +8026,7 @@ var FromObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.FromObservable = FromObservable;
 
-},{"../Observable":29,"../operators/observeOn":182,"../symbol/iterator":215,"../symbol/observable":216,"../util/isArray":227,"../util/isArrayLike":228,"../util/isPromise":233,"./ArrayLikeObservable":92,"./ArrayObservable":93,"./IteratorObservable":100,"./PromiseObservable":101}],100:[function(require,module,exports){
+},{"../Observable":29,"../operators/observeOn":183,"../symbol/iterator":214,"../symbol/observable":215,"../util/isArray":226,"../util/isArrayLike":227,"../util/isPromise":232,"./ArrayLikeObservable":92,"./ArrayObservable":93,"./IteratorObservable":100,"./PromiseObservable":101}],100:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8190,7 +8190,7 @@ function sign(value) {
     return valueAsNumber < 0 ? -1 : 1;
 }
 
-},{"../Observable":29,"../symbol/iterator":215,"../util/root":237}],101:[function(require,module,exports){
+},{"../Observable":29,"../symbol/iterator":214,"../util/root":236}],101:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8312,7 +8312,7 @@ function dispatchError(arg) {
     }
 }
 
-},{"../Observable":29,"../util/root":237}],102:[function(require,module,exports){
+},{"../Observable":29,"../util/root":236}],102:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -8479,7 +8479,7 @@ var TimerObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.TimerObservable = TimerObservable;
 
-},{"../Observable":29,"../scheduler/async":213,"../util/isDate":229,"../util/isNumeric":231,"../util/isScheduler":234}],104:[function(require,module,exports){
+},{"../Observable":29,"../scheduler/async":212,"../util/isDate":228,"../util/isNumeric":230,"../util/isScheduler":233}],104:[function(require,module,exports){
 "use strict";
 var isScheduler_1 = require('../util/isScheduler');
 var isArray_1 = require('../util/isArray');
@@ -8616,7 +8616,7 @@ function combineLatest() {
 }
 exports.combineLatest = combineLatest;
 
-},{"../operators/combineLatest":164,"../util/isArray":227,"../util/isScheduler":234,"./ArrayObservable":93}],105:[function(require,module,exports){
+},{"../operators/combineLatest":164,"../util/isArray":226,"../util/isScheduler":233,"./ArrayObservable":93}],105:[function(require,module,exports){
 "use strict";
 var isScheduler_1 = require('../util/isScheduler');
 var of_1 = require('./of');
@@ -8728,7 +8728,7 @@ function concat() {
 }
 exports.concat = concat;
 
-},{"../operators/concatAll":166,"../util/isScheduler":234,"./from":108,"./of":112}],106:[function(require,module,exports){
+},{"../operators/concatAll":166,"../util/isScheduler":233,"./from":108,"./of":112}],106:[function(require,module,exports){
 "use strict";
 var DeferObservable_1 = require('./DeferObservable');
 exports.defer = DeferObservable_1.DeferObservable.create;
@@ -8758,7 +8758,7 @@ exports.fromPromise = PromiseObservable_1.PromiseObservable.create;
 var merge_1 = require('../operator/merge');
 exports.merge = merge_1.mergeStatic;
 
-},{"../operator/merge":134}],112:[function(require,module,exports){
+},{"../operator/merge":135}],112:[function(require,module,exports){
 "use strict";
 var ArrayObservable_1 = require('./ArrayObservable');
 exports.of = ArrayObservable_1.ArrayObservable.of;
@@ -8778,7 +8778,7 @@ exports.timer = TimerObservable_1.TimerObservable.create;
 var zip_1 = require('../operators/zip');
 exports.zip = zip_1.zipStatic;
 
-},{"../operators/zip":207}],116:[function(require,module,exports){
+},{"../operators/zip":206}],116:[function(require,module,exports){
 "use strict";
 var async_1 = require('../scheduler/async');
 var auditTime_1 = require('../operators/auditTime');
@@ -8830,7 +8830,7 @@ function auditTime(duration, scheduler) {
 }
 exports.auditTime = auditTime;
 
-},{"../operators/auditTime":159,"../scheduler/async":213}],117:[function(require,module,exports){
+},{"../operators/auditTime":159,"../scheduler/async":212}],117:[function(require,module,exports){
 "use strict";
 var buffer_1 = require('../operators/buffer');
 /**
@@ -9148,6 +9148,62 @@ exports.concat = concat;
 
 },{"../operators/concat":165}],123:[function(require,module,exports){
 "use strict";
+var count_1 = require('../operators/count');
+/**
+ * Counts the number of emissions on the source and emits that number when the
+ * source completes.
+ *
+ * <span class="informal">Tells how many values were emitted, when the source
+ * completes.</span>
+ *
+ * <img src="./img/count.png" width="100%">
+ *
+ * `count` transforms an Observable that emits values into an Observable that
+ * emits a single value that represents the number of values emitted by the
+ * source Observable. If the source Observable terminates with an error, `count`
+ * will pass this error notification along without emitting a value first. If
+ * the source Observable does not terminate at all, `count` will neither emit
+ * a value nor terminate. This operator takes an optional `predicate` function
+ * as argument, in which case the output emission will represent the number of
+ * source values that matched `true` with the `predicate`.
+ *
+ * @example <caption>Counts how many seconds have passed before the first click happened</caption>
+ * var seconds = Rx.Observable.interval(1000);
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var secondsBeforeClick = seconds.takeUntil(clicks);
+ * var result = secondsBeforeClick.count();
+ * result.subscribe(x => console.log(x));
+ *
+ * @example <caption>Counts how many odd numbers are there between 1 and 7</caption>
+ * var numbers = Rx.Observable.range(1, 7);
+ * var result = numbers.count(i => i % 2 === 1);
+ * result.subscribe(x => console.log(x));
+ *
+ * // Results in:
+ * // 4
+ *
+ * @see {@link max}
+ * @see {@link min}
+ * @see {@link reduce}
+ *
+ * @param {function(value: T, i: number, source: Observable<T>): boolean} [predicate] A
+ * boolean function to select what values are to be counted. It is provided with
+ * arguments of:
+ * - `value`: the value from the source Observable.
+ * - `index`: the (zero-based) "index" of the value from the source Observable.
+ * - `source`: the source Observable instance itself.
+ * @return {Observable} An Observable of one number that represents the count as
+ * described above.
+ * @method count
+ * @owner Observable
+ */
+function count(predicate) {
+    return count_1.count(predicate)(this);
+}
+exports.count = count;
+
+},{"../operators/count":167}],124:[function(require,module,exports){
+"use strict";
 var async_1 = require('../scheduler/async');
 var debounceTime_1 = require('../operators/debounceTime');
 /**
@@ -9202,7 +9258,7 @@ function debounceTime(dueTime, scheduler) {
 }
 exports.debounceTime = debounceTime;
 
-},{"../operators/debounceTime":167,"../scheduler/async":213}],124:[function(require,module,exports){
+},{"../operators/debounceTime":168,"../scheduler/async":212}],125:[function(require,module,exports){
 "use strict";
 var async_1 = require('../scheduler/async');
 var delay_1 = require('../operators/delay');
@@ -9251,7 +9307,7 @@ function delay(delay, scheduler) {
 }
 exports.delay = delay;
 
-},{"../operators/delay":169,"../scheduler/async":213}],125:[function(require,module,exports){
+},{"../operators/delay":170,"../scheduler/async":212}],126:[function(require,module,exports){
 "use strict";
 var distinct_1 = require('../operators/distinct');
 /**
@@ -9304,7 +9360,7 @@ function distinct(keySelector, flushes) {
 }
 exports.distinct = distinct;
 
-},{"../operators/distinct":170}],126:[function(require,module,exports){
+},{"../operators/distinct":171}],127:[function(require,module,exports){
 "use strict";
 var distinctUntilChanged_1 = require('../operators/distinctUntilChanged');
 /* tslint:enable:max-line-length */
@@ -9352,7 +9408,7 @@ function distinctUntilChanged(compare, keySelector) {
 }
 exports.distinctUntilChanged = distinctUntilChanged;
 
-},{"../operators/distinctUntilChanged":171}],127:[function(require,module,exports){
+},{"../operators/distinctUntilChanged":172}],128:[function(require,module,exports){
 "use strict";
 var tap_1 = require('../operators/tap');
 /* tslint:enable:max-line-length */
@@ -9404,7 +9460,7 @@ function _do(nextOrObserver, error, complete) {
 }
 exports._do = _do;
 
-},{"../operators/tap":202}],128:[function(require,module,exports){
+},{"../operators/tap":203}],129:[function(require,module,exports){
 "use strict";
 var expand_1 = require('../operators/expand');
 /* tslint:enable:max-line-length */
@@ -9461,7 +9517,7 @@ function expand(project, concurrent, scheduler) {
 }
 exports.expand = expand;
 
-},{"../operators/expand":172}],129:[function(require,module,exports){
+},{"../operators/expand":173}],130:[function(require,module,exports){
 "use strict";
 var filter_1 = require('../operators/filter');
 /* tslint:enable:max-line-length */
@@ -9509,7 +9565,7 @@ function filter(predicate, thisArg) {
 }
 exports.filter = filter;
 
-},{"../operators/filter":173}],130:[function(require,module,exports){
+},{"../operators/filter":174}],131:[function(require,module,exports){
 "use strict";
 var finalize_1 = require('../operators/finalize');
 /**
@@ -9525,7 +9581,7 @@ function _finally(callback) {
 }
 exports._finally = _finally;
 
-},{"../operators/finalize":174}],131:[function(require,module,exports){
+},{"../operators/finalize":175}],132:[function(require,module,exports){
 "use strict";
 var first_1 = require('../operators/first');
 /**
@@ -9582,7 +9638,7 @@ function first(predicate, resultSelector, defaultValue) {
 }
 exports.first = first;
 
-},{"../operators/first":175}],132:[function(require,module,exports){
+},{"../operators/first":176}],133:[function(require,module,exports){
 "use strict";
 var last_1 = require('../operators/last');
 /* tslint:enable:max-line-length */
@@ -9608,7 +9664,7 @@ function last(predicate, resultSelector, defaultValue) {
 }
 exports.last = last;
 
-},{"../operators/last":176}],133:[function(require,module,exports){
+},{"../operators/last":177}],134:[function(require,module,exports){
 "use strict";
 var map_1 = require('../operators/map');
 /**
@@ -9649,7 +9705,7 @@ function map(project, thisArg) {
 }
 exports.map = map;
 
-},{"../operators/map":177}],134:[function(require,module,exports){
+},{"../operators/map":178}],135:[function(require,module,exports){
 "use strict";
 var merge_1 = require('../operators/merge');
 var merge_2 = require('../operators/merge');
@@ -9710,7 +9766,7 @@ function merge() {
 }
 exports.merge = merge;
 
-},{"../operators/merge":178}],135:[function(require,module,exports){
+},{"../operators/merge":179}],136:[function(require,module,exports){
 "use strict";
 var mergeAll_1 = require('../operators/mergeAll');
 /**
@@ -9763,7 +9819,7 @@ function mergeAll(concurrent) {
 }
 exports.mergeAll = mergeAll;
 
-},{"../operators/mergeAll":179}],136:[function(require,module,exports){
+},{"../operators/mergeAll":180}],137:[function(require,module,exports){
 "use strict";
 var mergeMap_1 = require('../operators/mergeMap');
 /* tslint:enable:max-line-length */
@@ -9831,7 +9887,7 @@ function mergeMap(project, resultSelector, concurrent) {
 }
 exports.mergeMap = mergeMap;
 
-},{"../operators/mergeMap":180}],137:[function(require,module,exports){
+},{"../operators/mergeMap":181}],138:[function(require,module,exports){
 "use strict";
 var pairwise_1 = require('../operators/pairwise');
 /**
@@ -9874,7 +9930,7 @@ function pairwise() {
 }
 exports.pairwise = pairwise;
 
-},{"../operators/pairwise":183}],138:[function(require,module,exports){
+},{"../operators/pairwise":184}],139:[function(require,module,exports){
 "use strict";
 var pluck_1 = require('../operators/pluck');
 /**
@@ -9912,7 +9968,7 @@ function pluck() {
 }
 exports.pluck = pluck;
 
-},{"../operators/pluck":184}],139:[function(require,module,exports){
+},{"../operators/pluck":185}],140:[function(require,module,exports){
 "use strict";
 var publish_1 = require('../operators/publish');
 /* tslint:enable:max-line-length */
@@ -9934,7 +9990,7 @@ function publish(selector) {
 }
 exports.publish = publish;
 
-},{"../operators/publish":185}],140:[function(require,module,exports){
+},{"../operators/publish":186}],141:[function(require,module,exports){
 "use strict";
 var publishReplay_1 = require('../operators/publishReplay');
 /* tslint:enable:max-line-length */
@@ -9952,7 +10008,7 @@ function publishReplay(bufferSize, windowTime, selectorOrScheduler, scheduler) {
 }
 exports.publishReplay = publishReplay;
 
-},{"../operators/publishReplay":186}],141:[function(require,module,exports){
+},{"../operators/publishReplay":187}],142:[function(require,module,exports){
 "use strict";
 var reduce_1 = require('../operators/reduce');
 /* tslint:enable:max-line-length */
@@ -10013,7 +10069,7 @@ function reduce(accumulator, seed) {
 }
 exports.reduce = reduce;
 
-},{"../operators/reduce":187}],142:[function(require,module,exports){
+},{"../operators/reduce":188}],143:[function(require,module,exports){
 "use strict";
 var retry_1 = require('../operators/retry');
 /**
@@ -10038,7 +10094,7 @@ function retry(count) {
 }
 exports.retry = retry;
 
-},{"../operators/retry":189}],143:[function(require,module,exports){
+},{"../operators/retry":190}],144:[function(require,module,exports){
 "use strict";
 var sample_1 = require('../operators/sample');
 /**
@@ -10080,7 +10136,7 @@ function sample(notifier) {
 }
 exports.sample = sample;
 
-},{"../operators/sample":190}],144:[function(require,module,exports){
+},{"../operators/sample":191}],145:[function(require,module,exports){
 "use strict";
 var scan_1 = require('../operators/scan');
 /* tslint:enable:max-line-length */
@@ -10129,7 +10185,7 @@ function scan(accumulator, seed) {
 }
 exports.scan = scan;
 
-},{"../operators/scan":191}],145:[function(require,module,exports){
+},{"../operators/scan":192}],146:[function(require,module,exports){
 "use strict";
 var share_1 = require('../operators/share');
 /**
@@ -10154,7 +10210,7 @@ function share() {
 exports.share = share;
 ;
 
-},{"../operators/share":192}],146:[function(require,module,exports){
+},{"../operators/share":193}],147:[function(require,module,exports){
 "use strict";
 var skip_1 = require('../operators/skip');
 /**
@@ -10173,7 +10229,7 @@ function skip(count) {
 }
 exports.skip = skip;
 
-},{"../operators/skip":193}],147:[function(require,module,exports){
+},{"../operators/skip":194}],148:[function(require,module,exports){
 "use strict";
 var skipUntil_1 = require('../operators/skipUntil');
 /**
@@ -10193,7 +10249,7 @@ function skipUntil(notifier) {
 }
 exports.skipUntil = skipUntil;
 
-},{"../operators/skipUntil":194}],148:[function(require,module,exports){
+},{"../operators/skipUntil":195}],149:[function(require,module,exports){
 "use strict";
 var skipWhile_1 = require('../operators/skipWhile');
 /**
@@ -10213,7 +10269,7 @@ function skipWhile(predicate) {
 }
 exports.skipWhile = skipWhile;
 
-},{"../operators/skipWhile":195}],149:[function(require,module,exports){
+},{"../operators/skipWhile":196}],150:[function(require,module,exports){
 "use strict";
 var startWith_1 = require('../operators/startWith');
 /* tslint:enable:max-line-length */
@@ -10240,7 +10296,7 @@ function startWith() {
 }
 exports.startWith = startWith;
 
-},{"../operators/startWith":196}],150:[function(require,module,exports){
+},{"../operators/startWith":197}],151:[function(require,module,exports){
 "use strict";
 var switchMap_1 = require('../operators/switchMap');
 /* tslint:enable:max-line-length */
@@ -10296,7 +10352,7 @@ function switchMap(project, resultSelector) {
 }
 exports.switchMap = switchMap;
 
-},{"../operators/switchMap":197}],151:[function(require,module,exports){
+},{"../operators/switchMap":198}],152:[function(require,module,exports){
 "use strict";
 var take_1 = require('../operators/take');
 /**
@@ -10337,7 +10393,7 @@ function take(count) {
 }
 exports.take = take;
 
-},{"../operators/take":198}],152:[function(require,module,exports){
+},{"../operators/take":199}],153:[function(require,module,exports){
 "use strict";
 var takeUntil_1 = require('../operators/takeUntil');
 /**
@@ -10378,7 +10434,7 @@ function takeUntil(notifier) {
 }
 exports.takeUntil = takeUntil;
 
-},{"../operators/takeUntil":200}],153:[function(require,module,exports){
+},{"../operators/takeUntil":201}],154:[function(require,module,exports){
 "use strict";
 var takeWhile_1 = require('../operators/takeWhile');
 /**
@@ -10422,58 +10478,7 @@ function takeWhile(predicate) {
 }
 exports.takeWhile = takeWhile;
 
-},{"../operators/takeWhile":201}],154:[function(require,module,exports){
-"use strict";
-var async_1 = require('../scheduler/async');
-var throttle_1 = require('../operators/throttle');
-var throttleTime_1 = require('../operators/throttleTime');
-/**
- * Emits a value from the source Observable, then ignores subsequent source
- * values for `duration` milliseconds, then repeats this process.
- *
- * <span class="informal">Lets a value pass, then ignores source values for the
- * next `duration` milliseconds.</span>
- *
- * <img src="./img/throttleTime.png" width="100%">
- *
- * `throttleTime` emits the source Observable values on the output Observable
- * when its internal timer is disabled, and ignores source values when the timer
- * is enabled. Initially, the timer is disabled. As soon as the first source
- * value arrives, it is forwarded to the output Observable, and then the timer
- * is enabled. After `duration` milliseconds (or the time unit determined
- * internally by the optional `scheduler`) has passed, the timer is disabled,
- * and this process repeats for the next source value. Optionally takes a
- * {@link IScheduler} for managing timers.
- *
- * @example <caption>Emit clicks at a rate of at most one click per second</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.throttleTime(1000);
- * result.subscribe(x => console.log(x));
- *
- * @see {@link auditTime}
- * @see {@link debounceTime}
- * @see {@link delay}
- * @see {@link sampleTime}
- * @see {@link throttle}
- *
- * @param {number} duration Time to wait before emitting another value after
- * emitting the last value, measured in milliseconds or the time unit determined
- * internally by the optional `scheduler`.
- * @param {Scheduler} [scheduler=async] The {@link IScheduler} to use for
- * managing the timers that handle the throttling.
- * @return {Observable<T>} An Observable that performs the throttle operation to
- * limit the rate of emissions from the source.
- * @method throttleTime
- * @owner Observable
- */
-function throttleTime(duration, scheduler, config) {
-    if (scheduler === void 0) { scheduler = async_1.async; }
-    if (config === void 0) { config = throttle_1.defaultThrottleConfig; }
-    return throttleTime_1.throttleTime(duration, scheduler, config)(this);
-}
-exports.throttleTime = throttleTime;
-
-},{"../operators/throttle":203,"../operators/throttleTime":204,"../scheduler/async":213}],155:[function(require,module,exports){
+},{"../operators/takeWhile":202}],155:[function(require,module,exports){
 "use strict";
 var async_1 = require('../scheduler/async');
 var timeout_1 = require('../operators/timeout');
@@ -10548,7 +10553,7 @@ function timeout(due, scheduler) {
 }
 exports.timeout = timeout;
 
-},{"../operators/timeout":205,"../scheduler/async":213}],156:[function(require,module,exports){
+},{"../operators/timeout":204,"../scheduler/async":212}],156:[function(require,module,exports){
 "use strict";
 var withLatestFrom_1 = require('../operators/withLatestFrom');
 /* tslint:enable:max-line-length */
@@ -10599,7 +10604,7 @@ function withLatestFrom() {
 }
 exports.withLatestFrom = withLatestFrom;
 
-},{"../operators/withLatestFrom":206}],157:[function(require,module,exports){
+},{"../operators/withLatestFrom":205}],157:[function(require,module,exports){
 "use strict";
 var zip_1 = require('../operators/zip');
 /* tslint:enable:max-line-length */
@@ -10618,7 +10623,7 @@ function zipProto() {
 }
 exports.zipProto = zipProto;
 
-},{"../operators/zip":207}],158:[function(require,module,exports){
+},{"../operators/zip":206}],158:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -10737,7 +10742,7 @@ var AuditSubscriber = (function (_super) {
     return AuditSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../util/errorObject":225,"../util/subscribeToResult":238,"../util/tryCatch":240}],159:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/errorObject":224,"../util/subscribeToResult":237,"../util/tryCatch":239}],159:[function(require,module,exports){
 "use strict";
 var async_1 = require('../scheduler/async');
 var audit_1 = require('./audit');
@@ -10790,7 +10795,7 @@ function auditTime(duration, scheduler) {
 }
 exports.auditTime = auditTime;
 
-},{"../observable/timer":114,"../scheduler/async":213,"./audit":158}],160:[function(require,module,exports){
+},{"../observable/timer":114,"../scheduler/async":212,"./audit":158}],160:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -10869,7 +10874,7 @@ var BufferSubscriber = (function (_super) {
     return BufferSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],161:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/subscribeToResult":237}],161:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11137,7 +11142,7 @@ var BufferWhenSubscriber = (function (_super) {
     return BufferWhenSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../Subscription":37,"../util/errorObject":225,"../util/subscribeToResult":238,"../util/tryCatch":240}],163:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../Subscription":37,"../util/errorObject":224,"../util/subscribeToResult":237,"../util/tryCatch":239}],163:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11254,7 +11259,7 @@ var CatchSubscriber = (function (_super) {
     return CatchSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],164:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/subscribeToResult":237}],164:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11406,7 +11411,7 @@ var CombineLatestSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.CombineLatestSubscriber = CombineLatestSubscriber;
 
-},{"../OuterSubscriber":31,"../observable/ArrayObservable":93,"../util/isArray":227,"../util/subscribeToResult":238}],165:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../observable/ArrayObservable":93,"../util/isArray":226,"../util/subscribeToResult":237}],165:[function(require,module,exports){
 "use strict";
 var concat_1 = require('../observable/concat');
 /* tslint:enable:max-line-length */
@@ -11524,7 +11529,119 @@ function concatAll() {
 }
 exports.concatAll = concatAll;
 
-},{"./mergeAll":179}],167:[function(require,module,exports){
+},{"./mergeAll":180}],167:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscriber_1 = require('../Subscriber');
+/**
+ * Counts the number of emissions on the source and emits that number when the
+ * source completes.
+ *
+ * <span class="informal">Tells how many values were emitted, when the source
+ * completes.</span>
+ *
+ * <img src="./img/count.png" width="100%">
+ *
+ * `count` transforms an Observable that emits values into an Observable that
+ * emits a single value that represents the number of values emitted by the
+ * source Observable. If the source Observable terminates with an error, `count`
+ * will pass this error notification along without emitting a value first. If
+ * the source Observable does not terminate at all, `count` will neither emit
+ * a value nor terminate. This operator takes an optional `predicate` function
+ * as argument, in which case the output emission will represent the number of
+ * source values that matched `true` with the `predicate`.
+ *
+ * @example <caption>Counts how many seconds have passed before the first click happened</caption>
+ * var seconds = Rx.Observable.interval(1000);
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var secondsBeforeClick = seconds.takeUntil(clicks);
+ * var result = secondsBeforeClick.count();
+ * result.subscribe(x => console.log(x));
+ *
+ * @example <caption>Counts how many odd numbers are there between 1 and 7</caption>
+ * var numbers = Rx.Observable.range(1, 7);
+ * var result = numbers.count(i => i % 2 === 1);
+ * result.subscribe(x => console.log(x));
+ *
+ * // Results in:
+ * // 4
+ *
+ * @see {@link max}
+ * @see {@link min}
+ * @see {@link reduce}
+ *
+ * @param {function(value: T, i: number, source: Observable<T>): boolean} [predicate] A
+ * boolean function to select what values are to be counted. It is provided with
+ * arguments of:
+ * - `value`: the value from the source Observable.
+ * - `index`: the (zero-based) "index" of the value from the source Observable.
+ * - `source`: the source Observable instance itself.
+ * @return {Observable} An Observable of one number that represents the count as
+ * described above.
+ * @method count
+ * @owner Observable
+ */
+function count(predicate) {
+    return function (source) { return source.lift(new CountOperator(predicate, source)); };
+}
+exports.count = count;
+var CountOperator = (function () {
+    function CountOperator(predicate, source) {
+        this.predicate = predicate;
+        this.source = source;
+    }
+    CountOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new CountSubscriber(subscriber, this.predicate, this.source));
+    };
+    return CountOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var CountSubscriber = (function (_super) {
+    __extends(CountSubscriber, _super);
+    function CountSubscriber(destination, predicate, source) {
+        _super.call(this, destination);
+        this.predicate = predicate;
+        this.source = source;
+        this.count = 0;
+        this.index = 0;
+    }
+    CountSubscriber.prototype._next = function (value) {
+        if (this.predicate) {
+            this._tryPredicate(value);
+        }
+        else {
+            this.count++;
+        }
+    };
+    CountSubscriber.prototype._tryPredicate = function (value) {
+        var result;
+        try {
+            result = this.predicate(value, this.index++, this.source);
+        }
+        catch (err) {
+            this.destination.error(err);
+            return;
+        }
+        if (result) {
+            this.count++;
+        }
+    };
+    CountSubscriber.prototype._complete = function () {
+        this.destination.next(this.count);
+        this.destination.complete();
+    };
+    return CountSubscriber;
+}(Subscriber_1.Subscriber));
+
+},{"../Subscriber":36}],168:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11641,7 +11758,7 @@ function dispatchNext(subscriber) {
     subscriber.debouncedNext();
 }
 
-},{"../Subscriber":36,"../scheduler/async":213}],168:[function(require,module,exports){
+},{"../Subscriber":36,"../scheduler/async":212}],169:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11719,7 +11836,7 @@ var DefaultIfEmptySubscriber = (function (_super) {
     return DefaultIfEmptySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],169:[function(require,module,exports){
+},{"../Subscriber":36}],170:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11855,7 +11972,7 @@ var DelayMessage = (function () {
     return DelayMessage;
 }());
 
-},{"../Notification":28,"../Subscriber":36,"../scheduler/async":213,"../util/isDate":229}],170:[function(require,module,exports){
+},{"../Notification":28,"../Subscriber":36,"../scheduler/async":212,"../util/isDate":228}],171:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -11976,7 +12093,7 @@ var DistinctSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.DistinctSubscriber = DistinctSubscriber;
 
-},{"../OuterSubscriber":31,"../util/Set":222,"../util/subscribeToResult":238}],171:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/Set":221,"../util/subscribeToResult":237}],172:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -12085,7 +12202,7 @@ var DistinctUntilChangedSubscriber = (function (_super) {
     return DistinctUntilChangedSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36,"../util/errorObject":225,"../util/tryCatch":240}],172:[function(require,module,exports){
+},{"../Subscriber":36,"../util/errorObject":224,"../util/tryCatch":239}],173:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -12237,7 +12354,7 @@ var ExpandSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.ExpandSubscriber = ExpandSubscriber;
 
-},{"../OuterSubscriber":31,"../util/errorObject":225,"../util/subscribeToResult":238,"../util/tryCatch":240}],173:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/errorObject":224,"../util/subscribeToResult":237,"../util/tryCatch":239}],174:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -12332,7 +12449,7 @@ var FilterSubscriber = (function (_super) {
     return FilterSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],174:[function(require,module,exports){
+},{"../Subscriber":36}],175:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -12376,7 +12493,7 @@ var FinallySubscriber = (function (_super) {
     return FinallySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36,"../Subscription":37}],175:[function(require,module,exports){
+},{"../Subscriber":36,"../Subscription":37}],176:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -12529,7 +12646,7 @@ var FirstSubscriber = (function (_super) {
     return FirstSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36,"../util/EmptyError":220}],176:[function(require,module,exports){
+},{"../Subscriber":36,"../util/EmptyError":219}],177:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -12649,7 +12766,7 @@ var LastSubscriber = (function (_super) {
     return LastSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36,"../util/EmptyError":220}],177:[function(require,module,exports){
+},{"../Subscriber":36,"../util/EmptyError":219}],178:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -12739,7 +12856,7 @@ var MapSubscriber = (function (_super) {
     return MapSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],178:[function(require,module,exports){
+},{"../Subscriber":36}],179:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../Observable');
 var ArrayObservable_1 = require('../observable/ArrayObservable');
@@ -12839,7 +12956,7 @@ function mergeStatic() {
 }
 exports.mergeStatic = mergeStatic;
 
-},{"../Observable":29,"../observable/ArrayObservable":93,"../util/isScheduler":234,"./mergeAll":179}],179:[function(require,module,exports){
+},{"../Observable":29,"../observable/ArrayObservable":93,"../util/isScheduler":233,"./mergeAll":180}],180:[function(require,module,exports){
 "use strict";
 var mergeMap_1 = require('./mergeMap');
 var identity_1 = require('../util/identity');
@@ -12893,7 +13010,7 @@ function mergeAll(concurrent) {
 }
 exports.mergeAll = mergeAll;
 
-},{"../util/identity":226,"./mergeMap":180}],180:[function(require,module,exports){
+},{"../util/identity":225,"./mergeMap":181}],181:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13067,7 +13184,7 @@ var MergeMapSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.MergeMapSubscriber = MergeMapSubscriber;
 
-},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],181:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/subscribeToResult":237}],182:[function(require,module,exports){
 "use strict";
 var ConnectableObservable_1 = require('../observable/ConnectableObservable');
 /* tslint:enable:max-line-length */
@@ -13127,7 +13244,7 @@ var MulticastOperator = (function () {
 }());
 exports.MulticastOperator = MulticastOperator;
 
-},{"../observable/ConnectableObservable":94}],182:[function(require,module,exports){
+},{"../observable/ConnectableObservable":94}],183:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13243,7 +13360,7 @@ var ObserveOnMessage = (function () {
 }());
 exports.ObserveOnMessage = ObserveOnMessage;
 
-},{"../Notification":28,"../Subscriber":36}],183:[function(require,module,exports){
+},{"../Notification":28,"../Subscriber":36}],184:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13321,7 +13438,7 @@ var PairwiseSubscriber = (function (_super) {
     return PairwiseSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],184:[function(require,module,exports){
+},{"../Subscriber":36}],185:[function(require,module,exports){
 "use strict";
 var map_1 = require('./map');
 /**
@@ -13379,7 +13496,7 @@ function plucker(props, length) {
     return mapper;
 }
 
-},{"./map":177}],185:[function(require,module,exports){
+},{"./map":178}],186:[function(require,module,exports){
 "use strict";
 var Subject_1 = require('../Subject');
 var multicast_1 = require('./multicast');
@@ -13404,7 +13521,7 @@ function publish(selector) {
 }
 exports.publish = publish;
 
-},{"../Subject":34,"./multicast":181}],186:[function(require,module,exports){
+},{"../Subject":34,"./multicast":182}],187:[function(require,module,exports){
 "use strict";
 var ReplaySubject_1 = require('../ReplaySubject');
 var multicast_1 = require('./multicast');
@@ -13419,7 +13536,7 @@ function publishReplay(bufferSize, windowTime, selectorOrScheduler, scheduler) {
 }
 exports.publishReplay = publishReplay;
 
-},{"../ReplaySubject":32,"./multicast":181}],187:[function(require,module,exports){
+},{"../ReplaySubject":32,"./multicast":182}],188:[function(require,module,exports){
 "use strict";
 var scan_1 = require('./scan');
 var takeLast_1 = require('./takeLast');
@@ -13489,7 +13606,7 @@ function reduce(accumulator, seed) {
 }
 exports.reduce = reduce;
 
-},{"../util/pipe":236,"./defaultIfEmpty":168,"./scan":191,"./takeLast":199}],188:[function(require,module,exports){
+},{"../util/pipe":235,"./defaultIfEmpty":169,"./scan":192,"./takeLast":200}],189:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13575,7 +13692,7 @@ var RefCountSubscriber = (function (_super) {
     return RefCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],189:[function(require,module,exports){
+},{"../Subscriber":36}],190:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13641,7 +13758,7 @@ var RetrySubscriber = (function (_super) {
     return RetrySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],190:[function(require,module,exports){
+},{"../Subscriber":36}],191:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13730,7 +13847,7 @@ var SampleSubscriber = (function (_super) {
     return SampleSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],191:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/subscribeToResult":237}],192:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13852,7 +13969,7 @@ var ScanSubscriber = (function (_super) {
     return ScanSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],192:[function(require,module,exports){
+},{"../Subscriber":36}],193:[function(require,module,exports){
 "use strict";
 var multicast_1 = require('./multicast');
 var refCount_1 = require('./refCount');
@@ -13878,7 +13995,7 @@ function share() {
 exports.share = share;
 ;
 
-},{"../Subject":34,"./multicast":181,"./refCount":188}],193:[function(require,module,exports){
+},{"../Subject":34,"./multicast":182,"./refCount":189}],194:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -13930,7 +14047,7 @@ var SkipSubscriber = (function (_super) {
     return SkipSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],194:[function(require,module,exports){
+},{"../Subscriber":36}],195:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -14002,7 +14119,7 @@ var SkipUntilSubscriber = (function (_super) {
     return SkipUntilSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],195:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/subscribeToResult":237}],196:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -14069,7 +14186,7 @@ var SkipWhileSubscriber = (function (_super) {
     return SkipWhileSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],196:[function(require,module,exports){
+},{"../Subscriber":36}],197:[function(require,module,exports){
 "use strict";
 var ArrayObservable_1 = require('../observable/ArrayObservable');
 var ScalarObservable_1 = require('../observable/ScalarObservable');
@@ -14118,7 +14235,7 @@ function startWith() {
 }
 exports.startWith = startWith;
 
-},{"../observable/ArrayObservable":93,"../observable/EmptyObservable":96,"../observable/ScalarObservable":102,"../observable/concat":105,"../util/isScheduler":234}],197:[function(require,module,exports){
+},{"../observable/ArrayObservable":93,"../observable/EmptyObservable":96,"../observable/ScalarObservable":102,"../observable/concat":105,"../util/isScheduler":233}],198:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -14261,7 +14378,7 @@ var SwitchMapSubscriber = (function (_super) {
     return SwitchMapSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],198:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/subscribeToResult":237}],199:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -14353,7 +14470,7 @@ var TakeSubscriber = (function (_super) {
     return TakeSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36,"../observable/EmptyObservable":96,"../util/ArgumentOutOfRangeError":219}],199:[function(require,module,exports){
+},{"../Subscriber":36,"../observable/EmptyObservable":96,"../util/ArgumentOutOfRangeError":218}],200:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -14463,7 +14580,7 @@ var TakeLastSubscriber = (function (_super) {
     return TakeLastSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36,"../observable/EmptyObservable":96,"../util/ArgumentOutOfRangeError":219}],200:[function(require,module,exports){
+},{"../Subscriber":36,"../observable/EmptyObservable":96,"../util/ArgumentOutOfRangeError":218}],201:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -14539,7 +14656,7 @@ var TakeUntilSubscriber = (function (_super) {
     return TakeUntilSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],201:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/subscribeToResult":237}],202:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -14632,7 +14749,7 @@ var TakeWhileSubscriber = (function (_super) {
     return TakeWhileSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],202:[function(require,module,exports){
+},{"../Subscriber":36}],203:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -14746,267 +14863,7 @@ var DoSubscriber = (function (_super) {
     return DoSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36}],203:[function(require,module,exports){
-"use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var OuterSubscriber_1 = require('../OuterSubscriber');
-var subscribeToResult_1 = require('../util/subscribeToResult');
-exports.defaultThrottleConfig = {
-    leading: true,
-    trailing: false
-};
-/**
- * Emits a value from the source Observable, then ignores subsequent source
- * values for a duration determined by another Observable, then repeats this
- * process.
- *
- * <span class="informal">It's like {@link throttleTime}, but the silencing
- * duration is determined by a second Observable.</span>
- *
- * <img src="./img/throttle.png" width="100%">
- *
- * `throttle` emits the source Observable values on the output Observable
- * when its internal timer is disabled, and ignores source values when the timer
- * is enabled. Initially, the timer is disabled. As soon as the first source
- * value arrives, it is forwarded to the output Observable, and then the timer
- * is enabled by calling the `durationSelector` function with the source value,
- * which returns the "duration" Observable. When the duration Observable emits a
- * value or completes, the timer is disabled, and this process repeats for the
- * next source value.
- *
- * @example <caption>Emit clicks at a rate of at most one click per second</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.throttle(ev => Rx.Observable.interval(1000));
- * result.subscribe(x => console.log(x));
- *
- * @see {@link audit}
- * @see {@link debounce}
- * @see {@link delayWhen}
- * @see {@link sample}
- * @see {@link throttleTime}
- *
- * @param {function(value: T): SubscribableOrPromise} durationSelector A function
- * that receives a value from the source Observable, for computing the silencing
- * duration for each source value, returned as an Observable or a Promise.
- * @param {Object} config a configuration object to define `leading` and `trailing` behavior. Defaults
- * to `{ leading: true, trailing: false }`.
- * @return {Observable<T>} An Observable that performs the throttle operation to
- * limit the rate of emissions from the source.
- * @method throttle
- * @owner Observable
- */
-function throttle(durationSelector, config) {
-    if (config === void 0) { config = exports.defaultThrottleConfig; }
-    return function (source) { return source.lift(new ThrottleOperator(durationSelector, config.leading, config.trailing)); };
-}
-exports.throttle = throttle;
-var ThrottleOperator = (function () {
-    function ThrottleOperator(durationSelector, leading, trailing) {
-        this.durationSelector = durationSelector;
-        this.leading = leading;
-        this.trailing = trailing;
-    }
-    ThrottleOperator.prototype.call = function (subscriber, source) {
-        return source.subscribe(new ThrottleSubscriber(subscriber, this.durationSelector, this.leading, this.trailing));
-    };
-    return ThrottleOperator;
-}());
-/**
- * We need this JSDoc comment for affecting ESDoc
- * @ignore
- * @extends {Ignored}
- */
-var ThrottleSubscriber = (function (_super) {
-    __extends(ThrottleSubscriber, _super);
-    function ThrottleSubscriber(destination, durationSelector, _leading, _trailing) {
-        _super.call(this, destination);
-        this.destination = destination;
-        this.durationSelector = durationSelector;
-        this._leading = _leading;
-        this._trailing = _trailing;
-        this._hasTrailingValue = false;
-    }
-    ThrottleSubscriber.prototype._next = function (value) {
-        if (this.throttled) {
-            if (this._trailing) {
-                this._hasTrailingValue = true;
-                this._trailingValue = value;
-            }
-        }
-        else {
-            var duration = this.tryDurationSelector(value);
-            if (duration) {
-                this.add(this.throttled = subscribeToResult_1.subscribeToResult(this, duration));
-            }
-            if (this._leading) {
-                this.destination.next(value);
-                if (this._trailing) {
-                    this._hasTrailingValue = true;
-                    this._trailingValue = value;
-                }
-            }
-        }
-    };
-    ThrottleSubscriber.prototype.tryDurationSelector = function (value) {
-        try {
-            return this.durationSelector(value);
-        }
-        catch (err) {
-            this.destination.error(err);
-            return null;
-        }
-    };
-    ThrottleSubscriber.prototype._unsubscribe = function () {
-        var _a = this, throttled = _a.throttled, _trailingValue = _a._trailingValue, _hasTrailingValue = _a._hasTrailingValue, _trailing = _a._trailing;
-        this._trailingValue = null;
-        this._hasTrailingValue = false;
-        if (throttled) {
-            this.remove(throttled);
-            this.throttled = null;
-            throttled.unsubscribe();
-        }
-    };
-    ThrottleSubscriber.prototype._sendTrailing = function () {
-        var _a = this, destination = _a.destination, throttled = _a.throttled, _trailing = _a._trailing, _trailingValue = _a._trailingValue, _hasTrailingValue = _a._hasTrailingValue;
-        if (throttled && _trailing && _hasTrailingValue) {
-            destination.next(_trailingValue);
-            this._trailingValue = null;
-            this._hasTrailingValue = false;
-        }
-    };
-    ThrottleSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
-        this._sendTrailing();
-        this._unsubscribe();
-    };
-    ThrottleSubscriber.prototype.notifyComplete = function () {
-        this._sendTrailing();
-        this._unsubscribe();
-    };
-    return ThrottleSubscriber;
-}(OuterSubscriber_1.OuterSubscriber));
-
-},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],204:[function(require,module,exports){
-"use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var Subscriber_1 = require('../Subscriber');
-var async_1 = require('../scheduler/async');
-var throttle_1 = require('./throttle');
-/**
- * Emits a value from the source Observable, then ignores subsequent source
- * values for `duration` milliseconds, then repeats this process.
- *
- * <span class="informal">Lets a value pass, then ignores source values for the
- * next `duration` milliseconds.</span>
- *
- * <img src="./img/throttleTime.png" width="100%">
- *
- * `throttleTime` emits the source Observable values on the output Observable
- * when its internal timer is disabled, and ignores source values when the timer
- * is enabled. Initially, the timer is disabled. As soon as the first source
- * value arrives, it is forwarded to the output Observable, and then the timer
- * is enabled. After `duration` milliseconds (or the time unit determined
- * internally by the optional `scheduler`) has passed, the timer is disabled,
- * and this process repeats for the next source value. Optionally takes a
- * {@link IScheduler} for managing timers.
- *
- * @example <caption>Emit clicks at a rate of at most one click per second</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var result = clicks.throttleTime(1000);
- * result.subscribe(x => console.log(x));
- *
- * @see {@link auditTime}
- * @see {@link debounceTime}
- * @see {@link delay}
- * @see {@link sampleTime}
- * @see {@link throttle}
- *
- * @param {number} duration Time to wait before emitting another value after
- * emitting the last value, measured in milliseconds or the time unit determined
- * internally by the optional `scheduler`.
- * @param {Scheduler} [scheduler=async] The {@link IScheduler} to use for
- * managing the timers that handle the throttling.
- * @return {Observable<T>} An Observable that performs the throttle operation to
- * limit the rate of emissions from the source.
- * @method throttleTime
- * @owner Observable
- */
-function throttleTime(duration, scheduler, config) {
-    if (scheduler === void 0) { scheduler = async_1.async; }
-    if (config === void 0) { config = throttle_1.defaultThrottleConfig; }
-    return function (source) { return source.lift(new ThrottleTimeOperator(duration, scheduler, config.leading, config.trailing)); };
-}
-exports.throttleTime = throttleTime;
-var ThrottleTimeOperator = (function () {
-    function ThrottleTimeOperator(duration, scheduler, leading, trailing) {
-        this.duration = duration;
-        this.scheduler = scheduler;
-        this.leading = leading;
-        this.trailing = trailing;
-    }
-    ThrottleTimeOperator.prototype.call = function (subscriber, source) {
-        return source.subscribe(new ThrottleTimeSubscriber(subscriber, this.duration, this.scheduler, this.leading, this.trailing));
-    };
-    return ThrottleTimeOperator;
-}());
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-var ThrottleTimeSubscriber = (function (_super) {
-    __extends(ThrottleTimeSubscriber, _super);
-    function ThrottleTimeSubscriber(destination, duration, scheduler, leading, trailing) {
-        _super.call(this, destination);
-        this.duration = duration;
-        this.scheduler = scheduler;
-        this.leading = leading;
-        this.trailing = trailing;
-        this._hasTrailingValue = false;
-        this._trailingValue = null;
-    }
-    ThrottleTimeSubscriber.prototype._next = function (value) {
-        if (this.throttled) {
-            if (this.trailing) {
-                this._trailingValue = value;
-                this._hasTrailingValue = true;
-            }
-        }
-        else {
-            this.add(this.throttled = this.scheduler.schedule(dispatchNext, this.duration, { subscriber: this }));
-            if (this.leading) {
-                this.destination.next(value);
-            }
-        }
-    };
-    ThrottleTimeSubscriber.prototype.clearThrottle = function () {
-        var throttled = this.throttled;
-        if (throttled) {
-            if (this.trailing && this._hasTrailingValue) {
-                this.destination.next(this._trailingValue);
-                this._trailingValue = null;
-                this._hasTrailingValue = false;
-            }
-            throttled.unsubscribe();
-            this.remove(throttled);
-            this.throttled = null;
-        }
-    };
-    return ThrottleTimeSubscriber;
-}(Subscriber_1.Subscriber));
-function dispatchNext(arg) {
-    var subscriber = arg.subscriber;
-    subscriber.clearThrottle();
-}
-
-},{"../Subscriber":36,"../scheduler/async":213,"./throttle":203}],205:[function(require,module,exports){
+},{"../Subscriber":36}],204:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15148,7 +15005,7 @@ var TimeoutSubscriber = (function (_super) {
     return TimeoutSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":36,"../scheduler/async":213,"../util/TimeoutError":223,"../util/isDate":229}],206:[function(require,module,exports){
+},{"../Subscriber":36,"../scheduler/async":212,"../util/TimeoutError":222,"../util/isDate":228}],205:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15281,7 +15138,7 @@ var WithLatestFromSubscriber = (function (_super) {
     return WithLatestFromSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../util/subscribeToResult":238}],207:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../util/subscribeToResult":237}],206:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15563,7 +15420,7 @@ var ZipBufferIterator = (function (_super) {
     return ZipBufferIterator;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":31,"../Subscriber":36,"../observable/ArrayObservable":93,"../symbol/iterator":215,"../util/isArray":227,"../util/subscribeToResult":238}],208:[function(require,module,exports){
+},{"../OuterSubscriber":31,"../Subscriber":36,"../observable/ArrayObservable":93,"../symbol/iterator":214,"../util/isArray":226,"../util/subscribeToResult":237}],207:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15608,7 +15465,7 @@ var Action = (function (_super) {
 }(Subscription_1.Subscription));
 exports.Action = Action;
 
-},{"../Subscription":37}],209:[function(require,module,exports){
+},{"../Subscription":37}],208:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15751,7 +15608,7 @@ var AsyncAction = (function (_super) {
 }(Action_1.Action));
 exports.AsyncAction = AsyncAction;
 
-},{"../util/root":237,"./Action":208}],210:[function(require,module,exports){
+},{"../util/root":236,"./Action":207}],209:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15803,7 +15660,7 @@ var AsyncScheduler = (function (_super) {
 }(Scheduler_1.Scheduler));
 exports.AsyncScheduler = AsyncScheduler;
 
-},{"../Scheduler":33}],211:[function(require,module,exports){
+},{"../Scheduler":33}],210:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15853,7 +15710,7 @@ var QueueAction = (function (_super) {
 }(AsyncAction_1.AsyncAction));
 exports.QueueAction = QueueAction;
 
-},{"./AsyncAction":209}],212:[function(require,module,exports){
+},{"./AsyncAction":208}],211:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -15870,7 +15727,7 @@ var QueueScheduler = (function (_super) {
 }(AsyncScheduler_1.AsyncScheduler));
 exports.QueueScheduler = QueueScheduler;
 
-},{"./AsyncScheduler":210}],213:[function(require,module,exports){
+},{"./AsyncScheduler":209}],212:[function(require,module,exports){
 "use strict";
 var AsyncAction_1 = require('./AsyncAction');
 var AsyncScheduler_1 = require('./AsyncScheduler');
@@ -15918,7 +15775,7 @@ var AsyncScheduler_1 = require('./AsyncScheduler');
  */
 exports.async = new AsyncScheduler_1.AsyncScheduler(AsyncAction_1.AsyncAction);
 
-},{"./AsyncAction":209,"./AsyncScheduler":210}],214:[function(require,module,exports){
+},{"./AsyncAction":208,"./AsyncScheduler":209}],213:[function(require,module,exports){
 "use strict";
 var QueueAction_1 = require('./QueueAction');
 var QueueScheduler_1 = require('./QueueScheduler');
@@ -15985,7 +15842,7 @@ var QueueScheduler_1 = require('./QueueScheduler');
  */
 exports.queue = new QueueScheduler_1.QueueScheduler(QueueAction_1.QueueAction);
 
-},{"./QueueAction":211,"./QueueScheduler":212}],215:[function(require,module,exports){
+},{"./QueueAction":210,"./QueueScheduler":211}],214:[function(require,module,exports){
 "use strict";
 var root_1 = require('../util/root');
 function symbolIteratorPonyfill(root) {
@@ -16024,7 +15881,7 @@ exports.iterator = symbolIteratorPonyfill(root_1.root);
  */
 exports.$$iterator = exports.iterator;
 
-},{"../util/root":237}],216:[function(require,module,exports){
+},{"../util/root":236}],215:[function(require,module,exports){
 "use strict";
 var root_1 = require('../util/root');
 function getSymbolObservable(context) {
@@ -16051,7 +15908,7 @@ exports.observable = getSymbolObservable(root_1.root);
  */
 exports.$$observable = exports.observable;
 
-},{"../util/root":237}],217:[function(require,module,exports){
+},{"../util/root":236}],216:[function(require,module,exports){
 "use strict";
 var root_1 = require('../util/root');
 var Symbol = root_1.root.Symbol;
@@ -16062,7 +15919,7 @@ exports.rxSubscriber = (typeof Symbol === 'function' && typeof Symbol.for === 'f
  */
 exports.$$rxSubscriber = exports.rxSubscriber;
 
-},{"../util/root":237}],218:[function(require,module,exports){
+},{"../util/root":236}],217:[function(require,module,exports){
 "use strict";
 var root_1 = require('./root');
 var RequestAnimationFrameDefinition = (function () {
@@ -16097,7 +15954,7 @@ var RequestAnimationFrameDefinition = (function () {
 exports.RequestAnimationFrameDefinition = RequestAnimationFrameDefinition;
 exports.AnimationFrame = new RequestAnimationFrameDefinition(root_1.root);
 
-},{"./root":237}],219:[function(require,module,exports){
+},{"./root":236}],218:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -16126,7 +15983,7 @@ var ArgumentOutOfRangeError = (function (_super) {
 }(Error));
 exports.ArgumentOutOfRangeError = ArgumentOutOfRangeError;
 
-},{}],220:[function(require,module,exports){
+},{}],219:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -16155,7 +16012,7 @@ var EmptyError = (function (_super) {
 }(Error));
 exports.EmptyError = EmptyError;
 
-},{}],221:[function(require,module,exports){
+},{}],220:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -16183,7 +16040,7 @@ var ObjectUnsubscribedError = (function (_super) {
 }(Error));
 exports.ObjectUnsubscribedError = ObjectUnsubscribedError;
 
-},{}],222:[function(require,module,exports){
+},{}],221:[function(require,module,exports){
 "use strict";
 var root_1 = require('./root');
 function minimalSetImpl() {
@@ -16217,7 +16074,7 @@ function minimalSetImpl() {
 exports.minimalSetImpl = minimalSetImpl;
 exports.Set = root_1.root.Set || minimalSetImpl();
 
-},{"./root":237}],223:[function(require,module,exports){
+},{"./root":236}],222:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -16243,7 +16100,7 @@ var TimeoutError = (function (_super) {
 }(Error));
 exports.TimeoutError = TimeoutError;
 
-},{}],224:[function(require,module,exports){
+},{}],223:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -16269,41 +16126,41 @@ var UnsubscriptionError = (function (_super) {
 }(Error));
 exports.UnsubscriptionError = UnsubscriptionError;
 
-},{}],225:[function(require,module,exports){
+},{}],224:[function(require,module,exports){
 "use strict";
 // typeof any so that it we don't have to cast when comparing a result to the error object
 exports.errorObject = { e: {} };
 
-},{}],226:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 "use strict";
 function identity(x) {
     return x;
 }
 exports.identity = identity;
 
-},{}],227:[function(require,module,exports){
+},{}],226:[function(require,module,exports){
 "use strict";
 exports.isArray = Array.isArray || (function (x) { return x && typeof x.length === 'number'; });
 
-},{}],228:[function(require,module,exports){
+},{}],227:[function(require,module,exports){
 "use strict";
 exports.isArrayLike = (function (x) { return x && typeof x.length === 'number'; });
 
-},{}],229:[function(require,module,exports){
+},{}],228:[function(require,module,exports){
 "use strict";
 function isDate(value) {
     return value instanceof Date && !isNaN(+value);
 }
 exports.isDate = isDate;
 
-},{}],230:[function(require,module,exports){
+},{}],229:[function(require,module,exports){
 "use strict";
 function isFunction(x) {
     return typeof x === 'function';
 }
 exports.isFunction = isFunction;
 
-},{}],231:[function(require,module,exports){
+},{}],230:[function(require,module,exports){
 "use strict";
 var isArray_1 = require('../util/isArray');
 function isNumeric(val) {
@@ -16316,34 +16173,34 @@ function isNumeric(val) {
 exports.isNumeric = isNumeric;
 ;
 
-},{"../util/isArray":227}],232:[function(require,module,exports){
+},{"../util/isArray":226}],231:[function(require,module,exports){
 "use strict";
 function isObject(x) {
     return x != null && typeof x === 'object';
 }
 exports.isObject = isObject;
 
-},{}],233:[function(require,module,exports){
+},{}],232:[function(require,module,exports){
 "use strict";
 function isPromise(value) {
     return value && typeof value.subscribe !== 'function' && typeof value.then === 'function';
 }
 exports.isPromise = isPromise;
 
-},{}],234:[function(require,module,exports){
+},{}],233:[function(require,module,exports){
 "use strict";
 function isScheduler(value) {
     return value && typeof value.schedule === 'function';
 }
 exports.isScheduler = isScheduler;
 
-},{}],235:[function(require,module,exports){
+},{}],234:[function(require,module,exports){
 "use strict";
 /* tslint:disable:no-empty */
 function noop() { }
 exports.noop = noop;
 
-},{}],236:[function(require,module,exports){
+},{}],235:[function(require,module,exports){
 "use strict";
 var noop_1 = require('./noop');
 /* tslint:enable:max-line-length */
@@ -16369,7 +16226,7 @@ function pipeFromArray(fns) {
 }
 exports.pipeFromArray = pipeFromArray;
 
-},{"./noop":235}],237:[function(require,module,exports){
+},{"./noop":234}],236:[function(require,module,exports){
 (function (global){
 "use strict";
 // CommonJS / Node have global context exposed as "global" variable.
@@ -16392,7 +16249,7 @@ exports.root = _root;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],238:[function(require,module,exports){
+},{}],237:[function(require,module,exports){
 "use strict";
 var root_1 = require('./root');
 var isArrayLike_1 = require('./isArrayLike');
@@ -16472,7 +16329,7 @@ function subscribeToResult(outerSubscriber, result, outerValue, outerIndex) {
 }
 exports.subscribeToResult = subscribeToResult;
 
-},{"../InnerSubscriber":27,"../Observable":29,"../symbol/iterator":215,"../symbol/observable":216,"./isArrayLike":228,"./isObject":232,"./isPromise":233,"./root":237}],239:[function(require,module,exports){
+},{"../InnerSubscriber":27,"../Observable":29,"../symbol/iterator":214,"../symbol/observable":215,"./isArrayLike":227,"./isObject":231,"./isPromise":232,"./root":236}],238:[function(require,module,exports){
 "use strict";
 var Subscriber_1 = require('../Subscriber');
 var rxSubscriber_1 = require('../symbol/rxSubscriber');
@@ -16493,7 +16350,7 @@ function toSubscriber(nextOrObserver, error, complete) {
 }
 exports.toSubscriber = toSubscriber;
 
-},{"../Observer":30,"../Subscriber":36,"../symbol/rxSubscriber":217}],240:[function(require,module,exports){
+},{"../Observer":30,"../Subscriber":36,"../symbol/rxSubscriber":216}],239:[function(require,module,exports){
 "use strict";
 var errorObject_1 = require('./errorObject');
 var tryCatchTarget;
@@ -16513,7 +16370,7 @@ function tryCatch(fn) {
 exports.tryCatch = tryCatch;
 ;
 
-},{"./errorObject":225}],241:[function(require,module,exports){
+},{"./errorObject":224}],240:[function(require,module,exports){
 // threejs.org/license
 (function(m,ja){"object"===typeof exports&&"undefined"!==typeof module?ja(exports):"function"===typeof define&&define.amd?define(["exports"],ja):ja(m.THREE=m.THREE||{})})(this,function(m){function ja(){}function C(a,b){this.x=a||0;this.y=b||0}function K(){this.elements=[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];0<arguments.length&&console.error("THREE.Matrix4: the constructor no longer reads arguments. use .set() instead.")}function Z(a,b,c,d){this._x=a||0;this._y=b||0;this._z=c||0;this._w=void 0!==d?d:1}
 function p(a,b,c){this.x=a||0;this.y=b||0;this.z=c||0}function ra(){this.elements=[1,0,0,0,1,0,0,0,1];0<arguments.length&&console.error("THREE.Matrix3: the constructor no longer reads arguments. use .set() instead.")}function ea(a,b,c,d,e,f,g,h,k,l){Object.defineProperty(this,"id",{value:kf++});this.uuid=R.generateUUID();this.name="";this.image=void 0!==a?a:ea.DEFAULT_IMAGE;this.mipmaps=[];this.mapping=void 0!==b?b:ea.DEFAULT_MAPPING;this.wrapS=void 0!==c?c:1001;this.wrapT=void 0!==d?d:1001;this.magFilter=
@@ -17413,7 +17270,7 @@ var e=new $d;e.setCrossOrigin(this.crossOrigin);a=e.load(a,c,void 0,d);b&&(a.map
 function(a,b){console.warn("THREE.Projector: .projectVector() is now vector.project().");a.project(b)};this.unprojectVector=function(a,b){console.warn("THREE.Projector: .unprojectVector() is now vector.unproject().");a.unproject(b)};this.pickingRay=function(){console.error("THREE.Projector: .pickingRay() is now raycaster.setFromCamera().")}};m.CanvasRenderer=function(){console.error("THREE.CanvasRenderer has been moved to /examples/js/renderers/CanvasRenderer.js");this.domElement=document.createElementNS("http://www.w3.org/1999/xhtml",
 "canvas");this.clear=function(){};this.render=function(){};this.setClearColor=function(){};this.setSize=function(){}};Object.defineProperty(m,"__esModule",{value:!0})});
 
-},{}],242:[function(require,module,exports){
+},{}],241:[function(require,module,exports){
 'use strict';
 
 module.exports = TinyQueue;
@@ -17500,7 +17357,7 @@ TinyQueue.prototype = {
     }
 };
 
-},{}],243:[function(require,module,exports){
+},{}],242:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -19050,22 +18907,22 @@ TinyQueue.prototype = {
   }
 }.call(this));
 
-},{}],244:[function(require,module,exports){
+},{}],243:[function(require,module,exports){
 var createElement = require("./vdom/create-element.js")
 
 module.exports = createElement
 
-},{"./vdom/create-element.js":250}],245:[function(require,module,exports){
+},{"./vdom/create-element.js":249}],244:[function(require,module,exports){
 var diff = require("./vtree/diff.js")
 
 module.exports = diff
 
-},{"./vtree/diff.js":270}],246:[function(require,module,exports){
+},{"./vtree/diff.js":269}],245:[function(require,module,exports){
 var h = require("./virtual-hyperscript/index.js")
 
 module.exports = h
 
-},{"./virtual-hyperscript/index.js":257}],247:[function(require,module,exports){
+},{"./virtual-hyperscript/index.js":256}],246:[function(require,module,exports){
 var diff = require("./diff.js")
 var patch = require("./patch.js")
 var h = require("./h.js")
@@ -19082,12 +18939,12 @@ module.exports = {
     VText: VText
 }
 
-},{"./create-element.js":244,"./diff.js":245,"./h.js":246,"./patch.js":248,"./vnode/vnode.js":266,"./vnode/vtext.js":268}],248:[function(require,module,exports){
+},{"./create-element.js":243,"./diff.js":244,"./h.js":245,"./patch.js":247,"./vnode/vnode.js":265,"./vnode/vtext.js":267}],247:[function(require,module,exports){
 var patch = require("./vdom/patch.js")
 
 module.exports = patch
 
-},{"./vdom/patch.js":253}],249:[function(require,module,exports){
+},{"./vdom/patch.js":252}],248:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook.js")
 
@@ -19186,7 +19043,7 @@ function getPrototype(value) {
     }
 }
 
-},{"../vnode/is-vhook.js":261,"is-object":20}],250:[function(require,module,exports){
+},{"../vnode/is-vhook.js":260,"is-object":20}],249:[function(require,module,exports){
 var document = require("global/document")
 
 var applyProperties = require("./apply-properties")
@@ -19234,7 +19091,7 @@ function createElement(vnode, opts) {
     return node
 }
 
-},{"../vnode/handle-thunk.js":259,"../vnode/is-vnode.js":262,"../vnode/is-vtext.js":263,"../vnode/is-widget.js":264,"./apply-properties":249,"global/document":16}],251:[function(require,module,exports){
+},{"../vnode/handle-thunk.js":258,"../vnode/is-vnode.js":261,"../vnode/is-vtext.js":262,"../vnode/is-widget.js":263,"./apply-properties":248,"global/document":16}],250:[function(require,module,exports){
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
 // We don't want to read all of the DOM nodes in the tree so we use
 // the in-order tree indexing to eliminate recursion down certain branches.
@@ -19321,7 +19178,7 @@ function ascending(a, b) {
     return a > b ? 1 : -1
 }
 
-},{}],252:[function(require,module,exports){
+},{}],251:[function(require,module,exports){
 var applyProperties = require("./apply-properties")
 
 var isWidget = require("../vnode/is-widget.js")
@@ -19474,7 +19331,7 @@ function replaceRoot(oldRoot, newRoot) {
     return newRoot;
 }
 
-},{"../vnode/is-widget.js":264,"../vnode/vpatch.js":267,"./apply-properties":249,"./update-widget":254}],253:[function(require,module,exports){
+},{"../vnode/is-widget.js":263,"../vnode/vpatch.js":266,"./apply-properties":248,"./update-widget":253}],252:[function(require,module,exports){
 var document = require("global/document")
 var isArray = require("x-is-array")
 
@@ -19556,7 +19413,7 @@ function patchIndices(patches) {
     return indices
 }
 
-},{"./create-element":250,"./dom-index":251,"./patch-op":252,"global/document":16,"x-is-array":289}],254:[function(require,module,exports){
+},{"./create-element":249,"./dom-index":250,"./patch-op":251,"global/document":16,"x-is-array":288}],253:[function(require,module,exports){
 var isWidget = require("../vnode/is-widget.js")
 
 module.exports = updateWidget
@@ -19573,7 +19430,7 @@ function updateWidget(a, b) {
     return false
 }
 
-},{"../vnode/is-widget.js":264}],255:[function(require,module,exports){
+},{"../vnode/is-widget.js":263}],254:[function(require,module,exports){
 'use strict';
 
 var EvStore = require('ev-store');
@@ -19602,7 +19459,7 @@ EvHook.prototype.unhook = function(node, propertyName) {
     es[propName] = undefined;
 };
 
-},{"ev-store":9}],256:[function(require,module,exports){
+},{"ev-store":9}],255:[function(require,module,exports){
 'use strict';
 
 module.exports = SoftSetHook;
@@ -19621,7 +19478,7 @@ SoftSetHook.prototype.hook = function (node, propertyName) {
     }
 };
 
-},{}],257:[function(require,module,exports){
+},{}],256:[function(require,module,exports){
 'use strict';
 
 var isArray = require('x-is-array');
@@ -19760,7 +19617,7 @@ function errorString(obj) {
     }
 }
 
-},{"../vnode/is-thunk":260,"../vnode/is-vhook":261,"../vnode/is-vnode":262,"../vnode/is-vtext":263,"../vnode/is-widget":264,"../vnode/vnode.js":266,"../vnode/vtext.js":268,"./hooks/ev-hook.js":255,"./hooks/soft-set-hook.js":256,"./parse-tag.js":258,"x-is-array":289}],258:[function(require,module,exports){
+},{"../vnode/is-thunk":259,"../vnode/is-vhook":260,"../vnode/is-vnode":261,"../vnode/is-vtext":262,"../vnode/is-widget":263,"../vnode/vnode.js":265,"../vnode/vtext.js":267,"./hooks/ev-hook.js":254,"./hooks/soft-set-hook.js":255,"./parse-tag.js":257,"x-is-array":288}],257:[function(require,module,exports){
 'use strict';
 
 var split = require('browser-split');
@@ -19816,7 +19673,7 @@ function parseTag(tag, props) {
     return props.namespace ? tagName : tagName.toUpperCase();
 }
 
-},{"browser-split":5}],259:[function(require,module,exports){
+},{"browser-split":5}],258:[function(require,module,exports){
 var isVNode = require("./is-vnode")
 var isVText = require("./is-vtext")
 var isWidget = require("./is-widget")
@@ -19858,14 +19715,14 @@ function renderThunk(thunk, previous) {
     return renderedThunk
 }
 
-},{"./is-thunk":260,"./is-vnode":262,"./is-vtext":263,"./is-widget":264}],260:[function(require,module,exports){
+},{"./is-thunk":259,"./is-vnode":261,"./is-vtext":262,"./is-widget":263}],259:[function(require,module,exports){
 module.exports = isThunk
 
 function isThunk(t) {
     return t && t.type === "Thunk"
 }
 
-},{}],261:[function(require,module,exports){
+},{}],260:[function(require,module,exports){
 module.exports = isHook
 
 function isHook(hook) {
@@ -19874,7 +19731,7 @@ function isHook(hook) {
        typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
 }
 
-},{}],262:[function(require,module,exports){
+},{}],261:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -19883,7 +19740,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":265}],263:[function(require,module,exports){
+},{"./version":264}],262:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -19892,17 +19749,17 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":265}],264:[function(require,module,exports){
+},{"./version":264}],263:[function(require,module,exports){
 module.exports = isWidget
 
 function isWidget(w) {
     return w && w.type === "Widget"
 }
 
-},{}],265:[function(require,module,exports){
+},{}],264:[function(require,module,exports){
 module.exports = "2"
 
-},{}],266:[function(require,module,exports){
+},{}],265:[function(require,module,exports){
 var version = require("./version")
 var isVNode = require("./is-vnode")
 var isWidget = require("./is-widget")
@@ -19976,7 +19833,7 @@ function VirtualNode(tagName, properties, children, key, namespace) {
 VirtualNode.prototype.version = version
 VirtualNode.prototype.type = "VirtualNode"
 
-},{"./is-thunk":260,"./is-vhook":261,"./is-vnode":262,"./is-widget":264,"./version":265}],267:[function(require,module,exports){
+},{"./is-thunk":259,"./is-vhook":260,"./is-vnode":261,"./is-widget":263,"./version":264}],266:[function(require,module,exports){
 var version = require("./version")
 
 VirtualPatch.NONE = 0
@@ -20000,7 +19857,7 @@ function VirtualPatch(type, vNode, patch) {
 VirtualPatch.prototype.version = version
 VirtualPatch.prototype.type = "VirtualPatch"
 
-},{"./version":265}],268:[function(require,module,exports){
+},{"./version":264}],267:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = VirtualText
@@ -20012,7 +19869,7 @@ function VirtualText(text) {
 VirtualText.prototype.version = version
 VirtualText.prototype.type = "VirtualText"
 
-},{"./version":265}],269:[function(require,module,exports){
+},{"./version":264}],268:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook")
 
@@ -20072,7 +19929,7 @@ function getPrototype(value) {
   }
 }
 
-},{"../vnode/is-vhook":261,"is-object":20}],270:[function(require,module,exports){
+},{"../vnode/is-vhook":260,"is-object":20}],269:[function(require,module,exports){
 var isArray = require("x-is-array")
 
 var VPatch = require("../vnode/vpatch")
@@ -20501,7 +20358,7 @@ function appendPatch(apply, patch) {
     }
 }
 
-},{"../vnode/handle-thunk":259,"../vnode/is-thunk":260,"../vnode/is-vnode":262,"../vnode/is-vtext":263,"../vnode/is-widget":264,"../vnode/vpatch":267,"./diff-props":269,"x-is-array":289}],271:[function(require,module,exports){
+},{"../vnode/handle-thunk":258,"../vnode/is-thunk":259,"../vnode/is-vnode":261,"../vnode/is-vtext":262,"../vnode/is-widget":263,"../vnode/vpatch":266,"./diff-props":268,"x-is-array":288}],270:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20520,7 +20377,7 @@ define(function (require) {
 });
 })(typeof define === 'function' && define.amd ? define : function (factory) { module.exports = factory(require); });
 
-},{"./Scheduler":272,"./env":284,"./makePromise":286}],272:[function(require,module,exports){
+},{"./Scheduler":271,"./env":283,"./makePromise":285}],271:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20602,7 +20459,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],273:[function(require,module,exports){
+},{}],272:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20630,7 +20487,7 @@ define(function() {
 	return TimeoutError;
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
-},{}],274:[function(require,module,exports){
+},{}],273:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20687,7 +20544,7 @@ define(function() {
 
 
 
-},{}],275:[function(require,module,exports){
+},{}],274:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20988,7 +20845,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../apply":274,"../state":287}],276:[function(require,module,exports){
+},{"../apply":273,"../state":286}],275:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -21150,7 +21007,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],277:[function(require,module,exports){
+},{}],276:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -21179,7 +21036,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],278:[function(require,module,exports){
+},{}],277:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -21201,7 +21058,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../state":287}],279:[function(require,module,exports){
+},{"../state":286}],278:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -21268,7 +21125,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],280:[function(require,module,exports){
+},{}],279:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -21294,7 +21151,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],281:[function(require,module,exports){
+},{}],280:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -21374,7 +21231,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../TimeoutError":273,"../env":284}],282:[function(require,module,exports){
+},{"../TimeoutError":272,"../env":283}],281:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -21462,7 +21319,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../env":284,"../format":285}],283:[function(require,module,exports){
+},{"../env":283,"../format":284}],282:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -21502,7 +21359,7 @@ define(function() {
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
 
-},{}],284:[function(require,module,exports){
+},{}],283:[function(require,module,exports){
 (function (process){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
@@ -21580,7 +21437,7 @@ define(function(require) {
 
 }).call(this,require('_process'))
 
-},{"_process":6}],285:[function(require,module,exports){
+},{"_process":6}],284:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -21638,7 +21495,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],286:[function(require,module,exports){
+},{}],285:[function(require,module,exports){
 (function (process){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
@@ -22598,7 +22455,7 @@ define(function() {
 
 }).call(this,require('_process'))
 
-},{"_process":6}],287:[function(require,module,exports){
+},{"_process":6}],286:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -22635,7 +22492,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],288:[function(require,module,exports){
+},{}],287:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 
 /**
@@ -22865,7 +22722,7 @@ define(function (require) {
 });
 })(typeof define === 'function' && define.amd ? define : function (factory) { module.exports = factory(require); });
 
-},{"./lib/Promise":271,"./lib/TimeoutError":273,"./lib/apply":274,"./lib/decorators/array":275,"./lib/decorators/flow":276,"./lib/decorators/fold":277,"./lib/decorators/inspect":278,"./lib/decorators/iterate":279,"./lib/decorators/progress":280,"./lib/decorators/timed":281,"./lib/decorators/unhandledRejection":282,"./lib/decorators/with":283}],289:[function(require,module,exports){
+},{"./lib/Promise":270,"./lib/TimeoutError":272,"./lib/apply":273,"./lib/decorators/array":274,"./lib/decorators/flow":275,"./lib/decorators/fold":276,"./lib/decorators/inspect":277,"./lib/decorators/iterate":278,"./lib/decorators/progress":279,"./lib/decorators/timed":280,"./lib/decorators/unhandledRejection":281,"./lib/decorators/with":282}],288:[function(require,module,exports){
 var nativeIsArray = Array.isArray
 var toString = Object.prototype.toString
 
@@ -22875,7 +22732,7 @@ function isArray(obj) {
     return toString.call(obj) === "[object Array]"
 }
 
-},{}],290:[function(require,module,exports){
+},{}],289:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var APIv3_1 = require("./api/APIv3");
@@ -22883,7 +22740,7 @@ exports.APIv3 = APIv3_1.APIv3;
 var ModelCreator_1 = require("./api/ModelCreator");
 exports.ModelCreator = ModelCreator_1.ModelCreator;
 
-},{"./api/APIv3":303,"./api/ModelCreator":304}],291:[function(require,module,exports){
+},{"./api/APIv3":302,"./api/ModelCreator":303}],290:[function(require,module,exports){
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -22895,6 +22752,10 @@ var ComponentService_1 = require("./component/ComponentService");
 exports.ComponentService = ComponentService_1.ComponentService;
 var HandlerBase_1 = require("./component/utils/HandlerBase");
 exports.HandlerBase = HandlerBase_1.HandlerBase;
+var MeshFactory_1 = require("./component/utils/MeshFactory");
+exports.MeshFactory = MeshFactory_1.MeshFactory;
+var MeshScene_1 = require("./component/utils/MeshScene");
+exports.MeshScene = MeshScene_1.MeshScene;
 var AttributionComponent_1 = require("./component/AttributionComponent");
 exports.AttributionComponent = AttributionComponent_1.AttributionComponent;
 var BackgroundComponent_1 = require("./component/BackgroundComponent");
@@ -22963,20 +22824,20 @@ var SequenceMode_1 = require("./component/sequence/SequenceMode");
 exports.SequenceMode = SequenceMode_1.SequenceMode;
 var ImagePlaneComponent_1 = require("./component/imageplane/ImagePlaneComponent");
 exports.ImagePlaneComponent = ImagePlaneComponent_1.ImagePlaneComponent;
-var ImagePlaneFactory_1 = require("./component/imageplane/ImagePlaneFactory");
-exports.ImagePlaneFactory = ImagePlaneFactory_1.ImagePlaneFactory;
 var ImagePlaneGLRenderer_1 = require("./component/imageplane/ImagePlaneGLRenderer");
 exports.ImagePlaneGLRenderer = ImagePlaneGLRenderer_1.ImagePlaneGLRenderer;
-var ImagePlaneScene_1 = require("./component/imageplane/ImagePlaneScene");
-exports.ImagePlaneScene = ImagePlaneScene_1.ImagePlaneScene;
-var ImagePlaneShaders_1 = require("./component/imageplane/ImagePlaneShaders");
-exports.ImagePlaneShaders = ImagePlaneShaders_1.ImagePlaneShaders;
+var Shaders_1 = require("./component/shaders/Shaders");
+exports.Shaders = Shaders_1.Shaders;
 var SimpleMarker_1 = require("./component/marker/marker/SimpleMarker");
 exports.SimpleMarker = SimpleMarker_1.SimpleMarker;
 var CircleMarker_1 = require("./component/marker/marker/CircleMarker");
 exports.CircleMarker = CircleMarker_1.CircleMarker;
-var SliderComponent_1 = require("./component/imageplane/SliderComponent");
+var SliderComponent_1 = require("./component/slider/SliderComponent");
 exports.SliderComponent = SliderComponent_1.SliderComponent;
+var SliderDOMRenderer_1 = require("./component/slider/SliderDOMRenderer");
+exports.SliderDOMRenderer = SliderDOMRenderer_1.SliderDOMRenderer;
+var SliderGLRenderer_1 = require("./component/slider/SliderGLRenderer");
+exports.SliderGLRenderer = SliderGLRenderer_1.SliderGLRenderer;
 var StatsComponent_1 = require("./component/StatsComponent");
 exports.StatsComponent = StatsComponent_1.StatsComponent;
 var TagHandlerBase_1 = require("./component/tag/handlers/TagHandlerBase");
@@ -23035,9 +22896,11 @@ var PolygonGeometry_1 = require("./component/tag/geometry/PolygonGeometry");
 exports.PolygonGeometry = PolygonGeometry_1.PolygonGeometry;
 var GeometryTagError_1 = require("./component/tag/error/GeometryTagError");
 exports.GeometryTagError = GeometryTagError_1.GeometryTagError;
+var ZoomComponent_1 = require("./component/zoom/ZoomComponent");
+exports.ZoomComponent = ZoomComponent_1.ZoomComponent;
 __export(require("./component/interfaces/interfaces"));
 
-},{"./component/AttributionComponent":305,"./component/BackgroundComponent":306,"./component/BearingComponent":307,"./component/CacheComponent":308,"./component/Component":309,"./component/ComponentService":310,"./component/CoverComponent":311,"./component/DebugComponent":312,"./component/ImageComponent":313,"./component/LoadingComponent":314,"./component/NavigationComponent":315,"./component/RouteComponent":316,"./component/StatsComponent":317,"./component/direction/DirectionComponent":318,"./component/direction/DirectionDOMCalculator":319,"./component/direction/DirectionDOMRenderer":320,"./component/imageplane/ImagePlaneComponent":321,"./component/imageplane/ImagePlaneFactory":322,"./component/imageplane/ImagePlaneGLRenderer":323,"./component/imageplane/ImagePlaneScene":324,"./component/imageplane/ImagePlaneShaders":325,"./component/imageplane/SliderComponent":326,"./component/interfaces/interfaces":328,"./component/keyboard/KeyPlayHandler":329,"./component/keyboard/KeySequenceNavigationHandler":330,"./component/keyboard/KeySpatialNavigationHandler":331,"./component/keyboard/KeyZoomHandler":332,"./component/keyboard/KeyboardComponent":333,"./component/marker/MarkerComponent":335,"./component/marker/MarkerScene":336,"./component/marker/MarkerSet":337,"./component/marker/marker/CircleMarker":338,"./component/marker/marker/Marker":339,"./component/marker/marker/SimpleMarker":340,"./component/mouse/BounceHandler":341,"./component/mouse/DoubleClickZoomHandler":342,"./component/mouse/DragPanHandler":343,"./component/mouse/MouseComponent":344,"./component/mouse/ScrollZoomHandler":345,"./component/mouse/TouchZoomHandler":346,"./component/popup/PopupComponent":348,"./component/popup/popup/Popup":349,"./component/sequence/SequenceComponent":350,"./component/sequence/SequenceDOMRenderer":351,"./component/sequence/SequenceMode":352,"./component/tag/TagComponent":354,"./component/tag/TagCreator":355,"./component/tag/TagDOMRenderer":356,"./component/tag/TagMode":357,"./component/tag/TagOperation":358,"./component/tag/TagScene":359,"./component/tag/TagSet":360,"./component/tag/error/GeometryTagError":361,"./component/tag/geometry/Geometry":362,"./component/tag/geometry/PointGeometry":363,"./component/tag/geometry/PolygonGeometry":364,"./component/tag/geometry/RectGeometry":365,"./component/tag/geometry/VertexGeometry":366,"./component/tag/handlers/CreateHandlerBase":367,"./component/tag/handlers/CreatePointHandler":368,"./component/tag/handlers/CreatePolygonHandler":369,"./component/tag/handlers/CreateRectDragHandler":370,"./component/tag/handlers/CreateRectHandler":371,"./component/tag/handlers/CreateVertexHandler":372,"./component/tag/handlers/EditVertexHandler":373,"./component/tag/handlers/TagHandlerBase":374,"./component/tag/tag/OutlineCreateTag":375,"./component/tag/tag/OutlineRenderTag":376,"./component/tag/tag/OutlineTag":377,"./component/tag/tag/RenderTag":378,"./component/tag/tag/SpotRenderTag":379,"./component/tag/tag/SpotTag":380,"./component/tag/tag/Tag":381,"./component/utils/HandlerBase":382}],292:[function(require,module,exports){
+},{"./component/AttributionComponent":304,"./component/BackgroundComponent":305,"./component/BearingComponent":306,"./component/CacheComponent":307,"./component/Component":308,"./component/ComponentService":309,"./component/CoverComponent":310,"./component/DebugComponent":311,"./component/ImageComponent":312,"./component/LoadingComponent":313,"./component/NavigationComponent":314,"./component/RouteComponent":315,"./component/StatsComponent":316,"./component/direction/DirectionComponent":317,"./component/direction/DirectionDOMCalculator":318,"./component/direction/DirectionDOMRenderer":319,"./component/imageplane/ImagePlaneComponent":320,"./component/imageplane/ImagePlaneGLRenderer":321,"./component/interfaces/interfaces":324,"./component/keyboard/KeyPlayHandler":325,"./component/keyboard/KeySequenceNavigationHandler":326,"./component/keyboard/KeySpatialNavigationHandler":327,"./component/keyboard/KeyZoomHandler":328,"./component/keyboard/KeyboardComponent":329,"./component/marker/MarkerComponent":331,"./component/marker/MarkerScene":332,"./component/marker/MarkerSet":333,"./component/marker/marker/CircleMarker":334,"./component/marker/marker/Marker":335,"./component/marker/marker/SimpleMarker":336,"./component/mouse/BounceHandler":337,"./component/mouse/DoubleClickZoomHandler":338,"./component/mouse/DragPanHandler":339,"./component/mouse/MouseComponent":340,"./component/mouse/ScrollZoomHandler":341,"./component/mouse/TouchZoomHandler":342,"./component/popup/PopupComponent":344,"./component/popup/popup/Popup":345,"./component/sequence/SequenceComponent":346,"./component/sequence/SequenceDOMRenderer":347,"./component/sequence/SequenceMode":348,"./component/shaders/Shaders":349,"./component/slider/SliderComponent":350,"./component/slider/SliderDOMRenderer":351,"./component/slider/SliderGLRenderer":352,"./component/tag/TagComponent":354,"./component/tag/TagCreator":355,"./component/tag/TagDOMRenderer":356,"./component/tag/TagMode":357,"./component/tag/TagOperation":358,"./component/tag/TagScene":359,"./component/tag/TagSet":360,"./component/tag/error/GeometryTagError":361,"./component/tag/geometry/Geometry":362,"./component/tag/geometry/PointGeometry":363,"./component/tag/geometry/PolygonGeometry":364,"./component/tag/geometry/RectGeometry":365,"./component/tag/geometry/VertexGeometry":366,"./component/tag/handlers/CreateHandlerBase":367,"./component/tag/handlers/CreatePointHandler":368,"./component/tag/handlers/CreatePolygonHandler":369,"./component/tag/handlers/CreateRectDragHandler":370,"./component/tag/handlers/CreateRectHandler":371,"./component/tag/handlers/CreateVertexHandler":372,"./component/tag/handlers/EditVertexHandler":373,"./component/tag/handlers/TagHandlerBase":374,"./component/tag/tag/OutlineCreateTag":375,"./component/tag/tag/OutlineRenderTag":376,"./component/tag/tag/OutlineTag":377,"./component/tag/tag/RenderTag":378,"./component/tag/tag/SpotRenderTag":379,"./component/tag/tag/SpotTag":380,"./component/tag/tag/Tag":381,"./component/utils/HandlerBase":382,"./component/utils/MeshFactory":383,"./component/utils/MeshScene":384,"./component/zoom/ZoomComponent":385}],291:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EdgeDirection_1 = require("./graph/edge/EdgeDirection");
@@ -23051,7 +22914,7 @@ exports.EdgeCalculatorCoefficients = EdgeCalculatorCoefficients_1.EdgeCalculator
 var EdgeCalculator_1 = require("./graph/edge/EdgeCalculator");
 exports.EdgeCalculator = EdgeCalculator_1.EdgeCalculator;
 
-},{"./graph/edge/EdgeCalculator":402,"./graph/edge/EdgeCalculatorCoefficients":403,"./graph/edge/EdgeCalculatorDirections":404,"./graph/edge/EdgeCalculatorSettings":405,"./graph/edge/EdgeDirection":406}],293:[function(require,module,exports){
+},{"./graph/edge/EdgeCalculator":405,"./graph/edge/EdgeCalculatorCoefficients":406,"./graph/edge/EdgeCalculatorDirections":407,"./graph/edge/EdgeCalculatorSettings":408,"./graph/edge/EdgeDirection":409}],292:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var AbortMapillaryError_1 = require("./error/AbortMapillaryError");
@@ -23063,7 +22926,7 @@ exports.GraphMapillaryError = GraphMapillaryError_1.GraphMapillaryError;
 var MapillaryError_1 = require("./error/MapillaryError");
 exports.MapillaryError = MapillaryError_1.MapillaryError;
 
-},{"./error/AbortMapillaryError":383,"./error/ArgumentMapillaryError":384,"./error/GraphMapillaryError":385,"./error/MapillaryError":386}],294:[function(require,module,exports){
+},{"./error/AbortMapillaryError":386,"./error/ArgumentMapillaryError":387,"./error/GraphMapillaryError":388,"./error/MapillaryError":389}],293:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Camera_1 = require("./geo/Camera");
@@ -23077,7 +22940,7 @@ exports.Spatial = Spatial_1.Spatial;
 var Transform_1 = require("./geo/Transform");
 exports.Transform = Transform_1.Transform;
 
-},{"./geo/Camera":387,"./geo/GeoCoords":388,"./geo/Spatial":389,"./geo/Transform":390,"./geo/ViewportCoords":391}],295:[function(require,module,exports){
+},{"./geo/Camera":390,"./geo/GeoCoords":391,"./geo/Spatial":392,"./geo/Transform":393,"./geo/ViewportCoords":394}],294:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var FilterCreator_1 = require("./graph/FilterCreator");
@@ -23101,7 +22964,7 @@ exports.NodeCache = NodeCache_1.NodeCache;
 var Sequence_1 = require("./graph/Sequence");
 exports.Sequence = Sequence_1.Sequence;
 
-},{"./graph/FilterCreator":392,"./graph/Graph":393,"./graph/GraphCalculator":394,"./graph/GraphMode":395,"./graph/GraphService":396,"./graph/ImageLoadingService":397,"./graph/MeshReader":398,"./graph/Node":399,"./graph/NodeCache":400,"./graph/Sequence":401}],296:[function(require,module,exports){
+},{"./graph/FilterCreator":395,"./graph/Graph":396,"./graph/GraphCalculator":397,"./graph/GraphMode":398,"./graph/GraphService":399,"./graph/ImageLoadingService":400,"./graph/MeshReader":401,"./graph/Node":402,"./graph/NodeCache":403,"./graph/Sequence":404}],295:[function(require,module,exports){
 "use strict";
 /**
  * MapillaryJS is a WebGL JavaScript library for exploring street level imagery
@@ -23114,6 +22977,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./Support"));
 var Edge_1 = require("./Edge");
 exports.EdgeDirection = Edge_1.EdgeDirection;
+var Error_1 = require("./Error");
+exports.AbortMapillaryError = Error_1.AbortMapillaryError;
 var Render_1 = require("./Render");
 exports.RenderMode = Render_1.RenderMode;
 var State_1 = require("./State");
@@ -23122,6 +22987,8 @@ var Viewer_1 = require("./Viewer");
 exports.Alignment = Viewer_1.Alignment;
 exports.ImageSize = Viewer_1.ImageSize;
 exports.Viewer = Viewer_1.Viewer;
+var Component_1 = require("./Component");
+exports.SliderMode = Component_1.SliderMode;
 var TagComponent = require("./component/tag/Tag");
 exports.TagComponent = TagComponent;
 var MarkerComponent = require("./component/marker/Marker");
@@ -23129,7 +22996,7 @@ exports.MarkerComponent = MarkerComponent;
 var PopupComponent = require("./component/popup/Popup");
 exports.PopupComponent = PopupComponent;
 
-},{"./Edge":292,"./Render":297,"./State":298,"./Support":299,"./Viewer":302,"./component/marker/Marker":334,"./component/popup/Popup":347,"./component/tag/Tag":353}],297:[function(require,module,exports){
+},{"./Component":290,"./Edge":291,"./Error":292,"./Render":296,"./State":297,"./Support":298,"./Viewer":301,"./component/marker/Marker":330,"./component/popup/Popup":343,"./component/tag/Tag":353}],296:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var DOMRenderer_1 = require("./render/DOMRenderer");
@@ -23145,9 +23012,11 @@ exports.RenderMode = RenderMode_1.RenderMode;
 var RenderService_1 = require("./render/RenderService");
 exports.RenderService = RenderService_1.RenderService;
 
-},{"./render/DOMRenderer":407,"./render/GLRenderStage":408,"./render/GLRenderer":409,"./render/RenderCamera":410,"./render/RenderMode":411,"./render/RenderService":412}],298:[function(require,module,exports){
+},{"./render/DOMRenderer":410,"./render/GLRenderStage":411,"./render/GLRenderer":412,"./render/RenderCamera":413,"./render/RenderMode":414,"./render/RenderService":415}],297:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var RotationDelta_1 = require("./state/RotationDelta");
+exports.RotationDelta = RotationDelta_1.RotationDelta;
 var State_1 = require("./state/State");
 exports.State = State_1.State;
 var StateBase_1 = require("./state/states/StateBase");
@@ -23158,12 +23027,16 @@ var StateService_1 = require("./state/StateService");
 exports.StateService = StateService_1.StateService;
 var TransitionMode_1 = require("./state/TransitionMode");
 exports.TransitionMode = TransitionMode_1.TransitionMode;
+var InteractiveStateBase_1 = require("./state/states/InteractiveStateBase");
+exports.InteractiveStateBase = InteractiveStateBase_1.InteractiveStateBase;
+var InteractiveWaitingState_1 = require("./state/states/InteractiveWaitingState");
+exports.InteractiveWaitingState = InteractiveWaitingState_1.InteractiveWaitingState;
 var TraversingState_1 = require("./state/states/TraversingState");
 exports.TraversingState = TraversingState_1.TraversingState;
 var WaitingState_1 = require("./state/states/WaitingState");
 exports.WaitingState = WaitingState_1.WaitingState;
 
-},{"./state/State":413,"./state/StateContext":414,"./state/StateService":415,"./state/TransitionMode":416,"./state/states/StateBase":417,"./state/states/TraversingState":418,"./state/states/WaitingState":419}],299:[function(require,module,exports){
+},{"./state/RotationDelta":416,"./state/State":417,"./state/StateContext":418,"./state/StateService":419,"./state/TransitionMode":420,"./state/states/InteractiveStateBase":421,"./state/states/InteractiveWaitingState":422,"./state/states/StateBase":423,"./state/states/TraversingState":424,"./state/states/WaitingState":425}],298:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var support = require("./utils/Support");
@@ -23195,6 +23068,7 @@ exports.isSupported = isSupported;
  */
 function isFallbackSupported() {
     return support.isBrowser() &&
+        support.isBlobSupported() &&
         support.isArraySupported() &&
         support.isFunctionSupported() &&
         support.isJSONSupported() &&
@@ -23202,7 +23076,7 @@ function isFallbackSupported() {
 }
 exports.isFallbackSupported = isFallbackSupported;
 
-},{"./utils/Support":427}],300:[function(require,module,exports){
+},{"./utils/Support":433}],299:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ImageTileLoader_1 = require("./tiles/ImageTileLoader");
@@ -23214,7 +23088,7 @@ exports.TextureProvider = TextureProvider_1.TextureProvider;
 var RegionOfInterestCalculator_1 = require("./tiles/RegionOfInterestCalculator");
 exports.RegionOfInterestCalculator = RegionOfInterestCalculator_1.RegionOfInterestCalculator;
 
-},{"./tiles/ImageTileLoader":420,"./tiles/ImageTileStore":421,"./tiles/RegionOfInterestCalculator":422,"./tiles/TextureProvider":423}],301:[function(require,module,exports){
+},{"./tiles/ImageTileLoader":426,"./tiles/ImageTileStore":427,"./tiles/RegionOfInterestCalculator":428,"./tiles/TextureProvider":429}],300:[function(require,module,exports){
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -23230,7 +23104,7 @@ __export(require("./utils/Support"));
 var Urls_1 = require("./utils/Urls");
 exports.Urls = Urls_1.Urls;
 
-},{"./utils/DOM":424,"./utils/EventEmitter":425,"./utils/Settings":426,"./utils/Support":427,"./utils/Urls":428}],302:[function(require,module,exports){
+},{"./utils/DOM":430,"./utils/EventEmitter":431,"./utils/Settings":432,"./utils/Support":433,"./utils/Urls":434}],301:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Alignment_1 = require("./viewer/Alignment");
@@ -23264,15 +23138,11 @@ exports.TouchService = TouchService_1.TouchService;
 var Viewer_1 = require("./viewer/Viewer");
 exports.Viewer = Viewer_1.Viewer;
 
-},{"./viewer/Alignment":429,"./viewer/CacheService":430,"./viewer/ComponentController":431,"./viewer/Container":432,"./viewer/ImageSize":433,"./viewer/KeyboardService":434,"./viewer/LoadingService":435,"./viewer/MouseService":436,"./viewer/Navigator":437,"./viewer/Observer":438,"./viewer/PlayService":439,"./viewer/Projection":440,"./viewer/SpriteService":441,"./viewer/TouchService":442,"./viewer/Viewer":443}],303:[function(require,module,exports){
+},{"./viewer/Alignment":435,"./viewer/CacheService":436,"./viewer/ComponentController":437,"./viewer/Container":438,"./viewer/ImageSize":439,"./viewer/KeyboardService":440,"./viewer/LoadingService":441,"./viewer/MouseService":442,"./viewer/Navigator":443,"./viewer/Observer":444,"./viewer/PlayService":445,"./viewer/Projection":446,"./viewer/SpriteService":447,"./viewer/TouchService":448,"./viewer/Viewer":449}],302:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/observable/defer");
-require("rxjs/add/observable/fromPromise");
-require("rxjs/add/operator/catch");
-require("rxjs/add/operator/map");
 var API_1 = require("../API");
 /**
  * @class APIv3
@@ -23488,7 +23358,7 @@ var APIv3 = /** @class */ (function () {
 exports.APIv3 = APIv3;
 exports.default = APIv3;
 
-},{"../API":290,"rxjs/Observable":29,"rxjs/add/observable/defer":40,"rxjs/add/observable/fromPromise":44,"rxjs/add/operator/catch":54,"rxjs/add/operator/map":67}],304:[function(require,module,exports){
+},{"../API":289,"rxjs/Observable":29}],303:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -23532,7 +23402,7 @@ var ModelCreator = /** @class */ (function () {
 exports.ModelCreator = ModelCreator;
 exports.default = ModelCreator;
 
-},{"../Utils":301,"falcor":15,"falcor-http-datasource":10}],305:[function(require,module,exports){
+},{"../Utils":300,"falcor":15,"falcor-http-datasource":10}],304:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -23547,6 +23417,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var vd = require("virtual-dom");
+var Observable_1 = require("rxjs/Observable");
 var Component_1 = require("../Component");
 var Utils_1 = require("../Utils");
 var AttributionComponent = /** @class */ (function (_super) {
@@ -23556,9 +23427,14 @@ var AttributionComponent = /** @class */ (function (_super) {
     }
     AttributionComponent.prototype._activate = function () {
         var _this = this;
-        this._disposable = this._navigator.stateService.currentNode$
-            .map(function (node) {
-            return { name: _this._name, vnode: _this._getAttributionNode(node.username, node.key) };
+        this._disposable = Observable_1.Observable
+            .combineLatest(this._navigator.stateService.currentNode$, this._container.renderService.size$)
+            .map(function (_a) {
+            var node = _a[0], size = _a[1];
+            return {
+                name: _this._name,
+                vnode: _this._getAttributionNode(node.username, node.key, node.capturedAt, size.width),
+            };
         })
             .subscribe(this._container.domRenderer.render$);
     };
@@ -23568,18 +23444,22 @@ var AttributionComponent = /** @class */ (function (_super) {
     AttributionComponent.prototype._getDefaultConfiguration = function () {
         return {};
     };
-    AttributionComponent.prototype._getAttributionNode = function (username, key) {
-        return vd.h("div.Attribution", {}, [
-            vd.h("a", { href: Utils_1.Urls.exporeUser(username),
-                target: "_blank",
-                textContent: "@" + username,
-            }, []),
-            vd.h("span", { textContent: "|" }, []),
-            vd.h("a", { href: Utils_1.Urls.exporeImage(key),
-                target: "_blank",
-                textContent: "mapillary.com",
-            }, []),
-        ]);
+    AttributionComponent.prototype._getAttributionNode = function (username, key, capturedAt, width) {
+        var compact = width <= 640;
+        var mapillaryIcon = vd.h("div.AttributionMapillaryLogo", []);
+        var mapillaryLink = vd.h("a.AttributionIconContainer", { href: Utils_1.Urls.explore, target: "_blank" }, [mapillaryIcon]);
+        var imageBy = compact ? "" + username : "image by " + username;
+        var imageByContent = vd.h("div.AttributionUsername", { textContent: imageBy }, []);
+        var date = new Date(capturedAt).toDateString().split(" ");
+        var formatted = (date.length > 3 ?
+            compact ?
+                [date[3]] :
+                [date[1], date[2] + ",", date[3]] :
+            date).join(" ");
+        var dateContent = vd.h("div.AttributionDate", { textContent: formatted }, []);
+        var imageLink = vd.h("a.AttributionImageContainer", { href: Utils_1.Urls.exporeImage(key), target: "_blank" }, [imageByContent, dateContent]);
+        var compactClass = compact ? ".AttributionCompact" : "";
+        return vd.h("div.AttributionContainer" + compactClass, {}, [mapillaryLink, imageLink]);
     };
     AttributionComponent.componentName = "attribution";
     return AttributionComponent;
@@ -23588,7 +23468,7 @@ exports.AttributionComponent = AttributionComponent;
 Component_1.ComponentService.register(AttributionComponent);
 exports.default = AttributionComponent;
 
-},{"../Component":291,"../Utils":301,"virtual-dom":247}],306:[function(require,module,exports){
+},{"../Component":290,"../Utils":300,"rxjs/Observable":29,"virtual-dom":246}],305:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -23632,7 +23512,7 @@ exports.BackgroundComponent = BackgroundComponent;
 Component_1.ComponentService.register(BackgroundComponent);
 exports.default = BackgroundComponent;
 
-},{"../Component":291,"virtual-dom":247}],307:[function(require,module,exports){
+},{"../Component":290,"virtual-dom":246}],306:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -23647,7 +23527,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var vd = require("virtual-dom");
-var Observable_1 = require("rxjs/Observable");
 var Component_1 = require("../Component");
 var Geo_1 = require("../Geo");
 var BearingComponent = /** @class */ (function (_super) {
@@ -23656,36 +23535,11 @@ var BearingComponent = /** @class */ (function (_super) {
         var _this = _super.call(this, name, container, navigator) || this;
         _this._spatial = new Geo_1.Spatial();
         _this._svgNamespace = "http://www.w3.org/2000/svg";
-        _this._distinctThreshold = Math.PI / 90;
+        _this._distinctThreshold = Math.PI / 360;
         return _this;
     }
     BearingComponent.prototype._activate = function () {
         var _this = this;
-        var nodeBearingFov$ = this._navigator.stateService.currentState$
-            .distinctUntilChanged(undefined, function (frame) {
-            return frame.state.currentNode.key;
-        })
-            .map(function (frame) {
-            var node = frame.state.currentNode;
-            var transform = frame.state.currentTransform;
-            if (node.pano) {
-                var panoHFov = 2 * Math.PI * node.gpano.CroppedAreaImageWidthPixels / node.gpano.FullPanoWidthPixels;
-                return [_this._spatial.degToRad(node.ca), panoHFov];
-            }
-            var size = Math.max(transform.basicWidth, transform.basicHeight);
-            if (size <= 0) {
-                console.warn("Original image size (" + transform.basicWidth + ", " + transform.basicHeight + ") is invalid (" + node.key + ". " +
-                    "Not showing available fov.");
-            }
-            var hFov = size > 0 ?
-                2 * Math.atan(0.5 * transform.basicWidth / (size * transform.focal)) :
-                0;
-            return [_this._spatial.degToRad(node.ca), hFov];
-        })
-            .distinctUntilChanged(function (a1, a2) {
-            return Math.abs(a2[0] - a1[0]) < _this._distinctThreshold &&
-                Math.abs(a2[1] - a1[1]) < _this._distinctThreshold;
-        });
         var cameraBearingFov$ = this._container.renderService.renderCamera$
             .map(function (rc) {
             var vFov = _this._spatial.degToRad(rc.perspective.fov);
@@ -23698,23 +23552,20 @@ var BearingComponent = /** @class */ (function (_super) {
             return Math.abs(a2[0] - a1[0]) < _this._distinctThreshold &&
                 Math.abs(a2[1] - a1[1]) < _this._distinctThreshold;
         });
-        this._renderSubscription = Observable_1.Observable
-            .combineLatest(nodeBearingFov$, cameraBearingFov$)
-            .map(function (args) {
-            var background = vd.h("div.BearingIndicatorBackground", { oncontextmenu: function (event) { event.preventDefault(); } }, [
-                vd.h("div.BearingIndicatorBackgroundRectangle", {}, []),
-                vd.h("div.BearingIndicatorBackgroundCircle", {}, []),
-            ]);
-            var north = vd.h("div.BearingIndicatorNorth", {}, []);
-            var nodeSector = _this._createCircleSector(args[0][0], args[0][1], "#000");
-            var cameraSector = _this._createCircleSector(args[1][0], args[1][1], "#fff");
-            var compass = _this._createCircleSectorCompass(nodeSector, cameraSector);
+        this._renderSubscription = cameraBearingFov$
+            .map(function (_a) {
+            var bearing = _a[0], fov = _a[1];
+            var background = vd.h("div.BearingIndicatorBackground", {}, []);
+            var backgroundCircle = vd.h("div.BearingIndicatorBackgroundCircle", {}, []);
+            var north = _this._createNorth(bearing);
+            var cameraSector = _this._createCircleSectorCompass(_this._createCircleSector(Math.max(Math.PI / 20, fov), "#FFF"));
             return {
                 name: _this._name,
-                vnode: vd.h("div.BearingIndicator", {}, [
+                vnode: vd.h("div.BearingIndicatorContainer", { oncontextmenu: function (event) { event.preventDefault(); } }, [
                     background,
+                    backgroundCircle,
                     north,
-                    compass,
+                    cameraSector,
                 ]),
             };
         })
@@ -23726,43 +23577,32 @@ var BearingComponent = /** @class */ (function (_super) {
     BearingComponent.prototype._getDefaultConfiguration = function () {
         return {};
     };
-    BearingComponent.prototype._createCircleSectorCompass = function (nodeSector, cameraSector) {
+    BearingComponent.prototype._createCircleSectorCompass = function (cameraSector) {
         var group = vd.h("g", {
             attributes: { transform: "translate(1,1)" },
             namespace: this._svgNamespace,
-        }, [nodeSector, cameraSector]);
-        var centerCircle = vd.h("circle", {
-            attributes: {
-                cx: "1",
-                cy: "1",
-                fill: "#abb1b9",
-                r: "0.291667",
-                stroke: "#000",
-                "stroke-width": "0.0833333",
-            },
-            namespace: this._svgNamespace,
-        }, []);
+        }, [cameraSector]);
         var svg = vd.h("svg", {
             attributes: { viewBox: "0 0 2 2" },
             namespace: this._svgNamespace,
             style: {
-                bottom: "4px",
-                height: "48px",
+                height: "30px",
                 left: "4px",
                 position: "absolute",
-                width: "48px",
+                top: "4px",
+                width: "30px",
             },
-        }, [group, centerCircle]);
+        }, [group]);
         return svg;
     };
-    BearingComponent.prototype._createCircleSector = function (bearing, fov, fill) {
+    BearingComponent.prototype._createCircleSector = function (fov, fill) {
         if (fov > 2 * Math.PI - Math.PI / 90) {
             return vd.h("circle", {
                 attributes: { cx: "0", cy: "0", fill: fill, r: "1" },
                 namespace: this._svgNamespace,
             }, []);
         }
-        var arcStart = bearing - fov / 2 - Math.PI / 2;
+        var arcStart = -Math.PI / 2 - fov / 2;
         var arcEnd = arcStart + fov;
         var startX = Math.cos(arcStart);
         var startY = Math.sin(arcStart);
@@ -23775,6 +23615,11 @@ var BearingComponent = /** @class */ (function (_super) {
             namespace: this._svgNamespace,
         }, []);
     };
+    BearingComponent.prototype._createNorth = function (bearing) {
+        var north = vd.h("div.BearingNorth", []);
+        var container = vd.h("div.BearingNorthContainer", { style: { transform: "rotateZ(" + -bearing * 180 / Math.PI + "deg)" } }, [north]);
+        return container;
+    };
     BearingComponent.componentName = "bearing";
     return BearingComponent;
 }(Component_1.Component));
@@ -23782,7 +23627,7 @@ exports.BearingComponent = BearingComponent;
 Component_1.ComponentService.register(BearingComponent);
 exports.default = BearingComponent;
 
-},{"../Component":291,"../Geo":294,"rxjs/Observable":29,"virtual-dom":247}],308:[function(require,module,exports){
+},{"../Component":290,"../Geo":293,"virtual-dom":246}],307:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -23796,22 +23641,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/observable/combineLatest");
-require("rxjs/add/observable/from");
-require("rxjs/add/observable/merge");
-require("rxjs/add/observable/of");
-require("rxjs/add/observable/zip");
-require("rxjs/add/operator/catch");
-require("rxjs/add/operator/combineLatest");
-require("rxjs/add/operator/distinct");
-require("rxjs/add/operator/expand");
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/merge");
-require("rxjs/add/operator/mergeMap");
-require("rxjs/add/operator/mergeAll");
-require("rxjs/add/operator/skip");
-require("rxjs/add/operator/switchMap");
 var Edge_1 = require("../Edge");
 var Component_1 = require("../Component");
 var CacheComponent = /** @class */ (function (_super) {
@@ -23940,7 +23769,7 @@ exports.CacheComponent = CacheComponent;
 Component_1.ComponentService.register(CacheComponent);
 exports.default = CacheComponent;
 
-},{"../Component":291,"../Edge":292,"rxjs/Observable":29,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/from":42,"rxjs/add/observable/merge":45,"rxjs/add/observable/of":46,"rxjs/add/observable/zip":49,"rxjs/add/operator/catch":54,"rxjs/add/operator/combineLatest":55,"rxjs/add/operator/distinct":59,"rxjs/add/operator/expand":62,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/merge":68,"rxjs/add/operator/mergeAll":69,"rxjs/add/operator/mergeMap":70,"rxjs/add/operator/skip":80,"rxjs/add/operator/switchMap":84}],309:[function(require,module,exports){
+},{"../Component":290,"../Edge":291,"rxjs/Observable":29}],308:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -23955,9 +23784,6 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/operator/publishReplay");
-require("rxjs/add/operator/scan");
-require("rxjs/add/operator/startWith");
 var Utils_1 = require("../Utils");
 var Component = /** @class */ (function (_super) {
     __extends(Component, _super);
@@ -24063,7 +23889,7 @@ var Component = /** @class */ (function (_super) {
 exports.Component = Component;
 exports.default = Component;
 
-},{"../Utils":301,"rxjs/BehaviorSubject":26,"rxjs/Subject":34,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78,"rxjs/add/operator/startWith":83}],310:[function(require,module,exports){
+},{"../Utils":300,"rxjs/BehaviorSubject":26,"rxjs/Subject":34}],309:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -24165,7 +23991,7 @@ var ComponentService = /** @class */ (function () {
 exports.ComponentService = ComponentService;
 exports.default = ComponentService;
 
-},{"../Error":293,"underscore":243}],311:[function(require,module,exports){
+},{"../Error":292,"underscore":242}],310:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -24180,9 +24006,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var vd = require("virtual-dom");
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/withLatestFrom");
+var Observable_1 = require("rxjs/Observable");
 var Component_1 = require("../Component");
 var Utils_1 = require("../Utils");
 var Viewer_1 = require("../Viewer");
@@ -24193,49 +24017,63 @@ var CoverComponent = /** @class */ (function (_super) {
     }
     CoverComponent.prototype._activate = function () {
         var _this = this;
-        this._keyDisposable = this._navigator.stateService.currentNode$
-            .withLatestFrom(this._configuration$, function (node, configuration) {
-            return [node, configuration];
+        this._configuration$
+            .distinctUntilChanged(undefined, function (configuration) {
+            return configuration.state;
         })
-            .filter(function (_a) {
-            var node = _a[0], configuration = _a[1];
-            return node.key !== configuration.key;
+            .switchMap(function (configuration) {
+            return Observable_1.Observable
+                .combineLatest(Observable_1.Observable.of(configuration.state), _this._navigator.stateService.currentNode$);
+        })
+            .switchMap(function (_a) {
+            var state = _a[0], node = _a[1];
+            var keySrc$ = Observable_1.Observable
+                .combineLatest(Observable_1.Observable.of(node.key), node.image$
+                .map(function (image) {
+                return image.src;
+            }));
+            return state === Component_1.CoverState.Visible ? keySrc$.first() : keySrc$;
+        })
+            .distinctUntilChanged(function (_a, _b) {
+            var k1 = _a[0], s1 = _a[1];
+            var k2 = _b[0], s2 = _b[1];
+            return k1 === k2 && s1 === s2;
         })
             .map(function (_a) {
-            var node = _a[0], configuration = _a[1];
-            return node;
-        })
-            .map(function (node) {
-            return { key: node.key, src: node.image.src };
+            var key = _a[0], src = _a[1];
+            return { key: key, src: src };
         })
             .subscribe(this._configurationSubject$);
-        this._disposable = this._configuration$
-            .map(function (conf) {
-            if (!conf.key) {
+        this._renderSubscription = Observable_1.Observable
+            .combineLatest(this._configuration$, this._container.renderService.size$)
+            .map(function (_a) {
+            var configuration = _a[0], size = _a[1];
+            if (!configuration.key) {
                 return { name: _this._name, vnode: vd.h("div", []) };
             }
-            if (conf.state === Component_1.CoverState.Hidden) {
-                return { name: _this._name, vnode: vd.h("div.Cover.CoverDone", [_this._getCoverBackgroundVNode(conf)]) };
+            var compactClass = size.width <= 640 || size.height <= 480 ? ".CoverCompact" : "";
+            if (configuration.state === Component_1.CoverState.Hidden) {
+                var doneContainer = vd.h("div.CoverContainer.CoverDone" + compactClass, [_this._getCoverBackgroundVNode(configuration)]);
+                return { name: _this._name, vnode: doneContainer };
             }
-            return { name: _this._name, vnode: _this._getCoverButtonVNode(conf) };
+            var container = vd.h("div.CoverContainer" + compactClass, [_this._getCoverButtonVNode(configuration)]);
+            return { name: _this._name, vnode: container };
         })
             .subscribe(this._container.domRenderer.render$);
     };
     CoverComponent.prototype._deactivate = function () {
-        this._disposable.unsubscribe();
-        this._keyDisposable.unsubscribe();
+        this._renderSubscription.unsubscribe();
+        this._keySubscription.unsubscribe();
     };
     CoverComponent.prototype._getDefaultConfiguration = function () {
         return { state: Component_1.CoverState.Visible };
     };
-    CoverComponent.prototype._getCoverButtonVNode = function (conf) {
+    CoverComponent.prototype._getCoverButtonVNode = function (configuration) {
         var _this = this;
-        var cover = conf.state === Component_1.CoverState.Loading ? "div.Cover.CoverLoading" : "div.Cover";
-        return vd.h(cover, [
-            this._getCoverBackgroundVNode(conf),
-            vd.h("button.CoverButton", { onclick: function () { _this.configure({ state: Component_1.CoverState.Loading }); } }, ["Explore"]),
-            vd.h("a.CoverLogo", { href: Utils_1.Urls.explore, target: "_blank" }, []),
-        ]);
+        var cover = configuration.state === Component_1.CoverState.Loading ? "div.Cover.CoverLoading" : "div.Cover";
+        var coverButton = vd.h("div.CoverButton", { onclick: function () { _this.configure({ state: Component_1.CoverState.Loading }); } }, [vd.h("div.CoverButtonIcon", [])]);
+        var coverLogo = vd.h("a.CoverLogo", { href: Utils_1.Urls.explore, target: "_blank" }, []);
+        return vd.h(cover, [this._getCoverBackgroundVNode(configuration), coverButton, coverLogo]);
     };
     CoverComponent.prototype._getCoverBackgroundVNode = function (conf) {
         var url = conf.src != null ?
@@ -24245,7 +24083,6 @@ var CoverComponent = /** @class */ (function (_super) {
         if (conf.state === Component_1.CoverState.Loading) {
             children.push(vd.h("div.Spinner", {}, []));
         }
-        children.push(vd.h("div.CoverBackgroundGradient", {}, []));
         return vd.h("div.CoverBackground", properties, children);
     };
     CoverComponent.componentName = "cover";
@@ -24255,7 +24092,7 @@ exports.CoverComponent = CoverComponent;
 Component_1.ComponentService.registerCover(CoverComponent);
 exports.default = CoverComponent;
 
-},{"../Component":291,"../Utils":301,"../Viewer":302,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/withLatestFrom":90,"virtual-dom":247}],312:[function(require,module,exports){
+},{"../Component":290,"../Utils":300,"../Viewer":301,"rxjs/Observable":29,"virtual-dom":246}],311:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -24272,7 +24109,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var _ = require("underscore");
 var vd = require("virtual-dom");
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
-require("rxjs/add/operator/combineLatest");
 var Component_1 = require("../Component");
 var DebugComponent = /** @class */ (function (_super) {
     __extends(DebugComponent, _super);
@@ -24368,7 +24204,7 @@ exports.DebugComponent = DebugComponent;
 Component_1.ComponentService.register(DebugComponent);
 exports.default = DebugComponent;
 
-},{"../Component":291,"rxjs/BehaviorSubject":26,"rxjs/add/operator/combineLatest":55,"underscore":243,"virtual-dom":247}],313:[function(require,module,exports){
+},{"../Component":290,"rxjs/BehaviorSubject":26,"underscore":242,"virtual-dom":246}],312:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -24384,7 +24220,6 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var vd = require("virtual-dom");
 var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/operator/combineLatest");
 var Component_1 = require("../Component");
 var Utils_1 = require("../Utils");
 var ImageComponent = /** @class */ (function (_super) {
@@ -24441,7 +24276,7 @@ exports.ImageComponent = ImageComponent;
 Component_1.ComponentService.register(ImageComponent);
 exports.default = ImageComponent;
 
-},{"../Component":291,"../Utils":301,"rxjs/Observable":29,"rxjs/add/operator/combineLatest":55,"virtual-dom":247}],314:[function(require,module,exports){
+},{"../Component":290,"../Utils":300,"rxjs/Observable":29,"virtual-dom":246}],313:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -24458,7 +24293,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var _ = require("underscore");
 var vd = require("virtual-dom");
 var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/operator/combineLatest");
 var Component_1 = require("../Component");
 var LoadingComponent = /** @class */ (function (_super) {
     __extends(LoadingComponent, _super);
@@ -24517,7 +24351,7 @@ exports.LoadingComponent = LoadingComponent;
 Component_1.ComponentService.register(LoadingComponent);
 exports.default = LoadingComponent;
 
-},{"../Component":291,"rxjs/Observable":29,"rxjs/add/operator/combineLatest":55,"underscore":243,"virtual-dom":247}],315:[function(require,module,exports){
+},{"../Component":290,"rxjs/Observable":29,"underscore":242,"virtual-dom":246}],314:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -24533,8 +24367,6 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var vd = require("virtual-dom");
 var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/first");
 var Edge_1 = require("../Edge");
 var Error_1 = require("../Error");
 var Component_1 = require("../Component");
@@ -24651,7 +24483,7 @@ exports.NavigationComponent = NavigationComponent;
 Component_1.ComponentService.register(NavigationComponent);
 exports.default = NavigationComponent;
 
-},{"../Component":291,"../Edge":292,"../Error":293,"rxjs/Observable":29,"rxjs/add/operator/first":65,"rxjs/add/operator/map":67,"virtual-dom":247}],316:[function(require,module,exports){
+},{"../Component":290,"../Edge":291,"../Error":292,"rxjs/Observable":29,"virtual-dom":246}],315:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -24668,16 +24500,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var _ = require("underscore");
 var vd = require("virtual-dom");
 var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/observable/fromPromise");
-require("rxjs/add/observable/of");
-require("rxjs/add/operator/combineLatest");
-require("rxjs/add/operator/distinct");
-require("rxjs/add/operator/distinctUntilChanged");
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/mergeMap");
-require("rxjs/add/operator/pluck");
-require("rxjs/add/operator/scan");
 var Component_1 = require("../Component");
 var DescriptionState = /** @class */ (function () {
     function DescriptionState() {
@@ -24871,7 +24693,7 @@ exports.RouteComponent = RouteComponent;
 Component_1.ComponentService.register(RouteComponent);
 exports.default = RouteComponent;
 
-},{"../Component":291,"rxjs/Observable":29,"rxjs/add/observable/fromPromise":44,"rxjs/add/observable/of":46,"rxjs/add/operator/combineLatest":55,"rxjs/add/operator/distinct":59,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/mergeMap":70,"rxjs/add/operator/pluck":72,"rxjs/add/operator/scan":78,"underscore":243,"virtual-dom":247}],317:[function(require,module,exports){
+},{"../Component":290,"rxjs/Observable":29,"underscore":242,"virtual-dom":246}],316:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -24885,11 +24707,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/operator/buffer");
-require("rxjs/add/operator/debounceTime");
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/scan");
 var Component_1 = require("../Component");
 var StatsComponent = /** @class */ (function (_super) {
     __extends(StatsComponent, _super);
@@ -24961,7 +24778,7 @@ exports.StatsComponent = StatsComponent;
 Component_1.ComponentService.register(StatsComponent);
 exports.default = StatsComponent;
 
-},{"../Component":291,"rxjs/Observable":29,"rxjs/add/operator/buffer":51,"rxjs/add/operator/debounceTime":57,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/scan":78}],318:[function(require,module,exports){
+},{"../Component":290,"rxjs/Observable":29}],317:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -24978,12 +24795,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var vd = require("virtual-dom");
 var Observable_1 = require("rxjs/Observable");
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/observable/combineLatest");
-require("rxjs/add/operator/do");
-require("rxjs/add/operator/distinctUntilChanged");
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/share");
 var Component_1 = require("../../Component");
 /**
  * @class DirectionComponent
@@ -25147,7 +24958,7 @@ exports.DirectionComponent = DirectionComponent;
 Component_1.ComponentService.register(DirectionComponent);
 exports.default = DirectionComponent;
 
-},{"../../Component":291,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/do":61,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/share":79,"virtual-dom":247}],319:[function(require,module,exports){
+},{"../../Component":290,"rxjs/Observable":29,"rxjs/Subject":34,"virtual-dom":246}],318:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Geo_1 = require("../../Geo");
@@ -25386,7 +25197,7 @@ var DirectionDOMCalculator = /** @class */ (function () {
 exports.DirectionDOMCalculator = DirectionDOMCalculator;
 exports.default = DirectionDOMCalculator;
 
-},{"../../Geo":294}],320:[function(require,module,exports){
+},{"../../Geo":293}],319:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -25766,7 +25577,7 @@ var DirectionDOMRenderer = /** @class */ (function () {
 exports.DirectionDOMRenderer = DirectionDOMRenderer;
 exports.default = DirectionDOMRenderer;
 
-},{"../../Component":291,"../../Edge":292,"../../Error":293,"../../Geo":294,"virtual-dom":247}],321:[function(require,module,exports){
+},{"../../Component":290,"../../Edge":291,"../../Error":292,"../../Geo":293,"virtual-dom":246}],320:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -25781,21 +25592,6 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/operator/catch");
-require("rxjs/add/operator/combineLatest");
-require("rxjs/add/operator/debounceTime");
-require("rxjs/add/operator/distinctUntilChanged");
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/pairwise");
-require("rxjs/add/operator/publish");
-require("rxjs/add/operator/publishReplay");
-require("rxjs/add/operator/scan");
-require("rxjs/add/operator/skipWhile");
-require("rxjs/add/operator/startWith");
-require("rxjs/add/operator/switchMap");
-require("rxjs/add/operator/takeUntil");
-require("rxjs/add/operator/withLatestFrom");
 var Component_1 = require("../../Component");
 var Render_1 = require("../../Render");
 var Tiles_1 = require("../../Tiles");
@@ -26063,244 +25859,15 @@ exports.ImagePlaneComponent = ImagePlaneComponent;
 Component_1.ComponentService.register(ImagePlaneComponent);
 exports.default = ImagePlaneComponent;
 
-},{"../../Component":291,"../../Render":297,"../../Tiles":300,"../../Utils":301,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/operator/catch":54,"rxjs/add/operator/combineLatest":55,"rxjs/add/operator/debounceTime":57,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/pairwise":71,"rxjs/add/operator/publish":73,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78,"rxjs/add/operator/skipWhile":82,"rxjs/add/operator/startWith":83,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/takeUntil":86,"rxjs/add/operator/withLatestFrom":90}],322:[function(require,module,exports){
-"use strict";
-/// <reference path="../../../typings/index.d.ts" />
-Object.defineProperty(exports, "__esModule", { value: true });
-var THREE = require("three");
-var Component_1 = require("../../Component");
-var ImagePlaneFactory = /** @class */ (function () {
-    function ImagePlaneFactory(imagePlaneDepth, imageSphereRadius) {
-        this._imagePlaneDepth = imagePlaneDepth != null ? imagePlaneDepth : 200;
-        this._imageSphereRadius = imageSphereRadius != null ? imageSphereRadius : 200;
-    }
-    ImagePlaneFactory.prototype.createMesh = function (node, transform) {
-        var mesh = node.pano ?
-            this._createImageSphere(node, transform) :
-            this._createImagePlane(node, transform);
-        return mesh;
-    };
-    ImagePlaneFactory.prototype._createImageSphere = function (node, transform) {
-        var texture = this._createTexture(node.image);
-        var materialParameters = this._createSphereMaterialParameters(transform, texture);
-        var material = new THREE.ShaderMaterial(materialParameters);
-        var mesh = this._useMesh(transform, node) ?
-            new THREE.Mesh(this._getImageSphereGeo(transform, node), material) :
-            new THREE.Mesh(this._getFlatImageSphereGeo(transform), material);
-        return mesh;
-    };
-    ImagePlaneFactory.prototype._createImagePlane = function (node, transform) {
-        var texture = this._createTexture(node.image);
-        var materialParameters = this._createPlaneMaterialParameters(transform, texture);
-        var material = new THREE.ShaderMaterial(materialParameters);
-        var geometry = this._useMesh(transform, node) ?
-            this._getImagePlaneGeo(transform, node) :
-            this._getFlatImagePlaneGeo(transform);
-        return new THREE.Mesh(geometry, material);
-    };
-    ImagePlaneFactory.prototype._createSphereMaterialParameters = function (transform, texture) {
-        var gpano = transform.gpano;
-        var halfCroppedWidth = (gpano.FullPanoWidthPixels - gpano.CroppedAreaImageWidthPixels) / 2;
-        var phiShift = 2 * Math.PI * (gpano.CroppedAreaLeftPixels - halfCroppedWidth) / gpano.FullPanoWidthPixels;
-        var phiLength = 2 * Math.PI * gpano.CroppedAreaImageWidthPixels / gpano.FullPanoWidthPixels;
-        var halfCroppedHeight = (gpano.FullPanoHeightPixels - gpano.CroppedAreaImageHeightPixels) / 2;
-        var thetaShift = Math.PI * (halfCroppedHeight - gpano.CroppedAreaTopPixels) / gpano.FullPanoHeightPixels;
-        var thetaLength = Math.PI * gpano.CroppedAreaImageHeightPixels / gpano.FullPanoHeightPixels;
-        var materialParameters = {
-            depthWrite: false,
-            fragmentShader: Component_1.ImagePlaneShaders.equirectangular.fragment,
-            side: THREE.DoubleSide,
-            transparent: true,
-            uniforms: {
-                opacity: {
-                    type: "f",
-                    value: 1,
-                },
-                phiLength: {
-                    type: "f",
-                    value: phiLength,
-                },
-                phiShift: {
-                    type: "f",
-                    value: phiShift,
-                },
-                projectorMat: {
-                    type: "m4",
-                    value: transform.rt,
-                },
-                projectorTex: {
-                    type: "t",
-                    value: texture,
-                },
-                thetaLength: {
-                    type: "f",
-                    value: thetaLength,
-                },
-                thetaShift: {
-                    type: "f",
-                    value: thetaShift,
-                },
-            },
-            vertexShader: Component_1.ImagePlaneShaders.equirectangular.vertex,
-        };
-        return materialParameters;
-    };
-    ImagePlaneFactory.prototype._createPlaneMaterialParameters = function (transform, texture) {
-        var materialParameters = {
-            depthWrite: false,
-            fragmentShader: Component_1.ImagePlaneShaders.perspective.fragment,
-            side: THREE.DoubleSide,
-            transparent: true,
-            uniforms: {
-                bbox: {
-                    type: "v4",
-                    value: new THREE.Vector4(0, 0, 1, 1),
-                },
-                opacity: {
-                    type: "f",
-                    value: 1,
-                },
-                projectorMat: {
-                    type: "m4",
-                    value: transform.projectorMatrix(),
-                },
-                projectorTex: {
-                    type: "t",
-                    value: texture,
-                },
-            },
-            vertexShader: Component_1.ImagePlaneShaders.perspective.vertex,
-        };
-        return materialParameters;
-    };
-    ImagePlaneFactory.prototype._createTexture = function (image) {
-        var texture = new THREE.Texture(image);
-        texture.minFilter = THREE.LinearFilter;
-        texture.needsUpdate = true;
-        return texture;
-    };
-    ImagePlaneFactory.prototype._useMesh = function (transform, node) {
-        return node.mesh.vertices.length && transform.hasValidScale;
-    };
-    ImagePlaneFactory.prototype._getImageSphereGeo = function (transform, node) {
-        var t = new THREE.Matrix4().getInverse(transform.srt);
-        // push everything at least 5 meters in front of the camera
-        var minZ = 5.0 * transform.scale;
-        var maxZ = this._imageSphereRadius * transform.scale;
-        var vertices = node.mesh.vertices;
-        var numVertices = vertices.length / 3;
-        var positions = new Float32Array(vertices.length);
-        for (var i = 0; i < numVertices; ++i) {
-            var index = 3 * i;
-            var x = vertices[index + 0];
-            var y = vertices[index + 1];
-            var z = vertices[index + 2];
-            var l = Math.sqrt(x * x + y * y + z * z);
-            var boundedL = Math.max(minZ, Math.min(l, maxZ));
-            var factor = boundedL / l;
-            var p = new THREE.Vector3(x * factor, y * factor, z * factor);
-            p.applyMatrix4(t);
-            positions[index + 0] = p.x;
-            positions[index + 1] = p.y;
-            positions[index + 2] = p.z;
-        }
-        var faces = node.mesh.faces;
-        var indices = new Uint16Array(faces.length);
-        for (var i = 0; i < faces.length; ++i) {
-            indices[i] = faces[i];
-        }
-        var geometry = new THREE.BufferGeometry();
-        geometry.addAttribute("position", new THREE.BufferAttribute(positions, 3));
-        geometry.setIndex(new THREE.BufferAttribute(indices, 1));
-        return geometry;
-    };
-    ImagePlaneFactory.prototype._getImagePlaneGeo = function (transform, node) {
-        var t = new THREE.Matrix4().getInverse(transform.srt);
-        // push everything at least 5 meters in front of the camera
-        var minZ = 5.0 * transform.scale;
-        var maxZ = this._imagePlaneDepth * transform.scale;
-        var vertices = node.mesh.vertices;
-        var numVertices = vertices.length / 3;
-        var positions = new Float32Array(vertices.length);
-        for (var i = 0; i < numVertices; ++i) {
-            var index = 3 * i;
-            var x = vertices[index + 0];
-            var y = vertices[index + 1];
-            var z = vertices[index + 2];
-            var boundedZ = Math.max(minZ, Math.min(z, maxZ));
-            var factor = boundedZ / z;
-            var p = new THREE.Vector3(x * factor, y * factor, boundedZ);
-            p.applyMatrix4(t);
-            positions[index + 0] = p.x;
-            positions[index + 1] = p.y;
-            positions[index + 2] = p.z;
-        }
-        var faces = node.mesh.faces;
-        var indices = new Uint16Array(faces.length);
-        for (var i = 0; i < faces.length; ++i) {
-            indices[i] = faces[i];
-        }
-        var geometry = new THREE.BufferGeometry();
-        geometry.addAttribute("position", new THREE.BufferAttribute(positions, 3));
-        geometry.setIndex(new THREE.BufferAttribute(indices, 1));
-        return geometry;
-    };
-    ImagePlaneFactory.prototype._getFlatImageSphereGeo = function (transform) {
-        var gpano = transform.gpano;
-        var phiStart = 2 * Math.PI * gpano.CroppedAreaLeftPixels / gpano.FullPanoWidthPixels;
-        var phiLength = 2 * Math.PI * gpano.CroppedAreaImageWidthPixels / gpano.FullPanoWidthPixels;
-        var thetaStart = Math.PI *
-            (gpano.FullPanoHeightPixels - gpano.CroppedAreaImageHeightPixels - gpano.CroppedAreaTopPixels) /
-            gpano.FullPanoHeightPixels;
-        var thetaLength = Math.PI * gpano.CroppedAreaImageHeightPixels / gpano.FullPanoHeightPixels;
-        var geometry = new THREE.SphereGeometry(this._imageSphereRadius, 20, 40, phiStart - Math.PI / 2, phiLength, thetaStart, thetaLength);
-        geometry.applyMatrix(new THREE.Matrix4().getInverse(transform.rt));
-        return geometry;
-    };
-    ImagePlaneFactory.prototype._getFlatImagePlaneGeo = function (transform) {
-        var width = transform.width;
-        var height = transform.height;
-        var size = Math.max(width, height);
-        var dx = width / 2.0 / size;
-        var dy = height / 2.0 / size;
-        var vertices = [];
-        vertices.push(transform.unprojectSfM([-dx, -dy], this._imagePlaneDepth));
-        vertices.push(transform.unprojectSfM([dx, -dy], this._imagePlaneDepth));
-        vertices.push(transform.unprojectSfM([dx, dy], this._imagePlaneDepth));
-        vertices.push(transform.unprojectSfM([-dx, dy], this._imagePlaneDepth));
-        var positions = new Float32Array(12);
-        for (var i = 0; i < vertices.length; i++) {
-            var index = 3 * i;
-            positions[index + 0] = vertices[i][0];
-            positions[index + 1] = vertices[i][1];
-            positions[index + 2] = vertices[i][2];
-        }
-        var indices = new Uint16Array(6);
-        indices[0] = 0;
-        indices[1] = 1;
-        indices[2] = 3;
-        indices[3] = 1;
-        indices[4] = 2;
-        indices[5] = 3;
-        var geometry = new THREE.BufferGeometry();
-        geometry.addAttribute("position", new THREE.BufferAttribute(positions, 3));
-        geometry.setIndex(new THREE.BufferAttribute(indices, 1));
-        return geometry;
-    };
-    return ImagePlaneFactory;
-}());
-exports.ImagePlaneFactory = ImagePlaneFactory;
-exports.default = ImagePlaneFactory;
-
-},{"../../Component":291,"three":241}],323:[function(require,module,exports){
+},{"../../Component":290,"../../Render":296,"../../Tiles":299,"../../Utils":300,"rxjs/Observable":29,"rxjs/Subject":34}],321:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
 var Component_1 = require("../../Component");
 var ImagePlaneGLRenderer = /** @class */ (function () {
     function ImagePlaneGLRenderer() {
-        this._imagePlaneFactory = new Component_1.ImagePlaneFactory();
-        this._imagePlaneScene = new Component_1.ImagePlaneScene();
+        this._factory = new Component_1.MeshFactory();
+        this._scene = new Component_1.MeshScene();
         this._alpha = 0;
         this._alphaOld = 0;
         this._fadeOutSpeed = 0.05;
@@ -26360,7 +25927,7 @@ var ImagePlaneGLRenderer = /** @class */ (function () {
     };
     ImagePlaneGLRenderer.prototype._updateTexture = function (texture) {
         this._needsRender = true;
-        for (var _i = 0, _a = this._imagePlaneScene.imagePlanes; _i < _a.length; _i++) {
+        for (var _i = 0, _a = this._scene.imagePlanes; _i < _a.length; _i++) {
             var plane = _a[_i];
             var material = plane.material;
             var oldTexture = material.uniforms.projectorTex.value;
@@ -26374,7 +25941,7 @@ var ImagePlaneGLRenderer = /** @class */ (function () {
             return;
         }
         this._needsRender = true;
-        for (var _i = 0, _a = this._imagePlaneScene.imagePlanes; _i < _a.length; _i++) {
+        for (var _i = 0, _a = this._scene.imagePlanes; _i < _a.length; _i++) {
             var plane = _a[_i];
             var material = plane.material;
             var texture = material.uniforms.projectorTex.value;
@@ -26383,28 +25950,28 @@ var ImagePlaneGLRenderer = /** @class */ (function () {
         }
     };
     ImagePlaneGLRenderer.prototype.render = function (perspectiveCamera, renderer) {
-        var planeAlpha = this._imagePlaneScene.imagePlanesOld.length ? 1 : this._alpha;
-        for (var _i = 0, _a = this._imagePlaneScene.imagePlanes; _i < _a.length; _i++) {
+        var planeAlpha = this._scene.imagePlanesOld.length ? 1 : this._alpha;
+        for (var _i = 0, _a = this._scene.imagePlanes; _i < _a.length; _i++) {
             var plane = _a[_i];
             plane.material.uniforms.opacity.value = planeAlpha;
         }
-        for (var _b = 0, _c = this._imagePlaneScene.imagePlanesOld; _b < _c.length; _b++) {
+        for (var _b = 0, _c = this._scene.imagePlanesOld; _b < _c.length; _b++) {
             var plane = _c[_b];
             plane.material.uniforms.opacity.value = this._alphaOld;
         }
-        renderer.render(this._imagePlaneScene.scene, perspectiveCamera);
-        renderer.render(this._imagePlaneScene.sceneOld, perspectiveCamera);
-        for (var _d = 0, _e = this._imagePlaneScene.imagePlanes; _d < _e.length; _d++) {
+        renderer.render(this._scene.scene, perspectiveCamera);
+        renderer.render(this._scene.sceneOld, perspectiveCamera);
+        for (var _d = 0, _e = this._scene.imagePlanes; _d < _e.length; _d++) {
             var plane = _e[_d];
             plane.material.uniforms.opacity.value = this._alpha;
         }
-        renderer.render(this._imagePlaneScene.scene, perspectiveCamera);
+        renderer.render(this._scene.scene, perspectiveCamera);
     };
     ImagePlaneGLRenderer.prototype.clearNeedsRender = function () {
         this._needsRender = false;
     };
     ImagePlaneGLRenderer.prototype.dispose = function () {
-        this._imagePlaneScene.clear();
+        this._scene.clear();
     };
     ImagePlaneGLRenderer.prototype._updateFrameId = function (frameId) {
         this._frameId = frameId;
@@ -26438,14 +26005,14 @@ var ImagePlaneGLRenderer = /** @class */ (function () {
         }
         if (previousKey != null) {
             if (previousKey !== this._currentKey && previousKey !== this._previousKey) {
-                var previousMesh = this._imagePlaneFactory.createMesh(state.previousNode, state.previousTransform);
-                this._imagePlaneScene.updateImagePlanes([previousMesh]);
+                var previousMesh = this._factory.createMesh(state.previousNode, state.previousTransform);
+                this._scene.updateImagePlanes([previousMesh]);
             }
             this._previousKey = previousKey;
         }
         this._currentKey = currentKey;
-        var currentMesh = this._imagePlaneFactory.createMesh(state.currentNode, state.currentTransform);
-        this._imagePlaneScene.updateImagePlanes([currentMesh]);
+        var currentMesh = this._factory.createMesh(state.currentNode, state.currentTransform);
+        this._scene.updateImagePlanes([currentMesh]);
         this._alphaOld = 1;
         return true;
     };
@@ -26454,549 +26021,7 @@ var ImagePlaneGLRenderer = /** @class */ (function () {
 exports.ImagePlaneGLRenderer = ImagePlaneGLRenderer;
 exports.default = ImagePlaneGLRenderer;
 
-},{"../../Component":291}],324:[function(require,module,exports){
-"use strict";
-/// <reference path="../../../typings/index.d.ts" />
-Object.defineProperty(exports, "__esModule", { value: true });
-var THREE = require("three");
-var ImagePlaneScene = /** @class */ (function () {
-    function ImagePlaneScene() {
-        this.scene = new THREE.Scene();
-        this.sceneOld = new THREE.Scene();
-        this.imagePlanes = [];
-        this.imagePlanesOld = [];
-    }
-    ImagePlaneScene.prototype.updateImagePlanes = function (planes) {
-        this._dispose(this.imagePlanesOld, this.sceneOld);
-        for (var _i = 0, _a = this.imagePlanes; _i < _a.length; _i++) {
-            var plane = _a[_i];
-            this.scene.remove(plane);
-            this.sceneOld.add(plane);
-        }
-        for (var _b = 0, planes_1 = planes; _b < planes_1.length; _b++) {
-            var plane = planes_1[_b];
-            this.scene.add(plane);
-        }
-        this.imagePlanesOld = this.imagePlanes;
-        this.imagePlanes = planes;
-    };
-    ImagePlaneScene.prototype.addImagePlanes = function (planes) {
-        for (var _i = 0, planes_2 = planes; _i < planes_2.length; _i++) {
-            var plane = planes_2[_i];
-            this.scene.add(plane);
-            this.imagePlanes.push(plane);
-        }
-    };
-    ImagePlaneScene.prototype.addImagePlanesOld = function (planes) {
-        for (var _i = 0, planes_3 = planes; _i < planes_3.length; _i++) {
-            var plane = planes_3[_i];
-            this.sceneOld.add(plane);
-            this.imagePlanesOld.push(plane);
-        }
-    };
-    ImagePlaneScene.prototype.setImagePlanes = function (planes) {
-        this._clear();
-        this.addImagePlanes(planes);
-    };
-    ImagePlaneScene.prototype.setImagePlanesOld = function (planes) {
-        this._clearOld();
-        this.addImagePlanesOld(planes);
-    };
-    ImagePlaneScene.prototype.clear = function () {
-        this._clear();
-        this._clearOld();
-    };
-    ImagePlaneScene.prototype._clear = function () {
-        this._dispose(this.imagePlanes, this.scene);
-        this.imagePlanes.length = 0;
-    };
-    ImagePlaneScene.prototype._clearOld = function () {
-        this._dispose(this.imagePlanesOld, this.sceneOld);
-        this.imagePlanesOld.length = 0;
-    };
-    ImagePlaneScene.prototype._dispose = function (planes, scene) {
-        for (var _i = 0, planes_4 = planes; _i < planes_4.length; _i++) {
-            var plane = planes_4[_i];
-            scene.remove(plane);
-            plane.geometry.dispose();
-            plane.material.dispose();
-            var texture = plane.material.uniforms.projectorTex.value;
-            if (texture != null) {
-                texture.dispose();
-            }
-        }
-    };
-    return ImagePlaneScene;
-}());
-exports.ImagePlaneScene = ImagePlaneScene;
-exports.default = ImagePlaneScene;
-
-},{"three":241}],325:[function(require,module,exports){
-"use strict";
-/// <reference path="../../../typings/index.d.ts" />
-Object.defineProperty(exports, "__esModule", { value: true });
-
-var path = require("path");
-var ImagePlaneShaders = /** @class */ (function () {
-    function ImagePlaneShaders() {
-    }
-    ImagePlaneShaders.equirectangular = {
-        fragment: "#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n\nuniform sampler2D projectorTex;\nuniform float opacity;\nuniform float phiLength;\nuniform float phiShift;\nuniform float thetaLength;\nuniform float thetaShift;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    vec3 b = normalize(vRstq.xyz);\n    float lat = -asin(b.y);\n    float lon = atan(b.x, b.z);\n    float x = (lon - phiShift) / phiLength + 0.5;\n    float y = (lat - thetaShift) / thetaLength + 0.5;\n    vec4 baseColor = texture2D(projectorTex, vec2(x, y));\n    baseColor.a = opacity;\n    gl_FragColor = baseColor;\n}",
-        vertex: "#ifdef GL_ES\nprecision highp float;\n#endif\n\nuniform mat4 projectorMat;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    vRstq = projectorMat * vec4(position, 1.0);\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n}",
-    };
-    ImagePlaneShaders.perspective = {
-        fragment: "#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n\nuniform sampler2D projectorTex;\nuniform float opacity;\nuniform vec4 bbox;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    float x = vRstq.x / vRstq.w;\n    float y = vRstq.y / vRstq.w;\n\n    vec4 baseColor;\n    if (x > bbox[0] && y > bbox[1] && x < bbox[2] && y < bbox[3]) {\n        baseColor = texture2D(projectorTex, vec2(x, y));\n        baseColor.a = opacity;\n    } else {\n        baseColor = vec4(0.0, 0.0, 0.0, 0.0);\n    }\n\n    gl_FragColor = baseColor;\n}",
-        vertex: "#ifdef GL_ES\nprecision highp float;\n#endif\n\nuniform mat4 projectorMat;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    vRstq = projectorMat * vec4(position, 1.0);\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n}",
-    };
-    return ImagePlaneShaders;
-}());
-exports.ImagePlaneShaders = ImagePlaneShaders;
-
-},{"path":22}],326:[function(require,module,exports){
-"use strict";
-/// <reference path="../../../typings/index.d.ts" />
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var Observable_1 = require("rxjs/Observable");
-var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/observable/combineLatest");
-require("rxjs/add/observable/fromEvent");
-require("rxjs/add/observable/of");
-require("rxjs/add/observable/zip");
-require("rxjs/add/operator/distinctUntilChanged");
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/first");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/merge");
-require("rxjs/add/operator/mergeMap");
-require("rxjs/add/operator/scan");
-require("rxjs/add/operator/switchMap");
-require("rxjs/add/operator/withLatestFrom");
-require("rxjs/add/operator/zip");
-var State_1 = require("../../State");
-var Render_1 = require("../../Render");
-var Utils_1 = require("../../Utils");
-var Component_1 = require("../../Component");
-var SliderState = /** @class */ (function () {
-    function SliderState() {
-        this._imagePlaneFactory = new Component_1.ImagePlaneFactory();
-        this._imagePlaneScene = new Component_1.ImagePlaneScene();
-        this._currentKey = null;
-        this._previousKey = null;
-        this._currentPano = false;
-        this._frameId = 0;
-        this._glNeedsRender = false;
-        this._domNeedsRender = true;
-        this._curtain = 1;
-    }
-    Object.defineProperty(SliderState.prototype, "frameId", {
-        get: function () {
-            return this._frameId;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(SliderState.prototype, "curtain", {
-        get: function () {
-            return this._curtain;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(SliderState.prototype, "glNeedsRender", {
-        get: function () {
-            return this._glNeedsRender;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(SliderState.prototype, "domNeedsRender", {
-        get: function () {
-            return this._domNeedsRender;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(SliderState.prototype, "sliderVisible", {
-        get: function () {
-            return this._sliderVisible;
-        },
-        set: function (value) {
-            this._sliderVisible = value;
-            this._domNeedsRender = true;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(SliderState.prototype, "disabled", {
-        get: function () {
-            return this._currentKey == null ||
-                this._previousKey == null ||
-                this._currentPano;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    SliderState.prototype.update = function (frame) {
-        this._updateFrameId(frame.id);
-        var needsRender = this._updateImagePlanes(frame.state);
-        this._domNeedsRender = needsRender || this._domNeedsRender;
-        needsRender = this._updateCurtain(frame.state.alpha) || needsRender;
-        this._glNeedsRender = needsRender || this._glNeedsRender;
-    };
-    SliderState.prototype.updateTexture = function (image, node) {
-        var imagePlanes = node.key === this._currentKey ?
-            this._imagePlaneScene.imagePlanes :
-            node.key === this._previousKey ?
-                this._imagePlaneScene.imagePlanesOld :
-                [];
-        if (imagePlanes.length === 0) {
-            return;
-        }
-        this._glNeedsRender = true;
-        for (var _i = 0, imagePlanes_1 = imagePlanes; _i < imagePlanes_1.length; _i++) {
-            var plane = imagePlanes_1[_i];
-            var material = plane.material;
-            var texture = material.uniforms.projectorTex.value;
-            texture.image = image;
-            texture.needsUpdate = true;
-        }
-    };
-    SliderState.prototype.render = function (perspectiveCamera, renderer) {
-        if (!this.disabled) {
-            renderer.render(this._imagePlaneScene.sceneOld, perspectiveCamera);
-        }
-        renderer.render(this._imagePlaneScene.scene, perspectiveCamera);
-    };
-    SliderState.prototype.dispose = function () {
-        this._imagePlaneScene.clear();
-    };
-    SliderState.prototype.clearGLNeedsRender = function () {
-        this._glNeedsRender = false;
-    };
-    SliderState.prototype.clearDomNeedsRender = function () {
-        this._domNeedsRender = false;
-    };
-    SliderState.prototype._updateFrameId = function (frameId) {
-        this._frameId = frameId;
-    };
-    SliderState.prototype._updateImagePlanes = function (state) {
-        if (state.currentNode == null) {
-            return;
-        }
-        var needsRender = false;
-        if (state.previousNode != null && this._previousKey !== state.previousNode.key) {
-            needsRender = true;
-            this._previousKey = state.previousNode.key;
-            this._imagePlaneScene.setImagePlanesOld([
-                this._imagePlaneFactory.createMesh(state.previousNode, state.previousTransform),
-            ]);
-        }
-        if (this._currentKey !== state.currentNode.key) {
-            needsRender = true;
-            this._currentKey = state.currentNode.key;
-            this._currentPano = state.currentNode.pano;
-            this._imagePlaneScene.setImagePlanes([
-                this._imagePlaneFactory.createMesh(state.currentNode, state.currentTransform),
-            ]);
-            if (!this.disabled) {
-                this._updateBbox();
-            }
-        }
-        return needsRender;
-    };
-    SliderState.prototype._updateCurtain = function (alpha) {
-        if (this.disabled ||
-            Math.abs(this._curtain - alpha) < 0.001) {
-            return false;
-        }
-        this._curtain = alpha;
-        this._updateBbox();
-        return true;
-    };
-    SliderState.prototype._updateBbox = function () {
-        for (var _i = 0, _a = this._imagePlaneScene.imagePlanes; _i < _a.length; _i++) {
-            var plane = _a[_i];
-            var shaderMaterial = plane.material;
-            var bbox = shaderMaterial.uniforms.bbox.value;
-            bbox.z = this._curtain;
-        }
-    };
-    return SliderState;
-}());
-var SliderComponent = /** @class */ (function (_super) {
-    __extends(SliderComponent, _super);
-    /**
-     * Create a new slider component instance.
-     * @class SliderComponent
-     */
-    function SliderComponent(name, container, navigator, dom) {
-        var _this = _super.call(this, name, container, navigator) || this;
-        _this._dom = !!dom ? dom : new Utils_1.DOM();
-        _this._sliderStateOperation$ = new Subject_1.Subject();
-        _this._sliderStateCreator$ = new Subject_1.Subject();
-        _this._sliderStateDisposer$ = new Subject_1.Subject();
-        _this._sliderState$ = _this._sliderStateOperation$
-            .scan(function (sliderState, operation) {
-            return operation(sliderState);
-        }, null)
-            .filter(function (sliderState) {
-            return sliderState != null;
-        })
-            .distinctUntilChanged(undefined, function (sliderState) {
-            return sliderState.frameId;
-        });
-        _this._sliderStateCreator$
-            .map(function () {
-            return function (sliderState) {
-                if (sliderState != null) {
-                    throw new Error("Multiple slider states can not be created at the same time");
-                }
-                return new SliderState();
-            };
-        })
-            .subscribe(_this._sliderStateOperation$);
-        _this._sliderStateDisposer$
-            .map(function () {
-            return function (sliderState) {
-                sliderState.dispose();
-                return null;
-            };
-        })
-            .subscribe(_this._sliderStateOperation$);
-        return _this;
-    }
-    /**
-     * Set the image keys.
-     *
-     * Configures the component to show the image planes for the supplied image keys.
-     *
-     * @param {keys} ISliderKeys - Slider keys object specifying the images to be shown in the foreground and the background.
-     */
-    SliderComponent.prototype.setKeys = function (keys) {
-        this.configure({ keys: keys });
-    };
-    /**
-     * Set the initial position.
-     *
-     * Configures the intial position of the slider. The inital position value will be used when the component is activated.
-     *
-     * @param {number} initialPosition - Initial slider position.
-     */
-    SliderComponent.prototype.setInitialPosition = function (initialPosition) {
-        this.configure({ initialPosition: initialPosition });
-    };
-    /**
-     * Set the value controlling if the slider is visible.
-     *
-     * @param {boolean} sliderVisible - Value indicating if the slider should be visible or not.
-     */
-    SliderComponent.prototype.setSliderVisible = function (sliderVisible) {
-        this.configure({ sliderVisible: sliderVisible });
-    };
-    SliderComponent.prototype._activate = function () {
-        var _this = this;
-        this._sliderContainer = this._dom.createElement("div", "mapillary-js-slider-container", this._container.element);
-        this._sliderWrapper = this._dom.createElement("div", "SliderWrapper", this._sliderContainer);
-        this._sliderControl = this._dom.createElement("input", "SliderControl", this._sliderWrapper);
-        this._sliderControl.setAttribute("type", "range");
-        this._sliderControl.setAttribute("min", "0");
-        this._sliderControl.setAttribute("max", "1000");
-        this._sliderControl.style.visibility = "hidden";
-        this._moveToHandler = function (e) {
-            var curtain = Number(e.target.value) / 1000;
-            _this._navigator.stateService.moveTo(curtain);
-        };
-        this._sliderControl.addEventListener("input", this._moveToHandler);
-        this._sliderControl.addEventListener("change", this._moveToHandler);
-        Observable_1.Observable
-            .combineLatest(this._navigator.stateService.state$, this._configuration$)
-            .first()
-            .subscribe(function (_a) {
-            var state = _a[0], configuration = _a[1];
-            if (state === State_1.State.Traversing) {
-                _this._navigator.stateService.wait();
-                var position = configuration.initialPosition != null ? configuration.initialPosition : 1;
-                _this._sliderControl.value = (1000 * position).toString();
-                _this._navigator.stateService.moveTo(position);
-            }
-        });
-        this._glRenderSubscription = this._sliderState$
-            .map(function (sliderState) {
-            var renderHash = {
-                name: _this._name,
-                render: {
-                    frameId: sliderState.frameId,
-                    needsRender: sliderState.glNeedsRender,
-                    render: sliderState.render.bind(sliderState),
-                    stage: Render_1.GLRenderStage.Background,
-                },
-            };
-            sliderState.clearGLNeedsRender();
-            return renderHash;
-        })
-            .subscribe(this._container.glRenderer.render$);
-        this._domRenderSubscription = this._sliderState$
-            .filter(function (sliderState) {
-            return sliderState.domNeedsRender;
-        })
-            .subscribe(function (sliderState) {
-            _this._sliderControl.value = (1000 * sliderState.curtain).toString();
-            var visibility = sliderState.disabled || !sliderState.sliderVisible ? "hidden" : "visible";
-            _this._sliderControl.style.visibility = visibility;
-            sliderState.clearDomNeedsRender();
-        });
-        this._sliderStateCreator$.next(null);
-        this._stateSubscription = this._navigator.stateService.currentState$
-            .map(function (frame) {
-            return function (sliderState) {
-                sliderState.update(frame);
-                return sliderState;
-            };
-        })
-            .subscribe(this._sliderStateOperation$);
-        this._setSliderVisibleSubscription = this._configuration$
-            .map(function (configuration) {
-            return configuration.sliderVisible == null || configuration.sliderVisible;
-        })
-            .distinctUntilChanged()
-            .map(function (sliderVisible) {
-            return function (sliderState) {
-                sliderState.sliderVisible = sliderVisible;
-                return sliderState;
-            };
-        })
-            .subscribe(this._sliderStateOperation$);
-        this._setKeysSubscription = this._configuration$
-            .filter(function (configuration) {
-            return configuration.keys != null;
-        })
-            .switchMap(function (configuration) {
-            return Observable_1.Observable
-                .zip(_this._catchCacheNode$(configuration.keys.background), _this._catchCacheNode$(configuration.keys.foreground))
-                .map(function (nodes) {
-                return { background: nodes[0], foreground: nodes[1] };
-            })
-                .zip(_this._navigator.stateService.currentState$.first())
-                .map(function (nf) {
-                return { nodes: nf[0], state: nf[1].state };
-            });
-        })
-            .subscribe(function (co) {
-            if (co.state.currentNode != null &&
-                co.state.previousNode != null &&
-                co.state.currentNode.key === co.nodes.foreground.key &&
-                co.state.previousNode.key === co.nodes.background.key) {
-                return;
-            }
-            if (co.state.currentNode.key === co.nodes.background.key) {
-                _this._navigator.stateService.setNodes([co.nodes.foreground]);
-                return;
-            }
-            if (co.state.currentNode.key === co.nodes.foreground.key &&
-                co.state.trajectory.length === 1) {
-                _this._navigator.stateService.prependNodes([co.nodes.background]);
-                return;
-            }
-            _this._navigator.stateService.setNodes([co.nodes.background]);
-            _this._navigator.stateService.setNodes([co.nodes.foreground]);
-        }, function (e) {
-            console.error(e);
-        });
-        var previousNode$ = this._navigator.stateService.currentState$
-            .map(function (frame) {
-            return frame.state.previousNode;
-        })
-            .filter(function (node) {
-            return node != null;
-        })
-            .distinctUntilChanged(undefined, function (node) {
-            return node.key;
-        });
-        this._nodeSubscription = Observable_1.Observable
-            .merge(previousNode$, this._navigator.stateService.currentNode$)
-            .filter(function (node) {
-            return node.pano ?
-                Utils_1.Settings.maxImageSize > Utils_1.Settings.basePanoramaSize :
-                Utils_1.Settings.maxImageSize > Utils_1.Settings.baseImageSize;
-        })
-            .mergeMap(function (node) {
-            var baseImageSize = node.pano ?
-                Utils_1.Settings.basePanoramaSize :
-                Utils_1.Settings.baseImageSize;
-            if (Math.max(node.image.width, node.image.height) > baseImageSize) {
-                return Observable_1.Observable.empty();
-            }
-            return node.cacheImage$(Utils_1.Settings.maxImageSize)
-                .map(function (n) {
-                return [n.image, n];
-            })
-                .catch(function (error, caught) {
-                console.error("Failed to fetch high res slider image (" + node.key + ")", error);
-                return Observable_1.Observable.empty();
-            });
-        })
-            .map(function (_a) {
-            var element = _a[0], node = _a[1];
-            return function (sliderState) {
-                sliderState.updateTexture(element, node);
-                return sliderState;
-            };
-        })
-            .subscribe(this._sliderStateOperation$);
-    };
-    SliderComponent.prototype._deactivate = function () {
-        var _this = this;
-        this._navigator.stateService.state$
-            .first()
-            .subscribe(function (state) {
-            if (state === State_1.State.Waiting) {
-                _this._navigator.stateService.traverse();
-            }
-        });
-        this._sliderStateDisposer$.next(null);
-        this._setKeysSubscription.unsubscribe();
-        this._setSliderVisibleSubscription.unsubscribe();
-        this._stateSubscription.unsubscribe();
-        this._glRenderSubscription.unsubscribe();
-        this._domRenderSubscription.unsubscribe();
-        this._nodeSubscription.unsubscribe();
-        this.configure({ keys: null });
-        this._sliderControl.removeEventListener("input", this._moveToHandler);
-        this._sliderControl.removeEventListener("change", this._moveToHandler);
-        this._container.element.removeChild(this._sliderContainer);
-        this._moveToHandler = null;
-        this._sliderControl = null;
-        this._sliderWrapper = null;
-        this._sliderContainer = null;
-    };
-    SliderComponent.prototype._getDefaultConfiguration = function () {
-        return {};
-    };
-    SliderComponent.prototype._catchCacheNode$ = function (key) {
-        return this._navigator.graphService.cacheNode$(key)
-            .catch(function (error, caught) {
-            console.error("Failed to cache slider node (" + key + ")", error);
-            return Observable_1.Observable.empty();
-        });
-    };
-    SliderComponent.componentName = "slider";
-    return SliderComponent;
-}(Component_1.Component));
-exports.SliderComponent = SliderComponent;
-Component_1.ComponentService.register(SliderComponent);
-exports.default = SliderComponent;
-
-},{"../../Component":291,"../../Render":297,"../../State":298,"../../Utils":301,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/fromEvent":43,"rxjs/add/observable/of":46,"rxjs/add/observable/zip":49,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/filter":63,"rxjs/add/operator/first":65,"rxjs/add/operator/map":67,"rxjs/add/operator/merge":68,"rxjs/add/operator/mergeMap":70,"rxjs/add/operator/scan":78,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/withLatestFrom":90,"rxjs/add/operator/zip":91}],327:[function(require,module,exports){
+},{"../../Component":290}],322:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var CoverState;
@@ -27006,13 +26031,55 @@ var CoverState;
     CoverState[CoverState["Visible"] = 2] = "Visible";
 })(CoverState = exports.CoverState || (exports.CoverState = {}));
 
-},{}],328:[function(require,module,exports){
+},{}],323:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Enumeration for slider mode.
+ *
+ * @enum {number}
+ * @readonly
+ *
+ * @description Modes for specifying how transitions
+ * between nodes are performed in slider mode. Only
+ * applicable when the slider component determines
+ * that transitions with motion is possilble. When it
+ * is not, the stationary mode will be applied.
+ */
+var SliderMode;
+(function (SliderMode) {
+    /**
+     * Transitions with motion.
+     *
+     * @description The slider component moves the
+     * camera between the node origins.
+     *
+     * In this mode it is not possible to zoom or pan.
+     *
+     * The slider component falls back to stationary
+     * mode when it determines that the pair of nodes
+     * does not have a strong enough relation.
+     */
+    SliderMode[SliderMode["Motion"] = 0] = "Motion";
+    /**
+     * Stationary transitions.
+     *
+     * @description The camera is stationary.
+     *
+     * In this mode it is possible to zoom and pan.
+     */
+    SliderMode[SliderMode["Stationary"] = 1] = "Stationary";
+})(SliderMode = exports.SliderMode || (exports.SliderMode = {}));
+
+},{}],324:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ICoverConfiguration_1 = require("./ICoverConfiguration");
 exports.CoverState = ICoverConfiguration_1.CoverState;
+var ISliderConfiguration_1 = require("./ISliderConfiguration");
+exports.SliderMode = ISliderConfiguration_1.SliderMode;
 
-},{"./ICoverConfiguration":327}],329:[function(require,module,exports){
+},{"./ICoverConfiguration":322,"./ISliderConfiguration":323}],325:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -27116,7 +26183,7 @@ var KeyPlayHandler = /** @class */ (function (_super) {
 exports.KeyPlayHandler = KeyPlayHandler;
 exports.default = KeyPlayHandler;
 
-},{"../../Component":291,"../../Edge":292}],330:[function(require,module,exports){
+},{"../../Component":290,"../../Edge":291}],326:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -27130,8 +26197,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-require("rxjs/add/operator/switchMap");
-require("rxjs/add/operator/withLatestFrom");
 var Component_1 = require("../../Component");
 var Edge_1 = require("../../Edge");
 var Error_1 = require("../../Error");
@@ -27207,7 +26272,7 @@ var KeySequenceNavigationHandler = /** @class */ (function (_super) {
 exports.KeySequenceNavigationHandler = KeySequenceNavigationHandler;
 exports.default = KeySequenceNavigationHandler;
 
-},{"../../Component":291,"../../Edge":292,"../../Error":293,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/withLatestFrom":90}],331:[function(require,module,exports){
+},{"../../Component":290,"../../Edge":291,"../../Error":292}],327:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -27221,8 +26286,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-require("rxjs/add/operator/switchMap");
-require("rxjs/add/operator/withLatestFrom");
 var Component_1 = require("../../Component");
 var Edge_1 = require("../../Edge");
 var Error_1 = require("../../Error");
@@ -27356,7 +26419,7 @@ var KeySpatialNavigationHandler = /** @class */ (function (_super) {
 exports.KeySpatialNavigationHandler = KeySpatialNavigationHandler;
 exports.default = KeySpatialNavigationHandler;
 
-},{"../../Component":291,"../../Edge":292,"../../Error":293,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/withLatestFrom":90}],332:[function(require,module,exports){
+},{"../../Component":290,"../../Edge":291,"../../Error":292}],328:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -27370,7 +26433,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-require("rxjs/add/operator/withLatestFrom");
 var Component_1 = require("../../Component");
 /**
  * The `KeyZoomHandler` allows the user to zoom in and out using the
@@ -27433,7 +26495,7 @@ var KeyZoomHandler = /** @class */ (function (_super) {
 exports.KeyZoomHandler = KeyZoomHandler;
 exports.default = KeyZoomHandler;
 
-},{"../../Component":291,"rxjs/add/operator/withLatestFrom":90}],333:[function(require,module,exports){
+},{"../../Component":290}],329:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -27570,7 +26632,7 @@ exports.KeyboardComponent = KeyboardComponent;
 Component_1.ComponentService.register(KeyboardComponent);
 exports.default = KeyboardComponent;
 
-},{"../../Component":291,"../../Geo":294}],334:[function(require,module,exports){
+},{"../../Component":290,"../../Geo":293}],330:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var MarkerComponent_1 = require("./MarkerComponent");
@@ -27580,7 +26642,7 @@ exports.SimpleMarker = SimpleMarker_1.SimpleMarker;
 var CircleMarker_1 = require("./marker/CircleMarker");
 exports.CircleMarker = CircleMarker_1.CircleMarker;
 
-},{"./MarkerComponent":335,"./marker/CircleMarker":338,"./marker/SimpleMarker":340}],335:[function(require,module,exports){
+},{"./MarkerComponent":331,"./marker/CircleMarker":334,"./marker/SimpleMarker":336}],331:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -27597,9 +26659,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
 var when = require("when");
 var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/observable/combineLatest");
-require("rxjs/add/operator/distinctUntilChanged");
-require("rxjs/add/operator/map");
 var Component_1 = require("../../Component");
 var Render_1 = require("../../Render");
 var Graph_1 = require("../../Graph");
@@ -28073,7 +27132,7 @@ exports.MarkerComponent = MarkerComponent;
 Component_1.ComponentService.register(MarkerComponent);
 exports.default = MarkerComponent;
 
-},{"../../Component":291,"../../Geo":294,"../../Graph":295,"../../Render":297,"rxjs/Observable":29,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/map":67,"three":241,"when":288}],336:[function(require,module,exports){
+},{"../../Component":290,"../../Geo":293,"../../Graph":294,"../../Render":296,"rxjs/Observable":29,"three":240,"when":287}],332:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -28196,15 +27255,12 @@ var MarkerScene = /** @class */ (function () {
 exports.MarkerScene = MarkerScene;
 exports.default = MarkerScene;
 
-},{"three":241}],337:[function(require,module,exports){
+},{"three":240}],333:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
 var rbush = require("rbush");
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/publishReplay");
-require("rxjs/add/operator/scan");
 var MarkerSet = /** @class */ (function () {
     function MarkerSet() {
         this._hash = {};
@@ -28317,7 +27373,7 @@ var MarkerSet = /** @class */ (function () {
 exports.MarkerSet = MarkerSet;
 exports.default = MarkerSet;
 
-},{"rbush":25,"rxjs/Subject":34,"rxjs/add/operator/map":67,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78}],338:[function(require,module,exports){
+},{"rbush":25,"rxjs/Subject":34}],334:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -28400,7 +27456,7 @@ var CircleMarker = /** @class */ (function (_super) {
 exports.CircleMarker = CircleMarker;
 exports.default = CircleMarker;
 
-},{"../../../Component":291,"three":241}],339:[function(require,module,exports){
+},{"../../../Component":290,"three":240}],335:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -28487,7 +27543,7 @@ var Marker = /** @class */ (function () {
 exports.Marker = Marker;
 exports.default = Marker;
 
-},{}],340:[function(require,module,exports){
+},{}],336:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -28634,7 +27690,7 @@ var SimpleMarker = /** @class */ (function (_super) {
 exports.SimpleMarker = SimpleMarker;
 exports.default = SimpleMarker;
 
-},{"../../../Component":291,"three":241}],341:[function(require,module,exports){
+},{"../../../Component":290,"three":240}],337:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -28744,7 +27800,7 @@ var BounceHandler = /** @class */ (function (_super) {
 exports.BounceHandler = BounceHandler;
 exports.default = BounceHandler;
 
-},{"../../Component":291,"rxjs/Observable":29}],342:[function(require,module,exports){
+},{"../../Component":290,"rxjs/Observable":29}],338:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -28810,7 +27866,7 @@ var DoubleClickZoomHandler = /** @class */ (function (_super) {
 exports.DoubleClickZoomHandler = DoubleClickZoomHandler;
 exports.default = DoubleClickZoomHandler;
 
-},{"../../Component":291,"rxjs/Observable":29}],343:[function(require,module,exports){
+},{"../../Component":290,"rxjs/Observable":29}],339:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -28826,9 +27882,6 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
 var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/operator/concat");
-require("rxjs/add/operator/sample");
-require("rxjs/add/operator/takeWhile");
 var Component_1 = require("../../Component");
 /**
  * The `DragPanHandler` allows the user to pan the viewer image by clicking and dragging the cursor.
@@ -29063,7 +28116,7 @@ var DragPanHandler = /** @class */ (function (_super) {
 exports.DragPanHandler = DragPanHandler;
 exports.default = DragPanHandler;
 
-},{"../../Component":291,"rxjs/Observable":29,"rxjs/add/operator/concat":56,"rxjs/add/operator/sample":77,"rxjs/add/operator/takeWhile":87,"three":241}],344:[function(require,module,exports){
+},{"../../Component":290,"rxjs/Observable":29,"three":240}],340:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -29076,10 +28129,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-require("rxjs/add/observable/merge");
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/withLatestFrom");
 var Component_1 = require("../../Component");
 var Geo_1 = require("../../Geo");
 /**
@@ -29212,7 +28261,7 @@ exports.MouseComponent = MouseComponent;
 Component_1.ComponentService.register(MouseComponent);
 exports.default = MouseComponent;
 
-},{"../../Component":291,"../../Geo":294,"rxjs/add/observable/merge":45,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/withLatestFrom":90}],345:[function(require,module,exports){
+},{"../../Component":290,"../../Geo":293}],341:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -29303,7 +28352,7 @@ var ScrollZoomHandler = /** @class */ (function (_super) {
 exports.ScrollZoomHandler = ScrollZoomHandler;
 exports.default = ScrollZoomHandler;
 
-},{"../../Component":291}],346:[function(require,module,exports){
+},{"../../Component":290}],342:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -29392,7 +28441,7 @@ var TouchZoomHandler = /** @class */ (function (_super) {
 exports.TouchZoomHandler = TouchZoomHandler;
 exports.default = TouchZoomHandler;
 
-},{"../../Component":291,"rxjs/Observable":29}],347:[function(require,module,exports){
+},{"../../Component":290,"rxjs/Observable":29}],343:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Popup_1 = require("./popup/Popup");
@@ -29400,7 +28449,7 @@ exports.Popup = Popup_1.Popup;
 var PopupComponent_1 = require("./PopupComponent");
 exports.PopupComponent = PopupComponent_1.PopupComponent;
 
-},{"./PopupComponent":348,"./popup/Popup":349}],348:[function(require,module,exports){
+},{"./PopupComponent":344,"./popup/Popup":345}],344:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -29584,7 +28633,7 @@ exports.PopupComponent = PopupComponent;
 Component_1.ComponentService.register(PopupComponent);
 exports.default = PopupComponent;
 
-},{"../../Component":291,"../../Utils":301,"rxjs/Observable":29,"rxjs/Subject":34}],349:[function(require,module,exports){
+},{"../../Component":290,"../../Utils":300,"rxjs/Observable":29,"rxjs/Subject":34}],345:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -30070,7 +29119,7 @@ var Popup = /** @class */ (function () {
 exports.Popup = Popup;
 exports.default = Popup;
 
-},{"../../../Geo":294,"../../../Utils":301,"../../../Viewer":302,"rxjs/Subject":34}],350:[function(require,module,exports){
+},{"../../../Geo":293,"../../../Utils":300,"../../../Viewer":301,"rxjs/Subject":34}],346:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -30086,24 +29135,6 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/observable/combineLatest");
-require("rxjs/add/observable/of");
-require("rxjs/add/observable/concat");
-require("rxjs/add/operator/auditTime");
-require("rxjs/add/operator/bufferCount");
-require("rxjs/add/operator/concat");
-require("rxjs/add/operator/distinctUntilChanged");
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/finally");
-require("rxjs/add/operator/first");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/publishReplay");
-require("rxjs/add/operator/retry");
-require("rxjs/add/operator/scan");
-require("rxjs/add/operator/share");
-require("rxjs/add/operator/switchMap");
-require("rxjs/add/operator/takeUntil");
-require("rxjs/add/operator/withLatestFrom");
 var Component_1 = require("../../Component");
 var Edge_1 = require("../../Edge");
 var Graph_1 = require("../../Graph");
@@ -30482,7 +29513,7 @@ exports.SequenceComponent = SequenceComponent;
 Component_1.ComponentService.register(SequenceComponent);
 exports.default = SequenceComponent;
 
-},{"../../Component":291,"../../Edge":292,"../../Graph":295,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/concat":39,"rxjs/add/observable/of":46,"rxjs/add/operator/auditTime":50,"rxjs/add/operator/bufferCount":52,"rxjs/add/operator/concat":56,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/filter":63,"rxjs/add/operator/finally":64,"rxjs/add/operator/first":65,"rxjs/add/operator/map":67,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/retry":76,"rxjs/add/operator/scan":78,"rxjs/add/operator/share":79,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/takeUntil":86,"rxjs/add/operator/withLatestFrom":90}],351:[function(require,module,exports){
+},{"../../Component":290,"../../Edge":291,"../../Graph":294,"rxjs/Observable":29,"rxjs/Subject":34}],347:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -30720,7 +29751,7 @@ var SequenceDOMRenderer = /** @class */ (function () {
         var switchButton = vd.h("div" + switchButtonClassName, switchButtonProperties, [switchIcon]);
         var slowIcon = vd.h("div.SequenceSlowIcon.SequenceIconVisible", []);
         var slowContainer = vd.h("div.SequenceSlowContainer", [slowIcon]);
-        var fastIcon = vd.h("div.SequenceFastIconGrey.SequenceIconVisible", []);
+        var fastIcon = vd.h("div.SequenceFastIcon.SequenceIconVisible", []);
         var fastContainer = vd.h("div.SequenceFastContainer", [fastIcon]);
         var closeIcon = vd.h("div.SequenceCloseIcon.SequenceIconVisible", []);
         var closeButtonProperties = {
@@ -30916,7 +29947,7 @@ var SequenceDOMRenderer = /** @class */ (function () {
 exports.SequenceDOMRenderer = SequenceDOMRenderer;
 exports.default = SequenceDOMRenderer;
 
-},{"../../Component":291,"../../Edge":292,"../../Error":293,"rxjs/Observable":29,"rxjs/Subject":34,"virtual-dom":247}],352:[function(require,module,exports){
+},{"../../Component":290,"../../Edge":291,"../../Error":292,"rxjs/Observable":29,"rxjs/Subject":34,"virtual-dom":246}],348:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var SequenceMode;
@@ -30927,7 +29958,1225 @@ var SequenceMode;
 })(SequenceMode = exports.SequenceMode || (exports.SequenceMode = {}));
 exports.default = SequenceMode;
 
-},{}],353:[function(require,module,exports){
+},{}],349:[function(require,module,exports){
+"use strict";
+/// <reference path="../../../typings/index.d.ts" />
+Object.defineProperty(exports, "__esModule", { value: true });
+
+var path = require("path");
+var Shaders = /** @class */ (function () {
+    function Shaders() {
+    }
+    Shaders.equirectangular = {
+        fragment: "#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n\nuniform sampler2D projectorTex;\nuniform float opacity;\nuniform float phiLength;\nuniform float phiShift;\nuniform float thetaLength;\nuniform float thetaShift;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    vec3 b = normalize(vRstq.xyz);\n    float lat = -asin(b.y);\n    float lon = atan(b.x, b.z);\n    float x = (lon - phiShift) / phiLength + 0.5;\n    float y = (lat - thetaShift) / thetaLength + 0.5;\n    vec4 baseColor = texture2D(projectorTex, vec2(x, y));\n    baseColor.a = opacity;\n    gl_FragColor = baseColor;\n}",
+        vertex: "#ifdef GL_ES\nprecision highp float;\n#endif\n\nuniform mat4 projectorMat;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    vRstq = projectorMat * vec4(position, 1.0);\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n}",
+    };
+    Shaders.equirectangularCurtain = {
+        fragment: "#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n\nuniform sampler2D projectorTex;\nuniform float curtain;\nuniform float opacity;\nuniform float phiLength;\nuniform float phiShift;\nuniform float thetaLength;\nuniform float thetaShift;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    vec3 b = normalize(vRstq.xyz);\n    float lat = -asin(b.y);\n    float lon = atan(b.x, b.z);\n    float x = (lon - phiShift) / phiLength + 0.5;\n    float y = (lat - thetaShift) / thetaLength + 0.5;\n\n    bool inverted = curtain < 0.5;\n\n    float curtainMin = inverted ? curtain + 0.5 : curtain - 0.5;\n    float curtainMax = curtain;\n\n    bool insideCurtain = inverted ?\n        x > curtainMin || x < curtainMax :\n        x > curtainMin && x < curtainMax;\n\n    vec4 baseColor;\n    if (insideCurtain) {\n        baseColor = texture2D(projectorTex, vec2(x, y));\n        baseColor.a = opacity;\n    } else {\n        baseColor = vec4(0.0, 0.0, 0.0, 0.0);\n    }\n\n    gl_FragColor = baseColor;\n}",
+        vertex: "#ifdef GL_ES\nprecision highp float;\n#endif\n\nuniform mat4 projectorMat;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    vRstq = projectorMat * vec4(position, 1.0);\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n}",
+    };
+    Shaders.perspective = {
+        fragment: "#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n\nuniform sampler2D projectorTex;\nuniform float opacity;\nuniform vec4 bbox;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    float x = vRstq.x / vRstq.w;\n    float y = vRstq.y / vRstq.w;\n\n    vec4 baseColor = texture2D(projectorTex, vec2(x, y));\n    baseColor.a = opacity;\n\n    gl_FragColor = baseColor;\n}",
+        vertex: "#ifdef GL_ES\nprecision highp float;\n#endif\n\nuniform mat4 projectorMat;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    vRstq = projectorMat * vec4(position, 1.0);\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n}",
+    };
+    Shaders.perspectiveCurtain = {
+        fragment: "#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n\nuniform sampler2D projectorTex;\nuniform float opacity;\nuniform float curtain;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    float x = vRstq.x / vRstq.w;\n    float y = vRstq.y / vRstq.w;\n\n    vec4 baseColor;\n    if (x < curtain || curtain >= 1.0) {\n        baseColor = texture2D(projectorTex, vec2(x, y));\n        baseColor.a = opacity;\n    } else {\n        baseColor = vec4(0.0, 0.0, 0.0, 0.0);\n    }\n\n    gl_FragColor = baseColor;\n}\n",
+        vertex: "#ifdef GL_ES\nprecision highp float;\n#endif\n\nuniform mat4 projectorMat;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    vRstq = projectorMat * vec4(position, 1.0);\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n}",
+    };
+    return Shaders;
+}());
+exports.Shaders = Shaders;
+
+},{"path":22}],350:[function(require,module,exports){
+"use strict";
+/// <reference path="../../../typings/index.d.ts" />
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var Observable_1 = require("rxjs/Observable");
+var Subject_1 = require("rxjs/Subject");
+var Component_1 = require("../../Component");
+var Geo_1 = require("../../Geo");
+var State_1 = require("../../State");
+var Render_1 = require("../../Render");
+var Tiles_1 = require("../../Tiles");
+var Utils_1 = require("../../Utils");
+/**
+ * @class SliderComponent
+ *
+ * @classdesc Component for comparing pairs of images. Renders
+ * a slider for adjusting the curtain of the first image.
+ *
+ * Deactivate the sequence, direction and image plane
+ * components when activating the slider component to avoid
+ * interfering UI elements.
+ *
+ * To retrive and use the marker component
+ *
+ * @example
+ * ```
+ * var viewer = new Mapillary.Viewer(
+ *     "<element-id>",
+ *     "<client-id>",
+ *     "<my key>");
+ *
+ * viewer.deactivateComponent("imagePlane");
+ * viewer.deactivateComponent("direction");
+ * viewer.deactivateComponent("sequence");
+ *
+ * viewer.activateComponent("slider");
+ *
+ * var sliderComponent = viewer.getComponent("marker");
+ * ```
+ */
+var SliderComponent = /** @class */ (function (_super) {
+    __extends(SliderComponent, _super);
+    function SliderComponent(name, container, navigator, viewportCoords) {
+        var _this = _super.call(this, name, container, navigator) || this;
+        _this._viewportCoords = !!viewportCoords ? viewportCoords : new Geo_1.ViewportCoords();
+        _this._domRenderer = new Component_1.SliderDOMRenderer(container);
+        _this._imageTileLoader = new Tiles_1.ImageTileLoader(Utils_1.Urls.tileScheme, Utils_1.Urls.tileDomain, Utils_1.Urls.origin);
+        _this._roiCalculator = new Tiles_1.RegionOfInterestCalculator();
+        _this._spatial = new Geo_1.Spatial();
+        _this._glRendererOperation$ = new Subject_1.Subject();
+        _this._glRendererCreator$ = new Subject_1.Subject();
+        _this._glRendererDisposer$ = new Subject_1.Subject();
+        _this._glRenderer$ = _this._glRendererOperation$
+            .scan(function (glRenderer, operation) {
+            return operation(glRenderer);
+        }, null)
+            .filter(function (glRenderer) {
+            return glRenderer != null;
+        })
+            .distinctUntilChanged(undefined, function (glRenderer) {
+            return glRenderer.frameId;
+        });
+        _this._glRendererCreator$
+            .map(function () {
+            return function (glRenderer) {
+                if (glRenderer != null) {
+                    throw new Error("Multiple slider states can not be created at the same time");
+                }
+                return new Component_1.SliderGLRenderer();
+            };
+        })
+            .subscribe(_this._glRendererOperation$);
+        _this._glRendererDisposer$
+            .map(function () {
+            return function (glRenderer) {
+                glRenderer.dispose();
+                return null;
+            };
+        })
+            .subscribe(_this._glRendererOperation$);
+        return _this;
+    }
+    /**
+     * Set the initial position.
+     *
+     * @description Configures the intial position of the slider.
+     * The inital position value will be used when the component
+     * is activated.
+     *
+     * @param {number} initialPosition - Initial slider position.
+     */
+    SliderComponent.prototype.setInitialPosition = function (initialPosition) {
+        this.configure({ initialPosition: initialPosition });
+    };
+    /**
+     * Set the image keys.
+     *
+     * @description Configures the component to show the image
+     * planes for the supplied image keys.
+     *
+     * @param {ISliderKeys} keys - Slider keys object specifying
+     * the images to be shown in the foreground and the background.
+     */
+    SliderComponent.prototype.setKeys = function (keys) {
+        this.configure({ keys: keys });
+    };
+    /**
+     * Set the slider mode.
+     *
+     * @description Configures the mode for transitions between
+     * image pairs.
+     *
+     * @param {SliderMode} mode - Slider mode to be set.
+     */
+    SliderComponent.prototype.setSliderMode = function (mode) {
+        this.configure({ mode: mode });
+    };
+    /**
+     * Set the value controlling if the slider is visible.
+     *
+     * @param {boolean} sliderVisible - Value indicating if
+     * the slider should be visible or not.
+     */
+    SliderComponent.prototype.setSliderVisible = function (sliderVisible) {
+        this.configure({ sliderVisible: sliderVisible });
+    };
+    SliderComponent.prototype._activate = function () {
+        var _this = this;
+        this._modeSubcription = this._domRenderer.mode$
+            .subscribe(function (mode) {
+            _this.setSliderMode(mode);
+        });
+        this._glRenderSubscription = this._glRenderer$
+            .map(function (glRenderer) {
+            var renderHash = {
+                name: _this._name,
+                render: {
+                    frameId: glRenderer.frameId,
+                    needsRender: glRenderer.needsRender,
+                    render: glRenderer.render.bind(glRenderer),
+                    stage: Render_1.GLRenderStage.Background,
+                },
+            };
+            return renderHash;
+        })
+            .subscribe(this._container.glRenderer.render$);
+        var position$ = this.configuration$
+            .map(function (configuration) {
+            return configuration.initialPosition != null ?
+                configuration.initialPosition : 1;
+        })
+            .first()
+            .concat(this._domRenderer.position$);
+        var mode$ = this.configuration$
+            .map(function (configuration) {
+            return configuration.mode;
+        })
+            .distinctUntilChanged();
+        var motionless$ = this._navigator.stateService.currentState$
+            .map(function (frame) {
+            return frame.state.motionless;
+        })
+            .distinctUntilChanged();
+        var fullPano$ = this._navigator.stateService.currentState$
+            .map(function (frame) {
+            return frame.state.currentNode.fullPano;
+        })
+            .distinctUntilChanged();
+        var sliderVisible$ = Observable_1.Observable
+            .combineLatest(this._configuration$
+            .map(function (configuration) {
+            return configuration.sliderVisible;
+        }), this._navigator.stateService.currentState$
+            .map(function (frame) {
+            return !(frame.state.currentNode == null ||
+                frame.state.previousNode == null ||
+                (frame.state.currentNode.pano && !frame.state.currentNode.fullPano) ||
+                (frame.state.previousNode.pano && !frame.state.previousNode.fullPano) ||
+                (frame.state.currentNode.fullPano && !frame.state.previousNode.fullPano));
+        })
+            .distinctUntilChanged())
+            .map(function (_a) {
+            var sliderVisible = _a[0], enabledState = _a[1];
+            return sliderVisible && enabledState;
+        })
+            .distinctUntilChanged();
+        this._waitSubscription = Observable_1.Observable
+            .combineLatest(mode$, motionless$, fullPano$, sliderVisible$)
+            .withLatestFrom(this._navigator.stateService.state$)
+            .subscribe(function (_a) {
+            var _b = _a[0], mode = _b[0], motionless = _b[1], fullPano = _b[2], sliderVisible = _b[3], state = _a[1];
+            var interactive = sliderVisible &&
+                (motionless || mode === Component_1.SliderMode.Stationary || fullPano);
+            if (interactive && state !== State_1.State.WaitingInteractively) {
+                _this._navigator.stateService.waitInteractively();
+            }
+            else if (!interactive && state !== State_1.State.Waiting) {
+                _this._navigator.stateService.wait();
+            }
+        });
+        this._moveSubscription = Observable_1.Observable
+            .combineLatest(position$, mode$, motionless$, fullPano$, sliderVisible$)
+            .subscribe(function (_a) {
+            var position = _a[0], mode = _a[1], motionless = _a[2], fullPano = _a[3], sliderVisible = _a[4];
+            if (motionless || mode === Component_1.SliderMode.Stationary || fullPano) {
+                _this._navigator.stateService.moveTo(1);
+            }
+            else {
+                _this._navigator.stateService.moveTo(position);
+            }
+        });
+        this._domRenderSubscription = Observable_1.Observable
+            .combineLatest(position$, mode$, motionless$, fullPano$, sliderVisible$, this._container.renderService.size$)
+            .map(function (_a) {
+            var position = _a[0], mode = _a[1], motionless = _a[2], fullPano = _a[3], sliderVisible = _a[4], size = _a[5];
+            return {
+                name: _this._name,
+                vnode: _this._domRenderer.render(position, mode, motionless, fullPano, sliderVisible),
+            };
+        })
+            .subscribe(this._container.domRenderer.render$);
+        this._glRendererCreator$.next(null);
+        this._updateCurtainSubscription = Observable_1.Observable
+            .combineLatest(position$, fullPano$, sliderVisible$, this._container.renderService.renderCamera$, this._navigator.stateService.currentTransform$)
+            .map(function (_a) {
+            var position = _a[0], fullPano = _a[1], visible = _a[2], render = _a[3], transform = _a[4];
+            if (!fullPano) {
+                return visible ? position : 1;
+            }
+            var basicMin = _this._viewportCoords.viewportToBasic(-1.15, 0, transform, render.perspective);
+            var basicMax = _this._viewportCoords.viewportToBasic(1.15, 0, transform, render.perspective);
+            var shiftedMax = basicMax[0] < basicMin[0] ? basicMax[0] + 1 : basicMax[0];
+            var basicPosition = basicMin[0] + position * (shiftedMax - basicMin[0]);
+            return basicPosition > 1 ? basicPosition - 1 : basicPosition;
+        })
+            .map(function (position) {
+            return function (glRenderer) {
+                glRenderer.updateCurtain(position);
+                return glRenderer;
+            };
+        })
+            .subscribe(this._glRendererOperation$);
+        this._stateSubscription = Observable_1.Observable
+            .combineLatest(this._navigator.stateService.currentState$, mode$)
+            .map(function (_a) {
+            var frame = _a[0], mode = _a[1];
+            return function (glRenderer) {
+                glRenderer.update(frame, mode);
+                return glRenderer;
+            };
+        })
+            .subscribe(this._glRendererOperation$);
+        this._setKeysSubscription = this._configuration$
+            .filter(function (configuration) {
+            return configuration.keys != null;
+        })
+            .switchMap(function (configuration) {
+            return Observable_1.Observable
+                .zip(_this._catchCacheNode$(configuration.keys.background), _this._catchCacheNode$(configuration.keys.foreground))
+                .map(function (nodes) {
+                return { background: nodes[0], foreground: nodes[1] };
+            })
+                .zip(_this._navigator.stateService.currentState$.first())
+                .map(function (nf) {
+                return { nodes: nf[0], state: nf[1].state };
+            });
+        })
+            .subscribe(function (co) {
+            if (co.state.currentNode != null &&
+                co.state.previousNode != null &&
+                co.state.currentNode.key === co.nodes.foreground.key &&
+                co.state.previousNode.key === co.nodes.background.key) {
+                return;
+            }
+            if (co.state.currentNode.key === co.nodes.background.key) {
+                _this._navigator.stateService.setNodes([co.nodes.foreground]);
+                return;
+            }
+            if (co.state.currentNode.key === co.nodes.foreground.key &&
+                co.state.trajectory.length === 1) {
+                _this._navigator.stateService.prependNodes([co.nodes.background]);
+                return;
+            }
+            _this._navigator.stateService.setNodes([co.nodes.background]);
+            _this._navigator.stateService.setNodes([co.nodes.foreground]);
+        }, function (e) {
+            console.error(e);
+        });
+        var previousNode$ = this._navigator.stateService.currentState$
+            .map(function (frame) {
+            return frame.state.previousNode;
+        })
+            .filter(function (node) {
+            return node != null;
+        })
+            .distinctUntilChanged(undefined, function (node) {
+            return node.key;
+        });
+        var textureProvider$ = this._navigator.stateService.currentState$
+            .distinctUntilChanged(undefined, function (frame) {
+            return frame.state.currentNode.key;
+        })
+            .withLatestFrom(this._container.glRenderer.webGLRenderer$, this._container.renderService.size$)
+            .map(function (_a) {
+            var frame = _a[0], renderer = _a[1], size = _a[2];
+            var state = frame.state;
+            var viewportSize = Math.max(size.width, size.height);
+            var currentNode = state.currentNode;
+            var currentTransform = state.currentTransform;
+            var tileSize = viewportSize > 2048 ? 2048 : viewportSize > 1024 ? 1024 : 512;
+            return new Tiles_1.TextureProvider(currentNode.key, currentTransform.basicWidth, currentTransform.basicHeight, tileSize, currentNode.image, _this._imageTileLoader, new Tiles_1.ImageTileStore(), renderer);
+        })
+            .publishReplay(1)
+            .refCount();
+        this._textureProviderSubscription = textureProvider$.subscribe(function () { });
+        this._setTextureProviderSubscription = textureProvider$
+            .map(function (provider) {
+            return function (renderer) {
+                renderer.setTextureProvider(provider.key, provider);
+                return renderer;
+            };
+        })
+            .subscribe(this._glRendererOperation$);
+        this._setTileSizeSubscription = this._container.renderService.size$
+            .switchMap(function (size) {
+            return Observable_1.Observable
+                .combineLatest(textureProvider$, Observable_1.Observable.of(size))
+                .first();
+        })
+            .subscribe(function (_a) {
+            var provider = _a[0], size = _a[1];
+            var viewportSize = Math.max(size.width, size.height);
+            var tileSize = viewportSize > 2048 ? 2048 : viewportSize > 1024 ? 1024 : 512;
+            provider.setTileSize(tileSize);
+        });
+        this._abortTextureProviderSubscription = textureProvider$
+            .pairwise()
+            .subscribe(function (pair) {
+            var previous = pair[0];
+            previous.abort();
+        });
+        var roiTrigger$ = Observable_1.Observable
+            .combineLatest(this._container.renderService.renderCameraFrame$, this._container.renderService.size$.debounceTime(250))
+            .map(function (_a) {
+            var camera = _a[0], size = _a[1];
+            return [
+                camera.camera.position.clone(),
+                camera.camera.lookat.clone(),
+                camera.zoom.valueOf(),
+                size.height.valueOf(),
+                size.width.valueOf()
+            ];
+        })
+            .pairwise()
+            .skipWhile(function (pls) {
+            return pls[1][2] - pls[0][2] < 0 || pls[1][2] === 0;
+        })
+            .map(function (pls) {
+            var samePosition = pls[0][0].equals(pls[1][0]);
+            var sameLookat = pls[0][1].equals(pls[1][1]);
+            var sameZoom = pls[0][2] === pls[1][2];
+            var sameHeight = pls[0][3] === pls[1][3];
+            var sameWidth = pls[0][4] === pls[1][4];
+            return samePosition && sameLookat && sameZoom && sameHeight && sameWidth;
+        })
+            .distinctUntilChanged()
+            .filter(function (stalled) {
+            return stalled;
+        })
+            .switchMap(function (stalled) {
+            return _this._container.renderService.renderCameraFrame$
+                .first();
+        })
+            .withLatestFrom(this._container.renderService.size$, this._navigator.stateService.currentTransform$);
+        this._setRegionOfInterestSubscription = textureProvider$
+            .switchMap(function (provider) {
+            return roiTrigger$
+                .map(function (_a) {
+                var camera = _a[0], size = _a[1], transform = _a[2];
+                return [
+                    _this._roiCalculator.computeRegionOfInterest(camera, size, transform),
+                    provider,
+                ];
+            });
+        })
+            .filter(function (args) {
+            return !args[1].disposed;
+        })
+            .subscribe(function (args) {
+            var roi = args[0];
+            var provider = args[1];
+            provider.setRegionOfInterest(roi);
+        });
+        var hasTexture$ = textureProvider$
+            .switchMap(function (provider) {
+            return provider.hasTexture$;
+        })
+            .startWith(false)
+            .publishReplay(1)
+            .refCount();
+        this._hasTextureSubscription = hasTexture$.subscribe(function () { });
+        var nodeImage$ = this._navigator.stateService.currentState$
+            .filter(function (frame) {
+            return frame.state.nodesAhead === 0;
+        })
+            .map(function (frame) {
+            return frame.state.currentNode;
+        })
+            .distinctUntilChanged(undefined, function (node) {
+            return node.key;
+        })
+            .debounceTime(1000)
+            .withLatestFrom(hasTexture$)
+            .filter(function (args) {
+            return !args[1];
+        })
+            .map(function (args) {
+            return args[0];
+        })
+            .filter(function (node) {
+            return node.pano ?
+                Utils_1.Settings.maxImageSize > Utils_1.Settings.basePanoramaSize :
+                Utils_1.Settings.maxImageSize > Utils_1.Settings.baseImageSize;
+        })
+            .switchMap(function (node) {
+            var baseImageSize = node.pano ?
+                Utils_1.Settings.basePanoramaSize :
+                Utils_1.Settings.baseImageSize;
+            if (Math.max(node.image.width, node.image.height) > baseImageSize) {
+                return Observable_1.Observable.empty();
+            }
+            var image$ = node
+                .cacheImage$(Utils_1.Settings.maxImageSize)
+                .map(function (n) {
+                return [n.image, n];
+            });
+            return image$
+                .takeUntil(hasTexture$
+                .filter(function (hasTexture) {
+                return hasTexture;
+            }))
+                .catch(function (error, caught) {
+                console.error("Failed to fetch high res image (" + node.key + ")", error);
+                return Observable_1.Observable.empty();
+            });
+        })
+            .publish()
+            .refCount();
+        this._updateBackgroundSubscription = nodeImage$
+            .withLatestFrom(textureProvider$)
+            .subscribe(function (args) {
+            if (args[0][1].key !== args[1].key ||
+                args[1].disposed) {
+                return;
+            }
+            args[1].updateBackground(args[0][0]);
+        });
+        this._updateTextureImageSubscription = nodeImage$
+            .map(function (imn) {
+            return function (renderer) {
+                renderer.updateTextureImage(imn[0], imn[1]);
+                return renderer;
+            };
+        })
+            .subscribe(this._glRendererOperation$);
+        var textureProviderPrev$ = this._navigator.stateService.currentState$
+            .filter(function (frame) {
+            return !!frame.state.previousNode;
+        })
+            .distinctUntilChanged(undefined, function (frame) {
+            return frame.state.previousNode.key;
+        })
+            .withLatestFrom(this._container.glRenderer.webGLRenderer$, this._container.renderService.size$)
+            .map(function (_a) {
+            var frame = _a[0], renderer = _a[1], size = _a[2];
+            var state = frame.state;
+            var viewportSize = Math.max(size.width, size.height);
+            var previousNode = state.previousNode;
+            var previousTransform = state.previousTransform;
+            var tileSize = viewportSize > 2048 ? 2048 : viewportSize > 1024 ? 1024 : 512;
+            return new Tiles_1.TextureProvider(previousNode.key, previousTransform.basicWidth, previousTransform.basicHeight, tileSize, previousNode.image, _this._imageTileLoader, new Tiles_1.ImageTileStore(), renderer);
+        })
+            .publishReplay(1)
+            .refCount();
+        this._textureProviderSubscriptionPrev = textureProviderPrev$.subscribe(function () { });
+        this._setTextureProviderSubscriptionPrev = textureProviderPrev$
+            .map(function (provider) {
+            return function (renderer) {
+                renderer.setTextureProviderPrev(provider.key, provider);
+                return renderer;
+            };
+        })
+            .subscribe(this._glRendererOperation$);
+        this._setTileSizeSubscriptionPrev = this._container.renderService.size$
+            .switchMap(function (size) {
+            return Observable_1.Observable
+                .combineLatest(textureProviderPrev$, Observable_1.Observable.of(size))
+                .first();
+        })
+            .subscribe(function (_a) {
+            var provider = _a[0], size = _a[1];
+            var viewportSize = Math.max(size.width, size.height);
+            var tileSize = viewportSize > 2048 ? 2048 : viewportSize > 1024 ? 1024 : 512;
+            provider.setTileSize(tileSize);
+        });
+        this._abortTextureProviderSubscriptionPrev = textureProviderPrev$
+            .pairwise()
+            .subscribe(function (pair) {
+            var previous = pair[0];
+            previous.abort();
+        });
+        var roiTriggerPrev$ = Observable_1.Observable
+            .combineLatest(this._container.renderService.renderCameraFrame$, this._container.renderService.size$.debounceTime(250))
+            .map(function (_a) {
+            var camera = _a[0], size = _a[1];
+            return [
+                camera.camera.position.clone(),
+                camera.camera.lookat.clone(),
+                camera.zoom.valueOf(),
+                size.height.valueOf(),
+                size.width.valueOf()
+            ];
+        })
+            .pairwise()
+            .skipWhile(function (pls) {
+            return pls[1][2] - pls[0][2] < 0 || pls[1][2] === 0;
+        })
+            .map(function (pls) {
+            var samePosition = pls[0][0].equals(pls[1][0]);
+            var sameLookat = pls[0][1].equals(pls[1][1]);
+            var sameZoom = pls[0][2] === pls[1][2];
+            var sameHeight = pls[0][3] === pls[1][3];
+            var sameWidth = pls[0][4] === pls[1][4];
+            return samePosition && sameLookat && sameZoom && sameHeight && sameWidth;
+        })
+            .distinctUntilChanged()
+            .filter(function (stalled) {
+            return stalled;
+        })
+            .switchMap(function (stalled) {
+            return _this._container.renderService.renderCameraFrame$
+                .first();
+        })
+            .withLatestFrom(this._container.renderService.size$, this._navigator.stateService.currentTransform$);
+        this._setRegionOfInterestSubscriptionPrev = textureProviderPrev$
+            .switchMap(function (provider) {
+            return roiTriggerPrev$
+                .map(function (_a) {
+                var camera = _a[0], size = _a[1], transform = _a[2];
+                return [
+                    _this._roiCalculator.computeRegionOfInterest(camera, size, transform),
+                    provider,
+                ];
+            });
+        })
+            .filter(function (args) {
+            return !args[1].disposed;
+        })
+            .withLatestFrom(this._navigator.stateService.currentState$)
+            .subscribe(function (_a) {
+            var _b = _a[0], roi = _b[0], provider = _b[1], frame = _a[1];
+            var shiftedRoi = null;
+            if (frame.state.previousNode.fullPano) {
+                if (frame.state.currentNode.fullPano) {
+                    var currentViewingDirection = _this._spatial.viewingDirection(frame.state.currentNode.rotation);
+                    var previousViewingDirection = _this._spatial.viewingDirection(frame.state.previousNode.rotation);
+                    var directionDiff = _this._spatial.angleBetweenVector2(currentViewingDirection.x, currentViewingDirection.y, previousViewingDirection.x, previousViewingDirection.y);
+                    var shift = directionDiff / (2 * Math.PI);
+                    var bbox = {
+                        maxX: _this._spatial.wrap(roi.bbox.maxX + shift, 0, 1),
+                        maxY: roi.bbox.maxY,
+                        minX: _this._spatial.wrap(roi.bbox.minX + shift, 0, 1),
+                        minY: roi.bbox.minY,
+                    };
+                    shiftedRoi = {
+                        bbox: bbox,
+                        pixelHeight: roi.pixelHeight,
+                        pixelWidth: roi.pixelWidth,
+                    };
+                }
+                else {
+                    var currentViewingDirection = _this._spatial.viewingDirection(frame.state.currentNode.rotation);
+                    var previousViewingDirection = _this._spatial.viewingDirection(frame.state.previousNode.rotation);
+                    var directionDiff = _this._spatial.angleBetweenVector2(currentViewingDirection.x, currentViewingDirection.y, previousViewingDirection.x, previousViewingDirection.y);
+                    var shiftX = directionDiff / (2 * Math.PI);
+                    var a1 = _this._spatial.angleToPlane(currentViewingDirection.toArray(), [0, 0, 1]);
+                    var a2 = _this._spatial.angleToPlane(previousViewingDirection.toArray(), [0, 0, 1]);
+                    var shiftY = (a2 - a1) / (2 * Math.PI);
+                    var currentTransform = frame.state.currentTransform;
+                    var size = Math.max(currentTransform.basicWidth, currentTransform.basicHeight);
+                    var hFov = size > 0 ?
+                        2 * Math.atan(0.5 * currentTransform.basicWidth / (size * currentTransform.focal)) :
+                        Math.PI / 3;
+                    var vFov = size > 0 ?
+                        2 * Math.atan(0.5 * currentTransform.basicHeight / (size * currentTransform.focal)) :
+                        Math.PI / 3;
+                    var spanningWidth = hFov / (2 * Math.PI);
+                    var spanningHeight = vFov / Math.PI;
+                    var basicWidth = (roi.bbox.maxX - roi.bbox.minX) * spanningWidth;
+                    var basicHeight = (roi.bbox.maxY - roi.bbox.minY) * spanningHeight;
+                    var pixelWidth = roi.pixelWidth * spanningWidth;
+                    var pixelHeight = roi.pixelHeight * spanningHeight;
+                    var zoomShiftX = (roi.bbox.minX + roi.bbox.maxX) / 2 - 0.5;
+                    var zoomShiftY = (roi.bbox.minY + roi.bbox.maxY) / 2 - 0.5;
+                    var minX = 0.5 + shiftX + spanningWidth * zoomShiftX - basicWidth / 2;
+                    var maxX = 0.5 + shiftX + spanningWidth * zoomShiftX + basicWidth / 2;
+                    var minY = 0.5 + shiftY + spanningHeight * zoomShiftY - basicHeight / 2;
+                    var maxY = 0.5 + shiftY + spanningHeight * zoomShiftY + basicHeight / 2;
+                    var bbox = {
+                        maxX: _this._spatial.wrap(maxX, 0, 1),
+                        maxY: maxY,
+                        minX: _this._spatial.wrap(minX, 0, 1),
+                        minY: minY,
+                    };
+                    shiftedRoi = {
+                        bbox: bbox,
+                        pixelHeight: pixelHeight,
+                        pixelWidth: pixelWidth,
+                    };
+                }
+            }
+            else {
+                var currentBasicAspect = frame.state.currentTransform.basicAspect;
+                var previousBasicAspect = frame.state.previousTransform.basicAspect;
+                var _c = _this._getBasicCorners(currentBasicAspect, previousBasicAspect), _d = _c[0], cornerMinX = _d[0], cornerMinY = _d[1], _e = _c[1], cornerMaxX = _e[0], cornerMaxY = _e[1];
+                var basicWidth = cornerMaxX - cornerMinX;
+                var basicHeight = cornerMaxY - cornerMinY;
+                var pixelWidth = roi.pixelWidth / basicWidth;
+                var pixelHeight = roi.pixelHeight / basicHeight;
+                var minX = (basicWidth - 1) / (2 * basicWidth) + roi.bbox.minX / basicWidth;
+                var maxX = (basicWidth - 1) / (2 * basicWidth) + roi.bbox.maxX / basicWidth;
+                var minY = (basicHeight - 1) / (2 * basicHeight) + roi.bbox.minY / basicHeight;
+                var maxY = (basicHeight - 1) / (2 * basicHeight) + roi.bbox.maxY / basicHeight;
+                var bbox = {
+                    maxX: maxX,
+                    maxY: maxY,
+                    minX: minX,
+                    minY: minY,
+                };
+                _this._clipBoundingBox(bbox);
+                shiftedRoi = {
+                    bbox: bbox,
+                    pixelHeight: pixelHeight,
+                    pixelWidth: pixelWidth,
+                };
+            }
+            provider.setRegionOfInterest(shiftedRoi);
+        });
+        var hasTexturePrev$ = textureProviderPrev$
+            .switchMap(function (provider) {
+            return provider.hasTexture$;
+        })
+            .startWith(false)
+            .publishReplay(1)
+            .refCount();
+        this._hasTextureSubscriptionPrev = hasTexturePrev$.subscribe(function () { });
+        var nodeImagePrev$ = this._navigator.stateService.currentState$
+            .filter(function (frame) {
+            return frame.state.nodesAhead === 0 && !!frame.state.previousNode;
+        })
+            .map(function (frame) {
+            return frame.state.previousNode;
+        })
+            .distinctUntilChanged(undefined, function (node) {
+            return node.key;
+        })
+            .debounceTime(1000)
+            .withLatestFrom(hasTexturePrev$)
+            .filter(function (args) {
+            return !args[1];
+        })
+            .map(function (args) {
+            return args[0];
+        })
+            .filter(function (node) {
+            return node.pano ?
+                Utils_1.Settings.maxImageSize > Utils_1.Settings.basePanoramaSize :
+                Utils_1.Settings.maxImageSize > Utils_1.Settings.baseImageSize;
+        })
+            .switchMap(function (node) {
+            var baseImageSize = node.pano ?
+                Utils_1.Settings.basePanoramaSize :
+                Utils_1.Settings.baseImageSize;
+            if (Math.max(node.image.width, node.image.height) > baseImageSize) {
+                return Observable_1.Observable.empty();
+            }
+            var image$ = node
+                .cacheImage$(Utils_1.Settings.maxImageSize)
+                .map(function (n) {
+                return [n.image, n];
+            });
+            return image$
+                .takeUntil(hasTexturePrev$
+                .filter(function (hasTexture) {
+                return hasTexture;
+            }))
+                .catch(function (error, caught) {
+                console.error("Failed to fetch high res image (" + node.key + ")", error);
+                return Observable_1.Observable.empty();
+            });
+        })
+            .publish()
+            .refCount();
+        this._updateBackgroundSubscriptionPrev = nodeImagePrev$
+            .withLatestFrom(textureProviderPrev$)
+            .subscribe(function (args) {
+            if (args[0][1].key !== args[1].key ||
+                args[1].disposed) {
+                return;
+            }
+            args[1].updateBackground(args[0][0]);
+        });
+        this._updateTextureImageSubscriptionPrev = nodeImagePrev$
+            .map(function (imn) {
+            return function (renderer) {
+                renderer.updateTextureImage(imn[0], imn[1]);
+                return renderer;
+            };
+        })
+            .subscribe(this._glRendererOperation$);
+    };
+    SliderComponent.prototype._deactivate = function () {
+        var _this = this;
+        this._waitSubscription.unsubscribe();
+        this._navigator.stateService.state$
+            .first()
+            .subscribe(function (state) {
+            if (state !== State_1.State.Traversing) {
+                _this._navigator.stateService.traverse();
+            }
+        });
+        this._glRendererDisposer$.next(null);
+        this._domRenderer.deactivate();
+        this._modeSubcription.unsubscribe();
+        this._setKeysSubscription.unsubscribe();
+        this._stateSubscription.unsubscribe();
+        this._glRenderSubscription.unsubscribe();
+        this._domRenderSubscription.unsubscribe();
+        this._moveSubscription.unsubscribe();
+        this.configure({ keys: null });
+    };
+    SliderComponent.prototype._getDefaultConfiguration = function () {
+        return {
+            initialPosition: 1,
+            mode: Component_1.SliderMode.Motion,
+            sliderVisible: true,
+        };
+    };
+    SliderComponent.prototype._catchCacheNode$ = function (key) {
+        return this._navigator.graphService.cacheNode$(key)
+            .catch(function (error, caught) {
+            console.error("Failed to cache slider node (" + key + ")", error);
+            return Observable_1.Observable.empty();
+        });
+    };
+    SliderComponent.prototype._getBasicCorners = function (currentAspect, previousAspect) {
+        var offsetX;
+        var offsetY;
+        if (currentAspect > previousAspect) {
+            offsetX = 0.5;
+            offsetY = 0.5 * currentAspect / previousAspect;
+        }
+        else {
+            offsetX = 0.5 * previousAspect / currentAspect;
+            offsetY = 0.5;
+        }
+        return [[0.5 - offsetX, 0.5 - offsetY], [0.5 + offsetX, 0.5 + offsetY]];
+    };
+    SliderComponent.prototype._clipBoundingBox = function (bbox) {
+        bbox.minX = Math.max(0, Math.min(1, bbox.minX));
+        bbox.maxX = Math.max(0, Math.min(1, bbox.maxX));
+        bbox.minY = Math.max(0, Math.min(1, bbox.minY));
+        bbox.maxY = Math.max(0, Math.min(1, bbox.maxY));
+    };
+    SliderComponent.componentName = "slider";
+    return SliderComponent;
+}(Component_1.Component));
+exports.SliderComponent = SliderComponent;
+Component_1.ComponentService.register(SliderComponent);
+exports.default = SliderComponent;
+
+},{"../../Component":290,"../../Geo":293,"../../Render":296,"../../State":297,"../../Tiles":299,"../../Utils":300,"rxjs/Observable":29,"rxjs/Subject":34}],351:[function(require,module,exports){
+"use strict";
+/// <reference path="../../../typings/index.d.ts" />
+Object.defineProperty(exports, "__esModule", { value: true });
+var vd = require("virtual-dom");
+var Observable_1 = require("rxjs/Observable");
+var Subject_1 = require("rxjs/Subject");
+var Component_1 = require("../../Component");
+var SliderDOMRenderer = /** @class */ (function () {
+    function SliderDOMRenderer(container) {
+        this._container = container;
+        this._interacting = false;
+        this._notifyModeChanged$ = new Subject_1.Subject();
+        this._notifyPositionChanged$ = new Subject_1.Subject();
+        this._stopInteractionSubscription = null;
+    }
+    Object.defineProperty(SliderDOMRenderer.prototype, "mode$", {
+        get: function () {
+            return this._notifyModeChanged$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SliderDOMRenderer.prototype, "position$", {
+        get: function () {
+            return this._notifyPositionChanged$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    SliderDOMRenderer.prototype.activate = function () {
+        var _this = this;
+        if (!!this._stopInteractionSubscription) {
+            return;
+        }
+        this._stopInteractionSubscription = Observable_1.Observable
+            .merge(this._container.mouseService.documentMouseUp$, this._container.touchService.touchEnd$
+            .filter(function (touchEvent) {
+            return touchEvent.touches.length === 0;
+        }))
+            .subscribe(function (event) {
+            if (_this._interacting) {
+                _this._interacting = false;
+            }
+        });
+    };
+    SliderDOMRenderer.prototype.deactivate = function () {
+        if (!this._stopInteractionSubscription) {
+            return;
+        }
+        this._interacting = false;
+        this._stopInteractionSubscription.unsubscribe();
+        this._stopInteractionSubscription = null;
+    };
+    SliderDOMRenderer.prototype.render = function (position, mode, motionless, pano, visible) {
+        var children = [];
+        if (visible) {
+            children.push(vd.h("div.SliderBorder", []));
+            var modeVisible = !(motionless || pano);
+            if (modeVisible) {
+                children.push(this._createModeButton(mode));
+            }
+            children.push(this._createPositionInput(position, modeVisible));
+        }
+        var boundingRect = this._container.domContainer.getBoundingClientRect();
+        var width = Math.max(215, Math.min(400, boundingRect.width - 100));
+        return vd.h("div.SliderContainer", { style: { width: width + "px" } }, children);
+    };
+    SliderDOMRenderer.prototype._createModeButton = function (mode) {
+        var _this = this;
+        var properties = {
+            onclick: function () {
+                _this._notifyModeChanged$.next(mode === Component_1.SliderMode.Motion ?
+                    Component_1.SliderMode.Stationary :
+                    Component_1.SliderMode.Motion);
+            },
+        };
+        var className = mode === Component_1.SliderMode.Stationary ?
+            "SliderModeButtonPressed" :
+            "SliderModeButton";
+        return vd.h("div." + className, properties, [vd.h("div.SliderModeIcon", [])]);
+    };
+    SliderDOMRenderer.prototype._createPositionInput = function (position, modeVisible) {
+        var _this = this;
+        var onChange = function (e) {
+            _this._notifyPositionChanged$.next(Number(e.target.value) / 1000);
+        };
+        var onStart = function (e) {
+            _this._interacting = true;
+            e.stopPropagation();
+        };
+        var onMove = function (e) {
+            if (_this._interacting) {
+                e.stopPropagation();
+            }
+        };
+        var onKeyDown = function (e) {
+            if (e.key === "ArrowDown" || e.key === "ArrowLeft" ||
+                e.key === "ArrowRight" || e.key === "ArrowUp") {
+                e.preventDefault();
+            }
+        };
+        var boundingRect = this._container.domContainer.getBoundingClientRect();
+        var width = Math.max(215, Math.min(400, boundingRect.width - 105)) - 68 + (modeVisible ? 0 : 36);
+        var positionInput = vd.h("input.SliderPosition", {
+            max: 1000,
+            min: 0,
+            onchange: onChange,
+            oninput: onChange,
+            onkeydown: onKeyDown,
+            onmousedown: onStart,
+            onmousemove: onMove,
+            ontouchmove: onMove,
+            ontouchstart: onStart,
+            style: {
+                width: width + "px",
+            },
+            type: "range",
+            value: 1000 * position,
+        }, []);
+        return vd.h("div.SliderPositionContainer", [positionInput]);
+    };
+    return SliderDOMRenderer;
+}());
+exports.SliderDOMRenderer = SliderDOMRenderer;
+exports.default = SliderDOMRenderer;
+
+},{"../../Component":290,"rxjs/Observable":29,"rxjs/Subject":34,"virtual-dom":246}],352:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Component_1 = require("../../Component");
+var Geo_1 = require("../../Geo");
+var SliderGLRenderer = /** @class */ (function () {
+    function SliderGLRenderer() {
+        this._factory = new Component_1.MeshFactory();
+        this._scene = new Component_1.MeshScene();
+        this._spatial = new Geo_1.Spatial();
+        this._currentKey = null;
+        this._previousKey = null;
+        this._disabled = false;
+        this._curtain = 1;
+        this._frameId = 0;
+        this._needsRender = false;
+        this._mode = null;
+        this._currentProviderDisposers = {};
+        this._previousProviderDisposers = {};
+    }
+    Object.defineProperty(SliderGLRenderer.prototype, "disabled", {
+        get: function () {
+            return this._disabled;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SliderGLRenderer.prototype, "frameId", {
+        get: function () {
+            return this._frameId;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SliderGLRenderer.prototype, "needsRender", {
+        get: function () {
+            return this._needsRender;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    SliderGLRenderer.prototype.setTextureProvider = function (key, provider) {
+        this._setTextureProvider(key, this._currentKey, provider, this._currentProviderDisposers, this._updateTexture.bind(this));
+    };
+    SliderGLRenderer.prototype.setTextureProviderPrev = function (key, provider) {
+        this._setTextureProvider(key, this._previousKey, provider, this._previousProviderDisposers, this._updateTexturePrev.bind(this));
+    };
+    SliderGLRenderer.prototype.update = function (frame, mode) {
+        this._updateFrameId(frame.id);
+        this._updateImagePlanes(frame.state, mode);
+    };
+    SliderGLRenderer.prototype.updateCurtain = function (curtain) {
+        if (this._curtain === curtain) {
+            return;
+        }
+        this._curtain = curtain;
+        this._updateCurtain();
+        this._needsRender = true;
+    };
+    SliderGLRenderer.prototype.updateTexture = function (image, node) {
+        var imagePlanes = node.key === this._currentKey ?
+            this._scene.imagePlanes :
+            node.key === this._previousKey ?
+                this._scene.imagePlanesOld :
+                [];
+        if (imagePlanes.length === 0) {
+            return;
+        }
+        this._needsRender = true;
+        for (var _i = 0, imagePlanes_1 = imagePlanes; _i < imagePlanes_1.length; _i++) {
+            var plane = imagePlanes_1[_i];
+            var material = plane.material;
+            var texture = material.uniforms.projectorTex.value;
+            texture.image = image;
+            texture.needsUpdate = true;
+        }
+    };
+    SliderGLRenderer.prototype.updateTextureImage = function (image, node) {
+        if (this._currentKey !== node.key) {
+            return;
+        }
+        this._needsRender = true;
+        for (var _i = 0, _a = this._scene.imagePlanes; _i < _a.length; _i++) {
+            var plane = _a[_i];
+            var material = plane.material;
+            var texture = material.uniforms.projectorTex.value;
+            texture.image = image;
+            texture.needsUpdate = true;
+        }
+    };
+    SliderGLRenderer.prototype.render = function (perspectiveCamera, renderer) {
+        if (!this.disabled) {
+            renderer.render(this._scene.sceneOld, perspectiveCamera);
+        }
+        renderer.render(this._scene.scene, perspectiveCamera);
+        this._needsRender = false;
+    };
+    SliderGLRenderer.prototype.dispose = function () {
+        this._scene.clear();
+        for (var key in this._currentProviderDisposers) {
+            if (!this._currentProviderDisposers.hasOwnProperty(key)) {
+                continue;
+            }
+            this._currentProviderDisposers[key]();
+        }
+        for (var key in this._previousProviderDisposers) {
+            if (!this._previousProviderDisposers.hasOwnProperty(key)) {
+                continue;
+            }
+            this._previousProviderDisposers[key]();
+        }
+        this._currentProviderDisposers = {};
+        this._previousProviderDisposers = {};
+    };
+    SliderGLRenderer.prototype._getBasicCorners = function (currentAspect, previousAspect) {
+        var offsetX;
+        var offsetY;
+        if (currentAspect > previousAspect) {
+            offsetX = 0.5;
+            offsetY = 0.5 * currentAspect / previousAspect;
+        }
+        else {
+            offsetX = 0.5 * previousAspect / currentAspect;
+            offsetY = 0.5;
+        }
+        return [[0.5 - offsetX, 0.5 - offsetY], [0.5 + offsetX, 0.5 + offsetY]];
+    };
+    SliderGLRenderer.prototype._setDisabled = function (state) {
+        this._disabled = state.currentNode == null ||
+            state.previousNode == null ||
+            (state.currentNode.pano && !state.currentNode.fullPano) ||
+            (state.previousNode.pano && !state.previousNode.fullPano) ||
+            (state.currentNode.fullPano && !state.previousNode.fullPano);
+    };
+    SliderGLRenderer.prototype._setTextureProvider = function (key, originalKey, provider, providerDisposers, updateTexture) {
+        var _this = this;
+        if (key !== originalKey) {
+            return;
+        }
+        var createdSubscription = provider.textureCreated$
+            .subscribe(updateTexture);
+        var updatedSubscription = provider.textureUpdated$
+            .subscribe(function (updated) {
+            _this._needsRender = true;
+        });
+        var dispose = function () {
+            createdSubscription.unsubscribe();
+            updatedSubscription.unsubscribe();
+            provider.dispose();
+        };
+        if (key in providerDisposers) {
+            var disposeProvider = providerDisposers[key];
+            disposeProvider();
+            delete providerDisposers[key];
+        }
+        providerDisposers[key] = dispose;
+    };
+    SliderGLRenderer.prototype._updateCurtain = function () {
+        for (var _i = 0, _a = this._scene.imagePlanes; _i < _a.length; _i++) {
+            var plane = _a[_i];
+            var shaderMaterial = plane.material;
+            if (!!shaderMaterial.uniforms.curtain) {
+                shaderMaterial.uniforms.curtain.value = this._curtain;
+            }
+        }
+    };
+    SliderGLRenderer.prototype._updateFrameId = function (frameId) {
+        this._frameId = frameId;
+    };
+    SliderGLRenderer.prototype._updateImagePlanes = function (state, mode) {
+        var currentChanged = state.currentNode != null && this._currentKey !== state.currentNode.key;
+        var previousChanged = state.previousNode != null && this._previousKey !== state.previousNode.key;
+        var modeChanged = this._mode !== mode;
+        if (!(currentChanged || previousChanged || modeChanged)) {
+            return;
+        }
+        this._setDisabled(state);
+        this._needsRender = true;
+        this._mode = mode;
+        var motionless = state.motionless || mode === Component_1.SliderMode.Stationary || state.currentNode.pano;
+        if (this.disabled || previousChanged) {
+            if (this._previousKey in this._previousProviderDisposers) {
+                this._previousProviderDisposers[this._previousKey]();
+                delete this._previousProviderDisposers[this._previousKey];
+            }
+        }
+        if (this.disabled) {
+            this._scene.setImagePlanesOld([]);
+        }
+        else {
+            if (previousChanged || modeChanged) {
+                var previousNode = state.previousNode;
+                this._previousKey = previousNode.key;
+                var elements = state.currentTransform.rt.elements;
+                var translation = [elements[12], elements[13], elements[14]];
+                var currentAspect = state.currentTransform.basicAspect;
+                var previousAspect = state.previousTransform.basicAspect;
+                var textureScale = currentAspect > previousAspect ?
+                    [1, previousAspect / currentAspect] :
+                    [currentAspect / previousAspect, 1];
+                var rotation = state.currentNode.rotation;
+                var width = state.currentNode.width;
+                var height = state.currentNode.height;
+                if (previousNode.fullPano) {
+                    rotation = state.previousNode.rotation;
+                    translation = this._spatial
+                        .rotate(this._spatial
+                        .opticalCenter(state.currentNode.rotation, translation)
+                        .toArray(), rotation)
+                        .multiplyScalar(-1)
+                        .toArray();
+                    width = state.previousNode.width;
+                    height = state.previousNode.height;
+                }
+                var transform = new Geo_1.Transform(state.currentNode.orientation, width, height, state.currentNode.focal, state.currentNode.scale, previousNode.gpano, rotation, translation, previousNode.image, textureScale);
+                var mesh = undefined;
+                if (previousNode.fullPano) {
+                    mesh = this._factory.createMesh(previousNode, motionless || state.currentNode.fullPano ? transform : state.previousTransform);
+                }
+                else {
+                    if (motionless) {
+                        var _a = this._getBasicCorners(currentAspect, previousAspect), _b = _a[0], basicX0 = _b[0], basicY0 = _b[1], _c = _a[1], basicX1 = _c[0], basicY1 = _c[1];
+                        mesh = this._factory.createFlatMesh(state.previousNode, transform, basicX0, basicX1, basicY0, basicY1);
+                    }
+                    else {
+                        mesh = this._factory.createMesh(state.previousNode, state.previousTransform);
+                    }
+                }
+                this._scene.setImagePlanesOld([mesh]);
+            }
+        }
+        if (currentChanged) {
+            if (this._currentKey in this._currentProviderDisposers) {
+                this._currentProviderDisposers[this._currentKey]();
+                delete this._currentProviderDisposers[this._currentKey];
+            }
+            this._currentKey = state.currentNode.key;
+            var imagePlane = state.currentNode.pano && !state.currentNode.fullPano ?
+                this._factory.createMesh(state.currentNode, state.currentTransform) :
+                this._factory.createCurtainMesh(state.currentNode, state.currentTransform);
+            this._scene.setImagePlanes([imagePlane]);
+            this._updateCurtain();
+        }
+    };
+    SliderGLRenderer.prototype._updateTexture = function (texture) {
+        this._needsRender = true;
+        for (var _i = 0, _a = this._scene.imagePlanes; _i < _a.length; _i++) {
+            var plane = _a[_i];
+            var material = plane.material;
+            var oldTexture = material.uniforms.projectorTex.value;
+            material.uniforms.projectorTex.value = null;
+            oldTexture.dispose();
+            material.uniforms.projectorTex.value = texture;
+        }
+    };
+    SliderGLRenderer.prototype._updateTexturePrev = function (texture) {
+        this._needsRender = true;
+        for (var _i = 0, _a = this._scene.imagePlanesOld; _i < _a.length; _i++) {
+            var plane = _a[_i];
+            var material = plane.material;
+            var oldTexture = material.uniforms.projectorTex.value;
+            material.uniforms.projectorTex.value = null;
+            oldTexture.dispose();
+            material.uniforms.projectorTex.value = texture;
+        }
+    };
+    return SliderGLRenderer;
+}());
+exports.SliderGLRenderer = SliderGLRenderer;
+exports.default = SliderGLRenderer;
+
+},{"../../Component":290,"../../Geo":293}],353:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var GeometryTagError_1 = require("./error/GeometryTagError");
@@ -30963,29 +31212,6 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var when = require("when");
 var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/observable/combineLatest");
-require("rxjs/add/observable/empty");
-require("rxjs/add/observable/from");
-require("rxjs/add/observable/merge");
-require("rxjs/add/observable/of");
-require("rxjs/add/operator/combineLatest");
-require("rxjs/add/operator/concat");
-require("rxjs/add/operator/distinctUntilChanged");
-require("rxjs/add/operator/do");
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/merge");
-require("rxjs/add/operator/mergeMap");
-require("rxjs/add/operator/publishReplay");
-require("rxjs/add/operator/scan");
-require("rxjs/add/operator/share");
-require("rxjs/add/operator/skip");
-require("rxjs/add/operator/skipUntil");
-require("rxjs/add/operator/startWith");
-require("rxjs/add/operator/switchMap");
-require("rxjs/add/operator/take");
-require("rxjs/add/operator/takeUntil");
-require("rxjs/add/operator/withLatestFrom");
 var Component_1 = require("../../Component");
 var Geo_1 = require("../../Geo");
 var Render_1 = require("../../Render");
@@ -31506,14 +31732,10 @@ exports.TagComponent = TagComponent;
 Component_1.ComponentService.register(TagComponent);
 exports.default = TagComponent;
 
-},{"../../Component":291,"../../Geo":294,"../../Render":297,"rxjs/Observable":29,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/empty":41,"rxjs/add/observable/from":42,"rxjs/add/observable/merge":45,"rxjs/add/observable/of":46,"rxjs/add/operator/combineLatest":55,"rxjs/add/operator/concat":56,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/do":61,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/merge":68,"rxjs/add/operator/mergeMap":70,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78,"rxjs/add/operator/share":79,"rxjs/add/operator/skip":80,"rxjs/add/operator/skipUntil":81,"rxjs/add/operator/startWith":83,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/take":85,"rxjs/add/operator/takeUntil":86,"rxjs/add/operator/withLatestFrom":90,"when":288}],355:[function(require,module,exports){
+},{"../../Component":290,"../../Geo":293,"../../Render":296,"rxjs/Observable":29,"when":287}],355:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/scan");
-require("rxjs/add/operator/share");
-require("rxjs/add/operator/withLatestFrom");
 var Component_1 = require("../../Component");
 var TagCreator = /** @class */ (function () {
     function TagCreator(component, navigator) {
@@ -31598,7 +31820,7 @@ var TagCreator = /** @class */ (function () {
 exports.TagCreator = TagCreator;
 exports.default = TagCreator;
 
-},{"../../Component":291,"rxjs/Subject":34,"rxjs/add/operator/map":67,"rxjs/add/operator/scan":78,"rxjs/add/operator/share":79,"rxjs/add/operator/withLatestFrom":90}],356:[function(require,module,exports){
+},{"../../Component":290,"rxjs/Subject":34}],356:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -31624,7 +31846,7 @@ var TagDOMRenderer = /** @class */ (function () {
 }());
 exports.TagDOMRenderer = TagDOMRenderer;
 
-},{"virtual-dom":247}],357:[function(require,module,exports){
+},{"virtual-dom":246}],357:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -31840,13 +32062,10 @@ var TagScene = /** @class */ (function () {
 exports.TagScene = TagScene;
 exports.default = TagScene;
 
-},{"three":241}],360:[function(require,module,exports){
+},{"three":240}],360:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/scan");
-require("rxjs/add/operator/share");
 var Component_1 = require("../../Component");
 var TagSet = /** @class */ (function () {
     function TagSet() {
@@ -31994,7 +32213,7 @@ var TagSet = /** @class */ (function () {
 exports.TagSet = TagSet;
 exports.default = TagSet;
 
-},{"../../Component":291,"rxjs/Subject":34,"rxjs/add/operator/map":67,"rxjs/add/operator/scan":78,"rxjs/add/operator/share":79}],361:[function(require,module,exports){
+},{"../../Component":290,"rxjs/Subject":34}],361:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -32020,7 +32239,7 @@ var GeometryTagError = /** @class */ (function (_super) {
 exports.GeometryTagError = GeometryTagError;
 exports.default = Error_1.MapillaryError;
 
-},{"../../../Error":293}],362:[function(require,module,exports){
+},{"../../../Error":292}],362:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Subject_1 = require("rxjs/Subject");
@@ -32154,7 +32373,7 @@ var PointGeometry = /** @class */ (function (_super) {
 }(Component_1.Geometry));
 exports.PointGeometry = PointGeometry;
 
-},{"../../../Component":291}],364:[function(require,module,exports){
+},{"../../../Component":290}],364:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -32426,7 +32645,7 @@ var PolygonGeometry = /** @class */ (function (_super) {
 exports.PolygonGeometry = PolygonGeometry;
 exports.default = PolygonGeometry;
 
-},{"../../../Component":291}],365:[function(require,module,exports){
+},{"../../../Component":290}],365:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -32952,8 +33171,8 @@ var RectGeometry = /** @class */ (function (_super) {
         var x1 = this._inverted ? rect[2] + 1 : rect[2];
         var y0 = rect[1];
         var y1 = rect[3];
-        var centroidX = x0 + (x1 - x0) / 2;
-        var centroidY = y0 + (y1 - y0) / 2;
+        var centroidX = (x0 + x1) / 2;
+        var centroidY = (y0 + y1) / 2;
         return [centroidX, centroidY];
     };
     /** @inheritdoc */
@@ -33072,7 +33291,7 @@ var RectGeometry = /** @class */ (function (_super) {
 exports.RectGeometry = RectGeometry;
 exports.default = RectGeometry;
 
-},{"../../../Component":291}],366:[function(require,module,exports){
+},{"../../../Component":290}],366:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -33154,7 +33373,7 @@ var VertexGeometry = /** @class */ (function (_super) {
 exports.VertexGeometry = VertexGeometry;
 exports.default = VertexGeometry;
 
-},{"../../../Component":291,"@mapbox/polylabel":1,"earcut":8}],367:[function(require,module,exports){
+},{"../../../Component":290,"@mapbox/polylabel":1,"earcut":8}],367:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -33212,7 +33431,7 @@ var CreateHandlerBase = /** @class */ (function (_super) {
 exports.CreateHandlerBase = CreateHandlerBase;
 exports.default = CreateHandlerBase;
 
-},{"../../../Component":291,"rxjs/Subject":34}],368:[function(require,module,exports){
+},{"../../../Component":290,"rxjs/Subject":34}],368:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -33252,7 +33471,7 @@ var CreatePointHandler = /** @class */ (function (_super) {
 exports.CreatePointHandler = CreatePointHandler;
 exports.default = CreatePointHandler;
 
-},{"../../../Component":291}],369:[function(require,module,exports){
+},{"../../../Component":290}],369:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -33292,7 +33511,7 @@ var CreatePolygonHandler = /** @class */ (function (_super) {
 exports.CreatePolygonHandler = CreatePolygonHandler;
 exports.default = CreatePolygonHandler;
 
-},{"../../../Component":291}],370:[function(require,module,exports){
+},{"../../../Component":290}],370:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -33398,7 +33617,7 @@ var CreateRectDragHandler = /** @class */ (function (_super) {
 exports.CreateRectDragHandler = CreateRectDragHandler;
 exports.default = CreateRectDragHandler;
 
-},{"../../../Component":291,"rxjs/Observable":29}],371:[function(require,module,exports){
+},{"../../../Component":290,"rxjs/Observable":29}],371:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -33456,7 +33675,7 @@ var CreateRectHandler = /** @class */ (function (_super) {
 exports.CreateRectHandler = CreateRectHandler;
 exports.default = CreateRectHandler;
 
-},{"../../../Component":291}],372:[function(require,module,exports){
+},{"../../../Component":290}],372:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -33543,7 +33762,7 @@ var CreateVertexHandler = /** @class */ (function (_super) {
 exports.CreateVertexHandler = CreateVertexHandler;
 exports.default = CreateVertexHandler;
 
-},{"../../../Component":291,"rxjs/Observable":29}],373:[function(require,module,exports){
+},{"../../../Component":290,"rxjs/Observable":29}],373:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -33675,7 +33894,7 @@ var EditVertexHandler = /** @class */ (function (_super) {
 exports.EditVertexHandler = EditVertexHandler;
 exports.default = EditVertexHandler;
 
-},{"../../../Component":291,"rxjs/Observable":29}],374:[function(require,module,exports){
+},{"../../../Component":290,"rxjs/Observable":29}],374:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -33713,7 +33932,7 @@ var TagHandlerBase = /** @class */ (function (_super) {
 exports.TagHandlerBase = TagHandlerBase;
 exports.default = TagHandlerBase;
 
-},{"../../../Component":291}],375:[function(require,module,exports){
+},{"../../../Component":290}],375:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -33939,7 +34158,7 @@ var OutlineCreateTag = /** @class */ (function () {
 exports.OutlineCreateTag = OutlineCreateTag;
 exports.default = OutlineCreateTag;
 
-},{"../../../Component":291,"../../../Geo":294,"rxjs/Subject":34,"three":241,"virtual-dom":247}],376:[function(require,module,exports){
+},{"../../../Component":290,"../../../Geo":293,"rxjs/Subject":34,"three":240,"virtual-dom":246}],376:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -34304,7 +34523,7 @@ var OutlineRenderTag = /** @class */ (function (_super) {
 }(Component_1.RenderTag));
 exports.OutlineRenderTag = OutlineRenderTag;
 
-},{"../../../Component":291,"three":241,"virtual-dom":247}],377:[function(require,module,exports){
+},{"../../../Component":290,"three":240,"virtual-dom":246}],377:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -34682,7 +34901,7 @@ var OutlineTag = /** @class */ (function (_super) {
 exports.OutlineTag = OutlineTag;
 exports.default = OutlineTag;
 
-},{"../../../Component":291,"../../../Viewer":302,"rxjs/Subject":34}],378:[function(require,module,exports){
+},{"../../../Component":290,"../../../Viewer":301,"rxjs/Subject":34}],378:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -34722,7 +34941,7 @@ var RenderTag = /** @class */ (function () {
 exports.RenderTag = RenderTag;
 exports.default = RenderTag;
 
-},{"../../../Geo":294,"rxjs/Subject":34}],379:[function(require,module,exports){
+},{"../../../Geo":293,"rxjs/Subject":34}],379:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -34837,7 +35056,7 @@ var SpotRenderTag = /** @class */ (function (_super) {
 }(Component_1.RenderTag));
 exports.SpotRenderTag = SpotRenderTag;
 
-},{"../../../Component":291,"../../../Viewer":302,"virtual-dom":247}],380:[function(require,module,exports){
+},{"../../../Component":290,"../../../Viewer":301,"virtual-dom":246}],380:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -35017,7 +35236,7 @@ var SpotTag = /** @class */ (function (_super) {
 exports.SpotTag = SpotTag;
 exports.default = SpotTag;
 
-},{"../../../Component":291}],381:[function(require,module,exports){
+},{"../../../Component":290}],381:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -35031,8 +35250,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/share");
 var Utils_1 = require("../../../Utils");
 /**
  * @class Tag
@@ -35134,7 +35351,7 @@ var Tag = /** @class */ (function (_super) {
 exports.Tag = Tag;
 exports.default = Tag;
 
-},{"../../../Utils":301,"rxjs/Subject":34,"rxjs/add/operator/map":67,"rxjs/add/operator/share":79}],382:[function(require,module,exports){
+},{"../../../Utils":300,"rxjs/Subject":34}],382:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var HandlerBase = /** @class */ (function () {
@@ -35191,6 +35408,515 @@ exports.default = HandlerBase;
 
 },{}],383:[function(require,module,exports){
 "use strict";
+/// <reference path="../../../typings/index.d.ts" />
+Object.defineProperty(exports, "__esModule", { value: true });
+var THREE = require("three");
+var Component_1 = require("../../Component");
+var MeshFactory = /** @class */ (function () {
+    function MeshFactory(imagePlaneDepth, imageSphereRadius) {
+        this._imagePlaneDepth = imagePlaneDepth != null ? imagePlaneDepth : 200;
+        this._imageSphereRadius = imageSphereRadius != null ? imageSphereRadius : 200;
+    }
+    MeshFactory.prototype.createMesh = function (node, transform) {
+        var mesh = node.pano ?
+            this._createImageSphere(node, transform) :
+            this._createImagePlane(node, transform);
+        return mesh;
+    };
+    MeshFactory.prototype.createScaledFlatMesh = function (node, transform, dx, dy) {
+        var texture = this._createTexture(node.image);
+        var materialParameters = this._createPlaneMaterialParameters(transform, texture);
+        var material = new THREE.ShaderMaterial(materialParameters);
+        var geometry = this._getFlatImagePlaneGeo(transform, dx, dy);
+        return new THREE.Mesh(geometry, material);
+    };
+    MeshFactory.prototype.createFlatMesh = function (node, transform, basicX0, basicX1, basicY0, basicY1) {
+        var texture = this._createTexture(node.image);
+        var materialParameters = this._createPlaneMaterialParameters(transform, texture);
+        var material = new THREE.ShaderMaterial(materialParameters);
+        var geometry = this._getFlatImagePlaneGeoFromBasic(transform, basicX0, basicX1, basicY0, basicY1);
+        return new THREE.Mesh(geometry, material);
+    };
+    MeshFactory.prototype.createCurtainMesh = function (node, transform) {
+        if (node.pano && !node.fullPano) {
+            throw new Error("Cropped panoramas cannot have curtain.");
+        }
+        return node.pano ?
+            this._createSphereCurtainMesh(node, transform) :
+            this._createCurtainMesh(node, transform);
+    };
+    MeshFactory.prototype._createCurtainMesh = function (node, transform) {
+        var texture = this._createTexture(node.image);
+        var materialParameters = this._createCurtainPlaneMaterialParameters(transform, texture);
+        var material = new THREE.ShaderMaterial(materialParameters);
+        var geometry = this._useMesh(transform, node) ?
+            this._getImagePlaneGeo(transform, node) :
+            this._getRegularFlatImagePlaneGeo(transform);
+        return new THREE.Mesh(geometry, material);
+    };
+    MeshFactory.prototype._createSphereCurtainMesh = function (node, transform) {
+        var texture = this._createTexture(node.image);
+        var materialParameters = this._createCurtainSphereMaterialParameters(transform, texture);
+        var material = new THREE.ShaderMaterial(materialParameters);
+        return this._useMesh(transform, node) ?
+            new THREE.Mesh(this._getImageSphereGeo(transform, node), material) :
+            new THREE.Mesh(this._getFlatImageSphereGeo(transform), material);
+    };
+    MeshFactory.prototype._createImageSphere = function (node, transform) {
+        var texture = this._createTexture(node.image);
+        var materialParameters = this._createSphereMaterialParameters(transform, texture);
+        var material = new THREE.ShaderMaterial(materialParameters);
+        var mesh = this._useMesh(transform, node) ?
+            new THREE.Mesh(this._getImageSphereGeo(transform, node), material) :
+            new THREE.Mesh(this._getFlatImageSphereGeo(transform), material);
+        return mesh;
+    };
+    MeshFactory.prototype._createImagePlane = function (node, transform) {
+        var texture = this._createTexture(node.image);
+        var materialParameters = this._createPlaneMaterialParameters(transform, texture);
+        var material = new THREE.ShaderMaterial(materialParameters);
+        var geometry = this._useMesh(transform, node) ?
+            this._getImagePlaneGeo(transform, node) :
+            this._getRegularFlatImagePlaneGeo(transform);
+        return new THREE.Mesh(geometry, material);
+    };
+    MeshFactory.prototype._createSphereMaterialParameters = function (transform, texture) {
+        var gpano = transform.gpano;
+        var halfCroppedWidth = (gpano.FullPanoWidthPixels - gpano.CroppedAreaImageWidthPixels) / 2;
+        var phiShift = 2 * Math.PI * (gpano.CroppedAreaLeftPixels - halfCroppedWidth) / gpano.FullPanoWidthPixels;
+        var phiLength = 2 * Math.PI * gpano.CroppedAreaImageWidthPixels / gpano.FullPanoWidthPixels;
+        var halfCroppedHeight = (gpano.FullPanoHeightPixels - gpano.CroppedAreaImageHeightPixels) / 2;
+        var thetaShift = Math.PI * (halfCroppedHeight - gpano.CroppedAreaTopPixels) / gpano.FullPanoHeightPixels;
+        var thetaLength = Math.PI * gpano.CroppedAreaImageHeightPixels / gpano.FullPanoHeightPixels;
+        var materialParameters = {
+            depthWrite: false,
+            fragmentShader: Component_1.Shaders.equirectangular.fragment,
+            side: THREE.DoubleSide,
+            transparent: true,
+            uniforms: {
+                opacity: {
+                    type: "f",
+                    value: 1,
+                },
+                phiLength: {
+                    type: "f",
+                    value: phiLength,
+                },
+                phiShift: {
+                    type: "f",
+                    value: phiShift,
+                },
+                projectorMat: {
+                    type: "m4",
+                    value: transform.rt,
+                },
+                projectorTex: {
+                    type: "t",
+                    value: texture,
+                },
+                thetaLength: {
+                    type: "f",
+                    value: thetaLength,
+                },
+                thetaShift: {
+                    type: "f",
+                    value: thetaShift,
+                },
+            },
+            vertexShader: Component_1.Shaders.equirectangular.vertex,
+        };
+        return materialParameters;
+    };
+    MeshFactory.prototype._createCurtainSphereMaterialParameters = function (transform, texture) {
+        var gpano = transform.gpano;
+        var halfCroppedWidth = (gpano.FullPanoWidthPixels - gpano.CroppedAreaImageWidthPixels) / 2;
+        var phiShift = 2 * Math.PI * (gpano.CroppedAreaLeftPixels - halfCroppedWidth) / gpano.FullPanoWidthPixels;
+        var phiLength = 2 * Math.PI * gpano.CroppedAreaImageWidthPixels / gpano.FullPanoWidthPixels;
+        var halfCroppedHeight = (gpano.FullPanoHeightPixels - gpano.CroppedAreaImageHeightPixels) / 2;
+        var thetaShift = Math.PI * (halfCroppedHeight - gpano.CroppedAreaTopPixels) / gpano.FullPanoHeightPixels;
+        var thetaLength = Math.PI * gpano.CroppedAreaImageHeightPixels / gpano.FullPanoHeightPixels;
+        var materialParameters = {
+            depthWrite: false,
+            fragmentShader: Component_1.Shaders.equirectangularCurtain.fragment,
+            side: THREE.DoubleSide,
+            transparent: true,
+            uniforms: {
+                curtain: {
+                    type: "f",
+                    value: 1,
+                },
+                opacity: {
+                    type: "f",
+                    value: 1,
+                },
+                phiLength: {
+                    type: "f",
+                    value: phiLength,
+                },
+                phiShift: {
+                    type: "f",
+                    value: phiShift,
+                },
+                projectorMat: {
+                    type: "m4",
+                    value: transform.rt,
+                },
+                projectorTex: {
+                    type: "t",
+                    value: texture,
+                },
+                thetaLength: {
+                    type: "f",
+                    value: thetaLength,
+                },
+                thetaShift: {
+                    type: "f",
+                    value: thetaShift,
+                },
+            },
+            vertexShader: Component_1.Shaders.equirectangularCurtain.vertex,
+        };
+        return materialParameters;
+    };
+    MeshFactory.prototype._createPlaneMaterialParameters = function (transform, texture) {
+        var materialParameters = {
+            depthWrite: false,
+            fragmentShader: Component_1.Shaders.perspective.fragment,
+            side: THREE.DoubleSide,
+            transparent: true,
+            uniforms: {
+                opacity: {
+                    type: "f",
+                    value: 1,
+                },
+                projectorMat: {
+                    type: "m4",
+                    value: transform.projectorMatrix(),
+                },
+                projectorTex: {
+                    type: "t",
+                    value: texture,
+                },
+            },
+            vertexShader: Component_1.Shaders.perspective.vertex,
+        };
+        return materialParameters;
+    };
+    MeshFactory.prototype._createCurtainPlaneMaterialParameters = function (transform, texture) {
+        var materialParameters = {
+            depthWrite: false,
+            fragmentShader: Component_1.Shaders.perspectiveCurtain.fragment,
+            side: THREE.DoubleSide,
+            transparent: true,
+            uniforms: {
+                curtain: {
+                    type: "f",
+                    value: 1,
+                },
+                opacity: {
+                    type: "f",
+                    value: 1,
+                },
+                projectorMat: {
+                    type: "m4",
+                    value: transform.projectorMatrix(),
+                },
+                projectorTex: {
+                    type: "t",
+                    value: texture,
+                },
+            },
+            vertexShader: Component_1.Shaders.perspective.vertex,
+        };
+        return materialParameters;
+    };
+    MeshFactory.prototype._createTexture = function (image) {
+        var texture = new THREE.Texture(image);
+        texture.minFilter = THREE.LinearFilter;
+        texture.needsUpdate = true;
+        return texture;
+    };
+    MeshFactory.prototype._useMesh = function (transform, node) {
+        return node.mesh.vertices.length && transform.hasValidScale;
+    };
+    MeshFactory.prototype._getImageSphereGeo = function (transform, node) {
+        var t = new THREE.Matrix4().getInverse(transform.srt);
+        // push everything at least 5 meters in front of the camera
+        var minZ = 5.0 * transform.scale;
+        var maxZ = this._imageSphereRadius * transform.scale;
+        var vertices = node.mesh.vertices;
+        var numVertices = vertices.length / 3;
+        var positions = new Float32Array(vertices.length);
+        for (var i = 0; i < numVertices; ++i) {
+            var index = 3 * i;
+            var x = vertices[index + 0];
+            var y = vertices[index + 1];
+            var z = vertices[index + 2];
+            var l = Math.sqrt(x * x + y * y + z * z);
+            var boundedL = Math.max(minZ, Math.min(l, maxZ));
+            var factor = boundedL / l;
+            var p = new THREE.Vector3(x * factor, y * factor, z * factor);
+            p.applyMatrix4(t);
+            positions[index + 0] = p.x;
+            positions[index + 1] = p.y;
+            positions[index + 2] = p.z;
+        }
+        var faces = node.mesh.faces;
+        var indices = new Uint16Array(faces.length);
+        for (var i = 0; i < faces.length; ++i) {
+            indices[i] = faces[i];
+        }
+        var geometry = new THREE.BufferGeometry();
+        geometry.addAttribute("position", new THREE.BufferAttribute(positions, 3));
+        geometry.setIndex(new THREE.BufferAttribute(indices, 1));
+        return geometry;
+    };
+    MeshFactory.prototype._getImagePlaneGeo = function (transform, node) {
+        var t = new THREE.Matrix4().getInverse(transform.srt);
+        // push everything at least 5 meters in front of the camera
+        var minZ = 5.0 * transform.scale;
+        var maxZ = this._imagePlaneDepth * transform.scale;
+        var vertices = node.mesh.vertices;
+        var numVertices = vertices.length / 3;
+        var positions = new Float32Array(vertices.length);
+        for (var i = 0; i < numVertices; ++i) {
+            var index = 3 * i;
+            var x = vertices[index + 0];
+            var y = vertices[index + 1];
+            var z = vertices[index + 2];
+            var boundedZ = Math.max(minZ, Math.min(z, maxZ));
+            var factor = boundedZ / z;
+            var p = new THREE.Vector3(x * factor, y * factor, boundedZ);
+            p.applyMatrix4(t);
+            positions[index + 0] = p.x;
+            positions[index + 1] = p.y;
+            positions[index + 2] = p.z;
+        }
+        var faces = node.mesh.faces;
+        var indices = new Uint16Array(faces.length);
+        for (var i = 0; i < faces.length; ++i) {
+            indices[i] = faces[i];
+        }
+        var geometry = new THREE.BufferGeometry();
+        geometry.addAttribute("position", new THREE.BufferAttribute(positions, 3));
+        geometry.setIndex(new THREE.BufferAttribute(indices, 1));
+        return geometry;
+    };
+    MeshFactory.prototype._getFlatImageSphereGeo = function (transform) {
+        var gpano = transform.gpano;
+        var phiStart = 2 * Math.PI * gpano.CroppedAreaLeftPixels / gpano.FullPanoWidthPixels;
+        var phiLength = 2 * Math.PI * gpano.CroppedAreaImageWidthPixels / gpano.FullPanoWidthPixels;
+        var thetaStart = Math.PI *
+            (gpano.FullPanoHeightPixels - gpano.CroppedAreaImageHeightPixels - gpano.CroppedAreaTopPixels) /
+            gpano.FullPanoHeightPixels;
+        var thetaLength = Math.PI * gpano.CroppedAreaImageHeightPixels / gpano.FullPanoHeightPixels;
+        var geometry = new THREE.SphereGeometry(this._imageSphereRadius, 20, 40, phiStart - Math.PI / 2, phiLength, thetaStart, thetaLength);
+        geometry.applyMatrix(new THREE.Matrix4().getInverse(transform.rt));
+        return geometry;
+    };
+    MeshFactory.prototype._getRegularFlatImagePlaneGeo = function (transform) {
+        var width = transform.width;
+        var height = transform.height;
+        var size = Math.max(width, height);
+        var dx = width / 2.0 / size;
+        var dy = height / 2.0 / size;
+        return this._getFlatImagePlaneGeo(transform, dx, dy);
+    };
+    MeshFactory.prototype._getFlatImagePlaneGeo = function (transform, dx, dy) {
+        var vertices = [];
+        vertices.push(transform.unprojectSfM([-dx, -dy], this._imagePlaneDepth));
+        vertices.push(transform.unprojectSfM([dx, -dy], this._imagePlaneDepth));
+        vertices.push(transform.unprojectSfM([dx, dy], this._imagePlaneDepth));
+        vertices.push(transform.unprojectSfM([-dx, dy], this._imagePlaneDepth));
+        return this._createFlatGeometry(vertices);
+    };
+    MeshFactory.prototype._getFlatImagePlaneGeoFromBasic = function (transform, basicX0, basicX1, basicY0, basicY1) {
+        var vertices = [];
+        vertices.push(transform.unprojectBasic([basicX0, basicY0], this._imagePlaneDepth));
+        vertices.push(transform.unprojectBasic([basicX1, basicY0], this._imagePlaneDepth));
+        vertices.push(transform.unprojectBasic([basicX1, basicY1], this._imagePlaneDepth));
+        vertices.push(transform.unprojectBasic([basicX0, basicY1], this._imagePlaneDepth));
+        return this._createFlatGeometry(vertices);
+    };
+    MeshFactory.prototype._createFlatGeometry = function (vertices) {
+        var positions = new Float32Array(12);
+        for (var i = 0; i < vertices.length; i++) {
+            var index = 3 * i;
+            positions[index + 0] = vertices[i][0];
+            positions[index + 1] = vertices[i][1];
+            positions[index + 2] = vertices[i][2];
+        }
+        var indices = new Uint16Array(6);
+        indices[0] = 0;
+        indices[1] = 1;
+        indices[2] = 3;
+        indices[3] = 1;
+        indices[4] = 2;
+        indices[5] = 3;
+        var geometry = new THREE.BufferGeometry();
+        geometry.addAttribute("position", new THREE.BufferAttribute(positions, 3));
+        geometry.setIndex(new THREE.BufferAttribute(indices, 1));
+        return geometry;
+    };
+    return MeshFactory;
+}());
+exports.MeshFactory = MeshFactory;
+exports.default = MeshFactory;
+
+},{"../../Component":290,"three":240}],384:[function(require,module,exports){
+"use strict";
+/// <reference path="../../../typings/index.d.ts" />
+Object.defineProperty(exports, "__esModule", { value: true });
+var THREE = require("three");
+var MeshScene = /** @class */ (function () {
+    function MeshScene() {
+        this.scene = new THREE.Scene();
+        this.sceneOld = new THREE.Scene();
+        this.imagePlanes = [];
+        this.imagePlanesOld = [];
+    }
+    MeshScene.prototype.updateImagePlanes = function (planes) {
+        this._dispose(this.imagePlanesOld, this.sceneOld);
+        for (var _i = 0, _a = this.imagePlanes; _i < _a.length; _i++) {
+            var plane = _a[_i];
+            this.scene.remove(plane);
+            this.sceneOld.add(plane);
+        }
+        for (var _b = 0, planes_1 = planes; _b < planes_1.length; _b++) {
+            var plane = planes_1[_b];
+            this.scene.add(plane);
+        }
+        this.imagePlanesOld = this.imagePlanes;
+        this.imagePlanes = planes;
+    };
+    MeshScene.prototype.addImagePlanes = function (planes) {
+        for (var _i = 0, planes_2 = planes; _i < planes_2.length; _i++) {
+            var plane = planes_2[_i];
+            this.scene.add(plane);
+            this.imagePlanes.push(plane);
+        }
+    };
+    MeshScene.prototype.addImagePlanesOld = function (planes) {
+        for (var _i = 0, planes_3 = planes; _i < planes_3.length; _i++) {
+            var plane = planes_3[_i];
+            this.sceneOld.add(plane);
+            this.imagePlanesOld.push(plane);
+        }
+    };
+    MeshScene.prototype.setImagePlanes = function (planes) {
+        this._clear();
+        this.addImagePlanes(planes);
+    };
+    MeshScene.prototype.setImagePlanesOld = function (planes) {
+        this._clearOld();
+        this.addImagePlanesOld(planes);
+    };
+    MeshScene.prototype.clear = function () {
+        this._clear();
+        this._clearOld();
+    };
+    MeshScene.prototype._clear = function () {
+        this._dispose(this.imagePlanes, this.scene);
+        this.imagePlanes.length = 0;
+    };
+    MeshScene.prototype._clearOld = function () {
+        this._dispose(this.imagePlanesOld, this.sceneOld);
+        this.imagePlanesOld.length = 0;
+    };
+    MeshScene.prototype._dispose = function (planes, scene) {
+        for (var _i = 0, planes_4 = planes; _i < planes_4.length; _i++) {
+            var plane = planes_4[_i];
+            scene.remove(plane);
+            plane.geometry.dispose();
+            plane.material.dispose();
+            var texture = plane.material.uniforms.projectorTex.value;
+            if (texture != null) {
+                texture.dispose();
+            }
+        }
+    };
+    return MeshScene;
+}());
+exports.MeshScene = MeshScene;
+exports.default = MeshScene;
+
+},{"three":240}],385:[function(require,module,exports){
+"use strict";
+/// <reference path="../../../typings/index.d.ts" />
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var vd = require("virtual-dom");
+var Observable_1 = require("rxjs/Observable");
+var Subject_1 = require("rxjs/Subject");
+var Component_1 = require("../../Component");
+var Geo_1 = require("../../Geo");
+var State_1 = require("../../State");
+var ZoomComponent = /** @class */ (function (_super) {
+    __extends(ZoomComponent, _super);
+    function ZoomComponent(name, container, navigator) {
+        var _this = _super.call(this, name, container, navigator) || this;
+        _this._viewportCoords = new Geo_1.ViewportCoords();
+        _this._zoomDelta$ = new Subject_1.Subject();
+        return _this;
+    }
+    ZoomComponent.prototype._activate = function () {
+        var _this = this;
+        this._renderSubscription = Observable_1.Observable
+            .combineLatest(this._navigator.stateService.currentState$, this._navigator.stateService.state$)
+            .map(function (_a) {
+            var frame = _a[0], state = _a[1];
+            return [frame.state.zoom, state];
+        })
+            .map(function (_a) {
+            var zoom = _a[0], state = _a[1];
+            var zoomInIcon = vd.h("div.ZoomInIcon", []);
+            var zoomInButton = zoom >= 3 || state === State_1.State.Waiting ?
+                vd.h("div.ZoomInButtonDisabled", [zoomInIcon]) :
+                vd.h("div.ZoomInButton", { onclick: function () { _this._zoomDelta$.next(1); } }, [zoomInIcon]);
+            var zoomOutIcon = vd.h("div.ZoomOutIcon", []);
+            var zoomOutButton = zoom <= 0 || state === State_1.State.Waiting ?
+                vd.h("div.ZoomOutButtonDisabled", [zoomOutIcon]) :
+                vd.h("div.ZoomOutButton", { onclick: function () { _this._zoomDelta$.next(-1); } }, [zoomOutIcon]);
+            return {
+                name: _this._name,
+                vnode: vd.h("div.ZoomContainer", { oncontextmenu: function (event) { event.preventDefault(); } }, [zoomInButton, zoomOutButton]),
+            };
+        })
+            .subscribe(this._container.domRenderer.render$);
+        this._zoomSubscription = this._zoomDelta$
+            .withLatestFrom(this._container.renderService.renderCamera$, this._navigator.stateService.currentTransform$)
+            .subscribe(function (_a) {
+            var zoomDelta = _a[0], render = _a[1], transform = _a[2];
+            var unprojected = _this._viewportCoords.unprojectFromViewport(0, 0, render.perspective);
+            var reference = transform.projectBasic(unprojected.toArray());
+            _this._navigator.stateService.zoomIn(zoomDelta, reference);
+        });
+    };
+    ZoomComponent.prototype._deactivate = function () {
+        this._renderSubscription.unsubscribe();
+        this._zoomSubscription.unsubscribe();
+    };
+    ZoomComponent.prototype._getDefaultConfiguration = function () {
+        return {};
+    };
+    ZoomComponent.componentName = "zoom";
+    return ZoomComponent;
+}(Component_1.Component));
+exports.ZoomComponent = ZoomComponent;
+Component_1.ComponentService.register(ZoomComponent);
+exports.default = ZoomComponent;
+
+},{"../../Component":290,"../../Geo":293,"../../State":297,"rxjs/Observable":29,"rxjs/Subject":34,"virtual-dom":246}],386:[function(require,module,exports){
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -35203,6 +35929,12 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var MapillaryError_1 = require("./MapillaryError");
+/**
+ * @class AbortMapillaryError
+ *
+ * @classdesc Error thrown when a move to request has been
+ * aborted before completing because of a subsequent request.
+ */
 var AbortMapillaryError = /** @class */ (function (_super) {
     __extends(AbortMapillaryError, _super);
     function AbortMapillaryError(message) {
@@ -35216,7 +35948,7 @@ var AbortMapillaryError = /** @class */ (function (_super) {
 exports.AbortMapillaryError = AbortMapillaryError;
 exports.default = AbortMapillaryError;
 
-},{"./MapillaryError":386}],384:[function(require,module,exports){
+},{"./MapillaryError":389}],387:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -35243,7 +35975,7 @@ var ArgumentMapillaryError = /** @class */ (function (_super) {
 exports.ArgumentMapillaryError = ArgumentMapillaryError;
 exports.default = ArgumentMapillaryError;
 
-},{"./MapillaryError":386}],385:[function(require,module,exports){
+},{"./MapillaryError":389}],388:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -35270,7 +36002,7 @@ var GraphMapillaryError = /** @class */ (function (_super) {
 exports.GraphMapillaryError = GraphMapillaryError;
 exports.default = GraphMapillaryError;
 
-},{"./MapillaryError":386}],386:[function(require,module,exports){
+},{"./MapillaryError":389}],389:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -35296,7 +36028,7 @@ var MapillaryError = /** @class */ (function (_super) {
 exports.MapillaryError = MapillaryError;
 exports.default = MapillaryError;
 
-},{}],387:[function(require,module,exports){
+},{}],390:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -35446,7 +36178,7 @@ var Camera = /** @class */ (function () {
 }());
 exports.Camera = Camera;
 
-},{"three":241}],388:[function(require,module,exports){
+},{"three":240}],391:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -35670,7 +36402,7 @@ var GeoCoords = /** @class */ (function () {
 exports.GeoCoords = GeoCoords;
 exports.default = GeoCoords;
 
-},{}],389:[function(require,module,exports){
+},{}],392:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -35853,8 +36585,9 @@ var Spatial = /** @class */ (function () {
         var R2 = this.rotationMatrix(rotation2);
         var R = R1T.multiply(R2);
         var elements = R.elements;
-        // from Tr(R) = 1 + 2*cos(theta)
-        var theta = Math.acos((elements[0] + elements[5] + elements[10] - 1) / 2);
+        // from Tr(R) = 1 + 2 * cos(theta)
+        var tr = elements[0] + elements[5] + elements[10];
+        var theta = Math.acos(Math.max(Math.min((tr - 1) / 2, 1), -1));
         return theta;
     };
     /**
@@ -35899,7 +36632,7 @@ var Spatial = /** @class */ (function () {
 exports.Spatial = Spatial;
 exports.default = Spatial;
 
-},{"three":241}],390:[function(require,module,exports){
+},{"three":240}],393:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -35913,27 +36646,34 @@ var THREE = require("three");
 var Transform = /** @class */ (function () {
     /**
      * Create a new transform instance.
-     * @param {Node} apiNavImIm - Node properties.
-     * @param {HTMLImageElement} image - Node image.
-     * @param {Array<number>} translation - Node translation vector in three dimensions.
+     * @param {number} orientation - Image orientation.
+     * @param {number} width - Image height.
+     * @param {number} height - Image width.
+     * @param {number} focal - Focal length.
+     * @param {number} scale - Atomic scale.
+     * @param {IGPano} gpano - Panorama properties.
+     * @param {Array<number>} rotation - Rotation vector in three dimensions.
+     * @param {Array<number>} translation - Translation vector in three dimensions.
+     * @param {HTMLImageElement} image - Image for fallback size calculations.
      */
-    function Transform(node, image, translation) {
-        this._orientation = this._getValue(node.orientation, 1);
+    function Transform(orientation, width, height, focal, scale, gpano, rotation, translation, image, textureScale) {
+        this._orientation = this._getValue(orientation, 1);
         var imageWidth = image != null ? image.width : 4;
         var imageHeight = image != null ? image.height : 3;
         var keepOrientation = this._orientation < 5;
-        this._width = this._getValue(node.width, keepOrientation ? imageWidth : imageHeight);
-        this._height = this._getValue(node.height, keepOrientation ? imageHeight : imageWidth);
+        this._width = this._getValue(width, keepOrientation ? imageWidth : imageHeight);
+        this._height = this._getValue(height, keepOrientation ? imageHeight : imageWidth);
         this._basicAspect = keepOrientation ?
             this._width / this._height :
             this._height / this._width;
-        this._basicWidth = keepOrientation ? node.width : node.height;
-        this._basicHeight = keepOrientation ? node.height : node.width;
-        this._focal = this._getValue(node.focal, 1);
-        this._scale = this._getValue(node.scale, 0);
-        this._gpano = node.gpano != null ? node.gpano : null;
-        this._rt = this._getRt(node.rotation, translation);
+        this._basicWidth = keepOrientation ? width : height;
+        this._basicHeight = keepOrientation ? height : width;
+        this._focal = this._getValue(focal, 1);
+        this._scale = this._getValue(scale, 0);
+        this._gpano = gpano != null ? gpano : null;
+        this._rt = this._getRt(rotation, translation);
         this._srt = this._getSrt(this._rt, this._scale);
+        this._textureScale = !!textureScale ? textureScale : [1, 1];
     }
     Object.defineProperty(Transform.prototype, "basicAspect", {
         /**
@@ -36409,8 +37149,10 @@ var Transform = /** @class */ (function () {
      */
     Transform.prototype._normalizedToTextureMatrix = function () {
         var size = Math.max(this._width, this._height);
-        var w = size / this._width;
-        var h = size / this._height;
+        var scaleX = this._orientation < 5 ? this._textureScale[0] : this._textureScale[1];
+        var scaleY = this._orientation < 5 ? this._textureScale[1] : this._textureScale[0];
+        var w = size / this._width * scaleX;
+        var h = size / this._height * scaleY;
         switch (this._orientation) {
             case 1:
                 return new THREE.Matrix4().set(w, 0, 0, 0.5, 0, -h, 0, 0.5, 0, 0, 1, 0, 0, 0, 0, 1);
@@ -36428,7 +37170,7 @@ var Transform = /** @class */ (function () {
 }());
 exports.Transform = Transform;
 
-},{"three":241}],391:[function(require,module,exports){
+},{"three":240}],394:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -36802,7 +37544,7 @@ var ViewportCoords = /** @class */ (function () {
 exports.ViewportCoords = ViewportCoords;
 exports.default = ViewportCoords;
 
-},{"three":241}],392:[function(require,module,exports){
+},{"three":240}],395:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -36890,21 +37632,13 @@ var FilterCreator = /** @class */ (function () {
 exports.FilterCreator = FilterCreator;
 exports.default = FilterCreator;
 
-},{}],393:[function(require,module,exports){
+},{}],396:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
 var rbush = require("rbush");
 var Observable_1 = require("rxjs/Observable");
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/observable/from");
-require("rxjs/add/operator/catch");
-require("rxjs/add/operator/do");
-require("rxjs/add/operator/finally");
-require("rxjs/add/operator/last");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/publish");
-require("rxjs/add/operator/reduce");
 var Edge_1 = require("../Edge");
 var Error_1 = require("../Error");
 var Graph_1 = require("../Graph");
@@ -38158,7 +38892,7 @@ var Graph = /** @class */ (function () {
 exports.Graph = Graph;
 exports.default = Graph;
 
-},{"../Edge":292,"../Error":293,"../Graph":295,"rbush":25,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/from":42,"rxjs/add/operator/catch":54,"rxjs/add/operator/do":61,"rxjs/add/operator/finally":64,"rxjs/add/operator/last":66,"rxjs/add/operator/map":67,"rxjs/add/operator/publish":73,"rxjs/add/operator/reduce":75}],394:[function(require,module,exports){
+},{"../Edge":291,"../Error":292,"../Graph":294,"rbush":25,"rxjs/Observable":29,"rxjs/Subject":34}],397:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -38347,7 +39081,7 @@ var GraphCalculator = /** @class */ (function () {
 exports.GraphCalculator = GraphCalculator;
 exports.default = GraphCalculator;
 
-},{"../Error":293,"../Geo":294,"latlon-geohash":21,"three":241}],395:[function(require,module,exports){
+},{"../Error":292,"../Geo":293,"latlon-geohash":21,"three":240}],398:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -38379,21 +39113,11 @@ var GraphMode;
 })(GraphMode = exports.GraphMode || (exports.GraphMode = {}));
 exports.default = GraphMode;
 
-},{}],396:[function(require,module,exports){
+},{}],399:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/operator/catch");
-require("rxjs/add/operator/concat");
-require("rxjs/add/operator/do");
-require("rxjs/add/operator/expand");
-require("rxjs/add/operator/finally");
-require("rxjs/add/operator/first");
-require("rxjs/add/operator/last");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/mergeMap");
-require("rxjs/add/operator/publishReplay");
 var Graph_1 = require("../Graph");
 /**
  * @class GraphService
@@ -38804,7 +39528,7 @@ var GraphService = /** @class */ (function () {
 exports.GraphService = GraphService;
 exports.default = GraphService;
 
-},{"../Graph":295,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/operator/catch":54,"rxjs/add/operator/concat":56,"rxjs/add/operator/do":61,"rxjs/add/operator/expand":62,"rxjs/add/operator/finally":64,"rxjs/add/operator/first":65,"rxjs/add/operator/last":66,"rxjs/add/operator/map":67,"rxjs/add/operator/mergeMap":70,"rxjs/add/operator/publishReplay":74}],397:[function(require,module,exports){
+},{"../Graph":294,"rxjs/Observable":29,"rxjs/Subject":34}],400:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -38858,7 +39582,7 @@ var ImageLoadingService = /** @class */ (function () {
 }());
 exports.ImageLoadingService = ImageLoadingService;
 
-},{"rxjs/Subject":34}],398:[function(require,module,exports){
+},{"rxjs/Subject":34}],401:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -38882,11 +39606,9 @@ var MeshReader = /** @class */ (function () {
 }());
 exports.MeshReader = MeshReader;
 
-},{"pbf":23}],399:[function(require,module,exports){
+},{"pbf":23}],402:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-require("rxjs/add/observable/combineLatest");
-require("rxjs/add/operator/map");
 /**
  * @class Node
  *
@@ -39123,6 +39845,19 @@ var Node = /** @class */ (function () {
          */
         get: function () {
             return this._cache.image;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Node.prototype, "image$", {
+        /**
+         * Get image$.
+         *
+         * @returns {Observable<HTMLImageElement>} Observable emitting
+         * the cached image when it is updated.
+         */
+        get: function () {
+            return this._cache.image$;
         },
         enumerable: true,
         configurable: true
@@ -39572,14 +40307,12 @@ var Node = /** @class */ (function () {
 exports.Node = Node;
 exports.default = Node;
 
-},{"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/map":67}],400:[function(require,module,exports){
+},{}],403:[function(require,module,exports){
 (function (Buffer){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Subject_1 = require("rxjs/Subject");
 var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/observable/combineLatest");
-require("rxjs/add/operator/publishReplay");
 var Graph_1 = require("../Graph");
 var Utils_1 = require("../Utils");
 /**
@@ -39598,6 +40331,12 @@ var NodeCache = /** @class */ (function () {
         this._mesh = null;
         this._sequenceEdges = { cached: false, edges: [] };
         this._spatialEdges = { cached: false, edges: [] };
+        this._imageChanged$ = new Subject_1.Subject();
+        this._image$ = this._imageChanged$
+            .startWith(null)
+            .publishReplay(1)
+            .refCount();
+        this._iamgeSubscription = this._image$.subscribe();
         this._sequenceEdgesChanged$ = new Subject_1.Subject();
         this._sequenceEdges$ = this._sequenceEdgesChanged$
             .startWith(this._sequenceEdges)
@@ -39623,6 +40362,19 @@ var NodeCache = /** @class */ (function () {
          */
         get: function () {
             return this._image;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NodeCache.prototype, "image$", {
+        /**
+         * Get image$.
+         *
+         * @returns {Observable<HTMLImageElement>} Observable emitting
+         * the cached image when it is updated.
+         */
+        get: function () {
+            return this._image$;
         },
         enumerable: true,
         configurable: true
@@ -39747,6 +40499,13 @@ var NodeCache = /** @class */ (function () {
         })
             .publishReplay(1)
             .refCount();
+        this._cachingAssets$
+            .first(function (nodeCache) {
+            return !!nodeCache._image;
+        })
+            .subscribe(function (nodeCache) {
+            _this._imageChanged$.next(_this._image);
+        }, function (error) { });
         return this._cachingAssets$;
     };
     /**
@@ -39764,7 +40523,7 @@ var NodeCache = /** @class */ (function () {
         if (this._image != null && imageSize <= Math.max(this._image.width, this._image.height)) {
             return Observable_1.Observable.of(this);
         }
-        return this._cacheImage$(key, imageSize)
+        var cacheImage$ = this._cacheImage$(key, imageSize)
             .first(function (status) {
             return status.object != null;
         })
@@ -39774,7 +40533,14 @@ var NodeCache = /** @class */ (function () {
         })
             .map(function (imageStatus) {
             return _this;
-        });
+        })
+            .publishReplay(1)
+            .refCount();
+        cacheImage$
+            .subscribe(function (nodeCache) {
+            _this._imageChanged$.next(_this._image);
+        }, function (error) { });
+        return cacheImage$;
     };
     /**
      * Cache the sequence edges.
@@ -39801,6 +40567,7 @@ var NodeCache = /** @class */ (function () {
      * all streams.
      */
     NodeCache.prototype.dispose = function () {
+        this._iamgeSubscription.unsubscribe();
         this._sequenceEdgesSubscription.unsubscribe();
         this._spatialEdgesSubscription.unsubscribe();
         this._disposeImage();
@@ -39809,6 +40576,7 @@ var NodeCache = /** @class */ (function () {
         this._loadStatus.total = 0;
         this._sequenceEdges = { cached: false, edges: [] };
         this._spatialEdges = { cached: false, edges: [] };
+        this._imageChanged$.next(null);
         this._sequenceEdgesChanged$.next(this._sequenceEdges);
         this._spatialEdgesChanged$.next(this._spatialEdges);
         this._disposed = true;
@@ -39979,7 +40747,7 @@ exports.default = NodeCache;
 
 }).call(this,require("buffer").Buffer)
 
-},{"../Graph":295,"../Utils":301,"buffer":7,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/publishReplay":74}],401:[function(require,module,exports){
+},{"../Graph":294,"../Utils":300,"buffer":7,"rxjs/Observable":29,"rxjs/Subject":34}],404:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -40069,7 +40837,7 @@ var Sequence = /** @class */ (function () {
 exports.Sequence = Sequence;
 exports.default = Sequence;
 
-},{"underscore":243}],402:[function(require,module,exports){
+},{"underscore":242}],405:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -40226,8 +40994,7 @@ var EdgeCalculator = /** @class */ (function () {
             if (potentialEdge.sequenceKey == null) {
                 continue;
             }
-            if (potentialEdge.sameSequence ||
-                !potentialEdge.sameMergeCC) {
+            if (potentialEdge.sameSequence) {
                 continue;
             }
             if (nodeFullPano) {
@@ -40672,7 +41439,7 @@ var EdgeCalculator = /** @class */ (function () {
 exports.EdgeCalculator = EdgeCalculator;
 exports.default = EdgeCalculator;
 
-},{"../../Edge":292,"../../Error":293,"../../Geo":294,"three":241}],403:[function(require,module,exports){
+},{"../../Edge":291,"../../Error":292,"../../Geo":293,"three":240}],406:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EdgeCalculatorCoefficients = /** @class */ (function () {
@@ -40698,7 +41465,7 @@ var EdgeCalculatorCoefficients = /** @class */ (function () {
 exports.EdgeCalculatorCoefficients = EdgeCalculatorCoefficients;
 exports.default = EdgeCalculatorCoefficients;
 
-},{}],404:[function(require,module,exports){
+},{}],407:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Edge_1 = require("../../Edge");
@@ -40771,7 +41538,7 @@ var EdgeCalculatorDirections = /** @class */ (function () {
 }());
 exports.EdgeCalculatorDirections = EdgeCalculatorDirections;
 
-},{"../../Edge":292}],405:[function(require,module,exports){
+},{"../../Edge":291}],408:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EdgeCalculatorSettings = /** @class */ (function () {
@@ -40808,7 +41575,7 @@ var EdgeCalculatorSettings = /** @class */ (function () {
 exports.EdgeCalculatorSettings = EdgeCalculatorSettings;
 exports.default = EdgeCalculatorSettings;
 
-},{}],406:[function(require,module,exports){
+},{}],409:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -40866,19 +41633,13 @@ var EdgeDirection;
     EdgeDirection[EdgeDirection["Similar"] = 10] = "Similar";
 })(EdgeDirection = exports.EdgeDirection || (exports.EdgeDirection = {}));
 
-},{}],407:[function(require,module,exports){
+},{}],410:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
 var _ = require("underscore");
 var vd = require("virtual-dom");
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/operator/combineLatest");
-require("rxjs/add/operator/distinctUntilChanged");
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/pluck");
-require("rxjs/add/operator/scan");
 var Render_1 = require("../Render");
 var DOMRenderer = /** @class */ (function () {
     function DOMRenderer(element, renderService, currentFrame$) {
@@ -41054,7 +41815,7 @@ var DOMRenderer = /** @class */ (function () {
 exports.DOMRenderer = DOMRenderer;
 exports.default = DOMRenderer;
 
-},{"../Render":297,"rxjs/Subject":34,"rxjs/add/operator/combineLatest":55,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/pluck":72,"rxjs/add/operator/scan":78,"underscore":243,"virtual-dom":247}],408:[function(require,module,exports){
+},{"../Render":296,"rxjs/Subject":34,"underscore":242,"virtual-dom":246}],411:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var GLRenderStage;
@@ -41064,23 +41825,13 @@ var GLRenderStage;
 })(GLRenderStage = exports.GLRenderStage || (exports.GLRenderStage = {}));
 exports.default = GLRenderStage;
 
-},{}],409:[function(require,module,exports){
+},{}],412:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
 var Observable_1 = require("rxjs/Observable");
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/observable/combineLatest");
-require("rxjs/add/operator/distinctUntilChanged");
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/first");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/merge");
-require("rxjs/add/operator/mergeMap");
-require("rxjs/add/operator/scan");
-require("rxjs/add/operator/share");
-require("rxjs/add/operator/startWith");
 var Render_1 = require("../Render");
 var Utils_1 = require("../Utils");
 var GLRenderer = /** @class */ (function () {
@@ -41098,7 +41849,10 @@ var GLRenderer = /** @class */ (function () {
         this._renderer$ = this._rendererOperation$
             .scan(function (renderer, operation) {
             return operation(renderer);
-        }, { needsRender: false, renderer: null });
+        }, { needsRender: false, renderer: null })
+            .filter(function (renderer) {
+            return !!renderer.renderer;
+        });
         this._renderCollection$ = this._renderOperation$
             .scan(function (hashes, operation) {
             return operation(hashes);
@@ -41316,7 +42070,7 @@ var GLRenderer = /** @class */ (function () {
 exports.GLRenderer = GLRenderer;
 exports.default = GLRenderer;
 
-},{"../Render":297,"../Utils":301,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/filter":63,"rxjs/add/operator/first":65,"rxjs/add/operator/map":67,"rxjs/add/operator/merge":68,"rxjs/add/operator/mergeMap":70,"rxjs/add/operator/scan":78,"rxjs/add/operator/share":79,"rxjs/add/operator/startWith":83,"three":241}],410:[function(require,module,exports){
+},{"../Render":296,"../Utils":300,"rxjs/Observable":29,"rxjs/Subject":34,"three":240}],413:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -41442,7 +42196,7 @@ var RenderCamera = /** @class */ (function () {
 exports.RenderCamera = RenderCamera;
 exports.default = RenderCamera;
 
-},{"../Geo":294,"../Render":297,"three":241}],411:[function(require,module,exports){
+},{"../Geo":293,"../Render":296,"three":240}],414:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -41478,21 +42232,12 @@ var RenderMode;
 })(RenderMode = exports.RenderMode || (exports.RenderMode = {}));
 exports.default = RenderMode;
 
-},{}],412:[function(require,module,exports){
+},{}],415:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
 var Subject_1 = require("rxjs/Subject");
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
-require("rxjs/add/observable/combineLatest");
-require("rxjs/add/operator/do");
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/publishReplay");
-require("rxjs/add/operator/scan");
-require("rxjs/add/operator/skip");
-require("rxjs/add/operator/startWith");
-require("rxjs/add/operator/withLatestFrom");
 var Geo_1 = require("../Geo");
 var Render_1 = require("../Render");
 var RenderService = /** @class */ (function () {
@@ -41654,17 +42399,81 @@ var RenderService = /** @class */ (function () {
 exports.RenderService = RenderService;
 exports.default = RenderService;
 
-},{"../Geo":294,"../Render":297,"rxjs/BehaviorSubject":26,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/do":61,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78,"rxjs/add/operator/skip":80,"rxjs/add/operator/startWith":83,"rxjs/add/operator/withLatestFrom":90}],413:[function(require,module,exports){
+},{"../Geo":293,"../Render":296,"rxjs/BehaviorSubject":26,"rxjs/Subject":34}],416:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var RotationDelta = /** @class */ (function () {
+    function RotationDelta(phi, theta) {
+        this._phi = phi;
+        this._theta = theta;
+    }
+    Object.defineProperty(RotationDelta.prototype, "phi", {
+        get: function () {
+            return this._phi;
+        },
+        set: function (value) {
+            this._phi = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RotationDelta.prototype, "theta", {
+        get: function () {
+            return this._theta;
+        },
+        set: function (value) {
+            this._theta = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RotationDelta.prototype, "isZero", {
+        get: function () {
+            return this._phi === 0 && this._theta === 0;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    RotationDelta.prototype.copy = function (delta) {
+        this._phi = delta.phi;
+        this._theta = delta.theta;
+    };
+    RotationDelta.prototype.lerp = function (other, alpha) {
+        this._phi = (1 - alpha) * this._phi + alpha * other.phi;
+        this._theta = (1 - alpha) * this._theta + alpha * other.theta;
+    };
+    RotationDelta.prototype.multiply = function (value) {
+        this._phi *= value;
+        this._theta *= value;
+    };
+    RotationDelta.prototype.threshold = function (value) {
+        this._phi = Math.abs(this._phi) > value ? this._phi : 0;
+        this._theta = Math.abs(this._theta) > value ? this._theta : 0;
+    };
+    RotationDelta.prototype.lengthSquared = function () {
+        return this._phi * this._phi + this._theta * this._theta;
+    };
+    RotationDelta.prototype.reset = function () {
+        this._phi = 0;
+        this._theta = 0;
+    };
+    return RotationDelta;
+}());
+exports.RotationDelta = RotationDelta;
+exports.default = RotationDelta;
+
+},{}],417:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var State;
 (function (State) {
     State[State["Traversing"] = 0] = "Traversing";
     State[State["Waiting"] = 1] = "Waiting";
+    State[State["WaitingInteractively"] = 2] = "WaitingInteractively";
 })(State = exports.State || (exports.State = {}));
 exports.default = State;
 
-},{}],414:[function(require,module,exports){
+},{}],418:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var State_1 = require("../State");
@@ -41687,6 +42496,9 @@ var StateContext = /** @class */ (function () {
     StateContext.prototype.wait = function () {
         this._state = this._state.wait();
     };
+    StateContext.prototype.waitInteractively = function () {
+        this._state = this._state.waitInteractively();
+    };
     Object.defineProperty(StateContext.prototype, "state", {
         get: function () {
             if (this._state instanceof State_1.TraversingState) {
@@ -41694,6 +42506,9 @@ var StateContext = /** @class */ (function () {
             }
             else if (this._state instanceof State_1.WaitingState) {
                 return State_1.State.Waiting;
+            }
+            else if (this._state instanceof State_1.InteractiveWaitingState) {
+                return State_1.State.WaitingInteractively;
             }
             throw new Error("Invalid state");
         },
@@ -41865,24 +42680,12 @@ var StateContext = /** @class */ (function () {
 }());
 exports.StateContext = StateContext;
 
-},{"../Geo":294,"../State":298}],415:[function(require,module,exports){
+},{"../Geo":293,"../State":297}],419:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 var Subject_1 = require("rxjs/Subject");
 var AnimationFrame_1 = require("rxjs/util/AnimationFrame");
-require("rxjs/add/operator/bufferCount");
-require("rxjs/add/operator/distinctUntilChanged");
-require("rxjs/add/operator/do");
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/first");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/pairwise");
-require("rxjs/add/operator/publishReplay");
-require("rxjs/add/operator/scan");
-require("rxjs/add/operator/startWith");
-require("rxjs/add/operator/switchMap");
-require("rxjs/add/operator/withLatestFrom");
 var State_1 = require("../State");
 var StateService = /** @class */ (function () {
     function StateService(transitionMode) {
@@ -42160,6 +42963,9 @@ var StateService = /** @class */ (function () {
     StateService.prototype.wait = function () {
         this._invokeContextOperation(function (context) { context.wait(); });
     };
+    StateService.prototype.waitInteractively = function () {
+        this._invokeContextOperation(function (context) { context.waitInteractively(); });
+    };
     StateService.prototype.appendNodes = function (nodes) {
         this._invokeContextOperation(function (context) { context.append(nodes); });
     };
@@ -42275,7 +43081,7 @@ var StateService = /** @class */ (function () {
 }());
 exports.StateService = StateService;
 
-},{"../State":298,"rxjs/BehaviorSubject":26,"rxjs/Subject":34,"rxjs/add/operator/bufferCount":52,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/do":61,"rxjs/add/operator/filter":63,"rxjs/add/operator/first":65,"rxjs/add/operator/map":67,"rxjs/add/operator/pairwise":71,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78,"rxjs/add/operator/startWith":83,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/withLatestFrom":90,"rxjs/util/AnimationFrame":218}],416:[function(require,module,exports){
+},{"../State":297,"rxjs/BehaviorSubject":26,"rxjs/Subject":34,"rxjs/util/AnimationFrame":217}],420:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -42306,7 +43112,476 @@ var TransitionMode;
 })(TransitionMode = exports.TransitionMode || (exports.TransitionMode = {}));
 exports.default = TransitionMode;
 
-},{}],417:[function(require,module,exports){
+},{}],421:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var THREE = require("three");
+var State_1 = require("../../State");
+var InteractiveStateBase = /** @class */ (function (_super) {
+    __extends(InteractiveStateBase, _super);
+    function InteractiveStateBase(state) {
+        var _this = _super.call(this, state) || this;
+        _this._animationSpeed = 1 / 40;
+        _this._rotationDelta = new State_1.RotationDelta(0, 0);
+        _this._requestedRotationDelta = null;
+        _this._basicRotation = [0, 0];
+        _this._requestedBasicRotation = null;
+        _this._requestedBasicRotationUnbounded = null;
+        _this._rotationAcceleration = 0.86;
+        _this._rotationIncreaseAlpha = 0.97;
+        _this._rotationDecreaseAlpha = 0.9;
+        _this._rotationThreshold = 1e-3;
+        _this._unboundedRotationAlpha = 0.8;
+        _this._desiredZoom = state.zoom;
+        _this._minZoom = 0;
+        _this._maxZoom = 3;
+        _this._lookatDepth = 10;
+        _this._desiredLookat = null;
+        _this._desiredCenter = null;
+        return _this;
+    }
+    InteractiveStateBase.prototype.rotate = function (rotationDelta) {
+        if (this._currentNode == null) {
+            return;
+        }
+        this._desiredZoom = this._zoom;
+        this._desiredLookat = null;
+        this._requestedBasicRotation = null;
+        if (this._requestedRotationDelta != null) {
+            this._requestedRotationDelta.phi = this._requestedRotationDelta.phi + rotationDelta.phi;
+            this._requestedRotationDelta.theta = this._requestedRotationDelta.theta + rotationDelta.theta;
+        }
+        else {
+            this._requestedRotationDelta = new State_1.RotationDelta(rotationDelta.phi, rotationDelta.theta);
+        }
+    };
+    InteractiveStateBase.prototype.rotateBasic = function (basicRotation) {
+        if (this._currentNode == null) {
+            return;
+        }
+        this._desiredZoom = this._zoom;
+        this._desiredLookat = null;
+        this._requestedRotationDelta = null;
+        if (this._requestedBasicRotation != null) {
+            this._requestedBasicRotation[0] += basicRotation[0];
+            this._requestedBasicRotation[1] += basicRotation[1];
+            var threshold = 0.05 / Math.pow(2, this._zoom);
+            this._requestedBasicRotation[0] =
+                this._spatial.clamp(this._requestedBasicRotation[0], -threshold, threshold);
+            this._requestedBasicRotation[1] =
+                this._spatial.clamp(this._requestedBasicRotation[1], -threshold, threshold);
+        }
+        else {
+            this._requestedBasicRotation = basicRotation.slice();
+        }
+    };
+    InteractiveStateBase.prototype.rotateBasicUnbounded = function (basicRotation) {
+        if (this._currentNode == null) {
+            return;
+        }
+        if (this._requestedBasicRotationUnbounded != null) {
+            this._requestedBasicRotationUnbounded[0] += basicRotation[0];
+            this._requestedBasicRotationUnbounded[1] += basicRotation[1];
+        }
+        else {
+            this._requestedBasicRotationUnbounded = basicRotation.slice();
+        }
+    };
+    InteractiveStateBase.prototype.rotateBasicWithoutInertia = function (basic) {
+        if (this._currentNode == null) {
+            return;
+        }
+        this._desiredZoom = this._zoom;
+        this._desiredLookat = null;
+        this._requestedRotationDelta = null;
+        this._requestedBasicRotation = null;
+        var threshold = 0.05 / Math.pow(2, this._zoom);
+        var basicRotation = basic.slice();
+        basicRotation[0] = this._spatial.clamp(basicRotation[0], -threshold, threshold);
+        basicRotation[1] = this._spatial.clamp(basicRotation[1], -threshold, threshold);
+        this._applyRotationBasic(basicRotation);
+    };
+    InteractiveStateBase.prototype.rotateToBasic = function (basic) {
+        if (this._currentNode == null) {
+            return;
+        }
+        this._desiredZoom = this._zoom;
+        this._desiredLookat = null;
+        basic[0] = this._spatial.clamp(basic[0], 0, 1);
+        basic[1] = this._spatial.clamp(basic[1], 0, 1);
+        var lookat = this.currentTransform.unprojectBasic(basic, this._lookatDepth);
+        this._currentCamera.lookat.fromArray(lookat);
+    };
+    InteractiveStateBase.prototype.zoomIn = function (delta, reference) {
+        if (this._currentNode == null) {
+            return;
+        }
+        this._desiredZoom = Math.max(this._minZoom, Math.min(this._maxZoom, this._desiredZoom + delta));
+        var currentCenter = this.currentTransform.projectBasic(this._currentCamera.lookat.toArray());
+        var currentCenterX = currentCenter[0];
+        var currentCenterY = currentCenter[1];
+        var zoom0 = Math.pow(2, this._zoom);
+        var zoom1 = Math.pow(2, this._desiredZoom);
+        var refX = reference[0];
+        var refY = reference[1];
+        if (this.currentTransform.gpano != null &&
+            this.currentTransform.gpano.CroppedAreaImageWidthPixels === this.currentTransform.gpano.FullPanoWidthPixels) {
+            if (refX - currentCenterX > 0.5) {
+                refX = refX - 1;
+            }
+            else if (currentCenterX - refX > 0.5) {
+                refX = 1 + refX;
+            }
+        }
+        var newCenterX = refX - zoom0 / zoom1 * (refX - currentCenterX);
+        var newCenterY = refY - zoom0 / zoom1 * (refY - currentCenterY);
+        var gpano = this.currentTransform.gpano;
+        if (this._currentNode.fullPano) {
+            newCenterX = this._spatial.wrap(newCenterX + this._basicRotation[0], 0, 1);
+            newCenterY = this._spatial.clamp(newCenterY + this._basicRotation[1], 0.05, 0.95);
+        }
+        else if (gpano != null &&
+            this.currentTransform.gpano.CroppedAreaImageWidthPixels === this.currentTransform.gpano.FullPanoWidthPixels) {
+            newCenterX = this._spatial.wrap(newCenterX + this._basicRotation[0], 0, 1);
+            newCenterY = this._spatial.clamp(newCenterY + this._basicRotation[1], 0, 1);
+        }
+        else {
+            newCenterX = this._spatial.clamp(newCenterX, 0, 1);
+            newCenterY = this._spatial.clamp(newCenterY, 0, 1);
+        }
+        this._desiredLookat = new THREE.Vector3()
+            .fromArray(this.currentTransform.unprojectBasic([newCenterX, newCenterY], this._lookatDepth));
+    };
+    InteractiveStateBase.prototype.setCenter = function (center) {
+        this._desiredLookat = null;
+        this._requestedRotationDelta = null;
+        this._requestedBasicRotation = null;
+        this._desiredZoom = this._zoom;
+        var clamped = [
+            this._spatial.clamp(center[0], 0, 1),
+            this._spatial.clamp(center[1], 0, 1),
+        ];
+        if (this._currentNode == null) {
+            this._desiredCenter = clamped;
+            return;
+        }
+        this._desiredCenter = null;
+        var currentLookat = new THREE.Vector3()
+            .fromArray(this.currentTransform.unprojectBasic(clamped, this._lookatDepth));
+        var previousTransform = this.previousTransform != null ?
+            this.previousTransform :
+            this.currentTransform;
+        var previousLookat = new THREE.Vector3()
+            .fromArray(previousTransform.unprojectBasic(clamped, this._lookatDepth));
+        this._currentCamera.lookat.copy(currentLookat);
+        this._previousCamera.lookat.copy(previousLookat);
+    };
+    InteractiveStateBase.prototype.setZoom = function (zoom) {
+        this._desiredLookat = null;
+        this._requestedRotationDelta = null;
+        this._requestedBasicRotation = null;
+        this._zoom = this._spatial.clamp(zoom, this._minZoom, this._maxZoom);
+        this._desiredZoom = this._zoom;
+    };
+    InteractiveStateBase.prototype._applyRotation = function (camera) {
+        if (camera == null) {
+            return;
+        }
+        var q = new THREE.Quaternion().setFromUnitVectors(camera.up, new THREE.Vector3(0, 0, 1));
+        var qInverse = q.clone().inverse();
+        var offset = new THREE.Vector3();
+        offset.copy(camera.lookat).sub(camera.position);
+        offset.applyQuaternion(q);
+        var length = offset.length();
+        var phi = Math.atan2(offset.y, offset.x);
+        phi += this._rotationDelta.phi;
+        var theta = Math.atan2(Math.sqrt(offset.x * offset.x + offset.y * offset.y), offset.z);
+        theta += this._rotationDelta.theta;
+        theta = Math.max(0.1, Math.min(Math.PI - 0.1, theta));
+        offset.x = Math.sin(theta) * Math.cos(phi);
+        offset.y = Math.sin(theta) * Math.sin(phi);
+        offset.z = Math.cos(theta);
+        offset.applyQuaternion(qInverse);
+        camera.lookat.copy(camera.position).add(offset.multiplyScalar(length));
+    };
+    InteractiveStateBase.prototype._applyRotationBasic = function (basicRotation) {
+        var currentNode = this._currentNode;
+        var previousNode = this._previousNode != null ?
+            this.previousNode :
+            this.currentNode;
+        var currentCamera = this._currentCamera;
+        var previousCamera = this._previousCamera;
+        var currentTransform = this.currentTransform;
+        var previousTransform = this.previousTransform != null ?
+            this.previousTransform :
+            this.currentTransform;
+        var currentBasic = currentTransform.projectBasic(currentCamera.lookat.toArray());
+        var previousBasic = previousTransform.projectBasic(previousCamera.lookat.toArray());
+        var currentGPano = currentTransform.gpano;
+        var previousGPano = previousTransform.gpano;
+        if (currentNode.fullPano) {
+            currentBasic[0] = this._spatial.wrap(currentBasic[0] + basicRotation[0], 0, 1);
+            currentBasic[1] = this._spatial.clamp(currentBasic[1] + basicRotation[1], 0.05, 0.95);
+        }
+        else if (currentGPano != null &&
+            currentTransform.gpano.CroppedAreaImageWidthPixels === currentTransform.gpano.FullPanoWidthPixels) {
+            currentBasic[0] = this._spatial.wrap(currentBasic[0] + basicRotation[0], 0, 1);
+            currentBasic[1] = this._spatial.clamp(currentBasic[1] + basicRotation[1], 0, 1);
+        }
+        else {
+            currentBasic[0] = this._spatial.clamp(currentBasic[0] + basicRotation[0], 0, 1);
+            currentBasic[1] = this._spatial.clamp(currentBasic[1] + basicRotation[1], 0, 1);
+        }
+        if (previousNode.fullPano) {
+            previousBasic[0] = this._spatial.wrap(previousBasic[0] + basicRotation[0], 0, 1);
+            previousBasic[1] = this._spatial.clamp(previousBasic[1] + basicRotation[1], 0.05, 0.95);
+        }
+        else if (previousGPano != null &&
+            previousTransform.gpano.CroppedAreaImageWidthPixels === previousTransform.gpano.FullPanoWidthPixels) {
+            previousBasic[0] = this._spatial.wrap(previousBasic[0] + basicRotation[0], 0, 1);
+            previousBasic[1] = this._spatial.clamp(previousBasic[1] + basicRotation[1], 0, 1);
+        }
+        else {
+            previousBasic[0] = this._spatial.clamp(previousBasic[0] + basicRotation[0], 0, 1);
+            previousBasic[1] = this._spatial.clamp(currentBasic[1] + basicRotation[1], 0, 1);
+        }
+        var currentLookat = currentTransform.unprojectBasic(currentBasic, this._lookatDepth);
+        currentCamera.lookat.fromArray(currentLookat);
+        var previousLookat = previousTransform.unprojectBasic(previousBasic, this._lookatDepth);
+        previousCamera.lookat.fromArray(previousLookat);
+    };
+    InteractiveStateBase.prototype._updateZoom = function (animationSpeed) {
+        var diff = this._desiredZoom - this._zoom;
+        var sign = diff > 0 ? 1 : diff < 0 ? -1 : 0;
+        if (diff === 0) {
+            return;
+        }
+        else if (Math.abs(diff) < 2e-3) {
+            this._zoom = this._desiredZoom;
+            if (this._desiredLookat != null) {
+                this._desiredLookat = null;
+            }
+        }
+        else {
+            this._zoom += sign * Math.max(Math.abs(5 * animationSpeed * diff), 2e-3);
+        }
+    };
+    InteractiveStateBase.prototype._updateLookat = function (animationSpeed) {
+        if (this._desiredLookat === null) {
+            return;
+        }
+        var diff = this._desiredLookat.distanceToSquared(this._currentCamera.lookat);
+        if (Math.abs(diff) < 1e-6) {
+            this._currentCamera.lookat.copy(this._desiredLookat);
+            this._desiredLookat = null;
+        }
+        else {
+            this._currentCamera.lookat.lerp(this._desiredLookat, 5 * animationSpeed);
+        }
+    };
+    InteractiveStateBase.prototype._updateRotation = function () {
+        if (this._requestedRotationDelta != null) {
+            var length_1 = this._rotationDelta.lengthSquared();
+            var requestedLength = this._requestedRotationDelta.lengthSquared();
+            if (requestedLength > length_1) {
+                this._rotationDelta.lerp(this._requestedRotationDelta, this._rotationIncreaseAlpha);
+            }
+            else {
+                this._rotationDelta.lerp(this._requestedRotationDelta, this._rotationDecreaseAlpha);
+            }
+            this._requestedRotationDelta = null;
+            return;
+        }
+        if (this._rotationDelta.isZero) {
+            return;
+        }
+        this._rotationDelta.multiply(this._rotationAcceleration);
+        this._rotationDelta.threshold(this._rotationThreshold);
+    };
+    InteractiveStateBase.prototype._updateRotationBasic = function () {
+        if (this._requestedBasicRotation != null) {
+            var x = this._basicRotation[0];
+            var y = this._basicRotation[1];
+            var reqX = this._requestedBasicRotation[0];
+            var reqY = this._requestedBasicRotation[1];
+            if (Math.abs(reqX) > Math.abs(x)) {
+                this._basicRotation[0] = (1 - this._rotationIncreaseAlpha) * x + this._rotationIncreaseAlpha * reqX;
+            }
+            else {
+                this._basicRotation[0] = (1 - this._rotationDecreaseAlpha) * x + this._rotationDecreaseAlpha * reqX;
+            }
+            if (Math.abs(reqY) > Math.abs(y)) {
+                this._basicRotation[1] = (1 - this._rotationIncreaseAlpha) * y + this._rotationIncreaseAlpha * reqY;
+            }
+            else {
+                this._basicRotation[1] = (1 - this._rotationDecreaseAlpha) * y + this._rotationDecreaseAlpha * reqY;
+            }
+            this._requestedBasicRotation = null;
+            return;
+        }
+        if (this._requestedBasicRotationUnbounded != null) {
+            var reqX = this._requestedBasicRotationUnbounded[0];
+            var reqY = this._requestedBasicRotationUnbounded[1];
+            if (Math.abs(reqX) > 0) {
+                this._basicRotation[0] = (1 - this._unboundedRotationAlpha) * this._basicRotation[0] + this._unboundedRotationAlpha * reqX;
+            }
+            if (Math.abs(reqY) > 0) {
+                this._basicRotation[1] = (1 - this._unboundedRotationAlpha) * this._basicRotation[1] + this._unboundedRotationAlpha * reqY;
+            }
+            if (this._desiredLookat != null) {
+                var desiredBasicLookat = this.currentTransform.projectBasic(this._desiredLookat.toArray());
+                desiredBasicLookat[0] += reqX;
+                desiredBasicLookat[1] += reqY;
+                this._desiredLookat = new THREE.Vector3()
+                    .fromArray(this.currentTransform.unprojectBasic(desiredBasicLookat, this._lookatDepth));
+            }
+            this._requestedBasicRotationUnbounded = null;
+        }
+        if (this._basicRotation[0] === 0 && this._basicRotation[1] === 0) {
+            return;
+        }
+        this._basicRotation[0] = this._rotationAcceleration * this._basicRotation[0];
+        this._basicRotation[1] = this._rotationAcceleration * this._basicRotation[1];
+        if (Math.abs(this._basicRotation[0]) < this._rotationThreshold / Math.pow(2, this._zoom) &&
+            Math.abs(this._basicRotation[1]) < this._rotationThreshold / Math.pow(2, this._zoom)) {
+            this._basicRotation = [0, 0];
+        }
+    };
+    InteractiveStateBase.prototype._clearRotation = function () {
+        if (this._currentNode.fullPano) {
+            return;
+        }
+        if (this._requestedRotationDelta != null) {
+            this._requestedRotationDelta = null;
+        }
+        if (!this._rotationDelta.isZero) {
+            this._rotationDelta.reset();
+        }
+        if (this._requestedBasicRotation != null) {
+            this._requestedBasicRotation = null;
+        }
+        if (this._basicRotation[0] > 0 || this._basicRotation[1] > 0) {
+            this._basicRotation = [0, 0];
+        }
+    };
+    InteractiveStateBase.prototype._setDesiredCenter = function () {
+        if (this._desiredCenter == null) {
+            return;
+        }
+        var lookatDirection = new THREE.Vector3()
+            .fromArray(this.currentTransform.unprojectBasic(this._desiredCenter, this._lookatDepth))
+            .sub(this._currentCamera.position);
+        this._currentCamera.lookat.copy(this._currentCamera.position.clone().add(lookatDirection));
+        this._previousCamera.lookat.copy(this._previousCamera.position.clone().add(lookatDirection));
+        this._desiredCenter = null;
+    };
+    InteractiveStateBase.prototype._setDesiredZoom = function () {
+        this._desiredZoom =
+            this._currentNode.fullPano || this._previousNode == null ?
+                this._zoom : 0;
+    };
+    return InteractiveStateBase;
+}(State_1.StateBase));
+exports.InteractiveStateBase = InteractiveStateBase;
+exports.default = InteractiveStateBase;
+
+},{"../../State":297,"three":240}],422:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var State_1 = require("../../State");
+var InteractiveWaitingState = /** @class */ (function (_super) {
+    __extends(InteractiveWaitingState, _super);
+    function InteractiveWaitingState(state) {
+        var _this = _super.call(this, state) || this;
+        _this._adjustCameras();
+        _this._motionless = _this._motionlessTransition();
+        return _this;
+    }
+    InteractiveWaitingState.prototype.traverse = function () {
+        return new State_1.TraversingState(this);
+    };
+    InteractiveWaitingState.prototype.wait = function () {
+        return new State_1.WaitingState(this);
+    };
+    InteractiveWaitingState.prototype.waitInteractively = function () {
+        throw new Error("Not implemented");
+    };
+    InteractiveWaitingState.prototype.prepend = function (nodes) {
+        _super.prototype.prepend.call(this, nodes);
+        this._motionless = this._motionlessTransition();
+    };
+    InteractiveWaitingState.prototype.set = function (nodes) {
+        _super.prototype.set.call(this, nodes);
+        this._motionless = this._motionlessTransition();
+    };
+    InteractiveWaitingState.prototype.setSpeed = function (speed) { return; };
+    InteractiveWaitingState.prototype.move = function (delta) {
+        this._alpha = Math.max(0, Math.min(1, this._alpha + delta));
+    };
+    InteractiveWaitingState.prototype.moveTo = function (position) {
+        this._alpha = Math.max(0, Math.min(1, position));
+    };
+    InteractiveWaitingState.prototype.update = function (fps) {
+        this._updateRotation();
+        if (!this._rotationDelta.isZero) {
+            this._applyRotation(this._previousCamera);
+            this._applyRotation(this._currentCamera);
+        }
+        this._updateRotationBasic();
+        if (this._basicRotation[0] !== 0 || this._basicRotation[1] !== 0) {
+            this._applyRotationBasic(this._basicRotation);
+        }
+        var animationSpeed = this._animationSpeed * (60 / fps);
+        this._updateZoom(animationSpeed);
+        this._updateLookat(animationSpeed);
+        this._camera.lerpCameras(this._previousCamera, this._currentCamera, this.alpha);
+    };
+    InteractiveWaitingState.prototype._getAlpha = function () {
+        return this._motionless ? Math.round(this._alpha) : this._alpha;
+    };
+    InteractiveWaitingState.prototype._setCurrentCamera = function () {
+        _super.prototype._setCurrentCamera.call(this);
+        this._adjustCameras();
+    };
+    InteractiveWaitingState.prototype._adjustCameras = function () {
+        if (this._previousNode == null) {
+            return;
+        }
+        if (this._currentNode.fullPano) {
+            var lookat = this._camera.lookat.clone().sub(this._camera.position);
+            this._currentCamera.lookat.copy(lookat.clone().add(this._currentCamera.position));
+        }
+        if (this._previousNode.fullPano) {
+            var lookat = this._currentCamera.lookat.clone().sub(this._currentCamera.position);
+            this._previousCamera.lookat.copy(lookat.clone().add(this._previousCamera.position));
+        }
+    };
+    return InteractiveWaitingState;
+}(State_1.InteractiveStateBase));
+exports.InteractiveWaitingState = InteractiveWaitingState;
+exports.default = InteractiveWaitingState;
+
+},{"../../State":297}],423:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -42330,7 +43605,7 @@ var StateBase = /** @class */ (function () {
         for (var _i = 0, _a = this._trajectory; _i < _a.length; _i++) {
             var node = _a[_i];
             var translation = this._nodeToTranslation(node);
-            var transform = new Geo_1.Transform(node, node.image, translation);
+            var transform = new Geo_1.Transform(node.orientation, node.width, node.height, node.focal, node.scale, node.gpano, node.rotation, translation, node.image);
             this._trajectoryTransforms.push(transform);
             this._trajectoryCameras.push(new Geo_1.Camera(transform));
         }
@@ -42585,7 +43860,7 @@ var StateBase = /** @class */ (function () {
                 throw new Error_1.ArgumentMapillaryError("Assets must be cached when node is added to trajectory");
             }
             var translation = this._nodeToTranslation(node);
-            var transform = new Geo_1.Transform(node, node.image, translation);
+            var transform = new Geo_1.Transform(node.orientation, node.width, node.height, node.focal, node.scale, node.gpano, node.rotation, translation, node.image);
             this._trajectoryTransforms.push(transform);
             this._trajectoryCameras.push(new Geo_1.Camera(transform));
         }
@@ -42597,7 +43872,7 @@ var StateBase = /** @class */ (function () {
                 throw new Error_1.ArgumentMapillaryError("Assets must be cached when added to trajectory");
             }
             var translation = this._nodeToTranslation(node);
-            var transform = new Geo_1.Transform(node, node.image, translation);
+            var transform = new Geo_1.Transform(node.orientation, node.width, node.height, node.focal, node.scale, node.gpano, node.rotation, translation, node.image);
             this._trajectoryTransforms.unshift(transform);
             this._trajectoryCameras.unshift(new Geo_1.Camera(transform));
         }
@@ -42610,13 +43885,8 @@ var StateBase = /** @class */ (function () {
     StateBase.prototype._sameConnectedComponent = function () {
         var current = this._currentNode;
         var previous = this._previousNode;
-        if (!current ||
-            !current.mergeCC ||
-            !previous ||
-            !previous.mergeCC) {
-            return true;
-        }
-        return current.mergeCC === previous.mergeCC;
+        return !!current && !!previous &&
+            current.mergeCC === previous.mergeCC;
     };
     StateBase.prototype._withinOriginalDistance = function () {
         var current = this._currentNode;
@@ -42632,7 +43902,7 @@ var StateBase = /** @class */ (function () {
 }());
 exports.StateBase = StateBase;
 
-},{"../../Error":293,"../../Geo":294,"../../State":298}],418:[function(require,module,exports){
+},{"../../Error":292,"../../Geo":293,"../../State":297}],424:[function(require,module,exports){
 "use strict";
 /// <reference path="../../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -42646,66 +43916,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var THREE = require("three");
 var UnitBezier = require("@mapbox/unitbezier");
 var State_1 = require("../../State");
-var RotationDelta = /** @class */ (function () {
-    function RotationDelta(phi, theta) {
-        this._phi = phi;
-        this._theta = theta;
-    }
-    Object.defineProperty(RotationDelta.prototype, "phi", {
-        get: function () {
-            return this._phi;
-        },
-        set: function (value) {
-            this._phi = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(RotationDelta.prototype, "theta", {
-        get: function () {
-            return this._theta;
-        },
-        set: function (value) {
-            this._theta = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(RotationDelta.prototype, "isZero", {
-        get: function () {
-            return this._phi === 0 && this._theta === 0;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    RotationDelta.prototype.copy = function (delta) {
-        this._phi = delta.phi;
-        this._theta = delta.theta;
-    };
-    RotationDelta.prototype.lerp = function (other, alpha) {
-        this._phi = (1 - alpha) * this._phi + alpha * other.phi;
-        this._theta = (1 - alpha) * this._theta + alpha * other.theta;
-    };
-    RotationDelta.prototype.multiply = function (value) {
-        this._phi *= value;
-        this._theta *= value;
-    };
-    RotationDelta.prototype.threshold = function (value) {
-        this._phi = Math.abs(this._phi) > value ? this._phi : 0;
-        this._theta = Math.abs(this._theta) > value ? this._theta : 0;
-    };
-    RotationDelta.prototype.lengthSquared = function () {
-        return this._phi * this._phi + this._theta * this._theta;
-    };
-    RotationDelta.prototype.reset = function () {
-        this._phi = 0;
-        this._theta = 0;
-    };
-    return RotationDelta;
-}());
 var TraversingState = /** @class */ (function (_super) {
     __extends(TraversingState, _super);
     function TraversingState(state) {
@@ -42713,26 +43925,9 @@ var TraversingState = /** @class */ (function (_super) {
         _this._adjustCameras();
         _this._motionless = _this._motionlessTransition();
         _this._baseAlpha = _this._alpha;
-        _this._animationSpeed = 1 / 40;
         _this._speedCoefficient = 1;
         _this._unitBezier = new UnitBezier(0.74, 0.67, 0.38, 0.96);
         _this._useBezier = false;
-        _this._rotationDelta = new RotationDelta(0, 0);
-        _this._requestedRotationDelta = null;
-        _this._basicRotation = [0, 0];
-        _this._requestedBasicRotation = null;
-        _this._requestedBasicRotationUnbounded = null;
-        _this._rotationAcceleration = 0.86;
-        _this._rotationIncreaseAlpha = 0.97;
-        _this._rotationDecreaseAlpha = 0.9;
-        _this._rotationThreshold = 1e-3;
-        _this._unboundedRotationAlpha = 0.8;
-        _this._desiredZoom = state.zoom;
-        _this._minZoom = 0;
-        _this._maxZoom = 3;
-        _this._lookatDepth = 10;
-        _this._desiredLookat = null;
-        _this._desiredCenter = null;
         return _this;
     }
     TraversingState.prototype.traverse = function () {
@@ -42740,6 +43935,9 @@ var TraversingState = /** @class */ (function (_super) {
     };
     TraversingState.prototype.wait = function () {
         return new State_1.WaitingState(this);
+    };
+    TraversingState.prototype.waitInteractively = function () {
+        return new State_1.InteractiveWaitingState(this);
     };
     TraversingState.prototype.append = function (nodes) {
         var emptyTrajectory = this._trajectory.length === 0;
@@ -42780,151 +43978,8 @@ var TraversingState = /** @class */ (function (_super) {
     TraversingState.prototype.moveTo = function (delta) {
         throw new Error("Not implemented");
     };
-    TraversingState.prototype.rotate = function (rotationDelta) {
-        if (this._currentNode == null) {
-            return;
-        }
-        this._desiredZoom = this._zoom;
-        this._desiredLookat = null;
-        this._requestedBasicRotation = null;
-        if (this._requestedRotationDelta != null) {
-            this._requestedRotationDelta.phi = this._requestedRotationDelta.phi + rotationDelta.phi;
-            this._requestedRotationDelta.theta = this._requestedRotationDelta.theta + rotationDelta.theta;
-        }
-        else {
-            this._requestedRotationDelta = new RotationDelta(rotationDelta.phi, rotationDelta.theta);
-        }
-    };
-    TraversingState.prototype.rotateBasic = function (basicRotation) {
-        if (this._currentNode == null) {
-            return;
-        }
-        this._desiredZoom = this._zoom;
-        this._desiredLookat = null;
-        this._requestedRotationDelta = null;
-        if (this._requestedBasicRotation != null) {
-            this._requestedBasicRotation[0] += basicRotation[0];
-            this._requestedBasicRotation[1] += basicRotation[1];
-            var threshold = 0.05 / Math.pow(2, this._zoom);
-            this._requestedBasicRotation[0] =
-                this._spatial.clamp(this._requestedBasicRotation[0], -threshold, threshold);
-            this._requestedBasicRotation[1] =
-                this._spatial.clamp(this._requestedBasicRotation[1], -threshold, threshold);
-        }
-        else {
-            this._requestedBasicRotation = basicRotation.slice();
-        }
-    };
-    TraversingState.prototype.rotateBasicUnbounded = function (basicRotation) {
-        if (this._currentNode == null) {
-            return;
-        }
-        if (this._requestedBasicRotationUnbounded != null) {
-            this._requestedBasicRotationUnbounded[0] += basicRotation[0];
-            this._requestedBasicRotationUnbounded[1] += basicRotation[1];
-        }
-        else {
-            this._requestedBasicRotationUnbounded = basicRotation.slice();
-        }
-    };
-    TraversingState.prototype.rotateBasicWithoutInertia = function (basic) {
-        if (this._currentNode == null) {
-            return;
-        }
-        this._desiredZoom = this._zoom;
-        this._desiredLookat = null;
-        this._requestedRotationDelta = null;
-        this._requestedBasicRotation = null;
-        var threshold = 0.05 / Math.pow(2, this._zoom);
-        var basicRotation = basic.slice();
-        basicRotation[0] = this._spatial.clamp(basicRotation[0], -threshold, threshold);
-        basicRotation[1] = this._spatial.clamp(basicRotation[1], -threshold, threshold);
-        this._applyRotationBasic(basicRotation);
-    };
-    TraversingState.prototype.rotateToBasic = function (basic) {
-        if (this._currentNode == null) {
-            return;
-        }
-        this._desiredZoom = this._zoom;
-        this._desiredLookat = null;
-        basic[0] = this._spatial.clamp(basic[0], 0, 1);
-        basic[1] = this._spatial.clamp(basic[1], 0, 1);
-        var lookat = this.currentTransform.unprojectBasic(basic, this._lookatDepth);
-        this._currentCamera.lookat.fromArray(lookat);
-    };
     TraversingState.prototype.setSpeed = function (speed) {
         this._speedCoefficient = this._spatial.clamp(speed, 0, 10);
-    };
-    TraversingState.prototype.zoomIn = function (delta, reference) {
-        if (this._currentNode == null) {
-            return;
-        }
-        this._desiredZoom = Math.max(this._minZoom, Math.min(this._maxZoom, this._desiredZoom + delta));
-        var currentCenter = this.currentTransform.projectBasic(this._currentCamera.lookat.toArray());
-        var currentCenterX = currentCenter[0];
-        var currentCenterY = currentCenter[1];
-        var zoom0 = Math.pow(2, this._zoom);
-        var zoom1 = Math.pow(2, this._desiredZoom);
-        var refX = reference[0];
-        var refY = reference[1];
-        if (this.currentTransform.gpano != null &&
-            this.currentTransform.gpano.CroppedAreaImageWidthPixels === this.currentTransform.gpano.FullPanoWidthPixels) {
-            if (refX - currentCenterX > 0.5) {
-                refX = refX - 1;
-            }
-            else if (currentCenterX - refX > 0.5) {
-                refX = 1 + refX;
-            }
-        }
-        var newCenterX = refX - zoom0 / zoom1 * (refX - currentCenterX);
-        var newCenterY = refY - zoom0 / zoom1 * (refY - currentCenterY);
-        var gpano = this.currentTransform.gpano;
-        if (this._currentNode.fullPano) {
-            newCenterX = this._spatial.wrap(newCenterX + this._basicRotation[0], 0, 1);
-            newCenterY = this._spatial.clamp(newCenterY + this._basicRotation[1], 0.05, 0.95);
-        }
-        else if (gpano != null &&
-            this.currentTransform.gpano.CroppedAreaImageWidthPixels === this.currentTransform.gpano.FullPanoWidthPixels) {
-            newCenterX = this._spatial.wrap(newCenterX + this._basicRotation[0], 0, 1);
-            newCenterY = this._spatial.clamp(newCenterY + this._basicRotation[1], 0, 1);
-        }
-        else {
-            newCenterX = this._spatial.clamp(newCenterX, 0, 1);
-            newCenterY = this._spatial.clamp(newCenterY, 0, 1);
-        }
-        this._desiredLookat = new THREE.Vector3()
-            .fromArray(this.currentTransform.unprojectBasic([newCenterX, newCenterY], this._lookatDepth));
-    };
-    TraversingState.prototype.setCenter = function (center) {
-        this._desiredLookat = null;
-        this._requestedRotationDelta = null;
-        this._requestedBasicRotation = null;
-        this._desiredZoom = this._zoom;
-        var clamped = [
-            this._spatial.clamp(center[0], 0, 1),
-            this._spatial.clamp(center[1], 0, 1),
-        ];
-        if (this._currentNode == null) {
-            this._desiredCenter = clamped;
-            return;
-        }
-        this._desiredCenter = null;
-        var currentLookat = new THREE.Vector3()
-            .fromArray(this.currentTransform.unprojectBasic(clamped, this._lookatDepth));
-        var previousTransform = this.previousTransform != null ?
-            this.previousTransform :
-            this.currentTransform;
-        var previousLookat = new THREE.Vector3()
-            .fromArray(previousTransform.unprojectBasic(clamped, this._lookatDepth));
-        this._currentCamera.lookat.copy(currentLookat);
-        this._previousCamera.lookat.copy(previousLookat);
-    };
-    TraversingState.prototype.setZoom = function (zoom) {
-        this._desiredLookat = null;
-        this._requestedRotationDelta = null;
-        this._requestedBasicRotation = null;
-        this._zoom = this._spatial.clamp(zoom, this._minZoom, this._maxZoom);
-        this._desiredZoom = this._zoom;
     };
     TraversingState.prototype.update = function (fps) {
         if (this._alpha === 1 && this._currentIndex + this._alpha < this._trajectory.length) {
@@ -42980,208 +44035,12 @@ var TraversingState = /** @class */ (function (_super) {
         this._baseAlpha = 0;
         this._motionless = this._motionlessTransition();
     };
-    TraversingState.prototype._applyRotation = function (camera) {
-        if (camera == null) {
-            return;
-        }
-        var q = new THREE.Quaternion().setFromUnitVectors(camera.up, new THREE.Vector3(0, 0, 1));
-        var qInverse = q.clone().inverse();
-        var offset = new THREE.Vector3();
-        offset.copy(camera.lookat).sub(camera.position);
-        offset.applyQuaternion(q);
-        var length = offset.length();
-        var phi = Math.atan2(offset.y, offset.x);
-        phi += this._rotationDelta.phi;
-        var theta = Math.atan2(Math.sqrt(offset.x * offset.x + offset.y * offset.y), offset.z);
-        theta += this._rotationDelta.theta;
-        theta = Math.max(0.1, Math.min(Math.PI - 0.1, theta));
-        offset.x = Math.sin(theta) * Math.cos(phi);
-        offset.y = Math.sin(theta) * Math.sin(phi);
-        offset.z = Math.cos(theta);
-        offset.applyQuaternion(qInverse);
-        camera.lookat.copy(camera.position).add(offset.multiplyScalar(length));
-    };
-    TraversingState.prototype._applyRotationBasic = function (basicRotation) {
-        var currentNode = this._currentNode;
-        var previousNode = this._previousNode != null ?
-            this.previousNode :
-            this.currentNode;
-        var currentCamera = this._currentCamera;
-        var previousCamera = this._previousCamera;
-        var currentTransform = this.currentTransform;
-        var previousTransform = this.previousTransform != null ?
-            this.previousTransform :
-            this.currentTransform;
-        var currentBasic = currentTransform.projectBasic(currentCamera.lookat.toArray());
-        var previousBasic = previousTransform.projectBasic(previousCamera.lookat.toArray());
-        var currentGPano = currentTransform.gpano;
-        var previousGPano = previousTransform.gpano;
-        if (currentNode.fullPano) {
-            currentBasic[0] = this._spatial.wrap(currentBasic[0] + basicRotation[0], 0, 1);
-            currentBasic[1] = this._spatial.clamp(currentBasic[1] + basicRotation[1], 0.05, 0.95);
-        }
-        else if (currentGPano != null &&
-            currentTransform.gpano.CroppedAreaImageWidthPixels === currentTransform.gpano.FullPanoWidthPixels) {
-            currentBasic[0] = this._spatial.wrap(currentBasic[0] + basicRotation[0], 0, 1);
-            currentBasic[1] = this._spatial.clamp(currentBasic[1] + basicRotation[1], 0, 1);
-        }
-        else {
-            currentBasic[0] = this._spatial.clamp(currentBasic[0] + basicRotation[0], 0, 1);
-            currentBasic[1] = this._spatial.clamp(currentBasic[1] + basicRotation[1], 0, 1);
-        }
-        if (previousNode.fullPano) {
-            previousBasic[0] = this._spatial.wrap(previousBasic[0] + basicRotation[0], 0, 1);
-            previousBasic[1] = this._spatial.clamp(previousBasic[1] + basicRotation[1], 0.05, 0.95);
-        }
-        else if (previousGPano != null &&
-            previousTransform.gpano.CroppedAreaImageWidthPixels === previousTransform.gpano.FullPanoWidthPixels) {
-            previousBasic[0] = this._spatial.wrap(previousBasic[0] + basicRotation[0], 0, 1);
-            previousBasic[1] = this._spatial.clamp(previousBasic[1] + basicRotation[1], 0, 1);
-        }
-        else {
-            previousBasic[0] = this._spatial.clamp(previousBasic[0] + basicRotation[0], 0, 1);
-            previousBasic[1] = this._spatial.clamp(currentBasic[1] + basicRotation[1], 0, 1);
-        }
-        var currentLookat = currentTransform.unprojectBasic(currentBasic, this._lookatDepth);
-        currentCamera.lookat.fromArray(currentLookat);
-        var previousLookat = previousTransform.unprojectBasic(previousBasic, this._lookatDepth);
-        previousCamera.lookat.fromArray(previousLookat);
-    };
-    TraversingState.prototype._updateZoom = function (animationSpeed) {
-        var diff = this._desiredZoom - this._zoom;
-        var sign = diff > 0 ? 1 : diff < 0 ? -1 : 0;
-        if (diff === 0) {
-            return;
-        }
-        else if (Math.abs(diff) < 2e-3) {
-            this._zoom = this._desiredZoom;
-            if (this._desiredLookat != null) {
-                this._desiredLookat = null;
-            }
-        }
-        else {
-            this._zoom += sign * Math.max(Math.abs(5 * animationSpeed * diff), 2e-3);
-        }
-    };
-    TraversingState.prototype._updateLookat = function (animationSpeed) {
-        if (this._desiredLookat === null) {
-            return;
-        }
-        var diff = this._desiredLookat.distanceToSquared(this._currentCamera.lookat);
-        if (Math.abs(diff) < 1e-6) {
-            this._currentCamera.lookat.copy(this._desiredLookat);
-            this._desiredLookat = null;
-        }
-        else {
-            this._currentCamera.lookat.lerp(this._desiredLookat, 5 * animationSpeed);
-        }
-    };
-    TraversingState.prototype._updateRotation = function () {
-        if (this._requestedRotationDelta != null) {
-            var length_1 = this._rotationDelta.lengthSquared();
-            var requestedLength = this._requestedRotationDelta.lengthSquared();
-            if (requestedLength > length_1) {
-                this._rotationDelta.lerp(this._requestedRotationDelta, this._rotationIncreaseAlpha);
-            }
-            else {
-                this._rotationDelta.lerp(this._requestedRotationDelta, this._rotationDecreaseAlpha);
-            }
-            this._requestedRotationDelta = null;
-            return;
-        }
-        if (this._rotationDelta.isZero) {
-            return;
-        }
-        this._rotationDelta.multiply(this._rotationAcceleration);
-        this._rotationDelta.threshold(this._rotationThreshold);
-    };
-    TraversingState.prototype._updateRotationBasic = function () {
-        if (this._requestedBasicRotation != null) {
-            var x = this._basicRotation[0];
-            var y = this._basicRotation[1];
-            var reqX = this._requestedBasicRotation[0];
-            var reqY = this._requestedBasicRotation[1];
-            if (Math.abs(reqX) > Math.abs(x)) {
-                this._basicRotation[0] = (1 - this._rotationIncreaseAlpha) * x + this._rotationIncreaseAlpha * reqX;
-            }
-            else {
-                this._basicRotation[0] = (1 - this._rotationDecreaseAlpha) * x + this._rotationDecreaseAlpha * reqX;
-            }
-            if (Math.abs(reqY) > Math.abs(y)) {
-                this._basicRotation[1] = (1 - this._rotationIncreaseAlpha) * y + this._rotationIncreaseAlpha * reqY;
-            }
-            else {
-                this._basicRotation[1] = (1 - this._rotationDecreaseAlpha) * y + this._rotationDecreaseAlpha * reqY;
-            }
-            this._requestedBasicRotation = null;
-            return;
-        }
-        if (this._requestedBasicRotationUnbounded != null) {
-            var reqX = this._requestedBasicRotationUnbounded[0];
-            var reqY = this._requestedBasicRotationUnbounded[1];
-            if (Math.abs(reqX) > 0) {
-                this._basicRotation[0] = (1 - this._unboundedRotationAlpha) * this._basicRotation[0] + this._unboundedRotationAlpha * reqX;
-            }
-            if (Math.abs(reqY) > 0) {
-                this._basicRotation[1] = (1 - this._unboundedRotationAlpha) * this._basicRotation[1] + this._unboundedRotationAlpha * reqY;
-            }
-            if (this._desiredLookat != null) {
-                var desiredBasicLookat = this.currentTransform.projectBasic(this._desiredLookat.toArray());
-                desiredBasicLookat[0] += reqX;
-                desiredBasicLookat[1] += reqY;
-                this._desiredLookat = new THREE.Vector3()
-                    .fromArray(this.currentTransform.unprojectBasic(desiredBasicLookat, this._lookatDepth));
-            }
-            this._requestedBasicRotationUnbounded = null;
-        }
-        if (this._basicRotation[0] === 0 && this._basicRotation[1] === 0) {
-            return;
-        }
-        this._basicRotation[0] = this._rotationAcceleration * this._basicRotation[0];
-        this._basicRotation[1] = this._rotationAcceleration * this._basicRotation[1];
-        if (Math.abs(this._basicRotation[0]) < this._rotationThreshold / Math.pow(2, this._zoom) &&
-            Math.abs(this._basicRotation[1]) < this._rotationThreshold / Math.pow(2, this._zoom)) {
-            this._basicRotation = [0, 0];
-        }
-    };
-    TraversingState.prototype._clearRotation = function () {
-        if (this._currentNode.fullPano) {
-            return;
-        }
-        if (this._requestedRotationDelta != null) {
-            this._requestedRotationDelta = null;
-        }
-        if (!this._rotationDelta.isZero) {
-            this._rotationDelta.reset();
-        }
-        if (this._requestedBasicRotation != null) {
-            this._requestedBasicRotation = null;
-        }
-        if (this._basicRotation[0] > 0 || this._basicRotation[1] > 0) {
-            this._basicRotation = [0, 0];
-        }
-    };
-    TraversingState.prototype._setDesiredCenter = function () {
-        if (this._desiredCenter == null) {
-            return;
-        }
-        var lookatDirection = new THREE.Vector3()
-            .fromArray(this.currentTransform.unprojectBasic(this._desiredCenter, this._lookatDepth))
-            .sub(this._currentCamera.position);
-        this._currentCamera.lookat.copy(this._currentCamera.position.clone().add(lookatDirection));
-        this._previousCamera.lookat.copy(this._previousCamera.position.clone().add(lookatDirection));
-        this._desiredCenter = null;
-    };
-    TraversingState.prototype._setDesiredZoom = function () {
-        this._desiredZoom =
-            this._currentNode.fullPano || this._previousNode == null ?
-                this._zoom : 0;
-    };
     return TraversingState;
-}(State_1.StateBase));
+}(State_1.InteractiveStateBase));
 exports.TraversingState = TraversingState;
+exports.default = TraversingState;
 
-},{"../../State":298,"@mapbox/unitbezier":2,"three":241}],419:[function(require,module,exports){
+},{"../../State":297,"@mapbox/unitbezier":2}],425:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -43209,6 +44068,9 @@ var WaitingState = /** @class */ (function (_super) {
     };
     WaitingState.prototype.wait = function () {
         throw new Error("Not implemented");
+    };
+    WaitingState.prototype.waitInteractively = function () {
+        return new State_1.InteractiveWaitingState(this);
     };
     WaitingState.prototype.prepend = function (nodes) {
         _super.prototype.prepend.call(this, nodes);
@@ -43259,8 +44121,9 @@ var WaitingState = /** @class */ (function (_super) {
     return WaitingState;
 }(State_1.StateBase));
 exports.WaitingState = WaitingState;
+exports.default = WaitingState;
 
-},{"../../State":298}],420:[function(require,module,exports){
+},{"../../State":297}],426:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
@@ -43352,7 +44215,7 @@ var ImageTileLoader = /** @class */ (function () {
 exports.ImageTileLoader = ImageTileLoader;
 exports.default = ImageTileLoader;
 
-},{"rxjs/Observable":29}],421:[function(require,module,exports){
+},{"rxjs/Observable":29}],427:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -43420,7 +44283,7 @@ var ImageTileStore = /** @class */ (function () {
 exports.ImageTileStore = ImageTileStore;
 exports.default = ImageTileStore;
 
-},{}],422:[function(require,module,exports){
+},{}],428:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -43561,7 +44424,7 @@ var RegionOfInterestCalculator = /** @class */ (function () {
 exports.RegionOfInterestCalculator = RegionOfInterestCalculator;
 exports.default = RegionOfInterestCalculator;
 
-},{"../Geo":294}],423:[function(require,module,exports){
+},{"../Geo":293}],429:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -44042,7 +44905,7 @@ var TextureProvider = /** @class */ (function () {
 exports.TextureProvider = TextureProvider;
 exports.default = TextureProvider;
 
-},{"rxjs/Subject":34,"three":241}],424:[function(require,module,exports){
+},{"rxjs/Subject":34,"three":240}],430:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var DOM = /** @class */ (function () {
@@ -44071,7 +44934,7 @@ var DOM = /** @class */ (function () {
 exports.DOM = DOM;
 exports.default = DOM;
 
-},{}],425:[function(require,module,exports){
+},{}],431:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EventEmitter = /** @class */ (function () {
@@ -44130,7 +44993,7 @@ var EventEmitter = /** @class */ (function () {
 exports.EventEmitter = EventEmitter;
 exports.default = EventEmitter;
 
-},{}],426:[function(require,module,exports){
+},{}],432:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Viewer_1 = require("../Viewer");
@@ -44174,7 +45037,7 @@ var Settings = /** @class */ (function () {
 exports.Settings = Settings;
 exports.default = Settings;
 
-},{"../Viewer":302}],427:[function(require,module,exports){
+},{"../Viewer":301}],433:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function isBrowser() {
@@ -44202,6 +45065,10 @@ function isObjectSupported() {
         Object.assign);
 }
 exports.isObjectSupported = isObjectSupported;
+function isBlobSupported() {
+    return "Blob" in window && "URL" in window;
+}
+exports.isBlobSupported = isBlobSupported;
 var isWebGLSupportedCache = undefined;
 function isWebGLSupportedCached() {
     if (isWebGLSupportedCache === undefined) {
@@ -44240,7 +45107,7 @@ function isWebGLSupported() {
 }
 exports.isWebGLSupported = isWebGLSupported;
 
-},{}],428:[function(require,module,exports){
+},{}],434:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Urls = /** @class */ (function () {
@@ -44325,7 +45192,7 @@ var Urls = /** @class */ (function () {
 exports.Urls = Urls;
 exports.default = Urls;
 
-},{}],429:[function(require,module,exports){
+},{}],435:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -44374,16 +45241,10 @@ var Alignment;
 })(Alignment = exports.Alignment || (exports.Alignment = {}));
 exports.default = Alignment;
 
-},{}],430:[function(require,module,exports){
+},{}],436:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
-require("rxjs/add/operator/bufferCount");
-require("rxjs/add/operator/delay");
-require("rxjs/add/operator/distinctUntilChanged");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/switchMap");
-require("rxjs/add/operator/timeout");
 var Graph_1 = require("../Graph");
 var CacheService = /** @class */ (function () {
     function CacheService(graphService, stateService) {
@@ -44477,7 +45338,7 @@ var CacheService = /** @class */ (function () {
 exports.CacheService = CacheService;
 exports.default = CacheService;
 
-},{"../Graph":295,"rxjs/Observable":29,"rxjs/add/operator/bufferCount":52,"rxjs/add/operator/delay":58,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/map":67,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/timeout":89}],431:[function(require,module,exports){
+},{"../Graph":294,"rxjs/Observable":29}],437:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Component_1 = require("../Component");
@@ -44561,6 +45422,7 @@ var ComponentController = /** @class */ (function () {
         this._uTrue(options.mouse, "mouse");
         this._uTrue(options.sequence, "sequence");
         this._uTrue(options.stats, "stats");
+        this._uTrue(options.zoom, "zoom");
     };
     ComponentController.prototype._initilizeCoverComponent = function () {
         var options = this._options;
@@ -44655,7 +45517,7 @@ var ComponentController = /** @class */ (function () {
 }());
 exports.ComponentController = ComponentController;
 
-},{"../Component":291}],432:[function(require,module,exports){
+},{"../Component":290}],438:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Render_1 = require("../Render");
@@ -44706,7 +45568,7 @@ var Container = /** @class */ (function () {
 exports.Container = Container;
 exports.default = Container;
 
-},{"../Render":297,"../Utils":301,"../Viewer":302}],433:[function(require,module,exports){
+},{"../Render":296,"../Utils":300,"../Viewer":301}],439:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -44735,7 +45597,7 @@ var ImageSize;
     ImageSize[ImageSize["Size2048"] = 2048] = "Size2048";
 })(ImageSize = exports.ImageSize || (exports.ImageSize = {}));
 
-},{}],434:[function(require,module,exports){
+},{}],440:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
@@ -44755,18 +45617,12 @@ var KeyboardService = /** @class */ (function () {
 exports.KeyboardService = KeyboardService;
 exports.default = KeyboardService;
 
-},{"rxjs/Observable":29}],435:[function(require,module,exports){
+},{"rxjs/Observable":29}],441:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
 var _ = require("underscore");
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/operator/debounceTime");
-require("rxjs/add/operator/distinctUntilChanged");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/publishReplay");
-require("rxjs/add/operator/scan");
-require("rxjs/add/operator/startWith");
 var LoadingService = /** @class */ (function () {
     function LoadingService() {
         this._loadersSubject$ = new Subject_1.Subject();
@@ -44814,22 +45670,12 @@ var LoadingService = /** @class */ (function () {
 exports.LoadingService = LoadingService;
 exports.default = LoadingService;
 
-},{"rxjs/Subject":34,"rxjs/add/operator/debounceTime":57,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/map":67,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78,"rxjs/add/operator/startWith":83,"underscore":243}],436:[function(require,module,exports){
+},{"rxjs/Subject":34,"underscore":242}],442:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 var Observable_1 = require("rxjs/Observable");
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/observable/fromEvent");
-require("rxjs/add/operator/distinctUntilChanged");
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/merge");
-require("rxjs/add/operator/mergeMap");
-require("rxjs/add/operator/publishReplay");
-require("rxjs/add/operator/scan");
-require("rxjs/add/operator/switchMap");
-require("rxjs/add/operator/withLatestFrom");
 var Geo_1 = require("../Geo");
 var MouseService = /** @class */ (function () {
     function MouseService(container, canvasContainer, domContainer, doc, viewportCoords) {
@@ -45266,19 +46112,13 @@ var MouseService = /** @class */ (function () {
 exports.MouseService = MouseService;
 exports.default = MouseService;
 
-},{"../Geo":294,"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/fromEvent":43,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/merge":68,"rxjs/add/operator/mergeMap":70,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78,"rxjs/add/operator/switchMap":84,"rxjs/add/operator/withLatestFrom":90}],437:[function(require,module,exports){
+},{"../Geo":293,"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/Subject":34}],443:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 var Observable_1 = require("rxjs/Observable");
 var ReplaySubject_1 = require("rxjs/ReplaySubject");
-require("rxjs/add/observable/throw");
-require("rxjs/add/operator/do");
-require("rxjs/add/operator/finally");
-require("rxjs/add/operator/first");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/mergeMap");
 var API_1 = require("../API");
 var Graph_1 = require("../Graph");
 var Edge_1 = require("../Edge");
@@ -45495,23 +46335,28 @@ var Navigator = /** @class */ (function () {
             this._nodeRequestSubscription = null;
         }
         if (this._request$ != null) {
-            this._request$.error(new Error_1.AbortMapillaryError("Request aborted by a subsequent request " + reason + "."));
+            if (!(this._request$.isStopped || this._request$.hasError)) {
+                this._request$.error(new Error_1.AbortMapillaryError("Request aborted by a subsequent request " + reason + "."));
+            }
             this._request$ = null;
         }
     };
     Navigator.prototype._makeRequest$ = function (node$) {
         var _this = this;
-        this._request$ = new ReplaySubject_1.ReplaySubject(1);
-        this._requestSubscription = this._request$
+        var request$ = new ReplaySubject_1.ReplaySubject(1);
+        this._requestSubscription = request$
             .subscribe(undefined, function (e) { });
+        this._request$ = request$;
         this._nodeRequestSubscription = node$
             .subscribe(function (node) {
-            _this._request$.next(node);
-            _this._request$.complete();
+            request$.next(node);
+            request$.complete();
+            _this._request$ = null;
         }, function (error) {
-            _this._request$.error(error);
+            request$.error(error);
+            _this._request$ = null;
         });
-        return this._request$;
+        return request$;
     };
     Navigator.prototype._moveToKey$ = function (key) {
         var _this = this;
@@ -45540,15 +46385,11 @@ var Navigator = /** @class */ (function () {
 exports.Navigator = Navigator;
 exports.default = Navigator;
 
-},{"../API":290,"../Edge":292,"../Error":293,"../Graph":295,"../State":298,"../Viewer":302,"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/ReplaySubject":32,"rxjs/add/observable/throw":47,"rxjs/add/operator/do":61,"rxjs/add/operator/finally":64,"rxjs/add/operator/first":65,"rxjs/add/operator/map":67,"rxjs/add/operator/mergeMap":70}],438:[function(require,module,exports){
+},{"../API":289,"../Edge":291,"../Error":292,"../Graph":294,"../State":297,"../Viewer":301,"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/ReplaySubject":32}],444:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/observable/combineLatest");
-require("rxjs/add/operator/distinctUntilChanged");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/throttleTime");
 var Viewer_1 = require("../Viewer");
 var Observer = /** @class */ (function () {
     function Observer(eventEmitter, navigator, container) {
@@ -45633,7 +46474,7 @@ var Observer = /** @class */ (function () {
             }
         });
         this._bearingSubscription = this._container.renderService.bearing$
-            .throttleTime(100)
+            .auditTime(100)
             .distinctUntilChanged(function (b1, b2) {
             return Math.abs(b2 - b1) < 1;
         })
@@ -45714,12 +46555,11 @@ var Observer = /** @class */ (function () {
 exports.Observer = Observer;
 exports.default = Observer;
 
-},{"../Viewer":302,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/combineLatest":38,"rxjs/add/operator/distinctUntilChanged":60,"rxjs/add/operator/map":67,"rxjs/add/operator/throttleTime":88}],439:[function(require,module,exports){
+},{"../Viewer":301,"rxjs/Observable":29,"rxjs/Subject":34}],445:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/operator/timeout");
 var Edge_1 = require("../Edge");
 var Graph_1 = require("../Graph");
 var PlayService = /** @class */ (function () {
@@ -46090,7 +46930,7 @@ var PlayService = /** @class */ (function () {
 exports.PlayService = PlayService;
 exports.default = PlayService;
 
-},{"../Edge":292,"../Graph":295,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/operator/timeout":89}],440:[function(require,module,exports){
+},{"../Edge":291,"../Graph":294,"rxjs/Observable":29,"rxjs/Subject":34}],446:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -46149,16 +46989,13 @@ var Projection = /** @class */ (function () {
 exports.Projection = Projection;
 exports.default = Projection;
 
-},{"../Geo":294,"three":241}],441:[function(require,module,exports){
+},{"../Geo":293,"three":240}],447:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
 var vd = require("virtual-dom");
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/operator/publishReplay");
-require("rxjs/add/operator/scan");
-require("rxjs/add/operator/startWith");
 var Viewer_1 = require("../Viewer");
 var SpriteAtlas = /** @class */ (function () {
     function SpriteAtlas() {
@@ -46348,19 +47185,12 @@ var SpriteService = /** @class */ (function () {
 exports.SpriteService = SpriteService;
 exports.default = SpriteService;
 
-},{"../Viewer":302,"rxjs/Subject":34,"rxjs/add/operator/publishReplay":74,"rxjs/add/operator/scan":78,"rxjs/add/operator/startWith":83,"three":241,"virtual-dom":247}],442:[function(require,module,exports){
+},{"../Viewer":301,"rxjs/Subject":34,"three":240,"virtual-dom":246}],448:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 var Observable_1 = require("rxjs/Observable");
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/observable/timer");
-require("rxjs/add/operator/bufferWhen");
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/map");
-require("rxjs/add/operator/merge");
-require("rxjs/add/operator/scan");
-require("rxjs/add/operator/switchMap");
 var TouchService = /** @class */ (function () {
     function TouchService(canvasContainer, domContainer) {
         var _this = this;
@@ -46621,7 +47451,7 @@ var TouchService = /** @class */ (function () {
 }());
 exports.TouchService = TouchService;
 
-},{"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/Subject":34,"rxjs/add/observable/timer":48,"rxjs/add/operator/bufferWhen":53,"rxjs/add/operator/filter":63,"rxjs/add/operator/map":67,"rxjs/add/operator/merge":68,"rxjs/add/operator/scan":78,"rxjs/add/operator/switchMap":84}],443:[function(require,module,exports){
+},{"rxjs/BehaviorSubject":26,"rxjs/Observable":29,"rxjs/Subject":34}],449:[function(require,module,exports){
 "use strict";
 /// <reference path="../../typings/index.d.ts" />
 var __extends = (this && this.__extends) || (function () {
@@ -46636,6 +47466,60 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var when = require("when");
+require("rxjs/add/observable/combineLatest");
+require("rxjs/add/observable/concat");
+require("rxjs/add/observable/defer");
+require("rxjs/add/observable/empty");
+require("rxjs/add/observable/merge");
+require("rxjs/add/observable/from");
+require("rxjs/add/observable/fromEvent");
+require("rxjs/add/observable/fromPromise");
+require("rxjs/add/observable/of");
+require("rxjs/add/observable/throw");
+require("rxjs/add/observable/timer");
+require("rxjs/add/observable/zip");
+require("rxjs/add/operator/auditTime");
+require("rxjs/add/operator/buffer");
+require("rxjs/add/operator/bufferCount");
+require("rxjs/add/operator/bufferWhen");
+require("rxjs/add/operator/catch");
+require("rxjs/add/operator/combineLatest");
+require("rxjs/add/operator/concat");
+require("rxjs/add/operator/count");
+require("rxjs/add/operator/debounceTime");
+require("rxjs/add/operator/delay");
+require("rxjs/add/operator/distinct");
+require("rxjs/add/operator/distinctUntilChanged");
+require("rxjs/add/operator/do");
+require("rxjs/add/operator/expand");
+require("rxjs/add/operator/filter");
+require("rxjs/add/operator/finally");
+require("rxjs/add/operator/first");
+require("rxjs/add/operator/last");
+require("rxjs/add/operator/map");
+require("rxjs/add/operator/merge");
+require("rxjs/add/operator/mergeMap");
+require("rxjs/add/operator/mergeAll");
+require("rxjs/add/operator/pairwise");
+require("rxjs/add/operator/pluck");
+require("rxjs/add/operator/publish");
+require("rxjs/add/operator/publishReplay");
+require("rxjs/add/operator/reduce");
+require("rxjs/add/operator/retry");
+require("rxjs/add/operator/sample");
+require("rxjs/add/operator/scan");
+require("rxjs/add/operator/share");
+require("rxjs/add/operator/skip");
+require("rxjs/add/operator/skipUntil");
+require("rxjs/add/operator/skipWhile");
+require("rxjs/add/operator/startWith");
+require("rxjs/add/operator/switchMap");
+require("rxjs/add/operator/take");
+require("rxjs/add/operator/takeUntil");
+require("rxjs/add/operator/takeWhile");
+require("rxjs/add/operator/timeout");
+require("rxjs/add/operator/withLatestFrom");
+require("rxjs/add/operator/zip");
 var Observable_1 = require("rxjs/Observable");
 var Viewer_1 = require("../Viewer");
 var Utils_1 = require("../Utils");
@@ -46928,6 +47812,8 @@ var Viewer = /** @class */ (function (_super) {
      * longitude.
      * @throws {Error} Propagates any IO errors to the caller.
      * @throws {Error} When viewer is not navigable.
+     * @throws {AbortMapillaryError} When a subsequent move request is made
+     * before the move close to call has completed.
      *
      * @example
      * ```
@@ -46959,6 +47845,8 @@ var Viewer = /** @class */ (function (_super) {
      * or the edges has not yet been cached.
      * @throws {Error} Propagates any IO errors to the caller.
      * @throws {Error} When viewer is not navigable.
+     * @throws {AbortMapillaryError} When a subsequent move request is made
+     * before the move dir call has completed.
      *
      * @example
      * ```
@@ -46986,6 +47874,8 @@ var Viewer = /** @class */ (function (_super) {
      * @returns {Promise<Node>} Promise to the node that was navigated to.
      * @throws {Error} Propagates any IO errors to the caller.
      * @throws {Error} When viewer is not navigable.
+     * @throws {AbortMapillaryError} When a subsequent move request is made
+     * before the move to key call has completed.
      *
      * @example
      * ```
@@ -47058,8 +47948,8 @@ var Viewer = /** @class */ (function (_super) {
      * viewer will make unauthenticated requests.
      *
      * Calling setAuthToken aborts all outstanding move requests.
-     * The promises of those move requests will be rejected and
-     * the rejections need to be caught.
+     * The promises of those move requests will be rejected with a
+     * {@link AbortMapillaryError} the rejections need to be caught.
      *
      * Calling setAuthToken also resets the complete viewer cache
      * so it should not be called repeatedly.
@@ -47267,6 +48157,11 @@ var Viewer = /** @class */ (function (_super) {
     };
     /**
      * Fired when the viewing direction of the camera changes.
+     *
+     * @description Related to the computed compass angle
+     * ({@link Node.computedCa}) from SfM, not the original EXIF compass
+     * angle.
+     *
      * @event
      * @type {number} bearing - Value indicating the current bearing
      * measured in degrees clockwise with respect to north.
@@ -47378,6 +48273,6 @@ var Viewer = /** @class */ (function (_super) {
 }(Utils_1.EventEmitter));
 exports.Viewer = Viewer;
 
-},{"../Utils":301,"../Viewer":302,"rxjs/Observable":29,"when":288}]},{},[296])(296)
+},{"../Utils":300,"../Viewer":301,"rxjs/Observable":29,"rxjs/add/observable/combineLatest":38,"rxjs/add/observable/concat":39,"rxjs/add/observable/defer":40,"rxjs/add/observable/empty":41,"rxjs/add/observable/from":42,"rxjs/add/observable/fromEvent":43,"rxjs/add/observable/fromPromise":44,"rxjs/add/observable/merge":45,"rxjs/add/observable/of":46,"rxjs/add/observable/throw":47,"rxjs/add/observable/timer":48,"rxjs/add/observable/zip":49,"rxjs/add/operator/auditTime":50,"rxjs/add/operator/buffer":51,"rxjs/add/operator/bufferCount":52,"rxjs/add/operator/bufferWhen":53,"rxjs/add/operator/catch":54,"rxjs/add/operator/combineLatest":55,"rxjs/add/operator/concat":56,"rxjs/add/operator/count":57,"rxjs/add/operator/debounceTime":58,"rxjs/add/operator/delay":59,"rxjs/add/operator/distinct":60,"rxjs/add/operator/distinctUntilChanged":61,"rxjs/add/operator/do":62,"rxjs/add/operator/expand":63,"rxjs/add/operator/filter":64,"rxjs/add/operator/finally":65,"rxjs/add/operator/first":66,"rxjs/add/operator/last":67,"rxjs/add/operator/map":68,"rxjs/add/operator/merge":69,"rxjs/add/operator/mergeAll":70,"rxjs/add/operator/mergeMap":71,"rxjs/add/operator/pairwise":72,"rxjs/add/operator/pluck":73,"rxjs/add/operator/publish":74,"rxjs/add/operator/publishReplay":75,"rxjs/add/operator/reduce":76,"rxjs/add/operator/retry":77,"rxjs/add/operator/sample":78,"rxjs/add/operator/scan":79,"rxjs/add/operator/share":80,"rxjs/add/operator/skip":81,"rxjs/add/operator/skipUntil":82,"rxjs/add/operator/skipWhile":83,"rxjs/add/operator/startWith":84,"rxjs/add/operator/switchMap":85,"rxjs/add/operator/take":86,"rxjs/add/operator/takeUntil":87,"rxjs/add/operator/takeWhile":88,"rxjs/add/operator/timeout":89,"rxjs/add/operator/withLatestFrom":90,"rxjs/add/operator/zip":91,"when":287}]},{},[295])(295)
 });
 //# sourceMappingURL=mapillary.js.map
