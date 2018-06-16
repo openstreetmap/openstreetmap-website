@@ -2,6 +2,7 @@ class ReportsController < ApplicationController
   layout "site"
 
   before_action :authorize_web
+  before_action :set_locale
   before_action :require_user
 
   def new
