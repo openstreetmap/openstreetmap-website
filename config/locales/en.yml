@@ -207,6 +207,7 @@ en:
       reopened_by: "Reactivated by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
       reopened_by_anonymous: "Reactivated by anonymous <abbr title='%{exact_time}'>%{when} ago</abbr>"
       hidden_by: "Hidden by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
+      report: Report this note
     query:
       title: "Query Features"
       introduction: "Click on the map to find nearby features."
@@ -297,10 +298,12 @@ en:
       edit_link: Edit this entry
       hide_link: Hide this entry
       confirm: Confirm
+      report: Report this entry
     diary_comment:
       comment_from: "Comment from %{link_user} on %{comment_created_at}"
       hide_link: Hide this comment
       confirm: Confirm
+      report: Report this comment
     location:
       location: "Location:"
       view: "View"
@@ -918,6 +921,110 @@ en:
     results:
       no_results: "No results found"
       more_results: "More results"
+  issues:
+    index:
+      title: Issues
+      select_status: Select Status
+      select_type: Select Type
+      select_last_updated_by: Select Last Updated By
+      reported_user: Reported User
+      not_updated: Not Updated
+      search: Search
+      search_guidance: "Search Issues:"
+      user_not_found: User does not exist
+      issues_not_found: No such issues found
+      status: Status
+      reports: Reports
+      last_updated: Last Updated
+      last_updated_time_html: "<abbr title='%{title}'>%{time} ago</abbr>"
+      last_updated_time_user_html: "<abbr title='%{title}'>%{time} ago</abbr> by %{user}"
+      link_to_reports: View Reports
+      reported_user: Reported User
+      reports_count:
+        one: "1 Report"
+        other: "%{count} Reports"
+      reported_item: Reported Item
+      states:
+        ignored: Ignored
+        open: Open
+        resolved: Resolved
+    update:
+      new_report: Your report has been registered sucessfully
+      successful_update: Your report has been updated successfully
+      provide_details: Please provide the required details
+    show:
+      title: "%{status} Issue #%{issue_id}"
+      reports:
+        zero: No reports
+        one: 1 report
+        other: "%{count} reports"
+      report_created_at: "First reported at %{datetime}"
+      last_resolved_at: "Last resolved at %{datetime}"
+      last_updated_at: "Last updated at %{datetime} by %{displayname}"
+      resolve: Resolve
+      ignore: Ignore
+      reopen: Reopen
+      reports_of_this_issue: Reports of this Issue
+      read_reports: Read Reports
+      new_reports: New Reports
+      other_issues_against_this_user: Other issues against this user
+      no_other_issues: No other issues against this user.
+      comments_on_this_issue: Comments on this issue
+    resolve:
+      resolved: Issue status has been set to 'Resolved'
+    ignore:
+      ignored: Issue status has been set to 'Ignored'
+    reopen:
+      reopened: Issue status has been set to 'Open'
+    comments:
+      created_at: "On %{datetime}"
+      reassign_param: Reassign Issue?
+    reports:
+      updated_at: "On %{datetime}"
+      reported_by_html: "Reported as %{category} by %{user}"
+    helper:
+      reportable_title:
+        diary_comment: "%{entry_title}, comment #%{comment_id}"
+        note: "Note #{note_id}"
+  issue_comments:
+    create:
+      comment_created: Your comment was successfully created
+  reports:
+    new:
+      title_html: "Report %{link}"
+      missing_params: "Cannot create a new report"
+      details: Please provide some more details about the problem (required).
+      select: "Select a reason for your report:"
+      disclaimer:
+        intro: "Before sending your report to the site moderators, please ensure that:"
+        not_just_mistake: You are certain that the problem is not just a mistake
+        unable_to_fix: You are unable to fix the problem yourself or with the help of your fellow community members
+        resolve_with_user: You have already tried to resolve the problem with the user concerned
+      categories:
+        diary_entry:
+          spam: This diary entry is/contains spam
+          offensive: This diary entry is obscene/offensive
+          threat: This diary entry contains a threat
+          other: Other
+        diary_comment:
+          spam: This diary comment is/contains spam
+          offensive: This diary comment is obscene/offensive
+          threat: This diary comment contains a threat
+          other: Other
+        user:
+          spam: This user profile is/contains spam
+          offensive: This user profile is obscene/offensive
+          threat: This user profile contains a threat
+          vandal: This user is a vandal
+          other: Other
+        note:
+          spam: This note is spam
+          personal: This note contains personal data
+          abusive: This note is abusive
+          other: Other
+    create:
+      successful_report: Your report has been registered sucessfully
+      provide_details: Please provide the required details      
   layouts:
     project_name:
       # in <title>
@@ -936,6 +1043,7 @@ en:
     edit: Edit
     history: History
     export: Export
+    issues: Issues
     data: Data
     export_data: Export Data
     gps_traces: GPS Traces
@@ -1684,8 +1792,12 @@ en:
   application:
     require_cookies:
       cookies_needed: "You appear to have cookies disabled - please enable cookies in your browser before continuing."
+    require_admin:
+      not_an_admin: You need to be an admin to perform that action.
     require_moderator:
       not_a_moderator: "You need to be a moderator to perform that action."
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: You need to be a moderator or an admin to perform that action
     setup_user_auth:
       blocked_zero_hour: "You have an urgent message on the OpenStreetMap web site. You need to read the message before you will be able to save your edits."
       blocked: "Your access to the API has been blocked. Please log-in to the web interface to find out more."
@@ -1955,6 +2067,7 @@ en:
       friends_diaries: "friends' diary entries"
       nearby_changesets: "nearby user changesets"
       nearby_diaries: "nearby user diary entries"
+      report: Report this User
     popup:
       your location: "Your location"
       nearby mapper: "Nearby mapper"

@@ -73,6 +73,9 @@ gem "omniauth-windowslive"
 # Markdown formatting support
 gem "redcarpet"
 
+# For status transitions of Issues
+gem "aasm"
+
 # Load libxml support for XML parsing and generation
 gem "libxml-ruby", ">= 2.0.5", :require => "libxml"
 

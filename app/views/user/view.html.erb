@@ -102,6 +102,11 @@
             </li>
           <% end %>
 
+          <% if current_user and @user.id != current_user.id %>
+            <li>
+              <%= report_link(t(".report"), @user) %>
+            </li>
+          <% end %>
         </ul>
 
       <% end %>

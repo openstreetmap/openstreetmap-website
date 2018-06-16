@@ -31,8 +31,16 @@
       <li><%= link_to t('.edit_link'), :action => 'edit', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></li>
     <% end %>
 
+    <% if current_user and diary_entry.user != current_user %>
+      <li>
+        <%= report_link(t(".report"), diary_entry) %>
+      </li>
+    <% end %>
+
     <% if current_user && current_user.administrator? %>
-      <li><%= link_to t('.hide_link'), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t('.confirm') } %></li>
+      <li>
+        <%= link_to t('.hide_link'), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t('.confirm') } %>
+      </li>
     <% end %>
   </ul>
 </div>

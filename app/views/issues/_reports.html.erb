@@ -1,0 +1,16 @@
+<% reports.each do |report| %>
+  <div class="report">
+    <div style="float:left">
+      <%= link_to user_thumbnail(report.user), user_path(report.user.display_name) %>
+    </div>
+    <%= t ".reported_by_html", :category => report.category, :user => link_to(report.user.display_name, user_path(report.user.display_name)) %>
+    <br/>
+    <span class="deemphasize">
+      <%= t(".updated_at", :datetime => l(report.updated_at.to_datetime, :format => :friendly)) %>
+    </span>
+    <br/>
+    <%= report.details %>
+    <br/>
+  </div>
+  <hr>
+<% end %>

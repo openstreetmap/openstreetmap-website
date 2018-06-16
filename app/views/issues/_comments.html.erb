@@ -1,0 +1,25 @@
+<div class="issue-comments">
+  <% comments.each do |comment| %>
+    <div class="comment">
+      <div style="float:left">
+        <%= link_to user_thumbnail(comment.user), user_path(comment.user.display_name) %>
+      </div>
+      <b> <%= link_to comment.user.display_name, user_path(comment.user.display_name) %> </b> <br/>
+      <%= comment.body %>
+    </div>
+    <span class="deemphasize">
+      <%= t(".created_at", :datetime => l(comment.created_at.to_datetime, :format => :friendly)) %>
+    </span>
+    <hr>
+  <% end %>
+</div>
+<br/>
+<div class="comment">
+  <%= form_for @new_comment, url: issue_comments_path(@issue) do |f| %>
+  <%= richtext_area :issue_comment, :body, :cols => 10, :rows => 8, :required => true %>
+  <%= label_tag :reassign, t('.reassign_param') %> <%= check_box_tag :reassign, true %>
+  <br/>
+  <br/>
+  <%= submit_tag 'Submit' %>
+  <% end %>
+</div>

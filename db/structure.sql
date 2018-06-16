@@ -61,6 +61,17 @@ CREATE TYPE gpx_visibility_enum AS ENUM (
 
 
 --
+-- Name: issue_status_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE issue_status_enum AS ENUM (
+    'open',
+    'ignored',
+    'resolved'
+);
+
+
+--
 -- Name: note_event_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -680,6 +691,78 @@ ALTER SEQUENCE gpx_files_id_seq OWNED BY gpx_files.id;
 
 
 --
+-- Name: issue_comments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE issue_comments (
+    id integer NOT NULL,
+    issue_id integer NOT NULL,
+    user_id integer NOT NULL,
+    body text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: issue_comments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE issue_comments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: issue_comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE issue_comments_id_seq OWNED BY issue_comments.id;
+
+
+--
+-- Name: issues; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE issues (
+    id integer NOT NULL,
+    reportable_type character varying NOT NULL,
+    reportable_id integer NOT NULL,
+    reported_user_id integer,
+    status issue_status_enum DEFAULT 'open'::public.issue_status_enum NOT NULL,
+    assigned_role user_role_enum NOT NULL,
+    resolved_at timestamp without time zone,
+    resolved_by integer,
+    updated_by integer,
+    reports_count integer DEFAULT 0,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: issues_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE issues_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: issues_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE issues_id_seq OWNED BY issues.id;
+
+
+--
 -- Name: languages; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -978,6 +1061,40 @@ CREATE TABLE relations (
     visible boolean DEFAULT true NOT NULL,
     redaction_id integer
 );
+
+
+--
+-- Name: reports; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE reports (
+    id integer NOT NULL,
+    issue_id integer NOT NULL,
+    user_id integer NOT NULL,
+    details text NOT NULL,
+    category character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: reports_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE reports_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: reports_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE reports_id_seq OWNED BY reports.id;
 
 
 --
@@ -1284,6 +1401,20 @@ ALTER TABLE ONLY gpx_files ALTER COLUMN id SET DEFAULT nextval('gpx_files_id_seq
 
 
 --
+-- Name: issue_comments id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY issue_comments ALTER COLUMN id SET DEFAULT nextval('issue_comments_id_seq'::regclass);
+
+
+--
+-- Name: issues id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY issues ALTER COLUMN id SET DEFAULT nextval('issues_id_seq'::regclass);
+
+
+--
 -- Name: messages id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1323,6 +1454,13 @@ ALTER TABLE ONLY oauth_tokens ALTER COLUMN id SET DEFAULT nextval('oauth_tokens_
 --
 
 ALTER TABLE ONLY redactions ALTER COLUMN id SET DEFAULT nextval('redactions_id_seq'::regclass);
+
+
+--
+-- Name: reports id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY reports ALTER COLUMN id SET DEFAULT nextval('reports_id_seq'::regclass);
 
 
 --
@@ -1506,6 +1644,22 @@ ALTER TABLE ONLY gpx_files
 
 
 --
+-- Name: issue_comments issue_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY issue_comments
+    ADD CONSTRAINT issue_comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: issues issues_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY issues
+    ADD CONSTRAINT issues_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: languages languages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1599,6 +1753,14 @@ ALTER TABLE ONLY relation_tags
 
 ALTER TABLE ONLY relations
     ADD CONSTRAINT relations_pkey PRIMARY KEY (relation_id, version);
+
+
+--
+-- Name: reports reports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY reports
+    ADD CONSTRAINT reports_pkey PRIMARY KEY (id);
 
 
 --
@@ -1876,6 +2038,55 @@ CREATE INDEX index_diary_entry_subscriptions_on_diary_entry_id ON diary_entry_su
 
 
 --
+-- Name: index_issue_comments_on_issue_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_issue_comments_on_issue_id ON issue_comments USING btree (issue_id);
+
+
+--
+-- Name: index_issue_comments_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_issue_comments_on_user_id ON issue_comments USING btree (user_id);
+
+
+--
+-- Name: index_issues_on_assigned_role; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_issues_on_assigned_role ON issues USING btree (assigned_role);
+
+
+--
+-- Name: index_issues_on_reportable_type_and_reportable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_issues_on_reportable_type_and_reportable_id ON issues USING btree (reportable_type, reportable_id);
+
+
+--
+-- Name: index_issues_on_reported_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_issues_on_reported_user_id ON issues USING btree (reported_user_id);
+
+
+--
+-- Name: index_issues_on_status; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_issues_on_status ON issues USING btree (status);
+
+
+--
+-- Name: index_issues_on_updated_by; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_issues_on_updated_by ON issues USING btree (updated_by);
+
+
+--
 -- Name: index_note_comments_on_body; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1908,6 +2119,20 @@ CREATE UNIQUE INDEX index_oauth_tokens_on_token ON oauth_tokens USING btree (tok
 --
 
 CREATE INDEX index_oauth_tokens_on_user_id ON oauth_tokens USING btree (user_id);
+
+
+--
+-- Name: index_reports_on_issue_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reports_on_issue_id ON reports USING btree (issue_id);
+
+
+--
+-- Name: index_reports_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reports_on_user_id ON reports USING btree (user_id);
 
 
 --
@@ -2330,6 +2555,46 @@ ALTER TABLE ONLY gpx_files
 
 
 --
+-- Name: issue_comments issue_comments_issue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY issue_comments
+    ADD CONSTRAINT issue_comments_issue_id_fkey FOREIGN KEY (issue_id) REFERENCES issues(id);
+
+
+--
+-- Name: issue_comments issue_comments_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY issue_comments
+    ADD CONSTRAINT issue_comments_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: issues issues_reported_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY issues
+    ADD CONSTRAINT issues_reported_user_id_fkey FOREIGN KEY (reported_user_id) REFERENCES users(id);
+
+
+--
+-- Name: issues issues_resolved_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY issues
+    ADD CONSTRAINT issues_resolved_by_fkey FOREIGN KEY (resolved_by) REFERENCES users(id);
+
+
+--
+-- Name: issues issues_updated_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY issues
+    ADD CONSTRAINT issues_updated_by_fkey FOREIGN KEY (updated_by) REFERENCES users(id);
+
+
+--
 -- Name: messages messages_from_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2439,6 +2704,22 @@ ALTER TABLE ONLY relations
 
 ALTER TABLE ONLY relations
     ADD CONSTRAINT relations_redaction_id_fkey FOREIGN KEY (redaction_id) REFERENCES redactions(id);
+
+
+--
+-- Name: reports reports_issue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY reports
+    ADD CONSTRAINT reports_issue_id_fkey FOREIGN KEY (issue_id) REFERENCES issues(id);
+
+
+--
+-- Name: reports reports_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY reports
+    ADD CONSTRAINT reports_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -2584,6 +2865,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20150111192335'),
 ('20150222101847'),
 ('20150818224516'),
+('20160822153055'),
 ('20161002153425'),
 ('20161011010929'),
 ('20170222134109'),
@@ -2632,5 +2914,3 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('7'),
 ('8'),
 ('9');
-
-
