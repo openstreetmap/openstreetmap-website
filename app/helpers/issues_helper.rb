@@ -24,4 +24,13 @@ module IssuesHelper
       I18n.t("issues.helper.reportable_title.note", :note_id => reportable.id)
     end
   end
+
+  def open_issues_count
+    count = Issue.open.limit(100).size
+    if count > 99
+      content_tag(:span, "99+", :class => "count-number")
+    elsif count > 0
+      content_tag(:span, count, :class => "count-number")
+    end
+  end
 end
