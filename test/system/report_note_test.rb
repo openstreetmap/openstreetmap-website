@@ -18,7 +18,7 @@ class ReportNoteTest < ApplicationSystemTestCase
     assert page.has_content? "Report"
     assert page.has_content? I18n.t("reports.new.disclaimer.intro")
 
-    choose I18n.t("reports.new.categories.note.spam")
+    choose I18n.t("reports.new.categories.note.spam_label")
     fill_in "report_details", :with => "This is spam"
     assert_difference "Issue.count", 1 do
       click_on "Create Report"
@@ -38,7 +38,7 @@ class ReportNoteTest < ApplicationSystemTestCase
     assert page.has_content? "Report"
     assert page.has_content? I18n.t("reports.new.disclaimer.intro")
 
-    choose I18n.t("reports.new.categories.note.spam")
+    choose I18n.t("reports.new.categories.note.spam_label")
     fill_in "report_details", :with => "This is spam"
     assert_difference "Issue.count", 1 do
       click_on "Create Report"

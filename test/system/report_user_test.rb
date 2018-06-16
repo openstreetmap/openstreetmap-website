@@ -18,7 +18,7 @@ class ReportUserTest < ApplicationSystemTestCase
     assert page.has_content? "Report"
     assert page.has_content? I18n.t("reports.new.disclaimer.intro")
 
-    choose I18n.t("reports.new.categories.user.vandal")
+    choose I18n.t("reports.new.categories.user.vandal_label")
     fill_in "report_details", :with => "This user is a vandal"
     assert_difference "Issue.count", 1 do
       click_on "Create Report"
