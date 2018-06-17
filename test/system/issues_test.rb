@@ -33,7 +33,7 @@ class IssuesTest < ApplicationSystemTestCase
   def test_view_issues_with_no_reported_user
     sign_in_as(create(:moderator_user))
     anonymous_note = create(:note_with_comments)
-    issue = create(:issue, :reportable => anonymous_note)
+    issue = create(:issue, :reportable => anonymous_note, :assigned_role => "moderator")
 
     visit issues_path
     assert page.has_content?(reportable_title(anonymous_note))

@@ -31,6 +31,7 @@ class ReportDiaryEntryTest < ApplicationSystemTestCase
     assert page.has_content? "Your report has been registered sucessfully"
 
     assert_equal @diary_entry, Issue.last.reportable
+    assert_equal "administrator", Issue.last.assigned_role
   end
 
   def test_it_reopens_issue

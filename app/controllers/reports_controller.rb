@@ -16,11 +16,15 @@ class ReportsController < ApplicationController
 
   def create
     @report = current_user.reports.new(report_params)
-    @report.issue = Issue.find_or_initialize_by(:reportable_id => params[:report][:issue][:reportable_id], :reportable_type => params[:report][:issue][:reportable_type])
+    @report.issue = Issue
+                    .create_with(:assigned_role => default_assigned_role)
+                    .find_or_initialize_by(issue_params)
 
     if @report.save
-      @report.issue.save
-      @report.issue.reopen! unless @report.issue.open?
+      @report.issue.assigned_role = "administrator" if default_assigned_role == "administrator"
+      @report.issue.reopen unless @report.issue.open?
+      @report.issue.save!
+
       redirect_to helpers.reportable_url(@report.issue.reportable), :notice => t(".successful_report")
     else
       redirect_to new_report_path(:reportable_type => @report.issue.reportable_type, :reportable_id => @report.issue.reportable_id), :notice => t(".provide_details")
@@ -38,6 +42,21 @@ class ReportsController < ApplicationController
   end
 
   def report_params
-    params[:report].permit(:details, :category)
+    params.require(:report).permit(:details, :category)
+  end
+
+  def issue_params
+    params.require(:report).require(:issue).permit(:reportable_id, :reportable_type)
+  end
+
+  def default_assigned_role
+    case issue_params[:reportable_type]
+    when "Note" then "moderator"
+    when "User" then case report_params[:category]
+                     when "vandal" then "moderator"
+                     else "administrator"
+                     end
+    else "administrator"
+    end
   end
 end

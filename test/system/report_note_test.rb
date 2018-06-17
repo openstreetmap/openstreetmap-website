@@ -27,6 +27,7 @@ class ReportNoteTest < ApplicationSystemTestCase
     assert page.has_content? "Your report has been registered sucessfully"
 
     assert_equal note, Issue.last.reportable
+    assert_equal "moderator", Issue.last.assigned_role
   end
 
   def test_can_report_notes_with_author
@@ -47,5 +48,6 @@ class ReportNoteTest < ApplicationSystemTestCase
     assert page.has_content? "Your report has been registered sucessfully"
 
     assert_equal note, Issue.last.reportable
+    assert_equal "moderator", Issue.last.assigned_role
   end
 end

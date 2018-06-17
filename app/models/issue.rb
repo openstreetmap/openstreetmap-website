@@ -44,7 +44,6 @@ class Issue < ActiveRecord::Base
   ASSIGNED_ROLES = %w[administrator moderator].freeze
   validates :assigned_role, :presence => true, :inclusion => ASSIGNED_ROLES
 
-  before_validation :set_default_assigned_role
   before_validation :set_reported_user
 
   scope :with_status, ->(issue_status) { where(:status => statuses[issue_status]) }
@@ -92,14 +91,5 @@ class Issue < ActiveRecord::Base
                          else
                            reportable.user
                          end
-  end
-
-  def set_default_assigned_role
-    if assigned_role.blank?
-      self.assigned_role = case reportable
-                           when Note then "moderator"
-                           else "administrator"
-                           end
-    end
   end
 end
