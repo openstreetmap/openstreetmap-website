@@ -3,7 +3,7 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(user, token)
+  def initialize(user)
     can :index, :site
     can [:permalink, :edit, :help, :fixthemap, :offline, :export, :about, :preview, :copyright, :key, :id, :welcome], :site
 
@@ -16,9 +16,6 @@ class Ability
       can :weclome, :site
 
       can [:create, :edit, :comment, :subscribe, :unsubscribe], DiaryEntry
-
-      can [:read, :read_one], UserPreference if has_capability?(token, :allow_read_prefs)
-      can [:update, :update_one, :delete_one], UserPreference if has_capability?(token, :allow_write_prefs)
 
       if user.administrator?
         can [:hide, :hidecomment], [DiaryEntry, DiaryComment]
@@ -50,11 +47,5 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
-  end
-
-  # If a user provides no tokens, they've authenticated via a non-oauth method
-  # and permission to access to all capabilities is assumed.
-  def has_capability?(token, cap)
-    token.nil? || token.read_attribute(cap)
   end
 end

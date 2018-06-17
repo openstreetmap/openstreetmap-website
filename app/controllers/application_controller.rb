@@ -471,7 +471,11 @@ class ApplicationController < ActionController::Base
   end
 
   def current_ability
-    Ability.new(current_user, current_token)
+    Ability.new(current_user).merge(granted_capabily)
+  end
+
+  def granted_capabily
+    Capability.new(current_user, current_token)
   end
 
   def deny_access(exception)

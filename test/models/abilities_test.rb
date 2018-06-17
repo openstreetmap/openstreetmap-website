@@ -3,21 +3,12 @@
 require "test_helper"
 
 class AbilityTest < ActiveSupport::TestCase
-
-  def tokens(*toks)
-    AccessToken.new do |token|
-      toks.each do |t|
-        token.public_send("#{t}=", true)
-      end
-    end
-  end
-
 end
 
 class GuestAbilityTest < AbilityTest
 
   test "geocoder permission for a guest" do
-    ability = Ability.new nil, tokens
+    ability = Ability.new nil
 
     [:search, :search_latlon, :search_ca_postcode, :search_osm_nominatim,
      :search_geonames, :search_osm_nominatim_reverse, :search_geonames_reverse].each do |action|
@@ -26,7 +17,7 @@ class GuestAbilityTest < AbilityTest
   end
 
   test "diary permissions for a guest" do
-    ability = Ability.new nil, tokens
+    ability = Ability.new nil
     [:list, :rss, :view, :comments].each do |action|
       assert ability.can?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
     end
@@ -42,7 +33,7 @@ end
 class UserAbilityTest < AbilityTest
 
   test "Diary permissions" do
-    ability = Ability.new create(:user), tokens
+    ability = Ability.new create(:user)
 
     [:list, :rss, :view, :comments, :create, :edit, :comment, :subscribe, :unsubscribe].each do |action|
       assert ability.can?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
@@ -53,48 +44,12 @@ class UserAbilityTest < AbilityTest
       assert ability.cannot?(action, DiaryComment), "should be able to #{action} DiaryEntries"
     end
   end
-
-  test "user preferences" do
-    user = create(:user)
-
-    # a user with no tokens
-    ability = Ability.new create(:user), nil
-    [:read, :read_one, :update, :update_one, :delete_one].each do |act|
-      assert ability.can? act, UserPreference
-    end
-
-    # A user with empty tokens
-    ability = Ability.new create(:user), tokens
-
-    [:read, :read_one, :update, :update_one, :delete_one].each do |act|
-      assert ability.cannot? act, UserPreference
-    end
-
-    ability = Ability.new user, tokens(:allow_read_prefs)
-
-    [:update, :update_one, :delete_one].each do |act|
-      assert ability.cannot? act, UserPreference
-    end
-
-    [:read, :read_one].each do |act|
-      assert ability.can? act, UserPreference
-    end
-
-    ability = Ability.new user, tokens(:allow_write_prefs)
-    [:read, :read_one].each do |act|
-      assert ability.cannot? act, UserPreference
-    end
-
-    [:update, :update_one, :delete_one].each do |act|
-      assert ability.can? act, UserPreference
-    end
-  end
 end
 
 class AdministratorAbilityTest < AbilityTest
 
   test "Diary for an administrator" do
-    ability = Ability.new create(:administrator_user), tokens
+    ability = Ability.new create(:administrator_user)
     [:list, :rss, :view, :comments, :create, :edit, :comment, :subscribe, :unsubscribe, :hide, :hidecomment].each do |action|
       assert ability.can?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
     end
@@ -105,7 +60,7 @@ class AdministratorAbilityTest < AbilityTest
   end
 
   test "administrator does not auto-grant user preferences" do
-    ability = Ability.new create(:administrator_user), tokens
+    ability = Ability.new create(:administrator_user)
 
     [:read, :read_one, :update, :update_one, :delete_one].each do |act|
       assert ability.cannot? act, UserPreference
