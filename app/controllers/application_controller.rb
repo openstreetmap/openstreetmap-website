@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery :with => :exception
 
   before_action :fetch_body
+  around_action :better_errors_allow_inline, :if => proc { Rails.env.development? }
 
   attr_accessor :current_user
   helper_method :current_user
@@ -453,6 +454,17 @@ class ApplicationController < ActionController::Base
         :expires => 1.hour.from_now
       }
     end
+  end
+
+  def better_errors_allow_inline
+    yield
+  rescue StandardError
+    append_content_security_policy_directives(
+      :script_src => %w['unsafe-inline'],
+      :style_src => %w['unsafe-inline']
+    )
+
+    raise
   end
 
   private
