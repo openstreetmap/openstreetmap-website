@@ -48,6 +48,7 @@ class Issue < ActiveRecord::Base
   before_validation :set_reported_user
 
   scope :with_status, ->(issue_status) { where(:status => statuses[issue_status]) }
+  scope :visible_to, ->(user) { where(:assigned_role => user.roles.map(&:role)) }
 
   def read_reports
     resolved_at.present? ? reports.where("updated_at < ?", resolved_at) : nil
