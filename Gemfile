@@ -42,6 +42,7 @@ gem "image_optim_rails"
 
 # Load rails plugins
 gem "actionpack-page_caching"
+gem "cancancan"
 gem "composite_primary_keys", "~> 10.0.0"
 gem "dynamic_form"
 gem "http_accept_language", "~> 2.0.0"
