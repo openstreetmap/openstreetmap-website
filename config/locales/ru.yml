@@ -282,6 +282,7 @@ ru:
       reopened_by_anonymous: Открыта заново анонимно <abbr title='%{exact_time}'>%{when}
         назад</abbr>
       hidden_by: Скрыта %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
+      report: Сообщить об этой заметке
     query:
       title: Что здесь?
       introduction: Нажмите на карту, чтобы найти ближайшие объекты
@@ -375,10 +376,12 @@ ru:
       edit_link: Изменить запись
       hide_link: Скрыть эту запись
       confirm: Подтвердить
+      report: Сообщить об этой записи в дневнике
     diary_comment:
       comment_from: Комментарий %{link_user} %{comment_created_at}
       hide_link: Скрыть этот комментарий
       confirm: Подтвердить
+      report: Сообщить об этом комментарии
     location:
       location: 'Место:'
       view: Вид
@@ -998,6 +1001,93 @@ ru:
     results:
       no_results: Ничего не найдено
       more_results: Ещё результаты
+  issues:
+    index:
+      title: Проблемы
+      select_status: Выберите статус
+      select_type: Выберите тип
+      select_last_updated_by: Выберите, кто последним изменил
+      reported_user: Проблематичный пользователь
+      not_updated: Не обновлялось
+      search: Найти
+      search_guidance: Поиск проблем
+      user_not_found: Пользователь не существует
+      issues_not_found: Такие проблемы не найдены
+      status: Статус
+      reports: Сообщения
+      last_updated: Последнее изменение
+      reported_item: Тема сообщения
+      states:
+        ignored: Проигнорировано
+        open: Открыто
+        resolved: Обработано
+    update:
+      new_report: Ваше сообщение было успешно зарегистрировано
+      successful_update: Ваше сообщение было успешно обновлено
+      provide_details: Пожалуйста, сообщите дополнительные детали
+    show:
+      report_created_at: Впервые сообщено %{datetime}
+      last_resolved_at: Последний раз обработано в %{datetime}
+      last_updated_at: Последнее обновление %{datetime} пользователем %{displayname}
+      resolve: Обработать
+      ignore: Игнорировать
+      reopen: Переоткрыть
+      reports_of_this_issue: Сообщения об этой проблеме
+      new_reports: Новые сообщения
+      other_issues_against_this_user: Другие проблемы с этим пользователем
+      no_other_issues: Нет других проблем с этим пользователем
+      comments_on_this_issue: Комментарии по этой проблеме
+    resolve:
+      resolved: Статус проблемы был установлен в "Обработано"
+    ignore:
+      ignored: Статус проблемы был установлен в "Проигнорировано"
+    reopen:
+      reopened: Статус проблемы был установлен в "Открыто"
+    comments:
+      reassign_param: Переназначить проблемы?
+    helper:
+      reportable_title:
+        note: Заметка № %{note_id}
+  issue_comments:
+    create:
+      comment_created: Ваш комментарий был успешно создан
+  reports:
+    new:
+      missing_params: Не удалось создать новое сообщение
+      details: Пожалуйста, сообщите немного больше деталей о проблеме (обязательно).
+      select: 'Выберите причину вашего сообщения:'
+      disclaimer:
+        intro: 'Пожалуйста, перед отправкой вашего сообщения модераторам сайта убедитесь,
+          что:'
+        not_just_mistake: Вы уверены, что проблема не просто ошибка
+        unable_to_fix: Вы не можете решить проблему самостоятельно или с помощью своих
+          коллег-членов сообщества
+        resolve_with_user: Вы уже пробовали решить проблему с этим пользователем
+      categories:
+        diary_entry:
+          spam_label: Эта запись в дневнике является (или содержит) спамом
+          offensive_label: Эта запись в дневнике является непристойной или оскорбительной
+          threat_label: Эта запись в дневнике содержит угрозу
+          other_label: Другое
+        diary_comment:
+          spam_label: Этот комментарий в дневнике является (или содержит) спамом
+          offensive_label: Этот комментарий в дневнике является непристойным или оскорбительным
+          threat_label: Этот комментарий в дневнике содержит угрозу
+          other_label: Другое
+        user:
+          spam_label: Профиль этого пользователя является (или содержит) спамом
+          offensive_label: Профиль этого пользователя является непристойным или оскорбительным
+          threat_label: Профиль этого пользователя содержит угрозу
+          vandal_label: Этот пользователь является вандалом
+          other_label: Другое
+        note:
+          spam_label: Эта заметка является спамом
+          personal_label: Эта заметка содержит персональные данные
+          abusive_label: Эта заметка является оскорбительной
+          other_label: Другое
+    create:
+      successful_report: Ваше сообщение было успешно зарегистрировано
+      provide_details: Пожалуйста, сообщите дополнительные детали
   layouts:
     logo:
       alt_text: Логотип OpenStreetMap
@@ -1011,6 +1101,7 @@ ru:
     edit: Правка
     history: История
     export: Экспорт
+    issues: Проблемы
     data: Данные
     export_data: Экспортировать данные
     gps_traces: GPS-треки
@@ -1794,8 +1885,12 @@ ru:
     require_cookies:
       cookies_needed: Похоже, что у вас выключены куки. Пожалуйста, включите куки
         в вашем браузере, прежде чем продолжить.
+    require_admin:
+      not_an_admin: Вам нужно быть администратором для выполнения этого действия
     require_moderator:
       not_a_moderator: Чтобы выполнить это действие, нужно быть модератором.
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: Вам нужно быть модератором для выполнения этого действия
     setup_user_auth:
       blocked_zero_hour: У вас есть срочное сообщение на сайте OpenStreetMap. Вам
         нужно прочитать сообщение, прежде чем вы сможете сохранить ваши изменения.
@@ -2101,6 +2196,7 @@ ru:
       friends_diaries: дневники друзей
       nearby_changesets: правки соседей
       nearby_diaries: дневники соседей
+      report: Сообщить об этом пользователе
     popup:
       your location: Ваше местоположение
       nearby mapper: Ближайший картограф

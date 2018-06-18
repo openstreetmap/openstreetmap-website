@@ -248,6 +248,7 @@ el:
         από %{when}</abbr>
       hidden_by: Έγινε κρυφή από τον %{user} <abbr title='%{exact_time}'>πριν από
         %{when}</abbr>
+      report: Αναφορά αυτής της σημείωσης
     query:
       title: Πληροφορίες χαρακτηριστικών
       introduction: Κάντε κλικ στον χάρτη για να βρείτε κοντινά χαρακτηριστικά.
@@ -341,10 +342,12 @@ el:
       edit_link: Επεξεργασία καταχώρησης
       hide_link: Απόκρυψη αυτής της καταχώρησης
       confirm: Επιβεβαίωση
+      report: Αναφορά αυτής της καταχώρησης
     diary_comment:
       comment_from: Σχόλιο από τον %{link_user} στις %{comment_created_at}
       hide_link: Απόκρυψη αυτού του σχολίου
       confirm: Επιβεβαίωση
+      report: Αναφορά αυτού του σχολίου
     location:
       location: 'Τοποθεσία:'
       view: Προβολή
@@ -968,6 +971,114 @@ el:
     results:
       no_results: Δεν βρέθηκε κανένα αποτέλεσμα
       more_results: Περισσότερα αποτελέσματα
+  issues:
+    index:
+      title: Θέματα
+      select_status: Επιλογή κατάστασης
+      select_type: Επιλογή τύπου
+      select_last_updated_by: Επιλογή τελευταίας ενημέρωσης από
+      reported_user: Αναφερόμενος χρήστης
+      not_updated: Μη ενημερωμένο
+      search: Αναζήτηση
+      search_guidance: 'Αναζήτηση ζητημάτων:'
+      user_not_found: Ο χρήστης δεν υπάρχει
+      issues_not_found: Δεν βρέθηκαν τέτοια ζητήματα
+      status: Κατάσταση
+      reports: Αναφορές
+      last_updated: Τελευταία ενημέρωση
+      last_updated_time_html: <abbr title='%{title}'>%{time} πριν από</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time} πριν από</abbr>
+        από τον %{user}
+      link_to_reports: Προβολή αναφορών
+      reports_count:
+        one: 1 Αναφορά
+        other: '%{count} Αναφορές'
+      reported_item: Αναφερόμενο Στοιχείο
+      states:
+        ignored: Αγνοούμενο
+        open: Άνοιγμα
+        resolved: Επιλυμένος
+    update:
+      new_report: Η αναφορά σας έχει εγγραφεί επιτυχώς
+      successful_update: Η αναφορά σας έχει ενημερωθεί επιτυχώς
+      provide_details: Παρακαλώ δώστε τις απαιτούμενες λεπτομέρειες
+    show:
+      title: '%{status} Ζήτημα #%{issue_id}'
+      reports:
+        zero: Καμία αναφορά
+        one: 1 αναφορά
+        other: '%{count} αναφορές'
+      report_created_at: Αναφέρθηκε για πρώτη φορά στις %{datetime}
+      last_resolved_at: Επιλύθηκε για τελευταία φορά στις %{datetime}
+      last_updated_at: Ενημερώθηκε για τελευταία φορά στις %{datetime} από τον %{displayname}
+      resolve: Επίλυση
+      ignore: Αγνόηση
+      reopen: Ξανάνοιγμα
+      reports_of_this_issue: Αναφορές του ζητήματος
+      read_reports: Ανάγνωση αναφορών
+      new_reports: Νέες αναφορές
+      other_issues_against_this_user: Άλλα ζητήματα κατά αυτού του χρήστη
+      no_other_issues: Δεν υπάρχουν άλλα ζητήματα κατά αυτού του χρήστη.
+      comments_on_this_issue: Σχόλια στο ζήτημα
+    resolve:
+      resolved: Η κατάσταση του ζητήματος έχει οριστεί στο 'Επιλυμένο'
+    ignore:
+      ignored: Η κατάσταση του ζητήματος έχει οριστεί στο 'Αγνοημένο'
+    reopen:
+      reopened: Η κατάσταση του ζητήματος έχει οριστεί στο 'Ανοιχτό'
+    comments:
+      created_at: Στις %{datetime}
+      reassign_param: Επανανάθεση ζητήματος;
+    reports:
+      updated_at: Στις %{datetime}
+      reported_by_html: Αναφέρθηκε ως %{category} από τον %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, σχόλιο #%{comment_id}'
+        note: 'Σημείωση #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Το σχόλιο σας δημιουργήθηκε επιτυχώς.
+  reports:
+    new:
+      title_html: Αναφορά %{link}
+      missing_params: Δεν μπορεί να δημιουργήσει νέα αναφορά
+      details: Παρακαλώ παράσχετε μερικές περισσότερες λεπτομέρειες σχετικά με το
+        πρόβλημα (απαιτείται).
+      select: 'Επιλέξτε μια αιτία για την αναφορά σας:'
+      disclaimer:
+        intro: 'Πριν στείλετε την αναφορά σας στους συντονιστές του ιστοχώρου, παρακαλώ
+          σιγουρευτείτε ότι:'
+        not_just_mistake: Είστε σίγουροι ότι το πρόβλημα δεν είναι απλώς ένα λάθος
+        unable_to_fix: Δεν μπορείτε να επιδιορθώσετε το πρόβλημα μόνοι σας ή με την
+          βοήθεια συνάδελφων μελών της κοινότητας
+        resolve_with_user: Έχετε ήδη προσπαθήσει να επιλύσετε το πρόβλημα με τον χρήστη
+          που αναφέρεται
+      categories:
+        diary_entry:
+          spam_label: Αυτή η καταχώρηση ημερολογίου είναι/περιέχει σπαμ
+          offensive_label: Αυτή η καταχώρηση ημερολογίου είναι άσεμνη/προσβλητική
+          threat_label: Αυτή η καταχώρηση ημερολογίου περιέχει απειλή
+          other_label: Άλλο
+        diary_comment:
+          spam_label: Αυτό το σχόλιο ημερολογίου είναι/περιέχει σπαμ
+          offensive_label: Αυτό το σχόλιο ημερολογίου είναι άσεμνο/προσβλητικό
+          threat_label: Αυτό το σχόλιο ημερολογίου περιέχει απειλή
+          other_label: Άλλο
+        user:
+          spam_label: Αυτό το προφίλ χρήστη είναι/περιέχει σπαμ
+          offensive_label: Αυτό το προφίλ χρήστη είναι άσεμνο/προσβλητικό
+          threat_label: Αυτό το προφίλ χρήστη περιέχει απειλή
+          vandal_label: Αυτός ο χρήστης είναι βάνδαλος
+          other_label: Άλλο
+        note:
+          spam_label: Αυτή η σημείωση είναι σπαμ
+          personal_label: Αυτή η σημείωση περιέχει προσωπικά δεδομένα
+          abusive_label: Αυτή η σημείωση είναι καταχρηστική
+          other_label: Άλλο
+    create:
+      successful_report: Η αναφορά σας έχει εγγραφεί επιτυχώς
+      provide_details: Παρακαλώ δώστε τις απαιτούμενες λεπτομέρειες
   layouts:
     project_name:
       title: OpenStreetMap
@@ -984,6 +1095,7 @@ el:
     edit: Επεξεργασία
     history: Ιστορικό
     export: Εξαγωγή
+    issues: Θέματα
     data: Δεδομένα
     export_data: Εξαγωγή δεδομένων
     gps_traces: Ίχνη GPS
@@ -1787,9 +1899,14 @@ el:
     require_cookies:
       cookies_needed: Φαίνεται ότι έχετε τα cookies απενεργοποιημένα - παρακαλούμε
         ενεργοποιήστε τα cookies στο πρόγραμμα περιήγησής σας πριν συνεχίσετε.
+    require_admin:
+      not_an_admin: Πρέπει να είστε διαχειριστής για να το κάνετε αυτή την ενέργεια.
     require_moderator:
       not_a_moderator: Θα πρέπει να είστε συντονιστής για να εκτελέσετε αυτήν την
         ενέργεια.
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: Θα πρέπει να είστε συντονιστής ή διαχειριστής για
+        να εκτελέσετε αυτήν την ενέργεια.
     setup_user_auth:
       blocked_zero_hour: Έχετε ένα επείγον μήνυμα στον ιστότοπο του OpenStreetMap.
         Θα πρέπει να διαβάσετε το μήνυμα πριν να μπορείτε να αποθηκεύσετε τις αλλαγές
@@ -2099,6 +2216,7 @@ el:
       friends_diaries: καταχωρήσεις ημερολογίου φίλων
       nearby_changesets: ομάδες αλλαγών από κοντινούς χρήστες
       nearby_diaries: καταχωρήσεις ημερολογίου από κοντινούς χρήστες
+      report: Αναφορά αυτού του χρήστη
     popup:
       your location: Η τοποθεσία σας
       nearby mapper: Κοντινός χαρτογράφος

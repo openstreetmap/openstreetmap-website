@@ -237,6 +237,7 @@ zh-CN:
       reopened_by: '%{user} 重新激活于 <abbr title=''%{exact_time}''>%{when} 前</abbr>'
       reopened_by_anonymous: 匿名用户重新激活于 <abbr title='%{exact_time}'>%{when} 前</abbr>
       hidden_by: '%{user} 隐藏于 <abbr title=''%{exact_time}''>%{when} 前</abbr>'
+      report: 报告此注释
     query:
       title: 查询要素
       introduction: 点击地图以查找附近要素。
@@ -327,10 +328,12 @@ zh-CN:
       edit_link: 编辑该文章
       hide_link: 隐藏该文章
       confirm: 确认
+      report: 报告此记录
     diary_comment:
       comment_from: '%{link_user} 于 %{comment_created_at} 发表的评论'
       hide_link: 隐藏该评论
       confirm: 确认
+      report: 报告此评论
     location:
       location: 位置：
       view: 查看
@@ -951,6 +954,109 @@ zh-CN:
     results:
       no_results: 没有找到结果
       more_results: 更多结果
+  issues:
+    index:
+      title: 问题
+      select_status: 选择状态
+      select_type: 选择类型
+      select_last_updated_by: 选择上次更新者
+      reported_user: 报告的用户
+      not_updated: 未更新
+      search: 搜索
+      search_guidance: 搜索问题：
+      user_not_found: 用户不存在
+      issues_not_found: 找不到这个问题
+      status: 状态
+      reports: 报告
+      last_updated: 最后更新
+      last_updated_time_html: <abbr title='%{title}'>%{time}前</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}前</abbr>由%{user}
+      link_to_reports: 查看报告
+      reports_count:
+        one: 1个报告
+        other: '%{count}个报告'
+      reported_item: 报告的项
+      states:
+        ignored: 已忽略
+        open: 开放
+        resolved: 已解决
+    update:
+      new_report: 您的报告已成功注册
+      successful_update: 您的报告已成功更新
+      provide_details: 请提供所需详情
+    show:
+      title: '%{status}问题#%{issue_id}'
+      reports:
+        zero: 无报告
+        one: 1个报告
+        other: '%{count}个报告'
+      report_created_at: 首次报告于%{datetime}
+      last_resolved_at: 上次解决于%{datetime}
+      last_updated_at: 上次由%{displayname}于%{datetime}更新
+      resolve: 解决
+      ignore: 忽略
+      reopen: 重启
+      reports_of_this_issue: 此问题的报告
+      read_reports: 阅读报告
+      new_reports: 新报告
+      other_issues_against_this_user: 其他有关此用户的问题
+      no_other_issues: 没有其他有关此用户的问题。
+      comments_on_this_issue: 评论此问题
+    resolve:
+      resolved: 问题状态已设置为“已解决”
+    ignore:
+      ignored: 问题状态已设置为“已忽略”
+    reopen:
+      reopened: 问题状态已设置为“开放”
+    comments:
+      created_at: 在%{datetime}
+      reassign_param: 重新分配问题么？
+    reports:
+      updated_at: 在%{datetime}
+      reported_by_html: 由%{user}报告为%{category}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}，评论#%{comment_id}'
+        note: 注释#%{note_id}
+  issue_comments:
+    create:
+      comment_created: 您的评论已成功创建
+  reports:
+    new:
+      title_html: 报告%{link}
+      missing_params: 不能创建新的报告
+      details: 请提供一些有关问题的更多详情（必填）。
+      select: 选择您报告的原因：
+      disclaimer:
+        intro: 在发送您的报告至网站版主前，请确保：
+        not_just_mistake: 您确信问题不只是错误
+        unable_to_fix: 您无法自行修复问题，或通过您的伙伴社群成员帮助下修复
+        resolve_with_user: 您已尝试与有关用户解决问题
+      categories:
+        diary_entry:
+          spam_label: 此日记记录是（或包含）滥发消息
+          offensive_label: 此日记记录是淫秽/攻击性内容
+          threat_label: 此日记记录包含恐吓
+          other_label: 其他
+        diary_comment:
+          spam_label: 此日记评论是（或包含）滥发消息
+          offensive_label: 此日记评论是淫秽/攻击性内容
+          threat_label: 此日记评论包含恐吓
+          other_label: 其他
+        user:
+          spam_label: 此用户的个人资料是（或包含）滥发消息
+          offensive_label: 此用户的个人资料是淫秽/攻击性内容
+          threat_label: 此用户的个人资料包含恐吓
+          vandal_label: 此用户是破坏者
+          other_label: 其他
+        note:
+          spam_label: 此注释是滥发消息
+          personal_label: 此注释报告个人数据
+          abusive_label: 此注释是辱骂
+          other_label: 其他
+    create:
+      successful_report: 您的报告已成功注册
+      provide_details: 请提供所需详情
   layouts:
     project_name:
       title: OpenStreetMap
@@ -967,6 +1073,7 @@ zh-CN:
     edit: 编辑
     history: 历史
     export: 导出
+    issues: 问题
     data: 数据
     export_data: 导出数据
     gps_traces: GPS 轨迹
@@ -1602,8 +1709,12 @@ zh-CN:
   application:
     require_cookies:
       cookies_needed: 您似乎停用了 cookie - 请在继续操作前启用您的浏览器 cookie。
+    require_admin:
+      not_an_admin: 您需要成为管理员以执行该操作。
     require_moderator:
       not_a_moderator: 必须为管理员才能执行该操作。
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: 您需要成为版主或管理员以执行该操作
     setup_user_auth:
       blocked_zero_hour: 您在OpenStreetMap网站有一条紧急消息。在您可以保存您的编辑之前，您需要阅读这条消息。
       blocked: 您对 API 的访问已经被阻挡了。请登录到网站以了解更多信息。
@@ -1873,6 +1984,7 @@ zh-CN:
       friends_diaries: 朋友的日记文章
       nearby_changesets: 附近用户的修改集合
       nearby_diaries: 附近用户的日记文章
+      report: 报告此用户
     popup:
       your location: 您的位置
       nearby mapper: 附近绘图者

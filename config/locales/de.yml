@@ -264,6 +264,7 @@ de:
       reopened_by_anonymous: Reaktiviert von Anonym <abbr title='%{exact_time}'>vor
         %{when}</abbr>
       hidden_by: Versteckt von %{user} <abbr title='%{exact_time}'>vor %{when}</abbr>
+      report: Diesen Hinweis melden
     query:
       title: Objektabfrage
       introduction: Klicke auf die Karte, um benachbarte Objekte zu finden.
@@ -358,10 +359,12 @@ de:
       edit_link: Diesen Eintrag bearbeiten
       hide_link: Diesen Eintrag verbergen
       confirm: Bestätigen
+      report: Diesen Eintrag melden
     diary_comment:
       comment_from: Kommentar von %{link_user} am %{comment_created_at}
       hide_link: Diesen Kommentar verbergen
       confirm: Bestätigen
+      report: Diesen Kommentar melden
     location:
       location: 'Ort:'
       view: Anzeigen
@@ -981,6 +984,113 @@ de:
     results:
       no_results: Keine Ergebnisse gefunden
       more_results: Mehr Treffer
+  issues:
+    index:
+      title: Probleme
+      select_status: Status auswählen
+      select_type: Typ auswählen
+      select_last_updated_by: Auswahl zuletzt aktualisiert von
+      reported_user: Gemeldeter Benutzer
+      not_updated: Nicht aktualisiert
+      search: Suchen
+      search_guidance: 'Probleme durchsuchen:'
+      user_not_found: Der Benutzer ist nicht vorhanden
+      issues_not_found: Keine entsprechenden Probleme gefunden
+      status: Status
+      reports: Meldungen
+      last_updated: Zuletzt aktualisiert
+      last_updated_time_html: <abbr title='%{title}'>vor %{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>vor %{time}</abbr> von %{user}
+      link_to_reports: Meldungen ansehen
+      reports_count:
+        one: Eine Meldung
+        other: '%{count} Meldungen'
+      reported_item: Gemeldetes Objekt
+      states:
+        ignored: Ignoriert
+        open: Offen
+        resolved: Erledigt
+    update:
+      new_report: Deine Meldung wurde erfolgreich registriert
+      successful_update: Deine Meldung wurde erfolgreich aktualisiert
+      provide_details: Bitte die erforderlichen Einzelheiten angeben
+    show:
+      title: '%{status} Problem Nr. %{issue_id}'
+      reports:
+        zero: Keine Meldungen
+        one: Eine Meldung
+        other: '%{count} Meldungen'
+      report_created_at: Zuerst gemeldet am %{datetime}
+      last_resolved_at: Zuletzt erledigt am %{datetime}
+      last_updated_at: Zuletzt aktualisiert am %{datetime} von %{displayname}
+      resolve: Erledigen
+      ignore: Ignorieren
+      reopen: Erneut öffnen
+      reports_of_this_issue: Meldungen dieses Problems
+      read_reports: Meldungen lesen
+      new_reports: Neue Meldungen
+      other_issues_against_this_user: Weitere Probleme gegen diesen Benutzer
+      no_other_issues: Keine weiteren Probleme gegen diesen Benutzer.
+      comments_on_this_issue: Kommentare zu diesem Problem
+    resolve:
+      resolved: Der Problemstatus wurde auf „Erledigt“ geändert
+    ignore:
+      ignored: Der Problemstatus wurde auf „Ignoriert“ geändert
+    reopen:
+      reopened: Der Problemstatus wurde auf „Offen“ geändert
+    comments:
+      created_at: Am %{datetime}
+      reassign_param: Problem erneut zuweisen?
+    reports:
+      updated_at: Am %{datetime}
+      reported_by_html: Gemeldet als %{category} von %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, Kommentar Nr. %{comment_id}'
+        note: Hinweis Nr. %{note_id}
+  issue_comments:
+    create:
+      comment_created: Dein Kommentar wurde erfolgreich erstellt
+  reports:
+    new:
+      title_html: '%{link} melden'
+      missing_params: Es konnte keine neue Meldung erstellt werden
+      details: Bitte gib mehr Einzelheiten zu dem Problem an (erforderlich).
+      select: 'Wähle einen Grund für deine Meldung aus:'
+      disclaimer:
+        intro: 'Bevor du deine Meldung an die Websitemoderatoren sendest, stelle bitte
+          sicher, dass:'
+        not_just_mistake: Du bist dir sicher, dass das Problem nicht nur ein Fehler
+          ist.
+        unable_to_fix: Du kannst das Problem selbst oder mit der Hilfe unserer Gemeinschaftsmitglieder
+          nicht lösen
+        resolve_with_user: Du hast bereits versucht, das Problem mit dem zuständigen
+          Benutzer zu lösen.
+      categories:
+        diary_entry:
+          spam_label: Dieser Blogeintrag ist/enthält Spam
+          offensive_label: Dieser Blogeintrag ist obszön/anstößig
+          threat_label: Dieser Blogeintrag enthält eine Drohung
+          other_label: Andere
+        diary_comment:
+          spam_label: Dieser Blogkommentar ist/enthält Spam
+          offensive_label: Dieser Blogkommentar ist obszön/anstößig
+          threat_label: Dieser Blogkommentar enthält eine Drohung
+          other_label: Andere
+        user:
+          spam_label: Dieses Benutzerprofil ist/enthält Spam
+          offensive_label: Dieses Benutzerprofil ist obszön/anstößig
+          threat_label: Dieses Benutzerprofil enthält eine Drohung
+          vandal_label: Dieser Benutzer ist ein Vandale
+          other_label: Andere
+        note:
+          spam_label: Dieser Hinweis ist Spam
+          personal_label: Dieser Hinweis enthält persönliche Daten
+          abusive_label: Dieser Hinweis ist beleidigend
+          other_label: Andere
+    create:
+      successful_report: Deine Meldung wurde erfolgreich registriert
+      provide_details: Bitte die erforderlichen Einzelheiten angeben
   layouts:
     project_name:
       title: OpenStreetMap
@@ -997,6 +1107,7 @@ de:
     edit: Bearbeiten
     history: Chronik
     export: Export
+    issues: Probleme
     data: Daten
     export_data: Daten exportieren
     gps_traces: GPS-Tracks
@@ -1810,8 +1921,13 @@ de:
     require_cookies:
       cookies_needed: Es scheint als hättest du Cookies ausgeschaltet. Bitte aktiviere
         Cookies, bevor du fortfährst.
+    require_admin:
+      not_an_admin: Du musst ein Administrator sein, um diese Aktion auszuführen.
     require_moderator:
       not_a_moderator: Du musst Moderator sein, um diese Aktion durchführen zu können.
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: Du musst ein Moderator oder Administrator sein, um
+        diese Aktion auszuführen.
     setup_user_auth:
       blocked_zero_hour: Du hast eine dringende Nachricht auf der OpenStreetMap-Website.
         Du musst sie zuerst lesen, bevor du deine Bearbeitungen speichern kannst.
@@ -2120,6 +2236,7 @@ de:
       friends_diaries: Blogs deiner Freunde
       nearby_changesets: Änderungssätze von Benutzern in der Nähe
       nearby_diaries: Blogs von Benutzern in der Nähe
+      report: Diesen Benutzer melden
     popup:
       your location: Standort
       nearby mapper: Mapper in der Nähe

@@ -232,6 +232,7 @@ zh-TW:
       reopened_by: 於 <abbr title='%{exact_time}'>%{when} 前</abbr>由 %{user} 重新開啟
       reopened_by_anonymous: 於 <abbr title='%{exact_time}'>%{when} 前</abbr>由匿名使用者重新開啟
       hidden_by: 於 <abbr title='%{exact_time}'>%{when} 前</abbr>由 %{user} 隱藏
+      report: 回報此註記
     query:
       title: 查詢圖徵
       introduction: 點選地圖以尋找附近的圖徵
@@ -322,10 +323,12 @@ zh-TW:
       edit_link: 編輯此項目
       hide_link: 隱藏此項目
       confirm: 確認
+      report: 回報此項目
     diary_comment:
       comment_from: 由 %{link_user} 於 %{comment_created_at} 發表的評論
       hide_link: 隱藏此評論
       confirm: 確認
+      report: 回報此評論
     location:
       location: 位置：
       view: 檢視
@@ -945,6 +948,109 @@ zh-TW:
     results:
       no_results: 找不到任何結果
       more_results: 更多結果
+  issues:
+    index:
+      title: 問題
+      select_status: 選擇狀態
+      select_type: 選擇類型
+      select_last_updated_by: 選擇上一次更新按照
+      reported_user: 已回報使用者
+      not_updated: 尚未更新
+      search: 搜尋
+      search_guidance: 搜尋問題：
+      user_not_found: 使用者不存在
+      issues_not_found: 查無像這樣的問題
+      status: 狀態
+      reports: 回報
+      last_updated: 上一次更新
+      last_updated_time_html: <abbr title='%{title}'>%{time} 前</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time} 前</abbr>由 %{user}
+      link_to_reports: 檢視回報
+      reports_count:
+        one: 1 個回報
+        other: '%{count} 個回報'
+      reported_item: 已回報項目
+      states:
+        ignored: 已忽略
+        open: 開啟
+        resolved: 已解決
+    update:
+      new_report: 已成功登記您的回報
+      successful_update: 已成功更新您的回報
+      provide_details: 請提供所需的詳情
+    show:
+      title: '%{status} 問題 #%{issue_id}'
+      reports:
+        zero: 無回報
+        one: 1 個回報
+        other: '%{count} 個回報'
+      report_created_at: 首次回報是在 %{datetime}
+      last_resolved_at: 最後回報是在 %{datetime}
+      last_updated_at: 最後更新是由 %{displayname} 在 %{datetime}
+      resolve: 解決
+      ignore: 忽略
+      reopen: 重新開啟
+      reports_of_this_issue: 此問題的回報
+      read_reports: 讀取回報
+      new_reports: 新的回報
+      other_issues_against_this_user: 其它針對此使用者的問題
+      no_other_issues: 沒有其它針對此使用者的問題。
+      comments_on_this_issue: 在此問題的評論
+    resolve:
+      resolved: 問題狀態已設定成「已解決」
+    ignore:
+      ignored: 問題狀態已設定成「已忽略」
+    reopen:
+      reopened: 問題狀態已設定成「開啟」
+    comments:
+      created_at: 於 %{datetime}
+      reassign_param: 重新指派問題？
+    reports:
+      updated_at: 於 %{datetime}
+      reported_by_html: 由 %{user} 回報為 %{category}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}，評論 #%{comment_id}'
+        note: '註記 #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: 您的評論已成功建立
+  reports:
+    new:
+      title_html: 回報 %{link}
+      missing_params: 無法建立新的回報
+      details: 請提供有關問題的更多些詳情（必需）
+      select: 選擇您回報的原因：
+      disclaimer:
+        intro: 發送您的回報給站台仲裁員前，請確認：
+        not_just_mistake: 您確定了該問題內容並非誤會
+        unable_to_fix: 您無法自行或在您的社群成員協助下修正問題
+        resolve_with_user: 您已準備嘗試解決使用者關注的問題
+      categories:
+        diary_entry:
+          spam_label: 此日記項目為/含有垃圾訊息
+          offensive_label: 此日記項目含有猥褻/冒犯內容
+          threat_label: 此日記項目含有恐嚇內容
+          other_label: 其它
+        diary_comment:
+          spam_label: 此日記評論為/含有垃圾訊息
+          offensive_label: 此日記評論含有猥褻/冒犯內容
+          threat_label: 此日記評論含有恐嚇內容
+          other_label: 其它
+        user:
+          spam_label: 此使用者基本資料為/含有垃圾訊息
+          offensive_label: 此使用者基本資料含有猥褻/冒犯內容
+          threat_label: 此使用者基本資料含有恐嚇內容
+          vandal_label: 此使用者是破壞者
+          other_label: 其他
+        note:
+          spam_label: 此註記是垃圾訊息
+          personal_label: 此註記包含個人資料
+          abusive_label: 此註記有辱駡內容
+          other_label: 其它
+    create:
+      successful_report: 已成功登記您的回報
+      provide_details: 請提供所需的詳情
   layouts:
     logo:
       alt_text: OpenStreetMap 標誌
@@ -958,6 +1064,7 @@ zh-TW:
     edit: 編輯
     history: 歷史
     export: 匯出
+    issues: 問題
     data: 資料
     export_data: 匯出資料
     gps_traces: GPS 軌跡
@@ -1623,8 +1730,12 @@ zh-TW:
   application:
     require_cookies:
       cookies_needed: 您似乎已停用 cookies - 請在瀏覽器中開啟 cookies，然後繼續。
+    require_admin:
+      not_an_admin: 您需要是一個管理員才可執行該動作。
     require_moderator:
-      not_a_moderator: 您需要是管理人員，才可執行該動作。
+      not_a_moderator: 您必須是仲裁員才可執行此操作。
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: 您需要是仲裁員或管理員才可執行該動作。
     setup_user_auth:
       blocked_zero_hour: 您在OpenStreetMap網站有一個緊急訊息。在您儲存您的編輯內容前請先閱讀該訊息。
       blocked: 您已經被封鎖使用 API。請登入網頁介面以瞭解更多資訊。
@@ -1869,14 +1980,14 @@ zh-TW:
       nearby users: 其他附近的使用者
       no nearby users: 附近沒有已加入製圖的使用者。
       role:
-        administrator: 這個使用者是一個行政員
-        moderator: 這個使用者是一個管理者
+        administrator: 這個使用者是一個管理員
+        moderator: 這個使用者是一個仲裁員
         grant:
-          administrator: 授予行政員權限
-          moderator: 授予管理者權限
+          administrator: 授予管理員權限
+          moderator: 授予仲裁員權限
         revoke:
-          administrator: 撤銷行政員權限
-          moderator: 撤銷管理者權限
+          administrator: 撤銷管理員權限
+          moderator: 撤銷仲裁員權限
       block_history: 被封鎖
       moderator_history: 給予封鎖
       comments: 評論
@@ -1892,6 +2003,7 @@ zh-TW:
       friends_diaries: 好友的日記項目
       nearby_changesets: 附近使用者的變更集
       nearby_diaries: 附近使用者的日記項目
+      report: 回報此使用者
     popup:
       your location: 您的位置
       nearby mapper: 附近的製圖者
@@ -1986,7 +2098,7 @@ zh-TW:
       success: '%{name} 已從您的好友中移除。'
       not_a_friend: '%{name} 並不是您的好友。'
     filter:
-      not_an_administrator: 您需要一個行政員才可執行該動作。
+      not_an_administrator: 您需要是管理員才可執行此操作。
     list:
       title: 用戶
       heading: 用戶
@@ -2016,7 +2128,7 @@ zh-TW:
       option_2: 如果您已擁有一個帳號，您可以用您的使用者名稱與密碼登入您的帳號，並在使用者設定中關連您的ID。
   user_role:
     filter:
-      not_an_administrator: 只有行政員可以進行使用者身份管理，但是您並不是行政員。
+      not_an_administrator: 只有管理員可以進行使用者身份管理，但是您並不是管理員。
       not_a_role: 字串 "%{role}" 不是有效的身份。
       already_has_role: 這個使用者已經有 %{role} 身份。
       doesnt_have_role: 這個使用者沒有 %{role} 身份。
@@ -2035,8 +2147,8 @@ zh-TW:
       fail: 無法撤銷使用者 "%{name}"  "%{role}" 的身份。請檢查使用者和身份是否都正確。
   user_blocks:
     model:
-      non_moderator_update: 只有管理者才可作出或更新封鎖。
-      non_moderator_revoke: 只有管理者才可撤銷封鎖。
+      non_moderator_update: 只有仲裁員才可作出或更新封鎖。
+      non_moderator_revoke: 只有仲裁員才可撤銷封鎖。
     not_found:
       sorry: 抱歉，找不到 ID 為 %{id} 的使用者封鎖。
       back: 返回索引
@@ -2067,7 +2179,7 @@ zh-TW:
       try_waiting: 在封鎖使用者之前請先嘗試給使用者一段合理的時間來回應。
       flash: 已建立對使用者 %{name} 的封鎖。
     update:
-      only_creator_can_edit: 只有建立這項封鎖的管理者可作出編輯。
+      only_creator_can_edit: 只有建立這項封鎖的仲裁員可作出編輯。
       success: 封鎖已更新。
     index:
       title: 使用者封鎖

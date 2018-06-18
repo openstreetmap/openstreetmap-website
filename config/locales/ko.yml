@@ -367,6 +367,7 @@ ko:
           chair_lift: 체어 리프트
           drag_lift: 드래그 리프트
           gondola: 곤돌라 리프트
+          platter: 플래터 리프트
           pylon: 송전탑
           station: 케이블 카 정류장
           t-bar: 티 바 리프트
@@ -945,6 +946,81 @@ ko:
     results:
       no_results: 결과가 없습니다
       more_results: 더 많은 결과
+  issues:
+    index:
+      title: 이슈
+      select_status: 상태 선택
+      select_type: 유형 선택
+      not_updated: 업데이트되지 않음
+      search: 검색
+      search_guidance: '이슈 검색:'
+      user_not_found: 사용자가 존재하지 않습니다
+      issues_not_found: 해당 이슈를 찾을 수 없습니다
+      status: 상태
+      reports: 보고서
+      last_updated: 최근 업데이트
+      last_updated_time_html: <abbr title='%{title}'>%{time} 전</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time} 전</abbr> (%{user}님에
+        의해)
+      link_to_reports: 보고서 보기
+      reports_count:
+        one: 보고서 1개
+        other: 보고서 %{count}개
+      states:
+        ignored: 무시됨
+        open: 열림
+        resolved: 해결됨
+    update:
+      new_report: 보고서가 성공적으로 등록되었습니다
+      successful_update: 보고서가 성공적으로 업데이트되었습니다
+      provide_details: 필수 상세 정보를 지정해 주십시오
+    show:
+      reports:
+        zero: 보고서 없음
+        one: 보고서 1개
+        other: 보고서 %{count}개
+      report_created_at: '%{datetime}에 처음 보고됨'
+      resolve: 해결
+      ignore: 무시
+      reopen: 다시 열림
+      reports_of_this_issue: 이 이슈의 보고
+      read_reports: 보고서 읽기
+      new_reports: 새 보고서
+      no_other_issues: 이 사용자에 대한 다른 이슈가 없습니다.
+    resolve:
+      resolved: 이슈 상태가 '해결됨'으로 설정되었습니다
+    ignore:
+      ignored: 이슈 상태가 '무시됨'으로 설정되었습니다
+    reopen:
+      reopened: 이슈 상태가 '열림'으로 설정되었습니다
+    comments:
+      reassign_param: 이슈를 다시 할당하시겠습니까?
+    reports:
+      reported_by_html: '%{user}님이 %{category} 분류로 보고함'
+  reports:
+    new:
+      title_html: '%{link} 보고'
+      missing_params: 새 보고서를 만들 수 없습니다
+      details: 문제에 관해 더 자세한 정보를 지정해 주십시오. (필수)
+      select: '보고 이유를 선택하십시오:'
+      disclaimer:
+        intro: '보고서를 사이트 운영자에게 보내기 전에 다음을 확인하십시오:'
+        not_just_mistake: 문제가 그저 실수가 아님을 확신합니다
+        unable_to_fix: 직접 또는 동료 공동체 회원의 도움을 받아 문제를 해결할 수 없습니다
+      categories:
+        diary_entry:
+          other_label: 기타
+        diary_comment:
+          other_label: 기타
+        user:
+          spam_label: 이 사용자 프로필은 스팸이거나 스팸을 포함합니다
+          threat_label: 이 사용자 프로필에 위협이 포함되어 있습니다
+          other_label: 기타
+        note:
+          other_label: 기타
+    create:
+      successful_report: 보고서가 성공적으로 등록되었습니다
+      provide_details: 필수 상세 정보를 지정해 주십시오
   layouts:
     logo:
       alt_text: OpenStreetMap 로고
@@ -958,6 +1034,7 @@ ko:
     edit: 편집
     history: 역사
     export: 내보내기
+    issues: 이슈
     data: 데이터
     export_data: 데이터 내보내기
     gps_traces: GPS 궤적
@@ -1685,8 +1762,12 @@ ko:
   application:
     require_cookies:
       cookies_needed: 쿠키를 비활성화한 것으로 보입니다 - 계속하기 전에 브라우저에서 쿠키를 활성화하세요.
+    require_admin:
+      not_an_admin: 해당 동작을 수행하려면 관리자 권한이 필요합니다.
     require_moderator:
       not_a_moderator: 해당 동작을 수행하려면 운영자 권한이 필요합니다.
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: 해당 동작을 수행하려면 운영자나 관리자 권한이 필요합니다
     setup_user_auth:
       blocked_zero_hour: OpenStreetMap 웹 사이트에 긴급 메시지가 있습니다. 편집을 저장하기 전에 이 메시지를 읽어야
         합니다.
@@ -1966,6 +2047,7 @@ ko:
       friends_diaries: 친구의 일기 항목
       nearby_changesets: 근처 사용자의 바뀜집합
       nearby_diaries: 근처 사용자의 일기 항목
+      report: 이 사용자 보고
     popup:
       your location: 내 위치
       nearby mapper: 근처 매퍼
