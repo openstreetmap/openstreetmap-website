@@ -6,7 +6,6 @@ class AbilityTest < ActiveSupport::TestCase
 end
 
 class GuestAbilityTest < AbilityTest
-
   test "geocoder permission for a guest" do
     ability = Ability.new nil
 
@@ -27,11 +26,9 @@ class GuestAbilityTest < AbilityTest
       assert ability.cannot?(action, DiaryComment), "should be able to #{action} DiaryEntries"
     end
   end
-
 end
 
 class UserAbilityTest < AbilityTest
-
   test "Diary permissions" do
     ability = Ability.new create(:user)
 
@@ -47,7 +44,6 @@ class UserAbilityTest < AbilityTest
 end
 
 class AdministratorAbilityTest < AbilityTest
-
   test "Diary for an administrator" do
     ability = Ability.new create(:administrator_user)
     [:list, :rss, :view, :comments, :create, :edit, :comment, :subscribe, :unsubscribe, :hide, :hidecomment].each do |action|
@@ -66,6 +62,4 @@ class AdministratorAbilityTest < AbilityTest
       assert ability.cannot? act, UserPreference
     end
   end
-
-
 end

@@ -95,7 +95,6 @@ module ActiveSupport
       end
     end
 
-
     ##
     # set request readers to ask for a particular error format
     def error_format(format)

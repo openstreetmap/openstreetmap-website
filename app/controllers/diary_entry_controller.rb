@@ -11,7 +11,6 @@ class DiaryEntryController < ApplicationController
   before_action :check_database_writable, :only => [:new, :edit, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
   before_action :allow_thirdparty_images, :only => [:new, :edit, :list, :view, :comments]
 
-
   def new
     @title = t "diary_entry.new.title"
 
@@ -246,7 +245,6 @@ class DiaryEntryController < ApplicationController
   def comment_params
     params.require(:diary_comment).permit(:body)
   end
-
 
   ##
   # decide on a location for the diary entry map

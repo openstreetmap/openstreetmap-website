@@ -478,7 +478,7 @@ class ApplicationController < ActionController::Base
     Capability.new(current_user, current_token)
   end
 
-  def deny_access(exception)
+  def deny_access(_exception)
     if current_user
       set_locale
       report_error t("oauth.permissions.missing"), :forbidden

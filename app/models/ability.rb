@@ -17,9 +17,7 @@ class Ability
 
       can [:create, :edit, :comment, :subscribe, :unsubscribe], DiaryEntry
 
-      if user.administrator?
-        can [:hide, :hidecomment], [DiaryEntry, DiaryComment]
-      end
+      can [:hide, :hidecomment], [DiaryEntry, DiaryComment] if user.administrator?
     end
     # Define abilities for the passed in user here. For example:
     #
