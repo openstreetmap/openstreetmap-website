@@ -20,20 +20,20 @@ class OldRelationTagTest < ActiveSupport::TestCase
   def test_length_key_invalid
     tag = create(:old_relation_tag)
     tag.k = "k" * 256
-    assert !tag.valid?, "Key should be too long"
+    assert_not tag.valid?, "Key should be too long"
     assert tag.errors[:k].any?
   end
 
   def test_length_value_invalid
     tag = create(:old_relation_tag)
     tag.v = "v" * 256
-    assert !tag.valid?, "Value should be too long"
+    assert_not tag.valid?, "Value should be too long"
     assert tag.errors[:v].any?
   end
 
   def test_empty_tag_invalid
     tag = OldRelationTag.new
-    assert !tag.valid?, "Empty tag should be invalid"
+    assert_not tag.valid?, "Empty tag should be invalid"
     assert tag.errors[:old_relation].any?
   end
 

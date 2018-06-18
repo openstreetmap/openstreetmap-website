@@ -244,8 +244,8 @@ class ChangesetControllerTest < ActionController::TestCase
 
     # test that it really is closed now
     cs = Changeset.find(cs_id)
-    assert(!cs.is_open?,
-           "changeset should be closed now (#{cs.closed_at} > #{Time.now.getutc}.")
+    assert_not(cs.is_open?,
+               "changeset should be closed now (#{cs.closed_at} > #{Time.now.getutc}.")
   end
 
   ##
@@ -1875,9 +1875,9 @@ CHANGESET
     assert_equal Changeset::MAX_ELEMENTS + 1, changeset.num_changes
 
     # check that the changeset is now closed as well
-    assert(!changeset.is_open?,
-           "changeset should have been auto-closed by exceeding " \
-           "element limit.")
+    assert_not(changeset.is_open?,
+               "changeset should have been auto-closed by exceeding " \
+               "element limit.")
   end
 
   ##

@@ -215,8 +215,8 @@ class AmfControllerTest < ActionController::TestCase
     ways = map[2].collect { |x| x[0] }
     assert ways.include?(way.id),
            "map should include used way"
-    assert !ways.include?(deleted_way.id),
-           "map should not include deleted way"
+    assert_not ways.include?(deleted_way.id),
+               "map should not include deleted way"
   end
 
   ##
@@ -278,8 +278,8 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal Array, map[2].class, "third map element should be an array"
     # TODO: looks like amf_controller changed since this test was written
     # so someone who knows what they're doing should check this!
-    assert !map[2].include?(way.id),
-           "map should not include visible way"
+    assert_not map[2].include?(way.id),
+               "map should not include visible way"
     assert map[2].include?(deleted_way.id),
            "map should include deleted way"
   end

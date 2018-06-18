@@ -14,7 +14,7 @@ class NoteCommentTest < ActiveSupport::TestCase
     bad.each do |event|
       note_comment = create(:note_comment)
       note_comment.event = event
-      assert !note_comment.valid?, "#{event} is valid when it shouldn't be"
+      assert_not note_comment.valid?, "#{event} is valid when it shouldn't be"
     end
   end
 
@@ -33,7 +33,7 @@ class NoteCommentTest < ActiveSupport::TestCase
     bad.each do |body|
       note_comment = create(:note_comment)
       note_comment.body = body
-      assert !note_comment.valid?, "#{body} is valid when it shouldn't be"
+      assert_not note_comment.valid?, "#{body} is valid when it shouldn't be"
     end
   end
 end

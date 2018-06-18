@@ -50,7 +50,7 @@ class ChangesetCommentTest < ActiveSupport::TestCase
     bad.each do |body|
       changeset_comment = create(:changeset_comment)
       changeset_comment.body = body
-      assert !changeset_comment.valid?, "#{body} is valid when it shouldn't be"
+      assert_not changeset_comment.valid?, "#{body} is valid when it shouldn't be"
     end
   end
 end

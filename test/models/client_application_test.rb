@@ -14,7 +14,7 @@ class ClientApplicationTest < ActiveSupport::TestCase
     bad.each do |url|
       app = build(:client_application)
       app.url = url
-      assert !app.valid?, "#{url} is valid when it shouldn't be"
+      assert_not app.valid?, "#{url} is valid when it shouldn't be"
     end
   end
 
@@ -31,7 +31,7 @@ class ClientApplicationTest < ActiveSupport::TestCase
     bad.each do |url|
       app = build(:client_application)
       app.support_url = url
-      assert !app.valid?, "#{url} is valid when it shouldn't be"
+      assert_not app.valid?, "#{url} is valid when it shouldn't be"
     end
   end
 
@@ -48,7 +48,7 @@ class ClientApplicationTest < ActiveSupport::TestCase
     bad.each do |url|
       app = build(:client_application)
       app.callback_url = url
-      assert !app.valid?, "#{url} is valid when it shouldn't be"
+      assert_not app.valid?, "#{url} is valid when it shouldn't be"
     end
   end
 end

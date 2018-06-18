@@ -27,13 +27,13 @@ class OldNodeTagTest < ActiveSupport::TestCase
   def test_length_value_invalid
     tag = create(:old_node_tag)
     tag.v = "v" * 256
-    assert !tag.valid?, "Value should be too long"
+    assert_not tag.valid?, "Value should be too long"
     assert tag.errors[:v].any?
   end
 
   def test_empty_tag_invalid
     tag = OldNodeTag.new
-    assert !tag.valid?, "Empty tag should be invalid"
+    assert_not tag.valid?, "Empty tag should be invalid"
     assert tag.errors[:old_node].any?
   end
 

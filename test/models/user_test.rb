@@ -67,7 +67,7 @@ class UserTest < ActiveSupport::TestCase
     user.display_name = "123"
     assert user.valid?, " should allow nil display name"
     user.display_name = "12"
-    assert !user.valid?, "should not allow 2 char name"
+    assert_not user.valid?, "should not allow 2 char name"
     user.display_name = ""
     assert_not user.valid?
     user.display_name = nil
@@ -99,7 +99,7 @@ class UserTest < ActiveSupport::TestCase
     bad.each do |display_name|
       user = build(:user)
       user.display_name = display_name
-      assert !user.valid?, "#{display_name} is valid when it shouldn't be"
+      assert_not user.valid?, "#{display_name} is valid when it shouldn't be"
     end
   end
 

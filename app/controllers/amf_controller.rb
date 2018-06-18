@@ -672,7 +672,7 @@ class AmfController < ApplicationController
         # -- Save revised way
 
         pointlist.collect! do |a|
-          renumberednodes[a] ? renumberednodes[a] : a
+          renumberednodes[a] || a
         end
         new_way = Way.new
         new_way.tags = attributes
@@ -938,7 +938,7 @@ class AmfController < ApplicationController
       INNER JOIN current_relation_members crm ON crm.id=cr.id
       INNER JOIN current_nodes cn ON crm.member_id=cn.id AND crm.member_type='Node'
        WHERE #{OSM.sql_for_area(bbox, 'cn.')}
-      SQL
+    SQL
     unless way_ids.empty?
       sql += <<-SQL
        UNION
@@ -947,7 +947,7 @@ class AmfController < ApplicationController
         INNER JOIN current_relation_members crm ON crm.id=cr.id
          WHERE crm.member_type='Way'
          AND crm.member_id IN (#{way_ids.join(',')})
-        SQL
+      SQL
     end
     ActiveRecord::Base.connection.select_all(sql).collect { |a| [a["relid"].to_i, a["version"].to_i] }
   end

@@ -154,6 +154,8 @@ module ActionController
       end
     end
 
+    protected
+
     def create_paginators_and_retrieve_collections #:nodoc:
       Pagination::OPTIONS[self.class].each do |collection_id, options|
         next if options[:actions] && !options[:actions].include?(action_name)
@@ -200,9 +202,7 @@ module ActionController
       collection.offset(paginator.current.offset).limit(options[:per_page])
     end
 
-    protected :create_paginators_and_retrieve_collections,
-              :count_collection_for_pagination,
-              :find_collection_for_pagination
+    private
 
     def paginator_and_collection_for(_collection_id, options) #:nodoc:
       klass = options[:class_name].constantize
@@ -213,8 +213,6 @@ module ActionController
 
       [paginator, collection]
     end
-
-    private :paginator_and_collection_for
 
     # A class representing a paginator for an Active Record collection.
     class Paginator

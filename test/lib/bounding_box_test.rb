@@ -222,7 +222,7 @@ class BoundingBoxTest < ActiveSupport::TestCase
   end
 
   def test_complete
-    assert !@bbox_from_nils.complete?, "should contain a nil"
+    assert_not @bbox_from_nils.complete?, "should contain a nil"
     assert @bbox_from_string.complete?, "should not contain a nil"
   end
 
