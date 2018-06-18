@@ -747,7 +747,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal 5, result.size
     assert_equal 0, result[0], "expected to get the status ok from the amf"
     assert_equal 0, result[2], "The old id should be 0"
-    assert result[3] > 0, "The new id should be greater than 0"
+    assert result[3].positive?, "The new id should be greater than 0"
     assert_equal 1, result[4], "The new version should be 1"
 
     # Finally check that the node that was saved has saved the data correctly
@@ -784,7 +784,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal 5, result.size
     assert_equal 0, result[0], "Expected to get the status ok in the amf"
     assert_equal 0, result[2], "The old id should be 0"
-    assert result[3] > 0, "The new id should be greater than 0"
+    assert result[3].positive?, "The new id should be greater than 0"
     assert_equal 1, result[4], "The new version should be 1"
 
     # Finally check that the node that was saved has saved the data correctly
@@ -831,7 +831,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal 5, result.size
     assert_equal 0, result[0], "Expected to get the status ok in the amf"
     assert_equal 0, result[2], "The old id should be 0"
-    assert result[3] > 0, "The new id should be greater than 0"
+    assert result[3].positive?, "The new id should be greater than 0"
     assert_equal 1, result[4], "The new version should be 1"
 
     # Finally check that the node that was saved has saved the data correctly
