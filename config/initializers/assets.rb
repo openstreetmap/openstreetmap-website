@@ -6,11 +6,12 @@ Rails.application.config.assets.version = "1.0"
 # Location of manifest file.
 Rails.application.config.assets.manifest = Rails.root.join("tmp", "manifest.json")
 
-# Add additional assets to the asset load path
+# Add additional assets to the asset load path.
 Rails.application.config.assets.paths << Rails.root.join("config")
 
 # Precompile additional assets.
-# application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
+# application.js, application.css, and all non-JS/CSS in the app/assets
+# folder are already added.
 Rails.application.config.assets.precompile += %w[index.js browse.js welcome.js fixthemap.js]
 Rails.application.config.assets.precompile += %w[user.js login.js diary_entry.js messages.js edit/*.js]
 Rails.application.config.assets.precompile += %w[screen-ltr.css print-ltr.css]

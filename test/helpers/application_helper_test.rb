@@ -39,12 +39,12 @@ class ApplicationHelperTest < ActionView::TestCase
 
   def test_rss_link_to
     link = rss_link_to(:controller => :diary_entry, :action => :rss)
-    assert_dom_equal "<a class=\"rsssmall\" href=\"/diary/rss\"><img alt=\"Rss\" border=\"0\" height=\"16\" src=\"/images/RSS.png\" width=\"16\" /></a>", link
+    assert_dom_equal "<a class=\"rsssmall\" href=\"/diary/rss\"><img border=\"0\" height=\"16\" src=\"/images/RSS.png\" width=\"16\" /></a>", link
   end
 
   def test_atom_link_to
     link = atom_link_to(:controller => :changeset, :action => :feed)
-    assert_dom_equal "<a class=\"rsssmall\" href=\"/history/feed\"><img alt=\"Rss\" border=\"0\" height=\"16\" src=\"/images/RSS.png\" width=\"16\" /></a>", link
+    assert_dom_equal "<a class=\"rsssmall\" href=\"/history/feed\"><img border=\"0\" height=\"16\" src=\"/images/RSS.png\" width=\"16\" /></a>", link
   end
 
   def test_richtext_area

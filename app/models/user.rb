@@ -211,7 +211,7 @@ class User < ActiveRecord::Base
                    .where("id != ?", id)
                    .where(sql_for_area)
                    .where("#{sql_for_distance} <= ?", radius)
-                   .order(sql_for_distance)
+                   .order(Arel.sql(sql_for_distance))
                    .limit(num)
     else
       nearby = []

@@ -2,7 +2,7 @@ require "coveralls"
 Coveralls.wear!("rails")
 
 ENV["RAILS_ENV"] = "test"
-require File.expand_path("../config/environment", __dir__)
+require_relative "../config/environment"
 require "rails/test_help"
 require "webmock/minitest"
 
@@ -130,7 +130,7 @@ module ActiveSupport
     end
 
     def stub_gravatar_request(email, status = 200, body = nil)
-      hash = Digest::MD5.hexdigest(email.downcase)
+      hash = ::Digest::MD5.hexdigest(email.downcase)
       url = "https://www.gravatar.com/avatar/#{hash}?d=404"
       stub_request(:get, url).and_return(:status => status, :body => body)
     end

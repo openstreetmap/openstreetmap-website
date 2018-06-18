@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "5.1.6"
+gem "rails", "5.2.0"
 
 # Require things which have moved to gems in ruby 1.9
 gem "bigdecimal", "~> 1.1.0", :platforms => :ruby_19
@@ -31,6 +31,9 @@ gem "jquery-rails"
 # gem 'jbuilder', '~> 2.0'
 gem "jsonify-rails"
 
+# Reduces boot times through caching; required in config/boot.rb
+gem 'bootsnap', '>= 1.1.0', require: false
+
 # Use R2 for RTL conversion
 gem "r2", "~> 0.2.7"
 
@@ -42,7 +45,7 @@ gem "image_optim_rails"
 
 # Load rails plugins
 gem "actionpack-page_caching"
-gem "composite_primary_keys", "~> 10.0.4"
+gem "composite_primary_keys", "~> 11.0.0"
 gem "dynamic_form"
 gem "http_accept_language", "~> 2.0.0"
 gem "i18n-js", ">= 3.0.0"
