@@ -32,7 +32,7 @@ gem "jquery-rails"
 gem "jsonify-rails"
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
+gem "bootsnap", ">= 1.1.0", :require => false
 
 # Use R2 for RTL conversion
 gem "r2", "~> 0.2.7"
