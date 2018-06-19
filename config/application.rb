@@ -18,6 +18,9 @@ Bundler.require(*Rails.groups)
 
 module OpenStreetMap
   class Application < Rails::Application
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 5.2
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
@@ -25,6 +28,10 @@ module OpenStreetMap
 
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W[#{config.root}/lib]
+
+    # This defaults to true from rails 5.0 but our code doesn't comply
+    # with it at all so we turn it off
+    config.active_record.belongs_to_required_by_default = false
 
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
