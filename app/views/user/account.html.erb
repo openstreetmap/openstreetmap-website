@@ -169,6 +169,21 @@
     <%= content_tag "div", "", :id => "map", :class => "content_map settings_map set_location" %>
   </fieldset>
 
+  <% if current_user.memberships.any? %>
+    <fieldset class="form-divider">
+      <% UserMembership::ALL_MEMBERSHIPS.each do |membership| %>
+        <% if current_user.has_membership?(membership) %>
+          <div class="form-row">
+            <input id="membership_<%= membership %>" type="checkbox" name="user[membership_<%= membership %>]" value="1" <% if current_user.show_membership?(membership) %>checked="checked"<% end %> />
+            <label for="membership_<%= membership %>">
+              <%= t(".show membership #{membership}") %>
+            </label>
+          </div>
+        <% end %>
+      <% end %>
+    </fieldset>
+  <% end %>
+
   <%= submit_tag t('.save changes button') %>
 <% end %>
 

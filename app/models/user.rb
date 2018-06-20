@@ -75,6 +75,8 @@ class User < ActiveRecord::Base
 
   has_many :roles, :class_name => "UserRole"
 
+  has_many :memberships, :class_name => "UserMembership"
+
   has_many :issues, :class_name => "Issue", :foreign_key => :reported_user_id
   has_many :issue_comments
 
@@ -255,6 +257,18 @@ class User < ActiveRecord::Base
   # returns true if the user has the requested role
   def has_role?(role)
     roles.any? { |r| r.role == role }
+  end
+
+  ##
+  # returns true if the user has the requested membership
+  def has_membership?(membership)
+    memberships.any? { |m| m.membership == membership }
+  end
+
+  ##
+  # returns true if the user wants his membership displayed
+  def show_membership?(membership)
+    memberships.any? { |m| m.membership == membership && m.show }
   end
 
   ##
