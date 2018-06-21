@@ -252,6 +252,7 @@ it:
       reopened_by_anonymous: Riattivata da anonimo <abbr title='%{exact_time}'>%{when}
         fa</abbr>
       hidden_by: Nascosta da %{user} <abbr title='%{exact_time}'>%{when} fa</abbr>
+      report: Segnala questa nota
     query:
       title: Ricerca di elementi
       introduction: Clicca sulla cartina per disponibilità nei pressi.
@@ -346,10 +347,12 @@ it:
       edit_link: Modifica questa voce
       hide_link: Nascondi questo elemento
       confirm: Conferma
+      report: Segnala questa voce
     diary_comment:
       comment_from: Commento di %{link_user} il %{comment_created_at}
       hide_link: Nascondi questo commento
       confirm: Conferma
+      report: Segnala questo commento
     location:
       location: 'Località:'
       view: Visualizza
@@ -969,6 +972,112 @@ it:
     results:
       no_results: Nessun risultato trovato
       more_results: Altri risultati
+  issues:
+    index:
+      title: Problemi
+      select_status: Seleziona stato
+      select_type: Seleziona tipo
+      select_last_updated_by: Seleziona ultima modifica da
+      reported_user: Utente segnalato
+      not_updated: Non aggiornato
+      search: Ricerca
+      search_guidance: 'Ricerca problemi:'
+      user_not_found: L'utente non esiste
+      issues_not_found: Nessun problema trovato
+      status: Stato
+      reports: Segnalazioni
+      last_updated: Ultima modifica
+      last_updated_time_html: <abbr title='%{title}'>%{time} fa</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time} fa</abbr> da %{user}
+      link_to_reports: Visualizza segnalazioni
+      reports_count:
+        one: 1 segnalazione
+        other: '%{count} segnalazioni'
+      reported_item: Elemento segnalato
+      states:
+        ignored: Ignorato
+        open: Aperto
+        resolved: Risolto
+    update:
+      new_report: La tua segnalazione è stata registrata con successo
+      successful_update: La tua segnalazione è stata aggiornata con successo
+      provide_details: Fornire i dettagli richiesti
+    show:
+      title: '%{status} Problema #%{issue_id}'
+      reports:
+        zero: Nessuna segnalazione
+        one: 1 segnalazione
+        other: '%{count} segnalazioni'
+      report_created_at: Segnalato per la prima volta il %{datetime}
+      last_resolved_at: Risolto per l’ultima volta il %{datetime}
+      last_updated_at: Aggiornato per l’ultima volta il %{datetime} da %{displayname}
+      resolve: Risolvi
+      ignore: Ignora
+      reopen: Riapri
+      reports_of_this_issue: Segnalazioni di questo problema
+      read_reports: Leggi segnalazioni
+      new_reports: Nuove segnalazioni
+      other_issues_against_this_user: Altri problemi riguardanti questo utente
+      no_other_issues: Nessun altro problema riguardante questo utente.
+      comments_on_this_issue: Commenti a questo problema
+    resolve:
+      resolved: Lo stato del problema è stato impostato su ‘Risolto’
+    ignore:
+      ignored: Lo stato del problema è stato impostato su ‘Ignorato’
+    reopen:
+      reopened: Lo stato del problema è stato impostato su ‘Aperto’
+    comments:
+      created_at: Il %{datetime}
+      reassign_param: Riassegnare il problema?
+    reports:
+      updated_at: Il %{datetime}
+      reported_by_html: Segnalato come %{category} da %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, commento #%{comment_id}'
+        note: 'Nota #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Il tuo commento è stato creato con successo
+  reports:
+    new:
+      title_html: Segnala %{link}
+      missing_params: Impossibile creare una nuova segnalazione
+      details: Fornire più dettagli sul problema (obbligatorio).
+      select: 'Seleziona un motivo per la tua segnalazione:'
+      disclaimer:
+        intro: 'Prima di inviare una segnalazione ai moderatori del sito, verifica
+          che:'
+        not_just_mistake: Sei certo che il problema non sia soltanto un errore
+        unable_to_fix: Non sei in grado di correggere il problema da solo o con l’aiuto
+          dei membri della tua comunità
+        resolve_with_user: Hai già provato a risolvere il problema con l’utente in
+          questione
+      categories:
+        diary_entry:
+          spam_label: Questa voce del diario è/contiene spam
+          offensive_label: Questa voce del diario è oscena/offensiva
+          threat_label: Questa voce del diario contiene minacce
+          other_label: Altro
+        diary_comment:
+          spam_label: Questo commento al diario è/contiene spam
+          offensive_label: Questo commento del diario è osceno/offensivo
+          threat_label: Questo commento al diario contiene minacce
+          other_label: Altro
+        user:
+          spam_label: Il profilo di questo utente è/contiene spam
+          offensive_label: Il profilo di questo utente è osceno/offensivo
+          threat_label: Il profilo di questo utente contiene minacce
+          vandal_label: Questo utente è un vandalo
+          other_label: Altro
+        note:
+          spam_label: Questa nota è spam
+          personal_label: Questa nota contiene dati personali
+          abusive_label: Questa nota è ingiuriosa
+          other_label: Altro
+    create:
+      successful_report: La tua segnalazione è stata registrata con successo
+      provide_details: Fornire i dettagli richiesti
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
@@ -982,6 +1091,7 @@ it:
     edit: Modifica
     history: Cronologia
     export: Esporta
+    issues: Problemi
     data: Dati
     export_data: Esporta Dati
     gps_traces: Tracciati GPS
@@ -1666,8 +1776,10 @@ it:
       tags_help: delimitato da virgola
       visibility: 'Visibilità:'
       visibility_help: che cosa significa questo?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/IT:Visibility_of_GPS_traces
       upload_button: Carica
       help: Aiuto
+      help_url: https://wiki.openstreetmap.org/wiki/IT:Upload
     create:
       upload_trace: Carica tracciato GPS
       trace_uploaded: Il tuo file GPX è stato caricato ed è in attesa del suo inserimento
@@ -1773,8 +1885,13 @@ it:
     require_cookies:
       cookies_needed: Pare che tu abbia i cookie non abilitati - abilita i cookie
         nel tuo browser prima di continuare.
+    require_admin:
+      not_an_admin: Per effettuare quell’azione devi essere un amministratore.
     require_moderator:
       not_a_moderator: Devi essere un moderatore per eseguire questa operazione.
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: Per effettuare quell’azione devi essere un moderatore
+        oppure un amministratore
     setup_user_auth:
       blocked_zero_hour: Hai un messaggio urgente sul sito di OpenStreetMap. Per poter
         salvare le tue modifiche devi prima leggere quel messaggio.
@@ -2081,6 +2198,7 @@ it:
       friends_diaries: note dei diari degli amici
       nearby_changesets: gruppi di modifiche da parte degli utenti nelle vicinanze
       nearby_diaries: note dei diari degli utenti nelle vicinanze
+      report: Segnala questo utente
     popup:
       your location: Propria posizione
       nearby mapper: Mappatore vicino

@@ -168,7 +168,7 @@ fr:
     no_comment: (aucun commentaire)
     part_of: Appartient à
     download_xml: Télécharger en XML
-    view_history: Afficher l’historique
+    view_history: Voir l’historique
     view_details: Afficher les détails
     location: 'Emplacement :'
     changeset:
@@ -273,6 +273,7 @@ fr:
       reopened_by: Réactivé par %{user} il y a <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous: Réactivé par un utilisateur anonyme il y a <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: Masqué par %{user} il y a <abbr title='%{exact_time}'>%{when}</abbr>
+      report: Signaler cette note
     query:
       title: Requête sur les objets
       introduction: Cliquer sur la carte pour trouver les objets à proximité.
@@ -368,10 +369,12 @@ fr:
       edit_link: Modifier cette entrée
       hide_link: Masquer cette entrée
       confirm: Confirmer
+      report: Signaler cette entrée
     diary_comment:
       comment_from: Commentaire de %{link_user} le %{comment_created_at}
       hide_link: Masquer ce commentaire
       confirm: Confirmer
+      report: Signaler ce commentaire
     location:
       location: 'Lieu :'
       view: Afficher
@@ -992,6 +995,113 @@ fr:
     results:
       no_results: Aucun résultat n’a été trouvé
       more_results: Plus de résultats
+  issues:
+    index:
+      title: Problèmes
+      select_status: Sélectionner un état
+      select_type: Sélectionner un type
+      select_last_updated_by: Sélectionner la dernière mise à jour par
+      reported_user: Utilisateur signalé
+      not_updated: Non mis à jour
+      search: Rechercher
+      search_guidance: 'Problèmes de recherche :'
+      user_not_found: L’utilisateur n’existe pas
+      issues_not_found: Aucun problème tel trouvé
+      status: État
+      reports: Rapports
+      last_updated: Dernière mise à jour
+      last_updated_time_html: <abbr title='%{title}'>il y a %{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>il y a %{time}</abbr> par
+        %{user}
+      link_to_reports: Afficher les rapports
+      reports_count:
+        one: 1 rapport
+        other: '%{count} rapports'
+      reported_item: Élément signalé
+      states:
+        ignored: Ignoré
+        open: Ouvert
+        resolved: Résolu
+    update:
+      new_report: Votre rapport a bien été enregistré
+      successful_update: Votre rapport a bien été mis à jour
+      provide_details: Veuillez fournir les détails demandés
+    show:
+      title: '%{status} Problème #%{issue_id}'
+      reports:
+        zero: Aucun rapport
+        one: 1 rapport
+        other: '%{count} rapports'
+      report_created_at: Signalé la première fois à %{datetime}
+      last_resolved_at: Dernière résolution à %{datetime}
+      last_updated_at: Dernière mise à jour à %{datetime} par %{displayname}
+      resolve: Résoudre
+      ignore: Ignorer
+      reopen: Réouvrir
+      reports_of_this_issue: Rapports de ce problème
+      read_reports: Lire les rapports
+      new_reports: Nouveaux rapports
+      other_issues_against_this_user: Autres problèmes concernant cet utilisateur
+      no_other_issues: Aucun autre problème avec cet utilisateur.
+      comments_on_this_issue: Commentaires sur ce problème
+    resolve:
+      resolved: L’état du problème a été mis à 'Résolu'
+    ignore:
+      ignored: L’état du problème a été mis à 'Ignoré'
+    reopen:
+      reopened: L’état du problème a été mis à 'Ouvert'
+    comments:
+      created_at: Le %{datetime}
+      reassign_param: Réaffecter le problème ?
+    reports:
+      updated_at: Le %{datetime}
+      reported_by_html: Signalé comme %{category} par %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, commentaire #%{comment_id}'
+        note: 'Note #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Votre commentaire a bien été créé
+  reports:
+    new:
+      title_html: Rapport %{link}
+      missing_params: Impossible de créer un nouveau rapport
+      details: Veuillez fournir plus de détails sur le problème (obligatoire).
+      select: 'Sélectionner un motif pour votre rapport :'
+      disclaimer:
+        intro: 'Avant d’envoyer votre rapport aux modérateurs du site, veuillez vous
+          assurer que :'
+        not_just_mistake: Vous êtes certain que le problème n’est pas juste une erreur
+        unable_to_fix: Vous êtes incapable de régler le problème par vous-même ou
+          avec l’aide des membres de votre communauté
+        resolve_with_user: Vous avez déjà essayé de résoudre le problème avec l’utilisateur
+          concerné
+      categories:
+        diary_entry:
+          spam_label: Cette entrée de l’agenda est/contient du pourriel
+          offensive_label: Cette entrée de l’agenda est obscène/offensante
+          threat_label: Cette entrée d’agenda contient une menace
+          other_label: Autre
+        diary_comment:
+          spam_label: Ce commentaire d’agenda est/contient du pourriel
+          offensive_label: Ce commentaire d’agenda est obscène/offensant
+          threat_label: Ce commentaire d’agenda contient une menace
+          other_label: Autre
+        user:
+          spam_label: Ce profil utilisateur est/contient du pourriel
+          offensive_label: Ce profil utilisateur est obscène/offensant
+          threat_label: Ce profil utilisateur contient une menace
+          vandal_label: Cet utilisateur est un vandale
+          other_label: Autre
+        note:
+          spam_label: Cette note est du pourriel
+          personal_label: Ce note contient des données personnelles
+          abusive_label: Cette note est injurieuse
+          other_label: Autre
+    create:
+      successful_report: Votre rapport a bien été enregistré
+      provide_details: Veuillez fournir les détails requis
   layouts:
     logo:
       alt_text: Logo d’OpenStreetMap
@@ -1005,6 +1115,7 @@ fr:
     edit: Modifier
     history: Historique
     export: Exporter
+    issues: Problèmes
     data: Données
     export_data: Exporter les données
     gps_traces: Traces GPS
@@ -1806,8 +1917,13 @@ fr:
     require_cookies:
       cookies_needed: Il semble que les témoins (cookies) soient désactivés sur votre
         navigateur. Veuillez les activer avant de continuer.
+    require_admin:
+      not_an_admin: Vous devez être un administrateur pour effectuer cette action.
     require_moderator:
       not_a_moderator: Vous devez être modérateur pour effectuer cette action.
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: Vous devez être un modérateur ou un administrateur
+        pour effectuer cette action
     setup_user_auth:
       blocked_zero_hour: Vous avez un message urgent sur le site web OpenStreetMap.
         Vous devez lire le message avant de pouvoir enregistrer vos modifications.
@@ -2118,6 +2234,7 @@ fr:
       friends_diaries: Entrées de journal des amis
       nearby_changesets: Groupes de modifications des utilisateurs à proximité
       nearby_diaries: Entrées de journal des utilisateurs à proximité
+      report: Signaler cet utilisateur
     popup:
       your location: Votre emplacement
       nearby mapper: Cartographe à proximité

@@ -1006,8 +1006,8 @@ ru:
       title: Проблемы
       select_status: Выберите статус
       select_type: Выберите тип
-      select_last_updated_by: Выберите, кто последним изменил
-      reported_user: Проблематичный пользователь
+      select_last_updated_by: Выберите последнего обновившего
+      reported_user: Пользователь в сообщении
       not_updated: Не обновлялось
       search: Найти
       search_guidance: Поиск проблем
@@ -1027,12 +1027,13 @@ ru:
       provide_details: Пожалуйста, сообщите дополнительные детали
     show:
       report_created_at: Впервые сообщено %{datetime}
-      last_resolved_at: Последний раз обработано в %{datetime}
+      last_resolved_at: Последний раз обработано %{datetime}
       last_updated_at: Последнее обновление %{datetime} пользователем %{displayname}
       resolve: Обработать
       ignore: Игнорировать
       reopen: Переоткрыть
       reports_of_this_issue: Сообщения об этой проблеме
+      read_reports: Прочитанные сообщения
       new_reports: Новые сообщения
       other_issues_against_this_user: Другие проблемы с этим пользователем
       no_other_issues: Нет других проблем с этим пользователем
@@ -1044,7 +1045,11 @@ ru:
     reopen:
       reopened: Статус проблемы был установлен в "Открыто"
     comments:
-      reassign_param: Переназначить проблемы?
+      created_at: ' %{datetime}'
+      reassign_param: Переназначить проблему?
+    reports:
+      updated_at: ' %{datetime}'
+      reported_by_html: Указано как %{category} пользователем %{user}
     helper:
       reportable_title:
         note: Заметка № %{note_id}
@@ -1053,6 +1058,7 @@ ru:
       comment_created: Ваш комментарий был успешно создан
   reports:
     new:
+      title_html: Сообщение %{link}
       missing_params: Не удалось создать новое сообщение
       details: Пожалуйста, сообщите немного больше деталей о проблеме (обязательно).
       select: 'Выберите причину вашего сообщения:'
@@ -1065,17 +1071,17 @@ ru:
         resolve_with_user: Вы уже пробовали решить проблему с этим пользователем
       categories:
         diary_entry:
-          spam_label: Эта запись в дневнике является (или содержит) спамом
+          spam_label: Эта запись в дневнике является спамом или содержит его
           offensive_label: Эта запись в дневнике является непристойной или оскорбительной
           threat_label: Эта запись в дневнике содержит угрозу
           other_label: Другое
         diary_comment:
-          spam_label: Этот комментарий в дневнике является (или содержит) спамом
+          spam_label: Этот комментарий в дневнике является спамом или содержит его
           offensive_label: Этот комментарий в дневнике является непристойным или оскорбительным
           threat_label: Этот комментарий в дневнике содержит угрозу
           other_label: Другое
         user:
-          spam_label: Профиль этого пользователя является (или содержит) спамом
+          spam_label: Профиль этого пользователя является спамом или содержит его
           offensive_label: Профиль этого пользователя является непристойным или оскорбительным
           threat_label: Профиль этого пользователя содержит угрозу
           vandal_label: Этот пользователь является вандалом
@@ -1890,7 +1896,8 @@ ru:
     require_moderator:
       not_a_moderator: Чтобы выполнить это действие, нужно быть модератором.
     require_moderator_or_admin:
-      not_a_moderator_or_admin: Вам нужно быть модератором для выполнения этого действия
+      not_a_moderator_or_admin: Вам нужно быть модератором или администратором для
+        выполнения этого действия
     setup_user_auth:
       blocked_zero_hour: У вас есть срочное сообщение на сайте OpenStreetMap. Вам
         нужно прочитать сообщение, прежде чем вы сможете сохранить ваши изменения.
