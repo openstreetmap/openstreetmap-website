@@ -8,12 +8,12 @@ class UserMembershipTest < ActionDispatch::IntegrationTest
   end
 
   test "grant" do
-    test_OSMF_membership_display()
+    test_osmf_membership_display
   end
 
   private
 
-  def test_OSMF_membership_display
+  def test_osmf_membership_display
     user = create(:OSMF_member_user, :active)
 
     # check that badge is not shown on user page by default
@@ -30,7 +30,7 @@ class UserMembershipTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    post "/user/#{ERB::Util.u(user.display_name)}/account/", :params => { "user[membership_OSMF]" => "1", :user => user.attributes, "user[languages]" => ""}
+    post "/user/#{ERB::Util.u(user.display_name)}/account/", :params => { "user[membership_OSMF]" => "1", :user => user.attributes, "user[languages]" => "" }
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -40,7 +40,6 @@ class UserMembershipTest < ActionDispatch::IntegrationTest
     # check that badge is shown on user page
     get "/user/#{ERB::Util.u(user.display_name)}/"
     assert_select "div#userinformation > div > h1 > picture > img#badge-membership-OSMF"
-
 
     reset!
 
@@ -56,7 +55,7 @@ class UserMembershipTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    post "/user/#{ERB::Util.u(user.display_name)}/account/", :params => { "user[membership_OSMF]" => "1", :user => user.attributes, "user[languages]" => ""}
+    post "/user/#{ERB::Util.u(user.display_name)}/account/", :params => { "user[membership_OSMF]" => "1", :user => user.attributes, "user[languages]" => "" }
     assert_response :success
     assert_template :account
     assert_select "form#accountForm > fieldset > div.form-row > input#membership_OSMF", false
