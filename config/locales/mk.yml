@@ -959,6 +959,85 @@ mk:
       states:
         ignored: Занемарено
         open: Отворено
+        resolved: Решено
+    update:
+      new_report: Вашата пријава е успешно заведена
+      successful_update: Вашата пријава е успешно подновена
+      provide_details: Наведете ги потребните подробности
+    show:
+      title: '%{status} Проблем бр. #%{issue_id}'
+      reports:
+        zero: Нема приајви
+        one: 1 пријава
+        other: '%{count} пријави'
+      report_created_at: Првпат пријавено на %{datetime}
+      last_resolved_at: Последно пријавено на %{datetime}
+      last_updated_at: Последно пријавено на %{datetime} од %{displayname}
+      resolve: Реши
+      ignore: Занемари
+      reopen: Повторно отвори
+      reports_of_this_issue: Пријави за проблемов
+      read_reports: Прочитај пријави
+      new_reports: Нови пријави
+      other_issues_against_this_user: Други проблеми со овој корисник
+      no_other_issues: Нема други проблеми со овој корисник.
+      comments_on_this_issue: Коментари за проблемов
+    resolve:
+      resolved: Состојбата на проблемот е поставена како „Решено“
+    ignore:
+      ignored: Состојбата на проблемот е поставена како „Занемарено“
+    reopen:
+      reopened: Состојбата на проблемот е поставена како „Отворено“
+    comments:
+      created_at: На %{datetime}
+      reassign_param: Да го предоделам проблемот?
+    reports:
+      updated_at: На %{datetime}
+      reported_by_html: Пријавено како %{category} од %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, коментар бр. %{comment_id}'
+        note: Напомена бр. %{note_id}
+  issue_comments:
+    create:
+      comment_created: Коментарот е успешно создаден
+  reports:
+    new:
+      title_html: Пријава %{link}
+      missing_params: Не можам да создадам нов извештај
+      details: Наведете повеќе подробности за проблемот (задолжително).
+      select: 'Изберете причина за пријавата:'
+      disclaimer:
+        intro: 'Пред да ја поднесете пријавата кај модераторите, проверете дали:'
+        not_just_mistake: Сте сигурни дека проблемот не е просто грешка
+        unable_to_fix: Не можете проблемот да го решите сами или со помош од други
+          членови на заедницата
+        resolve_with_user: Веќе сте пробале да го решите проблемот со дадениот корисник
+      categories:
+        diary_entry:
+          spam_label: Оваа дневничка ставка е/содржи спам
+          offensive_label: Оваа дневничка ставка е непристојна/навредлива
+          threat_label: Оваа дневничка ставка содржи закана
+          other_label: Друго
+        diary_comment:
+          spam_label: Овој дневнички коментар е/содржи спам
+          offensive_label: Овој дневнички коментар е непристоен/навредлив
+          threat_label: Овој дневнички коментар содржи закана
+          other_label: Друго
+        user:
+          spam_label: Овој кориснички профил е/содржи спам
+          offensive_label: Овој кориснички профил е непристоен/навредлив
+          threat_label: Овој кориснички профил содржи закана
+          vandal_label: Овој корисник е вандал
+          other_label: Друго
+        note:
+          spam_label: Оваа белешка е спам
+          personal_label: Оваа белешка содржи лични податоци
+          abusive_label: Оваа белешка е навредлива
+          other_label: Друго
+    create:
+      successful_report: Вашата пријава е успешно заведена
+      provide_details: Наведете ги потребните подробности
   layouts:
     logo:
       alt_text: Лого на OpenStreetMap
@@ -972,6 +1051,7 @@ mk:
     edit: Уреди
     history: Историја
     export: Извези
+    issues: Проблеми
     data: Податоци
     export_data: Извези податоци
     gps_traces: ГПС-траги
@@ -1762,8 +1842,12 @@ mk:
     require_cookies:
       cookies_needed: Изгледа сте оневозможиле колачиња - дозволете колачиња во прелистувачот
         за да можете да продолжите,
+    require_admin:
+      not_an_admin: За да го изведете тоа, треба да сте администратор.
     require_moderator:
       not_a_moderator: За да го изведете тоа, треба да сте модератор.
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: За да го изведете тоа, треба да сте модератор.
     setup_user_auth:
       blocked_zero_hour: Имате итна порака на OpenStreetMap. Ќе мора да ја прочитате
         пораката пред да ги зачувате уредувањата.
@@ -2067,6 +2151,7 @@ mk:
       friends_diaries: дневнички записи на пријателите
       nearby_changesets: измени на соседните корисници
       nearby_diaries: дневнички записи на соседн. корисн.
+      report: Пријави го корисников
     popup:
       your location: Ваша местоположба
       nearby mapper: Соседен картограф

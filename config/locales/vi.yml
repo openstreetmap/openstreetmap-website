@@ -217,6 +217,7 @@ vi:
       reopened_by: Mở lại bởi %{user} <abbr title='%{exact_time}'>cách đây %{when}</abbr>
       reopened_by_anonymous: Mở lại vô danh <abbr title='%{exact_time}'>cách đây %{when}</abbr>
       hidden_by: Ẩn bởi %{user} <abbr title='%{exact_time}'>cách đây %{when}</abbr>
+      report: Báo cáo ghi chú này
     query:
       title: Thăm dò Yếu tố
       introduction: Nhấn chuột vào bản đồ để tìm những yếu tố lân cận.
@@ -307,10 +308,12 @@ vi:
       edit_link: Sửa đổi mục này
       hide_link: Ẩn mục này
       confirm: Xác nhận
+      report: Báo cáo mục này
     diary_comment:
       comment_from: Bình luận của %{link_user} vào %{comment_created_at}
       hide_link: Ẩn bình luận này
       confirm: Xác nhận
+      report: Báo cáo bình luận này
     location:
       location: 'Vị trí:'
       view: Xem
@@ -890,6 +893,112 @@ vi:
     results:
       no_results: Không tìm thấy kết quả
       more_results: Thêm kết quả
+  issues:
+    index:
+      title: Vấn đề
+      select_status: Chọn Trạng thái
+      select_type: Chọn Loại
+      select_last_updated_by: Chọn Người Cập nhật Cuối cùng
+      reported_user: Người dùng Báo cáo
+      not_updated: Không được Cập nhật
+      search: Tìm kiếm
+      search_guidance: 'Tìm kiếm Vấn đề:'
+      user_not_found: Người dùng không tồn tại
+      issues_not_found: Không tìm thấy vấn đề
+      status: Trạng thái
+      reports: Báo cáo
+      last_updated: Lần Cập nhật Cuối
+      last_updated_time_html: <abbr title='%{title}'>cách đây %{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>cách đây %{time}</abbr>
+        bởi %{user}
+      link_to_reports: Xem Báo cáo
+      reports_count:
+        one: 1 Báo cáo
+        other: '%{count} Báo cáo'
+      reported_item: Mục Báo cáo
+      states:
+        ignored: Bỏ qua
+        open: Mở
+        resolved: Giải quyết
+    update:
+      new_report: Lời báo cáo của bạn đã được gửi thành công
+      successful_update: Lời báo cáo của bạn đã được cập nhật thành công
+      provide_details: Vui lòng cung cấp các chi tiết được yêu cầu
+    show:
+      title: 'Vấn đề %{status} #%{issue_id}'
+      reports:
+        zero: Không có báo cáo
+        one: 1 báo cáo
+        other: '%{count} báo cáo'
+      report_created_at: Báo cáo lần đầu tiên vào %{datetime}
+      last_resolved_at: Giải quyết lần cuối cùng vào %{datetime}
+      last_updated_at: Cập nhật lần cuối cùng vào %{datetime} bởi %{displayname}
+      resolve: Giải quyết
+      ignore: Bỏ qua
+      reopen: Mở lại
+      reports_of_this_issue: Báo cáo về Vấn đề này
+      read_reports: Báo cáo Đã đọc
+      new_reports: Báo cáo Mới
+      other_issues_against_this_user: Vấn đề khác do người dùng này gây ra
+      no_other_issues: Không có vấn đề khác do người dùng ngày gây ra.
+      comments_on_this_issue: Bình luận về vấn đề này
+    resolve:
+      resolved: Trạng thái vấn đề được đánh dấu là “Giải quyết”
+    ignore:
+      ignored: Trạng thái vấn đề được đánh dấu là “Bỏ qua”
+    reopen:
+      reopened: Trạng thái vấn đề được đánh dấu là “Mở”
+    comments:
+      created_at: Vào %{datetime}
+      reassign_param: Chỉ định lại Vấn đề?
+    reports:
+      updated_at: Vào %{datetime}
+      reported_by_html: Báo cáo là %{category} bởi %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, bình luận #%{comment_id}'
+        note: 'Ghi chú #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Bình luận của bạn đã được tạo ra thành công
+  reports:
+    new:
+      title_html: Báo cáo %{link}
+      missing_params: Không thể tạo báo cáo mới
+      details: Vui lòng cung cấp thêm chi tiết về vấn đề (yêu cầu).
+      select: 'Chọn lý do bạn báo cáo vấn đề này:'
+      disclaimer:
+        intro: 'Trước khi bạn gửi báo cáo cho nhóm điều hành viên, xin hãy chắc chắn:'
+        not_just_mistake: Bạn chắc chắn rằng vấn đề không chỉ là vụ nhầm lẫn
+        unable_to_fix: Bạn không thể giải quyết vấn đề một mình hoặc với sự giúp đỡ
+          của những người khác trong cộng đồng
+        resolve_with_user: Bạn đã cố gắng giải quyết vấn đề với người dùng gây vấn
+          đề nhưng không thành công
+      categories:
+        diary_entry:
+          spam_label: Mục nhật ký này là hoặc chứa rác (spam)
+          offensive_label: Mục nhật ký này tục tĩu hoặc xúc phạm
+          threat_label: Mục nhật ký này đe họa người nào đó
+          other_label: Khác
+        diary_comment:
+          spam_label: Bình luận nhật ký này là hoặc chứa rác (spam)
+          offensive_label: Bình luận nhật ký này tục tĩu hoặc xúc phạm
+          threat_label: Bình luận nhật ký này hăm họa người nào đó
+          other_label: Khác
+        user:
+          spam_label: Trang cá nhân này là hoặc chứa rác (spam)
+          offensive_label: Trang cá nhân này tục tĩu hoặc xúc phạm
+          threat_label: Trang cá nhân này đe dọa người nào đó
+          vandal_label: Người dùng này phá hoại
+          other_label: Khác
+        note:
+          spam_label: Ghi chú này là rác (spam)
+          personal_label: Ghi chú này chứa thông tin cá nhân
+          abusive_label: Ghi chú này đe dọa
+          other_label: Khác
+    create:
+      successful_report: Lời báo cáo của bạn đã được gửi thành công
+      provide_details: Vui lòng cung cấp các chi tiết được yêu cầu
   layouts:
     logo:
       alt_text: Biểu trưng OpenStreetMap
@@ -903,6 +1012,7 @@ vi:
     edit: Sửa đổi
     history: Lịch sử
     export: Xuất
+    issues: Vấn đề
     data: Dữ liệu
     export_data: Xuất Dữ liệu
     gps_traces: Tuyến GPS
@@ -1555,6 +1665,7 @@ vi:
       identifiable: Nhận ra được (hiển thị trong danh sách tuyến đường là một dãy
         điểm có tên và thời điểm)
     new:
+      upload_trace: Tải lên Tuyến đường GPS
       upload_gpx: 'Tải lên Tập tin GPX:'
       description: 'Miêu tả:'
       tags: 'Thẻ:'
@@ -1664,8 +1775,13 @@ vi:
     require_cookies:
       cookies_needed: Hình như đã tắt cookie. Xin hãy bật lên chức năng cookie trong
         trình duyệt để tiếp tục.
+    require_admin:
+      not_an_admin: Chỉ các quản lý viên có quyền thực hiện tác vụ đó.
     require_moderator:
       not_a_moderator: Chỉ có các điều hành viên được phép thực hiện tác vụ đó.
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: Chỉ có các điều hành viên hoặc quản lý viên được phép
+        thực hiện tác vụ đó.
     setup_user_auth:
       blocked_zero_hour: Bạn có tin nhắn mới rất quan trọng tại trang Web OpenStreetMap.
         Bạn phải đọc tin nhắn này trước khi được phép lưu thêm thay đổi.
@@ -1968,6 +2084,7 @@ vi:
       friends_diaries: mục nhật ký của bạn bè
       nearby_changesets: bộ thay đổi của người dùng ở gần
       nearby_diaries: mục nhật ký của người dùng ở gần
+      report: Báo cáo Người dùng này
     popup:
       your location: Vị trí của bạn
       nearby mapper: Người vẽ bản đồ ở gần

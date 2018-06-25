@@ -225,6 +225,7 @@ eo:
       reopened_by_anonymous: Re-malfermita de anonimulo <abbr title='%{exact_time}'>antaŭ
         %{when}</abbr>
       hidden_by: Kaŝita de %{user} <abbr title='%{exact_time}'>antaŭ %{when}</abbr>
+      report: Raporti tiun ĉi rimarkon
     query:
       title: Informoj pri objektoj
       introduction: Alklaku la mapon por trovi proksimajn objektojn.
@@ -316,10 +317,12 @@ eo:
       edit_link: Redakti ĉi tiun enskribon
       hide_link: Kaŝi ĉi tiu afiŝon
       confirm: Konfirmi
+      report: Raporti tiun ĉi afiŝon
     diary_comment:
       comment_from: Komento de %{link_user} je %{comment_created_at}
       hide_link: Kaŝi ĉi tiun komenton
       confirm: Konfirmi
+      report: Raporti tiun ĉi komenton
     location:
       location: 'Loko:'
       view: Montri
@@ -939,6 +942,110 @@ eo:
     results:
       no_results: Neniu rezulto trovita
       more_results: Pliaj rezultoj
+  issues:
+    index:
+      title: Problemoj
+      select_status: Elekti staton
+      select_type: Elekti tipon
+      select_last_updated_by: Elekti laste ĝisdatigita de
+      reported_user: Raporti uzanton
+      not_updated: Ne aktualigita
+      search: Serĉi
+      search_guidance: 'Serĉi problemon:'
+      user_not_found: Uzanto ne ekzistas
+      issues_not_found: Ne trovis tian problemon
+      status: Stato
+      reports: Raportoj
+      last_updated: Laste aktualigita
+      last_updated_time_html: <abbr title='%{title}'>antaŭ %{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>antaŭ %{time}</abbr> de
+        %{user}
+      link_to_reports: Montri raportojn
+      reports_count:
+        one: 1 raporto
+        other: '%{count} raportoj'
+      reported_item: Objekto raportita
+      states:
+        ignored: Ignorita
+        open: Malfermita
+        resolved: Solvita
+    update:
+      new_report: Vi sukcese registris problemon
+      successful_update: Vi sukcese aktualigis problemon
+      provide_details: Bonvolu enmeti necesajn detalojn
+    show:
+      title: '%{status} problemo #%{issue_id}'
+      reports:
+        zero: Neniuj raportoj
+        one: 1 raporto
+        other: '%{count} raportoj'
+      report_created_at: Unue raportita je %{datetime}
+      last_resolved_at: Laste solvita je %{datetime}
+      last_updated_at: Laste aktualigita je %{datetime} de %{displayname}
+      resolve: Solvi
+      ignore: Ignori
+      reopen: Remalfermi
+      reports_of_this_issue: Raportoj pri tiu ĉi problemo
+      read_reports: Legi raportojn
+      new_reports: Novaj raportoj
+      other_issues_against_this_user: Aliaj problemoj pri tiu ĉi uzanto
+      no_other_issues: Neniuj aliaj problemoj pri tiu ĉi uzanto.
+      comments_on_this_issue: Komentoj al tiu ĉi problemo
+    resolve:
+      resolved: Problemo estas solvita
+    ignore:
+      ignored: Problemo estas ignorita
+    reopen:
+      reopened: Problemo estas malfermita
+    comments:
+      created_at: Je %{datetime}
+      reassign_param: Ĉu reasigni problemon?
+    reports:
+      updated_at: je %{datetime}
+      reported_by_html: Raportita kiel %{category} de %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, komento #%{comment_id}'
+        note: 'Rimarko #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Vi sukcese aldonis komenton
+  reports:
+    new:
+      title_html: Raporti %{link}
+      missing_params: Ne povas krei novan raporton
+      details: Bonvolu enmeti kelkajn detalojn, kiuj priskribas la problemon (postulata).
+      select: 'Elektu kialon de via raporto:'
+      disclaimer:
+        intro: 'Antaŭ sendi raporton al kontrolantoj, bonvolu certiĝi ke:'
+        not_just_mistake: raportata problemo ne estas simpla eraro de uzanto
+        unable_to_fix: vi ne povas mem ripari la problemon aŭ kun helpo de la komunumo
+        resolve_with_user: vi jam provis solvi la problemon kun koncerna uzanto
+      categories:
+        diary_entry:
+          spam_label: tiu ĉi afiŝo estas trudmesaĝo (spamo)
+          offensive_label: tiu ĉi afiŝo estas vulgara aŭ ofenda
+          threat_label: tiu ĉi afiŝo enhavas minacon
+          other_label: alia
+        diary_comment:
+          spam_label: tiu ci komento estas trudmesaĝo (spamo)
+          offensive_label: tiu ĉi komento estas vulgara aŭ ofenda
+          threat_label: tiu ĉi komento enhavas minacon
+          other_label: alia
+        user:
+          spam_label: tiu ĉi profilo estas trudmesaĝo (spamo)
+          offensive_label: tiu ĉi profilo estas vulgara aŭ ofenda
+          threat_label: tiu ĉi profilo enhavas minacon
+          vandal_label: tiu ĉi uzanto estas difektanto
+          other_label: alia
+        note:
+          spam_label: tiu ĉi rimarko estas trudmesaĝo (spamo)
+          personal_label: tiu ĉi rimarko enhavas personajn informojn
+          abusive_label: tiu ĉi rimarko estas ofenda
+          other_label: alia
+    create:
+      successful_report: Vi sukcese registris problemon
+      provide_details: Bonvolu enmeti necesajn detalojn
   layouts:
     logo:
       alt_text: Emblemo de OpenStreetMap
@@ -952,6 +1059,7 @@ eo:
     edit: Redakti
     history: Historio
     export: Elporti
+    issues: Problemoj
     data: Datumoj
     export_data: Elporti datumojn
     gps_traces: GPS-spuroj
@@ -1677,7 +1785,7 @@ eo:
       public_traces: Publikaj GPS-spuroj
       my_traces: Miaj GPS-spuroj
       public_traces_from: Publikaj GPS-spuroj de %{user}
-      description: Foliumi laste alŝutitajn GPS-spuroj
+      description: Foliumi laste alŝutitajn GPS-spurojn
       tagged_with: etikedita kun %{tags}
       empty_html: Ankoraŭ nenio estas tie ĉi. <a href='%{upload_link}'>Alŝutu novan
         spuron</a> aŭ sciigu pli pri GPS-spurado ĉe la <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>viki-paĝo</a>.
@@ -1704,8 +1812,13 @@ eo:
     require_cookies:
       cookies_needed: Ŝajnas, ke vi malaktivigis 'kuketojn' - bonvolu aktivigi 'kuketojn'
         en via foliumilo por pluigi.
+    require_admin:
+      not_an_admin: Vi devas esti administranto por fari tion.
     require_moderator:
       not_a_moderator: Vi devas esti kontrolanto por fari ĉi tiun agon.
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: Vi devas esti kontrolanto aŭ administranto por fari
+        tion.
     setup_user_auth:
       blocked_zero_hour: Vi havas urĝan mesaĝon en la OpenStreetMap retejo. Vi devas
         legi la mesaĝon antaŭ ol vi povos konservi viajn redaktojn.
@@ -2003,6 +2116,7 @@ eo:
       friends_diaries: afiŝoj en taglibroj de amikoj
       nearby_changesets: ŝanĝaroj de proksimuloj
       nearby_diaries: afiŝoj en taglibroj de proksimuloj
+      report: Raporti tiun ĉi uzanton
     popup:
       your location: Via loko
       nearby mapper: Proksima uzanto
@@ -2047,10 +2161,10 @@ eo:
       preferred editor: 'Preferata redaktilo:'
       image: 'Bildo:'
       gravatar:
-        gravatar: Uzi 'Gravataron'
+        gravatar: Uzi “Gravataron”
         link text: kio estas tio?
-        disabled: '''Gravataro'' estas malaktiva.'
-        enabled: Montrado de via 'Gravataro' estas malaktivigita.
+        disabled: “Gravataro” estas malaktiva.
+        enabled: Montrado de via “Gravataro” estas aktiva.
       new image: Aldoni bildon
       keep image: Konservi la aktualan bildon
       delete image: Forigi la aktualan bildon
@@ -2060,8 +2174,8 @@ eo:
       no home location: Vi ne enigis vian hejmlokon.
       latitude: 'Latitudo:'
       longitude: 'Longitudo:'
-      update home location on click: Freŝigi la hejmlokon kiam mi klikas sur la mapo
-        ?
+      update home location on click: Ĉu freŝigi la hejmlokon kiam mi klakas sur la
+        mapo?
       save changes button: Konservi ŝanĝojn
       make edits public button: Publikigu ĉiujn miajn redaktojn.
       return to profile: Reen al profilo
