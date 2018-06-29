@@ -31,20 +31,22 @@ OpenStreetMap::Application.routes.draw do
         end
       end
       get "changesets" => "changeset#index"
+
+      resources :node, :controller => "node", :constraints => { :id => /\d+/ }, :only => [:show, :update, :destroy] do
+        collection do
+          put "create"
+        end
+      end
+      get "nodes" => "node#nodes"
     end
   end
 
   scope "api/0.6" do
-    put "node/create" => "node#create"
     get "node/:id/ways" => "way#ways_for_node", :id => /\d+/
     get "node/:id/relations" => "relation#relations_for_node", :id => /\d+/
     get "node/:id/history" => "old_node#history", :id => /\d+/
     post "node/:id/:version/redact" => "old_node#redact", :version => /\d+/, :id => /\d+/
     get "node/:id/:version" => "old_node#version", :id => /\d+/, :version => /\d+/
-    get "node/:id" => "node#read", :id => /\d+/
-    put "node/:id" => "node#update", :id => /\d+/
-    delete "node/:id" => "node#delete", :id => /\d+/
-    get "nodes" => "node#nodes"
 
     put "way/create" => "way#create"
     get "way/:id/history" => "old_way#history", :id => /\d+/
