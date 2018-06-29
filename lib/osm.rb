@@ -510,7 +510,7 @@ module OSM
     if ipinfo
       country = ipinfo.country_code2
     else
-      country = http_client.get("http://api.hostip.info/country.php?ip=#{ip_address}").body
+      country = http_client.get("https://api.hostip.info/country.php?ip=#{ip_address}").body
       country = "GB" if country == "UK"
     end
 
