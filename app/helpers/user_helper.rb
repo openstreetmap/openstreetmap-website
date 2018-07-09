@@ -38,7 +38,7 @@ module UserHelper
     if user.image_use_gravatar
       user_gravatar_url(user, options)
     else
-      image_url(user.image.url)
+      image_url(user.image.url(:large))
     end
   end
 
