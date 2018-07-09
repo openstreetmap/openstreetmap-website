@@ -20,6 +20,10 @@ class UserControllerTest < ActionController::TestCase
       { :path => "/api/0.6/user/gpx_files", :method => :get },
       { :controller => "user", :action => "api_gpx_files" }
     )
+    assert_routing(
+      { :path => "/api/0.6/users", :method => :get },
+      { :controller => "user", :action => "api_users" }
+    )
 
     assert_routing(
       { :path => "/login", :method => :get },
@@ -1144,6 +1148,48 @@ class UserControllerTest < ActionController::TestCase
         assert_select "[count='1']"
       end
     end
+  end
+
+  def test_api_users
+    user1 = create(:user, :description => "test1", :terms_agreed => Date.yesterday)
+    user2 = create(:user, :description => "test2", :terms_agreed => Date.yesterday)
+    user3 = create(:user, :description => "test3", :terms_agreed => Date.yesterday)
+
+    get :api_users, :params => { :users => user1.id }
+    assert_response :success
+    assert_equal "text/xml", response.content_type
+    assert_select "user", :count => 1 do
+      assert_select "user[id='#{user1.id}']", :count => 1
+      assert_select "user[id='#{user2.id}']", :count => 0
+      assert_select "user[id='#{user3.id}']", :count => 0
+    end
+
+    get :api_users, :params => { :users => user2.id }
+    assert_response :success
+    assert_equal "text/xml", response.content_type
+    assert_select "user", :count => 1 do
+      assert_select "user[id='#{user1.id}']", :count => 0
+      assert_select "user[id='#{user2.id}']", :count => 1
+      assert_select "user[id='#{user3.id}']", :count => 0
+    end
+
+    get :api_users, :params => { :users => "#{user1.id},#{user3.id}" }
+    assert_response :success
+    assert_equal "text/xml", response.content_type
+    assert_select "user", :count => 2 do
+      assert_select "user[id='#{user1.id}']", :count => 1
+      assert_select "user[id='#{user2.id}']", :count => 0
+      assert_select "user[id='#{user3.id}']", :count => 1
+    end
+
+    get :api_users, :params => { :users => create(:user, :suspended).id }
+    assert_response :not_found
+
+    get :api_users, :params => { :users => create(:user, :deleted).id }
+    assert_response :not_found
+
+    get :api_users, :params => { :users => 0 }
+    assert_response :not_found
   end
 
   def test_api_gpx_files

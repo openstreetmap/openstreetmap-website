@@ -67,6 +67,7 @@ OpenStreetMap::Application.routes.draw do
     get "user/:id" => "user#api_read", :id => /\d+/
     get "user/details" => "user#api_details"
     get "user/gpx_files" => "user#api_gpx_files"
+    get "users" => "user#api_users", :as => :api_users
 
     get "user/preferences" => "user_preferences#read"
     get "user/preferences/:preference_key" => "user_preferences#read_one"
