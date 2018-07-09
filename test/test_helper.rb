@@ -137,8 +137,8 @@ module ActiveSupport
 
     def stub_hostip_requests
       # Controller tests and integration tests use different IPs
-      stub_request(:get, "http://api.hostip.info/country.php?ip=0.0.0.0")
-      stub_request(:get, "http://api.hostip.info/country.php?ip=127.0.0.1")
+      stub_request(:get, "https://api.hostip.info/country.php?ip=0.0.0.0")
+      stub_request(:get, "https://api.hostip.info/country.php?ip=127.0.0.1")
     end
 
     def email_text_parts(message)
