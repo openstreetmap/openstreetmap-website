@@ -1,8 +1,6 @@
 require "test_helper"
 require "capybara/poltergeist"
 
-WebMock.disable_net_connect!(:allow_localhost => true)
-
 # Work around weird debian/ubuntu phantomjs
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=817277
 # https://github.com/ariya/phantomjs/issues/14376
