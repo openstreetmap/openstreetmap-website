@@ -7,7 +7,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     # Create the default language for diary entries
     create(:language, :code => "en")
     # Stub nominatim response for diary entry locations
-    stub_request(:get, %r{^http://nominatim\.openstreetmap\.org/reverse\?})
+    stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?})
       .to_return(:status => 404)
   end
 
