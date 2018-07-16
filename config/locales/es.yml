@@ -352,6 +352,7 @@ es:
       edit_link: Editar esta entrada
       hide_link: Ocultar esta entrada
       confirm: Confirmar
+      report: Denunciar esta entrada
     diary_comment:
       comment_from: Comentario de %{link_user} el %{comment_created_at}
       hide_link: Ocultar este comentario
@@ -980,13 +981,111 @@ es:
       more_results: Más resultados
   issues:
     index:
+      title: Incidencias
       select_status: Seleccionar estado
+      select_type: Seleccionar tipo
+      select_last_updated_by: Seleccionar última actualización por
+      reported_user: Usuario denunciado
+      not_updated: No actualizado
       search: Buscar
+      search_guidance: 'Buscar incidencias:'
+      user_not_found: El usuario no existe
+      issues_not_found: No se encontraron incidencias de este tipo
       status: Estado
+      reports: Reportes
+      last_updated: Última actualización
       last_updated_time_html: <abbr title='%{title}'>Hace %{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>Hace %{time}</abbr> por
+        %{user}
+      link_to_reports: Ver reportes
+      reports_count:
+        one: 1 reporte
+        other: '%{count} reportes'
+      reported_item: Elemento reportado
+      states:
+        ignored: Ignorado
+        open: Abierto
+        resolved: Resuelto
+    update:
+      new_report: Su denuncia ha sido registrada con éxito
+      successful_update: Su denuncia ha sido actualizada con éxito
+      provide_details: Por favor, proporcione los detalles requeridos
+    show:
+      title: 'Incidencia #%{issue_id} %{status}'
+      reports:
+        zero: Sin reportes
+        one: 1 reporte
+        other: '%{count} reportes'
+      report_created_at: Reportado por primera vez el %{datetime}
+      last_resolved_at: Resuelto por última vez el %{datetime}
+      last_updated_at: Actualizado por última vez el %{datetime} por %{displayname}
+      resolve: Resolver
+      ignore: Ignorar
+      reopen: Reabrir
+      reports_of_this_issue: Reportes de esta incidencia
+      read_reports: Leer reportes
+      new_reports: Nuevos reportes
+      other_issues_against_this_user: Otras incidencias en contra de este usuario
+      no_other_issues: No hay otras incidencias en contra de este usuario.
+      comments_on_this_issue: Comentarios sobre esta incidencia
+    resolve:
+      resolved: El estado de la incidencia se ha establecido en 'Resuelto'
+    ignore:
+      ignored: El estado de la incidencia se ha establecido en 'Ignorado'
+    reopen:
+      reopened: El estado de la incidencia se ha establecido en 'Abierto'.
+    comments:
+      created_at: El %{datetime}
+      reassign_param: Reasignar incidencia?
+    reports:
+      updated_at: El %{datetime}
+      reported_by_html: Reportado como %{category} por %{user}
     helper:
       reportable_title:
+        diary_comment: '%{entry_title}, comentario #%{comment_id}'
         note: Nota n.º %{note_id}
+  issue_comments:
+    create:
+      comment_created: Su comentario ha sido creado con éxito
+  reports:
+    new:
+      title_html: Reportar %{link}
+      missing_params: No se puede crear un nuevo reporte
+      details: Por favor, proporcione más detalles sobre el problema (obligatorio).
+      select: 'Seleccione un motivo para su denuncia:'
+      disclaimer:
+        intro: 'Antes de enviar su denuncia a los moderadores del sitio, por favor
+          asegúrese de que:'
+        not_just_mistake: Está seguro de que el problema no es sólo un error
+        unable_to_fix: No puede solucionar el problema usted mismo o con la ayuda
+          de otros miembros de la comunidad.
+        resolve_with_user: Ya ha intentado resolver el problema con el usuario en
+          cuestión.
+      categories:
+        diary_entry:
+          spam_label: Esta entrada del diario es/contiene spam
+          offensive_label: Esta entrada del diario es obscena/ofensiva
+          threat_label: Esta entrada del diario contiene una amenaza
+          other_label: Otro
+        diary_comment:
+          spam_label: Este comentario del diario es/contiene spam
+          offensive_label: Este comentario del diario es obsceno/ofensivo
+          threat_label: Este comentario diario contiene una amenaza
+          other_label: Otro
+        user:
+          spam_label: Este perfil de usuario es/contiene spam
+          offensive_label: Este perfil de usuario es obsceno/ofensivo
+          threat_label: Este perfil de usuario contiene una amenaza
+          vandal_label: Este usuario es un vándalo
+          other_label: Otro
+        note:
+          spam_label: Esta nota es spam
+          personal_label: Esta nota contiene datos personales
+          abusive_label: Esta nota es abusiva
+          other_label: Otro
+    create:
+      successful_report: Su denuncia ha sido registrada con éxito
+      provide_details: Por favor, proporcione los detalles requeridos
   layouts:
     logo:
       alt_text: Logo de OpenStreetMap
@@ -1000,6 +1099,7 @@ es:
     edit: Editar
     history: Historial
     export: Exportar
+    issues: Incidencias
     data: Datos
     export_data: Exportar datos
     gps_traces: Trazas GPS
@@ -1674,14 +1774,17 @@ es:
       identifiable: Identificable (mostrado en la lista de trazas y como identificable,
         puntos ordenados con marcas de tiempo)
     new:
+      upload_trace: Subir traza GPS
       upload_gpx: 'Subir archivo GPX:'
       description: 'Descripción:'
       tags: 'Etiquetas:'
       tags_help: delimitado por comas
       visibility: 'Visibilidad:'
       visibility_help: ¿Qué significa esto?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/ES:Visibilidad_de_trazas_GPS
       upload_button: Subir
       help: Ayuda
+      help_url: https://wiki.openstreetmap.org/wiki/ES:Subir
     create:
       upload_trace: Subir traza GPS
       trace_uploaded: Tu archivo GPX ha sido subido y está pendiente de inserción
@@ -1787,8 +1890,13 @@ es:
     require_cookies:
       cookies_needed: Parece que tienes las cookies deshabilitadas. Por favor, habilita
         las cookies en tu navegador antes de continuar.
+    require_admin:
+      not_an_admin: Necesitas ser un administrador para realizar esa acción.
     require_moderator:
       not_a_moderator: Tienes que ser un moderador para ejecutar esa acción.
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: Necesitas ser un moderador o un administrador para
+        realizar esa acción.
     setup_user_auth:
       blocked_zero_hour: Tienes un mensaje urgente en el sitio web de OpenStreetMap.
         Debes leer el mensaje antes de que puedas guardar tus ediciones.

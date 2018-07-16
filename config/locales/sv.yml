@@ -252,6 +252,7 @@ sv:
       reopened_by_anonymous: Återaktiverades av en anonym användare <abbr title='%{exact_time}'>för
         %{when} sedan</abbr>
       hidden_by: Doldes av %{user} <abbr title='%{exact_time}'>för %{when} sedan</abbr>
+      report: Rapportera denna anteckning
     query:
       title: Undersök kartobjekt
       introduction: Klicka på kartan för att hitta funktioner i närheten.
@@ -344,10 +345,12 @@ sv:
       edit_link: Redigera detta inlägg
       hide_link: Dölj detta inlägg
       confirm: Bekräfta
+      report: Rapportera detta inlägg
     diary_comment:
       comment_from: Kommentar från %{link_user}, %{comment_created_at}
       hide_link: Dölj denna kommentar
       confirm: Bekräfta
+      report: Rapportera denna kommentar
     location:
       location: 'Plats:'
       view: Visa
@@ -969,6 +972,112 @@ sv:
     results:
       no_results: Inga resultat hittades
       more_results: Fler resultat
+  issues:
+    index:
+      title: Ärenden
+      select_status: Välj status
+      select_type: Välj typ
+      select_last_updated_by: Välj senast uppdaterad av
+      reported_user: Rapporterad användare
+      not_updated: Inte uppdaterad
+      search: Sök
+      search_guidance: 'Sök ärenden:'
+      user_not_found: Användaren finns inte
+      issues_not_found: Inga sådana ärenden hittades
+      status: Status
+      reports: Rapporter
+      last_updated: Senast uppdaterad
+      last_updated_time_html: <abbr title='%{title}'>%{time} sedan</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time} sedan</abbr> av
+        %{user}
+      link_to_reports: Visa rapporter
+      reports_count:
+        one: 1 rapport
+        other: '%{count} rapporter'
+      reported_item: Rapporterat objekt
+      states:
+        ignored: Ignorerad
+        open: Öppen
+        resolved: Lösta
+    update:
+      new_report: Din rapport har registrerats
+      successful_update: Din rapport har uppdaterats
+      provide_details: Ange de nödvändiga detaljerna
+    show:
+      title: '%{status} Ärende nr %{issue_id}'
+      reports:
+        zero: Inga rapporter
+        one: 1 rapport
+        other: '%{count} rapporter'
+      report_created_at: Rapporterades först %{datetime}
+      last_resolved_at: Löstes senast %{datetime}
+      last_updated_at: Uppdaterades senast den %{datetime} av %{displayname}
+      resolve: Lös
+      ignore: Ignorera
+      reopen: Öppna igen
+      reports_of_this_issue: Rapporter av detta ärende
+      read_reports: Läs rapporter
+      new_reports: Nya rapporter
+      other_issues_against_this_user: Andra ärenden mot denna användare
+      no_other_issues: Inga andra ärenden mot denna användare.
+      comments_on_this_issue: Kommentarer på detta ärende
+    resolve:
+      resolved: Ärendestatus har ändrats till "Löst"
+    ignore:
+      ignored: Ärendestatus har ändrats till "Ignoreras"
+    reopen:
+      reopened: Ärendestatus har ändrats till "Öppen"
+    comments:
+      created_at: Den %{datetime}
+      reassign_param: Återtilldela ärende?
+    reports:
+      updated_at: Den %{datetime}
+      reported_by_html: Rapporterades som %{category} av %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, kommentar nr %{comment_id}'
+        note: Anteckning nr %{note_id}
+  issue_comments:
+    create:
+      comment_created: Din kommentar skapades
+  reports:
+    new:
+      title_html: Repportera %{link}
+      missing_params: Kan inte skapa en ny rapport
+      details: Ange fler detaljer om problemet (nödvändigt).
+      select: 'Välj en anledning för din rapport:'
+      disclaimer:
+        intro: 'Innan du skickar din rapport till webbplatsens moderatorer, se till
+          att:'
+        not_just_mistake: Du är säker på att problemet inte är ett misstag
+        unable_to_fix: Du kan inte åtgärda problemet själv eller med hjälp från andra
+          gemenskapsmedlemmar
+        resolve_with_user: Du har redan försökt lösa problemet med den berörda användaren
+      categories:
+        diary_entry:
+          spam_label: Detta dagboksinlägg är/innehåller spam
+          offensive_label: Detta dagboksinlägg är oanständigt/offensivt
+          threat_label: Detta dagboksinlägg innehåller ett hot
+          other_label: Övrigt
+        diary_comment:
+          spam_label: Denna dagbokskommentar är/innehåller spam
+          offensive_label: Denna dagbokskommentar är oanständig/offensiv
+          threat_label: Denna dagbokskommentar innehåller ett hot
+          other_label: Övrigt
+        user:
+          spam_label: Denna användarprofil är/innehåller spam
+          offensive_label: Denna användarprofil är oanständig/offensiv
+          threat_label: Denna användarprofil innehåller ett hot
+          vandal_label: Denna användare är en vandal
+          other_label: Övrigt
+        note:
+          spam_label: Denna anteckning är spam
+          personal_label: Denna anteckning innehåller personlig data
+          abusive_label: Denna anteckning är kränkande
+          other_label: Övrigt
+    create:
+      successful_report: Din rapport har registrerats
+      provide_details: Ange de nödvändiga detaljerna
   layouts:
     project_name:
       title: OpenStreetMap
@@ -984,6 +1093,7 @@ sv:
     edit: Redigera
     history: Historik
     export: Exportera
+    issues: Ärenden
     data: Data
     export_data: Exportera data
     gps_traces: GPS-spår
@@ -1773,8 +1883,13 @@ sv:
     require_cookies:
       cookies_needed: Du verkar ha inaktiverat kakor - aktivera kakor i din webbläsare
         innan du fortsätter.
+    require_admin:
+      not_an_admin: Du måste vara administratör för att utföra denna åtgärd.
     require_moderator:
       not_a_moderator: Du måste vara administratör för att utföra åtgärden.
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: Du måste vara en moderator eller administratör för
+        att utföra denna åtgärd
     setup_user_auth:
       blocked_zero_hour: Du har ett brådskande meddelande väntande på hemsidan för
         OpenStreetMap. Du behöver läsa meddelandet innan du ges möjlighet att spara
@@ -2073,6 +2188,7 @@ sv:
       friends_diaries: vänners dagboksinlägg
       nearby_changesets: närbelägna användares ändringsset
       nearby_diaries: närbelägna användares dagboksinlägg
+      report: Rapportera denna användare
     popup:
       your location: Din position
       nearby mapper: Användare i närheten
