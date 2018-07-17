@@ -2,10 +2,8 @@ L.OSM = {};
 
 L.OSM.TileLayer = L.TileLayer.extend({
   options: {
-    url: document.location.protocol === 'https:' ?
-      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' :
-      'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    attribution: '© <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
   },
 
   initialize: function (options) {
@@ -16,59 +14,37 @@ L.OSM.TileLayer = L.TileLayer.extend({
 
 L.OSM.Mapnik = L.OSM.TileLayer.extend({
   options: {
-    url: document.location.protocol === 'https:' ?
-      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' :
-      'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     maxZoom: 19
   }
 });
 
 L.OSM.CycleMap = L.OSM.TileLayer.extend({
   options: {
-    url: document.location.protocol === 'https:' ?
-      'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}{r}.png?apikey={apikey}' :
-      'http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}{r}.png?apikey={apikey}',
-    attribution: '© <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://www.thunderforest.com/" target="_blank">Andy Allan</a>'
+    url: 'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}{r}.png?apikey={apikey}',
+    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://www.thunderforest.com/" target="_blank">Andy Allan</a>'
   }
 });
 
 L.OSM.TransportMap = L.OSM.TileLayer.extend({
   options: {
-    url:  document.location.protocol === 'https:' ?
-      'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}{r}.png?apikey={apikey}' :
-      'http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}{r}.png?apikey={apikey}',
-    attribution: '© <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://www.thunderforest.com/" target="_blank">Andy Allan</a>'
-  }
-});
-
-L.OSM.MapQuestOpen = L.OSM.TileLayer.extend({
-  options: {
-    url: document.location.protocol === 'https:' ?
-      'https://otile{s}-s.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png' :
-      'http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
-    subdomains: '1234',
-    attribution: '© <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. ' + document.location.protocol === 'https:' ?
-      'Tiles courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="https://developer.mapquest.com/content/osm/mq_logo.png">' :
-      'Tiles courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">'
+    url: 'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}{r}.png?apikey={apikey}',
+    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://www.thunderforest.com/" target="_blank">Andy Allan</a>'
   }
 });
 
 L.OSM.HOT = L.OSM.TileLayer.extend({
   options: {
-    url: document.location.protocol === 'https:' ?
-      'https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png' :
-      'http://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+    url: 'https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png',
     maxZoom: 20,
     subdomains: 'abc',
-    attribution: '© <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
+    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
   }
 });
 
 L.OSM.GPS = L.OSM.TileLayer.extend({
   options: {
-    url: document.location.protocol === 'https:' ?
-      'https://gps-{s}.tile.openstreetmap.org/lines/{z}/{x}/{y}.png' :
-      'http://gps-{s}.tile.openstreetmap.org/lines/{z}/{x}/{y}.png',
+    url: 'https://gps-{s}.tile.openstreetmap.org/lines/{z}/{x}/{y}.png',
     maxZoom: 20,
     subdomains: 'abc'
   }
