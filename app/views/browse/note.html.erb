@@ -41,18 +41,18 @@
   <% end %>
 
   <% if @note.status == "open" %>
-    <form action="#">
-      <textarea class="comment" name="text" cols="40" rows="5"></textarea>
-      <div class="buttons clearfix">
-        <% if current_user and current_user.moderator? -%>
+    <% if current_user -%>
+      <form action="#">
+        <textarea class="comment" name="text" cols="40" rows="5"></textarea>
+        <div class="buttons clearfix">
+        <% if current_user.moderator? -%>
           <input type="submit" name="hide" value="<%= t('javascripts.notes.show.hide') %>" class="deemphasize" data-note-id="<%= @note.id %>" data-method="DELETE" data-url="<%= note_url(@note, 'json') %>">
         <% end -%>
-        <% if current_user -%>
-          <input type="submit" name="close" value="<%= t('javascripts.notes.show.resolve') %>" data-note-id="<%= @note.id %>" data-method="POST" data-url="<%= close_note_url(@note, 'json') %>">
-        <% end -%>
+        <input type="submit" name="close" value="<%= t('javascripts.notes.show.resolve') %>" data-note-id="<%= @note.id %>" data-method="POST" data-url="<%= close_note_url(@note, 'json') %>">
         <input type="submit" name="comment" value="<%= t('javascripts.notes.show.comment') %>" data-note-id="<%= @note.id %>" data-method="POST" data-url="<%= comment_note_url(@note, 'json') %>" disabled="1">
       </div>
     </form>
+    <% end -%>
   <% else %>
     <form action="#">
       <input type="hidden" name="text" value="">
