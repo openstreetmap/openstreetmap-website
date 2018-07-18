@@ -54,6 +54,14 @@
       <li id="compact-secondary-nav" class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= t 'layouts.more' %> <b class="caret"></b></a>
         <ul class="dropdown-menu">
+          <% if current_user and ( current_user.administrator? or current_user.moderator? ) %>
+            <li class="<%= current_page_class(issues_path) %>">
+              <%= link_to issues_path(:status => 'open') do %>
+                <%= open_issues_count %>
+                <%= t('layouts.issues') %>
+              <% end -%>
+            </li>
+          <% end %>
           <li class="<%= current_page_class(traces_path) %>"><%= link_to t('layouts.gps_traces'), traces_path %></li>
           <li class="<%= current_page_class(diary_path) %>"><%= link_to t('layouts.user_diaries'), diary_path %></li>
           <li class="<%= current_page_class(copyright_path) %>"><%= link_to t('layouts.copyright'), copyright_path %></li>
