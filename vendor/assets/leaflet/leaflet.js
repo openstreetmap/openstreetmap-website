@@ -1,5 +1,5 @@
 /* @preserve
- * Leaflet 1.3.2, a JS library for interactive maps. http://leafletjs.com
+ * Leaflet 1.3.3, a JS library for interactive maps. http://leafletjs.com
  * (c) 2010-2018 Vladimir Agafonkin, (c) 2010-2011 CloudMade
  */
 
@@ -9,7 +9,7 @@
 	(factory((global.L = {})));
 }(this, (function (exports) { 'use strict';
 
-var version = "1.3.2";
+var version = "1.3.3";
 
 /*
  * @namespace Util
