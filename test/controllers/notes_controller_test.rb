@@ -226,6 +226,8 @@ class NotesControllerTest < ActionController::TestCase
 
   def test_comment_success
     open_note_with_comment = create(:note_with_comments)
+    user = create(:user)
+    basic_authorization user.email, "test"
     assert_difference "NoteComment.count", 1 do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
         post :comment, :params => { :id => open_note_with_comment.id, :text => "This is an additional comment", :format => "json" }
@@ -240,7 +242,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 2, js["properties"]["comments"].count
     assert_equal "commented", js["properties"]["comments"].last["action"]
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
-    assert_nil js["properties"]["comments"].last["user"]
+    assert_equal user.display_name, js["properties"]["comments"].last["user"]
 
     get :show, :params => { :id => open_note_with_comment.id, :format => "json" }
     assert_response :success
@@ -252,7 +254,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 2, js["properties"]["comments"].count
     assert_equal "commented", js["properties"]["comments"].last["action"]
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
-    assert_nil js["properties"]["comments"].last["user"]
+    assert_equal user.display_name, js["properties"]["comments"].last["user"]
 
     # Ensure that emails are sent to users
     first_user = create(:user)
@@ -263,45 +265,6 @@ class NotesControllerTest < ActionController::TestCase
       create(:note_comment, :note => note, :author => first_user)
       create(:note_comment, :note => note, :author => second_user)
     end
-    assert_difference "NoteComment.count", 1 do
-      assert_difference "ActionMailer::Base.deliveries.size", 2 do
-        post :comment, :params => { :id => note_with_comments_by_users.id, :text => "This is an additional comment", :format => "json" }
-      end
-    end
-    assert_response :success
-    js = ActiveSupport::JSON.decode(@response.body)
-    assert_not_nil js
-    assert_equal "Feature", js["type"]
-    assert_equal note_with_comments_by_users.id, js["properties"]["id"]
-    assert_equal "open", js["properties"]["status"]
-    assert_equal 3, js["properties"]["comments"].count
-    assert_equal "commented", js["properties"]["comments"].last["action"]
-    assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
-    assert_nil js["properties"]["comments"].last["user"]
-
-    email = ActionMailer::Base.deliveries.find { |e| e.to.first == first_user.email }
-    assert_not_nil email
-    assert_equal 1, email.to.length
-    assert_equal "[OpenStreetMap] An anonymous user has commented on one of your notes", email.subject
-
-    email = ActionMailer::Base.deliveries.find { |e| e.to.first == second_user.email }
-    assert_not_nil email
-    assert_equal 1, email.to.length
-    assert_equal "[OpenStreetMap] An anonymous user has commented on a note you are interested in", email.subject
-
-    get :show, :params => { :id => note_with_comments_by_users.id, :format => "json" }
-    assert_response :success
-    js = ActiveSupport::JSON.decode(@response.body)
-    assert_not_nil js
-    assert_equal "Feature", js["type"]
-    assert_equal note_with_comments_by_users.id, js["properties"]["id"]
-    assert_equal "open", js["properties"]["status"]
-    assert_equal 3, js["properties"]["comments"].count
-    assert_equal "commented", js["properties"]["comments"].last["action"]
-    assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
-    assert_nil js["properties"]["comments"].last["user"]
-
-    ActionMailer::Base.deliveries.clear
 
     basic_authorization third_user.email, "test"
 
@@ -316,7 +279,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "Feature", js["type"]
     assert_equal note_with_comments_by_users.id, js["properties"]["id"]
     assert_equal "open", js["properties"]["status"]
-    assert_equal 4, js["properties"]["comments"].count
+    assert_equal 3, js["properties"]["comments"].count
     assert_equal "commented", js["properties"]["comments"].last["action"]
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
     assert_equal third_user.display_name, js["properties"]["comments"].last["user"]
@@ -339,7 +302,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "Feature", js["type"]
     assert_equal note_with_comments_by_users.id, js["properties"]["id"]
     assert_equal "open", js["properties"]["status"]
-    assert_equal 4, js["properties"]["comments"].count
+    assert_equal 3, js["properties"]["comments"].count
     assert_equal "commented", js["properties"]["comments"].last["action"]
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
     assert_equal third_user.display_name, js["properties"]["comments"].last["user"]
@@ -349,6 +312,15 @@ class NotesControllerTest < ActionController::TestCase
 
   def test_comment_fail
     open_note_with_comment = create(:note_with_comments)
+
+    user = create(:user)
+
+    assert_no_difference "NoteComment.count" do
+      post :comment, :params => { :text => "This is an additional comment" }
+      assert_response :unauthorized
+    end
+
+    basic_authorization user.email, "test"
 
     assert_no_difference "NoteComment.count" do
       post :comment, :params => { :text => "This is an additional comment" }
