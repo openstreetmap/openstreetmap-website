@@ -5,6 +5,7 @@
 # Author: Chmee2
 # Author: Cvanca
 # Author: DemonioCZ
+# Author: DoubyCz
 # Author: Dvorapa
 # Author: H4nek
 # Author: Ilimanaq29
@@ -247,6 +248,7 @@ cs:
       reopened_by_anonymous: Reaktivoval <abbr title='%{exact_time}'>před %{when}</abbr>
         anonym
       hidden_by: Skryl <abbr title='%{exact_time}'>před %{when}</abbr> uživatel %{user}
+      report: Nahlásit závadnou poznámku správci
     query:
       title: Průzkum prvků
       introduction: Pro nalezení okolních prvků klikněte na mapu.
@@ -339,10 +341,12 @@ cs:
       edit_link: Upravit tento záznam
       hide_link: Skrýt tento záznam
       confirm: Potvrdit
+      report: Nahlásit závadnou položku
     diary_comment:
       comment_from: Komentář od %{link_user} z %{comment_created_at}
       hide_link: Skrýt tento komentář
       confirm: Potvrdit
+      report: Nahlásit závadný komentář
     location:
       location: 'Místo:'
       view: Zobrazit
@@ -963,6 +967,84 @@ cs:
     results:
       no_results: Nenalezeny žádné výsledky
       more_results: Další výsledky
+  issues:
+    index:
+      title: Problémy
+      reported_user: Nahlášený uživatel
+      not_updated: Neaktualizováno
+      search: Hledat
+      search_guidance: 'Hledat problémy:'
+      user_not_found: Uživatel neexistuje
+      issues_not_found: Takové problémy nebyly nalezeny
+      status: Stav
+      reports: Hlášení
+      reported_item: Hlášená položka
+      states:
+        ignored: Ignorováno
+        open: Otevřeno
+        resolved: Vyřešeno
+    update:
+      new_report: Vaše hlášení bylo úspěšně zaevidováno
+      successful_update: Vaše hlášení bylo úspěšně upraveno
+      provide_details: Uveďte prosím nutné podrobnosti
+    show:
+      title: '%{status} Problém #%{issue_id}'
+      reports:
+        zero: žádné
+        one: 1 hlášení
+        other: '%{count} hlášení'
+      resolve: Vyřešit
+      ignore: Ignorovat
+      reopen: Znovu otevřít
+      read_reports: Číst hlášení
+      new_reports: Nové hlášení
+      other_issues_against_this_user: Další hlášení týkající se tohoto uživatele
+      no_other_issues: Žádná další hlášení týkající se tohoto uživatele.
+      comments_on_this_issue: Komentáře k problému
+    resolve:
+      resolved: Stav problému změněn na „Vyřešeno”
+    ignore:
+      ignored: Stav problému změněn na „Ignorováno”
+    reopen:
+      reopened: Stav problému změněn na „Otevřeno”
+    comments:
+      reassign_param: Znovu pověřit řešením problému?
+    reports:
+      reported_by_html: Nahlášeno jako %{category} uživatelem %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, komentář #%{comment_id}'
+        note: 'Poznámka #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Váš komentář byl úspěšně přiložen
+  reports:
+    new:
+      title_html: Hlášení %{link}
+      missing_params: Nelze vytvořit nové hlášení
+      details: Poskytněte prosím bližší informace k problému (nutné).
+      select: 'Uveďte důvod svého hlášení:'
+      disclaimer:
+        intro: 'Před odesláním hlášení moderátorům se prosím ujistěte, že:'
+        not_just_mistake: Jste si jistý, že problém není jen omyl
+        unable_to_fix: Nejste schopen/na problém problém vyřešit svépomocí nebo s
+          pomocí ostatních uživatelů.
+        resolve_with_user: Jste se pokusil/a problém řešit přímo s dotčeným uživatelem.
+      categories:
+        diary_entry:
+          other_label: Ostatní
+        diary_comment:
+          other_label: Ostatní
+        user:
+          other_label: Ostatní
+        note:
+          spam_label: Tato poznámka je SPAM
+          personal_label: Tato poznámka obsahuje osobní data
+          abusive_label: Tato poznámka je urážlivá
+          other_label: Ostatní
+    create:
+      successful_report: Vaše hlášení bylo úspěšně zaevidováno
+      provide_details: Prosím poskytněte potřebné bližší informace
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
@@ -976,6 +1058,7 @@ cs:
     edit: Upravit
     history: Historie
     export: Export
+    issues: Problémy
     data: Data
     export_data: Export dat
     gps_traces: GPS stopy
@@ -1301,8 +1384,9 @@ cs:
           z Direction Générale des Impôts.'
         contributors_nl_html: '<strong>Nizozemsko</strong>: Obsahuje &copy; AND data,
           2007 (<a href="https://www.and.com">www.and.com</a>)'
-        contributors_nz_html: '<strong>Nový Zéland</strong>: Obsahuje data pocházející
-          z Land Information New Zealand. Crown Copyright reserved.'
+        contributors_nz_html: '<strong>Nový Zéland</strong>: Obsahuje data ze zdroje
+          <a href="https://data.linz.govt.nz/">LINZ Data Service</a> pod licencí <a
+          href="https://creativecommons.org/licenses/by/4.0/">CC 4.0</a>.'
         contributors_si_html: '<strong>Slovinsko</strong>: Obsahuje data <a href="http://www.gu.gov.si/">Zeměměřického
           a mapovacího úřadu</a> a <a href="http://www.mkgp.gov.si/">Ministerstva
           zemědělství, lesnictví a potravin</a> (veřejné informace o Slovinsku).'
@@ -1618,6 +1702,7 @@ cs:
       identifiable: Identifikovatelná (zobrazuje se v seznamu a jako identifikovatelné
         uspořádané body s časovou značkou)
     new:
+      upload_trace: Nahrát GPS trasu
       upload_gpx: 'Nahrát GPX soubor:'
       description: 'Popis:'
       tags: 'Štítky:'
@@ -1733,8 +1818,12 @@ cs:
     require_cookies:
       cookies_needed: Vypadá to, že máte zakázány cookies – před pokračováním si je
         v prohlížeči zapněte.
+    require_admin:
+      not_an_admin: Tuto akci může provést jen administrátor.
     require_moderator:
       not_a_moderator: K provedení této akce musíte být moderátor.
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: Tuto akci může provést pouze moderátor nebo administrátor.
     setup_user_auth:
       blocked_zero_hour: Na webu OpenStreetMap máte urgentní zprávu. Tuto zprávu si
         musíte přečíst, než budete moci ukládat své editace.
@@ -2033,6 +2122,7 @@ cs:
       friends_diaries: záznamy v deníčcích přátel
       nearby_changesets: sady změn uživatelů poblíž
       nearby_diaries: záznamy v deníčcích uživatelů poblíž
+      report: Nahlásit tohoto uživatele
     popup:
       your location: Vaše poloha
       nearby mapper: Nedaleký uživatel
