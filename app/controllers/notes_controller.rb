@@ -4,7 +4,7 @@ class NotesController < ApplicationController
   skip_before_action :verify_authenticity_token, :except => [:mine]
   before_action :check_api_readable
   before_action :authorize_web, :only => [:mine]
-  before_action :setup_user_auth, :only => [:create, :comment]
+  before_action :setup_user_auth, :only => [:create, :comment, :show]
   before_action :authorize, :only => [:close, :reopen, :destroy]
   before_action :require_moderator, :only => [:destroy]
   before_action :check_api_writable, :only => [:create, :comment, :close, :reopen, :destroy]
@@ -211,7 +211,7 @@ class NotesController < ApplicationController
     # Find the note and check it is valid
     @note = Note.find(params[:id])
     raise OSM::APINotFoundError unless @note
-    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
+    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || (current_user && current_user.moderator?)
 
     # Render the result
     respond_to do |format|

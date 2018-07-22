@@ -626,6 +626,10 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal moderator_user.display_name, js["properties"]["comments"].last["user"]
 
     get :show, :params => { :id => open_note_with_comment.id, :format => "json" }
+    assert_response :success
+
+    basic_authorization user.email, "test"
+    get :show, :params => { :id => open_note_with_comment.id, :format => "json" }
     assert_response :gone
   end
 
