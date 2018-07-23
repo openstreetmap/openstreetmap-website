@@ -13,6 +13,7 @@
 # Author: Rancher
 # Author: Sawa
 # Author: Srdjan m
+# Author: Stalker
 # Author: Жељко Тодоровић
 # Author: Милан Јелисавчић
 # Author: Обрадовић Горан
@@ -222,6 +223,7 @@ sr:
       reopened_by: Поново активирао %{user} пре <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous: Поново активирао анонимни корисник пре <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: Сакрио %{user} пре <abbr title='%{exact_time}'>%{when}</abbr>
+      report: Пријави ову белешку
     query:
       title: Информације о објектима
       introduction: Кликните на мапу да бисте пронашли објекте у близини.
@@ -245,7 +247,7 @@ sr:
     list:
       title: Скупови измена
       title_user: Скупови измена корисника %{user}
-      title_friend: Скупови измена ваших пријатеља
+      title_friend: Скупови измена мојих пријатеља
       title_nearby: Скупови измена околних корисника
       empty: Нема скупова измена.
       empty_area: Нема скупова измена у овој области.
@@ -274,7 +276,7 @@ sr:
       user_title: Дневник корисника %{user}
       in_language_title: Дневнички записи на %{language}
       new: Нови дневнички запис
-      new_title: Саставите нови запис у свом дневнику
+      new_title: Састави нови запис у мом дневнику
       no_entries: У дневнику нема записа
       recent_entries: Скорашњи дневнички записи
       older_entries: Старији записи
@@ -313,10 +315,12 @@ sr:
       edit_link: Уреди запис
       hide_link: Сакриј запис
       confirm: Потврди
+      report: Пријави овај запис
     diary_comment:
       comment_from: Коментар корисника %{link_user} у %{comment_created_at}
       hide_link: Сакриј коментар
       confirm: Потврди
+      report: Пријави овај коментар
     location:
       location: 'Локација:'
       view: Приказ
@@ -342,7 +346,7 @@ sr:
   geocoder:
     search:
       title:
-        latlon: <a href="http://openstreetmap.org/">Унутрашњи резултати</a>
+        latlon: <a href="http://openstreetmap.org/">Унутрашњи</a> резултати
         ca_postcode: Резултати са сајта <a href="https://geocoder.ca/">Geocoder.ca</a>
         osm_nominatim: Резултати са сајта <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
@@ -358,6 +362,7 @@ sr:
           chair_lift: Жичара са седиштима
           drag_lift: Вучница
           gondola: Кабинска жичара
+          pylon: Пилон
           station: Станица жичаре
         aeroway:
           aerodrome: Аеродром
@@ -486,6 +491,7 @@ sr:
           "yes": Занатска радња
         emergency:
           ambulance_station: Хитна помоћ
+          assembly_point: Тачка окупљања
           defibrillator: Дефибрилатор
           landing_site: Место за хитно слетање
           phone: Телефон за хитне случајеве
@@ -550,6 +556,7 @@ sr:
           manor: Имање
           memorial: Меморијални споменик
           mine: Рудник
+          mine_shaft: Рударско окно
           monument: Споменик
           roman_road: Римски пут
           ruins: Рушевине
@@ -638,13 +645,18 @@ sr:
           lighthouse: Светионик
           mast: Јарбол
           mine: Рудник
+          mineshaft: Рударско окно
+          monitoring_station: Станица за надгледање
+          petroleum_well: Нафтни бунар
           pier: Пристаниште
           pipeline: Цевовод
           silo: Силос
           surveillance: Присмотра
           tower: Кула
           watermill: Водени млин
+          water_tower: Водени торањ
           water_well: Бунар
+          windmill: Ветрењача
           works: Фабрика
           "yes": Вештачки објекти
         military:
@@ -904,6 +916,25 @@ sr:
     results:
       no_results: Нема резултата
       more_results: Више резултата
+  issues:
+    index:
+      select_status: Одаберите статус
+      select_type: Одаберите врсту
+      select_last_updated_by: Одаберите по кориснику последњег ажурирања
+      reported_user: Пријављени корисник
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, коментар %{comment_id}'
+        note: 'Белешка #%{note_id}'
+  reports:
+    new:
+      categories:
+        diary_entry:
+          spam_label: Запис овог дневника је/садржи спам
+          threat_label: Запис овог дневника садржи претњу
+        note:
+          spam_label: Ова белешка је спам
+          abusive_label: Ова белешка је увредљива
   layouts:
     project_name:
       title: OpenStreetMap
@@ -932,7 +963,7 @@ sr:
     intro_text: OpenStreetMap је мапа света коју су направили људи попут вас. Слободна
       је за коришћење под отвореном лиценцом.
     intro_2_create_account: Отворите кориснички налог
-    partners_html: Хостинг омогућују %{ucl}, %{ic} и %{bytemark}, као и други %{partners}.
+    partners_html: Хостинг омогућују %{ucl}, %{bytemark}, %{ic}, као и други %{partners}.
     partners_ucl: UCL
     partners_ic: Краљевски колеџ у Лондону
     partners_bytemark: хостинг Bytemark
@@ -1880,7 +1911,7 @@ sr:
         уређивања</a>.
       email address: 'Имејл адреса:'
       confirm email address: 'Потврдите имејл адресу:'
-      not displayed publicly: Ваша адреса се не приказује јавно, погледајте <a href="http://wiki.osmfoundation.org/wiki/Privacy_Policy"
+      not displayed publicly: Ваша адреса се не приказује јавно, погледајте <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
         title="OSMF privacy policy including section on email addresses">политику
         приватности</a> за више информација
       display name: 'Име приказа:'
@@ -2360,6 +2391,9 @@ sr:
         intro: Наишли сте на грешку или нешто недостаје? Обавестите друге картографе
           како бисмо решили проблем. Преместите маркер на исправно место и напишите
           објашњење.
+        advice: Ваша белешка је јавна и може се користити за ажурирање карте, па не
+          уносите личне податке, податке који садрже ауторска права или податке из
+          листинга.
         add: Додај белешку
       show:
         anonymous_warning: Ова белешка садржи коментаре анонимних корисника које би
@@ -2385,7 +2419,7 @@ sr:
       distance: Удаљеност
       errors:
         no_route: Не могу да пронађем руту између та два места.
-        no_place: Нажалост, не могу да пронађем то место.
+        no_place: Нажалост, не могу да пронађем ’%{place}’.
       instructions:
         continue_without_exit: Наставите на %{name}
         slight_right_without_exit: Мало удесно у %{name}
@@ -2407,10 +2441,10 @@ sr:
         slight_left_without_exit: Мало улево у %{name}
         via_point_without_exit: (преко тачке)
         follow_without_exit: Пратите %{name}
-        roundabout_without_exit: На кружном току скрените на %{name}
+        roundabout_without_exit: На кружном току изађите на %{name}
         leave_roundabout_without_exit: Напустите кружни ток – %{name}
         stay_roundabout_without_exit: Останите на кружном току – %{name}
-        start_without_exit: Почните са краја %{name}
+        start_without_exit: Почните од %{name}
         destination_without_exit: Стигните на одредиште
         against_oneway_without_exit: Идите једносмерном на %{name}
         end_oneway_without_exit: Крај једносмерне на %{name}
