@@ -117,7 +117,7 @@ class TracesController < ApplicationController
         do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
                   params[:trace][:description], params[:trace][:visibility])
       rescue StandardError => ex
-        render :action => "new" if !@trace.valid?
+        render :action => "new" unless @trace.valid?
         logger.debug ex
       end
 
