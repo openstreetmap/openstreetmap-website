@@ -117,8 +117,12 @@ class TracesController < ApplicationController
         do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
                   params[:trace][:description], params[:trace][:visibility])
       rescue StandardError => ex
-        render :action => "new" and return unless @trace.valid?
-        logger.debug ex
+        if @trace.valid?
+          flash[:error] = t("traces.create.upload_failed")
+          logger.debug ex
+        end
+        render :action => "new"
+        return
       end
 
       if @trace.id

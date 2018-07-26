@@ -571,6 +571,21 @@ class TracesControllerTest < ActionController::TestCase
     assert_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
   end
 
+  # Test creating a trace with validation errors
+  def test_create_post_with_validation_errors
+    # Get file to use
+    fixture = Rails.root.join("test", "gpx", "fixtures", "a.gpx")
+    file = Rack::Test::UploadedFile.new(fixture, "application/gpx+xml")
+    user = create(:user)
+
+    # Now authenticated
+    create(:user_preference, :user => user, :k => "gps.trace.visibility", :v => "identifiable")
+    assert_not_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
+    post :create, :params => { :trace => { :gpx_file => file, :description => "", :tagstring => "new,trace", :visibility => "trackable" } }, :session => { :user => user }
+    assert_template :new
+    assert_match "Description is too short (minimum is 1 character)", response.body
+  end
+
   # Test fetching the edit page for a trace using GET
   def test_edit_get
     public_trace_file = create(:trace, :visibility => "public")
