@@ -7,6 +7,7 @@ module GPX
     attr_reader :possible_points
     attr_reader :actual_points
     attr_reader :tracksegs
+    attr_reader :length
 
     def initialize(file)
       @file = file
@@ -16,12 +17,14 @@ module GPX
       @possible_points = 0
       @actual_points = 0
       @tracksegs = 0
+      @length = 0
 
       @file.rewind
 
       reader = XML::Reader.io(@file)
 
       point = nil
+      last_point = nil
 
       while reader.read
         if reader.node_type == XML::Reader::TYPE_ELEMENT
@@ -38,6 +41,12 @@ module GPX
             point.altitude ||= 0
             yield point
             @actual_points += 1
+
+            if last_point
+              @length += dist_between(point, last_point)
+            end
+            
+            last_point = point
           elsif reader.name == "trkseg"
             @tracksegs += 1
           end
@@ -145,6 +154,26 @@ module GPX
       end
 
       image.to_blob
+    end
+
+    private
+    def dist_between(p1, p2)
+      earth_radius = 6371
+
+      lat_dist = (p1.latitude - p2.latitude) * Math::PI / 180
+      lon_dist = (p1.longitude - p2.longitude) * Math::PI / 180
+
+      a = Math.sin(lat_dist / 2) * Math.sin(lat_dist / 2) + Math.cos(p1.latitude * Math::PI / 180) * Math.cos(p2.latitude * Math::PI / 180) * Math.sin(lon_dist / 2) * Math.sin(lon_dist / 2)
+
+      c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+
+      distance = earth_radius * c * 1000
+
+      height = p1.altitude - p2.altitude
+
+      distance = (distance ** 2) + (height ** 2)
+
+      return Math.sqrt(distance)
     end
   end
 
