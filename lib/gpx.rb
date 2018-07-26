@@ -42,10 +42,8 @@ module GPX
             yield point
             @actual_points += 1
 
-            if last_point
-              @length += dist_between(point, last_point)
-            end
-            
+            @length += dist_between(point, last_point) if last_point
+
             last_point = point
           elsif reader.name == "trkseg"
             @tracksegs += 1
@@ -157,6 +155,7 @@ module GPX
     end
 
     private
+
     def dist_between(p1, p2)
       earth_radius = 6371
 
@@ -171,9 +170,9 @@ module GPX
 
       height = p1.altitude - p2.altitude
 
-      distance = (distance ** 2) + (height ** 2)
+      distance = (distance**2) + (height**2)
 
-      return Math.sqrt(distance)
+      Math.sqrt(distance)
     end
   end
 
