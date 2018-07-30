@@ -153,24 +153,22 @@ et:
     relation_member:
       entry_role: '%{type} %{name} kui %{role}'
       type:
-        node: Sõlm
+        node: sõlm
         way: joon
         relation: relatsioon
     containing_relation:
       entry: Relatsioon %{relation_name}
       entry_role: Relatsioon %{relation_name} (kui %{relation_role})
     not_found:
-      sorry: |-
-        Vabandame, %{type}
-         #%{id} ei leitud.
+      sorry: Vabandust, %{type} %{id} ei leitud.
       type:
         node: sõlme
         way: joont
         relation: relatsiooni
         changeset: muudatuskogumit
-        note: märkuse
+        note: märkust
     timeout:
-      sorry: Kahjuks võttis andmete (%{type} id-ga %{id}) laadimine liiga kaua aega.
+      sorry: Kahjuks võttis %{type} %{id} andmete laadimine liiga kaua aega.
       type:
         node: sõlme
         way: joone
@@ -219,6 +217,7 @@ et:
       reopened_by_anonymous: Taasavatud anonüümse kasutaja poolt <abbr title='%{exact_time}'>%{when}
         tagasi</abbr>
       hidden_by: Peitnud %{user} <abbr title='%{exact_time}'>%{when} tagasi</abbr>
+      report: Teata sellest märkusest
     query:
       title: Info objektide kohta
       introduction: Klõpsa kaardil, et leida läheduses asuvad objektid.
@@ -310,10 +309,12 @@ et:
       edit_link: Muuda seda sissekannet
       hide_link: Peida see sissekanne
       confirm: Kinnita
+      report: Teata sellest sissekandest
     diary_comment:
       comment_from: Kommentaar kasutajalt %{link_user} %{comment_created_at}
       hide_link: Peida see kommentaar
       confirm: Kinnita
+      report: Teata sellest kommentaarist
     location:
       location: 'Asukoht:'
       view: Vaata
@@ -727,7 +728,7 @@ et:
           river: Jõgi
           stream: Oja
           wadi: Vadi
-          waterfall: Kosk
+          waterfall: Juga
           weir: Ülevool
           "yes": Veetee
       admin_levels:
@@ -750,6 +751,43 @@ et:
     results:
       no_results: Ei leidnud midagi
       more_results: Veel tulemusi
+  reports:
+    new:
+      title_html: Kaebus (%{link})
+      missing_params: Ei õnnestu uut kaebust koostada.
+      details: Palun esita probleemi kohta veel üksikasju (nõutav).
+      select: 'Vali kaebuse põhjus:'
+      disclaimer:
+        intro: Enne kui saadad saidi moderaatoritele kaebuse, veendu et
+        not_just_mistake: oled kindel, et tegu pole lihtsalt eksitusega;
+        unable_to_fix: sul ei õnnestu teiste kaastööliste abiga ise probleemi lahendada;
+        resolve_with_user: oled juba üritanud probleemi klaarida sellega seotud kasutaja
+          abiga.
+      categories:
+        diary_entry:
+          spam_label: See päeviku sissekanne sisaldab rämpspostitust
+          offensive_label: See päeviku sissekanne on kohatu või solvav
+          threat_label: See päeviku sissekanne sisaldab ähvardust
+          other_label: Muu
+        diary_comment:
+          spam_label: See päeviku kommentaar sisaldab rämpspostitust
+          offensive_label: See päeviku kommentaar on kohatu või solvav
+          threat_label: See päeviku kommentaar sisaldab ähvardust
+          other_label: Muu
+        user:
+          spam_label: See kasutajaprofiil sisaldab rämpspostitust
+          offensive_label: See kasutajaprofiil on kohatu või solvav
+          threat_label: See kasutajaprofiil sisaldab ähvardust
+          vandal_label: See kasutaja on vandaal
+          other_label: Muu
+        note:
+          spam_label: See märkus on rämpspostitus
+          personal_label: See märkus sisaldab isiklikke andmeid
+          abusive_label: See on märkuse väärkasutus
+          other_label: Muu
+    create:
+      successful_report: Sinu kaebus on edukalt vastu võetud.
+      provide_details: Palun sisesta nõutavad üksikasjad
   layouts:
     logo:
       alt_text: OpenStreetMapi logo
@@ -1110,7 +1148,9 @@ et:
           (2007, <a href="https://www.and.com">www.and.com</a>)
         contributors_nz_html: |-
           <strong>Uus-Meremaa</strong>: Sisaldab kaardiandmeid
-          asutusest Land Information New Zealand. Krooni autoriõigus kaitstud.
+          <a href="https://data.linz.govt.nz/">andmeteenusest LINZ</a>,
+          mis on kasutatavad litsentsi
+          <a href="https://creativecommons.org/licenses/by/4.0/deed.et">CC BY 4.0</a> tingimustel.
         contributors_si_html: |-
           <strong>Sloveenia</strong>: Sisaldab
           <a href="http://www.gu.gov.si/en/">mõõdistus- ja kaardistusteenistuse</a> ning
@@ -1145,8 +1185,7 @@ et:
         trademarks_title_html: <span id="trademarks"></span>Kaubamärgid
         trademarks_1_html: OpenStreetMap, suurendusklaasi logo ja State of the Map
           on OpenStreetMap Foundationi registreeritud kaubamärgid. Kui sul on nende
-          märkide kasutamise kohta küsimusi, siis vaata meie <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">Trademark
-          Policy">kaubamärgireegleid</a>.
+          märkide kasutamise kohta küsimusi, siis vaata meie <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">kaubamärgireegleid</a>.
     index:
       js_1: Sa kas kasutad veebilehitsejat, mis ei toeta JavaScript'i või sa oled
         JavaScript'i ära keelanud.
@@ -1289,6 +1328,7 @@ et:
       where_am_i: Kus see asub?
       where_am_i_title: Määra praegune asukoht otsimootori abil
       submit_text: Otsi
+      reverse_directions_text: Pööra suund
     key:
       table:
         entry:
@@ -1793,6 +1833,7 @@ et:
       friends_diaries: sõprade päevikusissekanded
       nearby_changesets: lähedalasuvate kasutajate muudatuskogumid
       nearby_diaries: lähedalasuvate kasutajate päevikusissekanded
+      report: Teata sellest kasutajast
     popup:
       your location: Sinu asukoht
       nearby mapper: Lähedaloevad kaardistajad
@@ -2180,6 +2221,7 @@ et:
     directions:
       engines:
         graphhopper_bicycle: Rattaga (GraphHopper)
+        graphhopper_car: Autoga (GraphHopper)
         graphhopper_foot: Jalgsi (GraphHopper)
         mapquest_bicycle: Rattaga (MapQuest)
         mapquest_car: Autoga (MapQuest)
@@ -2191,6 +2233,12 @@ et:
         no_route: Ei suutnud leida teekonda nende kahe koha vahel.
         no_place: Kohta "%{place}" ei õnnestunud kahjuks leida.
       instructions:
+        continue_without_exit: 'Liigu edasi teele: %{name}'
+        endofroad_right_without_exit: 'Tee lõpus pööra paremale teele: %{name}'
+        turn_right_without_exit: 'Pööra paremale teele: %{name}'
+        turn_left_without_exit: 'Pööra vasakule teele: %{name}'
+        endofroad_left_without_exit: 'Tee lõpus pööra vasakule teele: %{name}'
+        start_without_exit: 'Alusta teelt: %{name}'
         unnamed: nimetu
       time: Kestus
     query:

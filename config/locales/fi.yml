@@ -248,6 +248,7 @@ fi:
         sitten</abbr>
       hidden_by: Piilottanut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}
         sitten</abbr>
+      report: Ilmianna karttailmoitus
     query:
       title: Ominaisuuskysely
       introduction: Näytä luettelo lähistön karttakohteista napsauttamalla karttaa.
@@ -340,10 +341,12 @@ fi:
       edit_link: Muokkaa päiväkirjamerkintää
       hide_link: Piilota tämä merkintä
       confirm: Vahvista
+      report: Ilmianna julkaisu
     diary_comment:
       comment_from: Kommentti käyttäjältä %{link_user} %{comment_created_at}
       hide_link: Piilota tämä kommentti
       confirm: Vahvista
+      report: Ilmianna kommentti
     location:
       location: 'Sijainti:'
       view: Näytä
@@ -964,6 +967,110 @@ fi:
     results:
       no_results: Ei hakutuloksia
       more_results: Lisää tuloksia
+  issues:
+    index:
+      title: Tapaukset
+      select_status: Valitse tila
+      select_type: Valitse tyyppi
+      select_last_updated_by: Valitse viimeisin päivittäjä
+      reported_user: Ilmiannettu
+      not_updated: Ei päivitetty
+      search: Etsi
+      search_guidance: 'Etsi tapauksia:'
+      user_not_found: Käyttäjää ei löydy
+      issues_not_found: Tapahtumia ei löytynyt
+      status: Tila
+      reports: Ilmiannot
+      last_updated: Päivitetty
+      last_updated_time_html: <abbr title='%{title}'>%{time} sitten</abbr>
+      last_updated_time_user_html: käyttäjä %{user} <abbr title='%{title}'>%{time}
+        sitten</abbr>
+      link_to_reports: Näytä ilmiannot
+      reports_count:
+        one: 1 ilmoitus
+        other: '%{count} ilmiantoa'
+      reported_item: Ilmiannettu kohde
+      states:
+        ignored: Aiheeton
+        open: Käsittelyssä
+        resolved: Ratkaistu
+    update:
+      new_report: Ilmianto on vastaanotettu
+      successful_update: Ilmianto on päivitetty
+      provide_details: Täydennä tarvittavat tiedot
+    show:
+      title: '%{status} Tapaus #%{issue_id}'
+      reports:
+        zero: Ei ilmiantoa
+        one: Yksi ilmianto
+        other: '%{count} ilmiantoa'
+      report_created_at: Ilmoitettu ensimmäisen kerran %{datetime}
+      last_resolved_at: Ratkaistu %{datetime}
+      last_updated_at: Viimeisin käsittelijä %{displayname} %{datetime}
+      resolve: Ratkaise
+      ignore: Merkitse aiheettomaksi
+      reopen: Avaa uudelleen
+      reports_of_this_issue: Ilmianna tapahtuma
+      read_reports: Lue ilmiantoja
+      new_reports: Uudet ilmiannot
+      other_issues_against_this_user: Muut tähän käyttäjään kohdistetut ilmiannot
+      no_other_issues: Ei muita tähän käyttäjään kohdistuvia ilmiantoja.
+      comments_on_this_issue: Tapauksen kommentit
+    resolve:
+      resolved: Tapaus on merkitty ratkaistuksi
+    ignore:
+      ignored: Tapaus on merkitty aiheettomaksi
+    reopen:
+      reopened: Tapaus on merkitty käsittelyssä olevaksi
+    comments:
+      created_at: '%{datetime}'
+      reassign_param: Haluatko määrittää tapauksen tilan uudelleen?
+    reports:
+      updated_at: '%{datetime}'
+      reported_by_html: Käyttäjä %{user} ilmiantanut merkinnällä %{category}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, kommenttitunnus %{comment_id}'
+        note: Karttailmoitustunnus %{note_id}
+  issue_comments:
+    create:
+      comment_created: Kommentti jätetty
+  reports:
+    new:
+      title_html: Ilmianna %{link}
+      missing_params: Ilmoituksen luominen epäonnistui
+      details: Kuvaile ongelmaa (pakollinen)
+      select: 'Valitse ilmiannon syy:'
+      disclaimer:
+        intro: 'Varmista ennen ilmiantoa seuraavat asiat:'
+        not_just_mistake: Ongelma ei ole vain väärinkäsitys
+        unable_to_fix: Et voi ratkaista ongelmaa itse tai muun yhteisön tuella
+        resolve_with_user: Kyseinen käyttäjä ei ole ollut halukas yhteistyöhön
+      categories:
+        diary_entry:
+          spam_label: Päiväkirjamerkintä on roskapostia
+          offensive_label: Päiväkirjamerkintä on hyökkäävä
+          threat_label: Päiväkirjamerkintä sisältää uhkauksia
+          other_label: Muu
+        diary_comment:
+          spam_label: Päiväkirjamerkinnän kommentti on roskapostia
+          offensive_label: Päiväkirjamerkinnän kommentti on hyökkäävä
+          threat_label: Päiväkirjamerkinnän kommentti sisältää uhkauksia
+          other_label: Muu
+        user:
+          spam_label: Tämä käyttäjäsivu on roskapostia
+          offensive_label: Käyttäjäsivu on hyökkäävä
+          threat_label: Käyttäjäsivu sisältää uhkauksia
+          vandal_label: Käyttäjä harrastaa ilkivaltaa
+          other_label: Muu
+        note:
+          spam_label: Karttailmoitus on roskapostia
+          personal_label: Karttailmoitus sisältää henkilökohtaisia tietoja
+          abusive_label: Karttailmoitus on loukkaava
+          other_label: Muu
+    create:
+      successful_report: Ilmianto on rekisteröity
+      provide_details: Täydennä puuttuvat tiedot
   layouts:
     logo:
       alt_text: OpenStreetMap-logo
@@ -977,6 +1084,7 @@ fi:
     edit: Muokkaa
     history: Historia
     export: Vienti
+    issues: Ilmiannot
     data: Tiedot
     export_data: Vie tiedostona
     gps_traces: GPS-jäljet
@@ -1309,8 +1417,9 @@ fi:
         contributors_nl_html: |-
           <strong>Alankomaat</strong>: Sisältää &copy; AND-karttatietoja vuodelta 2007
           (<a href="https://www.and.com">www.and.com</a>)
-        contributors_nz_html: '<strong>Uusi-Seelanti</strong>: Sisältää karttatietoja
-          Land Information New Zealandista. Crown Copyright.'
+        contributors_nz_html: |-
+          <strong>Uusi-Seelanti</strong>: Sisältää karttatietoja <a href="https://data.linz.govt.nz/">LINZ-tietopalvelusta</a>, jotka on lisensoitu jatkokäyttöä varten
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> -lisenssillä.
         contributors_si_html: "<strong>Slovenia</strong>: Sisältää \n<a href=\"http://www.gu.gov.si/en/\">Maanmittaus-
           ja kartoitusviranomaisen</a> sekä\n<a href=\"http://www.mkgp.gov.si/en/\">Maatalous-,
           metsä- ja ruokaministeriön</a> tuottamia karttatietoja\n(Slovenian julkista
@@ -1629,6 +1738,7 @@ fi:
       identifiable: Tunnistettavissa (näytetään jälkiluettelossa ja pisteet tunnistettavasti
         järjestettynä aikaleimoineen)
     new:
+      upload_trace: Tallenna GPS-jälki
       upload_gpx: 'Tallenna GPX-tiedosto:'
       description: 'Kuvaus:'
       tags: 'Tagit:'
@@ -1745,8 +1855,12 @@ fi:
     require_cookies:
       cookies_needed: Selaimen evästeet on otettu pois päältä - salli evästeiden käyttö
         selaimessasi ennen jatkamista.
+    require_admin:
+      not_an_admin: Vain pääkäyttäjät voivat käyttää tätä toimintoa.
     require_moderator:
       not_a_moderator: Tämän toiminnon suorittamiseksi sinun on oltava ylläpitäjä.
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: Vain ylläpitäjät voivat käyttää tätä toimintoa.
     setup_user_auth:
       blocked_zero_hour: Olet saanut kiireellisen viestin OpenStreetMapin verkkopalvelussa.
         Viesti on luettava, ennen kuin karttaan voi tallentaa muutoksia.
@@ -2037,6 +2151,7 @@ fi:
       friends_diaries: kaverien päiväkirjamerkinnät
       nearby_changesets: lähialueen käyttäjien muutoskokoelmat
       nearby_diaries: lähialueen käyttäjien päiväkirjamerkinnät
+      report: Ilmianna käyttäjä
     popup:
       your location: Oma sijaintisi
       nearby mapper: Lähellä oleva kartoittaja
