@@ -2,6 +2,7 @@ class IssueCommentsController < ApplicationController
   layout "site"
 
   before_action :authorize_web
+  before_action :set_locale
   before_action :require_user
   before_action :check_permission
 
