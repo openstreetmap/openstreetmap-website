@@ -1003,6 +1003,12 @@ ko:
       reassign_param: 이슈를 다시 할당하시겠습니까?
     reports:
       reported_by_html: '%{user}님이 %{category} 분류로 보고함'
+    helper:
+      reportable_title:
+        note: '노트 #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: 댓글이 성공적으로 만들어졌습니다
   reports:
     new:
       title_html: '%{link} 보고'
@@ -1025,6 +1031,8 @@ ko:
           vandal_label: 이 사용자는 문서 훼손자입니다
           other_label: 기타
         note:
+          spam_label: 이 노트는 스팸입니다
+          personal_label: 이 노트에 개인 정보가 있습니다
           other_label: 기타
     create:
       successful_report: 보고서가 성공적으로 등록되었습니다
@@ -2407,6 +2415,8 @@ ko:
       new:
         intro: 실수했거나 없는 무언가를 발견했나요? 다른 매퍼에게 알려주어 고칠 수 있게 해주세요. 마커를 올바른 위치로 이동하고, 참고를
           남겨 문제를 설명해주세요.
+        advice: 노트는 공개되어 지도 업데이트에 쓰일 수 있으므로 개인 정보 또는 저작권이 있는 지도나 디렉터리 리스팅의 정보를 입력하지
+          마십시오.
         add: 참고 추가
       show:
         anonymous_warning: 익명 사용자의 참고도 있으므로 별도로 확인해야 합니다.
@@ -2435,8 +2445,21 @@ ko:
       instructions:
         continue_without_exit: '%{name}(으)로 계속 가세요'
         slight_right_without_exit: '%{name}을(를) 따라 오른쪽으로 완만하게 도세요'
+        offramp_right: 우측 램프로 이동
+        offramp_right_with_exit: 우측 %{exit} 출구로 이동
+        offramp_right_with_exit_name: '%{name} 쪽으로 우측 %{exit} 출구로 이동'
+        offramp_right_with_exit_directions: '%{directions} 방향으로 우측 %{exit} 출구로 이동'
+        offramp_right_with_exit_name_directions: '%{directions} 방향으로 %{name} 쪽으로 우측
+          %{exit} 출구로 이동'
         offramp_right_with_name: 오른쪽에서 %{name}(으)로 진입하세요
+        offramp_right_with_directions: '%{directions} 방향으로 좌측 램프로 이동'
+        offramp_right_with_name_directions: '%{directions} 방향으로 %{name} 쪽으로 우측 램프로
+          이동'
         onramp_right_without_exit: 경사로에서 %{name}(으)로 우회전
+        onramp_right_with_directions: '%{directions} 방향으로 램프로 우회전'
+        onramp_right_with_name_directions: '%{directions} 방향으로 %{name} 쪽으로 램프로 우회전'
+        onramp_right_without_directions: 램프로 우회전
+        onramp_right: 램프로 우회전
         endofroad_right_without_exit: 길 끝쪽에서 %{name}(으)로 우회전
         merge_right_without_exit: '%{name}을(를) 따라 우회전'
         fork_right_without_exit: 분기점에서 %{name}(으)로 우회전
@@ -2445,8 +2468,20 @@ ko:
         uturn_without_exit: '%{name}을(를) 따라 유턴하세요'
         sharp_left_without_exit: '%{name}을(를) 따라 왼쪽으로 꺾으세요'
         turn_left_without_exit: '%{name}을(를) 따라 왼쪽으로 도세요'
+        offramp_left: 좌측 램프로 이동
+        offramp_left_with_exit: 좌측 %{exit} 출구로 이동
+        offramp_left_with_exit_name: '%{name} 쪽으로 좌측 %{exit} 출구로 이동'
+        offramp_left_with_exit_directions: '%{directions} 방향으로 좌측 %{exit} 출구로 이동'
+        offramp_left_with_exit_name_directions: '%{directions} 방향으로 %{name} 쪽으로 좌측
+          %{exit} 출구로 이동'
         offramp_left_with_name: '%{name}을(를) 향해 램프로 좌회전'
+        offramp_left_with_directions: '%{directions} 방향으로 좌측 램프로 이동'
+        offramp_left_with_name_directions: '%{directions} 방향으로 %{name} 쪽으로 램프로 이동'
         onramp_left_without_exit: 경사로에서 %{name}(으)로 좌회전
+        onramp_left_with_directions: '%{directions} 방향으로 램프로 좌회전'
+        onramp_left_with_name_directions: '%{directions} 방향으로 %{name} 쪽으로 램프로 좌회전'
+        onramp_left_without_directions: 램프로 좌회전
+        onramp_left: 램프로 좌회전
         endofroad_left_without_exit: 길 끝쪽에서 %{name}(으)로 좌회전
         merge_left_without_exit: '%{name}을(를) 따라 좌회전'
         fork_left_without_exit: 분기점에서 %{name}(으)로 좌회전
