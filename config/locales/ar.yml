@@ -379,8 +379,10 @@ ar:
           chair_lift: كرسي تلفريك
           drag_lift: اسحبها لليسار
           gondola: تلفريك
+          platter: مصعد تزلج
           pylon: نقطة تعليق
           station: محطة قطار هوائي
+          t-bar: مصعد تزلج
         aeroway:
           aerodrome: المطار
           airstrip: مهبط طائرات
@@ -2025,15 +2027,14 @@ ar:
       title: أنشئ حسابا
       no_auto_account_create: للأسف نحن غير قادرين في الوقت الحالي على إنشاء حساب
         لك تلقائيًا.
-      contact_webmaster: يرجى الاتصال <a href="mailto:webmaster@openstreetmap.org">بمسؤول
-        الموقع</a> لترتيب الحساب المراد إنشاؤه - وسنحاول التعامل مع هذا الطلب بأسرع
-        وقت ممكن.
+      contact_webmaster: يُرجَى الاتصال <a href="%{webmaster}">بمدير الموقع</a> لترتيب
+        إنشاء حساب، سنحاول التعامل مع الطلب بأسرع وقت ممكن.
       about:
         header: حًرَّة وقابلة للتحرير
         html: |-
           <p>على عكس الخرائط الأخرى تماما، يتم إنشاء خريطة الشارع المفتوحة من قبل الناس مثلك، وهي حرة ويمكن لأي أحد الإصلاح والتحديث والتنزيل والاستخدام.</p>
            <P> أنشىء حسابا لبدء المساهمة.سنقوم بإرسال بريد إلكتروني لتأكيد حسابك.</p>
-      license_agreement: عند تأكيد حسابك ستحتاج إلى الموافقة على <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">شروط
+      license_agreement: عند تأكيد حسابك ستحتاج إلى الموافقة على <a href="HTTPS://www.osmfoundation.org/wiki/License/Contributor_Terms">شروط
         المساهم</a>.
       email address: 'عنوان البريد الإلكتروني:'
       confirm email address: 'تأكيد عنوان البريد الإلكتروني:'
@@ -2418,6 +2419,9 @@ ar:
       reopened_at_by_html: تم التنشيط قبل %{when} مِن قِبَل %{user}
     rss:
       title: ملاحظات خريطة الشارع المفتوحة
+      description_area: قائمة بالملاحظات أو التقارير أو التعليق عليها أو إغلاقها في
+        منطقتك [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+      description_item: خلاصة rss للملاحظة %{id}
       opened: ملاحظة جديدة (بالقرب من %{place})
       commented: تعليق جديد (بالقرب من %{place})
       closed: مذكرة مغلقة (بالقرب من %{place})
@@ -2562,21 +2566,39 @@ ar:
         sharp_left_without_exit: إلى أقصى اليسار نحو%{name}
         turn_left_without_exit: انعطف يسارا إلى %{name}
         offramp_left: اسلك الطريق المنحدر على اليسار
+        offramp_left_with_exit: اسلك المخرج %{exit} على اليسار
+        offramp_left_with_exit_name: اسلك المخرج %{exit} على اليسار باتجاه %{name}
+        offramp_left_with_exit_directions: اسلك المخرج %{exit} على اليسار باتجاه %{directions}
+        offramp_left_with_exit_name_directions: اسلك المخرج %{exit} على اليسار باتجاه
+          %{name}، نحو %{directions}
         offramp_left_with_name: خذ الطريق المنحدرة إلى اليسار إلى %{name}
+        offramp_left_with_directions: اسلك الطريق المنحدر إلى اليسار نحو %{directions}
+        offramp_left_with_name_directions: اسلك الطريق المنحدر إلى اليسار نحو %{name}،
+          نحو %{directions}
         onramp_left_without_exit: انعطف يسارا على المنحدر إلى %{name}
+        onramp_left_with_directions: الاتجاه يسارا إلى الطريق المنحدر نحو %{directions}
+        onramp_left_with_name_directions: الاتجاه يسارا على المنحدر نحو %{name}، نحو
+          %{directions}
+        onramp_left_without_directions: الاتجاه يسارا إلى الطريق المنحدر
+        onramp_left: الاتجاه يسارا إلى الطريق المنحدر
         endofroad_left_without_exit: في نهاية الطريق انعطف يسارا إلى %{name}
         merge_left_without_exit: انعطف يسارا إلى %{name}
         fork_left_without_exit: عند التقاطع انعطف يسارا إلى %{name}
         slight_left_without_exit: اتجه إلى اليمين قليلا %{name}
         via_point_without_exit: (نقطة وسيطة)
         follow_without_exit: اتبع %{name}
+        roundabout_without_exit: عند الدوران، اسلك المخرج إلى %{name}
         leave_roundabout_without_exit: ترك الطريق الملتوية - %{name}
         stay_roundabout_without_exit: البقاء في طريق ملتوية - %{name}
-        start_without_exit: ابدأ من نهاية %{name}
+        start_without_exit: البدء من %{name}
         destination_without_exit: الوصول إلى الوجهة
         against_oneway_without_exit: الذهاب عكس في طريق اتجاه واحد %{name}
         end_oneway_without_exit: نهاية طريق اتجاه واحد %{name}
+        roundabout_with_exit: في الدوار، اسلك المخرج %{exit} إلى %{name}
+        roundabout_with_exit_ordinal: في الدوار، خذ %{exit} إلى %{name}
+        exit_roundabout: الخروج من الدوار نحو %{name}
         unnamed: طريق غير مسمى
+        courtesy: الاتجاهات مجاملة من %{link}
         exit_counts:
           first: الأول
           second: الثاني

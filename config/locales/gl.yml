@@ -6,6 +6,7 @@
 # Author: Elisardojm
 # Author: Gallaecio
 # Author: Macofe
+# Author: Maria zaos
 # Author: Navhy
 # Author: Nemo bis
 # Author: Toliño
@@ -942,6 +943,8 @@ gl:
       title: Problemas
       select_status: Seleccionar estado
       select_type: Seleccionar tipo
+      select_last_updated_by: Seleccionar última actualización por
+      reported_user: Usuario denunciado
       not_updated: Non Actualizados
       search: Procurar
       search_guidance: 'Procurar problemas:'
@@ -949,27 +952,62 @@ gl:
       issues_not_found: Non se atoparon problemas
       status: Estado
       reports: Informes
+      last_updated: Última actualización
+      last_updated_time_html: <abbr title='%{title}'>Hai %{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>Hai %{time}</abbr> por %{user}
       link_to_reports: Ver informes
+      reports_count:
+        one: 1 informe
+        other: '%{count} informes'
+      reported_item: Elemento informado
       states:
         ignored: Ignorados
         open: Abertos
         resolved: Resoltos
+    update:
+      new_report: O teu informe rexistrouse con éxito
+      provide_details: Por favor,achegue os detalles que se lle requiren.
     show:
+      last_updated_at: Última actualización o %{datetime} por%{displayname}
       resolve: Resolver
       ignore: Ignorar
       reopen: Reabrir
       new_reports: Informes novos
+    resolve:
+      resolved: O estado da incidencia pasou a "Resolta"
+    ignore:
+      ignored: O estado da incidencia pasou a "Ignorada"
+    reopen:
+      reopened: O estado da incidencia pasou a "Aberta"
+    comments:
+      created_at: O %{datetime}
+    reports:
+      updated_at: O %{datetime}
+    helper:
+      reportable_title:
+        note: Nota n.º %{note_id}
   issue_comments:
     create:
       comment_created: O comentario creouse correctamente
   reports:
     new:
+      details: Por favor, achega máis detalles sobre o problema (requirido)
+      select: 'Selecciona una razón para o teu informe:'
+      disclaimer:
+        not_just_mistake: Estas seguro/a de que o problema non é un simple erro
+        unable_to_fix: Non es quen de arranxar o problema só ou coa axuda dos membros
+          da comunidade
+        resolve_with_user: Xa tentaches resolver o problema co usuario en cuestión
       categories:
         diary_entry:
+          spam_label: Esta entrada de diario é/contén spam
+          offensive_label: Esta entrada do diario é obscena/ofensiva
+          threat_label: Esta entrada de diario contén unha ameaza
           other_label: Outro
         diary_comment:
           other_label: Outro
         user:
+          spam_label: Esta conta de usuario/a é/contén spam
           offensive_label: Este perfil de usuario é ofensivo/obsceno
           threat_label: Este perfil de usuario contén unha ameaza
           vandal_label: Este usuario é un vándalo
@@ -979,6 +1017,9 @@ gl:
           personal_label: Esta nota contén datos persoais
           abusive_label: Esta nota é abusiva
           other_label: Outro
+    create:
+      successful_report: O teu informe rexistrouse con éxito
+      provide_details: Por favor,achegue os detalles que se lle solicitan.
   layouts:
     logo:
       alt_text: Logotipo do OpenStreetMap
@@ -1682,14 +1723,17 @@ gl:
       identifiable: Identificable (mostrado na lista de pistas e como identificable;
         puntos ordenados coa data e hora)
     new:
+      upload_trace: Subir traza GPS
       upload_gpx: 'Cargar un ficheiro GPX:'
       description: 'Descrición:'
       tags: 'Etiquetas:'
       tags_help: separadas por comas
       visibility: 'Visibilidade:'
       visibility_help: que significa isto?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       upload_button: Subir
       help: Axuda
+      help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
       upload_trace: Cargar unha pista GPS
       trace_uploaded: O seu ficheiro GPX foi cargado e está pendente de inserción
@@ -2097,6 +2141,7 @@ gl:
       friends_diaries: entradas de diario dos amigos
       nearby_changesets: conxuntos de cambios dos usuarios de lugares próximos
       nearby_diaries: entradas de diario dos usuarios de lugares próximos
+      report: Denunciar este usuario
     popup:
       your location: A súa localización
       nearby mapper: Cartógrafo próximo
