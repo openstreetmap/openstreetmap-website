@@ -215,6 +215,7 @@ th:
       reopened_by_anonymous: เปิดใช้ซ้ำโดยผู้ไม่ประสงค์ออกนาม เมื่อ <abbr title='%{exact_time}'>%{when}
         ก่อน</abbr>
       hidden_by: ซ่อนโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when} ก่อน</abbr>
+      report: แจ้งปัญหาเกี่ยวกับหมายเหตุนี้
     query:
       title: ส่วนประกอบในพื้นที่
       introduction: คลิกที่แผนที่เพื่อค้นหาคุณสมบัติต่าง ๆ ที่อยู่ใกล้เคียง
@@ -310,6 +311,7 @@ th:
       comment_from: ความคิดเห็นจาก %{link_user} เมื่อ %{comment_created_at}
       hide_link: ซ่อนข้อคิดเห็นนี้
       confirm: ยืนยัน
+      report: แจ้งปัญหาเกี่ยวกับความเห็นนี้
     location:
       location: 'ที่ตั้ง:'
       view: ดู
@@ -511,7 +513,7 @@ th:
           motorway_link: ถนนทางหลวงพิเศษ
           passing_place: ที่หลีกรถ
           path: เส้นทาง
-          pedestrian: ทางคนเดิน
+          pedestrian: ถนนคนเดิน
           platform: ชานชาลา
           primary: ถนนสายหลัก
           primary_link: ถนนสายหลัก
@@ -706,7 +708,7 @@ th:
           stone: หลักหิน
           strait: ช่องแคบ
           tree: ต้นไม้
-          valley: หุบผา
+          valley: หุบเขา
           volcano: ภูเขาไฟ
           water: น้ำ
           wetland: พื้นที่ชุ่มน้ำ
@@ -786,7 +788,7 @@ th:
           bakery: ร้านขายขนมอบ
           beauty: ร้านเสริมสวย
           beverages: ร้านขายเครื่องดื่ม
-          bicycle: ร้านขายและเช่าจักรยาน
+          bicycle: ร้านจักรยาน
           bookmaker: ร้านทำหนังสือ
           books: ร้านขายหนังสือ
           boutique: ร้านเสริมสวย
@@ -858,7 +860,7 @@ th:
           ticket: ร้านขายตั๋ว
           tobacco: ร้านขายยาสูบ
           toys: ร้านขายของเล่น
-          travel_agency: ตัวแทนการเดินทาง
+          travel_agency: ตัวแทนบริษัทนำเที่ยว
           tyres: ร้านขายยางรถ
           vacant: ร้านทิ้งร้าง
           variety_store: ร้านขายของจุกจิก
@@ -929,6 +931,19 @@ th:
     results:
       no_results: ไม่พบผลลัพธ์
       more_results: ดูผลลัพธ์เพิ่ม
+  issues:
+    index:
+      status: สถานะ
+  reports:
+    new:
+      categories:
+        diary_entry:
+          other_label: อื่นๆ
+        note:
+          spam_label: หมายเหตุนี้เป็นสแปม
+          personal_label: หมายเหตุนี้มีข้อมูลส่วนบุคคล
+          abusive_label: หมายเหตุนี้ใช้ถ้อยคำหยาบคายหรือส่งเสริมความรุนแรง
+          other_label: อื่นๆ
   layouts:
     logo:
       alt_text: ตราสัญลักษณ์ OpenStreetMap
@@ -1267,6 +1282,7 @@ th:
         trademarks_title_html: <span id="trademarks"></span>เครืองหมายการค้า
     index:
       js_1: ท่านกำลังใช้เบราว์เซอร์ที่ไม่รองรับจาวาสคริปต์ หรือท่านปิดใช้งานจาวาสคริปต์
+      js_2: OpenStreetMap ใช้จาวาสคริปต์ในการแสดงแผนที่
       permalink: ลิงก์ถาวร
       shortlink: ลิงก์ย่อ
       createnote: เพิ่มหมายเหตุ
@@ -2032,6 +2048,7 @@ th:
         notes: หมายเหตุแผนที่
         data: ข้อมูลแผนที่
         gps: รอยทาง GPS สาธารณะ
+        title: ชั้นแผนที่
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>บริจาค</a>
     site:
       edit_tooltip: แก้ไขแผนที่
@@ -2056,6 +2073,14 @@ th:
         comment: แสดงความเห็น
     directions:
       ascend: ลาดขึ้น
+      engines:
+        graphhopper_bicycle: จักยาน (GraphHopper)
+        graphhopper_car: รถยนต์ (GraphHopper)
+        graphhopper_foot: เดินเท้า (GraphHopper)
+        mapquest_bicycle: จักรยาน (MapQuest)
+        mapquest_car: รถยนต์ (MapQuest)
+        mapquest_foot: เดินเท้า (MapQuest)
+        osrm_car: รถยนต์ (OSRM)
       descend: ลาดลง
       directions: เส้นทาง
       distance: ระยะทาง
@@ -2066,8 +2091,9 @@ th:
         endofroad_right_without_exit: เมื่อถึงสุดถนนเลี้ยวขวาไปที่ถนน %{name}
         merge_right_without_exit: เลี้ยวขวาเข้าสู่ถนน %{name} ซึ่งเป็นทางเอก
         fork_right_without_exit: ที่ทางแยกเลี้ยวขวาไปที่ถนน %{name}
+        sharp_right_without_exit: หักขวาเข้า %{name}
         uturn_without_exit: วกกลับไปตามถนน %{name}
-        sharp_left_without_exit: เลี้ยวซ้ายหักไปที่ %{name}
+        sharp_left_without_exit: หักซ้ายเข้า %{name}
         turn_left_without_exit: เลี้ยวซ้ายไปที่ %{name}
         offramp_left_with_name: ใช้ทางลาดด้านซ้ายไปที่ %{name}
         onramp_left_without_exit: เลี้ยวซ้ายบนทางลาดไปที่ถนน %{name}
@@ -2075,10 +2101,23 @@ th:
         merge_left_without_exit: เลี้ยวซ้ายเข้าสู่ถนน %{name} ซึ่งเป็นทางเอก
         fork_left_without_exit: ที่ทางแยกเลี้ยวซ้ายไปที่ถนน %{name}
         slight_left_without_exit: ขยับซ้ายเล็กน้อยไปที่ %{name}
+        follow_without_exit: ไปตาม %{name}
+        start_without_exit: เริ่มที่ %{name}
         destination_without_exit: ตรงไปยังจุดหมาย
         roundabout_with_exit: ณ วงเวียน ใช้ทางออก %{exit} ไปที่ถนน %{name}
         unnamed: ถนนไม่มีชื่อ
         courtesy: เอื้อเฟื้อเส้นทางโดย %{link}
+        exit_counts:
+          first: แรก
+          second: ที่สอง
+          third: ที่สาม
+          fourth: ที่สี่
+          fifth: ที่ห้า
+          sixth: ที่หก
+          seventh: ที่เจ็ด
+          eighth: ที่แปด
+          ninth: ที่เก้า
+          tenth: ที่สิบ
       time: เวลา
     query:
       node: หมุด
