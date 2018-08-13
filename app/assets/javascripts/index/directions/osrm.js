@@ -119,9 +119,9 @@ function OSRMEngine() {
           namedRoad = false;
         }
 
-        if (step.maneuver.type.match(/exit (rotary|roundabout)/)) {
+        if (step.maneuver.type.match(/^exit (rotary|roundabout)$/)) {
           instText += I18n.t(template, { name: name });
-        } else if (step.maneuver.type.match(/rotary|roundabout/)) {
+        } else if (step.maneuver.type.match(/^(rotary|roundabout)$/)) {
           if (step.maneuver.exit) {
             if (step.maneuver.exit <= 10) {
               instText += I18n.t(template + '_with_exit_ordinal', { exit: I18n.t('javascripts.directions.instructions.exit_counts.' + numToWord(step.maneuver.exit)), name: name });
@@ -131,9 +131,9 @@ function OSRMEngine() {
           } else {
             instText += I18n.t(template + '_without_exit', { name: name });
           }
-        } else if (step.maneuver.type.match(/on ramp|off ramp/)) {
+        } else if (step.maneuver.type.match(/^(on ramp|off ramp)$/)) {
           var params = {};
-          if (step.exits && step.maneuver.type.match(/off ramp/)) params.exit = step.exits;
+          if (step.exits && step.maneuver.type.match(/^off ramp$/)) params.exit = step.exits;
           if (step.destinations) params.directions = destinations;
           if (namedRoad) params.directions = name;
           if (Object.keys(params).length > 0) {
