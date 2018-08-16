@@ -12,7 +12,7 @@
 //= require leaflet.map
 //= require leaflet.zoom
 //= require leaflet.locationfilter
-//= require i18n/translations
+//= require i18n
 //= require oauth
 //= require piwik
 //= require richtext
