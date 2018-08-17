@@ -227,6 +227,7 @@ is:
       reopened_by_anonymous: Endurvirkjað af nafnlausum notanda fyrir <abbr title='%{exact_time}'>%{when}
         síðan</abbr>
       hidden_by: Falið af %{user} <abbr title='%{exact_time}'>fyrir %{when} síðan</abbr>
+      report: Tilkynna þennan minnispunkt
     query:
       title: Rannsaka fitjur
       introduction: Smelltu á kortið til að finna fitjur í nágrenninu.
@@ -319,10 +320,12 @@ is:
       edit_link: Breyta þessari færslu
       hide_link: Fela þessa færslu
       confirm: Staðfestu
+      report: Tilkynna þessa færslu
     diary_comment:
       comment_from: Athugasemd eftir %{link_user} sett inn %{comment_created_at}
       hide_link: Fela þessa athugasemd
       confirm: Staðfestu
+      report: Tilkynna þessa athugasemd
     location:
       location: 'Staðsetning:'
       view: kort
@@ -943,6 +946,60 @@ is:
     results:
       no_results: Ekkert fannst
       more_results: Fleiri niðurstöður
+  issues:
+    index:
+      title: Vandamál
+      select_status: Veldu stöðu
+      select_type: Veldu gerð
+      select_last_updated_by: Veldu síðast uppfært af
+      reported_user: Tilkynntur notandi
+      not_updated: Ekki uppfært
+      search: Leita
+      search_guidance: 'Leita að vandamálum:'
+      user_not_found: Notandi er ekki til
+      issues_not_found: Engin slík vandamál fundust
+      status: Staða
+      reports: Skýrslur
+      last_updated: Síðast uppfært
+      last_updated_time_html: <abbr title='%{title}'> fyrir %{time} síðan</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'> fyrir %{time} síðan</abbr>
+        af %{user}
+      link_to_reports: Skoða skýrslur
+      reports_count:
+        one: 1 skýrsla
+        other: '%{count} skýrslur'
+      reported_item: Tilkynnt atriði
+      states:
+        ignored: Hunsað
+        open: Opna
+        resolved: Leyst
+    show:
+      resolve: Leysa
+      ignore: Hunsa
+      reopen: Enduropna
+      read_reports: Lesta skýrslur
+      new_reports: Nýjar skýrslur
+    comments:
+      created_at: Þann %{datetime}
+    reports:
+      updated_at: Þann %{datetime}
+    helper:
+      reportable_title:
+        note: 'Minnispunktur #%{note_id}'
+  reports:
+    new:
+      categories:
+        diary_entry:
+          other_label: Annað
+        diary_comment:
+          other_label: Annað
+        user:
+          vandal_label: Þessi notandi er að skemma
+          other_label: Annað
+        note:
+          spam_label: Þessi minnispunktur er ruslpóstur
+          abusive_label: Þessi minnispunktur er misnotkun
+          other_label: Annað
   layouts:
     project_name:
       title: OpenStreetMap
@@ -959,6 +1016,7 @@ is:
     edit: Breyta
     history: Breytingaskrá
     export: Flytja út
+    issues: Vandamál
     data: Gögn
     export_data: Flytja út gögn
     gps_traces: GPS ferlar
@@ -1325,7 +1383,7 @@ is:
           (<a href="https://www.and.com">www.and.com</a>)
         contributors_nz_html: |-
           <strong>Nýja-Sjáland</strong>: Inniheldur gögn með uppruna frá
-          Land Information New Zealand. Með Crown Copyright höfundarrétti.
+          <a href="https://data.linz.govt.nz/">LINZ Data Service</a> og er með notkunarleyfi til endurnýtingar fyrir <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
         contributors_si_html: |-
           <strong>Slóvenía</strong>: Inniheldur gögn frá
           <a href="http://www.gu.gov.si/en/">landmælinga og kortagerðaryfirvöldum</a> og
@@ -1659,6 +1717,7 @@ is:
       identifiable: Auðkennanlegur (sýndur í ferlalista sem auðkennanlegir, raðaðir
         punktar með tímastimpli)
     new:
+      upload_trace: Senda inn GPS feril
       upload_gpx: 'Hlaða inn GPX skrá:'
       description: 'Lýsing:'
       tags: 'Merki:'
@@ -1770,8 +1829,13 @@ is:
     require_cookies:
       cookies_needed: Þú virðist ekki vera með stuðning við vefkökur í vafranum þínum.
         Þú verður að virkja þann stuðning áður en þú getur haldið áfram.
+    require_admin:
+      not_an_admin: Þú þarft að vera möppudýr til að framkvæma þessa aðgerð.
     require_moderator:
       not_a_moderator: Þú þarft að vera ritstjóri til að framkvæma þessa aðgerð.
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: Þú þarft að vera ritstjóri til að framkvæma þessa
+        aðgerð
     setup_user_auth:
       blocked_zero_hour: Þú átt áríðandi skilaboð á OpenStreetMap vefsvæðinu. Þú verður
         að lesa þessi skilaboð áður en þú getur aftur vistað neinar breytingar.
@@ -2079,6 +2143,7 @@ is:
       friends_diaries: bloggfærslur vina
       nearby_changesets: breytingasett vina í næsta nágrenni
       nearby_diaries: bloggfærslur vina í næsta nágrenni
+      report: Tilkynna þennan notanda
     popup:
       your location: Staðsetning þín
       nearby mapper: Nálægur notandi
