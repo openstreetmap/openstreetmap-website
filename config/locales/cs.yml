@@ -12,6 +12,7 @@
 # Author: JAn Dudík
 # Author: Jezevec
 # Author: Jkjk
+# Author: Korytaacheck
 # Author: Kuvaly
 # Author: Luk
 # Author: LukasJandera
@@ -46,8 +47,8 @@ cs:
       changeset: Sada změn
       changeset_tag: Tag sady změn
       country: Země
-      diary_comment: Komentář k deníčku
-      diary_entry: Deníčkový záznam
+      diary_comment: Komentář k deníku
+      diary_entry: Deníkový záznam
       friend: Přítel
       language: Jazyk
       message: Zpráva
@@ -55,7 +56,7 @@ cs:
       node_tag: Tag uzlu
       notifier: Oznamovatel
       old_node: Starý uzel
-      old_node_tag: Starý tag uzlu
+      old_node_tag: Tag starého uzlu
       old_relation: Stará relace
       old_relation_member: Člen staré relace
       old_relation_tag: Tag staré relace
@@ -148,9 +149,9 @@ cs:
       title: 'Sada změn: %{id}'
       belongs_to: Autor
       node: Uzly (%{count})
-      node_paginated: Uzly (%{x}–%{y} z %{count})
+      node_paginated: Uzly (%{x}-%{y} z %{count})
       way: Cesty (%{count})
-      way_paginated: Cesty (%{x}–%{y} z %{count})
+      way_paginated: Cesty (%{x}-%{y} z %{count})
       relation: Relace (%{count})
       relation_paginated: Relace (%{x}–%{y} z %{count})
       comment: Komentáře (%{count})
@@ -292,22 +293,22 @@ cs:
       full: Celá diskuse
   diary_entry:
     new:
-      title: Nový záznam do deníčku
+      title: Nový záznam do deníku
       publish_button: Publikovat
     list:
-      title: Deníčky uživatelů
-      title_friends: Deníčky přátel
-      title_nearby: Deníčky uživatelů poblíž
-      user_title: Deníček uživatele %{user}
-      in_language_title: Deníčkové záznamy v jazyce %{language}
-      new: Nový záznam do deníčku
+      title: Deníky uživatelů
+      title_friends: Deníky přátel
+      title_nearby: Deníky uživatelů poblíž
+      user_title: Deník uživatele %{user}
+      in_language_title: Deníkové záznamy v jazyce %{language}
+      new: Nový záznam do deníku
       new_title: Vložit nový záznam do mého uživatelského deníku
-      no_entries: Žádné záznamy v deníčku
-      recent_entries: Nedávné deníčkové záznamy
+      no_entries: Žádné záznamy v deníku
+      recent_entries: Nedávné deníkové záznamy
       older_entries: Starší záznamy
       newer_entries: Novější záznamy
     edit:
-      title: Upravit deníčkový záznam
+      title: Upravit deníkový záznam
       subject: 'Předmět:'
       body: 'Text:'
       language: 'Jazyk:'
@@ -316,19 +317,19 @@ cs:
       longitude: 'Zeměpisná délka:'
       use_map_link: použít mapu
       save_button: Uložit
-      marker_text: Místo deníčkového záznamu
+      marker_text: Místo deníkového záznamu
     view:
-      title: Deníček uživatele %{user} | %{title}
-      user_title: Deníček uživatele %{user}
+      title: Deník uživatele %{user} | %{title}
+      user_title: Deník uživatele %{user}
       leave_a_comment: Zanechat komentář
       login_to_leave_a_comment: '%{login_link} k zanechání komentáře'
       login: Přihlaste se
       save_button: Uložit
     no_such_entry:
-      title: Deníčkový záznam nenalezen
+      title: Deníkový záznam nenalezen
       heading: Záznam s ID %{id} neexistuje
-      body: Je nám líto, ale žádný deníčkový záznam či komentář s ID %{id} neexistuje.
-        Zkontrolujte překlepy nebo jste možná klikli na chybný odkaz.
+      body: Je nám líto, ale žádný deníkový záznam či komentář s ID %{id} neexistuje.
+        Zkontrolujte překlepy, nebo jste možná klikli na chybný odkaz.
     diary_entry:
       posted_by: Zapsal %{link_user} %{created} v jazyce %{language_link}
       comment_link: Okomentovat tento zápis
@@ -353,17 +354,16 @@ cs:
       edit: Upravit
     feed:
       user:
-        title: Záznamy v OpenStreetMap deníčku uživatele %{user}
-        description: Nedávné záznamy v OpenStreetMap deníčku uživatele %{user}
+        title: Záznamy v OpenStreetMap deníku uživatele %{user}
+        description: Nedávné záznamy v OpenStreetMap deníku uživatele %{user}
       language:
-        title: Deníčkové záznamy OpenStreetMap v jazyce %{language_name}
-        description: Nedávné záznamy v deníčcích uživatelů OpenStreetMap v jazyce
-          %{language_name}
+        title: Deníkové záznamy OpenStreetMap v jazyce %{language_name}
+        description: Nedávné záznamy v denících uživatelů OpenStreetMap v jazyce %{language_name}
       all:
-        title: Deníčkové záznamy OpenStreetMap
-        description: Nedávné záznamy v deníčcích uživatelů OpenStreetMap
+        title: Deníkové záznamy OpenStreetMap
+        description: Nedávné záznamy v denících uživatelů OpenStreetMap
     comments:
-      has_commented_on: '%{display_name} okomentoval následující záznamy v deníčku'
+      has_commented_on: '%{display_name} okomentoval následující záznamy v deníku'
       post: Záznam
       when: Kdy
       comment: Komentář
@@ -446,10 +446,10 @@ cs:
           fuel: Čerpací stanice
           gambling: Hazardní hry
           grave_yard: Hřbitov
-          grit_bin: Zrnitý koš
+          grit_bin: Koš na štěrk
           hospital: Nemocnice
           hunting_stand: Posed
-          ice_cream: Zmrzlinárna
+          ice_cream: Zmrzlina
           kindergarten: Mateřská škola
           library: Knihovna
           marketplace: Tržnice
@@ -457,7 +457,7 @@ cs:
           motorcycle_parking: Parkoviště pro motocykly
           nightclub: Noční klub
           nursing_home: Pečovatelský dům
-          office: Úřad
+          office: Kancelář
           parking: Parkoviště
           parking_entrance: Vjezd na parkoviště
           parking_space: Parkoviště
@@ -472,7 +472,7 @@ cs:
           public_building: Veřejná budova
           recycling: Tříděný odpad
           restaurant: Restaurace
-          retirement_home: Domov důchodců
+          retirement_home: Domov pro seniory
           sauna: Sauna
           school: Škola
           shelter: Přístřeší
@@ -486,7 +486,7 @@ cs:
           taxi: Taxi
           telephone: Telefonní automat
           theatre: Divadlo
-          toilets: Záchody
+          toilets: WC
           townhall: Radnice
           university: Univerzita
           vending_machine: Prodejní automat
@@ -494,16 +494,16 @@ cs:
           village_hall: Společenský sál
           waste_basket: Odpadkový koš
           waste_disposal: Popelnice
-          water_point: Bod vody
+          water_point: Vodní zdroj
           youth_centre: Centrum pro mládež
         boundary:
           administrative: Administrativní hranice
           census: Hranice pro potřeby sčítání
           national_park: Národní park
-          protected_area: Chráněná oblast
+          protected_area: Chráněné území
         bridge:
           aqueduct: Akvadukt
-          boardwalk: Tabulová chůze
+          boardwalk: Dřevěný chodník
           suspension: Visutý most
           swing: Otočný most
           viaduct: Viadukt
