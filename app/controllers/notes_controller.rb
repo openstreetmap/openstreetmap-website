@@ -260,10 +260,43 @@ class NotesController < ApplicationController
 
     # Get any conditions that need to be applied
     @notes = closed_condition(Note.all)
-    @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q])
+    @notes = filter_notes(@notes, params[:q])
 
     # Find the notes we want to return
     @notes = @notes.order("updated_at DESC").limit(result_limit).preload(:comments)
+
+    # Render the result
+    respond_to do |format|
+      format.rss { render :action => :index }
+      format.xml { render :action => :index }
+      format.json { render :action => :index }
+      format.gpx { render :action => :index }
+    end
+  end
+
+  ##
+  # Return a list of notes by a specified user
+  def user
+    # Check the arguments are sane
+    raise OSM::APIBadUserInput, "No user was specified" unless params[:display_name] || params[:id]
+
+    if params[:display_name]
+      @user = User.find_by(:display_name => params[:display_name])
+    end
+    if params[:id]
+      @user = User.find_by(:id => params[:id])
+    end
+
+    raise OSM::APINotFoundError unless @user
+
+    # Find the notes we want to return
+    @notes = @user.notes
+    @notes = closed_condition(@notes)
+    # TODO: filtering does not work yet...
+    #if params[:q]
+      #@notes = filter_notes(@notes, params[:q])
+    #end
+    @notes = @notes.order("updated_at DESC, id").distinct.limit(result_limit).preload(:comments)
 
     # Render the result
     respond_to do |format|
@@ -352,5 +385,11 @@ class NotesController < ApplicationController
     note.comments.map(&:author).uniq.each do |user|
       Notifier.note_comment_notification(comment, user).deliver_now if notify && user && user != current_user && user.visible?
     end
+  end
+
+  ##
+  # Filter notes by a given string
+  def filter_notes(notes, query)
+    notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", query)
   end
 end
