@@ -255,15 +255,49 @@ class NotesController < ApplicationController
   ##
   # Return a list of notes matching a given string
   def search
-    # Check the arguments are sane
-    raise OSM::APIBadUserInput, "No query string was given" unless params[:q]
+    # Filter either by the name or the id of the user
+    if params[:display_name]
+      @user = User.find_by(:display_name => params[:display_name])
+    elsif params[:id]
+      @user = User.find_by(:id => params[:id])
+    end
 
-    # Get any conditions that need to be applied
-    @notes = closed_condition(Note.all)
-    @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q])
+    if @user
+      @notes = @user.notes
+      @notes = closed_condition(@notes)
+    elsif params[:display_name] || params[:id]
+      # Return an error message because obviously the user could not be found
+      raise OSM::APIBadUserInput, "The user could not be found"
+    else
+      @notes = closed_condition(Note.all)
+    end
+
+    # Filter by a given string
+    if params[:q]
+      # TODO: why doesn't this work if we want to filter the notes of a given user?
+      if !params[:display_name] && !params[:id]
+        @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q])
+      end
+    end
+
+    # Filter by a given start date and an optional end date
+    if params[:from]
+      from = DateTime.parse(params[:from])
+      if params[:to]
+        to = DateTime.parse(params[:to])
+      else
+        to = DateTime.now
+      end
+
+      if from && to
+        @notes = @notes.where("(created_at > '#{from}' AND created_at < '#{to}')")
+      else
+        raise OSM::APIBadUserInput, "The date is in a wrong format"
+      end
+    end
 
     # Find the notes we want to return
-    @notes = @notes.order("updated_at DESC").limit(result_limit).preload(:comments)
+    @notes = @notes.order("updated_at DESC").distinct.limit(result_limit).preload(:comments)
 
     # Render the result
     respond_to do |format|
