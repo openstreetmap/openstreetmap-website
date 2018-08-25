@@ -91,6 +91,7 @@ OpenStreetMap::Application.routes.draw do
     resources :notes, :except => [:new, :edit, :update], :constraints => { :id => /\d+/ }, :defaults => { :format => "xml" } do
       collection do
         get "search"
+        get "latest"
         get "feed", :defaults => { :format => "rss" }
       end
 

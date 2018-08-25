@@ -275,6 +275,24 @@ class NotesController < ApplicationController
   end
 
   ##
+  # Return a list of the latest notes
+  def latest
+    # Get any conditions that need to be applied
+    @notes = closed_condition(Note.all)
+
+    # Find the notes we want to return
+    @notes = @notes.order("updated_at DESC").limit(result_limit).preload(:comments)
+
+    # Render the result
+    respond_to do |format|
+      format.rss { render :action => :index }
+      format.xml { render :action => :index }
+      format.json { render :action => :index }
+      format.gpx { render :action => :index }
+    end
+  end
+
+  ##
   # Display a list of notes by a specified user
   def mine
     if params[:display_name]
