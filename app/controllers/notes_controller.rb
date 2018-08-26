@@ -275,19 +275,17 @@ class NotesController < ApplicationController
     # Filter by a given string
     if params[:q]
       # TODO: why doesn't this work if we want to filter the notes of a given user?
-      if !params[:display_name] && !params[:id]
-        @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q])
-      end
+      @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q]) unless params[:display_name] || params[:id]
     end
 
     # Filter by a given start date and an optional end date
     if params[:from]
-      from = DateTime.parse(params[:from])
-      if params[:to]
-        to = DateTime.parse(params[:to])
-      else
-        to = DateTime.now
-      end
+      from = Time.parse(params[:from])
+      to = if params[:to]
+             Time.parse(params[:to])
+           else
+             Time.now
+           end
 
       if from && to
         @notes = @notes.where("(created_at > '#{from}' AND created_at < '#{to}')")

@@ -912,9 +912,6 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_search_bad_params
-    get :search
-    assert_response :bad_request
-
     get :search, :params => { :q => "no match", :limit => "0", :format => "json" }
     assert_response :bad_request
 
