@@ -39,17 +39,23 @@ class GeocoderController < ApplicationController
   def search_latlon
     lat = params[:lat].to_f
     lon = params[:lon].to_f
-    if lat < -90 || lat > 90
-      @error = "Latitude #{lat} out of range"
-      render :action => "error"
-    elsif lon < -180 || lon > 180
-      @error = "Longitude #{lon} out of range"
+    @results = []
+
+    if lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180
+      @results.push(:lat => lat, :lon => lon,
+                    :zoom => params[:zoom],
+                    :name => "#{lat}, #{lon}")
+    end
+    if lon >= -90 && lon <= 90 && lat >= -180 && lat <= 180
+      @results.push(:lat => lon, :lon => lat,
+                    :zoom => params[:zoom],
+                    :name => "#{lon}, #{lat}")
+    end
+
+    if @results.empty?
+      @error = "Latitude or longitude are out of range"
       render :action => "error"
     else
-      @results = [{ :lat => lat, :lon => lon,
-                    :zoom => params[:zoom],
-                    :name => "#{lat}, #{lon}" }]
-
       render :action => "results"
     end
   end
