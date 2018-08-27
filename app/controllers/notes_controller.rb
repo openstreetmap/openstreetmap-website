@@ -280,18 +280,19 @@ class NotesController < ApplicationController
 
     # Filter by a given start date and an optional end date
     if params[:from]
-      from = Time.parse(params[:from])
-      to = if params[:to]
-             Time.parse(params[:to])
-           else
-             Time.now
-           end
-
-      if from && to
-        @notes = @notes.where("(created_at > '#{from}' AND created_at < '#{to}')")
-      else
+      begin
+        from = Time.parse(params[:from])
+        to = if params[:to]
+               Time.parse(params[:to])
+             else
+               Time.now
+             end
+      rescue ArgumentError
+        # return a more generic error so that everybody knows what is wrong
         raise OSM::APIBadUserInput, "The date is in a wrong format"
       end
+
+      @notes = @notes.where("(created_at > '#{from}' AND created_at < '#{to}')")
     end
 
     # Find the notes we want to return
