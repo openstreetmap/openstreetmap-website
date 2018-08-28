@@ -232,6 +232,7 @@ class Changeset < ActiveRecord::Base
     bbox.to_unscaled.add_bounds_to(el1, "_") if bbox.complete?
 
     el1["comments_count"] = comments.length.to_s
+    el1["changes_count"] = num_changes.to_s
 
     if include_discussion
       el2 = XML::Node.new("discussion")
