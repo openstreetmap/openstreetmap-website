@@ -1,16 +1,16 @@
 FactoryBot.define do
   factory :node do
-    latitude 1 * GeoRecord::SCALE
-    longitude 1 * GeoRecord::SCALE
+    latitude { 1 * GeoRecord::SCALE }
+    longitude { 1 * GeoRecord::SCALE }
 
     changeset
 
-    visible true
-    timestamp Time.now
-    version 1
+    visible { true }
+    timestamp { Time.now }
+    version { 1 }
 
     trait :deleted do
-      visible false
+      visible { false }
     end
 
     trait :with_history do
