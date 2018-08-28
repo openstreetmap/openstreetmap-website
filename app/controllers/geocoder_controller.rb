@@ -49,6 +49,7 @@ class GeocoderController < ApplicationController
                       :zoom => params[:zoom],
                       :name => "#{lat}, #{lon}")
       end
+
       if lon >= -90 && lon <= 90 && lat >= -180 && lat <= 180
         @results.push(:lat => lon, :lon => lat,
                       :zoom => params[:zoom],
@@ -61,7 +62,6 @@ class GeocoderController < ApplicationController
       else
         render :action => "results"
       end
-
     else
       # Coordinates in a query have come with markers for latitude and longitude.
       if lat < -90 || lat > 90
