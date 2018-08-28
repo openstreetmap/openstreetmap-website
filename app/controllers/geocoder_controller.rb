@@ -39,18 +39,44 @@ class GeocoderController < ApplicationController
   def search_latlon
     lat = params[:lat].to_f
     lon = params[:lon].to_f
-    if lat < -90 || lat > 90
-      @error = "Latitude #{lat} out of range"
-      render :action => "error"
-    elsif lon < -180 || lon > 180
-      @error = "Longitude #{lon} out of range"
-      render :action => "error"
-    else
-      @results = [{ :lat => lat, :lon => lon,
-                    :zoom => params[:zoom],
-                    :name => "#{lat}, #{lon}" }]
 
-      render :action => "results"
+    if params[:latlon_digits]
+      # We've got two nondescript numbers for a query, which can mean both "lat, lon" or "lon, lat".
+      @results = []
+
+      if lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180
+        @results.push(:lat => lat, :lon => lon,
+                      :zoom => params[:zoom],
+                      :name => "#{lat}, #{lon}")
+      end
+      if lon >= -90 && lon <= 90 && lat >= -180 && lat <= 180
+        @results.push(:lat => lon, :lon => lat,
+                      :zoom => params[:zoom],
+                      :name => "#{lon}, #{lat}")
+      end
+
+      if @results.empty?
+        @error = "Latitude or longitude are out of range"
+        render :action => "error"
+      else
+        render :action => "results"
+      end
+
+    else
+      # Coordinates in a query have come with markers for latitude and longitude.
+      if lat < -90 || lat > 90
+        @error = "Latitude #{lat} out of range"
+        render :action => "error"
+      elsif lon < -180 || lon > 180
+        @error = "Longitude #{lon} out of range"
+        render :action => "error"
+      else
+        @results = [{ :lat => lat, :lon => lon,
+                      :zoom => params[:zoom],
+                      :name => "#{lat}, #{lon}" }]
+
+        render :action => "results"
+      end
     end
   end
 
@@ -279,11 +305,11 @@ class GeocoderController < ApplicationController
         params.merge!(dms_to_decdeg(latlon)).delete(:query)
 
       elsif latlon = query.match(/^\s*([+-]?\d+(\.\d*)?)\s*[\s,]\s*([+-]?\d+(\.\d*)?)\s*$/)
-        params.merge!(:lat => latlon[1].to_f, :lon => latlon[3].to_f).delete(:query)
+        params.merge!(:lat => latlon[1].to_f, :lon => latlon[3].to_f, :latlon_digits => true).delete(:query)
       end
     end
 
-    params.permit(:query, :lat, :lon, :zoom, :minlat, :minlon, :maxlat, :maxlon)
+    params.permit(:query, :lat, :lon, :latlon_digits, :zoom, :minlat, :minlon, :maxlat, :maxlon)
   end
 
   def nsew_to_decdeg(captures)
