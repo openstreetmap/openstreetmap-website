@@ -57,8 +57,8 @@
 <% if current_user && (current_user==@trace.user || current_user.administrator? || current_user.moderator?)%>
   <div class="buttons">
     <% if current_user == @trace.user %>
-      <%= link_to t('.edit_track'), edit_trace_path(@trace), :class => "button" %>
+      <%= link_to t('.edit_trace'), edit_trace_path(@trace), :class => "button" %>
     <% end %>
-    <%= button_to t('.delete_track'), { :controller => 'traces', :action => 'delete', :id => @trace.id }, :data => { :confirm => t('.confirm_delete') } %>
+    <%= button_to t('.delete_trace'), { :controller => 'traces', :action => 'delete', :id => @trace.id }, :data => { :confirm => t('.confirm_delete') } %>
   </div>
 <% end %>
