@@ -4,35 +4,35 @@ class MessagesController < ApplicationController
   before_action :authorize_web
   before_action :set_locale
   before_action :require_user
-  before_action :lookup_user, :only => [:new]
+  before_action :lookup_user, :only => [:new, :create]
   before_action :check_database_readable
-  before_action :check_database_writable, :only => [:new, :reply, :mark, :destroy]
-  before_action :allow_thirdparty_images, :only => [:new, :show]
+  before_action :check_database_writable, :only => [:new, :create, :reply, :mark, :destroy]
+  before_action :allow_thirdparty_images, :only => [:new, :create, :show]
 
   # Allow the user to write a new message to another user. This action also
   # deals with the sending of that message to the other user when the user
   # clicks send.
   # The display_name param is the display name of the user that the message is being sent to.
   def new
-    if request.post?
-      if current_user.sent_messages.where("sent_on >= ?", Time.now.getutc - 1.hour).count >= MAX_MESSAGES_PER_HOUR
-        flash[:error] = t ".limit_exceeded"
-      else
-        @message = Message.new(message_params)
-        @message.recipient = @user
-        @message.sender = current_user
-        @message.sent_on = Time.now.getutc
-
-        if @message.save
-          flash[:notice] = t ".message_sent"
-          Notifier.message_notification(@message).deliver_now
-          redirect_to :action => :inbox
-        end
-      end
-    end
-
-    @message ||= Message.new(message_params.merge(:recipient => @user))
+    @message = Message.new(message_params.merge(:recipient => @user))
     @title = t ".title"
+  end
+
+  def create
+    @message = Message.new(message_params)
+    @message.recipient = @user
+    @message.sender = current_user
+    @message.sent_on = Time.now.getutc
+
+    if current_user.sent_messages.where("sent_on >= ?", Time.now.getutc - 1.hour).count >= MAX_MESSAGES_PER_HOUR
+      flash[:error] = t ".limit_exceeded"
+    elsif @message.save
+      flash[:notice] = t ".message_sent"
+      Notifier.message_notification(@message).deliver_now
+      redirect_to :action => :inbox
+      return
+    end
+    render :action => "new"
   end
 
   # Allow the user to reply to another message.

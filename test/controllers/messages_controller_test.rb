@@ -17,8 +17,8 @@ class MessagesControllerTest < ActionController::TestCase
       { :controller => "messages", :action => "new", :display_name => "username" }
     )
     assert_routing(
-      { :path => "/message/new/username", :method => :post },
-      { :controller => "messages", :action => "new", :display_name => "username" }
+      { :path => "/messages", :method => :post },
+      { :controller => "messages", :action => "create" }
     )
     assert_routing(
       { :path => "/messages/1", :method => :get },
@@ -64,7 +64,8 @@ class MessagesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template "new"
     assert_select "title", "Send message | OpenStreetMap"
-    assert_select "form[action='#{new_message_path(:display_name => recipient_user.display_name)}']", :count => 1 do
+    assert_select "form[action='/messages']", :count => 1 do
+      assert_select "input[type='hidden'][name='display_name'][value='#{recipient_user.display_name}']"
       assert_select "input#message_title", :count => 1
       assert_select "textarea#message_body", :count => 1
       assert_select "input[type='submit'][value='Send']", :count => 1
@@ -90,7 +91,8 @@ class MessagesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template "new"
     assert_select "title", "Send message | OpenStreetMap"
-    assert_select "form[action='#{new_message_path(:display_name => recipient_user.display_name)}']", :count => 1 do
+    assert_select "form[action='/messages']", :count => 1 do
+      assert_select "input[type='hidden'][name='display_name'][value='#{recipient_user.display_name}']"
       assert_select "input#message_title", :count => 1 do
         assert_select "[value='Test Message']"
       end
@@ -118,7 +120,8 @@ class MessagesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template "new"
     assert_select "title", "Send message | OpenStreetMap"
-    assert_select "form[action='#{new_message_path(:display_name => recipient_user.display_name)}']", :count => 1 do
+    assert_select "form[action='/messages']", :count => 1 do
+      assert_select "input[type='hidden'][name='display_name'][value='#{recipient_user.display_name}']"
       assert_select "input#message_title", :count => 1 do
         assert_select "[value='Test Message']"
       end
@@ -146,7 +149,8 @@ class MessagesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template "new"
     assert_select "title", "Send message | OpenStreetMap"
-    assert_select "form[action='#{new_message_path(:display_name => recipient_user.display_name)}']", :count => 1 do
+    assert_select "form[action='/messages']", :count => 1 do
+      assert_select "input[type='hidden'][name='display_name'][value='#{recipient_user.display_name}']"
       assert_select "input#message_title", :count => 1 do
         assert_select "[value='']"
       end
@@ -166,7 +170,7 @@ class MessagesControllerTest < ActionController::TestCase
     # Check that sending a message works
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       assert_difference "Message.count", 1 do
-        post :new,
+        post :create,
              :params => { :display_name => recipient_user.display_name,
                           :message => { :title => "Test Message", :body => "Test message body" } }
       end
@@ -207,7 +211,7 @@ class MessagesControllerTest < ActionController::TestCase
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       assert_no_difference "Message.count" do
         with_message_limit(0) do
-          post :new,
+          post :create,
                :params => { :display_name => recipient_user.display_name,
                             :message => { :title => "Test Message", :body => "Test message body" } }
           assert_response :success
@@ -246,7 +250,8 @@ class MessagesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template "new"
     assert_select "title", "Re: #{unread_message.title} | OpenStreetMap"
-    assert_select "form[action='#{new_message_path(:display_name => user.display_name)}']", :count => 1 do
+    assert_select "form[action='/messages']", :count => 1 do
+      assert_select "input[type='hidden'][name='display_name'][value='#{user.display_name}']"
       assert_select "input#message_title[value='Re: #{unread_message.title}']", :count => 1
       assert_select "textarea#message_body", :count => 1
       assert_select "input[type='submit'][value='Send']", :count => 1

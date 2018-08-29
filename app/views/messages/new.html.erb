@@ -4,7 +4,8 @@
 
 <%= error_messages_for 'message' %>
 
-<%= form_for :message, :html => { :class => 'standard-form' }, :url => new_message_path(@message.recipient) do |f| %>
+<%= form_for @message, :html => { :class => 'standard-form' } do |f| %>
+  <%= hidden_field_tag :display_name, @message.recipient.display_name %>
   <fieldset>
     <div class='form-row'>
       <label class="standard-label" for="message_title"><%= t '.subject' %></label>
