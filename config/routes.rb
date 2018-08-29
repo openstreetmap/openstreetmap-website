@@ -195,7 +195,7 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/traces" => "traces#list"
   get "/user/:display_name/traces/tag/:tag/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/user/:display_name/traces/rss" => "traces#georss", :defaults => { :format => :rss }
-  get "/user/:display_name/traces/:id" => "traces#view"
+  get "/user/:display_name/traces/:id" => "traces#show"
   get "/user/:display_name/traces/:id/picture" => "traces#picture"
   get "/user/:display_name/traces/:id/icon" => "traces#icon"
   get "/traces/tag/:tag/page/:page" => "traces#list", :page => /[1-9][0-9]*/

@@ -12,7 +12,7 @@ class TracesController < ApplicationController
   before_action :check_api_writable, :only => [:api_create, :api_update, :api_delete]
   before_action :require_allow_read_gpx, :only => [:api_read, :api_data]
   before_action :require_allow_write_gpx, :only => [:api_create, :api_update, :api_delete]
-  before_action :offline_warning, :only => [:mine, :view]
+  before_action :offline_warning, :only => [:mine, :show]
   before_action :offline_redirect, :only => [:new, :create, :edit, :delete, :data, :api_create, :api_delete, :api_data]
   around_action :api_call_handle_error, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
 
@@ -89,7 +89,7 @@ class TracesController < ApplicationController
     redirect_to :action => :list, :display_name => current_user.display_name
   end
 
-  def view
+  def show
     @trace = Trace.find(params[:id])
 
     if @trace && @trace.visible? &&
@@ -189,7 +189,7 @@ class TracesController < ApplicationController
       head :forbidden
     elsif @trace.update(trace_params)
       flash[:notice] = t ".updated"
-      redirect_to :action => "view", :display_name => current_user.display_name
+      redirect_to :action => "show", :display_name => current_user.display_name
     else
       @title = t ".title", :name => @trace.name
       render :action => "edit"
