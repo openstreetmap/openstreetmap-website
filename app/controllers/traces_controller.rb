@@ -175,13 +175,24 @@ class TracesController < ApplicationController
       head :forbidden
     else
       @title = t ".title", :name => @trace.name
+    end
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
+  end
 
-      if request.post? && params[:trace]
-        @trace.description = params[:trace][:description]
-        @trace.tagstring = params[:trace][:tagstring]
-        @trace.visibility = params[:trace][:visibility]
-        redirect_to :action => "view", :display_name => current_user.display_name if @trace.save
-      end
+  def update
+    @trace = Trace.find(params[:id])
+
+    if !@trace.visible?
+      head :not_found
+    elsif current_user.nil? || @trace.user != current_user
+      head :forbidden
+    elsif @trace.update(trace_params)
+      flash[:notice] = t ".updated"
+      redirect_to :action => "view", :display_name => current_user.display_name
+    else
+      @title = t ".title", :name => @trace.name
+      render :action => "edit"
     end
   rescue ActiveRecord::RecordNotFound
     head :not_found
@@ -412,5 +423,9 @@ class TracesController < ApplicationController
     else
       "public"
     end
+  end
+
+  def trace_params
+    params.require(:trace).permit(:description, :tagstring, :visibility)
   end
 end

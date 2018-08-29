@@ -151,12 +151,12 @@ class TracesControllerTest < ActionController::TestCase
       { :controller => "traces", :action => "data", :id => "1", :format => "xml" }
     )
     assert_routing(
-      { :path => "/trace/1/edit", :method => :get },
+      { :path => "/traces/1/edit", :method => :get },
       { :controller => "traces", :action => "edit", :id => "1" }
     )
     assert_routing(
-      { :path => "/trace/1/edit", :method => :post },
-      { :controller => "traces", :action => "edit", :id => "1" }
+      { :path => "/traces/1", :method => :put },
+      { :controller => "traces", :action => "update", :id => "1" }
     )
     assert_routing(
       { :path => "/trace/1/delete", :method => :post },
@@ -594,7 +594,7 @@ class TracesControllerTest < ActionController::TestCase
     # First with no auth
     get :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => trace_edit_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file.id)
+    assert_redirected_to :controller => :user, :action => :login, :referer => edit_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file.id)
 
     # Now with some other user, which should fail
     get :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => create(:user) }
@@ -613,34 +613,8 @@ class TracesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  # Test fetching the edit page for a trace using POST
-  def test_edit_post_no_details
-    public_trace_file = create(:trace, :visibility => "public")
-    deleted_trace_file = create(:trace, :deleted)
-
-    # First with no auth
-    post :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }
-    assert_response :forbidden
-
-    # Now with some other user, which should fail
-    post :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => create(:user) }
-    assert_response :forbidden
-
-    # Now with a trace which doesn't exist
-    post :edit, :params => { :display_name => create(:user).display_name, :id => 0 }, :session => { :user => create(:user) }
-    assert_response :not_found
-
-    # Now with a trace which has been deleted
-    post :edit, :params => { :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id }, :session => { :user => deleted_trace_file.user }
-    assert_response :not_found
-
-    # Finally with a trace that we are allowed to edit
-    post :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => public_trace_file.user }
-    assert_response :success
-  end
-
   # Test saving edits to a trace
-  def test_edit_post_with_details
+  def test_update
     public_trace_file = create(:trace, :visibility => "public")
     deleted_trace_file = create(:trace, :deleted)
 
@@ -648,23 +622,23 @@ class TracesControllerTest < ActionController::TestCase
     new_details = { :description => "Changed description", :tagstring => "new_tag", :visibility => "private" }
 
     # First with no auth
-    post :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id, :trace => new_details }
+    put :update, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id, :trace => new_details }
     assert_response :forbidden
 
     # Now with some other user, which should fail
-    post :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id, :trace => new_details }, :session => { :user => create(:user) }
+    put :update, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id, :trace => new_details }, :session => { :user => create(:user) }
     assert_response :forbidden
 
     # Now with a trace which doesn't exist
-    post :edit, :params => { :display_name => create(:user).display_name, :id => 0 }, :session => { :user => create(:user), :trace => new_details }
+    put :update, :params => { :display_name => create(:user).display_name, :id => 0 }, :session => { :user => create(:user), :trace => new_details }
     assert_response :not_found
 
     # Now with a trace which has been deleted
-    post :edit, :params => { :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id, :trace => new_details }, :session => { :user => deleted_trace_file.user }
+    put :update, :params => { :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id, :trace => new_details }, :session => { :user => deleted_trace_file.user }
     assert_response :not_found
 
     # Finally with a trace that we are allowed to edit
-    post :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id, :trace => new_details }, :session => { :user => public_trace_file.user }
+    put :update, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id, :trace => new_details }, :session => { :user => public_trace_file.user }
     assert_response :redirect
     assert_redirected_to :action => :view, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
