@@ -1,7 +1,7 @@
 PG_CONFIG ?= pg_config
 DESTDIR ?= .
 
-QTDIR=$(shell bundle show quad_tile)/ext/quad_tile
+QTDIR=$(shell bundle show quad_tile | tail -n 1)/ext/quad_tile
 
 OS=$(shell uname -s)
 ifeq (${OS},Darwin)
