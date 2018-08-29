@@ -18,7 +18,7 @@ class TracesController < ApplicationController
 
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
-  def list
+  def index
     # from display name, pick up user id if one user's traces only
     display_name = params[:display_name]
     if display_name.present?
@@ -86,7 +86,7 @@ class TracesController < ApplicationController
   end
 
   def mine
-    redirect_to :action => :list, :display_name => current_user.display_name
+    redirect_to :action => :index, :display_name => current_user.display_name
   end
 
   def show
@@ -97,11 +97,11 @@ class TracesController < ApplicationController
       @title = t ".title", :name => @trace.name
     else
       flash[:error] = t ".trace_not_found"
-      redirect_to :action => "list"
+      redirect_to :action => "index"
     end
   rescue ActiveRecord::RecordNotFound
     flash[:error] = t ".trace_not_found"
-    redirect_to :action => "list"
+    redirect_to :action => "index"
   end
 
   def new
@@ -126,7 +126,7 @@ class TracesController < ApplicationController
         flash[:notice] = t ".trace_uploaded"
         flash[:warning] = t ".traces_waiting", :count => current_user.traces.where(:inserted => false).count if current_user.traces.where(:inserted => false).count > 4
 
-        redirect_to :action => :list, :display_name => current_user.display_name
+        redirect_to :action => :index, :display_name => current_user.display_name
       else
         flash[:error] = t("traces.create.upload_failed") if @trace.valid?
 
@@ -209,7 +209,7 @@ class TracesController < ApplicationController
       trace.visible = false
       trace.save
       flash[:notice] = t ".scheduled_for_deletion"
-      redirect_to :action => :list, :display_name => trace.user.display_name
+      redirect_to :action => :index, :display_name => trace.user.display_name
     end
   rescue ActiveRecord::RecordNotFound
     head :not_found

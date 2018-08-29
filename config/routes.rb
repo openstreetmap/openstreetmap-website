@@ -189,26 +189,25 @@ OpenStreetMap::Application.routes.draw do
   post "/preview/:type" => "site#preview", :as => :preview
 
   # traces
-  get "/user/:display_name/traces/tag/:tag/page/:page" => "traces#list", :page => /[1-9][0-9]*/
-  get "/user/:display_name/traces/tag/:tag" => "traces#list"
-  get "/user/:display_name/traces/page/:page" => "traces#list", :page => /[1-9][0-9]*/
-  get "/user/:display_name/traces" => "traces#list"
+  get "/user/:display_name/traces/tag/:tag/page/:page" => "traces#index", :page => /[1-9][0-9]*/
+  get "/user/:display_name/traces/tag/:tag" => "traces#index"
+  get "/user/:display_name/traces/page/:page" => "traces#index", :page => /[1-9][0-9]*/
+  get "/user/:display_name/traces" => "traces#index"
   get "/user/:display_name/traces/tag/:tag/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/user/:display_name/traces/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/user/:display_name/traces/:id" => "traces#show"
   get "/user/:display_name/traces/:id/picture" => "traces#picture"
   get "/user/:display_name/traces/:id/icon" => "traces#icon"
-  get "/traces/tag/:tag/page/:page" => "traces#list", :page => /[1-9][0-9]*/
-  get "/traces/tag/:tag" => "traces#list"
-  get "/traces/page/:page" => "traces#list", :page => /[1-9][0-9]*/
-  get "/traces" => "traces#list"
+  get "/traces/tag/:tag/page/:page" => "traces#index", :page => /[1-9][0-9]*/
+  get "/traces/tag/:tag" => "traces#index"
+  get "/traces/page/:page" => "traces#index", :page => /[1-9][0-9]*/
   get "/traces/tag/:tag/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/traces/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/traces/mine/tag/:tag/page/:page" => "traces#mine", :page => /[1-9][0-9]*/
   get "/traces/mine/tag/:tag" => "traces#mine"
   get "/traces/mine/page/:page" => "traces#mine"
   get "/traces/mine" => "traces#mine"
-  resources :traces, :only => [:new, :create, :edit, :update]
+  resources :traces, :only => [:index, :new, :create, :edit, :update]
   post "/trace/create" => "traces#create" # remove after deployment
   get "/trace/create", :to => redirect(:path => "/traces/new")
   get "/trace/:id/data" => "traces#data", :id => /\d+/, :as => "trace_data"

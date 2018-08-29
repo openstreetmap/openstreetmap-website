@@ -7,14 +7,14 @@ xml.rss("version" => "2.0",
   xml.channel do
     xml.title t(".title")
     xml.description t(".title")
-    xml.link url_for(:controller => :traces, :action => :list, :only_path => false)
+    xml.link url_for(:controller => :traces, :action => :index, :only_path => false)
 
     xml.image do
       xml.url image_url("mag_map-rss2.0.png")
       xml.title t(".title")
       xml.width 100
       xml.height 100
-      xml.link url_for(:controller => :traces, :action => :list, :only_path => false)
+      xml.link url_for(:controller => :traces, :action => :index, :only_path => false)
     end
 
     @traces.each do |trace|
