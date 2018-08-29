@@ -8,6 +8,7 @@ Vagrant.configure("2") do |config|
     override.vm.synced_folder ".", "/srv/openstreetmap-website"
     vb.customize ["modifyvm", :id, "--memory", "1024"]
     vb.customize ["modifyvm", :id, "--cpus", "2"]
+    vb.customize ["modifyvm", :id, "--uartmode1", "disconnected"]
   end
 
   # use third party image and NFS sharing for lxc
