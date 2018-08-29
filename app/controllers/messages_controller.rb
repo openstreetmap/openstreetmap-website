@@ -26,13 +26,14 @@ class MessagesController < ApplicationController
 
     if current_user.sent_messages.where("sent_on >= ?", Time.now.getutc - 1.hour).count >= MAX_MESSAGES_PER_HOUR
       flash[:error] = t ".limit_exceeded"
+      render :action => "new"
     elsif @message.save
       flash[:notice] = t ".message_sent"
       Notifier.message_notification(@message).deliver_now
       redirect_to :action => :inbox
-      return
+    else
+      render :action => "new"
     end
-    render :action => "new"
   end
 
   # Allow the user to reply to another message.
