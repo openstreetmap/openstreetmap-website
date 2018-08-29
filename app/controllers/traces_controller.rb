@@ -110,19 +110,16 @@ class TracesController < ApplicationController
   end
 
   def create
+    @title = t ".upload_trace"
+
     logger.info(params[:trace][:gpx_file].class.name)
 
     if params[:trace][:gpx_file].respond_to?(:read)
       begin
-        do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
-                  params[:trace][:description], params[:trace][:visibility])
+        @trace = do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
+                           params[:trace][:description], params[:trace][:visibility])
       rescue StandardError => ex
-        if @trace.valid?
-          flash[:error] = t("traces.create.upload_failed")
-          logger.debug ex
-        end
-        render :action => "new"
-        return
+        logger.debug ex
       end
 
       if @trace.id
@@ -130,6 +127,10 @@ class TracesController < ApplicationController
         flash[:warning] = t ".traces_waiting", :count => current_user.traces.where(:inserted => false).count if current_user.traces.where(:inserted => false).count > 4
 
         redirect_to :action => :list, :display_name => current_user.display_name
+      else
+        flash[:error] = t("traces.create.upload_failed") if @trace.valid?
+
+        render :action => "new"
       end
     else
       @trace = Trace.new(:name => "Dummy",
@@ -140,7 +141,7 @@ class TracesController < ApplicationController
                          :timestamp => Time.now.getutc)
       @trace.valid?
       @trace.errors.add(:gpx_file, "can't be blank")
-      @title = t ".upload_trace"
+
       render :action => "new"
     end
   end
@@ -314,11 +315,11 @@ class TracesController < ApplicationController
     end
 
     if params[:file].respond_to?(:read)
-      do_create(params[:file], tags, description, visibility)
+      trace = do_create(params[:file], tags, description, visibility)
 
-      if @trace.id
-        render :plain => @trace.id.to_s
-      elsif @trace.valid?
+      if trace.id
+        render :plain => trace.id.to_s
+      elsif trace.valid?
         head :internal_server_error
       else
         head :bad_request
@@ -342,7 +343,7 @@ class TracesController < ApplicationController
 
     # Create the trace object, falsely marked as already
     # inserted to stop the import daemon trying to load it
-    @trace = Trace.new(
+    trace = Trace.new(
       :name => name,
       :tagstring => tags,
       :description => description,
@@ -352,31 +353,33 @@ class TracesController < ApplicationController
       :timestamp => Time.now.getutc
     )
 
-    Trace.transaction do
-      begin
-        # Save the trace object
-        @trace.save!
+    if trace.valid?
+      Trace.transaction do
+        begin
+          # Save the trace object
+          trace.save!
 
-        # Rename the temporary file to the final name
-        FileUtils.mv(filename, @trace.trace_name)
-      rescue StandardError
-        # Remove the file as we have failed to update the database
-        FileUtils.rm_f(filename)
+          # Rename the temporary file to the final name
+          FileUtils.mv(filename, trace.trace_name)
+        rescue StandardError
+          # Remove the file as we have failed to update the database
+          FileUtils.rm_f(filename)
 
-        # Pass the exception on
-        raise
-      end
+          # Pass the exception on
+          raise
+        end
 
-      begin
-        # Clear the inserted flag to make the import daemon load the trace
-        @trace.inserted = false
-        @trace.save!
-      rescue StandardError
-        # Remove the file as we have failed to update the database
-        FileUtils.rm_f(@trace.trace_name)
+        begin
+          # Clear the inserted flag to make the import daemon load the trace
+          trace.inserted = false
+          trace.save!
+        rescue StandardError
+          # Remove the file as we have failed to update the database
+          FileUtils.rm_f(trace.trace_name)
 
-        # Pass the exception on
-        raise
+          # Pass the exception on
+          raise
+        end
       end
     end
 
@@ -387,6 +390,8 @@ class TracesController < ApplicationController
     else
       current_user.preferences.create(:k => "gps.trace.visibility", :v => visibility)
     end
+
+    trace
   end
 
   def offline_warning
