@@ -189,6 +189,7 @@ OpenStreetMap::Application.routes.draw do
   post "/preview/:type" => "site#preview", :as => :preview
 
   # traces
+  resources :traces, :except => [:show]
   get "/user/:display_name/traces/tag/:tag/page/:page" => "traces#index", :page => /[1-9][0-9]*/
   get "/user/:display_name/traces/tag/:tag" => "traces#index"
   get "/user/:display_name/traces/page/:page" => "traces#index", :page => /[1-9][0-9]*/
@@ -207,7 +208,6 @@ OpenStreetMap::Application.routes.draw do
   get "/traces/mine/tag/:tag" => "traces#mine"
   get "/traces/mine/page/:page" => "traces#mine"
   get "/traces/mine" => "traces#mine"
-  resources :traces, :only => [:index, :new, :create, :edit, :update]
   post "/trace/create" => "traces#create" # remove after deployment
   get "/trace/create", :to => redirect(:path => "/traces/new")
   get "/trace/:id/data" => "traces#data", :id => /\d+/, :as => "trace_data"
