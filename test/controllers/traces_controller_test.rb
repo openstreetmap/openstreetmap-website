@@ -56,35 +56,35 @@ class TracesControllerTest < ActionController::TestCase
 
     assert_routing(
       { :path => "/traces", :method => :get },
-      { :controller => "traces", :action => "list" }
+      { :controller => "traces", :action => "index" }
     )
     assert_routing(
       { :path => "/traces/page/1", :method => :get },
-      { :controller => "traces", :action => "list", :page => "1" }
+      { :controller => "traces", :action => "index", :page => "1" }
     )
     assert_routing(
       { :path => "/traces/tag/tagname", :method => :get },
-      { :controller => "traces", :action => "list", :tag => "tagname" }
+      { :controller => "traces", :action => "index", :tag => "tagname" }
     )
     assert_routing(
       { :path => "/traces/tag/tagname/page/1", :method => :get },
-      { :controller => "traces", :action => "list", :tag => "tagname", :page => "1" }
+      { :controller => "traces", :action => "index", :tag => "tagname", :page => "1" }
     )
     assert_routing(
       { :path => "/user/username/traces", :method => :get },
-      { :controller => "traces", :action => "list", :display_name => "username" }
+      { :controller => "traces", :action => "index", :display_name => "username" }
     )
     assert_routing(
       { :path => "/user/username/traces/page/1", :method => :get },
-      { :controller => "traces", :action => "list", :display_name => "username", :page => "1" }
+      { :controller => "traces", :action => "index", :display_name => "username", :page => "1" }
     )
     assert_routing(
       { :path => "/user/username/traces/tag/tagname", :method => :get },
-      { :controller => "traces", :action => "list", :display_name => "username", :tag => "tagname" }
+      { :controller => "traces", :action => "index", :display_name => "username", :tag => "tagname" }
     )
     assert_routing(
       { :path => "/user/username/traces/tag/tagname/page/1", :method => :get },
-      { :controller => "traces", :action => "list", :display_name => "username", :tag => "tagname", :page => "1" }
+      { :controller => "traces", :action => "index", :display_name => "username", :tag => "tagname", :page => "1" }
     )
 
     assert_routing(
@@ -123,7 +123,7 @@ class TracesControllerTest < ActionController::TestCase
 
     assert_routing(
       { :path => "/user/username/traces/1", :method => :get },
-      { :controller => "traces", :action => "view", :display_name => "username", :id => "1" }
+      { :controller => "traces", :action => "show", :display_name => "username", :id => "1" }
     )
     assert_routing(
       { :path => "/user/username/traces/1/picture", :method => :get },
@@ -151,12 +151,12 @@ class TracesControllerTest < ActionController::TestCase
       { :controller => "traces", :action => "data", :id => "1", :format => "xml" }
     )
     assert_routing(
-      { :path => "/trace/1/edit", :method => :get },
+      { :path => "/traces/1/edit", :method => :get },
       { :controller => "traces", :action => "edit", :id => "1" }
     )
     assert_routing(
-      { :path => "/trace/1/edit", :method => :post },
-      { :controller => "traces", :action => "edit", :id => "1" }
+      { :path => "/traces/1", :method => :put },
+      { :controller => "traces", :action => "update", :id => "1" }
     )
     assert_routing(
       { :path => "/trace/1/delete", :method => :post },
@@ -164,8 +164,8 @@ class TracesControllerTest < ActionController::TestCase
     )
   end
 
-  # Check that the list of traces is displayed
-  def test_list
+  # Check that the index of traces is displayed
+  def test_index
     user = create(:user)
     # The fourth test below is surpisingly sensitive to timestamp ordering when the timestamps are equal.
     trace_a = create(:trace, :visibility => "public", :timestamp => 4.seconds.ago) do |trace|
@@ -181,25 +181,25 @@ class TracesControllerTest < ActionController::TestCase
       create(:tracetag, :trace => trace, :tag => "Birmingham")
     end
 
-    # First with the public list
-    get :list
-    check_trace_list [trace_b, trace_a]
+    # First with the public index
+    get :index
+    check_trace_index [trace_b, trace_a]
 
     # Restrict traces to those with a given tag
-    get :list, :params => { :tag => "London" }
-    check_trace_list [trace_a]
+    get :index, :params => { :tag => "London" }
+    check_trace_index [trace_a]
 
     # Should see more when we are logged in
-    get :list, :session => { :user => user }
-    check_trace_list [trace_d, trace_c, trace_b, trace_a]
+    get :index, :session => { :user => user }
+    check_trace_index [trace_d, trace_c, trace_b, trace_a]
 
     # Again, we should see more when we are logged in
-    get :list, :params => { :tag => "London" }, :session => { :user => user }
-    check_trace_list [trace_c, trace_a]
+    get :index, :params => { :tag => "London" }, :session => { :user => user }
+    check_trace_index [trace_c, trace_a]
   end
 
   # Check that I can get mine
-  def test_list_mine
+  def test_index_mine
     user = create(:user)
     create(:trace, :visibility => "public") do |trace|
       create(:tracetag, :trace => trace, :tag => "Birmingham")
@@ -214,15 +214,15 @@ class TracesControllerTest < ActionController::TestCase
 
     # Now try when logged in
     get :mine, :session => { :user => user }
-    assert_redirected_to :action => "list", :display_name => user.display_name
+    assert_redirected_to :action => "index", :display_name => user.display_name
 
-    # Fetch the actual list
-    get :list, :params => { :display_name => user.display_name }, :session => { :user => user }
-    check_trace_list [trace_b]
+    # Fetch the actual index
+    get :index, :params => { :display_name => user.display_name }, :session => { :user => user }
+    check_trace_index [trace_b]
   end
 
-  # Check the list of traces for a specific user
-  def test_list_user
+  # Check the index of traces for a specific user
+  def test_index_user
     user = create(:user)
     second_user = create(:user)
     third_user = create(:user)
@@ -233,45 +233,45 @@ class TracesControllerTest < ActionController::TestCase
     end
 
     # Test a user with no traces
-    get :list, :params => { :display_name => second_user.display_name }
-    check_trace_list []
+    get :index, :params => { :display_name => second_user.display_name }
+    check_trace_index []
 
     # Test the user with the traces - should see only public ones
-    get :list, :params => { :display_name => user.display_name }
-    check_trace_list [trace_b]
+    get :index, :params => { :display_name => user.display_name }
+    check_trace_index [trace_b]
 
     # Should still see only public ones when authenticated as another user
-    get :list, :params => { :display_name => user.display_name }, :session => { :user => third_user }
-    check_trace_list [trace_b]
+    get :index, :params => { :display_name => user.display_name }, :session => { :user => third_user }
+    check_trace_index [trace_b]
 
     # Should see all traces when authenticated as the target user
-    get :list, :params => { :display_name => user.display_name }, :session => { :user => user }
-    check_trace_list [trace_c, trace_b]
+    get :index, :params => { :display_name => user.display_name }, :session => { :user => user }
+    check_trace_index [trace_c, trace_b]
 
     # Should only see traces with the correct tag when a tag is specified
-    get :list, :params => { :display_name => user.display_name, :tag => "London" }, :session => { :user => user }
-    check_trace_list [trace_c]
+    get :index, :params => { :display_name => user.display_name, :tag => "London" }, :session => { :user => user }
+    check_trace_index [trace_c]
 
     # Should get an error if the user does not exist
-    get :list, :params => { :display_name => "UnknownUser" }
+    get :index, :params => { :display_name => "UnknownUser" }
     assert_response :not_found
     assert_template "user/no_such_user"
   end
 
-  # Check a multi-page list
-  def test_list_paged
+  # Check a multi-page index
+  def test_index_paged
     # Create several pages worth of traces
     create_list(:trace, 50)
 
-    # Try and get the list
-    get :list
+    # Try and get the index
+    get :index
     assert_response :success
     assert_select "table#trace_list tbody", :count => 1 do
       assert_select "tr", :count => 20
     end
 
     # Try and get the second page
-    get :list, :params => { :page => 2 }
+    get :index, :params => { :page => 2 }
     assert_response :success
     assert_select "table#trace_list tbody", :count => 1 do
       assert_select "tr", :count => 20
@@ -299,55 +299,55 @@ class TracesControllerTest < ActionController::TestCase
     check_trace_feed user.traces.tagged("Birmingham").visible_to_all
   end
 
-  # Test viewing a trace
-  def test_view
+  # Test showing a trace
+  def test_show
     public_trace_file = create(:trace, :visibility => "public")
 
     # First with no auth, which should work since the trace is public
-    get :view, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }
-    check_trace_view public_trace_file
+    get :show, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }
+    check_trace_show public_trace_file
 
     # Now with some other user, which should work since the trace is public
-    get :view, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => create(:user) }
-    check_trace_view public_trace_file
+    get :show, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => create(:user) }
+    check_trace_show public_trace_file
 
     # And finally we should be able to do it with the owner of the trace
-    get :view, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => public_trace_file.user }
-    check_trace_view public_trace_file
+    get :show, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => public_trace_file.user }
+    check_trace_show public_trace_file
   end
 
   # Check an anonymous trace can't be viewed by another user
-  def test_view_anon
+  def test_show_anon
     anon_trace_file = create(:trace, :visibility => "private")
 
     # First with no auth
-    get :view, :params => { :display_name => anon_trace_file.user.display_name, :id => anon_trace_file.id }
+    get :show, :params => { :display_name => anon_trace_file.user.display_name, :id => anon_trace_file.id }
     assert_response :redirect
-    assert_redirected_to :action => :list
+    assert_redirected_to :action => :index
 
     # Now with some other user, which should not work since the trace is anon
-    get :view, :params => { :display_name => anon_trace_file.user.display_name, :id => anon_trace_file.id }, :session => { :user => create(:user) }
+    get :show, :params => { :display_name => anon_trace_file.user.display_name, :id => anon_trace_file.id }, :session => { :user => create(:user) }
     assert_response :redirect
-    assert_redirected_to :action => :list
+    assert_redirected_to :action => :index
 
     # And finally we should be able to do it with the owner of the trace
-    get :view, :params => { :display_name => anon_trace_file.user.display_name, :id => anon_trace_file.id }, :session => { :user => anon_trace_file.user }
-    check_trace_view anon_trace_file
+    get :show, :params => { :display_name => anon_trace_file.user.display_name, :id => anon_trace_file.id }, :session => { :user => anon_trace_file.user }
+    check_trace_show anon_trace_file
   end
 
-  # Test viewing a trace that doesn't exist
-  def test_view_not_found
+  # Test showing a trace that doesn't exist
+  def test_show_not_found
     deleted_trace_file = create(:trace, :deleted)
 
     # First with a trace that has never existed
-    get :view, :params => { :display_name => create(:user).display_name, :id => 0 }
+    get :show, :params => { :display_name => create(:user).display_name, :id => 0 }
     assert_response :redirect
-    assert_redirected_to :action => :list
+    assert_redirected_to :action => :index
 
     # Now with a trace that has been deleted
-    get :view, :params => { :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id }, :session => { :user => deleted_trace_file.user }
+    get :show, :params => { :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id }, :session => { :user => deleted_trace_file.user }
     assert_response :redirect
-    assert_redirected_to :action => :list
+    assert_redirected_to :action => :index
   end
 
   # Test downloading a trace
@@ -558,7 +558,7 @@ class TracesControllerTest < ActionController::TestCase
     assert_not_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
     post :create, :params => { :trace => { :gpx_file => file, :description => "New Trace", :tagstring => "new,trace", :visibility => "trackable" } }, :session => { :user => user }
     assert_response :redirect
-    assert_redirected_to :action => :list, :display_name => user.display_name
+    assert_redirected_to :action => :index, :display_name => user.display_name
     assert_match /file has been uploaded/, flash[:notice]
     trace = Trace.order(:id => :desc).first
     assert_equal "a.gpx", trace.name
@@ -594,7 +594,7 @@ class TracesControllerTest < ActionController::TestCase
     # First with no auth
     get :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => trace_edit_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file.id)
+    assert_redirected_to :controller => :user, :action => :login, :referer => edit_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file.id)
 
     # Now with some other user, which should fail
     get :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => create(:user) }
@@ -613,34 +613,8 @@ class TracesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  # Test fetching the edit page for a trace using POST
-  def test_edit_post_no_details
-    public_trace_file = create(:trace, :visibility => "public")
-    deleted_trace_file = create(:trace, :deleted)
-
-    # First with no auth
-    post :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }
-    assert_response :forbidden
-
-    # Now with some other user, which should fail
-    post :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => create(:user) }
-    assert_response :forbidden
-
-    # Now with a trace which doesn't exist
-    post :edit, :params => { :display_name => create(:user).display_name, :id => 0 }, :session => { :user => create(:user) }
-    assert_response :not_found
-
-    # Now with a trace which has been deleted
-    post :edit, :params => { :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id }, :session => { :user => deleted_trace_file.user }
-    assert_response :not_found
-
-    # Finally with a trace that we are allowed to edit
-    post :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => public_trace_file.user }
-    assert_response :success
-  end
-
   # Test saving edits to a trace
-  def test_edit_post_with_details
+  def test_update
     public_trace_file = create(:trace, :visibility => "public")
     deleted_trace_file = create(:trace, :deleted)
 
@@ -648,25 +622,25 @@ class TracesControllerTest < ActionController::TestCase
     new_details = { :description => "Changed description", :tagstring => "new_tag", :visibility => "private" }
 
     # First with no auth
-    post :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id, :trace => new_details }
+    put :update, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id, :trace => new_details }
     assert_response :forbidden
 
     # Now with some other user, which should fail
-    post :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id, :trace => new_details }, :session => { :user => create(:user) }
+    put :update, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id, :trace => new_details }, :session => { :user => create(:user) }
     assert_response :forbidden
 
     # Now with a trace which doesn't exist
-    post :edit, :params => { :display_name => create(:user).display_name, :id => 0 }, :session => { :user => create(:user), :trace => new_details }
+    put :update, :params => { :display_name => create(:user).display_name, :id => 0 }, :session => { :user => create(:user), :trace => new_details }
     assert_response :not_found
 
     # Now with a trace which has been deleted
-    post :edit, :params => { :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id, :trace => new_details }, :session => { :user => deleted_trace_file.user }
+    put :update, :params => { :display_name => deleted_trace_file.user.display_name, :id => deleted_trace_file.id, :trace => new_details }, :session => { :user => deleted_trace_file.user }
     assert_response :not_found
 
     # Finally with a trace that we are allowed to edit
-    post :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id, :trace => new_details }, :session => { :user => public_trace_file.user }
+    put :update, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id, :trace => new_details }, :session => { :user => public_trace_file.user }
     assert_response :redirect
-    assert_redirected_to :action => :view, :display_name => public_trace_file.user.display_name
+    assert_redirected_to :action => :show, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
     assert_equal new_details[:description], trace.description
     assert_equal new_details[:tagstring], trace.tagstring
@@ -697,7 +671,7 @@ class TracesControllerTest < ActionController::TestCase
     # Now with a trace that we are allowed to delete
     post :delete, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => public_trace_file.user }
     assert_response :redirect
-    assert_redirected_to :action => :list, :display_name => public_trace_file.user.display_name
+    assert_redirected_to :action => :index, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
     assert_equal false, trace.visible
 
@@ -707,7 +681,7 @@ class TracesControllerTest < ActionController::TestCase
 
     post :delete, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => admin }
     assert_response :redirect
-    assert_redirected_to :action => :list, :display_name => public_trace_file.user.display_name
+    assert_redirected_to :action => :index, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
     assert_equal false, trace.visible
   end
@@ -1035,9 +1009,9 @@ class TracesControllerTest < ActionController::TestCase
     end
   end
 
-  def check_trace_list(traces)
+  def check_trace_index(traces)
     assert_response :success
-    assert_template "list"
+    assert_template "index"
 
     if !traces.empty?
       assert_select "table#trace_list tbody", :count => 1 do
@@ -1055,9 +1029,9 @@ class TracesControllerTest < ActionController::TestCase
     end
   end
 
-  def check_trace_view(trace)
+  def check_trace_show(trace)
     assert_response :success
-    assert_template "view"
+    assert_template "show"
 
     assert_select "table", :count => 1 do
       assert_select "td", /^#{Regexp.quote(trace.name)} /
