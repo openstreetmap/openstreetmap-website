@@ -723,6 +723,17 @@ class UserController < ApplicationController
       user.auth_uid = nil
     end
 
+    UserMembership::ALL_MEMBERSHIPS.each do |membership|
+      next unless user.has_membership?(membership)
+      show = params[:user]["membership_#{membership}"] == "1"
+      user.memberships.each do |m|
+        if m.membership == membership && m.show != show
+          m.show = show
+          m.save
+        end
+      end
+    end
+
     if user.save
       set_locale(true)
 

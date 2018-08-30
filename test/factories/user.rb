@@ -35,6 +35,12 @@ FactoryBot.define do
       status { "deleted" }
     end
 
+    factory :OSMF_member_user do
+      after(:create) do |user, _evaluator|
+        create(:user_membership, :membership => "OSMF", :user => user)
+      end
+    end
+
     factory :moderator_user do
       after(:create) do |user, _evaluator|
         create(:user_role, :role => "moderator", :user => user)

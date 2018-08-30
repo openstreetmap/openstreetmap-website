@@ -107,6 +107,15 @@ CREATE TYPE nwr_enum AS ENUM (
 
 
 --
+-- Name: user_membership_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE user_membership_enum AS ENUM (
+    'OSMF'
+);
+
+
+--
 -- Name: user_role_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -1142,6 +1151,36 @@ CREATE SEQUENCE user_blocks_id_seq
 
 ALTER SEQUENCE user_blocks_id_seq OWNED BY user_blocks.id;
 
+--
+-- Name: user_memberships; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE user_memberships (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    membership public.user_membership_enum NOT NULL,
+    show boolean DEFAULT false NOT NULL
+);
+
+
+--
+-- Name: user_memberships_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE user_memberships_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: user_memberships_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE user_memberships_id_seq OWNED BY user_memberships.id;
+
 
 --
 -- Name: user_preferences; Type: TABLE; Schema: public; Owner: -
@@ -1471,6 +1510,13 @@ ALTER TABLE ONLY user_blocks ALTER COLUMN id SET DEFAULT nextval('user_blocks_id
 
 
 --
+-- Name: user_memberships id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY user_memberships ALTER COLUMN id SET DEFAULT nextval('user_memberships_id_seq'::regclass);
+
+
+--
 -- Name: user_roles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1770,6 +1816,13 @@ ALTER TABLE ONLY reports
 ALTER TABLE ONLY user_blocks
     ADD CONSTRAINT user_blocks_pkey PRIMARY KEY (id);
 
+
+--
+-- Name: user_memberships user_memberships_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY user_memberships
+    ADD CONSTRAINT user_memberships_pkey PRIMARY KEY (id);
 
 --
 -- Name: user_preferences user_preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
@@ -2744,6 +2797,14 @@ ALTER TABLE ONLY user_blocks
 
 ALTER TABLE ONLY user_blocks
     ADD CONSTRAINT user_blocks_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: user_memberships user_memberships_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY user_memberships
+    ADD CONSTRAINT user_memberships_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
