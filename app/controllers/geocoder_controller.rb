@@ -305,7 +305,7 @@ class GeocoderController < ApplicationController
         params.merge!(dms_to_decdeg(latlon)).delete(:query)
 
       elsif latlon = query.match(/^\s*([+-]?\d+(\.\d*)?)\s*[\s,]\s*([+-]?\d+(\.\d*)?)\s*$/)
-        params.merge!(:lat => latlon[1].to_f, :lon => latlon[3].to_f, :latlon_digits => true).delete(:query)
+        params.merge!(:lat => latlon[1].to_f, :lon => latlon[3].to_f, :latlon_digits => !params[:whereami]).delete(:query)
       end
     end
 
