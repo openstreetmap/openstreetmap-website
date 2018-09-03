@@ -34,7 +34,7 @@ OSM.Search = function(map) {
     e.preventDefault();
     var center = map.getCenter().wrap(),
       precision = OSM.zoomPrecision(map.getZoom());
-    OSM.router.route("/search?query=" + encodeURIComponent(
+    OSM.router.route("/search?whereami=1&query=" + encodeURIComponent(
       center.lat.toFixed(precision) + "," + center.lng.toFixed(precision)
     ));
   });
