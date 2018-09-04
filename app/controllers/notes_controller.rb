@@ -328,11 +328,13 @@ class NotesController < ApplicationController
                    end
 
     if closed_since < 0
-      notes.where("status != 'hidden'")
+      notes.where.not(:status => "hidden")
     elsif closed_since > 0
-      notes.where("(status = 'open' OR (status = 'closed' AND closed_at > '#{Time.now - closed_since.days}'))")
+      notes.where(:status => "open")
+           .or(notes.where(:status => "closed")
+                    .where(notes.arel_table[:closed_at].gt(Time.now - closed_since.days)))
     else
-      notes.where("status = 'open'")
+      notes.where(:status => "open")
     end
   end
 

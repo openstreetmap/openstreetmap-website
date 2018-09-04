@@ -21,7 +21,7 @@
 class Note < ActiveRecord::Base
   include GeoRecord
 
-  has_many :comments, -> { where(:visible => true).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id
+  has_many :comments, -> { left_joins(:author).where(:visible => true, :users => { :status => [nil, "active", "confirmed"] }).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
                  :numericality => { :on => :update, :integer_only => true }
@@ -31,8 +31,8 @@ class Note < ActiveRecord::Base
 
   validate :validate_position
 
-  scope :visible, -> { where("status != 'hidden'") }
-  scope :invisible, -> { where("status = 'hidden'") }
+  scope :visible, -> { where.not(:status => "hidden") }
+  scope :invisible, -> { where(:status => "hidden") }
 
   after_initialize :set_defaults
 
