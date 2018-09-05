@@ -87,16 +87,8 @@ class Notifier < ActionMailer::Base
       @from_user = comment.user.display_name
       @text = comment.body
       @title = comment.diary_entry.title
-      @readurl = url_for(:controller => "diary_entry",
-                         :action => "view",
-                         :display_name => comment.diary_entry.user.display_name,
-                         :id => comment.diary_entry.id,
-                         :anchor => "comment#{comment.id}")
-      @commenturl = url_for(:controller => "diary_entry",
-                            :action => "view",
-                            :display_name => comment.diary_entry.user.display_name,
-                            :id => comment.diary_entry.id,
-                            :anchor => "newcomment")
+      @readurl = diary_entry_url(comment.diary_entry.user, comment.diary_entry, :anchor => "comment#{comment.id}")
+      @commenturl = diary_entry_url(comment.diary_entry.user, comment.diary_entry, :anchor => "newcomment")
       @replyurl = new_message_url(comment.user, :message => { :title => "Re: #{comment.diary_entry.title}" })
 
       @author = @from_user
