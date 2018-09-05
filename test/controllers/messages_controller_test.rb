@@ -25,7 +25,7 @@ class MessagesControllerTest < ActionController::TestCase
       { :controller => "messages", :action => "show", :id => "1" }
     )
     assert_routing(
-      { :path => "/message/mark/1", :method => :post },
+      { :path => "/messages/1/mark", :method => :post },
       { :controller => "messages", :action => "mark", :message_id => "1" }
     )
     assert_routing(

@@ -265,6 +265,7 @@ OpenStreetMap::Application.routes.draw do
 
   # messages
   resources :messages, :only => [:create, :show, :destroy] do
+    post :mark
     collection do
       get :inbox
       get :outbox
@@ -274,7 +275,7 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/outbox", :to => redirect(:path => "/messages/outbox")
   get "/message/new/:display_name" => "messages#new", :as => "new_message"
   get "/message/read/:message_id", :to => redirect(:path => "/messages/%{message_id}")
-  post "/message/mark/:message_id" => "messages#mark", :as => "mark_message"
+  post "/message/mark/:message_id" => "messages#mark" # remove after deployment
   match "/message/reply/:message_id" => "messages#reply", :via => [:get, :post], :as => "reply_message"
 
   # oauth admin pages (i.e: for setting up new clients, etc...)
