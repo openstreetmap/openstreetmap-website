@@ -110,7 +110,7 @@ class MessagesController < ApplicationController
 
   # Destroy the message.
   def destroy
-    @message = Message.where("to_user_id = ? OR from_user_id = ?", current_user.id, current_user.id).find(params[:message_id])
+    @message = Message.where("to_user_id = ? OR from_user_id = ?", current_user.id, current_user.id).find(params[:id])
     @message.from_user_visible = false if @message.sender == current_user
     @message.to_user_visible = false if @message.recipient == current_user
     if @message.save && !request.xhr?
