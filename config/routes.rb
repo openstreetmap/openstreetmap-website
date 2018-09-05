@@ -227,7 +227,7 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/diary" => "diary_entry#list"
   get "/diary/:language" => "diary_entry#list"
   get "/diary" => "diary_entry#list"
-  get "/user/:display_name/diary/:id" => "diary_entry#view", :id => /\d+/, :as => :diary_entry
+  get "/user/:display_name/diary/:id" => "diary_entry#show", :id => /\d+/, :as => :diary_entry
   post "/user/:display_name/diary/:id/newcomment" => "diary_entry#comment", :id => /\d+/
   match "/user/:display_name/diary/:id/edit" => "diary_entry#edit", :via => [:get, :post], :id => /\d+/
   post "/user/:display_name/diary/:id/hide" => "diary_entry#hide", :id => /\d+/, :as => :hide_diary_entry

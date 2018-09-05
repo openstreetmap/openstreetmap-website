@@ -19,12 +19,12 @@ xml.rss("version" => "2.0",
     @entries.each do |entry|
       xml.item do
         xml.title entry.title
-        xml.link url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :only_path => false)
-        xml.guid url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :only_path => false)
+        xml.link diary_entry_url(entry.user, entry, :only_path => false)
+        xml.guid diary_entry_url(entry.user, entry, :only_path => false)
         xml.description entry.body.to_html
         xml.dc :creator, entry.user.display_name
         xml.pubDate entry.created_at.to_s(:rfc822)
-        xml.comments url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :anchor => "comments", :only_path => false)
+        xml.comments diary_entry_url(entry.user, entry, :anchor => "comments", :only_path => false)
 
         if entry.latitude && entry.longitude
           xml.geo :lat, entry.latitude.to_s

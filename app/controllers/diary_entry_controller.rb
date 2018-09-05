@@ -4,11 +4,11 @@ class DiaryEntryController < ApplicationController
   before_action :authorize_web
   before_action :set_locale
   before_action :require_user, :only => [:new, :edit, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
-  before_action :lookup_user, :only => [:view, :comments]
+  before_action :lookup_user, :only => [:show, :comments]
   before_action :check_database_readable
   before_action :check_database_writable, :only => [:new, :edit, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
   before_action :require_administrator, :only => [:hide, :hidecomment]
-  before_action :allow_thirdparty_images, :only => [:new, :edit, :list, :view, :comments]
+  before_action :allow_thirdparty_images, :only => [:new, :edit, :list, :show, :comments]
 
   def new
     @title = t "diary_entry.new.title"
@@ -47,9 +47,9 @@ class DiaryEntryController < ApplicationController
     @diary_entry = DiaryEntry.find(params[:id])
 
     if current_user != @diary_entry.user
-      redirect_to :action => "view", :id => params[:id]
+      redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
     elsif params[:diary_entry] && @diary_entry.update(entry_params)
-      redirect_to :action => "view", :id => params[:id]
+      redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
     end
 
     set_map_location
@@ -71,9 +71,9 @@ class DiaryEntryController < ApplicationController
       # Add the commenter to the subscribers if necessary
       @entry.subscriptions.create(:user => current_user) unless @entry.subscribers.exists?(current_user.id)
 
-      redirect_to :action => "view", :display_name => @entry.user.display_name, :id => @entry.id
+      redirect_to diary_entry_path(@entry.user, @entry)
     else
-      render :action => "view"
+      render :action => "show"
     end
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
@@ -84,7 +84,7 @@ class DiaryEntryController < ApplicationController
 
     diary_entry.subscriptions.create(:user => current_user) unless diary_entry.subscribers.exists?(current_user.id)
 
-    redirect_to :action => "view", :display_name => diary_entry.user.display_name, :id => diary_entry.id
+    redirect_to diary_entry_path(diary_entry.user, diary_entry)
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
   end
@@ -94,7 +94,7 @@ class DiaryEntryController < ApplicationController
 
     diary_entry.subscriptions.where(:user => current_user).delete_all if diary_entry.subscribers.exists?(current_user.id)
 
-    redirect_to :action => "view", :display_name => diary_entry.user.display_name, :id => diary_entry.id
+    redirect_to diary_entry_path(diary_entry.user, diary_entry)
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
   end
@@ -180,10 +180,10 @@ class DiaryEntryController < ApplicationController
     @entries = @entries.visible.includes(:user).order("created_at DESC").limit(20)
   end
 
-  def view
+  def show
     @entry = @user.diary_entries.visible.where(:id => params[:id]).first
     if @entry
-      @title = t "diary_entry.view.title", :user => params[:display_name], :title => @entry.title
+      @title = t "diary_entry.show.title", :user => params[:display_name], :title => @entry.title
     else
       @title = t "diary_entry.no_such_entry.title", :id => params[:id]
       render :action => "no_such_entry", :status => :not_found
@@ -199,7 +199,7 @@ class DiaryEntryController < ApplicationController
   def hidecomment
     comment = DiaryComment.find(params[:comment])
     comment.update(:visible => false)
-    redirect_to :action => "view", :display_name => comment.diary_entry.user.display_name, :id => comment.diary_entry.id
+    redirect_to diary_entry_path(comment.diary_entry.user, comment.diary_entry)
   end
 
   def comments
@@ -235,7 +235,7 @@ class DiaryEntryController < ApplicationController
   def require_administrator
     unless current_user.administrator?
       flash[:error] = t("user.filter.not_an_administrator")
-      redirect_to :action => "view"
+      redirect_to :action => "show"
     end
   end
 
