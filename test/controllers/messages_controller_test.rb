@@ -29,11 +29,11 @@ class MessagesControllerTest < ActionController::TestCase
       { :controller => "messages", :action => "mark", :message_id => "1" }
     )
     assert_routing(
-      { :path => "/message/reply/1", :method => :get },
+      { :path => "/messages/1/reply", :method => :get },
       { :controller => "messages", :action => "reply", :message_id => "1" }
     )
     assert_routing(
-      { :path => "/message/reply/1", :method => :post },
+      { :path => "/messages/1/reply", :method => :post },
       { :controller => "messages", :action => "reply", :message_id => "1" }
     )
     assert_routing(
@@ -232,14 +232,14 @@ class MessagesControllerTest < ActionController::TestCase
 
     # Check that the message reply page requires us to login
     get :reply, :params => { :message_id => unread_message.id }
-    assert_redirected_to login_path(:referer => reply_message_path(:message_id => unread_message.id))
+    assert_redirected_to login_path(:referer => message_reply_path(:message_id => unread_message.id))
 
     # Login as the wrong user
     session[:user] = other_user.id
 
     # Check that we can't reply to somebody else's message
     get :reply, :params => { :message_id => unread_message.id }
-    assert_redirected_to login_path(:referer => reply_message_path(:message_id => unread_message.id))
+    assert_redirected_to login_path(:referer => message_reply_path(:message_id => unread_message.id))
     assert_equal "You are logged in as `#{other_user.display_name}' but the message you have asked to reply to was not sent to that user. Please login as the correct user in order to reply.", flash[:notice]
 
     # Login as the right user
