@@ -112,8 +112,7 @@ class Notifier < ActionMailer::Base
   def friend_notification(friend)
     with_recipient_locale friend.befriendee do
       @friend = friend
-      @viewurl = url_for(:controller => "user", :action => "view",
-                         :display_name => @friend.befriender.display_name)
+      @viewurl = user_url(@friend.befriender)
       @friendurl = url_for(:controller => "user", :action => "make_friend",
                            :display_name => @friend.befriender.display_name)
       @author = @friend.befriender.display_name

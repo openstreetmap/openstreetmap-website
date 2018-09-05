@@ -4,7 +4,7 @@ module IssuesHelper
     when DiaryEntry
       url_for(:controller => reportable.class.name.underscore, :action => :view, :display_name => reportable.user.display_name, :id => reportable.id)
     when User
-      url_for(:controller => reportable.class.name.underscore, :action => :view, :display_name => reportable.display_name)
+      user_url(reportable)
     when DiaryComment
       url_for(:controller => reportable.diary_entry.class.name.underscore, :action => :view, :display_name => reportable.diary_entry.user.display_name, :id => reportable.diary_entry.id, :anchor => "comment#{reportable.id}")
     when Note

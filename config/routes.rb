@@ -234,7 +234,7 @@ OpenStreetMap::Application.routes.draw do
   post "/user/:display_name/diary/:id/unsubscribe" => "diary_entry#unsubscribe", :as => :diary_entry_unsubscribe, :id => /\d+/
 
   # user pages
-  get "/user/:display_name" => "user#view", :as => "user"
+  get "/user/:display_name" => "user#show", :as => "user"
   match "/user/:display_name/make_friend" => "user#make_friend", :via => [:get, :post], :as => "make_friend"
   match "/user/:display_name/remove_friend" => "user#remove_friend", :via => [:get, :post], :as => "remove_friend"
   match "/user/:display_name/account" => "user#account", :via => [:get, :post]
