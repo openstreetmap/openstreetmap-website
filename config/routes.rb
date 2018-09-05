@@ -119,11 +119,11 @@ OpenStreetMap::Application.routes.draw do
   get "/changeset/:id/comments/feed" => "changeset#comments_feed", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
   get "/note/:id" => "browse#note", :id => /\d+/, :as => "browse_note"
   get "/note/new" => "browse#new_note"
-  get "/user/:display_name/history" => "changeset#list"
+  get "/user/:display_name/history" => "changeset#index"
   get "/user/:display_name/history/feed" => "changeset#feed", :defaults => { :format => :atom }
   get "/user/:display_name/notes" => "notes#mine"
-  get "/history/friends" => "changeset#list", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
-  get "/history/nearby" => "changeset#list", :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
+  get "/history/friends" => "changeset#index", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
+  get "/history/nearby" => "changeset#index", :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
 
   get "/browse/way/:id",                :to => redirect(:path => "/way/%{id}")
   get "/browse/way/:id/history",        :to => redirect(:path => "/way/%{id}/history")
@@ -150,7 +150,7 @@ OpenStreetMap::Application.routes.draw do
   get "/fixthemap" => "site#fixthemap"
   get "/help" => "site#help"
   get "/about" => "site#about"
-  get "/history" => "changeset#list"
+  get "/history" => "changeset#index"
   get "/history/feed" => "changeset#feed", :defaults => { :format => :atom }
   get "/history/comments/feed" => "changeset#comments_feed", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
   get "/export" => "site#export"
