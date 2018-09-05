@@ -59,10 +59,10 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
             table.tr do |tr|
               tr.th t("browse.tag_details.tags")
               tr.td do |td|
-                td.table :cellpadding => "0" do |table|
+                td.table :cellpadding => "0" do |tag_table|
                   changeset.tags.sort.each do |tag|
-                    table.tr do |tr|
-                      tr.td << "#{h(tag[0])} = #{linkify(h(tag[1]))}"
+                    tag_table.tr do |tag_tr|
+                      tag_tr.td << "#{h(tag[0])} = #{linkify(h(tag[1]))}"
                     end
                   end
                 end
