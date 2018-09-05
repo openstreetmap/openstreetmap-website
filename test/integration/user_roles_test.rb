@@ -33,7 +33,7 @@ class UserRolesTest < ActionDispatch::IntegrationTest
 
     target_user = create(:user)
     post "/user/#{ERB::Util.u(target_user.display_name)}/role/#{role}/#{action}"
-    assert_redirected_to :controller => "user", :action => "view", :display_name => target_user.display_name
+    assert_redirected_to user_path(target_user)
 
     reset!
   end
@@ -51,7 +51,7 @@ class UserRolesTest < ActionDispatch::IntegrationTest
 
     target_user = create(:user)
     post "/user/#{ERB::Util.u(target_user.display_name)}/role/#{role}/#{action}"
-    assert_redirected_to :controller => "user", :action => "view", :display_name => target_user.display_name
+    assert_redirected_to user_path(target_user)
 
     reset!
   end

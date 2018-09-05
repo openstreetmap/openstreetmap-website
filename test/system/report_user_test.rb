@@ -6,7 +6,7 @@ class ReportUserTest < ApplicationSystemTestCase
     visit browse_note_path(note)
     assert page.has_content?(note.comments.first.body)
 
-    assert_not page.has_content?(I18n.t("user.view.report"))
+    assert_not page.has_content?(I18n.t("user.show.report"))
   end
 
   def test_can_report_user
@@ -14,7 +14,7 @@ class ReportUserTest < ApplicationSystemTestCase
     sign_in_as(create(:user))
     visit user_path(user.display_name)
 
-    click_on I18n.t("user.view.report")
+    click_on I18n.t("user.show.report")
     assert page.has_content? "Report"
     assert page.has_content? I18n.t("reports.new.disclaimer.intro")
 
@@ -35,7 +35,7 @@ class ReportUserTest < ApplicationSystemTestCase
     sign_in_as(create(:user))
     visit user_path(user.display_name)
 
-    click_on I18n.t("user.view.report")
+    click_on I18n.t("user.show.report")
     assert page.has_content? "Report"
     assert page.has_content? I18n.t("reports.new.disclaimer.intro")
 
@@ -52,7 +52,7 @@ class ReportUserTest < ApplicationSystemTestCase
 
     visit user_path(user.display_name)
 
-    click_on I18n.t("user.view.report")
+    click_on I18n.t("user.show.report")
     assert page.has_content? "Report"
     assert page.has_content? I18n.t("reports.new.disclaimer.intro")
 

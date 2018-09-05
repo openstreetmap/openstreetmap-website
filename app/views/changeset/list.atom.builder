@@ -32,7 +32,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
       if changeset.user.data_public?
         entry.author do |author|
           author.name changeset.user.display_name
-          author.uri url_for(:controller => "user", :action => "view", :display_name => changeset.user.display_name, :only_path => false)
+          author.uri user_url(changeset.user, :only_path => false)
         end
       end
 
@@ -51,7 +51,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
             table.tr do |tr|
               tr.th t("browse.changeset.belongs_to")
               tr.td do |td|
-                td.a h(changeset.user.display_name), :href => url_for(:controller => "user", :action => "view", :display_name => changeset.user.display_name, :only_path => false)
+                td.a h(changeset.user.display_name), :href => user_url(changeset.user, :only_path => false)
               end
             end
           end
