@@ -278,25 +278,59 @@ class TracesControllerTest < ActionController::TestCase
     end
   end
 
-  # Check that the rss loads
+  # Check the RSS feed
   def test_rss
     user = create(:user)
+    # The fourth test below is surpisingly sensitive to timestamp ordering when the timestamps are equal.
+    trace_a = create(:trace, :visibility => "public", :timestamp => 4.seconds.ago) do |trace|
+      create(:tracetag, :trace => trace, :tag => "London")
+    end
+    trace_b = create(:trace, :visibility => "public", :timestamp => 3.seconds.ago) do |trace|
+      create(:tracetag, :trace => trace, :tag => "Birmingham")
+    end
+    create(:trace, :visibility => "private", :user => user, :timestamp => 2.seconds.ago) do |trace|
+      create(:tracetag, :trace => trace, :tag => "London")
+    end
+    create(:trace, :visibility => "private", :user => user, :timestamp => 1.second.ago) do |trace|
+      create(:tracetag, :trace => trace, :tag => "Birmingham")
+    end
 
     # First with the public feed
     get :georss, :params => { :format => :rss }
-    check_trace_feed Trace.visible_to_all
+    check_trace_feed [trace_b, trace_a]
 
     # Restrict traces to those with a given tag
     get :georss, :params => { :tag => "London", :format => :rss }
-    check_trace_feed Trace.tagged("London").visible_to_all
+    check_trace_feed [trace_a]
+  end
 
-    # Restrict traces to those for a given user
+  # Check the RSS feed for a specific user
+  def test_rss_user
+    user = create(:user)
+    second_user = create(:user)
+    create(:user)
+    create(:trace)
+    trace_b = create(:trace, :visibility => "public", :timestamp => 4.seconds.ago, :user => user)
+    trace_c = create(:trace, :visibility => "public", :timestamp => 3.seconds.ago, :user => user) do |trace|
+      create(:tracetag, :trace => trace, :tag => "London")
+    end
+    create(:trace, :visibility => "private")
+
+    # Test a user with no traces
+    get :georss, :params => { :display_name => second_user.display_name, :format => :rss }
+    check_trace_feed []
+
+    # Test the user with the traces - should see only public ones
     get :georss, :params => { :display_name => user.display_name, :format => :rss }
-    check_trace_feed user.traces.visible_to_all
+    check_trace_feed [trace_c, trace_b]
 
-    # Restrict traces to those for a given user with a tiven tag
-    get :georss, :params => { :display_name => user.display_name, :tag => "Birmingham", :format => :rss }
-    check_trace_feed user.traces.tagged("Birmingham").visible_to_all
+    # Should only see traces with the correct tag when a tag is specified
+    get :georss, :params => { :display_name => user.display_name, :tag => "London", :format => :rss }
+    check_trace_feed [trace_c]
+
+    # Should no traces if the user does not exist
+    get :georss, :params => { :display_name => "UnknownUser", :format => :rss }
+    check_trace_feed []
   end
 
   # Test showing a trace
@@ -995,11 +1029,11 @@ class TracesControllerTest < ActionController::TestCase
         assert_select "description"
         assert_select "link"
         assert_select "image"
-        assert_select "item", :count => traces.visible.count do |items|
-          traces.visible.order("timestamp DESC").zip(items).each do |trace, item|
+        assert_select "item", :count => traces.length do |items|
+          traces.zip(items).each do |trace, item|
             assert_select item, "title", trace.name
-            assert_select item, "link", "http://test.host/user/#{trace.user.display_name}/traces/#{trace.id}"
-            assert_select item, "guid", "http://test.host/user/#{trace.user.display_name}/traces/#{trace.id}"
+            assert_select item, "link", "http://test.host/user/#{trace.user.display_name.gsub(' ', '%20')}/traces/#{trace.id}"
+            assert_select item, "guid", "http://test.host/user/#{trace.user.display_name.gsub(' ', '%20')}/traces/#{trace.id}"
             assert_select item, "description"
             # assert_select item, "dc:creator", trace.user.display_name
             assert_select item, "pubDate", trace.timestamp.rfc822
