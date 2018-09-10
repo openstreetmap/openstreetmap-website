@@ -16,23 +16,23 @@ class DiaryEntryControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/diary", :method => :get },
-      { :controller => "diary_entry", :action => "list" }
+      { :controller => "diary_entry", :action => "index" }
     )
     assert_routing(
       { :path => "/diary/language", :method => :get },
-      { :controller => "diary_entry", :action => "list", :language => "language" }
+      { :controller => "diary_entry", :action => "index", :language => "language" }
     )
     assert_routing(
       { :path => "/user/username/diary", :method => :get },
-      { :controller => "diary_entry", :action => "list", :display_name => "username" }
+      { :controller => "diary_entry", :action => "index", :display_name => "username" }
     )
     assert_routing(
       { :path => "/diary/friends", :method => :get },
-      { :controller => "diary_entry", :action => "list", :friends => true }
+      { :controller => "diary_entry", :action => "index", :friends => true }
     )
     assert_routing(
       { :path => "/diary/nearby", :method => :get },
-      { :controller => "diary_entry", :action => "list", :nearby => true }
+      { :controller => "diary_entry", :action => "index", :nearby => true }
     )
 
     assert_routing(
@@ -170,7 +170,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
            :session => { :user => user.id }
     end
     assert_response :redirect
-    assert_redirected_to :action => :list, :display_name => user.display_name
+    assert_redirected_to :action => :index, :display_name => user.display_name
     entry = DiaryEntry.order(:id).last
     assert_equal user.id, entry.user_id
     assert_equal "New Title", entry.title
@@ -198,7 +198,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
            :session => { :user => user.id }
     end
     assert_response :redirect
-    assert_redirected_to :action => :list, :display_name => user.display_name
+    assert_redirected_to :action => :index, :display_name => user.display_name
     entry = DiaryEntry.order(:id).last
     assert_equal user.id, entry.user_id
     assert_equal "New Title", entry.title
@@ -227,7 +227,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
            :session => { :user => user.id }
     end
     assert_response :redirect
-    assert_redirected_to :action => :list, :display_name => user.display_name
+    assert_redirected_to :action => :index, :display_name => user.display_name
     entry = DiaryEntry.order(:id).last
     assert_equal user.id, entry.user_id
     assert_equal spammy_title, entry.title
@@ -236,7 +236,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_equal "suspended", User.find(user.id).status
 
     # Follow the redirect
-    get :list,
+    get :index,
         :params => { :display_name => user.display_name },
         :session => { :user => user }
     assert_response :redirect
@@ -470,7 +470,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_equal "suspended", User.find(other_user.id).status
 
     # Follow the redirect
-    get :list,
+    get :index,
         :params => { :display_name => user.display_name },
         :session => { :user => other_user }
     assert_response :redirect
@@ -483,17 +483,17 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_select ".diary-comment", :count => 0
   end
 
-  def test_list_all
+  def test_index_all
     diary_entry = create(:diary_entry)
     geo_entry = create(:diary_entry, :latitude => 51.50763, :longitude => -0.10781)
     public_entry = create(:diary_entry, :user => create(:user))
 
     # Try a list of all diary entries
-    get :list
-    check_diary_list diary_entry, geo_entry, public_entry
+    get :index
+    check_diary_index diary_entry, geo_entry, public_entry
   end
 
-  def test_list_user
+  def test_index_user
     user = create(:user)
     other_user = create(:user)
 
@@ -502,16 +502,16 @@ class DiaryEntryControllerTest < ActionController::TestCase
     _other_entry = create(:diary_entry, :user => other_user)
 
     # Try a list of diary entries for a valid user
-    get :list, :params => { :display_name => user.display_name }
-    check_diary_list diary_entry, geo_entry
+    get :index, :params => { :display_name => user.display_name }
+    check_diary_index diary_entry, geo_entry
 
     # Try a list of diary entries for an invalid user
-    get :list, :params => { :display_name => "No Such User" }
+    get :index, :params => { :display_name => "No Such User" }
     assert_response :not_found
     assert_template "user/no_such_user"
   end
 
-  def test_list_friends
+  def test_index_friends
     user = create(:user)
     other_user = create(:user)
     friend = create(:friend, :befriender => user)
@@ -519,36 +519,36 @@ class DiaryEntryControllerTest < ActionController::TestCase
     _other_entry = create(:diary_entry, :user => other_user)
 
     # Try a list of diary entries for your friends when not logged in
-    get :list, :params => { :friends => true }
+    get :index, :params => { :friends => true }
     assert_response :redirect
     assert_redirected_to :controller => :user, :action => :login, :referer => "/diary/friends"
 
     # Try a list of diary entries for your friends when logged in
-    get :list, :params => { :friends => true }, :session => { :user => user }
-    check_diary_list diary_entry
-    get :list, :params => { :friends => true }, :session => { :user => other_user }
-    check_diary_list
+    get :index, :params => { :friends => true }, :session => { :user => user }
+    check_diary_index diary_entry
+    get :index, :params => { :friends => true }, :session => { :user => other_user }
+    check_diary_index
   end
 
-  def test_list_nearby
+  def test_index_nearby
     user = create(:user, :home_lat => 12, :home_lon => 12)
     nearby_user = create(:user, :home_lat => 11.9, :home_lon => 12.1)
 
     diary_entry = create(:diary_entry, :user => user)
 
     # Try a list of diary entries for nearby users when not logged in
-    get :list, :params => { :nearby => true }
+    get :index, :params => { :nearby => true }
     assert_response :redirect
     assert_redirected_to :controller => :user, :action => :login, :referer => "/diary/nearby"
 
     # Try a list of diary entries for nearby users when logged in
-    get :list, :params => { :nearby => true }, :session => { :user => nearby_user }
-    check_diary_list diary_entry
-    get :list, :params => { :nearby => true }, :session => { :user => user }
-    check_diary_list
+    get :index, :params => { :nearby => true }, :session => { :user => nearby_user }
+    check_diary_index diary_entry
+    get :index, :params => { :nearby => true }, :session => { :user => user }
+    check_diary_index
   end
 
-  def test_list_language
+  def test_index_language
     create(:language, :code => "de")
     create(:language, :code => "sl")
     diary_entry_en = create(:diary_entry, :language_code => "en")
@@ -556,29 +556,29 @@ class DiaryEntryControllerTest < ActionController::TestCase
     diary_entry_de = create(:diary_entry, :language_code => "de")
 
     # Try a list of diary entries in english
-    get :list, :params => { :language => "en" }
-    check_diary_list diary_entry_en, diary_entry_en2
+    get :index, :params => { :language => "en" }
+    check_diary_index diary_entry_en, diary_entry_en2
 
     # Try a list of diary entries in german
-    get :list, :params => { :language => "de" }
-    check_diary_list diary_entry_de
+    get :index, :params => { :language => "de" }
+    check_diary_index diary_entry_de
 
     # Try a list of diary entries in slovenian
-    get :list, :params => { :language => "sl" }
-    check_diary_list
+    get :index, :params => { :language => "sl" }
+    check_diary_index
   end
 
-  def test_list_paged
+  def test_index_paged
     # Create several pages worth of diary entries
     create_list(:diary_entry, 50)
 
-    # Try and get the list
-    get :list
+    # Try and get the index
+    get :index
     assert_response :success
     assert_select "div.diary_post", :count => 20
 
     # Try and get the second page
-    get :list, :params => { :page => 2 }
+    get :index, :params => { :page => 2 }
     assert_response :success
     assert_select "div.diary_post", :count => 20
   end
@@ -728,7 +728,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
          :params => { :display_name => user.display_name, :id => diary_entry.id },
          :session => { :user => create(:administrator_user) }
     assert_response :redirect
-    assert_redirected_to :action => :list, :display_name => user.display_name
+    assert_redirected_to :action => :index, :display_name => user.display_name
     assert_equal false, DiaryEntry.find(diary_entry.id).visible
   end
 
@@ -881,9 +881,9 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
   private
 
-  def check_diary_list(*entries)
+  def check_diary_index(*entries)
     assert_response :success
-    assert_template "list"
+    assert_template "index"
     assert_no_missing_translations
     assert_select "div.diary_post", entries.count
 

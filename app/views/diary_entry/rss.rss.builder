@@ -7,13 +7,13 @@ xml.rss("version" => "2.0",
   xml.channel do
     xml.title @title
     xml.description @description
-    xml.link url_for(:action => "list", :only_path => false)
+    xml.link url_for(:action => "index", :only_path => false)
     xml.image do
       xml.url image_url("mag_map-rss2.0.png")
       xml.title @title
       xml.width "100"
       xml.height "100"
-      xml.link url_for(:action => "list", :only_path => false)
+      xml.link url_for(:action => "index", :only_path => false)
     end
 
     @entries.each do |entry|
