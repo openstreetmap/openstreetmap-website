@@ -242,8 +242,8 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/delete" => "user#delete", :as => :delete_user
 
   # user lists
-  match "/users" => "user#list", :via => [:get, :post]
-  match "/users/:status" => "user#list", :via => [:get, :post]
+  match "/users" => "user#index", :via => [:get, :post]
+  match "/users/:status" => "user#index", :via => [:get, :post]
 
   # geocoder
   get "/search" => "geocoder#search"
