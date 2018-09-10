@@ -215,16 +215,16 @@ OpenStreetMap::Application.routes.draw do
 
   # diary pages
   match "/diary/new" => "diary_entry#new", :via => [:get, :post]
-  get "/diary/friends" => "diary_entry#list", :friends => true, :as => "friend_diaries"
-  get "/diary/nearby" => "diary_entry#list", :nearby => true, :as => "nearby_diaries"
+  get "/diary/friends" => "diary_entry#index", :friends => true, :as => "friend_diaries"
+  get "/diary/nearby" => "diary_entry#index", :nearby => true, :as => "nearby_diaries"
   get "/user/:display_name/diary/rss" => "diary_entry#rss", :defaults => { :format => :rss }
   get "/diary/:language/rss" => "diary_entry#rss", :defaults => { :format => :rss }
   get "/diary/rss" => "diary_entry#rss", :defaults => { :format => :rss }
   get "/user/:display_name/diary/comments/:page" => "diary_entry#comments", :page => /[1-9][0-9]*/
   get "/user/:display_name/diary/comments/" => "diary_entry#comments"
-  get "/user/:display_name/diary" => "diary_entry#list"
-  get "/diary/:language" => "diary_entry#list"
-  get "/diary" => "diary_entry#list"
+  get "/user/:display_name/diary" => "diary_entry#index"
+  get "/diary/:language" => "diary_entry#index"
+  get "/diary" => "diary_entry#index"
   get "/user/:display_name/diary/:id" => "diary_entry#show", :id => /\d+/, :as => :diary_entry
   post "/user/:display_name/diary/:id/newcomment" => "diary_entry#comment", :id => /\d+/
   match "/user/:display_name/diary/:id/edit" => "diary_entry#edit", :via => [:get, :post], :id => /\d+/
