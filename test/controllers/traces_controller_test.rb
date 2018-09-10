@@ -1032,8 +1032,8 @@ class TracesControllerTest < ActionController::TestCase
         assert_select "item", :count => traces.length do |items|
           traces.zip(items).each do |trace, item|
             assert_select item, "title", trace.name
-            assert_select item, "link", "http://test.host/user/#{trace.user.display_name.gsub(' ', '%20')}/traces/#{trace.id}"
-            assert_select item, "guid", "http://test.host/user/#{trace.user.display_name.gsub(' ', '%20')}/traces/#{trace.id}"
+            assert_select item, "link", "http://test.host/user/#{ERB::Util.u(trace.user.display_name)}/traces/#{trace.id}"
+            assert_select item, "guid", "http://test.host/user/#{ERB::Util.u(trace.user.display_name)}/traces/#{trace.id}"
             assert_select item, "description"
             # assert_select item, "dc:creator", trace.user.display_name
             assert_select item, "pubDate", trace.timestamp.rfc822
