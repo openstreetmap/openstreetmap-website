@@ -187,8 +187,10 @@ $(document).ready(function () {
     $.cookie('_osm_location', OSM.locationCookie(map), { expires: expiry, path: '/' });
   });
 
-  if ($.cookie('_osm_welcome') === 'hide') {
-    $('.welcome').hide();
+  if ($.cookie('_osm_welcome') !== 'hide' &&
+     (typeof window.matchMedia !== "function" ||
+     !window.matchMedia("only screen and (max-width:768px)").matches)) {
+    $('.welcome').show();
   }
 
   $('.welcome .close-wrap').on('click', function() {
