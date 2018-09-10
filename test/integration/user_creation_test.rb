@@ -95,7 +95,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
       assert_equal register_email.to.first, new_email
       # Check that the confirm account url is correct
-      assert_match /#{@url}/, register_email.body.to_s
+      assert_match(/#{@url}/, register_email.body.to_s)
 
       # Check the page
       assert_response :success

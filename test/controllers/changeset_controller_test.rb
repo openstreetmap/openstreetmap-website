@@ -213,7 +213,7 @@ class ChangesetControllerTest < ActionController::TestCase
         get :read, :params => { :id => id }
         assert_response :not_found, "should get a not found"
       rescue ActionController::UrlGenerationError => ex
-        assert_match /No route matches/, ex.to_s
+        assert_match(/No route matches/, ex.to_s)
       end
     end
   end
@@ -287,7 +287,7 @@ class ChangesetControllerTest < ActionController::TestCase
         put :close, :params => { :id => id }
         assert_response :unauthorized, "Shouldn't be able close the non-existant changeset #{id}, when not authorized"
       rescue ActionController::UrlGenerationError => ex
-        assert_match /No route matches/, ex.to_s
+        assert_match(/No route matches/, ex.to_s)
       end
     end
 
@@ -298,7 +298,7 @@ class ChangesetControllerTest < ActionController::TestCase
         put :close, :params => { :id => id }
         assert_response :not_found, "The changeset #{id} doesn't exist, so can't be closed"
       rescue ActionController::UrlGenerationError => ex
-        assert_match /No route matches/, ex.to_s
+        assert_match(/No route matches/, ex.to_s)
       end
     end
   end
@@ -469,9 +469,9 @@ CHANGESET
     new_rel_id = doc.find("//diffResult/relation").first["new_id"].to_i
 
     # check the old IDs are all present and negative one
-    assert_equal -1, doc.find("//diffResult/node").first["old_id"].to_i
-    assert_equal -1, doc.find("//diffResult/way").first["old_id"].to_i
-    assert_equal -1, doc.find("//diffResult/relation").first["old_id"].to_i
+    assert_equal(-1, doc.find("//diffResult/node").first["old_id"].to_i)
+    assert_equal(-1, doc.find("//diffResult/way").first["old_id"].to_i)
+    assert_equal(-1, doc.find("//diffResult/relation").first["old_id"].to_i)
 
     # check the versions are present and equal one
     assert_equal 1, doc.find("//diffResult/node").first["new_version"].to_i
