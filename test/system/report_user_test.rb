@@ -12,7 +12,7 @@ class ReportUserTest < ApplicationSystemTestCase
   def test_can_report_user
     user = create(:user)
     sign_in_as(create(:user))
-    visit user_path(user.display_name)
+    visit user_path(user)
 
     click_on I18n.t("user.show.report")
     assert page.has_content? "Report"
@@ -33,7 +33,7 @@ class ReportUserTest < ApplicationSystemTestCase
   def test_it_promotes_issues
     user = create(:user)
     sign_in_as(create(:user))
-    visit user_path(user.display_name)
+    visit user_path(user)
 
     click_on I18n.t("user.show.report")
     assert page.has_content? "Report"
@@ -50,7 +50,7 @@ class ReportUserTest < ApplicationSystemTestCase
     assert_equal user, Issue.last.reportable
     assert_equal "moderator", Issue.last.assigned_role
 
-    visit user_path(user.display_name)
+    visit user_path(user)
 
     click_on I18n.t("user.show.report")
     assert page.has_content? "Report"

@@ -29,7 +29,7 @@ class ReportsControllerTest < ActionController::TestCase
            }
     end
     assert_response :redirect
-    assert_redirected_to user_path(target_user.display_name)
+    assert_redirected_to user_path(target_user)
   end
 
   def test_new_report_with_incomplete_details
@@ -55,7 +55,7 @@ class ReportsControllerTest < ActionController::TestCase
            }
     end
     assert_response :redirect
-    assert_redirected_to user_path(target_user.display_name)
+    assert_redirected_to user_path(target_user)
 
     issue = Issue.last
 
@@ -103,7 +103,7 @@ class ReportsControllerTest < ActionController::TestCase
            }
     end
     assert_response :redirect
-    assert_redirected_to user_path(target_user.display_name)
+    assert_redirected_to user_path(target_user)
 
     issue = Issue.last
 

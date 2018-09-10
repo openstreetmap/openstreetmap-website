@@ -34,10 +34,10 @@
         <td><%= t ".states.#{issue.status}" %></td>
         <td><%= link_to t(".reports_count", :count => issue.reports_count), issue %></td>
         <td><%= link_to reportable_title(issue.reportable), reportable_url(issue.reportable) %></td>
-        <td><%= link_to issue.reported_user.display_name, user_path(issue.reported_user.display_name) if issue.reported_user %></td>
+        <td><%= link_to issue.reported_user.display_name, user_path(issue.reported_user) if issue.reported_user %></td>
         <td>
           <% if issue.user_updated %>
-            <%= t ".last_updated_time_user_html", :user => link_to(issue.user_updated.display_name, user_path(issue.user_updated.display_name)),
+            <%= t ".last_updated_time_user_html", :user => link_to(issue.user_updated.display_name, user_path(issue.user_updated)),
                                                   :time => distance_of_time_in_words_to_now(issue.updated_at),
                                                   :title => l(issue.updated_at) %>
           <% else %>

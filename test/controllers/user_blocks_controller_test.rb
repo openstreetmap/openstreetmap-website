@@ -182,7 +182,7 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Check that the block edit page requires us to login
     get :edit, :params => { :id => active_block.id }
-    assert_redirected_to login_path(:referer => edit_user_block_path(:id => active_block.id))
+    assert_redirected_to login_path(:referer => edit_user_block_path(active_block))
 
     # Login as a normal user
     session[:user] = create(:user).id
@@ -306,7 +306,7 @@ class UserBlocksControllerTest < ActionController::TestCase
                        :user_block_period => "12",
                        :user_block => { :needs_view => true, :reason => "Vandalism" } }
     end
-    assert_redirected_to edit_user_block_path(:id => active_block.id)
+    assert_redirected_to edit_user_block_path(active_block)
     assert_equal "Only the moderator who created this block can edit it.", flash[:error]
 
     # Login as the correct moderator
@@ -318,7 +318,7 @@ class UserBlocksControllerTest < ActionController::TestCase
           :params => { :id => active_block.id,
                        :user_block_period => "99" }
     end
-    assert_redirected_to edit_user_block_path(:id => active_block.id)
+    assert_redirected_to edit_user_block_path(active_block)
     assert_equal "The blocking period must be one of the values selectable in the drop-down list.", flash[:error]
 
     # Check that updating a block works
@@ -328,7 +328,7 @@ class UserBlocksControllerTest < ActionController::TestCase
                        :user_block_period => "12",
                        :user_block => { :needs_view => true, :reason => "Vandalism" } }
     end
-    assert_redirected_to user_block_path(:id => active_block.id)
+    assert_redirected_to user_block_path(active_block)
     assert_equal "Block updated.", flash[:notice]
     b = UserBlock.find(active_block.id)
     assert_in_delta Time.now, b.updated_at, 1
@@ -378,7 +378,7 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Check that revoking a block works
     post :revoke, :params => { :id => active_block.id, :confirm => true }
-    assert_redirected_to user_block_path(:id => active_block.id)
+    assert_redirected_to user_block_path(active_block)
     b = UserBlock.find(active_block.id)
     assert_in_delta Time.now, b.ends_at, 1
 

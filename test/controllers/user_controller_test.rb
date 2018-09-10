@@ -1250,7 +1250,7 @@ class UserControllerTest < ActionController::TestCase
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       post :make_friend, :params => { :display_name => friend.display_name }, :session => { :user => user }
     end
-    assert_redirected_to user_path(:display_name => friend.display_name)
+    assert_redirected_to user_path(friend)
     assert_match /is now your friend/, flash[:notice]
     assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
     email = ActionMailer::Base.deliveries.first
@@ -1262,7 +1262,7 @@ class UserControllerTest < ActionController::TestCase
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       post :make_friend, :params => { :display_name => friend.display_name }, :session => { :user => user }
     end
-    assert_redirected_to user_path(:display_name => friend.display_name)
+    assert_redirected_to user_path(friend)
     assert_match /You are already friends with/, flash[:warning]
     assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
   end
@@ -1335,13 +1335,13 @@ class UserControllerTest < ActionController::TestCase
 
     # When logged in a POST should remove the friendship
     post :remove_friend, :params => { :display_name => friend.display_name }, :session => { :user => user }
-    assert_redirected_to user_path(:display_name => friend.display_name)
+    assert_redirected_to user_path(friend)
     assert_match /was removed from your friends/, flash[:notice]
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
     # A second POST should report that the friendship does not exist
     post :remove_friend, :params => { :display_name => friend.display_name }, :session => { :user => user }
-    assert_redirected_to user_path(:display_name => friend.display_name)
+    assert_redirected_to user_path(friend)
     assert_match /is not one of your friends/, flash[:error]
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
   end
