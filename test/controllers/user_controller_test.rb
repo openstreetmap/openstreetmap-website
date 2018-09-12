@@ -942,6 +942,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Test a normal user
     user = create(:user)
+    create(:friend, :befriender => user)
     get :show, :params => { :display_name => user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
@@ -954,6 +955,9 @@ class UserControllerTest < ActionController::TestCase
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks_by']", 0
       assert_select "a[href='/blocks/new/#{ERB::Util.u(user.display_name)}']", 0
     end
+
+    # Friends shouldn't be visible as we're not logged in
+    assert_select "div#friends-container", :count => 0
 
     # Test a user who has been blocked
     blocked_user = create(:user)
@@ -1002,6 +1006,11 @@ class UserControllerTest < ActionController::TestCase
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks']", 0
       assert_select "a[href='/user/#{ERB::Util.u(user.display_name)}/blocks_by']", 0
       assert_select "a[href='/blocks/new/#{ERB::Util.u(user.display_name)}']", 0
+    end
+
+    # Friends should be visible as we're now logged in
+    assert_select "div#friends-container" do
+      assert_select "div.contact-activity", :count => 1
     end
 
     # Login as a moderator
