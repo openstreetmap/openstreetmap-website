@@ -180,4 +180,31 @@ class RelationTest < ActiveSupport::TestCase
     assert_equal 1, cr.size
     assert_equal super_relation.id, cr.first.id
   end
+
+  def test_update_changeset_bbox_any_relation
+    relation = create(:relation)
+    super_relation = create(:relation)
+    node = create(:node, :longitude => 116, :latitude => 39)
+    create(:relation_member, :relation => super_relation, :member_type => "Relation", :member_id => relation.id)
+    node_member = create(:relation_member, :relation => super_relation, :member_type => "Node", :member_id => node.id)
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    assert_nil changeset.min_lon
+    assert_nil changeset.max_lon
+    assert_nil changeset.max_lat
+    assert_nil changeset.min_lat
+    new_relation = Relation.new
+    new_relation.id = super_relation.id
+    new_relation.version = super_relation.version
+    new_relation.changeset = changeset
+    new_relation.add_member node_member.member_type, node_member.member_id, node_member.member_role
+    # one member(relation type) was removed, so any_relation flag is expected to be true.
+    super_relation.update_from(new_relation, user)
+
+    # changeset updated by node member, representing any_relation flag true.
+    assert_equal 116, changeset.min_lon
+    assert_equal 116, changeset.max_lon
+    assert_equal 39, changeset.min_lat
+    assert_equal 39, changeset.max_lat
+  end
 end
