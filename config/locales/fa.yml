@@ -228,9 +228,9 @@ fa:
       open_title: 'یادداشت حل‌نشده #%{note_name}'
       closed_title: 'یادداشت حل‌شده #%{note_name}'
       hidden_title: 'یادداشت پنهان #%{note_name}'
-      open_by: ایجاد شده توسط %{user} <abbr title='%{exact_time}'>%{when} قبل </abbr>
-      open_by_anonymous: ایجاد شده توسط ناشناس <abbr title='%{exact_time}'>%{when}
-        قبل</abbr>
+      open_by: <abbr title='%{exact_time}'>%{when} قبل </abbr> %{user} ایجادش کرد
+      open_by_anonymous: <abbr title='%{exact_time}'>%{when} قبل</abbr> فرد ناشناس
+        ایجادش کرد.
       commented_by: نظر از %{user}،‏ <abbr title='%{exact_time}'>%{when} قبل</abbr>
       commented_by_anonymous: نظر از ناشناس، <abbr title='%{exact_time}'>%{when} قبل</abbr>
       closed_by: '%{user} آن را حل کرد، <abbr title=''%{exact_time}''>%{when} قبل</abbr>'
@@ -941,6 +941,9 @@ fa:
       new_reports: گزارش‌های تازه
     reports:
       reported_by_html: '%{user} آن را به‌عنوان %{category} گزارش کرد'
+    helper:
+      reportable_title:
+        note: یادداشت %{note_id}
   reports:
     new:
       title_html: گزارش %{link}
@@ -953,6 +956,9 @@ fa:
         diary_comment:
           spam_label: این نظر (بر روزنوشت) هرزنامه است/دارد
           threat_label: این نظر (بر روزنوشت) تهدیدآمیز است
+        note:
+          spam_label: این یادداشت هرزنامه است
+          abusive_label: این یادداشت زشت است
     create:
       successful_report: گزارشتان با موفقیت ثبت شد
   layouts:
@@ -1078,23 +1084,23 @@ fa:
       anonymous: کاربر ناشناس
       greeting: ‎سلام ،
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} روی یکی از یادداشت‌هایتان نظر داده
-          است'
+        subject_own: '[OpenStreetMap] %{commenter} روی یکی از یادداشت‌های شما نظر
+          داده است'
         subject_other: '[OpenStreetMap] %{commenter} روی یادداشت موردعلاقه‌تان نظر
           داده'
-        your_note: '%{commenter} روی یکی از یادداشت‌های شما روی نقشه نزدیک %{place}
-          نظر گذاشت.'
+        your_note: '%{commenter} روی یکی از یادداشت‌های شما روی نقشه نزدیک به %{place}
+          نظر گذاشته.'
         commented_note: '%{commenter} روی یک از یادداشت‌های نقشه که شما بر آن نظر
-          داده‌اید نظر داد. این یادداشت نزدیک %{place} است.'
+          داده‌اید نظر داد. این یادداشت نزدیک به %{place} است.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} یکی از یادداشت‌های شما را حل کرده
           است'
-        subject_other: '[OpenStreetMap] %{commenter} یکی از یادداشت‌های موردعلاقه
+        subject_other: '[OpenStreetMap] %{commenter} یکی از یادداشت‌های موردعلاقهٔ
           شما را حل کرد'
         your_note: '%{commenter} یکی از یادداشت‌های شما بر نقشه در نزدیکی %{place}
           را حل کرد.'
         commented_note: '%{commenter} یکی از یادداشت‌های نقشه که شما بر آن نظر گذاشته‌اید
-          را حل کرد. یادداشت نزدیک %{place} است.'
+          را حل کرد. یادداشت نزدیک به %{place} است.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} یکی از یادداشت‌های شما را دوباره
           فعال کرد'
@@ -1103,7 +1109,7 @@ fa:
         your_note: '%{commenter} یکی از یادداشت‌های شما بر نقشه در نزدیکی %{place}
           را دوباره فعال کرد.'
         commented_note: '%{commenter} یکی از یادداشت‌های نقشه را که شما بر آن نظر
-          گذاشته‌اید دوباره فعال کرد. یادداشت نزدیک %{place} است.'
+          گذاشته‌اید دوباره فعال کرد. یادداشت نزدیک به %{place} است.'
       details: اطلاعات بیشتر درباره این یادداشت را در %{url} ببینید.
     changeset_comment_notification:
       hi: سلام %{to_user}،
@@ -1595,7 +1601,7 @@ fa:
       add_a_note:
         title: زمانی برای ویرایش ندارید؟ یادداشت اضافه کنید!
         paragraph_1_html: "اگر میخواهید فقط چیز کوچکی را درست کنید و زمانی برای ثبت
-          نام و یادگیری ویرایش ندارید، به‌راحتی \nیک یادداشت بنویسید."
+          نام و یادگیری ویرایش ندارید، به‌آسانی \nیک یادداشت بنویسید."
         paragraph_2_html: |-
           فقط بروید به <a href='%{map_url}'>نقشه</a> و روی آیکون یادداشت کلیک کنید:
           <span class='icon note'></span>. اینجوری یک علامت گذار به نقشه اضافه می‌شود، که می‌توانید با کشیدن جابجایش کنید. پیامتان را اضافه کنید، بعد روی ذخیره کلیک کنید، و سایر نقشه کشان بررسی خواهند کرد.
@@ -2003,7 +2009,7 @@ fa:
           administrator: لغو دسترسی سرپرست
           moderator: لغو دسترسی مدیر
       block_history: مسدودی‌های فعال
-      moderator_history: بلوک های گرفته شده
+      moderator_history: مسدودکردن‌ها
       comments: نظرات
       create_block: این کاربر مسدود شود
       activate_user: فعال کردن این کاربر
@@ -2188,79 +2194,81 @@ fa:
   user_blocks:
     model:
       non_moderator_update: برای به‌روزرسانی یا ایجاد مسدودی باید مدیر بود.
-      non_moderator_revoke: برای لغو یک بلوک باید مدیر بود.
+      non_moderator_revoke: برای لغو یک مسدودی باید مدیر بود.
     not_found:
-      sorry: پوزش، بلوک کاربر با شناسه %{id} یافت نمی شود.
+      sorry: پوزش، مسدودی کاربر با شناسه %{id} یافت نمی‌شود.
       back: بازگشت به فهرست
     new:
       title: در حال مسدودکردن %{name}
-      heading: ایجاد بلوک در %{name}
+      heading: مسدودکردن %{name}
       reason: |-
         دلیل مسدودشدن کاربری %{name}. لطفاً خونسرد و منطقی باشید و هرچه می‌توانید به‌شکل جزئی‌تر اوضاع را شرح دهید و همچنین به یاد داشته باشید که پیام شما به‌طور عمومی قابل مشاهده است.
         در نظر داشته باشید که همهٔ کاربران اصطلاحات تخصصی انجمن را نمی‌فهمند، لطفاً سعی کنید واژه‌هایی که استفاده می‌کنید غیرتخصصی باشد.
       period: مدت‌زمان مسدودی کاربر از API (شروع از حالا).
-      submit: ایجاد بلوک
+      submit: ایجاد مسدودی
       tried_contacting: من با کاربر تماس گرفته و درخواست کردم توقف کند.
       tried_waiting: من مقدار مناسبی زمان را به کاربر دادم تا به این ارتباط پاسخ دهد.
       needs_view: برای پاک‌شدن این مسدودی کاربر باید وارد حسابش شود.
-      back: مشاهده تمام بلوک ها
+      back: دیدن تمام مسدودی‌ها
     edit:
       title: ویرایش مسدودی کاربر %{name}
-      heading: ویرایش بلوک در %{name}
+      heading: ویرایش مسدودی %{name}
       reason: دلیل مسدودشدن کاربری %{name}. لطفاً خونسرد و منطقی باشید و هرچه می‌توانید
         به‌شکل جزئی‌تر اوضاع را شرح دهید. در نظر داشته باشید که همهٔ کاربران اصطلاحات
         تخصصی انجمن را نمی‌فهمند، لطفاً سعی کنید واژه‌هایی که استفاده می‌کنید غیرتخصصی
         باشد.
       period: مدت‌زمان مسدودی کاربر از API (شروع از حالا).
-      submit: به روز رسانی بلوک
+      submit: به‌روزرسانی مسدودی
       show: مشاهده این مسدودی
-      back: مشاهده تمام بلوک ها
+      back: دیدن تمام مسدودی‌ها
       needs_view: آیا قبل از پاک‌شدن این مسدودی، کاربر باید وارد حساب کاربری شود؟
     filter:
-      block_expired: بلوک قبلا منقضی شده و قابل ویرایش نیست.
+      block_expired: مسدودی قبلا منقضی شده و قابل ویرایش نیست.
       block_period: دوره مسدودی باید یکی از مقدارهای قابل انتخاب در لیست بازشو باشد.
     create:
       try_contacting: لطفاً قبل از مسدودکردن کاربر با وی تماس بگیرید و به او زمان
         بدهید تا پاسخگو باشد.
       try_waiting: لطفاً پیش از مسدودکردن کاربر به او زمان کافی بدهید تا بتواند پاسخگو
         باشد.
-      flash: یک بلوک روی کاربر %{name} ایجاد شد.
+      flash: یک مسدودی روی کاربری %{name} ایجاد شد.
     update:
       only_creator_can_edit: فقط مدیری که این مسدودی را ایجاد کرده می‌تواند آنرا ویرایش
         کند.
-      success: بلوک بروزرسانی شد.
+      success: مسدودی به‌روزرسانی شد.
     index:
-      title: بلوک های کاربر
-      heading: لیست بلوک های کاربر
-      empty: هنوز بلوکی ساخته نشده.
+      title: مسدودی‌های کاربر
+      heading: لیست مسدودی‌های کاربری
+      empty: هنوز مسدودیتی ساخته نشده.
     revoke:
-      title: لغو بلوک در %{block_on}
-      heading: لغو بلوک در %{block_on} توسط %{block_by}
-      time_future: این بلوک در %{time} پایان می یابد.
-      past: این بلوک %{time} پایان یافته و اکنون قابل لغو کردن نیست.
-      confirm: مطمئنید میخواهید این بلوک را لغو کنید؟
+      title: لغو مسدودی از %{block_on}
+      heading: لغو مسدودی از %{block_on}، مسدودشده توسط %{block_by}
+      time_future: این مسدودی در %{time} پایان می یابد.
+      past: این مسدودی %{time} پیش پایان یافته و اکنون قابل لغوکردن نیست.
+      confirm: مطمئنید می‌خواهید این مسدودی را لغو کنید؟
       revoke: باطل شود!
-      flash: این بلوک باطل شد.
+      flash: این مسدودی لغو شد.
     period:
       one: 1 ساعت
       other: '%{count} ساعت'
     helper:
       time_future: در %{time} پایان می پذیرد.
       until_login: فعال تا وقتی کاربر وارد شود.
-      time_past: به پایان رسیده %{time} قبل.
+      time_future_and_until_login: تا %{time} دیگر و پس از ورود به حساب کاربری پایان
+        می‌یابد.
+      time_past: '%{time} پیش به پایان رسید.'
     blocks_on:
-      title: بلوک ها در %{name}
-      heading: فهرست بلوک ها در %{name}
-      empty: '%{name} هنوز بلوک نشده.'
+      title: مسدودی‌های کاربری %{name}
+      heading: فهرست مسدودی‌های %{name}
+      empty: '%{name} تاکنون مسدود نبوده.'
     blocks_by:
-      title: بلوک توسط %{name}
-      heading: فهرست بلوک توسط %{name}
-      empty: '%{name} هنوز بلوکی ایجاد نکرده.'
+      title: مسدودشده‌ها توسط %{name}
+      heading: فهرست مسدودشده‌ها توسط %{name}
+      empty: '%{name} تاکنون مسدود نکرده.'
     show:
-      title: '%{block_on} توسط %{block_by} بلوک شده'
-      heading: '%{block_on} توسط %{block_by} بلوک شده'
+      title: '%{block_on} توسط %{block_by} مسدود شده'
+      heading: '%{block_on} توسط %{block_by} مسدود شده'
       time_future: در %{time} پایان می پذیرد
-      time_past: به پایان رسیده %{time} قبل
+      time_past: '%{time} پیش به پایان رسید'
       created: ایجاد شده
       ago: '%{time} پیش'
       status: وضعیت
@@ -2268,19 +2276,19 @@ fa:
       edit: ویرایش
       revoke: باطل شود!
       confirm: آیا مطمئن هستید؟
-      reason: 'دلیل بلوک:'
-      back: مشاهده تمام بلوک ها
+      reason: 'دلیل مسدودی:'
+      back: دیدن تمام مسدودی‌ها
       revoker: 'باطل کننده:'
-      needs_view: کاربر قبل از پاک شدن این بلوک نیاز به وارد شدن دارد.
+      needs_view: برای پاک‌شدن این مسدودی کاربر باید وارد حسابش شود.
     block:
       not_revoked: (باطل نشده)
       show: نمایش
       edit: ویرایش
       revoke: باطل شود!
     blocks:
-      display_name: کاربر بلوک شده
+      display_name: کاربر مسدودشده
       creator_name: ایجاد کننده
-      reason: دلیل بلوک
+      reason: دلیل مسدودی
       status: وضعیت
       revoker_name: باطل شده توسط
       showing_page: صفحهٔ %{page}
