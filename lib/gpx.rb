@@ -79,7 +79,7 @@ module GPX
         px = proj.x(p.longitude)
         py = proj.y(p.latitude)
 
-        if m > 0
+        if m.positive?
           frames.times do |n|
             gc = if n == mm
                    highlightgc.dup

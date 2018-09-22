@@ -275,7 +275,7 @@ class Relation < ActiveRecord::Base
   def fix_placeholders!(id_map, placeholder_id = nil)
     members.map! do |type, id, role|
       old_id = id.to_i
-      if old_id < 0
+      if old_id.negative?
         new_id = id_map[type.downcase.to_sym][old_id]
         raise OSM::APIBadUserInput, "Placeholder #{type} not found for reference #{old_id} in relation #{self.id.nil? ? placeholder_id : self.id}." if new_id.nil?
 

@@ -582,7 +582,7 @@ class ChangesetController < ApplicationController
   # Get the maximum number of comments to return
   def comments_limit
     if params[:limit]
-      if params[:limit].to_i > 0 && params[:limit].to_i <= 10000
+      if params[:limit].to_i.positive? && params[:limit].to_i <= 10000
         params[:limit].to_i
       else
         raise OSM::APIBadUserInput, "Comments limit must be between 1 and 10000"

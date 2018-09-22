@@ -306,7 +306,7 @@ class Trace < ActiveRecord::Base
       tp.save!
     end
 
-    if gpx.actual_points > 0
+    if gpx.actual_points.positive?
       max_lat = Tracepoint.where(:gpx_id => id).maximum(:latitude)
       min_lat = Tracepoint.where(:gpx_id => id).minimum(:latitude)
       max_lon = Tracepoint.where(:gpx_id => id).maximum(:longitude)

@@ -29,7 +29,7 @@ module IssuesHelper
     count = Issue.visible_to(current_user).open.limit(100).size
     if count > 99
       content_tag(:span, "99+", :class => "count-number")
-    elsif count > 0
+    elsif count.positive?
       content_tag(:span, count, :class => "count-number")
     end
   end

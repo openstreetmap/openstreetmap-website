@@ -307,7 +307,7 @@ class NotesController < ApplicationController
   # Get the maximum number of results to return
   def result_limit
     if params[:limit]
-      if params[:limit].to_i > 0 && params[:limit].to_i <= 10000
+      if params[:limit].to_i.positive? && params[:limit].to_i <= 10000
         params[:limit].to_i
       else
         raise OSM::APIBadUserInput, "Note limit must be between 1 and 10000"
@@ -327,9 +327,9 @@ class NotesController < ApplicationController
                      7
                    end
 
-    if closed_since < 0
+    if closed_since.negative?
       notes.where.not(:status => "hidden")
-    elsif closed_since > 0
+    elsif closed_since.positive?
       notes.where(:status => "open")
            .or(notes.where(:status => "closed")
                     .where(notes.arel_table[:closed_at].gt(Time.now - closed_since.days)))
