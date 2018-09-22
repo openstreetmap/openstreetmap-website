@@ -826,6 +826,7 @@ class UserController < ApplicationController
   def gravatar_enable(user)
     # code from example https://en.gravatar.com/site/implement/images/ruby/
     return false if user.image.present?
+
     hash = Digest::MD5.hexdigest(user.email.downcase)
     url = "https://www.gravatar.com/avatar/#{hash}?d=404" # without d=404 we will always get an image back
     response = OSM.http_client.get(URI.parse(url))

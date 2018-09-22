@@ -57,6 +57,7 @@ class ClientApplication < ActiveRecord::Base
   def self.verify_request(request, options = {}, &block)
     signature = OAuth::Signature.build(request, options, &block)
     return false unless OauthNonce.remember(signature.request.nonce, signature.request.timestamp)
+
     value = signature.verify
     value
   rescue OAuth::Signature::UnknownSignatureMethod

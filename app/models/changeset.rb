@@ -106,6 +106,7 @@ class Changeset < ActiveRecord::Base
     pt.find("tag").each do |tag|
       raise OSM::APIBadXMLError.new("changeset", pt, "tag is missing key") if tag["k"].nil?
       raise OSM::APIBadXMLError.new("changeset", pt, "tag is missing value") if tag["v"].nil?
+
       cs.add_tag_keyval(tag["k"], tag["v"])
     end
 

@@ -143,6 +143,7 @@ class AmfController < ApplicationController
 
       if cstags
         return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(cstags)
+
         cstags = strip_non_xml_chars cstags
       end
 
@@ -497,6 +498,7 @@ class AmfController < ApplicationController
       rel = Relation.where(:id => relid).first
 
       return [-4, "relation", relid] if rel.nil? || !rel.visible
+
       [0, "", relid, rel.tags, rel.members, rel.version]
     end
   end
@@ -533,6 +535,7 @@ class AmfController < ApplicationController
       return -1, "You must accept the contributor terms before you can edit." if REQUIRE_TERMS_AGREED && user.terms_agreed.nil?
 
       return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(tags)
+
       tags = strip_non_xml_chars tags
 
       relid = relid.to_i
@@ -622,6 +625,7 @@ class AmfController < ApplicationController
       return -2, "Server error - way is only #{pointlist.length} points long." if pointlist.length < 2
 
       return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(attributes)
+
       attributes = strip_non_xml_chars attributes
 
       originalway = originalway.to_i
@@ -651,6 +655,7 @@ class AmfController < ApplicationController
 
           # fixup node tags in a way as well
           return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(node.tags)
+
           node.tags = strip_non_xml_chars node.tags
 
           node.tags.delete("created_by")
@@ -728,6 +733,7 @@ class AmfController < ApplicationController
       return -1, "You must accept the contributor terms before you can edit." if REQUIRE_TERMS_AGREED && user.terms_agreed.nil?
 
       return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(tags)
+
       tags = strip_non_xml_chars tags
 
       id = id.to_i

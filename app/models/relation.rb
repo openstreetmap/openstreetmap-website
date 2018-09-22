@@ -70,12 +70,15 @@ class Relation < ActiveRecord::Base
     relation = Relation.new
 
     raise OSM::APIBadXMLError.new("relation", pt, "Version is required when updating") unless create || !pt["version"].nil?
+
     relation.version = pt["version"]
     raise OSM::APIBadXMLError.new("relation", pt, "Changeset id is missing") if pt["changeset"].nil?
+
     relation.changeset_id = pt["changeset"]
 
     unless create
       raise OSM::APIBadXMLError.new("relation", pt, "ID is required when updating") if pt["id"].nil?
+
       relation.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
@@ -94,6 +97,7 @@ class Relation < ActiveRecord::Base
     pt.find("tag").each do |tag|
       raise OSM::APIBadXMLError.new("relation", pt, "tag is missing key") if tag["k"].nil?
       raise OSM::APIBadXMLError.new("relation", pt, "tag is missing value") if tag["v"].nil?
+
       relation.add_tag_keyval(tag["k"], tag["v"])
     end
 
@@ -106,6 +110,7 @@ class Relation < ActiveRecord::Base
     pt.find("member").each do |member|
       # member_type =
       raise OSM::APIBadXMLError.new("relation", pt, "The #{member['type']} is not allowed only, #{TYPES.inspect} allowed") unless TYPES.include? member["type"]
+
       # member_ref = member['ref']
       # member_role
       member["role"] ||= "" # Allow  the upload to not include this, in which case we default to an empty string.
@@ -207,6 +212,7 @@ class Relation < ActiveRecord::Base
       lock!
       check_consistency(self, new_relation, user)
       raise OSM::APIPreconditionFailedError, "Cannot update relation #{id}: data or member data is invalid." unless new_relation.preconditions_ok?(members)
+
       self.changeset_id = new_relation.changeset_id
       self.changeset = new_relation.changeset
       self.tags = new_relation.tags
@@ -219,6 +225,7 @@ class Relation < ActiveRecord::Base
   def create_with_history(user)
     check_create_consistency(self, user)
     raise OSM::APIPreconditionFailedError, "Cannot create relation: data or member data is invalid." unless preconditions_ok?
+
     self.version = 0
     self.visible = true
     save_with_history!
@@ -254,6 +261,7 @@ class Relation < ActiveRecord::Base
 
       # and check that it is OK to use.
       raise OSM::APIPreconditionFailedError, "Relation with id #{id} cannot be saved due to #{m[0]} with id #{m[1]}" unless element && element.visible? && element.preconditions_ok?
+
       hash[m[1]] = true
     end
 
@@ -270,6 +278,7 @@ class Relation < ActiveRecord::Base
       if old_id < 0
         new_id = id_map[type.downcase.to_sym][old_id]
         raise OSM::APIBadUserInput, "Placeholder #{type} not found for reference #{old_id} in relation #{self.id.nil? ? placeholder_id : self.id}." if new_id.nil?
+
         [type, new_id, role]
       else
         [type, id, role]

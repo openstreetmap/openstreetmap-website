@@ -316,6 +316,7 @@ module ActionController
         # same page number).
         def ==(other)
           return false if other.nil?
+
           @paginator == other.paginator &&
             @number == other.number
         end
@@ -326,6 +327,7 @@ module ActionController
         # if the pages do not belong to the same Paginator object.
         def <=>(other)
           raise ArgumentError unless @paginator == other.paginator
+
           @number <=> other.number
         end
 

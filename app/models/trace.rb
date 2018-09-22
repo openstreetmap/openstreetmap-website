@@ -214,10 +214,12 @@ class Trace < ActiveRecord::Base
 
   def update_from_xml_node(pt, create = false)
     raise OSM::APIBadXMLError.new("trace", pt, "visibility missing") if pt["visibility"].nil?
+
     self.visibility = pt["visibility"]
 
     unless create
       raise OSM::APIBadXMLError.new("trace", pt, "ID is required when updating.") if pt["id"].nil?
+
       id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
@@ -232,6 +234,7 @@ class Trace < ActiveRecord::Base
 
     description = pt.find("description").first
     raise OSM::APIBadXMLError.new("trace", pt, "description missing") if description.nil?
+
     self.description = description.content
 
     self.tags = pt.find("tag").collect do |tag|

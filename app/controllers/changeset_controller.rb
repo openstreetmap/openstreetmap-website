@@ -481,6 +481,7 @@ class ChangesetController < ApplicationController
       u = if name.nil?
             # user input checking, we don't have any UIDs < 1
             raise OSM::APIBadUserInput, "invalid user ID" if user.to_i < 1
+
             u = User.find(user.to_i)
           else
             u = User.find_by(:display_name => name)
