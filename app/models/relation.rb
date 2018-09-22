@@ -381,7 +381,7 @@ class Relation < ActiveRecord::Base
       # reasonable on the assumption that adding or removing members doesn't
       # materially change the rest of the relation.
       any_relations =
-        changed_members.collect { |_id, type| type == "relation" }
+        changed_members.collect { |type, _id, _role| type == "Relation" }
                        .inject(false) { |acc, elem| acc || elem }
 
       update_members = if tags_changed || any_relations
