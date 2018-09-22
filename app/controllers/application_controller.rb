@@ -283,8 +283,7 @@ class ApplicationController < ActionController::Base
     # TODO: some sort of escaping of problem characters in the message
     response.headers["Error"] = message
 
-    if request.headers["X-Error-Format"] &&
-       request.headers["X-Error-Format"].casecmp("xml").zero?
+    if request.headers["X-Error-Format"]&.casecmp("xml")&.zero?
       result = OSM::API.new.get_xml_doc
       result.root.name = "osmError"
       result.root << (XML::Node.new("status") << "#{Rack::Utils.status_code(status)} #{Rack::Utils::HTTP_STATUS_CODES[status]}")
@@ -310,7 +309,7 @@ class ApplicationController < ActionController::Base
   helper_method :preferred_languages
 
   def set_locale(reset = false)
-    if current_user && current_user.languages.empty? && !http_accept_language.user_preferred_languages.empty?
+    if current_user&.languages&.empty? && !http_accept_language.user_preferred_languages.empty?
       current_user.languages = http_accept_language.user_preferred_languages
       current_user.save
     end
@@ -435,7 +434,7 @@ class ApplicationController < ActionController::Base
   def preferred_editor
     editor = if params[:editor]
                params[:editor]
-             elsif current_user && current_user.preferred_editor
+             elsif current_user&.preferred_editor
                current_user.preferred_editor
              else
                DEFAULT_EDITOR

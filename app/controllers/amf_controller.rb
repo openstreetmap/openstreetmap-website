@@ -510,7 +510,7 @@ class AmfController < ApplicationController
     rels = []
     if searchterm.to_i > 0
       rel = Relation.where(:id => searchterm.to_i).first
-      rels.push([rel.id, rel.tags, rel.members, rel.version]) if rel && rel.visible
+      rels.push([rel.id, rel.tags, rel.members, rel.version]) if rel&.visible
     else
       RelationTag.where("v like ?", "%#{searchterm}%").limit(11).each do |t|
         rels.push([t.relation.id, t.relation.tags, t.relation.members, t.relation.version]) if t.relation.visible
@@ -889,12 +889,10 @@ class AmfController < ApplicationController
   # in the +tags+ hash.
   def strip_non_xml_chars(tags)
     new_tags = {}
-    unless tags.nil?
-      tags.each do |k, v|
-        new_k = k.delete "\000-\037\ufffe\uffff", "^\011\012\015"
-        new_v = v.delete "\000-\037\ufffe\uffff", "^\011\012\015"
-        new_tags[new_k] = new_v
-      end
+    tags&.each do |k, v|
+      new_k = k.delete "\000-\037\ufffe\uffff", "^\011\012\015"
+      new_v = v.delete "\000-\037\ufffe\uffff", "^\011\012\015"
+      new_tags[new_k] = new_v
     end
     new_tags
   end

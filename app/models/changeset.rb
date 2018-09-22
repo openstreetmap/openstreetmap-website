@@ -208,7 +208,7 @@ class Changeset < ActiveRecord::Base
 
     user_display_name_cache = {} if user_display_name_cache.nil?
 
-    if user_display_name_cache && user_display_name_cache.key?(user_id)
+    if user_display_name_cache&.key?(user_id)
       # use the cache if available
     elsif user.data_public?
       user_display_name_cache[user_id] = user.display_name

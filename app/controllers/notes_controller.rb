@@ -211,7 +211,7 @@ class NotesController < ApplicationController
     # Find the note and check it is valid
     @note = Note.find(params[:id])
     raise OSM::APINotFoundError unless @note
-    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || (current_user && current_user.moderator?)
+    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || current_user&.moderator?
 
     # Render the result
     respond_to do |format|
@@ -286,7 +286,7 @@ class NotesController < ApplicationController
         @page = (params[:page] || 1).to_i
         @page_size = 10
         @notes = @user.notes
-        @notes = @notes.visible unless current_user && current_user.moderator?
+        @notes = @notes.visible unless current_user&.moderator?
         @notes = @notes.order("updated_at DESC, id").distinct.offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author).to_a
       else
         @title = t "user.no_such_user.title"

@@ -29,7 +29,7 @@ class UserController < ApplicationController
     else
       @title = t "user.terms.title"
 
-      if current_user && current_user.terms_agreed?
+      if current_user&.terms_agreed?
         # Already agreed to terms, so just show settings
         redirect_to :action => :account, :display_name => current_user.display_name
       elsif current_user.nil? && session[:new_user].nil?
@@ -276,7 +276,7 @@ class UserController < ApplicationController
     if params[:session] == session.id
       if session[:token]
         token = UserToken.find_by(:token => session[:token])
-        token.destroy if token
+        token&.destroy
         session.delete(:token)
       end
       session.delete(:user)
@@ -292,7 +292,7 @@ class UserController < ApplicationController
   def confirm
     if request.post?
       token = UserToken.find_by(:token => params[:confirm_string])
-      if token && token.user.active?
+      if token&.user&.active?
         flash[:error] = t("user.confirm.already active")
         redirect_to :action => "login"
       elsif !token || token.expired?
@@ -349,7 +349,7 @@ class UserController < ApplicationController
   def confirm_email
     if request.post?
       token = UserToken.find_by(:token => params[:confirm_string])
-      if token && token.user.new_email?
+      if token&.user&.new_email?
         self.current_user = token.user
         current_user.email = current_user.new_email
         current_user.new_email = nil
@@ -413,7 +413,7 @@ class UserController < ApplicationController
     @user = User.find_by(:display_name => params[:display_name])
 
     if @user &&
-       (@user.visible? || (current_user && current_user.administrator?))
+       (@user.visible? || (current_user&.administrator?))
       @title = @user.display_name
     else
       render_unknown_user params[:display_name]
@@ -552,7 +552,7 @@ class UserController < ApplicationController
       if user.nil? && provider == "google"
         openid_url = auth_info[:extra][:id_info]["openid_id"]
         user = User.find_by(:auth_provider => "openid", :auth_uid => openid_url) if openid_url
-        user.update(:auth_provider => provider, :auth_uid => uid) if user
+        user&.update(:auth_provider => provider, :auth_uid => uid)
       end
 
       if user

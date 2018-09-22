@@ -127,7 +127,7 @@ class Way < ActiveRecord::Base
         ordered_nodes[nd.sequence_id] = nd.node_id.to_s if visible_nodes[nd.node_id]
       else
         # otherwise, manually go to the db to check things
-        ordered_nodes[nd.sequence_id] = nd.node_id.to_s if nd.node && nd.node.visible?
+        ordered_nodes[nd.sequence_id] = nd.node_id.to_s if nd.node&.visible?
       end
     end
 

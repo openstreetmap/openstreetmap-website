@@ -260,7 +260,7 @@ class Relation < ActiveRecord::Base
       element = model.lock("for share").find_by(:id => m[1])
 
       # and check that it is OK to use.
-      raise OSM::APIPreconditionFailedError, "Relation with id #{id} cannot be saved due to #{m[0]} with id #{m[1]}" unless element && element.visible? && element.preconditions_ok?
+      raise OSM::APIPreconditionFailedError, "Relation with id #{id} cannot be saved due to #{m[0]} with id #{m[1]}" unless element&.visible? && element&.preconditions_ok?
 
       hash[m[1]] = true
     end

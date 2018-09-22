@@ -92,8 +92,8 @@ class TracesController < ApplicationController
   def show
     @trace = Trace.find(params[:id])
 
-    if @trace && @trace.visible? &&
-       (@trace.public? || @trace.user == current_user)
+    if @trace&.visible? &&
+       (@trace&.public? || @trace&.user == current_user)
       @title = t ".title", :name => @trace.name
     else
       flash[:error] = t ".trace_not_found"
@@ -318,7 +318,7 @@ class TracesController < ApplicationController
     visibility = params[:visibility]
 
     if visibility.nil?
-      visibility = if params[:public] && params[:public].to_i.nonzero?
+      visibility = if params[:public]&.to_i&.nonzero?
                      "public"
                    else
                      "private"

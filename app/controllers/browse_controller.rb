@@ -58,7 +58,7 @@ class BrowseController < ApplicationController
   def changeset
     @type = "changeset"
     @changeset = Changeset.find(params[:id])
-    @comments = if current_user && current_user.moderator?
+    @comments = if current_user&.moderator?
                   @changeset.comments.unscope(:where => :visible).includes(:author)
                 else
                   @changeset.comments.includes(:author)
@@ -77,7 +77,7 @@ class BrowseController < ApplicationController
   def note
     @type = "note"
 
-    if current_user && current_user.moderator?
+    if current_user&.moderator?
       @note = Note.find(params[:id])
       @note_comments = @note.comments.unscope(:where => :visible)
     else
