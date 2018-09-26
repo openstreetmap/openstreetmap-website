@@ -121,7 +121,8 @@ OpenStreetMap::Application.routes.draw do
   get "/note/new" => "browse#new_note"
   get "/user/:display_name/history" => "changeset#index"
   get "/user/:display_name/history/feed" => "changeset#feed", :defaults => { :format => :atom }
-  get "/user/:display_name/notes" => "notes#mine"
+  get "/user/:display_name/notes" => "notes#user"
+  get "/notes/mine" => "notes#mine"
   get "/history/friends" => "changeset#index", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
   get "/history/nearby" => "changeset#index", :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
 

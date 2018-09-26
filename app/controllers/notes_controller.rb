@@ -1,9 +1,10 @@
 class NotesController < ApplicationController
-  layout "site", :only => [:mine]
+  layout "site", :only => [:user]
 
-  skip_before_action :verify_authenticity_token, :except => [:mine]
+  skip_before_action :verify_authenticity_token, :except => [:user]
   before_action :check_api_readable
-  before_action :authorize_web, :only => [:mine]
+  before_action :authorize_web, :only => [:user, :mine]
+  before_action :require_user, :only => [:mine]
   before_action :setup_user_auth, :only => [:create, :comment, :show]
   before_action :authorize, :only => [:close, :reopen, :destroy]
   before_action :require_moderator, :only => [:destroy]
@@ -276,12 +277,20 @@ class NotesController < ApplicationController
 
   ##
   # Display a list of notes by a specified user
-  def mine
+  def user
     if params[:display_name]
       if @user = User.active.find_by(:display_name => params[:display_name])
         @params = params.permit(:display_name)
-        @title = t "notes.mine.title", :user => @user.display_name
-        @heading = t "notes.mine.heading", :user => @user.display_name
+
+        # set title/heading
+        if current_user && current_user.display_name == @user.display_name
+          @title = t "user.show.my notes"
+          @heading = t "user.show.my notes"
+        else
+          @title = t "notes.mine.title", :user => @user.display_name
+          @heading = t "notes.mine.heading", :user => @user.display_name
+        end
+        
         @description = t "notes.mine.subheading", :user => render_to_string(:partial => "user", :object => @user)
         @page = (params[:page] || 1).to_i
         @page_size = 10
@@ -295,6 +304,10 @@ class NotesController < ApplicationController
         render :template => "user/no_such_user", :status => :not_found
       end
     end
+  end
+
+  def mine
+    redirect_to :action => :user, :display_name => current_user.display_name
   end
 
   private

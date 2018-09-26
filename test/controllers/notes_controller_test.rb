@@ -121,7 +121,11 @@ class NotesControllerTest < ActionController::TestCase
 
     assert_routing(
       { :path => "/user/username/notes", :method => :get },
-      { :controller => "notes", :action => "mine", :display_name => "username" }
+      { :controller => "notes", :action => "user", :display_name => "username" }
+    )
+    assert_routing(
+      { :path => "/traces/mine", :method => :get },
+      { :controller => "traces", :action => "mine" }
     )
   end
 
@@ -963,7 +967,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_response :bad_request
   end
 
-  def test_mine_success
+  def test_user_success
     first_user = create(:user)
     second_user = create(:user)
     moderator_user = create(:moderator_user)
@@ -979,44 +983,63 @@ class NotesControllerTest < ActionController::TestCase
     end
 
     # Note that the table rows include a header row
-    get :mine, :params => { :display_name => first_user.display_name }
+    get :user, :params => { :display_name => first_user.display_name }
     assert_response :success
     assert_select "table.note_list tr", :count => 2
 
-    get :mine, :params => { :display_name => second_user.display_name }
+    get :user, :params => { :display_name => second_user.display_name }
     assert_response :success
     assert_select "table.note_list tr", :count => 2
 
-    get :mine, :params => { :display_name => "non-existent" }
+    get :user, :params => { :display_name => "non-existent" }
     assert_response :not_found
 
     session[:user] = moderator_user.id
 
-    get :mine, :params => { :display_name => first_user.display_name }
+    get :user, :params => { :display_name => first_user.display_name }
     assert_response :success
     assert_select "table.note_list tr", :count => 2
 
-    get :mine, :params => { :display_name => second_user.display_name }
+    get :user, :params => { :display_name => second_user.display_name }
     assert_response :success
     assert_select "table.note_list tr", :count => 3
 
-    get :mine, :params => { :display_name => "non-existent" }
+    get :user, :params => { :display_name => "non-existent" }
     assert_response :not_found
   end
 
-  def test_mine_paged
+  def test_user_paged
     user = create(:user)
 
     create_list(:note, 50) do |note|
       create(:note_comment, :note => note, :author => user)
     end
 
-    get :mine, :params => { :display_name => user.display_name }
+    get :user, :params => { :display_name => user.display_name }
     assert_response :success
     assert_select "table.note_list tr", :count => 11
 
-    get :mine, :params => { :display_name => user.display_name, :page => 2 }
+    get :user, :params => { :display_name => user.display_name, :page => 2 }
     assert_response :success
     assert_select "table.note_list tr", :count => 11
+  end
+
+  # Check that I can get mine
+  def test_mine
+    user = create(:user)
+    create(:trace, :visibility => "public") do |trace|
+      create(:tracetag, :trace => trace, :tag => "Birmingham")
+    end
+    trace_b = create(:trace, :visibility => "private", :user => user) do |trace|
+      create(:tracetag, :trace => trace, :tag => "London")
+    end
+
+    # First try to get it when not logged in
+    get :mine
+    assert_redirected_to :controller => "user", :action => "login", :referer => "/notes/mine"
+
+    # Now try when logged in
+    get :mine, :session => { :user => user }
+    assert_redirected_to :action => "user", :display_name => user.display_name
   end
 end
