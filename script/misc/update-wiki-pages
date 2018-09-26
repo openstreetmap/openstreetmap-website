@@ -3,20 +3,11 @@ use 5.010;
 use strict;
 use warnings;
 
-use Pod::Usage ();
-use Getopt::Long ();
-
-BEGIN {
-    eval "require MediaWiki::API; require YAML::XS;" or do {
-        print "You have to install some modules via CPAN to run this:\n";
-        print "   sudo cpanp MediaWiki::API YAML::XS\n";
-        exit 1;
-    };
-}
-
+use Getopt::Long;
+use Pod::Usage;
 use MediaWiki::API;
+use Test::More qw(no_plan);
 use YAML::XS qw(Dump);
-use Test::More 'no_plan';
 
 =head1 NAME
 
