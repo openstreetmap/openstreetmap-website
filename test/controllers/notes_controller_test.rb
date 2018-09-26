@@ -1038,5 +1038,9 @@ class NotesControllerTest < ActionController::TestCase
     # Now try when logged in
     get :mine, :session => { :user => user }
     assert_redirected_to :action => "user", :display_name => user.display_name
+
+    # Hack the redirect manually
+    get :user, :params => { :display_name => user.display_name }, :session => { :user => user }
+    assert_match(/My Notes/, response.body)
   end
 end
