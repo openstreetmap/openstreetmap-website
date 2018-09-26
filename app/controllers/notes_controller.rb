@@ -287,11 +287,11 @@ class NotesController < ApplicationController
           @title = t "user.show.my notes"
           @heading = t "user.show.my notes"
         else
-          @title = t "notes.mine.title", :user => @user.display_name
-          @heading = t "notes.mine.heading", :user => @user.display_name
+          @title = t "notes.user.title", :user => @user.display_name
+          @heading = t "notes.user.heading", :user => @user.display_name
         end
-        
-        @description = t "notes.mine.subheading", :user => render_to_string(:partial => "user", :object => @user)
+
+        @description = t "notes.user.subheading", :user => render_to_string(:partial => "user", :object => @user)
         @page = (params[:page] || 1).to_i
         @page_size = 10
         @notes = @user.notes

@@ -1030,9 +1030,6 @@ class NotesControllerTest < ActionController::TestCase
     create(:trace, :visibility => "public") do |trace|
       create(:tracetag, :trace => trace, :tag => "Birmingham")
     end
-    trace_b = create(:trace, :visibility => "private", :user => user) do |trace|
-      create(:tracetag, :trace => trace, :tag => "London")
-    end
 
     # First try to get it when not logged in
     get :mine
