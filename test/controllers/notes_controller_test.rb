@@ -124,8 +124,8 @@ class NotesControllerTest < ActionController::TestCase
       { :controller => "notes", :action => "user", :display_name => "username" }
     )
     assert_routing(
-      { :path => "/traces/mine", :method => :get },
-      { :controller => "traces", :action => "mine" }
+      { :path => "/notes/mine", :method => :get },
+      { :controller => "notes", :action => "mine" }
     )
   end
 
