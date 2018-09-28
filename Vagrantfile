@@ -11,16 +11,19 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id, "--uartmode1", "disconnected"]
   end
 
-  # use third party image and NFS sharing for lxc
+  # Use sshfs sharing if available, otherwise NFS sharing
+  sharing_type = Vagrant.has_plugin?("vagrant-sshfs") ? "sshfs" : "nfs"
+
+  # use third party image and sshfs or NFS sharing for lxc
   config.vm.provider "lxc" do |_, override|
     override.vm.box = "generic/ubuntu1804"
-    override.vm.synced_folder ".", "/srv/openstreetmap-website", :type => "nfs"
+    override.vm.synced_folder ".", "/srv/openstreetmap-website", :type => sharing_type
   end
 
-  # use third party image and NFS sharing for libvirt
+  # use third party image and sshfs or NFS sharing for libvirt
   config.vm.provider "libvirt" do |_, override|
     override.vm.box = "generic/ubuntu1804"
-    override.vm.synced_folder ".", "/srv/openstreetmap-website", :type => "nfs"
+    override.vm.synced_folder ".", "/srv/openstreetmap-website", :type => sharing_type
   end
 
   # configure shared package cache if possible
