@@ -580,6 +580,12 @@ class UserController < ApplicationController
     redirect_to params[:origin] || login_url
   end
 
+  ##
+  # Update a user's home location
+  def set_home_location
+    current_user.update(:home_lat => params[:lat], :home_lon => params[:lon])
+  end
+
   private
 
   ##

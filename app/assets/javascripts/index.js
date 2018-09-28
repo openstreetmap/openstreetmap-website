@@ -237,7 +237,8 @@ $(document).ready(function () {
       center = L.latLng(data.lat, data.lon);
 
     map.setView(center, data.zoom);
-    L.marker(center, {icon: OSM.getUserIcon()}).addTo(map);
+
+    OSM.setHomeMarker(map, center);
   });
 
   function remoteEditHandler(bbox, object) {

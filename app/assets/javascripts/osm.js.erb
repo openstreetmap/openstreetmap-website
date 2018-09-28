@@ -37,6 +37,7 @@ OSM = {
   CLOSED_NOTE_MARKER:      <%= image_path("closed_note_marker.png").to_json %>,
 
   SEARCHING:               <%= image_path("searching.gif").to_json %>,
+  homeMarker:              undefined, 
 
   apiUrl: function (object) {
     var url = "/api/" + OSM.API_VERSION + "/" + object.type + "/" + object.id;
@@ -219,5 +220,14 @@ OSM = {
         Math.pow(Math.sin(latdiff / 2), 2) + 
         Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(lngdiff / 2), 2)
       ));
+  },
+
+  setHomeMarker: function(map, coords) {
+    if (OSM.homeMarker) {
+      map.removeLayer(OSM.homeMarker);
+    }
+
+    OSM.homeMarker = L.marker(coords, {icon: OSM.getUserIcon()});
+    OSM.homeMarker.addTo(map);
   }
 };

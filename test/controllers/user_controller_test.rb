@@ -184,6 +184,10 @@ class UserControllerTest < ActionController::TestCase
       { :path => "/users/status", :method => :post },
       { :controller => "user", :action => "index", :status => "status" }
     )
+    assert_routing(
+      { :path => "/set_home_loc", :method => :post },
+      { :controller => "user", :action => "set_home_location" }
+    )
   end
 
   # The user creation page loads
@@ -1612,5 +1616,14 @@ class UserControllerTest < ActionController::TestCase
     assert_redirected_to :action => :index
     assert_equal "deleted", normal_user.reload.status
     assert_equal "deleted", confirmed_user.reload.status
+  end
+
+  def test_set_home_location
+    user = create(:user, :home_lat => 12.1, :home_lon => 12.1, :description => "test")
+
+    post :set_home_location, :params => { :lat => 9.1, :lon => 10.1 }, :session => { :user => user }
+
+    assert_equal 10.1, user.reload.home_lon
+    assert_equal 9.1, user.reload.home_lat
   end
 end
