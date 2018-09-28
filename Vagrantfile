@@ -4,7 +4,7 @@
 Vagrant.configure("2") do |config|
   # use official ubuntu image for virtualbox
   config.vm.provider "virtualbox" do |vb, override|
-    override.vm.box = "ubuntu/xenial64"
+    override.vm.box = "ubuntu/bionic64"
     override.vm.synced_folder ".", "/srv/openstreetmap-website"
     vb.customize ["modifyvm", :id, "--memory", "1024"]
     vb.customize ["modifyvm", :id, "--cpus", "2"]
@@ -13,13 +13,13 @@ Vagrant.configure("2") do |config|
 
   # use third party image and NFS sharing for lxc
   config.vm.provider "lxc" do |_, override|
-    override.vm.box = "generic/ubuntu1604"
+    override.vm.box = "generic/ubuntu1804"
     override.vm.synced_folder ".", "/srv/openstreetmap-website", :type => "nfs"
   end
 
   # use third party image and NFS sharing for libvirt
   config.vm.provider "libvirt" do |_, override|
-    override.vm.box = "generic/ubuntu1604"
+    override.vm.box = "generic/ubuntu1804"
     override.vm.synced_folder ".", "/srv/openstreetmap-website", :type => "nfs"
   end
 
