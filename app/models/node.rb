@@ -2,14 +2,14 @@
 #
 # Table name: current_nodes
 #
-#  id           :integer          not null, primary key
+#  id           :bigint(8)        not null, primary key
 #  latitude     :integer          not null
 #  longitude    :integer          not null
-#  changeset_id :integer          not null
+#  changeset_id :bigint(8)        not null
 #  visible      :boolean          not null
 #  timestamp    :datetime         not null
-#  tile         :integer          not null
-#  version      :integer          not null
+#  tile         :bigint(8)        not null
+#  version      :bigint(8)        not null
 #
 # Indexes
 #
@@ -46,8 +46,9 @@ class Node < ActiveRecord::Base
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
 
+  attr_accessor :skip_uniqueness
   validates :id, :uniqueness => true, :presence => { :on => :update },
-                 :numericality => { :on => :update, :integer_only => true }
+                 :numericality => { :on => :update, :integer_only => true }, :unless => :skip_uniqueness
   validates :version, :presence => true,
                       :numericality => { :integer_only => true }
   validates :changeset_id, :presence => true,
@@ -57,7 +58,7 @@ class Node < ActiveRecord::Base
   validates :longitude, :presence => true,
                         :numericality => { :integer_only => true }
   validates :timestamp, :presence => true
-  validates :changeset, :associated => true
+  validates :changeset, :associated => true, :unless => :skip_uniqueness
   validates :visible, :inclusion => [true, false]
 
   validate :validate_position
@@ -137,6 +138,13 @@ class Node < ActiveRecord::Base
     BoundingBox.new(longitude, latitude, longitude, latitude)
   end
 
+  def self.update_changeset_bbox_bulk(changeset, node_ids)
+    rows = Node.select("min(longitude) as min_lon, min(latitude) as min_lat, max(longitude) as max_lon, max(latitude) as max_lat")
+               .where(:id => node_ids.uniq)
+    temp_bbox = BoundingBox.new rows[0]["min_lon"], rows[0]["min_lat"], rows[0]["max_lon"], rows[0]["max_lat"]
+    changeset.update_bbox!(temp_bbox)
+  end
+
   # Should probably be renamed delete_from to come in line with update
   def delete_with_history!(new_node, user)
     raise OSM::APIAlreadyDeletedError.new("node", new_node.id) unless visible
@@ -164,6 +172,61 @@ class Node < ActiveRecord::Base
     end
   end
 
+  def self.delete_with_history_bulk!(nodes, changeset, if_unused = false)
+    node_hash = nodes.collect { |node| [node.id, node] }.to_h
+    skipped = {}
+    Node.transaction do
+      # check if node ids exists
+      node_ids = node_hash.keys
+      old_nodes = Node.select("id, version, visible").where(:id => node_ids).lock
+      raise OSM::APIBadUserInput, "Node not exist. id: " + (node_ids - old_nodes.collect(&:id)).join(", ") unless node_ids.length == old_nodes.length
+      old_nodes.each do |old|
+        unless old.visible
+          # already deleted
+          raise OSM::APIAlreadyDeletedError.new("node", old.id) unless if_unused
+          # if-unused: ignore and do next.
+          # return old db version to client.
+          node_hash[old.id].version = old.version
+          skipped[old.id] = node_hash[old.id]
+          node_hash.delete old.id
+          next
+        end
+        # check if client version equals db version
+        new = node_hash[old.id]
+        new.changeset = changeset
+        old.check_consistency(old, new, changeset.user)
+      end
+      # discover nodes referred by ways or relations
+      way_nodes = WayNode.select("node_id, way_id").where(:node_id => node_hash.keys).group_by(&:node_id)
+      raise OSM::APIPreconditionFailedError, "Node #{way_nodes.first[0]} is still used by ways #{way_nodes.first[1].collect(&:way_id).join(',')}." unless way_nodes.empty? || if_unused
+      way_nodes.each_key do |node_id|
+        skipped[node_id] = node_hash[node_id]
+        node_hash.delete node_id
+      end
+      rel_members = RelationMember.select("member_id, relation_id").where(:member_type => "Node", :member_id => node_hash.keys).group_by(&:member_id)
+      raise OSM::APIPreconditionFailedError, "Node #{rel_members.first[0]} is still used by relations #{rel_members.first[1].collect(&:relation_id).join(',')}." unless rel_members.empty? || if_unused
+      rel_members.each_key do |node_id|
+        skipped[node_id] = node_hash[node_id]
+        node_hash.delete node_id
+      end
+      # modify columns to delete
+      to_delete_nodes = node_hash.values
+      to_delete_nodes.each do |node|
+        # set lat lon not null, won't really modify latitude, longitude, tile.
+        # just a work-around to skip not-null constraint.
+        node.latitude = 0 if node.latitude.nil?
+        node.longitude = 0 if node.longitude.nil?
+        node.tags = {}
+        node.visible = false
+      end
+      # update changeset bbox
+      update_changeset_bbox_bulk(changeset, to_delete_nodes.collect(&:id))
+      # save
+      save_with_history_bulk!(to_delete_nodes, changeset, true)
+    end
+    skipped
+  end
+
   def update_from(new_node, user)
     Node.transaction do
       lock!
@@ -189,6 +252,28 @@ class Node < ActiveRecord::Base
     end
   end
 
+  def self.update_from_bulk(nodes, changeset)
+    Node.transaction do
+      nodes.sort_by!(&:id)
+      node_ids = nodes.collect(&:id)
+      # get id, version to check
+      # get lat, lon to update changeset
+      # lock for update
+      old_nodes = Node.select("id, latitude, longitude, version").where(:id => node_ids).order(:id).lock
+      node_ids.length.times do |i|
+        nodes[i].changeset = changeset
+        old_nodes[i].check_consistency(old_nodes[i], nodes[i], changeset.user)
+        # update changeset bbox with *old* position first
+        changeset.update_bbox!(old_nodes[i].bbox)
+        nodes[i].visible = true
+
+        # update changeset bbox with *new* position
+        changeset.update_bbox!(nodes[i].bbox)
+      end
+      save_with_history_bulk!(nodes, changeset)
+    end
+  end
+
   def create_with_history(user)
     check_create_consistency(self, user)
     self.version = 0
@@ -198,6 +283,15 @@ class Node < ActiveRecord::Base
     changeset.update_bbox!(bbox)
 
     save_with_history!
+  end
+
+  def self.create_with_history_bulk(nodes, changeset)
+    nodes.each do |node|
+      node.version = 0
+      node.visible = true
+      changeset.update_bbox!(node.bbox)
+    end
+    save_with_history_bulk!(nodes, changeset)
   end
 
   def to_xml
@@ -249,6 +343,12 @@ class Node < ActiveRecord::Base
     in_world?
   end
 
+  def self.preconditions_bulk_ok?(nodes)
+    nodes.each do |node|
+      raise OSM::APIPreconditionFailedError, "Node #{node.id} is not in the world" unless node.in_world?
+    end
+  end
+
   ##
   # dummy method to make the interfaces of node, way and relation
   # more consistent.
@@ -290,6 +390,56 @@ class Node < ActiveRecord::Base
 
       # save the changeset in case of bounding box updates
       changeset.save!
+    end
+  end
+
+  class << self
+    def save_with_history_bulk!(nodes, changeset, delete = false)
+      t = Time.now.getutc
+      Node.transaction do
+        # clone the object before saving it so that the original is
+        # still marked as dirty if we retry the transaction
+        clones = nodes.collect do |node|
+          node.version += 1
+          node.timestamp = t
+          node.update_tile
+          node.skip_uniqueness = true
+          node.clone
+        end
+        update_columns = if delete
+                           [:changeset_id, :visible, :timestamp, :version]
+                         else
+                           [:latitude, :longitude, :changeset_id,
+                            :visible, :timestamp, :tile, :version]
+                         end
+        Node.import(clones, :on_duplicate_key_update => update_columns)
+
+        # Create a NodeTag
+        node_ids = nodes.collect(&:id)
+        NodeTag.where(:node_id => node_ids).delete_all
+        tag_values = nodes.flat_map do |node|
+          node.tags.collect do |k, v|
+            nt = NodeTag.new(:node_id => node.id, :k => k, :v => v)
+            nt.skip_uniqueness = true
+            nt
+          end
+        end
+        NodeTag.import!(tag_values)
+
+        # Create OldNode
+        old_nodes = nodes.collect do |node|
+          old_node = OldNode.from_node(node)
+          old_node.update_tile
+          old_node
+        end
+        OldNode.save_with_dependencies_bulk!(old_nodes)
+
+        # tell the changeset we updated one element only
+        changeset.add_changes! nodes.length
+
+        # save the changeset in case of bounding box updates
+        changeset.save!
+      end
     end
   end
 end

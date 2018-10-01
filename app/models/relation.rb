@@ -36,14 +36,15 @@ class Relation < ActiveRecord::Base
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
 
+  attr_accessor :skip_uniqueness
   validates :id, :uniqueness => true, :presence => { :on => :update },
-                 :numericality => { :on => :update, :integer_only => true }
+                 :numericality => { :on => :update, :integer_only => true }, :unless => :skip_uniqueness
   validates :version, :presence => true,
                       :numericality => { :integer_only => true }
   validates :changeset_id, :presence => true,
                            :numericality => { :integer_only => true }
   validates :timestamp, :presence => true
-  validates :changeset, :associated => true
+  validates :changeset, :associated => true, :unless => :skip_uniqueness
   validates :visible, :inclusion => [true, false]
 
   scope :visible, -> { where(:visible => true) }
@@ -186,6 +187,16 @@ class Relation < ActiveRecord::Base
     changeset.update_bbox! element.bbox
   end
 
+  ##
+  # bulk updates the given +changeset+ bounding box to contain the bounding box of
+  # the element with given +type+ and +ids+. this only works with nodes
+  # and ways at the moment, as they're the only elements to respond to
+  # the :bbox call.
+  def self.update_changeset_element_bulk(changeset, type, ids)
+    model = Kernel.const_get(type.capitalize)
+    model.update_changeset_bbox_bulk(changeset, ids)
+  end
+
   def delete_with_history!(new_relation, user)
     raise OSM::APIAlreadyDeletedError.new("relation", new_relation.id) unless visible
 
@@ -207,6 +218,51 @@ class Relation < ActiveRecord::Base
     end
   end
 
+  def self.delete_with_history_bulk!(relations, changeset, if_unused = false)
+    relation_hash = relations.collect { |r| [r.id, r] }.to_h
+    skipped = {}
+    # need to start the transaction here, so that the database can
+    # provide repeatable reads for the used-by checks. this means it
+    # shouldn't be possible to get race conditions.
+    Relation.transaction do
+      relation_ids = relation_hash.keys
+      old_relations = Relation.select("id, version, visible").where(:id => relation_ids).lock
+      raise OSM::APIBadUserInput, "Relation not exist. id: " + (relation_ids - old_relations.collect(&:id)).join(", ") unless relation_ids.length == old_relations.length
+      old_relations.each do |old|
+        unless old.visible
+          # already deleted
+          raise OSM::APIAlreadyDeletedError.new("relation", old.id) unless if_unused
+          # if-unused: ignore and do next.
+          # return old db version to client.
+          relation_hash[old.id].version = old.version
+          skipped[old.id] = relation_hash[old.id]
+          relation_hash.delete old.id
+          next
+        end
+        # check if client version equals db version
+        new = relation_hash[old.id]
+        new.changeset = changeset
+        old.check_consistency(old, new, changeset.user)
+      end
+      # discover relations referred by relations
+      rel_members = RelationMember.select("member_id, relation_id").where(:member_type => "Relation", :member_id => relation_hash.keys).where.not(:relation_id => relation_hash.keys).group_by(&:member_id)
+      raise OSM::APIPreconditionFailedError, "Relation #{rel_members.first[0]} is still used by relations #{rel_members.first[1].collect(&:relation_id).join(',')}." unless rel_members.empty? || if_unused
+      rel_members.each_key do |id|
+        skipped[id] = relation_hash[id]
+        relation_hash.delete id
+      end
+      # modify columns to delete
+      to_deletes = relation_hash.values
+      to_deletes.each do |relation|
+        relation.tags = {}
+        relation.members = []
+        relation.visible = false
+      end
+      save_with_history_bulk!(to_deletes, changeset)
+    end
+    skipped
+  end
+
   def update_from(new_relation, user)
     Relation.transaction do
       lock!
@@ -219,6 +275,23 @@ class Relation < ActiveRecord::Base
       self.members = new_relation.members
       self.visible = true
       save_with_history!
+    end
+  end
+
+  def self.update_from_bulk(relations, changeset)
+    Relation.transaction do
+      relations.sort_by!(&:id)
+      relation_ids = relations.collect(&:id)
+      old_relations = Relation.select("id, version").where(:id => relation_ids).order(:id).lock
+      relation_ids.length.times do |i|
+        relations[i].changeset = changeset
+        old_relations[i].check_consistency(old_relations[i], relations[i], changeset.user)
+        relations[i].visible = true
+      end
+      old_members = RelationMember.select("member_type, member_id").where(:relation_id => relation_ids)
+                                  .collect { |m| [m.member_type, m.member_id] }
+      raise OSM::APIPreconditionFailedError, "Cannot update relations: data or member data is invalid." unless preconditions_bulk_ok?(relations, old_members)
+      save_with_history_bulk!(relations, changeset)
     end
   end
 
@@ -268,6 +341,53 @@ class Relation < ActiveRecord::Base
     true
   end
 
+  def self.preconditions_bulk_ok?(relations, good_members = [])
+    # These are hastables that store an id in the index of all
+    # the nodes/way/relations that have already been added.
+    # If the member is valid and visible then we add it to the
+    # relevant hash table, with the value true as a cache.
+    # Thus if you have nodes with the ids of 50 and 1 already in the
+    # relation, then the hash table nodes would contain:
+    # => {50=>true, 1=>true}
+    ids = { :node => [], :way => [], :relation => [] }
+    # only save type and id
+    all_members = relations.flat_map do |relation|
+      relation.members.collect { |m| [m[0], m[1]] }
+    end.uniq
+    all_members -= good_members.collect { |m| [m[0], m[1]] }
+    all_members.each do |m|
+      model_sym = m[0].downcase.to_sym
+      return false unless ids.key? model_sym
+      ids[model_sym].append(m[1])
+    end
+    ids.each do |model_sym, member_ids|
+      next if member_ids.empty?
+      # use reflection to look up the appropriate class
+      model = Kernel.const_get(model_sym.to_s.capitalize)
+      elements = model.select("id").where(:id => member_ids, :visible => true).lock("for share")
+
+      # model.preconditions_bulk_ok?(elements)
+      missing_elements = member_ids - elements.collect(&:id)
+      next if missing_elements.empty?
+      # generate error message
+      relations.each do |r|
+        r.members.each do |m|
+          raise OSM::APIPreconditionFailedError, "Relation with id #{r.id} cannot be saved due to #{m[0]} with id #{m[1]}" if (m[0].downcase.to_sym == model_sym) && missing_elements.any? { |me| me == m[1] }
+        end
+      end
+    end
+    true
+  end
+
+  def self.create_with_history_bulk(relations, changeset)
+    raise OSM::APIPreconditionFailedError, "Cannot create relation: data or member data is invalid." unless preconditions_bulk_ok?(relations)
+    relations.each do |relation|
+      relation.version = 0
+      relation.visible = true
+    end
+    save_with_history_bulk!(relations, changeset)
+  end
+
   ##
   # if any members are referenced by placeholder IDs (i.e: negative) then
   # this calling this method will fix them using the map from placeholders
@@ -286,6 +406,76 @@ class Relation < ActiveRecord::Base
     end
   end
 
+  ##
+  # if any members are referenced by placeholder IDs (i.e: negative) then
+  # this calling this method will fix them using the map from placeholders
+  # to IDs +id_map+.
+  def fix_placeholders(id_map)
+    members.map! do |type, id, role|
+      old_id = id.to_i
+      if old_id < 0
+        new_id = id_map[type.downcase.to_sym][old_id]
+        return type, old_id if new_id.nil?
+        [type, new_id, role]
+      else
+        [type, id, role]
+      end
+    end
+    nil
+  end
+
+  def self.tags_changed?(old_tag_arr, new_tag_hash)
+    # have to be a little bit clever here - to detect if any tags
+    # changed then we have to monitor their before and after state.
+    tags_changed = false
+    temp_tags = new_tag_hash.clone
+    old_tag_arr.each do |old_tag|
+      key = old_tag.k
+      # if we can match the tags we currently have to the list
+      # of old tags, then we never set the tags_changed flag. but
+      # if any are different then set the flag and do the DB
+      # update.
+      if temp_tags.key? key
+        tags_changed |= (old_tag.v != temp_tags[key])
+
+        # remove from the map, so that we can expect an empty map
+        # at the end if there are no new tags
+        temp_tags.delete key
+
+      else
+        # this means a tag was deleted
+        tags_changed = true
+      end
+    end
+    # if there are left-over tags then they are new and will have to
+    # be added.
+    tags_changed | !temp_tags.empty?
+  end
+
+  def self.get_changed_members(old_members, new_members)
+    # same pattern as before, but this time we're collecting the
+    # changed members in an array, as the bounding box updates for
+    # elements are per-element, not blanked on/off like for tags.
+    changed_members = []
+    members = new_members.clone
+    old_members.each do |old_member|
+      key = [old_member.member_type, old_member.member_id, old_member.member_role]
+      i = members.index key
+      if i.nil?
+        changed_members << key
+      else
+        members.delete_at i
+      end
+    end
+    # any remaining members must be new additions
+    changed_members + members
+  end
+
+  def self.any_relations?(changed_members)
+    changed_members.collect { |type, _id, _role| type == "Relation" }
+        .inject(false) { |acc, elem| acc || elem }
+  end
+
   private
 
   def save_with_history!
@@ -295,38 +485,13 @@ class Relation < ActiveRecord::Base
     self.timestamp = t
 
     Relation.transaction do
-      # have to be a little bit clever here - to detect if any tags
-      # changed then we have to monitor their before and after state.
-      tags_changed = false
-
       # clone the object before saving it so that the original is
       # still marked as dirty if we retry the transaction
       clone.save!
 
-      tags = self.tags.clone
-      relation_tags.each do |old_tag|
-        key = old_tag.k
-        # if we can match the tags we currently have to the list
-        # of old tags, then we never set the tags_changed flag. but
-        # if any are different then set the flag and do the DB
-        # update.
-        if tags.key? key
-          tags_changed |= (old_tag.v != tags[key])
-
-          # remove from the map, so that we can expect an empty map
-          # at the end if there are no new tags
-          tags.delete key
-
-        else
-          # this means a tag was deleted
-          tags_changed = true
-        end
-      end
-      # if there are left-over tags then they are new and will have to
-      # be added.
-      tags_changed |= !tags.empty?
+      tags_changed = Relation.tags_changed?(relation_tags, tags)
       RelationTag.where(:relation_id => id).delete_all
-      self.tags.each do |k, v|
+      tags.each do |k, v|
         tag = RelationTag.new
         tag.relation_id = id
         tag.k = k
@@ -337,19 +502,7 @@ class Relation < ActiveRecord::Base
       # same pattern as before, but this time we're collecting the
       # changed members in an array, as the bounding box updates for
       # elements are per-element, not blanked on/off like for tags.
-      changed_members = []
-      members = self.members.clone
-      relation_members.each do |old_member|
-        key = [old_member.member_type, old_member.member_id, old_member.member_role]
-        i = members.index key
-        if i.nil?
-          changed_members << key
-        else
-          members.delete_at i
-        end
-      end
-      # any remaining members must be new additions
-      changed_members += members
+      changed_members = Relation.get_changed_members(relation_members, members)
 
       # update the members. first delete all the old members, as the new
       # members may be in a different order and i don't feel like implementing
@@ -380,9 +533,7 @@ class Relation < ActiveRecord::Base
       # bounding box. this is similar to how the map call does things and is
       # reasonable on the assumption that adding or removing members doesn't
       # materially change the rest of the relation.
-      any_relations =
-        changed_members.collect { |type, _id, _role| type == "Relation" }
-                       .inject(false) { |acc, elem| acc || elem }
+      any_relations = Relation.any_relations?(changed_members)
 
       update_members = if tags_changed || any_relations
                          # add all non-relation bounding boxes to the changeset
@@ -401,6 +552,69 @@ class Relation < ActiveRecord::Base
 
       # save the (maybe updated) changeset bounding box
       changeset.save!
+    end
+  end
+
+  class << self
+    private
+
+    def save_with_history_bulk!(relations, changeset)
+      # get old data before save
+      relation_ids = relations.collect(&:id)
+      old_tags = RelationTag.where(:relation_id => relation_ids).group_by(&:relation_id)
+      old_members = RelationMember.where(:relation_id => relation_ids).group_by(&:relation_id)
+      update_members = []
+      relations.each do |relation|
+        tags_changed = tags_changed?(old_tags[relation.id] || [], relation.tags)
+        changed_members = get_changed_members(old_members[relation.id] || [], relation.members)
+        any_relations = any_relations?(changed_members)
+        update_members += (tags_changed || any_relations ? relation.members : changed_members)
+      end
+      t = Time.now.getutc
+      Relation.transaction do
+        clones = relations.collect do |relation|
+          relation.version += 1
+          relation.timestamp = t
+          relation.skip_uniqueness = true
+          relation.clone
+        end
+        Relation.import clones, :on_duplicate_key_update => [:changeset_id, :timestamp, :visible, :version]
+        relation_ids = relations.collect(&:id)
+        RelationTag.where(:relation_id => relation_ids).delete_all
+        tag_values = relations.flat_map do |relation|
+          relation.tags.collect do |k, v|
+            rt = RelationTag.new(:relation_id => relation.id, :k => k, :v => v)
+            rt.skip_uniqueness = true
+            rt
+          end
+        end
+        RelationTag.import tag_values
+
+        RelationMember.where(:relation_id => relation_ids).delete_all
+        member_values = relations.flat_map do |relation|
+          sequence = 0
+          relation.members.collect do |m|
+            [relation.id, m[0], m[1], m[2], sequence += 1]
+          end
+        end
+        member_columns = [:relation_id, :member_type, :member_id, :member_role, :sequence_id]
+        RelationMember.import member_columns, member_values, :validate => false
+
+        old_relations = relations.collect do |relation|
+          OldRelation.from_relation(relation)
+        end
+        OldRelation.save_with_dependencies_bulk!(old_relations)
+
+        update_members.group_by { |m| m[0] }.each do |type, elements|
+          update_changeset_element_bulk(changeset, type, elements.collect { |e| e[1] }) if type != "Relation"
+        end
+
+        # tell the changeset we updated one element only
+        changeset.add_changes! relations.length
+
+        # save the (maybe updated) changeset bounding box
+        changeset.save!
+      end
     end
   end
 end

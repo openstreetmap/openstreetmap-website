@@ -104,6 +104,14 @@ class OldNode < ActiveRecord::Base
     end
   end
 
+  def self.save_with_dependencies_bulk!(old_nodes)
+    OldNode.import old_nodes, :validate => false
+    tag_values = old_nodes.flat_map do |node|
+      node.tags.collect { |k, v| [node.node_id, k, v, node.version] }
+    end
+    OldNodeTag.import [:node_id, :k, :v, :version], tag_values, :validate => false
+  end
+
   def tags
     @tags ||= Hash[old_tags.collect { |t| [t.k, t.v] }]
   end

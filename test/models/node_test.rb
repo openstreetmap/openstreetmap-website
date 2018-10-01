@@ -98,6 +98,46 @@ class NodeTest < ActiveSupport::TestCase
     assert_equal node_template.timestamp.to_i, old_node.timestamp.to_i
   end
 
+  def test_bulk_create
+    changeset = create(:changeset)
+    node_template = Node.new(
+      :latitude => 12.3456,
+      :longitude => 65.4321,
+      :changeset_id => changeset.id,
+      :visible => 1,
+      :version => 1
+    )
+    nodes = Array.new(10) do
+      Node.new(
+        :latitude => node_template.latitude,
+        :longitude => node_template.longitude,
+        :changeset_id => node_template.changeset_id,
+        :visible => node_template.visible,
+        :version => node_template.version
+      )
+    end
+    assert Node.create_with_history_bulk(nodes, changeset)
+    nodes.each do |n|
+      node = Node.find(n.id)
+      assert_not_nil node
+      assert_equal n.latitude, node.latitude
+      assert_equal n.longitude, node.longitude
+      assert_equal n.changeset_id, node.changeset_id
+      assert_equal n.visible, node.visible
+      assert_equal n.timestamp.to_i, node.timestamp.to_i
+
+      assert_equal OldNode.where(:node_id => n.id).count, 1
+      old_node = OldNode.where(:node_id => n.id).first
+      assert_not_nil old_node
+      assert_equal n.latitude, old_node.latitude
+      assert_equal n.longitude, old_node.longitude
+      assert_equal n.changeset_id, old_node.changeset_id
+      assert_equal n.visible, old_node.visible
+      assert_equal n.tags, old_node.tags
+      assert_equal n.timestamp.to_i, old_node.timestamp.to_i
+    end
+  end
+
   def test_update
     node = create(:node)
     create(:old_node, :node_id => node.id, :version => 1)
@@ -130,6 +170,39 @@ class NodeTest < ActiveSupport::TestCase
     # assert_equal node_template.tags, old_node.tags
   end
 
+  def test_bulk_update
+    changeset = create(:changeset)
+    nodes = Array.new(10) do
+      node = create(:node, :changeset_id => changeset.id)
+      create(:old_node, :node_id => node.id, :version => 1)
+      node_template = Node.find(node.id)
+      assert_not_nil node_template
+      assert_equal OldNode.where(:node_id => node_template.id).count, 1
+      assert_not_nil node
+      node_template.latitude = 12.3456
+      node_template.longitude = 65.4321
+      node_template
+    end
+    Node.update_from_bulk(nodes, changeset)
+    nodes.each do |n|
+      node = Node.find(n.id)
+      assert_not_nil node
+      assert_equal n.latitude, node.latitude
+      assert_equal n.longitude, node.longitude
+      assert_equal n.changeset_id, node.changeset_id
+      assert_equal n.visible, node.visible
+      # assert_equal node_template.tags, node.tags
+
+      assert_equal OldNode.where(:node_id => n.id).count, 2
+      old_node = OldNode.where(:node_id => n.id, :version => 2).first
+      assert_not_nil old_node
+      assert_equal n.latitude, old_node.latitude
+      assert_equal n.longitude, old_node.longitude
+      assert_equal n.changeset_id, old_node.changeset_id
+      assert_equal n.visible, old_node.visible
+    end
+  end
+
   def test_delete
     node = create(:node)
     create(:old_node, :node_id => node.id, :version => 1)
@@ -157,6 +230,41 @@ class NodeTest < ActiveSupport::TestCase
     assert_equal node_template.changeset_id, old_node.changeset_id
     assert_equal false, old_node.visible
     # assert_equal node_template.tags, old_node.tags
+  end
+
+  def test_bulk_delete
+    changeset = create(:changeset)
+    nodes = Array.new(10) do
+      node = create(:node)
+      create(:old_node, :node_id => node.id, :version => 1)
+      node_template = Node.find(node.id)
+
+      assert_not_nil node_template
+      assert_equal OldNode.where(:node_id => node_template.id).count, 1
+      assert_not_nil node
+      node_template.changeset_id = changeset.id
+      node_template
+    end
+
+    assert Node.delete_with_history_bulk!(nodes, changeset)
+
+    nodes.each do |n|
+      node = Node.find(n.id)
+      assert_not_nil node
+      assert_equal n.latitude, node.latitude
+      assert_equal n.longitude, node.longitude
+      assert_equal n.changeset_id, node.changeset_id
+      assert_equal false, node.visible
+      # assert_equal node_template.tags, node.tags
+
+      assert_equal OldNode.where(:node_id => n.id).count, 2
+      old_node = OldNode.where(:node_id => n.id, :version => 2).first
+      assert_not_nil old_node
+      assert_equal n.latitude, old_node.latitude
+      assert_equal n.longitude, old_node.longitude
+      assert_equal n.changeset_id, old_node.changeset_id
+      assert_equal false, old_node.visible
+    end
   end
 
   def test_from_xml_no_id

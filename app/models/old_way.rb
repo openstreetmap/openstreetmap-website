@@ -76,6 +76,25 @@ class OldWay < ActiveRecord::Base
     end
   end
 
+  def self.save_with_dependencies_bulk!(old_ways)
+    OldWay.import old_ways, :validate => false
+
+    tag_values = old_ways.flat_map do |way|
+      way.tags.collect { |k, v| [way.way_id, k, v, way.version] }
+    end
+    tag_columns = [:way_id, :k, :v, :version]
+    OldWayTag.import tag_columns, tag_values, :validate => false
+
+    way_values = old_ways.flat_map do |way|
+      sequence = 0
+      way.nds.collect do |n|
+        [way.way_id, n, sequence += 1, way.version]
+      end
+    end
+    way_columns = [:way_id, :node_id, :sequence_id, :version]
+    OldWayNode.import way_columns, way_values, :validate => false
+  end
+
   def nds
     @nds ||= old_nodes.order(:sequence_id).collect(&:node_id)
   end

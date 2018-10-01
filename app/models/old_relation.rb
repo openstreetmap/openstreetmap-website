@@ -76,6 +76,25 @@ class OldRelation < ActiveRecord::Base
     end
   end
 
+  def self.save_with_dependencies_bulk!(relations)
+    OldRelation.import relations, :validate => false
+
+    tag_values = relations.flat_map do |relation|
+      relation.tags.collect { |k, v| [relation.relation_id, k, v, relation.version] }
+    end
+    tag_columns = [:relation_id, :k, :v, :version]
+    OldRelationTag.import tag_columns, tag_values, :validate => false
+
+    member_values = relations.flat_map do |relation|
+      sequence = 0
+      relation.members.collect do |m|
+        [relation.relation_id, m[0], m[1], m[2], relation.version, sequence += 1]
+      end
+    end
+    member_columns = [:relation_id, :member_type, :member_id, :member_role, :version, :sequence_id]
+    OldRelationMember.import member_columns, member_values, :validate => false
+  end
+
   def members
     @members ||= old_members.collect do |member|
       [member.member_type, member.member_id, member.member_role]
