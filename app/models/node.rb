@@ -180,10 +180,12 @@ class Node < ActiveRecord::Base
       node_ids = node_hash.keys
       old_nodes = Node.select("id, version, visible").where(:id => node_ids).lock
       raise OSM::APIBadUserInput, "Node not exist. id: " + (node_ids - old_nodes.collect(&:id)).join(", ") unless node_ids.length == old_nodes.length
+
       old_nodes.each do |old|
         unless old.visible
           # already deleted
           raise OSM::APIAlreadyDeletedError.new("node", old.id) unless if_unused
+
           # if-unused: ignore and do next.
           # return old db version to client.
           node_hash[old.id].version = old.version
@@ -199,12 +201,14 @@ class Node < ActiveRecord::Base
       # discover nodes referred by ways or relations
       way_nodes = WayNode.select("node_id, way_id").where(:node_id => node_hash.keys).group_by(&:node_id)
       raise OSM::APIPreconditionFailedError, "Node #{way_nodes.first[0]} is still used by ways #{way_nodes.first[1].collect(&:way_id).join(',')}." unless way_nodes.empty? || if_unused
+
       way_nodes.each_key do |node_id|
         skipped[node_id] = node_hash[node_id]
         node_hash.delete node_id
       end
       rel_members = RelationMember.select("member_id, relation_id").where(:member_type => "Node", :member_id => node_hash.keys).group_by(&:member_id)
       raise OSM::APIPreconditionFailedError, "Node #{rel_members.first[0]} is still used by relations #{rel_members.first[1].collect(&:relation_id).join(',')}." unless rel_members.empty? || if_unused
+
       rel_members.each_key do |node_id|
         skipped[node_id] = node_hash[node_id]
         node_hash.delete node_id

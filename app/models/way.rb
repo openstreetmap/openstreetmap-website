@@ -208,6 +208,7 @@ class Way < ActiveRecord::Base
       end
       old_nodes = WayNode.select("node_id").where(:way_id => way_ids).collect(&:node_id)
       raise OSM::APIPreconditionFailedError, "Cannot update ways: data is invalid." unless preconditions_bulk_ok?(ways, old_nodes)
+
       save_with_history_bulk!(ways, changeset)
     end
   end
@@ -223,6 +224,7 @@ class Way < ActiveRecord::Base
 
   def self.create_with_history_bulk(ways, changeset)
     raise OSM::APIPreconditionFailedError, "Cannot create way: data is invalid." unless preconditions_bulk_ok?(ways)
+
     ways.each do |way|
       way.version = 0
       way.visible = true
@@ -256,6 +258,7 @@ class Way < ActiveRecord::Base
     all_nds = ways.flat_map do |way|
       raise OSM::APIPreconditionFailedError, "Way #{way.id} has an empty node list." if way.nds.empty?
       raise OSM::APITooManyWayNodesError.new(way.id, way.nds.length, MAX_NUMBER_OF_WAY_NODES) if way.nds.length > MAX_NUMBER_OF_WAY_NODES
+
       way.nds
     end.sort.uniq
     all_nds -= old_nodes
@@ -307,10 +310,12 @@ class Way < ActiveRecord::Base
       way_ids = way_hash.keys
       old_ways = Way.select("id, version, visible").where(:id => way_ids).lock
       raise OSM::APIBadUserInput, "Way not exist. id: " + (way_ids - old_ways.collect(&:id)).join(", ") unless way_ids.length == old_ways.length
+
       old_ways.each do |old|
         unless old.visible
           # already deleted
           raise OSM::APIAlreadyDeletedError.new("way", old.id) unless if_unused
+
           # if-unused: ignore and do next.
           # return old db version to client.
           way_hash[old.id].version = old.version
@@ -326,6 +331,7 @@ class Way < ActiveRecord::Base
       # discover ways referred by relations
       rel_members = RelationMember.select("member_id, relation_id").where(:member_type => "Way", :member_id => way_hash.keys).group_by(&:member_id)
       raise OSM::APIPreconditionFailedError, "Way #{rel_members.first[0]} is still used by relations #{rel_members.first[1].collect(&:relation_id).join(',')}." unless rel_members.empty? || if_unused
+
       rel_members.each_key do |id|
         skipped[id] = way_hash[id]
         way_hash.delete id

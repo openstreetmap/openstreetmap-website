@@ -228,10 +228,12 @@ class Relation < ActiveRecord::Base
       relation_ids = relation_hash.keys
       old_relations = Relation.select("id, version, visible").where(:id => relation_ids).lock
       raise OSM::APIBadUserInput, "Relation not exist. id: " + (relation_ids - old_relations.collect(&:id)).join(", ") unless relation_ids.length == old_relations.length
+
       old_relations.each do |old|
         unless old.visible
           # already deleted
           raise OSM::APIAlreadyDeletedError.new("relation", old.id) unless if_unused
+
           # if-unused: ignore and do next.
           # return old db version to client.
           relation_hash[old.id].version = old.version
@@ -247,6 +249,7 @@ class Relation < ActiveRecord::Base
       # discover relations referred by relations
       rel_members = RelationMember.select("member_id, relation_id").where(:member_type => "Relation", :member_id => relation_hash.keys).where.not(:relation_id => relation_hash.keys).group_by(&:member_id)
       raise OSM::APIPreconditionFailedError, "Relation #{rel_members.first[0]} is still used by relations #{rel_members.first[1].collect(&:relation_id).join(',')}." unless rel_members.empty? || if_unused
+
       rel_members.each_key do |id|
         skipped[id] = relation_hash[id]
         relation_hash.delete id
@@ -291,6 +294,7 @@ class Relation < ActiveRecord::Base
       old_members = RelationMember.select("member_type, member_id").where(:relation_id => relation_ids)
                                   .collect { |m| [m.member_type, m.member_id] }
       raise OSM::APIPreconditionFailedError, "Cannot update relations: data or member data is invalid." unless preconditions_bulk_ok?(relations, old_members)
+
       save_with_history_bulk!(relations, changeset)
     end
   end
@@ -358,10 +362,12 @@ class Relation < ActiveRecord::Base
     all_members.each do |m|
       model_sym = m[0].downcase.to_sym
       return false unless ids.key? model_sym
+
       ids[model_sym].append(m[1])
     end
     ids.each do |model_sym, member_ids|
       next if member_ids.empty?
+
       # use reflection to look up the appropriate class
       model = Kernel.const_get(model_sym.to_s.capitalize)
       elements = model.select("id").where(:id => member_ids, :visible => true).lock("for share")
@@ -369,6 +375,7 @@ class Relation < ActiveRecord::Base
       # model.preconditions_bulk_ok?(elements)
       missing_elements = member_ids - elements.collect(&:id)
       next if missing_elements.empty?
+
       # generate error message
       relations.each do |r|
         r.members.each do |m|
@@ -381,6 +388,7 @@ class Relation < ActiveRecord::Base
 
   def self.create_with_history_bulk(relations, changeset)
     raise OSM::APIPreconditionFailedError, "Cannot create relation: data or member data is invalid." unless preconditions_bulk_ok?(relations)
+
     relations.each do |relation|
       relation.version = 0
       relation.visible = true
@@ -413,9 +421,10 @@ class Relation < ActiveRecord::Base
   def fix_placeholders(id_map)
     members.map! do |type, id, role|
       old_id = id.to_i
-      if old_id < 0
+      if old_id.negative?
         new_id = id_map[type.downcase.to_sym][old_id]
         return type, old_id if new_id.nil?
+
         [type, new_id, role]
       else
         [type, id, role]
@@ -473,7 +482,7 @@ class Relation < ActiveRecord::Base
 
   def self.any_relations?(changed_members)
     changed_members.collect { |type, _id, _role| type == "Relation" }
-        .inject(false) { |acc, elem| acc || elem }
+                   .inject(false) { |acc, elem| acc || elem }
   end
 
   private
