@@ -38,12 +38,12 @@ OSM.History = function(map) {
   };
 
   function highlightChangeset(id) {
-    group.getLayer(id).setStyle({fillOpacity: 0.3});
+    group.getLayer(id).setStyle({fillOpacity: 0.3, color: "#0095AA"});
     $("#changeset_" + id).addClass("selected");
   }
 
   function unHighlightChangeset(id) {
-    group.getLayer(id).setStyle({fillOpacity: 0});
+    group.getLayer(id).setStyle({fillOpacity: 0, color: "#FF9500"});
     $("#changeset_" + id).removeClass("selected");
   }
 
