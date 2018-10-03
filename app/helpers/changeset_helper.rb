@@ -1,7 +1,7 @@
 module ChangesetHelper
   def changeset_user_link(changeset)
     if changeset.user.status == "deleted"
-      t("user.no_such_user.deleted")
+      t("users.no_such_user.deleted")
     elsif changeset.user.data_public?
       link_to(changeset.user.display_name, user_path(changeset.user))
     else

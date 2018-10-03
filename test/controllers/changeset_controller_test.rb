@@ -1969,11 +1969,11 @@ CHANGESET
   def test_index_user_not_found
     get :index, :params => { :format => "html", :display_name => "Some random user" }
     assert_response :not_found
-    assert_template "user/no_such_user"
+    assert_template "users/no_such_user"
 
     get :index, :params => { :format => "html", :display_name => "Some random user", :list => "1" }, :xhr => true
     assert_response :not_found
-    assert_template "user/no_such_user"
+    assert_template "users/no_such_user"
   end
 
   ##
@@ -1985,7 +1985,7 @@ CHANGESET
 
     get :index, :params => { :friends => true }
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => friend_changesets_path
+    assert_redirected_to :controller => :users, :action => :login, :referer => friend_changesets_path
 
     session[:user] = private_user.id
 
@@ -2009,7 +2009,7 @@ CHANGESET
 
     get :index, :params => { :nearby => true }
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => nearby_changesets_path
+    assert_redirected_to :controller => :users, :action => :login, :referer => nearby_changesets_path
 
     session[:user] = private_user.id
 
