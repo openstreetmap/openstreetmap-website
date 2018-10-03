@@ -23,7 +23,7 @@ class UserRolesTest < ActionDispatch::IntegrationTest
   def check_fail(action, user, role)
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
     post "/login", :params => { "username" => create(user).email, "password" => "test", :referer => "/" }
@@ -41,7 +41,7 @@ class UserRolesTest < ActionDispatch::IntegrationTest
   def check_success(action, user, role)
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
     post "/login", :params => { "username" => create(user).email, "password" => "test", :referer => "/" }

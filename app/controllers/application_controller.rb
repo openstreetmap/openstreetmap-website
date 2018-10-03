@@ -17,16 +17,16 @@ class ApplicationController < ActionController::Base
         session.delete(:user)
         session_expires_automatically
 
-        redirect_to :controller => "user", :action => "suspended"
+        redirect_to :controller => "users", :action => "suspended"
 
       # don't allow access to any auth-requiring part of the site unless
       # the new CTs have been seen (and accept/decline chosen).
       elsif !current_user.terms_seen && flash[:skip_terms].nil?
         flash[:notice] = t "user.terms.you need to accept or decline"
         if params[:referer]
-          redirect_to :controller => "user", :action => "terms", :referer => params[:referer]
+          redirect_to :controller => "users", :action => "terms", :referer => params[:referer]
         else
-          redirect_to :controller => "user", :action => "terms", :referer => request.fullpath
+          redirect_to :controller => "users", :action => "terms", :referer => request.fullpath
         end
       end
     elsif session[:token]
@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
   def require_user
     unless current_user
       if request.get?
-        redirect_to :controller => "user", :action => "login", :referer => request.fullpath
+        redirect_to :controller => "users", :action => "login", :referer => request.fullpath
       else
         head :forbidden
       end
@@ -386,11 +386,11 @@ class ApplicationController < ActionController::Base
   ##
   # render a "no such user" page
   def render_unknown_user(name)
-    @title = t "user.no_such_user.title"
+    @title = t "users.no_such_user.title"
     @not_found_user = name
 
     respond_to do |format|
-      format.html { render :template => "user/no_such_user", :status => :not_found }
+      format.html { render :template => "users/no_such_user", :status => :not_found }
       format.all { head :not_found }
     end
   end

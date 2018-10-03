@@ -289,10 +289,10 @@ class NotesController < ApplicationController
         @notes = @notes.visible unless current_user&.moderator?
         @notes = @notes.order("updated_at DESC, id").distinct.offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author).to_a
       else
-        @title = t "user.no_such_user.title"
+        @title = t "users.no_such_user.title"
         @not_found_user = params[:display_name]
 
-        render :template => "user/no_such_user", :status => :not_found
+        render :template => "users/no_such_user", :status => :not_found
       end
     end
   end

@@ -1,4 +1,4 @@
-class UserController < ApplicationController
+class UsersController < ApplicationController
   layout "site", :except => [:api_details]
 
   skip_before_action :verify_authenticity_token, :only => [:api_read, :api_users, :api_details, :api_gpx_files, :auth_success]
@@ -27,7 +27,7 @@ class UserController < ApplicationController
     if request.xhr?
       render :partial => "terms"
     else
-      @title = t "user.terms.title"
+      @title = t "users.terms.title"
 
       if current_user&.terms_agreed?
         # Already agreed to terms, so just show settings
@@ -39,13 +39,13 @@ class UserController < ApplicationController
   end
 
   def save
-    @title = t "user.new.title"
+    @title = t "users.new.title"
 
     if params[:decline]
       if current_user
         current_user.terms_seen = true
 
-        flash[:notice] = t("user.new.terms declined", :url => t("user.new.terms declined url")).html_safe if current_user.save
+        flash[:notice] = t("users.new.terms declined", :url => t("users.new.terms declined url")).html_safe if current_user.save
 
         if params[:referer]
           redirect_to params[:referer]
@@ -53,7 +53,7 @@ class UserController < ApplicationController
           redirect_to :action => :account, :display_name => current_user.display_name
         end
       else
-        redirect_to t("user.terms.declined")
+        redirect_to t("users.terms.declined")
       end
     elsif current_user
       unless current_user.terms_agreed?
@@ -61,7 +61,7 @@ class UserController < ApplicationController
         current_user.terms_agreed = Time.now.getutc
         current_user.terms_seen = true
 
-        flash[:notice] = t "user.new.terms accepted" if current_user.save
+        flash[:notice] = t "users.new.terms accepted" if current_user.save
       end
 
       if params[:referer]
@@ -134,18 +134,18 @@ class UserController < ApplicationController
         current_user.errors.add(attribute, error)
       end
     end
-    @title = t "user.account.title"
+    @title = t "users.account.title"
   end
 
   def go_public
     current_user.data_public = true
     current_user.save
-    flash[:notice] = t "user.go_public.flash success"
+    flash[:notice] = t "users.go_public.flash success"
     redirect_to :action => "account", :display_name => current_user.display_name
   end
 
   def lost_password
-    @title = t "user.lost_password.title"
+    @title = t "users.lost_password.title"
 
     if params[:user] && params[:user][:email]
       user = User.visible.find_by(:email => params[:user][:email])
@@ -159,16 +159,16 @@ class UserController < ApplicationController
       if user
         token = user.tokens.create
         Notifier.lost_password(user, token).deliver_now
-        flash[:notice] = t "user.lost_password.notice email on way"
+        flash[:notice] = t "users.lost_password.notice email on way"
         redirect_to :action => "login"
       else
-        flash.now[:error] = t "user.lost_password.notice email cannot find"
+        flash.now[:error] = t "users.lost_password.notice email cannot find"
       end
     end
   end
 
   def reset_password
-    @title = t "user.reset_password.title"
+    @title = t "users.reset_password.title"
 
     if params[:token]
       token = UserToken.find_by(:token => params[:token])
@@ -184,12 +184,12 @@ class UserController < ApplicationController
 
           if current_user.save
             token.destroy
-            flash[:notice] = t "user.reset_password.flash changed"
+            flash[:notice] = t "users.reset_password.flash changed"
             successful_login(current_user)
           end
         end
       else
-        flash[:error] = t "user.reset_password.flash token bad"
+        flash[:error] = t "users.reset_password.flash token bad"
         redirect_to :action => "lost_password"
       end
     else
@@ -198,7 +198,7 @@ class UserController < ApplicationController
   end
 
   def new
-    @title = t "user.new.title"
+    @title = t "users.new.title"
     @referer = params[:referer] || session[:referer]
 
     append_content_security_policy_directives(
@@ -271,7 +271,7 @@ class UserController < ApplicationController
   end
 
   def logout
-    @title = t "user.logout.title"
+    @title = t "users.logout.title"
 
     if params[:session] == session.id
       if session[:token]
@@ -293,10 +293,10 @@ class UserController < ApplicationController
     if request.post?
       token = UserToken.find_by(:token => params[:confirm_string])
       if token&.user&.active?
-        flash[:error] = t("user.confirm.already active")
+        flash[:error] = t("users.confirm.already active")
         redirect_to :action => "login"
       elsif !token || token.expired?
-        flash[:error] = t("user.confirm.unknown token")
+        flash[:error] = t("users.confirm.unknown token")
         redirect_to :action => "confirm"
       else
         user = token.user
@@ -315,7 +315,7 @@ class UserController < ApplicationController
         end
 
         if token.nil? || token.user != user
-          flash[:notice] = t("user.confirm.success")
+          flash[:notice] = t("users.confirm.success")
           redirect_to :action => :login, :referer => referer
         else
           token.destroy
@@ -337,10 +337,10 @@ class UserController < ApplicationController
     token = UserToken.find_by(:token => session[:token])
 
     if user.nil? || token.nil? || token.user != user
-      flash[:error] = t "user.confirm_resend.failure", :name => params[:display_name]
+      flash[:error] = t "users.confirm_resend.failure", :name => params[:display_name]
     else
       Notifier.signup_confirm(user, user.tokens.create).deliver_now
-      flash[:notice] = t("user.confirm_resend.success", :email => user.email, :sender => SUPPORT_EMAIL).html_safe
+      flash[:notice] = t("users.confirm_resend.success", :email => user.email, :sender => SUPPORT_EMAIL).html_safe
     end
 
     redirect_to :action => "login"
@@ -357,9 +357,9 @@ class UserController < ApplicationController
         gravatar_enabled = gravatar_enable(current_user)
         if current_user.save
           flash[:notice] = if gravatar_enabled
-                             t("user.confirm_email.success") + " " + gravatar_status_message(current_user)
+                             t("users.confirm_email.success") + " " + gravatar_status_message(current_user)
                            else
-                             t("user.confirm_email.success")
+                             t("users.confirm_email.success")
                            end
         else
           flash[:errors] = current_user.errors
@@ -368,10 +368,10 @@ class UserController < ApplicationController
         session[:user] = current_user.id
         redirect_to :action => "account", :display_name => current_user.display_name
       elsif token
-        flash[:error] = t "user.confirm_email.failure"
+        flash[:error] = t "users.confirm_email.failure"
         redirect_to :action => "account", :display_name => token.user.display_name
       else
-        flash[:error] = t "user.confirm_email.unknown_token"
+        flash[:error] = t "users.confirm_email.unknown_token"
       end
     end
   end
@@ -429,12 +429,12 @@ class UserController < ApplicationController
         friend.befriender = current_user
         friend.befriendee = @new_friend
         if current_user.is_friends_with?(@new_friend)
-          flash[:warning] = t "user.make_friend.already_a_friend", :name => @new_friend.display_name
+          flash[:warning] = t "users.make_friend.already_a_friend", :name => @new_friend.display_name
         elsif friend.save
-          flash[:notice] = t "user.make_friend.success", :name => @new_friend.display_name
+          flash[:notice] = t "users.make_friend.success", :name => @new_friend.display_name
           Notifier.friend_notification(friend).deliver_now
         else
-          friend.add_error(t("user.make_friend.failed", :name => @new_friend.display_name))
+          friend.add_error(t("users.make_friend.failed", :name => @new_friend.display_name))
         end
 
         if params[:referer]
@@ -455,9 +455,9 @@ class UserController < ApplicationController
       if request.post?
         if current_user.is_friends_with?(@friend)
           Friend.where(:user_id => current_user.id, :friend_user_id => @friend.id).delete_all
-          flash[:notice] = t "user.remove_friend.success", :name => @friend.display_name
+          flash[:notice] = t "users.remove_friend.success", :name => @friend.display_name
         else
-          flash[:error] = t "user.remove_friend.not_a_friend", :name => @friend.display_name
+          flash[:error] = t "users.remove_friend.not_a_friend", :name => @friend.display_name
         end
 
         if params[:referer]
@@ -562,9 +562,9 @@ class UserController < ApplicationController
         when "active", "confirmed" then
           successful_login(user, request.env["omniauth.params"]["referer"])
         when "suspended" then
-          failed_login t("user.login.account is suspended", :webmaster => "mailto:#{SUPPORT_EMAIL}").html_safe
+          failed_login t("users.login.account is suspended", :webmaster => "mailto:#{SUPPORT_EMAIL}").html_safe
         else
-          failed_login t("user.login.auth failure")
+          failed_login t("users.login.auth failure")
         end
       else
         redirect_to :action => "new", :nickname => name, :email => email,
@@ -576,7 +576,7 @@ class UserController < ApplicationController
   ##
   # omniauth failure callback
   def auth_failure
-    flash[:error] = t("user.auth_failure." + params[:message])
+    flash[:error] = t("users.auth_failure." + params[:message])
     redirect_to params[:origin] || login_url
   end
 
@@ -590,9 +590,9 @@ class UserController < ApplicationController
     elsif user = User.authenticate(:username => username, :password => password, :pending => true)
       unconfirmed_login(user)
     elsif User.authenticate(:username => username, :password => password, :suspended => true)
-      failed_login t("user.login.account is suspended", :webmaster => "mailto:#{SUPPORT_EMAIL}").html_safe, username
+      failed_login t("users.login.account is suspended", :webmaster => "mailto:#{SUPPORT_EMAIL}").html_safe, username
     else
-      failed_login t("user.login.auth failure"), username
+      failed_login t("users.login.auth failure"), username
     end
   end
 
@@ -727,12 +727,12 @@ class UserController < ApplicationController
       set_locale(true)
 
       if user.new_email.blank? || user.new_email == user.email
-        flash.now[:notice] = t "user.account.flash update success"
+        flash.now[:notice] = t "users.account.flash update success"
       else
         user.email = user.new_email
 
         if user.valid?
-          flash.now[:notice] = t "user.account.flash update success confirm needed"
+          flash.now[:notice] = t "users.account.flash update success confirm needed"
 
           begin
             Notifier.email_confirm(user, user.tokens.create).deliver_now
@@ -754,7 +754,7 @@ class UserController < ApplicationController
   # and return them to the user page.
   def require_administrator
     if current_user && !current_user.administrator?
-      flash[:error] = t("user.filter.not_an_administrator")
+      flash[:error] = t("users.filter.not_an_administrator")
 
       if params[:display_name]
         redirect_to user_path(:display_name => params[:display_name])
@@ -839,9 +839,9 @@ class UserController < ApplicationController
   # display a message about th current status of the gravatar setting
   def gravatar_status_message(user)
     if user.image_use_gravatar
-      t "user.account.gravatar.enabled"
+      t "users.account.gravatar.enabled"
     else
-      t "user.account.gravatar.disabled"
+      t "users.account.gravatar.disabled"
     end
   end
 end

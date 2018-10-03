@@ -210,7 +210,7 @@ class TracesControllerTest < ActionController::TestCase
 
     # First try to get it when not logged in
     get :mine
-    assert_redirected_to :controller => "user", :action => "login", :referer => "/traces/mine"
+    assert_redirected_to :controller => "users", :action => "login", :referer => "/traces/mine"
 
     # Now try when logged in
     get :mine, :session => { :user => user }
@@ -255,7 +255,7 @@ class TracesControllerTest < ActionController::TestCase
     # Should get an error if the user does not exist
     get :index, :params => { :display_name => "UnknownUser" }
     assert_response :not_found
-    assert_template "user/no_such_user"
+    assert_template "users/no_such_user"
   end
 
   # Check a multi-page index
@@ -547,7 +547,7 @@ class TracesControllerTest < ActionController::TestCase
     # First with no auth
     get :new
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => new_trace_path
+    assert_redirected_to :controller => :users, :action => :login, :referer => new_trace_path
 
     # Now authenticated as a user with gps.trace.visibility set
     user = create(:user)
@@ -628,7 +628,7 @@ class TracesControllerTest < ActionController::TestCase
     # First with no auth
     get :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => edit_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file.id)
+    assert_redirected_to :controller => :users, :action => :login, :referer => edit_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file.id)
 
     # Now with some other user, which should fail
     get :edit, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => create(:user) }

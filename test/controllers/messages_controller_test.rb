@@ -195,7 +195,7 @@ class MessagesControllerTest < ActionController::TestCase
     # Asking to send a message with a bogus user name should fail
     get :new, :params => { :display_name => "non_existent_user" }
     assert_response :not_found
-    assert_template "user/no_such_user"
+    assert_template "users/no_such_user"
     assert_select "h1", "The user non_existent_user does not exist"
   end
 

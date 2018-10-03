@@ -8,7 +8,7 @@ class Notifier < ActionMailer::Base
 
   def signup_confirm(user, token)
     with_recipient_locale user do
-      @url = url_for(:controller => "user", :action => "confirm",
+      @url = url_for(:controller => "users", :action => "confirm",
                      :display_name => user.display_name,
                      :confirm_string => token.token)
 
@@ -20,7 +20,7 @@ class Notifier < ActionMailer::Base
   def email_confirm(user, token)
     with_recipient_locale user do
       @address = user.new_email
-      @url = url_for(:controller => "user", :action => "confirm_email",
+      @url = url_for(:controller => "users", :action => "confirm_email",
                      :confirm_string => token.token)
 
       mail :to => user.new_email,
@@ -30,7 +30,7 @@ class Notifier < ActionMailer::Base
 
   def lost_password(user, token)
     with_recipient_locale user do
-      @url = url_for(:controller => "user", :action => "reset_password",
+      @url = url_for(:controller => "users", :action => "reset_password",
                      :token => token.token)
 
       mail :to => user.email,
@@ -105,7 +105,7 @@ class Notifier < ActionMailer::Base
     with_recipient_locale friend.befriendee do
       @friend = friend
       @viewurl = user_url(@friend.befriender)
-      @friendurl = url_for(:controller => "user", :action => "make_friend",
+      @friendurl = url_for(:controller => "users", :action => "make_friend",
                            :display_name => @friend.befriender.display_name)
       @author = @friend.befriender.display_name
 

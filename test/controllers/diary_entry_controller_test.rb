@@ -104,7 +104,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     # are not logged in
     get :new
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => "/diary/new"
+    assert_redirected_to :controller => :users, :action => :login, :referer => "/diary/new"
   end
 
   def test_new_form
@@ -240,7 +240,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
         :params => { :display_name => user.display_name },
         :session => { :user => user }
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :suspended
+    assert_redirected_to :controller => :users, :action => :suspended
   end
 
   def test_edit
@@ -254,7 +254,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     get :edit,
         :params => { :display_name => entry.user.display_name, :id => entry.id }
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => "/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}/edit"
+    assert_redirected_to :controller => :users, :action => :login, :referer => "/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}/edit"
 
     # Verify that you get a not found error, when you pass a bogus id
     get :edit,
@@ -474,7 +474,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
         :params => { :display_name => user.display_name },
         :session => { :user => other_user }
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :suspended
+    assert_redirected_to :controller => :users, :action => :suspended
 
     # Now show the diary entry, and check the new comment is not present
     get :show,
@@ -508,7 +508,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     # Try a list of diary entries for an invalid user
     get :index, :params => { :display_name => "No Such User" }
     assert_response :not_found
-    assert_template "user/no_such_user"
+    assert_template "users/no_such_user"
   end
 
   def test_index_friends
@@ -521,7 +521,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     # Try a list of diary entries for your friends when not logged in
     get :index, :params => { :friends => true }
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => "/diary/friends"
+    assert_redirected_to :controller => :users, :action => :login, :referer => "/diary/friends"
 
     # Try a list of diary entries for your friends when logged in
     get :index, :params => { :friends => true }, :session => { :user => user }
@@ -539,7 +539,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     # Try a list of diary entries for nearby users when not logged in
     get :index, :params => { :nearby => true }
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => "/diary/nearby"
+    assert_redirected_to :controller => :users, :action => :login, :referer => "/diary/nearby"
 
     # Try a list of diary entries for nearby users when logged in
     get :index, :params => { :nearby => true }, :session => { :user => nearby_user }

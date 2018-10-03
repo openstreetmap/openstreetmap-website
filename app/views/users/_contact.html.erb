@@ -35,12 +35,12 @@
     </p>
 
     <ul class='secondary-actions clearfix deemphasize'>
-      <li><%= link_to t('user.show.send message'), new_message_path(contact) %></li>
+      <li><%= link_to t('users.show.send message'), new_message_path(contact) %></li>
       <li>
         <% if current_user.is_friends_with?(contact) %>
-          <%= link_to t('user.show.remove as friend'), remove_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
+          <%= link_to t('users.show.remove as friend'), remove_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
         <% else %>
-          <%= link_to t('user.show.add as friend'), make_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
+          <%= link_to t('users.show.add as friend'), make_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
       <% end %>
       </li>
     </ul>

@@ -43,7 +43,7 @@ class UserRolesControllerTest < ActionController::TestCase
         post :grant, :params => { :display_name => "non_existent_user", :role => role }
       end
       assert_response :not_found
-      assert_template "user/no_such_user"
+      assert_template "users/no_such_user"
       assert_select "h1", "The user non_existent_user does not exist"
 
       # Granting a role to a user that already has it should fail
@@ -104,7 +104,7 @@ class UserRolesControllerTest < ActionController::TestCase
         post :revoke, :params => { :display_name => "non_existent_user", :role => role }
       end
       assert_response :not_found
-      assert_template "user/no_such_user"
+      assert_template "users/no_such_user"
       assert_select "h1", "The user non_existent_user does not exist"
 
       # Removing a role from a user that doesn't have it should fail
