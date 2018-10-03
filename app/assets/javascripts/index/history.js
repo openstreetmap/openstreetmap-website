@@ -97,13 +97,13 @@ OSM.History = function(map) {
     $("[data-changeset]").each(function () {
       var changeset = $(this).data('changeset');
       if (changeset.bbox) {
-        var latWidth = changeset.bbox.maxlat - changeset.bbox.minlat;
-        var lonWidth = changeset.bbox.maxlon - changeset.bbox.minlon;
-        var minLatWidth = 0.0004;
-        var minLonWidth = 0.0008;
+        var latWidth = changeset.bbox.maxlat - changeset.bbox.minlat,
+            lonWidth = changeset.bbox.maxlon - changeset.bbox.minlon,
+            minLatWidth = 0.0004,
+            minLonWidth = 0.0008;
 
         var bounds = [[changeset.bbox.minlat, changeset.bbox.minlon],
-          [changeset.bbox.maxlat, changeset.bbox.maxlon]];
+                      [changeset.bbox.maxlat, changeset.bbox.maxlon]];
 
         if (latWidth < minLatWidth) {
           bounds[0][0] -= ((minLatWidth - latWidth) / 2);
@@ -115,8 +115,7 @@ OSM.History = function(map) {
           bounds[1][1] += ((minLonWidth - lonWidth) / 2);
         }
 
-        changeset.bounds = L.latLngBounds(
-          bounds);
+        changeset.bounds = L.latLngBounds(bounds);
         changesets.push(changeset);
       }
     });
