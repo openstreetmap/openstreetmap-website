@@ -97,17 +97,26 @@ OSM.History = function(map) {
     $("[data-changeset]").each(function () {
       var changeset = $(this).data('changeset');
       if (changeset.bbox) {
-        var latModifier = 0;
-        var lonModifier = 0;
+        var latWidth = changeset.bbox.maxlat - changeset.bbox.minlat;
+        var lonWidth = changeset.bbox.maxlon - changeset.bbox.minlon;
+        var minLatWidth = 0.0004;
+        var minLonWidth = 0.0008;
 
-        if (changeset.bbox.minlat === changeset.bbox.maxlat || changeset.bbox.minlon === changeset.bbox.maxlon) {
-          latModifier = 0.0001;
-          lonModifier = 0.0002;
+        var bounds = [[changeset.bbox.minlat, changeset.bbox.minlon],
+          [changeset.bbox.maxlat, changeset.bbox.maxlon]];
+
+        if (latWidth < minLatWidth) {
+          bounds[0][0] -= ((minLatWidth - latWidth) / 2);
+          bounds[1][0] += ((minLatWidth - latWidth) / 2);
+        }
+
+        if (lonWidth < minLonWidth) {
+          bounds[0][1] -= ((minLonWidth - lonWidth) / 2);
+          bounds[1][1] += ((minLonWidth - lonWidth) / 2);
         }
 
         changeset.bounds = L.latLngBounds(
-          [changeset.bbox.minlat - latModifier, changeset.bbox.minlon - lonModifier],
-          [changeset.bbox.maxlat + latModifier, changeset.bbox.maxlon + lonModifier]);
+          bounds);
         changesets.push(changeset);
       }
     });
