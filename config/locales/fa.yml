@@ -939,7 +939,10 @@ fa:
         other: '%{count} گزارش'
       reports_of_this_issue: گزارش‌های این مشکل
       new_reports: گزارش‌های تازه
+    comments:
+      created_at: در %{datetime}
     reports:
+      updated_at: در %{datetime}
       reported_by_html: '%{user} آن را به‌عنوان %{category} گزارش کرد'
     helper:
       reportable_title:
@@ -948,19 +951,34 @@ fa:
     new:
       title_html: گزارش %{link}
       missing_params: ایجاد گزارش جدید ممکن نیست
+      details: لطفاً جزئیات بیشتری از مشکل ارائه دهید (ضروری است).
       select: 'دلیل گزارش شما:'
+      disclaimer:
+        intro: 'پیش از اینکه گزارش خود را برای مدیران سایت ارسال کنید، مطمئن شوید
+          که:'
+        not_just_mistake: قطعاً این مسئله سهوی نبوده
+        unable_to_fix: به‌تنهایی یا با کمک نقشه‌کش‌های همکارتان نمی‌توانید مشکل را
+          حل کنید
+        resolve_with_user: قبلاً تلاش کرده‌اید مشکل را با کاربر مربوطه برطرف کنید
       categories:
         diary_entry:
           spam_label: این روزنوشت هرزنامه است/دارد
           threat_label: این روزنوشت تهدیدآمیز است
+          other_label: سایر
         diary_comment:
           spam_label: این نظر (بر روزنوشت) هرزنامه است/دارد
           threat_label: این نظر (بر روزنوشت) تهدیدآمیز است
+          other_label: سایر
+        user:
+          other_label: سایر
         note:
           spam_label: این یادداشت هرزنامه است
+          personal_label: این یادداشت حاوی داده‌های شخصی است
           abusive_label: این یادداشت زشت است
+          other_label: سایر
     create:
       successful_report: گزارشتان با موفقیت ثبت شد
+      provide_details: لطفاً جزئیات لازم را ارائه دهید
   layouts:
     logo:
       alt_text: لوگوی OpenStreetMap
@@ -986,10 +1004,7 @@ fa:
     intro_text: OpenStreetMap یک نقشه از جهان است، که توسط افرادی مثل شما ایجاد شده
       و تحت یک مجوز آزاد برای استفاده رایگان همگان است.
     intro_2_create_account: ایجاد حساب کاربری
-    partners_html: میزبانی وب توسط %{ucl}, %{bytemark}, %{ic} و سایر %{partners} پشتیبانی
-      می‌شود.
     partners_ucl: UCL
-    partners_ic: کالج سلطنتی لندن
     partners_bytemark: میزبانی Bytemark
     partners_partners: شرکای تجاری
     osm_offline: دیتابیس OpenStreetMap در حال حاضر آفلاین است در حالی که کار تعمیر
@@ -1141,8 +1156,8 @@ fa:
         ارتباط برقرار نمی کنید؟
       people_mapping_nearby: افراد نقشه کش نزدیک
     message_summary:
-      unread_button: علامت‌گذاری به عنوان خوانده‌شده
-      read_button: علامت‌گذاری به عنوان خوانده‌شده
+      unread_button: نشان بزن نخواندم
+      read_button: نشان بزن که خواندم
       reply_button: پاسخ
       destroy_button: حذف
     new:
@@ -1184,7 +1199,7 @@ fa:
       subject: عنوان
       date: تاریخ
       reply_button: پاسخ
-      unread_button: علامت‌گذاری به عنوان خوانده‌شده
+      unread_button: نشان بزن نخواندم
       destroy_button: حذف
       back: برگشت
       to: به
@@ -1226,9 +1241,9 @@ fa:
       partners_title: شرکای تجاری
     copyright:
       foreign:
-        title: درباره این ترجمه‌ها
-        text: در زمان به وجود آمدن تداخل بین برگردان فارسی و %{english_original_link}،
-          نوشتهٔ انگلیسی برتری دارد
+        title: دربارهٔ این ترجمه
+        text: اگر بین برگردان فارسی و %{english_original_link} ناسازگاری باشد، صفحهٔ
+          انگلیسی برتری دارد
         english_link: اصل انگلیسی
       native:
         title: درباره این صفحه
@@ -1243,45 +1258,47 @@ fa:
           OpenStreetMap <i> داده باز است</i>، تحت مجوز <a
           href="http://opendatacommons.org/licenses/odbl/">Open Data
           Commons Open Database License</a> (ODbL).
-        intro_2_html: شما برای کپی برداری، توزیع، انتقال و انطباق داده های ما آزاد
-          هستید، تا زمانی که معتبران و همکاران OpenStreetMap باشید. اگر شما تغییر
-          دهید یا بسازید داده های ما را، شما باید نتایج را فقط تحت همین مجوز توزیع
-          کنید. اطلاعات کامل <a href="http://opendatacommons.org/licenses/odbl/1.0/">کد
-          قانونی</a> حقوق و وظایف شما را توضیح میدهد.
+        intro_2_html: تا زمانی که از OpenStreetMap و مشارکت‌کنندگان آن یاد کنید، برای
+          کپی‌برداری، توزیع، انتقال و اقتباس (از) داده‌های ما آزاد هستید. اگر داده‌های
+          ما را تغییر دهید یا بر پایهٔ آن‌ها تولید کنید، باید نتایج را فقط تحت همان
+          مجوز توزیع کنید. نسخهٔ کامل <a href="http://opendatacommons.org/licenses/odbl/1.0/">بایدونبایدهای
+          قانونی</a> حقوق و وظایف شما را توضیح می‌دهد.
         intro_3_html: |-
-          نقشه کشی در کاشی های نقشه ی ما، و مدارک ما، تحت مجوز <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
-          Commons Attribution-ShareAlike 2.0</a>هستند ، مجوز (CC BY-SA).
-        credit_title_html: چگونه از OpenStreetMap اعتبار بگیریم
-        credit_1_html: ما نیاز داریم که شما استفاده کنید از اعتبار &ldquo;&copy; همکاران
-          OpenStreetMap&rdquo;.
-        credit_2_html: همچنین مطمئن باشید که پاک کردن داده ها تحت یک مجوز دیتابیس
-          باز است، و اگر از کاشی‌های نقشهٔ ما استفاده می‌کنید، نقشه‌برداری تحت  مجوز
-          CC BY-SA است. میتوانید با پیونددادن به <a href="http://www.openstreetmap.org/copyright">این
-          صفحه حق نشر</a> متناوبا آن را انجام دهید، و به عنوان یک درخواست اگر شما
-          توزیع کنندهٔ نوع داده‌های OSM هستید، می‌توانید نام و پیوند را بطور مستقیم
-          به مجوز بدهید. در رسانه‌ها جاهایی که پیوندها مقدور نیستند(مثل کارهای چاپی)،
-          پیشنهاد می‌کنیم خوانندگان‌تان را به openstreetmap.org راهنمایی کنید(شاید
-          با گسترش 'OpenStreetMap' به این نشانی کامل)، به opendatacommons.org، و اگر
-          مناسب باشد، به creativecommons.org.
+          نقشه‌نگاری‌های ارائه‌شده در کاشی‌های نقشهٔ ما و در مستنداتمان، همگی تحت پروانهٔ   <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a>هستند (CC BY-SA).
+        credit_title_html: چگونه از OpenStreetMap یاد کنیم
+        credit_1_html: |-
+          بایسته است که این‌گونه از ما یاد کنید:
+          &ldquo;&copy;مشارکت‌کنندگان OpenStreetMap&rdquo;.
+        credit_2_html: همچنین باید روشن کنید که داده‌ها تحت پروانهٔ پایگاه‌دادهٔ باز
+          یا Open Database License قرار دارند و اگر کاشی‌های نقشهٔ ما را استفاده کردید
+          به‌روشنی بیان کنید که نقشه‌نگاری‌ها تحت پروانهٔ CC BY-SA است. این کار را
+          با پیونددادن به <a href="https://www.openstreetmap.org/copyright"> این صفحهٔ
+          حق نشر</a> انجام دهید. به‌عنوان جایگزین، می‌توانید با نام و پیوند مستقیماً
+          به مجوز(ها) ارجاع بدهید (اگر OSM را در قالب داده توزیع می‌کنید انجام این
+          کار ضروری است). در رسانه‌هایی که درج پیوند ممکن نیست ( مثلاً کارهای چاپی)،
+          توصیه می‌کنیم که خوانندگان خود را به  openstreetmap.org (شاید با گسترش OpenStreetMap
+          به این نشانی کامل)، به opendatacommons.org و در صورت تناسب به creativecommons.org
+          هدایت کنید.
         credit_3_html: |-
-          برای یک نقشه الکترونیکی قابل مرور، اعتبار باید در گوشه ای از نقشه ظاهر شود.
+          در یک نقشهٔ الکترونیکی قابل مرور، یادکرد باید در گوشهٔ نقشه ظاهر شود.
           برای مثال:
         attribution_example:
-          alt: مثال برای چگونه OpenStreetMap را در صفحه ی وبی نسبت دهیم
+          alt: مثالی از شیوهٔ انتساب به OpenStreetMap در صفحهٔ وبی.
           title: مثال انتساب
-        more_title_html: پیدا کردن اطلاعات بیشتر
-        more_1_html: |-
-          درباره استفاده از داده های ما، و چگونه به ما اعتبار دهید بیشتر بخوانید، در <a
-          href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Legal
-          FAQ</a>.
-        more_2_html: اگرچه OpenStreetMap داده باز است، ما نمی توانیم API نقشه را به
-          رایگان در اختیار توسعه دهندگان شخص ثالث قرار دهیم. <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">API
-          Usage Policy</a> ما را ببینید، <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Tile
-          Usage Policy</a> و <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Nominatim
-          Usage Policy</a>.
+        more_title_html: یافتن اطلاعات بیشتر
+        more_1_html: برای اطلاعات بیشتر دربارهٔ استفاده از داده‌های ما و چگونگی یادکرد
+          ما <a href="https://osmfoundation.org/Licence">صفحهٔ مجوز بنیاد OSM</a>
+          را بخوانید.
+        more_2_html: اگرچه OpenStreetMap داده باز است، اما نمی‌توانیم API نقشه را
+          به‌رایگان در اختیار توسعه‌دهندگان شخص ثالث قرار دهیم. <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">سیاست
+          استفاده از API </a> ، <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">سیاست
+          استفاده از کاشی‌ها</a> و <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">سیاست
+          استفاده از Nominatim</a> را ببینید.
         contributors_title_html: همکاران ما
-        contributors_intro_html: 'شرکای ما هزاران شخص هستند. ما همچنین جواز علنی داده
-          از سازمان نقشه برداری ملی و دیگر منابع را شامل میشویم، در بین آنها:'
+        contributors_intro_html: 'مشارکت‌کنندگانی که با ما همکاری می‌کنند هزاران شخص
+          هستند. داده‌هایی با مجوز باز از سازمان‌های نقشه‌برداری ملی و دیگر منابع
+          را نیز در کنار آن‌ها داریم، از جمله:'
         contributors_at_html: |-
           <strong>Austria</strong>: Contains data from
           <a href="http://data.wien.gv.at/">Stadt Wien</a> (under
@@ -1316,21 +1333,26 @@ fa:
           <strong>United Kingdom</strong>: Contains Ordnance
           Survey data &copy; Crown copyright and database right
           2010-12.
-        contributors_footer_1_html: برای اطلاعات بیشتر درباره این منابع و سایر منابع
-          مورد استفاده برای پیشرفت اوپن‌استریت‌مپ، لطفاً این پیوند را نگاه کنید.
+        contributors_footer_1_html: |-
+          برای اطلاعات بیشتر درباره این‌ها و سایر منابعی که برای پیشرفت اوپن‌استریت‌مپ استفاده شده‌اند، لطفاً <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">صفحهٔ مشارکت‌کنندگان</a> را در ویکی نگاه کنید.
         contributors_footer_2_html: ورود داده‌ها در OpenStreetMap به این معنی نیست
           که ارائه‌دهندهٔ اصلی داده‌ها توسط OpenStreetMap تأییدشده، هر گونه ضمانتی
           فراهم می‌کند، یا هر گونه مسئولیت را می‌پذیرد.
-        infringement_title_html: نقض کپی رایت
-        infringement_1_html: شرکای OSM یادآوری میکنند هرگز داده ای را از منابع حق
-          نشر اضافه نکنید(مثلا نقشه های گوگل یا نقشه های چاپ شده) بدون اجازه صریح
-          از دارندگان حق تکثیر.
-        infringement_2_html: اگر فکر می‌کنید که این حق نشر داده شده به‌طور نامناسب
-          به پایگاه داده‌های OpenStreetMap یا این سایت اضافه شده‌است، لطفاً به <a
-          href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">رویهٔ
-          حذف</a> ما یا پرونده مستقیم در <a href="http://dmca.openstreetmap.org/">صفحهٔ
-          بایگانی برخط</a> ما مراجعه کنید.
-        trademarks_title_html: <span id="trademarks"></span>علائم ثبت شده تجاری
+        infringement_title_html: نقض کپی‌رایت
+        infringement_1_html: به مشارکت‌کنندگان OSM یادآوری می کنیم که هرگز داده‌ای
+          را از منابع دارای حق نشر اضافه نکنند (مثلاً نقشه‌های گوگل یا نقشه‌های چاپ‌شده)،
+          مگر با اجازهٔ صریح و آشکار از صاحبان حق نشر.
+        infringement_2_html: اگر بر این باورید که داده‌های مشمول حق نشر به‌طور نامناسبی
+          به پایگاه‌دادهٔ OpenStreetMap  یا به این وبسایت افزوده شده، لطفاً به <a
+          href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">روندنامهٔ
+          حذف</a> مراجعه کنید یا دادخواست خود را مستقیماً در <a href="http://dmca.openstreetmap.org/">صفحهٔ
+          دادخواهی برخط</a> تسلیم کنید.
+        trademarks_title_html: <span id="trademarks"></span>نشان‌های تجاری
+        trademarks_1_html: OpenStreetMap،‏ نشان‌وارهٔ ذره‌بین‌دار و State of the Map
+          نشان‌های تجاری ثبت‌شده و متعلق به بنیاد OpenStreetMap هستند. برای یافتن
+          پاسخ پرسش‌های خود دربارهٔ استفاده از این نشان‌ها، لطفاً <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">سسیاست‌نامهٔ
+          نشان تجاری</a> را ببینید.
     index:
       js_1: شما در حال استفاده از مرورگری هستید که جاوا اسکریپت را پشتیبانی نمی کند،
         یا جاوا اسکریپت را غیر فعال کرده اید.
@@ -1619,7 +1641,7 @@ fa:
       tags: 'برچسب‌ها:'
       tags_help: جداشده با کاما (,)
       visibility: 'پدیداری:'
-      visibility_help: این به چه معناست؟
+      visibility_help: این چیست؟
       upload_button: بارگذاری
       help: کمک
     create:
@@ -1648,7 +1670,7 @@ fa:
       tags_help: جداشده با کاما (,)
       save_button: ذخیرهٔ تغییرات
       visibility: 'پدیداری:'
-      visibility_help: به چه معنی است؟
+      visibility_help: این چیست؟
     update:
       updated: رد به‌روز شد
     trace_optionals:
@@ -1729,6 +1751,8 @@ fa:
     require_moderator:
       not_a_moderator: برای انجام آن عمل نیاز هست مدیر باشید.
     setup_user_auth:
+      blocked_zero_hour: در وبسایت OpenStreetMap یک پیام خیلی مهم برایتان ارسال شده.
+        برای اینکه بتوانید ویرایش‌های خود را ذخیره کنید باید ابتدا آن را بخوانید.
       blocked: دسترسی شما به API مسدود شده. برای یافتن اطلاعات بیشتر لطفاً به رابط
         کاربری وب وارد شوید (log in).
       need_to_see_terms: دسترسی شما به API بطور موقت معلق شده‌است. برای مشاهدهٔ شرایط
@@ -1822,7 +1846,7 @@ fa:
       flash: به‌روزرسانی اطلاعات کارخواه موفقیت‌آمیز بود
     destroy:
       flash: ثبت‌نام برنامه کارخواه از بین رفت
-  user:
+  users:
     login:
       title: ورود
       heading: ورود
@@ -2373,7 +2397,7 @@ fa:
         gps: ردهای GPS عمومی
         overlays: برای اشکال‌زدایی از نقشه رولایه‌ها را فعال کنید
         title: لایه‌ها
-      copyright: © <a href='%{copyright_url}'>شرکت کنندگانOpenStreetMap</a>
+      copyright: © <a href='%{copyright_url}'>مشارکت‌کنندگان OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>کمک مالی</a>
     site:
       edit_tooltip: ویرایش نقشه
@@ -2417,10 +2441,10 @@ fa:
         mapquest_car: اتومبیل (MapQuest)
         mapquest_foot: پیاده (MapQuest)
         osrm_car: اتومبیل (OSRM)
-      directions: جهت
+      directions: دستورالعمل
       distance: مسافت
       errors:
-        no_route: نتوانستیم بین آن دو مکان، مسیری بیابیم.
+        no_route: بین این دو مکان، مسیری پیدا نشد.
         no_place: متاسفیم - محل پیدا نشد.
       instructions:
         continue_without_exit: به مسیر %{name} ادامه دهید
@@ -2458,7 +2482,7 @@ fa:
         end_oneway_without_exit: انتهای مسیر یطرفه در %{name}
         roundabout_with_exit: در میدان، خروجی %{exit} به طرف %{name} را انتخاب کنید
         unnamed: بی نام
-        courtesy: جهت از %{link}
+        courtesy: دستورالعمل‌ها با همکاری %{link}
         exit_counts:
           first: اول
           second: دوم
