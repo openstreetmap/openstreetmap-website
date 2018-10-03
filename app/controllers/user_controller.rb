@@ -14,11 +14,11 @@ class UserController < ApplicationController
   before_action :require_allow_read_prefs, :only => [:api_details]
   before_action :require_allow_read_gpx, :only => [:api_gpx_files]
   before_action :require_cookies, :only => [:new, :login, :confirm]
-  before_action :require_administrator, :only => [:set_status, :delete, :list]
+  before_action :require_administrator, :only => [:set_status, :delete, :index]
   around_action :api_call_handle_error, :only => [:api_read, :api_users, :api_details, :api_gpx_files]
   before_action :lookup_user_by_id, :only => [:api_read]
   before_action :lookup_user_by_name, :only => [:set_status, :delete]
-  before_action :allow_thirdparty_images, :only => [:view, :account]
+  before_action :allow_thirdparty_images, :only => [:show, :account]
 
   def terms
     @legale = params[:legale] || OSM.ip_to_country(request.remote_ip) || DEFAULT_LEGALE
@@ -29,7 +29,7 @@ class UserController < ApplicationController
     else
       @title = t "user.terms.title"
 
-      if current_user && current_user.terms_agreed?
+      if current_user&.terms_agreed?
         # Already agreed to terms, so just show settings
         redirect_to :action => :account, :display_name => current_user.display_name
       elsif current_user.nil? && session[:new_user].nil?
@@ -276,7 +276,7 @@ class UserController < ApplicationController
     if params[:session] == session.id
       if session[:token]
         token = UserToken.find_by(:token => session[:token])
-        token.destroy if token
+        token&.destroy
         session.delete(:token)
       end
       session.delete(:user)
@@ -292,7 +292,7 @@ class UserController < ApplicationController
   def confirm
     if request.post?
       token = UserToken.find_by(:token => params[:confirm_string])
-      if token && token.user.active?
+      if token&.user&.active?
         flash[:error] = t("user.confirm.already active")
         redirect_to :action => "login"
       elsif !token || token.expired?
@@ -349,7 +349,7 @@ class UserController < ApplicationController
   def confirm_email
     if request.post?
       token = UserToken.find_by(:token => params[:confirm_string])
-      if token && token.user.new_email?
+      if token&.user&.new_email?
         self.current_user = token.user
         current_user.email = current_user.new_email
         current_user.new_email = nil
@@ -409,11 +409,11 @@ class UserController < ApplicationController
     render :xml => doc.to_s
   end
 
-  def view
+  def show
     @user = User.find_by(:display_name => params[:display_name])
 
     if @user &&
-       (@user.visible? || (current_user && current_user.administrator?))
+       (@user.visible? || (current_user&.administrator?))
       @title = @user.display_name
     else
       render_unknown_user params[:display_name]
@@ -440,7 +440,7 @@ class UserController < ApplicationController
         if params[:referer]
           redirect_to params[:referer]
         else
-          redirect_to :action => "view"
+          redirect_to :action => "show"
         end
       end
     else
@@ -463,7 +463,7 @@ class UserController < ApplicationController
         if params[:referer]
           redirect_to params[:referer]
         else
-          redirect_to :action => "view"
+          redirect_to :action => "show"
         end
       end
     else
@@ -476,19 +476,19 @@ class UserController < ApplicationController
   def set_status
     @user.status = params[:status]
     @user.save
-    redirect_to :action => "view", :display_name => params[:display_name]
+    redirect_to user_path(:display_name => params[:display_name])
   end
 
   ##
   # delete a user, marking them as deleted and removing personal data
   def delete
     @user.delete
-    redirect_to :action => "view", :display_name => params[:display_name]
+    redirect_to user_path(:display_name => params[:display_name])
   end
 
   ##
   # display a list of users matching specified criteria
-  def list
+  def index
     if request.post?
       ids = params[:user].keys.collect(&:to_i)
 
@@ -552,7 +552,7 @@ class UserController < ApplicationController
       if user.nil? && provider == "google"
         openid_url = auth_info[:extra][:id_info]["openid_id"]
         user = User.find_by(:auth_provider => "openid", :auth_uid => openid_url) if openid_url
-        user.update(:auth_provider => provider, :auth_uid => uid) if user
+        user&.update(:auth_provider => provider, :auth_uid => uid)
       end
 
       if user
@@ -757,7 +757,7 @@ class UserController < ApplicationController
       flash[:error] = t("user.filter.not_an_administrator")
 
       if params[:display_name]
-        redirect_to :action => "view", :display_name => params[:display_name]
+        redirect_to user_path(:display_name => params[:display_name])
       else
         redirect_to :action => "login", :referer => request.fullpath
       end
@@ -826,6 +826,7 @@ class UserController < ApplicationController
   def gravatar_enable(user)
     # code from example https://en.gravatar.com/site/implement/images/ruby/
     return false if user.image.present?
+
     hash = Digest::MD5.hexdigest(user.email.downcase)
     url = "https://www.gravatar.com/avatar/#{hash}?d=404" # without d=404 we will always get an image back
     response = OSM.http_client.get(URI.parse(url))

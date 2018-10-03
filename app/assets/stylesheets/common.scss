@@ -611,9 +611,16 @@ body.compact {
     height: auto;
     overflow: hidden;
 
-    #banner,
-    .welcome {
+    #banner {
       display: block;
+    }
+
+    .welcome {
+      display: none;
+
+      &.visible {
+        display: block;
+      }
     }
 
     #sidebar_content {
@@ -971,6 +978,8 @@ header .search_forms,
 
   img.button {
     display: block;
+    width: 20px;
+    height: 20px;
   }
 
   span.force_width {
@@ -1501,7 +1510,7 @@ tr.turn:hover {
 
 /* Rules for the trace view */
 
-.trace-view {
+.trace-show {
   .trace_pending {
     color: red;
   }
@@ -1585,7 +1594,7 @@ tr.turn:hover {
   margin-left: 70px;
 }
 
-.user-view {
+.user-show {
   // Silly exception; remove when user page is redesigned.
   .content-inner {
     max-width: none;
@@ -1712,7 +1721,7 @@ tr.turn:hover {
   }
 }
 
-.diary_entry-view img.user_thumbnail {
+.diary_entry-show img.user_thumbnail {
   float: left;
 }
 

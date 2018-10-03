@@ -14,16 +14,16 @@
       <% if @user.home_lon and @user.home_lat and contact.home_lon and contact.home_lat %>
         <% distance = @user.distance(contact) %>
         <% if distance < 1 %>
-          (<%= t 'user.view.m away', :count => (distance * 1000).round %>)
+          (<%= t 'user.show.m away', :count => (distance * 1000).round %>)
         <% else %>
-          (<%= t 'user.view.km away', :count => distance.round %>)
+          (<%= t 'user.show.km away', :count => distance.round %>)
         <% end %>
       <% end %>
     </p>
     <p>
       <% changeset = contact.changesets.first %>
       <% if changeset %>
-        <%= t('user.view.latest edit', :ago => t('user.view.ago', :time_in_words_ago => time_ago_in_words(changeset.created_at))) %>
+        <%= t('user.show.latest edit', :ago => t('user.show.ago', :time_in_words_ago => time_ago_in_words(changeset.created_at))) %>
         <% comment = changeset.tags['comment'].to_s != '' ? changeset.tags['comment'] : t('browse.no_comment') %>
         "<%= link_to(comment,
                             {:controller => 'browse', :action => 'changeset', :id => changeset.id},
@@ -35,12 +35,12 @@
     </p>
 
     <ul class='secondary-actions clearfix deemphasize'>
-      <li><%= link_to t('user.view.send message'), new_message_path(contact) %></li>
+      <li><%= link_to t('user.show.send message'), new_message_path(contact) %></li>
       <li>
         <% if current_user.is_friends_with?(contact) %>
-          <%= link_to t('user.view.remove as friend'), remove_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
+          <%= link_to t('user.show.remove as friend'), remove_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
         <% else %>
-          <%= link_to t('user.view.add as friend'), make_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
+          <%= link_to t('user.show.add as friend'), make_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
       <% end %>
       </li>
     </ul>

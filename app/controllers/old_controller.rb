@@ -70,6 +70,6 @@ class OldController < ApplicationController
   private
 
   def show_redactions?
-    current_user && current_user.moderator? && params[:show_redactions] == "true"
+    current_user&.moderator? && params[:show_redactions] == "true"
   end
 end

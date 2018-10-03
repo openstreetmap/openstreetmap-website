@@ -119,11 +119,11 @@ OpenStreetMap::Application.routes.draw do
   get "/changeset/:id/comments/feed" => "changeset#comments_feed", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
   get "/note/:id" => "browse#note", :id => /\d+/, :as => "browse_note"
   get "/note/new" => "browse#new_note"
-  get "/user/:display_name/history" => "changeset#list"
+  get "/user/:display_name/history" => "changeset#index"
   get "/user/:display_name/history/feed" => "changeset#feed", :defaults => { :format => :atom }
   get "/user/:display_name/notes" => "notes#mine"
-  get "/history/friends" => "changeset#list", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
-  get "/history/nearby" => "changeset#list", :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
+  get "/history/friends" => "changeset#index", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
+  get "/history/nearby" => "changeset#index", :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
 
   get "/browse/way/:id",                :to => redirect(:path => "/way/%{id}")
   get "/browse/way/:id/history",        :to => redirect(:path => "/way/%{id}/history")
@@ -150,7 +150,7 @@ OpenStreetMap::Application.routes.draw do
   get "/fixthemap" => "site#fixthemap"
   get "/help" => "site#help"
   get "/about" => "site#about"
-  get "/history" => "changeset#list"
+  get "/history" => "changeset#index"
   get "/history/feed" => "changeset#feed", :defaults => { :format => :atom }
   get "/history/comments/feed" => "changeset#comments_feed", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
   get "/export" => "site#export"
@@ -208,26 +208,24 @@ OpenStreetMap::Application.routes.draw do
   get "/traces/mine/tag/:tag" => "traces#mine"
   get "/traces/mine/page/:page" => "traces#mine"
   get "/traces/mine" => "traces#mine"
-  post "/trace/create" => "traces#create" # remove after deployment
   get "/trace/create", :to => redirect(:path => "/traces/new")
   get "/trace/:id/data" => "traces#data", :id => /\d+/, :as => "trace_data"
-  post "trace/:id/edit" => "traces#update" # remove after deployment
   get "/trace/:id/edit", :to => redirect(:path => "/traces/%{id}/edit")
   post "/trace/:id/delete" => "traces#delete", :id => /\d+/
 
   # diary pages
   match "/diary/new" => "diary_entry#new", :via => [:get, :post]
-  get "/diary/friends" => "diary_entry#list", :friends => true, :as => "friend_diaries"
-  get "/diary/nearby" => "diary_entry#list", :nearby => true, :as => "nearby_diaries"
+  get "/diary/friends" => "diary_entry#index", :friends => true, :as => "friend_diaries"
+  get "/diary/nearby" => "diary_entry#index", :nearby => true, :as => "nearby_diaries"
   get "/user/:display_name/diary/rss" => "diary_entry#rss", :defaults => { :format => :rss }
   get "/diary/:language/rss" => "diary_entry#rss", :defaults => { :format => :rss }
   get "/diary/rss" => "diary_entry#rss", :defaults => { :format => :rss }
   get "/user/:display_name/diary/comments/:page" => "diary_entry#comments", :page => /[1-9][0-9]*/
   get "/user/:display_name/diary/comments/" => "diary_entry#comments"
-  get "/user/:display_name/diary" => "diary_entry#list"
-  get "/diary/:language" => "diary_entry#list"
-  get "/diary" => "diary_entry#list"
-  get "/user/:display_name/diary/:id" => "diary_entry#view", :id => /\d+/, :as => :diary_entry
+  get "/user/:display_name/diary" => "diary_entry#index"
+  get "/diary/:language" => "diary_entry#index"
+  get "/diary" => "diary_entry#index"
+  get "/user/:display_name/diary/:id" => "diary_entry#show", :id => /\d+/, :as => :diary_entry
   post "/user/:display_name/diary/:id/newcomment" => "diary_entry#comment", :id => /\d+/
   match "/user/:display_name/diary/:id/edit" => "diary_entry#edit", :via => [:get, :post], :id => /\d+/
   post "/user/:display_name/diary/:id/hide" => "diary_entry#hide", :id => /\d+/, :as => :hide_diary_entry
@@ -236,7 +234,7 @@ OpenStreetMap::Application.routes.draw do
   post "/user/:display_name/diary/:id/unsubscribe" => "diary_entry#unsubscribe", :as => :diary_entry_unsubscribe, :id => /\d+/
 
   # user pages
-  get "/user/:display_name" => "user#view", :as => "user"
+  get "/user/:display_name" => "user#show", :as => "user"
   match "/user/:display_name/make_friend" => "user#make_friend", :via => [:get, :post], :as => "make_friend"
   match "/user/:display_name/remove_friend" => "user#remove_friend", :via => [:get, :post], :as => "remove_friend"
   match "/user/:display_name/account" => "user#account", :via => [:get, :post]
@@ -244,8 +242,8 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/delete" => "user#delete", :as => :delete_user
 
   # user lists
-  match "/users" => "user#list", :via => [:get, :post]
-  match "/users/:status" => "user#list", :via => [:get, :post]
+  match "/users" => "user#index", :via => [:get, :post]
+  match "/users/:status" => "user#index", :via => [:get, :post]
 
   # geocoder
   get "/search" => "geocoder#search"

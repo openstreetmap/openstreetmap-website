@@ -316,6 +316,7 @@ module ActionController
         # same page number).
         def ==(other)
           return false if other.nil?
+
           @paginator == other.paginator &&
             @number == other.number
         end
@@ -326,6 +327,7 @@ module ActionController
         # if the pages do not belong to the same Paginator object.
         def <=>(other)
           raise ArgumentError unless @paginator == other.paginator
+
           @number <=> other.number
         end
 
@@ -396,7 +398,7 @@ module ActionController
         # Sets the window's padding (the number of pages on either side of the
         # window page).
         def padding=(padding)
-          @padding = padding < 0 ? 0 : padding
+          @padding = padding.negative? ? 0 : padding
           # Find the beginning and end pages of the window
           @first = if @paginator.has_page_number?(@page.number - @padding)
                      @paginator[@page.number - @padding]

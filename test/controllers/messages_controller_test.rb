@@ -180,8 +180,8 @@ class MessagesControllerTest < ActionController::TestCase
     e = ActionMailer::Base.deliveries.first
     assert_equal [recipient_user.email], e.to
     assert_equal "[OpenStreetMap] Test Message", e.subject
-    assert_match /Test message body/, e.text_part.decoded
-    assert_match /Test message body/, e.html_part.decoded
+    assert_match(/Test message body/, e.text_part.decoded)
+    assert_match(/Test message body/, e.html_part.decoded)
     assert_match %r{#{SERVER_URL}/messages/[0-9]+}, e.text_part.decoded
     ActionMailer::Base.deliveries.clear
     m = Message.last

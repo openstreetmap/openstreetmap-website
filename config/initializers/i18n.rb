@@ -5,6 +5,7 @@ module I18n
         super
       rescue InvalidPluralizationData => ex
         raise ex unless ex.entry.key?(:other)
+
         ex.entry[:other]
       end
     end

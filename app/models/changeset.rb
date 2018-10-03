@@ -106,6 +106,7 @@ class Changeset < ActiveRecord::Base
     pt.find("tag").each do |tag|
       raise OSM::APIBadXMLError.new("changeset", pt, "tag is missing key") if tag["k"].nil?
       raise OSM::APIBadXMLError.new("changeset", pt, "tag is missing value") if tag["v"].nil?
+
       cs.add_tag_keyval(tag["k"], tag["v"])
     end
 
@@ -207,7 +208,7 @@ class Changeset < ActiveRecord::Base
 
     user_display_name_cache = {} if user_display_name_cache.nil?
 
-    if user_display_name_cache && user_display_name_cache.key?(user_id)
+    if user_display_name_cache&.key?(user_id)
       # use the cache if available
     elsif user.data_public?
       user_display_name_cache[user_id] = user.display_name

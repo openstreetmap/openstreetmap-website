@@ -143,6 +143,7 @@ class AmfController < ApplicationController
 
       if cstags
         return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(cstags)
+
         cstags = strip_non_xml_chars cstags
       end
 
@@ -471,7 +472,7 @@ class AmfController < ApplicationController
       return -1, t("application.setup_user_auth.blocked") if user.blocks.active.exists?
 
       query = Trace.visible_to(user)
-      query = if searchterm.to_i > 0
+      query = if searchterm.to_i.positive?
                 query.where(:id => searchterm.to_i)
               else
                 query.where("MATCH(name) AGAINST (?)", searchterm).limit(21)
@@ -497,6 +498,7 @@ class AmfController < ApplicationController
       rel = Relation.where(:id => relid).first
 
       return [-4, "relation", relid] if rel.nil? || !rel.visible
+
       [0, "", relid, rel.tags, rel.members, rel.version]
     end
   end
@@ -506,9 +508,9 @@ class AmfController < ApplicationController
 
   def findrelations(searchterm)
     rels = []
-    if searchterm.to_i > 0
+    if searchterm.to_i.positive?
       rel = Relation.where(:id => searchterm.to_i).first
-      rels.push([rel.id, rel.tags, rel.members, rel.version]) if rel && rel.visible
+      rels.push([rel.id, rel.tags, rel.members, rel.version]) if rel&.visible
     else
       RelationTag.where("v like ?", "%#{searchterm}%").limit(11).each do |t|
         rels.push([t.relation.id, t.relation.tags, t.relation.members, t.relation.version]) if t.relation.visible
@@ -533,6 +535,7 @@ class AmfController < ApplicationController
       return -1, "You must accept the contributor terms before you can edit." if REQUIRE_TERMS_AGREED && user.terms_agreed.nil?
 
       return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(tags)
+
       tags = strip_non_xml_chars tags
 
       relid = relid.to_i
@@ -542,7 +545,7 @@ class AmfController < ApplicationController
       relation = nil
       Relation.transaction do
         # create a new relation, or find the existing one
-        relation = Relation.find(relid) if relid > 0
+        relation = Relation.find(relid) if relid.positive?
         # We always need a new node, based on the data that has been sent to us
         new_relation = Relation.new
 
@@ -550,7 +553,7 @@ class AmfController < ApplicationController
         typedmembers = []
         members.each do |m|
           mid = m[1].to_i
-          if mid < 0
+          if mid.negative?
             mid = renumberednodes[mid] if m[0] == "Node"
             mid = renumberedways[mid] if m[0] == "Way"
           end
@@ -622,6 +625,7 @@ class AmfController < ApplicationController
       return -2, "Server error - way is only #{pointlist.length} points long." if pointlist.length < 2
 
       return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(attributes)
+
       attributes = strip_non_xml_chars attributes
 
       originalway = originalway.to_i
@@ -651,6 +655,7 @@ class AmfController < ApplicationController
 
           # fixup node tags in a way as well
           return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(node.tags)
+
           node.tags = strip_non_xml_chars node.tags
 
           node.tags.delete("created_by")
@@ -728,6 +733,7 @@ class AmfController < ApplicationController
       return -1, "You must accept the contributor terms before you can edit." if REQUIRE_TERMS_AGREED && user.terms_agreed.nil?
 
       return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(tags)
+
       tags = strip_non_xml_chars tags
 
       id = id.to_i
@@ -735,7 +741,7 @@ class AmfController < ApplicationController
       node = nil
       new_node = nil
       Node.transaction do
-        if id > 0
+        if id.positive?
           begin
             node = Node.find(id)
           rescue ActiveRecord::RecordNotFound
@@ -883,12 +889,10 @@ class AmfController < ApplicationController
   # in the +tags+ hash.
   def strip_non_xml_chars(tags)
     new_tags = {}
-    unless tags.nil?
-      tags.each do |k, v|
-        new_k = k.delete "\000-\037\ufffe\uffff", "^\011\012\015"
-        new_v = v.delete "\000-\037\ufffe\uffff", "^\011\012\015"
-        new_tags[new_k] = new_v
-      end
+    tags&.each do |k, v|
+      new_k = k.delete "\000-\037\ufffe\uffff", "^\011\012\015"
+      new_v = v.delete "\000-\037\ufffe\uffff", "^\011\012\015"
+      new_tags[new_k] = new_v
     end
     new_tags
   end

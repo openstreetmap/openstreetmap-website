@@ -68,8 +68,10 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_read_changeset
+    user = create(:user)
     private_changeset = create(:changeset, :user => create(:user, :data_public => false))
-    changeset = create(:changeset)
+    changeset = create(:changeset, :user => user)
+    create(:changeset, :user => user)
     browse_check "changeset", private_changeset.id, "browse/changeset"
     browse_check "changeset", changeset.id, "browse/changeset"
   end

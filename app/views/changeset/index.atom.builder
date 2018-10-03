@@ -1,8 +1,8 @@
 atom_feed(:language => I18n.locale, :schema_date => 2009,
           :id => url_for(@params.merge(:only_path => false)),
-          :root_url => url_for(@params.merge(:action => :list, :format => nil, :only_path => false)),
+          :root_url => url_for(@params.merge(:action => :index, :format => nil, :only_path => false)),
           "xmlns:georss" => "http://www.georss.org/georss") do |feed|
-  feed.title changeset_list_title(params, current_user)
+  feed.title changeset_index_title(params, current_user)
 
   feed.updated @edits.map { |e| [e.created_at, e.closed_at].max }.max
   feed.icon image_url("favicon.ico")
@@ -32,7 +32,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
       if changeset.user.data_public?
         entry.author do |author|
           author.name changeset.user.display_name
-          author.uri url_for(:controller => "user", :action => "view", :display_name => changeset.user.display_name, :only_path => false)
+          author.uri user_url(changeset.user, :only_path => false)
         end
       end
 
@@ -51,7 +51,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
             table.tr do |tr|
               tr.th t("browse.changeset.belongs_to")
               tr.td do |td|
-                td.a h(changeset.user.display_name), :href => url_for(:controller => "user", :action => "view", :display_name => changeset.user.display_name, :only_path => false)
+                td.a h(changeset.user.display_name), :href => user_url(changeset.user, :only_path => false)
               end
             end
           end
@@ -59,10 +59,10 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
             table.tr do |tr|
               tr.th t("browse.tag_details.tags")
               tr.td do |td|
-                td.table :cellpadding => "0" do |table|
+                td.table :cellpadding => "0" do |tag_table|
                   changeset.tags.sort.each do |tag|
-                    table.tr do |tr|
-                      tr.td << "#{h(tag[0])} = #{linkify(h(tag[1]))}"
+                    tag_table.tr do |tag_tr|
+                      tag_tr.td << "#{h(tag[0])} = #{linkify(h(tag[1]))}"
                     end
                   end
                 end

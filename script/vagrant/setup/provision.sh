@@ -16,12 +16,12 @@ apt-get update
 apt-get upgrade -y
 
 # install packages as explained in INSTALL.md
-apt-get install -y ruby2.3 libruby2.3 ruby2.3-dev \
+apt-get install -y ruby2.5 libruby2.5 ruby2.5-dev \
                      libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
                      apache2 apache2-dev build-essential git-core \
                      postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
                      libsasl2-dev imagemagick phantomjs
-gem2.3 install bundler
+gem2.5 install rake bundler
 
 ## install the bundle necessary for openstreetmap-website
 pushd /srv/openstreetmap-website

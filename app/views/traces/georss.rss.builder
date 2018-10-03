@@ -21,8 +21,8 @@ xml.rss("version" => "2.0",
       xml.item do
         xml.title trace.name
 
-        xml.link url_for(:controller => :traces, :action => :view, :id => trace.id, :display_name => trace.user.display_name, :only_path => false)
-        xml.guid url_for(:controller => :traces, :action => :view, :id => trace.id, :display_name => trace.user.display_name, :only_path => false)
+        xml.link url_for(:controller => :traces, :action => :show, :id => trace.id, :display_name => trace.user.display_name, :only_path => false)
+        xml.guid url_for(:controller => :traces, :action => :show, :id => trace.id, :display_name => trace.user.display_name, :only_path => false)
 
         xml.description do
           xml.cdata! render(:partial => "description", :object => trace, :formats => [:html])

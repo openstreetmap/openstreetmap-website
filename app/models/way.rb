@@ -68,12 +68,15 @@ class Way < ActiveRecord::Base
     way = Way.new
 
     raise OSM::APIBadXMLError.new("way", pt, "Version is required when updating") unless create || !pt["version"].nil?
+
     way.version = pt["version"]
     raise OSM::APIBadXMLError.new("way", pt, "Changeset id is missing") if pt["changeset"].nil?
+
     way.changeset_id = pt["changeset"]
 
     unless create
       raise OSM::APIBadXMLError.new("way", pt, "ID is required when updating") if pt["id"].nil?
+
       way.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
@@ -92,6 +95,7 @@ class Way < ActiveRecord::Base
     pt.find("tag").each do |tag|
       raise OSM::APIBadXMLError.new("way", pt, "tag is missing key") if tag["k"].nil?
       raise OSM::APIBadXMLError.new("way", pt, "tag is missing value") if tag["v"].nil?
+
       way.add_tag_keyval(tag["k"], tag["v"])
     end
 
@@ -123,7 +127,7 @@ class Way < ActiveRecord::Base
         ordered_nodes[nd.sequence_id] = nd.node_id.to_s if visible_nodes[nd.node_id]
       else
         # otherwise, manually go to the db to check things
-        ordered_nodes[nd.sequence_id] = nd.node_id.to_s if nd.node && nd.node.visible?
+        ordered_nodes[nd.sequence_id] = nd.node_id.to_s if nd.node&.visible?
       end
     end
 
@@ -194,6 +198,7 @@ class Way < ActiveRecord::Base
   def create_with_history(user)
     check_create_consistency(self, user)
     raise OSM::APIPreconditionFailedError, "Cannot create way: data is invalid." unless preconditions_ok?
+
     self.version = 0
     self.visible = true
     save_with_history!
@@ -249,9 +254,10 @@ class Way < ActiveRecord::Base
   # to IDs +id_map+.
   def fix_placeholders!(id_map, placeholder_id = nil)
     nds.map! do |node_id|
-      if node_id < 0
+      if node_id.negative?
         new_id = id_map[:node][node_id]
         raise OSM::APIBadUserInput, "Placeholder node not found for reference #{node_id} in way #{id.nil? ? placeholder_id : id}" if new_id.nil?
+
         new_id
       else
         node_id

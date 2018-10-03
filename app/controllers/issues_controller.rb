@@ -18,7 +18,7 @@ class IssuesController < ApplicationController
     @issues = Issue.visible_to(current_user)
 
     # If search
-    if params[:search_by_user] && params[:search_by_user].present?
+    if params[:search_by_user]&.present?
       @find_user = User.find_by(:display_name => params[:search_by_user])
       if @find_user
         @issues = @issues.where(:reported_user_id => @find_user.id)
@@ -28,11 +28,11 @@ class IssuesController < ApplicationController
       end
     end
 
-    @issues = @issues.where(:status => params[:status]) if params[:status] && params[:status].present?
+    @issues = @issues.where(:status => params[:status]) if params[:status]&.present?
 
-    @issues = @issues.where(:reportable_type => params[:issue_type]) if params[:issue_type] && params[:issue_type].present?
+    @issues = @issues.where(:reportable_type => params[:issue_type]) if params[:issue_type]&.present?
 
-    if params[:last_updated_by] && params[:last_updated_by].present?
+    if params[:last_updated_by]&.present?
       last_updated_by = params[:last_updated_by].to_s == "nil" ? nil : params[:last_updated_by].to_i
       @issues = @issues.where(:updated_by => last_updated_by)
     end

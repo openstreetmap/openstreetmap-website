@@ -4,11 +4,11 @@ class DiaryEntryController < ApplicationController
   before_action :authorize_web
   before_action :set_locale
   before_action :require_user, :only => [:new, :edit, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
-  before_action :lookup_user, :only => [:view, :comments]
+  before_action :lookup_user, :only => [:show, :comments]
   before_action :check_database_readable
   before_action :check_database_writable, :only => [:new, :edit, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
   before_action :require_administrator, :only => [:hide, :hidecomment]
-  before_action :allow_thirdparty_images, :only => [:new, :edit, :list, :view, :comments]
+  before_action :allow_thirdparty_images, :only => [:new, :edit, :index, :show, :comments]
 
   def new
     @title = t "diary_entry.new.title"
@@ -29,7 +29,7 @@ class DiaryEntryController < ApplicationController
         # Subscribe user to diary comments
         @diary_entry.subscriptions.create(:user => current_user)
 
-        redirect_to :action => "list", :display_name => current_user.display_name
+        redirect_to :action => "index", :display_name => current_user.display_name
       else
         render :action => "edit"
       end
@@ -47,9 +47,9 @@ class DiaryEntryController < ApplicationController
     @diary_entry = DiaryEntry.find(params[:id])
 
     if current_user != @diary_entry.user
-      redirect_to :action => "view", :id => params[:id]
+      redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
     elsif params[:diary_entry] && @diary_entry.update(entry_params)
-      redirect_to :action => "view", :id => params[:id]
+      redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
     end
 
     set_map_location
@@ -71,9 +71,9 @@ class DiaryEntryController < ApplicationController
       # Add the commenter to the subscribers if necessary
       @entry.subscriptions.create(:user => current_user) unless @entry.subscribers.exists?(current_user.id)
 
-      redirect_to :action => "view", :display_name => @entry.user.display_name, :id => @entry.id
+      redirect_to diary_entry_path(@entry.user, @entry)
     else
-      render :action => "view"
+      render :action => "show"
     end
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
@@ -84,7 +84,7 @@ class DiaryEntryController < ApplicationController
 
     diary_entry.subscriptions.create(:user => current_user) unless diary_entry.subscribers.exists?(current_user.id)
 
-    redirect_to :action => "view", :display_name => diary_entry.user.display_name, :id => diary_entry.id
+    redirect_to diary_entry_path(diary_entry.user, diary_entry)
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
   end
@@ -94,17 +94,17 @@ class DiaryEntryController < ApplicationController
 
     diary_entry.subscriptions.where(:user => current_user).delete_all if diary_entry.subscribers.exists?(current_user.id)
 
-    redirect_to :action => "view", :display_name => diary_entry.user.display_name, :id => diary_entry.id
+    redirect_to diary_entry_path(diary_entry.user, diary_entry)
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
   end
 
-  def list
+  def index
     if params[:display_name]
       @user = User.active.find_by(:display_name => params[:display_name])
 
       if @user
-        @title = t "diary_entry.list.user_title", :user => @user.display_name
+        @title = t "diary_entry.index.user_title", :user => @user.display_name
         @entries = @user.diary_entries
       else
         render_unknown_user params[:display_name]
@@ -112,7 +112,7 @@ class DiaryEntryController < ApplicationController
       end
     elsif params[:friends]
       if current_user
-        @title = t "diary_entry.list.title_friends"
+        @title = t "diary_entry.index.title_friends"
         @entries = DiaryEntry.where(:user_id => current_user.friend_users)
       else
         require_user
@@ -120,7 +120,7 @@ class DiaryEntryController < ApplicationController
       end
     elsif params[:nearby]
       if current_user
-        @title = t "diary_entry.list.title_nearby"
+        @title = t "diary_entry.index.title_nearby"
         @entries = DiaryEntry.where(:user_id => current_user.nearby)
       else
         require_user
@@ -130,10 +130,10 @@ class DiaryEntryController < ApplicationController
       @entries = DiaryEntry.joins(:user).where(:users => { :status => %w[active confirmed] })
 
       if params[:language]
-        @title = t "diary_entry.list.in_language_title", :language => Language.find(params[:language]).english_name
+        @title = t "diary_entry.index.in_language_title", :language => Language.find(params[:language]).english_name
         @entries = @entries.where(:language_code => params[:language])
       else
-        @title = t "diary_entry.list.title"
+        @title = t "diary_entry.index.title"
       end
     end
 
@@ -157,7 +157,7 @@ class DiaryEntryController < ApplicationController
         @entries = user.diary_entries
         @title = t("diary_entry.feed.user.title", :user => user.display_name)
         @description = t("diary_entry.feed.user.description", :user => user.display_name)
-        @link = url_for :controller => "diary_entry", :action => "list", :display_name => user.display_name, :host => SERVER_URL, :protocol => SERVER_PROTOCOL
+        @link = url_for :controller => "diary_entry", :action => "index", :display_name => user.display_name, :host => SERVER_URL, :protocol => SERVER_PROTOCOL
       else
         head :not_found
         return
@@ -169,21 +169,21 @@ class DiaryEntryController < ApplicationController
         @entries = @entries.where(:language_code => params[:language])
         @title = t("diary_entry.feed.language.title", :language_name => Language.find(params[:language]).english_name)
         @description = t("diary_entry.feed.language.description", :language_name => Language.find(params[:language]).english_name)
-        @link = url_for :controller => "diary_entry", :action => "list", :language => params[:language], :host => SERVER_URL, :protocol => SERVER_PROTOCOL
+        @link = url_for :controller => "diary_entry", :action => "index", :language => params[:language], :host => SERVER_URL, :protocol => SERVER_PROTOCOL
       else
         @title = t("diary_entry.feed.all.title")
         @description = t("diary_entry.feed.all.description")
-        @link = url_for :controller => "diary_entry", :action => "list", :host => SERVER_URL, :protocol => SERVER_PROTOCOL
+        @link = url_for :controller => "diary_entry", :action => "index", :host => SERVER_URL, :protocol => SERVER_PROTOCOL
       end
     end
 
     @entries = @entries.visible.includes(:user).order("created_at DESC").limit(20)
   end
 
-  def view
+  def show
     @entry = @user.diary_entries.visible.where(:id => params[:id]).first
     if @entry
-      @title = t "diary_entry.view.title", :user => params[:display_name], :title => @entry.title
+      @title = t "diary_entry.show.title", :user => params[:display_name], :title => @entry.title
     else
       @title = t "diary_entry.no_such_entry.title", :id => params[:id]
       render :action => "no_such_entry", :status => :not_found
@@ -193,13 +193,13 @@ class DiaryEntryController < ApplicationController
   def hide
     entry = DiaryEntry.find(params[:id])
     entry.update(:visible => false)
-    redirect_to :action => "list", :display_name => entry.user.display_name
+    redirect_to :action => "index", :display_name => entry.user.display_name
   end
 
   def hidecomment
     comment = DiaryComment.find(params[:comment])
     comment.update(:visible => false)
-    redirect_to :action => "view", :display_name => comment.diary_entry.user.display_name, :id => comment.diary_entry.id
+    redirect_to diary_entry_path(comment.diary_entry.user, comment.diary_entry)
   end
 
   def comments
@@ -235,7 +235,7 @@ class DiaryEntryController < ApplicationController
   def require_administrator
     unless current_user.administrator?
       flash[:error] = t("user.filter.not_an_administrator")
-      redirect_to :action => "view"
+      redirect_to :action => "show"
     end
   end
 

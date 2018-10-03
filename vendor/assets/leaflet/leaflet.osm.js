@@ -22,6 +22,7 @@ L.OSM.Mapnik = L.OSM.TileLayer.extend({
 L.OSM.CycleMap = L.OSM.TileLayer.extend({
   options: {
     url: 'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}{r}.png?apikey={apikey}',
+    maxZoom: 21,
     attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://www.thunderforest.com/" target="_blank">Andy Allan</a>'
   }
 });
@@ -29,6 +30,7 @@ L.OSM.CycleMap = L.OSM.TileLayer.extend({
 L.OSM.TransportMap = L.OSM.TileLayer.extend({
   options: {
     url: 'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}{r}.png?apikey={apikey}',
+    maxZoom: 21,
     attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://www.thunderforest.com/" target="_blank">Andy Allan</a>'
   }
 });
@@ -45,7 +47,8 @@ L.OSM.HOT = L.OSM.TileLayer.extend({
 L.OSM.GPS = L.OSM.TileLayer.extend({
   options: {
     url: 'https://gps-{s}.tile.openstreetmap.org/lines/{z}/{x}/{y}.png',
-    maxZoom: 20,
+    maxZoom: 21,
+    maxNativeZoom: 20,
     subdomains: 'abc'
   }
 });

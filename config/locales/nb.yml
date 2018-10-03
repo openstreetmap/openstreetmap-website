@@ -16,6 +16,7 @@
 # Author: Laaknor
 # Author: Macofe
 # Author: MarkusHD
+# Author: Mathias-S
 # Author: Nemo bis
 # Author: Nghtwlkr
 # Author: Oyvind
@@ -253,7 +254,7 @@ nb:
       user: Bruker
       comment: Kommentar
       area: Område
-    list:
+    index:
       title: Endringssett
       title_user: Endringssett av %{user}
       title_friend: Endringssett fra mine venner
@@ -278,7 +279,7 @@ nb:
     new:
       title: Ny dagbokoppføring
       publish_button: Publiser
-    list:
+    index:
       title: Brukernes dagbøker
       title_friends: Dagbøkene til vennene dine
       title_nearby: Dagbøkene til nærliggende brukere
@@ -301,7 +302,7 @@ nb:
       use_map_link: bruk kart
       save_button: Lagre
       marker_text: Lokalisasjonen for dagbokoppføring
-    view:
+    show:
       title: '%{user} sin dagbok | %{title}'
       user_title: Dagboken til %{user}
       leave_a_comment: Legg igjen en kommentar
@@ -1026,6 +1027,32 @@ nb:
         not_just_mistake: Du er sikker på at problemet ikke er basert på en misforståelse
         unable_to_fix: Du er ikke i stand til å fikse problemet selv eller med hjelp
           fra dine kolleger
+        resolve_with_user: Du har allerede prøvd å løse problemet med berørt bruker
+      categories:
+        diary_entry:
+          spam_label: Dette dagbokinnlegget er/inneholder spam
+          offensive_label: Dette dagbokinnlegget er uanstendig
+          threat_label: Dette dagbokinnlegget inneholder en trussel
+          other_label: Annet
+        diary_comment:
+          spam_label: Denne dagbokkommentaren er/inneholder spam
+          offensive_label: Denne dagbokkommentaren er uanstendig
+          threat_label: Denne dagbokkommenataren inneholder en trussel
+          other_label: Annet
+        user:
+          spam_label: Denne brukerprofilen er/inneholder spam
+          offensive_label: Denne brukerprofilen er uanstendig
+          threat_label: Denne brukerprofilen inneholder en trussel
+          vandal_label: Denne brukeren er en vandal
+          other_label: Annet
+        note:
+          spam_label: Dette notatet er spam
+          personal_label: Dette notatet inneholder personlige data
+          abusive_label: Dette notatet er krenkende
+          other_label: Annet
+    create:
+      successful_report: Din rapport har blitt vellykket registrert
+      provide_details: Vær vennlig å angi de påkrevde detaljer
   layouts:
     project_name:
       title: OpenStreetMap
@@ -1042,6 +1069,7 @@ nb:
     edit: Rediger
     history: Historikk
     export: Eksporter
+    issues: Problemer
     data: Data
     export_data: Eksporter data
     gps_traces: GPS-spor
@@ -1373,7 +1401,9 @@ nb:
           (<a href="http://www.and.com">www.and.com</a>)
         contributors_nz_html: |-
           <strong>New Zealand</strong>: Inneholder data hentet fra
-             Land Information New Zealand. Crown Copyright reservert.
+          <a href="https://data.linz.govt.nz/">LINZ Data Service</a> og
+          lisensiert for gjenbruk under
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
         contributors_si_html: |-
           <strong>Slovenia</strong>: Inneholder data fra
           <a href="http://www.gu.gov.si/en/">Geologisk undersøkelse og kartmyndighet</a> and
@@ -1424,14 +1454,15 @@ nb:
         Du kan gjøre dine redigeringer offentlige fra din %{user_page}.
       user_page_link: brukerside
       anon_edits_link_text: Finn ut hvorfor dette er tilfellet.
-      flash_player_required: Du trenger en Flash-spiller for å kunne bruke Potlatch,
-        Flasheditoren for OpenStreetMap. Du kan <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">laste
-        ned Flash Player fra Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Flere
-        andre alternativ</a> er også tilgjengelig for redigering av OpenStreetMap.
+      flash_player_required: Du trenger en Flash-spiller for å kunne bruke Potlatch
+        som er Flasheditoren for OpenStreetMap. Du kan <a href="https://get.adobe.com/flashplayer">laste
+        ned Flash Player fra Adobe.com</a>. <a href="https://wiki.openstreetmap.org/wiki/Editing">Det
+        finnes flere alternativer</a> for å redigere OpenStreetMap.
       potlatch_unsaved_changes: Du har ulagrede endringer. (For å lagre i Potlatch,
         må du fjerne markeringen av gjeldende vei eller punkt hvis du redigerer i
         live-modues eller klikke lagre hvis du har en lagreknapp.)
-      potlatch2_not_configured: Potlatch 2 har ikke blitt konfigurert - se http://wiki.openstreetmap.org/wiki/The_Rails_Port
+      potlatch2_not_configured: Potlatch 2 har ikke blitt konfigurert - se https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
+        for mer informasjon
       potlatch2_unsaved_changes: Du har endringer som ikke er lagret. (For å lagre
         i Potlatch 2, må du klikke lagre.)
       id_not_configured: iD er ikke satt opp
@@ -1550,6 +1581,7 @@ nb:
       where_am_i: Hvor er dette?
       where_am_i_title: Bruke søkemotoren til å beskrive gjeldende lokasjon.
       submit_text: Gå
+      reverse_directions_text: Motsatte retninger
     key:
       table:
         entry:
@@ -1624,7 +1656,7 @@ nb:
       edit: Rediger
       preview: Forhåndsvisning
     markdown_help:
-      title_html: Tolket med <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Tolket med <a href="https://daringfireball.net/projects/markdown/">Markdown</a>
       headings: Overskrifter
       heading: Overskrift
       subheading: Underoverskrift
@@ -1701,13 +1733,17 @@ nb:
       tags_help: kommaseparert
       visibility: 'Synlighet:'
       visibility_help: hva betyr dette?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       upload_button: Last opp
       help: Hjelp
+      help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
       upload_trace: Last opp GPS-spor
       trace_uploaded: Din GPX-fil er lastet opp og venter på å bli satt inn i databasen.
         Dette skjer vanligvis innen en halvtime og en e-post blir sendt til deg når
         det er gjort.
+      upload_failed: Beklager, GPX-opplastingen mislyktes. En administrator har blitt
+        varslet om feilen. Prøv på nytt
       traces_waiting:
         one: Du har %{count} spor som venter på opplasting. Du bør vurdere å la dette
           bli ferdig før du laster opp flere spor slik at du ikke blokkerer køa for
@@ -1732,6 +1768,8 @@ nb:
       save_button: Lagre endringer
       visibility: 'Synlighet:'
       visibility_help: hva betyr dette?
+    update:
+      updated: Sporet ble oppdatert
     trace_optionals:
       tags: Merkelapper
     show:
@@ -1753,6 +1791,7 @@ nb:
       delete_trace: Slett dette sporet
       trace_not_found: Sporet ble ikke funnet!
       visibility: 'Synlighet:'
+      confirm_delete: Slett dette sporet?
     trace_paging_nav:
       showing_page: Side %{page}
       older: Eldre spor
@@ -1783,6 +1822,7 @@ nb:
         eller lær å lage GPS-spor på <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki-siden</a>.
       upload_trace: Last opp et GPS-spor
       see_all_traces: Se alle spor
+      see_my_traces: Se alle mine spor
     delete:
       scheduled_for_deletion: Spor planlagt slettet
     make_public:
@@ -1804,8 +1844,12 @@ nb:
     require_cookies:
       cookies_needed: Du ser ut til å ha deaktivert informasjonskapsler. Aktiver informasjonskapsler
         i nettleseren din før du fortsetter.
+    require_admin:
+      not_an_admin: Du må være administrator for å kunne utføre denne handlingen.
     require_moderator:
       not_a_moderator: Du må være en moderator for å utføre den handlinga.
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: Du må være en moderator for kunne å utføre den handlingen.
     setup_user_auth:
       blocked_zero_hour: Du har en viktig beskjed på OpenStreetMap-nettsida. Du må
         lese beskjeden før du vil kunne lagre redigeringene dine.
@@ -1989,11 +2033,12 @@ nb:
         html: |-
           <p>I motsetning til andre kart, er OpenStreetMap laget av folk som deg, og det er fritt for alle å rette, oppdatere, laste ned og bruke kartet.</p>
           <p>Registrer deg for å komme i gang med å bidra. Vi vil sende en e-mail for å bekrefte din konto.</p>
-      license_agreement: Når du bekrefter kontoen din må du godkjenne <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">bidragsytervilkårene</a>.
+      license_agreement: Når du bekrefter kontoen din må du godkjenne <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">betingelsene
+        for bidragsytere</a>.
       email address: 'E-postadresse:'
       confirm email address: 'Bekreft e-postadresse:'
-      not displayed publicly: Adressa di vises ikke offentlig, se <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
-        title="Personvernpolitikk for Wiki-en inklusiv avsnitt om e-postadressser">vår
+      not displayed publicly: Adressen din vises ikke offentlig, se <a href="https://wiki.openstreetmap.org/wiki/Privacy_Policy"
+        title="OSMF personvernpolitikk for wiki-en, inklusive avsnitt om e-postadressser">vår
         personvernpolitikk</a> for mer informasjon.
       display name: 'Visningsnavn:'
       display name description: Ditt offentlig fremviste brukernavn. Du kan endre
@@ -2034,7 +2079,7 @@ nb:
       body: Det er ingen bruker med navnet %{user}. Sjekk om du har skrevet navnet
         feil eller om lenka du klikket er feil.
       deleted: slettet
-    view:
+    show:
       my diary: Min dagbok
       new diary entry: ny dagbokoppføring
       my edits: Mine redigeringer
@@ -2101,6 +2146,7 @@ nb:
       friends_diaries: venners dagbokoppføringer
       nearby_changesets: endringssett av brukere i nærheten
       nearby_diaries: dagbokoppføringer av brukere i nærheten
+      report: Rapporter denne brukeren
     popup:
       your location: Din posisjon
       nearby mapper: Bruker i nærheten
@@ -2113,12 +2159,12 @@ nb:
       email never displayed publicly: ' (vises aldri offentlig)'
       external auth: 'Ekstern bekreftelse:'
       openid:
-        link: http://wiki.openstreetmap.org/wiki/OpenID
+        link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: hva er dette?
       public editing:
         heading: 'Offentlig redigering:'
         enabled: Aktivert. Ikke anonym og kan redigere data.
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: hva er dette?
         disabled: Deaktivert og kan ikke redigere data. Alle tidligere redigeringer
           er anonyme.
@@ -2129,10 +2175,9 @@ nb:
           deg meldinger eller se posisjonen din. For å vise hva du redigerte og tillate
           folk å kontakte deg gjennom nettsiden, klikk på knappen nedenfor. <b>Siden
           overgangen til 0.6 API-et, kan kun offentlige brukere redigere kartdata.</b>
-          ( <a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">Finn ut hvorfor</a>
-          ). <ul><li> Din e-postadresse vil ikke bli avslørt ved å bli offentlig.
-          </li><li> Denne handlingen kan ikke angres, og alle nye brukere er nå offentlige
-          som standard. </li></ul>
+          (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">Finn ut hvorfor</a>
+          ). <ul><li>Din e-postadresse vil ikke bli avslørt ved å bli offentlig.</li><li>Denne
+          handlingen kan ikke angres, og alle nye brukere er nå offentlige som standard.</li></ul>
       contributor terms:
         heading: 'Bidragsytervilkår:'
         agreed: Du har godkjent de nye Bidragsytervilkårene.
@@ -2209,7 +2254,7 @@ nb:
       not_a_friend: '%{name} er ikke en av dine venner.'
     filter:
       not_an_administrator: Du må være administrator for å gjøre det.
-    list:
+    index:
       title: Brukere
       heading: Brukere
       showing:
@@ -2487,7 +2532,7 @@ nb:
     edit_help: Flytt kartet og forstørr utvalg til et sted du vil redigere, og klikk
       så her.
     directions:
-      ascend: Tiltagende
+      ascend: Stigning
       engines:
         graphhopper_bicycle: Sykkel (GraphHopper)
         graphhopper_car: Bil (GraphHopper)
@@ -2496,17 +2541,32 @@ nb:
         mapquest_car: Bil (MapQuest)
         mapquest_foot: Til fots (MapQuest)
         osrm_car: Bil (OSRM)
-      descend: Avtagende
+      descend: Fall
       directions: Veianvisninger
       distance: Avstand
       errors:
         no_route: Kunne ikke finne veien mellom de to stedene.
-        no_place: Beklager - kunne ikke finne det stedet.
+        no_place: Fant ikke '%{place}'.
       instructions:
         continue_without_exit: Fortsett på %{name}
         slight_right_without_exit: Slak høyre inn på %{name}
+        offramp_right: Ta rampen til høyre
+        offramp_right_with_exit: Ta avkjøringen %{exit} til høyre
+        offramp_right_with_exit_name: '%{exit}Ta avkjøringen %{exit} til høyre inn
+          på %{name}'
+        offramp_right_with_exit_directions: Ta avkjøringen %{exit} til høyre mot %{directions}
+        offramp_right_with_exit_name_directions: Ta avkjøringen %{exit} til høyre
+          inn på %{name}, mot %{directions}
         offramp_right_with_name: Ta rampen til høyre til %{name}
+        offramp_right_with_directions: Ta rampen til høyre mot %{directions}
+        offramp_right_with_name_directions: Ta rampen til høyre inn på %{name}, mot
+          %{directions}
         onramp_right_without_exit: Ta til høyre til rampen til %{name}
+        onramp_right_with_directions: Kjør til høyre inn på rampen mot %{directions}
+        onramp_right_with_name_directions: Kjør til høyre på rampen inn på %{name},
+          mot %{directions}
+        onramp_right_without_directions: Ta til høyre inn på rampen
+        onramp_right: Ta til høyre inn på rampen
         endofroad_right_without_exit: Ved slutten av veien, ta til høyre inn på %{name}
         merge_right_without_exit: Flett til høyre til %{name}
         fork_right_without_exit: Ved veiskillet, ta til høyre inn på %{name}
@@ -2515,24 +2575,51 @@ nb:
         uturn_without_exit: Helomvending på %{name}
         sharp_left_without_exit: Skarp venstresving inn på %{name}
         turn_left_without_exit: Ta til venstre inn på %{name}
+        offramp_left: Ta rampen til venstre
+        offramp_left_with_exit: Ta avkjøring %{exit} til venstre
+        offramp_left_with_exit_name: Ta avkjøring %{exit} til venstre inn på %{name}
+        offramp_left_with_exit_directions: Ta avkjøring %{exit} til venstre mot %{directions}
+        offramp_left_with_exit_name_directions: Ta avkjøring %{exit} til venstre inn
+          på %{name}, mot %{directions}
         offramp_left_with_name: Ta rampen til venstre til %{name}
+        offramp_left_with_directions: Ta rampen til venstre mot %{directions}
+        offramp_left_with_name_directions: Ta rampen til venstre inn på %{name}, mot
+          %{directions}
         onramp_left_without_exit: Ta til venstre til rampen til %{name}
+        onramp_left_with_directions: Kjør til venstre inn på rampen mot %{directions}
+        onramp_left_with_name_directions: Sving til venstre på rampen inn på %{name},
+          mot %{directions}
+        onramp_left_without_directions: Kjør til venstre inn på rampen
+        onramp_left: Sving til venstre inn på rampen
         endofroad_left_without_exit: Ved slutten av veien, ta til venstre inn på %{name}
         merge_left_without_exit: Flett til venstre til %{name}
         fork_left_without_exit: Ved veiskillet, ta til venstre inn på %{name}
         slight_left_without_exit: Slak venstre inn på %{name}
         via_point_without_exit: (via punkt)
         follow_without_exit: Følg %{name}
-        roundabout_without_exit: Ved rundkjøringen, ta til %{name}
+        roundabout_without_exit: Ved rundkjøringen, ta av til %{name}
         leave_roundabout_without_exit: Forlat rundkjøringen - %{name}
         stay_roundabout_without_exit: Bli i rundkjøringen - %{name}
-        start_without_exit: Begynn ved slutten av %{name}
+        start_without_exit: Start på %{name}
         destination_without_exit: Nå mål
         against_oneway_without_exit: Kjør mot enveiskjøring på %{name}
         end_oneway_without_exit: Slutt på enveiskjøring på %{name}
         roundabout_with_exit: Ved rundkjøring, ta utvei %{exit} mot %{name}
+        roundabout_with_exit_ordinal: Ved rundkjøring, ta utvei %{exit} inn på %{name}
+        exit_roundabout: Kjør ut av rundkjøringen inn på %{name}
         unnamed: ikke navngitt
         courtesy: Veianvisninger gitt av %{link}
+        exit_counts:
+          first: første
+          second: andre
+          third: tredje
+          fourth: fjerde
+          fifth: femte
+          sixth: sjette
+          seventh: syvende
+          eighth: åttende
+          ninth: niende
+          tenth: tiende
       time: Tid
     query:
       node: Node

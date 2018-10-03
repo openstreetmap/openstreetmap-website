@@ -130,7 +130,7 @@ class UserControllerTest < ActionController::TestCase
 
     assert_routing(
       { :path => "/user/username", :method => :get },
-      { :controller => "user", :action => "view", :display_name => "username" }
+      { :controller => "user", :action => "show", :display_name => "username" }
     )
 
     assert_routing(
@@ -170,19 +170,19 @@ class UserControllerTest < ActionController::TestCase
 
     assert_routing(
       { :path => "/users", :method => :get },
-      { :controller => "user", :action => "list" }
+      { :controller => "user", :action => "index" }
     )
     assert_routing(
       { :path => "/users", :method => :post },
-      { :controller => "user", :action => "list" }
+      { :controller => "user", :action => "index" }
     )
     assert_routing(
       { :path => "/users/status", :method => :get },
-      { :controller => "user", :action => "list", :status => "status" }
+      { :controller => "user", :action => "index", :status => "status" }
     )
     assert_routing(
       { :path => "/users/status", :method => :post },
-      { :controller => "user", :action => "list", :status => "status" }
+      { :controller => "user", :action => "index", :status => "status" }
     )
   end
 
@@ -245,7 +245,7 @@ class UserControllerTest < ActionController::TestCase
     register_email = ActionMailer::Base.deliveries.first
 
     assert_equal register_email.to[0], user.email
-    assert_match /#{@url}/, register_email.body.to_s
+    assert_match(/#{@url}/, register_email.body.to_s)
 
     # Check the page
     assert_redirected_to :action => "confirm", :display_name => user.display_name
@@ -404,7 +404,7 @@ class UserControllerTest < ActionController::TestCase
     @request.cookies["_osm_session"] = user.display_name
     post :confirm, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
     assert_redirected_to login_path
-    assert_match /Confirmed your account/, flash[:notice]
+    assert_match(/Confirmed your account/, flash[:notice])
   end
 
   def test_confirm_success_good_token_no_referer
@@ -427,7 +427,7 @@ class UserControllerTest < ActionController::TestCase
     @request.cookies["_osm_session"] = user.display_name
     post :confirm, :params => { :display_name => user.display_name, :confirm_string => confirm_string }, :session => { :token => token }
     assert_redirected_to login_path
-    assert_match /Confirmed your account/, flash[:notice]
+    assert_match(/Confirmed your account/, flash[:notice])
   end
 
   def test_confirm_success_no_token_with_referer
@@ -438,7 +438,7 @@ class UserControllerTest < ActionController::TestCase
     @request.cookies["_osm_session"] = user.display_name
     post :confirm, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
     assert_redirected_to login_path(:referer => diary_new_path)
-    assert_match /Confirmed your account/, flash[:notice]
+    assert_match(/Confirmed your account/, flash[:notice])
   end
 
   def test_confirm_success_good_token_with_referer
@@ -461,7 +461,7 @@ class UserControllerTest < ActionController::TestCase
     @request.cookies["_osm_session"] = user.display_name
     post :confirm, :params => { :display_name => user.display_name, :confirm_string => confirm_string }, :session => { :token => token }
     assert_redirected_to login_path(:referer => diary_new_path)
-    assert_match /Confirmed your account/, flash[:notice]
+    assert_match(/Confirmed your account/, flash[:notice])
   end
 
   def test_confirm_expired_token
@@ -471,7 +471,7 @@ class UserControllerTest < ActionController::TestCase
     @request.cookies["_osm_session"] = user.display_name
     post :confirm, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
     assert_redirected_to :action => "confirm"
-    assert_match /confirmation code has expired/, flash[:error]
+    assert_match(/confirmation code has expired/, flash[:error])
   end
 
   def test_confirm_already_confirmed
@@ -481,7 +481,7 @@ class UserControllerTest < ActionController::TestCase
     @request.cookies["_osm_session"] = user.display_name
     post :confirm, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
     assert_redirected_to :action => "login"
-    assert_match /already been confirmed/, flash[:error]
+    assert_match(/already been confirmed/, flash[:error])
   end
 
   def test_confirm_resend_success
@@ -494,7 +494,7 @@ class UserControllerTest < ActionController::TestCase
 
     assert_response :redirect
     assert_redirected_to login_path
-    assert_match /sent a new confirmation/, flash[:notice]
+    assert_match(/sent a new confirmation/, flash[:notice])
 
     email = ActionMailer::Base.deliveries.last
 
@@ -541,7 +541,7 @@ class UserControllerTest < ActionController::TestCase
     post :confirm_email, :params => { :confirm_string => confirm_string }
     assert_response :redirect
     assert_redirected_to :action => :account, :display_name => user.display_name
-    assert_match /Confirmed your change of email address/, flash[:notice]
+    assert_match(/Confirmed your change of email address/, flash[:notice])
   end
 
   def test_confirm_email_already_confirmed
@@ -551,14 +551,14 @@ class UserControllerTest < ActionController::TestCase
     post :confirm_email, :params => { :confirm_string => confirm_string }
     assert_response :redirect
     assert_redirected_to :action => :account, :display_name => user.display_name
-    assert_match /already been confirmed/, flash[:error]
+    assert_match(/already been confirmed/, flash[:error])
   end
 
   def test_confirm_email_bad_token
     post :confirm_email, :params => { :confirm_string => "XXXXX" }
     assert_response :success
     assert_template :confirm_email
-    assert_match /confirmation code has expired or does not exist/, flash[:error]
+    assert_match(/confirmation code has expired or does not exist/, flash[:error])
   end
 
   ##
@@ -575,7 +575,7 @@ class UserControllerTest < ActionController::TestCase
     post :confirm_email, :params => { :confirm_string => confirm_string }
     assert_response :redirect
     assert_redirected_to :action => :account, :display_name => user.display_name
-    assert_match /Confirmed your change of email address/, flash[:notice]
+    assert_match(/Confirmed your change of email address/, flash[:notice])
     # gravatar use should now be enabled
     assert User.find(user.id).image_use_gravatar
   end
@@ -590,7 +590,7 @@ class UserControllerTest < ActionController::TestCase
     post :confirm_email, :params => { :confirm_string => confirm_string }
     assert_response :redirect
     assert_redirected_to :action => :account, :display_name => user.display_name
-    assert_match /Confirmed your change of email address/, flash[:notice]
+    assert_match(/Confirmed your change of email address/, flash[:notice])
     # gravatar use should now be disabled
     assert_not User.find(user.id).image_use_gravatar
   end
@@ -678,7 +678,7 @@ class UserControllerTest < ActionController::TestCase
     end
     assert_response :redirect
     assert_redirected_to :action => :login
-    assert_match /^Sorry you lost it/, flash[:notice]
+    assert_match(/^Sorry you lost it/, flash[:notice])
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal user.email, email.to.first
@@ -691,7 +691,7 @@ class UserControllerTest < ActionController::TestCase
     end
     assert_response :redirect
     assert_redirected_to :action => :login
-    assert_match /^Sorry you lost it/, flash[:notice]
+    assert_match(/^Sorry you lost it/, flash[:notice])
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal uppercase_user.email, email.to.first
@@ -714,7 +714,7 @@ class UserControllerTest < ActionController::TestCase
     end
     assert_response :redirect
     assert_redirected_to :action => :login
-    assert_match /^Sorry you lost it/, flash[:notice]
+    assert_match(/^Sorry you lost it/, flash[:notice])
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal third_user.email, email.to.first
@@ -727,7 +727,7 @@ class UserControllerTest < ActionController::TestCase
     end
     assert_response :redirect
     assert_redirected_to :action => :login
-    assert_match /^Sorry you lost it/, flash[:notice]
+    assert_match(/^Sorry you lost it/, flash[:notice])
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal third_user.email, email.to.first
@@ -935,14 +935,15 @@ class UserControllerTest < ActionController::TestCase
 
   # Check that the user account page will display and contains some relevant
   # information for the user
-  def test_view
+  def test_show
     # Test a non-existent user
-    get :view, :params => { :display_name => "unknown" }
+    get :show, :params => { :display_name => "unknown" }
     assert_response :not_found
 
     # Test a normal user
     user = create(:user)
-    get :view, :params => { :display_name => user.display_name }
+    create(:friend, :befriender => user)
+    get :show, :params => { :display_name => user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
       assert_select "a[href^='/user/#{ERB::Util.u(user.display_name)}/history']", 1
@@ -955,10 +956,13 @@ class UserControllerTest < ActionController::TestCase
       assert_select "a[href='/blocks/new/#{ERB::Util.u(user.display_name)}']", 0
     end
 
+    # Friends shouldn't be visible as we're not logged in
+    assert_select "div#friends-container", :count => 0
+
     # Test a user who has been blocked
     blocked_user = create(:user)
     create(:user_block, :user => blocked_user)
-    get :view, :params => { :display_name => blocked_user.display_name }
+    get :show, :params => { :display_name => blocked_user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
       assert_select "a[href^='/user/#{ERB::Util.u(blocked_user.display_name)}/history']", 1
@@ -974,7 +978,7 @@ class UserControllerTest < ActionController::TestCase
     # Test a moderator who has applied blocks
     moderator_user = create(:moderator_user)
     create(:user_block, :creator => moderator_user)
-    get :view, :params => { :display_name => moderator_user.display_name }
+    get :show, :params => { :display_name => moderator_user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
       assert_select "a[href^='/user/#{ERB::Util.u(moderator_user.display_name)}/history']", 1
@@ -991,7 +995,7 @@ class UserControllerTest < ActionController::TestCase
     session[:user] = user.id
 
     # Test the normal user
-    get :view, :params => { :display_name => user.display_name }
+    get :show, :params => { :display_name => user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
       assert_select "a[href^='/user/#{ERB::Util.u(user.display_name)}/history']", 1
@@ -1004,11 +1008,16 @@ class UserControllerTest < ActionController::TestCase
       assert_select "a[href='/blocks/new/#{ERB::Util.u(user.display_name)}']", 0
     end
 
+    # Friends should be visible as we're now logged in
+    assert_select "div#friends-container" do
+      assert_select "div.contact-activity", :count => 1
+    end
+
     # Login as a moderator
     session[:user] = create(:moderator_user).id
 
     # Test the normal user
-    get :view, :params => { :display_name => user.display_name }
+    get :show, :params => { :display_name => user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
       assert_select "a[href^='/user/#{ERB::Util.u(user.display_name)}/history']", 1
@@ -1028,13 +1037,13 @@ class UserControllerTest < ActionController::TestCase
     seen_user = create(:user, :terms_seen => true)
     not_seen_user = create(:user, :terms_seen => false)
 
-    get :view, :params => { :display_name => agreed_user.display_name }
+    get :show, :params => { :display_name => agreed_user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
       assert_select "p", :count => 0, :text => /Contributor terms/
     end
 
-    get :view, :params => { :display_name => seen_user.display_name }
+    get :show, :params => { :display_name => seen_user.display_name }
     assert_response :success
     # put @response.body
     assert_select "div#userinformation" do
@@ -1042,7 +1051,7 @@ class UserControllerTest < ActionController::TestCase
       assert_select "p", /Declined/
     end
 
-    get :view, :params => { :display_name => not_seen_user.display_name }
+    get :show, :params => { :display_name => not_seen_user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
       assert_select "p", :count => 1, :text => /Contributor terms/
@@ -1250,8 +1259,8 @@ class UserControllerTest < ActionController::TestCase
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       post :make_friend, :params => { :display_name => friend.display_name }, :session => { :user => user }
     end
-    assert_redirected_to user_path(:display_name => friend.display_name)
-    assert_match /is now your friend/, flash[:notice]
+    assert_redirected_to user_path(friend)
+    assert_match(/is now your friend/, flash[:notice])
     assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
@@ -1262,8 +1271,8 @@ class UserControllerTest < ActionController::TestCase
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       post :make_friend, :params => { :display_name => friend.display_name }, :session => { :user => user }
     end
-    assert_redirected_to user_path(:display_name => friend.display_name)
-    assert_match /You are already friends with/, flash[:warning]
+    assert_redirected_to user_path(friend)
+    assert_match(/You are already friends with/, flash[:warning])
     assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
   end
 
@@ -1290,7 +1299,7 @@ class UserControllerTest < ActionController::TestCase
       post :make_friend, :params => { :display_name => friend.display_name, :referer => "/test" }, :session => { :user => user }
     end
     assert_redirected_to "/test"
-    assert_match /is now your friend/, flash[:notice]
+    assert_match(/is now your friend/, flash[:notice])
     assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
@@ -1335,14 +1344,14 @@ class UserControllerTest < ActionController::TestCase
 
     # When logged in a POST should remove the friendship
     post :remove_friend, :params => { :display_name => friend.display_name }, :session => { :user => user }
-    assert_redirected_to user_path(:display_name => friend.display_name)
-    assert_match /was removed from your friends/, flash[:notice]
+    assert_redirected_to user_path(friend)
+    assert_match(/was removed from your friends/, flash[:notice])
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
     # A second POST should report that the friendship does not exist
     post :remove_friend, :params => { :display_name => friend.display_name }, :session => { :user => user }
-    assert_redirected_to user_path(:display_name => friend.display_name)
-    assert_match /is not one of your friends/, flash[:error]
+    assert_redirected_to user_path(friend)
+    assert_match(/is not one of your friends/, flash[:error])
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
   end
 
@@ -1368,7 +1377,7 @@ class UserControllerTest < ActionController::TestCase
     # When logged in a POST should remove the friendship and refer
     post :remove_friend, :params => { :display_name => friend.display_name, :referer => "/test" }, :session => { :user => user }
     assert_redirected_to "/test"
-    assert_match /was removed from your friends/, flash[:notice]
+    assert_match(/was removed from your friends/, flash[:notice])
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
   end
 
@@ -1390,12 +1399,12 @@ class UserControllerTest < ActionController::TestCase
     # Now try as a normal user
     get :set_status, :params => { :display_name => user.display_name, :status => "suspended" }, :session => { :user => user }
     assert_response :redirect
-    assert_redirected_to :action => :view, :display_name => user.display_name
+    assert_redirected_to :action => :show, :display_name => user.display_name
 
     # Finally try as an administrator
     get :set_status, :params => { :display_name => user.display_name, :status => "suspended" }, :session => { :user => create(:administrator_user) }
     assert_response :redirect
-    assert_redirected_to :action => :view, :display_name => user.display_name
+    assert_redirected_to :action => :show, :display_name => user.display_name
     assert_equal "suspended", User.find(user.id).status
   end
 
@@ -1410,12 +1419,12 @@ class UserControllerTest < ActionController::TestCase
     # Now try as a normal user
     get :delete, :params => { :display_name => user.display_name, :status => "suspended" }, :session => { :user => user }
     assert_response :redirect
-    assert_redirected_to :action => :view, :display_name => user.display_name
+    assert_redirected_to :action => :show, :display_name => user.display_name
 
     # Finally try as an administrator
     get :delete, :params => { :display_name => user.display_name, :status => "suspended" }, :session => { :user => create(:administrator_user) }
     assert_response :redirect
-    assert_redirected_to :action => :view, :display_name => user.display_name
+    assert_redirected_to :action => :show, :display_name => user.display_name
 
     # Check that the user was deleted properly
     user.reload
@@ -1431,7 +1440,7 @@ class UserControllerTest < ActionController::TestCase
     assert_equal "deleted", user.status
   end
 
-  def test_list_get
+  def test_index_get
     user = create(:user)
     moderator_user = create(:moderator_user)
     administrator_user = create(:administrator_user)
@@ -1443,21 +1452,21 @@ class UserControllerTest < ActionController::TestCase
     assert_equal 7, User.count
 
     # Shouldn't work when not logged in
-    get :list
+    get :index
     assert_response :redirect
     assert_redirected_to :action => :login, :referer => users_path
 
     session[:user] = user.id
 
     # Shouldn't work when logged in as a normal user
-    get :list
+    get :index
     assert_response :redirect
     assert_redirected_to :action => :login, :referer => users_path
 
     session[:user] = moderator_user.id
 
     # Shouldn't work when logged in as a moderator
-    get :list
+    get :index
     assert_response :redirect
     assert_redirected_to :action => :login, :referer => users_path
 
@@ -1465,25 +1474,25 @@ class UserControllerTest < ActionController::TestCase
 
     # Note there is a header row, so all row counts are users + 1
     # Should work when logged in as an administrator
-    get :list
+    get :index
     assert_response :success
-    assert_template :list
+    assert_template :index
     assert_select "table#user_list tr", :count => 7 + 1
 
     # Should be able to limit by status
-    get :list, :params => { :status => "suspended" }
+    get :index, :params => { :status => "suspended" }
     assert_response :success
-    assert_template :list
+    assert_template :index
     assert_select "table#user_list tr", :count => 1 + 1
 
     # Should be able to limit by IP address
-    get :list, :params => { :ip => "1.2.3.4" }
+    get :index, :params => { :ip => "1.2.3.4" }
     assert_response :success
-    assert_template :list
+    assert_template :index
     assert_select "table#user_list tr", :count => 1 + 1
   end
 
-  def test_list_get_paginated
+  def test_index_get_paginated
     1.upto(100).each do |n|
       User.create(:display_name => "extra_#{n}",
                   :email => "extra#{n}@example.com",
@@ -1495,29 +1504,29 @@ class UserControllerTest < ActionController::TestCase
     # 100 examples, an administrator, and a granter for the admin.
     assert_equal 102, User.count
 
-    get :list
+    get :index
     assert_response :success
-    assert_template :list
+    assert_template :index
     assert_select "table#user_list tr", :count => 51
 
-    get :list, :params => { :page => 2 }
+    get :index, :params => { :page => 2 }
     assert_response :success
-    assert_template :list
+    assert_template :index
     assert_select "table#user_list tr", :count => 51
 
-    get :list, :params => { :page => 3 }
+    get :index, :params => { :page => 3 }
     assert_response :success
-    assert_template :list
+    assert_template :index
     assert_select "table#user_list tr", :count => 3
   end
 
-  def test_list_post_confirm
+  def test_index_post_confirm
     inactive_user = create(:user, :pending)
     suspended_user = create(:user, :suspended)
 
     # Shouldn't work when not logged in
     assert_no_difference "User.active.count" do
-      post :list, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
+      post :index, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
     end
     assert_response :redirect
     assert_redirected_to :action => :login, :referer => users_path
@@ -1528,7 +1537,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Shouldn't work when logged in as a normal user
     assert_no_difference "User.active.count" do
-      post :list, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
+      post :index, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
     end
     assert_response :redirect
     assert_redirected_to :action => :login, :referer => users_path
@@ -1539,7 +1548,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Shouldn't work when logged in as a moderator
     assert_no_difference "User.active.count" do
-      post :list, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
+      post :index, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
     end
     assert_response :redirect
     assert_redirected_to :action => :login, :referer => users_path
@@ -1550,21 +1559,21 @@ class UserControllerTest < ActionController::TestCase
 
     # Should work when logged in as an administrator
     assert_difference "User.active.count", 2 do
-      post :list, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
+      post :index, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
     end
     assert_response :redirect
-    assert_redirected_to :action => :list
+    assert_redirected_to :action => :index
     assert_equal "confirmed", inactive_user.reload.status
     assert_equal "confirmed", suspended_user.reload.status
   end
 
-  def test_list_post_hide
+  def test_index_post_hide
     normal_user = create(:user)
     confirmed_user = create(:user, :confirmed)
 
     # Shouldn't work when not logged in
     assert_no_difference "User.active.count" do
-      post :list, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
+      post :index, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
     end
     assert_response :redirect
     assert_redirected_to :action => :login, :referer => users_path
@@ -1575,7 +1584,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Shouldn't work when logged in as a normal user
     assert_no_difference "User.active.count" do
-      post :list, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
+      post :index, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
     end
     assert_response :redirect
     assert_redirected_to :action => :login, :referer => users_path
@@ -1586,7 +1595,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Shouldn't work when logged in as a moderator
     assert_no_difference "User.active.count" do
-      post :list, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
+      post :index, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
     end
     assert_response :redirect
     assert_redirected_to :action => :login, :referer => users_path
@@ -1597,10 +1606,10 @@ class UserControllerTest < ActionController::TestCase
 
     # Should work when logged in as an administrator
     assert_difference "User.active.count", -2 do
-      post :list, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
+      post :index, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
     end
     assert_response :redirect
-    assert_redirected_to :action => :list
+    assert_redirected_to :action => :index
     assert_equal "deleted", normal_user.reload.status
     assert_equal "deleted", confirmed_user.reload.status
   end

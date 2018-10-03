@@ -38,6 +38,7 @@ module Potlatch
       arr = {}
       while (key = getstring(s))
         break if key == ""
+
         arr[key] = getvalue(s)
       end
       s.getbyte # skip the 9 'end of object' value
