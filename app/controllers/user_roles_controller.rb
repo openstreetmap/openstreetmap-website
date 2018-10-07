@@ -27,16 +27,6 @@ class UserRolesController < ApplicationController
   private
 
   ##
-  # require that the user is an administrator, or fill out a helpful error message
-  # and return them to theuser page.
-  def require_administrator
-    unless current_user.administrator?
-      flash[:error] = t "user_role.filter.not_an_administrator"
-      redirect_to user_path(@user)
-    end
-  end
-
-  ##
   # require that the given role is valid. the role is a URL
   # parameter, so should always be present.
   def require_valid_role

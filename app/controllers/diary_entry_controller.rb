@@ -230,16 +230,6 @@ class DiaryEntryController < ApplicationController
   end
 
   ##
-  # require that the user is a administrator, or fill out a helpful error message
-  # and return them to the user page.
-  def require_administrator
-    unless current_user.administrator?
-      flash[:error] = t("user.filter.not_an_administrator")
-      redirect_to :action => "show"
-    end
-  end
-
-  ##
   # decide on a location for the diary entry map
   def set_map_location
     if @diary_entry.latitude && @diary_entry.longitude

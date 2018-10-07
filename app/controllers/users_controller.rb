@@ -750,23 +750,6 @@ class UsersController < ApplicationController
   end
 
   ##
-  # require that the user is a administrator, or fill out a helpful error message
-  # and return them to the user page.
-  def require_administrator
-    if current_user && !current_user.administrator?
-      flash[:error] = t("users.filter.not_an_administrator")
-
-      if params[:display_name]
-        redirect_to user_path(:display_name => params[:display_name])
-      else
-        redirect_to :action => "login", :referer => request.fullpath
-      end
-    elsif !current_user
-      redirect_to :action => "login", :referer => request.fullpath
-    end
-  end
-
-  ##
   # require that the user in the URL is the logged in user
   def require_self
     head :forbidden if params[:display_name] != current_user.display_name
