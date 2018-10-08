@@ -201,6 +201,8 @@ class Way < ActiveRecord::Base
       ways.sort_by!(&:id)
       way_ids = ways.collect(&:id)
       old_ways = Way.select("id, version").where(:id => way_ids).order(:id).lock
+      raise ActiveRecord::RecordNotFound unless old_ways.length == way_ids.length
+
       way_ids.length.times do |i|
         ways[i].changeset = changeset
         old_ways[i].check_consistency(old_ways[i], ways[i], changeset.user)
@@ -309,7 +311,7 @@ class Way < ActiveRecord::Base
     Way.transaction do
       way_ids = way_hash.keys
       old_ways = Way.select("id, version, visible").where(:id => way_ids).lock
-      raise OSM::APIBadUserInput, "Way not exist. id: " + (way_ids - old_ways.collect(&:id)).join(", ") unless way_ids.length == old_ways.length
+      raise ActiveRecord::RecordNotFound unless old_ways.length == way_ids.length
 
       old_ways.each do |old|
         unless old.visible

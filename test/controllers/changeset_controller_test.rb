@@ -1311,6 +1311,140 @@ CHANGESET
     assert_select "osmError>message", 1
   end
 
+  def test_upload_not_found
+    changeset = create(:changeset)
+    basic_authorization changeset.user.email, "test"
+
+    # modify node
+    diff = <<CHANGESET.strip_heredoc
+      <osmChange>
+       <modify>
+        <node id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+       </modify>
+      </osmChange>
+CHANGESET
+    content diff
+    post :upload, :params => { :id => changeset.id }
+    assert_response :not_found
+
+    # modify way
+    diff = <<CHANGESET.strip_heredoc
+      <osmChange>
+       <modify>
+        <way id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+       </modify>
+      </osmChange>
+CHANGESET
+    content diff
+    post :upload, :params => { :id => changeset.id }
+    assert_response :not_found
+
+    # modify relation
+    diff = <<CHANGESET.strip_heredoc
+      <osmChange>
+       <modify>
+        <relation id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+       </modify>
+      </osmChange>
+CHANGESET
+    content diff
+    post :upload, :params => { :id => changeset.id }
+    assert_response :not_found
+
+    # delete node
+    diff = <<CHANGESET.strip_heredoc
+      <osmChange>
+       <delete>
+        <node id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+       </delete>
+      </osmChange>
+CHANGESET
+    content diff
+    post :upload, :params => { :id => changeset.id }
+    assert_response :not_found
+
+    # delete way
+    diff = <<CHANGESET.strip_heredoc
+      <osmChange>
+       <delete>
+        <way id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+       </delete>
+      </osmChange>
+CHANGESET
+    content diff
+    post :upload, :params => { :id => changeset.id }
+    assert_response :not_found
+
+    # delete relation
+    diff = <<CHANGESET.strip_heredoc
+      <osmChange>
+       <delete>
+        <relation id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+       </delete>
+      </osmChange>
+CHANGESET
+    content diff
+    post :upload, :params => { :id => changeset.id }
+    assert_response :not_found
+  end
+
+  def test_upload_relation_placeholder_not_fix
+    changeset = create(:changeset)
+    basic_authorization changeset.user.email, "test"
+
+    # modify node
+    diff = <<CHANGESET.strip_heredoc
+      <osmChange version='0.6'>
+        <create>
+          <relation id='-2' version='0' changeset='#{changeset.id}'>
+            <member type='relation' role='' ref='-4' />
+            <tag k='type' v='route' />
+            <tag k='name' v='AtoB' />
+          </relation>
+          <relation id='-3' version='0' changeset='#{changeset.id}'>
+            <tag k='type' v='route' />
+            <tag k='name' v='BtoA' />
+          </relation>
+          <relation id='-4' version='0' changeset='#{changeset.id}'>
+            <member type='relation' role='' ref='-2' />
+            <member type='relation' role='' ref='-3' />
+            <tag k='type' v='route_master' />
+            <tag k='name' v='master' />
+          </relation>
+        </create>
+      </osmChange>
+CHANGESET
+    content diff
+    post :upload, :params => { :id => changeset.id }
+    assert_response :bad_request
+    assert_equal "Placeholder Relation not found for reference -4 in relation -2.", response.body
+  end
+
+  def test_upload_multiple_delete_block
+    changeset = create(:changeset)
+    basic_authorization changeset.user.email, "test"
+    node = create(:node)
+    way = create(:way)
+    create(:way_node, :way => way, :node => node)
+    alone_node = create(:node)
+
+    # modify node
+    diff = <<CHANGESET.strip_heredoc
+      <osmChange version='0.6'>
+        <delete version="0.6">
+          <node id="#{node.id}" version="#{node.version}" changeset="#{changeset.id}"/>
+        </delete>
+        <delete version="0.6" if-unused="true">
+          <node id="#{alone_node.id}" version="#{alone_node.version}" changeset="#{changeset.id}"/>
+        </delete>
+      </osmChange>
+CHANGESET
+    content diff
+    post :upload, :params => { :id => changeset.id }
+    assert_response :precondition_failed
+    assert_equal "Precondition failed: Node #{node.id} is still used by ways #{way.id}.", response.body
+  end
+
   ##
   # when we make some simple changes we get the same changes back from the
   # diff download.

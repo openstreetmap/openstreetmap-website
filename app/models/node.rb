@@ -179,7 +179,7 @@ class Node < ActiveRecord::Base
       # check if node ids exists
       node_ids = node_hash.keys
       old_nodes = Node.select("id, version, visible").where(:id => node_ids).lock
-      raise OSM::APIBadUserInput, "Node not exist. id: " + (node_ids - old_nodes.collect(&:id)).join(", ") unless node_ids.length == old_nodes.length
+      raise ActiveRecord::RecordNotFound unless old_nodes.length == node_ids.length
 
       old_nodes.each do |old|
         unless old.visible
@@ -264,6 +264,8 @@ class Node < ActiveRecord::Base
       # get lat, lon to update changeset
       # lock for update
       old_nodes = Node.select("id, latitude, longitude, version").where(:id => node_ids).order(:id).lock
+      raise ActiveRecord::RecordNotFound unless old_nodes.length == node_ids.length
+
       node_ids.length.times do |i|
         nodes[i].changeset = changeset
         old_nodes[i].check_consistency(old_nodes[i], nodes[i], changeset.user)

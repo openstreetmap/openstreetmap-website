@@ -227,7 +227,7 @@ class Relation < ActiveRecord::Base
     Relation.transaction do
       relation_ids = relation_hash.keys
       old_relations = Relation.select("id, version, visible").where(:id => relation_ids).lock
-      raise OSM::APIBadUserInput, "Relation not exist. id: " + (relation_ids - old_relations.collect(&:id)).join(", ") unless relation_ids.length == old_relations.length
+      raise ActiveRecord::RecordNotFound unless old_relations.length == relation_ids.length
 
       old_relations.each do |old|
         unless old.visible
@@ -286,6 +286,8 @@ class Relation < ActiveRecord::Base
       relations.sort_by!(&:id)
       relation_ids = relations.collect(&:id)
       old_relations = Relation.select("id, version").where(:id => relation_ids).order(:id).lock
+      raise ActiveRecord::RecordNotFound unless old_relations.length == relation_ids.length
+
       relation_ids.length.times do |i|
         relations[i].changeset = changeset
         old_relations[i].check_consistency(old_relations[i], relations[i], changeset.user)
