@@ -4,19 +4,19 @@ class ChangesetController < ApplicationController
   layout "site"
   require "xml/libxml"
 
-  skip_before_action :verify_authenticity_token, :except => [:list]
-  before_action :authorize_web, :only => [:list, :feed, :comments_feed]
-  before_action :set_locale, :only => [:list, :feed, :comments_feed]
+  skip_before_action :verify_authenticity_token, :except => [:index]
+  before_action :authorize_web, :only => [:index, :feed, :comments_feed]
+  before_action :set_locale, :only => [:index, :feed, :comments_feed]
   before_action :authorize, :only => [:create, :update, :upload, :close, :comment, :subscribe, :unsubscribe, :hide_comment, :unhide_comment]
   before_action :require_moderator, :only => [:hide_comment, :unhide_comment]
   before_action :require_allow_write_api, :only => [:create, :update, :upload, :close, :comment, :subscribe, :unsubscribe, :hide_comment, :unhide_comment]
   before_action :require_public_data, :only => [:create, :update, :upload, :close, :comment, :subscribe, :unsubscribe]
   before_action :check_api_writable, :only => [:create, :update, :upload, :comment, :subscribe, :unsubscribe, :hide_comment, :unhide_comment]
-  before_action :check_api_readable, :except => [:create, :update, :upload, :download, :query, :list, :feed, :comment, :subscribe, :unsubscribe, :comments_feed]
-  before_action(:only => [:list, :feed, :comments_feed]) { |c| c.check_database_readable(true) }
-  around_action :api_call_handle_error, :except => [:list, :feed, :comments_feed]
-  around_action :api_call_timeout, :except => [:list, :feed, :comments_feed, :upload]
-  around_action :web_timeout, :only => [:list, :feed, :comments_feed]
+  before_action :check_api_readable, :except => [:create, :update, :upload, :download, :query, :index, :feed, :comment, :subscribe, :unsubscribe, :comments_feed]
+  before_action(:only => [:index, :feed, :comments_feed]) { |c| c.check_database_readable(true) }
+  around_action :api_call_handle_error, :except => [:index, :feed, :comments_feed]
+  around_action :api_call_timeout, :except => [:index, :feed, :comments_feed, :upload]
+  around_action :web_timeout, :only => [:index, :feed, :comments_feed]
 
   # Helper methods for checking consistency
   include ConsistencyValidations
@@ -255,7 +255,7 @@ class ChangesetController < ApplicationController
 
   ##
   # list non-empty changesets in reverse chronological order
-  def list
+  def index
     @params = params.permit(:display_name, :bbox, :friends, :nearby, :max_id, :list)
 
     if request.format == :atom && @params[:max_id]
@@ -300,14 +300,14 @@ class ChangesetController < ApplicationController
 
       @edits = changesets.order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
 
-      render :action => :list, :layout => false
+      render :action => :index, :layout => false
     end
   end
 
   ##
   # list edits as an atom feed
   def feed
-    list
+    index
   end
 
   ##
@@ -481,6 +481,7 @@ class ChangesetController < ApplicationController
       u = if name.nil?
             # user input checking, we don't have any UIDs < 1
             raise OSM::APIBadUserInput, "invalid user ID" if user.to_i < 1
+
             u = User.find(user.to_i)
           else
             u = User.find_by(:display_name => name)
@@ -581,7 +582,7 @@ class ChangesetController < ApplicationController
   # Get the maximum number of comments to return
   def comments_limit
     if params[:limit]
-      if params[:limit].to_i > 0 && params[:limit].to_i <= 10000
+      if params[:limit].to_i.positive? && params[:limit].to_i <= 10000
         params[:limit].to_i
       else
         raise OSM::APIBadUserInput, "Comments limit must be between 1 and 10000"

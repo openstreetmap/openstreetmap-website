@@ -49,7 +49,7 @@ OSM.initializeContextMenu = function (map) {
           lat = latlng.lat.toFixed(precision),
           lng = latlng.lng.toFixed(precision);
 
-      OSM.router.route("/search?query=" + encodeURIComponent(lat + "," + lng));
+      OSM.router.route("/search?whereami=1&query=" + encodeURIComponent(lat + "," + lng));
     }
   });
 

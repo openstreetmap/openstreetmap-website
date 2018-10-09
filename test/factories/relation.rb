@@ -1,13 +1,13 @@
 FactoryBot.define do
   factory :relation do
-    timestamp Time.now
-    visible true
-    version 1
+    timestamp { Time.now }
+    visible { true }
+    version { 1 }
 
     changeset
 
     trait :deleted do
-      visible false
+      visible { false }
     end
 
     trait :with_history do

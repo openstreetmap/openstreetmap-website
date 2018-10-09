@@ -73,7 +73,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
-    assert_equal -4, result[0]
+    assert_equal(-4, result[0])
     assert_equal "way", result[1]
     assert_equal id, result[2]
     assert(result[3].nil? && result[4].nil? && result[5].nil? && result[6].nil?)
@@ -154,7 +154,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_response :success
     amf_parse_response
     way = amf_result("/1")
-    assert_equal -4, way[0]
+    assert_equal(-4, way[0])
     assert_equal "way", way[1]
     assert_equal 0, way[2]
     assert(way[3].nil?) && way[4].nil? && way[5].nil? && way[6].nil?
@@ -370,7 +370,7 @@ class AmfControllerTest < ActionController::TestCase
       assert_response :success
       amf_parse_response
       returned_way = amf_result("/1")
-      assert_equal -1, returned_way[0]
+      assert_equal(-1, returned_way[0])
       assert returned_way[3].nil?
       assert returned_way[4].nil?
       assert returned_way[5].nil?
@@ -391,7 +391,7 @@ class AmfControllerTest < ActionController::TestCase
       assert_response :success
       amf_parse_response
       returned_way = amf_result("/1")
-      assert_equal -1, returned_way[0]
+      assert_equal(-1, returned_way[0])
       assert returned_way[3].nil?
       assert returned_way[4].nil?
       assert returned_way[5].nil?
@@ -408,7 +408,7 @@ class AmfControllerTest < ActionController::TestCase
       assert_response :success
       amf_parse_response
       returned_way = amf_result("/1")
-      assert_equal -1, returned_way[0]
+      assert_equal(-1, returned_way[0])
       assert returned_way[3].nil?
       assert returned_way[4].nil?
       assert returned_way[5].nil?
@@ -498,8 +498,8 @@ class AmfControllerTest < ActionController::TestCase
     result = amf_result("/1")
 
     assert_equal 2, result.length
-    assert_equal -1, result[0]
-    assert_match /must be logged in/, result[1]
+    assert_equal(-1, result[0])
+    assert_match(/must be logged in/, result[1])
 
     blocked_user = create(:user)
     create(:user_block, :user => blocked_user)
@@ -510,8 +510,8 @@ class AmfControllerTest < ActionController::TestCase
     result = amf_result("/1")
 
     assert_equal 2, result.length
-    assert_equal -1, result[0]
-    assert_match /access to the API has been blocked/, result[1]
+    assert_equal(-1, result[0])
+    assert_match(/access to the API has been blocked/, result[1])
   end
 
   def test_findgpx_by_id
@@ -546,7 +546,7 @@ class AmfControllerTest < ActionController::TestCase
 
     # find by name fails as it uses mysql text search syntax...
     assert_equal 2, result.length
-    assert_equal -2, result[0]
+    assert_equal(-2, result[0])
   end
 
   def test_findrelations_by_id
@@ -636,7 +636,7 @@ class AmfControllerTest < ActionController::TestCase
     result = amf_result("/1")
 
     assert_equal 3, result.length
-    assert_equal -4, result[0]
+    assert_equal(-4, result[0])
     assert_equal "node", result[1]
     assert_equal 999999, result[2]
   end
@@ -671,7 +671,7 @@ class AmfControllerTest < ActionController::TestCase
     result = amf_result("/1")
 
     assert_equal 3, result.length
-    assert_equal -4, result[0]
+    assert_equal(-4, result[0])
     assert_equal "node", result[1]
     assert_equal node.node_id, result[2]
 
@@ -682,7 +682,7 @@ class AmfControllerTest < ActionController::TestCase
     result = amf_result("/1")
 
     assert_equal 3, result.length
-    assert_equal -4, result[0]
+    assert_equal(-4, result[0])
     assert_equal "node", result[1]
     assert_equal 999999, result[2]
   end
@@ -747,7 +747,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal 5, result.size
     assert_equal 0, result[0], "expected to get the status ok from the amf"
     assert_equal 0, result[2], "The old id should be 0"
-    assert result[3] > 0, "The new id should be greater than 0"
+    assert result[3].positive?, "The new id should be greater than 0"
     assert_equal 1, result[4], "The new version should be 1"
 
     # Finally check that the node that was saved has saved the data correctly
@@ -784,7 +784,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal 5, result.size
     assert_equal 0, result[0], "Expected to get the status ok in the amf"
     assert_equal 0, result[2], "The old id should be 0"
-    assert result[3] > 0, "The new id should be greater than 0"
+    assert result[3].positive?, "The new id should be greater than 0"
     assert_equal 1, result[4], "The new version should be 1"
 
     # Finally check that the node that was saved has saved the data correctly
@@ -831,7 +831,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal 5, result.size
     assert_equal 0, result[0], "Expected to get the status ok in the amf"
     assert_equal 0, result[2], "The old id should be 0"
-    assert result[3] > 0, "The new id should be greater than 0"
+    assert result[3].positive?, "The new id should be greater than 0"
     assert_equal 1, result[4], "The new version should be 1"
 
     # Finally check that the node that was saved has saved the data correctly
@@ -864,7 +864,7 @@ class AmfControllerTest < ActionController::TestCase
     result = amf_result("/1")
 
     assert_equal 2, result.size
-    assert_equal -1, result[0], "Expected to get the status FAIL in the amf"
+    assert_equal(-1, result[0], "Expected to get the status FAIL in the amf")
     assert_equal "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1.", result[1]
   end
 
@@ -904,7 +904,7 @@ class AmfControllerTest < ActionController::TestCase
     result = amf_result("/1")
 
     assert_equal 3, result.size
-    assert_equal -4, result[0]
+    assert_equal(-4, result[0])
     assert_equal "node", result[1]
     assert_equal nd.id, result[2]
   end
@@ -922,7 +922,7 @@ class AmfControllerTest < ActionController::TestCase
     result = amf_result("/1")
 
     assert_equal 3, result.size
-    assert_equal -4, result[0]
+    assert_equal(-4, result[0])
     assert_equal "node", result[1]
     assert_equal 999999, result[2]
   end
@@ -940,8 +940,8 @@ class AmfControllerTest < ActionController::TestCase
     result = amf_result("/1")
 
     assert_equal 2, result.size
-    assert_equal -2, result[0]
-    assert_match /Node is not in the world/, result[1]
+    assert_equal(-2, result[0])
+    assert_match(/Node is not in the world/, result[1])
   end
 
   # check that we can create a way
@@ -966,8 +966,8 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal 8, result.size
     assert_equal 0, result[0]
     assert_equal "", result[1]
-    assert_equal -1, result[2]
-    assert_not_equal -1, result[3]
+    assert_equal(-1, result[2])
+    assert_not_equal(-1, result[3])
     assert_equal({}, result[4])
     assert_equal 1, result[5]
     assert_equal({}, result[6])
@@ -988,8 +988,8 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal 8, result.size
     assert_equal 0, result[0]
     assert_equal "", result[1]
-    assert_equal -1, result[2]
-    assert_not_equal -1, result[3]
+    assert_equal(-1, result[2])
+    assert_not_equal(-1, result[3])
     assert_equal({}, result[4])
     assert_equal 1, result[5]
     assert_equal({}, result[6])
@@ -1011,8 +1011,8 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal 8, result.size
     assert_equal 0, result[0]
     assert_equal "", result[1]
-    assert_equal -1, result[2]
-    assert_not_equal -1, result[3]
+    assert_equal(-1, result[2])
+    assert_not_equal(-1, result[3])
     assert_equal({ "-1" => new_node_id }, result[4])
     assert_equal 1, result[5]
     assert_equal({ new_node_id.to_s => 1, d.to_s => 2 }, result[6])
@@ -1193,8 +1193,8 @@ class AmfControllerTest < ActionController::TestCase
     result = amf_result("/1")
 
     assert_equal 2, result.size
-    assert_equal -1, result[0]
-    assert_match /Way #{way.id} is still used/, result[1]
+    assert_equal(-1, result[0])
+    assert_match(/Way #{way.id} is still used/, result[1])
 
     new_way = Way.find(way.id)
     assert_equal way.version, new_way.version
@@ -1225,8 +1225,8 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal 5, result.size
     assert_equal 0, result[0]
     assert_equal "", result[1]
-    assert_equal -1, result[2]
-    assert_not_equal -1, result[3]
+    assert_equal(-1, result[2])
+    assert_not_equal(-1, result[3])
     assert_equal 1, result[4]
 
     new_relation = Relation.find(new_relation_id)
@@ -1307,8 +1307,8 @@ class AmfControllerTest < ActionController::TestCase
     result = amf_result("/1")
 
     assert_equal 2, result.size
-    assert_equal -1, result[0]
-    assert_match /relation #{relation.id} is used in/, result[1]
+    assert_equal(-1, result[0])
+    assert_match(/relation #{relation.id} is used in/, result[1])
 
     new_relation = Relation.find(relation.id)
     assert_equal relation.version, new_relation.version
@@ -1404,7 +1404,7 @@ class AmfControllerTest < ActionController::TestCase
     result = amf_result("/1")
 
     assert_equal 2, result.size
-    assert_equal -2, result[0]
+    assert_equal(-2, result[0])
     assert_equal "The user doesn't own that changeset", result[1]
 
     cs = Changeset.find(cs_id)

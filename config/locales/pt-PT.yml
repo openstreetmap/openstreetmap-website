@@ -241,6 +241,7 @@ pt-PT:
       reopened_by_anonymous: Reaberto por um anónimo há <abbr title='%{exact_time}'>%{when}
         atrás</abbr>
       hidden_by: Ocultado por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      report: Denunciar este erro reportado
     query:
       title: Consultar elementos em redor
       introduction: Clique no mapa para descobrir elementos em redor.
@@ -261,7 +262,7 @@ pt-PT:
       user: Utilizador
       comment: Comentário
       area: Área
-    list:
+    index:
       title: Conjuntos de alterações
       title_user: Conjuntos de alterações de %{user}
       title_friend: Conjuntos de alterações feitos pelos meus amigos
@@ -287,7 +288,7 @@ pt-PT:
     new:
       title: Nova entrada no diário
       publish_button: Publicar
-    list:
+    index:
       title: Diários dos utilizadores
       title_friends: Diários dos amigos
       title_nearby: Diários dos utilizadores próximos
@@ -310,7 +311,7 @@ pt-PT:
       use_map_link: usar mapa
       save_button: Gravar
       marker_text: Localização da entrada do diário
-    view:
+    show:
       title: Diário de %{user} | %{title}
       user_title: Diário de %{user}
       leave_a_comment: Deixar um comentário
@@ -334,10 +335,12 @@ pt-PT:
       edit_link: Editar esta entrada
       hide_link: Ocultar esta entrada
       confirm: Confirmar
+      report: Denunciar esta entrada
     diary_comment:
       comment_from: Comentário de %{link_user} em %{comment_created_at}
       hide_link: Ocultar este comentário
       confirm: Confirmar
+      report: Denunciar este comentário
     location:
       location: 'Localização:'
       view: Ver
@@ -960,10 +963,109 @@ pt-PT:
   issues:
     index:
       title: Problemas
+      select_status: Selecionar Estado
+      select_type: Selecionar Tipo
+      select_last_updated_by: Selecionar Último Atualizado por
+      reported_user: Denunciar Utilizador
+      not_updated: Não Atualizado
       search: Pesquisar
+      search_guidance: 'Pesquisar Problemas:'
+      user_not_found: O utilizador não existe
+      issues_not_found: Não foi encontrado nenhum problema desse tipo
       status: Estado
+      reports: Denúncias
+      last_updated: Última Atualização
+      last_updated_time_html: <abbr title='%{title}'>%{time} atrás</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time} atrás</abbr> por
+        %{user}
+      link_to_reports: Ver Denúncias
+      reports_count:
+        one: 1 denúncia
+        other: '%{count} denúncias'
+      reported_item: Item Denunciado
+      states:
+        ignored: Ignorado
+        open: Aberto
+        resolved: Resolvido
+    update:
+      new_report: A sua denúncia por registada com sucesso
+      successful_update: A sua denúncia foi atualizada com sucesso
+      provide_details: Por favor forneça os detalhes necessários
     show:
+      title: '%{status} Denúncia #%{issue_id}'
+      reports:
+        zero: Sem denúncias
+        one: 1 denúncia
+        other: '%{count} denúncias'
+      report_created_at: Denunciado primeiro em %{datetime}
+      last_resolved_at: Último resolvido em %{datetime}
+      last_updated_at: Último atualizado em %{datetime} por %{displayname}
+      resolve: Resolver
       ignore: Ignorar
+      reopen: Reabrir
+      reports_of_this_issue: Denúncias deste Problema
+      read_reports: Ler Denúncias
+      new_reports: Novas Denúncias
+      other_issues_against_this_user: Outros problemas sobre este utilizador
+      no_other_issues: Nenhum outro problema com este utilizador.
+      comments_on_this_issue: Comentários sobre este problema
+    resolve:
+      resolved: O estado do problema foi alterado para 'Resolvido'
+    ignore:
+      ignored: O estado do problema foi alterado para 'Ignorado'
+    reopen:
+      reopened: O estado do problema foi alterado para 'Aberto'
+    comments:
+      created_at: Em %{datetime}
+      reassign_param: Reatribuir o problema?
+    reports:
+      updated_at: Em %{datetime}
+      reported_by_html: Denunciado como %{category} por %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, comentário #%{comment_id}'
+        note: 'Erro reportado #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: O seu comentário foi criado com sucesso
+  reports:
+    new:
+      title_html: Denunciar %{link}
+      missing_params: Não foi possível criar uma denúncia
+      details: Por favor forneça mais alguns detalhes sobre o problema (obrigatório).
+      select: Selecione um motivo para a sua denúnciaː
+      disclaimer:
+        intro: Antes de enviar a sua denúncia aos moderadores, por favor certifique-se
+          queː
+        not_just_mistake: Tem a certeza que o problema não é um mero engano
+        unable_to_fix: Não consegue corrigir o problema por si próprio nem com a ajuda
+          dos membros da comunidade
+        resolve_with_user: Já tentou resolver o problema com o utilizador em questão
+      categories:
+        diary_entry:
+          spam_label: Esta entrada do diário é ou contém SPAM/publicidade
+          offensive_label: Esta entrada do diário é obscena ou ofensiva
+          threat_label: Esta entrada do diário contém uma ameaça
+          other_label: Outro
+        diary_comment:
+          spam_label: Este comentário na entrada do diário é ou contém SPAM/publicidade
+          offensive_label: Este comentário na entrada do diário é obsceno ou ofensivo
+          threat_label: Este comentário na entrada do diário contém uma ameaça
+          other_label: Outro
+        user:
+          spam_label: Este perfil de utilizador é ou contém SOAM/publicidade
+          offensive_label: Este perfil de utilizador é obsceno ou ofensivo
+          threat_label: Este perfil de utilizador contém uma ameaça
+          vandal_label: Este utilizador é um vândalo
+          other_label: Outro
+        note:
+          spam_label: Este erro reportado é SPAM/publicidade
+          personal_label: Este erro reportado contém dados pessoais
+          abusive_label: Este erro reportado é abusivo
+          other_label: Outro
+    create:
+      successful_report: A sua denúncia foi registada com sucesso
+      provide_details: Por favor forneça os detalhes necessários
   layouts:
     logo:
       alt_text: Logotipo do OpenStreetMap
@@ -977,6 +1079,7 @@ pt-PT:
     edit: Editar
     history: Histórico
     export: Exportar
+    issues: Problemas
     data: Dados
     export_data: Exportar dados
     gps_traces: Trilhos GPS
@@ -989,10 +1092,9 @@ pt-PT:
     intro_text: O OpenStreetMap é um mapa do mundo, criado por pessoas como você e
       de uso livre sob uma licença aberta.
     intro_2_create_account: Crie uma conta de utilizador
-    partners_html: O alojamento é suportado por %{ucl}, %{bytemark}, %{ic}, e outros
+    hosting_partners_html: O alojamento é suportado por %{ucl}, %{bytemark} e outros
       %{partners}.
     partners_ucl: UCL
-    partners_ic: Imperial College London
     partners_bytemark: Bytemark Hosting
     partners_partners: parceiros
     osm_offline: A base de dados do OpenStreetMap não está disponível neste momento
@@ -1161,6 +1263,7 @@ pt-PT:
       body: Mensagem
       send_button: Enviar
       back_to_inbox: Voltar à caixa de entrada
+    create:
       message_sent: Mensagem enviada
       limit_exceeded: Enviou muitas mensagens recentemente. Por favor aguarde e envie
         mais tarde.
@@ -1666,6 +1769,8 @@ pt-PT:
       trace_uploaded: O seu ficheiro GPX (GPS) foi enviado e está a aguardar a inclusão
         na base de dados. Normalmente este processo dura cerca de uma hora. Quando
         for incluído na base de dados será enviado um email a informá-lo.
+      upload_failed: Desculpe, o envio do GPX falhou. Foi enviado um alerta a um administrador
+        sobre o erro. Por favor tente novamente
       traces_waiting:
         one: Tem %{count} trilho GPS na fila para ser colocado na base de dados do
           OpenStreetMap. Por favor, antes de enviar mais trilhos aguarde um pouco
@@ -1692,9 +1797,11 @@ pt-PT:
       save_button: Gravar Alterações
       visibility: 'Visibilidade:'
       visibility_help: o que significa isto?
+    update:
+      updated: Trilho atualizado
     trace_optionals:
       tags: Etiquetas
-    view:
+    show:
       title: A ver o trilho %{name}
       heading: A ver o trilho %{name}
       pending: PENDENTE
@@ -1709,8 +1816,8 @@ pt-PT:
       description: 'Descrição:'
       tags: 'Etiquetas:'
       none: Nenhum
-      edit_track: Editar este trilho
-      delete_track: Eliminar este trilho
+      edit_trace: Editar este trilho
+      delete_trace: Eliminar este trilho
       trace_not_found: Não foi encontrado o trilho!
       visibility: 'Visibilidade:'
       confirm_delete: Eliminar este trilho?
@@ -1734,7 +1841,7 @@ pt-PT:
       by: por
       in: em
       map: mapa
-    list:
+    index:
       public_traces: Trilhos GPS públicos
       my_traces: Meus trilhos GPS
       public_traces_from: Trilhos GPS públicos do utilizador %{user}
@@ -1766,8 +1873,13 @@ pt-PT:
     require_cookies:
       cookies_needed: Parece que tem os "cookies" desativados - por favor ative-os
         no seu navegador de Internet antes de continuar.
+    require_admin:
+      not_an_admin: Tem de ser um administrador para realizar essa ação.
     require_moderator:
       not_a_moderator: Tem de ser um moderador para poder fazer essa ação.
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: Tem de ser um moderador ou um administrador para realizar
+        essa ação
     setup_user_auth:
       blocked_zero_hour: Tem uma mensagem urgente no site do OpenStreetMap. Tem de
         ler a mensagem antes de poder gravar as suas edições.
@@ -1864,14 +1976,14 @@ pt-PT:
       flash: A atualização da informação do programa foi feita com sucesso
     destroy:
       flash: O registo do programa foi eliminado
-  user:
+  users:
     login:
       title: Entrar
       heading: Iniciar sessão
       email or username: 'E-mail ou Utilizador:'
       password: 'Palavra-passe:'
       openid: '%{logo} OpenID:'
-      remember: 'Lembrar-me:'
+      remember: Permanecer autenticado entre sessões
       lost password link: Perdeu a sua palavra-passe?
       login_button: Entrar
       register now: Criar conta agora
@@ -2003,7 +2115,7 @@ pt-PT:
       body: Não existe nenhum utilizador com o nome %{user}. Verifique se o endereço
         está correto ou talvez a hiperligação que clicou esteja errada.
       deleted: eliminado
-    view:
+    show:
       my diary: Meu diário
       new diary entry: adicionar entrada no meu diário
       my edits: As minhas edições
@@ -2184,7 +2296,7 @@ pt-PT:
       not_a_friend: '%{name} não está na lista de seus amigos.'
     filter:
       not_an_administrator: É necessário ser administrador para realizar esta operação.
-    list:
+    index:
       title: Utilizadores
       heading: Utilizadores
       showing:

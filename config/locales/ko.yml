@@ -255,7 +255,7 @@ ko:
       user: 사용자
       comment: 댓글
       area: 구역
-    list:
+    index:
       title: 바뀜집합
       title_user: '%{user}님의 바뀜집합'
       title_friend: 내 친구의 바뀜집합
@@ -280,7 +280,7 @@ ko:
     new:
       title: 새 일기 항목
       publish_button: 발행
-    list:
+    index:
       title: 사용자의 일기
       title_friends: 친구의 일기
       title_nearby: 근처 사용자의 일기
@@ -303,7 +303,7 @@ ko:
       use_map_link: 지도 사용
       save_button: 저장
       marker_text: 일기 항목 위치
-    view:
+    show:
       title: '%{user}의 일기 | %{title}'
       user_title: '%{user}의 일기'
       leave_a_comment: 댓글 남기기
@@ -1032,12 +1032,16 @@ ko:
         diary_entry:
           spam_label: 이 일기 항목은 스팸입니다
           offensive_label: 이 일기 항목은 음란물이거나 모욕적입니다
+          threat_label: 이 일기 항목은 위협을 포함합니다
           other_label: 기타
         diary_comment:
           spam_label: 이 일기 댓글은 스팸입니다
+          offensive_label: 이 일기 댓글은 타당치 않거나 공격적입니다
+          threat_label: 이 일기 댓글은 위협을 포함합니다
           other_label: 기타
         user:
           spam_label: 이 사용자 프로필은 스팸이거나 스팸을 포함합니다
+          offensive_label: 이 사용자 프로필은 타당치 않거나 공격적입니다
           threat_label: 이 사용자 프로필에 위협이 포함되어 있습니다
           vandal_label: 이 사용자는 문서 훼손자입니다
           other_label: 기타
@@ -1076,9 +1080,8 @@ ko:
     intro_header: OpenStreetMap에 오신 것을 환영합니다!
     intro_text: OpenStreetMap은 여러분과 같은 사람들이 만들어, 개방형 라이선스에 따라 자유롭게 사용할 수 있는 세계 지도입니다.
     intro_2_create_account: 사용자 계정을 만드세요
-    partners_html: 호스팅은 %{ucl}, %{ic}, %{bytemark}, 다른 %{partners}에서 지원합니다.
+    hosting_partners_html: 호스팅은 %{ucl}, %{bytemark}, 다른 %{partners}에서 지원합니다.
     partners_ucl: UCL
-    partners_ic: 임페리얼 칼리지 런던 대학
     partners_bytemark: 바이트마크 호스팅
     partners_partners: 협력단체
     osm_offline: 데이터베이스 점검을 위해 OpenStreetMap의 데이터가 현재 오프라인입니다.
@@ -1220,6 +1223,7 @@ ko:
       body: 본문
       send_button: 보내기
       back_to_inbox: 받은 쪽지함으로 돌아가기
+    create:
       message_sent: 메시지를 보냈습니다
       limit_exceeded: 최근에 많은 메시지를 보냈습니다. 더 보내려면 잠시 기다려주세요.
     no_such_message:
@@ -1699,6 +1703,7 @@ ko:
       upload_trace: GPS 궤적 올리기
       trace_uploaded: GPX 파일을 올리고 있으며 데이터베이스에 삽입을 기다리고 있습니다. 이 작업은 보통 반 시간 내에 수행하며
         완료되면 이메일을 보낼 것입니다.
+      upload_failed: 죄송합니다. GPX 업로드를 실패했습니다. 관리자는 해당 오류에 대해 알림을 받았습니다. 다시 시도해 주십시오
       traces_waiting:
         one: 올리기를 기다리는 궤적 %{count}개가 있습니다. 대기중인 다른 사용자의 올리기를 막지 않도록 올리기가 끝날 때까지 더
           기다려주십시오.
@@ -1721,7 +1726,7 @@ ko:
       visibility_help: 이게 무슨 뜻입니까?
     trace_optionals:
       tags: 태그
-    view:
+    show:
       title: '%{name} 경로 보기'
       heading: '%{name} 경로 보기'
       pending: 보류 중
@@ -1736,8 +1741,8 @@ ko:
       description: '설명:'
       tags: '태그:'
       none: 없음
-      edit_track: 이 궤적 편집
-      delete_track: 이 궤적 삭제
+      edit_trace: 이 궤적 편집
+      delete_trace: 이 궤적 삭제
       trace_not_found: 추적을 찾을 수 없습니다!
       visibility: '공개 여부:'
       confirm_delete: 이 궤적을 삭제할까요?
@@ -1761,7 +1766,7 @@ ko:
       by: 사용자
       in: 위치
       map: 지도
-    list:
+    index:
       public_traces: 공개 GPS 궤적
       my_traces: 내 GPS 추적
       public_traces_from: '%{user}님의 공개 GPS 궤적'
@@ -1890,7 +1895,7 @@ ko:
       flash: 성공적으로 클라이언트 정보를 업데이트했습니다
     destroy:
       flash: 클라이언트 애플리케이션 등록을 파기했습니다
-  user:
+  users:
     login:
       title: 로그인
       heading: 로그인
@@ -2012,7 +2017,7 @@ ko:
       heading: '%{user} 사용자는 존재하지 않습니다'
       body: 죄송합니다, %{user} 이름으로 된 사용자가 없습니다. 맞춤법이나 클릭한 링크가 잘못됐는지 확인하세요.
       deleted: 삭제됨
-    view:
+    show:
       my diary: 내 일기
       new diary entry: 새 일기 항목
       my edits: 내 편집
@@ -2088,7 +2093,7 @@ ko:
       current email address: '현재 이메일 주소:'
       new email address: '새 이메일 주소:'
       email never displayed publicly: (절대 공개하지 않습니다)
-      external auth: '바깥 인증:'
+      external auth: '외부 인증:'
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
         link text: 이게 뭐죠?
@@ -2177,7 +2182,7 @@ ko:
       not_a_friend: '%{name}님은 친구 중 하나가 아닙니다.'
     filter:
       not_an_administrator: 해당 동작을 수행하려면 관리자 권한이 필요합니다.
-    list:
+    index:
       title: 사용자
       heading: 사용자
       showing:

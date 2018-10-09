@@ -253,7 +253,7 @@ zh-TW:
       user: 使用者
       comment: 評論
       area: 區域
-    list:
+    index:
       title: 變更集
       title_user: '%{user} 的變更集'
       title_friend: 我的好友之變更集
@@ -278,7 +278,7 @@ zh-TW:
     new:
       title: 新日記項目
       publish_button: 發佈
-    list:
+    index:
       title: 日記
       title_friends: 好友的日記
       title_nearby: 附近的使用者的日記
@@ -301,7 +301,7 @@ zh-TW:
       use_map_link: 使用地圖
       save_button: 儲存
       marker_text: 日記項目位置
-    view:
+    show:
       title: '%{user} 的日記 | %{title}'
       user_title: '%{user} 的日記'
       leave_a_comment: 留下評論
@@ -1076,9 +1076,8 @@ zh-TW:
     intro_header: 歡迎來到 OpenStreetMap！
     intro_text: OpenStreetMap 是一幅世界地圖，由像您這樣的人們所建立，在開放授權下可以自由使用。
     intro_2_create_account: 建立使用者帳號
-    partners_html: 主機由 %{ucl}、%{bytemark}、%{ic}，和其他 %{partners} 所支援。
+    hosting_partners_html: 主機由 %{ucl}、%{bytemark}，和其他 %{partners} 所支援。
     partners_ucl: 倫敦大學學院
-    partners_ic: 倫敦帝國學院
     partners_bytemark: Bytemark 主機代管
     partners_partners: 合作夥伴
     osm_offline: OpenStreetMap 資料庫目前正在離線，直到必要的資料庫維護工作完成為止。
@@ -1215,6 +1214,7 @@ zh-TW:
       body: 內文
       send_button: 寄出
       back_to_inbox: 回到收件匣
+    create:
       message_sent: 訊息已寄出
       limit_exceeded: 您最近寄出了大量的訊息。在嘗試寄出其他訊息之前請稍候。
     no_such_message:
@@ -1639,6 +1639,7 @@ zh-TW:
     create:
       upload_trace: 上傳 GPS 軌跡
       trace_uploaded: 您的 GPX 檔案已經上傳並且在等候進入資料庫中。這通常不會超過半小時，完成時會以電子郵件通知您。
+      upload_failed: 很抱歉，GPX 上傳失敗。已向管理員警告此錯誤，請再重試
       traces_waiting: 您有 %{count} 個軌跡等待上傳。請先等待先前的軌跡處理完後，再來繼續上傳其他軌跡，以免影響其他使用者的排程。
     edit:
       title: 編輯軌跡 %{name}
@@ -1658,9 +1659,11 @@ zh-TW:
       visibility: 可見性：
       visibility_help: 這是什麼意思？
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
+    update:
+      updated: 軌跡已更新
     trace_optionals:
       tags: 標籤
-    view:
+    show:
       title: 檢視軌跡 %{name}
       heading: 檢視軌跡 %{name}
       pending: 等候
@@ -1675,8 +1678,8 @@ zh-TW:
       description: 描述：
       tags: 標籤
       none: 無
-      edit_track: 編輯這個軌跡
-      delete_track: 刪除這個軌跡
+      edit_trace: 編輯這個軌跡
+      delete_trace: 刪除這個軌跡
       trace_not_found: 找不到軌跡！
       visibility: 可見性：
       confirm_delete: 刪除這個軌跡？
@@ -1700,7 +1703,7 @@ zh-TW:
       by: 由
       in: 於
       map: 地圖
-    list:
+    index:
       public_traces: 公開 GPS 軌跡
       my_traces: 我的 GPS 軌跡
       public_traces_from: '%{user} 的公開 GPS 軌跡'
@@ -1824,7 +1827,7 @@ zh-TW:
       flash: 更新客戶端資訊成功
     destroy:
       flash: 已銷毀此用戶端應用程式註冊
-  user:
+  users:
     login:
       title: 登入
       heading: 登入
@@ -1918,14 +1921,17 @@ zh-TW:
       continue: 註冊
       terms accepted: 感謝您接受新的貢獻條款！
       terms declined: 我們很遺憾你已決定不接受新的貢獻者條款。有關詳細資訊，請參閱<a href="%{url}">此 wiki 頁面</a>。
+      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: 貢獻者條款
       heading: 貢獻者條款
       read and accept: 請閱讀下面的協議並按同意按鈕，以確認為你現有的和將來的貢獻接受本協議的條款。
       consider_pd: 在上述協議之上，我同意將我的貢獻放到公共領域
       consider_pd_why: 這是什麼？
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 幫助理解這些條款的資料：一個<a href="%{summary}">供普通人閱讀的摘要</a>和一些<a href="%{translations}">非正式翻譯</a>
       agree: 同意
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: 拒絕
       you need to accept or decline: 請先閱讀，然後選擇接受或拒絕新的貢獻者條款，再繼續。
       legale_select: 請選擇您的居住地：
@@ -1938,7 +1944,7 @@ zh-TW:
       heading: 使用者 %{user} 不存在
       body: 抱歉，沒有名為 %{user} 的使用者。請檢查您的拼字，或者可能是您按到錯誤的連結。
       deleted: 已刪除
-    view:
+    show:
       my diary: 我的日記
       new diary entry: 新增日記項目
       my edits: 我的編輯
@@ -2036,6 +2042,7 @@ zh-TW:
         not yet agreed: 您未同意新的貢獻者條款。
         review link text: 請跟隨此連結，方便你檢視並接受新的貢獻者條款。
         agreed_with_pd: 您亦同意將您的編輯放到公共領域
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: 這是什麼？
       profile description: 基本資料描述：
       preferred languages: 偏好的語言：
@@ -2043,6 +2050,7 @@ zh-TW:
       image: 圖片：
       gravatar:
         gravatar: 使用 Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         link text: 這是什麼？
         disabled: Gravatar已停用。
         enabled: 您的Gravatar顯示功能已啟用。
@@ -2099,7 +2107,7 @@ zh-TW:
       not_a_friend: '%{name} 並不是您的好友。'
     filter:
       not_an_administrator: 您需要是管理員才可執行此操作。
-    list:
+    index:
       title: 使用者
       heading: 使用者
       showing:

@@ -611,9 +611,16 @@ body.compact {
     height: auto;
     overflow: hidden;
 
-    #banner,
-    .welcome {
+    #banner {
       display: block;
+    }
+
+    .welcome {
+      display: none;
+
+      &.visible {
+        display: block;
+      }
     }
 
     #sidebar_content {
@@ -971,6 +978,8 @@ header .search_forms,
 
   img.button {
     display: block;
+    width: 20px;
+    height: 20px;
   }
 
   span.force_width {
@@ -1393,9 +1402,9 @@ tr.turn:hover {
 
 /* Overrides for pages that use new layout conventions */
 
-.user-new,
-.user-create,
-.user-terms {
+.users-new,
+.users-create,
+.users-terms {
   .content-body .content-inner {
     padding: 0;
 
@@ -1406,10 +1415,10 @@ tr.turn:hover {
   }
 }
 
-.user-new,
-.user-create,
-.user-terms,
-.user-confirm {
+.users-new,
+.users-create,
+.users-terms,
+.users-confirm {
   .content-heading .content-inner {
     height: 200px;
   }
@@ -1501,7 +1510,7 @@ tr.turn:hover {
 
 /* Rules for the trace view */
 
-.trace-view {
+.trace-show {
   .trace_pending {
     color: red;
   }
@@ -1585,7 +1594,7 @@ tr.turn:hover {
   margin-left: 70px;
 }
 
-.user-view {
+.users-show {
   // Silly exception; remove when user page is redesigned.
   .content-inner {
     max-width: none;
@@ -1712,7 +1721,7 @@ tr.turn:hover {
   }
 }
 
-.diary_entry-view img.user_thumbnail {
+.diary_entry-show img.user_thumbnail {
   float: left;
 }
 
@@ -1736,7 +1745,7 @@ tr.turn:hover {
 
 /* Rules for the account confirmation page */
 
-.user-terms {
+.users-terms {
   .legale {
     border: 1px solid #ccc;
     padding: $lineheight;

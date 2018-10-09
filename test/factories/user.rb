@@ -2,13 +2,13 @@ FactoryBot.define do
   factory :user do
     sequence(:email) { |n| "user#{n}@example.com" }
     sequence(:display_name) { |n| "User #{n}" }
-    pass_crypt Digest::MD5.hexdigest("test")
+    pass_crypt { Digest::MD5.hexdigest("test") }
 
     # These attributes are not the defaults, but in most tests we want
     # a 'normal' user who can log in without being redirected etc.
-    status "active"
-    terms_seen true
-    data_public true
+    status { "active" }
+    terms_seen { true }
+    data_public { true }
 
     trait :with_home_location do
       home_lat { rand(-90.0...90.0) }
@@ -16,23 +16,23 @@ FactoryBot.define do
     end
 
     trait :pending do
-      status "pending"
+      status { "pending" }
     end
 
     trait :active do
-      status "active"
+      status { "active" }
     end
 
     trait :confirmed do
-      status "confirmed"
+      status { "confirmed" }
     end
 
     trait :suspended do
-      status "suspended"
+      status { "suspended" }
     end
 
     trait :deleted do
-      status "deleted"
+      status { "deleted" }
     end
 
     factory :moderator_user do

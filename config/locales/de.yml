@@ -285,7 +285,7 @@ de:
       user: Benutzer
       comment: Kommentar
       area: Bereich
-    list:
+    index:
       title: Änderungssätze
       title_user: Änderungssätze von %{user}
       title_friend: Änderungssätze meiner Freunde
@@ -312,7 +312,7 @@ de:
     new:
       title: Neuer Blog-Eintrag
       publish_button: Veröffentlichen
-    list:
+    index:
       title: Benutzer-Blogs
       title_friends: Blogs deiner Freunde
       title_nearby: Blogs von Nutzern in der Nähe
@@ -335,7 +335,7 @@ de:
       use_map_link: Ort auf Karte auswählen
       save_button: Speichern
       marker_text: Ort des Blogeintrags
-    view:
+    show:
       title: Blog von %{user} | %{title}
       user_title: Blog von %{user}
       leave_a_comment: Schreibe einen Kommentar
@@ -1120,10 +1120,9 @@ de:
     intro_text: OpenStreetMap ist eine Karte der Welt, erstellt von Menschen wie dir
       und frei verwendbar unter einer offenen Lizenz.
     intro_2_create_account: Erstelle ein Benutzerkonto
-    partners_html: Das Hosting wird von %{ucl}, %{bytemark}, %{ic} und weiteren %{partners}
+    hosting_partners_html: Das Hosting wird von %{ucl}, %{bytemark} und anderen %{partners}
       unterstützt.
     partners_ucl: UCL
-    partners_ic: dem Imperial College London
     partners_bytemark: Bytemark Hosting
     partners_partners: Partnern
     osm_offline: Die OpenStreetMap-Datenbank ist im Moment wegen wichtiger Wartungsarbeiten
@@ -1298,6 +1297,7 @@ de:
       body: Text
       send_button: Senden
       back_to_inbox: Zurück zum Posteingang
+    create:
       message_sent: Nachricht gesendet
       limit_exceeded: Du hast kürzlich sehr viele Nachrichten versendet. Bitte warte
         etwas, bevor du weitere versendest.
@@ -1824,6 +1824,8 @@ de:
       trace_uploaded: Deine GPX-Datei wurde hochgeladen und wartet auf die Aufnahme
         in die Datenbank. Dies geschieht normalerweise innerhalb einer halben Stunde,
         anschließend wird dir eine Bestätigungs-E-Mail zugesandt.
+      upload_failed: Leider ist der GPX-Upload fehlgeschlagen. Ein Administrator wurde
+        über diesen Fehler benachrichtigt. Bitte versuche es erneut.
       traces_waiting:
         one: Du hast momentan %{count} Track in der Warteschlange. Bitte warte, bis
           er fertig ist, um die Verarbeitung nicht für andere Nutzer zu blockieren.
@@ -1846,9 +1848,11 @@ de:
       save_button: Speichern
       visibility: 'Sichtbarkeit:'
       visibility_help: Was bedeutet das?
+    update:
+      updated: Track aktualisiert
     trace_optionals:
       tags: Tags
-    view:
+    show:
       title: Track %{name} ansehen
       heading: Track %{name} ansehen
       pending: WARTEND
@@ -1863,8 +1867,8 @@ de:
       description: 'Beschreibung:'
       tags: 'Tags:'
       none: Keine
-      edit_track: Diesen Track bearbeiten
-      delete_track: Diesen Track löschen
+      edit_trace: Diesen Track bearbeiten
+      delete_trace: Diesen Track löschen
       trace_not_found: Track nicht gefunden!
       visibility: 'Sichtbarkeit:'
       confirm_delete: Diesen Track löschen?
@@ -1888,7 +1892,7 @@ de:
       by: von
       in: in
       map: Karte
-    list:
+    index:
       public_traces: Öffentliche GPS-Tracks
       my_traces: Meine GPS-Tracks
       public_traces_from: Öffentliche GPS-Tracks von %{user}
@@ -2025,7 +2029,7 @@ de:
       flash: Client-Informationen erfolgreich aktualisiert
     destroy:
       flash: Die registrierte Client-Anwendung wurde entfernt
-  user:
+  users:
     login:
       title: Anmelden
       heading: Anmelden
@@ -2142,6 +2146,7 @@ de:
       terms declined: Wir bedauern es, dass du dich dazu entschieden hast, den neuen
         Bedingungen für Mitwirkende nicht zuzustimmen. Weitere Informationen findest
         du auf <a href="%{url}">dieser Wikiseite</a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
     terms:
       title: Bedingungen für Mitwirkende
       heading: Bedingungen für Mitwirkende
@@ -2151,10 +2156,12 @@ de:
       consider_pd: Zusätzlich zu den oben genannten Bedingungen betrachte ich meine
         Beiträge als gemeinfrei (Public Domain)
       consider_pd_why: Was bedeutet dies?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Informationen die dabei helfen, diese Bedingungen zu verstehen: eine
         <a href="%{summary}">verständliche Zusammenfassung</a> sowie einige <a href="%{translations}">inoffizielle
         Übersetzungen</a>'
       agree: Akzeptieren
+      declined: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
       decline: Ablehnen
       you need to accept or decline: Bitte lies die neuen Bedingungen für Mitwirkende
         und nimm sie an oder lehne sie ab, bevor du weitermachst.
@@ -2169,7 +2176,7 @@ de:
       body: Es gibt leider keinen Benutzer mit dem Namen %{user}. Du hast dich möglicherweise
         vertippt oder bist einem ungültigem Link gefolgt.
       deleted: gelöscht
-    view:
+    show:
       my diary: Mein Blog
       new diary entry: Neuer Blogeintrag
       my edits: Meine Änderungen
@@ -2278,6 +2285,7 @@ de:
           durchzulesen sowie zu akzeptieren.
         agreed_with_pd: Du hast zudem erklärt, dass du deine Beiträge gemeinfrei veröffentlichst
           (unter Public Domain stellst).
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: Worum handelt es sich?
       profile description: 'Profil-Beschreibung:'
       preferred languages: 'Bevorzugte Sprachen:'
@@ -2353,7 +2361,7 @@ de:
       not_a_friend: '%{name} ist nicht dein Freund.'
     filter:
       not_an_administrator: Du musst ein Administrator sein um diese Aktion auszuführen.
-    list:
+    index:
       title: Benutzer
       heading: Benutzer
       showing:

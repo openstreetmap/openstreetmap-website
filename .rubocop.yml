@@ -1,5 +1,8 @@
 inherit_from: .rubocop_todo.yml
 
+AllCops:
+  TargetRubyVersion: 2.3
+
 Rails:
   Enabled: true
 
@@ -27,6 +30,9 @@ Rails/ApplicationRecord:
 Rails/CreateTableWithTimestamps:
   Enabled: false
 
+Rails/FindEach:
+  Enabled: false
+
 Rails/HasManyOrHasOneDependent:
   Enabled: false
 
@@ -39,7 +45,7 @@ Rails/InverseOf:
 Rails/SkipsModelValidations:
   Exclude:
     - 'db/migrate/*.rb'
-    - 'app/controllers/user_controller.rb'
+    - 'app/controllers/users_controller.rb'
 
 Style/BracesAroundHashParameters:
   EnforcedStyle: context_dependent
@@ -49,10 +55,6 @@ Style/FormatStringToken:
 
 Style/IfInsideElse:
   Enabled: false
-
-Style/GlobalVars:
-  Exclude:
-    - 'lib/quad_tile/extconf.rb'
 
 Style/GuardClause:
   Enabled: false

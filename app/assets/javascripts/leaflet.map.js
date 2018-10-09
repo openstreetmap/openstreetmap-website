@@ -61,6 +61,12 @@ L.OSM.Map = L.Map.extend({
       code: "G",
       name: I18n.t("javascripts.map.base.gps")
     });
+
+    this.on("layeradd", function (event) {
+      if (this.baseLayers.indexOf(event.layer) >= 0) {
+        this.setMaxZoom(event.layer.options.maxZoom);
+      }
+    });
   },
 
   updateLayers: function(layerParam) {

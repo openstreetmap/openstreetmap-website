@@ -68,7 +68,7 @@ fa:
       tracetag: برچسب رد
       user: کاربر
       user_preference: ترجیحات کاربر
-      user_token: رمزینهٔ کاربر
+      user_token: توکن کاربر
       way: راه
       way_node: گره راه
       way_tag: برچسب راه
@@ -228,9 +228,9 @@ fa:
       open_title: 'یادداشت حل‌نشده #%{note_name}'
       closed_title: 'یادداشت حل‌شده #%{note_name}'
       hidden_title: 'یادداشت پنهان #%{note_name}'
-      open_by: ایجاد شده توسط %{user} <abbr title='%{exact_time}'>%{when} قبل </abbr>
-      open_by_anonymous: ایجاد شده توسط ناشناس <abbr title='%{exact_time}'>%{when}
-        قبل</abbr>
+      open_by: <abbr title='%{exact_time}'>%{when} قبل </abbr> %{user} ایجادش کرد
+      open_by_anonymous: <abbr title='%{exact_time}'>%{when} قبل</abbr> فرد ناشناس
+        ایجادش کرد.
       commented_by: نظر از %{user}،‏ <abbr title='%{exact_time}'>%{when} قبل</abbr>
       commented_by_anonymous: نظر از ناشناس، <abbr title='%{exact_time}'>%{when} قبل</abbr>
       closed_by: '%{user} آن را حل کرد، <abbr title=''%{exact_time}''>%{when} قبل</abbr>'
@@ -262,7 +262,7 @@ fa:
       user: کاربر
       comment: نظر
       area: منطقه
-    list:
+    index:
       title: تغییرات انجام شده
       title_user: تغییرات انجام شده توسط %{user}
       title_friend: تغییرات انجام شده توسط دوستان من
@@ -288,7 +288,7 @@ fa:
     new:
       title: روزنوشت جدید
       publish_button: انتشار
-    list:
+    index:
       title: روزنوشت‌های کاربران
       title_friends: روزنوشت‌های دوستان
       title_nearby: روزنوشت‌های کاربران نزدیک
@@ -311,7 +311,7 @@ fa:
       use_map_link: استفاده از نقشه
       save_button: ذخیره
       marker_text: مکان روزنوشت
-    view:
+    show:
       title: روزنوشت %{user} | %{title}
       user_title: روزنوشت‌های %{user}
       leave_a_comment: ارسال نظر
@@ -339,6 +339,7 @@ fa:
       comment_from: نظر از %{link_user} در %{comment_created_at}
       hide_link: پنهان کردن این نظر
       confirm: تأیید
+      report: گزارش این نظر
     location:
       location: 'مکان:'
       view: نمایش
@@ -919,12 +920,18 @@ fa:
     index:
       reported_user: کاربر گزارش‌شده
       reports: گزارش‌ها
+      last_updated_time_html: <abbr title='%{title}'>%{time} پیش</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time} پیش</abbr> توسط
+        %{user}
       link_to_reports: نمایش گزارش‌ها
       reports_count:
         one: 1 گزارش
         other: '%{count} گزارش'
+      reported_item: گزارش‌ها
     update:
       new_report: گزارشتان با موفقیت ثبت شد
+      successful_update: گزارشتان با موفقیت به‌روز شد
+      provide_details: لطفاً جزئیات لازم را ارائه دهید
     show:
       reports:
         zero: گزارشی نیست
@@ -932,22 +939,46 @@ fa:
         other: '%{count} گزارش'
       reports_of_this_issue: گزارش‌های این مشکل
       new_reports: گزارش‌های تازه
+    comments:
+      created_at: در %{datetime}
     reports:
+      updated_at: در %{datetime}
       reported_by_html: '%{user} آن را به‌عنوان %{category} گزارش کرد'
+    helper:
+      reportable_title:
+        note: یادداشت %{note_id}
   reports:
     new:
       title_html: گزارش %{link}
       missing_params: ایجاد گزارش جدید ممکن نیست
+      details: لطفاً جزئیات بیشتری از مشکل ارائه دهید (ضروری است).
       select: 'دلیل گزارش شما:'
+      disclaimer:
+        intro: 'پیش از اینکه گزارش خود را برای مدیران سایت ارسال کنید، مطمئن شوید
+          که:'
+        not_just_mistake: قطعاً این مسئله سهوی نبوده
+        unable_to_fix: به‌تنهایی یا با کمک نقشه‌کش‌های همکارتان نمی‌توانید مشکل را
+          حل کنید
+        resolve_with_user: قبلاً تلاش کرده‌اید مشکل را با کاربر مربوطه برطرف کنید
       categories:
         diary_entry:
           spam_label: این روزنوشت هرزنامه است/دارد
           threat_label: این روزنوشت تهدیدآمیز است
+          other_label: سایر
         diary_comment:
           spam_label: این نظر (بر روزنوشت) هرزنامه است/دارد
           threat_label: این نظر (بر روزنوشت) تهدیدآمیز است
+          other_label: سایر
+        user:
+          other_label: سایر
+        note:
+          spam_label: این یادداشت هرزنامه است
+          personal_label: این یادداشت حاوی داده‌های شخصی است
+          abusive_label: این یادداشت زشت است
+          other_label: سایر
     create:
       successful_report: گزارشتان با موفقیت ثبت شد
+      provide_details: لطفاً جزئیات لازم را ارائه دهید
   layouts:
     logo:
       alt_text: لوگوی OpenStreetMap
@@ -973,10 +1004,7 @@ fa:
     intro_text: OpenStreetMap یک نقشه از جهان است، که توسط افرادی مثل شما ایجاد شده
       و تحت یک مجوز آزاد برای استفاده رایگان همگان است.
     intro_2_create_account: ایجاد حساب کاربری
-    partners_html: میزبانی وب توسط %{ucl}, %{bytemark}, %{ic} و سایر %{partners} پشتیبانی
-      می‌شود.
     partners_ucl: UCL
-    partners_ic: کالج سلطنتی لندن
     partners_bytemark: میزبانی Bytemark
     partners_partners: شرکای تجاری
     osm_offline: دیتابیس OpenStreetMap در حال حاضر آفلاین است در حالی که کار تعمیر
@@ -1071,23 +1099,23 @@ fa:
       anonymous: کاربر ناشناس
       greeting: ‎سلام ،
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} روی یکی از یادداشت‌هایتان نظر داده
-          است'
+        subject_own: '[OpenStreetMap] %{commenter} روی یکی از یادداشت‌های شما نظر
+          داده است'
         subject_other: '[OpenStreetMap] %{commenter} روی یادداشت موردعلاقه‌تان نظر
           داده'
-        your_note: '%{commenter} روی یکی از یادداشت‌های شما روی نقشه نزدیک %{place}
-          نظر گذاشت.'
+        your_note: '%{commenter} روی یکی از یادداشت‌های شما روی نقشه نزدیک به %{place}
+          نظر گذاشته.'
         commented_note: '%{commenter} روی یک از یادداشت‌های نقشه که شما بر آن نظر
-          داده‌اید نظر داد. این یادداشت نزدیک %{place} است.'
+          داده‌اید نظر داد. این یادداشت نزدیک به %{place} است.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter} یکی از یادداشت‌های شما را حل کرده
           است'
-        subject_other: '[OpenStreetMap] %{commenter} یکی از یادداشت‌های موردعلاقه
+        subject_other: '[OpenStreetMap] %{commenter} یکی از یادداشت‌های موردعلاقهٔ
           شما را حل کرد'
         your_note: '%{commenter} یکی از یادداشت‌های شما بر نقشه در نزدیکی %{place}
           را حل کرد.'
         commented_note: '%{commenter} یکی از یادداشت‌های نقشه که شما بر آن نظر گذاشته‌اید
-          را حل کرد. یادداشت نزدیک %{place} است.'
+          را حل کرد. یادداشت نزدیک به %{place} است.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} یکی از یادداشت‌های شما را دوباره
           فعال کرد'
@@ -1096,7 +1124,7 @@ fa:
         your_note: '%{commenter} یکی از یادداشت‌های شما بر نقشه در نزدیکی %{place}
           را دوباره فعال کرد.'
         commented_note: '%{commenter} یکی از یادداشت‌های نقشه را که شما بر آن نظر
-          گذاشته‌اید دوباره فعال کرد. یادداشت نزدیک %{place} است.'
+          گذاشته‌اید دوباره فعال کرد. یادداشت نزدیک به %{place} است.'
       details: اطلاعات بیشتر درباره این یادداشت را در %{url} ببینید.
     changeset_comment_notification:
       hi: سلام %{to_user}،
@@ -1128,8 +1156,8 @@ fa:
         ارتباط برقرار نمی کنید؟
       people_mapping_nearby: افراد نقشه کش نزدیک
     message_summary:
-      unread_button: علامت‌گذاری به عنوان خوانده‌شده
-      read_button: علامت‌گذاری به عنوان خوانده‌شده
+      unread_button: نشان بزن نخواندم
+      read_button: نشان بزن که خواندم
       reply_button: پاسخ
       destroy_button: حذف
     new:
@@ -1139,6 +1167,7 @@ fa:
       body: بدنه
       send_button: ارسال
       back_to_inbox: بازگشت به صندوق دریافت
+    create:
       message_sent: پیام فرستاده شد
       limit_exceeded: شما اخیرا تعداد زیادی پیام ارسال کرده اید. لطفاً قبل از تلاش
         برای ارسال موارد بیشتر کمی صبر کنید.
@@ -1170,7 +1199,7 @@ fa:
       subject: عنوان
       date: تاریخ
       reply_button: پاسخ
-      unread_button: علامت‌گذاری به عنوان خوانده‌شده
+      unread_button: نشان بزن نخواندم
       destroy_button: حذف
       back: برگشت
       to: به
@@ -1212,9 +1241,9 @@ fa:
       partners_title: شرکای تجاری
     copyright:
       foreign:
-        title: درباره این ترجمه‌ها
-        text: در زمان به وجود آمدن تداخل بین برگردان فارسی و %{english_original_link}،
-          نوشتهٔ انگلیسی برتری دارد
+        title: دربارهٔ این ترجمه
+        text: اگر بین برگردان فارسی و %{english_original_link} ناسازگاری باشد، صفحهٔ
+          انگلیسی برتری دارد
         english_link: اصل انگلیسی
       native:
         title: درباره این صفحه
@@ -1229,45 +1258,47 @@ fa:
           OpenStreetMap <i> داده باز است</i>، تحت مجوز <a
           href="http://opendatacommons.org/licenses/odbl/">Open Data
           Commons Open Database License</a> (ODbL).
-        intro_2_html: شما برای کپی برداری، توزیع، انتقال و انطباق داده های ما آزاد
-          هستید، تا زمانی که معتبران و همکاران OpenStreetMap باشید. اگر شما تغییر
-          دهید یا بسازید داده های ما را، شما باید نتایج را فقط تحت همین مجوز توزیع
-          کنید. اطلاعات کامل <a href="http://opendatacommons.org/licenses/odbl/1.0/">کد
-          قانونی</a> حقوق و وظایف شما را توضیح میدهد.
+        intro_2_html: تا زمانی که از OpenStreetMap و مشارکت‌کنندگان آن یاد کنید، برای
+          کپی‌برداری، توزیع، انتقال و اقتباس (از) داده‌های ما آزاد هستید. اگر داده‌های
+          ما را تغییر دهید یا بر پایهٔ آن‌ها تولید کنید، باید نتایج را فقط تحت همان
+          مجوز توزیع کنید. نسخهٔ کامل <a href="http://opendatacommons.org/licenses/odbl/1.0/">بایدونبایدهای
+          قانونی</a> حقوق و وظایف شما را توضیح می‌دهد.
         intro_3_html: |-
-          نقشه کشی در کاشی های نقشه ی ما، و مدارک ما، تحت مجوز <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
-          Commons Attribution-ShareAlike 2.0</a>هستند ، مجوز (CC BY-SA).
-        credit_title_html: چگونه از OpenStreetMap اعتبار بگیریم
-        credit_1_html: ما نیاز داریم که شما استفاده کنید از اعتبار &ldquo;&copy; همکاران
-          OpenStreetMap&rdquo;.
-        credit_2_html: همچنین مطمئن باشید که پاک کردن داده ها تحت یک مجوز دیتابیس
-          باز است، و اگر از کاشی‌های نقشهٔ ما استفاده می‌کنید، نقشه‌برداری تحت  مجوز
-          CC BY-SA است. میتوانید با پیونددادن به <a href="http://www.openstreetmap.org/copyright">این
-          صفحه حق نشر</a> متناوبا آن را انجام دهید، و به عنوان یک درخواست اگر شما
-          توزیع کنندهٔ نوع داده‌های OSM هستید، می‌توانید نام و پیوند را بطور مستقیم
-          به مجوز بدهید. در رسانه‌ها جاهایی که پیوندها مقدور نیستند(مثل کارهای چاپی)،
-          پیشنهاد می‌کنیم خوانندگان‌تان را به openstreetmap.org راهنمایی کنید(شاید
-          با گسترش 'OpenStreetMap' به این نشانی کامل)، به opendatacommons.org، و اگر
-          مناسب باشد، به creativecommons.org.
+          نقشه‌نگاری‌های ارائه‌شده در کاشی‌های نقشهٔ ما و در مستنداتمان، همگی تحت پروانهٔ   <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+          Commons Attribution-ShareAlike 2.0</a>هستند (CC BY-SA).
+        credit_title_html: چگونه از OpenStreetMap یاد کنیم
+        credit_1_html: |-
+          بایسته است که این‌گونه از ما یاد کنید:
+          &ldquo;&copy;مشارکت‌کنندگان OpenStreetMap&rdquo;.
+        credit_2_html: همچنین باید روشن کنید که داده‌ها تحت پروانهٔ پایگاه‌دادهٔ باز
+          یا Open Database License قرار دارند و اگر کاشی‌های نقشهٔ ما را استفاده کردید
+          به‌روشنی بیان کنید که نقشه‌نگاری‌ها تحت پروانهٔ CC BY-SA است. این کار را
+          با پیونددادن به <a href="https://www.openstreetmap.org/copyright"> این صفحهٔ
+          حق نشر</a> انجام دهید. به‌عنوان جایگزین، می‌توانید با نام و پیوند مستقیماً
+          به مجوز(ها) ارجاع بدهید (اگر OSM را در قالب داده توزیع می‌کنید انجام این
+          کار ضروری است). در رسانه‌هایی که درج پیوند ممکن نیست ( مثلاً کارهای چاپی)،
+          توصیه می‌کنیم که خوانندگان خود را به  openstreetmap.org (شاید با گسترش OpenStreetMap
+          به این نشانی کامل)، به opendatacommons.org و در صورت تناسب به creativecommons.org
+          هدایت کنید.
         credit_3_html: |-
-          برای یک نقشه الکترونیکی قابل مرور، اعتبار باید در گوشه ای از نقشه ظاهر شود.
+          در یک نقشهٔ الکترونیکی قابل مرور، یادکرد باید در گوشهٔ نقشه ظاهر شود.
           برای مثال:
         attribution_example:
-          alt: مثال برای چگونه OpenStreetMap را در صفحه ی وبی نسبت دهیم
+          alt: مثالی از شیوهٔ انتساب به OpenStreetMap در صفحهٔ وبی.
           title: مثال انتساب
-        more_title_html: پیدا کردن اطلاعات بیشتر
-        more_1_html: |-
-          درباره استفاده از داده های ما، و چگونه به ما اعتبار دهید بیشتر بخوانید، در <a
-          href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Legal
-          FAQ</a>.
-        more_2_html: اگرچه OpenStreetMap داده باز است، ما نمی توانیم API نقشه را به
-          رایگان در اختیار توسعه دهندگان شخص ثالث قرار دهیم. <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">API
-          Usage Policy</a> ما را ببینید، <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Tile
-          Usage Policy</a> و <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Nominatim
-          Usage Policy</a>.
+        more_title_html: یافتن اطلاعات بیشتر
+        more_1_html: برای اطلاعات بیشتر دربارهٔ استفاده از داده‌های ما و چگونگی یادکرد
+          ما <a href="https://osmfoundation.org/Licence">صفحهٔ مجوز بنیاد OSM</a>
+          را بخوانید.
+        more_2_html: اگرچه OpenStreetMap داده باز است، اما نمی‌توانیم API نقشه را
+          به‌رایگان در اختیار توسعه‌دهندگان شخص ثالث قرار دهیم. <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">سیاست
+          استفاده از API </a> ، <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">سیاست
+          استفاده از کاشی‌ها</a> و <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">سیاست
+          استفاده از Nominatim</a> را ببینید.
         contributors_title_html: همکاران ما
-        contributors_intro_html: 'شرکای ما هزاران شخص هستند. ما همچنین جواز علنی داده
-          از سازمان نقشه برداری ملی و دیگر منابع را شامل میشویم، در بین آنها:'
+        contributors_intro_html: 'مشارکت‌کنندگانی که با ما همکاری می‌کنند هزاران شخص
+          هستند. داده‌هایی با مجوز باز از سازمان‌های نقشه‌برداری ملی و دیگر منابع
+          را نیز در کنار آن‌ها داریم، از جمله:'
         contributors_at_html: |-
           <strong>Austria</strong>: Contains data from
           <a href="http://data.wien.gv.at/">Stadt Wien</a> (under
@@ -1302,21 +1333,26 @@ fa:
           <strong>United Kingdom</strong>: Contains Ordnance
           Survey data &copy; Crown copyright and database right
           2010-12.
-        contributors_footer_1_html: برای اطلاعات بیشتر درباره این منابع و سایر منابع
-          مورد استفاده برای پیشرفت اوپن‌استریت‌مپ، لطفاً این پیوند را نگاه کنید.
+        contributors_footer_1_html: |-
+          برای اطلاعات بیشتر درباره این‌ها و سایر منابعی که برای پیشرفت اوپن‌استریت‌مپ استفاده شده‌اند، لطفاً <a
+          href="https://wiki.openstreetmap.org/wiki/Contributors">صفحهٔ مشارکت‌کنندگان</a> را در ویکی نگاه کنید.
         contributors_footer_2_html: ورود داده‌ها در OpenStreetMap به این معنی نیست
           که ارائه‌دهندهٔ اصلی داده‌ها توسط OpenStreetMap تأییدشده، هر گونه ضمانتی
           فراهم می‌کند، یا هر گونه مسئولیت را می‌پذیرد.
-        infringement_title_html: نقض کپی رایت
-        infringement_1_html: شرکای OSM یادآوری میکنند هرگز داده ای را از منابع حق
-          نشر اضافه نکنید(مثلا نقشه های گوگل یا نقشه های چاپ شده) بدون اجازه صریح
-          از دارندگان حق تکثیر.
-        infringement_2_html: اگر فکر می‌کنید که این حق نشر داده شده به‌طور نامناسب
-          به پایگاه داده‌های OpenStreetMap یا این سایت اضافه شده‌است، لطفاً به <a
-          href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">رویهٔ
-          حذف</a> ما یا پرونده مستقیم در <a href="http://dmca.openstreetmap.org/">صفحهٔ
-          بایگانی برخط</a> ما مراجعه کنید.
-        trademarks_title_html: <span id="trademarks"></span>علائم ثبت شده تجاری
+        infringement_title_html: نقض کپی‌رایت
+        infringement_1_html: به مشارکت‌کنندگان OSM یادآوری می کنیم که هرگز داده‌ای
+          را از منابع دارای حق نشر اضافه نکنند (مثلاً نقشه‌های گوگل یا نقشه‌های چاپ‌شده)،
+          مگر با اجازهٔ صریح و آشکار از صاحبان حق نشر.
+        infringement_2_html: اگر بر این باورید که داده‌های مشمول حق نشر به‌طور نامناسبی
+          به پایگاه‌دادهٔ OpenStreetMap  یا به این وبسایت افزوده شده، لطفاً به <a
+          href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">روندنامهٔ
+          حذف</a> مراجعه کنید یا دادخواست خود را مستقیماً در <a href="http://dmca.openstreetmap.org/">صفحهٔ
+          دادخواهی برخط</a> تسلیم کنید.
+        trademarks_title_html: <span id="trademarks"></span>نشان‌های تجاری
+        trademarks_1_html: OpenStreetMap،‏ نشان‌وارهٔ ذره‌بین‌دار و State of the Map
+          نشان‌های تجاری ثبت‌شده و متعلق به بنیاد OpenStreetMap هستند. برای یافتن
+          پاسخ پرسش‌های خود دربارهٔ استفاده از این نشان‌ها، لطفاً <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">سسیاست‌نامهٔ
+          نشان تجاری</a> را ببینید.
     index:
       js_1: شما در حال استفاده از مرورگری هستید که جاوا اسکریپت را پشتیبانی نمی کند،
         یا جاوا اسکریپت را غیر فعال کرده اید.
@@ -1587,7 +1623,7 @@ fa:
       add_a_note:
         title: زمانی برای ویرایش ندارید؟ یادداشت اضافه کنید!
         paragraph_1_html: "اگر میخواهید فقط چیز کوچکی را درست کنید و زمانی برای ثبت
-          نام و یادگیری ویرایش ندارید، به‌راحتی \nیک یادداشت بنویسید."
+          نام و یادگیری ویرایش ندارید، به‌آسانی \nیک یادداشت بنویسید."
         paragraph_2_html: |-
           فقط بروید به <a href='%{map_url}'>نقشه</a> و روی آیکون یادداشت کلیک کنید:
           <span class='icon note'></span>. اینجوری یک علامت گذار به نقشه اضافه می‌شود، که می‌توانید با کشیدن جابجایش کنید. پیامتان را اضافه کنید، بعد روی ذخیره کلیک کنید، و سایر نقشه کشان بررسی خواهند کرد.
@@ -1605,7 +1641,7 @@ fa:
       tags: 'برچسب‌ها:'
       tags_help: جداشده با کاما (,)
       visibility: 'پدیداری:'
-      visibility_help: این به چه معناست؟
+      visibility_help: این چیست؟
       upload_button: بارگذاری
       help: کمک
     create:
@@ -1634,10 +1670,12 @@ fa:
       tags_help: جداشده با کاما (,)
       save_button: ذخیرهٔ تغییرات
       visibility: 'پدیداری:'
-      visibility_help: به چه معنی است؟
+      visibility_help: این چیست؟
+    update:
+      updated: رد به‌روز شد
     trace_optionals:
       tags: برچسب‌ها
-    view:
+    show:
       title: دیدن رد %{name}
       heading: دیدن رد %{name}
       pending: در انتظار
@@ -1652,8 +1690,8 @@ fa:
       description: 'شرح:'
       tags: 'برچسب‌ها:'
       none: هیچ کدام
-      edit_track: ویرایش این رد
-      delete_track: حذف این رد
+      edit_trace: ویرایش این رد
+      delete_trace: حذف این رد
       trace_not_found: رد یافت نشد!
       visibility: 'پدیداری:'
       confirm_delete: این رد حذف شود؟
@@ -1677,7 +1715,7 @@ fa:
       by: توسط
       in: در
       map: نقشه
-    list:
+    index:
       public_traces: ردهای GPS عمومی
       my_traces: ردهای جی‌پی‌اس من
       public_traces_from: ردهای GPS عمومی از %{user}
@@ -1713,17 +1751,20 @@ fa:
     require_moderator:
       not_a_moderator: برای انجام آن عمل نیاز هست مدیر باشید.
     setup_user_auth:
-      blocked: دسترسی شما به API مسدود شده. برای یافتن اطلاعات بیشتر لطفاً وارد رابط
-        کاربری وب شوید.
+      blocked_zero_hour: در وبسایت OpenStreetMap یک پیام خیلی مهم برایتان ارسال شده.
+        برای اینکه بتوانید ویرایش‌های خود را ذخیره کنید باید ابتدا آن را بخوانید.
+      blocked: دسترسی شما به API مسدود شده. برای یافتن اطلاعات بیشتر لطفاً به رابط
+        کاربری وب وارد شوید (log in).
       need_to_see_terms: دسترسی شما به API بطور موقت معلق شده‌است. برای مشاهدهٔ شرایط
         شرکت‌کننده لطفاً وارد رابط کاربری وب شوید. نیاز به موافقت شما نیست، ولی باید
         حتماً آن‌ٰها را ببینید.
   oauth:
     authorize:
-      title: دسترسی اجازه دادن به حسابتان
-      request_access: برنامهٔ %{app_name}%{app_name} درخواست دسترسی به حسابتان %{user}
-        را دارد. لطفاً بررسی کنید که می‌خواهید برنامه به قابلیت‌های زیر دسترسی داشته
-        باشد. ممکن است چند تا یا فقط تعدادی را که دوست دارید انتخاب کنید.
+      title: اجازهٔ دسترسی به حسابتان را صادر کنید
+      request_access: برنامهٔ %{app_name}%{app_name} درخواست دسترسی به حساب کاربری
+        شما را دارد (%{user}). لطفاً بررسی کنید که آیا مایلید برنامه به قابلیت‌های
+        زیر دسترسی داشته باشد. می‌توانید همه یا فقط مواردی را که دوست دارید انتخاب
+        کنید.
       allow_to: 'به برنامه کارخواه اجازه بده که:'
       allow_read_prefs: خواندن ترجیحات کاربری شما.
       allow_write_prefs: تغییر ترجیحات کاربری شما.
@@ -1732,17 +1773,17 @@ fa:
       allow_read_gpx: خواندن ردهای GPS شخصی شما.
       allow_write_gpx: بارگذاری ردهای GPS
       allow_write_notes: اصلاح یادداشت‌ها.
-      grant_access: امکان دسترسی
+      grant_access: دسترسی می‌دهم
     authorize_success:
-      title: درخواست اجازه دادن مجاز است
+      title: درخواست صدور مجوز انجام شد
       allowed: شما به برنامه ی %{app_name} اجازه ی دسترسی به حسابتان را دادید.
       verification: کد تأیید %{code} است.
     authorize_failure:
-      title: درخواست اجازه دادن انجام نشد
+      title: درخواست صدور مجوز انجام نشد
       denied: شما به برنامه ی %{app_name} اجازه ی دسترسی به حسابتان را ندادید.
-      invalid: نشانه مجوز معتبر نیست.
+      invalid: توکن مجوز معتبر نیست.
     revoke:
-      flash: شما نشانه را برای %{application} باطل کردید
+      flash: توکن مربوط %{application} را باطل کردید
   oauth_clients:
     new:
       title: ثبت‌نام یک برنامهٔ تازه
@@ -1754,7 +1795,7 @@ fa:
       title: جزئیات OAuth برای %{app_name}
       key: 'کلید مصرف کننده:'
       secret: 'کد مخفی مصرف کننده:'
-      url: 'آدرس درخواست نشانه:'
+      url: 'نشانی توکنِ درخواست:'
       access_url: 'آدرس دسترسی نشانه:'
       authorize_url: 'آدرس authorise:'
       support_notice: ما امضا های HMAC-SHA1 (پیشنهاد شده) و RSA-SHA1 را پشتیبانی می
@@ -1773,14 +1814,14 @@ fa:
     index:
       title: جزئیات OAuth من
       my_tokens: نرم‌افزارهای مجاز من
-      list_tokens: 'مجوزهای زیر با نام شما برای برنامه‌های زیر صادر شده است:'
+      list_tokens: 'توکن‌های زیر با نام شما برای برنامه‌های زیر صادر شده است:'
       application: نام برنامه
       issued_at: تاریخ صدور
-      revoke: باطل کردن!
+      revoke: باطل شود!
       my_apps: برنامه‌های کارخواه (client) من
-      no_apps: آیا برنامه‌ای دارید که می‌خواهید به‌وسیله استاندارد %{oauth} ثبتش کنید
-        تا با ما از آن استفاده کنید؟ قبل از اینکه برنامه‌تان بتواند درخواست‌های OAuth
-        را انجام دهد باید برنامه تحت وب خود را ثبت نام کنید.
+      no_apps: آیا برنامه‌ای دارید که می‌خواهید به‌وسیلهٔ استاندارد %{oauth} ثبتش
+        کنید تا با ما از آن استفاده کنید؟ قبل از اینکه برنامه‌تان بتواند درخواست‌های
+        OAuth را انجام دهد باید آن را ثبت کنید.
       registered_apps: 'شما برنامه‌های کارخواه (client) زیر را ثبت کرده‌اید:'
       register_new: برنامه‌تان را ثبت کنید
     form:
@@ -1805,7 +1846,7 @@ fa:
       flash: به‌روزرسانی اطلاعات کارخواه موفقیت‌آمیز بود
     destroy:
       flash: ثبت‌نام برنامه کارخواه از بین رفت
-  user:
+  users:
     login:
       title: ورود
       heading: ورود
@@ -1881,7 +1922,7 @@ fa:
       confirm password: 'تأیید گذرواژه:'
       reset: تنظیم مجدد کلمه عبور
       flash changed: کلمه عبور شما تغییر کرده است.
-      flash token bad: نشانه را نیافتید؟ آدرس را برسی کنید شاید یافتید.
+      flash token bad: توکن را نیافتید؟ نشانی را بررسی کنید شاید یافتید.
     new:
       title: ثبت نام
       no_auto_account_create: متأسفانه در حال حاضر برای ما امکان ساخت خودکار حساب
@@ -1892,8 +1933,8 @@ fa:
       about:
         header: رایگان و قابل ویرایش
         html: |-
-          <p>بر خلاف سایر نقشه‌ها، OpenStreetMap کاملاً توسط افرادی مثل شما ساخته‌شده و برای تعمیر، به‌روزرسانی، دریافت و استفاده برای هر کسی آزاد است.</p>
-          <p>برای شروع کمک ثبت نام کنید. برای تأیید حساب‌تان ایمیلی می‌فرستیم.</p>
+          <p>بر خلاف سایر نقشه‌ها، OpenStreetMap کاملاً توسط افرادی مثل شما ساخته‌شده و اصلاح، به‌روزرسانی، بارگیری و استفادهٔ آن برای همه آزاد است.</p>
+          <p>برای شروع همکاری ثبت نام کنید. برای تأیید حساب ایمیلی برای شما می‌فرستیم.</p>
       license_agreement: وقتی ایمیلتان را تایید کردید نیاز است که با <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">شرایط
         همکاری</a> موافقت کنید.
       email address: 'آدرس ایمیل:'
@@ -1940,7 +1981,7 @@ fa:
       body: با عرض پوزش، هیچ کاربری با نام %{user} وجود ندارد. لطفاً نحوه نوشتن تان
         را بررسی کنید، یا شاید پیوندی که کلیک کردید اشتباه است.
       deleted: حذف شده
-    view:
+    show:
       my diary: روزنوشت من
       new diary entry: روزنوشت تازه
       my edits: ویرایش های من
@@ -1951,7 +1992,7 @@ fa:
       my settings: تنظیمات من
       my comments: نظرات من
       oauth settings: تنظیمات oauth
-      blocks on me: بلوک های بر من
+      blocks on me: مسدودی‌های من
       blocks by me: بوک های توسط من
       send message: ارسال پیام
       diary: روزنوشت
@@ -1976,9 +2017,10 @@ fa:
       if set location: مکان خانه‌تان را در صفحهٔ %{settings_link} تنظیم کنید تا کاربران
         نزدیکتان را ببینید.
       settings_link_text: تنظیمات
+      my friends: دوستان من
       no friends: شما هنوز هیچ دوستی اضافه نکرده‌اید
-      km away: '%{count} کیلومتر فاصله'
-      m away: '%{count} متر فاصله'
+      km away: ‏%{count} کیلومتر فاصله
+      m away: ‏%{count} متر فاصله
       nearby users: دیگر کاربران نزدیک
       no nearby users: در این حوالی هیچ کاربری  نقشه  ترسیم نکرده است
       role:
@@ -1990,10 +2032,10 @@ fa:
         revoke:
           administrator: لغو دسترسی سرپرست
           moderator: لغو دسترسی مدیر
-      block_history: بلوک شده های فعال
-      moderator_history: بلوک های گرفته شده
+      block_history: مسدودی‌های فعال
+      moderator_history: مسدودکردن‌ها
       comments: نظرات
-      create_block: بلوک کردن این کاربر
+      create_block: این کاربر مسدود شود
       activate_user: فعال کردن این کاربر
       deactivate_user: غیر فعال کردن این کاربر
       confirm_user: تأیید این کاربر
@@ -2022,7 +2064,7 @@ fa:
         link text: این چیست؟
       public editing:
         heading: 'ویرایش عمومی:'
-        enabled: فعال شدید.ناشناس نیستید و می‌توانید اطلاعات را ویرایش کنید
+        enabled: فعال. ناشناس نیستید و می‌توانید اطلاعات را ویرایش کنید.
         enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: این چیست؟
         disabled: غیر فعال شده و نمیتوان ویرایش کرد، همه ی ویرایش های قبلی بصورت ناشناس
@@ -2063,7 +2105,8 @@ fa:
       no home location: شما محل خانهٔ خودتان را وارد نکرده‌اید.
       latitude: 'عرض جغرافیایی:'
       longitude: 'طول جغرافیایی:'
-      update home location on click: وقتی روی نقشه کلیک میکنم موقعیت خانه بروز شود؟
+      update home location on click: وقتی روی نقشه کلیک می‌کنم موقعیت خانه به‌روز
+        شود.
       save changes button: ذخیرهٔ تغییرات
       make edits public button: همه ویرایش‌های من را عمومی کن
       return to profile: بازگشت به نمایه
@@ -2095,7 +2138,7 @@ fa:
         دهید.
       button: تأیید
       success: تغییر ایمیل شما تأیید شد!
-      failure: یک آدرس ایمیل با این نشانه قبلاً تأیید شده است.
+      failure: یک آدرس ایمیل با این توکن قبلاً تأیید شده است.
       unknown_token: کد تأیید منقضی شده یا وجود ندارد.
     set_home:
       flash success: موقعیت خانه با موفقیت ذخیره شد
@@ -2114,7 +2157,7 @@ fa:
       not_a_friend: '%{name} یکی از دوستان شما نیست.'
     filter:
       not_an_administrator: برای انجام آن عملیات نیاز هست که سرپرست باشید
-    list:
+    index:
       title: کاربران
       heading: کاربران
       showing:
@@ -2174,103 +2217,102 @@ fa:
         و نقش اطمینان حاصل نمایید.
   user_blocks:
     model:
-      non_moderator_update: برای بروزرسانی یا ایجاد بلوک باید یک مدیر بود.
-      non_moderator_revoke: برای لغو یک بلوک باید مدیر بود.
+      non_moderator_update: برای به‌روزرسانی یا ایجاد مسدودی باید مدیر بود.
+      non_moderator_revoke: برای لغو یک مسدودی باید مدیر بود.
     not_found:
-      sorry: پوزش، بلوک کاربر با شناسه %{id} یافت نمی شود.
+      sorry: پوزش، مسدودی کاربر با شناسه %{id} یافت نمی‌شود.
       back: بازگشت به فهرست
     new:
-      title: ایجاد بلوک در %{name}
-      heading: ایجاد بلوک در %{name}
-      reason: دلیل اینکه چرا %{name} بلوک شده است. لطفاً آرام باشید و تا جایی که ممکن
-        است معقول و منطقی باشید، تا جایی که میتوانید دربارهٔ وضعیت اطلاع دهید، این
-        را به خاطر داشته باشید که این پیام به‌صورت عمومی پدیدار است. به یاد داشته
-        باشید همهٔ کاربران اصطلاحات خاص انجمن را نمی‌فهمند، پس لطفاً سعی کنید از شرایط
-        تازه‌واردان استفاده کنید.
-      period: چه مدت، الان شروع شود، کاربر از API بلوک می‌شود برای.
-      submit: ایجاد بلوک
+      title: در حال مسدودکردن %{name}
+      heading: مسدودکردن %{name}
+      reason: |-
+        دلیل مسدودشدن کاربری %{name}. لطفاً خونسرد و منطقی باشید و هرچه می‌توانید به‌شکل جزئی‌تر اوضاع را شرح دهید و همچنین به یاد داشته باشید که پیام شما به‌طور عمومی قابل مشاهده است.
+        در نظر داشته باشید که همهٔ کاربران اصطلاحات تخصصی انجمن را نمی‌فهمند، لطفاً سعی کنید واژه‌هایی که استفاده می‌کنید غیرتخصصی باشد.
+      period: مدت‌زمان مسدودی کاربر از API (شروع از حالا).
+      submit: ایجاد مسدودی
       tried_contacting: من با کاربر تماس گرفته و درخواست کردم توقف کند.
       tried_waiting: من مقدار مناسبی زمان را به کاربر دادم تا به این ارتباط پاسخ دهد.
-      needs_view: کاربر قبل از پاک شدن این بلوک نیاز به وارد شدن دارد
-      back: مشاهده تمام بلوک ها
+      needs_view: برای پاک‌شدن این مسدودی کاربر باید وارد حسابش شود.
+      back: دیدن تمام مسدودی‌ها
     edit:
-      title: ویرایش بلوک در %{name}
-      heading: ویرایش بلوک در %{name}
-      reason: دلیل اینکه چرا %{name} بلوک شده است. لطفاً آرام باشید و تا جایی که ممکن
-        است معقول و منطقی باشید، تا جایی که می‌توانید دربارهٔ وضعیت اطلاع دهید. به
-        یاد داشته باشید همهٔ کاربران اصطلاحات خاص انجمن را نمی‌فهمند، پس لطفاً سعی
-        کنید از شرایط تازه‌واردان استفاده کنید.
-      period: چه مدت، الان شروع شود، کاربر از API بلوک می‌شود برای.
-      submit: به روز رسانی بلوک
-      show: مشاهده این بلوک
-      back: مشاهده تمام بلوک ها
-      needs_view: چرا قبل از پاک کردن این بلوک کاربر نیاز به وارد شدن دارد؟
+      title: ویرایش مسدودی کاربر %{name}
+      heading: ویرایش مسدودی %{name}
+      reason: دلیل مسدودشدن کاربری %{name}. لطفاً خونسرد و منطقی باشید و هرچه می‌توانید
+        به‌شکل جزئی‌تر اوضاع را شرح دهید. در نظر داشته باشید که همهٔ کاربران اصطلاحات
+        تخصصی انجمن را نمی‌فهمند، لطفاً سعی کنید واژه‌هایی که استفاده می‌کنید غیرتخصصی
+        باشد.
+      period: مدت‌زمان مسدودی کاربر از API (شروع از حالا).
+      submit: به‌روزرسانی مسدودی
+      show: مشاهده این مسدودی
+      back: دیدن تمام مسدودی‌ها
+      needs_view: آیا قبل از پاک‌شدن این مسدودی، کاربر باید وارد حساب کاربری شود؟
     filter:
-      block_expired: بلوک قبلا منقضی شده و قابل ویرایش نیست.
-      block_period: دوره ی بلوک کردن باید یکی از مقدار های قابل انتخاب در لیست بازشو
-        باشد.
+      block_expired: مسدودی قبلا منقضی شده و قابل ویرایش نیست.
+      block_period: دوره مسدودی باید یکی از مقدارهای قابل انتخاب در لیست بازشو باشد.
     create:
-      try_contacting: لطفاً قبل از بلوک کردن با کاربر تماس بگیرید و به آنها زمان مناسب
-        دهید تا پاسخ دهند.
-      try_waiting: لطفاً به کاربر زمان کافی دهید تا قبل از بسته‌شدن بتواند پاسخگو
+      try_contacting: لطفاً قبل از مسدودکردن کاربر با وی تماس بگیرید و به او زمان
+        بدهید تا پاسخگو باشد.
+      try_waiting: لطفاً پیش از مسدودکردن کاربر به او زمان کافی بدهید تا بتواند پاسخگو
         باشد.
-      flash: یک بلوک روی کاربر %{name} ایجاد شد.
+      flash: یک مسدودی روی کاربری %{name} ایجاد شد.
     update:
-      only_creator_can_edit: فقط مدیری که این بلوک را ایجاد کرده میتواند آنرا ویرایش
+      only_creator_can_edit: فقط مدیری که این مسدودی را ایجاد کرده می‌تواند آنرا ویرایش
         کند.
-      success: بلوک بروزرسانی شد.
+      success: مسدودی به‌روزرسانی شد.
     index:
-      title: بلوک های کاربر
-      heading: لیست بلوک های کاربر
-      empty: هنوز بلوکی ساخته نشده.
+      title: مسدودی‌های کاربر
+      heading: لیست مسدودی‌های کاربری
+      empty: هنوز مسدودیتی ساخته نشده.
     revoke:
-      title: لغو بلوک در %{block_on}
-      heading: لغو بلوک در %{block_on} توسط %{block_by}
-      time_future: این بلوک در %{time} پایان می یابد.
-      past: این بلوک %{time} پایان یافته و اکنون قابل لغو کردن نیست.
-      confirm: مطمئنید میخواهید این بلوک را لغو کنید؟
-      revoke: باطل کردن!
-      flash: این بلوک باطل شد.
+      title: لغو مسدودی از %{block_on}
+      heading: لغو مسدودی از %{block_on}، مسدودشده توسط %{block_by}
+      time_future: این مسدودی در %{time} پایان می یابد.
+      past: این مسدودی %{time} پیش پایان یافته و اکنون قابل لغوکردن نیست.
+      confirm: مطمئنید می‌خواهید این مسدودی را لغو کنید؟
+      revoke: باطل شود!
+      flash: این مسدودی لغو شد.
     period:
       one: 1 ساعت
       other: '%{count} ساعت'
     helper:
       time_future: در %{time} پایان می پذیرد.
       until_login: فعال تا وقتی کاربر وارد شود.
-      time_past: به پایان رسیده %{time} قبل.
+      time_future_and_until_login: تا %{time} دیگر و پس از ورود به حساب کاربری پایان
+        می‌یابد.
+      time_past: '%{time} پیش به پایان رسید.'
     blocks_on:
-      title: بلوک ها در %{name}
-      heading: فهرست بلوک ها در %{name}
-      empty: '%{name} هنوز بلوک نشده.'
+      title: مسدودی‌های کاربری %{name}
+      heading: فهرست مسدودی‌های %{name}
+      empty: '%{name} تاکنون مسدود نبوده.'
     blocks_by:
-      title: بلوک توسط %{name}
-      heading: فهرست بلوک توسط %{name}
-      empty: '%{name} هنوز بلوکی ایجاد نکرده.'
+      title: مسدودشده‌ها توسط %{name}
+      heading: فهرست مسدودشده‌ها توسط %{name}
+      empty: '%{name} تاکنون مسدود نکرده.'
     show:
-      title: '%{block_on} توسط %{block_by} بلوک شده'
-      heading: '%{block_on} توسط %{block_by} بلوک شده'
+      title: '%{block_on} توسط %{block_by} مسدود شده'
+      heading: '%{block_on} توسط %{block_by} مسدود شده'
       time_future: در %{time} پایان می پذیرد
-      time_past: به پایان رسیده %{time} قبل
+      time_past: '%{time} پیش به پایان رسید'
       created: ایجاد شده
       ago: '%{time} پیش'
       status: وضعیت
       show: نمایش
       edit: ویرایش
-      revoke: باطل کردن!
+      revoke: باطل شود!
       confirm: آیا مطمئن هستید؟
-      reason: 'دلیل بلوک:'
-      back: مشاهده تمام بلوک ها
+      reason: 'دلیل مسدودی:'
+      back: دیدن تمام مسدودی‌ها
       revoker: 'باطل کننده:'
-      needs_view: کاربر قبل از پاک شدن این بلوک نیاز به وارد شدن دارد.
+      needs_view: برای پاک‌شدن این مسدودی کاربر باید وارد حسابش شود.
     block:
       not_revoked: (باطل نشده)
       show: نمایش
       edit: ویرایش
-      revoke: باطل کردن!
+      revoke: باطل شود!
     blocks:
-      display_name: کاربر بلوک شده
+      display_name: کاربر مسدودشده
       creator_name: ایجاد کننده
-      reason: دلیل بلوک
+      reason: دلیل مسدودی
       status: وضعیت
       revoker_name: باطل شده توسط
       showing_page: صفحهٔ %{page}
@@ -2311,7 +2353,7 @@ fa:
   javascripts:
     close: بستن
     share:
-      title: به‌اشتراک‌گذاری
+      title: هم‌رسانی
       cancel: لغو
       image: تصویر
       link: پیوند یا اچ‌تی‌ام‌ال
@@ -2355,7 +2397,7 @@ fa:
         gps: ردهای GPS عمومی
         overlays: برای اشکال‌زدایی از نقشه رولایه‌ها را فعال کنید
         title: لایه‌ها
-      copyright: © <a href='%{copyright_url}'>شرکت کنندگانOpenStreetMap</a>
+      copyright: © <a href='%{copyright_url}'>مشارکت‌کنندگان OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>کمک مالی</a>
     site:
       edit_tooltip: ویرایش نقشه
@@ -2364,7 +2406,7 @@ fa:
       createnote_disabled_tooltip: برای افزودن یادداشت به نقشه بزرگنمایی کنید
       map_notes_zoom_in_tooltip: برای دیدن یادداشت‌های نقشه بزرگنمایی کنید
       map_data_zoom_in_tooltip: برای دیدن داده‌های نقشه بزرگنمایی کنید
-      queryfeature_tooltip: کوئری ویژگی‌ها
+      queryfeature_tooltip: پرس‌وجوی ویژگی‌ها
       queryfeature_disabled_tooltip: برای پرس‌وجوی ویژگی‌ها بزرگنمایی کنید
     changesets:
       show:
@@ -2399,10 +2441,10 @@ fa:
         mapquest_car: اتومبیل (MapQuest)
         mapquest_foot: پیاده (MapQuest)
         osrm_car: اتومبیل (OSRM)
-      directions: جهت
+      directions: دستورالعمل
       distance: مسافت
       errors:
-        no_route: نتوانستیم بین آن دو مکان، مسیری بیابیم.
+        no_route: بین این دو مکان، مسیری پیدا نشد.
         no_place: متاسفیم - محل پیدا نشد.
       instructions:
         continue_without_exit: به مسیر %{name} ادامه دهید
@@ -2440,7 +2482,7 @@ fa:
         end_oneway_without_exit: انتهای مسیر یطرفه در %{name}
         roundabout_with_exit: در میدان، خروجی %{exit} به طرف %{name} را انتخاب کنید
         unnamed: بی نام
-        courtesy: جهت از %{link}
+        courtesy: دستورالعمل‌ها با همکاری %{link}
         exit_counts:
           first: اول
           second: دوم
@@ -2470,33 +2512,33 @@ fa:
   redactions:
     edit:
       description: شرح
-      heading: ویرایش کردن ویرایش
+      heading: بازویرایی ویرایش
       submit: ذخیره ویرایش
-      title: ویرایش کردن ویرایش
+      title: بازویرایی ویرایش
     index:
       empty: ویرایشی برای نشان دادن نیست.
-      heading: فهرست ویرایش ها
-      title: فهرست ویرایش ها
+      heading: سیاههٔ بازویراسته‌ها(redactions)
+      title: فهرست ویرایش‌های حذف‌شده
     new:
       description: شرح
-      heading: اطلاعات را برای ویرایش جدید وارد کنید
+      heading: اطلاعات را برای بازویرایی جدید وارد کنید
       submit: ایجاد ویرایش
-      title: ایجاد ویرایش جدید
+      title: ایجاد بازویرایی جدید
     show:
       description: 'شرح:'
-      heading: نمایش ویرایش %{title}
+      heading: نمایش بازویرایستهٔ %{title}
       title: نمایش دادن ویرایش
       user: 'ایجاد کننده:'
-      edit: ویرایش این ویرایش
+      edit: ویرایش این بازویراسته
       destroy: حذف این ویرایش
       confirm: آیا مطمئن هستید؟
     create:
-      flash: ویرایش پاک شد.
+      flash: بازویراسته ایجاد شد.
     update:
       flash: تغییرات ذخیره شد.
     destroy:
-      not_empty: ویرایش خالی نیست. لطفاً همهٔ نسخه‌های متعلق به این ویرایش را در آورید
-        قبل از نابود کردنش.
+      not_empty: بازویرایی خالی نیست. لطفاً پیش از نابود کردنش، همهٔ نسخه‌های متعلق
+        به این بازویرایی را از بازویراستگی درآورید.
       flash: ویرایش از بین رفت.
-      error: در حال از بین بردن این ویرایش خطایی رخ داد.
+      error: هنگام از بین بردن این بازویراسته خطایی رخ داد.
 ...

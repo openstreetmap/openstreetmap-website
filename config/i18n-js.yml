@@ -1,27 +1,8 @@
-# Split context in several files.
-# By default only one file with all translations is exported and
-# no configuration is required. Your settings for asset pipeline
-# are automatically recognized.
-#
-# If you want to split translations into several files or specify
-# locale contexts that will be exported, just use this file to do
-# so.
-#
-# If you're going to use the Rails 3.1 asset pipeline, change
-# the following configuration to something like this:
-#
-#   translations:
-#     - file: "app/assets/javascripts/i18n/translations.js"
-#
-# If you're running an old version, you can use something
-# like this:
-#
-#   translations:
-#     - file: "public/javascripts/translations.js"
-#       only: "*"
-#
+export_i18n_js: false
+
 translations:
-  - file: "app/assets/javascripts/i18n/translations.js"
+  - file: "app/assets/javascripts/i18n/%{locale}.js"
+    pretty_print: true
     only:
     - "*.date"
     - "*.time"
@@ -33,3 +14,7 @@ translations:
     - "*.diary_entry.edit.marker_text"
     - "*.layouts.project_name.title"
     - "*.geocoder.search_osm_nominatim.*"
+  - file: "app/assets/javascripts/i18n/embed.js"
+    pretty_print: true
+    only:
+    - "*.javascripts.embed.*"

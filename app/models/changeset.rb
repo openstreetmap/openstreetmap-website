@@ -106,6 +106,7 @@ class Changeset < ActiveRecord::Base
     pt.find("tag").each do |tag|
       raise OSM::APIBadXMLError.new("changeset", pt, "tag is missing key") if tag["k"].nil?
       raise OSM::APIBadXMLError.new("changeset", pt, "tag is missing value") if tag["v"].nil?
+
       cs.add_tag_keyval(tag["k"], tag["v"])
     end
 
@@ -207,7 +208,7 @@ class Changeset < ActiveRecord::Base
 
     user_display_name_cache = {} if user_display_name_cache.nil?
 
-    if user_display_name_cache && user_display_name_cache.key?(user_id)
+    if user_display_name_cache&.key?(user_id)
       # use the cache if available
     elsif user.data_public?
       user_display_name_cache[user_id] = user.display_name
@@ -232,6 +233,7 @@ class Changeset < ActiveRecord::Base
     bbox.to_unscaled.add_bounds_to(el1, "_") if bbox.complete?
 
     el1["comments_count"] = comments.length.to_s
+    el1["changes_count"] = num_changes.to_s
 
     if include_discussion
       el2 = XML::Node.new("discussion")

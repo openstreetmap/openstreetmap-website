@@ -165,7 +165,7 @@ class SiteControllerTest < ActionController::TestCase
   def test_edit
     get :edit
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => "/edit"
+    assert_redirected_to :controller => :users, :action => :login, :referer => "/edit"
   end
 
   # Test the right editor gets used when the user hasn't set a preference
@@ -315,7 +315,7 @@ class SiteControllerTest < ActionController::TestCase
   def test_welcome
     get :welcome
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => "/welcome"
+    assert_redirected_to :controller => :users, :action => :login, :referer => "/welcome"
 
     get :welcome, :session => { :user => create(:user) }
     assert_response :success

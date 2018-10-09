@@ -12,13 +12,13 @@ class TracesController < ApplicationController
   before_action :check_api_writable, :only => [:api_create, :api_update, :api_delete]
   before_action :require_allow_read_gpx, :only => [:api_read, :api_data]
   before_action :require_allow_write_gpx, :only => [:api_create, :api_update, :api_delete]
-  before_action :offline_warning, :only => [:mine, :view]
+  before_action :offline_warning, :only => [:mine, :show]
   before_action :offline_redirect, :only => [:new, :create, :edit, :delete, :data, :api_create, :api_delete, :api_data]
   around_action :api_call_handle_error, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
 
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
-  def list
+  def index
     # from display name, pick up user id if one user's traces only
     display_name = params[:display_name]
     if display_name.present?
@@ -86,22 +86,22 @@ class TracesController < ApplicationController
   end
 
   def mine
-    redirect_to :action => :list, :display_name => current_user.display_name
+    redirect_to :action => :index, :display_name => current_user.display_name
   end
 
-  def view
+  def show
     @trace = Trace.find(params[:id])
 
-    if @trace && @trace.visible? &&
-       (@trace.public? || @trace.user == current_user)
+    if @trace&.visible? &&
+       (@trace&.public? || @trace&.user == current_user)
       @title = t ".title", :name => @trace.name
     else
       flash[:error] = t ".trace_not_found"
-      redirect_to :action => "list"
+      redirect_to :action => "index"
     end
   rescue ActiveRecord::RecordNotFound
     flash[:error] = t ".trace_not_found"
-    redirect_to :action => "list"
+    redirect_to :action => "index"
   end
 
   def new
@@ -110,12 +110,14 @@ class TracesController < ApplicationController
   end
 
   def create
+    @title = t ".upload_trace"
+
     logger.info(params[:trace][:gpx_file].class.name)
 
     if params[:trace][:gpx_file].respond_to?(:read)
       begin
-        do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
-                  params[:trace][:description], params[:trace][:visibility])
+        @trace = do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
+                           params[:trace][:description], params[:trace][:visibility])
       rescue StandardError => ex
         logger.debug ex
       end
@@ -124,7 +126,11 @@ class TracesController < ApplicationController
         flash[:notice] = t ".trace_uploaded"
         flash[:warning] = t ".traces_waiting", :count => current_user.traces.where(:inserted => false).count if current_user.traces.where(:inserted => false).count > 4
 
-        redirect_to :action => :list, :display_name => current_user.display_name
+        redirect_to :action => :index, :display_name => current_user.display_name
+      else
+        flash[:error] = t("traces.create.upload_failed") if @trace.valid?
+
+        render :action => "new"
       end
     else
       @trace = Trace.new(:name => "Dummy",
@@ -135,7 +141,7 @@ class TracesController < ApplicationController
                          :timestamp => Time.now.getutc)
       @trace.valid?
       @trace.errors.add(:gpx_file, "can't be blank")
-      @title = t ".upload_trace"
+
       render :action => "new"
     end
   end
@@ -169,13 +175,24 @@ class TracesController < ApplicationController
       head :forbidden
     else
       @title = t ".title", :name => @trace.name
+    end
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
+  end
 
-      if request.post? && params[:trace]
-        @trace.description = params[:trace][:description]
-        @trace.tagstring = params[:trace][:tagstring]
-        @trace.visibility = params[:trace][:visibility]
-        redirect_to :action => "view", :display_name => current_user.display_name if @trace.save
-      end
+  def update
+    @trace = Trace.find(params[:id])
+
+    if !@trace.visible?
+      head :not_found
+    elsif current_user.nil? || @trace.user != current_user
+      head :forbidden
+    elsif @trace.update(trace_params)
+      flash[:notice] = t ".updated"
+      redirect_to :action => "show", :display_name => current_user.display_name
+    else
+      @title = t ".title", :name => @trace.name
+      render :action => "edit"
     end
   rescue ActiveRecord::RecordNotFound
     head :not_found
@@ -192,7 +209,7 @@ class TracesController < ApplicationController
       trace.visible = false
       trace.save
       flash[:notice] = t ".scheduled_for_deletion"
-      redirect_to :action => :list, :display_name => trace.user.display_name
+      redirect_to :action => :index, :display_name => trace.user.display_name
     end
   rescue ActiveRecord::RecordNotFound
     head :not_found
@@ -301,7 +318,7 @@ class TracesController < ApplicationController
     visibility = params[:visibility]
 
     if visibility.nil?
-      visibility = if params[:public] && params[:public].to_i.nonzero?
+      visibility = if params[:public]&.to_i&.nonzero?
                      "public"
                    else
                      "private"
@@ -309,11 +326,11 @@ class TracesController < ApplicationController
     end
 
     if params[:file].respond_to?(:read)
-      do_create(params[:file], tags, description, visibility)
+      trace = do_create(params[:file], tags, description, visibility)
 
-      if @trace.id
-        render :plain => @trace.id.to_s
-      elsif @trace.valid?
+      if trace.id
+        render :plain => trace.id.to_s
+      elsif trace.valid?
         head :internal_server_error
       else
         head :bad_request
@@ -337,7 +354,7 @@ class TracesController < ApplicationController
 
     # Create the trace object, falsely marked as already
     # inserted to stop the import daemon trying to load it
-    @trace = Trace.new(
+    trace = Trace.new(
       :name => name,
       :tagstring => tags,
       :description => description,
@@ -347,31 +364,33 @@ class TracesController < ApplicationController
       :timestamp => Time.now.getutc
     )
 
-    Trace.transaction do
-      begin
-        # Save the trace object
-        @trace.save!
+    if trace.valid?
+      Trace.transaction do
+        begin
+          # Save the trace object
+          trace.save!
 
-        # Rename the temporary file to the final name
-        FileUtils.mv(filename, @trace.trace_name)
-      rescue StandardError
-        # Remove the file as we have failed to update the database
-        FileUtils.rm_f(filename)
+          # Rename the temporary file to the final name
+          FileUtils.mv(filename, trace.trace_name)
+        rescue StandardError
+          # Remove the file as we have failed to update the database
+          FileUtils.rm_f(filename)
 
-        # Pass the exception on
-        raise
-      end
+          # Pass the exception on
+          raise
+        end
 
-      begin
-        # Clear the inserted flag to make the import daemon load the trace
-        @trace.inserted = false
-        @trace.save!
-      rescue StandardError
-        # Remove the file as we have failed to update the database
-        FileUtils.rm_f(@trace.trace_name)
+        begin
+          # Clear the inserted flag to make the import daemon load the trace
+          trace.inserted = false
+          trace.save!
+        rescue StandardError
+          # Remove the file as we have failed to update the database
+          FileUtils.rm_f(trace.trace_name)
 
-        # Pass the exception on
-        raise
+          # Pass the exception on
+          raise
+        end
       end
     end
 
@@ -382,6 +401,8 @@ class TracesController < ApplicationController
     else
       current_user.preferences.create(:k => "gps.trace.visibility", :v => visibility)
     end
+
+    trace
   end
 
   def offline_warning
@@ -402,5 +423,9 @@ class TracesController < ApplicationController
     else
       "public"
     end
+  end
+
+  def trace_params
+    params.require(:trace).permit(:description, :tagstring, :visibility)
   end
 end

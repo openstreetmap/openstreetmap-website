@@ -1,9 +1,9 @@
 module ChangesetHelper
   def changeset_user_link(changeset)
     if changeset.user.status == "deleted"
-      t("user.no_such_user.deleted")
+      t("users.no_such_user.deleted")
     elsif changeset.user.data_public?
-      link_to(changeset.user.display_name, user_path(changeset.user.display_name))
+      link_to(changeset.user.display_name, user_path(changeset.user))
     else
       t("browse.anonymous")
     end
@@ -32,15 +32,15 @@ module ChangesetHelper
     end
   end
 
-  def changeset_list_title(params, user)
+  def changeset_index_title(params, user)
     if params[:friends] && user
-      t "changeset.list.title_friend"
+      t "changeset.index.title_friend"
     elsif params[:nearby] && user
-      t "changeset.list.title_nearby"
+      t "changeset.index.title_nearby"
     elsif params[:display_name]
-      t "changeset.list.title_user", :user => params[:display_name]
+      t "changeset.index.title_user", :user => params[:display_name]
     else
-      t "changeset.list.title"
+      t "changeset.index.title"
     end
   end
 end

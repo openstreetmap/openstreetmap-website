@@ -17,16 +17,16 @@ class ApplicationController < ActionController::Base
         session.delete(:user)
         session_expires_automatically
 
-        redirect_to :controller => "user", :action => "suspended"
+        redirect_to :controller => "users", :action => "suspended"
 
       # don't allow access to any auth-requiring part of the site unless
       # the new CTs have been seen (and accept/decline chosen).
       elsif !current_user.terms_seen && flash[:skip_terms].nil?
         flash[:notice] = t "user.terms.you need to accept or decline"
         if params[:referer]
-          redirect_to :controller => "user", :action => "terms", :referer => params[:referer]
+          redirect_to :controller => "users", :action => "terms", :referer => params[:referer]
         else
-          redirect_to :controller => "user", :action => "terms", :referer => request.fullpath
+          redirect_to :controller => "users", :action => "terms", :referer => request.fullpath
         end
       end
     elsif session[:token]
@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
   def require_user
     unless current_user
       if request.get?
-        redirect_to :controller => "user", :action => "login", :referer => request.fullpath
+        redirect_to :controller => "users", :action => "login", :referer => request.fullpath
       else
         head :forbidden
       end
@@ -283,8 +283,7 @@ class ApplicationController < ActionController::Base
     # TODO: some sort of escaping of problem characters in the message
     response.headers["Error"] = message
 
-    if request.headers["X-Error-Format"] &&
-       request.headers["X-Error-Format"].casecmp("xml").zero?
+    if request.headers["X-Error-Format"]&.casecmp("xml")&.zero?
       result = OSM::API.new.get_xml_doc
       result.root.name = "osmError"
       result.root << (XML::Node.new("status") << "#{Rack::Utils.status_code(status)} #{Rack::Utils::HTTP_STATUS_CODES[status]}")
@@ -310,7 +309,7 @@ class ApplicationController < ActionController::Base
   helper_method :preferred_languages
 
   def set_locale(reset = false)
-    if current_user && current_user.languages.empty? && !http_accept_language.user_preferred_languages.empty?
+    if current_user&.languages&.empty? && !http_accept_language.user_preferred_languages.empty?
       current_user.languages = http_accept_language.user_preferred_languages
       current_user.save
     end
@@ -387,11 +386,11 @@ class ApplicationController < ActionController::Base
   ##
   # render a "no such user" page
   def render_unknown_user(name)
-    @title = t "user.no_such_user.title"
+    @title = t "users.no_such_user.title"
     @not_found_user = name
 
     respond_to do |format|
-      format.html { render :template => "user/no_such_user", :status => :not_found }
+      format.html { render :template => "users/no_such_user", :status => :not_found }
       format.all { head :not_found }
     end
   end
@@ -435,7 +434,7 @@ class ApplicationController < ActionController::Base
   def preferred_editor
     editor = if params[:editor]
                params[:editor]
-             elsif current_user && current_user.preferred_editor
+             elsif current_user&.preferred_editor
                current_user.preferred_editor
              else
                DEFAULT_EDITOR

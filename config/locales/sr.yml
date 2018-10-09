@@ -28,7 +28,7 @@ sr:
       friendly: '%e %B %Y у %H:%M'
   activerecord:
     models:
-      acl: Списак ограничења приступа
+      acl: Листа контроле приступа
       changeset: Скуп измена
       changeset_tag: Ознака скупа измена
       country: Земља
@@ -145,8 +145,8 @@ sr:
       feed:
         title: Скуп измена %{id}
         title_comment: Скуп измена %{id} – %{comment}
-      join_discussion: Пријавите се да бисте се укључили у разговор
-      discussion: Разговор
+      join_discussion: Пријавите се да бисте се придружили дискусији
+      discussion: Дискусија
     node:
       title: 'Тачка: %{name}'
       history_title: 'Историја тачака: %{name}'
@@ -245,7 +245,7 @@ sr:
       user: Корисник
       comment: Коментар
       area: Област
-    list:
+    index:
       title: Скупови измена
       title_user: Скупови измена корисника %{user}
       title_friend: Скупови измена мојих пријатеља
@@ -260,17 +260,17 @@ sr:
     timeout:
       sorry: Нажалост, преузимање траженог списка измена предуго траје.
     rss:
-      title_all: Разговор о скупу измена OpenStreetMap-а
-      title_particular: 'Разговор о скупу измена #%{changeset_id} OpenStreetMap-а'
+      title_all: Дискусија о скупу измена OpenStreetMap-а
+      title_particular: 'Дискусија о скупу измена #%{changeset_id} OpenStreetMap-а'
       comment: Нови коментар на скуп измена бр. %{changeset_id} корисника %{author}
       commented_at_html: Ажурирано пре %{when}
       commented_at_by_html: Ажурирао %{user} пре %{when}
-      full: Целокупан разговор
+      full: Цела дискусија
   diary_entry:
     new:
       title: Нови дневнички запис
       publish_button: Објави
-    list:
+    index:
       title: Дневници корисника
       title_friends: Дневници пријатеља
       title_nearby: Дневници корисника у близини
@@ -293,7 +293,7 @@ sr:
       use_map_link: Прикажи на мапи
       save_button: Сачувај
       marker_text: Локација писања белешке
-    view:
+    show:
       title: Дневник корисника %{user} | %{title}
       user_title: Дневник корисника %{user}
       leave_a_comment: Остави коментар
@@ -979,9 +979,7 @@ sr:
     intro_text: OpenStreetMap је мапа света коју су направили људи попут вас. Слободна
       је за коришћење под отвореном лиценцом.
     intro_2_create_account: Отворите кориснички налог
-    partners_html: Хостинг омогућују %{ucl}, %{bytemark}, %{ic}, као и други %{partners}.
     partners_ucl: UCL
-    partners_ic: Краљевски колеџ у Лондону
     partners_bytemark: хостинг Bytemark
     partners_partners: партнери
     osm_offline: База OpenStreetMap-а је тренутно недоступна док се не заврше неопходни
@@ -1146,6 +1144,7 @@ sr:
       body: Текст
       send_button: Пошаљи
       back_to_inbox: Назад на примљене
+    create:
       message_sent: Порука је послата.
       limit_exceeded: Недавно сте послали много порука. Сачекајте неко време пре него
         покушавате да пошаљете још неку.
@@ -1312,9 +1311,10 @@ sr:
         contributors_nl_html: |-
           <strong>Холандија</strong>: садржи &copy; AND подаци, 2007
           (<a href="https://www.and.com">www.and.com</a>)
-        contributors_nz_html: |-
-          <strong>Нови Зеланд</strong>: садржи податке који потичу од
-              Land Information New Zealand. Крунска ауторска права задржана.
+        contributors_nz_html: "<strong>Нови Зеланд</strong>: Садржи податке које потичу
+          из \n<a href=\"https://data.linz.govt.nz/\">Услуге са подацима LINZ</a>,
+          а\nлиценциране за поновну употребу под лиценцом\n<a href=\"https://creativecommons.org/licenses/by/4.0/\">CC
+          BY 4.0</a>."
         contributors_si_html: |-
           <strong>Словенија</strong>: Садржи податке са
           <a href="http://www.gu.gov.si/en/">Ауторитета за истраживање и мапирање</a> те од
@@ -1375,7 +1375,8 @@ sr:
       potlatch_unsaved_changes: Имате несачуване измене. (Да бисте их сачували у Potlatch-у,
         демаркирајте тренутни пут или тачку, ако уређујете у „живом“ режиму, или кликните
         на дугме за чување, ако постоји.)
-      potlatch2_not_configured: Потлач 2 није подешен. Погледајте http://wiki.openstreetmap.org/wiki/The_Rails_Port
+      potlatch2_not_configured: Потлач 2 није конфигурисан — погледајте https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
+        за више информација
       potlatch2_unsaved_changes: Нисте сачували измене. Да бисте то урадили, кликните
         на дугме за чување.
       id_not_configured: iD није конфигурисан
@@ -1471,7 +1472,8 @@ sr:
           табле.
       irc:
         title: IRC
-        description: Интерактивни разговор на многим језицима и на многе теме.
+        description: Интерактивно ћаскање на много различитих језицима и на многе
+          теме.
       switch2osm:
         title: switch2osm
         description: Помоћ за компаније и организације које прелазе на мапе засноване
@@ -1566,12 +1568,12 @@ sr:
       edit: Уреди
       preview: Преглед
     markdown_help:
-      title_html: Рашчлањено са <a href="http://daringfireball.net/projects/markdown/">маркдауном</a>
+      title_html: Рашчлањено са <<a href="https://daringfireball.net/projects/markdown/">Markdown-ом</a>
       headings: Наслови
       heading: Наслов
       subheading: Поднаслов
-      unordered: Несврстан списак
-      ordered: Сврстан списак
+      unordered: Неуређена листа
+      ordered: Уређена листа
       first: Прва ставка
       second: Друга ставка
       link: Веза
@@ -1673,7 +1675,7 @@ sr:
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=sr-ec
     trace_optionals:
       tags: Ознаке
-    view:
+    show:
       title: Преглед трага %{name}
       heading: Преглед трага %{name}
       pending: НА_ЧЕКАЊУ
@@ -1688,8 +1690,8 @@ sr:
       description: 'Опис:'
       tags: 'Ознаке:'
       none: ништа
-      edit_track: Уреди овај траг
-      delete_track: Обриши овај траг
+      edit_trace: Уреди овај траг
+      delete_trace: Обриши овај траг
       trace_not_found: Траг није пронађен.
       visibility: 'Видљивост:'
     trace_paging_nav:
@@ -1712,7 +1714,7 @@ sr:
       by: од
       in: у
       map: мапа
-    list:
+    index:
       public_traces: Јавни ГПС трагови
       public_traces_from: Јавни GPS трагови корисника %{user}
       description: Претражите недавне аплоуде GPS путева
@@ -1837,7 +1839,7 @@ sr:
       flash: Подаци о клијенту су успешно ажурирани
     destroy:
       flash: Уништена је регистрација клијентског програма
-  user:
+  users:
     login:
       title: Пријава
       heading: Пријава
@@ -1923,8 +1925,8 @@ sr:
           <p>За разлику од осталих мапа, OpenStreetMap у потпуности стварају људи као Ви,
           и бесплатан је за свакога да поправља, ажурира, преузима и користи.</p>
           <p>Пријавите се да бисте почели да доприносите. Послаћемо Вам имејл за потврду Вашег налога.</p>
-      license_agreement: Након што потврдите налог, мораћете да прихватите <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">услове
-        уређивања</a>.
+      license_agreement: Када потврдите налог, мораћете да прихватите <a href="https://www.osmfoundation.org/wiki/License/Contributor_Terms">услове
+        сарадника</a>.
       email address: 'Имејл адреса:'
       confirm email address: 'Потврдите имејл адресу:'
       not displayed publicly: Ваша адреса се не приказује јавно, погледајте <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
@@ -1971,7 +1973,7 @@ sr:
       body: Не постоји корисник с именом %{user}. Проверите исправност уписа или везе
         коју сте кликнули.
       deleted: обрисано
-    view:
+    show:
       my diary: Мој дневник
       new diary entry: нови дневнички запис
       my edits: Моје измене
@@ -2146,7 +2148,7 @@ sr:
       not_a_friend: '%{name} није ваш пријатељ.'
     filter:
       not_an_administrator: Треба да будете администратор да бисте извршили ову радњу.
-    list:
+    index:
       title: Корисници
       heading: Корисници
       showing:
@@ -2251,7 +2253,7 @@ sr:
       success: Блокада је ажурирана.
     index:
       title: Корисничке блокаде
-      heading: Списак корисничких блокада
+      heading: Листа корисничких блокада
       empty: Није направљена ниједна блокада.
     revoke:
       title: Опозивање блокаде на %{block_on}
@@ -2271,11 +2273,11 @@ sr:
       time_past: Завршено пре %{time}.
     blocks_on:
       title: Блокаде за %{name}
-      heading: Списак блокада за %{name}
+      heading: Листа блокада за %{name}
       empty: '%{name} још није био блокиран/а.'
     blocks_by:
       title: Блокаде од %{name}
-      heading: Списак блокада од %{name}
+      heading: Листа блокада од %{name}
       empty: '%{name} још увек није блокирао никога.'
     show:
       title: '%{block_on} је блокиран/а од %{block_by}'
@@ -2503,8 +2505,8 @@ sr:
       title: Уређивање редакције
     index:
       empty: Нема редакција.
-      heading: Списак редакција
-      title: Списак редакција
+      heading: Листа редакција
+      title: Листа редакција
     new:
       description: Опис
       heading: Унесите податке за нову редакцију

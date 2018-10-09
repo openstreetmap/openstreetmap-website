@@ -16,9 +16,9 @@ module NoteHelper
     if author.nil?
       ""
     elsif author.status == "deleted"
-      t("user.no_such_user.deleted")
+      t("users.no_such_user.deleted")
     else
-      link_to h(author.display_name), link_options.merge(:controller => "user", :action => "view", :display_name => author.display_name)
+      link_to h(author.display_name), link_options.merge(:controller => "users", :action => "show", :display_name => author.display_name)
     end
   end
 end

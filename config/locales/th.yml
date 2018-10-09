@@ -197,9 +197,9 @@ th:
       title: 'หมายเหตุ: %{id}'
       new_note: หมายเหตุใหม่
       description: คำอธิบาย
-      open_title: 'บันทึกยังไม่ตอบสนอง #%{note_name}'
-      closed_title: บันทึกตอบสนองแล้ว %{note_name}
-      hidden_title: 'บันทึกที่ถูกซ่อน #%{note_name}'
+      open_title: 'หมายเหตุที่ยังไม่มีคำตอบ #%{note_name}'
+      closed_title: หมายเหตุที่ตอบสนองแล้ว %{note_name}
+      hidden_title: 'หมายเหตุที่ซ่อนอยู่ #%{note_name}'
       open_by: จัดทำโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when} ก่อน</abbr>
       open_by_anonymous: จัดทำโดยผู้ไม่ประสงค์ออกนามเมื่อ <abbr title='%{exact_time}'>%{when}
         ก่อน</abbr>
@@ -218,7 +218,7 @@ th:
       report: แจ้งปัญหาเกี่ยวกับหมายเหตุนี้
     query:
       title: ส่วนประกอบในพื้นที่
-      introduction: คลิกที่แผนที่เพื่อค้นหาคุณสมบัติต่าง ๆ ที่อยู่ใกล้เคียง
+      introduction: คลิกบนแผนที่เพื่อค้นหาส่วนประกอบต่างๆ ที่อยู่ใกล้เคียง
       nearby: ส่วนประกอบที่อยู่ใกล้เคียง
       enclosing: ส่วนประกอบที่ปิดล้อม
   changeset:
@@ -236,7 +236,7 @@ th:
       user: ผู้ใช้
       comment: ความเห็น
       area: พื้นที่
-    list:
+    index:
       title: ชุดการเปลี่ยนแปลง
       title_user: ชุดการเปลี่ยนแปลงที่ทำโดย %{user}
       title_friend: ชุดการเปลี่ยนแปลงที่ทำโดยเพื่อนของฉัน
@@ -261,7 +261,7 @@ th:
     new:
       title: สร้างบันทึกใหม่
       publish_button: เผยแพร่
-    list:
+    index:
       title: บันทึกของผู้ใช้
       title_friends: บันทึกของเพื่อน
       title_nearby: บันทึกของผู้ใช้ที่อยู่ใกล้เคียง
@@ -284,7 +284,7 @@ th:
       use_map_link: ใช้แผนที่
       save_button: บันทึก
       marker_text: ที่ตั้งของรายการบันทึก
-    view:
+    show:
       title: บันทึกของ %{user} | %{title}
       user_title: บันทึกของ %{user}
       leave_a_comment: แสดงความคิดเห็น
@@ -307,6 +307,7 @@ th:
       edit_link: แก้ไขรายการนี้
       hide_link: ซ่อนรายการนี้
       confirm: ยืนยัน
+      report: แจ้งปัญหาเกี่ยวกับบันทึกนี้
     diary_comment:
       comment_from: ความคิดเห็นจาก %{link_user} เมื่อ %{comment_created_at}
       hide_link: ซ่อนข้อคิดเห็นนี้
@@ -842,7 +843,7 @@ th:
           motorcycle: ร้านรถจักรยานยนต์
           music: ร้านดนตรี
           newsagent: ร้านขายหนังสือพิมพ์
-          optician: จักษุแพทย์
+          optician: ร้านแว่นตา
           organic: ร้านขายอาหารอินทรีย์
           outdoor: ร้านขายอุปกรณ์ผจญภัย
           paint: ร้านขายสี
@@ -933,17 +934,35 @@ th:
       more_results: ดูผลลัพธ์เพิ่ม
   issues:
     index:
+      title: ปัญหา
+      select_status: เลือกสถานะ
+      select_type: เลือกชนิด
+      search: ค้นหา
+      user_not_found: ไม่มีผู้ใช้นี้
       status: สถานะ
+      reports: รายการปัญหาที่รับแจ้งจากผู้ใช้
+      last_updated_time_html: <abbr title='%{title}'>%{time}ก่อน</abbr>
+    comments:
+      created_at: เมื่อ %{datetime}
   reports:
     new:
       categories:
         diary_entry:
+          threat_label: บันทึกนี้มีใจความข่มขู่คุกคาม
+          other_label: อื่นๆ
+        diary_comment:
+          other_label: อื่นๆ
+        user:
+          threat_label: หน้าของผู้ใช้คนนี้มีใจความข่มขู่คุกคาม
+          vandal_label: ผู้ใช้คนนี้มือบอน/มีพฤติกรรมแก้ไขก่อกวนบนแผนที่
           other_label: อื่นๆ
         note:
           spam_label: หมายเหตุนี้เป็นสแปม
           personal_label: หมายเหตุนี้มีข้อมูลส่วนบุคคล
           abusive_label: หมายเหตุนี้ใช้ถ้อยคำหยาบคายหรือส่งเสริมความรุนแรง
           other_label: อื่นๆ
+    create:
+      provide_details: กรุณาระบุรายละเอียด
   layouts:
     logo:
       alt_text: ตราสัญลักษณ์ OpenStreetMap
@@ -957,6 +976,7 @@ th:
     edit: แก้ไข
     history: ประวัติ
     export: ส่งออก
+    issues: ปัญหา
     data: ข้อมูล
     export_data: ส่งออกข้อมูล
     gps_traces: รอยทาง GPS
@@ -968,10 +988,7 @@ th:
     intro_header: ยินดีต้อนรับสู่ OpenStreetMap!
     intro_text: OpenStreetMap เป็นแผนที่โลกที่สร้างโดยผู้คนเช่นท่าน และใช้งานได้ไม่เสียค่าใช้จ่ายภายใต้สัญญาอนุญาตแบบเปิด
     intro_2_create_account: สร้างบัญชีผู้ใช้ใหม่
-    partners_html: เซิร์ฟเวอร์สนับสนุนโดย %{ucl}, %{bytemark}, %{ic}, และ%{partners}อื่น
-      ๆ
     partners_ucl: ยูซีแอล (วิทยาลัยอุดมศึกษาลอนดอน)
-    partners_ic: วิทยาลัยอิมพีเรียลลอนดอน
     partners_bytemark: ไบต์มาร์กโฮสติง
     partners_partners: องค์กรพันธมิตร
     osm_offline: ฐานข้อมูลของ OpenStreetMap กำลังออฟไลน์เพื่อให้สามารถดำเนินการบำรุงรักษาตามปกติได้
@@ -1061,26 +1078,26 @@ th:
       anonymous: ผู้ใช้ไม่ระบุตัวตน
       greeting: เรียนท่านผู้ใช้งาน
       commented:
-        subject_own: '[OpenStreetMap] ผู้ใช้ %{commenter} แสดงความคิดเห็นต่อบันทึกของท่าน'
+        subject_own: '[OpenStreetMap] ผู้ใช้ %{commenter} แสดงความคิดเห็นต่อหมายเหตุของท่าน'
         subject_other: '[OpenStreetMap] ผู้ใช้ %{commenter} แสดงความคิดเห็นต่อบันทึกที่ท่านสนใจ'
-        your_note: ผู้ใช้ %{commenter} ได้แสดงความคิดเห็นต่อบันทึกของท่านที่อยู่ใกล้กับ
+        your_note: ผู้ใช้ %{commenter} ได้แสดงความคิดเห็นต่อหมายเหตุของท่านซึ่งอยู่ใกล้กับ
           %{place}
-        commented_note: ผู้ใช้ %{commenter} ได้แสดงความคิดเห็นต่อบันทึกที่ท่านแสดงความเห็นก่อนหน้านี้
-          บันทึกนั้นอยู่ใกล้กับ %{place}
+        commented_note: ผู้ใช้ %{commenter} ได้แสดงความคิดเห็นต่อหมายเหตุที่ท่านแสดงความเห็นไว้ก่อนหน้านี้
+          โดยหมายเหตุนั้นแปะไว้ใกล้กับ %{place}
       closed:
         subject_own: '[OpenStreetMap] ผู้ใช้ %{commenter} ได้แก้ไขหรือสนองตอบต่อบันทึกของท่านหนึ่งฉบับแล้ว'
-        subject_other: '[OpenStreetMap] ผู้ใช้ %{commenter} ได้แก้ไขหรือสนองตอบต่อบันทึกที่ท่านสนใจ'
+        subject_other: '[OpenStreetMap] ผู้ใช้ %{commenter} ได้ทำการตอบสนองหมายเหตุที่ท่านสนใจ'
         your_note: ผู้ใช้ %{commenter} ได้แก้ไขหรือสนองตอบต่อบันทึกของท่านที่อยู่ใกล้กับ
           %{place}
-        commented_note: ผู้ใช้ %{commenter} ได้แก้ไขหรือสนองตอบต่อบันทึกที่ท่านแสดงความเห็นก่อนหน้านี้
-          บันทึกนั้นอยู่ใกล้กับ %{place}
+        commented_note: ผู้ใช้ %{commenter} ได้สนองตอบต่อหมายเหตุที่ท่านแสดงความเห็นไว้ก่อนหน้านี้
+          ซึ่งหมายเหตุนั้นแปะอยู่ใกล้กับ %{place}
       reopened:
         subject_own: '[OpenStreetMap] ผู้ใช้ %{commenter} ได้ขอรื้อฟื้นหรือเปิดใช้งานบันทึกของท่าน'
         subject_other: '[OpenStreetMap] ผู้ใช้ %{commenter} ได้ขอรื้อฟื้นหรือเปิดใช้งานบันทึกที่ท่านสนใจ'
         your_note: ผู้ใช้ %{commenter} ได้แก้ไขหรือสนองตอบต่อบันทึกของท่านที่อยู่ใกล้กับ
           %{place}
-        commented_note: ผู้ใช้ %{commenter} ได้แก้ไขหรือสนองตอบต่อบันทึกที่ท่านแสดงความเห็นก่อนหน้านี้
-          บันทึกนั้นอยู่ใกล้กับ %{place}
+        commented_note: ผู้ใช้ %{commenter} ได้รื้อฟื้นเรื่องในหมายเหตุที่ได้ท่านแสดงความเห็นไว้ก่อนหน้านี้
+          ซึ่งหมายเหตุนั้นแปะอยู่ใกล้กับ %{place}
       details: รายละเอียดเพิ่มเติมเกี่ยวกับบันทึกสามารถหาได้ที่ %{url}
     changeset_comment_notification:
       hi: เรียนคุณ %{to_user},
@@ -1126,6 +1143,7 @@ th:
       body: เนื้อหา
       send_button: ส่ง
       back_to_inbox: กลับไปที่กล่องจดหมายรับ
+    create:
       message_sent: ส่งข้อความแล้ว
       limit_exceeded: เมื่อไม่นานมานี้ท่านส่งข้อความออกไปจำนวนมาก โปรดรอสักครู่ก่อนส่งข้อความต่อไป
     no_such_message:
@@ -1532,7 +1550,7 @@ th:
       visibility_help: นี่หมายความว่าอะไร?
     trace_optionals:
       tags: ป้ายกำกับ
-    view:
+    show:
       title: แสดงรอยทางชื่อ %{name}
       heading: แสดงรอยทางชื่อ %{name}
       pending: ค้างอยู่
@@ -1547,8 +1565,8 @@ th:
       description: 'คำอธิบาย:'
       tags: 'ป้ายกำกับ:'
       none: ไม่มี
-      edit_track: แก้ไขรอยทางนี้
-      delete_track: ลบรอยทางนี้
+      edit_trace: แก้ไขรอยทางนี้
+      delete_trace: ลบรอยทางนี้
       trace_not_found: ไม่พบรอยทางนี้!
       visibility: 'สถานะการแสดง:'
     trace_paging_nav:
@@ -1571,8 +1589,9 @@ th:
       by: โดย
       in: ใน
       map: แผนที่
-    list:
+    index:
       public_traces: รอยทาง GPS สาธารณะ
+      my_traces: รอยทาง GPS ของฉัน
       public_traces_from: รอยทางจีพีเอสสาธารณะโดยผู้ใช้ %{user}
       description: ค้นหาการอัปโหลดรอยทางจีพีเอสล่าสุด
       tagged_with: ระบุด้วยป้าย %{tags}
@@ -1585,12 +1604,16 @@ th:
     description:
       description_with_count: แฟ้มข้อมูล GPX จำนวน %{count} จุด จากผู้ใช้ %{user}
       description_without_count: แฟ้มข้อมูล GPX จากผู้ใช้ %{user}
+  application:
+    require_cookies:
+      cookies_needed: ดูเหมือนว่าคุณปิดใช้งานคุกกี้อยู่, กรุณาเปิดใช้งานคุกกี้ในบราวเซอร์ของคุณก่อนจะดำเนินการต่อ
   oauth:
     authorize:
       title: อนุญาตการเข้าถึงบัญชีของคุณ
       allow_to: 'อนุญาตให้โปรแกรมสามารถ:'
       allow_read_prefs: อ่านการตั้งค่าผู้ใช้ของคุณ
       allow_write_prefs: แก้ไขการตั้งค่าผู้ใช้ของคุณ
+      allow_write_diary: เขียนบันทึก, แสดงความเห็น, และเพิ่มเพื่อน
       allow_write_api: แก้ไขแผนที่
       allow_read_gpx: อ่านรอยทาง GPS ของท่าน
       allow_write_gpx: อัปโหลดรอยทาง GPS
@@ -1669,7 +1692,7 @@ th:
       flash: ปรับปรุงข้อมูลฝั่งผู้ใช้เรียบร้อยแล้ว
     destroy:
       flash: ถอนการลงทะเบียนแอปพลิเคชันฝั่งผู้ใช้แล้ว
-  user:
+  users:
     login:
       title: ลงชื่อเข้าใช้
       heading: ลงชื่อเข้าใช้
@@ -1679,7 +1702,7 @@ th:
       remember: จดจำฉันไว้ในระบบ
       lost password link: ลืมรหัสผ่านหรือ?
       login_button: ลงชื่อเข้าใช้
-      register now: ลงทะเบียนก่อนเลย
+      register now: สมัครเลย!
       with username: มีบัญชี OpenStreetMap แล้วหรือยัง? ถ้ามีโปรดเข้าระบบด้วยชื่อผู้ใช้และรหัสผ่านที่ท่านมี
       with external: นอกจากนี้ ท่านสามารถใช้บัญชีผู้ใช้จากเว็บอื่นในการเข้าใช้งานได้
       new to osm: เพิ่งเริ่มใช้ OpenStreetMap หรือ?
@@ -1724,6 +1747,7 @@ th:
       heading: ลืมรหัสผ่านหรือ?
       email address: 'ที่อยู่อีเมล:'
       new password button: ตั้งรหัสผ่านใหม่
+      notice email cannot find: ขออภัย, ไม่พบที่อยู่อีเมลที่ระบุ
     reset_password:
       title: ตั้งรหัสผ่านใหม่
       heading: 'ตั้วรหัสผ่านใหม่สำหรับ: %{user}'
@@ -1769,7 +1793,7 @@ th:
       title: ไม่มีผู้ใช้ที่ระบุ
       heading: ไม่พบผู้ใช้ชื่อ %{user}
       deleted: ลบแล้ว
-    view:
+    show:
       my diary: บันทึกของฉัน
       new diary entry: สร้างบันทึกใหม่
       my edits: การแก้ไขของฉัน
@@ -1804,18 +1828,25 @@ th:
       user location: ตำแหน่งผู้ใช้
       if set location: เพื่อค้นหาผู้ใช้ที่อยู่ข้างเคียง ให้ตั้งค่าตำแหน่งบ้านในหน้า%{settings_link}
       settings_link_text: การตั้งค่า
+      my friends: รายการเพื่อน
       no friends: ท่านยังไม่ได้เพิ่มเพื่อนใด ๆ
       km away: ห่างออกไป %{count}km
       m away: ห่างออกไป %{count}m
       nearby users: ผู้ใช้ท่านอื่นที่ใกล้เคียง
       no nearby users: ไม่ได้มีผู้ใดแสดงตัวว่าทำแผนที่อยู่ใกล้เคียง
+      role:
+        administrator: คนนี้เป็นผู้ดูแลระบบ
       comments: ความเห็นที่เขียน
       create_block: กีดกันผู้ใช้นี้
       activate_user: เปิดใช้งานผู้ใช้นี้
       deactivate_user: ปิดใช้งานผู้ใช้นี้
       confirm: ยืนยัน
+      friends_diaries: บันทึกของเพื่อน
+      nearby_diaries: บันทึกของผู้ใช้ข้างเคียง
+      report: แจ้งปัญหาเกี่ยวกับผู้ใช้คนนี้
     popup:
       your location: ตำแหน่งของคุณ
+      nearby mapper: คนทำแผนที่ ที่อยู่ใกล้เคียง
       friend: เพื่อน
     account:
       title: แก้ไขบัญชี
@@ -1828,7 +1859,11 @@ th:
         link text: นี้คืออะไร?
       public editing:
         heading: 'แก้ไขโดยเปิดเผย:'
+        enabled: 'เปิดใช้: สามารถแก้ไขแผนที่ได้ แต่ทำโดยเปิดเผยนาม'
         enabled link text: นี้คืออะไร?
+        disabled: 'ปิดใช้: ไม่สามารถแก้ไขแผนที่ได้อีก, โดยการแก้ไขในอดีตจะยังคงความนิรนามไว้'
+      public editing note:
+        heading: แก้ไขโดยเปิดเผย
       contributor terms:
         link text: นี้คืออะไร?
       profile description: 'คำอธิบายหน้าประวัติส่วนตัว:'
@@ -1895,7 +1930,7 @@ th:
       not_a_friend: ผู้ใช้ %{name} ไม่ได้อยู่ในรายการเพื่อนของท่าน
     filter:
       not_an_administrator: ท่านต้องเป็นผู้ดูแลระบบจึงจะสามารกระทำสิ่งนี้ได้
-    list:
+    index:
       title: ผู้ใช้
       heading: ผู้ใช้
       showing:
@@ -1989,13 +2024,19 @@ th:
       title: การกีดกันผู้ใช้
       heading: รายการการกีดกันผู้ใช้
       empty: ยังไม่มีการกีดกันใด ๆ
+    revoke:
+      past: การบล็อกนี้ได้สิ้นสุดไปเมื่อ %{time}ก่อนแล้ว การยกเลิกจึงไม่มีผล
+      flash: ได้ยกเลิกการบล็อกนี้แล้ว
     helper:
       time_future: จะสิ้นสุดใน %{time}
+      time_past: สิ้นสุดไปเมื่อ %{time}ก่อน
     blocks_on:
       title: การกีดกันบน %{name}
       heading: รายการการกีดกันบน %{name}
       empty: '%{name} ยังไม่ได้ถูกกีดกัน'
     show:
+      time_past: สิ้นสุดไปเมื่อ %{time}ก่อน
+      ago: '%{time}ก่อน'
       status: สถานะ
       show: แสดง
       edit: แก้ไข
@@ -2004,14 +2045,23 @@ th:
       edit: แก้ไข
     blocks:
       status: สถานะ
+      showing_page: หน้า %{page}
       next: ถัดไป »
       previous: « ก่อนหน้า
   notes:
+    comment:
+      opened_at_html: สร้างเมื่อ %{when}ก่อน
+      commented_at_html: ปรับปรุงเมื่อ %{when}ก่อน
+      closed_at_html: ปิดเรื่องเมื่อ %{when}ก่อน
+      reopened_at_html: รื้อฟื้นเมื่อ %{when}ก่อน
     rss:
       title: หมายเหตุแผนที่ บน OpenStreetMap
     entry:
       comment: ความคิดเห็น
-      full: เนื้อความเต็มในหมายเตุ
+      full: เนื้อความเต็มในหมายเหตุ
+    mine:
+      heading: หมายเหตุของ %{user}
+      ago_html: '%{when}ก่อน'
   javascripts:
     close: ปิด
     share:
@@ -2027,6 +2077,7 @@ th:
       download: ดาวน์โหลด
       short_url: URL สั้น
       include_marker: แสดงไอคอนหมุด
+      center_marker: แสดงแผนที่โดยให้หมุดอยู่ตรงกลาง
     embed:
       report_problem: แจ้งปัญหา
     key:
@@ -2038,6 +2089,7 @@ th:
         out: ซูมออก
       locate:
         title: แสดงตำแหน่งของฉัน
+        popup: คุณอยู่ในระยะ {distance} {unit} จากจุดนี้
       base:
         standard: ปกติ
         cycle_map: แผนที่จักรยาน
@@ -2048,6 +2100,7 @@ th:
         notes: หมายเหตุแผนที่
         data: ข้อมูลแผนที่
         gps: รอยทาง GPS สาธารณะ
+        overlays: 'ซ้อนชั้นข้อมูลพิเศษเพื่อช่วยในการแก้ปัญหาแผนที่:'
         title: ชั้นแผนที่
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>บริจาค</a>
     site:
@@ -2069,6 +2122,7 @@ th:
       show:
         hide: ซ่อน
         resolve: ปิดเรื่อง
+        reactivate: รื้อฟื้นหมายเหตุ
         comment_and_resolve: แสดงความเห็น และปิดเรื่อง
         comment: แสดงความเห็น
     directions:
@@ -2084,6 +2138,8 @@ th:
       descend: ลาดลง
       directions: เส้นทาง
       distance: ระยะทาง
+      errors:
+        no_place: ขออภัย - ไม่พบสถานที่ "%{place}"
       instructions:
         continue_without_exit: เคลื่อนต่อไปทางถนน %{name}
         offramp_right_with_name: ใช้ทางลาดด้านขวาไปที่ถนน %{name}
@@ -2105,6 +2161,7 @@ th:
         start_without_exit: เริ่มที่ %{name}
         destination_without_exit: ตรงไปยังจุดหมาย
         roundabout_with_exit: ณ วงเวียน ใช้ทางออก %{exit} ไปที่ถนน %{name}
+        exit_roundabout: ออกจากวงเวียนไปทาง %{name}
         unnamed: ถนนไม่มีชื่อ
         courtesy: เอื้อเฟื้อเส้นทางโดย %{link}
         exit_counts:

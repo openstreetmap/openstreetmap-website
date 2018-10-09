@@ -29,11 +29,11 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       get "/login"
       follow_redirect!
       assert_response :success
-      assert_template "user/login"
+      assert_template "users/login"
       post "/login", :params => { :username => user.email, :password => "test", :referer => "/diary/new" }
       assert_response :redirect
       # but now we need to look at the terms
-      assert_redirected_to :controller => :user, :action => :terms, :referer => "/diary/new"
+      assert_redirected_to :controller => :users, :action => :terms, :referer => "/diary/new"
       follow_redirect!
       assert_response :success
 
@@ -56,18 +56,18 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       get "/login"
       follow_redirect!
       assert_response :success
-      assert_template "user/login"
+      assert_template "users/login"
       post "/login", :params => { :username => user.email, :password => "test", :referer => "/diary/new" }
       assert_response :redirect
       # but now we need to look at the terms
-      assert_redirected_to :controller => :user, :action => :terms, :referer => "/diary/new"
+      assert_redirected_to :controller => :users, :action => :terms, :referer => "/diary/new"
 
       # check that if we go somewhere else now, it redirects
       # back to the terms page.
       get "/traces/mine"
-      assert_redirected_to :controller => :user, :action => :terms, :referer => "/traces/mine"
+      assert_redirected_to :controller => :users, :action => :terms, :referer => "/traces/mine"
       get "/traces/mine", :params => { :referer => "/diary/new" }
-      assert_redirected_to :controller => :user, :action => :terms, :referer => "/diary/new"
+      assert_redirected_to :controller => :users, :action => :terms, :referer => "/diary/new"
     end
   end
 

@@ -4,35 +4,36 @@ class MessagesController < ApplicationController
   before_action :authorize_web
   before_action :set_locale
   before_action :require_user
-  before_action :lookup_user, :only => [:new]
+  before_action :lookup_user, :only => [:new, :create]
   before_action :check_database_readable
-  before_action :check_database_writable, :only => [:new, :reply, :mark, :destroy]
-  before_action :allow_thirdparty_images, :only => [:new, :show]
+  before_action :check_database_writable, :only => [:new, :create, :reply, :mark, :destroy]
+  before_action :allow_thirdparty_images, :only => [:new, :create, :show]
 
   # Allow the user to write a new message to another user. This action also
   # deals with the sending of that message to the other user when the user
   # clicks send.
   # The display_name param is the display name of the user that the message is being sent to.
   def new
-    if request.post?
-      if current_user.sent_messages.where("sent_on >= ?", Time.now.getutc - 1.hour).count >= MAX_MESSAGES_PER_HOUR
-        flash[:error] = t ".limit_exceeded"
-      else
-        @message = Message.new(message_params)
-        @message.recipient = @user
-        @message.sender = current_user
-        @message.sent_on = Time.now.getutc
-
-        if @message.save
-          flash[:notice] = t ".message_sent"
-          Notifier.message_notification(@message).deliver_now
-          redirect_to :action => :inbox
-        end
-      end
-    end
-
-    @message ||= Message.new(message_params.merge(:recipient => @user))
+    @message = Message.new(message_params.merge(:recipient => @user))
     @title = t ".title"
+  end
+
+  def create
+    @message = Message.new(message_params)
+    @message.recipient = @user
+    @message.sender = current_user
+    @message.sent_on = Time.now.getutc
+
+    if current_user.sent_messages.where("sent_on >= ?", Time.now.getutc - 1.hour).count >= MAX_MESSAGES_PER_HOUR
+      flash[:error] = t ".limit_exceeded"
+      render :action => "new"
+    elsif @message.save
+      flash[:notice] = t ".message_sent"
+      Notifier.message_notification(@message).deliver_now
+      redirect_to :action => :inbox
+    else
+      render :action => "new"
+    end
   end
 
   # Allow the user to reply to another message.
@@ -53,7 +54,7 @@ class MessagesController < ApplicationController
       render :action => "new"
     else
       flash[:notice] = t ".wrong_user", :user => current_user.display_name
-      redirect_to :controller => "user", :action => "login", :referer => request.fullpath
+      redirect_to :controller => "users", :action => "login", :referer => request.fullpath
     end
   rescue ActiveRecord::RecordNotFound
     @title = t "messages.no_such_message.title"
@@ -70,7 +71,7 @@ class MessagesController < ApplicationController
       @message.save
     else
       flash[:notice] = t ".wrong_user", :user => current_user.display_name
-      redirect_to :controller => "user", :action => "login", :referer => request.fullpath
+      redirect_to :controller => "users", :action => "login", :referer => request.fullpath
     end
   rescue ActiveRecord::RecordNotFound
     @title = t "messages.no_such_message.title"
@@ -109,7 +110,7 @@ class MessagesController < ApplicationController
 
   # Destroy the message.
   def destroy
-    @message = Message.where("to_user_id = ? OR from_user_id = ?", current_user.id, current_user.id).find(params[:message_id])
+    @message = Message.where("to_user_id = ? OR from_user_id = ?", current_user.id, current_user.id).find(params[:id])
     @message.from_user_visible = false if @message.sender == current_user
     @message.to_user_visible = false if @message.recipient == current_user
     if @message.save && !request.xhr?

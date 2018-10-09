@@ -187,12 +187,12 @@ $(document).ready(function () {
     $.cookie('_osm_location', OSM.locationCookie(map), { expires: expiry, path: '/' });
   });
 
-  if ($.cookie('_osm_welcome') === 'hide') {
-    $('.welcome').hide();
+  if ($.cookie('_osm_welcome') !== 'hide') {
+    $('.welcome').addClass('visible');
   }
 
   $('.welcome .close-wrap').on('click', function() {
-    $('.welcome').hide();
+    $('.welcome').removeClass('visible');
     $.cookie('_osm_welcome', 'hide', { expires: expiry, path: '/' });
   });
 

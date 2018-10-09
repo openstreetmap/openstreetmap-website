@@ -63,7 +63,7 @@
 
   <% unless current_user %>
     <div class="notice">
-      <%= link_to(t(".join_discussion"), :controller => 'user', :action => 'login', :referer => request.fullpath) %>
+      <%= link_to(t(".join_discussion"), :controller => 'users', :action => 'login', :referer => request.fullpath) %>
     </div>
   <% end %>
 
@@ -127,7 +127,7 @@
     <% end %>
     <%=
         user = (@prev_by_user || @next_by_user).user.display_name
-        link_to content_tag(:bdi, user), :controller => "changeset", :action => "list", :display_name => user
+        link_to content_tag(:bdi, user), :controller => "changeset", :action => "index", :display_name => user
     %>
     <% if @next_by_user %>
       &middot;

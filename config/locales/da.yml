@@ -5,6 +5,7 @@
 # Author: Christian List
 # Author: Ebbe
 # Author: Fenrisdk
+# Author: Fnielsen
 # Author: Freek
 # Author: Gnonthgol
 # Author: Gorbi
@@ -260,7 +261,7 @@ da:
       user: Bruger
       comment: Kommentar
       area: Område
-    list:
+    index:
       title: Ændringssæt
       title_user: Ændringssæt af %{user}
       title_friend: Ændringssæt af mine venner
@@ -286,7 +287,7 @@ da:
     new:
       title: Nyt blogindlæg
       publish_button: Offentliggør
-    list:
+    index:
       title: Brugerblogs
       title_friends: Venners blogs
       title_nearby: Blogs fra brugere i nærheden
@@ -309,7 +310,7 @@ da:
       use_map_link: brug kort
       save_button: Gem
       marker_text: Placering for blogindlæg
-    view:
+    show:
       title: '%{user}''s blog | %{title}'
       user_title: '%{user}''s blog'
       leave_a_comment: Tilføj en kommentar
@@ -966,19 +967,33 @@ da:
       search: Søg
       user_not_found: Brugeren findes ikke
       status: Status
+      reports: Rapporter
       last_updated: Sidst opdateret
+      link_to_reports: Vis rapporter
       states:
         ignored: Ignoréret
+        open: Åbn
+        resolved: Løst
     show:
+      resolve: Løs
       ignore: Ignorér
+      reopen: Genåbn
+      read_reports: Læs rapporter
+      new_reports: Nye rapporter
+    comments:
+      created_at: Den %{datetime}
+    reports:
+      updated_at: Den %{datetime}
   reports:
     new:
+      missing_params: Kan ikke oprette en ny rapport
       categories:
         diary_entry:
           other_label: Andet
         diary_comment:
           other_label: Andet
         user:
+          vandal_label: Denne bruger er en vandal
           other_label: Andet
         note:
           other_label: Andet
@@ -995,6 +1010,7 @@ da:
     edit: Redigér
     history: Historik
     export: Eksportér
+    issues: Problemer
     data: Data
     export_data: Eksporter data
     gps_traces: GPS-spor
@@ -1007,9 +1023,7 @@ da:
     intro_text: OpenStreetMap er et kort over verden, skabt af folk som dig og gratis
       at bruge under en åben licens.
     intro_2_create_account: Opret en brugerkonto
-    partners_html: Driften støttes af %{ucl}, %{ic}, %{bytemark} og andre %{partners}.
     partners_ucl: University College London
-    partners_ic: Imperial College London
     partners_bytemark: Bytemark Hosting
     partners_partners: partnere
     osm_offline: OpenStreetMap-databasen er for øjeblikket offline på grund af nødvendig
@@ -1174,6 +1188,7 @@ da:
       body: Brødtekst
       send_button: Send
       back_to_inbox: Tilbage til indbakke
+    create:
       message_sent: Besked sendt
       limit_exceeded: Du har sendt mange beskeder på det sidste. Vent venligst lidt
         før du forsøger at sende flere.
@@ -1710,7 +1725,7 @@ da:
       visibility_help: hvad betyder det her?
     trace_optionals:
       tags: Egenskaber
-    view:
+    show:
       title: Viser spor %{name}
       heading: Viser spor %{name}
       pending: VENTENDE
@@ -1725,8 +1740,8 @@ da:
       description: 'Beskrivelse:'
       tags: 'Egenskaber:'
       none: Ingen
-      edit_track: Redigér dette spor
-      delete_track: Slet dette spor
+      edit_trace: Redigér dette spor
+      delete_trace: Slet dette spor
       trace_not_found: Spor ikke fundet!
       visibility: 'Synlighed:'
       confirm_delete: Slet dette spor?
@@ -1750,7 +1765,7 @@ da:
       by: af
       in: i
       map: kort
-    list:
+    index:
       public_traces: Offentlige GPS-spor
       my_traces: Mine GPS-spor
       public_traces_from: Offentlige GPS-spor fra %{user}
@@ -1783,8 +1798,13 @@ da:
     require_cookies:
       cookies_needed: Du har tilsyneladende deaktiveret cookies i din browser. Aktivér
         cookies før du fortsætter.
+    require_admin:
+      not_an_admin: Du skal være administrator for at udføre denne handling.
     require_moderator:
       not_a_moderator: Du skal være moderator for at udføre denne handling.
+    require_moderator_or_admin:
+      not_a_moderator_or_admin: Du skal være moderator eller administrator for at
+        udføre denne handling.
     setup_user_auth:
       blocked_zero_hour: Du har en vigtig besked på OpenStreetMap-hjemmesiden. Du
         skal læse denne besked, før du kan gemme dine redigeringer.
@@ -1881,7 +1901,7 @@ da:
       flash: Opdateret klientoplysninger
     destroy:
       flash: Annulerede klient programmets registrering
-  user:
+  users:
     login:
       title: Log på
       heading: Log på
@@ -2016,7 +2036,7 @@ da:
       body: Der findes desværre ingen bruger ved navn %{user}. Tjek venligst stavningen,
         ellers kan linket du trykkede på være forkert.
       deleted: slettet
-    view:
+    show:
       my diary: Min blog
       new diary entry: nyt blogindlæg
       my edits: Mine redigeringer
@@ -2195,7 +2215,7 @@ da:
       not_a_friend: '%{name} er ikke en af dine venner.'
     filter:
       not_an_administrator: Du skal være administrator for at gøre dette.
-    list:
+    index:
       title: Brugere
       heading: Brugere
       showing:

@@ -64,10 +64,10 @@ OpenStreetMap::Application.routes.draw do
     get "relations/search" => "search#search_relations"
     get "nodes/search" => "search#search_nodes"
 
-    get "user/:id" => "user#api_read", :id => /\d+/
-    get "user/details" => "user#api_details"
-    get "user/gpx_files" => "user#api_gpx_files"
-    get "users" => "user#api_users", :as => :api_users
+    get "user/:id" => "users#api_read", :id => /\d+/
+    get "user/details" => "users#api_details"
+    get "user/gpx_files" => "users#api_gpx_files"
+    get "users" => "users#api_users", :as => :api_users
 
     get "user/preferences" => "user_preferences#read"
     get "user/preferences/:preference_key" => "user_preferences#read_one"
@@ -119,11 +119,11 @@ OpenStreetMap::Application.routes.draw do
   get "/changeset/:id/comments/feed" => "changeset#comments_feed", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
   get "/note/:id" => "browse#note", :id => /\d+/, :as => "browse_note"
   get "/note/new" => "browse#new_note"
-  get "/user/:display_name/history" => "changeset#list"
+  get "/user/:display_name/history" => "changeset#index"
   get "/user/:display_name/history/feed" => "changeset#feed", :defaults => { :format => :atom }
   get "/user/:display_name/notes" => "notes#mine"
-  get "/history/friends" => "changeset#list", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
-  get "/history/nearby" => "changeset#list", :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
+  get "/history/friends" => "changeset#index", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
+  get "/history/nearby" => "changeset#index", :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
 
   get "/browse/way/:id",                :to => redirect(:path => "/way/%{id}")
   get "/browse/way/:id/history",        :to => redirect(:path => "/way/%{id}/history")
@@ -150,37 +150,37 @@ OpenStreetMap::Application.routes.draw do
   get "/fixthemap" => "site#fixthemap"
   get "/help" => "site#help"
   get "/about" => "site#about"
-  get "/history" => "changeset#list"
+  get "/history" => "changeset#index"
   get "/history/feed" => "changeset#feed", :defaults => { :format => :atom }
   get "/history/comments/feed" => "changeset#comments_feed", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
   get "/export" => "site#export"
-  match "/login" => "user#login", :via => [:get, :post]
-  match "/logout" => "user#logout", :via => [:get, :post]
+  match "/login" => "users#login", :via => [:get, :post]
+  match "/logout" => "users#logout", :via => [:get, :post]
   get "/offline" => "site#offline"
   get "/key" => "site#key"
   get "/id" => "site#id"
   get "/query" => "browse#query"
-  get "/user/new" => "user#new"
-  post "/user/new" => "user#create"
-  get "/user/terms" => "user#terms"
-  post "/user/save" => "user#save"
-  get "/user/:display_name/confirm/resend" => "user#confirm_resend"
-  match "/user/:display_name/confirm" => "user#confirm", :via => [:get, :post]
-  match "/user/confirm" => "user#confirm", :via => [:get, :post]
-  match "/user/confirm-email" => "user#confirm_email", :via => [:get, :post]
-  post "/user/go_public" => "user#go_public"
-  match "/user/reset-password" => "user#reset_password", :via => [:get, :post]
-  match "/user/forgot-password" => "user#lost_password", :via => [:get, :post]
-  get "/user/suspended" => "user#suspended"
+  get "/user/new" => "users#new"
+  post "/user/new" => "users#create"
+  get "/user/terms" => "users#terms"
+  post "/user/save" => "users#save"
+  get "/user/:display_name/confirm/resend" => "users#confirm_resend"
+  match "/user/:display_name/confirm" => "users#confirm", :via => [:get, :post]
+  match "/user/confirm" => "users#confirm", :via => [:get, :post]
+  match "/user/confirm-email" => "users#confirm_email", :via => [:get, :post]
+  post "/user/go_public" => "users#go_public"
+  match "/user/reset-password" => "users#reset_password", :via => [:get, :post]
+  match "/user/forgot-password" => "users#lost_password", :via => [:get, :post]
+  get "/user/suspended" => "users#suspended"
 
   get "/index.html", :to => redirect(:path => "/")
   get "/create-account.html", :to => redirect(:path => "/user/new")
   get "/forgot-password.html", :to => redirect(:path => "/user/forgot-password")
 
   # omniauth
-  get "/auth/failure" => "user#auth_failure"
-  match "/auth/:provider/callback" => "user#auth_success", :via => [:get, :post], :as => :auth_success
-  match "/auth/:provider" => "user#auth", :via => [:get, :post], :as => :auth
+  get "/auth/failure" => "users#auth_failure"
+  match "/auth/:provider/callback" => "users#auth_success", :via => [:get, :post], :as => :auth_success
+  match "/auth/:provider" => "users#auth", :via => [:get, :post], :as => :auth
 
   # permalink
   get "/go/:code" => "site#permalink", :code => /[a-zA-Z0-9_@~]+[=-]*/
@@ -189,45 +189,43 @@ OpenStreetMap::Application.routes.draw do
   post "/preview/:type" => "site#preview", :as => :preview
 
   # traces
-  get "/user/:display_name/traces/tag/:tag/page/:page" => "traces#list", :page => /[1-9][0-9]*/
-  get "/user/:display_name/traces/tag/:tag" => "traces#list"
-  get "/user/:display_name/traces/page/:page" => "traces#list", :page => /[1-9][0-9]*/
-  get "/user/:display_name/traces" => "traces#list"
+  resources :traces, :except => [:show]
+  get "/user/:display_name/traces/tag/:tag/page/:page" => "traces#index", :page => /[1-9][0-9]*/
+  get "/user/:display_name/traces/tag/:tag" => "traces#index"
+  get "/user/:display_name/traces/page/:page" => "traces#index", :page => /[1-9][0-9]*/
+  get "/user/:display_name/traces" => "traces#index"
   get "/user/:display_name/traces/tag/:tag/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/user/:display_name/traces/rss" => "traces#georss", :defaults => { :format => :rss }
-  get "/user/:display_name/traces/:id" => "traces#view"
+  get "/user/:display_name/traces/:id" => "traces#show"
   get "/user/:display_name/traces/:id/picture" => "traces#picture"
   get "/user/:display_name/traces/:id/icon" => "traces#icon"
-  get "/traces/tag/:tag/page/:page" => "traces#list", :page => /[1-9][0-9]*/
-  get "/traces/tag/:tag" => "traces#list"
-  get "/traces/page/:page" => "traces#list", :page => /[1-9][0-9]*/
-  get "/traces" => "traces#list"
+  get "/traces/tag/:tag/page/:page" => "traces#index", :page => /[1-9][0-9]*/
+  get "/traces/tag/:tag" => "traces#index"
+  get "/traces/page/:page" => "traces#index", :page => /[1-9][0-9]*/
   get "/traces/tag/:tag/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/traces/rss" => "traces#georss", :defaults => { :format => :rss }
   get "/traces/mine/tag/:tag/page/:page" => "traces#mine", :page => /[1-9][0-9]*/
   get "/traces/mine/tag/:tag" => "traces#mine"
   get "/traces/mine/page/:page" => "traces#mine"
   get "/traces/mine" => "traces#mine"
-  resources :traces, :only => [:new, :create]
-  post "/trace/create" => "traces#create" # remove after deployment
   get "/trace/create", :to => redirect(:path => "/traces/new")
   get "/trace/:id/data" => "traces#data", :id => /\d+/, :as => "trace_data"
-  match "/trace/:id/edit" => "traces#edit", :via => [:get, :post], :id => /\d+/, :as => "trace_edit"
+  get "/trace/:id/edit", :to => redirect(:path => "/traces/%{id}/edit")
   post "/trace/:id/delete" => "traces#delete", :id => /\d+/
 
   # diary pages
   match "/diary/new" => "diary_entry#new", :via => [:get, :post]
-  get "/diary/friends" => "diary_entry#list", :friends => true, :as => "friend_diaries"
-  get "/diary/nearby" => "diary_entry#list", :nearby => true, :as => "nearby_diaries"
+  get "/diary/friends" => "diary_entry#index", :friends => true, :as => "friend_diaries"
+  get "/diary/nearby" => "diary_entry#index", :nearby => true, :as => "nearby_diaries"
   get "/user/:display_name/diary/rss" => "diary_entry#rss", :defaults => { :format => :rss }
   get "/diary/:language/rss" => "diary_entry#rss", :defaults => { :format => :rss }
   get "/diary/rss" => "diary_entry#rss", :defaults => { :format => :rss }
   get "/user/:display_name/diary/comments/:page" => "diary_entry#comments", :page => /[1-9][0-9]*/
   get "/user/:display_name/diary/comments/" => "diary_entry#comments"
-  get "/user/:display_name/diary" => "diary_entry#list"
-  get "/diary/:language" => "diary_entry#list"
-  get "/diary" => "diary_entry#list"
-  get "/user/:display_name/diary/:id" => "diary_entry#view", :id => /\d+/, :as => :diary_entry
+  get "/user/:display_name/diary" => "diary_entry#index"
+  get "/diary/:language" => "diary_entry#index"
+  get "/diary" => "diary_entry#index"
+  get "/user/:display_name/diary/:id" => "diary_entry#show", :id => /\d+/, :as => :diary_entry
   post "/user/:display_name/diary/:id/newcomment" => "diary_entry#comment", :id => /\d+/
   match "/user/:display_name/diary/:id/edit" => "diary_entry#edit", :via => [:get, :post], :id => /\d+/
   post "/user/:display_name/diary/:id/hide" => "diary_entry#hide", :id => /\d+/, :as => :hide_diary_entry
@@ -236,16 +234,16 @@ OpenStreetMap::Application.routes.draw do
   post "/user/:display_name/diary/:id/unsubscribe" => "diary_entry#unsubscribe", :as => :diary_entry_unsubscribe, :id => /\d+/
 
   # user pages
-  get "/user/:display_name" => "user#view", :as => "user"
-  match "/user/:display_name/make_friend" => "user#make_friend", :via => [:get, :post], :as => "make_friend"
-  match "/user/:display_name/remove_friend" => "user#remove_friend", :via => [:get, :post], :as => "remove_friend"
-  match "/user/:display_name/account" => "user#account", :via => [:get, :post]
-  get "/user/:display_name/set_status" => "user#set_status", :as => :set_status_user
-  get "/user/:display_name/delete" => "user#delete", :as => :delete_user
+  get "/user/:display_name" => "users#show", :as => "user"
+  match "/user/:display_name/make_friend" => "users#make_friend", :via => [:get, :post], :as => "make_friend"
+  match "/user/:display_name/remove_friend" => "users#remove_friend", :via => [:get, :post], :as => "remove_friend"
+  match "/user/:display_name/account" => "users#account", :via => [:get, :post]
+  get "/user/:display_name/set_status" => "users#set_status", :as => :set_status_user
+  get "/user/:display_name/delete" => "users#delete", :as => :delete_user
 
   # user lists
-  match "/users" => "user#list", :via => [:get, :post]
-  match "/users/:status" => "user#list", :via => [:get, :post]
+  match "/users" => "users#index", :via => [:get, :post]
+  match "/users/:status" => "users#index", :via => [:get, :post]
 
   # geocoder
   get "/search" => "geocoder#search"
@@ -264,7 +262,9 @@ OpenStreetMap::Application.routes.draw do
   get "/export/embed" => "export#embed"
 
   # messages
-  resources :messages, :only => [:show] do
+  resources :messages, :only => [:create, :show, :destroy] do
+    post :mark
+    match :reply, :via => [:get, :post]
     collection do
       get :inbox
       get :outbox
@@ -272,11 +272,8 @@ OpenStreetMap::Application.routes.draw do
   end
   get "/user/:display_name/inbox", :to => redirect(:path => "/messages/inbox")
   get "/user/:display_name/outbox", :to => redirect(:path => "/messages/outbox")
-  match "/message/new/:display_name" => "messages#new", :via => [:get, :post], :as => "new_message"
+  get "/message/new/:display_name" => "messages#new", :as => "new_message"
   get "/message/read/:message_id", :to => redirect(:path => "/messages/%{message_id}")
-  post "/message/mark/:message_id" => "messages#mark", :as => "mark_message"
-  match "/message/reply/:message_id" => "messages#reply", :via => [:get, :post], :as => "reply_message"
-  post "/message/delete/:message_id" => "messages#destroy", :as => "destroy_message"
 
   # oauth admin pages (i.e: for setting up new clients, etc...)
   scope "/user/:display_name" do

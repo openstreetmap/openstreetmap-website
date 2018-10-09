@@ -9,17 +9,17 @@ class ClientApplicationsTest < ActionDispatch::IntegrationTest
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to "controller" => "users", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
     post "/login", :params => { "username" => user.email, "password" => "test", :referer => "/user/#{ERB::Util.u(user.display_name)}" }
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "user/view"
+    assert_template "users/show"
     get "/user/#{ERB::Util.u(user.display_name)}/account"
     assert_response :success
-    assert_template "user/account"
+    assert_template "users/account"
 
     # check that the form to allow new client application creations exists
     assert_in_heading do

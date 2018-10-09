@@ -11,7 +11,7 @@
   <% @comments.each do |comment| -%>
   <% cl = cycle('table0', 'table1') %>
   <tr class="<%= cl %>">
-    <td width="25%"><%= link_to comment.diary_entry.title, :action => :view, :display_name => comment.diary_entry.user.display_name, :id => comment.diary_entry.id %></td>
+    <td width="25%"><%= link_to comment.diary_entry.title, diary_entry_path(comment.diary_entry.user, comment.diary_entry) %></td>
     <td width="25%"><span title="<%= l comment.created_at, :format => :friendly %>"><%= t '.ago', :ago => time_ago_in_words(comment.created_at) %></span></td>
     <td width="50%" class="richtext"><%= comment.body.to_html %></td>
   </tr>

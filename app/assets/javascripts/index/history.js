@@ -97,9 +97,25 @@ OSM.History = function(map) {
     $("[data-changeset]").each(function () {
       var changeset = $(this).data('changeset');
       if (changeset.bbox) {
-        changeset.bounds = L.latLngBounds(
-          [changeset.bbox.minlat, changeset.bbox.minlon],
-          [changeset.bbox.maxlat, changeset.bbox.maxlon]);
+        var latWidth = changeset.bbox.maxlat - changeset.bbox.minlat,
+            lonWidth = changeset.bbox.maxlon - changeset.bbox.minlon,
+            minLatWidth = 0.0004,
+            minLonWidth = 0.0008;
+
+        var bounds = [[changeset.bbox.minlat, changeset.bbox.minlon],
+                      [changeset.bbox.maxlat, changeset.bbox.maxlon]];
+
+        if (latWidth < minLatWidth) {
+          bounds[0][0] -= ((minLatWidth - latWidth) / 2);
+          bounds[1][0] += ((minLatWidth - latWidth) / 2);
+        }
+
+        if (lonWidth < minLonWidth) {
+          bounds[0][1] -= ((minLonWidth - lonWidth) / 2);
+          bounds[1][1] += ((minLonWidth - lonWidth) / 2);
+        }
+
+        changeset.bounds = L.latLngBounds(bounds);
         changesets.push(changeset);
       }
     });

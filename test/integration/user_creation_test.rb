@@ -27,7 +27,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
       get "/user/new", :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
       follow_redirect!
       assert_response :success
-      assert_template "user/new"
+      assert_template "users/new"
     end
   end
 
@@ -43,7 +43,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         end
       end
       assert_response :success
-      assert_template "user/new"
+      assert_template "users/new"
       assert_equal locale.to_s, response.headers["Content-Language"] unless locale == :root
       assert_select "form > fieldset > div.form-row > input.field_with_errors#user_email"
       assert_no_missing_translations
@@ -62,7 +62,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         end
       end
       assert_response :success
-      assert_template "user/new"
+      assert_template "users/new"
       assert_select "form > fieldset > div.form-row > input.field_with_errors#user_display_name"
       assert_no_missing_translations
     end
@@ -95,11 +95,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
       assert_equal register_email.to.first, new_email
       # Check that the confirm account url is correct
-      assert_match /#{@url}/, register_email.body.to_s
+      assert_match(/#{@url}/, register_email.body.to_s)
 
       # Check the page
       assert_response :success
-      assert_template "user/confirm"
+      assert_template "users/confirm"
 
       ActionMailer::Base.deliveries.clear
     end
@@ -144,14 +144,14 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :confirm_string => confirm_string }
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     post "/user/#{display_name}/confirm", :params => { :confirm_string => confirm_string }
     assert_response :redirect
@@ -187,7 +187,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     ActionMailer::Base.deliveries.clear
   end
@@ -213,7 +213,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         assert_response :redirect
         follow_redirect!
         assert_response :success
-        assert_template "user/new"
+        assert_template "users/new"
       end
     end
 
@@ -258,14 +258,14 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :confirm_string => confirm_string }
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     post "/user/#{display_name}/confirm", :params => { :confirm_string => confirm_string }
     assert_response :redirect
@@ -303,7 +303,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     ActionMailer::Base.deliveries.clear
   end
@@ -329,7 +329,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         assert_response :redirect
         follow_redirect!
         assert_response :success
-        assert_template "user/new"
+        assert_template "users/new"
       end
     end
 
@@ -376,14 +376,14 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :confirm_string => confirm_string }
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     post "/user/#{display_name}/confirm", :params => { :confirm_string => confirm_string }
     assert_response :redirect
@@ -419,7 +419,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     ActionMailer::Base.deliveries.clear
   end
@@ -445,7 +445,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         assert_response :redirect
         follow_redirect!
         assert_response :success
-        assert_template "user/new"
+        assert_template "users/new"
       end
     end
 
@@ -490,14 +490,14 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :confirm_string => confirm_string }
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     post "/user/#{display_name}/confirm", :params => { :confirm_string => confirm_string }
     assert_response :redirect
@@ -533,7 +533,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     ActionMailer::Base.deliveries.clear
   end
@@ -559,7 +559,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         assert_response :redirect
         follow_redirect!
         assert_response :success
-        assert_template "user/new"
+        assert_template "users/new"
       end
     end
 
@@ -604,14 +604,14 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :confirm_string => confirm_string }
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     post "/user/#{display_name}/confirm", :params => { :confirm_string => confirm_string }
     assert_response :redirect
@@ -647,7 +647,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     ActionMailer::Base.deliveries.clear
   end
@@ -673,7 +673,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         assert_response :redirect
         follow_redirect!
         assert_response :success
-        assert_template "user/new"
+        assert_template "users/new"
       end
     end
 
@@ -718,14 +718,14 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :confirm_string => confirm_string }
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     post "/user/#{display_name}/confirm", :params => { :confirm_string => confirm_string }
     assert_response :redirect
@@ -761,7 +761,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     ActionMailer::Base.deliveries.clear
   end
@@ -787,7 +787,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         assert_response :redirect
         follow_redirect!
         assert_response :success
-        assert_template "user/new"
+        assert_template "users/new"
       end
     end
 
@@ -832,14 +832,14 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
     get "/user/#{display_name}/confirm", :params => { :confirm_string => confirm_string }
     assert_response :success
-    assert_template "user/confirm"
+    assert_template "users/confirm"
 
     post "/user/#{display_name}/confirm", :params => { :confirm_string => confirm_string }
     assert_response :redirect

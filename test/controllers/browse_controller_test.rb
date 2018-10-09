@@ -68,8 +68,10 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_read_changeset
+    user = create(:user)
     private_changeset = create(:changeset, :user => create(:user, :data_public => false))
-    changeset = create(:changeset)
+    changeset = create(:changeset, :user => user)
+    create(:changeset, :user => user)
     browse_check "changeset", private_changeset.id, "browse/changeset"
     browse_check "changeset", changeset.id, "browse/changeset"
   end
@@ -124,6 +126,21 @@ class BrowseControllerTest < ActionController::TestCase
 
     browse_check "note", note_with_hidden_comment.id, "browse/note"
     assert_select "div.note-comments ul li", :count => 2
+  end
+
+  def test_read_note_hidden_user_comment
+    hidden_user = create(:user, :status => "deleted")
+    note_with_hidden_user_comment = create(:note_with_comments, :comments_count => 2) do |note|
+      create(:note_comment, :note => note, :author => hidden_user)
+    end
+
+    browse_check "note", note_with_hidden_user_comment.id, "browse/note"
+    assert_select "div.note-comments ul li", :count => 1
+
+    session[:user] = create(:moderator_user).id
+
+    browse_check "note", note_with_hidden_user_comment.id, "browse/note"
+    assert_select "div.note-comments ul li", :count => 1
   end
 
   ##

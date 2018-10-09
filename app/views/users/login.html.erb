@@ -1,0 +1,88 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "login" %>
+<% end %>
+
+<% content_for :heading do %>
+  <h1><%= t '.heading' %></h1>
+<% end %>
+
+<div id="login_login">
+  <%= form_tag({ :action => "login" }, { :id => "login_form" }) do %>
+    <%= hidden_field_tag('referer', h(params[:referer])) %>
+
+    <p class='deemphasize'><%= t '.no account' %> <%= link_to t('.register now'), :action => :new, :referer => params[:referer] %></p>
+
+    <div id="loginForm" class="standard-form">
+
+      <fieldset>
+        <div class="form-row">
+          <label for="username" class="standard-label">
+            <%= t '.email or username' %>
+          </label>
+          <%= text_field_tag "username", params[:username], :tabindex => 1 %>
+        </div>
+        <div class="form-row">
+          <label for="password" class="standard-label">
+            <%= t '.password' %>
+          </label>
+          <%= password_field_tag "password", "", :tabindex => 2 %>
+        </div>
+        <span class="form-help deemphasize">
+          <%= link_to t('.lost password link'), :controller => 'users', :action => 'lost_password' %>
+        </span>
+      </fieldset>
+
+      <fieldset>
+        <%= check_box_tag "remember_me", "yes", params[:remember_me] == "yes", :tabindex => 3 %>
+        <label for="remember_me" class="standard-label">
+          <%= t '.remember' %>
+        </label>
+        <%= submit_tag t('.login_button'), :tabindex => 4 %>
+      </fieldset>
+
+      <fieldset class='form-divider'>
+
+        <p class='standard-label'><%= t '.with external' %></p>
+
+        <ul class='clearfix' id="login_auth_buttons">
+          <li><%= link_to image_tag("openid.png", :alt => t(".auth_providers.openid.title")), "#", :id => "openid_open_url", :title => t(".auth_providers.openid.title") %></li>
+          <% if defined?(GOOGLE_AUTH_ID) -%>
+          <li><%= auth_button "google", "google" %></li>
+          <% end -%>
+          <% if defined?(FACEBOOK_AUTH_ID) -%>
+          <li><%= auth_button "facebook", "facebook" %></li>
+          <% end -%>
+          <% if defined?(WINDOWSLIVE_AUTH_ID) -%>
+          <li><%= auth_button "windowslive", "windowslive" %></li>
+          <% end -%>
+          <% if defined?(GITHUB_AUTH_ID) -%>
+          <li><%= auth_button "github", "github" %></li>
+          <% end -%>
+          <% if defined?(WIKIPEDIA_AUTH_ID) -%>
+          <li><%= auth_button "wikipedia", "wikipedia" %></li>
+          <% end -%>
+          <li><%= auth_button "yahoo", "openid", :openid_url => "yahoo.com" %></li>
+          <li><%= auth_button "wordpress", "openid", :openid_url => "wordpress.com" %></li>
+          <li><%= auth_button "aol", "openid", :openid_url => "aol.com" %></li>
+        </ul>
+
+        <div id='login_openid_url' class='form-row'>
+          <label for='openid_url' class="standard-label"><%= raw t '.openid', :logo => openid_logo %></label>
+          <%= text_field_tag("openid_url", "", { :tabindex => 3, :class => "openid_url" }) %>
+          <span class="minorNote">(<a href="<%= t 'users.account.openid.link' %>" target="_new"><%= t 'users.account.openid.link text' %></a>)</span>
+        </div>
+
+        <div class='form-row'>
+          <%= check_box_tag "remember_me_openid", "yes", false, :tabindex => 5 %>
+          <label class="standard-label" for="remember_me_openid"><%= t '.remember' %></label>
+        </div>
+
+        <%= submit_tag t('.login_button'), :tabindex => 6, :id => "login_openid_submit" %>
+
+      </fieldset>
+
+    </div>
+
+  <% end %>
+
+</div>

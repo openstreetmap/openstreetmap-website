@@ -8,7 +8,7 @@ class Notifier < ActionMailer::Base
 
   def signup_confirm(user, token)
     with_recipient_locale user do
-      @url = url_for(:controller => "user", :action => "confirm",
+      @url = url_for(:controller => "users", :action => "confirm",
                      :display_name => user.display_name,
                      :confirm_string => token.token)
 
@@ -20,7 +20,7 @@ class Notifier < ActionMailer::Base
   def email_confirm(user, token)
     with_recipient_locale user do
       @address = user.new_email
-      @url = url_for(:controller => "user", :action => "confirm_email",
+      @url = url_for(:controller => "users", :action => "confirm_email",
                      :confirm_string => token.token)
 
       mail :to => user.new_email,
@@ -30,7 +30,7 @@ class Notifier < ActionMailer::Base
 
   def lost_password(user, token)
     with_recipient_locale user do
-      @url = url_for(:controller => "user", :action => "reset_password",
+      @url = url_for(:controller => "users", :action => "reset_password",
                      :token => token.token)
 
       mail :to => user.email,
@@ -70,7 +70,7 @@ class Notifier < ActionMailer::Base
       @text = message.body
       @title = message.title
       @readurl = message_url(message)
-      @replyurl = reply_message_url(message)
+      @replyurl = message_reply_url(message)
       @author = @from_user
 
       attach_user_avatar(message.sender)
@@ -87,16 +87,8 @@ class Notifier < ActionMailer::Base
       @from_user = comment.user.display_name
       @text = comment.body
       @title = comment.diary_entry.title
-      @readurl = url_for(:controller => "diary_entry",
-                         :action => "view",
-                         :display_name => comment.diary_entry.user.display_name,
-                         :id => comment.diary_entry.id,
-                         :anchor => "comment#{comment.id}")
-      @commenturl = url_for(:controller => "diary_entry",
-                            :action => "view",
-                            :display_name => comment.diary_entry.user.display_name,
-                            :id => comment.diary_entry.id,
-                            :anchor => "newcomment")
+      @readurl = diary_entry_url(comment.diary_entry.user, comment.diary_entry, :anchor => "comment#{comment.id}")
+      @commenturl = diary_entry_url(comment.diary_entry.user, comment.diary_entry, :anchor => "newcomment")
       @replyurl = new_message_url(comment.user, :message => { :title => "Re: #{comment.diary_entry.title}" })
 
       @author = @from_user
@@ -112,9 +104,8 @@ class Notifier < ActionMailer::Base
   def friend_notification(friend)
     with_recipient_locale friend.befriendee do
       @friend = friend
-      @viewurl = url_for(:controller => "user", :action => "view",
-                         :display_name => @friend.befriender.display_name)
-      @friendurl = url_for(:controller => "user", :action => "make_friend",
+      @viewurl = user_url(@friend.befriender)
+      @friendurl = url_for(:controller => "users", :action => "make_friend",
                            :display_name => @friend.befriender.display_name)
       @author = @friend.befriender.display_name
 
@@ -190,8 +181,8 @@ class Notifier < ActionMailer::Base
   end
 
   def user_avatar_file_path(user)
-    image = user && user.image
-    if image && image.file?
+    image = user&.image
+    if image&.file?
       return image.path(:small)
     else
       return Rails.root.join("app", "assets", "images", "users", "images", "small.png")

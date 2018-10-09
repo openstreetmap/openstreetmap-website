@@ -5,6 +5,6 @@ FactoryBot.define do
     association :reported_user, :factory => :user
 
     # Default to assigning to an administrator
-    assigned_role "administrator"
+    assigned_role { "administrator" }
   end
 end

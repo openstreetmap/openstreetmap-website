@@ -63,7 +63,7 @@ class ChangesetControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/user/name/history", :method => :get },
-      { :controller => "changeset", :action => "list", :display_name => "name" }
+      { :controller => "changeset", :action => "index", :display_name => "name" }
     )
     assert_routing(
       { :path => "/user/name/history/feed", :method => :get },
@@ -71,15 +71,15 @@ class ChangesetControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/history/friends", :method => :get },
-      { :controller => "changeset", :action => "list", :friends => true, :format => :html }
+      { :controller => "changeset", :action => "index", :friends => true, :format => :html }
     )
     assert_routing(
       { :path => "/history/nearby", :method => :get },
-      { :controller => "changeset", :action => "list", :nearby => true, :format => :html }
+      { :controller => "changeset", :action => "index", :nearby => true, :format => :html }
     )
     assert_routing(
       { :path => "/history", :method => :get },
-      { :controller => "changeset", :action => "list" }
+      { :controller => "changeset", :action => "index" }
     )
     assert_routing(
       { :path => "/history/feed", :method => :get },
@@ -213,7 +213,7 @@ class ChangesetControllerTest < ActionController::TestCase
         get :read, :params => { :id => id }
         assert_response :not_found, "should get a not found"
       rescue ActionController::UrlGenerationError => ex
-        assert_match /No route matches/, ex.to_s
+        assert_match(/No route matches/, ex.to_s)
       end
     end
   end
@@ -287,7 +287,7 @@ class ChangesetControllerTest < ActionController::TestCase
         put :close, :params => { :id => id }
         assert_response :unauthorized, "Shouldn't be able close the non-existant changeset #{id}, when not authorized"
       rescue ActionController::UrlGenerationError => ex
-        assert_match /No route matches/, ex.to_s
+        assert_match(/No route matches/, ex.to_s)
       end
     end
 
@@ -298,7 +298,7 @@ class ChangesetControllerTest < ActionController::TestCase
         put :close, :params => { :id => id }
         assert_response :not_found, "The changeset #{id} doesn't exist, so can't be closed"
       rescue ActionController::UrlGenerationError => ex
-        assert_match /No route matches/, ex.to_s
+        assert_match(/No route matches/, ex.to_s)
       end
     end
   end
@@ -469,9 +469,9 @@ CHANGESET
     new_rel_id = doc.find("//diffResult/relation").first["new_id"].to_i
 
     # check the old IDs are all present and negative one
-    assert_equal -1, doc.find("//diffResult/node").first["old_id"].to_i
-    assert_equal -1, doc.find("//diffResult/way").first["old_id"].to_i
-    assert_equal -1, doc.find("//diffResult/relation").first["old_id"].to_i
+    assert_equal(-1, doc.find("//diffResult/node").first["old_id"].to_i)
+    assert_equal(-1, doc.find("//diffResult/way").first["old_id"].to_i)
+    assert_equal(-1, doc.find("//diffResult/relation").first["old_id"].to_i)
 
     # check the versions are present and equal one
     assert_equal 1, doc.find("//diffResult/node").first["new_version"].to_i
@@ -1882,173 +1882,173 @@ CHANGESET
 
   ##
   # This should display the last 20 changesets closed
-  def test_list
-    get :list, :params => { :format => "html" }
+  def test_index
+    get :index, :params => { :format => "html" }
     assert_response :success
     assert_template "history"
     assert_template :layout => "map"
     assert_select "h2", :text => "Changesets", :count => 1
 
-    get :list, :params => { :format => "html", :list => "1" }, :xhr => true
+    get :index, :params => { :format => "html", :list => "1" }, :xhr => true
     assert_response :success
-    assert_template "list"
+    assert_template "index"
 
-    check_list_result(Changeset.all)
+    check_index_result(Changeset.all)
   end
 
   ##
   # This should display the last 20 changesets closed
-  def test_list_xhr
-    get :list, :params => { :format => "html" }, :xhr => true
+  def test_index_xhr
+    get :index, :params => { :format => "html" }, :xhr => true
     assert_response :success
     assert_template "history"
     assert_template :layout => "xhr"
     assert_select "h2", :text => "Changesets", :count => 1
 
-    get :list, :params => { :format => "html", :list => "1" }, :xhr => true
+    get :index, :params => { :format => "html", :list => "1" }, :xhr => true
     assert_response :success
-    assert_template "list"
+    assert_template "index"
 
-    check_list_result(Changeset.all)
+    check_index_result(Changeset.all)
   end
 
   ##
   # This should display the last 20 changesets closed in a specific area
-  def test_list_bbox
-    get :list, :params => { :format => "html", :bbox => "4.5,4.5,5.5,5.5" }
+  def test_index_bbox
+    get :index, :params => { :format => "html", :bbox => "4.5,4.5,5.5,5.5" }
     assert_response :success
     assert_template "history"
     assert_template :layout => "map"
     assert_select "h2", :text => "Changesets", :count => 1
 
-    get :list, :params => { :format => "html", :bbox => "4.5,4.5,5.5,5.5", :list => "1" }, :xhr => true
+    get :index, :params => { :format => "html", :bbox => "4.5,4.5,5.5,5.5", :list => "1" }, :xhr => true
     assert_response :success
-    assert_template "list"
+    assert_template "index"
 
-    check_list_result(Changeset.where("min_lon < 55000000 and max_lon > 45000000 and min_lat < 55000000 and max_lat > 45000000"))
+    check_index_result(Changeset.where("min_lon < 55000000 and max_lon > 45000000 and min_lat < 55000000 and max_lat > 45000000"))
   end
 
   ##
   # Checks the display of the user changesets listing
-  def test_list_user
+  def test_index_user
     user = create(:user)
     create(:changeset, :user => user)
     create(:changeset, :closed, :user => user)
 
-    get :list, :params => { :format => "html", :display_name => user.display_name }
+    get :index, :params => { :format => "html", :display_name => user.display_name }
     assert_response :success
     assert_template "history"
 
-    get :list, :params => { :format => "html", :display_name => user.display_name, :list => "1" }, :xhr => true
+    get :index, :params => { :format => "html", :display_name => user.display_name, :list => "1" }, :xhr => true
     assert_response :success
-    assert_template "list"
+    assert_template "index"
 
-    check_list_result(user.changesets)
+    check_index_result(user.changesets)
   end
 
   ##
   # Checks the display of the user changesets listing for a private user
-  def test_list_private_user
+  def test_index_private_user
     private_user = create(:user, :data_public => false)
     create(:changeset, :user => private_user)
     create(:changeset, :closed, :user => private_user)
 
-    get :list, :params => { :format => "html", :display_name => private_user.display_name }
+    get :index, :params => { :format => "html", :display_name => private_user.display_name }
     assert_response :success
     assert_template "history"
 
-    get :list, :params => { :format => "html", :display_name => private_user.display_name, :list => "1" }, :xhr => true
+    get :index, :params => { :format => "html", :display_name => private_user.display_name, :list => "1" }, :xhr => true
     assert_response :success
-    assert_template "list"
+    assert_template "index"
 
-    check_list_result(Changeset.none)
+    check_index_result(Changeset.none)
   end
 
   ##
-  # Check the not found of the list user changesets
-  def test_list_user_not_found
-    get :list, :params => { :format => "html", :display_name => "Some random user" }
+  # Check the not found of the index user changesets
+  def test_index_user_not_found
+    get :index, :params => { :format => "html", :display_name => "Some random user" }
     assert_response :not_found
-    assert_template "user/no_such_user"
+    assert_template "users/no_such_user"
 
-    get :list, :params => { :format => "html", :display_name => "Some random user", :list => "1" }, :xhr => true
+    get :index, :params => { :format => "html", :display_name => "Some random user", :list => "1" }, :xhr => true
     assert_response :not_found
-    assert_template "user/no_such_user"
+    assert_template "users/no_such_user"
   end
 
   ##
   # Checks the display of the friends changesets listing
-  def test_list_friends
+  def test_index_friends
     private_user = create(:user, :data_public => true)
     friend = create(:friend, :befriender => private_user)
     create(:changeset, :user => friend.befriendee)
 
-    get :list, :params => { :friends => true }
+    get :index, :params => { :friends => true }
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => friend_changesets_path
+    assert_redirected_to :controller => :users, :action => :login, :referer => friend_changesets_path
 
     session[:user] = private_user.id
 
-    get :list, :params => { :friends => true }
+    get :index, :params => { :friends => true }
     assert_response :success
     assert_template "history"
 
-    get :list, :params => { :friends => true, :list => "1" }, :xhr => true
+    get :index, :params => { :friends => true, :list => "1" }, :xhr => true
     assert_response :success
-    assert_template "list"
+    assert_template "index"
 
-    check_list_result(Changeset.where(:user => private_user.friend_users.identifiable))
+    check_index_result(Changeset.where(:user => private_user.friend_users.identifiable))
   end
 
   ##
   # Checks the display of the nearby user changesets listing
-  def test_list_nearby
+  def test_index_nearby
     private_user = create(:user, :data_public => false, :home_lat => 51.1, :home_lon => 1.0)
     user = create(:user, :home_lat => 51.0, :home_lon => 1.0)
     create(:changeset, :user => user)
 
-    get :list, :params => { :nearby => true }
+    get :index, :params => { :nearby => true }
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :referer => nearby_changesets_path
+    assert_redirected_to :controller => :users, :action => :login, :referer => nearby_changesets_path
 
     session[:user] = private_user.id
 
-    get :list, :params => { :nearby => true }
+    get :index, :params => { :nearby => true }
     assert_response :success
     assert_template "history"
 
-    get :list, :params => { :nearby => true, :list => "1" }, :xhr => true
+    get :index, :params => { :nearby => true, :list => "1" }, :xhr => true
     assert_response :success
-    assert_template "list"
+    assert_template "index"
 
-    check_list_result(Changeset.where(:user => user.nearby))
+    check_index_result(Changeset.where(:user => user.nearby))
   end
 
   ##
-  # Check that we can't request later pages of the changesets list
-  def test_list_max_id
-    get :list, :params => { :format => "html", :max_id => 4 }, :xhr => true
+  # Check that we can't request later pages of the changesets index
+  def test_index_max_id
+    get :index, :params => { :format => "html", :max_id => 4 }, :xhr => true
     assert_response :success
     assert_template "history"
     assert_template :layout => "xhr"
     assert_select "h2", :text => "Changesets", :count => 1
 
-    get :list, :params => { :format => "html", :list => "1", :max_id => 4 }, :xhr => true
+    get :index, :params => { :format => "html", :list => "1", :max_id => 4 }, :xhr => true
     assert_response :success
-    assert_template "list"
+    assert_template "index"
 
-    check_list_result(Changeset.where("id <= 4"))
+    check_index_result(Changeset.where("id <= 4"))
   end
 
   ##
   # Check that a list with a next page link works
-  def test_list_more
+  def test_index_more
     create_list(:changeset, 50)
 
-    get :list, :params => { :format => "html" }
+    get :index, :params => { :format => "html" }
     assert_response :success
 
-    get :list, :params => { :format => "html" }, :xhr => true
+    get :index, :params => { :format => "html" }, :xhr => true
     assert_response :success
   end
 
@@ -2063,7 +2063,7 @@ CHANGESET
 
     get :feed, :params => { :format => :atom }
     assert_response :success
-    assert_template "list"
+    assert_template "index"
     assert_equal "application/atom+xml", response.content_type
 
     check_feed_result([changeset, closed_changeset])
@@ -2081,7 +2081,7 @@ CHANGESET
 
     get :feed, :params => { :format => :atom, :bbox => "4.5,4.5,5.5,5.5" }
     assert_response :success
-    assert_template "list"
+    assert_template "index"
     assert_equal "application/atom+xml", response.content_type
 
     check_feed_result([changeset, closed_changeset])
@@ -2099,7 +2099,7 @@ CHANGESET
     get :feed, :params => { :format => :atom, :display_name => user.display_name }
 
     assert_response :success
-    assert_template "list"
+    assert_template "index"
     assert_equal "application/atom+xml", response.content_type
 
     check_feed_result(changesets)
@@ -2499,8 +2499,8 @@ CHANGESET
   end
 
   ##
-  # check the result of a list
-  def check_list_result(changesets)
+  # check the result of a index
+  def check_index_result(changesets)
     changesets = changesets.where("num_changes > 0")
                            .order(:created_at => :desc)
                            .limit(20)

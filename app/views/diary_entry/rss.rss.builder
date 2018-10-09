@@ -7,24 +7,24 @@ xml.rss("version" => "2.0",
   xml.channel do
     xml.title @title
     xml.description @description
-    xml.link url_for(:action => "list", :only_path => false)
+    xml.link url_for(:action => "index", :only_path => false)
     xml.image do
       xml.url image_url("mag_map-rss2.0.png")
       xml.title @title
       xml.width "100"
       xml.height "100"
-      xml.link url_for(:action => "list", :only_path => false)
+      xml.link url_for(:action => "index", :only_path => false)
     end
 
     @entries.each do |entry|
       xml.item do
         xml.title entry.title
-        xml.link url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :only_path => false)
-        xml.guid url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :only_path => false)
+        xml.link diary_entry_url(entry.user, entry, :only_path => false)
+        xml.guid diary_entry_url(entry.user, entry, :only_path => false)
         xml.description entry.body.to_html
         xml.dc :creator, entry.user.display_name
         xml.pubDate entry.created_at.to_s(:rfc822)
-        xml.comments url_for(:action => "view", :id => entry.id, :display_name => entry.user.display_name, :anchor => "comments", :only_path => false)
+        xml.comments diary_entry_url(entry.user, entry, :anchor => "comments", :only_path => false)
 
         if entry.latitude && entry.longitude
           xml.geo :lat, entry.latitude.to_s

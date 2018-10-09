@@ -33,6 +33,7 @@
 # Author: Helpau
 # Author: Ignatus
 # Author: Iluvatar
+# Author: Infovarius
 # Author: Irus
 # Author: Kaganer
 # Author: Komzpa
@@ -57,6 +58,7 @@
 # Author: Spider
 # Author: TarzanASG
 # Author: Tourorist
+# Author: Vlad5250
 # Author: WindEwriX
 # Author: Wirbel78
 # Author: XAN
@@ -303,7 +305,7 @@ ru:
       user: Пользователь
       comment: Комментарий
       area: Область
-    list:
+    index:
       title: Пакет правок
       title_user: Пакеты правок пользователя %{user}
       title_friend: Пакеты правок моих друзей
@@ -329,7 +331,7 @@ ru:
     new:
       title: Новая запись в дневнике
       publish_button: Опубликовать
-    list:
+    index:
       title: Дневники
       title_friends: Дневники друзей
       title_nearby: Дневники соседних участников
@@ -352,7 +354,7 @@ ru:
       use_map_link: Указать на карте
       save_button: Сохранить
       marker_text: Место написания заметки
-    view:
+    show:
       title: Дневник пользователя %{user} | %{title}
       user_title: Дневник пользователя %{user}
       leave_a_comment: Оставить комментарий
@@ -1133,10 +1135,8 @@ ru:
     intro_text: OpenStreetMap является картой мира, созданной такими же людьми, как
       и вы, и может свободно использоваться под открытой лицензией.
     intro_2_create_account: Создайте учётную запись
-    partners_html: Хостинг поддерживается %{ucl}, %{bytemark} и %{ic}, а также другими
-      %{partners}.
+    hosting_partners_html: Хостинг поддерживается %{ucl}, %{bytemark} и другими %{partners}.
     partners_ucl: UCL
-    partners_ic: Имперским колледжем Лондона
     partners_bytemark: Bytemark Hosting
     partners_partners: партнёрами
     osm_offline: База данных OpenStreetMap в данный момент не доступна, так как проводится
@@ -1307,6 +1307,7 @@ ru:
       body: 'Текст:'
       send_button: Отправить
       back_to_inbox: Назад ко входящим
+    create:
       message_sent: Сообщение отправлено
       limit_exceeded: Вы недавно отправили много сообщений. Подождите немного, прежде
         чем отправлять ещё.
@@ -1806,6 +1807,8 @@ ru:
       trace_uploaded: Ваш файл GPX был передан на сервер и сейчас вносится в базу
         данных. Обычно это занимает от минуты до получаса. По завершении вам будет
         прислано уведомление на электронную почту.
+      upload_failed: К сожалению, загрузка GPX не удалась. Об ошибке уведомлен администратор.
+        Повторите снова
       traces_waiting:
         one: '%{count} ваш трек ожидает передачи на сервер. Пожалуйста, дождитесь
           окончания передачи этого трека, перед тем как начать передавать на сервер
@@ -1831,9 +1834,11 @@ ru:
       visibility: 'Видимость:'
       visibility_help: Что это значит?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/RU:%D0%92%D0%B8%D0%B4%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C_GPS-%D1%82%D1%80%D0%B5%D0%BA%D0%BE%D0%B2?uselang=ru
+    update:
+      updated: Трек обновлён
     trace_optionals:
       tags: 'Теги:'
-    view:
+    show:
       title: Просмотр трека %{name}
       heading: Просмотр трека %{name}
       pending: ОБРАБОТКА
@@ -1848,8 +1853,8 @@ ru:
       description: 'Описание:'
       tags: 'Теги:'
       none: Нет
-      edit_track: Редактировать свойства
-      delete_track: Удалить этот трек
+      edit_trace: Редактировать свойства
+      delete_trace: Удалить этот трек
       trace_not_found: Трек не найден!
       visibility: 'Видимость:'
       confirm_delete: Удалить этот трек?
@@ -1873,7 +1878,7 @@ ru:
       by: 'Автор:'
       in: 'с тегами:'
       map: карта
-    list:
+    index:
       public_traces: Общедоступные GPS-треки
       my_traces: Мои GPS-треки
       public_traces_from: Общедоступные треки пользователя %{user}
@@ -2009,7 +2014,7 @@ ru:
       flash: Клиентская информация успешно обновлена
     destroy:
       flash: Уничтожена регистрация клиентского приложения
-  user:
+  users:
     login:
       title: Представьтесь
       heading: Представьтесь
@@ -2121,6 +2126,7 @@ ru:
       terms accepted: Спасибо за принятие новых условий участия!
       terms declined: Нам жаль, что вы решили не принимать новые условия участия.
         Дополнительную информацию можно найти <a href="%{url}">на следующей странице</a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=ru
     terms:
       title: Условия сотрудничества
       heading: Условия сотрудничества
@@ -2130,9 +2136,11 @@ ru:
       consider_pd: В дополнение к вышеизложенному соглашению, я принимаю во внимание,
         что мой вклад находится в общественном достоянии
       consider_pd_why: что это значит?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain?uselang=ru
       guidance: 'Информация, которая поможет понять эти условия: <a href="%{summary}">краткое
         описание</a> и несколько <a href="%{translations}">неофициальных переводов</a>'
       agree: Принять
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=ru
       decline: Отклонить
       you need to accept or decline: Пожалуйста, прочитайте, а затем согласитесь или
         отклоните новые Условия участия.
@@ -2147,7 +2155,7 @@ ru:
       body: Извините, нет пользователя с именем %{user}. Пожалуйста, проверьте правильность
         ввода. Возможно, вы перешли по ошибочной ссылке.
       deleted: удалено
-    view:
+    show:
       my diary: Мой дневник
       new diary entry: новая запись
       my edits: Мои правки
@@ -2265,6 +2273,7 @@ ru:
       image: 'Изображение:'
       gravatar:
         gravatar: Использовать Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=ru
         link text: что это?
         disabled: Gravatar отключён.
         enabled: Отображение вашего Gravatar включено.
@@ -2330,7 +2339,7 @@ ru:
       not_a_friend: '%{name} не является вашим другом.'
     filter:
       not_an_administrator: Только администратор может выполнить это действие.
-    list:
+    index:
       title: Пользователи
       heading: Пользователи
       showing:
@@ -2580,9 +2589,9 @@ ru:
       layers:
         header: Слои карты
         notes: Заметки
-        data: Просмотр данных карты
+        data: Данные карты
         gps: Общедоступные GPS-треки
-        overlays: Дополнительные слои для устранения неисправностей карты
+        overlays: Включить наложения для устранения неисправностей карты
         title: Слои
       copyright: © <a href='%{copyright_url}'>Участники OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Сделать пожертвование</a>
