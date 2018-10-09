@@ -42,40 +42,40 @@ ar:
     models:
       acl: لائحة التحكم بالوصول
       changeset: حزمة التغييرات
-      changeset_tag: سمة حزمة التغييرات
-      country: البلد/الدولة
+      changeset_tag: وسم مجموعة التغييرات
+      country: البلد
       diary_comment: تعليق يومية
       diary_entry: مدخلة يومية
       friend: صديق
       language: اللغة
       message: الرسالة
       node: عقدة
-      node_tag: سمة عقدة
+      node_tag: وسم عقدة
       notifier: المخطر
       old_node: عقدة قديمة
-      old_node_tag: سمة عقدة قديمة
+      old_node_tag: وسم عقدة قديمة
       old_relation: علاقة قديمة
       old_relation_member: عضو علاقة قديم
-      old_relation_tag: سمة علاقة قديمة
-      old_way: طريق قديم
+      old_relation_tag: وسم علاقة قديمة
+      old_way: طريقةط قديمة
       old_way_node: عقدة طريق قديمة
-      old_way_tag: سمة طريق قديمة
+      old_way_tag: وسم طريق قديم
       relation: علاقة
       relation_member: عضو علاقة
-      relation_tag: سمة علاقة
+      relation_tag: وسم علاقة
       session: جلسة
       trace: أثر
       tracepoint: نقطة أثر
       tracetag: سمة الأثر
       user: المستخدم
       user_preference: تفضيل المستخدم
-      user_token: نموذج المستخدم
-      way: طريق
+      user_token: رمز المستخدم
+      way: طريقة
       way_node: عقدة طريق
       way_tag: سمة طريق
     attributes:
       diary_comment:
-        body: نص الرسالة
+        body: الجسم
       diary_entry:
         user: المستخدم
         title: الموضوع
@@ -97,7 +97,7 @@ ar:
       message:
         sender: المرسل
         title: الموضوع
-        body: نص الرسالة
+        body: الجسم
         recipient: المستلم
       user:
         email: البريد الإلكتروني
@@ -112,11 +112,11 @@ ar:
       name: Potlatch 1
       description: Potlatch 1 (محرّر ضمن المتصفح)
     id:
-      name: معرّف
-      description: iD (محرِّر عبر المتصفِّح)
+      name: معرف
+      description: معرف (محرر عبر المتصفِّح)
     potlatch2:
       name: Potlatch 2
-      description: Potlatch 2 (محرّر ضمن المتصفح)
+      description: Potlatch 2 (محرر ضمن المتصفح)
     remote:
       name: تحكم عن بعد
       description: تحكم عن بعد (JOSM أو Merkaartor)
@@ -130,12 +130,12 @@ ar:
     edited_by_html: تم التعديل قبل <abbr title='%{title}'>%{time}</abbr> على يد %{user}
     closed_by_html: تم الإغلاق قبل <abbr title='%{title}'>%{time}</abbr> على يد %{user}
     version: الإصدار
-    in_changeset: التغييرات
+    in_changeset: مجموعة التغييرات
     anonymous: مجهول
     no_comment: (لا تعليق)
     part_of: جزء من
-    download_xml: حمّل XML
-    view_history: السجل
+    download_xml: تنزيل XML
+    view_history: عرض السجل
     view_details: شاهد التفاصيل
     location: 'الموقع:'
     changeset:
@@ -175,14 +175,14 @@ ar:
       history_title: 'تاريخ الصلة: %{name}'
       members: الأعضاء
     relation_member:
-      entry_role: '%{type} %{name} كــ %{role}'
+      entry_role: '%{type} %{name} كــ%{role}'
       type:
         node: عقدة
         way: طريق
         relation: علاقة
     containing_relation:
       entry: العلاقة %{relation_name}
-      entry_role: العلاقة %{relation_name} (كــ %{relation_role})
+      entry_role: العلاقة %{relation_name} (كــ%{relation_role})
     not_found:
       sorry: 'عفوًا، تعذر العثور على %{type} #%{id}.'
       type:
@@ -215,11 +215,11 @@ ar:
     tag_details:
       tags: الوسوم
       wiki_link:
-        key: صفحة وصف الويكي لعلامة %{key}
-        tag: صفحة وصف الويكي لعلامة %{key}=%{value}
-      wikidata_link: صفحة %{page} على ويكي داتا
-      wikipedia_link: الـ%{page} مقالة على ويكيبيديا
-      telephone_link: اتصل بـ %{phone_number}
+        key: صفحة وصف الويكي للوسم %{key}
+        tag: صفحة وصف الويكي للوسم %{key}=%{value}
+      wikidata_link: العنصر %{page} على ويكي بيانات
+      wikipedia_link: مقالة %{page} على ويكيبيديا
+      telephone_link: اتصل بـ%{phone_number}
     note:
       title: 'ملاحظة: %{id}'
       new_note: ملاحظة جديدة
@@ -233,15 +233,16 @@ ar:
       commented_by: تعليق من %{user} قبل <abbr title='%{exact_time}'>%{when} </abbr>
       commented_by_anonymous: تعليق من مجهول قبل <abbr title='%{exact_time}'>%{when}
         </abbr>
-      closed_by: حلّه %{user} قبل <abbr title='%{exact_time}'>%{when} </abbr>
-      closed_by_anonymous: حلّه مجهول قبل <abbr title='%{exact_time}'>%{when} </abbr>
+      closed_by: تم الحل بواسطة %{user} قبل <abbr title='%{exact_time}'>%{when} </abbr>
+      closed_by_anonymous: تم الحل بواسطة مجهول قبل <abbr title='%{exact_time}'>%{when}
+        </abbr>
       reopened_by: أعاد تنشيطه %{user} قبل <abbr title='%{exact_time}'>%{when} </abbr>
       reopened_by_anonymous: أعاد تنشيطه مجهول قبل <abbr title='%{exact_time}'>%{when}
         </abbr>
       hidden_by: أخفاه %{user} قبل <abbr title='%{exact_time}'>%{when} =</abbr>
-      report: أبلغ هذه الملاحظة
+      report: أبلغ عن هذه الملاحظة
     query:
-      title: إشارات الاستفهام
+      title: ميزات الاستفهام
       introduction: اضغط على الخريطة لمعرفة النقاط القريبة
       nearby: نقاط قريبة
       enclosing: نقاط مرافقة
@@ -255,8 +256,8 @@ ar:
       no_edits: (لا تعديلات)
       view_changeset_details: اعرض تفاصيل حزمة التغييرات
     changesets:
-      id: رقم
-      saved_at: حُفظ في
+      id: المعرف
+      saved_at: حُفِظ في
       user: المستخدم
       comment: التعليق
       area: منطقة
@@ -270,13 +271,13 @@ ar:
       empty_user: لم يُعثَر على أي حزم تغييرات لهذا المستخدم.
       no_more: لم يُعثَر على حزم تغييرات أخرى.
       no_more_area: لم يُعثَر على حزم تغييرات أخرى في هذه المنطقة.
-      no_more_user: ' يُعثَر على حزم تغييرات أخرى لهذا المستخدم.'
+      no_more_user: لم يُعثَر على حزم تغييرات أخرى لهذا المستخدم.
       load_more: حمِّل المزيد؟
     timeout:
-      sorry: عذراً، لقد إستمرت لائحة حزم التغييرات اللتي طلبتها وقتاً طويلاً للسحب.
+      sorry: عذراً، لقد استغرقت لائحة حزم التغييرات اللتي طلبتها وقتاً طويلاً للسحب.
     rss:
       title_all: مناقشة مجموعة تغيير خريطة الشارع المفتوحة
-      title_particular: 'مناقشة #%{changeset_id} مجموعة تغيير خريطة الشارع المفتوحة'
+      title_particular: مناقشة مجموعة تغيير خريطة الشارع المفتوحة %{changeset_id}
       comment: 'تعليق جديد على مجموعة التغيير #%{changeset_id} بواسطة %{author}'
       commented_at_html: تم التحديث قبل %{when}
       commented_at_by_html: تم التحديث قبل %{when} بواسطة %{user}
@@ -288,19 +289,19 @@ ar:
     index:
       title: يوميات المستخدمين
       title_friends: يوميات الأصدقاء
-      title_nearby: يوميات/مفكرات المستخدمين في المقبرة
+      title_nearby: يوميات المستخدمين القريبين
       user_title: يومية %{user}
       in_language_title: مدخلات اليومية باللغة %{language}
       new: مدخلة يومية جديدة
       new_title: تأليف إدخال جديد في مذكرات المستخدم الخاصة بي
-      no_entries: لا يوجد مدخلات يومية
-      recent_entries: إدخالات يوميات الحديثة
+      no_entries: لا توجد مدخلات يومية
+      recent_entries: إدخالات يوميات حديثة
       older_entries: المدخلات الأقدم
       newer_entries: المدخلات الأحدث
     edit:
-      title: عدّل مدخلة يومية
+      title: عدل مدخلة يومية
       subject: 'الموضوع:'
-      body: 'نص الرسالة:'
+      body: 'النص:'
       language: 'اللغة:'
       location: 'الموقع:'
       latitude: 'خط العرض:'
@@ -316,26 +317,26 @@ ar:
       login: تسجيل الدخول
       save_button: احفظ
     no_such_entry:
-      title: مدخلة يومية غير موجودة
-      heading: 'لا يوجد مدخلة بالمعرّف: %{id}'
-      body: عذرًا، لا يوجد مدخلة يومية أو تعليق بالمعرّف %{id}. يرجى تدقيق التهجئة،
-        أو ربما يكون الرابط الذي تم النقر عليه خاطئ.
+      title: لا توجد مثل هذه اليومية
+      heading: 'لا توجد مدخلة بالمعرف: %{id}'
+      body: عذرًا، لا توجد مدخلة يومية أو تعليق بالمعرف %{id}؛ يُرجَى تدقيق التهجئة،
+        أو ربما يكون الرابط الذي نقرت عليه خاطئا.
     diary_entry:
-      posted_by: أُرسل بواسطة %{link_user} في %{created} باللغة %{language_link}
-      comment_link: علّق على هذه المدخلة
-      reply_link: رد برسالة
+      posted_by: نُشِر بواسطة %{link_user} في %{created} باللغة %{language_link}
+      comment_link: علق على هذه المدخلة
+      reply_link: رد على هذه الرسالة
       comment_count:
         zero: لا تعليق
         one: '%{count} تعليق'
-        other: '%{count} تعليق'
-      edit_link: عدّل هذه المدخلة
+        other: '%{count} تعليقات'
+      edit_link: عدل هذه المدخلة
       hide_link: اخفِ هذه المدخلة
-      confirm: أكّد
-      report: أببلغ عن هذه المذكرة
+      confirm: تأكيد
+      report: أبلغ عن هذه المدخلة
     diary_comment:
-      comment_from: تعليق من %{link_user}  في %{comment_created_at}
+      comment_from: تعليق من %{link_user} في %{comment_created_at}
       hide_link: اخفِ هذا التعليق
-      confirm: أكّد
+      confirm: تأكيد
       report: أبلغ عن هذا التعليق
     location:
       location: 'الموقع:'
@@ -343,18 +344,16 @@ ar:
       edit: تعديل
     feed:
       user:
-        title: مدخلات يومية خريطة الشارع المفتوحة للمستخدم %{user}
-        description: المدخلات الحديثة في يومية خريطة الشارع المفتوحة بواسطة المستخدم
-          %{user}
+        title: مدخلات يومية خريطة الشارع المفتوحة للمستخدم ل%{user}
+        description: المدخلات الحديثة في يومية خريطة الشارع المفتوحة من %{user}
       language:
-        title: مدخلات يومية خريطة الشارع المفتوحة باللغة %{language_name}
-        description: المدخلات الحديثة في يومية مستخدمي خريطة الشارع المفتوحة باللغة
-          %{language_name}
+        title: مدخلات يومية خريطة الشارع المفتوحة ب%{language_name}
+        description: المدخلات الحديثة في يومية مستخدمي خريطة الشارع المفتوحة ب%{language_name}
       all:
         title: مدخلات اليومية في خريطة الشارع المفتوحة
         description: المدخلات الحديثة في يومية مستخدمي خريطة الشارع المفتوحة
     comments:
-      has_commented_on: '%{display_name} علّق على مدخلات اليومية التالية'
+      has_commented_on: '%{display_name} علق على مدخلات اليومية التالية'
       post: إرسال
       when: متى
       comment: التعليق
@@ -377,7 +376,7 @@ ar:
         aerialway:
           cable_car: عربة قطار هوائي
           chair_lift: كرسي تلفريك
-          drag_lift: اسحبها لليسار
+          drag_lift: اسحب لليسار
           gondola: تلفريك
           platter: مصعد تزلج
           pylon: نقطة تعليق
@@ -415,7 +414,7 @@ ar:
           car_sharing: مشاركة سيارات
           car_wash: غسيل سيارات
           casino: نادي قمار
-          charging_station: محطة تعبئة
+          charging_station: محطة شحن
           childcare: رعاية الأطفال
           cinema: سينما
           clinic: عيادة
@@ -447,7 +446,7 @@ ar:
           monastery: دير
           motorcycle_parking: مرآب دراجات نارية
           nightclub: نادي ليلي
-          nursing_home: دار رعاية مسنين/معاقين
+          nursing_home: دار رعاية
           office: مكتب
           parking: موقف سيارات
           parking_entrance: مدخل مرآب
@@ -467,9 +466,9 @@ ar:
           sauna: حمّام بخاري حار
           school: مدرسة
           shelter: ملجأ
-          shop: متجر/دكان/حانوت
+          shop: متجر
           shower: غسيل بالدش
-          social_centre: مركز إجتماعي
+          social_centre: مركز اجتماعي
           social_club: نادي اجتماعي
           social_facility: مرفق اجتماعي
           studio: ستوديو
@@ -482,11 +481,11 @@ ar:
           university: جامعة
           vending_machine: آلة بيع
           veterinary: جراحة بيطرية
-          village_hall: مبنى/دار القرية
+          village_hall: قاعة قرية
           waste_basket: سلة نفايات
           waste_disposal: التخلص من النفايات
           water_point: موقع مياه
-          youth_centre: مركز نشاطات للشباب
+          youth_centre: مركز شباب
         boundary:
           administrative: حدود إدارية
           census: حدود تعدادية
@@ -504,7 +503,7 @@ ar:
         craft:
           brewery: مصنع الجعة
           carpenter: نجار
-          electrician: اختصاصي كهرباء
+          electrician: كهربائي
           gardener: بستاني
           painter: رسام
           photographer: مصور
@@ -532,7 +531,7 @@ ar:
           emergency_access_point: نقطة دخول طوارئ
           footway: ممر للمشاة
           ford: مخاضة
-          give_way: اشارة تمهل
+          give_way: إشارة إفساح الطريق
           living_street: شارع سكني
           milestone: معلم
           motorway: طريق سريع
@@ -544,10 +543,10 @@ ar:
           platform: منصة
           primary: طريق أولي
           primary_link: طريق أولي
-          proposed: طريق تحت الإنشاء
+          proposed: طريق مقترح
           raceway: حلبة سباق
           residential: طريق سكني
-          rest_area: منطقة إستراحة
+          rest_area: منطقة استراحة
           road: طريق
           secondary: طريق ثانوي
           secondary_link: طريق ثانوي
@@ -565,12 +564,12 @@ ar:
           trunk: طريق رئيسي
           trunk_link: طريق رئيسي
           turning_loop: جولة
-          unclassified: طريق غير مصنّف
+          unclassified: طريق غير مصنف
           "yes": طريق
         historic:
           archaeological_site: موقع أثري
           battlefield: ساحة معركة
-          boundary_stone: حجر/صخرة تعليم حدود
+          boundary_stone: صخرة حدود
           building: مبنى تاريخي
           bunker: برج دفاعي
           castle: قلعة
@@ -584,14 +583,14 @@ ar:
           manor: عزبة
           memorial: نصب تذكاري
           mine: منجم
-          mine_shaft: منجم
+          mine_shaft: فتحة منجم
           monument: أثر
           roman_road: طريق روماني
           ruins: أطلال
           stone: حجر
           tomb: قبر
           tower: برج
-          wayside_cross: صليب تذكاري
+          wayside_cross: صليب جانب طريق
           wayside_shrine: مزار جانب طريق
           wreck: حطام
           "yes": موقع تاريخي
@@ -624,10 +623,10 @@ ar:
           reservoir: خزان
           reservoir_watershed: خزان مستجمعات المياه
           residential: منطقة سكنية
-          retail: بيع بالمفرق
+          retail: بيع بالتجزئة
           road: منطقة الطريق
           village_green: أرض خضراء
-          vineyard: كرم عنب
+          vineyard: حقل عنب
           "yes": استخدام الأرض
         leisure:
           beach_resort: شاطئ منتجع
@@ -653,13 +652,13 @@ ar:
           sauna: حمّام بخاري حار
           slipway: مزلقة
           sports_centre: مركز رياضي
-          stadium: مدرج ألعاب رياضية
-          swimming_pool: بركة سباحة
+          stadium: ستاد
+          swimming_pool: مسبح
           track: مضمار سباق
           water_park: منتزه ألعاب مائية
           "yes": وقت الفراغ
         man_made:
-          adit: مدخل الى منجم
+          adit: مدخل منجم
           beacon: منارة
           beehive: خلية نحل
           breakwater: مكسر أمواج
@@ -669,15 +668,15 @@ ar:
           crane: رافعة
           dolphin: مرسى
           dyke: حاجز
-          embankment: سايله
+          embankment: سد
           flagpole: سارية علم
           gasometer: مقياس غاز
           groyne: مصد أمواج
           kiln: تنور
           lighthouse: منارة
-          mast: حافظة انتينا
-          mine: لغم
-          mineshaft: منجم ألغام
+          mast: سارية
+          mine: منجم
+          mineshaft: فتحة منجم
           monitoring_station: محطة مراقبة
           petroleum_well: بئر بترول
           pier: رصيف بحري
@@ -704,7 +703,7 @@ ar:
         natural:
           bay: خليج
           beach: شاطئ
-          cape: رأس (أرض داخلة في البحر(
+          cape: خليج
           cave_entrance: مدخل كهف
           cliff: جرف
           crater: فوهة بركان
@@ -713,7 +712,7 @@ ar:
           fjord: مضيق بحري
           forest: غابة
           geyser: نافورة ماء حار
-          glacier: نهر/بحر جليدي
+          glacier: نهر جليدي
           grassland: أرض عشبية
           heath: أرض بور
           hill: تلة
@@ -724,7 +723,7 @@ ar:
           mud: وحل
           peak: ذروة
           point: نقطة
-          reef: سلسلة صخور قرب سطح الماء
+          reef: شعاب
           ridge: أرض مرتفعة
           rock: صخرة
           saddle: سرج
@@ -1955,7 +1954,7 @@ ar:
       heading: تسجيل الدخول
       email or username: 'عنوان البريد الإلكتروني أو اسم المستخدم:'
       password: 'كلمة السر:'
-      openid: '%{logo} OpenID:'
+      openid: '%{logo} معرف مفتوح:'
       remember: 'تذكرني:'
       lost password link: أنسيت كلمة المرور؟
       login_button: تسجيل الدخول
@@ -2056,6 +2055,7 @@ ar:
       terms accepted: نشكرك على قبول شروط المساهم الجديدة!
       terms declined: نحن نأسف أن كنت قد قررت عدم قبول شروط المساهمة الجديدة. لمزيد
         من المعلومات، يرجى الاطلاع على <a href="%{url}">صفحة الويكي هذه</a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: 'شروط المساهم:'
       heading: 'شروط المساهم:'
@@ -2063,10 +2063,12 @@ ar:
         شروط هذا الاتفاق على مشاركاتك الموجودة حاليًا والمستقبلية.
       consider_pd: وبالإضافة إلى الاتفاقية أعلاه، أريد أن تكون مساهماتي ملكية عامة.
       consider_pd_why: ما هذا؟
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'معلومات للمساعدة في فهم هذه المصطلحات: <a href="%{summary}"> ملخص
         قابل للقراءة بالإنسان </a> وبعض <a href="%{translations}"> ترجمة غير رسمية
         </a>'
       agree: أوافق
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: انخفاض
       you need to accept or decline: الرجاء القراءة ومن ثم قبول أو رفض شروط المساهمة
         الجديدة للمتابعة.
@@ -2183,6 +2185,7 @@ ar:
         review link text: يرجى اتباع هذا الرابط في الوقت الذي يناسبك لمراجعة وقبول
           شروط المساهمة الجديدة.
         agreed_with_pd: وقد أعلنتَ أيضًا أنك تعتبر تعديلاتك ملكية عامة.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: ما هذا؟
       profile description: 'وصف الملف الشخصي:'
       preferred languages: 'اللغات المفضّلة:'
@@ -2190,6 +2193,7 @@ ar:
       image: "\uFEFFالصورة:"
       gravatar:
         gravatar: استخدام Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         link text: ما هذا؟
         disabled: تم تعطيل Gravatar .
         enabled: تم تمكين عرض Gravatar الخاص بك.
