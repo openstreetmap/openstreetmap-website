@@ -275,11 +275,11 @@ class NotesController < ApplicationController
     # Filter by a given string
     if params[:q]
       @notes = @notes.joins(:comments)
-      if @user
-        @notes = @notes.where("to_tsvector('english', comments_notes.body) @@ plainto_tsquery('english', ?)", params[:q])
-      else
-        @notes = @notes.where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q])
-      end
+      @notes = if @user
+                 @notes.where("to_tsvector('english', comments_notes.body) @@ plainto_tsquery('english', ?)", params[:q])
+               else
+                 @notes.where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q])
+               end
     end
 
     # Filter by a given start date and an optional end date
