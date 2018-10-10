@@ -3,8 +3,9 @@ class IssuesController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
-  before_action :require_user
-  before_action :check_permission
+
+  authorize_resource
+
   before_action :find_issue, :only => [:show, :resolve, :reopen, :ignore]
 
   def index
@@ -82,10 +83,12 @@ class IssuesController < ApplicationController
     @issue = Issue.find(params[:id])
   end
 
-  def check_permission
-    unless current_user.administrator? || current_user.moderator?
+  def deny_access(_exception)
+    if current_user
       flash[:error] = t("application.require_moderator_or_admin.not_a_moderator_or_admin")
       redirect_to root_path
+    else
+      super
     end
   end
 end

@@ -3,7 +3,8 @@ class ReportsController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
-  before_action :require_user
+
+  authorize_resource
 
   def new
     if required_new_report_params_present?

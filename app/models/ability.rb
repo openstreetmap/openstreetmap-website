@@ -6,19 +6,27 @@ class Ability
   def initialize(user)
     can :index, :site
     can [:permalink, :edit, :help, :fixthemap, :offline, :export, :about, :preview, :copyright, :key, :id], :site
-
     can [:index, :rss, :show, :comments], DiaryEntry
-
     can [:search, :search_latlon, :search_ca_postcode, :search_osm_nominatim,
          :search_geonames, :search_osm_nominatim_reverse, :search_geonames_reverse], :geocoder
 
     if user
       can :welcome, :site
-
       can [:create, :edit, :comment, :subscribe, :unsubscribe], DiaryEntry
+      can [:new, :create], Report
 
-      can [:hide, :hidecomment], [DiaryEntry, DiaryComment] if user.administrator?
+      if user.moderator?
+        can [:index, :show, :resolve, :ignore, :reopen], Issue
+        can :create, IssueComment
+      end
+
+      if user.administrator?
+        can [:hide, :hidecomment], [DiaryEntry, DiaryComment]
+        can [:index, :show, :resolve, :ignore, :reopen], Issue
+        can :create, IssueComment
+      end
     end
+
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)
