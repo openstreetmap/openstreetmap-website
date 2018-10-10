@@ -470,10 +470,10 @@ class ApplicationController < ActionController::Base
   end
 
   def current_ability
-    Ability.new(current_user).merge(granted_capabily)
+    Ability.new(current_user).merge(granted_capability)
   end
 
-  def granted_capabily
+  def granted_capability
     Capability.new(current_user, current_token)
   end
 
