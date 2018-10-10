@@ -103,9 +103,7 @@ class SiteController < ApplicationController
     @locale = params[:copyright_locale] || I18n.locale
   end
 
-  def welcome
-    require_user
-  end
+  def welcome; end
 
   def help; end
 

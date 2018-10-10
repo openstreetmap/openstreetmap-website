@@ -5,7 +5,7 @@ class Ability
 
   def initialize(user)
     can :index, :site
-    can [:permalink, :edit, :help, :fixthemap, :offline, :export, :about, :preview, :copyright, :key, :id, :welcome], :site
+    can [:permalink, :edit, :help, :fixthemap, :offline, :export, :about, :preview, :copyright, :key, :id], :site
 
     can [:index, :rss, :show, :comments], DiaryEntry
 
@@ -13,7 +13,7 @@ class Ability
          :search_geonames, :search_osm_nominatim_reverse, :search_geonames_reverse], :geocoder
 
     if user
-      can :weclome, :site
+      can :welcome, :site
 
       can [:create, :edit, :comment, :subscribe, :unsubscribe], DiaryEntry
 
