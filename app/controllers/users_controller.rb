@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   layout "site", :except => [:api_details]
 
+  skip_authorization_check :only => [:login, :logout]
+
   skip_before_action :verify_authenticity_token, :only => [:api_read, :api_users, :api_details, :api_gpx_files, :auth_success]
   before_action :disable_terms_redirect, :only => [:terms, :save, :logout, :api_details]
   before_action :authorize, :only => [:api_details, :api_gpx_files]

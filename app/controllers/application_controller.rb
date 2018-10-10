@@ -1,7 +1,10 @@
 class ApplicationController < ActionController::Base
   include SessionPersistence
+  # check_authorization
 
   protect_from_forgery :with => :exception
+
+  rescue_from CanCan::AccessDenied, :with => :deny_access
 
   before_action :fetch_body
   around_action :better_errors_allow_inline, :if => proc { Rails.env.development? }
@@ -464,6 +467,23 @@ class ApplicationController < ActionController::Base
     )
 
     raise
+  end
+
+  def current_ability
+    Ability.new(current_user).merge(granted_capabily)
+  end
+
+  def granted_capabily
+    Capability.new(current_user, current_token)
+  end
+
+  def deny_access(_exception)
+    if current_user
+      set_locale
+      report_error t("oauth.permissions.missing"), :forbidden
+    else
+      require_user
+    end
   end
 
   private

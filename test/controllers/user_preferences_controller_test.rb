@@ -35,6 +35,7 @@ class UserPreferencesControllerTest < ActionController::TestCase
 
     # authenticate as a user with no preferences
     basic_authorization create(:user).email, "test"
+    grant_oauth_token :allow_read_prefs
 
     # try the read again
     get :read
@@ -75,6 +76,7 @@ class UserPreferencesControllerTest < ActionController::TestCase
 
     # authenticate as a user with preferences
     basic_authorization user.email, "test"
+    grant_oauth_token :allow_read_prefs
 
     # try the read again
     get :read_one, :params => { :preference_key => "key" }
@@ -108,6 +110,7 @@ class UserPreferencesControllerTest < ActionController::TestCase
 
     # authenticate as a user with preferences
     basic_authorization user.email, "test"
+    grant_oauth_token :allow_write_prefs
 
     # try the put again
     assert_no_difference "UserPreference.count" do
@@ -159,6 +162,7 @@ class UserPreferencesControllerTest < ActionController::TestCase
 
     # authenticate as a user with preferences
     basic_authorization user.email, "test"
+    grant_oauth_token :allow_write_prefs
 
     # try adding a new preference
     assert_difference "UserPreference.count", 1 do
@@ -196,6 +200,7 @@ class UserPreferencesControllerTest < ActionController::TestCase
 
     # authenticate as a user with preferences
     basic_authorization user.email, "test"
+    grant_oauth_token :allow_write_prefs
 
     # try the delete again
     assert_difference "UserPreference.count", -1 do

@@ -3,11 +3,12 @@ class DiaryEntryController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
-  before_action :require_user, :only => [:new, :edit, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
+
+  authorize_resource
+
   before_action :lookup_user, :only => [:show, :comments]
   before_action :check_database_readable
   before_action :check_database_writable, :only => [:new, :edit, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
-  before_action :require_administrator, :only => [:hide, :hidecomment]
   before_action :allow_thirdparty_images, :only => [:new, :edit, :index, :show, :comments]
 
   def new
@@ -215,6 +216,22 @@ class DiaryEntryController < ApplicationController
 
   private
 
+  # This is required because, being a default-deny system, cancancan
+  # _cannot_ tell you the reason you were denied access; and so
+  # the "nice" feedback presenting next steps can't be gleaned from
+  # the exception
+  ##
+  # for the hide actions, require that the user is a administrator, or fill out
+  # a helpful error message and return them to the user page.
+  def deny_access(exception)
+    if current_user && exception.action.in?([:hide, :hidecomment])
+      flash[:error] = t("user.filter.not_an_administrator")
+      redirect_to :action => "view"
+    else
+      super
+    end
+  end
+
   ##
   # return permitted diary entry parameters
   def entry_params
@@ -227,16 +244,6 @@ class DiaryEntryController < ApplicationController
   # return permitted diary comment parameters
   def comment_params
     params.require(:diary_comment).permit(:body)
-  end
-
-  ##
-  # require that the user is a administrator, or fill out a helpful error message
-  # and return them to the user page.
-  def require_administrator
-    unless current_user.administrator?
-      flash[:error] = t("user.filter.not_an_administrator")
-      redirect_to :action => "show"
-    end
   end
 
   ##
