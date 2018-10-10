@@ -7,7 +7,7 @@ class Ability
     can :index, :site
     can [:permalink, :edit, :help, :fixthemap, :offline, :export, :about, :preview, :copyright, :key, :id, :welcome], :site
 
-    can [:list, :rss, :view, :comments], DiaryEntry
+    can [:index, :rss, :show, :comments], DiaryEntry
 
     can [:search, :search_latlon, :search_ca_postcode, :search_osm_nominatim,
          :search_geonames, :search_osm_nominatim_reverse, :search_geonames_reverse], :geocoder

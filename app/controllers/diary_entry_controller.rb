@@ -225,8 +225,8 @@ class DiaryEntryController < ApplicationController
   # a helpful error message and return them to the user page.
   def deny_access(exception)
     if current_user && exception.action.in?([:hide, :hidecomment])
-      flash[:error] = t("user.filter.not_an_administrator")
-      redirect_to :action => "view"
+      flash[:error] = t("users.filter.not_an_administrator")
+      redirect_to :action => "show"
     else
       super
     end
