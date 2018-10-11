@@ -259,9 +259,9 @@ class NotesController < ApplicationController
     if params[:display_name]
       @user = User.find_by(:display_name => params[:display_name])
       raise OSM::APIBadUserInput, "User #{params[:display_name]} not known" unless @user
-    elsif params[:id]
-      @user = User.find_by(:id => params[:id])
-      raise OSM::APIBadUserInput, "User #{params[:id]} not known" unless @user
+    elsif params[:user]
+      @user = User.find_by(:id => params[:user])
+      raise OSM::APIBadUserInput, "User #{params[:user]} not known" unless @user
     end
 
     @notes = closed_condition(Note.all)

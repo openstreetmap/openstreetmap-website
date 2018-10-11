@@ -915,21 +915,21 @@ class NotesControllerTest < ActionController::TestCase
     end
   end
 
-  def test_search_by_id_success
+  def test_search_by_user_success
     user = create(:user)
 
     create(:note) do |note|
       create(:note_comment, :note => note, :author => user)
     end
 
-    get :search, :params => { :id => user.id, :format => "xml" }
+    get :search, :params => { :user => user.id, :format => "xml" }
     assert_response :success
     assert_equal "application/xml", @response.content_type
     assert_select "osm", :count => 1 do
       assert_select "note", :count => 1
     end
 
-    get :search, :params => { :id => user.id, :format => "json" }
+    get :search, :params => { :user => user.id, :format => "json" }
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
@@ -937,7 +937,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "FeatureCollection", js["type"]
     assert_equal 1, js["features"].count
 
-    get :search, :params => { :id => user.id, :format => "rss" }
+    get :search, :params => { :user => user.id, :format => "rss" }
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
@@ -946,7 +946,7 @@ class NotesControllerTest < ActionController::TestCase
       end
     end
 
-    get :search, :params => { :id => user.id, :format => "gpx" }
+    get :search, :params => { :user => user.id, :format => "gpx" }
     assert_response :success
     assert_equal "application/gpx+xml", @response.content_type
     assert_select "gpx", :count => 1 do
@@ -1034,7 +1034,7 @@ class NotesControllerTest < ActionController::TestCase
     get :search, :params => { :display_name => "non-existent" }
     assert_response :bad_request
 
-    get :search, :params => { :id => "-1" }
+    get :search, :params => { :user => "-1" }
     assert_response :bad_request
 
     get :search, :params => { :from => "wrong-date", :to => "wrong-date" }
