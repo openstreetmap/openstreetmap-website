@@ -97,27 +97,24 @@ OSM.History = function(map) {
     $("[data-changeset]").each(function () {
       var changeset = $(this).data('changeset');
       if (changeset.bbox) {
-        var minProjection = map.project(L.latLng(changeset.bbox.minlat, changeset.bbox.minlon)),
-            maxProjection = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.maxlon)),
-            xGap = maxProjection.x - minProjection.x,
-            yGap = minProjection.y - maxProjection.y,
-            minXGap = 40,  // Min width/height of changeset in pixels
-            minYGap = 40;
+        var bottomLeft = map.project(L.latLng(changeset.bbox.minlat, changeset.bbox.minlon)),
+            topRight = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.maxlon)),
+            width = topRight.x - bottomLeft.x,
+            height = bottomLeft.y - topRight.y,
+            minSize = 40;  // Min width/height of changeset in pixels
 
-        if (xGap < minXGap) {
-          minProjection.x -= ((minXGap - xGap) / 2);
-          maxProjection.x += ((minXGap - xGap) / 2);
+        if (width < minSize) {
+          bottomLeft.x -= ((minSize - width) / 2);
+          topRight.x += ((minSize - width) / 2);
         }
 
-        if (yGap < minYGap) {
-          minProjection.y += ((minYGap - yGap) / 2);
-          maxProjection.y -= ((minYGap - yGap) / 2);
+        if (height < minSize) {
+          bottomLeft.y += ((minSize - height) / 2);
+          topRight.y -= ((minSize - height) / 2);
         }
 
-        var minUnProjection = map.unproject(minProjection),
-            maxUnProjection = map.unproject(maxProjection),
-            bounds = [minUnProjection,
-                      maxUnProjection];
+        var bounds = [map.unproject(bottomLeft),
+                      map.unproject(topRight)];
 
         changeset.bounds = L.latLngBounds(bounds);
         changesets.push(changeset);
