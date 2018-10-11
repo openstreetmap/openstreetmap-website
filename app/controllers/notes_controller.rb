@@ -288,7 +288,7 @@ class NotesController < ApplicationController
       rescue ArgumentError
         raise OSM::APIBadUserInput, "Date #{params[:to]} is in a wrong format"
       end
-      @notes = @notes.where(:created_at => from .. to)
+      @notes = @notes.where(:created_at => from..to)
     end
 
     # Find the notes we want to return
