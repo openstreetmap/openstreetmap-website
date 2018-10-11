@@ -255,12 +255,41 @@ class NotesController < ApplicationController
   ##
   # Return a list of notes matching a given string
   def search
-    # Check the arguments are sane
-    raise OSM::APIBadUserInput, "No query string was given" unless params[:q]
+    # Filter either by the name or the id of the user
+    if params[:display_name]
+      @user = User.find_by(:display_name => params[:display_name])
+      raise OSM::APIBadUserInput, "User #{params[:display_name]} not known" unless @user
+    elsif params[:id]
+      @user = User.find_by(:id => params[:id])
+      raise OSM::APIBadUserInput, "User #{params[:id]} not known" unless @user
+    end
 
-    # Get any conditions that need to be applied
     @notes = closed_condition(Note.all)
-    @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q])
+
+    @notes = @notes.joins(:comments).where(:note_comments => { :author_id => @user }) if @user
+
+    # Filter by a given string
+    @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q]) if params[:q]
+
+    # Filter by a given start date and an optional end date
+    if params[:from]
+      begin
+        from = Time.parse(params[:from])
+      rescue ArgumentError
+        raise OSM::APIBadUserInput, "Date #{params[:from]} is in a wrong format"
+      end
+
+      begin
+        to = if params[:to]
+               Time.parse(params[:to])
+             else
+               Time.now
+             end
+      rescue ArgumentError
+        raise OSM::APIBadUserInput, "Date #{params[:to]} is in a wrong format"
+      end
+      @notes = @notes.where(:created_at => from..to)
+    end
 
     # Find the notes we want to return
     @notes = @notes.order("updated_at DESC").limit(result_limit).preload(:comments)
