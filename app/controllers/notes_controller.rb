@@ -255,23 +255,28 @@ class NotesController < ApplicationController
   ##
   # Return a list of notes matching a given string
   def search
-    # Filter either by the name or the id of the user
-    if params[:display_name]
-      @user = User.find_by(:display_name => params[:display_name])
-      raise OSM::APIBadUserInput, "User #{params[:display_name]} not known" unless @user
-    elsif params[:user]
-      @user = User.find_by(:id => params[:user])
-      raise OSM::APIBadUserInput, "User #{params[:user]} not known" unless @user
-    end
-
+    # Get the initial set of notes
     @notes = closed_condition(Note.all)
 
-    @notes = @notes.joins(:comments).where(:note_comments => { :author_id => @user }) if @user
+    # Add any user filter
+    if params[:display_name] || params[:user]
+      if params[:display_name]
+        @user = User.find_by(:display_name => params[:display_name])
 
-    # Filter by a given string
+        raise OSM::APIBadUserInput, "User #{params[:display_name]} not known" unless @user
+      else
+        @user = User.find_by(:id => params[:user])
+
+        raise OSM::APIBadUserInput, "User #{params[:user]} not known" unless @user
+      end
+
+      @notes = @notes.joins(:comments).where(:note_comments => { :author_id => @user })
+    end
+
+    # Add any text filter
     @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q]) if params[:q]
 
-    # Filter by a given start date and an optional end date
+    # Add any date filter
     if params[:from]
       begin
         from = Time.parse(params[:from])
@@ -288,6 +293,7 @@ class NotesController < ApplicationController
       rescue ArgumentError
         raise OSM::APIBadUserInput, "Date #{params[:to]} is in a wrong format"
       end
+
       @notes = @notes.where(:created_at => from..to)
     end
 
