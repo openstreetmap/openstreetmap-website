@@ -170,7 +170,7 @@ class DiffReader
 
           # check if the placeholder ID has been given before and throw
           # an exception if it has - we can't create the same element twice.
-          raise OSM::APIBadUserInput, "Placeholder IDs must be unique for created elements." if wait_hash.include? placeholder_id
+          raise OSM::APIBadUserInput, "Placeholder IDs must be unique for created elements." if ids[model_sym].include?(placeholder_id) || wait_hash.include?(placeholder_id)
 
           wait_hash[placeholder_id] = new
         end

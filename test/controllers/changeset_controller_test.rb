@@ -1068,6 +1068,24 @@ CHANGESET
     post :upload, :params => { :id => changeset.id }
     assert_response :bad_request,
                     "shouldn't be able to re-use placeholder IDs"
+
+    # placeholder_ids must be unique across all action blocks
+    diff = <<CHANGESET.strip_heredoc
+      <osmChange>
+       <create>
+        <node id='-1' lon='0' lat='0' changeset='#{changeset.id}' version='1'/>
+       </create>
+       <create>
+        <node id='-1' lon='1' lat='1' changeset='#{changeset.id}' version='1'/>
+       </create>
+      </osmChange>
+CHANGESET
+
+    # upload it
+    content diff
+    post :upload, :params => { :id => changeset.id }
+    assert_response :bad_request,
+                    "shouldn't be able to re-use placeholder IDs"
   end
 
   ##
