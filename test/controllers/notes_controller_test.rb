@@ -1066,7 +1066,15 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
       assert_select "channel", :count => 1 do
-        assert_select "item", :count => 2
+        assert_select "item", :count => 2;
+        assert_select "item" do
+            assert_select "description", {:text => %r{<h2>Comment</h2>
+<div class="note-comment" style="margin-top: 5px">
+  <div class="note-comment-description" style="font-size: smaller; color: #999999">Created <span title=".*">less than a minute</span> ago</div>
+  <div class="note-comment-text">This is note comment 2</div>
+</div>
+</div>}}
+        end
       end
     end
   end
