@@ -1,4 +1,6 @@
 <h2><%= t ".comment" %></h2>
 <%= render :partial => "comment", :object => entry %>
+<% if entry.note.comments.count > 1 %>
 <h2><%= t ".full" %></h2>
 <%= render :partial => "description", :object => entry.note %>
+<% end %>
