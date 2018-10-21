@@ -207,4 +207,29 @@ class RelationTest < ActiveSupport::TestCase
     assert_equal 39, changeset.min_lat
     assert_equal 39, changeset.max_lat
   end
+
+  def test_changeset_bbox_delete_relation
+    orig_relation = create(:relation)
+    node1 = create(:node, :longitude => 116, :latitude => 39)
+    node2 = create(:node, :longitude => 39, :latitude => 116)
+    create(:relation_member, :relation => orig_relation, :member_type => "Node", :member_id => node1.id)
+    create(:relation_member, :relation => orig_relation, :member_type => "Node", :member_id => node2.id)
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+    assert_nil changeset.min_lon
+    assert_nil changeset.max_lon
+    assert_nil changeset.max_lat
+    assert_nil changeset.min_lat
+
+    new_relation = Relation.new
+    new_relation.id = orig_relation.id
+    new_relation.version = orig_relation.version
+    new_relation.changeset_id = changeset.id
+    orig_relation.delete_with_history!(new_relation, user)
+    changeset.reload
+    assert_equal 39, changeset.min_lon
+    assert_equal 116, changeset.max_lon
+    assert_equal 39, changeset.min_lat
+    assert_equal 116, changeset.max_lat
+  end
 end
