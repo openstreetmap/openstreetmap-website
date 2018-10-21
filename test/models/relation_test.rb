@@ -209,12 +209,11 @@ class RelationTest < ActiveSupport::TestCase
   end
 
   def test_changeset_bbox_delete_relation
-    relation = create(:relation)
     orig_relation = create(:relation)
     node1 = create(:node, :longitude => 116, :latitude => 39)
     node2 = create(:node, :longitude => 39, :latitude => 116)
-    node_member1 = create(:relation_member, :relation => orig_relation, :member_type => "Node", :member_id => node1.id)
-    node_member2 = create(:relation_member, :relation => orig_relation, :member_type => "Node", :member_id => node2.id)
+    create(:relation_member, :relation => orig_relation, :member_type => "Node", :member_id => node1.id)
+    create(:relation_member, :relation => orig_relation, :member_type => "Node", :member_id => node2.id)
     user = create(:user)
     changeset = create(:changeset, :user => user)
     assert_nil changeset.min_lon
