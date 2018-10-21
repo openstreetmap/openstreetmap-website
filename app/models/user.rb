@@ -34,6 +34,7 @@
 #  image_content_type  :string
 #  auth_provider       :string
 #  home_tile           :integer
+#  tou_agreed          :datetime
 #
 # Indexes
 #

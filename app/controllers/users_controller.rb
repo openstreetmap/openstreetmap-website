@@ -53,6 +53,7 @@ class UsersController < ApplicationController
     elsif current_user
       unless current_user.terms_agreed?
         current_user.consider_pd = params[:user][:consider_pd]
+        current_user.tou_agreed = Time.now.getutc
         current_user.terms_agreed = Time.now.getutc
         current_user.terms_seen = true
 
@@ -73,6 +74,7 @@ class UsersController < ApplicationController
         current_user.creation_ip = request.remote_ip
         current_user.languages = http_accept_language.user_preferred_languages
         current_user.terms_agreed = Time.now.getutc
+        current_user.tou_agreed = Time.now.getutc
         current_user.terms_seen = true
 
         if current_user.auth_uid.blank?

@@ -9,7 +9,12 @@
 
 <%= form_tag({ :action => "save" }, { :class => " inner22 standard-form fillL" }) do %>
   <!-- legale is <%= @legale %> -->
+  <p class="deemphasize"><%= t '.read and accept' %></p>
+  <label class="standard-label">
+    <%= t '.heading_ct' %>
+  </label>
   <div class='form-row horizontal-list'>
+    <p class="deemphasize"><%= t '.contributor_terms_explain' %></p>
     <label class="standard-label">
       <%= t ".legale_select" %>
     </label>
@@ -28,27 +33,36 @@
     <%= render :partial => "terms" %>
   </div>
 
+  <div class="deemphasize">
+    <p id="contributorGuidance">
+      <%= raw t '.guidance',
+                :summary => 'https://www.osmfoundation.org/wiki/License/Contributor_Terms_Summary',
+                :translations => 'https://www.osmfoundation.org/wiki/License/Contributor_Terms/Informal_Translations' %>
+    </p>
+  </div>
+
+  <label class="standard-label">
+    <%= t 'layouts.tou' %>
+  </label>
+  <p class="deemphasize"><%= t '.tou_explain' %></p>
   <div class="form-row">
-    <label for="user_consider_pd">
-      <%= check_box("user", "consider_pd") %>
-      <%= t ".consider_pd" %>
+    <label for="read_tou">
+      <%= check_box_tag 'read_tou',1,false,:onclick=>"agreebtn = document.getElementById('agree');agreebtn.disabled=!this.checked;"%>
+      <%= t '.read_tou_html', :tou_link => link_to(t('layouts.tou'), "https://wiki.osmfoundation.org/wiki/Terms_of_Use", :target => :new) %>
     </label>
-    <span class="minorNote">(<%= link_to(t(".consider_pd_why"), t(".consider_pd_why_url"), :target => :new) %>)</span>
 
     <%= hidden_field_tag("referer", h(params[:referer])) unless params[:referer].nil? %>
 
     <div class="buttons form-row inner20 clearfix">
-      <p class="deemphasize"><%= t ".read and accept" %></p>
-      <%= submit_tag(t(".agree"), :name => "agree", :id => "agree") %>
-      <%= submit_tag(t(".decline"), :name => "decline", :id => "decline") %>
+      <%= submit_tag(t('.agree'), :name => "agree", :id => "agree", disabled: true)  %>
+      <%= submit_tag(t('.decline'), :name => "decline", :id => "decline") %>
     </div>
 
-    <div class="deemphasize">
-      <p id="contributorGuidance">
-        <%= raw t ".guidance",
-                  :summary => "https://www.osmfoundation.org/wiki/License/Contributor_Terms_Summary",
-                  :translations => "https://www.osmfoundation.org/wiki/License/Contributor_Terms/Informal_Translations" %>
-      </p>
-    </div>
+    <label for="user_consider_pd">
+      <%= check_box('user', 'consider_pd') %>
+      <%= t '.consider_pd' %>
+    </label>
+    <span class="minorNote">(<%= link_to(t('.consider_pd_why'), t('.consider_pd_why_url'), :target => :new)%>)</span>
+
   </div>
 <% end %>
