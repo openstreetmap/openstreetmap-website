@@ -477,11 +477,16 @@ class ApplicationController < ActionController::Base
   end
 
   def deny_access(_exception)
-    if current_user
+    if current_token
       set_locale
       report_error t("oauth.permissions.missing"), :forbidden
+    elsif current_user
+      set_locale
+      report_error t("application.permission_denied"), :forbidden
+    elsif request.get?
+      redirect_to :controller => "users", :action => "login", :referer => request.fullpath
     else
-      require_user
+      head :forbidden
     end
   end
 
