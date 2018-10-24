@@ -31,6 +31,7 @@ class Redaction < ActiveRecord::Base
   has_many :old_ways
   has_many :old_relations
 
+  validates :title, :presence => true
   validates :description, :presence => true
   validates :description_format, :inclusion => { :in => %w[text html markdown] }
 
