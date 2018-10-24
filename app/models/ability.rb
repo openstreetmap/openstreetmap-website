@@ -13,6 +13,7 @@ class Ability
       can :welcome, :site
       can [:create, :edit, :comment, :subscribe, :unsubscribe], DiaryEntry
       can [:new, :create], Report
+      can [:read, :read_one, :update, :update_one, :delete_one], UserPreference
 
       if user.moderator?
         can [:index, :show, :resolve, :ignore, :reopen], Issue

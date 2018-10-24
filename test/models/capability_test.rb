@@ -19,7 +19,7 @@ class UserCapabilityTest < CapabilityTest
     # a user with no tokens
     capability = Capability.new create(:user), nil
     [:read, :read_one, :update, :update_one, :delete_one].each do |act|
-      assert capability.can? act, UserPreference
+      assert capability.cannot? act, UserPreference
     end
 
     # A user with empty tokens

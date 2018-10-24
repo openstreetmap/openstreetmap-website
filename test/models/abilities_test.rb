@@ -54,12 +54,4 @@ class AdministratorAbilityTest < AbilityTest
       assert ability.can?(action, DiaryComment), "should be able to #{action} DiaryComment"
     end
   end
-
-  test "administrator does not auto-grant user preferences" do
-    ability = Ability.new create(:administrator_user)
-
-    [:read, :read_one, :update, :update_one, :delete_one].each do |act|
-      assert ability.cannot? act, UserPreference
-    end
-  end
 end
