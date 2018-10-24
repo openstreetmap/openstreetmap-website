@@ -469,11 +469,12 @@ class ApplicationController < ActionController::Base
   end
 
   def current_ability
-    Ability.new(current_user).merge(granted_capability)
-  end
-
-  def granted_capability
-    Capability.new(current_user, current_token)
+    # Add in capabilities from the oauth token if it exists and is a valid access token
+    if Authenticator.new(self, [:token]).allow?
+      Ability.new(current_user).merge(Capability.new(current_token))
+    else
+      Ability.new(current_user)
+    end
   end
 
   def deny_access(_exception)
