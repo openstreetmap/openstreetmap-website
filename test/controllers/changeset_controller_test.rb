@@ -1088,6 +1088,75 @@ CHANGESET
                     "shouldn't be able to re-use placeholder IDs"
   end
 
+  def test_upload_process_order
+    changeset = create(:changeset)
+
+    basic_authorization changeset.user.email, "test"
+
+    diff = <<CHANGESET.strip_heredoc
+      <osmChange>
+       <create>
+        <node id="-1" lat="1" lon="2" changeset="#{changeset.id}"/>
+        <way id="-1" changeset="#{changeset.id}">
+            <nd ref="-1"/>
+            <nd ref="-2"/>
+        </way>
+        <node id="-2" lat="1" lon="2" changeset="#{changeset.id}"/>
+       </create>
+      </osmChange>
+CHANGESET
+
+    # upload it
+    content diff
+    post :upload, :params => { :id => changeset.id }
+    assert_response :bad_request,
+                    "shouldn't refer elements behind it"
+  end
+
+  def test_upload_duplicate_delete
+    changeset = create(:changeset)
+
+    basic_authorization changeset.user.email, "test"
+
+    diff = <<CHANGESET.strip_heredoc
+      <osmChange>
+        <create>
+          <node id="-1" lat="39" lon="116" changeset="#{changeset.id}" />
+        </create>
+        <delete>
+          <node id="-1" version="1" changeset="#{changeset.id}" />
+          <node id="-1" version="1" changeset="#{changeset.id}" />
+        </delete>
+      </osmChange>
+CHANGESET
+
+    # upload it
+    content diff
+    post :upload, :params => { :id => changeset.id }
+    assert_response :gone,
+                    "transaction should be cancelled by second deletion"
+
+    diff = <<CHANGESET.strip_heredoc
+      <osmChange>
+        <create>
+          <node id="-1" lat="39" lon="116" changeset="#{changeset.id}" />
+        </create>
+        <delete if-unused="true">
+          <node id="-1" version="1" changeset="#{changeset.id}" />
+          <node id="-1" version="1" changeset="#{changeset.id}" />
+        </delete>
+      </osmChange>
+CHANGESET
+
+    # upload it
+    content diff
+    post :upload, :params => { :id => changeset.id }
+    assert_select "diffResult>node", 3
+    assert_select "diffResult>node[old_id='-1']", 3
+    assert_select "diffResult>node[new_version='1']", 1
+    assert_select "diffResult>node[new_version='2']", 1
+  end
+
   ##
   # test that uploading a way referencing invalid placeholders gives a
   # proper error, not a 500.

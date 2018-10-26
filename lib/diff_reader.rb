@@ -8,8 +8,8 @@ class DiffReader
 
   # maps each element type to the model class which handles it
   MODELS = {
-    "node"     => Node,
-    "way"      => Way,
+    "node" => Node,
+    "way" => Way,
     "relation" => Relation
   }.freeze
 
@@ -106,6 +106,29 @@ class DiffReader
   end
 
   ##
+  # Iterate batches respecting the order in osmChange file.
+  # Only adjacent elements can be handled in same batch.
+  def with_batch
+    with_element do |action_name, action_attributes|
+      action_name_sym = action_name.to_sym
+      raise OSM::APIChangesetActionInvalid, action_name unless %w[create modify delete].include? action_name
+
+      xml_arr = []
+      batch_model = nil
+      with_model do |model, xml|
+        batch_model ||= model
+        if model != batch_model
+          yield action_name_sym, action_attributes, batch_model, xml_arr
+          batch_model = model
+          xml_arr = []
+        end
+        xml_arr.append xml
+      end
+      yield action_name_sym, action_attributes, batch_model, xml_arr unless batch_model.nil?
+    end
+  end
+
+  ##
   # Checks a few invariants. Others are checked in the model methods
   # such as save_ and delete_with_history.
   def check(model, xml, new)
@@ -123,12 +146,6 @@ class DiffReader
   def commit
     # data structure used for mapping placeholder IDs to real IDs
     ids = { :node => {}, :way => {}, :relation => {} }
-    # placeholder_id -> model object to save
-    # client_ids = { :node => {}, :way => {}, :relation => {} }
-    # model -> xml array
-    osm_changes = { :create => [], :modify => [], :delete => [] }
-    # action -> attrs
-    change_attributes = {}
 
     result = OSM::API.new.get_xml_doc
     result.root.name = "diffResult"
@@ -137,23 +154,8 @@ class DiffReader
     @reader.read
     raise OSM::APIBadUserInput, "Document element should be 'osmChange'." if @reader.name != "osmChange"
 
-    # classify changes by action and model
-    with_element do |action_name, action_attributes|
-      action_name_sym = action_name.to_sym
-      raise OSM::APIChangesetActionInvalid, action_name unless osm_changes.include? action_name_sym
-
-      action_elements = {}
-      with_model do |model, xml|
-        action_elements[model] ||= []
-        action_elements[model].append xml
-      end
-      osm_changes[action_name_sym].append(action_elements)
-      change_attributes[action_name_sym] ||= []
-      change_attributes[action_name_sym].append action_attributes
-    end
-    # create
-    osm_changes[:create].each do |action_group|
-      action_group.each do |model, xml_arr|
+    with_batch do |action, attributes, model, xml_arr|
+      if action == :create
         model_sym = model.to_s.downcase.to_sym
         wait_hash = {}
         xml_arr.each do |xml|
@@ -229,11 +231,8 @@ class DiffReader
           result.root << xml_result
         end
       end
-    end
 
-    # modify
-    osm_changes[:modify].each do |action_group|
-      action_group.each do |model, xml_arr|
+      if action == :modify
         all_pairs = []
         wait_pairs = []
         xml_arr.each do |xml|
@@ -276,22 +275,20 @@ class DiffReader
           result.root << xml_result
         end
       end
-    end
 
-    # delete
-    osm_changes[:delete].each_with_index do |action_group, group_idx|
-      action_group.each do |model, xml_arr|
-        new_hash = {}
+      if action == :delete
+        all_pairs = []
+        wait_pairs = []
         xml_arr.each do |xml|
           # delete doesn't have to contain a full payload, according to
           # the wiki docs, so we just extract the things we need.
-          new_id = xml["id"].to_i
-          raise OSM::APIBadXMLError.new(model, xml, "ID attribute is required") if new_id.nil?
+          client_id = xml["id"].to_i
+          raise OSM::APIBadXMLError.new(model, xml, "ID attribute is required") if client_id.nil?
 
           # if the ID is a placeholder then map it to the real ID
           model_sym = model.to_s.downcase.to_sym
-          is_placeholder = ids[model_sym].include? new_id
-          id = is_placeholder ? ids[model_sym][new_id] : new_id
+          is_placeholder = ids[model_sym].include? client_id
+          id = is_placeholder ? ids[model_sym][client_id] : client_id
 
           # build the "new" element by modifying the existing one
           new = model.new
@@ -299,14 +296,31 @@ class DiffReader
           new.changeset_id = xml["changeset"].to_i
           new.version = xml["version"].to_i
           check(model, xml, new)
-          new_hash[new_id] = new
+          all_pairs.append [client_id, new]
+          wait_pairs.append [client_id, new]
         end
-        if_unused = change_attributes[:delete][group_idx]["if-unused"]
-        skipped = model.delete_with_history_bulk!(new_hash.values, @changeset, if_unused)
-        new_hash.each do |client_id, new|
+        if_unused = attributes["if-unused"]
+        all_skipped = {}
+        until wait_pairs.empty?
+          new_hash = {}
+          temp_pairs = []
+          wait_pairs.each do |client_id, new|
+            if new_hash.key? client_id
+              temp_pairs.append [client_id, new]
+            else
+              new_hash[client_id] = new
+            end
+          end
+          skipped = model.delete_with_history_bulk!(new_hash.values, @changeset, if_unused)
+          skipped.each do |_, new|
+            all_skipped[new.object_id] = true
+          end
+          wait_pairs = temp_pairs
+        end
+        all_pairs.each do |client_id, new|
           xml_result = XML::Node.new model.to_s.downcase
           xml_result["old_id"] = client_id.to_s
-          if skipped.key? new.id
+          if all_skipped.key? new.object_id
             xml_result["new_id"] = new.id.to_s
             xml_result["new_version"] = new.version.to_s
           end
