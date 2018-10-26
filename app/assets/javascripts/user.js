@@ -124,4 +124,9 @@ $(document).ready(function () {
     $("#contributorTerms").html("<img src='" + OSM.SEARCHING + "' />");
     $("#contributorTerms").load(url);
   });
+
+  $("#read_tou").on("click", function () { 
+    var agreebtn = document.getElementById('agree');
+    agreebtn.disabled=!this.checked;
+  });
 });
