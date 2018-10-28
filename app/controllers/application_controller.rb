@@ -140,7 +140,7 @@ class ApplicationController < ActionController::Base
   def require_administrator
     if current_user
       unless current_user.administrator?
-        flash[:error] = t("user.filter.not_an_administrator")
+        flash[:error] = t("users.filter.not_an_administrator")
         redirect_to user_path(current_user)
       end
     else

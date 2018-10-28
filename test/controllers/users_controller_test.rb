@@ -1461,7 +1461,7 @@ class UsersControllerTest < ActionController::TestCase
     # Shouldn't work when logged in as a normal user
     get :index
     assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path
+    assert_redirected_to user_path(user)
 
     session[:user] = moderator_user.id
 
@@ -1540,7 +1540,7 @@ class UsersControllerTest < ActionController::TestCase
       post :index, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
     end
     assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path
+    assert_redirected_to user_path(suspended_user)
     assert_equal "pending", inactive_user.reload.status
     assert_equal "suspended", suspended_user.reload.status
 
@@ -1587,7 +1587,7 @@ class UsersControllerTest < ActionController::TestCase
       post :index, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
     end
     assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path
+    assert_redirected_to user_path(normal_user)
     assert_equal "active", normal_user.reload.status
     assert_equal "confirmed", confirmed_user.reload.status
 
@@ -1598,7 +1598,7 @@ class UsersControllerTest < ActionController::TestCase
       post :index, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
     end
     assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path
+    assert_redirected_to user_path(normal_user)
     assert_equal "active", normal_user.reload.status
     assert_equal "confirmed", confirmed_user.reload.status
 
