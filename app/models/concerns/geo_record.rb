@@ -1,6 +1,8 @@
 require "delegate"
 
 module GeoRecord
+  extend ActiveSupport::Concern
+
   # Ensure that when coordinates are printed that they are always in decimal degrees,
   # and not e.g. 4.0e-05
   # Unfortunately you can't extend Numeric classes directly (e.g. `Coord < Float`).
@@ -19,9 +21,9 @@ module GeoRecord
   # the database.
   SCALE = 10000000
 
-  def self.included(base)
-    base.scope :bbox, ->(bbox) { base.where(OSM.sql_for_area(bbox)) }
-    base.before_save :update_tile
+  included do
+    scope :bbox, ->(bbox) { where(OSM.sql_for_area(bbox)) }
+    before_save :update_tile
   end
 
   # Is this node within -90 >= latitude >= 90 and -180 >= longitude >= 180

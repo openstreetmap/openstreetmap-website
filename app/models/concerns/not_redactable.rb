@@ -1,6 +1,6 @@
-require "osm"
-
 module NotRedactable
+  extend ActiveSupport::Concern
+
   def redacted?
     false
   end
