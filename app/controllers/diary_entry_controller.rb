@@ -234,7 +234,7 @@ class DiaryEntryController < ApplicationController
   # and return them to the user page.
   def require_administrator
     unless current_user.administrator?
-      flash[:error] = t("user.filter.not_an_administrator")
+      flash[:error] = t("users.filter.not_an_administrator")
       redirect_to :action => "show"
     end
   end
