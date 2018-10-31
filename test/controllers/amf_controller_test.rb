@@ -360,11 +360,11 @@ class AmfControllerTest < ActionController::TestCase
   # into the method args.
   def test_getway_old_invalid
     way_id = create(:way, :with_history, :version => 2).id
-    { "foo"  => "bar",
+    { "foo" => "bar",
       way_id => "not a date",
       way_id => "2009-03-25 00:00:00",                   # <- wrong format
       way_id => "0 Jan 2009 00:00:00",                   # <- invalid date
-      -1     => "1 Jan 2009 00:00:00" }.each do |id, t|  # <- invalid
+      -1 => "1 Jan 2009 00:00:00" }.each do |id, t| # <- invalid
       amf_content "getway_old", "/1", [id, t]
       post :amf_read
       assert_response :success
