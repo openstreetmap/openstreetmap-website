@@ -2153,7 +2153,9 @@ CHANGESET
 
     assert_difference "ChangesetComment.count", 1 do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
-        post :comment, :params => { :id => private_user_closed_changeset.id, :text => "This is a comment" }
+        perform_enqueued_jobs do
+          post :comment, :params => { :id => private_user_closed_changeset.id, :text => "This is a comment" }
+        end
       end
     end
     assert_response :success
@@ -2166,7 +2168,9 @@ CHANGESET
 
     assert_difference "ChangesetComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 1 do
-        post :comment, :params => { :id => changeset.id, :text => "This is a comment" }
+        perform_enqueued_jobs do
+          post :comment, :params => { :id => changeset.id, :text => "This is a comment" }
+        end
       end
     end
     assert_response :success
@@ -2182,7 +2186,9 @@ CHANGESET
 
     assert_difference "ChangesetComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 2 do
-        post :comment, :params => { :id => changeset.id, :text => "This is a comment" }
+        perform_enqueued_jobs do
+          post :comment, :params => { :id => changeset.id, :text => "This is a comment" }
+        end
       end
     end
     assert_response :success

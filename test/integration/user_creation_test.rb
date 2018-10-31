@@ -37,9 +37,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
       display_name = "#{locale}_new_tester"
       assert_difference("User.count", 0) do
         assert_difference("ActionMailer::Base.deliveries.size", 0) do
-          post "/user/new",
-               :params => { :user => { :email => dup_email, :email_confirmation => dup_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } },
-               :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
+          perform_enqueued_jobs do
+            post "/user/new",
+                 :params => { :user => { :email => dup_email, :email_confirmation => dup_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } },
+                 :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
+          end
         end
       end
       assert_response :success
@@ -56,9 +58,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
       email = "#{locale}_new_tester"
       assert_difference("User.count", 0) do
         assert_difference("ActionMailer::Base.deliveries.size", 0) do
-          post "/user/new",
-               :params => { :user => { :email => email, :email_confirmation => email, :display_name => dup_display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } },
-               :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
+          perform_enqueued_jobs do
+            post "/user/new",
+                 :params => { :user => { :email => email, :email_confirmation => email, :display_name => dup_display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } },
+                 :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
+          end
         end
       end
       assert_response :success
@@ -75,8 +79,10 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
       assert_difference("User.count", 0) do
         assert_difference("ActionMailer::Base.deliveries.size", 0) do
-          post "/user/new",
-               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } }
+          perform_enqueued_jobs do
+            post "/user/new",
+                 :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } }
+          end
         end
       end
 
@@ -84,9 +90,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
       assert_difference("User.count") do
         assert_difference("ActionMailer::Base.deliveries.size", 1) do
-          post "/user/save",
-               :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
-          follow_redirect!
+          perform_enqueued_jobs do
+            post "/user/save",
+                 :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
+            follow_redirect!
+          end
         end
       end
 
@@ -122,12 +130,14 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     referer = "/traces/mine"
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => password, :pass_crypt_confirmation => password }, :referer => referer }
-        assert_redirected_to "/user/terms"
-        post "/user/save",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => password, :pass_crypt_confirmation => password } }
-        follow_redirect!
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => password, :pass_crypt_confirmation => password }, :referer => referer }
+          assert_redirected_to "/user/terms"
+          post "/user/save",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => password, :pass_crypt_confirmation => password } }
+          follow_redirect!
+        end
       end
     end
 
@@ -168,20 +178,22 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     password = "testtest"
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "", :pass_crypt_confirmation => "" } }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to "/user/terms"
-        post "/user/save",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => password, :pass_crypt_confirmation => password } }
-        assert_response :redirect
-        follow_redirect!
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "", :pass_crypt_confirmation => "" } }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to "/user/terms"
+          post "/user/save",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => password, :pass_crypt_confirmation => password } }
+          assert_response :redirect
+          follow_redirect!
+        end
       end
     end
 
@@ -199,21 +211,23 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     display_name = "new_tester-openid2"
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "", :pass_crypt_confirmation => "" } }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_failure_path(:strategy => "openid", :message => "connection_failed", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        follow_redirect!
-        assert_response :success
-        assert_template "users/new"
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "", :pass_crypt_confirmation => "" } }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_failure_path(:strategy => "openid", :message => "connection_failed", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          follow_redirect!
+          assert_response :success
+          assert_template "users/new"
+        end
       end
     end
 
@@ -229,19 +243,21 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     referer = "/traces/mine"
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to "/user/terms"
-        post "/user/save",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } }
-        follow_redirect!
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to "/user/terms"
+          post "/user/save",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } }
+          follow_redirect!
+        end
       end
     end
 
@@ -284,20 +300,22 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     password = "testtest"
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "google", :pass_crypt => "", :pass_crypt_confirmation => "" } }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "google", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "google")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to "/user/terms"
-        post "/user/save",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "google", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password } }
-        assert_response :redirect
-        follow_redirect!
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "google", :pass_crypt => "", :pass_crypt_confirmation => "" } }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "google", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "google")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to "/user/terms"
+          post "/user/save",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "google", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password } }
+          assert_response :redirect
+          follow_redirect!
+        end
       end
     end
 
@@ -315,21 +333,23 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     display_name = "new_tester-google2"
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "google", :pass_crypt => "", :pass_crypt_confirmation => "" } }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "google", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "google")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_failure_path(:strategy => "google", :message => "connection_failed", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        follow_redirect!
-        assert_response :success
-        assert_template "users/new"
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "google", :pass_crypt => "", :pass_crypt_confirmation => "" } }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "google", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "google")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_failure_path(:strategy => "google", :message => "connection_failed", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          follow_redirect!
+          assert_response :success
+          assert_template "users/new"
+        end
       end
     end
 
@@ -347,19 +367,21 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     referer = "/traces/mine"
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "google", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "google", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "google")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to "/user/terms"
-        post "/user/save",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "google", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } }
-        follow_redirect!
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "google", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "google", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "google")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to "/user/terms"
+          post "/user/save",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "google", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } }
+          follow_redirect!
+        end
       end
     end
 
@@ -400,20 +422,22 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     password = "testtest"
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "facebook", :pass_crypt => "", :pass_crypt_confirmation => "" } }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "facebook", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "facebook")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to "/user/terms"
-        post "/user/save",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "facebook", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password } }
-        assert_response :redirect
-        follow_redirect!
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "facebook", :pass_crypt => "", :pass_crypt_confirmation => "" } }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "facebook", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "facebook")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to "/user/terms"
+          post "/user/save",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "facebook", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password } }
+          assert_response :redirect
+          follow_redirect!
+        end
       end
     end
 
@@ -431,21 +455,23 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     display_name = "new_tester-facebook2"
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "facebook", :pass_crypt => "", :pass_crypt_confirmation => "" } }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "facebook", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "facebook")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_failure_path(:strategy => "facebook", :message => "connection_failed", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        follow_redirect!
-        assert_response :success
-        assert_template "users/new"
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "facebook", :pass_crypt => "", :pass_crypt_confirmation => "" } }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "facebook", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "facebook")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_failure_path(:strategy => "facebook", :message => "connection_failed", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          follow_redirect!
+          assert_response :success
+          assert_template "users/new"
+        end
       end
     end
 
@@ -461,19 +487,21 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     referer = "/traces/mine"
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "facebook", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "facebook", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "facebook")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to "/user/terms"
-        post "/user/save",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "facebook", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } }
-        follow_redirect!
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "facebook", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "facebook", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "facebook")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to "/user/terms"
+          post "/user/save",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "facebook", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } }
+          follow_redirect!
+        end
       end
     end
 
@@ -514,20 +542,22 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     password = "testtest"
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "windowslive", :pass_crypt => "", :pass_crypt_confirmation => "" } }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "windowslive", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "windowslive")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to "/user/terms"
-        post "/user/save",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "windowslive", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password } }
-        assert_response :redirect
-        follow_redirect!
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "windowslive", :pass_crypt => "", :pass_crypt_confirmation => "" } }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "windowslive", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "windowslive")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to "/user/terms"
+          post "/user/save",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "windowslive", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password } }
+          assert_response :redirect
+          follow_redirect!
+        end
       end
     end
 
@@ -545,21 +575,23 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     display_name = "new_tester-windowslive2"
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "windowslive", :pass_crypt => "", :pass_crypt_confirmation => "" } }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "windowslive", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "windowslive")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_failure_path(:strategy => "windowslive", :message => "connection_failed", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        follow_redirect!
-        assert_response :success
-        assert_template "users/new"
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "windowslive", :pass_crypt => "", :pass_crypt_confirmation => "" } }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "windowslive", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "windowslive")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_failure_path(:strategy => "windowslive", :message => "connection_failed", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          follow_redirect!
+          assert_response :success
+          assert_template "users/new"
+        end
       end
     end
 
@@ -575,19 +607,21 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     referer = "/traces/mine"
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "windowslive", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "windowslive", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "windowslive")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to "/user/terms"
-        post "/user/save",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "windowslive", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } }
-        follow_redirect!
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "windowslive", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "windowslive", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "windowslive")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to "/user/terms"
+          post "/user/save",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "windowslive", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } }
+          follow_redirect!
+        end
       end
     end
 
@@ -628,20 +662,22 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     password = "testtest"
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :pass_crypt => "", :pass_crypt_confirmation => "" } }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "github")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to "/user/terms"
-        post "/user/save",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password } }
-        assert_response :redirect
-        follow_redirect!
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :pass_crypt => "", :pass_crypt_confirmation => "" } }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "github")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to "/user/terms"
+          post "/user/save",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password } }
+          assert_response :redirect
+          follow_redirect!
+        end
       end
     end
 
@@ -659,21 +695,23 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     display_name = "new_tester-github2"
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :pass_crypt => "", :pass_crypt_confirmation => "" } }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "github")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_failure_path(:strategy => "github", :message => "connection_failed", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        follow_redirect!
-        assert_response :success
-        assert_template "users/new"
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :pass_crypt => "", :pass_crypt_confirmation => "" } }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "github")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_failure_path(:strategy => "github", :message => "connection_failed", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          follow_redirect!
+          assert_response :success
+          assert_template "users/new"
+        end
       end
     end
 
@@ -689,19 +727,21 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     referer = "/traces/mine"
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "github")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to "/user/terms"
-        post "/user/save",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } }
-        follow_redirect!
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "github")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to "/user/terms"
+          post "/user/save",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } }
+          follow_redirect!
+        end
       end
     end
 
@@ -742,20 +782,22 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     password = "testtest"
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "wikipedia", :pass_crypt => "", :pass_crypt_confirmation => "" } }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "wikipedia", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to "/user/terms"
-        post "/user/save",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "wikipedia", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password } }
-        assert_response :redirect
-        follow_redirect!
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "wikipedia", :pass_crypt => "", :pass_crypt_confirmation => "" } }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "wikipedia", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to "/user/terms"
+          post "/user/save",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "wikipedia", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password } }
+          assert_response :redirect
+          follow_redirect!
+        end
       end
     end
 
@@ -773,21 +815,23 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     display_name = "new_tester-wikipedia2"
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "wikipedia", :pass_crypt => "", :pass_crypt_confirmation => "" } }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "wikipedia", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_failure_path(:strategy => "wikipedia", :message => "connection_failed", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        follow_redirect!
-        assert_response :success
-        assert_template "users/new"
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "wikipedia", :pass_crypt => "", :pass_crypt_confirmation => "" } }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "wikipedia", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_failure_path(:strategy => "wikipedia", :message => "connection_failed", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          follow_redirect!
+          assert_response :success
+          assert_template "users/new"
+        end
       end
     end
 
@@ -803,19 +847,21 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     referer = "/traces/mine"
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
-        post "/user/new",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "wikipedia", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer }
-        assert_response :redirect
-        assert_redirected_to auth_path(:provider => "wikipedia", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
-        follow_redirect!
-        assert_response :redirect
-        assert_redirected_to "/user/terms"
-        post "/user/save",
-             :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "wikipedia", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } }
-        follow_redirect!
+        perform_enqueued_jobs do
+          post "/user/new",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "wikipedia", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer }
+          assert_response :redirect
+          assert_redirected_to auth_path(:provider => "wikipedia", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/user/new")
+          follow_redirect!
+          assert_response :redirect
+          assert_redirected_to "/user/terms"
+          post "/user/save",
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "wikipedia", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } }
+          follow_redirect!
+        end
       end
     end
 
