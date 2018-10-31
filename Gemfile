@@ -16,7 +16,7 @@ gem "json"
 gem "pg", "~> 0.18"
 
 # Use SCSS for stylesheets
-gem "sassc-rails"
+gem "sassc-rails", "~> 1.3"
 
 # Use Uglifier as compressor for JavaScript assets
 gem "uglifier", ">= 1.3.0"
