@@ -51,5 +51,8 @@ module OpenStreetMap
       config.logstasher.logger_path = LOGSTASH_PATH
       config.logstasher.log_controller_parameters = true
     end
+
+    # Use DelayedJob as the persistent backend for ActiveJob
+    config.active_job.queue_adapter = :delayed_job
   end
 end
