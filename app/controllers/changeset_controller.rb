@@ -5,18 +5,17 @@ class ChangesetController < ApplicationController
   require "xml/libxml"
 
   skip_before_action :verify_authenticity_token, :except => [:index]
-  before_action :authorize_web, :only => [:index, :feed, :comments_feed]
-  before_action :set_locale, :only => [:index, :feed, :comments_feed]
-  before_action :authorize, :only => [:create, :update, :upload, :close, :comment, :subscribe, :unsubscribe, :hide_comment, :unhide_comment]
-  before_action :require_moderator, :only => [:hide_comment, :unhide_comment]
-  before_action :require_allow_write_api, :only => [:create, :update, :upload, :close, :comment, :subscribe, :unsubscribe, :hide_comment, :unhide_comment]
-  before_action :require_public_data, :only => [:create, :update, :upload, :close, :comment, :subscribe, :unsubscribe]
-  before_action :check_api_writable, :only => [:create, :update, :upload, :comment, :subscribe, :unsubscribe, :hide_comment, :unhide_comment]
-  before_action :check_api_readable, :except => [:create, :update, :upload, :download, :query, :index, :feed, :comment, :subscribe, :unsubscribe, :comments_feed]
-  before_action(:only => [:index, :feed, :comments_feed]) { |c| c.check_database_readable(true) }
-  around_action :api_call_handle_error, :except => [:index, :feed, :comments_feed]
-  around_action :api_call_timeout, :except => [:index, :feed, :comments_feed, :upload]
-  around_action :web_timeout, :only => [:index, :feed, :comments_feed]
+  before_action :authorize_web, :only => [:index, :feed]
+  before_action :set_locale, :only => [:index, :feed]
+  before_action :authorize, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
+  before_action :require_allow_write_api, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
+  before_action :require_public_data, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
+  before_action :check_api_writable, :only => [:create, :update, :upload, :subscribe, :unsubscribe]
+  before_action :check_api_readable, :except => [:create, :update, :upload, :download, :query, :index, :feed, :subscribe, :unsubscribe]
+  before_action(:only => [:index, :feed]) { |c| c.check_database_readable(true) }
+  around_action :api_call_handle_error, :except => [:index, :feed]
+  around_action :api_call_timeout, :except => [:index, :feed, :upload]
+  around_action :web_timeout, :only => [:index, :feed]
 
   # Helper methods for checking consistency
   include ConsistencyValidations
@@ -311,38 +310,6 @@ class ChangesetController < ApplicationController
   end
 
   ##
-  # Add a comment to a changeset
-  def comment
-    # Check the arguments are sane
-    raise OSM::APIBadUserInput, "No id was given" unless params[:id]
-    raise OSM::APIBadUserInput, "No text was given" if params[:text].blank?
-
-    # Extract the arguments
-    id = params[:id].to_i
-    body = params[:text]
-
-    # Find the changeset and check it is valid
-    changeset = Changeset.find(id)
-    raise OSM::APIChangesetNotYetClosedError, changeset if changeset.is_open?
-
-    # Add a comment to the changeset
-    comment = changeset.comments.create(:changeset => changeset,
-                                        :body => body,
-                                        :author => current_user)
-
-    # Notify current subscribers of the new comment
-    changeset.subscribers.visible.each do |user|
-      Notifier.changeset_comment_notification(comment, user).deliver_later if current_user != user
-    end
-
-    # Add the commenter to the subscribers if necessary
-    changeset.subscribers << current_user unless changeset.subscribers.exists?(current_user.id)
-
-    # Return a copy of the updated changeset
-    render :xml => changeset.to_xml.to_s
-  end
-
-  ##
   # Adds a subscriber to the changeset
   def subscribe
     # Check the arguments are sane
@@ -380,69 +347,6 @@ class ChangesetController < ApplicationController
 
     # Return a copy of the updated changeset
     render :xml => changeset.to_xml.to_s
-  end
-
-  ##
-  # Sets visible flag on comment to false
-  def hide_comment
-    # Check the arguments are sane
-    raise OSM::APIBadUserInput, "No id was given" unless params[:id]
-
-    # Extract the arguments
-    id = params[:id].to_i
-
-    # Find the changeset
-    comment = ChangesetComment.find(id)
-
-    # Hide the comment
-    comment.update(:visible => false)
-
-    # Return a copy of the updated changeset
-    render :xml => comment.changeset.to_xml.to_s
-  end
-
-  ##
-  # Sets visible flag on comment to true
-  def unhide_comment
-    # Check the arguments are sane
-    raise OSM::APIBadUserInput, "No id was given" unless params[:id]
-
-    # Extract the arguments
-    id = params[:id].to_i
-
-    # Find the changeset
-    comment = ChangesetComment.find(id)
-
-    # Unhide the comment
-    comment.update(:visible => true)
-
-    # Return a copy of the updated changeset
-    render :xml => comment.changeset.to_xml.to_s
-  end
-
-  ##
-  # Get a feed of recent changeset comments
-  def comments_feed
-    if params[:id]
-      # Extract the arguments
-      id = params[:id].to_i
-
-      # Find the changeset
-      changeset = Changeset.find(id)
-
-      # Return comments for this changeset only
-      @comments = changeset.comments.includes(:author, :changeset).limit(comments_limit)
-    else
-      # Return comments
-      @comments = ChangesetComment.includes(:author, :changeset).where(:visible => true).order("created_at DESC").limit(comments_limit).preload(:changeset)
-    end
-
-    # Render the result
-    respond_to do |format|
-      format.rss
-    end
-  rescue OSM::APIBadUserInput
-    head :bad_request
   end
 
   private
@@ -576,19 +480,5 @@ class ChangesetController < ApplicationController
   # this should be applied to all changeset list displays
   def conditions_nonempty(changesets)
     changesets.where("num_changes > 0")
-  end
-
-  ##
-  # Get the maximum number of comments to return
-  def comments_limit
-    if params[:limit]
-      if params[:limit].to_i.positive? && params[:limit].to_i <= 10000
-        params[:limit].to_i
-      else
-        raise OSM::APIBadUserInput, "Comments limit must be between 1 and 10000"
-      end
-    else
-      100
-    end
   end
 end

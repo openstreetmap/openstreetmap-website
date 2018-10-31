@@ -16,9 +16,9 @@ OpenStreetMap::Application.routes.draw do
     put "changeset/:id" => "changeset#update", :id => /\d+/
     put "changeset/:id/close" => "changeset#close", :id => /\d+/
     get "changesets" => "changeset#query"
-    post "changeset/:id/comment" => "changeset#comment", :as => :changeset_comment, :id => /\d+/
-    post "changeset/comment/:id/hide" => "changeset#hide_comment", :as => :changeset_comment_hide, :id => /\d+/
-    post "changeset/comment/:id/unhide" => "changeset#unhide_comment", :as => :changeset_comment_unhide, :id => /\d+/
+    post "changeset/:id/comment" => "changeset_comments#comment", :as => :changeset_comment, :id => /\d+/
+    post "changeset/comment/:id/hide" => "changeset_comments#hide_comment", :as => :changeset_comment_hide, :id => /\d+/
+    post "changeset/comment/:id/unhide" => "changeset_comments#unhide_comment", :as => :changeset_comment_unhide, :id => /\d+/
 
     put "node/create" => "node#create"
     get "node/:id/ways" => "way#ways_for_node", :id => /\d+/
@@ -116,7 +116,7 @@ OpenStreetMap::Application.routes.draw do
   get "/relation/:id" => "browse#relation", :id => /\d+/, :as => :relation
   get "/relation/:id/history" => "browse#relation_history", :id => /\d+/
   get "/changeset/:id" => "browse#changeset", :as => :changeset, :id => /\d+/
-  get "/changeset/:id/comments/feed" => "changeset#comments_feed", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
+  get "/changeset/:id/comments/feed" => "changeset_comments#comments_feed", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
   get "/note/:id" => "browse#note", :id => /\d+/, :as => "browse_note"
   get "/note/new" => "browse#new_note"
   get "/user/:display_name/history" => "changeset#index"
@@ -152,7 +152,7 @@ OpenStreetMap::Application.routes.draw do
   get "/about" => "site#about"
   get "/history" => "changeset#index"
   get "/history/feed" => "changeset#feed", :defaults => { :format => :atom }
-  get "/history/comments/feed" => "changeset#comments_feed", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
+  get "/history/comments/feed" => "changeset_comments#comments_feed", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
   get "/export" => "site#export"
   match "/login" => "users#login", :via => [:get, :post]
   match "/logout" => "users#logout", :via => [:get, :post]
