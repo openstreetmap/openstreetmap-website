@@ -88,16 +88,6 @@ module ActiveSupport
     end
 
     ##
-    # set oauth token permissions
-    def grant_oauth_token(*tokens)
-      request.env["oauth.token"] = AccessToken.new do |token|
-        tokens.each do |t|
-          token.public_send("#{t}=", true)
-        end
-      end
-    end
-
-    ##
     # set request readers to ask for a particular error format
     def error_format(format)
       @request.env["HTTP_X_ERROR_FORMAT"] = format
