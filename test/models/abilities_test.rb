@@ -22,8 +22,8 @@ class GuestAbilityTest < AbilityTest
     end
 
     [:create, :edit, :comment, :subscribe, :unsubscribe, :hide, :hidecomment].each do |action|
-      assert ability.cannot?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
-      assert ability.cannot?(action, DiaryComment), "should be able to #{action} DiaryEntries"
+      assert ability.cannot?(action, DiaryEntry), "should not be able to #{action} DiaryEntries"
+      assert ability.cannot?(action, DiaryComment), "should not be able to #{action} DiaryEntries"
     end
   end
 end
@@ -37,8 +37,8 @@ class UserAbilityTest < AbilityTest
     end
 
     [:hide, :hidecomment].each do |action|
-      assert ability.cannot?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
-      assert ability.cannot?(action, DiaryComment), "should be able to #{action} DiaryEntries"
+      assert ability.cannot?(action, DiaryEntry), "should not be able to #{action} DiaryEntries"
+      assert ability.cannot?(action, DiaryComment), "should not be able to #{action} DiaryEntries"
     end
 
     [:index, :show, :resolve, :ignore, :reopen].each do |action|
