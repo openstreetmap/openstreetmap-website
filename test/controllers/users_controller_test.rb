@@ -941,8 +941,9 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :not_found
 
     # Test a normal user
-    user = create(:user)
-    create(:friend, :befriender => user)
+    user = create(:user, :home_lon => 1.1, :home_lat => 1.1)
+    friend_user = create(:user, :home_lon => 1.2, :home_lat => 1.2)
+    create(:friend, :befriender => user, :befriendee => friend_user)
     get :show, :params => { :display_name => user.display_name }
     assert_response :success
     assert_select "div#userinformation" do

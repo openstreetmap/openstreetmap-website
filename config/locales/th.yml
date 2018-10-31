@@ -192,7 +192,7 @@ th:
         tag: หน้าคำอธิบายวิกิาสำหรับป้ายระบุ %{key}=%{value}
       wikidata_link: รายการ %{page} ที่วิกิสนเทศ
       wikipedia_link: บทความ %{page} ที่วิกิพีเดีย
-      telephone_link: โทรศัพท์ไปเลขหมาย %{phone_number}
+      telephone_link: โทรศัพท์ไปที่หมายเลข %{phone_number}
     note:
       title: 'หมายเหตุ: %{id}'
       new_note: หมายเหตุใหม่
@@ -448,7 +448,7 @@ th:
           social_facility: สโมสรพบปะ
           studio: สถานที่บันทึกภาพและเสียง
           swimming_pool: สระว่ายน้ำ
-          taxi: รถแท็กซี่
+          taxi: จุดจอดแท็กซี่
           telephone: โทรศัพท์สาธารณะ
           theatre: โรงละคร
           toilets: ห้องน้ำสาธารณะ
@@ -809,7 +809,7 @@ th:
           deli: ร้านขายอาหารพิเศษ
           department_store: ห้างสรรพสินค้า
           discount: ร้านสินค้าลดราคา
-          doityourself: ทำด้วยตัวท่านเอง
+          doityourself: ร้านอุปกรณ์ช่างประจำบ้าน
           dry_cleaning: ร้านซักแห้ง
           electronics: ร้านเครื่องไฟฟ้า
           estate_agent: บริษัทอสังหาริมทรัพย์
@@ -946,6 +946,13 @@ th:
       created_at: เมื่อ %{datetime}
   reports:
     new:
+      title_html: แจ้งปัญหาเกี่ยวกับ %{link}
+      select: 'เลือกประเภทของปัญหาที่ประสงค์จะแจ้ง:'
+      disclaimer:
+        intro: 'ก่อนที่จะแจ้งปัญหาไปยังผู้ดูแล ขอให้ดูจนแน่ใจก่อนว่า:'
+        not_just_mistake: ปัญหานี้ไม่ได้เกิดจากเพียงความพลั้งเผลอ
+        unable_to_fix: คุณและผู้ใช้คนอื่นไม่สามารถเข้าไปแก้ปัญหานี้ด้วยตัวเอง
+        resolve_with_user: คุณได้พยายามพูดคุยแก้ไขปัญหากับผู้ใช้คนดังกล่าวแล้ว
       categories:
         diary_entry:
           threat_label: บันทึกนี้มีใจความข่มขู่คุกคาม
@@ -962,6 +969,7 @@ th:
           abusive_label: หมายเหตุนี้ใช้ถ้อยคำหยาบคายหรือส่งเสริมความรุนแรง
           other_label: อื่นๆ
     create:
+      successful_report: ทำการแจ้งปัญหาเสร็จสิ้นเรียบร้อย
       provide_details: กรุณาระบุรายละเอียด
   layouts:
     logo:
@@ -1297,7 +1305,10 @@ th:
         infringement_2_html: |-
           หากท่านเชื่อว่าข้อมูลละเมิดลิขสิทธิ์ปรากฏในเว็บไซต์นี้หรือในฐานข้อมูล OpenStreetMap โปรดดู <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">ขั้นตอนการลบข้อมูลละเมิดลิขสิทธิ์</a> หรือแจ้งได้ที่
           <a href="http://dmca.openstreetmap.org/">หน้ารับแจ้งการละเมิดข้อมูลลิขสิทธิ์</a>
-        trademarks_title_html: <span id="trademarks"></span>เครืองหมายการค้า
+        trademarks_title_html: <span id="trademarks"></span>เครื่องหมายการค้า
+        trademarks_1_html: OpenStreetMap, State of the Map, และตราสัญลักษณ์แว่นขยาย
+          เป็นเครื่องหมายการค้าจดทะเบียนของมูลนิธิ OpenStreetMap, หากคุณมีข้อสงสัยเกี่ยวกับการใช้ชื่อและตราสัญลักษณ์ของเรา
+          สามารถตรวจสอบรายละเอียดได้ที่หน้า<a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">นโยบายเครื่องหมายการค้า</a>
     index:
       js_1: ท่านกำลังใช้เบราว์เซอร์ที่ไม่รองรับจาวาสคริปต์ หรือท่านปิดใช้งานจาวาสคริปต์
       js_2: OpenStreetMap ใช้จาวาสคริปต์ในการแสดงแผนที่
@@ -1711,6 +1722,9 @@ th:
       no account: ยังไม่ได้เป็นสมาชิก?
       account not active: ขออภัย บัญชีของท่านยังไม่เปิดใช้งาน<br/>โปรดใช้ลิงก์ที่ให้ไว้ในอีเมลตอบรับเพื่อเปิดใช้งานบัญชี
         หรือ<a href="%{reconfirm}">ขออีเมลตอบรับใหม่</a> หากสูญหาย
+      account is suspended: ขออภัย บัญชีของคุณถูกระงับการใช้งานเนื่องจากกิจกรรมที่น่าสงสัย<br/>หากต้องการพูดคุยในรายละเอียด
+        กรุณาติดต่อ<a href="%{webmaster}">ผู้ดูแลระบบ</a>
+      auth failure: ขออภัย ไม่สามารถเข้าระบบด้วยชื่อผู้ใช้และรหัสผ่านดังกล่าวได้
       openid_logo_alt: เข้าใช้งานด้วย OpenID
       auth_providers:
         openid:
@@ -1730,11 +1744,13 @@ th:
           alt: เข้าใช้งานด้วยบัญชี GitHub
         wikipedia:
           title: เข้าใช้งานด้วยวิกิพีเดีย
+          alt: เข้าสู่ระบบด้วยบัญชีวิกิพีเดีย
         yahoo:
           title: เข้าใช้งานด้วย Yahoo
           alt: เข้าใช้งานด้วย Yahoo OpenID
         wordpress:
           title: เข้าใช้งานด้วย Wordpress
+          alt: เข้าสู่ระบบด้วย Wordpress OpenID
         aol:
           title: เข้าใช้งานด้วย AOL
           alt: เข้าใช้งานด้วย AOL OpenID
@@ -1836,6 +1852,7 @@ th:
       no nearby users: ไม่ได้มีผู้ใดแสดงตัวว่าทำแผนที่อยู่ใกล้เคียง
       role:
         administrator: คนนี้เป็นผู้ดูแลระบบ
+        moderator: ผู้ใช้นี้เป็นผู้ดูแล
       comments: ความเห็นที่เขียน
       create_block: กีดกันผู้ใช้นี้
       activate_user: เปิดใช้งานผู้ใช้นี้
@@ -2120,6 +2137,8 @@ th:
       new:
         add: เพิ่มหมายเหตุ
       show:
+        anonymous_warning: หมายเหตุนี้มีข้อความจากผู้ที่ไม่ประสงค์จะออกนาม ซึ่งควรทำการตรวจสอบตามข้อมูลที่แจ้งมานี้ด้วยตัวคุณเองอีกครั้ง
+          ก่อนจะดำเนินการใดๆ ต่อ
         hide: ซ่อน
         resolve: ปิดเรื่อง
         reactivate: รื้อฟื้นหมายเหตุ
@@ -2139,27 +2158,35 @@ th:
       directions: เส้นทาง
       distance: ระยะทาง
       errors:
+        no_route: ไม่พบเส้นทางระหว่างสองจุดที่คุณต้องการ
         no_place: ขออภัย - ไม่พบสถานที่ "%{place}"
       instructions:
         continue_without_exit: เคลื่อนต่อไปทางถนน %{name}
+        slight_right_without_exit: เบนขวาไปที่ %{name}
         offramp_right_with_name: ใช้ทางลาดด้านขวาไปที่ถนน %{name}
         onramp_right_without_exit: เลี่ยวขวาที่ทางลาดไปที่ถนน %{name}
-        endofroad_right_without_exit: เมื่อถึงสุดถนนเลี้ยวขวาไปที่ถนน %{name}
+        endofroad_right_without_exit: เมื่อถึงสุดถนนแล้ว ให้เลี้ยวขวาเข้า %{name}
         merge_right_without_exit: เลี้ยวขวาเข้าสู่ถนน %{name} ซึ่งเป็นทางเอก
         fork_right_without_exit: ที่ทางแยกเลี้ยวขวาไปที่ถนน %{name}
+        turn_right_without_exit: เลี้ยวขวาเข้า %{name}
         sharp_right_without_exit: หักขวาเข้า %{name}
         uturn_without_exit: วกกลับไปตามถนน %{name}
         sharp_left_without_exit: หักซ้ายเข้า %{name}
         turn_left_without_exit: เลี้ยวซ้ายไปที่ %{name}
         offramp_left_with_name: ใช้ทางลาดด้านซ้ายไปที่ %{name}
         onramp_left_without_exit: เลี้ยวซ้ายบนทางลาดไปที่ถนน %{name}
+        onramp_left_without_directions: เลี้ยวซ้ายขึ้นทางลาด
+        onramp_left: เลี้ยวซ้ายขึ้นทางลาด
         endofroad_left_without_exit: เมื่อถึงสุดถนนเลี้ยวซ้ายไปที่ถนน %{name}
         merge_left_without_exit: เลี้ยวซ้ายเข้าสู่ถนน %{name} ซึ่งเป็นทางเอก
         fork_left_without_exit: ที่ทางแยกเลี้ยวซ้ายไปที่ถนน %{name}
         slight_left_without_exit: ขยับซ้ายเล็กน้อยไปที่ %{name}
         follow_without_exit: ไปตาม %{name}
+        leave_roundabout_without_exit: ออกจากวงเวียน - %{name}
         start_without_exit: เริ่มที่ %{name}
         destination_without_exit: ตรงไปยังจุดหมาย
+        against_oneway_without_exit: ให้วิ่งสวนเลนไปบน %{name}
+        end_oneway_without_exit: สิ้นสุดช่วงเดินรถทางเดียวบน %{name}
         roundabout_with_exit: ณ วงเวียน ใช้ทางออก %{exit} ไปที่ถนน %{name}
         exit_roundabout: ออกจากวงเวียนไปทาง %{name}
         unnamed: ถนนไม่มีชื่อ
