@@ -40,6 +40,20 @@ class UserAbilityTest < AbilityTest
       assert ability.cannot?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
       assert ability.cannot?(action, DiaryComment), "should be able to #{action} DiaryEntries"
     end
+
+    [:index, :show, :resolve, :ignore, :reopen].each do |action|
+      assert ability.cannot?(action, Issue), "should not be able to #{action} Issues"
+    end
+  end
+end
+
+class ModeratorAbilityTest < AbilityTest
+  test "Issue permissions" do
+    ability = Ability.new create(:moderator_user)
+
+    [:index, :show, :resolve, :ignore, :reopen].each do |action|
+      assert ability.can?(action, Issue), "should be able to #{action} Issues"
+    end
   end
 end
 
