@@ -1,12 +1,12 @@
 class ChangesetCommentsController < ApplicationController
   before_action :authorize_web, :only => [:comments_feed]
   before_action :set_locale, :only => [:comments_feed]
-  before_action :authorize, :only => [:comment, :hide_comment, :unhide_comment]
+  before_action :authorize, :only => [:create, :hide_comment, :unhide_comment]
   before_action :require_moderator, :only => [:hide_comment, :unhide_comment]
-  before_action :require_allow_write_api, :only => [:comment, :hide_comment, :unhide_comment]
-  before_action :require_public_data, :only => [:comment]
-  before_action :check_api_writable, :only => [:comment, :hide_comment, :unhide_comment]
-  before_action :check_api_readable, :except => [:comment, :comments_feed]
+  before_action :require_allow_write_api, :only => [:create, :hide_comment, :unhide_comment]
+  before_action :require_public_data, :only => [:create]
+  before_action :check_api_writable, :only => [:create, :hide_comment, :unhide_comment]
+  before_action :check_api_readable, :except => [:create, :comments_feed]
   before_action(:only => [:comments_feed]) { |c| c.check_database_readable(true) }
   around_action :api_call_handle_error, :except => [:comments_feed]
   around_action :api_call_timeout, :except => [:comments_feed]
@@ -14,7 +14,7 @@ class ChangesetCommentsController < ApplicationController
 
   ##
   # Add a comment to a changeset
-  def comment
+  def create
     # Check the arguments are sane
     raise OSM::APIBadUserInput, "No id was given" unless params[:id]
     raise OSM::APIBadUserInput, "No text was given" if params[:text].blank?

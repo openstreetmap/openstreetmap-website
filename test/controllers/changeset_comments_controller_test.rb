@@ -6,7 +6,7 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/0.6/changeset/1/comment", :method => :post },
-      { :controller => "changeset_comments", :action => "comment", :id => "1" }
+      { :controller => "changeset_comments", :action => "create", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/comment/1/hide", :method => :post },
@@ -41,7 +41,7 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
     assert_difference "ChangesetComment.count", 1 do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
         perform_enqueued_jobs do
-          post :comment, :params => { :id => private_user_closed_changeset.id, :text => "This is a comment" }
+          post :create, :params => { :id => private_user_closed_changeset.id, :text => "This is a comment" }
         end
       end
     end
@@ -56,7 +56,7 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
     assert_difference "ChangesetComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 1 do
         perform_enqueued_jobs do
-          post :comment, :params => { :id => changeset.id, :text => "This is a comment" }
+          post :create, :params => { :id => changeset.id, :text => "This is a comment" }
         end
       end
     end
@@ -74,7 +74,7 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
     assert_difference "ChangesetComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 2 do
         perform_enqueued_jobs do
-          post :comment, :params => { :id => changeset.id, :text => "This is a comment" }
+          post :create, :params => { :id => changeset.id, :text => "This is a comment" }
         end
       end
     end
@@ -97,32 +97,32 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
   # create comment fail
   def test_create_comment_fail
     # unauthorized
-    post :comment, :params => { :id => create(:changeset, :closed).id, :text => "This is a comment" }
+    post :create, :params => { :id => create(:changeset, :closed).id, :text => "This is a comment" }
     assert_response :unauthorized
 
     basic_authorization create(:user).email, "test"
 
     # bad changeset id
     assert_no_difference "ChangesetComment.count" do
-      post :comment, :params => { :id => 999111, :text => "This is a comment" }
+      post :create, :params => { :id => 999111, :text => "This is a comment" }
     end
     assert_response :not_found
 
     # not closed changeset
     assert_no_difference "ChangesetComment.count" do
-      post :comment, :params => { :id => create(:changeset).id, :text => "This is a comment" }
+      post :create, :params => { :id => create(:changeset).id, :text => "This is a comment" }
     end
     assert_response :conflict
 
     # no text
     assert_no_difference "ChangesetComment.count" do
-      post :comment, :params => { :id => create(:changeset, :closed).id }
+      post :create, :params => { :id => create(:changeset, :closed).id }
     end
     assert_response :bad_request
 
     # empty text
     assert_no_difference "ChangesetComment.count" do
-      post :comment, :params => { :id => create(:changeset, :closed).id, :text => "" }
+      post :create, :params => { :id => create(:changeset, :closed).id, :text => "" }
     end
     assert_response :bad_request
   end
