@@ -1,6 +1,6 @@
 require "r2"
 
-class R2ScssProcessor < Sprockets::ScssProcessor
+class R2ScssProcessor < SassC::Rails::ScssTemplate
   def self.call(input)
     output = super(input)
     data = R2.r2(output[:data])
