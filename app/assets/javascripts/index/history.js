@@ -38,12 +38,12 @@ OSM.History = function(map) {
   };
 
   function highlightChangeset(id) {
-    group.getLayer(id).setStyle({fillOpacity: 0.3, color: "#0095AA"});
+    group.getLayer(id).setStyle({fillOpacity: 0.3, color: "#FF6600", weight: 3});
     $("#changeset_" + id).addClass("selected");
   }
 
   function unHighlightChangeset(id) {
-    group.getLayer(id).setStyle({fillOpacity: 0, color: "#FF9500"});
+    group.getLayer(id).setStyle({fillOpacity: 0, color: "#FF9500", weight: 2});
     $("#changeset_" + id).removeClass("selected");
   }
 
@@ -111,7 +111,7 @@ OSM.History = function(map) {
     for (var i = 0; i < changesets.length; ++i) {
       var changeset = changesets[i],
         rect = L.rectangle(changeset.bounds,
-          {weight: 2, color: "#FF9500", opacity: 1, fillColor: "#FFFFBF", fillOpacity: 0});
+          {weight: 2, color: "#FF9500", opacity: 1, fillColor: "#FFFFAF", fillOpacity: 0});
       rect.id = changeset.id;
       rect.addTo(group);
     }
