@@ -42,7 +42,7 @@
 
   <% if @note.status == "open" %>
     <form action="#">
-      <textarea class="comment" name="text" cols="40" rows="5"></textarea>
+      <textarea class="comment" name="text" cols="40" rows="5" maxlength="2000"></textarea>
       <div class="buttons clearfix">
         <% if current_user and current_user.moderator? -%>
           <input type="submit" name="hide" value="<%= t('javascripts.notes.show.hide') %>" class="deemphasize" data-note-id="<%= @note.id %>" data-method="DELETE" data-url="<%= note_url(@note, 'json') %>">
