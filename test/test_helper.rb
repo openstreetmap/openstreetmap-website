@@ -11,6 +11,7 @@ WebMock.disable_net_connect!(:allow_localhost => true)
 module ActiveSupport
   class TestCase
     include FactoryBot::Syntax::Methods
+    include ActiveJob::TestHelper
 
     ##
     # takes a block which is executed in the context of a different

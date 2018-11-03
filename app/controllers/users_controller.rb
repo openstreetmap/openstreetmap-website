@@ -107,7 +107,7 @@ class UsersController < ApplicationController
             successful_login(current_user)
           else
             session[:token] = current_user.tokens.create.token
-            Notifier.signup_confirm(current_user, current_user.tokens.create(:referer => referer)).deliver_now
+            Notifier.signup_confirm(current_user, current_user.tokens.create(:referer => referer)).deliver_later
             redirect_to :action => "confirm", :display_name => current_user.display_name
           end
         else
@@ -158,7 +158,7 @@ class UsersController < ApplicationController
 
       if user
         token = user.tokens.create
-        Notifier.lost_password(user, token).deliver_now
+        Notifier.lost_password(user, token).deliver_later
         flash[:notice] = t "users.lost_password.notice email on way"
         redirect_to :action => "login"
       else
@@ -339,7 +339,7 @@ class UsersController < ApplicationController
     if user.nil? || token.nil? || token.user != user
       flash[:error] = t "users.confirm_resend.failure", :name => params[:display_name]
     else
-      Notifier.signup_confirm(user, user.tokens.create).deliver_now
+      Notifier.signup_confirm(user, user.tokens.create).deliver_later
       flash[:notice] = t("users.confirm_resend.success", :email => user.email, :sender => SUPPORT_EMAIL).html_safe
     end
 
@@ -432,7 +432,7 @@ class UsersController < ApplicationController
           flash[:warning] = t "users.make_friend.already_a_friend", :name => @new_friend.display_name
         elsif friend.save
           flash[:notice] = t "users.make_friend.success", :name => @new_friend.display_name
-          Notifier.friend_notification(friend).deliver_now
+          Notifier.friend_notification(friend).deliver_later
         else
           friend.add_error(t("users.make_friend.failed", :name => @new_friend.display_name))
         end
@@ -735,7 +735,7 @@ class UsersController < ApplicationController
           flash.now[:notice] = t "users.account.flash update success confirm needed"
 
           begin
-            Notifier.email_confirm(user, user.tokens.create).deliver_now
+            Notifier.email_confirm(user, user.tokens.create).deliver_later
           rescue StandardError
             # Ignore errors sending email
           end

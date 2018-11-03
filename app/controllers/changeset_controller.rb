@@ -332,7 +332,7 @@ class ChangesetController < ApplicationController
 
     # Notify current subscribers of the new comment
     changeset.subscribers.visible.each do |user|
-      Notifier.changeset_comment_notification(comment, user).deliver_now if current_user != user
+      Notifier.changeset_comment_notification(comment, user).deliver_later if current_user != user
     end
 
     # Add the commenter to the subscribers if necessary

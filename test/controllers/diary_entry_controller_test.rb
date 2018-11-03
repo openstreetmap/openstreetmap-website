@@ -390,9 +390,11 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       assert_no_difference "DiaryComment.count" do
         assert_no_difference "entry.subscribers.count" do
-          post :comment,
-               :params => { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "" } },
-               :session => { :user => other_user }
+          perform_enqueued_jobs do
+            post :comment,
+                 :params => { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "" } },
+                 :session => { :user => other_user }
+          end
         end
       end
     end
@@ -403,9 +405,11 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_difference "ActionMailer::Base.deliveries.size", entry.subscribers.count do
       assert_difference "DiaryComment.count", 1 do
         assert_difference "entry.subscribers.count", 1 do
-          post :comment,
-               :params => { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "New comment" } },
-               :session => { :user => other_user }
+          perform_enqueued_jobs do
+            post :comment,
+                 :params => { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => "New comment" } },
+                 :session => { :user => other_user }
+          end
         end
       end
     end
@@ -450,9 +454,11 @@ class DiaryEntryControllerTest < ActionController::TestCase
     # Try creating a spammy comment
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       assert_difference "DiaryComment.count", 1 do
-        post :comment,
-             :params => { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => spammy_text } },
-             :session => { :user => other_user }
+        perform_enqueued_jobs do
+          post :comment,
+               :params => { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => spammy_text } },
+               :session => { :user => other_user }
+        end
       end
     end
     assert_response :redirect
