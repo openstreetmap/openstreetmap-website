@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery :with => :exception
 
+  rescue_from CanCan::AccessDenied, :with => :deny_access
+
   before_action :fetch_body
   around_action :better_errors_allow_inline, :if => proc { Rails.env.development? }
 
@@ -464,6 +466,29 @@ class ApplicationController < ActionController::Base
     )
 
     raise
+  end
+
+  def current_ability
+    # Add in capabilities from the oauth token if it exists and is a valid access token
+    if Authenticator.new(self, [:token]).allow?
+      Ability.new(current_user).merge(Capability.new(current_token))
+    else
+      Ability.new(current_user)
+    end
+  end
+
+  def deny_access(_exception)
+    if current_token
+      set_locale
+      report_error t("oauth.permissions.missing"), :forbidden
+    elsif current_user
+      set_locale
+      report_error t("application.permission_denied"), :forbidden
+    elsif request.get?
+      redirect_to :controller => "users", :action => "login", :referer => request.fullpath
+    else
+      head :forbidden
+    end
   end
 
   private

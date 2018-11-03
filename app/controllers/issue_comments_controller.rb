@@ -3,8 +3,8 @@ class IssueCommentsController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
-  before_action :require_user
-  before_action :check_permission
+
+  authorize_resource
 
   def create
     @issue = Issue.find(params[:issue_id])
@@ -22,10 +22,12 @@ class IssueCommentsController < ApplicationController
     params.require(:issue_comment).permit(:body)
   end
 
-  def check_permission
-    unless current_user.administrator? || current_user.moderator?
+  def deny_access(_exception)
+    if current_user
       flash[:error] = t("application.require_moderator_or_admin.not_a_moderator_or_admin")
       redirect_to root_path
+    else
+      super
     end
   end
 
