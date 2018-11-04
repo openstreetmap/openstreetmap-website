@@ -89,7 +89,7 @@ class User < ActiveRecord::Base
                     :styles => { :large => "100x100>", :small => "50x50>" }
 
   INVALID_ASCII_CHARS = "/;.,?%#".freeze
-  INVALID_NON_ASCII_CHARS = "\x00-\x1f\x7f\ufffe\uffff".freeze
+  INVALID_NON_ASCII_CHARS = "\x00-\x08\x0b-\x0c\x0e-\x1f\x7f\ufffe\uffff".freeze
 
   validates :display_name, :presence => true, :allow_nil => true, :length => 3..255,
                            :exclusion => %w[new terms save confirm confirm-email go_public reset-password forgot-password suspended]
