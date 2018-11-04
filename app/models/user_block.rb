@@ -3,12 +3,12 @@
 # Table name: user_blocks
 #
 #  id            :integer          not null, primary key
-#  user_id       :integer          not null
-#  creator_id    :integer          not null
+#  user_id       :bigint(8)        not null
+#  creator_id    :bigint(8)        not null
 #  reason        :text             not null
 #  ends_at       :datetime         not null
 #  needs_view    :boolean          default(FALSE), not null
-#  revoker_id    :integer
+#  revoker_id    :bigint(8)
 #  created_at    :datetime
 #  updated_at    :datetime
 #  reason_format :enum             default("markdown"), not null
@@ -26,6 +26,7 @@
 
 class UserBlock < ActiveRecord::Base
   validate :moderator_permissions
+  validates :reason, :invalid_chars => true
 
   belongs_to :user, :class_name => "User", :foreign_key => :user_id
   belongs_to :creator, :class_name => "User", :foreign_key => :creator_id

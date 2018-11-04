@@ -2,7 +2,7 @@
 #
 # Table name: current_relation_tags
 #
-#  relation_id :integer          not null, primary key
+#  relation_id :bigint(8)        not null, primary key
 #  k           :string           default(""), not null, primary key
 #  v           :string           default(""), not null
 #
@@ -18,6 +18,6 @@ class RelationTag < ActiveRecord::Base
   belongs_to :relation
 
   validates :relation, :presence => true, :associated => true
-  validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }
+  validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }, :invalid_chars => true
   validates :k, :uniqueness => { :scope => :relation_id }
 end

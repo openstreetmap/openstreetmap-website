@@ -2,13 +2,13 @@
 #
 # Table name: messages
 #
-#  id                :integer          not null, primary key
-#  from_user_id      :integer          not null
+#  id                :bigint(8)        not null, primary key
+#  from_user_id      :bigint(8)        not null
 #  title             :string           not null
 #  body              :text             not null
 #  sent_on           :datetime         not null
 #  message_read      :boolean          default(FALSE), not null
-#  to_user_id        :integer          not null
+#  to_user_id        :bigint(8)        not null
 #  to_user_visible   :boolean          default(TRUE), not null
 #  from_user_visible :boolean          default(TRUE), not null
 #  body_format       :enum             default("markdown"), not null
@@ -32,6 +32,7 @@ class Message < ActiveRecord::Base
 
   validates :title, :presence => true, :utf8 => true, :length => 1..255
   validates :body, :sent_on, :sender, :recipient, :presence => true
+  validates :title, :body, :invalid_chars => true
 
   def self.from_mail(mail, from, to)
     if mail.multipart?

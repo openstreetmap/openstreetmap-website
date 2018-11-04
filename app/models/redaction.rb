@@ -7,7 +7,7 @@
 #  description        :text
 #  created_at         :datetime
 #  updated_at         :datetime
-#  user_id            :integer          not null
+#  user_id            :bigint(8)        not null
 #  description_format :enum             default("markdown"), not null
 #
 # Foreign Keys
@@ -31,6 +31,7 @@ class Redaction < ActiveRecord::Base
   has_many :old_ways
   has_many :old_relations
 
+  validates :title, :description, :invalid_chars => true
   validates :description, :presence => true
   validates :description_format, :inclusion => { :in => %w[text html markdown] }
 

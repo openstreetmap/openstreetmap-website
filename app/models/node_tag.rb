@@ -2,7 +2,7 @@
 #
 # Table name: current_node_tags
 #
-#  node_id :integer          not null, primary key
+#  node_id :bigint(8)        not null, primary key
 #  k       :string           default(""), not null, primary key
 #  v       :string           default(""), not null
 #
@@ -18,6 +18,6 @@ class NodeTag < ActiveRecord::Base
   belongs_to :node
 
   validates :node, :presence => true, :associated => true
-  validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }
+  validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }, :invalid_chars => true
   validates :k, :uniqueness => { :scope => :node_id }
 end

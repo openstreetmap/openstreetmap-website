@@ -88,23 +88,16 @@ class User < ActiveRecord::Base
                     :default_url => "/assets/:class/:attachment/:style.png",
                     :styles => { :large => "100x100>", :small => "50x50>" }
 
-  INVALID_ASCII_CHARS = "/;.,?%#".freeze
-  INVALID_NON_ASCII_CHARS = "\x00-\x08\x0b-\x0c\x0e-\x1f\x7f\ufffe\uffff".freeze
-
   validates :display_name, :presence => true, :allow_nil => true, :length => 3..255,
                            :exclusion => %w[new terms save confirm confirm-email go_public reset-password forgot-password suspended]
   validates :display_name, :if => proc { |u| u.display_name_changed? },
                            :uniqueness => { :case_sensitive => false }
   validates :display_name, :if => proc { |u| u.display_name_changed? },
-                           :format => { :with => /\A[^#{INVALID_NON_ASCII_CHARS}]*\z/ }
-  validates :display_name, :if => proc { |u| u.display_name_changed? },
-                           :format => { :with => /\A[^#{INVALID_ASCII_CHARS}]*\z/,
-                                        :message => I18n.t("users.account.invalid chars", :invalid_chars => INVALID_ASCII_CHARS) }
-  validates :display_name, :if => proc { |u| u.display_name_changed? },
-                           :format => { :with => /\A\S/, :message => I18n.t("users.account.leading whitespace") }
-  validates :display_name, :if => proc { |u| u.display_name_changed? },
-                           :format => { :with => /\S\z/, :message => I18n.t("users.account.trailing whitespace") }
-  validates :email, :presence => true, :confirmation => true
+                           :invalid_chars => true,
+                           :invalid_url_chars => true,
+                           :leading_whitespace => true,
+                           :trailing_whitespace => true
+  validates :email, :presence => true, :confirmation => true, :invalid_chars => true
   validates :email, :if => proc { |u| u.email_changed? },
                     :uniqueness => { :case_sensitive => false }
   validates :pass_crypt, :confirmation => true, :length => 8..255

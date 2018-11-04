@@ -2,10 +2,10 @@
 #
 # Table name: relation_tags
 #
-#  relation_id :integer          default(0), not null, primary key
+#  relation_id :bigint(8)        default(0), not null, primary key
 #  k           :string           default(""), not null, primary key
 #  v           :string           default(""), not null
-#  version     :integer          not null, primary key
+#  version     :bigint(8)        not null, primary key
 #
 # Foreign Keys
 #
@@ -19,6 +19,6 @@ class OldRelationTag < ActiveRecord::Base
   belongs_to :old_relation, :foreign_key => [:relation_id, :version]
 
   validates :old_relation, :presence => true, :associated => true
-  validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }
+  validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }, :invalid_chars => true
   validates :k, :uniqueness => { :scope => [:relation_id, :version] }
 end
