@@ -98,11 +98,11 @@ class User < ActiveRecord::Base
                            :format => { :with => %r{\A[^\x00-\x1f\x7f\ufffe\uffff]*\z} }
   validates :display_name, :if => proc { |u| u.display_name_changed? },
                            :format => { :with => %r{\A[^#{INVALID_CHARS}]*\z},
-                                        :message => "cannot contain invalid chars: #{INVALID_CHARS}", invalid_chars: INVALID_CHARS }
+                                        :message => I18n.t("users.account.invalid chars", invalid_chars: INVALID_CHARS) }
   validates :display_name, :if => proc { |u| u.display_name_changed? },
-                           :format => { :with => /\A\S/, :message => "has leading whitespace" }
+                           :format => { :with => /\A\S/, :message => I18n.t("users.account.leading whitespace") }
   validates :display_name, :if => proc { |u| u.display_name_changed? },
-                           :format => { :with => /\S\z/, :message => "has trailing whitespace" }
+                           :format => { :with => /\S\z/, :message => I18n.t("users.account.trailing whitespace") }
   validates :email, :presence => true, :confirmation => true
   validates :email, :if => proc { |u| u.email_changed? },
                     :uniqueness => { :case_sensitive => false }
