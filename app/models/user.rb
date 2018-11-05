@@ -88,7 +88,7 @@ class User < ActiveRecord::Base
                     :default_url => "/assets/:class/:attachment/:style.png",
                     :styles => { :large => "100x100>", :small => "50x50>" }
 
-  validates :display_name, :presence => true, :allow_nil => true, :length => 3..255,
+  validates :display_name, :presence => true, :length => 3..255,
                            :exclusion => %w[new terms save confirm confirm-email go_public reset-password forgot-password suspended]
   validates :display_name, :if => proc { |u| u.display_name_changed? },
                            :uniqueness => { :case_sensitive => false }

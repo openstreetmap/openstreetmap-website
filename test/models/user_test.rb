@@ -65,16 +65,13 @@ class UserTest < ActiveSupport::TestCase
   def test_display_name_length
     user = build(:user)
     user.display_name = "123"
-    assert user.valid?, " should allow nil display name"
+    assert user.valid?, "should allow 3 char name name"
     user.display_name = "12"
     assert_not user.valid?, "should not allow 2 char name"
     user.display_name = ""
-    assert_not user.valid?
+    assert_not user.valid?, "should not allow blank/0 char name"
     user.display_name = nil
-    # Don't understand why it isn't allowing a nil value,
-    # when the validates statements specifically allow it
-    # It appears the database does not allow null values
-    assert_not user.valid?
+    assert_not user.valid?, "should not allow nil value"
   end
 
   def test_display_name_valid
@@ -89,7 +86,8 @@ class UserTest < ActiveSupport::TestCase
            "aa,", "aa?", "/;.,?", "も対応します/", "#ping",
            "foo\x1fbar", "foo\x7fbar", "foo\ufffebar", "foo\uffffbar",
            "new", "terms", "save", "confirm", "confirm-email",
-           "go_public", "reset-password", "forgot-password", "suspended"]
+           "go_public", "reset-password", "forgot-password", "suspended",
+           "trailing whitespace ", " leading whitespace"]
     ok.each do |display_name|
       user = build(:user)
       user.display_name = display_name
