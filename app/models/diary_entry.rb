@@ -37,8 +37,8 @@ class DiaryEntry < ActiveRecord::Base
 
   scope :visible, -> { where(:visible => true) }
 
-  validates :title, :body, :presence => true, :invalid_chars => true
-  validates :title, :length => 1..255
+  validates :title, :presence => true, :length => 1..255, :invalid_chars => true
+  validates :body, :presence => true, :invalid_chars => true
   validates :latitude, :allow_nil => true,
                        :numericality => { :greater_than_or_equal_to => -90,
                                           :less_than_or_equal_to => 90 }

@@ -31,8 +31,8 @@ class Redaction < ActiveRecord::Base
   has_many :old_ways
   has_many :old_relations
 
-  validates :title, :description, :invalid_chars => true
-  validates :description, :presence => true
+  validates :title, :presence => true, :invalid_chars => true
+  validates :description, :presence => true, :invalid_chars => true
   validates :description_format, :inclusion => { :in => %w[text html markdown] }
 
   # this method overrides the AR default to provide the rich
