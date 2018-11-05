@@ -2,7 +2,7 @@
 #
 # Table name: current_relation_tags
 #
-#  relation_id :bigint(8)        not null, primary key
+#  relation_id :integer          not null, primary key
 #  k           :string           default(""), not null, primary key
 #  v           :string           default(""), not null
 #

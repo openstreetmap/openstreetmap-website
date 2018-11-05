@@ -2,10 +2,10 @@
 #
 # Table name: way_tags
 #
-#  way_id  :bigint(8)        default(0), not null, primary key
+#  way_id  :integer          default(0), not null, primary key
 #  k       :string           not null, primary key
 #  v       :string           not null
-#  version :bigint(8)        not null, primary key
+#  version :integer          not null, primary key
 #
 # Foreign Keys
 #

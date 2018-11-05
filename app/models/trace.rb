@@ -2,18 +2,17 @@
 #
 # Table name: gpx_files
 #
-#  id          :bigint(8)        not null, primary key
-#  user_id     :bigint(8)        not null
+#  id          :integer          not null, primary key
+#  user_id     :integer          not null
 #  visible     :boolean          default(TRUE), not null
 #  name        :string           default(""), not null
-#  size        :bigint(8)
+#  size        :integer
 #  latitude    :float
 #  longitude   :float
 #  timestamp   :datetime         not null
 #  description :string           default(""), not null
 #  inserted    :boolean          not null
 #  visibility  :enum             default("public"), not null
-#  length      :bigint(8)
 #
 # Indexes
 #

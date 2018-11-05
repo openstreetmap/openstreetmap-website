@@ -79,7 +79,7 @@ class UserTest < ActiveSupport::TestCase
     # expact are allowed
     # However, would they affect the xml planet dumps?
     ok = ["Name", "'me", "he\"", "<hr>", "*ho", "\"help\"@",
-          "vergrößern", "ルシステムにも対応します", "輕觸搖晃的遊戲"]
+          "vergrößern", "ルシステムにも対応します", "輕觸搖晃的遊戲", "space space"]
     # These need to be 3 chars in length, otherwise the length test above
     # should be used.
     bad = ["<hr/>", "test@example.com", "s/f", "aa/", "aa;", "aa.",
