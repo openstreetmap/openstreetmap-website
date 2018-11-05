@@ -33,7 +33,7 @@ class NoteComment < ActiveRecord::Base
   validates :visible, :inclusion => [true, false]
   validates :author, :associated => true
   validates :event, :inclusion => %w[opened closed reopened commented hidden]
-  validates :body, :length => { :maximum => 2000 }, :invalid_chars => true
+  validates :body, :length => { :maximum => 2000 }, :characters => true
 
   # Return the comment text
   def body

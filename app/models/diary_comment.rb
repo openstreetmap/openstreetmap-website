@@ -28,7 +28,7 @@ class DiaryComment < ActiveRecord::Base
 
   scope :visible, -> { where(:visible => true) }
 
-  validates :body, :presence => true, :invalid_chars => true
+  validates :body, :presence => true, :characters => true
   validates :diary_entry, :user, :associated => true
 
   after_save :spam_check

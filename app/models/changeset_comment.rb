@@ -28,7 +28,7 @@ class ChangesetComment < ActiveRecord::Base
   validates :changeset, :presence => true, :associated => true
   validates :author, :presence => true, :associated => true
   validates :visible, :inclusion => [true, false]
-  validates :body, :invalid_chars => true
+  validates :body, :characters => true
 
   # Return the comment text
   def body

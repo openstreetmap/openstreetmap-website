@@ -93,10 +93,9 @@ class User < ActiveRecord::Base
   validates :display_name, :if => proc { |u| u.display_name_changed? },
                            :uniqueness => { :case_sensitive => false }
   validates :display_name, :if => proc { |u| u.display_name_changed? },
-                           :invalid_chars => true,
-                           :invalid_url_chars => true,
+                           :characters => { :url_safe => true },
                            :whitespace => { :leading => false, :trailing => false }
-  validates :email, :presence => true, :confirmation => true, :invalid_chars => true
+  validates :email, :presence => true, :confirmation => true, :characters => true
   validates :email, :if => proc { |u| u.email_changed? },
                     :uniqueness => { :case_sensitive => false }
   validates :pass_crypt, :confirmation => true, :length => 8..255

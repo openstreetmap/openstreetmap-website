@@ -32,7 +32,7 @@ class Message < ActiveRecord::Base
 
   validates :title, :presence => true, :utf8 => true, :length => 1..255
   validates :body, :sent_on, :sender, :recipient, :presence => true
-  validates :title, :body, :invalid_chars => true
+  validates :title, :body, :characters => true
 
   def self.from_mail(mail, from, to)
     if mail.multipart?

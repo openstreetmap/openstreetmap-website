@@ -17,7 +17,7 @@ class UserPreference < ActiveRecord::Base
   belongs_to :user
 
   validates :user, :presence => true, :associated => true
-  validates :k, :v, :length => 1..255, :invalid_chars => true
+  validates :k, :v, :length => 1..255, :characters => true
 
   # Turn this Node in to an XML Node without the <osm> wrapper.
   def to_xml_node

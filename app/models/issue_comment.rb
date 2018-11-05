@@ -24,7 +24,7 @@ class IssueComment < ActiveRecord::Base
   belongs_to :issue
   belongs_to :user
 
-  validates :body, :presence => true, :invalid_chars => true
+  validates :body, :presence => true, :characters => true
   validates :user, :presence => true
   validates :issue, :presence => true
 end
