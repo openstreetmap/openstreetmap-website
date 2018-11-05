@@ -28,7 +28,7 @@ class ChangesetComment < ActiveRecord::Base
   validates :changeset, :presence => true, :associated => true
   validates :author, :presence => true, :associated => true
   validates :visible, :inclusion => [true, false]
-  validates :body, :format => /\A[^\x00-\x08\x0b-\x0c\x0e-\x1f\x7f\ufffe\uffff]*\z/
+  validates :body, :characters => true
 
   # Return the comment text
   def body
