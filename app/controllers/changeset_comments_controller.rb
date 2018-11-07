@@ -1,16 +1,16 @@
 class ChangesetCommentsController < ApplicationController
-  before_action :authorize_web, :only => [:comments_feed]
-  before_action :set_locale, :only => [:comments_feed]
+  before_action :authorize_web, :only => [:index]
+  before_action :set_locale, :only => [:index]
   before_action :authorize, :only => [:create, :hide_comment, :unhide_comment]
   before_action :require_moderator, :only => [:hide_comment, :unhide_comment]
   before_action :require_allow_write_api, :only => [:create, :hide_comment, :unhide_comment]
   before_action :require_public_data, :only => [:create]
   before_action :check_api_writable, :only => [:create, :hide_comment, :unhide_comment]
-  before_action :check_api_readable, :except => [:create, :comments_feed]
-  before_action(:only => [:comments_feed]) { |c| c.check_database_readable(true) }
-  around_action :api_call_handle_error, :except => [:comments_feed]
-  around_action :api_call_timeout, :except => [:comments_feed]
-  around_action :web_timeout, :only => [:comments_feed]
+  before_action :check_api_readable, :except => [:create, :index]
+  before_action(:only => [:index]) { |c| c.check_database_readable(true) }
+  around_action :api_call_handle_error, :except => [:index]
+  around_action :api_call_timeout, :except => [:index]
+  around_action :web_timeout, :only => [:index]
 
   ##
   # Add a comment to a changeset
@@ -84,7 +84,7 @@ class ChangesetCommentsController < ApplicationController
 
   ##
   # Get a feed of recent changeset comments
-  def comments_feed
+  def index
     if params[:id]
       # Extract the arguments
       id = params[:id].to_i

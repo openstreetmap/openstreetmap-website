@@ -116,7 +116,7 @@ OpenStreetMap::Application.routes.draw do
   get "/relation/:id" => "browse#relation", :id => /\d+/, :as => :relation
   get "/relation/:id/history" => "browse#relation_history", :id => /\d+/
   get "/changeset/:id" => "browse#changeset", :as => :changeset, :id => /\d+/
-  get "/changeset/:id/comments/feed" => "changeset_comments#comments_feed", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
+  get "/changeset/:id/comments/feed" => "changeset_comments#index", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
   get "/note/:id" => "browse#note", :id => /\d+/, :as => "browse_note"
   get "/note/new" => "browse#new_note"
   get "/user/:display_name/history" => "changeset#index"
@@ -152,7 +152,7 @@ OpenStreetMap::Application.routes.draw do
   get "/about" => "site#about"
   get "/history" => "changeset#index"
   get "/history/feed" => "changeset#feed", :defaults => { :format => :atom }
-  get "/history/comments/feed" => "changeset_comments#comments_feed", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
+  get "/history/comments/feed" => "changeset_comments#index", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
   get "/export" => "site#export"
   match "/login" => "users#login", :via => [:get, :post]
   match "/logout" => "users#logout", :via => [:get, :post]

@@ -18,11 +18,11 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/changeset/1/comments/feed", :method => :get },
-      { :controller => "changeset_comments", :action => "comments_feed", :id => "1", :format => "rss" }
+      { :controller => "changeset_comments", :action => "index", :id => "1", :format => "rss" }
     )
     assert_routing(
       { :path => "/history/comments/feed", :method => :get },
-      { :controller => "changeset_comments", :action => "comments_feed", :format => "rss" }
+      { :controller => "changeset_comments", :action => "index", :format => "rss" }
     )
   end
 
@@ -207,11 +207,11 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
 
   ##
   # test comments feed
-  def test_comments_feed
+  def test_feed
     changeset = create(:changeset, :closed)
     create_list(:changeset_comment, 3, :changeset => changeset)
 
-    get :comments_feed, :params => { :format => "rss" }
+    get :index, :params => { :format => "rss" }
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
@@ -220,7 +220,7 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
       end
     end
 
-    get :comments_feed, :params => { :format => "rss", :limit => 2 }
+    get :index, :params => { :format => "rss", :limit => 2 }
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
@@ -229,7 +229,7 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
       end
     end
 
-    get :comments_feed, :params => { :id => changeset.id, :format => "rss" }
+    get :index, :params => { :id => changeset.id, :format => "rss" }
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
@@ -241,11 +241,11 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
 
   ##
   # test comments feed
-  def test_comments_feed_bad_limit
-    get :comments_feed, :params => { :format => "rss", :limit => 0 }
+  def test_feed_bad_limit
+    get :index, :params => { :format => "rss", :limit => 0 }
     assert_response :bad_request
 
-    get :comments_feed, :params => { :format => "rss", :limit => 100001 }
+    get :index, :params => { :format => "rss", :limit => 100001 }
     assert_response :bad_request
   end
 end
