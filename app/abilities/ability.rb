@@ -8,6 +8,7 @@ class Ability
     can [:index, :rss, :show, :comments], DiaryEntry
     can [:search, :search_latlon, :search_ca_postcode, :search_osm_nominatim,
          :search_geonames, :search_osm_nominatim_reverse, :search_geonames_reverse], :geocoder
+    can [:index, :show], Redaction
     can [:index, :show, :blocks_on, :blocks_by], UserBlock
 
     if user
@@ -19,6 +20,7 @@ class Ability
       if user.moderator?
         can [:index, :show, :resolve, :ignore, :reopen], Issue
         can :create, IssueComment
+        can [:new, :create, :edit, :update, :destroy], Redaction
         can [:new, :edit, :create, :update, :revoke], UserBlock
       end
 
