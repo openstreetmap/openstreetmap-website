@@ -1,4 +1,4 @@
-module ChangesetHelper
+module ChangesetsHelper
   def changeset_user_link(changeset)
     if changeset.user.status == "deleted"
       t("users.no_such_user.deleted")
@@ -34,13 +34,13 @@ module ChangesetHelper
 
   def changeset_index_title(params, user)
     if params[:friends] && user
-      t "changeset.index.title_friend"
+      t "changesets.index.title_friend"
     elsif params[:nearby] && user
-      t "changeset.index.title_nearby"
+      t "changesets.index.title_nearby"
     elsif params[:display_name]
-      t "changeset.index.title_user", :user => params[:display_name]
+      t "changesets.index.title_user", :user => params[:display_name]
     else
-      t "changeset.index.title"
+      t "changesets.index.title"
     end
   end
 end

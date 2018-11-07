@@ -1,6 +1,6 @@
 # The ChangesetController is the RESTful interface to Changeset objects
 
-class ChangesetController < ApplicationController
+class ChangesetsController < ApplicationController
   layout "site"
   require "xml/libxml"
 

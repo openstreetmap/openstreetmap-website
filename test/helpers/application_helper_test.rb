@@ -43,7 +43,7 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   def test_atom_link_to
-    link = atom_link_to(:controller => :changeset, :action => :feed)
+    link = atom_link_to(:controller => :changesets, :action => :feed)
     assert_dom_equal "<a class=\"rsssmall\" href=\"/history/feed\"><img border=\"0\" height=\"16\" src=\"/images/RSS.png\" width=\"16\" /></a>", link
   end
 

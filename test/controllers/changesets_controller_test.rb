@@ -1,73 +1,72 @@
 require "test_helper"
-require "changeset_controller"
 
-class ChangesetControllerTest < ActionController::TestCase
+class ChangesetsControllerTest < ActionController::TestCase
   ##
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
       { :path => "/api/0.6/changeset/create", :method => :put },
-      { :controller => "changeset", :action => "create" }
+      { :controller => "changesets", :action => "create" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1/upload", :method => :post },
-      { :controller => "changeset", :action => "upload", :id => "1" }
+      { :controller => "changesets", :action => "upload", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1/download", :method => :get },
-      { :controller => "changeset", :action => "download", :id => "1" }
+      { :controller => "changesets", :action => "download", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1/expand_bbox", :method => :post },
-      { :controller => "changeset", :action => "expand_bbox", :id => "1" }
+      { :controller => "changesets", :action => "expand_bbox", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1", :method => :get },
-      { :controller => "changeset", :action => "read", :id => "1" }
+      { :controller => "changesets", :action => "read", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1/subscribe", :method => :post },
-      { :controller => "changeset", :action => "subscribe", :id => "1" }
+      { :controller => "changesets", :action => "subscribe", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1/unsubscribe", :method => :post },
-      { :controller => "changeset", :action => "unsubscribe", :id => "1" }
+      { :controller => "changesets", :action => "unsubscribe", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1", :method => :put },
-      { :controller => "changeset", :action => "update", :id => "1" }
+      { :controller => "changesets", :action => "update", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1/close", :method => :put },
-      { :controller => "changeset", :action => "close", :id => "1" }
+      { :controller => "changesets", :action => "close", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/changesets", :method => :get },
-      { :controller => "changeset", :action => "query" }
+      { :controller => "changesets", :action => "query" }
     )
     assert_routing(
       { :path => "/user/name/history", :method => :get },
-      { :controller => "changeset", :action => "index", :display_name => "name" }
+      { :controller => "changesets", :action => "index", :display_name => "name" }
     )
     assert_routing(
       { :path => "/user/name/history/feed", :method => :get },
-      { :controller => "changeset", :action => "feed", :display_name => "name", :format => :atom }
+      { :controller => "changesets", :action => "feed", :display_name => "name", :format => :atom }
     )
     assert_routing(
       { :path => "/history/friends", :method => :get },
-      { :controller => "changeset", :action => "index", :friends => true, :format => :html }
+      { :controller => "changesets", :action => "index", :friends => true, :format => :html }
     )
     assert_routing(
       { :path => "/history/nearby", :method => :get },
-      { :controller => "changeset", :action => "index", :nearby => true, :format => :html }
+      { :controller => "changesets", :action => "index", :nearby => true, :format => :html }
     )
     assert_routing(
       { :path => "/history", :method => :get },
-      { :controller => "changeset", :action => "index" }
+      { :controller => "changesets", :action => "index" }
     )
     assert_routing(
       { :path => "/history/feed", :method => :get },
-      { :controller => "changeset", :action => "feed", :format => :atom }
+      { :controller => "changesets", :action => "feed", :format => :atom }
     )
   end
 
