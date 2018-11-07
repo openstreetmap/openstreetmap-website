@@ -22,7 +22,7 @@ module GeoRecord
   SCALE = 10000000
 
   included do
-    scope :bbox, ->(bbox) { where(OSM.sql_for_area(bbox)) }
+    scope :bbox, ->(bbox) { where(OSM.sql_for_area(bbox, "#{table_name}.")) }
     before_save :update_tile
   end
 
