@@ -3,8 +3,9 @@ class UserBlocksController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
-  before_action :require_user, :only => [:new, :create, :edit, :update, :revoke]
-  before_action :require_moderator, :only => [:new, :create, :edit, :update, :revoke]
+
+  authorize_resource
+
   before_action :lookup_user, :only => [:new, :create, :blocks_on, :blocks_by]
   before_action :lookup_user_block, :only => [:show, :edit, :update, :revoke]
   before_action :require_valid_params, :only => [:create, :update]
