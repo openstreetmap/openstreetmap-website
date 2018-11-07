@@ -784,7 +784,7 @@ OSM
     check_ordering(doc, @response.body)
 
     # check the ordering in the history tables:
-    with_controller(OldRelationController.new) do
+    with_controller(OldRelationsController.new) do
       get :version, :params => { :id => relation_id, :version => 2 }
       assert_response :success, "can't read back version 2 of the relation #{relation_id}"
       check_ordering(doc, @response.body)
@@ -867,7 +867,7 @@ OSM
     check_ordering(doc, @response.body)
 
     # check the ordering in the history tables:
-    with_controller(OldRelationController.new) do
+    with_controller(OldRelationsController.new) do
       get :version, :params => { :id => relation_id, :version => 1 }
       assert_response :success, "can't read back version 1 of the relation: #{@response.body}"
       check_ordering(doc, @response.body)
@@ -981,7 +981,7 @@ OSM
     if ver.nil?
       get :read, :params => { :id => id }
     else
-      with_controller(OldRelationController.new) do
+      with_controller(OldRelationsController.new) do
         get :version, :params => { :id => id, :version => ver }
       end
     end

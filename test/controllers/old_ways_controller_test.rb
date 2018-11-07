@@ -1,21 +1,20 @@
 require "test_helper"
-require "old_way_controller"
 
-class OldWayControllerTest < ActionController::TestCase
+class OldWaysControllerTest < ActionController::TestCase
   ##
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
       { :path => "/api/0.6/way/1/history", :method => :get },
-      { :controller => "old_way", :action => "history", :id => "1" }
+      { :controller => "old_ways", :action => "history", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/way/1/2", :method => :get },
-      { :controller => "old_way", :action => "version", :id => "1", :version => "2" }
+      { :controller => "old_ways", :action => "version", :id => "1", :version => "2" }
     )
     assert_routing(
       { :path => "/api/0.6/way/1/2/redact", :method => :post },
-      { :controller => "old_way", :action => "redact", :id => "1", :version => "2" }
+      { :controller => "old_ways", :action => "redact", :id => "1", :version => "2" }
     )
   end
 

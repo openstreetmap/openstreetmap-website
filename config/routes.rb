@@ -23,20 +23,20 @@ OpenStreetMap::Application.routes.draw do
     put "node/create" => "nodes#create"
     get "node/:id/ways" => "ways#ways_for_node", :id => /\d+/
     get "node/:id/relations" => "relations#relations_for_node", :id => /\d+/
-    get "node/:id/history" => "old_node#history", :id => /\d+/
-    post "node/:id/:version/redact" => "old_node#redact", :version => /\d+/, :id => /\d+/
-    get "node/:id/:version" => "old_node#version", :id => /\d+/, :version => /\d+/
+    get "node/:id/history" => "old_nodes#history", :id => /\d+/
+    post "node/:id/:version/redact" => "old_nodes#redact", :version => /\d+/, :id => /\d+/
+    get "node/:id/:version" => "old_nodes#version", :id => /\d+/, :version => /\d+/
     get "node/:id" => "nodes#read", :id => /\d+/
     put "node/:id" => "nodes#update", :id => /\d+/
     delete "node/:id" => "nodes#delete", :id => /\d+/
     get "nodes" => "nodes#nodes"
 
     put "way/create" => "ways#create"
-    get "way/:id/history" => "old_way#history", :id => /\d+/
+    get "way/:id/history" => "old_ways#history", :id => /\d+/
     get "way/:id/full" => "ways#full", :id => /\d+/
     get "way/:id/relations" => "relations#relations_for_way", :id => /\d+/
-    post "way/:id/:version/redact" => "old_way#redact", :version => /\d+/, :id => /\d+/
-    get "way/:id/:version" => "old_way#version", :id => /\d+/, :version => /\d+/
+    post "way/:id/:version/redact" => "old_ways#redact", :version => /\d+/, :id => /\d+/
+    get "way/:id/:version" => "old_ways#version", :id => /\d+/, :version => /\d+/
     get "way/:id" => "ways#read", :id => /\d+/
     put "way/:id" => "ways#update", :id => /\d+/
     delete "way/:id" => "ways#delete", :id => /\d+/
@@ -44,10 +44,10 @@ OpenStreetMap::Application.routes.draw do
 
     put "relation/create" => "relations#create"
     get "relation/:id/relations" => "relations#relations_for_relation", :id => /\d+/
-    get "relation/:id/history" => "old_relation#history", :id => /\d+/
+    get "relation/:id/history" => "old_relations#history", :id => /\d+/
     get "relation/:id/full" => "relations#full", :id => /\d+/
-    post "relation/:id/:version/redact" => "old_relation#redact", :version => /\d+/, :id => /\d+/
-    get "relation/:id/:version" => "old_relation#version", :id => /\d+/, :version => /\d+/
+    post "relation/:id/:version/redact" => "old_relations#redact", :version => /\d+/, :id => /\d+/
+    get "relation/:id/:version" => "old_relations#version", :id => /\d+/, :version => /\d+/
     get "relation/:id" => "relations#read", :id => /\d+/
     put "relation/:id" => "relations#update", :id => /\d+/
     delete "relation/:id" => "relations#delete", :id => /\d+/

@@ -1,7 +1,6 @@
 require "test_helper"
-require "old_node_controller"
 
-class OldNodeControllerTest < ActionController::TestCase
+class OldNodesControllerTest < ActionController::TestCase
   #
   # TODO: test history
   #
@@ -11,15 +10,15 @@ class OldNodeControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/0.6/node/1/history", :method => :get },
-      { :controller => "old_node", :action => "history", :id => "1" }
+      { :controller => "old_nodes", :action => "history", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/node/1/2", :method => :get },
-      { :controller => "old_node", :action => "version", :id => "1", :version => "2" }
+      { :controller => "old_nodes", :action => "version", :id => "1", :version => "2" }
     )
     assert_routing(
       { :path => "/api/0.6/node/1/2/redact", :method => :post },
-      { :controller => "old_node", :action => "redact", :id => "1", :version => "2" }
+      { :controller => "old_nodes", :action => "redact", :id => "1", :version => "2" }
     )
   end
 
