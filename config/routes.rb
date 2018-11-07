@@ -214,24 +214,24 @@ OpenStreetMap::Application.routes.draw do
   post "/trace/:id/delete" => "traces#delete", :id => /\d+/
 
   # diary pages
-  match "/diary/new" => "diary_entry#new", :via => [:get, :post]
-  get "/diary/friends" => "diary_entry#index", :friends => true, :as => "friend_diaries"
-  get "/diary/nearby" => "diary_entry#index", :nearby => true, :as => "nearby_diaries"
-  get "/user/:display_name/diary/rss" => "diary_entry#rss", :defaults => { :format => :rss }
-  get "/diary/:language/rss" => "diary_entry#rss", :defaults => { :format => :rss }
-  get "/diary/rss" => "diary_entry#rss", :defaults => { :format => :rss }
-  get "/user/:display_name/diary/comments/:page" => "diary_entry#comments", :page => /[1-9][0-9]*/
-  get "/user/:display_name/diary/comments/" => "diary_entry#comments"
-  get "/user/:display_name/diary" => "diary_entry#index"
-  get "/diary/:language" => "diary_entry#index"
-  get "/diary" => "diary_entry#index"
-  get "/user/:display_name/diary/:id" => "diary_entry#show", :id => /\d+/, :as => :diary_entry
-  post "/user/:display_name/diary/:id/newcomment" => "diary_entry#comment", :id => /\d+/
-  match "/user/:display_name/diary/:id/edit" => "diary_entry#edit", :via => [:get, :post], :id => /\d+/
-  post "/user/:display_name/diary/:id/hide" => "diary_entry#hide", :id => /\d+/, :as => :hide_diary_entry
-  post "/user/:display_name/diary/:id/hidecomment/:comment" => "diary_entry#hidecomment", :id => /\d+/, :comment => /\d+/, :as => :hide_diary_comment
-  post "/user/:display_name/diary/:id/subscribe" => "diary_entry#subscribe", :as => :diary_entry_subscribe, :id => /\d+/
-  post "/user/:display_name/diary/:id/unsubscribe" => "diary_entry#unsubscribe", :as => :diary_entry_unsubscribe, :id => /\d+/
+  match "/diary/new" => "diary_entries#new", :via => [:get, :post]
+  get "/diary/friends" => "diary_entries#index", :friends => true, :as => "friend_diaries"
+  get "/diary/nearby" => "diary_entries#index", :nearby => true, :as => "nearby_diaries"
+  get "/user/:display_name/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
+  get "/diary/:language/rss" => "diary_entries#rss", :defaults => { :format => :rss }
+  get "/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
+  get "/user/:display_name/diary/comments/:page" => "diary_entries#comments", :page => /[1-9][0-9]*/
+  get "/user/:display_name/diary/comments/" => "diary_entries#comments"
+  get "/user/:display_name/diary" => "diary_entries#index"
+  get "/diary/:language" => "diary_entries#index"
+  get "/diary" => "diary_entries#index"
+  get "/user/:display_name/diary/:id" => "diary_entries#show", :id => /\d+/, :as => :diary_entry
+  post "/user/:display_name/diary/:id/newcomment" => "diary_entries#comment", :id => /\d+/
+  match "/user/:display_name/diary/:id/edit" => "diary_entries#edit", :via => [:get, :post], :id => /\d+/
+  post "/user/:display_name/diary/:id/hide" => "diary_entries#hide", :id => /\d+/, :as => :hide_diary_entry
+  post "/user/:display_name/diary/:id/hidecomment/:comment" => "diary_entries#hidecomment", :id => /\d+/, :comment => /\d+/, :as => :hide_diary_comment
+  post "/user/:display_name/diary/:id/subscribe" => "diary_entries#subscribe", :as => :diary_entry_subscribe, :id => /\d+/
+  post "/user/:display_name/diary/:id/unsubscribe" => "diary_entries#unsubscribe", :as => :diary_entry_unsubscribe, :id => /\d+/
 
   # user pages
   get "/user/:display_name" => "users#show", :as => "user"

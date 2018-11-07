@@ -29,7 +29,7 @@ class UserDiariesTest < ActionDispatch::IntegrationTest
     follow_redirect!
 
     assert_response :success
-    assert_template "diary_entry/edit"
+    assert_template "diary_entries/edit"
     # print @response.body
     # print @html_document.to_yaml
 

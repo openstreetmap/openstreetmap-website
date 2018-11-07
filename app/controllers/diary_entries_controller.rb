@@ -1,4 +1,4 @@
-class DiaryEntryController < ApplicationController
+class DiaryEntriesController < ApplicationController
   layout "site", :except => :rss
 
   before_action :authorize_web
@@ -12,7 +12,7 @@ class DiaryEntryController < ApplicationController
   before_action :allow_thirdparty_images, :only => [:new, :edit, :index, :show, :comments]
 
   def new
-    @title = t "diary_entry.new.title"
+    @title = t "diary_entries.new.title"
 
     if request.post?
       @diary_entry = DiaryEntry.new(entry_params)
@@ -44,7 +44,7 @@ class DiaryEntryController < ApplicationController
   end
 
   def edit
-    @title = t "diary_entry.edit.title"
+    @title = t "diary_entries.edit.title"
     @diary_entry = DiaryEntry.find(params[:id])
 
     if current_user != @diary_entry.user
@@ -105,7 +105,7 @@ class DiaryEntryController < ApplicationController
       @user = User.active.find_by(:display_name => params[:display_name])
 
       if @user
-        @title = t "diary_entry.index.user_title", :user => @user.display_name
+        @title = t "diary_entries.index.user_title", :user => @user.display_name
         @entries = @user.diary_entries
       else
         render_unknown_user params[:display_name]
@@ -113,7 +113,7 @@ class DiaryEntryController < ApplicationController
       end
     elsif params[:friends]
       if current_user
-        @title = t "diary_entry.index.title_friends"
+        @title = t "diary_entries.index.title_friends"
         @entries = DiaryEntry.where(:user_id => current_user.friend_users)
       else
         require_user
@@ -121,7 +121,7 @@ class DiaryEntryController < ApplicationController
       end
     elsif params[:nearby]
       if current_user
-        @title = t "diary_entry.index.title_nearby"
+        @title = t "diary_entries.index.title_nearby"
         @entries = DiaryEntry.where(:user_id => current_user.nearby)
       else
         require_user
@@ -131,10 +131,10 @@ class DiaryEntryController < ApplicationController
       @entries = DiaryEntry.joins(:user).where(:users => { :status => %w[active confirmed] })
 
       if params[:language]
-        @title = t "diary_entry.index.in_language_title", :language => Language.find(params[:language]).english_name
+        @title = t "diary_entries.index.in_language_title", :language => Language.find(params[:language]).english_name
         @entries = @entries.where(:language_code => params[:language])
       else
-        @title = t "diary_entry.index.title"
+        @title = t "diary_entries.index.title"
       end
     end
 
@@ -156,9 +156,9 @@ class DiaryEntryController < ApplicationController
 
       if user
         @entries = user.diary_entries
-        @title = t("diary_entry.feed.user.title", :user => user.display_name)
-        @description = t("diary_entry.feed.user.description", :user => user.display_name)
-        @link = url_for :controller => "diary_entry", :action => "index", :display_name => user.display_name, :host => SERVER_URL, :protocol => SERVER_PROTOCOL
+        @title = t("diary_entries.feed.user.title", :user => user.display_name)
+        @description = t("diary_entries.feed.user.description", :user => user.display_name)
+        @link = url_for :action => "index", :display_name => user.display_name, :host => SERVER_URL, :protocol => SERVER_PROTOCOL
       else
         head :not_found
         return
@@ -168,13 +168,13 @@ class DiaryEntryController < ApplicationController
 
       if params[:language]
         @entries = @entries.where(:language_code => params[:language])
-        @title = t("diary_entry.feed.language.title", :language_name => Language.find(params[:language]).english_name)
-        @description = t("diary_entry.feed.language.description", :language_name => Language.find(params[:language]).english_name)
-        @link = url_for :controller => "diary_entry", :action => "index", :language => params[:language], :host => SERVER_URL, :protocol => SERVER_PROTOCOL
+        @title = t("diary_entries.feed.language.title", :language_name => Language.find(params[:language]).english_name)
+        @description = t("diary_entries.feed.language.description", :language_name => Language.find(params[:language]).english_name)
+        @link = url_for :action => "index", :language => params[:language], :host => SERVER_URL, :protocol => SERVER_PROTOCOL
       else
-        @title = t("diary_entry.feed.all.title")
-        @description = t("diary_entry.feed.all.description")
-        @link = url_for :controller => "diary_entry", :action => "index", :host => SERVER_URL, :protocol => SERVER_PROTOCOL
+        @title = t("diary_entries.feed.all.title")
+        @description = t("diary_entries.feed.all.description")
+        @link = url_for :action => "index", :host => SERVER_URL, :protocol => SERVER_PROTOCOL
       end
     end
 
@@ -184,9 +184,9 @@ class DiaryEntryController < ApplicationController
   def show
     @entry = @user.diary_entries.visible.where(:id => params[:id]).first
     if @entry
-      @title = t "diary_entry.show.title", :user => params[:display_name], :title => @entry.title
+      @title = t "diary_entries.show.title", :user => params[:display_name], :title => @entry.title
     else
-      @title = t "diary_entry.no_such_entry.title", :id => params[:id]
+      @title = t "diary_entries.no_such_entry.title", :id => params[:id]
       render :action => "no_such_entry", :status => :not_found
     end
   end
