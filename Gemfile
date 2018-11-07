@@ -44,8 +44,8 @@ gem "autoprefixer-rails", "~> 8.6.3"
 gem "image_optim_rails"
 
 # Load rails plugins
-gem "active_record_union"
 gem "actionpack-page_caching"
+gem "active_record_union"
 gem "cancancan"
 gem "composite_primary_keys", "~> 11.0.0"
 gem "delayed_job_active_record"
