@@ -1,6 +1,6 @@
 comments.each do |comment|
   xml.item do
-    xml.title t("changeset.rss.comment", :author => comment.author.display_name, :changeset_id => comment.changeset.id.to_s)
+    xml.title t(".comment", :author => comment.author.display_name, :changeset_id => comment.changeset.id.to_s)
 
     xml.link url_for(:controller => "browse", :action => "changeset", :id => comment.changeset.id, :anchor => "c#{comment.id}", :only_path => false)
     xml.guid url_for(:controller => "browse", :action => "changeset", :id => comment.changeset.id, :anchor => "c#{comment.id}", :only_path => false)
