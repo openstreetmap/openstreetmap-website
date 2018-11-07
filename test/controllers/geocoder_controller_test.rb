@@ -1,5 +1,4 @@
 require "test_helper"
-require "geocoder_controller"
 
 class GeocoderControllerTest < ActionController::TestCase
   ##
