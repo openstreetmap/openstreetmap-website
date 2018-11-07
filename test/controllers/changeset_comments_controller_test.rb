@@ -10,11 +10,11 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/api/0.6/changeset/comment/1/hide", :method => :post },
-      { :controller => "changeset_comments", :action => "hide_comment", :id => "1" }
+      { :controller => "changeset_comments", :action => "destroy", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/comment/1/unhide", :method => :post },
-      { :controller => "changeset_comments", :action => "unhide_comment", :id => "1" }
+      { :controller => "changeset_comments", :action => "restore", :id => "1" }
     )
     assert_routing(
       { :path => "/changeset/1/comments/feed", :method => :get },
@@ -129,26 +129,26 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
 
   ##
   # test hide comment fail
-  def test_hide_comment_fail
+  def test_destroy_comment_fail
     # unauthorized
     comment = create(:changeset_comment)
     assert_equal true, comment.visible
 
-    post :hide_comment, :params => { :id => comment.id }
+    post :destroy, :params => { :id => comment.id }
     assert_response :unauthorized
     assert_equal true, comment.reload.visible
 
     basic_authorization create(:user).email, "test"
 
     # not a moderator
-    post :hide_comment, :params => { :id => comment.id }
+    post :destroy, :params => { :id => comment.id }
     assert_response :forbidden
     assert_equal true, comment.reload.visible
 
     basic_authorization create(:moderator_user).email, "test"
 
     # bad comment id
-    post :hide_comment, :params => { :id => 999111 }
+    post :destroy, :params => { :id => 999111 }
     assert_response :not_found
     assert_equal true, comment.reload.visible
   end
@@ -161,33 +161,33 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
 
     basic_authorization create(:moderator_user).email, "test"
 
-    post :hide_comment, :params => { :id => comment.id }
+    post :destroy, :params => { :id => comment.id }
     assert_response :success
     assert_equal false, comment.reload.visible
   end
 
   ##
   # test unhide comment fail
-  def test_unhide_comment_fail
+  def test_restore_comment_fail
     # unauthorized
     comment = create(:changeset_comment, :visible => false)
     assert_equal false, comment.visible
 
-    post :unhide_comment, :params => { :id => comment.id }
+    post :restore, :params => { :id => comment.id }
     assert_response :unauthorized
     assert_equal false, comment.reload.visible
 
     basic_authorization create(:user).email, "test"
 
     # not a moderator
-    post :unhide_comment, :params => { :id => comment.id }
+    post :restore, :params => { :id => comment.id }
     assert_response :forbidden
     assert_equal false, comment.reload.visible
 
     basic_authorization create(:moderator_user).email, "test"
 
     # bad comment id
-    post :unhide_comment, :params => { :id => 999111 }
+    post :restore, :params => { :id => 999111 }
     assert_response :not_found
     assert_equal false, comment.reload.visible
   end
@@ -200,7 +200,7 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
 
     basic_authorization create(:moderator_user).email, "test"
 
-    post :unhide_comment, :params => { :id => comment.id }
+    post :restore, :params => { :id => comment.id }
     assert_response :success
     assert_equal true, comment.reload.visible
   end

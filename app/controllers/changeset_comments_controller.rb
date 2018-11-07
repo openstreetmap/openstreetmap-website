@@ -1,11 +1,11 @@
 class ChangesetCommentsController < ApplicationController
   before_action :authorize_web, :only => [:index]
   before_action :set_locale, :only => [:index]
-  before_action :authorize, :only => [:create, :hide_comment, :unhide_comment]
-  before_action :require_moderator, :only => [:hide_comment, :unhide_comment]
-  before_action :require_allow_write_api, :only => [:create, :hide_comment, :unhide_comment]
+  before_action :authorize, :only => [:create, :destroy, :restore]
+  before_action :require_moderator, :only => [:destroy, :restore]
+  before_action :require_allow_write_api, :only => [:create, :destroy, :restore]
   before_action :require_public_data, :only => [:create]
-  before_action :check_api_writable, :only => [:create, :hide_comment, :unhide_comment]
+  before_action :check_api_writable, :only => [:create, :destroy, :restore]
   before_action :check_api_readable, :except => [:create, :index]
   before_action(:only => [:index]) { |c| c.check_database_readable(true) }
   around_action :api_call_handle_error, :except => [:index]
@@ -46,7 +46,7 @@ class ChangesetCommentsController < ApplicationController
 
   ##
   # Sets visible flag on comment to false
-  def hide_comment
+  def destroy
     # Check the arguments are sane
     raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
@@ -65,7 +65,7 @@ class ChangesetCommentsController < ApplicationController
 
   ##
   # Sets visible flag on comment to true
-  def unhide_comment
+  def restore
     # Check the arguments are sane
     raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
