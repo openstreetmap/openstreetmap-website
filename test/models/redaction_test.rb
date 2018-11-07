@@ -1,5 +1,4 @@
 require "test_helper"
-require "osm"
 
 class RedactionTest < ActiveSupport::TestCase
   def test_cannot_redact_current

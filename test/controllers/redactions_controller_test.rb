@@ -1,5 +1,4 @@
 require "test_helper"
-require "redactions_controller"
 
 class RedactionsControllerTest < ActionController::TestCase
   ##
