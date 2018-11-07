@@ -225,7 +225,7 @@ class OldRelationControllerTest < ActionController::TestCase
   # version which we're getting from the versions call.
   def check_current_version(relation_id)
     # get the current version
-    current_relation = with_controller(RelationController.new) do
+    current_relation = with_controller(RelationsController.new) do
       get :read, :params => { :id => relation_id }
       assert_response :success, "can't get current relation #{relation_id}"
       Relation.from_xml(@response.body)

@@ -1,4 +1,4 @@
-class WayController < ApplicationController
+class WaysController < ApplicationController
   require "xml/libxml"
 
   skip_before_action :verify_authenticity_token

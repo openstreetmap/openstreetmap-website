@@ -1,4 +1,4 @@
-class RelationController < ApplicationController
+class RelationsController < ApplicationController
   require "xml/libxml"
 
   skip_before_action :verify_authenticity_token

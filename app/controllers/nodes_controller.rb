@@ -1,6 +1,6 @@
 # The NodeController is the RESTful interface to Node objects
 
-class NodeController < ApplicationController
+class NodesController < ApplicationController
   require "xml/libxml"
 
   skip_before_action :verify_authenticity_token

@@ -1,28 +1,28 @@
 require "test_helper"
 
-class NodeControllerTest < ActionController::TestCase
+class NodesControllerTest < ActionController::TestCase
   ##
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
       { :path => "/api/0.6/node/create", :method => :put },
-      { :controller => "node", :action => "create" }
+      { :controller => "nodes", :action => "create" }
     )
     assert_routing(
       { :path => "/api/0.6/node/1", :method => :get },
-      { :controller => "node", :action => "read", :id => "1" }
+      { :controller => "nodes", :action => "read", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/node/1", :method => :put },
-      { :controller => "node", :action => "update", :id => "1" }
+      { :controller => "nodes", :action => "update", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/node/1", :method => :delete },
-      { :controller => "node", :action => "delete", :id => "1" }
+      { :controller => "nodes", :action => "delete", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/nodes", :method => :get },
-      { :controller => "node", :action => "nodes" }
+      { :controller => "nodes", :action => "nodes" }
     )
   end
 

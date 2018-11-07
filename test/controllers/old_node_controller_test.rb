@@ -59,7 +59,7 @@ class OldNodeControllerTest < ActionController::TestCase
       # move the node somewhere else
       xml_node["lat"] = precision(rand * 180 - 90).to_s
       xml_node["lon"] = precision(rand * 360 - 180).to_s
-      with_controller(NodeController.new) do
+      with_controller(NodesController.new) do
         content xml_doc
         put :update, :params => { :id => nodeid }
         assert_response :forbidden, "Should have rejected node update"
@@ -75,7 +75,7 @@ class OldNodeControllerTest < ActionController::TestCase
       xml_tag["k"] = random_string
       xml_tag["v"] = random_string
       xml_node << xml_tag
-      with_controller(NodeController.new) do
+      with_controller(NodesController.new) do
         content xml_doc
         put :update, :params => { :id => nodeid }
         assert_response :forbidden,
@@ -109,7 +109,7 @@ class OldNodeControllerTest < ActionController::TestCase
       # move the node somewhere else
       xml_node["lat"] = precision(rand * 180 - 90).to_s
       xml_node["lon"] = precision(rand * 360 - 180).to_s
-      with_controller(NodeController.new) do
+      with_controller(NodesController.new) do
         content xml_doc
         put :update, :params => { :id => nodeid }
         assert_response :success
@@ -125,7 +125,7 @@ class OldNodeControllerTest < ActionController::TestCase
       xml_tag["k"] = random_string
       xml_tag["v"] = random_string
       xml_node << xml_tag
-      with_controller(NodeController.new) do
+      with_controller(NodesController.new) do
         content xml_doc
         put :update, :params => { :id => nodeid }
         assert_response :success,
@@ -390,7 +390,7 @@ class OldNodeControllerTest < ActionController::TestCase
 
   def check_current_version(node_id)
     # get the current version of the node
-    current_node = with_controller(NodeController.new) do
+    current_node = with_controller(NodesController.new) do
       get :read, :params => { :id => node_id }
       assert_response :success, "cant get current node #{node_id}"
       Node.from_xml(@response.body)
