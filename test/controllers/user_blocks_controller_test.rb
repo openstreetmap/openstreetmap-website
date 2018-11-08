@@ -145,8 +145,7 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Check that normal users can't load the block creation page
     get :new, :params => { :display_name => target_user.display_name }
-    assert_redirected_to user_blocks_path
-    assert_equal "You need to be a moderator to perform that action.", flash[:error]
+    assert_response :forbidden
 
     # Login as a moderator
     session[:user] = create(:moderator_user).id
@@ -189,8 +188,7 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Check that normal users can't load the block edit page
     get :edit, :params => { :id => active_block.id }
-    assert_redirected_to user_blocks_path
-    assert_equal "You need to be a moderator to perform that action.", flash[:error]
+    assert_response :forbidden
 
     # Login as a moderator
     session[:user] = create(:moderator_user).id
@@ -361,8 +359,7 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Check that normal users can't load the block revoke page
     get :revoke, :params => { :id => active_block.id }
-    assert_redirected_to user_blocks_path
-    assert_equal "You need to be a moderator to perform that action.", flash[:error]
+    assert_response :forbidden
 
     # Login as a moderator
     session[:user] = create(:moderator_user).id

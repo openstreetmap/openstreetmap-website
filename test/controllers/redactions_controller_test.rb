@@ -63,8 +63,7 @@ class RedactionsControllerTest < ActionController::TestCase
     session[:user] = create(:user).id
 
     get :new
-    assert_response :redirect
-    assert_redirected_to redactions_path
+    assert_response :forbidden
   end
 
   def test_create_moderator
@@ -140,8 +139,7 @@ class RedactionsControllerTest < ActionController::TestCase
     session[:user] = create(:user).id
 
     get :edit, :params => { :id => create(:redaction).id }
-    assert_response :redirect
-    assert_redirected_to(redactions_path)
+    assert_response :forbidden
   end
 
   def test_update_moderator
