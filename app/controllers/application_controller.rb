@@ -483,9 +483,15 @@ class ApplicationController < ActionController::Base
       report_error t("oauth.permissions.missing"), :forbidden
     elsif current_user
       set_locale
-      report_error t("application.permission_denied"), :forbidden
+      respond_to do |format|
+        format.html { redirect_to :controller => "errors", :action => "forbidden" }
+        format.any { report_error t("application.permission_denied"), :forbidden }
+      end
     elsif request.get?
-      redirect_to :controller => "users", :action => "login", :referer => request.fullpath
+      respond_to do |format|
+        format.html { redirect_to :controller => "users", :action => "login", :referer => request.fullpath }
+        format.any { head :forbidden }
+      end
     else
       head :forbidden
     end

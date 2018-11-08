@@ -63,7 +63,8 @@ class RedactionsControllerTest < ActionController::TestCase
     session[:user] = create(:user).id
 
     get :new
-    assert_response :forbidden
+    assert_response :redirect
+    assert_redirected_to :controller => "errors", :action => "forbidden"
   end
 
   def test_create_moderator
@@ -86,7 +87,8 @@ class RedactionsControllerTest < ActionController::TestCase
     session[:user] = create(:user).id
 
     post :create, :params => { :redaction => { :title => "Foo", :description => "Description here." } }
-    assert_response :forbidden
+    assert_response :redirect
+    assert_redirected_to :controller => "errors", :action => "forbidden"
   end
 
   def test_destroy_moderator_empty
@@ -117,7 +119,8 @@ class RedactionsControllerTest < ActionController::TestCase
     session[:user] = create(:user).id
 
     delete :destroy, :params => { :id => create(:redaction).id }
-    assert_response :forbidden
+    assert_response :redirect
+    assert_redirected_to :controller => "errors", :action => "forbidden"
   end
 
   def test_edit
@@ -139,7 +142,8 @@ class RedactionsControllerTest < ActionController::TestCase
     session[:user] = create(:user).id
 
     get :edit, :params => { :id => create(:redaction).id }
-    assert_response :forbidden
+    assert_response :redirect
+    assert_redirected_to :controller => "errors", :action => "forbidden"
   end
 
   def test_update_moderator
@@ -168,6 +172,7 @@ class RedactionsControllerTest < ActionController::TestCase
     redaction = create(:redaction)
 
     put :update, :params => { :id => redaction.id, :redaction => { :title => "Foo", :description => "Description here." } }
-    assert_response :forbidden
+    assert_response :redirect
+    assert_redirected_to :controller => "errors", :action => "forbidden"
   end
 end
