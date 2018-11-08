@@ -1,33 +1,32 @@
 require "test_helper"
-require "way_controller"
 
-class WayControllerTest < ActionController::TestCase
+class WaysControllerTest < ActionController::TestCase
   ##
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
       { :path => "/api/0.6/way/create", :method => :put },
-      { :controller => "way", :action => "create" }
+      { :controller => "ways", :action => "create" }
     )
     assert_routing(
       { :path => "/api/0.6/way/1/full", :method => :get },
-      { :controller => "way", :action => "full", :id => "1" }
+      { :controller => "ways", :action => "full", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/way/1", :method => :get },
-      { :controller => "way", :action => "read", :id => "1" }
+      { :controller => "ways", :action => "read", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/way/1", :method => :put },
-      { :controller => "way", :action => "update", :id => "1" }
+      { :controller => "ways", :action => "update", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/way/1", :method => :delete },
-      { :controller => "way", :action => "delete", :id => "1" }
+      { :controller => "ways", :action => "delete", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/ways", :method => :get },
-      { :controller => "way", :action => "ways" }
+      { :controller => "ways", :action => "ways" }
     )
   end
 

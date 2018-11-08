@@ -18,11 +18,11 @@
             <span class='count-number'><%= number_with_delimiter(current_user.traces.size) %></span>
           </li>
           <li>
-            <%= link_to t('.my diary'), :controller => 'diary_entry', :action => 'index', :display_name => current_user.display_name %>
+            <%= link_to t('.my diary'), :controller => 'diary_entries', :action => 'index', :display_name => current_user.display_name %>
             <span class='count-number'><%= number_with_delimiter(current_user.diary_entries.size) %></span>
           </li>
           <li>
-            <%= link_to t('.my comments' ), :controller => 'diary_entry', :action => 'comments', :display_name => current_user.display_name %>
+            <%= link_to t('.my comments' ), :controller => 'diary_entries', :action => 'comments', :display_name => current_user.display_name %>
           </li>
           <li>
             <%= link_to t('.my settings'), :controller => 'users', :action => 'account', :display_name => current_user.display_name %>
@@ -66,11 +66,11 @@
             <%= link_to t('.send message'), new_message_path(@user) %>
           </li>
           <li>
-            <%= link_to t('.diary'), :controller => 'diary_entry', :action => 'index', :display_name => @user.display_name %>
+            <%= link_to t('.diary'), :controller => 'diary_entries', :action => 'index', :display_name => @user.display_name %>
             <span class='count-number'><%= number_with_delimiter(@user.diary_entries.size) %></span>
           </li>
           <li>
-            <%= link_to t('.comments'), :controller => 'diary_entry', :action => 'comments', :display_name => @user.display_name %>
+            <%= link_to t('.comments'), :controller => 'diary_entries', :action => 'comments', :display_name => @user.display_name %>
           </li>
           <li>
             <% if current_user and current_user.is_friends_with?(@user) %>

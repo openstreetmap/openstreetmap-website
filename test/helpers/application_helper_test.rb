@@ -38,7 +38,7 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   def test_rss_link_to
-    link = rss_link_to(:controller => :diary_entry, :action => :rss)
+    link = rss_link_to(:controller => :diary_entries, :action => :rss)
     assert_dom_equal "<a class=\"rsssmall\" href=\"/diary/rss\"><img border=\"0\" height=\"16\" src=\"/images/RSS.png\" width=\"16\" /></a>", link
   end
 

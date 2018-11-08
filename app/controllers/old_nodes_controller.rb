@@ -1,4 +1,4 @@
-class OldNodeController < OldController
+class OldNodesController < OldController
   private
 
   def lookup_old_element

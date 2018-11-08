@@ -1,21 +1,20 @@
 require "test_helper"
-require "old_relation_controller"
 
-class OldRelationControllerTest < ActionController::TestCase
+class OldRelationsControllerTest < ActionController::TestCase
   ##
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
       { :path => "/api/0.6/relation/1/history", :method => :get },
-      { :controller => "old_relation", :action => "history", :id => "1" }
+      { :controller => "old_relations", :action => "history", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/relation/1/2", :method => :get },
-      { :controller => "old_relation", :action => "version", :id => "1", :version => "2" }
+      { :controller => "old_relations", :action => "version", :id => "1", :version => "2" }
     )
     assert_routing(
       { :path => "/api/0.6/relation/1/2/redact", :method => :post },
-      { :controller => "old_relation", :action => "redact", :id => "1", :version => "2" }
+      { :controller => "old_relations", :action => "redact", :id => "1", :version => "2" }
     )
   end
 
@@ -225,7 +224,7 @@ class OldRelationControllerTest < ActionController::TestCase
   # version which we're getting from the versions call.
   def check_current_version(relation_id)
     # get the current version
-    current_relation = with_controller(RelationController.new) do
+    current_relation = with_controller(RelationsController.new) do
       get :read, :params => { :id => relation_id }
       assert_response :success, "can't get current relation #{relation_id}"
       Relation.from_xml(@response.body)

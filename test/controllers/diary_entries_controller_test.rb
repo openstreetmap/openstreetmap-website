@@ -1,6 +1,6 @@
 require "test_helper"
 
-class DiaryEntryControllerTest < ActionController::TestCase
+class DiaryEntriesControllerTest < ActionController::TestCase
   include ActionView::Helpers::NumberHelper
 
   def setup
@@ -16,86 +16,86 @@ class DiaryEntryControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/diary", :method => :get },
-      { :controller => "diary_entry", :action => "index" }
+      { :controller => "diary_entries", :action => "index" }
     )
     assert_routing(
       { :path => "/diary/language", :method => :get },
-      { :controller => "diary_entry", :action => "index", :language => "language" }
+      { :controller => "diary_entries", :action => "index", :language => "language" }
     )
     assert_routing(
       { :path => "/user/username/diary", :method => :get },
-      { :controller => "diary_entry", :action => "index", :display_name => "username" }
+      { :controller => "diary_entries", :action => "index", :display_name => "username" }
     )
     assert_routing(
       { :path => "/diary/friends", :method => :get },
-      { :controller => "diary_entry", :action => "index", :friends => true }
+      { :controller => "diary_entries", :action => "index", :friends => true }
     )
     assert_routing(
       { :path => "/diary/nearby", :method => :get },
-      { :controller => "diary_entry", :action => "index", :nearby => true }
+      { :controller => "diary_entries", :action => "index", :nearby => true }
     )
 
     assert_routing(
       { :path => "/diary/rss", :method => :get },
-      { :controller => "diary_entry", :action => "rss", :format => :rss }
+      { :controller => "diary_entries", :action => "rss", :format => :rss }
     )
     assert_routing(
       { :path => "/diary/language/rss", :method => :get },
-      { :controller => "diary_entry", :action => "rss", :language => "language", :format => :rss }
+      { :controller => "diary_entries", :action => "rss", :language => "language", :format => :rss }
     )
     assert_routing(
       { :path => "/user/username/diary/rss", :method => :get },
-      { :controller => "diary_entry", :action => "rss", :display_name => "username", :format => :rss }
+      { :controller => "diary_entries", :action => "rss", :display_name => "username", :format => :rss }
     )
 
     assert_routing(
       { :path => "/user/username/diary/comments", :method => :get },
-      { :controller => "diary_entry", :action => "comments", :display_name => "username" }
+      { :controller => "diary_entries", :action => "comments", :display_name => "username" }
     )
     assert_routing(
       { :path => "/user/username/diary/comments/1", :method => :get },
-      { :controller => "diary_entry", :action => "comments", :display_name => "username", :page => "1" }
+      { :controller => "diary_entries", :action => "comments", :display_name => "username", :page => "1" }
     )
 
     assert_routing(
       { :path => "/diary/new", :method => :get },
-      { :controller => "diary_entry", :action => "new" }
+      { :controller => "diary_entries", :action => "new" }
     )
     assert_routing(
       { :path => "/diary/new", :method => :post },
-      { :controller => "diary_entry", :action => "new" }
+      { :controller => "diary_entries", :action => "new" }
     )
     assert_routing(
       { :path => "/user/username/diary/1", :method => :get },
-      { :controller => "diary_entry", :action => "show", :display_name => "username", :id => "1" }
+      { :controller => "diary_entries", :action => "show", :display_name => "username", :id => "1" }
     )
     assert_routing(
       { :path => "/user/username/diary/1/edit", :method => :get },
-      { :controller => "diary_entry", :action => "edit", :display_name => "username", :id => "1" }
+      { :controller => "diary_entries", :action => "edit", :display_name => "username", :id => "1" }
     )
     assert_routing(
       { :path => "/user/username/diary/1/edit", :method => :post },
-      { :controller => "diary_entry", :action => "edit", :display_name => "username", :id => "1" }
+      { :controller => "diary_entries", :action => "edit", :display_name => "username", :id => "1" }
     )
     assert_routing(
       { :path => "/user/username/diary/1/newcomment", :method => :post },
-      { :controller => "diary_entry", :action => "comment", :display_name => "username", :id => "1" }
+      { :controller => "diary_entries", :action => "comment", :display_name => "username", :id => "1" }
     )
     assert_routing(
       { :path => "/user/username/diary/1/hide", :method => :post },
-      { :controller => "diary_entry", :action => "hide", :display_name => "username", :id => "1" }
+      { :controller => "diary_entries", :action => "hide", :display_name => "username", :id => "1" }
     )
     assert_routing(
       { :path => "/user/username/diary/1/hidecomment/2", :method => :post },
-      { :controller => "diary_entry", :action => "hidecomment", :display_name => "username", :id => "1", :comment => "2" }
+      { :controller => "diary_entries", :action => "hidecomment", :display_name => "username", :id => "1", :comment => "2" }
     )
     assert_routing(
       { :path => "/user/username/diary/1/subscribe", :method => :post },
-      { :controller => "diary_entry", :action => "subscribe", :display_name => "username", :id => "1" }
+      { :controller => "diary_entries", :action => "subscribe", :display_name => "username", :id => "1" }
     )
     assert_routing(
       { :path => "/user/username/diary/1/unsubscribe", :method => :post },
-      { :controller => "diary_entry", :action => "unsubscribe", :display_name => "username", :id => "1" }
+      { :controller => "diary_entries", :action => "unsubscribe", :display_name => "username", :id => "1" }
     )
   end
 
@@ -316,7 +316,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
         :params => { :display_name => entry.user.display_name, :id => entry.id },
         :session => { :user => entry.user }
     assert_response :success
-    assert_template "diary_entry/show"
+    assert_template "show"
     assert_select "title", :text => /Users' diaries | /, :count => 1
     assert_select "div.content-heading", :count => 1 do
       assert_select "h2", :text => /#{entry.user.display_name}'s diary/, :count => 1
@@ -337,7 +337,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
         :params => { :display_name => entry.user.display_name, :id => entry.id },
         :session => { :user => create(:user) }
     assert_response :success
-    assert_template "diary_entry/show"
+    assert_template "show"
     assert_select "title", :text => /Users' diaries | /, :count => 1
     assert_select "div.content-heading", :count => 1 do
       assert_select "h2", :text => /#{entry.user.display_name}'s diary/, :count => 1

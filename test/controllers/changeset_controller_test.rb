@@ -1508,7 +1508,7 @@ CHANGESET
     changeset_id = @response.body.to_i
 
     # add a single node to it
-    with_controller(NodeController.new) do
+    with_controller(NodesController.new) do
       content "<osm><node lon='1' lat='2' changeset='#{changeset_id}'/></osm>"
       put :create
       assert_response :success, "Couldn't create node."
@@ -1523,7 +1523,7 @@ CHANGESET
     assert_select "osm>changeset[max_lat='2.0000000']", 1
 
     # add another node to it
-    with_controller(NodeController.new) do
+    with_controller(NodesController.new) do
       content "<osm><node lon='2' lat='1' changeset='#{changeset_id}'/></osm>"
       put :create
       assert_response :success, "Couldn't create second node."
@@ -1538,7 +1538,7 @@ CHANGESET
     assert_select "osm>changeset[max_lat='2.0000000']", 1
 
     # add (delete) a way to it, which contains a point at (3,3)
-    with_controller(WayController.new) do
+    with_controller(WaysController.new) do
       content update_changeset(way.to_xml, changeset_id)
       put :delete, :params => { :id => way.id }
       assert_response :success, "Couldn't delete a way."
@@ -1818,7 +1818,7 @@ CHANGESET
     changeset.num_changes = Changeset::MAX_ELEMENTS - offset
     changeset.save!
 
-    with_controller(NodeController.new) do
+    with_controller(NodesController.new) do
       # create a new node
       content "<osm><node changeset='#{cs_id}' lat='0.0' lon='0.0'/></osm>"
       put :create
