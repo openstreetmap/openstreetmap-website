@@ -259,67 +259,72 @@ sr:
       load_more: Учитај још
     timeout:
       sorry: Нажалост, преузимање траженог списка измена предуго траје.
-    rss:
+  changeset_comments:
+    comment:
+      comment: Нови коментар на скуп измена бр. %{changeset_id} корисника %{author}
+      commented_at_by_html: Ажурирао %{user} пре %{when}
+    comments:
+      comment: 'Нови коментар о скупу промена #%{changeset_id} аутора %{author}'
+    index:
       title_all: Дискусија о скупу измена OpenStreetMap-а
       title_particular: 'Дискусија о скупу измена #%{changeset_id} OpenStreetMap-а'
-      comment: Нови коментар на скуп измена бр. %{changeset_id} корисника %{author}
-      commented_at_html: Ажурирано пре %{when}
-      commented_at_by_html: Ажурирао %{user} пре %{when}
-      full: Цела дискусија
-  diary_entry:
+    timeout:
+      sorry: Преузимање списка коментара за скупове промена који сте тражили трајало
+        је предуго.
+  diary_entries:
     new:
       title: Нови дневнички запис
       publish_button: Објави
     index:
-      title: Дневници корисника
+      title: Кориснички дневници
       title_friends: Дневници пријатеља
       title_nearby: Дневници корисника у близини
       user_title: Дневник корисника %{user}
       in_language_title: Дневнички записи на %{language}
-      new: Нови дневнички запис
-      new_title: Састави нови запис у мом дневнику
-      no_entries: У дневнику нема записа
-      recent_entries: Скорашњи дневнички записи
-      older_entries: Старији записи
-      newer_entries: Новији записи
+      new: Нови уноси у дневнику
+      new_title: Састави нови унос у мом дневнику
+      no_entries: Нема уноса у дневнику
+      recent_entries: Недавни уноси у дневнику
+      older_entries: Старији уноси
+      newer_entries: Новији уноси
     edit:
-      title: Уреди дневнички запис
-      subject: 'Наслов:'
-      body: 'Текст:'
+      title: Уреди унос у дневнику
+      subject: 'Тема:'
+      body: 'Тело:'
       language: 'Језик:'
       location: 'Локација:'
       latitude: 'Географска ширина:'
       longitude: 'Географска дужина:'
-      use_map_link: Прикажи на мапи
+      use_map_link: користи мапу
       save_button: Сачувај
-      marker_text: Локација писања белешке
+      marker_text: Локација уноса у дневнику
     show:
-      title: Дневник корисника %{user} | %{title}
-      user_title: Дневник корисника %{user}
+      title: Дневник корисника/це %{user} | %{title}
+      user_title: Дневник корисника/це %{user}
       leave_a_comment: Остави коментар
       login_to_leave_a_comment: '%{login_link} да бисте оставили коментар'
       login: Пријавите се
       save_button: Сачувај
     no_such_entry:
-      title: Нема таквог дневничког записа
+      title: Нема таквог уноса у дневнику
       heading: 'Нема записа са ID-јем: %{id}'
       body: Нажалост, нема записа или коментара са ID-јем %{id}. Можда је веза неисправна
         или сте погрешили у куцању.
     diary_entry:
       posted_by: Поставио корисник %{link_user} у %{created} на %{language_link}
-      comment_link: Прокоментариши
-      reply_link: Одговори
+      comment_link: Коментариши овај унос
+      reply_link: Одговори на овај унос
       comment_count:
         zero: Нема коментара
         one: '%{count} коментар'
         other: '%{count} коментара'
-      edit_link: Уреди запис
-      hide_link: Сакриј запис
+      edit_link: Уреди овај унос
+      hide_link: Сакриј овај унос
       confirm: Потврди
-      report: Пријави овај запис
+      report: Пријавите овај унос
     diary_comment:
       comment_from: Коментар корисника %{link_user} у %{comment_created_at}
-      hide_link: Сакриј коментар
+      hide_link: Сакриј овај коментар
       confirm: Потврди
       report: Пријави овај коментар
     location:
@@ -328,17 +333,17 @@ sr:
       edit: Уреди
     feed:
       user:
-        title: Дневнички записи корисника %{user}
-        description: Скорашњи дневнички записи корисника %{user}
+        title: Уноси у дневнику OpenStreetMap-а корисника %{user}
+        description: Недавни уноси у дневнику OpenStreetMap-а корисника %{user}
       language:
-        title: Дневнички записи на %{language_name}
+        title: Уноси у дневнику OpenStreetMap-а на %{language_name}
         description: Скорашњи дневнички записи корисника OpenStreetMap-а на %{language_name}
       all:
-        title: Дневнички записи
-        description: Скорашњи дневнички записи корисника OpenStreetMap-а
+        title: Уноси у дневнику OpenStreetMap-а
+        description: Недавни уноси у дневнику корисника OpenStreetMap-а
     comments:
-      has_commented_on: '%{display_name} је прокоментарисао следеће дневничке записе'
-      post: Порука
+      has_commented_on: '%{display_name} је коментарисао следеће уносе у дневнику'
+      post: Објава
       when: Када
       comment: Коментар
       ago: пре %{ago}
@@ -2533,4 +2538,9 @@ sr:
         овој редакцији пре него што је уклоните.
       flash: Редакција је уклоњена.
       error: Дошло је до грешке при уклањању редакције.
+  validations:
+    leading_whitespace: има размак на почетку
+    trailing_whitespace: има размак на крају
+    invalid_characters: садржи неважеће знаке
+    url_characters: садржи посебне знакове у URL адреси (%{characters})
 ...
