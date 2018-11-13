@@ -1,4 +1,5 @@
 class ChangesetCommentsController < ApplicationController
+  skip_before_action :verify_authenticity_token, :except => [:index]
   before_action :authorize_web, :only => [:index]
   before_action :set_locale, :only => [:index]
   before_action :authorize, :only => [:create, :destroy, :restore]
