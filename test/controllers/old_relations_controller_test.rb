@@ -6,15 +6,15 @@ class OldRelationsControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/0.6/relation/1/history", :method => :get },
-      { :controller => "old_relations", :action => "history", :id => "1" }
+      { :controller => "old_relations", :action => "history", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/relation/1/2", :method => :get },
-      { :controller => "old_relations", :action => "version", :id => "1", :version => "2" }
+      { :controller => "old_relations", :action => "version", :id => "1", :version => "2", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/relation/1/2/redact", :method => :post },
-      { :controller => "old_relations", :action => "redact", :id => "1", :version => "2" }
+      { :controller => "old_relations", :action => "redact", :id => "1", :version => "2", :format => "xml" }
     )
   end
 

@@ -1,8 +1,8 @@
 OpenStreetMap::Application.routes.draw do
   # API
-  get "api/capabilities" => "api#capabilities"
+  get "api/capabilities" => "api#capabilities", :defaults => { :format => "xml" }
 
-  scope "api/0.6" do
+  scope "api/0.6", :defaults => { :format => "xml" } do
     get "capabilities" => "api#capabilities"
     get "permissions" => "api#permissions"
 
@@ -80,15 +80,15 @@ OpenStreetMap::Application.routes.draw do
     put "gpx/:id" => "traces#api_update", :id => /\d+/
     delete "gpx/:id" => "traces#api_delete", :id => /\d+/
     get "gpx/:id/details" => "traces#api_read", :id => /\d+/
-    get "gpx/:id/data" => "traces#api_data"
+    get "gpx/:id/data" => "traces#api_data", :defaults => { :format => nil }
 
     # AMF (ActionScript) API
-    post "amf/read" => "amf#amf_read"
-    post "amf/write" => "amf#amf_write"
-    get "swf/trackpoints" => "swf#trackpoints"
+    post "amf/read" => "amf#amf_read", :defaults => { :format => "amf" }
+    post "amf/write" => "amf#amf_write", :defaults => { :format => "amf" }
+    get "swf/trackpoints" => "swf#trackpoints", :defaults => { :format => "swf" }
 
     # Map notes API
-    resources :notes, :except => [:new, :edit, :update], :constraints => { :id => /\d+/ }, :defaults => { :format => "xml" } do
+    resources :notes, :except => [:new, :edit, :update], :constraints => { :id => /\d+/ } do
       collection do
         get "search"
         get "feed", :defaults => { :format => "rss" }
@@ -104,8 +104,8 @@ OpenStreetMap::Application.routes.draw do
     post "notes/addPOIexec" => "notes#create"
     post "notes/closePOIexec" => "notes#close"
     post "notes/editPOIexec" => "notes#comment"
-    get "notes/getGPX" => "notes#index", :format => "gpx"
-    get "notes/getRSSfeed" => "notes#feed", :format => "rss"
+    get "notes/getGPX" => "notes#index", :defaults => { :format => "gpx" }
+    get "notes/getRSSfeed" => "notes#feed", :defaults => { :format => "rss" }
   end
 
   # Data browsing

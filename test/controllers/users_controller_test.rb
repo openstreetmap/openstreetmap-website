@@ -10,19 +10,19 @@ class UsersControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/0.6/user/1", :method => :get },
-      { :controller => "users", :action => "api_read", :id => "1" }
+      { :controller => "users", :action => "api_read", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/user/details", :method => :get },
-      { :controller => "users", :action => "api_details" }
+      { :controller => "users", :action => "api_details", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/user/gpx_files", :method => :get },
-      { :controller => "users", :action => "api_gpx_files" }
+      { :controller => "users", :action => "api_gpx_files", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/users", :method => :get },
-      { :controller => "users", :action => "api_users" }
+      { :controller => "users", :action => "api_users", :format => "xml" }
     )
 
     assert_routing(

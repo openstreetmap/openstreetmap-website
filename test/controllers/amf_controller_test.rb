@@ -9,11 +9,11 @@ class AmfControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/0.6/amf/read", :method => :post },
-      { :controller => "amf", :action => "amf_read" }
+      { :controller => "amf", :action => "amf_read", :format => "amf" }
     )
     assert_routing(
       { :path => "/api/0.6/amf/write", :method => :post },
-      { :controller => "amf", :action => "amf_write" }
+      { :controller => "amf", :action => "amf_write", :format => "amf" }
     )
   end
 

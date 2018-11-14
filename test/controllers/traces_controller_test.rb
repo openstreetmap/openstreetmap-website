@@ -27,27 +27,27 @@ class TracesControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/0.6/gpx/create", :method => :post },
-      { :controller => "traces", :action => "api_create" }
+      { :controller => "traces", :action => "api_create", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/gpx/1", :method => :get },
-      { :controller => "traces", :action => "api_read", :id => "1" }
+      { :controller => "traces", :action => "api_read", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/gpx/1", :method => :put },
-      { :controller => "traces", :action => "api_update", :id => "1" }
+      { :controller => "traces", :action => "api_update", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/gpx/1", :method => :delete },
-      { :controller => "traces", :action => "api_delete", :id => "1" }
+      { :controller => "traces", :action => "api_delete", :id => "1", :format => "xml" }
     )
     assert_recognizes(
-      { :controller => "traces", :action => "api_read", :id => "1" },
+      { :controller => "traces", :action => "api_read", :id => "1", :format => "xml" },
       { :path => "/api/0.6/gpx/1/details", :method => :get }
     )
     assert_routing(
       { :path => "/api/0.6/gpx/1/data", :method => :get },
-      { :controller => "traces", :action => "api_data", :id => "1" }
+      { :controller => "traces", :action => "api_data", :id => "1", :format => nil }
     )
     assert_routing(
       { :path => "/api/0.6/gpx/1/data.xml", :method => :get },

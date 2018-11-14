@@ -6,19 +6,19 @@ class SearchControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/0.6/search", :method => :get },
-      { :controller => "search", :action => "search_all" }
+      { :controller => "search", :action => "search_all", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/nodes/search", :method => :get },
-      { :controller => "search", :action => "search_nodes" }
+      { :controller => "search", :action => "search_nodes", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/ways/search", :method => :get },
-      { :controller => "search", :action => "search_ways" }
+      { :controller => "search", :action => "search_ways", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/relations/search", :method => :get },
-      { :controller => "search", :action => "search_relations" }
+      { :controller => "search", :action => "search_relations", :format => "xml" }
     )
   end
 

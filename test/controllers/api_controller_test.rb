@@ -20,27 +20,27 @@ class ApiControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/capabilities", :method => :get },
-      { :controller => "api", :action => "capabilities" }
+      { :controller => "api", :action => "capabilities", :format => "xml" }
     )
     assert_recognizes(
-      { :controller => "api", :action => "capabilities" },
+      { :controller => "api", :action => "capabilities", :format => "xml" },
       { :path => "/api/0.6/capabilities", :method => :get }
     )
     assert_routing(
       { :path => "/api/0.6/permissions", :method => :get },
-      { :controller => "api", :action => "permissions" }
+      { :controller => "api", :action => "permissions", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/map", :method => :get },
-      { :controller => "api", :action => "map" }
+      { :controller => "api", :action => "map", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/trackpoints", :method => :get },
-      { :controller => "api", :action => "trackpoints" }
+      { :controller => "api", :action => "trackpoints", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/changes", :method => :get },
-      { :controller => "api", :action => "changes" }
+      { :controller => "api", :action => "changes", :format => "xml" }
     )
   end
 

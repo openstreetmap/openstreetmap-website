@@ -6,40 +6,40 @@ class RelationsControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/0.6/relation/create", :method => :put },
-      { :controller => "relations", :action => "create" }
+      { :controller => "relations", :action => "create", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/relation/1/full", :method => :get },
-      { :controller => "relations", :action => "full", :id => "1" }
+      { :controller => "relations", :action => "full", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/relation/1", :method => :get },
-      { :controller => "relations", :action => "read", :id => "1" }
+      { :controller => "relations", :action => "read", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/relation/1", :method => :put },
-      { :controller => "relations", :action => "update", :id => "1" }
+      { :controller => "relations", :action => "update", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/relation/1", :method => :delete },
-      { :controller => "relations", :action => "delete", :id => "1" }
+      { :controller => "relations", :action => "delete", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/relations", :method => :get },
-      { :controller => "relations", :action => "relations" }
+      { :controller => "relations", :action => "relations", :format => "xml" }
     )
 
     assert_routing(
       { :path => "/api/0.6/node/1/relations", :method => :get },
-      { :controller => "relations", :action => "relations_for_node", :id => "1" }
+      { :controller => "relations", :action => "relations_for_node", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/way/1/relations", :method => :get },
-      { :controller => "relations", :action => "relations_for_way", :id => "1" }
+      { :controller => "relations", :action => "relations_for_way", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/relation/1/relations", :method => :get },
-      { :controller => "relations", :action => "relations_for_relation", :id => "1" }
+      { :controller => "relations", :action => "relations_for_relation", :id => "1", :format => "xml" }
     )
   end
 

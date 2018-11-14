@@ -99,15 +99,15 @@ class NotesControllerTest < ActionController::TestCase
     )
 
     assert_recognizes(
-      { :controller => "notes", :action => "create" },
+      { :controller => "notes", :action => "create", :format => "xml" },
       { :path => "/api/0.6/notes/addPOIexec", :method => :post }
     )
     assert_recognizes(
-      { :controller => "notes", :action => "close" },
+      { :controller => "notes", :action => "close", :format => "xml" },
       { :path => "/api/0.6/notes/closePOIexec", :method => :post }
     )
     assert_recognizes(
-      { :controller => "notes", :action => "comment" },
+      { :controller => "notes", :action => "comment", :format => "xml" },
       { :path => "/api/0.6/notes/editPOIexec", :method => :post }
     )
     assert_recognizes(

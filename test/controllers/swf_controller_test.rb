@@ -6,7 +6,7 @@ class SwfControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/0.6/swf/trackpoints", :method => :get },
-      { :controller => "swf", :action => "trackpoints" }
+      { :controller => "swf", :action => "trackpoints", :format => "swf" }
     )
   end
 

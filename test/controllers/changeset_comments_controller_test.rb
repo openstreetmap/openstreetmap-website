@@ -6,15 +6,15 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/0.6/changeset/1/comment", :method => :post },
-      { :controller => "changeset_comments", :action => "create", :id => "1" }
+      { :controller => "changeset_comments", :action => "create", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/comment/1/hide", :method => :post },
-      { :controller => "changeset_comments", :action => "destroy", :id => "1" }
+      { :controller => "changeset_comments", :action => "destroy", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/comment/1/unhide", :method => :post },
-      { :controller => "changeset_comments", :action => "restore", :id => "1" }
+      { :controller => "changeset_comments", :action => "restore", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/changeset/1/comments/feed", :method => :get },

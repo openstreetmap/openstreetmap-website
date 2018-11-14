@@ -6,23 +6,23 @@ class UserPreferencesControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/0.6/user/preferences", :method => :get },
-      { :controller => "user_preferences", :action => "read" }
+      { :controller => "user_preferences", :action => "read", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/user/preferences", :method => :put },
-      { :controller => "user_preferences", :action => "update" }
+      { :controller => "user_preferences", :action => "update", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/user/preferences/key", :method => :get },
-      { :controller => "user_preferences", :action => "read_one", :preference_key => "key" }
+      { :controller => "user_preferences", :action => "read_one", :preference_key => "key", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/user/preferences/key", :method => :put },
-      { :controller => "user_preferences", :action => "update_one", :preference_key => "key" }
+      { :controller => "user_preferences", :action => "update_one", :preference_key => "key", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/user/preferences/key", :method => :delete },
-      { :controller => "user_preferences", :action => "delete_one", :preference_key => "key" }
+      { :controller => "user_preferences", :action => "delete_one", :preference_key => "key", :format => "xml" }
     )
   end
 

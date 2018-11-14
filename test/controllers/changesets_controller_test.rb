@@ -6,43 +6,43 @@ class ChangesetsControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/0.6/changeset/create", :method => :put },
-      { :controller => "changesets", :action => "create" }
+      { :controller => "changesets", :action => "create", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1/upload", :method => :post },
-      { :controller => "changesets", :action => "upload", :id => "1" }
+      { :controller => "changesets", :action => "upload", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1/download", :method => :get },
-      { :controller => "changesets", :action => "download", :id => "1" }
+      { :controller => "changesets", :action => "download", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1/expand_bbox", :method => :post },
-      { :controller => "changesets", :action => "expand_bbox", :id => "1" }
+      { :controller => "changesets", :action => "expand_bbox", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1", :method => :get },
-      { :controller => "changesets", :action => "read", :id => "1" }
+      { :controller => "changesets", :action => "read", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1/subscribe", :method => :post },
-      { :controller => "changesets", :action => "subscribe", :id => "1" }
+      { :controller => "changesets", :action => "subscribe", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1/unsubscribe", :method => :post },
-      { :controller => "changesets", :action => "unsubscribe", :id => "1" }
+      { :controller => "changesets", :action => "unsubscribe", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1", :method => :put },
-      { :controller => "changesets", :action => "update", :id => "1" }
+      { :controller => "changesets", :action => "update", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1/close", :method => :put },
-      { :controller => "changesets", :action => "close", :id => "1" }
+      { :controller => "changesets", :action => "close", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/changesets", :method => :get },
-      { :controller => "changesets", :action => "query" }
+      { :controller => "changesets", :action => "query", :format => "xml" }
     )
     assert_routing(
       { :path => "/user/name/history", :method => :get },

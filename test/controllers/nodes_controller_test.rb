@@ -6,23 +6,23 @@ class NodesControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/0.6/node/create", :method => :put },
-      { :controller => "nodes", :action => "create" }
+      { :controller => "nodes", :action => "create", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/node/1", :method => :get },
-      { :controller => "nodes", :action => "read", :id => "1" }
+      { :controller => "nodes", :action => "read", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/node/1", :method => :put },
-      { :controller => "nodes", :action => "update", :id => "1" }
+      { :controller => "nodes", :action => "update", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/node/1", :method => :delete },
-      { :controller => "nodes", :action => "delete", :id => "1" }
+      { :controller => "nodes", :action => "delete", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/nodes", :method => :get },
-      { :controller => "nodes", :action => "nodes" }
+      { :controller => "nodes", :action => "nodes", :format => "xml" }
     )
   end
 

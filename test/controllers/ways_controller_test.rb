@@ -6,27 +6,27 @@ class WaysControllerTest < ActionController::TestCase
   def test_routes
     assert_routing(
       { :path => "/api/0.6/way/create", :method => :put },
-      { :controller => "ways", :action => "create" }
+      { :controller => "ways", :action => "create", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/way/1/full", :method => :get },
-      { :controller => "ways", :action => "full", :id => "1" }
+      { :controller => "ways", :action => "full", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/way/1", :method => :get },
-      { :controller => "ways", :action => "read", :id => "1" }
+      { :controller => "ways", :action => "read", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/way/1", :method => :put },
-      { :controller => "ways", :action => "update", :id => "1" }
+      { :controller => "ways", :action => "update", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/way/1", :method => :delete },
-      { :controller => "ways", :action => "delete", :id => "1" }
+      { :controller => "ways", :action => "delete", :id => "1", :format => "xml" }
     )
     assert_routing(
       { :path => "/api/0.6/ways", :method => :get },
-      { :controller => "ways", :action => "ways" }
+      { :controller => "ways", :action => "ways", :format => "xml" }
     )
   end
 
