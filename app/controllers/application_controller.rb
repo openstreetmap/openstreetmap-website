@@ -477,7 +477,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def deny_access(_exception)
+  def deny_access(exception)
+    if @api_deny_access_handling
+      api_deny_access(exception)
+    else
+      web_deny_access(exception)
+    end
+  end
+
+  def web_deny_access(_exception)
     if current_token
       set_locale
       report_error t("oauth.permissions.missing"), :forbidden
@@ -495,6 +503,26 @@ class ApplicationController < ActionController::Base
     else
       head :forbidden
     end
+  end
+
+  def api_deny_access(_exception)
+    if current_token
+      set_locale
+      report_error t("oauth.permissions.missing"), :forbidden
+    elsif current_user
+      head :forbidden
+    else
+      realm = "Web Password"
+      errormessage = "Couldn't authenticate you"
+      response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
+      render :plain => errormessage, :status => :unauthorized
+    end
+  end
+
+  attr_accessor :api_access_handling
+
+  def api_deny_access_handler
+    @api_deny_access_handling = true
   end
 
   private

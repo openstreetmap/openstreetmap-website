@@ -4,6 +4,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    can :index, ChangesetComment
     can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :preview, :copyright, :key, :id], :site
     can [:index, :rss, :show, :comments], DiaryEntry
     can [:search, :search_latlon, :search_ca_postcode, :search_osm_nominatim,
@@ -13,11 +14,13 @@ class Ability
 
     if user
       can :welcome, :site
+      can :create, ChangesetComment
       can [:create, :edit, :comment, :subscribe, :unsubscribe], DiaryEntry
       can [:new, :create], Report
       can [:read, :read_one, :update, :update_one, :delete_one], UserPreference
 
       if user.moderator?
+        can [:destroy, :restore], ChangesetComment
         can [:index, :show, :resolve, :ignore, :reopen], Issue
         can :create, IssueComment
         can [:new, :create, :edit, :update, :destroy], Redaction
