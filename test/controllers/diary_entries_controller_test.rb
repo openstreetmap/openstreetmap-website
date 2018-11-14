@@ -371,7 +371,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     # Make sure that you are denied when you are not logged in
     post :comment,
          :params => { :display_name => entry.user.display_name, :id => entry.id }
-    assert_response :forbidden
+    assert_response :unauthorized
 
     # Verify that you get a not found error, when you pass a bogus id
     post :comment,
@@ -718,7 +718,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     diary_entry = create(:diary_entry, :user => user)
     post :hide,
          :params => { :display_name => user.display_name, :id => diary_entry.id }
-    assert_response :forbidden
+    assert_response :unauthorized
     assert_equal true, DiaryEntry.find(diary_entry.id).visible
 
     # Now try as a normal user
@@ -746,7 +746,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     # Try without logging in
     post :hidecomment,
          :params => { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id }
-    assert_response :forbidden
+    assert_response :unauthorized
     assert_equal true, DiaryComment.find(diary_comment.id).visible
 
     # Now try as a normal user
@@ -822,7 +822,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
       post :subscribe,
            :params => { :id => diary_entry.id, :display_name => diary_entry.user.display_name }
     end
-    assert_response :forbidden
+    assert_response :unauthorized
 
     # bad diary id
     post :subscribe,
@@ -869,7 +869,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
       post :unsubscribe,
            :params => { :id => diary_entry.id, :display_name => diary_entry.user.display_name }
     end
-    assert_response :forbidden
+    assert_response :unauthorized
 
     # bad diary id
     post :unsubscribe,

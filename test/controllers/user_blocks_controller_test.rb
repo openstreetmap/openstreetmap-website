@@ -225,7 +225,7 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Not logged in yet, so creating a block should fail
     post :create
-    assert_response :forbidden
+    assert_response :unauthorized
 
     # Login as a normal user
     session[:user] = create(:user).id
@@ -288,7 +288,7 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Not logged in yet, so updating a block should fail
     put :update, :params => { :id => active_block.id }
-    assert_response :forbidden
+    assert_response :unauthorized
 
     # Login as a normal user
     session[:user] = create(:user).id

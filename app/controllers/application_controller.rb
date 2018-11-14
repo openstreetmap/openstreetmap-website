@@ -490,10 +490,10 @@ class ApplicationController < ActionController::Base
     elsif request.get?
       respond_to do |format|
         format.html { redirect_to :controller => "users", :action => "login", :referer => request.fullpath }
-        format.any { head :forbidden }
+        format.any { head :unauthorized }
       end
     else
-      head :forbidden
+      head :unauthorized
     end
   end
 
