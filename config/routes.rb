@@ -6,16 +6,16 @@ OpenStreetMap::Application.routes.draw do
     get "capabilities" => "api#capabilities"
     get "permissions" => "api#permissions"
 
-    put "changeset/create" => "changeset#create"
-    post "changeset/:id/upload" => "changeset#upload", :id => /\d+/
-    get "changeset/:id/download" => "changeset#download", :as => :changeset_download, :id => /\d+/
-    post "changeset/:id/expand_bbox" => "changeset#expand_bbox", :id => /\d+/
-    get "changeset/:id" => "changeset#read", :as => :changeset_read, :id => /\d+/
-    post "changeset/:id/subscribe" => "changeset#subscribe", :as => :changeset_subscribe, :id => /\d+/
-    post "changeset/:id/unsubscribe" => "changeset#unsubscribe", :as => :changeset_unsubscribe, :id => /\d+/
-    put "changeset/:id" => "changeset#update", :id => /\d+/
-    put "changeset/:id/close" => "changeset#close", :id => /\d+/
-    get "changesets" => "changeset#query"
+    put "changeset/create" => "changesets#create"
+    post "changeset/:id/upload" => "changesets#upload", :id => /\d+/
+    get "changeset/:id/download" => "changesets#download", :as => :changeset_download, :id => /\d+/
+    post "changeset/:id/expand_bbox" => "changesets#expand_bbox", :id => /\d+/
+    get "changeset/:id" => "changesets#read", :as => :changeset_read, :id => /\d+/
+    post "changeset/:id/subscribe" => "changesets#subscribe", :as => :changeset_subscribe, :id => /\d+/
+    post "changeset/:id/unsubscribe" => "changesets#unsubscribe", :as => :changeset_unsubscribe, :id => /\d+/
+    put "changeset/:id" => "changesets#update", :id => /\d+/
+    put "changeset/:id/close" => "changesets#close", :id => /\d+/
+    get "changesets" => "changesets#query"
     post "changeset/:id/comment" => "changeset_comments#create", :as => :changeset_comment, :id => /\d+/
     post "changeset/comment/:id/hide" => "changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
     post "changeset/comment/:id/unhide" => "changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
@@ -119,11 +119,11 @@ OpenStreetMap::Application.routes.draw do
   get "/changeset/:id/comments/feed" => "changeset_comments#index", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
   get "/note/:id" => "browse#note", :id => /\d+/, :as => "browse_note"
   get "/note/new" => "browse#new_note"
-  get "/user/:display_name/history" => "changeset#index"
-  get "/user/:display_name/history/feed" => "changeset#feed", :defaults => { :format => :atom }
+  get "/user/:display_name/history" => "changesets#index"
+  get "/user/:display_name/history/feed" => "changesets#feed", :defaults => { :format => :atom }
   get "/user/:display_name/notes" => "notes#mine"
-  get "/history/friends" => "changeset#index", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
-  get "/history/nearby" => "changeset#index", :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
+  get "/history/friends" => "changesets#index", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
+  get "/history/nearby" => "changesets#index", :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
 
   get "/browse/way/:id",                :to => redirect(:path => "/way/%{id}")
   get "/browse/way/:id/history",        :to => redirect(:path => "/way/%{id}/history")
@@ -150,8 +150,8 @@ OpenStreetMap::Application.routes.draw do
   get "/fixthemap" => "site#fixthemap"
   get "/help" => "site#help"
   get "/about" => "site#about"
-  get "/history" => "changeset#index"
-  get "/history/feed" => "changeset#feed", :defaults => { :format => :atom }
+  get "/history" => "changesets#index"
+  get "/history/feed" => "changesets#feed", :defaults => { :format => :atom }
   get "/history/comments/feed" => "changeset_comments#index", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
   get "/export" => "site#export"
   match "/login" => "users#login", :via => [:get, :post]

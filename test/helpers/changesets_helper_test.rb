@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ChangesetHelperTest < ActionView::TestCase
+class ChangesetsHelperTest < ActionView::TestCase
   def test_changeset_user_link
     changeset = create(:changeset)
     assert_equal %(<a href="/user/#{ERB::Util.u(changeset.user.display_name)}">#{changeset.user.display_name}</a>), changeset_user_link(changeset)

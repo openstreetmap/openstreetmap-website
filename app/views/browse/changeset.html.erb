@@ -127,7 +127,7 @@
     <% end %>
     <%=
         user = (@prev_by_user || @next_by_user).user.display_name
-        link_to content_tag(:bdi, user), :controller => "changeset", :action => "index", :display_name => user
+        link_to content_tag(:bdi, user), :controller => "changesets", :action => "index", :display_name => user
     %>
     <% if @next_by_user %>
       &middot;
@@ -137,7 +137,7 @@
 <% end %>
 
 <div class='secondary-actions'>
-  <%= link_to(t('.changesetxml'), :controller => "changeset", :action => "read") %>
+  <%= link_to(t('.changesetxml'), :controller => "changesets", :action => "read") %>
   &middot;
-  <%= link_to(t('.osmchangexml'), :controller => "changeset", :action => "download") %>
+  <%= link_to(t('.osmchangexml'), :controller => "changesets", :action => "download") %>
 </div>
