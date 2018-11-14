@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "5.2.0"
+gem "rails", "5.2.1"
 
 # Require things which have moved to gems in ruby 1.9
 gem "bigdecimal", "~> 1.1.0", :platforms => :ruby_19
@@ -47,7 +47,7 @@ gem "image_optim_rails"
 gem "actionpack-page_caching"
 gem "active_record_union"
 gem "cancancan"
-gem "composite_primary_keys", "~> 11.0.0"
+gem "composite_primary_keys", "~> 11.1.0"
 gem "delayed_job_active_record"
 gem "dynamic_form"
 gem "http_accept_language", "~> 2.0.0"
