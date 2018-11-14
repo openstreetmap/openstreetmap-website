@@ -24,7 +24,7 @@ class UserRolesControllerTest < ActionController::TestCase
 
     # Granting should fail when not logged in
     post :grant, :params => { :display_name => target_user.display_name, :role => "moderator" }
-    assert_response :forbidden
+    assert_response :unauthorized
 
     # Login as an unprivileged user
     session[:user] = normal_user.id
@@ -85,7 +85,7 @@ class UserRolesControllerTest < ActionController::TestCase
 
     # Revoking should fail when not logged in
     post :revoke, :params => { :display_name => target_user.display_name, :role => "moderator" }
-    assert_response :forbidden
+    assert_response :unauthorized
 
     # Login as an unprivileged user
     session[:user] = normal_user.id

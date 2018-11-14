@@ -81,7 +81,7 @@ class OauthClientsControllerTest < ActionController::TestCase
     assert_difference "ClientApplication.count", 0 do
       post :create, :params => { :display_name => user.display_name }
     end
-    assert_response :forbidden
+    assert_response :unauthorized
 
     assert_difference "ClientApplication.count", 0 do
       post :create,
@@ -165,7 +165,7 @@ class OauthClientsControllerTest < ActionController::TestCase
 
     put :update,
         :params => { :display_name => user.display_name, :id => client.id }
-    assert_response :forbidden
+    assert_response :unauthorized
 
     put :update,
         :params => { :display_name => user.display_name, :id => other_client.id },
@@ -199,7 +199,7 @@ class OauthClientsControllerTest < ActionController::TestCase
       delete :destroy,
              :params => { :display_name => user.display_name, :id => client.id }
     end
-    assert_response :forbidden
+    assert_response :unauthorized
 
     assert_difference "ClientApplication.count", 0 do
       delete :destroy,

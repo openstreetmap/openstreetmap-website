@@ -1277,7 +1277,7 @@ class UsersControllerTest < ActionController::TestCase
 
     # When not logged in a POST should error
     post :make_friend, :params => { :display_name => friend.display_name }
-    assert_response :forbidden
+    assert_response :unauthorized
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
     # When logged in a GET should get a confirmation page
@@ -1370,7 +1370,7 @@ class UsersControllerTest < ActionController::TestCase
 
     # When not logged in a POST should error
     post :remove_friend, :params => { :display_name => friend.display_name }
-    assert_response :forbidden
+    assert_response :unauthorized
     assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
     # When logged in a GET should get a confirmation page

@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
       if request.get?
         redirect_to :controller => "users", :action => "login", :referer => request.fullpath
       else
-        head :forbidden
+        head :unauthorized
       end
     end
   end

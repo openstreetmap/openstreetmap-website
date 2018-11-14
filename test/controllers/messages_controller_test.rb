@@ -383,7 +383,7 @@ class MessagesControllerTest < ActionController::TestCase
 
     # Check that the marking a message requires us to login
     post :mark, :params => { :message_id => unread_message.id }
-    assert_response :forbidden
+    assert_response :unauthorized
 
     # Login as a user with no messages
     session[:user] = other_user.id
@@ -440,7 +440,7 @@ class MessagesControllerTest < ActionController::TestCase
 
     # Check that destroying a message requires us to login
     delete :destroy, :params => { :id => read_message.id }
-    assert_response :forbidden
+    assert_response :unauthorized
 
     # Login as a user with no messages
     session[:user] = other_user.id

@@ -582,7 +582,7 @@ class TracesControllerTest < ActionController::TestCase
 
     # First with no auth
     post :create, :params => { :trace => { :gpx_file => file, :description => "New Trace", :tagstring => "new,trace", :visibility => "trackable" } }
-    assert_response :forbidden
+    assert_response :unauthorized
 
     # Rewind the file
     file.rewind
@@ -657,7 +657,7 @@ class TracesControllerTest < ActionController::TestCase
 
     # First with no auth
     put :update, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id, :trace => new_details }
-    assert_response :forbidden
+    assert_response :unauthorized
 
     # Now with some other user, which should fail
     put :update, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id, :trace => new_details }, :session => { :user => create(:user) }
@@ -688,7 +688,7 @@ class TracesControllerTest < ActionController::TestCase
 
     # First with no auth
     post :delete, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }
-    assert_response :forbidden
+    assert_response :unauthorized
 
     # Now with some other user, which should fail
     post :delete, :params => { :display_name => public_trace_file.user.display_name, :id => public_trace_file.id }, :session => { :user => create(:user) }

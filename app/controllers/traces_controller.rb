@@ -185,7 +185,9 @@ class TracesController < ApplicationController
 
     if !@trace.visible?
       head :not_found
-    elsif current_user.nil? || @trace.user != current_user
+    elsif current_user.nil?
+      head :unauthorized
+    elsif @trace.user != current_user
       head :forbidden
     elsif @trace.update(trace_params)
       flash[:notice] = t ".updated"
@@ -203,7 +205,9 @@ class TracesController < ApplicationController
 
     if !trace.visible?
       head :not_found
-    elsif current_user.nil? || (trace.user != current_user && !current_user.administrator? && !current_user.moderator?)
+    elsif current_user.nil?
+      head :unauthorized
+    elsif trace.user != current_user && !current_user.administrator? && !current_user.moderator?
       head :forbidden
     else
       trace.visible = false
