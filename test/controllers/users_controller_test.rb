@@ -323,6 +323,22 @@ class UsersControllerTest < ActionController::TestCase
     assert_select "form > fieldset > div.form-row > input.field_with_errors#user_display_name"
   end
 
+  def test_new_blocked_domain
+    user = build(:user, :pending, :email => "user@example.net")
+    create(:acl, :domain => "example.net", :k => "no_account_creation")
+
+    assert_no_difference "User.count" do
+      assert_no_difference "ActionMailer::Base.deliveries.size" do
+        perform_enqueued_jobs do
+          post :save, :session => { :new_user => user }
+        end
+      end
+    end
+
+    assert_response :success
+    assert_template "blocked"
+  end
+
   def test_save_referer_params
     user = build(:user, :pending)
 
