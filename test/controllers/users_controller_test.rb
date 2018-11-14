@@ -323,6 +323,22 @@ class UsersControllerTest < ActionController::TestCase
     assert_select "form > fieldset > div.form-row > input.field_with_errors#user_display_name"
   end
 
+  def test_new_blocked_domain
+    user = build(:user, :pending, :email => "user@example.net")
+    create(:acl, :domain => "example.net", :k => "no_account_creation")
+
+    assert_no_difference "User.count" do
+      assert_no_difference "ActionMailer::Base.deliveries.size" do
+        perform_enqueued_jobs do
+          post :save, :session => { :new_user => user }
+        end
+      end
+    end
+
+    assert_response :success
+    assert_template "blocked"
+  end
+
   def test_save_referer_params
     user = build(:user, :pending)
 
@@ -671,6 +687,17 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal true, user.terms_seen
   end
 
+  # Check that if you haven't seen the terms, and make a request that requires authentication,
+  # that your request is redirected to view the terms
+  def test_terms_not_seen_redirection
+    user = create(:user, :terms_seen => false)
+    session[:user] = user.id
+
+    get :account, :params => { :display_name => user.display_name }
+    assert_response :redirect
+    assert_redirected_to :action => :terms, :referer => "/user/#{ERB::Util.u(user.display_name)}/account"
+  end
+
   def test_go_public
     user = create(:user, :data_public => false)
     post :go_public, :session => { :user => user }
@@ -978,6 +1005,8 @@ class UsersControllerTest < ActionController::TestCase
     user = create(:user, :home_lon => 1.1, :home_lat => 1.1)
     friend_user = create(:user, :home_lon => 1.2, :home_lat => 1.2)
     create(:friend, :befriender => user, :befriendee => friend_user)
+    create(:changeset, :user => friend_user)
+
     get :show, :params => { :display_name => user.display_name }
     assert_response :success
     assert_select "div#userinformation" do
