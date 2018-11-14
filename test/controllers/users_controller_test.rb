@@ -671,6 +671,17 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal true, user.terms_seen
   end
 
+  # Check that if you haven't seen the terms, and make a request that requires authentication,
+  # that your request is redirected to view the terms
+  def test_terms_not_seen_redirection
+    user = create(:user, :terms_seen => false)
+    session[:user] = user.id
+
+    get :account, :params => { :display_name => user.display_name }
+    assert_response :redirect
+    assert_redirected_to :action => :terms, :referer => "/user/#{ERB::Util.u(user.display_name)}/account"
+  end
+
   def test_go_public
     user = create(:user, :data_public => false)
     post :go_public, :session => { :user => user }
