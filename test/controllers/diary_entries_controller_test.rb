@@ -726,7 +726,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
          :params => { :display_name => user.display_name, :id => diary_entry.id },
          :session => { :user => user }
     assert_response :redirect
-    assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
+    assert_redirected_to :controller => :errors, :action => :forbidden
     assert_equal true, DiaryEntry.find(diary_entry.id).visible
 
     # Finally try as an administrator
@@ -754,7 +754,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
          :params => { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id },
          :session => { :user => user }
     assert_response :redirect
-    assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
+    assert_redirected_to :controller => :errors, :action => :forbidden
     assert_equal true, DiaryComment.find(diary_comment.id).visible
 
     # Finally try as an administrator
