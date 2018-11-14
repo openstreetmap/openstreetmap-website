@@ -216,22 +216,6 @@ class DiaryEntriesController < ApplicationController
 
   private
 
-  # This is required because, being a default-deny system, cancancan
-  # _cannot_ tell you the reason you were denied access; and so
-  # the "nice" feedback presenting next steps can't be gleaned from
-  # the exception
-  ##
-  # for the hide actions, require that the user is a administrator, or fill out
-  # a helpful error message and return them to the user page.
-  def deny_access(exception)
-    if current_user && exception.action.in?([:hide, :hidecomment])
-      flash[:error] = t("users.filter.not_an_administrator")
-      redirect_to :action => "show"
-    else
-      super
-    end
-  end
-
   ##
   # return permitted diary entry parameters
   def entry_params

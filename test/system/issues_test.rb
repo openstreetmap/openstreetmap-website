@@ -12,7 +12,7 @@ class IssuesTest < ApplicationSystemTestCase
     sign_in_as(create(:user))
 
     visit issues_path
-    assert page.has_content?(I18n.t("application.require_moderator_or_admin.not_a_moderator_or_admin"))
+    assert page.has_content?("Forbidden")
   end
 
   def test_view_no_issues

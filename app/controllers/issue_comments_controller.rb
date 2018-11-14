@@ -22,15 +22,6 @@ class IssueCommentsController < ApplicationController
     params.require(:issue_comment).permit(:body)
   end
 
-  def deny_access(_exception)
-    if current_user
-      flash[:error] = t("application.require_moderator_or_admin.not_a_moderator_or_admin")
-      redirect_to root_path
-    else
-      super
-    end
-  end
-
   # This sort of assumes there are only two roles
   def reassign_issue(issue)
     role = (Issue::ASSIGNED_ROLES - [issue.assigned_role]).first

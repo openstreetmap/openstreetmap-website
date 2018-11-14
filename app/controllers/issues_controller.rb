@@ -82,13 +82,4 @@ class IssuesController < ApplicationController
   def find_issue
     @issue = Issue.find(params[:id])
   end
-
-  def deny_access(_exception)
-    if current_user
-      flash[:error] = t("application.require_moderator_or_admin.not_a_moderator_or_admin")
-      redirect_to root_path
-    else
-      super
-    end
-  end
 end
