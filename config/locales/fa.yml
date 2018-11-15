@@ -41,8 +41,8 @@ fa:
   activerecord:
     models:
       acl: فهرست کنترل دسترسی
-      changeset: تغییرات انجام شده
-      changeset_tag: برچسب تغییرات انجام شده
+      changeset: بستهٔ تغییر
+      changeset_tag: تگ بستهٔ تغییر
       country: کشور
       diary_comment: نظر بر روزنوشت
       diary_entry: ورود روزنوشت
@@ -132,7 +132,7 @@ fa:
       کرد
     closed_by_html: <abbr title='%{title}'>%{time} پیش</abbr> %{user} آن را بست
     version: نسخه
-    in_changeset: تغییرات انجام شده
+    in_changeset: بستهٔ تغییر
     anonymous: ناشناس
     no_comment: (بدون نظر)
     part_of: بخشی از
@@ -141,7 +141,7 @@ fa:
     view_details: نمایش جزئیات
     location: 'مکان:'
     changeset:
-      title: 'تغییرات انجام شده: %{id}'
+      title: 'بستهٔ تغییر: %{id}'
       belongs_to: پدیدآور
       node: گره‌ها (%{count})
       node_paginated: گره‌ها (%{x}-%{y} از %{count})
@@ -156,8 +156,8 @@ fa:
       changesetxml: Changeset XML
       osmchangexml: osmChange XML
       feed:
-        title: تغییرات انجام شده %{id}
-        title_comment: تغییرات انجام شده %{id} - %{comment}
+        title: بستهٔ تغییر %{id}
+        title_comment: بستهٔ تغییر %{id} - %{comment}
       join_discussion: وارد شوید تا به بحث بپیوندید
       discussion: بحث
       still_open: بستهٔ تغییرات هنوز باز است - امکان بحث پس از بستن آن باز می‌شود.
@@ -185,7 +185,7 @@ fa:
       entry: رابطهٔ %{relation_name}
       entry_role: رابطهٔ %{relation_name} (با نقش %{relation_role})
     not_found:
-      sorry: 'پوزش، %{type} #%{id} یافت نمی‌شود.'
+      sorry: 'شوربختانه %{type} #%{id} یافت نشد.'
       type:
         node: گره
         way: راه
@@ -193,8 +193,8 @@ fa:
         changeset: تغییر انجام شده
         note: یادداشت
     timeout:
-      sorry: با عرض پوزش، بازیابی داده‌های %{type} با شناسهٔ %{id}، زمان خیلی زیادی
-        می‌برد.
+      sorry: شوربختانه بازیابی دادهٔ مربوط به %{type} با شناسهٔ %{id}، خیلی زمان‌بر
+        شد.
       type:
         node: گره
         way: راه
@@ -248,7 +248,7 @@ fa:
       introduction: روی نقشه کلیک کنید تا ویژگی‌های نزدیک را پیدا کنید
       nearby: ویژگی‌های نزدیک
       enclosing: ویژگی‌های نزدیک
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: صفحهٔ %{page}
       next: بعدی »
@@ -256,7 +256,7 @@ fa:
     changeset:
       anonymous: ناشناس
       no_edits: (بدون ویرایش)
-      view_changeset_details: نمایش جزئیات تغییرات انجام شده
+      view_changeset_details: نمایش جزئیات بستهٔ تغییر
     changesets:
       id: شناسه
       saved_at: ذخیره شد در
@@ -264,10 +264,10 @@ fa:
       comment: نظر
       area: منطقه
     index:
-      title: تغییرات انجام شده
-      title_user: تغییرات انجام شده توسط %{user}
-      title_friend: تغییرات انجام شده توسط دوستان من
-      title_nearby: تغییرات انجام شده توسط کاربران نزدیک
+      title: بسته‌های تغییر
+      title_user: بسته‌های تغییر از %{user}
+      title_friend: بسته‌های تغییر دوستان من
+      title_nearby: بسته‌های تغییر کاربران نزدیک
       empty: هیچ تغییراتی یافت نشد.
       empty_area: تغییراتی در این ناحیه یافت نشد.
       empty_user: این کاربر تغییراتی انجام نداده.
@@ -276,7 +276,7 @@ fa:
       no_more_user: این کاربر تغییرات دیگری انجام نداده.
       load_more: بارگیری بیشتر
     timeout:
-      sorry: پوزش، بازیابی فهرست تغییرات درخواستی شما خیلی زمان برد.
+      sorry: شوربختانه بازیابی فهرست تغییرات درخواستی شما خیلی طولانی شد.
   changeset_comments:
     comment:
       comment: 'نظر جدید در مورد جعبه تغییر %{changeset_id}{changeset_id} #% توسط
@@ -284,7 +284,7 @@ fa:
       commented_at_by_html: بروز شده %{when} قبل توسط %{user}
     index:
       title_all: بحث در مورد جعبه تغییر OpenStreetMap
-      title_particular: 'بحث در مورد تغییرات انجام شده در #%{changeset_id} OpenStreetMap'
+      title_particular: 'بحث مربوط به بستهٔ تغییر #%{changeset_id} در OpenStreetMap'
   diary_entries:
     new:
       title: روزنوشت جدید
@@ -322,8 +322,8 @@ fa:
     no_such_entry:
       title: چنین روزنوشتی نیست
       heading: روزنوشتی با شناسهٔ %{id} نیست
-      body: پوزش، با کاربری %{id} هیچ یادداشت روزانه یا نظری ثبت نشده‌است. لطفاً نوع
-        نوشتنتان را بررسی کنید، یا شاید پیوندی که کلیک کرده‌اید اشتباه است.
+      body: شوربختانه با شناسهٔ کاربری %{id} هیچ روزنوشت یا نظری ثبت نشده‌است. لطفاً
+        نوشتار خود را بررسی کنید، شاید هم پیوندی که کلیک کرده‌اید اشتباه است.
     diary_entry:
       posted_by: ارسالی از %{link_user} در %{created} به <bdi>%{language_link}</bdi>
       comment_link: نظردادن روی این روزنوشت
@@ -1843,7 +1843,7 @@ fa:
       allow_write_gpx: بارگذاری ردهای GPS.
       allow_write_notes: یادداشت‌ها را تغییر دهد.
     not_found:
-      sorry: پوزش، %{type} یافت نمی شود.
+      sorry: شوربختانه آن %{type} یافت نشد.
     create:
       flash: اطلاعات با موفقیت ثبت نام شد
     update:
@@ -1869,13 +1869,13 @@ fa:
         داشته باشید.
       create account minute: یک حساب بسازید. فقط یک دقیقه زمان می برد.
       no account: حساب کاربری ندارید؟
-      account not active: پوزش، حسابتان هنوز فعال نشده‌است.<br />لطفاً از پیوندی که
-        در ایمیل تأییدتان بود برای فعال‌سازی حسابتان استفاده کنید، یا <a href="%{reconfirm}">یک
-        ایمیل تأیید تازه درخواست دهید</a>.
-      account is suspended: پوزش، حساب شما به دلیل فعالیت‌های مشکوک مسدود شده‌است.
-        <br />لطفاً تماس بگیرید با <a href="%{webmaster}">مدیر سایت</a> اگر می‌خواهید
-        آنرا مطرح کنید.
-      auth failure: پوزش، با این اطلاعات نمی توان وارد شد.
+      account not active: پوزش می‌خواهیم، حسابتان هنوز فعال نشده‌است.<br />لطفاً از
+        پیوندی که در ایمیل تأییدتان بود برای فعال‌سازی حساب خود استفاده کنید، یا <a
+        href="%{reconfirm}"> یک ایمیل تأیید تازه درخواست دهید</a>.
+      account is suspended: پوزش می‌خواهیم، حساب شما به دلیل فعالیت‌های مشکوک مسدود
+        شده‌است. <br />برای گفت‌وگو دربارهٔ این مسئله لطفاً با <a href="%{webmaster}">مدیر
+        سایت</a> تماس بگیرید.
+      auth failure: شوربختانه با این اطلاعات نمی‌توان وارد شد.
       openid_logo_alt: ورود با OpenID
       auth_providers:
         openid:
@@ -1982,8 +1982,8 @@ fa:
     no_such_user:
       title: چنین کاربری وجود ندارد
       heading: کاربر %{user} وجود ندارد
-      body: با عرض پوزش، هیچ کاربری با نام %{user} وجود ندارد. لطفاً نحوه نوشتن تان
-        را بررسی کنید، یا شاید پیوندی که کلیک کردید اشتباه است.
+      body: با عرض پوزش، هیچ کاربری با نام %{user} وجود ندارد. لطفاً نوشتار خود را
+        بررسی کنید، شاید هم پیوندی که کلیک کرده‌اید اشتباه است.
       deleted: حذف شده
     show:
       my diary: روزنوشت‌های من
@@ -2152,7 +2152,7 @@ fa:
       heading: افزودن %{user} بعنوان دوست؟
       button: افزودن بعنوان دوست
       success: اکنون %{name} دوست شماست!
-      failed: پوزش، افزودن %{name} به عنوان دوست ناموفق بود.
+      failed: پوزش، %{name} به دوستان شما افزوده نشد.
       already_a_friend: شما در حال حاضر با %{name} دوست هستید.
     remove_friend:
       heading: لغو دوستی %{user}؟
@@ -2178,10 +2178,10 @@ fa:
       webmaster: مدیرسایت
       body: |-
         <p>
-        پوزش! یه خاطر فعالیت مشکوک حساب کاربری شما بصورت خودکار متوقف شده است.
+        شوربختانه به خاطر فعالیت مشکوک حساب کاربری شما بصورت خودکار متوقف شده است.
         </p>
         <p>
-        این تصمیم به وسیله یک مدیر در مدت کوتاه بازبینی می شود، در صورتی که  بخواهید میتوانید با %{webmaster}برای بحث در این زمینه تماس بگیرید.
+        به‌زودی یک مدیر این تصمیم را بازبینی می‌کند. در صورت تمایل  می‌توانید با %{webmaster} تماس بگیرید تا در این زمینه گفت‌وگو کنید.
         </p>
     auth_failure:
       connection_failed: اتصال به سرویس دهنده تأیید اعتبار انجام نشد
@@ -2224,7 +2224,7 @@ fa:
       non_moderator_update: برای به‌روزرسانی یا ایجاد مسدودی باید مدیر بود.
       non_moderator_revoke: برای لغو یک مسدودی باید مدیر بود.
     not_found:
-      sorry: پوزش، مسدودی کاربر با شناسه %{id} یافت نمی‌شود.
+      sorry: پوزش، مسدودی کاربر با شناسه %{id} یافت نشد.
       back: بازگشت به فهرست
     new:
       title: در حال مسدودکردن %{name}
