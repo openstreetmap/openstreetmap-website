@@ -414,9 +414,9 @@ class ApplicationController < ActionController::Base
     append_content_security_policy_directives(
       :child_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
       :frame_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
-      :connect_src => %w[nominatim.openstreetmap.org overpass-api.de router.project-osrm.org graphhopper.com],
+      :connect_src => [NOMINATIM_URL, OVERPASS_URL, OSRM_URL, GRAPHHOPPER_URL],
       :form_action => %w[render.openstreetmap.org],
-      :script_src => %w[open.mapquestapi.com],
+      :script_src => [MAPQUEST_DIRECTIONS_URL],
       :img_src => %w[developer.mapquest.com]
     )
 
