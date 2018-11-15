@@ -38,9 +38,9 @@ class NodesControllerTest < ActionController::TestCase
 
     ## First try with no auth
     # create a minimal xml file
-    content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>")
+    xml = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>"
     assert_difference("OldNode.count", 0) do
-      put :create
+      put :create, :body => xml
     end
     # hope for unauthorized
     assert_response :unauthorized, "node upload did not return unauthorized status"
@@ -49,9 +49,9 @@ class NodesControllerTest < ActionController::TestCase
     basic_authorization private_user.email, "test"
 
     # create a minimal xml file
-    content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{private_changeset.id}'/></osm>")
+    xml = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{private_changeset.id}'/></osm>"
     assert_difference("Node.count", 0) do
-      put :create
+      put :create, :body => xml
     end
     # hope for success
     assert_require_public_data "node create did not return forbidden status"
@@ -60,8 +60,8 @@ class NodesControllerTest < ActionController::TestCase
     basic_authorization user.email, "test"
 
     # create a minimal xml file
-    content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>")
-    put :create
+    xml = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>"
+    put :create, :body => xml
     # hope for success
     assert_response :success, "node upload did not return success status"
 
@@ -88,46 +88,46 @@ class NodesControllerTest < ActionController::TestCase
     lon = 3.23
 
     # test that the upload is rejected when xml is valid, but osm doc isn't
-    content("<create/>")
-    put :create
+    xml = "<create/>"
+    put :create, :body => xml
     assert_response :bad_request, "node upload did not return bad_request status"
     assert_equal "Cannot parse valid node from xml string <create/>. XML doesn't contain an osm/node element.", @response.body
 
     # test that the upload is rejected when no lat is supplied
     # create a minimal xml file
-    content("<osm><node lon='#{lon}' changeset='#{changeset.id}'/></osm>")
-    put :create
+    xml = "<osm><node lon='#{lon}' changeset='#{changeset.id}'/></osm>"
+    put :create, :body => xml
     # hope for success
     assert_response :bad_request, "node upload did not return bad_request status"
     assert_equal "Cannot parse valid node from xml string <node lon=\"3.23\" changeset=\"#{changeset.id}\"/>. lat missing", @response.body
 
     # test that the upload is rejected when no lon is supplied
     # create a minimal xml file
-    content("<osm><node lat='#{lat}' changeset='#{changeset.id}'/></osm>")
-    put :create
+    xml = "<osm><node lat='#{lat}' changeset='#{changeset.id}'/></osm>"
+    put :create, :body => xml
     # hope for success
     assert_response :bad_request, "node upload did not return bad_request status"
     assert_equal "Cannot parse valid node from xml string <node lat=\"3.434\" changeset=\"#{changeset.id}\"/>. lon missing", @response.body
 
     # test that the upload is rejected when lat is non-numeric
     # create a minimal xml file
-    content("<osm><node lat='abc' lon='#{lon}' changeset='#{changeset.id}'/></osm>")
-    put :create
+    xml = "<osm><node lat='abc' lon='#{lon}' changeset='#{changeset.id}'/></osm>"
+    put :create, :body => xml
     # hope for success
     assert_response :bad_request, "node upload did not return bad_request status"
     assert_equal "Cannot parse valid node from xml string <node lat=\"abc\" lon=\"#{lon}\" changeset=\"#{changeset.id}\"/>. lat not a number", @response.body
 
     # test that the upload is rejected when lon is non-numeric
     # create a minimal xml file
-    content("<osm><node lat='#{lat}' lon='abc' changeset='#{changeset.id}'/></osm>")
-    put :create
+    xml = "<osm><node lat='#{lat}' lon='abc' changeset='#{changeset.id}'/></osm>"
+    put :create, :body => xml
     # hope for success
     assert_response :bad_request, "node upload did not return bad_request status"
     assert_equal "Cannot parse valid node from xml string <node lat=\"#{lat}\" lon=\"abc\" changeset=\"#{changeset.id}\"/>. lon not a number", @response.body
 
     # test that the upload is rejected when we have a tag which is too long
-    content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'><tag k='foo' v='#{'x' * 256}'/></node></osm>")
-    put :create
+    xml = "<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'><tag k='foo' v='#{'x' * 256}'/></node></osm>"
+    put :create, :body => xml
     assert_response :bad_request, "node upload did not return bad_request status"
     assert_equal ["NodeTag ", " v: is too long (maximum is 255 characters) (\"#{'x' * 256}\")"], @response.body.split(/[0-9]+,foo:/)
   end
@@ -163,23 +163,23 @@ class NodesControllerTest < ActionController::TestCase
     basic_authorization private_user.email, "test"
 
     # try to delete with an invalid (closed) changeset
-    content update_changeset(private_node.to_xml, private_user_closed_changeset.id)
-    delete :delete, :params => { :id => private_node.id }
+    xml = update_changeset(private_node.to_xml, private_user_closed_changeset.id)
+    delete :delete, :params => { :id => private_node.id }, :body => xml.to_s
     assert_require_public_data("non-public user shouldn't be able to delete node")
 
     # try to delete with an invalid (non-existent) changeset
-    content update_changeset(private_node.to_xml, 0)
-    delete :delete, :params => { :id => private_node.id }
+    xml = update_changeset(private_node.to_xml, 0)
+    delete :delete, :params => { :id => private_node.id }, :body => xml.to_s
     assert_require_public_data("shouldn't be able to delete node, when user's data is private")
 
     # valid delete now takes a payload
-    content(private_node.to_xml)
-    delete :delete, :params => { :id => private_node.id }
+    xml = private_node.to_xml
+    delete :delete, :params => { :id => private_node.id }, :body => xml.to_s
     assert_require_public_data("shouldn't be able to delete node when user's data isn't public'")
 
     # this won't work since the node is already deleted
-    content(private_deleted_node.to_xml)
-    delete :delete, :params => { :id => private_deleted_node.id }
+    xml = private_deleted_node.to_xml
+    delete :delete, :params => { :id => private_deleted_node.id }, :body => xml.to_s
     assert_require_public_data
 
     # this won't work since the node never existed
@@ -191,16 +191,16 @@ class NodesControllerTest < ActionController::TestCase
     private_used_node = create(:node, :changeset => private_user_changeset)
     create(:way_node, :node => private_used_node)
 
-    content(private_used_node.to_xml)
-    delete :delete, :params => { :id => private_used_node.id }
+    xml = private_used_node.to_xml
+    delete :delete, :params => { :id => private_used_node.id }, :body => xml.to_s
     assert_require_public_data "shouldn't be able to delete a node used in a way (#{@response.body})"
 
     # in a relation...
     private_used_node2 = create(:node, :changeset => private_user_changeset)
     create(:relation_member, :member => private_used_node2)
 
-    content(private_used_node2.to_xml)
-    delete :delete, :params => { :id => private_used_node2.id }
+    xml = private_used_node2.to_xml
+    delete :delete, :params => { :id => private_used_node2.id }, :body => xml.to_s
     assert_require_public_data "shouldn't be able to delete a node used in a relation (#{@response.body})"
 
     ## now setup for the public data user
@@ -211,31 +211,31 @@ class NodesControllerTest < ActionController::TestCase
     basic_authorization user.email, "test"
 
     # try to delete with an invalid (closed) changeset
-    content update_changeset(node.to_xml, closed_changeset.id)
-    delete :delete, :params => { :id => node.id }
+    xml = update_changeset(node.to_xml, closed_changeset.id)
+    delete :delete, :params => { :id => node.id }, :body => xml.to_s
     assert_response :conflict
 
     # try to delete with an invalid (non-existent) changeset
-    content update_changeset(node.to_xml, 0)
-    delete :delete, :params => { :id => node.id }
+    xml = update_changeset(node.to_xml, 0)
+    delete :delete, :params => { :id => node.id }, :body => xml.to_s
     assert_response :conflict
 
     # try to delete a node with a different ID
     other_node = create(:node)
-    content(other_node.to_xml)
-    delete :delete, :params => { :id => node.id }
+    xml = other_node.to_xml
+    delete :delete, :params => { :id => node.id }, :body => xml.to_s
     assert_response :bad_request,
                     "should not be able to delete a node with a different ID from the XML"
 
     # try to delete a node rubbish in the payloads
-    content("<delete/>")
-    delete :delete, :params => { :id => node.id }
+    xml = "<delete/>"
+    delete :delete, :params => { :id => node.id }, :body => xml.to_s
     assert_response :bad_request,
                     "should not be able to delete a node without a valid XML payload"
 
     # valid delete now takes a payload
-    content(node.to_xml)
-    delete :delete, :params => { :id => node.id }
+    xml = node.to_xml
+    delete :delete, :params => { :id => node.id }, :body => xml.to_s
     assert_response :success
 
     # valid delete should return the new version number, which should
@@ -244,8 +244,8 @@ class NodesControllerTest < ActionController::TestCase
            "delete request should return a new version number for node"
 
     # deleting the same node twice doesn't work
-    content(node.to_xml)
-    delete :delete, :params => { :id => node.id }
+    xml = node.to_xml
+    delete :delete, :params => { :id => node.id }, :body => xml.to_s
     assert_response :gone
 
     # this won't work since the node never existed
@@ -258,8 +258,8 @@ class NodesControllerTest < ActionController::TestCase
     way_node = create(:way_node, :node => used_node)
     way_node2 = create(:way_node, :node => used_node)
 
-    content(used_node.to_xml)
-    delete :delete, :params => { :id => used_node.id }
+    xml = used_node.to_xml
+    delete :delete, :params => { :id => used_node.id }, :body => xml.to_s
     assert_response :precondition_failed,
                     "shouldn't be able to delete a node used in a way (#{@response.body})"
     assert_equal "Precondition failed: Node #{used_node.id} is still used by ways #{way_node.way.id},#{way_node2.way.id}.", @response.body
@@ -269,8 +269,8 @@ class NodesControllerTest < ActionController::TestCase
     relation_member = create(:relation_member, :member => used_node2)
     relation_member2 = create(:relation_member, :member => used_node2)
 
-    content(used_node2.to_xml)
-    delete :delete, :params => { :id => used_node2.id }
+    xml = used_node2.to_xml
+    delete :delete, :params => { :id => used_node2.id }, :body => xml.to_s
     assert_response :precondition_failed,
                     "shouldn't be able to delete a node used in a relation (#{@response.body})"
     assert_equal "Precondition failed: Node #{used_node2.id} is still used by relations #{relation_member.relation.id},#{relation_member2.relation.id}.", @response.body
@@ -288,8 +288,8 @@ class NodesControllerTest < ActionController::TestCase
     user = create(:user)
     node = create(:node, :changeset => create(:changeset, :user => user))
 
-    content node.to_xml
-    put :update, :params => { :id => node.id }
+    xml = node.to_xml
+    put :update, :params => { :id => node.id }, :body => xml.to_s
     assert_response :unauthorized
 
     ## Second test with the private user
@@ -300,50 +300,50 @@ class NodesControllerTest < ActionController::TestCase
     ## trying to break changesets
 
     # try and update in someone else's changeset
-    content update_changeset(private_node.to_xml,
-                             create(:changeset).id)
-    put :update, :params => { :id => private_node.id }
+    xml = update_changeset(private_node.to_xml,
+                           create(:changeset).id)
+    put :update, :params => { :id => private_node.id }, :body => xml.to_s
     assert_require_public_data "update with other user's changeset should be forbidden when data isn't public"
 
     # try and update in a closed changeset
-    content update_changeset(private_node.to_xml,
-                             create(:changeset, :closed, :user => private_user).id)
-    put :update, :params => { :id => private_node.id }
+    xml = update_changeset(private_node.to_xml,
+                           create(:changeset, :closed, :user => private_user).id)
+    put :update, :params => { :id => private_node.id }, :body => xml.to_s
     assert_require_public_data "update with closed changeset should be forbidden, when data isn't public"
 
     # try and update in a non-existant changeset
-    content update_changeset(private_node.to_xml, 0)
-    put :update, :params => { :id => private_node.id }
+    xml = update_changeset(private_node.to_xml, 0)
+    put :update, :params => { :id => private_node.id }, :body => xml.to_s
     assert_require_public_data "update with changeset=0 should be forbidden, when data isn't public"
 
     ## try and submit invalid updates
-    content xml_attr_rewrite(private_node.to_xml, "lat", 91.0)
-    put :update, :params => { :id => private_node.id }
+    xml = xml_attr_rewrite(private_node.to_xml, "lat", 91.0)
+    put :update, :params => { :id => private_node.id }, :body => xml.to_s
     assert_require_public_data "node at lat=91 should be forbidden, when data isn't public"
 
-    content xml_attr_rewrite(private_node.to_xml, "lat", -91.0)
-    put :update, :params => { :id => private_node.id }
+    xml = xml_attr_rewrite(private_node.to_xml, "lat", -91.0)
+    put :update, :params => { :id => private_node.id }, :body => xml.to_s
     assert_require_public_data "node at lat=-91 should be forbidden, when data isn't public"
 
-    content xml_attr_rewrite(private_node.to_xml, "lon", 181.0)
-    put :update, :params => { :id => private_node.id }
+    xml = xml_attr_rewrite(private_node.to_xml, "lon", 181.0)
+    put :update, :params => { :id => private_node.id }, :body => xml.to_s
     assert_require_public_data "node at lon=181 should be forbidden, when data isn't public"
 
-    content xml_attr_rewrite(private_node.to_xml, "lon", -181.0)
-    put :update, :params => { :id => private_node.id }
+    xml = xml_attr_rewrite(private_node.to_xml, "lon", -181.0)
+    put :update, :params => { :id => private_node.id }, :body => xml.to_s
     assert_require_public_data "node at lon=-181 should be forbidden, when data isn't public"
 
     ## finally, produce a good request which still won't work
-    content private_node.to_xml
-    put :update, :params => { :id => private_node.id }
+    xml = private_node.to_xml
+    put :update, :params => { :id => private_node.id }, :body => xml.to_s
     assert_require_public_data "should have failed with a forbidden when data isn't public"
 
     ## Finally test with the public user
 
     # try and update a node without authorisation
     # first try to update node without auth
-    content node.to_xml
-    put :update, :params => { :id => node.id }
+    xml = node.to_xml
+    put :update, :params => { :id => node.id }, :body => xml.to_s
     assert_response :forbidden
 
     # setup auth
@@ -352,76 +352,76 @@ class NodesControllerTest < ActionController::TestCase
     ## trying to break changesets
 
     # try and update in someone else's changeset
-    content update_changeset(node.to_xml,
-                             create(:changeset).id)
-    put :update, :params => { :id => node.id }
+    xml = update_changeset(node.to_xml,
+                           create(:changeset).id)
+    put :update, :params => { :id => node.id }, :body => xml.to_s
     assert_response :conflict, "update with other user's changeset should be rejected"
 
     # try and update in a closed changeset
-    content update_changeset(node.to_xml,
-                             create(:changeset, :closed, :user => user).id)
-    put :update, :params => { :id => node.id }
+    xml = update_changeset(node.to_xml,
+                           create(:changeset, :closed, :user => user).id)
+    put :update, :params => { :id => node.id }, :body => xml.to_s
     assert_response :conflict, "update with closed changeset should be rejected"
 
     # try and update in a non-existant changeset
-    content update_changeset(node.to_xml, 0)
-    put :update, :params => { :id => node.id }
+    xml = update_changeset(node.to_xml, 0)
+    put :update, :params => { :id => node.id }, :body => xml.to_s
     assert_response :conflict, "update with changeset=0 should be rejected"
 
     ## try and submit invalid updates
-    content xml_attr_rewrite(node.to_xml, "lat", 91.0)
-    put :update, :params => { :id => node.id }
+    xml = xml_attr_rewrite(node.to_xml, "lat", 91.0)
+    put :update, :params => { :id => node.id }, :body => xml.to_s
     assert_response :bad_request, "node at lat=91 should be rejected"
 
-    content xml_attr_rewrite(node.to_xml, "lat", -91.0)
-    put :update, :params => { :id => node.id }
+    xml = xml_attr_rewrite(node.to_xml, "lat", -91.0)
+    put :update, :params => { :id => node.id }, :body => xml.to_s
     assert_response :bad_request, "node at lat=-91 should be rejected"
 
-    content xml_attr_rewrite(node.to_xml, "lon", 181.0)
-    put :update, :params => { :id => node.id }
+    xml = xml_attr_rewrite(node.to_xml, "lon", 181.0)
+    put :update, :params => { :id => node.id }, :body => xml.to_s
     assert_response :bad_request, "node at lon=181 should be rejected"
 
-    content xml_attr_rewrite(node.to_xml, "lon", -181.0)
-    put :update, :params => { :id => node.id }
+    xml = xml_attr_rewrite(node.to_xml, "lon", -181.0)
+    put :update, :params => { :id => node.id }, :body => xml.to_s
     assert_response :bad_request, "node at lon=-181 should be rejected"
 
     ## next, attack the versioning
     current_node_version = node.version
 
     # try and submit a version behind
-    content xml_attr_rewrite(node.to_xml,
-                             "version", current_node_version - 1)
-    put :update, :params => { :id => node.id }
+    xml = xml_attr_rewrite(node.to_xml,
+                           "version", current_node_version - 1)
+    put :update, :params => { :id => node.id }, :body => xml.to_s
     assert_response :conflict, "should have failed on old version number"
 
     # try and submit a version ahead
-    content xml_attr_rewrite(node.to_xml,
-                             "version", current_node_version + 1)
-    put :update, :params => { :id => node.id }
+    xml = xml_attr_rewrite(node.to_xml,
+                           "version", current_node_version + 1)
+    put :update, :params => { :id => node.id }, :body => xml.to_s
     assert_response :conflict, "should have failed on skipped version number"
 
     # try and submit total crap in the version field
-    content xml_attr_rewrite(node.to_xml,
-                             "version", "p1r4t3s!")
-    put :update, :params => { :id => node.id }
+    xml = xml_attr_rewrite(node.to_xml,
+                           "version", "p1r4t3s!")
+    put :update, :params => { :id => node.id }, :body => xml.to_s
     assert_response :conflict,
                     "should not be able to put 'p1r4at3s!' in the version field"
 
     ## try an update with the wrong ID
-    content create(:node).to_xml
-    put :update, :params => { :id => node.id }
+    xml = create(:node).to_xml
+    put :update, :params => { :id => node.id }, :body => xml.to_s
     assert_response :bad_request,
                     "should not be able to update a node with a different ID from the XML"
 
     ## try an update with a minimal valid XML doc which isn't a well-formed OSM doc.
-    content "<update/>"
-    put :update, :params => { :id => node.id }
+    xml = "<update/>"
+    put :update, :params => { :id => node.id }, :body => xml.to_s
     assert_response :bad_request,
                     "should not be able to update a node with non-OSM XML doc."
 
     ## finally, produce a good request which should work
-    content node.to_xml
-    put :update, :params => { :id => node.id }
+    xml = node.to_xml
+    put :update, :params => { :id => node.id }, :body => xml.to_s
     assert_response :success, "a valid update request failed"
   end
 
@@ -477,8 +477,7 @@ class NodesControllerTest < ActionController::TestCase
     node_xml.find("//osm/node").first << tag_xml
 
     # try and upload it
-    content node_xml
-    put :update, :params => { :id => existing_tag.node.id }
+    put :update, :params => { :id => existing_tag.node.id }, :body => node_xml.to_s
     assert_response :bad_request,
                     "adding duplicate tags to a node should fail with 'bad request'"
     assert_equal "Element node/#{existing_tag.node.id} has duplicate tags with key #{existing_tag.k}", @response.body
@@ -496,10 +495,10 @@ class NodesControllerTest < ActionController::TestCase
 
     # try and put something into a string that the API might
     # use unquoted and therefore allow code injection...
-    content "<osm><node lat='0' lon='0' changeset='#{private_changeset.id}'>" \
-            '<tag k="#{@user.inspect}" v="0"/>' \
-            "</node></osm>"
-    put :create
+    xml = "<osm><node lat='0' lon='0' changeset='#{private_changeset.id}'>" \
+          '<tag k="#{@user.inspect}" v="0"/>' \
+          "</node></osm>"
+    put :create, :body => xml
     assert_require_public_data "Shouldn't be able to create with non-public user"
 
     ## Then try with the public data user
@@ -507,10 +506,10 @@ class NodesControllerTest < ActionController::TestCase
 
     # try and put something into a string that the API might
     # use unquoted and therefore allow code injection...
-    content "<osm><node lat='0' lon='0' changeset='#{changeset.id}'>" \
-            '<tag k="#{@user.inspect}" v="0"/>' \
-            "</node></osm>"
-    put :create
+    xml = "<osm><node lat='0' lon='0' changeset='#{changeset.id}'>" \
+          '<tag k="#{@user.inspect}" v="0"/>' \
+          "</node></osm>"
+    put :create, :body => xml
     assert_response :success
     nodeid = @response.body
 

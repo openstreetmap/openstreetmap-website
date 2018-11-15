@@ -77,18 +77,18 @@ class ChangesetsControllerTest < ActionController::TestCase
   def test_create
     basic_authorization create(:user, :data_public => false).email, "test"
     # Create the first user's changeset
-    content "<osm><changeset>" \
-            "<tag k='created_by' v='osm test suite checking changesets'/>" \
-            "</changeset></osm>"
-    put :create
+    xml = "<osm><changeset>" \
+          "<tag k='created_by' v='osm test suite checking changesets'/>" \
+          "</changeset></osm>"
+    put :create, :body => xml
     assert_require_public_data
 
     basic_authorization create(:user).email, "test"
     # Create the first user's changeset
-    content "<osm><changeset>" \
-            "<tag k='created_by' v='osm test suite checking changesets'/>" \
-            "</changeset></osm>"
-    put :create
+    xml = "<osm><changeset>" \
+          "<tag k='created_by' v='osm test suite checking changesets'/>" \
+          "</changeset></osm>"
+    put :create, :body => xml
 
     assert_response :success, "Creation of changeset did not return sucess status"
     newid = @response.body.to_i
@@ -111,14 +111,14 @@ class ChangesetsControllerTest < ActionController::TestCase
 
   def test_create_invalid
     basic_authorization create(:user, :data_public => false).email, "test"
-    content "<osm><changeset></osm>"
-    put :create
+    xml = "<osm><changeset></osm>"
+    put :create, :body => xml
     assert_require_public_data
 
     ## Try the public user
     basic_authorization create(:user).email, "test"
-    content "<osm><changeset></osm>"
-    put :create
+    xml = "<osm><changeset></osm>"
+    put :create, :body => xml
     assert_response :bad_request, "creating a invalid changeset should fail"
   end
 
@@ -325,8 +325,7 @@ class ChangesetsControllerTest < ActionController::TestCase
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset_id }
+    post :upload, :params => { :id => changeset_id }, :body => diff
     assert_response :unauthorized,
                     "shouldn't be able to upload a simple valid diff to changeset: #{@response.body}"
 
@@ -355,8 +354,7 @@ CHANGESET
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset_id }
+    post :upload, :params => { :id => changeset_id }, :body => diff
     assert_response :forbidden,
                     "can't upload a simple valid diff to changeset: #{@response.body}"
 
@@ -385,8 +383,7 @@ CHANGESET
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset_id }
+    post :upload, :params => { :id => changeset_id }, :body => diff
     assert_response :success,
                     "can't upload a simple valid diff to changeset: #{@response.body}"
 
@@ -430,8 +427,7 @@ CHANGESET
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff
     assert_response :success,
                     "can't upload a simple valid creation to changeset: #{@response.body}"
 
@@ -495,8 +491,7 @@ CHANGESET
     end
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff.to_s
     assert_response :success,
                     "can't upload a deletion diff to changeset: #{@response.body}"
 
@@ -523,8 +518,7 @@ CHANGESET
     diff = "<osmChange><delete><node id='#{node.id}' version='#{node.version}' changeset='#{changeset.id}'/></delete></osmChange>"
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff
     assert_response :success,
                     "can't upload a deletion diff to changeset: #{@response.body}"
 
@@ -540,11 +534,11 @@ CHANGESET
       basic_authorization create(:user).email, "test"
 
       # create a temporary changeset
-      content "<osm><changeset>" \
-              "<tag k='created_by' v='osm test suite checking changesets'/>" \
-              "</changeset></osm>"
+      xml = "<osm><changeset>" \
+            "<tag k='created_by' v='osm test suite checking changesets'/>" \
+            "</changeset></osm>"
       assert_difference "Changeset.count", 1 do
-        put :create
+        put :create, :body => xml
       end
       assert_response :success
     end
@@ -554,8 +548,7 @@ CHANGESET
     basic_authorization create(:user).email, "test"
 
     # create a changeset
-    content "<osm><changeset/></osm>"
-    put :create
+    put :create, :body => "<osm><changeset/></osm>"
     assert_response :success, "Should be able to create a changeset: #{@response.body}"
     changeset_id = @response.body.to_i
 
@@ -587,8 +580,7 @@ CHANGESET
 
     # upload it, which used to cause an error like "PGError: ERROR:
     # integer out of range" (bug #2152). but shouldn't any more.
-    content diff
-    post :upload, :params => { :id => changeset_id }
+    post :upload, :params => { :id => changeset_id }, :body => diff
     assert_response :success,
                     "can't upload a spatially-large diff to changeset: #{@response.body}"
 
@@ -630,8 +622,7 @@ CHANGESET
     end
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff.to_s
     assert_response :precondition_failed,
                     "shouldn't be able to upload a invalid deletion diff: #{@response.body}"
     assert_equal "Precondition failed: Way #{used_way.id} is still used by relations #{relation.id}.", @response.body
@@ -674,8 +665,7 @@ CHANGESET
     end
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff.to_s
     assert_response :success,
                     "can't do a conditional delete of in use objects: #{@response.body}"
 
@@ -728,8 +718,7 @@ CHANGESET
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff
     assert_response :bad_request,
                     "shoudln't be able to upload too long a tag to changeset: #{@response.body}"
   end
@@ -771,8 +760,7 @@ CHANGESET
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff
     assert_response :success,
                     "can't upload a complex diff to changeset: #{@response.body}"
 
@@ -833,8 +821,7 @@ CHANGESET
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff
     assert_response :conflict,
                     "uploading a diff with multiple changesets should have failed"
 
@@ -870,8 +857,7 @@ CHANGESET
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff
     assert_response :success,
                     "can't upload multiple versions of an element in a diff: #{@response.body}"
 
@@ -900,8 +886,7 @@ CHANGESET
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff
     assert_response :conflict,
                     "shouldn't be able to upload the same element twice in a diff: #{@response.body}"
   end
@@ -922,8 +907,7 @@ CHANGESET
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff
     assert_response :bad_request,
                     "shouldn't be able to upload an element without version: #{@response.body}"
   end
@@ -942,8 +926,7 @@ CHANGESET
         </ping>
       </osmChange>
 CHANGESET
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff
     assert_response :bad_request, "Shouldn't be able to upload a diff with the action ping"
     assert_equal @response.body, "Unknown action ping, choices are create, modify, delete"
   end
@@ -976,8 +959,7 @@ CHANGESET
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff
     assert_response :success,
                     "can't upload a valid diff with whitespace variations to changeset: #{@response.body}"
 
@@ -1014,8 +996,7 @@ CHANGESET
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff
     assert_response :success,
                     "can't upload a valid diff with re-used placeholders to changeset: #{@response.body}"
 
@@ -1043,8 +1024,7 @@ CHANGESET
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff
     assert_response :bad_request,
                     "shouldn't be able to re-use placeholder IDs"
   end
@@ -1075,8 +1055,7 @@ CHANGESET
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff
     assert_response :bad_request,
                     "shouldn't be able to use invalid placeholder IDs"
     assert_equal "Placeholder node not found for reference -4 in way -1", @response.body
@@ -1099,8 +1078,7 @@ CHANGESET
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff
     assert_response :bad_request,
                     "shouldn't be able to use invalid placeholder IDs"
     assert_equal "Placeholder node not found for reference -4 in way #{way.id}", @response.body
@@ -1132,8 +1110,7 @@ CHANGESET
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff
     assert_response :bad_request,
                     "shouldn't be able to use invalid placeholder IDs"
     assert_equal "Placeholder Node not found for reference -4 in relation -1.", @response.body
@@ -1156,8 +1133,7 @@ CHANGESET
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff
     assert_response :bad_request,
                     "shouldn't be able to use invalid placeholder IDs"
     assert_equal "Placeholder Way not found for reference -1 in relation #{relation.id}.", @response.body
@@ -1169,10 +1145,10 @@ CHANGESET
   def test_upload_node_move
     basic_authorization create(:user).email, "test"
 
-    content "<osm><changeset>" \
-            "<tag k='created_by' v='osm test suite checking changesets'/>" \
-            "</changeset></osm>"
-    put :create
+    xml = "<osm><changeset>" \
+          "<tag k='created_by' v='osm test suite checking changesets'/>" \
+          "</changeset></osm>"
+    put :create, :body => xml
     assert_response :success
     changeset_id = @response.body.to_i
 
@@ -1189,8 +1165,7 @@ CHANGESET
     diff.root << modify
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset_id }
+    post :upload, :params => { :id => changeset_id }, :body => diff.to_s
     assert_response :success,
                     "diff should have uploaded OK"
 
@@ -1207,10 +1182,10 @@ CHANGESET
   def test_upload_way_extend
     basic_authorization create(:user).email, "test"
 
-    content "<osm><changeset>" \
-            "<tag k='created_by' v='osm test suite checking changesets'/>" \
-            "</changeset></osm>"
-    put :create
+    xml = "<osm><changeset>" \
+          "<tag k='created_by' v='osm test suite checking changesets'/>" \
+          "</changeset></osm>"
+    put :create, :body => xml
     assert_response :success
     changeset_id = @response.body.to_i
 
@@ -1229,8 +1204,7 @@ CHANGESET
     diff.root << modify
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset_id }
+    post :upload, :params => { :id => changeset_id }, :body => diff.to_s
     assert_response :success,
                     "diff should have uploaded OK"
 
@@ -1254,8 +1228,7 @@ CHANGESET
      "<osmChange><modify/></osmChange>",
      "<osmChange><modify></modify></osmChange>"].each do |diff|
       # upload it
-      content diff
-      post :upload, :params => { :id => changeset.id }
+      post :upload, :params => { :id => changeset.id }, :body => diff
       assert_response(:success, "should be able to upload " \
                       "empty changeset: " + diff)
     end
@@ -1278,9 +1251,8 @@ CHANGESET
     delete << node.to_xml_node
 
     # upload it
-    content diff
     error_format "xml"
-    post :upload, :params => { :id => changeset.id }
+    post :upload, :params => { :id => changeset.id }, :body => diff.to_s
     assert_response :success,
                     "failed to return error in XML format"
 
@@ -1300,20 +1272,20 @@ CHANGESET
     basic_authorization create(:user, :data_public => false).email, "test"
 
     # create a temporary changeset
-    content "<osm><changeset>" \
-            "<tag k='created_by' v='osm test suite checking changesets'/>" \
-            "</changeset></osm>"
-    put :create
+    xml = "<osm><changeset>" \
+          "<tag k='created_by' v='osm test suite checking changesets'/>" \
+          "</changeset></osm>"
+    put :create, :body => xml
     assert_response :forbidden
 
     ## Now try with a normal user
     basic_authorization create(:user).email, "test"
 
     # create a temporary changeset
-    content "<osm><changeset>" \
-            "<tag k='created_by' v='osm test suite checking changesets'/>" \
-            "</changeset></osm>"
-    put :create
+    xml = "<osm><changeset>" \
+          "<tag k='created_by' v='osm test suite checking changesets'/>" \
+          "</changeset></osm>"
+    put :create, :body => xml
     assert_response :success
     changeset_id = @response.body.to_i
 
@@ -1334,8 +1306,7 @@ CHANGESET
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset_id }
+    post :upload, :params => { :id => changeset_id }, :body => diff
     assert_response :success,
                     "can't upload multiple versions of an element in a diff: #{@response.body}"
 
@@ -1356,10 +1327,10 @@ CHANGESET
     basic_authorization create(:user).email, "test"
 
     # create a temporary changeset
-    content "<osm><changeset>" \
-            "<tag k='created_by' v='osm test suite checking changesets'/>" \
-            "</changeset></osm>"
-    put :create
+    xml = "<osm><changeset>" \
+          "<tag k='created_by' v='osm test suite checking changesets'/>" \
+          "</changeset></osm>"
+    put :create, :body => xml
     assert_response :success
     changeset_id = @response.body.to_i
 
@@ -1393,8 +1364,7 @@ CHANGESET
 OSMFILE
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset_id }
+    post :upload, :params => { :id => changeset_id }, :body => diff
     assert_response :success,
                     "can't upload a diff from JOSM: #{@response.body}"
 
@@ -1418,10 +1388,10 @@ OSMFILE
     basic_authorization create(:user).email, "test"
 
     # create a temporary changeset
-    content "<osm><changeset>" \
-            "<tag k='created_by' v='osm test suite checking changesets'/>" \
-            "</changeset></osm>"
-    put :create
+    xml = "<osm><changeset>" \
+          "<tag k='created_by' v='osm test suite checking changesets'/>" \
+          "</changeset></osm>"
+    put :create, :body => xml
     assert_response :success
     changeset_id = @response.body.to_i
 
@@ -1449,8 +1419,7 @@ OSMFILE
 CHANGESET
 
     # upload it
-    content diff
-    post :upload, :params => { :id => changeset_id }
+    post :upload, :params => { :id => changeset_id }, :body => diff
     assert_response :success,
                     "can't upload multiple versions of an element in a diff: #{@response.body}"
 
@@ -1501,15 +1470,15 @@ CHANGESET
     basic_authorization create(:user).email, "test"
 
     # create a new changeset
-    content "<osm><changeset/></osm>"
-    put :create
+    xml = "<osm><changeset/></osm>"
+    put :create, :body => xml
     assert_response :success, "Creating of changeset failed."
     changeset_id = @response.body.to_i
 
     # add a single node to it
     with_controller(NodesController.new) do
-      content "<osm><node lon='1' lat='2' changeset='#{changeset_id}'/></osm>"
-      put :create
+      xml = "<osm><node lon='1' lat='2' changeset='#{changeset_id}'/></osm>"
+      put :create, :body => xml
       assert_response :success, "Couldn't create node."
     end
 
@@ -1523,8 +1492,8 @@ CHANGESET
 
     # add another node to it
     with_controller(NodesController.new) do
-      content "<osm><node lon='2' lat='1' changeset='#{changeset_id}'/></osm>"
-      put :create
+      xml = "<osm><node lon='2' lat='1' changeset='#{changeset_id}'/></osm>"
+      put :create, :body => xml
       assert_response :success, "Couldn't create second node."
     end
 
@@ -1538,8 +1507,8 @@ CHANGESET
 
     # add (delete) a way to it, which contains a point at (3,3)
     with_controller(WaysController.new) do
-      content update_changeset(way.to_xml, changeset_id)
-      put :delete, :params => { :id => way.id }
+      xml = update_changeset(way.to_xml, changeset_id)
+      put :delete, :params => { :id => way.id }, :body => xml.to_s
       assert_response :success, "Couldn't delete a way."
     end
 
@@ -1558,8 +1527,7 @@ CHANGESET
     basic_authorization create(:user).display_name, "test"
 
     # create a new changeset
-    content "<osm><changeset/></osm>"
-    put :create
+    put :create, :body => "<osm><changeset/></osm>"
     assert_response :success, "Creating of changeset failed."
     changeset_id = @response.body.to_i
 
@@ -1580,8 +1548,8 @@ CHANGESET
     basic_authorization create(:user).display_name, "test"
 
     # create a new changeset
-    content "<osm><changeset/></osm>"
-    put :create
+    xml = "<osm><changeset/></osm>"
+    put :create, :body => xml
     assert_response :success, "Creating of changeset failed."
     changeset_id = @response.body.to_i
 
@@ -1589,18 +1557,18 @@ CHANGESET
     lat = -0.45
 
     # Try and put
-    content "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
-    put :expand_bbox, :params => { :id => changeset_id }
+    xml = "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
+    put :expand_bbox, :params => { :id => changeset_id }, :body => xml
     assert_response :method_not_allowed, "shouldn't be able to put a bbox expand"
 
     # Try to get the update
-    content "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
-    get :expand_bbox, :params => { :id => changeset_id }
+    xml = "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
+    get :expand_bbox, :params => { :id => changeset_id }, :body => xml
     assert_response :method_not_allowed, "shouldn't be able to get a bbox expand"
 
     # Try to use a hopefully missing changeset
-    content "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
-    post :expand_bbox, :params => { :id => changeset_id + 13245 }
+    xml = "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
+    post :expand_bbox, :params => { :id => changeset_id + 13245 }, :body => xml
     assert_response :not_found, "shouldn't be able to do a bbox expand on a nonexistant changeset"
   end
 
@@ -1734,20 +1702,19 @@ CHANGESET
     new_tag["k"] = "tagtesting"
     new_tag["v"] = "valuetesting"
     new_changeset.find("//osm/changeset").first << new_tag
-    content new_changeset
 
     # try without any authorization
-    put :update, :params => { :id => private_changeset.id }
+    put :update, :params => { :id => private_changeset.id }, :body => new_changeset.to_s
     assert_response :unauthorized
 
     # try with the wrong authorization
     basic_authorization create(:user).email, "test"
-    put :update, :params => { :id => private_changeset.id }
+    put :update, :params => { :id => private_changeset.id }, :body => new_changeset.to_s
     assert_response :conflict
 
     # now this should get an unauthorized
     basic_authorization private_user.email, "test"
-    put :update, :params => { :id => private_changeset.id }
+    put :update, :params => { :id => private_changeset.id }, :body => new_changeset.to_s
     assert_require_public_data "user with their data non-public, shouldn't be able to edit their changeset"
 
     ## Now try with the public user
@@ -1757,21 +1724,20 @@ CHANGESET
     new_tag["k"] = "tagtesting"
     new_tag["v"] = "valuetesting"
     new_changeset.find("//osm/changeset").first << new_tag
-    content new_changeset
 
     # try without any authorization
     @request.env["HTTP_AUTHORIZATION"] = nil
-    put :update, :params => { :id => changeset.id }
+    put :update, :params => { :id => changeset.id }, :body => new_changeset.to_s
     assert_response :unauthorized
 
     # try with the wrong authorization
     basic_authorization create(:user).email, "test"
-    put :update, :params => { :id => changeset.id }
+    put :update, :params => { :id => changeset.id }, :body => new_changeset.to_s
     assert_response :conflict
 
     # now this should work...
     basic_authorization user.email, "test"
-    put :update, :params => { :id => changeset.id }
+    put :update, :params => { :id => changeset.id }, :body => new_changeset.to_s
     assert_response :success
 
     assert_select "osm>changeset[id='#{changeset.id}']", 1
@@ -1792,8 +1758,7 @@ CHANGESET
     new_tag["v"] = "testing"
     new_changeset.find("//osm/changeset").first << new_tag
 
-    content new_changeset
-    put :update, :params => { :id => changeset.id }
+    put :update, :params => { :id => changeset.id }, :body => new_changeset.to_s
     assert_response :conflict
   end
 
@@ -1804,8 +1769,8 @@ CHANGESET
     basic_authorization create(:user).email, "test"
 
     # open a new changeset
-    content "<osm><changeset/></osm>"
-    put :create
+    xml = "<osm><changeset/></osm>"
+    put :create, :body => xml
     assert_response :success, "can't create a new changeset"
     cs_id = @response.body.to_i
 
@@ -1819,8 +1784,8 @@ CHANGESET
 
     with_controller(NodesController.new) do
       # create a new node
-      content "<osm><node changeset='#{cs_id}' lat='0.0' lon='0.0'/></osm>"
-      put :create
+      xml = "<osm><node changeset='#{cs_id}' lat='0.0' lon='0.0'/></osm>"
+      put :create, :body => xml
       assert_response :success, "can't create a new node"
       node_id = @response.body.to_i
 
@@ -1835,8 +1800,7 @@ CHANGESET
         node_xml["lon"] = rand.to_s
         node_xml["version"] = (i + 1).to_s
 
-        content node_doc
-        put :update, :params => { :id => node_id }
+        put :update, :params => { :id => node_id }, :body => node_doc.to_s
         assert_response :success, "attempt #{i} should have succeeded"
       end
 
@@ -1845,8 +1809,7 @@ CHANGESET
       node_xml["lon"] = rand.to_s
       node_xml["version"] = offset.to_s
 
-      content node_doc
-      put :update, :params => { :id => node_id }
+      put :update, :params => { :id => node_id }, :body => node_doc.to_s
       assert_response :conflict, "final attempt should have failed"
     end
 
@@ -2230,8 +2193,8 @@ CHANGESET
   ##
   # call the include method and assert properties of the bbox
   def check_after_include(changeset_id, lon, lat, bbox)
-    content "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
-    post :expand_bbox, :params => { :id => changeset_id }
+    xml = "<osm><node lon='#{lon}' lat='#{lat}'/></osm>"
+    post :expand_bbox, :params => { :id => changeset_id }, :body => xml
     assert_response :success, "Setting include of changeset failed: #{@response.body}"
 
     # check exactly one changeset

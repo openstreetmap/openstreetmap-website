@@ -59,8 +59,7 @@ class OldNodesControllerTest < ActionController::TestCase
       xml_node["lat"] = precision(rand * 180 - 90).to_s
       xml_node["lon"] = precision(rand * 360 - 180).to_s
       with_controller(NodesController.new) do
-        content xml_doc
-        put :update, :params => { :id => nodeid }
+        put :update, :params => { :id => nodeid }, :body => xml_doc.to_s
         assert_response :forbidden, "Should have rejected node update"
         xml_node["version"] = @response.body.to_s
       end
@@ -75,8 +74,7 @@ class OldNodesControllerTest < ActionController::TestCase
       xml_tag["v"] = random_string
       xml_node << xml_tag
       with_controller(NodesController.new) do
-        content xml_doc
-        put :update, :params => { :id => nodeid }
+        put :update, :params => { :id => nodeid }, :body => xml_doc.to_s
         assert_response :forbidden,
                         "should have rejected node #{nodeid} (#{@response.body}) with forbidden"
         xml_node["version"] = @response.body.to_s
@@ -109,8 +107,7 @@ class OldNodesControllerTest < ActionController::TestCase
       xml_node["lat"] = precision(rand * 180 - 90).to_s
       xml_node["lon"] = precision(rand * 360 - 180).to_s
       with_controller(NodesController.new) do
-        content xml_doc
-        put :update, :params => { :id => nodeid }
+        put :update, :params => { :id => nodeid }, :body => xml_doc.to_s
         assert_response :success
         xml_node["version"] = @response.body.to_s
       end
@@ -125,8 +122,7 @@ class OldNodesControllerTest < ActionController::TestCase
       xml_tag["v"] = random_string
       xml_node << xml_tag
       with_controller(NodesController.new) do
-        content xml_doc
-        put :update, :params => { :id => nodeid }
+        put :update, :params => { :id => nodeid }, :body => xml_doc.to_s
         assert_response :success,
                         "couldn't update node #{nodeid} (#{@response.body})"
         xml_node["version"] = @response.body.to_s

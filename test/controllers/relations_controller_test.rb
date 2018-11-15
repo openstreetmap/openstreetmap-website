@@ -206,8 +206,8 @@ class RelationsControllerTest < ActionController::TestCase
     basic_authorization private_user.email, "test"
 
     # create an relation without members
-    content "<osm><relation changeset='#{private_changeset.id}'><tag k='test' v='yes' /></relation></osm>"
-    put :create
+    xml = "<osm><relation changeset='#{private_changeset.id}'><tag k='test' v='yes' /></relation></osm>"
+    put :create, :body => xml
     # hope for forbidden, due to user
     assert_response :forbidden,
                     "relation upload should have failed with forbidden"
@@ -215,10 +215,10 @@ class RelationsControllerTest < ActionController::TestCase
     ###
     # create an relation with a node as member
     # This time try with a role attribute in the relation
-    content "<osm><relation changeset='#{private_changeset.id}'>" \
-            "<member  ref='#{node.id}' type='node' role='some'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
-    put :create
+    xml = "<osm><relation changeset='#{private_changeset.id}'>" \
+          "<member  ref='#{node.id}' type='node' role='some'/>" \
+          "<tag k='test' v='yes' /></relation></osm>"
+    put :create, :body => xml
     # hope for forbidden due to user
     assert_response :forbidden,
                     "relation upload did not return forbidden status"
@@ -226,20 +226,20 @@ class RelationsControllerTest < ActionController::TestCase
     ###
     # create an relation with a node as member, this time test that we don't
     # need a role attribute to be included
-    content "<osm><relation changeset='#{private_changeset.id}'>" \
-            "<member  ref='#{node.id}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
-    put :create
+    xml = "<osm><relation changeset='#{private_changeset.id}'>" \
+          "<member  ref='#{node.id}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
+    put :create, :body => xml
     # hope for forbidden due to user
     assert_response :forbidden,
                     "relation upload did not return forbidden status"
 
     ###
     # create an relation with a way and a node as members
-    content "<osm><relation changeset='#{private_changeset.id}'>" \
-            "<member type='node' ref='#{node.id}' role='some'/>" \
-            "<member type='way' ref='#{way.id}' role='other'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
-    put :create
+    xml = "<osm><relation changeset='#{private_changeset.id}'>" \
+          "<member type='node' ref='#{node.id}' role='some'/>" \
+          "<member type='way' ref='#{way.id}' role='other'/>" \
+          "<tag k='test' v='yes' /></relation></osm>"
+    put :create, :body => xml
     # hope for forbidden, due to user
     assert_response :forbidden,
                     "relation upload did not return success status"
@@ -248,8 +248,8 @@ class RelationsControllerTest < ActionController::TestCase
     basic_authorization user.email, "test"
 
     # create an relation without members
-    content "<osm><relation changeset='#{changeset.id}'><tag k='test' v='yes' /></relation></osm>"
-    put :create
+    xml = "<osm><relation changeset='#{changeset.id}'><tag k='test' v='yes' /></relation></osm>"
+    put :create, :body => xml
     # hope for success
     assert_response :success,
                     "relation upload did not return success status"
@@ -276,10 +276,10 @@ class RelationsControllerTest < ActionController::TestCase
     ###
     # create an relation with a node as member
     # This time try with a role attribute in the relation
-    content "<osm><relation changeset='#{changeset.id}'>" \
-            "<member  ref='#{node.id}' type='node' role='some'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
-    put :create
+    xml = "<osm><relation changeset='#{changeset.id}'>" \
+          "<member  ref='#{node.id}' type='node' role='some'/>" \
+          "<tag k='test' v='yes' /></relation></osm>"
+    put :create, :body => xml
     # hope for success
     assert_response :success,
                     "relation upload did not return success status"
@@ -307,9 +307,9 @@ class RelationsControllerTest < ActionController::TestCase
     ###
     # create an relation with a node as member, this time test that we don't
     # need a role attribute to be included
-    content "<osm><relation changeset='#{changeset.id}'>" \
-            "<member  ref='#{node.id}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
-    put :create
+    xml = "<osm><relation changeset='#{changeset.id}'>" \
+          "<member  ref='#{node.id}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
+    put :create, :body => xml
     # hope for success
     assert_response :success,
                     "relation upload did not return success status"
@@ -336,11 +336,11 @@ class RelationsControllerTest < ActionController::TestCase
 
     ###
     # create an relation with a way and a node as members
-    content "<osm><relation changeset='#{changeset.id}'>" \
-            "<member type='node' ref='#{node.id}' role='some'/>" \
-            "<member type='way' ref='#{way.id}' role='other'/>" \
-            "<tag k='test' v='yes' /></relation></osm>"
-    put :create
+    xml = "<osm><relation changeset='#{changeset.id}'>" \
+          "<member type='node' ref='#{node.id}' role='some'/>" \
+          "<member type='way' ref='#{way.id}' role='other'/>" \
+          "<tag k='test' v='yes' /></relation></osm>"
+    put :create, :body => xml
     # hope for success
     assert_response :success,
                     "relation upload did not return success status"
@@ -443,8 +443,7 @@ class RelationsControllerTest < ActionController::TestCase
     basic_authorization user.email, "test"
     with_relation(relation.id) do |rel|
       update_changeset(rel, changeset.id)
-      content rel
-      put :update, :params => { :id => other_relation.id }
+      put :update, :params => { :id => other_relation.id }, :body => rel.to_s
       assert_response :bad_request
     end
   end
@@ -460,10 +459,10 @@ class RelationsControllerTest < ActionController::TestCase
     basic_authorization user.email, "test"
 
     # create a relation with non-existing node as member
-    content "<osm><relation changeset='#{changeset.id}'>" \
-            "<member type='node' ref='0'/><tag k='test' v='yes' />" \
-            "</relation></osm>"
-    put :create
+    xml = "<osm><relation changeset='#{changeset.id}'>" \
+          "<member type='node' ref='0'/><tag k='test' v='yes' />" \
+          "</relation></osm>"
+    put :create, :body => xml
     # expect failure
     assert_response :precondition_failed,
                     "relation upload with invalid node did not return 'precondition failed'"
@@ -481,10 +480,10 @@ class RelationsControllerTest < ActionController::TestCase
     basic_authorization user.email, "test"
 
     # create some xml that should return an error
-    content "<osm><relation changeset='#{changeset.id}'>" \
-            "<member type='type' ref='#{node.id}' role=''/>" \
-            "<tag k='tester' v='yep'/></relation></osm>"
-    put :create
+    xml = "<osm><relation changeset='#{changeset.id}'>" \
+          "<member type='type' ref='#{node.id}' role=''/>" \
+          "<tag k='tester' v='yep'/></relation></osm>"
+    put :create, :body => xml
     # expect failure
     assert_response :bad_request
     assert_match(/Cannot parse valid relation from xml string/, @response.body)
@@ -520,34 +519,34 @@ class RelationsControllerTest < ActionController::TestCase
     assert_response :forbidden
 
     # try to delete without specifying a changeset
-    content "<osm><relation id='#{relation.id}'/></osm>"
-    delete :delete, :params => { :id => relation.id }
+    xml = "<osm><relation id='#{relation.id}'/></osm>"
+    delete :delete, :params => { :id => relation.id }, :body => xml.to_s
     assert_response :forbidden
 
     # try to delete with an invalid (closed) changeset
-    content update_changeset(relation.to_xml,
-                             private_user_closed_changeset.id)
-    delete :delete, :params => { :id => relation.id }
+    xml = update_changeset(relation.to_xml,
+                           private_user_closed_changeset.id)
+    delete :delete, :params => { :id => relation.id }, :body => xml.to_s
     assert_response :forbidden
 
     # try to delete with an invalid (non-existent) changeset
-    content update_changeset(relation.to_xml, 0)
-    delete :delete, :params => { :id => relation.id }
+    xml = update_changeset(relation.to_xml, 0)
+    delete :delete, :params => { :id => relation.id }, :body => xml.to_s
     assert_response :forbidden
 
     # this won't work because the relation is in-use by another relation
-    content(used_relation.to_xml)
-    delete :delete, :params => { :id => used_relation.id }
+    xml = used_relation.to_xml
+    delete :delete, :params => { :id => used_relation.id }, :body => xml.to_s
     assert_response :forbidden
 
     # this should work when we provide the appropriate payload...
-    content(relation.to_xml)
-    delete :delete, :params => { :id => relation.id }
+    xml = relation.to_xml
+    delete :delete, :params => { :id => relation.id }, :body => xml.to_s
     assert_response :forbidden
 
     # this won't work since the relation is already deleted
-    content(deleted_relation.to_xml)
-    delete :delete, :params => { :id => deleted_relation.id }
+    xml = deleted_relation.to_xml
+    delete :delete, :params => { :id => deleted_relation.id }, :body => xml.to_s
     assert_response :forbidden
 
     # this won't work since the relation never existed
@@ -562,43 +561,43 @@ class RelationsControllerTest < ActionController::TestCase
     assert_response :bad_request
 
     # try to delete without specifying a changeset
-    content "<osm><relation id='#{relation.id}' version='#{relation.version}' /></osm>"
-    delete :delete, :params => { :id => relation.id }
+    xml = "<osm><relation id='#{relation.id}' version='#{relation.version}' /></osm>"
+    delete :delete, :params => { :id => relation.id }, :body => xml.to_s
     assert_response :bad_request
     assert_match(/Changeset id is missing/, @response.body)
 
     # try to delete with an invalid (closed) changeset
-    content update_changeset(relation.to_xml,
-                             closed_changeset.id)
-    delete :delete, :params => { :id => relation.id }
+    xml = update_changeset(relation.to_xml,
+                           closed_changeset.id)
+    delete :delete, :params => { :id => relation.id }, :body => xml.to_s
     assert_response :conflict
 
     # try to delete with an invalid (non-existent) changeset
-    content update_changeset(relation.to_xml, 0)
-    delete :delete, :params => { :id => relation.id }
+    xml = update_changeset(relation.to_xml, 0)
+    delete :delete, :params => { :id => relation.id }, :body => xml.to_s
     assert_response :conflict
 
     # this won't work because the relation is in a changeset owned by someone else
-    content update_changeset(relation.to_xml, create(:changeset).id)
-    delete :delete, :params => { :id => relation.id }
+    xml = update_changeset(relation.to_xml, create(:changeset).id)
+    delete :delete, :params => { :id => relation.id }, :body => xml.to_s
     assert_response :conflict,
                     "shouldn't be able to delete a relation in a changeset owned by someone else (#{@response.body})"
 
     # this won't work because the relation in the payload is different to that passed
-    content update_changeset(relation.to_xml, changeset.id)
-    delete :delete, :params => { :id => create(:relation).id }
+    xml = update_changeset(relation.to_xml, changeset.id)
+    delete :delete, :params => { :id => create(:relation).id }, :body => xml.to_s
     assert_response :bad_request, "shouldn't be able to delete a relation when payload is different to the url"
 
     # this won't work because the relation is in-use by another relation
-    content update_changeset(used_relation.to_xml, changeset.id)
-    delete :delete, :params => { :id => used_relation.id }
+    xml = update_changeset(used_relation.to_xml, changeset.id)
+    delete :delete, :params => { :id => used_relation.id }, :body => xml.to_s
     assert_response :precondition_failed,
                     "shouldn't be able to delete a relation used in a relation (#{@response.body})"
     assert_equal "Precondition failed: The relation #{used_relation.id} is used in relation #{super_relation.id}.", @response.body
 
     # this should work when we provide the appropriate payload...
-    content update_changeset(multi_tag_relation.to_xml, changeset.id)
-    delete :delete, :params => { :id => multi_tag_relation.id }
+    xml = update_changeset(multi_tag_relation.to_xml, changeset.id)
+    delete :delete, :params => { :id => multi_tag_relation.id }, :body => xml.to_s
     assert_response :success
 
     # valid delete should return the new version number, which should
@@ -607,19 +606,19 @@ class RelationsControllerTest < ActionController::TestCase
            "delete request should return a new version number for relation"
 
     # this won't work since the relation is already deleted
-    content update_changeset(deleted_relation.to_xml, changeset.id)
-    delete :delete, :params => { :id => deleted_relation.id }
+    xml = update_changeset(deleted_relation.to_xml, changeset.id)
+    delete :delete, :params => { :id => deleted_relation.id }, :body => xml.to_s
     assert_response :gone
 
     # Public visible relation needs to be deleted
-    content update_changeset(super_relation.to_xml, changeset.id)
-    delete :delete, :params => { :id => super_relation.id }
+    xml = update_changeset(super_relation.to_xml, changeset.id)
+    delete :delete, :params => { :id => super_relation.id }, :body => xml.to_s
     assert_response :success
 
     # this works now because the relation which was using this one
     # has been deleted.
-    content update_changeset(used_relation.to_xml, changeset.id)
-    delete :delete, :params => { :id => used_relation.id }
+    xml = update_changeset(used_relation.to_xml, changeset.id)
+    delete :delete, :params => { :id => used_relation.id }, :body => xml.to_s
     assert_response :success,
                     "should be able to delete a relation used in an old relation (#{@response.body})"
 
@@ -654,8 +653,7 @@ class RelationsControllerTest < ActionController::TestCase
       update_changeset(relation_xml, changeset_id)
 
       # upload the change
-      content relation_xml
-      put :update, :params => { :id => relation.id }
+      put :update, :params => { :id => relation.id }, :body => relation_xml.to_s
       assert_response :success, "can't update relation for tag/bbox test"
     end
   end
@@ -688,8 +686,7 @@ class RelationsControllerTest < ActionController::TestCase
         update_changeset(relation_xml, changeset_id)
 
         # upload the change
-        content relation_xml
-        put :update, :params => { :id => relation.id }
+        put :update, :params => { :id => relation.id }, :body => relation_xml.to_s
         assert_response :success, "can't update relation for add #{element.class}/bbox test: #{@response.body}"
 
         # get it back and check the ordering
@@ -721,8 +718,7 @@ class RelationsControllerTest < ActionController::TestCase
       update_changeset(relation_xml, changeset_id)
 
       # upload the change
-      content relation_xml
-      put :update, :params => { :id => relation.id }
+      put :update, :params => { :id => relation.id }, :body => relation_xml.to_s
       assert_response :success, "can't update relation for remove node/bbox test"
     end
   end
@@ -752,8 +748,7 @@ class RelationsControllerTest < ActionController::TestCase
 OSM
     doc = XML::Parser.string(doc_str).parse
 
-    content doc
-    put :create
+    put :create, :body => doc.to_s
     assert_response :success, "can't create a relation: #{@response.body}"
     relation_id = @response.body.to_i
 
@@ -773,8 +768,7 @@ OSM
     doc.find("//osm/relation").first["version"] = 1.to_s
 
     # upload the next version of the relation
-    content doc
-    put :update, :params => { :id => relation_id }
+    put :update, :params => { :id => relation_id }, :body => doc.to_s
     assert_response :success, "can't update relation: #{@response.body}"
     assert_equal 2, @response.body.to_i
 
@@ -815,15 +809,13 @@ OSM
     ## First try with the private user
     basic_authorization private_user.email, "test"
 
-    content doc
-    put :create
+    put :create, :body => doc.to_s
     assert_response :forbidden
 
     ## Now try with the public user
     basic_authorization user.email, "test"
 
-    content doc
-    put :create
+    put :create, :body => doc.to_s
     assert_response :success, "can't create a relation: #{@response.body}"
     relation_id = @response.body.to_i
 
@@ -856,8 +848,7 @@ OSM
     doc = XML::Parser.string(doc_str).parse
     basic_authorization user.email, "test"
 
-    content doc
-    put :create
+    put :create, :body => doc.to_s
     assert_response :success, "can't create a relation: #{@response.body}"
     relation_id = @response.body.to_i
 
@@ -896,8 +887,7 @@ OSM
       update_changeset(relation_xml, changeset_id)
 
       # upload the change
-      content relation_xml
-      put :update, :params => { :id => relation.id }
+      put :update, :params => { :id => relation.id }, :body => relation_xml.to_s
       assert_response :success, "can't update relation for remove all members test"
       checkrelation = Relation.find(relation.id)
       assert_not_nil(checkrelation,
@@ -940,8 +930,8 @@ OSM
     # create a new changeset for this operation, so we are assured
     # that the bounding box will be newly-generated.
     changeset_id = with_controller(ChangesetsController.new) do
-      content "<osm><changeset/></osm>"
-      put :create
+      xml = "<osm><changeset/></osm>"
+      put :create, :body => xml
       assert_response :forbidden, "shouldn't be able to create changeset for modify test, as should get forbidden"
     end
 
@@ -951,8 +941,8 @@ OSM
     # create a new changeset for this operation, so we are assured
     # that the bounding box will be newly-generated.
     changeset_id = with_controller(ChangesetsController.new) do
-      content "<osm><changeset/></osm>"
-      put :create
+      xml = "<osm><changeset/></osm>"
+      put :create, :body => xml
       assert_response :success, "couldn't create changeset for modify test"
       @response.body.to_i
     end
@@ -995,8 +985,7 @@ OSM
   # the parsed XML doc is retured.
   def with_update(rel)
     rel_id = rel.find("//osm/relation").first["id"].to_i
-    content rel
-    put :update, :params => { :id => rel_id }
+    put :update, :params => { :id => rel_id }, :body => rel.to_s
     assert_response :success, "can't update relation: #{@response.body}"
     version = @response.body.to_i
 
@@ -1027,8 +1016,7 @@ OSM
       change << modify
       modify << doc.import(rel.find("//osm/relation").first)
 
-      content doc.to_s
-      post :upload, :params => { :id => cs_id }
+      post :upload, :params => { :id => cs_id }, :body => doc.to_s
       assert_response :success, "can't upload diff relation: #{@response.body}"
       version = xml_parse(@response.body).find("//diffResult/relation").first["new_version"].to_i
     end

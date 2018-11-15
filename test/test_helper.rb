@@ -95,12 +95,6 @@ module ActiveSupport
     end
 
     ##
-    # set the raw body to be sent with a POST request
-    def content(c)
-      @request.env["RAW_POST_DATA"] = c.to_s
-    end
-
-    ##
     # Used to check that the error header and the forbidden responses are given
     # when the owner of the changset has their data not marked as public
     def assert_require_public_data(msg = "Shouldn't be able to use API when the user's data is not public")

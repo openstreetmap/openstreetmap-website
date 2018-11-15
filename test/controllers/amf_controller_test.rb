@@ -21,8 +21,7 @@ class AmfControllerTest < ActionController::TestCase
     user_en_de = create(:user, :languages => %w[en de])
     user_de = create(:user, :languages => %w[de])
     [user_en_de, user_de].each do |user|
-      amf_content "getpresets", "/1", ["#{user.email}:test", ""]
-      post :amf_read
+      post :amf_read, :body => amf_content("getpresets", "/1", ["#{user.email}:test", ""])
       assert_response :success
       amf_parse_response
       presets = amf_result("/1")
@@ -50,8 +49,7 @@ class AmfControllerTest < ActionController::TestCase
     node = way.nodes.first
     user = way.changeset.user
 
-    amf_content "getway", "/1", [way.id]
-    post :amf_read
+    post :amf_read, :body => amf_content("getway", "/1", [way.id])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -68,8 +66,7 @@ class AmfControllerTest < ActionController::TestCase
     # check an invisible way
     id = create(:way, :deleted).id
 
-    amf_content "getway", "/1", [id]
-    post :amf_read
+    post :amf_read, :body => amf_content("getway", "/1", [id])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -86,8 +83,7 @@ class AmfControllerTest < ActionController::TestCase
     node = way.nodes.first
     user = way.changeset.user
 
-    amf_content "getway", "/1", [way.id]
-    post :amf_read
+    post :amf_read, :body => amf_content("getway", "/1", [way.id])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -108,8 +104,7 @@ class AmfControllerTest < ActionController::TestCase
     create(:way_node, :way => way, :node => node, :sequence_id => 2)
     user = way.changeset.user
 
-    amf_content "getway", "/1", [way.id]
-    post :amf_read
+    post :amf_read, :body => amf_content("getway", "/1", [way.id])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -131,8 +126,7 @@ class AmfControllerTest < ActionController::TestCase
     c = way.nodes[2].id
     user = way.changeset.user
 
-    amf_content "getway", "/1", [way.id]
-    post :amf_read
+    post :amf_read, :body => amf_content("getway", "/1", [way.id])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -149,8 +143,7 @@ class AmfControllerTest < ActionController::TestCase
 
   def test_getway_nonexistent
     # check chat a non-existent way is not returned
-    amf_content "getway", "/1", [0]
-    post :amf_read
+    post :amf_read, :body => amf_content("getway", "/1", [0])
     assert_response :success
     amf_parse_response
     way = amf_result("/1")
@@ -172,8 +165,7 @@ class AmfControllerTest < ActionController::TestCase
     minlat = node.lat - 0.1
     maxlon = node.lon + 0.1
     maxlat = node.lat + 0.1
-    amf_content "whichways", "/1", [minlon, minlat, maxlon, maxlat]
-    post :amf_read
+    post :amf_read, :body => amf_content("whichways", "/1", [minlon, minlat, maxlon, maxlat])
     assert_response :success
     amf_parse_response
 
@@ -266,8 +258,7 @@ class AmfControllerTest < ActionController::TestCase
     minlat = node.lat - 0.1
     maxlon = node.lon + 0.1
     maxlat = node.lat + 0.1
-    amf_content "whichways_deleted", "/1", [minlon, minlat, maxlon, maxlat]
-    post :amf_read
+    post :amf_read, :body => amf_content("whichways_deleted", "/1", [minlon, minlat, maxlon, maxlat])
     assert_response :success
     amf_parse_response
 
@@ -286,8 +277,7 @@ class AmfControllerTest < ActionController::TestCase
 
   def test_whichways_deleted_toobig
     bbox = [-0.1, -0.1, 1.1, 1.1]
-    amf_content "whichways_deleted", "/1", bbox
-    post :amf_read
+    post :amf_read, :body => amf_content("whichways_deleted", "/1", bbox)
     assert_response :success
     amf_parse_response
 
@@ -297,8 +287,7 @@ class AmfControllerTest < ActionController::TestCase
 
   def test_getrelation
     id = create(:relation).id
-    amf_content "getrelation", "/1", [id]
-    post :amf_read
+    post :amf_read, :body => amf_content("getrelation", "/1", [id])
     assert_response :success
     amf_parse_response
     rel = amf_result("/1")
@@ -308,8 +297,7 @@ class AmfControllerTest < ActionController::TestCase
 
   def test_getrelation_invisible
     id = create(:relation, :deleted).id
-    amf_content "getrelation", "/1", [id]
-    post :amf_read
+    post :amf_read, :body => amf_content("getrelation", "/1", [id])
     assert_response :success
     amf_parse_response
     rel = amf_result("/1")
@@ -321,8 +309,7 @@ class AmfControllerTest < ActionController::TestCase
 
   def test_getrelation_nonexistent
     id = 0
-    amf_content "getrelation", "/1", [id]
-    post :amf_read
+    post :amf_read, :body => amf_content("getrelation", "/1", [id])
     assert_response :success
     amf_parse_response
     rel = amf_result("/1")
@@ -343,8 +330,7 @@ class AmfControllerTest < ActionController::TestCase
     # try to get version 1
     { latest.id => "",
       v1.way_id => (v1.timestamp + 1).strftime("%d %b %Y, %H:%M:%S") }.each do |id, t|
-      amf_content "getway_old", "/1", [id, t]
-      post :amf_read
+      post :amf_read, :body => amf_content("getway_old", "/1", [id, t])
       assert_response :success
       amf_parse_response
       returned_way = amf_result("/1")
@@ -365,8 +351,7 @@ class AmfControllerTest < ActionController::TestCase
       way_id => "2009-03-25 00:00:00",                   # <- wrong format
       way_id => "0 Jan 2009 00:00:00",                   # <- invalid date
       -1 => "1 Jan 2009 00:00:00" }.each do |id, t| # <- invalid
-      amf_content "getway_old", "/1", [id, t]
-      post :amf_read
+      post :amf_read, :body => amf_content("getway_old", "/1", [id, t])
       assert_response :success
       amf_parse_response
       returned_way = amf_result("/1")
@@ -386,8 +371,7 @@ class AmfControllerTest < ActionController::TestCase
     [[0, ""],
      [0, "1 Jan 1970, 00:00:00"],
      [v1.way_id, (v1.timestamp - 10).strftime("%d %b %Y, %H:%M:%S")]].each do |id, t|
-      amf_content "getway_old", "/1", [id, t]
-      post :amf_read
+      post :amf_read, :body => amf_content("getway_old", "/1", [id, t])
       assert_response :success
       amf_parse_response
       returned_way = amf_result("/1")
@@ -403,8 +387,7 @@ class AmfControllerTest < ActionController::TestCase
     v1 = way.old_ways.find_by(:version => 1)
     # try to get deleted version
     [[v1.way_id, (v1.timestamp + 10).strftime("%d %b %Y, %H:%M:%S")]].each do |id, t|
-      amf_content "getway_old", "/1", [id, t]
-      post :amf_read
+      post :amf_read, :body => amf_content("getway_old", "/1", [id, t])
       assert_response :success
       amf_parse_response
       returned_way = amf_result("/1")
@@ -420,8 +403,7 @@ class AmfControllerTest < ActionController::TestCase
     oldest = create(:old_way, :current_way => latest, :version => 1, :timestamp => latest.timestamp - 2.minutes)
     create(:old_way, :current_way => latest, :version => 2, :timestamp => latest.timestamp)
 
-    amf_content "getway_history", "/1", [latest.id]
-    post :amf_read
+    post :amf_read, :body => amf_content("getway_history", "/1", [latest.id])
     assert_response :success
     amf_parse_response
     history = amf_result("/1")
@@ -438,8 +420,7 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getway_history_nonexistent
-    amf_content "getway_history", "/1", [0]
-    post :amf_read
+    post :amf_read, :body => amf_content("getway_history", "/1", [0])
     assert_response :success
     amf_parse_response
     history = amf_result("/1")
@@ -456,8 +437,7 @@ class AmfControllerTest < ActionController::TestCase
     _node_v2 = create(:old_node, :current_node => node, :version => 2, :timestamp => 2.days.ago)
     node_v3 = create(:old_node, :current_node => node, :version => 3, :timestamp => 1.day.ago)
 
-    amf_content "getnode_history", "/1", [node.id]
-    post :amf_read
+    post :amf_read, :body => amf_content("getnode_history", "/1", [node.id])
     assert_response :success
     amf_parse_response
     history = amf_result("/1")
@@ -478,8 +458,7 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getnode_history_nonexistent
-    amf_content "getnode_history", "/1", [0]
-    post :amf_read
+    post :amf_read, :body => amf_content("getnode_history", "/1", [0])
     assert_response :success
     amf_parse_response
     history = amf_result("/1")
@@ -491,8 +470,7 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_findgpx_bad_user
-    amf_content "findgpx", "/1", [1, "test@example.com:wrong"]
-    post :amf_read
+    post :amf_read, :body => amf_content("findgpx", "/1", [1, "test@example.com:wrong"])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -503,8 +481,7 @@ class AmfControllerTest < ActionController::TestCase
 
     blocked_user = create(:user)
     create(:user_block, :user => blocked_user)
-    amf_content "findgpx", "/1", [1, "#{blocked_user.email}:test"]
-    post :amf_read
+    post :amf_read, :body => amf_content("findgpx", "/1", [1, "#{blocked_user.email}:test"])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -518,8 +495,7 @@ class AmfControllerTest < ActionController::TestCase
     user = create(:user)
     trace = create(:trace, :visibility => "private", :user => user)
 
-    amf_content "findgpx", "/1", [trace.id, "#{user.email}:test"]
-    post :amf_read
+    post :amf_read, :body => amf_content("findgpx", "/1", [trace.id, "#{user.email}:test"])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -538,8 +514,7 @@ class AmfControllerTest < ActionController::TestCase
   def test_findgpx_by_name
     user = create(:user)
 
-    amf_content "findgpx", "/1", ["Trace", "#{user.email}:test"]
-    post :amf_read
+    post :amf_read, :body => amf_content("findgpx", "/1", ["Trace", "#{user.email}:test"])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -552,8 +527,7 @@ class AmfControllerTest < ActionController::TestCase
   def test_findrelations_by_id
     relation = create(:relation, :version => 4)
 
-    amf_content "findrelations", "/1", [relation.id]
-    post :amf_read
+    post :amf_read, :body => amf_content("findrelations", "/1", [relation.id])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -565,8 +539,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal relation.members, result[0][2]
     assert_equal relation.version, result[0][3]
 
-    amf_content "findrelations", "/1", [999999]
-    post :amf_read
+    post :amf_read, :body => amf_content("findrelations", "/1", [999999])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -583,8 +556,7 @@ class AmfControllerTest < ActionController::TestCase
     create(:relation_tag, :relation => used_relation, :k => "test", :v => "yes")
     create(:relation_tag, :relation => used_relation, :k => "name", :v => "Test Relation")
 
-    amf_content "findrelations", "/1", ["yes"]
-    post :amf_read
+    post :amf_read, :body => amf_content("findrelations", "/1", ["yes"])
     assert_response :success
     amf_parse_response
     result = amf_result("/1").sort
@@ -601,8 +573,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal used_relation.members, result[1][2]
     assert_equal used_relation.version, result[1][3]
 
-    amf_content "findrelations", "/1", ["no"]
-    post :amf_read
+    post :amf_read, :body => amf_content("findrelations", "/1", ["no"])
     assert_response :success
     amf_parse_response
     result = amf_result("/1").sort
@@ -614,8 +585,7 @@ class AmfControllerTest < ActionController::TestCase
     node = create(:node, :with_history, :version => 4)
     create(:node_tag, :node => node)
 
-    amf_content "getpoi", "/1", [node.id, ""]
-    post :amf_read
+    post :amf_read, :body => amf_content("getpoi", "/1", [node.id, ""])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -629,8 +599,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal node.tags, result[5]
     assert_equal node.version, result[6]
 
-    amf_content "getpoi", "/1", [999999, ""]
-    post :amf_read
+    post :amf_read, :body => amf_content("getpoi", "/1", [999999, ""])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -649,8 +618,7 @@ class AmfControllerTest < ActionController::TestCase
     # previous whole second, causing <= comparison to fail
     timestamp = (node.timestamp + 1.second).xmlschema
 
-    amf_content "getpoi", "/1", [node.node_id, timestamp]
-    post :amf_read
+    post :amf_read, :body => amf_content("getpoi", "/1", [node.node_id, timestamp])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -664,8 +632,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal node.tags, result[5]
     assert_equal current_node.version, result[6]
 
-    amf_content "getpoi", "/1", [node.node_id, "2000-01-01T00:00:00Z"]
-    post :amf_read
+    post :amf_read, :body => amf_content("getpoi", "/1", [node.node_id, "2000-01-01T00:00:00Z"])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -675,8 +642,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal "node", result[1]
     assert_equal node.node_id, result[2]
 
-    amf_content "getpoi", "/1", [999999, Time.now.xmlschema]
-    post :amf_read
+    post :amf_read, :body => amf_content("getpoi", "/1", [999999, Time.now.xmlschema])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -695,8 +661,7 @@ class AmfControllerTest < ActionController::TestCase
     nd = create(:node)
     cs_id = nd.changeset.id
     user = nd.changeset.user
-    amf_content "putpoi", "/1", ["#{user.email}:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, nd.visible]
-    post :amf_write
+    post :amf_write, :body => amf_content("putpoi", "/1", ["#{user.email}:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, nd.visible])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -711,8 +676,7 @@ class AmfControllerTest < ActionController::TestCase
     # Now try to update again, with a different lat/lon, using the updated version number
     lat = nd.lat + 0.1
     lon = nd.lon - 0.1
-    amf_content "putpoi", "/2", ["#{user.email}:test", cs_id, nd.version + 1, nd.id, lon, lat, nd.tags, nd.visible]
-    post :amf_write
+    post :amf_write, :body => amf_content("putpoi", "/2", ["#{user.email}:test", cs_id, nd.version + 1, nd.id, lon, lat, nd.tags, nd.visible])
     assert_response :success
     amf_parse_response
     result = amf_result("/2")
@@ -737,8 +701,7 @@ class AmfControllerTest < ActionController::TestCase
     changeset = create(:changeset)
     user = changeset.user
 
-    amf_content "putpoi", "/1", ["#{user.email}:test", changeset.id, nil, nil, lon, lat, {}, nil]
-    post :amf_write
+    post :amf_write, :body => amf_content("putpoi", "/1", ["#{user.email}:test", changeset.id, nil, nil, lon, lat, {}, nil])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -774,8 +737,7 @@ class AmfControllerTest < ActionController::TestCase
     lat = rand(-50..49) + rand
     lon = rand(-50..49) + rand
 
-    amf_content "putpoi", "/2", ["#{user.email}:test", changeset.id, nil, nil, lon, lat, { "key" => "value", "ping" => "pong" }, nil]
-    post :amf_write
+    post :amf_write, :body => amf_content("putpoi", "/2", ["#{user.email}:test", changeset.id, nil, nil, lon, lat, { "key" => "value", "ping" => "pong" }, nil])
     assert_response :success
     amf_parse_response
     result = amf_result("/2")
@@ -821,8 +783,7 @@ class AmfControllerTest < ActionController::TestCase
     mostly_invalid = (0..31).to_a.map(&:chr).join
     tags = { "something" => "foo#{mostly_invalid}bar" }
 
-    amf_content "putpoi", "/1", ["#{user.email}:test", changeset.id, nil, nil, lon, lat, tags, nil]
-    post :amf_write
+    post :amf_write, :body => amf_content("putpoi", "/1", ["#{user.email}:test", changeset.id, nil, nil, lon, lat, tags, nil])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -857,8 +818,7 @@ class AmfControllerTest < ActionController::TestCase
     invalid = "\xc0\xc0"
     tags = { "something" => "foo#{invalid}bar" }
 
-    amf_content "putpoi", "/1", ["#{user.email}:test", changeset.id, nil, nil, lon, lat, tags, nil]
-    post :amf_write
+    post :amf_write, :body => amf_content("putpoi", "/1", ["#{user.email}:test", changeset.id, nil, nil, lon, lat, tags, nil])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -874,8 +834,7 @@ class AmfControllerTest < ActionController::TestCase
     cs_id = nd.changeset.id
     user = nd.changeset.user
 
-    amf_content "putpoi", "/1", ["#{user.email}:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, false]
-    post :amf_write
+    post :amf_write, :body => amf_content("putpoi", "/1", ["#{user.email}:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, false])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -897,8 +856,7 @@ class AmfControllerTest < ActionController::TestCase
     cs_id = nd.changeset.id
     user = nd.changeset.user
 
-    amf_content "putpoi", "/1", ["#{user.email}:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, false]
-    post :amf_write
+    post :amf_write, :body => amf_content("putpoi", "/1", ["#{user.email}:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, false])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -915,8 +873,7 @@ class AmfControllerTest < ActionController::TestCase
     cs_id = changeset.id
     user = changeset.user
 
-    amf_content "putpoi", "/1", ["#{user.email}:test", cs_id, 1, 999999, 0, 0, {}, false]
-    post :amf_write
+    post :amf_write, :body => amf_content("putpoi", "/1", ["#{user.email}:test", cs_id, 1, 999999, 0, 0, {}, false])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -933,8 +890,7 @@ class AmfControllerTest < ActionController::TestCase
     cs_id = nd.changeset.id
     user = nd.changeset.user
 
-    amf_content "putpoi", "/1", ["#{user.email}:test", cs_id, nd.version, nd.id, 200, 100, nd.tags, true]
-    post :amf_write
+    post :amf_write, :body => amf_content("putpoi", "/1", ["#{user.email}:test", cs_id, nd.version, nd.id, 200, 100, nd.tags, true])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -956,8 +912,7 @@ class AmfControllerTest < ActionController::TestCase
     d = create(:node).id
     e = create(:node).id
 
-    amf_content "putway", "/1", ["#{user.email}:test", cs_id, 0, -1, [a, b, c], { "test" => "new" }, [], {}]
-    post :amf_write
+    post :amf_write, :body => amf_content("putway", "/1", ["#{user.email}:test", cs_id, 0, -1, [a, b, c], { "test" => "new" }, [], {}])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -978,8 +933,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal [a, b, c], new_way.nds
     assert_equal({ "test" => "new" }, new_way.tags)
 
-    amf_content "putway", "/1", ["#{user.email}:test", cs_id, 0, -1, [b, d, e, a], { "test" => "newer" }, [], {}]
-    post :amf_write
+    post :amf_write, :body => amf_content("putway", "/1", ["#{user.email}:test", cs_id, 0, -1, [b, d, e, a], { "test" => "newer" }, [], {}])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -1000,8 +954,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal [b, d, e, a], new_way.nds
     assert_equal({ "test" => "newer" }, new_way.tags)
 
-    amf_content "putway", "/1", ["#{user.email}:test", cs_id, 0, -1, [b, -1, d, e], { "test" => "newest" }, [[4.56, 12.34, -1, 0, { "test" => "new" }], [12.34, 4.56, d, 1, { "test" => "ok" }]], { a => 1 }]
-    post :amf_write
+    post :amf_write, :body => amf_content("putway", "/1", ["#{user.email}:test", cs_id, 0, -1, [b, -1, d, e], { "test" => "newest" }, [[4.56, 12.34, -1, 0, { "test" => "new" }], [12.34, 4.56, d, 1, { "test" => "ok" }]], { a => 1 }])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -1050,8 +1003,7 @@ class AmfControllerTest < ActionController::TestCase
     user = way.changeset.user
 
     assert_not_equal({ "test" => "ok" }, way.tags)
-    amf_content "putway", "/1", ["#{user.email}:test", cs_id, way.version, way.id, way.nds, { "test" => "ok" }, [], {}]
-    post :amf_write
+    post :amf_write, :body => amf_content("putway", "/1", ["#{user.email}:test", cs_id, way.version, way.id, way.nds, { "test" => "ok" }, [], {}])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -1078,8 +1030,7 @@ class AmfControllerTest < ActionController::TestCase
     d = create(:node).id
 
     assert_not_equal [a, b, c, d], way.nds
-    amf_content "putway", "/1", ["#{user.email}:test", cs_id, way.version + 1, way.id, [a, b, c, d], way.tags, [], {}]
-    post :amf_write
+    post :amf_write, :body => amf_content("putway", "/1", ["#{user.email}:test", cs_id, way.version + 1, way.id, [a, b, c, d], way.tags, [], {}])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -1099,8 +1050,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal [a, b, c, d], new_way.nds
     assert_equal way.tags, new_way.tags
 
-    amf_content "putway", "/1", ["#{user.email}:test", cs_id, way.version + 2, way.id, [a, -1, b, c], way.tags, [[4.56, 12.34, -1, 0, { "test" => "new" }], [12.34, 4.56, b, 1, { "test" => "ok" }]], { d => 1 }]
-    post :amf_write
+    post :amf_write, :body => amf_content("putway", "/1", ["#{user.email}:test", cs_id, way.version + 2, way.id, [a, -1, b, c], way.tags, [[4.56, 12.34, -1, 0, { "test" => "new" }], [12.34, 4.56, b, 1, { "test" => "ok" }]], { d => 1 }])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -1156,8 +1106,7 @@ class AmfControllerTest < ActionController::TestCase
     create(:way_node, :node => b)
     c = way.nodes[2]
 
-    amf_content "deleteway", "/1", ["#{user.email}:test", cs_id, way.id, way.version, nodes]
-    post :amf_write
+    post :amf_write, :body => amf_content("deleteway", "/1", ["#{user.email}:test", cs_id, way.id, way.version, nodes])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -1186,8 +1135,7 @@ class AmfControllerTest < ActionController::TestCase
     cs_id = way.changeset.id
     user = way.changeset.user
 
-    amf_content "deleteway", "/1", ["#{user.email}:test", cs_id, way.id, way.version, nodes]
-    post :amf_write
+    post :amf_write, :body => amf_content("deleteway", "/1", ["#{user.email}:test", cs_id, way.id, way.version, nodes])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -1215,8 +1163,7 @@ class AmfControllerTest < ActionController::TestCase
     way = create(:way_with_nodes, :nodes_count => 2)
     relation = create(:relation)
 
-    amf_content "putrelation", "/1", ["#{user.email}:test", cs_id, 0, -1, { "test" => "new" }, [["Node", node.id, "node"], ["Way", way.id, "way"], ["Relation", relation.id, "relation"]], true]
-    post :amf_write
+    post :amf_write, :body => amf_content("putrelation", "/1", ["#{user.email}:test", cs_id, 0, -1, { "test" => "new" }, [["Node", node.id, "node"], ["Way", way.id, "way"], ["Relation", relation.id, "relation"]], true])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -1244,8 +1191,7 @@ class AmfControllerTest < ActionController::TestCase
     cs_id = relation.changeset.id
 
     assert_not_equal({ "test" => "ok" }, relation.tags)
-    amf_content "putrelation", "/1", ["#{user.email}:test", cs_id, relation.version, relation.id, { "test" => "ok" }, relation.members, true]
-    post :amf_write
+    post :amf_write, :body => amf_content("putrelation", "/1", ["#{user.email}:test", cs_id, relation.version, relation.id, { "test" => "ok" }, relation.members, true])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -1272,8 +1218,7 @@ class AmfControllerTest < ActionController::TestCase
     cs_id = relation.changeset.id
     user = relation.changeset.user
 
-    amf_content "putrelation", "/1", ["#{user.email}:test", cs_id, relation.version, relation.id, relation.tags, relation.members, false]
-    post :amf_write
+    post :amf_write, :body => amf_content("putrelation", "/1", ["#{user.email}:test", cs_id, relation.version, relation.id, relation.tags, relation.members, false])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -1300,8 +1245,7 @@ class AmfControllerTest < ActionController::TestCase
     cs_id = relation.changeset.id
     user = relation.changeset.user
 
-    amf_content "putrelation", "/1", ["#{user.email}:test", cs_id, relation.version, relation.id, relation.tags, relation.members, false]
-    post :amf_write
+    post :amf_write, :body => amf_content("putrelation", "/1", ["#{user.email}:test", cs_id, relation.version, relation.id, relation.tags, relation.members, false])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -1321,8 +1265,7 @@ class AmfControllerTest < ActionController::TestCase
   def test_startchangeset_valid
     user = create(:user)
 
-    amf_content "startchangeset", "/1", ["#{user.email}:test", { "source" => "new" }, nil, "new", 1]
-    post :amf_write
+    post :amf_write, :body => amf_content("startchangeset", "/1", ["#{user.email}:test", { "source" => "new" }, nil, "new", 1])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -1338,8 +1281,7 @@ class AmfControllerTest < ActionController::TestCase
 
     old_cs_id = new_cs_id
 
-    amf_content "startchangeset", "/1", ["#{user.email}:test", { "source" => "newer" }, old_cs_id, "newer", 1]
-    post :amf_write
+    post :amf_write, :body => amf_content("startchangeset", "/1", ["#{user.email}:test", { "source" => "newer" }, old_cs_id, "newer", 1])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -1361,8 +1303,7 @@ class AmfControllerTest < ActionController::TestCase
 
     old_cs_id = new_cs_id
 
-    amf_content "startchangeset", "/1", ["#{user.email}:test", {}, old_cs_id, "", 0]
-    post :amf_write
+    post :amf_write, :body => amf_content("startchangeset", "/1", ["#{user.email}:test", {}, old_cs_id, "", 0])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -1382,8 +1323,7 @@ class AmfControllerTest < ActionController::TestCase
     user = create(:user)
     user2 = create(:user)
 
-    amf_content "startchangeset", "/1", ["#{user.email}:test", { "source" => "new" }, nil, "new", 1]
-    post :amf_write
+    post :amf_write, :body => amf_content("startchangeset", "/1", ["#{user.email}:test", { "source" => "new" }, nil, "new", 1])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -1397,8 +1337,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal true, cs.is_open?
     assert_equal({ "comment" => "new", "source" => "new" }, cs.tags)
 
-    amf_content "startchangeset", "/1", ["#{user2.email}:test", {}, cs_id, "delete", 0]
-    post :amf_write
+    post :amf_write, :body => amf_content("startchangeset", "/1", ["#{user2.email}:test", {}, cs_id, "delete", 0])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -1419,8 +1358,7 @@ class AmfControllerTest < ActionController::TestCase
     invalid = "\035\022"
     comment = "foo#{invalid}bar"
 
-    amf_content "startchangeset", "/1", ["#{user.email}:test", {}, nil, comment, 1]
-    post :amf_write
+    post :amf_write, :body => amf_content("startchangeset", "/1", ["#{user.email}:test", {}, nil, comment, 1])
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
@@ -1460,7 +1398,7 @@ class AmfControllerTest < ActionController::TestCase
     c.write [-1].pack("N")
     c.write AMF.encodevalue(data)
 
-    @request.env["RAW_POST_DATA"] = c.string
+    c.string
   end
 
   # Parses the @response object as an AMF messsage.
@@ -1499,8 +1437,7 @@ class AmfControllerTest < ActionController::TestCase
   # caller's block for assertion testing.
   def check_bboxes_are_bad(bboxes)
     bboxes.each do |bbox|
-      amf_content "whichways", "/1", bbox
-      post :amf_read
+      post :amf_read, :body => amf_content("whichways", "/1", bbox)
       assert_response :success
       amf_parse_response
 

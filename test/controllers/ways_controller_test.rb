@@ -127,10 +127,10 @@ class WaysControllerTest < ActionController::TestCase
     changeset_id = private_changeset.id
 
     # create a way with pre-existing nodes
-    content "<osm><way changeset='#{changeset_id}'>" \
-            "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
-            "<tag k='test' v='yes' /></way></osm>"
-    put :create
+    xml = "<osm><way changeset='#{changeset_id}'>" \
+          "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
+          "<tag k='test' v='yes' /></way></osm>"
+    put :create, :body => xml
     # hope for failure
     assert_response :forbidden,
                     "way upload did not return forbidden status"
@@ -142,10 +142,10 @@ class WaysControllerTest < ActionController::TestCase
     changeset_id = changeset.id
 
     # create a way with pre-existing nodes
-    content "<osm><way changeset='#{changeset_id}'>" \
-            "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
-            "<tag k='test' v='yes' /></way></osm>"
-    put :create
+    xml = "<osm><way changeset='#{changeset_id}'>" \
+          "<nd ref='#{node1.id}'/><nd ref='#{node2.id}'/>" \
+          "<tag k='test' v='yes' /></way></osm>"
+    put :create, :body => xml
     # hope for success
     assert_response :success,
                     "way upload did not return success status"
@@ -187,25 +187,25 @@ class WaysControllerTest < ActionController::TestCase
 
     # use the first user's open changeset
     # create a way with non-existing node
-    content "<osm><way changeset='#{private_open_changeset.id}'>" \
-            "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
-    put :create
+    xml = "<osm><way changeset='#{private_open_changeset.id}'>" \
+          "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
+    put :create, :body => xml
     # expect failure
     assert_response :forbidden,
                     "way upload with invalid node using a private user did not return 'forbidden'"
 
     # create a way with no nodes
-    content "<osm><way changeset='#{private_open_changeset.id}'>" \
-            "<tag k='test' v='yes' /></way></osm>"
-    put :create
+    xml = "<osm><way changeset='#{private_open_changeset.id}'>" \
+          "<tag k='test' v='yes' /></way></osm>"
+    put :create, :body => xml
     # expect failure
     assert_response :forbidden,
                     "way upload with no node using a private userdid not return 'forbidden'"
 
     # create a way inside a closed changeset
-    content "<osm><way changeset='#{private_closed_changeset.id}'>" \
-            "<nd ref='#{node.id}'/></way></osm>"
-    put :create
+    xml = "<osm><way changeset='#{private_closed_changeset.id}'>" \
+          "<nd ref='#{node.id}'/></way></osm>"
+    put :create, :body => xml
     # expect failure
     assert_response :forbidden,
                     "way upload to closed changeset with a private user did not return 'forbidden'"
@@ -215,37 +215,37 @@ class WaysControllerTest < ActionController::TestCase
 
     # use the first user's open changeset
     # create a way with non-existing node
-    content "<osm><way changeset='#{open_changeset.id}'>" \
-            "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
-    put :create
+    xml = "<osm><way changeset='#{open_changeset.id}'>" \
+          "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
+    put :create, :body => xml
     # expect failure
     assert_response :precondition_failed,
                     "way upload with invalid node did not return 'precondition failed'"
     assert_equal "Precondition failed: Way  requires the nodes with id in (0), which either do not exist, or are not visible.", @response.body
 
     # create a way with no nodes
-    content "<osm><way changeset='#{open_changeset.id}'>" \
-            "<tag k='test' v='yes' /></way></osm>"
-    put :create
+    xml = "<osm><way changeset='#{open_changeset.id}'>" \
+          "<tag k='test' v='yes' /></way></osm>"
+    put :create, :body => xml
     # expect failure
     assert_response :precondition_failed,
                     "way upload with no node did not return 'precondition failed'"
     assert_equal "Precondition failed: Cannot create way: data is invalid.", @response.body
 
     # create a way inside a closed changeset
-    content "<osm><way changeset='#{closed_changeset.id}'>" \
-            "<nd ref='#{node.id}'/></way></osm>"
-    put :create
+    xml = "<osm><way changeset='#{closed_changeset.id}'>" \
+          "<nd ref='#{node.id}'/></way></osm>"
+    put :create, :body => xml
     # expect failure
     assert_response :conflict,
                     "way upload to closed changeset did not return 'conflict'"
 
     # create a way with a tag which is too long
-    content "<osm><way changeset='#{open_changeset.id}'>" \
-            "<nd ref='#{node.id}'/>" \
-            "<tag k='foo' v='#{'x' * 256}'/>" \
-            "</way></osm>"
-    put :create
+    xml = "<osm><way changeset='#{open_changeset.id}'>" \
+          "<nd ref='#{node.id}'/>" \
+          "<tag k='foo' v='#{'x' * 256}'/>" \
+          "</way></osm>"
+    put :create, :body => xml
     # expect failure
     assert_response :bad_request,
                     "way upload to with too long tag did not return 'bad_request'"
@@ -284,23 +284,23 @@ class WaysControllerTest < ActionController::TestCase
     assert_response :forbidden
 
     # Now try without having a changeset
-    content "<osm><way id='#{private_way.id}'/></osm>"
-    delete :delete, :params => { :id => private_way.id }
+    xml = "<osm><way id='#{private_way.id}'/></osm>"
+    delete :delete, :params => { :id => private_way.id }, :body => xml.to_s
     assert_response :forbidden
 
     # try to delete with an invalid (closed) changeset
-    content update_changeset(private_way.to_xml, private_closed_changeset.id)
-    delete :delete, :params => { :id => private_way.id }
+    xml = update_changeset(private_way.to_xml, private_closed_changeset.id)
+    delete :delete, :params => { :id => private_way.id }, :body => xml.to_s
     assert_response :forbidden
 
     # try to delete with an invalid (non-existent) changeset
-    content update_changeset(private_way.to_xml, 0)
-    delete :delete, :params => { :id => private_way.id }
+    xml = update_changeset(private_way.to_xml, 0)
+    delete :delete, :params => { :id => private_way.id }, :body => xml.to_s
     assert_response :forbidden
 
     # Now try with a valid changeset
-    content private_way.to_xml
-    delete :delete, :params => { :id => private_way.id }
+    xml = private_way.to_xml
+    delete :delete, :params => { :id => private_way.id }, :body => xml.to_s
     assert_response :forbidden
 
     # check the returned value - should be the new version number
@@ -310,13 +310,13 @@ class WaysControllerTest < ActionController::TestCase
     #   "delete request should return a new version number for way"
 
     # this won't work since the way is already deleted
-    content private_deleted_way.to_xml
-    delete :delete, :params => { :id => private_deleted_way.id }
+    xml = private_deleted_way.to_xml
+    delete :delete, :params => { :id => private_deleted_way.id }, :body => xml.to_s
     assert_response :forbidden
 
     # this shouldn't work as the way is used in a relation
-    content private_used_way.to_xml
-    delete :delete, :params => { :id => private_used_way.id }
+    xml = private_used_way.to_xml
+    delete :delete, :params => { :id => private_used_way.id }, :body => xml.to_s
     assert_response :forbidden,
                     "shouldn't be able to delete a way used in a relation (#{@response.body}), when done by a private user"
 
@@ -333,23 +333,23 @@ class WaysControllerTest < ActionController::TestCase
     assert_response :bad_request
 
     # Now try without having a changeset
-    content "<osm><way id='#{way.id}'/></osm>"
-    delete :delete, :params => { :id => way.id }
+    xml = "<osm><way id='#{way.id}'/></osm>"
+    delete :delete, :params => { :id => way.id }, :body => xml.to_s
     assert_response :bad_request
 
     # try to delete with an invalid (closed) changeset
-    content update_changeset(way.to_xml, closed_changeset.id)
-    delete :delete, :params => { :id => way.id }
+    xml = update_changeset(way.to_xml, closed_changeset.id)
+    delete :delete, :params => { :id => way.id }, :body => xml.to_s
     assert_response :conflict
 
     # try to delete with an invalid (non-existent) changeset
-    content update_changeset(way.to_xml, 0)
-    delete :delete, :params => { :id => way.id }
+    xml = update_changeset(way.to_xml, 0)
+    delete :delete, :params => { :id => way.id }, :body => xml.to_s
     assert_response :conflict
 
     # Now try with a valid changeset
-    content way.to_xml
-    delete :delete, :params => { :id => way.id }
+    xml = way.to_xml
+    delete :delete, :params => { :id => way.id }, :body => xml.to_s
     assert_response :success
 
     # check the returned value - should be the new version number
@@ -359,13 +359,13 @@ class WaysControllerTest < ActionController::TestCase
            "delete request should return a new version number for way"
 
     # this won't work since the way is already deleted
-    content deleted_way.to_xml
-    delete :delete, :params => { :id => deleted_way.id }
+    xml = deleted_way.to_xml
+    delete :delete, :params => { :id => deleted_way.id }, :body => xml.to_s
     assert_response :gone
 
     # this shouldn't work as the way is used in a relation
-    content used_way.to_xml
-    delete :delete, :params => { :id => used_way.id }
+    xml = used_way.to_xml
+    delete :delete, :params => { :id => used_way.id }, :body => xml.to_s
     assert_response :precondition_failed,
                     "shouldn't be able to delete a way used in a relation (#{@response.body})"
     assert_equal "Precondition failed: Way #{used_way.id} is still used by relations #{relation.id}.", @response.body
@@ -389,8 +389,8 @@ class WaysControllerTest < ActionController::TestCase
 
     ## First test with no user credentials
     # try and update a way without authorisation
-    content way.to_xml
-    put :update, :params => { :id => way.id }
+    xml = way.to_xml
+    put :update, :params => { :id => way.id }, :body => xml.to_s
     assert_response :unauthorized
 
     ## Second test with the private user
@@ -401,34 +401,34 @@ class WaysControllerTest < ActionController::TestCase
     ## trying to break changesets
 
     # try and update in someone else's changeset
-    content update_changeset(private_way.to_xml,
-                             create(:changeset).id)
-    put :update, :params => { :id => private_way.id }
+    xml = update_changeset(private_way.to_xml,
+                           create(:changeset).id)
+    put :update, :params => { :id => private_way.id }, :body => xml.to_s
     assert_require_public_data "update with other user's changeset should be forbidden when date isn't public"
 
     # try and update in a closed changeset
-    content update_changeset(private_way.to_xml,
-                             create(:changeset, :closed, :user => private_user).id)
-    put :update, :params => { :id => private_way.id }
+    xml = update_changeset(private_way.to_xml,
+                           create(:changeset, :closed, :user => private_user).id)
+    put :update, :params => { :id => private_way.id }, :body => xml.to_s
     assert_require_public_data "update with closed changeset should be forbidden, when data isn't public"
 
     # try and update in a non-existant changeset
-    content update_changeset(private_way.to_xml, 0)
-    put :update, :params => { :id => private_way.id }
+    xml = update_changeset(private_way.to_xml, 0)
+    put :update, :params => { :id => private_way.id }, :body => xml.to_s
     assert_require_public_data("update with changeset=0 should be forbidden, when data isn't public")
 
     ## try and submit invalid updates
-    content xml_replace_node(private_way.to_xml, node.id, 9999)
-    put :update, :params => { :id => private_way.id }
+    xml = xml_replace_node(private_way.to_xml, node.id, 9999)
+    put :update, :params => { :id => private_way.id }, :body => xml.to_s
     assert_require_public_data "way with non-existent node should be forbidden, when data isn't public"
 
-    content xml_replace_node(private_way.to_xml, node.id, create(:node, :deleted).id)
-    put :update, :params => { :id => private_way.id }
+    xml = xml_replace_node(private_way.to_xml, node.id, create(:node, :deleted).id)
+    put :update, :params => { :id => private_way.id }, :body => xml.to_s
     assert_require_public_data "way with deleted node should be forbidden, when data isn't public"
 
     ## finally, produce a good request which will still not work
-    content private_way.to_xml
-    put :update, :params => { :id => private_way.id }
+    xml = private_way.to_xml
+    put :update, :params => { :id => private_way.id }, :body => xml.to_s
     assert_require_public_data "should have failed with a forbidden when data isn't public"
 
     ## Finally test with the public user
@@ -439,68 +439,68 @@ class WaysControllerTest < ActionController::TestCase
     ## trying to break changesets
 
     # try and update in someone else's changeset
-    content update_changeset(way.to_xml,
-                             create(:changeset).id)
-    put :update, :params => { :id => way.id }
+    xml = update_changeset(way.to_xml,
+                           create(:changeset).id)
+    put :update, :params => { :id => way.id }, :body => xml.to_s
     assert_response :conflict, "update with other user's changeset should be rejected"
 
     # try and update in a closed changeset
-    content update_changeset(way.to_xml,
-                             create(:changeset, :closed, :user => user).id)
-    put :update, :params => { :id => way.id }
+    xml = update_changeset(way.to_xml,
+                           create(:changeset, :closed, :user => user).id)
+    put :update, :params => { :id => way.id }, :body => xml.to_s
     assert_response :conflict, "update with closed changeset should be rejected"
 
     # try and update in a non-existant changeset
-    content update_changeset(way.to_xml, 0)
-    put :update, :params => { :id => way.id }
+    xml = update_changeset(way.to_xml, 0)
+    put :update, :params => { :id => way.id }, :body => xml.to_s
     assert_response :conflict, "update with changeset=0 should be rejected"
 
     ## try and submit invalid updates
-    content xml_replace_node(way.to_xml, node.id, 9999)
-    put :update, :params => { :id => way.id }
+    xml = xml_replace_node(way.to_xml, node.id, 9999)
+    put :update, :params => { :id => way.id }, :body => xml.to_s
     assert_response :precondition_failed, "way with non-existent node should be rejected"
 
-    content xml_replace_node(way.to_xml, node.id, create(:node, :deleted).id)
-    put :update, :params => { :id => way.id }
+    xml = xml_replace_node(way.to_xml, node.id, create(:node, :deleted).id)
+    put :update, :params => { :id => way.id }, :body => xml.to_s
     assert_response :precondition_failed, "way with deleted node should be rejected"
 
     ## next, attack the versioning
     current_way_version = way.version
 
     # try and submit a version behind
-    content xml_attr_rewrite(way.to_xml,
-                             "version", current_way_version - 1)
-    put :update, :params => { :id => way.id }
+    xml = xml_attr_rewrite(way.to_xml,
+                           "version", current_way_version - 1)
+    put :update, :params => { :id => way.id }, :body => xml.to_s
     assert_response :conflict, "should have failed on old version number"
 
     # try and submit a version ahead
-    content xml_attr_rewrite(way.to_xml,
-                             "version", current_way_version + 1)
-    put :update, :params => { :id => way.id }
+    xml = xml_attr_rewrite(way.to_xml,
+                           "version", current_way_version + 1)
+    put :update, :params => { :id => way.id }, :body => xml.to_s
     assert_response :conflict, "should have failed on skipped version number"
 
     # try and submit total crap in the version field
-    content xml_attr_rewrite(way.to_xml,
-                             "version", "p1r4t3s!")
-    put :update, :params => { :id => way.id }
+    xml = xml_attr_rewrite(way.to_xml,
+                           "version", "p1r4t3s!")
+    put :update, :params => { :id => way.id }, :body => xml.to_s
     assert_response :conflict,
                     "should not be able to put 'p1r4at3s!' in the version field"
 
     ## try an update with the wrong ID
-    content create(:way).to_xml
-    put :update, :params => { :id => way.id }
+    xml = create(:way).to_xml
+    put :update, :params => { :id => way.id }, :body => xml.to_s
     assert_response :bad_request,
                     "should not be able to update a way with a different ID from the XML"
 
     ## try an update with a minimal valid XML doc which isn't a well-formed OSM doc.
-    content "<update/>"
-    put :update, :params => { :id => way.id }
+    xml = "<update/>"
+    put :update, :params => { :id => way.id }, :body => xml.to_s
     assert_response :bad_request,
                     "should not be able to update a way with non-OSM XML doc."
 
     ## finally, produce a good request which should work
-    content way.to_xml
-    put :update, :params => { :id => way.id }
+    xml = way.to_xml
+    put :update, :params => { :id => way.id }, :body => xml.to_s
     assert_response :success, "a valid update request failed"
   end
 
@@ -530,8 +530,7 @@ class WaysControllerTest < ActionController::TestCase
     way_xml.find("//osm/way").first << tag_xml
 
     # try and upload it
-    content way_xml
-    put :update, :params => { :id => private_way.id }
+    put :update, :params => { :id => private_way.id }, :body => way_xml.to_s
     assert_response :forbidden,
                     "adding a duplicate tag to a way for a non-public should fail with 'forbidden'"
 
@@ -549,8 +548,7 @@ class WaysControllerTest < ActionController::TestCase
     way_xml.find("//osm/way").first << tag_xml
 
     # try and upload it
-    content way_xml
-    put :update, :params => { :id => way.id }
+    put :update, :params => { :id => way.id }, :body => way_xml.to_s
     assert_response :success,
                     "adding a new tag to a way should succeed"
     assert_equal way.version + 1, @response.body.to_i
@@ -580,8 +578,7 @@ class WaysControllerTest < ActionController::TestCase
     way_xml.find("//osm/way").first << tag_xml
 
     # try and upload it
-    content way_xml
-    put :update, :params => { :id => private_way.id }
+    put :update, :params => { :id => private_way.id }, :body => way_xml.to_s
     assert_response :forbidden,
                     "adding a duplicate tag to a way for a non-public should fail with 'forbidden'"
 
@@ -599,8 +596,7 @@ class WaysControllerTest < ActionController::TestCase
     way_xml.find("//osm/way").first << tag_xml
 
     # try and upload it
-    content way_xml
-    put :update, :params => { :id => way.id }
+    put :update, :params => { :id => way.id }, :body => way_xml.to_s
     assert_response :bad_request,
                     "adding a duplicate tag to a way should fail with 'bad request'"
     assert_equal "Element way/#{way.id} has duplicate tags with key #{existing_tag.k}", @response.body
@@ -630,8 +626,7 @@ class WaysControllerTest < ActionController::TestCase
     way_xml.find("//osm/way").first << tag_xml.copy(true) << tag_xml
 
     # try and upload it
-    content way_xml
-    put :update, :params => { :id => private_way.id }
+    put :update, :params => { :id => private_way.id }, :body => way_xml.to_s
     assert_response :forbidden,
                     "adding new duplicate tags to a way using a non-public user should fail with 'forbidden'"
 
@@ -651,8 +646,7 @@ class WaysControllerTest < ActionController::TestCase
     way_xml.find("//osm/way").first << tag_xml.copy(true) << tag_xml
 
     # try and upload it
-    content way_xml
-    put :update, :params => { :id => way.id }
+    put :update, :params => { :id => way.id }, :body => way_xml.to_s
     assert_response :bad_request,
                     "adding new duplicate tags to a way should fail with 'bad request'"
     assert_equal "Element way/#{way.id} has duplicate tags with key i_am_a_duplicate", @response.body
@@ -679,8 +673,7 @@ class WaysControllerTest < ActionController::TestCase
     way_str << "</way></osm>"
 
     # try and upload it
-    content way_str
-    put :create
+    put :create, :body => way_str
     assert_response :forbidden,
                     "adding new duplicate tags to a way with a non-public user should fail with 'forbidden'"
 
@@ -695,8 +688,7 @@ class WaysControllerTest < ActionController::TestCase
     way_str << "</way></osm>"
 
     # try and upload it
-    content way_str
-    put :create
+    put :create, :body => way_str
     assert_response :bad_request,
                     "adding new duplicate tags to a way should fail with 'bad request'"
     assert_equal "Element way/ has duplicate tags with key addr:housenumber", @response.body
