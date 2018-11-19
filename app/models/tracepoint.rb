@@ -39,4 +39,12 @@ class Tracepoint < ActiveRecord::Base
     el1 << (XML::Node.new("time") << timestamp.xmlschema) if print_timestamp
     el1
   end
+
+  # Return tracepoints in bbox but hide the order of non-trackable tracepoints
+  def self.in_bbox(bbox)
+    ordered_points = self.bbox(bbox).joins(:trace).where(:gpx_files => { :visibility => %w[trackable identifiable] }).order("gpx_id DESC, trackid ASC, timestamp ASC")
+    unordered_points = self.bbox(bbox).joins(:trace).where(:gpx_files => { :visibility => %w[public private] }).order("gps_points.latitude", "gps_points.longitude")
+    ordered_points.union_all(unordered_points)
+  end
+
 end
