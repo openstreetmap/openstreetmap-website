@@ -215,15 +215,16 @@ class ApiControllerTest < ActionController::TestCase
     end
   end
 
+  # Identifiable and trackable traces keep their order by trackid and timestamp
+  # (this test only tests order by timestamp)
   def test_tracepoints_ordering_identifiable_trackable
-    # identifiable and trackable traces retain original order by trackid and timestamp
-    # (this test only tests order by timestamp)
     identifiable_trace = create(:trace, :visibility => "identifiable", :latitude => 3.003, :longitude => 3.003) do |trace|
       create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (3.003 * GeoRecord::SCALE).to_i, :longitude => (3.003 * GeoRecord::SCALE).to_i, :timestamp => Time.now)
       create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (3.006 * GeoRecord::SCALE).to_i, :longitude => (3.006 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 1)
       create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (3.005 * GeoRecord::SCALE).to_i, :longitude => (3.005 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 2)
     end
-    trackable_trace = create(:trace, :visibility => "trackable", :latitude => 3.007, :longitude => 3.007) do |trace|
+    # trackable trace:
+    create(:trace, :visibility => "trackable", :latitude => 3.007, :longitude => 3.007) do |trace|
       create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (3.004 * GeoRecord::SCALE).to_i, :longitude => (3.004 * GeoRecord::SCALE).to_i, :timestamp => Time.now)
       create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (3.008 * GeoRecord::SCALE).to_i, :longitude => (3.008 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 1)
       create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (3.007 * GeoRecord::SCALE).to_i, :longitude => (3.007 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 2)
@@ -249,15 +250,16 @@ class ApiControllerTest < ActionController::TestCase
     end
   end
 
+  # Non-trackable tracepoints are all returned in one track,
+  # ordered by lat/lon to hide the original ordering
   def test_tracepoints_ordering_private
-    # non-trackable tracepoints are all returned in one track,
-    # ordered by lat/lon for privacy
     private_trace = create(:trace, :visibility => "private", :latitude => 4.003, :longitude => 4.003) do |trace|
       create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (4.003 * GeoRecord::SCALE).to_i, :longitude => (4.003 * GeoRecord::SCALE).to_i, :timestamp => Time.now)
       create(:tracepoint, :trace => trace, :trackid => 2, :latitude => (4.006 * GeoRecord::SCALE).to_i, :longitude => (4.006 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 1)
       create(:tracepoint, :trace => trace, :trackid => 3, :latitude => (4.005 * GeoRecord::SCALE).to_i, :longitude => (4.005 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 2)
     end
-    public_trace = create(:trace, :visibility => "public", :latitude => 4.007, :longitude => 4.007) do |trace|
+    # public trace:
+    create(:trace, :visibility => "public", :latitude => 4.007, :longitude => 4.007) do |trace|
       create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (4.004 * GeoRecord::SCALE).to_i, :longitude => (4.004 * GeoRecord::SCALE).to_i, :timestamp => Time.now)
       create(:tracepoint, :trace => trace, :trackid => 2, :latitude => (4.008 * GeoRecord::SCALE).to_i, :longitude => (4.008 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 1)
       create(:tracepoint, :trace => trace, :trackid => 3, :latitude => (4.007 * GeoRecord::SCALE).to_i, :longitude => (4.007 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 2)
@@ -273,9 +275,9 @@ class ApiControllerTest < ActionController::TestCase
       assert_select "trk", :count => 1 do
         assert_select "trkseg", :count => 1 do
           assert_select "trkpt", :count => 6 do |trkpts|
-            assert trkpts.each_cons(2).all?{ |point, nextpoint|
-              point.attribute("lat").value <= nextpoint.attribute("lat").value
-            }
+            trkpts.each_cons(2) do |point, nextpoint|
+              assert point.attribute("lat").value <= nextpoint.attribute("lat").value
+            end
           end
         end
       end

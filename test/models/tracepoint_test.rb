@@ -16,19 +16,30 @@ class TracepointTest < ActiveSupport::TestCase
     assert_match(/lon="0.0000800"/, tracepoint.to_xml_node.to_s)
   end
 
-  # Hide the order of non-trackable tracepoints when retrieved using .in_bbox
-  # (A more detailed test of this is in test/controllers/api_controller_test.rb)
-  def test_tracepoints_in_bbox
-    trace = create(:trace, :visibility => "private", :latitude => 5.003, :longitude => 5.003) do |trace|
+  # Scope trackable_ordered returns only trackable tracepoints
+  def test_trackable_ordered
+    create(:trace, :visibility => "trackable", :latitude => 6.003, :longitude => 6.003) do |trace|
+      create(:tracepoint, :trace => trace, :latitude => (6.003 * GeoRecord::SCALE).to_i, :longitude => (6.003 * GeoRecord::SCALE).to_i)
+    end
+    create(:trace, :visibility => "private", :latitude => 6.004, :longitude => 6.004) do |trace|
+      create(:tracepoint, :trace => trace, :latitude => (6.004 * GeoRecord::SCALE).to_i, :longitude => (6.004 * GeoRecord::SCALE).to_i)
+    end
+    bbox = BoundingBox.from_bbox_params(:bbox => "6.0,6.0,6.1,6.1")
+    points = Tracepoint.bbox(bbox).trackable_ordered
+    assert points.size == 1
+  end
+
+  # Scope non_trackable_unordered hides the order of non-trackable tracepoints
+  def test_non_trackable_unordered
+    create(:trace, :visibility => "private", :latitude => 5.003, :longitude => 5.003) do |trace|
       create(:tracepoint, :trace => trace, :latitude => (5.003 * GeoRecord::SCALE).to_i, :longitude => (5.003 * GeoRecord::SCALE).to_i, :timestamp => Time.now)
       create(:tracepoint, :trace => trace, :latitude => (5.006 * GeoRecord::SCALE).to_i, :longitude => (5.006 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 1)
       create(:tracepoint, :trace => trace, :latitude => (5.005 * GeoRecord::SCALE).to_i, :longitude => (5.005 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 2)
     end
     bbox = BoundingBox.from_bbox_params(:bbox => "5.0,5.0,5.1,5.1")
-    points = Tracepoint.in_bbox(bbox)
-    assert points.each_cons(2).all?{ |point, nextpoint|
-      point.latitude < nextpoint.latitude
-    }
+    points = Tracepoint.bbox(bbox).non_trackable_unordered
+    points.each_cons(2) do |point, nextpoint|
+      assert point.latitude < nextpoint.latitude
+    end
   end
-
 end

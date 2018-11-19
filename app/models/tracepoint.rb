@@ -40,11 +40,9 @@ class Tracepoint < ActiveRecord::Base
     el1
   end
 
-  # Return tracepoints in bbox but hide the order of non-trackable tracepoints
-  def self.in_bbox(bbox)
-    ordered_points = self.bbox(bbox).joins(:trace).where(:gpx_files => { :visibility => %w[trackable identifiable] }).order("gpx_id DESC, trackid ASC, timestamp ASC")
-    unordered_points = self.bbox(bbox).joins(:trace).where(:gpx_files => { :visibility => %w[public private] }).order("gps_points.latitude", "gps_points.longitude")
-    ordered_points.union_all(unordered_points)
-  end
+  # Return points of trackable traces in original order
+  scope :trackable_ordered, -> { joins(:trace).where(:gpx_files => { :visibility => %w[trackable identifiable] }).order("gpx_id DESC, trackid ASC, timestamp ASC") }
 
+  # Hide the order of points of non-trackable traces for privacy
+  scope :non_trackable_unordered, -> { joins(:trace).where(:gpx_files => { :visibility => %w[public private] }).order("gps_points.latitude", "gps_points.longitude") }
 end

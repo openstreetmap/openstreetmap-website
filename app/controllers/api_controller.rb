@@ -30,7 +30,9 @@ class ApiController < ApplicationController
     end
 
     # get all the points
-    points = Tracepoint.in_bbox(bbox).offset(offset).limit(TRACEPOINTS_PER_PAGE)
+    ordered_points = Tracepoint.bbox(bbox).trackable_ordered
+    unordered_points = Tracepoint.bbox(bbox).non_trackable_unordered
+    points = ordered_points.union_all(unordered_points).offset(offset).limit(TRACEPOINTS_PER_PAGE)
 
     doc = XML::Document.new
     doc.encoding = XML::Encoding::UTF_8
