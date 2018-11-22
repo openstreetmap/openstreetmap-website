@@ -241,9 +241,9 @@ is:
     changeset:
       anonymous: Nafnlaus
       no_edits: (engar breytingar)
-      view_changeset_details: Skoða breytingasett
+      view_changeset_details: Skoða breytingasett nánar
     changesets:
-      id: Kennitala
+      id: Auðkenni (ID)
       saved_at: Vistað
       user: Notandi
       comment: Athugasemd
@@ -261,15 +261,20 @@ is:
       no_more_user: Engin fleiri breytingasett eftir þennan notanda.
       load_more: Hlaða inn fleiri
     timeout:
-      sorry: Því miður, það tók of langan tíma að ná í listann yfir breytingasett
+      sorry: Því miður, það tók of langan tíma að ná í listann yfir þau breytingasett
         sem þú baðst um.
   changeset_comments:
     comment:
       comment: 'Ný athugasemd við breytingasettið #%{changeset_id} eftir %{author}'
-      commented_at_by_html: Uppfært fyrir %{when} af %{user}
+      commented_at_by_html: Uppfært %{when} af %{user}
+    comments:
+      comment: 'Ný athugasemd við breytingasett #%{changeset_id} eftir %{author}'
     index:
       title_all: Umræða um OpenStreetMap breytingasett
-      title_particular: 'Umræða um OpenStreetMap breytingasettið #%{changeset_id}'
+      title_particular: 'Umræða um OpenStreetMap breytingasett #%{changeset_id}'
+    timeout:
+      sorry: Því miður, það tók of langan tíma að ná í listann yfir þær athugasemdir
+        við breytingasett sem þú baðst um.
   diary_entries:
     new:
       title: Ný bloggfærsla
@@ -278,7 +283,7 @@ is:
       title: Blogg notenda
       title_friends: Blogg vina
       title_nearby: Blogg notenda í nágrenninu
-      user_title: Blogg %{user}
+      user_title: Blogg frá %{user}
       in_language_title: Bloggfærslur á %{language}
       new: Ný bloggfærsla
       new_title: Semja nýja færslu á bloggið mitt
@@ -288,8 +293,8 @@ is:
       newer_entries: Nýrri færslur
     edit:
       title: Breyta bloggfærslu
-      subject: 'Titill:'
-      body: 'Texti:'
+      subject: 'Viðfangsefni:'
+      body: 'Meginmál:'
       language: 'Tungumál:'
       location: 'Staðsetning:'
       latitude: 'Lengdargráða:'
@@ -298,21 +303,21 @@ is:
       save_button: Vista
       marker_text: Staðsetning bloggfærslu
     show:
-      title: Blogg | %{user}
+      title: Blogg %{user} | %{title}
       user_title: Blogg %{user}
       leave_a_comment: Bæta við athugasemd
       login_to_leave_a_comment: '%{login_link} til að bæta við athugasemd'
-      login: Innskrá
+      login: Skrá inn
       save_button: Vista
     no_such_entry:
       title: Þessi bloggfærsla er ekki til
       heading: Bloggfærsla númer %{id} er ekki til
-      body: Bloggfærsla númer er ekki til %{id}. Kannski slóstu slóðina vitlaust inn
-        eða fylgdir ógildum tengli.
+      body: Bloggfærsla númer er ekki til %{id}. Kannski settirðu inn ranga slóð eða
+        fylgdir ógildum tengli.
     diary_entry:
       posted_by: Sett inn af %{link_user} %{created} á %{language_link}
-      comment_link: Bæta við athugasemd
-      reply_link: Senda höfund skilaboð
+      comment_link: Bæta athugasemd við þessa færslu
+      reply_link: Svara þessari færslu
       comment_count:
         zero: Engar athugasemdir
         one: '%{count} athugasemd'
@@ -328,12 +333,12 @@ is:
       report: Tilkynna þessa athugasemd
     location:
       location: 'Staðsetning:'
-      view: kort
+      view: Skoða
       edit: Breyta
     feed:
       user:
         title: OpenStreetMap bloggfærslur eftir %{user}
-        description: Nýjustu bloggfærslur eftir %{user}
+        description: Nýjustu OpenStreetMap bloggfærslur eftir %{user}
       language:
         title: OpenStreetMap bloggfærslur á %{language_name}
         description: Nýjustu bloggfærslur frá notendum OpenStreetMap á %{language_name}
@@ -973,6 +978,8 @@ is:
         ignored: Hunsað
         open: Opna
         resolved: Leyst
+    update:
+      provide_details: Tilgreindu öll nauðsynleg atriði
     show:
       resolve: Leysa
       ignore: Hunsa
@@ -2672,4 +2679,6 @@ is:
         þessari leiðréttingu áður en henni er eytt.
       flash: Leiðréttingu eytt.
       error: Það kom upp villa við að eyða þessari leiðréttingu.
+  validations:
+    invalid_characters: inniheldur óleyfilega stafi
 ...
