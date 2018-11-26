@@ -74,8 +74,12 @@ module BrowseHelper
       safe_join(wdt, ";")
     elsif url = wiki_link("tag", "#{key}=#{value}")
       link_to h(value), url, :title => t("browse.tag_details.wiki_link.tag", :key => key, :value => value)
-    elsif url = telephone_link(key, value)
-      link_to h(value), url, :title => t("browse.tag_details.telephone_link", :phone_number => value)
+    elsif phones = telephone_links(key, value)
+      # similarly, telephone_links() returns an array of phone numbers
+      phones = phones.map do |p|
+        link_to(h(p[:phone_number]), p[:url], :title => t("browse.tag_details.telephone_link", :phone_number => p[:phone_number]))
+      end
+      safe_join(phones, "; ")
     else
       linkify h(value)
     end
@@ -178,14 +182,28 @@ module BrowseHelper
     nil
   end
 
-  def telephone_link(_key, value)
-    # does it look like a phone number? eg "+1 (234) 567-8901 " ?
-    return nil unless value =~ %r{^\s*\+[\d\s\(\)/\.-]{6,25}\s*$}
+  def telephone_links(_key, value)
+    # Does it look like a global phone number? eg "+1 (234) 567-8901 "
+    # or a list of alternate numbers separated by ;
+    #
+    # Per RFC 3966, this accepts the visual separators -.() within the number,
+    # which are displayed and included in the tel: URL, and accepts whitespace,
+    # which is displayed but not included in the tel: URL.
+    #  (see: http://tools.ietf.org/html/rfc3966#section-5.1.1)
+    #
+    # Also accepting / as a visual separator although not given in RFC 3966,
+    # because it is used as a visual separator in OSM data in some countries.
+    if value =~ %r{^\s*\+[\d\s\(\)/\.-]{6,25}\s*(;\s*\+[\d\s\(\)/\.-]{6,25}\s*)*$}
+      return value.split(";").map do |phone_number|
+        # for display, remove leading and trailing whitespace
+        phone_number = phone_number.strip
 
-    # remove all whitespace instead of encoding it http://tools.ietf.org/html/rfc3966#section-5.1.1
-    # "+1 (234) 567-8901 " -> "+1(234)567-8901"
-    value_no_whitespace = value.gsub(/\s+/, "")
-
-    "tel:#{value_no_whitespace}"
+        # for tel: URL, remove all whitespace
+        # "+1 (234) 567-8901 " -> "tel:+1(234)567-8901"
+        phone_no_whitespace = phone_number.gsub(/\s+/, "")
+        { :phone_number => phone_number, :url => "tel:#{phone_no_whitespace}" }
+      end
+    end
+    nil
   end
 end

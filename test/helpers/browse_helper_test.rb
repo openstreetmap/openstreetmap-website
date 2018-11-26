@@ -123,6 +123,9 @@ class BrowseHelperTest < ActionView::TestCase
     html = format_value("phone", "+1234567890")
     assert_dom_equal "<a href=\"tel:+1234567890\" title=\"Call +1234567890\">+1234567890</a>", html
 
+    html = format_value("phone", "+1 (234) 567-890 ;  +22334455")
+    assert_dom_equal "<a href=\"tel:+1(234)567-890\" title=\"Call +1 (234) 567-890\">+1 (234) 567-890</a>; <a href=\"tel:+22334455\" title=\"Call +22334455\">+22334455</a>", html
+
     html = format_value("wikipedia", "Test")
     assert_dom_equal "<a title=\"The Test article on Wikipedia\" href=\"https://en.wikipedia.org/wiki/Test?uselang=en\">Test</a>", html
 
@@ -304,48 +307,78 @@ class BrowseHelperTest < ActionView::TestCase
     assert_nil link
   end
 
-  def test_telephone_link
-    link = telephone_link("foo", "Test")
-    assert_nil link
+  def test_telephone_links
+    links = telephone_links("foo", "Test")
+    assert_nil links
 
-    link = telephone_link("phone", "+123")
-    assert_nil link
+    links = telephone_links("phone", "+123")
+    assert_nil links
 
-    link = telephone_link("phone", "123")
-    assert_nil link
+    links = telephone_links("phone", "123")
+    assert_nil links
 
-    link = telephone_link("phone", "123 abcdefg")
-    assert_nil link
+    links = telephone_links("phone", "123 abcdefg")
+    assert_nil links
 
-    link = telephone_link("phone", "+1234567890 abc")
-    assert_nil link
+    links = telephone_links("phone", "+1234567890 abc")
+    assert_nil links
 
-    link = telephone_link("phone", "+1234567890; +22334455667788")
-    assert_nil link
+    # If multiple numbers are listed, all must be valid
+    links = telephone_links("phone", "+1234567890; +223")
+    assert_nil links
 
-    link = telephone_link("phone", "1234567890")
-    assert_nil link
+    links = telephone_links("phone", "1234567890")
+    assert_nil links
 
-    link = telephone_link("phone", "+1234567890")
-    assert_equal "tel:+1234567890", link
+    links = telephone_links("phone", "+1234567890")
+    assert_equal 1, links.length
+    assert_equal "+1234567890", links[0][:phone_number]
+    assert_equal "tel:+1234567890", links[0][:url]
 
-    link = telephone_link("phone", "+1234-567-890")
-    assert_equal "tel:+1234-567-890", link
+    links = telephone_links("phone", "+1234-567-890")
+    assert_equal 1, links.length
+    assert_equal "+1234-567-890", links[0][:phone_number]
+    assert_equal "tel:+1234-567-890", links[0][:url]
 
-    link = telephone_link("phone", "+1234/567/890")
-    assert_equal "tel:+1234/567/890", link
+    links = telephone_links("phone", "+1234/567/890")
+    assert_equal 1, links.length
+    assert_equal "+1234/567/890", links[0][:phone_number]
+    assert_equal "tel:+1234/567/890", links[0][:url]
 
-    link = telephone_link("phone", "+1234.567.890")
-    assert_equal "tel:+1234.567.890", link
+    links = telephone_links("phone", "+1234.567.890")
+    assert_equal 1, links.length
+    assert_equal "+1234.567.890", links[0][:phone_number]
+    assert_equal "tel:+1234.567.890", links[0][:url]
 
-    link = telephone_link("phone", "   +1234 567-890	")
-    assert_equal "tel:+1234567-890", link
+    links = telephone_links("phone", "   +1234 567-890	")
+    assert_equal 1, links.length
+    assert_equal "+1234 567-890", links[0][:phone_number]
+    assert_equal "tel:+1234567-890", links[0][:url]
 
-    link = telephone_link("phone", "+1 234-567-890")
-    assert_equal "tel:+1234-567-890", link
+    links = telephone_links("phone", "+1 234-567-890")
+    assert_equal 1, links.length
+    assert_equal "+1 234-567-890", links[0][:phone_number]
+    assert_equal "tel:+1234-567-890", links[0][:url]
 
-    link = telephone_link("phone", "+1 (234) 567-890")
-    assert_equal "tel:+1(234)567-890", link
+    links = telephone_links("phone", "+1 (234) 567-890")
+    assert_equal 1, links.length
+    assert_equal "+1 (234) 567-890", links[0][:phone_number]
+    assert_equal "tel:+1(234)567-890", links[0][:url]
+
+    # Multiple valid phone numbers separated by ;
+    links = telephone_links("phone", "+1234567890; +22334455667788")
+    assert_equal 2, links.length
+    assert_equal "+1234567890", links[0][:phone_number]
+    assert_equal "tel:+1234567890", links[0][:url]
+    assert_equal "+22334455667788", links[1][:phone_number]
+    assert_equal "tel:+22334455667788", links[1][:url]
+
+    links = telephone_links("phone", "+1 (234) 567-890 ;  +22(33)4455.66.7788 ")
+    assert_equal 2, links.length
+    assert_equal "+1 (234) 567-890", links[0][:phone_number]
+    assert_equal "tel:+1(234)567-890", links[0][:url]
+    assert_equal "+22(33)4455.66.7788", links[1][:phone_number]
+    assert_equal "tel:+22(33)4455.66.7788", links[1][:url]
   end
 
   def add_old_tags_selection(old_node)
