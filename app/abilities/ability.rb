@@ -34,6 +34,7 @@ class Ability
         can [:hide, :hidecomment], [DiaryEntry, DiaryComment]
         can [:index, :show, :resolve, :ignore, :reopen], Issue
         can :create, IssueComment
+        can [:grant, :revoke], UserRole
       end
     end
 
