@@ -9,6 +9,7 @@ class Ability
     can [:index, :rss, :show, :comments], DiaryEntry
     can [:search, :search_latlon, :search_ca_postcode, :search_osm_nominatim,
          :search_geonames, :search_osm_nominatim_reverse, :search_geonames_reverse], :geocoder
+    can [:index, :create, :comment, :feed, :show, :search, :mine], Note
     can [:index, :show], Redaction
     can [:index, :show, :blocks_on, :blocks_by], UserBlock
 
@@ -16,6 +17,7 @@ class Ability
       can :welcome, :site
       can :create, ChangesetComment
       can [:create, :edit, :comment, :subscribe, :unsubscribe], DiaryEntry
+      can [:close, :reopen], Note
       can [:new, :create], Report
       can [:read, :read_one, :update, :update_one, :delete_one], UserPreference
 
@@ -23,6 +25,7 @@ class Ability
         can [:destroy, :restore], ChangesetComment
         can [:index, :show, :resolve, :ignore, :reopen], Issue
         can :create, IssueComment
+        can :destroy, Note
         can [:new, :create, :edit, :update, :destroy], Redaction
         can [:new, :edit, :create, :update, :revoke], UserBlock
       end

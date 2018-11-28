@@ -26,6 +26,18 @@ class GuestAbilityTest < AbilityTest
       assert ability.cannot?(action, DiaryComment), "should not be able to #{action} DiaryEntries"
     end
   end
+
+  test "note permissions for a guest" do
+    ability = Ability.new nil
+
+    [:index, :create, :comment, :feed, :show, :search, :mine].each do |action|
+      assert ability.can?(action, Note), "should be able to #{action} Notes"
+    end
+
+    [:close, :reopen, :destroy].each do |action|
+      assert ability.cannot?(action, Note), "should not be able to #{action} Notes"
+    end
+  end
 end
 
 class UserAbilityTest < AbilityTest
@@ -45,6 +57,18 @@ class UserAbilityTest < AbilityTest
       assert ability.cannot?(action, Issue), "should not be able to #{action} Issues"
     end
   end
+
+  test "Note permissions" do
+    ability = Ability.new create(:user)
+
+    [:index, :create, :comment, :feed, :show, :search, :mine, :close, :reopen].each do |action|
+      assert ability.can?(action, Note), "should be able to #{action} Notes"
+    end
+
+    [:destroy].each do |action|
+      assert ability.cannot?(action, Note), "should not be able to #{action} Notes"
+    end
+  end
 end
 
 class ModeratorAbilityTest < AbilityTest
@@ -53,6 +77,14 @@ class ModeratorAbilityTest < AbilityTest
 
     [:index, :show, :resolve, :ignore, :reopen].each do |action|
       assert ability.can?(action, Issue), "should be able to #{action} Issues"
+    end
+  end
+
+  test "Note permissions" do
+    ability = Ability.new create(:moderator_user)
+
+    [:index, :create, :comment, :feed, :show, :search, :mine, :close, :reopen, :destroy].each do |action|
+      assert ability.can?(action, Note), "should be able to #{action} Notes"
     end
   end
 end

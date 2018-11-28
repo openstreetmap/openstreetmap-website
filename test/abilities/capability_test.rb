@@ -54,6 +54,48 @@ class ChangesetCommentCapabilityTest < CapabilityTest
   end
 end
 
+class NoteCapabilityTest < CapabilityTest
+  test "as a normal user with permissionless token" do
+    token = create(:access_token)
+    capability = Capability.new token
+
+    [:create, :comment, :close, :reopen, :destroy].each do |action|
+      assert capability.cannot? action, Note
+    end
+  end
+
+  test "as a normal user with allow_write_notes token" do
+    token = create(:access_token, :allow_write_notes => true)
+    capability = Capability.new token
+
+    [:destroy].each do |action|
+      assert capability.cannot? action, Note
+    end
+
+    [:create, :comment, :close, :reopen].each do |action|
+      assert capability.can? action, Note
+    end
+  end
+
+  test "as a moderator with permissionless token" do
+    token = create(:access_token, :user => create(:moderator_user))
+    capability = Capability.new token
+
+    [:destroy].each do |action|
+      assert capability.cannot? action, Note
+    end
+  end
+
+  test "as a moderator with allow_write_notes token" do
+    token = create(:access_token, :user => create(:moderator_user), :allow_write_notes => true)
+    capability = Capability.new token
+
+    [:destroy].each do |action|
+      assert capability.can? action, Note
+    end
+  end
+end
+
 class UserCapabilityTest < CapabilityTest
   test "user preferences" do
     # a user with no tokens
