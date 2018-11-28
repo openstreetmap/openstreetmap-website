@@ -6,9 +6,11 @@ class NotesController < ApplicationController
   before_action :authorize_web, :only => [:mine]
   before_action :setup_user_auth, :only => [:create, :comment, :show]
   before_action :authorize, :only => [:close, :reopen, :destroy]
-  before_action :require_moderator, :only => [:destroy]
+  before_action :api_deny_access_handler, :except => [:mine]
+
+  authorize_resource
+
   before_action :check_api_writable, :only => [:create, :comment, :close, :reopen, :destroy]
-  before_action :require_allow_write_notes, :only => [:create, :comment, :close, :reopen, :destroy]
   before_action :set_locale
   around_action :api_call_handle_error, :api_call_timeout
 

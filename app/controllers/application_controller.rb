@@ -118,24 +118,6 @@ class ApplicationController < ActionController::Base
     require_capability(:allow_write_gpx)
   end
 
-  def require_allow_write_notes
-    require_capability(:allow_write_notes)
-  end
-
-  ##
-  # require that the user is a moderator, or fill out a helpful error message
-  # and return them to the index for the controller this is wrapped from.
-  def require_moderator
-    unless current_user.moderator?
-      if request.get?
-        flash[:error] = t("application.require_moderator.not_a_moderator")
-        redirect_to :action => "index"
-      else
-        head :forbidden
-      end
-    end
-  end
-
   ##
   # sets up the current_user for use by other methods. this is mostly called
   # from the authorize method, but can be called elsewhere if authorisation
@@ -193,11 +175,6 @@ class ApplicationController < ActionController::Base
   ##
   # to be used as a before_filter *after* authorize. this checks that
   # the user is a moderator and, if not, returns a forbidden error.
-  #
-  # NOTE: this isn't a very good way of doing it - it duplicates logic
-  # from require_moderator - but what we really need to do is a fairly
-  # drastic refactoring based on :format and respond_to? but not a
-  # good idea to do that in this branch.
   def authorize_moderator(errormessage = "Access restricted to moderators")
     # check user is a moderator
     unless current_user.moderator?
