@@ -31,8 +31,7 @@ class UserRolesControllerTest < ActionController::TestCase
 
     # Granting should still fail
     post :grant, :params => { :display_name => target_user.display_name, :role => "moderator" }
-    assert_redirected_to user_path(target_user)
-    assert_equal "Only administrators can perform user role management, and you are not an administrator.", flash[:error]
+    assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Login as an administrator
     session[:user] = administrator_user.id
@@ -92,8 +91,7 @@ class UserRolesControllerTest < ActionController::TestCase
 
     # Revoking should still fail
     post :revoke, :params => { :display_name => target_user.display_name, :role => "moderator" }
-    assert_redirected_to user_path(target_user)
-    assert_equal "Only administrators can perform user role management, and you are not an administrator.", flash[:error]
+    assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Login as an administrator
     session[:user] = administrator_user.id
