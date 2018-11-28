@@ -3,8 +3,10 @@ class ChangesetCommentsController < ApplicationController
   before_action :authorize_web, :only => [:index]
   before_action :set_locale, :only => [:index]
   before_action :authorize, :only => [:create, :destroy, :restore]
-  before_action :require_moderator, :only => [:destroy, :restore]
-  before_action :require_allow_write_api, :only => [:create, :destroy, :restore]
+  before_action :api_deny_access_handler, :only => [:create, :destroy, :restore]
+
+  authorize_resource
+
   before_action :require_public_data, :only => [:create]
   before_action :check_api_writable, :only => [:create, :destroy, :restore]
   before_action :check_api_readable, :except => [:create, :index]

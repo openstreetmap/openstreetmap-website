@@ -12,6 +12,48 @@ class CapabilityTest < ActiveSupport::TestCase
   end
 end
 
+class ChangesetCommentCapabilityTest < CapabilityTest
+  test "as a normal user with permissionless token" do
+    token = create(:access_token)
+    capability = Capability.new token
+
+    [:create, :destroy, :restore].each do |action|
+      assert capability.cannot? action, ChangesetComment
+    end
+  end
+
+  test "as a normal user with allow_write_api token" do
+    token = create(:access_token, :allow_write_api => true)
+    capability = Capability.new token
+
+    [:destroy, :restore].each do |action|
+      assert capability.cannot? action, ChangesetComment
+    end
+
+    [:create].each do |action|
+      assert capability.can? action, ChangesetComment
+    end
+  end
+
+  test "as a moderator with permissionless token" do
+    token = create(:access_token, :user => create(:moderator_user))
+    capability = Capability.new token
+
+    [:create, :destroy, :restore].each do |action|
+      assert capability.cannot? action, ChangesetComment
+    end
+  end
+
+  test "as a moderator with allow_write_api token" do
+    token = create(:access_token, :user => create(:moderator_user), :allow_write_api => true)
+    capability = Capability.new token
+
+    [:create, :destroy, :restore].each do |action|
+      assert capability.can? action, ChangesetComment
+    end
+  end
+end
+
 class UserCapabilityTest < CapabilityTest
   test "user preferences" do
     # a user with no tokens
