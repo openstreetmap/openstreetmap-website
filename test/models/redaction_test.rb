@@ -34,4 +34,59 @@ class RedactionTest < ActiveSupport::TestCase
     assert_equal(true, node_v1.redacted?, "Expected node version 1 to be redacted after redact! call.")
     assert_equal(false, node_v2.redacted?, "Expected node version 2 to not be redacted after redact! call.")
   end
+  def test_redact_empty
+  #create moderator
+  session[:user] = create(:moderator_user).id
+  # read in user, title and description for redaction
+  @redaction = Redaction.new
+  @redaction.user = session[:user]
+  @redaction.title = ""
+  @redaction.description = ""
+
+  if !@redaction.title == "" || !@redaction.description  == ""
+      assert_response :redirect
+      assert_redirected_to :controller => "errors", :action => "forbidden"
+
+end
+
+def test_redact_empty_title
+  #create moderator
+  session[:user] = create(:moderator_user).id
+  # read in user, title and description for redaction
+  @redaction = Redaction.new
+  @redaction.user = session[:user]
+  @redaction.title = ""
+  @redaction.description = "hello"
+
+  if !@redaction.title == "" || !@redaction.description  == "hello"
+      assert_response :redirect
+      assert_redirected_to :controller => "errors", :action => "forbidden"
+
+end
+
+def test_redact_empty_desc
+  #create moderator
+  session[:user] = create(:moderator_user).id
+  # read in user, title and description for redaction
+  @redaction = Redaction.new
+  @redaction.user = session[:user]
+  @redaction.title = "The redac"
+  @redaction.description = ""
+
+  if !@redaction.title == "The redac" || !@redaction.description  == ""
+      assert_response :redirect
+      assert_redirected_to :controller => "errors", :action => "forbidden"
+
+end
+
+def test_session_redact
+  session[:user] = create(:moderator_user).id
+
+  redaction = create(:redaction)
+
+  put :update, :params => { :id => redaction.id, :redaction => { :title => "", :description => "" } }
+  assert_response :redirect
+  assert_redirected_to :controller => "errors", :action => "forbidden"
+end
+
 end
