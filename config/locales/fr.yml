@@ -290,7 +290,7 @@ fr:
       no_edits: (aucune modification)
       view_changeset_details: Afficher les détails du groupe de modifications
     changesets:
-      id: Identifiant
+      id: ID
       saved_at: Enregistré le
       user: Utilisateur
       comment: Commentaire
@@ -315,10 +315,16 @@ fr:
       comment: Nouveau commentaire sur le groupe de modifications nº %{changeset_id}
         par %{author}
       commented_at_by_html: Mis à jour il y a %{when} par %{user}
+    comments:
+      comment: Nouveau commentaire sur le groupe de modifications n° %{changeset_id}
+        par %{author}
     index:
       title_all: Discussion sur le groupe de modifications OpenStreetMap
       title_particular: Discussion sur le groupe de modifications OpenStreetMap nº
         %{changeset_id}
+    timeout:
+      sorry: Désolé, la liste des commentaires d’ensembles de modifications que vous
+        avez demandée est trop longue à récupérer.
   diary_entries:
     new:
       title: Nouvelle entrée du journal
@@ -331,8 +337,8 @@ fr:
       in_language_title: Entrées du journal en %{language}
       new: Nouvelle entrée du journal
       new_title: Écrire une nouvelle entrée dans mon journal utilisateur
-      no_entries: Aucun article de journal
-      recent_entries: Articles récents du journal
+      no_entries: Aucune entrée de journal
+      recent_entries: Entrées récentes du journal
       older_entries: Entrées plus anciennes
       newer_entries: Entrées plus récentes
     edit:
@@ -351,18 +357,18 @@ fr:
       user_title: Journal de %{user}
       leave_a_comment: Laisser un commentaire
       login_to_leave_a_comment: '%{login_link} pour laisser un commentaire'
-      login: Utilisateur
+      login: Se connecter
       save_button: Enregistrer
     no_such_entry:
-      title: Aucune entrée du journal n’a été trouvée
+      title: Pas d’entrée du journal correspondante
       heading: 'Aucune entrée avec l’id : %{id}'
-      body: Desolé, il n’y a aucune entrée dans le journal ni aucun commentaire avec
-        l’id %{id}. Veuillez vérifier votre orthographe ou la validité du lien que
-        vous avez cliqué.
+      body: Désolé, il n’y a aucune entrée ou commentaire dans le journal avec l’id
+        %{id}. Veuillez vérifier votre orthographe ou la validité du lien que vous
+        avez cliqué.
     diary_entry:
       posted_by: Publié par %{link_user} à %{created} en %{language_link}
       comment_link: Commenter cette entrée
-      reply_link: Répondre à cet article
+      reply_link: Répondre à cette entrée
       comment_count:
         zero: Aucun commentaire
         one: '%{count} commentaire'
@@ -382,15 +388,15 @@ fr:
       edit: Modifier
     feed:
       user:
-        title: Articles du journal OpenStreetMap de %{user}
-        description: Articles récents du journal OpenStreetMap de %{user}
+        title: Entrées du journal OpenStreetMap de %{user}
+        description: Entrées récentes du journal OpenStreetMap de %{user}
       language:
-        title: Articles de journaux OpenStreetMap en %{language_name}
-        description: Articles récents des journaux d’utilisateurs d’OpenStreetMap
+        title: Entrées du journalx OpenStreetMap en %{language_name}
+        description: Entrées récentes des journaux d’utilisateurs d’OpenStreetMap
           en %{language_name}
       all:
-        title: Articles des journaux OpenStreetMap
-        description: Articles récents des journaux d’utilisateurs OpenStreetMap
+        title: Entrées des journaux OpenStreetMap
+        description: Entrées récentes des journaux d’utilisateurs de OpenStreetMap
     comments:
       has_commented_on: '%{display_name} a commenté les entrées de journal suivantes'
       post: Article
@@ -1644,6 +1650,8 @@ fr:
       welcomemat:
         url: https://wiki.openstreetmap.org/wiki/FR:Page_principale
         title: Pour les organisations
+        description: Dans une organisation qui fait des plans pour OpenStreetMap ?
+          Trouvez ce que vous avez besoin de savoir dans le tapis d’accueil.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/FR:Page_principale
         title: wiki.openstreetmap.org
@@ -1790,7 +1798,7 @@ fr:
         title: Des questions ?
         paragraph_1_html: |-
           OpenStreetMap propose plusieurs ressources pour apprendre à travailler dans le projet, pour poser des questions et y répondre, et pour discuter et documenter les sujets de cartographie en collaboration avec d’autres utilisateurs.
-          <a href='%{help_url}'>Trouvez de l’aide ici</a>.
+          <a href='%{help_url}'>Trouver de l’aide ici</a>. Dans une organisation qui fait des plans pour OpenStreetMap ? <a href='https://welcome.openstreetmap.org/'>Vérifiez votre tapis d’accueil</a>.
       start_mapping: Commencer à cartographier
       add_a_note:
         title: Pas le temps d’effectuer les modifications ? Ajoutez une note !
@@ -1932,11 +1940,6 @@ fr:
         navigateur. Veuillez les activer avant de continuer.
     require_admin:
       not_an_admin: Vous devez être un administrateur pour effectuer cette action.
-    require_moderator:
-      not_a_moderator: Vous devez être modérateur pour effectuer cette action.
-    require_moderator_or_admin:
-      not_a_moderator_or_admin: Vous devez être un modérateur ou un administrateur
-        pour effectuer cette action
     setup_user_auth:
       blocked_zero_hour: Vous avez un message urgent sur le site web OpenStreetMap.
         Vous devez lire le message avant de pouvoir enregistrer vos modifications.
@@ -2408,8 +2411,6 @@ fr:
         votre ID dans vos préférences utilisateur.
   user_role:
     filter:
-      not_an_administrator: Seuls les administrateurs peuvent gérer les rôles mais
-        vous n’êtes pas administrateur.
       not_a_role: La chaîne « %{role} » n’est pas un rôle valide.
       already_has_role: L’utilisateur possède déjà le rôle « %{role} ».
       doesnt_have_role: L’utilisateur n’a pas le rôle « %{role} ».
