@@ -11,7 +11,7 @@ class IssuesControllerTest < ActionController::TestCase
     session[:user] = create(:user).id
     get :index
     assert_response :redirect
-    assert_redirected_to root_path
+    assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Access issues list as administrator
     session[:user] = create(:administrator_user).id
@@ -37,7 +37,7 @@ class IssuesControllerTest < ActionController::TestCase
     session[:user] = create(:user).id
     get :show, :params => { :id => issue.id }
     assert_response :redirect
-    assert_redirected_to root_path
+    assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Access issue as administrator
     session[:user] = create(:administrator_user).id
@@ -63,7 +63,7 @@ class IssuesControllerTest < ActionController::TestCase
     session[:user] = create(:user).id
     get :resolve, :params => { :id => issue.id }
     assert_response :redirect
-    assert_redirected_to root_path
+    assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Resolve issue as administrator
     session[:user] = create(:administrator_user).id
@@ -93,7 +93,7 @@ class IssuesControllerTest < ActionController::TestCase
     session[:user] = create(:user).id
     get :ignore, :params => { :id => issue.id }
     assert_response :redirect
-    assert_redirected_to root_path
+    assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Ignore issue as administrator
     session[:user] = create(:administrator_user).id
@@ -125,7 +125,7 @@ class IssuesControllerTest < ActionController::TestCase
     session[:user] = create(:user).id
     get :reopen, :params => { :id => issue.id }
     assert_response :redirect
-    assert_redirected_to root_path
+    assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Reopen issue as administrator
     session[:user] = create(:administrator_user).id

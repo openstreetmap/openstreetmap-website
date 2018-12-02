@@ -83,9 +83,11 @@ class MessagesControllerTest < ActionController::TestCase
     # Check that we can't send a message from a GET request
     assert_difference "ActionMailer::Base.deliveries.size", 0 do
       assert_difference "Message.count", 0 do
-        get :new,
-            :params => { :display_name => recipient_user.display_name,
-                         :message => { :title => "Test Message", :body => "Test message body" } }
+        perform_enqueued_jobs do
+          get :new,
+              :params => { :display_name => recipient_user.display_name,
+                           :message => { :title => "Test Message", :body => "Test message body" } }
+        end
       end
     end
     assert_response :success
@@ -112,9 +114,11 @@ class MessagesControllerTest < ActionController::TestCase
     # Check that the subject is preserved over errors
     assert_difference "ActionMailer::Base.deliveries.size", 0 do
       assert_difference "Message.count", 0 do
-        post :new,
-             :params => { :display_name => recipient_user.display_name,
-                          :message => { :title => "Test Message", :body => "" } }
+        perform_enqueued_jobs do
+          post :new,
+               :params => { :display_name => recipient_user.display_name,
+                            :message => { :title => "Test Message", :body => "" } }
+        end
       end
     end
     assert_response :success
@@ -141,9 +145,11 @@ class MessagesControllerTest < ActionController::TestCase
     # Check that the body text is preserved over errors
     assert_difference "ActionMailer::Base.deliveries.size", 0 do
       assert_difference "Message.count", 0 do
-        post :new,
-             :params => { :display_name => recipient_user.display_name,
-                          :message => { :title => "", :body => "Test message body" } }
+        perform_enqueued_jobs do
+          post :new,
+               :params => { :display_name => recipient_user.display_name,
+                            :message => { :title => "", :body => "Test message body" } }
+        end
       end
     end
     assert_response :success
@@ -170,9 +176,11 @@ class MessagesControllerTest < ActionController::TestCase
     # Check that sending a message works
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       assert_difference "Message.count", 1 do
-        post :create,
-             :params => { :display_name => recipient_user.display_name,
-                          :message => { :title => "Test Message", :body => "Test message body" } }
+        perform_enqueued_jobs do
+          post :create,
+               :params => { :display_name => recipient_user.display_name,
+                            :message => { :title => "Test Message", :body => "Test message body" } }
+        end
       end
     end
     assert_redirected_to inbox_messages_path
@@ -211,12 +219,14 @@ class MessagesControllerTest < ActionController::TestCase
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       assert_no_difference "Message.count" do
         with_message_limit(0) do
-          post :create,
-               :params => { :display_name => recipient_user.display_name,
-                            :message => { :title => "Test Message", :body => "Test message body" } }
-          assert_response :success
-          assert_template "new"
-          assert_select ".error", /wait a while/
+          perform_enqueued_jobs do
+            post :create,
+                 :params => { :display_name => recipient_user.display_name,
+                              :message => { :title => "Test Message", :body => "Test message body" } }
+            assert_response :success
+            assert_template "new"
+            assert_select ".error", /wait a while/
+          end
         end
       end
     end

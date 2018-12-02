@@ -27,7 +27,7 @@ class Report < ActiveRecord::Base
 
   validates :issue, :presence => true
   validates :user, :presence => true
-  validates :details, :presence => true
+  validates :details, :presence => true, :characters => true
   validates :category, :presence => true
 
   def self.categories_for(reportable)

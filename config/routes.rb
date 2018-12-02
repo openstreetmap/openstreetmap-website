@@ -6,52 +6,52 @@ OpenStreetMap::Application.routes.draw do
     get "capabilities" => "api#capabilities"
     get "permissions" => "api#permissions"
 
-    put "changeset/create" => "changeset#create"
-    post "changeset/:id/upload" => "changeset#upload", :id => /\d+/
-    get "changeset/:id/download" => "changeset#download", :as => :changeset_download, :id => /\d+/
-    post "changeset/:id/expand_bbox" => "changeset#expand_bbox", :id => /\d+/
-    get "changeset/:id" => "changeset#read", :as => :changeset_read, :id => /\d+/
-    post "changeset/:id/subscribe" => "changeset#subscribe", :as => :changeset_subscribe, :id => /\d+/
-    post "changeset/:id/unsubscribe" => "changeset#unsubscribe", :as => :changeset_unsubscribe, :id => /\d+/
-    put "changeset/:id" => "changeset#update", :id => /\d+/
-    put "changeset/:id/close" => "changeset#close", :id => /\d+/
-    get "changesets" => "changeset#query"
-    post "changeset/:id/comment" => "changeset#comment", :as => :changeset_comment, :id => /\d+/
-    post "changeset/comment/:id/hide" => "changeset#hide_comment", :as => :changeset_comment_hide, :id => /\d+/
-    post "changeset/comment/:id/unhide" => "changeset#unhide_comment", :as => :changeset_comment_unhide, :id => /\d+/
+    put "changeset/create" => "changesets#create"
+    post "changeset/:id/upload" => "changesets#upload", :id => /\d+/
+    get "changeset/:id/download" => "changesets#download", :as => :changeset_download, :id => /\d+/
+    post "changeset/:id/expand_bbox" => "changesets#expand_bbox", :id => /\d+/
+    get "changeset/:id" => "changesets#read", :as => :changeset_read, :id => /\d+/
+    post "changeset/:id/subscribe" => "changesets#subscribe", :as => :changeset_subscribe, :id => /\d+/
+    post "changeset/:id/unsubscribe" => "changesets#unsubscribe", :as => :changeset_unsubscribe, :id => /\d+/
+    put "changeset/:id" => "changesets#update", :id => /\d+/
+    put "changeset/:id/close" => "changesets#close", :id => /\d+/
+    get "changesets" => "changesets#query"
+    post "changeset/:id/comment" => "changeset_comments#create", :as => :changeset_comment, :id => /\d+/
+    post "changeset/comment/:id/hide" => "changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
+    post "changeset/comment/:id/unhide" => "changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
 
-    put "node/create" => "node#create"
-    get "node/:id/ways" => "way#ways_for_node", :id => /\d+/
-    get "node/:id/relations" => "relation#relations_for_node", :id => /\d+/
-    get "node/:id/history" => "old_node#history", :id => /\d+/
-    post "node/:id/:version/redact" => "old_node#redact", :version => /\d+/, :id => /\d+/
-    get "node/:id/:version" => "old_node#version", :id => /\d+/, :version => /\d+/
-    get "node/:id" => "node#read", :id => /\d+/
-    put "node/:id" => "node#update", :id => /\d+/
-    delete "node/:id" => "node#delete", :id => /\d+/
-    get "nodes" => "node#nodes"
+    put "node/create" => "nodes#create"
+    get "node/:id/ways" => "ways#ways_for_node", :id => /\d+/
+    get "node/:id/relations" => "relations#relations_for_node", :id => /\d+/
+    get "node/:id/history" => "old_nodes#history", :id => /\d+/
+    post "node/:id/:version/redact" => "old_nodes#redact", :version => /\d+/, :id => /\d+/
+    get "node/:id/:version" => "old_nodes#version", :id => /\d+/, :version => /\d+/
+    get "node/:id" => "nodes#read", :id => /\d+/
+    put "node/:id" => "nodes#update", :id => /\d+/
+    delete "node/:id" => "nodes#delete", :id => /\d+/
+    get "nodes" => "nodes#nodes"
 
-    put "way/create" => "way#create"
-    get "way/:id/history" => "old_way#history", :id => /\d+/
-    get "way/:id/full" => "way#full", :id => /\d+/
-    get "way/:id/relations" => "relation#relations_for_way", :id => /\d+/
-    post "way/:id/:version/redact" => "old_way#redact", :version => /\d+/, :id => /\d+/
-    get "way/:id/:version" => "old_way#version", :id => /\d+/, :version => /\d+/
-    get "way/:id" => "way#read", :id => /\d+/
-    put "way/:id" => "way#update", :id => /\d+/
-    delete "way/:id" => "way#delete", :id => /\d+/
-    get "ways" => "way#ways"
+    put "way/create" => "ways#create"
+    get "way/:id/history" => "old_ways#history", :id => /\d+/
+    get "way/:id/full" => "ways#full", :id => /\d+/
+    get "way/:id/relations" => "relations#relations_for_way", :id => /\d+/
+    post "way/:id/:version/redact" => "old_ways#redact", :version => /\d+/, :id => /\d+/
+    get "way/:id/:version" => "old_ways#version", :id => /\d+/, :version => /\d+/
+    get "way/:id" => "ways#read", :id => /\d+/
+    put "way/:id" => "ways#update", :id => /\d+/
+    delete "way/:id" => "ways#delete", :id => /\d+/
+    get "ways" => "ways#ways"
 
-    put "relation/create" => "relation#create"
-    get "relation/:id/relations" => "relation#relations_for_relation", :id => /\d+/
-    get "relation/:id/history" => "old_relation#history", :id => /\d+/
-    get "relation/:id/full" => "relation#full", :id => /\d+/
-    post "relation/:id/:version/redact" => "old_relation#redact", :version => /\d+/, :id => /\d+/
-    get "relation/:id/:version" => "old_relation#version", :id => /\d+/, :version => /\d+/
-    get "relation/:id" => "relation#read", :id => /\d+/
-    put "relation/:id" => "relation#update", :id => /\d+/
-    delete "relation/:id" => "relation#delete", :id => /\d+/
-    get "relations" => "relation#relations"
+    put "relation/create" => "relations#create"
+    get "relation/:id/relations" => "relations#relations_for_relation", :id => /\d+/
+    get "relation/:id/history" => "old_relations#history", :id => /\d+/
+    get "relation/:id/full" => "relations#full", :id => /\d+/
+    post "relation/:id/:version/redact" => "old_relations#redact", :version => /\d+/, :id => /\d+/
+    get "relation/:id/:version" => "old_relations#version", :id => /\d+/, :version => /\d+/
+    get "relation/:id" => "relations#read", :id => /\d+/
+    put "relation/:id" => "relations#update", :id => /\d+/
+    delete "relation/:id" => "relations#delete", :id => /\d+/
+    get "relations" => "relations#relations"
 
     get "map" => "api#map"
 
@@ -116,14 +116,14 @@ OpenStreetMap::Application.routes.draw do
   get "/relation/:id" => "browse#relation", :id => /\d+/, :as => :relation
   get "/relation/:id/history" => "browse#relation_history", :id => /\d+/
   get "/changeset/:id" => "browse#changeset", :as => :changeset, :id => /\d+/
-  get "/changeset/:id/comments/feed" => "changeset#comments_feed", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
+  get "/changeset/:id/comments/feed" => "changeset_comments#index", :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => "rss" }
   get "/note/:id" => "browse#note", :id => /\d+/, :as => "browse_note"
   get "/note/new" => "browse#new_note"
-  get "/user/:display_name/history" => "changeset#index"
-  get "/user/:display_name/history/feed" => "changeset#feed", :defaults => { :format => :atom }
+  get "/user/:display_name/history" => "changesets#index"
+  get "/user/:display_name/history/feed" => "changesets#feed", :defaults => { :format => :atom }
   get "/user/:display_name/notes" => "notes#mine"
-  get "/history/friends" => "changeset#index", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
-  get "/history/nearby" => "changeset#index", :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
+  get "/history/friends" => "changesets#index", :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
+  get "/history/nearby" => "changesets#index", :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
 
   get "/browse/way/:id",                :to => redirect(:path => "/way/%{id}")
   get "/browse/way/:id/history",        :to => redirect(:path => "/way/%{id}/history")
@@ -150,9 +150,9 @@ OpenStreetMap::Application.routes.draw do
   get "/fixthemap" => "site#fixthemap"
   get "/help" => "site#help"
   get "/about" => "site#about"
-  get "/history" => "changeset#index"
-  get "/history/feed" => "changeset#feed", :defaults => { :format => :atom }
-  get "/history/comments/feed" => "changeset#comments_feed", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
+  get "/history" => "changesets#index"
+  get "/history/feed" => "changesets#feed", :defaults => { :format => :atom }
+  get "/history/comments/feed" => "changeset_comments#index", :as => :changesets_comments_feed, :defaults => { :format => "rss" }
   get "/export" => "site#export"
   match "/login" => "users#login", :via => [:get, :post]
   match "/logout" => "users#logout", :via => [:get, :post]
@@ -214,24 +214,24 @@ OpenStreetMap::Application.routes.draw do
   post "/trace/:id/delete" => "traces#delete", :id => /\d+/
 
   # diary pages
-  match "/diary/new" => "diary_entry#new", :via => [:get, :post]
-  get "/diary/friends" => "diary_entry#index", :friends => true, :as => "friend_diaries"
-  get "/diary/nearby" => "diary_entry#index", :nearby => true, :as => "nearby_diaries"
-  get "/user/:display_name/diary/rss" => "diary_entry#rss", :defaults => { :format => :rss }
-  get "/diary/:language/rss" => "diary_entry#rss", :defaults => { :format => :rss }
-  get "/diary/rss" => "diary_entry#rss", :defaults => { :format => :rss }
-  get "/user/:display_name/diary/comments/:page" => "diary_entry#comments", :page => /[1-9][0-9]*/
-  get "/user/:display_name/diary/comments/" => "diary_entry#comments"
-  get "/user/:display_name/diary" => "diary_entry#index"
-  get "/diary/:language" => "diary_entry#index"
-  get "/diary" => "diary_entry#index"
-  get "/user/:display_name/diary/:id" => "diary_entry#show", :id => /\d+/, :as => :diary_entry
-  post "/user/:display_name/diary/:id/newcomment" => "diary_entry#comment", :id => /\d+/
-  match "/user/:display_name/diary/:id/edit" => "diary_entry#edit", :via => [:get, :post], :id => /\d+/
-  post "/user/:display_name/diary/:id/hide" => "diary_entry#hide", :id => /\d+/, :as => :hide_diary_entry
-  post "/user/:display_name/diary/:id/hidecomment/:comment" => "diary_entry#hidecomment", :id => /\d+/, :comment => /\d+/, :as => :hide_diary_comment
-  post "/user/:display_name/diary/:id/subscribe" => "diary_entry#subscribe", :as => :diary_entry_subscribe, :id => /\d+/
-  post "/user/:display_name/diary/:id/unsubscribe" => "diary_entry#unsubscribe", :as => :diary_entry_unsubscribe, :id => /\d+/
+  match "/diary/new" => "diary_entries#new", :via => [:get, :post]
+  get "/diary/friends" => "diary_entries#index", :friends => true, :as => "friend_diaries"
+  get "/diary/nearby" => "diary_entries#index", :nearby => true, :as => "nearby_diaries"
+  get "/user/:display_name/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
+  get "/diary/:language/rss" => "diary_entries#rss", :defaults => { :format => :rss }
+  get "/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
+  get "/user/:display_name/diary/comments/:page" => "diary_entries#comments", :page => /[1-9][0-9]*/
+  get "/user/:display_name/diary/comments/" => "diary_entries#comments"
+  get "/user/:display_name/diary" => "diary_entries#index"
+  get "/diary/:language" => "diary_entries#index"
+  get "/diary" => "diary_entries#index"
+  get "/user/:display_name/diary/:id" => "diary_entries#show", :id => /\d+/, :as => :diary_entry
+  post "/user/:display_name/diary/:id/newcomment" => "diary_entries#comment", :id => /\d+/
+  match "/user/:display_name/diary/:id/edit" => "diary_entries#edit", :via => [:get, :post], :id => /\d+/
+  post "/user/:display_name/diary/:id/hide" => "diary_entries#hide", :id => /\d+/, :as => :hide_diary_entry
+  post "/user/:display_name/diary/:id/hidecomment/:comment" => "diary_entries#hidecomment", :id => /\d+/, :comment => /\d+/, :as => :hide_diary_comment
+  post "/user/:display_name/diary/:id/subscribe" => "diary_entries#subscribe", :as => :diary_entry_subscribe, :id => /\d+/
+  post "/user/:display_name/diary/:id/unsubscribe" => "diary_entries#unsubscribe", :as => :diary_entry_unsubscribe, :id => /\d+/
 
   # user pages
   get "/user/:display_name" => "users#show", :as => "user"

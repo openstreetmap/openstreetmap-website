@@ -9,7 +9,7 @@ class IssueCommentsControllerTest < ActionController::TestCase
 
     post :create, :params => { :issue_id => issue.id }
     assert_response :redirect
-    assert_redirected_to root_path
+    assert_redirected_to :controller => :errors, :action => :forbidden
     assert_equal 0, issue.comments.length
   end
 

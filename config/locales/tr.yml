@@ -260,7 +260,7 @@ tr:
       introduction: Yakın diğer özellikleri bulmak için harita üzerine tıklayın.
       nearby: Yakındaki özellikleri
       enclosing: Kapsayan özellikleri
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: 'Sayfa: %{page}'
       next: Sonraki »
@@ -289,28 +289,34 @@ tr:
       load_more: Daha fazla
     timeout:
       sorry: Üzgünüz, değişiklik kayıtlarının listelenmesi fazla sürdü.
-    rss:
-      title_all: Değişiklik takımı tartışması
-      title_particular: 'Değişiklik takımı #%{changeset_id} tartışması'
-      comment: 'Değişiklik seti #%{changeset_id} hakkında %{author} tarafından yeni
-        bir yorum yaptı.'
-      commented_at_html: '%{when} önce güncelleştirilmiş'
-      commented_at_by_html: '%{when} önce %{user} tarafından güncelleştirilmiş'
-      full: Bütün tartışma
-  diary_entry:
+  changeset_comments:
+    comment:
+      comment: 'Değişiklik seti #%{changeset_id} hakkında %{author} yeni bir yorum
+        yaptı.'
+      commented_at_by_html: '%{user} tarafından %{when} önce güncellendi'
+    comments:
+      comment: 'Değişiklik seti #%{changeset_id} hakkında %{author} yeni bir yorum
+        yaptı.'
+    index:
+      title_all: OpenStreetMap değişiklik tartışması
+      title_particular: 'OpenStreetMap değişiklik #%{changeset_id} tartışması'
+    timeout:
+      sorry: Üzgünüz, talep ettiğiniz değişiklik listesi yorumlarının alınması çok
+        uzun sürdü.
+  diary_entries:
     new:
       title: Yeni Günlük Girdisi
       publish_button: Yayınla
     index:
       title: Kullanıcıların günlükleri
-      title_friends: Arkadaşlarının günlükleri
+      title_friends: Arkadaşların günlükleri
       title_nearby: Yakındaki kullanıcıların günlükleri
-      user_title: '%{user} (Günlük)'
-      in_language_title: '%{language} dillindeki günlük kayıtları'
-      new: Yeni Günlük Kayıdı
+      user_title: '%{user} kullanıcısının günlüğü'
+      in_language_title: '%{language} dillindeki günlük girdileri'
+      new: Yeni Günlük Girdisi
       new_title: Kullanıcı günlüğümde yeni bir girdi oluştur
       no_entries: Günlük girdisi yok
-      recent_entries: Son günlük kayıtları
+      recent_entries: Son günlük girdileri
       older_entries: Daha Eski Girdiler
       newer_entries: Daha Yeni Girdiler
     edit:
@@ -321,21 +327,21 @@ tr:
       location: 'Konum:'
       latitude: 'Enlem:'
       longitude: 'Boylam:'
-      use_map_link: Haritayı kullanarak belirt
+      use_map_link: haritayı kullan
       save_button: Kaydet
-      marker_text: Girdisinin konumu
+      marker_text: Günlük girdisinin konumu
     show:
-      title: '%{user} (günlük) | %{title}'
-      user_title: '%{user} (Günlük)'
-      leave_a_comment: Yorum yaz
+      title: '%{user} kullanıcısının günlüğü | %{title}'
+      user_title: '%{user} kullanıcısının günlüğü'
+      leave_a_comment: Yorum yap
       login_to_leave_a_comment: Yorum yazmak için %{login_link}
       login: Giriş
       save_button: Kaydet
     no_such_entry:
-      title: Böyle bir günlük kaydı bulunmuyor
-      heading: 'Bu numaraya sahip giriş yok: %{id}'
+      title: Böyle bir günlük girdisi bulunmuyor
+      heading: 'Bu numaraya sahip girdi yok: %{id}'
       body: Üzgünüz, %{id} numaralı bir günlük girdisi ya da yorumu yok. Lütfen harfleri
-        kontrol edin, ya da tıkladığınız link yanlış olabilir.
+        kontrol edin ya da tıkladığınız link yanlış olabilir.
     diary_entry:
       posted_by: '%{link_user} tarafından %{created} tarihinde %{language_link} dilinde
         gönderildi'
@@ -350,8 +356,9 @@ tr:
       confirm: Onayla
       report: Bu girdiyi bildir
     diary_comment:
-      comment_from: '%{link_user} tarafından %{comment_created_at} tarihindeki yorum'
-      hide_link: Bu yorum gizle
+      comment_from: '%{comment_created_at} tarihinde %{link_user} tarafından yapılan
+        yorum'
+      hide_link: Bu yorumu gizle
       confirm: Onayla
       report: Bu yorumu bildir
     location:
@@ -360,23 +367,23 @@ tr:
       edit: Düzenle
     feed:
       user:
-        title: '%{user} tarafından haritacılık konusunda yazdığı günlük girdileri'
-        description: '%{user} tarafından haritacılık konusunda yazdığı en son günlük
-          girdileri'
+        title: '%{user} için OpenStreetMap günlük girdileri'
+        description: '%{user} kullanıcısından en yeni OpenStreetMap günlük girdileri'
       language:
-        title: '%{language_name} dillindeki günlük girdileri'
-        description: Kullanıcıların %{language_name} dillindeki en son günlük girdileri
+        title: '%{language_name} dillindeki OpenStreetMap günlük girdileri'
+        description: OpenStreetMap kullanıcılarının %{language_name} dillindeki en
+          son günlük girdileri
       all:
         title: OpenStreetMap günlük girdileri
-        description: OpenStreetMap kullanıcıların en son günlük kayıtları
+        description: OpenStreetMap kullanıcıların en son günlük girdileri
     comments:
       has_commented_on: '%{display_name} aşağıdaki günlük girdilerini yorumladı'
       post: Yazı
       when: Tarih
       comment: Yorum
       ago: '%{ago} önce'
-      newer_comments: Daha yeni yorumlar
-      older_comments: Daha eski yorumlar
+      newer_comments: Daha Yeni Yorumlar
+      older_comments: Daha Eski Yorumlar
   geocoder:
     search:
       title:
@@ -539,7 +546,7 @@ tr:
         highway:
           abandoned: Terk Edilmiş Karayolu
           bridleway: At yürüyüş yolu
-          bus_guideway: Güdümlü otobüs yolu
+          bus_guideway: Rehberli otobüs hattı
           bus_stop: Otobüs durağı
           construction: İnşaa halinde yolu
           corridor: Koridor
@@ -1429,6 +1436,10 @@ tr:
           <strong>Avusturya</strong>: <a href="https://data.wien.gv.at/">Stadt Wien</a> (<a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a> lisansı altında),
           <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> ve
           Land Tirol'dan (<a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">değişiklikleriyle CC BY AT lisansı altında</a>) veriler içermektedir.
+        contributors_au_html: '<strong>Avustralya</strong>: <a href="https://creativecommons.org/licenses/by/4.0/">CC
+          BY 4.0</a> kapsamında Commonwealth of Australia tarafından lisanslanan <a
+          href="https://creativecommons.org/licenses/by/4.0/">PSMA Australia Limited</a>''ten
+          alınan verileri içerir.'
         contributors_ca_html: "<strong>Kanada</strong>: GeoBase&reg;, GeoGratis \n(&copy;
           Department of Natural\nResources Canada), CanVec (&copy; Department of Natural\nResources
           Canada) ve StatCan'den (Geography Division,\nStatistics Canada) veriler
@@ -1896,16 +1907,12 @@ tr:
         other: '%{user} tarafından %{count} noktalı GPX dosyası'
       description_without_count: '%{user} tarafından GPX dosyası'
   application:
+    permission_denied: Bu eyleme erişme izniniz yok
     require_cookies:
       cookies_needed: Çerezleri devre dışı bırakmış görünüyorsunuz - devam etmeden
         önce lütfen tarayıcınızda çerezleri etkinleştirin.
     require_admin:
       not_an_admin: Bu eylemi gerçekleştirmek için yönetici olmanız gerekiyor.
-    require_moderator:
-      not_a_moderator: Bu eylemi gerçekleştirebilmek için moderatör olmalısınız.
-    require_moderator_or_admin:
-      not_a_moderator_or_admin: Bu işlemi gerçekleştirmek için moderatör veya yönetici
-        olmanız gerekiyor
     setup_user_auth:
       blocked_zero_hour: OpenStreetMap web sitesinde önemli bir mesajınız var. Düzenlemelerinizi
         kaydetmeden önce mesajı okumanız gerekiyor.
@@ -2360,8 +2367,6 @@ tr:
         kimliğinizle ilişkilendirebilirsiniz.
   user_role:
     filter:
-      not_an_administrator: Yalnızca yöneticiler, kullanıcı rolü yönetimini gerçekleştirebilir
-        ve siz bir yönetici değilsiniz.
       not_a_role: Dizgi %{role}, geçerli bir görev değil.
       already_has_role: Kullanıcı zaten %{role} görevine sahip.
       doesnt_have_role: Kullanıcının görevi %{role} değil.
@@ -2637,6 +2642,8 @@ tr:
           %{name} yoluna doğru alın.
         onramp_right_without_exit: Rampadan sağa dönerek %{name} girin
         onramp_right_with_directions: '%{directions} doğru rampadan sağ dönün'
+        onramp_right_with_name_directions: '%{name} üzerindeki rampaya doğru %{directions}
+          yönünde sağa dönün'
         onramp_right_without_directions: Rampaya doğru sağa dönün
         onramp_right: Rampaya doğru sağa dönün
         endofroad_right_without_exit: Yolun sonunda sağa %{name} yönünde dönün
@@ -2656,8 +2663,12 @@ tr:
           %{directions} yönüne doğru'
         offramp_left_with_name: Soldaki rampayı kullanarak %{name} girin
         offramp_left_with_directions: '%{directions} yönünde soldaki rampadan'
+        offramp_left_with_name_directions: '%{name} üzerindeki rampaya doğru %{directions}
+          yönünde sola ilerleyin'
         onramp_left_without_exit: Rampadan sola dönerek %{name} girin
         onramp_left_with_directions: '%{directions} doğru rampadan sola dönün'
+        onramp_left_with_name_directions: '%{name} üzerindeki rampaya doğru %{directions}
+          yönünde sola dönün'
         onramp_left_without_directions: Rampaya doğru sola dönün
         onramp_left: Rampaya doğru sola dönün
         endofroad_left_without_exit: Yolun sonunda sola %{name} yönünde dönün
@@ -2674,6 +2685,9 @@ tr:
         against_oneway_without_exit: '%{name}X üzerinde tek yönlü git'
         end_oneway_without_exit: '%{name} için tek yönün sonu'
         roundabout_with_exit: Dönel kavşakta %{exit}. çıkışı kullanarak %{name} üzerine
+        roundabout_with_exit_ordinal: Dönel kavşakta %{exit} çıkışı kullanarak %{name}
+          üzerine
+        exit_roundabout: '%{name} giden kavşaktan çıkın'
         unnamed: adsız yol
         courtesy: Yolculuğun izniyle %{link}x
         exit_counts:
@@ -2734,4 +2748,7 @@ tr:
         sürümlerini tekrar düzenleyin.
       flash: Redaksiyon kaldırıldı.
       error: Bu redaksiyon kaldırılırken bir hata oluştu.
+  validations:
+    invalid_characters: geçersiz karakterler içeriyor
+    url_characters: özel URL karakterleri içerir (%{characters})
 ...

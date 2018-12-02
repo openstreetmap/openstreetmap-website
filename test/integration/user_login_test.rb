@@ -25,7 +25,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.email, "test"
 
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
   end
 
@@ -36,7 +36,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login uppercase_user.email, "test"
 
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", uppercase_user.display_name
   end
 
@@ -57,7 +57,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.email, "test"
 
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
   end
 
@@ -66,7 +66,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.email.upcase, "test"
 
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
   end
 
@@ -75,7 +75,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.email.titlecase, "test"
 
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
   end
 
@@ -182,7 +182,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.display_name, "test"
 
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
   end
 
@@ -193,7 +193,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login uppercase_user.display_name, "test"
 
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", uppercase_user.display_name
   end
 
@@ -214,7 +214,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.display_name, "test"
 
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
   end
 
@@ -223,7 +223,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.display_name.upcase, "test"
 
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
   end
 
@@ -232,7 +232,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.display_name.downcase, "test"
 
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
   end
 
@@ -334,7 +334,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.email, "test", "yes"
 
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
     assert session.key?(:_remember_for)
   end
@@ -344,7 +344,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     try_password_login user.display_name, "test", "yes"
 
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
     assert session.key?(:_remember_for)
   end
@@ -369,7 +369,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
   end
 
@@ -393,7 +393,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
     assert session.key?(:_remember_for)
   end
@@ -496,7 +496,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
   end
 
@@ -589,7 +589,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
 
     u = User.find_by(:display_name => user.display_name)
@@ -614,7 +614,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
   end
 
@@ -703,7 +703,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
   end
 
@@ -792,7 +792,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
   end
 
@@ -881,7 +881,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template "changeset/history"
+    assert_template "changesets/history"
     assert_select "span.username", user.display_name
   end
 

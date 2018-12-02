@@ -2,8 +2,9 @@
 class UserPreferencesController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :authorize
-  before_action :require_allow_read_prefs, :only => [:read_one, :read]
-  before_action :require_allow_write_prefs, :except => [:read_one, :read]
+
+  authorize_resource
+
   around_action :api_call_handle_error
 
   ##

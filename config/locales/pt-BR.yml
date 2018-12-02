@@ -261,7 +261,7 @@ pt-BR:
       introduction: Clique no mapa para achar elementos próximos
       nearby: Elementos próximos
       enclosing: Elementos envoltórios
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: Página %{page}
       next: Seguinte »
@@ -291,14 +291,19 @@ pt-BR:
     timeout:
       sorry: A lista de conjuntos de alterações solicitada está demorando demais para
         chegar.
-    rss:
+  changeset_comments:
+    comment:
+      comment: 'Comentário novo no conjunto de alterações #%{changeset_id} por %{author}'
+      commented_at_by_html: Atualizado %{when} atrás por %{user}
+    comments:
+      comment: 'Comentário novo no conjunto de alterações #%{changeset_id} por %{author}'
+    index:
       title_all: Discussão de conjunto de alterações do OpenStreetMap
       title_particular: 'Discussão do conjunto de alteração #%{changeset_id} do OpenStreetMap'
-      comment: 'Comentário novo no conjunto de alterações #%{changeset_id} por %{author}'
-      commented_at_html: Atualizando %{when} atrás
-      commented_at_by_html: Atualizado %{when} atrás por %{user}
-      full: Discussão completa
-  diary_entry:
+    timeout:
+      sorry: Desculpe, a lista de comentários do changeset que você solicitou demorou
+        muito para ser recuperada.
+  diary_entries:
     new:
       title: Nova Publicação no Diário
       publish_button: Publicar
@@ -1621,6 +1626,11 @@ pt-BR:
         title: switch2osm
         description: Ajuda para empresas e organizações migrando para mapas baseados
           no OpenStreetMap e outros serviços.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: Para Organizações
+        description: Com uma organização fazendo planos para o OpenStreetMap? Encontre
+          o que você precisa saber no Welcome Mat.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Pt:Main_Page
         title: wiki.openstreetmap.org
@@ -1763,7 +1773,7 @@ pt-BR:
         title: Dúvidas?
         paragraph_1_html: |-
           O OpenStreetMap oferece vários recursos para você descobrir mais sobre o projeto, perguntar e responder a questões, e colaborativamente discutir e documentar vários tópicos sobre o mapa.
-          <a href='%{help_url}'>Obtenha ajuda aqui</a>
+          <a href='%{help_url}'>Obtenha ajuda aqui</a>. Com uma organização fazendo planos para o OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Confira o Welcome Mat</a>.
       start_mapping: Começando a Mapear
       add_a_note:
         title: Sem tempo para editar? Inclua uma nota!
@@ -1897,16 +1907,12 @@ pt-BR:
         other: Arquivo GPX com %{count} pontos de %{user}
       description_without_count: Arquivo GPX de %{user}
   application:
+    permission_denied: Você não tem permissão para acessar essa ação
     require_cookies:
       cookies_needed: Parece que você está com os <i>cookies</i> desabilitados - habilite-os
         no seu navegador antes de continuar.
     require_admin:
       not_an_admin: Você precisa ser um administrador para realizar essa ação.
-    require_moderator:
-      not_a_moderator: Você precisa ser um moderador para realizar essa ação.
-    require_moderator_or_admin:
-      not_a_moderator_or_admin: Você precisa ser um moderador ou um administrador
-        para realizar essa ação
     setup_user_auth:
       blocked_zero_hour: Há uma mensagem urgente para você no site do OpenStreetMap.
         Você deve lê-la para poder voltar a salvar suas edições.
@@ -2365,8 +2371,6 @@ pt-BR:
         com o seu ID em suas configurações de usuário.
   user_role:
     filter:
-      not_an_administrator: Somente administradores podem gerenciar papéis de usuários,
-        mas você não é um administrador.
       not_a_role: O texto "%{role}" não é um papel válido.
       already_has_role: O usuário já tem o papel %{role}.
       doesnt_have_role: O usuário não tem o papel %{role}.
@@ -2743,4 +2747,9 @@ pt-BR:
         a esta anulação antes de destruí-la.
       flash: Redação destruída.
       error: Houve um erro ao destruir esta anulação.
+  validations:
+    leading_whitespace: tem espaço em branco líder
+    trailing_whitespace: tem espaço em branco à direita
+    invalid_characters: contém caracteres inválidos
+    url_characters: contém caracteres de URL especiais (%{characters})
 ...

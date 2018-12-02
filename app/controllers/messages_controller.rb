@@ -29,7 +29,7 @@ class MessagesController < ApplicationController
       render :action => "new"
     elsif @message.save
       flash[:notice] = t ".message_sent"
-      Notifier.message_notification(@message).deliver_now
+      Notifier.message_notification(@message).deliver_later
       redirect_to :action => :inbox
     else
       render :action => "new"

@@ -1,5 +1,4 @@
 require "test_helper"
-require "browse_controller"
 
 class BrowseControllerTest < ActionController::TestCase
   ##

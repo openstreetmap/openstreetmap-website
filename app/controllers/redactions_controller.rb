@@ -3,8 +3,9 @@ class RedactionsController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
-  before_action :require_user, :only => [:new, :create, :edit, :update, :destroy]
-  before_action :require_moderator, :only => [:new, :create, :edit, :update, :destroy]
+
+  authorize_resource
+
   before_action :lookup_redaction, :only => [:show, :edit, :update, :destroy]
   before_action :check_database_readable
   before_action :check_database_writable, :only => [:create, :update, :destroy]

@@ -258,7 +258,7 @@ it:
       introduction: Clicca sulla cartina per disponibilità nei pressi.
       nearby: Disponibilità nei pressi
       enclosing: Elementi interni
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: Pagina %{page}
       next: Successivo »
@@ -288,15 +288,15 @@ it:
     timeout:
       sorry: Siamo spiacenti, l'elenco delle modifiche che hai richiesto necessitava
         di troppo tempo per poter essere recuperato.
-    rss:
-      title_all: Discussione sul gruppo di modifiche OpenStreetMap
-      title_particular: 'Discussione sul gruppo di modifiche OpenStreetMap #%{changeset_id}'
+  changeset_comments:
+    comment:
       comment: 'Nuovo commento al gruppo di modifiche #%{changeset_id} da parte di
         %{author}'
-      commented_at_html: Aggiornato %{when} fa
       commented_at_by_html: Aggiornato %{when} fa da %{user}
-      full: Discussione completa
-  diary_entry:
+    index:
+      title_all: Discussione sul gruppo di modifiche OpenStreetMap
+      title_particular: 'Discussione sul gruppo di modifiche OpenStreetMap #%{changeset_id}'
+  diary_entries:
     new:
       title: Nuova voce del diario
       publish_button: Pubblica
@@ -1748,9 +1748,11 @@ it:
           automatiche</a> e seguire le loro indicazioni."
       questions:
         title: Domande?
-        paragraph_1_html: |-
-          OpenStreetMap ha diverse risorse per imparare a conoscere il progetto, chiedendo e rispondendo alle domande, discutendo collaborativamente e documentando gli argomenti di mappatura.
-          <a href='%{help_url}'>Ottieni aiuto</a>.
+        paragraph_1_html: OpenStreetMap ha diverse risorse per imparare a conoscere
+          il progetto, chiedendo e rispondendo alle domande, discutendo collaborativamente
+          e documentando gli argomenti di mappatura. <a href='%{help_url}'>Ottieni
+          aiuto</a>. Con un'organizzazione che progetta per OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Dai
+          un'occhiata al Welcome Mat</a>.
       start_mapping: Inizia a mappare
       add_a_note:
         title: Non hai tempo per editare? Aggiungi una nota!
@@ -1883,16 +1885,12 @@ it:
         other: File GPX con %{count} punti da %{user}
       description_without_count: File GPX da %{user}
   application:
+    permission_denied: Non disponi dei permessi necessari per eseguire questa azione
     require_cookies:
       cookies_needed: Pare che tu abbia i cookie non abilitati - abilita i cookie
         nel tuo browser prima di continuare.
     require_admin:
       not_an_admin: Per effettuare quell’azione devi essere un amministratore.
-    require_moderator:
-      not_a_moderator: Devi essere un moderatore per eseguire questa operazione.
-    require_moderator_or_admin:
-      not_a_moderator_or_admin: Per effettuare quell’azione devi essere un moderatore
-        oppure un amministratore
     setup_user_auth:
       blocked_zero_hour: Hai un messaggio urgente sul sito di OpenStreetMap. Per poter
         salvare le tue modifiche devi prima leggere quel messaggio.
@@ -2349,8 +2347,6 @@ it:
         impostazioni.
   user_role:
     filter:
-      not_an_administrator: Solo gli amministratori possono gestire i ruoli degli
-        utenti, e tu non sei un amministratore.
       not_a_role: La stringa `%{role}' non è un ruolo valido.
       already_has_role: L'utente possiede già il ruolo %{role}.
       doesnt_have_role: L'utente non possiede il ruolo %{role}.
@@ -2731,4 +2727,7 @@ it:
         appartenenti a questa revisione prima di eliminarla.
       flash: Revisione eliminata.
       error: Si è verificato un errore durante l'eliminazione.
+  validations:
+    invalid_characters: contiene caratteri non validi
+    url_characters: contiene caratteri URL speciali (%{characters})
 ...

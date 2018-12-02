@@ -37,6 +37,7 @@
 # Author: Irus
 # Author: Kaganer
 # Author: Komzpa
+# Author: Link2xt
 # Author: Lockal
 # Author: Macofe
 # Author: Mavl
@@ -290,7 +291,7 @@ ru:
       introduction: Нажмите на карту, чтобы найти ближайшие объекты
       nearby: Ближайшие объекты
       enclosing: Местоположение
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: Страница %{page}
       next: Следующая →
@@ -320,14 +321,19 @@ ru:
     timeout:
       sorry: К сожалению, список пакетов правок, который вы запросили, требует слишком
         много времени для извлечения.
-    rss:
+  changeset_comments:
+    comment:
+      comment: 'Новый комментарий к пакету правок #%{changeset_id} от %{author}'
+      commented_at_by_html: Обновлена %{when} назад %{user}
+    comments:
+      comment: 'Новый комментарий к пакету правок #%{changeset_id} от %{author}'
+    index:
       title_all: Обсуждение пакета правок OpenStreetMap
       title_particular: 'Обсуждение пакета правок OpenStreetMap #%{changeset_id}'
-      comment: 'Новый комментарий к пакету правок #%{changeset_id} от %{author}'
-      commented_at_html: Обновлена %{when} назад
-      commented_at_by_html: Обновлена %{when} назад %{user}
-      full: Полное обсуждение
-  diary_entry:
+    timeout:
+      sorry: К сожалению, список пакетов правок, который вы запросили, требует слишком
+        много времени для извлечения.
+  diary_entries:
     new:
       title: Новая запись в дневнике
       publish_button: Опубликовать
@@ -339,7 +345,7 @@ ru:
       in_language_title: Дневниковые записи на языке %{language}
       new: Новая запись в дневнике
       new_title: Сделать новую запись в моем дневнике
-      no_entries: В дневнике нет записей
+      no_entries: Нет записей в дневнике
       recent_entries: Недавние записи
       older_entries: Более старые записи
       newer_entries: Более новые записи
@@ -362,10 +368,10 @@ ru:
       login: Представиться
       save_button: Сохранить
     no_such_entry:
-      title: Нет такой дневниковой записи
+      title: Нет такой записи в дневнике
       heading: Нет записи с номером %{id}
-      body: К сожалению, записи или комментария с id %{id} не найдено. Проверьте правильность
-        написания. Возможно, ссылка, по которой вы перешли, ошибочна.
+      body: К сожалению, нет записи или комментария с номером %{id}. Проверьте правильность
+        написания. Или, возможно, ссылка, по которой вы перешли, ошибочна.
     diary_entry:
       posted_by: 'Отправил %{link_user} %{created}, язык: %{language_link}'
       comment_link: Комментировать
@@ -1630,6 +1636,9 @@ ru:
         title: switch2osm
         description: Помощь компаниям и организациям в переходе на карты и другие
           ресурсы OpenStreetMap.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: Для организаций
       wiki:
         url: https://wiki.openstreetmap.org/wiki/RU:Заглавная_страница
         title: wiki.openstreetmap.org
@@ -1908,16 +1917,12 @@ ru:
         other: GPX-файл с %{count} точками от %{user}
       description_without_count: GPX-файл от %{user}
   application:
+    permission_denied: У вас нет прав для выполнения этого действия
     require_cookies:
       cookies_needed: Похоже, что у вас выключены куки. Пожалуйста, включите куки
         в вашем браузере, прежде чем продолжить.
     require_admin:
       not_an_admin: Вам нужно быть администратором для выполнения этого действия
-    require_moderator:
-      not_a_moderator: Чтобы выполнить это действие, нужно быть модератором.
-    require_moderator_or_admin:
-      not_a_moderator_or_admin: Вам нужно быть модератором или администратором для
-        выполнения этого действия
     setup_user_auth:
       blocked_zero_hour: У вас есть срочное сообщение на сайте OpenStreetMap. Вам
         нужно прочитать сообщение, прежде чем вы сможете сохранить ваши изменения.
@@ -2380,8 +2385,6 @@ ru:
         настройках.
   user_role:
     filter:
-      not_an_administrator: Только администраторы могут управлять ролями пользователей,
-        а вы не являетесь администратором.
       not_a_role: Строка «%{role}» не является допустимой ролью.
       already_has_role: Пользователь уже имеет роль %{role}.
       doesnt_have_role: У пользователя нет роли %{role}.
@@ -2633,7 +2636,7 @@ ru:
     edit_help: Передвиньте карту и увеличьте место, которые вы хотите править, затем
       кликните здесь.
     directions:
-      ascend: По возврастанию
+      ascend: Подъём
       engines:
         graphhopper_bicycle: На велосипеде (GraphHopper)
         graphhopper_car: На машине (GraphHopper)
@@ -2642,7 +2645,7 @@ ru:
         mapquest_car: На машине (MapQuest)
         mapquest_foot: Пешком (MapQuest)
         osrm_car: На машине (OSRM)
-      descend: По убыванию
+      descend: Спуск
       directions: Маршрут
       distance: Расстояние
       errors:
@@ -2771,4 +2774,7 @@ ru:
         принадлежащих к этому исправлению перед удалением.
       flash: Исправление уничтожено.
       error: Произошла ошибка при уничтожении этого исправления.
+  validations:
+    invalid_characters: содержит недопустимые символы
+    url_characters: содержит специальные символы в URL (%{characters})
 ...

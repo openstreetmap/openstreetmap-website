@@ -49,6 +49,7 @@
 # Author: Snocker15
 # Author: Str4nd
 # Author: Suriyaa Kudo
+# Author: Sushi
 # Author: Tehabe
 # Author: The Evil IP address
 # Author: ThePiscin
@@ -142,7 +143,7 @@ de:
       name: Potlatch 2
       description: Potlatch 2 (im Browser eingebetteter Editor)
     remote:
-      name: externem Editor
+      name: Fernsteuerung
       description: externem Editor (JOSM oder Merkaartor)
   browse:
     created: Erstellt
@@ -268,9 +269,9 @@ de:
     query:
       title: Objektabfrage
       introduction: Klicke auf die Karte, um benachbarte Objekte zu finden.
-      nearby: Objekte in der Nähe
+      nearby: Ähnliche Eigenschaften
       enclosing: Umschließende Objekte
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: Seite %{page}
       next: Nächste »
@@ -300,15 +301,20 @@ de:
     timeout:
       sorry: Entschuldigung, es hat leider zu lange gedauert, die angeforderten Änderungssätze
         abzurufen.
-    rss:
-      title_all: Diskussion zum OpenStreetMap-Änderungssatz
-      title_particular: Diskussion zum OpenStreetMap-Änderungssatz Nr. %{changeset_id}
+  changeset_comments:
+    comment:
       comment: Neuer Diskussionsbeitrag zum Änderungssatz Nr. %{changeset_id} von
         %{author}
-      commented_at_html: vor %{when} aktualisiert
       commented_at_by_html: vor %{when} durch %{user} aktualisiert
-      full: Vollständige Diskussion
-  diary_entry:
+    comments:
+      comment: 'Neuer Kommentar zum Änderungssatz #%{changeset_id} von %{author}'
+    index:
+      title_all: Diskussion zum OpenStreetMap-Änderungssatz
+      title_particular: Diskussion zum OpenStreetMap-Änderungssatz Nr. %{changeset_id}
+    timeout:
+      sorry: Leider ist die Liste der Kommentare der Änderungssätze, die du angefordert
+        hast, für den Abruf zu lang.
+  diary_entries:
     new:
       title: Neuer Blog-Eintrag
       publish_button: Veröffentlichen
@@ -1643,6 +1649,11 @@ de:
         title: Zu OSM wechseln
         description: Hilfe für auf Karten und anderen Diensten gegründeten Unternehmen
           und Organisationen, die zu OpenStreetMap wechseln.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: Für Organisationen
+        description: Mit einer Organisation Pläne machen für OpenStreetMap? Finde
+          heraus, was du wissen musst, auf der Willkommensseite.
       wiki:
         url: https://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
@@ -1788,7 +1799,7 @@ de:
         paragraph_1_html: |-
           OpenStreetMap hat mehrere Quellen zum Lernen, Stellen und Beantworten von Fragen über das Projekt
           und zum gemeinsamen Diskutieren und Dokumentieren von Kartierungsthemen.
-          <a href='%{help_url}'>Erhalte hier Hilfe</a>.
+          <a href='%{help_url}'>Erhalte Hilfe hier</a>. Hast du mit einer Organisation Pläne für OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Überprüfe unsere Willkommensseite</a>.
       start_mapping: Beginne mit dem Bearbeiten der Karte
       add_a_note:
         title: Keine Zeit? Dann füge einen Hinweis ein!
@@ -1924,16 +1935,12 @@ de:
         other: GPX-Datei mit %{count} Punkten von %{user}
       description_without_count: GPX-Datei von %{user}
   application:
+    permission_denied: Du hast keine Berechtigung, um auf diese Aktion zuzugreifen.
     require_cookies:
       cookies_needed: Es scheint als hättest du Cookies ausgeschaltet. Bitte aktiviere
         Cookies, bevor du fortfährst.
     require_admin:
       not_an_admin: Du musst ein Administrator sein, um diese Aktion auszuführen.
-    require_moderator:
-      not_a_moderator: Du musst Moderator sein, um diese Aktion durchführen zu können.
-    require_moderator_or_admin:
-      not_a_moderator_or_admin: Du musst ein Moderator oder Administrator sein, um
-        diese Aktion auszuführen.
     setup_user_auth:
       blocked_zero_hour: Du hast eine dringende Nachricht auf der OpenStreetMap-Website.
         Du musst sie zuerst lesen, bevor du deine Bearbeitungen speichern kannst.
@@ -2398,8 +2405,6 @@ de:
         mit deiner ID in deinen Benutzereinstellungen verknüpfen.
   user_role:
     filter:
-      not_an_administrator: Benutzerrollen können nur von Administratoren verwaltet
-        werden - und du bist keiner.
       not_a_role: Der String „%{role}“ bezeichnet keine gültige Rolle.
       already_has_role: Der Nutzer gehört bereits der Rolle %{role} an.
       doesnt_have_role: Der Nutzer gehört nicht der Rolle %{role} an.
@@ -2792,4 +2797,9 @@ de:
         zugehörigen Versionen zurück, bevor du die Redaction löschst.
       flash: Redaction wurde gelöscht.
       error: Beim Löschen dieser Redaction ist ein Fehler aufgetreten.
+  validations:
+    leading_whitespace: hat anführendes Leerzeichen
+    trailing_whitespace: hat anhängendes Leerzeichen
+    invalid_characters: enthält ungültige Zeichen
+    url_characters: enthält besondere URL-Zeichen (%{characters})
 ...

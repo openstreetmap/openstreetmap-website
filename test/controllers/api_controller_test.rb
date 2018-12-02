@@ -1,5 +1,4 @@
 require "test_helper"
-require "api_controller"
 
 class ApiControllerTest < ActionController::TestCase
   def setup

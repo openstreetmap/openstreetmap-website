@@ -2,9 +2,10 @@ class UserRolesController < ApplicationController
   layout "site"
 
   before_action :authorize_web
-  before_action :require_user
+
+  authorize_resource
+
   before_action :lookup_user
-  before_action :require_administrator
   before_action :require_valid_role
   before_action :not_in_role, :only => [:grant]
   before_action :in_role, :only => [:revoke]
@@ -25,16 +26,6 @@ class UserRolesController < ApplicationController
   end
 
   private
-
-  ##
-  # require that the user is an administrator, or fill out a helpful error message
-  # and return them to theuser page.
-  def require_administrator
-    unless current_user.administrator?
-      flash[:error] = t "user_role.filter.not_an_administrator"
-      redirect_to user_path(@user)
-    end
-  end
 
   ##
   # require that the given role is valid. the role is a URL

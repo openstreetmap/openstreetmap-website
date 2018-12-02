@@ -96,8 +96,7 @@ class UserPreferencesControllerTest < ActionController::TestCase
 
     # try a put without auth
     assert_no_difference "UserPreference.count" do
-      content "<osm><preferences><preference k='key' v='new_value'/><preference k='new_key' v='value'/></preferences></osm>"
-      put :update
+      put :update, :body => "<osm><preferences><preference k='key' v='new_value'/><preference k='new_key' v='value'/></preferences></osm>"
     end
     assert_response :unauthorized, "should be authenticated"
     assert_equal "value", UserPreference.find([user.id, "key"]).v
@@ -111,8 +110,7 @@ class UserPreferencesControllerTest < ActionController::TestCase
 
     # try the put again
     assert_no_difference "UserPreference.count" do
-      content "<osm><preferences><preference k='key' v='new_value'/><preference k='new_key' v='value'/></preferences></osm>"
-      put :update
+      put :update, :body => "<osm><preferences><preference k='key' v='new_value'/><preference k='new_key' v='value'/></preferences></osm>"
     end
     assert_response :success
     assert_equal "text/plain", @response.content_type
@@ -125,8 +123,7 @@ class UserPreferencesControllerTest < ActionController::TestCase
 
     # try a put with duplicate keys
     assert_no_difference "UserPreference.count" do
-      content "<osm><preferences><preference k='key' v='value'/><preference k='key' v='newer_value'/></preferences></osm>"
-      put :update
+      put :update, :body => "<osm><preferences><preference k='key' v='value'/><preference k='key' v='newer_value'/></preferences></osm>"
     end
     assert_response :bad_request
     assert_equal "text/plain", @response.content_type
@@ -135,8 +132,7 @@ class UserPreferencesControllerTest < ActionController::TestCase
 
     # try a put with invalid content
     assert_no_difference "UserPreference.count" do
-      content "nonsense"
-      put :update
+      put :update, :body => "nonsense"
     end
     assert_response :bad_request
   end
@@ -149,8 +145,7 @@ class UserPreferencesControllerTest < ActionController::TestCase
 
     # try a put without auth
     assert_no_difference "UserPreference.count" do
-      content "new_value"
-      put :update_one, :params => { :preference_key => "new_key" }
+      put :update_one, :params => { :preference_key => "new_key" }, :body => "new_value"
     end
     assert_response :unauthorized, "should be authenticated"
     assert_raises ActiveRecord::RecordNotFound do
@@ -162,8 +157,7 @@ class UserPreferencesControllerTest < ActionController::TestCase
 
     # try adding a new preference
     assert_difference "UserPreference.count", 1 do
-      content "new_value"
-      put :update_one, :params => { :preference_key => "new_key" }
+      put :update_one, :params => { :preference_key => "new_key" }, :body => "new_value"
     end
     assert_response :success
     assert_equal "text/plain", @response.content_type
@@ -172,8 +166,7 @@ class UserPreferencesControllerTest < ActionController::TestCase
 
     # try changing the value of a preference
     assert_no_difference "UserPreference.count" do
-      content "newer_value"
-      put :update_one, :params => { :preference_key => "new_key" }
+      put :update_one, :params => { :preference_key => "new_key" }, :body => "newer_value"
     end
     assert_response :success
     assert_equal "text/plain", @response.content_type

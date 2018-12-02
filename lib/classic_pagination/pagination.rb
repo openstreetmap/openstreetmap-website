@@ -67,17 +67,17 @@ module ActionController
       DEFAULT_OPTIONS = {
         :class_name => nil,
         :singular_name => nil,
-        :per_page   => 10,
+        :per_page => 10,
         :conditions => nil,
-        :order_by   => nil,
-        :order      => nil,
-        :join       => nil,
-        :joins      => nil,
-        :count      => nil,
-        :include    => nil,
-        :select     => nil,
-        :group      => nil,
-        :parameter  => "page"
+        :order_by => nil,
+        :order => nil,
+        :join => nil,
+        :joins => nil,
+        :count => nil,
+        :include => nil,
+        :select => nil,
+        :group => nil,
+        :parameter => "page"
       }.freeze
     end
 
