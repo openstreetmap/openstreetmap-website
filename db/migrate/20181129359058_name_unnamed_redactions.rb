@@ -13,7 +13,7 @@ class NameUnnamedRedactions < ActiveRecord::Migration[5.0]
   end
 
   def self.down
-  	# for down-migration we allow title column to be null
+    # for down-migration we allow title column to be null
     change_column_null "redactions", "title", true
   end
 end
