@@ -38,8 +38,8 @@ class Trace < ActiveRecord::Base
   scope :tagged, ->(t) { joins(:tags).where(:gpx_file_tags => { :tag => t }) }
 
   validates :user, :presence => true, :associated => true
-  validates :name, :presence => true, :length => 1..255
-  validates :description, :presence => { :on => :create }, :length => 1..255
+  validates :name, :presence => true, :length => 1..255, :characters => true
+  validates :description, :presence => { :on => :create }, :length => 1..255, :characters => true
   validates :timestamp, :presence => true
   validates :visibility, :inclusion => %w[private public trackable identifiable]
 

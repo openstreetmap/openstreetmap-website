@@ -4,12 +4,14 @@
 # Author: Arent
 # Author: Carsrac
 # Author: Donarreiskoffer
+# Author: Elroy
 # Author: Esketti
 # Author: Freek
 # Author: Fruggo
 # Author: Greencaps
 # Author: HanV
 # Author: Hansmuller
+# Author: Henke
 # Author: JaapDeKleine
 # Author: Jochempluim
 # Author: Joost schouppe
@@ -24,6 +26,7 @@
 # Author: MrLeopold
 # Author: Optilete
 # Author: Pje335
+# Author: Robin van der Linde
 # Author: Robin van der Vliet
 # Author: Robin0van0der0vliet
 # Author: Romaine
@@ -252,12 +255,13 @@ nl:
       reopened_by_anonymous: <abbr title='%{exact_time}'>%{when} geleden</abbr> opnieuw
         geactiveerd door anoniem
       hidden_by: <abbr title='%{exact_time}'>%{when} ago</abbr> verborgen door %{user}
+      report: Notitie rapporteren
     query:
       title: Nabije objecten opvragen
       introduction: Klik op de kaart om nabije eigenschappen te ontdekken.
       nearby: Nabije eigenschappen
       enclosing: Omsluitende eigenschappen
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: Pagina %{page}
       next: Volgende »
@@ -287,14 +291,14 @@ nl:
     timeout:
       sorry: Het duurde te lang om de lijst met wijzigingensets die u hebt opgevraagd
         op te halen.
-    rss:
+  changeset_comments:
+    comment:
+      comment: 'Nieuwe reactie bij wijzigingenset #%{changeset_id} door %{author}'
+      commented_at_by_html: '%{when} geleden bijgewerkt door %{user}'
+    index:
       title_all: Overleg over een wijzigingenset van OpenStreetMap
       title_particular: 'Overleg over een wijzigingenset van OpenStreetMap #%{changeset_id}'
-      comment: 'Nieuwe reactie bij wijzigingenset #%{changeset_id} door %{author}'
-      commented_at_html: '%{when} geleden bijgewerkt'
-      commented_at_by_html: '%{when} geleden bijgewerkt door %{user}'
-      full: Volledig overleg
-  diary_entry:
+  diary_entries:
     new:
       title: Nieuw dagboekbericht
       publish_button: Publiceren
@@ -348,6 +352,7 @@ nl:
       comment_from: Reactie van %{link_user} op %{comment_created_at}
       hide_link: Reactie verbergen
       confirm: Bevestigen
+      report: Rapporteer deze opmerking
     location:
       location: 'Locatie:'
       view: Bekijken
@@ -499,6 +504,7 @@ nl:
           protected_area: Beschermd gebied
         bridge:
           aqueduct: Aquaduct
+          boardwalk: Plankenweg
           suspension: Hangbrug
           swing: Draaibrug
           viaduct: Viaduct
@@ -518,17 +524,18 @@ nl:
           "yes": Ambachtswinkel
         emergency:
           ambulance_station: Ambulancepost
+          assembly_point: Verzamelplaats
           defibrillator: Defibrillator
           landing_site: Noodlandingsbaan
           phone: Noodtelefoon
           water_tank: Watertank voor noodgevallen
           "yes": Noodgeval
         highway:
-          abandoned: Verlaten snelweg
+          abandoned: Verlaten weg
           bridleway: Ruiterpad
           bus_guideway: Vrijliggende busbaan
           bus_stop: Bushalte
-          construction: Snelweg in aanbouw
+          construction: Weg in aanbouw
           corridor: Corridor
           cycleway: Fietspad
           elevator: Lift
@@ -565,7 +572,7 @@ nl:
           track: Veld- of bosweg
           traffic_signals: Verkeerslichten
           trail: Pad
-          trunk: Autosnelweg
+          trunk: Autoweg
           trunk_link: Autoweg
           turning_loop: Keerlus
           unclassified: Ongeclassificeerde weg
@@ -691,6 +698,7 @@ nl:
           wastewater_plant: Afvalwaterzuivering
           watermill: Watermolen
           water_tower: Watertoren
+          water_well: Put
           water_works: Waterwerken
           windmill: Windmolen
           works: Fabriek
@@ -780,7 +788,7 @@ nl:
           square: Plein
           state: Staat
           subdivision: Deelgebied
-          suburb: Buitenwijk
+          suburb: Stadsdeel
           town: Stad
           unincorporated_area: Gemeentevrij gebied
           village: Dorp
@@ -870,18 +878,22 @@ nl:
           organic: Organische winkel
           outdoor: Buitensportwinkel
           paint: Verfwinkel
+          pawnbroker: Pandmakelaar
           pet: Dierenwinkel
           pharmacy: Apotheek
           photo: Fotowinkel
+          seafood: Zeevruchten
           second_hand: Kringloopwinkel
           shoes: Schoenenzaak
           sports: Sportwinkel
           stationery: Kantoorartikelenwinkel
           supermarket: Supermarkt
           tailor: Kleermaker
+          ticket: Ticketwinkel
           tobacco: Tabakswinkel
           toys: Speelgoedwinkel
           travel_agency: Reisbureau
+          tyres: Bandenwinkel
           video: Videotheek
           wine: Wijnwinkel
           "yes": Winkel
@@ -935,7 +947,7 @@ nl:
         level6: Countygrens
         level8: Stadsgrens
         level9: Dorpsgrens
-        level10: Wijkgrens
+        level10: Stadsdeelgrens
     description:
       title:
         osm_nominatim: Locatie van <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
@@ -948,6 +960,74 @@ nl:
     results:
       no_results: Geen resultaten gevonden
       more_results: Meer resultaten
+  issues:
+    index:
+      title: Problemen
+      select_status: Selecteer Status
+      select_type: Selecteer Type
+      select_last_updated_by: Selecteer Laats Bijgewerkt Door
+      reported_user: Gerapporteerde Gebruiker
+      not_updated: Niet Bijgewerkt
+      search: Zoeken
+      search_guidance: 'Zoek Problemen:'
+      user_not_found: Gebruiker bestaat niet
+      status: Status
+      reports: Rapportages
+      last_updated: Laatst Bijgewerkt
+      reported_item: Gerapporteerd Item
+      states:
+        ignored: Genegeerd
+        open: Open
+        resolved: Opgelost
+    update:
+      new_report: Uw rapport is succesvol geregistreerd
+      successful_update: Uw rapport is succesvol bijgewerkt
+      provide_details: Geef a.u.b. de vereiste gegevens in
+    show:
+      title: '%{status} Probleem #%{issue_id}'
+      report_created_at: Voor het eerst vermeld op %{datetime}
+      last_resolved_at: Laatst opgelost op %{datetime}
+      last_updated_at: Laatst bijgewerkt op %{datetime} door %{displayname}
+      resolve: Oplossen
+      ignore: Negeren
+      reopen: Heropenen
+      reports_of_this_issue: Meldingen van deze kwestie
+      read_reports: Lees Meldingen
+      new_reports: Nieuwe Meldingen
+      other_issues_against_this_user: Andere problemen met deze gebruiker
+      no_other_issues: Geen andere problemen tegen deze gebruiker.
+      comments_on_this_issue: Commentaar op deze kwestie
+    resolve:
+      resolved: De status van het probleem is ingesteld op 'Opgelost'
+    ignore:
+      ignored: De status van het probleem is ingesteld op 'Genegeerd'
+    reopen:
+      reopened: De status van het probleem is ingesteld op 'Open'
+    comments:
+      created_at: Op %{datetime}
+      reassign_param: Probleem opnieuw toewijzen?
+    reports:
+      updated_at: Op %{datetime}
+      reported_by_html: Gerapporteerd als %{category} door %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, commentaar #%{comment_id}'
+        note: 'Nota #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Je reactie is succesvol gemaakt
+  reports:
+    new:
+      categories:
+        diary_entry:
+          other_label: Anders
+        diary_comment:
+          other_label: Anders
+        user:
+          other_label: Anders
+        note:
+          spam_label: Deze notitie is spam
+          other_label: Anders
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
@@ -973,6 +1053,8 @@ nl:
     intro_text: OpenStreetMap is een kaart van de wereld, gemaakt door mensen zoals
       u en vrij te gebruiken onder een open licentie.
     intro_2_create_account: Maak een gebruiker aan
+    hosting_partners_html: Hosting wordt ondersteund door %{ucl}, %{bytemark}, en
+      andere %{partners}.
     partners_ucl: het UCL VR Centre
     partners_bytemark: Bytemark Hosting
     partners_partners: partners
@@ -1489,6 +1571,8 @@ nl:
         title: switch2osm
         description: Hulp voor bedrijven en organisaties om over te schakelen op OpenStreetMap-gebaseerde
           kaarten en andere diensten.
+      welcomemat:
+        title: Voor bedrijven
       wiki:
         url: https://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
@@ -1729,6 +1813,7 @@ nl:
       map: kaart
     index:
       public_traces: Openbare GPS-traces
+      my_traces: Mijn GPS-tracks
       public_traces_from: Openbare GPS-traces van %{user}
       description: Recente GPS-trackuploads bekijken
       tagged_with: ' gelabeld met %{tags}'
@@ -1736,6 +1821,7 @@ nl:
         trace</a> of kom meer te weten over GPS tracen op de <a href='https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wikipagina</a>.
       upload_trace: Trace uploaden
       see_all_traces: Alle traces bekijken
+      see_my_traces: Weergeef mijn tracks
     delete:
       scheduled_for_deletion: Trace staat op de lijst voor verwijdering
     make_public:
@@ -1758,8 +1844,6 @@ nl:
     require_cookies:
       cookies_needed: U hebt cookies waarschijnlijk uitgeschakeld in uw browser. Schakel
         cookies in voordat u verder gaat.
-    require_moderator:
-      not_a_moderator: U moet moderator zijn om die handeling uit te kunnen voeren.
     setup_user_auth:
       blocked_zero_hour: U heeft een urgente melding op de OpenStreetMap web site.
         U moet het bericht lezen voordat u in staat bent uw wijzigingen op te slaan.
@@ -2061,6 +2145,7 @@ nl:
       friends_diaries: dagboekberichten van vrienden
       nearby_changesets: wijzigingensets van gebruikers in de buurt
       nearby_diaries: dagboekberichten van gebruikers in de buurt
+      report: Rapporteer deze Gebruiker
     popup:
       your location: Uw locatie
       nearby mapper: Dichtbijzijnde mapper
@@ -2206,8 +2291,6 @@ nl:
         en wachtwoord aanmelden en daarna uw ID met uw account verbinden in uw instellingen.
   user_role:
     filter:
-      not_an_administrator: Alleen beheerders kunnen gebruikersrollen beheren. U bent
-        geen beheerder.
       not_a_role: '"%{role}" is geen geldige rol.'
       already_has_role: De gebruiker heeft de rol %{role} al.
       doesnt_have_role: De gebruiker heeft de rol %{role} niet.
@@ -2500,6 +2583,14 @@ nl:
         roundabout_with_exit: Neem op de rotonde afslag %{exit} naar %{name}
         unnamed: naamloos
         courtesy: Routebeschrijving met dank aan %{link}
+        exit_counts:
+          first: 1e
+          second: 2e
+          third: 3e
+          fourth: 4e
+          fifth: 5e
+          sixth: 6e
+          seventh: 7e
       time: Tijd
     query:
       node: Node
@@ -2547,4 +2638,7 @@ nl:
         betrokken zijn voordat u die vernietigt.
       flash: De redigering is vernietigd.
       error: Er is een fout opgetreden tijdens het verwijderen van de redigering.
+  validations:
+    invalid_characters: bevat ongeldige karakters
+    url_characters: bevat speciale URL karakters (%{characters})
 ...

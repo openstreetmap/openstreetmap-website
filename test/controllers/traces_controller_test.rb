@@ -929,32 +929,27 @@ class TracesControllerTest < ActionController::TestCase
     anon_trace_file = create(:trace, :visibility => "private")
 
     # First with no auth
-    content public_trace_file.to_xml
-    put :api_update, :params => { :id => public_trace_file.id }
+    put :api_update, :params => { :id => public_trace_file.id }, :body => public_trace_file.to_xml.to_s
     assert_response :unauthorized
 
     # Now with some other user, which should fail
     basic_authorization create(:user).display_name, "test"
-    content public_trace_file.to_xml
-    put :api_update, :params => { :id => public_trace_file.id }
+    put :api_update, :params => { :id => public_trace_file.id }, :body => public_trace_file.to_xml.to_s
     assert_response :forbidden
 
     # Now with a trace which doesn't exist
     basic_authorization create(:user).display_name, "test"
-    content public_trace_file.to_xml
-    put :api_update, :params => { :id => 0 }
+    put :api_update, :params => { :id => 0 }, :body => public_trace_file.to_xml.to_s
     assert_response :not_found
 
     # Now with a trace which did exist but has been deleted
     basic_authorization deleted_trace_file.user.display_name, "test"
-    content deleted_trace_file.to_xml
-    put :api_update, :params => { :id => deleted_trace_file.id }
+    put :api_update, :params => { :id => deleted_trace_file.id }, :body => deleted_trace_file.to_xml.to_s
     assert_response :not_found
 
     # Now try an update with the wrong ID
     basic_authorization public_trace_file.user.display_name, "test"
-    content anon_trace_file.to_xml
-    put :api_update, :params => { :id => public_trace_file.id }
+    put :api_update, :params => { :id => public_trace_file.id }, :body => anon_trace_file.to_xml.to_s
     assert_response :bad_request,
                     "should not be able to update a trace with a different ID from the XML"
 
@@ -963,8 +958,7 @@ class TracesControllerTest < ActionController::TestCase
     t = public_trace_file
     t.description = "Changed description"
     t.visibility = "private"
-    content t.to_xml
-    put :api_update, :params => { :id => t.id }
+    put :api_update, :params => { :id => t.id }, :body => t.to_xml.to_s
     assert_response :success
     nt = Trace.find(t.id)
     assert_equal nt.description, t.description
@@ -977,8 +971,7 @@ class TracesControllerTest < ActionController::TestCase
     trace = tracetag.trace
     basic_authorization trace.user.display_name, "test"
 
-    content trace.to_xml
-    put :api_update, :params => { :id => trace.id }
+    put :api_update, :params => { :id => trace.id }, :body => trace.to_xml.to_s
     assert_response :success
 
     updated = Trace.find(trace.id)

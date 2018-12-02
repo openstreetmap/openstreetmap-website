@@ -11,6 +11,7 @@ WebMock.disable_net_connect!(:allow_localhost => true)
 module ActiveSupport
   class TestCase
     include FactoryBot::Syntax::Methods
+    include ActiveJob::TestHelper
 
     ##
     # takes a block which is executed in the context of a different
@@ -91,12 +92,6 @@ module ActiveSupport
     # set request readers to ask for a particular error format
     def error_format(format)
       @request.env["HTTP_X_ERROR_FORMAT"] = format
-    end
-
-    ##
-    # set the raw body to be sent with a POST request
-    def content(c)
-      @request.env["RAW_POST_DATA"] = c.to_s
     end
 
     ##

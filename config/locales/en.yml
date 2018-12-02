@@ -213,7 +213,7 @@ en:
       introduction: "Click on the map to find nearby features."
       nearby: "Nearby features"
       enclosing: "Enclosing features"
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: "Page %{page}"
       next: "Next »"
@@ -242,14 +242,18 @@ en:
       load_more: "Load more"
     timeout:
       sorry: "Sorry, the list of changesets you requested took too long to retrieve."
-    rss:
+  changeset_comments:
+    comment:
+      comment: "New comment on changeset #%{changeset_id} by %{author}"
+      commented_at_by_html: "Updated %{when} ago by %{user}"
+    comments:
+      comment: "New comment on changeset #%{changeset_id} by %{author}"
+    index:
       title_all: OpenStreetMap changeset discussion
       title_particular: "OpenStreetMap changeset #%{changeset_id} discussion"
-      comment: "New comment on changeset #%{changeset_id} by %{author}"
-      commented_at_html: "Updated %{when} ago"
-      commented_at_by_html: "Updated %{when} ago by %{user}"
-      full: Full discussion
-  diary_entry:
+    timeout:
+      sorry: "Sorry, the list of changeset comments you requested took too long to retrieve."
+  diary_entries:
     new:
       title: New Diary Entry
       publish_button: "Publish"
@@ -1527,6 +1531,10 @@ en:
         url: https://switch2osm.org/
         title: switch2osm
         description: Help for companies and organisations switching to OpenStreetMap based maps and other services.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: For Organizations
+        description: With an organization making plans for OpenStreetMap? Find what you need to know in the Welcome Mat.
       wiki:
         url: https://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
@@ -1673,7 +1681,7 @@ en:
         paragraph_1_html: |
           OpenStreetMap has several resources for learning about the project, asking and answering
           questions, and collaboratively discussing and documenting mapping topics.
-          <a href='%{help_url}'>Get help here</a>.
+          <a href='%{help_url}'>Get help here</a>. With an organization making plans for OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Check out the Welcome Mat</a>.
       start_mapping: Start Mapping
       add_a_note:
         title: No Time To Edit? Add a Note!
@@ -1798,14 +1806,11 @@ en:
         other: "GPX file with %{count} points from %{user}"
       description_without_count: "GPX file from %{user}"
   application:
+    permission_denied: You do not have permission to access that action
     require_cookies:
       cookies_needed: "You appear to have cookies disabled - please enable cookies in your browser before continuing."
     require_admin:
       not_an_admin: You need to be an admin to perform that action.
-    require_moderator:
-      not_a_moderator: "You need to be a moderator to perform that action."
-    require_moderator_or_admin:
-      not_a_moderator_or_admin: You need to be a moderator or an admin to perform that action
     setup_user_auth:
       blocked_zero_hour: "You have an urgent message on the OpenStreetMap web site. You need to read the message before you will be able to save your edits."
       blocked: "Your access to the API has been blocked. Please log-in to the web interface to find out more."
@@ -2213,7 +2218,6 @@ en:
         with your ID in your user settings.
   user_role:
     filter:
-      not_an_administrator: "Only administrators can perform user role management, and you are not an administrator."
       not_a_role: "The string `%{role}' is not a valid role."
       already_has_role: "The user already has role %{role}."
       doesnt_have_role: "The user does not have role %{role}."
@@ -2561,3 +2565,8 @@ en:
       not_empty: "Redaction is not empty. Please un-redact all versions belonging to this redaction before destroying it."
       flash: "Redaction destroyed."
       error: "There was an error destroying this redaction."
+  validations:
+    leading_whitespace: "has leading whitespace"
+    trailing_whitespace: "has trailing whitespace"
+    invalid_characters: "contains invalid characters"
+    url_characters: "contains special URL characters (%{characters})"

@@ -65,6 +65,7 @@ module Potlatch2
     "mk" => "mk",
     "mr" => "mr",
     "ms" => "ms",
+    "my" => "my",
     "nb" => "nb_NO",
     "ne" => "ne",
     "nl" => "nl_NL",

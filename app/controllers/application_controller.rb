@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery :with => :exception
 
+  rescue_from CanCan::AccessDenied, :with => :deny_access
+
   before_action :fetch_body
   around_action :better_errors_allow_inline, :if => proc { Rails.env.development? }
 
@@ -22,7 +24,7 @@ class ApplicationController < ActionController::Base
       # don't allow access to any auth-requiring part of the site unless
       # the new CTs have been seen (and accept/decline chosen).
       elsif !current_user.terms_seen && flash[:skip_terms].nil?
-        flash[:notice] = t "user.terms.you need to accept or decline"
+        flash[:notice] = t "users.terms.you need to accept or decline"
         if params[:referer]
           redirect_to :controller => "users", :action => "terms", :referer => params[:referer]
         else
@@ -116,24 +118,6 @@ class ApplicationController < ActionController::Base
     require_capability(:allow_write_gpx)
   end
 
-  def require_allow_write_notes
-    require_capability(:allow_write_notes)
-  end
-
-  ##
-  # require that the user is a moderator, or fill out a helpful error message
-  # and return them to the index for the controller this is wrapped from.
-  def require_moderator
-    unless current_user.moderator?
-      if request.get?
-        flash[:error] = t("application.require_moderator.not_a_moderator")
-        redirect_to :action => "index"
-      else
-        head :forbidden
-      end
-    end
-  end
-
   ##
   # sets up the current_user for use by other methods. this is mostly called
   # from the authorize method, but can be called elsewhere if authorisation
@@ -191,11 +175,6 @@ class ApplicationController < ActionController::Base
   ##
   # to be used as a before_filter *after* authorize. this checks that
   # the user is a moderator and, if not, returns a forbidden error.
-  #
-  # NOTE: this isn't a very good way of doing it - it duplicates logic
-  # from require_moderator - but what we really need to do is a fairly
-  # drastic refactoring based on :format and respond_to? but not a
-  # good idea to do that in this branch.
   def authorize_moderator(errormessage = "Access restricted to moderators")
     # check user is a moderator
     unless current_user.moderator?
@@ -412,9 +391,9 @@ class ApplicationController < ActionController::Base
     append_content_security_policy_directives(
       :child_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
       :frame_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
-      :connect_src => %w[nominatim.openstreetmap.org overpass-api.de router.project-osrm.org graphhopper.com],
+      :connect_src => [NOMINATIM_URL, OVERPASS_URL, OSRM_URL, GRAPHHOPPER_URL],
       :form_action => %w[render.openstreetmap.org],
-      :script_src => %w[open.mapquestapi.com],
+      :script_src => [MAPQUEST_DIRECTIONS_URL],
       :img_src => %w[developer.mapquest.com]
     )
 
@@ -464,6 +443,63 @@ class ApplicationController < ActionController::Base
     )
 
     raise
+  end
+
+  def current_ability
+    # Add in capabilities from the oauth token if it exists and is a valid access token
+    if Authenticator.new(self, [:token]).allow?
+      Ability.new(current_user).merge(Capability.new(current_token))
+    else
+      Ability.new(current_user)
+    end
+  end
+
+  def deny_access(exception)
+    if @api_deny_access_handling
+      api_deny_access(exception)
+    else
+      web_deny_access(exception)
+    end
+  end
+
+  def web_deny_access(_exception)
+    if current_token
+      set_locale
+      report_error t("oauth.permissions.missing"), :forbidden
+    elsif current_user
+      set_locale
+      respond_to do |format|
+        format.html { redirect_to :controller => "errors", :action => "forbidden" }
+        format.any { report_error t("application.permission_denied"), :forbidden }
+      end
+    elsif request.get?
+      respond_to do |format|
+        format.html { redirect_to :controller => "users", :action => "login", :referer => request.fullpath }
+        format.any { head :forbidden }
+      end
+    else
+      head :forbidden
+    end
+  end
+
+  def api_deny_access(_exception)
+    if current_token
+      set_locale
+      report_error t("oauth.permissions.missing"), :forbidden
+    elsif current_user
+      head :forbidden
+    else
+      realm = "Web Password"
+      errormessage = "Couldn't authenticate you"
+      response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
+      render :plain => errormessage, :status => :unauthorized
+    end
+  end
+
+  attr_accessor :api_access_handling
+
+  def api_deny_access_handler
+    @api_deny_access_handling = true
   end
 
   private

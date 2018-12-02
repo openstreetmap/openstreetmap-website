@@ -228,7 +228,9 @@ class NotesControllerTest < ActionController::TestCase
     open_note_with_comment = create(:note_with_comments)
     assert_difference "NoteComment.count", 1 do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
-        post :comment, :params => { :id => open_note_with_comment.id, :text => "This is an additional comment", :format => "json" }
+        perform_enqueued_jobs do
+          post :comment, :params => { :id => open_note_with_comment.id, :text => "This is an additional comment", :format => "json" }
+        end
       end
     end
     assert_response :success
@@ -265,7 +267,9 @@ class NotesControllerTest < ActionController::TestCase
     end
     assert_difference "NoteComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 2 do
-        post :comment, :params => { :id => note_with_comments_by_users.id, :text => "This is an additional comment", :format => "json" }
+        perform_enqueued_jobs do
+          post :comment, :params => { :id => note_with_comments_by_users.id, :text => "This is an additional comment", :format => "json" }
+        end
       end
     end
     assert_response :success
@@ -307,7 +311,9 @@ class NotesControllerTest < ActionController::TestCase
 
     assert_difference "NoteComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 2 do
-        post :comment, :params => { :id => note_with_comments_by_users.id, :text => "This is an additional comment", :format => "json" }
+        perform_enqueued_jobs do
+          post :comment, :params => { :id => note_with_comments_by_users.id, :text => "This is an additional comment", :format => "json" }
+        end
       end
     end
     assert_response :success

@@ -88,17 +88,14 @@ class User < ActiveRecord::Base
                     :default_url => "/assets/:class/:attachment/:style.png",
                     :styles => { :large => "100x100>", :small => "50x50>" }
 
-  validates :display_name, :presence => true, :allow_nil => true, :length => 3..255,
+  validates :display_name, :presence => true, :length => 3..255,
                            :exclusion => %w[new terms save confirm confirm-email go_public reset-password forgot-password suspended]
   validates :display_name, :if => proc { |u| u.display_name_changed? },
                            :uniqueness => { :case_sensitive => false }
   validates :display_name, :if => proc { |u| u.display_name_changed? },
-                           :format => { :with => %r{\A[^\x00-\x1f\x7f\ufffe\uffff/;.,?%#]*\z} }
-  validates :display_name, :if => proc { |u| u.display_name_changed? },
-                           :format => { :with => /\A\S/, :message => "has leading whitespace" }
-  validates :display_name, :if => proc { |u| u.display_name_changed? },
-                           :format => { :with => /\S\z/, :message => "has trailing whitespace" }
-  validates :email, :presence => true, :confirmation => true
+                           :characters => { :url_safe => true },
+                           :whitespace => { :leading => false, :trailing => false }
+  validates :email, :presence => true, :confirmation => true, :characters => true
   validates :email, :if => proc { |u| u.email_changed? },
                     :uniqueness => { :case_sensitive => false }
   validates :pass_crypt, :confirmation => true, :length => 8..255

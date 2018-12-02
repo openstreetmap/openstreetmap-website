@@ -99,4 +99,7 @@ Rails.application.configure do
 
   # Enable autoloading of dependencies.
   config.enable_dependency_loading = true
+
+  # Use delayed job to queue jobs in production.
+  config.active_job.queue_adapter = :delayed_job
 end

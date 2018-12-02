@@ -247,7 +247,7 @@ pt-PT:
       introduction: Clique no mapa para descobrir elementos em redor.
       nearby: Nas proximidades
       enclosing: Pertence a
-  changeset:
+  changesets:
     changeset_paging_nav:
       showing_page: Página %{page}
       next: Seguinte »
@@ -277,14 +277,14 @@ pt-PT:
     timeout:
       sorry: Pedimos desculpa, mas a lista de conjuntos de alterações que pediu excedeu
         o tempo limite de resposta.
-    rss:
+  changeset_comments:
+    comment:
+      comment: 'Novo comentário sobre a edição #%{changeset_id} por %{author}'
+      commented_at_by_html: Atualizado há %{when} por %{user}
+    index:
       title_all: Discussão da edição no OpenStreetMap
       title_particular: 'Discussão sobre a edição #%{changeset_id}'
-      comment: 'Novo comentário sobre a edição #%{changeset_id} por %{author}'
-      commented_at_html: Atualizado há %{when}
-      commented_at_by_html: Atualizado há %{when} por %{user}
-      full: Discussão completa
-  diary_entry:
+  diary_entries:
     new:
       title: Nova entrada no diário
       publish_button: Publicar
@@ -1872,16 +1872,12 @@ pt-PT:
         other: Ficheiro GPX com %{count} pontos de %{user}
       description_without_count: Ficheiro GPX de %{user}
   application:
+    permission_denied: Não tem permissões para aceder a essa operação
     require_cookies:
       cookies_needed: Parece que tem os "cookies" desativados - por favor ative-os
         no seu navegador de Internet antes de continuar.
     require_admin:
       not_an_admin: Tem de ser um administrador para realizar essa ação.
-    require_moderator:
-      not_a_moderator: Tem de ser um moderador para poder fazer essa ação.
-    require_moderator_or_admin:
-      not_a_moderator_or_admin: Tem de ser um moderador ou um administrador para realizar
-        essa ação
     setup_user_auth:
       blocked_zero_hour: Tem uma mensagem urgente no site do OpenStreetMap. Tem de
         ler a mensagem antes de poder gravar as suas edições.
@@ -2091,6 +2087,7 @@ pt-PT:
       terms accepted: Obrigado por aceitar os novos termos de colaborador!
       terms declined: Lamentamos não ter aceitado os novos Termos de Colaborador.
         Para obter mais informações consulte <a href="%{url}">esta página wiki</a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: Termos de colaborador
       heading: Termos de colaborador
@@ -2100,9 +2097,11 @@ pt-PT:
       consider_pd: para além do acordo exposto acima, considero que as minhas contribuições
         se encontram em Domínio Público.
       consider_pd_why: O que é isto?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Informação para ajudar a compreender os termos: um <a href="%{summary}">resumo
         inteligível</a> e algumas <a href="%{translations}">traduções informais</a>'
       agree: Aceitar
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Rejeitar
       you need to accept or decline: Por favor leia e depois aceite ou recuse os novos
         Termos de Colaborador para continuar.
@@ -2225,6 +2224,7 @@ pt-PT:
           os Termos de Colaborador.
         agreed_with_pd: Também declarou que as suas edições são disponibilizadas em
           Domínio Público.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: o que é isto?
       profile description: 'Descrição do perfil:'
       preferred languages: 'Línguas preferidas:'
@@ -2232,6 +2232,7 @@ pt-PT:
       image: 'Imagem:'
       gravatar:
         gravatar: Usar imagem do site Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         link text: o que é isto?
         disabled: O Gravatar foi desativado.
         enabled: A visualização do seu avatar de Gravatar foi ativada.
@@ -2338,8 +2339,6 @@ pt-PT:
         conta.
   user_role:
     filter:
-      not_an_administrator: Apenas os administradores podem gerir cargos, e você não
-        é administrador.
       not_a_role: A expressão `%{role}' não é um cargo válido.
       already_has_role: O utilizador já tem o cargo %{role}.
       doesnt_have_role: O utilizador não tem o cargo %{role}.
@@ -2728,4 +2727,9 @@ pt-PT:
         as versões pertencentes a esta supressão antes de a eliminar
       flash: Supressão eliminada.
       error: Ocorreu um erro ao tentar eliminar esta supressão.
+  validations:
+    leading_whitespace: tem espaços no início
+    trailing_whitespace: tem espaços no fim
+    invalid_characters: contém caracteres inválidos
+    url_characters: contém caracteres especiais dos URL (%{characters})
 ...

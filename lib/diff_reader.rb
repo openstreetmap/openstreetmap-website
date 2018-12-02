@@ -8,8 +8,8 @@ class DiffReader
 
   # maps each element type to the model class which handles it
   MODELS = {
-    "node"     => Node,
-    "way"      => Way,
+    "node" => Node,
+    "way" => Way,
     "relation" => Relation
   }.freeze
 

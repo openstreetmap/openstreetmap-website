@@ -1,5 +1,4 @@
 require "test_helper"
-require "osm"
 
 class RedactionTest < ActiveSupport::TestCase
   # should not redact a node that is current
