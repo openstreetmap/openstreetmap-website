@@ -14,7 +14,7 @@ class RedactionTest < ActiveSupport::TestCase
       n.redact!(r)
     end
   end
-  
+
   # node with older versions in history should not be redactable
   def test_cannot_redact_current_via_old
     node = create(:node, :with_history)
@@ -28,7 +28,7 @@ class RedactionTest < ActiveSupport::TestCase
       node_v1.redact!(r)
     end
   end
-  
+
   # should not be able to do redactions with nodes of version 2
   def test_can_redact_old
     node = create(:node, :with_history, :version => 2)
@@ -45,112 +45,40 @@ class RedactionTest < ActiveSupport::TestCase
     assert_equal(true, node_v1.redacted?, "Expected node version 1 to be redacted after redact! call.")
     assert_equal(false, node_v2.redacted?, "Expected node version 2 to not be redacted after redact! call.")
   end
-  
-  # if both redaction title and description are blank
-  def test_redact_empty
-    # create moderator
-    # session[:user] = create(:moderator_user).id
-    # read in user, title and description for redaction
-    @redaction = Redaction.new
-    # @redaction.user = session[:user]
-    @redaction.user = User.new
-    @redaction.title = "    "
-    @redaction.description = "    "
 
-    # if @redaction.title.blank? || @redaction.description.blank?
-      # assert_response :redirect
-      # assert_redirected_to :controller => "errors", :action => "forbidden"
-    # end
-    assert_equal(true, @redaction.title.blank?, "title should be blank")
-    assert_equal(true, @redaction.description.blank?, "descr should be blank")
+  # redaction with blank title should be invalid
+  def test_redaction_cannot_have_empty_title
+    redaction = create(:redaction)
+    redaction.title = ""
+    redaction.description = "Some description."
+    assert_not redaction.save
+    assert redaction.errors[:title].include?("can't be blank")
   end
-  
-  # if redaction title is blank but not description
-  def test_redact_empty_title
-    # create moderator
-    # session[:user] = create(:moderator_user).id
-    # read in user, title and description for redaction
-    @redaction = Redaction.new
-    # @redaction.user = session[:user]
-    @redaction.user = User.new
-    @redaction.title = "      " # accounting for whitespace
-    @redaction.description = "hello"
-    # if redaction title is blank (no spaces) 
-    # should be redirected to under controller errors and be forbidden
-    # if @redaction.title.blank? # made changes here
-      # assert_response :redirect
-      # assert_redirected_to :controller => "errors", :action => "forbidden"
-    # end
-    assert_equal(true, @redaction.title.blank?, "title should be blank")
-    assert_equal(false, @redaction.description.blank?, "descr should not be blank")
-  end
-  
-  # if redaction title is nil but not description
-  def test_redact_empty_title_nil
-    # create moderator
-    # session[:user] = create(:moderator_user).id
-    # read in user, title and description for redaction
-    @redaction = Redaction.new
-    # @redaction.user = session[:user]
-    @redaction.user = User.new
-    @redaction.title = nil # accounting for whitespace
-    @redaction.description = "hello"
-    # if redaction title is blank (no spaces) 
-    # should be redirected to under controller errors and be forbidden
-    # if @redaction.title.blank? # made changes here
-      # assert_response :redirect
-      # assert_redirected_to :controller => "errors", :action => "forbidden"
-    # end
-    assert_equal(true, @redaction.title.blank?, "title should be blank")
-    assert_equal(false, @redaction.description.blank?, "descr should not be blank")
-  end
-  
-  # if redaction description is blank but not title
-  def test_redact_empty_desc
-    # create moderator
-    # session[:user] = create(:moderator_user).id
-    # read in user, title and description for redaction
-    @redaction = Redaction.new
-    # @redaction.user = session[:user]
-    @redaction.user = User.new
-    @redaction.title = "The redac"
-    @redaction.description = "      " # if nothing
-    # if there is no description, perform the following actions
-    # if @redaction.description.blank? # made changes here
-      # assert_response :redirect
-      # assert_redirected_to :controller => "errors", :action => "forbidden"
-    # end
-    assert_equal(false, @redaction.title.blank?, "title should not be blank")
-    assert_equal(true, @redaction.description.blank?, "descr should be blank")
-  end
-  
-  # if redaction description is nil but not title
-  def test_redact_empty_desc_nil
-    # create moderator
-    # session[:user] = create(:moderator_user).id
-    # read in user, title and description for redaction
-    @redaction = Redaction.new
-    # @redaction.user = session[:user]
-    @redaction.user = User.new
-    @redaction.title = "The redac"
-    @redaction.description = nil # if nothing
-    # if there is no description, perform the following actions
-    # if @redaction.description.blank? # made changes here
-      # assert_response :redirect
-      # assert_redirected_to :controller => "errors", :action => "forbidden"
-    assert_equal(false, @redaction.title.blank?, "title should not be blank")
-    assert_equal(true, @redaction.description.blank?, "descr should be blank")
-    # end
-  end
-  
-  # checks for moderator redaction with blank title and description (?)
-  # def test_session_redact
-    # session[:user] = create(:moderator_user).id
 
-    # redaction = create(:redaction)
+  # redaction with spaces for title should be invalid
+  def test_redaction_cannot_have_title_with_only_spaces
+    redaction = create(:redaction)
+    redaction.title = "    "
+    redaction.description = "Some description."
+    assert_not redaction.save
+    assert redaction.errors[:title].include?("can't be blank")
+  end
 
-    # put :update, :params => { :id => redaction.id, :redaction => { :title => "", :description => "" } }
-    # assert_response :redirect
-    # assert_redirected_to :controller => "errors", :action => "forbidden"
-  # end
+  # redaction with blank description should be invalid
+  def test_redaction_cannot_have_empty_description
+    redaction = create(:redaction)
+    redaction.title = "Some title."
+    redaction.description = ""
+    assert_not redaction.save
+    assert redaction.errors[:description].include?("can't be blank")
+  end
+
+  # redaction with blank description should be invalid
+  def test_redaction_cannot_have_description_with_only_spaces
+    redaction = create(:redaction)
+    redaction.title = "Some title."
+    redaction.description = "    "
+    assert_not redaction.save
+    assert redaction.errors[:description].include?("can't be blank")
+  end
 end
