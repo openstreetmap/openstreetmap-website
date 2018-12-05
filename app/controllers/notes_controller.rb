@@ -55,7 +55,7 @@ class NotesController < ApplicationController
   # Create a new note
   def create
     # Check the ACLs
-    raise OSM::APIAccessDenied if Acl.no_note_comment(request.remote_ip)
+    raise OSM::APIAccessDenied if current_user.nil? && Acl.no_note_comment(request.remote_ip)
 
     # Check the arguments are sane
     raise OSM::APIBadUserInput, "No lat was given" unless params[:lat]
@@ -91,7 +91,7 @@ class NotesController < ApplicationController
   # Add a comment to an existing note
   def comment
     # Check the ACLs
-    raise OSM::APIAccessDenied if Acl.no_note_comment(request.remote_ip)
+    raise OSM::APIAccessDenied if current_user.nil? && Acl.no_note_comment(request.remote_ip)
 
     # Check the arguments are sane
     raise OSM::APIBadUserInput, "No id was given" unless params[:id]
