@@ -979,34 +979,85 @@ is:
         open: Opna
         resolved: Leyst
     update:
+      new_report: Það tókst að skrá skýrsluna þína
+      successful_update: Það tókst að uppfæra skýrsluna þína
       provide_details: Tilgreindu öll nauðsynleg atriði
     show:
+      title: '%{status} vandamál #%{issue_id}'
+      reports:
+        zero: Engar skýrslur
+        one: 1 skýrsla
+        other: '%{count} skýrslur'
+      report_created_at: Fyrst tilkynnt %{datetime}
+      last_resolved_at: Síðast leyst %{datetime}
+      last_updated_at: Síðast uppfært %{datetime} af %{displayname}
       resolve: Leysa
       ignore: Hunsa
       reopen: Enduropna
+      reports_of_this_issue: Tilkynningar um þetta vandamál
       read_reports: Lesta skýrslur
       new_reports: Nýjar skýrslur
+      other_issues_against_this_user: Önnur vandamál varðandi þennan notanda
+      no_other_issues: Engin önnur vandamál varðandi þennan notanda.
+      comments_on_this_issue: Athugasemdir við þetta vandamál
+    resolve:
+      resolved: Staða vandamáls hefur verið sett á 'Leyst'
+    ignore:
+      ignored: Staða vandamáls hefur verið sett á 'Hunsað'
+    reopen:
+      reopened: Staða vandamáls hefur verið sett á 'Opið'
     comments:
       created_at: Þann %{datetime}
+      reassign_param: Endurúthluta vandamáli?
     reports:
       updated_at: Þann %{datetime}
+      reported_by_html: Tilkynnt sem %{category} af %{user}
     helper:
       reportable_title:
+        diary_comment: '%{entry_title}, athugasemd #%{comment_id}'
         note: 'Minnispunktur #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Það tókst að búa til athugasemdina þína
   reports:
     new:
+      title_html: Tilkynna %{link}
+      missing_params: Get ekki búið til nýja skýrslu
+      details: Tilgreindu öll nauðsynleg atriði um vandamálið (nauðsynlegt).
+      select: 'Veldu ástæðu fyrir að þú gerir skýrslu:'
+      disclaimer:
+        intro: 'Áður en þú sendir skýrsluna þína inn til stjórnenda vefsins, skaltu
+          ganga úr skugga um að:'
+        not_just_mistake: Þú sért viss um að vandamálið sé ekki bara mistök
+        unable_to_fix: Þér hefur sjálfum ekki tekist að leysa vandamálið eða með hjálp
+          félaga þinna í samfélaginu
+        resolve_with_user: Þú hefur þegar reynt að leysa vandamálið með viðkomandi
+          notanda
       categories:
         diary_entry:
+          spam_label: Bloggfærslan er/inniheldur ruslpóst
+          offensive_label: Bloggfærslan er dónaleg/ögrandi
+          threat_label: Bloggfærslan inniheldur hótun
           other_label: Annað
         diary_comment:
+          spam_label: Bloggathugasemdin er/inniheldur ruslpóst
+          offensive_label: Bloggathugasemdin er dónaleg/ögrandi
+          threat_label: Bloggathugasemdin inniheldur hótun
           other_label: Annað
         user:
+          spam_label: Notandasniðið er/inniheldur ruslpóst
+          offensive_label: Notandasniðið er dónalegt/ögrandi
+          threat_label: Notandasniðið inniheldur hótun
           vandal_label: Þessi notandi er að skemma
           other_label: Annað
         note:
           spam_label: Þessi minnispunktur er ruslpóstur
+          personal_label: Þessi minnispunktur inniheldur persónulegar upplýsingar
           abusive_label: Þessi minnispunktur er misnotkun
           other_label: Annað
+    create:
+      successful_report: Það tókst að skrá skýrsluna þína
+      provide_details: Tilgreindu öll nauðsynleg atriði
   layouts:
     project_name:
       title: OpenStreetMap
@@ -1036,6 +1087,7 @@ is:
     intro_text: OpenStreetMap er heimskort búið til af fólki eins og þér. Það er gefið
       út með opnu hugbúnaðarleyfi og það kostar ekkert að nota það.
     intro_2_create_account: Búa til notandaaðgang
+    hosting_partners_html: Vefhýsing er studd af %{ucl}, %{bytemark} og öðrum %{partners}.
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: samstarfsaðilum
@@ -1370,6 +1422,11 @@ is:
           <a href="https://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
           <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> og
           Land Tirol (under <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC BY AT með viðaukum</a>).
+        contributors_au_html: |-
+          <strong>Ástralía</strong>: Inniheldur gögn frá
+          <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA Australia Limited</a>
+          sem gert er aðgengilegt af Commonwealth of Australia með
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> notkunarleyfi.
         contributors_ca_html: |-
           <strong>Kanada</strong>: Inniheldur gögn frá
           GeoBase&reg;, GeoGratis (&copy; Department of Natural
@@ -1557,6 +1614,11 @@ is:
         title: switch2osm
         description: Hjálp fyrir fyrirtæki, stofnanir og félagasamtök sem ætla sér
           að skipta yfir í kort byggð á OpenStreetMap og tengdum þjónustum.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: Fyrir félög, stofnanir og fyrirtæki
+        description: Ertu á vegum stofnunar/fyrirtækis sem hefur hug á að nota OpenStreetMap?
+          Finndu það sem þú þarft að vita á kynningarsíðunni</a>.
       wiki:
         url: https://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
@@ -1704,7 +1766,7 @@ is:
         paragraph_1_html: |-
           OpenStreetMap er með ýmsar leiðir til að læra meira um verkefnið, spyrja og svara
           spurningum, og ræða í hópum um málefni tengd kortagerð.
-          <a href='%{help_url}'>Fáðu aðstoð hér</a>.
+          <a href='%{help_url}'>Fáðu aðstoð hér</a>. Ertu á vegum stofnunar/fyrirtækis sem hefur hug á að nota OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Kíktu á kynningarsíðuna</a>.
       start_mapping: Hefja kortlagningu
       add_a_note:
         title: Enginn tími fyrir breytingar? Bættu við athugasemd!
@@ -1739,6 +1801,8 @@ is:
       trace_uploaded: Búið er að hlaða upp GPS ferlinum og bíður hann núna eftir því
         að vera settur inn í gagnagrunninn, sem gerist yfirleitt innan stundar. Póstur
         verður sendur á netfangið þitt þegar því er lokið.
+      upload_failed: Því miður, innsending GPX-ferils mistókst. Kerfisstjóri hefur
+        verið látinn vita um villuna. Endilega reyndu aftur
       traces_waiting:
         one: Þú ert með %{count} feril í bið. Íhugaðu að bíða með að senda inn fleiri
           ferla til að aðrir notendur komist að.
@@ -1762,6 +1826,8 @@ is:
       visibility: 'Sýnileiki:'
       visibility_help: hvað þýðir þetta?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
+    update:
+      updated: Ferill uppfærður
     trace_optionals:
       tags: Merki
     show:
@@ -1832,6 +1898,7 @@ is:
         other: GPX-skrá með %{count} punktum frá %{user}
       description_without_count: GPX-skrá frá %{user}
   application:
+    permission_denied: Þú hefur ekki réttindi til að nota þessa aðgerð
     require_cookies:
       cookies_needed: Þú virðist ekki vera með stuðning við vefkökur í vafranum þínum.
         Þú verður að virkja þann stuðning áður en þú getur haldið áfram.
@@ -2081,7 +2148,7 @@ is:
       my diary: Bloggið mitt
       new diary entry: ný bloggfærsla
       my edits: Breytingarnar mínar
-      my traces: Ferlarni mínir
+      my traces: Ferlarnir mínir
       my notes: Minnispunktarnir mínir
       my messages: Skilaboðin mín
       my profile: Notandasniðið mitt
@@ -2673,5 +2740,8 @@ is:
       flash: Leiðréttingu eytt.
       error: Það kom upp villa við að eyða þessari leiðréttingu.
   validations:
+    leading_whitespace: er með bilstaf á undan
+    trailing_whitespace: er með bilstaf á eftir
     invalid_characters: inniheldur óleyfilega stafi
+    url_characters: inniheldur sérstaka URL-stafi (%{characters})
 ...
