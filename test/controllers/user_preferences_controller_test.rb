@@ -210,4 +210,35 @@ class UserPreferencesControllerTest < ActionController::TestCase
       UserPreference.find([user.id, "key"])
     end
   end
+
+  # Ensure that a valid access token with correct capabilities can be used to
+  # read preferences
+  def test_read_one_using_token
+    user = create(:user)
+    token = create(:access_token, :user => user, :allow_read_prefs => true)
+    create(:user_preference, :user => user, :k => "key", :v => "value")
+
+    # Hack together an oauth request - an alternative would be to sign the request properly
+    @request.env["oauth.version"] = 1
+    @request.env["oauth.strategies"] = [:token]
+    @request.env["oauth.token"] = token
+
+    get :read_one, :params => { :preference_key => "key" }
+    assert_response :success
+  end
+
+  # Ensure that a valid access token with incorrect capabilities can't be used
+  # to read preferences even, though the owner of that token could read them
+  # by other methods.
+  def test_read_one_using_token_fail
+    user = create(:user)
+    token = create(:access_token, :user => user, :allow_read_prefs => false)
+    create(:user_preference, :user => user, :k => "key", :v => "value")
+    @request.env["oauth.version"] = 1
+    @request.env["oauth.strategies"] = [:token]
+    @request.env["oauth.token"] = token
+
+    get :read_one, :params => { :preference_key => "key" }
+    assert_response :forbidden
+  end
 end
