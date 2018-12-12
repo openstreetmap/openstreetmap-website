@@ -11,6 +11,7 @@ class Ability
          :search_geonames, :search_osm_nominatim_reverse, :search_geonames_reverse], :geocoder
     can [:index, :create, :comment, :feed, :show, :search, :mine], Note
     can [:index, :show], Redaction
+    can [:terms, :api_users, :login, :logout, :new, :create, :save, :confirm, :confirm_resend, :confirm_email, :lost_password, :reset_password, :show, :api_read, :auth_success, :auth_failure], User
     can [:index, :show, :blocks_on, :blocks_by], UserBlock
 
     if user
@@ -19,6 +20,7 @@ class Ability
       can [:create, :edit, :comment, :subscribe, :unsubscribe], DiaryEntry
       can [:close, :reopen], Note
       can [:new, :create], Report
+      can [:account, :go_public, :make_friend, :remove_friend, :api_details, :api_gpx_files], User
       can [:read, :read_one, :update, :update_one, :delete_one], UserPreference
 
       if user.moderator?
@@ -34,6 +36,7 @@ class Ability
         can [:hide, :hidecomment], [DiaryEntry, DiaryComment]
         can [:index, :show, :resolve, :ignore, :reopen], Issue
         can :create, IssueComment
+        can [:set_status, :delete, :index], User
         can [:grant, :revoke], UserRole
       end
     end

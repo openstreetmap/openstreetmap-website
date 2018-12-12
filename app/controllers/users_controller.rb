@@ -6,15 +6,15 @@ class UsersController < ApplicationController
   before_action :authorize, :only => [:api_details, :api_gpx_files]
   before_action :authorize_web, :except => [:api_read, :api_users, :api_details, :api_gpx_files]
   before_action :set_locale, :except => [:api_read, :api_users, :api_details, :api_gpx_files]
-  before_action :require_user, :only => [:account, :go_public, :make_friend, :remove_friend]
+  before_action :api_deny_access_handler, :only => [:api_read, :api_users, :api_details, :api_gpx_files]
+
+  authorize_resource
+
   before_action :require_self, :only => [:account]
   before_action :check_database_readable, :except => [:login, :api_read, :api_users, :api_details, :api_gpx_files]
   before_action :check_database_writable, :only => [:new, :account, :confirm, :confirm_email, :lost_password, :reset_password, :go_public, :make_friend, :remove_friend]
   before_action :check_api_readable, :only => [:api_read, :api_users, :api_details, :api_gpx_files]
-  before_action :require_allow_read_prefs, :only => [:api_details]
-  before_action :require_allow_read_gpx, :only => [:api_gpx_files]
   before_action :require_cookies, :only => [:new, :login, :confirm]
-  before_action :require_administrator, :only => [:set_status, :delete, :index]
   around_action :api_call_handle_error, :only => [:api_read, :api_users, :api_details, :api_gpx_files]
   before_action :lookup_user_by_id, :only => [:api_read]
   before_action :lookup_user_by_name, :only => [:set_status, :delete]
@@ -746,23 +746,6 @@ class UsersController < ApplicationController
 
         user.restore_email!
       end
-    end
-  end
-
-  ##
-  # require that the user is a administrator, or fill out a helpful error message
-  # and return them to the user page.
-  def require_administrator
-    if current_user && !current_user.administrator?
-      flash[:error] = t("users.filter.not_an_administrator")
-
-      if params[:display_name]
-        redirect_to user_path(:display_name => params[:display_name])
-      else
-        redirect_to :action => "login", :referer => request.fullpath
-      end
-    elsif !current_user
-      redirect_to :action => "login", :referer => request.fullpath
     end
   end
 
