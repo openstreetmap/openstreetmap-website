@@ -1469,7 +1469,7 @@ class UsersControllerTest < ActionController::TestCase
     # Now try as a normal user
     get :set_status, :params => { :display_name => user.display_name, :status => "suspended" }, :session => { :user => user }
     assert_response :redirect
-    assert_redirected_to :action => :show, :display_name => user.display_name
+    assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Finally try as an administrator
     get :set_status, :params => { :display_name => user.display_name, :status => "suspended" }, :session => { :user => create(:administrator_user) }
@@ -1489,7 +1489,7 @@ class UsersControllerTest < ActionController::TestCase
     # Now try as a normal user
     get :delete, :params => { :display_name => user.display_name, :status => "suspended" }, :session => { :user => user }
     assert_response :redirect
-    assert_redirected_to :action => :show, :display_name => user.display_name
+    assert_redirected_to :controller => :errors, :action => :forbidden
 
     # Finally try as an administrator
     get :delete, :params => { :display_name => user.display_name, :status => "suspended" }, :session => { :user => create(:administrator_user) }
@@ -1531,14 +1531,14 @@ class UsersControllerTest < ActionController::TestCase
     # Shouldn't work when logged in as a normal user
     get :index
     assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path
+    assert_redirected_to :controller => :errors, :action => :forbidden
 
     session[:user] = moderator_user.id
 
     # Shouldn't work when logged in as a moderator
     get :index
     assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path
+    assert_redirected_to :controller => :errors, :action => :forbidden
 
     session[:user] = administrator_user.id
 
@@ -1598,8 +1598,8 @@ class UsersControllerTest < ActionController::TestCase
     assert_no_difference "User.active.count" do
       post :index, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
     end
-    assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path
+    assert_response :forbidden
+
     assert_equal "pending", inactive_user.reload.status
     assert_equal "suspended", suspended_user.reload.status
 
@@ -1610,7 +1610,7 @@ class UsersControllerTest < ActionController::TestCase
       post :index, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
     end
     assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path
+    assert_redirected_to :controller => :errors, :action => :forbidden
     assert_equal "pending", inactive_user.reload.status
     assert_equal "suspended", suspended_user.reload.status
 
@@ -1621,7 +1621,7 @@ class UsersControllerTest < ActionController::TestCase
       post :index, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
     end
     assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path
+    assert_redirected_to :controller => :errors, :action => :forbidden
     assert_equal "pending", inactive_user.reload.status
     assert_equal "suspended", suspended_user.reload.status
 
@@ -1645,8 +1645,8 @@ class UsersControllerTest < ActionController::TestCase
     assert_no_difference "User.active.count" do
       post :index, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
     end
-    assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path
+    assert_response :forbidden
+
     assert_equal "active", normal_user.reload.status
     assert_equal "confirmed", confirmed_user.reload.status
 
@@ -1657,7 +1657,7 @@ class UsersControllerTest < ActionController::TestCase
       post :index, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
     end
     assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path
+    assert_redirected_to :controller => :errors, :action => :forbidden
     assert_equal "active", normal_user.reload.status
     assert_equal "confirmed", confirmed_user.reload.status
 
@@ -1668,7 +1668,7 @@ class UsersControllerTest < ActionController::TestCase
       post :index, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
     end
     assert_response :redirect
-    assert_redirected_to :action => :login, :referer => users_path
+    assert_redirected_to :controller => :errors, :action => :forbidden
     assert_equal "active", normal_user.reload.status
     assert_equal "confirmed", confirmed_user.reload.status
 
