@@ -21724,15 +21724,6 @@ var ComponentService = /** @class */ (function () {
             this.get(name).deactivate();
         }
     };
-    ComponentService.prototype.resize = function () {
-        for (var componentName in this._components) {
-            if (!this._components.hasOwnProperty(componentName)) {
-                continue;
-            }
-            var component = this._components[componentName];
-            component.component.resize();
-        }
-    };
     ComponentService.prototype.get = function (name) {
         return this._components[name].component;
     };
@@ -22560,9 +22551,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var vd = require("virtual-dom");
 var rxjs_1 = require("rxjs");
 var operators_1 = require("rxjs/operators");
-var vd = require("virtual-dom");
 var Component_1 = require("../../Component");
 /**
  * @class DirectionComponent
@@ -22574,7 +22565,7 @@ var DirectionComponent = /** @class */ (function (_super) {
         var _this = _super.call(this, name, container, navigator) || this;
         _this._renderer = !!directionDOMRenderer ?
             directionDOMRenderer :
-            new Component_1.DirectionDOMRenderer(_this.defaultConfiguration, container.element);
+            new Component_1.DirectionDOMRenderer(_this.defaultConfiguration, { height: container.element.offsetHeight, width: container.element.offsetWidth });
         _this._hoveredKeySubject$ = new rxjs_1.Subject();
         _this._hoveredKey$ = _this._hoveredKeySubject$.pipe(operators_1.share());
         return _this;
@@ -22637,15 +22628,15 @@ var DirectionComponent = /** @class */ (function (_super) {
     DirectionComponent.prototype.setMaxWidth = function (maxWidth) {
         this.configure({ maxWidth: maxWidth });
     };
-    /** @inheritdoc */
-    DirectionComponent.prototype.resize = function () {
-        this._renderer.resize(this._container.element);
-    };
     DirectionComponent.prototype._activate = function () {
         var _this = this;
         this._configurationSubscription = this._configuration$
             .subscribe(function (configuration) {
             _this._renderer.setConfiguration(configuration);
+        });
+        this._resizeSubscription = this._container.renderService.size$
+            .subscribe(function (size) {
+            _this._renderer.resize(size);
         });
         this._nodeSubscription = this._navigator.stateService.currentNode$.pipe(operators_1.tap(function (node) {
             _this._container.domRenderer.render$.next({ name: _this._name, vnode: vd.h("div", {}, []) });
@@ -22724,6 +22715,7 @@ exports.DirectionComponent = DirectionComponent;
 Component_1.ComponentService.register(DirectionComponent);
 exports.default = DirectionComponent;
 
+
 },{"../../Component":274,"rxjs":26,"rxjs/operators":224,"virtual-dom":230}],302:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -22733,14 +22725,14 @@ var Geo_1 = require("../../Geo");
  * @classdesc Helper class for calculating DOM CSS properties.
  */
 var DirectionDOMCalculator = /** @class */ (function () {
-    function DirectionDOMCalculator(configuration, element) {
+    function DirectionDOMCalculator(configuration, size) {
         this._spatial = new Geo_1.Spatial();
         this._minThresholdWidth = 320;
         this._maxThresholdWidth = 1480;
         this._minThresholdHeight = 240;
         this._maxThresholdHeight = 820;
         this._configure(configuration);
-        this._resize(element);
+        this._resize(size);
         this._reset();
     }
     Object.defineProperty(DirectionDOMCalculator.prototype, "minWidth", {
@@ -22874,13 +22866,12 @@ var DirectionDOMCalculator = /** @class */ (function () {
     };
     /**
      * Resizes all properties according to the width and height
-     * of the element.
+     * of the size object.
      *
-     * @param {HTMLElement} element The container element from which to extract
-     * the width and height.
+     * @param {ISize} size The size of the container element.
      */
-    DirectionDOMCalculator.prototype.resize = function (element) {
-        this._resize(element);
+    DirectionDOMCalculator.prototype.resize = function (size) {
+        this._resize(size);
         this._reset();
     };
     /**
@@ -22909,9 +22900,9 @@ var DirectionDOMCalculator = /** @class */ (function () {
         this._minWidth = configuration.minWidth;
         this._maxWidth = this._getMaxWidth(configuration.minWidth, configuration.maxWidth);
     };
-    DirectionDOMCalculator.prototype._resize = function (element) {
-        this._elementWidth = element.offsetWidth;
-        this._elementHeight = element.offsetHeight;
+    DirectionDOMCalculator.prototype._resize = function (size) {
+        this._elementWidth = size.width;
+        this._elementHeight = size.height;
     };
     DirectionDOMCalculator.prototype._reset = function () {
         this._containerWidth = this._getContainerWidth(this._elementWidth, this._elementHeight);
@@ -22977,10 +22968,10 @@ var Geo_1 = require("../../Geo");
  * @classdesc DOM renderer for direction arrows.
  */
 var DirectionDOMRenderer = /** @class */ (function () {
-    function DirectionDOMRenderer(configuration, element) {
+    function DirectionDOMRenderer(configuration, size) {
         this._isEdge = false;
         this._spatial = new Geo_1.Spatial();
-        this._calculator = new Component_1.DirectionDOMCalculator(configuration, element);
+        this._calculator = new Component_1.DirectionDOMCalculator(configuration, size);
         this._node = null;
         this._rotation = { phi: 0, theta: 0 };
         this._epsilon = 0.5 * Math.PI / 180;
@@ -23095,10 +23086,10 @@ var DirectionDOMRenderer = /** @class */ (function () {
      * Detect the element's width and height and resize
      * elements accordingly.
      *
-     * @param {HTMLElement} element Viewer container element.
+     * @param {ISize} size Size of vßiewer container element.
      */
-    DirectionDOMRenderer.prototype.resize = function (element) {
-        this._calculator.resize(element);
+    DirectionDOMRenderer.prototype.resize = function (size) {
+        this._calculator.resize(size);
         this._setNeedsRender();
     };
     DirectionDOMRenderer.prototype._setNeedsRender = function () {
@@ -26764,10 +26755,10 @@ var Popup = /** @class */ (function () {
             }
         }
         if (pointPixel == null) {
-            this._container.style.visibility = "hidden";
+            this._container.style.display = "none";
             return;
         }
-        this._container.style.visibility = "visible";
+        this._container.style.display = "";
         if (!float) {
             var width = this._container.offsetWidth;
             var height = this._container.offsetHeight;
@@ -27109,16 +27100,6 @@ var SequenceComponent = /** @class */ (function (_super) {
     SequenceComponent.prototype.setVisible = function (visible) {
         this.configure({ visible: visible });
     };
-    /** @inheritdoc */
-    SequenceComponent.prototype.resize = function () {
-        var _this = this;
-        this._configuration$.pipe(operators_1.first(), operators_1.map(function (configuration) {
-            return _this._sequenceDOMRenderer.getContainerWidth(_this._container.element, configuration);
-        }))
-            .subscribe(function (containerWidth) {
-            _this._containerWidth$.next(containerWidth);
-        });
-    };
     SequenceComponent.prototype._activate = function () {
         var _this = this;
         this._sequenceDOMRenderer.activate();
@@ -27224,12 +27205,13 @@ var SequenceComponent = /** @class */ (function (_super) {
             .subscribe(function (direction) {
             _this._navigator.playService.setDirection(direction);
         });
-        this._containerWidthSubscription = this._configuration$.pipe(operators_1.distinctUntilChanged(function (value1, value2) {
+        this._containerWidthSubscription = rxjs_1.combineLatest(this._container.renderService.size$, this._configuration$.pipe(operators_1.distinctUntilChanged(function (value1, value2) {
             return value1[0] === value2[0] && value1[1] === value2[1];
         }, function (configuration) {
             return [configuration.minWidth, configuration.maxWidth];
-        }), operators_1.map(function (configuration) {
-            return _this._sequenceDOMRenderer.getContainerWidth(_this._container.element, configuration);
+        }))).pipe(operators_1.map(function (_a) {
+            var size = _a[0], configuration = _a[1];
+            return _this._sequenceDOMRenderer.getContainerWidth(size, configuration);
         }))
             .subscribe(this._containerWidth$);
         this._playingSubscription = this._configuration$.pipe(operators_1.map(function (configuration) {
@@ -27424,16 +27406,14 @@ var SequenceDOMRenderer = /** @class */ (function () {
         var timeline = this._createTimelineControls(containerWidth, index, max);
         return vd.h("div.SequenceContainer", [stepper, controls, playback, timeline]);
     };
-    SequenceDOMRenderer.prototype.getContainerWidth = function (element, configuration) {
-        var elementWidth = element.offsetWidth;
-        var elementHeight = element.offsetHeight;
+    SequenceDOMRenderer.prototype.getContainerWidth = function (size, configuration) {
         var minWidth = configuration.minWidth;
         var maxWidth = configuration.maxWidth;
         if (maxWidth < minWidth) {
             maxWidth = minWidth;
         }
-        var relativeWidth = (elementWidth - this._minThresholdWidth) / (this._maxThresholdWidth - this._minThresholdWidth);
-        var relativeHeight = (elementHeight - this._minThresholdHeight) / (this._maxThresholdHeight - this._minThresholdHeight);
+        var relativeWidth = (size.width - this._minThresholdWidth) / (this._maxThresholdWidth - this._minThresholdWidth);
+        var relativeHeight = (size.height - this._minThresholdHeight) / (this._maxThresholdHeight - this._minThresholdHeight);
         var coeff = Math.max(0, Math.min(1, Math.min(relativeWidth, relativeHeight)));
         return minWidth + coeff * (maxWidth - minWidth);
     };
@@ -27742,7 +27722,6 @@ var SequenceDOMRenderer = /** @class */ (function () {
 }());
 exports.SequenceDOMRenderer = SequenceDOMRenderer;
 exports.default = SequenceDOMRenderer;
-
 
 },{"../../Component":274,"../../Edge":275,"../../Error":276,"rxjs":26,"rxjs/operators":224,"virtual-dom":230}],334:[function(require,module,exports){
 "use strict";
@@ -28899,13 +28878,13 @@ var SpatialDataCache = /** @class */ (function () {
     }
     SpatialDataCache.prototype.cacheReconstructions$ = function (hash) {
         var _this = this;
-        if (!(hash in this._tiles)) {
+        if (!this.hasTile(hash)) {
             throw new Error("Cannot cache reconstructions of a non-existing tile.");
         }
         if (this.hasReconstructions(hash)) {
             throw new Error("Cannot cache reconstructions that already exists.");
         }
-        if (hash in this._cachingReconstructions$) {
+        if (this.isCachingReconstructions(hash)) {
             return this._cachingReconstructions$[hash];
         }
         var tile = [];
@@ -28964,14 +28943,15 @@ var SpatialDataCache = /** @class */ (function () {
         if (this.hasTile(hash)) {
             throw new Error("Cannot cache tile that already exists.");
         }
-        if (hash in this._cachingTiles$) {
+        if (this.hasTile(hash)) {
             return this._cachingTiles$[hash];
         }
         var bounds = geohash.bounds(hash);
         var sw = { lat: bounds.sw.lat, lon: bounds.sw.lon };
         var ne = { lat: bounds.ne.lat, lon: bounds.ne.lon };
         this._tiles[hash] = [];
-        this._cachingTiles$[hash] = this._graphService.cacheBoundingBox$(sw, ne).pipe(operators_1.catchError(function () {
+        this._cachingTiles$[hash] = this._graphService.cacheBoundingBox$(sw, ne).pipe(operators_1.catchError(function (error) {
+            console.error(error);
             delete _this._tiles[hash];
             return rxjs_1.empty();
         }), operators_1.map(function (nodes) {
@@ -29133,6 +29113,18 @@ var SpatialDataComponent = /** @class */ (function (_super) {
     }
     SpatialDataComponent.prototype._activate = function () {
         var _this = this;
+        this._earthControlsSubscription = this._configuration$.pipe(operators_1.map(function (configuration) {
+            return configuration.earthControls;
+        }), operators_1.distinctUntilChanged(), operators_1.withLatestFrom(this._navigator.stateService.state$))
+            .subscribe(function (_a) {
+            var earth = _a[0], state = _a[1];
+            if (earth && state !== State_1.default.Earth) {
+                _this._navigator.stateService.earth();
+            }
+            else if (!earth && state === State_1.default.Earth) {
+                _this._navigator.stateService.traverse();
+            }
+        });
         var direction$ = this._container.renderService.bearing$.pipe(operators_1.map(function (bearing) {
             var direction = "";
             if (bearing > 292.5 || bearing <= 67.5) {
@@ -29160,23 +29152,28 @@ var SpatialDataComponent = /** @class */ (function (_super) {
             var playing = _a[0], speed = _a[1];
             return playing && speed > PlayService_1.default.sequenceSpeed;
         }), operators_1.distinctUntilChanged(), operators_1.publishReplay(1), operators_1.refCount());
-        this._addSubscription = this._navigator.stateService.state$.pipe(operators_1.map(function (state) {
+        this._addSubscription = rxjs_1.combineLatest(this._navigator.stateService.state$.pipe(operators_1.map(function (state) {
             return state === State_1.default.Earth;
-        }), operators_1.distinctUntilChanged(), operators_1.switchMap(function (earth) {
-            if (earth) {
-                return rxjs_1.combineLatest(hash$, sequencePlay$).pipe(operators_1.mergeMap(function (_a) {
-                    var hash = _a[0], sequencePlay = _a[1];
-                    return sequencePlay ?
-                        rxjs_1.of([hash]) :
-                        rxjs_1.of(_this._adjacentComponent(hash, 4));
-                }));
+        }), operators_1.distinctUntilChanged()), hash$, sequencePlay$, direction$).pipe(operators_1.distinctUntilChanged(function (_a, _b) {
+            var e1 = _a[0], h1 = _a[1], s1 = _a[2], d1 = _a[3];
+            var e2 = _b[0], h2 = _b[1], s2 = _b[2], d2 = _b[3];
+            if (e1 !== e2) {
+                return false;
             }
-            return rxjs_1.combineLatest(hash$, sequencePlay$, direction$).pipe(operators_1.mergeMap(function (_a) {
-                var hash = _a[0], sequencePlay = _a[1], direction = _a[2];
+            if (e1) {
+                return h1 === h2 && s1 === s2;
+            }
+            return h1 === h2 && s1 === s2 && d1 === d2;
+        }), operators_1.concatMap(function (_a) {
+            var earth = _a[0], hash = _a[1], sequencePlay = _a[2], direction = _a[3];
+            if (earth) {
                 return sequencePlay ?
-                    rxjs_1.of([hash, geohash.neighbours(hash)[direction]]) :
-                    rxjs_1.of(_this._computeTiles(hash, direction));
-            }));
+                    rxjs_1.of([hash]) :
+                    rxjs_1.of(_this._adjacentComponent(hash, 4));
+            }
+            return sequencePlay ?
+                rxjs_1.of([hash, geohash.neighbours(hash)[direction]]) :
+                rxjs_1.of(_this._computeTiles(hash, direction));
         }), operators_1.switchMap(function (hashes) {
             return rxjs_1.from(hashes).pipe(operators_1.mergeMap(function (h) {
                 var tile$;
@@ -29301,27 +29298,9 @@ var SpatialDataComponent = /** @class */ (function (_super) {
             };
         }))
             .subscribe(this._container.glRenderer.render$);
-        this._earthControlsSubscription = this._configuration$.pipe(operators_1.map(function (configuration) {
-            return configuration.earthControls;
-        }), operators_1.distinctUntilChanged(), operators_1.withLatestFrom(this._navigator.stateService.state$))
-            .subscribe(function (_a) {
-            var earth = _a[0], state = _a[1];
-            if (earth && state !== State_1.default.Earth) {
-                _this._navigator.stateService.earth();
-            }
-            else if (!earth && state === State_1.default.Earth) {
-                _this._navigator.stateService.traverse();
-            }
-        });
     };
     SpatialDataComponent.prototype._deactivate = function () {
         var _this = this;
-        this._navigator.stateService.state$.pipe(operators_1.first())
-            .subscribe(function (state) {
-            if (state === State_1.default.Earth) {
-                _this._navigator.stateService.traverse();
-            }
-        });
         this._cache.uncache();
         this._scene.uncache();
         this._addSubscription.unsubscribe();
@@ -29334,6 +29313,12 @@ var SpatialDataComponent = /** @class */ (function (_super) {
         this._tileVisibilitySubscription.unsubscribe();
         this._uncacheSubscription.unsubscribe();
         this._visualizeConnectedComponentSubscription.unsubscribe();
+        this._navigator.stateService.state$.pipe(operators_1.first())
+            .subscribe(function (state) {
+            if (state === State_1.default.Earth) {
+                _this._navigator.stateService.traverse();
+            }
+        });
     };
     SpatialDataComponent.prototype._getDefaultConfiguration = function () {
         return { camerasVisible: false, pointsVisible: true, positionsVisible: false, tilesVisible: false };
@@ -44680,9 +44665,6 @@ var ComponentController = /** @class */ (function () {
     ComponentController.prototype.deactivateCover = function () {
         this._coverComponent.configure({ state: Component_1.CoverState.Loading });
     };
-    ComponentController.prototype.resize = function () {
-        this._componentService.resize();
-    };
     ComponentController.prototype._initializeComponents = function () {
         var options = this._options;
         this._uFalse(options.background, "background");
@@ -44961,11 +44943,9 @@ exports.default = LoadingService;
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
 var operators_1 = require("rxjs/operators");
-var Geo_1 = require("../Geo");
 var MouseService = /** @class */ (function () {
-    function MouseService(container, canvasContainer, domContainer, doc, viewportCoords) {
+    function MouseService(container, canvasContainer, domContainer, doc) {
         var _this = this;
-        viewportCoords = viewportCoords != null ? viewportCoords : new Geo_1.ViewportCoords();
         this._activeSubject$ = new rxjs_1.BehaviorSubject(false);
         this._active$ = this._activeSubject$.pipe(operators_1.distinctUntilChanged(), operators_1.publishReplay(1), operators_1.refCount());
         this._claimMouse$ = new rxjs_1.Subject();
@@ -45339,7 +45319,7 @@ var MouseService = /** @class */ (function () {
 exports.MouseService = MouseService;
 exports.default = MouseService;
 
-},{"../Geo":277,"rxjs":26,"rxjs/operators":224}],438:[function(require,module,exports){
+},{"rxjs":26,"rxjs/operators":224}],438:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -46962,7 +46942,6 @@ var Viewer = /** @class */ (function (_super) {
      */
     Viewer.prototype.resize = function () {
         this._container.renderService.resize$.next(null);
-        this._componentController.resize();
     };
     /**
      * Set a bearer token for authenticated API requests of
