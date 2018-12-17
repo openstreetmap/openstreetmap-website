@@ -240,7 +240,7 @@ da:
       reopened_by_anonymous: Genaktiveret af en anonym for <abbr title='%{exact_time}'>%{when}
         siden</abbr>
       hidden_by: Skjult af %{user} for <abbr title='%{exact_time}'>%{when} siden</abbr>
-      report: Rapporter dette notat
+      report: Rapporter denne bemærkning
     query:
       title: Find kortobjekter
       introduction: Klik på kortet for at finde kortobjekter i nærheden.
@@ -266,23 +266,28 @@ da:
       title_user: Ændringssæt af %{user}
       title_friend: Ændringssæt af mine venner
       title_nearby: Ændringssæt af brugere i nærheden
-      empty: Ingen ændringssæt er fundet.
+      empty: Ingen ændringssæt fundet.
       empty_area: Ingen ændringssæt i dette område.
       empty_user: Ingen ændringssæt af denne bruger.
-      no_more: Ikke fundet flere ændringssæt.
+      no_more: Ikke flere ændringssæt fundet.
       no_more_area: Ikke flere ændringssæt i dette område.
       no_more_user: Ikke flere ændringssæt af denne bruger.
       load_more: Indlæs mere
     timeout:
-      sorry: Desværre tog det for lang tid for at hente den liste af ændringssæt du
+      sorry: Desværre tog det for lang tid at indlæse den liste af ændringssæt du
         har bedt om.
   changeset_comments:
     comment:
-      comment: Ny kommentar om ændringssæt nummer %{changeset_id} af %{author}
+      comment: Ny kommentar til ændringssæt nummer %{changeset_id} af %{author}
       commented_at_by_html: Opdateret for %{when} siden af %{user}
+    comments:
+      comment: 'Ny kommentar til ændringssæt #%{changeset_id} af %{author}'
     index:
-      title_all: OpenStreetMap diskussion om ændringssæt
-      title_particular: OpenStreetMap diskussion om ændringssæt nummer %{changeset_id}
+      title_all: OpenStreetMap-diskussion om ændringssæt
+      title_particular: 'OpenStreetMap-diskussion om ændringssæt #%{changeset_id}'
+    timeout:
+      sorry: Desværre tog det for lang tid at indlæse kommentarerne til ændringssættet
+        du har bedt om.
   diary_entries:
     new:
       title: Nyt blogindlæg
@@ -294,7 +299,7 @@ da:
       user_title: Blog for %{user}
       in_language_title: Blogindlæg på %{language}
       new: Nyt blogindlæg
-      new_title: Skriv et nyt indlæg i din brugerblog
+      new_title: Skriv nyt indlæg i min brugerblog
       no_entries: Ingen blogindlæg
       recent_entries: Seneste blogindlæg
       older_entries: Ældre indlæg
@@ -312,16 +317,16 @@ da:
       marker_text: Placering for blogindlæg
     show:
       title: '%{user}''s blog | %{title}'
-      user_title: '%{user}''s blog'
+      user_title: Blog for %{user}
       leave_a_comment: Tilføj en kommentar
       login_to_leave_a_comment: '%{login_link} for at kommentere'
       login: Log på
       save_button: Gem
     no_such_entry:
       title: Intet blogindlæg fundet
-      heading: 'Intet indlæg med id''et: %{id}'
-      body: Beklager, fandt ikke et blogindlæg eller en kommentar med id'en %{id}.
-        Kontroller stavningen, eller måske er den henvisning du klikkede på forkert.
+      heading: 'Intet indlæg med id: %{id}'
+      body: Beklager, fandt ikke et blogindlæg eller en kommentar med id %{id}. Kontroller
+        stavningen, eller måske er den henvisning du klikkede på forkert.
     diary_entry:
       posted_by: Skrevet af %{link_user} den %{created} på %{language_link}
       comment_link: Kommentér dette indlæg
@@ -330,19 +335,19 @@ da:
         one: '%{count} kommentar'
         zero: Ingen kommentarer
         other: '%{count} kommentarer'
-      edit_link: Vis dette indlæg
+      edit_link: Rediger dette indlæg
       hide_link: Skjul dette indlæg
       confirm: Bekræft
       report: Rapporter dette indlæg
     diary_comment:
-      comment_from: Kommentar fra %{link_user}, %{comment_created_at}
+      comment_from: Kommentar fra %{link_user} skrevet %{comment_created_at}
       hide_link: Skjul denne kommentar
       confirm: Bekræft
       report: Rapporter denne kommentar
     location:
       location: 'Sted:'
       view: Vis
-      edit: Ret
+      edit: Rediger
     feed:
       user:
         title: OpenStreetMap-blogindlæg fra %{user}
@@ -354,8 +359,8 @@ da:
         title: OpenStreetMap-blogindlæg
         description: Seneste blogindlæg fra brugere af OpenStreetMap
     comments:
-      has_commented_on: '%{display_name} har kommenteret følgende blogindlæg'
-      post: Skriv
+      has_commented_on: '%{display_name} har kommenteret på følgende blogindlæg'
+      post: Indsend
       when: Hvornår
       comment: Kommentar
       ago: '%{ago} siden'
@@ -969,38 +974,101 @@ da:
       search: Søg
       search_guidance: 'Søgning blandt sager:'
       user_not_found: Brugeren findes ikke
+      issues_not_found: Sag ikke fundet
       status: Status
       reports: Rapporter
       last_updated: Sidst opdateret
+      last_updated_time_html: <abbr title='%{title}'>%{time} siden</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time} siden</abbr> af
+        %{user}
       link_to_reports: Vis rapporter
+      reports_count:
+        one: 1 rapport
+        other: '%{count} rapporter'
+      reported_item: Rapporteret element
       states:
         ignored: Ignoréret
         open: Åbn
         resolved: Løst
+    update:
+      new_report: Din rapport blev registreret
+      successful_update: Din rapport er opdateret
+      provide_details: Udfyld venligst de påkrævede detaljer
     show:
+      title: '%{status} Sag #%{issue_id}'
+      reports:
+        zero: Ingen rapporter
+        one: 1 rapport
+        other: '%{count} rapporter'
+      report_created_at: Rapporteret første gang %{datetime}
+      last_resolved_at: Sidst løst %{datetime}
+      last_updated_at: Sidst opdateret %{datetime} af %{displayname}
       resolve: Løs
       ignore: Ignorér
       reopen: Genåbn
+      reports_of_this_issue: Rapporteringer af denne sag
       read_reports: Læs rapporter
       new_reports: Nye rapporter
+      other_issues_against_this_user: Andre sager omhandlende denne bruger
+      no_other_issues: Ingen andre sager omhandlende denne bruger.
       comments_on_this_issue: Kommentarer på denne sag
+    resolve:
+      resolved: Sagens status er sat til 'Løst'.
+    ignore:
+      ignored: Sagens status er blevet sat til 'Ignoreret'
+    reopen:
+      reopened: Sagens status er blevet sat til 'Åben'
     comments:
       created_at: Den %{datetime}
+      reassign_param: Tildel sagen igen?
     reports:
       updated_at: Den %{datetime}
+      reported_by_html: Rapporteret som %{category} af %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, kommentar #%{comment_id}'
+        note: 'Bemærkning #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Din kommentar blev oprettet
   reports:
     new:
+      title_html: Rapport %{link}
       missing_params: Kan ikke oprette en ny rapport
+      details: Forklar venligst problemet i flere detaljer (påkrævet).
+      select: 'Vælg årsagen til din rapport:'
+      disclaimer:
+        intro: 'Før din rapport sendes til moderatorerne, så sørg venligst for at:'
+        not_just_mistake: Du er sikker på at problemet ikke bare er en misforståelse
+        unable_to_fix: Du ikke er i stand til at løse problemet selv, eller ved hjælp
+          fra andre af fællesskabets medlemmer
+        resolve_with_user: Du allerede har forsøgt at løse problemet direkte med den
+          bruger det vedrører
       categories:
         diary_entry:
+          spam_label: Dette blogindlæg er/indeholder spam
+          offensive_label: Dette blogindlæg er uanstændigt/stødende
+          threat_label: Dette blogindlæg indeholder en trussel
           other_label: Andet
         diary_comment:
+          spam_label: Denne blogkommentar er/indeholder spam
+          offensive_label: Denne kommentar til et blogindlæg uanstændig/stødende
+          threat_label: Denne blogkommentar indeholder en trussel
           other_label: Andet
         user:
+          spam_label: Denne brugerprofil er/indeholder spam
+          offensive_label: Denne brugerprofil er uanstændig/stødende
+          threat_label: Denne brugerprofil indeholder en trussel
           vandal_label: Denne bruger er en vandal
           other_label: Andet
         note:
+          spam_label: Denne bemærkning er spam
+          personal_label: Denne bemærkning indeholder personlige informationer
+          abusive_label: Denne bemærkning er krænkende
           other_label: Andet
+    create:
+      successful_report: Din rapport blev registreret
+      provide_details: Udfyld venligst de påkrævede detaljer
   layouts:
     logo:
       alt_text: OpenStreetMap-logo
@@ -1027,6 +1095,7 @@ da:
     intro_text: OpenStreetMap er et kort over verden, skabt af folk som dig og gratis
       at bruge under en åben licens.
     intro_2_create_account: Opret en brugerkonto
+    hosting_partners_html: Driften støttes af %{ucl}, %{bytemark} og andre %{partners}.
     partners_ucl: University College London
     partners_bytemark: Bytemark Hosting
     partners_partners: partnere
@@ -1363,8 +1432,10 @@ da:
         contributors_nl_html: |-
           <strong>Holland</strong>: Indeholder &copy; AND data, 2007
           (<a href="https://www.and.com">www.and.com</a>)
-        contributors_nz_html: "<strong>New Zealand</strong>: Indeholder data fra \nLand
-          Information New Zealand. Crown Copyright reserveret."
+        contributors_nz_html: "<strong>New Zealand</strong>: Indeholder data fra\n<a
+          href=\"https://data.linz.govt.nz/\">LINZ Data Service</a> som er \nlicenseret
+          til anvendelse under\n<a href=\"https://creativecommons.org/licenses/by/4.0/\">CC
+          BY 4.0</a>."
         contributors_si_html: |-
           <strong>Slovenien</strong>: Indeholder data fra
           <a href="http://www.gu.gov.si/en/">Opmålings- og Kortlægnings-myndigheden</a> og
@@ -1534,6 +1605,9 @@ da:
           baserede kort og andre tjenester.
       welcomemat:
         url: https://welcome.openstreetmap.org/
+        title: Til organisationer
+        description: Er du del af en organisation der har planer med OpenStreetMap?
+          Find ud af hvad du har brug for at vide på Velkomstmåtten.
       wiki:
         url: https://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
@@ -1678,8 +1752,8 @@ da:
       questions:
         title: Spørgsmål?
         paragraph_1_html: |-
-          Behøver du hjælp til at kortlægge eller er du usikker på hvordan OpenStreetMap bruges? Få svar på dine spørgsmål på
-          <a href='%{help_url}'>OpenStreetMaps hjælpeside</a>.
+          OpenStreetMap har adskillige ressourcer der kan hjælpe dig med at lære mere om projektet, stille og svare på spørgsmål samt diskutere og dokumentere emner inden for kortlægning.
+          <a href='%{help_url}'>Få hjælp her</a>. Er du del af en organisation der har planer med OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Se mere på  Velkomstmåtten.</a>.
       start_mapping: Editér kortet
       add_a_note:
         title: Ikke tid til redigering? Tilføj en bemærkning!
@@ -1697,6 +1771,7 @@ da:
       identifiable: Identificerbar (vist i sporliste, punkterne er identificerbar
         og beholder rækkefølgen og tidsstempler)
     new:
+      upload_trace: Upload GPS-spor
       upload_gpx: 'Upload GPX-fil:'
       description: 'Beskrivelse:'
       tags: 'Egenskaber:'
@@ -1712,6 +1787,8 @@ da:
       trace_uploaded: Din GPX-fil er uploadet og afventer lagring i databasen. Det
         sker normalt inden for en halv time, og en e-mail bliver tilsendt dig når
         det er gjort.
+      upload_failed: Beklager, GPX-upload mislykkedes. En administrator er blevet
+        notificeret om fejlen. Prøv igen
       traces_waiting:
         one: Du har allerede et GPS-spor i køen. Overvej at vente på dette før du
           uploader flere spor for ikke at blokere køen for andre brugere.
@@ -1734,6 +1811,8 @@ da:
       save_button: Gem ændringer
       visibility: 'Synlighed:'
       visibility_help: hvad betyder det her?
+    update:
+      updated: Spor opdateret
     trace_optionals:
       tags: Egenskaber
     show:
@@ -1806,6 +1885,7 @@ da:
         other: GPX fil med %{count} punkter fra %{user}
       description_without_count: GPX fil fra %{user}
   application:
+    permission_denied: Du har ikke rettigheder til at udføre den handling
     require_cookies:
       cookies_needed: Du har tilsyneladende deaktiveret cookies i din browser. Aktivér
         cookies før du fortsætter.
@@ -2026,9 +2106,11 @@ da:
       consider_pd: I tillæg til ovennævnte aftale anser jeg mit bidrag for at være
         fælleseje/frit for ophavsret
       consider_pd_why: hvad er dette?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Oplysninger til at hjælpe med at forstå disse udtryk: et <a href="%{summary}">menneskeligt
         læsbart sammendrag</a> og nogle <a href="%{translations}">uformelle oversættelser</a>'
       agree: Acceptér
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Afslå
       you need to accept or decline: Læs og godkend eller afvis de nye vilkår for
         bidragsydere for at fortsætte.
@@ -2150,6 +2232,7 @@ da:
           og acceptere de nye vilkår for bidragsydere.
         agreed_with_pd: Du har også erklæret at du anser dine ændringer for at være
           fælleseje/uden ophavsret.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: hvad er dette?
       profile description: 'Profilbeskrivelse:'
       preferred languages: 'Foretrukne sprog:'
@@ -2599,7 +2682,7 @@ da:
     context:
       directions_from: Rutevejledning herfra
       directions_to: Rutevejledning hertil
-      add_note: Tilføj note her
+      add_note: Tilføj bemærkning her
       show_address: Vis adresse
       query_features: Find kortobjekter
       centre_map: Centrer kort her
@@ -2636,5 +2719,8 @@ da:
       flash: Omarbejdelse slettet.
       error: Der opstod en fejl under sletning af denne omarbejdelse.
   validations:
+    leading_whitespace: har indledende blanktegn
+    trailing_whitespace: har afsluttende blanktegn
     invalid_characters: indholder ugyldige tegn
+    url_characters: indeholder specielle URL-karakterer (%{characters})
 ...
