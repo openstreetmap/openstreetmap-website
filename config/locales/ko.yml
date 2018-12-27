@@ -13,6 +13,7 @@
 # Author: Jerrykim306
 # Author: Kwj2772
 # Author: Macofe
+# Author: Nuevo Paso
 # Author: Priviet
 # Author: Revi
 # Author: Ruila
@@ -39,7 +40,7 @@ ko:
       changeset: 바뀜집합
       changeset_tag: 바뀜집합 태그
       country: 나라
-      diary_comment: 일기 댓글
+      diary_comment: 일기 의견
       diary_entry: 일기 항목
       friend: 친구
       language: 언어
@@ -114,7 +115,7 @@ ko:
       description: Potlatch 2 (브라우저 내 편집기)
     remote:
       name: 원격 제어
-      description: 원격 제어 (JOSM 또는 Merkaartor)
+      description: 원격제어(JOSM 혹은 Merkaartor)
   browse:
     created: 만들어짐
     closed: 닫힘
@@ -142,11 +143,10 @@ ko:
       way_paginated: 길(%{count}개 중 %{x}-%{y})
       relation: 관계(%{count})
       relation_paginated: 관계(%{count}개 중 %{x}-%{y})
-      comment: 댓글(%{count})
-      hidden_commented_by: '%{user}님이 <abbr title=''%{exact_time}''>%{when} 전</abbr>에
-        남긴 숨겨진 댓글'
-      commented_by: '%{user}님이 <abbr title=''%{exact_time}''>%{when} 전</abbr>에 댓글을
-        남김'
+      comment: 의견(%{count}개)
+      hidden_commented_by: '%{user}님의 <abbr title=''%{exact_time}''>%{when} 전</abbr>에
+        숨겨진 의견'
+      commented_by: '%{user}님의 <abbr title=''%{exact_time}''>%{when} 전</abbr> 의견'
       changesetxml: 바뀜집합 XML
       osmchangexml: osmChange XML
       feed:
@@ -224,17 +224,16 @@ ko:
       hidden_title: '숨겨진 참고 #%{note_name}'
       open_by: '%{user}님이 <abbr title=''%{exact_time}''>%{when} 전</abbr>에 만듦'
       open_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 만듦
-      commented_by: '%{user}님이 <abbr title=''%{exact_time}''>%{when} 전</abbr>에 댓글을
-        남김'
-      commented_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 댓글을
-        남김
+      commented_by: '%{user}님의 <abbr title=''%{exact_time}''>%{when} 전</abbr> 의견'
+      commented_by_anonymous: 익명 사용자의 <abbr title='%{exact_time}'>%{when} 전</abbr>
+        의견
       closed_by: '%{user}님이 <abbr title=''%{exact_time}''>%{when} 전</abbr>에 해결함'
       closed_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 해결함
       reopened_by: '%{user}님이 <abbr title=''%{exact_time}''>%{when} 전</abbr>에 다시 활성화함'
       reopened_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 다시
         활성화함
       hidden_by: '%{user}님이 <abbr title=''%{exact_time}''>%{when} 전</abbr>에 숨김'
-      report: 이 노트 신고
+      report: 이 참고 신고
     query:
       title: 지물 정보
       introduction: 근처의 지물을 찾으려면 지도에서 클릭하세요.
@@ -246,14 +245,14 @@ ko:
       next: 다음 »
       previous: « 이전
     changeset:
-      anonymous: 익명 사용자
+      anonymous: 익명
       no_edits: (편집 없음)
       view_changeset_details: 바뀜집합 자세한 사항 보기
     changesets:
       id: ID
       saved_at: 저장된 시간
       user: 사용자
-      comment: 댓글
+      comment: 의견
       area: 구역
     index:
       title: 바뀜집합
@@ -268,18 +267,22 @@ ko:
       no_more_user: 이 사용자의 바뀜집합이 더 없습니다.
       load_more: 더 불러오기
     timeout:
-      sorry: 죄송합니다, 요청하는 바뀜집합 목록을 얻는데 너무 오래 걸립니다.
+      sorry: 죄송합니다, 요청하는 바뀜집합 목록을 얻는데 너무 오래 걸렸습니다.
   changeset_comments:
     comment:
-      comment: '바뀜집합 #%{changeset_id}에 %{author}님이 새 댓글을 남김'
+      comment: '바뀜집합 #%{changeset_id}에 %{author}님이 새 덧글을 남김'
       commented_at_by_html: '%{user}님이 %{when} 전에 업데이트함'
+    comments:
+      comment: '바뀜집합 #%{changeset_id}에 %{author}님이 새 댓글을 남김'
     index:
       title_all: OpenStreetMap 바뀜집합 토론
       title_particular: 'OpenStreetMap 바뀜집합 #%{changeset_id} 토론'
+    timeout:
+      sorry: 죄송합니다, 요청하는 바뀜집합 댓글을 얻는데 너무 오래 걸렸습니다.
   diary_entries:
     new:
       title: 새 일기 항목
-      publish_button: 발행
+      publish_button: 게시
     index:
       title: 사용자의 일기
       title_friends: 친구의 일기
@@ -306,17 +309,17 @@ ko:
     show:
       title: '%{user}의 일기 | %{title}'
       user_title: '%{user}의 일기'
-      leave_a_comment: 댓글 남기기
-      login_to_leave_a_comment: 댓글을 남기려면 로그인해야 합니다. %{login_link}
+      leave_a_comment: 의견 남기기
+      login_to_leave_a_comment: 덧글을 남기려면 %{login_link}해야 합니다.
       login: 로그인
       save_button: 저장
     no_such_entry:
-      title: 이러한 일기 항목이 없음
+      title: 해당 일기 항목이 없음
       heading: 'id에 항목 없음: %{id}'
-      body: 죄송하지만, %{id} id로 된 일기 항목이나 댓글이 없습니다. 맞춤법이나 클릭한 링크가 잘못됐는지 확인하세요.
+      body: 안타깝게도, %{id} id로 된 일기 항목이나 덧글이 없습니다. 맞춤법이나 클릭한 링크가 잘못됐는지를 확인해보세요.
     diary_entry:
       posted_by: '%{link_user}님이 %{language_link}로 %{created}에 게시함'
-      comment_link: 이 항목에 댓글 남기기
+      comment_link: 이 항목에 의견 남기기
       reply_link: 이 항목에 답변하기
       comment_count:
         zero: 댓글 없음
@@ -327,32 +330,32 @@ ko:
       confirm: 확인
       report: 이 항목 신고
     diary_comment:
-      comment_from: '%{comment_created_at}에 %{link_user}에 대한 댓글'
-      hide_link: 이 댓글 숨기기
+      comment_from: '%{comment_created_at}에 %{link_user}님의 의견'
+      hide_link: 이 의견 숨기기
       confirm: 확인
-      report: 이 코멘트 신고
+      report: 이 의견 신고
     location:
       location: '위치:'
       view: 보기
       edit: 편집
     feed:
       user:
-        title: '%{user}님의 OpenStreetMap 일기 항목'
-        description: '%{user}님의 최근 OpenStreetMap 일기 항목'
+        title: '%{user}의 오픈스트리트맵 일기 항목'
+        description: '%{user}의 최근 오픈스트리트맵 일기 항목'
       language:
-        title: '%{language_name}의 OpenStreetMap 일기 항목'
-        description: '%{language_name}로 된 OpenStreetMap 최근 일기 항목'
+        title: '%{language_name}용 오픈스트리트맵 일기 항목'
+        description: '%{language_name} 오픈스트리트맵 사용자의 최근 일기 항목'
       all:
-        title: OpenStreetMap 일기 항목
-        description: OpenStreetMap의 사용자의 최근 일기 항목
+        title: 오픈스트리트맵 일기 항목
+        description: 오픈스트리트맵 사용자의 최근 일기 항목
     comments:
-      has_commented_on: '%{display_name}님이 다음 일기 항목에 댓글을 남겼습니다'
+      has_commented_on: '%{display_name}님이 다음의 일기 항목에 덧글을 남겼습니다'
       post: 게시물
       when: 날짜
-      comment: 댓글
+      comment: 의견
       ago: '%{ago} 전'
-      newer_comments: 새 댓글
-      older_comments: 이전 댓글
+      newer_comments: 새 의견
+      older_comments: 이전 의견
   geocoder:
     search:
       title:
@@ -827,8 +830,8 @@ ko:
           deli: 델리카트슨
           department_store: 백화점
           discount: 할인점
-          doityourself: Do-It-Yourself
-          dry_cleaning: 드라이 클리닝
+          doityourself: 손수짜기
+          dry_cleaning: 드라이클리닝
           electronics: 전자 제품 가게
           estate_agent: 공인 중개사
           farm: 농장 가게
@@ -1013,16 +1016,16 @@ ko:
       reported_by_html: '%{user}님이 %{category} 분류로 보고함'
     helper:
       reportable_title:
-        diary_comment: '%{entry_title}, 댓글 #%{comment_id}'
-        note: '노트 #%{note_id}'
+        diary_comment: '%{entry_title}, 의견 #%{comment_id}'
+        note: '참고 #%{note_id}'
   issue_comments:
     create:
-      comment_created: 댓글이 성공적으로 만들어졌습니다
+      comment_created: 덧글이 성공적으로 생성되었습니다
   reports:
     new:
       title_html: '%{link} 보고'
       missing_params: 새 보고서를 만들 수 없습니다
-      details: 문제에 관해 더 자세한 정보를 지정해 주십시오. (필수)
+      details: 문제와 관련하여 더 자세한 사항을 제공해주세요.(필수)
       select: '보고 이유를 선택하십시오:'
       disclaimer:
         intro: '보고서를 사이트 운영자에게 보내기 전에 다음을 확인하십시오:'
@@ -1036,9 +1039,9 @@ ko:
           threat_label: 이 일기 항목은 위협을 포함합니다
           other_label: 기타
         diary_comment:
-          spam_label: 이 일기 댓글은 스팸입니다
-          offensive_label: 이 일기 댓글은 타당치 않거나 공격적입니다
-          threat_label: 이 일기 댓글은 위협을 포함합니다
+          spam_label: 이 일기 덧글은 스팸을 포함합니다.
+          offensive_label: 이 일기 덧글은 타당치 않거나 공격적입니다
+          threat_label: 이 일기 덧글은 위협을 포함합니다
           other_label: 기타
         user:
           spam_label: 이 사용자 프로필은 스팸이거나 스팸을 포함합니다
@@ -1047,9 +1050,9 @@ ko:
           vandal_label: 이 사용자는 문서 훼손자입니다
           other_label: 기타
         note:
-          spam_label: 이 노트는 스팸입니다
-          personal_label: 이 노트에 개인 정보가 있습니다
-          abusive_label: 이 주석은 부적절합니다
+          spam_label: 이 참고는 스팸입니다
+          personal_label: 이 참고에는 개인정보가 있습니다
+          abusive_label: 이 참고는 모욕적입니다
           other_label: 기타
     create:
       successful_report: 보고서가 성공적으로 등록되었습니다
@@ -1076,9 +1079,9 @@ ko:
     gps_traces_tooltip: GPS 궤적 관리
     user_diaries: 사용자 일기
     user_diaries_tooltip: 사용자 일기 보기
-    edit_with: '%{editor}(으)로 편집'
-    tag_line: 우리 모두의 세계지도 위키
-    intro_header: OpenStreetMap에 오신 것을 환영합니다!
+    edit_with: '%{editor} 계정으로 편집'
+    tag_line: 자유로운 위키 세계지도
+    intro_header: 오픈스트리트맵에 오신 것을 환영합니다!
     intro_text: OpenStreetMap은 여러분과 같은 사람들이 만들어, 개방형 라이선스에 따라 자유롭게 사용할 수 있는 세계 지도입니다.
     intro_2_create_account: 사용자 계정을 만드세요
     hosting_partners_html: 호스팅은 %{ucl}, %{bytemark}, 다른 %{partners}에서 지원합니다.
@@ -1091,11 +1094,11 @@ ko:
     help: 도움말
     about: 소개
     copyright: 저작권
-    community: 커뮤니티
-    community_blogs: 커뮤니티 블로그
+    community: 공동체
+    community_blogs: 공동체 블로그
     community_blogs_title: OpenStreetMap 커뮤니티의 회원에서의 블로그
     foundation: 재단
-    foundation_title: OpenStreetMap 재단
+    foundation_title: 오픈스트리트맵 재단
     make_a_donation:
       title: 금전적인 기부와 OpenStreetMap 지원
       text: 기부하기
@@ -1103,10 +1106,10 @@ ko:
     more: 더 보기
   notifier:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user}님이 당신의 일기 항목에 댓글을 남겼습니다'
+      subject: '[오픈스트리트맵] %{user}님이 일기 항목에 덧글을 남겼습니다'
       hi: 안녕하세요 %{to_user}님,
-      header: '%{from_user}님이 %{subject} OpenStreetMap의 일기 항목에 댓글을 남겼습니다:'
-      footer: '%{readurl}에서도 댓글을 확인할 수 있습니다. %{commenturl}에서 댓글을 남기거나 %{replyurl}에서
+      header: '%{from_user}님이 오픈스트리트맵 일기 항목 내 %{subject} 주제에 덧글을 남겼습니다:'
+      footer: '%{readurl}에서 덧글을 읽을 수가 있으며, %{commenturl}에서 덧글을 남기거나 %{replyurl}에서
         답글을 남길 수 있습니다.'
     message_notification:
       hi: 안녕하세요 %{to_user}님,
@@ -1163,35 +1166,35 @@ ko:
       anonymous: 익명 사용자
       greeting: 안녕하세요,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter}님이 당신의 참고 중 하나에 댓글을 남겼습니다'
-        subject_other: '[OpenStreetMap] %{commenter}님이 당신이 관심 있는 참고에 댓글을 남겼습니다'
-        your_note: '%{commenter}님이 %{place} 근처의 당신의 지도 중 하나에 댓글을 남겼습니다.'
-        commented_note: '%{commenter}님이 당신이 댓글을 남긴 지도 참고에 댓글을 남겼습니다. 참고는 %{place}
-          근처에 있습니다.'
+        subject_own: '[오픈스트리트맵] %{commenter}님이 내 참고에 덧글을 남겼습니다'
+        subject_other: '[오픈스트리트맵] %{commenter}님이 내가 관심을 가진 참고에 덧글을 남겼습니다'
+        your_note: '%{commenter}님이 %{place} 근처의 내 지도 참고에 덧글을 남겼습니다.'
+        commented_note: '%{commenter}님이 내가 덧글을 남긴 지도 참고에 덧글을 남겼습니다. 참고는 %{place} 근처에
+          있습니다.'
       closed:
         subject_own: '[OpenStreetMap] %{commenter}님이 당신의 참고 중 하나를 해결했습니다'
         subject_other: '[OpenStreetMap] %{commenter}님이 당신이 관심 있는 참고를 해결했습니다'
         your_note: '%{commenter}님이 %{place} 근처의 당신의 지도 참고 중 하나를 해결했습니다.'
-        commented_note: '%{commenter}님이 당신이 댓글을 남긴 지도 참고를 해결했습니다. 참고는 %{place} 근처에
+        commented_note: '%{commenter}님이 내가 덧글을 남긴 지도 참고를 해결했습니다. 참고는 %{place} 근처에
           있습니다.'
       reopened:
         subject_own: '[OpenStreetMap] %{commenter}님이 당신의 참고 중 하나를 다시 활성했습니다'
         subject_other: '[OpenStreetMap] %{commenter}님이 당신이 관심 있는 참고를 다시 활성했습니다'
         your_note: '%{commenter}님이 %{place} 근처의 당신의 지도 참고 중 하나를 다시 활성했습니다.'
-        commented_note: '%{commenter}님이 당신이 댓글을 남긴 지도 참고를 다시 활성했습니다. 참고는 %{place}
-          근처에 있습니다.'
+        commented_note: '%{commenter}님이 내가 덧글을 남긴 지도 참고를 다시 활성했습니다. 참고는 %{place} 근처에
+          있습니다.'
       details: 참고에 대한 자세한 사항은 %{url}에서 찾을 수 있습니다.
     changeset_comment_notification:
       hi: 안녕하세요 %{to_user}님,
       greeting: 안녕하세요,
       commented:
-        subject_own: '[OpenStreetMap] %{commenter}님이 당신의 바뀜집합 중 하나에 댓글을 남겼습니다'
-        subject_other: '[OpenStreetMap] %{commenter}님이 당신이 관심 있는 바뀜집합에 댓글을 남겼습니다'
-        your_changeset: '%{commenter}님이 당신이 %{time}에 만든 바뀜집합 중 하나에 댓글을 달았습니다'
-        commented_changeset: '%{commenter}님이 %{changeset_author}이 %{time}에 만든, 주시
-          중인 지도 바뀜집합에 댓글을 달았습니다'
-        partial_changeset_with_comment: '''%{changeset_comment}'' 댓글로'
-        partial_changeset_without_comment: 댓글 없이
+        subject_own: '[오픈스트리트맵] %{commenter}님이 내 바뀜집합에 덧글을 남겼습니다'
+        subject_other: '[오픈스트리트맵] %{commenter}님이 내가 관심을 가진 바뀜집합에 뎟글을 남겼습니다'
+        your_changeset: '%{commenter}님이 내가 %{time}에 만든 바뀜집합에 덧글을 달았습니다'
+        commented_changeset: '%{commenter}님이 %{time}에 %{changeset_author}님이 만든 내가
+          주시중인 지도 바뀜집합에 덧글을 남겼습니다'
+        partial_changeset_with_comment: ‘%{changeset_comment}’ 덧글로
+        partial_changeset_without_comment: 의견 없이
       details: 바뀜집합에 대한 자세한 사항은 %{url}에서 찾을 수 있습니다.
       unsubscribe: 이 바뀜집합의 업데이트를 받지 않으려면 %{url} 에 방문하여 "구독 해지"를 클릭하십시오.
   messages:
@@ -1363,12 +1366,8 @@ ko:
         contributors_au_html: '<strong>오스트레일리아</strong>: <a href="https://creativecommons.org/licenses/by/4.0/">CC
           BY 4.0</a> 하에 오스트레일리아 연방이 허가한 <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA
           오스트레일리아 유한회사</a>가 제공한 자료를 담고 있습니다.'
-        contributors_ca_html: |-
-          <strong>캐나다</strong>: GeoBase&reg;, GeoGratis
-          (&copy; 캐나다 천연자원부),
-          CanVec (&copy; 캐나다
-          천연자원부)과 StatCan (캐나다 연방통계청,
-          지리부)에서의 데이터를 포함합니다.
+        contributors_ca_html: '<strong>캐나다</strong>: GeoBase&reg;, GeoGratis(&copy;
+          캐나다 자연자원부), CanVec(&copy; 캐나다 자연자원부), StatCan(캐나다 연방통계청 지리과)의 데이터를 포함합니다.'
         contributors_fi_html: |-
           <strong>핀란드</strong>: <a href="https://www.maanmittauslaitos.fi/en/opendata-licence-version1">NLSFI 라이선스</a>에 따른,
           National Land Survey of Finland's Topographic Database와
@@ -1550,7 +1549,7 @@ ko:
       get_directions_title: 두 점 사이의 길 찾기
       from: 출발지
       to: 도착지
-      where_am_i: 이것이 어디에 있나요?
+      where_am_i: 이 위치는?
       where_am_i_title: 검색 엔진을 사용하여 현재 위치를 나타냅니다
       submit_text: 검색
       reverse_directions_text: 반대 방향
@@ -1663,7 +1662,7 @@ ko:
         paragraph_1_html: OpenStreetMap에서는 자체 용어가 몇 가지 사용됩니다. 여기에 편리하게 사용할 수 있는 몇
           가지 핵심 단어가 있습니다.
         editor_html: <strong>편집기</strong>는 지도를 편집하는 데 사용할 수 있는 프로그램이나 웹사이트입니다.
-        node_html: <strong>노드</strong>는 지도상의 어느 한 지점으로, 음식점 한 곳이나 나무 한 그루 같은 것을 말합니다.
+        node_html: <strong>점</strong>은 지도상의 한 점으로, 한 군데의 음식점이나 나무 한 그루가 이에 속합니다.
         way_html: <strong>길</strong>은 지도상의 선이나 구역을 말하며, 도로, 개울, 호수나 건물을 나타냅니다.
         tag_html: <strong>태그</strong>는 노드나 길을 보충하는 데이터로, 음식점의 이름이나 도로의 속도 제한 같은 것을
           말합니다.
@@ -1674,7 +1673,7 @@ ko:
           \n<a href='https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>자동화된
           편집</a>에서의\n다음 가이드라인을 읽고 따라주시기 바랍니다."
       questions:
-        title: 질문 있나요?
+        title: 질문이 있습니까?
         paragraph_1_html: |-
           OpenStreetMap은 프로젝트에 대해 배우고, 질문을 묻고 답하고,
           매핑 주제를 협력하여 토론하고 문서하기 위한 여러 자료가 있습니다.
@@ -1824,7 +1823,7 @@ ko:
       allow_to: '다음 클라이언트 애플리케이션을 허용합니다:'
       allow_read_prefs: 사용자 환경 설정을 읽습니다.
       allow_write_prefs: 사용자 환경 설정을 수정합니다.
-      allow_write_diary: 일기 항목을 만들고 댓글을 달고 친구를 만듭니다.
+      allow_write_diary: 일기 항목을 생성하고 덧글을 남기며 친구를 만듭니다.
       allow_write_api: 지도를 수정합니다.
       allow_read_gpx: 비공개 GPS 추적을 읽습니다.
       allow_write_gpx: GPS 추적을 올립니다.
@@ -1863,7 +1862,7 @@ ko:
       requests: '사용자로부터 다음 권한을 요청합니다:'
       allow_read_prefs: 사용자 환경 설정을 읽습니다.
       allow_write_prefs: 사용자 환경 설정을 수정합니다.
-      allow_write_diary: 일기 항목을 만들고 댓글을 달고 친구를 만듭니다.
+      allow_write_diary: 일기 항목을 생성하고 덧글을 남기며 친구를 만듭니다.
       allow_write_api: 지도를 수정합니다.
       allow_read_gpx: 비공개 GPS 궤적을 읽습니다.
       allow_write_gpx: GPS 추적을 올립니다.
@@ -1889,13 +1888,13 @@ ko:
       requests: '사용자로부터 다음 권한을 요청합니다:'
       allow_read_prefs: 사용자 환경 설정을 읽습니다.
       allow_write_prefs: 사용자 환경 설정을 수정합니다.
-      allow_write_diary: 일기 항목을 만들고 댓글을 달고 친구를 만듭니다.
+      allow_write_diary: 일기 항목을 생성하고 덧글을 남기며 친구를 만듭니다.
       allow_write_api: 지도를 수정합니다.
       allow_read_gpx: 비공개 GPS 궤적을 읽습니다.
       allow_write_gpx: GPS 추적을 올립니다.
       allow_write_notes: 참고를 수정합니다.
     not_found:
-      sorry: 죄송합니다, 해당 %{type}을(를) 찾을 수 없습니다.
+      sorry: 안타깝게도, 해당 %{type}의 내용을 찾을 수 없습니다.
     create:
       flash: 성공적으로 정보를 등록했습니다
     update:
@@ -2008,7 +2007,7 @@ ko:
       heading: 기여자 약관
       read and accept: 아래의 계약을 읽고 기존 및 앞으로의 기여가 계약 약관에 동의했는지 확인하려면 동의 버튼을 누르세요.
       consider_pd: 위의 계약뿐만 아니라 내 기여가 퍼블릭 도메인에 있는지 고려하세요
-      consider_pd_why: 이게 뭐죠?
+      consider_pd_why: 무엇인가요?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: '약관을 이해하는 데 유용한 정보: <a href="%{summary}">사람이 읽을 수 있는 요약</a>과 일부 <a
         href="%{translations}">비공식 번역</a>'
@@ -2035,7 +2034,7 @@ ko:
       my messages: 내 메시지
       my profile: 내 프로필
       my settings: 프로필 설정
-      my comments: 내 댓글
+      my comments: 내 의견
       oauth settings: oauth 설정
       blocks on me: 나를 차단
       blocks by me: 나한테 차단
@@ -2078,7 +2077,7 @@ ko:
           moderator: 운영자 권한 해제
       block_history: 활성화된 차단
       moderator_history: 실행된 차단
-      comments: 댓글
+      comments: 의견
       create_block: 이 사용자를 차단
       activate_user: 이 사용자 활성화
       deactivate_user: 이 사용자 비활성화
@@ -2105,12 +2104,12 @@ ko:
       external auth: '외부 인증:'
       openid:
         link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: 이게 뭐죠?
+        link text: 무엇인가요?
       public editing:
         heading: '공개 편집:'
         enabled: 활성화했습니다. 익명이 아니며 데이터를 편집할 수 있습니다.
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: 이게 뭐죠?
+        enabled link text: 무엇인가요?
         disabled: 바활성화되어 데이터를 편집할 수 없으며, 모든 이전 편집은 익명입니다.
         disabled link text: 왜 편집할 수 없나요?
       public editing note:
@@ -2127,7 +2126,7 @@ ko:
         review link text: 검토할 사용자의 편의에 이 링크를 따르고 새 기여자 약관에 동의하세요.
         agreed_with_pd: 또한 자신의 편집이 퍼블릭 도메인에 있어야 한다고 생각하는 것도 선언하고 있습니다.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: 이게 뭐죠?
+        link text: 무엇인가요?
       profile description: '프로필 설명:'
       preferred languages: 주로 사용하는 언어
       preferred editor: '주로 사용하는 편집기:'
@@ -2135,7 +2134,7 @@ ko:
       gravatar:
         gravatar: Gravatar 사용
         link: https://wiki.openstreetmap.org/wiki/Gravatar
-        link text: 이게 뭐죠?
+        link text: 무엇인가요?
         disabled: 그라바타가 비활성화되었습니다.
         enabled: 그라바타의 표시가 활성화되었습니다
       new image: 그림 추가
@@ -2189,7 +2188,7 @@ ko:
       heading: '%{user}님을 친구 제거할까요?'
       button: 친구 제거
       success: '%{name}님을 친구에서 제거했습니다.'
-      not_a_friend: '%{name}님은 친구 중 하나가 아닙니다.'
+      not_a_friend: '%{name}님은 친구가 아닙니다.'
     index:
       title: 사용자
       heading: 사용자
@@ -2352,20 +2351,20 @@ ko:
       reopened_at_by_html: '%{user}님이 %{when} 전에 다시 활성화함'
     rss:
       title: OpenStreetMap 참고
-      description_area: 내 지역[(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]에
-        참고, 댓글 또는 닫힌 참고 목록
+      description_area: 내 지역 [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        내의 참고나 신고, 의견, 닫힘 목록
       description_item: '%{id} 참고에 대한 RSS 피드'
       opened: 새 참고 (%{place} 근처)
-      commented: 새 댓글 (%{place} 근처)
+      commented: 새 의견(%{place} 근처)
       closed: 닫힌 참고 (%{place} 근처)
       reopened: 다시 활성된 참고 (%{place} 근처)
     entry:
-      comment: 댓글
+      comment: 의견
       full: 전체 참고
     mine:
-      title: '%{user}님이 제출했거나 댓글을 남긴 참고'
+      title: '%{user}님이 제출했거나 덧글을 남긴 참고'
       heading: '%{user}의 참고'
-      subheading: '%{user}님이 제출했거나 댓글을 남긴 참고'
+      subheading: '%{user}님이 제출했거나 덧글을 남긴 참고'
       id: ID
       creator: 만든이
       description: 설명
@@ -2399,7 +2398,7 @@ ko:
     key:
       title: 범례
       tooltip: 범례
-      tooltip_disabled: 맵 키는 이 레이어에 사용할 수 없습니다
+      tooltip_disabled: 범례는 이 레이어에 사용할 수 없습니다
     map:
       zoom:
         in: 확대
@@ -2419,7 +2418,7 @@ ko:
         gps: 공개 GPS 궤적
         overlays: 지도 문제를 해결하기 위해 오버레이를 활성화
         title: 레이어
-      copyright: © <a href='%{copyright_url}'>OpenStreetMap 기여자</a>
+      copyright: © <a href='%{copyright_url}'>오픈스트리트맵 기여자</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>기부하기</a>
     site:
       edit_tooltip: 지도 편집
@@ -2432,7 +2431,7 @@ ko:
       queryfeature_disabled_tooltip: 지물 정보를 확인하려면 확대
     changesets:
       show:
-        comment: 댓글
+        comment: 의견
         subscribe: 구독
         unsubscribe: 구독 해지
         hide_comment: 숨기기
@@ -2445,29 +2444,29 @@ ko:
           마십시오.
         add: 참고 추가
       show:
-        anonymous_warning: 익명 사용자의 참고도 있으므로 별도로 확인해야 합니다.
+        anonymous_warning: 이 참고에는 익명 사용자의 덧글도 있으므로 별도로 확인해야 합니다.
         hide: 숨기기
         resolve: 해결
         reactivate: 다시 활성화
-        comment_and_resolve: 댓글 & 해결
-        comment: 댓글
+        comment_and_resolve: 의견 및 해결
+        comment: 의견
     edit_help: 편집하려는 위치에 지도를 이동하고 확대한 다음, 여기를 클릭하세요.
     directions:
       ascend: 올라가기
       engines:
         graphhopper_bicycle: 자전거 (GraphHopper)
-        graphhopper_car: 자동차 (GraphHopper)
-        graphhopper_foot: 도보 (GraphHopper)
+        graphhopper_car: 자동차(GraphHopper)
+        graphhopper_foot: 도보(GraphHopper)
         mapquest_bicycle: 자전거 (MapQuest)
-        mapquest_car: 자동차 (MapQuest)
-        mapquest_foot: 도보 (MapQuest)
-        osrm_car: 자동차 (OSRM)
+        mapquest_car: 자동차(MapQuest)
+        mapquest_foot: 도보(MapQuest)
+        osrm_car: 자동차(OSRM)
       descend: 내려가기
       directions: 길
       distance: 거리
       errors:
         no_route: 두 장소 사이의 경로를 찾을 수 없습니다.
-        no_place: 죄송합니다 - '%{place}'을(를) 찾을 수 없습니다.
+        no_place: 안타깝게도, ‘%{place}’의 위치를 찾을 수 없습니다.
       instructions:
         continue_without_exit: '%{name}(으)로 계속 가세요'
         slight_right_without_exit: '%{name}을(를) 따라 오른쪽으로 완만하게 도세요'
@@ -2481,14 +2480,14 @@ ko:
         offramp_right_with_directions: '%{directions} 방향으로 좌측 램프로 이동'
         offramp_right_with_name_directions: '%{directions} 방향으로 %{name} 쪽으로 우측 램프로
           이동'
-        onramp_right_without_exit: 경사로에서 %{name}(으)로 우회전
-        onramp_right_with_directions: '%{directions} 방향으로 램프로 우회전'
-        onramp_right_with_name_directions: '%{directions} 방향으로 %{name} 쪽으로 램프로 우회전'
+        onramp_right_without_exit: 경사로에서 %{name} 방면을 따라 우회전
+        onramp_right_with_directions: '%{directions} 방향의 램프를 따라 우회전'
+        onramp_right_with_name_directions: '%{directions} 방향의 %{name} 방면을 따라 램프로 우회전'
         onramp_right_without_directions: 램프로 우회전
         onramp_right: 램프로 우회전
-        endofroad_right_without_exit: 길 끝쪽에서 %{name}(으)로 우회전
-        merge_right_without_exit: '%{name}을(를) 따라 우회전'
-        fork_right_without_exit: 분기점에서 %{name}(으)로 우회전
+        endofroad_right_without_exit: 길 끝에서 %{name} 방면으로 우회전
+        merge_right_without_exit: '%{name} 방면을 따라 우합류'
+        fork_right_without_exit: 분기점에서 %{name} 방면을 따라 우회전
         turn_right_without_exit: '%{name}을(를) 따라 오른쪽으로 도세요'
         sharp_right_without_exit: '%{name}을(를) 따라 오른쪽으로 꺾으세요'
         uturn_without_exit: '%{name}을(를) 따라 유턴하세요'
@@ -2500,28 +2499,28 @@ ko:
         offramp_left_with_exit_directions: '%{directions} 방향으로 좌측 %{exit} 출구로 이동'
         offramp_left_with_exit_name_directions: '%{directions} 방향으로 %{name} 쪽으로 좌측
           %{exit} 출구로 이동'
-        offramp_left_with_name: '%{name}을(를) 향해 램프로 좌회전'
+        offramp_left_with_name: '%{name} 방면을 따라 램프로 좌회전'
         offramp_left_with_directions: '%{directions} 방향으로 좌측 램프로 이동'
         offramp_left_with_name_directions: '%{directions} 방향으로 %{name} 쪽으로 램프로 이동'
-        onramp_left_without_exit: 경사로에서 %{name}(으)로 좌회전
-        onramp_left_with_directions: '%{directions} 방향으로 램프로 좌회전'
-        onramp_left_with_name_directions: '%{directions} 방향으로 %{name} 쪽으로 램프로 좌회전'
-        onramp_left_without_directions: 램프로 좌회전
-        onramp_left: 램프로 좌회전
-        endofroad_left_without_exit: 길 끝쪽에서 %{name}(으)로 좌회전
-        merge_left_without_exit: '%{name}을(를) 따라 좌회전'
-        fork_left_without_exit: 분기점에서 %{name}(으)로 좌회전
+        onramp_left_without_exit: 경사로에서 %{name} 방면을 따라 좌회전
+        onramp_left_with_directions: '%{directions} 방향의 램프를 따라 좌회전'
+        onramp_left_with_name_directions: '%{directions} 방향의 %{name} 방면을 따라 램프로 좌회전'
+        onramp_left_without_directions: 램프를 따라 좌회전
+        onramp_left: 램프를 따라 좌회전
+        endofroad_left_without_exit: 길 끝에서 %{name} 방면을 따라 좌회전
+        merge_left_without_exit: '%{name} 방면을 따라 좌합류'
+        fork_left_without_exit: 분기점에서 %{name} 방면을 따라 좌회전
         slight_left_without_exit: '%{name}을(를) 따라 왼쪽으로 완만하게 도세요'
-        via_point_without_exit: (점을 통해)
+        via_point_without_exit: (점 경유)
         follow_without_exit: '%{name}을(를) 따라가세요'
         roundabout_without_exit: '%{name}의 회전교차로에서 나가세요'
         leave_roundabout_without_exit: 회전교차로를 떠나세요 - %{name}
         stay_roundabout_without_exit: 회전교차로에 머무세요 - %{name}
         start_without_exit: '%{name}에서 시작'
-        destination_without_exit: 목적지에 도달합니다
+        destination_without_exit: 목적지 도착
         against_oneway_without_exit: '%{name}(으)로 한 방향으로 가세요'
         end_oneway_without_exit: '%{name}에서의 한 방향의 끝'
-        roundabout_with_exit: '%{name}에서의 회전교차로에서 %{exit} 출구로 떠나세요'
+        roundabout_with_exit: 회전교차로에서 %{name} 방향의 %{exit} 출구로 떠나세요
         unnamed: 이름 없는 도로
         courtesy: '%{link}의 가는 방향'
         exit_counts:
@@ -2544,12 +2543,12 @@ ko:
       error: '%{server} 연결에 오류: %{error}'
       timeout: '%{server} 연결에 시간 초과'
     context:
-      directions_from: 여기를 출발 지점으로 지정
-      directions_to: 여기를 도착 지점으로 지정
-      add_note: 여기에 참고 추가하기
+      directions_from: 여기를 출발지로 지정
+      directions_to: 여기를 도착지로 지정
+      add_note: 여기에 참고 추가
       show_address: 주소 보기
-      query_features: 이 지형지물 보기
-      centre_map: 여기를 정중앙으로 지정
+      query_features: 지물 보기
+      centre_map: 여기를 가운데로 지정
   redactions:
     edit:
       description: 설명
