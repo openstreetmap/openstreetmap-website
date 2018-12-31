@@ -393,6 +393,7 @@ class ApplicationController < ActionController::Base
       :frame_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
       :connect_src => [NOMINATIM_URL, OVERPASS_URL, OSRM_URL, GRAPHHOPPER_URL],
       :form_action => %w[render.openstreetmap.org],
+      :style_src => %w['unsafe-inline'],
       :script_src => [MAPQUEST_DIRECTIONS_URL],
       :img_src => %w[developer.mapquest.com]
     )
