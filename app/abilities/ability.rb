@@ -11,6 +11,7 @@ class Ability
          :search_geonames, :search_osm_nominatim_reverse, :search_geonames_reverse], :geocoder
     can [:index, :create, :comment, :feed, :show, :search, :mine], Note
     can [:index, :show], Redaction
+    can [:search_all, :search_nodes, :search_ways, :search_relations], :search
     can [:terms, :api_users, :login, :logout, :new, :create, :save, :confirm, :confirm_resend, :confirm_email, :lost_password, :reset_password, :show, :api_read, :auth_success, :auth_failure], User
     can [:index, :show, :blocks_on, :blocks_by], UserBlock
 

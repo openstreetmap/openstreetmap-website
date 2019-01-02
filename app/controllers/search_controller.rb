@@ -3,6 +3,7 @@ class SearchController < ApplicationController
   # Can search by tag k, v, or both (type->k,value->v)
   # Can search by name (k=name,v=....)
   skip_before_action :verify_authenticity_token
+  authorize_resource :class => false
 
   def search_all
     do_search(true, true, true)
