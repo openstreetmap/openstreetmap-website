@@ -2,6 +2,7 @@ class ExportController < ApplicationController
   before_action :authorize_web
   before_action :set_locale
   before_action :update_totp, :only => [:finish]
+  authorize_resource :class => false
 
   caches_page :embed
 

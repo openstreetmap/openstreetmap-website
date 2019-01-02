@@ -7,6 +7,7 @@ class Ability
     can :index, ChangesetComment
     can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :preview, :copyright, :key, :id], :site
     can [:index, :rss, :show, :comments], DiaryEntry
+    can [:finish, :embed], :export
     can [:search, :search_latlon, :search_ca_postcode, :search_osm_nominatim,
          :search_geonames, :search_osm_nominatim_reverse, :search_geonames_reverse], :geocoder
     can [:index, :create, :comment, :feed, :show, :search, :mine], Note
