@@ -95,7 +95,7 @@ You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
             '<circle r="'+r+'" style="'+style+'" />' +
             '</svg>';
             return {
-                className: 'leafet-control-locate-location',
+                className: 'leaflet-control-locate-location',
                 svg: svg,
                 w: s2,
                 h: s2
@@ -168,6 +168,19 @@ You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
             setView: 'untilPanOrZoom',
             /** Keep the current map zoom level when setting the view and only pan. */
             keepCurrentZoomLevel: false,
+            /**
+             * This callback can be used to override the viewport tracking
+             * This function should return a LatLngBounds object.
+             *
+             * For example to extend the viewport to ensure that a particular LatLng is visible:
+             *
+             * getLocationBounds: function(locationEvent) {
+             *    return locationEvent.bounds.extend([-33.873085, 151.219273]);
+             * },
+             */
+            getLocationBounds: function (locationEvent) {
+                return locationEvent.bounds;
+            },
             /** Smooth pan and zoom to the location of the marker. Only works in Leaflet 1.0+. */
             flyTo: false,
             /**
@@ -182,6 +195,11 @@ You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
                 inView: 'stop',
                 /** What should happen if the user clicks on the control while the location is outside the current view. */
                 outOfView: 'setView',
+                /**
+                 * What should happen if the user clicks on the control while the location is within the current view
+                 * and we could be following but are not. Defaults to a special value which inherits from 'inView';
+                 */
+                inViewNotFollowing: 'inView',
             },
             /**
              * If set, save the map bounds just before centering to the user's
@@ -344,6 +362,7 @@ You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
          */
         _onClick: function() {
             this._justClicked = true;
+            var wasFollowing =  this._isFollowing();
             this._userPanned = false;
             this._userZoomed = false;
 
@@ -351,8 +370,17 @@ You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
                 // click while requesting
                 this.stop();
             } else if (this._active && this._event !== undefined) {
-                var behavior = this._map.getBounds().contains(this._event.latlng) ?
-                    this.options.clickBehavior.inView : this.options.clickBehavior.outOfView;
+                var behaviors = this.options.clickBehavior;
+                var behavior = behaviors.outOfView;
+                if (this._map.getBounds().contains(this._event.latlng)) {
+                    behavior = wasFollowing ? behaviors.inView : behaviors.inViewNotFollowing;
+                }
+
+                // Allow inheriting from another behavior
+                if (behaviors[behavior]) {
+                    behavior = behaviors[behavior];
+                }
+
                 switch (behavior) {
                     case 'setView':
                         this.setView();
@@ -407,6 +435,15 @@ You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
             this._resetVariables();
 
             this._removeMarker();
+        },
+
+        /**
+         * Keep the control active but stop following the location
+         */
+        stopFollowing: function() {
+            this._userPanned = true;
+            this._updateContainerStyle();
+            this._drawMarker();
         },
 
         /**
@@ -482,10 +519,17 @@ You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
                     f.bind(this._map)([this._event.latitude, this._event.longitude]);
                 } else {
                     var f = this.options.flyTo ? this._map.flyToBounds : this._map.fitBounds;
-                    f.bind(this._map)(this._event.bounds, {
+                    // Ignore zoom events while setting the viewport as these would stop following
+                    this._ignoreEvent = true;
+                    f.bind(this._map)(this.options.getLocationBounds(this._event), {
                         padding: this.options.circlePadding,
                         maxZoom: this.options.locateOptions.maxZoom
                     });
+                    L.Util.requestAnimFrame(function(){
+                        // Wait until after the next animFrame because the flyTo can be async
+                        this._ignoreEvent = false;
+                    }, this);
+
                 }
             }
         },
@@ -701,7 +745,7 @@ You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
          */
         _onDrag: function() {
             // only react to drags once we have a location
-            if (this._event) {
+            if (this._event && !this._ignoreEvent) {
                 this._userPanned = true;
                 this._updateContainerStyle();
                 this._drawMarker();
@@ -713,7 +757,7 @@ You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
          */
         _onZoom: function() {
             // only react to drags once we have a location
-            if (this._event) {
+            if (this._event && !this._ignoreEvent) {
                 this._userZoomed = true;
                 this._updateContainerStyle();
                 this._drawMarker();
@@ -721,11 +765,20 @@ You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
         },
 
         /**
-         * After a zoom ends update the compass
+         * After a zoom ends update the compass and handle sideways zooms
          */
         _onZoomEnd: function() {
             if (this._event) {
                 this._drawCompass();
+            }
+
+            if (this._event && !this._ignoreEvent) {
+                // If we have zoomed in and out and ended up sideways treat it as a pan
+                if (!this._map.getBounds().pad(-.3).contains(this._marker.getLatLng())) {
+                    this._userPanned = true;
+                    this._updateContainerStyle();
+                    this._drawMarker();
+                }
             }
         },
 
