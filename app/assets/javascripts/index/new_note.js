@@ -112,27 +112,13 @@ OSM.NewNote = function(map) {
 
     if (params.lat && params.lon) {
       markerLatlng = L.latLng(params.lat, params.lon);
-
-      var markerPosition = map.latLngToContainerPoint(markerLatlng),
-          mapSize = map.getSize(),
-          panBy = L.point(0, 0);
-
-      if (markerPosition.x < 50) {
-        panBy.x = markerPosition.x - 50;
-      } else if (markerPosition.x > mapSize.x - 50) {
-        panBy.x = 50 - mapSize.x + markerPosition.x;
-      }
-
-      if (markerPosition.y < 50) {
-        panBy.y = markerPosition.y - 50;
-      } else if (markerPosition.y > mapSize.y - 50) {
-        panBy.y = 50 - mapSize.y + markerPosition.y;
-      }
-
-      map.panBy(panBy);
     } else {
       markerLatlng = map.getCenter();
     }
+
+    map.panInside(markerLatlng, {
+      padding: [50, 50]
+    });
 
     newNote = L.marker(markerLatlng, {
       icon: noteIcons["new"],
