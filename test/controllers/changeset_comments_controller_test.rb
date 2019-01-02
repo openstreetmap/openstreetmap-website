@@ -248,4 +248,73 @@ class ChangesetCommentsControllerTest < ActionController::TestCase
     get :index, :params => { :format => "rss", :limit => 100001 }
     assert_response :bad_request
   end
+
+  # This test ensures that token capabilities behave correctly for a method that
+  # requires the terms to have been agreed.
+  # (This would be better as an integration or system testcase, since the changeset_comment
+  # create method is simply a stand-in for any method that requires terms agreement.
+  # But writing oauth tests is hard, and so it's easier to put in a controller test.)
+  def test_api_write_and_terms_agreed_via_token
+    with_terms_agreed(true) do
+      user = create(:user, :terms_agreed => nil)
+      token = create(:access_token, :user => user, :allow_write_api => true)
+      changeset = create(:changeset, :closed)
+
+      # Hack together an oauth request - an alternative would be to sign the request properly
+      @request.env["oauth.version"] = 1
+      @request.env["oauth.strategies"] = [:token]
+      @request.env["oauth.token"] = token
+
+      assert_difference "ChangesetComment.count", 0 do
+        post :create, :params => { :id => changeset.id, :text => "This is a comment" }
+      end
+      assert_response :forbidden
+
+      # Try again, after agreement with the terms
+      user.terms_agreed = Time.now
+      user.save!
+
+      assert_difference "ChangesetComment.count", 1 do
+        post :create, :params => { :id => changeset.id, :text => "This is a comment" }
+      end
+      assert_response :success
+    end
+  end
+
+  # This test does the same as above, but with basic auth, to similarly test that the
+  # abilities take into account terms agreement too.
+  def test_api_write_and_terms_agreed_via_basic_auth
+    with_terms_agreed(true) do
+      user = create(:user, :terms_agreed => nil)
+      changeset = create(:changeset, :closed)
+
+      basic_authorization user.email, "test"
+
+      assert_difference "ChangesetComment.count", 0 do
+        post :create, :params => { :id => changeset.id, :text => "This is a comment" }
+      end
+      assert_response :forbidden
+
+      # Try again, after agreement with the terms
+      user.terms_agreed = Time.now
+      user.save!
+
+      assert_difference "ChangesetComment.count", 1 do
+        post :create, :params => { :id => changeset.id, :text => "This is a comment" }
+      end
+      assert_response :success
+    end
+  end
+
+  private
+
+  def with_terms_agreed(value)
+    require_terms_agreed = Object.send("remove_const", "REQUIRE_TERMS_AGREED")
+    Object.const_set("REQUIRE_TERMS_AGREED", value)
+
+    yield
+
+    Object.send("remove_const", "REQUIRE_TERMS_AGREED")
+    Object.const_set("REQUIRE_TERMS_AGREED", require_terms_agreed)
+  end
 end
