@@ -16,12 +16,15 @@ class Ability
 
     if user
       can :welcome, :site
-      can :create, ChangesetComment
       can [:create, :edit, :comment, :subscribe, :unsubscribe], DiaryEntry
       can [:close, :reopen], Note
       can [:new, :create], Report
       can [:account, :go_public, :make_friend, :remove_friend, :api_details, :api_gpx_files], User
       can [:read, :read_one, :update, :update_one, :delete_one], UserPreference
+
+      if user.terms_agreed? || !REQUIRE_TERMS_AGREED # rubocop:disable Style/IfUnlessModifier
+        can :create, ChangesetComment
+      end
 
       if user.moderator?
         can [:destroy, :restore], ChangesetComment
