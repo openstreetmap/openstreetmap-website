@@ -153,6 +153,11 @@ describe("OSM", function () {
       var args = OSM.parseHash("#map=5/57.6247/-3.6845&layers=M");
       expect(args).to.have.property("layers", "M");
     });
+    it("parses bare zoom/lat/lon hash", function() {
+      var args = OSM.parseHash("#8/52.123/-5.987");
+      expect(args).to.have.property("center").deep.equal(L.latLng(52.123, -5.987));
+      expect(args).to.have.property("zoom", 8);
+    });      
   });
 
   describe(".formatHash", function () {
