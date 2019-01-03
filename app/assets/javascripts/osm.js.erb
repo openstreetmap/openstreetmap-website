@@ -148,20 +148,25 @@ OSM = {
       return args;
     }
 
-    hash = querystring.parse(hash.substr(i + 1));
+    let hash_map;
+    if (/\d/.test(hash.substr(i + 1, 1))) {
+      hash_map = hash.substr(i + 1);
+    } else {             
+      hash = querystring.parse(hash.substr(i + 1));
 
-    var map = (hash.map || '').split('/'),
-      zoom = parseInt(map[0], 10),
-      lat = parseFloat(map[1]),
-      lon = parseFloat(map[2]);
+      if (hash.layers) {
+        args.layers = hash.layers;
+      }
+      hash_map = (hash.map || '');
+    }
+    var map = hash_map.split('/'),
+        zoom = parseInt(map[0], 10),
+        lat = parseFloat(map[1]),
+        lon = parseFloat(map[2]);
 
     if (!isNaN(zoom) && !isNaN(lat) && !isNaN(lon)) {
       args.center = new L.LatLng(lat, lon);
       args.zoom = zoom;
-    }
-
-    if (hash.layers) {
-      args.layers = hash.layers;
     }
 
     return args;
