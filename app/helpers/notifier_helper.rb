@@ -14,6 +14,7 @@ module NotifierHelper
       ),
       user_url(display_name, :host => SERVER_URL),
       :target => "_blank",
+      :rel => "noopener",
       :style => "text-decoration: none; color: #222"
     )
   end
