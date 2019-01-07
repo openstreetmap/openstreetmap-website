@@ -236,6 +236,7 @@ id:
         yang lalu</abbr>
       hidden_by: Disembunyikan oleh %{user} <abbr title='%{exact_time}'>%{when} yang
         lalu</abbr>
+      report: Laporkan catatan ini
     query:
       title: Fitur Kueri
       introduction: Klik di peta untuk mencari fitur terdekat.
@@ -249,7 +250,7 @@ id:
     changeset:
       anonymous: Anonim
       no_edits: (tidak ada edit)
-      view_changeset_details: Lihat detail dari set perubahan
+      view_changeset_details: Lihat informasi set perubahan
     changesets:
       id: ID
       saved_at: Disimpan di
@@ -267,17 +268,22 @@ id:
       no_more: Tidak ada set perubahan lainnya yang ditemukan.
       no_more_area: Tidak ada set perubahan lainnya di daerah ini.
       no_more_user: Tidak ada set perubahan lainnya oleh pengguna ini.
-      load_more: Baca lebih lanjut
+      load_more: Muat lebih lanjut
     timeout:
       sorry: Maaf, daftar kumpulan set perubahan yang Anda minta terlalu lama untuk
         diambil.
   changeset_comments:
     comment:
-      comment: 'Komentar baru di perubahan #%{changeset_id} oleh %{author}'
+      comment: 'Komentar baru di set perubahan #%{changeset_id} oleh %{author}'
       commented_at_by_html: Diperbarui %{when} yang lalu oleh %{user}
+    comments:
+      comment: 'Komentar baru di set perubahan #%{changeset_id} oleh %{author}'
     index:
-      title_all: Diskusi perubahan OpenStreetMap
-      title_particular: 'Diskusi perubahan OpenStreetMap nomor #%{changeset_id}'
+      title_all: Diskusi set perubahan OpenStreetMap
+      title_particular: 'Diskusi set perubahan OpenStreetMap #%{changeset_id}'
+    timeout:
+      sorry: Maaf, daftar komentar set perubahan yang Anda minta butuh waktu lama
+        untuk ditampilkan.
   diary_entries:
     new:
       title: Entri Baru Catatan Harian
@@ -293,16 +299,16 @@ id:
       no_entries: Tidak ada entri catatan harian
       recent_entries: 'Entri buku harian terbaru:'
       older_entries: Entri Lama
-      newer_entries: Entri baru
+      newer_entries: Entri Baru
     edit:
       title: Edit entri catatan harian
-      subject: Subjek
+      subject: 'Subjek:'
       body: 'Isi:'
       language: 'Bahasa:'
-      location: Lokasi
-      latitude: Lintang
-      longitude: Bujur
-      use_map_link: Gunakan peta
+      location: 'Lokasi:'
+      latitude: 'Lintang:'
+      longitude: 'Bujur:'
+      use_map_link: gunakan peta
       save_button: Simpan
       marker_text: Lokasi entri catatan harian
     show:
@@ -315,11 +321,11 @@ id:
     no_such_entry:
       title: Tidak ada entri catatan harian tersebut
       heading: 'Tidak ada entri dengan id: %{id}'
-      body: Maaf, tidak ada catatan harian atau komentar dengan id %{id}. Harap memeriksa
-        ejaan, atau mungkin Anda mengklik link yang salah.
+      body: Maaf, tidak ada catatan harian atau komentar dengan id %{id}. Harap periksa
+        ejaan atau mungkin Anda mengklik tautan yang salah.
     diary_entry:
-      posted_by: Dipost oleh %{link_user} pada %{created} dalam %{language_link}
-      comment_link: Komentar pada entri ini
+      posted_by: Diterbitkan oleh %{link_user} pada %{created} dalam %{language_link}
+      comment_link: Komentar di entri ini
       reply_link: Balasan untuk entri ini
       comment_count:
         one: '%{count} komentar'
@@ -328,10 +334,12 @@ id:
       edit_link: Edit entri ini
       hide_link: Sembunyikan entri ini
       confirm: Konfirmasi
+      report: Laporkan entri ini
     diary_comment:
       comment_from: Komentar dari %{link_user} pada %{comment_created_at}
       hide_link: Sembunyikan komentar ini
       confirm: Konfirmasi
+      report: Laporkan komentar ini
     location:
       location: 'Lokasi:'
       view: Lihat
@@ -649,16 +657,21 @@ id:
           bridge: Jembatan
           bunker_silo: Bungker
           chimney: Cerobong Asap
+          crane: Derek
           embankment: Tanggul
           flagpole: Tiang Bendera
           kiln: Tanur
           lighthouse: Mercusuar
           mine: Tambang
           mineshaft: Lubang Bukaan Tambang
+          monitoring_station: Stasiun Pengawas
+          petroleum_well: Sumur Minyak
           pier: Dermaga
           pipeline: Jalur Pipa
           silo: Silo
+          storage_tank: Tangki Penyimpanan
           tower: Menara
+          wastewater_plant: Pengolahan Limbah
           watermill: Kincir Air
           water_tower: Menara Air
           water_well: Sumur
@@ -731,6 +744,7 @@ id:
         place:
           allotments: Tanah Garapan
           city: Kota
+          city_block: Blok Kota
           country: Negara
           county: Provinsi
           farm: Pertanian
@@ -744,6 +758,7 @@ id:
           municipality: Kotamadya/Kabupaten
           neighbourhood: Lingkungan
           postcode: Kode Pos
+          quarter: Distrik
           region: Wilayah
           sea: Laut
           square: Anggana
@@ -825,8 +840,10 @@ id:
           hardware: Toko Perangkat Keras
           hifi: Hi-Fi
           houseware: Toko Peralatan Rumah Tangga
+          interior_decoration: Dekorasi Rumah
           jewelry: Toko Perhiasan
           kiosk: Kios/Warung
+          kitchen: Toko Peralatan Dapur
           laundry: Penatu
           lottery: Lotere
           mall: Mal
@@ -856,8 +873,10 @@ id:
           toys: Toko Mainan
           travel_agency: Agen Perjalanan
           tyres: Toko Ban
+          vacant: Toko Kosong
+          variety_store: Toko Aneka Ragam
           video: Toko Video
-          wine: Lisensi Toko Minuman Beralkohol
+          wine: Toko Minuman Beralkohol
           "yes": Toko
         tourism:
           alpine_hut: Gubuk Pegunungan
@@ -922,6 +941,32 @@ id:
     results:
       no_results: Tidak ada hasil yang ditemukan
       more_results: Hasil lainnya
+  issues:
+    index:
+      title: Isu
+      select_status: Pilih Status
+      select_type: Pilih Jenis
+      user_not_found: Pengguna tidak ada
+      issues_not_found: Isu tidak ditemukan
+      status: Status
+      reports: Laporan
+      last_updated_time_html: <abbr title='%{title}'>%{time} yang lalu</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time} yang lalu</abbr>
+        oleh %{user}
+      link_to_reports: Lihat Laporan
+      reports_count:
+        one: 1 Laporan
+        other: '%{count} Laporan'
+      states:
+        ignored: Diabaikan
+        open: Dibuka
+        resolved: Diselesaikan
+    show:
+      resolve: Selesaikan
+      ignore: Abaikan
+      reopen: Buka lagi
+      read_reports: Baca Laporan
+      new_reports: Laporan Baru
   layouts:
     logo:
       alt_text: logo OpenStreetMap
@@ -1449,6 +1494,8 @@ id:
         title: switch2osm
         description: Bantuan untuk perusahaan dan organisasi yang beralih ke peta
           dan layanan lain berbasis OpenStreetMap.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
       wiki:
         url: http://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
@@ -1618,8 +1665,10 @@ id:
       tags_help: dipisahkan oleh koma
       visibility: Visibilitas
       visibility_help: apa artinya ini?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       upload_button: Upload
       help: Bantuan
+      help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
       upload_trace: Unggah Jejak GPS
       trace_uploaded: File GPX Anda telah diunggah dan menunggu penyisipan dalam database.
@@ -1929,6 +1978,7 @@ id:
       terms declined: Kami mohon maaf Anda tidak menerima Persyaratan Kontributor
         baru. Untuk informasi lebih lanjut, silahkan lihat <a href="%{url}">this wiki
         page</a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: Persyaratan Kontributor
       heading: Persyaratan Kontributor
@@ -1938,10 +1988,12 @@ id:
       consider_pd: Sebagai tambahan perjanjian di atas, saya menganggap kontribusi
         saya berada di dalam Domain Publik
       consider_pd_why: apa ini?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Informasi untuk membantu Anda memahami persyaratan ini: sebuah <a
         href="%{summary}">ringkasan yang mudah dibaca</a> dan beberapa <a href="%{translations}">terjemahan
         informal</a>'
       agree: Setuju
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Tolak
       you need to accept or decline: Silahkan baca dan setujui atau tolak Persyaratan
         Kontributor yang baru untuk melanjutkan.
@@ -2023,6 +2075,7 @@ id:
       friends_diaries: Telusuri seluruh entri catatan harian oleh teman-teman
       nearby_changesets: Telusuri seluruh set perubahan oleh pengguna terdekat
       nearby_diaries: Telurusi seluruh entri catatan harian oleh pengguna terdekat
+      report: Laporkan Pengguna Ini
     popup:
       your location: Lokasi Anda
       nearby mapper: Pembuat peta disekitar Anda
@@ -2063,6 +2116,7 @@ id:
           dan menyetujui Persyaratan Kontributor yang baru.
         agreed_with_pd: Anda juga telah menyatakan bahwa Anda mempertimbangkan suntingan
           Anda berada dalam Domain publik.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: Apa ini?
       profile description: 'Deskripsi Profil:'
       preferred languages: 'Bahasa yang Dipilih:'
@@ -2070,6 +2124,7 @@ id:
       image: 'Gambar:'
       gravatar:
         gravatar: Gunakan Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         link text: apa ini?
         disabled: Gravatar telah dinonaktifkan.
         enabled: Tampilan dari Gravatar Anda telah diaktifkan.
@@ -2456,6 +2511,17 @@ id:
         roundabout_with_exit: Di bundaran keluar %{exit} menuju %{name}
         unnamed: jalan tanpa nama
         courtesy: Petunjuk arah disediakan oleh %{link}
+        exit_counts:
+          first: ke-1
+          second: ke-2
+          third: ke-3
+          fourth: ke-4
+          fifth: ke-5
+          sixth: ke-6
+          seventh: ke-7
+          eighth: ke-8
+          ninth: ke-9
+          tenth: ke-10
       time: Waktu tempuh
     query:
       node: Node/Titik
@@ -2503,4 +2569,7 @@ id:
         ini sebelum merusaknya.
       flash: Redaksi dihancurkan.
       error: Ada kesalahan menghancurkan Redaksi ini.
+  validations:
+    invalid_characters: mengandung karakter yang tidak dikenal
+    url_characters: mengandung karakter URL khusus (%{characters})
 ...
