@@ -4,14 +4,15 @@ class TracesController < ApplicationController
   skip_before_action :verify_authenticity_token, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
   before_action :authorize_web
   before_action :set_locale
-  before_action :require_user, :only => [:mine, :new, :create, :edit, :delete]
   before_action :authorize, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
+  before_action :api_deny_access_handler, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
+
+  authorize_resource
+
   before_action :check_database_readable, :except => [:api_read, :api_data]
   before_action :check_database_writable, :only => [:new, :create, :edit, :delete, :api_create, :api_update, :api_delete]
   before_action :check_api_readable, :only => [:api_read, :api_data]
   before_action :check_api_writable, :only => [:api_create, :api_update, :api_delete]
-  before_action :require_allow_read_gpx, :only => [:api_read, :api_data]
-  before_action :require_allow_write_gpx, :only => [:api_create, :api_update, :api_delete]
   before_action :offline_warning, :only => [:mine, :show]
   before_action :offline_redirect, :only => [:new, :create, :edit, :delete, :data, :api_create, :api_delete, :api_data]
   around_action :api_call_handle_error, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
