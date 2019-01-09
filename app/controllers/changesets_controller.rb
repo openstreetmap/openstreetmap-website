@@ -8,7 +8,10 @@ class ChangesetsController < ApplicationController
   before_action :authorize_web, :only => [:index, :feed]
   before_action :set_locale, :only => [:index, :feed]
   before_action :authorize, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
-  before_action :require_allow_write_api, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
+  before_action :api_deny_access_handler, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe, :expand_bbox]
+
+  authorize_resource
+
   before_action :require_public_data, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
   before_action :check_api_writable, :only => [:create, :update, :upload, :subscribe, :unsubscribe]
   before_action :check_api_readable, :except => [:create, :update, :upload, :download, :query, :index, :feed, :subscribe, :unsubscribe]

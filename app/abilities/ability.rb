@@ -4,6 +4,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    can [:index, :feed, :read, :download, :query], Changeset
     can :index, ChangesetComment
     can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :preview, :copyright, :key, :id], :site
     can [:index, :rss, :show, :comments], DiaryEntry
@@ -22,7 +23,8 @@ class Ability
       can [:account, :go_public, :make_friend, :remove_friend, :api_details, :api_gpx_files], User
       can [:read, :read_one, :update, :update_one, :delete_one], UserPreference
 
-      if user.terms_agreed? || !REQUIRE_TERMS_AGREED # rubocop:disable Style/IfUnlessModifier
+      if user.terms_agreed? || !REQUIRE_TERMS_AGREED
+        can [:create, :update, :upload, :close, :subscribe, :unsubscribe, :expand_bbox], Changeset
         can :create, ChangesetComment
       end
 
