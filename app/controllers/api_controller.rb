@@ -1,5 +1,9 @@
 class ApiController < ApplicationController
   skip_before_action :verify_authenticity_token
+  before_action :api_deny_access_handler
+
+  authorize_resource :class => false
+
   before_action :check_api_readable, :except => [:capabilities]
   before_action :setup_user_auth, :only => [:permissions]
   around_action :api_call_handle_error, :api_call_timeout

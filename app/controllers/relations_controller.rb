@@ -3,7 +3,10 @@ class RelationsController < ApplicationController
 
   skip_before_action :verify_authenticity_token
   before_action :authorize, :only => [:create, :update, :delete]
-  before_action :require_allow_write_api, :only => [:create, :update, :delete]
+  before_action :api_deny_access_handler
+
+  authorize_resource
+
   before_action :require_public_data, :only => [:create, :update, :delete]
   before_action :check_api_writable, :only => [:create, :update, :delete]
   before_action :check_api_readable, :except => [:create, :update, :delete]
@@ -147,6 +150,8 @@ class RelationsController < ApplicationController
   def relations_for_relation
     relations_for_object("Relation")
   end
+
+  private
 
   def relations_for_object(objtype)
     relationids = RelationMember.where(:member_type => objtype, :member_id => params[:id]).collect(&:relation_id).uniq

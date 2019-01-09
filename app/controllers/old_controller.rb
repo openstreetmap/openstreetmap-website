@@ -6,9 +6,11 @@ class OldController < ApplicationController
 
   skip_before_action :verify_authenticity_token
   before_action :setup_user_auth, :only => [:history, :version]
+  before_action :api_deny_access_handler
   before_action :authorize, :only => [:redact]
-  before_action :authorize_moderator, :only => [:redact]
-  before_action :require_allow_write_api, :only => [:redact]
+
+  authorize_resource
+
   before_action :check_api_readable
   before_action :check_api_writable, :only => [:redact]
   around_action :api_call_handle_error, :api_call_timeout

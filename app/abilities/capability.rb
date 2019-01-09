@@ -15,11 +15,19 @@ class Capability
     if token&.user&.terms_agreed? || !REQUIRE_TERMS_AGREED
       can [:create, :update, :upload, :close, :subscribe, :unsubscribe, :expand_bbox], Changeset if capability?(token, :allow_write_api)
       can :create, ChangesetComment if capability?(token, :allow_write_api)
+      can [:create, :update, :delete], Node if capability?(token, :allow_write_api)
+      can [:create, :update, :delete], Way if capability?(token, :allow_write_api)
+      can [:create, :update, :delete], Relation if capability?(token, :allow_write_api)
     end
 
     if token&.user&.moderator?
       can [:destroy, :restore], ChangesetComment if capability?(token, :allow_write_api)
       can :destroy, Note if capability?(token, :allow_write_notes)
+      if token&.user&.terms_agreed? || !REQUIRE_TERMS_AGREED
+        can :redact, OldNode if capability?(token, :allow_write_api)
+        can :redact, OldWay if capability?(token, :allow_write_api)
+        can :redact, OldRelation if capability?(token, :allow_write_api)
+      end
     end
   end
 
