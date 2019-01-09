@@ -11,6 +11,7 @@ class Capability
     can [:update, :update_one, :delete_one], UserPreference if capability?(token, :allow_write_prefs)
 
     if token&.user&.terms_agreed? || !REQUIRE_TERMS_AGREED
+      can [:create, :update, :upload, :close, :subscribe, :unsubscribe, :expand_bbox], Changeset if capability?(token, :allow_write_api)
       can :create, ChangesetComment if capability?(token, :allow_write_api)
     end
 
