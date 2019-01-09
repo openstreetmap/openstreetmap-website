@@ -6,6 +6,7 @@ class BrowseController < ApplicationController
   before_action(:except => [:query]) { |c| c.check_database_readable(true) }
   before_action :require_oauth
   around_action :web_timeout
+  authorize_resource :class => false
 
   def relation
     @type = "relation"
