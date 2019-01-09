@@ -3,7 +3,8 @@ class OauthClientsController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
-  before_action :require_user
+
+  authorize_resource :class => ClientApplication
 
   def index
     @client_applications = current_user.client_applications
