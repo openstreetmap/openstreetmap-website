@@ -40,6 +40,10 @@ class BrowseControllerTest < ActionController::TestCase
       { :path => "/note/new", :method => :get },
       { :controller => "browse", :action => "new_note" }
     )
+    assert_routing(
+      { :path => "/query", :method => :get },
+      { :controller => "browse", :action => "query" }
+    )
   end
 
   def test_read_relation
@@ -218,6 +222,18 @@ class BrowseControllerTest < ActionController::TestCase
     assert_select ".browse-section", 4
     assert_select ".browse-section.browse-redacted", 2
     assert_select ".browse-section.browse-relation", 2
+  end
+
+  def test_new_note
+    get :new_note
+    assert_response :success
+    assert_template "browse/new_note"
+  end
+
+  def test_query
+    get :query
+    assert_response :success
+    assert_template "browse/query"
   end
 
   private
