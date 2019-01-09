@@ -23,7 +23,9 @@ class Ability
 
     if user
       can :welcome, :site
+      can [:index, :new, :create, :show, :edit, :update, :destroy], ClientApplication
       can [:create, :edit, :comment, :subscribe, :unsubscribe], DiaryEntry
+      can [:new, :create, :reply, :show, :inbox, :outbox, :mark, :destroy], Message
       can [:close, :reopen], Note
       can [:new, :create], Report
       can [:mine, :new, :create, :edit, :update, :delete, :api_create, :api_read, :api_update, :api_delete, :api_data], Trace
