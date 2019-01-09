@@ -41,6 +41,11 @@ class AmfController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :check_api_writable
 
+  # AMF Controller implements its own authentication and authorization checks
+  # completely independently of the rest of the codebase, so best just to let
+  # it keep doing its own thing.
+  skip_authorization_check
+
   # Main AMF handlers: process the raw AMF string (using AMF library) and
   # calls each action (private method) accordingly.
 
