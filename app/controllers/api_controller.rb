@@ -253,48 +253,9 @@ class ApiController < ApplicationController
   # * maximum area that can be requested in a bbox request in square degrees
   # * number of tracepoints that are returned in each tracepoints page
   def capabilities
-    doc = OSM::API.new.get_xml_doc
-
-    api = XML::Node.new "api"
-    version = XML::Node.new "version"
-    version["minimum"] = API_VERSION.to_s
-    version["maximum"] = API_VERSION.to_s
-    api << version
-    area = XML::Node.new "area"
-    area["maximum"] = MAX_REQUEST_AREA.to_s
-    api << area
-    notearea = XML::Node.new "note_area"
-    notearea["maximum"] = MAX_NOTE_REQUEST_AREA.to_s
-    api << notearea
-    tracepoints = XML::Node.new "tracepoints"
-    tracepoints["per_page"] = TRACEPOINTS_PER_PAGE.to_s
-    api << tracepoints
-    waynodes = XML::Node.new "waynodes"
-    waynodes["maximum"] = MAX_NUMBER_OF_WAY_NODES.to_s
-    api << waynodes
-    changesets = XML::Node.new "changesets"
-    changesets["maximum_elements"] = Changeset::MAX_ELEMENTS.to_s
-    api << changesets
-    timeout = XML::Node.new "timeout"
-    timeout["seconds"] = API_TIMEOUT.to_s
-    api << timeout
-    status = XML::Node.new "status"
-    status["database"] = database_status.to_s
-    status["api"] = api_status.to_s
-    status["gpx"] = gpx_status.to_s
-    api << status
-    doc.root << api
-    policy = XML::Node.new "policy"
-    blacklist = XML::Node.new "imagery"
-    IMAGERY_BLACKLIST.each do |url_regex|
-      xnd = XML::Node.new "blacklist"
-      xnd["regex"] = url_regex.to_s
-      blacklist << xnd
-    end
-    policy << blacklist
-    doc.root << policy
-
-    render :xml => doc.to_s
+    @database_status = database_status
+    @api_status = api_status
+    @gpx_status = gpx_status
   end
 
   # External apps that use the api are able to query which permissions
