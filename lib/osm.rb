@@ -494,13 +494,19 @@ module OSM
       doc = XML::Document.new
       doc.encoding = XML::Encoding::UTF_8
       root = XML::Node.new "osm"
-      root["version"] = API_VERSION.to_s
-      root["generator"] = GENERATOR
-      root["copyright"] = COPYRIGHT_OWNER
-      root["attribution"] = ATTRIBUTION_URL
-      root["license"] = LICENSE_URL
+      xml_root_attributes.each do |k, v|
+        root[k] = v
+      end
       doc.root = root
       doc
+    end
+
+    def xml_root_attributes
+      { "version" => API_VERSION.to_s,
+        "generator" => GENERATOR,
+        "copyright" => COPYRIGHT_OWNER,
+        "attribution" => ATTRIBUTION_URL,
+        "license" => LICENSE_URL }
     end
   end
 

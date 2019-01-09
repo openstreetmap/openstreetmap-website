@@ -1,5 +1,5 @@
 xml.instruct!
 
-xml.osm(:version => API_VERSION, :generator => GENERATOR) do |osm|
+xml.osm(OSM::API.new.xml_root_attributes) do |osm|
   osm << render(:partial => "note", :object => @note)
 end
