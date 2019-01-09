@@ -77,7 +77,7 @@ gem "omniauth-openid"
 gem "omniauth-windowslive"
 
 # Markdown formatting support
-gem "redcarpet"
+gem "kramdown"
 
 # For status transitions of Issues
 gem "aasm"
