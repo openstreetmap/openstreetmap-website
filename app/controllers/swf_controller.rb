@@ -1,6 +1,7 @@
 class SwfController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :check_api_readable
+  authorize_resource :class => false
 
   # to log:
   # RAILS_DEFAULT_LOGGER.error("Args: #{args[0]}, #{args[1]}, #{args[2]}, #{args[3]}")
