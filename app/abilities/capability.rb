@@ -5,6 +5,8 @@ class Capability
 
   def initialize(token)
     can [:create, :comment, :close, :reopen], Note if capability?(token, :allow_write_notes)
+    can [:api_read, :api_data], Trace if capability?(token, :allow_read_gpx)
+    can [:api_create, :api_update, :api_delete], Trace if capability?(token, :allow_write_gpx)
     can [:api_details], User if capability?(token, :allow_read_prefs)
     can [:api_gpx_files], User if capability?(token, :allow_read_gpx)
     can [:read, :read_one], UserPreference if capability?(token, :allow_read_prefs)
