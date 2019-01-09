@@ -3,7 +3,9 @@ class MessagesController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
-  before_action :require_user
+
+  authorize_resource
+
   before_action :lookup_user, :only => [:new, :create]
   before_action :check_database_readable
   before_action :check_database_writable, :only => [:new, :create, :reply, :mark, :destroy]

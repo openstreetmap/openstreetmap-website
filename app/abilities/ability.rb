@@ -17,6 +17,7 @@ class Ability
     if user
       can :welcome, :site
       can [:create, :edit, :comment, :subscribe, :unsubscribe], DiaryEntry
+      can [:new, :create, :reply, :show, :inbox, :outbox, :mark, :destroy], Message
       can [:close, :reopen], Note
       can [:new, :create], Report
       can [:account, :go_public, :make_friend, :remove_friend, :api_details, :api_gpx_files], User
