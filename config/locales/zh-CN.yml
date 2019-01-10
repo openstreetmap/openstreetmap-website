@@ -27,6 +27,7 @@
 # Author: RyRubyy
 # Author: Shizhao
 # Author: StephDC
+# Author: TianyinLee
 # Author: WQL
 # Author: Wong128cn
 # Author: Xiaomingyan
@@ -46,17 +47,17 @@ zh-CN:
   activerecord:
     models:
       acl: 访问控制列表
-      changeset: 修改集合
-      changeset_tag: 修改集合标签
+      changeset: 变更集
+      changeset_tag: 变更集标签
       country: 国家
       diary_comment: 日记评论
-      diary_entry: 日记文章
+      diary_entry: 日记条目
       friend: 朋友
       language: 语言
-      message: 信息
+      message: 消息
       node: 节点
       node_tag: 节点标签
-      notifier: 通知者
+      notifier: 通知
       old_node: 旧节点
       old_node_tag: 旧节点标签
       old_relation: 旧关系
@@ -73,7 +74,7 @@ zh-CN:
       tracepoint: 轨迹点
       tracetag: 轨迹标签
       user: 用户
-      user_preference: 用户首选项
+      user_preference: 用户参数设置
       user_token: 用户密钥
       way: 路径
       way_node: 路径节点
@@ -113,6 +114,7 @@ zh-CN:
         pass_crypt: 密码
   printable_name:
     with_version: '%{id}，版本 %{version}'
+    with_name_html: '%{name}%{id}'
   editor:
     default: 默认（目前为 %{name}）
     potlatch:
@@ -259,7 +261,7 @@ zh-CN:
       id: ID
       saved_at: 保存于
       user: 用户
-      comment: 注解
+      comment: 注释
       area: 区域
     index:
       title: 修改集合
@@ -277,11 +279,15 @@ zh-CN:
       sorry: 对不起，您所请求的更改集列表检索太长了。
   changeset_comments:
     comment:
-      comment: '%{author} 对修改集合 #%{changeset_id} 的新评论'
+      comment: '%{author}对修改集合%{changeset_id}的新评论'
       commented_at_by_html: 由 %{user} 更新于 %{when} 前
+    comments:
+      comment: '%{author}对修改集合%{changeset_id}的新评论'
     index:
       title_all: OpenStreetMap 修改集合讨论
       title_particular: 'OpenStreetMap 修改集合 #%{changeset_id} 讨论'
+    timeout:
+      sorry: 对不起，您所请求的修改集合评论时间区间过长。
   diary_entries:
     new:
       title: 新日记文章
@@ -296,8 +302,8 @@ zh-CN:
       new_title: 在我的用户日记中撰写新文章
       no_entries: 没有日记文章
       recent_entries: 最近的日记文章
-      older_entries: 更老的文章
-      newer_entries: 更新的文章
+      older_entries: 较新的文章
+      newer_entries: 较新的文章
     edit:
       title: 编辑日记文章
       subject: 主题：
@@ -353,7 +359,7 @@ zh-CN:
         description: 最近的 OpenStreetMap 用户日记文章
     comments:
       has_commented_on: '%{display_name} 已评论以下日记文章'
-      post: 帖子
+      post: 发布
       when: 时间
       comment: 评论
       ago: '%{ago} 前'
@@ -808,14 +814,14 @@ zh-CN:
           tram: 电车轨道
           tram_stop: 有轨电车站
         shop:
-          alcohol: 无许可证
+          alcohol: 政府许可酒类店
           antiques: 古玩店
           art: 艺术品店
           bakery: 面包店
           beauty: 美容店
           beverages: 饮料店
           bicycle: 自行车店
-          bookmaker: 著作家
+          bookmaker: 赌博业者
           books: 书店
           boutique: 精品店
           butcher: 肉店
@@ -838,7 +844,7 @@ zh-CN:
           dry_cleaning: 干洗店
           electronics: 电子产品店
           estate_agent: 地产代理
-          farm: 农家店
+          farm: 农产品店
           fashion: 时装店
           fish: 鱼店
           florist: 花店
@@ -877,13 +883,13 @@ zh-CN:
           pharmacy: 药店
           photo: 照相馆
           seafood: 海鲜
-          second_hand: 二手商品商店
+          second_hand: 二手商品店
           shoes: 鞋店
           sports: 体育用品店
           stationery: 文具店
           supermarket: 超市
           tailor: 裁缝店
-          ticket: 门票商店
+          ticket: 售票处
           tobacco: 烟草店
           toys: 玩具店
           travel_agency: 旅行社
@@ -903,7 +909,7 @@ zh-CN:
           camp_site: 宿营地
           caravan_site: 房车宿营地
           chalet: 小屋
-          gallery: 图库
+          gallery: 画廊
           guest_house: 旅馆
           hostel: 招待所
           hotel: 酒店
@@ -1088,6 +1094,7 @@ zh-CN:
     intro_header: 欢迎访问 OpenStreetMap！
     intro_text: OpenStreetMap 是一个世界地图，由像您一样的人们所构筑，可依据开放许可协议自由使用。
     intro_2_create_account: 创建用户账户
+    hosting_partners_html: 主机由%{ucl}、%{bytemark}，以及其他%{partners}所支持。
     partners_ucl: 伦敦大学学院
     partners_bytemark: Bytemark主机
     partners_partners: 合作伙伴
@@ -1135,7 +1142,7 @@ zh-CN:
         failed_to_import: 导入失败。下面是错误信息：
         more_info_1: 更多有关 GPX 导入失败的详细信息，以及如何避免
         more_info_2: 它们的信息可以在这里找到：
-        import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures
+        import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       success:
         subject: '[OpenStreetMap] GPX 导入成功'
         loaded_successfully: 成功载入可能 %{possible_points} 点中的 %{trace_points} 点。
@@ -1332,6 +1339,9 @@ zh-CN:
           BY</a>协议)、<a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land
           Vorarlberg</a>及 Land Tirol (修订的 <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY
           AT</a>协议)的数据。
+        contributors_au_html: |-
+          <strong>澳大利亚</strong>：包含来自
+          <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA 澳大利亚有限公司是</a>的资料，依据<a href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">CC BY 4.0 国际</a>澳大利亚联邦条款授权。
         contributors_ca_html: <strong>加拿大</strong>：含有来自 GeoBase&reg;，GeoGratis(&copy;
           加拿大自然资源部)，CanVec (&copy; 加拿大自然资源部)和StatCan (加拿大统计局地理处)的数据。
         contributors_fi_html: <strong>芬兰</strong>：包含来自芬兰国家测绘局地形数据库和其他测绘机构的数据，依据 <a
@@ -1467,6 +1477,8 @@ zh-CN:
         title: switch2osm
         description: 协助公司与组织改用 OpenStreetMap 为基础的地图与相关服务。
       welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: 对于组织
         description: 想跟一个组织为OpenStreetMap制订计划？在欢迎席上找到你需要知道的东西。
       wiki:
         url: https://wiki.openstreetmap.org/
@@ -1594,7 +1606,8 @@ zh-CN:
       questions:
         title: 还有疑问吗？
         paragraph_1_html: OpenStreetMap 有若干资源用于学习该项目，提问和回答问题，以及讨论与制作地图相关的话题并且撰写相关文档。<a
-          href='%{help_url}'>点此获取帮助</a>。
+          href='%{help_url}'>点此获取帮助</a>。要以组织机构身份来为 OpenStreetMap制作计划吗？清查看<a href='https://welcome.openstreetmap.org/'>Welcome
+          Mat</a>。
       start_mapping: 开始绘制地图
       add_a_note:
         title: 没有时间编辑？添加笔记！
