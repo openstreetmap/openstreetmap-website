@@ -304,9 +304,13 @@ pl:
     comment:
       comment: 'Nowy komentarz do zestawu zmian #%{changeset_id}% autorstwa %{author}'
       commented_at_by_html: Zaktualizowano %{when} temu przez %{user}
+    comments:
+      comment: 'Nowy komentarz do zestawu zmian #%{changeset_id} autorstwa %{author}'
     index:
       title_all: Dyskusja na temat zestawu zmian
       title_particular: 'Dyskusja na temat zestawu zmian #%{changeset_id}'
+    timeout:
+      sorry: Niestety, pobieranie listy żądanych zestawów zmian trwało zbyt długo.
   diary_entries:
     new:
       title: Nowy wpis do dziennika
@@ -318,7 +322,7 @@ pl:
       user_title: Dziennik użytkownika %{user}
       in_language_title: Wpisy w języku %{language}
       new: Nowy wpis dziennika
-      new_title: Tworzy nowy wpis w moim dzienniku użytkownika
+      new_title: Tworzy nowy wpis w tmoim dzienniku użytkownika
       no_entries: Brak wpisów dziennika
       recent_entries: Ostatnie wpisy do dziennika
       older_entries: Starsze wpisy
@@ -331,7 +335,7 @@ pl:
       location: 'Położenie:'
       latitude: 'Szerokość geograficzna:'
       longitude: 'Długość geograficzna:'
-      use_map_link: na mapie
+      use_map_link: wskaż na mapie
       save_button: Zapisz
       marker_text: Umiejscowienie wpisu dziennika
     show:
@@ -345,7 +349,7 @@ pl:
       title: Nie ma takiego wpisu
       heading: Brak wpisu o identyfikatorze %{id}
       body: Niestety nie odnaleziono wpisu dziennika lub komentarza o identyfikatorze
-        %{id}. Proszę sprawdzić pisownię. Być może kliknięty odnośnik jest niepoprawny.
+        %{id}. Proszę sprawdzić pisownię lub może kliknięty odnośnik jest niepoprawny.
     diary_entry:
       posted_by: Opublikowany przez %{link_user}, %{created} w języku %{language_link}
       comment_link: Skomentuj ten wpis
@@ -373,11 +377,11 @@ pl:
         title: Wpisy dla %{user}
         description: Ostatnie wpisy od %{user}
       language:
-        title: Wpisy w języku %{language_name}
+        title: Wpisy dziennika w języku %{language_name}
         description: Ostatnie wpisy użytkowników OpenStreetMap w języku %{language_name}
       all:
-        title: Wpisy OpenStreetMap
-        description: Ostatnie wpisy od użytkowników OpenStreetMap
+        title: Wpisy dzienników OpenStreetMap
+        description: Ostatnie wpisy dzienników od użytkowników OpenStreetMap
     comments:
       has_commented_on: Użytkownik %{display_name} skomentował następujące wpisy dziennika
       post: Wpis
@@ -796,6 +800,7 @@ pl:
           municipality: Gmina
           neighbourhood: Sąsiedztwo
           postcode: Kod pocztowy
+          quarter: Kwartał
           region: Rejon
           sea: Morze
           square: Plac
@@ -981,11 +986,42 @@ pl:
       more_results: Więcej wyników
   issues:
     index:
+      title: Zgłoszenia
+      select_status: Wybierz zgłoszenie
+      select_type: Wybierz kategorię
+      reported_user: Zgłoszony użytkownik
+      search: Wyszukaj
       user_not_found: Użytkownika nie istnieje
+      status: Status
+      reports: Zgłoszenia
+      last_updated_time_html: <abbr title='%{title}'>%{time} temu</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time} temu</abbr> przez
+        %{user}
+      link_to_reports: Zobacz zgłoszenia
+      reports_count:
+        one: 1 zgłoszenie
+        other: '%{count} zgłoszeń'
+      states:
+        ignored: zignorowane
+        open: otwarte
+        resolved: rozwiązane
+    update:
+      new_report: Twoje zgłoszenie zostało pomyślnie zarejestrowane
+      successful_update: Twoje zgłoszenie zostało pomyślnie zaktualizowane
+      provide_details: Podaj koniecznie, proszę, potrzebne szczegóły
     show:
+      title: '%{status} zgłoszenie #%{issue_id}'
+      reports:
+        zero: Brak zgłoszeń
+        one: 1 zgłoszenie
+        other: '%{count} zgłoszeń'
+      resolve: Rozwiąż
+      ignore: Zignoruj
+      reopen: Otwórz ponownie
       read_reports: Czytaj Raporty
-      new_reports: Nowe Raporty
+      new_reports: Nowe zgłoszenia
       other_issues_against_this_user: Inne sprawy przeciwko temu użytkownikowi
+      no_other_issues: Brak innych zgłoszeń dotyczących tego użytkownika.
       comments_on_this_issue: Komentarze o tej sprawie
     resolve:
       resolved: Status sprawy został ustawiony na 'Rozwiązana'
@@ -995,23 +1031,50 @@ pl:
       reopened: Status sprawy został ustawiony na 'Otwarta'
     comments:
       created_at: O %{datetime}
+    reports:
+      updated_at: Dnia %{datetime}
+      reported_by_html: Zgłoszone jako %{category} przez %{user}
     helper:
       reportable_title:
+        diary_comment: '%{entry_title}, komentarz #%{comment_id}'
         note: 'Uwaga #%{note_id}'
   reports:
     new:
+      title_html: Zgłoszenie %{link}
+      details: Opisz, proszę, problem bardziej szczegółowo (wymagane).
       select: 'Wybierz powód zgłoszenia:'
+      disclaimer:
+        intro: 'Przed wysłaniem zgłoszenia do moderatorów, upewnij się proszę, że:'
+        not_just_mistake: Na pewno nie jest to pomyłka, a problem wymagający zgłoszenia
+        unable_to_fix: Nie jesteś w stanie rozwiązać problemu samodzielnie lub z pomocą
+          twojej społeczności
+        resolve_with_user: Podejmowałeś/aś próby rozwiązania problemu z użytkownikiem,
+          którego on dotyczy
       categories:
         diary_entry:
           spam_label: Wpis dziennika jest/zawiera spam
+          offensive_label: Wpis dziennika jest nieprzyzwoity/obraźliwy
+          threat_label: Wpis dziennika zawiera groźbę
+          other_label: Inne
+        diary_comment:
+          spam_label: Ten wpis dziennika jest/zawiera spam
+          offensive_label: Ten wpis dziennik jest nieprzyzwoity/obraźliwy
+          threat_label: Ten wpis dziennika zawiera groźbę
+          other_label: Inne
         user:
           spam_label: Profil użytkownika jest/zawiera spam
+          offensive_label: Profil użytkownika jest nieprzyzwoity/obraźliwy
           threat_label: Profil użytkownika zawiera groźbę
+          vandal_label: Ten użytkownik jest wandalem
           other_label: Inny
         note:
           spam_label: Uwaga jest spamem
           personal_label: Uwaga zawiera dane osobiste
           abusive_label: Ta uwaga jest obraźliwa
+          other_label: Inne
+    create:
+      successful_report: Twoje zgłoszenie zostało pomyślnie zarejestrowane
+      provide_details: Podaj, proszę, wymagane sczegóły
   layouts:
     project_name:
       title: OpenStreetMap
@@ -1028,6 +1091,7 @@ pl:
     edit: Edycja
     history: Zmiany
     export: Eksport
+    issues: Zgłoszenia
     data: Dane
     export_data: Eksportuj dane
     gps_traces: Ślady GPS
@@ -1363,8 +1427,9 @@ pl:
         contributors_nl_html: |-
           <strong>Holandia</strong>: Zawiera dane &copy; AND, 2007
           (<a href="https://www.and.com">www.and.com</a>)
-        contributors_nz_html: '<strong>Nowa Zelandia</strong>: Zawiera dane uzyskane
-          z ''Land Information New Zealand''. Crown Copyright reserved.'
+        contributors_nz_html: |-
+          <strong>Nowa Zelandia</strong>: Zawiera dane uzyskane z <a href="https://data.linz.govt.nz/">LINZ Data Service</a> i licencjonowane do ponownego użycia na podstawie licencji
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
         contributors_si_html: |-
           <strong>Słowenia</strong>: Zawiera dane
           <a href="http://www.gu.gov.si/en/">Urzędu Geodezji i Kartografii</a> oraz
@@ -1733,6 +1798,8 @@ pl:
       visibility: 'Widoczność:'
       visibility_help: co to znaczy?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Pl:Visibility_of_GPS_traces
+    update:
+      updated: Ślad został zaktualizowany
     trace_optionals:
       tags: Tagi
     show:
@@ -1810,10 +1877,10 @@ pl:
     setup_user_auth:
       blocked_zero_hour: Masz pilną wiadomość na stronie OpenStreetMap. Musisz przeczytać
         tę wiadomość, zanim będzie można zapisywać zmiany.
-      blocked: Twój dostęp do API jest zablokowany. Zaloguj się do interfejsu sieciowego,
-        aby dowiedzieć się więcej.
+      blocked: Twój dostęp do API jest zablokowany. Zaloguj się przez przeglądarkę
+        internetową, aby dowiedzieć się więcej.
       need_to_see_terms: Twój dostęp do API został czasowo zawieszony. Zaloguj się
-        przez stronę WWW, aby zapoznać się z Warunkami uczestnictwa. Nie masz obowiązku
+        przez stronę WWW, aby zapoznać się z Warunkami Uczestnictwa. Nie masz obowiązku
         ich akceptować, ale musisz się z nimi zapoznać.
   oauth:
     authorize:
@@ -1927,8 +1994,8 @@ pl:
         link zawarty w mailu potwierdzenia założenia konta, aby je aktywować lub <a
         href="%{reconfirm}">poproś o ponowne przesłanie maila</a>.
       account is suspended: Twoje konto zostało zawieszone ze względu na podejrzaną
-        aktywność.<br />Skontaktuj się z <a href="%{webmaster}">webmasterem</a>, jeśli
-        chcesz przedyskutować blokadę.
+        działalność.<br />Skontaktuj się z <a href="%{webmaster}">webmasterem</a>,
+        jeśli chcesz to przedyskutować.
       auth failure: Niestety, podane dane nie pozwoliły na zalogowanie.
       openid_logo_alt: Loguje za pomocą OpenID
       auth_providers:
@@ -2079,7 +2146,7 @@ pl:
       if set location: Podaj swoją lokalizację na stronie %{settings_link}, aby zobaczyć
         użytkowników blisko ciebie.
       settings_link_text: stronie ustawień
-      my friends: Moi przyjaciele
+      my friends: Moi znajomi
       no friends: Nie dodano jeszcze żadnych znajomych.
       km away: '%{count}km stąd'
       m away: '%{count}m stąd'
@@ -2095,7 +2162,7 @@ pl:
         revoke:
           administrator: Cofnij dostęp administratora
           moderator: Cofnij dostęp moderatora
-      block_history: Aktywne Blokady
+      block_history: aktywne blokady
       moderator_history: Nałożone Blokady
       comments: komentarze
       create_block: Zablokuj tego użytkownika
@@ -2110,7 +2177,7 @@ pl:
       friends_diaries: wpisy w dziennikach znajomych
       nearby_changesets: pobliskie zestawy zmian
       nearby_diaries: pobliskie wpisy w dziennikach
-      report: Zgłoś tego użytkownika
+      report: zgłoś tego użytkownika
     popup:
       your location: Twoje położenie
       nearby mapper: Mapowicz z okolicy
@@ -2212,13 +2279,13 @@ pl:
         do edycji.
     make_friend:
       heading: Dodać %{user} do grona znajomych?
-      button: Dodaj do listy przyjaciół
+      button: Dodaj do listy znajomych
       success: '%{name} należy teraz do grona znajomych!'
       failed: Nie udało się dodać %{name} do grona znajomych.
       already_a_friend: '%{name} już jest znajomym.'
     remove_friend:
       heading: Usunąć %{user} z grona znajomych?
-      button: Usuń z przyjaciół
+      button: Usuń ze znajomych
       success: Usunięto %{name} z grona znajomych.
       not_a_friend: '%{name} nie należy do grona znajomych.'
     index:
@@ -2279,8 +2346,8 @@ pl:
         użytkownik i rola są ważne.
   user_blocks:
     model:
-      non_moderator_update: Musisz być moderatorem, żeby ustalać i edytować blokady.
-      non_moderator_revoke: Musisz być moderatorem, żeby odwoływać blokady.
+      non_moderator_update: Musisz być moderatorem, by ustanowić lub edytować blokadę.
+      non_moderator_revoke: Musisz być moderatorem, by odwołać blokadę.
     not_found:
       sorry: Niestety, nie udało się odnaleźć blokady użytkownika o identyfikatorze
         %{id}.
@@ -2288,55 +2355,54 @@ pl:
     new:
       title: Tworzenie blokady użytkownika %{name}
       heading: Tworzenie blokady użytkownika %{name}
-      reason: Powód blokady użytkownika %{name}. Zachowaj spokój i rozsądek oraz podaj
-        jak najwięcej szczegółów dotyczących sytuacji, mając na uwagę to, że wiadomość
-        będzie publicznie widoczna. Zwróć uwagę na to, że nie wszyscy użytkownicy
-        mogą znać żargon obowiązujący w społeczności projektu, więc staraj się używać
-        ogólnie rozumianych pojęć.
-      period: Na jak długo od tego momentu użytkownik ma być zablokowany przed dostępem
+      reason: Powód blokady użytkownika %{name}. Postaraj się w sposób spokojny i
+        rzeczowy podać jak najwięcej szczegółów dotyczących sytuacji, mając na uwagę
+        to, że wiadomość będzie publicznie widoczna. Zwróć uwagę na to, że nie wszyscy
+        użytkownicy mogą znać żargon obowiązujący w społeczności projektu, więc staraj
+        się używać ogólnie rozumianych pojęć.
+      period: Na jak długo, od tego momentu, użytkownik ma mieć zablokowany dostęp
         do API.
       submit: Utwórz blokadę
       tried_contacting: Skontaktowałem się z użytkownikami i poprosiłem ich o zaprzestanie.
       tried_waiting: Dałem(-am) użytkownikowi  rozsądny czas, aby odpowiedzieć na
         te komunikaty.
-      needs_view: Użytkownik musi się zalogować, zanim blokada zostanie wyczyszczona
+      needs_view: Użytkownik musi się zalogować, zanim blokada zostanie zdjęta
       back: Wyświetl wszystkie blokady
     edit:
-      title: Edycja blokady dla użytkownika %{name}
-      heading: Edycja blokady dla użytkownika %{name}
-      reason: Przyczyna blokady użytkownika %{name}. Prosimy o zachowanie rzeczowości
-        i chłodnego nastawienia oraz podanie jak najwięcej szczegółów dotyczących
-        sytuacji stanowiącej podstawę do nałożenia blokady. Zwróć uwagę na to, że
-        nie wszyscy użytkownicy mogą znać żargon obowiązujący w społeczności projektu;
-        staraj się używać ogólnie rozumianych pojęć.
-      period: Na jak długo od tego momentu użytkownik ma być zablokowany przed dostępem
+      title: Edycja blokady użytkownika %{name}
+      heading: Edycja blokady użytkownika %{name}
+      reason: Przyczyna blokady użytkownika %{name}. Postaraj się w sposób spokojny
+        i rzeczowy podać jak najwięcej szczegółów dotyczących sytuacji stanowiącej
+        podstawę do nałożenia blokady. Zwróć uwagę na to, że nie wszyscy użytkownicy
+        mogą znać żargon obowiązujący w społeczności projektu; staraj się używać ogólnie
+        rozumianych pojęć.
+      period: Na jak długo, od tego momentu, użytkownik ma mieć zablokowany dostęp
         do API.
       submit: Uaktualnij blokadę
       show: Zobacz tę blokadę
       back: Wyświetl wszystkie blokady
-      needs_view: Czy użytkownik musi zalogować się zanim blokada ulegnie wyczyszczeniu?
+      needs_view: Czy użytkownik musi zalogować się zanim blokada zostanie zdjęta?
     filter:
       block_expired: Blokada zakończyła się i nie można jej edytować.
       block_period: Długość blokady należy wybrać z listy rozwijanej.
     create:
-      try_contacting: Proszę rozważ, czy nie warto skontaktować się z użytkownikiem
-        przed nałożeniem blokady, by miał on czas na odpowiedź.
-      try_waiting: Proszę rozważ, czy użytkownik nie powinien dostać czasu na udzielenie
-        odpowiedzi przed nałożeniem blokady.
+      try_contacting: Spróbuj, proszę, skontaktować się z użytkownikiem przed nałożeniem
+        blokady i upewnij się, że będzie miał on czas na odpowiedź.
+      try_waiting: Spróbuj, proszę, dać użytkownikowi rozsądną ilość czasu na udzielenie
+        odpowiedzi zanim nałożysz blokadę.
       flash: Nalożono blokadę na użytkownika %{name}.
     update:
-      only_creator_can_edit: Tylko moderator nakładający blokadę może ją edytować.
-      success: Blokada zaktualizowana.
+      only_creator_can_edit: Tylko moderator, który nałożył blokadę, może ją edytować.
+      success: Blokada została zaktualizowana.
     index:
       title: Blokady użytkownika
       heading: Lista blokad użytkowników
       empty: Nie nałożono do tej pory żadnych blokad.
     revoke:
       title: Odwoływanie blokady użytkownika %{block_on}
-      heading: Odwoływanie blokady użytkownika %{block_on} nałożonej przez użytkownika
-        %{block_by}
+      heading: Odwoływanie blokady użytkownika %{block_on} nałożonej przez %{block_by}
       time_future: Blokada zakończy się za %{time}.
-      past: Blokada zakończyła się %{time} temu i nie można jej odwołać.
+      past: Blokada zakończyła się %{time} temu i nie można jej już odwołać.
       confirm: Czy na pewno chcesz odwołać tę blokadę?
       revoke: Odwołaj
       flash: Blokada została odwołana.
@@ -2353,9 +2419,9 @@ pl:
       heading: Lista blokad na użytkownika %{name}
       empty: '%{name} nie był jeszcze zablokowany.'
     blocks_by:
-      title: Blokady nałożone przez użytkownika %{name}
-      heading: Lista blokad dla użytkownika %{name}
-      empty: Użytkownik %{name} nie nałożył jeszcze żadnej blokady.
+      title: Blokady nałożone przez %{name}
+      heading: Lista blokad nałożonych przez %{name}
+      empty: '%{name} nie nałożył jeszcze żadnej blokady.'
     show:
       title: '%{block_on} zablokowany przez użytkownika %{block_by}'
       heading: '%{block_on} zablokowany przez użytkownika %{block_by}'
@@ -2368,10 +2434,10 @@ pl:
       edit: Edytuj
       revoke: Odwołaj
       confirm: Na pewno?
-      reason: Przyczyna blokady
+      reason: 'Przyczyna blokady:'
       back: Pokaż wszystkie blokady
       revoker: Cofający uprawnienia
-      needs_view: Użytkownik musi się zalogować zanim blokada zostanie wyczyszczona.
+      needs_view: Użytkownik musi się zalogować zanim blokada zostanie zdjęta.
     block:
       not_revoked: (nieodwołana)
       show: Pokaż
@@ -2521,8 +2587,11 @@ pl:
       instructions:
         continue_without_exit: Kontynuuj na %{name}
         slight_right_without_exit: Lekko w prawo w %{name}
+        offramp_right: Zjedź prawym zjazdem
+        offramp_right_with_exit: Wybierz zjazd %{exit} po prawej
         offramp_right_with_name: Jedź zjazdem w prawo do %{name}.
         onramp_right_without_exit: Skręć w prawo do podjazdu do %{name}.
+        onramp_right: Skręc w prawo na zjazd
         endofroad_right_without_exit: Na końcu tej drogi skręć w prawo w kierunku
           %{name}.
         merge_right_without_exit: Skręć w prawo w kierunku %{name}.
@@ -2611,4 +2680,6 @@ pl:
         Należy zrezygnować z ich ukrywania przed jej usunięciem.
       flash: Poprawka usunięta.
       error: Wystąpił błąd podczas usuwania tej poprawki.
+  validations:
+    invalid_characters: zawiera niedozwolone znaki
 ...

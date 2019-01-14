@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Dinhxuanduyet
+# Author: Ioe2015
 # Author: KhangND
 # Author: Leducthn
 # Author: Macofe
@@ -235,47 +236,52 @@ vi:
       view_changeset_details: Xem chi tiết của bộ thay đổi
     changesets:
       id: ID
-      saved_at: Lúc Lưu
+      saved_at: Lưu vào lúc
       user: Người dùng
-      comment: Miêu tả
+      comment: Tóm lược
       area: Vùng
     index:
       title: Các bộ thay đổi
-      title_user: Những bộ thay đổi của %{user}
-      title_friend: Những bộ thay đổi của bạn bè
-      title_nearby: Những bộ thay đổi của người dùng ở gần
+      title_user: Những bộ thay đổi bởi %{user}
+      title_friend: Những bộ thay đổi bởi bạn bè của bạn
+      title_nearby: Những bộ thay đổi bởi người dùng ở gần
       empty: Không tìm thấy bộ thay đổi.
       empty_area: Không có bộ thay đổi trong khu vực này.
-      empty_user: Người dùng này không có bộ thay đổi nào.
-      no_more: Hết bộ thay đổi.
-      no_more_area: Hết bộ thay đổi trong khu vực này.
-      no_more_user: Hết bộ thay đổi của người dùng này.
-      load_more: Tải tiếp
+      empty_user: Không có bộ thay đổi bởi người dùng này.
+      no_more: Không tìm thấy thêm bộ thay đổi.
+      no_more_area: Không có thêm bộ thay đổi trong khu vực này.
+      no_more_user: Không có thêm bộ thay đổi bởi người dùng này.
+      load_more: Tải thêm
     timeout:
-      sorry: Rất tiếc, lấy danh sách bộ thay đổi tốn quá nhiều thì giờ.
+      sorry: Rất tiếc, việc lấy danh sách bộ thay đổi tốn quá nhiều thì giờ.
   changeset_comments:
     comment:
-      comment: 'Bình luận mới về bộ thay đổi #%{changeset_id} của %{author}'
+      comment: 'Nhận xét mới về bộ thay đổi #%{changeset_id} của %{author}'
       commented_at_by_html: Được %{user} cập nhật cách đây %{when}
+    comments:
+      comment: 'Nhận xét mới về bộ thay đổi #%{changeset_id} của %{author}'
     index:
       title_all: Thảo luận về bộ thay đổi tại OpenStreetMap
       title_particular: 'Thảo luận về bộ thay đổi #%{changeset_id} tại OpenStreetMap'
+    timeout:
+      sorry: Rất tiếc, việc lấy danh sách lời tóm lược bộ thay đổi tốn quá nhiều thì
+        giờ.
   diary_entries:
     new:
-      title: Mục Nhật ký Mới
+      title: Mục nhật ký mới
       publish_button: Đăng
     index:
-      title: Các Nhật ký Cá nhân
+      title: Các nhật ký của các người dùng
       title_friends: Các nhật ký của bạn bè
       title_nearby: Các nhật ký của người dùng ở gần
       user_title: Nhật ký của %{user}
-      in_language_title: Các Mục Nhật ký bằng %{language}
-      new: Mục Nhật ký Mới
+      in_language_title: Các mục nhật ký bằng %{language}
+      new: Mục nhật ký mới
       new_title: Soạn thảo mục mới trong nhật ký của tôi
       no_entries: Chưa có mục nhật ký
       recent_entries: Mục nhật ký gần đây
-      older_entries: Mục Trước
-      newer_entries: Mục Sau
+      older_entries: Mục cũ hơn
+      newer_entries: Mục mới hơn
     edit:
       title: Sửa đổi mục nhật ký
       subject: 'Tiêu đề:'
@@ -290,18 +296,18 @@ vi:
     show:
       title: Nhật ký của %{user} | %{title}
       user_title: Nhật ký của %{user}
-      leave_a_comment: Bình luận
-      login_to_leave_a_comment: '%{login_link} để bình luận'
+      leave_a_comment: Để lại nhận xét
+      login_to_leave_a_comment: '%{login_link} để nhận xét'
       login: Đăng nhập
       save_button: Lưu
     no_such_entry:
       title: Mục nhật ký không tồn tại
       heading: 'Không có mục với ID: %{id}'
-      body: Rất tiếc, không có mục hoặc bình luận trong nhật ký với ID %{id}. Xin
-        hãy kiểm tra chính tả, hoặc có lẽ bạn đã theo một liên kết sai.
+      body: Rất tiếc, không có mục hoặc ghi chú trong nhật ký với ID %{id}. Xin hãy
+        kiểm tra chính tả, hoặc có lẽ bạn đã theo một liên kết sai.
     diary_entry:
       posted_by: Do %{link_user} đăng vào %{created} bằng %{language_link}
-      comment_link: Bình luận về mục này
+      comment_link: Nhận xét về mục này
       reply_link: Trả lời mục này
       comment_count:
         zero: Chưa có bình luận
@@ -322,21 +328,21 @@ vi:
     feed:
       user:
         title: Các mục nhật ký của %{user}
-        description: Những mục gần đây trong nhật ký OpenStreetMap của %{user}
+        description: Những mục gần đây trong nhật ký OpenStreetMap từ %{user}
       language:
         title: Các mục nhật ký OpenStreetMap bằng %{language_name}
         description: Những mục nhật ký gần đây của người dùng OpenStreetMap bằng %{language_name}
       all:
         title: Các mục nhật ký OpenStreetMap
-        description: Những mục nhật ký gần đây của người dùng OpenStreetMap
+        description: Những mục nhật ký gần đây từ người dùng OpenStreetMap
     comments:
-      has_commented_on: '%{display_name} đã bình luận về các mục nhật ký sau'
+      has_commented_on: '%{display_name} đã nhận xét về các mục nhật ký sau'
       post: Mục nhật ký
       when: Lúc đăng
-      comment: Bình luận
+      comment: Nhận xét
       ago: cách đây %{ago}
-      newer_comments: Các Bình luận Sau
-      older_comments: Các Bình luận Trước
+      newer_comments: Các Nhận xét Mới hơn
+      older_comments: Các Nhận xét Cũ hơn
   geocoder:
     search:
       title:
@@ -355,9 +361,11 @@ vi:
           chair_lift: Ghế Cáp treo
           drag_lift: Thang kéo trên Mặt đất
           gondola: Xe Cáp treo Nhỏ
+          pylon: Cột tháp
           station: Trạm Cáp treo
         aeroway:
           aerodrome: Sân bay
+          airstrip: Bãi hạ cánh
           apron: Sân Đậu Máy bay
           gate: Cổng
           hangar: Nhà Máy bay
@@ -622,26 +630,37 @@ vi:
           water_park: Công viên Nước
           "yes": Giải trí
         man_made:
+          adit: Lối vào
+          beacon: Đèn hiệu
           beehive: Tổ ong
+          breakwater: Đê chắn sóng
           bridge: Cầu
           bunker_silo: Boong ke
           chimney: Ống khói
           crane: Cần cẩu
+          dolphin: Cột neo đậu
+          embankment: Đê
           flagpole: Cột cờ
           gasometer: Máy Đo Khí
+          groyne: Đê biển
           kiln: Lò
           lighthouse: Hải đăng
           mast: Cột
           mine: Mỏ
           mineshaft: Hầm Mỏ
+          monitoring_station: Trạm quan sát bằng camera
+          petroleum_well: Giếng dầu
           pier: Cầu tàu
           pipeline: Ống dẫn
           silo: Xi lô
+          storage_tank: Bể chứa
           tower: Tháp
           wastewater_plant: Nhà máy Nước thải
+          watermill: Cối xay nước
           water_tower: Tháp nước
           water_well: Giếng
           water_works: Nhà máy Nước
+          windmill: Cối xay gió
           works: Nhà máy
           "yes": Nhân tạo
         military:
@@ -802,6 +821,7 @@ vi:
           hairdresser: Tiệm Làm tóc
           hardware: Tiệm Ngũ kim
           hifi: Cửa hàng Hi-fi
+          houseware: Cửa hàng gia dụng
           jewelry: Tiệm Kim hoàn
           kiosk: Quán
           laundry: Tiệm Giặt Quần áo
@@ -1656,7 +1676,7 @@ vi:
         title: Có thắc mắc?
         paragraph_1_html: |-
           OpenStreetMap có nhiều tài nguyên để cho bạn tìm hiểu về dự án, hỏi đáp, và cộng tác soạn thảo tài liệu về các đề tài bản đồ.
-          <a href='%{help_url}'>Nhận trợ giúp tại đây</a>.
+          <a href='%{help_url}'>Nhận trợ giúp tại đây</a>. Nếu bạn thuộc về một tổ chức đang lập kế hoạch về OpenStreetMap, <a href='https://welcome.openstreetmap.org/'>hãy xem phần Thảm cửa Chào mừng</a>.
       start_mapping: Bắt đầu Đóng góp
       add_a_note:
         title: Không có Thì giờ Sửa đổi? Thêm một Ghi chú!
