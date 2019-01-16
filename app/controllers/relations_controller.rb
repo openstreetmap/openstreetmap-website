@@ -22,7 +22,7 @@ class RelationsController < ApplicationController
     render :plain => relation.id.to_s
   end
 
-  def read
+  def show
     relation = Relation.find(params[:id])
     response.last_modified = relation.timestamp
     if relation.visible
@@ -123,7 +123,7 @@ class RelationsController < ApplicationController
     end
   end
 
-  def relations
+  def index
     raise OSM::APIBadUserInput, "The parameter relations is required, and must be of the form relations=id[,id[,id...]]" unless params["relations"]
 
     ids = params["relations"].split(",").collect(&:to_i)

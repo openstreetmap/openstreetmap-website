@@ -7,7 +7,7 @@ class Ability
     can [:trackpoints, :map, :changes, :capabilities, :permissions], :api
     can [:relation, :relation_history, :way, :way_history, :node, :node_history,
          :changeset, :note, :new_note, :query], :browse
-    can [:index, :feed, :read, :download, :query], Changeset
+    can [:index, :feed, :show, :download, :query], Changeset
     can :index, ChangesetComment
     can :search, :direction
     can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :preview, :copyright, :key, :id], :site
@@ -23,9 +23,9 @@ class Ability
     can [:index, :show, :data, :georss, :picture, :icon], Trace
     can [:terms, :api_users, :login, :logout, :new, :create, :save, :confirm, :confirm_resend, :confirm_email, :lost_password, :reset_password, :show, :api_read, :auth_success, :auth_failure], User
     can [:index, :show, :blocks_on, :blocks_by], UserBlock
-    can [:read, :nodes], Node
-    can [:read, :full, :ways, :ways_for_node], Way
-    can [:read, :full, :relations, :relations_for_node, :relations_for_way, :relations_for_relation], Relation
+    can [:index, :show], Node
+    can [:index, :show, :full, :ways_for_node], Way
+    can [:index, :show, :full, :relations_for_node, :relations_for_way, :relations_for_relation], Relation
     can [:history, :version], OldNode
     can [:history, :version], OldWay
     can [:history, :version], OldRelation

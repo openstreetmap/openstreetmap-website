@@ -42,7 +42,7 @@ class ChangesetsController < ApplicationController
   ##
   # Return XML giving the basic info about the changeset. Does not
   # return anything about the nodes, ways and relations in the changeset.
-  def read
+  def show
     changeset = Changeset.find(params[:id])
 
     render :xml => changeset.to_xml(params[:include_discussion].presence).to_s

@@ -22,7 +22,7 @@ class WaysController < ApplicationController
     render :plain => way.id.to_s
   end
 
-  def read
+  def show
     way = Way.find(params[:id])
 
     response.last_modified = way.timestamp
@@ -82,7 +82,7 @@ class WaysController < ApplicationController
     end
   end
 
-  def ways
+  def index
     unless params["ways"]
       raise OSM::APIBadUserInput, "The parameter ways is required, and must be of the form ways=id[,id[,id...]]"
     end

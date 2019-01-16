@@ -10,7 +10,7 @@ class NodesControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/api/0.6/node/1", :method => :get },
-      { :controller => "nodes", :action => "read", :id => "1" }
+      { :controller => "nodes", :action => "show", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/node/1", :method => :put },
@@ -22,7 +22,7 @@ class NodesControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/api/0.6/nodes", :method => :get },
-      { :controller => "nodes", :action => "nodes" }
+      { :controller => "nodes", :action => "index" }
     )
   end
 
@@ -132,17 +132,17 @@ class NodesControllerTest < ActionController::TestCase
     assert_equal ["NodeTag ", " v: is too long (maximum is 255 characters) (\"#{'x' * 256}\")"], @response.body.split(/[0-9]+,foo:/)
   end
 
-  def test_read
+  def test_show
     # check that a visible node is returned properly
-    get :read, :params => { :id => create(:node).id }
+    get :show, :params => { :id => create(:node).id }
     assert_response :success
 
     # check that an deleted node is not returned
-    get :read, :params => { :id => create(:node, :deleted).id }
+    get :show, :params => { :id => create(:node, :deleted).id }
     assert_response :gone
 
     # check chat a non-existent node is not returned
-    get :read, :params => { :id => 0 }
+    get :show, :params => { :id => 0 }
     assert_response :not_found
   end
 
@@ -427,7 +427,7 @@ class NodesControllerTest < ActionController::TestCase
 
   ##
   # test fetching multiple nodes
-  def test_nodes
+  def test_index
     node1 = create(:node)
     node2 = create(:node, :deleted)
     node3 = create(:node)
@@ -435,15 +435,15 @@ class NodesControllerTest < ActionController::TestCase
     node5 = create(:node, :deleted, :with_history, :version => 2)
 
     # check error when no parameter provided
-    get :nodes
+    get :index
     assert_response :bad_request
 
     # check error when no parameter value provided
-    get :nodes, :params => { :nodes => "" }
+    get :index, :params => { :nodes => "" }
     assert_response :bad_request
 
     # test a working call
-    get :nodes, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}" }
+    get :index, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}" }
     assert_response :success
     assert_select "osm" do
       assert_select "node", :count => 5
@@ -455,7 +455,7 @@ class NodesControllerTest < ActionController::TestCase
     end
 
     # check error when a non-existent node is included
-    get :nodes, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id},0" }
+    get :index, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id},0" }
     assert_response :not_found
   end
 
@@ -518,7 +518,7 @@ class NodesControllerTest < ActionController::TestCase
     assert_not_nil checknode, "node not found in data base after upload"
 
     # and grab it using the api
-    get :read, :params => { :id => nodeid }
+    get :show, :params => { :id => nodeid }
     assert_response :success
     apinode = Node.from_xml(@response.body)
     assert_not_nil apinode, "downloaded node is nil, but shouldn't be"
