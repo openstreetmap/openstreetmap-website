@@ -16,6 +16,7 @@ class Ability
     can [:search, :search_latlon, :search_ca_postcode, :search_osm_nominatim,
          :search_geonames, :search_osm_nominatim_reverse, :search_geonames_reverse], :geocoder
     can [:index, :create, :comment, :feed, :show, :search, :mine], Note
+    can [:token, :request_token, :access_token, :test_request], :oauth
     can [:index, :show], Redaction
     can [:search_all, :search_nodes, :search_ways, :search_relations], :search
     can [:trackpoints], :swf
@@ -35,6 +36,7 @@ class Ability
       can [:create, :edit, :comment, :subscribe, :unsubscribe], DiaryEntry
       can [:new, :create, :reply, :show, :inbox, :outbox, :mark, :destroy], Message
       can [:close, :reopen], Note
+      can [:revoke, :authorize], :oauth
       can [:new, :create], Report
       can [:mine, :new, :create, :edit, :update, :delete, :api_create, :api_read, :api_update, :api_delete, :api_data], Trace
       can [:account, :go_public, :make_friend, :remove_friend, :api_details, :api_gpx_files], User

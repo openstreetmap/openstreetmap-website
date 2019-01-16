@@ -3,12 +3,26 @@ require "oauth/controllers/provider_controller"
 class OauthController < ApplicationController
   include OAuth::Controllers::ProviderController
 
+  # The ProviderController will call login_required for any action that needs
+  # a login, but we want to check authorization on every action.
+  authorize_resource :class => false
+
   layout "site"
+
+  def revoke
+    @token = current_user.oauth_tokens.find_by :token => params[:token]
+    if @token
+      @token.invalidate!
+      flash[:notice] = t(".flash", :application => @token.client_application.name)
+    end
+    redirect_to oauth_clients_url(:display_name => @token.user.display_name)
+  end
+
+  protected
 
   def login_required
     authorize_web
     set_locale
-    require_user
   end
 
   def user_authorizes_token?
@@ -25,17 +39,6 @@ class OauthController < ApplicationController
 
     any_auth
   end
-
-  def revoke
-    @token = current_user.oauth_tokens.find_by :token => params[:token]
-    if @token
-      @token.invalidate!
-      flash[:notice] = t(".flash", :application => @token.client_application.name)
-    end
-    redirect_to oauth_clients_url(:display_name => @token.user.display_name)
-  end
-
-  protected
 
   def oauth1_authorize
     override_content_security_policy_directives(:form_action => []) if CSP_ENFORCE || defined?(CSP_REPORT_URL)
