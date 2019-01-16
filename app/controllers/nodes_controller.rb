@@ -5,7 +5,10 @@ class NodesController < ApplicationController
 
   skip_before_action :verify_authenticity_token
   before_action :authorize, :only => [:create, :update, :delete]
-  before_action :require_allow_write_api, :only => [:create, :update, :delete]
+  before_action :api_deny_access_handler
+
+  authorize_resource
+
   before_action :require_public_data, :only => [:create, :update, :delete]
   before_action :check_api_writable, :only => [:create, :update, :delete]
   before_action :check_api_readable, :except => [:create, :update, :delete]
