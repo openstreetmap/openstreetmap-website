@@ -22,7 +22,7 @@ class ChangesetsControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1", :method => :get },
-      { :controller => "changesets", :action => "read", :id => "1" }
+      { :controller => "changesets", :action => "show", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1/subscribe", :method => :post },
@@ -152,19 +152,19 @@ class ChangesetsControllerTest < ActionController::TestCase
   end
 
   ##
-  # check that the changeset can be read and returns the correct
+  # check that the changeset can be shown and returns the correct
   # document structure.
-  def test_read
+  def test_show
     changeset_id = create(:changeset).id
 
-    get :read, :params => { :id => changeset_id }
+    get :show, :params => { :id => changeset_id }
     assert_response :success, "cannot get first changeset"
 
     assert_select "osm[version='#{API_VERSION}'][generator='OpenStreetMap server']", 1
     assert_select "osm>changeset[id='#{changeset_id}']", 1
     assert_select "osm>changeset>discussion", 0
 
-    get :read, :params => { :id => changeset_id, :include_discussion => true }
+    get :show, :params => { :id => changeset_id, :include_discussion => true }
     assert_response :success, "cannot get first changeset with comments"
 
     assert_select "osm[version='#{API_VERSION}'][generator='OpenStreetMap server']", 1
@@ -175,7 +175,7 @@ class ChangesetsControllerTest < ActionController::TestCase
     changeset_id = create(:changeset, :closed).id
     create_list(:changeset_comment, 3, :changeset_id => changeset_id)
 
-    get :read, :params => { :id => changeset_id, :include_discussion => true }
+    get :show, :params => { :id => changeset_id, :include_discussion => true }
     assert_response :success, "cannot get closed changeset with comments"
 
     assert_select "osm[version='#{API_VERSION}'][generator='OpenStreetMap server']", 1
@@ -186,10 +186,10 @@ class ChangesetsControllerTest < ActionController::TestCase
 
   ##
   # check that a changeset that doesn't exist returns an appropriate message
-  def test_read_not_found
+  def test_show_not_found
     [0, -32, 233455644, "afg", "213"].each do |id|
       begin
-        get :read, :params => { :id => id }
+        get :show, :params => { :id => id }
         assert_response :not_found, "should get a not found"
       rescue ActionController::UrlGenerationError => ex
         assert_match(/No route matches/, ex.to_s)
@@ -1483,7 +1483,7 @@ CHANGESET
     end
 
     # get the bounding box back from the changeset
-    get :read, :params => { :id => changeset_id }
+    get :show, :params => { :id => changeset_id }
     assert_response :success, "Couldn't read back changeset."
     assert_select "osm>changeset[min_lon='1.0000000']", 1
     assert_select "osm>changeset[max_lon='1.0000000']", 1
@@ -1498,7 +1498,7 @@ CHANGESET
     end
 
     # get the bounding box back from the changeset
-    get :read, :params => { :id => changeset_id }
+    get :show, :params => { :id => changeset_id }
     assert_response :success, "Couldn't read back changeset for the second time."
     assert_select "osm>changeset[min_lon='1.0000000']", 1
     assert_select "osm>changeset[max_lon='2.0000000']", 1
@@ -1513,7 +1513,7 @@ CHANGESET
     end
 
     # get the bounding box back from the changeset
-    get :read, :params => { :id => changeset_id }
+    get :show, :params => { :id => changeset_id }
     assert_response :success, "Couldn't read back changeset for the third time."
     assert_select "osm>changeset[min_lon='1.0000000']", 1
     assert_select "osm>changeset[max_lon='3.0000000']", 1
@@ -1789,7 +1789,7 @@ CHANGESET
       assert_response :success, "can't create a new node"
       node_id = @response.body.to_i
 
-      get :read, :params => { :id => node_id }
+      get :show, :params => { :id => node_id }
       assert_response :success, "can't read back new node"
       node_doc = XML::Parser.string(@response.body).parse
       node_xml = node_doc.find("//osm/node").first

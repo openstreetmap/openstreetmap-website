@@ -265,7 +265,7 @@ class OldWaysControllerTest < ActionController::TestCase
   def check_current_version(way_id)
     # get the current version
     current_way = with_controller(WaysController.new) do
-      get :read, :params => { :id => way_id }
+      get :show, :params => { :id => way_id }
       assert_response :success, "can't get current way #{way_id}"
       Way.from_xml(@response.body)
     end

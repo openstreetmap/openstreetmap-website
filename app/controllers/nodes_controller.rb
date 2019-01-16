@@ -26,7 +26,7 @@ class NodesController < ApplicationController
   end
 
   # Dump the details on a node given in params[:id]
-  def read
+  def show
     node = Node.find(params[:id])
 
     response.last_modified = node.timestamp
@@ -63,7 +63,7 @@ class NodesController < ApplicationController
   end
 
   # Dump the details on many nodes whose ids are given in the "nodes" parameter.
-  def nodes
+  def index
     raise OSM::APIBadUserInput, "The parameter nodes is required, and must be of the form nodes=id[,id[,id...]]" unless params["nodes"]
 
     ids = params["nodes"].split(",").collect(&:to_i)

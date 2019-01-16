@@ -386,7 +386,7 @@ class OldNodesControllerTest < ActionController::TestCase
   def check_current_version(node_id)
     # get the current version of the node
     current_node = with_controller(NodesController.new) do
-      get :read, :params => { :id => node_id }
+      get :show, :params => { :id => node_id }
       assert_response :success, "cant get current node #{node_id}"
       Node.from_xml(@response.body)
     end

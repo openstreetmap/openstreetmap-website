@@ -14,7 +14,7 @@ class RelationsControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/api/0.6/relation/1", :method => :get },
-      { :controller => "relations", :action => "read", :id => "1" }
+      { :controller => "relations", :action => "show", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/relation/1", :method => :put },
@@ -26,7 +26,7 @@ class RelationsControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/api/0.6/relations", :method => :get },
-      { :controller => "relations", :action => "relations" }
+      { :controller => "relations", :action => "index" }
     )
 
     assert_routing(
@@ -44,20 +44,20 @@ class RelationsControllerTest < ActionController::TestCase
   end
 
   # -------------------------------------
-  # Test reading relations.
+  # Test showing relations.
   # -------------------------------------
 
-  def test_read
+  def test_show
     # check that a visible relation is returned properly
-    get :read, :params => { :id => create(:relation).id }
+    get :show, :params => { :id => create(:relation).id }
     assert_response :success
 
     # check that an invisible relation is not returned
-    get :read, :params => { :id => create(:relation, :deleted).id }
+    get :show, :params => { :id => create(:relation, :deleted).id }
     assert_response :gone
 
     # check chat a non-existent relation is not returned
-    get :read, :params => { :id => 0 }
+    get :show, :params => { :id => 0 }
     assert_response :not_found
   end
 
@@ -160,7 +160,7 @@ class RelationsControllerTest < ActionController::TestCase
 
   ##
   # test fetching multiple relations
-  def test_relations
+  def test_index
     relation1 = create(:relation)
     relation2 = create(:relation, :deleted)
     relation3 = create(:relation, :with_history, :version => 2)
@@ -168,15 +168,15 @@ class RelationsControllerTest < ActionController::TestCase
     relation4.old_relations.find_by(:version => 1).redact!(create(:redaction))
 
     # check error when no parameter provided
-    get :relations
+    get :index
     assert_response :bad_request
 
     # check error when no parameter value provided
-    get :relations, :params => { :relations => "" }
+    get :index, :params => { :relations => "" }
     assert_response :bad_request
 
     # test a working call
-    get :relations, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}" }
+    get :index, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}" }
     assert_response :success
     assert_select "osm" do
       assert_select "relation", :count => 4
@@ -187,7 +187,7 @@ class RelationsControllerTest < ActionController::TestCase
     end
 
     # check error when a non-existent relation is included
-    get :relations, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},0" }
+    get :index, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},0" }
     assert_response :not_found
   end
 
@@ -270,7 +270,7 @@ class RelationsControllerTest < ActionController::TestCase
     assert_equal true, checkrelation.visible,
                  "saved relation is not visible"
     # ok the relation is there but can we also retrieve it?
-    get :read, :params => { :id => relationid }
+    get :show, :params => { :id => relationid }
     assert_response :success
 
     ###
@@ -301,7 +301,7 @@ class RelationsControllerTest < ActionController::TestCase
                  "saved relation is not visible"
     # ok the relation is there but can we also retrieve it?
 
-    get :read, :params => { :id => relationid }
+    get :show, :params => { :id => relationid }
     assert_response :success
 
     ###
@@ -331,7 +331,7 @@ class RelationsControllerTest < ActionController::TestCase
                  "saved relation is not visible"
     # ok the relation is there but can we also retrieve it?
 
-    get :read, :params => { :id => relationid }
+    get :show, :params => { :id => relationid }
     assert_response :success
 
     ###
@@ -361,7 +361,7 @@ class RelationsControllerTest < ActionController::TestCase
     assert_equal true, checkrelation.visible,
                  "saved relation is not visible"
     # ok the relation is there but can we also retrieve it?
-    get :read, :params => { :id => relationid }
+    get :show, :params => { :id => relationid }
     assert_response :success
   end
 
@@ -690,7 +690,7 @@ class RelationsControllerTest < ActionController::TestCase
         assert_response :success, "can't update relation for add #{element.class}/bbox test: #{@response.body}"
 
         # get it back and check the ordering
-        get :read, :params => { :id => relation.id }
+        get :show, :params => { :id => relation.id }
         assert_response :success, "can't read back the relation: #{@response.body}"
         check_ordering(relation_xml, @response.body)
       end
@@ -753,7 +753,7 @@ OSM
     relation_id = @response.body.to_i
 
     # get it back and check the ordering
-    get :read, :params => { :id => relation_id }
+    get :show, :params => { :id => relation_id }
     assert_response :success, "can't read back the relation: #{@response.body}"
     check_ordering(doc, @response.body)
 
@@ -773,7 +773,7 @@ OSM
     assert_equal 2, @response.body.to_i
 
     # get it back again and check the ordering again
-    get :read, :params => { :id => relation_id }
+    get :show, :params => { :id => relation_id }
     assert_response :success, "can't read back the relation: #{@response.body}"
     check_ordering(doc, @response.body)
 
@@ -820,7 +820,7 @@ OSM
     relation_id = @response.body.to_i
 
     # get it back and check the ordering
-    get :read, :params => { :id => relation_id }
+    get :show, :params => { :id => relation_id }
     assert_response :success, "can't read back the relation: #{relation_id}"
     check_ordering(doc, @response.body)
   end
@@ -853,7 +853,7 @@ OSM
     relation_id = @response.body.to_i
 
     # check the ordering in the current tables:
-    get :read, :params => { :id => relation_id }
+    get :show, :params => { :id => relation_id }
     assert_response :success, "can't read back the relation: #{@response.body}"
     check_ordering(doc, @response.body)
 
@@ -952,7 +952,7 @@ OSM
 
     # now download the changeset to check its bounding box
     with_controller(ChangesetsController.new) do
-      get :read, :params => { :id => changeset_id }
+      get :show, :params => { :id => changeset_id }
       assert_response :success, "can't re-read changeset for modify test"
       assert_select "osm>changeset", 1, "Changeset element doesn't exist in #{@response.body}"
       assert_select "osm>changeset[id='#{changeset_id}']", 1, "Changeset id=#{changeset_id} doesn't exist in #{@response.body}"
@@ -969,7 +969,7 @@ OSM
   # doc is returned.
   def with_relation(id, ver = nil)
     if ver.nil?
-      get :read, :params => { :id => id }
+      get :show, :params => { :id => id }
     else
       with_controller(OldRelationsController.new) do
         get :version, :params => { :id => id, :version => ver }
@@ -990,7 +990,7 @@ OSM
     version = @response.body.to_i
 
     # now get the new version
-    get :read, :params => { :id => rel_id }
+    get :show, :params => { :id => rel_id }
     assert_response :success
     new_rel = xml_parse(@response.body)
 
@@ -1022,7 +1022,7 @@ OSM
     end
 
     # now get the new version
-    get :read, :params => { :id => rel_id }
+    get :show, :params => { :id => rel_id }
     assert_response :success
     new_rel = xml_parse(@response.body)
 

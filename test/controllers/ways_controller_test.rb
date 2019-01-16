@@ -14,7 +14,7 @@ class WaysControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/api/0.6/way/1", :method => :get },
-      { :controller => "ways", :action => "read", :id => "1" }
+      { :controller => "ways", :action => "show", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/way/1", :method => :put },
@@ -26,25 +26,25 @@ class WaysControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/api/0.6/ways", :method => :get },
-      { :controller => "ways", :action => "ways" }
+      { :controller => "ways", :action => "index" }
     )
   end
 
   # -------------------------------------
-  # Test reading ways.
+  # Test showing ways.
   # -------------------------------------
 
-  def test_read
+  def test_show
     # check that a visible way is returned properly
-    get :read, :params => { :id => create(:way).id }
+    get :show, :params => { :id => create(:way).id }
     assert_response :success
 
     # check that an invisible way is not returned
-    get :read, :params => { :id => create(:way, :deleted).id }
+    get :show, :params => { :id => create(:way, :deleted).id }
     assert_response :gone
 
     # check chat a non-existent way is not returned
-    get :read, :params => { :id => 0 }
+    get :show, :params => { :id => 0 }
     assert_response :not_found
   end
 
@@ -78,22 +78,22 @@ class WaysControllerTest < ActionController::TestCase
 
   ##
   # test fetching multiple ways
-  def test_ways
+  def test_index
     way1 = create(:way)
     way2 = create(:way, :deleted)
     way3 = create(:way)
     way4 = create(:way)
 
     # check error when no parameter provided
-    get :ways
+    get :index
     assert_response :bad_request
 
     # check error when no parameter value provided
-    get :ways, :params => { :ways => "" }
+    get :index, :params => { :ways => "" }
     assert_response :bad_request
 
     # test a working call
-    get :ways, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}" }
+    get :index, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}" }
     assert_response :success
     assert_select "osm" do
       assert_select "way", :count => 4
@@ -104,7 +104,7 @@ class WaysControllerTest < ActionController::TestCase
     end
 
     # check error when a non-existent way is included
-    get :ways, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id},0" }
+    get :index, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id},0" }
     assert_response :not_found
   end
 
