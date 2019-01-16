@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery :with => :exception
 
   rescue_from CanCan::AccessDenied, :with => :deny_access
+  check_authorization
 
   before_action :fetch_body
   around_action :better_errors_allow_inline, :if => proc { Rails.env.development? }
