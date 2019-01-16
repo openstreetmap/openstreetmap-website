@@ -55,11 +55,15 @@ module RichText
       SimpleFormat.new.simple_format(text)
     end
 
-    def linkify(text)
+    def sanitize(text)
+      Sanitize.clean(text, Sanitize::Config::OSM).html_safe
+    end
+
+    def linkify(text, mode = :urls)
       if text.html_safe?
-        Rinku.auto_link(text, :urls, tag_builder.tag_options(:rel => "nofollow")).html_safe
+        Rinku.auto_link(text, mode, tag_builder.tag_options(:rel => "nofollow noopener noreferer")).html_safe
       else
-        Rinku.auto_link(text, :urls, tag_builder.tag_options(:rel => "nofollow"))
+        Rinku.auto_link(text, mode, tag_builder.tag_options(:rel => "nofollow noopener noreferer"))
       end
     end
   end
@@ -72,29 +76,15 @@ module RichText
     def to_text
       to_s
     end
-
-    private
-
-    def sanitize(text)
-      Sanitize.clean(text, Sanitize::Config::OSM).html_safe
-    end
   end
 
   class Markdown < Base
     def to_html
-      Markdown.html_parser.render(self).html_safe
+      linkify(sanitize(Kramdown::Document.new(self).to_html), :all)
     end
 
     def to_text
       to_s
-    end
-
-    def self.html_renderer
-      @html_renderer ||= Redcarpet::Render::XHTML.new(:filter_html => true, :safe_links_only => true, :link_attributes => { :rel => "nofollow" })
-    end
-
-    def self.html_parser
-      @html_parser ||= Redcarpet::Markdown.new(html_renderer, :no_intra_emphasis => true, :autolink => true, :space_after_headers => true)
     end
   end
 
