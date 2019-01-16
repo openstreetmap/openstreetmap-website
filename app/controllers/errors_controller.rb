@@ -1,6 +1,8 @@
 class ErrorsController < ApplicationController
   layout "error"
 
+  skip_authorization_check
+
   def forbidden
     render :status => :forbidden
   end

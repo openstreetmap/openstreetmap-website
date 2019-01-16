@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery :with => :exception
 
   rescue_from CanCan::AccessDenied, :with => :deny_access
+  check_authorization
 
   before_action :fetch_body
   around_action :better_errors_allow_inline, :if => proc { Rails.env.development? }
@@ -55,24 +56,6 @@ class ApplicationController < ActionController::Base
   end
 
   ##
-  # requires the user to be logged in by the token or HTTP methods, or have an
-  # OAuth token with the right capability. this method is a bit of a pain to call
-  # directly, since it's cumbersome to call filters with arguments in rails. to
-  # make it easier to read and write the code, there are some utility methods
-  # below.
-  def require_capability(cap)
-    # when the current token is nil, it means the user logged in with a different
-    # method, otherwise an OAuth token was used, which has to be checked.
-    unless current_token.nil?
-      unless current_token.read_attribute(cap)
-        set_locale
-        report_error t("oauth.permissions.missing"), :forbidden
-        false
-      end
-    end
-  end
-
-  ##
   # require the user to have cookies enabled in their browser
   def require_cookies
     if request.cookies["_osm_session"].to_s == ""
@@ -86,36 +69,6 @@ class ApplicationController < ActionController::Base
     else
       session.delete(:cookie_test)
     end
-  end
-
-  # Utility methods to make the controller filter methods easier to read and write.
-  def require_allow_read_prefs
-    require_capability(:allow_read_prefs)
-  end
-
-  def require_allow_write_prefs
-    require_capability(:allow_write_prefs)
-  end
-
-  def require_allow_write_diary
-    require_capability(:allow_write_diary)
-  end
-
-  def require_allow_write_api
-    require_capability(:allow_write_api)
-
-    if REQUIRE_TERMS_AGREED && current_user.terms_agreed.nil?
-      report_error "You must accept the contributor terms before you can edit.", :forbidden
-      return false
-    end
-  end
-
-  def require_allow_read_gpx
-    require_capability(:allow_read_gpx)
-  end
-
-  def require_allow_write_gpx
-    require_capability(:allow_write_gpx)
   end
 
   ##
@@ -169,17 +122,6 @@ class ApplicationController < ActionController::Base
       response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
       render :plain => errormessage, :status => :unauthorized
       return false
-    end
-  end
-
-  ##
-  # to be used as a before_filter *after* authorize. this checks that
-  # the user is a moderator and, if not, returns a forbidden error.
-  def authorize_moderator(errormessage = "Access restricted to moderators")
-    # check user is a moderator
-    unless current_user.moderator?
-      render :plain => errormessage, :status => :forbidden
-      false
     end
   end
 
