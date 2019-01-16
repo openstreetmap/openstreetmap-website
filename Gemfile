@@ -114,6 +114,9 @@ gem "canonical-rails"
 # Used to generate logstash friendly log files
 gem "logstasher"
 
+# Used to generate images for traces
+gem "gd2-ffij"
+
 # Gems useful for development
 group :development do
   gem "annotate"
