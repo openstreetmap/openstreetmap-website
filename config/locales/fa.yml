@@ -969,12 +969,24 @@ fa:
         zero: گزارشی نیست
         one: ۱ گزارش
         other: '%{count} گزارش'
+      report_created_at: اولین بار %{datetime} گزارش شد
+      last_resolved_at: آخرین بار %{datetime} حل شد
+      last_updated_at: آخرین بار %{displayname} در %{datetime} به‌روزش کرد.
       resolve: حل شد
       ignore: نادیده گرفتن
       reopen: بازگشایی
       reports_of_this_issue: گزارش‌های این مشکل
       read_reports: خواندن گزارش‌ها
       new_reports: گزارش‌های تازه
+      other_issues_against_this_user: سایر مسئله‌ها بر ضدّ این کاربر
+      no_other_issues: بر ضدّ این کاربر مسئلهٔ دیگری وجود ندارد.
+      comments_on_this_issue: نظرات این مسئله
+    resolve:
+      resolved: وضعیت مسئله به «حل‌شده» تغییر کرده است
+    ignore:
+      ignored: وضعیت مسئله به «نادیده گرفته شد» تغییر کرده است.
+    reopen:
+      reopened: وضعیت مسئله به «باز» تغییر داده کرده است
     comments:
       created_at: در %{datetime}
     reports:
@@ -982,7 +994,11 @@ fa:
       reported_by_html: '%{user} آن را به‌عنوان %{category} گزارش کرد'
     helper:
       reportable_title:
+        diary_comment: '%{entry_title}، نظر #%{comment_id}'
         note: یادداشت %{note_id}
+  issue_comments:
+    create:
+      comment_created: نظر شما با موفقیت ثبت شد
   reports:
     new:
       title_html: گزارش %{link}
@@ -999,13 +1015,18 @@ fa:
       categories:
         diary_entry:
           spam_label: این روزنوشت هرزنامه است/دارد
+          offensive_label: این روزنوشت مستهجن/زشت است
           threat_label: این روزنوشت تهدیدآمیز است
           other_label: سایر
         diary_comment:
           spam_label: این نظر (بر روزنوشت) هرزنامه است/دارد
+          offensive_label: این نظر (بر روزنوشت) مستهجن/زشت است
           threat_label: این نظر (بر روزنوشت) تهدیدآمیز است
           other_label: سایر
         user:
+          spam_label: این نمایهٔ کاربری هرزه‌نگاری است/دارد
+          offensive_label: این نمایهٔ کاربری مستهجن/زشت است
+          threat_label: چیزی در این نمایهٔ کاربری خطرآفرین است
           vandal_label: این کاربر خرابکار است
           other_label: سایر
         note:
@@ -1017,6 +1038,8 @@ fa:
       successful_report: گزارشتان با موفقیت ثبت شد
       provide_details: لطفاً جزئیات لازم را ارائه دهید
   layouts:
+    project_name:
+      title: OpenStreetMap
     logo:
       alt_text: لوگوی OpenStreetMap
     home: رفتن به محل خانه
@@ -1169,6 +1192,10 @@ fa:
       hi: سلام %{to_user}،
       greeting: سلام،
       commented:
+        subject_own: '[OpenStreetMap] %{commenter} روی یکی از بسته‌های تغییر شما نظر
+          داد'
+        subject_other: '[OpenStreetMap] %{commenter} روی یکی از بسته‌های تغییر موردعلاقه‌تان
+          نظر داد'
         your_changeset: '%{commenter} برای جعبه تغییر ایجاد شده توسط شما در %{time}
           یک نظر نوشته است'
         commented_changeset: '%{commenter} یک نظر برای جعبه تغییری که توسط %{changeset_author}
@@ -1176,6 +1203,8 @@ fa:
         partial_changeset_with_comment: دارای نظر %{changeset_comment}
         partial_changeset_without_comment: بدون نظر
       details: اطلاعات بیشتر درباره جعبه تغییر را میتوان در %{url} دید.
+      unsubscribe: اگر لغو اطلاع‌رسانی‌های مربوط به این بستهٔ تغییر، به %{url} بروید
+        و روی « لغو اشتراک» کلیک کنید.
   messages:
     inbox:
       title: صندوق دریافت
@@ -1714,6 +1743,8 @@ fa:
       trace_uploaded: فایل GPX شما بارگذاری شده و در انتظار درج در پایگاه‌داده است.
         این کار معمولاً کمتر از نیم ساعت طول می‌کشد. هنگامی که انجام شد ایمیلی برای
         شما فرستاده می‌شود.
+      upload_failed: شوربختانه بارگذاری GPX ناموفق بود. به یکی از مدیران دربارهٔ این
+        خطا اطلاع‌رسانی شد. لطفاً دوباره تلاش کنید
       traces_waiting:
         one: شما %{count} رد منتظر بارگذاری دارید. لطفاً قبل از بارگذاری موارد بیشتر
           منتظر بمانید تا اینها بارگذاری بشوند که صف برای سایر کاربران بسته نشود.
@@ -1834,7 +1865,7 @@ fa:
       allow_write_diary: ساخت روزنوشت‌ها، نظردادن و افزودن دوست.
       allow_write_api: نقشه را تغییر دهد.
       allow_read_gpx: ردهای GPS خصوصی شما را بخواند.
-      allow_write_gpx: بارگذاری ردهای GPS.
+      allow_write_gpx: ردهای GPS را بارگذاری کند.
       allow_write_notes: یادداشت‌ها را تغییر دهد.
       grant_access: دسترسی می‌دهم
     authorize_success:
@@ -1872,7 +1903,7 @@ fa:
       allow_write_diary: ساخت روزنوشت‌ها، نظردادن و افزودن دوست.
       allow_write_api: نقشه را تغییر دهد.
       allow_read_gpx: ردهای GPS خصوصی آن‌ها را بخواند.
-      allow_write_gpx: بارگذاری ردهای GPS.
+      allow_write_gpx: ردهای GPS را بارگذاری کند.
       allow_write_notes: یادداشت‌ها را تغییر دهد.
     index:
       title: جزئیات OAuth من
@@ -1899,7 +1930,7 @@ fa:
       allow_write_diary: ساخت روزنوشت‌ها، نظردادن و افزودن دوست.
       allow_write_api: نقشه را تغییر دهد.
       allow_read_gpx: ردهای GPS خصوصی آن‌ها را بخواند.
-      allow_write_gpx: بارگذاری ردهای GPS.
+      allow_write_gpx: ردهای GPS را بارگذاری کند.
       allow_write_notes: یادداشت‌ها را تغییر دهد.
     not_found:
       sorry: شوربختانه آن %{type} یافت نشد.
