@@ -32,6 +32,12 @@ class Tracepoint < ActiveRecord::Base
 
   belongs_to :trace, :foreign_key => "gpx_id"
 
+  # Return points of trackable traces in original order
+  scope :trackable_ordered, -> { joins(:trace).where(:gpx_files => { :visibility => %w[trackable identifiable] }).order("gpx_id DESC, trackid ASC, timestamp ASC") }
+
+  # Hide the order of points of non-trackable traces for privacy
+  scope :non_trackable_unordered, -> { joins(:trace).where(:gpx_files => { :visibility => %w[public private] }).order("gps_points.latitude", "gps_points.longitude") }
+
   def to_xml_node(print_timestamp = false)
     el1 = XML::Node.new "trkpt"
     el1["lat"] = lat.to_s

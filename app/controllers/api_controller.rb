@@ -34,8 +34,8 @@ class ApiController < ApplicationController
     end
 
     # get all the points
-    ordered_points = Tracepoint.bbox(bbox).joins(:trace).where(:gpx_files => { :visibility => %w[trackable identifiable] }).order("gpx_id DESC, trackid ASC, timestamp ASC")
-    unordered_points = Tracepoint.bbox(bbox).joins(:trace).where(:gpx_files => { :visibility => %w[public private] }).order("gps_points.latitude", "gps_points.longitude", "gps_points.timestamp")
+    ordered_points = Tracepoint.bbox(bbox).trackable_ordered
+    unordered_points = Tracepoint.bbox(bbox).non_trackable_unordered
     points = ordered_points.union_all(unordered_points).offset(offset).limit(TRACEPOINTS_PER_PAGE)
 
     doc = XML::Document.new

@@ -215,6 +215,75 @@ class ApiControllerTest < ActionController::TestCase
     end
   end
 
+  # Identifiable and trackable traces keep their order by trackid and timestamp
+  # (this test only tests order by timestamp)
+  def test_tracepoints_ordering_identifiable_trackable
+    identifiable_trace = create(:trace, :visibility => "identifiable", :latitude => 3.003, :longitude => 3.003) do |trace|
+      create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (3.003 * GeoRecord::SCALE).to_i, :longitude => (3.003 * GeoRecord::SCALE).to_i, :timestamp => Time.now)
+      create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (3.006 * GeoRecord::SCALE).to_i, :longitude => (3.006 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 1)
+      create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (3.005 * GeoRecord::SCALE).to_i, :longitude => (3.005 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 2)
+    end
+    # trackable trace:
+    create(:trace, :visibility => "trackable", :latitude => 3.007, :longitude => 3.007) do |trace|
+      create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (3.004 * GeoRecord::SCALE).to_i, :longitude => (3.004 * GeoRecord::SCALE).to_i, :timestamp => Time.now)
+      create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (3.008 * GeoRecord::SCALE).to_i, :longitude => (3.008 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 1)
+      create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (3.007 * GeoRecord::SCALE).to_i, :longitude => (3.007 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 2)
+    end
+    minlon = identifiable_trace.longitude - 0.01
+    minlat = identifiable_trace.latitude - 0.01
+    maxlon = identifiable_trace.longitude + 0.01
+    maxlat = identifiable_trace.latitude + 0.01
+    bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
+    get :trackpoints, :params => { :bbox => bbox }
+    assert_response :success
+    assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
+      assert_select "trk", :count => 2 do |trks|
+        trks.each do |trk|
+          assert_select trk, "trkseg" do
+            assert_select "trkpt", :count => 3 do |trkpts|
+              assert trkpts[0].attribute("lat").value < trkpts[1].attribute("lat").value
+              assert trkpts[1].attribute("lat").value > trkpts[2].attribute("lat").value
+            end
+          end
+        end
+      end
+    end
+  end
+
+  # Non-trackable tracepoints are all returned in one track,
+  # ordered by lat/lon to hide the original ordering
+  def test_tracepoints_ordering_private
+    private_trace = create(:trace, :visibility => "private", :latitude => 4.003, :longitude => 4.003) do |trace|
+      create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (4.003 * GeoRecord::SCALE).to_i, :longitude => (4.003 * GeoRecord::SCALE).to_i, :timestamp => Time.now)
+      create(:tracepoint, :trace => trace, :trackid => 2, :latitude => (4.006 * GeoRecord::SCALE).to_i, :longitude => (4.006 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 1)
+      create(:tracepoint, :trace => trace, :trackid => 3, :latitude => (4.005 * GeoRecord::SCALE).to_i, :longitude => (4.005 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 2)
+    end
+    # public trace:
+    create(:trace, :visibility => "public", :latitude => 4.007, :longitude => 4.007) do |trace|
+      create(:tracepoint, :trace => trace, :trackid => 1, :latitude => (4.004 * GeoRecord::SCALE).to_i, :longitude => (4.004 * GeoRecord::SCALE).to_i, :timestamp => Time.now)
+      create(:tracepoint, :trace => trace, :trackid => 2, :latitude => (4.008 * GeoRecord::SCALE).to_i, :longitude => (4.008 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 1)
+      create(:tracepoint, :trace => trace, :trackid => 3, :latitude => (4.007 * GeoRecord::SCALE).to_i, :longitude => (4.007 * GeoRecord::SCALE).to_i, :timestamp => Time.now + 2)
+    end
+    minlon = private_trace.longitude - 0.01
+    minlat = private_trace.latitude - 0.01
+    maxlon = private_trace.longitude + 0.01
+    maxlat = private_trace.latitude + 0.01
+    bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
+    get :trackpoints, :params => { :bbox => bbox }
+    assert_response :success
+    assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
+      assert_select "trk", :count => 1 do
+        assert_select "trkseg", :count => 1 do
+          assert_select "trkpt", :count => 6 do |trkpts|
+            trkpts.each_cons(2) do |point, nextpoint|
+              assert point.attribute("lat").value <= nextpoint.attribute("lat").value
+            end
+          end
+        end
+      end
+    end
+  end
+
   def test_map_without_bbox
     %w[trackpoints map].each do |tq|
       get tq
