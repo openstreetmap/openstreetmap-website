@@ -156,7 +156,7 @@ function getSegDistSq(px, py, a, b) {
     return dx * dx + dy * dy;
 }
 
-},{"tinyqueue":226}],2:[function(require,module,exports){
+},{"tinyqueue":227}],2:[function(require,module,exports){
 /*
  * Copyright (C) 2008 Apple Inc. All Rights Reserved.
  *
@@ -3883,6 +3883,1727 @@ Geohash.neighbours = function(geohash) {
 if (typeof module != 'undefined' && module.exports) module.exports = Geohash; // CommonJS, node.js
 
 },{}],22:[function(require,module,exports){
+/**
+ * martinez v0.5.0
+ * Martinez polygon clipping algorithm, does boolean operation on polygons (multipolygons, polygons with holes etc): intersection, union, difference, xor
+ *
+ * @author Alex Milevski <info@w8r.name>
+ * @license MIT
+ * @preserve
+ */
+
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (factory((global.martinez = {})));
+}(this, (function (exports) { 'use strict';
+
+  function DEFAULT_COMPARE (a, b) { return a > b ? 1 : a < b ? -1 : 0; }
+
+  var SplayTree = function SplayTree(compare, noDuplicates) {
+    if ( compare === void 0 ) compare = DEFAULT_COMPARE;
+    if ( noDuplicates === void 0 ) noDuplicates = false;
+
+    this._compare = compare;
+    this._root = null;
+    this._size = 0;
+    this._noDuplicates = !!noDuplicates;
+  };
+
+  var prototypeAccessors = { size: { configurable: true } };
+
+
+  SplayTree.prototype.rotateLeft = function rotateLeft (x) {
+    var y = x.right;
+    if (y) {
+      x.right = y.left;
+      if (y.left) { y.left.parent = x; }
+      y.parent = x.parent;
+    }
+
+    if (!x.parent)              { this._root = y; }
+    else if (x === x.parent.left) { x.parent.left = y; }
+    else                        { x.parent.right = y; }
+    if (y) { y.left = x; }
+    x.parent = y;
+  };
+
+
+  SplayTree.prototype.rotateRight = function rotateRight (x) {
+    var y = x.left;
+    if (y) {
+      x.left = y.right;
+      if (y.right) { y.right.parent = x; }
+      y.parent = x.parent;
+    }
+
+    if (!x.parent)             { this._root = y; }
+    else if(x === x.parent.left) { x.parent.left = y; }
+    else                       { x.parent.right = y; }
+    if (y) { y.right = x; }
+    x.parent = y;
+  };
+
+
+  SplayTree.prototype._splay = function _splay (x) {
+      var this$1 = this;
+
+    while (x.parent) {
+      var p = x.parent;
+      if (!p.parent) {
+        if (p.left === x) { this$1.rotateRight(p); }
+        else            { this$1.rotateLeft(p); }
+      } else if (p.left === x && p.parent.left === p) {
+        this$1.rotateRight(p.parent);
+        this$1.rotateRight(p);
+      } else if (p.right === x && p.parent.right === p) {
+        this$1.rotateLeft(p.parent);
+        this$1.rotateLeft(p);
+      } else if (p.left === x && p.parent.right === p) {
+        this$1.rotateRight(p);
+        this$1.rotateLeft(p);
+      } else {
+        this$1.rotateLeft(p);
+        this$1.rotateRight(p);
+      }
+    }
+  };
+
+
+  SplayTree.prototype.splay = function splay (x) {
+      var this$1 = this;
+
+    var p, gp, ggp, l, r;
+
+    while (x.parent) {
+      p = x.parent;
+      gp = p.parent;
+
+      if (gp && gp.parent) {
+        ggp = gp.parent;
+        if (ggp.left === gp) { ggp.left= x; }
+        else               { ggp.right = x; }
+        x.parent = ggp;
+      } else {
+        x.parent = null;
+        this$1._root = x;
+      }
+
+      l = x.left; r = x.right;
+
+      if (x === p.left) { // left
+        if (gp) {
+          if (gp.left === p) {
+            /* zig-zig */
+            if (p.right) {
+              gp.left = p.right;
+              gp.left.parent = gp;
+            } else { gp.left = null; }
+
+            p.right = gp;
+            gp.parent = p;
+          } else {
+            /* zig-zag */
+            if (l) {
+              gp.right = l;
+              l.parent = gp;
+            } else { gp.right = null; }
+
+            x.left  = gp;
+            gp.parent = x;
+          }
+        }
+        if (r) {
+          p.left = r;
+          r.parent = p;
+        } else { p.left = null; }
+
+        x.right= p;
+        p.parent = x;
+      } else { // right
+        if (gp) {
+          if (gp.right === p) {
+            /* zig-zig */
+            if (p.left) {
+              gp.right = p.left;
+              gp.right.parent = gp;
+            } else { gp.right = null; }
+
+            p.left = gp;
+            gp.parent = p;
+          } else {
+            /* zig-zag */
+            if (r) {
+              gp.left = r;
+              r.parent = gp;
+            } else { gp.left = null; }
+
+            x.right = gp;
+            gp.parent = x;
+          }
+        }
+        if (l) {
+          p.right = l;
+          l.parent = p;
+        } else { p.right = null; }
+
+        x.left = p;
+        p.parent = x;
+      }
+    }
+  };
+
+
+  SplayTree.prototype.replace = function replace (u, v) {
+    if (!u.parent) { this._root = v; }
+    else if (u === u.parent.left) { u.parent.left = v; }
+    else { u.parent.right = v; }
+    if (v) { v.parent = u.parent; }
+  };
+
+
+  SplayTree.prototype.minNode = function minNode (u) {
+      if ( u === void 0 ) u = this._root;
+
+    if (u) { while (u.left) { u = u.left; } }
+    return u;
+  };
+
+
+  SplayTree.prototype.maxNode = function maxNode (u) {
+      if ( u === void 0 ) u = this._root;
+
+    if (u) { while (u.right) { u = u.right; } }
+    return u;
+  };
+
+
+  SplayTree.prototype.insert = function insert (key, data) {
+    var z = this._root;
+    var p = null;
+    var comp = this._compare;
+    var cmp;
+
+    if (this._noDuplicates) {
+      while (z) {
+        p = z;
+        cmp = comp(z.key, key);
+        if (cmp === 0) { return; }
+        else if (comp(z.key, key) < 0) { z = z.right; }
+        else { z = z.left; }
+      }
+    } else {
+      while (z) {
+        p = z;
+        if (comp(z.key, key) < 0) { z = z.right; }
+        else { z = z.left; }
+      }
+    }
+
+    z = { key: key, data: data, left: null, right: null, parent: p };
+
+    if (!p)                        { this._root = z; }
+    else if (comp(p.key, z.key) < 0) { p.right = z; }
+    else                           { p.left= z; }
+
+    this.splay(z);
+    this._size++;
+    return z;
+  };
+
+
+  SplayTree.prototype.find = function find (key) {
+    var z  = this._root;
+    var comp = this._compare;
+    while (z) {
+      var cmp = comp(z.key, key);
+      if    (cmp < 0) { z = z.right; }
+      else if (cmp > 0) { z = z.left; }
+      else            { return z; }
+    }
+    return null;
+  };
+
+  /**
+   * Whether the tree contains a node with the given key
+   * @param{Key} key
+   * @return {boolean} true/false
+   */
+  SplayTree.prototype.contains = function contains (key) {
+    var node     = this._root;
+    var comparator = this._compare;
+    while (node){
+      var cmp = comparator(key, node.key);
+      if    (cmp === 0) { return true; }
+      else if (cmp < 0) { node = node.left; }
+      else              { node = node.right; }
+    }
+
+    return false;
+  };
+
+
+  SplayTree.prototype.remove = function remove (key) {
+    var z = this.find(key);
+
+    if (!z) { return false; }
+
+    this.splay(z);
+
+    if (!z.left) { this.replace(z, z.right); }
+    else if (!z.right) { this.replace(z, z.left); }
+    else {
+      var y = this.minNode(z.right);
+      if (y.parent !== z) {
+        this.replace(y, y.right);
+        y.right = z.right;
+        y.right.parent = y;
+      }
+      this.replace(z, y);
+      y.left = z.left;
+      y.left.parent = y;
+    }
+
+    this._size--;
+    return true;
+  };
+
+
+  SplayTree.prototype.removeNode = function removeNode (z) {
+    if (!z) { return false; }
+
+    this.splay(z);
+
+    if (!z.left) { this.replace(z, z.right); }
+    else if (!z.right) { this.replace(z, z.left); }
+    else {
+      var y = this.minNode(z.right);
+      if (y.parent !== z) {
+        this.replace(y, y.right);
+        y.right = z.right;
+        y.right.parent = y;
+      }
+      this.replace(z, y);
+      y.left = z.left;
+      y.left.parent = y;
+    }
+
+    this._size--;
+    return true;
+  };
+
+
+  SplayTree.prototype.erase = function erase (key) {
+    var z = this.find(key);
+    if (!z) { return; }
+
+    this.splay(z);
+
+    var s = z.left;
+    var t = z.right;
+
+    var sMax = null;
+    if (s) {
+      s.parent = null;
+      sMax = this.maxNode(s);
+      this.splay(sMax);
+      this._root = sMax;
+    }
+    if (t) {
+      if (s) { sMax.right = t; }
+      else { this._root = t; }
+      t.parent = sMax;
+    }
+
+    this._size--;
+  };
+
+  /**
+   * Removes and returns the node with smallest key
+   * @return {?Node}
+   */
+  SplayTree.prototype.pop = function pop () {
+    var node = this._root, returnValue = null;
+    if (node) {
+      while (node.left) { node = node.left; }
+      returnValue = { key: node.key, data: node.data };
+      this.remove(node.key);
+    }
+    return returnValue;
+  };
+
+
+  /* eslint-disable class-methods-use-this */
+
+  /**
+   * Successor node
+   * @param{Node} node
+   * @return {?Node}
+   */
+  SplayTree.prototype.next = function next (node) {
+    var successor = node;
+    if (successor) {
+      if (successor.right) {
+        successor = successor.right;
+        while (successor && successor.left) { successor = successor.left; }
+      } else {
+        successor = node.parent;
+        while (successor && successor.right === node) {
+          node = successor; successor = successor.parent;
+        }
+      }
+    }
+    return successor;
+  };
+
+
+  /**
+   * Predecessor node
+   * @param{Node} node
+   * @return {?Node}
+   */
+  SplayTree.prototype.prev = function prev (node) {
+    var predecessor = node;
+    if (predecessor) {
+      if (predecessor.left) {
+        predecessor = predecessor.left;
+        while (predecessor && predecessor.right) { predecessor = predecessor.right; }
+      } else {
+        predecessor = node.parent;
+        while (predecessor && predecessor.left === node) {
+          node = predecessor;
+          predecessor = predecessor.parent;
+        }
+      }
+    }
+    return predecessor;
+  };
+  /* eslint-enable class-methods-use-this */
+
+
+  /**
+   * @param{forEachCallback} callback
+   * @return {SplayTree}
+   */
+  SplayTree.prototype.forEach = function forEach (callback) {
+    var current = this._root;
+    var s = [], done = false, i = 0;
+
+    while (!done) {
+      // Reach the left most Node of the current Node
+      if (current) {
+        // Place pointer to a tree node on the stack
+        // before traversing the node's left subtree
+        s.push(current);
+        current = current.left;
+      } else {
+        // BackTrack from the empty subtree and visit the Node
+        // at the top of the stack; however, if the stack is
+        // empty you are done
+        if (s.length > 0) {
+          current = s.pop();
+          callback(current, i++);
+
+          // We have visited the node and its left
+          // subtree. Now, it's right subtree's turn
+          current = current.right;
+        } else { done = true; }
+      }
+    }
+    return this;
+  };
+
+
+  /**
+   * Walk key range from `low` to `high`. Stops if `fn` returns a value.
+   * @param{Key}    low
+   * @param{Key}    high
+   * @param{Function} fn
+   * @param{*?}     ctx
+   * @return {SplayTree}
+   */
+  SplayTree.prototype.range = function range (low, high, fn, ctx) {
+      var this$1 = this;
+
+    var Q = [];
+    var compare = this._compare;
+    var node = this._root, cmp;
+
+    while (Q.length !== 0 || node) {
+      if (node) {
+        Q.push(node);
+        node = node.left;
+      } else {
+        node = Q.pop();
+        cmp = compare(node.key, high);
+        if (cmp > 0) {
+          break;
+        } else if (compare(node.key, low) >= 0) {
+          if (fn.call(ctx, node)) { return this$1; } // stop if smth is returned
+        }
+        node = node.right;
+      }
+    }
+    return this;
+  };
+
+  /**
+   * Returns all keys in order
+   * @return {Array<Key>}
+   */
+  SplayTree.prototype.keys = function keys () {
+    var current = this._root;
+    var s = [], r = [], done = false;
+
+    while (!done) {
+      if (current) {
+        s.push(current);
+        current = current.left;
+      } else {
+        if (s.length > 0) {
+          current = s.pop();
+          r.push(current.key);
+          current = current.right;
+        } else { done = true; }
+      }
+    }
+    return r;
+  };
+
+
+  /**
+   * Returns `data` fields of all nodes in order.
+   * @return {Array<Value>}
+   */
+  SplayTree.prototype.values = function values () {
+    var current = this._root;
+    var s = [], r = [], done = false;
+
+    while (!done) {
+      if (current) {
+        s.push(current);
+        current = current.left;
+      } else {
+        if (s.length > 0) {
+          current = s.pop();
+          r.push(current.data);
+          current = current.right;
+        } else { done = true; }
+      }
+    }
+    return r;
+  };
+
+
+  /**
+   * Returns node at given index
+   * @param{number} index
+   * @return {?Node}
+   */
+  SplayTree.prototype.at = function at (index) {
+    // removed after a consideration, more misleading than useful
+    // index = index % this.size;
+    // if (index < 0) index = this.size - index;
+
+    var current = this._root;
+    var s = [], done = false, i = 0;
+
+    while (!done) {
+      if (current) {
+        s.push(current);
+        current = current.left;
+      } else {
+        if (s.length > 0) {
+          current = s.pop();
+          if (i === index) { return current; }
+          i++;
+          current = current.right;
+        } else { done = true; }
+      }
+    }
+    return null;
+  };
+
+  /**
+   * Bulk-load items. Both array have to be same size
+   * @param{Array<Key>}  keys
+   * @param{Array<Value>}[values]
+   * @param{Boolean}     [presort=false] Pre-sort keys and values, using
+   *                                       tree's comparator. Sorting is done
+   *                                       in-place
+   * @return {AVLTree}
+   */
+  SplayTree.prototype.load = function load (keys, values, presort) {
+      if ( keys === void 0 ) keys = [];
+      if ( values === void 0 ) values = [];
+      if ( presort === void 0 ) presort = false;
+
+    if (this._size !== 0) { throw new Error('bulk-load: tree is not empty'); }
+    var size = keys.length;
+    if (presort) { sort(keys, values, 0, size - 1, this._compare); }
+    this._root = loadRecursive(null, keys, values, 0, size);
+    this._size = size;
+    return this;
+  };
+
+
+  SplayTree.prototype.min = function min () {
+    var node = this.minNode(this._root);
+    if (node) { return node.key; }
+    else    { return null; }
+  };
+
+
+  SplayTree.prototype.max = function max () {
+    var node = this.maxNode(this._root);
+    if (node) { return node.key; }
+    else    { return null; }
+  };
+
+  SplayTree.prototype.isEmpty = function isEmpty () { return this._root === null; };
+  prototypeAccessors.size.get = function () { return this._size; };
+
+
+  /**
+   * Create a tree and load it with items
+   * @param{Array<Key>}        keys
+   * @param{Array<Value>?}      [values]
+
+   * @param{Function?}          [comparator]
+   * @param{Boolean?}           [presort=false] Pre-sort keys and values, using
+   *                                             tree's comparator. Sorting is done
+   *                                             in-place
+   * @param{Boolean?}           [noDuplicates=false] Allow duplicates
+   * @return {SplayTree}
+   */
+  SplayTree.createTree = function createTree (keys, values, comparator, presort, noDuplicates) {
+    return new SplayTree(comparator, noDuplicates).load(keys, values, presort);
+  };
+
+  Object.defineProperties( SplayTree.prototype, prototypeAccessors );
+
+
+  function loadRecursive (parent, keys, values, start, end) {
+    var size = end - start;
+    if (size > 0) {
+      var middle = start + Math.floor(size / 2);
+      var key    = keys[middle];
+      var data   = values[middle];
+      var node   = { key: key, data: data, parent: parent };
+      node.left    = loadRecursive(node, keys, values, start, middle);
+      node.right   = loadRecursive(node, keys, values, middle + 1, end);
+      return node;
+    }
+    return null;
+  }
+
+
+  function sort(keys, values, left, right, compare) {
+    if (left >= right) { return; }
+
+    var pivot = keys[(left + right) >> 1];
+    var i = left - 1;
+    var j = right + 1;
+
+    while (true) {
+      do { i++; } while (compare(keys[i], pivot) < 0);
+      do { j--; } while (compare(keys[j], pivot) > 0);
+      if (i >= j) { break; }
+
+      var tmp = keys[i];
+      keys[i] = keys[j];
+      keys[j] = tmp;
+
+      tmp = values[i];
+      values[i] = values[j];
+      values[j] = tmp;
+    }
+
+    sort(keys, values,  left,     j, compare);
+    sort(keys, values, j + 1, right, compare);
+  }
+
+  var NORMAL               = 0;
+  var NON_CONTRIBUTING     = 1;
+  var SAME_TRANSITION      = 2;
+  var DIFFERENT_TRANSITION = 3;
+
+  var INTERSECTION = 0;
+  var UNION        = 1;
+  var DIFFERENCE   = 2;
+  var XOR          = 3;
+
+  /**
+   * @param  {SweepEvent} event
+   * @param  {SweepEvent} prev
+   * @param  {Operation} operation
+   */
+  function computeFields (event, prev, operation) {
+    // compute inOut and otherInOut fields
+    if (prev === null) {
+      event.inOut      = false;
+      event.otherInOut = true;
+
+    // previous line segment in sweepline belongs to the same polygon
+    } else {
+      if (event.isSubject === prev.isSubject) {
+        event.inOut      = !prev.inOut;
+        event.otherInOut = prev.otherInOut;
+
+      // previous line segment in sweepline belongs to the clipping polygon
+      } else {
+        event.inOut      = !prev.otherInOut;
+        event.otherInOut = prev.isVertical() ? !prev.inOut : prev.inOut;
+      }
+
+      // compute prevInResult field
+      if (prev) {
+        event.prevInResult = (!inResult(prev, operation) || prev.isVertical())
+          ? prev.prevInResult : prev;
+      }
+    }
+
+    // check if the line segment belongs to the Boolean operation
+    event.inResult = inResult(event, operation);
+  }
+
+
+  /* eslint-disable indent */
+  function inResult(event, operation) {
+    switch (event.type) {
+      case NORMAL:
+        switch (operation) {
+          case INTERSECTION:
+            return !event.otherInOut;
+          case UNION:
+            return event.otherInOut;
+          case DIFFERENCE:
+            // return (event.isSubject && !event.otherInOut) ||
+            //         (!event.isSubject && event.otherInOut);
+            return (event.isSubject && event.otherInOut) ||
+                    (!event.isSubject && !event.otherInOut);
+          case XOR:
+            return true;
+        }
+        break;
+      case SAME_TRANSITION:
+        return operation === INTERSECTION || operation === UNION;
+      case DIFFERENT_TRANSITION:
+        return operation === DIFFERENCE;
+      case NON_CONTRIBUTING:
+        return false;
+    }
+    return false;
+  }
+  /* eslint-enable indent */
+
+  var SweepEvent = function SweepEvent (point, left, otherEvent, isSubject, edgeType) {
+
+    /**
+     * Is left endpoint?
+     * @type {Boolean}
+     */
+    this.left = left;
+
+    /**
+     * @type {Array.<Number>}
+     */
+    this.point = point;
+
+    /**
+     * Other edge reference
+     * @type {SweepEvent}
+     */
+    this.otherEvent = otherEvent;
+
+    /**
+     * Belongs to source or clipping polygon
+     * @type {Boolean}
+     */
+    this.isSubject = isSubject;
+
+    /**
+     * Edge contribution type
+     * @type {Number}
+     */
+    this.type = edgeType || NORMAL;
+
+
+    /**
+     * In-out transition for the sweepline crossing polygon
+     * @type {Boolean}
+     */
+    this.inOut = false;
+
+
+    /**
+     * @type {Boolean}
+     */
+    this.otherInOut = false;
+
+    /**
+     * Previous event in result?
+     * @type {SweepEvent}
+     */
+    this.prevInResult = null;
+
+    /**
+     * Does event belong to result?
+     * @type {Boolean}
+     */
+    this.inResult = false;
+
+
+    // connection step
+
+    /**
+     * @type {Boolean}
+     */
+    this.resultInOut = false;
+
+    this.isExteriorRing = true;
+  };
+
+
+  /**
+   * @param{Array.<Number>}p
+   * @return {Boolean}
+   */
+  SweepEvent.prototype.isBelow = function isBelow (p) {
+    var p0 = this.point, p1 = this.otherEvent.point;
+    return this.left
+      ? (p0[0] - p[0]) * (p1[1] - p[1]) - (p1[0] - p[0]) * (p0[1] - p[1]) > 0
+      // signedArea(this.point, this.otherEvent.point, p) > 0 :
+      : (p1[0] - p[0]) * (p0[1] - p[1]) - (p0[0] - p[0]) * (p1[1] - p[1]) > 0;
+      //signedArea(this.otherEvent.point, this.point, p) > 0;
+  };
+
+
+  /**
+   * @param{Array.<Number>}p
+   * @return {Boolean}
+   */
+  SweepEvent.prototype.isAbove = function isAbove (p) {
+    return !this.isBelow(p);
+  };
+
+
+  /**
+   * @return {Boolean}
+   */
+  SweepEvent.prototype.isVertical = function isVertical () {
+    return this.point[0] === this.otherEvent.point[0];
+  };
+
+
+  SweepEvent.prototype.clone = function clone () {
+    var copy = new SweepEvent(
+      this.point, this.left, this.otherEvent, this.isSubject, this.type);
+
+    copy.inResult     = this.inResult;
+    copy.prevInResult = this.prevInResult;
+    copy.isExteriorRing = this.isExteriorRing;
+    copy.inOut        = this.inOut;
+    copy.otherInOut   = this.otherInOut;
+
+    return copy;
+  };
+
+  function equals(p1, p2) {
+    if (p1[0] === p2[0]) {
+      if (p1[1] === p2[1]) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  // const EPSILON = 1e-9;
+  // const abs = Math.abs;
+  // TODO https://github.com/w8r/martinez/issues/6#issuecomment-262847164
+  // Precision problem.
+  //
+  // module.exports = function equals(p1, p2) {
+  //   return abs(p1[0] - p2[0]) <= EPSILON && abs(p1[1] - p2[1]) <= EPSILON;
+  // };
+
+  /**
+   * Signed area of the triangle (p0, p1, p2)
+   * @param  {Array.<Number>} p0
+   * @param  {Array.<Number>} p1
+   * @param  {Array.<Number>} p2
+   * @return {Number}
+   */
+  function signedArea(p0, p1, p2) {
+    return (p0[0] - p2[0]) * (p1[1] - p2[1]) - (p1[0] - p2[0]) * (p0[1] - p2[1]);
+  }
+
+  /**
+   * @param  {SweepEvent} e1
+   * @param  {SweepEvent} e2
+   * @return {Number}
+   */
+  function compareEvents(e1, e2) {
+    var p1 = e1.point;
+    var p2 = e2.point;
+
+    // Different x-coordinate
+    if (p1[0] > p2[0]) { return 1; }
+    if (p1[0] < p2[0]) { return -1; }
+
+    // Different points, but same x-coordinate
+    // Event with lower y-coordinate is processed first
+    if (p1[1] !== p2[1]) { return p1[1] > p2[1] ? 1 : -1; }
+
+    return specialCases(e1, e2, p1, p2);
+  }
+
+
+  /* eslint-disable no-unused-vars */
+  function specialCases(e1, e2, p1, p2) {
+    // Same coordinates, but one is a left endpoint and the other is
+    // a right endpoint. The right endpoint is processed first
+    if (e1.left !== e2.left)
+      { return e1.left ? 1 : -1; }
+
+    // const p2 = e1.otherEvent.point, p3 = e2.otherEvent.point;
+    // const sa = (p1[0] - p3[0]) * (p2[1] - p3[1]) - (p2[0] - p3[0]) * (p1[1] - p3[1])
+    // Same coordinates, both events
+    // are left endpoints or right endpoints.
+    // not collinear
+    if (signedArea(p1, e1.otherEvent.point, e2.otherEvent.point) !== 0) {
+      // the event associate to the bottom segment is processed first
+      return (!e1.isBelow(e2.otherEvent.point)) ? 1 : -1;
+    }
+
+    return (!e1.isSubject && e2.isSubject) ? 1 : -1;
+  }
+  /* eslint-enable no-unused-vars */
+
+  /**
+   * @param  {SweepEvent} se
+   * @param  {Array.<Number>} p
+   * @param  {Queue} queue
+   * @return {Queue}
+   */
+  function divideSegment(se, p, queue)  {
+    var r = new SweepEvent(p, false, se,            se.isSubject);
+    var l = new SweepEvent(p, true,  se.otherEvent, se.isSubject);
+
+    /* eslint-disable no-console */
+    if (equals(se.point, se.otherEvent.point)) {
+
+      console.warn('what is that, a collapsed segment?', se);
+    }
+    /* eslint-enable no-console */
+
+    r.contourId = l.contourId = se.contourId;
+
+    // avoid a rounding error. The left event would be processed after the right event
+    if (compareEvents(l, se.otherEvent) > 0) {
+      se.otherEvent.left = true;
+      l.left = false;
+    }
+
+    // avoid a rounding error. The left event would be processed after the right event
+    // if (compareEvents(se, r) > 0) {}
+
+    se.otherEvent.otherEvent = l;
+    se.otherEvent = r;
+
+    queue.push(l);
+    queue.push(r);
+
+    return queue;
+  }
+
+  //const EPS = 1e-9;
+
+  /**
+   * Finds the magnitude of the cross product of two vectors (if we pretend
+   * they're in three dimensions)
+   *
+   * @param {Object} a First vector
+   * @param {Object} b Second vector
+   * @private
+   * @returns {Number} The magnitude of the cross product
+   */
+  function crossProduct(a, b) {
+    return (a[0] * b[1]) - (a[1] * b[0]);
+  }
+
+  /**
+   * Finds the dot product of two vectors.
+   *
+   * @param {Object} a First vector
+   * @param {Object} b Second vector
+   * @private
+   * @returns {Number} The dot product
+   */
+  function dotProduct(a, b) {
+    return (a[0] * b[0]) + (a[1] * b[1]);
+  }
+
+  /**
+   * Finds the intersection (if any) between two line segments a and b, given the
+   * line segments' end points a1, a2 and b1, b2.
+   *
+   * This algorithm is based on Schneider and Eberly.
+   * http://www.cimec.org.ar/~ncalvo/Schneider_Eberly.pdf
+   * Page 244.
+   *
+   * @param {Array.<Number>} a1 point of first line
+   * @param {Array.<Number>} a2 point of first line
+   * @param {Array.<Number>} b1 point of second line
+   * @param {Array.<Number>} b2 point of second line
+   * @param {Boolean=}       noEndpointTouch whether to skip single touchpoints
+   *                                         (meaning connected segments) as
+   *                                         intersections
+   * @returns {Array.<Array.<Number>>|Null} If the lines intersect, the point of
+   * intersection. If they overlap, the two end points of the overlapping segment.
+   * Otherwise, null.
+   */
+  function intersection (a1, a2, b1, b2, noEndpointTouch) {
+    // The algorithm expects our lines in the form P + sd, where P is a point,
+    // s is on the interval [0, 1], and d is a vector.
+    // We are passed two points. P can be the first point of each pair. The
+    // vector, then, could be thought of as the distance (in x and y components)
+    // from the first point to the second point.
+    // So first, let's make our vectors:
+    var va = [a2[0] - a1[0], a2[1] - a1[1]];
+    var vb = [b2[0] - b1[0], b2[1] - b1[1]];
+    // We also define a function to convert back to regular point form:
+
+    /* eslint-disable arrow-body-style */
+
+    function toPoint(p, s, d) {
+      return [
+        p[0] + s * d[0],
+        p[1] + s * d[1]
+      ];
+    }
+
+    /* eslint-enable arrow-body-style */
+
+    // The rest is pretty much a straight port of the algorithm.
+    var e = [b1[0] - a1[0], b1[1] - a1[1]];
+    var kross    = crossProduct(va, vb);
+    var sqrKross = kross * kross;
+    var sqrLenA  = dotProduct(va, va);
+    //const sqrLenB  = dotProduct(vb, vb);
+
+    // Check for line intersection. This works because of the properties of the
+    // cross product -- specifically, two vectors are parallel if and only if the
+    // cross product is the 0 vector. The full calculation involves relative error
+    // to account for possible very small line segments. See Schneider & Eberly
+    // for details.
+    if (sqrKross > 0/* EPS * sqrLenB * sqLenA */) {
+      // If they're not parallel, then (because these are line segments) they
+      // still might not actually intersect. This code checks that the
+      // intersection point of the lines is actually on both line segments.
+      var s = crossProduct(e, vb) / kross;
+      if (s < 0 || s > 1) {
+        // not on line segment a
+        return null;
+      }
+      var t = crossProduct(e, va) / kross;
+      if (t < 0 || t > 1) {
+        // not on line segment b
+        return null;
+      }
+      if (s === 0 || s === 1) {
+        // on an endpoint of line segment a
+        return noEndpointTouch ? null : [toPoint(a1, s, va)];
+      }
+      if (t === 0 || t === 1) {
+        // on an endpoint of line segment b
+        return noEndpointTouch ? null : [toPoint(b1, t, vb)];
+      }
+      return [toPoint(a1, s, va)];
+    }
+
+    // If we've reached this point, then the lines are either parallel or the
+    // same, but the segments could overlap partially or fully, or not at all.
+    // So we need to find the overlap, if any. To do that, we can use e, which is
+    // the (vector) difference between the two initial points. If this is parallel
+    // with the line itself, then the two lines are the same line, and there will
+    // be overlap.
+    //const sqrLenE = dotProduct(e, e);
+    kross = crossProduct(e, va);
+    sqrKross = kross * kross;
+
+    if (sqrKross > 0 /* EPS * sqLenB * sqLenE */) {
+    // Lines are just parallel, not the same. No overlap.
+      return null;
+    }
+
+    var sa = dotProduct(va, e) / sqrLenA;
+    var sb = sa + dotProduct(va, vb) / sqrLenA;
+    var smin = Math.min(sa, sb);
+    var smax = Math.max(sa, sb);
+
+    // this is, essentially, the FindIntersection acting on floats from
+    // Schneider & Eberly, just inlined into this function.
+    if (smin <= 1 && smax >= 0) {
+
+      // overlap on an end point
+      if (smin === 1) {
+        return noEndpointTouch ? null : [toPoint(a1, smin > 0 ? smin : 0, va)];
+      }
+
+      if (smax === 0) {
+        return noEndpointTouch ? null : [toPoint(a1, smax < 1 ? smax : 1, va)];
+      }
+
+      if (noEndpointTouch && smin === 0 && smax === 1) { return null; }
+
+      // There's overlap on a segment -- two points of intersection. Return both.
+      return [
+        toPoint(a1, smin > 0 ? smin : 0, va),
+        toPoint(a1, smax < 1 ? smax : 1, va)
+      ];
+    }
+
+    return null;
+  }
+
+  /**
+   * @param  {SweepEvent} se1
+   * @param  {SweepEvent} se2
+   * @param  {Queue}      queue
+   * @return {Number}
+   */
+  function possibleIntersection (se1, se2, queue) {
+    // that disallows self-intersecting polygons,
+    // did cost us half a day, so I'll leave it
+    // out of respect
+    // if (se1.isSubject === se2.isSubject) return;
+    var inter = intersection(
+      se1.point, se1.otherEvent.point,
+      se2.point, se2.otherEvent.point
+    );
+
+    var nintersections = inter ? inter.length : 0;
+    if (nintersections === 0) { return 0; } // no intersection
+
+    // the line segments intersect at an endpoint of both line segments
+    if ((nintersections === 1) &&
+        (equals(se1.point, se2.point) ||
+         equals(se1.otherEvent.point, se2.otherEvent.point))) {
+      return 0;
+    }
+
+    if (nintersections === 2 && se1.isSubject === se2.isSubject) {
+      // if(se1.contourId === se2.contourId){
+      // console.warn('Edges of the same polygon overlap',
+      //   se1.point, se1.otherEvent.point, se2.point, se2.otherEvent.point);
+      // }
+      //throw new Error('Edges of the same polygon overlap');
+      return 0;
+    }
+
+    // The line segments associated to se1 and se2 intersect
+    if (nintersections === 1) {
+
+      // if the intersection point is not an endpoint of se1
+      if (!equals(se1.point, inter[0]) && !equals(se1.otherEvent.point, inter[0])) {
+        divideSegment(se1, inter[0], queue);
+      }
+
+      // if the intersection point is not an endpoint of se2
+      if (!equals(se2.point, inter[0]) && !equals(se2.otherEvent.point, inter[0])) {
+        divideSegment(se2, inter[0], queue);
+      }
+      return 1;
+    }
+
+    // The line segments associated to se1 and se2 overlap
+    var events        = [];
+    var leftCoincide  = false;
+    var rightCoincide = false;
+
+    if (equals(se1.point, se2.point)) {
+      leftCoincide = true; // linked
+    } else if (compareEvents(se1, se2) === 1) {
+      events.push(se2, se1);
+    } else {
+      events.push(se1, se2);
+    }
+
+    if (equals(se1.otherEvent.point, se2.otherEvent.point)) {
+      rightCoincide = true;
+    } else if (compareEvents(se1.otherEvent, se2.otherEvent) === 1) {
+      events.push(se2.otherEvent, se1.otherEvent);
+    } else {
+      events.push(se1.otherEvent, se2.otherEvent);
+    }
+
+    if ((leftCoincide && rightCoincide) || leftCoincide) {
+      // both line segments are equal or share the left endpoint
+      se2.type = NON_CONTRIBUTING;
+      se1.type = (se2.inOut === se1.inOut)
+        ? SAME_TRANSITION : DIFFERENT_TRANSITION;
+
+      if (leftCoincide && !rightCoincide) {
+        // honestly no idea, but changing events selection from [2, 1]
+        // to [0, 1] fixes the overlapping self-intersecting polygons issue
+        divideSegment(events[1].otherEvent, events[0].point, queue);
+      }
+      return 2;
+    }
+
+    // the line segments share the right endpoint
+    if (rightCoincide) {
+      divideSegment(events[0], events[1].point, queue);
+      return 3;
+    }
+
+    // no line segment includes totally the other one
+    if (events[0] !== events[3].otherEvent) {
+      divideSegment(events[0], events[1].point, queue);
+      divideSegment(events[1], events[2].point, queue);
+      return 3;
+    }
+
+    // one line segment includes the other one
+    divideSegment(events[0], events[1].point, queue);
+    divideSegment(events[3].otherEvent, events[2].point, queue);
+
+    return 3;
+  }
+
+  /**
+   * @param  {SweepEvent} le1
+   * @param  {SweepEvent} le2
+   * @return {Number}
+   */
+  function compareSegments(le1, le2) {
+    if (le1 === le2) { return 0; }
+
+    // Segments are not collinear
+    if (signedArea(le1.point, le1.otherEvent.point, le2.point) !== 0 ||
+      signedArea(le1.point, le1.otherEvent.point, le2.otherEvent.point) !== 0) {
+
+      // If they share their left endpoint use the right endpoint to sort
+      if (equals(le1.point, le2.point)) { return le1.isBelow(le2.otherEvent.point) ? -1 : 1; }
+
+      // Different left endpoint: use the left endpoint to sort
+      if (le1.point[0] === le2.point[0]) { return le1.point[1] < le2.point[1] ? -1 : 1; }
+
+      // has the line segment associated to e1 been inserted
+      // into S after the line segment associated to e2 ?
+      if (compareEvents(le1, le2) === 1) { return le2.isAbove(le1.point) ? -1 : 1; }
+
+      // The line segment associated to e2 has been inserted
+      // into S after the line segment associated to e1
+      return le1.isBelow(le2.point) ? -1 : 1;
+    }
+
+    if (le1.isSubject === le2.isSubject) { // same polygon
+      var p1 = le1.point, p2 = le2.point;
+      if (p1[0] === p2[0] && p1[1] === p2[1]/*equals(le1.point, le2.point)*/) {
+        p1 = le1.otherEvent.point; p2 = le2.otherEvent.point;
+        if (p1[0] === p2[0] && p1[1] === p2[1]) { return 0; }
+        else { return le1.contourId > le2.contourId ? 1 : -1; }
+      }
+    } else { // Segments are collinear, but belong to separate polygons
+      return le1.isSubject ? -1 : 1;
+    }
+
+    return compareEvents(le1, le2) === 1 ? 1 : -1;
+  }
+
+  function subdivide(eventQueue, subject, clipping, sbbox, cbbox, operation) {
+    var sweepLine = new SplayTree(compareSegments);
+    var sortedEvents = [];
+
+    var rightbound = Math.min(sbbox[2], cbbox[2]);
+
+    var prev, next, begin;
+
+    while (eventQueue.length !== 0) {
+      var event = eventQueue.pop();
+      sortedEvents.push(event);
+
+      // optimization by bboxes for intersection and difference goes here
+      if ((operation === INTERSECTION && event.point[0] > rightbound) ||
+          (operation === DIFFERENCE   && event.point[0] > sbbox[2])) {
+        break;
+      }
+
+      if (event.left) {
+        next  = prev = sweepLine.insert(event);
+        begin = sweepLine.minNode();
+
+        if (prev !== begin) { prev = sweepLine.prev(prev); }
+        else                { prev = null; }
+
+        next = sweepLine.next(next);
+
+        var prevEvent = prev ? prev.key : null;
+        var prevprevEvent = (void 0);
+        computeFields(event, prevEvent, operation);
+        if (next) {
+          if (possibleIntersection(event, next.key, eventQueue) === 2) {
+            computeFields(event, prevEvent, operation);
+            computeFields(event, next.key, operation);
+          }
+        }
+
+        if (prev) {
+          if (possibleIntersection(prev.key, event, eventQueue) === 2) {
+            var prevprev = prev;
+            if (prevprev !== begin) { prevprev = sweepLine.prev(prevprev); }
+            else                    { prevprev = null; }
+
+            prevprevEvent = prevprev ? prevprev.key : null;
+            computeFields(prevEvent, prevprevEvent, operation);
+            computeFields(event,     prevEvent,     operation);
+          }
+        }
+      } else {
+        event = event.otherEvent;
+        next = prev = sweepLine.find(event);
+
+        if (prev && next) {
+
+          if (prev !== begin) { prev = sweepLine.prev(prev); }
+          else                { prev = null; }
+
+          next = sweepLine.next(next);
+          sweepLine.remove(event);
+
+          if (next && prev) {
+            possibleIntersection(prev.key, next.key, eventQueue);
+          }
+        }
+      }
+    }
+    return sortedEvents;
+  }
+
+  /**
+   * @param  {Array.<SweepEvent>} sortedEvents
+   * @return {Array.<SweepEvent>}
+   */
+  function orderEvents(sortedEvents) {
+    var event, i, len, tmp;
+    var resultEvents = [];
+    for (i = 0, len = sortedEvents.length; i < len; i++) {
+      event = sortedEvents[i];
+      if ((event.left && event.inResult) ||
+        (!event.left && event.otherEvent.inResult)) {
+        resultEvents.push(event);
+      }
+    }
+    // Due to overlapping edges the resultEvents array can be not wholly sorted
+    var sorted = false;
+    while (!sorted) {
+      sorted = true;
+      for (i = 0, len = resultEvents.length; i < len; i++) {
+        if ((i + 1) < len &&
+          compareEvents(resultEvents[i], resultEvents[i + 1]) === 1) {
+          tmp = resultEvents[i];
+          resultEvents[i] = resultEvents[i + 1];
+          resultEvents[i + 1] = tmp;
+          sorted = false;
+        }
+      }
+    }
+
+
+    for (i = 0, len = resultEvents.length; i < len; i++) {
+      event = resultEvents[i];
+      event.pos = i;
+    }
+
+    // imagine, the right event is found in the beginning of the queue,
+    // when his left counterpart is not marked yet
+    for (i = 0, len = resultEvents.length; i < len; i++) {
+      event = resultEvents[i];
+      if (!event.left) {
+        tmp = event.pos;
+        event.pos = event.otherEvent.pos;
+        event.otherEvent.pos = tmp;
+      }
+    }
+
+    return resultEvents;
+  }
+
+
+  /**
+   * @param  {Number} pos
+   * @param  {Array.<SweepEvent>} resultEvents
+   * @param  {Object>}    processed
+   * @return {Number}
+   */
+  function nextPos(pos, resultEvents, processed, origIndex) {
+    var p, p1;
+    var newPos = pos + 1;
+    var length = resultEvents.length;
+
+    p  = resultEvents[pos].point;
+
+    if (newPos < length)
+      { p1 = resultEvents[newPos].point; }
+
+
+    // while in range and not the current one by value
+    while (newPos < length && p1[0] === p[0] && p1[1] === p[1]) {
+      if (!processed[newPos]) {
+        return newPos;
+      } else   {
+        newPos++;
+      }
+      p1 = resultEvents[newPos].point;
+    }
+
+    newPos = pos - 1;
+
+    while (processed[newPos] && newPos >= origIndex) {
+      newPos--;
+    }
+    return newPos;
+  }
+
+
+  /**
+   * @param  {Array.<SweepEvent>} sortedEvents
+   * @return {Array.<*>} polygons
+   */
+  function connectEdges(sortedEvents, operation) {
+    var i, len;
+    var resultEvents = orderEvents(sortedEvents);
+
+    // "false"-filled array
+    var processed = {};
+    var result = [];
+    var event;
+
+    for (i = 0, len = resultEvents.length; i < len; i++) {
+      if (processed[i]) { continue; }
+      var contour = [[]];
+
+      if (!resultEvents[i].isExteriorRing) {
+        if (operation === DIFFERENCE && !resultEvents[i].isSubject && result.length === 0) {
+          result.push(contour);
+        } else if (result.length === 0) {
+          result.push([[contour]]);
+        } else {
+          result[result.length - 1].push(contour[0]);
+        }
+      } else if (operation === DIFFERENCE && !resultEvents[i].isSubject && result.length > 1) {
+        result[result.length - 1].push(contour[0]);
+      } else {
+        result.push(contour);
+      }
+
+      var ringId = result.length - 1;
+      var pos = i;
+
+      var initial = resultEvents[i].point;
+      contour[0].push(initial);
+
+      while (pos >= i) {
+        event = resultEvents[pos];
+        processed[pos] = true;
+
+        if (event.left) {
+          event.resultInOut = false;
+          event.contourId   = ringId;
+        } else {
+          event.otherEvent.resultInOut = true;
+          event.otherEvent.contourId   = ringId;
+        }
+
+        pos = event.pos;
+        processed[pos] = true;
+        contour[0].push(resultEvents[pos].point);
+        pos = nextPos(pos, resultEvents, processed, i);
+      }
+
+      pos = pos === -1 ? i : pos;
+
+      event = resultEvents[pos];
+      processed[pos] = processed[event.pos] = true;
+      event.otherEvent.resultInOut = true;
+      event.otherEvent.contourId   = ringId;
+    }
+
+    // Handle if the result is a polygon (eg not multipoly)
+    // Commented it again, let's see what do we mean by that
+    // if (result.length === 1) result = result[0];
+    return result;
+  }
+
+  var tinyqueue = TinyQueue;
+  var default_1 = TinyQueue;
+
+  function TinyQueue(data, compare) {
+      var this$1 = this;
+
+      if (!(this instanceof TinyQueue)) { return new TinyQueue(data, compare); }
+
+      this.data = data || [];
+      this.length = this.data.length;
+      this.compare = compare || defaultCompare;
+
+      if (this.length > 0) {
+          for (var i = (this.length >> 1) - 1; i >= 0; i--) { this$1._down(i); }
+      }
+  }
+
+  function defaultCompare(a, b) {
+      return a < b ? -1 : a > b ? 1 : 0;
+  }
+
+  TinyQueue.prototype = {
+
+      push: function (item) {
+          this.data.push(item);
+          this.length++;
+          this._up(this.length - 1);
+      },
+
+      pop: function () {
+          if (this.length === 0) { return undefined; }
+
+          var top = this.data[0];
+          this.length--;
+
+          if (this.length > 0) {
+              this.data[0] = this.data[this.length];
+              this._down(0);
+          }
+          this.data.pop();
+
+          return top;
+      },
+
+      peek: function () {
+          return this.data[0];
+      },
+
+      _up: function (pos) {
+          var data = this.data;
+          var compare = this.compare;
+          var item = data[pos];
+
+          while (pos > 0) {
+              var parent = (pos - 1) >> 1;
+              var current = data[parent];
+              if (compare(item, current) >= 0) { break; }
+              data[pos] = current;
+              pos = parent;
+          }
+
+          data[pos] = item;
+      },
+
+      _down: function (pos) {
+          var this$1 = this;
+
+          var data = this.data;
+          var compare = this.compare;
+          var halfLength = this.length >> 1;
+          var item = data[pos];
+
+          while (pos < halfLength) {
+              var left = (pos << 1) + 1;
+              var right = left + 1;
+              var best = data[left];
+
+              if (right < this$1.length && compare(data[right], best) < 0) {
+                  left = right;
+                  best = data[right];
+              }
+              if (compare(best, item) >= 0) { break; }
+
+              data[pos] = best;
+              pos = left;
+          }
+
+          data[pos] = item;
+      }
+  };
+  tinyqueue.default = default_1;
+
+  var max = Math.max;
+  var min = Math.min;
+
+  var contourId = 0;
+
+
+  function processPolygon(contourOrHole, isSubject, depth, Q, bbox, isExteriorRing) {
+    var i, len, s1, s2, e1, e2;
+    for (i = 0, len = contourOrHole.length - 1; i < len; i++) {
+      s1 = contourOrHole[i];
+      s2 = contourOrHole[i + 1];
+      e1 = new SweepEvent(s1, false, undefined, isSubject);
+      e2 = new SweepEvent(s2, false, e1,        isSubject);
+      e1.otherEvent = e2;
+
+      if (s1[0] === s2[0] && s1[1] === s2[1]) {
+        continue; // skip collapsed edges, or it breaks
+      }
+
+      e1.contourId = e2.contourId = depth;
+      if (!isExteriorRing) {
+        e1.isExteriorRing = false;
+        e2.isExteriorRing = false;
+      }
+      if (compareEvents(e1, e2) > 0) {
+        e2.left = true;
+      } else {
+        e1.left = true;
+      }
+
+      var x = s1[0], y = s1[1];
+      bbox[0] = min(bbox[0], x);
+      bbox[1] = min(bbox[1], y);
+      bbox[2] = max(bbox[2], x);
+      bbox[3] = max(bbox[3], y);
+
+      // Pushing it so the queue is sorted from left to right,
+      // with object on the left having the highest priority.
+      Q.push(e1);
+      Q.push(e2);
+    }
+  }
+
+
+  function fillQueue(subject, clipping, sbbox, cbbox, operation) {
+    var eventQueue = new tinyqueue(null, compareEvents);
+    var polygonSet, isExteriorRing, i, ii, j, jj; //, k, kk;
+
+    for (i = 0, ii = subject.length; i < ii; i++) {
+      polygonSet = subject[i];
+      for (j = 0, jj = polygonSet.length; j < jj; j++) {
+        isExteriorRing = j === 0;
+        if (isExteriorRing) { contourId++; }
+        processPolygon(polygonSet[j], true, contourId, eventQueue, sbbox, isExteriorRing);
+      }
+    }
+
+    for (i = 0, ii = clipping.length; i < ii; i++) {
+      polygonSet = clipping[i];
+      for (j = 0, jj = polygonSet.length; j < jj; j++) {
+        isExteriorRing = j === 0;
+        if (operation === DIFFERENCE) { isExteriorRing = false; }
+        if (isExteriorRing) { contourId++; }
+        processPolygon(polygonSet[j], false, contourId, eventQueue, cbbox, isExteriorRing);
+      }
+    }
+
+    return eventQueue;
+  }
+
+  var EMPTY = [];
+
+
+  function trivialOperation(subject, clipping, operation) {
+    var result = null;
+    if (subject.length * clipping.length === 0) {
+      if        (operation === INTERSECTION) {
+        result = EMPTY;
+      } else if (operation === DIFFERENCE) {
+        result = subject;
+      } else if (operation === UNION ||
+                 operation === XOR) {
+        result = (subject.length === 0) ? clipping : subject;
+      }
+    }
+    return result;
+  }
+
+
+  function compareBBoxes(subject, clipping, sbbox, cbbox, operation) {
+    var result = null;
+    if (sbbox[0] > cbbox[2] ||
+        cbbox[0] > sbbox[2] ||
+        sbbox[1] > cbbox[3] ||
+        cbbox[1] > sbbox[3]) {
+      if        (operation === INTERSECTION) {
+        result = EMPTY;
+      } else if (operation === DIFFERENCE) {
+        result = subject;
+      } else if (operation === UNION ||
+                 operation === XOR) {
+        result = subject.concat(clipping);
+      }
+    }
+    return result;
+  }
+
+
+  function boolean(subject, clipping, operation) {
+    if (typeof subject[0][0][0] === 'number') {
+      subject = [subject];
+    }
+    if (typeof clipping[0][0][0] === 'number') {
+      clipping = [clipping];
+    }
+    var trivial = trivialOperation(subject, clipping, operation);
+    if (trivial) {
+      return trivial === EMPTY ? null : trivial;
+    }
+    var sbbox = [Infinity, Infinity, -Infinity, -Infinity];
+    var cbbox = [Infinity, Infinity, -Infinity, -Infinity];
+
+    //console.time('fill queue');
+    var eventQueue = fillQueue(subject, clipping, sbbox, cbbox, operation);
+    //console.timeEnd('fill queue');
+
+    trivial = compareBBoxes(subject, clipping, sbbox, cbbox, operation);
+    if (trivial) {
+      return trivial === EMPTY ? null : trivial;
+    }
+    //console.time('subdivide edges');
+    var sortedEvents = subdivide(eventQueue, subject, clipping, sbbox, cbbox, operation);
+    //console.timeEnd('subdivide edges');
+
+    //console.time('connect vertices');
+    var result = connectEdges(sortedEvents, operation);
+    //console.timeEnd('connect vertices');
+    return result;
+  }
+
+  function union (subject, clipping) {
+    return boolean(subject, clipping, UNION);
+  }
+
+  function diff (subject, clipping) {
+    return boolean(subject, clipping, DIFFERENCE);
+  }
+
+  function xor (subject, clipping){
+    return boolean(subject, clipping, XOR);
+  }
+
+  function intersection$1 (subject, clipping) {
+    return boolean(subject, clipping, INTERSECTION);
+  }
+
+  /**
+   * @enum {Number}
+   */
+  var operations = { UNION: UNION, DIFFERENCE: DIFFERENCE, INTERSECTION: INTERSECTION, XOR: XOR };
+
+  exports.union = union;
+  exports.diff = diff;
+  exports.xor = xor;
+  exports.intersection = intersection$1;
+  exports.operations = operations;
+
+  Object.defineProperty(exports, '__esModule', { value: true });
+
+})));
+
+
+},{}],23:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -4111,7 +5832,7 @@ var substr = 'ab'.substr(-1) === 'b'
 
 }).call(this,require('_process'))
 
-},{"_process":6}],23:[function(require,module,exports){
+},{"_process":6}],24:[function(require,module,exports){
 'use strict';
 
 module.exports = Pbf;
@@ -4731,7 +6452,7 @@ function writeUtf8(buf, str, pos) {
     return pos;
 }
 
-},{"ieee754":17}],24:[function(require,module,exports){
+},{"ieee754":17}],25:[function(require,module,exports){
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -4796,7 +6517,7 @@ return quickselect;
 
 })));
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 module.exports = rbush;
@@ -5360,7 +7081,7 @@ function multiSelect(arr, left, right, n, compare) {
     }
 }
 
-},{"quickselect":24}],26:[function(require,module,exports){
+},{"quickselect":25}],27:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("./internal/Observable");
@@ -5471,7 +7192,7 @@ exports.NEVER = never_2.NEVER;
 var config_1 = require("./internal/config");
 exports.config = config_1.config;
 
-},{"./internal/AsyncSubject":27,"./internal/BehaviorSubject":28,"./internal/Notification":30,"./internal/Observable":31,"./internal/ReplaySubject":34,"./internal/Scheduler":35,"./internal/Subject":36,"./internal/Subscriber":38,"./internal/Subscription":39,"./internal/config":40,"./internal/observable/ConnectableObservable":41,"./internal/observable/bindCallback":43,"./internal/observable/bindNodeCallback":44,"./internal/observable/combineLatest":45,"./internal/observable/concat":46,"./internal/observable/defer":47,"./internal/observable/empty":48,"./internal/observable/forkJoin":49,"./internal/observable/from":50,"./internal/observable/fromEvent":52,"./internal/observable/fromEventPattern":53,"./internal/observable/generate":57,"./internal/observable/iif":58,"./internal/observable/interval":59,"./internal/observable/merge":60,"./internal/observable/never":61,"./internal/observable/of":62,"./internal/observable/onErrorResumeNext":63,"./internal/observable/pairs":64,"./internal/observable/race":65,"./internal/observable/range":66,"./internal/observable/throwError":68,"./internal/observable/timer":69,"./internal/observable/using":70,"./internal/observable/zip":71,"./internal/operators/groupBy":107,"./internal/scheduler/VirtualTimeScheduler":184,"./internal/scheduler/animationFrame":185,"./internal/scheduler/asap":186,"./internal/scheduler/async":187,"./internal/scheduler/queue":188,"./internal/symbol/observable":190,"./internal/util/ArgumentOutOfRangeError":192,"./internal/util/EmptyError":193,"./internal/util/ObjectUnsubscribedError":195,"./internal/util/TimeoutError":196,"./internal/util/UnsubscriptionError":197,"./internal/util/identity":201,"./internal/util/isObservable":210,"./internal/util/noop":213,"./internal/util/pipe":215}],27:[function(require,module,exports){
+},{"./internal/AsyncSubject":28,"./internal/BehaviorSubject":29,"./internal/Notification":31,"./internal/Observable":32,"./internal/ReplaySubject":35,"./internal/Scheduler":36,"./internal/Subject":37,"./internal/Subscriber":39,"./internal/Subscription":40,"./internal/config":41,"./internal/observable/ConnectableObservable":42,"./internal/observable/bindCallback":44,"./internal/observable/bindNodeCallback":45,"./internal/observable/combineLatest":46,"./internal/observable/concat":47,"./internal/observable/defer":48,"./internal/observable/empty":49,"./internal/observable/forkJoin":50,"./internal/observable/from":51,"./internal/observable/fromEvent":53,"./internal/observable/fromEventPattern":54,"./internal/observable/generate":58,"./internal/observable/iif":59,"./internal/observable/interval":60,"./internal/observable/merge":61,"./internal/observable/never":62,"./internal/observable/of":63,"./internal/observable/onErrorResumeNext":64,"./internal/observable/pairs":65,"./internal/observable/race":66,"./internal/observable/range":67,"./internal/observable/throwError":69,"./internal/observable/timer":70,"./internal/observable/using":71,"./internal/observable/zip":72,"./internal/operators/groupBy":108,"./internal/scheduler/VirtualTimeScheduler":185,"./internal/scheduler/animationFrame":186,"./internal/scheduler/asap":187,"./internal/scheduler/async":188,"./internal/scheduler/queue":189,"./internal/symbol/observable":191,"./internal/util/ArgumentOutOfRangeError":193,"./internal/util/EmptyError":194,"./internal/util/ObjectUnsubscribedError":196,"./internal/util/TimeoutError":197,"./internal/util/UnsubscriptionError":198,"./internal/util/identity":202,"./internal/util/isObservable":211,"./internal/util/noop":214,"./internal/util/pipe":216}],28:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -5532,7 +7253,7 @@ var AsyncSubject = (function (_super) {
 }(Subject_1.Subject));
 exports.AsyncSubject = AsyncSubject;
 
-},{"./Subject":36,"./Subscription":39}],28:[function(require,module,exports){
+},{"./Subject":37,"./Subscription":40}],29:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -5589,7 +7310,7 @@ var BehaviorSubject = (function (_super) {
 }(Subject_1.Subject));
 exports.BehaviorSubject = BehaviorSubject;
 
-},{"./Subject":36,"./util/ObjectUnsubscribedError":195}],29:[function(require,module,exports){
+},{"./Subject":37,"./util/ObjectUnsubscribedError":196}],30:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -5631,7 +7352,7 @@ var InnerSubscriber = (function (_super) {
 }(Subscriber_1.Subscriber));
 exports.InnerSubscriber = InnerSubscriber;
 
-},{"./Subscriber":38}],30:[function(require,module,exports){
+},{"./Subscriber":39}],31:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var empty_1 = require("./observable/empty");
@@ -5703,7 +7424,7 @@ var Notification = (function () {
 }());
 exports.Notification = Notification;
 
-},{"./observable/empty":48,"./observable/of":62,"./observable/throwError":68}],31:[function(require,module,exports){
+},{"./observable/empty":49,"./observable/of":63,"./observable/throwError":69}],32:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var canReportError_1 = require("./util/canReportError");
@@ -5821,7 +7542,7 @@ function getPromiseCtor(promiseCtor) {
     return promiseCtor;
 }
 
-},{"../internal/symbol/observable":190,"./config":40,"./util/canReportError":198,"./util/pipe":215,"./util/toSubscriber":222}],32:[function(require,module,exports){
+},{"../internal/symbol/observable":191,"./config":41,"./util/canReportError":199,"./util/pipe":216,"./util/toSubscriber":223}],33:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = require("./config");
@@ -5840,7 +7561,7 @@ exports.empty = {
     complete: function () { }
 };
 
-},{"./config":40,"./util/hostReportError":200}],33:[function(require,module,exports){
+},{"./config":41,"./util/hostReportError":201}],34:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -5875,7 +7596,7 @@ var OuterSubscriber = (function (_super) {
 }(Subscriber_1.Subscriber));
 exports.OuterSubscriber = OuterSubscriber;
 
-},{"./Subscriber":38}],34:[function(require,module,exports){
+},{"./Subscriber":39}],35:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -6002,7 +7723,7 @@ var ReplayEvent = (function () {
     return ReplayEvent;
 }());
 
-},{"./Subject":36,"./SubjectSubscription":37,"./Subscription":39,"./operators/observeOn":122,"./scheduler/queue":188,"./util/ObjectUnsubscribedError":195}],35:[function(require,module,exports){
+},{"./Subject":37,"./SubjectSubscription":38,"./Subscription":40,"./operators/observeOn":123,"./scheduler/queue":189,"./util/ObjectUnsubscribedError":196}],36:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Scheduler = (function () {
@@ -6020,7 +7741,7 @@ var Scheduler = (function () {
 }());
 exports.Scheduler = Scheduler;
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -6192,7 +7913,7 @@ var AnonymousSubject = (function (_super) {
 }(Subject));
 exports.AnonymousSubject = AnonymousSubject;
 
-},{"../internal/symbol/rxSubscriber":191,"./Observable":31,"./SubjectSubscription":37,"./Subscriber":38,"./Subscription":39,"./util/ObjectUnsubscribedError":195}],37:[function(require,module,exports){
+},{"../internal/symbol/rxSubscriber":192,"./Observable":32,"./SubjectSubscription":38,"./Subscriber":39,"./Subscription":40,"./util/ObjectUnsubscribedError":196}],38:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -6238,7 +7959,7 @@ var SubjectSubscription = (function (_super) {
 }(Subscription_1.Subscription));
 exports.SubjectSubscription = SubjectSubscription;
 
-},{"./Subscription":39}],38:[function(require,module,exports){
+},{"./Subscription":40}],39:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -6489,7 +8210,7 @@ var SafeSubscriber = (function (_super) {
 }(Subscriber));
 exports.SafeSubscriber = SafeSubscriber;
 
-},{"../internal/symbol/rxSubscriber":191,"./Observer":32,"./Subscription":39,"./config":40,"./util/hostReportError":200,"./util/isFunction":205}],39:[function(require,module,exports){
+},{"../internal/symbol/rxSubscriber":192,"./Observer":33,"./Subscription":40,"./config":41,"./util/hostReportError":201,"./util/isFunction":206}],40:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var isArray_1 = require("./util/isArray");
@@ -6623,7 +8344,7 @@ function flattenUnsubscriptionErrors(errors) {
     return errors.reduce(function (errs, err) { return errs.concat((err instanceof UnsubscriptionError_1.UnsubscriptionError) ? err.errors : err); }, []);
 }
 
-},{"./util/UnsubscriptionError":197,"./util/errorObject":199,"./util/isArray":202,"./util/isFunction":205,"./util/isObject":209,"./util/tryCatch":223}],40:[function(require,module,exports){
+},{"./util/UnsubscriptionError":198,"./util/errorObject":200,"./util/isArray":203,"./util/isFunction":206,"./util/isObject":210,"./util/tryCatch":224}],41:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var _enable_super_gross_mode_that_will_cause_bad_things = false;
@@ -6644,7 +8365,7 @@ exports.config = {
     },
 };
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -6801,7 +8522,7 @@ var RefCountSubscriber = (function (_super) {
     return RefCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Observable":31,"../Subject":36,"../Subscriber":38,"../Subscription":39,"../operators/refCount":133}],42:[function(require,module,exports){
+},{"../Observable":32,"../Subject":37,"../Subscriber":39,"../Subscription":40,"../operators/refCount":134}],43:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -6858,7 +8579,7 @@ var SubscribeOnObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.SubscribeOnObservable = SubscribeOnObservable;
 
-},{"../Observable":31,"../scheduler/asap":186,"../util/isNumeric":208}],43:[function(require,module,exports){
+},{"../Observable":32,"../scheduler/asap":187,"../util/isNumeric":209}],44:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -6966,7 +8687,7 @@ function dispatchError(state) {
     subject.error(err);
 }
 
-},{"../AsyncSubject":27,"../Observable":31,"../operators/map":111,"../util/canReportError":198,"../util/isArray":202,"../util/isScheduler":212}],44:[function(require,module,exports){
+},{"../AsyncSubject":28,"../Observable":32,"../operators/map":112,"../util/canReportError":199,"../util/isArray":203,"../util/isScheduler":213}],45:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -7082,7 +8803,7 @@ function dispatchError(arg) {
     subject.error(err);
 }
 
-},{"../AsyncSubject":27,"../Observable":31,"../operators/map":111,"../util/canReportError":198,"../util/isArray":202,"../util/isScheduler":212}],45:[function(require,module,exports){
+},{"../AsyncSubject":28,"../Observable":32,"../operators/map":112,"../util/canReportError":199,"../util/isArray":203,"../util/isScheduler":213}],46:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -7198,7 +8919,7 @@ var CombineLatestSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.CombineLatestSubscriber = CombineLatestSubscriber;
 
-},{"../OuterSubscriber":33,"../util/isArray":202,"../util/isScheduler":212,"../util/subscribeToResult":221,"./fromArray":51}],46:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../util/isArray":203,"../util/isScheduler":213,"../util/subscribeToResult":222,"./fromArray":52}],47:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var isScheduler_1 = require("../util/isScheduler");
@@ -7217,7 +8938,7 @@ function concat() {
 }
 exports.concat = concat;
 
-},{"../operators/concatAll":83,"../util/isScheduler":212,"./from":50,"./of":62}],47:[function(require,module,exports){
+},{"../operators/concatAll":84,"../util/isScheduler":213,"./from":51,"./of":63}],48:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -7239,7 +8960,7 @@ function defer(observableFactory) {
 }
 exports.defer = defer;
 
-},{"../Observable":31,"./empty":48,"./from":50}],48:[function(require,module,exports){
+},{"../Observable":32,"./empty":49,"./from":51}],49:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -7253,7 +8974,7 @@ function emptyScheduled(scheduler) {
 }
 exports.emptyScheduled = emptyScheduled;
 
-},{"../Observable":31}],49:[function(require,module,exports){
+},{"../Observable":32}],50:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -7342,7 +9063,7 @@ var ForkJoinSubscriber = (function (_super) {
     return ForkJoinSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../Observable":31,"../OuterSubscriber":33,"../operators/map":111,"../util/isArray":202,"../util/subscribeToResult":221,"./empty":48}],50:[function(require,module,exports){
+},{"../Observable":32,"../OuterSubscriber":34,"../operators/map":112,"../util/isArray":203,"../util/subscribeToResult":222,"./empty":49}],51:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -7380,7 +9101,7 @@ function from(input, scheduler) {
 }
 exports.from = from;
 
-},{"../Observable":31,"../util/isArrayLike":203,"../util/isInteropObservable":206,"../util/isIterable":207,"../util/isPromise":211,"../util/subscribeTo":216,"./fromArray":51,"./fromIterable":54,"./fromObservable":55,"./fromPromise":56}],51:[function(require,module,exports){
+},{"../Observable":32,"../util/isArrayLike":204,"../util/isInteropObservable":207,"../util/isIterable":208,"../util/isPromise":212,"../util/subscribeTo":217,"./fromArray":52,"./fromIterable":55,"./fromObservable":56,"./fromPromise":57}],52:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -7410,7 +9131,7 @@ function fromArray(input, scheduler) {
 }
 exports.fromArray = fromArray;
 
-},{"../Observable":31,"../Subscription":39,"../util/subscribeToArray":217}],52:[function(require,module,exports){
+},{"../Observable":32,"../Subscription":40,"../util/subscribeToArray":218}],53:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -7476,7 +9197,7 @@ function isEventTarget(sourceObj) {
     return sourceObj && typeof sourceObj.addEventListener === 'function' && typeof sourceObj.removeEventListener === 'function';
 }
 
-},{"../Observable":31,"../operators/map":111,"../util/isArray":202,"../util/isFunction":205}],53:[function(require,module,exports){
+},{"../Observable":32,"../operators/map":112,"../util/isArray":203,"../util/isFunction":206}],54:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -7511,7 +9232,7 @@ function fromEventPattern(addHandler, removeHandler, resultSelector) {
 }
 exports.fromEventPattern = fromEventPattern;
 
-},{"../Observable":31,"../operators/map":111,"../util/isArray":202,"../util/isFunction":205}],54:[function(require,module,exports){
+},{"../Observable":32,"../operators/map":112,"../util/isArray":203,"../util/isFunction":206}],55:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -7566,7 +9287,7 @@ function fromIterable(input, scheduler) {
 }
 exports.fromIterable = fromIterable;
 
-},{"../Observable":31,"../Subscription":39,"../symbol/iterator":189,"../util/subscribeToIterable":218}],55:[function(require,module,exports){
+},{"../Observable":32,"../Subscription":40,"../symbol/iterator":190,"../util/subscribeToIterable":219}],56:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -7594,7 +9315,7 @@ function fromObservable(input, scheduler) {
 }
 exports.fromObservable = fromObservable;
 
-},{"../Observable":31,"../Subscription":39,"../symbol/observable":190,"../util/subscribeToObservable":219}],56:[function(require,module,exports){
+},{"../Observable":32,"../Subscription":40,"../symbol/observable":191,"../util/subscribeToObservable":220}],57:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -7621,7 +9342,7 @@ function fromPromise(input, scheduler) {
 }
 exports.fromPromise = fromPromise;
 
-},{"../Observable":31,"../Subscription":39,"../util/subscribeToPromise":220}],57:[function(require,module,exports){
+},{"../Observable":32,"../Subscription":40,"../util/subscribeToPromise":221}],58:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -7749,7 +9470,7 @@ function dispatch(state) {
     return this.schedule(state);
 }
 
-},{"../Observable":31,"../util/identity":201,"../util/isScheduler":212}],58:[function(require,module,exports){
+},{"../Observable":32,"../util/identity":202,"../util/isScheduler":213}],59:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var defer_1 = require("./defer");
@@ -7761,7 +9482,7 @@ function iif(condition, trueResult, falseResult) {
 }
 exports.iif = iif;
 
-},{"./defer":47,"./empty":48}],59:[function(require,module,exports){
+},{"./defer":48,"./empty":49}],60:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -7788,7 +9509,7 @@ function dispatch(state) {
     this.schedule({ subscriber: subscriber, counter: counter + 1, period: period }, period);
 }
 
-},{"../Observable":31,"../scheduler/async":187,"../util/isNumeric":208}],60:[function(require,module,exports){
+},{"../Observable":32,"../scheduler/async":188,"../util/isNumeric":209}],61:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -7819,7 +9540,7 @@ function merge() {
 }
 exports.merge = merge;
 
-},{"../Observable":31,"../operators/mergeAll":116,"../util/isScheduler":212,"./fromArray":51}],61:[function(require,module,exports){
+},{"../Observable":32,"../operators/mergeAll":117,"../util/isScheduler":213,"./fromArray":52}],62:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -7830,7 +9551,7 @@ function never() {
 }
 exports.never = never;
 
-},{"../Observable":31,"../util/noop":213}],62:[function(require,module,exports){
+},{"../Observable":32,"../util/noop":214}],63:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var isScheduler_1 = require("../util/isScheduler");
@@ -7860,7 +9581,7 @@ function of() {
 }
 exports.of = of;
 
-},{"../util/isScheduler":212,"./empty":48,"./fromArray":51,"./scalar":67}],63:[function(require,module,exports){
+},{"../util/isScheduler":213,"./empty":49,"./fromArray":52,"./scalar":68}],64:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -7890,7 +9611,7 @@ function onErrorResumeNext() {
 }
 exports.onErrorResumeNext = onErrorResumeNext;
 
-},{"../Observable":31,"../util/isArray":202,"./empty":48,"./from":50}],64:[function(require,module,exports){
+},{"../Observable":32,"../util/isArray":203,"./empty":49,"./from":51}],65:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -7933,7 +9654,7 @@ function dispatch(state) {
 }
 exports.dispatch = dispatch;
 
-},{"../Observable":31,"../Subscription":39}],65:[function(require,module,exports){
+},{"../Observable":32,"../Subscription":40}],66:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -8026,7 +9747,7 @@ var RaceSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.RaceSubscriber = RaceSubscriber;
 
-},{"../OuterSubscriber":33,"../util/isArray":202,"../util/subscribeToResult":221,"./fromArray":51}],66:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../util/isArray":203,"../util/subscribeToResult":222,"./fromArray":52}],67:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -8073,7 +9794,7 @@ function dispatch(state) {
 }
 exports.dispatch = dispatch;
 
-},{"../Observable":31}],67:[function(require,module,exports){
+},{"../Observable":32}],68:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -8088,7 +9809,7 @@ function scalar(value) {
 }
 exports.scalar = scalar;
 
-},{"../Observable":31}],68:[function(require,module,exports){
+},{"../Observable":32}],69:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -8106,7 +9827,7 @@ function dispatch(_a) {
     subscriber.error(error);
 }
 
-},{"../Observable":31}],69:[function(require,module,exports){
+},{"../Observable":32}],70:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -8148,7 +9869,7 @@ function dispatch(state) {
     this.schedule(state, period);
 }
 
-},{"../Observable":31,"../scheduler/async":187,"../util/isNumeric":208,"../util/isScheduler":212}],70:[function(require,module,exports){
+},{"../Observable":32,"../scheduler/async":188,"../util/isNumeric":209,"../util/isScheduler":213}],71:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -8184,7 +9905,7 @@ function using(resourceFactory, observableFactory) {
 }
 exports.using = using;
 
-},{"../Observable":31,"./empty":48,"./from":50}],71:[function(require,module,exports){
+},{"../Observable":32,"./empty":49,"./from":51}],72:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -8415,7 +10136,7 @@ var ZipBufferIterator = (function (_super) {
     return ZipBufferIterator;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../../internal/symbol/iterator":189,"../OuterSubscriber":33,"../Subscriber":38,"../util/isArray":202,"../util/subscribeToResult":221,"./fromArray":51}],72:[function(require,module,exports){
+},{"../../internal/symbol/iterator":190,"../OuterSubscriber":34,"../Subscriber":39,"../util/isArray":203,"../util/subscribeToResult":222,"./fromArray":52}],73:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -8499,7 +10220,7 @@ var AuditSubscriber = (function (_super) {
     return AuditSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":33,"../util/errorObject":199,"../util/subscribeToResult":221,"../util/tryCatch":223}],73:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../util/errorObject":200,"../util/subscribeToResult":222,"../util/tryCatch":224}],74:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var async_1 = require("../scheduler/async");
@@ -8511,7 +10232,7 @@ function auditTime(duration, scheduler) {
 }
 exports.auditTime = auditTime;
 
-},{"../observable/timer":69,"../scheduler/async":187,"./audit":72}],74:[function(require,module,exports){
+},{"../observable/timer":70,"../scheduler/async":188,"./audit":73}],75:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -8563,7 +10284,7 @@ var BufferSubscriber = (function (_super) {
     return BufferSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":33,"../util/subscribeToResult":221}],75:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../util/subscribeToResult":222}],76:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -8666,7 +10387,7 @@ var BufferSkipCountSubscriber = (function (_super) {
     return BufferSkipCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38}],76:[function(require,module,exports){
+},{"../Subscriber":39}],77:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -8829,7 +10550,7 @@ function dispatchBufferClose(arg) {
     subscriber.closeContext(context);
 }
 
-},{"../Subscriber":38,"../scheduler/async":187,"../util/isScheduler":212}],77:[function(require,module,exports){
+},{"../Subscriber":39,"../scheduler/async":188,"../util/isScheduler":213}],78:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -8951,7 +10672,7 @@ var BufferToggleSubscriber = (function (_super) {
     return BufferToggleSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":33,"../Subscription":39,"../util/subscribeToResult":221}],78:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../Subscription":40,"../util/subscribeToResult":222}],79:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -9048,7 +10769,7 @@ var BufferWhenSubscriber = (function (_super) {
     return BufferWhenSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":33,"../Subscription":39,"../util/errorObject":199,"../util/subscribeToResult":221,"../util/tryCatch":223}],79:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../Subscription":40,"../util/errorObject":200,"../util/subscribeToResult":222,"../util/tryCatch":224}],80:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -9111,7 +10832,7 @@ var CatchSubscriber = (function (_super) {
     return CatchSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../InnerSubscriber":29,"../OuterSubscriber":33,"../util/subscribeToResult":221}],80:[function(require,module,exports){
+},{"../InnerSubscriber":30,"../OuterSubscriber":34,"../util/subscribeToResult":222}],81:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var combineLatest_1 = require("../observable/combineLatest");
@@ -9120,7 +10841,7 @@ function combineAll(project) {
 }
 exports.combineAll = combineAll;
 
-},{"../observable/combineLatest":45}],81:[function(require,module,exports){
+},{"../observable/combineLatest":46}],82:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var isArray_1 = require("../util/isArray");
@@ -9143,7 +10864,7 @@ function combineLatest() {
 }
 exports.combineLatest = combineLatest;
 
-},{"../observable/combineLatest":45,"../observable/from":50,"../util/isArray":202}],82:[function(require,module,exports){
+},{"../observable/combineLatest":46,"../observable/from":51,"../util/isArray":203}],83:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var concat_1 = require("../observable/concat");
@@ -9156,7 +10877,7 @@ function concat() {
 }
 exports.concat = concat;
 
-},{"../observable/concat":46}],83:[function(require,module,exports){
+},{"../observable/concat":47}],84:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var mergeAll_1 = require("./mergeAll");
@@ -9165,7 +10886,7 @@ function concatAll() {
 }
 exports.concatAll = concatAll;
 
-},{"./mergeAll":116}],84:[function(require,module,exports){
+},{"./mergeAll":117}],85:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var mergeMap_1 = require("./mergeMap");
@@ -9174,7 +10895,7 @@ function concatMap(project, resultSelector) {
 }
 exports.concatMap = concatMap;
 
-},{"./mergeMap":117}],85:[function(require,module,exports){
+},{"./mergeMap":118}],86:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var concatMap_1 = require("./concatMap");
@@ -9183,7 +10904,7 @@ function concatMapTo(innerObservable, resultSelector) {
 }
 exports.concatMapTo = concatMapTo;
 
-},{"./concatMap":84}],86:[function(require,module,exports){
+},{"./concatMap":85}],87:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -9252,7 +10973,7 @@ var CountSubscriber = (function (_super) {
     return CountSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38}],87:[function(require,module,exports){
+},{"../Subscriber":39}],88:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -9343,7 +11064,7 @@ var DebounceSubscriber = (function (_super) {
     return DebounceSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":33,"../util/subscribeToResult":221}],88:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../util/subscribeToResult":222}],89:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -9420,7 +11141,7 @@ function dispatchNext(subscriber) {
     subscriber.debouncedNext();
 }
 
-},{"../Subscriber":38,"../scheduler/async":187}],89:[function(require,module,exports){
+},{"../Subscriber":39,"../scheduler/async":188}],90:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -9472,7 +11193,7 @@ var DefaultIfEmptySubscriber = (function (_super) {
     return DefaultIfEmptySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38}],90:[function(require,module,exports){
+},{"../Subscriber":39}],91:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -9578,7 +11299,7 @@ var DelayMessage = (function () {
     return DelayMessage;
 }());
 
-},{"../Notification":30,"../Subscriber":38,"../scheduler/async":187,"../util/isDate":204}],91:[function(require,module,exports){
+},{"../Notification":31,"../Subscriber":39,"../scheduler/async":188,"../util/isDate":205}],92:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -9725,7 +11446,7 @@ var SubscriptionDelaySubscriber = (function (_super) {
     return SubscriptionDelaySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Observable":31,"../OuterSubscriber":33,"../Subscriber":38,"../util/subscribeToResult":221}],92:[function(require,module,exports){
+},{"../Observable":32,"../OuterSubscriber":34,"../Subscriber":39,"../util/subscribeToResult":222}],93:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -9767,7 +11488,7 @@ var DeMaterializeSubscriber = (function (_super) {
     return DeMaterializeSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38}],93:[function(require,module,exports){
+},{"../Subscriber":39}],94:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -9847,7 +11568,7 @@ var DistinctSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.DistinctSubscriber = DistinctSubscriber;
 
-},{"../OuterSubscriber":33,"../util/subscribeToResult":221}],94:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../util/subscribeToResult":222}],95:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -9921,7 +11642,7 @@ var DistinctUntilChangedSubscriber = (function (_super) {
     return DistinctUntilChangedSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38,"../util/errorObject":199,"../util/tryCatch":223}],95:[function(require,module,exports){
+},{"../Subscriber":39,"../util/errorObject":200,"../util/tryCatch":224}],96:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var distinctUntilChanged_1 = require("./distinctUntilChanged");
@@ -9930,7 +11651,7 @@ function distinctUntilKeyChanged(key, compare) {
 }
 exports.distinctUntilKeyChanged = distinctUntilKeyChanged;
 
-},{"./distinctUntilChanged":94}],96:[function(require,module,exports){
+},{"./distinctUntilChanged":95}],97:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ArgumentOutOfRangeError_1 = require("../util/ArgumentOutOfRangeError");
@@ -9949,7 +11670,7 @@ function elementAt(index, defaultValue) {
 }
 exports.elementAt = elementAt;
 
-},{"../util/ArgumentOutOfRangeError":192,"./defaultIfEmpty":89,"./filter":102,"./take":154,"./throwIfEmpty":161}],97:[function(require,module,exports){
+},{"../util/ArgumentOutOfRangeError":193,"./defaultIfEmpty":90,"./filter":103,"./take":155,"./throwIfEmpty":162}],98:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var fromArray_1 = require("../observable/fromArray");
@@ -9984,7 +11705,7 @@ function endWith() {
 }
 exports.endWith = endWith;
 
-},{"../observable/concat":46,"../observable/empty":48,"../observable/fromArray":51,"../observable/scalar":67,"../util/isScheduler":212}],98:[function(require,module,exports){
+},{"../observable/concat":47,"../observable/empty":49,"../observable/fromArray":52,"../observable/scalar":68,"../util/isScheduler":213}],99:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -10050,7 +11771,7 @@ var EverySubscriber = (function (_super) {
     return EverySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38}],99:[function(require,module,exports){
+},{"../Subscriber":39}],100:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -10110,7 +11831,7 @@ var SwitchFirstSubscriber = (function (_super) {
     return SwitchFirstSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":33,"../util/subscribeToResult":221}],100:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../util/subscribeToResult":222}],101:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -10207,7 +11928,7 @@ var ExhaustMapSubscriber = (function (_super) {
     return ExhaustMapSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../InnerSubscriber":29,"../OuterSubscriber":33,"../observable/from":50,"../util/subscribeToResult":221,"./map":111}],101:[function(require,module,exports){
+},{"../InnerSubscriber":30,"../OuterSubscriber":34,"../observable/from":51,"../util/subscribeToResult":222,"./map":112}],102:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -10322,7 +12043,7 @@ var ExpandSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.ExpandSubscriber = ExpandSubscriber;
 
-},{"../OuterSubscriber":33,"../util/errorObject":199,"../util/subscribeToResult":221,"../util/tryCatch":223}],102:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../util/errorObject":200,"../util/subscribeToResult":222,"../util/tryCatch":224}],103:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -10380,7 +12101,7 @@ var FilterSubscriber = (function (_super) {
     return FilterSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38}],103:[function(require,module,exports){
+},{"../Subscriber":39}],104:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -10421,7 +12142,7 @@ var FinallySubscriber = (function (_super) {
     return FinallySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38,"../Subscription":39}],104:[function(require,module,exports){
+},{"../Subscriber":39,"../Subscription":40}],105:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -10495,7 +12216,7 @@ var FindValueSubscriber = (function (_super) {
 }(Subscriber_1.Subscriber));
 exports.FindValueSubscriber = FindValueSubscriber;
 
-},{"../Subscriber":38}],105:[function(require,module,exports){
+},{"../Subscriber":39}],106:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var find_1 = require("../operators/find");
@@ -10504,7 +12225,7 @@ function findIndex(predicate, thisArg) {
 }
 exports.findIndex = findIndex;
 
-},{"../operators/find":104}],106:[function(require,module,exports){
+},{"../operators/find":105}],107:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EmptyError_1 = require("../util/EmptyError");
@@ -10519,7 +12240,7 @@ function first(predicate, defaultValue) {
 }
 exports.first = first;
 
-},{"../util/EmptyError":193,"../util/identity":201,"./defaultIfEmpty":89,"./filter":102,"./take":154,"./throwIfEmpty":161}],107:[function(require,module,exports){
+},{"../util/EmptyError":194,"../util/identity":202,"./defaultIfEmpty":90,"./filter":103,"./take":155,"./throwIfEmpty":162}],108:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -10716,7 +12437,7 @@ var InnerRefCountSubscription = (function (_super) {
     return InnerRefCountSubscription;
 }(Subscription_1.Subscription));
 
-},{"../Observable":31,"../Subject":36,"../Subscriber":38,"../Subscription":39}],108:[function(require,module,exports){
+},{"../Observable":32,"../Subject":37,"../Subscriber":39,"../Subscription":40}],109:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -10757,7 +12478,7 @@ var IgnoreElementsSubscriber = (function (_super) {
     return IgnoreElementsSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38}],109:[function(require,module,exports){
+},{"../Subscriber":39}],110:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -10805,7 +12526,7 @@ var IsEmptySubscriber = (function (_super) {
     return IsEmptySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38}],110:[function(require,module,exports){
+},{"../Subscriber":39}],111:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EmptyError_1 = require("../util/EmptyError");
@@ -10820,7 +12541,7 @@ function last(predicate, defaultValue) {
 }
 exports.last = last;
 
-},{"../util/EmptyError":193,"../util/identity":201,"./defaultIfEmpty":89,"./filter":102,"./takeLast":155,"./throwIfEmpty":161}],111:[function(require,module,exports){
+},{"../util/EmptyError":194,"../util/identity":202,"./defaultIfEmpty":90,"./filter":103,"./takeLast":156,"./throwIfEmpty":162}],112:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -10880,7 +12601,7 @@ var MapSubscriber = (function (_super) {
     return MapSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38}],112:[function(require,module,exports){
+},{"../Subscriber":39}],113:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -10923,7 +12644,7 @@ var MapToSubscriber = (function (_super) {
     return MapToSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38}],113:[function(require,module,exports){
+},{"../Subscriber":39}],114:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -10976,7 +12697,7 @@ var MaterializeSubscriber = (function (_super) {
     return MaterializeSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Notification":30,"../Subscriber":38}],114:[function(require,module,exports){
+},{"../Notification":31,"../Subscriber":39}],115:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var reduce_1 = require("./reduce");
@@ -10988,7 +12709,7 @@ function max(comparer) {
 }
 exports.max = max;
 
-},{"./reduce":132}],115:[function(require,module,exports){
+},{"./reduce":133}],116:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var merge_1 = require("../observable/merge");
@@ -11001,7 +12722,7 @@ function merge() {
 }
 exports.merge = merge;
 
-},{"../observable/merge":60}],116:[function(require,module,exports){
+},{"../observable/merge":61}],117:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var mergeMap_1 = require("./mergeMap");
@@ -11012,7 +12733,7 @@ function mergeAll(concurrent) {
 }
 exports.mergeAll = mergeAll;
 
-},{"../util/identity":201,"./mergeMap":117}],117:[function(require,module,exports){
+},{"../util/identity":202,"./mergeMap":118}],118:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -11121,7 +12842,7 @@ var MergeMapSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.MergeMapSubscriber = MergeMapSubscriber;
 
-},{"../InnerSubscriber":29,"../OuterSubscriber":33,"../observable/from":50,"../util/subscribeToResult":221,"./map":111}],118:[function(require,module,exports){
+},{"../InnerSubscriber":30,"../OuterSubscriber":34,"../observable/from":51,"../util/subscribeToResult":222,"./map":112}],119:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var mergeMap_1 = require("./mergeMap");
@@ -11137,7 +12858,7 @@ function mergeMapTo(innerObservable, resultSelector, concurrent) {
 }
 exports.mergeMapTo = mergeMapTo;
 
-},{"./mergeMap":117}],119:[function(require,module,exports){
+},{"./mergeMap":118}],120:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -11247,7 +12968,7 @@ var MergeScanSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.MergeScanSubscriber = MergeScanSubscriber;
 
-},{"../InnerSubscriber":29,"../OuterSubscriber":33,"../util/errorObject":199,"../util/subscribeToResult":221,"../util/tryCatch":223}],120:[function(require,module,exports){
+},{"../InnerSubscriber":30,"../OuterSubscriber":34,"../util/errorObject":200,"../util/subscribeToResult":222,"../util/tryCatch":224}],121:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var reduce_1 = require("./reduce");
@@ -11259,7 +12980,7 @@ function min(comparer) {
 }
 exports.min = min;
 
-},{"./reduce":132}],121:[function(require,module,exports){
+},{"./reduce":133}],122:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ConnectableObservable_1 = require("../observable/ConnectableObservable");
@@ -11300,7 +13021,7 @@ var MulticastOperator = (function () {
 }());
 exports.MulticastOperator = MulticastOperator;
 
-},{"../observable/ConnectableObservable":41}],122:[function(require,module,exports){
+},{"../observable/ConnectableObservable":42}],123:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -11378,7 +13099,7 @@ var ObserveOnMessage = (function () {
 }());
 exports.ObserveOnMessage = ObserveOnMessage;
 
-},{"../Notification":30,"../Subscriber":38}],123:[function(require,module,exports){
+},{"../Notification":31,"../Subscriber":39}],124:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -11469,7 +13190,7 @@ var OnErrorResumeNextSubscriber = (function (_super) {
     return OnErrorResumeNextSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../InnerSubscriber":29,"../OuterSubscriber":33,"../observable/from":50,"../util/isArray":202,"../util/subscribeToResult":221}],124:[function(require,module,exports){
+},{"../InnerSubscriber":30,"../OuterSubscriber":34,"../observable/from":51,"../util/isArray":203,"../util/subscribeToResult":222}],125:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -11517,7 +13238,7 @@ var PairwiseSubscriber = (function (_super) {
     return PairwiseSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38}],125:[function(require,module,exports){
+},{"../Subscriber":39}],126:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var not_1 = require("../util/not");
@@ -11530,7 +13251,7 @@ function partition(predicate, thisArg) {
 }
 exports.partition = partition;
 
-},{"../util/not":214,"./filter":102}],126:[function(require,module,exports){
+},{"../util/not":215,"./filter":103}],127:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var map_1 = require("./map");
@@ -11563,7 +13284,7 @@ function plucker(props, length) {
     return mapper;
 }
 
-},{"./map":111}],127:[function(require,module,exports){
+},{"./map":112}],128:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Subject_1 = require("../Subject");
@@ -11575,7 +13296,7 @@ function publish(selector) {
 }
 exports.publish = publish;
 
-},{"../Subject":36,"./multicast":121}],128:[function(require,module,exports){
+},{"../Subject":37,"./multicast":122}],129:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var BehaviorSubject_1 = require("../BehaviorSubject");
@@ -11585,7 +13306,7 @@ function publishBehavior(value) {
 }
 exports.publishBehavior = publishBehavior;
 
-},{"../BehaviorSubject":28,"./multicast":121}],129:[function(require,module,exports){
+},{"../BehaviorSubject":29,"./multicast":122}],130:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var AsyncSubject_1 = require("../AsyncSubject");
@@ -11595,7 +13316,7 @@ function publishLast() {
 }
 exports.publishLast = publishLast;
 
-},{"../AsyncSubject":27,"./multicast":121}],130:[function(require,module,exports){
+},{"../AsyncSubject":28,"./multicast":122}],131:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ReplaySubject_1 = require("../ReplaySubject");
@@ -11610,7 +13331,7 @@ function publishReplay(bufferSize, windowTime, selectorOrScheduler, scheduler) {
 }
 exports.publishReplay = publishReplay;
 
-},{"../ReplaySubject":34,"./multicast":121}],131:[function(require,module,exports){
+},{"../ReplaySubject":35,"./multicast":122}],132:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var isArray_1 = require("../util/isArray");
@@ -11629,7 +13350,7 @@ function race() {
 }
 exports.race = race;
 
-},{"../observable/race":65,"../util/isArray":202}],132:[function(require,module,exports){
+},{"../observable/race":66,"../util/isArray":203}],133:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var scan_1 = require("./scan");
@@ -11648,7 +13369,7 @@ function reduce(accumulator, seed) {
 }
 exports.reduce = reduce;
 
-},{"../util/pipe":215,"./defaultIfEmpty":89,"./scan":140,"./takeLast":155}],133:[function(require,module,exports){
+},{"../util/pipe":216,"./defaultIfEmpty":90,"./scan":141,"./takeLast":156}],134:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -11721,7 +13442,7 @@ var RefCountSubscriber = (function (_super) {
     return RefCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38}],134:[function(require,module,exports){
+},{"../Subscriber":39}],135:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -11787,7 +13508,7 @@ var RepeatSubscriber = (function (_super) {
     return RepeatSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38,"../observable/empty":48}],135:[function(require,module,exports){
+},{"../Subscriber":39,"../observable/empty":49}],136:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -11883,7 +13604,7 @@ var RepeatWhenSubscriber = (function (_super) {
     return RepeatWhenSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":33,"../Subject":36,"../util/errorObject":199,"../util/subscribeToResult":221,"../util/tryCatch":223}],136:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../Subject":37,"../util/errorObject":200,"../util/subscribeToResult":222,"../util/tryCatch":224}],137:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -11938,7 +13659,7 @@ var RetrySubscriber = (function (_super) {
     return RetrySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38}],137:[function(require,module,exports){
+},{"../Subscriber":39}],138:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -12027,7 +13748,7 @@ var RetryWhenSubscriber = (function (_super) {
     return RetryWhenSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":33,"../Subject":36,"../util/errorObject":199,"../util/subscribeToResult":221,"../util/tryCatch":223}],138:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../Subject":37,"../util/errorObject":200,"../util/subscribeToResult":222,"../util/tryCatch":224}],139:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -12087,7 +13808,7 @@ var SampleSubscriber = (function (_super) {
     return SampleSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":33,"../util/subscribeToResult":221}],139:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../util/subscribeToResult":222}],140:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -12148,7 +13869,7 @@ function dispatchNotification(state) {
     this.schedule(state, period);
 }
 
-},{"../Subscriber":38,"../scheduler/async":187}],140:[function(require,module,exports){
+},{"../Subscriber":39,"../scheduler/async":188}],141:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -12232,7 +13953,7 @@ var ScanSubscriber = (function (_super) {
     return ScanSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38}],141:[function(require,module,exports){
+},{"../Subscriber":39}],142:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -12362,7 +14083,7 @@ var SequenceEqualCompareToSubscriber = (function (_super) {
     return SequenceEqualCompareToSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38,"../util/errorObject":199,"../util/tryCatch":223}],142:[function(require,module,exports){
+},{"../Subscriber":39,"../util/errorObject":200,"../util/tryCatch":224}],143:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var multicast_1 = require("./multicast");
@@ -12376,7 +14097,7 @@ function share() {
 }
 exports.share = share;
 
-},{"../Subject":36,"./multicast":121,"./refCount":133}],143:[function(require,module,exports){
+},{"../Subject":37,"./multicast":122,"./refCount":134}],144:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ReplaySubject_1 = require("../ReplaySubject");
@@ -12420,7 +14141,7 @@ function shareReplayOperator(bufferSize, windowTime, scheduler) {
     };
 }
 
-},{"../ReplaySubject":34}],144:[function(require,module,exports){
+},{"../ReplaySubject":35}],145:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -12503,7 +14224,7 @@ var SingleSubscriber = (function (_super) {
     return SingleSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38,"../util/EmptyError":193}],145:[function(require,module,exports){
+},{"../Subscriber":39,"../util/EmptyError":194}],146:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -12549,7 +14270,7 @@ var SkipSubscriber = (function (_super) {
     return SkipSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38}],146:[function(require,module,exports){
+},{"../Subscriber":39}],147:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -12614,7 +14335,7 @@ var SkipLastSubscriber = (function (_super) {
     return SkipLastSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38,"../util/ArgumentOutOfRangeError":192}],147:[function(require,module,exports){
+},{"../Subscriber":39,"../util/ArgumentOutOfRangeError":193}],148:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -12673,7 +14394,7 @@ var SkipUntilSubscriber = (function (_super) {
     return SkipUntilSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../InnerSubscriber":29,"../OuterSubscriber":33,"../util/subscribeToResult":221}],148:[function(require,module,exports){
+},{"../InnerSubscriber":30,"../OuterSubscriber":34,"../util/subscribeToResult":222}],149:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -12733,7 +14454,7 @@ var SkipWhileSubscriber = (function (_super) {
     return SkipWhileSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38}],149:[function(require,module,exports){
+},{"../Subscriber":39}],150:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var fromArray_1 = require("../observable/fromArray");
@@ -12768,7 +14489,7 @@ function startWith() {
 }
 exports.startWith = startWith;
 
-},{"../observable/concat":46,"../observable/empty":48,"../observable/fromArray":51,"../observable/scalar":67,"../util/isScheduler":212}],150:[function(require,module,exports){
+},{"../observable/concat":47,"../observable/empty":49,"../observable/fromArray":52,"../observable/scalar":68,"../util/isScheduler":213}],151:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var SubscribeOnObservable_1 = require("../observable/SubscribeOnObservable");
@@ -12790,7 +14511,7 @@ var SubscribeOnOperator = (function () {
     return SubscribeOnOperator;
 }());
 
-},{"../observable/SubscribeOnObservable":42}],151:[function(require,module,exports){
+},{"../observable/SubscribeOnObservable":43}],152:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var switchMap_1 = require("./switchMap");
@@ -12800,7 +14521,7 @@ function switchAll() {
 }
 exports.switchAll = switchAll;
 
-},{"../util/identity":201,"./switchMap":152}],152:[function(require,module,exports){
+},{"../util/identity":202,"./switchMap":153}],153:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -12891,7 +14612,7 @@ var SwitchMapSubscriber = (function (_super) {
     return SwitchMapSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../InnerSubscriber":29,"../OuterSubscriber":33,"../observable/from":50,"../util/subscribeToResult":221,"./map":111}],153:[function(require,module,exports){
+},{"../InnerSubscriber":30,"../OuterSubscriber":34,"../observable/from":51,"../util/subscribeToResult":222,"./map":112}],154:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var switchMap_1 = require("./switchMap");
@@ -12900,7 +14621,7 @@ function switchMapTo(innerObservable, resultSelector) {
 }
 exports.switchMapTo = switchMapTo;
 
-},{"./switchMap":152}],154:[function(require,module,exports){
+},{"./switchMap":153}],155:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -12964,7 +14685,7 @@ var TakeSubscriber = (function (_super) {
     return TakeSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38,"../observable/empty":48,"../util/ArgumentOutOfRangeError":192}],155:[function(require,module,exports){
+},{"../Subscriber":39,"../observable/empty":49,"../util/ArgumentOutOfRangeError":193}],156:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -13043,7 +14764,7 @@ var TakeLastSubscriber = (function (_super) {
     return TakeLastSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38,"../observable/empty":48,"../util/ArgumentOutOfRangeError":192}],156:[function(require,module,exports){
+},{"../Subscriber":39,"../observable/empty":49,"../util/ArgumentOutOfRangeError":193}],157:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -13096,7 +14817,7 @@ var TakeUntilSubscriber = (function (_super) {
     return TakeUntilSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":33,"../util/subscribeToResult":221}],157:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../util/subscribeToResult":222}],158:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -13158,7 +14879,7 @@ var TakeWhileSubscriber = (function (_super) {
     return TakeWhileSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38}],158:[function(require,module,exports){
+},{"../Subscriber":39}],159:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -13248,7 +14969,7 @@ var TapSubscriber = (function (_super) {
     return TapSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":38,"../util/isFunction":205,"../util/noop":213}],159:[function(require,module,exports){
+},{"../Subscriber":39,"../util/isFunction":206,"../util/noop":214}],160:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -13352,7 +15073,7 @@ var ThrottleSubscriber = (function (_super) {
     return ThrottleSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":33,"../util/subscribeToResult":221}],160:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../util/subscribeToResult":222}],161:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -13444,7 +15165,7 @@ function dispatchNext(arg) {
     subscriber.clearThrottle();
 }
 
-},{"../Subscriber":38,"../scheduler/async":187,"./throttle":159}],161:[function(require,module,exports){
+},{"../Subscriber":39,"../scheduler/async":188,"./throttle":160}],162:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = require("./tap");
@@ -13465,7 +15186,7 @@ function defaultErrorFactory() {
     return new EmptyError_1.EmptyError();
 }
 
-},{"../util/EmptyError":193,"./tap":158}],162:[function(require,module,exports){
+},{"../util/EmptyError":194,"./tap":159}],163:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var async_1 = require("../scheduler/async");
@@ -13494,7 +15215,7 @@ var TimeInterval = (function () {
 }());
 exports.TimeInterval = TimeInterval;
 
-},{"../observable/defer":47,"../scheduler/async":187,"./map":111,"./scan":140}],163:[function(require,module,exports){
+},{"../observable/defer":48,"../scheduler/async":188,"./map":112,"./scan":141}],164:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var async_1 = require("../scheduler/async");
@@ -13507,7 +15228,7 @@ function timeout(due, scheduler) {
 }
 exports.timeout = timeout;
 
-},{"../observable/throwError":68,"../scheduler/async":187,"../util/TimeoutError":196,"./timeoutWith":164}],164:[function(require,module,exports){
+},{"../observable/throwError":69,"../scheduler/async":188,"../util/TimeoutError":197,"./timeoutWith":165}],165:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -13588,7 +15309,7 @@ var TimeoutWithSubscriber = (function (_super) {
     return TimeoutWithSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":33,"../scheduler/async":187,"../util/isDate":204,"../util/subscribeToResult":221}],165:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../scheduler/async":188,"../util/isDate":205,"../util/subscribeToResult":222}],166:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var async_1 = require("../scheduler/async");
@@ -13607,7 +15328,7 @@ var Timestamp = (function () {
 }());
 exports.Timestamp = Timestamp;
 
-},{"../scheduler/async":187,"./map":111}],166:[function(require,module,exports){
+},{"../scheduler/async":188,"./map":112}],167:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var reduce_1 = require("./reduce");
@@ -13623,7 +15344,7 @@ function toArray() {
 }
 exports.toArray = toArray;
 
-},{"./reduce":132}],167:[function(require,module,exports){
+},{"./reduce":133}],168:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -13705,7 +15426,7 @@ var WindowSubscriber = (function (_super) {
     return WindowSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":33,"../Subject":36,"../util/subscribeToResult":221}],168:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../Subject":37,"../util/subscribeToResult":222}],169:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -13796,7 +15517,7 @@ var WindowCountSubscriber = (function (_super) {
     return WindowCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subject":36,"../Subscriber":38}],169:[function(require,module,exports){
+},{"../Subject":37,"../Subscriber":39}],170:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -13966,7 +15687,7 @@ function dispatchWindowClose(state) {
     subscriber.closeWindow(window);
 }
 
-},{"../Subject":36,"../Subscriber":38,"../scheduler/async":187,"../util/isNumeric":208,"../util/isScheduler":212}],170:[function(require,module,exports){
+},{"../Subject":37,"../Subscriber":39,"../scheduler/async":188,"../util/isNumeric":209,"../util/isScheduler":213}],171:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -14111,7 +15832,7 @@ var WindowToggleSubscriber = (function (_super) {
     return WindowToggleSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":33,"../Subject":36,"../Subscription":39,"../util/errorObject":199,"../util/subscribeToResult":221,"../util/tryCatch":223}],171:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../Subject":37,"../Subscription":40,"../util/errorObject":200,"../util/subscribeToResult":222,"../util/tryCatch":224}],172:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -14208,7 +15929,7 @@ var WindowSubscriber = (function (_super) {
     return WindowSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":33,"../Subject":36,"../util/errorObject":199,"../util/subscribeToResult":221,"../util/tryCatch":223}],172:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../Subject":37,"../util/errorObject":200,"../util/subscribeToResult":222,"../util/tryCatch":224}],173:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -14306,7 +16027,7 @@ var WithLatestFromSubscriber = (function (_super) {
     return WithLatestFromSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":33,"../util/subscribeToResult":221}],173:[function(require,module,exports){
+},{"../OuterSubscriber":34,"../util/subscribeToResult":222}],174:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var zip_1 = require("../observable/zip");
@@ -14321,7 +16042,7 @@ function zip() {
 }
 exports.zip = zip;
 
-},{"../observable/zip":71}],174:[function(require,module,exports){
+},{"../observable/zip":72}],175:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var zip_1 = require("../observable/zip");
@@ -14330,7 +16051,7 @@ function zipAll(project) {
 }
 exports.zipAll = zipAll;
 
-},{"../observable/zip":71}],175:[function(require,module,exports){
+},{"../observable/zip":72}],176:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -14360,7 +16081,7 @@ var Action = (function (_super) {
 }(Subscription_1.Subscription));
 exports.Action = Action;
 
-},{"../Subscription":39}],176:[function(require,module,exports){
+},{"../Subscription":40}],177:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -14408,7 +16129,7 @@ var AnimationFrameAction = (function (_super) {
 }(AsyncAction_1.AsyncAction));
 exports.AnimationFrameAction = AnimationFrameAction;
 
-},{"./AsyncAction":180}],177:[function(require,module,exports){
+},{"./AsyncAction":181}],178:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -14455,7 +16176,7 @@ var AnimationFrameScheduler = (function (_super) {
 }(AsyncScheduler_1.AsyncScheduler));
 exports.AnimationFrameScheduler = AnimationFrameScheduler;
 
-},{"./AsyncScheduler":181}],178:[function(require,module,exports){
+},{"./AsyncScheduler":182}],179:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -14504,7 +16225,7 @@ var AsapAction = (function (_super) {
 }(AsyncAction_1.AsyncAction));
 exports.AsapAction = AsapAction;
 
-},{"../util/Immediate":194,"./AsyncAction":180}],179:[function(require,module,exports){
+},{"../util/Immediate":195,"./AsyncAction":181}],180:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -14551,7 +16272,7 @@ var AsapScheduler = (function (_super) {
 }(AsyncScheduler_1.AsyncScheduler));
 exports.AsapScheduler = AsapScheduler;
 
-},{"./AsyncScheduler":181}],180:[function(require,module,exports){
+},{"./AsyncScheduler":182}],181:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -14653,7 +16374,7 @@ var AsyncAction = (function (_super) {
 }(Action_1.Action));
 exports.AsyncAction = AsyncAction;
 
-},{"./Action":175}],181:[function(require,module,exports){
+},{"./Action":176}],182:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -14721,7 +16442,7 @@ var AsyncScheduler = (function (_super) {
 }(Scheduler_1.Scheduler));
 exports.AsyncScheduler = AsyncScheduler;
 
-},{"../Scheduler":35}],182:[function(require,module,exports){
+},{"../Scheduler":36}],183:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -14772,7 +16493,7 @@ var QueueAction = (function (_super) {
 }(AsyncAction_1.AsyncAction));
 exports.QueueAction = QueueAction;
 
-},{"./AsyncAction":180}],183:[function(require,module,exports){
+},{"./AsyncAction":181}],184:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -14798,7 +16519,7 @@ var QueueScheduler = (function (_super) {
 }(AsyncScheduler_1.AsyncScheduler));
 exports.QueueScheduler = QueueScheduler;
 
-},{"./AsyncScheduler":181}],184:[function(require,module,exports){
+},{"./AsyncScheduler":182}],185:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -14908,35 +16629,35 @@ var VirtualAction = (function (_super) {
 }(AsyncAction_1.AsyncAction));
 exports.VirtualAction = VirtualAction;
 
-},{"./AsyncAction":180,"./AsyncScheduler":181}],185:[function(require,module,exports){
+},{"./AsyncAction":181,"./AsyncScheduler":182}],186:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var AnimationFrameAction_1 = require("./AnimationFrameAction");
 var AnimationFrameScheduler_1 = require("./AnimationFrameScheduler");
 exports.animationFrame = new AnimationFrameScheduler_1.AnimationFrameScheduler(AnimationFrameAction_1.AnimationFrameAction);
 
-},{"./AnimationFrameAction":176,"./AnimationFrameScheduler":177}],186:[function(require,module,exports){
+},{"./AnimationFrameAction":177,"./AnimationFrameScheduler":178}],187:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var AsapAction_1 = require("./AsapAction");
 var AsapScheduler_1 = require("./AsapScheduler");
 exports.asap = new AsapScheduler_1.AsapScheduler(AsapAction_1.AsapAction);
 
-},{"./AsapAction":178,"./AsapScheduler":179}],187:[function(require,module,exports){
+},{"./AsapAction":179,"./AsapScheduler":180}],188:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var AsyncAction_1 = require("./AsyncAction");
 var AsyncScheduler_1 = require("./AsyncScheduler");
 exports.async = new AsyncScheduler_1.AsyncScheduler(AsyncAction_1.AsyncAction);
 
-},{"./AsyncAction":180,"./AsyncScheduler":181}],188:[function(require,module,exports){
+},{"./AsyncAction":181,"./AsyncScheduler":182}],189:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var QueueAction_1 = require("./QueueAction");
 var QueueScheduler_1 = require("./QueueScheduler");
 exports.queue = new QueueScheduler_1.QueueScheduler(QueueAction_1.QueueAction);
 
-},{"./QueueAction":182,"./QueueScheduler":183}],189:[function(require,module,exports){
+},{"./QueueAction":183,"./QueueScheduler":184}],190:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function getSymbolIterator() {
@@ -14949,12 +16670,12 @@ exports.getSymbolIterator = getSymbolIterator;
 exports.iterator = getSymbolIterator();
 exports.$$iterator = exports.iterator;
 
-},{}],190:[function(require,module,exports){
+},{}],191:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.observable = typeof Symbol === 'function' && Symbol.observable || '@@observable';
 
-},{}],191:[function(require,module,exports){
+},{}],192:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.rxSubscriber = typeof Symbol === 'function'
@@ -14962,7 +16683,7 @@ exports.rxSubscriber = typeof Symbol === 'function'
     : '@@rxSubscriber_' + Math.random();
 exports.$$rxSubscriber = exports.rxSubscriber;
 
-},{}],192:[function(require,module,exports){
+},{}],193:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function ArgumentOutOfRangeErrorImpl() {
@@ -14974,7 +16695,7 @@ function ArgumentOutOfRangeErrorImpl() {
 ArgumentOutOfRangeErrorImpl.prototype = Object.create(Error.prototype);
 exports.ArgumentOutOfRangeError = ArgumentOutOfRangeErrorImpl;
 
-},{}],193:[function(require,module,exports){
+},{}],194:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function EmptyErrorImpl() {
@@ -14986,7 +16707,7 @@ function EmptyErrorImpl() {
 EmptyErrorImpl.prototype = Object.create(Error.prototype);
 exports.EmptyError = EmptyErrorImpl;
 
-},{}],194:[function(require,module,exports){
+},{}],195:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var nextHandle = 1;
@@ -15009,7 +16730,7 @@ exports.Immediate = {
     },
 };
 
-},{}],195:[function(require,module,exports){
+},{}],196:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function ObjectUnsubscribedErrorImpl() {
@@ -15021,7 +16742,7 @@ function ObjectUnsubscribedErrorImpl() {
 ObjectUnsubscribedErrorImpl.prototype = Object.create(Error.prototype);
 exports.ObjectUnsubscribedError = ObjectUnsubscribedErrorImpl;
 
-},{}],196:[function(require,module,exports){
+},{}],197:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function TimeoutErrorImpl() {
@@ -15033,7 +16754,7 @@ function TimeoutErrorImpl() {
 TimeoutErrorImpl.prototype = Object.create(Error.prototype);
 exports.TimeoutError = TimeoutErrorImpl;
 
-},{}],197:[function(require,module,exports){
+},{}],198:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function UnsubscriptionErrorImpl(errors) {
@@ -15047,7 +16768,7 @@ function UnsubscriptionErrorImpl(errors) {
 UnsubscriptionErrorImpl.prototype = Object.create(Error.prototype);
 exports.UnsubscriptionError = UnsubscriptionErrorImpl;
 
-},{}],198:[function(require,module,exports){
+},{}],199:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Subscriber_1 = require("../Subscriber");
@@ -15068,12 +16789,12 @@ function canReportError(observer) {
 }
 exports.canReportError = canReportError;
 
-},{"../Subscriber":38}],199:[function(require,module,exports){
+},{"../Subscriber":39}],200:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorObject = { e: {} };
 
-},{}],200:[function(require,module,exports){
+},{}],201:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function hostReportError(err) {
@@ -15081,7 +16802,7 @@ function hostReportError(err) {
 }
 exports.hostReportError = hostReportError;
 
-},{}],201:[function(require,module,exports){
+},{}],202:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function identity(x) {
@@ -15089,17 +16810,17 @@ function identity(x) {
 }
 exports.identity = identity;
 
-},{}],202:[function(require,module,exports){
+},{}],203:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isArray = Array.isArray || (function (x) { return x && typeof x.length === 'number'; });
 
-},{}],203:[function(require,module,exports){
+},{}],204:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isArrayLike = (function (x) { return x && typeof x.length === 'number' && typeof x !== 'function'; });
 
-},{}],204:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function isDate(value) {
@@ -15107,7 +16828,7 @@ function isDate(value) {
 }
 exports.isDate = isDate;
 
-},{}],205:[function(require,module,exports){
+},{}],206:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function isFunction(x) {
@@ -15115,7 +16836,7 @@ function isFunction(x) {
 }
 exports.isFunction = isFunction;
 
-},{}],206:[function(require,module,exports){
+},{}],207:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var observable_1 = require("../symbol/observable");
@@ -15124,7 +16845,7 @@ function isInteropObservable(input) {
 }
 exports.isInteropObservable = isInteropObservable;
 
-},{"../symbol/observable":190}],207:[function(require,module,exports){
+},{"../symbol/observable":191}],208:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var iterator_1 = require("../symbol/iterator");
@@ -15133,7 +16854,7 @@ function isIterable(input) {
 }
 exports.isIterable = isIterable;
 
-},{"../symbol/iterator":189}],208:[function(require,module,exports){
+},{"../symbol/iterator":190}],209:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var isArray_1 = require("./isArray");
@@ -15142,7 +16863,7 @@ function isNumeric(val) {
 }
 exports.isNumeric = isNumeric;
 
-},{"./isArray":202}],209:[function(require,module,exports){
+},{"./isArray":203}],210:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function isObject(x) {
@@ -15150,7 +16871,7 @@ function isObject(x) {
 }
 exports.isObject = isObject;
 
-},{}],210:[function(require,module,exports){
+},{}],211:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -15159,7 +16880,7 @@ function isObservable(obj) {
 }
 exports.isObservable = isObservable;
 
-},{"../Observable":31}],211:[function(require,module,exports){
+},{"../Observable":32}],212:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function isPromise(value) {
@@ -15167,7 +16888,7 @@ function isPromise(value) {
 }
 exports.isPromise = isPromise;
 
-},{}],212:[function(require,module,exports){
+},{}],213:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function isScheduler(value) {
@@ -15175,13 +16896,13 @@ function isScheduler(value) {
 }
 exports.isScheduler = isScheduler;
 
-},{}],213:[function(require,module,exports){
+},{}],214:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function noop() { }
 exports.noop = noop;
 
-},{}],214:[function(require,module,exports){
+},{}],215:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function not(pred, thisArg) {
@@ -15194,7 +16915,7 @@ function not(pred, thisArg) {
 }
 exports.not = not;
 
-},{}],215:[function(require,module,exports){
+},{}],216:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var noop_1 = require("./noop");
@@ -15219,7 +16940,7 @@ function pipeFromArray(fns) {
 }
 exports.pipeFromArray = pipeFromArray;
 
-},{"./noop":213}],216:[function(require,module,exports){
+},{"./noop":214}],217:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("../Observable");
@@ -15265,7 +16986,7 @@ exports.subscribeTo = function (result) {
     }
 };
 
-},{"../Observable":31,"../symbol/iterator":189,"../symbol/observable":190,"./isArrayLike":203,"./isObject":209,"./isPromise":211,"./subscribeToArray":217,"./subscribeToIterable":218,"./subscribeToObservable":219,"./subscribeToPromise":220}],217:[function(require,module,exports){
+},{"../Observable":32,"../symbol/iterator":190,"../symbol/observable":191,"./isArrayLike":204,"./isObject":210,"./isPromise":212,"./subscribeToArray":218,"./subscribeToIterable":219,"./subscribeToObservable":220,"./subscribeToPromise":221}],218:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.subscribeToArray = function (array) { return function (subscriber) {
@@ -15277,7 +16998,7 @@ exports.subscribeToArray = function (array) { return function (subscriber) {
     }
 }; };
 
-},{}],218:[function(require,module,exports){
+},{}],219:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var iterator_1 = require("../symbol/iterator");
@@ -15304,7 +17025,7 @@ exports.subscribeToIterable = function (iterable) { return function (subscriber)
     return subscriber;
 }; };
 
-},{"../symbol/iterator":189}],219:[function(require,module,exports){
+},{"../symbol/iterator":190}],220:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var observable_1 = require("../symbol/observable");
@@ -15318,7 +17039,7 @@ exports.subscribeToObservable = function (obj) { return function (subscriber) {
     }
 }; };
 
-},{"../symbol/observable":190}],220:[function(require,module,exports){
+},{"../symbol/observable":191}],221:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var hostReportError_1 = require("./hostReportError");
@@ -15333,7 +17054,7 @@ exports.subscribeToPromise = function (promise) { return function (subscriber) {
     return subscriber;
 }; };
 
-},{"./hostReportError":200}],221:[function(require,module,exports){
+},{"./hostReportError":201}],222:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var InnerSubscriber_1 = require("../InnerSubscriber");
@@ -15347,7 +17068,7 @@ function subscribeToResult(outerSubscriber, result, outerValue, outerIndex, dest
 }
 exports.subscribeToResult = subscribeToResult;
 
-},{"../InnerSubscriber":29,"./subscribeTo":216}],222:[function(require,module,exports){
+},{"../InnerSubscriber":30,"./subscribeTo":217}],223:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Subscriber_1 = require("../Subscriber");
@@ -15369,7 +17090,7 @@ function toSubscriber(nextOrObserver, error, complete) {
 }
 exports.toSubscriber = toSubscriber;
 
-},{"../Observer":32,"../Subscriber":38,"../symbol/rxSubscriber":191}],223:[function(require,module,exports){
+},{"../Observer":33,"../Subscriber":39,"../symbol/rxSubscriber":192}],224:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var errorObject_1 = require("./errorObject");
@@ -15389,7 +17110,7 @@ function tryCatch(fn) {
 }
 exports.tryCatch = tryCatch;
 
-},{"./errorObject":199}],224:[function(require,module,exports){
+},{"./errorObject":200}],225:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var audit_1 = require("../internal/operators/audit");
@@ -15601,7 +17322,7 @@ exports.zip = zip_1.zip;
 var zipAll_1 = require("../internal/operators/zipAll");
 exports.zipAll = zipAll_1.zipAll;
 
-},{"../internal/operators/audit":72,"../internal/operators/auditTime":73,"../internal/operators/buffer":74,"../internal/operators/bufferCount":75,"../internal/operators/bufferTime":76,"../internal/operators/bufferToggle":77,"../internal/operators/bufferWhen":78,"../internal/operators/catchError":79,"../internal/operators/combineAll":80,"../internal/operators/combineLatest":81,"../internal/operators/concat":82,"../internal/operators/concatAll":83,"../internal/operators/concatMap":84,"../internal/operators/concatMapTo":85,"../internal/operators/count":86,"../internal/operators/debounce":87,"../internal/operators/debounceTime":88,"../internal/operators/defaultIfEmpty":89,"../internal/operators/delay":90,"../internal/operators/delayWhen":91,"../internal/operators/dematerialize":92,"../internal/operators/distinct":93,"../internal/operators/distinctUntilChanged":94,"../internal/operators/distinctUntilKeyChanged":95,"../internal/operators/elementAt":96,"../internal/operators/endWith":97,"../internal/operators/every":98,"../internal/operators/exhaust":99,"../internal/operators/exhaustMap":100,"../internal/operators/expand":101,"../internal/operators/filter":102,"../internal/operators/finalize":103,"../internal/operators/find":104,"../internal/operators/findIndex":105,"../internal/operators/first":106,"../internal/operators/groupBy":107,"../internal/operators/ignoreElements":108,"../internal/operators/isEmpty":109,"../internal/operators/last":110,"../internal/operators/map":111,"../internal/operators/mapTo":112,"../internal/operators/materialize":113,"../internal/operators/max":114,"../internal/operators/merge":115,"../internal/operators/mergeAll":116,"../internal/operators/mergeMap":117,"../internal/operators/mergeMapTo":118,"../internal/operators/mergeScan":119,"../internal/operators/min":120,"../internal/operators/multicast":121,"../internal/operators/observeOn":122,"../internal/operators/onErrorResumeNext":123,"../internal/operators/pairwise":124,"../internal/operators/partition":125,"../internal/operators/pluck":126,"../internal/operators/publish":127,"../internal/operators/publishBehavior":128,"../internal/operators/publishLast":129,"../internal/operators/publishReplay":130,"../internal/operators/race":131,"../internal/operators/reduce":132,"../internal/operators/refCount":133,"../internal/operators/repeat":134,"../internal/operators/repeatWhen":135,"../internal/operators/retry":136,"../internal/operators/retryWhen":137,"../internal/operators/sample":138,"../internal/operators/sampleTime":139,"../internal/operators/scan":140,"../internal/operators/sequenceEqual":141,"../internal/operators/share":142,"../internal/operators/shareReplay":143,"../internal/operators/single":144,"../internal/operators/skip":145,"../internal/operators/skipLast":146,"../internal/operators/skipUntil":147,"../internal/operators/skipWhile":148,"../internal/operators/startWith":149,"../internal/operators/subscribeOn":150,"../internal/operators/switchAll":151,"../internal/operators/switchMap":152,"../internal/operators/switchMapTo":153,"../internal/operators/take":154,"../internal/operators/takeLast":155,"../internal/operators/takeUntil":156,"../internal/operators/takeWhile":157,"../internal/operators/tap":158,"../internal/operators/throttle":159,"../internal/operators/throttleTime":160,"../internal/operators/throwIfEmpty":161,"../internal/operators/timeInterval":162,"../internal/operators/timeout":163,"../internal/operators/timeoutWith":164,"../internal/operators/timestamp":165,"../internal/operators/toArray":166,"../internal/operators/window":167,"../internal/operators/windowCount":168,"../internal/operators/windowTime":169,"../internal/operators/windowToggle":170,"../internal/operators/windowWhen":171,"../internal/operators/withLatestFrom":172,"../internal/operators/zip":173,"../internal/operators/zipAll":174}],225:[function(require,module,exports){
+},{"../internal/operators/audit":73,"../internal/operators/auditTime":74,"../internal/operators/buffer":75,"../internal/operators/bufferCount":76,"../internal/operators/bufferTime":77,"../internal/operators/bufferToggle":78,"../internal/operators/bufferWhen":79,"../internal/operators/catchError":80,"../internal/operators/combineAll":81,"../internal/operators/combineLatest":82,"../internal/operators/concat":83,"../internal/operators/concatAll":84,"../internal/operators/concatMap":85,"../internal/operators/concatMapTo":86,"../internal/operators/count":87,"../internal/operators/debounce":88,"../internal/operators/debounceTime":89,"../internal/operators/defaultIfEmpty":90,"../internal/operators/delay":91,"../internal/operators/delayWhen":92,"../internal/operators/dematerialize":93,"../internal/operators/distinct":94,"../internal/operators/distinctUntilChanged":95,"../internal/operators/distinctUntilKeyChanged":96,"../internal/operators/elementAt":97,"../internal/operators/endWith":98,"../internal/operators/every":99,"../internal/operators/exhaust":100,"../internal/operators/exhaustMap":101,"../internal/operators/expand":102,"../internal/operators/filter":103,"../internal/operators/finalize":104,"../internal/operators/find":105,"../internal/operators/findIndex":106,"../internal/operators/first":107,"../internal/operators/groupBy":108,"../internal/operators/ignoreElements":109,"../internal/operators/isEmpty":110,"../internal/operators/last":111,"../internal/operators/map":112,"../internal/operators/mapTo":113,"../internal/operators/materialize":114,"../internal/operators/max":115,"../internal/operators/merge":116,"../internal/operators/mergeAll":117,"../internal/operators/mergeMap":118,"../internal/operators/mergeMapTo":119,"../internal/operators/mergeScan":120,"../internal/operators/min":121,"../internal/operators/multicast":122,"../internal/operators/observeOn":123,"../internal/operators/onErrorResumeNext":124,"../internal/operators/pairwise":125,"../internal/operators/partition":126,"../internal/operators/pluck":127,"../internal/operators/publish":128,"../internal/operators/publishBehavior":129,"../internal/operators/publishLast":130,"../internal/operators/publishReplay":131,"../internal/operators/race":132,"../internal/operators/reduce":133,"../internal/operators/refCount":134,"../internal/operators/repeat":135,"../internal/operators/repeatWhen":136,"../internal/operators/retry":137,"../internal/operators/retryWhen":138,"../internal/operators/sample":139,"../internal/operators/sampleTime":140,"../internal/operators/scan":141,"../internal/operators/sequenceEqual":142,"../internal/operators/share":143,"../internal/operators/shareReplay":144,"../internal/operators/single":145,"../internal/operators/skip":146,"../internal/operators/skipLast":147,"../internal/operators/skipUntil":148,"../internal/operators/skipWhile":149,"../internal/operators/startWith":150,"../internal/operators/subscribeOn":151,"../internal/operators/switchAll":152,"../internal/operators/switchMap":153,"../internal/operators/switchMapTo":154,"../internal/operators/take":155,"../internal/operators/takeLast":156,"../internal/operators/takeUntil":157,"../internal/operators/takeWhile":158,"../internal/operators/tap":159,"../internal/operators/throttle":160,"../internal/operators/throttleTime":161,"../internal/operators/throwIfEmpty":162,"../internal/operators/timeInterval":163,"../internal/operators/timeout":164,"../internal/operators/timeoutWith":165,"../internal/operators/timestamp":166,"../internal/operators/toArray":167,"../internal/operators/window":168,"../internal/operators/windowCount":169,"../internal/operators/windowTime":170,"../internal/operators/windowToggle":171,"../internal/operators/windowWhen":172,"../internal/operators/withLatestFrom":173,"../internal/operators/zip":174,"../internal/operators/zipAll":175}],226:[function(require,module,exports){
 // threejs.org/license
 (function(l,ya){"object"===typeof exports&&"undefined"!==typeof module?ya(exports):"function"===typeof define&&define.amd?define(["exports"],ya):ya(l.THREE={})})(this,function(l){function ya(){}function z(a,b){this.x=a||0;this.y=b||0}function I(){this.elements=[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];0<arguments.length&&console.error("THREE.Matrix4: the constructor no longer reads arguments. use .set() instead.")}function fa(a,b,c,d){this._x=a||0;this._y=b||0;this._z=c||0;this._w=void 0!==d?d:1}function p(a,
 b,c){this.x=a||0;this.y=b||0;this.z=c||0}function ra(){this.elements=[1,0,0,0,1,0,0,0,1];0<arguments.length&&console.error("THREE.Matrix3: the constructor no longer reads arguments. use .set() instead.")}function T(a,b,c,d,e,f,g,h,k,m){Object.defineProperty(this,"id",{value:Ef++});this.uuid=H.generateUUID();this.name="";this.image=void 0!==a?a:T.DEFAULT_IMAGE;this.mipmaps=[];this.mapping=void 0!==b?b:T.DEFAULT_MAPPING;this.wrapS=void 0!==c?c:1001;this.wrapT=void 0!==d?d:1001;this.magFilter=void 0!==
@@ -16552,7 +18273,7 @@ return a.center()}};l.Projector=function(){console.error("THREE.Projector has be
 function(){console.error("THREE.CanvasRenderer has been moved to /examples/js/renderers/CanvasRenderer.js");this.domElement=document.createElementNS("http://www.w3.org/1999/xhtml","canvas");this.clear=function(){};this.render=function(){};this.setClearColor=function(){};this.setSize=function(){}};l.SceneUtils={createMultiMaterialObject:function(){console.error("THREE.SceneUtils has been moved to /examples/js/utils/SceneUtils.js")},detach:function(){console.error("THREE.SceneUtils has been moved to /examples/js/utils/SceneUtils.js")},
 attach:function(){console.error("THREE.SceneUtils has been moved to /examples/js/utils/SceneUtils.js")}};l.LensFlare=function(){console.error("THREE.LensFlare has been moved to /examples/js/objects/Lensflare.js")};Object.defineProperty(l,"__esModule",{value:!0})});
 
-},{}],226:[function(require,module,exports){
+},{}],227:[function(require,module,exports){
 'use strict';
 
 module.exports = TinyQueue;
@@ -16639,22 +18360,22 @@ TinyQueue.prototype = {
     }
 };
 
-},{}],227:[function(require,module,exports){
+},{}],228:[function(require,module,exports){
 var createElement = require("./vdom/create-element.js")
 
 module.exports = createElement
 
-},{"./vdom/create-element.js":233}],228:[function(require,module,exports){
+},{"./vdom/create-element.js":234}],229:[function(require,module,exports){
 var diff = require("./vtree/diff.js")
 
 module.exports = diff
 
-},{"./vtree/diff.js":253}],229:[function(require,module,exports){
+},{"./vtree/diff.js":254}],230:[function(require,module,exports){
 var h = require("./virtual-hyperscript/index.js")
 
 module.exports = h
 
-},{"./virtual-hyperscript/index.js":240}],230:[function(require,module,exports){
+},{"./virtual-hyperscript/index.js":241}],231:[function(require,module,exports){
 var diff = require("./diff.js")
 var patch = require("./patch.js")
 var h = require("./h.js")
@@ -16671,12 +18392,12 @@ module.exports = {
     VText: VText
 }
 
-},{"./create-element.js":227,"./diff.js":228,"./h.js":229,"./patch.js":231,"./vnode/vnode.js":249,"./vnode/vtext.js":251}],231:[function(require,module,exports){
+},{"./create-element.js":228,"./diff.js":229,"./h.js":230,"./patch.js":232,"./vnode/vnode.js":250,"./vnode/vtext.js":252}],232:[function(require,module,exports){
 var patch = require("./vdom/patch.js")
 
 module.exports = patch
 
-},{"./vdom/patch.js":236}],232:[function(require,module,exports){
+},{"./vdom/patch.js":237}],233:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook.js")
 
@@ -16775,7 +18496,7 @@ function getPrototype(value) {
     }
 }
 
-},{"../vnode/is-vhook.js":244,"is-object":20}],233:[function(require,module,exports){
+},{"../vnode/is-vhook.js":245,"is-object":20}],234:[function(require,module,exports){
 var document = require("global/document")
 
 var applyProperties = require("./apply-properties")
@@ -16823,7 +18544,7 @@ function createElement(vnode, opts) {
     return node
 }
 
-},{"../vnode/handle-thunk.js":242,"../vnode/is-vnode.js":245,"../vnode/is-vtext.js":246,"../vnode/is-widget.js":247,"./apply-properties":232,"global/document":16}],234:[function(require,module,exports){
+},{"../vnode/handle-thunk.js":243,"../vnode/is-vnode.js":246,"../vnode/is-vtext.js":247,"../vnode/is-widget.js":248,"./apply-properties":233,"global/document":16}],235:[function(require,module,exports){
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
 // We don't want to read all of the DOM nodes in the tree so we use
 // the in-order tree indexing to eliminate recursion down certain branches.
@@ -16910,7 +18631,7 @@ function ascending(a, b) {
     return a > b ? 1 : -1
 }
 
-},{}],235:[function(require,module,exports){
+},{}],236:[function(require,module,exports){
 var applyProperties = require("./apply-properties")
 
 var isWidget = require("../vnode/is-widget.js")
@@ -17063,7 +18784,7 @@ function replaceRoot(oldRoot, newRoot) {
     return newRoot;
 }
 
-},{"../vnode/is-widget.js":247,"../vnode/vpatch.js":250,"./apply-properties":232,"./update-widget":237}],236:[function(require,module,exports){
+},{"../vnode/is-widget.js":248,"../vnode/vpatch.js":251,"./apply-properties":233,"./update-widget":238}],237:[function(require,module,exports){
 var document = require("global/document")
 var isArray = require("x-is-array")
 
@@ -17145,7 +18866,7 @@ function patchIndices(patches) {
     return indices
 }
 
-},{"./create-element":233,"./dom-index":234,"./patch-op":235,"global/document":16,"x-is-array":272}],237:[function(require,module,exports){
+},{"./create-element":234,"./dom-index":235,"./patch-op":236,"global/document":16,"x-is-array":273}],238:[function(require,module,exports){
 var isWidget = require("../vnode/is-widget.js")
 
 module.exports = updateWidget
@@ -17162,7 +18883,7 @@ function updateWidget(a, b) {
     return false
 }
 
-},{"../vnode/is-widget.js":247}],238:[function(require,module,exports){
+},{"../vnode/is-widget.js":248}],239:[function(require,module,exports){
 'use strict';
 
 var EvStore = require('ev-store');
@@ -17191,7 +18912,7 @@ EvHook.prototype.unhook = function(node, propertyName) {
     es[propName] = undefined;
 };
 
-},{"ev-store":9}],239:[function(require,module,exports){
+},{"ev-store":9}],240:[function(require,module,exports){
 'use strict';
 
 module.exports = SoftSetHook;
@@ -17210,7 +18931,7 @@ SoftSetHook.prototype.hook = function (node, propertyName) {
     }
 };
 
-},{}],240:[function(require,module,exports){
+},{}],241:[function(require,module,exports){
 'use strict';
 
 var isArray = require('x-is-array');
@@ -17349,7 +19070,7 @@ function errorString(obj) {
     }
 }
 
-},{"../vnode/is-thunk":243,"../vnode/is-vhook":244,"../vnode/is-vnode":245,"../vnode/is-vtext":246,"../vnode/is-widget":247,"../vnode/vnode.js":249,"../vnode/vtext.js":251,"./hooks/ev-hook.js":238,"./hooks/soft-set-hook.js":239,"./parse-tag.js":241,"x-is-array":272}],241:[function(require,module,exports){
+},{"../vnode/is-thunk":244,"../vnode/is-vhook":245,"../vnode/is-vnode":246,"../vnode/is-vtext":247,"../vnode/is-widget":248,"../vnode/vnode.js":250,"../vnode/vtext.js":252,"./hooks/ev-hook.js":239,"./hooks/soft-set-hook.js":240,"./parse-tag.js":242,"x-is-array":273}],242:[function(require,module,exports){
 'use strict';
 
 var split = require('browser-split');
@@ -17405,7 +19126,7 @@ function parseTag(tag, props) {
     return props.namespace ? tagName : tagName.toUpperCase();
 }
 
-},{"browser-split":5}],242:[function(require,module,exports){
+},{"browser-split":5}],243:[function(require,module,exports){
 var isVNode = require("./is-vnode")
 var isVText = require("./is-vtext")
 var isWidget = require("./is-widget")
@@ -17447,14 +19168,14 @@ function renderThunk(thunk, previous) {
     return renderedThunk
 }
 
-},{"./is-thunk":243,"./is-vnode":245,"./is-vtext":246,"./is-widget":247}],243:[function(require,module,exports){
+},{"./is-thunk":244,"./is-vnode":246,"./is-vtext":247,"./is-widget":248}],244:[function(require,module,exports){
 module.exports = isThunk
 
 function isThunk(t) {
     return t && t.type === "Thunk"
 }
 
-},{}],244:[function(require,module,exports){
+},{}],245:[function(require,module,exports){
 module.exports = isHook
 
 function isHook(hook) {
@@ -17463,7 +19184,7 @@ function isHook(hook) {
        typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
 }
 
-},{}],245:[function(require,module,exports){
+},{}],246:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -17472,7 +19193,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":248}],246:[function(require,module,exports){
+},{"./version":249}],247:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -17481,17 +19202,17 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":248}],247:[function(require,module,exports){
+},{"./version":249}],248:[function(require,module,exports){
 module.exports = isWidget
 
 function isWidget(w) {
     return w && w.type === "Widget"
 }
 
-},{}],248:[function(require,module,exports){
+},{}],249:[function(require,module,exports){
 module.exports = "2"
 
-},{}],249:[function(require,module,exports){
+},{}],250:[function(require,module,exports){
 var version = require("./version")
 var isVNode = require("./is-vnode")
 var isWidget = require("./is-widget")
@@ -17565,7 +19286,7 @@ function VirtualNode(tagName, properties, children, key, namespace) {
 VirtualNode.prototype.version = version
 VirtualNode.prototype.type = "VirtualNode"
 
-},{"./is-thunk":243,"./is-vhook":244,"./is-vnode":245,"./is-widget":247,"./version":248}],250:[function(require,module,exports){
+},{"./is-thunk":244,"./is-vhook":245,"./is-vnode":246,"./is-widget":248,"./version":249}],251:[function(require,module,exports){
 var version = require("./version")
 
 VirtualPatch.NONE = 0
@@ -17589,7 +19310,7 @@ function VirtualPatch(type, vNode, patch) {
 VirtualPatch.prototype.version = version
 VirtualPatch.prototype.type = "VirtualPatch"
 
-},{"./version":248}],251:[function(require,module,exports){
+},{"./version":249}],252:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = VirtualText
@@ -17601,7 +19322,7 @@ function VirtualText(text) {
 VirtualText.prototype.version = version
 VirtualText.prototype.type = "VirtualText"
 
-},{"./version":248}],252:[function(require,module,exports){
+},{"./version":249}],253:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook")
 
@@ -17661,7 +19382,7 @@ function getPrototype(value) {
   }
 }
 
-},{"../vnode/is-vhook":244,"is-object":20}],253:[function(require,module,exports){
+},{"../vnode/is-vhook":245,"is-object":20}],254:[function(require,module,exports){
 var isArray = require("x-is-array")
 
 var VPatch = require("../vnode/vpatch")
@@ -18090,7 +19811,7 @@ function appendPatch(apply, patch) {
     }
 }
 
-},{"../vnode/handle-thunk":242,"../vnode/is-thunk":243,"../vnode/is-vnode":245,"../vnode/is-vtext":246,"../vnode/is-widget":247,"../vnode/vpatch":250,"./diff-props":252,"x-is-array":272}],254:[function(require,module,exports){
+},{"../vnode/handle-thunk":243,"../vnode/is-thunk":244,"../vnode/is-vnode":246,"../vnode/is-vtext":247,"../vnode/is-widget":248,"../vnode/vpatch":251,"./diff-props":253,"x-is-array":273}],255:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -18109,7 +19830,7 @@ define(function (require) {
 });
 })(typeof define === 'function' && define.amd ? define : function (factory) { module.exports = factory(require); });
 
-},{"./Scheduler":255,"./env":267,"./makePromise":269}],255:[function(require,module,exports){
+},{"./Scheduler":256,"./env":268,"./makePromise":270}],256:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -18191,7 +19912,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],256:[function(require,module,exports){
+},{}],257:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -18219,7 +19940,7 @@ define(function() {
 	return TimeoutError;
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
-},{}],257:[function(require,module,exports){
+},{}],258:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -18276,7 +19997,7 @@ define(function() {
 
 
 
-},{}],258:[function(require,module,exports){
+},{}],259:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -18577,7 +20298,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../apply":257,"../state":270}],259:[function(require,module,exports){
+},{"../apply":258,"../state":271}],260:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -18739,7 +20460,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],260:[function(require,module,exports){
+},{}],261:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -18768,7 +20489,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],261:[function(require,module,exports){
+},{}],262:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -18790,7 +20511,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../state":270}],262:[function(require,module,exports){
+},{"../state":271}],263:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -18857,7 +20578,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],263:[function(require,module,exports){
+},{}],264:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -18883,7 +20604,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],264:[function(require,module,exports){
+},{}],265:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -18963,7 +20684,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../TimeoutError":256,"../env":267}],265:[function(require,module,exports){
+},{"../TimeoutError":257,"../env":268}],266:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -19051,7 +20772,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../env":267,"../format":268}],266:[function(require,module,exports){
+},{"../env":268,"../format":269}],267:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -19091,7 +20812,7 @@ define(function() {
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
 
-},{}],267:[function(require,module,exports){
+},{}],268:[function(require,module,exports){
 (function (process){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
@@ -19169,7 +20890,7 @@ define(function(require) {
 
 }).call(this,require('_process'))
 
-},{"_process":6}],268:[function(require,module,exports){
+},{"_process":6}],269:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -19227,7 +20948,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],269:[function(require,module,exports){
+},{}],270:[function(require,module,exports){
 (function (process){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
@@ -20187,7 +21908,7 @@ define(function() {
 
 }).call(this,require('_process'))
 
-},{"_process":6}],270:[function(require,module,exports){
+},{"_process":6}],271:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -20224,7 +21945,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],271:[function(require,module,exports){
+},{}],272:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 
 /**
@@ -20454,7 +22175,7 @@ define(function (require) {
 });
 })(typeof define === 'function' && define.amd ? define : function (factory) { module.exports = factory(require); });
 
-},{"./lib/Promise":254,"./lib/TimeoutError":256,"./lib/apply":257,"./lib/decorators/array":258,"./lib/decorators/flow":259,"./lib/decorators/fold":260,"./lib/decorators/inspect":261,"./lib/decorators/iterate":262,"./lib/decorators/progress":263,"./lib/decorators/timed":264,"./lib/decorators/unhandledRejection":265,"./lib/decorators/with":266}],272:[function(require,module,exports){
+},{"./lib/Promise":255,"./lib/TimeoutError":257,"./lib/apply":258,"./lib/decorators/array":259,"./lib/decorators/flow":260,"./lib/decorators/fold":261,"./lib/decorators/inspect":262,"./lib/decorators/iterate":263,"./lib/decorators/progress":264,"./lib/decorators/timed":265,"./lib/decorators/unhandledRejection":266,"./lib/decorators/with":267}],273:[function(require,module,exports){
 var nativeIsArray = Array.isArray
 var toString = Object.prototype.toString
 
@@ -20464,7 +22185,7 @@ function isArray(obj) {
     return toString.call(obj) === "[object Array]"
 }
 
-},{}],273:[function(require,module,exports){
+},{}],274:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var APIv3_1 = require("./api/APIv3");
@@ -20472,7 +22193,7 @@ exports.APIv3 = APIv3_1.APIv3;
 var ModelCreator_1 = require("./api/ModelCreator");
 exports.ModelCreator = ModelCreator_1.ModelCreator;
 
-},{"./api/APIv3":286,"./api/ModelCreator":287}],274:[function(require,module,exports){
+},{"./api/APIv3":287,"./api/ModelCreator":288}],275:[function(require,module,exports){
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -20646,7 +22367,7 @@ var ZoomComponent_1 = require("./component/zoom/ZoomComponent");
 exports.ZoomComponent = ZoomComponent_1.ZoomComponent;
 __export(require("./component/interfaces/interfaces"));
 
-},{"./component/AttributionComponent":288,"./component/BackgroundComponent":289,"./component/BearingComponent":290,"./component/CacheComponent":291,"./component/Component":292,"./component/ComponentService":293,"./component/CoverComponent":294,"./component/DebugComponent":295,"./component/ImageComponent":296,"./component/LoadingComponent":297,"./component/NavigationComponent":298,"./component/RouteComponent":299,"./component/StatsComponent":300,"./component/direction/DirectionComponent":301,"./component/direction/DirectionDOMCalculator":302,"./component/direction/DirectionDOMRenderer":303,"./component/imageplane/ImagePlaneComponent":304,"./component/imageplane/ImagePlaneGLRenderer":305,"./component/interfaces/interfaces":308,"./component/keyboard/KeyPlayHandler":309,"./component/keyboard/KeySequenceNavigationHandler":310,"./component/keyboard/KeySpatialNavigationHandler":311,"./component/keyboard/KeyZoomHandler":312,"./component/keyboard/KeyboardComponent":313,"./component/marker/MarkerComponent":315,"./component/marker/MarkerScene":316,"./component/marker/MarkerSet":317,"./component/marker/marker/CircleMarker":318,"./component/marker/marker/Marker":319,"./component/marker/marker/SimpleMarker":320,"./component/mouse/BounceHandler":321,"./component/mouse/DoubleClickZoomHandler":322,"./component/mouse/DragPanHandler":323,"./component/mouse/EarthControlHandler":324,"./component/mouse/ImageBoundary":325,"./component/mouse/MouseComponent":326,"./component/mouse/ScrollZoomHandler":327,"./component/mouse/TouchZoomHandler":328,"./component/popup/PopupComponent":330,"./component/popup/popup/Popup":331,"./component/sequence/SequenceComponent":332,"./component/sequence/SequenceDOMRenderer":333,"./component/sequence/SequenceMode":334,"./component/shaders/Shaders":335,"./component/slider/SliderComponent":336,"./component/slider/SliderDOMRenderer":337,"./component/slider/SliderGLRenderer":338,"./component/spatialdata/SpatialDataCache":339,"./component/spatialdata/SpatialDataComponent":340,"./component/spatialdata/SpatialDataScene":341,"./component/tag/TagComponent":343,"./component/tag/TagCreator":344,"./component/tag/TagDOMRenderer":345,"./component/tag/TagMode":346,"./component/tag/TagOperation":347,"./component/tag/TagScene":348,"./component/tag/TagSet":349,"./component/tag/error/GeometryTagError":350,"./component/tag/geometry/Geometry":351,"./component/tag/geometry/PointGeometry":352,"./component/tag/geometry/PolygonGeometry":353,"./component/tag/geometry/RectGeometry":354,"./component/tag/geometry/VertexGeometry":355,"./component/tag/handlers/CreateHandlerBase":356,"./component/tag/handlers/CreatePointHandler":357,"./component/tag/handlers/CreatePolygonHandler":358,"./component/tag/handlers/CreateRectDragHandler":359,"./component/tag/handlers/CreateRectHandler":360,"./component/tag/handlers/CreateVertexHandler":361,"./component/tag/handlers/EditVertexHandler":362,"./component/tag/handlers/TagHandlerBase":363,"./component/tag/tag/OutlineCreateTag":364,"./component/tag/tag/OutlineRenderTag":365,"./component/tag/tag/OutlineTag":366,"./component/tag/tag/RenderTag":367,"./component/tag/tag/SpotRenderTag":368,"./component/tag/tag/SpotTag":369,"./component/tag/tag/Tag":370,"./component/tag/tag/TagDomain":371,"./component/utils/HandlerBase":372,"./component/utils/MeshFactory":373,"./component/utils/MeshScene":374,"./component/utils/MouseOperator":375,"./component/zoom/ZoomComponent":376}],275:[function(require,module,exports){
+},{"./component/AttributionComponent":289,"./component/BackgroundComponent":290,"./component/BearingComponent":291,"./component/CacheComponent":292,"./component/Component":293,"./component/ComponentService":294,"./component/CoverComponent":295,"./component/DebugComponent":296,"./component/ImageComponent":297,"./component/LoadingComponent":298,"./component/NavigationComponent":299,"./component/RouteComponent":300,"./component/StatsComponent":301,"./component/direction/DirectionComponent":302,"./component/direction/DirectionDOMCalculator":303,"./component/direction/DirectionDOMRenderer":304,"./component/imageplane/ImagePlaneComponent":305,"./component/imageplane/ImagePlaneGLRenderer":306,"./component/interfaces/interfaces":309,"./component/keyboard/KeyPlayHandler":310,"./component/keyboard/KeySequenceNavigationHandler":311,"./component/keyboard/KeySpatialNavigationHandler":312,"./component/keyboard/KeyZoomHandler":313,"./component/keyboard/KeyboardComponent":314,"./component/marker/MarkerComponent":316,"./component/marker/MarkerScene":317,"./component/marker/MarkerSet":318,"./component/marker/marker/CircleMarker":319,"./component/marker/marker/Marker":320,"./component/marker/marker/SimpleMarker":321,"./component/mouse/BounceHandler":322,"./component/mouse/DoubleClickZoomHandler":323,"./component/mouse/DragPanHandler":324,"./component/mouse/EarthControlHandler":325,"./component/mouse/ImageBoundary":326,"./component/mouse/MouseComponent":327,"./component/mouse/ScrollZoomHandler":328,"./component/mouse/TouchZoomHandler":329,"./component/popup/PopupComponent":331,"./component/popup/popup/Popup":332,"./component/sequence/SequenceComponent":333,"./component/sequence/SequenceDOMRenderer":334,"./component/sequence/SequenceMode":335,"./component/shaders/Shaders":336,"./component/slider/SliderComponent":337,"./component/slider/SliderDOMRenderer":338,"./component/slider/SliderGLRenderer":339,"./component/spatialdata/SpatialDataCache":340,"./component/spatialdata/SpatialDataComponent":341,"./component/spatialdata/SpatialDataScene":342,"./component/tag/TagComponent":344,"./component/tag/TagCreator":345,"./component/tag/TagDOMRenderer":346,"./component/tag/TagMode":347,"./component/tag/TagOperation":348,"./component/tag/TagScene":349,"./component/tag/TagSet":350,"./component/tag/error/GeometryTagError":351,"./component/tag/geometry/Geometry":352,"./component/tag/geometry/PointGeometry":353,"./component/tag/geometry/PolygonGeometry":354,"./component/tag/geometry/RectGeometry":355,"./component/tag/geometry/VertexGeometry":356,"./component/tag/handlers/CreateHandlerBase":357,"./component/tag/handlers/CreatePointHandler":358,"./component/tag/handlers/CreatePolygonHandler":359,"./component/tag/handlers/CreateRectDragHandler":360,"./component/tag/handlers/CreateRectHandler":361,"./component/tag/handlers/CreateVertexHandler":362,"./component/tag/handlers/EditVertexHandler":363,"./component/tag/handlers/TagHandlerBase":364,"./component/tag/tag/OutlineCreateTag":365,"./component/tag/tag/OutlineRenderTag":366,"./component/tag/tag/OutlineTag":367,"./component/tag/tag/RenderTag":368,"./component/tag/tag/SpotRenderTag":369,"./component/tag/tag/SpotTag":370,"./component/tag/tag/Tag":371,"./component/tag/tag/TagDomain":372,"./component/utils/HandlerBase":373,"./component/utils/MeshFactory":374,"./component/utils/MeshScene":375,"./component/utils/MouseOperator":376,"./component/zoom/ZoomComponent":377}],276:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EdgeDirection_1 = require("./graph/edge/EdgeDirection");
@@ -20660,7 +22381,7 @@ exports.EdgeCalculatorCoefficients = EdgeCalculatorCoefficients_1.EdgeCalculator
 var EdgeCalculator_1 = require("./graph/edge/EdgeCalculator");
 exports.EdgeCalculator = EdgeCalculator_1.EdgeCalculator;
 
-},{"./graph/edge/EdgeCalculator":398,"./graph/edge/EdgeCalculatorCoefficients":399,"./graph/edge/EdgeCalculatorDirections":400,"./graph/edge/EdgeCalculatorSettings":401,"./graph/edge/EdgeDirection":402}],276:[function(require,module,exports){
+},{"./graph/edge/EdgeCalculator":399,"./graph/edge/EdgeCalculatorCoefficients":400,"./graph/edge/EdgeCalculatorDirections":401,"./graph/edge/EdgeCalculatorSettings":402,"./graph/edge/EdgeDirection":403}],277:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var AbortMapillaryError_1 = require("./error/AbortMapillaryError");
@@ -20672,7 +22393,7 @@ exports.GraphMapillaryError = GraphMapillaryError_1.GraphMapillaryError;
 var MapillaryError_1 = require("./error/MapillaryError");
 exports.MapillaryError = MapillaryError_1.MapillaryError;
 
-},{"./error/AbortMapillaryError":377,"./error/ArgumentMapillaryError":378,"./error/GraphMapillaryError":379,"./error/MapillaryError":380}],277:[function(require,module,exports){
+},{"./error/AbortMapillaryError":378,"./error/ArgumentMapillaryError":379,"./error/GraphMapillaryError":380,"./error/MapillaryError":381}],278:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Camera_1 = require("./geo/Camera");
@@ -20690,7 +22411,7 @@ exports.Geo = Geo;
 var Lines = require("./geo/Lines");
 exports.Lines = Lines;
 
-},{"./geo/Camera":381,"./geo/Geo":382,"./geo/GeoCoords":383,"./geo/Lines":384,"./geo/Spatial":385,"./geo/Transform":386,"./geo/ViewportCoords":387}],278:[function(require,module,exports){
+},{"./geo/Camera":382,"./geo/Geo":383,"./geo/GeoCoords":384,"./geo/Lines":385,"./geo/Spatial":386,"./geo/Transform":387,"./geo/ViewportCoords":388}],279:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var FilterCreator_1 = require("./graph/FilterCreator");
@@ -20714,7 +22435,7 @@ exports.NodeCache = NodeCache_1.NodeCache;
 var Sequence_1 = require("./graph/Sequence");
 exports.Sequence = Sequence_1.Sequence;
 
-},{"./graph/FilterCreator":388,"./graph/Graph":389,"./graph/GraphCalculator":390,"./graph/GraphMode":391,"./graph/GraphService":392,"./graph/ImageLoadingService":393,"./graph/MeshReader":394,"./graph/Node":395,"./graph/NodeCache":396,"./graph/Sequence":397}],279:[function(require,module,exports){
+},{"./graph/FilterCreator":389,"./graph/Graph":390,"./graph/GraphCalculator":391,"./graph/GraphMode":392,"./graph/GraphService":393,"./graph/ImageLoadingService":394,"./graph/MeshReader":395,"./graph/Node":396,"./graph/NodeCache":397,"./graph/Sequence":398}],280:[function(require,module,exports){
 "use strict";
 /**
  * MapillaryJS is a WebGL JavaScript library for exploring street level imagery
@@ -20746,7 +22467,7 @@ exports.MarkerComponent = MarkerComponent;
 var PopupComponent = require("./component/popup/Popup");
 exports.PopupComponent = PopupComponent;
 
-},{"./Component":274,"./Edge":275,"./Error":276,"./Render":280,"./State":281,"./Support":282,"./Viewer":285,"./component/marker/Marker":314,"./component/popup/Popup":329,"./component/tag/Tag":342}],280:[function(require,module,exports){
+},{"./Component":275,"./Edge":276,"./Error":277,"./Render":281,"./State":282,"./Support":283,"./Viewer":286,"./component/marker/Marker":315,"./component/popup/Popup":330,"./component/tag/Tag":343}],281:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var DOMRenderer_1 = require("./render/DOMRenderer");
@@ -20762,7 +22483,7 @@ exports.RenderMode = RenderMode_1.RenderMode;
 var RenderService_1 = require("./render/RenderService");
 exports.RenderService = RenderService_1.RenderService;
 
-},{"./render/DOMRenderer":403,"./render/GLRenderStage":404,"./render/GLRenderer":405,"./render/RenderCamera":406,"./render/RenderMode":407,"./render/RenderService":408}],281:[function(require,module,exports){
+},{"./render/DOMRenderer":404,"./render/GLRenderStage":405,"./render/GLRenderer":406,"./render/RenderCamera":407,"./render/RenderMode":408,"./render/RenderService":409}],282:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var FrameGenerator_1 = require("./state/FrameGenerator");
@@ -20790,7 +22511,7 @@ exports.TraversingState = TraversingState_1.TraversingState;
 var WaitingState_1 = require("./state/states/WaitingState");
 exports.WaitingState = WaitingState_1.WaitingState;
 
-},{"./state/FrameGenerator":409,"./state/RotationDelta":410,"./state/State":411,"./state/StateContext":412,"./state/StateService":413,"./state/TransitionMode":414,"./state/states/EarthState":415,"./state/states/InteractiveStateBase":416,"./state/states/InteractiveWaitingState":417,"./state/states/StateBase":418,"./state/states/TraversingState":419,"./state/states/WaitingState":420}],282:[function(require,module,exports){
+},{"./state/FrameGenerator":410,"./state/RotationDelta":411,"./state/State":412,"./state/StateContext":413,"./state/StateService":414,"./state/TransitionMode":415,"./state/states/EarthState":416,"./state/states/InteractiveStateBase":417,"./state/states/InteractiveWaitingState":418,"./state/states/StateBase":419,"./state/states/TraversingState":420,"./state/states/WaitingState":421}],283:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var support = require("./utils/Support");
@@ -20830,7 +22551,7 @@ function isFallbackSupported() {
 }
 exports.isFallbackSupported = isFallbackSupported;
 
-},{"./utils/Support":428}],283:[function(require,module,exports){
+},{"./utils/Support":429}],284:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ImageTileLoader_1 = require("./tiles/ImageTileLoader");
@@ -20842,7 +22563,7 @@ exports.TextureProvider = TextureProvider_1.TextureProvider;
 var RegionOfInterestCalculator_1 = require("./tiles/RegionOfInterestCalculator");
 exports.RegionOfInterestCalculator = RegionOfInterestCalculator_1.RegionOfInterestCalculator;
 
-},{"./tiles/ImageTileLoader":421,"./tiles/ImageTileStore":422,"./tiles/RegionOfInterestCalculator":423,"./tiles/TextureProvider":424}],284:[function(require,module,exports){
+},{"./tiles/ImageTileLoader":422,"./tiles/ImageTileStore":423,"./tiles/RegionOfInterestCalculator":424,"./tiles/TextureProvider":425}],285:[function(require,module,exports){
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -20858,7 +22579,7 @@ __export(require("./utils/Support"));
 var Urls_1 = require("./utils/Urls");
 exports.Urls = Urls_1.Urls;
 
-},{"./utils/DOM":425,"./utils/EventEmitter":426,"./utils/Settings":427,"./utils/Support":428,"./utils/Urls":429}],285:[function(require,module,exports){
+},{"./utils/DOM":426,"./utils/EventEmitter":427,"./utils/Settings":428,"./utils/Support":429,"./utils/Urls":430}],286:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Alignment_1 = require("./viewer/Alignment");
@@ -20892,7 +22613,7 @@ exports.TouchService = TouchService_1.TouchService;
 var Viewer_1 = require("./viewer/Viewer");
 exports.Viewer = Viewer_1.Viewer;
 
-},{"./viewer/Alignment":430,"./viewer/CacheService":431,"./viewer/ComponentController":432,"./viewer/Container":433,"./viewer/ImageSize":434,"./viewer/KeyboardService":435,"./viewer/LoadingService":436,"./viewer/MouseService":437,"./viewer/Navigator":438,"./viewer/Observer":439,"./viewer/PlayService":440,"./viewer/Projection":441,"./viewer/SpriteService":442,"./viewer/TouchService":443,"./viewer/Viewer":444}],286:[function(require,module,exports){
+},{"./viewer/Alignment":431,"./viewer/CacheService":432,"./viewer/ComponentController":433,"./viewer/Container":434,"./viewer/ImageSize":435,"./viewer/KeyboardService":436,"./viewer/LoadingService":437,"./viewer/MouseService":438,"./viewer/Navigator":439,"./viewer/Observer":440,"./viewer/PlayService":441,"./viewer/Projection":442,"./viewer/SpriteService":443,"./viewer/TouchService":444,"./viewer/Viewer":445}],287:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -21121,7 +22842,7 @@ var APIv3 = /** @class */ (function () {
 exports.APIv3 = APIv3;
 exports.default = APIv3;
 
-},{"../API":273,"rxjs":26,"rxjs/operators":224}],287:[function(require,module,exports){
+},{"../API":274,"rxjs":27,"rxjs/operators":225}],288:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var falcor = require("falcor");
@@ -21164,7 +22885,7 @@ var ModelCreator = /** @class */ (function () {
 exports.ModelCreator = ModelCreator;
 exports.default = ModelCreator;
 
-},{"../Utils":284,"falcor":15,"falcor-http-datasource":10}],288:[function(require,module,exports){
+},{"../Utils":285,"falcor":15,"falcor-http-datasource":10}],289:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -21231,7 +22952,7 @@ exports.AttributionComponent = AttributionComponent;
 Component_1.ComponentService.register(AttributionComponent);
 exports.default = AttributionComponent;
 
-},{"../Component":274,"../Utils":284,"rxjs":26,"rxjs/operators":224,"virtual-dom":230}],289:[function(require,module,exports){
+},{"../Component":275,"../Utils":285,"rxjs":27,"rxjs/operators":225,"virtual-dom":231}],290:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -21277,7 +22998,7 @@ exports.BackgroundComponent = BackgroundComponent;
 Component_1.ComponentService.register(BackgroundComponent);
 exports.default = BackgroundComponent;
 
-},{"../Component":274,"virtual-dom":230}],290:[function(require,module,exports){
+},{"../Component":275,"virtual-dom":231}],291:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -21392,7 +23113,7 @@ exports.BearingComponent = BearingComponent;
 Component_1.ComponentService.register(BearingComponent);
 exports.default = BearingComponent;
 
-},{"../Component":274,"../Geo":277,"rxjs/operators":224,"virtual-dom":230}],291:[function(require,module,exports){
+},{"../Component":275,"../Geo":278,"rxjs/operators":225,"virtual-dom":231}],292:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -21514,7 +23235,7 @@ exports.CacheComponent = CacheComponent;
 Component_1.ComponentService.register(CacheComponent);
 exports.default = CacheComponent;
 
-},{"../Component":274,"../Edge":275,"rxjs":26,"rxjs/operators":224}],292:[function(require,module,exports){
+},{"../Component":275,"../Edge":276,"rxjs":27,"rxjs/operators":225}],293:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -21640,7 +23361,7 @@ var Component = /** @class */ (function (_super) {
 exports.Component = Component;
 exports.default = Component;
 
-},{"../Utils":284,"rxjs":26,"rxjs/operators":224}],293:[function(require,module,exports){
+},{"../Utils":285,"rxjs":27,"rxjs/operators":225}],294:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Error_1 = require("../Error");
@@ -21741,7 +23462,7 @@ var ComponentService = /** @class */ (function () {
 exports.ComponentService = ComponentService;
 exports.default = ComponentService;
 
-},{"../Error":276}],294:[function(require,module,exports){
+},{"../Error":277}],295:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -21837,7 +23558,7 @@ exports.CoverComponent = CoverComponent;
 Component_1.ComponentService.registerCover(CoverComponent);
 exports.default = CoverComponent;
 
-},{"../Component":274,"../Utils":284,"../Viewer":285,"rxjs":26,"rxjs/operators":224,"virtual-dom":230}],295:[function(require,module,exports){
+},{"../Component":275,"../Utils":285,"../Viewer":286,"rxjs":27,"rxjs/operators":225,"virtual-dom":231}],296:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -21954,7 +23675,7 @@ exports.DebugComponent = DebugComponent;
 Component_1.ComponentService.register(DebugComponent);
 exports.default = DebugComponent;
 
-},{"../Component":274,"rxjs":26,"rxjs/operators":224,"virtual-dom":230}],296:[function(require,module,exports){
+},{"../Component":275,"rxjs":27,"rxjs/operators":225,"virtual-dom":231}],297:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -22025,7 +23746,7 @@ Component_1.ComponentService.register(ImageComponent);
 exports.default = ImageComponent;
 
 
-},{"../Component":274,"../Utils":284,"rxjs":26,"rxjs/operators":224,"virtual-dom":230}],297:[function(require,module,exports){
+},{"../Component":275,"../Utils":285,"rxjs":27,"rxjs/operators":225,"virtual-dom":231}],298:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -22103,7 +23824,7 @@ exports.LoadingComponent = LoadingComponent;
 Component_1.ComponentService.register(LoadingComponent);
 exports.default = LoadingComponent;
 
-},{"../Component":274,"rxjs":26,"rxjs/operators":224,"virtual-dom":230}],298:[function(require,module,exports){
+},{"../Component":275,"rxjs":27,"rxjs/operators":225,"virtual-dom":231}],299:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -22232,7 +23953,7 @@ exports.NavigationComponent = NavigationComponent;
 Component_1.ComponentService.register(NavigationComponent);
 exports.default = NavigationComponent;
 
-},{"../Component":274,"../Edge":275,"../Error":276,"rxjs":26,"rxjs/operators":224,"virtual-dom":230}],299:[function(require,module,exports){
+},{"../Component":275,"../Edge":276,"../Error":277,"rxjs":27,"rxjs/operators":225,"virtual-dom":231}],300:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -22454,7 +24175,7 @@ exports.RouteComponent = RouteComponent;
 Component_1.ComponentService.register(RouteComponent);
 exports.default = RouteComponent;
 
-},{"../Component":274,"rxjs":26,"rxjs/operators":224,"virtual-dom":230}],300:[function(require,module,exports){
+},{"../Component":275,"rxjs":27,"rxjs/operators":225,"virtual-dom":231}],301:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -22535,7 +24256,7 @@ exports.StatsComponent = StatsComponent;
 Component_1.ComponentService.register(StatsComponent);
 exports.default = StatsComponent;
 
-},{"../Component":274,"rxjs":26,"rxjs/operators":224}],301:[function(require,module,exports){
+},{"../Component":275,"rxjs":27,"rxjs/operators":225}],302:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -22716,7 +24437,7 @@ Component_1.ComponentService.register(DirectionComponent);
 exports.default = DirectionComponent;
 
 
-},{"../../Component":274,"rxjs":26,"rxjs/operators":224,"virtual-dom":230}],302:[function(require,module,exports){
+},{"../../Component":275,"rxjs":27,"rxjs/operators":225,"virtual-dom":231}],303:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Geo_1 = require("../../Geo");
@@ -22955,7 +24676,7 @@ exports.DirectionDOMCalculator = DirectionDOMCalculator;
 exports.default = DirectionDOMCalculator;
 
 
-},{"../../Geo":277}],303:[function(require,module,exports){
+},{"../../Geo":278}],304:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vd = require("virtual-dom");
@@ -23335,7 +25056,7 @@ exports.DirectionDOMRenderer = DirectionDOMRenderer;
 exports.default = DirectionDOMRenderer;
 
 
-},{"../../Component":274,"../../Edge":275,"../../Error":276,"../../Geo":277,"virtual-dom":230}],304:[function(require,module,exports){
+},{"../../Component":275,"../../Edge":276,"../../Error":277,"../../Geo":278,"virtual-dom":231}],305:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -23562,7 +25283,7 @@ exports.ImagePlaneComponent = ImagePlaneComponent;
 Component_1.ComponentService.register(ImagePlaneComponent);
 exports.default = ImagePlaneComponent;
 
-},{"../../Component":274,"../../Render":280,"../../Tiles":283,"../../Utils":284,"rxjs":26,"rxjs/operators":224}],305:[function(require,module,exports){
+},{"../../Component":275,"../../Render":281,"../../Tiles":284,"../../Utils":285,"rxjs":27,"rxjs/operators":225}],306:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Component_1 = require("../../Component");
@@ -23723,7 +25444,7 @@ var ImagePlaneGLRenderer = /** @class */ (function () {
 exports.ImagePlaneGLRenderer = ImagePlaneGLRenderer;
 exports.default = ImagePlaneGLRenderer;
 
-},{"../../Component":274}],306:[function(require,module,exports){
+},{"../../Component":275}],307:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var CoverState;
@@ -23733,7 +25454,7 @@ var CoverState;
     CoverState[CoverState["Visible"] = 2] = "Visible";
 })(CoverState = exports.CoverState || (exports.CoverState = {}));
 
-},{}],307:[function(require,module,exports){
+},{}],308:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -23773,7 +25494,7 @@ var SliderMode;
     SliderMode[SliderMode["Stationary"] = 1] = "Stationary";
 })(SliderMode = exports.SliderMode || (exports.SliderMode = {}));
 
-},{}],308:[function(require,module,exports){
+},{}],309:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ICoverConfiguration_1 = require("./ICoverConfiguration");
@@ -23781,7 +25502,7 @@ exports.CoverState = ICoverConfiguration_1.CoverState;
 var ISliderConfiguration_1 = require("./ISliderConfiguration");
 exports.SliderMode = ISliderConfiguration_1.SliderMode;
 
-},{"./ICoverConfiguration":306,"./ISliderConfiguration":307}],309:[function(require,module,exports){
+},{"./ICoverConfiguration":307,"./ISliderConfiguration":308}],310:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -23886,7 +25607,7 @@ var KeyPlayHandler = /** @class */ (function (_super) {
 exports.KeyPlayHandler = KeyPlayHandler;
 exports.default = KeyPlayHandler;
 
-},{"../../Component":274,"../../Edge":275,"rxjs/operators":224}],310:[function(require,module,exports){
+},{"../../Component":275,"../../Edge":276,"rxjs/operators":225}],311:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -23976,7 +25697,7 @@ var KeySequenceNavigationHandler = /** @class */ (function (_super) {
 exports.KeySequenceNavigationHandler = KeySequenceNavigationHandler;
 exports.default = KeySequenceNavigationHandler;
 
-},{"../../Component":274,"../../Edge":275,"../../Error":276,"rxjs/operators":224}],311:[function(require,module,exports){
+},{"../../Component":275,"../../Edge":276,"../../Error":277,"rxjs/operators":225}],312:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -24125,7 +25846,7 @@ var KeySpatialNavigationHandler = /** @class */ (function (_super) {
 exports.KeySpatialNavigationHandler = KeySpatialNavigationHandler;
 exports.default = KeySpatialNavigationHandler;
 
-},{"../../Component":274,"../../Edge":275,"../../Error":276,"rxjs/operators":224}],312:[function(require,module,exports){
+},{"../../Component":275,"../../Edge":276,"../../Error":277,"rxjs/operators":225}],313:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -24204,7 +25925,7 @@ var KeyZoomHandler = /** @class */ (function (_super) {
 exports.KeyZoomHandler = KeyZoomHandler;
 exports.default = KeyZoomHandler;
 
-},{"../../Component":274,"rxjs/operators":224}],313:[function(require,module,exports){
+},{"../../Component":275,"rxjs/operators":225}],314:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -24345,7 +26066,7 @@ exports.KeyboardComponent = KeyboardComponent;
 Component_1.ComponentService.register(KeyboardComponent);
 exports.default = KeyboardComponent;
 
-},{"../../Component":274,"../../Geo":277}],314:[function(require,module,exports){
+},{"../../Component":275,"../../Geo":278}],315:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var MarkerComponent_1 = require("./MarkerComponent");
@@ -24355,7 +26076,7 @@ exports.SimpleMarker = SimpleMarker_1.SimpleMarker;
 var CircleMarker_1 = require("./marker/CircleMarker");
 exports.CircleMarker = CircleMarker_1.CircleMarker;
 
-},{"./MarkerComponent":315,"./marker/CircleMarker":318,"./marker/SimpleMarker":320}],315:[function(require,module,exports){
+},{"./MarkerComponent":316,"./marker/CircleMarker":319,"./marker/SimpleMarker":321}],316:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -24793,7 +26514,7 @@ Component_1.ComponentService.register(MarkerComponent);
 exports.default = MarkerComponent;
 
 
-},{"../../Component":274,"../../Geo":277,"../../Graph":278,"../../Render":280,"rxjs":26,"rxjs/operators":224,"three":225,"when":271}],316:[function(require,module,exports){
+},{"../../Component":275,"../../Geo":278,"../../Graph":279,"../../Render":281,"rxjs":27,"rxjs/operators":225,"three":226,"when":272}],317:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -24915,7 +26636,7 @@ var MarkerScene = /** @class */ (function () {
 exports.MarkerScene = MarkerScene;
 exports.default = MarkerScene;
 
-},{"three":225}],317:[function(require,module,exports){
+},{"three":226}],318:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rbush = require("rbush");
@@ -25032,7 +26753,7 @@ var MarkerSet = /** @class */ (function () {
 exports.MarkerSet = MarkerSet;
 exports.default = MarkerSet;
 
-},{"rbush":25,"rxjs":26}],318:[function(require,module,exports){
+},{"rbush":26,"rxjs":27}],319:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -25117,7 +26838,7 @@ var CircleMarker = /** @class */ (function (_super) {
 exports.CircleMarker = CircleMarker;
 exports.default = CircleMarker;
 
-},{"../../../Component":274,"three":225}],319:[function(require,module,exports){
+},{"../../../Component":275,"three":226}],320:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -25213,7 +26934,7 @@ var Marker = /** @class */ (function () {
 exports.Marker = Marker;
 exports.default = Marker;
 
-},{}],320:[function(require,module,exports){
+},{}],321:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -25362,7 +27083,7 @@ var SimpleMarker = /** @class */ (function (_super) {
 exports.SimpleMarker = SimpleMarker;
 exports.default = SimpleMarker;
 
-},{"../../../Component":274,"three":225}],321:[function(require,module,exports){
+},{"../../../Component":275,"three":226}],322:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -25448,7 +27169,7 @@ var BounceHandler = /** @class */ (function (_super) {
 exports.BounceHandler = BounceHandler;
 exports.default = BounceHandler;
 
-},{"../../Component":274,"rxjs":26,"rxjs/operators":224}],322:[function(require,module,exports){
+},{"../../Component":275,"rxjs":27,"rxjs/operators":225}],323:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -25516,7 +27237,7 @@ var DoubleClickZoomHandler = /** @class */ (function (_super) {
 exports.DoubleClickZoomHandler = DoubleClickZoomHandler;
 exports.default = DoubleClickZoomHandler;
 
-},{"../../Component":274,"rxjs":26,"rxjs/operators":224}],323:[function(require,module,exports){
+},{"../../Component":275,"rxjs":27,"rxjs/operators":225}],324:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -25688,7 +27409,7 @@ var DragPanHandler = /** @class */ (function (_super) {
 exports.DragPanHandler = DragPanHandler;
 exports.default = DragPanHandler;
 
-},{"../../Component":274,"rxjs":26,"rxjs/operators":224}],324:[function(require,module,exports){
+},{"../../Component":275,"rxjs":27,"rxjs/operators":225}],325:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -25836,7 +27557,7 @@ var EarthControlHandler = /** @class */ (function (_super) {
 exports.EarthControlHandler = EarthControlHandler;
 exports.default = EarthControlHandler;
 
-},{"../../Component":274,"../../State":281,"rxjs":26,"rxjs/operators":224,"three":225}],325:[function(require,module,exports){
+},{"../../Component":275,"../../State":282,"rxjs":27,"rxjs/operators":225,"three":226}],326:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Geo_1 = require("../../../src/Geo");
@@ -25953,7 +27674,7 @@ function viewportDistances(transform, perspective, viewportCoords) {
 }
 exports.viewportDistances = viewportDistances;
 
-},{"../../../src/Geo":277}],326:[function(require,module,exports){
+},{"../../../src/Geo":278}],327:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -26105,7 +27826,7 @@ exports.MouseComponent = MouseComponent;
 Component_1.ComponentService.register(MouseComponent);
 exports.default = MouseComponent;
 
-},{"../../Component":274,"../../Geo":277}],327:[function(require,module,exports){
+},{"../../Component":275,"../../Geo":278}],328:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -26197,7 +27918,7 @@ var ScrollZoomHandler = /** @class */ (function (_super) {
 exports.ScrollZoomHandler = ScrollZoomHandler;
 exports.default = ScrollZoomHandler;
 
-},{"../../Component":274,"rxjs/operators":224}],328:[function(require,module,exports){
+},{"../../Component":275,"rxjs/operators":225}],329:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -26283,7 +28004,7 @@ var TouchZoomHandler = /** @class */ (function (_super) {
 exports.TouchZoomHandler = TouchZoomHandler;
 exports.default = TouchZoomHandler;
 
-},{"../../Component":274,"rxjs":26,"rxjs/operators":224}],329:[function(require,module,exports){
+},{"../../Component":275,"rxjs":27,"rxjs/operators":225}],330:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Popup_1 = require("./popup/Popup");
@@ -26291,7 +28012,7 @@ exports.Popup = Popup_1.Popup;
 var PopupComponent_1 = require("./PopupComponent");
 exports.PopupComponent = PopupComponent_1.PopupComponent;
 
-},{"./PopupComponent":330,"./popup/Popup":331}],330:[function(require,module,exports){
+},{"./PopupComponent":331,"./popup/Popup":332}],331:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -26471,7 +28192,7 @@ exports.PopupComponent = PopupComponent;
 Component_1.ComponentService.register(PopupComponent);
 exports.default = PopupComponent;
 
-},{"../../Component":274,"../../Utils":284,"rxjs":26,"rxjs/operators":224}],331:[function(require,module,exports){
+},{"../../Component":275,"../../Utils":285,"rxjs":27,"rxjs/operators":225}],332:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -26953,7 +28674,7 @@ exports.Popup = Popup;
 exports.default = Popup;
 
 
-},{"../../../Geo":277,"../../../Utils":284,"../../../Viewer":285,"rxjs":26}],332:[function(require,module,exports){
+},{"../../../Geo":278,"../../../Utils":285,"../../../Viewer":286,"rxjs":27}],333:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -27294,7 +29015,7 @@ exports.SequenceComponent = SequenceComponent;
 Component_1.ComponentService.register(SequenceComponent);
 exports.default = SequenceComponent;
 
-},{"../../Component":274,"../../Edge":275,"../../Graph":278,"rxjs":26,"rxjs/operators":224}],333:[function(require,module,exports){
+},{"../../Component":275,"../../Edge":276,"../../Graph":279,"rxjs":27,"rxjs/operators":225}],334:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -27723,7 +29444,7 @@ var SequenceDOMRenderer = /** @class */ (function () {
 exports.SequenceDOMRenderer = SequenceDOMRenderer;
 exports.default = SequenceDOMRenderer;
 
-},{"../../Component":274,"../../Edge":275,"../../Error":276,"rxjs":26,"rxjs/operators":224,"virtual-dom":230}],334:[function(require,module,exports){
+},{"../../Component":275,"../../Edge":276,"../../Error":277,"rxjs":27,"rxjs/operators":225,"virtual-dom":231}],335:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var SequenceMode;
@@ -27734,7 +29455,7 @@ var SequenceMode;
 })(SequenceMode = exports.SequenceMode || (exports.SequenceMode = {}));
 exports.default = SequenceMode;
 
-},{}],335:[function(require,module,exports){
+},{}],336:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 
@@ -27771,7 +29492,7 @@ var Shaders = /** @class */ (function () {
 exports.Shaders = Shaders;
 
 
-},{"path":22}],336:[function(require,module,exports){
+},{"path":23}],337:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -28451,7 +30172,7 @@ Component_1.ComponentService.register(SliderComponent);
 exports.default = SliderComponent;
 
 
-},{"../../Component":274,"../../Geo":277,"../../Render":280,"../../State":281,"../../Tiles":283,"../../Utils":284,"rxjs":26,"rxjs/operators":224}],337:[function(require,module,exports){
+},{"../../Component":275,"../../Geo":278,"../../Render":281,"../../State":282,"../../Tiles":284,"../../Utils":285,"rxjs":27,"rxjs/operators":225}],338:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -28575,7 +30296,7 @@ var SliderDOMRenderer = /** @class */ (function () {
 exports.SliderDOMRenderer = SliderDOMRenderer;
 exports.default = SliderDOMRenderer;
 
-},{"../../Component":274,"rxjs":26,"rxjs/operators":224,"virtual-dom":230}],338:[function(require,module,exports){
+},{"../../Component":275,"rxjs":27,"rxjs/operators":225,"virtual-dom":231}],339:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Component_1 = require("../../Component");
@@ -28859,7 +30580,7 @@ exports.SliderGLRenderer = SliderGLRenderer;
 exports.default = SliderGLRenderer;
 
 
-},{"../../Component":274,"../../Geo":277}],339:[function(require,module,exports){
+},{"../../Component":275,"../../Geo":278}],340:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var geohash = require("latlon-geohash");
@@ -29077,7 +30798,7 @@ var SpatialDataCache = /** @class */ (function () {
 exports.SpatialDataCache = SpatialDataCache;
 exports.default = SpatialDataCache;
 
-},{"../../Error":276,"../../Utils":284,"latlon-geohash":21,"rxjs":26,"rxjs/operators":224}],340:[function(require,module,exports){
+},{"../../Error":277,"../../Utils":285,"latlon-geohash":21,"rxjs":27,"rxjs/operators":225}],341:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -29409,7 +31130,7 @@ exports.SpatialDataComponent = SpatialDataComponent;
 Component_1.ComponentService.register(SpatialDataComponent);
 exports.default = SpatialDataComponent;
 
-},{"../../Component":274,"../../Geo":277,"../../Render":280,"../../state/State":411,"../../viewer/PlayService":440,"latlon-geohash":21,"rxjs":26,"rxjs/operators":224}],341:[function(require,module,exports){
+},{"../../Component":275,"../../Geo":278,"../../Render":281,"../../state/State":412,"../../viewer/PlayService":441,"latlon-geohash":21,"rxjs":27,"rxjs/operators":225}],342:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -29841,7 +31562,7 @@ var SpatialDataScene = /** @class */ (function () {
 exports.SpatialDataScene = SpatialDataScene;
 exports.default = SpatialDataScene;
 
-},{"three":225}],342:[function(require,module,exports){
+},{"three":226}],343:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var GeometryTagError_1 = require("./error/GeometryTagError");
@@ -29863,7 +31584,7 @@ exports.TagComponent = TagComponent_1.TagComponent;
 var TagMode_1 = require("./TagMode");
 exports.TagMode = TagMode_1.TagMode;
 
-},{"./TagComponent":343,"./TagMode":346,"./error/GeometryTagError":350,"./geometry/PointGeometry":352,"./geometry/PolygonGeometry":353,"./geometry/RectGeometry":354,"./tag/OutlineTag":366,"./tag/SpotTag":369,"./tag/TagDomain":371}],343:[function(require,module,exports){
+},{"./TagComponent":344,"./TagMode":347,"./error/GeometryTagError":351,"./geometry/PointGeometry":353,"./geometry/PolygonGeometry":354,"./geometry/RectGeometry":355,"./tag/OutlineTag":367,"./tag/SpotTag":370,"./tag/TagDomain":372}],344:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -30366,7 +32087,7 @@ exports.TagComponent = TagComponent;
 Component_1.ComponentService.register(TagComponent);
 exports.default = TagComponent;
 
-},{"../../Component":274,"../../Geo":277,"../../Render":280,"rxjs":26,"rxjs/operators":224,"when":271}],344:[function(require,module,exports){
+},{"../../Component":275,"../../Geo":278,"../../Render":281,"rxjs":27,"rxjs/operators":225,"when":272}],345:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -30448,7 +32169,7 @@ var TagCreator = /** @class */ (function () {
 exports.TagCreator = TagCreator;
 exports.default = TagCreator;
 
-},{"../../Component":274,"rxjs":26,"rxjs/operators":224}],345:[function(require,module,exports){
+},{"../../Component":275,"rxjs":27,"rxjs/operators":225}],346:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vd = require("virtual-dom");
@@ -30473,7 +32194,7 @@ var TagDOMRenderer = /** @class */ (function () {
 }());
 exports.TagDOMRenderer = TagDOMRenderer;
 
-},{"virtual-dom":230}],346:[function(require,module,exports){
+},{"virtual-dom":231}],347:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -30510,7 +32231,7 @@ var TagMode;
 })(TagMode = exports.TagMode || (exports.TagMode = {}));
 exports.default = TagMode;
 
-},{}],347:[function(require,module,exports){
+},{}],348:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var TagOperation;
@@ -30521,7 +32242,7 @@ var TagOperation;
 })(TagOperation = exports.TagOperation || (exports.TagOperation = {}));
 exports.default = TagOperation;
 
-},{}],348:[function(require,module,exports){
+},{}],349:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -30688,7 +32409,7 @@ var TagScene = /** @class */ (function () {
 exports.TagScene = TagScene;
 exports.default = TagScene;
 
-},{"three":225}],349:[function(require,module,exports){
+},{"three":226}],350:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -30839,7 +32560,7 @@ var TagSet = /** @class */ (function () {
 exports.TagSet = TagSet;
 exports.default = TagSet;
 
-},{"../../Component":274,"rxjs":26}],350:[function(require,module,exports){
+},{"../../Component":275,"rxjs":27}],351:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -30868,7 +32589,7 @@ var GeometryTagError = /** @class */ (function (_super) {
 exports.GeometryTagError = GeometryTagError;
 exports.default = Error_1.MapillaryError;
 
-},{"../../../Error":276}],351:[function(require,module,exports){
+},{"../../../Error":277}],352:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -30908,7 +32629,7 @@ var Geometry = /** @class */ (function () {
 exports.Geometry = Geometry;
 exports.default = Geometry;
 
-},{"rxjs":26}],352:[function(require,module,exports){
+},{"rxjs":27}],353:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -31009,7 +32730,7 @@ var PointGeometry = /** @class */ (function (_super) {
 }(Component_1.Geometry));
 exports.PointGeometry = PointGeometry;
 
-},{"../../../Component":274}],353:[function(require,module,exports){
+},{"../../../Component":275}],354:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -31052,7 +32773,6 @@ var PolygonGeometry = /** @class */ (function (_super) {
      */
     function PolygonGeometry(polygon, holes) {
         var _this = _super.call(this) || this;
-        _this._subsampleThreshold = 0.01;
         var polygonLength = polygon.length;
         if (polygonLength < 3) {
             throw new Component_1.GeometryTagError("A polygon must have three or more positions.");
@@ -31207,7 +32927,7 @@ var PolygonGeometry = /** @class */ (function (_super) {
     };
     /** @ignore */
     PolygonGeometry.prototype.getPoints3d = function (transform) {
-        return this._getPoints3d(this._subsample(this._polygon, this._subsampleThreshold), transform);
+        return this._getPoints3d(this._subsample(this._polygon), transform);
     };
     /** @ignore */
     PolygonGeometry.prototype.getVertex3d = function (index, transform) {
@@ -31235,7 +32955,7 @@ var PolygonGeometry = /** @class */ (function (_super) {
         var _this = this;
         return this._holes
             .map(function (hole2d) {
-            return _this._getPoints3d(_this._subsample(hole2d, _this._subsampleThreshold), transform);
+            return _this._getPoints3d(_this._subsample(hole2d), transform);
         });
     };
     /**
@@ -31291,12 +33011,14 @@ var PolygonGeometry = /** @class */ (function (_super) {
     /** @ignore */
     PolygonGeometry.prototype.getTriangles3d = function (transform) {
         var _this = this;
-        var threshold = this._subsampleThreshold;
-        var points2d = this._project(this._subsample(this._polygon, threshold), transform);
+        if (transform.fullPano) {
+            return this._triangulatePano(this._polygon.slice(), this.holes.slice(), transform);
+        }
+        var points2d = this._project(this._subsample(this._polygon), transform);
         var points3d = this.getPoints3d(transform);
         var holes2d = this._holes
             .map(function (hole) {
-            return _this._project(_this._subsample(hole, threshold), transform);
+            return _this._project(_this._subsample(hole), transform);
         });
         var holes3d = this.getHolePoints3d(transform);
         return this._triangulate(points2d, points3d, holes2d, holes3d);
@@ -31316,33 +33038,12 @@ var PolygonGeometry = /** @class */ (function (_super) {
             return transform.unprojectBasic(point, 200);
         });
     };
-    PolygonGeometry.prototype._subsample = function (points2d, threshold) {
-        var subsampled = [];
-        var length = points2d.length;
-        for (var index = 0; index < length; index++) {
-            var p1 = points2d[index];
-            var p2 = points2d[(index + 1) % length];
-            subsampled.push(p1);
-            var dist = Math.sqrt(Math.pow((p2[0] - p1[0]), 2) + Math.pow((p2[1] - p1[1]), 2));
-            var subsamples = Math.floor(dist / threshold);
-            var coeff = 1 / (subsamples + 1);
-            for (var i = 1; i <= subsamples; i++) {
-                var alpha = i * coeff;
-                var subsample = [
-                    (1 - alpha) * p1[0] + alpha * p2[0],
-                    (1 - alpha) * p1[1] + alpha * p2[1],
-                ];
-                subsampled.push(subsample);
-            }
-        }
-        return subsampled;
-    };
     return PolygonGeometry;
 }(Component_1.VertexGeometry));
 exports.PolygonGeometry = PolygonGeometry;
 exports.default = PolygonGeometry;
 
-},{"../../../Component":274}],354:[function(require,module,exports){
+},{"../../../Component":275}],355:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -31905,7 +33606,9 @@ var RectGeometry = /** @class */ (function (_super) {
     };
     /** @ignore */
     RectGeometry.prototype.getTriangles3d = function (transform) {
-        return this._triangulate(this._project(this._getPoints2d(), transform), this.getPoints3d(transform));
+        return transform.fullPano ?
+            [] :
+            this._triangulate(this._project(this._getPoints2d(), transform), this.getPoints3d(transform));
     };
     /**
      * Check if a particular bottom-right value is valid according to the current
@@ -32004,7 +33707,7 @@ var RectGeometry = /** @class */ (function (_super) {
 exports.RectGeometry = RectGeometry;
 exports.default = RectGeometry;
 
-},{"../../../Component":274}],355:[function(require,module,exports){
+},{"../../../Component":275}],356:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -32021,6 +33724,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var earcut_1 = require("earcut");
+var martinez = require("martinez-polygon-clipping");
 var polylabel = require("@mapbox/polylabel");
 var THREE = require("three");
 var Component_1 = require("../../../Component");
@@ -32038,7 +33742,9 @@ var VertexGeometry = /** @class */ (function (_super) {
      * @ignore
      */
     function VertexGeometry() {
-        return _super.call(this) || this;
+        var _this = _super.call(this) || this;
+        _this._subsampleThreshold = 0.005;
+        return _this;
     }
     /**
      * Finds the polygon pole of inaccessibility, the most distant internal
@@ -32051,6 +33757,32 @@ var VertexGeometry = /** @class */ (function (_super) {
     VertexGeometry.prototype._getPoleOfInaccessibility2d = function (points2d) {
         var pole2d = polylabel([points2d], 3e-2);
         return pole2d;
+    };
+    VertexGeometry.prototype._project = function (points2d, transform) {
+        var camera = this._createCamera(transform.upVector().toArray(), transform.unprojectSfM([0, 0], 0), transform.unprojectSfM([0, 0], 10));
+        return this._deunproject(points2d, transform, camera);
+    };
+    VertexGeometry.prototype._subsample = function (points2d, threshold) {
+        if (threshold === void 0) { threshold = this._subsampleThreshold; }
+        var subsampled = [];
+        var length = points2d.length;
+        for (var index = 0; index < length; index++) {
+            var p1 = points2d[index];
+            var p2 = points2d[(index + 1) % length];
+            subsampled.push(p1);
+            var dist = Math.sqrt(Math.pow((p2[0] - p1[0]), 2) + Math.pow((p2[1] - p1[1]), 2));
+            var subsamples = Math.floor(dist / threshold);
+            var coeff = 1 / (subsamples + 1);
+            for (var i = 1; i <= subsamples; i++) {
+                var alpha = i * coeff;
+                var subsample = [
+                    (1 - alpha) * p1[0] + alpha * p2[0],
+                    (1 - alpha) * p1[1] + alpha * p2[1],
+                ];
+                subsampled.push(subsample);
+            }
+        }
+        return subsampled;
     };
     /**
      * Triangulates a 2d polygon and returns the triangle
@@ -32085,28 +33817,92 @@ var VertexGeometry = /** @class */ (function (_super) {
         }
         return triangles;
     };
-    VertexGeometry.prototype._project = function (points2d, transform) {
+    VertexGeometry.prototype._triangulatePano = function (points2d, holes2d, transform) {
+        var triangles = [];
+        var epsilon = 1e-9;
+        var subareasX = 3;
+        var subareasY = 3;
+        for (var x = 0; x < subareasX; x++) {
+            for (var y = 0; y < subareasY; y++) {
+                var epsilonX0 = x === 0 ? -epsilon : epsilon;
+                var epsilonY0 = y === 0 ? -epsilon : epsilon;
+                var x0 = x / subareasX + epsilonX0;
+                var y0 = y / subareasY + epsilonY0;
+                var x1 = (x + 1) / subareasX + epsilon;
+                var y1 = (y + 1) / subareasY + epsilon;
+                var bbox2d = [
+                    [x0, y0],
+                    [x0, y1],
+                    [x1, y1],
+                    [x1, y0],
+                    [x0, y0],
+                ];
+                var lookat2d = [
+                    (2 * x + 1) / (2 * subareasX),
+                    (2 * y + 1) / (2 * subareasY),
+                ];
+                triangles.push.apply(triangles, this._triangulateSubarea(points2d, holes2d, bbox2d, lookat2d, transform));
+            }
+        }
+        return triangles;
+    };
+    VertexGeometry.prototype._unproject = function (points2d, transform, distance) {
+        if (distance === void 0) { distance = 200; }
+        return points2d
+            .map(function (point) {
+            return transform.unprojectBasic(point, distance);
+        });
+    };
+    VertexGeometry.prototype._createCamera = function (upVector, position, lookAt) {
         var camera = new THREE.Camera();
-        camera.up.copy(transform.upVector());
-        camera.position.copy(new THREE.Vector3().fromArray(transform.unprojectSfM([0, 0], 0)));
-        camera.lookAt(new THREE.Vector3().fromArray(transform.unprojectSfM([0, 0], 10)));
+        camera.up.copy(new THREE.Vector3().fromArray(upVector));
+        camera.position.copy(new THREE.Vector3().fromArray(position));
+        camera.lookAt(new THREE.Vector3().fromArray(lookAt));
         camera.updateMatrix();
         camera.updateMatrixWorld(true);
-        var projected = points2d
+        return camera;
+    };
+    VertexGeometry.prototype._deunproject = function (points2d, transform, camera) {
+        return points2d
             .map(function (point2d) {
             var pointWorld = transform.unprojectBasic(point2d, 10000);
             var pointCamera = new THREE.Vector3(pointWorld[0], pointWorld[1], pointWorld[2])
                 .applyMatrix4(camera.matrixWorldInverse);
             return [pointCamera.x / pointCamera.z, pointCamera.y / pointCamera.z];
         });
-        return projected;
+    };
+    VertexGeometry.prototype._triangulateSubarea = function (points2d, holes2d, bbox2d, lookat2d, transform) {
+        var intersections = martinez.intersection([points2d].concat(holes2d), [bbox2d]);
+        if (!intersections) {
+            return [];
+        }
+        var triangles = [];
+        var threshold = this._subsampleThreshold;
+        var camera = this._createCamera(transform.upVector().toArray(), transform.unprojectSfM([0, 0], 0), transform.unprojectBasic(lookat2d, 10));
+        for (var _i = 0, intersections_1 = intersections; _i < intersections_1.length; _i++) {
+            var intersection = intersections_1[_i];
+            var subsampledPolygon2d = this._subsample(intersection[0], threshold);
+            var polygon2d = this._deunproject(subsampledPolygon2d, transform, camera);
+            var polygon3d = this._unproject(subsampledPolygon2d, transform);
+            var polygonHoles2d = [];
+            var polygonHoles3d = [];
+            for (var i = 1; i < intersection.length; i++) {
+                var subsampledHole2d = this._subsample(intersection[i], threshold);
+                var hole2d = this._deunproject(subsampledHole2d, transform, camera);
+                var hole3d = this._unproject(subsampledHole2d, transform);
+                polygonHoles2d.push(hole2d);
+                polygonHoles3d.push(hole3d);
+            }
+            triangles.push.apply(triangles, this._triangulate(polygon2d, polygon3d, polygonHoles2d, polygonHoles3d));
+        }
+        return triangles;
     };
     return VertexGeometry;
 }(Component_1.Geometry));
 exports.VertexGeometry = VertexGeometry;
 exports.default = VertexGeometry;
 
-},{"../../../Component":274,"@mapbox/polylabel":1,"earcut":8,"three":225}],356:[function(require,module,exports){
+},{"../../../Component":275,"@mapbox/polylabel":1,"earcut":8,"martinez-polygon-clipping":22,"three":226}],357:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -32165,7 +33961,7 @@ var CreateHandlerBase = /** @class */ (function (_super) {
 exports.CreateHandlerBase = CreateHandlerBase;
 exports.default = CreateHandlerBase;
 
-},{"../../../Component":274,"rxjs":26,"rxjs/operators":224}],357:[function(require,module,exports){
+},{"../../../Component":275,"rxjs":27,"rxjs/operators":225}],358:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -32207,7 +34003,7 @@ var CreatePointHandler = /** @class */ (function (_super) {
 exports.CreatePointHandler = CreatePointHandler;
 exports.default = CreatePointHandler;
 
-},{"../../../Component":274,"rxjs/operators":224}],358:[function(require,module,exports){
+},{"../../../Component":275,"rxjs/operators":225}],359:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -32250,7 +34046,7 @@ var CreatePolygonHandler = /** @class */ (function (_super) {
 exports.CreatePolygonHandler = CreatePolygonHandler;
 exports.default = CreatePolygonHandler;
 
-},{"../../../Component":274}],359:[function(require,module,exports){
+},{"../../../Component":275}],360:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -32343,7 +34139,7 @@ var CreateRectDragHandler = /** @class */ (function (_super) {
 exports.CreateRectDragHandler = CreateRectDragHandler;
 exports.default = CreateRectDragHandler;
 
-},{"../../../Component":274,"rxjs":26,"rxjs/operators":224}],360:[function(require,module,exports){
+},{"../../../Component":275,"rxjs":27,"rxjs/operators":225}],361:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -32404,7 +34200,7 @@ var CreateRectHandler = /** @class */ (function (_super) {
 exports.CreateRectHandler = CreateRectHandler;
 exports.default = CreateRectHandler;
 
-},{"../../../Component":274,"rxjs/operators":224}],361:[function(require,module,exports){
+},{"../../../Component":275,"rxjs/operators":225}],362:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -32481,7 +34277,7 @@ var CreateVertexHandler = /** @class */ (function (_super) {
 exports.CreateVertexHandler = CreateVertexHandler;
 exports.default = CreateVertexHandler;
 
-},{"../../../Component":274,"rxjs":26,"rxjs/operators":224}],362:[function(require,module,exports){
+},{"../../../Component":275,"rxjs":27,"rxjs/operators":225}],363:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -32594,7 +34390,7 @@ exports.EditVertexHandler = EditVertexHandler;
 exports.default = EditVertexHandler;
 
 
-},{"../../../Component":274,"rxjs":26,"rxjs/operators":224}],363:[function(require,module,exports){
+},{"../../../Component":275,"rxjs":27,"rxjs/operators":225}],364:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -32635,7 +34431,7 @@ exports.TagHandlerBase = TagHandlerBase;
 exports.default = TagHandlerBase;
 
 
-},{"../../../Component":274}],364:[function(require,module,exports){
+},{"../../../Component":275}],365:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -32863,7 +34659,7 @@ exports.OutlineCreateTag = OutlineCreateTag;
 exports.default = OutlineCreateTag;
 
 
-},{"../../../Component":274,"../../../Geo":277,"rxjs":26,"rxjs/operators":224,"three":225,"virtual-dom":230}],365:[function(require,module,exports){
+},{"../../../Component":275,"../../../Geo":278,"rxjs":27,"rxjs/operators":225,"three":226,"virtual-dom":231}],366:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -32892,7 +34688,11 @@ var OutlineRenderTag = /** @class */ (function (_super) {
         var _this = _super.call(this, tag, transform) || this;
         _this._fill = !transform.gpano ?
             _this._createFill() :
-            null;
+            transform.fullPano &&
+                tag.domain === Component_1.TagDomain.TwoDimensional &&
+                tag.geometry instanceof Component_1.PolygonGeometry ?
+                _this._createFill() :
+                null;
         _this._holes = _this._tag.lineWidth >= 1 ?
             _this._createHoles() :
             [];
@@ -32900,7 +34700,7 @@ var OutlineRenderTag = /** @class */ (function (_super) {
             _this._createOutline() :
             null;
         _this._geometryChangedSubscription = _this._tag.geometry.changed$
-            .subscribe(function (geometry) {
+            .subscribe(function () {
             if (_this._fill != null) {
                 _this._updateFillGeometry();
             }
@@ -32912,7 +34712,7 @@ var OutlineRenderTag = /** @class */ (function (_super) {
             }
         });
         _this._changedSubscription = _this._tag.changed$
-            .subscribe(function (changedTag) {
+            .subscribe(function () {
             var glObjectsChanged = false;
             if (_this._fill != null) {
                 _this._updateFillMaterial(_this._fill.material);
@@ -33246,7 +35046,7 @@ var OutlineRenderTag = /** @class */ (function (_super) {
 exports.OutlineRenderTag = OutlineRenderTag;
 
 
-},{"../../../Component":274,"three":225,"virtual-dom":230}],366:[function(require,module,exports){
+},{"../../../Component":275,"three":226,"virtual-dom":231}],367:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -33652,7 +35452,7 @@ var OutlineTag = /** @class */ (function (_super) {
 exports.OutlineTag = OutlineTag;
 exports.default = OutlineTag;
 
-},{"../../../Component":274,"../../../Viewer":285,"rxjs":26}],367:[function(require,module,exports){
+},{"../../../Component":275,"../../../Viewer":286,"rxjs":27}],368:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -33691,7 +35491,7 @@ var RenderTag = /** @class */ (function () {
 exports.RenderTag = RenderTag;
 exports.default = RenderTag;
 
-},{"../../../Geo":277,"rxjs":26}],368:[function(require,module,exports){
+},{"../../../Geo":278,"rxjs":27}],369:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -33809,7 +35609,7 @@ var SpotRenderTag = /** @class */ (function (_super) {
 exports.SpotRenderTag = SpotRenderTag;
 
 
-},{"../../../Component":274,"../../../Viewer":285,"virtual-dom":230}],369:[function(require,module,exports){
+},{"../../../Component":275,"../../../Viewer":286,"virtual-dom":231}],370:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -33992,7 +35792,7 @@ var SpotTag = /** @class */ (function (_super) {
 exports.SpotTag = SpotTag;
 exports.default = SpotTag;
 
-},{"../../../Component":274}],370:[function(require,module,exports){
+},{"../../../Component":275}],371:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -34109,7 +35909,7 @@ var Tag = /** @class */ (function (_super) {
 exports.Tag = Tag;
 exports.default = Tag;
 
-},{"../../../Utils":284,"rxjs":26,"rxjs/operators":224}],371:[function(require,module,exports){
+},{"../../../Utils":285,"rxjs":27,"rxjs/operators":225}],372:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -34141,7 +35941,7 @@ var TagDomain;
 })(TagDomain = exports.TagDomain || (exports.TagDomain = {}));
 exports.default = TagDomain;
 
-},{}],372:[function(require,module,exports){
+},{}],373:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var HandlerBase = /** @class */ (function () {
@@ -34197,7 +35997,7 @@ var HandlerBase = /** @class */ (function () {
 exports.HandlerBase = HandlerBase;
 exports.default = HandlerBase;
 
-},{}],373:[function(require,module,exports){
+},{}],374:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -34664,7 +36464,7 @@ var MeshFactory = /** @class */ (function () {
 exports.MeshFactory = MeshFactory;
 exports.default = MeshFactory;
 
-},{"../../Component":274,"three":225}],374:[function(require,module,exports){
+},{"../../Component":275,"three":226}],375:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -34740,7 +36540,7 @@ var MeshScene = /** @class */ (function () {
 exports.MeshScene = MeshScene;
 exports.default = MeshScene;
 
-},{"three":225}],375:[function(require,module,exports){
+},{"three":226}],376:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -34769,7 +36569,7 @@ var MouseOperator = /** @class */ (function () {
 exports.MouseOperator = MouseOperator;
 exports.default = MouseOperator;
 
-},{"rxjs":26,"rxjs/operators":224}],376:[function(require,module,exports){
+},{"rxjs":27,"rxjs/operators":225}],377:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -34842,7 +36642,7 @@ exports.ZoomComponent = ZoomComponent;
 Component_1.ComponentService.register(ZoomComponent);
 exports.default = ZoomComponent;
 
-},{"../../Component":274,"../../Geo":277,"../../State":281,"rxjs":26,"rxjs/operators":224,"virtual-dom":230}],377:[function(require,module,exports){
+},{"../../Component":275,"../../Geo":278,"../../State":282,"rxjs":27,"rxjs/operators":225,"virtual-dom":231}],378:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -34878,7 +36678,7 @@ var AbortMapillaryError = /** @class */ (function (_super) {
 exports.AbortMapillaryError = AbortMapillaryError;
 exports.default = AbortMapillaryError;
 
-},{"./MapillaryError":380}],378:[function(require,module,exports){
+},{"./MapillaryError":381}],379:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -34908,7 +36708,7 @@ var ArgumentMapillaryError = /** @class */ (function (_super) {
 exports.ArgumentMapillaryError = ArgumentMapillaryError;
 exports.default = ArgumentMapillaryError;
 
-},{"./MapillaryError":380}],379:[function(require,module,exports){
+},{"./MapillaryError":381}],380:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -34938,7 +36738,7 @@ var GraphMapillaryError = /** @class */ (function (_super) {
 exports.GraphMapillaryError = GraphMapillaryError;
 exports.default = GraphMapillaryError;
 
-},{"./MapillaryError":380}],380:[function(require,module,exports){
+},{"./MapillaryError":381}],381:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -34967,7 +36767,7 @@ var MapillaryError = /** @class */ (function (_super) {
 exports.MapillaryError = MapillaryError;
 exports.default = MapillaryError;
 
-},{}],381:[function(require,module,exports){
+},{}],382:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -35116,7 +36916,7 @@ var Camera = /** @class */ (function () {
 }());
 exports.Camera = Camera;
 
-},{"three":225}],382:[function(require,module,exports){
+},{"three":226}],383:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Geo_1 = require("../Geo");
@@ -35130,7 +36930,7 @@ function computeTranslation(position, rotation, reference) {
 }
 exports.computeTranslation = computeTranslation;
 
-},{"../Geo":277}],383:[function(require,module,exports){
+},{"../Geo":278}],384:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -35354,7 +37154,7 @@ var GeoCoords = /** @class */ (function () {
 exports.GeoCoords = GeoCoords;
 exports.default = GeoCoords;
 
-},{}],384:[function(require,module,exports){
+},{}],385:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function sign(n) {
@@ -35427,7 +37227,7 @@ function segmentIntersection(s1, s2) {
 }
 exports.segmentIntersection = segmentIntersection;
 
-},{}],385:[function(require,module,exports){
+},{}],386:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -35656,7 +37456,7 @@ var Spatial = /** @class */ (function () {
 exports.Spatial = Spatial;
 exports.default = Spatial;
 
-},{"three":225}],386:[function(require,module,exports){
+},{"three":226}],387:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -36296,7 +38096,7 @@ var Transform = /** @class */ (function () {
 }());
 exports.Transform = Transform;
 
-},{"three":225}],387:[function(require,module,exports){
+},{"three":226}],388:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -36690,7 +38490,7 @@ exports.ViewportCoords = ViewportCoords;
 exports.default = ViewportCoords;
 
 
-},{"three":225}],388:[function(require,module,exports){
+},{"three":226}],389:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -36778,7 +38578,7 @@ var FilterCreator = /** @class */ (function () {
 exports.FilterCreator = FilterCreator;
 exports.default = FilterCreator;
 
-},{}],389:[function(require,module,exports){
+},{}],390:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -37989,7 +39789,7 @@ var Graph = /** @class */ (function () {
 exports.Graph = Graph;
 exports.default = Graph;
 
-},{"../Edge":275,"../Error":276,"../Graph":278,"rbush":25,"rxjs":26,"rxjs/operators":224}],390:[function(require,module,exports){
+},{"../Edge":276,"../Error":277,"../Graph":279,"rbush":26,"rxjs":27,"rxjs/operators":225}],391:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var geohash = require("latlon-geohash");
@@ -38164,7 +39964,7 @@ var GraphCalculator = /** @class */ (function () {
 exports.GraphCalculator = GraphCalculator;
 exports.default = GraphCalculator;
 
-},{"../Error":276,"../Geo":277,"latlon-geohash":21,"three":225}],391:[function(require,module,exports){
+},{"../Error":277,"../Geo":278,"latlon-geohash":21,"three":226}],392:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -38196,7 +39996,7 @@ var GraphMode;
 })(GraphMode = exports.GraphMode || (exports.GraphMode = {}));
 exports.default = GraphMode;
 
-},{}],392:[function(require,module,exports){
+},{}],393:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -38556,7 +40356,7 @@ var GraphService = /** @class */ (function () {
 exports.GraphService = GraphService;
 exports.default = GraphService;
 
-},{"../Graph":278,"rxjs":26,"rxjs/operators":224}],393:[function(require,module,exports){
+},{"../Graph":279,"rxjs":27,"rxjs/operators":225}],394:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -38605,7 +40405,7 @@ var ImageLoadingService = /** @class */ (function () {
 }());
 exports.ImageLoadingService = ImageLoadingService;
 
-},{"rxjs":26,"rxjs/operators":224}],394:[function(require,module,exports){
+},{"rxjs":27,"rxjs/operators":225}],395:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Pbf = require("pbf");
@@ -38628,7 +40428,7 @@ var MeshReader = /** @class */ (function () {
 }());
 exports.MeshReader = MeshReader;
 
-},{"pbf":23}],395:[function(require,module,exports){
+},{"pbf":24}],396:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -39399,7 +41199,7 @@ var Node = /** @class */ (function () {
 exports.Node = Node;
 exports.default = Node;
 
-},{"rxjs/operators":224}],396:[function(require,module,exports){
+},{"rxjs/operators":225}],397:[function(require,module,exports){
 (function (Buffer){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -39821,7 +41621,7 @@ exports.default = NodeCache;
 
 }).call(this,require("buffer").Buffer)
 
-},{"../Graph":278,"../Utils":284,"buffer":7,"rxjs":26,"rxjs/operators":224}],397:[function(require,module,exports){
+},{"../Graph":279,"../Utils":285,"buffer":7,"rxjs":27,"rxjs/operators":225}],398:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -39909,7 +41709,7 @@ var Sequence = /** @class */ (function () {
 exports.Sequence = Sequence;
 exports.default = Sequence;
 
-},{}],398:[function(require,module,exports){
+},{}],399:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -40510,7 +42310,7 @@ var EdgeCalculator = /** @class */ (function () {
 exports.EdgeCalculator = EdgeCalculator;
 exports.default = EdgeCalculator;
 
-},{"../../Edge":275,"../../Error":276,"../../Geo":277,"three":225}],399:[function(require,module,exports){
+},{"../../Edge":276,"../../Error":277,"../../Geo":278,"three":226}],400:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EdgeCalculatorCoefficients = /** @class */ (function () {
@@ -40536,7 +42336,7 @@ var EdgeCalculatorCoefficients = /** @class */ (function () {
 exports.EdgeCalculatorCoefficients = EdgeCalculatorCoefficients;
 exports.default = EdgeCalculatorCoefficients;
 
-},{}],400:[function(require,module,exports){
+},{}],401:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Edge_1 = require("../../Edge");
@@ -40609,7 +42409,7 @@ var EdgeCalculatorDirections = /** @class */ (function () {
 }());
 exports.EdgeCalculatorDirections = EdgeCalculatorDirections;
 
-},{"../../Edge":275}],401:[function(require,module,exports){
+},{"../../Edge":276}],402:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EdgeCalculatorSettings = /** @class */ (function () {
@@ -40646,7 +42446,7 @@ var EdgeCalculatorSettings = /** @class */ (function () {
 exports.EdgeCalculatorSettings = EdgeCalculatorSettings;
 exports.default = EdgeCalculatorSettings;
 
-},{}],402:[function(require,module,exports){
+},{}],403:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -40704,7 +42504,7 @@ var EdgeDirection;
     EdgeDirection[EdgeDirection["Similar"] = 10] = "Similar";
 })(EdgeDirection = exports.EdgeDirection || (exports.EdgeDirection = {}));
 
-},{}],403:[function(require,module,exports){
+},{}],404:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -40881,7 +42681,7 @@ exports.DOMRenderer = DOMRenderer;
 exports.default = DOMRenderer;
 
 
-},{"../Render":280,"rxjs":26,"rxjs/operators":224,"virtual-dom":230}],404:[function(require,module,exports){
+},{"../Render":281,"rxjs":27,"rxjs/operators":225,"virtual-dom":231}],405:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var GLRenderStage;
@@ -40891,7 +42691,7 @@ var GLRenderStage;
 })(GLRenderStage = exports.GLRenderStage || (exports.GLRenderStage = {}));
 exports.default = GLRenderStage;
 
-},{}],405:[function(require,module,exports){
+},{}],406:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -41107,7 +42907,7 @@ exports.GLRenderer = GLRenderer;
 exports.default = GLRenderer;
 
 
-},{"../Render":280,"../Utils":284,"rxjs":26,"rxjs/operators":224,"three":225}],406:[function(require,module,exports){
+},{"../Render":281,"../Utils":285,"rxjs":27,"rxjs/operators":225,"three":226}],407:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -41358,7 +43158,7 @@ var RenderCamera = /** @class */ (function () {
 exports.RenderCamera = RenderCamera;
 exports.default = RenderCamera;
 
-},{"../Geo":277,"../Render":280,"../State":281,"three":225}],407:[function(require,module,exports){
+},{"../Geo":278,"../Render":281,"../State":282,"three":226}],408:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -41394,7 +43194,7 @@ var RenderMode;
 })(RenderMode = exports.RenderMode || (exports.RenderMode = {}));
 exports.default = RenderMode;
 
-},{}],408:[function(require,module,exports){
+},{}],409:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -41514,7 +43314,7 @@ exports.RenderService = RenderService;
 exports.default = RenderService;
 
 
-},{"../Geo":277,"../Render":280,"rxjs":26,"rxjs/operators":224}],409:[function(require,module,exports){
+},{"../Geo":278,"../Render":281,"rxjs":27,"rxjs/operators":225}],410:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var FrameGenerator = /** @class */ (function () {
@@ -41563,7 +43363,7 @@ var FrameGenerator = /** @class */ (function () {
 exports.FrameGenerator = FrameGenerator;
 exports.default = FrameGenerator;
 
-},{}],410:[function(require,module,exports){
+},{}],411:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var RotationDelta = /** @class */ (function () {
@@ -41626,7 +43426,7 @@ var RotationDelta = /** @class */ (function () {
 exports.RotationDelta = RotationDelta;
 exports.default = RotationDelta;
 
-},{}],411:[function(require,module,exports){
+},{}],412:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var State;
@@ -41638,7 +43438,7 @@ var State;
 })(State = exports.State || (exports.State = {}));
 exports.default = State;
 
-},{}],412:[function(require,module,exports){
+},{}],413:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var State_1 = require("../State");
@@ -41866,7 +43666,7 @@ var StateContext = /** @class */ (function () {
 }());
 exports.StateContext = StateContext;
 
-},{"../Geo":277,"../State":281}],413:[function(require,module,exports){
+},{"../Geo":278,"../State":282}],414:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -42220,7 +44020,7 @@ var StateService = /** @class */ (function () {
 }());
 exports.StateService = StateService;
 
-},{"../State":281,"rxjs":26,"rxjs/operators":224}],414:[function(require,module,exports){
+},{"../State":282,"rxjs":27,"rxjs/operators":225}],415:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -42251,7 +44051,7 @@ var TransitionMode;
 })(TransitionMode = exports.TransitionMode || (exports.TransitionMode = {}));
 exports.default = TransitionMode;
 
-},{}],415:[function(require,module,exports){
+},{}],416:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -42335,7 +44135,7 @@ exports.EarthState = EarthState;
 exports.default = EarthState;
 
 
-},{"../../State":281,"three":225}],416:[function(require,module,exports){
+},{"../../State":282,"three":226}],417:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -42769,7 +44569,7 @@ exports.InteractiveStateBase = InteractiveStateBase;
 exports.default = InteractiveStateBase;
 
 
-},{"../../State":281,"three":225}],417:[function(require,module,exports){
+},{"../../State":282,"three":226}],418:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -42854,7 +44654,7 @@ var InteractiveWaitingState = /** @class */ (function (_super) {
 exports.InteractiveWaitingState = InteractiveWaitingState;
 exports.default = InteractiveWaitingState;
 
-},{"../../State":281}],418:[function(require,module,exports){
+},{"../../State":282}],419:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Error_1 = require("../../Error");
@@ -43194,7 +44994,7 @@ var StateBase = /** @class */ (function () {
 }());
 exports.StateBase = StateBase;
 
-},{"../../Error":276,"../../Geo":277,"../../State":281}],419:[function(require,module,exports){
+},{"../../Error":277,"../../Geo":278,"../../State":282}],420:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -43328,7 +45128,7 @@ var TraversingState = /** @class */ (function (_super) {
 exports.TraversingState = TraversingState;
 exports.default = TraversingState;
 
-},{"../../State":281,"@mapbox/unitbezier":2}],420:[function(require,module,exports){
+},{"../../State":282,"@mapbox/unitbezier":2}],421:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -43402,7 +45202,7 @@ var WaitingState = /** @class */ (function (_super) {
 exports.WaitingState = WaitingState;
 exports.default = WaitingState;
 
-},{"../../State":281}],421:[function(require,module,exports){
+},{"../../State":282}],422:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -43494,7 +45294,7 @@ var ImageTileLoader = /** @class */ (function () {
 exports.ImageTileLoader = ImageTileLoader;
 exports.default = ImageTileLoader;
 
-},{"rxjs":26}],422:[function(require,module,exports){
+},{"rxjs":27}],423:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -43562,7 +45362,7 @@ var ImageTileStore = /** @class */ (function () {
 exports.ImageTileStore = ImageTileStore;
 exports.default = ImageTileStore;
 
-},{}],423:[function(require,module,exports){
+},{}],424:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Geo_1 = require("../Geo");
@@ -43702,7 +45502,7 @@ var RegionOfInterestCalculator = /** @class */ (function () {
 exports.RegionOfInterestCalculator = RegionOfInterestCalculator;
 exports.default = RegionOfInterestCalculator;
 
-},{"../Geo":277}],424:[function(require,module,exports){
+},{"../Geo":278}],425:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -44178,7 +45978,7 @@ var TextureProvider = /** @class */ (function () {
 exports.TextureProvider = TextureProvider;
 exports.default = TextureProvider;
 
-},{"rxjs":26,"rxjs/operators":224,"three":225}],425:[function(require,module,exports){
+},{"rxjs":27,"rxjs/operators":225,"three":226}],426:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var DOM = /** @class */ (function () {
@@ -44207,7 +46007,7 @@ var DOM = /** @class */ (function () {
 exports.DOM = DOM;
 exports.default = DOM;
 
-},{}],426:[function(require,module,exports){
+},{}],427:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EventEmitter = /** @class */ (function () {
@@ -44266,7 +46066,7 @@ var EventEmitter = /** @class */ (function () {
 exports.EventEmitter = EventEmitter;
 exports.default = EventEmitter;
 
-},{}],427:[function(require,module,exports){
+},{}],428:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Viewer_1 = require("../Viewer");
@@ -44310,7 +46110,7 @@ var Settings = /** @class */ (function () {
 exports.Settings = Settings;
 exports.default = Settings;
 
-},{"../Viewer":285}],428:[function(require,module,exports){
+},{"../Viewer":286}],429:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function isBrowser() {
@@ -44380,7 +46180,7 @@ function isWebGLSupported() {
 }
 exports.isWebGLSupported = isWebGLSupported;
 
-},{}],429:[function(require,module,exports){
+},{}],430:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Urls = /** @class */ (function () {
@@ -44472,7 +46272,7 @@ var Urls = /** @class */ (function () {
 exports.Urls = Urls;
 exports.default = Urls;
 
-},{}],430:[function(require,module,exports){
+},{}],431:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -44521,7 +46321,7 @@ var Alignment;
 })(Alignment = exports.Alignment || (exports.Alignment = {}));
 exports.default = Alignment;
 
-},{}],431:[function(require,module,exports){
+},{}],432:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -44605,7 +46405,7 @@ var CacheService = /** @class */ (function () {
 exports.CacheService = CacheService;
 exports.default = CacheService;
 
-},{"../Graph":278,"rxjs":26,"rxjs/operators":224}],432:[function(require,module,exports){
+},{"../Graph":279,"rxjs":27,"rxjs/operators":225}],433:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -44782,7 +46582,7 @@ var ComponentController = /** @class */ (function () {
 }());
 exports.ComponentController = ComponentController;
 
-},{"../Component":274,"rxjs/operators":224}],433:[function(require,module,exports){
+},{"../Component":275,"rxjs/operators":225}],434:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Render_1 = require("../Render");
@@ -44833,7 +46633,7 @@ var Container = /** @class */ (function () {
 exports.Container = Container;
 exports.default = Container;
 
-},{"../Render":280,"../Utils":284,"../Viewer":285}],434:[function(require,module,exports){
+},{"../Render":281,"../Utils":285,"../Viewer":286}],435:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -44862,7 +46662,7 @@ var ImageSize;
     ImageSize[ImageSize["Size2048"] = 2048] = "Size2048";
 })(ImageSize = exports.ImageSize || (exports.ImageSize = {}));
 
-},{}],435:[function(require,module,exports){
+},{}],436:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -44890,7 +46690,7 @@ var KeyboardService = /** @class */ (function () {
 exports.KeyboardService = KeyboardService;
 exports.default = KeyboardService;
 
-},{"rxjs":26}],436:[function(require,module,exports){
+},{"rxjs":27}],437:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -44938,7 +46738,7 @@ var LoadingService = /** @class */ (function () {
 exports.LoadingService = LoadingService;
 exports.default = LoadingService;
 
-},{"rxjs":26,"rxjs/operators":224}],437:[function(require,module,exports){
+},{"rxjs":27,"rxjs/operators":225}],438:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -45319,7 +47119,7 @@ var MouseService = /** @class */ (function () {
 exports.MouseService = MouseService;
 exports.default = MouseService;
 
-},{"rxjs":26,"rxjs/operators":224}],438:[function(require,module,exports){
+},{"rxjs":27,"rxjs/operators":225}],439:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -45559,7 +47359,7 @@ var Navigator = /** @class */ (function () {
 exports.Navigator = Navigator;
 exports.default = Navigator;
 
-},{"../API":273,"../Edge":275,"../Error":276,"../Graph":278,"../State":281,"../Viewer":285,"rxjs":26,"rxjs/operators":224}],439:[function(require,module,exports){
+},{"../API":274,"../Edge":276,"../Error":277,"../Graph":279,"../State":282,"../Viewer":286,"rxjs":27,"rxjs/operators":225}],440:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -45709,7 +47509,7 @@ var Observer = /** @class */ (function () {
 exports.Observer = Observer;
 exports.default = Observer;
 
-},{"../Viewer":285,"rxjs":26,"rxjs/operators":224}],440:[function(require,module,exports){
+},{"../Viewer":286,"rxjs":27,"rxjs/operators":225}],441:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -46030,7 +47830,7 @@ var PlayService = /** @class */ (function () {
 exports.PlayService = PlayService;
 exports.default = PlayService;
 
-},{"../Edge":275,"../Graph":278,"rxjs":26,"rxjs/operators":224}],441:[function(require,module,exports){
+},{"../Edge":276,"../Graph":279,"rxjs":27,"rxjs/operators":225}],442:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -46088,7 +47888,7 @@ var Projection = /** @class */ (function () {
 exports.Projection = Projection;
 exports.default = Projection;
 
-},{"../Geo":277,"three":225}],442:[function(require,module,exports){
+},{"../Geo":278,"three":226}],443:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -46281,7 +48081,7 @@ exports.SpriteService = SpriteService;
 exports.default = SpriteService;
 
 
-},{"../Viewer":285,"rxjs":26,"rxjs/operators":224,"three":225,"virtual-dom":230}],443:[function(require,module,exports){
+},{"../Viewer":286,"rxjs":27,"rxjs/operators":225,"three":226,"virtual-dom":231}],444:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -46505,7 +48305,7 @@ var TouchService = /** @class */ (function () {
 }());
 exports.TouchService = TouchService;
 
-},{"rxjs":26,"rxjs/operators":224}],444:[function(require,module,exports){
+},{"rxjs":27,"rxjs/operators":225}],445:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -47277,6 +49077,6 @@ var Viewer = /** @class */ (function (_super) {
 }(Utils_1.EventEmitter));
 exports.Viewer = Viewer;
 
-},{"../Utils":284,"../Viewer":285,"rxjs":26,"rxjs/operators":224,"when":271}]},{},[279])(279)
+},{"../Utils":285,"../Viewer":286,"rxjs":27,"rxjs/operators":225,"when":272}]},{},[280])(280)
 });
 //# sourceMappingURL=mapillary.js.map
