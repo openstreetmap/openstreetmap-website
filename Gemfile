@@ -46,6 +46,7 @@ gem "image_optim_rails"
 # Load rails plugins
 gem "actionpack-page_caching"
 gem "active_record_union"
+gem "activerecord-import"
 gem "cancancan"
 gem "composite_primary_keys", "~> 11.1.0"
 gem "config"

@@ -206,6 +206,10 @@ class TraceTest < ActiveSupport::TestCase
 
       trace.reload
       assert_equal 1, Tracepoint.where(:gpx_id => trace.id).count
+
+      # Check that the tile has been set prior to the bulk import
+      # i.e. that the callbacks have been run correctly
+      assert_equal 3221331576, Tracepoint.where(:gpx_id => trace.id).first.tile
     end
   end
 
