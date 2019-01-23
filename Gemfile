@@ -128,6 +128,7 @@ end
 
 # Gems needed for running tests
 group :test do
+  gem "fakefs", :require => "fakefs/safe"
   gem "minitest", "~> 5.1", :platforms => [:ruby_19, :ruby_20]
   gem "rails-controller-testing"
   gem "rubocop"
