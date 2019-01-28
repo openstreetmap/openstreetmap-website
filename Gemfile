@@ -114,6 +114,9 @@ gem "canonical-rails"
 # Used to generate logstash friendly log files
 gem "logstasher"
 
+# Used to generate images for traces
+gem "gd2-ffij"
+
 # Gems useful for development
 group :development do
   gem "annotate"
@@ -125,6 +128,7 @@ end
 
 # Gems needed for running tests
 group :test do
+  gem "fakefs", :require => "fakefs/safe"
   gem "minitest", "~> 5.1", :platforms => [:ruby_19, :ruby_20]
   gem "rails-controller-testing"
   gem "rubocop"

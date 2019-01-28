@@ -192,6 +192,66 @@ class TraceTest < ActiveSupport::TestCase
     trace.destroy
   end
 
+  # When testing the trace.import method, care needs to be taken regarding the icon
+  # fixture files, since the fixtures could be overwritten by newly generated files.
+  # We use FakeFS to temporarily protect the real fixture files from being overwritten.
+
+  def test_import_removes_previous_tracepoints
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace = create(:trace, :fixture => "a")
+      # Tracepoints don't have a primary key, so we use a specific latitude to
+      # check for successful deletion
+      create(:tracepoint, :latitude => 54321, :trace => trace)
+      assert_equal 1, Tracepoint.where(:latitude => 54321).count
+
+      trace.import
+
+      assert_equal 0, Tracepoint.where(:latitude => 54321).count
+    end
+  end
+
+  def test_import_creates_tracepoints
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace = create(:trace, :fixture => "a")
+      assert_equal 0, Tracepoint.where(:gpx_id => trace.id).count
+
+      trace.import
+
+      trace.reload
+      assert_equal 1, Tracepoint.where(:gpx_id => trace.id).count
+    end
+  end
+
+  def test_import_creates_icon
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace = create(:trace, :fixture => "a")
+      icon_path = File.join(GPX_IMAGE_DIR, "#{trace.id}_icon.gif")
+      FileUtils.rm(icon_path)
+      assert_equal false, File.exist?(icon_path)
+
+      trace.import
+
+      assert_equal true, File.exist?(icon_path)
+    end
+  end
+
+  def test_import_creates_large_picture
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace = create(:trace, :fixture => "a")
+      large_picture_path = File.join(GPX_IMAGE_DIR, "#{trace.id}.gif")
+      FileUtils.rm(large_picture_path)
+      assert_equal false, File.exist?(large_picture_path)
+
+      trace.import
+
+      assert_equal true, File.exist?(large_picture_path)
+    end
+  end
+
   private
 
   def check_query(query, traces)

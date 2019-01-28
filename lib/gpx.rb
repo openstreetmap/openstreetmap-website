@@ -45,71 +45,47 @@ module GPX
       end
     end
 
-    def picture(min_lat, min_lon, max_lat, max_lon, num_points)
-      frames = 10
+    def picture(min_lat, min_lon, max_lat, max_lon, _num_points)
+      # frames = 10
       width = 250
       height = 250
       proj = OSM::Mercator.new(min_lat, min_lon, max_lat, max_lon, width, height)
 
-      linegc = Magick::Draw.new
-      linegc.stroke_linejoin("miter")
-      linegc.stroke_width(1)
-      linegc.stroke("#BBBBBB")
-      linegc.fill("#BBBBBB")
+      # TODO: create animated gif
+      # https://github.com/openstreetmap/openstreetmap-website/issues/281
+      image = GD2::Image::IndexedColor.new(width, height)
 
-      highlightgc = Magick::Draw.new
-      highlightgc.stroke_linejoin("miter")
-      highlightgc.stroke_width(3)
-      highlightgc.stroke("#000000")
-      highlightgc.fill("#000000")
+      black = image.palette.allocate(GD2::Color[0, 0, 0])
+      white = image.palette.allocate(GD2::Color[255, 255, 255])
 
-      images = Array(frames) do
-        Magick::Image.new(width, height) do |image|
-          image.background_color = "white"
-          image.format = "GIF"
+      image.draw do |pen|
+        pen.color = white
+        pen.rectangle(0, 0, width, height, true)
+      end
+
+      image.draw do |pen|
+        pen.color = black
+        pen.anti_aliasing = true
+        pen.dont_blend = false
+
+        oldpx = 0.0
+        oldpy = 0.0
+
+        first = true
+
+        points do |p|
+          px = proj.x(p.longitude)
+          py = proj.y(p.latitude)
+
+          pen.line(px, py, oldpx, oldpy) unless first
+
+          first = false
+          oldpy = py
+          oldpx = px
         end
       end
 
-      oldpx = 0.0
-      oldpy = 0.0
-
-      m = 0
-      mm = 0
-      points do |p|
-        px = proj.x(p.longitude)
-        py = proj.y(p.latitude)
-
-        if m.positive?
-          frames.times do |n|
-            gc = if n == mm
-                   highlightgc.dup
-                 else
-                   linegc.dup
-                 end
-
-            gc.line(px, py, oldpx, oldpy)
-
-            gc.draw(images[n])
-          end
-        end
-
-        m += 1
-        mm += 1 if m > num_points.to_f / frames.to_f * (mm + 1)
-
-        oldpy = py
-        oldpx = px
-      end
-
-      il = Magick::ImageList.new
-
-      images.each do |f|
-        il << f
-      end
-
-      il.delay = 50
-      il.format = "GIF"
-
-      il.to_blob
+      image.gif
     end
 
     def icon(min_lat, min_lon, max_lat, max_lon)
@@ -117,34 +93,39 @@ module GPX
       height = 50
       proj = OSM::Mercator.new(min_lat, min_lon, max_lat, max_lon, width, height)
 
-      gc = Magick::Draw.new
-      gc.stroke_linejoin("miter")
-      gc.stroke_width(1)
-      gc.stroke("#000000")
-      gc.fill("#000000")
+      image = GD2::Image::IndexedColor.new(width, height)
 
-      image = Magick::Image.new(width, height) do |i|
-        i.background_color = "white"
-        i.format = "GIF"
+      black = image.palette.allocate(GD2::Color[0, 0, 0])
+      white = image.palette.allocate(GD2::Color[255, 255, 255])
+
+      image.draw do |pen|
+        pen.color = white
+        pen.rectangle(0, 0, width, height, true)
       end
 
-      oldpx = 0.0
-      oldpy = 0.0
+      image.draw do |pen|
+        pen.color = black
+        pen.anti_aliasing = true
+        pen.dont_blend = false
 
-      first = true
+        oldpx = 0.0
+        oldpy = 0.0
 
-      points do |p|
-        px = proj.x(p.longitude)
-        py = proj.y(p.latitude)
+        first = true
 
-        gc.dup.line(px, py, oldpx, oldpy).draw(image) unless first
+        points do |p|
+          px = proj.x(p.longitude)
+          py = proj.y(p.latitude)
 
-        first = false
-        oldpy = py
-        oldpx = px
+          pen.line(px, py, oldpx, oldpy) unless first
+
+          first = false
+          oldpy = py
+          oldpx = px
+        end
       end
 
-      image.to_blob
+      image.gif
     end
   end
 
