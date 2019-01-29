@@ -22,6 +22,8 @@ class TraceImporterJobTest < ActiveJob::TestCase
     email = ActionMailer::Base.deliveries.last
     assert_equal trace.user.email, email.to[0]
     assert_match(/success/, email.subject)
+
+    ActionMailer::Base.deliveries.clear
   end
 
   def test_failure_notification
@@ -44,6 +46,8 @@ class TraceImporterJobTest < ActiveJob::TestCase
     email = ActionMailer::Base.deliveries.last
     assert_equal trace.user.email, email.to[0]
     assert_match(/failure/, email.subject)
+
+    ActionMailer::Base.deliveries.clear
   end
 
   def test_error_notification
@@ -60,5 +64,7 @@ class TraceImporterJobTest < ActiveJob::TestCase
     email = ActionMailer::Base.deliveries.last
     assert_equal trace.user.email, email.to[0]
     assert_match(/failure/, email.subject)
+
+    ActionMailer::Base.deliveries.clear
   end
 end
