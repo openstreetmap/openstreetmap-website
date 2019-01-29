@@ -1,12 +1,12 @@
-// OSRM car engine
+// FOSSGIS engine (OSRM based)
 // Doesn't yet support hints
 
-function OSRMEngine() {
+function FOSSGISEngine(id, vehicleType) {
   var cachedHints = [];
 
   return {
-    id: "osrm_car",
-    creditline: '<a href="http://project-osrm.org/" target="_blank">OSRM</a>',
+    id: id,
+    creditline: '<a href="https://routing.openstreetmap.de/about.html" target="_blank">FOSSGIS Routing Service</a>',
     draggable: true,
 
     _transformSteps: function(input_steps, line) {
@@ -133,7 +133,7 @@ function OSRMEngine() {
           }
         } else if (step.maneuver.type.match(/^(on ramp|off ramp)$/)) {
           var params = {};
-          if (step.exits && step.maneuver.type.match(/^off ramp$/)) params.exit = step.exits;
+          if (step.exits && step.maneuver.type.match(/^(off ramp)$/)) params.exit = step.exits;
           if (step.destinations) params.directions = destinations;
           if (namedRoad) params.directions = name;
           if (Object.keys(params).length > 0) {
@@ -169,7 +169,7 @@ function OSRMEngine() {
         return p.lng + ',' + p.lat;
       }).join(';');
 
-      var req_url = OSM.OSRM_URL + encoded_coords;
+      var req_url = OSM.FOSSGIS_OSRM_URL + "routed-" + vehicleType + "/route/v1/driving/" + encoded_coords;
 
       var onResponse = function (data) {
         if (data.code !== 'Ok')
@@ -207,4 +207,7 @@ function OSRMEngine() {
   };
 }
 
-OSM.Directions.addEngine(new OSRMEngine(), true);
+OSM.Directions.addEngine(new FOSSGISEngine("fossgis_osrm_car", "car"), true);
+OSM.Directions.addEngine(new FOSSGISEngine("fossgis_osrm_bike", "bike"), true);
+OSM.Directions.addEngine(new FOSSGISEngine("fossgis_osrm_foot", "foot"), true);
+

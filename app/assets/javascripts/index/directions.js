@@ -159,13 +159,15 @@ OSM.Directions = function (map) {
     return h + ":" + (m < 10 ? '0' : '') + m;
   }
 
-  function setEngine(id) {
-    engines.forEach(function(engine, i) {
-      if (engine.id === id) {
-        chosenEngine = engine;
-        select.val(i);
-      }
+  function findEngine(id) {
+    return engines.findIndex(function(engine) {
+      return engine.id === id;
     });
+  }
+
+  function setEngine(index) {
+    chosenEngine = engines[index];
+    select.val(index);
   }
 
   function getRoute(fitRoute, reportErrors) {
@@ -316,11 +318,11 @@ OSM.Directions = function (map) {
     select.append("<option value='" + i + "'>" + I18n.t('javascripts.directions.engines.' + engine.id) + "</option>");
   });
 
-  var chosenEngineId = $.cookie('_osm_directions_engine');
-  if(!chosenEngineId) {
-    chosenEngineId = 'osrm_car';
+  var chosenEngineIndex = findEngine('fossgis_osrm_car');
+  if ($.cookie('_osm_directions_engine')) {
+    chosenEngineIndex = findEngine($.cookie('_osm_directions_engine'));
   }
-  setEngine(chosenEngineId);
+  setEngine(chosenEngineIndex);
 
   select.on("change", function (e) {
     chosenEngine = engines[e.target.selectedIndex];
@@ -374,7 +376,11 @@ OSM.Directions = function (map) {
         to = route[1] && L.latLng(route[1].split(','));
 
     if (params.engine) {
-      setEngine(params.engine);
+      var engineIndex = findEngine(params.engine);
+
+      if (engineIndex >= 0) {
+        setEngine(engineIndex);
+      }
     }
 
     endpoints[0].setValue(params.from || "", from);
