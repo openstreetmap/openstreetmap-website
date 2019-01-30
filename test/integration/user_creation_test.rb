@@ -7,9 +7,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     OmniAuth.config.test_mode = true
 
     stub_request(:get, /.*gravatar.com.*d=404/).to_return(:status => 404)
-    stub_request(:get, "https://api.hostip.info/country.php?ip=127.0.0.1").
-      to_return(status: 200, body: "", headers: {})
-
+    stub_hostip_requests
   end
 
   def teardown
@@ -143,7 +141,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     end
   end
 
-
   # Check that the user can successfully recover their password
   def lost_password_recovery_success
     # Open the lost password form
@@ -221,7 +218,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_response :redirect
           assert_redirected_to "/user/terms"
           post "/user/save",
-               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => password, :pass_crypt_confirmation => password }, :read_tou => 1}
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => password, :pass_crypt_confirmation => password }, :read_tou => 1 }
           assert_response :redirect
           follow_redirect!
         end

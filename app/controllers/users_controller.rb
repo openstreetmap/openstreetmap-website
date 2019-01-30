@@ -36,7 +36,7 @@ class UsersController < ApplicationController
   def save
     @title = t "users.new.title"
 
-    if params[:decline] || !params[:read_tou] || params[:read_tou] == 0
+    if params[:decline] || !params[:read_tou] || params[:read_tou] == "0"
       if current_user
         current_user.terms_seen = true
 
