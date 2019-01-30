@@ -221,7 +221,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_difference "User.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 1 do
         perform_enqueued_jobs do
-          post :save, :session => { :new_user => user }
+          post :save, :session => { :new_user => user }, :params => { :read_tou => 1 }
         end
       end
     end
@@ -245,7 +245,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_no_difference "User.count" do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
         perform_enqueued_jobs do
-          post :save, :session => { :new_user => user }
+          post :save, :session => { :new_user => user }, :params => { :read_tou => 1 }
         end
       end
     end
@@ -262,7 +262,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_no_difference "User.count" do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
         perform_enqueued_jobs do
-          post :save, :session => { :new_user => user }
+          post :save, :session => { :new_user => user }, :params => { :read_tou => 1 }
         end
       end
     end
@@ -279,7 +279,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_no_difference "User.count" do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
         perform_enqueued_jobs do
-          post :save, :session => { :new_user => user }
+          post :save, :session => { :new_user => user }, :params => { :read_tou => 1 }
         end
       end
     end
@@ -296,7 +296,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_no_difference "User.count" do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
         perform_enqueued_jobs do
-          post :save, :session => { :new_user => user }
+          post :save, :session => { :new_user => user }, :params => { :read_tou => 1 }
         end
       end
     end
@@ -313,7 +313,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_no_difference "User.count" do
       assert_no_difference "ActionMailer::Base.deliveries.size" do
         perform_enqueued_jobs do
-          post :save, :session => { :new_user => user }
+          post :save, :session => { :new_user => user }, :params => { :read_tou => 1 }
         end
       end
     end
@@ -329,7 +329,8 @@ class UsersControllerTest < ActionController::TestCase
       assert_difference "ActionMailer::Base.deliveries.size", 1 do
         perform_enqueued_jobs do
           post :save, :session => { :new_user => user,
-                                    :referer => "/edit?editor=id#map=1/2/3" }
+                                    :referer => "/edit?editor=id#map=1/2/3" },
+                      :params => { :read_tou => 1 }
         end
       end
     end
@@ -637,7 +638,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :terms
 
-    post :save, :params => { :user => { :consider_pd => true } }
+    post :save, :params => { :user => { :consider_pd => true }, :read_tou => 1 }
     assert_response :redirect
     assert_redirected_to :action => :account, :display_name => user.display_name
     assert_equal "Thanks for accepting the new contributor terms!", flash[:notice]
@@ -658,7 +659,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :terms
 
-    post :save, :params => { :user => { :consider_pd => true }, :referer => "/test" }
+    post :save, :params => { :user => { :consider_pd => true }, :referer => "/test", :read_tou => 1 }
     assert_response :redirect
     assert_redirected_to "/test"
     assert_equal "Thanks for accepting the new contributor terms!", flash[:notice]
