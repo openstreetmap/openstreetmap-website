@@ -36,7 +36,7 @@ class UsersController < ApplicationController
   def save
     @title = t "users.new.title"
 
-    if params[:decline]
+    if params[:decline] || !params[:read_tou] || params[:read_tou] == 0
       if current_user
         current_user.terms_seen = true
 
@@ -47,8 +47,10 @@ class UsersController < ApplicationController
         else
           redirect_to :action => :account, :display_name => current_user.display_name
         end
-      else
+      elsif params[:decline]
         redirect_to t("users.terms.declined")
+      else
+        redirect_to :action => :terms
       end
     elsif current_user
       unless current_user.terms_agreed?
