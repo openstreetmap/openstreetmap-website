@@ -47,14 +47,14 @@
   <p class="deemphasize"><%= t '.tou_explain' %></p>
   <div class="form-row">
     <label for="read_tou">
-      <%= check_box_tag 'read_tou',1,false %>
+      <%= check_box_tag 'read_tou' %>
       <%= t '.read_tou_html', :tou_link => link_to(t('layouts.tou'), "https://wiki.osmfoundation.org/wiki/Terms_of_Use", :target => :new) %>
     </label>
 
     <%= hidden_field_tag("referer", h(params[:referer])) unless params[:referer].nil? %>
 
     <div class="buttons form-row inner20 clearfix">
-      <%= submit_tag(t('.agree'), :name => "agree", :id => "agree", disabled: true)  %>
+      <%= submit_tag(t('.agree'), :name => "agree", :id => "agree", :disabled => true)  %>
       <%= submit_tag(t('.decline'), :name => "decline", :id => "decline") %>
     </div>
 
