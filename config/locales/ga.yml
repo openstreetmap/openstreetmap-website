@@ -915,6 +915,74 @@ ga:
     results:
       no_results: Gan torthaí
       more_results: Tuilleadh torthaí
+  issues:
+    index:
+      title: Fadhbanna
+      select_status: Roghnaigh stádas
+    show:
+      title: '%{status} Fadhb #%{issue_id}'
+      reports:
+        zero: Tuairisc ar bith
+        one: Tuairisc amháin
+        other: '%{count} tuairisc'
+      report_created_at: Tuairiscíodh den chéad uair ag %{datetime}
+      last_resolved_at: Réitithe den uair dheirineach ag %{datetime}
+      last_updated_at: Rinne %{displayname} an nuashonrú is déanaí ag %{datetime}
+      resolve: Réitigh
+      ignore: Tabhair neamhaird air
+      reopen: Athoscail
+      reports_of_this_issue: Tuairiscí faoin bhFadhb seo
+      read_reports: Tuairiscí a Léamh
+      new_reports: Tuairiscí Nua
+      other_issues_against_this_user: Fadhbanna eile i leith an úsáideora seo
+      no_other_issues: Níl aon fhadhb eile i leith an úsáideora seo.
+      comments_on_this_issue: Nótaí tráchta faoin bhfadhb
+    resolve:
+      resolved: Stádas na faidhbe socraithe go 'Réitithe'
+    ignore:
+      ignored: Stádas na faidhbe socraithe go 'Neamhaird'
+    reopen:
+      reopened: Stádas na faidhbe socraithe go 'Oscailte'
+    comments:
+      created_at: Ar an %{datetime}
+      reassign_param: Athshann an Fhadhb?
+    reports:
+      updated_at: Ar an %{datetime}
+  reports:
+    new:
+      select: 'Roghnaigh cúis don tuairisc uait:'
+      disclaimer:
+        intro: 'Sula gcuire tú do thuairisc chuig modhnóirí an tsuímh, déan cinnte:'
+        not_just_mistake: Go bhfuil tú deimhin de nach díreach botún atá san fhadhb
+        unable_to_fix: Nach féidir leat an fhadhb a cheartú tú féin nó le cabhair
+          ó na baill eile den phobal
+        resolve_with_user: Go ndearna tú iarracht cheana féin an fhadhb a réiteach
+          leis an úsáideoir atá i gceist
+      categories:
+        diary_entry:
+          spam_label: Is turscar atá san iontráil dialainne seo nó atá i gcuid de
+          offensive_label: Tá an iontráil dialainne seo gáirsiúil/graosta/gránna
+          threat_label: Tá bagairt san iontráil dialainne seo
+          other_label: Eile
+        diary_comment:
+          spam_label: Is turscar atá san iontráil dialainne seo nó atá i gcuid de
+          offensive_label: Tá an iontráil dialainne seo gáirsiúil/graosta/gránna
+          threat_label: Tá bagairt san iontráil dialainne seo
+          other_label: Eile
+        user:
+          spam_label: Is turscar atá sa phróifíl úsáideora seo nó atá i gcuid de
+          offensive_label: Tá an phróifíl úsáideora seo gáirsiúil/graosta/gránna
+          threat_label: Tá bagairt sa phróifíl den phróifíl úsáideora seo
+          vandal_label: Is loitiméir é an t-úsáideoir seo
+          other_label: Eile
+        note:
+          spam_label: Is turscar atá sa nóta seo
+          personal_label: Tá sonraí pearsanta sa nóta seo
+          abusive_label: Tá an nóta seo maslach
+          other_label: Eile
+    create:
+      successful_report: Cláraíodh an tuairisc uait
+      provide_details: Tabhair na sonraí is gá le do thoil
   layouts:
     logo:
       alt_text: Lógó OpenStreetMap
@@ -928,6 +996,7 @@ ga:
     edit: Cuir in Eagar
     history: Stair
     export: Easpórtáil
+    issues: Fadhbanna
     data: Sonraí
     export_data: Easpórtáil Sonraí
     gps_traces: Loirg GPS
@@ -940,6 +1009,8 @@ ga:
     intro_text: Is léarscáil den domhan é OpenStreetMap, a chruthaigh daoine cosúil
       leatsa agus atá saor in aisce le húsáid faoi cheadúnas oscailte.
     intro_2_create_account: Cruthaigh cuntas úsáideora
+    hosting_partners_html: Tacaíonn %{ucl}, %{bytemark} agus %{partners} eile leis
+      an óstáil.
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: comhpháirtithe
@@ -1086,6 +1157,8 @@ ga:
           ag gabháil leis
         partial_changeset_without_comment: nach bhfuil nóta tráchta ag gabháil leis
       details: Tá tuilleadh sonraí faoin tacar athruithe ar fáil ag %{url}.
+      unsubscribe: Le díliostáil ó nuashonruithe a dhéanfar ar an tacar athruithe
+        seo, tabhair cuairt ar %{url} agus cliceáil ar "Díoliostáil".
   messages:
     inbox:
       title: Bosca isteach
@@ -2085,13 +2158,10 @@ ga:
     directions:
       ascend: Dul suas
       engines:
+        fossgis_osrm_car: Carr (OSRM)
         graphhopper_bicycle: Rothar (GraphHopper)
         graphhopper_car: Carr (GraphHopper)
         graphhopper_foot: Ag Siúl (GraphHopper)
-        mapquest_bicycle: Rothar (MapQuest)
-        mapquest_car: Carr (MapQuest)
-        mapquest_foot: Ag Siúl (MapQuest)
-        osrm_car: Carr (OSRM)
       descend: Dul síos
       directions: Treoracha
       distance: Fad

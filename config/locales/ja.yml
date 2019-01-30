@@ -435,6 +435,7 @@ ja:
           fuel: 燃料
           gambling: ギャンブル
           grave_yard: 墓地
+          grit_bin: 砂箱
           hospital: 病院
           hunting_stand: ハンティング スタンド
           ice_cream: アイスクリーム販売店
@@ -961,7 +962,9 @@ ja:
     index:
       title: 問題点
       select_status: ステータスを選択
-      reported_user: 利用者を報告
+      select_type: 種類を選択してください
+      select_last_updated_by: 最近の更新を選択
+      reported_user: 利用者を通報
       not_updated: 更新はありません
       search: 検索
       search_guidance: '検索の問題点:'
@@ -969,12 +972,44 @@ ja:
       issues_not_found: このような問題点はありません
       status: 状態
       reports: 報告
-      last_updated: 最終更新
+      last_updated: 最近の更新
       last_updated_time_html: <abbr title='%{title}'>%{time}前</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{user}さんによる%{time}前の版</abbr>
+        by
+      link_to_reports: レポートを表示
+      reports_count:
+        one: 1件のレポート
+        other: '%{count}件のレポート'
+      reported_item: レポートした項目
       states:
+        ignored: 無視
         open: 開く
+        resolved: 解決済
+    update:
+      new_report: レポートは正常に登録完了しました
+      successful_update: レポートは正常に更新完了しました
     show:
+      reports:
+        zero: レポート0件
+        one: 1件のレポート
+        other: '%{count}件のレポート'
+      last_resolved_at: 最近の更新は%{datetime}です
+      last_updated_at: 最近の更新は%{displayname}による%{datetime}の版です
+      ignore: 無視
+      reports_of_this_issue: この項目に関するレポート
+      new_reports: 新規レポート
       other_issues_against_this_user: この利用者に関するその他の問題点
+    ignore:
+      ignored: 問題の状態は「無視」に設定されました
+    reports:
+      reported_by_html: '%{user}により %{category} として報告済み'
+  reports:
+    new:
+      title_html: '%{link} を報告'
+      missing_params: 新規報告を作成できません
+      select: '報告の理由を選択してください:'
+    create:
+      successful_report: レポートは正常に登録完了しました
   layouts:
     logo:
       alt_text: OpenStreetMap ロゴ
@@ -1469,8 +1504,7 @@ ja:
       edit: 編集
       preview: プレビュー
     markdown_help:
-      title_html: <a href="https://daringfireball.net/projects/markdown/">Markdown</a>
-        で構文解析されます
+      title_html: <a href="https://kramdown.gettalong.org/quickref.html"></a>で構文解析します
       headings: 見出し
       heading: 見出し
       subheading: 小見出し
@@ -1559,6 +1593,8 @@ ja:
       visibility: '可視性:'
       visibility_help: これはどういう意味?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/JA:Visibility_of_GPS_traces
+    update:
+      updated: トレースが更新されました
     trace_optionals:
       tags: タグ
     show:
@@ -1628,6 +1664,7 @@ ja:
         ファイル}}'
       description_without_count: '%{user} による GPX ファイル'
   application:
+    permission_denied: その処理をする権限がありません
     require_cookies:
       cookies_needed: ブラウザーの Cookie が無効になっているようです。続行する前にブラウザーの Cookie を有効にしてください。
     require_admin:
@@ -1905,7 +1942,7 @@ ja:
       friends_diaries: 友達の日記エントリ
       nearby_changesets: 周辺の利用者のメモ
       nearby_diaries: 周辺のユーザーの日記エントリ
-      report: この利用者を報告
+      report: この利用者を通報
     popup:
       your location: 自分の位置
       nearby mapper: 周辺のマッパー
@@ -2006,8 +2043,8 @@ ja:
       title: 利用者
       heading: ユーザー
       showing:
-        one: ページ %{page} (%{items} 件中 %{first_item} 件目)
-        other: ページ %{page} (%{items} 件中 %{first_item}-%{last_item} 件目)
+        one: '%{page} ページ (%{items} 件中 %{first_item} 件目)'
+        other: '%{page} ページ (%{items} 件中 %{first_item}-%{last_item} 件目)'
       summary: '%{name} は %{ip_address}から%{date}に作成されました。'
       summary_no_ip: '%{name} は%{date}に作成されました。'
       confirm: 選択した利用者を承認
@@ -2157,7 +2194,7 @@ ja:
     rss:
       title: OpenStreetMap メモ
       description_area: あなたのエリア [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
-        でレポート、コメント、またはクローズされたメモの一覧
+        に関する注記で報告済みまたはコメント付きあるいは解決済みの一覧
       description_item: メモ %{id} の RSS フィード
       opened: 新しいメモ (%{place} 付近)
       commented: 新しいコメント (%{place} 付近)
@@ -2174,7 +2211,7 @@ ja:
       creator: 作成者
       description: 説明
       created_at: 作成日時
-      last_changed: 最終変更
+      last_changed: 最近の変更
       ago_html: '%{when}前'
   javascripts:
     close: 閉じる
@@ -2257,13 +2294,10 @@ ja:
     directions:
       ascend: 上り坂
       engines:
+        fossgis_osrm_car: 自動車
         graphhopper_bicycle: 自転車
         graphhopper_car: 自動車(GraphHopper)
         graphhopper_foot: 歩行
-        mapquest_bicycle: 自転車
-        mapquest_car: 自動車
-        mapquest_foot: 歩行
-        osrm_car: 自動車
       descend: 下り坂
       directions: 方向
       distance: 距離
@@ -2384,4 +2418,9 @@ ja:
       not_empty: 改訂が空ではありません。破壊する前に、この改訂に属するすべてのバージョンを再改訂してください。
       flash: 改訂を破壊しました。
       error: この改訂を破壊する際にエラーが発生しました。
+  validations:
+    leading_whitespace: 文頭の空白スペースは不用です
+    trailing_whitespace: 文末の空白スペースは不用です
+    invalid_characters: 無効な文字列があります
+    url_characters: 特殊なURL文字列を含みます（%{characters}）
 ...

@@ -751,6 +751,9 @@ et:
     results:
       no_results: Ei leidnud midagi
       more_results: Veel tulemusi
+  issues:
+    index:
+      user_not_found: Kasutajat pole olemas.
   reports:
     new:
       title_html: Kaebus (%{link})
@@ -978,7 +981,7 @@ et:
       send_button: Saada
       back_to_inbox: Tagasi minu postkasti
     create:
-      message_sent: Sõnum saadetud
+      message_sent: Sõnum saadetud.
       limit_exceeded: Sa oled hiljuti saatnud palju sõnumeid. Palun oota mõnda aega
         enne kui proovid veel sõnumeid saata.
     no_such_message:
@@ -1018,10 +1021,10 @@ et:
     sent_message_summary:
       destroy_button: Kustuta
     mark:
-      as_read: Sõnum on märgitud loetuks
-      as_unread: Sõnum on märgitud kui lugemata
+      as_read: Sõnum on märgitud loetud sõnumiks.
+      as_unread: Sõnum on märgitud lugemata sõnumiks.
     destroy:
-      destroyed: Sõnum kustutatud
+      destroyed: Sõnum kustutatud.
   site:
     about:
       next: Edasi
@@ -1479,6 +1482,8 @@ et:
       trace_uploaded: Sinu GPX-fail on üles laaditud ja ootab andmebaasi sisestamist.
         See võtab aega tavaliselt pool tundi kuni tund. Peale lõpetamist saadetakse
         sulle meil.
+      upload_failed: Kahjuks ei õnnestunud GPX-faili üles laadida. Sellest tõrkest
+        on antud märku administraatorile. Palun proovi uuesti.
     edit:
       filename: 'Failinimi:'
       download: laadi alla
@@ -1494,6 +1499,8 @@ et:
       save_button: Salvesta muudatused
       visibility: 'Nähtavus:'
       visibility_help: mida see tähendab?
+    update:
+      updated: Rada uuendatud.
     trace_optionals:
       tags: Sildid
     show:
@@ -1546,6 +1553,10 @@ et:
       upload_trace: Lisa GPS-rada
       see_all_traces: Vaata kõiki GPS-radasid
       see_my_traces: Vaata minu radu
+    delete:
+      scheduled_for_deletion: Raja kustutamine kantud tööplaani.
+    offline_warning:
+      message: GPX-failide üleslaadimise süsteem pole praegu saadaval.
   application:
     require_cookies:
       cookies_needed: Paistab, et sul on küpsised keelatud. Enne jätkamist luba palun
@@ -1572,13 +1583,13 @@ et:
       allow_write_notes: muuta märkuseid.
       grant_access: Luba juurdepääs
     authorize_success:
-      title: Autoriseerimise taotlemine on lubatud
+      title: Volitamistaotlus lubatud
       allowed: Oled andnud rakendusele %{app_name} juurdepääsu oma kontole.
       verification: Kontrollkood on %{code}.
     authorize_failure:
-      title: Autoriseerimistaotlus ebaõnnestus
+      title: Volitamistaotlus ebaõnnestus
       denied: Oled keelanud rakendusele %{app_name} juurdepääsu oma kontole.
-      invalid: Autoriseerimisluba ei ole kehtiv.
+      invalid: Volitamisluba ei ole kehtiv.
     revoke:
       flash: Oled tühistanud rakenduse %{application} loa.
   oauth_clients:
@@ -1594,7 +1605,7 @@ et:
       secret: 'Tarbija saladus:'
       url: Taotlustõendi URL
       access_url: 'Pääsutõendi URL:'
-      authorize_url: 'Autoriseeriv URL:'
+      authorize_url: 'Volitamise URL:'
       support_notice: Me toetame HMAC-SHA1 (soovitatav) ja RSA-SHA1 allkirju.
       edit: Muuda üksikasju
       delete: Kustuta klient
@@ -1609,7 +1620,7 @@ et:
       allow_write_notes: muuta märkuseid.
     index:
       title: Minu OAuthi üksikasjad
-      my_tokens: Minu autoriseeritud rakendused
+      my_tokens: Minu volitatud rakendused
       list_tokens: 'Sinu nimel on rakendustele väljastatud järgmised load:'
       application: Rakenduse nimi
       issued_at: Väljastatud
@@ -1639,9 +1650,9 @@ et:
     create:
       flash: Teave registreeriti edukalt.
     update:
-      flash: Kliendi informatsioon uuendati edukalt
+      flash: Kliendi informatsioon uuendati edukalt.
     destroy:
-      flash: Klientrakenduse registratsioon hävitati
+      flash: Klientrakenduse registreering hävitati.
   users:
     login:
       title: Sisselogimise leht
@@ -1663,10 +1674,10 @@ et:
       account not active: Vabandust, sinu kasutajakonto ei ole veel aktiivne.<br />Aktiveerimiseks
         klõpsa palun lingil, mis saadeti sulle meiliga, või <a href="%{reconfirm}">taotle
         uut kontot kinnitavat meili</a>.
-      account is suspended: Vabandust, sinu kasutajakonto on peatatud kahtlase tegevuse
-        tõttu.<br />Palun võta ühendust <a href="%{webmaster}">veebimeistriga</a>
-        kui soovid sellel teemal arutleda.
-      auth failure: Vabandust, kahjuks ei saa nende andmetega sisse.
+      account is suspended: Vabandust, sinu konto tegevus on peatatud kahtlase tegevuse
+        tõttu.<br />Palun võta ühendust <a href="%{webmaster}">veebimeistriga</a>,
+        kui soovid selle teema üle arutada.
+      auth failure: Kahjuks ei õnnestu nende andmetega sisse logida.
       openid_logo_alt: Sisene OpenID tunnusega
       auth_providers:
         openid:
@@ -1753,8 +1764,8 @@ et:
         kokkuvõte</a> mõned <a href="%{translations}">mitteametlikud tõlked</a>'
       agree: Nõustun
       decline: Ei nõustu
-      you need to accept or decline: Enne jätkamist palun tutvu uute Kaastöötingimustega
-        ja seejärel kas nõustu või ära nõustu nendega.
+      you need to accept or decline: Enne jätkamist tutvu palun uute kaastöötingimustega
+        ning seejärel kas nõustu või ära nõustu nendega.
       legale_select: 'Palun valige oma elukohariik:'
       legale_names:
         france: Prantsusmaa
@@ -1894,7 +1905,7 @@ et:
       make edits public button: Tee kõik minu muudatused avalikuks
       return to profile: Tagasi profiili juurde
       flash update success confirm needed: Kasutajateabe värskendamine õnnestus. Kontrolli
-        oma elektronposti, et kinnitada oma uus e-posti aadress.
+        e-kirju, et kinnitada uus e-posti aadress.
       flash update success: Kasutaja informatsioon uuendatud edukalt.
     confirm:
       heading: Kontrolli oma e-posti.
@@ -1963,7 +1974,9 @@ et:
           seda arutada, siis võid võtta ühendust %{webmaster}.
         </p>
     auth_failure:
-      no_authorization_code: Autoriseerimiskood puudub
+      connection_failed: Ei õnnestunud ühenduda autentimisteenusega.
+      invalid_credentials: Vigased autentimisandmed.
+      no_authorization_code: Volitamiskood puudub.
     auth_association:
       heading: Sinu ID ei ole veel seotud OpenStreetMapi kasutajakontoga.
       option_1: |-
@@ -2215,13 +2228,10 @@ et:
       kliki siia.
     directions:
       engines:
+        fossgis_osrm_car: Autoga (OSRM)
         graphhopper_bicycle: Rattaga (GraphHopper)
         graphhopper_car: Autoga (GraphHopper)
         graphhopper_foot: Jalgsi (GraphHopper)
-        mapquest_bicycle: Rattaga (MapQuest)
-        mapquest_car: Autoga (MapQuest)
-        mapquest_foot: Jalgsi (MapQuest)
-        osrm_car: Autoga (OSRM)
       directions: Juhised
       distance: Vahemaa
       errors:
