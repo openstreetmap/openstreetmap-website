@@ -126,7 +126,6 @@ $(document).ready(function () {
   });
 
   $("#read_tou").on("click", function () { 
-    var agreebtn = document.getElementById('agree');
-    agreebtn.disabled=!this.checked;
+    $("#agree").prop("disabled", !$(this).prop("checked"));
   });
 });
