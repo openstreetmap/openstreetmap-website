@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Arent
+# Author: Bouman4
 # Author: Carsrac
 # Author: Donarreiskoffer
 # Author: Elroy
@@ -58,9 +59,9 @@ nl:
       friend: Vriend
       language: Taal
       message: Bericht
-      node: Node
+      node: Knooppunt
       node_tag: Nodetag
-      notifier: Melder
+      notifier: verwittigen
       old_node: Oude node
       old_node_tag: Oude nodetag
       old_relation: Oude relatie
@@ -261,7 +262,7 @@ nl:
     query:
       title: Objecten opvragen
       introduction: Klik op de kaart om nabije objecten te vinden.
-      nearby: Nabije objecten
+      nearby: Kenmerken in de buurt
       enclosing: Omsluitende objecten
   changesets:
     changeset_paging_nav:
@@ -280,7 +281,7 @@ nl:
       area: Gebied
     index:
       title: Wijzigingensets
-      title_user: Wijzigingensets van %{user}
+      title_user: Wijzigingensets van%{user}
       title_friend: Wijzigingensets van mijn vrienden
       title_nearby: Wijzigingensets van nabijgelegen gebruikers
       empty: Geen wijzigingensets gevonden.
@@ -326,7 +327,7 @@ nl:
       subject: 'Onderwerp:'
       body: 'Tekst:'
       language: 'Taal:'
-      location: 'Locatie:'
+      location: 'Plaats:'
       latitude: 'Breedtegraad:'
       longitude: 'Lengtegraad:'
       use_map_link: kaart gebruiken
@@ -914,7 +915,7 @@ nl:
           "yes": Winkel
         tourism:
           alpine_hut: Berghut
-          apartment: Appartement
+          apartment: Vakantieappartement
           artwork: Kunst
           attraction: Attractie
           bed_and_breakfast: Pension
@@ -987,6 +988,7 @@ nl:
       search: Zoeken
       search_guidance: 'Zoek Problemen:'
       user_not_found: Gebruiker bestaat niet
+      issues_not_found: Geen dergelijke problemen gevonden
       status: Status
       reports: Rapportages
       last_updated: Laatst Bijgewerkt
@@ -1008,6 +1010,7 @@ nl:
       provide_details: Verstrek a.u.b. de vereiste gegevens
     show:
       title: '%{status} Probleem #%{issue_id}'
+      reports: '{{PLURAL | zero = Geen rapporten | één = 1 rapport |%{count} rapporten}}'
       report_created_at: Voor het eerst vermeld op %{datetime}
       last_resolved_at: Laatst opgelost op %{datetime}
       last_updated_at: Laatst bijgewerkt op %{datetime} door %{displayname}
@@ -1042,9 +1045,12 @@ nl:
   reports:
     new:
       title_html: RApporteer %{link}
+      missing_params: Kan geen nieuw rapport maken
       details: Verschaf a.u.b. nog wat meer details over het probleem (vereist).
       select: 'Selecteer een reden voor je rapport:'
       disclaimer:
+        intro: 'Voordat u uw rapport naar de moderators van de site stuurt, moet u
+          ervoor zorgen dat:'
         not_just_mistake: Je weet zeker dat het probleem niet slechts een vergissing
           is.
         unable_to_fix: Je bent niet in staat het probleem zelf op te lossen of met
@@ -1053,8 +1059,14 @@ nl:
           op te lossen
       categories:
         diary_entry:
+          spam_label: Dit dagboekbericht is / bevat spam
+          offensive_label: Dit dagboekbericht is obsceen / aanstootgevend
+          threat_label: Dit dagboekbericht bevat een bedreiging
           other_label: Anders
         diary_comment:
+          spam_label: Dit commentaar in het dagboek is / bevat spam
+          offensive_label: Dit commentaar in het dagboek is obsceen / aanstootgevend
+          threat_label: Deze dagboekcommentaar bevat een bedreiging
           other_label: Anders
         user:
           other_label: Anders
@@ -1829,6 +1841,7 @@ nl:
       delete_trace: Deze track verwijderen
       trace_not_found: De track is niet gevonden!
       visibility: 'Zichtbaarheid:'
+      confirm_delete: Dit spoor verwijderen?
     trace_paging_nav:
       showing_page: Pagina %{page}
       older: Oudere traces
@@ -1879,6 +1892,7 @@ nl:
         other: GPX-bestand met %{count} punten van %{user}
       description_without_count: GPX-bestand van %{user}
   application:
+    permission_denied: U hebt geen toestemming om toegang te krijgen tot die actie
     require_cookies:
       cookies_needed: U hebt cookies waarschijnlijk uitgeschakeld in uw browser. Schakel
         cookies in voordat u verder gaat.
@@ -2091,6 +2105,7 @@ nl:
       terms accepted: Dank u wel voor het aanvaarden van de nieuwe bijdragersovereenkomst!
       terms declined: We vinden het jammer dat u hebt besloten de nieuwe Bijdragersvoorwaarden
         niet te accepteren. Zie <a href="%{url}">deze wikipagina</a> voor meer informatie.
+      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: Bijdragersovereenkomst
       heading: Voorwaarden voor bijdragen
@@ -2100,10 +2115,12 @@ nl:
       consider_pd: Met inachtneming van de bovenstaande overeenkomst, bevinden mijn
         bijdragen zich in het publieke domein
       consider_pd_why: wat is dit?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Meer informatie om de voorwaarden beter te kunnen begrijpen: een
         <a href="%{summary}">leesbare samenvatting</a> en <a href="%{translations}">informele
         vertalingen</a>'
       agree: Aanvaarden
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Weigeren
       you need to accept or decline: Lees de nieuwe Bijdragersvoorwaarden en besluit
         daarna deze te accepteren of te verwerpen voordat u door kunt gaan.
@@ -2227,6 +2244,7 @@ nl:
           te lezen en te accepteren.
         agreed_with_pd: U hebt ook verklaard dat uw bijdragen onderdeel zijn van het
           Publieke domein.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: wat is dit?
       profile description: 'Profielbeschrijving:'
       preferred languages: 'Voorkeurstalen:'
@@ -2577,7 +2595,9 @@ nl:
     directions:
       ascend: Bergop
       engines:
+        fossgis_osrm_bike: Fiets (OSRM)
         fossgis_osrm_car: Auto (OSRM)
+        fossgis_osrm_foot: Voet (OSRM)
         graphhopper_bicycle: Fiets (GraphHopper)
         graphhopper_car: Auto (GraphHopper)
         graphhopper_foot: Te voet (GraphHopper)
@@ -2590,8 +2610,12 @@ nl:
       instructions:
         continue_without_exit: Verder op %{name}
         slight_right_without_exit: Flauwe bocht naar rechts naar %{name}
+        offramp_right: Neem de oprit aan de rechterkant
+        offramp_right_with_exit: Neem afslag%{exit} aan de rechterkant
         offramp_right_with_name: Neem de oprit aan de rechterkant naar %{name}
         onramp_right_without_exit: Sla rechtsaf op de oprit naar %{name}
+        onramp_right_without_directions: Sla rechtsaf de oprit op
+        onramp_right: Sla rechtsaf de oprit op
         endofroad_right_without_exit: Sla rechtsaf aan het einde van de weg naar %{name}
         merge_right_without_exit: Voeg rechts in naar %{name}
         fork_right_without_exit: Sla rechtsaf bij de splitsing naar %{name}
@@ -2600,8 +2624,21 @@ nl:
         uturn_without_exit: U-bocht langs %{name}
         sharp_left_without_exit: Scherp linksaf naar %{name}
         turn_left_without_exit: Sla linksaf naar %{name}
+        offramp_left: Neem de oprit aan de linkerkant
+        offramp_left_with_exit: Neem afslag%{exit} aan de linkerkant
+        offramp_left_with_exit_directions: Neem afslag%{exit} aan de linkerkant richting%
+          {directions}%{directions}
+        offramp_left_with_exit_name_directions: Neem afslag%{exit} aan de linkerkant
+          naar%{name}, richting%{directions}
         offramp_left_with_name: Neem de oprit aan de linkerkant naar %{name}
+        offramp_left_with_directions: Neem de oprit links richting%{directions}
+        offramp_left_with_name_directions: Neem de oprit aan de linkerkant naar%{name},
+          richting%{directions}
         onramp_left_without_exit: Sla linksaf op de oprit naar %{name}
+        onramp_left_with_directions: Sla linksaf op de oprit richting%{directions}
+        onramp_left_with_name_directions: Sla linksaf op de oprit naar%{name}, richting%{directions}
+        onramp_left_without_directions: Sla linksaf de oprit op
+        onramp_left: Sla linksaf de oprit op
         endofroad_left_without_exit: Sla linksaf bij het einde van de weg naar %{name}
         merge_left_without_exit: Voeg links in naar %{name}
         fork_left_without_exit: Sla linksaf bij de splitsing naar %{name}

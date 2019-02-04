@@ -409,6 +409,7 @@ pl:
           chair_lift: Wyciąg krzesełkowy
           drag_lift: Wyciąg orczykowy
           gondola: Kolej gondolowa
+          platter: Wyciąg talerzykowy
           pylon: Pylon
           station: Stacja wyciągu krzesełkowego
           t-bar: Wyciąg orczykowy
@@ -696,9 +697,11 @@ pl:
           bunker_silo: Bunkier
           chimney: Komin
           crane: Żuraw (dźwig)
+          dolphin: Dalba
           dyke: Grobla
           embankment: Nasyp
           flagpole: Maszt flagowy
+          gasometer: Zbiornik gazowy
           groyne: Ostroga brzegowa
           kiln: Piec przemysłowy
           lighthouse: Latarnia morska
@@ -787,6 +790,7 @@ pl:
         place:
           allotments: Ogródki działkowe
           city: Miasto
+          city_block: Kwartał
           country: Kraj
           county: Powiat
           farm: Farma
@@ -989,12 +993,16 @@ pl:
       title: Sprawy
       select_status: Wybierz status
       select_type: Wybierz kategorię
+      select_last_updated_by: Ostatnio zaktualizowane przez
       reported_user: Zgłoszony użytkownik
+      not_updated: Nie zaktualizowane
       search: Wyszukaj
       search_guidance: Przeszukaj sprawy
       user_not_found: Użytkownika nie istnieje
-      status: Status
+      issues_not_found: Nie znaleziono takiej sprawy
+      status: Stan
       reports: Zgłoszenia
+      last_updated: Ostatnia aktualizacja
       last_updated_time_html: <abbr title='%{title}'>%{time} temu</abbr>
       last_updated_time_user_html: <abbr title='%{title}'>%{time} temu</abbr> przez
         %{user}
@@ -1003,6 +1011,7 @@ pl:
         one: 1 zgłoszenie
         few: '%{count} zgłoszenia'
         other: '%{count} zgłoszeń'
+      reported_item: Zgłoszony element
       states:
         ignored: zignorowane
         open: otwarte
@@ -1018,6 +1027,9 @@ pl:
         one: 1 zgłoszenie
         few: '%{count} zgłoszenia'
         other: '%{count} zgłoszeń'
+      report_created_at: Pierwsze zgłoszenie z %{datetime}
+      last_resolved_at: Ostatnia reakcja z %{datetime}
+      last_updated_at: Ostatnio zaktualizowane %{datetime} przez użytkownika %{displayname}
       resolve: Rozwiąż
       ignore: Zignoruj
       reopen: Otwórz ponownie
@@ -1043,9 +1055,13 @@ pl:
       reportable_title:
         diary_comment: '%{entry_title}, komentarz #%{comment_id}'
         note: 'Uwaga #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Twój komentarz został pomyślnie utworzony
   reports:
     new:
       title_html: Zgłoś użytkownika %{link}
+      missing_params: Nie można utworzyć nowego zgłoszenia
       details: Opisz, proszę, problem bardziej szczegółowo (wymagane).
       select: 'Wybierz powód zgłoszenia:'
       disclaimer:
@@ -1109,6 +1125,7 @@ pl:
     intro_text: OpenStreetMap to mapa świata, stworzona przez ludzi, takich jak ty,
       i z możliwością użycia pod otwartą licencją.
     intro_2_create_account: Utwórz konto
+    hosting_partners_html: Hosting obsługuje %{ucl},%{bytemark}, a także %{partners}.
     partners_ucl: University College London
     partners_bytemark: Hosting Bytemark
     partners_partners: partnerzy
@@ -1601,6 +1618,11 @@ pl:
         title: switch2osm
         description: Pomoc firmom i organizacjom w przejściu do mapy OpenStreetMap
           i inne usługi.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: Dla organizacji
+        description: Jesteś z organizacji mającej plany wobec OpenStreetMap? Niezbędne
+          informacje znajdziesz na stronie powitalnej.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Pl:Main_Page
         title: Wiki OpenStreetMap
@@ -1692,7 +1714,7 @@ pl:
       edit: Edytuj
       preview: Podgląd
     markdown_help:
-      title_html: Składnia <a href="https://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Składnia <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Nagłówki
       heading: Nagłówek
       subheading: Podtytuł
@@ -1743,7 +1765,8 @@ pl:
         paragraph_1_html: OpenStreetMap ma wiele zasobów pomocnych w poznawaniu projektu,
           pozwalających na zadawanie pytań i otrzymywanie na nie odpowiedzi, oraz
           na dyskutowanie i dokumentowanie tematów związanych z mapowaniem. <a href='%{help_url}'>Tutaj
-          uzyskasz pomoc</a>.
+          uzyskasz pomoc</a>. Jesteś z organizacji mającej plany wobec OpenStreetMap?
+          <a href='https://welcome.openstreetmap.org/'>Wejdź na stronę powitalną</a>.
       start_mapping: Rozpocznij mapowanie
       add_a_note:
         title: Nie masz czasu na edycję? Dodaj uwagę!
@@ -1778,6 +1801,8 @@ pl:
       upload_trace: Wyślij ślad GPS
       trace_uploaded: Plik GPX został wysłany i czeka na dodanie do bazy danych. Powinno
         to nastąpić w ciągu 30 minut, a informacja o tym fakcie zostanie wysłana wiadomością.
+      upload_failed: Niestety wysyłanie pliku GPX nie powiodło się. Administrator
+        został powiadomiony o tym błędzie. Spróbuj ponownie
       traces_waiting:
         one: '%{count} ślad oczekuje na wysłanie. Proszę zaczekać na zakończenie jego
           wysyłania przed dodaniem kolejnych, aby nie blokować kolejki innym użytkownikom.'
@@ -1876,9 +1901,12 @@ pl:
         other: Plik GPX z %{count} punktami od %{user}
       description_without_count: Plik GPX od %{user}
   application:
+    permission_denied: Nie masz uprawnień do wykonywania tej akcji
     require_cookies:
       cookies_needed: Wygląda na to, że wyłączono obsługę ciasteczek w przeglądarce.
         Proszę ją włączyć przed kontynuowaniem.
+    require_admin:
+      not_an_admin: Musisz mieć uprawnienia administratora do wykonania tego działania.
     setup_user_auth:
       blocked_zero_hour: Masz pilną wiadomość na stronie OpenStreetMap. Musisz przeczytać
         tę wiadomość, zanim będzie można zapisywać zmiany.
@@ -2576,7 +2604,9 @@ pl:
     directions:
       ascend: W górę
       engines:
+        fossgis_osrm_bike: Rower (OSRM)
         fossgis_osrm_car: Samochód (OSRM)
+        fossgis_osrm_foot: Pieszo (OSRM}
         graphhopper_bicycle: Rower (GraphHopper)
         graphhopper_car: Samochód (GraphHopper)
         graphhopper_foot: Pieszo (GraphHopper)
@@ -2591,24 +2621,50 @@ pl:
         slight_right_without_exit: Lekko w prawo w %{name}
         offramp_right: Zjedź prawym zjazdem
         offramp_right_with_exit: Wybierz zjazd %{exit} po prawej
-        offramp_right_with_name: Jedź zjazdem w prawo do %{name}.
-        onramp_right_without_exit: Skręć w prawo do podjazdu do %{name}.
-        onramp_right: Skręc w prawo na zjazd
+        offramp_right_with_exit_name: Wybierz zjazd %{exit} po prawej do %{name}
+        offramp_right_with_exit_directions: Wybierz zjazd %{exit} po prawej w kierunku
+          %{directions}
+        offramp_right_with_exit_name_directions: Wybierz zjazd %{exit} po prawej do
+          %{name}, w kierunku %{directions}
+        offramp_right_with_name: Jedź zjazdem w prawo do %{name}
+        offramp_right_with_directions: Jedź zjazdem w prawo w kierunku %{directions}
+        offramp_right_with_name_directions: Jedź zjazdem w prawo do %{name}, w kierunku
+          %{directions}
+        onramp_right_without_exit: Skręć w prawo do podjazdu do %{name}
+        onramp_right_with_directions: Skręć w prawo na zjazd w kierunku %{directions}
+        onramp_right_with_name_directions: Skręć w prawo na zjazd do %{name}, w kierunku
+          %{directions}
+        onramp_right_without_directions: Skręć w prawo na zjazd
+        onramp_right: Skręć w prawo na zjazd
         endofroad_right_without_exit: Na końcu tej drogi skręć w prawo w kierunku
           %{name}.
-        merge_right_without_exit: Skręć w prawo w kierunku %{name}.
-        fork_right_without_exit: Na rozwidleniu dróg skręć w prawo w kierunku %{name}.
+        merge_right_without_exit: Skręć w prawo w kierunku %{name}
+        fork_right_without_exit: Na rozwidleniu dróg skręć w prawo w kierunku %{name}
         turn_right_without_exit: Skręć w prawo w %{name}
         sharp_right_without_exit: Ostro w prawo w %{name}
         uturn_without_exit: Zawróć wzdłuż %{name}
         sharp_left_without_exit: Ostro w lewo w %{name}
         turn_left_without_exit: Skręć w lewo w %{name}
-        offramp_left_with_name: Jedź zjazdem w lewo do %{name}.
-        onramp_left_without_exit: Skręć w lewo do podjazdu do %{name}.
+        offramp_left: Zjedź lewym zjazdem
+        offramp_left_with_exit: Wybierz zjazd %{exit} po lewej
+        offramp_left_with_exit_name: Wybierz zjazd %{exit} po lewej do %{name}
+        offramp_left_with_exit_directions: Wybierz zjazd %{exit} po lewej w kierunku
+          %{directions}
+        offramp_left_with_exit_name_directions: Wybierz zjazd %{exit} po lewej do
+          %{name}, w kierunku %{directions}
+        offramp_left_with_name: Jedź zjazdem w lewo do %{name}
+        offramp_left_with_directions: Jedź zjazdem w lewo w kierunku %{directions}
+        offramp_left_with_name_directions: Jedź zjazdem w lewo do %{name}, w kierunku
+          %{directions}
+        onramp_left_without_exit: Skręć w lewo do podjazdu do %{name}
+        onramp_left_with_directions: Skręć zjazdem w lewo w kierunku %{directions}
+        onramp_left_with_name_directions: Skręć zjazdem w lewo do %{name}, w kierunku
+          %{directions}
         onramp_left_without_directions: Skręć w lewo na łącznik
-        endofroad_left_without_exit: Na końcu tej drogi skręć w lewo w kierunku %{name}.
-        merge_left_without_exit: Skręć w lewo w kierunku %{name}.
-        fork_left_without_exit: Na rozwidleniu dróg skręć w prawo w kierunku %{name}.
+        onramp_left: Skręć w lewo na łącznik
+        endofroad_left_without_exit: Na końcu tej drogi skręć w lewo w kierunku %{name}
+        merge_left_without_exit: Skręć w lewo w kierunku %{name}
+        fork_left_without_exit: Na rozwidleniu dróg skręć w prawo w kierunku %{name}
         slight_left_without_exit: Lekko w lewo w %{name}
         via_point_without_exit: (przez punkt)
         follow_without_exit: Jedź wzdłuż %{name}
@@ -2683,5 +2739,8 @@ pl:
       flash: Poprawka usunięta.
       error: Wystąpił błąd podczas usuwania tej poprawki.
   validations:
+    leading_whitespace: ma spację na początku
+    trailing_whitespace: ma spację na końcu
     invalid_characters: zawiera niedozwolone znaki
+    url_characters: zawiera specjalne znaki w adresie URL (%{characters})
 ...
