@@ -117,6 +117,9 @@ gem "logstasher"
 # Used to generate images for traces
 gem "gd2-ffij"
 
+# Used for browser detection
+gem "browser"
+
 # Gems useful for development
 group :development do
   gem "annotate"

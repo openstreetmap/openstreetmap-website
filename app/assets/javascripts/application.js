@@ -5,7 +5,6 @@
 //= require jquery.throttle-debounce
 //= require bootstrap.tooltip
 //= require bootstrap.dropdown
-//= require augment
 //= require osm
 //= require leaflet
 //= require leaflet.osm

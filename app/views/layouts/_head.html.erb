@@ -1,15 +1,15 @@
 <%= content_tag :head, :data => application_data do %>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
-  <!--[if lt IE 9]><%= javascript_include_tag "html5shiv" %><![endif]-->
+  <%= javascript_include_tag "html5shiv" unless browser.html5? %>
+  <%= javascript_include_tag "es5" unless browser.es5? %>
+  <%= javascript_include_tag "es6" unless browser.es6? %>
   <%= javascript_include_tag "application" %>
   <%= javascript_include_tag "i18n/" + I18n.locale.to_s %>
   <%= stylesheet_link_tag "screen-#{dir}", :media => "screen" %>
   <%= stylesheet_link_tag "print-#{dir}", :media => "print" %>
   <%= stylesheet_link_tag "leaflet-all", :media => "screen, print" %>
-  <!--[if IE]>
-    <%= favicon_link_tag "favicon.ico" %>
-  <![endif]-->
+  <%= favicon_link_tag "favicon.ico" if browser.ie? %>
   <% [57, 60, 72, 76, 114, 120, 144, 152, 180].each do |size| -%>
   <%= favicon_link_tag "apple-touch-icon-#{size}x#{size}.png", :rel => "apple-touch-icon", :sizes => "#{size}x#{size}", :type => "image/png" %>
   <% end -%>
