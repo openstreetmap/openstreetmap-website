@@ -1,5 +1,4 @@
 require "test_helper"
-require "digest"
 require "minitest/mock"
 
 class TraceTest < ActiveSupport::TestCase

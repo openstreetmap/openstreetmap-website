@@ -1,5 +1,3 @@
-require "htmlentities"
-
 module TitleHelper
   def self.coder
     @coder ||= HTMLEntities.new

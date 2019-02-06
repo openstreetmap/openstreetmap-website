@@ -1,5 +1,3 @@
-require "cgi"
-
 module BrowseTagsHelper
   def format_key(key)
     if url = wiki_link("key", key)

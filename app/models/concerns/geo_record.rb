@@ -1,5 +1,3 @@
-require "delegate"
-
 module GeoRecord
   extend ActiveSupport::Concern
 

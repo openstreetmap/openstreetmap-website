@@ -1,5 +1,3 @@
-require "cgi"
-
 module BrowseHelper
   def printable_name(object, version = false)
     id = if object.id.is_a?(Array)
