@@ -42,7 +42,7 @@ class Ability
       can [:account, :go_public, :make_friend, :remove_friend, :api_details, :api_gpx_files], User
       can [:read, :read_one, :update, :update_one, :delete_one], UserPreference
 
-      if user.terms_agreed? || !REQUIRE_TERMS_AGREED
+      if user.terms_agreed?
         can [:create, :update, :upload, :close, :subscribe, :unsubscribe, :expand_bbox], Changeset
         can :create, ChangesetComment
         can [:create, :update, :delete], Node
@@ -57,7 +57,7 @@ class Ability
         can :destroy, Note
         can [:new, :create, :edit, :update, :destroy], Redaction
         can [:new, :edit, :create, :update, :revoke], UserBlock
-        if user.terms_agreed? || !REQUIRE_TERMS_AGREED
+        if user.terms_agreed?
           can :redact, OldNode
           can :redact, OldWay
           can :redact, OldRelation

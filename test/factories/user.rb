@@ -8,6 +8,7 @@ FactoryBot.define do
     # a 'normal' user who can log in without being redirected etc.
     status { "active" }
     terms_seen { true }
+    terms_agreed { Time.now.getutc }
     data_public { true }
 
     trait :with_home_location do

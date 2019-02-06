@@ -12,7 +12,7 @@ class Capability
     can [:read, :read_one], UserPreference if capability?(token, :allow_read_prefs)
     can [:update, :update_one, :delete_one], UserPreference if capability?(token, :allow_write_prefs)
 
-    if token&.user&.terms_agreed? || !REQUIRE_TERMS_AGREED
+    if token&.user&.terms_agreed?
       can [:create, :update, :upload, :close, :subscribe, :unsubscribe, :expand_bbox], Changeset if capability?(token, :allow_write_api)
       can :create, ChangesetComment if capability?(token, :allow_write_api)
       can [:create, :update, :delete], Node if capability?(token, :allow_write_api)
@@ -23,7 +23,7 @@ class Capability
     if token&.user&.moderator?
       can [:destroy, :restore], ChangesetComment if capability?(token, :allow_write_api)
       can :destroy, Note if capability?(token, :allow_write_notes)
-      if token&.user&.terms_agreed? || !REQUIRE_TERMS_AGREED
+      if token&.user&.terms_agreed?
         can :redact, OldNode if capability?(token, :allow_write_api)
         can :redact, OldWay if capability?(token, :allow_write_api)
         can :redact, OldRelation if capability?(token, :allow_write_api)

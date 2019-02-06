@@ -644,7 +644,7 @@ class UsersController < ApplicationController
     # - If they have a block on them, show them that.
     # - If they were referred to the login, send them back there.
     # - Otherwise, send them to the home page.
-    if REQUIRE_TERMS_SEEN && !user.terms_seen
+    if !user.terms_seen
       redirect_to :action => :terms, :referer => target
     elsif user.blocked_on_view
       redirect_to user.blocked_on_view, :referer => target
