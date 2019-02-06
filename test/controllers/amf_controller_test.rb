@@ -1,5 +1,4 @@
 require "test_helper"
-require "stringio"
 
 class AmfControllerTest < ActionController::TestCase
   include Potlatch
