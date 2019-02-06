@@ -105,7 +105,7 @@ class ApplicationController < ActionController::Base
       # if the user hasn't seen the contributor terms then don't
       # allow editing - they have to go to the web site and see
       # (but can decline) the CTs to continue.
-      if REQUIRE_TERMS_SEEN && !current_user.terms_seen && flash[:skip_terms].nil?
+      if !current_user.terms_seen && flash[:skip_terms].nil?
         set_locale
         report_error t("application.setup_user_auth.need_to_see_terms"), :forbidden
       end
