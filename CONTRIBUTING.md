@@ -35,12 +35,7 @@ You can run the existing test suite with:
 bundle exec rake test
 ```
 
-You can generate test coverage stats with:
-
-```
-sudo gem install rcov
-rcov -x gems test/*/*.rb
-```
+You can view test coverage statistics by browsing the `coverage` directory.
 
 The tests are automatically run on Pull Requests and other commits with the
 results shown on [Travis CI](https://travis-ci.org/openstreetmap/openstreetmap-website).

@@ -1,6 +1,12 @@
 require "coveralls"
 Coveralls.wear!("rails")
 
+# Output both the local simplecov html and the coveralls report
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
+  [SimpleCov::Formatter::HTMLFormatter,
+   Coveralls::SimpleCov::Formatter]
+)
+
 ENV["RAILS_ENV"] = "test"
 require_relative "../config/environment"
 require "rails/test_help"
