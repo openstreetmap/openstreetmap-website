@@ -144,7 +144,7 @@ class AmfController < ApplicationController
       user = getuser(usertoken)
       return -1, "You are not logged in, so Potlatch can't write any changes to the database." unless user
       return -1, t("application.setup_user_auth.blocked") if user.blocks.active.exists?
-      return -1, "You must accept the contributor terms before you can edit." if REQUIRE_TERMS_AGREED && user.terms_agreed.nil?
+      return -1, "You must accept the contributor terms before you can edit." if user.terms_agreed.nil?
 
       if cstags
         return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(cstags)
@@ -537,7 +537,7 @@ class AmfController < ApplicationController
 
       return -1, "You are not logged in, so the relation could not be saved." unless user
       return -1, t("application.setup_user_auth.blocked") if user.blocks.active.exists?
-      return -1, "You must accept the contributor terms before you can edit." if REQUIRE_TERMS_AGREED && user.terms_agreed.nil?
+      return -1, "You must accept the contributor terms before you can edit." if user.terms_agreed.nil?
 
       return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(tags)
 
@@ -625,7 +625,7 @@ class AmfController < ApplicationController
       user = getuser(usertoken)
       return -1, "You are not logged in, so the way could not be saved." unless user
       return -1, t("application.setup_user_auth.blocked") if user.blocks.active.exists?
-      return -1, "You must accept the contributor terms before you can edit." if REQUIRE_TERMS_AGREED && user.terms_agreed.nil?
+      return -1, "You must accept the contributor terms before you can edit." if user.terms_agreed.nil?
 
       return -2, "Server error - way is only #{pointlist.length} points long." if pointlist.length < 2
 
@@ -735,7 +735,7 @@ class AmfController < ApplicationController
       user = getuser(usertoken)
       return -1, "You are not logged in, so the point could not be saved." unless user
       return -1, t("application.setup_user_auth.blocked") if user.blocks.active.exists?
-      return -1, "You must accept the contributor terms before you can edit." if REQUIRE_TERMS_AGREED && user.terms_agreed.nil?
+      return -1, "You must accept the contributor terms before you can edit." if user.terms_agreed.nil?
 
       return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(tags)
 
@@ -822,7 +822,7 @@ class AmfController < ApplicationController
       user = getuser(usertoken)
       return -1, "You are not logged in, so the way could not be deleted." unless user
       return -1, t("application.setup_user_auth.blocked") if user.blocks.active.exists?
-      return -1, "You must accept the contributor terms before you can edit." if REQUIRE_TERMS_AGREED && user.terms_agreed.nil?
+      return -1, "You must accept the contributor terms before you can edit." if user.terms_agreed.nil?
 
       way_id = way_id.to_i
       nodeversions = {}

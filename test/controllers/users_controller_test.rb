@@ -646,7 +646,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_terms_not_seen_without_referer
-    user = create(:user, :terms_seen => false)
+    user = create(:user, :terms_seen => false, :terms_agreed => nil)
 
     session[:user] = user.id
 
@@ -667,7 +667,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_terms_not_seen_with_referer
-    user = create(:user, :terms_seen => false)
+    user = create(:user, :terms_seen => false, :terms_agreed => nil)
 
     session[:user] = user.id
 
@@ -690,7 +690,7 @@ class UsersControllerTest < ActionController::TestCase
   # Check that if you haven't seen the terms, and make a request that requires authentication,
   # that your request is redirected to view the terms
   def test_terms_not_seen_redirection
-    user = create(:user, :terms_seen => false)
+    user = create(:user, :terms_seen => false, :terms_agreed => nil)
     session[:user] = user.id
 
     get :account, :params => { :display_name => user.display_name }
@@ -1098,8 +1098,8 @@ class UsersControllerTest < ActionController::TestCase
   # Test whether information about contributor terms is shown for users who haven't agreed
   def test_terms_not_agreed
     agreed_user = create(:user, :terms_agreed => 3.days.ago)
-    seen_user = create(:user, :terms_seen => true)
-    not_seen_user = create(:user, :terms_seen => false)
+    seen_user = create(:user, :terms_seen => true, :terms_agreed => nil)
+    not_seen_user = create(:user, :terms_seen => false, :terms_agreed => nil)
 
     get :show, :params => { :display_name => agreed_user.display_name }
     assert_response :success

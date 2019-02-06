@@ -6,7 +6,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
   end
 
   def test_api_blocked
-    user = create(:user, :terms_seen => false)
+    user = create(:user, :terms_seen => false, :terms_agreed => nil)
 
     get "/api/#{API_VERSION}/user/preferences", :headers => auth_header(user.display_name, "test")
     assert_response :forbidden
@@ -20,7 +20,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
   end
 
   def test_terms_presented_at_login
-    user = create(:user, :terms_seen => false)
+    user = create(:user, :terms_seen => false, :terms_agreed => nil)
 
     # try to log in
     get "/login"
@@ -45,7 +45,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
   end
 
   def test_terms_cant_be_circumvented
-    user = create(:user, :terms_seen => false)
+    user = create(:user, :terms_seen => false, :terms_agreed => nil)
 
     # try to log in
     get "/login"
