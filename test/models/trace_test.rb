@@ -271,8 +271,7 @@ class TraceTest < ActiveSupport::TestCase
   end
 
   def trace_valid(attrs, result = true)
-    entry = build(:trace)
-    entry.assign_attributes(attrs)
+    entry = build(:trace, attrs)
     assert_equal result, entry.valid?, "Expected #{attrs.inspect} to be #{result}"
   end
 

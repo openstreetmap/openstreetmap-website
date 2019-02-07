@@ -3,47 +3,56 @@ require "test_helper"
 class NodeTest < ActiveSupport::TestCase
   def test_node_too_far_north
     node = build(:node, :latitude => 90.01 * OldNode::SCALE)
-    assert_equal false, node.valid?
+    node.validate
+    assert node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_node_north_limit
     node = build(:node, :latitude => 90 * OldNode::SCALE)
-    assert node.valid?
+    node.validate
+    assert_equal false, node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_node_too_far_south
     node = build(:node, :latitude => -90.01 * OldNode::SCALE)
-    assert_equal false, node.valid?
+    node.validate
+    assert node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_node_south_limit
     node = build(:node, :latitude => -90 * OldNode::SCALE)
-    assert node.valid?
+    node.validate
+    assert_equal false, node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_node_too_far_west
     node = build(:node, :longitude => -180.01 * OldNode::SCALE)
-    assert_equal false, node.valid?
+    node.validate
+    assert node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_node_west_limit
     node = build(:node, :longitude => -180 * OldNode::SCALE)
-    assert node.valid?
+    node.validate
+    assert_equal false, node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_node_too_far_east
     node = build(:node, :longitude => 180.01 * OldNode::SCALE)
-    assert_equal false, node.valid?
+    node.validate
+    assert node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_node_east_limit
     node = build(:node, :longitude => 180 * OldNode::SCALE)
-    assert node.valid?
+    node.validate
+    assert_equal false, node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_totally_wrong
     node = build(:node, :latitude => 200 * OldNode::SCALE, :longitude => 200 * OldNode::SCALE)
-    assert_equal false, node.valid?
+    node.validate
+    assert node.errors.full_messages.include?("Node is not in the world")
   end
 
   def test_lat_lon
