@@ -280,7 +280,7 @@ class Trace < ActiveRecord::Base
   def import
     logger.info("GPX Import importing #{name} (#{id}) from #{user.email}")
 
-    gpx = GPX::File.new(xml_file)
+    gpx = ::GPX::File.new(xml_file)
 
     f_lat = 0
     f_lon = 0
