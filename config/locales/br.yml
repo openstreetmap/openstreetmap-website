@@ -16,6 +16,9 @@ br:
     formats:
       friendly: '%e %B %Y da %H:%M'
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: Ne hañval ket bezañ ur chomlec'h postel reizh.
     models:
       acl: Roll kontroll moned
       changeset: Strollad kemmoù
@@ -265,6 +268,8 @@ br:
       title_all: Kaozeal diwar-benn an holl gemmoù degaset en OpenStreetMap
       title_particular: 'Kaoz diwar-benn an holl gemmoù #%{changeset_id}degaset en
         OpenStreetMap'
+    timeout:
+      sorry: Ho tigarez, re hir eo adtapout ar roll evezhiadennoù  hoc'h eus goulennet.
   diary_entries:
     new:
       title: Enmoned nevez en deizlevr
@@ -316,10 +321,12 @@ br:
       edit_link: Aozañ an enmoned-mañ
       hide_link: Kuzhat an enmoned-mañ
       confirm: Kadarnaat
+      report: Disklêriañ an enmoned-mañ
     diary_comment:
       comment_from: Addispleg gant %{link_user}  d'an %{comment_created_at}
       hide_link: Kuzhat an addispleg-mañ
       confirm: Kadarnaat
+      report: Diskêriañ an evheziadenn-mañ
     location:
       location: 'Lec''hiadur :'
       view: Diskwel
@@ -945,6 +952,7 @@ br:
       select_status: Diuzañ ur statud
       select_type: Diuzañ ur seurt
       select_last_updated_by: Diuzañ an hizivadenn diwezhañ gant
+      reported_user: Implijer diskêriet
       not_updated: Nann hizvivaet
       search: Klask
       search_guidance: 'Kudennoù enklask :'
@@ -959,6 +967,7 @@ br:
       reports_count:
         one: 1 Danevell
         other: '%{count} Danevelloù'
+      reported_item: Elfenn disklêriet
       states:
         ignored: Lezet a-gostez
         open: Digor
@@ -973,9 +982,13 @@ br:
         zero: Danevell ebet
         one: 1 rapport
         other: '%{count} danevelloù'
+      report_created_at: Disklêriet evit ar wech kentañ %{datetime}
+      last_resolved_at: Diskêriadur diwezhañ d'an %{datetime}
+      last_updated_at: Diskêriadur diwezhañ d'an %{datetime} gant %{displayname}
       resolve: Diskoulmañ
       ignore: Lezel a-gostez
       reopen: Addigeriñ
+      reports_of_this_issue: Diskekêriadennoù ar gudenn-mañ
       read_reports: Lenn an danevelloù
       new_reports: Danevelloù nevez
       other_issues_against_this_user: Kudennoù all a sell ouzh an implijer-mañ
@@ -985,8 +998,10 @@ br:
       created_at: D'an %{datetime}
     reports:
       updated_at: D'an %{datetime}
+      reported_by_html: Disklêriet evel %{category} gant %{user}
     helper:
       reportable_title:
+        diary_comment: '%{entry_title}, evezhiadenn#%{comment_id}'
         note: 'Notenn #%{note_id}'
   issue_comments:
     create:
@@ -996,6 +1011,7 @@ br:
       title_html: Danevell %{link}
       missing_params: N'haller ket krouiñ un danevell nevez
       details: Roit muioc'h a vunudoù diwar-benn ar gudenn (dre ret)
+      select: 'Dibab un abeg evit ho tanevell :'
       disclaimer:
         not_just_mistake: Sur oc'h n'eo ket ar gudenn-se ur fazi hepken.
       categories:
@@ -1004,8 +1020,15 @@ br:
         diary_comment:
           other_label: All
         user:
+          spam_label: Stroboù zo en notenn-mañ
+          offensive_label: Hudur eo ar profil implijer-mañ
+          threat_label: Ur gourdrouz zo er profil implijer-mañ
+          vandal_label: Ur vandal eo an implijer-mañ
           other_label: All
         note:
+          spam_label: Stroboù zo en notenn-mañ.
+          personal_label: Roadennoù personel zo en notenn-mañ.
+          abusive_label: Kunujennus eo an notenn-mañ.
           other_label: All
     create:
       successful_report: Enrollet mat eo bet ho tanevell
@@ -1036,6 +1059,8 @@ br:
     intro_text: Ur gartenn eus ar bed eo OprenStreetMap, krouet gant tud eveldoc'h
       ha frank hec'h implij dindan un aotre-implij digor.
     intro_2_create_account: Krouiñ ur gont implijer
+    hosting_partners_html: Kemeret eo an herberc'hiañ e karg gant %{ucl},%{bytemark},ha
+      %{partners}all.
     partners_ucl: ↓"Universiy College" Londrez
     partners_bytemark: ↓Herberc'hiañ Bytemark
     partners_partners: Kevelourien
@@ -1379,7 +1404,7 @@ br:
             (<a href="https://www.and.com">www.and.com</a>)
         contributors_nz_html: |-
           <strong>Zeland-Nevez</strong> : Ennañ roadennoù eus
-             Land Information New Zealand. Crown Copyright reserved.
+             <a href="https://data.linz.govt.nz/">servij roadennoù LINZ</a> hag evit adimplijout, dindan aotre <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
         contributors_si_html: |-
           <Strong>Slovenia</strong>: zo enni roadennoù eus <a href="http://www.gu.gov.si/en/">Aotrouniezh steuñvidigezh ha Kartografiezh </a> hag eus <a href="http://www.mkgp.gov.si/en/">Ministrerezh al Labour-douar, ar C'hoadeier hag  ar Boued</a>
           (titouroù foran eus Slovenia)
@@ -1543,6 +1568,11 @@ br:
         title: switch2osm
         description: Skoazell evit an embregerezhioù hag an aozadurioù trec'haoliñ
           e OpenStreetMap, hervez ar c'hartennoù hag ar servijoù all.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: Evit an aozadurioù
+        description: Gant un aoazadur a ra tresoù evit OpenStreetMap ? Kavit ar pezh
+          ho peus ezhomm da c'houzout en tapis degemer.
       wiki:
         url: http://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
@@ -1741,6 +1771,8 @@ br:
       save_button: Enrollañ ar c'hemmoù
       visibility: 'Gwelusted :'
       visibility_help: Petra a dalvez an dra-mañ ?
+    update:
+      updated: Roudennoù hizivaet
     trace_optionals:
       tags: Tikedennoù
     show:
@@ -1812,6 +1844,7 @@ br:
         other: restr GPX gant %{count} poent digant {user}
       description_without_count: Restr GPX digant %{user}
   application:
+    permission_denied: N'emañ ket an aotreoù ret ganeoc'h evit seveniñ an ober-se.
     require_cookies:
       cookies_needed: Diweredekaet eo an toupinoù ganeoc'h war a seblant - gweredekait
         an toupinoù en ho merdeer a-raok mont pelloc'h, mar plij.
@@ -2121,6 +2154,7 @@ br:
       friends_diaries: Enmonedoù deizlevr ar vignoned
       nearby_changesets: Strolladoù kemmoù an implijer tro-war-dro
       nearby_diaries: Enmonedoù deizlevr an implijerien tro-war-dro
+      report: Disklêriañ an implijer-mañ
     popup:
       your location: Ho lec'hiadur
       nearby mapper: Kartennour en ardremez
@@ -2520,7 +2554,9 @@ br:
     directions:
       ascend: Pignat
       engines:
+        fossgis_osrm_bike: War varc'h-houarn (OSRM)
         fossgis_osrm_car: Karr(OSRM)
+        fossgis_osrm_foot: War droad (OSRM)
         graphhopper_bicycle: Marc'h-houarn (GraphHopper)
         graphhopper_car: Karr GraphHopper)
         graphhopper_foot: Troad (GraphHopper)
@@ -2534,11 +2570,12 @@ br:
         continue_without_exit: Kenderc'hel war%{name}
         slight_right_without_exit: Troit un tammig a-zehoù war %{name}
         offramp_right: Kemer ar vretell dehou
-        offramp_right_with_exit: Troit a-zehou war ar vretell
-        offramp_right_with_exit_name: Kemer an hent-maez dehou war %{name}
-        offramp_right_with_exit_directions: Kemer an hent-maez dehou war-zu %{directions}
-        offramp_right_with_exit_name_directions: Kemer ar vretell dehou war %{name},
-          war-zu %{directions}
+        offramp_right_with_exit: Troit a-zehou %{exit} war ar vretell
+        offramp_right_with_exit_name: Kemer an hent-maez dehou %{exit} war %{name}
+        offramp_right_with_exit_directions: Kemer an hent-maez dehou %{exit} war-zu
+          %{directions}
+        offramp_right_with_exit_name_directions: Kemer ar vretell dehou %{exit} war
+          %{name}, war-zu %{directions}
         offramp_right_with_name: Kemer ar vretell dehou %{name}
         offramp_right_with_directions: Kemer ar vretell dehou war-zu %{directions}
         offramp_right_with_name_directions: Kemer ar vretell dehou war %{name}, war-zu
@@ -2558,11 +2595,12 @@ br:
         sharp_left_without_exit: Troit prim a-gleiz war %{name}
         turn_left_without_exit: Treiñ a-gleiz war %{name}
         offramp_left: Troit a gleiz war ar vretell
-        offramp_left_with_exit: Troit a-gleiz war ar vretell
+        offramp_left_with_exit: Troit %{exit} a-gleiz war ar vretell
         offramp_left_with_exit_name: Troit a-gleiz war ar vretell war %{name}
-        offramp_left_with_exit_directions: Troit a-gleiz war ar vretell war-zu %{directions}
-        offramp_left_with_exit_name_directions: Kemer ar vretell gleiz war %{name},
-          war-zu %{directions}
+        offramp_left_with_exit_directions: Troit a-gleiz war ar vretell %{exit}war-zu
+          %{directions}
+        offramp_left_with_exit_name_directions: Kemer ar vretell gleiz %{exit} war
+          %{name}, war-zu %{directions}
         offramp_left_with_name: Kemer ar vretell gleiz betek %{name}
         offramp_left_with_directions: Troit a-gleiz war ar vretell war-zu %{directions}
         offramp_left_with_name_directions: Troit a-gleiz war ar vretell war %{name},
@@ -2587,6 +2625,9 @@ br:
         against_oneway_without_exit: Mont gant ar straed untu war %{name}
         end_oneway_without_exit: Dibenn an tremen untun war %{name}
         roundabout_with_exit: Er c'hroashent-tro, kemer an hent-maez %{exit} war %{name}
+        roundabout_with_exit_ordinal: Er c'hroashent-tro, kemer ar vretell %{exit}
+          war %{name}
+        exit_roundabout: Mont kuit eus ar c'hroashent-tro war %{name}
         unnamed: hep anv
         courtesy: Hent a-berzh %{link}
         exit_counts:
@@ -2647,4 +2688,7 @@ br:
         skridaozadenn-mañ a-raok he distruj.
       flash: Skridaozadenn foeltret.
       error: Ur fazi a zo bet e-ser foeltrañ ar skridaozadenn-mañ
+  validations:
+    invalid_characters: zo arouezennoù direizh ennañ
+    url_characters: zo arouezennoù URL ispisial%{characters} ennañ
 ...

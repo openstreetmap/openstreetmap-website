@@ -40,6 +40,9 @@ fa:
     formats:
       friendly: '%e %B %Y ساعت %H:%M'
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: ظاهراً ایمیل معتبری وارد نکرده‌اید
     models:
       acl: فهرست کنترل دسترسی
       changeset: بستهٔ تغییر
@@ -1095,12 +1098,13 @@ fa:
     more: بیشتر
   notifier:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} بر یک روزنوشت نظر داد'
+      subject: ‏[OpenStreetMap] %{user} بر یک روزنوشت نظر داد
       hi: سلام %{to_user}،
       header: '%{from_user} روی روزنوشت OpenStreetMap با موضوع %{subject} نظر داد:'
       footer: همچنین میتوانید نظر را در %{readurl} بخوانید و میتوانید در %{commenturl}
         نظر دهید یا در %{replyurl} پاسخ دهید
     message_notification:
+      subject_header: ‏[OpenStreetMap] %{subject}
       hi: سلام %{to_user}،
       header: '%{from_user} از طریق OpenStreetMap پیامی با موضوع %{subject} برای شما
         فرستاده است:'
@@ -1108,28 +1112,27 @@ fa:
         به آن پاسخ دهید
     friend_notification:
       hi: سلام %{to_user}،
-      subject: '[OpenStreetMap] %{user} شما را بعنوان دوست اضافه کرد'
+      subject: ‏[OpenStreetMap] %{user} شما را به‌عنوان دوست اضافه کرد
       had_added_you: '%{user} در OpenStreetMap شما را بعنوان دوست افزود.'
       see_their_profile: میتوانید نمایه کاربری اش را در %{userurl} ببینید.
       befriend_them: همچنین میتوانید در %{befriendurl} او را بعنوان دوست اضافه کنید.
     gpx_notification:
       greeting: سلام،
-      your_gpx_file: فایل GPX شما اینگونه است
+      your_gpx_file: ظاهراً فایل GPX شما
       with_description: با توضیحات
       and_the_tags: 'و برچسب های زیر:'
       and_no_tags: و بدون برچسب.
       failure:
-        subject: '[OpenStreetMap] وارد سازی GPX ناموفق'
-        failed_to_import: 'وارد سازی ناموفق، خطا اینجاست:'
-        more_info_1: اطلاعات بیشتر درباره ی شکست وارد سازی GPX و چگونگی اجتناب از
-          آن
+        subject: ‏[OpenStreetMap] درون‌برد ناموفق GPX
+        failed_to_import: 'درون‌برد ناموفق بود. خطا:'
+        more_info_1: اطلاعات بیشتر دربارهٔ شکست درون‌برد GPX و چگونگی پیشگیری از آن
         more_info_2: 'آنها را می‌توان اینجا یافت:'
       success:
-        subject: '[OpenStreetMap] وارد سازی GPX موفق'
-        loaded_successfully: با موفقیت لود شد با %{trace_points} از %{possible_points}
-          نقاط ممکن.
+        subject: ‏[OpenStreetMap] درون‌برد موفق GPX
+        loaded_successfully: با موفقیت و با %{trace_points} نقطه از %{possible_points}
+          نقطهٔ ممکن روی وبسایت قرار گرفته است.
     signup_confirm:
-      subject: '[OpenStreetMap] به OpenStreetMap خوش آمدید'
+      subject: ‏[OpenStreetMap] به OpenStreetMap خوش آمدید
       greeting: ‎سلام،
       created: کسی (امیدواریم شما) یک حساب در %{site_url} ایجاد کرد.
       confirm: 'قبل از اینکه ما کار دیگری انجام دهیم، نیاز داریم که تأیید شود این
@@ -1138,7 +1141,7 @@ fa:
       welcome: بعد از اینکه حسابتان را تأیید کردید، اطلاعات بیشتری به شما ارائه می‌دهیم
         تا بتوانید شروع کنید.
     email_confirm:
-      subject: '[OpenStreetMap] ایمیلتان را تأیید کنید'
+      subject: ‏[OpenStreetMap] ایمیلتان را تأیید کنید
     email_confirm_plain:
       greeting: سلام،
       hopefully_you: یک نفر (امیدواریم خود شما باشید) می‌خواهد نشانی ایمیلش را از
@@ -1150,7 +1153,7 @@ fa:
         %{server_url} به %{new_address} تغییر دهد.
       click_the_link: اگر این شمایید، برای تأیید تغییر لطفاً روی پیوند زیر کلیک کنید.
     lost_password:
-      subject: '[OpenStreetMap] درخواست تنظیم مجدد رمز عبور'
+      subject: ‏[OpenStreetMap] درخواست تنظیم مجدد رمز عبور
     lost_password_plain:
       greeting: سلام،
       hopefully_you: یک نفر (احتمالاً شما) درخواست کرده که رمز عبور مربوط به حساب
@@ -1166,27 +1169,27 @@ fa:
       anonymous: کاربر ناشناس
       greeting: ‎سلام ،
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} روی یکی از یادداشت‌های شما نظر
-          داد'
-        subject_other: '[OpenStreetMap] %{commenter} روی یادداشت موردعلاقه‌تان نظر
-          داده'
+        subject_own: ‏[OpenStreetMap] %{commenter} روی یکی از یادداشت‌های شما نظر
+          داد
+        subject_other: ‏[OpenStreetMap] %{commenter} روی یادداشت موردعلاقه‌تان نظر
+          داده
         your_note: '%{commenter} روی یکی از یادداشت‌های شما روی نقشه نظر داد. این
           یادداشت نزدیک اینجاست: %{place}'
         commented_note: '%{commenter} روی یک از یادداشت‌های نقشه که شما بر آن نظر
           داده‌اید نظر داد. این یادداشت نزدیک به %{place} است.'
       closed:
-        subject_own: '[OpenStreetMap] %{commenter} یکی از یادداشت‌های شما را حل کرد'
-        subject_other: '[OpenStreetMap] %{commenter} یکی از یادداشت‌های موردعلاقهٔ
-          شما را حل کرد'
+        subject_own: ‏[OpenStreetMap] %{commenter} یکی از یادداشت‌های شما را حل کرد
+        subject_other: ‏[OpenStreetMap] %{commenter} یکی از یادداشت‌های موردعلاقهٔ
+          شما را حل کرد
         your_note: '%{commenter} یکی از یادداشت‌های شما روی نقشه را حل کرد. این یادداشت
           نزدیک اینجاست: %{place}'
         commented_note: '%{commenter} یکی از یادداشت‌های نقشه که شما بر آن نظر گذاشته‌اید
           را حل کرد. یادداشت نزدیک به اینجاست: %{place}'
       reopened:
-        subject_own: '[OpenStreetMap] %{commenter} یکی از یادداشت‌های شما را دوباره
-          فعال کرد'
-        subject_other: '[OpenStreetMap] %{commenter} یکی از یادداشت‌های موردعلاقهٔ
-          شما را دوباره فعال کرد'
+        subject_own: ‏[OpenStreetMap] %{commenter} یکی از یادداشت‌های شما را دوباره
+          فعال کرد
+        subject_other: ‏[OpenStreetMap] %{commenter} یکی از یادداشت‌های موردعلاقهٔ
+          شما را دوباره فعال کرد
         your_note: '%{commenter} یکی از یادداشت‌های شما روی نقشه را دوباره فعال کرد.
           این یادداشت نزدیک اینجاست: %{place}'
         commented_note: '%{commenter} یکی از یادداشت‌های نقشه را که شما بر آن نظر
@@ -1196,10 +1199,10 @@ fa:
       hi: سلام %{to_user}،
       greeting: سلام،
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} روی یکی از بسته‌های تغییر شما نظر
-          داد'
-        subject_other: '[OpenStreetMap] %{commenter} روی یکی از بسته‌های تغییر موردعلاقه‌تان
-          نظر داد'
+        subject_own: ‏[OpenStreetMap] %{commenter} روی یکی از بسته‌های تغییر شما نظر
+          داد
+        subject_other: ‏[OpenStreetMap] %{commenter} روی یکی از بسته‌های تغییر موردعلاقه‌تان
+          نظر داد
         your_changeset: '%{commenter} برای جعبه تغییر ایجاد شده توسط شما در %{time}
           یک نظر نوشته است'
         commented_changeset: '%{commenter} یک نظر برای جعبه تغییری که توسط %{changeset_author}
@@ -1830,7 +1833,7 @@ fa:
       see_all_traces: دیدن همه ردها
       see_my_traces: ردهای من
     delete:
-      scheduled_for_deletion: این رد برای حذف زمان‌بندی شد
+      scheduled_for_deletion: این رد در زمان‌بندی حذف قرار گرفت
     make_public:
       made_public: رد عمومی شد
     offline_warning:
@@ -1970,7 +1973,7 @@ fa:
       account is suspended: پوزش می‌خواهیم، حساب شما به دلیل فعالیت‌های مشکوک مسدود
         شده‌است. <br />برای گفت‌وگو دربارهٔ این مسئله لطفاً با <a href="%{webmaster}">مدیر
         سایت</a> تماس بگیرید.
-      auth failure: شوربختانه با این اطلاعات نمی‌توان وارد شد.
+      auth failure: متأسفانه با این اطلاعات نمی‌توان وارد شد.
       openid_logo_alt: ورود با OpenID
       auth_providers:
         openid:
@@ -1981,13 +1984,13 @@ fa:
           alt: ورود با OpenID گوگل
         facebook:
           title: ورود با فیسبوک
-          alt: با یک حساب فیس بوک وارد شوید
+          alt: با یک حساب فیسبوک وارد شوید
         windowslive:
           title: ورود با Windows Live
           alt: با یک حساب Windows Live وارد شوید
         github:
           title: ورود با GitHub
-          alt: با یک حساب کاربری در GitHub وارد شوید
+          alt: با یک حساب GitHub وارد شوید
         wikipedia:
           title: ورود با ویکی‌پدیا
           alt: ورود با حساب کاربری ویکی‌پدیا
@@ -2369,10 +2372,10 @@ fa:
       other: '%{count} ساعت'
     helper:
       time_future: '%{time} دیگر پایان می‌یابد.'
-      until_login: فعال تا وقتی کاربر وارد شود.
+      until_login: تا وقتی کاربر وارد شود فعال می‌ماند.
       time_future_and_until_login: '%{time} دیگر و پس از ورود به حساب کاربری پایان
         می‌یابد.'
-      time_past: '%{time} پیش به پایان رسید.'
+      time_past: '%{time} پیش پایان یافت.'
     blocks_on:
       title: مسدودی‌های کاربری %{name}
       heading: فهرست مسدودی‌های %{name}
@@ -2385,7 +2388,7 @@ fa:
       title: '%{block_on} توسط %{block_by} مسدود شده'
       heading: '%{block_on} توسط %{block_by} مسدود شده'
       time_future: '%{time} دیگر پایان می‌یابد'
-      time_past: '%{time} پیش به پایان رسید'
+      time_past: '%{time} پیش پایان یافت'
       created: زمان ایجاد
       ago: '%{time} پیش'
       status: وضعیت
@@ -2529,7 +2532,9 @@ fa:
     directions:
       ascend: فراز
       engines:
+        fossgis_osrm_bike: دوچرخه (OSRM)
         fossgis_osrm_car: اتومبیل (OSRM)
+        fossgis_osrm_foot: پا (OSRM)
         graphhopper_bicycle: دوچرخه (GraphHopper)
         graphhopper_car: ماشین (GraphHopper)
         graphhopper_foot: پیاده (GraphHopper)

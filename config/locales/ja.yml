@@ -43,6 +43,10 @@ ja:
       friendly: '%Y年%m月%e日 %H:%M'
       blog: '%Y年%B%e日'
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: 有効なメールアドレスではないようです
+        email_address_not_routable: ルート作成できません
     models:
       acl: アクセスコントロールリスト
       changeset: 変更セット
@@ -988,28 +992,80 @@ ja:
     update:
       new_report: レポートは正常に登録完了しました
       successful_update: レポートは正常に更新完了しました
+      provide_details: 必要な詳細を記入してください
     show:
+      title: '%{status} 問題 #%{issue_id}'
       reports:
         zero: レポート0件
         one: 1件のレポート
         other: '%{count}件のレポート'
+      report_created_at: 最初の通報は%{datetime}です
       last_resolved_at: 最近の更新は%{datetime}です
       last_updated_at: 最近の更新は%{displayname}による%{datetime}の版です
+      resolve: 解決
       ignore: 無視
+      reopen: 再開
       reports_of_this_issue: この項目に関するレポート
+      read_reports: レポートを読む
       new_reports: 新規レポート
       other_issues_against_this_user: この利用者に関するその他の問題点
+      no_other_issues: この利用者に関するその他の問題点はありません。
+      comments_on_this_issue: この問題に関するコメント
+    resolve:
+      resolved: 問題の状態は「解決」に設定されました
     ignore:
       ignored: 問題の状態は「無視」に設定されました
+    reopen:
+      reopened: 問題の状態は「未解決」に設定されました
+    comments:
+      created_at: '%{datetime}に'
+      reassign_param: 問題を再度、割り当てますか？
     reports:
+      updated_at: '%{datetime}に'
       reported_by_html: '%{user}により %{category} として報告済み'
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}とコメント番号 %{comment_id}'
+        note: '注記 #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: コメントは無事作成されました
   reports:
     new:
       title_html: '%{link} を報告'
       missing_params: 新規報告を作成できません
+      details: 問題についてもう少し詳しく記述してください (必須)。
       select: '報告の理由を選択してください:'
+      disclaimer:
+        intro: サイトの仲裁者にレポートを送信する前に、以下の各点をご確認ください。
+        not_just_mistake: 問題が単純ミスでないと確証している
+        unable_to_fix: ご自身またはコミュニティの仲間の皆さんの手を借りて取り組んだが、問題を修正できなかった
+        resolve_with_user: 当事者であるユーザとすでに問題解決を試みた
+      categories:
+        diary_entry:
+          spam_label: この日誌の内容はスパムを含む／スパムである
+          offensive_label: この日誌の内容は卑猥／違法である
+          threat_label: この日誌の内容は脅迫を含む
+          other_label: その他
+        diary_comment:
+          spam_label: この日誌のコメントはスパムを含む／スパムである
+          offensive_label: この日誌のコメントは卑猥／違法である
+          threat_label: この日誌のコメントは脅迫を含む
+          other_label: その他
+        user:
+          spam_label: この利用者プロフィールはスパムを含む／スパムである
+          offensive_label: この利用者プロフィールは卑猥／違法である
+          threat_label: この利用者プロフィールは脅迫を含む
+          vandal_label: このユーザは破壊者である
+          other_label: その他
+        note:
+          spam_label: この注記はスパムである
+          personal_label: この注記は個人情報を含む
+          abusive_label: この注記は荒らしである
+          other_label: その他
     create:
       successful_report: レポートは正常に登録完了しました
+      provide_details: 必要な詳細を記入してください
   layouts:
     logo:
       alt_text: OpenStreetMap ロゴ
@@ -1035,6 +1091,7 @@ ja:
     intro_header: OpenStreetMap へようこそ!
     intro_text: OpenStreetMap は、あなたのような人々が作成した世界地図であり、オープン ライセンスの下で自由に利用できます。
     intro_2_create_account: 新しい利用者アカウントを作成
+    hosting_partners_html: 'ホスティング支援者: %{ucl}、%{bytemark}及びその他の%{partners}'
     partners_ucl: UCL
     partners_bytemark: バイトマーク ホスティング
     partners_partners: パートナー
@@ -1275,6 +1332,9 @@ ja:
           BY</a>)、<a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land
           Vorarlberg</a>、Land Tirol (ライセンス <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC
           BY AT with amendments</a>) によるデータを含みます。'
+        contributors_au_html: '<strong>オーストラリア</strong>: <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA
+          Australia Limited</a>を出典とするデータは<a href="https://creativecommons.org/licenses/by/4.0/">CC
+          BY 4.0</a>のもとオーストラリア連邦政府の許諾を得ています。'
         contributors_ca_html: '<strong>カナダ</strong>: GeoBase&reg;、GeoGratis (&copy;
           Department of Natural Resources Canada)、CanVec (&copy; Department of Natural
           Resources Canada)、StatCan (Geography Division, Statistics Canada) によるデータを含みます。'
@@ -1413,6 +1473,10 @@ ja:
       switch2osm:
         title: switch2osm
         description: ヘルプ、OpenStreetMapをベースにした地図その他のサービスへ切り替えた法人や団体向け。
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: 組織向け
+        description: ご所属の組織でOpenStreetMap との取り組みを検討中ですか？ Welcome Mat に事前にご理解いただきたい諸点をまとめてあります。
       wiki:
         url: https://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
