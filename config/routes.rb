@@ -10,7 +10,7 @@ OpenStreetMap::Application.routes.draw do
     post "changeset/:id/upload" => "changesets#upload", :id => /\d+/
     get "changeset/:id/download" => "changesets#download", :as => :changeset_download, :id => /\d+/
     post "changeset/:id/expand_bbox" => "changesets#expand_bbox", :id => /\d+/
-    get "changeset/:id" => "changesets#show", :as => :changeset_show, :id => /\d+/
+    get "changeset/:id" => "changesets#read", :as => :changeset_read, :id => /\d+/
     post "changeset/:id/subscribe" => "changesets#subscribe", :as => :changeset_subscribe, :id => /\d+/
     post "changeset/:id/unsubscribe" => "changesets#unsubscribe", :as => :changeset_unsubscribe, :id => /\d+/
     put "changeset/:id" => "changesets#update", :id => /\d+/
@@ -26,10 +26,10 @@ OpenStreetMap::Application.routes.draw do
     get "node/:id/history" => "old_nodes#history", :id => /\d+/
     post "node/:id/:version/redact" => "old_nodes#redact", :version => /\d+/, :id => /\d+/
     get "node/:id/:version" => "old_nodes#version", :id => /\d+/, :version => /\d+/
-    get "node/:id" => "nodes#show", :id => /\d+/
+    get "node/:id" => "nodes#read", :id => /\d+/
     put "node/:id" => "nodes#update", :id => /\d+/
     delete "node/:id" => "nodes#delete", :id => /\d+/
-    get "nodes" => "nodes#index"
+    get "nodes" => "nodes#nodes"
 
     put "way/create" => "ways#create"
     get "way/:id/history" => "old_ways#history", :id => /\d+/
@@ -37,10 +37,10 @@ OpenStreetMap::Application.routes.draw do
     get "way/:id/relations" => "relations#relations_for_way", :id => /\d+/
     post "way/:id/:version/redact" => "old_ways#redact", :version => /\d+/, :id => /\d+/
     get "way/:id/:version" => "old_ways#version", :id => /\d+/, :version => /\d+/
-    get "way/:id" => "ways#show", :id => /\d+/
+    get "way/:id" => "ways#read", :id => /\d+/
     put "way/:id" => "ways#update", :id => /\d+/
     delete "way/:id" => "ways#delete", :id => /\d+/
-    get "ways" => "ways#index"
+    get "ways" => "ways#ways"
 
     put "relation/create" => "relations#create"
     get "relation/:id/relations" => "relations#relations_for_relation", :id => /\d+/
@@ -48,10 +48,10 @@ OpenStreetMap::Application.routes.draw do
     get "relation/:id/full" => "relations#full", :id => /\d+/
     post "relation/:id/:version/redact" => "old_relations#redact", :version => /\d+/, :id => /\d+/
     get "relation/:id/:version" => "old_relations#version", :id => /\d+/, :version => /\d+/
-    get "relation/:id" => "relations#show", :id => /\d+/
+    get "relation/:id" => "relations#read", :id => /\d+/
     put "relation/:id" => "relations#update", :id => /\d+/
     delete "relation/:id" => "relations#delete", :id => /\d+/
-    get "relations" => "relations#index"
+    get "relations" => "relations#relations"
 
     get "map" => "api#map"
 
@@ -106,6 +106,9 @@ OpenStreetMap::Application.routes.draw do
     post "notes/editPOIexec" => "notes#comment"
     get "notes/getGPX" => "notes#index", :format => "gpx"
     get "notes/getRSSfeed" => "notes#feed", :format => "rss"
+
+    # third party API keys
+    get "third_party_services/keys" => "third_party_services#retrieve_keys"
   end
 
   # Data browsing
@@ -274,6 +277,9 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/outbox", :to => redirect(:path => "/messages/outbox")
   get "/message/new/:display_name" => "messages#new", :as => "new_message"
   get "/message/read/:message_id", :to => redirect(:path => "/messages/%{message_id}")
+
+  resources :third_party_keys
+  resources :third_party_services
 
   # oauth admin pages (i.e: for setting up new clients, etc...)
   scope "/user/:display_name" do

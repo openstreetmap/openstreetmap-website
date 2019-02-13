@@ -1,0 +1,15 @@
+<% content_for :heading do %>
+  <h1><%= t '.title' %></h1>
+<% end %>
+
+<ul>
+<% @services.each do |service| %>
+  <% if service.access_key != '' %>
+  <li><%= link_to service.uri, edit_third_party_service_path(service) %></li>
+  <% else %>
+  <li><s><%= link_to service.uri, edit_third_party_service_path(service) %></s></li>
+  <% end %>
+<% end %>
+</ul>
+
+<%= link_to t('third_party_services.new.title'), new_third_party_service_path %>

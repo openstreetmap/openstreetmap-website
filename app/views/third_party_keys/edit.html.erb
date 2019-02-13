@@ -1,0 +1,49 @@
+<% content_for :heading do %>
+  <h1><%= t '.title' %></h1>
+  <ul class='secondary-actions clearfix'>
+    <li><%= link_to t('third_party_keys.index.title'), third_party_keys_path %></li>
+  </ul>
+<% end %>
+
+<p>
+  <% if @key.third_party_service %>
+  <strong><%= @key.third_party_service[:uri] %></strong>
+  <% else %>
+  <strong>Error: Key is an orphan</strong>
+  <% end %>
+  <br/>
+  <% if @key.user_ref == current_user.id %>
+    <% if @key.data != ''&& !@key.revoked_ref %>
+    Key: <%= @key.data %><br/>
+    <% else %>
+      <% if @key.third_party_service && @key.third_party_service.access_key == '' %>
+      <em>Service has been discontinued</em><br/>
+      <% else %>
+      <em>Key has been revoked</em><br/>
+      <% end %>
+    <% end %>
+  <% else %>
+  <em>This key does not belong to you</em>
+  <% end %>
+</p>
+
+<%= form_with model: @key, local: true do |f| %>
+<% if @key && @key.errors.any? %>
+<p><strong>Cannot update this key.</strong>
+Reasons:
+<ul>
+<% @key.errors.full_messages.each do |msg| %>
+   <li>&nbsp;&nbsp;<strong><%= msg %></strong></li>
+<% end %>
+</ul>
+</p>
+<% end %>
+
+  <% if @key.user_ref == current_user.id %>
+  <%= f.submit 'Renew API Key' %>
+  <% end %>
+<% end %>
+
+<p>&nbsp;</p> <!-- Fix vertical spacing -->
+
+<p><%= link_to t('third_party_keys.revoke.title'), third_party_key_path, method: :delete %></p>

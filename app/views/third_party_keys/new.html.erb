@@ -1,0 +1,59 @@
+<% content_for :heading do %>
+  <h1><%= t '.title' %></h1>
+  <ul class='secondary-actions clearfix'>
+    <li><%= link_to t('third_party_keys.index.title'), third_party_keys_path %></li>
+  </ul>
+<% end %>
+
+<%= form_with scope: :third_party_key, url: third_party_keys_path, local: true do |f| %>
+<% if @error || (@key && @key.errors.any?) %>
+<p><strong>Cannot create this key.</strong>
+Reasons:
+<ul>
+<% if @error %>
+  <li>&nbsp;&nbsp;<strong><%= @error %></strong></li>
+<% end %>
+<% if @key && @key.errors.any? %>
+<% @key.errors.full_messages.each do |msg| %>
+  <li>&nbsp;&nbsp;<strong><%= msg %></strong></li>
+<% end %>
+<% end %>
+</ul>
+</p>
+<% end %>
+
+<p>For the sake of privacy protection,
+you need to prove to any 3rd party service that works with privacy relevant OSM data
+that you are a genuine OSM user yourself.</p>
+
+<p>While you could sign up with OSM crendentials there
+we would like to protect the privacy of your OSM account there, too.
+For that purpose we generate per OSM user and third party service one or more API keys
+such that you can prove to the service that you are an OSM user.
+We tell the service the key but not your user name.
+Thus the service cannot identify you beyond being an OSM user.</p>
+
+<p>The sole purpose of this API key is to transmit it as a credential to the respective service.
+<strong>Do not publish this key or send it to somebody else</strong>.
+If your key has been lost, you can at any time get here a new one.
+The old one is revoked automatically in that process.</p>
+
+<%= f.label :gdpr do %>
+  <%= f.check_box :gdpr %>
+  I understand that the data of other OSM users is subject to the GDPR and I may store or process it only for a legitimate reason.
+<% end %>
+<br/>
+<%= f.label :disclose do %>
+  <%= f.check_box :disclose %>
+  I confirm that I may hand over the key to at least some third parties if I am asked to do so.
+<% end %>
+<br/>
+<%= f.label :attentive do %>
+  <%= f.check_box :attentive %>
+  I confirm that I missed the content of the text.
+<% end %>
+<br/><br/>
+
+<%= f.select :service_to_use, ThirdPartyService.where.not(access_key: '').all.map { |s| s.uri } %>
+<%= f.submit 'Get Key' %>
+<% end %>
