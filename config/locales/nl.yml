@@ -43,12 +43,16 @@
 # Author: Sven L
 # Author: Tjcool007
 # Author: Trijnstel
+# Author: Xbaked potatox
 ---
 nl:
   time:
     formats:
       friendly: '%e %B %Y om %H:%M'
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: '"%s" lijkt geen geldig e-mailadres te zijn.'
     models:
       acl: Rechtenoverzicht
       changeset: Wijzigingenset
@@ -1069,12 +1073,18 @@ nl:
           threat_label: Deze dagboekcommentaar bevat een bedreiging
           other_label: Anders
         user:
+          spam_label: Dit gebruikersprofiel is / bevat spam
+          offensive_label: Dit gebruikersprofiel is obsceen / aanstootgevend
+          threat_label: Dit gebruikersprofiel bevat een bedreiging
+          vandal_label: Deze gebruiker is een vandaal
           other_label: Anders
         note:
           spam_label: Deze notitie is spam
           personal_label: Deze opmerking bevat persoonlijke gegevens
+          abusive_label: Deze notitie is beledigend
           other_label: Anders
     create:
+      successful_report: Uw rapport is succesvol geregistreerd
       provide_details: Verschaf a.u.b. de vereiste details
   layouts:
     logo:
@@ -1089,6 +1099,7 @@ nl:
     edit: Bewerken
     history: Geschiedenis
     export: Exporteren
+    issues: Problemen
     data: Gegevens
     export_data: Gegevens exporteren
     gps_traces: GPS-traces
@@ -1622,6 +1633,8 @@ nl:
       welcomemat:
         url: https://welcome.openstreetmap.org/
         title: Voor bedrijven
+        description: Met een organisatie die plannen maakt voor OpenStreetMap? Vind
+          wat u moet weten in de welkomstmat.
       wiki:
         url: https://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
@@ -1638,6 +1651,7 @@ nl:
       where_am_i: Waar is dit?
       where_am_i_title: De huidige locatie via de zoekmachine beschrijven
       submit_text: OK
+      reverse_directions_text: Omgekeerde richtingen
     key:
       table:
         entry:
@@ -1788,6 +1802,7 @@ nl:
       tags_help: kommagescheiden
       visibility: 'Zichtbaarheid:'
       visibility_help: wat betekent dit?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces‎
       upload_button: Uploaden
       help: Hulp
       help_url: http://wiki.openstreetmap.org/wiki/NL:Upload
@@ -1796,6 +1811,8 @@ nl:
       trace_uploaded: Uw track is geüpload en staat te wachten totdat hij in de database
         wordt opgenomen. Dit gebeurt meestal binnen een half uur. U ontvangt dan een
         e-mail.
+      upload_failed: Sorry, de GPX-upload is mislukt. Een beheerder is op de hoogte
+        gesteld van de fout. Probeer het opnieuw
       traces_waiting:
         one: U hebt al een trace die wacht om geüpload te worden. Overweeg om te wachten
           totdat die verwerkt is, om te voorkomen dat de wachtrij voor andere gebruikers
@@ -1820,6 +1837,8 @@ nl:
       save_button: Wijzigingen opslaan
       visibility: 'Zichtbaarheid:'
       visibility_help: wat betekent dit?
+    update:
+      updated: Trace bijgewerkt
     trace_optionals:
       tags: Labels
     show:
@@ -2612,8 +2631,19 @@ nl:
         slight_right_without_exit: Flauwe bocht naar rechts naar %{name}
         offramp_right: Neem de oprit aan de rechterkant
         offramp_right_with_exit: Neem afslag%{exit} aan de rechterkant
+        offramp_right_with_exit_name: Neem afslag %{exit} aan de rechterkant naar
+          %{name}
+        offramp_right_with_exit_directions: Neem afslag%{exit} aan de rechterkant
+          richting%{directions}
+        offramp_right_with_exit_name_directions: Neem afslag%{exit} aan de rechterkant
+          naar%{name}, richting%{directions}
         offramp_right_with_name: Neem de oprit aan de rechterkant naar %{name}
+        offramp_right_with_directions: Neem de oprit rechts richting%{directions}
+        offramp_right_with_name_directions: Neem de oprit aan de rechterkant naar%{name},
+          richting%{directions}
         onramp_right_without_exit: Sla rechtsaf op de oprit naar %{name}
+        onramp_right_with_directions: Sla rechtsaf de oprit op richting%{directions}
+        onramp_right_with_name_directions: Ga rechts op de oprit naar%{name}, richting%{directions}
         onramp_right_without_directions: Sla rechtsaf de oprit op
         onramp_right: Sla rechtsaf de oprit op
         endofroad_right_without_exit: Sla rechtsaf aan het einde van de weg naar %{name}
@@ -2626,6 +2656,7 @@ nl:
         turn_left_without_exit: Sla linksaf naar %{name}
         offramp_left: Neem de oprit aan de linkerkant
         offramp_left_with_exit: Neem afslag%{exit} aan de linkerkant
+        offramp_left_with_exit_name: Neem afslag%{exit} aan de linkerkant naar%{name}
         offramp_left_with_exit_directions: Neem afslag%{exit} aan de linkerkant richting%
           {directions}%{directions}
         offramp_left_with_exit_name_directions: Neem afslag%{exit} aan de linkerkant

@@ -30,6 +30,10 @@ he:
     formats:
       friendly: '%e ב%B %Y בשעה %H:%M'
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: זאת אינה כתובת דוא״ל תקנית
+        email_address_not_routable: אין אפשרות לטוות מסלול
     models:
       acl: רשימת בקרת גישה
       changeset: ערכת שינויים
@@ -267,11 +271,16 @@ he:
       sorry: סליחה, לוקח יותר מדי זמן לאחזר על רשימת ערכות השינויים שביקשת.
   changeset_comments:
     comment:
-      comment: הערה חדשה על בערכת שינויים מס' %{changeset_id} מאת %{author}
+      comment: הערה חדשה על ערכת שינויים מס׳ %{changeset_id} מאת %{author}
       commented_at_by_html: עודכן לפני %{when} על־ידי %{user}
+    comments:
+      comment: הערה חדשה בערכת שינויים מס׳ %{changeset_id} מאת %{author}
     index:
       title_all: דיון בערכת שינויים של OpenStreetMap
       title_particular: דיון בערכת שינויים מס' %{changeset_id} של OpenStreetMap
+    timeout:
+      sorry: הזמן שלקח לרשימת ההערות על ערכת השינויים שביקשת להתקבל ארוך מדי, עמך
+        הסליחה.
   diary_entries:
     new:
       title: רשומת יומן חדשה
@@ -347,7 +356,7 @@ he:
       post: רשומה
       when: מתי
       comment: הערה
-      ago: לפי %{ago}
+      ago: לפני %{ago}
       newer_comments: הערות חדשות
       older_comments: הערות ישנות
   geocoder:
@@ -952,6 +961,11 @@ he:
       title: בעיות
       select_status: לבחור מצב
       select_type: בחר סוג
+      select_last_updated_by: בחירת העדכון האחרון לפי
+      search: חיפוש
+      user_not_found: המשתמש לא קיים
+      status: מצב
+      last_updated: עדכון אחרון
   layouts:
     logo:
       alt_text: הלוגו של OpenStreetMap
@@ -2002,6 +2016,7 @@ he:
       friends_diaries: רשומות יומן של חברים
       nearby_changesets: ערכות השינויים של משתמשים בסביבה
       nearby_diaries: רשומות יומן של משתמשים בסביבה
+      report: דיווח על המשתמש
     popup:
       your location: מיקומך
       nearby mapper: ממפה סמוך
@@ -2376,7 +2391,9 @@ he:
     directions:
       ascend: מעלה
       engines:
+        fossgis_osrm_bike: אופניים (OSRM)
         fossgis_osrm_car: במכונית (ORSM)
+        fossgis_osrm_foot: ברגל (OSRM)
         graphhopper_bicycle: באופניים (GraphHopper)
         graphhopper_car: במכונית (GraphHopper)
         graphhopper_foot: ברגל (GraphHopper)
@@ -2419,8 +2436,21 @@ he:
         against_oneway_without_exit: לנסוע נגד כיוון התנועה על %{name}
         end_oneway_without_exit: סוף החד־סטרי על %{name}
         roundabout_with_exit: בכיכר צא ביציאה %{exit} אל %{name}
+        roundabout_with_exit_ordinal: בכיכר עליך לצאת ביציאה ה%{exit} לעבר %{name}
+        exit_roundabout: בכיכר עליך לצאת אל %{name}
         unnamed: ללא שם
         courtesy: הכיוונים באדיבות %{link}
+        exit_counts:
+          first: ראשונה
+          second: שנייה
+          third: שלישית
+          fourth: רביעית
+          fifth: חמישית
+          sixth: שישית
+          seventh: שביעית
+          eighth: שמינית
+          ninth: תשיעית
+          tenth: עשירית
       time: זמן
     query:
       node: צומת
@@ -2468,4 +2498,9 @@ he:
         לפני הריסתו.
       flash: החיתוך נהרס.
       error: אירעה שגיאה בעת הריסת החיתוך הזה.
+  validations:
+    leading_whitespace: יש רווח בהתחלה
+    trailing_whitespace: יש רווח בסוף
+    invalid_characters: מכיל תווים שגויים
+    url_characters: מכיל תווי כתובת מיוחדים (%{characters})
 ...
