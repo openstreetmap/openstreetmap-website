@@ -5,7 +5,6 @@ class ThirdPartyServicesController < ApplicationController
 
   layout "site"
 
-  #skip_before_action :verify_authenticity_token
   before_action :authorize, :only => [:index, :create, :edit, :show, :update, :destroy]
   before_action :authorize_web, :only => [:index, :create, :edit, :show, :update, :destroy]
   before_action :set_locale, :only => [:index, :create, :edit, :update, :destroy]
@@ -13,7 +12,7 @@ class ThirdPartyServicesController < ApplicationController
   around_action :api_call_handle_error, :api_call_timeout
 
   def index
-    @services = ThirdPartyService.all.where(user_ref: current_user.id)
+    @services = ThirdPartyService.all.where(:user_ref => current_user.id)
   end
 
   def create
@@ -21,7 +20,7 @@ class ThirdPartyServicesController < ApplicationController
     @service.user_ref = current_user.id
     @service.access_key = SecureRandom.hex(20)
     if @service.save
-      redirect_to action: "show", id: @service.id
+      redirect_to :action => "show", :id => @service.id
     else
       render :action => "new"
     end
@@ -38,7 +37,7 @@ class ThirdPartyServicesController < ApplicationController
     @service = ThirdPartyService.find(params[:id])
     @service_owner = User.find(@service.user_ref)
   rescue ActiveRecord::RecordNotFound
-    redirect_to action: "index"
+    redirect_to :action => "index"
   end
 
   def update
@@ -50,7 +49,7 @@ class ThirdPartyServicesController < ApplicationController
       if @service.save
         redirect_to @service
       else
-        redirect_to action: "edit"
+        redirect_to :action => "edit"
       end
     end
   end
@@ -60,11 +59,11 @@ class ThirdPartyServicesController < ApplicationController
     if @service.user_ref != current_user.id
       redirect_to @service
     else
-      @service.access_key = ''
+      @service.access_key = ""
       if @service.save
         redirect_to @service
       else
-        redirect_to action: "edit"
+        redirect_to :action => "edit"
       end
     end
   end
@@ -72,7 +71,7 @@ class ThirdPartyServicesController < ApplicationController
   def retrieve_keys
     raise OSM::APIBadUserInput, "The parameters service, key, and beyond are required" unless params["service"] && params["key"] && params["beyond"]
 
-    service = ThirdPartyService.find_by uri: params["service"]
+    service = ThirdPartyService.find_by :uri => params["service"]
     raise OSM::APIBadUserInput, "Service not found" unless service
     raise OSM::APIPreconditionFailedError, "Access key does not match" unless service.access_key == params["key"]
 
@@ -80,12 +79,10 @@ class ThirdPartyServicesController < ApplicationController
 
     doc = OSM::API.new.get_xml_credentials_doc
 
-    ThirdPartyKey.where("third_party_service_id = ? and revoked_ref > ? and created_ref <= ?",
-        service.id, beyond, beyond).each do |key|
+    ThirdPartyKey.where("third_party_service_id = ? and revoked_ref > ? and created_ref <= ?", service.id, beyond, beyond).each do |key|
       doc.root << key.to_xml_for_retrieve
     end
-    ThirdPartyKey.where("third_party_service_id = ? and created_ref > ? and (revoked_ref is null or revoked_ref = 0)",
-        service.id, beyond).each do |key|
+    ThirdPartyKey.where("third_party_service_id = ? and created_ref > ? and (revoked_ref is null or revoked_ref = 0)", service.id, beyond).each do |key|
       doc.root << key.to_xml_for_retrieve
     end
 

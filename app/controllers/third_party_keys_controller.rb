@@ -9,30 +9,29 @@ class ThirdPartyKeysController < ApplicationController
   before_action :require_user
 
   def index
-    @keys = ThirdPartyKey.all.where("user_ref = ? and (revoked_ref = 0 or revoked_ref is null)",
-        current_user.id)
+    @keys = ThirdPartyKey.all.where("user_ref = ? and (revoked_ref = 0 or revoked_ref is null)", current_user.id)
   end
 
   def create
     input = params.require(:third_party_key).permit(:gdpr, :attentive, :disclose, :service_to_use)
-    service = ThirdPartyService.where(uri: input[:service_to_use]).take
+    service = ThirdPartyService.where(:uri => input[:service_to_use]).take
     if !service
-      @error = 'No service with this URI known.'
+      @error = "No service with this URI known."
       render :action => "new"
       return
     end
-    if service.access_key == ''
-      @error = 'Service has been discontinued.'
+    if service.access_key == ""
+      @error = "Service has been discontinued."
       render :action => "new"
       return
     end
-    @key = ThirdPartyKey.where(user_ref: current_user.id, third_party_service: service).take
+    @key = ThirdPartyKey.where(:user_ref => current_user.id, :third_party_service => service).take
     if @key
-      redirect_to action: "show", id: @key.id
+      redirect_to :action => "show", :id => @key.id
       return
     end
-    if input[:gdpr] != '1' || input[:attentive] == '1' || input[:disclose] == '1'
-      @error = 'Please read the text, check the appropriate checkboxes, and uncheck the others.'
+    if input[:gdpr] != "1" || input[:attentive] == "1" || input[:disclose] == "1"
+      @error = "Please read the text, check the appropriate checkboxes, and uncheck the others."
       render :action => "new"
       return
     end
@@ -44,7 +43,7 @@ class ThirdPartyKeysController < ApplicationController
     @key.user_ref = current_user.id
     @key.data = SecureRandom.hex(20)
     if @key.save
-      redirect_to action: "show", id: @key.id
+      redirect_to :action => "show", :id => @key.id
     else
       render :action => "new"
     end
@@ -53,7 +52,7 @@ class ThirdPartyKeysController < ApplicationController
   def edit
     @key = ThirdPartyKey.find(params[:id])
     if !@key
-      redirect_to action: "index"
+      redirect_to :action => "index"
     else
       if @key.user_ref != current_user.id
         render :action => "show"
@@ -64,7 +63,7 @@ class ThirdPartyKeysController < ApplicationController
   def show
     @key = ThirdPartyKey.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to action: "index"
+    redirect_to :action => "index"
   end
 
   def update
@@ -76,8 +75,8 @@ class ThirdPartyKeysController < ApplicationController
       event.save
       @key.revoked_ref = event.id
       @key.save
-      if @key.third_party_service && @key.third_party_service.access_key == ''
-        redirect_to action: "edit"
+      if @key.third_party_service && @key.third_party_service.access_key == ""
+        redirect_to :action => "edit"
         return
       end
       service = @key.third_party_service
@@ -90,7 +89,7 @@ class ThirdPartyKeysController < ApplicationController
       @key.user_ref = current_user.id
       @key.data = SecureRandom.hex(20)
       if @key.save
-        redirect_to action: "show", id: @key.id
+        redirect_to :action => "show", :id => @key.id
       else
         render :action => "edit"
       end
@@ -108,7 +107,7 @@ class ThirdPartyKeysController < ApplicationController
       if @key.save
         redirect_to @key
       else
-        redirect_to action: "edit"
+        redirect_to :action => "edit"
       end
     end
   end
