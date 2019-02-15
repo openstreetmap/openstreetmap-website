@@ -229,7 +229,6 @@ class ThirdPartyServicesControllerTest < ActionController::TestCase
     assert :success
     response = XML::Parser.string(@response.body).parse
     assert_keyid_present(response, key_event_four.id)
-    revoked_keys = response.find("//osm/revoked")
     assert_revokeds_match(response, [key_one])
     assert_apikeys_match(response, [key_two, key_three, key_four])
 
@@ -286,7 +285,7 @@ class ThirdPartyServicesControllerTest < ActionController::TestCase
   def assert_revokeds_match(response, expected)
     revokeds = response.find("//osm/revoked")
     assert revokeds.count == expected.count
-    (0..expected.count-1).each do |i|
+    (0..(expected.count - 1)).each do |i|
       assert revokeds[i]["key"]
       assert revokeds[i]["key"] == expected[i].data
     end
@@ -295,7 +294,7 @@ class ThirdPartyServicesControllerTest < ActionController::TestCase
   def assert_apikeys_match(response, expected)
     apikeys = response.find("//osm/apikey")
     assert apikeys.count == expected.count
-    (0..expected.count-1).each do |i|
+    (0..(expected.count - 1)).each do |i|
       assert apikeys[i]["key"] && apikeys[i]["created"]
       assert apikeys[i]["key"] == expected[i].data
     end
