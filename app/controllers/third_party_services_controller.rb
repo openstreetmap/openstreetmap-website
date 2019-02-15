@@ -28,7 +28,7 @@ class ThirdPartyServicesController < ApplicationController
 
   def edit
     @service = ThirdPartyService.find(params[:id])
-    render :action => "show" if !(@service && @service.user_ref == current_user.id)
+    render :action => "show" unless @service && @service.user_ref == current_user.id
   end
 
   def show

@@ -53,11 +53,7 @@ class ThirdPartyServicesControllerTest < ActionController::TestCase
 
   def test_no_double_create
     user = create(:user)
-    service = ThirdPartyService.new
-    service.user_ref = user.id
-    service.uri = "direct-create-orig.test"
-    service.access_key = "aaaa123456789012345678901234567890bbccdd"
-    assert service.save
+    service = create_service(user, "direct-create-orig.test", "aaaa123456789012345678901234567890bbccdd")
 
     alt_user = create(:user)
     assert user.id != alt_user.id && user.email != alt_user.email
@@ -81,11 +77,7 @@ class ThirdPartyServicesControllerTest < ActionController::TestCase
 
   def test_direct_update
     user = create(:user)
-    service = ThirdPartyService.new
-    service.user_ref = user.id
-    service.uri = "direct-update.test"
-    service.access_key = "aaaa123456789012345678901234567890bbccdd"
-    assert service.save
+    service = create_service(user, "direct-update.test", "aaaa123456789012345678901234567890bbccdd")
 
     alt_user = create(:user)
     assert user.id != alt_user.id && user.email != alt_user.email
@@ -112,11 +104,7 @@ class ThirdPartyServicesControllerTest < ActionController::TestCase
 
   def test_direct_destroy
     user = create(:user)
-    service = ThirdPartyService.new
-    service.user_ref = user.id
-    service.uri = "direct-destroy.test"
-    service.access_key = "aaaa123456789012345678901234567890bbccdd"
-    assert service.save
+    service = create_service(user, "direct-destroy.test", "aaaa123456789012345678901234567890bbccdd")
 
     alt_user = create(:user)
     assert user.id != alt_user.id && user.email != alt_user.email
@@ -142,11 +130,7 @@ class ThirdPartyServicesControllerTest < ActionController::TestCase
 
   def test_retrieve_keys_empty
     user = create(:user)
-    service = ThirdPartyService.new
-    service.user_ref = user.id
-    service.uri = "retrieve-keys-empty.test"
-    service.access_key = "aaaa123456789012345678901234567890bbccdd"
-    assert service.save
+    service = create_service(user, "retrieve-keys-empty.test", "aaaa123456789012345678901234567890bbccdd")
 
     get :retrieve_keys, :params => { :service => "retrieve-keys-empty.test", :key => service.access_key,
                                      :beyond => 0 }
@@ -160,90 +144,46 @@ class ThirdPartyServicesControllerTest < ActionController::TestCase
     user_two = create(:user)
     user_three = create(:user)
     user_four = create(:user)
-    service = ThirdPartyService.new
-    service.user_ref = user_one.id
-    service.uri = "retrieve-keys-full.test"
-    service.access_key = "aaaa123456789012345678901234567890bbccdd"
-    assert service.save
+    service = create_service(user_one, "retrieve-keys-full.test", "aaaa123456789012345678901234567890bbccdd")
 
     # Create three keys
-    key_event_one = ThirdPartyKeyEvent.new
-    assert key_event_one.save
-    key_one = ThirdPartyKey.new
-    key_one.created_ref = key_event_one.id
-    key_one.data = "01cccc123456789012345678901234567890bbccdd"
-    key_one.user_ref = user_one.id
-    key_one.third_party_service = service
-    assert key_one.save
+    key_event_one = create_key_event
+    key_one = create_key(key_event_one, "01cccc123456789012345678901234567890bbccdd", user_one, service)
 
-    key_event_two = ThirdPartyKeyEvent.new
-    assert key_event_two.save
-    key_two = ThirdPartyKey.new
-    key_two.created_ref = key_event_two.id
-    key_two.data = "02cccc123456789012345678901234567890bbccdd"
-    key_two.user_ref = user_two.id
-    key_two.third_party_service = service
-    assert key_two.save
+    key_event_two = create_key_event
+    key_two = create_key(key_event_two, "02cccc123456789012345678901234567890bbccdd", user_two, service)
     assert key_one.created_ref < key_two.created_ref
 
-    key_event_three = ThirdPartyKeyEvent.new
-    assert key_event_three.save
-    key_three = ThirdPartyKey.new
-    key_three.created_ref = key_event_three.id
-    key_three.data = "03cccc123456789012345678901234567890bbccdd"
-    key_three.user_ref = user_three.id
-    key_three.third_party_service = service
-    assert key_three.save
+    key_event_three = create_key_event
+    key_three = create_key(key_event_three, "03cccc123456789012345678901234567890bbccdd", user_three, service)
     assert key_two.created_ref < key_three.created_ref
 
     get :retrieve_keys, :params => { :service => "retrieve-keys-full.test", :key => service.access_key,
                                      :beyond => 0 }
     assert :success
     response = XML::Parser.string(@response.body).parse
-    keyid_nodes = response.find("//osm/keyid")
-    assert keyid_nodes.count == 1
-    assert keyid_nodes[0]["max"] && keyid_nodes[0]["max"].to_f && keyid_nodes[0]["max"].to_f >= key_event_three.id
-    apikeys = response.find("//osm/apikey")
-    assert apikeys.count == 3
-    apikeys.each do |key|
-      assert key["key"] && key["created"]
-    end
-    assert apikeys[0]["key"] == key_one.data
-    assert apikeys[1]["key"] == key_two.data
-    assert apikeys[2]["key"] == key_three.data
+    assert_keyid_present(response, key_event_three.id)
+    assert_revokeds_match(response, [])
+    assert_apikeys_match(response, [key_one, key_two, key_three])
 
     get :retrieve_keys, :params => { :service => "retrieve-keys-full.test", :key => service.access_key,
                                      :beyond => key_event_one.id }
     assert :success
     response = XML::Parser.string(@response.body).parse
-    keyid_nodes = response.find("//osm/keyid")
-    assert keyid_nodes.count == 1
-    assert keyid_nodes[0]["max"] && keyid_nodes[0]["max"].to_f && keyid_nodes[0]["max"].to_f >= key_event_three.id
-    apikeys = response.find("//osm/apikey")
-    assert apikeys.count == 2
-    apikeys.each do |key|
-      assert key["key"] && key["created"]
-    end
-    assert apikeys[0]["key"] == key_two.data
-    assert apikeys[1]["key"] == key_three.data
+    assert_keyid_present(response, key_event_three.id)
+    assert_revokeds_match(response, [])
+    assert_apikeys_match(response, [key_two, key_three])
 
     get :retrieve_keys, :params => { :service => "retrieve-keys-full.test", :key => service.access_key,
                                      :beyond => key_event_two.id }
     assert :success
     response = XML::Parser.string(@response.body).parse
-    keyid_nodes = response.find("//osm/keyid")
-    assert keyid_nodes.count == 1
-    assert keyid_nodes[0]["max"] && keyid_nodes[0]["max"].to_f && keyid_nodes[0]["max"].to_f >= key_event_three.id
-    apikeys = response.find("//osm/apikey")
-    assert apikeys.count == 1
-    apikeys.each do |key|
-      assert key["key"] && key["created"]
-    end
-    assert apikeys[0]["key"] == key_three.data
+    assert_keyid_present(response, key_event_three.id)
+    assert_revokeds_match(response, [])
+    assert_apikeys_match(response, [key_three])
 
     # Revoke one key
-    key_event_four = ThirdPartyKeyEvent.new
-    assert key_event_four.save
+    key_event_four = create_key_event
     key_one.revoked_ref = key_event_four.id
     assert key_one.save
     assert key_three.created_ref < key_one.revoked_ref
@@ -252,124 +192,112 @@ class ThirdPartyServicesControllerTest < ActionController::TestCase
                                      :beyond => 0 }
     assert :success
     response = XML::Parser.string(@response.body).parse
-    keyid_nodes = response.find("//osm/keyid")
-    assert keyid_nodes.count == 1
-    assert keyid_nodes[0]["max"] && keyid_nodes[0]["max"].to_f && keyid_nodes[0]["max"].to_f >= key_event_four.id
-    revoked_keys = response.find("//osm/revoked")
-    assert revoked_keys.count.zero?
-    apikeys = response.find("//osm/apikey")
-    assert apikeys.count == 2
-    apikeys.each do |key|
-      assert key["key"] && key["created"]
-    end
-    assert apikeys[0]["key"] == key_two.data
-    assert apikeys[1]["key"] == key_three.data
+    assert_keyid_present(response, key_event_four.id)
+    assert_revokeds_match(response, [])
+    assert_apikeys_match(response, [key_two, key_three])
 
     get :retrieve_keys, :params => { :service => "retrieve-keys-full.test", :key => service.access_key,
                                      :beyond => key_event_one.id }
     assert :success
     response = XML::Parser.string(@response.body).parse
-    keyid_nodes = response.find("//osm/keyid")
-    assert keyid_nodes.count == 1
-    assert keyid_nodes[0]["max"] && keyid_nodes[0]["max"].to_f && keyid_nodes[0]["max"].to_f >= key_event_four.id
-    revoked_keys = response.find("//osm/revoked")
-    assert revoked_keys.count == 1
-    assert revoked_keys[0]["key"]
-    assert revoked_keys[0]["key"] == key_one.data
-    apikeys = response.find("//osm/apikey")
-    assert apikeys.count == 2
-    apikeys.each do |key|
-      assert key["key"] && key["created"]
-    end
-    assert apikeys[0]["key"] == key_two.data
-    assert apikeys[1]["key"] == key_three.data
+    assert_keyid_present(response, key_event_four.id)
+    assert_revokeds_match(response, [key_one])
+    assert_apikeys_match(response, [key_two, key_three])
 
     get :retrieve_keys, :params => { :service => "retrieve-keys-full.test", :key => service.access_key,
                                      :beyond => key_event_four.id }
     assert :success
     response = XML::Parser.string(@response.body).parse
-    keyid_nodes = response.find("//osm/keyid")
-    assert keyid_nodes.count == 1
-    assert keyid_nodes[0]["max"] && keyid_nodes[0]["max"].to_f && keyid_nodes[0]["max"].to_f >= key_event_four.id
-    revoked_keys = response.find("//osm/revoked")
-    assert revoked_keys.count.zero?
-    apikeys = response.find("//osm/apikey")
-    assert apikeys.count.zero?
+    assert_keyid_present(response, key_event_four.id)
+    assert_revokeds_match(response, [])
+    assert_apikeys_match(response, [])
 
     # Create another one
-    key_event_five = ThirdPartyKeyEvent.new
-    assert key_event_five.save
-    key_four = ThirdPartyKey.new
-    key_four.created_ref = key_event_five.id
-    key_four.data = "05cccc123456789012345678901234567890bbccdd"
-    key_four.user_ref = user_four.id
-    key_four.third_party_service = service
-    assert key_four.save
+    key_event_five = create_key_event
+    key_four = create_key(key_event_five, "05cccc123456789012345678901234567890bbccdd", user_four, service)
 
     get :retrieve_keys, :params => { :service => "retrieve-keys-full.test", :key => service.access_key,
                                      :beyond => 0 }
     assert :success
     response = XML::Parser.string(@response.body).parse
-    keyid_nodes = response.find("//osm/keyid")
-    assert keyid_nodes.count == 1
-    assert keyid_nodes[0]["max"] && keyid_nodes[0]["max"].to_f && keyid_nodes[0]["max"].to_f >= key_event_four.id
-    revoked_keys = response.find("//osm/revoked")
-    assert revoked_keys.count.zero?
-    apikeys = response.find("//osm/apikey")
-    assert apikeys.count == 3
-    apikeys.each do |key|
-      assert key["key"] && key["created"]
-    end
-    assert apikeys[0]["key"] == key_two.data
-    assert apikeys[1]["key"] == key_three.data
-    assert apikeys[2]["key"] == key_four.data
+    assert_keyid_present(response, key_event_four.id)
+    assert_revokeds_match(response, [])
+    assert_apikeys_match(response, [key_two, key_three, key_four])
 
     get :retrieve_keys, :params => { :service => "retrieve-keys-full.test", :key => service.access_key,
                                      :beyond => key_event_one.id }
     assert :success
     response = XML::Parser.string(@response.body).parse
-    keyid_nodes = response.find("//osm/keyid")
-    assert keyid_nodes.count == 1
-    assert keyid_nodes[0]["max"] && keyid_nodes[0]["max"].to_f && keyid_nodes[0]["max"].to_f >= key_event_four.id
+    assert_keyid_present(response, key_event_four.id)
     revoked_keys = response.find("//osm/revoked")
-    assert revoked_keys.count == 1
-    assert revoked_keys[0]["key"]
-    assert revoked_keys[0]["key"] == key_one.data
-    apikeys = response.find("//osm/apikey")
-    assert apikeys.count == 3
-    apikeys.each do |key|
-      assert key["key"] && key["created"]
-    end
-    assert apikeys[0]["key"] == key_two.data
-    assert apikeys[1]["key"] == key_three.data
-    assert apikeys[2]["key"] == key_four.data
+    assert_revokeds_match(response, [key_one])
+    assert_apikeys_match(response, [key_two, key_three, key_four])
 
     get :retrieve_keys, :params => { :service => "retrieve-keys-full.test", :key => service.access_key,
                                      :beyond => key_event_four.id }
     assert :success
     response = XML::Parser.string(@response.body).parse
-    keyid_nodes = response.find("//osm/keyid")
-    assert keyid_nodes.count == 1
-    assert keyid_nodes[0]["max"] && keyid_nodes[0]["max"].to_f && keyid_nodes[0]["max"].to_f >= key_event_four.id
-    revoked_keys = response.find("//osm/revoked")
-    assert revoked_keys.count.zero?
-    apikeys = response.find("//osm/apikey")
-    assert apikeys.count == 1
-    apikeys.each do |key|
-      assert key["key"] && key["created"]
-    end
-    assert apikeys[0]["key"] == key_four.data
+    assert_keyid_present(response, key_event_four.id)
+    assert_revokeds_match(response, [])
+    assert_apikeys_match(response, [key_four])
 
     get :retrieve_keys, :params => { :service => "retrieve-keys-full.test", :key => service.access_key,
                                      :beyond => key_event_five.id }
     assert :success
     response = XML::Parser.string(@response.body).parse
+    assert_keyid_present(response, key_event_four.id)
+    assert_revokeds_match(response, [])
+    assert_apikeys_match(response, [])
+  end
+
+  private
+
+  def create_service(user, uri, access_key)
+    service = ThirdPartyService.new
+    service.user_ref = user.id
+    service.uri = uri
+    service.access_key = access_key
+    assert service.save
+    service
+  end
+
+  def create_key(created, data, user, service)
+    key = ThirdPartyKey.new
+    key.created_ref = created.id
+    key.data = data
+    key.user_ref = user.id
+    key.third_party_service = service
+    assert key.save
+    key
+  end
+
+  def create_key_event
+    key_event = ThirdPartyKeyEvent.new
+    assert key_event.save
+    key_event
+  end
+
+  def assert_keyid_present(response, min_val)
     keyid_nodes = response.find("//osm/keyid")
     assert keyid_nodes.count == 1
-    assert keyid_nodes[0]["max"] && keyid_nodes[0]["max"].to_f && keyid_nodes[0]["max"].to_f >= key_event_four.id
-    revoked_keys = response.find("//osm/revoked")
-    assert revoked_keys.count.zero?
+    assert keyid_nodes[0]["max"] && keyid_nodes[0]["max"].to_f && keyid_nodes[0]["max"].to_f >= min_val
+  end
+
+  def assert_revokeds_match(response, expected)
+    revokeds = response.find("//osm/revoked")
+    assert revokeds.count == expected.count
+    (0..expected.count-1).each do |i|
+      assert revokeds[i]["key"]
+      assert revokeds[i]["key"] == expected[i].data
+    end
+  end
+
+  def assert_apikeys_match(response, expected)
     apikeys = response.find("//osm/apikey")
-    assert apikeys.count.zero?
+    assert apikeys.count == expected.count
+    (0..expected.count-1).each do |i|
+      assert apikeys[i]["key"] && apikeys[i]["created"]
+      assert apikeys[i]["key"] == expected[i].data
+    end
   end
 end

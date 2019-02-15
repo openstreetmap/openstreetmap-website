@@ -21,6 +21,6 @@ class CreateThirdPartyKeysStructures < ActiveRecord::Migration[5.2]
 
     add_foreign_key :third_party_keys, :third_party_key_events, :column => :created_ref, :primary_key => "id"
     add_foreign_key :third_party_keys, :third_party_key_events, :column => :revoked_ref, :primary_key => "id"
-    add_foreign_key :third_party_keys, :users, column: :user_ref, primary_key: "id"
+    add_foreign_key :third_party_keys, :users, :column => :user_ref, :primary_key => "id"
   end
 end

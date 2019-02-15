@@ -25,7 +25,7 @@ class ThirdPartyKey < ActiveRecord::Base
   belongs_to :third_party_service
 
   def to_xml_for_retrieve
-    if revoked_ref then
+    if revoked_ref
       el = XML::Node.new "revoked"
       el["key"] = data
     else
