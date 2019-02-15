@@ -1,4 +1,6 @@
 class ThirdPartyServicesController < ApplicationController
+  skip_authorization_check
+
   require "xml/libxml"
 
   layout "site"

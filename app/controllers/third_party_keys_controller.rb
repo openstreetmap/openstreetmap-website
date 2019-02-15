@@ -1,4 +1,6 @@
 class ThirdPartyKeysController < ApplicationController
+  skip_authorization_check
+
   layout "site"
 
   before_action :authorize
