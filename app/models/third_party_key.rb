@@ -28,15 +28,14 @@ class ThirdPartyKey < ActiveRecord::Base
     if revoked_ref then
       el = XML::Node.new "revoked"
       el["key"] = data
-      el
     else
       el = XML::Node.new "apikey"
       el["key"] = data
-      if created_ref then
-        event = ThirdPartyKeyEvent.find(created_ref);
+      if created_ref
+        event = ThirdPartyKeyEvent.find(created_ref)
         el["created"] = event.created_at.xmlschema
       end
-      el
     end
+    el
   end
 end

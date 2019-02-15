@@ -15,7 +15,7 @@ class ThirdPartyKeysController < ApplicationController
   def create
     input = params.require(:third_party_key).permit(:gdpr, :attentive, :disclose, :service_to_use)
     service = ThirdPartyService.where(:uri => input[:service_to_use]).take
-    if !service
+    unless service
       @error = "No service with this URI known."
       render :action => "new"
       return
@@ -54,9 +54,7 @@ class ThirdPartyKeysController < ApplicationController
     if !@key
       redirect_to :action => "index"
     else
-      if @key.user_ref != current_user.id
-        render :action => "show"
-      end
+      render :action => "show" if @key.user_ref != current_user.id
     end
   end
 
