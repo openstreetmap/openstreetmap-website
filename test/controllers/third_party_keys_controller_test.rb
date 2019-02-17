@@ -190,4 +190,35 @@ class ThirdPartyKeysControllerTest < ActionController::TestCase
     assert found_keys[0].data == "cccccc123456789012345678901234567890bbccdd"
     assert found_keys[0].created_ref == key_event_one.id && found_keys[0].revoked_ref.positive?
   end
+
+  def test_index_edit_show
+    user = create(:user)
+    service = ThirdPartyService.new
+    service.user_ref = user.id
+    service.uri = "index-edit-show.test"
+    service.access_key = "aaaa123456789012345678901234567890bbccdd"
+    assert service.save
+
+    # Create key
+    key_event = ThirdPartyKeyEvent.new
+    assert key_event.save
+    key = ThirdPartyKey.new
+    key.created_ref = key_event.id
+    key.data = "cccccc123456789012345678901234567890bbccdd"
+    key.user_ref = user.id
+    key.third_party_service = service
+    assert key.save
+
+    basic_authorization user.email, "test"
+    get :index
+    assert :success
+
+    basic_authorization user.email, "test"
+    get :show, :params => { :id => key.id }
+    assert :success
+
+    basic_authorization user.email, "test"
+    get :edit, :params => { :id => key.id }
+    assert :success
+  end
 end
