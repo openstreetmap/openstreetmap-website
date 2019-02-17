@@ -147,3 +147,5 @@ group :development, :test do
   gem "poltergeist"
   gem "puma", "~> 3.7"
 end
+
+gem "passenger", ">= 5.0.25", require: "phusion_passenger/rack_handler"
