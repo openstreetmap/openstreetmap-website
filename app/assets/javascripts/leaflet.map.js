@@ -19,6 +19,13 @@ L.OSM.Map = L.Map.extend({
     this.baseLayers = [];
 
     this.baseLayers.push(new L.OSM.Mapnik({
+      attribution: "<a href='http://wiki.openstreetmap.org/wiki/OHM'>OHM</a>",
+      code: "H",
+      keyid: "historical",
+      name: I18n.t("javascripts.map.base.historical")
+    }));
+
+    this.baseLayers.push(new L.OSM.Mapnik({
       attribution: copyright + " &hearts; " + donate,
       code: "M",
       keyid: "mapnik",
@@ -70,7 +77,7 @@ L.OSM.Map = L.Map.extend({
   },
 
   updateLayers: function(layerParam) {
-    layerParam = layerParam || "M";
+    layerParam = layerParam || "H";
     var layersAdded = "";
 
     for (var i = this.baseLayers.length - 1; i >= 0; i--) {
