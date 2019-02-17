@@ -139,6 +139,23 @@ class ThirdPartyServicesControllerTest < ActionController::TestCase
     assert response.find("//osm/keyid").count.positive?
   end
 
+  def test_index_edit_show
+    user = create(:user)
+    service = create_service(user, "index-edit-show.test", "aaaa123456789012345678901234567890bbccdd")
+
+    basic_authorization user.email, "test"
+    get :index
+    assert :success
+
+    basic_authorization user.email, "test"
+    get :show, :params => { :id => service.id }
+    assert :success
+
+    basic_authorization user.email, "test"
+    get :edit, :params => { :id => service.id }
+    assert :success
+  end
+
   def test_retrieve_keys_full
     user_one = create(:user)
     user_two = create(:user)
