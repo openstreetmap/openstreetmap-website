@@ -18,7 +18,7 @@ L.OSM.Map = L.Map.extend({
 
     this.baseLayers = [];
 
-    this.baseLayers.push(new L.OSM.Mapnik({
+    this.baseLayers.push(new L.OSM.Historical({
       attribution: "<a href='http://wiki.openstreetmap.org/wiki/OHM'>OHM</a>",
       code: "H",
       keyid: "historical",
