@@ -13,6 +13,10 @@ ia:
     formats:
       friendly: '%e de %B %Y a %H:%M'
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: non pare esser un adresse de e-mail valide
+        email_address_not_routable: non es attingibile
     models:
       acl: Lista de controlo de accesso
       changeset: Gruppo de modificationes
@@ -239,9 +243,9 @@ ia:
       area: Area
     index:
       title: Gruppos de modificationes
-      title_user: Gruppos de modificationes per %{user}
+      title_user: Gruppos de modificationes facite per %{user}
       title_friend: Gruppos de modificationes facite per mi amicos
-      title_nearby: Gruppos de modificationes per usatores vicin
+      title_nearby: Gruppos de modificationes facite per usatores vicin
       empty: Nulle gruppo de modificationes trovate.
       empty_area: Nulle gruppo de modificationes in iste area.
       empty_user: Nulle gruppo de modificationes facite per iste usator.
@@ -261,7 +265,7 @@ ia:
       comment: Nove commento sur le gruppo de modificationes № %{changeset_id} per
         %{author}
     index:
-      title_all: Discussion sur le gruppo de modificationes OpenStreetMap
+      title_all: Discussion sur un gruppo de modificationes in OpenStreetMap
       title_particular: Discussion sur le gruppo de modificationes OpenStreetMap №
         %{changeset_id}
     timeout:
@@ -336,10 +340,10 @@ ia:
         description: Entratas de diario recente de usatores de OpenStreetMap in %{language_name}
       all:
         title: Entratas de diario de OpenStreetMap
-        description: Entratas recente de diario de ustores de OpenStreetMap
+        description: Entratas recente de diario de usatores de OpenStreetMap
     comments:
       has_commented_on: '%{display_name} ha commentate le sequente entratas de diario'
-      post: Publicar
+      post: Articulo
       when: Quando
       comment: Commento
       ago: '%{ago} retro'
@@ -374,6 +378,8 @@ ia:
           gate: Porta
           hangar: Hangar
           helipad: Heliporto
+          holding_position: Puncto de attender
+          parking_position: Puncto de parcamento
           runway: Pista
           taxiway: Via de circulation pro aviones
           terminal: Terminal
@@ -419,6 +425,7 @@ ia:
           fuel: Carburante
           gambling: Joco de hasardo
           grave_yard: Cemeterio
+          grit_bin: Cassa de sal
           hospital: Hospital
           hunting_stand: Posto de chassa
           ice_cream: Gelato
@@ -432,6 +439,7 @@ ia:
           office: Officio
           parking: Parking
           parking_entrance: Entrata de autoparco
+          parking_space: Spatio de parcamento
           pharmacy: Pharmacia
           place_of_worship: Loco de adoration
           police: Policia
@@ -465,6 +473,7 @@ ia:
           village_hall: Casa communal
           waste_basket: Corbe a papiro
           waste_disposal: Tractamento de immunditias
+          water_point: Puncto de aqua
           youth_centre: Centro pro le juventute
         boundary:
           administrative: Limite administrative
@@ -682,7 +691,7 @@ ia:
           accountant: Contabile
           administrative: Administration
           architect: Architecto
-          association: Associatione
+          association: Association
           company: Compania
           employment_agency: Agentia de empleo
           estate_agent: Agentia immobiliari
@@ -711,7 +720,7 @@ ia:
           postcode: Codice postal
           region: Region
           sea: Mar
-          square: Quadrate
+          square: Placia
           state: Stato
           subdivision: Subdivision
           suburb: Suburbio
@@ -816,7 +825,7 @@ ia:
           "yes": Boteca
         tourism:
           alpine_hut: Cabana alpin
-          apartment: Appartamento
+          apartment: Appartamento de vacantias
           artwork: Obra de arte
           attraction: Attraction
           bed_and_breakfast: Bed and Breakfast
@@ -1229,9 +1238,10 @@ ia:
         contributors_nl_html: |-
           <strong>Nederlandia</strong>: Contine datos &copy; AND, 2007
           (<a href="https://www.and.com">www.and.com</a>)
-        contributors_nz_html: |-
-          <strong>Nove Zelandia</strong>: Contine datos proveniente de
-             Land Information New Zealand. Crown Copyright reservate.
+        contributors_nz_html: '<strong>Nove Zelandia</strong>: Contine datos proveniente
+          de <a href="https://data.linz.govt.nz/">LINZ Data Service</a> e licentiate
+          pro re-uso sub href="https://creativecommons.org/licenses/by/4.0/">CC BY
+          4.0</a>.'
         contributors_si_html: |-
           <strong>Slovenia</strong>: Contine datos ab le
           <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> e del
@@ -1287,14 +1297,14 @@ ia:
       user_page_link: pagina de usator
       anon_edits_link_text: Lege proque isto es le caso.
       flash_player_required: Es necessari haber un reproductor Flash pro usar Potlatch,
-        le editor Flash de OpenStreetMap. Tu pote <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">discargar
-        Flash Player a Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Plure
+        le editor Flash de OpenStreetMap. Tu pote <a href="https://get.adobe.com/flashplayer/">discargar
+        Flash Player a Adobe.com</a>. <a href="https://wiki.openstreetmap.org/wiki/Editing">Plure
         altere optiones</a> es tamben disponibile pro modificar OpenStreetMap.
       potlatch_unsaved_changes: Tu ha modificationes non salveguardate. (Pro salveguardar
         in Potlatch, tu debe deseliger le via o puncto actual si tu modifica in modo
         directe, o cliccar super le button Salveguardar si presente.)
-      potlatch2_not_configured: Potlatch 2 non ha essite configurate. Per favor vide
-        http://wiki.openstreetmap.org/wiki/The_Rails_Port
+      potlatch2_not_configured: Potlatch 2 non ha essite configurate. Visita https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
+        pro plus information
       potlatch2_unsaved_changes: Tu ha modificationes non salveguardate. (In Potlatch
         2, tu debe cliccar super Salveguardar.)
       id_not_configured: iD non ha essite configurate
@@ -1489,7 +1499,7 @@ ia:
       edit: Modificar
       preview: Previsualisation
     markdown_help:
-      title_html: Processate con <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Processate con <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Titulos
       heading: Titulo
       subheading: Subtitulo
@@ -2344,8 +2354,7 @@ ia:
       new:
         intro: Tu ha trovate un error? Qualcosa manca? Face lo saper al altere cartographos
           a fin que nos pote corriger lo. Displacia le marcator al position correcte
-          e scribe un nota pro explicar le problema. (Non entra informationes personal
-          o proveniente de cartas o catalogos sub derecto de autor.)
+          e scribe un nota pro explicar le problema.
         add: Adder nota
       show:
         anonymous_warning: Iste nota include commentos de usatores anonyme que debe
@@ -2369,7 +2378,7 @@ ia:
       distance: Distantia
       errors:
         no_route: Nulle route ha essite trovate inter iste duo locos.
-        no_place: Iste loco non ha essite trovate.
+        no_place: '''%{place}'' non poteva esser trovate.'
       instructions:
         continue_without_exit: Continuar sur %{name}
         slight_right_without_exit: Girar legiermente a dextra verso %{name}
@@ -2391,16 +2400,27 @@ ia:
         slight_left_without_exit: Girar legiermente a sinistra verso %{name}
         via_point_without_exit: (puncto intermedie)
         follow_without_exit: Sequer %{name}
-        roundabout_without_exit: Al rotunda prender %{name}
+        roundabout_without_exit: Al rotunda, prender le exito verso %{name}
         leave_roundabout_without_exit: Quitar rotunda - %{name}
         stay_roundabout_without_exit: Remaner sur rotunda - %{name}
-        start_without_exit: Comenciar al fin de %{name}
+        start_without_exit: Comenciar a %{name}
         destination_without_exit: Attinger destination
         against_oneway_without_exit: Ir contra direction obligatori sur %{name}
         end_oneway_without_exit: Fin del direction obligatori sur %{name}
         roundabout_with_exit: Al rotunda prende le exito %{exit} sur %{name}
         unnamed: cammino sin nomine
         courtesy: Itinerario fornite per %{link}
+        exit_counts:
+          first: 1me
+          second: 2nde
+          third: 3tie
+          fourth: 4te
+          fifth: 5te
+          sixth: 6te
+          seventh: 7me
+          eighth: 8ve
+          ninth: 9ne
+          tenth: 10me
       time: Tempore
     query:
       node: Nodo
