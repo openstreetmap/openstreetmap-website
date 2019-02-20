@@ -21,7 +21,8 @@ apt-get install -y ruby2.5 libruby2.5 ruby2.5-dev \
                      apache2 apache2-dev build-essential git-core \
                      postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
                      libsasl2-dev imagemagick phantomjs
-gem2.5 install rake bundler
+gem2.5 install rake
+gem2.5 install --version "~> 1.16.2" bundler
 
 ## install the bundle necessary for openstreetmap-website
 pushd /srv/openstreetmap-website
