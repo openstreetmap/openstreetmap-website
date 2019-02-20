@@ -22665,8 +22665,10 @@ var APIv3 = /** @class */ (function () {
         ];
         this._propertiesSpatial = [
             "atomic_scale",
+            "c_rotation",
             "ca",
             "calt",
+            "camera_projection_type",
             "cca",
             "cfocal",
             "ck1",
@@ -22675,7 +22677,6 @@ var APIv3 = /** @class */ (function () {
             "height",
             "merge_cc",
             "merge_version",
-            "c_rotation",
             "orientation",
             "width",
         ];
@@ -29479,6 +29480,14 @@ var Shaders = /** @class */ (function () {
         fragment: "#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n\nuniform sampler2D projectorTex;\nuniform float opacity;\nuniform float focal;\nuniform float k1;\nuniform float k2;\nuniform float scale_x;\nuniform float scale_y;\nuniform float radial_peak;\nuniform float curtain;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    float x = vRstq.x / vRstq.z;\n    float y = vRstq.y / vRstq.z;\n    float r2 = x * x + y * y;\n\n    if (radial_peak > 0. && r2 > radial_peak * sqrt(r2)) {\n        r2 = radial_peak * radial_peak;\n    }\n\n    float d = 1.0 + k1 * r2 + k2 * r2 * r2;\n    float u = scale_x * focal * d * x + 0.5;\n    float v = - scale_y * focal * d * y + 0.5;\n\n    vec4 baseColor;\n    if ((u < curtain || curtain >= 1.0) && u >= 0. && u <= 1. && v >= 0. && v <= 1.) {\n        baseColor = texture2D(projectorTex, vec2(u, v));\n        baseColor.a = opacity;\n    } else {\n        baseColor = vec4(0.0, 0.0, 0.0, 0.0);\n    }\n\n    gl_FragColor = baseColor;\n}\n",
         vertex: "#ifdef GL_ES\nprecision highp float;\n#endif\n\nuniform mat4 projectorMat;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    vRstq = projectorMat * vec4(position, 1.0);\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n}",
     };
+    Shaders.fisheye = {
+        fragment: "#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n\nuniform sampler2D projectorTex;\nuniform float opacity;\nuniform float focal;\nuniform float k1;\nuniform float k2;\nuniform float scale_x;\nuniform float scale_y;\nuniform float radial_peak;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    float x = vRstq.x;\n    float y = vRstq.y;\n    float z = vRstq.z;\n\n    float r = sqrt(x * x + y * y);\n    float theta = atan(r, z);\n\n    if (radial_peak > 0. && theta > radial_peak) {\n        theta = radial_peak;\n    }\n\n    float theta2 = theta * theta;\n    float theta_d = theta * (1.0 + theta2 * (k1 + theta2 * k2));\n    float s = focal * theta_d / r;\n\n    float u = scale_x * s * x + 0.5;\n    float v = -scale_y * s * y + 0.5;\n\n    vec4 baseColor;\n    if (u >= 0. && u <= 1. && v >= 0. && v <= 1.) {\n        baseColor = texture2D(projectorTex, vec2(u, v));\n        baseColor.a = opacity;\n    } else {\n        baseColor = vec4(0.0, 0.0, 0.0, 0.0);\n    }\n\n    gl_FragColor = baseColor;\n}\n",
+        vertex: "#ifdef GL_ES\nprecision highp float;\n#endif\n\nuniform mat4 projectorMat;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    vRstq = projectorMat * vec4(position, 1.0);\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n}",
+    };
+    Shaders.fisheyeCurtain = {
+        fragment: "#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n\nuniform sampler2D projectorTex;\nuniform float opacity;\nuniform float focal;\nuniform float k1;\nuniform float k2;\nuniform float scale_x;\nuniform float scale_y;\nuniform float radial_peak;\nuniform float curtain;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    float x = vRstq.x;\n    float y = vRstq.y;\n    float z = vRstq.z;\n\n    float r2 = sqrt(x * x + y * y);\n    float theta = atan(r2, z);\n\n    if (radial_peak > 0. && theta > radial_peak) {\n        theta = radial_peak;\n    }\n\n    float theta2 = theta * theta;\n    float theta_d = theta * (1.0 + theta2 * (k1 + theta2 * k2));\n    float s = focal * theta_d / r2;\n\n    float u = scale_x * s * x + 0.5;\n    float v = -scale_y * s * y + 0.5;\n\n    vec4 baseColor;\n    if ((u < curtain || curtain >= 1.0) && u >= 0. && u <= 1. && v >= 0. && v <= 1.) {\n        baseColor = texture2D(projectorTex, vec2(u, v));\n        baseColor.a = opacity;\n    } else {\n        baseColor = vec4(0.0, 0.0, 0.0, 0.0);\n    }\n\n    gl_FragColor = baseColor;\n}\n",
+        vertex: "#ifdef GL_ES\nprecision highp float;\n#endif\n\nuniform mat4 projectorMat;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    vRstq = projectorMat * vec4(position, 1.0);\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n}",
+    };
     Shaders.perspectiveDistorted = {
         fragment: "#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n\nuniform sampler2D projectorTex;\nuniform float opacity;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    float u = vRstq.x / vRstq.w;\n    float v = vRstq.y / vRstq.w;\n\n    vec4 baseColor;\n    if (u >= 0. && u <= 1. && v >= 0. && v <= 1.) {\n        baseColor = texture2D(projectorTex, vec2(u, v));\n        baseColor.a = opacity;\n    } else {\n        baseColor = vec4(0.0, 0.0, 0.0, 0.0);\n    }\n\n    gl_FragColor = baseColor;\n}\n",
         vertex: "#ifdef GL_ES\nprecision highp float;\n#endif\n\nuniform mat4 projectorMat;\n\nvarying vec4 vRstq;\n\nvoid main()\n{\n    vRstq = projectorMat * vec4(position, 1.0);\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n}\n",
@@ -30748,6 +30757,7 @@ var SpatialDataCache = /** @class */ (function () {
     SpatialDataCache.prototype._createNodeData = function (node) {
         return {
             alt: node.alt,
+            cameraProjection: node.cameraProjection,
             focal: node.focal,
             gpano: node.gpano,
             height: node.height,
@@ -31086,7 +31096,7 @@ var SpatialDataComponent = /** @class */ (function (_super) {
     };
     SpatialDataComponent.prototype._createTransform = function (data, reference) {
         var translation = Geo_1.Geo.computeTranslation({ alt: data.alt, lat: data.lat, lon: data.lon }, data.rotation, reference);
-        var transform = new Geo_1.Transform(data.orientation, data.width, data.height, data.focal, data.scale, data.gpano, data.rotation, translation, undefined, undefined, data.k1, data.k2);
+        var transform = new Geo_1.Transform(data.orientation, data.width, data.height, data.focal, data.scale, data.gpano, data.rotation, translation, undefined, undefined, data.k1, data.k2, data.cameraProjection);
         return transform;
     };
     SpatialDataComponent.prototype._computeTiles = function (hash, direction) {
@@ -36008,10 +36018,15 @@ var MeshFactory = /** @class */ (function () {
         this._imageSphereRadius = imageSphereRadius != null ? imageSphereRadius : 200;
     }
     MeshFactory.prototype.createMesh = function (node, transform) {
-        var mesh = node.pano ?
-            this._createImageSphere(node, transform) :
-            this._createImagePlane(node, transform);
-        return mesh;
+        if (node.pano) {
+            return this._createImageSphere(node, transform);
+        }
+        else if (transform.cameraProjection === "fisheye") {
+            return this._createImagePlaneFisheye(node, transform);
+        }
+        else {
+            return this._createImagePlane(node, transform);
+        }
     };
     MeshFactory.prototype.createFlatMesh = function (node, transform, basicX0, basicX1, basicY0, basicY1) {
         var texture = this._createTexture(node.image);
@@ -36024,9 +36039,15 @@ var MeshFactory = /** @class */ (function () {
         if (node.pano && !node.fullPano) {
             throw new Error("Cropped panoramas cannot have curtain.");
         }
-        return node.pano ?
-            this._createSphereCurtainMesh(node, transform) :
-            this._createCurtainMesh(node, transform);
+        if (node.pano) {
+            return this._createSphereCurtainMesh(node, transform);
+        }
+        else if (transform.cameraProjection === "fisheye") {
+            return this._createCurtainMeshFisheye(node, transform);
+        }
+        else {
+            return this._createCurtainMesh(node, transform);
+        }
     };
     MeshFactory.prototype.createDistortedCurtainMesh = function (node, transform) {
         if (node.pano) {
@@ -36040,6 +36061,15 @@ var MeshFactory = /** @class */ (function () {
         var material = new THREE.ShaderMaterial(materialParameters);
         var geometry = this._useMesh(transform, node) ?
             this._getImagePlaneGeo(transform, node) :
+            this._getRegularFlatImagePlaneGeo(transform);
+        return new THREE.Mesh(geometry, material);
+    };
+    MeshFactory.prototype._createCurtainMeshFisheye = function (node, transform) {
+        var texture = this._createTexture(node.image);
+        var materialParameters = this._createCurtainPlaneMaterialParametersFisheye(transform, texture);
+        var material = new THREE.ShaderMaterial(materialParameters);
+        var geometry = this._useMesh(transform, node) ?
+            this._getImagePlaneGeoFisheye(transform, node) :
             this._getRegularFlatImagePlaneGeo(transform);
         return new THREE.Mesh(geometry, material);
     };
@@ -36074,6 +36104,15 @@ var MeshFactory = /** @class */ (function () {
         var geometry = this._useMesh(transform, node) ?
             this._getImagePlaneGeo(transform, node) :
             this._getRegularFlatImagePlaneGeo(transform);
+        return new THREE.Mesh(geometry, material);
+    };
+    MeshFactory.prototype._createImagePlaneFisheye = function (node, transform) {
+        var texture = this._createTexture(node.image);
+        var materialParameters = this._createPlaneMaterialParametersFisheye(transform, texture);
+        var material = new THREE.ShaderMaterial(materialParameters);
+        var geometry = this._useMesh(transform, node) ?
+            this._getImagePlaneGeoFisheye(transform, node) :
+            this._getRegularFlatImagePlaneGeoFisheye(transform);
         return new THREE.Mesh(geometry, material);
     };
     MeshFactory.prototype._createSphereMaterialParameters = function (transform, texture) {
@@ -36219,6 +36258,106 @@ var MeshFactory = /** @class */ (function () {
                 },
             },
             vertexShader: Component_1.Shaders.perspective.vertex,
+        };
+        return materialParameters;
+    };
+    MeshFactory.prototype._createPlaneMaterialParametersFisheye = function (transform, texture) {
+        var materialParameters = {
+            depthWrite: false,
+            fragmentShader: Component_1.Shaders.fisheye.fragment,
+            side: THREE.DoubleSide,
+            transparent: true,
+            uniforms: {
+                focal: {
+                    type: "f",
+                    value: transform.focal,
+                },
+                k1: {
+                    type: "f",
+                    value: transform.ck1,
+                },
+                k2: {
+                    type: "f",
+                    value: transform.ck2,
+                },
+                opacity: {
+                    type: "f",
+                    value: 1,
+                },
+                projectorMat: {
+                    type: "m4",
+                    value: transform.basicRt,
+                },
+                projectorTex: {
+                    type: "t",
+                    value: texture,
+                },
+                radial_peak: {
+                    type: "f",
+                    value: !!transform.radialPeak ? transform.radialPeak : 0,
+                },
+                scale_x: {
+                    type: "f",
+                    value: Math.max(transform.basicHeight, transform.basicWidth) / transform.basicWidth,
+                },
+                scale_y: {
+                    type: "f",
+                    value: Math.max(transform.basicWidth, transform.basicHeight) / transform.basicHeight,
+                },
+            },
+            vertexShader: Component_1.Shaders.fisheye.vertex,
+        };
+        return materialParameters;
+    };
+    MeshFactory.prototype._createCurtainPlaneMaterialParametersFisheye = function (transform, texture) {
+        var materialParameters = {
+            depthWrite: false,
+            fragmentShader: Component_1.Shaders.fisheyeCurtain.fragment,
+            side: THREE.DoubleSide,
+            transparent: true,
+            uniforms: {
+                curtain: {
+                    type: "f",
+                    value: 1,
+                },
+                focal: {
+                    type: "f",
+                    value: transform.focal,
+                },
+                k1: {
+                    type: "f",
+                    value: transform.ck1,
+                },
+                k2: {
+                    type: "f",
+                    value: transform.ck2,
+                },
+                opacity: {
+                    type: "f",
+                    value: 1,
+                },
+                projectorMat: {
+                    type: "m4",
+                    value: transform.basicRt,
+                },
+                projectorTex: {
+                    type: "t",
+                    value: texture,
+                },
+                radial_peak: {
+                    type: "f",
+                    value: !!transform.radialPeak ? transform.radialPeak : 0,
+                },
+                scale_x: {
+                    type: "f",
+                    value: Math.max(transform.basicHeight, transform.basicWidth) / transform.basicWidth,
+                },
+                scale_y: {
+                    type: "f",
+                    value: Math.max(transform.basicWidth, transform.basicHeight) / transform.basicHeight,
+                },
+            },
+            vertexShader: Component_1.Shaders.fisheyeCurtain.vertex,
         };
         return materialParameters;
     };
@@ -36403,6 +36542,38 @@ var MeshFactory = /** @class */ (function () {
         geometry.setIndex(new THREE.BufferAttribute(indices, 1));
         return geometry;
     };
+    MeshFactory.prototype._getImagePlaneGeoFisheye = function (transform, node) {
+        var t = new THREE.Matrix4().getInverse(transform.srt);
+        // push everything at least 5 meters in front of the camera
+        var minZ = 5.0 * transform.scale;
+        var maxZ = this._imagePlaneDepth * transform.scale;
+        var vertices = node.mesh.vertices;
+        var numVertices = vertices.length / 3;
+        var positions = new Float32Array(vertices.length);
+        for (var i = 0; i < numVertices; ++i) {
+            var index = 3 * i;
+            var x = vertices[index + 0];
+            var y = vertices[index + 1];
+            var z = vertices[index + 2];
+            var l = Math.sqrt(x * x + y * y + z * z);
+            var boundedL = Math.max(minZ, Math.min(l, maxZ));
+            var factor = boundedL / l;
+            var p = new THREE.Vector3(x * factor, y * factor, z * factor);
+            p.applyMatrix4(t);
+            positions[index + 0] = p.x;
+            positions[index + 1] = p.y;
+            positions[index + 2] = p.z;
+        }
+        var faces = node.mesh.faces;
+        var indices = new Uint16Array(faces.length);
+        for (var i = 0; i < faces.length; ++i) {
+            indices[i] = faces[i];
+        }
+        var geometry = new THREE.BufferGeometry();
+        geometry.addAttribute("position", new THREE.BufferAttribute(positions, 3));
+        geometry.setIndex(new THREE.BufferAttribute(indices, 1));
+        return geometry;
+    };
     MeshFactory.prototype._getFlatImageSphereGeo = function (transform) {
         var gpano = transform.gpano;
         var phiStart = 2 * Math.PI * gpano.CroppedAreaLeftPixels / gpano.FullPanoWidthPixels;
@@ -36424,6 +36595,22 @@ var MeshFactory = /** @class */ (function () {
         return this._getFlatImagePlaneGeo(transform, dx, dy);
     };
     MeshFactory.prototype._getFlatImagePlaneGeo = function (transform, dx, dy) {
+        var vertices = [];
+        vertices.push(transform.unprojectSfM([-dx, -dy], this._imagePlaneDepth));
+        vertices.push(transform.unprojectSfM([dx, -dy], this._imagePlaneDepth));
+        vertices.push(transform.unprojectSfM([dx, dy], this._imagePlaneDepth));
+        vertices.push(transform.unprojectSfM([-dx, dy], this._imagePlaneDepth));
+        return this._createFlatGeometry(vertices);
+    };
+    MeshFactory.prototype._getRegularFlatImagePlaneGeoFisheye = function (transform) {
+        var width = transform.width;
+        var height = transform.height;
+        var size = Math.max(width, height);
+        var dx = width / 2.0 / size;
+        var dy = height / 2.0 / size;
+        return this._getFlatImagePlaneGeoFisheye(transform, dx, dy);
+    };
+    MeshFactory.prototype._getFlatImagePlaneGeoFisheye = function (transform, dx, dy) {
         var vertices = [];
         vertices.push(transform.unprojectSfM([-dx, -dy], this._imagePlaneDepth));
         vertices.push(transform.unprojectSfM([dx, -dy], this._imagePlaneDepth));
@@ -37479,7 +37666,7 @@ var Transform = /** @class */ (function () {
      * @param {Array<number>} translation - Translation vector in three dimensions.
      * @param {HTMLImageElement} image - Image for fallback size calculations.
      */
-    function Transform(orientation, width, height, focal, scale, gpano, rotation, translation, image, textureScale, ck1, ck2) {
+    function Transform(orientation, width, height, focal, scale, gpano, rotation, translation, image, textureScale, ck1, ck2, cameraProjection) {
         this._orientation = this._getValue(orientation, 1);
         var imageWidth = image != null ? image.width : 4;
         var imageHeight = image != null ? image.height : 3;
@@ -37500,6 +37687,11 @@ var Transform = /** @class */ (function () {
         this._textureScale = !!textureScale ? textureScale : [1, 1];
         this._ck1 = !!ck1 ? ck1 : 0;
         this._ck2 = !!ck2 ? ck2 : 0;
+        this._cameraProjection = !!cameraProjection ?
+            cameraProjection :
+            !!gpano ?
+                "equirectangular" :
+                "perspective";
         this._radialPeak = this._getRadialPeak(this._ck1, this._ck2);
     }
     Object.defineProperty(Transform.prototype, "ck1", {
@@ -37512,6 +37704,13 @@ var Transform = /** @class */ (function () {
     Object.defineProperty(Transform.prototype, "ck2", {
         get: function () {
             return this._ck2;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Transform.prototype, "cameraProjection", {
+        get: function () {
+            return this._cameraProjection;
         },
         enumerable: true,
         configurable: true
@@ -37820,24 +38019,44 @@ var Transform = /** @class */ (function () {
             var z = Math.cos(lat) * Math.cos(lon);
             return [x, y, z];
         }
-        else {
+        else if (this._cameraProjection === "fisheye") {
             var _a = [sfm[0] / this._focal, sfm[1] / this._focal], dxn = _a[0], dyn = _a[1];
-            var rp = this._radialPeak;
+            var dTheta = Math.sqrt(dxn * dxn + dyn * dyn);
+            var d = this._distortionFromDistortedRadius(dTheta, this._ck1, this._ck2, this._radialPeak);
+            var theta = dTheta / d;
+            var z = Math.cos(theta);
+            var r = Math.sin(theta);
+            var x = r * dxn / dTheta;
+            var y = r * dyn / dTheta;
+            return [x, y, z];
+        }
+        else {
+            var _b = [sfm[0] / this._focal, sfm[1] / this._focal], dxn = _b[0], dyn = _b[1];
             var dr = Math.sqrt(dxn * dxn + dyn * dyn);
-            var d = 1.0;
-            for (var i = 0; i < 10; i++) {
-                var r = dr / d;
-                if (r > rp) {
-                    r = rp;
-                }
-                d = 1 + this._ck1 * Math.pow(r, 2) + this._ck2 * Math.pow(r, 4);
-            }
+            var d = this._distortionFromDistortedRadius(dr, this._ck1, this._ck2, this._radialPeak);
             var xn = dxn / d;
             var yn = dyn / d;
             var v = new THREE.Vector3(xn, yn, 1);
             v.normalize();
             return [v.x, v.y, v.z];
         }
+    };
+    /** Compute distortion given the distorted radius.
+     *
+     *  Solves for d in the equation
+     *    y = d(x, k1, k2) * x
+     * given the distorted radius, y.
+     */
+    Transform.prototype._distortionFromDistortedRadius = function (distortedRadius, k1, k2, radialPeak) {
+        var d = 1.0;
+        for (var i = 0; i < 10; i++) {
+            var radius = distortedRadius / d;
+            if (radius > radialPeak) {
+                radius = radialPeak;
+            }
+            d = 1 + k1 * Math.pow(radius, 2) + k2 * Math.pow(radius, 4);
+        }
+        return d;
     };
     /**
      * Transform bearing vector (3D cartesian coordiantes on the unit sphere) to
@@ -37871,6 +38090,25 @@ var Transform = /** @class */ (function () {
                 (fullPanoPixel[0] - this.gpano.CroppedAreaLeftPixels - this.gpano.CroppedAreaImageWidthPixels / 2) / size,
                 (fullPanoPixel[1] - this.gpano.CroppedAreaTopPixels - this.gpano.CroppedAreaImageHeightPixels / 2) / size,
             ];
+        }
+        else if (this._cameraProjection === "fisheye") {
+            if (bearing[2] > 0) {
+                var x = bearing[0], y = bearing[1], z = bearing[2];
+                var r = Math.sqrt(x * x + y * y);
+                var theta = Math.atan2(r, z);
+                if (theta > this._radialPeak) {
+                    theta = this._radialPeak;
+                }
+                var distortion = 1.0 + Math.pow(theta, 2) * (this._ck1 + Math.pow(theta, 2) * this._ck2);
+                var s = this._focal * distortion * theta / r;
+                return [s * x, s * y];
+            }
+            else {
+                return [
+                    bearing[0] < 0 ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY,
+                    bearing[1] < 0 ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY,
+                ];
+            }
         }
         else {
             if (bearing[2] > 0) {
@@ -40527,6 +40765,20 @@ var Node = /** @class */ (function () {
          */
         get: function () {
             return this._fill.cca != null ? this._fill.cca : this._fill.ca;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Node.prototype, "cameraProjection", {
+        /**
+         * Get cameraProjection.
+         *
+         * @description Will be undefined if SfM has not been run.
+         *
+         * @returns {number} The camera projection of the image.
+         */
+        get: function () {
+            return this._fill.camera_projection_type;
         },
         enumerable: true,
         configurable: true
@@ -44677,7 +44929,7 @@ var StateBase = /** @class */ (function () {
         for (var _i = 0, _a = this._trajectory; _i < _a.length; _i++) {
             var node = _a[_i];
             var translation = this._nodeToTranslation(node, this._reference);
-            var transform = new Geo_1.Transform(node.orientation, node.width, node.height, node.focal, node.scale, node.gpano, node.rotation, translation, node.image, undefined, node.ck1, node.ck2);
+            var transform = new Geo_1.Transform(node.orientation, node.width, node.height, node.focal, node.scale, node.gpano, node.rotation, translation, node.image, undefined, node.ck1, node.ck2, node.cameraProjection);
             this._trajectoryTransforms.push(transform);
             this._trajectoryCameras.push(new Geo_1.Camera(transform));
         }
@@ -44954,7 +45206,7 @@ var StateBase = /** @class */ (function () {
                 throw new Error_1.ArgumentMapillaryError("Assets must be cached when node is added to trajectory");
             }
             var translation = this._nodeToTranslation(node, this.reference);
-            var transform = new Geo_1.Transform(node.orientation, node.width, node.height, node.focal, node.scale, node.gpano, node.rotation, translation, node.image, undefined, node.ck1, node.ck2);
+            var transform = new Geo_1.Transform(node.orientation, node.width, node.height, node.focal, node.scale, node.gpano, node.rotation, translation, node.image, undefined, node.ck1, node.ck2, node.cameraProjection);
             this._trajectoryTransforms.push(transform);
             this._trajectoryCameras.push(new Geo_1.Camera(transform));
         }
@@ -44966,7 +45218,7 @@ var StateBase = /** @class */ (function () {
                 throw new Error_1.ArgumentMapillaryError("Assets must be cached when added to trajectory");
             }
             var translation = this._nodeToTranslation(node, this.reference);
-            var transform = new Geo_1.Transform(node.orientation, node.width, node.height, node.focal, node.scale, node.gpano, node.rotation, translation, node.image, undefined, node.ck1, node.ck2);
+            var transform = new Geo_1.Transform(node.orientation, node.width, node.height, node.focal, node.scale, node.gpano, node.rotation, translation, node.image, undefined, node.ck1, node.ck2, node.cameraProjection);
             this._trajectoryTransforms.unshift(transform);
             this._trajectoryCameras.unshift(new Geo_1.Camera(transform));
         }

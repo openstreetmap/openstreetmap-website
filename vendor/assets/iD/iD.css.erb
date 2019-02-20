@@ -196,7 +196,8 @@ input::-moz-focus-inner {
 /* No interactivity except what we specifically allow */
 .data-layer.osm *,
 .data-layer.notes *,
-.data-layer.keepRight * {
+.data-layer.keepRight *,
+.data-layer.improveOSM * {
     pointer-events: none;
 }
 
@@ -207,7 +208,7 @@ input::-moz-focus-inner {
 
 /* `.target` objects are interactive */
 /* They can be picked up, clicked, hovered, or things can connect to them */
-.kr_error.target,
+.qa_error.target,
 .note.target,
 .node.target,
 .turn .target {
@@ -242,11 +243,10 @@ input::-moz-focus-inner {
     pointer-events: none !important;
 }
 
-/* NOTE: when more QA layers are added, replace kr_error with generic QA layer selector */
 /* points, notes & QA */
 
 /* points, notes, markers */
-g.kr_error .stroke,
+g.qa_error .stroke,
 g.note .stroke {
     stroke: #222;
     stroke-width: 1;
@@ -254,7 +254,7 @@ g.note .stroke {
     opacity: 0.6;
 }
 
-g.kr_error.active .stroke,
+g.qa_error.active .stroke,
 g.note.active .stroke {
     stroke: #222;
     stroke-width: 1;
@@ -268,7 +268,7 @@ g.point .stroke {
     fill: #fff;
 }
 
-g.kr_error .shadow,
+g.qa_error .shadow,
 g.point .shadow,
 g.note .shadow {
     fill: none;
@@ -277,14 +277,14 @@ g.note .shadow {
     stroke-opacity: 0;
 }
 
-g.kr_error.hover:not(.selected) .shadow,
+g.qa_error.hover:not(.selected) .shadow,
 g.note.hover:not(.selected) .shadow,
 g.point.related:not(.selected) .shadow,
 g.point.hover:not(.selected) .shadow {
     stroke-opacity: 0.5;
 }
 
-g.kr_error.selected .shadow,
+g.qa_error.selected .shadow,
 g.note.selected .shadow,
 g.point.selected .shadow {
     stroke-opacity: 0.7;
@@ -340,8 +340,10 @@ g.vertex.selected .shadow {
 
 /* lines */
 .preset-icon .icon.iD-other-line {
-    color: #fff;
-    fill: #777;
+    color: #989898;
+}
+.preset-icon-line path.casing {
+    stroke: #afafaf;
 }
 
 path.line {
@@ -486,7 +488,6 @@ g.vertex.highlighted .shadow {
     stroke: #68f;
 }
 
-
 /* Default - light gray */
 path.area.stroke {
     stroke: rgb(170, 170, 170);
@@ -519,10 +520,10 @@ path.stroke.tag-leisure-track,
 path.stroke.tag-leisure-golf_course,
 path.stroke.tag-leisure-garden,
 path.stroke.tag-leisure-park,
-path.stroke.tag-barrier-hedge,
 path.stroke.tag-landuse-forest,
 path.stroke.tag-landuse-wood,
-path.stroke.tag-landuse-grass {
+path.stroke.tag-landuse-grass,
+path.stroke.tag-barrier-hedge {
     stroke: rgb(140, 208, 95);
 }
 path.fill.tag-landuse,
@@ -535,7 +536,8 @@ path.fill.tag-leisure-garden,
 path.fill.tag-leisure-park,
 path.fill.tag-landuse-forest,
 path.fill.tag-natural-wood,
-path.fill.tag-landuse-grass {
+path.fill.tag-landuse-grass,
+path.fill.tag-barrier-hedge {
     stroke: rgba(140, 208, 95, 0.3);
     fill: rgba(140, 208, 95, 0.3);
 }
@@ -571,8 +573,6 @@ path.stroke.tag-landuse-aquaculture,
 path.stroke.tag-landuse-basin,
 path.stroke.tag-landuse-harbour,
 path.stroke.tag-landuse-reservoir,
-path.stroke.tag-man_made-groyne,
-path.stroke.tag-man_made-breakwater,
 path.stroke.tag-natural-water {
     stroke: rgb(119, 211, 222);
 }
@@ -659,7 +659,7 @@ path.fill.tag-amenity-university {
 
 /* Gold things */
 path.stroke.tag-landuse-residential,
-path.stroke.tag-landuse-construction {
+path.stroke.tag-status-construction {
     stroke: rgb(196, 189, 25);
 }
 path.fill.tag-landuse-residential {
@@ -667,7 +667,7 @@ path.fill.tag-landuse-residential {
     fill: rgba(196, 189, 25, 0.3);
 }
 .preset-icon-fill-area.tag-landuse-residential,
-.preset-icon-fill-area.tag-landuse-construction {
+.preset-icon-fill-area.tag-status-construction {
     border-color: rgb(196, 189, 25);
     background: rgba(196, 189, 25, 0.3);
 }
@@ -786,31 +786,41 @@ path.fill.tag-landuse-farmyard {
 
 /* Dark Gray things */
 path.stroke.tag-amenity-parking,
+path.stroke.tag-landuse-railway,
+path.stroke.tag-landuse-quarry,
 path.stroke.tag-leisure-pitch.tag-sport-basketball,
 path.stroke.tag-leisure-pitch.tag-sport-skateboard,
+path.stroke.tag-man_made-groyne,
+path.stroke.tag-man_made-breakwater,
 path.stroke.tag-natural-bare_rock,
 path.stroke.tag-natural-scree,
-path.stroke.tag-landuse-railway,
-path.stroke.tag-landuse-quarry {
+path.stroke.tag-waterway-dam,
+path.stroke.tag-waterway-weir {
     stroke: rgb(170, 170, 170);
 }
 path.fill.tag-amenity-parking,
+path.fill.tag-landuse-railway,
+path.fill.tag-landuse-quarry,
 path.fill.tag-leisure-pitch.tag-sport-basketball,
 path.fill.tag-leisure-pitch.tag-sport-skateboard,
+path.fill.tag-man_made-groyne,
+path.fill.tag-man_made-breakwater,
 path.fill.tag-natural-bare_rock,
 path.fill.tag-natural-scree,
-path.fill.tag-landuse-railway,
-path.fill.tag-landuse-quarry {
+path.fill.tag-waterway-dam,
+path.fill.tag-waterway-weir {
     stroke: rgba(140, 140, 140, 0.5);
     fill: rgba(140, 140, 140, 0.5);
 }
 .preset-icon-fill-area.tag-amenity-parking,
+.preset-icon-fill-area.tag-landuse-railway,
+.preset-icon-fill-area.tag-landuse-quarry,
 .preset-icon-fill-area.tag-leisure-pitch.tag-sport-basketball,
 .preset-icon-fill-area.tag-leisure-pitch.tag-sport-skateboard,
 .preset-icon-fill-area.tag-natural-bare_rock,
 .preset-icon-fill-area.tag-natural-scree,
-.preset-icon-fill-area.tag-landuse-railway,
-.preset-icon-fill-area.tag-landuse-quarry {
+.preset-icon-fill-area.tag-waterway-dam,
+.preset-icon-fill-area.tag-waterway-weir {
     border-color: rgb(170, 170, 170);
     background-color: rgba(140, 140, 140, 0.5);
 }
@@ -868,8 +878,8 @@ path.line.stroke.tag-highway {
     stroke-width: 5;
 }
 
-.preset-icon .icon.iD-highway-motorway,
-.preset-icon .icon.iD-highway-motorway-link {
+.preset-icon .icon.tag-highway-motorway,
+.preset-icon .icon.tag-highway-motorway_link {
     color: #CF2081;
     fill: #70372f;
 }
@@ -884,8 +894,8 @@ path.line.casing.tag-motorway {
     stroke: #70372f;
 }
 
-.preset-icon .icon.iD-highway-trunk,
-.preset-icon .icon.iD-highway-trunk-link {
+.preset-icon .icon.tag-highway-trunk,
+.preset-icon .icon.tag-highway-trunk_link {
     color: #DD2F22;
     fill: #70372f;
 }
@@ -900,8 +910,8 @@ path.line.casing.tag-trunk {
     stroke: #70372f;
 }
 
-.preset-icon .icon.iD-highway-primary,
-.preset-icon .icon.iD-highway-primary-link {
+.preset-icon .icon.tag-highway-primary,
+.preset-icon .icon.tag-highway-primary_link {
     color: #F99806;
     fill: #70372f;
 }
@@ -916,8 +926,8 @@ path.line.casing.tag-primary {
     stroke: #70372f;
 }
 
-.preset-icon .icon.iD-highway-secondary,
-.preset-icon .icon.iD-highway-secondary-link {
+.preset-icon .icon.tag-highway-secondary,
+.preset-icon .icon.tag-highway-secondary_link {
     color: #F3F312;
     fill: #70372f;
 }
@@ -932,8 +942,8 @@ path.line.casing.tag-secondary {
     stroke: #70372f;
 }
 
-.preset-icon .icon.iD-highway-tertiary,
-.preset-icon .icon.iD-highway-tertiary-link {
+.preset-icon .icon.tag-highway-tertiary,
+.preset-icon .icon.tag-highway-tertiary_link {
     color: #FFF9B3;
     fill: #70372f;
 }
@@ -948,8 +958,8 @@ path.line.casing.tag-tertiary {
     stroke: #70372f;
 }
 
-.legacy-carto .preset-icon .icon.iD-highway-motorway,
-.legacy-carto .preset-icon .icon.iD-highway-motorway-link {
+.legacy-carto .preset-icon .icon.tag-highway-motorway,
+.legacy-carto .preset-icon .icon.tag-highway-motorway_link {
     color: #58a9ed;
     fill: #2c5476;
 }
@@ -964,8 +974,8 @@ path.line.casing.tag-tertiary {
     stroke: #2c5476;
 }
 
-.legacy-carto .preset-icon .icon.iD-highway-trunk,
-.legacy-carto .preset-icon .icon.iD-highway-trunk-link {
+.legacy-carto .preset-icon .icon.tag-highway-trunk,
+.legacy-carto .preset-icon .icon.tag-highway-trunk_link {
     color: #8cd05f;
     fill: #46682f;
 }
@@ -980,8 +990,8 @@ path.line.casing.tag-tertiary {
     stroke: #46682f;
 }
 
-.legacy-carto .preset-icon .icon.iD-highway-primary,
-.legacy-carto .preset-icon .icon.iD-highway-primary-link {
+.legacy-carto .preset-icon .icon.tag-highway-primary,
+.legacy-carto .preset-icon .icon.tag-highway-primary_link {
     color: #e06d5f;
     fill: #70372f;
 }
@@ -996,8 +1006,8 @@ path.line.casing.tag-tertiary {
     stroke: #70372f;
 }
 
-.legacy-carto .preset-icon .icon.iD-highway-secondary,
-.legacy-carto .preset-icon .icon.iD-highway-secondary-link {
+.legacy-carto .preset-icon .icon.tag-highway-secondary,
+.legacy-carto .preset-icon .icon.tag-highway-secondary_link {
     color: #eab056;
     fill: #75582b;
 }
@@ -1012,8 +1022,8 @@ path.line.casing.tag-tertiary {
     stroke: #75582b;
 }
 
-.legacy-carto .preset-icon .icon.iD-highway-tertiary,
-.legacy-carto .preset-icon .icon.iD-highway-tertiary-link {
+.legacy-carto .preset-icon .icon.tag-highway-tertiary,
+.legacy-carto .preset-icon .icon.tag-highway-tertiary_link {
     color: #ffff7e;
     fill: #7f7f3f;
 }
@@ -1028,7 +1038,7 @@ path.line.casing.tag-tertiary {
     stroke: #7f7f3f;
 }
 
-.preset-icon .icon.iD-highway-residential {
+.preset-icon .icon.tag-highway-residential {
     color: #fff;
     fill: #444;
 }
@@ -1041,7 +1051,7 @@ path.line.casing.tag-residential {
     stroke: #444;
 }
 
-.preset-icon .icon.iD-highway-unclassified {
+.preset-icon .icon.tag-highway-unclassified {
     color: #dca;
     fill: #444;
 }
@@ -1223,7 +1233,7 @@ path.line.stroke.tag-steps {
 }
 
 
-.preset-icon .icon.iD-highway-living-street {
+.preset-icon .icon.tag-highway-living-street {
     color: #bbb;
     fill: #ddd;
 }
@@ -1236,8 +1246,8 @@ path.line.casing.tag-living_street {
     stroke: #fff;
 }
 
-.preset-icon .icon.iD-highway-footway.tag-highway-corridor,
-.preset-icon .icon.iD-highway-footway.tag-highway-pedestrian {
+.preset-icon .icon.tag-highway-corridor,
+.preset-icon .icon.tag-highway-pedestrian {
     color: #8cd05f;
     fill: #fff;
 }
@@ -1267,7 +1277,7 @@ path.line.casing.tag-pedestrian.tag-unpaved {
     stroke-dasharray: none;
 }
 
-.preset-icon .icon.iD-highway-road {
+.preset-icon .icon.tag-highway-road {
     color: #9e9e9e;
     fill: #666;
 }
@@ -1280,7 +1290,7 @@ path.line.casing.tag-road {
     stroke: #666;
 }
 
-.preset-icon .icon.iD-highway-service {
+.preset-icon .icon.tag-highway-service {
     color: #fff;
     fill: #666;
 }
@@ -1294,9 +1304,9 @@ path.line.casing.tag-service {
 }
 
 /* special service roads and bus guideways */
-/* with `service=* tag`  (e.g. parking_aisle, alley, drive-through */
-.preset-icon .icon.iD-highway-bus_guideway,
-.preset-icon .icon.iD-highway-service.tag-service {
+/* with `service=* tag`  (e.g. parking_aisle, alley, drive-through) */
+.preset-icon .icon.tag-highway-bus_guideway,
+.preset-icon .icon.tag-highway-service.tag-service {
     color: #dca;
     fill: #666;
 }
@@ -1311,7 +1321,7 @@ path.line.casing.tag-service.tag-service {
     stroke: #666;
 }
 
-.preset-icon .icon.iD-highway-track {
+.preset-icon .icon.tag-highway-track {
     color: #eaeaea;
     fill: #c5b59f;
 }
@@ -1357,7 +1367,7 @@ path.line.casing.tag-highway-bridleway.tag-unpaved {
 }
 
 .preset-icon .icon.iD-category-path,
-.preset-icon .icon.iD-highway-path {
+.preset-icon .icon.tag-highway-path {
     color: #988;
     fill: #dca;
 }
@@ -1367,39 +1377,49 @@ path.line.stroke.tag-highway-path {
 
 .preset-icon .icon.tag-route-foot,
 .preset-icon .icon.tag-route-hiking,
-.preset-icon .icon.iD-highway-footway {
+.preset-icon .icon.tag-highway-footway {
     color: #988;
     fill: #fff;
 }
-path.line.stroke.tag-highway-footway {
+path.line.stroke.tag-highway-footway,
+.preset-icon-line path.casing.tag-highway-footway {
     stroke: #988;
 }
-
+.preset-icon-line path.stroke.tag-highway-footway {
+    stroke: #fff;
+}
 
 .preset-icon .icon.tag-route-bicycle,
-.preset-icon .icon.iD-highway-cycleway {
+.preset-icon .icon.tag-highway-cycleway {
     color: #58a9ed;
     fill: #fff;
 }
-path.line.stroke.tag-highway-cycleway {
+path.line.stroke.tag-highway-cycleway,
+.preset-icon-line path.casing.tag-highway-cycleway {
     stroke: #58a9ed;
+}
+.preset-icon-line path.stroke.tag-highway-cycleway {
+    stroke: #fff;
 }
 
 .preset-icon .icon.tag-route-horse,
-.preset-icon .icon.iD-highway-bridleway {
+.preset-icon .icon.tag-highway-bridleway {
     color: #e06d5f;
     fill: #fff;
 }
-path.line.stroke.tag-highway-bridleway {
+path.line.stroke.tag-highway-bridleway,
+.preset-icon-line path.casing.tag-highway-bridleway {
     stroke: #e06d5f;
 }
+.preset-icon-line path.stroke.tag-highway-bridleway {
+    stroke: #fff;
+}
 
-.preset-icon .icon.iD-highway-steps {
+.preset-icon .icon.tag-highway-steps {
     color: #81d25c;
     fill: #fff;
 }
 path.line.stroke.tag-highway-steps {
-    stroke: #81d25c;
     stroke-linecap: butt;
     stroke-dasharray: 3, 3;
 }
@@ -1411,6 +1431,13 @@ path.line.casing.tag-highway-steps.tag-unpaved {
     stroke: #fff;
     stroke-linecap: round;
     stroke-dasharray: none;
+}
+path.line.stroke.tag-highway-steps,
+.preset-icon-line path.line.casing.tag-highway-steps {
+    stroke: #81d25c;
+}
+.preset-icon-line path.line.stroke.tag-highway-steps {
+    stroke: #fff;
 }
 
 /* highway midpoints */
@@ -1511,7 +1538,9 @@ path.line.stroke.tag-aeroway-runway {
     stroke-width: 2;
     stroke-dasharray: 12, 24;
 }
-
+.preset-icon-line path.line.stroke.tag-aeroway-runway {
+    stroke-dasharray: 0, 14, 8, 14;
+}
 /* railways */
 
 /* defaults */
@@ -1547,7 +1576,9 @@ path.line.stroke.tag-railway {
     stroke-width: 2;
     stroke-dasharray: 6,6;
 }
-
+.preset-icon-line path.line.stroke.tag-railway:not(.tag-status) {
+    stroke-dasharray: 6;
+}
 
 /* styles */
 path.line.casing.tag-railway {
@@ -1573,10 +1604,6 @@ path.line.stroke.tag-railway-abandoned {
 }
 
 
-.preset-icon .icon.tag-railway-subway {
-    color: #222;
-    fill: #bbb;
-}
 path.line.casing.tag-railway-subway {
     stroke: #222;
 }
@@ -1587,26 +1614,16 @@ path.line.stroke.tag-railway-subway {
 
 /* defaults */
 .preset-icon .icon.tag-waterway.other-line {
-    color: #77d3de;
-    fill: #77d3de;
+    color: #7dd;
+    fill: #7dd;
 }
 .preset-icon .icon.iD-category-water,
 .preset-icon .icon.tag-type-waterway,
 .preset-icon .icon.tag-waterway {
-    color: #77d3de;
+    color: #7dd;
     fill: #fff;
 }
 
-path.fill.tag-waterway {
-    stroke: rgba(119, 211, 222, 0.3);
-    fill: rgba(119, 211, 222, 0.3);
-}
-path.line.casing.tag-waterway {
-    stroke: #3d6c71;
-}
-path.line.stroke.tag-waterway {
-    stroke: #77d3de;
-}
 
 /* areas */
 path.area.stroke.tag-waterway-dock,
@@ -1628,15 +1645,15 @@ path.area.fill.tag-waterway-fuel {
 }
 
 /* lines */
-path.fill.tag-waterway {
+path.line.fill.tag-waterway {
     stroke: rgba(119, 211, 222, 0.3);
     fill: rgba(119, 211, 222, 0.3);
 }
 path.line.casing.tag-waterway {
-    stroke: #3d6c71;
+    stroke: #444;
 }
 path.line.stroke.tag-waterway {
-    stroke: #77d3de;
+    stroke: #7dd;
 }
 
 
@@ -1686,10 +1703,68 @@ path.line.stroke.tag-waterway-river {
 
 /* ditch */
 .preset-icon .icon.tag-waterway-ditch {
-    color: #8eabf3;
+    color: #39a;
 }
 path.line.stroke.tag-waterway-ditch {
-    stroke: #8eabf3;
+    stroke: #39a;
+}
+
+
+/* narrow width miscellanous things */
+path.line.shadow.tag-aerialway,
+path.line.shadow.tag-attraction-summer_toboggan,
+path.line.shadow.tag-attraction-water_slide,
+path.line.shadow.tag-golf-cartpath,
+path.line.shadow.tag-man_made-pipeline,
+path.line.shadow.tag-natural-tree_row,
+path.line.shadow.tag-piste {
+    stroke-width: 16;
+}
+path.line.casing.tag-aerialway,
+path.line.casing.tag-attraction-summer_toboggan,
+path.line.casing.tag-attraction-water_slide,
+path.line.casing.tag-golf-cartpath,
+path.line.casing.tag-man_made-pipeline,
+path.line.casing.tag-natural-tree_row,
+path.line.casing.tag-piste {
+    stroke-width: 7;
+}
+path.line.stroke.tag-aerialway,
+path.line.stroke.tag-attraction-summer_toboggan,
+path.line.stroke.tag-attraction-water_slide,
+path.line.stroke.tag-golf-cartpath,
+path.line.stroke.tag-man_made-pipeline,
+path.line.stroke.tag-natural-tree_row,
+path.line.stroke.tag-piste {
+    stroke-width: 5;
+}
+
+.low-zoom path.line.shadow.tag-aerialway,
+.low-zoom path.line.shadow.tag-attraction-summer_toboggan,
+.low-zoom path.line.shadow.tag-attraction-water_slide,
+.low-zoom path.line.shadow.tag-golf-cartpath,
+.low-zoom path.line.shadow.tag-man_made-pipeline,
+.low-zoom path.line.shadow.tag-natural-tree_row,
+.low-zoom path.line.shadow.tag-piste {
+    stroke-width: 12;
+}
+.low-zoom path.line.casing.tag-aerialway,
+.low-zoom path.line.casing.tag-attraction-summer_toboggan,
+.low-zoom path.line.casing.tag-attraction-water_slide,
+.low-zoom path.line.casing.tag-golf-cartpath,
+.low-zoom path.line.casing.tag-man_made-pipeline,
+.low-zoom path.line.casing.tag-natural-tree_row,
+.low-zoom path.line.casing.tag-piste {
+    stroke-width: 5;
+}
+.low-zoom path.line.stroke.tag-aerialway,
+.low-zoom path.line.stroke.tag-attraction-summer_toboggan,
+.low-zoom path.line.stroke.tag-attraction-water_slide,
+.low-zoom path.line.stroke.tag-golf-cartpath,
+.low-zoom path.line.stroke.tag-man_made-pipeline,
+.low-zoom path.line.stroke.tag-natural-tree_row,
+.low-zoom path.line.stroke.tag-piste {
+    stroke-width: 3;
 }
 
 
@@ -1709,12 +1784,63 @@ path.line.stroke.tag-route-ferry {
 .low-zoom path.line.shadow.tag-route-ferry {
     stroke-width: 12;
 }
-.low-zoom path.line.stroke.tag-route-ferry {
+.low-zoom path.line.stroke.tag-route-ferry,
+.preset-icon-line path.line.stroke.tag-route-ferry {
     stroke-width: 2;
     stroke-dasharray: 6,4;
 }
 path.line.stroke.tag-route-ferry {
     stroke: #58a9ed;
+}
+path.line.casing.tag-route-ferry {
+    stroke: none;
+}
+
+
+/* aerialways */
+path.line.stroke.tag-aerialway {
+    stroke: #c55;
+}
+path.line.casing.tag-aerialway {
+    stroke: #444;
+}
+
+
+/* pistes */
+path.line.stroke.tag-piste {
+    stroke: #a9d;
+}
+path.line.casing.tag-piste {
+    stroke: #444;
+}
+
+
+/* Attractions */
+path.line.stroke.tag-attraction-summer_toboggan {
+    stroke: #9e9e9e;
+}
+path.line.casing.tag-attraction-summer_toboggan {
+    stroke: #666;
+}
+
+path.line.stroke.tag-attraction-water_slide {
+    stroke: #aae0cb;
+}
+path.line.casing.tag-attraction-water_slide {
+    stroke: #3d6c71;
+}
+
+
+/* golf cartpaths (like service roads) */
+.preset-icon .icon.tag-golf-cartpath {
+    color: #dca;
+    fill: #666;
+}
+path.line.stroke.tag-golf-cartpath {
+    stroke: #dca;
+}
+path.line.casing.tag-golf-cartpath {
+    stroke: #666;
 }
 
 
@@ -1725,6 +1851,7 @@ path.line.stroke.tag-route-ferry {
     fill: #939393;
 }
 
+
 /* power */
 path.line.stroke.tag-power {
     stroke: #939393;
@@ -1734,20 +1861,23 @@ path.line.casing.tag-power {
     stroke: none;
 }
 
+
 /* pipeline */
 path.line.stroke.tag-man_made-pipeline {
     stroke: #cbd0d8;
     stroke-linecap: butt;
-    stroke-width: 3;
     stroke-dasharray: 80, 1.25;
 }
 path.line.casing.tag-man_made-pipeline {
     stroke: #666;
-    stroke-width: 4.5;
 }
 .low-zoom path.line.stroke.tag-man_made-pipeline {
     stroke-dasharray: 40, 1;
 }
+.preset-icon-line path.line.stroke.tag-man_made-pipeline {
+    stroke-dasharray: 19, 1;
+}
+
 
 /* boundaries */
 path.line.stroke.tag-boundary {
@@ -1767,44 +1897,37 @@ path.line.casing.tag-boundary-national_park {
 }
 
 
-/* Tree Rows */
-path.line.shadow.tag-natural-tree_row {
-    stroke-width: 16;
-}
-path.line.casing.tag-natural-tree_row {
-    stroke-width: 7;
-}
-path.line.stroke.tag-natural-tree_row {
-    stroke-width: 5;
-}
-.low-zoom path.line.shadow.tag-natural-tree_row {
-    stroke-width: 12;
-}
-.low-zoom path.line.casing.tag-natural-tree_row {
-    stroke-width: 5;
-}
-.low-zoom path.line.stroke.tag-natural-tree_row {
-    stroke-width: 3;
-}
-
-
 /* barriers and similar */
 path.line.stroke.tag-barrier:not(.tag-barrier-hedge) {
     stroke: #ddd;
 }
+.preset-icon-line path.line.stroke.tag-barrier:not(.tag-barrier-hedge) {
+    stroke: rgb(170, 170, 170);
+}
+path.line.casing.tag-natural,
+path.line.casing.tag-barrier,
+path.line.casing.tag-man_made-groyne,
+path.line.casing.tag-man_made-breakwater {
+    stroke: none;
+}
 path.line.stroke.tag-barrier,
-path.stroke.tag-man_made-groyne,
-path.stroke.tag-man_made-breakwater {
+path.line.stroke.tag-man_made-groyne,
+path.line.stroke.tag-man_made-breakwater {
     stroke-width: 3px;
     stroke-linecap: round;
     stroke-dasharray: 15, 5, 1, 5;
 }
 .low-zoom path.line.stroke.tag-barrier,
-.low-zoom path.stroke.tag-man_made-groyne,
-.low-zoom path.stroke.tag-man_made-breakwater {
+.low-zoom path.line.stroke.tag-man_made-groyne,
+.low-zoom path.line.stroke.tag-man_made-breakwater {
     stroke-width: 2px;
     stroke-linecap: butt;
     stroke-dasharray: 8, 2, 2, 2;
+}
+.preset-icon-line path.line.stroke.tag-barrier,
+.preset-icon-line path.line.stroke.tag-man_made-groyne,
+.preset-icon-line path.line.stroke.tag-man_made-breakwater {
+    stroke-dasharray: 1, 4, 6, 4;
 }
 
 
@@ -1957,7 +2080,7 @@ path.line.casing.tag-status {
 }
 
 /* Road Closed Status */
-.preset-icon .icon.iD-highway-construction {
+.preset-icon .icon.tag-highway.tag-status-construction {
     color: #fc6c14;
     fill: #fff;
 }
@@ -1965,16 +2088,22 @@ path.line.shadow.tag-status.tag-status-construction {
     stroke-width: 20;
 }
 path.line.casing.tag-status.tag-status-construction {
-    stroke: #fff;
     stroke-width: 10;
     stroke-linecap: butt;
     stroke-dasharray: none
 }
 path.line.stroke.tag-status.tag-status-construction {
-    stroke: #fc6c14;
     stroke-width: 8;
     stroke-linecap: butt;
     stroke-dasharray: 10, 10;
+}
+path.line.casing.tag-status.tag-status-construction,
+.preset-icon-line path.line.stroke.tag-status.tag-status-construction {
+    stroke: #fff;
+}
+path.line.stroke.tag-status.tag-status-construction,
+.preset-icon-line path.line.casing.tag-status.tag-status-construction {
+    stroke: #fc6c14;
 }
 .low-zoom path.line.shadow.tag-status.tag-status-construction {
     stroke-width: 16;
@@ -2004,6 +2133,7 @@ path.fill.tag-building {
 
 
 /* "Special" paths - platforms, piers, crossings */
+.preset-icon .icon.tag-golf-path,
 .preset-icon .icon.tag-public_transport-platform,
 .preset-icon .icon.tag-railway-platform,
 .preset-icon .icon.tag-man_made-pier,
@@ -2013,6 +2143,7 @@ path.fill.tag-building {
     fill: #dca;
 }
 
+.preset-icon-fill-area.tag-golf-path,
 .preset-icon-fill-area.tag-public_transport-platform,
 .preset-icon-fill-area.tag-railway-platform,
 .preset-icon-fill-area.tag-man_made-pier,
@@ -2022,6 +2153,7 @@ path.fill.tag-building {
     background-color: #dca;
 }
 
+path.line.shadow.tag-golf-path,
 path.line.shadow.tag-public_transport-platform,
 path.line.shadow.tag-railway-platform,
 path.line.shadow.tag-man_made-pier,
@@ -2029,6 +2161,7 @@ path.line.shadow.tag-footway.tag-footway-crossing,
 path.line.shadow.tag-crossing {
     stroke-width: 16;
 }
+path.line.casing.tag-golf-path,
 path.line.casing.tag-public_transport-platform,
 path.line.casing.tag-railway-platform,
 path.line.casing.tag-man_made-pier,
@@ -2039,6 +2172,7 @@ path.line.casing.tag-crossing {
     stroke-linecap: round;
     stroke-dasharray: none;
 }
+path.line.stroke.tag-golf-path,
 path.line.stroke.tag-public_transport-platform,
 path.line.stroke.tag-railway-platform,
 path.line.stroke.tag-man_made-pier,
@@ -2050,6 +2184,7 @@ path.line.stroke.tag-crossing {
     stroke-dasharray: 6, 6;
 }
 
+.low-zoom path.line.shadow.tag-golf-path,
 .low-zoom path.line.shadow.tag-public_transport-platform,
 .low-zoom path.line.shadow.tag-railway-platform,
 .low-zoom path.line.shadow.tag-man_made-pier,
@@ -2057,6 +2192,7 @@ path.line.stroke.tag-crossing {
 .low-zoom path.line.shadow.tag-crossing {
     stroke-width: 12;
 }
+.low-zoom path.line.casing.tag-golf-path,
 .low-zoom path.line.casing.tag-public_transport-platform,
 .low-zoom path.line.casing.tag-railway-platform,
 .low-zoom path.line.casing.tag-man_made-pier,
@@ -2064,6 +2200,7 @@ path.line.stroke.tag-crossing {
 .low-zoom path.line.casing.tag-crossing {
     stroke-width: 3;
 }
+.low-zoom path.line.stroke.tag-golf-path,
 .low-zoom path.line.stroke.tag-public_transport-platform,
 .low-zoom path.line.stroke.tag-railway-platform,
 .low-zoom path.line.stroke.tag-man_made-pier,
@@ -2074,6 +2211,7 @@ path.line.stroke.tag-crossing {
     stroke-dasharray: 3, 3;
 }
 
+g.midpoint.tag-golf-path .fill,
 g.midpoint.tag-public_transport-platform .fill,
 g.midpoint.tag-railway-platform .fill,
 g.midpoint.tag-man_made-pier .fill,
@@ -2103,45 +2241,6 @@ path.line.stroke.tag-crossing.tag-crossing-zebra {
 .low-zoom path.line.stroke.tag-crossing.tag-crossing-marked,
 .low-zoom path.line.stroke.tag-crossing.tag-crossing-zebra {
     stroke-dasharray: 3, 2;
-}
-
-/* Attractions */
-path.line.shadow.tag-attraction-summer_toboggan,
-path.line.shadow.tag-attraction-water_slide {
-	stroke-width: 16;
-}
-path.line.casing.tag-attraction-summer_toboggan,
-path.line.casing.tag-attraction-water_slide {
-	stroke-width: 7;
-}
-path.line.stroke.tag-attraction-summer_toboggan,
-path.line.stroke.tag-attraction-water_slide {
-	stroke-width: 5;
-}
-.low-zoom path.line.shadow.tag-attraction-summer_toboggan,
-.low-zoom path.line.shadow.tag-attraction-water_slide {
-    stroke-width: 12;
-}
-.low-zoom path.line.casing.tag-attraction-summer_toboggan,
-.low-zoom path.line.casing.tag-attraction-water_slide {
-    stroke-width: 5;
-}
-.low-zoom path.line.stroke.tag-attraction-summer_toboggan,
-.low-zoom path.line.stroke.tag-attraction-water_slide {
-	stroke-width: 3;
-}
-path.line.stroke.tag-attraction-summer_toboggan {
-    stroke: #9e9e9e;
-}
-path.line.casing.tag-attraction-summer_toboggan {
-    stroke: #666;
-}
-
-path.line.stroke.tag-attraction-water_slide {
-    stroke: #aae0cb;
-}
-path.line.casing.tag-attraction-water_slide {
-    stroke: #3d6c71;
 }
 /* Cursors */
 
@@ -2242,9 +2341,9 @@ path.line.casing.tag-attraction-water_slide {
 }
 
 .mode-browse .note,
-.mode-browse .kr_error,
+.mode-browse .qa_error,
 .mode-select .note,
-.mode-select .kr_error,
+.mode-select .qa_error,
 .turn rect,
 .turn circle {
     cursor: pointer;
@@ -2353,7 +2452,7 @@ path.line.casing.tag-attraction-water_slide {
     cursor: pointer;
 }
 
-.viewfield-group.selected * {
+.viewfield-group.currentView * {
     fill: #ffee00 !important;
 }
 .viewfield-group.hovered * {
@@ -2377,7 +2476,7 @@ path.line.casing.tag-attraction-water_slide {
     stroke-opacity: 0.9;
     fill-opacity: 0.9;
 }
-.viewfield-group.highlighted.selected circle {
+.viewfield-group.highlighted.currentView circle {
     stroke: #222;
     stroke-width: 2;
     stroke-opacity: 1;
@@ -2397,12 +2496,12 @@ path.line.casing.tag-attraction-water_slide {
     stroke-width: 1;
     fill-opacity: 0.8;
 }
-.viewfield-group.highlighted.selected .viewfield {
+.viewfield-group.highlighted.currentView .viewfield {
     stroke-width: 1;
     fill-opacity: 0.9;
 }
 
-.viewfield-group.selected .viewfield-scale {
+.viewfield-group.currentView .viewfield-scale {
     transform: scale(2,2);
 }
 
@@ -2412,7 +2511,7 @@ path.line.casing.tag-attraction-water_slide {
     stroke-opacity: 0.4;
 }
 .sequence.highlighted,
-.sequence.selected {
+.sequence.currentView {
     stroke-width: 4;
     stroke-opacity: 1;
 }
@@ -2456,7 +2555,7 @@ path.line.casing.tag-attraction-water_slide {
     outline: 5px solid #eebb00;
     background-color: #eebb00;
 }
-.layer-mapillary-signs .icon-sign.selected {
+.layer-mapillary-signs .icon-sign.currentView {
     outline: 5px solid #ffee00;
     background-color: #ffee00;
 }
@@ -2605,8 +2704,9 @@ label.streetside-hires {
 
 /* OSM Notes and KeepRight Layers */
 
-.kr_error-header-icon .kr_error-fill,
-.layer-keepRight .kr_error .kr_error-fill {
+.error-header-icon .qa_error-fill,
+.layer-keepRight .qa_error .qa_error-fill,
+.layer-improveOSM .qa_error .qa_error-fill {
     stroke: #333;
     stroke-width: 1.3px;  /* NOTE: likely a better way to scale the icon stroke */
 }
@@ -2645,78 +2745,114 @@ label.streetside-hires {
     height: 15px;
 }
 
+/* adjustment for error icon */
+
+.error-header-icon .preset-icon-28 {
+    top: auto;
+    left: auto;
+}
+
+.error-header-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 /* Keep Right Errors
 ------------------------------------------------------- */
-.kr_error_type_20,     /* multiple nodes on same spot */
-.kr_error_type_40,     /* impossible oneways */
-.kr_error_type_210,    /* self intersecting ways */
-.kr_error_type_270,    /* unusual motorway connection */
-.kr_error_type_310,    /* roundabout issues */
-.kr_error_type_320,    /* improper _link */
-.kr_error_type_350 {   /* improper bridge tag */
+.keepRight.error_type-20,     /* multiple nodes on same spot */
+.keepRight.error_type-40,     /* impossible oneways */
+.keepRight.error_type-210,    /* self intersecting ways */
+.keepRight.error_type-270,    /* unusual motorway connection */
+.keepRight.error_type-310,    /* roundabout issues */
+.keepRight.error_type-320,    /* improper _link */
+.keepRight.error_type-350 {   /* improper bridge tag */
     color: #ff9;
 }
 
-.kr_error_type_50 {    /* almost junctions */
+.keepRight.error_type-50 {    /* almost junctions */
     color: #88f;
 }
 
-.kr_error_type_60,     /* deprecated tags */
-.kr_error_type_70,     /* tagging issues */
-.kr_error_type_90,     /* motorway without ref */
-.kr_error_type_100,    /* place of worship without religion */
-.kr_error_type_110,    /* poi without name */
-.kr_error_type_150,    /* railway crossing without tag */
-.kr_error_type_220,    /* misspelled tag */
-.kr_error_type_380 {   /* non-physical sport tag */
+.keepRight.error_type-60,     /* deprecated tags */
+.keepRight.error_type-70,     /* tagging issues */
+.keepRight.error_type-90,     /* motorway without ref */
+.keepRight.error_type-100,    /* place of worship without religion */
+.keepRight.error_type-110,    /* poi without name */
+.keepRight.error_type-150,    /* railway crossing without tag */
+.keepRight.error_type-220,    /* misspelled tag */
+.keepRight.error_type-380 {   /* non-physical sport tag */
     color: #5d0;
 }
 
-.kr_error_type_130 {   /* disconnected ways */
+.keepRight.error_type-130 {   /* disconnected ways */
     color: #fa3;
 }
 
-.kr_error_type_170 {   /* FIXME tag */
+.keepRight.error_type-170 {   /* FIXME tag */
     color: #ff0;
 }
 
-.kr_error_type_190 {   /* intersection without junction */
+.keepRight.error_type-190 {   /* intersection without junction */
     color: #f33;
 }
 
-.kr_error_type_200 {   /* overlapping ways */
+.keepRight.error_type-200 {   /* overlapping ways */
     color: #fdbf6f;
 }
 
-.kr_error_type_160,    /* railway layer conflict */
-.kr_error_type_230 {   /* layer conflict */
+.keepRight.error_type-160,    /* railway layer conflict */
+.keepRight.error_type-230 {   /* layer conflict */
     color: #b60;
 }
 
-.kr_error_type_280 {   /* boundary issues */
+.keepRight.error_type-280 {   /* boundary issues */
     color: #5f47a0;
 }
 
-.kr_error_type_180,    /* relation without type */
-.kr_error_type_290 {   /* turn restriction issues */
+.keepRight.error_type-180,    /* relation without type */
+.keepRight.error_type-290 {   /* turn restriction issues */
     color: #ace;
 }
 
-.kr_error_type_300,    /* missing maxspeed */
-.kr_error_type_390 {   /* missing tracktype */
+.keepRight.error_type-300,    /* missing maxspeed */
+.keepRight.error_type-390 {   /* missing tracktype */
     color: #090;
 }
 
-.kr_error_type_360,    /* language unknown */
-.kr_error_type_370,    /* doubled places */
-.kr_error_type_410 {   /* website issues */
+.keepRight.error_type-360,    /* language unknown */
+.keepRight.error_type-370,    /* doubled places */
+.keepRight.error_type-410 {   /* website issues */
     color: #f9b;
 }
 
-.kr_error_type_120,    /* way without nodes */
-.kr_error_type_400 {   /* geometry / turn angles */
+.keepRight.error_type-120,    /* way without nodes */
+.keepRight.error_type-400 {   /* geometry / turn angles */
     color: #c35;
+}
+
+/* ImproveOSM Errors
+------------------------------------------------------- */
+
+.improveOSM.error_type-ow {   /* missing one way */
+    color: #1E90FF;
+}
+
+.improveOSM.error_type-mr-road {   /* missing road */
+    color: #B452CD;
+}
+.improveOSM.error_type-mr-path {   /* missing path */
+    color: #A0522D;
+}
+.improveOSM.error_type-mr-parking {   /* missing parking */
+    color: #EEEE00;
+}
+.improveOSM.error_type-mr-both {   /* missing road+parking */
+    color: #FFA500;
+}
+
+.improveOSM.error_type-tr {   /* missing turn restriction */
+    color: #EC1C24;
 }
 
 
@@ -2779,7 +2915,6 @@ label.streetside-hires {
     stroke-width: 5px;
     stroke-miterlimit: 1;
 }
-
 /* Fill Styles */
 
 .low-zoom.fill-wireframe path.stroke,
@@ -3180,6 +3315,8 @@ button.secondary-action:hover {
     background: #cccccc;
 }
 
+button.action.disabled,
+button.action.disabled:hover,
 button[disabled].action,
 button[disabled].action:hover {
     background: #cccccc;
@@ -3235,6 +3372,23 @@ button[disabled].action:hover {
     height: auto;
     width: auto;
     border-radius: 3px;
+}
+
+.icon-annotation {
+    color: #333;
+}
+
+.icon-badge {
+    display: block;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    right: 7px;
+    top: 9px;
+}
+
+.icon-badge.hide {
+    display: none;
 }
 
 
@@ -3415,7 +3569,7 @@ button.add-note svg.icon {
 .field-help-title button.close,
 .sidebar-component .header button.data-editor-close,
 .sidebar-component .header button.note-editor-close,
-.sidebar-component .header button.keepRight-editor-close,
+.sidebar-component .header button.error-editor-close,
 .entity-editor-pane .header button.preset-close,
 .preset-list-pane .header button.preset-choose {
     position: absolute;
@@ -3425,7 +3579,7 @@ button.add-note svg.icon {
 [dir='rtl'] .field-help-title button.close,
 [dir='rtl'] .sidebar-component .header button.data-editor-close,
 [dir='rtl'] .sidebar-component .header button.note-editor-close,
-[dir='rtl'] .sidebar-component .header button.keepRight-editor-close,
+[dir='rtl'] .sidebar-component .header button.error-editor-close,
 [dir='rtl'] .entity-editor-pane .header button.preset-close,
 [dir='rtl'] .preset-list-pane .header button.preset-choose {
     left: 0;
@@ -3743,10 +3897,14 @@ a.hide-toggle {
     border-bottom: 1px solid #ccc;
 }
 
+.preset-list-item {
+    margin-bottom: 10px;
+}
+
 .preset-list-button-wrap {
     position: relative;
-    margin-bottom: 10px;
     height: 60px;
+    display: flex;
 }
 
 .preset-list-button {
@@ -3755,9 +3913,43 @@ a.hide-toggle {
     position: relative;
     border: 1px solid #ccc;
 }
+[dir='ltr'] .preset-list-button-wrap:not(.category) .preset-list-button {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+[dir='rtl'] .preset-list-button-wrap:not(.category) .preset-list-button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
 
 .preset-list.filtered .preset-list-item:first-child .preset-list-button {
     background: #ececec;
+}
+
+.preset-icon-line {
+    margin: auto;
+    position: absolute;
+    top: 0;
+}
+[dir='ltr'] .preset-icon-line {
+    left: 0;
+}
+[dir='rtl'] .preset-icon-line {
+    right: 0;
+}
+.preset-icon-line path.line {
+    cursor: inherit;
+}
+.preset-icon-line circle.vertex {
+    fill: #fff;
+    stroke: rgba(0, 0, 0, 0.25);
+}
+/* use a consistent stroke width */
+.preset-icon-line path.line.stroke {
+    stroke-width: 2 !important;
+}
+.preset-icon-line path.line.casing {
+    stroke-width: 4 !important;
 }
 
 .preset-icon-fill-area {
@@ -3823,6 +4015,9 @@ a.hide-toggle {
     left: 8px;
     margin: auto;
 }
+.preset-icon-44.line-geom {
+    top: 2px;
+}
 
 .preset-icon-44 .icon {
     width: 44px;
@@ -3847,6 +4042,9 @@ a.hide-toggle {
     left: 18px;
     margin: auto;
 }
+.preset-icon-24.line-geom {
+    top: 12px;
+}
 
 .preset-icon-24 .icon {
     width: 24px;
@@ -3856,6 +4054,10 @@ a.hide-toggle {
 [dir='rtl'] .preset-list-button-wrap .preset-icon {
     left: auto;
     right: auto;
+}
+
+[dir='rtl'] .preset-list-button-wrap .preset-icon-44 {
+    right: 8px;
 }
 
 [dir='rtl'] .preset-list-button-wrap .preset-icon-28 {
@@ -3879,7 +4081,6 @@ a.hide-toggle {
     padding: 5px 10px;
     left: 60px;
     border-left: 1px solid rgba(0, 0, 0, .1);
-    border-radius: 0 3px 3px 0;
 }
 [dir='rtl'] .preset-list-button .label {
     text-align: right;
@@ -3887,7 +4088,12 @@ a.hide-toggle {
     right: 60px;
     border-left: none;
     border-right: 1px solid rgba(0, 0, 0, .1);
-    border-radius: 3px 0 0 3px;
+}
+[dir='ltr'] .category .preset-list-button .label {
+    border-radius: 0px 4px 4px 0px;
+}
+[dir='rtl'] .category .preset-list-button .label {
+    border-radius: 4px 0px 0px 4px;
 }
 
 .preset-list-button .label-inner {
@@ -3898,32 +4104,28 @@ a.hide-toggle {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    padding-right: 30px;
-}
-[dir='rtl'] .preset-list-button .label-inner .namepart {
-    padding-right: 0;
-    padding-left: 30px;
 }
 
 .preset-list-button:hover .label,
-.preset-list-button:focus .label {
+.preset-list-button:focus .label,
+.preset-list-button.disabled,
+.preset-list-button.disabled .label {
     background-color: #ececec;
 }
 
 .preset-list-item button.tag-reference-button {
     height: 100%;
     border: 1px solid #ccc;
-    border-radius: 0 3px 3px 0;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 32px;
+    flex: 32px;
     background: #f6f6f6;
 }
+[dir='ltr'] .preset-list-item button.tag-reference-button {
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+}
 [dir='rtl'] .preset-list-item button.tag-reference-button {
-    left: 0;
-    right: auto;
-    border-radius: 3px 0 0 3px;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
 }
 
 .preset-list-item button.tag-reference-button:hover {
@@ -3936,11 +4138,12 @@ a.hide-toggle {
 img.tag-reference-wiki-image {
     float: right;
     width: 33.3333%;
-    width: -webkit-calc(33.3333% - 10px);
-    width: calc(33.3333% - 10px);
     border-radius: 4px;
-    max-height: 200px;
-    margin: 10px 5px 15px 20px;
+    margin: 10px 5px 15px 10px;
+}
+[dir='rtl'] img.tag-reference-wiki-image {
+    float: left;
+    margin: 10px 10px 15px 5px;
 }
 
 
@@ -3966,23 +4169,25 @@ img.tag-reference-wiki-image {
 }
 
 .subgrid .preset-list {
-    padding: 10px 10px 0 10px;
+    padding: 10px;
     margin-top: 0;
     border: 0;
     border-radius: 8px;
     width: -webkit-calc(100% + 20px);
     margin-left: -10px;
 }
+.subgrid .preset-list > *:last-child {
+    margin-bottom: 0;
+}
 
 .subgrid .arrow {
     border: solid rgba(0, 0, 0, 0);
     border-width: 10px;
-    border-bottom-color: #f1f1f1;
+    border-bottom-color: #ececec;
     width: 0;
     height: 0;
     margin-left: 50%;
     margin-left: -webkit-calc(50% - 10px);
-    margin-top: -10px;
 }
 
 
@@ -3999,7 +4204,7 @@ img.tag-reference-wiki-image {
 }
 
 .data-editor .quick-links,
-.keepRight-editor .quick-links,
+.error-editor .quick-links,
 .note-editor .quick-links {
     padding: 5px 0 0 0;
 }
@@ -4007,22 +4212,27 @@ img.tag-reference-wiki-image {
 
 /* Entity/Preset Editor
 ------------------------------------------------------- */
+.entity-issues,
 .preset-editor {
     overflow: hidden;
     padding: 10px 0px 5px 0px;
 }
+.entity-issues a.hide-toggle,
 .preset-editor a.hide-toggle {
     margin: 0 20px 5px 20px;
 }
+.entity-issues .disclosure-wrap-entity_issues,
 .preset-editor .form-fields-container {
     padding: 10px;
     margin: 0 10px 10px 10px;
     border-radius: 8px;
+    background: #ececec;
 }
+.entity-issues .disclosure-wrap-entity_issues:empty,
 .preset-editor .form-fields-container:empty {
     display: none;
 }
-.entity-editor-pane .preset-list-item .preset-list-button-wrap {
+.entity-editor-pane .preset-list-item {
     margin-bottom: 0;
 }
 
@@ -5066,15 +5276,14 @@ div.combobox {
     width: 100%;
     overflow: hidden;
 }
-.tag-reference-body .tag-reference-description {
-    margin: 10px 5px 0 5px;
+.tag-reference-body.expanded {
+    padding-bottom: 10px;
 }
-.tag-reference-body a {
+.tag-reference-description {
+    margin: 10px 5px;
+}
+.tag-reference-link {
     display: block;
-}
-.tag-reference-body .tag-reference-description:last-child,
-.tag-reference-body a:last-child {
-    margin-bottom: 15px;
 }
 
 .preset-list .tag-reference-body {
@@ -5192,12 +5401,21 @@ input.key-trap {
 .inspector-hover button,
 .inspector-hover input,
 .inspector-hover textarea,
-.inspector-hover label {
+.inspector-hover label,
+.inspector-hover .entity-issues .issue button {
     background: #ececec;
 }
 .inspector-hover .preset-list-button,
 .inspector-hover .tag-row input {
     background: #f6f6f6;
+}
+
+.inspector-hover .entity-issues .issue,
+.inspector-hover .entity-issues .issue li {
+    border: 1px solid #ccc;
+}
+.inspector-hover .entity-issues .issue .icon {
+    color: #666;
 }
 
 .inspector-hover a,
@@ -5226,7 +5444,8 @@ input.key-trap {
 .inspector-hover .form-field-input-radio label,
 .inspector-hover .form-field-input-radio label span,
 .inspector-hover .form-field-input-radio label.remove .icon,
-.inspector-hover .inspector-inner .add-row {
+.inspector-hover .inspector-inner .add-row,
+.inspector-hover .entity-issues .issue ul.issue-fix-list {
     display: none;
 }
 
@@ -5313,7 +5532,7 @@ input.key-trap {
 /* OSM Note / KeepRight Editors
 ------------------------------------------------------- */
 .note-header,
-.kr_error-header {
+.error-header {
     background-color: #f6f6f6;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -5323,7 +5542,7 @@ input.key-trap {
 }
 
 .note-header-icon,
-.kr_error-header-icon {
+.error-header-icon {
     background-color: #fff;
     padding: 10px;
     flex: 0 0 62px;
@@ -5334,20 +5553,20 @@ input.key-trap {
     border-radius: 5px 0 0 5px;
 }
 [dir='rtl'] .note-header-icon,
-[dir='rtl'] .kr_error-header-icon {
+[dir='rtl'] .error-header-icon {
     border-right: unset;
     border-left: 1px solid #ccc;
     border-radius: 0 5px 5px 0;
 }
 
 .note-header-icon .icon-wrap,
-.kr_error-header-icon .icon-wrap {
+.error-header-icon .icon-wrap {
     position: absolute;
     top: 0px;
 }
 
 .note-header-label,
-.kr_error-header-label {
+.error-header-label {
     background-color: #f6f6f6;
     padding: 0 15px;
     flex: 1 1 100%;
@@ -5356,7 +5575,7 @@ input.key-trap {
     border-radius: 0 5px 5px 0;
 }
 [dir='rtl'] .note-header-label,
-[dir='rtl'] .kr_error-header-label {
+[dir='rtl'] .error-header-label {
     border-radius: 5px 0 0 5px;
 }
 
@@ -5423,44 +5642,45 @@ input.key-trap {
 }
 
 .note-save,
-.keepRight-save {
+.error-save {
     padding-top: 20px;
 }
-.kr_error-details,
-.kr_error-comment-container {
+
+.error-details {
     padding: 10px;
 }
-
-.keepRight-save .new-comment-input,
-.note-save .new-comment-input {
-    width: 100%;
-    height: 100px;
-    max-height: 300px;
-    min-height: 100px;
-}
-
-.keepRight-save .detail-section,
-.note-save .detail-section {
-    margin: 10px 0;
-}
-
-.note-report {
-    float: right;
-}
-
-.kr_error-details-container {
+.error-details-container {
     background: #ececec;
     padding: 10px;
     margin-top: 20px;
     border-radius: 4px;
     border: 1px solid #ccc;
 }
-
-.kr_error-details-description {
+.error-details-description {
     margin-bottom: 10px;
 }
-.kr_error-details-description-text::first-letter {
+.error-details-description-text::first-letter {
     text-transform: capitalize;
+}
+[dir='rtl'] .error-details-description-text::first-letter {
+    text-transform: none;  /* #5877 */
+}
+
+.note-save .new-comment-input,
+.error-save .new-comment-input {
+    width: 100%;
+    height: 100px;
+    max-height: 300px;
+    min-height: 100px;
+}
+
+.note-save .detail-section,
+.error-save .detail-section {
+    margin: 10px 0;
+}
+
+.note-report {
+    float: right;
 }
 
 
@@ -5533,6 +5753,7 @@ input.key-trap {
 }
 
 .map-control > button {
+    position: relative;
     width: 40px;
     background: rgba(0,0,0,.5);
     border-radius: 0;
@@ -5634,11 +5855,11 @@ div.full-screen > button:hover {
     border-radius: 4px;
 }
 
-.layer-list li {
-    position: relative;
+.layer-list > li {
     height: 30px;
     background-color: #fff;
     color: #7092ff;
+    position: relative;
 }
 
 .layer-list:empty {
@@ -5697,41 +5918,199 @@ div.full-screen > button:hover {
     text-overflow: ellipsis;
 }
 
-.map-data-control .layer-list button,
-.background-control .layer-list button {
+.map-data-pane .layer-list button,
+.background-pane .layer-list button {
     float: right;
     height: 100%;
     width: 10%;
     border-left: 1px solid #ccc;
     border-radius: 0;
 }
-[dir='rtl'] .map-data-control .layer-list button,
-[dir='rtl'] .background-control .layer-list button {
+[dir='rtl'] .map-data-pane .layer-list button,
+[dir='rtl'] .background-pane .layer-list button {
     float: left;
     border-left: none;
     border-right: 1px solid #ccc;
 }
 
-.map-data-control .layer-list button .icon,
-.background-control .layer-list button .icon {
+.map-data-pane .layer-list button .icon,
+.background-pane .layer-list button .icon {
     opacity: 0.5;
 }
 
-.map-data-control .layer-list button:first-of-type,
-.background-control .layer-list button:first-of-type {
+.map-data-pane .layer-list button:first-of-type,
+.background-pane .layer-list button:first-of-type {
     border-radius: 0 3px 3px 0;
 }
-[dir='rtl'] .map-data-control .layer-list button:first-of-type,
-[dir='rtl'] .background-control .layer-list button:first-of-type {
+[dir='rtl'] .map-data-pane .layer-list button:first-of-type,
+[dir='rtl'] .background-pane .layer-list button:first-of-type {
     border-radius: 3px 0 0 3px;
 }
 
-.map-data-control .vectortile-container .vectortile-header {
+.map-data-pane .vectortile-container .vectortile-header {
     padding-bottom: 5px;
 }
-.map-data-control .vectortile-container .vectortile-footer {
+.map-data-pane .vectortile-container .vectortile-footer {
     padding-bottom: 10px;
 }
+
+
+/* Issues
+------------------------------------------------------- */
+.issue {
+    overflow: hidden;
+}
+.issue button {
+    padding: 5px 10px 5px 5px;
+    height: auto;
+    width: 100%;
+    font-weight: inherit;
+    border-radius: 0;
+    text-align: inherit;
+    display: flex;
+    color: inherit;
+}
+[dir='rtl'] .issue button {
+    padding: 5px 5px 5px 10px;
+}
+.warnings-list,
+.issue.severity-warning,
+ li.issue.severity-warning {
+    border-color: #FFDF5C;
+}
+.icon-badge.warning {
+    color: #FFDF5C;
+}
+.errors-list,
+.issue.severity-error,
+ li.issue.severity-error {
+    border-color: #f5b0ab;
+}
+.icon-badge.error {
+    color: #ff0c05;
+}
+
+.issue.severity-warning,
+.issue.severity-warning button,
+.mode-save .warning-section {
+    background: #ffb;
+}
+.issue.severity-warning:not(.expanded) button:hover,
+.issue.severity-warning:not(.expanded) button:focus,
+.issue.severity-warning .issue-fix-item.actionable button:hover,
+.issue.severity-warning .issue-fix-item.actionable button:focus {
+    background: #FFFF99;
+}
+.issue.severity-warning .issue-icon {
+    color: #ffa900;
+    fill: #ffa900;
+}
+.issue.severity-warning .issue-fix-item.actionable {
+    color: #b15500;
+    fill: #b15500;
+}
+.issue.severity-warning .issue-fix-item.actionable:hover,
+.issue.severity-warning .issue-fix-item.actionable button:focus {
+    color: #7f3d00;
+    fill: #7f3d00;
+}
+
+.issue.severity-error,
+.issue.severity-error button,
+.mode-save .error-section {
+    background: #FFD5D4;
+}
+.issue.severity-error:not(.expanded) button:hover,
+.issue.severity-error:not(.expanded) button:focus,
+.issue.severity-error .issue-fix-item.actionable button:hover,
+.issue.severity-error .issue-fix-item.actionable button:focus {
+    background: #ffc9c7;
+}
+.issue.severity-error .issue-icon {
+    color: #DD1400;
+    fill: #DD1400;
+}
+.issue.severity-error .issue-fix-item.actionable {
+    color: #b91201;
+    fill: #b91201;
+}
+.issue.severity-error .issue-fix-item.actionable:hover,
+.issue.severity-error .issue-fix-item.actionable button:focus {
+    color: #840c00;
+    fill: #840c00;
+}
+
+/* Issues Pane */
+
+.issues-list label {
+    padding: 5px;
+}
+.issues-list label > span {
+    display: inline;
+    white-space: normal;
+}
+.issues-list li {
+    height: auto;
+    color: inherit;
+    position: static;
+}
+
+.issues-none {
+    border-radius: 4px;
+    border: 1px solid #72D979;
+    background: #C6FFCA;
+    padding: 5px !important;
+    display: flex;
+    margin-top: 5px;
+}
+.issues-none .icon {
+    color: #05AC10;
+}
+
+/* Entity Issues List */
+.entity-issues .issue {
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+}
+.entity-issues .issue:not(:last-of-type) {
+    margin-bottom: 10px;
+}
+.issue.expanded button.message {
+    cursor: auto;
+    padding-bottom: 0px;
+}
+ul.issue-fix-list {
+    margin-bottom: 5px;
+}
+ul.issue-fix-list button {
+    padding: 2px 10px 2px 26px;
+}
+.issue-fix-item:not(.actionable) button {
+    cursor: auto;
+
+}
+.issue-fix-item:not(.actionable) .fix-icon {
+    color: #555;
+    fill: #555;
+}
+
+.issue:not(.expanded) ul.issue-fix-list {
+    display: none;
+}
+/* don't animate right now
+.issue ul.issue-fix-list {
+    max-height: 0;
+    transition: max-height 200ms linear;
+    -moz-transition: max-height 200ms linear;
+    -webkit-transition: max-height 200ms linear;
+}
+.issue.expanded ul.issue-fix-list {
+    max-height: 180px;
+    transition: max-height 200ms linear;
+    -moz-transition: max-height 200ms linear;
+    -webkit-transition: max-height 200ms linear;
+}*/
 
 
 /* Background - Display Options Sliders
@@ -5770,7 +6149,7 @@ div.full-screen > button:hover {
 
 /* Background - Adjust Alignment
 ------------------------------------------------------- */
-.background-control .nudge-container {
+.background-pane .nudge-container {
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 10px;
@@ -5871,25 +6250,25 @@ div.full-screen > button:hover {
    cursor: move;
 }
 
-.background-control .nudge.right::after {
+.background-pane .nudge.right::after {
     border-top: 5px solid transparent;
     border-bottom: 5px solid transparent;
     border-left: 5px solid #222;
 }
 
-.background-control .nudge.left::after {
+.background-pane .nudge.left::after {
     border-top: 5px solid transparent;
     border-bottom: 5px solid transparent;
     border-right: 5px solid #222;
 }
 
-.background-control .nudge.top::after {
+.background-pane .nudge.top::after {
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
     border-bottom: 5px solid #222;
 }
 
-.background-control .nudge.bottom::after {
+.background-pane .nudge.bottom::after {
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
     border-top: 5px solid #222;
@@ -5899,15 +6278,16 @@ div.full-screen > button:hover {
 /* Side Panes - Background / Map Data / Help
 ------------------------------------------------------- */
 .map-pane {
-    position: fixed;
+    position: absolute;
     top: 60px;
     bottom: 30px;
     right: 0;
-    width: 33.3333%;
+    width: 100%;
     max-width: 400px;
+    min-width: 180px;
     padding-bottom: 50px;
     overflow: hidden;
-    z-index: -1;
+    z-index: 10;
 }
 [dir='rtl'] .map-pane {
     left: 0;
@@ -5915,7 +6295,6 @@ div.full-screen > button:hover {
 }
 
 .map-pane.help-wrap {
-    width: 50.0000%;
     max-width: 600px;
 }
 
@@ -5924,15 +6303,16 @@ div.full-screen > button:hover {
     flex-flow: row nowrap;
     justify-content: space-between;
     border-bottom: 1px solid #ccc;
+    height: 60px;
 }
 
 .pane-heading h2 {
-    margin: 15px 20px;
+    margin: 14px 20px;
 }
 
 .pane-heading button {
     width: 40px;
-    height: 61px;
+    height: 100%;
     border-radius: 0;
 }
 
@@ -6647,7 +7027,7 @@ img.tile-debug {
     vertical-align: baseline;
     width: 11px;
     height: 11px;
-    fill: #fff;
+    color: #fff;
 }
 
 /* For text (e.g. upcoming events) */
@@ -7070,14 +7450,6 @@ svg.mouseclick use.right {
     margin-bottom: 10px;
 }
 
-.mode-save .warning-section {
-    background: #ffb;
-}
-
-.mode-save .error-section {
-    background: #ffa5a5;
-}
-
 .mode-save .warning-section .changeset-list button {
     border-left: 1px solid #ccc;
 }
@@ -7205,6 +7577,9 @@ svg.mouseclick use.right {
     color: #333;
     font-size: 12px;
     white-space: initial;
+}
+.tooltip:not(.curtain-tooltip) {
+    pointer-events: none;
 }
 .tooltip.in {
     opacity: 0.9;
