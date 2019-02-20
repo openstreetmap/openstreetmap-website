@@ -1073,6 +1073,31 @@ class NotesControllerTest < ActionController::TestCase
     assert_select "rss", :count => 1 do
       assert_select "channel", :count => 1 do
         assert_select "item", :count => 2
+
+        # There is only 1 note, which has no comments, so it shouldn't include the "full" section
+        assert_select "item" do
+          assert_select "description", :text => /This is note comment 2/
+          assert_select "description", :count => 0, :text => /Full note/
+          assert_select "description", :count => 0, :text => /This is note comment 2.*This is note comment 2.*/m
+        end
+      end
+    end
+
+    # Create a note with 2 comments and ensure the full part is in the RSS
+    position = (20 * GeoRecord::SCALE).to_i
+    create(:note_with_comments, :latitude => position, :longitude => position, :comments_count => 2)
+    get :feed, :params => { :bbox => "19,19,21,21", :format => "rss" }
+    assert_response :success
+    assert_equal "application/rss+xml", @response.content_type
+    assert_select "rss", :count => 1 do
+      assert_select "channel", :count => 1 do
+        assert_select "item", :count => 2
+        assert_select "item" do
+          assert_select "description", :text => /Full note/
+          assert_select "description", :text => /This is note comment 6/
+          assert_select "description", :text => /This is note comment 5/
+          assert_select "description", :text => /Comment.*This is note comment 6.*Full note.*This is note comment 5.*This is note comment 6.*/m
+        end
       end
     end
   end
