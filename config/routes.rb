@@ -1,9 +1,11 @@
 OpenStreetMap::Application.routes.draw do
   # API
-  get "api/capabilities" => "api#capabilities"
+  namespace :api do
+    get "capabilities" => "capabilities#show"
+  end
 
   scope "api/0.6" do
-    get "capabilities" => "api#capabilities"
+    get "capabilities" => "api/capabilities#show"
     get "permissions" => "api#permissions"
 
     put "changeset/create" => "changesets#create"

@@ -4,7 +4,7 @@ class ApiController < ApplicationController
 
   authorize_resource :class => false
 
-  before_action :check_api_readable, :except => [:capabilities]
+  before_action :check_api_readable
   before_action :setup_user_auth, :only => [:permissions]
   around_action :api_call_handle_error, :api_call_timeout
 
@@ -249,17 +249,6 @@ class ApiController < ApplicationController
     else
       render :plain => "Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours", :status => :bad_request
     end
-  end
-
-  # External apps that use the api are able to query the api to find out some
-  # parameters of the API. It currently returns:
-  # * minimum and maximum API versions that can be used.
-  # * maximum area that can be requested in a bbox request in square degrees
-  # * number of tracepoints that are returned in each tracepoints page
-  def capabilities
-    @database_status = database_status
-    @api_status = api_status
-    @gpx_status = gpx_status
   end
 
   # External apps that use the api are able to query which permissions

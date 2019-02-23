@@ -19,14 +19,6 @@ class ApiControllerTest < ActionController::TestCase
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
-      { :path => "/api/capabilities", :method => :get },
-      { :controller => "api", :action => "capabilities" }
-    )
-    assert_recognizes(
-      { :controller => "api", :action => "capabilities" },
-      { :path => "/api/0.6/capabilities", :method => :get }
-    )
-    assert_routing(
       { :path => "/api/0.6/permissions", :method => :get },
       { :controller => "api", :action => "permissions" }
     )
@@ -377,23 +369,6 @@ class ApiControllerTest < ActionController::TestCase
   def test_changes_start_end_valid
     get :changes, :params => { :start => "2010-04-03 09:55:00", :end => "2010-04-03 10:55:00" }
     assert_response :success
-  end
-
-  def test_capabilities
-    get :capabilities
-    assert_response :success
-    assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
-      assert_select "api", :count => 1 do
-        assert_select "version[minimum='#{API_VERSION}'][maximum='#{API_VERSION}']", :count => 1
-        assert_select "area[maximum='#{MAX_REQUEST_AREA}']", :count => 1
-        assert_select "note_area[maximum='#{MAX_NOTE_REQUEST_AREA}']", :count => 1
-        assert_select "tracepoints[per_page='#{TRACEPOINTS_PER_PAGE}']", :count => 1
-        assert_select "changesets[maximum_elements='#{Changeset::MAX_ELEMENTS}']", :count => 1
-        assert_select "status[database='online']", :count => 1
-        assert_select "status[api='online']", :count => 1
-        assert_select "status[gpx='online']", :count => 1
-      end
-    end
   end
 
   def test_permissions_anonymous

@@ -4,9 +4,10 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can [:trackpoints, :map, :changes, :capabilities, :permissions], :api
+    can [:trackpoints, :map, :changes, :permissions], :api
     can [:relation, :relation_history, :way, :way_history, :node, :node_history,
          :changeset, :note, :new_note, :query], :browse
+    can :show, :capability
     can [:index, :feed, :show, :download, :query], Changeset
     can :index, ChangesetComment
     can :search, :direction
