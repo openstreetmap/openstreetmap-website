@@ -6,7 +6,7 @@ OpenStreetMap::Application.routes.draw do
 
   scope "api/0.6" do
     get "capabilities" => "api/capabilities#show"
-    get "permissions" => "api#permissions"
+    get "permissions" => "api/permissions#show"
 
     put "changeset/create" => "changesets#create"
     post "changeset/:id/upload" => "changesets#upload", :id => /\d+/

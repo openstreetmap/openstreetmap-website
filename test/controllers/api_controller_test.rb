@@ -19,10 +19,6 @@ class ApiControllerTest < ActionController::TestCase
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
-      { :path => "/api/0.6/permissions", :method => :get },
-      { :controller => "api", :action => "permissions" }
-    )
-    assert_routing(
       { :path => "/api/0.6/map", :method => :get },
       { :controller => "api", :action => "map" }
     )
@@ -275,42 +271,5 @@ class ApiControllerTest < ActionController::TestCase
   def test_changes_start_end_valid
     get :changes, :params => { :start => "2010-04-03 09:55:00", :end => "2010-04-03 10:55:00" }
     assert_response :success
-  end
-
-  def test_permissions_anonymous
-    get :permissions
-    assert_response :success
-    assert_select "osm > permissions", :count => 1 do
-      assert_select "permission", :count => 0
-    end
-  end
-
-  def test_permissions_basic_auth
-    basic_authorization create(:user).email, "test"
-    get :permissions
-    assert_response :success
-    assert_select "osm > permissions", :count => 1 do
-      assert_select "permission", :count => ClientApplication.all_permissions.size
-      ClientApplication.all_permissions.each do |p|
-        assert_select "permission[name='#{p}']", :count => 1
-      end
-    end
-  end
-
-  def test_permissions_oauth
-    @request.env["oauth.token"] = AccessToken.new do |token|
-      # Just to test a few
-      token.allow_read_prefs = true
-      token.allow_write_api = true
-      token.allow_read_gpx = false
-    end
-    get :permissions
-    assert_response :success
-    assert_select "osm > permissions", :count => 1 do
-      assert_select "permission", :count => 2
-      assert_select "permission[name='allow_read_prefs']", :count => 1
-      assert_select "permission[name='allow_write_api']", :count => 1
-      assert_select "permission[name='allow_read_gpx']", :count => 0
-    end
   end
 end

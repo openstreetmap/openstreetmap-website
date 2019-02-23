@@ -5,7 +5,6 @@ class ApiController < ApplicationController
   authorize_resource :class => false
 
   before_action :check_api_readable
-  before_action :setup_user_auth, :only => [:permissions]
   around_action :api_call_handle_error, :api_call_timeout
 
   # This is probably the most common call of all. It is used for getting the
@@ -148,20 +147,5 @@ class ApiController < ApplicationController
     else
       render :plain => "Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours", :status => :bad_request
     end
-  end
-
-  # External apps that use the api are able to query which permissions
-  # they have. This currently returns a list of permissions granted to the current user:
-  # * if authenticated via OAuth, this list will contain all permissions granted by the user to the access_token.
-  # * if authenticated via basic auth all permissions are granted, so the list will contain all permissions.
-  # * unauthenticated users have no permissions, so the list will be empty.
-  def permissions
-    @permissions = if current_token.present?
-                     ClientApplication.all_permissions.select { |p| current_token.read_attribute(p) }
-                   elsif current_user
-                     ClientApplication.all_permissions
-                   else
-                     []
-                   end
   end
 end
