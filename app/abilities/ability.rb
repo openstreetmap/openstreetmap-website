@@ -4,7 +4,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can [:trackpoints, :map, :changes, :permissions], :api
+    can [:map, :changes, :permissions], :api
     can [:relation, :relation_history, :way, :way_history, :node, :node_history,
          :changeset, :note, :new_note, :query], :browse
     can :show, :capability
@@ -22,6 +22,7 @@ class Ability
     can [:search_all, :search_nodes, :search_ways, :search_relations], :search
     can [:trackpoints], :swf
     can [:index, :show, :data, :georss, :picture, :icon], Trace
+    can :index, Tracepoint
     can [:terms, :api_users, :login, :logout, :new, :create, :save, :confirm, :confirm_resend, :confirm_email, :lost_password, :reset_password, :show, :api_read, :auth_success, :auth_failure], User
     can [:index, :show, :blocks_on, :blocks_by], UserBlock
     can [:index, :show], Node

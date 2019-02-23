@@ -57,7 +57,7 @@ OpenStreetMap::Application.routes.draw do
 
     get "map" => "api#map"
 
-    get "trackpoints" => "api#trackpoints"
+    get "trackpoints" => "api/tracepoints#index"
 
     get "changes" => "api#changes"
 
