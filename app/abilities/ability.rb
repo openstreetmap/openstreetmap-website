@@ -8,6 +8,7 @@ class Ability
     can [:relation, :relation_history, :way, :way_history, :node, :node_history,
          :changeset, :note, :new_note, :query], :browse
     can :show, :capability
+    can :index, :change
     can [:index, :feed, :show, :download, :query], Changeset
     can :index, ChangesetComment
     can :search, :direction

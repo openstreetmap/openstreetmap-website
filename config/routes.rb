@@ -59,7 +59,7 @@ OpenStreetMap::Application.routes.draw do
 
     get "trackpoints" => "api/tracepoints#index"
 
-    get "changes" => "api#changes"
+    get "changes" => "api/changes#index"
 
     get "search" => "search#search_all", :as => "api_search"
     get "ways/search" => "search#search_ways"
