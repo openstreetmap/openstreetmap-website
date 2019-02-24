@@ -61,10 +61,10 @@ OpenStreetMap::Application.routes.draw do
 
     get "changes" => "api/changes#index"
 
-    get "search" => "search#search_all", :as => "api_search"
-    get "ways/search" => "search#search_ways"
-    get "relations/search" => "search#search_relations"
-    get "nodes/search" => "search#search_nodes"
+    get "search" => "api/search#search_all", :as => "api_search"
+    get "ways/search" => "api/search#search_ways"
+    get "relations/search" => "api/search#search_relations"
+    get "nodes/search" => "api/search#search_nodes"
 
     get "user/:id" => "users#api_read", :id => /\d+/
     get "user/details" => "users#api_details"
