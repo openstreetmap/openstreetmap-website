@@ -929,7 +929,7 @@ OSM
 
     # create a new changeset for this operation, so we are assured
     # that the bounding box will be newly-generated.
-    changeset_id = with_controller(ChangesetsController.new) do
+    changeset_id = with_controller(Api::ChangesetsController.new) do
       xml = "<osm><changeset/></osm>"
       put :create, :body => xml
       assert_response :forbidden, "shouldn't be able to create changeset for modify test, as should get forbidden"
@@ -940,7 +940,7 @@ OSM
 
     # create a new changeset for this operation, so we are assured
     # that the bounding box will be newly-generated.
-    changeset_id = with_controller(ChangesetsController.new) do
+    changeset_id = with_controller(Api::ChangesetsController.new) do
       xml = "<osm><changeset/></osm>"
       put :create, :body => xml
       assert_response :success, "couldn't create changeset for modify test"
@@ -951,7 +951,7 @@ OSM
     yield changeset_id
 
     # now download the changeset to check its bounding box
-    with_controller(ChangesetsController.new) do
+    with_controller(Api::ChangesetsController.new) do
       get :show, :params => { :id => changeset_id }
       assert_response :success, "can't re-read changeset for modify test"
       assert_select "osm>changeset", 1, "Changeset element doesn't exist in #{@response.body}"
@@ -1008,7 +1008,7 @@ OSM
     cs_id = rel.find("//osm/relation").first["changeset"].to_i
     version = nil
 
-    with_controller(ChangesetsController.new) do
+    with_controller(Api::ChangesetsController.new) do
       doc = OSM::API.new.get_xml_doc
       change = XML::Node.new "osmChange"
       doc.root = change

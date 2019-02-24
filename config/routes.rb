@@ -8,16 +8,16 @@ OpenStreetMap::Application.routes.draw do
     get "capabilities" => "api/capabilities#show"
     get "permissions" => "api/permissions#show"
 
-    put "changeset/create" => "changesets#create"
-    post "changeset/:id/upload" => "changesets#upload", :id => /\d+/
-    get "changeset/:id/download" => "changesets#download", :as => :changeset_download, :id => /\d+/
-    post "changeset/:id/expand_bbox" => "changesets#expand_bbox", :id => /\d+/
-    get "changeset/:id" => "changesets#show", :as => :changeset_show, :id => /\d+/
-    post "changeset/:id/subscribe" => "changesets#subscribe", :as => :changeset_subscribe, :id => /\d+/
-    post "changeset/:id/unsubscribe" => "changesets#unsubscribe", :as => :changeset_unsubscribe, :id => /\d+/
-    put "changeset/:id" => "changesets#update", :id => /\d+/
-    put "changeset/:id/close" => "changesets#close", :id => /\d+/
-    get "changesets" => "changesets#query"
+    put "changeset/create" => "api/changesets#create"
+    post "changeset/:id/upload" => "api/changesets#upload", :id => /\d+/
+    get "changeset/:id/download" => "api/changesets#download", :as => :changeset_download, :id => /\d+/
+    post "changeset/:id/expand_bbox" => "api/changesets#expand_bbox", :id => /\d+/
+    get "changeset/:id" => "api/changesets#show", :as => :changeset_show, :id => /\d+/
+    post "changeset/:id/subscribe" => "api/changesets#subscribe", :as => :changeset_subscribe, :id => /\d+/
+    post "changeset/:id/unsubscribe" => "api/changesets#unsubscribe", :as => :changeset_unsubscribe, :id => /\d+/
+    put "changeset/:id" => "api/changesets#update", :id => /\d+/
+    put "changeset/:id/close" => "api/changesets#close", :id => /\d+/
+    get "changesets" => "api/changesets#query"
     post "changeset/:id/comment" => "changeset_comments#create", :as => :changeset_comment, :id => /\d+/
     post "changeset/comment/:id/hide" => "changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
     post "changeset/comment/:id/unhide" => "changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
