@@ -66,10 +66,10 @@ OpenStreetMap::Application.routes.draw do
     get "relations/search" => "api/search#search_relations"
     get "nodes/search" => "api/search#search_nodes"
 
-    get "user/:id" => "users#api_read", :id => /\d+/
-    get "user/details" => "users#api_details"
-    get "user/gpx_files" => "users#api_gpx_files"
-    get "users" => "users#api_users", :as => :api_users
+    get "user/:id" => "api/users#api_read", :id => /\d+/
+    get "user/details" => "api/users#api_details"
+    get "user/gpx_files" => "api/users#api_gpx_files"
+    get "users" => "api/users#api_users", :as => :api_users
 
     get "user/preferences" => "api/user_preferences#read"
     get "user/preferences/:preference_key" => "api/user_preferences#read_one"
