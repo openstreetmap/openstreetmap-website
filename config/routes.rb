@@ -90,7 +90,7 @@ OpenStreetMap::Application.routes.draw do
     get "swf/trackpoints" => "swf#trackpoints"
 
     # Map notes API
-    resources :notes, :except => [:new, :edit, :update], :constraints => { :id => /\d+/ }, :defaults => { :format => "xml" } do
+    resources :notes, :except => [:new, :edit, :update], :constraints => { :id => /\d+/ }, :defaults => { :format => "xml" }, :controller => "api/notes" do
       collection do
         get "search"
         get "feed", :defaults => { :format => "rss" }
@@ -103,11 +103,11 @@ OpenStreetMap::Application.routes.draw do
       end
     end
 
-    post "notes/addPOIexec" => "notes#create"
-    post "notes/closePOIexec" => "notes#close"
-    post "notes/editPOIexec" => "notes#comment"
-    get "notes/getGPX" => "notes#index", :format => "gpx"
-    get "notes/getRSSfeed" => "notes#feed", :format => "rss"
+    post "notes/addPOIexec" => "api/notes#create"
+    post "notes/closePOIexec" => "api/notes#close"
+    post "notes/editPOIexec" => "api/notes#comment"
+    get "notes/getGPX" => "api/notes#index", :format => "gpx"
+    get "notes/getRSSfeed" => "api/notes#feed", :format => "rss"
   end
 
   # Data browsing
