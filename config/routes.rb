@@ -18,9 +18,9 @@ OpenStreetMap::Application.routes.draw do
     put "changeset/:id" => "api/changesets#update", :id => /\d+/
     put "changeset/:id/close" => "api/changesets#close", :id => /\d+/
     get "changesets" => "api/changesets#query"
-    post "changeset/:id/comment" => "changeset_comments#create", :as => :changeset_comment, :id => /\d+/
-    post "changeset/comment/:id/hide" => "changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
-    post "changeset/comment/:id/unhide" => "changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
+    post "changeset/:id/comment" => "api/changeset_comments#create", :as => :changeset_comment, :id => /\d+/
+    post "changeset/comment/:id/hide" => "api/changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
+    post "changeset/comment/:id/unhide" => "api/changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
 
     put "node/create" => "nodes#create"
     get "node/:id/ways" => "ways#ways_for_node", :id => /\d+/
