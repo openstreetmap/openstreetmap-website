@@ -71,11 +71,11 @@ OpenStreetMap::Application.routes.draw do
     get "user/gpx_files" => "users#api_gpx_files"
     get "users" => "users#api_users", :as => :api_users
 
-    get "user/preferences" => "user_preferences#read"
-    get "user/preferences/:preference_key" => "user_preferences#read_one"
-    put "user/preferences" => "user_preferences#update"
-    put "user/preferences/:preference_key" => "user_preferences#update_one"
-    delete "user/preferences/:preference_key" => "user_preferences#delete_one"
+    get "user/preferences" => "api/user_preferences#read"
+    get "user/preferences/:preference_key" => "api/user_preferences#read_one"
+    put "user/preferences" => "api/user_preferences#update"
+    put "user/preferences/:preference_key" => "api/user_preferences#update_one"
+    delete "user/preferences/:preference_key" => "api/user_preferences#delete_one"
 
     post "gpx/create" => "traces#api_create"
     get "gpx/:id" => "traces#api_read", :id => /\d+/
