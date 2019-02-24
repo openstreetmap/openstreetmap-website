@@ -55,7 +55,7 @@ OpenStreetMap::Application.routes.draw do
     delete "relation/:id" => "relations#delete", :id => /\d+/
     get "relations" => "relations#index"
 
-    get "map" => "api#map"
+    get "map" => "api/map#index"
 
     get "trackpoints" => "api/tracepoints#index"
 

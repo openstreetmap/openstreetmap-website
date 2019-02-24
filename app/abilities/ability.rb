@@ -4,7 +4,6 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can [:map, :changes], :api
     can [:relation, :relation_history, :way, :way_history, :node, :node_history,
          :changeset, :note, :new_note, :query], :browse
     can :show, :capability
@@ -17,6 +16,7 @@ class Ability
     can [:finish, :embed], :export
     can [:search, :search_latlon, :search_ca_postcode, :search_osm_nominatim,
          :search_geonames, :search_osm_nominatim_reverse, :search_geonames_reverse], :geocoder
+    can :index, :map
     can [:index, :create, :comment, :feed, :show, :search, :mine], Note
     can [:token, :request_token, :access_token, :test_request], :oauth
     can :show, :permission
