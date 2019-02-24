@@ -77,12 +77,12 @@ OpenStreetMap::Application.routes.draw do
     put "user/preferences/:preference_key" => "api/user_preferences#update_one"
     delete "user/preferences/:preference_key" => "api/user_preferences#delete_one"
 
-    post "gpx/create" => "traces#api_create"
-    get "gpx/:id" => "traces#api_read", :id => /\d+/
-    put "gpx/:id" => "traces#api_update", :id => /\d+/
-    delete "gpx/:id" => "traces#api_delete", :id => /\d+/
-    get "gpx/:id/details" => "traces#api_read", :id => /\d+/
-    get "gpx/:id/data" => "traces#api_data"
+    post "gpx/create" => "api/traces#api_create"
+    get "gpx/:id" => "api/traces#api_read", :id => /\d+/
+    put "gpx/:id" => "api/traces#api_update", :id => /\d+/
+    delete "gpx/:id" => "api/traces#api_delete", :id => /\d+/
+    get "gpx/:id/details" => "api/traces#api_read", :id => /\d+/
+    get "gpx/:id/data" => "api/traces#api_data"
 
     # AMF (ActionScript) API
     post "amf/read" => "api/amf#amf_read"
