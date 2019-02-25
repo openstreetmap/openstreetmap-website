@@ -359,10 +359,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "users/login"
-    post "/login", :params => { :openid_url => "http://localhost:1123/john.doe", :referer => "/history" }
-    assert_response :redirect
-    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
-    follow_redirect!
+    get auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
@@ -371,31 +368,6 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
-  end
-
-  def test_login_openid_remember_me
-    user = create(:user, :auth_provider => "openid", :auth_uid => "http://example.com/john.doe")
-    OmniAuth.config.add_mock(:openid, :uid => user.auth_uid)
-
-    get "/login", :params => { :referer => "/history" }
-    assert_response :redirect
-    assert_redirected_to :controller => :users, :action => :login, :cookie_test => true, :referer => "/history"
-    follow_redirect!
-    assert_response :success
-    assert_template "users/login"
-    post "/login", :params => { :openid_url => user.auth_uid, :remember_me_openid => true, :referer => "/history" }
-    assert_response :redirect
-    assert_redirected_to auth_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
-    follow_redirect!
-    assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
-    follow_redirect!
-    assert_response :redirect
-    follow_redirect!
-    assert_response :success
-    assert_template "changesets/history"
-    assert_select "span.username", user.display_name
-    assert session.key?(:_remember_for)
   end
 
   def test_login_openid_connection_failed
@@ -408,10 +380,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "users/login"
-    post "/login", :params => { :openid_url => user.auth_uid, :referer => "/history" }
-    assert_response :redirect
-    assert_redirected_to auth_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
-    follow_redirect!
+    get auth_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
@@ -436,10 +405,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "users/login"
-    post "/login", :params => { :openid_url => user.auth_uid, :referer => "/history" }
-    assert_response :redirect
-    assert_redirected_to auth_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
-    follow_redirect!
+    get auth_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "openid", :openid_url => user.auth_uid, :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
@@ -463,10 +429,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "users/login"
-    post "/login", :params => { :openid_url => "http://localhost:1123/fred.bloggs", :referer => "/history" }
-    assert_response :redirect
-    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/fred.bloggs", :origin => "/login?referer=%2Fhistory", :referer => "/history")
-    follow_redirect!
+    get auth_path(:provider => "openid", :openid_url => "http://localhost:1123/fred.bloggs", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/fred.bloggs", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
