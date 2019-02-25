@@ -106,7 +106,7 @@ br:
     created_html: Krouet <abbr title='%{title}'>%{time} zo</abbr>
     closed_html: Serret <abbr title='%{title}'>%{time} zo</abbr>
     created_by_html: Krouet <abbr title='%{title}'>%{time} zo</abbr> gant %{user}
-    deleted_by_html: Dilametelet <abbr title='%{title}'>%{time} zo</abbr> gant %{user}
+    deleted_by_html: Dilamet <abbr title='%{title}'>%{time} zo</abbr> gant %{user}
     edited_by_html: Aozet <abbr title='%{title}'>%{time} zo</abbr> gant %{user}
     closed_by_html: Serret <abbr title='%{title}'>%{time} zo</abbr> gant %{user}
     version: Stumm
@@ -994,6 +994,12 @@ br:
       other_issues_against_this_user: Kudennoù all a sell ouzh an implijer-mañ
       no_other_issues: Kudenn all ebet gant an implijer-mañ.
       comments_on_this_issue: Displegadennoù war ar gudenn-mañ
+    resolve:
+      resolved: Stad ar gudenn zo bet lakaet e "Diskoulmet"
+    ignore:
+      ignored: Stad ar gudenn zo bet lakaet e "Dianavezet"
+    reopen:
+      reopened: Stad ar gudenn zo bet lakaet e "Digor"
     comments:
       created_at: D'an %{datetime}
     reports:
@@ -1013,11 +1019,19 @@ br:
       details: Roit muioc'h a vunudoù diwar-benn ar gudenn (dre ret)
       select: 'Dibab un abeg evit ho tanevell :'
       disclaimer:
+        intro: 'A-raok kas ho tanevell da habaskaerien al lec''hienn, bezit sur e:'
         not_just_mistake: Sur oc'h n'eo ket ar gudenn-se ur fazi hepken.
+        unable_to_fix: N'oc'h ket gouest da renkañ ar gudenn hoc'h-unan pe gant skoazell
+          izili ho kumuniezh
+        resolve_with_user: Klasket ho peus diskoulmañ ar gudenn gant an implijer a
+          zo anv anezhañ dija
       categories:
         diary_entry:
           other_label: All
         diary_comment:
+          spam_label: Stroboù zo en displegadenn deiziataer-mañ
+          offensive_label: Hudur eo an displegadenn deiziataer-mañ
+          threat_label: Ur gourdrouz zo en displegadenn deiziataer-mañ
           other_label: All
         user:
           spam_label: Stroboù zo en notenn-mañ
@@ -1715,9 +1729,11 @@ br:
           Ar c'hemmoù emgefre>/a>.
       questions:
         title: Traoù da c'houlenn ?
-        paragraph_1_html: Ezhomm ho peus sikour evit kartennaouiñ, pe n'eo ket sklaer
-          penaos implijout ? Tapit respontoù d'ho koulennoù el <a href='%{help_url}'>lec'hienn
-          web sikour</a>.
+        paragraph_1_html: OpenStreetMab en deus meur a bourvez evit deskiñ diwar-benn
+          ar raktres, evit sevel goulennoù ha respont dezho, hag evit divizout ha
+          teuliaouiñ ar sujedoù kartennaouiñ e kenlabour gant implijerien all.<a href='%{help_url}'>
+          Kavit skoazell amañ</a>. En un aozadur a ra kartennoù tresoù evit OpenStreetMap
+          ?<a href='https://welcome.openstreetmap.org/'>Gwiriit ho tapis degemer</a>.
       start_mapping: Kregiñ da gartennaouiñ
       add_a_note:
         title: N'ho peus ket amzer da aozañ ? Ouzhpennit un notenn !
@@ -1751,6 +1767,8 @@ br:
       trace_uploaded: Kaset eo bet ho restr GPX hag emañ en gortoz a vezañ ensoc'het
         en diaz roadennoù. C'hoarvezout a ra dindan un hanter-eurvezh peurvuiañ, ha
         kaset e vo ur postel deoc'h pa vo echu.
+      upload_failed: Ho tigarez, c'hwitet eo pellgargadur GPX. Ur merour zo bet kemennet
+        ar fazi dezhañ. Klaskit en-dro.
       traces_waiting: Bez' hoc'h eus %{count} roud a c'hortoz bezañ kaset. Gwell e
         vefe gortoz a-raok kas re all, evit chom hep stankañ al lostennad evit an
         implijerien all.
@@ -2689,6 +2707,8 @@ br:
       flash: Skridaozadenn foeltret.
       error: Ur fazi a zo bet e-ser foeltrañ ar skridaozadenn-mañ
   validations:
+    leading_whitespace: en deus esaouennoù en deroù
+    trailing_whitespace: en deus esaouennoù en dibenn
     invalid_characters: zo arouezennoù direizh ennañ
     url_characters: zo arouezennoù URL ispisial%{characters} ennañ
 ...
