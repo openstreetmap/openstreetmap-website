@@ -1,0 +1,31 @@
+<% content_for :heading do %>
+  <h1><%= t '.title' %></h1>
+  <ul class='secondary-actions clearfix'>
+    <li><%= link_to t('third_party_keys.index.title'), third_party_keys_path %></li>
+  </ul>
+<% end %>
+
+<% if @key.user_ref == current_user.id %>
+
+<p>
+  <strong><%= @key.third_party_service[:uri] %></strong><br/>
+  <% if @key.data != '' && !@key.revoked_ref %>
+  Key: <%= @key.data %><br/>
+  <% else %>
+    <% if @key.third_party_service && @key.third_party_service.access_key == '' %>
+    <em>Service has been discontinued</em><br/>
+    <% else %>
+    <em>Key has been revoked</em><br/>
+    <% end %>
+  <% end %>
+</p>
+
+<p><%= link_to t('third_party_keys.edit.title'), edit_third_party_key_path %></p>
+
+<% else %>
+
+<p>
+  <em>This key does not belong to you</em>
+</p>
+
+<% end %>

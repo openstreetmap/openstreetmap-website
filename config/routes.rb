@@ -106,6 +106,9 @@ OpenStreetMap::Application.routes.draw do
     post "notes/editPOIexec" => "notes#comment"
     get "notes/getGPX" => "notes#index", :format => "gpx"
     get "notes/getRSSfeed" => "notes#feed", :format => "rss"
+
+    # third party API keys
+    get "third_party_services/keys" => "third_party_services#retrieve_keys"
   end
 
   # Data browsing
@@ -274,6 +277,9 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/outbox", :to => redirect(:path => "/messages/outbox")
   get "/message/new/:display_name" => "messages#new", :as => "new_message"
   get "/message/read/:message_id", :to => redirect(:path => "/messages/%{message_id}")
+
+  resources :third_party_keys
+  resources :third_party_services
 
   # oauth admin pages (i.e: for setting up new clients, etc...)
   scope "/user/:display_name" do

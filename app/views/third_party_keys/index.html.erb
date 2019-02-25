@@ -1,0 +1,33 @@
+<% content_for :heading do %>
+  <h1><%= t '.title' %></h1>
+  <ul class='secondary-actions clearfix'>
+    <li><%= link_to t('users.account.return to profile'), user_path(current_user) %></li>
+    <li><%= link_to t('third_party_keys.index.title'), third_party_keys_path %></li>
+    <li><%= link_to t('third_party_services.index.title'), third_party_services_path %></li>
+  </ul>
+<% end %>
+
+<h3><%= t 'third_party_keys.new.get_new_key' %></h3>
+
+<table>
+<% @keys.each do |key| %>
+  <tr>
+  <% if key.third_party_service %>
+  <td><%= link_to key.third_party_service[:uri], edit_third_party_key_path(key) %></td>
+  <% else %>
+  <td><em>Error: Key is an orphan</em></td>
+  <% end %>
+  <% if key.data != ''&& !key.revoked_ref %>
+  <td><%= key.data %></td>
+  <% else %>
+    <% if key.third_party_service && key.third_party_service.access_key == '' %>
+    <td><em>Service discontinued</em></td>
+    <% else %>
+    <td><em>Revoked</em></td>
+    <% end %>
+  <% end %>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to t('third_party_keys.new.title'), new_third_party_key_path %>

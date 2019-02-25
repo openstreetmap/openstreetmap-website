@@ -1,0 +1,38 @@
+<% content_for :heading do %>
+  <h1><%= t '.title' %></h1>
+  <ul class='secondary-actions clearfix'>
+    <li><%= link_to t('third_party_services.index.title'), third_party_services_path %></li>
+  </ul>
+<% end %>
+
+<p>
+  <strong><%= @service.uri %></strong><br/>
+  <% if @service.user_ref == current_user.id %>
+    <% if @service.access_key != '' %>
+    Key: <%= @service.access_key %><br/>
+    <% else %>
+    <em>Service inactive</em>, service key is revoked<br/>
+    <% end %>
+  <% end %>
+</p>
+
+<%= form_with model: @service, local: true do |f| %>
+<% if @service && @service.errors.any? %>
+<p><strong>Cannot update this service.</strong>
+Reasons:
+<ul>
+<% @service.errors.full_messages.each do |msg| %>
+   <li>&nbsp;&nbsp;<strong><%= msg %></strong></li>
+<% end %>
+</ul>
+</p>
+<% end %>
+
+  <% if @service.user_ref == current_user.id %>
+  <%= f.submit 'Request New Service Key' %>
+  <% end %>
+<% end %>
+
+<p>&nbsp;</p> <!-- Fix vertical spacing -->
+
+<p><%= link_to t('third_party_services.discontinue.title'), third_party_service_path, method: :delete %></p>

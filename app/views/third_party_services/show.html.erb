@@ -1,0 +1,32 @@
+<% content_for :heading do %>
+  <h1><%= t '.title' %></h1>
+  <ul class='secondary-actions clearfix'>
+    <li><%= link_to t('third_party_services.index.title'), third_party_services_path %></li>
+  </ul>
+<% end %>
+
+<% if current_user && @service.user_ref == current_user.id %>
+
+<p>
+  <strong><%= @service.uri %></strong><br/>
+  <% if @service.access_key != '' %>
+  Key: <%= @service.access_key %><br/>
+  <% else %>
+  <em>Service inactive</em>, service key is revoked<br/>
+  <% end %>
+</p>
+
+<p><%= link_to t('third_party_services.edit.title'), edit_third_party_service_path %></p>
+
+<% else %>
+
+<p>
+  <strong><%= @service.uri %></strong><br/>
+  <% if @service_owner %>
+  Registered by: <%= @service_owner.display_name %><br/>
+  <% else %>
+  Registered by: User #<%= @service.user_ref %><br/>
+  <% end %>
+</p>
+
+<% end %>
