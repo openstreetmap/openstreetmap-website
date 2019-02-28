@@ -1,22 +1,17 @@
 class UsersController < ApplicationController
-  layout "site", :except => [:api_details]
+  layout "site"
 
-  skip_before_action :verify_authenticity_token, :only => [:api_read, :api_users, :api_details, :api_gpx_files, :auth_success]
-  before_action :disable_terms_redirect, :only => [:terms, :save, :logout, :api_details]
-  before_action :authorize, :only => [:api_details, :api_gpx_files]
-  before_action :authorize_web, :except => [:api_read, :api_users, :api_details, :api_gpx_files]
-  before_action :set_locale, :except => [:api_read, :api_users, :api_details, :api_gpx_files]
-  before_action :api_deny_access_handler, :only => [:api_read, :api_users, :api_details, :api_gpx_files]
+  skip_before_action :verify_authenticity_token, :only => [:auth_success]
+  before_action :disable_terms_redirect, :only => [:terms, :save, :logout]
+  before_action :authorize_web
+  before_action :set_locale
 
   authorize_resource
 
   before_action :require_self, :only => [:account]
-  before_action :check_database_readable, :except => [:login, :api_read, :api_users, :api_details, :api_gpx_files]
+  before_action :check_database_readable, :except => [:login]
   before_action :check_database_writable, :only => [:new, :account, :confirm, :confirm_email, :lost_password, :reset_password, :go_public, :make_friend, :remove_friend]
-  before_action :check_api_readable, :only => [:api_read, :api_users, :api_details, :api_gpx_files]
   before_action :require_cookies, :only => [:new, :login, :confirm]
-  around_action :api_call_handle_error, :only => [:api_read, :api_users, :api_details, :api_gpx_files]
-  before_action :lookup_user_by_id, :only => [:api_read]
   before_action :lookup_user_by_name, :only => [:set_status, :delete]
   before_action :allow_thirdparty_images, :only => [:show, :account]
 
@@ -373,39 +368,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def api_read
-    if @user.visible?
-      render :action => :api_read, :content_type => "text/xml"
-    else
-      head :gone
-    end
-  end
-
-  def api_details
-    @user = current_user
-    render :action => :api_read, :content_type => "text/xml"
-  end
-
-  def api_users
-    raise OSM::APIBadUserInput, "The parameter users is required, and must be of the form users=id[,id[,id...]]" unless params["users"]
-
-    ids = params["users"].split(",").collect(&:to_i)
-
-    raise OSM::APIBadUserInput, "No users were given to search for" if ids.empty?
-
-    @users = User.visible.find(ids)
-
-    render :action => :api_users, :content_type => "text/xml"
-  end
-
-  def api_gpx_files
-    doc = OSM::API.new.get_xml_doc
-    current_user.traces.reload.each do |trace|
-      doc.root << trace.to_xml_node
-    end
-    render :xml => doc.to_s
-  end
-
   def show
     @user = User.find_by(:display_name => params[:display_name])
 
@@ -750,12 +712,6 @@ class UsersController < ApplicationController
   # require that the user in the URL is the logged in user
   def require_self
     head :forbidden if params[:display_name] != current_user.display_name
-  end
-
-  ##
-  # ensure that there is a "user" instance variable
-  def lookup_user_by_id
-    @user = User.find(params[:id])
   end
 
   ##
