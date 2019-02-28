@@ -13,7 +13,7 @@ class ExportController < ApplicationController
 
     if format == "osm"
       # redirect to API map get
-      redirect_to :controller => "api", :action => "map", :bbox => bbox
+      redirect_to :controller => "api/map", :action => "index", :bbox => bbox
 
     elsif format == "mapnik"
       # redirect to a special 'export' cgi script

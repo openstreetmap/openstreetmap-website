@@ -4,9 +4,10 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can [:trackpoints, :map, :changes, :capabilities, :permissions], :api
     can [:relation, :relation_history, :way, :way_history, :node, :node_history,
          :changeset, :note, :new_note, :query], :browse
+    can :show, :capability
+    can :index, :change
     can [:index, :feed, :show, :download, :query], Changeset
     can :index, ChangesetComment
     can :search, :direction
@@ -15,12 +16,15 @@ class Ability
     can [:finish, :embed], :export
     can [:search, :search_latlon, :search_ca_postcode, :search_osm_nominatim,
          :search_geonames, :search_osm_nominatim_reverse, :search_geonames_reverse], :geocoder
+    can :index, :map
     can [:index, :create, :comment, :feed, :show, :search, :mine], Note
     can [:token, :request_token, :access_token, :test_request], :oauth
+    can :show, :permission
     can [:index, :show], Redaction
     can [:search_all, :search_nodes, :search_ways, :search_relations], :search
     can [:trackpoints], :swf
     can [:index, :show, :data, :georss, :picture, :icon], Trace
+    can :index, Tracepoint
     can [:terms, :api_users, :login, :logout, :new, :create, :save, :confirm, :confirm_resend, :confirm_email, :lost_password, :reset_password, :show, :api_read, :auth_success, :auth_failure], User
     can [:index, :show, :blocks_on, :blocks_by], UserBlock
     can [:index, :show], Node
