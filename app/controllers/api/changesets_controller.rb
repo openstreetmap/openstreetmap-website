@@ -41,9 +41,9 @@ module Api
     # Return XML giving the basic info about the changeset. Does not
     # return anything about the nodes, ways and relations in the changeset.
     def show
-      changeset = Changeset.find(params[:id])
-
-      render :xml => changeset.to_xml(params[:include_discussion].presence).to_s
+      @changeset = Changeset.find(params[:id])
+      @include_discussion = params[:include_discussion].presence
+      render "changesets/changeset"
     end
 
     ##
@@ -104,7 +104,8 @@ module Api
       # save the larger bounding box and return the changeset, which
       # will include the bigger bounding box.
       cs.save!
-      render :xml => cs.to_xml.to_s
+      @changeset = cs
+      render "changesets/changeset"
     end
 
     ##
@@ -219,18 +220,9 @@ module Api
       # sort and limit the changesets
       changesets = changesets.order("created_at DESC").limit(100)
 
-      # preload users, tags and comments
-      changesets = changesets.preload(:user, :changeset_tags, :comments)
-
-      # create the results document
-      results = OSM::API.new.get_xml_doc
-
-      # add all matching changesets to the XML results document
-      changesets.order("created_at DESC").limit(100).each do |cs|
-        results.root << cs.to_xml_node
-      end
-
-      render :xml => results.to_s
+      # preload users, tags and comments, and render result
+      @changesets = changesets.preload(:user, :changeset_tags, :comments)
+      render "changesets/changesets"
     end
 
     ##
@@ -245,12 +237,12 @@ module Api
       # request *must* be a PUT.
       assert_method :put
 
-      changeset = Changeset.find(params[:id])
+      @changeset = Changeset.find(params[:id])
       new_changeset = Changeset.from_xml(request.raw_post)
 
-      check_changeset_consistency(changeset, current_user)
-      changeset.update_from(new_changeset, current_user)
-      render :xml => changeset.to_xml.to_s
+      check_changeset_consistency(@changeset, current_user)
+      @changeset.update_from(new_changeset, current_user)
+      render "changesets/changeset"
     end
 
     ##
@@ -270,7 +262,8 @@ module Api
       changeset.subscribers << current_user
 
       # Return a copy of the updated changeset
-      render :xml => changeset.to_xml.to_s
+      @changeset = changeset
+      render "changesets/changeset"
     end
 
     ##
@@ -290,7 +283,8 @@ module Api
       changeset.subscribers.delete(current_user)
 
       # Return a copy of the updated changeset
-      render :xml => changeset.to_xml.to_s
+      @changeset = changeset
+      render "changesets/changeset"
     end
 
     private

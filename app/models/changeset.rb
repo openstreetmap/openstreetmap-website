@@ -196,67 +196,6 @@ class Changeset < ActiveRecord::Base
     end
   end
 
-  def to_xml(include_discussion = false)
-    doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node(nil, include_discussion)
-    doc
-  end
-
-  def to_xml_node(user_display_name_cache = nil, include_discussion = false)
-    el1 = XML::Node.new "changeset"
-    el1["id"] = id.to_s
-
-    user_display_name_cache = {} if user_display_name_cache.nil?
-
-    if user_display_name_cache&.key?(user_id)
-      # use the cache if available
-    elsif user.data_public?
-      user_display_name_cache[user_id] = user.display_name
-    else
-      user_display_name_cache[user_id] = nil
-    end
-
-    el1["user"] = user_display_name_cache[user_id] unless user_display_name_cache[user_id].nil?
-    el1["uid"] = user_id.to_s if user.data_public?
-
-    tags.each do |k, v|
-      el2 = XML::Node.new("tag")
-      el2["k"] = k.to_s
-      el2["v"] = v.to_s
-      el1 << el2
-    end
-
-    el1["created_at"] = created_at.xmlschema
-    el1["closed_at"] = closed_at.xmlschema unless is_open?
-    el1["open"] = is_open?.to_s
-
-    bbox.to_unscaled.add_bounds_to(el1, "_") if bbox.complete?
-
-    el1["comments_count"] = comments.length.to_s
-    el1["changes_count"] = num_changes.to_s
-
-    if include_discussion
-      el2 = XML::Node.new("discussion")
-      comments.includes(:author).each do |comment|
-        el3 = XML::Node.new("comment")
-        el3["date"] = comment.created_at.xmlschema
-        el3["uid"] = comment.author.id.to_s if comment.author.data_public?
-        el3["user"] = comment.author.display_name.to_s if comment.author.data_public?
-        el4 = XML::Node.new("text")
-        el4.content = comment.body.to_s
-        el3 << el4
-        el2 << el3
-      end
-      el1 << el2
-    end
-
-    # NOTE: changesets don't include the XML of the changes within them,
-    # they are just structures for tagging. to get the osmChange of a
-    # changeset, see the download method of the controller.
-
-    el1
-  end
-
   ##
   # update this instance from another instance given and the user who is
   # doing the updating. note that this method is not for updating the
