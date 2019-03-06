@@ -22,10 +22,10 @@
   <% if @trace.inserted? %>
   <tr>
     <td><%= t '.points' %></td>
-    <td><%= @trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/,'\1,') %></td></tr>
+    <td><%= @trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/, '\1,') %></td></tr>
   <tr>
     <td><%= t '.start_coordinates' %></td>
-    <td><div class="geo"><span class="latitude"><%= @trace.latitude %></span>; <span class="longitude"><%= @trace.longitude %></span></div> (<%=link_to t('.map'), :controller => 'site', :action => 'index', :mlat => @trace.latitude, :mlon => @trace.longitude, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}" %> / <%=link_to t('.edit'), :controller => 'site', :action => 'edit', :gpx=> @trace.id, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}" %>)</td>
+    <td><div class="geo"><span class="latitude"><%= @trace.latitude %></span>; <span class="longitude"><%= @trace.longitude %></span></div> (<%= link_to t('.map'), :controller => 'site', :action => 'index', :mlat => @trace.latitude, :mlon => @trace.longitude, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}" %> / <%= link_to t('.edit'), :controller => 'site', :action => 'edit', :gpx => @trace.id, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}" %>)</td>
   </tr>
   <% end %>
   <tr>
@@ -54,7 +54,7 @@
 
 <br /><br />
 
-<% if current_user && (current_user==@trace.user || current_user.administrator? || current_user.moderator?)%>
+<% if current_user && (current_user==@trace.user || current_user.administrator? || current_user.moderator?) %>
   <div class="buttons">
     <% if current_user == @trace.user %>
       <%= link_to t('.edit_trace'), edit_trace_path(@trace), :class => "button" %>
