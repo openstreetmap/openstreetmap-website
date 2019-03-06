@@ -1,6 +1,15 @@
 require "coveralls"
 Coveralls.wear!("rails")
 
+# Override the simplecov output message, since it is mostly unwanted noise
+module SimpleCov
+  module Formatter
+    class HTMLFormatter
+      def output_message(_result); end
+    end
+  end
+end
+
 # Output both the local simplecov html and the coveralls report
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
   [SimpleCov::Formatter::HTMLFormatter,
