@@ -11,7 +11,7 @@
             <span class='count-number'><%= number_with_delimiter(current_user.changesets.size) %></span>
           </li>
           <li>
-            <%= link_to t('.my notes'), :controller => 'notes', :action=> 'mine' %>
+            <%= link_to t('.my notes'), :controller => 'notes', :action => 'mine' %>
           </li>
           <li>
             <%= link_to t('.my traces'), :controller => 'traces', :action => 'mine' %>
@@ -22,7 +22,7 @@
             <span class='count-number'><%= number_with_delimiter(current_user.diary_entries.size) %></span>
           </li>
           <li>
-            <%= link_to t('.my comments' ), :controller => 'diary_entries', :action => 'comments', :display_name => current_user.display_name %>
+            <%= link_to t('.my comments'), :controller => 'diary_entries', :action => 'comments', :display_name => current_user.display_name %>
           </li>
           <li>
             <%= link_to t('.my settings'), :controller => 'users', :action => 'account', :display_name => current_user.display_name %>
@@ -53,7 +53,7 @@
             <span class='count-number'><%= number_with_delimiter(@user.changesets.size) %></span>
           </li>
           <li>
-            <%= link_to t('.notes'), :controller => 'notes', :action=> 'mine' %>
+            <%= link_to t('.notes'), :controller => 'notes', :action => 'mine' %>
           </li>
           <li>
             <%= link_to t('.traces'), :controller => 'traces', :action => 'index', :display_name => @user.display_name %>
@@ -190,10 +190,10 @@
           :lon => current_user.home_lon,
           :lat => current_user.home_lat,
           :icon => image_path("marker-red.png"),
-          :description => render(:partial => "popup", :object => current_user, :locals => {:type => "your location"})
+          :description => render(:partial => "popup", :object => current_user, :locals => { :type => "your location" })
         }
       %>
-      <%= content_tag "div", "", :id => "map", :class => "content_map", :data => {:user => user_data} %>
+      <%= content_tag "div", "", :id => "map", :class => "content_map", :data => { :user => user_data } %>
     <% end %>
 
     <% friends = @user.friends.collect { |f| f.befriendee } %>
@@ -210,7 +210,7 @@
         <li><%= link_to t('.friends_diaries'), friend_diaries_path %></li>
       </ul>
       <div id="friends-container">
-        <%= render :partial => "contact", :collection => friends, :locals => {:type => "friend"} %>
+        <%= render :partial => "contact", :collection => friends, :locals => { :type => "friend" } %>
       </div>
     <% end %>
   </div>
@@ -226,7 +226,7 @@
         <li><%= link_to t('.nearby_diaries'), nearby_diaries_path %></li>
       </ul>
       <div id="nearbyusers">
-        <%= render :partial => "contact", :collection => nearby, :locals => {:type => "nearby mapper"} %>
+        <%= render :partial => "contact", :collection => nearby, :locals => { :type => "nearby mapper" } %>
       </div>
     <% end %>
   </div>
