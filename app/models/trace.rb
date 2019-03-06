@@ -313,7 +313,7 @@ class Trace < ActiveRecord::Base
       tp.run_callbacks(:save) { false }
       tp.run_callbacks(:create) { false }
     end
-    Tracepoint.import(tracepoints)
+    Tracepoint.import!(tracepoints, :batch_size => 1_000)
 
     if gpx.actual_points.positive?
       max_lat = Tracepoint.where(:gpx_id => id).maximum(:latitude)
