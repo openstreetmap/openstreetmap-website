@@ -36,8 +36,9 @@
               <li id="c<%= comment.id %>">
                 <small class='deemphasize'>
                   <%= t(".commented_by",
-                    :when => friendly_date(comment.created_at), :exact_time => l(comment.created_at),
-                    :user => link_to(h(comment.author.display_name), user_path(comment.author))).html_safe %>
+                        :when => friendly_date(comment.created_at),
+                        :exact_time => l(comment.created_at),
+                        :user => link_to(h(comment.author.display_name), user_path(comment.author))).html_safe %>
                   <% if current_user and current_user.moderator? %>
                     — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_hide_url(comment.id) %>"><%= t('javascripts.changesets.show.hide_comment') %></span>
                   <% end %>
@@ -48,8 +49,9 @@
               <li id="c<%= comment.id %>">
                 <small class='deemphasize'>
                   <%= t(".hidden_commented_by",
-                    :when => friendly_date(comment.created_at), :exact_time => l(comment.created_at),
-                    :user => link_to(h(comment.author.display_name), user_path(comment.author))).html_safe %>
+                        :when => friendly_date(comment.created_at),
+                        :exact_time => l(comment.created_at),
+                        :user => link_to(h(comment.author.display_name), user_path(comment.author))).html_safe %>
                   — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_unhide_url(comment.id) %>"><%= t('javascripts.changesets.show.unhide_comment') %></span>
                  </small>
                 <%= comment.body.to_html %>
@@ -109,7 +111,7 @@
   <% unless @nodes.empty? %>
     <h4>
       <%= type_and_paginated_count('node', @node_pages) %>
-      <%= render :partial => 'paging_nav', :locals => { :pages => @node_pages, :page_param => "node_page"} %>
+      <%= render :partial => 'paging_nav', :locals => { :pages => @node_pages, :page_param => "node_page" } %>
     </h4>
     <ul>
       <% @nodes.each do |node| %>
