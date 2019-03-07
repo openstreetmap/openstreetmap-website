@@ -49,6 +49,7 @@ sv:
     errors:
       messages:
         invalid_email_address: verkar inte vara en giltig e-postadress.
+        email_address_not_routable: kan inte ruttas
     models:
       acl: Tillgångskontrollista (ACL)
       changeset: Ändringsset
@@ -132,6 +133,29 @@ sv:
     remote:
       name: Fjärrstyrning
       description: Fjärrstyrning (JOSM eller Merkaartor)
+  api:
+    notes:
+      comment:
+        opened_at_html: Skapades för %{when} sedan
+        opened_at_by_html: Skapades för %{when} sedan av %{user}
+        commented_at_html: Uppdaterades för %{when} sedan
+        commented_at_by_html: Uppdaterades för %{when} sedan av %{user}
+        closed_at_html: Löstes för %{when} sedan
+        closed_at_by_html: Löstes för %{when} sedan av %{user}
+        reopened_at_html: Återaktiverades för %{when} sedan
+        reopened_at_by_html: Återaktiverades för %{when} sedan av %{user}
+      rss:
+        title: OpenStreetMap-anteckningar
+        description_area: En lista med anteckningar som rapporterats, kommenterats
+          eller avklarats i närheten av ditt område [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_item: Ett rss-flöde för anteckning %{id}
+        opened: ny anteckning (nära %{place})
+        commented: ny kommentar (nära %{place})
+        closed: stängde anteckning (nära %{place})
+        reopened: återaktiverade anteckningar (nära %{place})
+      entry:
+        comment: Kommentar
+        full: Hela anteckningen
   browse:
     created: Skapad
     closed: Stängd
@@ -269,7 +293,7 @@ sv:
     changeset:
       anonymous: Anonym
       no_edits: (inga redigeringar)
-      view_changeset_details: Visa detaljer om ändringsset
+      view_changeset_details: Visa detaljer om ändringsuppsättning
     changesets:
       id: ID
       saved_at: Sparades den
@@ -277,20 +301,20 @@ sv:
       comment: Kommentar
       area: Område
     index:
-      title: Ändringsset
-      title_user: Ändringsset av %{user}
-      title_friend: Ändringsset av mina vänner
-      title_nearby: Ändringsset av närbelägna användare
-      empty: Inga ändringsset hittades.
-      empty_area: Inga ändringsset i det här området.
-      empty_user: Inga ändringsset av den här användaren.
-      no_more: Inga fler ändringsset hittades.
-      no_more_area: Inga fler ändringsset i det här området.
-      no_more_user: Inga fler ändringsset av den här användaren.
+      title: Ändringsuppsättningar
+      title_user: Ändringsuppsättningar av %{user}
+      title_friend: Ändringsuppsättningar av mina vänner
+      title_nearby: Ändringsuppsättningar av närbelägna användare
+      empty: Inga ändringsuppsättningar hittades.
+      empty_area: Inga ändringsuppsättningar i det här området.
+      empty_user: Inga ändringsuppsättningar av den här användaren.
+      no_more: Inga fler ändringsuppsättningar hittades.
+      no_more_area: Inga fler ändringsuppsättningar i det här området.
+      no_more_user: Inga fler ändringsuppsättningar av den här användaren.
       load_more: Läs in fler
     timeout:
-      sorry: Kunde tyvärr inte lista begärda ändringsset. Begäran tog för lång tid
-        att hämta.
+      sorry: Kunde tyvärr inte lista begärda ändringsuppsättningar. Begäran tog för
+        lång tid att hämta.
   changeset_comments:
     comment:
       comment: Ny kommentar på ändringsset nummer %{changeset_id} av %{author}
@@ -1624,6 +1648,8 @@ sv:
       welcomemat:
         url: https://welcome.openstreetmap.org/
         title: För organisationer
+        description: Är du i en organisation som har planer med OpenStreetMap? Ta
+          reda på vad du behöver veta i välkomstmattan.
       wiki:
         url: https://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
@@ -1767,7 +1793,7 @@ sv:
         title: Några frågor?
         paragraph_1_html: |-
           OpenStreetMap har flera resurser som hjälper dig att lära dig om projektet, för att ställa och svara på frågor, och tillsammans diskutera och dokumentera frågor gällande kartering.
-          <a href='%{help_url}'>Få hjälp här</a>.
+          <a href='%{help_url}'>Få hjälp här</a>. Är du i en organisation som har planer med OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Besök välkomstmattan</a>.
       start_mapping: Börja kartlägga
       add_a_note:
         title: Ingen tid att redigera? Lägg till en kommentar!
@@ -2484,27 +2510,6 @@ sv:
       next: Nästa »
       previous: « Föregående
   notes:
-    comment:
-      opened_at_html: Skapades för %{when} sedan
-      opened_at_by_html: Skapades för %{when} sedan av %{user}
-      commented_at_html: Uppdaterades för %{when} sedan
-      commented_at_by_html: Uppdaterades för %{when} sedan av %{user}
-      closed_at_html: Löstes för %{when} sedan
-      closed_at_by_html: Löstes för %{when} sedan av %{user}
-      reopened_at_html: Återaktiverades för %{when} sedan
-      reopened_at_by_html: Återaktiverades för %{when} sedan av %{user}
-    rss:
-      title: OpenStreetMap-anteckningar
-      description_area: En lista med anteckningar som rapporterats, kommenterats eller
-        avklarats i närheten av ditt område [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
-      description_item: Ett rss-flöde för anteckning %{id}
-      opened: ny anteckning (nära %{place})
-      commented: ny kommentar (nära %{place})
-      closed: stängde anteckning (nära %{place})
-      reopened: återaktiverade anteckningar (nära %{place})
-    entry:
-      comment: Kommentar
-      full: Hela anteckningen
     mine:
       title: Anteckningar skapade eller kommenterade av %{user}
       heading: '%{user}s anteckningar'
@@ -2602,7 +2607,9 @@ sv:
     directions:
       ascend: Stigande
       engines:
+        fossgis_osrm_bike: Cykel (OSRM)
         fossgis_osrm_car: Bil (OSRM)
+        fossgis_osrm_foot: Till fots (OSRM)
         graphhopper_bicycle: Cykel (GraphHopper)
         graphhopper_car: Bil (GraphHopper)
         graphhopper_foot: Gående (GraphHopper)

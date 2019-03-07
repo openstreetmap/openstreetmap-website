@@ -43,6 +43,10 @@ cs:
       friendly: '%e. %m. %Y v %H:%M'
       blog: '%e. %L. %Y'
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: nevypadá jako platná emailová adresa
+        email_address_not_routable: není routovatelná
     models:
       acl: Seznam přístupových práv
       changeset: Sada změn
@@ -124,6 +128,29 @@ cs:
     remote:
       name: Dálkové ovládání
       description: Dálkové ovládání (JOSM nebo Merkaartor)
+  api:
+    notes:
+      comment:
+        opened_at_html: Vytvořeno před %{when}
+        opened_at_by_html: Vytvořeno před %{when} uživatelem %{user}
+        commented_at_html: Aktualizováno před %{when}
+        commented_at_by_html: Aktualizováno před %{when} uživatelem %{user}
+        closed_at_html: Vyřešeno před %{when}
+        closed_at_by_html: Vyřešeno před %{when} uživatelem %{user}
+        reopened_at_html: Reaktivováno před %{when}
+        reopened_at_by_html: Reaktivováno před %{when} uživatelem %{user}
+      rss:
+        title: Poznámky OpenStreetMap
+        description_area: Seznam poznámek hlášených, komentovaných nebo uzavřených
+          ve vaší oblasti [(%{min_lat}|%{min_lon}) – (%{max_lat}|%{max_lon})]
+        description_item: RSS kanál k poznámce %{id}
+        opened: nová poznámka (poblíž %{place})
+        commented: nový komentář (poblíž %{place})
+        closed: poznámka uzavřena (poblíž %{place})
+        reopened: reaktivovaná poznámka (poblíž %{place})
+      entry:
+        comment: Komentář
+        full: Celá poznámka
   browse:
     created: Vytvořeno
     closed: Uzavřeno
@@ -2432,27 +2459,6 @@ cs:
       next: Následující »
       previous: « Předchozí
   notes:
-    comment:
-      opened_at_html: Vytvořeno před %{when}
-      opened_at_by_html: Vytvořeno před %{when} uživatelem %{user}
-      commented_at_html: Aktualizováno před %{when}
-      commented_at_by_html: Aktualizováno před %{when} uživatelem %{user}
-      closed_at_html: Vyřešeno před %{when}
-      closed_at_by_html: Vyřešeno před %{when} uživatelem %{user}
-      reopened_at_html: Reaktivováno před %{when}
-      reopened_at_by_html: Reaktivováno před %{when} uživatelem %{user}
-    rss:
-      title: Poznámky OpenStreetMap
-      description_area: Seznam poznámek hlášených, komentovaných nebo uzavřených ve
-        vaší oblasti [(%{min_lat}|%{min_lon}) – (%{max_lat}|%{max_lon})]
-      description_item: RSS kanál k poznámce %{id}
-      opened: nová poznámka (poblíž %{place})
-      commented: nový komentář (poblíž %{place})
-      closed: poznámka uzavřena (poblíž %{place})
-      reopened: reaktivovaná poznámka (poblíž %{place})
-    entry:
-      comment: Komentář
-      full: Celá poznámka
     mine:
       title: Poznámky vytvořené nebo okomentované uživatelem %{user}
       heading: Poznámky uživatele %{user}
@@ -2549,7 +2555,9 @@ cs:
     directions:
       ascend: Vystupte
       engines:
+        fossgis_osrm_bike: Na kole (OSRM)
         fossgis_osrm_car: Autem (OSRM)
+        fossgis_osrm_foot: Pěšky (OSRM)
         graphhopper_bicycle: Na kole (GraphHopper)
         graphhopper_car: Autem (GraphHopper)
         graphhopper_foot: Pěšky (GraphHopper)

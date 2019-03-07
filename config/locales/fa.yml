@@ -125,6 +125,29 @@ fa:
     remote:
       name: کنترل از دور
       description: کنترل از دور (JOSM یا Merkaartor)
+  api:
+    notes:
+      comment:
+        opened_at_html: '%{when} پیش ایجاد شد'
+        opened_at_by_html: ایجاد شده %{when} قبل توسط %{user}
+        commented_at_html: '%{when} پیش به‌روز شد'
+        commented_at_by_html: بروز شده %{when} قبل توسط %{user}
+        closed_at_html: '%{when} پیش حل شد'
+        closed_at_by_html: حل شده %{when} قبل توسط %{user}
+        reopened_at_html: '%{when} پیش دوباره فعال شد'
+        reopened_at_by_html: دوباره فعال شده %{when} قبل توسط %{user}
+      rss:
+        title: یادداشت‌های OpenStreetMap
+        description_area: 'لیستی از یادداشت‌ها: گزارش‌شده‌ها، نظردارها یا بسته‌شده
+          در منطقه شما [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]'
+        description_item: خوراک rss برای یادداشت %{id}
+        opened: یادداشت تازه (نزدیک %{place})
+        commented: نظر تازه (نزدیک %{place})
+        closed: یادداشت بسته‌شده (نزدیک %{place})
+        reopened: یادداشت بازگشایی‌شده(نزدیک %{place})
+      entry:
+        comment: نظر
+        full: یادداشت کامل
   browse:
     created: 'تاریخ ایجاد:'
     closed: 'تاریخ بستن:'
@@ -531,7 +554,7 @@ fa:
           cycleway: مسیر دوچرخه
           elevator: آسانسور
           emergency_access_point: نقطهٔ دسترسی اضطراری
-          footway: پیاده رو
+          footway: راه پیاده
           ford: معبر کنار رود
           give_way: نمایش نشان مسیر
           living_street: خیابان محل سکونت
@@ -540,7 +563,7 @@ fa:
           motorway_junction: تقاطع آزادراهی
           motorway_link: آزادراه
           path: مسیر
-          pedestrian: راه عابر پیاده
+          pedestrian: پیاده‌راه
           platform: پلت‌فرم
           primary: راه درجه یک
           primary_link: راه درجه یک
@@ -899,7 +922,7 @@ fa:
           viewpoint: منطره بین
           zoo: باغ وحش
         tunnel:
-          building_passage: پیاده‌روی ساختمان
+          building_passage: Building Passage
           culvert: مجرای آب زیر جاده
           "yes": تونل
         waterway:
@@ -1342,9 +1365,9 @@ fa:
         title_html: حق‌نشر و پروانه
         intro_1_html: |-
           OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup>  <i><abbr title="Open Data"></abbr>داده باز</i> است و از سوی  <a
-          href="https://osmfoundation.org/">بنیاد OpenStreetMap</a> (OSMF) تحت پروانهٔ <a
+          href="https://osmfoundation.org/">بنیاد OpenStreetMap</a> ‏(OSMF) تحت پروانهٔ <a
           href="https://opendatacommons.org/licenses/odbl/">Open Data
-          Commons Open Database License</a> (ODbL) قرار دارد.
+          Commons Open Database License</a> ‏(ODbL) قرار دارد.
         intro_2_html: تا زمانی که از OpenStreetMap و مشارکت‌کنندگان آن یاد کنید، برای
           کپی‌برداری، توزیع، انتقال و اقتباس (از) داده‌های ما آزاد هستید. اگر داده‌های
           ما را تغییر دهید یا بر پایهٔ آن‌ها تولید کنید، باید نتایج را فقط تحت همان
@@ -1395,7 +1418,7 @@ fa:
           <strong>استرالیا</strong>: شامل داده‌هایی با منبع <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA Australia Limited</a>
           که از سوی کشور مشترک‌المنافع استرالیا تحت پروانهٔ
           <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> قرار دارد.
-        contributors_ca_html: "<strong>کانادا</strong>: شامل داده‌هایی از \nGeoBase&reg;,
+        contributors_ca_html: "<strong>کانادا</strong>: شامل داده‌هایی از \nGeoBase&reg;،‏
           GeoGratis (&copy; Department of Natural\nResources Canada)،‏ CanVec (&copy;
           Department of Natural\nResources Canada) و StatCan (Geography Division,\nStatistics
           Canada)."
@@ -1407,7 +1430,7 @@ fa:
           <strong>فرانسه</strong>: شامل داده‌هایی با منبع
           Direction Générale des Impôts.
         contributors_nl_html: |-
-          <strong>هلند</strong>: شامل &copy; داده‌های AND،‏ ۲۰۰۷
+          <strong>هلند</strong>: شامل داده‌های &copy; AND،‏ ۲۰۰۷
           (<a href="https://www.and.com">www.and.com</a>)
         contributors_nz_html: "<strong>نیوزیلند</strong>: شامل داده‌هایی با منبع \n<a
           href=\"https://data.linz.govt.nz/\">LINZ Data Service</a> و\nتحت پروانهٔ
@@ -2430,27 +2453,6 @@ fa:
       next: بعدی »
       previous: « قبلی
   notes:
-    comment:
-      opened_at_html: '%{when} پیش ایجاد شد'
-      opened_at_by_html: ایجاد شده %{when} قبل توسط %{user}
-      commented_at_html: '%{when} پیش به‌روز شد'
-      commented_at_by_html: بروز شده %{when} قبل توسط %{user}
-      closed_at_html: '%{when} پیش حل شد'
-      closed_at_by_html: حل شده %{when} قبل توسط %{user}
-      reopened_at_html: '%{when} پیش دوباره فعال شد'
-      reopened_at_by_html: دوباره فعال شده %{when} قبل توسط %{user}
-    rss:
-      title: یادداشت‌های OpenStreetMap
-      description_area: 'لیستی از یادداشت‌ها: گزارش‌شده‌ها، نظردارها یا بسته‌شده در
-        منطقه شما [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]'
-      description_item: خوراک rss برای یادداشت %{id}
-      opened: یادداشت تازه (نزدیک %{place})
-      commented: نظر تازه (نزدیک %{place})
-      closed: یادداشت بسته‌شده (نزدیک %{place})
-      reopened: یادداشت بازگشایی‌شده(نزدیک %{place})
-    entry:
-      comment: نظر
-      full: یادداشت کامل
     mine:
       title: یادداشت‌هایی که %{user} ارسال کرده یا روی آن‌ها نظر داده
       heading: یادداشت‌های %{user}

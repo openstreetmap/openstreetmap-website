@@ -8,6 +8,7 @@
 # Author: MSClaudiu
 # Author: McDutchie
 # Author: Minisarm
+# Author: Popetedenis
 # Author: Ruila
 # Author: Strainu
 # Author: Wintereu
@@ -49,7 +50,7 @@ ro:
       relation_member: Membru relație
       relation_tag: Etichetă relație
       session: Sesiune
-      trace: Localizează GPS
+      trace: Traseu GPS
       tracepoint: Punct al unei înregistrări GPS
       tracetag: Etichetă înregistrare GPS
       user: Utilizator
@@ -60,7 +61,7 @@ ro:
       way_tag: Etichetă cale
     attributes:
       diary_comment:
-        body: Corp
+        body: Textul mesajului
       diary_entry:
         user: Utilizator
         title: Subiect
@@ -108,6 +109,29 @@ ro:
     remote:
       name: Control la distanță
       description: Control de la distanță (JOSM sau Merkaartor)
+  api:
+    notes:
+      comment:
+        opened_at_html: Actualizat acum %{when}
+        opened_at_by_html: Creat %{when} de %{user}
+        commented_at_html: Actualizat acum %{when}
+        commented_at_by_html: Actualizat acum %{when} de %{user}
+        closed_at_html: Rezolvată %{when} în urmă
+        closed_at_by_html: Rezolvată %{when} în urmă de %{user}
+        reopened_at_html: Reactivat %{when} în urmă
+        reopened_at_by_html: Reactivat %{when} în urmă de %{user}
+      rss:
+        title: Note OpenStreetMap
+        description_area: O listă de note, raportate, comentate sau închise în zona
+          dvs. [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_item: Un feed RSS pentru nota %{id}
+        opened: notă nouă (lângă %{place})
+        commented: comentariu nou (lângă %{place})
+        closed: notă închisă (lângă %{place})
+        reopened: mesaj reactivat (lângă %{place})
+      entry:
+        comment: Comentariu
+        full: Notă completă
   browse:
     created: Creat
     closed: Închis
@@ -2494,27 +2518,6 @@ ro:
       next: Următoarea »
       previous: « Precedenta
   notes:
-    comment:
-      opened_at_html: Actualizat acum %{when}
-      opened_at_by_html: Creat %{when} de %{user}
-      commented_at_html: Actualizat acum %{when}
-      commented_at_by_html: Actualizat acum %{when} de %{user}
-      closed_at_html: Rezolvată %{when} în urmă
-      closed_at_by_html: Rezolvată %{when} în urmă de %{user}
-      reopened_at_html: Reactivat %{when} în urmă
-      reopened_at_by_html: Reactivat %{when} în urmă de %{user}
-    rss:
-      title: Note OpenStreetMap
-      description_area: O listă de note, raportate, comentate sau închise în zona
-        dvs. [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
-      description_item: Un feed RSS pentru nota %{id}
-      opened: notă nouă (lângă %{place})
-      commented: comentariu nou (lângă %{place})
-      closed: notă închisă (lângă %{place})
-      reopened: mesaj reactivat (lângă %{place})
-    entry:
-      comment: Comentariu
-      full: Notă completă
     mine:
       title: Notele trimise sau comentate de %{user}
       heading: Notele %{user}
@@ -2710,8 +2713,8 @@ ro:
       error: 'Eroare la contactarea %{server}: %{error}'
       timeout: Terminați contactarea %{server}
     context:
-      directions_from: Direcția de aici
-      directions_to: Direcția de aici
+      directions_from: Deplasare de aici
+      directions_to: Deplasare către aici
       add_note: Adaugă aici o observație
       show_address: Arată adresa
       query_features: Funcții de interogare

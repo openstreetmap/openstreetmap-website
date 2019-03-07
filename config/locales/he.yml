@@ -117,6 +117,29 @@ he:
     remote:
       name: שליטה מרחוק
       description: שליטה מרחוק (JOSM או Merkaartor)
+  api:
+    notes:
+      comment:
+        opened_at_html: נוצרה לפני %{when}
+        opened_at_by_html: נוצרה לפני %{when} על־ידי %{user}
+        commented_at_html: עודכנה לפני %{when}
+        commented_at_by_html: עודכנה לפני %{when} על־ידי %{user}
+        closed_at_html: נפתרה לפני %{when}
+        closed_at_by_html: נפתרה לפני %{when} על־ידי %{user}
+        reopened_at_html: הופעלה מחדש לפני %{when}
+        reopened_at_by_html: הופעלה מחדש לפני %{when} על־ידי %{user}
+      rss:
+        title: הערות של OpenStreetMap
+        description_area: רשימת הערות שהוספו, שהתקבלו עליהן הערות ושנדבגרו באזור שלך
+          [(%{min_lat}|%{min_lon}) – (%{max_lat}|%{max_lon})]
+        description_item: הזנת rss עבור ההערה %{id}
+        opened: הערה חדשה (ליד %{place})
+        commented: תגובה חדשה (ליד %{place})
+        closed: הערה סגורה (ליד %{place})
+        reopened: הערה שהופעלה מחדש (ליד %{place})
+      entry:
+        comment: תגובה
+        full: הערה מלאה
   browse:
     created: נוצר
     closed: נסגר
@@ -251,24 +274,24 @@ he:
       view_changeset_details: הצגת פרטי ערכת שינויים
     changesets:
       id: מזהה
-      saved_at: 'נשמרו ב:'
+      saved_at: נשמרו תחת
       user: משתמש
       comment: הערה
       area: שטח
     index:
       title: ערכות שינויים
-      title_user: ערכות שינויים של %{user}
+      title_user: ערכות שינויים מאת %{user}
       title_friend: ערכות שינויים של החברים שלי
       title_nearby: ערכות שינויים של משתמשים בסביבה
-      empty: לא נמצאה שום ערכת שינויים.
+      empty: לא נמצאה אף ערכת שינויים.
       empty_area: אין ערכות שינויים באזור הזה.
-      empty_user: אין ערכות שינויים מאת המשתמש הזה.
-      no_more: לא נמצאו עוד ערכות שינויים.
+      empty_user: המשתמש הזה לא ערך ערכות שינויים.
+      no_more: לא נמצאו ערכות שינויים נוספות.
       no_more_area: אין עוד ערכות שינויים באזור הזה.
-      no_more_user: אין עוד ערכות שינויים מאת המשתמש הזה.
+      no_more_user: אין ערכות שינויים נוספות מאת המשתמש הזה.
       load_more: לטעון עוד
     timeout:
-      sorry: סליחה, לוקח יותר מדי זמן לאחזר על רשימת ערכות השינויים שביקשת.
+      sorry: קבלת רשימת ערכות השינויים שביקשת אורכת זמן רב מדי, עמך הסליחה.
   changeset_comments:
     comment:
       comment: הערה חדשה על ערכת שינויים מס׳ %{changeset_id} מאת %{author}
@@ -277,7 +300,7 @@ he:
       comment: הערה חדשה בערכת שינויים מס׳ %{changeset_id} מאת %{author}
     index:
       title_all: דיון בערכת שינויים של OpenStreetMap
-      title_particular: דיון בערכת שינויים מס' %{changeset_id} של OpenStreetMap
+      title_particular: דיון בערכת שינויים מס׳ %{changeset_id} של OpenStreetMap
     timeout:
       sorry: הזמן שלקח לרשימת ההערות על ערכת השינויים שביקשת להתקבל ארוך מדי, עמך
         הסליחה.
@@ -328,12 +351,12 @@ he:
         one: תגובה אחת
         zero: אין תגובות
         other: '%{count} תגובות'
-      edit_link: עריכת רשומה
-      hide_link: הסתרת רשומה
+      edit_link: עריכת רשומה זו
+      hide_link: הסתרת רשומה זו
       confirm: אישור
       report: לדווח על הרשומה הזאת
     diary_comment:
-      comment_from: תגובה מ־%{link_user} ב־%{comment_created_at}
+      comment_from: תגובה מאת %{link_user} על %{comment_created_at}
       hide_link: הסתרת הערה זו
       confirm: אישור
       report: לדווח על ההערה הזאת
@@ -982,6 +1005,10 @@ he:
       states:
         open: פתוחה
         resolved: נפתרה
+    update:
+      new_report: הדוח שלך נרשם בהצלחה
+      successful_update: הדיווח שלך עודכן בהצלחה
+      provide_details: נא לספק את הפרטים הנדרשים
     show:
       ignore: התעלמות
       reopen: פתיחה מחדש
@@ -1010,9 +1037,16 @@ he:
         diary_comment:
           other_label: אחר
         user:
+          spam_label: פרופיל משתמש זה הוא/מכיל ספאם
+          offensive_label: פרופיל משתמש זה בוטה/פוגעני
+          threat_label: פרופיל משתמש זה מכיל איום
+          vandal_label: משתמש זה משחית
           other_label: אחר
         note:
           other_label: אחר
+    create:
+      successful_report: הדוח שלך נרשם בהצלחה
+      provide_details: נא לספק את הפרטים הנדרשים
   layouts:
     logo:
       alt_text: הלוגו של OpenStreetMap
@@ -1521,6 +1555,8 @@ he:
       welcomemat:
         url: https://welcome.openstreetmap.org/
         title: לארגונים
+        description: הארגון שלך מתכנן תכניות על OpenStreetMap? כל המידע הנחוץ לך נמצא
+          במחצלת הכניסה.
       wiki:
         url: https://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
@@ -1612,7 +1648,7 @@ he:
       edit: עריכה
       preview: תצוגה מקדימה
     markdown_help:
-      title_html: מפוענח עם <a href="https://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: פוענח בעזרת <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: כותרות
       heading: כותרת
       subheading: כותרת משנה
@@ -1689,6 +1725,8 @@ he:
       upload_trace: העלאת מסלול GPS
       trace_uploaded: קובץ ה־GPX שלך הועלה ומחכה להכנסה אל מסד הנתונים. זה בדרך כלל
         יקרה בתוך חצי שעה ויישלח לך מכתב עם השלמת הפעולה.
+      upload_failed: העלאת ה־GPX נכשלה. אחד המנהלים קיבל הודעה על השגיאה. נא לנסות
+        שוב.
       traces_waiting:
         other: יש לך מסלול שמחכה להעלאה. נא לשקול לחכות עד סיום העלאתו לפני העלאת
           מסלולים נוספים, כדי לא לחסום את התור למשתמשים אחרים.
@@ -1709,6 +1747,8 @@ he:
       save_button: שמירת שינויים
       visibility: 'נִראוּת:'
       visibility_help: מה זה אומר?
+    update:
+      updated: המסלול עודכן
     trace_optionals:
       tags: תגים
     show:
@@ -1784,6 +1824,8 @@ he:
     require_cookies:
       cookies_needed: נראה שהעוגיות כבויות אצלך – נא להפעיל עוגיות בדפדפן שלך כדי
         להמשיך.
+    require_admin:
+      not_an_admin: עליך להחזיק בהרשאות ניהול כדי לבצע את הפעולה הזאת.
     setup_user_auth:
       blocked_zero_hour: יש לך מסר דחוף באתר OpenStreetMap. עליך לקרוא את ההודעה לפני
         שמירת העריכות שלך.
@@ -1981,6 +2023,7 @@ he:
       terms accepted: תודה על קבלת תנאי התרומה החדשים!
       terms declined: אנחנו מצטערים שהחלטת לא לקבל את תנאי התרומה החדשים. למידע נוסף
         ר׳ <a href="%{url}">דף הוויקי הזה</a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/He:Contributor_Terms_Declined
     terms:
       title: תנאי תרומה
       heading: תנאי תרומה
@@ -2331,27 +2374,6 @@ he:
       next: הבא »
       previous: « הקודם
   notes:
-    comment:
-      opened_at_html: נוצרה לפני %{when}
-      opened_at_by_html: נוצרה לפני %{when} על־ידי %{user}
-      commented_at_html: עודכנה לפני %{when}
-      commented_at_by_html: עודכנה לפני %{when} על־ידי %{user}
-      closed_at_html: נפתרה לפני %{when}
-      closed_at_by_html: נפתרה לפני %{when} על־ידי %{user}
-      reopened_at_html: הופעלה מחדש לפני %{when}
-      reopened_at_by_html: הופעלה מחדש לפני %{when} על־ידי %{user}
-    rss:
-      title: הערות של OpenStreetMap
-      description_area: רשימת הערות שהוספו, שהתקבלו עליהן הערות ושנדבגרו באזור שלך
-        [(%{min_lat}|%{min_lon}) – (%{max_lat}|%{max_lon})]
-      description_item: הזנת rss עבור ההערה %{id}
-      opened: הערה חדשה (ליד %{place})
-      commented: תגובה חדשה (ליד %{place})
-      closed: הערה סגורה (ליד %{place})
-      reopened: הערה שהופעלה מחדש (ליד %{place})
-    entry:
-      comment: תגובה
-      full: הערה מלאה
     mine:
       title: הערות ותגובות של %{user}
       heading: הערות של %{user}

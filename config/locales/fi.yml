@@ -42,6 +42,10 @@ fi:
       friendly: '%e. %Bta %Y kello %H.%M'
       blog: '%e. %Bta %Y'
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: '"%s" ei näytä olevan kelvollinen sähköpostiosoite.'
+        email_address_not_routable: reittiohjeet eivät ole saatavilla
     models:
       acl: Pääsyoikeuslista
       changeset: Muutoskokoelma
@@ -123,6 +127,29 @@ fi:
     remote:
       name: Kauko-ohjaus
       description: Kauko-ohjaus (JOSM tai Merkaartor)
+  api:
+    notes:
+      comment:
+        opened_at_html: Luotu %{when} sitten
+        opened_at_by_html: '%{user} luonut %{when} sitten'
+        commented_at_html: Päivitetty %{when} sitten
+        commented_at_by_html: '%{user} päivittänyt %{when} sitten'
+        closed_at_html: Ratkaistu %{when} sitten
+        closed_at_by_html: '%{user} ratkaissut %{when} sitten'
+        reopened_at_html: Avattu uudelleen %{when} sitten
+        reopened_at_by_html: '%{user} aktivoinut uudelleen %{when} sitten'
+      rss:
+        title: OpenStreetMapin karttailmoitukset
+        description_area: Luettelo raportoiduista, kommentoiduista tai suljetuista
+          huomautuksista omalla alueellasi [( %{min_lat}|%{min_lon})--( %{max_lat}|%{max_lon})]
+        description_item: Karttailmoituksen %{id} RSS-syöte
+        opened: uusi huomautus (lähellä kohdetta %{place})
+        commented: uusi kommentti (lähellä kohdetta %{place})
+        closed: suljettu karttailmoitus (lähellä paikkaa %{place})
+        reopened: uudelleenavattu karttailmoitus (lähellä paikka %{place})
+      entry:
+        comment: Kommentti
+        full: Koko karttailmoitus
   browse:
     created: Luotu
     closed: Ratkaistu
@@ -1439,7 +1466,7 @@ fi:
           National Geo-Spatial Informationista</a>, kaikki oikeudet pidätetään.
         contributors_gb_html: |-
           <strong>Iso-Britannia</strong>: Sisältää Ordnance Surveyn
-          keräämiä karttatietoja © Crown Copyright ja tietokantojen käyttöoikeuden joulukuulta 2010.
+          keräämiä karttatietoja © Kruunun tekijänoikeuden ja tietokantojen käyttöoikeuden vuosilta 2010-2019.
         contributors_footer_1_html: |-
           Täydellinen lista OpenStreetMapin tukijoista löytyy OpenStreetMapin wikistä <a
           href="https://wiki.openstreetmap.org/wiki/Contributors">Avustajat-sivulta</a>.
@@ -1769,6 +1796,8 @@ fi:
       trace_uploaded: GPX-tiedosto on tallennettu palvelimelle ja on jonossa tietokantaan
         syötettäväksi. Yleensä tämä kestää noin puoli tuntia. Saat vielä sähköposti-ilmoituksen
         asiasta.
+      upload_failed: GPX-tiedoston tallennus epäonnistui. Virheilmoitus on lähetetty
+        palvelun ylläpitäjälle. Yritä uudelleen.
       traces_waiting:
         one: Sinulla on %{count} jälki käsittelyjonossa odottamassa tallennusta tietokantaan.
           Olisi huomaavaista jos odottaisit näiden valmistuvan ennen kuin lähetät
@@ -1795,6 +1824,8 @@ fi:
       save_button: Tallenna muutokset
       visibility: 'Näkyvyys:'
       visibility_help: Mitä tämä tarkoittaa?
+    update:
+      updated: Jälki päivitetty
     trace_optionals:
       tags: Ominaisuustiedot
     show:
@@ -2436,27 +2467,6 @@ fi:
       next: Seuraava »
       previous: « Edellinen
   notes:
-    comment:
-      opened_at_html: Luotu %{when} sitten
-      opened_at_by_html: '%{user} luonut %{when} sitten'
-      commented_at_html: Päivitetty %{when} sitten
-      commented_at_by_html: '%{user} päivittänyt %{when} sitten'
-      closed_at_html: Ratkaistu %{when} sitten
-      closed_at_by_html: '%{user} ratkaissut %{when} sitten'
-      reopened_at_html: Avattu uudelleen %{when} sitten
-      reopened_at_by_html: '%{user} aktivoinut uudelleen %{when} sitten'
-    rss:
-      title: OpenStreetMapin karttailmoitukset
-      description_area: Luettelo raportoiduista, kommentoiduista tai suljetuista huomautuksista
-        omalla alueellasi [( %{min_lat}|%{min_lon})--( %{max_lat}|%{max_lon})]
-      description_item: Karttailmoituksen %{id} RSS-syöte
-      opened: uusi huomautus (lähellä kohdetta %{place})
-      commented: uusi kommentti (lähellä kohdetta %{place})
-      closed: suljettu karttailmoitus (lähellä paikkaa %{place})
-      reopened: uudelleenavattu karttailmoitus (lähellä paikka %{place})
-    entry:
-      comment: Kommentti
-      full: Koko karttailmoitus
     mine:
       title: Käyttäjän %{user} kommentoimat ja luomat huomautukset
       heading: Käyttäjän %{user} karttailmoitukset
@@ -2553,9 +2563,11 @@ fi:
     directions:
       ascend: Nousu
       engines:
-        fossgis_osrm_car: Ajaen (OSRM)
+        fossgis_osrm_bike: Pyörällä (OSRM)
+        fossgis_osrm_car: Autolla (OSRM)
+        fossgis_osrm_foot: Kävellen (OSRM)
         graphhopper_bicycle: Pyörällä (GraphHopper)
-        graphhopper_car: Ajaen (GraphHopper)
+        graphhopper_car: Autolla (GraphHopper)
         graphhopper_foot: Kävellen (GraphHopper)
       descend: Lasku
       directions: Reittiohjeet
@@ -2618,28 +2630,28 @@ fi:
         roundabout_without_exit: Poistu liikenneympyrästä tielle %{name}
         leave_roundabout_without_exit: Poistu liikenneympyrästä - %{name}
         stay_roundabout_without_exit: Pysy liikenneympyrässä - %{name}
-        start_without_exit: Aloitetaan tiellä %{name}
+        start_without_exit: Aloita tiellä %{name}
         destination_without_exit: Olet saapunut perille
         against_oneway_without_exit: Aja yksisuuntaista tietä %{name} väärään suuntaan
         end_oneway_without_exit: Yksisuuntaisen tien %{name} pää
-        roundabout_with_exit: Liikenneympyrässä poistu %{exit}. liittymästä tielle
+        roundabout_with_exit: Liikenneympyrässä poistu %{exit} liittymästä tielle
           %{name}
-        roundabout_with_exit_ordinal: Liikenneympyrässä poistu %{exit}. liittymästä
+        roundabout_with_exit_ordinal: Liikenneympyrässä poistu %{exit} liittymästä
           tielle %{name}
         exit_roundabout: Poistu liikenneympyrästä tielle %{name}
         unnamed: nimetön tie
         courtesy: Reittiohjeet tarjoaa %{link}
         exit_counts:
-          first: 1:nen
-          second: 2:nen
-          third: 3:s
-          fourth: 4:s
-          fifth: 5:s
-          sixth: 6:s
-          seventh: 7:s
-          eighth: 8:s
-          ninth: 9:s
-          tenth: 10:s
+          first: ensimmäisestä
+          second: toisesta
+          third: "3."
+          fourth: "4."
+          fifth: "5."
+          sixth: "6."
+          seventh: "7."
+          eighth: "8."
+          ninth: "9."
+          tenth: "10."
       time: Matka-aika
     query:
       node: Piste
