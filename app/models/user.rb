@@ -98,6 +98,8 @@ class User < ActiveRecord::Base
   validates :email, :presence => true, :confirmation => true, :characters => true
   validates :email, :if => proc { |u| u.email_changed? },
                     :uniqueness => { :case_sensitive => false }
+  validates :email, :if => proc { |u| u.email_changed? },
+                    :whitespace => { :leading => false, :trailing => false }
   validates :pass_crypt, :confirmation => true, :length => 8..255
   validates :home_lat, :allow_nil => true, :numericality => true, :inclusion => { :in => -90..90 }
   validates :home_lon, :allow_nil => true, :numericality => true, :inclusion => { :in => -180..180 }
