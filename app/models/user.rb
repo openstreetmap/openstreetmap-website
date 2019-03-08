@@ -122,10 +122,10 @@ class User < ActiveRecord::Base
 
   def self.authenticate(options)
     if options[:username] && options[:password]
-      user = find_by("email = ? OR display_name = ?", options[:username], options[:username])
+      user = find_by("email = ? OR display_name = ?", options[:username].strip, options[:username])
 
       if user.nil?
-        users = where("LOWER(email) = LOWER(?) OR LOWER(display_name) = LOWER(?)", options[:username], options[:username])
+        users = where("LOWER(email) = LOWER(?) OR LOWER(display_name) = LOWER(?)", options[:username].strip, options[:username])
 
         user = users.first if users.count == 1
       end
