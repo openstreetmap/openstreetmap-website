@@ -17,6 +17,7 @@
 # Author: JakArtisan
 # Author: Kenrick95
 # Author: Macofe
+# Author: Pebaryan
 # Author: Rachmat04
 # Author: Reksa Tresna
 # Author: Relly Komaruzaman
@@ -30,6 +31,9 @@ id:
     formats:
       friendly: '%e %B %Y pada %H:%M'
   activerecord:
+    errors:
+      messages:
+        email_address_not_routable: tidak dapat dirutekan
     models:
       acl: Daftar Kontrol Akses
       changeset: Set Perubahan
@@ -903,7 +907,7 @@ id:
           "yes": Toko
         tourism:
           alpine_hut: Gubuk Pegunungan
-          apartment: Apartemen
+          apartment: Apartemen Liburan
           artwork: Karya Seni
           attraction: Atraksi
           bed_and_breakfast: Penginapan untuk Tidur dan Sarapan
@@ -969,10 +973,12 @@ id:
       title: Isu
       select_status: Pilih Status
       select_type: Pilih Jenis
+      search: Cari
       user_not_found: Pengguna tidak ada
       issues_not_found: Isu tidak ditemukan
       status: Status
       reports: Laporan
+      last_updated: Terakhir Diperbarui
       last_updated_time_html: <abbr title='%{title}'>%{time} yang lalu</abbr>
       last_updated_time_user_html: <abbr title='%{title}'>%{time} yang lalu</abbr>
         oleh %{user}
@@ -980,16 +986,83 @@ id:
       reports_count:
         one: 1 Laporan
         other: '%{count} Laporan'
+      reported_item: Butir dilaporkan
       states:
         ignored: Diabaikan
         open: Dibuka
         resolved: Diselesaikan
+    update:
+      new_report: Laporan Anda telah berhasil terdaftar
+      successful_update: Laporan Anda telah berhasil termutakhirkan
+      provide_details: Silakan masukkan rincian yang diperlukan
     show:
+      title: '%{status} Isu #%{issue_id}'
+      reports:
+        zero: Tak ada
+        one: satu
+        other: '%{count} laporan'
+      report_created_at: Pertama dilaporkan pada %{datetime}
+      last_resolved_at: Terakhir diselesaikan pada %{datetime}
+      last_updated_at: Terakhir diubah pada %{datetime} oleh %{displayname}
       resolve: Selesaikan
       ignore: Abaikan
       reopen: Buka lagi
+      reports_of_this_issue: Laporkan Isu ini
       read_reports: Baca Laporan
       new_reports: Laporan Baru
+      other_issues_against_this_user: Isu lainnya terhadap pengguna ini
+      no_other_issues: Tak ada isu lainnya terhadap pengguna ini.
+      comments_on_this_issue: Komentar pada isu ini
+    resolve:
+      resolved: Status isu telah diset ke 'Selesai'
+    ignore:
+      ignored: Status isu telah diset ke 'Diabaikan'
+    reopen:
+      reopened: Status isu telah diset ke 'Terbuka'
+    comments:
+      created_at: Pada %{datetime}
+    reports:
+      updated_at: Pada %{datetime}
+      reported_by_html: Dilaporkan sebagai %{category} oleh %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, komentar #%{comment_id}'
+        note: 'Catatan #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Komentar Anda telah berhasil dibuat
+  reports:
+    new:
+      title_html: Laporkan %{link}
+      missing_params: Tidak bisa membuat laporan baru
+      details: Silakan berikan rincian tentang masalah (wajib).
+      select: 'Pilih alasan laporan Anda:'
+      disclaimer:
+        intro: 'Sebelum mengirimkan laporan ke moderator situs, tolong pastikan bahwa:'
+        not_just_mistake: Anda yakin bahwa masalah tersebut bukan sekadar kekhilafan
+        unable_to_fix: Anda tidak berhasil memperbaiki masalah tersebut sendiri atau
+          dengan bantuan sesama anggota komunitas Anda
+        resolve_with_user: Anda telah mencoba menyelesaikan masalah dengan pengguna
+          yang bersangkutan
+      categories:
+        diary_entry:
+          other_label: Lainnya
+        diary_comment:
+          other_label: Lainnya
+        user:
+          spam_label: Profil pengguna ini/mengandung spam
+          offensive_label: Profil pengguna ini vulgar/ofensif
+          threat_label: Profil pengguna ini mengandung ancaman
+          vandal_label: Pengguna ini vandal
+          other_label: Lainnya
+        note:
+          spam_label: Catatan ini spam
+          personal_label: Catatan ini mengandung data pribadi
+          abusive_label: Catatan ini menyalahguna
+          other_label: Lainnya
+    create:
+      successful_report: Laporan Anda telah berhasil terdaftar
+      provide_details: Tolong berikan rincian yang diperlukan
   layouts:
     logo:
       alt_text: logo OpenStreetMap
@@ -1003,6 +1076,7 @@ id:
     edit: Edit
     history: Riwayat
     export: Ekspor
+    issues: Masalah
     data: Data
     export_data: Ekspor Data
     gps_traces: Jejak GPS
@@ -1015,6 +1089,8 @@ id:
     intro_text: OpenStreetMap adalah peta dunia, diciptakan oleh orang-orang seperti
       Anda dan bebas untuk digunakan di bawah lisensi terbuka.
     intro_2_create_account: Buat Akun
+    hosting_partners_html: Hosting didukung oleh %{ucl}, %{bytemark}, dan %{partners}
+      lainnya.
     partners_ucl: UCL
     partners_bytemark: Hosting Bytemark
     partners_partners: mitra
@@ -1334,6 +1410,11 @@ id:
           <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
           <a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> dan
           Land Tirol (lisensi <a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT dengan perubahan</a>).
+        contributors_au_html: |-
+          <strong>Australia</strong>: Berisi data bersumber dari
+          <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">PSMA Australia Limited</a>
+          atas lisensi dari Commonwealth of Australia berdasarkan
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
         contributors_ca_html: |-
           <strong>Kanada</strong>: Berisi data dari
           GeoBase&reg;, GeoGratis (&copy; Department of Natural
@@ -1352,7 +1433,7 @@ id:
           (<a href="http://www.and.com">www.and.com</a>)
         contributors_nz_html: |-
           <strong>Selandia Baru</strong>: Berisi data yang bersumber dari
-          Land Information New Zealand. Hak cipta milik Kerajaan.
+          <a href="https://data.linz.govt.nz/">Layanan Data LINZ</a> dan atas lisensi untuk digunakan ulang berdasarkan <a href="https://creativecommons.org/licenses/by/4.0/"><a href="https://data.linz.govt.nz/">CC BY 4.0</a>
         contributors_si_html: |-
           <strong>Slovenia</strong>: Berisi data dari
           <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> dan
@@ -1365,7 +1446,7 @@ id:
         contributors_gb_html: |-
           <strong>Britania Raya</strong>: Berisi data Ordnance
           Survey &copy; Hak cipta dan basis data milik Kerajaan
-          2010-12.
+          2010-19.
         contributors_footer_1_html: |-
           Untuk rincian lebih lanjut, dan sumber-sumber lainnya yang telah digunakan untuk meningkatkan OpenStreetMap, silakan lihat <a
           href="http://wiki.openstreetmap.org/wiki/Contributors">halaman Kontributor</a> pada Wiki OpenStreetMap.
@@ -1519,6 +1600,7 @@ id:
           dan layanan lain berbasis OpenStreetMap.
       welcomemat:
         url: https://welcome.openstreetmap.org/
+        title: Untuk Lembaga-lembaga
       wiki:
         url: http://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
