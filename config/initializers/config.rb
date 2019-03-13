@@ -41,9 +41,13 @@ Config.setup do |config|
 
   # Validate presence and type of specific config values. Check https://github.com/dry-rb/dry-validation for details.
   #
-  # config.schema do
-  #   required(:name).filled
-  #   required(:age).maybe(:int?)
-  #   required(:email).filled(format?: EMAIL_REGEX)
-  # end
+  config.schema do
+    required(:api_version).filled(:str?)
+    required(:max_request_area).filled(:number?)
+    required(:max_note_request_area).filled(:number?)
+    required(:tracepoints_per_page).filled(:int?)
+    required(:max_number_of_way_nodes).filled(:int?)
+    required(:api_timeout).filled(:int?)
+    required(:imagery_blacklist).maybe(:array?)
+  end
 end
