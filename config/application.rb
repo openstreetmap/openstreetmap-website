@@ -1,6 +1,21 @@
 require_relative "boot"
 
-require_relative "preinitializer"
+# Set the STATUS constant from the environment, if it matches a recognized value
+ALLOWED_STATUS = [
+  :online,            # online and operating normally
+  :api_readonly,      # site online but API in read-only mode
+  :api_offline,       # site online but API offline
+  :database_readonly, # database and site in read-only mode
+  :database_offline,  # database offline with site in emergency mode
+  :gpx_offline        # gpx storage offline
+].freeze
+
+status = if ENV["STATUS"] && ALLOWED_STATUS.include?(ENV["STATUS"].to_sym)
+           ENV["STATUS"].to_sym
+         else
+           :online
+         end
+Object.const_set("STATUS", status)
 
 if STATUS == :database_offline
   require "action_controller/railtie"
