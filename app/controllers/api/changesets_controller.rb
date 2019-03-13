@@ -43,7 +43,7 @@ module Api
     def show
       @changeset = Changeset.find(params[:id])
       @include_discussion = params[:include_discussion].presence
-      render "changesets/changeset"
+      render "changeset"
     end
 
     ##
@@ -105,7 +105,7 @@ module Api
       # will include the bigger bounding box.
       cs.save!
       @changeset = cs
-      render "changesets/changeset"
+      render "changeset"
     end
 
     ##
@@ -222,7 +222,7 @@ module Api
 
       # preload users, tags and comments, and render result
       @changesets = changesets.preload(:user, :changeset_tags, :comments)
-      render "changesets/changesets"
+      render "changesets"
     end
 
     ##
@@ -242,7 +242,7 @@ module Api
 
       check_changeset_consistency(@changeset, current_user)
       @changeset.update_from(new_changeset, current_user)
-      render "changesets/changeset"
+      render "changeset"
     end
 
     ##
@@ -263,7 +263,7 @@ module Api
 
       # Return a copy of the updated changeset
       @changeset = changeset
-      render "changesets/changeset"
+      render "changeset"
     end
 
     ##
@@ -284,7 +284,7 @@ module Api
 
       # Return a copy of the updated changeset
       @changeset = changeset
-      render "changesets/changeset"
+      render "changeset"
     end
 
     private

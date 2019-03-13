@@ -42,7 +42,7 @@ module Api
 
       # Return a copy of the updated changeset
       @changeset = changeset
-      render "changesets/changeset"
+      render "api/changesets/changeset"
     end
 
     ##
@@ -62,7 +62,7 @@ module Api
 
       # Return a copy of the updated changeset
       @changeset = comment.changeset
-      render "changesets/changeset"
+      render "api/changesets/changeset"
     end
 
     ##
@@ -82,7 +82,7 @@ module Api
 
       # Return a copy of the updated changeset
       @changeset = comment.changeset
-      render "changesets/changeset"
+      render "api/changesets/changeset"
     end
   end
 end
