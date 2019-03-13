@@ -1,5 +1,18 @@
 require_relative "boot"
 
+# Guard against deployments with old-style application.yml configurations
+# Otherwise, admins might not be aware that they are now silently ignored
+# and major problems could occur
+# rubocop:disable Rails/Output, Rails/Exit
+if File.exist?(File.expand_path("application.yml", __dir__))
+  puts "The config/application.yml file is no longer supported"
+  puts "Default settings are now found in config/settings.yml and you can override these in config/settings.local.yml"
+  puts "To prevent unexpected behaviour, please copy any custom settings to config/settings.local.yml"
+  puts " and then remove your config/application.yml file."
+  exit!
+end
+# rubocop:enable Rails/Output, Rails/Exit
+
 # Set the STATUS constant from the environment, if it matches a recognized value
 ALLOWED_STATUS = [
   :online,            # online and operating normally
