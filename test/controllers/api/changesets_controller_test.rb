@@ -1674,7 +1674,7 @@ CHANGESET
       changeset = create(:changeset, :user => user)
 
       ## First try with a non-public user
-      new_changeset = create_changeset_xml(user: private_user)
+      new_changeset = create_changeset_xml(:user => private_user)
       new_tag = XML::Node.new "tag"
       new_tag["k"] = "tagtesting"
       new_tag["v"] = "valuetesting"
@@ -1695,7 +1695,7 @@ CHANGESET
       assert_require_public_data "user with their data non-public, shouldn't be able to edit their changeset"
 
       ## Now try with the public user
-      new_changeset = create_changeset_xml(id: 1)
+      new_changeset = create_changeset_xml(:id => 1)
       new_tag = XML::Node.new "tag"
       new_tag["k"] = "tagtesting"
       new_tag["v"] = "valuetesting"
@@ -1728,7 +1728,7 @@ CHANGESET
       basic_authorization create(:user).email, "test"
 
       changeset = create(:changeset)
-      new_changeset = create_changeset_xml(user: changeset.user, id: changeset.id)
+      new_changeset = create_changeset_xml(:user => changeset.user, :id => changeset.id)
       new_tag = XML::Node.new "tag"
       new_tag["k"] = "testing"
       new_tag["v"] = "testing"
@@ -1969,9 +1969,7 @@ CHANGESET
         cs["user"] = user.display_name
         cs["uid"] = user.id.to_s
       end
-      if id
-        cs["id"] = id.to_s
-      end
+      cs["id"] = id.to_s if id
       root.root << cs
       root
     end
