@@ -30,11 +30,11 @@ module Api
         return
       end
 
-      nodes = Node.bbox(bbox).where(:visible => true).includes(:node_tags).limit(MAX_NUMBER_OF_NODES + 1)
+      nodes = Node.bbox(bbox).where(:visible => true).includes(:node_tags).limit(Settings.max_number_of_nodes + 1)
 
       node_ids = nodes.collect(&:id)
-      if node_ids.length > MAX_NUMBER_OF_NODES
-        report_error("You requested too many nodes (limit is #{MAX_NUMBER_OF_NODES}). Either request a smaller area, or use planet.osm")
+      if node_ids.length > Settings.max_number_of_nodes
+        report_error("You requested too many nodes (limit is #{Settings.max_number_of_nodes}). Either request a smaller area, or use planet.osm")
         return
       end
 

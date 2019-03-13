@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   before_action :allow_thirdparty_images, :only => [:show, :account]
 
   def terms
-    @legale = params[:legale] || OSM.ip_to_country(request.remote_ip) || DEFAULT_LEGALE
+    @legale = params[:legale] || OSM.ip_to_country(request.remote_ip) || Settings.default_legale
     @text = OSM.legal_text_for_country(@legale)
 
     if request.xhr?
@@ -332,7 +332,7 @@ class UsersController < ApplicationController
       flash[:error] = t "users.confirm_resend.failure", :name => params[:display_name]
     else
       Notifier.signup_confirm(user, user.tokens.create).deliver_later
-      flash[:notice] = t("users.confirm_resend.success", :email => user.email, :sender => SUPPORT_EMAIL).html_safe
+      flash[:notice] = t("users.confirm_resend.success", :email => user.email, :sender => Settings.support_email).html_safe
     end
 
     redirect_to :action => "login"
@@ -521,7 +521,7 @@ class UsersController < ApplicationController
         when "active", "confirmed" then
           successful_login(user, request.env["omniauth.params"]["referer"])
         when "suspended" then
-          failed_login t("users.login.account is suspended", :webmaster => "mailto:#{SUPPORT_EMAIL}").html_safe
+          failed_login t("users.login.account is suspended", :webmaster => "mailto:#{Settings.support_email}").html_safe
         else
           failed_login t("users.login.auth failure")
         end
@@ -549,7 +549,7 @@ class UsersController < ApplicationController
     elsif user = User.authenticate(:username => username, :password => password, :pending => true)
       unconfirmed_login(user)
     elsif User.authenticate(:username => username, :password => password, :suspended => true)
-      failed_login t("users.login.account is suspended", :webmaster => "mailto:#{SUPPORT_EMAIL}").html_safe, username
+      failed_login t("users.login.account is suspended", :webmaster => "mailto:#{Settings.support_email}").html_safe, username
     else
       failed_login t("users.login.auth failure"), username
     end

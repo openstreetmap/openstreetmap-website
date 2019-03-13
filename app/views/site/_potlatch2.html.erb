@@ -6,8 +6,8 @@
   <% data[:lat] = @lat if @lat -%>
   <% data[:lon] = @lon if @lon -%>
   <% data[:zoom] = @zoom if @zoom -%>
-  <% if defined? POTLATCH2_KEY %>
-  <% token = current_user.access_token(POTLATCH2_KEY) %>
+  <% if Settings.key?(:potlatch2_key) %>
+  <% token = current_user.access_token(Settings.potlatch2_key) %>
   <% data[:token] = token.token -%>
   <% data[:token_secret] = token.secret -%>
   <% data[:consumer_key] = token.client_application.key -%>

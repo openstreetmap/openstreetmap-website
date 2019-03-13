@@ -12,7 +12,7 @@ module NotifierHelper
         # the <a> but Outlook only on the <strong>
         :style => "text-decoration: none"
       ),
-      user_url(display_name, :host => SERVER_URL),
+      user_url(display_name, :host => Settings.server_url),
       :target => "_blank",
       :rel => "noopener",
       :style => "text-decoration: none; color: #222"

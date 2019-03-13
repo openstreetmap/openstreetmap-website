@@ -21,5 +21,5 @@ Rails.application.config.after_initialize do |_app|
 end
 
 Paperclip::Attachment.default_options[:url] = "/attachments/:class/:attachment/:id_partition/:style/:fingerprint.:extension"
-Paperclip::Attachment.default_options[:path] = "#{ATTACHMENTS_DIR}/:class/:attachment/:id_partition/:style/:fingerprint.:extension"
+Paperclip::Attachment.default_options[:path] = "#{Settings.attachments_dir}/:class/:attachment/:id_partition/:style/:fingerprint.:extension"
 Paperclip::Attachment.default_options[:url_generator] = Paperclip::AssetUrlGenerator

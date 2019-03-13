@@ -77,6 +77,6 @@ class RequestToken < OauthToken
   end
 
   def oauth10?
-    (defined? OAUTH_10_SUPPORT) && OAUTH_10_SUPPORT && callback_url.blank?
+    Settings.key?(:oauth_10_support) && Settings.oauth_10_support && callback_url.blank?
   end
 end

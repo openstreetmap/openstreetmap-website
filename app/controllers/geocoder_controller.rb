@@ -15,7 +15,7 @@ class GeocoderController < ApplicationController
     if @params[:lat] && @params[:lon]
       @sources.push "latlon"
       @sources.push "osm_nominatim_reverse"
-      @sources.push "geonames_reverse" if defined?(GEONAMES_USERNAME)
+      @sources.push "geonames_reverse" if Settings.key?(:geonames_username)
     elsif @params[:query]
       if @params[:query] =~ /^\d{5}(-\d{4})?$/
         @sources.push "osm_nominatim"
@@ -26,7 +26,7 @@ class GeocoderController < ApplicationController
         @sources.push "osm_nominatim"
       else
         @sources.push "osm_nominatim"
-        @sources.push "geonames" if defined?(GEONAMES_USERNAME)
+        @sources.push "geonames" if Settings.key?(:geonames_username)
       end
     end
 
@@ -93,7 +93,7 @@ class GeocoderController < ApplicationController
     if response.get_elements("geodata/error").empty?
       @results.push(:lat => response.text("geodata/latt"),
                     :lon => response.text("geodata/longt"),
-                    :zoom => POSTCODE_ZOOM,
+                    :zoom => Settings.postcode_zoom,
                     :name => query.upcase)
     end
 
@@ -118,7 +118,7 @@ class GeocoderController < ApplicationController
     exclude = "&exclude_place_ids=#{params[:exclude]}" if params[:exclude]
 
     # ask nominatim
-    response = fetch_xml("#{NOMINATIM_URL}search?format=xml&extratags=1&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
+    response = fetch_xml("#{Settings.nominatim_url}search?format=xml&extratags=1&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
 
     # extract the results from the response
     results =  response.elements["searchresults"]
@@ -182,7 +182,7 @@ class GeocoderController < ApplicationController
     @results = []
 
     # ask geonames.org
-    response = fetch_xml("http://api.geonames.org/search?q=#{escape_query(query)}&lang=#{lang}&maxRows=20&username=#{GEONAMES_USERNAME}")
+    response = fetch_xml("http://api.geonames.org/search?q=#{escape_query(query)}&lang=#{lang}&maxRows=20&username=#{Settings.geonames_username}")
 
     # parse the response
     response.elements.each("geonames/geoname") do |geoname|
@@ -192,7 +192,7 @@ class GeocoderController < ApplicationController
       country = geoname.text("countryName")
 
       @results.push(:lat => lat, :lon => lon,
-                    :zoom => GEONAMES_ZOOM,
+                    :zoom => Settings.geonames_zoom,
                     :name => name,
                     :suffix => ", #{country}")
     end
@@ -213,7 +213,7 @@ class GeocoderController < ApplicationController
     @results = []
 
     # ask nominatim
-    response = fetch_xml("#{NOMINATIM_URL}reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
+    response = fetch_xml("#{Settings.nominatim_url}reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
 
     # parse the response
     response.elements.each("reversegeocode/result") do |result|
@@ -247,7 +247,7 @@ class GeocoderController < ApplicationController
     @results = []
 
     # ask geonames.org
-    response = fetch_xml("http://api.geonames.org/countrySubdivision?lat=#{lat}&lng=#{lon}&lang=#{lang}&username=#{GEONAMES_USERNAME}")
+    response = fetch_xml("http://api.geonames.org/countrySubdivision?lat=#{lat}&lng=#{lon}&lang=#{lang}&username=#{Settings.geonames_username}")
 
     # parse the response
     response.elements.each("geonames/countrySubdivision") do |geoname|
@@ -255,7 +255,7 @@ class GeocoderController < ApplicationController
       country = geoname.text("countryName")
 
       @results.push(:lat => lat, :lon => lon,
-                    :zoom => GEONAMES_ZOOM,
+                    :zoom => Settings.geonames_zoom,
                     :name => name,
                     :suffix => ", #{country}")
     end

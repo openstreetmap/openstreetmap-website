@@ -32,7 +32,7 @@ class UserBlock < ActiveRecord::Base
   belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
   belongs_to :revoker, :class_name => "User", :foreign_key => :revoker_id
 
-  PERIODS = USER_BLOCK_PERIODS
+  PERIODS = Settings.user_block_periods
 
   ##
   # scope to match active blocks

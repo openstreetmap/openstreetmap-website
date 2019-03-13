@@ -21,7 +21,7 @@ csp_policy = {
 csp_policy[:connect_src] << PIWIK["location"] if defined?(PIWIK)
 csp_policy[:img_src] << PIWIK["location"] if defined?(PIWIK)
 csp_policy[:script_src] << PIWIK["location"] if defined?(PIWIK)
-csp_policy[:report_uri] << CSP_REPORT_URL if defined?(CSP_REPORT_URL)
+csp_policy[:report_uri] << Settings.csp_report_url if Settings.key?(:csp_report_url)
 
 cookie_policy = {
   :secure => SecureHeaders::OPT_OUT,
@@ -31,10 +31,10 @@ cookie_policy = {
 SecureHeaders::Configuration.default do |config|
   config.hsts = SecureHeaders::OPT_OUT
 
-  if CSP_ENFORCE
+  if Settings.csp_enforce
     config.csp = csp_policy
     config.csp_report_only = SecureHeaders::OPT_OUT
-  elsif defined?(CSP_REPORT_URL)
+  elsif Settings.key?(:csp_report_url)
     config.csp = SecureHeaders::OPT_OUT
     config.csp_report_only = csp_policy
   else

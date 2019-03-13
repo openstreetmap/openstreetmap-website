@@ -37,7 +37,7 @@ module Api
       bbox.check_boundaries
 
       # Check the the bounding box is not too big
-      bbox.check_size(MAX_NOTE_REQUEST_AREA)
+      bbox.check_size(Settings.max_note_request_area)
 
       # Find the notes we want to return
       @notes = notes.bbox(bbox).order("updated_at DESC").limit(result_limit).preload(:comments)
@@ -190,7 +190,7 @@ module Api
         bbox = BoundingBox.from_bbox_params(params)
 
         bbox.check_boundaries
-        bbox.check_size(MAX_NOTE_REQUEST_AREA)
+        bbox.check_size(Settings.max_note_request_area)
 
         notes = notes.bbox(bbox)
       end

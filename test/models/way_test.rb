@@ -29,7 +29,7 @@ class WayTest < ActiveSupport::TestCase
     # Take one of the current ways and add nodes to it until we are near the limit
     assert way.valid?
     # it already has 1 node
-    1.upto(MAX_NUMBER_OF_WAY_NODES / 2) do
+    1.upto(Settings.max_number_of_way_nodes / 2) do
       way.add_nd_num(node_a.id)
       way.add_nd_num(node_b.id)
     end

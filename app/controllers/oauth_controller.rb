@@ -39,7 +39,7 @@ class OauthController < ApplicationController
   end
 
   def oauth1_authorize
-    override_content_security_policy_directives(:form_action => []) if CSP_ENFORCE || defined?(CSP_REPORT_URL)
+    override_content_security_policy_directives(:form_action => []) if Settings.csp_enforce || Settings.key?(:csp_report_url)
 
     if @token.invalidated?
       @message = t "oauth.authorize_failure.invalid"

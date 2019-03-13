@@ -32,7 +32,7 @@ module Api
         assert_response :success
         now = Time.now.getutc
         hourago = now - 1.hour
-        assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
+        assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
           assert_select "changes[starttime='#{hourago.xmlschema}'][endtime='#{now.xmlschema}']", :count => 1 do
             assert_select "tile", :count => 0
           end
@@ -47,7 +47,7 @@ module Api
         # changes at the time we have frozen at
         now = Time.now.getutc
         hourago = now - 1.hour
-        assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
+        assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
           assert_select "changes[starttime='#{hourago.xmlschema}'][endtime='#{now.xmlschema}']", :count => 1 do
             assert_select "tile", :count => 6
           end
@@ -70,7 +70,7 @@ module Api
         assert_response :success
         # NOTE: there was a test here for the timing, but it was too sensitive to be a good test
         # and it was annoying.
-        assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
+        assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
           assert_select "changes", :count => 1
         end
       end

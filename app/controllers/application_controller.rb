@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_oauth
-    @oauth = current_user.access_token(OAUTH_KEY) if current_user && defined? OAUTH_KEY
+    @oauth = current_user.access_token(Settings.oauth_key) if current_user && Settings.key?(:oauth_key)
   end
 
   ##
@@ -272,7 +272,7 @@ class ApplicationController < ActionController::Base
   ##
   # wrap an api call in a timeout
   def api_call_timeout
-    OSM::Timer.timeout(API_TIMEOUT, Timeout::Error) do
+    OSM::Timer.timeout(Settings.api_timeout, Timeout::Error) do
       yield
     end
   rescue Timeout::Error
@@ -282,7 +282,7 @@ class ApplicationController < ActionController::Base
   ##
   # wrap a web page in a timeout
   def web_timeout
-    OSM::Timer.timeout(WEB_TIMEOUT, Timeout::Error) do
+    OSM::Timer.timeout(Settings.web_timeout, Timeout::Error) do
       yield
     end
   rescue ActionView::Template::Error => ex
@@ -333,7 +333,7 @@ class ApplicationController < ActionController::Base
     append_content_security_policy_directives(
       :child_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
       :frame_src => %w[http://127.0.0.1:8111 https://127.0.0.1:8112],
-      :connect_src => [NOMINATIM_URL, OVERPASS_URL, FOSSGIS_OSRM_URL, GRAPHHOPPER_URL],
+      :connect_src => [Settings.nominatim_url, Settings.overpass_url, Settings.fossgis_osrm_url, Settings.graphhopper_url],
       :form_action => %w[render.openstreetmap.org],
       :style_src => %w['unsafe-inline']
     )
@@ -357,7 +357,7 @@ class ApplicationController < ActionController::Base
              elsif current_user&.preferred_editor
                current_user.preferred_editor
              else
-               DEFAULT_EDITOR
+               Settings.default_editor
              end
 
     editor
@@ -366,9 +366,9 @@ class ApplicationController < ActionController::Base
   helper_method :preferred_editor
 
   def update_totp
-    if defined?(TOTP_KEY)
+    if Settings.key?(:totp_key)
       cookies["_osm_totp_token"] = {
-        :value => ROTP::TOTP.new(TOTP_KEY, :interval => 3600).now,
+        :value => ROTP::TOTP.new(Settings.totp_key, :interval => 3600).now,
         :domain => "openstreetmap.org",
         :expires => 1.hour.from_now
       }

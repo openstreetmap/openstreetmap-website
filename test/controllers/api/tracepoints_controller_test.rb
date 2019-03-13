@@ -115,7 +115,7 @@ module Api
       @badbigbbox.each do |bbox|
         get :index, :params => { :bbox => bbox }
         assert_response :bad_request, "The bbox:#{bbox} was expected to be too big"
-        assert_equal "The maximum bbox size is #{MAX_REQUEST_AREA}, and your request was too large. Either request a smaller area, or use planet.osm", @response.body, "bbox: #{bbox}"
+        assert_equal "The maximum bbox size is #{Settings.max_request_area}, and your request was too large. Either request a smaller area, or use planet.osm", @response.body, "bbox: #{bbox}"
       end
     end
 
