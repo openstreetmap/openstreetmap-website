@@ -5,7 +5,7 @@ If you want to deploy the software for your own project, then see the notes at t
 
 You can install the software directly on your machine, which is the traditional and probably best-supported approach. However, there is an alternative which may be easier: Vagrant. This installs the software into a virtual machine, which makes it easier to get a consistent development environment and may avoid installation difficulties. For Vagrant instructions, see [VAGRANT.md](VAGRANT.md).
 
-These instructions are based on Ubuntu 16.04 LTS, which is the platform used by the OSMF servers.
+These instructions are based on Ubuntu 18.04 LTS, which is the platform used by the OSMF servers.
 The instructions also work, with only minor amendments, for all other current Ubuntu releases, Fedora and MacOSX
 
 We don't recommend attempting to develop or deploy this software on Windows. If you need to use Windows, then try developing this software using Ubuntu in a virtual machine, or use [Vagrant](VAGRANT.md).
@@ -18,8 +18,7 @@ of packages required before you can get the various gems installed.
 
 ## Minimum requirements
 
-* Ruby 2.3
-* RubyGems 1.3.1+
+* Ruby 2.5+
 * PostgreSQL 9.1+
 * ImageMagick
 * Bundler
@@ -28,12 +27,12 @@ of packages required before you can get the various gems installed.
 These can be installed on Ubuntu 16.04 or later with:
 
 ```
-sudo apt-get install ruby2.3 libruby2.3 ruby2.3-dev \
+sudo apt-get install ruby2.5 libruby2.5 ruby2.5-dev \
                      libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
                      apache2 apache2-dev build-essential git-core \
                      postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
                      libsasl2-dev imagemagick libffi-dev
-sudo gem2.3 install bundler
+sudo gem2.5 install bundler
 ```
 
 ### Alternative platforms
