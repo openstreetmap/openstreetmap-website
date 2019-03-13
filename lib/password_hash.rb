@@ -18,7 +18,7 @@ module PasswordHash
   def self.check(hash, salt, candidate)
     if salt.nil?
       candidate = Digest::MD5.hexdigest(candidate)
-    elsif salt =~ /!/
+    elsif /!/.match?(salt)
       algorithm, iterations, salt = salt.split("!")
       size = Base64.strict_decode64(hash).length
       candidate = self.hash(candidate, salt, iterations.to_i, size, algorithm)
@@ -32,7 +32,7 @@ module PasswordHash
   def self.upgrade?(hash, salt)
     if salt.nil?
       return true
-    elsif salt =~ /!/
+    elsif /!/.match?(salt)
       algorithm, iterations, salt = salt.split("!")
       return true if Base64.strict_decode64(salt).length != SALT_BYTE_SIZE
       return true if Base64.strict_decode64(hash).length != HASH_BYTE_SIZE
