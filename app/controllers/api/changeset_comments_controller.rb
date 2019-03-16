@@ -41,7 +41,8 @@ module Api
       changeset.subscribers << current_user unless changeset.subscribers.exists?(current_user.id)
 
       # Return a copy of the updated changeset
-      render :xml => changeset.to_xml.to_s
+      @changeset = changeset
+      render "api/changesets/changeset"
     end
 
     ##
@@ -60,7 +61,8 @@ module Api
       comment.update(:visible => false)
 
       # Return a copy of the updated changeset
-      render :xml => comment.changeset.to_xml.to_s
+      @changeset = comment.changeset
+      render "api/changesets/changeset"
     end
 
     ##
@@ -79,7 +81,8 @@ module Api
       comment.update(:visible => true)
 
       # Return a copy of the updated changeset
-      render :xml => comment.changeset.to_xml.to_s
+      @changeset = comment.changeset
+      render "api/changesets/changeset"
     end
   end
 end

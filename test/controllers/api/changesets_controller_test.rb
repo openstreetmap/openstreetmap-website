@@ -1674,7 +1674,7 @@ CHANGESET
       changeset = create(:changeset, :user => user)
 
       ## First try with a non-public user
-      new_changeset = private_changeset.to_xml
+      new_changeset = create_changeset_xml(:user => private_user)
       new_tag = XML::Node.new "tag"
       new_tag["k"] = "tagtesting"
       new_tag["v"] = "valuetesting"
@@ -1695,8 +1695,7 @@ CHANGESET
       assert_require_public_data "user with their data non-public, shouldn't be able to edit their changeset"
 
       ## Now try with the public user
-      create(:changeset_tag, :changeset => changeset)
-      new_changeset = changeset.to_xml
+      new_changeset = create_changeset_xml(:id => 1)
       new_tag = XML::Node.new "tag"
       new_tag["k"] = "tagtesting"
       new_tag["v"] = "valuetesting"
@@ -1718,7 +1717,7 @@ CHANGESET
       assert_response :success
 
       assert_select "osm>changeset[id='#{changeset.id}']", 1
-      assert_select "osm>changeset>tag", 2
+      assert_select "osm>changeset>tag", 1
       assert_select "osm>changeset>tag[k='tagtesting'][v='valuetesting']", 1
     end
 
@@ -1729,7 +1728,7 @@ CHANGESET
       basic_authorization create(:user).email, "test"
 
       changeset = create(:changeset)
-      new_changeset = changeset.to_xml
+      new_changeset = create_changeset_xml(:user => changeset.user, :id => changeset.id)
       new_tag = XML::Node.new "tag"
       new_tag["k"] = "testing"
       new_tag["v"] = "testing"
@@ -1958,6 +1957,21 @@ CHANGESET
     def xml_attr_rewrite(xml, name, value)
       xml.find("//osm/way").first[name] = value.to_s
       xml
+    end
+
+    ##
+    # build XML for changesets
+    def create_changeset_xml(user: nil, id: nil)
+      root = XML::Document.new
+      root.root = XML::Node.new "osm"
+      cs = XML::Node.new "changeset"
+      if user
+        cs["user"] = user.display_name
+        cs["uid"] = user.id.to_s
+      end
+      cs["id"] = id.to_s if id
+      root.root << cs
+      root
     end
   end
 end
