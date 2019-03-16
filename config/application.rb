@@ -31,9 +31,13 @@ status = if ENV["STATUS"] && ALLOWED_STATUS.include?(ENV["STATUS"].to_sym)
 Object.const_set("STATUS", status)
 
 if STATUS == :database_offline
+  require "active_model/railtie"
+  require "active_job/railtie"
+  require "active_storage/engine"
   require "action_controller/railtie"
   require "action_mailer/railtie"
-  require "active_model/railtie"
+  require "action_view/railtie"
+  require "action_cable/engine"
   require "sprockets/railtie"
   require "rails/test_unit/railtie"
 else
@@ -59,7 +63,7 @@ module OpenStreetMap
 
     # This defaults to true from rails 5.0 but our code doesn't comply
     # with it at all so we turn it off
-    config.active_record.belongs_to_required_by_default = false
+    config.active_record.belongs_to_required_by_default = false unless STATUS == :database_offline
 
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,

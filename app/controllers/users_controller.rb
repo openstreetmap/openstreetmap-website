@@ -5,11 +5,11 @@ class UsersController < ApplicationController
   before_action :disable_terms_redirect, :only => [:terms, :save, :logout]
   before_action :authorize_web
   before_action :set_locale
+  before_action :check_database_readable
 
   authorize_resource
 
   before_action :require_self, :only => [:account]
-  before_action :check_database_readable, :except => [:login]
   before_action :check_database_writable, :only => [:new, :account, :confirm, :confirm_email, :lost_password, :reset_password, :go_public, :make_friend, :remove_friend]
   before_action :require_cookies, :only => [:new, :login, :confirm]
   before_action :lookup_user_by_name, :only => [:set_status, :delete]

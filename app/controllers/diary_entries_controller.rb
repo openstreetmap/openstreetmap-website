@@ -3,11 +3,11 @@ class DiaryEntriesController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
+  before_action :check_database_readable
 
   authorize_resource
 
   before_action :lookup_user, :only => [:show, :comments]
-  before_action :check_database_readable
   before_action :check_database_writable, :only => [:new, :edit, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
   before_action :allow_thirdparty_images, :only => [:new, :edit, :index, :show, :comments]
 

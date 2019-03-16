@@ -3,10 +3,10 @@ class TracesController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
+  before_action :check_database_readable
 
   authorize_resource
 
-  before_action :check_database_readable
   before_action :check_database_writable, :only => [:new, :create, :edit, :delete]
   before_action :offline_warning, :only => [:mine, :show]
   before_action :offline_redirect, :only => [:new, :create, :edit, :delete, :data]

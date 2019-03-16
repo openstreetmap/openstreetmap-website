@@ -54,7 +54,7 @@
       <li id="compact-secondary-nav" class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= t 'layouts.more' %> <b class="caret"></b></a>
         <ul class="dropdown-menu">
-          <% if can? :index, Issue %>
+          <% if Settings.status != "database_offline" && can?(:index, Issue) %>
             <li class="<%= current_page_class(issues_path) %>">
               <%= link_to issues_path(:status => 'open') do %>
                 <%= open_issues_count %>
