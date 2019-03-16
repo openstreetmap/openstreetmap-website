@@ -57,7 +57,7 @@ Rails.application.configure do
   config.log_tags = [:request_id]
 
   # Use a different log path in production.
-  config.paths["log"] = LOG_PATH if defined?(LOG_PATH)
+  config.paths["log"] = Settings.log_path if Settings.key?(:log_path)
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store

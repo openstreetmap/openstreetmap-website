@@ -1,6 +1,6 @@
 class Notifier < ActionMailer::Base
-  default :from => EMAIL_FROM,
-          :return_path => EMAIL_RETURN_PATH,
+  default :from => Settings.email_from,
+          :return_path => Settings.email_return_path,
           :auto_submitted => "auto-generated"
   helper :application
   before_action :set_shared_template_vars
@@ -196,14 +196,14 @@ class Notifier < ActionMailer::Base
   end
 
   def from_address(name, type, id, digest, user_id = nil)
-    if Object.const_defined?(:MESSAGES_DOMAIN) && domain = MESSAGES_DOMAIN
+    if Settings.key?(:messages_domain) && domain = Settings.messages_domain
       if user_id
         "#{name} <#{type}-#{id}-#{user_id}-#{digest[0, 6]}@#{domain}>"
       else
         "#{name} <#{type}-#{id}-#{digest[0, 6]}@#{domain}>"
       end
     else
-      EMAIL_FROM
+      Settings.email_from
     end
   end
 end

@@ -201,7 +201,7 @@ class User < ActiveRecord::Base
     @preferred_languages = nil
   end
 
-  def nearby(radius = NEARBY_RADIUS, num = NEARBY_USERS)
+  def nearby(radius = Settings.nearby_radius, num = Settings.nearby_users)
     if home_lon && home_lat
       gc = OSM::GreatCircle.new(home_lat, home_lon)
       sql_for_area = QuadTile.sql_for_area(gc.bounds(radius), "home_")
@@ -300,7 +300,7 @@ class User < ActiveRecord::Base
   ##
   # perform a spam check on a user
   def spam_check
-    update(:status => "suspended") if status == "active" && spam_score > SPAM_THRESHOLD
+    update(:status => "suspended") if status == "active" && spam_score > Settings.spam_threshold
   end
 
   ##

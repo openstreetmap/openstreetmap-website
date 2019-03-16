@@ -115,16 +115,6 @@ cd openstreetmap-website
 bundle install
 ```
 
-## Application setup
-
-We need to create the `config/application.yml` file from the example template. This contains various configuration options.
-
-```
-cp config/example.application.yml config/application.yml
-```
-
-You can customize your installation of The Rails Port by changing the values in `config/application.yml`
-
 ## Database setup
 
 The Rails Port uses three databases -  one for development, one for testing, and one for production. The database-specific configuration

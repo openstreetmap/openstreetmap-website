@@ -121,7 +121,7 @@ class TracesController < ApplicationController
         flash[:notice] = t ".trace_uploaded"
         flash[:warning] = t ".traces_waiting", :count => current_user.traces.where(:inserted => false).count if current_user.traces.where(:inserted => false).count > 4
 
-        TraceImporterJob.perform_later(@trace) if TRACE_USE_JOB_QUEUE
+        TraceImporterJob.perform_later(@trace) if Settings.trace_use_job_queue
         redirect_to :action => :index, :display_name => current_user.display_name
       else
         flash[:error] = t("traces.create.upload_failed") if @trace.valid?
@@ -205,7 +205,7 @@ class TracesController < ApplicationController
       trace.visible = false
       trace.save
       flash[:notice] = t ".scheduled_for_deletion"
-      TraceDestroyerJob.perform_later(trace) if TRACE_USE_JOB_QUEUE
+      TraceDestroyerJob.perform_later(trace) if Settings.trace_use_job_queue
       redirect_to :action => :index, :display_name => trace.user.display_name
     end
   rescue ActiveRecord::RecordNotFound

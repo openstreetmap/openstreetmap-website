@@ -8,14 +8,14 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
   def test_api_blocked
     user = create(:user, :terms_seen => false, :terms_agreed => nil)
 
-    get "/api/#{API_VERSION}/user/preferences", :headers => auth_header(user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/preferences", :headers => auth_header(user.display_name, "test")
     assert_response :forbidden
 
     # touch it so that the user has seen the terms
     user.terms_seen = true
     user.save
 
-    get "/api/#{API_VERSION}/user/preferences", :headers => auth_header(user.display_name, "test")
+    get "/api/#{Settings.api_version}/user/preferences", :headers => auth_header(user.display_name, "test")
     assert_response :success
   end
 

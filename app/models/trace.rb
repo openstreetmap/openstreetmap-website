@@ -110,15 +110,15 @@ class Trace < ActiveRecord::Base
   end
 
   def large_picture_name
-    "#{GPX_IMAGE_DIR}/#{id}.gif"
+    "#{Settings.gpx_image_dir}/#{id}.gif"
   end
 
   def icon_picture_name
-    "#{GPX_IMAGE_DIR}/#{id}_icon.gif"
+    "#{Settings.gpx_image_dir}/#{id}_icon.gif"
   end
 
   def trace_name
-    "#{GPX_TRACE_DIR}/#{id}.gpx"
+    "#{Settings.gpx_trace_dir}/#{id}.gpx"
   end
 
   def mime_type

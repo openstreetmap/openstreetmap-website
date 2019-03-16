@@ -25,8 +25,8 @@
   <%= tag("meta", { :name => "msapplication-TileImage", :content => image_path("mstile-144x144.png") }) %>
   <%= tag("meta", { :name => "theme-color", :content => "#ffffff" }) %>
   <%= canonical_tag %>
-  <% if defined?(PUBLISHER_URL) -%>
-  <%= tag("link", { :rel => "publisher", :href => PUBLISHER_URL }) %>
+  <% if Settings.key?(:publisher_url) -%>
+  <%= tag("link", { :rel => "publisher", :href => Settings.publisher_url }) %>
   <% end -%>
   <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => asset_path("osm.xml") }) %>
   <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>

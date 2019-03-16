@@ -2,23 +2,9 @@ require "test_helper"
 require "minitest/mock"
 
 class TracesControllerTest < ActionController::TestCase
-  def setup
-    @gpx_trace_dir = Object.send("remove_const", "GPX_TRACE_DIR")
-    Object.const_set("GPX_TRACE_DIR", Rails.root.join("test", "gpx", "traces"))
-
-    @gpx_image_dir = Object.send("remove_const", "GPX_IMAGE_DIR")
-    Object.const_set("GPX_IMAGE_DIR", Rails.root.join("test", "gpx", "images"))
-  end
-
   def teardown
-    File.unlink(*Dir.glob(File.join(GPX_TRACE_DIR, "*.gpx")))
-    File.unlink(*Dir.glob(File.join(GPX_IMAGE_DIR, "*.gif")))
-
-    Object.send("remove_const", "GPX_TRACE_DIR")
-    Object.const_set("GPX_TRACE_DIR", @gpx_trace_dir)
-
-    Object.send("remove_const", "GPX_IMAGE_DIR")
-    Object.const_set("GPX_IMAGE_DIR", @gpx_image_dir)
+    File.unlink(*Dir.glob(File.join(Settings.gpx_trace_dir, "*.gpx")))
+    File.unlink(*Dir.glob(File.join(Settings.gpx_image_dir, "*.gif")))
   end
 
   ##

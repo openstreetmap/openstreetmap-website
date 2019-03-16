@@ -158,7 +158,7 @@ class DiaryEntriesController < ApplicationController
         @entries = user.diary_entries
         @title = t("diary_entries.feed.user.title", :user => user.display_name)
         @description = t("diary_entries.feed.user.description", :user => user.display_name)
-        @link = url_for :action => "index", :display_name => user.display_name, :host => SERVER_URL, :protocol => SERVER_PROTOCOL
+        @link = url_for :action => "index", :display_name => user.display_name, :host => Settings.server_url, :protocol => Settings.server_protocol
       else
         head :not_found
         return
@@ -170,11 +170,11 @@ class DiaryEntriesController < ApplicationController
         @entries = @entries.where(:language_code => params[:language])
         @title = t("diary_entries.feed.language.title", :language_name => Language.find(params[:language]).english_name)
         @description = t("diary_entries.feed.language.description", :language_name => Language.find(params[:language]).english_name)
-        @link = url_for :action => "index", :language => params[:language], :host => SERVER_URL, :protocol => SERVER_PROTOCOL
+        @link = url_for :action => "index", :language => params[:language], :host => Settings.server_url, :protocol => Settings.server_protocol
       else
         @title = t("diary_entries.feed.all.title")
         @description = t("diary_entries.feed.all.description")
-        @link = url_for :action => "index", :host => SERVER_URL, :protocol => SERVER_PROTOCOL
+        @link = url_for :action => "index", :host => Settings.server_url, :protocol => Settings.server_protocol
       end
     end
 

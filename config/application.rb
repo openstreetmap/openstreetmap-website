@@ -1,6 +1,34 @@
 require_relative "boot"
 
-require_relative "preinitializer"
+# Guard against deployments with old-style application.yml configurations
+# Otherwise, admins might not be aware that they are now silently ignored
+# and major problems could occur
+# rubocop:disable Rails/Output, Rails/Exit
+if File.exist?(File.expand_path("application.yml", __dir__))
+  puts "The config/application.yml file is no longer supported"
+  puts "Default settings are now found in config/settings.yml and you can override these in config/settings.local.yml"
+  puts "To prevent unexpected behaviour, please copy any custom settings to config/settings.local.yml"
+  puts " and then remove your config/application.yml file."
+  exit!
+end
+# rubocop:enable Rails/Output, Rails/Exit
+
+# Set the STATUS constant from the environment, if it matches a recognized value
+ALLOWED_STATUS = [
+  :online,            # online and operating normally
+  :api_readonly,      # site online but API in read-only mode
+  :api_offline,       # site online but API offline
+  :database_readonly, # database and site in read-only mode
+  :database_offline,  # database offline with site in emergency mode
+  :gpx_offline        # gpx storage offline
+].freeze
+
+status = if ENV["STATUS"] && ALLOWED_STATUS.include?(ENV["STATUS"].to_sym)
+           ENV["STATUS"].to_sym
+         else
+           :online
+         end
+Object.const_set("STATUS", status)
 
 if STATUS == :database_offline
   require "action_controller/railtie"
@@ -42,13 +70,13 @@ module OpenStreetMap
     config.paths["app/models"].skip_eager_load! if STATUS == :database_offline
 
     # Use memcached for caching if required
-    config.cache_store = :mem_cache_store, MEMCACHE_SERVERS, { :namespace => "rails:cache" } if defined?(MEMCACHE_SERVERS)
+    config.cache_store = :mem_cache_store, Settings.memcache_servers, { :namespace => "rails:cache" } if Settings.key?(:memcache_servers)
 
     # Use logstash for logging if required
-    if defined?(LOGSTASH_PATH)
+    if Settings.key?(:logstash_path)
       config.logstasher.enabled = true
       config.logstasher.suppress_app_log = false
-      config.logstasher.logger_path = LOGSTASH_PATH
+      config.logstasher.logger_path = Settings.logstash_path
       config.logstasher.log_controller_parameters = true
     end
   end

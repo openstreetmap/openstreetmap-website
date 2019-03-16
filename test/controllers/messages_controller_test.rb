@@ -190,7 +190,7 @@ class MessagesControllerTest < ActionController::TestCase
     assert_equal "[OpenStreetMap] Test Message", e.subject
     assert_match(/Test message body/, e.text_part.decoded)
     assert_match(/Test message body/, e.html_part.decoded)
-    assert_match %r{#{SERVER_URL}/messages/[0-9]+}, e.text_part.decoded
+    assert_match %r{#{Settings.server_url}/messages/[0-9]+}, e.text_part.decoded
     ActionMailer::Base.deliveries.clear
     m = Message.last
     assert_equal user.id, m.from_user_id
@@ -483,12 +483,11 @@ class MessagesControllerTest < ActionController::TestCase
   private
 
   def with_message_limit(value)
-    max_messages_per_hour = Object.send("remove_const", "MAX_MESSAGES_PER_HOUR")
-    Object.const_set("MAX_MESSAGES_PER_HOUR", value)
+    max_messages_per_hour = Settings.max_messages_per_hour
+    Settings.max_messages_per_hour = value
 
     yield
 
-    Object.send("remove_const", "MAX_MESSAGES_PER_HOUR")
-    Object.const_set("MAX_MESSAGES_PER_HOUR", max_messages_per_hour)
+    Settings.max_messages_per_hour = max_messages_per_hour
   end
 end

@@ -2,6 +2,10 @@
 
 After [installing](INSTALL.md) this software, you may need to carry out some of these configuration steps, depending on your tasks.
 
+## Application configuration
+
+Many settings are available in `config/settings.yml`. You can customize your installation of The Rails Port by overriding these values using `config/settings.local.yml`
+
 ## Populating the database
 
 Your installation comes with no geographic data loaded. You can either create new data using one of the editors (Potlatch 2, iD, JOSM etc) or by loading an OSM extract.
@@ -71,11 +75,11 @@ Do the following:
 * Everything else can be left with the default blank values.
 * Click the "Register" button
 * On the next page, copy the "consumer key"
-* Edit config/application.yml in your rails tree
-* Uncomment and change the "potlatch2_key" configuration value
+* Edit config/settings.local.yml in your rails tree
+* Add the "potlatch2_key" configuration key and the consumer key as the value
 * Restart your rails server
 
-An example excerpt from application.yml:
+An example excerpt from settings.local.yml:
 
 ```
 # Default editor
@@ -85,8 +89,6 @@ potlatch2_key: "8lFmZPsagHV4l3rkAHq0hWY5vV3Ctl3oEFY1aXth"
 ```
 
 Follow the same process for registering and configuring iD (`id_key`) and the website/Notes (`oauth_key`), or to save time, simply reuse the same consumer key for each.
-
-**NOTE:** If you forget to set up OAuth, then you will get an error message similar to `uninitialized constant ActionView::CompiledTemplates::ID_KEY`.
 
 ## Troubleshooting
 

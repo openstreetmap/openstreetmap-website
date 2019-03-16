@@ -206,7 +206,7 @@ class Way < ActiveRecord::Base
 
   def preconditions_ok?(old_nodes = [])
     return false if nds.empty?
-    raise OSM::APITooManyWayNodesError.new(id, nds.length, MAX_NUMBER_OF_WAY_NODES) if nds.length > MAX_NUMBER_OF_WAY_NODES
+    raise OSM::APITooManyWayNodesError.new(id, nds.length, Settings.max_number_of_way_nodes) if nds.length > Settings.max_number_of_way_nodes
 
     # check only the new nodes, for efficiency - old nodes having been checked last time and can't
     # be deleted when they're in-use.

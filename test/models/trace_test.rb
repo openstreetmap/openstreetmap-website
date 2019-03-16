@@ -2,23 +2,9 @@ require "test_helper"
 require "minitest/mock"
 
 class TraceTest < ActiveSupport::TestCase
-  def setup
-    @gpx_trace_dir = Object.send("remove_const", "GPX_TRACE_DIR")
-    Object.const_set("GPX_TRACE_DIR", Rails.root.join("test", "gpx", "traces"))
-
-    @gpx_image_dir = Object.send("remove_const", "GPX_IMAGE_DIR")
-    Object.const_set("GPX_IMAGE_DIR", Rails.root.join("test", "gpx", "images"))
-  end
-
   def teardown
-    File.unlink(*Dir.glob(File.join(GPX_TRACE_DIR, "*.gpx")))
-    File.unlink(*Dir.glob(File.join(GPX_IMAGE_DIR, "*.gif")))
-
-    Object.send("remove_const", "GPX_TRACE_DIR")
-    Object.const_set("GPX_TRACE_DIR", @gpx_trace_dir)
-
-    Object.send("remove_const", "GPX_IMAGE_DIR")
-    Object.const_set("GPX_IMAGE_DIR", @gpx_image_dir)
+    File.unlink(*Dir.glob(File.join(Settings.gpx_trace_dir, "*.gpx")))
+    File.unlink(*Dir.glob(File.join(Settings.gpx_image_dir, "*.gif")))
   end
 
   def test_visible
@@ -227,7 +213,7 @@ class TraceTest < ActiveSupport::TestCase
     FakeFS do
       FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
       trace = create(:trace, :fixture => "a")
-      icon_path = File.join(GPX_IMAGE_DIR, "#{trace.id}_icon.gif")
+      icon_path = File.join(Settings.gpx_image_dir, "#{trace.id}_icon.gif")
       FileUtils.rm(icon_path)
       assert_equal false, File.exist?(icon_path)
 
@@ -241,7 +227,7 @@ class TraceTest < ActiveSupport::TestCase
     FakeFS do
       FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
       trace = create(:trace, :fixture => "a")
-      large_picture_path = File.join(GPX_IMAGE_DIR, "#{trace.id}.gif")
+      large_picture_path = File.join(Settings.gpx_image_dir, "#{trace.id}.gif")
       FileUtils.rm(large_picture_path)
       assert_equal false, File.exist?(large_picture_path)
 

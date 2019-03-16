@@ -131,7 +131,7 @@ module Api
 
     def amf_handle_error_with_timeout(call, rootobj, rootid)
       amf_handle_error(call, rootobj, rootid) do
-        OSM::Timer.timeout(API_TIMEOUT, OSM::APITimeoutError) do
+        OSM::Timer.timeout(Settings.api_timeout, OSM::APITimeoutError) do
           yield
         end
       end
