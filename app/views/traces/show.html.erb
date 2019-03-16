@@ -2,7 +2,7 @@
   <h2><%= t '.heading', :name => h(@trace.name) %></h2>
 <% end %>
 
-<% if STATUS != :gpx_offline %>
+<% if Settings.status != "gpx_offline" %>
   <% if @trace.inserted %>
     <img src="<%= url_for :controller => 'traces', :action => 'picture', :id => @trace.id, :display_name => @trace.user.display_name %>">
   <% else %>

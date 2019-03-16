@@ -13,24 +13,7 @@ if File.exist?(File.expand_path("application.yml", __dir__))
 end
 # rubocop:enable Rails/Output, Rails/Exit
 
-# Set the STATUS constant from the environment, if it matches a recognized value
-ALLOWED_STATUS = [
-  :online,            # online and operating normally
-  :api_readonly,      # site online but API in read-only mode
-  :api_offline,       # site online but API offline
-  :database_readonly, # database and site in read-only mode
-  :database_offline,  # database offline with site in emergency mode
-  :gpx_offline        # gpx storage offline
-].freeze
-
-status = if ENV["STATUS"] && ALLOWED_STATUS.include?(ENV["STATUS"].to_sym)
-           ENV["STATUS"].to_sym
-         else
-           :online
-         end
-Object.const_set("STATUS", status)
-
-if STATUS == :database_offline
+if ENV["OPENSTREETMAP_STATUS"] == "database_offline"
   require "active_model/railtie"
   require "active_job/railtie"
   require "active_storage/engine"
@@ -63,15 +46,15 @@ module OpenStreetMap
 
     # This defaults to true from rails 5.0 but our code doesn't comply
     # with it at all so we turn it off
-    config.active_record.belongs_to_required_by_default = false unless STATUS == :database_offline
+    config.active_record.belongs_to_required_by_default = false unless Settings.status == "database_offline"
 
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
     # like if you have constraints or database-specific column types
-    config.active_record.schema_format = :sql unless STATUS == :database_offline
+    config.active_record.schema_format = :sql unless Settings.status == "database_offline"
 
     # Don't eager load models when the database is offline
-    config.paths["app/models"].skip_eager_load! if STATUS == :database_offline
+    config.paths["app/models"].skip_eager_load! if Settings.status == "database_offline"
 
     # Use memcached for caching if required
     config.cache_store = :mem_cache_store, Settings.memcache_servers, { :namespace => "rails:cache" } if Settings.key?(:memcache_servers)

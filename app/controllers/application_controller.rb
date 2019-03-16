@@ -126,7 +126,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_database_readable(need_api = false)
-    if STATUS == :database_offline || (need_api && STATUS == :api_offline)
+    if Settings.status == "database_offline" || (need_api && Settings.status == "api_offline")
       if request.xhr?
         report_error "Database offline for maintenance", :service_unavailable
       else
@@ -136,8 +136,8 @@ class ApplicationController < ActionController::Base
   end
 
   def check_database_writable(need_api = false)
-    if STATUS == :database_offline || STATUS == :database_readonly ||
-       (need_api && (STATUS == :api_offline || STATUS == :api_readonly))
+    if Settings.status == "database_offline" || Settings.status == "database_readonly" ||
+       (need_api && (Settings.status == "api_offline" || Settings.status == "api_readonly"))
       if request.xhr?
         report_error "Database offline for maintenance", :service_unavailable
       else
@@ -161,9 +161,9 @@ class ApplicationController < ActionController::Base
   end
 
   def database_status
-    if STATUS == :database_offline
+    if Settings.status == "database_offline"
       :offline
-    elsif STATUS == :database_readonly
+    elsif Settings.status == "database_readonly"
       :readonly
     else
       :online
@@ -173,9 +173,9 @@ class ApplicationController < ActionController::Base
   def api_status
     status = database_status
     if status == :online
-      if STATUS == :api_offline
+      if Settings.status == "api_offline"
         status = :offline
-      elsif STATUS == :api_readonly
+      elsif Settings.status == "api_readonly"
         status = :readonly
       end
     end
@@ -184,7 +184,7 @@ class ApplicationController < ActionController::Base
 
   def gpx_status
     status = database_status
-    status = :offline if status == :online && STATUS == :gpx_offline
+    status = :offline if status == :online && Settings.status == "gpx_offline"
     status
   end
 
@@ -338,9 +338,9 @@ class ApplicationController < ActionController::Base
       :style_src => %w['unsafe-inline']
     )
 
-    if STATUS == :database_offline || STATUS == :api_offline
+    if Settings.status == "database_offline" || Settings.status == "api_offline"
       flash.now[:warning] = t("layouts.osm_offline")
-    elsif STATUS == :database_readonly || STATUS == :api_readonly
+    elsif Settings.status == "database_readonly" || Settings.status == "api_readonly"
       flash.now[:warning] = t("layouts.osm_read_only")
     end
 

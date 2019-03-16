@@ -12,7 +12,7 @@ class SiteController < ApplicationController
   authorize_resource :class => false
 
   def index
-    session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"]) unless STATUS == :database_readonly || STATUS == :database_offline
+    session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"]) unless Settings.status == "database_readonly" || Settings.status == "database_offline"
   end
 
   def permalink

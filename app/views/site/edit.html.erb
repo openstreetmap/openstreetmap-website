@@ -1,7 +1,7 @@
 <% content_for :content do %>
-  <% if STATUS == :database_offline or STATUS == :api_offline %>
+  <% if Settings.status == "database_offline" or Settings.status == "api_offline" %>
     <p><%= t 'layouts.osm_offline' %></p>
-  <% elsif STATUS == :database_readonly or STATUS == :api_readonly %>
+  <% elsif Settings.status == "database_readonly" or Settings.status == "api_readonly" %>
     <p><%= t 'layouts.osm_read_only' %></p>
   <% elsif !current_user.data_public? %>
     <p><%= t '.not_public' %></p>

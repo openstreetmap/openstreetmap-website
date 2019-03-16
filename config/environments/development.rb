@@ -39,10 +39,10 @@ Rails.application.configure do
   config.active_support.deprecation = :log
 
   # Raise an error on page load if there are pending migrations.
-  config.active_record.migration_error = :page_load unless STATUS == :database_offline
+  config.active_record.migration_error = :page_load unless Settings.status == "database_offline"
 
   # Highlight code that triggered database queries in logs.
-  config.active_record.verbose_query_logs = true unless STATUS == :database_offline
+  config.active_record.verbose_query_logs = true unless Settings.status == "database_offline"
 
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large

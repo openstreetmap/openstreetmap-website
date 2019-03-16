@@ -163,7 +163,7 @@ module Api
     end
 
     def offline_redirect
-      redirect_to :action => :offline if STATUS == :gpx_offline
+      redirect_to :action => :offline if Settings.status == "gpx_offline"
     end
   end
 end
