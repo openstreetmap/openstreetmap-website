@@ -22,6 +22,7 @@ before_script:
   - psql -U postgres -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '/tmp/libpgosm', 'tile_for_point' LANGUAGE C STRICT" openstreetmap
   - psql -U postgres -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '/tmp/libpgosm', 'xid_to_int4' LANGUAGE C STRICT" openstreetmap
   - cp config/travis.database.yml config/database.yml
+  - touch config/settings.local.yml
   - bundle exec rake db:migrate
   - bundle exec rake i18n:js:export
 script:
