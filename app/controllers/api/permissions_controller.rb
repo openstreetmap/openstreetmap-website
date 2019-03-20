@@ -1,7 +1,5 @@
 module Api
   class PermissionsController < ApiController
-    before_action :api_deny_access_handler
-
     authorize_resource :class => false
 
     before_action :check_api_readable

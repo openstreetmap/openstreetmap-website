@@ -6,7 +6,6 @@ module Api
     require "xml/libxml"
 
     before_action :authorize, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
-    before_action :api_deny_access_handler, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe, :expand_bbox]
 
     authorize_resource
 

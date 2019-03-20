@@ -6,7 +6,6 @@ module Api
     require "xml/libxml"
 
     before_action :setup_user_auth, :only => [:history, :version]
-    before_action :api_deny_access_handler
     before_action :authorize, :only => [:redact]
 
     authorize_resource

@@ -1,7 +1,6 @@
 module Api
   class ChangesetCommentsController < ApiController
     before_action :authorize
-    before_action :api_deny_access_handler
 
     authorize_resource
 

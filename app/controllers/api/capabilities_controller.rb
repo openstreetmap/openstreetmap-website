@@ -1,7 +1,5 @@
 module Api
   class CapabilitiesController < ApiController
-    before_action :api_deny_access_handler
-
     authorize_resource :class => false
 
     around_action :api_call_handle_error, :api_call_timeout

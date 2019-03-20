@@ -5,7 +5,6 @@ module Api
     require "xml/libxml"
 
     before_action :authorize, :only => [:create, :update, :delete]
-    before_action :api_deny_access_handler
 
     authorize_resource
 

@@ -4,7 +4,6 @@ module Api
 
     before_action :disable_terms_redirect, :only => [:api_details]
     before_action :authorize, :only => [:api_details, :api_gpx_files]
-    before_action :api_deny_access_handler
 
     authorize_resource
 
