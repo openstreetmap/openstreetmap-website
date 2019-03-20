@@ -7,7 +7,7 @@ class ChangesetsController < ApplicationController
   skip_before_action :verify_authenticity_token, :except => [:index]
   before_action :authorize_web
   before_action :set_locale
-  before_action(:only => [:index, :feed]) { |c| c.check_database_readable(true) }
+  before_action -> { check_database_readable(true) }, :only => [:index, :feed]
 
   authorize_resource
 

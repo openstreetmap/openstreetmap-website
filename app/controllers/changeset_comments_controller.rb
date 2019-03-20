@@ -4,7 +4,7 @@ class ChangesetCommentsController < ApplicationController
 
   authorize_resource
 
-  before_action(:only => [:index]) { |c| c.check_database_readable(true) }
+  before_action -> { check_database_readable(true) }
   around_action :web_timeout
 
   ##
