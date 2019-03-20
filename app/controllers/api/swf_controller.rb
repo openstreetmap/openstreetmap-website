@@ -1,6 +1,5 @@
 module Api
-  class SwfController < ApplicationController
-    skip_before_action :verify_authenticity_token
+  class SwfController < ApiController
     before_action :check_api_readable
     authorize_resource :class => false
 

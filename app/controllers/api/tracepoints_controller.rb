@@ -1,6 +1,5 @@
 module Api
-  class TracepointsController < ApplicationController
-    skip_before_action :verify_authenticity_token
+  class TracepointsController < ApiController
     before_action :api_deny_access_handler
 
     authorize_resource

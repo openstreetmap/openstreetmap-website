@@ -1,11 +1,10 @@
 # The ChangesetController is the RESTful interface to Changeset objects
 
 module Api
-  class ChangesetsController < ApplicationController
+  class ChangesetsController < ApiController
     layout "site"
     require "xml/libxml"
 
-    skip_before_action :verify_authenticity_token
     before_action :authorize, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe]
     before_action :api_deny_access_handler, :only => [:create, :update, :upload, :close, :subscribe, :unsubscribe, :expand_bbox]
 

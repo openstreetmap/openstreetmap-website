@@ -1,6 +1,5 @@
 module Api
-  class CapabilitiesController < ApplicationController
-    skip_before_action :verify_authenticity_token
+  class CapabilitiesController < ApiController
     before_action :api_deny_access_handler
 
     authorize_resource :class => false

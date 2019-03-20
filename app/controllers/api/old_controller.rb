@@ -2,10 +2,9 @@
 # into one place. as it turns out, the API methods for historical
 # nodes, ways and relations are basically identical.
 module Api
-  class OldController < ApplicationController
+  class OldController < ApiController
     require "xml/libxml"
 
-    skip_before_action :verify_authenticity_token
     before_action :setup_user_auth, :only => [:history, :version]
     before_action :api_deny_access_handler
     before_action :authorize, :only => [:redact]

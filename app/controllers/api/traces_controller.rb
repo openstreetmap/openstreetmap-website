@@ -1,8 +1,7 @@
 module Api
-  class TracesController < ApplicationController
+  class TracesController < ApiController
     layout "site", :except => :georss
 
-    skip_before_action :verify_authenticity_token
     before_action :authorize_web
     before_action :set_locale
     before_action :authorize
