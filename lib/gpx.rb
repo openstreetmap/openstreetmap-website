@@ -13,6 +13,8 @@ module GPX
     end
 
     def points
+      return enum_for(:points) unless block_given?
+
       @possible_points = 0
       @actual_points = 0
       @tracksegs = 0

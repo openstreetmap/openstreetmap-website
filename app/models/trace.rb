@@ -289,31 +289,35 @@ class Trace < ActiveRecord::Base
     # If there are any existing points for this trace then delete them
     Tracepoint.where(:gpx_id => id).delete_all
 
-    # Gather the trace points together for a bulk import
-    tracepoints = []
-    gpx.points do |point|
-      if first
-        f_lat = point.latitude
-        f_lon = point.longitude
-        first = false
+    gpx.points.each_slice(1_000) do |points|
+      # Gather the trace points together for a bulk import
+      tracepoints = []
+
+      points.each do |point|
+        if first
+          f_lat = point.latitude
+          f_lon = point.longitude
+          first = false
+        end
+
+        tp = Tracepoint.new
+        tp.lat = point.latitude
+        tp.lon = point.longitude
+        tp.altitude = point.altitude
+        tp.timestamp = point.timestamp
+        tp.gpx_id = id
+        tp.trackid = point.segment
+        tracepoints << tp
       end
 
-      tp = Tracepoint.new
-      tp.lat = point.latitude
-      tp.lon = point.longitude
-      tp.altitude = point.altitude
-      tp.timestamp = point.timestamp
-      tp.gpx_id = id
-      tp.trackid = point.segment
-      tracepoints << tp
-    end
+      # Run the before_save and before_create callbacks, and then import them in bulk with activerecord-import
+      tracepoints.each do |tp|
+        tp.run_callbacks(:save) { false }
+        tp.run_callbacks(:create) { false }
+      end
 
-    # Run the before_save and before_create callbacks, and then import them in bulk with activerecord-import
-    tracepoints.each do |tp|
-      tp.run_callbacks(:save) { false }
-      tp.run_callbacks(:create) { false }
+      Tracepoint.import!(tracepoints)
     end
-    Tracepoint.import!(tracepoints, :batch_size => 1_000)
 
     if gpx.actual_points.positive?
       max_lat = Tracepoint.where(:gpx_id => id).maximum(:latitude)
