@@ -12,6 +12,8 @@ class ApplicationController < ActionController::Base
   attr_accessor :current_user
   helper_method :current_user
 
+  private
+
   def authorize_web
     if session[:user]
       self.current_user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
@@ -401,8 +403,6 @@ class ApplicationController < ActionController::Base
       head :forbidden
     end
   end
-
-  private
 
   # extract authorisation credentials from headers, returns user = nil if none
   def get_auth_data

@@ -1,6 +1,8 @@
 class ApiController < ApplicationController
   skip_before_action :verify_authenticity_token
 
+  private
+
   def authorize(realm = "Web Password", errormessage = "Couldn't authenticate you")
     # make the current_user object from any auth sources we have
     setup_user_auth
