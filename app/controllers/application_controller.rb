@@ -147,14 +147,14 @@ class ApplicationController < ActionController::Base
   end
 
   def check_api_readable
-    if api_status == :offline
+    if api_status == "offline"
       report_error "Database offline for maintenance", :service_unavailable
       false
     end
   end
 
   def check_api_writable
-    unless api_status == :online
+    unless api_status == "online"
       report_error "Database offline for maintenance", :service_unavailable
       false
     end
@@ -162,21 +162,21 @@ class ApplicationController < ActionController::Base
 
   def database_status
     if Settings.status == "database_offline"
-      :offline
+      "offline"
     elsif Settings.status == "database_readonly"
-      :readonly
+      "readonly"
     else
-      :online
+      "online"
     end
   end
 
   def api_status
     status = database_status
-    if status == :online
+    if status == "online"
       if Settings.status == "api_offline"
-        status = :offline
+        status = "offline"
       elsif Settings.status == "api_readonly"
-        status = :readonly
+        status = "readonly"
       end
     end
     status
@@ -184,7 +184,7 @@ class ApplicationController < ActionController::Base
 
   def gpx_status
     status = database_status
-    status = :offline if status == :online && Settings.status == "gpx_offline"
+    status = "offline" if status == "online" && Settings.status == "gpx_offline"
     status
   end
 
