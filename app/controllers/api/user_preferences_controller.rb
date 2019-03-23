@@ -1,7 +1,6 @@
 # Update and read user preferences, which are arbitrayr key/val pairs
 module Api
-  class UserPreferencesController < ApplicationController
-    skip_before_action :verify_authenticity_token
+  class UserPreferencesController < ApiController
     before_action :authorize
 
     authorize_resource

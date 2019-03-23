@@ -1,8 +1,5 @@
 module Api
-  class ChangesController < ApplicationController
-    skip_before_action :verify_authenticity_token
-    before_action :api_deny_access_handler
-
+  class ChangesController < ApiController
     authorize_resource :class => false
 
     before_action :check_api_readable

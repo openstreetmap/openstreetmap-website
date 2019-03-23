@@ -12,6 +12,8 @@ class ApplicationController < ActionController::Base
   attr_accessor :current_user
   helper_method :current_user
 
+  private
+
   def authorize_web
     if session[:user]
       self.current_user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
@@ -71,60 +73,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  ##
-  # sets up the current_user for use by other methods. this is mostly called
-  # from the authorize method, but can be called elsewhere if authorisation
-  # is optional.
-  def setup_user_auth
-    # try and setup using OAuth
-    unless Authenticator.new(self, [:token]).allow?
-      username, passwd = get_auth_data # parse from headers
-      # authenticate per-scheme
-      self.current_user = if username.nil?
-                            nil # no authentication provided - perhaps first connect (client should retry after 401)
-                          elsif username == "token"
-                            User.authenticate(:token => passwd) # preferred - random token for user from db, passed in basic auth
-                          else
-                            User.authenticate(:username => username, :password => passwd) # basic auth
-                          end
-    end
-
-    # have we identified the user?
-    if current_user
-      # check if the user has been banned
-      user_block = current_user.blocks.active.take
-      unless user_block.nil?
-        set_locale
-        if user_block.zero_hour?
-          report_error t("application.setup_user_auth.blocked_zero_hour"), :forbidden
-        else
-          report_error t("application.setup_user_auth.blocked"), :forbidden
-        end
-      end
-
-      # if the user hasn't seen the contributor terms then don't
-      # allow editing - they have to go to the web site and see
-      # (but can decline) the CTs to continue.
-      if !current_user.terms_seen && flash[:skip_terms].nil?
-        set_locale
-        report_error t("application.setup_user_auth.need_to_see_terms"), :forbidden
-      end
-    end
-  end
-
-  def authorize(realm = "Web Password", errormessage = "Couldn't authenticate you")
-    # make the current_user object from any auth sources we have
-    setup_user_auth
-
-    # handle authenticate pass/fail
-    unless current_user
-      # no auth, the user does not exist or the password was wrong
-      response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
-      render :plain => errormessage, :status => :unauthorized
-      return false
-    end
-  end
-
   def check_database_readable(need_api = false)
     if Settings.status == "database_offline" || (need_api && Settings.status == "api_offline")
       if request.xhr?
@@ -179,12 +127,6 @@ class ApplicationController < ActionController::Base
         status = "readonly"
       end
     end
-    status
-  end
-
-  def gpx_status
-    status = database_status
-    status = "offline" if status == "online" && Settings.status == "gpx_offline"
     status
   end
 
@@ -395,15 +337,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def deny_access(exception)
-    if @api_deny_access_handling
-      api_deny_access(exception)
-    else
-      web_deny_access(exception)
-    end
-  end
-
-  def web_deny_access(_exception)
+  def deny_access(_exception)
     if current_token
       set_locale
       report_error t("oauth.permissions.missing"), :forbidden
@@ -422,28 +356,6 @@ class ApplicationController < ActionController::Base
       head :forbidden
     end
   end
-
-  def api_deny_access(_exception)
-    if current_token
-      set_locale
-      report_error t("oauth.permissions.missing"), :forbidden
-    elsif current_user
-      head :forbidden
-    else
-      realm = "Web Password"
-      errormessage = "Couldn't authenticate you"
-      response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
-      render :plain => errormessage, :status => :unauthorized
-    end
-  end
-
-  attr_accessor :api_access_handling
-
-  def api_deny_access_handler
-    @api_deny_access_handling = true
-  end
-
-  private
 
   # extract authorisation credentials from headers, returns user = nil if none
   def get_auth_data

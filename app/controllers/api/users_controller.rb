@@ -1,11 +1,9 @@
 module Api
-  class UsersController < ApplicationController
+  class UsersController < ApiController
     layout "site", :except => [:api_details]
 
-    skip_before_action :verify_authenticity_token
     before_action :disable_terms_redirect, :only => [:api_details]
     before_action :authorize, :only => [:api_details, :api_gpx_files]
-    before_action :api_deny_access_handler
 
     authorize_resource
 

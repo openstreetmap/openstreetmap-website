@@ -1,10 +1,8 @@
 module Api
-  class WaysController < ApplicationController
+  class WaysController < ApiController
     require "xml/libxml"
 
-    skip_before_action :verify_authenticity_token
     before_action :authorize, :only => [:create, :update, :delete]
-    before_action :api_deny_access_handler
 
     authorize_resource
 

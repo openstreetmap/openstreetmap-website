@@ -1,8 +1,6 @@
 module Api
-  class ChangesetCommentsController < ApplicationController
-    skip_before_action :verify_authenticity_token
+  class ChangesetCommentsController < ApiController
     before_action :authorize
-    before_action :api_deny_access_handler
 
     authorize_resource
 

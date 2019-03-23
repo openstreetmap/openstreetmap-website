@@ -1,12 +1,10 @@
 module Api
-  class NotesController < ApplicationController
+  class NotesController < ApiController
     layout "site", :only => [:mine]
 
-    skip_before_action :verify_authenticity_token
     before_action :check_api_readable
     before_action :setup_user_auth, :only => [:create, :comment, :show]
     before_action :authorize, :only => [:close, :reopen, :destroy]
-    before_action :api_deny_access_handler
 
     authorize_resource
 

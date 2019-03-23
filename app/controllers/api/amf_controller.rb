@@ -36,10 +36,9 @@
 # * version conflict when POIs and ways are reverted
 
 module Api
-  class AmfController < ApplicationController
+  class AmfController < ApiController
     include Potlatch
 
-    skip_before_action :verify_authenticity_token
     before_action :check_api_writable
 
     # AMF Controller implements its own authentication and authorization checks

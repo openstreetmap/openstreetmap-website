@@ -1,8 +1,5 @@
 module Api
-  class CapabilitiesController < ApplicationController
-    skip_before_action :verify_authenticity_token
-    before_action :api_deny_access_handler
-
+  class CapabilitiesController < ApiController
     authorize_resource :class => false
 
     around_action :api_call_handle_error, :api_call_timeout
