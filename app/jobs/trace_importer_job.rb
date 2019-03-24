@@ -1,5 +1,5 @@
 class TraceImporterJob < ApplicationJob
-  queue_as :default
+  queue_as :traces
 
   def perform(trace)
     gpx = trace.import

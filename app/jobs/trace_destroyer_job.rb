@@ -1,5 +1,5 @@
 class TraceDestroyerJob < ApplicationJob
-  queue_as :default
+  queue_as :traces
 
   def perform(trace)
     trace.destroy
