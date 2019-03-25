@@ -7,6 +7,7 @@
 # Author: Asieriko
 # Author: EukeneFL
 # Author: Gorkaazk
+# Author: Ibai
 # Author: Iñaki LL
 # Author: Maite
 # Author: Mikel Ibaiba
@@ -22,10 +23,14 @@ eu:
     formats:
       friendly: '%e %B %Y %H:%M-ean'
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: badirudi ez dela e-posta helbide egoki bat
+        email_address_not_routable: ezin da biderik kalkulatu
     models:
       acl: Kontrol zerrendara sartu
       changeset: Aldaketak
-      changeset_tag: Etiketa aldaketa
+      changeset_tag: Aldaketa Etiketa
       country: Herrialdea
       diary_comment: Eguneroko iruzkina
       diary_entry: Eguneroko sarrera
@@ -54,7 +59,7 @@ eu:
       user_preference: Erabiltzaile hobespenak
       user_token: Erabiltzaile token-a
       way: Bidea
-      way_node: Nodo bidea
+      way_node: Bidearen nodoa
       way_tag: Bidearen etiketa
     attributes:
       diary_comment:
@@ -76,7 +81,7 @@ eu:
         latitude: Latitude
         longitude: Longitude
         public: Publikoa
-        description: Deskribapen
+        description: Deskribapena
       message:
         sender: Igorlea
         title: Gaia
@@ -86,7 +91,7 @@ eu:
         email: Eposta
         active: Aktibo
         display_name: Erakusteko izena
-        description: Deskribapen
+        description: Deskribapena
         languages: Hizkuntzak
         pass_crypt: Pasahitza
   editor:
@@ -152,20 +157,20 @@ eu:
       title: 'Aldaketa: %{id}'
       belongs_to: Egilea
       node: Nodoak (%{count})
-      node_paginated: (%{count}ren) %{x}-%{y} nodoak
+      node_paginated: Nodoak (%{x}-%{y} %{count}-tik)
       way: Bideak (%{count})
-      way_paginated: Bideak (%{count}ren %{x}-%{y})
+      way_paginated: Bideak (%{x}-%{y} %{count}-tik)
       relation: Erlazioak (%{count})
-      relation_paginated: Erlazioak (%{count}ren %{x}-%{y})
+      relation_paginated: Erlazioak (%{x}-%{y} %{count}-tik)
       comment: Iruzkinak (%{count})
-      hidden_commented_by: '%{user} erabiltzaileak egindako duela <abbr title=''%{exact_time}''>%{when}</abbr>
-        iruzkin ezkutua'
+      hidden_commented_by: '%{user} erabiltzaileak egindako iruzkin ezkutua duela
+        <abbr title=''%{exact_time}''>%{when}</abbr>'
       commented_by: '%{user} erabiltzaileak egindako iruzkina duela <abbr title=''%{exact_time}''>%{when}</abbr>'
-      changesetxml: XML aldaketak
-      osmchangexml: XML osm-aldaketa
+      changesetxml: Aldaketaren XML kodea
+      osmchangexml: osmChange XML kodea
       feed:
         title: '%{id} aldaketak'
-        title_comment: '%{id} - %{comment} aldaketak'
+        title_comment: '%{id} aldaketa - %{comment}'
       join_discussion: Hasi saioa eztabaidan parte hartzeko
       discussion: Eztabaida
       still_open: Aldaketak oraindik zabalik - eztabaida aldaketak itxi ondoren irekiko
@@ -178,8 +183,8 @@ eu:
       history_title: 'Bidearen historia: %{name}'
       nodes: Nodoak
       also_part_of:
-        one: bidearen zatia %{related_ways}
-        other: bideen zatia %{related_ways}
+        one: '%{related_ways} bidearen zatia'
+        other: '%{related_ways} bideen zatia'
     relation:
       title: 'Erlazioa: %{name}'
       history_title: 'Erlazioaren historia: %{name}'
@@ -202,7 +207,7 @@ eu:
         changeset: aldaketak
         note: oharra
     timeout:
-      sorry: Barkatu, %{id} daukan %{type}rako datuak berreskuratzeko denbora asko
+      sorry: Barkatu, %{id} daukan %{type}rako datuak berreskuratzeko denbora gehiegi
         behar izan da.
       type:
         node: nodo
@@ -219,8 +224,8 @@ eu:
         way: bide
         relation: erlazio
     start_rjs:
-      feature_warning: '%{num_features} funtzioak kargatzen, zure arakatzailea motela
-        edo erantzungabekoa izan ez dadin. Ziur datuak bistaratu nahi dituzula?'
+      feature_warning: '%{num_features} ezaugarri kargatzen, zure arakatzailea motela
+        edo erantzungabekoa bihur daiteke. Ziur datuak bistaratu nahi dituzula?'
       load_data: Kargatu datuak
       loading: Kargatzen...
     tag_details:
@@ -242,8 +247,8 @@ eu:
         sortua'
       open_by_anonymous: Erabiltzaile ezezagun batek duela <abbr title='%{exact_time}'>%{when}</abbr>
         sortua
-      commented_by: '%{user} duela <abbr title=''%{exact_time}''>%{when} </abbr> egindako
-        iruzkina'
+      commented_by: '%{user} erabiltzaileak duela <abbr title=''%{exact_time}''>%{when}</abbr>
+        egindako iruzkina'
       commented_by_anonymous: Erabiltzaile ezezagun batek duela <abbr title='%{exact_time}'>%{when}
         </abbr> egindako iruzkina
       closed_by: '%{user} erabiltzaileak duela <abbr title=''%{exact_time}''>%{when}
@@ -292,11 +297,17 @@ eu:
         behar izan da.
   changeset_comments:
     comment:
-      comment: '%{changeset_id} aldaketan %{author} iruzkin berria egin du'
+      comment: '%{changeset_id} aldaketan %{author} erabiltzaileak iruzkin berria
+        egin du'
       commented_at_by_html: '%{user} erabiltzaileak duela %{when} eguneratua'
+    comments:
+      comment: '%{changeset_id} aldaketan %{author}k iruzkin berria egin du'
     index:
       title_all: OpenStreetMap aldaketen eztabaida
-      title_particular: 'OpenStreetMap #%{changeset_id} eztabaida aldatu egin du.'
+      title_particular: 'OpenStreetMap #%{changeset_id} aldaketen eztabaida.'
+    timeout:
+      sorry: Barkatu, zuk eskatutako aldaketen zerrenda berreskuratzeko denbora gehiegi
+        behar izan da.
   diary_entries:
     new:
       title: Eguneroko Sarrera Berria
@@ -323,7 +334,7 @@ eu:
       longitude: 'Longitudea:'
       use_map_link: erabili mapa
       save_button: Gorde
-      marker_text: Eguneroko sarrera helbidea
+      marker_text: Eguneroko sarrera kokapena
     show:
       title: '%{user}(r)en egunerokoa | %{title}'
       user_title: '%{user}(r)en egunerokoa'
@@ -1105,6 +1116,7 @@ eu:
     intro_text: OpenStreetMap munduko mapa da, zu bezalako jendeak sortutakoa eta
       doako lizentzia irekiarekin erabiltzeko dagoena.
     intro_2_create_account: Erabiltzaile kontua sortu
+    hosting_partners_html: '%{ucl}, %{bytemark} eta beste %{partners}-k babestua.'
     partners_ucl: UCLa
     partners_bytemark: Bytemark Ostatua
     partners_partners: bazkideak
@@ -1439,13 +1451,16 @@ eu:
           <a href="http://www.gu.gov.si/en/"> Burutzea eta Mapping Agintaritzatik </a> eta
           <a href="http://www.mkgp.gov.si/en/"> Nekazaritza, Basogintza eta Elikadura Ministeriotik</a>
           (Esloveniako informazio publikoa).
+        contributors_es_html: |-
+          <strong>Espainia</strong>: Espainiako Institutu Geografiko Nazionaletik (<a href="http://www.ign.es/">IGN</a>) eta
+          Sistema Kartografiko Nazionaletik (<a href="http://www.scne.es/">SCNE</a>) jasotako datuak daude, berrerabiltzeko baimendua <a href="https://creativecommons.org/licenses/by/4.0/deed.eu">CC BY 4.0</a> lizentziapean.
         contributors_za_html: |-
           <strong> Hego Afrika </strong>:
           <a href="http://www.ngi.gov.za/"> Zuzendaritza Nagusia datuen jatorria:
           Geo-Lurralde Informazio Nazionala </a>, Estatuko copyright erreserbatuta.
         contributors_gb_html: |-
           <strong>Erresuma Batua</strong>: Ordnance
-          Inkestaren datuak eta kopiak biltzen ditu; Crown copyright eta datu-basearen eskubidea 2010-12.
+          Inkestaren datuak eta kopiak biltzen ditu; Crown copyright eta datu-basearen eskubidea 2010-19.
         contributors_footer_1_html: |-
           OpenStreetMap hobetzen laguntzeko lagundu dutenen xehetasun gehiago eta erabilitako beste iturri batzuk ezagutzeko, mesedez OpenStreetMap Wikian ikusi <a
           href="http://wiki.openstreetmap.org/wiki/Contributors">Contributors
@@ -1599,6 +1614,11 @@ eu:
         title: switch2osm
         description: Laguntza enpresei eta erakundeei OpenStreetMap-en oinarritutako
           mapetara eta beste zerbitzuetara aldatzeko.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: Erakundeentzat
+        description: OpenStreetMap-entzat planak egiten ari den erakunde batekin?
+          Aurkitu jakin beharrekoa Ongietorri Lanpasean.
       wiki:
         url: http://wiki.openstreetmap.org/wiki/Eu:Main_Page
         title: wiki.openstreetmap.org
@@ -1690,7 +1710,7 @@ eu:
       edit: Aldatu
       preview: Aurrikusi
     markdown_help:
-      title_html: Honekin analizatua:<a href="https://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Honekin analizatua:<a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Atalburuak
       heading: Goiburua
       subheading: Azpi-goiburua
@@ -1737,7 +1757,7 @@ eu:
         title: Galderarik?
         paragraph_1_html: |-
           OpenStreetMap-ek proiektuari buruz ikasteko baliabideak ditu, galdetuz eta erantzunez, eta mapping gaiak eztabaidatu eta dokumentatuz lankidetzan.
-          <a href='%{help_url}'>Jaso laguntza hemen</a>.
+          <a href='%{help_url}'>Jaso laguntza hemen</a>. OpenStreetMap-entzat planak egiten ari den erakunde batekin? <a href='https://welcome.openstreetmap.org/'>Aurkitu jakin beharrekoa Ongietorri Lanpasean</a>.
       start_mapping: Hasi mapeatzen
       add_a_note:
         title: Editatzeko denborarik ez? Gehitu ohar bat!
@@ -1869,6 +1889,7 @@ eu:
         other: '%{user} %{count} puntuak dituen GPX fitxategia'
       description_without_count: '%{user}ren GPX fitxategia'
   application:
+    permission_denied: Ez duzu baimenik ekintza hori burutzeko
     require_cookies:
       cookies_needed: Cookieak desgaituta dituzu - gaitu cookie-ak zure nabigatzailean
         jarraitu aurretik mesedez.
@@ -2081,6 +2102,7 @@ eu:
       terms accepted: Eskerrik asko laguntzaileen termino berriak onartzeagatik!
       terms declined: Sentitzen dugu Kolaboratzaileen baldintza berriak onartu ez
         dituzula. Informazio gehiagorako, ikus <a href="%{url}"> wiki orri hau </a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: Kolaboratzaile terminoak
       heading: Kolaboratzaile terminoak
@@ -2090,10 +2112,12 @@ eu:
       consider_pd: Goiko hitzarmenaz gain, nire ekarpenak Domeinu Publikoan egon behar
         direla uste dut
       consider_pd_why: zer da hau?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Termino hauek ulertzeko informazioa: <a href="%{summary}"> giza laburpen
         irakurgarria </a> eta batzuk <a href="%{translations}"> itzulpen informalak
         </a>'
       agree: Ados
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Ez onartu
       you need to accept or decline: Irakurri eta gero, onartu edo ezetsi Kolaboratzaileen
         termino berriak jarraitzeko.
@@ -2214,6 +2238,7 @@ eu:
         review link text: Mesedez, jarraitu esteka hau zure Kolaboratzaile Terminoaen
           erosotasuna berrikusteko eta onartzeko.
         agreed_with_pd: Zure aldaketak domeinu publikoan egongo direla adierazi duzu.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: zer da hau?
       profile description: 'Profilaren Deskribapena:'
       preferred languages: 'Hobetsitako hizkuntzak:'
@@ -2221,6 +2246,7 @@ eu:
       image: 'Irudia:'
       gravatar:
         gravatar: Gravatar erabili
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         link text: zer da hau?
         disabled: Gravatar desgaitu egin da.
         enabled: Zure Gravatar bistaratzea gaitu da.
@@ -2546,7 +2572,9 @@ eu:
     directions:
       ascend: Igo
       engines:
+        fossgis_osrm_bike: Bizikleta (OSRM)
         fossgis_osrm_car: Autoz (OSRM)
+        fossgis_osrm_foot: Oinez (OSRM)
         graphhopper_bicycle: Bizikletaz (GraphHopper)
         graphhopper_car: Autoz(GraphHopper)
         graphhopper_foot: Oinez (GraphHopper)
@@ -2678,4 +2706,9 @@ eu:
         aurretik.
       flash: Erredakzioa suntsitu egin da.
       error: Erredakzio hau suntsitzerakoan akats bat egon da.
+  validations:
+    leading_whitespace: zuriunea du hasieran
+    trailing_whitespace: zuriunea du amaieran
+    invalid_characters: karaktere ezegokiak ditu
+    url_characters: URL karaktere bereziak (%{characters}) ditu
 ...
