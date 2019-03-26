@@ -13,10 +13,12 @@
     <%= content_for :header %>
     <ul>
       <li id="edit_tab" class="dropdown <%= current_page_class(edit_path) %>">
-        <%= link_to t('layouts.edit'), edit_path, :class => "tab geolink editlink",
+        <%= link_to t('layouts.edit'),
+                    edit_path,
+                    :class => "tab geolink editlink",
                     :id => 'editanchor',
-                    :data => { :editor => preferred_editor }
-        %><a class='dropdown-toggle' data-toggle='dropdown' href='#'><b class="caret"></b></a>
+                    :data => { :editor => preferred_editor } %>
+        <a class='dropdown-toggle' data-toggle='dropdown' href='#'><b class="caret"></b></a>
         <ul class='dropdown-menu'>
           <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
             <li>
@@ -73,10 +75,14 @@
     <% if current_user && current_user.id %>
       <div class='dropdown user-menu logged-in'>
         <a class='dropdown-toggle' data-toggle='dropdown' href="#">
-          <%= user_thumbnail_tiny(current_user, :width => 25, :height => 25)
-          %><%= render :partial => 'layouts/inbox'
-        %><span class="user-button"><span class='username'><%= current_user.display_name %></span>
-          <b class="caret"></b></span>
+          <%= user_thumbnail_tiny(current_user, :width => 25, :height => 25) %>
+          <%= render :partial => 'layouts/inbox' %>
+          <span class="user-button">
+            <span class='username'>
+              <%= current_user.display_name %>
+            </span>
+            <b class="caret"></b>
+          </span>
         </a>
         <ul class='dropdown-menu'>
           <li>

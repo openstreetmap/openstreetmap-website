@@ -3,10 +3,10 @@
      :lon => contact.home_lon,
      :lat => contact.home_lat,
      :icon => image_path(type == "friend" ? "marker-blue.png" : "marker-green.png"),
-     :description => render(:partial => "popup", :object => contact, :locals => {:type => type})
+     :description => render(:partial => "popup", :object => contact, :locals => { :type => type })
    }
 %>
-<%= content_tag :div, :class => "contact-activity clearfix", :data => {:user => user_data} do %>
+<%= content_tag :div, :class => "contact-activity clearfix", :data => { :user => user_data } do %>
   <%= user_thumbnail contact %>
   <div class='activity-details'>
     <p class='deemphasize'>
@@ -26,11 +26,10 @@
         <%= t('users.show.latest edit', :ago => t('users.show.ago', :time_in_words_ago => time_ago_in_words(changeset.created_at))) %>
         <% comment = changeset.tags['comment'].to_s != '' ? changeset.tags['comment'] : t('browse.no_comment') %>
         "<%= link_to(comment,
-                            {:controller => 'browse', :action => 'changeset', :id => changeset.id},
-                            {:title => t('changesets.changeset.view_changeset_details')})
-        %>"
+                     { :controller => 'browse', :action => 'changeset', :id => changeset.id },
+                     { :title => t('changesets.changeset.view_changeset_details') }) %>"
       <% else %>
-       <%= t'changesets.changeset.no_edits' %>
+       <%= t 'changesets.changeset.no_edits' %>
       <% end %>
     </p>
 

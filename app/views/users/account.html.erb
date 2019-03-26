@@ -36,12 +36,12 @@
   <fieldset>
     <div class="form-row">
         <label class="standard-label"><%= t 'users.new.password' %></label>
-      <%= f.password_field :pass_crypt, {:value => '', :autocomplete => :off} %>
+      <%= f.password_field :pass_crypt, { :value => '', :autocomplete => :off } %>
     </div>
 
     <div class="form-row">
       <label class="standard-label"><%= t 'users.new.confirm password' %></label>
-      <%= f.password_field :pass_crypt_confirmation, {:value => '', :autocomplete => :off} %>
+      <%= f.password_field :pass_crypt_confirmation, { :value => '', :autocomplete => :off } %>
     </div>
   </fieldset>
 
@@ -51,7 +51,7 @@
       <%= f.select :auth_provider, Auth::PROVIDERS %>
       <%= f.text_field :auth_uid %>
       <span class="form-help deemphasize">(<a href="<%= t '.openid.link' %>" target="_new"><%= t '.openid.link text' %></a>)</span>
-    </diV>
+    </div>
   </fieldset>
 
   <fieldset class="form-divider">
@@ -149,7 +149,7 @@
   <fieldset class="form-divider">
     <div class='form-row location clearfix'>
     <label class="standard-label"><%= t '.home location' %></label>
-    <div id="homerow" <% unless current_user.home_lat and current_user.home_lon %>class="nohome"<%end%> >
+    <div id="homerow" <% unless current_user.home_lat and current_user.home_lon %>class="nohome"<% end %> >
       <p class="message form-help deemphasize"><%= t '.no home location' %></p>
         <div class='form-column'>
           <label class="standard-label secondary"><%= t '.latitude' %></label>

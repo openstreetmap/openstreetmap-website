@@ -1,5 +1,5 @@
 <%
-   changeset_data = {:id => changeset.id}
+   changeset_data = { :id => changeset.id }
 
    if changeset.has_valid_bbox?
      bbox = changeset.bbox.to_unscaled
@@ -12,7 +12,7 @@
    end
 %>
 
-<%= content_tag "li", :id => "changeset_#{changeset.id}", :data => {:changeset => changeset_data} do %>
+<%= content_tag "li", :id => "changeset_#{changeset.id}", :data => { :changeset => changeset_data } do %>
   <h4>
     <a class="changeset_id" href="<%= changeset_path(changeset) %>">
       <%= changeset.tags['comment'].to_s.presence || t('browse.no_comment') %>

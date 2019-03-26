@@ -12,16 +12,16 @@
   <td class="<%= cl %>"><%= link_to trace.name, { :controller => 'traces', :action => 'show', :display_name => trace.user.display_name, :id => trace.id } %>
     <span class="trace_summary" title="<%= trace.timestamp %>"> ...
       <% if trace.inserted %>
-        (<%= t '.count_points', :count => trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/,'\1,') %>)
+        (<%= t '.count_points', :count => trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/, '\1,') %>)
       <% end %>
       ... <%= t '.ago', :time_in_words_ago => time_ago_in_words(trace.timestamp) %></span>
-      <%= link_to_if trace.inserted?, t('.map'), {:controller => 'site', :action => 'index', :mlat => trace.latitude, :mlon => trace.longitude, :anchor => "map=14/#{trace.latitude}/#{trace.longitude}"}, {:title => t('.view_map')} %> /
-      <%= link_to t('.edit'), {:controller => 'site', :action => 'edit', :gpx => trace.id }, {:title => t('.edit_map')} %>
+      <%= link_to_if trace.inserted?, t('.map'), { :controller => 'site', :action => 'index', :mlat => trace.latitude, :mlon => trace.longitude, :anchor => "map=14/#{trace.latitude}/#{trace.longitude}" }, { :title => t('.view_map') } %> /
+      <%= link_to t('.edit'), { :controller => 'site', :action => 'edit', :gpx => trace.id }, { :title => t('.edit_map') } %>
       <span class="trace_<%= trace.visibility %>"><%= t('.' + trace.visibility) %></span>
       <br />
       <%= trace.description %>
     <br />
-    <%= t '.by' %> <%=link_to h(trace.user.display_name), user_path(trace.user) %>
+    <%= t '.by' %> <%= link_to h(trace.user.display_name), user_path(trace.user) %>
     <% if !trace.tags.empty? %>
       <%= t '.in' %>
       <%= raw(trace.tags.collect { |tag| link_to_tag tag.tag }.join(", ")) %>

@@ -3,15 +3,15 @@
 
 ## Coding style
 
-When writing code it is generally a good idea to try and match your
-formatting to that of any existing code in the same file, or to other
-similar files if you are writing new code. Consistency of layout is
-far more important than the layout itself as it makes reading code
-much easier.
+We use [Rubocop](https://github.com/rubocop-hq/rubocop) (for ruby files)
+and [ERB Lint](https://github.com/Shopify/erb-lint) (for erb templates)
+to help maintain consistency in our code. You can run these utilities during
+development to check that your code matches our guidelines:
 
-One golden rule of formatting -- please don't use tabs in your code
-as they will cause the file to be formatted differently for different
-people depending on how they have their editor configured.
+```
+bundle exec rubocop
+bundle exec erblint .
+```
 
 ## Testing
 
