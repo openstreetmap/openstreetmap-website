@@ -120,7 +120,7 @@ module BrowseTagsHelper
     #
     # Also accepting / as a visual separator although not given in RFC 3966,
     # because it is used as a visual separator in OSM data in some countries.
-    if value =~ %r{^\s*\+[\d\s\(\)/\.-]{6,25}\s*(;\s*\+[\d\s\(\)/\.-]{6,25}\s*)*$}
+    if value.match?(%r{^\s*\+[\d\s\(\)/\.-]{6,25}\s*(;\s*\+[\d\s\(\)/\.-]{6,25}\s*)*$})
       return value.split(";").map do |phone_number|
         # for display, remove leading and trailing whitespace
         phone_number = phone_number.strip

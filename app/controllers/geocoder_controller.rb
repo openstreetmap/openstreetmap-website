@@ -17,11 +17,11 @@ class GeocoderController < ApplicationController
       @sources.push "osm_nominatim_reverse"
       @sources.push "geonames_reverse" if Settings.key?(:geonames_username)
     elsif @params[:query]
-      if @params[:query] =~ /^\d{5}(-\d{4})?$/
+      if @params[:query].match?(/^\d{5}(-\d{4})?$/)
         @sources.push "osm_nominatim"
-      elsif @params[:query] =~ /^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i
+      elsif @params[:query].match?(/^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i)
         @sources.push "osm_nominatim"
-      elsif @params[:query] =~ /^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i
+      elsif @params[:query].match?(/^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i)
         @sources.push "ca_postcode"
         @sources.push "osm_nominatim"
       else
