@@ -27,14 +27,14 @@
     <% if @read_reports.present? %>
     <div class="read-reports">
       <h4><%= t ".read_reports" %></h4>
-      <%= render 'reports', reports: @read_reports %>
+      <%= render 'reports', :reports => @read_reports %>
     </div>
     <% end %>
 
     <% if @unread_reports.any? %>
     <div class="unread-reports">
       <h4><%= t ".new_reports" %></h4>
-      <%= render 'reports', reports: @unread_reports %>
+      <%= render 'reports', :reports => @unread_reports %>
     </div>
     <% end %>
     <br/>
@@ -59,4 +59,4 @@
 </div>
 
 <h3><%= t ".comments_on_this_issue" %></h3>
-<%= render 'comments', comments: @comments %>
+<%= render 'comments', :comments => @comments %>

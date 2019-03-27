@@ -26,7 +26,7 @@
 <% if @type == "node" and common_details.visible? %>
 <div class="details geo">
   <%= t 'browse.location' %>
-  <%= link_to(content_tag(:span, number_with_delimiter(common_details.lat), :class => "latitude") + ", " + content_tag(:span, number_with_delimiter(common_details.lon), :class => "longitude"), { :controller => 'site', :action => 'index', :anchor => "map=18/#{common_details.lat}/#{common_details.lon}" }) %>
+  <%= link_to(content_tag(:span, number_with_delimiter(common_details.lat), :class => "latitude") + ", " + content_tag(:span, number_with_delimiter(common_details.lon), :class => "longitude"), :controller => 'site', :action => 'index', :anchor => "map=18/#{common_details.lat}/#{common_details.lon}") %>
 </div>
 <% end %>
 

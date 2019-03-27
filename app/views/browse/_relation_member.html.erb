@@ -1,6 +1,6 @@
 <%
   member_class = link_class(relation_member.member_type.downcase, relation_member.member)
-  linked_name = link_to printable_name(relation_member.member), { :action => relation_member.member_type.downcase, :id => relation_member.member_id.to_s }, :title => link_title(relation_member.member), :rel => link_follow(relation_member.member)
+  linked_name = link_to printable_name(relation_member.member), { :action => relation_member.member_type.downcase, :id => relation_member.member_id.to_s }, { :title => link_title(relation_member.member), :rel => link_follow(relation_member.member) }
   type_str = t '.type.' + relation_member.member_type.downcase
 %>
 <li class="<%= member_class %>">
