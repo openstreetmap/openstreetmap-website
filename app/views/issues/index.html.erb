@@ -6,7 +6,7 @@
 <p><%= t ".search_guidance" %></p>
 <%= select_tag :status, options_for_select(Issue.aasm.states.map(&:name).map { |state| [t(".states.#{state}"), state] }, params[:status]), :include_blank => t(".select_status"), :data => { :behavior => 'category_dropdown' } %>
 <%= select_tag :issue_type, options_for_select(@issue_types, params[:issue_type]), :include_blank => t(".select_type"), :data => { :behavior => 'category_dropdown' } %>
-<%= text_field_tag :search_by_user, params[:search_by_user], placeholder: t(".reported_user") %>
+<%= text_field_tag :search_by_user, params[:search_by_user], :placeholder => t(".reported_user") %>
 <%= select_tag :last_updated_by, options_for_select(@users.all.collect { |f| [f.display_name, f.id] } << [t(".not_updated"), "nil"], params[:last_updated_by]), :include_blank => t(".select_last_updated_by"), :data => { :behavior => 'category_dropdown' } %>
 <%= submit_tag t(".search"), :name => nil %>
 <% end %>
