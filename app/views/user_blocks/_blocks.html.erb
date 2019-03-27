@@ -20,7 +20,7 @@
 
 <ul class='secondary-actions'>
   <% if @user_blocks_pages.current_page.number > 1 -%>
-    <li><%= link_to t('.previous'), @params.merge({ :page => @user_blocks_pages.current_page.number - 1 }) %></li>
+    <li><%= link_to t('.previous'), @params.merge(:page => @user_blocks_pages.current_page.number - 1) %></li>
   <% else -%>
     <li><%= t('.previous') %></li>
   <% end -%>
@@ -28,7 +28,7 @@
   <li><%= t('.showing_page', :page => @user_blocks_pages.current_page.number) %></li>
 
   <% if @user_blocks_pages.current_page.number < @user_blocks_pages.page_count -%>
-    <li><%= link_to t('.next'), @params.merge({ :page => @user_blocks_pages.current_page.number + 1 }) %></li>
+    <li><%= link_to t('.next'), @params.merge(:page => @user_blocks_pages.current_page.number + 1) %></li>
   <% else -%>
     <li><%= t('.next') %></li>
   <% end -%>
