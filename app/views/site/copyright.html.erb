@@ -1,19 +1,19 @@
 <% content_for :heading do %>
-<% if @locale == 'en' %>
+<% if @locale == "en" %>
   <!-- Maybe ease foreigners back to their native page -->
 
-    <% if t('.legal_babble', :locale => I18n.locale) != t('.legal_babble', :locale => :en) %>
+    <% if t(".legal_babble", :locale => I18n.locale) != t(".legal_babble", :locale => :en) %>
       <%= tag.h1 :lang => @locale, :dir => t("html.dir", :locale => @locale) do %>
-        <h1><%= t '.native.title' %></h1>
+        <h1><%= t ".native.title" %></h1>
         <p>
-          <%= raw t '.native.text',
-                    :native_link => link_to(t('.native.native_link'),
-                                            :controller => 'site',
-                                            :action => 'copyright',
+          <%= raw t ".native.text",
+                    :native_link => link_to(t(".native.native_link"),
+                                            :controller => "site",
+                                            :action => "copyright",
                                             :copyright_locale => nil),
-                    :mapping_link => link_to(t('.native.mapping_link'),
-                                             :controller => 'site',
-                                             :action => 'index') %>
+                    :mapping_link => link_to(t(".native.mapping_link"),
+                                             :controller => "site",
+                                             :action => "index") %>
         </p>
       <% end %>
       <hr />
@@ -21,14 +21,14 @@
   <% else %>
     <!-- Maybe note that this page has been translated -->
     <%= tag.div :lang => "en", :dir => t("html.dir", :locale => "en") do %>
-      <% if t('.legal_babble', :locale => @locale) != t('.legal_babble', :locale => :en) %>
-        <h1><%= t '.foreign.title' %></h1>
+      <% if t(".legal_babble", :locale => @locale) != t(".legal_babble", :locale => :en) %>
+        <h1><%= t ".foreign.title" %></h1>
         <p>
-          <%= raw t '.foreign.text',
-                    :english_original_link => link_to(t('.foreign.english_link'),
-                                                      :controller => 'site',
-                                                      :action => 'copyright',
-                                                      :copyright_locale => 'en') %>
+          <%= raw t ".foreign.text",
+                    :english_original_link => link_to(t(".foreign.english_link"),
+                                                      :controller => "site",
+                                                      :action => "copyright",
+                                                      :copyright_locale => "en") %>
         </p>
       <% end %>
       <hr />
@@ -51,9 +51,9 @@
   <p><%= t ".legal_babble.credit_2_html", :locale => @locale %></p>
   <p><%= t ".legal_babble.credit_3_html", :locale => @locale %></p>
   <p><%= image_tag("attribution_example.png",
-                   :alt => t('.legal_babble.attribution_example.alt'),
+                   :alt => t(".legal_babble.attribution_example.alt"),
                    :border => 0,
-                   :title => t('.legal_babble.attribution_example.title')) %>
+                   :title => t(".legal_babble.attribution_example.title")) %>
 
   <h3><%= t ".legal_babble.more_title_html", :locale => @locale %></h3>
   <p><%= t ".legal_babble.more_1_html", :locale => @locale %></p>
