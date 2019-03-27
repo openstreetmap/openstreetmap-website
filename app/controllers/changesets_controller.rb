@@ -4,7 +4,6 @@ class ChangesetsController < ApplicationController
   layout "site"
   require "xml/libxml"
 
-  skip_before_action :verify_authenticity_token, :except => [:index]
   before_action :authorize_web
   before_action :set_locale
   before_action -> { check_database_readable(true) }, :only => [:index, :feed]
