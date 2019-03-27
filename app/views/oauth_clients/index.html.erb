@@ -1,36 +1,36 @@
 <% content_for :heading do %>
-  <h1><%= t '.title' %></h1>
+  <h1><%= t ".title" %></h1>
 <% end %>
 
 <% unless @tokens.empty? %>
-<h3><%= t '.my_tokens' %></h3>
-<p><%= t '.list_tokens' %></p>
+<h3><%= t ".my_tokens" %></h3>
+<p><%= t ".list_tokens" %></p>
 <table>
-  <tr><th><%= t '.application' %></th>
-    <th><%= t '.issued_at' %></th><th>&nbsp;</th></tr>
+  <tr><th><%= t ".application" %></th>
+    <th><%= t ".issued_at" %></th><th>&nbsp;</th></tr>
   <% @tokens.each do |token| %>
     <%= content_tag_for :tr, token do %>
       <td><%= link_to token.client_application.name, token.client_application.url %></td>
       <td><%= token.authorized_at %></td>
       <td>
-  <%= form_tag :controller => 'oauth', :action => 'revoke' do %>
-  <%= hidden_field_tag 'token', token.token %>
-  <%= submit_tag t('.revoke') %>
+  <%= form_tag :controller => "oauth", :action => "revoke" do %>
+  <%= hidden_field_tag "token", token.token %>
+  <%= submit_tag t(".revoke") %>
   <% end %>
       </td>
     <% end %>
   <% end %>
 </table>
 <% end %>
-<h3><%= t '.my_apps' %></h3>
+<h3><%= t ".my_apps" %></h3>
 <% if @client_applications.empty? %>
-<p><%= raw(t('.no_apps', :oauth => "<a href=\"https://oauth.net\">OAuth</a>")) %></p>
+<p><%= raw(t(".no_apps", :oauth => "<a href=\"https://oauth.net\">OAuth</a>")) %></p>
 <% else %>
-<p><%= t '.registered_apps' %></p>
+<p><%= t ".registered_apps" %></p>
 <% @client_applications.each do |client| %>
   <%= div_for client do %>
     <%= link_to client.name, :action => :show, :id => client.id %>
   <% end %>
 <% end %>
 <% end %>
-<h3><%= link_to t('.register_new'), :action => :new %></h3>
+<h3><%= link_to t(".register_new"), :action => :new %></h3>

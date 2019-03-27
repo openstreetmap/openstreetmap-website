@@ -1,35 +1,35 @@
 <% content_for :heading do %>
   <div id="userinformation" >
     <%= user_image @entry.user %>
-    <h2><%= link_to t('.user_title', :user => h(@entry.user.display_name)), :action => :index %></h2>
+    <h2><%= link_to t(".user_title", :user => h(@entry.user.display_name)), :action => :index %></h2>
     <p><%= rss_link_to :action => :rss, :display_name => @entry.user.display_name %></p>
   </div>
 <% end %>
 
-<%= render :partial => 'diary_entry', :object => @entry %>
+<%= render :partial => "diary_entry", :object => @entry %>
 
 <a id="comments"></a>
 <div class='comments'>
-<%= render :partial => 'diary_comment', :collection => @entry.visible_comments %>
+<%= render :partial => "diary_comment", :collection => @entry.visible_comments %>
 </div>
 
 <div>
   <% if current_user %>
-    <h3 id="newcomment"><%= t '.leave_a_comment' %></h3>
+    <h3 id="newcomment"><%= t ".leave_a_comment" %></h3>
 
-    <%= error_messages_for 'diary_comment' %>
+    <%= error_messages_for "diary_comment" %>
 
-    <%= form_for :diary_comment, :url => { :action => 'comment' } do |f| %>
+    <%= form_for :diary_comment, :url => { :action => "comment" } do |f| %>
       <%= richtext_area :diary_comment, :body, :cols => 80, :rows => 15 %>
-      <%= submit_tag t('.save_button') %>
+      <%= submit_tag t(".save_button") %>
     <% end %>
     <% if @entry.subscribers.exists?(current_user.id) %>
-      <div class="diary-subscribe-buttons"><%= link_to t('javascripts.changesets.show.unsubscribe'), diary_entry_unsubscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => :button %></div>
+      <div class="diary-subscribe-buttons"><%= link_to t("javascripts.changesets.show.unsubscribe"), diary_entry_unsubscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => :button %></div>
     <% else %>
-      <div class="diary-subscribe-buttons"><%= link_to t('javascripts.changesets.show.subscribe'), diary_entry_subscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => :button %></div>
+      <div class="diary-subscribe-buttons"><%= link_to t("javascripts.changesets.show.subscribe"), diary_entry_subscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => :button %></div>
     <% end %>
   <% else %>
-    <h3 id="newcomment"><%= raw t(".login_to_leave_a_comment", :login_link => link_to(t(".login"), :controller => 'users', :action => 'login', :referer => request.fullpath)) %></h3>
+    <h3 id="newcomment"><%= raw t(".login_to_leave_a_comment", :login_link => link_to(t(".login"), :controller => "users", :action => "login", :referer => request.fullpath)) %></h3>
   <% end %>
 </div>
 

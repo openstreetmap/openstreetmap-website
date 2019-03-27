@@ -7,19 +7,19 @@
 
     <ul class='secondary-actions clearfix'>
       <% unless params[:friends] or params[:nearby] -%>
-        <li><%= rss_link_to :action => 'rss', :language => params[:language] %></li>
+        <li><%= rss_link_to :action => "rss", :language => params[:language] %></li>
       <% end -%>
 
       <% if @user %>
         <% if @user == current_user %>
           <div>
-            <li><%= link_to image_tag("new.png", :class => "small_icon", :border => 0) + t('.new'), diary_new_path, :title => t('.new_title') %></li>
+            <li><%= link_to image_tag("new.png", :class => "small_icon", :border => 0) + t(".new"), diary_new_path, :title => t(".new_title") %></li>
           </div>
         <% end %>
       <% else %>
         <% if current_user %>
           <div>
-            <li><%= link_to image_tag("new.png", :class => "small_icon", :border => 0) + t('.new'), diary_new_path, :title => t('.new_title') %></li>
+            <li><%= link_to image_tag("new.png", :class => "small_icon", :border => 0) + t(".new"), diary_new_path, :title => t(".new_title") %></li>
           </div>
         <% end %>
       <% end %>
@@ -28,35 +28,35 @@
 <% end %>
 
 <% if @entries.empty? %>
-  <h4><%= t '.no_entries' %></h4>
+  <h4><%= t ".no_entries" %></h4>
 <% else %>
-  <h4><%= t '.recent_entries' %></h4>
+  <h4><%= t ".recent_entries" %></h4>
 
   <% if @user %>
-    <%= render :partial => 'diary_entry', :collection => @entries %>
+    <%= render :partial => "diary_entry", :collection => @entries %>
   <% else %>
-    <%= render :partial => 'diary_index_entry', :collection => @entries %>
+    <%= render :partial => "diary_index_entry", :collection => @entries %>
   <% end %>
 
   <div class="pagination">
     <% if @entries.size < @page_size -%>
-      <%= t('.older_entries') %>
+      <%= t(".older_entries") %>
     <% else -%>
-      <%= link_to t('.older_entries'), @params.merge(:page => @page + 1) %>
+      <%= link_to t(".older_entries"), @params.merge(:page => @page + 1) %>
     <% end -%>
 
     |
 
     <% if @page > 1 -%>
-      <%= link_to t('.newer_entries'), @params.merge(:page => @page - 1) %>
+      <%= link_to t(".newer_entries"), @params.merge(:page => @page - 1) %>
     <% else -%>
-      <%= t('.newer_entries') %>
+      <%= t(".newer_entries") %>
     <% end -%>
   </div>
 <% end %>
 
 <% unless params[:friends] or params[:nearby] -%>
   <% content_for :auto_discovery_link_tag do -%>
-  <%= auto_discovery_link_tag :rss, :action => 'rss', :language => params[:language] %>
+  <%= auto_discovery_link_tag :rss, :action => "rss", :language => params[:language] %>
   <% end -%>
 <% end -%>

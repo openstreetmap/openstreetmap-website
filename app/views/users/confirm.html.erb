@@ -1,5 +1,5 @@
 <% content_for :heading do %>
-  <h1><%= t '.heading' %></h1>
+  <h1><%= t ".heading" %></h1>
   <div class='header-illustration confirm-main'></div>
 <% end %>
 
@@ -10,12 +10,12 @@
 
   <% content_for(:content_class) { "user_confirm" } %>
 
-  <p><%= t '.press confirm button' %></p>
+  <p><%= t ".press confirm button" %></p>
 
   <%= form_tag({}, { :id => "confirm" }) do %>
     <input type="display_name" name="confirm_string" value="<%= params[:display_name] %>">
     <input type="hidden" name="confirm_string" value="<%= params[:confirm_string] %>">
-    <input type="submit" name="confirm_action" value="<%= t '.button' %>">
+    <input type="submit" name="confirm_action" value="<%= t ".button" %>">
   <% end %>
 <% else %>
   <h1>
@@ -26,5 +26,5 @@
   </h1>
 
   <p class='deemphasize'><%= t ".reconfirm_html",
-                               :reconfirm => url_for(:action => 'confirm_resend') %></p>
+                               :reconfirm => url_for(:action => "confirm_resend") %></p>
 <% end %>

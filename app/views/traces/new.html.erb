@@ -1,33 +1,33 @@
 <% content_for :heading do %>
-  <h1><%= t '.upload_trace' %></h1>
+  <h1><%= t ".upload_trace" %></h1>
 <% end %>
 
-<%= error_messages_for 'trace' %>
+<%= error_messages_for "trace" %>
 
 <%= form_for @trace, :url => { :action => "create" }, :html => { :multipart => true } do |f| %>
   <div class="standard-form">
     <fieldset>
       <div class='form-row'>
-        <label for="trace_gpx_file" class="standard-label"><%= t '.upload_gpx' %></label>
+        <label for="trace_gpx_file" class="standard-label"><%= t ".upload_gpx" %></label>
         <%= f.file_field :gpx_file %>
       </div>
       <div class='form-row'>
-        <label class="standard-label"><%= t '.description' %></label>
+        <label class="standard-label"><%= t ".description" %></label>
         <%= f.text_field :description %>
       </div>
       <div class='form-row'>
-        <label class="standard-label"><%= t '.tags' %></label>
+        <label class="standard-label"><%= t ".tags" %></label>
         <%= f.text_field :tagstring %>
-        <span class="form-help deemphasize">(<%= t '.tags_help' %>)</span>
+        <span class="form-help deemphasize">(<%= t ".tags_help" %>)</span>
       </div>
       <div class='form-row'>
-        <label class="standard-label"><%= t '.visibility' %></label>
-        <%= f.select :visibility, [[t('traces.visibility.private'), "private"], [t('traces.visibility.public'), "public"], [t('traces.visibility.trackable'), "trackable"], [t('traces.visibility.identifiable'), "identifiable"]] %>
-        <span class="form-help deemphasize">(<a href="<%= t '.visibility_help_url' %>"><%= t '.visibility_help' %></a>)</span>
+        <label class="standard-label"><%= t ".visibility" %></label>
+        <%= f.select :visibility, [[t("traces.visibility.private"), "private"], [t("traces.visibility.public"), "public"], [t("traces.visibility.trackable"), "trackable"], [t("traces.visibility.identifiable"), "identifiable"]] %>
+        <span class="form-help deemphasize">(<a href="<%= t ".visibility_help_url" %>"><%= t ".visibility_help" %></a>)</span>
       </div>
     </fieldset>
 
-    <%= submit_tag t('.upload_button') %>
-    <span class="form-help deemphasize"><a href="<%= t '.help_url' %>"><%= t '.help' %></a></span>
+    <%= submit_tag t(".upload_button") %>
+    <span class="form-help deemphasize"><a href="<%= t ".help_url" %>"><%= t ".help" %></a></span>
   </div>
 <% end %>

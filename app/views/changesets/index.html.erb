@@ -1,17 +1,17 @@
 <% if @edits.present? %>
   <ol class="changesets">
-    <%= render :partial => 'changeset', :collection => @edits %>
+    <%= render :partial => "changeset", :collection => @edits %>
   </ol>
 <% if @edits.size == 20 -%>
   <div class="changeset_more">
-    <%= link_to t('.load_more'), url_for(@params.merge(:max_id => @edits.last.id - 1)), :class => "button load_more" %>
+    <%= link_to t(".load_more"), url_for(@params.merge(:max_id => @edits.last.id - 1)), :class => "button load_more" %>
     <div class="loader"><%= image_tag "searching.gif" %></div>
   </div>
 <% end -%>
 <% elsif params[:bbox] %>
-  <div class="inner22"><%= t(params[:max_id] ? '.no_more_area' : '.empty_area') %></div>
+  <div class="inner22"><%= t(params[:max_id] ? ".no_more_area" : ".empty_area") %></div>
 <% elsif params[:display_name] %>
-  <div class="inner22"><%= t(params[:max_id] ? '.no_more_user' : '.empty_user') %></div>
+  <div class="inner22"><%= t(params[:max_id] ? ".no_more_user" : ".empty_user") %></div>
 <% else %>
-  <div class="inner22"><%= t(params[:max_id] ? '.no_more' : '.empty') %></div>
+  <div class="inner22"><%= t(params[:max_id] ? ".no_more" : ".empty") %></div>
 <% end %>

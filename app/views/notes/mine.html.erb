@@ -3,33 +3,33 @@
   <p><%= raw @description %></p>
 <% end %>
 
-<%= render :partial => 'notes_paging_nav' %>
+<%= render :partial => "notes_paging_nav" %>
 
 <table class="note_list">
   <tr>
     <th></th>
-    <th><%= t '.id' %></th>
-    <th><%= t '.creator' %></th>
-    <th><%= t '.description' %></th>
-    <th><%= t '.created_at' %></th>
-    <th><%= t '.last_changed' %></th>
+    <th><%= t ".id" %></th>
+    <th><%= t ".creator" %></th>
+    <th><%= t ".description" %></th>
+    <th><%= t ".created_at" %></th>
+    <th><%= t ".last_changed" %></th>
   </tr>
 <% @notes.each do |note| -%>
   <tr<% if note.author != @user2 %> class="creator"<% end %>>
     <td>
       <% if note.closed? %>
-        <%= image_tag("closed_note_marker.png", :alt => 'closed') %>
+        <%= image_tag("closed_note_marker.png", :alt => "closed") %>
       <% else %>
-        <%= image_tag("open_note_marker.png", :alt => 'open') %>
+        <%= image_tag("open_note_marker.png", :alt => "open") %>
       <% end %>
     </td>
     <td><%= link_to note.id.to_s, :controller => "browse", :action => "note", :id => note.id %></td>
     <td><%= note_author(note.author) %></td>
     <td><%= note.comments.first.body.to_html %></td>
-    <td><%= t '.ago_html', :when => friendly_date(note.created_at) %></td>
-    <td><%= t '.ago_html', :when => friendly_date(note.updated_at) %></td>
+    <td><%= t ".ago_html", :when => friendly_date(note.created_at) %></td>
+    <td><%= t ".ago_html", :when => friendly_date(note.updated_at) %></td>
   </tr>
 <% end -%>
 </table>
 
-<%= render :partial => 'notes_paging_nav' %>
+<%= render :partial => "notes_paging_nav" %>

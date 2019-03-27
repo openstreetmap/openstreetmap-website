@@ -1,9 +1,9 @@
-<% @title = t('.title',
+<% @title = t(".title",
               :block_on => @user_block.user.display_name,
               :block_by => @user_block.creator.display_name) %>
 
 <% content_for :heading do %>
-  <h1><%= raw t('.heading',
+  <h1><%= raw t(".heading",
                 :block_on => link_to(h(@user_block.user.display_name),
                                      user_path(@user_block.user)),
                 :block_by => link_to(h(@user_block.creator.display_name),
@@ -11,26 +11,26 @@
 <ul class='secondary-actions clearfix'>
   <% if @user_block.ends_at > Time.now.getutc %>
     <% if current_user and current_user.id == @user_block.creator_id %>
-      <li><%= link_to t('.edit'), edit_user_block_path(@user_block) %></li>
+      <li><%= link_to t(".edit"), edit_user_block_path(@user_block) %></li>
     <% end %>
     <% if current_user and current_user.moderator? %>
-      <li><%= link_to(t('.revoke'), :controller => 'user_blocks', :action => 'revoke', :id => @user_block.id) %></li>
+      <li><%= link_to(t(".revoke"), :controller => "user_blocks", :action => "revoke", :id => @user_block.id) %></li>
     <% end %>
   <% end %>
-  <li><%= link_to t('.back'), user_blocks_path %></li>
+  <li><%= link_to t(".back"), user_blocks_path %></li>
 </ul>
 <% end %>
 
 <% if @user_block.revoker %>
 <p>
-  <b><%= t '.revoker' %></b>
+  <b><%= t ".revoker" %></b>
   <%= link_to h(@user_block.revoker.display_name), user_path(@user_block.revoker) %>
 </p>
 <% end %>
 
-<p><b><%= t '.created' %></b>: <%= raw t '.ago', :time => friendly_date(@user_block.created_at) %></p>
+<p><b><%= t ".created" %></b>: <%= raw t ".ago", :time => friendly_date(@user_block.created_at) %></p>
 
-<p><b><%= t '.status' %></b>: <%= block_status(@user_block) %></p>
+<p><b><%= t ".status" %></b>: <%= block_status(@user_block) %></p>
 
-<p><b><%= t '.reason' %></b></p>
+<p><b><%= t ".reason" %></b></p>
 <div class="richtext"><%= @user_block.reason.to_html %></div>

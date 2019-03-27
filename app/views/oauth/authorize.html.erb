@@ -9,7 +9,7 @@
   <%- if params[:oauth_callback] -%>
     <%= hidden_field_tag "oauth_callback", params[:oauth_callback] %>
   <%- end -%>
-  <p><%= t '.allow_to' %></p>
+  <p><%= t ".allow_to" %></p>
   <ul>
   <% @token.client_application.permissions.each do |perm| %>
     <li><%= check_box_tag perm.to_s, "yes", @token.read_attribute(perm) %><%= label_tag perm.to_s, t(".#{perm}") %></li>

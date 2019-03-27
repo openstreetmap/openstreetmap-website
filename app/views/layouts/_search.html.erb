@@ -1,10 +1,10 @@
 <div class="search_forms">
   <form method="GET" action="<%= search_path %>" class="search_form">
-    <%= link_to image_tag('directions.png', :class => 'button'), directions_path, :class => "button switch_link", :title => t('site.search.get_directions_title') %>
-    <%= submit_tag t('site.search.submit_text'), :class => 'float', :data => { :disable_with => false } %>
+    <%= link_to image_tag("directions.png", :class => "button"), directions_path, :class => "button switch_link", :title => t("site.search.get_directions_title") %>
+    <%= submit_tag t("site.search.submit_text"), :class => "float", :data => { :disable_with => false } %>
     <div class='query_wrapper'>
-      <%= text_field_tag "query", params[:query], :placeholder => t("site.search.search"), :autofocus => autofocus, :class => 'overflow' %>
-      <%= link_to t('site.search.where_am_i'), '#', :class => "describe_location", :title => t('site.search.where_am_i_title') %>
+      <%= text_field_tag "query", params[:query], :placeholder => t("site.search.search"), :autofocus => autofocus, :class => "overflow" %>
+      <%= link_to t("site.search.where_am_i"), "#", :class => "describe_location", :title => t("site.search.where_am_i_title") %>
     </div>
   </form>
 
@@ -13,18 +13,18 @@
 
     <div class="line">
       <%= image_tag "marker-green.png", :class => "routing_marker", :data => { :type => "from" }, :draggable => "true" %>
-      <span class="force_width"><%= text_field_tag "route_from", params[:from], :placeholder => t('site.search.from') %></span>
+      <span class="force_width"><%= text_field_tag "route_from", params[:from], :placeholder => t("site.search.from") %></span>
     </div>
     <div class="line">
       <%= image_tag "marker-red.png", :class => "routing_marker", :data => { :type => "to" }, :draggable => "true" %>
-      <span class="force_width"><%= text_field_tag "route_to", params[:to], :placeholder => t('site.search.to') %></span>
+      <span class="force_width"><%= text_field_tag "route_to", params[:to], :placeholder => t("site.search.to") %></span>
     </div>
     <div class="line">
       <select class="routing_engines" name="routing_engines"></select>
-      <%= submit_tag t('site.search.submit_text'), :class => "routing_go", :data => { :disable_with => false } %>
+      <%= submit_tag t("site.search.submit_text"), :class => "routing_go", :data => { :disable_with => false } %>
     </div>
     <div class="line">
-      <a class="reverse_directions"><%= t('site.search.reverse_directions_text') %></a>
+      <a class="reverse_directions"><%= t("site.search.reverse_directions_text") %></a>
     </div>
 
     <div class="loader_copy"><div class="loader"><%= image_tag "searching.gif" %></div></div>
