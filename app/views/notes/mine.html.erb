@@ -1,6 +1,6 @@
 <% content_for :heading do %>
-  <h2><%= @heading %></h2>
-  <p><%= raw @description %></p>
+  <h2><%= t "notes.mine.heading", :user => @user.display_name %></h2>
+  <p><%= t "notes.mine.subheading_html", :user => link_to(@user.display_name, user_path(@user)) %></p>
 <% end %>
 
 <%= render :partial => "notes_paging_nav" %>
@@ -15,7 +15,7 @@
     <th><%= t ".last_changed" %></th>
   </tr>
 <% @notes.each do |note| -%>
-  <tr<% if note.author != @user2 %> class="creator"<% end %>>
+  <tr<% if note.author == @user %> class="creator"<% end %>>
     <td>
       <% if note.closed? %>
         <%= image_tag("closed_note_marker.png", :alt => "closed") %>
@@ -23,7 +23,7 @@
         <%= image_tag("open_note_marker.png", :alt => "open") %>
       <% end %>
     </td>
-    <td><%= link_to note.id.to_s, :controller => "browse", :action => "note", :id => note.id %></td>
+    <td><%= link_to note.id, browse_note_path(note) %></td>
     <td><%= note_author(note.author) %></td>
     <td><%= note.comments.first.body.to_html %></td>
     <td><%= t ".ago_html", :when => friendly_date(note.created_at) %></td>
