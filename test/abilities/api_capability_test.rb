@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class CapabilityTest < ActiveSupport::TestCase
+class ApiCapabilityTest < ActiveSupport::TestCase
   def tokens(*toks)
     AccessToken.new do |token|
       toks.each do |t|
@@ -12,10 +12,10 @@ class CapabilityTest < ActiveSupport::TestCase
   end
 end
 
-class ChangesetCommentCapabilityTest < CapabilityTest
+class ChangesetCommentApiCapabilityTest < ApiCapabilityTest
   test "as a normal user with permissionless token" do
     token = create(:access_token)
-    capability = Capability.new token
+    capability = ApiCapability.new token
 
     [:create, :destroy, :restore].each do |action|
       assert capability.cannot? action, ChangesetComment
@@ -24,7 +24,7 @@ class ChangesetCommentCapabilityTest < CapabilityTest
 
   test "as a normal user with allow_write_api token" do
     token = create(:access_token, :allow_write_api => true)
-    capability = Capability.new token
+    capability = ApiCapability.new token
 
     [:destroy, :restore].each do |action|
       assert capability.cannot? action, ChangesetComment
@@ -37,7 +37,7 @@ class ChangesetCommentCapabilityTest < CapabilityTest
 
   test "as a moderator with permissionless token" do
     token = create(:access_token, :user => create(:moderator_user))
-    capability = Capability.new token
+    capability = ApiCapability.new token
 
     [:create, :destroy, :restore].each do |action|
       assert capability.cannot? action, ChangesetComment
@@ -46,7 +46,7 @@ class ChangesetCommentCapabilityTest < CapabilityTest
 
   test "as a moderator with allow_write_api token" do
     token = create(:access_token, :user => create(:moderator_user), :allow_write_api => true)
-    capability = Capability.new token
+    capability = ApiCapability.new token
 
     [:create, :destroy, :restore].each do |action|
       assert capability.can? action, ChangesetComment
@@ -54,10 +54,10 @@ class ChangesetCommentCapabilityTest < CapabilityTest
   end
 end
 
-class NoteCapabilityTest < CapabilityTest
+class NoteApiCapabilityTest < ApiCapabilityTest
   test "as a normal user with permissionless token" do
     token = create(:access_token)
-    capability = Capability.new token
+    capability = ApiCapability.new token
 
     [:create, :comment, :close, :reopen, :destroy].each do |action|
       assert capability.cannot? action, Note
@@ -66,7 +66,7 @@ class NoteCapabilityTest < CapabilityTest
 
   test "as a normal user with allow_write_notes token" do
     token = create(:access_token, :allow_write_notes => true)
-    capability = Capability.new token
+    capability = ApiCapability.new token
 
     [:destroy].each do |action|
       assert capability.cannot? action, Note
@@ -79,7 +79,7 @@ class NoteCapabilityTest < CapabilityTest
 
   test "as a moderator with permissionless token" do
     token = create(:access_token, :user => create(:moderator_user))
-    capability = Capability.new token
+    capability = ApiCapability.new token
 
     [:destroy].each do |action|
       assert capability.cannot? action, Note
@@ -88,7 +88,7 @@ class NoteCapabilityTest < CapabilityTest
 
   test "as a moderator with allow_write_notes token" do
     token = create(:access_token, :user => create(:moderator_user), :allow_write_notes => true)
-    capability = Capability.new token
+    capability = ApiCapability.new token
 
     [:destroy].each do |action|
       assert capability.can? action, Note
@@ -96,22 +96,22 @@ class NoteCapabilityTest < CapabilityTest
   end
 end
 
-class UserCapabilityTest < CapabilityTest
+class UserApiCapabilityTest < ApiCapabilityTest
   test "user preferences" do
     # a user with no tokens
-    capability = Capability.new nil
+    capability = ApiCapability.new nil
     [:read, :read_one, :update, :update_one, :delete_one].each do |act|
       assert capability.cannot? act, UserPreference
     end
 
     # A user with empty tokens
-    capability = Capability.new tokens
+    capability = ApiCapability.new tokens
 
     [:read, :read_one, :update, :update_one, :delete_one].each do |act|
       assert capability.cannot? act, UserPreference
     end
 
-    capability = Capability.new tokens(:allow_read_prefs)
+    capability = ApiCapability.new tokens(:allow_read_prefs)
 
     [:update, :update_one, :delete_one].each do |act|
       assert capability.cannot? act, UserPreference
@@ -121,7 +121,7 @@ class UserCapabilityTest < CapabilityTest
       assert capability.can? act, UserPreference
     end
 
-    capability = Capability.new tokens(:allow_write_prefs)
+    capability = ApiCapability.new tokens(:allow_write_prefs)
     [:read, :read_one].each do |act|
       assert capability.cannot? act, UserPreference
     end

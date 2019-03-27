@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Capability
+class ApiCapability
   include CanCan::Ability
 
   def initialize(token)

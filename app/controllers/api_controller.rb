@@ -16,6 +16,15 @@ class ApiController < ApplicationController
     end
   end
 
+  def current_ability
+    # Use capabilities from the oauth token if it exists and is a valid access token
+    if Authenticator.new(self, [:token]).allow?
+      ApiAbility.new(nil).merge(ApiCapability.new(current_token))
+    else
+      ApiAbility.new(current_user)
+    end
+  end
+
   def deny_access(_exception)
     if current_token
       set_locale
