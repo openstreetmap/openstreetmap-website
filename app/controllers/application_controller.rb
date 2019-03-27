@@ -329,12 +329,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_ability
-    # Use capabilities from the oauth token if it exists and is a valid access token
-    if Authenticator.new(self, [:token]).allow?
-      Ability.new(nil).merge(Capability.new(current_token))
-    else
-      Ability.new(current_user)
-    end
+    Ability.new(current_user)
   end
 
   def deny_access(_exception)
