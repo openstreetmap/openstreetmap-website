@@ -20,7 +20,7 @@ L.OSM.Map = L.Map.extend({
 
     this.baseLayers.push(new L.OSM.Historical({
       attribution: "<a href='http://wiki.openstreetmap.org/wiki/OHM'>OHM</a>",
-      code: "H",
+      code: "O",
       keyid: "historical",
       name: I18n.t("javascripts.map.base.historical")
     }));
@@ -77,7 +77,7 @@ L.OSM.Map = L.Map.extend({
   },
 
   updateLayers: function(layerParam) {
-    layerParam = layerParam || "H";
+    layerParam = layerParam || "O";
     var layersAdded = "";
 
     for (var i = this.baseLayers.length - 1; i >= 0; i--) {
