@@ -185,14 +185,12 @@
       <% content_for :head do %>
         <%= javascript_include_tag "user" %>
       <% end %>
-      <%
-        user_data = {
-          :lon => current_user.home_lon,
-          :lat => current_user.home_lat,
-          :icon => image_path("marker-red.png"),
-          :description => render(:partial => "popup", :object => current_user, :locals => { :type => "your location" })
-        }
-      %>
+      <% user_data = {
+           :lon => current_user.home_lon,
+           :lat => current_user.home_lat,
+           :icon => image_path("marker-red.png"),
+           :description => render(:partial => "popup", :object => current_user, :locals => { :type => "your location" })
+         } %>
       <%= content_tag "div", "", :id => "map", :class => "content_map", :data => { :user => user_data } %>
     <% end %>
 

@@ -127,10 +127,8 @@
       <%= link_to "<< #{@prev_by_user.id}", :id => @prev_by_user.id %>
       &middot;
     <% end %>
-    <%=
-        user = (@prev_by_user || @next_by_user).user.display_name
-        link_to content_tag(:bdi, user), :controller => "changesets", :action => "index", :display_name => user
-    %>
+    <%= user = (@prev_by_user || @next_by_user).user.display_name
+        link_to content_tag(:bdi, user), :controller => "changesets", :action => "index", :display_name => user %>
     <% if @next_by_user %>
       &middot;
       <%= link_to "#{@next_by_user.id} >>", :id => @next_by_user.id %>

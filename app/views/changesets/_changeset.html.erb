@@ -1,5 +1,4 @@
-<%
-   changeset_data = { :id => changeset.id }
+<% changeset_data = { :id => changeset.id }
 
    if changeset.has_valid_bbox?
      bbox = changeset.bbox.to_unscaled
@@ -9,8 +8,7 @@
        :maxlon => bbox.max_lon,
        :maxlat => bbox.max_lat
      }
-   end
-%>
+   end %>
 
 <%= content_tag "li", :id => "changeset_#{changeset.id}", :data => { :changeset => changeset_data } do %>
   <h4>

@@ -1,11 +1,9 @@
-<%
-   user_data = {
+<% user_data = {
      :lon => contact.home_lon,
      :lat => contact.home_lat,
      :icon => image_path(type == "friend" ? "marker-blue.png" : "marker-green.png"),
      :description => render(:partial => "popup", :object => contact, :locals => { :type => type })
-   }
-%>
+   } %>
 <%= content_tag :div, :class => "contact-activity clearfix", :data => { :user => user_data } do %>
   <%= user_thumbnail contact %>
   <div class='activity-details'>
