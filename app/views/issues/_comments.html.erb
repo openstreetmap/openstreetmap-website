@@ -4,7 +4,7 @@
       <div style="float:left">
         <%= link_to user_thumbnail(comment.user), user_path(comment.user) %>
       </div>
-      <b> <%= link_to comment.user.display_name, user_path(comment.user) %> </b> <br/>
+      <b> <%= link_to comment.user.display_name, user_path(comment.user) %> </b> <br />
       <%= comment.body %>
     </div>
     <span class="deemphasize">
@@ -13,13 +13,13 @@
     <hr>
   <% end %>
 </div>
-<br/>
+<br />
 <div class="comment">
   <%= form_for @new_comment, :url => issue_comments_path(@issue) do |f| %>
   <%= richtext_area :issue_comment, :body, :cols => 10, :rows => 8, :required => true %>
   <%= label_tag :reassign, t(".reassign_param") %> <%= check_box_tag :reassign, true %>
-  <br/>
-  <br/>
+  <br />
+  <br />
   <%= submit_tag "Submit" %>
   <% end %>
 </div>

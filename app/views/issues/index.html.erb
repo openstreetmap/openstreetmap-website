@@ -10,13 +10,13 @@
 <%= select_tag :last_updated_by, options_for_select(@users.all.collect { |f| [f.display_name, f.id] } << [t(".not_updated"), "nil"], params[:last_updated_by]), :include_blank => t(".select_last_updated_by"), :data => { :behavior => "category_dropdown" } %>
 <%= submit_tag t(".search"), :name => nil %>
 <% end %>
-<br/>
+<br />
 
 <% if @issues.length == 0 %>
   <p><%= t ".issues_not_found" %></p>
 <% end %>
 
-<br/>
+<br />
 
 <table class="issues-list">
   <thead>
