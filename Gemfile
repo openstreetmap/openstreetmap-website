@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "5.2.2.1"
+gem "rails", "5.2.3"
 
 # Require things which have moved to gems in ruby 1.9
 gem "bigdecimal", "~> 1.1.0", :platforms => :ruby_19
