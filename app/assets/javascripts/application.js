@@ -6,6 +6,7 @@
 //= require bootstrap.tooltip
 //= require bootstrap.dropdown
 //= require osm
+//= require mapbox-gl
 //= require leaflet
 //= require leaflet.osm
 //= require leaflet.map

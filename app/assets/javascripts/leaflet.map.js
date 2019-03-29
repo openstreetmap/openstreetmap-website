@@ -18,13 +18,24 @@ L.OSM.Map = L.Map.extend({
 
     this.baseLayers = [];
 
-    this.baseLayers.push(new L.OSM.Historical({
+    // this.baseLayers.push(new L.OSM.Historical({
+    //   attribution: "<a href='http://wiki.openstreetmap.org/wiki/OHM'>OHM</a>",
+    //   code: "O",
+    //   keyid: "historical",
+    //   name: I18n.t("javascripts.map.base.historical")
+    // }));
+
+    var ohmLayer = new L.MapboxGL({
       attribution: "<a href='http://wiki.openstreetmap.org/wiki/OHM'>OHM</a>",
       code: "O",
       keyid: "historical",
-      name: I18n.t("javascripts.map.base.historical")
-    }));
+      name: I18n.t("javascripts.map.base.historical"),
+      style:
+        "https://gist.githubusercontent.com/mojodna/e79b8dae7d5e310bb86878968bbf73d2/raw/127e10d76c4e4240e80d36f2ab03c27d0caba89d/ohm.json",
+      accessToken: "no-token"
+    });
 
+    this.baseLayers.push(ohmLayer);
     this.baseLayers.push(new L.OSM.Mapnik({
       attribution: copyright + " &hearts; " + donate,
       code: "M",
