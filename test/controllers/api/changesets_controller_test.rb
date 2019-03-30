@@ -132,31 +132,40 @@ module Api
     # check that the changeset can be shown and returns the correct
     # document structure.
     def test_show
-      changeset_id = create(:changeset).id
+      changeset = create(:changeset)
 
-      get :show, :params => { :id => changeset_id }
+      get :show, :params => { :id => changeset.id }
       assert_response :success, "cannot get first changeset"
 
       assert_select "osm[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
-      assert_select "osm>changeset[id='#{changeset_id}']", 1
+      assert_select "osm>changeset[id='#{changeset.id}']", 1
+      assert_select "osm>changeset>@open", "true"
+      assert_select "osm>changeset>@created_at", changeset.created_at.xmlschema
+      assert_select "osm>changeset>@closed_at", 0
       assert_select "osm>changeset>discussion", 0
 
-      get :show, :params => { :id => changeset_id, :include_discussion => true }
+      get :show, :params => { :id => changeset.id, :include_discussion => true }
       assert_response :success, "cannot get first changeset with comments"
 
       assert_select "osm[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
-      assert_select "osm>changeset[id='#{changeset_id}']", 1
+      assert_select "osm>changeset[id='#{changeset.id}']", 1
+      assert_select "osm>changeset>@open", "true"
+      assert_select "osm>changeset>@created_at", changeset.created_at.xmlschema
+      assert_select "osm>changeset>@closed_at", 0
       assert_select "osm>changeset>discussion", 1
       assert_select "osm>changeset>discussion>comment", 0
 
-      changeset_id = create(:changeset, :closed).id
-      create_list(:changeset_comment, 3, :changeset_id => changeset_id)
+      changeset = create(:changeset, :closed)
+      create_list(:changeset_comment, 3, :changeset_id => changeset.id)
 
-      get :show, :params => { :id => changeset_id, :include_discussion => true }
+      get :show, :params => { :id => changeset.id, :include_discussion => true }
       assert_response :success, "cannot get closed changeset with comments"
 
       assert_select "osm[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
-      assert_select "osm>changeset[id='#{changeset_id}']", 1
+      assert_select "osm>changeset[id='#{changeset.id}']", 1
+      assert_select "osm>changeset>@open", "false"
+      assert_select "osm>changeset>@created_at", changeset.created_at.xmlschema
+      assert_select "osm>changeset>@closed_at", changeset.closed_at.xmlschema
       assert_select "osm>changeset>discussion", 1
       assert_select "osm>changeset>discussion>comment", 3
     end
