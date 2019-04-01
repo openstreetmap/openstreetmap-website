@@ -145,8 +145,10 @@ group :development, :test do
   gem "capybara", "~> 2.13"
   gem "coveralls", :require => false
   gem "erb_lint", :require => false
+  gem "eslint-rails-ee"
+  gem "execjs"
   gem "factory_bot_rails"
-  gem "jshint"
   gem "poltergeist"
   gem "puma", "~> 3.7"
+  gem "therubyracer", :platforms => :ruby
 end
