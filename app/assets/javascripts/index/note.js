@@ -40,7 +40,7 @@ OSM.Note = function (map) {
       initialize(function() {
         var data = $('.details').data(),
           latLng = L.latLng(data.coordinates.split(','));
-        if (!map.getBounds().contains(latLng)) moveToNote();        
+        if (!map.getBounds().contains(latLng)) moveToNote();
       });
     });
   };

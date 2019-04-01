@@ -55,6 +55,8 @@ OSM.Search = function(map) {
       });
     });
 
+  var markers = L.layerGroup().addTo(map);
+
   function clickSearchMore(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -114,8 +116,6 @@ OSM.Search = function(map) {
     e.preventDefault();
     e.stopPropagation();
   }
-
-  var markers = L.layerGroup().addTo(map);
 
   var page = {};
 
