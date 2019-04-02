@@ -102,7 +102,7 @@ module GPX
 
       res = GD2::AnimatedGif::gif_anim_begin(frames[0])
       res << GD2::AnimatedGif::gif_anim_add(frames[0], nil, delay)
-      (0..nframes - 1).each do |n|
+      (1..nframes - 1).each do |n|
         res << GD2::AnimatedGif::gif_anim_add(frames[n], frames[n-1], delay)
       end
       res << GD2::AnimatedGif::gif_anim_end()
