@@ -33,29 +33,35 @@
     <%= render :partial => "terms" %>
   </div>
 
-  <div class="deemphasize">
-    <p id="contributorGuidance">
+  <div>
+    <p id="contributorGuidance" class="deemphasize">
       <%= raw t '.guidance',
                 :summary => 'https://www.osmfoundation.org/wiki/License/Contributor_Terms_Summary',
                 :translations => 'https://www.osmfoundation.org/wiki/License/Contributor_Terms/Informal_Translations' %>
     </p>
   </div>
+  <div class="form-row">
+    <label for="read_ct">
+      <%= check_box_tag 'read_ct' %>
+      <%= t '.read_ct' %>
+    </label>
+  </div>
 
   <label class="standard-label">
     <%= t 'layouts.tou' %>
   </label>
-  <p class="deemphasize"><%= t '.tou_explain' %></p>
+  <p class="deemphasize"><%= t '.tou_explain_html', :tou_link => link_to(t('layouts.tou'), "https://wiki.osmfoundation.org/wiki/Terms_of_Use", :target => :new) %></p>
   <div class="form-row">
     <label for="read_tou">
       <%= check_box_tag 'read_tou' %>
-      <%= t '.read_tou_html', :tou_link => link_to(t('layouts.tou'), "https://wiki.osmfoundation.org/wiki/Terms_of_Use", :target => :new) %>
+      <%= t '.read_tou' %>
     </label>
 
     <%= hidden_field_tag("referer", h(params[:referer])) unless params[:referer].nil? %>
 
     <div class="buttons form-row inner20 clearfix">
-      <%= submit_tag(t('.agree'), :name => "agree", :id => "agree", :disabled => true)  %>
-      <%= submit_tag(t('.decline'), :name => "decline", :id => "decline") %>
+      <%= submit_tag("Continue", :name => "continue", :id => "continue", :disabled => true)  %>
+      <%= submit_tag("Cancel", :name => "decline", :id => "decline") %>
     </div>
 
     <label for="user_consider_pd">
