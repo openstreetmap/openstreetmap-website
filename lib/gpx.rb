@@ -48,46 +48,66 @@ module GPX
     end
 
     def picture(min_lat, min_lon, max_lat, max_lon, _num_points)
-      # frames = 10
+      nframes = 10
       width = 250
       height = 250
+      delay = 50
+
+      ptsper = _num_points / nframes;
+
       proj = OSM::Mercator.new(min_lat, min_lon, max_lat, max_lon, width, height)
 
-      # TODO: create animated gif
-      # https://github.com/openstreetmap/openstreetmap-website/issues/281
-      image = GD2::Image::IndexedColor.new(width, height)
+      frames = Array.new(nframes,  GD2::Image::IndexedColor.new(width, height))
 
-      black = image.palette.allocate(GD2::Color[0, 0, 0])
-      white = image.palette.allocate(GD2::Color[255, 255, 255])
+      (0..nframes - 1).each do |n|
+        frames[n] = GD2::Image::IndexedColor.new(width, height)
+        black = frames[n].palette.allocate(GD2::Color[0, 0, 0])
+        white = frames[n].palette.allocate(GD2::Color[255, 255, 255])
+        grey = frames[n].palette.allocate(GD2::Color[187, 187, 187])
 
-      image.draw do |pen|
-        pen.color = white
-        pen.rectangle(0, 0, width, height, true)
-      end
+        frames[n].draw do |pen|
+          pen.color = white
+          pen.rectangle(0, 0, width, height, true)
+        end
 
-      image.draw do |pen|
-        pen.color = black
-        pen.anti_aliasing = true
-        pen.dont_blend = false
+        frames[n].draw do |pen|
+          pen.color = black
+          pen.anti_aliasing = true
+          pen.dont_blend = false
 
-        oldpx = 0.0
-        oldpy = 0.0
+          oldpx = 0.0
+          oldpy = 0.0
 
-        first = true
+          first = true
 
-        points do |p|
-          px = proj.x(p.longitude)
-          py = proj.y(p.latitude)
+          points.each_with_index do |p, pt|
+            px = proj.x(p.longitude)
+            py = proj.y(p.latitude)
 
-          pen.line(px, py, oldpx, oldpy) unless first
+            if ((pt >= (ptsper * n)) && (pt <= (ptsper * (n+1))))
+              pen.thickness=(3)
+              pen.color = black
+            else
+              pen.thickness=(1)
+              pen.color = grey
+            end
 
-          first = false
-          oldpy = py
-          oldpx = px
+            pen.line(px, py, oldpx, oldpy) unless first
+              first = false
+              oldpy = py
+              oldpx = px
+          end
         end
       end
 
-      image.gif
+      res = GD2::AnimatedGif::gif_anim_begin(frames[0])
+      res << GD2::AnimatedGif::gif_anim_add(frames[0], nil, delay)
+      (0..nframes - 1).each do |n|
+        res << GD2::AnimatedGif::gif_anim_add(frames[n], frames[n-1], delay)
+      end
+      res << GD2::AnimatedGif::gif_anim_end()
+
+      res
     end
 
     def icon(min_lat, min_lon, max_lat, max_lon)

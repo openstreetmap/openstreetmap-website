@@ -117,7 +117,7 @@ gem "canonical-rails"
 gem "logstasher"
 
 # Used to generate images for traces
-gem "gd2-ffij"
+gem "gd2-ffij", :git => 'git@github.com:mmd-osm/gd2-ffij.git', :branch => 'animated_gif'
 
 # Used for browser detection
 gem "browser"
