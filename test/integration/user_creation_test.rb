@@ -94,7 +94,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           perform_enqueued_jobs do
             post "/user/save",
                  :headers => { "HTTP_ACCEPT_LANGUAGE" => locale.to_s },
-                 :params => { :read_tou => 1 }
+                 :params => { :read_ct => 1, :read_tou => 1 }
             follow_redirect!
           end
         end
@@ -163,7 +163,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
                :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => password, :pass_crypt_confirmation => password }, :referer => referer }
           assert_redirected_to "/user/terms"
           post "/user/save",
-               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => password, :pass_crypt_confirmation => password }, :read_tou => 1 }
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => password, :pass_crypt_confirmation => password }, :read_ct => 1, :read_tou => 1 }
           follow_redirect!
         end
       end
@@ -218,7 +218,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_response :redirect
           assert_redirected_to "/user/terms"
           post "/user/save",
-               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => password, :pass_crypt_confirmation => password }, :read_tou => 1 }
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => password, :pass_crypt_confirmation => password }, :read_ct => 1, :read_tou => 1 }
           assert_response :redirect
           follow_redirect!
         end
@@ -283,7 +283,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_response :redirect
           assert_redirected_to "/user/terms"
           post "/user/save",
-               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }, :read_tou => 1 }
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }, :read_ct => 1, :read_tou => 1 }
           follow_redirect!
         end
       end
@@ -340,7 +340,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_response :redirect
           assert_redirected_to "/user/terms"
           post "/user/save",
-               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "google", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password }, :read_tou => 1 }
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "google", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password }, :read_ct => 1, :read_tou => 1 }
           assert_response :redirect
           follow_redirect!
         end
@@ -407,7 +407,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_response :redirect
           assert_redirected_to "/user/terms"
           post "/user/save",
-               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "google", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }, :read_tou => 1 }
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "google", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }, :read_ct => 1, :read_tou => 1 }
           follow_redirect!
         end
       end
@@ -462,7 +462,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_response :redirect
           assert_redirected_to "/user/terms"
           post "/user/save",
-               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "facebook", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password }, :read_tou => 1 }
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "facebook", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password }, :read_ct => 1, :read_tou => 1 }
           assert_response :redirect
           follow_redirect!
         end
@@ -527,7 +527,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_response :redirect
           assert_redirected_to "/user/terms"
           post "/user/save",
-               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "facebook", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }, :read_tou => 1 }
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "facebook", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }, :read_ct => 1, :read_tou => 1 }
           follow_redirect!
         end
       end
@@ -582,7 +582,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_response :redirect
           assert_redirected_to "/user/terms"
           post "/user/save",
-               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "windowslive", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password }, :read_tou => 1 }
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "windowslive", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password }, :read_ct => 1, :read_tou => 1 }
           assert_response :redirect
           follow_redirect!
         end
@@ -647,7 +647,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_response :redirect
           assert_redirected_to "/user/terms"
           post "/user/save",
-               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "windowslive", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }, :read_tou => 1 }
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "windowslive", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }, :read_ct => 1, :read_tou => 1 }
           follow_redirect!
         end
       end
@@ -702,7 +702,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_response :redirect
           assert_redirected_to "/user/terms"
           post "/user/save",
-               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password }, :read_tou => 1 }
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password }, :read_ct => 1, :read_tou => 1 }
           assert_response :redirect
           follow_redirect!
         end
@@ -767,7 +767,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_response :redirect
           assert_redirected_to "/user/terms"
           post "/user/save",
-               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }, :read_tou => 1 }
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }, :read_ct => 1, :read_tou => 1 }
           follow_redirect!
         end
       end
@@ -822,7 +822,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_response :redirect
           assert_redirected_to "/user/terms"
           post "/user/save",
-               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "wikipedia", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password }, :read_tou => 1 }
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "wikipedia", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password }, :read_ct => 1, :read_tou => 1 }
           assert_response :redirect
           follow_redirect!
         end
@@ -887,7 +887,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
           assert_response :redirect
           assert_redirected_to "/user/terms"
           post "/user/save",
-               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "wikipedia", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }, :read_tou => 1 }
+               :params => { :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "wikipedia", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }, :read_ct => 1, :read_tou => 1 }
           follow_redirect!
         end
       end
