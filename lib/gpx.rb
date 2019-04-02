@@ -57,7 +57,7 @@ module GPX
 
       proj = OSM::Mercator.new(min_lat, min_lon, max_lat, max_lon, width, height)
 
-      frames = Array.new(nframes,  GD2::Image::IndexedColor.new(width, height))
+      frames = []
 
       (0..nframes - 1).each do |n|
         frames[n] = GD2::Image::IndexedColor.new(width, height)
