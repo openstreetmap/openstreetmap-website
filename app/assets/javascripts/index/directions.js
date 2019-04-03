@@ -28,6 +28,20 @@ OSM.Directions = function (map) {
   var expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
 
+  var engines = OSM.Directions.engines;
+
+  engines.sort(function (a, b) {
+    a = I18n.t('javascripts.directions.engines.' + a.id);
+    b = I18n.t('javascripts.directions.engines.' + b.id);
+    return a.localeCompare(b);
+  });
+
+  var select = $('select.routing_engines');
+
+  engines.forEach(function(engine, i) {
+    select.append("<option value='" + i + "'>" + I18n.t('javascripts.directions.engines.' + engine.id) + "</option>");
+  });
+
   function Endpoint(input, iconUrl) {
     var endpoint = {};
 
@@ -60,7 +74,7 @@ OSM.Directions = function (map) {
 
     input.on("change", function (e) {
       awaitingGeocode = true;
-      
+
       // make text the same in both text boxes
       var value = e.target.value;
       endpoint.setValue(value);
@@ -245,15 +259,12 @@ OSM.Directions = function (map) {
         .html(html);
 
       // Add each row
-      var cumulative = 0;
       route.steps.forEach(function (step) {
         var ll        = step[0],
           direction   = step[1],
           instruction = step[2],
           dist        = step[3],
           lineseg     = step[4];
-
-        cumulative += dist;
 
         if (dist < 5) {
           dist = "";
@@ -303,20 +314,6 @@ OSM.Directions = function (map) {
       });
     });
   }
-
-  var engines = OSM.Directions.engines;
-
-  engines.sort(function (a, b) {
-    a = I18n.t('javascripts.directions.engines.' + a.id);
-    b = I18n.t('javascripts.directions.engines.' + b.id);
-    return a.localeCompare(b);
-  });
-
-  var select = $('select.routing_engines');
-
-  engines.forEach(function(engine, i) {
-    select.append("<option value='" + i + "'>" + I18n.t('javascripts.directions.engines.' + engine.id) + "</option>");
-  });
 
   var chosenEngineIndex = findEngine('fossgis_osrm_car');
   if ($.cookie('_osm_directions_engine')) {

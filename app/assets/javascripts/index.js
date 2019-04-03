@@ -25,6 +25,12 @@
 $(document).ready(function () {
   var loaderTimeout;
 
+  var map = new L.OSM.Map("map", {
+    zoomControl: false,
+    layerControl: false,
+    contextmenu: true
+  });
+
   OSM.loadSidebarContent = function(path, callback) {
     map.setSidebarOverlaid(false);
 
@@ -77,12 +83,6 @@ $(document).ready(function () {
   };
 
   var params = OSM.mapParams();
-
-  var map = new L.OSM.Map("map", {
-    zoomControl: false,
-    layerControl: false,
-    contextmenu: true
-  });
 
   map.attributionControl.setPrefix('');
 
