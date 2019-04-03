@@ -85,7 +85,7 @@ module Api
         trace = do_create(params[:file], tags, description, visibility)
 
         if trace.id
-          TraceImporterJob.perform_later(@trace) if Settings.trace_use_job_queue
+          TraceImporterJob.perform_later(trace) if Settings.trace_use_job_queue
           render :plain => trace.id.to_s
         elsif trace.valid?
           head :internal_server_error
