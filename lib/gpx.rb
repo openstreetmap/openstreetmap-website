@@ -47,19 +47,19 @@ module GPX
       end
     end
 
-    def picture(min_lat, min_lon, max_lat, max_lon, _num_points)
+    def picture(min_lat, min_lon, max_lat, max_lon, num_points)
       nframes = 10
       width = 250
       height = 250
       delay = 50
 
-      ptsper = _num_points / nframes;
+      points_per_frame = num_points / nframes
 
       proj = OSM::Mercator.new(min_lat, min_lon, max_lat, max_lon, width, height)
 
       frames = []
 
-      (0..nframes - 1).each do |n|
+      (0...nframes).each do |n|
         frames[n] = GD2::Image::IndexedColor.new(width, height)
         black = frames[n].palette.allocate(GD2::Color[0, 0, 0])
         white = frames[n].palette.allocate(GD2::Color[255, 255, 255])
@@ -84,28 +84,28 @@ module GPX
             px = proj.x(p.longitude)
             py = proj.y(p.latitude)
 
-            if ((pt >= (ptsper * n)) && (pt <= (ptsper * (n+1))))
-              pen.thickness=(3)
+            if (pt >= (points_per_frame * n)) && (pt <= (points_per_frame * (n + 1)))
+              pen.thickness = 3
               pen.color = black
             else
-              pen.thickness=(1)
+              pen.thickness = 1
               pen.color = grey
             end
 
             pen.line(px, py, oldpx, oldpy) unless first
-              first = false
-              oldpy = py
-              oldpx = px
+            first = false
+            oldpy = py
+            oldpx = px
           end
         end
       end
 
-      res = GD2::AnimatedGif::gif_anim_begin(frames[0])
-      res << GD2::AnimatedGif::gif_anim_add(frames[0], nil, delay)
-      (1..nframes - 1).each do |n|
-        res << GD2::AnimatedGif::gif_anim_add(frames[n], frames[n-1], delay)
+      res = GD2::AnimatedGif.gif_anim_begin(frames[0])
+      res << GD2::AnimatedGif.gif_anim_add(frames[0], nil, delay)
+      (1...nframes).each do |n|
+        res << GD2::AnimatedGif.gif_anim_add(frames[n], frames[n - 1], delay)
       end
-      res << GD2::AnimatedGif::gif_anim_end()
+      res << GD2::AnimatedGif.gif_anim_end
 
       res
     end
