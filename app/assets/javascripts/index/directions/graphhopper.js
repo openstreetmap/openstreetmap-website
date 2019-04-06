@@ -14,7 +14,7 @@ function GraphHopperEngine(id, vehicleType) {
 
   return {
     id: id,
-    creditline: '<a href="https://www.graphhopper.com/" target="_blank">Graphhopper</a>',
+    creditline: "<a href=\"https://www.graphhopper.com/\" target=\"_blank\">Graphhopper</a>",
     draggable: false,
 
     getRoute: function (points, callback) {

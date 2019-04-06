@@ -3,7 +3,7 @@
 OSM.Query = function(map) {
   var url = OSM.OVERPASS_URL,
     queryButton = $(".control-query .control-button"),
-    uninterestingTags = ['source', 'source_ref', 'source:ref', 'history', 'attribution', 'created_by', 'tiger:county', 'tiger:tlid', 'tiger:upload_uuid', 'KSJ2:curve_id', 'KSJ2:lat', 'KSJ2:lon', 'KSJ2:coordinate', 'KSJ2:filename', 'note:ja'],
+    uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"],
     marker;
 
   var featureStyle = {
@@ -55,7 +55,7 @@ OSM.Query = function(map) {
           var geometry = $(this).data("geometry");
           if (geometry) map.removeLayer(geometry);
 
-          if (!$(e.target).is('a')) {
+          if (!$(e.target).is("a")) {
             $(this).find("a").simulate("click", e);
           }
         }
@@ -342,7 +342,7 @@ OSM.Query = function(map) {
   };
 
   page.load = function(path, noCentre) {
-    var params = querystring.parse(path.substring(path.indexOf('?') + 1)),
+    var params = querystring.parse(path.substring(path.indexOf("?") + 1)),
       latlng = L.latLng(params.lat, params.lon);
 
     if (!window.location.hash && !noCentre && !map.getBounds().contains(latlng)) {

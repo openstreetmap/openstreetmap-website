@@ -14,7 +14,7 @@ OSM.History = function(map) {
     .on("mousedown", "[data-changeset]", function () {
       var moved = false;
       $(this).one("click", function (e) {
-        if (!moved && !$(e.target).is('a')) {
+        if (!moved && !$(e.target).is("a")) {
           clickChangeset($(this).data("changeset").id, e);
         }
       }).one("mousemove", function () {
@@ -52,9 +52,9 @@ OSM.History = function(map) {
   }
 
   function update() {
-    var data = {list: '1'};
+    var data = {list: "1"};
 
-    if (window.location.pathname === '/history') {
+    if (window.location.pathname === "/history") {
       data.bbox = map.getBounds().wrap().toBBoxString();
     }
 
@@ -63,15 +63,15 @@ OSM.History = function(map) {
       method: "GET",
       data: data,
       success: function(html) {
-        $('#sidebar_content .changesets').html(html);
+        $("#sidebar_content .changesets").html(html);
         updateMap();
       }
     });
 
-    var feedLink = $('link[type="application/atom+xml"]'),
-      feedHref = feedLink.attr('href').split('?')[0];
+    var feedLink = $("link[type=\"application/atom+xml\"]"),
+      feedHref = feedLink.attr("href").split("?")[0];
 
-    feedLink.attr('href', feedHref + '?bbox=' + data.bbox);
+    feedLink.attr("href", feedHref + "?bbox=" + data.bbox);
   }
 
   function loadMore(e) {
@@ -130,14 +130,14 @@ OSM.History = function(map) {
 
   function updateMap() {
     changesets = $("[data-changeset]").map(function (index,element) {
-      return $(element).data('changeset');
+      return $(element).data("changeset");
     }).get().filter(function (changeset) {
       return changeset.bbox;
     });
 
     updateBounds();
 
-    if (window.location.pathname !== '/history') {
+    if (window.location.pathname !== "/history") {
       var bounds = group.getBounds();
       if (bounds.isValid()) map.fitBounds(bounds);
     }
@@ -151,7 +151,7 @@ OSM.History = function(map) {
   page.load = function() {
     map.addLayer(group);
 
-    if (window.location.pathname === '/history') {
+    if (window.location.pathname === "/history") {
       map.on("moveend", update);
     }
 

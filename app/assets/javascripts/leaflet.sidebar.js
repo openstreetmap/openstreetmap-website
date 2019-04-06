@@ -19,10 +19,10 @@ L.OSM.sidebar = function(selector) {
   control.togglePane = function(pane, button) {
     current
       .hide()
-      .trigger('hide');
+      .trigger("hide");
 
     currentButton
-      .removeClass('active');
+      .removeClass("active");
 
     if (current === pane) {
       $(sidebar).hide();
@@ -37,10 +37,10 @@ L.OSM.sidebar = function(selector) {
 
     current
       .show()
-      .trigger('show');
+      .trigger("show");
 
     currentButton
-      .addClass('active');
+      .addClass("active");
   };
 
   return control;

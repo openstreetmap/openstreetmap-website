@@ -5,11 +5,11 @@
 document.addEventListener("DOMContentLoaded", function() {
   var container = document.getElementById("id-container");
 
-  if (typeof iD === 'undefined' || !iD.Detect().support) {
-    container.innerHTML = 'This editor is supported ' +
-      'in Firefox, Chrome, Safari, Opera, Edge, and Internet Explorer 11. ' +
-      'Please upgrade your browser or use Potlatch 2 to edit the map.';
-    container.className = 'unsupported';
+  if (typeof iD === "undefined" || !iD.Detect().support) {
+    container.innerHTML = "This editor is supported " +
+      "in Firefox, Chrome, Safari, Opera, Edge, and Internet Explorer 11. " +
+      "Please upgrade your browser or use Potlatch 2 to edit the map.";
+    container.className = "unsupported";
   } else {
     var id = iD.Context()
       .embed(true)
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
         oauth_token_secret: container.dataset.tokenSecret
       });
 
-    id.map().on('move.embed', parent.$.throttle(250, function() {
+    id.map().on("move.embed", parent.$.throttle(250, function() {
       if (id.inIntro()) return;
       var zoom = ~~id.map().zoom(),
         center = id.map().center(),

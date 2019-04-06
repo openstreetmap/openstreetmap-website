@@ -17,7 +17,7 @@
 //= require richtext
 //= require querystring
 
-var querystring = require('querystring-component');
+var querystring = require("querystring-component");
 
 /*
  * Called as the user scrolls/zooms around to maniplate hrefs of the
@@ -39,11 +39,11 @@ window.updateLinks = function (loc, zoom, layers, object) {
     }
 
     var query = querystring.stringify(args);
-    if (query) href += '?' + query;
+    if (query) href += "?" + query;
 
     args = {
       lat: loc.lat,
-      lon: 'lon' in loc ? loc.lon : loc.lng,
+      lon: "lon" in loc ? loc.lon : loc.lng,
       zoom: zoom
     };
 
@@ -57,13 +57,13 @@ window.updateLinks = function (loc, zoom, layers, object) {
   });
 
   var editDisabled = zoom < 13;
-  $('#edit_tab')
-    .tooltip({placement: 'bottom'})
-    .off('click.minzoom')
-    .on('click.minzoom', function() { return !editDisabled; })
-    .toggleClass('disabled', editDisabled)
-    .attr('data-original-title', editDisabled ?
-      I18n.t('javascripts.site.edit_disabled_tooltip') : '');
+  $("#edit_tab")
+    .tooltip({placement: "bottom"})
+    .off("click.minzoom")
+    .on("click.minzoom", function() { return !editDisabled; })
+    .toggleClass("disabled", editDisabled)
+    .attr("data-original-title", editDisabled ?
+      I18n.t("javascripts.site.edit_disabled_tooltip") : "");
 };
 
 window.maximiseMap = function () {

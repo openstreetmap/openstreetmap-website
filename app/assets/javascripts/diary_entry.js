@@ -10,7 +10,7 @@ $(document).ready(function () {
     }
 
     marker = L.marker(e.latlng, {icon: OSM.getUserIcon()}).addTo(map)
-      .bindPopup(I18n.t('diary_entries.edit.marker_text'));
+      .bindPopup(I18n.t("diary_entries.edit.marker_text"));
   }
 
   $("#usemap").click(function (e) {
@@ -21,7 +21,7 @@ $(document).ready(function () {
 
     var params = $("#map").data();
     var centre = [params.lat, params.lon];
-    var position = $('html').attr('dir') === 'rtl' ? 'topleft' : 'topright';
+    var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
     map = L.map("map", {
       attributionControl: false,
@@ -35,7 +35,7 @@ $(document).ready(function () {
 
     if ($("#latitude").val() && $("#longitude").val()) {
       marker = L.marker(centre, {icon: OSM.getUserIcon()}).addTo(map)
-        .bindPopup(I18n.t('diary_entries.edit.marker_text'));
+        .bindPopup(I18n.t("diary_entries.edit.marker_text"));
     }
 
     map.on("click", setLocation);

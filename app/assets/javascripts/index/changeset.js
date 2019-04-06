@@ -1,6 +1,6 @@
 OSM.Changeset = function (map) {
   var page = {},
-    content = $('#sidebar_content'),
+    content = $("#sidebar_content"),
     currentChangesetId;
 
   page.pushstate = page.popstate = function(path, id) {
@@ -17,7 +17,7 @@ OSM.Changeset = function (map) {
   };
 
   function addChangeset(id, center) {
-    map.addObject({type: 'changeset', id: parseInt(id, 10)}, function(bounds) {
+    map.addObject({type: "changeset", id: parseInt(id, 10)}, function(bounds) {
       if (!window.location.hash && bounds.isValid() &&
           (center || !map.getBounds().contains(bounds))) {
         OSM.router.withoutMoveListener(function () {
@@ -72,7 +72,7 @@ OSM.Changeset = function (map) {
       }
     });
 
-    content.find("textarea").val('').trigger("input");
+    content.find("textarea").val("").trigger("input");
   }
 
   page.unload = function() {

@@ -6,28 +6,28 @@ $(document).ready(function() {
     params.lon = parseFloat(params.lon);
     params.zoom = params.zoom || 17;
 
-    var url = '/edit';
+    var url = "/edit";
 
     if (params.editor) {
-      url += '?editor=' + params.editor;
+      url += "?editor=" + params.editor;
     }
 
     url += OSM.formatHash(params);
 
-    $('.start-mapping').attr('href', url);
+    $(".start-mapping").attr("href", url);
 
   } else {
     var geoSuccess = function (position) {
-      window.location = '/edit' + OSM.formatHash({
+      window.location = "/edit" + OSM.formatHash({
         zoom: 17,
         lat: position.coords.latitude,
         lon: position.coords.longitude
       });
     };
 
-    $('.start-mapping').on('click', function(e) {
+    $(".start-mapping").on("click", function(e) {
       e.preventDefault();
-      $('.start-mapping').addClass('loading');
+      $(".start-mapping").addClass("loading");
 
       if (navigator.geolocation) {
         // handle firefox's weird implementation
@@ -42,6 +42,6 @@ $(document).ready(function() {
   }
 
   function manualEdit() {
-    window.location = '/?edit_help=1';
+    window.location = "/?edit_help=1";
   }
 });

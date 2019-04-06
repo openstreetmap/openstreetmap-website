@@ -1,6 +1,6 @@
 OSM.NewNote = function(map) {
   var noteLayer = map.noteLayer,
-    content = $('#sidebar_content'),
+    content = $("#sidebar_content"),
     page = {},
     addNoteButton = $(".control-note .control-button"),
     newNote,
@@ -28,9 +28,9 @@ OSM.NewNote = function(map) {
     e.preventDefault();
     e.stopPropagation();
 
-    if ($(this).hasClass('disabled')) return;
+    if ($(this).hasClass("disabled")) return;
 
-    OSM.router.route('/note/new');
+    OSM.router.route("/note/new");
   });
 
   function createNote(marker, form, url) {
@@ -61,7 +61,7 @@ OSM.NewNote = function(map) {
       newNote = null;
       noteLayer.removeLayer(marker);
       addNoteButton.removeClass("active");
-      OSM.router.route('/note/' + feature.properties.id);
+      OSM.router.route("/note/" + feature.properties.id);
     }
   }
 
@@ -83,7 +83,7 @@ OSM.NewNote = function(map) {
   };
 
   function newHalo(loc, a) {
-    if (a === 'dragstart' && map.hasLayer(halo)) {
+    if (a === "dragstart" && map.hasLayer(halo)) {
       map.removeLayer(halo);
     } else {
       if (map.hasLayer(halo)) map.removeLayer(halo);
@@ -107,7 +107,7 @@ OSM.NewNote = function(map) {
 
     map.addLayer(noteLayer);
 
-    var params = querystring.parse(path.substring(path.indexOf('?') + 1));
+    var params = querystring.parse(path.substring(path.indexOf("?") + 1));
     var markerLatlng;
 
     if (params.lat && params.lon) {
@@ -149,9 +149,9 @@ OSM.NewNote = function(map) {
       $(e.target.form.add).prop("disabled", $(e.target).val() === "");
     }
 
-    content.find('input[type=submit]').on('click', function (e) {
+    content.find("input[type=submit]").on("click", function (e) {
       e.preventDefault();
-      createNote(newNote, e.target.form, '/api/0.6/notes.json');
+      createNote(newNote, e.target.form, "/api/0.6/notes.json");
     });
 
     return map.getState();

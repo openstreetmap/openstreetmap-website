@@ -1,5 +1,5 @@
 OSM.Note = function (map) {
-  var content = $('#sidebar_content'),
+  var content = $("#sidebar_content"),
     page = {},
     halo, currentNote;
 
@@ -38,8 +38,8 @@ OSM.Note = function (map) {
   page.pushstate = page.popstate = function (path) {
     OSM.loadSidebarContent(path, function() {
       initialize(function() {
-        var data = $('.details').data(),
-          latLng = L.latLng(data.coordinates.split(','));
+        var data = $(".details").data(),
+          latLng = L.latLng(data.coordinates.split(","));
         if (!map.getBounds().contains(latLng)) moveToNote();
       });
     });
@@ -68,10 +68,10 @@ OSM.Note = function (map) {
       }
     });
 
-    content.find("textarea").val('').trigger("input");
+    content.find("textarea").val("").trigger("input");
 
-    var data = $('.details').data(),
-      latLng = L.latLng(data.coordinates.split(','));
+    var data = $(".details").data(),
+      latLng = L.latLng(data.coordinates.split(","));
 
     if (!map.hasLayer(halo)) {
       halo = L.circleMarker(latLng, {
@@ -96,8 +96,8 @@ OSM.Note = function (map) {
   }
 
   function moveToNote() {
-    var data = $('.details').data(),
-      latLng = L.latLng(data.coordinates.split(','));
+    var data = $(".details").data(),
+      latLng = L.latLng(data.coordinates.split(","));
 
     if (!window.location.hash || window.location.hash.match(/^#?c[0-9]+$/)) {
       OSM.router.withoutMoveListener(function () {

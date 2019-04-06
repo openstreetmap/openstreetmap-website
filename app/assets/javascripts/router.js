@@ -53,13 +53,13 @@ OSM.Router = function(map, rts) {
   var splatParam    = /\*\w+/g;
 
   function Route(path, controller) {
-    var regexp = new RegExp('^' +
-      path.replace(escapeRegExp, '\\$&')
-        .replace(optionalParam, '(?:$1)?')
+    var regexp = new RegExp("^" +
+      path.replace(escapeRegExp, "\\$&")
+        .replace(optionalParam, "(?:$1)?")
         .replace(namedParam, function(match, optional){
-          return optional ? match : '([^\/]+)';
+          return optional ? match : "([^\/]+)";
         })
-        .replace(splatParam, '(.*?)') + '(?:\\?.*)?$');
+        .replace(splatParam, "(.*?)") + "(?:\\?.*)?$");
 
     var route = {};
 
@@ -94,36 +94,36 @@ OSM.Router = function(map, rts) {
     }
   };
 
-  var currentPath = window.location.pathname.replace(/(.)\/$/, '$1') + window.location.search,
+  var currentPath = window.location.pathname.replace(/(.)\/$/, "$1") + window.location.search,
     currentRoute = routes.recognize(currentPath),
     currentHash = location.hash || OSM.formatHash(map);
 
   var router = {};
 
   if (window.history && window.history.pushState) {
-    $(window).on('popstate', function(e) {
+    $(window).on("popstate", function(e) {
       if (!e.originalEvent.state) return; // Is it a real popstate event or just a hash change?
       var path = window.location.pathname + window.location.search,
         route = routes.recognize(path);
       if (path === currentPath) return;
-      currentRoute.run('unload', null, route === currentRoute);
+      currentRoute.run("unload", null, route === currentRoute);
       currentPath = path;
       currentRoute = route;
-      currentRoute.run('popstate', currentPath);
+      currentRoute.run("popstate", currentPath);
       map.setState(e.originalEvent.state, {animate: false});
     });
 
     router.route = function (url) {
-      var path = url.replace(/#.*/, ''),
+      var path = url.replace(/#.*/, ""),
         route = routes.recognize(path);
       if (!route) return false;
-      currentRoute.run('unload', null, route === currentRoute);
+      currentRoute.run("unload", null, route === currentRoute);
       var state = OSM.parseHash(url);
       map.setState(state);
       window.history.pushState(state, document.title, url);
       currentPath = path;
       currentRoute = route;
-      currentRoute.run('pushstate', currentPath);
+      currentRoute.run("pushstate", currentPath);
       return true;
     };
 
@@ -166,19 +166,19 @@ OSM.Router = function(map, rts) {
 
   router.withoutMoveListener = function (callback) {
     function disableMoveListener() {
-      map.off('moveend', router.updateHash);
-      map.once('moveend', function () {
-        map.on('moveend', router.updateHash);
+      map.off("moveend", router.updateHash);
+      map.once("moveend", function () {
+        map.on("moveend", router.updateHash);
       });
     }
 
-    map.once('movestart', disableMoveListener);
+    map.once("movestart", disableMoveListener);
     callback();
-    map.off('movestart', disableMoveListener);
+    map.off("movestart", disableMoveListener);
   };
 
   router.load = function() {
-    var loadState = currentRoute.run('load', currentPath);
+    var loadState = currentRoute.run("load", currentPath);
     router.stateChange(loadState || {});
   };
 
@@ -187,8 +187,8 @@ OSM.Router = function(map, rts) {
     currentRoute = routes.recognize(currentPath);
   };
 
-  map.on('moveend baselayerchange overlaylayerchange', router.updateHash);
-  $(window).on('hashchange', router.hashUpdated);
+  map.on("moveend baselayerchange overlaylayerchange", router.updateHash);
+  $(window).on("hashchange", router.hashUpdated);
 
   return router;
 };

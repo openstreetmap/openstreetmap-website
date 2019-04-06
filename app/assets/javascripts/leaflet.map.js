@@ -13,8 +13,8 @@ L.OSM.Map = L.Map.extend({
   initialize: function(id, options) {
     L.Map.prototype.initialize.call(this, id, options);
 
-    var copyright = I18n.t('javascripts.map.copyright', {copyright_url: '/copyright'});
-    var donate = I18n.t('javascripts.map.donate_link_text', {donate_url: 'https://donate.openstreetmap.org'});
+    var copyright = I18n.t("javascripts.map.copyright", {copyright_url: "/copyright"});
+    var donate = I18n.t("javascripts.map.donate_link_text", {donate_url: "https://donate.openstreetmap.org"});
 
     this.baseLayers = [];
 
@@ -51,10 +51,10 @@ L.OSM.Map = L.Map.extend({
     }));
 
     this.noteLayer = new L.FeatureGroup();
-    this.noteLayer.options = {code: 'N'};
+    this.noteLayer.options = {code: "N"};
 
     this.dataLayer = new L.OSM.DataLayer(null);
-    this.dataLayer.options.code = 'D';
+    this.dataLayer.options.code = "D";
 
     this.gpsLayer = new L.OSM.GPS({
       pane: "overlayPane",
@@ -86,7 +86,7 @@ L.OSM.Map = L.Map.extend({
   },
 
   getLayersCode: function () {
-    var layerConfig = '';
+    var layerConfig = "";
     this.eachLayer(function (layer) {
       if (layer.options && layer.options.code) {
         layerConfig += layer.options.code;
@@ -113,11 +113,11 @@ L.OSM.Map = L.Map.extend({
       params.mlon = latLng.lng.toFixed(precision);
     }
 
-    var url = window.location.protocol + '//' + OSM.SERVER_URL + '/',
+    var url = window.location.protocol + "//" + OSM.SERVER_URL + "/",
       query = querystring.stringify(params),
       hash = OSM.formatHash(this);
 
-    if (query) url += '?' + query;
+    if (query) url += "?" + query;
     if (hash) url += hash;
 
     return url;
@@ -127,8 +127,8 @@ L.OSM.Map = L.Map.extend({
     var zoom = this.getZoom(),
       latLng = marker && this.hasLayer(marker) ? marker.getLatLng().wrap() : this.getCenter().wrap(),
       str = window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
-        window.location.protocol + '//osm.org/go/' :
-        window.location.protocol + '//' + window.location.hostname + '/go/',
+        window.location.protocol + "//osm.org/go/" :
+        window.location.protocol + "//" + window.location.hostname + "/go/",
       char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~",
       x = Math.round((latLng.lng + 180.0) * ((1 << 30) / 90.0)),
       y = Math.round((latLng.lat + 90.0) * ((1 << 30) / 45.0)),
@@ -162,14 +162,14 @@ L.OSM.Map = L.Map.extend({
     }
 
     var params = {};
-    var layers = this.getLayersCode().replace('M', '');
+    var layers = this.getLayersCode().replace("M", "");
 
     if (layers) {
       params.layers = layers;
     }
 
     if (marker && this.hasLayer(marker)) {
-      params.m = '';
+      params.m = "";
     }
 
     if (this._object) {
@@ -178,7 +178,7 @@ L.OSM.Map = L.Map.extend({
 
     var query = querystring.stringify(params);
     if (query) {
-      str += '?' + query;
+      str += "?" + query;
     }
 
     return str;
@@ -199,7 +199,7 @@ L.OSM.Map = L.Map.extend({
     params.lon = latLng.lng.toFixed(precision);
     params.zoom = this.getZoom();
 
-    return 'geo:' + params.lat + ',' + params.lon + '?z=' + params.zoom;
+    return "geo:" + params.lat + "," + params.lon + "?z=" + params.zoom;
   },
 
   addObject: function(object, callback) {
@@ -212,7 +212,7 @@ L.OSM.Map = L.Map.extend({
 
     var changesetStyle = {
       weight: 4,
-      color: '#FF9500',
+      color: "#FF9500",
       opacity: 1,
       fillOpacity: 0,
       interactive: false

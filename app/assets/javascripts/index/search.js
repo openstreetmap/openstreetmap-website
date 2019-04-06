@@ -47,7 +47,7 @@ OSM.Search = function(map) {
     .on("mousedown", "p.search_results_entry:has(a.set_position)", function () {
       var moved = false;
       $(this).one("click", function (e) {
-        if (!moved && !$(e.target).is('a')) {
+        if (!moved && !$(e.target).is("a")) {
           $(this).find("a.set_position").simulate("click", e);
         }
       }).one("mousemove", function () {
@@ -120,7 +120,7 @@ OSM.Search = function(map) {
   var page = {};
 
   page.pushstate = page.popstate = function(path) {
-    var params = querystring.parse(path.substring(path.indexOf('?') + 1));
+    var params = querystring.parse(path.substring(path.indexOf("?") + 1));
     $(".search_form input[name=query]").val(params.query);
     $(".describe_location").hide();
     OSM.loadSidebarContent(path, page.load);
@@ -131,7 +131,7 @@ OSM.Search = function(map) {
       var entry = $(this);
       $.ajax({
         url: entry.data("href"),
-        method: 'GET',
+        method: "GET",
         data: {
           zoom: map.getZoom(),
           minlon: map.getBounds().getWest(),
@@ -143,7 +143,7 @@ OSM.Search = function(map) {
           entry.html(html);
           // go to first result of first geocoder
           if (index === 0) {
-            var firstResult = entry.find('*[data-lat][data-lon]:first').first();
+            var firstResult = entry.find("*[data-lat][data-lon]:first").first();
             if (firstResult.length) {
               panToSearchResult(firstResult.data());
             }

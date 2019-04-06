@@ -4,7 +4,7 @@ $(document).ready(function () {
   var application_data = $("head").data();
 
   function makeAbsolute(url) {
-    var a = document.createElement('a');
+    var a = document.createElement("a");
     a.href = url;
     return a.href;
   }
