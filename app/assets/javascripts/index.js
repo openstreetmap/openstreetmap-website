@@ -334,7 +334,7 @@ $(document).ready(function () {
     };
 
     function addObject(type, id, center) {
-      map.addObject({type: type, id: parseInt(id)}, function(bounds) {
+      map.addObject({type: type, id: parseInt(id, 10)}, function(bounds) {
         if (!window.location.hash && bounds.isValid() &&
             (center || !map.getBounds().contains(bounds))) {
           OSM.router.withoutMoveListener(function () {

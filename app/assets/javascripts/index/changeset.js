@@ -10,14 +10,14 @@ OSM.Changeset = function (map) {
   };
 
   page.load = function(path, id) {
-    if(id)
+    if (id)
       currentChangesetId = id;
     initialize();
     addChangeset(currentChangesetId, true);
   };
 
   function addChangeset(id, center) {
-    map.addObject({type: 'changeset', id: parseInt(id)}, function(bounds) {
+    map.addObject({type: 'changeset', id: parseInt(id, 10)}, function(bounds) {
       if (!window.location.hash && bounds.isValid() &&
           (center || !map.getBounds().contains(bounds))) {
         OSM.router.withoutMoveListener(function () {
@@ -32,7 +32,7 @@ OSM.Changeset = function (map) {
 
     $(form).find("input[type=submit]").prop("disabled", true);
 
-    if(include_data) {
+    if (include_data) {
       data = {text: $(form.text).val()};
     } else {
       data = {};

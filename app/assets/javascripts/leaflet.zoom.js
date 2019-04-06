@@ -9,8 +9,8 @@ L.OSM.Zoom = L.Control.extend({
 
 		this._map = map;
 
-		this._zoomInButton  = this._createButton(
-		        '', I18n.t('javascripts.map.zoom.in'),  zoomName + 'in',  container, this._zoomIn,  this);
+		this._zoomInButton = this._createButton(
+		        '', I18n.t('javascripts.map.zoom.in'), zoomName + 'in', container, this._zoomIn, this);
 		this._zoomOutButton = this._createButton(
 		        '', I18n.t('javascripts.map.zoom.out'), zoomName + 'out', container, this._zoomOut, this);
 

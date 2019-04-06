@@ -121,7 +121,7 @@ OSM.NewNote = function(map) {
     });
 
     newNote = L.marker(markerLatlng, {
-      icon: noteIcons["new"],
+      icon: noteIcons.new,
       opacity: 0.9,
       draggable: true
     });

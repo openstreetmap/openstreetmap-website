@@ -87,20 +87,20 @@ L.OSM.Map = L.Map.extend({
 
   getLayersCode: function () {
     var layerConfig = '';
-    for (var i in this._layers) { // TODO: map.eachLayer
-      var layer = this._layers[i];
+    this.eachLayer(function (layer) {
       if (layer.options && layer.options.code) {
         layerConfig += layer.options.code;
       }
-    }
+    });
     return layerConfig;
   },
 
   getMapBaseLayerId: function () {
-    for (var i in this._layers) { // TODO: map.eachLayer
-      var layer = this._layers[i];
-      if (layer.options && layer.options.keyid) return layer.options.keyid;
-    }
+    var baseLayer;
+    this.eachLayer(function (layer) {
+      if (layer.options && layer.options.keyid) baseLayer = layer;
+    });
+    return baseLayer.keyid;
   },
 
   getUrl: function(marker) {

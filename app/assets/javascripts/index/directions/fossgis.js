@@ -99,7 +99,7 @@ function FOSSGISEngine(id, vehicleType) {
         var template = INSTRUCTION_TEMPLATE[maneuver_id];
 
         // convert lat,lng pairs to LatLng objects
-        var step_geometry = L.PolylineUtil.decode(step.geometry, { precision: 5 }).map(function(a) { return L.latLng(a); }) ;
+        var step_geometry = L.PolylineUtil.decode(step.geometry, { precision: 5 }).map(function(a) { return L.latLng(a); });
         // append step_geometry on line
         Array.prototype.push.apply(line, step_geometry);
 
