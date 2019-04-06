@@ -313,7 +313,7 @@ L.OSM.share = function (options) {
         "\"": "&quot;",
         "'": "&#x27;"
       };
-      return string === null ? "" : (string + "").replace(/[&<>"']/g, function(match) {
+      return string === null ? "" : String(string).replace(/[&<>"']/g, function(match) {
         return htmlEscapes[match];
       });
     }

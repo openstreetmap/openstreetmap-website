@@ -44,7 +44,7 @@ L.OSM.Map = L.Map.extend({
     }
 
     this.baseLayers.push(new L.OSM.HOT({
-      attribution: copyright + ". Tiles style by <a href='https://www.hotosm.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>" + " hosted by <a href='https://openstreetmap.fr/' target='_blank'>OpenStreetMap France</a>",
+      attribution: copyright + ". Tiles style by <a href='https://www.hotosm.org/' target='_blank'>Humanitarian OpenStreetMap Team</a> hosted by <a href='https://openstreetmap.fr/' target='_blank'>OpenStreetMap France</a>",
       code: "H",
       keyid: "hot",
       name: I18n.t("javascripts.map.base.hot")
@@ -136,9 +136,10 @@ L.OSM.Map = L.Map.extend({
       // done in two parts. each of the parts c1/c2 has 30 bits of the total in it
       // and drops the last 4 bits of the full 64 bit Morton code.
       c1 = interlace(x >>> 17, y >>> 17), c2 = interlace((x >>> 2) & 0x7fff, (y >>> 2) & 0x7fff),
-      digit;
+      digit,
+      i;
 
-    for (var i = 0; i < Math.ceil((zoom + 8) / 3.0) && i < 5; ++i) {
+    for (i = 0; i < Math.ceil((zoom + 8) / 3.0) && i < 5; ++i) {
       digit = (c1 >> (24 - 6 * i)) & 0x3f;
       str += char_array.charAt(digit);
     }
