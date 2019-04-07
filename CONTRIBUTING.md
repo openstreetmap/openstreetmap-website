@@ -10,6 +10,7 @@ development to check that your code matches our guidelines:
 
 ```
 bundle exec rubocop
+bundle exec rake eslint
 bundle exec erblint .
 ```
 
