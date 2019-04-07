@@ -9,7 +9,7 @@ $(document).ready(function () {
 
     var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
-    L.OSM.zoom({position: position})
+    L.OSM.zoom({ position: position })
       .addTo(map);
 
     var locate = L.control.locate({
@@ -39,7 +39,7 @@ $(document).ready(function () {
     }
 
     if ($("#map").hasClass("set_location")) {
-      var marker = L.marker([0, 0], {icon: OSM.getUserIcon()});
+      var marker = L.marker([0, 0], { icon: OSM.getUserIcon() });
 
       if (OSM.home) {
         marker.setLatLng([OSM.home.lat, OSM.home.lon]);
@@ -64,7 +64,7 @@ $(document).ready(function () {
       $("[data-user]").each(function () {
         var user = $(this).data("user");
         if (user.lon && user.lat) {
-          L.marker([user.lat, user.lon], {icon: OSM.getUserIcon(user.icon)}).addTo(map)
+          L.marker([user.lat, user.lon], { icon: OSM.getUserIcon(user.icon) }).addTo(map)
             .bindPopup(user.description);
         }
       });

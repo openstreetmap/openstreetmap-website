@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
   var params = OSM.params();
 
   var url = "/note/new";

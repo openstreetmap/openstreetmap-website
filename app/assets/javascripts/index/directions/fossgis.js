@@ -9,7 +9,7 @@ function FOSSGISEngine(id, vehicleType) {
     creditline: "<a href=\"https://routing.openstreetmap.de/about.html\" target=\"_blank\">FOSSGIS Routing Service</a>",
     draggable: true,
 
-    _transformSteps: function(input_steps, line) {
+    _transformSteps: function (input_steps, line) {
       var INSTRUCTION_TEMPLATE = {
         "continue": "javascripts.directions.instructions.continue",
         "merge right": "javascripts.directions.instructions.merge_right",
@@ -35,7 +35,7 @@ function FOSSGISEngine(id, vehicleType) {
         "exit roundabout": "javascripts.directions.instructions.exit_roundabout",
         "exit rotary": "javascripts.directions.instructions.exit_roundabout",
         "depart": "javascripts.directions.instructions.start",
-        "arrive": "javascripts.directions.instructions.destination",
+        "arrive": "javascripts.directions.instructions.destination"
       };
       var ICON_MAP = {
         "continue": 0,
@@ -64,10 +64,10 @@ function FOSSGISEngine(id, vehicleType) {
         "depart": 8,
         "arrive": 14
       };
-      var numToWord = function(num) {
-        return ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"][num-1];
+      var numToWord = function (num) {
+        return ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"][num - 1];
       };
-      var transformed_steps = input_steps.map(function(step, idx) {
+      var transformed_steps = input_steps.map(function (step, idx) {
         var maneuver_id;
 
         // special case handling
@@ -99,7 +99,7 @@ function FOSSGISEngine(id, vehicleType) {
         var template = INSTRUCTION_TEMPLATE[maneuver_id];
 
         // convert lat,lng pairs to LatLng objects
-        var step_geometry = L.PolylineUtil.decode(step.geometry, { precision: 5 }).map(function(a) { return L.latLng(a); });
+        var step_geometry = L.PolylineUtil.decode(step.geometry, { precision: 5 }).map(function (a) { return L.latLng(a); });
         // append step_geometry on line
         Array.prototype.push.apply(line, step_geometry);
 
@@ -150,7 +150,6 @@ function FOSSGISEngine(id, vehicleType) {
     },
 
     getRoute: function (points, callback) {
-
       var params = [
         { name: "overview", value: "false" },
         { name: "geometries", value: "polyline" },
@@ -159,23 +158,24 @@ function FOSSGISEngine(id, vehicleType) {
 
 
       if (cachedHints.length === points.length) {
-        params.push({name: "hints", value: cachedHints.join(";")});
+        params.push({ name: "hints", value: cachedHints.join(";") });
       } else {
         // invalidate cache
         cachedHints = [];
       }
 
-      var encoded_coords = points.map(function(p) {
+      var encoded_coords = points.map(function (p) {
         return p.lng + "," + p.lat;
       }).join(";");
 
       var req_url = OSM.FOSSGIS_OSRM_URL + "routed-" + vehicleType + "/route/v1/driving/" + encoded_coords;
 
       var onResponse = function (data) {
-        if (data.code !== "Ok")
+        if (data.code !== "Ok") {
           return callback(true);
+        }
 
-        cachedHints = data.waypoints.map(function(wp) {
+        cachedHints = data.waypoints.map(function (wp) {
           return wp.hint;
         });
 

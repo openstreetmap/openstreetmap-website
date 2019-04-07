@@ -120,7 +120,7 @@ OSM.initializeBrowse = function (map) {
 
     // Redraw in selected style
     layer.originalStyle = layer.options;
-    layer.setStyle({color: "#0000ff", weight: 8});
+    layer.setStyle({ color: "#0000ff", weight: 8 });
 
     OSM.router.route("/" + layer.feature.type + "/" + layer.feature.id);
 

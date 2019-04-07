@@ -1,6 +1,6 @@
 //= require jquery.simulate
 
-OSM.History = function(map) {
+OSM.History = function (map) {
   var page = {};
 
   $("#sidebar_content")
@@ -13,13 +13,15 @@ OSM.History = function(map) {
     })
     .on("mousedown", "[data-changeset]", function () {
       var moved = false;
-      $(this).one("click", function (e) {
-        if (!moved && !$(e.target).is("a")) {
-          clickChangeset($(this).data("changeset").id, e);
-        }
-      }).one("mousemove", function () {
-        moved = true;
-      });
+      $(this)
+        .one("click", function (e) {
+          if (!moved && !$(e.target).is("a")) {
+            clickChangeset($(this).data("changeset").id, e);
+          }
+        })
+        .one("mousemove", function () {
+          moved = true;
+        });
     });
 
   var group = L.featureGroup()
@@ -33,17 +35,17 @@ OSM.History = function(map) {
       clickChangeset(e.layer.id, e);
     });
 
-  group.getLayerId = function(layer) {
+  group.getLayerId = function (layer) {
     return layer.id;
   };
 
   function highlightChangeset(id) {
-    group.getLayer(id).setStyle({fillOpacity: 0.3, color: "#FF6600", weight: 3});
+    group.getLayer(id).setStyle({ fillOpacity: 0.3, color: "#FF6600", weight: 3 });
     $("#changeset_" + id).addClass("selected");
   }
 
   function unHighlightChangeset(id) {
-    group.getLayer(id).setStyle({fillOpacity: 0, color: "#FF9500", weight: 2});
+    group.getLayer(id).setStyle({ fillOpacity: 0, color: "#FF9500", weight: 2 });
     $("#changeset_" + id).removeClass("selected");
   }
 
@@ -52,7 +54,7 @@ OSM.History = function(map) {
   }
 
   function update() {
-    var data = {list: "1"};
+    var data = { list: "1" };
 
     if (window.location.pathname === "/history") {
       data.bbox = map.getBounds().wrap().toBBoxString();
@@ -62,7 +64,7 @@ OSM.History = function(map) {
       url: window.location.pathname,
       method: "GET",
       data: data,
-      success: function(html) {
+      success: function (html) {
         $("#sidebar_content .changesets").html(html);
         updateMap();
       }
@@ -83,7 +85,7 @@ OSM.History = function(map) {
     $(this).hide();
     div.find(".loader").show();
 
-    $.get($(this).attr("href"), function(data) {
+    $.get($(this).attr("href"), function (data) {
       div.replaceWith(data);
       updateMap();
     });
@@ -94,7 +96,7 @@ OSM.History = function(map) {
   function updateBounds() {
     group.clearLayers();
 
-    changesets.forEach(function(changeset) {
+    changesets.forEach(function (changeset) {
       var bottomLeft = map.project(L.latLng(changeset.bbox.minlat, changeset.bbox.minlon)),
           topRight = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.maxlon)),
           width = topRight.x - bottomLeft.x,
@@ -122,14 +124,14 @@ OSM.History = function(map) {
     for (var i = 0; i < changesets.length; ++i) {
       var changeset = changesets[i],
         rect = L.rectangle(changeset.bounds,
-          {weight: 2, color: "#FF9500", opacity: 1, fillColor: "#FFFFAF", fillOpacity: 0});
+          { weight: 2, color: "#FF9500", opacity: 1, fillColor: "#FFFFAF", fillOpacity: 0 });
       rect.id = changeset.id;
       rect.addTo(group);
     }
   }
 
   function updateMap() {
-    changesets = $("[data-changeset]").map(function (index,element) {
+    changesets = $("[data-changeset]").map(function (index, element) {
       return $(element).data("changeset");
     }).get().filter(function (changeset) {
       return changeset.bbox;
@@ -143,12 +145,12 @@ OSM.History = function(map) {
     }
   }
 
-  page.pushstate = page.popstate = function(path) {
+  page.pushstate = page.popstate = function (path) {
     $("#history_tab").addClass("current");
     OSM.loadSidebarContent(path, page.load);
   };
 
-  page.load = function() {
+  page.load = function () {
     map.addLayer(group);
 
     if (window.location.pathname === "/history") {
@@ -160,7 +162,7 @@ OSM.History = function(map) {
     update();
   };
 
-  page.unload = function() {
+  page.unload = function () {
     map.removeLayer(group);
     map.off("moveend", update);
 

@@ -9,7 +9,7 @@ $(document).ready(function () {
       map.removeLayer(marker);
     }
 
-    marker = L.marker(e.latlng, {icon: OSM.getUserIcon()}).addTo(map)
+    marker = L.marker(e.latlng, { icon: OSM.getUserIcon() }).addTo(map)
       .bindPopup(I18n.t("diary_entries.edit.marker_text"));
   }
 
@@ -28,13 +28,13 @@ $(document).ready(function () {
       zoomControl: false
     }).addLayer(new L.OSM.Mapnik());
 
-    L.OSM.zoom({position: position})
+    L.OSM.zoom({ position: position })
       .addTo(map);
 
     map.setView(centre, params.zoom);
 
     if ($("#latitude").val() && $("#longitude").val()) {
-      marker = L.marker(centre, {icon: OSM.getUserIcon()}).addTo(map)
+      marker = L.marker(centre, { icon: OSM.getUserIcon() }).addTo(map)
         .bindPopup(I18n.t("diary_entries.edit.marker_text"));
     }
 

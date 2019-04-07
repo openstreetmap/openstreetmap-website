@@ -1,6 +1,6 @@
 L.OSM.share = function (options) {
   var control = L.control(options),
-    marker = L.marker([0, 0], {draggable: true}),
+    marker = L.marker([0, 0], { draggable: true }),
     locationFilter = new L.LocationFilter({
       enableButton: false,
       adjustButton: false
@@ -76,7 +76,7 @@ L.OSM.share = function (options) {
         .attr("for", "embed_html")
         .attr("href", "#")
         .text(I18n.t("javascripts.share.embed")))
-      .on("click", "a", function(e) {
+      .on("click", "a", function (e) {
         e.preventDefault();
         var id = "#" + $(this).attr("for");
         $linkSection.find(".share-tabs a")
@@ -199,7 +199,7 @@ L.OSM.share = function (options) {
         .attr("type", "text")
         .on("change", update));
 
-    ["minlon", "minlat", "maxlon", "maxlat"].forEach(function(name) {
+    ["minlon", "minlat", "maxlon", "maxlat"].forEach(function (name) {
       $("<input>")
         .attr("id", "mapnik_" + name)
         .attr("name", name)
@@ -313,7 +313,7 @@ L.OSM.share = function (options) {
         "\"": "&quot;",
         "'": "&#x27;"
       };
-      return string === null ? "" : String(string).replace(/[&<>"']/g, function(match) {
+      return string === null ? "" : String(string).replace(/[&<>"']/g, function (match) {
         return htmlEscapes[match];
       });
     }

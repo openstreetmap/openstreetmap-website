@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
   // Preserve location hash in referer
   if (window.location.hash) {
     $("#referer").val($("#referer").val() + window.location.hash);
@@ -12,7 +12,7 @@ $(document).ready(function() {
   });
 
   // Add click handler to show OpenID field
-  $("#openid_open_url").click(function() {
+  $("#openid_open_url").click(function () {
     $("#openid_url").val("http://");
     $("#login_auth_buttons").hide();
     $("#login_openid_url").show();
@@ -24,7 +24,7 @@ $(document).ready(function() {
   $("#login_openid_submit").hide();
 
   // Handle OpenID submission by redirecting to omniauth
-  $("#openid_login_form").submit(function() {
+  $("#openid_login_form").submit(function () {
     var action = $(this).prop("action"),
         openid_url = $(this).find("#openid_url").val(),
         referer = $(this).find("#openid_referer").val(),

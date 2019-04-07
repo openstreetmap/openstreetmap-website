@@ -10,11 +10,11 @@ L.extend(L.LatLngBounds.prototype, {
 });
 
 L.OSM.Map = L.Map.extend({
-  initialize: function(id, options) {
+  initialize: function (id, options) {
     L.Map.prototype.initialize.call(this, id, options);
 
-    var copyright = I18n.t("javascripts.map.copyright", {copyright_url: "/copyright"});
-    var donate = I18n.t("javascripts.map.donate_link_text", {donate_url: "https://donate.openstreetmap.org"});
+    var copyright = I18n.t("javascripts.map.copyright", { copyright_url: "/copyright" });
+    var donate = I18n.t("javascripts.map.donate_link_text", { donate_url: "https://donate.openstreetmap.org" });
 
     this.baseLayers = [];
 
@@ -51,7 +51,7 @@ L.OSM.Map = L.Map.extend({
     }));
 
     this.noteLayer = new L.FeatureGroup();
-    this.noteLayer.options = {code: "N"};
+    this.noteLayer.options = { code: "N" };
 
     this.dataLayer = new L.OSM.DataLayer(null);
     this.dataLayer.options.code = "D";
@@ -69,7 +69,7 @@ L.OSM.Map = L.Map.extend({
     });
   },
 
-  updateLayers: function(layerParam) {
+  updateLayers: function (layerParam) {
     layerParam = layerParam || "M";
     var layersAdded = "";
 
@@ -103,7 +103,7 @@ L.OSM.Map = L.Map.extend({
     return baseLayer.keyid;
   },
 
-  getUrl: function(marker) {
+  getUrl: function (marker) {
     var precision = OSM.zoomPrecision(this.getZoom()),
         params = {};
 
@@ -123,7 +123,7 @@ L.OSM.Map = L.Map.extend({
     return url;
   },
 
-  getShortUrl: function(marker) {
+  getShortUrl: function (marker) {
     var zoom = this.getZoom(),
       latLng = marker && this.hasLayer(marker) ? marker.getLatLng().wrap() : this.getCenter().wrap(),
       str = window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
@@ -140,11 +140,11 @@ L.OSM.Map = L.Map.extend({
       i;
 
     for (i = 0; i < Math.ceil((zoom + 8) / 3.0) && i < 5; ++i) {
-      digit = (c1 >> (24 - 6 * i)) & 0x3f;
+      digit = (c1 >> (24 - (6 * i))) & 0x3f;
       str += char_array.charAt(digit);
     }
     for (i = 5; i < Math.ceil((zoom + 8) / 3.0); ++i) {
-      digit = (c2 >> (24 - 6 * (i - 5))) & 0x3f;
+      digit = (c2 >> (24 - (6 * (i - 5)))) & 0x3f;
       str += char_array.charAt(digit);
     }
     for (i = 0; i < ((zoom + 8) % 3); ++i) str += "-";
@@ -185,7 +185,7 @@ L.OSM.Map = L.Map.extend({
     return str;
   },
 
-  getGeoUri: function(marker) {
+  getGeoUri: function (marker) {
     var precision = OSM.zoomPrecision(this.getZoom()),
         latLng,
         params = {};
@@ -203,7 +203,7 @@ L.OSM.Map = L.Map.extend({
     return "geo:" + params.lat + "," + params.lon + "?z=" + params.zoom;
   },
 
-  addObject: function(object, callback) {
+  addObject: function (object, callback) {
     var objectStyle = {
       color: "#FF6200",
       weight: 4,
@@ -241,9 +241,9 @@ L.OSM.Map = L.Map.extend({
           if (object.type === "node") {
             return true;
           } else if (object.type === "relation") {
-            for (var i = 0; i < relations.length; i++)
-              if (relations[i].members.indexOf(node) !== -1)
-                return true;
+            for (var i = 0; i < relations.length; i++) {
+              if (relations[i].members.indexOf(node) !== -1) return true;
+            }
           } else {
             return false;
           }
@@ -257,13 +257,13 @@ L.OSM.Map = L.Map.extend({
     });
   },
 
-  removeObject: function() {
+  removeObject: function () {
     this._object = null;
     if (this._objectLoader) this._objectLoader.abort();
     if (this._objectLayer) this.removeLayer(this._objectLayer);
   },
 
-  getState: function() {
+  getState: function () {
     return {
       center: this.getCenter().wrap(),
       zoom: this.getZoom(),
@@ -271,20 +271,20 @@ L.OSM.Map = L.Map.extend({
     };
   },
 
-  setState: function(state, options) {
+  setState: function (state, options) {
     if (state.center) this.setView(state.center, state.zoom, options);
     if (state.layers) this.updateLayers(state.layers);
   },
 
-  setSidebarOverlaid: function(overlaid) {
+  setSidebarOverlaid: function (overlaid) {
     if (overlaid && !$("#content").hasClass("overlay-sidebar")) {
       $("#content").addClass("overlay-sidebar");
-      this.invalidateSize({pan: false})
-        .panBy([-350, 0], {animate: false});
+      this.invalidateSize({ pan: false })
+        .panBy([-350, 0], { animate: false });
     } else if (!overlaid && $("#content").hasClass("overlay-sidebar")) {
-      this.panBy([350, 0], {animate: false});
+      this.panBy([350, 0], { animate: false });
       $("#content").removeClass("overlay-sidebar");
-      this.invalidateSize({pan: false});
+      this.invalidateSize({ pan: false });
     }
     return this;
   }
@@ -301,7 +301,7 @@ L.Icon.Default.imageUrls = {
 L.extend(L.Icon.Default.prototype, {
   _oldGetIconUrl: L.Icon.Default.prototype._getIconUrl,
 
-  _getIconUrl:  function (name) {
+  _getIconUrl: function (name) {
     var url = this._oldGetIconUrl(name);
     return L.Icon.Default.imageUrls[url];
   }

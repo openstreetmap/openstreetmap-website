@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
   var params = OSM.params();
 
   if (params.lat && params.lon) {
@@ -15,7 +15,6 @@ $(document).ready(function() {
     url += OSM.formatHash(params);
 
     $(".start-mapping").attr("href", url);
-
   } else {
     var geoSuccess = function (position) {
       window.location = "/edit" + OSM.formatHash({
@@ -25,7 +24,7 @@ $(document).ready(function() {
       });
     };
 
-    $(".start-mapping").on("click", function(e) {
+    $(".start-mapping").on("click", function (e) {
       e.preventDefault();
       $(".start-mapping").addClass("loading");
 

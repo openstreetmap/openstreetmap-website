@@ -17,7 +17,7 @@ $(document).ready(function () {
       token_secret: application_data.tokenSecret
     });
 
-    $.ajaxPrefilter(function(options, jqxhr) {
+    $.ajaxPrefilter(function (options, jqxhr) {
       if (options.oauth) {
         options.headers = options.headers || {};
         options.headers.Authorization = headerGenerator(options.type, makeAbsolute(options.url), jqxhr.data);

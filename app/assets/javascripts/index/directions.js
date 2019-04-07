@@ -6,7 +6,7 @@ OSM.Directions = function (map) {
   var awaitingRoute;   // true if we've asked the engine for a route and are waiting to hear back
   var chosenEngine;
 
-  var popup = L.popup({autoPanPadding: [100, 100]});
+  var popup = L.popup({ autoPanPadding: [100, 100] });
 
   var polyline = L.polyline([], {
     color: "#03f",
@@ -38,7 +38,7 @@ OSM.Directions = function (map) {
 
   var select = $("select.routing_engines");
 
-  engines.forEach(function(engine, i) {
+  engines.forEach(function (engine, i) {
     select.append("<option value='" + i + "'>" + I18n.t("javascripts.directions.engines." + engine.id) + "</option>");
   });
 
@@ -68,7 +68,7 @@ OSM.Directions = function (map) {
       }
     });
 
-    input.on("keydown", function() {
+    input.on("keydown", function () {
       input.removeClass("error");
     });
 
@@ -80,7 +80,7 @@ OSM.Directions = function (map) {
       endpoint.setValue(value);
     });
 
-    endpoint.setValue = function(value, latlng) {
+    endpoint.setValue = function (value, latlng) {
       endpoint.value = value;
       delete endpoint.latlng;
       input.removeClass("error");
@@ -93,7 +93,7 @@ OSM.Directions = function (map) {
       }
     };
 
-    endpoint.getGeocode = function() {
+    endpoint.getGeocode = function () {
       // if no one has entered a value yet, then we can't geocode, so don't
       // even try.
       if (!endpoint.value) {
@@ -107,7 +107,7 @@ OSM.Directions = function (map) {
         endpoint.hasGeocode = true;
         if (json.length === 0) {
           input.addClass("error");
-          alert(I18n.t("javascripts.directions.errors.no_place", {place: endpoint.value}));
+          alert(I18n.t("javascripts.directions.errors.no_place", { place: endpoint.value }));
           return;
         }
 
@@ -135,7 +135,7 @@ OSM.Directions = function (map) {
     return endpoint;
   }
 
-  $(".directions_form .reverse_directions").on("click", function() {
+  $(".directions_form .reverse_directions").on("click", function () {
     var from = endpoints[0].latlng,
         to = endpoints[1].latlng;
 
@@ -146,7 +146,7 @@ OSM.Directions = function (map) {
     }));
   });
 
-  $(".directions_form .close").on("click", function(e) {
+  $(".directions_form .close").on("click", function (e) {
     e.preventDefault();
     var route_from = endpoints[0].value;
     if (route_from) {
@@ -174,7 +174,7 @@ OSM.Directions = function (map) {
   }
 
   function findEngine(id) {
-    return engines.findIndex(function(engine) {
+    return engines.findIndex(function (engine) {
       return engine.id === id;
     });
   }
@@ -251,7 +251,7 @@ OSM.Directions = function (map) {
       if (typeof route.ascend !== "undefined" && typeof route.descend !== "undefined") {
         html += "<br />" +
           I18n.t("javascripts.directions.ascend") + ": " + Math.round(route.ascend) + "m. " +
-          I18n.t("javascripts.directions.descend") + ": " + Math.round(route.descend) +"m.";
+          I18n.t("javascripts.directions.descend") + ": " + Math.round(route.descend) + "m.";
       }
       html += "</p><table id=\"turnbyturn\" />";
 
@@ -269,13 +269,13 @@ OSM.Directions = function (map) {
         if (dist < 5) {
           dist = "";
         } else if (dist < 200) {
-          dist = Math.round(dist / 10) * 10 + "m";
+          dist = String(Math.round(dist / 10) * 10) + "m";
         } else if (dist < 1500) {
-          dist = Math.round(dist / 100) * 100 + "m";
+          dist = String(Math.round(dist / 100) * 100) + "m";
         } else if (dist < 5000) {
-          dist = Math.round(dist / 100) / 10 + "km";
+          dist = String(Math.round(dist / 100) / 10) + "km";
         } else {
-          dist = Math.round(dist / 1000) + "km";
+          dist = String(Math.round(dist / 1000)) + "km";
         }
 
         var row = $("<tr class='turn'/>");
@@ -302,10 +302,10 @@ OSM.Directions = function (map) {
       });
 
       $("#sidebar_content").append("<p id=\"routing_credit\">" +
-        I18n.t("javascripts.directions.instructions.courtesy", {link: chosenEngine.creditline}) +
+        I18n.t("javascripts.directions.instructions.courtesy", { link: chosenEngine.creditline }) +
         "</p>");
 
-      $("#sidebar_content a.geolink").on("click", function(e) {
+      $("#sidebar_content a.geolink").on("click", function (e) {
         e.preventDefault();
         map.removeLayer(polyline);
         $("#sidebar_content").html("");
@@ -329,7 +329,7 @@ OSM.Directions = function (map) {
     }
   });
 
-  $(".directions_form").on("submit", function(e) {
+  $(".directions_form").on("submit", function (e) {
     e.preventDefault();
     getRoute(true, true);
   });
@@ -347,7 +347,7 @@ OSM.Directions = function (map) {
 
   var page = {};
 
-  page.pushstate = page.popstate = function() {
+  page.pushstate = page.popstate = function () {
     $(".search_form").hide();
     $(".directions_form").show();
 
@@ -388,11 +388,11 @@ OSM.Directions = function (map) {
     getRoute(true, true);
   };
 
-  page.load = function() {
+  page.load = function () {
     page.pushstate();
   };
 
-  page.unload = function() {
+  page.unload = function () {
     $(".search_form").show();
     $(".directions_form").hide();
     $("#map").off("dragend dragover drop");

@@ -1,4 +1,4 @@
-OSM.NewNote = function(map) {
+OSM.NewNote = function (map) {
   var noteLayer = map.noteLayer,
     content = $("#sidebar_content"),
     page = {},
@@ -126,7 +126,7 @@ OSM.NewNote = function(map) {
       draggable: true
     });
 
-    newNote.on("dragstart dragend", function(a) {
+    newNote.on("dragstart dragend", function (a) {
       newHalo(newNote.getLatLng(), a.type);
     });
 
@@ -135,7 +135,7 @@ OSM.NewNote = function(map) {
 
     newNote.on("remove", function () {
       addNoteButton.removeClass("active");
-    }).on("dragstart",function () {
+    }).on("dragstart", function () {
       $(newNote).stopTime("removenote");
     }).on("dragend", function () {
       content.find("textarea").focus();

@@ -77,7 +77,7 @@ OSM.initializeContextMenu = function (map) {
     else map.contextmenu.enable();
   });
 
-  var updateMenu = function updateMenu () {
+  var updateMenu = function updateMenu() {
     map.contextmenu.setDisabled(2, map.getZoom() < 12);
     map.contextmenu.setDisabled(4, map.getZoom() < 14);
   };

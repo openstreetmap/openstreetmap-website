@@ -24,7 +24,7 @@ var querystring = require("querystring-component");
  * view tab and various other links
  */
 window.updateLinks = function (loc, zoom, layers, object) {
-  $(".geolink").each(function(index, link) {
+  $(".geolink").each(function (index, link) {
     var href = link.href.split(/[?#]/)[0],
       args = querystring.parse(link.search.substring(1)),
       editlink = $(link).hasClass("editlink");
@@ -58,9 +58,9 @@ window.updateLinks = function (loc, zoom, layers, object) {
 
   var editDisabled = zoom < 13;
   $("#edit_tab")
-    .tooltip({placement: "bottom"})
+    .tooltip({ placement: "bottom" })
     .off("click.minzoom")
-    .on("click.minzoom", function() { return !editDisabled; })
+    .on("click.minzoom", function () { return !editDisabled; })
     .toggleClass("disabled", editDisabled)
     .attr("data-original-title", editDisabled ?
       I18n.t("javascripts.site.edit_disabled_tooltip") : "");
@@ -97,13 +97,13 @@ $(document).ready(function () {
    * to defer the measurement slightly as a workaround.
    */
   setTimeout(function () {
-    $("header").children(":visible").each(function (i,e) {
+    $("header").children(":visible").each(function (i, e) {
       headerWidth = headerWidth + $(e).outerWidth();
     });
 
     $("body").addClass("compact");
 
-    $("header").children(":visible").each(function (i,e) {
+    $("header").children(":visible").each(function (i, e) {
       compactWidth = compactWidth + $(e).outerWidth();
     });
 
@@ -114,12 +114,12 @@ $(document).ready(function () {
     $(window).resize(updateHeader);
   }, 0);
 
-  $("#menu-icon").on("click", function(e) {
+  $("#menu-icon").on("click", function (e) {
     e.preventDefault();
     $("header").toggleClass("closed");
   });
 
-  $("nav.primary li a").on("click", function() {
+  $("nav.primary li a").on("click", function () {
     $("header").toggleClass("closed");
   });
 

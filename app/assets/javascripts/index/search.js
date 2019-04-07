@@ -1,7 +1,7 @@
 //= require jquery.simulate
 
-OSM.Search = function(map) {
-  $(".search_form input[name=query]").on("input", function(e) {
+OSM.Search = function (map) {
+  $(".search_form input[name=query]").on("input", function (e) {
     if ($(e.target).val() === "") {
       $(".describe_location").fadeIn(100);
     } else {
@@ -9,7 +9,7 @@ OSM.Search = function(map) {
     }
   });
 
-  $(".search_form a.button.switch_link").on("click", function(e) {
+  $(".search_form a.button.switch_link").on("click", function (e) {
     e.preventDefault();
     var query = $(e.target).parent().parent().find("input[name=query]").val();
     if (query) {
@@ -19,7 +19,7 @@ OSM.Search = function(map) {
     }
   });
 
-  $(".search_form").on("submit", function(e) {
+  $(".search_form").on("submit", function (e) {
     e.preventDefault();
     $("header").addClass("closed");
     var query = $(this).find("input[name=query]").val();
@@ -30,7 +30,7 @@ OSM.Search = function(map) {
     }
   });
 
-  $(".describe_location").on("click", function(e) {
+  $(".describe_location").on("click", function (e) {
     e.preventDefault();
     var center = map.getCenter().wrap(),
       precision = OSM.zoomPrecision(map.getZoom());
@@ -66,7 +66,7 @@ OSM.Search = function(map) {
     $(this).hide();
     div.find(".loader").show();
 
-    $.get($(this).attr("href"), function(data) {
+    $.get($(this).attr("href"), function (data) {
       div.replaceWith(data);
     });
   }
@@ -77,7 +77,7 @@ OSM.Search = function(map) {
     if (!marker) {
       var data = $(this).find("a.set_position").data();
 
-      marker = L.marker([data.lat, data.lon], {icon: OSM.getUserIcon()});
+      marker = L.marker([data.lat, data.lon], { icon: OSM.getUserIcon() });
 
       $(this).data("marker", marker);
     }
@@ -119,15 +119,15 @@ OSM.Search = function(map) {
 
   var page = {};
 
-  page.pushstate = page.popstate = function(path) {
+  page.pushstate = page.popstate = function (path) {
     var params = querystring.parse(path.substring(path.indexOf("?") + 1));
     $(".search_form input[name=query]").val(params.query);
     $(".describe_location").hide();
     OSM.loadSidebarContent(path, page.load);
   };
 
-  page.load = function() {
-    $(".search_results_entry").each(function(index) {
+  page.load = function () {
+    $(".search_results_entry").each(function (index) {
       var entry = $(this);
       $.ajax({
         url: entry.data("href"),
@@ -139,7 +139,7 @@ OSM.Search = function(map) {
           maxlon: map.getBounds().getEast(),
           maxlat: map.getBounds().getNorth()
         },
-        success: function(html) {
+        success: function (html) {
           entry.html(html);
           // go to first result of first geocoder
           if (index === 0) {
@@ -155,7 +155,7 @@ OSM.Search = function(map) {
     return map.getState();
   };
 
-  page.unload = function() {
+  page.unload = function () {
     markers.clearLayers();
     $(".search_form input[name=query]").val("");
     $(".describe_location").fadeIn(100);

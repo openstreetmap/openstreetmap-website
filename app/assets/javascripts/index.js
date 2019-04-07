@@ -31,12 +31,12 @@ $(document).ready(function () {
     contextmenu: true
   });
 
-  OSM.loadSidebarContent = function(path, callback) {
+  OSM.loadSidebarContent = function (path, callback) {
     map.setSidebarOverlaid(false);
 
     clearTimeout(loaderTimeout);
 
-    loaderTimeout = setTimeout(function() {
+    loaderTimeout = setTimeout(function () {
       $("#sidebar_loader").show();
     }, 200);
 
@@ -54,7 +54,7 @@ $(document).ready(function () {
     $.ajax({
       url: path,
       dataType: "html",
-      complete: function(xhr) {
+      complete: function (xhr) {
         clearTimeout(loaderTimeout);
         $("#flash").empty();
         $("#sidebar_loader").hide();
@@ -96,7 +96,7 @@ $(document).ready(function () {
 
   var position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
 
-  L.OSM.zoom({position: position})
+  L.OSM.zoom({ position: position })
     .addTo(map);
 
   var locate = L.control.locate({
@@ -134,9 +134,9 @@ $(document).ready(function () {
   }).addTo(map);
 
   L.OSM.share({
-    position: position,
-    sidebar: sidebar,
-    short: true
+    "position": position,
+    "sidebar": sidebar,
+    "short": true
   }).addTo(map);
 
   L.OSM.note({
@@ -171,12 +171,12 @@ $(document).ready(function () {
   }
 
   var placement = $("html").attr("dir") === "rtl" ? "right" : "left";
-  $(".leaflet-control .control-button").tooltip({placement: placement, container: "body"});
+  $(".leaflet-control .control-button").tooltip({ placement: placement, container: "body" });
 
   var expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
 
-  map.on("moveend layeradd layerremove", function() {
+  map.on("moveend layeradd layerremove", function () {
     updateLinks(
       map.getCenter().wrap(),
       map.getZoom(),
@@ -191,7 +191,7 @@ $(document).ready(function () {
     $(".welcome").addClass("visible");
   }
 
-  $(".welcome .close-wrap").on("click", function() {
+  $(".welcome .close-wrap").on("click", function () {
     $(".welcome").removeClass("visible");
     $.cookie("_osm_welcome", "hide", { expires: expiry, path: "/" });
   });
@@ -199,7 +199,7 @@ $(document).ready(function () {
   var bannerExpiry = new Date();
   bannerExpiry.setYear(bannerExpiry.getFullYear() + 1);
 
-  $("#banner .close-wrap").on("click", function(e) {
+  $("#banner .close-wrap").on("click", function (e) {
     var cookieId = e.target.id;
     $("#banner").hide();
     e.preventDefault();
@@ -230,14 +230,14 @@ $(document).ready(function () {
     L.marker([params.mlat, params.mlon]).addTo(map);
   }
 
-  $("#homeanchor").on("click", function(e) {
+  $("#homeanchor").on("click", function (e) {
     e.preventDefault();
 
     var data = $(this).data(),
       center = L.latLng(data.lat, data.lon);
 
     map.setView(center, data.zoom);
-    L.marker(center, {icon: OSM.getUserIcon()}).addTo(map);
+    L.marker(center, { icon: OSM.getUserIcon() }).addTo(map);
   });
 
   function remoteEditHandler(bbox, object) {
@@ -251,7 +251,7 @@ $(document).ready(function () {
         };
 
     if (location.protocol === "http" ||
-        bowser.check({chrome: "53", firefox: "55"})) {
+        bowser.check({ chrome: "53", firefox: "55" })) {
       url = "http://127.0.0.1:8111/load_and_zoom?";
     } else {
       url = "https://127.0.0.1:8112/load_and_zoom?";
@@ -263,7 +263,7 @@ $(document).ready(function () {
         .hide()
         .appendTo("body")
         .attr("src", url + querystring.stringify(query))
-        .on("load", function() {
+        .on("load", function () {
           $(this).remove();
           loaded = true;
         });
@@ -278,7 +278,7 @@ $(document).ready(function () {
     return false;
   }
 
-  $("a[data-editor=remote]").click(function(e) {
+  $("a[data-editor=remote]").click(function (e) {
     var params = OSM.mapParams(this.search);
     remoteEditHandler(map.getBounds(), params.object);
     e.preventDefault();
@@ -293,20 +293,20 @@ $(document).ready(function () {
       })
       .tooltip("show");
 
-    $("body").one("click", function() {
+    $("body").one("click", function () {
       $("#editanchor").tooltip("hide");
     });
   }
 
-  OSM.Index = function(map) {
+  OSM.Index = function (map) {
     var page = {};
 
-    page.pushstate = page.popstate = function() {
+    page.pushstate = page.popstate = function () {
       map.setSidebarOverlaid(true);
       document.title = I18n.t("layouts.project_name.title");
     };
 
-    page.load = function() {
+    page.load = function () {
       var params = querystring.parse(location.search.substring(1));
       if (params.query) {
         $("#sidebar .search_form input[name=query]").value(params.query);
@@ -320,21 +320,21 @@ $(document).ready(function () {
     return page;
   };
 
-  OSM.Browse = function(map, type) {
+  OSM.Browse = function (map, type) {
     var page = {};
 
-    page.pushstate = page.popstate = function(path, id) {
-      OSM.loadSidebarContent(path, function() {
+    page.pushstate = page.popstate = function (path, id) {
+      OSM.loadSidebarContent(path, function () {
         addObject(type, id);
       });
     };
 
-    page.load = function(path, id) {
+    page.load = function (path, id) {
       addObject(type, id, true);
     };
 
     function addObject(type, id, center) {
-      map.addObject({type: type, id: parseInt(id, 10)}, function(bounds) {
+      map.addObject({ type: type, id: parseInt(id, 10) }, function (bounds) {
         if (!window.location.hash && bounds.isValid() &&
             (center || !map.getBounds().contains(bounds))) {
           OSM.router.withoutMoveListener(function () {
@@ -344,7 +344,7 @@ $(document).ready(function () {
       });
     }
 
-    page.unload = function() {
+    page.unload = function () {
       map.removeObject();
     };
 
@@ -354,21 +354,21 @@ $(document).ready(function () {
   var history = OSM.History(map);
 
   OSM.router = OSM.Router(map, {
-    "/":                           OSM.Index(map),
-    "/search":                     OSM.Search(map),
-    "/directions":                 OSM.Directions(map),
-    "/export":                     OSM.Export(map),
-    "/note/new":                   OSM.NewNote(map),
-    "/history/friends":            history,
-    "/history/nearby":             history,
-    "/history":                    history,
+    "/": OSM.Index(map),
+    "/search": OSM.Search(map),
+    "/directions": OSM.Directions(map),
+    "/export": OSM.Export(map),
+    "/note/new": OSM.NewNote(map),
+    "/history/friends": history,
+    "/history/nearby": history,
+    "/history": history,
     "/user/:display_name/history": history,
-    "/note/:id":                   OSM.Note(map),
-    "/node/:id(/history)":         OSM.Browse(map, "node"),
-    "/way/:id(/history)":          OSM.Browse(map, "way"),
-    "/relation/:id(/history)":     OSM.Browse(map, "relation"),
-    "/changeset/:id":              OSM.Changeset(map),
-    "/query":                      OSM.Query(map)
+    "/note/:id": OSM.Note(map),
+    "/node/:id(/history)": OSM.Browse(map, "node"),
+    "/way/:id(/history)": OSM.Browse(map, "way"),
+    "/relation/:id(/history)": OSM.Browse(map, "relation"),
+    "/changeset/:id": OSM.Changeset(map),
+    "/query": OSM.Query(map)
   });
 
   if (OSM.preferred_editor === "remote" && document.location.pathname === "/edit") {
@@ -378,19 +378,23 @@ $(document).ready(function () {
 
   OSM.router.load();
 
-  $(document).on("click", "a", function(e) {
-    if (e.isDefaultPrevented() || e.isPropagationStopped())
+  $(document).on("click", "a", function (e) {
+    if (e.isDefaultPrevented() || e.isPropagationStopped()) {
       return;
+    }
 
     // Open links in a new tab as normal.
-    if (e.which > 1 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)
+    if (e.which > 1 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
       return;
+    }
 
     // Ignore cross-protocol and cross-origin links.
-    if (location.protocol !== this.protocol || location.host !== this.host)
+    if (location.protocol !== this.protocol || location.host !== this.host) {
       return;
+    }
 
-    if (OSM.router.route(this.pathname + this.search + this.hash))
+    if (OSM.router.route(this.pathname + this.search + this.hash)) {
       e.preventDefault();
+    }
   });
 });

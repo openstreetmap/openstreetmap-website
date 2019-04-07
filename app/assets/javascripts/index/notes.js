@@ -33,7 +33,7 @@ OSM.initializeNotes = function (map) {
     }
   });
 
-  noteLayer.on("click", function(e) {
+  noteLayer.on("click", function (e) {
     if (e.layer.id) {
       OSM.router.route("/note/" + e.layer.id);
     }
@@ -55,7 +55,7 @@ OSM.initializeNotes = function (map) {
     return marker;
   }
 
-  noteLayer.getLayerId = function(marker) {
+  noteLayer.getLayerId = function (marker) {
     return marker.id;
   };
 

@@ -1,4 +1,4 @@
-L.OSM.layers = function(options) {
+L.OSM.layers = function (options) {
   var control = L.control(options);
 
   control.onAdd = function (map) {
@@ -37,7 +37,7 @@ L.OSM.layers = function(options) {
     var baseLayers = $("<ul>")
       .appendTo(baseSection);
 
-    layers.forEach(function(layer) {
+    layers.forEach(function (layer) {
       var item = $("<li>")
         .appendTo(baseLayers);
 
@@ -48,8 +48,8 @@ L.OSM.layers = function(options) {
       var div = $("<div>")
         .appendTo(item);
 
-      map.whenReady(function() {
-        var miniMap = L.map(div[0], {attributionControl: false, zoomControl: false, keyboard: false})
+      map.whenReady(function () {
+        var miniMap = L.map(div[0], { attributionControl: false, zoomControl: false, keyboard: false })
           .addLayer(new layer.constructor({ apikey: layer.options.apikey }));
 
         miniMap.dragging.disable();
@@ -63,7 +63,7 @@ L.OSM.layers = function(options) {
 
         function shown() {
           miniMap.invalidateSize();
-          setView({animate: false});
+          setView({ animate: false });
           map.on("moveend", moved);
         }
 
@@ -90,20 +90,20 @@ L.OSM.layers = function(options) {
 
       label.append(layer.options.name);
 
-      item.on("click", function() {
-        layers.forEach(function(other) {
+      item.on("click", function () {
+        layers.forEach(function (other) {
           if (other === layer) {
             map.addLayer(other);
           } else {
             map.removeLayer(other);
           }
         });
-        map.fire("baselayerchange", {layer: layer});
+        map.fire("baselayerchange", { layer: layer });
       });
 
       item.on("dblclick", toggle);
 
-      map.on("layeradd layerremove", function() {
+      map.on("layeradd layerremove", function () {
         item.toggleClass("active", map.hasLayer(layer));
         input.prop("checked", map.hasLayer(layer));
       });
@@ -141,21 +141,21 @@ L.OSM.layers = function(options) {
 
         label.append(I18n.t("javascripts.map.layers." + name));
 
-        input.on("change", function() {
+        input.on("change", function () {
           checked = input.is(":checked");
           if (checked) {
             map.addLayer(layer);
           } else {
             map.removeLayer(layer);
           }
-          map.fire("overlaylayerchange", {layer: layer});
+          map.fire("overlaylayerchange", { layer: layer });
         });
 
-        map.on("layeradd layerremove", function() {
+        map.on("layeradd layerremove", function () {
           input.prop("checked", map.hasLayer(layer));
         });
 
-        map.on("zoomend", function() {
+        map.on("zoomend", function () {
           var disabled = map.getBounds().getSize() >= maxArea;
           $(input).prop("disabled", disabled);
 

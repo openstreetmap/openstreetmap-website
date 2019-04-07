@@ -1,6 +1,6 @@
 //= require jquery.simulate
 
-OSM.Query = function(map) {
+OSM.Query = function (map) {
   var url = OSM.OVERPASS_URL,
     queryButton = $(".control-query .control-button"),
     uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"],
@@ -178,9 +178,9 @@ OSM.Query = function(map) {
       url: url,
       method: "POST",
       data: {
-        data: "[timeout:10][out:json];" + query,
+        data: "[timeout:10][out:json];" + query
       },
-      success: function(results) {
+      success: function (results) {
         var elements;
 
         $section.find(".loader").stopTime("loading").hide();
@@ -237,7 +237,7 @@ OSM.Query = function(map) {
             .appendTo($ul);
         }
       },
-      error: function(xhr, status, error) {
+      error: function (xhr, status, error) {
         $section.find(".loader").stopTime("loading").hide();
 
         $("<li>")
@@ -301,8 +301,8 @@ OSM.Query = function(map) {
         map.removeLayer(marker);
       } else {
         marker.setStyle({
-          opacity: 1 - i * 0.1,
-          fillOpacity: 0.5 - i * 0.05
+          opacity: 1 - (i * 0.1),
+          fillOpacity: 0.5 - (i * 0.05)
         });
       }
     }, 10);
@@ -335,13 +335,13 @@ OSM.Query = function(map) {
 
   var page = {};
 
-  page.pushstate = page.popstate = function(path) {
+  page.pushstate = page.popstate = function (path) {
     OSM.loadSidebarContent(path, function () {
       page.load(path, true);
     });
   };
 
-  page.load = function(path, noCentre) {
+  page.load = function (path, noCentre) {
     var params = querystring.parse(path.substring(path.indexOf("?") + 1)),
       latlng = L.latLng(params.lat, params.lon);
 
@@ -354,7 +354,7 @@ OSM.Query = function(map) {
     queryOverpass(params.lat, params.lon);
   };
 
-  page.unload = function(sameController) {
+  page.unload = function (sameController) {
     if (!sameController) {
       disableQueryMode();
     }
