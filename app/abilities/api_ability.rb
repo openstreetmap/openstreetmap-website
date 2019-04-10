@@ -33,7 +33,7 @@ class ApiAbility
         can [:new, :create, :reply, :show, :inbox, :outbox, :mark, :destroy], Message
         can [:close, :reopen], Note
         can [:new, :create], Report
-        can [:api_create, :api_read, :api_update, :api_delete, :api_data], Trace
+        can [:create, :show, :update, :destroy, :data], Trace
         can [:api_details, :api_gpx_files], User
         can [:read, :read_one, :update, :update_one, :delete_one], UserPreference
 

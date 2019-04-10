@@ -8,14 +8,14 @@ module Api
 
     authorize_resource
 
-    before_action :check_database_readable, :except => [:api_read, :api_data]
-    before_action :check_database_writable, :only => [:api_create, :api_update, :api_delete]
-    before_action :check_api_readable, :only => [:api_read, :api_data]
-    before_action :check_api_writable, :only => [:api_create, :api_update, :api_delete]
-    before_action :offline_redirect, :only => [:api_create, :api_delete, :api_data]
+    before_action :check_database_readable, :except => [:show, :data]
+    before_action :check_database_writable, :only => [:create, :update, :destroy]
+    before_action :check_api_readable, :only => [:show, :data]
+    before_action :check_api_writable, :only => [:create, :update, :destroy]
+    before_action :offline_redirect, :only => [:create, :destroy, :data]
     around_action :api_call_handle_error
 
-    def api_read
+    def show
       trace = Trace.visible.find(params[:id])
 
       if trace.public? || trace.user == current_user
@@ -25,7 +25,7 @@ module Api
       end
     end
 
-    def api_update
+    def update
       trace = Trace.visible.find(params[:id])
 
       if trace.user == current_user
@@ -38,7 +38,7 @@ module Api
       end
     end
 
-    def api_delete
+    def destroy
       trace = Trace.visible.find(params[:id])
 
       if trace.user == current_user
@@ -52,7 +52,7 @@ module Api
       end
     end
 
-    def api_data
+    def data
       trace = Trace.visible.find(params[:id])
 
       if trace.public? || trace.user == current_user
@@ -68,7 +68,7 @@ module Api
       end
     end
 
-    def api_create
+    def create
       tags = params[:tags] || ""
       description = params[:description] || ""
       visibility = params[:visibility]

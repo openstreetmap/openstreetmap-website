@@ -13,177 +13,177 @@ module Api
     def test_routes
       assert_routing(
         { :path => "/api/0.6/gpx/create", :method => :post },
-        { :controller => "api/traces", :action => "api_create" }
+        { :controller => "api/traces", :action => "create" }
       )
       assert_routing(
         { :path => "/api/0.6/gpx/1", :method => :get },
-        { :controller => "api/traces", :action => "api_read", :id => "1" }
+        { :controller => "api/traces", :action => "show", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/gpx/1", :method => :put },
-        { :controller => "api/traces", :action => "api_update", :id => "1" }
+        { :controller => "api/traces", :action => "update", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/gpx/1", :method => :delete },
-        { :controller => "api/traces", :action => "api_delete", :id => "1" }
+        { :controller => "api/traces", :action => "destroy", :id => "1" }
       )
       assert_recognizes(
-        { :controller => "api/traces", :action => "api_read", :id => "1" },
+        { :controller => "api/traces", :action => "show", :id => "1" },
         { :path => "/api/0.6/gpx/1/details", :method => :get }
       )
       assert_routing(
         { :path => "/api/0.6/gpx/1/data", :method => :get },
-        { :controller => "api/traces", :action => "api_data", :id => "1" }
+        { :controller => "api/traces", :action => "data", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/gpx/1/data.xml", :method => :get },
-        { :controller => "api/traces", :action => "api_data", :id => "1", :format => "xml" }
+        { :controller => "api/traces", :action => "data", :id => "1", :format => "xml" }
       )
     end
 
     # Check getting a specific trace through the api
-    def test_api_read
+    def test_show
       public_trace_file = create(:trace, :visibility => "public")
 
       # First with no auth
-      get :api_read, :params => { :id => public_trace_file.id }
+      get :show, :params => { :id => public_trace_file.id }
       assert_response :unauthorized
 
       # Now with some other user, which should work since the trace is public
       basic_authorization create(:user).display_name, "test"
-      get :api_read, :params => { :id => public_trace_file.id }
+      get :show, :params => { :id => public_trace_file.id }
       assert_response :success
 
       # And finally we should be able to do it with the owner of the trace
       basic_authorization public_trace_file.user.display_name, "test"
-      get :api_read, :params => { :id => public_trace_file.id }
+      get :show, :params => { :id => public_trace_file.id }
       assert_response :success
     end
 
     # Check an anoymous trace can't be specifically fetched by another user
-    def test_api_read_anon
+    def test_show_anon
       anon_trace_file = create(:trace, :visibility => "private")
 
       # First with no auth
-      get :api_read, :params => { :id => anon_trace_file.id }
+      get :show, :params => { :id => anon_trace_file.id }
       assert_response :unauthorized
 
       # Now try with another user, which shouldn't work since the trace is anon
       basic_authorization create(:user).display_name, "test"
-      get :api_read, :params => { :id => anon_trace_file.id }
+      get :show, :params => { :id => anon_trace_file.id }
       assert_response :forbidden
 
       # And finally we should be able to get the trace details with the trace owner
       basic_authorization anon_trace_file.user.display_name, "test"
-      get :api_read, :params => { :id => anon_trace_file.id }
+      get :show, :params => { :id => anon_trace_file.id }
       assert_response :success
     end
 
     # Check the api details for a trace that doesn't exist
-    def test_api_read_not_found
+    def test_show_not_found
       deleted_trace_file = create(:trace, :deleted)
 
       # Try first with no auth, as it should require it
-      get :api_read, :params => { :id => 0 }
+      get :show, :params => { :id => 0 }
       assert_response :unauthorized
 
       # Login, and try again
       basic_authorization deleted_trace_file.user.display_name, "test"
-      get :api_read, :params => { :id => 0 }
+      get :show, :params => { :id => 0 }
       assert_response :not_found
 
       # Now try a trace which did exist but has been deleted
       basic_authorization deleted_trace_file.user.display_name, "test"
-      get :api_read, :params => { :id => deleted_trace_file.id }
+      get :show, :params => { :id => deleted_trace_file.id }
       assert_response :not_found
     end
 
     # Test downloading a trace through the api
-    def test_api_data
+    def test_data
       public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
 
       # First with no auth
-      get :api_data, :params => { :id => public_trace_file.id }
+      get :data, :params => { :id => public_trace_file.id }
       assert_response :unauthorized
 
       # Now with some other user, which should work since the trace is public
       basic_authorization create(:user).display_name, "test"
-      get :api_data, :params => { :id => public_trace_file.id }
+      get :data, :params => { :id => public_trace_file.id }
       check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
 
       # And finally we should be able to do it with the owner of the trace
       basic_authorization public_trace_file.user.display_name, "test"
-      get :api_data, :params => { :id => public_trace_file.id }
+      get :data, :params => { :id => public_trace_file.id }
       check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
     end
 
     # Test downloading a compressed trace through the api
-    def test_api_data_compressed
+    def test_data_compressed
       identifiable_trace_file = create(:trace, :visibility => "identifiable", :fixture => "d")
 
       # Authenticate as the owner of the trace we will be using
       basic_authorization identifiable_trace_file.user.display_name, "test"
 
       # First get the data as is
-      get :api_data, :params => { :id => identifiable_trace_file.id }
+      get :data, :params => { :id => identifiable_trace_file.id }
       check_trace_data identifiable_trace_file, "c6422a3d8750faae49ed70e7e8a51b93", "application/x-gzip", "gpx.gz"
 
       # Now ask explicitly for XML format
-      get :api_data, :params => { :id => identifiable_trace_file.id, :format => "xml" }
+      get :data, :params => { :id => identifiable_trace_file.id, :format => "xml" }
       check_trace_data identifiable_trace_file, "abd6675fdf3024a84fc0a1deac147c0d", "application/xml", "xml"
 
       # Now ask explicitly for GPX format
-      get :api_data, :params => { :id => identifiable_trace_file.id, :format => "gpx" }
+      get :data, :params => { :id => identifiable_trace_file.id, :format => "gpx" }
       check_trace_data identifiable_trace_file, "abd6675fdf3024a84fc0a1deac147c0d"
     end
 
     # Check an anonymous trace can't be downloaded by another user through the api
-    def test_api_data_anon
+    def test_data_anon
       anon_trace_file = create(:trace, :visibility => "private", :fixture => "b")
 
       # First with no auth
-      get :api_data, :params => { :id => anon_trace_file.id }
+      get :data, :params => { :id => anon_trace_file.id }
       assert_response :unauthorized
 
       # Now with some other user, which shouldn't work since the trace is anon
       basic_authorization create(:user).display_name, "test"
-      get :api_data, :params => { :id => anon_trace_file.id }
+      get :data, :params => { :id => anon_trace_file.id }
       assert_response :forbidden
 
       # And finally we should be able to do it with the owner of the trace
       basic_authorization anon_trace_file.user.display_name, "test"
-      get :api_data, :params => { :id => anon_trace_file.id }
+      get :data, :params => { :id => anon_trace_file.id }
       check_trace_data anon_trace_file, "66179ca44f1e93d8df62e2b88cbea732"
     end
 
     # Test downloading a trace that doesn't exist through the api
-    def test_api_data_not_found
+    def test_data_not_found
       deleted_trace_file = create(:trace, :deleted)
 
       # Try first with no auth, as it should require it
-      get :api_data, :params => { :id => 0 }
+      get :data, :params => { :id => 0 }
       assert_response :unauthorized
 
       # Login, and try again
       basic_authorization create(:user).display_name, "test"
-      get :api_data, :params => { :id => 0 }
+      get :data, :params => { :id => 0 }
       assert_response :not_found
 
       # Now try a trace which did exist but has been deleted
       basic_authorization deleted_trace_file.user.display_name, "test"
-      get :api_data, :params => { :id => deleted_trace_file.id }
+      get :data, :params => { :id => deleted_trace_file.id }
       assert_response :not_found
     end
 
     # Test creating a trace through the api
-    def test_api_create
+    def test_create
       # Get file to use
       fixture = Rails.root.join("test", "gpx", "fixtures", "a.gpx")
       file = Rack::Test::UploadedFile.new(fixture, "application/gpx+xml")
       user = create(:user)
 
       # First with no auth
-      post :api_create, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }
+      post :create, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }
       assert_response :unauthorized
 
       # Rewind the file
@@ -193,7 +193,7 @@ module Api
       create(:user_preference, :user => user, :k => "gps.trace.visibility", :v => "identifiable")
       assert_not_equal "trackable", user.preferences.where(:k => "gps.trace.visibility").first.v
       basic_authorization user.display_name, "test"
-      post :api_create, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }
+      post :create, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }
       assert_response :success
       trace = Trace.find(response.body.to_i)
       assert_equal "a.gpx", trace.name
@@ -211,7 +211,7 @@ module Api
       # Now authenticated, with the legacy public flag
       assert_not_equal "public", user.preferences.where(:k => "gps.trace.visibility").first.v
       basic_authorization user.display_name, "test"
-      post :api_create, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 1 }
+      post :create, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 1 }
       assert_response :success
       trace = Trace.find(response.body.to_i)
       assert_equal "a.gpx", trace.name
@@ -230,7 +230,7 @@ module Api
       second_user = create(:user)
       assert_nil second_user.preferences.where(:k => "gps.trace.visibility").first
       basic_authorization second_user.display_name, "test"
-      post :api_create, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 0 }
+      post :create, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 0 }
       assert_response :success
       trace = Trace.find(response.body.to_i)
       assert_equal "a.gpx", trace.name
@@ -244,33 +244,33 @@ module Api
     end
 
     # Check updating a trace through the api
-    def test_api_update
+    def test_update
       public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
       deleted_trace_file = create(:trace, :deleted)
       anon_trace_file = create(:trace, :visibility => "private")
 
       # First with no auth
-      put :api_update, :params => { :id => public_trace_file.id }, :body => public_trace_file.to_xml.to_s
+      put :update, :params => { :id => public_trace_file.id }, :body => public_trace_file.to_xml.to_s
       assert_response :unauthorized
 
       # Now with some other user, which should fail
       basic_authorization create(:user).display_name, "test"
-      put :api_update, :params => { :id => public_trace_file.id }, :body => public_trace_file.to_xml.to_s
+      put :update, :params => { :id => public_trace_file.id }, :body => public_trace_file.to_xml.to_s
       assert_response :forbidden
 
       # Now with a trace which doesn't exist
       basic_authorization create(:user).display_name, "test"
-      put :api_update, :params => { :id => 0 }, :body => public_trace_file.to_xml.to_s
+      put :update, :params => { :id => 0 }, :body => public_trace_file.to_xml.to_s
       assert_response :not_found
 
       # Now with a trace which did exist but has been deleted
       basic_authorization deleted_trace_file.user.display_name, "test"
-      put :api_update, :params => { :id => deleted_trace_file.id }, :body => deleted_trace_file.to_xml.to_s
+      put :update, :params => { :id => deleted_trace_file.id }, :body => deleted_trace_file.to_xml.to_s
       assert_response :not_found
 
       # Now try an update with the wrong ID
       basic_authorization public_trace_file.user.display_name, "test"
-      put :api_update, :params => { :id => public_trace_file.id }, :body => anon_trace_file.to_xml.to_s
+      put :update, :params => { :id => public_trace_file.id }, :body => anon_trace_file.to_xml.to_s
       assert_response :bad_request,
                       "should not be able to update a trace with a different ID from the XML"
 
@@ -279,7 +279,7 @@ module Api
       t = public_trace_file
       t.description = "Changed description"
       t.visibility = "private"
-      put :api_update, :params => { :id => t.id }, :body => t.to_xml.to_s
+      put :update, :params => { :id => t.id }, :body => t.to_xml.to_s
       assert_response :success
       nt = Trace.find(t.id)
       assert_equal nt.description, t.description
@@ -287,12 +287,12 @@ module Api
     end
 
     # Test that updating a trace doesn't duplicate the tags
-    def test_api_update_tags
+    def test_update_tags
       tracetag = create(:tracetag)
       trace = tracetag.trace
       basic_authorization trace.user.display_name, "test"
 
-      put :api_update, :params => { :id => trace.id }, :body => trace.to_xml.to_s
+      put :update, :params => { :id => trace.id }, :body => trace.to_xml.to_s
       assert_response :success
 
       updated = Trace.find(trace.id)
@@ -303,31 +303,31 @@ module Api
     end
 
     # Check deleting a trace through the api
-    def test_api_delete
+    def test_destroy
       public_trace_file = create(:trace, :visibility => "public")
 
       # First with no auth
-      delete :api_delete, :params => { :id => public_trace_file.id }
+      delete :destroy, :params => { :id => public_trace_file.id }
       assert_response :unauthorized
 
       # Now with some other user, which should fail
       basic_authorization create(:user).display_name, "test"
-      delete :api_delete, :params => { :id => public_trace_file.id }
+      delete :destroy, :params => { :id => public_trace_file.id }
       assert_response :forbidden
 
       # Now with a trace which doesn't exist
       basic_authorization create(:user).display_name, "test"
-      delete :api_delete, :params => { :id => 0 }
+      delete :destroy, :params => { :id => 0 }
       assert_response :not_found
 
       # And finally we should be able to do it with the owner of the trace
       basic_authorization public_trace_file.user.display_name, "test"
-      delete :api_delete, :params => { :id => public_trace_file.id }
+      delete :destroy, :params => { :id => public_trace_file.id }
       assert_response :success
 
       # Try it a second time, which should fail
       basic_authorization public_trace_file.user.display_name, "test"
-      delete :api_delete, :params => { :id => public_trace_file.id }
+      delete :destroy, :params => { :id => public_trace_file.id }
       assert_response :not_found
     end
 
