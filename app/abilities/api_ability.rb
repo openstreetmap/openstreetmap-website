@@ -15,7 +15,7 @@ class ApiAbility
       can [:show, :download, :query], Changeset
       can [:index, :create, :comment, :feed, :show, :search], Note
       can :index, Tracepoint
-      can [:api_users, :api_read], User
+      can [:index, :show], User
       can [:index, :show], Node
       can [:index, :show, :full, :ways_for_node], Way
       can [:index, :show, :full, :relations_for_node, :relations_for_way, :relations_for_relation], Relation
@@ -34,7 +34,7 @@ class ApiAbility
         can [:close, :reopen], Note
         can [:new, :create], Report
         can [:create, :show, :update, :destroy, :data], Trace
-        can [:api_details, :api_gpx_files], User
+        can [:details, :gpx_files], User
         can [:read, :read_one, :update, :update_one, :delete_one], UserPreference
 
         if user.terms_agreed?

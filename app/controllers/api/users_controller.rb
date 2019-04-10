@@ -2,29 +2,29 @@ module Api
   class UsersController < ApiController
     layout "site", :except => [:api_details]
 
-    before_action :disable_terms_redirect, :only => [:api_details]
-    before_action :authorize, :only => [:api_details, :api_gpx_files]
+    before_action :disable_terms_redirect, :only => [:details]
+    before_action :authorize, :only => [:details, :gpx_files]
 
     authorize_resource
 
     before_action :check_api_readable
     around_action :api_call_handle_error
-    before_action :lookup_user_by_id, :only => [:api_read]
+    before_action :lookup_user_by_id, :only => [:show]
 
-    def api_read
+    def show
       if @user.visible?
-        render :action => :api_read, :content_type => "text/xml"
+        render :action => :show, :content_type => "text/xml"
       else
         head :gone
       end
     end
 
-    def api_details
+    def details
       @user = current_user
-      render :action => :api_read, :content_type => "text/xml"
+      render :action => :show, :content_type => "text/xml"
     end
 
-    def api_users
+    def index
       raise OSM::APIBadUserInput, "The parameter users is required, and must be of the form users=id[,id[,id...]]" unless params["users"]
 
       ids = params["users"].split(",").collect(&:to_i)
@@ -33,10 +33,10 @@ module Api
 
       @users = User.visible.find(ids)
 
-      render :action => :api_users, :content_type => "text/xml"
+      render :action => :index, :content_type => "text/xml"
     end
 
-    def api_gpx_files
+    def gpx_files
       doc = OSM::API.new.get_xml_doc
       current_user.traces.reload.each do |trace|
         doc.root << trace.to_xml_node
