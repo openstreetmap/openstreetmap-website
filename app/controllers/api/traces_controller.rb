@@ -19,7 +19,8 @@ module Api
       trace = Trace.visible.find(params[:id])
 
       if trace.public? || trace.user == current_user
-        render :xml => trace.to_xml.to_s
+        @traces = [trace]
+        render "trace"
       else
         head :forbidden
       end

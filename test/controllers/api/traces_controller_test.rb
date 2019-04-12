@@ -250,27 +250,27 @@ module Api
       anon_trace_file = create(:trace, :visibility => "private")
 
       # First with no auth
-      put :update, :params => { :id => public_trace_file.id }, :body => public_trace_file.to_xml.to_s
+      put :update, :params => { :id => public_trace_file.id }, :body => create_trace_xml(public_trace_file)
       assert_response :unauthorized
 
       # Now with some other user, which should fail
       basic_authorization create(:user).display_name, "test"
-      put :update, :params => { :id => public_trace_file.id }, :body => public_trace_file.to_xml.to_s
+      put :update, :params => { :id => public_trace_file.id }, :body => create_trace_xml(public_trace_file)
       assert_response :forbidden
 
       # Now with a trace which doesn't exist
       basic_authorization create(:user).display_name, "test"
-      put :update, :params => { :id => 0 }, :body => public_trace_file.to_xml.to_s
+      put :update, :params => { :id => 0 }, :body => create_trace_xml(public_trace_file)
       assert_response :not_found
 
       # Now with a trace which did exist but has been deleted
       basic_authorization deleted_trace_file.user.display_name, "test"
-      put :update, :params => { :id => deleted_trace_file.id }, :body => deleted_trace_file.to_xml.to_s
+      put :update, :params => { :id => deleted_trace_file.id }, :body => create_trace_xml(deleted_trace_file)
       assert_response :not_found
 
       # Now try an update with the wrong ID
       basic_authorization public_trace_file.user.display_name, "test"
-      put :update, :params => { :id => public_trace_file.id }, :body => anon_trace_file.to_xml.to_s
+      put :update, :params => { :id => public_trace_file.id }, :body => create_trace_xml(anon_trace_file)
       assert_response :bad_request,
                       "should not be able to update a trace with a different ID from the XML"
 
@@ -279,7 +279,7 @@ module Api
       t = public_trace_file
       t.description = "Changed description"
       t.visibility = "private"
-      put :update, :params => { :id => t.id }, :body => t.to_xml.to_s
+      put :update, :params => { :id => t.id }, :body => create_trace_xml(t)
       assert_response :success
       nt = Trace.find(t.id)
       assert_equal nt.description, t.description
@@ -292,7 +292,7 @@ module Api
       trace = tracetag.trace
       basic_authorization trace.user.display_name, "test"
 
-      put :update, :params => { :id => trace.id }, :body => trace.to_xml.to_s
+      put :update, :params => { :id => trace.id }, :body => create_trace_xml(trace)
       assert_response :success
 
       updated = Trace.find(trace.id)
@@ -338,6 +338,28 @@ module Api
       assert_equal digest, Digest::MD5.hexdigest(response.body)
       assert_equal content_type, response.content_type
       assert_equal "attachment; filename=\"#{trace.id}.#{extension}\"", @response.header["Content-Disposition"]
+    end
+
+    ##
+    # build XML for traces
+    # this builds a minimum viable XML for the tests in this suite
+    def create_trace_xml(trace)
+      root = XML::Document.new
+      root.root = XML::Node.new "osm"
+      trc = XML::Node.new "gpx_file"
+      trc["id"] = trace.id.to_s
+      trc["visibility"] = trace.visibility
+      trc["visible"] = trace.visible.to_s
+      desc = XML::Node.new "description"
+      desc << trace.description
+      trc << desc
+      trace.tags.each do |tag|
+        t = XML::Node.new "tag"
+        t << tag.tag
+        trc << t
+      end
+      root.root << trc
+      root.to_s
     end
   end
 end
