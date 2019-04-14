@@ -66,10 +66,10 @@ OpenStreetMap::Application.routes.draw do
     get "relations/search" => "api/search#search_relations"
     get "nodes/search" => "api/search#search_nodes"
 
-    get "user/:id" => "api/users#api_read", :id => /\d+/
-    get "user/details" => "api/users#api_details"
-    get "user/gpx_files" => "api/users#api_gpx_files"
-    get "users" => "api/users#api_users", :as => :api_users
+    get "user/:id" => "api/users#show", :id => /\d+/
+    get "user/details" => "api/users#details"
+    get "user/gpx_files" => "api/users#gpx_files"
+    get "users" => "api/users#index", :as => :api_users
 
     get "user/preferences" => "api/user_preferences#read"
     get "user/preferences/:preference_key" => "api/user_preferences#read_one"
@@ -77,12 +77,12 @@ OpenStreetMap::Application.routes.draw do
     put "user/preferences/:preference_key" => "api/user_preferences#update_one"
     delete "user/preferences/:preference_key" => "api/user_preferences#delete_one"
 
-    post "gpx/create" => "api/traces#api_create"
-    get "gpx/:id" => "api/traces#api_read", :id => /\d+/
-    put "gpx/:id" => "api/traces#api_update", :id => /\d+/
-    delete "gpx/:id" => "api/traces#api_delete", :id => /\d+/
-    get "gpx/:id/details" => "api/traces#api_read", :id => /\d+/
-    get "gpx/:id/data" => "api/traces#api_data"
+    post "gpx/create" => "api/traces#create"
+    get "gpx/:id" => "api/traces#show", :id => /\d+/
+    put "gpx/:id" => "api/traces#update", :id => /\d+/
+    delete "gpx/:id" => "api/traces#destroy", :id => /\d+/
+    get "gpx/:id/details" => "api/traces#show", :id => /\d+/
+    get "gpx/:id/data" => "api/traces#data"
 
     # AMF (ActionScript) API
     post "amf/read" => "api/amf#amf_read"

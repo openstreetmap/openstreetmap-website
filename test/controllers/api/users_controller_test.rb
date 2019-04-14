@@ -11,26 +11,26 @@ module Api
     def test_routes
       assert_routing(
         { :path => "/api/0.6/user/1", :method => :get },
-        { :controller => "api/users", :action => "api_read", :id => "1" }
+        { :controller => "api/users", :action => "show", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/user/details", :method => :get },
-        { :controller => "api/users", :action => "api_details" }
+        { :controller => "api/users", :action => "details" }
       )
       assert_routing(
         { :path => "/api/0.6/user/gpx_files", :method => :get },
-        { :controller => "api/users", :action => "api_gpx_files" }
+        { :controller => "api/users", :action => "gpx_files" }
       )
       assert_routing(
         { :path => "/api/0.6/users", :method => :get },
-        { :controller => "api/users", :action => "api_users" }
+        { :controller => "api/users", :action => "index" }
       )
     end
 
-    def test_api_read
+    def test_show
       user = create(:user, :description => "test", :terms_agreed => Date.yesterday)
       # check that a visible user is returned properly
-      get :api_read, :params => { :id => user.id }
+      get :show, :params => { :id => user.id }
       assert_response :success
       assert_equal "text/xml", response.content_type
 
@@ -63,30 +63,30 @@ module Api
       assert_select "messages", false
 
       # check that a suspended user is not returned
-      get :api_read, :params => { :id => create(:user, :suspended).id }
+      get :show, :params => { :id => create(:user, :suspended).id }
       assert_response :gone
 
       # check that a deleted user is not returned
-      get :api_read, :params => { :id => create(:user, :deleted).id }
+      get :show, :params => { :id => create(:user, :deleted).id }
       assert_response :gone
 
       # check that a non-existent user is not returned
-      get :api_read, :params => { :id => 0 }
+      get :show, :params => { :id => 0 }
       assert_response :not_found
     end
 
-    def test_api_details
+    def test_details
       user = create(:user, :description => "test", :terms_agreed => Date.yesterday, :home_lat => 12.1, :home_lon => 12.1, :languages => ["en"])
       create(:message, :read, :recipient => user)
       create(:message, :sender => user)
 
       # check that nothing is returned when not logged in
-      get :api_details
+      get :details
       assert_response :unauthorized
 
       # check that we get a response when logged in
       basic_authorization user.email, "test"
-      get :api_details
+      get :details
       assert_response :success
       assert_equal "text/xml", response.content_type
 
@@ -127,12 +127,12 @@ module Api
       end
     end
 
-    def test_api_users
+    def test_index
       user1 = create(:user, :description => "test1", :terms_agreed => Date.yesterday)
       user2 = create(:user, :description => "test2", :terms_agreed => Date.yesterday)
       user3 = create(:user, :description => "test3", :terms_agreed => Date.yesterday)
 
-      get :api_users, :params => { :users => user1.id }
+      get :index, :params => { :users => user1.id }
       assert_response :success
       assert_equal "text/xml", response.content_type
       assert_select "user", :count => 1 do
@@ -141,7 +141,7 @@ module Api
         assert_select "user[id='#{user3.id}']", :count => 0
       end
 
-      get :api_users, :params => { :users => user2.id }
+      get :index, :params => { :users => user2.id }
       assert_response :success
       assert_equal "text/xml", response.content_type
       assert_select "user", :count => 1 do
@@ -150,7 +150,7 @@ module Api
         assert_select "user[id='#{user3.id}']", :count => 0
       end
 
-      get :api_users, :params => { :users => "#{user1.id},#{user3.id}" }
+      get :index, :params => { :users => "#{user1.id},#{user3.id}" }
       assert_response :success
       assert_equal "text/xml", response.content_type
       assert_select "user", :count => 2 do
@@ -159,17 +159,17 @@ module Api
         assert_select "user[id='#{user3.id}']", :count => 1
       end
 
-      get :api_users, :params => { :users => create(:user, :suspended).id }
+      get :index, :params => { :users => create(:user, :suspended).id }
       assert_response :not_found
 
-      get :api_users, :params => { :users => create(:user, :deleted).id }
+      get :index, :params => { :users => create(:user, :deleted).id }
       assert_response :not_found
 
-      get :api_users, :params => { :users => 0 }
+      get :index, :params => { :users => 0 }
       assert_response :not_found
     end
 
-    def test_api_gpx_files
+    def test_gpx_files
       user = create(:user)
       trace1 = create(:trace, :user => user) do |trace|
         create(:tracetag, :trace => trace, :tag => "London")
@@ -178,12 +178,12 @@ module Api
         create(:tracetag, :trace => trace, :tag => "Birmingham")
       end
       # check that nothing is returned when not logged in
-      get :api_gpx_files
+      get :gpx_files
       assert_response :unauthorized
 
       # check that we get a response when logged in
       basic_authorization user.email, "test"
-      get :api_gpx_files
+      get :gpx_files
       assert_response :success
       assert_equal "application/xml", response.content_type
 
