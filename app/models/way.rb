@@ -60,8 +60,8 @@ class Way < ActiveRecord::Base
       return Way.from_xml_node(pt, create)
     end
     raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/way element.")
-  rescue LibXML::XML::Error, ArgumentError => ex
-    raise OSM::APIBadXMLError.new("way", xml, ex.message)
+  rescue LibXML::XML::Error, ArgumentError => e
+    raise OSM::APIBadXMLError.new("way", xml, e.message)
   end
 
   def self.from_xml_node(pt, create = false)

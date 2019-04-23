@@ -208,8 +208,8 @@ class Trace < ActiveRecord::Base
     end
 
     raise OSM::APIBadXMLError.new("trace", xml, "XML doesn't contain an osm/gpx_file element.")
-  rescue LibXML::XML::Error, ArgumentError => ex
-    raise OSM::APIBadXMLError.new("trace", xml, ex.message)
+  rescue LibXML::XML::Error, ArgumentError => e
+    raise OSM::APIBadXMLError.new("trace", xml, e.message)
   end
 
   def update_from_xml_node(pt, create = false)

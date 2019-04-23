@@ -114,18 +114,18 @@ module Api
 
     def amf_handle_error(call, rootobj, rootid)
       yield
-    rescue OSM::APIAlreadyDeletedError => ex
-      [-4, ex.object, ex.object_id]
-    rescue OSM::APIVersionMismatchError => ex
-      [-3, [rootobj, rootid], [ex.type.downcase, ex.id, ex.latest]]
-    rescue OSM::APIUserChangesetMismatchError => ex
-      [-2, ex.to_s]
-    rescue OSM::APIBadBoundingBox => ex
-      [-2, "Sorry - I can't get the map for that area. The server said: #{ex}"]
-    rescue OSM::APIError => ex
-      [-1, ex.to_s]
-    rescue StandardError => ex
-      [-2, "An unusual error happened (in #{call}). The server said: #{ex}"]
+    rescue OSM::APIAlreadyDeletedError => e
+      [-4, e.object, e.object_id]
+    rescue OSM::APIVersionMismatchError => e
+      [-3, [rootobj, rootid], [e.type.downcase, e.id, e.latest]]
+    rescue OSM::APIUserChangesetMismatchError => e
+      [-2, e.to_s]
+    rescue OSM::APIBadBoundingBox => e
+      [-2, "Sorry - I can't get the map for that area. The server said: #{e}"]
+    rescue OSM::APIError => e
+      [-1, e.to_s]
+    rescue StandardError => e
+      [-2, "An unusual error happened (in #{call}). The server said: #{e}"]
     end
 
     def amf_handle_error_with_timeout(call, rootobj, rootid)

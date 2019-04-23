@@ -22,8 +22,8 @@ module Api
         bbox = BoundingBox.from_bbox_params(params)
         bbox.check_boundaries
         bbox.check_size
-      rescue StandardError => err
-        report_error(err.message)
+      rescue StandardError => e
+        report_error(e.message)
         return
       end
 

@@ -176,8 +176,8 @@ module Api
       [0, -32, 233455644, "afg", "213"].each do |id|
         get :show, :params => { :id => id }
         assert_response :not_found, "should get a not found"
-      rescue ActionController::UrlGenerationError => ex
-        assert_match(/No route matches/, ex.to_s)
+      rescue ActionController::UrlGenerationError => e
+        assert_match(/No route matches/, e.to_s)
       end
     end
 
@@ -248,8 +248,8 @@ module Api
       cs_ids.each do |id|
         put :close, :params => { :id => id }
         assert_response :unauthorized, "Shouldn't be able close the non-existant changeset #{id}, when not authorized"
-      rescue ActionController::UrlGenerationError => ex
-        assert_match(/No route matches/, ex.to_s)
+      rescue ActionController::UrlGenerationError => e
+        assert_match(/No route matches/, e.to_s)
       end
 
       # Now try with auth
@@ -257,8 +257,8 @@ module Api
       cs_ids.each do |id|
         put :close, :params => { :id => id }
         assert_response :not_found, "The changeset #{id} doesn't exist, so can't be closed"
-      rescue ActionController::UrlGenerationError => ex
-        assert_match(/No route matches/, ex.to_s)
+      rescue ActionController::UrlGenerationError => e
+        assert_match(/No route matches/, e.to_s)
       end
     end
 

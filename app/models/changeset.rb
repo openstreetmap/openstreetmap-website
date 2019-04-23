@@ -88,8 +88,8 @@ class Changeset < ActiveRecord::Base
       return Changeset.from_xml_node(pt, create)
     end
     raise OSM::APIBadXMLError.new("changeset", xml, "XML doesn't contain an osm/changeset element.")
-  rescue LibXML::XML::Error, ArgumentError => ex
-    raise OSM::APIBadXMLError.new("changeset", xml, ex.message)
+  rescue LibXML::XML::Error, ArgumentError => e
+    raise OSM::APIBadXMLError.new("changeset", xml, e.message)
   end
 
   def self.from_xml_node(pt, create = false)
