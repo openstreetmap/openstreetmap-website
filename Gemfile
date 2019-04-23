@@ -60,7 +60,7 @@ gem "paperclip", "~> 5.2"
 gem "rack-cors"
 gem "rails-i18n", "~> 4.0.0"
 gem "record_tag_helper"
-gem "rinku", "= 2.0.4", :require => "rails_rinku"
+gem "rinku", ">= 2.0.6", :require => "rails_rinku"
 gem "validates_email_format_of", ">= 1.5.1"
 
 # Native OSM extensions
