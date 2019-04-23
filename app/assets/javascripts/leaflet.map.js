@@ -100,7 +100,7 @@ L.OSM.Map = L.Map.extend({
     this.eachLayer(function (layer) {
       if (layer.options && layer.options.keyid) baseLayer = layer;
     });
-    return baseLayer.keyid;
+    return baseLayer.options.keyid;
   },
 
   getUrl: function (marker) {
