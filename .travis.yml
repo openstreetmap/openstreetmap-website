@@ -15,6 +15,7 @@ env:
   global:
     - OSM_MEMCACHE_SERVERS="127.0.0.1"
 before_script:
+  - sed -e "/idle_in_transaction_session_timeout/d" -e 's/ IMMUTABLE / /' -e "s/AS '.*libpgosm.*',/AS 'libpgosm',/" -e "/^--/d" db/structure.sql > db/structure.expected
   - psql -U postgres -c "CREATE DATABASE openstreetmap"
   - psql -U postgres -c "CREATE EXTENSION btree_gist" openstreetmap
   - make -C db/functions libpgosm.so
@@ -30,4 +31,7 @@ script:
   - bundle exec rubocop -f fuubar
   - bundle exec rake eslint:run_all
   - bundle exec erblint .
+  - bundle exec rake db:structure:dump
+  - sed -e "/idle_in_transaction_session_timeout/d" -e 's/ IMMUTABLE / /' -e "s/AS '.*libpgosm.*',/AS 'libpgosm',/" -e "/^--/d" db/structure.sql > db/structure.actual
+  - diff -uw db/structure.expected db/structure.actual
   - bundle exec rake test:db
