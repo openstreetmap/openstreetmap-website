@@ -1,6 +1,6 @@
 require "migrate"
 
-class DiaryComments < ActiveRecord::Migration[5.0]
+class DiaryComments < ActiveRecord::Migration[4.2]
   def self.up
     create_table "diary_comments", :id => false do |t|
       t.column "id",             :bigserial, :primary_key => true, :null => false

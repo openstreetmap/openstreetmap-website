@@ -1,6 +1,6 @@
 require "migrate"
 
-class AddUserAndDescriptionToRedaction < ActiveRecord::Migration[5.0]
+class AddUserAndDescriptionToRedaction < ActiveRecord::Migration[4.2]
   def change
     add_column :redactions, :user_id, :bigint, :null => false
     add_column :redactions, :description_format, :format_enum, :null => false, :default => "markdown"

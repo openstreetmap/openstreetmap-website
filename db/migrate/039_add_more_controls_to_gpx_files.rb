@@ -1,6 +1,6 @@
 require "migrate"
 
-class AddMoreControlsToGpxFiles < ActiveRecord::Migration[5.0]
+class AddMoreControlsToGpxFiles < ActiveRecord::Migration[4.2]
   def self.up
     create_enumeration :gpx_visibility_enum, %w[private public trackable identifiable]
     add_column :gpx_files, :visibility, :gpx_visibility_enum, :default => "public", :null => false

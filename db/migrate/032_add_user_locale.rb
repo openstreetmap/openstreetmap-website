@@ -1,4 +1,4 @@
-class AddUserLocale < ActiveRecord::Migration[5.0]
+class AddUserLocale < ActiveRecord::Migration[4.2]
   def self.up
     add_column "users", "locale", :string
   end

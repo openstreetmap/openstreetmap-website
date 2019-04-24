@@ -1,6 +1,6 @@
 require "migrate"
 
-class KeyConstraints < ActiveRecord::Migration[5.0]
+class KeyConstraints < ActiveRecord::Migration[4.2]
   def self.up
     # Primary keys
     add_primary_key :current_node_tags, [:id, :k]

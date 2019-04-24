@@ -1,6 +1,6 @@
 require "migrate"
 
-class AlterUserRolesAndBlocks < ActiveRecord::Migration[5.0]
+class AlterUserRolesAndBlocks < ActiveRecord::Migration[4.2]
   def self.up
     # the initial granter IDs can be "self" - there are none of these
     # in the current live DB, but there may be some in people's own local

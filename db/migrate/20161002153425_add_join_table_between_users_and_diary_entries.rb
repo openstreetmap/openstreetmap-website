@@ -1,6 +1,6 @@
 require "migrate"
 
-class AddJoinTableBetweenUsersAndDiaryEntries < ActiveRecord::Migration[5.0]
+class AddJoinTableBetweenUsersAndDiaryEntries < ActiveRecord::Migration[4.2]
   def self.up
     create_table :diary_entry_subscriptions, :id => false do |t|
       t.column :user_id, :bigint, :null => false

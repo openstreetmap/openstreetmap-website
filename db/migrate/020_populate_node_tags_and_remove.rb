@@ -1,6 +1,6 @@
 require "migrate"
 
-class PopulateNodeTagsAndRemove < ActiveRecord::Migration[5.0]
+class PopulateNodeTagsAndRemove < ActiveRecord::Migration[4.2]
   def self.up
     have_nodes = select_value("SELECT count(*) FROM current_nodes").to_i.nonzero?
 

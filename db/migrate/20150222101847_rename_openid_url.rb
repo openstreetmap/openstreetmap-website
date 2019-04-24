@@ -1,4 +1,4 @@
-class RenameOpenidUrl < ActiveRecord::Migration[5.0]
+class RenameOpenidUrl < ActiveRecord::Migration[4.2]
   def change
     rename_column :users, :openid_url, :auth_uid
     add_column :users, :auth_provider, :string

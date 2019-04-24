@@ -1,4 +1,4 @@
-class RenameIds < ActiveRecord::Migration[5.0]
+class RenameIds < ActiveRecord::Migration[4.2]
   def change
     rename_column :changeset_tags, :id, :changeset_id
     rename_column :current_node_tags, :id, :node_id

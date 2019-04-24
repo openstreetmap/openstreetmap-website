@@ -1,4 +1,4 @@
-class AddGpxIndexes < ActiveRecord::Migration[5.0]
+class AddGpxIndexes < ActiveRecord::Migration[4.2]
   def self.up
     add_index "gpx_files", ["user_id"], :name => "gpx_files_user_id_idx"
     add_index "gpx_file_tags", ["tag"], :name => "gpx_file_tags_tag_idx"

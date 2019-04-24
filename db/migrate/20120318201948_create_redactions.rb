@@ -1,6 +1,6 @@
 require "migrate"
 
-class CreateRedactions < ActiveRecord::Migration[5.0]
+class CreateRedactions < ActiveRecord::Migration[4.2]
   def change
     create_table :redactions do |t|
       t.string :title
