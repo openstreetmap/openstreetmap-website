@@ -96,11 +96,11 @@ L.OSM.Map = L.Map.extend({
   },
 
   getMapBaseLayerId: function () {
-    var baseLayer;
+    var baseLayerId;
     this.eachLayer(function (layer) {
-      if (layer.options && layer.options.keyid) baseLayer = layer;
+      if (layer.options && layer.options.keyid) baseLayerId = layer.options.keyid;
     });
-    return baseLayer.options.keyid;
+    return baseLayerId;
   },
 
   getUrl: function (marker) {
