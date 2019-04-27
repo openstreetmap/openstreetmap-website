@@ -102,13 +102,13 @@
             <%= yield :greeting %>
           </li>
           <li>
-            <%= link_to t("layouts.logout"), logout_path(:session => session.id, :referer => request.fullpath) %>
+            <%= link_to t("layouts.logout"), logout_path(:session => session.id, :referer => request.fullpath), :class => "geolink" %>
           </li>
         </ul>
       </div>
     <% else %>
       <ul class="user-menu clearfix">
-        <li><%= link_to t("layouts.log_in"), login_path(:referer => request.fullpath) %></li>
+        <li><%= link_to t("layouts.log_in"), login_path(:referer => request.fullpath), :class => "geolink" %></li>
         <li><%= link_to t("layouts.sign_up"), user_new_path %></li>
       </ul>
     <% end %>
