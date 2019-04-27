@@ -13,7 +13,7 @@ gem "psych", :platforms => :ruby_20
 gem "json"
 
 # Use postgres as the database
-gem "pg", "~> 0.18"
+gem "pg"
 
 # Use SCSS for stylesheets
 gem "sassc-rails"
