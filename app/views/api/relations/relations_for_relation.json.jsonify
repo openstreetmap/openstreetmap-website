@@ -1,0 +1,5 @@
+json.ingest! render(:partial => "api/map/root_attributes")
+
+json.elements(@relations) do |relation|
+  json.ingest! render(:partial => "api/map/relation", :object => relation)
+end

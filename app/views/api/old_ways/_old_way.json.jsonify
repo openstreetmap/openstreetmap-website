@@ -1,0 +1,16 @@
+json.type "way"
+json.id old_way.way_id
+json.timestamp old_way.timestamp.xmlschema
+json.version old_way.version
+json.changeset old_way.changeset_id
+json.user old_way.changeset.user.display_name
+json.uid old_way.changeset.user_id
+if !old_way.visible
+  json.visible old_way.visible
+end
+
+json.nodes old_way.nds
+
+if !old_way.tags.empty?
+  json.tags old_way.tags
+end

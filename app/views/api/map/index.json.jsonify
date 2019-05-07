@@ -1,0 +1,22 @@
+json.ingest! render(:partial => "api/map/root_attributes")
+
+all = @nodes + @ways + @relations
+
+# FIXME this is really ugly!
+
+json.elements(all) do |obj|
+  if obj.is_a? Node
+     node = obj
+     json.ingest!  render(:partial => "node", :object => node)
+  end
+
+  if obj.is_a? Way
+     way = obj
+     json.ingest! render(:partial => "way", :object => way)
+  end
+
+  if obj.is_a? Relation
+    relation = obj
+    json.ingest! render(:partial => "relation", :object => relation)
+  end
+end

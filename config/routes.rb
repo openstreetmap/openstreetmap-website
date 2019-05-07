@@ -23,39 +23,39 @@ OpenStreetMap::Application.routes.draw do
     post "changeset/comment/:id/unhide" => "api/changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
 
     put "node/create" => "api/nodes#create"
-    get "node/:id/ways" => "api/ways#ways_for_node", :id => /\d+/
-    get "node/:id/relations" => "api/relations#relations_for_node", :id => /\d+/
-    get "node/:id/history" => "api/old_nodes#history", :id => /\d+/
+    get "node/:id/ways" => "api/ways#ways_for_node", :id => /\d+/, :defaults => { :format => "xml" }
+    get "node/:id/relations" => "api/relations#relations_for_node", :id => /\d+/, :defaults => { :format => "xml" }
+    get "node/:id/history" => "api/old_nodes#history", :id => /\d+/, :defaults => { :format => "xml" }
     post "node/:id/:version/redact" => "api/old_nodes#redact", :version => /\d+/, :id => /\d+/
-    get "node/:id/:version" => "api/old_nodes#version", :id => /\d+/, :version => /\d+/
-    get "node/:id" => "api/nodes#show", :id => /\d+/
+    get "node/:id/:version" => "api/old_nodes#version", :id => /\d+/, :version => /\d+/, :defaults => { :format => "xml" }
+    get "node/:id" => "api/nodes#show", :id => /\d+/, :defaults => { :format => "xml" }
     put "node/:id" => "api/nodes#update", :id => /\d+/
     delete "node/:id" => "api/nodes#delete", :id => /\d+/
-    get "nodes" => "api/nodes#index"
+    get "nodes" => "api/nodes#index", :defaults => { :format => "xml" }
 
     put "way/create" => "api/ways#create"
-    get "way/:id/history" => "api/old_ways#history", :id => /\d+/
-    get "way/:id/full" => "api/ways#full", :id => /\d+/
-    get "way/:id/relations" => "api/relations#relations_for_way", :id => /\d+/
+    get "way/:id/history" => "api/old_ways#history", :id => /\d+/, :defaults => { :format => "xml" }
+    get "way/:id/full" => "api/ways#full", :id => /\d+/, :defaults => { :format => "xml" }
+    get "way/:id/relations" => "api/relations#relations_for_way", :id => /\d+/, :defaults => { :format => "xml" }
     post "way/:id/:version/redact" => "api/old_ways#redact", :version => /\d+/, :id => /\d+/
-    get "way/:id/:version" => "api/old_ways#version", :id => /\d+/, :version => /\d+/
-    get "way/:id" => "api/ways#show", :id => /\d+/
+    get "way/:id/:version" => "api/old_ways#version", :id => /\d+/, :version => /\d+/, :defaults => { :format => "xml" }
+    get "way/:id" => "api/ways#show", :id => /\d+/, :defaults => { :format => "xml" }
     put "way/:id" => "api/ways#update", :id => /\d+/
     delete "way/:id" => "api/ways#delete", :id => /\d+/
-    get "ways" => "api/ways#index"
+    get "ways" => "api/ways#index", :defaults => { :format => "xml" }
 
     put "relation/create" => "api/relations#create"
-    get "relation/:id/relations" => "api/relations#relations_for_relation", :id => /\d+/
-    get "relation/:id/history" => "api/old_relations#history", :id => /\d+/
-    get "relation/:id/full" => "api/relations#full", :id => /\d+/
+    get "relation/:id/relations" => "api/relations#relations_for_relation", :id => /\d+/, :defaults => { :format => "xml" }
+    get "relation/:id/history" => "api/old_relations#history", :id => /\d+/, :defaults => { :format => "xml" }
+    get "relation/:id/full" => "api/relations#full", :id => /\d+/, :defaults => { :format => "xml" }
     post "relation/:id/:version/redact" => "api/old_relations#redact", :version => /\d+/, :id => /\d+/
-    get "relation/:id/:version" => "api/old_relations#version", :id => /\d+/, :version => /\d+/
-    get "relation/:id" => "api/relations#show", :id => /\d+/
+    get "relation/:id/:version" => "api/old_relations#version", :id => /\d+/, :version => /\d+/, :defaults => { :format => "xml" }
+    get "relation/:id" => "api/relations#show", :id => /\d+/, :defaults => { :format => "xml" }
     put "relation/:id" => "api/relations#update", :id => /\d+/
     delete "relation/:id" => "api/relations#delete", :id => /\d+/
-    get "relations" => "api/relations#index"
+    get "relations" => "api/relations#index", :defaults => { :format => "xml" }
 
-    get "map" => "api/map#index"
+    get "map" => "api/map#index", :defaults => { :format => "xml" }
 
     get "trackpoints" => "api/tracepoints#index"
 

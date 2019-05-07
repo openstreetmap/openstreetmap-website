@@ -31,7 +31,13 @@ module Api
       response.last_modified = node.timestamp
 
       if node.visible
-        render :xml => node.to_xml.to_s
+        @nodes = [node]
+
+        # Render the result
+        respond_to do |format|
+          format.xml
+          format.json
+        end
       else
         head :gone
       end
@@ -69,13 +75,13 @@ module Api
 
       raise OSM::APIBadUserInput, "No nodes were given to search for" if ids.empty?
 
-      doc = OSM::API.new.get_xml_doc
+      @nodes = Node.find(ids)
 
-      Node.find(ids).each do |node|
-        doc.root << node.to_xml_node
+      # Render the result
+      respond_to do |format|
+        format.xml
+        format.json
       end
-
-      render :xml => doc.to_s
     end
   end
 end

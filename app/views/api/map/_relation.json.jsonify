@@ -1,0 +1,25 @@
+json.type "relation"
+json.id relation.id
+json.timestamp relation.timestamp.xmlschema
+json.version relation.version
+json.changeset relation.changeset_id
+json.user relation.changeset.user.display_name
+json.uid relation.changeset.user_id
+if !relation.visible
+  json.visible relation.visible
+end
+
+if !relation.relation_members.empty?
+  json.members do |member|
+    relation.relation_members.each do |m|
+      mbr  = {:type => m.member_type.downcase,
+              :ref  => m.member_id,
+              :role => m.member_role}
+      json << mbr
+    end
+  end
+end
+
+if !relation.tags.empty?
+  json.tags relation.tags
+end

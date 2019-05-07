@@ -22,19 +22,23 @@ module Api
       # to do that ourselves.
       raise OSM::APINotFoundError if @elements.empty?
 
-      doc = OSM::API.new.get_xml_doc
-
       visible_elements = if show_redactions?
                            @elements
                          else
                            @elements.unredacted
                          end
 
+      @elems = []
+
       visible_elements.each do |element|
-        doc.root << element.to_xml_node
+        @elems << element
       end
 
-      render :xml => doc.to_s
+      # Render the result
+      respond_to do |format|
+        format.xml
+        format.json
+      end
     end
 
     def version
@@ -44,10 +48,13 @@ module Api
       else
         response.last_modified = @old_element.timestamp
 
-        doc = OSM::API.new.get_xml_doc
-        doc.root << @old_element.to_xml_node
+        @elems = [@old_element]
 
-        render :xml => doc.to_s
+        # Render the result
+        respond_to do |format|
+          format.xml
+          format.json
+        end
       end
     end
 

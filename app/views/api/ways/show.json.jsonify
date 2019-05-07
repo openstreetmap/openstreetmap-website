@@ -1,0 +1,5 @@
+json.ingest! render(:partial => "api/map/root_attributes")
+
+json.elements(@ways) do |way|
+  json.ingest! render(:partial => "api/map/way", :object => way)
+end

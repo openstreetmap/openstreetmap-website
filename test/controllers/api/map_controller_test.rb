@@ -21,7 +21,7 @@ module Api
     def test_routes
       assert_routing(
         { :path => "/api/0.6/map", :method => :get },
-        { :controller => "api/map", :action => "index" }
+        { :controller => "api/map", :action => "index", :format => "xml" }
       )
     end
 
@@ -43,7 +43,7 @@ module Api
       maxlon = node.lon + 0.1
       maxlat = node.lat + 0.1
       bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
-      get :index, :params => { :bbox => bbox }
+      get :index, :params => { :bbox => bbox }, :format => :xml
       if $VERBOSE
         print @request.to_yaml
         print @response.body
@@ -73,7 +73,7 @@ module Api
       relation = create(:relation_member, :member => node).relation
 
       bbox = "#{node.lon},#{node.lat},#{node.lon},#{node.lat}"
-      get :index, :params => { :bbox => bbox }
+      get :index, :params => { :bbox => bbox }, :format => :xml
       assert_response :success, "The map call should have succeeded"
       assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
         assert_select "bounds[minlon='#{node.lon}'][minlat='#{node.lat}'][maxlon='#{node.lon}'][maxlat='#{node.lat}']", :count => 1
@@ -101,7 +101,7 @@ module Api
       relation = create(:relation_member, :member => way1).relation
 
       bbox = "#{node.lon},#{node.lat},#{node.lon},#{node.lat}"
-      get :index, :params => { :bbox => bbox }
+      get :index, :params => { :bbox => bbox }, :format => :xml
       assert_response :success, "The map call should have succeeded"
       assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
         assert_select "bounds[minlon='#{node.lon}'][minlat='#{node.lat}'][maxlon='#{node.lon}'][maxlat='#{node.lat}']", :count => 1
@@ -118,7 +118,7 @@ module Api
     end
 
     def test_map_empty
-      get :index, :params => { :bbox => "179.998,89.998,179.999.1,89.999" }
+      get :index, :params => { :bbox => "179.998,89.998,179.999.1,89.999" }, :format => :xml
       assert_response :success, "The map call should have succeeded"
       assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
         assert_select "bounds[minlon='179.9980000'][minlat='89.9980000'][maxlon='179.9990000'][maxlat='89.9990000']", :count => 1
@@ -136,7 +136,7 @@ module Api
 
     def test_bbox_too_big
       @badbigbbox.each do |bbox|
-        get :index, :params => { :bbox => bbox }
+        get :index, :params => { :bbox => bbox }, :format => :xml
         assert_response :bad_request, "The bbox:#{bbox} was expected to be too big"
         assert_equal "The maximum bbox size is #{Settings.max_request_area}, and your request was too large. Either request a smaller area, or use planet.osm", @response.body, "bbox: #{bbox}"
       end
@@ -144,7 +144,7 @@ module Api
 
     def test_bbox_malformed
       @badmalformedbbox.each do |bbox|
-        get :index, :params => { :bbox => bbox }
+        get :index, :params => { :bbox => bbox }, :format => :xml
         assert_response :bad_request, "The bbox:#{bbox} was expected to be malformed"
         assert_equal "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat", @response.body, "bbox: #{bbox}"
       end
@@ -152,7 +152,7 @@ module Api
 
     def test_bbox_lon_mixedup
       @badlonmixedbbox.each do |bbox|
-        get :index, :params => { :bbox => bbox }
+        get :index, :params => { :bbox => bbox }, :format => :xml
         assert_response :bad_request, "The bbox:#{bbox} was expected to have the longitude mixed up"
         assert_equal "The minimum longitude must be less than the maximum longitude, but it wasn't", @response.body, "bbox: #{bbox}"
       end
@@ -160,7 +160,7 @@ module Api
 
     def test_bbox_lat_mixedup
       @badlatmixedbbox.each do |bbox|
-        get :index, :params => { :bbox => bbox }
+        get :index, :params => { :bbox => bbox }, :format => :xml
         assert_response :bad_request, "The bbox:#{bbox} was expected to have the latitude mixed up"
         assert_equal "The minimum latitude must be less than the maximum latitude, but it wasn't", @response.body, "bbox: #{bbox}"
       end
