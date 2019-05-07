@@ -25,7 +25,12 @@ module Api
       relation = Relation.find(params[:id])
       response.last_modified = relation.timestamp
       if relation.visible
-        render :xml => relation.to_xml.to_s
+        @relations = [relation]
+
+        # Render the result
+        respond_to do |format|
+          format.xml
+        end
       else
         head :gone
       end
@@ -88,35 +93,39 @@ module Api
         node_ids += way_node_ids.flatten
         nodes = Node.where(:id => node_ids.uniq).includes(:node_tags)
 
-        # create XML.
-        doc = OSM::API.new.get_xml_doc
         visible_nodes = {}
-        changeset_cache = {}
-        user_display_name_cache = {}
+        # changeset_cache = {}
+        # user_display_name_cache = {}
 
+        @nodes = []
         nodes.each do |node|
           next unless node.visible? # should be unnecessary if data is consistent.
 
-          doc.root << node.to_xml_node(changeset_cache, user_display_name_cache)
+          @nodes << node
           visible_nodes[node.id] = node
         end
 
+        @ways = []
         ways.each do |way|
           next unless way.visible? # should be unnecessary if data is consistent.
 
-          doc.root << way.to_xml_node(visible_nodes, changeset_cache, user_display_name_cache)
+          @ways << way
         end
 
+        @relations = []
         relations.each do |rel|
           next unless rel.visible? # should be unnecessary if data is consistent.
 
-          doc.root << rel.to_xml_node(changeset_cache, user_display_name_cache)
+          @relations << rel
         end
 
-        # finally add self and output
-        doc.root << relation.to_xml_node(changeset_cache, user_display_name_cache)
-        render :xml => doc.to_s
+        # finally add self
+        @relations << relation
 
+        # Render the result
+        respond_to do |format|
+          format.xml
+        end
       else
         head :gone
       end
@@ -129,13 +138,12 @@ module Api
 
       raise OSM::APIBadUserInput, "No relations were given to search for" if ids.empty?
 
-      doc = OSM::API.new.get_xml_doc
+      @relations = Relation.find(ids)
 
-      Relation.find(ids).each do |relation|
-        doc.root << relation.to_xml_node
+      # Render the result
+      respond_to do |format|
+        format.xml
       end
-
-      render :xml => doc.to_s
     end
 
     def relations_for_way
@@ -155,13 +163,16 @@ module Api
     def relations_for_object(objtype)
       relationids = RelationMember.where(:member_type => objtype, :member_id => params[:id]).collect(&:relation_id).uniq
 
-      doc = OSM::API.new.get_xml_doc
+      @relations = []
 
       Relation.find(relationids).each do |relation|
-        doc.root << relation.to_xml_node if relation.visible
+        @relations << relation if relation.visible
       end
 
-      render :xml => doc.to_s
+      # Render the result
+      respond_to do |format|
+        format.xml
+      end
     end
   end
 end

@@ -35,10 +35,8 @@ module Api
         return
       end
 
-      doc = OSM::API.new.get_xml_doc
-
       # add bounds
-      doc.root << bbox.add_bounds_to(XML::Node.new("bounds"))
+      @bounds = bbox
 
       # get ways
       # find which ways are needed
@@ -62,21 +60,22 @@ module Api
       nodes += Node.includes(:node_tags).find(nodes_to_fetch) unless nodes_to_fetch.empty?
 
       visible_nodes = {}
-      changeset_cache = {}
-      user_display_name_cache = {}
-
+      # changeset_cache = {}
+      # user_display_name_cache = {}
+      @nodes = []
       nodes.each do |node|
         if node.visible?
-          doc.root << node.to_xml_node(changeset_cache, user_display_name_cache)
           visible_nodes[node.id] = node
+          @nodes << node
         end
       end
 
+      @ways = []
       way_ids = []
       ways.each do |way|
         if way.visible?
-          doc.root << way.to_xml_node(visible_nodes, changeset_cache, user_display_name_cache)
           way_ids << way.id
+          @ways << way
         end
       end
 
@@ -92,13 +91,16 @@ module Api
 
       # this "uniq" may be slightly inefficient; it may be better to first collect and output
       # all node-related relations, then find the *not yet covered* way-related ones etc.
+      @relations = []
       relations.uniq.each do |relation|
-        doc.root << relation.to_xml_node(changeset_cache, user_display_name_cache)
+        @relations << relation
       end
 
       response.headers["Content-Disposition"] = "attachment; filename=\"map.osm\""
-
-      render :xml => doc.to_s
+      # Render the result
+      respond_to do |format|
+        format.xml
+      end
     end
   end
 end

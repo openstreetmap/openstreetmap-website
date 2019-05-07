@@ -27,7 +27,12 @@ module Api
       response.last_modified = way.timestamp
 
       if way.visible
-        render :xml => way.to_xml.to_s
+        @ways = [way]
+
+        # Render the result
+        respond_to do |format|
+          format.xml
+        end
       else
         head :gone
       end
@@ -63,19 +68,24 @@ module Api
 
       if way.visible
         visible_nodes = {}
-        changeset_cache = {}
-        user_display_name_cache = {}
+        # changeset_cache = {}
+        # user_display_name_cache = {}
 
-        doc = OSM::API.new.get_xml_doc
+        @nodes = []
+
         way.nodes.uniq.each do |node|
           if node.visible
-            doc.root << node.to_xml_node(changeset_cache, user_display_name_cache)
+            @nodes << node
             visible_nodes[node.id] = node
           end
         end
-        doc.root << way.to_xml_node(visible_nodes, changeset_cache, user_display_name_cache)
 
-        render :xml => doc.to_s
+        @ways = [way]
+
+        # Render the result
+        respond_to do |format|
+          format.xml
+        end
       else
         head :gone
       end
@@ -90,13 +100,12 @@ module Api
 
       raise OSM::APIBadUserInput, "No ways were given to search for" if ids.empty?
 
-      doc = OSM::API.new.get_xml_doc
+      @ways = Way.find(ids)
 
-      Way.find(ids).each do |way|
-        doc.root << way.to_xml_node
+      # Render the result
+      respond_to do |format|
+        format.xml
       end
-
-      render :xml => doc.to_s
     end
 
     ##
@@ -106,13 +115,12 @@ module Api
     def ways_for_node
       wayids = WayNode.where(:node_id => params[:id]).collect { |ws| ws.id[0] }.uniq
 
-      doc = OSM::API.new.get_xml_doc
+      @ways = Way.where(:id => wayids, :visible => true)
 
-      Way.find(wayids).each do |way|
-        doc.root << way.to_xml_node if way.visible
+      # Render the result
+      respond_to do |format|
+        format.xml
       end
-
-      render :xml => doc.to_s
     end
   end
 end
