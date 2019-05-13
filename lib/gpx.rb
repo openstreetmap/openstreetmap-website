@@ -100,16 +100,15 @@ module GPX
         end
       end
 
-      res = GD2::AnimatedGif.gif_anim_begin(frames[0])
-      res << GD2::AnimatedGif.gif_anim_add(frames[0], nil, delay)
-      (1...nframes).each do |n|
-        res << GD2::AnimatedGif.gif_anim_add(frames[n],
-                                             (frames[n] == frames[n - 1] ? nil : frames[n - 1]),
-                                             delay)
+      image = GD2::AnimatedGif.new
+      frames.each do |frame|
+        image.add(frame, :delay => delay)
       end
-      res << GD2::AnimatedGif.gif_anim_end
+      image.end
 
-      res
+      output = StringIO.new
+      image.export(output)
+      output.read
     end
 
     def icon(min_lat, min_lon, max_lat, max_lon)
