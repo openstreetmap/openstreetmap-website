@@ -125,11 +125,11 @@ $(document).ready(function () {
     $("#contributorTerms").load(url);
   });
 
-  $("#read_ct").on("click", function () { 
+  $("#read_ct").on("click", function () {
     $("#continue").prop("disabled", !($(this).prop("checked") && $("#read_tou").prop("checked")));
   });
 
-  $("#read_tou").on("click", function () { 
+  $("#read_tou").on("click", function () {
     $("#continue").prop("disabled", !($(this).prop("checked") && $("#read_ct").prop("checked")));
   });
 });

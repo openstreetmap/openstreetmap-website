@@ -13,9 +13,9 @@ L.OSM.Map = L.Map.extend({
   initialize: function (id, options) {
     L.Map.prototype.initialize.call(this, id, options);
 
-    var copyright = I18n.t('javascripts.map.copyright', {copyright_url: '/copyright'});
-    var donate = I18n.t('javascripts.map.donate_link_text', {donate_url: 'https://donate.openstreetmap.org'});
-    var terms = I18n.t('javascripts.map.terms', {terms_url: 'https://wiki.osmfoundation.org/wiki/Terms_of_Use'});
+    var copyright = I18n.t("javascripts.map.copyright", { copyright_url: "/copyright" });
+    var donate = I18n.t("javascripts.map.donate_link_text", { donate_url: "https://donate.openstreetmap.org" });
+    var terms = I18n.t("javascripts.map.terms", { terms_url: "https://wiki.osmfoundation.org/wiki/Terms_of_Use" });
 
     this.baseLayers = [];
 
@@ -28,7 +28,7 @@ L.OSM.Map = L.Map.extend({
 
     if (OSM.THUNDERFOREST_KEY) {
       this.baseLayers.push(new L.OSM.CycleMap({
-        attribution: copyright + ". Tiles courtesy of <a href='https://www.thunderforest.com/' target='_blank'>Andy Allan</a>" + ". " + terms,
+        attribution: copyright + ". Tiles courtesy of <a href='https://www.thunderforest.com/' target='_blank'>Andy Allan</a>. " + terms,
         apikey: OSM.THUNDERFOREST_KEY,
         code: "C",
         keyid: "cyclemap",
@@ -36,7 +36,7 @@ L.OSM.Map = L.Map.extend({
       }));
 
       this.baseLayers.push(new L.OSM.TransportMap({
-        attribution: copyright + ". Tiles courtesy of <a href='https://www.thunderforest.com/' target='_blank'>Andy Allan</a>" + ". " + terms,
+        attribution: copyright + ". Tiles courtesy of <a href='https://www.thunderforest.com/' target='_blank'>Andy Allan</a>. " + terms,
         apikey: OSM.THUNDERFOREST_KEY,
         code: "T",
         keyid: "transportmap",
@@ -45,7 +45,7 @@ L.OSM.Map = L.Map.extend({
     }
 
     this.baseLayers.push(new L.OSM.HOT({
-      attribution: copyright + ". Tiles style by <a href='https://www.hotosm.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>" + " hosted by <a href='https://openstreetmap.fr/' target='_blank'>OpenStreetMap France</a>" + ". " + terms,
+      attribution: copyright + ". Tiles style by <a href='https://www.hotosm.org/' target='_blank'>Humanitarian OpenStreetMap Team</a> hosted by <a href='https://openstreetmap.fr/' target='_blank'>OpenStreetMap France</a>. " + terms,
       code: "H",
       keyid: "hot",
       name: I18n.t("javascripts.map.base.hot")
