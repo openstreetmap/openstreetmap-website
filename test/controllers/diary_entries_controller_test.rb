@@ -713,9 +713,9 @@ class DiaryEntriesControllerTest < ActionController::TestCase
 
   def test_hide
     user = create(:user)
+    diary_entry = create(:diary_entry, :user => user)
 
     # Try without logging in
-    diary_entry = create(:diary_entry, :user => user)
     post :hide,
          :params => { :display_name => user.display_name, :id => diary_entry.id }
     assert_response :forbidden
@@ -729,6 +729,17 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :errors, :action => :forbidden
     assert_equal true, DiaryEntry.find(diary_entry.id).visible
 
+    # Now try as a moderator
+    post :hide,
+         :params => { :display_name => user.display_name, :id => diary_entry.id },
+         :session => { :user => create(:moderator_user) }
+    assert_response :redirect
+    assert_redirected_to :action => :index, :display_name => user.display_name
+    assert_equal false, DiaryEntry.find(diary_entry.id).visible
+
+    # Reset
+    diary_entry.reload.update(:visible => true)
+
     # Finally try as an administrator
     post :hide,
          :params => { :display_name => user.display_name, :id => diary_entry.id },
@@ -740,9 +751,9 @@ class DiaryEntriesControllerTest < ActionController::TestCase
 
   def test_hidecomment
     user = create(:user)
-    administrator_user = create(:administrator_user)
     diary_entry = create(:diary_entry, :user => user)
     diary_comment = create(:diary_comment, :diary_entry => diary_entry)
+
     # Try without logging in
     post :hidecomment,
          :params => { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id }
@@ -757,10 +768,21 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :errors, :action => :forbidden
     assert_equal true, DiaryComment.find(diary_comment.id).visible
 
+    # Try as a moderator
+    post :hidecomment,
+         :params => { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id },
+         :session => { :user => create(:moderator_user) }
+    assert_response :redirect
+    assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
+    assert_equal false, DiaryComment.find(diary_comment.id).visible
+
+    # Reset
+    diary_comment.reload.update(:visible => true)
+
     # Finally try as an administrator
     post :hidecomment,
          :params => { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id },
-         :session => { :user => administrator_user }
+         :session => { :user => create(:administrator_user) }
     assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
     assert_equal false, DiaryComment.find(diary_comment.id).visible
