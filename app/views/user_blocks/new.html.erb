@@ -13,7 +13,7 @@
   </p>
   <p>
     <%= label_tag "user_block_period", t(".period") %><br />
-    <%= select_tag("user_block_period", options_for_select(UserBlock::PERIODS.collect { |h| [t("user_blocks.period", :count => h), h.to_s] }, params[:user_block_period])) %>
+    <%= select_tag("user_block_period", options_for_select(UserBlock::PERIODS.collect { |h| [block_duration_in_words(h.hours), h.to_s] }, params[:user_block_period])) %>
   </p>
   <p>
     <%= f.check_box :needs_view %>
