@@ -12,6 +12,11 @@ ast:
     formats:
       friendly: '%e de %B de %Y a les %H:%M'
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: nun paez que sía una dirección de corréu electrónicu
+          válida.
+        email_address_not_routable: nun ye enrutable
     models:
       acl: Llista de Control d'Accesu
       changeset: Conxuntu de cambeos
@@ -263,10 +268,10 @@ ast:
       title_friend: Conxuntos de cambeos de los mios collacios
       title_nearby: Conxuntos de cambeos d'usuarios cercanos
       empty: Nun s'alcontró nengún conxuntu de cambeos.
-      empty_area: Nun hai conxuntos de cambeos nesti área.
+      empty_area: Nun hai conxuntos de cambeos nesta área.
       empty_user: Nun hai conxuntos de cambeos d'esti usuariu.
       no_more: Nun s'alcontraron más conxuntos de cambeos.
-      no_more_area: Nun hai más conxuntos de cambeos nesti área.
+      no_more_area: Nun hai más conxuntos de cambeos nesta área.
       no_more_user: Nun hai más conxuntos de cambeos d'esti usuariu.
       load_more: Cargar más
     timeout:
@@ -276,9 +281,15 @@ ast:
       comment: 'Comentariu nuevu sobro''l conxuntu de cambios #%{changeset_id} de
         %{author}'
       commented_at_by_html: Anovao hai %{when} por %{user}
+    comments:
+      comment: 'Comentariu nuevu sobro''l conxuntu de cambios #%{changeset_id} de
+        %{author}'
     index:
       title_all: Alderique del conxuntu de cambeos d'OpenStreetMap
       title_particular: 'Alderique del conxuntu de cambeos #%{changeset_id} d''OpenStreetMap'
+    timeout:
+      sorry: Llevó demasiao tiempu baxar la llista de comentarios del conxuntu de
+        cambeos que pidisti.
   diary_entries:
     new:
       title: Nueva entrada del diariu
@@ -317,14 +328,14 @@ ast:
       title: Nun esiste la entrada del diariu
       heading: 'Nun esiste la entrada con id: %{id}'
       body: Sentímoslo, nun hai nenguna entrada del diariu cola id %{id}. Comprueba
-        la escritura o si primisti nun enllaz enquivocáu.
+        la escritura o si pulsiasti nun enllaz enquivocáu.
     diary_entry:
       posted_by: Unviáu por %{link_user} el %{created} en %{language_link}
       comment_link: Comentar esta entrada
       reply_link: Responder a esta entrada
       comment_count:
         zero: Ensin comentarios
-        one: 1 comentariu
+        one: '%{count} comentariu'
         other: '%{count} comentarios'
       edit_link: Editar esta entrada
       hide_link: Anubrir esta entrada
@@ -892,7 +903,7 @@ ast:
           "yes": Tienda
         tourism:
           alpine_hut: Refuxu de monte
-          apartment: Apartamentu
+          apartment: Apartamentu de vacaciones
           artwork: Obra d'arte
           attraction: Interés turísticu
           bed_and_breakfast: Cama y almuerzu (B&B)
@@ -1085,6 +1096,8 @@ ast:
     intro_text: OpenStreetMap ye un mapa del mundu, creáu por persones como tu y d'usu
       llibre baxo una llicencia abierta.
     intro_2_create_account: Crear una cuenta d'usuariu
+    hosting_partners_html: L'agospiamientu tien l'encontu de %{ucl}, %{bytemark},  y
+      otros %{partners}.
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: asociaos
@@ -1411,12 +1424,18 @@ ast:
           <a href="http://www.gu.gov.si/en/">Autoridá Topográfica y Cartográfica</a> y del
           <a href="http://www.mkgp.gov.si/en/">Ministeriu d'Agricultura, Silvicultura y Alimentación</a>
           (información pública d'Eslovenia).
+        contributors_es_html: '<strong>España</strong>: Contien datos provenientes
+          del Institutu Xeográficu Nacional (<a href="http://www.ign.es/">IGN</a>)
+          y del Sistema Cartográficu Nacional (<a href="http://www.scne.es/">SCNE</a>),
+          llicenciaos pa la reutilización baxo <a href="https://creativecommons.org/licenses/by/4.0/">CC
+          BY 4.0</a>.'
         contributors_za_html: |-
           <strong>Sudáfrica</strong>: Contien datos sacaos de
           <a href="http://www.ngi.gov.za/">Chief Directorate:
           National Geo-Spatial Information</a>, State copyright reserved.
-        contributors_gb_html: '<strong>Reinu Xuníu</strong>: Contien datos de Ordnance
-          Survey &copy; Crown copyright and database right 2010-12.'
+        contributors_gb_html: |-
+          <strong>Reinu Uníu</strong>: Contien datos de Ordnance Survey © Crown copyright and database right
+           2010-19.
         contributors_footer_1_html: |-
           Pa más detalles d'estes, y otres fontes que s'usaron p'ayudar a
           ameyorar OpenStreetMap, por favor, llei la <a
@@ -1572,6 +1591,11 @@ ast:
         title: Migrar a OSM
         description: Ayuda pa les empreses y organizaciones que cambien a mapes y
           otros servicios, basaos n'OpenStreetMap.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: Pa organizaciones
+        description: ¿Con una organización que fai planes pa OpenStreetMap? Atopa
+          lo que tienes de saber nel Felpudu de Bienvenida.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Ast:Main_Page
         title: wiki.openstreetmap.org
@@ -1663,7 +1687,7 @@ ast:
       edit: Editar
       preview: Vista previa
     markdown_help:
-      title_html: Analizáu con <a href="https://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Analizáu con <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Cabeceres
       heading: Cabecera
       subheading: Cabecera secundaria
@@ -1716,7 +1740,7 @@ ast:
         title: ¿Tien alguna entruga?
         paragraph_1_html: |-
           OpenStreetMap tien dellos recursos p'aprender sobro'l proyeutu, entrugar y contestar preguntes, y discutir y documentar en collaboración cuestiones de cartografía.
-          <a href='%{help_url}'>Algame ayuda equí</a>.
+          <a href='%{help_url}'>Algama ayuda equí</a>. ¿Con una organización que fai planes pa OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Visita'l Felpudu de Bienvenida</a>.
       start_mapping: Principiar col mapéu
       add_a_note:
         title: ¿Nun tien tiempu pa editar? ¡Amieste una nota!
@@ -1850,6 +1874,7 @@ ast:
         other: Ficheru GPX con %{count} puntos de %{user}
       description_without_count: Ficheru GPX de %{user}
   application:
+    permission_denied: Nun tienes permisu d'accesu pa esta aición.
     require_cookies:
       cookies_needed: Paez que tienes les cookies desactivaes - activa les cookies
         nel restolador enantes de siguir.
@@ -2060,6 +2085,7 @@ ast:
       terms accepted: ¡Gracies por aceutar les condiciones de collaboración!
       terms declined: Sentimos que decidieras nun aceutar les Condiciones de Collaborador.
         Pa más información llei <a href="%{url}">esta páxina wiki</a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: Condiciones de collaboración
       heading: Condiciones de collaboración
@@ -2069,9 +2095,11 @@ ast:
       consider_pd: Amás del alcuerdu anterior, considero que les mios collaboraciones
         pasen a ser Dominiu Públicu
       consider_pd_why: ¿qué ye esto?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Información p''ayudar a entender estos términos: un <a href="%{summary}">resume</a>
         y delles <a href="%{translations}">traducciones non oficiales</a>'
       agree: Aceutar
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Refugar
       you need to accept or decline: Por favor, llei y aceuta o refuga les nueves
         Condiciones de Collaboración pa siguir.
@@ -2193,6 +2221,7 @@ ast:
           nuevos términos de collaboración.
         agreed_with_pd: Tamién declarasti que consideres que les tos ediciones pertenecen
           al Dominiu Públicu.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: ¿qué ye esto?
       profile description: 'Descripción del perfil:'
       preferred languages: 'Llingües preferíes:'
@@ -2527,7 +2556,9 @@ ast:
     directions:
       ascend: Ascender
       engines:
+        fossgis_osrm_bike: Bicicleta (OSRM)
         fossgis_osrm_car: En coche (OSRM)
+        fossgis_osrm_foot: Pie (OSRM)
         graphhopper_bicycle: Bicicleta  (GraphHopper)
         graphhopper_car: En coche (GraphHopper)
         graphhopper_foot: A pie (GraphHopper)
@@ -2660,4 +2691,9 @@ ast:
         pertenecen a esta redaición enantes de destruila.
       flash: Redaición destruyía.
       error: Hebo un error al destruir esta redaición.
+  validations:
+    leading_whitespace: tien espaciu al principiu
+    trailing_whitespace: tien espaciu al final
+    invalid_characters: contien caráuteres non válidos
+    url_characters: Contien caráuteres URL especiales (%{characters})
 ...
