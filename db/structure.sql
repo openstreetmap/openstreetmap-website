@@ -2064,6 +2064,20 @@ CREATE INDEX gpx_files_visible_visibility_idx ON public.gpx_files USING btree (v
 
 
 --
+-- Name: index_acls_on_address; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_acls_on_address ON public.acls USING gist (address inet_ops);
+
+
+--
+-- Name: index_acls_on_domain; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_acls_on_domain ON public.acls USING btree (domain);
+
+
+--
 -- Name: index_changeset_comments_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2932,6 +2946,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170222134109'),
 ('20180204153242'),
 ('20181031113522'),
+('20190518115041'),
 ('21'),
 ('22'),
 ('23'),

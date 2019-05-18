@@ -10,7 +10,9 @@
 #
 # Indexes
 #
-#  acls_k_idx  (k)
+#  acls_k_idx             (k)
+#  index_acls_on_address  (address) USING gist
+#  index_acls_on_domain   (domain)
 #
 
 class Acl < ActiveRecord::Base
