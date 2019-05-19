@@ -87,7 +87,6 @@ OpenStreetMap::Application.routes.draw do
     # AMF (ActionScript) API
     post "amf/read" => "api/amf#amf_read"
     post "amf/write" => "api/amf#amf_write"
-    get "swf/trackpoints" => "api/swf#trackpoints"
 
     # Map notes API
     resources :notes, :except => [:new, :edit, :update], :constraints => { :id => /\d+/ }, :defaults => { :format => "xml" }, :controller => "api/notes" do
