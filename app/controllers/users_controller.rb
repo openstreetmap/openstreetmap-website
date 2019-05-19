@@ -36,7 +36,7 @@ class UsersController < ApplicationController
   def save
     @title = t "users.new.title"
 
-    if params[:decline]
+    if params[:decline] || !(params[:read_tou] && params[:read_ct])
       if current_user
         current_user.terms_seen = true
 
@@ -47,12 +47,15 @@ class UsersController < ApplicationController
         else
           redirect_to :action => :account, :display_name => current_user.display_name
         end
-      else
+      elsif params[:decline]
         redirect_to t("users.terms.declined")
+      else
+        redirect_to :action => :terms
       end
     elsif current_user
       unless current_user.terms_agreed?
         current_user.consider_pd = params[:user][:consider_pd]
+        current_user.tou_agreed = Time.now.getutc
         current_user.terms_agreed = Time.now.getutc
         current_user.terms_seen = true
 
@@ -73,6 +76,7 @@ class UsersController < ApplicationController
         current_user.creation_ip = request.remote_ip
         current_user.languages = http_accept_language.user_preferred_languages
         current_user.terms_agreed = Time.now.getutc
+        current_user.tou_agreed = Time.now.getutc
         current_user.terms_seen = true
 
         if current_user.auth_uid.blank?
