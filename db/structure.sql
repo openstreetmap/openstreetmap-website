@@ -1293,7 +1293,8 @@ CREATE TABLE public.users (
     image_use_gravatar boolean DEFAULT false NOT NULL,
     image_content_type character varying,
     auth_provider character varying,
-    home_tile bigint
+    home_tile bigint,
+    tou_agreed timestamp without time zone
 );
 
 
@@ -2945,6 +2946,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20161011010929'),
 ('20170222134109'),
 ('20180204153242'),
+('20181020114000'),
 ('20181031113522'),
 ('20190518115041'),
 ('21'),
