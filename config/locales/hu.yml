@@ -36,6 +36,9 @@ hu:
     formats:
       friendly: '%Y. %B %e., %H.%M'
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: nem tűnik érvényes e-mail-címnek
     models:
       acl: Hozzáférés-szabályzási lista
       changeset: Módosításcsomag
@@ -1002,12 +1005,30 @@ hu:
       states:
         open: Megnyitás
         resolved: Megoldva
+    update:
+      provide_details: Kérjük adja meg a szükséges részleteket
+    show:
+      resolve: Megold
+      ignore: Hanyagol
+      reopen: Újra megnyit
   reports:
     new:
       categories:
+        diary_entry:
+          other_label: Egyéb
+        diary_comment:
+          other_label: Egyéb
         user:
           vandal_label: Ez a felhasználó vandál
           other_label: Egyéb
+        note:
+          spam_label: A megjegyzés spam
+          personal_label: A megjegyzés személyes adatot tartalmaz
+          abusive_label: A megjegyzés sértő
+          other_label: Egyéb
+    create:
+      successful_report: A jelentés sikeresen regisztrálva
+      provide_details: Kérjük adja meg a szükséges részleteket
   layouts:
     logo:
       alt_text: OpenStreetMap logó
@@ -1021,6 +1042,7 @@ hu:
     edit: Szerkesztés
     history: Előzmények
     export: Exportálás
+    issues: Problémák
     data: Adatok
     export_data: Adatok exportálása
     gps_traces: Nyomvonalak
@@ -1543,6 +1565,7 @@ hu:
       where_am_i: Hol található?
       where_am_i_title: A jelenlegi helyszín leírása a keresőmotor segítségével
       submit_text: Menj
+      reverse_directions_text: Irány megfordítása
     key:
       table:
         entry:
@@ -1689,19 +1712,23 @@ hu:
       identifiable: Azonosítható (megjelenik a nyomvonalak listáján, és azonosítható,
         rendezett pontok időbélyeggel)
     new:
+      upload_trace: GPS nyomvonal feltöltése
       upload_gpx: 'GPX fájl feltöltése:'
       description: 'Leírás:'
       tags: 'Címkék:'
       tags_help: vesszővel elválasztva
       visibility: 'Láthatóság:'
       visibility_help: Mit jelent ez?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       upload_button: Feltöltés
       help: Segítség
+      help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
       upload_trace: GPS nyomvonal feltöltése
       trace_uploaded: A GPX fájl feltöltése megtörtént, és várakozik az adatbázisba
         való beillesztésre. Ez általában fél órán belül megtörténik, és fogsz kapni
         egy e-mailt, amint elkészült.
+      upload_failed: A GPX feltöltése meghiúsult. Kérjük próbálja újra.
       traces_waiting: '%{count} nyomvonalad várakozik feltöltésre. Kérlek fontold
         meg, hogy megvárod, amíg ezek befejeződnek mielőtt feltöltesz továbbiakat,
         hogy így ne tartsd fel a többi felhasználót a sorban.'
@@ -1722,6 +1749,8 @@ hu:
       save_button: Módosítások mentése
       visibility: 'Láthatóság:'
       visibility_help: Mit jelent ez?
+    update:
+      updated: Nyomvonal frissítve
     trace_optionals:
       tags: Címkék
     show:
@@ -1743,6 +1772,7 @@ hu:
       delete_trace: Nyomvonal törlése
       trace_not_found: Nem található nyomvonal!
       visibility: 'Láthatóság:'
+      confirm_delete: Nyomvonal törlése?
     trace_paging_nav:
       showing_page: '%{page}. oldal'
       older: Régebbi nyomvonalak
@@ -1765,6 +1795,7 @@ hu:
       map: térkép
     index:
       public_traces: Nyilvános GPS nyomvonalak
+      my_traces: Saját GPS nyomvonalak
       public_traces_from: '%{user} nyilvános GPS nyomvonalai'
       description: Legfrissebb GPS nyomvonalak tallózása
       tagged_with: ' %{tags} címkével'
@@ -1773,6 +1804,7 @@ hu:
         lapon</a>.
       upload_trace: Nyomvonal feltöltése
       see_all_traces: Összes nyomvonal megtekintése
+      see_my_traces: Saját nyomvonalak megtekintése
     delete:
       scheduled_for_deletion: A nyomvonal törlésre kijelölve
     make_public:
@@ -1789,9 +1821,13 @@ hu:
         other: GPX fájl %{count} ponttal %{user} felhasználótól
       description_without_count: GPX fájl %{user} felhasználótól
   application:
+    permission_denied: Nincs megfelelő jogosultságod a művelet végrehajtásához
     require_cookies:
       cookies_needed: Úgy tűnik, hogy a böngésződben le vannak tiltva a sütik – a
         folytatás előtt engedélyezd azokat.
+    require_admin:
+      not_an_admin: Ennek a műveletnek az elvégzéséhez adminisztrátori jogosultsággal
+        kell rendelkezned.
     setup_user_auth:
       blocked_zero_hour: Sürgős üzeneted van az OpenStreetMap weboldalon. El kell
         olvasnod az üzenetet, mielőtt elmentheted a változtatásokat.
@@ -2000,18 +2036,17 @@ hu:
       terms accepted: Köszönjük, hogy elfogadtad az új hozzájárulási feltételeket!
       terms declined: Sajnáljuk, hogy úgy döntöttél, nem fogadod el az új hozzájárulási
         feltételeket. További információért lásd <a href="%{url}">ezt a wiki oldalt</a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: Hozzájárulási feltételek
       heading: Hozzájárulási feltételek
-      read and accept: Kérlek, olvasd el az alábbi megállapodást, és nyomd meg az
-        „egyetértek” gombot, amellyel megerősíted, hogy elfogadod ezen megállapodás
-        feltételeit a jelenlegi és jövőbeni hozzájárulásaidhoz.
       consider_pd: A fenti megállapodáson felül, a hozzájárulásaimat közkinccsé nyilvánítom
       consider_pd_why: mi ez?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Információk a fogalmak megértéséhez: egy <a href="%{summary}">közérthető
         nyelven megfogalmazott kivonat</a> és néhány <a href="%{translations}">nemhivatalos
         fordítás</a>'
-      agree: Elfogadom
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Elutasítom
       you need to accept or decline: Kérünk, hogy olvasd el, ezután fogadd vagy utasítsd
         el az új hozzájárulási feltételeket a folytatáshoz.
@@ -2093,6 +2128,7 @@ hu:
       friends_diaries: barátok naplóbejegyzései
       nearby_changesets: közeli felhasználók módosításai
       nearby_diaries: közeli felhasználók naplóbejegyzései
+      report: Felhasználó jelentése
     popup:
       your location: Helyed
       nearby mapper: Közeli térképszerkesztő
@@ -2133,6 +2169,7 @@ hu:
         review link text: Kérlek, kövesd ezt a hivatkozást az új hozzájárulási feltételek
           áttekintéséhez és elfogadásához.
         agreed_with_pd: Azt is kijelentetted, hogy a szerkesztéseid közkincsnek tekinthetők.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: mi ez?
       profile description: 'Profil leírása:'
       preferred languages: 'Előnyben részesített nyelvek:'
@@ -2140,6 +2177,7 @@ hu:
       image: 'Kép:'
       gravatar:
         gravatar: Gravatar használata
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         link text: mi ez?
         disabled: A Gravatar le van tiltva.
         enabled: A Gravatar kép kijelzését bekapcsoltad.
@@ -2436,7 +2474,7 @@ hu:
       map_notes_zoom_in_tooltip: Nagyítsd fel a térképet a jegyzetek megjelenítéséhez
       map_data_zoom_in_tooltip: Nagyítsd fel a térképet a térképadatok megjelenítéséhez
       queryfeature_tooltip: Funkciók lekérdezése
-      queryfeature_disabled_tooltip: Nagyítás a lekérdezési funkciókra
+      queryfeature_disabled_tooltip: Közelíts a lekérdezés funkció használatához
     changesets:
       show:
         comment: Megjegyzés
