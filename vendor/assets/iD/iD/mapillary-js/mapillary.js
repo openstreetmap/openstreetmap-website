@@ -22211,6 +22211,8 @@ var MeshScene_1 = require("./component/utils/MeshScene");
 exports.MeshScene = MeshScene_1.MeshScene;
 var MouseOperator_1 = require("./component/utils/MouseOperator");
 exports.MouseOperator = MouseOperator_1.MouseOperator;
+var ComponentSize_1 = require("./component/utils/ComponentSize");
+exports.ComponentSize = ComponentSize_1.ComponentSize;
 var AttributionComponent_1 = require("./component/AttributionComponent");
 exports.AttributionComponent = AttributionComponent_1.AttributionComponent;
 var BackgroundComponent_1 = require("./component/BackgroundComponent");
@@ -22367,7 +22369,7 @@ var ZoomComponent_1 = require("./component/zoom/ZoomComponent");
 exports.ZoomComponent = ZoomComponent_1.ZoomComponent;
 __export(require("./component/interfaces/interfaces"));
 
-},{"./component/AttributionComponent":289,"./component/BackgroundComponent":290,"./component/BearingComponent":291,"./component/CacheComponent":292,"./component/Component":293,"./component/ComponentService":294,"./component/CoverComponent":295,"./component/DebugComponent":296,"./component/ImageComponent":297,"./component/LoadingComponent":298,"./component/NavigationComponent":299,"./component/RouteComponent":300,"./component/StatsComponent":301,"./component/direction/DirectionComponent":302,"./component/direction/DirectionDOMCalculator":303,"./component/direction/DirectionDOMRenderer":304,"./component/imageplane/ImagePlaneComponent":305,"./component/imageplane/ImagePlaneGLRenderer":306,"./component/interfaces/interfaces":309,"./component/keyboard/KeyPlayHandler":310,"./component/keyboard/KeySequenceNavigationHandler":311,"./component/keyboard/KeySpatialNavigationHandler":312,"./component/keyboard/KeyZoomHandler":313,"./component/keyboard/KeyboardComponent":314,"./component/marker/MarkerComponent":316,"./component/marker/MarkerScene":317,"./component/marker/MarkerSet":318,"./component/marker/marker/CircleMarker":319,"./component/marker/marker/Marker":320,"./component/marker/marker/SimpleMarker":321,"./component/mouse/BounceHandler":322,"./component/mouse/DoubleClickZoomHandler":323,"./component/mouse/DragPanHandler":324,"./component/mouse/EarthControlHandler":325,"./component/mouse/ImageBoundary":326,"./component/mouse/MouseComponent":327,"./component/mouse/ScrollZoomHandler":328,"./component/mouse/TouchZoomHandler":329,"./component/popup/PopupComponent":331,"./component/popup/popup/Popup":332,"./component/sequence/SequenceComponent":333,"./component/sequence/SequenceDOMRenderer":334,"./component/sequence/SequenceMode":335,"./component/shaders/Shaders":336,"./component/slider/SliderComponent":337,"./component/slider/SliderDOMRenderer":338,"./component/slider/SliderGLRenderer":339,"./component/spatialdata/SpatialDataCache":340,"./component/spatialdata/SpatialDataComponent":341,"./component/spatialdata/SpatialDataScene":342,"./component/tag/TagComponent":344,"./component/tag/TagCreator":345,"./component/tag/TagDOMRenderer":346,"./component/tag/TagMode":347,"./component/tag/TagOperation":348,"./component/tag/TagScene":349,"./component/tag/TagSet":350,"./component/tag/error/GeometryTagError":351,"./component/tag/geometry/Geometry":352,"./component/tag/geometry/PointGeometry":353,"./component/tag/geometry/PolygonGeometry":354,"./component/tag/geometry/RectGeometry":355,"./component/tag/geometry/VertexGeometry":356,"./component/tag/handlers/CreateHandlerBase":357,"./component/tag/handlers/CreatePointHandler":358,"./component/tag/handlers/CreatePolygonHandler":359,"./component/tag/handlers/CreateRectDragHandler":360,"./component/tag/handlers/CreateRectHandler":361,"./component/tag/handlers/CreateVertexHandler":362,"./component/tag/handlers/EditVertexHandler":363,"./component/tag/handlers/TagHandlerBase":364,"./component/tag/tag/OutlineCreateTag":365,"./component/tag/tag/OutlineRenderTag":366,"./component/tag/tag/OutlineTag":367,"./component/tag/tag/RenderTag":368,"./component/tag/tag/SpotRenderTag":369,"./component/tag/tag/SpotTag":370,"./component/tag/tag/Tag":371,"./component/tag/tag/TagDomain":372,"./component/utils/HandlerBase":373,"./component/utils/MeshFactory":374,"./component/utils/MeshScene":375,"./component/utils/MouseOperator":376,"./component/zoom/ZoomComponent":377}],276:[function(require,module,exports){
+},{"./component/AttributionComponent":289,"./component/BackgroundComponent":290,"./component/BearingComponent":291,"./component/CacheComponent":292,"./component/Component":293,"./component/ComponentService":294,"./component/CoverComponent":295,"./component/DebugComponent":296,"./component/ImageComponent":297,"./component/LoadingComponent":298,"./component/NavigationComponent":299,"./component/RouteComponent":300,"./component/StatsComponent":301,"./component/direction/DirectionComponent":302,"./component/direction/DirectionDOMCalculator":303,"./component/direction/DirectionDOMRenderer":304,"./component/imageplane/ImagePlaneComponent":305,"./component/imageplane/ImagePlaneGLRenderer":306,"./component/interfaces/interfaces":309,"./component/keyboard/KeyPlayHandler":310,"./component/keyboard/KeySequenceNavigationHandler":311,"./component/keyboard/KeySpatialNavigationHandler":312,"./component/keyboard/KeyZoomHandler":313,"./component/keyboard/KeyboardComponent":314,"./component/marker/MarkerComponent":316,"./component/marker/MarkerScene":317,"./component/marker/MarkerSet":318,"./component/marker/marker/CircleMarker":319,"./component/marker/marker/Marker":320,"./component/marker/marker/SimpleMarker":321,"./component/mouse/BounceHandler":322,"./component/mouse/DoubleClickZoomHandler":323,"./component/mouse/DragPanHandler":324,"./component/mouse/EarthControlHandler":325,"./component/mouse/ImageBoundary":326,"./component/mouse/MouseComponent":327,"./component/mouse/ScrollZoomHandler":328,"./component/mouse/TouchZoomHandler":329,"./component/popup/PopupComponent":331,"./component/popup/popup/Popup":332,"./component/sequence/SequenceComponent":333,"./component/sequence/SequenceDOMRenderer":334,"./component/sequence/SequenceMode":335,"./component/shaders/Shaders":336,"./component/slider/SliderComponent":337,"./component/slider/SliderDOMRenderer":338,"./component/slider/SliderGLRenderer":339,"./component/spatialdata/SpatialDataCache":340,"./component/spatialdata/SpatialDataComponent":341,"./component/spatialdata/SpatialDataScene":342,"./component/tag/TagComponent":344,"./component/tag/TagCreator":345,"./component/tag/TagDOMRenderer":346,"./component/tag/TagMode":347,"./component/tag/TagOperation":348,"./component/tag/TagScene":349,"./component/tag/TagSet":350,"./component/tag/error/GeometryTagError":351,"./component/tag/geometry/Geometry":352,"./component/tag/geometry/PointGeometry":353,"./component/tag/geometry/PolygonGeometry":354,"./component/tag/geometry/RectGeometry":355,"./component/tag/geometry/VertexGeometry":356,"./component/tag/handlers/CreateHandlerBase":357,"./component/tag/handlers/CreatePointHandler":358,"./component/tag/handlers/CreatePolygonHandler":359,"./component/tag/handlers/CreateRectDragHandler":360,"./component/tag/handlers/CreateRectHandler":361,"./component/tag/handlers/CreateVertexHandler":362,"./component/tag/handlers/EditVertexHandler":363,"./component/tag/handlers/TagHandlerBase":364,"./component/tag/tag/OutlineCreateTag":365,"./component/tag/tag/OutlineRenderTag":366,"./component/tag/tag/OutlineTag":367,"./component/tag/tag/RenderTag":368,"./component/tag/tag/SpotRenderTag":369,"./component/tag/tag/SpotTag":370,"./component/tag/tag/Tag":371,"./component/tag/tag/TagDomain":372,"./component/utils/ComponentSize":373,"./component/utils/HandlerBase":374,"./component/utils/MeshFactory":375,"./component/utils/MeshScene":376,"./component/utils/MouseOperator":377,"./component/zoom/ZoomComponent":378}],276:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EdgeDirection_1 = require("./graph/edge/EdgeDirection");
@@ -22381,7 +22383,7 @@ exports.EdgeCalculatorCoefficients = EdgeCalculatorCoefficients_1.EdgeCalculator
 var EdgeCalculator_1 = require("./graph/edge/EdgeCalculator");
 exports.EdgeCalculator = EdgeCalculator_1.EdgeCalculator;
 
-},{"./graph/edge/EdgeCalculator":399,"./graph/edge/EdgeCalculatorCoefficients":400,"./graph/edge/EdgeCalculatorDirections":401,"./graph/edge/EdgeCalculatorSettings":402,"./graph/edge/EdgeDirection":403}],277:[function(require,module,exports){
+},{"./graph/edge/EdgeCalculator":400,"./graph/edge/EdgeCalculatorCoefficients":401,"./graph/edge/EdgeCalculatorDirections":402,"./graph/edge/EdgeCalculatorSettings":403,"./graph/edge/EdgeDirection":404}],277:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var AbortMapillaryError_1 = require("./error/AbortMapillaryError");
@@ -22393,7 +22395,7 @@ exports.GraphMapillaryError = GraphMapillaryError_1.GraphMapillaryError;
 var MapillaryError_1 = require("./error/MapillaryError");
 exports.MapillaryError = MapillaryError_1.MapillaryError;
 
-},{"./error/AbortMapillaryError":378,"./error/ArgumentMapillaryError":379,"./error/GraphMapillaryError":380,"./error/MapillaryError":381}],278:[function(require,module,exports){
+},{"./error/AbortMapillaryError":379,"./error/ArgumentMapillaryError":380,"./error/GraphMapillaryError":381,"./error/MapillaryError":382}],278:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Camera_1 = require("./geo/Camera");
@@ -22411,7 +22413,7 @@ exports.Geo = Geo;
 var Lines = require("./geo/Lines");
 exports.Lines = Lines;
 
-},{"./geo/Camera":382,"./geo/Geo":383,"./geo/GeoCoords":384,"./geo/Lines":385,"./geo/Spatial":386,"./geo/Transform":387,"./geo/ViewportCoords":388}],279:[function(require,module,exports){
+},{"./geo/Camera":383,"./geo/Geo":384,"./geo/GeoCoords":385,"./geo/Lines":386,"./geo/Spatial":387,"./geo/Transform":388,"./geo/ViewportCoords":389}],279:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var FilterCreator_1 = require("./graph/FilterCreator");
@@ -22435,7 +22437,7 @@ exports.NodeCache = NodeCache_1.NodeCache;
 var Sequence_1 = require("./graph/Sequence");
 exports.Sequence = Sequence_1.Sequence;
 
-},{"./graph/FilterCreator":389,"./graph/Graph":390,"./graph/GraphCalculator":391,"./graph/GraphMode":392,"./graph/GraphService":393,"./graph/ImageLoadingService":394,"./graph/MeshReader":395,"./graph/Node":396,"./graph/NodeCache":397,"./graph/Sequence":398}],280:[function(require,module,exports){
+},{"./graph/FilterCreator":390,"./graph/Graph":391,"./graph/GraphCalculator":392,"./graph/GraphMode":393,"./graph/GraphService":394,"./graph/ImageLoadingService":395,"./graph/MeshReader":396,"./graph/Node":397,"./graph/NodeCache":398,"./graph/Sequence":399}],280:[function(require,module,exports){
 "use strict";
 /**
  * MapillaryJS is a WebGL JavaScript library for exploring street level imagery
@@ -22460,6 +22462,7 @@ exports.ImageSize = Viewer_1.ImageSize;
 exports.Viewer = Viewer_1.Viewer;
 var Component_1 = require("./Component");
 exports.SliderMode = Component_1.SliderMode;
+exports.ComponentSize = Component_1.ComponentSize;
 var TagComponent = require("./component/tag/Tag");
 exports.TagComponent = TagComponent;
 var MarkerComponent = require("./component/marker/Marker");
@@ -22483,7 +22486,7 @@ exports.RenderMode = RenderMode_1.RenderMode;
 var RenderService_1 = require("./render/RenderService");
 exports.RenderService = RenderService_1.RenderService;
 
-},{"./render/DOMRenderer":404,"./render/GLRenderStage":405,"./render/GLRenderer":406,"./render/RenderCamera":407,"./render/RenderMode":408,"./render/RenderService":409}],282:[function(require,module,exports){
+},{"./render/DOMRenderer":405,"./render/GLRenderStage":406,"./render/GLRenderer":407,"./render/RenderCamera":408,"./render/RenderMode":409,"./render/RenderService":410}],282:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var FrameGenerator_1 = require("./state/FrameGenerator");
@@ -22511,7 +22514,7 @@ exports.TraversingState = TraversingState_1.TraversingState;
 var WaitingState_1 = require("./state/states/WaitingState");
 exports.WaitingState = WaitingState_1.WaitingState;
 
-},{"./state/FrameGenerator":410,"./state/RotationDelta":411,"./state/State":412,"./state/StateContext":413,"./state/StateService":414,"./state/TransitionMode":415,"./state/states/EarthState":416,"./state/states/InteractiveStateBase":417,"./state/states/InteractiveWaitingState":418,"./state/states/StateBase":419,"./state/states/TraversingState":420,"./state/states/WaitingState":421}],283:[function(require,module,exports){
+},{"./state/FrameGenerator":411,"./state/RotationDelta":412,"./state/State":413,"./state/StateContext":414,"./state/StateService":415,"./state/TransitionMode":416,"./state/states/EarthState":417,"./state/states/InteractiveStateBase":418,"./state/states/InteractiveWaitingState":419,"./state/states/StateBase":420,"./state/states/TraversingState":421,"./state/states/WaitingState":422}],283:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var support = require("./utils/Support");
@@ -22551,7 +22554,7 @@ function isFallbackSupported() {
 }
 exports.isFallbackSupported = isFallbackSupported;
 
-},{"./utils/Support":429}],284:[function(require,module,exports){
+},{"./utils/Support":430}],284:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ImageTileLoader_1 = require("./tiles/ImageTileLoader");
@@ -22563,7 +22566,7 @@ exports.TextureProvider = TextureProvider_1.TextureProvider;
 var RegionOfInterestCalculator_1 = require("./tiles/RegionOfInterestCalculator");
 exports.RegionOfInterestCalculator = RegionOfInterestCalculator_1.RegionOfInterestCalculator;
 
-},{"./tiles/ImageTileLoader":422,"./tiles/ImageTileStore":423,"./tiles/RegionOfInterestCalculator":424,"./tiles/TextureProvider":425}],285:[function(require,module,exports){
+},{"./tiles/ImageTileLoader":423,"./tiles/ImageTileStore":424,"./tiles/RegionOfInterestCalculator":425,"./tiles/TextureProvider":426}],285:[function(require,module,exports){
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -22579,7 +22582,7 @@ __export(require("./utils/Support"));
 var Urls_1 = require("./utils/Urls");
 exports.Urls = Urls_1.Urls;
 
-},{"./utils/DOM":426,"./utils/EventEmitter":427,"./utils/Settings":428,"./utils/Support":429,"./utils/Urls":430}],286:[function(require,module,exports){
+},{"./utils/DOM":427,"./utils/EventEmitter":428,"./utils/Settings":429,"./utils/Support":430,"./utils/Urls":431}],286:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Alignment_1 = require("./viewer/Alignment");
@@ -22613,7 +22616,7 @@ exports.TouchService = TouchService_1.TouchService;
 var Viewer_1 = require("./viewer/Viewer");
 exports.Viewer = Viewer_1.Viewer;
 
-},{"./viewer/Alignment":431,"./viewer/CacheService":432,"./viewer/ComponentController":433,"./viewer/Container":434,"./viewer/ImageSize":435,"./viewer/KeyboardService":436,"./viewer/LoadingService":437,"./viewer/MouseService":438,"./viewer/Navigator":439,"./viewer/Observer":440,"./viewer/PlayService":441,"./viewer/Projection":442,"./viewer/SpriteService":443,"./viewer/TouchService":444,"./viewer/Viewer":445}],287:[function(require,module,exports){
+},{"./viewer/Alignment":432,"./viewer/CacheService":433,"./viewer/ComponentController":434,"./viewer/Container":435,"./viewer/ImageSize":436,"./viewer/KeyboardService":437,"./viewer/LoadingService":438,"./viewer/MouseService":439,"./viewer/Navigator":440,"./viewer/Observer":441,"./viewer/PlayService":443,"./viewer/Projection":444,"./viewer/SpriteService":445,"./viewer/TouchService":446,"./viewer/Viewer":447}],287:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -23017,15 +23020,38 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
 var vd = require("virtual-dom");
+var UnitBezier = require("@mapbox/unitbezier");
+var rxjs_1 = require("rxjs");
 var Component_1 = require("../Component");
 var Geo_1 = require("../Geo");
+var ViewportCoords_1 = require("../geo/ViewportCoords");
+var ComponentSize_1 = require("./utils/ComponentSize");
+/**
+ * @class BearingComponent
+ *
+ * @classdesc Component for indicating bearing and field of view.
+ *
+ * @example
+ * ```
+ * var viewer = new Mapillary.Viewer(
+ *     "<element-id>",
+ *     "<client-id>",
+ *     "<my key>");
+ *
+ * var bearingComponent = viewer.getComponent("bearing");
+ * bearingComponent.configure({ size: Mapillary.ComponentSize.Small });
+ * ```
+ */
 var BearingComponent = /** @class */ (function (_super) {
     __extends(BearingComponent, _super);
     function BearingComponent(name, container, navigator) {
         var _this = _super.call(this, name, container, navigator) || this;
         _this._spatial = new Geo_1.Spatial();
+        _this._viewportCoords = new ViewportCoords_1.default();
         _this._svgNamespace = "http://www.w3.org/2000/svg";
         _this._distinctThreshold = Math.PI / 360;
+        _this._animationSpeed = 0.075;
+        _this._unitBezier = new UnitBezier(0.74, 0.67, 0.38, 0.96);
         return _this;
     }
     BearingComponent.prototype._activate = function () {
@@ -23040,17 +23066,110 @@ var BearingComponent = /** @class */ (function (_super) {
             return Math.abs(a2[0] - a1[0]) < _this._distinctThreshold &&
                 Math.abs(a2[1] - a1[1]) < _this._distinctThreshold;
         }));
-        this._renderSubscription = cameraBearingFov$.pipe(operators_1.map(function (_a) {
-            var bearing = _a[0], fov = _a[1];
-            var background = vd.h("div.BearingIndicatorBackground", {}, []);
-            var backgroundCircle = vd.h("div.BearingIndicatorBackgroundCircle", {}, []);
-            var north = _this._createNorth(bearing);
-            var cameraSector = _this._createCircleSectorCompass(_this._createCircleSector(Math.max(Math.PI / 20, fov), "#FFF"));
+        var nodeFov$ = rxjs_1.combineLatest(this._navigator.stateService.currentState$.pipe(operators_1.distinctUntilChanged(undefined, function (frame) {
+            return frame.state.currentNode.key;
+        })), this._navigator.panService.panNodes$).pipe(operators_1.map(function (_a) {
+            var frame = _a[0], panNodes = _a[1];
+            var node = frame.state.currentNode;
+            var transform = frame.state.currentTransform;
+            if (node.pano) {
+                var panoHFov = 2 * Math.PI * node.gpano.CroppedAreaImageWidthPixels / node.gpano.FullPanoWidthPixels;
+                return [panoHFov / 2, panoHFov / 2];
+            }
+            var currentProjectedPoints = _this._computeProjectedPoints(transform);
+            var hFov = _this._spatial.degToRad(_this._computeHorizontalFov(currentProjectedPoints));
+            var hFovLeft = hFov / 2;
+            var hFovRight = hFov / 2;
+            for (var _i = 0, panNodes_1 = panNodes; _i < panNodes_1.length; _i++) {
+                var _b = panNodes_1[_i], n = _b[0], f = _b[2];
+                var diff = _this._spatial.wrap(n.ca - node.ca, -180, 180);
+                if (diff < 0) {
+                    hFovLeft = _this._spatial.degToRad(Math.abs(diff)) + f / 2;
+                }
+                else {
+                    hFovRight = _this._spatial.degToRad(Math.abs(diff)) + f / 2;
+                }
+            }
+            return [hFovLeft, hFovRight];
+        }), operators_1.distinctUntilChanged(function (_a, _b) {
+            var hFovLeft1 = _a[0], hFovRight1 = _a[1];
+            var hFovLeft2 = _b[0], hFovRight2 = _b[1];
+            return Math.abs(hFovLeft2 - hFovLeft1) < _this._distinctThreshold &&
+                Math.abs(hFovRight2 - hFovRight1) < _this._distinctThreshold;
+        }));
+        var offset$ = rxjs_1.combineLatest(this._navigator.stateService.currentState$.pipe(operators_1.distinctUntilChanged(undefined, function (frame) {
+            return frame.state.currentNode.key;
+        })), this._container.renderService.bearing$).pipe(operators_1.map(function (_a) {
+            var frame = _a[0], bearing = _a[1];
+            var offset = _this._spatial.degToRad(frame.state.currentNode.ca - bearing);
+            return offset;
+        }));
+        var nodeFovOperation$ = new rxjs_1.Subject();
+        var smoothNodeFov$ = nodeFovOperation$.pipe(operators_1.scan(function (state, operation) {
+            return operation(state);
+        }, { alpha: 0, curr: [0, 0, 0], prev: [0, 0, 0] }), operators_1.map(function (state) {
+            var alpha = _this._unitBezier.solve(state.alpha);
+            var curr = state.curr;
+            var prev = state.prev;
+            return [
+                _this._interpolate(prev[0], curr[0], alpha),
+                _this._interpolate(prev[1], curr[1], alpha),
+            ];
+        }));
+        this._fovSubscription = nodeFov$.pipe(operators_1.map(function (nbf) {
+            return function (state) {
+                var a = _this._unitBezier.solve(state.alpha);
+                var c = state.curr;
+                var p = state.prev;
+                var prev = [
+                    _this._interpolate(p[0], c[0], a),
+                    _this._interpolate(p[1], c[1], a),
+                ];
+                var curr = nbf.slice();
+                return {
+                    alpha: 0,
+                    curr: curr,
+                    prev: prev,
+                };
+            };
+        }))
+            .subscribe(nodeFovOperation$);
+        this._fovAnimationSubscription = nodeFov$.pipe(operators_1.switchMap(function () {
+            return _this._container.renderService.renderCameraFrame$.pipe(operators_1.skip(1), operators_1.scan(function (alpha) {
+                return alpha + _this._animationSpeed;
+            }, 0), operators_1.takeWhile(function (alpha) {
+                return alpha <= 1 + _this._animationSpeed;
+            }), operators_1.map(function (alpha) {
+                return Math.min(alpha, 1);
+            }));
+        }), operators_1.map(function (alpha) {
+            return function (nbfState) {
+                return {
+                    alpha: alpha,
+                    curr: nbfState.curr.slice(),
+                    prev: nbfState.prev.slice(),
+                };
+            };
+        }))
+            .subscribe(nodeFovOperation$);
+        var nodeBearingFov$ = rxjs_1.combineLatest(offset$, smoothNodeFov$).pipe(operators_1.map(function (_a) {
+            var offset = _a[0], fov = _a[1];
+            return [offset, fov[0], fov[1]];
+        }));
+        this._renderSubscription = rxjs_1.combineLatest(cameraBearingFov$, nodeBearingFov$, this._configuration$, this._container.renderService.size$).pipe(operators_1.map(function (_a) {
+            var _b = _a[0], cb = _b[0], cf = _b[1], _c = _a[1], no = _c[0], nfl = _c[1], nfr = _c[2], configuration = _a[2], size = _a[3];
+            var background = _this._createBackground(cb);
+            var fovIndicator = _this._createFovIndicator(nfl, nfr, no);
+            var north = _this._createNorth(cb);
+            var cameraSector = _this._createCircleSectorCompass(_this._createCircleSector(Math.max(Math.PI / 20, cf), "#FFF"));
+            var compact = configuration.size === ComponentSize_1.default.Small ||
+                configuration.size === ComponentSize_1.default.Automatic && size.width < 640 ?
+                ".BearingCompact" : "";
             return {
                 name: _this._name,
-                vnode: vd.h("div.BearingIndicatorContainer", { oncontextmenu: function (event) { event.preventDefault(); } }, [
+                vnode: vd.h("div.BearingIndicatorContainer" + compact, { oncontextmenu: function (event) { event.preventDefault(); } }, [
                     background,
-                    backgroundCircle,
+                    fovIndicator,
                     north,
                     cameraSector,
                 ]),
@@ -23060,9 +23179,66 @@ var BearingComponent = /** @class */ (function (_super) {
     };
     BearingComponent.prototype._deactivate = function () {
         this._renderSubscription.unsubscribe();
+        this._fovSubscription.unsubscribe();
+        this._fovAnimationSubscription.unsubscribe();
     };
     BearingComponent.prototype._getDefaultConfiguration = function () {
-        return {};
+        return { size: ComponentSize_1.default.Automatic };
+    };
+    BearingComponent.prototype._createFovIndicator = function (fovLeft, fovRigth, offset) {
+        var arc = this._createFovArc(fovLeft, fovRigth);
+        var group = vd.h("g", {
+            attributes: { transform: "translate(18,18)" },
+            namespace: this._svgNamespace,
+        }, [arc]);
+        var svg = vd.h("svg", {
+            attributes: { viewBox: "0 0 36 36" },
+            namespace: this._svgNamespace,
+            style: {
+                height: "36px",
+                left: "2px",
+                position: "absolute",
+                top: "2px",
+                transform: "rotateZ(" + this._spatial.radToDeg(offset) + "deg)",
+                width: "36px",
+            },
+        }, [group]);
+        return svg;
+    };
+    BearingComponent.prototype._createFovArc = function (fovLeft, fovRigth) {
+        var radius = 16.75;
+        var strokeWidth = 2.5;
+        var fov = fovLeft + fovRigth;
+        if (fov > 2 * Math.PI - Math.PI / 90) {
+            return vd.h("circle", {
+                attributes: {
+                    cx: "0",
+                    cy: "0",
+                    "fill-opacity": "0",
+                    r: "" + radius,
+                    stroke: "#FFF",
+                    "stroke-width": "" + strokeWidth,
+                },
+                namespace: this._svgNamespace,
+            }, []);
+        }
+        var arcStart = -Math.PI / 2 - fovLeft;
+        var arcEnd = arcStart + fov;
+        var startX = radius * Math.cos(arcStart);
+        var startY = radius * Math.sin(arcStart);
+        var endX = radius * Math.cos(arcEnd);
+        var endY = radius * Math.sin(arcEnd);
+        var largeArc = fov >= Math.PI ? 1 : 0;
+        var description = "M " + startX + " " + startY + " A " + radius + " " + radius + " 0 " + largeArc + " 1 " + endX + " " + endY;
+        return vd.h("path", {
+            attributes: {
+                d: description,
+                "fill-opacity": "0",
+                stroke: "#FFF",
+                "stroke-width": "" + strokeWidth,
+            },
+            namespace: this._svgNamespace,
+        }, []);
     };
     BearingComponent.prototype._createCircleSectorCompass = function (cameraSector) {
         var group = vd.h("g", {
@@ -23073,11 +23249,11 @@ var BearingComponent = /** @class */ (function (_super) {
             attributes: { viewBox: "0 0 2 2" },
             namespace: this._svgNamespace,
             style: {
-                height: "30px",
-                left: "4px",
+                height: "26px",
+                left: "7px",
                 position: "absolute",
-                top: "4px",
-                width: "30px",
+                top: "7px",
+                width: "26px",
             },
         }, [group]);
         return svg;
@@ -23104,8 +23280,37 @@ var BearingComponent = /** @class */ (function (_super) {
     };
     BearingComponent.prototype._createNorth = function (bearing) {
         var north = vd.h("div.BearingNorth", []);
-        var container = vd.h("div.BearingNorthContainer", { style: { transform: "rotateZ(" + -bearing * 180 / Math.PI + "deg)" } }, [north]);
+        var container = vd.h("div.BearingNorthContainer", { style: { transform: "rotateZ(" + this._spatial.radToDeg(-bearing) + "deg)" } }, [north]);
         return container;
+    };
+    BearingComponent.prototype._createBackground = function (bearing) {
+        return vd.h("div.BearingIndicatorBackground", { style: { transform: "rotateZ(" + this._spatial.radToDeg(-bearing) + "deg)" } }, [
+            vd.h("div.BearingIndicatorBackgroundCircle", []),
+            vd.h("div.BearingIndicatorBackgroundArrowContainer", [
+                vd.h("div.BearingIndicatorBackgroundArrow", []),
+            ]),
+        ]);
+    };
+    BearingComponent.prototype._computeProjectedPoints = function (transform) {
+        var vertices = [[1, 0]];
+        var directions = [[0, 0.5]];
+        var pointsPerLine = 12;
+        return Geo_1.Geo.computeProjectedPoints(transform, vertices, directions, pointsPerLine, this._viewportCoords);
+    };
+    BearingComponent.prototype._computeHorizontalFov = function (projectedPoints) {
+        var _this = this;
+        var fovs = projectedPoints
+            .map(function (projectedPoint) {
+            return _this._coordToFov(projectedPoint[0]);
+        });
+        var fov = Math.min.apply(Math, fovs);
+        return fov;
+    };
+    BearingComponent.prototype._coordToFov = function (x) {
+        return this._spatial.radToDeg(2 * Math.atan(x));
+    };
+    BearingComponent.prototype._interpolate = function (x1, x2, alpha) {
+        return (1 - alpha) * x1 + alpha * x2;
     };
     BearingComponent.componentName = "bearing";
     return BearingComponent;
@@ -23114,7 +23319,8 @@ exports.BearingComponent = BearingComponent;
 Component_1.ComponentService.register(BearingComponent);
 exports.default = BearingComponent;
 
-},{"../Component":275,"../Geo":278,"rxjs/operators":225,"virtual-dom":231}],292:[function(require,module,exports){
+
+},{"../Component":275,"../Geo":278,"../geo/ViewportCoords":389,"./utils/ComponentSize":373,"@mapbox/unitbezier":2,"rxjs":27,"rxjs/operators":225,"virtual-dom":231}],292:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -23538,9 +23744,15 @@ var CoverComponent = /** @class */ (function (_super) {
     CoverComponent.prototype._getCoverButtonVNode = function (configuration) {
         var _this = this;
         var cover = configuration.state === Component_1.CoverState.Loading ? "div.Cover.CoverLoading" : "div.Cover";
-        var coverButton = vd.h("div.CoverButton", { onclick: function () { _this.configure({ state: Component_1.CoverState.Loading }); } }, [vd.h("div.CoverButtonIcon", [])]);
+        var coverButton = vd.h("div.CoverButton", [vd.h("div.CoverButtonIcon", [])]);
         var coverLogo = vd.h("a.CoverLogo", { href: Utils_1.Urls.explore, target: "_blank" }, []);
-        return vd.h(cover, [this._getCoverBackgroundVNode(configuration), coverButton, coverLogo]);
+        var coverIndicator = vd.h("div.CoverIndicator", { onclick: function () { _this.configure({ state: Component_1.CoverState.Loading }); } }, []);
+        return vd.h(cover, [
+            this._getCoverBackgroundVNode(configuration),
+            coverIndicator,
+            coverButton,
+            coverLogo,
+        ]);
     };
     CoverComponent.prototype._getCoverBackgroundVNode = function (conf) {
         var url = conf.src != null ?
@@ -25076,9 +25288,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
 var operators_1 = require("rxjs/operators");
 var Component_1 = require("../../Component");
+var Viewer_1 = require("../../Viewer");
 var Render_1 = require("../../Render");
 var Tiles_1 = require("../../Tiles");
 var Utils_1 = require("../../Utils");
+var ViewportCoords_1 = require("../../geo/ViewportCoords");
+var Spatial_1 = require("../../geo/Spatial");
 var ImagePlaneComponent = /** @class */ (function (_super) {
     __extends(ImagePlaneComponent, _super);
     function ImagePlaneComponent(name, container, navigator) {
@@ -25196,10 +25411,16 @@ var ImagePlaneComponent = /** @class */ (function (_super) {
         this._setRegionOfInterestSubscription = textureProvider$.pipe(operators_1.switchMap(function (provider) {
             return roiTrigger$.pipe(operators_1.map(function (_a) {
                 var camera = _a[0], size = _a[1], transform = _a[2];
+                var basic = new ViewportCoords_1.default().viewportToBasic(0, 0, transform, camera.perspective);
+                if (basic[0] < 0 || basic[1] < 0 || basic[0] > 1 || basic[1] > 1) {
+                    return undefined;
+                }
                 return [
                     _this._roiCalculator.computeRegionOfInterest(camera, size, transform),
                     provider,
                 ];
+            }), operators_1.filter(function (args) {
+                return !!args;
             }));
         }), operators_1.filter(function (args) {
             return !args[1].disposed;
@@ -25260,6 +25481,92 @@ var ImagePlaneComponent = /** @class */ (function (_super) {
             };
         }))
             .subscribe(this._rendererOperation$);
+        this._clearPeripheryPlaneSubscription = this._navigator.panService.panNodes$.pipe(operators_1.filter(function (panNodes) {
+            return panNodes.length === 0;
+        }), operators_1.map(function () {
+            return function (renderer) {
+                renderer.clearPeripheryPlanes();
+                return renderer;
+            };
+        }))
+            .subscribe(this._rendererOperation$);
+        var cachedPanNodes$ = this._navigator.panService.panNodes$.pipe(operators_1.switchMap(function (nts) {
+            return rxjs_1.from(nts).pipe(operators_1.mergeMap(function (_a) {
+                var n = _a[0], t = _a[1];
+                return rxjs_1.combineLatest(_this._navigator.graphService.cacheNode$(n.key).pipe(operators_1.catchError(function (error) {
+                    console.error("Failed to cache periphery node (" + n.key + ")", error);
+                    return rxjs_1.empty();
+                })), rxjs_1.of(t));
+            }));
+        }), operators_1.share());
+        this._addPeripheryPlaneSubscription = cachedPanNodes$.pipe(operators_1.map(function (_a) {
+            var n = _a[0], t = _a[1];
+            return function (renderer) {
+                renderer.addPeripheryPlane(n, t);
+                return renderer;
+            };
+        }))
+            .subscribe(this._rendererOperation$);
+        this._updatePeripheryPlaneTextureSubscription = cachedPanNodes$.pipe(operators_1.mergeMap(function (_a) {
+            var n = _a[0];
+            return Viewer_1.ImageSize.Size2048 > Math.max(n.image.width, n.image.height) ?
+                n.cacheImage$(Viewer_1.ImageSize.Size2048).pipe(operators_1.catchError(function () {
+                    return rxjs_1.empty();
+                })) :
+                rxjs_1.empty();
+        }), operators_1.map(function (n) {
+            return function (renderer) {
+                renderer.updateTextureImage(n.image, n);
+                return renderer;
+            };
+        }))
+            .subscribe(this._rendererOperation$);
+        var inTransition$ = this._navigator.stateService.currentState$.pipe(operators_1.map(function (frame) {
+            return frame.state.alpha < 1;
+        }), operators_1.distinctUntilChanged());
+        var panTrigger$ = rxjs_1.combineLatest(this._container.mouseService.active$, this._container.touchService.active$, this._navigator.stateService.inMotion$, inTransition$).pipe(operators_1.map(function (_a) {
+            var mouseActive = _a[0], touchActive = _a[1], inMotion = _a[2], inTransition = _a[3];
+            return !(mouseActive || touchActive || inMotion || inTransition);
+        }), operators_1.filter(function (trigger) {
+            return trigger;
+        }));
+        this._moveToPeripheryNodeSubscription = this._navigator.panService.panNodes$.pipe(operators_1.switchMap(function (nts) {
+            return panTrigger$.pipe(operators_1.withLatestFrom(_this._container.renderService.renderCamera$, _this._navigator.stateService.currentNode$, _this._navigator.stateService.currentTransform$), operators_1.mergeMap(function (_a) {
+                var renderCamera = _a[1], currentNode = _a[2], currentTransform = _a[3];
+                return rxjs_1.of([
+                    renderCamera,
+                    currentNode,
+                    currentTransform,
+                    nts,
+                ]);
+            }));
+        }), operators_1.switchMap(function (_a) {
+            var camera = _a[0], cn = _a[1], ct = _a[2], nts = _a[3];
+            var direction = camera.camera.lookat.clone().sub(camera.camera.position);
+            var cd = new Spatial_1.default().viewingDirection(cn.rotation);
+            var ca = cd.angleTo(direction);
+            var closest = [ca, undefined];
+            var basic = new ViewportCoords_1.default().viewportToBasic(0, 0, ct, camera.perspective);
+            if (basic[0] >= 0 && basic[0] <= 1 && basic[1] >= 0 && basic[1] <= 1) {
+                closest[0] = Number.NEGATIVE_INFINITY;
+            }
+            for (var _i = 0, nts_1 = nts; _i < nts_1.length; _i++) {
+                var n = nts_1[_i][0];
+                var d = new Spatial_1.default().viewingDirection(n.rotation);
+                var a = d.angleTo(direction);
+                if (a < closest[0]) {
+                    closest[0] = a;
+                    closest[1] = n.key;
+                }
+            }
+            if (!closest[1]) {
+                return rxjs_1.empty();
+            }
+            return _this._navigator.moveToKey$(closest[1]).pipe(operators_1.catchError(function () {
+                return rxjs_1.empty();
+            }));
+        }))
+            .subscribe();
     };
     ImagePlaneComponent.prototype._deactivate = function () {
         this._rendererDisposer$.next(null);
@@ -25273,6 +25580,10 @@ var ImagePlaneComponent = /** @class */ (function (_super) {
         this._textureProviderSubscription.unsubscribe();
         this._updateBackgroundSubscription.unsubscribe();
         this._updateTextureImageSubscription.unsubscribe();
+        this._clearPeripheryPlaneSubscription.unsubscribe();
+        this._addPeripheryPlaneSubscription.unsubscribe();
+        this._updatePeripheryPlaneTextureSubscription.unsubscribe();
+        this._moveToPeripheryNodeSubscription.unsubscribe();
     };
     ImagePlaneComponent.prototype._getDefaultConfiguration = function () {
         return {};
@@ -25284,7 +25595,7 @@ exports.ImagePlaneComponent = ImagePlaneComponent;
 Component_1.ComponentService.register(ImagePlaneComponent);
 exports.default = ImagePlaneComponent;
 
-},{"../../Component":275,"../../Render":281,"../../Tiles":284,"../../Utils":285,"rxjs":27,"rxjs/operators":225}],306:[function(require,module,exports){
+},{"../../Component":275,"../../Render":281,"../../Tiles":284,"../../Utils":285,"../../Viewer":286,"../../geo/Spatial":387,"../../geo/ViewportCoords":389,"rxjs":27,"rxjs/operators":225}],306:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Component_1 = require("../../Component");
@@ -25318,6 +25629,17 @@ var ImagePlaneGLRenderer = /** @class */ (function () {
     ImagePlaneGLRenderer.prototype.indicateNeedsRender = function () {
         this._needsRender = true;
     };
+    ImagePlaneGLRenderer.prototype.addPeripheryPlane = function (node, transform) {
+        var mesh = this._factory.createMesh(node, transform);
+        var planes = {};
+        planes[node.key] = mesh;
+        this._scene.addPeripheryPlanes(planes);
+        this._needsRender = true;
+    };
+    ImagePlaneGLRenderer.prototype.clearPeripheryPlanes = function () {
+        this._scene.setPeripheryPlanes({});
+        this._needsRender = true;
+    };
     ImagePlaneGLRenderer.prototype.updateFrame = function (frame) {
         this._updateFrameId(frame.id);
         this._needsRender = this._updateAlpha(frame.state.alpha) || this._needsRender;
@@ -25349,24 +25671,17 @@ var ImagePlaneGLRenderer = /** @class */ (function () {
         }
         this._providerDisposers[key] = dispose;
     };
-    ImagePlaneGLRenderer.prototype._updateTexture = function (texture) {
-        this._needsRender = true;
-        for (var _i = 0, _a = this._scene.imagePlanes; _i < _a.length; _i++) {
-            var plane = _a[_i];
-            var material = plane.material;
-            var oldTexture = material.uniforms.projectorTex.value;
-            material.uniforms.projectorTex.value = null;
-            oldTexture.dispose();
-            material.uniforms.projectorTex.value = texture;
-        }
-    };
     ImagePlaneGLRenderer.prototype.updateTextureImage = function (image, node) {
-        if (this._currentKey !== node.key) {
-            return;
-        }
         this._needsRender = true;
-        for (var _i = 0, _a = this._scene.imagePlanes; _i < _a.length; _i++) {
-            var plane = _a[_i];
+        var planes = this._extend({}, this._scene.planes, this._scene.planesOld, this._scene.planesPeriphery);
+        for (var key in planes) {
+            if (!planes.hasOwnProperty(key)) {
+                continue;
+            }
+            if (key !== node.key) {
+                continue;
+            }
+            var plane = planes[key];
             var material = plane.material;
             var texture = material.uniforms.projectorTex.value;
             texture.image = image;
@@ -25374,19 +25689,40 @@ var ImagePlaneGLRenderer = /** @class */ (function () {
         }
     };
     ImagePlaneGLRenderer.prototype.render = function (perspectiveCamera, renderer) {
-        var planeAlpha = this._scene.imagePlanesOld.length ? 1 : this._alpha;
-        for (var _i = 0, _a = this._scene.imagePlanes; _i < _a.length; _i++) {
-            var plane = _a[_i];
+        var planes = this._scene.planes;
+        var planesOld = this._scene.planesOld;
+        var planesPeriphery = this._scene.planesPeriphery;
+        var planeAlpha = Object.keys(planesOld).length ? 1 : this._alpha;
+        var peripheryAlpha = Object.keys(planesOld).length ? 1 : Math.floor(this._alpha);
+        for (var key in planes) {
+            if (!planes.hasOwnProperty(key)) {
+                continue;
+            }
+            var plane = planes[key];
             plane.material.uniforms.opacity.value = planeAlpha;
         }
-        for (var _b = 0, _c = this._scene.imagePlanesOld; _b < _c.length; _b++) {
-            var plane = _c[_b];
+        for (var key in planesOld) {
+            if (!planesOld.hasOwnProperty(key)) {
+                continue;
+            }
+            var plane = planesOld[key];
             plane.material.uniforms.opacity.value = this._alphaOld;
         }
+        for (var key in planesPeriphery) {
+            if (!planesPeriphery.hasOwnProperty(key)) {
+                continue;
+            }
+            var plane = planesPeriphery[key];
+            plane.material.uniforms.opacity.value = peripheryAlpha;
+        }
+        renderer.render(this._scene.scenePeriphery, perspectiveCamera);
         renderer.render(this._scene.scene, perspectiveCamera);
         renderer.render(this._scene.sceneOld, perspectiveCamera);
-        for (var _d = 0, _e = this._scene.imagePlanes; _d < _e.length; _d++) {
-            var plane = _e[_d];
+        for (var key in planes) {
+            if (!planes.hasOwnProperty(key)) {
+                continue;
+            }
+            var plane = planes[key];
             plane.material.uniforms.opacity.value = this._alpha;
         }
         renderer.render(this._scene.scene, perspectiveCamera);
@@ -25430,15 +25766,50 @@ var ImagePlaneGLRenderer = /** @class */ (function () {
         if (previousKey != null) {
             if (previousKey !== this._currentKey && previousKey !== this._previousKey) {
                 var previousMesh = this._factory.createMesh(state.previousNode, state.previousTransform);
-                this._scene.updateImagePlanes([previousMesh]);
+                var previousPlanes = {};
+                previousPlanes[previousKey] = previousMesh;
+                this._scene.updateImagePlanes(previousPlanes);
             }
             this._previousKey = previousKey;
         }
         this._currentKey = currentKey;
         var currentMesh = this._factory.createMesh(state.currentNode, state.currentTransform);
-        this._scene.updateImagePlanes([currentMesh]);
+        var planes = {};
+        planes[currentKey] = currentMesh;
+        this._scene.updateImagePlanes(planes);
         this._alphaOld = 1;
         return true;
+    };
+    ImagePlaneGLRenderer.prototype._updateTexture = function (texture) {
+        this._needsRender = true;
+        var planes = this._scene.planes;
+        for (var key in planes) {
+            if (!planes.hasOwnProperty(key)) {
+                continue;
+            }
+            var plane = planes[key];
+            var material = plane.material;
+            var oldTexture = material.uniforms.projectorTex.value;
+            material.uniforms.projectorTex.value = null;
+            oldTexture.dispose();
+            material.uniforms.projectorTex.value = texture;
+        }
+    };
+    ImagePlaneGLRenderer.prototype._extend = function (dest) {
+        var sources = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            sources[_i - 1] = arguments[_i];
+        }
+        for (var _a = 0, sources_1 = sources; _a < sources_1.length; _a++) {
+            var src = sources_1[_a];
+            for (var k in src) {
+                if (!src.hasOwnProperty(k)) {
+                    continue;
+                }
+                dest[k] = src[k];
+            }
+        }
+        return dest;
     };
     return ImagePlaneGLRenderer;
 }());
@@ -27119,16 +27490,16 @@ var BounceHandler = /** @class */ (function (_super) {
         var _this = this;
         var inTransition$ = this._navigator.stateService.currentState$.pipe(operators_1.map(function (frame) {
             return frame.state.alpha < 1;
-        }));
+        }), operators_1.distinctUntilChanged());
         this._bounceSubscription = rxjs_1.combineLatest(inTransition$, this._navigator.stateService.inTranslation$, this._container.mouseService.active$, this._container.touchService.active$).pipe(operators_1.map(function (noForce) {
             return noForce[0] || noForce[1] || noForce[2] || noForce[3];
         }), operators_1.distinctUntilChanged(), operators_1.switchMap(function (noForce) {
             return noForce ?
                 rxjs_1.empty() :
                 rxjs_1.combineLatest(_this._container.renderService.renderCamera$, _this._navigator.stateService.currentTransform$.pipe(operators_1.first()));
-        }))
+        }), operators_1.withLatestFrom(this._navigator.panService.panNodes$))
             .subscribe(function (_a) {
-            var render = _a[0], transform = _a[1];
+            var _b = _a[0], render = _b[0], transform = _b[1], nts = _a[1];
             if (!transform.hasValidScale && render.camera.focal < 0.1) {
                 return;
             }
@@ -27136,6 +27507,19 @@ var BounceHandler = /** @class */ (function (_super) {
                 return;
             }
             var distances = Component_1.ImageBoundary.viewportDistances(transform, render.perspective, _this._viewportCoords);
+            var basic = _this._viewportCoords.viewportToBasic(0, 0, transform, render.perspective);
+            if ((basic[0] < 0 || basic[0] > 1) && nts.length > 0) {
+                distances[0] = distances[2] = 0;
+            }
+            for (var _i = 0, nts_1 = nts; _i < nts_1.length; _i++) {
+                var _c = nts_1[_i], t = _c[1];
+                var d = Component_1.ImageBoundary.viewportDistances(t, render.perspective, _this._viewportCoords);
+                for (var i = 1; i < distances.length; i += 2) {
+                    if (d[i] < distances[i]) {
+                        distances[i] = d[i];
+                    }
+                }
+            }
             if (Math.max.apply(Math, distances) < 0.01) {
                 return;
             }
@@ -27322,8 +27706,8 @@ var DragPanHandler = /** @class */ (function (_super) {
                 return pair[0] != null && pair[1] != null;
             }));
             return rxjs_1.merge(mouseDrag$, singleTouchDrag$);
-        }), operators_1.withLatestFrom(this._container.renderService.renderCamera$, this._navigator.stateService.currentTransform$), operators_1.map(function (_a) {
-            var events = _a[0], render = _a[1], transform = _a[2];
+        }), operators_1.withLatestFrom(this._container.renderService.renderCamera$, this._navigator.stateService.currentTransform$, this._navigator.panService.panNodes$), operators_1.map(function (_a) {
+            var events = _a[0], render = _a[1], transform = _a[2], nts = _a[3];
             var previousEvent = events[0];
             var event = events[1];
             var movementX = event.clientX - previousEvent.clientX;
@@ -27339,6 +27723,15 @@ var DragPanHandler = /** @class */ (function (_super) {
             var phi = (movementX > 0 ? 1 : -1) * directionX.angleTo(currentDirection);
             var theta = (movementY > 0 ? -1 : 1) * directionY.angleTo(currentDirection);
             var distances = Component_1.ImageBoundary.viewportDistances(transform, render.perspective, _this._viewportCoords);
+            for (var _i = 0, nts_1 = nts; _i < nts_1.length; _i++) {
+                var _c = nts_1[_i], t = _c[1];
+                var d = Component_1.ImageBoundary.viewportDistances(t, render.perspective, _this._viewportCoords);
+                for (var i = 0; i < distances.length; i++) {
+                    if (d[i] < distances[i]) {
+                        distances[i] = d[i];
+                    }
+                }
+            }
             if (distances[0] > 0 && theta < 0) {
                 theta /= Math.max(1, 2e2 * distances[0]);
             }
@@ -29535,7 +29928,7 @@ var Utils_1 = require("../../Utils");
  * components when activating the slider component to avoid
  * interfering UI elements.
  *
- * To retrive and use the marker component
+ * To retrive and use the slider component
  *
  * @example
  * ```
@@ -29550,7 +29943,7 @@ var Utils_1 = require("../../Utils");
  *
  * viewer.activateComponent("slider");
  *
- * var sliderComponent = viewer.getComponent("marker");
+ * var sliderComponent = viewer.getComponent("slider");
  * ```
  */
 var SliderComponent = /** @class */ (function (_super) {
@@ -30239,6 +30632,7 @@ var SliderDOMRenderer = /** @class */ (function () {
             var modeVisible = !(motionless || pano);
             if (modeVisible) {
                 children.push(this._createModeButton(mode));
+                children.push(this._createModeButton2d(mode));
             }
             children.push(this._createPositionInput(position, modeVisible));
         }
@@ -30250,15 +30644,31 @@ var SliderDOMRenderer = /** @class */ (function () {
         var _this = this;
         var properties = {
             onclick: function () {
-                _this._notifyModeChanged$.next(mode === Component_1.SliderMode.Motion ?
-                    Component_1.SliderMode.Stationary :
-                    Component_1.SliderMode.Motion);
+                if (mode === Component_1.SliderMode.Motion) {
+                    return;
+                }
+                _this._notifyModeChanged$.next(Component_1.SliderMode.Motion);
             },
         };
         var className = mode === Component_1.SliderMode.Stationary ?
-            "SliderModeButtonPressed" :
+            "SliderModeButtonDisabled" :
             "SliderModeButton";
         return vd.h("div." + className, properties, [vd.h("div.SliderModeIcon", [])]);
+    };
+    SliderDOMRenderer.prototype._createModeButton2d = function (mode) {
+        var _this = this;
+        var properties = {
+            onclick: function () {
+                if (mode === Component_1.SliderMode.Stationary) {
+                    return;
+                }
+                _this._notifyModeChanged$.next(Component_1.SliderMode.Stationary);
+            },
+        };
+        var className = mode === Component_1.SliderMode.Motion ?
+            "SliderModeButton2dDisabled" :
+            "SliderModeButton2d";
+        return vd.h("div." + className, properties, [vd.h("div.SliderModeIcon2d", [])]);
     };
     SliderDOMRenderer.prototype._createPositionInput = function (position, modeVisible) {
         var _this = this;
@@ -30281,7 +30691,7 @@ var SliderDOMRenderer = /** @class */ (function () {
             }
         };
         var boundingRect = this._container.domContainer.getBoundingClientRect();
-        var width = Math.max(215, Math.min(400, boundingRect.width - 105)) - 68 + (modeVisible ? 0 : 36);
+        var width = Math.max(215, Math.min(400, boundingRect.width - 105)) - 84 + (modeVisible ? 0 : 52);
         var positionInput = vd.h("input.SliderPosition", {
             max: 1000,
             min: 0,
@@ -30365,17 +30775,20 @@ var SliderGLRenderer = /** @class */ (function () {
         this._needsRender = true;
     };
     SliderGLRenderer.prototype.updateTexture = function (image, node) {
-        var imagePlanes = node.key === this._currentKey ?
-            this._scene.imagePlanes :
+        var planes = node.key === this._currentKey ?
+            this._scene.planes :
             node.key === this._previousKey ?
-                this._scene.imagePlanesOld :
-                [];
-        if (imagePlanes.length === 0) {
+                this._scene.planesOld :
+                {};
+        if (Object.keys(planes).length === 0) {
             return;
         }
         this._needsRender = true;
-        for (var _i = 0, imagePlanes_1 = imagePlanes; _i < imagePlanes_1.length; _i++) {
-            var plane = imagePlanes_1[_i];
+        for (var key in planes) {
+            if (!planes.hasOwnProperty(key)) {
+                continue;
+            }
+            var plane = planes[key];
             var material = plane.material;
             var texture = material.uniforms.projectorTex.value;
             texture.image = image;
@@ -30387,8 +30800,12 @@ var SliderGLRenderer = /** @class */ (function () {
             return;
         }
         this._needsRender = true;
-        for (var _i = 0, _a = this._scene.imagePlanes; _i < _a.length; _i++) {
-            var plane = _a[_i];
+        var planes = this._scene.planes;
+        for (var key in planes) {
+            if (!planes.hasOwnProperty(key)) {
+                continue;
+            }
+            var plane = planes[key];
             var material = plane.material;
             var texture = material.uniforms.projectorTex.value;
             texture.image = image;
@@ -30463,8 +30880,12 @@ var SliderGLRenderer = /** @class */ (function () {
         providerDisposers[key] = dispose;
     };
     SliderGLRenderer.prototype._updateCurtain = function () {
-        for (var _i = 0, _a = this._scene.imagePlanes; _i < _a.length; _i++) {
-            var plane = _a[_i];
+        var planes = this._scene.planes;
+        for (var key in planes) {
+            if (!planes.hasOwnProperty(key)) {
+                continue;
+            }
+            var plane = planes[key];
             var shaderMaterial = plane.material;
             if (!!shaderMaterial.uniforms.curtain) {
                 shaderMaterial.uniforms.curtain.value = this._curtain;
@@ -30492,7 +30913,7 @@ var SliderGLRenderer = /** @class */ (function () {
             }
         }
         if (this.disabled) {
-            this._scene.setImagePlanesOld([]);
+            this._scene.setImagePlanesOld({});
         }
         else {
             if (previousChanged || modeChanged) {
@@ -30533,7 +30954,9 @@ var SliderGLRenderer = /** @class */ (function () {
                         mesh = this._factory.createMesh(state.previousNode, state.previousTransform);
                     }
                 }
-                this._scene.setImagePlanesOld([mesh]);
+                var previousPlanes = {};
+                previousPlanes[previousNode.key] = mesh;
+                this._scene.setImagePlanesOld(previousPlanes);
             }
         }
         if (currentChanged || modeChanged) {
@@ -30542,29 +30965,33 @@ var SliderGLRenderer = /** @class */ (function () {
                 delete this._currentProviderDisposers[this._currentKey];
             }
             this._currentKey = state.currentNode.key;
-            var imagePlanes = [];
+            var planes = {};
             if (state.currentNode.fullPano) {
-                imagePlanes.push(this._factory.createCurtainMesh(state.currentNode, state.currentTransform));
+                planes[state.currentNode.key] = this._factory.createCurtainMesh(state.currentNode, state.currentTransform);
             }
             else if (state.currentNode.pano && !state.currentNode.fullPano) {
-                imagePlanes.push(this._factory.createMesh(state.currentNode, state.currentTransform));
+                planes[state.currentNode.key] = this._factory.createMesh(state.currentNode, state.currentTransform);
             }
             else {
                 if (motionless) {
-                    imagePlanes.push(this._factory.createDistortedCurtainMesh(state.currentNode, state.currentTransform));
+                    planes[state.currentNode.key] = this._factory.createDistortedCurtainMesh(state.currentNode, state.currentTransform);
                 }
                 else {
-                    imagePlanes.push(this._factory.createCurtainMesh(state.currentNode, state.currentTransform));
+                    planes[state.currentNode.key] = this._factory.createCurtainMesh(state.currentNode, state.currentTransform);
                 }
             }
-            this._scene.setImagePlanes(imagePlanes);
+            this._scene.setImagePlanes(planes);
             this._updateCurtain();
         }
     };
     SliderGLRenderer.prototype._updateTexture = function (texture) {
         this._needsRender = true;
-        for (var _i = 0, _a = this._scene.imagePlanes; _i < _a.length; _i++) {
-            var plane = _a[_i];
+        var planes = this._scene.planes;
+        for (var key in planes) {
+            if (!planes.hasOwnProperty(key)) {
+                continue;
+            }
+            var plane = planes[key];
             var material = plane.material;
             var oldTexture = material.uniforms.projectorTex.value;
             material.uniforms.projectorTex.value = null;
@@ -30574,8 +31001,12 @@ var SliderGLRenderer = /** @class */ (function () {
     };
     SliderGLRenderer.prototype._updateTexturePrev = function (texture) {
         this._needsRender = true;
-        for (var _i = 0, _a = this._scene.imagePlanesOld; _i < _a.length; _i++) {
-            var plane = _a[_i];
+        var planes = this._scene.planesOld;
+        for (var key in planes) {
+            if (!planes.hasOwnProperty(key)) {
+                continue;
+            }
+            var plane = planes[key];
             var material = plane.material;
             var oldTexture = material.uniforms.projectorTex.value;
             material.uniforms.projectorTex.value = null;
@@ -31140,7 +31571,7 @@ exports.SpatialDataComponent = SpatialDataComponent;
 Component_1.ComponentService.register(SpatialDataComponent);
 exports.default = SpatialDataComponent;
 
-},{"../../Component":275,"../../Geo":278,"../../Render":281,"../../state/State":412,"../../viewer/PlayService":441,"latlon-geohash":21,"rxjs":27,"rxjs/operators":225}],342:[function(require,module,exports){
+},{"../../Component":275,"../../Geo":278,"../../Render":281,"../../state/State":413,"../../viewer/PlayService":443,"latlon-geohash":21,"rxjs":27,"rxjs/operators":225}],342:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -31807,7 +32238,8 @@ var TagComponent = /** @class */ (function (_super) {
      * tags that do not have a fill will also be returned if the point is inside
      * the geometry of the tag. Tags with point geometries can not be retrieved.
      *
-     * No tag ids will be returned for panoramas.
+     * No tag ids will be returned for polygons rendered in cropped panoramas or
+     * rectangles rendered in panoramas.
      *
      * Notice that the pixelPoint argument requires x, y coordinates from pixel space.
      *
@@ -35954,6 +36386,36 @@ exports.default = TagDomain;
 },{}],373:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Enumeration for component size.
+ * @enum {number}
+ * @readonly
+ * @description May be used by a component to allow for resizing
+ * of the UI elements rendered by the component.
+ */
+var ComponentSize;
+(function (ComponentSize) {
+    /**
+     * Automatic size. The size of the elements will automatically
+     * change at a predefined threshold.
+     */
+    ComponentSize[ComponentSize["Automatic"] = 0] = "Automatic";
+    /**
+     * Large size. The size of the elements will be fixed until another
+     * component size is configured.
+     */
+    ComponentSize[ComponentSize["Large"] = 1] = "Large";
+    /**
+     * Small size. The size of the elements will be fixed until another
+     * component size is configured.
+     */
+    ComponentSize[ComponentSize["Small"] = 2] = "Small";
+})(ComponentSize = exports.ComponentSize || (exports.ComponentSize = {}));
+exports.default = ComponentSize;
+
+},{}],374:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var HandlerBase = /** @class */ (function () {
     /** @ignore */
     function HandlerBase(component, container, navigator) {
@@ -36007,7 +36469,7 @@ var HandlerBase = /** @class */ (function () {
 exports.HandlerBase = HandlerBase;
 exports.default = HandlerBase;
 
-},{}],374:[function(require,module,exports){
+},{}],375:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -36651,48 +37113,117 @@ var MeshFactory = /** @class */ (function () {
 exports.MeshFactory = MeshFactory;
 exports.default = MeshFactory;
 
-},{"../../Component":275,"three":226}],375:[function(require,module,exports){
+},{"../../Component":275,"three":226}],376:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
 var MeshScene = /** @class */ (function () {
     function MeshScene() {
-        this.scene = new THREE.Scene();
-        this.sceneOld = new THREE.Scene();
-        this.imagePlanes = [];
-        this.imagePlanesOld = [];
+        this._planes = {};
+        this._planesOld = {};
+        this._planesPeriphery = {};
+        this._scene = new THREE.Scene();
+        this._sceneOld = new THREE.Scene();
+        this._scenePeriphery = new THREE.Scene();
     }
+    Object.defineProperty(MeshScene.prototype, "planes", {
+        get: function () {
+            return this._planes;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MeshScene.prototype, "planesOld", {
+        get: function () {
+            return this._planesOld;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MeshScene.prototype, "planesPeriphery", {
+        get: function () {
+            return this._planesPeriphery;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MeshScene.prototype, "scene", {
+        get: function () {
+            return this._scene;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MeshScene.prototype, "sceneOld", {
+        get: function () {
+            return this._sceneOld;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MeshScene.prototype, "scenePeriphery", {
+        get: function () {
+            return this._scenePeriphery;
+        },
+        enumerable: true,
+        configurable: true
+    });
     MeshScene.prototype.updateImagePlanes = function (planes) {
-        this._dispose(this.imagePlanesOld, this.sceneOld);
-        for (var _i = 0, _a = this.imagePlanes; _i < _a.length; _i++) {
-            var plane = _a[_i];
-            this.scene.remove(plane);
-            this.sceneOld.add(plane);
+        this._dispose(this._planesOld, this.sceneOld);
+        for (var key in this._planes) {
+            if (!this._planes.hasOwnProperty(key)) {
+                continue;
+            }
+            var plane = this._planes[key];
+            this._scene.remove(plane);
+            this._sceneOld.add(plane);
         }
-        for (var _b = 0, planes_1 = planes; _b < planes_1.length; _b++) {
-            var plane = planes_1[_b];
-            this.scene.add(plane);
+        for (var key in planes) {
+            if (!planes.hasOwnProperty(key)) {
+                continue;
+            }
+            this._scene.add(planes[key]);
         }
-        this.imagePlanesOld = this.imagePlanes;
-        this.imagePlanes = planes;
+        this._planesOld = this._planes;
+        this._planes = planes;
     };
     MeshScene.prototype.addImagePlanes = function (planes) {
-        for (var _i = 0, planes_2 = planes; _i < planes_2.length; _i++) {
-            var plane = planes_2[_i];
-            this.scene.add(plane);
-            this.imagePlanes.push(plane);
+        for (var key in planes) {
+            if (!planes.hasOwnProperty(key)) {
+                continue;
+            }
+            var plane = planes[key];
+            this._scene.add(plane);
+            this._planes[key] = plane;
         }
     };
     MeshScene.prototype.addImagePlanesOld = function (planes) {
-        for (var _i = 0, planes_3 = planes; _i < planes_3.length; _i++) {
-            var plane = planes_3[_i];
-            this.sceneOld.add(plane);
-            this.imagePlanesOld.push(plane);
+        for (var key in planes) {
+            if (!planes.hasOwnProperty(key)) {
+                continue;
+            }
+            var plane = planes[key];
+            this._sceneOld.add(plane);
+            this._planesOld[key] = plane;
         }
     };
     MeshScene.prototype.setImagePlanes = function (planes) {
         this._clear();
         this.addImagePlanes(planes);
+    };
+    MeshScene.prototype.addPeripheryPlanes = function (planes) {
+        for (var key in planes) {
+            if (!planes.hasOwnProperty(key)) {
+                continue;
+            }
+            var plane = planes[key];
+            this._scenePeriphery.add(plane);
+            this._planesPeriphery[key] = plane;
+        }
+    };
+    MeshScene.prototype.setPeripheryPlanes = function (planes) {
+        this._clearPeriphery();
+        this.addPeripheryPlanes(planes);
     };
     MeshScene.prototype.setImagePlanesOld = function (planes) {
         this._clearOld();
@@ -36703,16 +37234,23 @@ var MeshScene = /** @class */ (function () {
         this._clearOld();
     };
     MeshScene.prototype._clear = function () {
-        this._dispose(this.imagePlanes, this.scene);
-        this.imagePlanes.length = 0;
+        this._dispose(this._planes, this._scene);
+        this._planes = {};
     };
     MeshScene.prototype._clearOld = function () {
-        this._dispose(this.imagePlanesOld, this.sceneOld);
-        this.imagePlanesOld.length = 0;
+        this._dispose(this._planesOld, this._sceneOld);
+        this._planesOld = {};
+    };
+    MeshScene.prototype._clearPeriphery = function () {
+        this._dispose(this._planesPeriphery, this._scenePeriphery);
+        this._planesPeriphery = {};
     };
     MeshScene.prototype._dispose = function (planes, scene) {
-        for (var _i = 0, planes_4 = planes; _i < planes_4.length; _i++) {
-            var plane = planes_4[_i];
+        for (var key in planes) {
+            if (!planes.hasOwnProperty(key)) {
+                continue;
+            }
+            var plane = planes[key];
             scene.remove(plane);
             plane.geometry.dispose();
             plane.material.dispose();
@@ -36727,7 +37265,7 @@ var MeshScene = /** @class */ (function () {
 exports.MeshScene = MeshScene;
 exports.default = MeshScene;
 
-},{"three":226}],376:[function(require,module,exports){
+},{"three":226}],377:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -36756,7 +37294,7 @@ var MouseOperator = /** @class */ (function () {
 exports.MouseOperator = MouseOperator;
 exports.default = MouseOperator;
 
-},{"rxjs":27,"rxjs/operators":225}],377:[function(require,module,exports){
+},{"rxjs":27,"rxjs/operators":225}],378:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -36778,6 +37316,23 @@ var vd = require("virtual-dom");
 var Component_1 = require("../../Component");
 var Geo_1 = require("../../Geo");
 var State_1 = require("../../State");
+var ComponentSize_1 = require("../utils/ComponentSize");
+/**
+ * @class ZoomComponent
+ *
+ * @classdesc Component rendering UI elements used for zooming.
+ *
+ * @example
+ * ```
+ * var viewer = new Mapillary.Viewer(
+ *     "<element-id>",
+ *     "<client-id>",
+ *     "<my key>");
+ *
+ * var zoomComponent = viewer.getComponent("zoom");
+ * zoomComponent.configure({ size: Mapillary.ComponentSize.Small });
+ * ```
+ */
 var ZoomComponent = /** @class */ (function (_super) {
     __extends(ZoomComponent, _super);
     function ZoomComponent(name, container, navigator) {
@@ -36788,11 +37343,9 @@ var ZoomComponent = /** @class */ (function (_super) {
     }
     ZoomComponent.prototype._activate = function () {
         var _this = this;
-        this._renderSubscription = rxjs_1.combineLatest(this._navigator.stateService.currentState$, this._navigator.stateService.state$).pipe(operators_1.map(function (_a) {
-            var frame = _a[0], state = _a[1];
-            return [frame.state.zoom, state];
-        }), operators_1.map(function (_a) {
-            var zoom = _a[0], state = _a[1];
+        this._renderSubscription = rxjs_1.combineLatest(this._navigator.stateService.currentState$, this._navigator.stateService.state$, this._configuration$, this._container.renderService.size$).pipe(operators_1.map(function (_a) {
+            var frame = _a[0], state = _a[1], configuration = _a[2], size = _a[3];
+            var zoom = frame.state.zoom;
             var zoomInIcon = vd.h("div.ZoomInIcon", []);
             var zoomInButton = zoom >= 3 || state === State_1.State.Waiting ?
                 vd.h("div.ZoomInButtonDisabled", [zoomInIcon]) :
@@ -36801,9 +37354,12 @@ var ZoomComponent = /** @class */ (function (_super) {
             var zoomOutButton = zoom <= 0 || state === State_1.State.Waiting ?
                 vd.h("div.ZoomOutButtonDisabled", [zoomOutIcon]) :
                 vd.h("div.ZoomOutButton", { onclick: function () { _this._zoomDelta$.next(-1); } }, [zoomOutIcon]);
+            var compact = configuration.size === ComponentSize_1.default.Small ||
+                configuration.size === ComponentSize_1.default.Automatic && size.width < 640 ?
+                ".ZoomCompact" : "";
             return {
                 name: _this._name,
-                vnode: vd.h("div.ZoomContainer", { oncontextmenu: function (event) { event.preventDefault(); } }, [zoomInButton, zoomOutButton]),
+                vnode: vd.h("div.ZoomContainer" + compact, { oncontextmenu: function (event) { event.preventDefault(); } }, [zoomInButton, zoomOutButton]),
             };
         }))
             .subscribe(this._container.domRenderer.render$);
@@ -36820,7 +37376,7 @@ var ZoomComponent = /** @class */ (function (_super) {
         this._zoomSubscription.unsubscribe();
     };
     ZoomComponent.prototype._getDefaultConfiguration = function () {
-        return {};
+        return { size: ComponentSize_1.default.Automatic };
     };
     ZoomComponent.componentName = "zoom";
     return ZoomComponent;
@@ -36829,7 +37385,7 @@ exports.ZoomComponent = ZoomComponent;
 Component_1.ComponentService.register(ZoomComponent);
 exports.default = ZoomComponent;
 
-},{"../../Component":275,"../../Geo":278,"../../State":282,"rxjs":27,"rxjs/operators":225,"virtual-dom":231}],378:[function(require,module,exports){
+},{"../../Component":275,"../../Geo":278,"../../State":282,"../utils/ComponentSize":373,"rxjs":27,"rxjs/operators":225,"virtual-dom":231}],379:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -36865,7 +37421,7 @@ var AbortMapillaryError = /** @class */ (function (_super) {
 exports.AbortMapillaryError = AbortMapillaryError;
 exports.default = AbortMapillaryError;
 
-},{"./MapillaryError":381}],379:[function(require,module,exports){
+},{"./MapillaryError":382}],380:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -36895,7 +37451,7 @@ var ArgumentMapillaryError = /** @class */ (function (_super) {
 exports.ArgumentMapillaryError = ArgumentMapillaryError;
 exports.default = ArgumentMapillaryError;
 
-},{"./MapillaryError":381}],380:[function(require,module,exports){
+},{"./MapillaryError":382}],381:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -36925,7 +37481,7 @@ var GraphMapillaryError = /** @class */ (function (_super) {
 exports.GraphMapillaryError = GraphMapillaryError;
 exports.default = GraphMapillaryError;
 
-},{"./MapillaryError":381}],381:[function(require,module,exports){
+},{"./MapillaryError":382}],382:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -36954,7 +37510,7 @@ var MapillaryError = /** @class */ (function (_super) {
 exports.MapillaryError = MapillaryError;
 exports.default = MapillaryError;
 
-},{}],382:[function(require,module,exports){
+},{}],383:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -37103,9 +37659,10 @@ var Camera = /** @class */ (function () {
 }());
 exports.Camera = Camera;
 
-},{"three":226}],383:[function(require,module,exports){
+},{"three":226}],384:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var THREE = require("three");
 var Geo_1 = require("../Geo");
 var geoCoords = new Geo_1.GeoCoords();
 var spatial = new Geo_1.Spatial();
@@ -37116,8 +37673,36 @@ function computeTranslation(position, rotation, reference) {
     return translation;
 }
 exports.computeTranslation = computeTranslation;
+function computeProjectedPoints(transform, basicVertices, basicDirections, pointsPerLine, viewportCoords) {
+    var basicPoints = [];
+    for (var side = 0; side < basicVertices.length; ++side) {
+        var v = basicVertices[side];
+        var d = basicDirections[side];
+        for (var i = 0; i <= pointsPerLine; ++i) {
+            basicPoints.push([v[0] + d[0] * i / pointsPerLine,
+                v[1] + d[1] * i / pointsPerLine]);
+        }
+    }
+    var camera = new THREE.Camera();
+    camera.up.copy(transform.upVector());
+    camera.position.copy(new THREE.Vector3().fromArray(transform.unprojectSfM([0, 0], 0)));
+    camera.lookAt(new THREE.Vector3().fromArray(transform.unprojectSfM([0, 0], 10)));
+    camera.updateMatrix();
+    camera.updateMatrixWorld(true);
+    var projectedPoints = basicPoints
+        .map(function (basicPoint) {
+        var worldPoint = transform.unprojectBasic(basicPoint, 10000);
+        var cameraPoint = viewportCoords.worldToCamera(worldPoint, camera);
+        return [
+            Math.abs(cameraPoint[0] / cameraPoint[2]),
+            Math.abs(cameraPoint[1] / cameraPoint[2]),
+        ];
+    });
+    return projectedPoints;
+}
+exports.computeProjectedPoints = computeProjectedPoints;
 
-},{"../Geo":278}],384:[function(require,module,exports){
+},{"../Geo":278,"three":226}],385:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -37341,7 +37926,7 @@ var GeoCoords = /** @class */ (function () {
 exports.GeoCoords = GeoCoords;
 exports.default = GeoCoords;
 
-},{}],385:[function(require,module,exports){
+},{}],386:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function sign(n) {
@@ -37414,7 +37999,7 @@ function segmentIntersection(s1, s2) {
 }
 exports.segmentIntersection = segmentIntersection;
 
-},{}],386:[function(require,module,exports){
+},{}],387:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -37617,6 +38202,13 @@ var Spatial = /** @class */ (function () {
         var projection = v.dot(new THREE.Vector3().fromArray(planeNormal));
         return Math.asin(projection / norm);
     };
+    Spatial.prototype.azimuthal = function (direction, up) {
+        var directionVector = new THREE.Vector3().fromArray(direction);
+        var upVector = new THREE.Vector3().fromArray(up);
+        var upProjection = directionVector.clone().dot(upVector);
+        var planeProjection = directionVector.clone().sub(upVector.clone().multiplyScalar(upProjection));
+        return Math.atan2(planeProjection.y, planeProjection.x);
+    };
     /**
      * Calculates the distance between two coordinates
      * (latitude longitude pairs) in meters according to
@@ -37643,7 +38235,7 @@ var Spatial = /** @class */ (function () {
 exports.Spatial = Spatial;
 exports.default = Spatial;
 
-},{"three":226}],387:[function(require,module,exports){
+},{"three":226}],388:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -38334,7 +38926,7 @@ var Transform = /** @class */ (function () {
 }());
 exports.Transform = Transform;
 
-},{"three":226}],388:[function(require,module,exports){
+},{"three":226}],389:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -38728,7 +39320,7 @@ exports.ViewportCoords = ViewportCoords;
 exports.default = ViewportCoords;
 
 
-},{"three":226}],389:[function(require,module,exports){
+},{"three":226}],390:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -38816,7 +39408,7 @@ var FilterCreator = /** @class */ (function () {
 exports.FilterCreator = FilterCreator;
 exports.default = FilterCreator;
 
-},{}],390:[function(require,module,exports){
+},{}],391:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -40027,7 +40619,7 @@ var Graph = /** @class */ (function () {
 exports.Graph = Graph;
 exports.default = Graph;
 
-},{"../Edge":276,"../Error":277,"../Graph":279,"rbush":26,"rxjs":27,"rxjs/operators":225}],391:[function(require,module,exports){
+},{"../Edge":276,"../Error":277,"../Graph":279,"rbush":26,"rxjs":27,"rxjs/operators":225}],392:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var geohash = require("latlon-geohash");
@@ -40202,7 +40794,7 @@ var GraphCalculator = /** @class */ (function () {
 exports.GraphCalculator = GraphCalculator;
 exports.default = GraphCalculator;
 
-},{"../Error":277,"../Geo":278,"latlon-geohash":21,"three":226}],392:[function(require,module,exports){
+},{"../Error":277,"../Geo":278,"latlon-geohash":21,"three":226}],393:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -40234,7 +40826,7 @@ var GraphMode;
 })(GraphMode = exports.GraphMode || (exports.GraphMode = {}));
 exports.default = GraphMode;
 
-},{}],393:[function(require,module,exports){
+},{}],394:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -40594,7 +41186,7 @@ var GraphService = /** @class */ (function () {
 exports.GraphService = GraphService;
 exports.default = GraphService;
 
-},{"../Graph":279,"rxjs":27,"rxjs/operators":225}],394:[function(require,module,exports){
+},{"../Graph":279,"rxjs":27,"rxjs/operators":225}],395:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -40643,7 +41235,7 @@ var ImageLoadingService = /** @class */ (function () {
 }());
 exports.ImageLoadingService = ImageLoadingService;
 
-},{"rxjs":27,"rxjs/operators":225}],395:[function(require,module,exports){
+},{"rxjs":27,"rxjs/operators":225}],396:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Pbf = require("pbf");
@@ -40666,7 +41258,7 @@ var MeshReader = /** @class */ (function () {
 }());
 exports.MeshReader = MeshReader;
 
-},{"pbf":24}],396:[function(require,module,exports){
+},{"pbf":24}],397:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -41011,6 +41603,8 @@ var Node = /** @class */ (function () {
          *
          * @returns {ILoadStatus} Value indicating the load status
          * of the mesh and image.
+         *
+         * @ignore
          */
         get: function () {
             return this._cache.loadStatus;
@@ -41222,6 +41816,8 @@ var Node = /** @class */ (function () {
          *
          * @returns {IEdgeStatus} Value describing the status of the
          * sequence edges.
+         *
+         * @ignore
          */
         get: function () {
             return this._cache.sequenceEdges;
@@ -41252,6 +41848,8 @@ var Node = /** @class */ (function () {
          *
          * @returns {IEdgeStatus} Value describing the status of the
          * spatial edges.
+         *
+         * @ignore
          */
         get: function () {
             return this._cache.spatialEdges;
@@ -41451,7 +42049,7 @@ var Node = /** @class */ (function () {
 exports.Node = Node;
 exports.default = Node;
 
-},{"rxjs/operators":225}],397:[function(require,module,exports){
+},{"rxjs/operators":225}],398:[function(require,module,exports){
 (function (Buffer){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -41873,7 +42471,7 @@ exports.default = NodeCache;
 
 }).call(this,require("buffer").Buffer)
 
-},{"../Graph":279,"../Utils":285,"buffer":7,"rxjs":27,"rxjs/operators":225}],398:[function(require,module,exports){
+},{"../Graph":279,"../Utils":285,"buffer":7,"rxjs":27,"rxjs/operators":225}],399:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -41961,7 +42559,7 @@ var Sequence = /** @class */ (function () {
 exports.Sequence = Sequence;
 exports.default = Sequence;
 
-},{}],399:[function(require,module,exports){
+},{}],400:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -42562,7 +43160,7 @@ var EdgeCalculator = /** @class */ (function () {
 exports.EdgeCalculator = EdgeCalculator;
 exports.default = EdgeCalculator;
 
-},{"../../Edge":276,"../../Error":277,"../../Geo":278,"three":226}],400:[function(require,module,exports){
+},{"../../Edge":276,"../../Error":277,"../../Geo":278,"three":226}],401:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EdgeCalculatorCoefficients = /** @class */ (function () {
@@ -42588,7 +43186,7 @@ var EdgeCalculatorCoefficients = /** @class */ (function () {
 exports.EdgeCalculatorCoefficients = EdgeCalculatorCoefficients;
 exports.default = EdgeCalculatorCoefficients;
 
-},{}],401:[function(require,module,exports){
+},{}],402:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Edge_1 = require("../../Edge");
@@ -42661,7 +43259,7 @@ var EdgeCalculatorDirections = /** @class */ (function () {
 }());
 exports.EdgeCalculatorDirections = EdgeCalculatorDirections;
 
-},{"../../Edge":276}],402:[function(require,module,exports){
+},{"../../Edge":276}],403:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EdgeCalculatorSettings = /** @class */ (function () {
@@ -42698,7 +43296,7 @@ var EdgeCalculatorSettings = /** @class */ (function () {
 exports.EdgeCalculatorSettings = EdgeCalculatorSettings;
 exports.default = EdgeCalculatorSettings;
 
-},{}],403:[function(require,module,exports){
+},{}],404:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -42756,7 +43354,7 @@ var EdgeDirection;
     EdgeDirection[EdgeDirection["Similar"] = 10] = "Similar";
 })(EdgeDirection = exports.EdgeDirection || (exports.EdgeDirection = {}));
 
-},{}],404:[function(require,module,exports){
+},{}],405:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -42933,7 +43531,7 @@ exports.DOMRenderer = DOMRenderer;
 exports.default = DOMRenderer;
 
 
-},{"../Render":281,"rxjs":27,"rxjs/operators":225,"virtual-dom":231}],405:[function(require,module,exports){
+},{"../Render":281,"rxjs":27,"rxjs/operators":225,"virtual-dom":231}],406:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var GLRenderStage;
@@ -42943,7 +43541,7 @@ var GLRenderStage;
 })(GLRenderStage = exports.GLRenderStage || (exports.GLRenderStage = {}));
 exports.default = GLRenderStage;
 
-},{}],406:[function(require,module,exports){
+},{}],407:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -43159,7 +43757,7 @@ exports.GLRenderer = GLRenderer;
 exports.default = GLRenderer;
 
 
-},{"../Render":281,"../Utils":285,"rxjs":27,"rxjs/operators":225,"three":226}],407:[function(require,module,exports){
+},{"../Render":281,"../Utils":285,"rxjs":27,"rxjs/operators":225,"three":226}],408:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -43316,6 +43914,9 @@ var RenderCamera = /** @class */ (function () {
         return elementWidth === 0 ? 0 : elementWidth / elementHeight;
     };
     RenderCamera.prototype._computeCurrentFov = function () {
+        if (this._perspective.aspect === 0) {
+            return 0;
+        }
         if (!this._currentNodeId) {
             return this._initialFov;
         }
@@ -43329,6 +43930,9 @@ var RenderCamera = /** @class */ (function () {
         return this._interpolateFov(this._currentFov, this._previousFov, this._alpha);
     };
     RenderCamera.prototype._computePreviousFov = function () {
+        if (this._perspective.aspect === 0) {
+            return 0;
+        }
         if (!this._currentNodeId) {
             return this._initialFov;
         }
@@ -43339,35 +43943,10 @@ var RenderCamera = /** @class */ (function () {
                 this._computeVerticalFov(this._previousProjectedPoints, this._renderMode, this._zoom, this.perspective.aspect);
     };
     RenderCamera.prototype._computeProjectedPoints = function (transform) {
-        var _this = this;
-        var os = [[0.5, 0], [1, 0]];
-        var ds = [[0.5, 0], [0, 0.5]];
-        var pointsPerSide = 100;
-        var basicPoints = [];
-        for (var side = 0; side < os.length; ++side) {
-            var o = os[side];
-            var d = ds[side];
-            for (var i = 0; i <= pointsPerSide; ++i) {
-                basicPoints.push([o[0] + d[0] * i / pointsPerSide,
-                    o[1] + d[1] * i / pointsPerSide]);
-            }
-        }
-        var camera = new THREE.Camera();
-        camera.up.copy(transform.upVector());
-        camera.position.copy(new THREE.Vector3().fromArray(transform.unprojectSfM([0, 0], 0)));
-        camera.lookAt(new THREE.Vector3().fromArray(transform.unprojectSfM([0, 0], 10)));
-        camera.updateMatrix();
-        camera.updateMatrixWorld(true);
-        var projectedPoints = basicPoints
-            .map(function (basicPoint) {
-            var worldPoint = transform.unprojectBasic(basicPoint, 10000);
-            var cameraPoint = _this._viewportCoords.worldToCamera(worldPoint, camera);
-            return [
-                Math.abs(cameraPoint[0] / cameraPoint[2]),
-                Math.abs(cameraPoint[1] / cameraPoint[2]),
-            ];
-        });
-        return projectedPoints;
+        var vertices = [[0.5, 0], [1, 0]];
+        var directions = [[0.5, 0], [0, 0.5]];
+        var pointsPerLine = 100;
+        return Geo_1.Geo.computeProjectedPoints(transform, vertices, directions, pointsPerLine, this._viewportCoords);
     };
     RenderCamera.prototype._computeRequiredVerticalFov = function (projectedPoint, zoom, aspect) {
         var maxY = Math.max(projectedPoint[0] / aspect, projectedPoint[1]);
@@ -43376,9 +43955,7 @@ var RenderCamera = /** @class */ (function () {
     RenderCamera.prototype._computeRotation = function (camera) {
         var direction = camera.lookat.clone().sub(camera.position);
         var up = camera.up.clone();
-        var upProjection = direction.clone().dot(up);
-        var planeProjection = direction.clone().sub(up.clone().multiplyScalar(upProjection));
-        var phi = Math.atan2(planeProjection.y, planeProjection.x);
+        var phi = this._spatial.azimuthal(direction.toArray(), up.toArray());
         var theta = Math.PI / 2 - this._spatial.angleToPlane(direction.toArray(), [0, 0, 1]);
         return { phi: phi, theta: theta };
     };
@@ -43410,7 +43987,7 @@ var RenderCamera = /** @class */ (function () {
 exports.RenderCamera = RenderCamera;
 exports.default = RenderCamera;
 
-},{"../Geo":278,"../Render":281,"../State":282,"three":226}],408:[function(require,module,exports){
+},{"../Geo":278,"../Render":281,"../State":282,"three":226}],409:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -43446,7 +44023,7 @@ var RenderMode;
 })(RenderMode = exports.RenderMode || (exports.RenderMode = {}));
 exports.default = RenderMode;
 
-},{}],409:[function(require,module,exports){
+},{}],410:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -43566,7 +44143,7 @@ exports.RenderService = RenderService;
 exports.default = RenderService;
 
 
-},{"../Geo":278,"../Render":281,"rxjs":27,"rxjs/operators":225}],410:[function(require,module,exports){
+},{"../Geo":278,"../Render":281,"rxjs":27,"rxjs/operators":225}],411:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var FrameGenerator = /** @class */ (function () {
@@ -43615,7 +44192,7 @@ var FrameGenerator = /** @class */ (function () {
 exports.FrameGenerator = FrameGenerator;
 exports.default = FrameGenerator;
 
-},{}],411:[function(require,module,exports){
+},{}],412:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var RotationDelta = /** @class */ (function () {
@@ -43678,7 +44255,7 @@ var RotationDelta = /** @class */ (function () {
 exports.RotationDelta = RotationDelta;
 exports.default = RotationDelta;
 
-},{}],412:[function(require,module,exports){
+},{}],413:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var State;
@@ -43690,7 +44267,7 @@ var State;
 })(State = exports.State || (exports.State = {}));
 exports.default = State;
 
-},{}],413:[function(require,module,exports){
+},{}],414:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var State_1 = require("../State");
@@ -43918,7 +44495,7 @@ var StateContext = /** @class */ (function () {
 }());
 exports.StateContext = StateContext;
 
-},{"../Geo":278,"../State":282}],414:[function(require,module,exports){
+},{"../Geo":278,"../State":282}],415:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -44272,7 +44849,7 @@ var StateService = /** @class */ (function () {
 }());
 exports.StateService = StateService;
 
-},{"../State":282,"rxjs":27,"rxjs/operators":225}],415:[function(require,module,exports){
+},{"../State":282,"rxjs":27,"rxjs/operators":225}],416:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -44303,7 +44880,7 @@ var TransitionMode;
 })(TransitionMode = exports.TransitionMode || (exports.TransitionMode = {}));
 exports.default = TransitionMode;
 
-},{}],416:[function(require,module,exports){
+},{}],417:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -44387,7 +44964,7 @@ exports.EarthState = EarthState;
 exports.default = EarthState;
 
 
-},{"../../State":282,"three":226}],417:[function(require,module,exports){
+},{"../../State":282,"three":226}],418:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -44430,6 +45007,9 @@ var InteractiveStateBase = /** @class */ (function (_super) {
     }
     InteractiveStateBase.prototype.rotate = function (rotationDelta) {
         if (this._currentNode == null) {
+            return;
+        }
+        if (rotationDelta.phi === 0 && rotationDelta.theta === 0) {
             return;
         }
         this._desiredZoom = this._zoom;
@@ -44730,7 +45310,8 @@ var InteractiveStateBase = /** @class */ (function (_super) {
         if (this._rotationDelta.isZero) {
             return;
         }
-        this._rotationDelta.multiply(this._rotationAcceleration);
+        var alpha = this.currentNode.fullPano ? 1 : this._alpha;
+        this._rotationDelta.multiply(this._rotationAcceleration * alpha);
         this._rotationDelta.threshold(this._rotationThreshold);
     };
     InteractiveStateBase.prototype._updateRotationBasic = function () {
@@ -44821,7 +45402,7 @@ exports.InteractiveStateBase = InteractiveStateBase;
 exports.default = InteractiveStateBase;
 
 
-},{"../../State":282,"three":226}],418:[function(require,module,exports){
+},{"../../State":282,"three":226}],419:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -44906,7 +45487,7 @@ var InteractiveWaitingState = /** @class */ (function (_super) {
 exports.InteractiveWaitingState = InteractiveWaitingState;
 exports.default = InteractiveWaitingState;
 
-},{"../../State":282}],419:[function(require,module,exports){
+},{"../../State":282}],420:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Error_1 = require("../../Error");
@@ -45246,7 +45827,7 @@ var StateBase = /** @class */ (function () {
 }());
 exports.StateBase = StateBase;
 
-},{"../../Error":277,"../../Geo":278,"../../State":282}],420:[function(require,module,exports){
+},{"../../Error":277,"../../Geo":278,"../../State":282}],421:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -45380,7 +45961,7 @@ var TraversingState = /** @class */ (function (_super) {
 exports.TraversingState = TraversingState;
 exports.default = TraversingState;
 
-},{"../../State":282,"@mapbox/unitbezier":2}],421:[function(require,module,exports){
+},{"../../State":282,"@mapbox/unitbezier":2}],422:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -45454,7 +46035,7 @@ var WaitingState = /** @class */ (function (_super) {
 exports.WaitingState = WaitingState;
 exports.default = WaitingState;
 
-},{"../../State":282}],422:[function(require,module,exports){
+},{"../../State":282}],423:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -45546,7 +46127,7 @@ var ImageTileLoader = /** @class */ (function () {
 exports.ImageTileLoader = ImageTileLoader;
 exports.default = ImageTileLoader;
 
-},{"rxjs":27}],423:[function(require,module,exports){
+},{"rxjs":27}],424:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -45614,7 +46195,7 @@ var ImageTileStore = /** @class */ (function () {
 exports.ImageTileStore = ImageTileStore;
 exports.default = ImageTileStore;
 
-},{}],424:[function(require,module,exports){
+},{}],425:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Geo_1 = require("../Geo");
@@ -45754,7 +46335,7 @@ var RegionOfInterestCalculator = /** @class */ (function () {
 exports.RegionOfInterestCalculator = RegionOfInterestCalculator;
 exports.default = RegionOfInterestCalculator;
 
-},{"../Geo":278}],425:[function(require,module,exports){
+},{"../Geo":278}],426:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -46230,7 +46811,7 @@ var TextureProvider = /** @class */ (function () {
 exports.TextureProvider = TextureProvider;
 exports.default = TextureProvider;
 
-},{"rxjs":27,"rxjs/operators":225,"three":226}],426:[function(require,module,exports){
+},{"rxjs":27,"rxjs/operators":225,"three":226}],427:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var DOM = /** @class */ (function () {
@@ -46259,7 +46840,7 @@ var DOM = /** @class */ (function () {
 exports.DOM = DOM;
 exports.default = DOM;
 
-},{}],427:[function(require,module,exports){
+},{}],428:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var EventEmitter = /** @class */ (function () {
@@ -46318,7 +46899,7 @@ var EventEmitter = /** @class */ (function () {
 exports.EventEmitter = EventEmitter;
 exports.default = EventEmitter;
 
-},{}],428:[function(require,module,exports){
+},{}],429:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Viewer_1 = require("../Viewer");
@@ -46362,7 +46943,7 @@ var Settings = /** @class */ (function () {
 exports.Settings = Settings;
 exports.default = Settings;
 
-},{"../Viewer":286}],429:[function(require,module,exports){
+},{"../Viewer":286}],430:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function isBrowser() {
@@ -46432,7 +47013,7 @@ function isWebGLSupported() {
 }
 exports.isWebGLSupported = isWebGLSupported;
 
-},{}],430:[function(require,module,exports){
+},{}],431:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Urls = /** @class */ (function () {
@@ -46512,11 +47093,11 @@ var Urls = /** @class */ (function () {
         }
     };
     Urls._apiHost = "a.mapillary.com";
-    Urls._atomicReconstructionHost = "d3necqxnn15whe.cloudfront.net";
+    Urls._atomicReconstructionHost = "atomic-reconstructions.mapillary.com";
     Urls._exploreHost = "www.mapillary.com";
-    Urls._imageHost = "d1cuyjsrcm0gby.cloudfront.net";
-    Urls._imageTileHost = "d2qb1440i7l50o.cloudfront.net";
-    Urls._meshHost = "d1brzeo354iq2l.cloudfront.net";
+    Urls._imageHost = "images.mapillary.com";
+    Urls._imageTileHost = "loris.mapillary.com";
+    Urls._meshHost = "meshes.mapillary.com";
     Urls._origin = "mapillary.webgl";
     Urls._scheme = "https";
     return Urls;
@@ -46524,7 +47105,7 @@ var Urls = /** @class */ (function () {
 exports.Urls = Urls;
 exports.default = Urls;
 
-},{}],431:[function(require,module,exports){
+},{}],432:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -46573,7 +47154,7 @@ var Alignment;
 })(Alignment = exports.Alignment || (exports.Alignment = {}));
 exports.default = Alignment;
 
-},{}],432:[function(require,module,exports){
+},{}],433:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -46657,7 +47238,7 @@ var CacheService = /** @class */ (function () {
 exports.CacheService = CacheService;
 exports.default = CacheService;
 
-},{"../Graph":279,"rxjs":27,"rxjs/operators":225}],433:[function(require,module,exports){
+},{"../Graph":279,"rxjs":27,"rxjs/operators":225}],434:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -46691,6 +47272,7 @@ var ComponentController = /** @class */ (function () {
                 _this._subscribeCoverComponent();
                 _this._navigator.stateService.start();
                 _this._navigator.cacheService.start();
+                _this._navigator.panService.start();
                 _this._observer.startEmit();
             });
         }
@@ -46777,6 +47359,7 @@ var ComponentController = /** @class */ (function () {
                     .subscribe(function () {
                     _this._navigator.stateService.start();
                     _this._navigator.cacheService.start();
+                    _this._navigator.panService.start();
                     _this._observer.startEmit();
                     _this._coverComponent.configure({ state: Component_1.CoverState.Hidden });
                     _this._componentService.deactivateCover();
@@ -46791,6 +47374,7 @@ var ComponentController = /** @class */ (function () {
                 _this._navigator.stateService.stop();
                 _this._navigator.cacheService.stop();
                 _this._navigator.playService.stop();
+                _this._navigator.panService.stop();
                 _this._componentService.activateCover();
                 _this._setNavigable(conf.key == null);
             }
@@ -46834,7 +47418,7 @@ var ComponentController = /** @class */ (function () {
 }());
 exports.ComponentController = ComponentController;
 
-},{"../Component":275,"rxjs/operators":225}],434:[function(require,module,exports){
+},{"../Component":275,"rxjs/operators":225}],435:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Render_1 = require("../Render");
@@ -46885,7 +47469,7 @@ var Container = /** @class */ (function () {
 exports.Container = Container;
 exports.default = Container;
 
-},{"../Render":281,"../Utils":285,"../Viewer":286}],435:[function(require,module,exports){
+},{"../Render":281,"../Utils":285,"../Viewer":286}],436:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -46914,7 +47498,7 @@ var ImageSize;
     ImageSize[ImageSize["Size2048"] = 2048] = "Size2048";
 })(ImageSize = exports.ImageSize || (exports.ImageSize = {}));
 
-},{}],436:[function(require,module,exports){
+},{}],437:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -46942,7 +47526,7 @@ var KeyboardService = /** @class */ (function () {
 exports.KeyboardService = KeyboardService;
 exports.default = KeyboardService;
 
-},{"rxjs":27}],437:[function(require,module,exports){
+},{"rxjs":27}],438:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -46990,7 +47574,7 @@ var LoadingService = /** @class */ (function () {
 exports.LoadingService = LoadingService;
 exports.default = LoadingService;
 
-},{"rxjs":27,"rxjs/operators":225}],438:[function(require,module,exports){
+},{"rxjs":27,"rxjs/operators":225}],439:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -47371,7 +47955,7 @@ var MouseService = /** @class */ (function () {
 exports.MouseService = MouseService;
 exports.default = MouseService;
 
-},{"rxjs":27,"rxjs/operators":225}],439:[function(require,module,exports){
+},{"rxjs":27,"rxjs/operators":225}],440:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -47382,8 +47966,9 @@ var Edge_1 = require("../Edge");
 var Error_1 = require("../Error");
 var State_1 = require("../State");
 var Viewer_1 = require("../Viewer");
+var PanService_1 = require("./PanService");
 var Navigator = /** @class */ (function () {
-    function Navigator(clientId, options, token, apiV3, graphService, imageLoadingService, loadingService, stateService, cacheService, playService) {
+    function Navigator(clientId, options, token, apiV3, graphService, imageLoadingService, loadingService, stateService, cacheService, playService, panService) {
         this._apiV3 = apiV3 != null ? apiV3 : new API_1.APIv3(clientId, token);
         this._imageLoadingService = imageLoadingService != null ? imageLoadingService : new Graph_1.ImageLoadingService();
         this._graphService = graphService != null ?
@@ -47398,6 +47983,9 @@ var Navigator = /** @class */ (function () {
         this._playService = playService != null ?
             playService :
             new Viewer_1.PlayService(this._graphService, this._stateService);
+        this._panService = panService != null ?
+            panService :
+            new PanService_1.PanService(this._graphService, this._stateService, options.combinedPanning);
         this._keyRequested$ = new rxjs_1.BehaviorSubject(null);
         this._movedToKey$ = new rxjs_1.BehaviorSubject(null);
         this._request$ = null;
@@ -47442,6 +48030,13 @@ var Navigator = /** @class */ (function () {
     Object.defineProperty(Navigator.prototype, "movedToKey$", {
         get: function () {
             return this._movedToKey$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Navigator.prototype, "panService", {
+        get: function () {
+            return this._panService;
         },
         enumerable: true,
         configurable: true
@@ -47611,7 +48206,7 @@ var Navigator = /** @class */ (function () {
 exports.Navigator = Navigator;
 exports.default = Navigator;
 
-},{"../API":274,"../Edge":276,"../Error":277,"../Graph":279,"../State":282,"../Viewer":286,"rxjs":27,"rxjs/operators":225}],440:[function(require,module,exports){
+},{"../API":274,"../Edge":276,"../Error":277,"../Graph":279,"../State":282,"../Viewer":286,"./PanService":442,"rxjs":27,"rxjs/operators":225}],441:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -47761,7 +48356,223 @@ var Observer = /** @class */ (function () {
 exports.Observer = Observer;
 exports.default = Observer;
 
-},{"../Viewer":286,"rxjs":27,"rxjs/operators":225}],441:[function(require,module,exports){
+},{"../Viewer":286,"rxjs":27,"rxjs/operators":225}],442:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var rxjs_1 = require("rxjs");
+var operators_1 = require("rxjs/operators");
+var Geo = require("../geo/Geo");
+var GeoCoords_1 = require("../geo/GeoCoords");
+var GraphCalculator_1 = require("../graph/GraphCalculator");
+var Spatial_1 = require("../geo/Spatial");
+var Transform_1 = require("../geo/Transform");
+var ViewportCoords_1 = require("../geo/ViewportCoords");
+var PanMode;
+(function (PanMode) {
+    PanMode[PanMode["Disabled"] = 0] = "Disabled";
+    PanMode[PanMode["Enabled"] = 1] = "Enabled";
+    PanMode[PanMode["Started"] = 2] = "Started";
+})(PanMode || (PanMode = {}));
+var PanService = /** @class */ (function () {
+    function PanService(graphService, stateService, enabled, geoCoords, graphCalculator, spatial, viewportCoords) {
+        this._graphService = graphService;
+        this._stateService = stateService;
+        this._geoCoords = !!geoCoords ? geoCoords : new GeoCoords_1.default();
+        this._graphCalculator = !!graphCalculator ? graphCalculator : new GraphCalculator_1.default(this._geoCoords);
+        this._spatial = !!spatial ? spatial : new Spatial_1.default();
+        this._viewportCoords = !!viewportCoords ? viewportCoords : new ViewportCoords_1.default();
+        this._mode = enabled !== false ? PanMode.Enabled : PanMode.Disabled;
+        this._panNodesSubject$ = new rxjs_1.Subject();
+        this._panNodes$ = this._panNodesSubject$.pipe(operators_1.startWith([]), operators_1.publishReplay(1), operators_1.refCount());
+        this._panNodes$.subscribe();
+    }
+    Object.defineProperty(PanService.prototype, "panNodes$", {
+        get: function () {
+            return this._panNodes$;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    PanService.prototype.enable = function () {
+        if (this._mode !== PanMode.Disabled) {
+            return;
+        }
+        this._mode = PanMode.Enabled;
+        this.start();
+    };
+    PanService.prototype.disable = function () {
+        if (this._mode === PanMode.Disabled) {
+            return;
+        }
+        this.stop();
+        this._mode = PanMode.Disabled;
+    };
+    PanService.prototype.start = function () {
+        var _this = this;
+        if (this._mode !== PanMode.Enabled) {
+            return;
+        }
+        var panNodes$ = this._stateService.currentNode$.pipe(operators_1.switchMap(function (current) {
+            var current$ = rxjs_1.of(current);
+            var bounds = _this._graphCalculator.boundingBoxCorners(current.computedLatLon, 20);
+            var adjacent$ = _this._graphService
+                .cacheBoundingBox$(bounds[0], bounds[1]).pipe(operators_1.catchError(function (error) {
+                console.error("Failed to cache periphery bounding box (" + current.key + ")", error);
+                return rxjs_1.empty();
+            }), operators_1.map(function (nodes) {
+                if (current.pano) {
+                    return [];
+                }
+                var potential = [];
+                for (var _i = 0, nodes_1 = nodes; _i < nodes_1.length; _i++) {
+                    var node = nodes_1[_i];
+                    if (node.key === current.key) {
+                        continue;
+                    }
+                    if (node.mergeCC !== current.mergeCC) {
+                        continue;
+                    }
+                    if (node.pano) {
+                        continue;
+                    }
+                    if (_this._distance(node, current) > 4) {
+                        continue;
+                    }
+                    potential.push(node);
+                }
+                return potential;
+            }));
+            return rxjs_1.combineLatest(current$, adjacent$).pipe(operators_1.withLatestFrom(_this._stateService.reference$), operators_1.map(function (_a) {
+                var _b = _a[0], cn = _b[0], adjacent = _b[1], reference = _a[1];
+                var currentDirection = _this._spatial.viewingDirection(cn.rotation);
+                var currentTranslation = Geo.computeTranslation({ lat: cn.latLon.lat, lon: cn.latLon.lon, alt: cn.alt }, cn.rotation, reference);
+                var currentTransform = _this._createTransform(cn, currentTranslation);
+                var currentAzimuthal = _this._spatial.wrap(_this._spatial.azimuthal(currentDirection.toArray(), currentTransform.upVector().toArray()), 0, 2 * Math.PI);
+                var currentProjectedPoints = _this._computeProjectedPoints(currentTransform);
+                var currentHFov = _this._computeHorizontalFov(currentProjectedPoints) / 180 * Math.PI;
+                var preferredOverlap = Math.PI / 8;
+                var left = undefined;
+                var right = undefined;
+                for (var _i = 0, adjacent_1 = adjacent; _i < adjacent_1.length; _i++) {
+                    var a = adjacent_1[_i];
+                    var translation = Geo.computeTranslation({ lat: a.latLon.lat, lon: a.latLon.lon, alt: a.alt }, a.rotation, reference);
+                    var transform = _this._createTransform(a, translation);
+                    var projectedPoints = _this._computeProjectedPoints(transform);
+                    var hFov = _this._computeHorizontalFov(projectedPoints) / 180 * Math.PI;
+                    var direction = _this._spatial.viewingDirection(a.rotation);
+                    var azimuthal = _this._spatial.wrap(_this._spatial.azimuthal(direction.toArray(), transform.upVector().toArray()), 0, 2 * Math.PI);
+                    var directionChange = _this._spatial.angleBetweenVector2(currentDirection.x, currentDirection.y, direction.x, direction.y);
+                    var overlap = Number.NEGATIVE_INFINITY;
+                    if (directionChange > 0) {
+                        if (currentAzimuthal > azimuthal) {
+                            overlap = currentAzimuthal - 2 * Math.PI + currentHFov / 2 - (azimuthal - hFov / 2);
+                        }
+                        else {
+                            overlap = currentAzimuthal + currentHFov / 2 - (azimuthal - hFov / 2);
+                        }
+                    }
+                    else {
+                        if (currentAzimuthal < azimuthal) {
+                            overlap = azimuthal + hFov / 2 - (currentAzimuthal + 2 * Math.PI - currentHFov / 2);
+                        }
+                        else {
+                            overlap = azimuthal + hFov / 2 - (currentAzimuthal - currentHFov / 2);
+                        }
+                    }
+                    var nonOverlap = Math.abs(hFov - overlap);
+                    var distanceCost = _this._distance(a, cn);
+                    var timeCost = Math.min(_this._timeDifference(a, cn), 4);
+                    var overlapCost = 20 * Math.abs(overlap - preferredOverlap);
+                    var fovCost = Math.min(5, 1 / Math.min(hFov / currentHFov, 1));
+                    var nonOverlapCost = overlap > 0 ? -2 * nonOverlap : 0;
+                    var cost = distanceCost + timeCost + overlapCost + fovCost + nonOverlapCost;
+                    if (overlap > 0 &&
+                        overlap < 0.5 * currentHFov &&
+                        overlap < 0.5 * hFov &&
+                        nonOverlap > 0.5 * currentHFov) {
+                        if (directionChange > 0) {
+                            if (!left) {
+                                left = [cost, a, transform, hFov];
+                            }
+                            else {
+                                if (cost < left[0]) {
+                                    left = [cost, a, transform, hFov];
+                                }
+                            }
+                        }
+                        else {
+                            if (!right) {
+                                right = [cost, a, transform, hFov];
+                            }
+                            else {
+                                if (cost < right[0]) {
+                                    right = [cost, a, transform, hFov];
+                                }
+                            }
+                        }
+                    }
+                }
+                var panNodes = [];
+                if (!!left) {
+                    panNodes.push([left[1], left[2], left[3]]);
+                }
+                if (!!right) {
+                    panNodes.push([right[1], right[2], right[3]]);
+                }
+                return panNodes;
+            }), operators_1.startWith([]));
+        }));
+        this._panNodesSubscription = this._stateService.currentState$.pipe(operators_1.map(function (frame) {
+            return frame.state.nodesAhead > 0;
+        }), operators_1.distinctUntilChanged(), operators_1.switchMap(function (traversing) {
+            return traversing ? rxjs_1.of([]) : panNodes$;
+        }))
+            .subscribe(function (panNodes) {
+            _this._panNodesSubject$.next(panNodes);
+        });
+        this._mode = PanMode.Started;
+    };
+    PanService.prototype.stop = function () {
+        if (this._mode !== PanMode.Started) {
+            return;
+        }
+        this._panNodesSubscription.unsubscribe();
+        this._panNodesSubject$.next([]);
+        this._mode = PanMode.Enabled;
+    };
+    PanService.prototype._distance = function (node, reference) {
+        var _a = this._geoCoords.geodeticToEnu(node.latLon.lat, node.latLon.lon, node.alt, reference.latLon.lat, reference.latLon.lon, reference.alt), x = _a[0], y = _a[1], z = _a[2];
+        return Math.sqrt(x * x + y * y + z * z);
+    };
+    PanService.prototype._timeDifference = function (node, reference) {
+        return Math.abs(node.capturedAt - reference.capturedAt) / (1000 * 60 * 60 * 24 * 30);
+    };
+    PanService.prototype._createTransform = function (node, translation) {
+        return new Transform_1.Transform(node.orientation, node.width, node.height, node.focal, node.scale, node.gpano, node.rotation, translation, node.assetsCached ? node.image : undefined, undefined, node.ck1, node.ck2, node.cameraProjection);
+    };
+    PanService.prototype._computeProjectedPoints = function (transform) {
+        var vertices = [[1, 0]];
+        var directions = [[0, 0.5]];
+        var pointsPerLine = 20;
+        return Geo.computeProjectedPoints(transform, vertices, directions, pointsPerLine, this._viewportCoords);
+    };
+    PanService.prototype._computeHorizontalFov = function (projectedPoints) {
+        var _this = this;
+        var fovs = projectedPoints
+            .map(function (projectedPoint) {
+            return _this._coordToFov(projectedPoint[0]);
+        });
+        var fov = Math.min.apply(Math, fovs);
+        return fov;
+    };
+    PanService.prototype._coordToFov = function (x) {
+        return 2 * Math.atan(x) * 180 / Math.PI;
+    };
+    return PanService;
+}());
+exports.PanService = PanService;
+
+},{"../geo/Geo":384,"../geo/GeoCoords":385,"../geo/Spatial":387,"../geo/Transform":388,"../geo/ViewportCoords":389,"../graph/GraphCalculator":392,"rxjs":27,"rxjs/operators":225}],443:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -48082,7 +48893,7 @@ var PlayService = /** @class */ (function () {
 exports.PlayService = PlayService;
 exports.default = PlayService;
 
-},{"../Edge":276,"../Graph":279,"rxjs":27,"rxjs/operators":225}],442:[function(require,module,exports){
+},{"../Edge":276,"../Graph":279,"rxjs":27,"rxjs/operators":225}],444:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
@@ -48140,7 +48951,7 @@ var Projection = /** @class */ (function () {
 exports.Projection = Projection;
 exports.default = Projection;
 
-},{"../Geo":278,"three":226}],443:[function(require,module,exports){
+},{"../Geo":278,"three":226}],445:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var operators_1 = require("rxjs/operators");
@@ -48333,7 +49144,7 @@ exports.SpriteService = SpriteService;
 exports.default = SpriteService;
 
 
-},{"../Viewer":286,"rxjs":27,"rxjs/operators":225,"three":226,"virtual-dom":231}],444:[function(require,module,exports){
+},{"../Viewer":286,"rxjs":27,"rxjs/operators":225,"three":226,"virtual-dom":231}],446:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
@@ -48557,7 +49368,7 @@ var TouchService = /** @class */ (function () {
 }());
 exports.TouchService = TouchService;
 
-},{"rxjs":27,"rxjs/operators":225}],445:[function(require,module,exports){
+},{"rxjs":27,"rxjs/operators":225}],447:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -48701,7 +49512,7 @@ var Viewer = /** @class */ (function (_super) {
          * Return a boolean indicating if the viewer is in a navigable state.
          *
          * @description The navigable state indicates if the viewer supports
-         * moving, i.e. calling the {@link moveToKey}, {@link moveDir`}
+         * moving, i.e. calling the {@link moveToKey}, {@link moveDir}
          * and {@link moveCloseTo} methods or changing the authentication state,
          * i.e. calling {@link setAuthToken}. The viewer will not be in a navigable
          * state if the cover is activated and the viewer has been supplied a key.
@@ -48716,6 +49527,14 @@ var Viewer = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Activate the combined panning functionality.
+     *
+     * @description The combined panning functionality is active by default.
+     */
+    Viewer.prototype.activateCombinedPanning = function () {
+        this._navigator.panService.enable();
+    };
     /**
      * Activate a component.
      *
@@ -48734,6 +49553,15 @@ var Viewer = /** @class */ (function (_super) {
      */
     Viewer.prototype.activateCover = function () {
         this._componentController.activateCover();
+    };
+    /**
+     * Deactivate the combined panning functionality.
+     *
+     * @description Deactivating the combined panning functionality
+     * could be needed in scenarios involving sequence only navigation.
+     */
+    Viewer.prototype.deactivateCombinedPanning = function () {
+        this._navigator.panService.disable();
     };
     /**
      * Deactivate a component.
@@ -48869,7 +49697,7 @@ var Viewer = /** @class */ (function (_super) {
      * longitude.
      * @throws {Error} Propagates any IO errors to the caller.
      * @throws {Error} When viewer is not navigable.
-     * @throws {AbortMapillaryError} When a subsequent move request is made
+     * @throws  {@link AbortMapillaryError} When a subsequent move request is made
      * before the move close to call has completed.
      *
      * @example
@@ -48902,7 +49730,7 @@ var Viewer = /** @class */ (function (_super) {
      * or the edges has not yet been cached.
      * @throws {Error} Propagates any IO errors to the caller.
      * @throws {Error} When viewer is not navigable.
-     * @throws {AbortMapillaryError} When a subsequent move request is made
+     * @throws  {@link AbortMapillaryError} When a subsequent move request is made
      * before the move dir call has completed.
      *
      * @example
@@ -48931,7 +49759,7 @@ var Viewer = /** @class */ (function (_super) {
      * @returns {Promise<Node>} Promise to the node that was navigated to.
      * @throws {Error} Propagates any IO errors to the caller.
      * @throws {Error} When viewer is not navigable.
-     * @throws {AbortMapillaryError} When a subsequent move request is made
+     * @throws  {@link AbortMapillaryError} When a subsequent move request is made
      * before the move to key call has completed.
      *
      * @example
@@ -49215,7 +50043,7 @@ var Viewer = /** @class */ (function (_super) {
      * Fired when the viewing direction of the camera changes.
      *
      * @description Related to the computed compass angle
-     * ({@link Node.computedCa}) from SfM, not the original EXIF compass
+     * ({@link Node.computedCA}) from SfM, not the original EXIF compass
      * angle.
      *
      * @event
@@ -49227,20 +50055,20 @@ var Viewer = /** @class */ (function (_super) {
      * Fired when a pointing device (usually a mouse) is pressed and released at
      * the same point in the viewer.
      * @event
-     * @type {IViewerMouseEvent} event - Viewer mouse event data.
+     * @type  {@link IViewerMouseEvent} event - Viewer mouse event data.
      */
     Viewer.click = "click";
     /**
      * Fired when the right button of the mouse is clicked within the viewer.
      * @event
-     * @type {IViewerMouseEvent} event - Viewer mouse event data.
+     * @type  {@link IViewerMouseEvent} event - Viewer mouse event data.
      */
     Viewer.contextmenu = "contextmenu";
     /**
      * Fired when a pointing device (usually a mouse) is clicked twice at
      * the same point in the viewer.
      * @event
-     * @type {IViewerMouseEvent} event - Viewer mouse event data.
+     * @type  {@link IViewerMouseEvent} event - Viewer mouse event data.
      */
     Viewer.dblclick = "dblclick";
     /**
@@ -49252,32 +50080,32 @@ var Viewer = /** @class */ (function (_super) {
     /**
      * Fired when a pointing device (usually a mouse) is pressed within the viewer.
      * @event
-     * @type {IViewerMouseEvent} event - Viewer mouse event data.
+     * @type  {@link IViewerMouseEvent} event - Viewer mouse event data.
      */
     Viewer.mousedown = "mousedown";
     /**
      * Fired when a pointing device (usually a mouse) is moved within the viewer.
      * @description Will not fire when the mouse is actively used, e.g. for drag pan.
      * @event
-     * @type {IViewerMouseEvent} event - Viewer mouse event data.
+     * @type  {@link IViewerMouseEvent} event - Viewer mouse event data.
      */
     Viewer.mousemove = "mousemove";
     /**
      * Fired when a pointing device (usually a mouse) leaves the viewer's canvas.
      * @event
-     * @type {IViewerMouseEvent} event - Viewer mouse event data.
+     * @type  {@link IViewerMouseEvent} event - Viewer mouse event data.
      */
     Viewer.mouseout = "mouseout";
     /**
      * Fired when a pointing device (usually a mouse) is moved onto the viewer's canvas.
      * @event
-     * @type {IViewerMouseEvent} event - Viewer mouse event data.
+     * @type  {@link IViewerMouseEvent} event - Viewer mouse event data.
      */
     Viewer.mouseover = "mouseover";
     /**
      * Fired when a pointing device (usually a mouse) is released within the viewer.
      * @event
-     * @type {IViewerMouseEvent} event - Viewer mouse event data.
+     * @type  {@link IViewerMouseEvent} event - Viewer mouse event data.
      */
     Viewer.mouseup = "mouseup";
     /**
@@ -49310,19 +50138,19 @@ var Viewer = /** @class */ (function (_super) {
     /**
      * Fired every time the viewer navigates to a new node.
      * @event
-     * @type {Node} node - Current node.
+     * @type  {@link Node} node - Current node.
      */
     Viewer.nodechanged = "nodechanged";
     /**
      * Fired every time the sequence edges of the current node changes.
      * @event
-     * @type {IEdgeStatus} status - The edge status object.
+     * @type  {@link IEdgeStatus} status - The edge status object.
      */
     Viewer.sequenceedgeschanged = "sequenceedgeschanged";
     /**
      * Fired every time the spatial edges of the current node changes.
      * @event
-     * @type {IEdgeStatus} status - The edge status object.
+     * @type  {@link IEdgeStatus} status - The edge status object.
      */
     Viewer.spatialedgeschanged = "spatialedgeschanged";
     return Viewer;
