@@ -20,6 +20,10 @@ vi:
       friendly: '%e tháng %m năm %Y lúc %H:%M'
       blog: '%d tháng %m năm %Y'
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: hình như không phải là địa chỉ thư điện tử hợp lệ
+        email_address_not_routable: không thể gửi đến
     models:
       acl: Danh sách Điều khiển Truy cập
       changeset: Bộ thay đổi
@@ -394,6 +398,7 @@ vi:
           gate: Cổng
           hangar: Nhà Máy bay
           helipad: Sân bay Trực thăng
+          parking_position: Chỗ Đậu Máy bay
           runway: Đường băng
           taxiway: Đường lăn
           terminal: Nhà ga Sân bay
@@ -882,7 +887,7 @@ vi:
           "yes": Tiệm
         tourism:
           alpine_hut: Túp lều Trên Núi
-          apartment: Khu chung cư
+          apartment: Khu Nghỉ dưỡng Chung cư
           artwork: Tác phẩm Nghệ thuật
           attraction: Nơi Du lịch
           bed_and_breakfast: Nhà trọ
@@ -1075,9 +1080,12 @@ vi:
     intro_text: OpenStreetMap là bản đồ thế giới do những người như bạn xây dựng và
       cho phép sử dụng thoải mái theo một giấy phép nguồn mở.
     intro_2_create_account: Mở tài khoản mới
+    hosting_partners_html: Dịch vụ lưu trữ nhờ sự hỗ trợ của %{ucl}, %{bytemark},
+      và %{partners} khác.
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: các công ty bảo trợ
+    tou: Điều khoản Sử dụng
     osm_offline: Cơ sở dữ liệu OpenStreetMap đang ngoại tuyến trong lúc đang thực
       hiện những công việc bảo quản cơ sở dữ liệu cần thiết.
     osm_read_only: Cơ sở dữ liệu OpenStreetMap đang bị khóa không được sửa đổi trong
@@ -1309,7 +1317,7 @@ vi:
         Bản quyền và Giấy phép</a>.'
       legal_title: Pháp luật
       legal_html: |-
-        Trang Web này và nhiều dịch vụ có liên quan được hoạt động chính thức bởi <a href='https://osmfoundation.org/?uselang=vi'>Quỹ OpenStreetMap</a> (OSMF) thay mặt cho cộng đồng. Việc sử dụng các dịch vụ do OSMF hoạt động phải tuân theo <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy?uselang=vi">các Quy định Sử dụng Hợp lý</a> và <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy?uselang=vi">Quy định về Quyền Riêng tư</a> của chúng tôi.
+        Trang Web này và nhiều dịch vụ có liên quan được hoạt động chính thức bởi <a href='https://osmfoundation.org/?uselang=vi'>Quỹ OpenStreetMap</a> (OSMF) thay mặt cho cộng đồng. Việc sử dụng các dịch vụ do OSMF hoạt động phải tuân theo <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use?uselang=vi">các Điều khoản Sử dụng</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy?uselang=vi">các Quy định Sử dụng Hợp lý</a>, và <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy?uselang=vi">Quy định về Quyền Riêng tư</a> của chúng tôi.
         <br>
         Xin vui lòng <a href='https://osmfoundation.org/Contact?uselang=vi'>liên lạc với OSMF</a> nếu bạn có thắc mắc về giấy phép, bản quyền, hoặc thắc mắc khác về pháp luật.
         <br>
@@ -1401,11 +1409,16 @@ vi:
           href=\"http://www.gu.gov.si/en/\">Cơ quan Khảo sát và Bản đồ</a> và\n<a
           href=\"http://www.mkgp.gov.si/en/\">Cục Nông nghiệp, Lâm nghiệp, và Thức
           ăn</a>\n(thông tin công cộng của Slovenia)."
+        contributors_es_html: "<strong>Tây Ban Nha</strong>: Bao gồm dữ liệu bắt nguồn
+          từ \nViện Địa lý Quốc gia Tây Ban Nha (<a href=\"http://www.ign.es/\">IGN</a>)
+          và\nHệ thống Bản đồ Quốc gia (<a href=\"http://www.scne.es/\">SCNE</a>)\nđược
+          cấp phép tái sử dụng theo <a href=\"https://creativecommons.org/licenses/by/4.0/deed.vi\">CC
+          BY 4.0</a>."
         contributors_za_html: '<strong>Nam Phi</strong>: Bao gồm dữ liệu từ <a href="http://www.ngi.gov.za/">Tổng
           cục: Thông tin Không gian địa lý Quốc gia</a>, bản quyền nhà nước được bảo
           lưu.'
         contributors_gb_html: '<strong>Vương quốc Anh</strong>: Bao gồm dữ liệu Ordnance
-          Survey © bản quyền Crown Copyright và quyền cơ sở dữ liệu 2010–12.'
+          Survey © bản quyền Crown Copyright và quyền cơ sở dữ liệu 2010–19.'
         contributors_footer_1_html: |-
           Xem thêm chi tiết và các nguồn gốc khác dùng để cải tiến OpenStreetMap tại <a
           href="https://wiki.openstreetmap.org/wiki/Contributors?uselang=vi">trang Người đóng góp</a> trên OpenStreetMap Wiki.
@@ -1557,6 +1570,8 @@ vi:
       welcomemat:
         url: https://welcome.openstreetmap.org/
         title: Dành cho các tổ chức
+        description: Tổ chức của bạn có tính tương tác với OpenStreetMap? Tìm hiểu
+          thêm trong “Thảm Trước Cửa”.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Vi:Main_Page?uselang=vi
         title: wiki.openstreetmap.org
@@ -1648,7 +1663,7 @@ vi:
       edit: Sửa đổi
       preview: Xem trước
     markdown_help:
-      title_html: Trang trí dùng cú pháp <a href="https://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Trang trí dùng cú pháp <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Đề mục
       heading: Đề mục
       subheading: Đề mục con
@@ -1829,6 +1844,7 @@ vi:
         other: Tập tin GPX của %{user} có %{count} địa điểm
       description_without_count: Tập tin GPX của %{user}
   application:
+    permission_denied: Bạn không có quyền thực hiện tác vụ này
     require_cookies:
       cookies_needed: Hình như đã tắt cookie. Xin hãy bật lên chức năng cookie trong
         trình duyệt để tiếp tục.
@@ -2042,15 +2058,26 @@ vi:
         wiki này</a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=vi
     terms:
-      title: Điều kiện đóng góp
-      heading: Điều kiện đóng góp
-      consider_pd: Ngoài các thỏa thuận ở trên, tôi coi rằng các đóng góp của tôi
+      title: Điều khoản
+      heading: Điều khoản
+      heading_ct: Điều kiện đóng góp
+      read and accept with tou: Xin vui lòng đọc thỏa thuận đóng góp và các điều khoản
+        sử dụng, đọc xong thì đánh cả hai hộp kiểm và bấm nút Tiếp tục.
+      contributor_terms_explain: Thỏa thuận này quy định các đóng góp do bạn đã thực
+        hiện và sẽ thực hiện.
+      read_ct: Tôi đã đọc và chấp nhận các điều khoản đóng góp bên trên
+      tou_explain_html: Các %{tou_link} quy định cách sử dụng trang Web và các cơ
+        sở hạ tầng khác do OSMF cung cấp. Xin vui lòng mở liên kết và đọc và chấp
+        nhận thỏa thuận.
+      read_tou: Tôi đã đọc và chấp nhận các Điều khoản Sử dụng
+      consider_pd: Bên ngoài các điều bên trên, tôi coi rằng các đóng góp của tôi
         thuộc về phạm vi công cộng
       consider_pd_why: đây là gì?
       consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain?uselang=vi
       guidance: 'Thông tin để tìm hiểu về các điều khoản này: <a href="%{summary}">bản
         tóm tắt dễ đọc</a> và <a href="%{translations}">một số bản dịch không chính
         thức</a>'
+      continue: Tiếp tục
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=vi
       decline: Từ chối
       you need to accept or decline: Để tiếp tục, xin vui lòng đọc các Điều khoản
@@ -2462,6 +2489,7 @@ vi:
         title: Lớp
       copyright: © <a href='%{copyright_url}'>những người đóng góp vào OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Quyên góp</a>
+      terms: <a href='%{terms_url}' target='_blank'>Điều khoản trang Web và API</a>
     site:
       edit_tooltip: Sửa đổi bản đồ
       edit_disabled_tooltip: Phóng to để sửa đổi bản đồ
@@ -2500,7 +2528,9 @@ vi:
     directions:
       ascend: Lên
       engines:
+        fossgis_osrm_bike: Xe đạp (OSRM)
         fossgis_osrm_car: Xe hơi (OSRM)
+        fossgis_osrm_foot: Đi bộ (OSRM)
         graphhopper_bicycle: Xe đạp (GraphHopper)
         graphhopper_car: Xe hơi (GraphHopper)
         graphhopper_foot: Đi bộ (GraphHopper)
@@ -2628,4 +2658,9 @@ vi:
         trong trước khi xóa dãy ẩn.
       flash: Đã xóa dãy ẩn.
       error: Xuất hiện lỗi khi xóa dãy ẩn này.
+  validations:
+    leading_whitespace: có khoảng cách thừa đằng trước
+    trailing_whitespace: có khoảng cách thừa đằng sau
+    invalid_characters: chứa ký tự không hợp lệ
+    url_characters: chứa ký tự URL đặc biệt (%{characters})
 ...
