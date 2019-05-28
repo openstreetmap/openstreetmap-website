@@ -782,6 +782,14 @@
                 "description": "Buildings",
                 "tooltip": "Buildings, Shelters, Garages, etc."
             },
+            "building_parts": {
+                "description": "Building Parts",
+                "tooltip": "3D Building and Roof Components"
+            },
+            "indoor": {
+                "description": "Indoor Features",
+                "tooltip": "Rooms, Corridors, Stairwells, etc."
+            },
             "landuse": {
                 "description": "Landuse Features",
                 "tooltip": "Forests, Farmland, Parks, Residential, Commercial, etc."
@@ -797,6 +805,14 @@
             "rail": {
                 "description": "Rail Features",
                 "tooltip": "Railways"
+            },
+            "pistes": {
+                "description": "Pistes",
+                "tooltip": "Ski Slopes, Sled Runs, Ice Skating Trails, etc."
+            },
+            "aerialways": {
+                "description": "Aerial Features",
+                "tooltip": "Chair Lifts, Gondolas, Zip Lines, etc."
             },
             "power": {
                 "description": "Power Features",
@@ -1619,15 +1635,22 @@
                 "title": "Almost Junctions",
                 "message": "{feature} is very close but not connected to {feature2}",
                 "tip": "Find features that should possibly be connected to other nearby features",
+                "self": {
+                    "message": "{feature} ends very close to itself but does not reconnect"
+                },
                 "highway-highway": {
                     "reference": "Intersecting highways should share a junction vertex."
                 }
             },
             "close_nodes": {
                 "title": "Very Close Points",
+                "tip": "Find redundant and crowded points",
                 "message": "Two points in {way} are very close together",
-                "tip": "Find redundant points in ways",
-                "reference": "Redundant points in a way should be merged or moved apart."
+                "reference": "Redundant points in a way should be merged or moved apart.",
+                "detached": {
+                    "message": "{feature} is too close to {feature2}",
+                    "reference": "Separate points should not share a location."
+                }
             },
             "crossing_ways": {
                 "title": "Crossings Ways",
@@ -1747,7 +1770,11 @@
                 "title": "Outdated Tags",
                 "message": "{feature} has outdated tags",
                 "tip": "Find features with deprecated tags that can be updated",
-                "reference": "Some tags change over time and should be updated."
+                "reference": "Some tags change over time and should be updated.",
+                "incomplete": {
+                    "message": "{feature} has incomplete tags",
+                    "reference": "Some features should have additional tags."
+                }
             },
             "private_data": {
                 "title": "Private Information",
@@ -3706,6 +3733,9 @@
                         "required": "Required",
                         "recommended": "Recommended"
                     }
+                },
+                "resort": {
+                    "label": "Type"
                 },
                 "resource": {
                     "label": "Resources"
@@ -6115,7 +6145,7 @@
                 },
                 "highway/cycleway/bicycle_foot": {
                     "name": "Cycle & Foot Path",
-                    "terms": "bicycle and foot path,mixed-use trail,multi-use trail,segregated trail"
+                    "terms": "bicycle and foot path,bike and pedestrian path,green way,greenway,mixed-use trail,multi-use trail,segregated trail"
                 },
                 "highway/cycleway/crossing/marked": {
                     "name": "Marked Cycle Crossing",
@@ -6641,6 +6671,10 @@
                     "name": "Vineyard",
                     "terms": "grape,wine"
                 },
+                "landuse/winter_sports": {
+                    "name": "Winter Sports Area",
+                    "terms": "piste area,ski area,ski hill,ski mountain,ski resort,snow board area,snowboard area"
+                },
                 "leisure/adult_gaming_centre": {
                     "name": "Adult Gaming Center",
                     "terms": "gambling,slot machine"
@@ -6680,6 +6714,10 @@
                 "leisure/dancing_school": {
                     "name": "Dance School",
                     "terms": "jive,swing,tango,waltz,dance teaching"
+                },
+                "leisure/disc_golf_course": {
+                    "name": "Disc Golf Course",
+                    "terms": "disk golf,frisbee golf,flying disc golf,frolf,ultimate"
                 },
                 "leisure/dog_park": {
                     "name": "Dog Park",
@@ -6841,6 +6879,10 @@
                     "name": "Riding Arena",
                     "terms": "dressage,equestrian,horse,horseback,riding"
                 },
+                "leisure/pitch/field_hockey": {
+                    "name": "Field Hockey Pitch",
+                    "terms": "landhockey"
+                },
                 "leisure/pitch/horseshoes": {
                     "name": "Horseshoes Pit",
                     "terms": "horse shoes"
@@ -6891,7 +6933,7 @@
                 },
                 "leisure/resort": {
                     "name": "Resort",
-                    "terms": ""
+                    "terms": "recreation center,sanatorium,ski and snowboard resort,vacation resort,winter sports resort"
                 },
                 "leisure/sauna": {
                     "name": "Sauna",
@@ -7100,6 +7142,10 @@
                 "man_made/storage_tank": {
                     "name": "Storage Tank",
                     "terms": "water,oil,gas,petrol"
+                },
+                "man_made/storage_tank/water": {
+                    "name": "Water Tank",
+                    "terms": "cistern,water tower"
                 },
                 "man_made/street_cabinet": {
                     "name": "Street Cabinet",
@@ -9130,13 +9176,6 @@
                 "description": "Imagery boundaries and capture dates. Labels appear at zoom level 13 and higher.",
                 "name": "DigitalGlobe Standard Imagery Vintage"
             },
-            "DigitalGlobe-Vivid": {
-                "attribution": {
-                    "text": "Terms & Feedback"
-                },
-                "description": "DigitalGlobe-Vivid is a mosaic with optimal aesthetics and currency for any area on the globe, 50cm resolution or better, and image currency <20 month average globally.",
-                "name": "DigitalGlobe Vivid Imagery"
-            },
             "EOXAT2018CLOUDLESS": {
                 "attribution": {
                     "text": "Sentinel-2 cloudless - https://s2maps.eu by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2017 & 2018)"
@@ -9171,6 +9210,20 @@
                 },
                 "description": "Satellite and aerial imagery.",
                 "name": "Mapbox Satellite"
+            },
+            "Maxar-Premium": {
+                "attribution": {
+                    "text": "Terms & Feedback"
+                },
+                "description": "Maxar Premium is a mosaic composed of Maxar basemap with select regions filled with +Vivid or custom area of interest imagery, 50cm resolution or better, and refreshed more frequently with ongoing updates.",
+                "name": "Maxar Premium Imagery (Beta)"
+            },
+            "Maxar-Standard": {
+                "attribution": {
+                    "text": "Terms & Feedback"
+                },
+                "description": "Maxar Standard is a curated set of imagery covering 86% of the earth’s landmass, with 30-60cm resolution where available, backfilled by Landsat. Average age is 2.31 years, with some areas updated 2x per year.",
+                "name": "Maxar Standard Imagery (Beta)"
             },
             "OSM_Inspector-Addresses": {
                 "attribution": {
@@ -9231,6 +9284,10 @@
             "US-TIGER-Roads-2018": {
                 "description": "Yellow = Public domain map data from the US Census. Red = Data not found in OpenStreetMap",
                 "name": "TIGER Roads 2018"
+            },
+            "USDA-NAIP": {
+                "description": "The most recent year of DOQQs from the National Agriculture Imagery Program (NAIP) for each state in the contiguous United States.",
+                "name": "National Agriculture Imagery Program"
             },
             "US_Forest_Service_roads_overlay": {
                 "description": "Highway: Green casing = unclassified. Brown casing = track. Surface: gravel = light brown fill, Asphalt = black, paved = gray, ground =white, concrete = blue, grass = green. Seasonal = white bars",
