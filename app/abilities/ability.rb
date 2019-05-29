@@ -36,7 +36,7 @@ class Ability
 
       if Settings.status != "database_offline"
         can [:index, :new, :create, :show, :edit, :update, :destroy], ClientApplication
-        can [:create, :edit, :comment, :subscribe, :unsubscribe], DiaryEntry
+        can [:new, :create, :edit, :update, :comment, :subscribe, :unsubscribe], DiaryEntry
         can [:new, :create, :reply, :show, :inbox, :outbox, :mark, :destroy], Message
         can [:close, :reopen], Note
         can [:new, :create], Report

@@ -445,34 +445,34 @@ class UsersControllerTest < ActionController::TestCase
   def test_confirm_success_no_token_with_referer
     user = create(:user, :pending)
     stub_gravatar_request(user.email)
-    confirm_string = user.tokens.create(:referer => diary_new_path).token
+    confirm_string = user.tokens.create(:referer => new_diary_entry_path).token
 
     @request.cookies["_osm_session"] = user.display_name
     post :confirm, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
-    assert_redirected_to login_path(:referer => diary_new_path)
+    assert_redirected_to login_path(:referer => new_diary_entry_path)
     assert_match(/Confirmed your account/, flash[:notice])
   end
 
   def test_confirm_success_good_token_with_referer
     user = create(:user, :pending)
     stub_gravatar_request(user.email)
-    confirm_string = user.tokens.create(:referer => diary_new_path).token
+    confirm_string = user.tokens.create(:referer => new_diary_entry_path).token
     token = user.tokens.create.token
 
     @request.cookies["_osm_session"] = user.display_name
     post :confirm, :params => { :display_name => user.display_name, :confirm_string => confirm_string }, :session => { :token => token }
-    assert_redirected_to diary_new_path
+    assert_redirected_to new_diary_entry_path
   end
 
   def test_confirm_success_bad_token_with_referer
     user = create(:user, :pending)
     stub_gravatar_request(user.email)
-    confirm_string = user.tokens.create(:referer => diary_new_path).token
+    confirm_string = user.tokens.create(:referer => new_diary_entry_path).token
     token = create(:user).tokens.create.token
 
     @request.cookies["_osm_session"] = user.display_name
     post :confirm, :params => { :display_name => user.display_name, :confirm_string => confirm_string }, :session => { :token => token }
-    assert_redirected_to login_path(:referer => diary_new_path)
+    assert_redirected_to login_path(:referer => new_diary_entry_path)
     assert_match(/Confirmed your account/, flash[:notice])
   end
 
@@ -488,7 +488,7 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_confirm_already_confirmed
     user = create(:user)
-    confirm_string = user.tokens.create(:referer => diary_new_path).token
+    confirm_string = user.tokens.create(:referer => new_diary_entry_path).token
 
     @request.cookies["_osm_session"] = user.display_name
     post :confirm, :params => { :display_name => user.display_name, :confirm_string => confirm_string }

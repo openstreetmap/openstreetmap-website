@@ -216,9 +216,12 @@ OpenStreetMap::Application.routes.draw do
   post "/trace/:id/delete" => "traces#delete", :id => /\d+/
 
   # diary pages
-  match "/diary/new" => "diary_entries#new", :via => [:get, :post]
-  get "/diary/friends" => "diary_entries#index", :friends => true, :as => "friend_diaries"
-  get "/diary/nearby" => "diary_entries#index", :nearby => true, :as => "nearby_diaries"
+  resources :diary_entries, :path => "diary", :only => [:new, :create, :index] do
+    collection do
+      get "friends" => "diary_entries#index", :friends => true
+      get "nearby" => "diary_entries#index", :nearby => true
+    end
+  end
   get "/user/:display_name/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/diary/:language/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
@@ -226,10 +229,10 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/diary/comments/" => "diary_entries#comments"
   get "/user/:display_name/diary" => "diary_entries#index"
   get "/diary/:language" => "diary_entries#index"
-  get "/diary" => "diary_entries#index"
-  get "/user/:display_name/diary/:id" => "diary_entries#show", :id => /\d+/, :as => :diary_entry
+  scope "/user/:display_name" do
+    resources :diary_entries, :path => "diary", :only => [:edit, :update, :show]
+  end
   post "/user/:display_name/diary/:id/newcomment" => "diary_entries#comment", :id => /\d+/
-  match "/user/:display_name/diary/:id/edit" => "diary_entries#edit", :via => [:get, :post], :id => /\d+/
   post "/user/:display_name/diary/:id/hide" => "diary_entries#hide", :id => /\d+/, :as => :hide_diary_entry
   post "/user/:display_name/diary/:id/hidecomment/:comment" => "diary_entries#hidecomment", :id => /\d+/, :comment => /\d+/, :as => :hide_diary_comment
   post "/user/:display_name/diary/:id/subscribe" => "diary_entries#subscribe", :as => :diary_entry_subscribe, :id => /\d+/

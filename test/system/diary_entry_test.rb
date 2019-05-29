@@ -8,7 +8,7 @@ class DiaryEntrySystemTest < ApplicationSystemTestCase
 
   test "reply to diary entry should prefill the message subject" do
     sign_in_as(create(:user))
-    visit diary_path
+    visit diary_entries_path
 
     click_on "Reply to this entry"
 
