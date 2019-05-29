@@ -166,6 +166,10 @@ class DiaryEntriesController < ApplicationController
     else
       @entries = DiaryEntry.joins(:user).where(:users => { :status => %w[active confirmed] })
 
+      # Items can't be flagged as deleted in the RSS format.
+      # For the general feeds, allow a delay before publishing, to help spam fighting
+      @entries = @entries.where("created_at < :time", :time => Settings.diary_feed_delay.hours.ago)
+
       if params[:language]
         @entries = @entries.where(:language_code => params[:language])
         @title = t("diary_entries.feed.language.title", :language_name => Language.find(params[:language]).english_name)
@@ -177,7 +181,6 @@ class DiaryEntriesController < ApplicationController
         @link = url_for :action => "index", :host => Settings.server_url, :protocol => Settings.server_protocol
       end
     end
-
     @entries = @entries.visible.includes(:user).order("created_at DESC").limit(20)
   end
 

@@ -664,6 +664,18 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     assert_match "<title>&lt;script&gt;</title>", response.body
   end
 
+  def test_feed_delay
+    create(:diary_entry, :created_at => 7.hours.ago)
+    create(:diary_entry, :created_at => 5.hours.ago)
+    get :rss, :params => { :format => :rss }
+    assert_select "rss>channel>item", :count => 2
+
+    with_diary_feed_delay(6) do
+      get :rss, :params => { :format => :rss }
+      assert_select "rss>channel>item", :count => 1
+    end
+  end
+
   def test_show
     user = create(:user)
     suspended_user = create(:user, :suspended)
@@ -896,5 +908,14 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     entries.each do |entry|
       assert_select "a[href=?]", "/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}"
     end
+  end
+
+  def with_diary_feed_delay(value)
+    diary_feed_delay = Settings.diary_feed_delay
+    Settings.diary_feed_delay = value
+
+    yield
+
+    Settings.diary_feed_delay = diary_feed_delay
   end
 end
