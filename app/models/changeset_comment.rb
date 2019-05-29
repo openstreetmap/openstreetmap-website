@@ -3,8 +3,8 @@
 # Table name: changeset_comments
 #
 #  id           :integer          not null, primary key
-#  changeset_id :integer          not null
-#  author_id    :integer          not null
+#  changeset_id :bigint(8)        not null
+#  author_id    :bigint(8)        not null
 #  body         :text             not null
 #  created_at   :datetime         not null
 #  visible      :boolean          not null

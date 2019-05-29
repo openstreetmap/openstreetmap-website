@@ -2,14 +2,14 @@
 #
 # Table name: nodes
 #
-#  node_id      :integer          not null, primary key
+#  node_id      :bigint(8)        not null, primary key
 #  latitude     :integer          not null
 #  longitude    :integer          not null
-#  changeset_id :integer          not null
+#  changeset_id :bigint(8)        not null
 #  visible      :boolean          not null
 #  timestamp    :datetime         not null
-#  tile         :integer          not null
-#  version      :integer          not null, primary key
+#  tile         :bigint(8)        not null
+#  version      :bigint(8)        not null, primary key
 #  redaction_id :integer
 #
 # Indexes

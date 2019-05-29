@@ -2,7 +2,7 @@
 #
 # Table name: current_way_tags
 #
-#  way_id :integer          not null, primary key
+#  way_id :bigint(8)        not null, primary key
 #  k      :string           default(""), not null, primary key
 #  v      :string           default(""), not null
 #
