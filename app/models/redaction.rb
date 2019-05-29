@@ -7,7 +7,7 @@
 #  description        :text
 #  created_at         :datetime
 #  updated_at         :datetime
-#  user_id            :integer          not null
+#  user_id            :bigint(8)        not null
 #  description_format :enum             default("markdown"), not null
 #
 # Foreign Keys

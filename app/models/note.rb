@@ -2,10 +2,10 @@
 #
 # Table name: notes
 #
-#  id         :integer          not null, primary key
+#  id         :bigint(8)        not null, primary key
 #  latitude   :integer          not null
 #  longitude  :integer          not null
-#  tile       :integer          not null
+#  tile       :bigint(8)        not null
 #  updated_at :datetime         not null
 #  created_at :datetime         not null
 #  status     :enum             not null

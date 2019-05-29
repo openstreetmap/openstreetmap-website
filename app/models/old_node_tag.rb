@@ -2,8 +2,8 @@
 #
 # Table name: node_tags
 #
-#  node_id :integer          not null, primary key
-#  version :integer          not null, primary key
+#  node_id :bigint(8)        not null, primary key
+#  version :bigint(8)        not null, primary key
 #  k       :string           default(""), not null, primary key
 #  v       :string           default(""), not null
 #

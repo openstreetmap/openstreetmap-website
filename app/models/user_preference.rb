@@ -2,7 +2,7 @@
 #
 # Table name: user_preferences
 #
-#  user_id :integer          not null, primary key
+#  user_id :bigint(8)        not null, primary key
 #  k       :string           not null, primary key
 #  v       :string           not null
 #

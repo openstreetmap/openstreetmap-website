@@ -2,10 +2,10 @@
 #
 # Table name: ways
 #
-#  way_id       :integer          default(0), not null, primary key
-#  changeset_id :integer          not null
+#  way_id       :bigint(8)        default(0), not null, primary key
+#  changeset_id :bigint(8)        not null
 #  timestamp    :datetime         not null
-#  version      :integer          not null, primary key
+#  version      :bigint(8)        not null, primary key
 #  visible      :boolean          default(TRUE), not null
 #  redaction_id :integer
 #

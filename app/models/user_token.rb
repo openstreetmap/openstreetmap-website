@@ -2,8 +2,8 @@
 #
 # Table name: user_tokens
 #
-#  id      :integer          not null, primary key
-#  user_id :integer          not null
+#  id      :bigint(8)        not null, primary key
+#  user_id :bigint(8)        not null
 #  token   :string           not null
 #  expiry  :datetime         not null
 #  referer :text

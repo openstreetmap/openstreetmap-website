@@ -2,11 +2,11 @@
 #
 # Table name: current_relations
 #
-#  id           :integer          not null, primary key
-#  changeset_id :integer          not null
+#  id           :bigint(8)        not null, primary key
+#  changeset_id :bigint(8)        not null
 #  timestamp    :datetime         not null
 #  visible      :boolean          not null
-#  version      :integer          not null
+#  version      :bigint(8)        not null
 #
 # Indexes
 #
