@@ -29,7 +29,7 @@ class UserDiariesTest < ActionDispatch::IntegrationTest
     follow_redirect!
 
     assert_response :success
-    assert_template "diary_entries/edit"
+    assert_template "diary_entries/new"
     # print @response.body
     # print @html_document.to_yaml
 
@@ -42,7 +42,7 @@ class UserDiariesTest < ActionDispatch::IntegrationTest
       assert_select "h1", "New Diary Entry"
     end
     assert_select "div#content" do
-      assert_select "form[action='/diary/new']" do
+      assert_select "form[action='/diary']" do
         assert_select "input[id=diary_entry_title]"
       end
     end

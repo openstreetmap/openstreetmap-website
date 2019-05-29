@@ -62,8 +62,8 @@ class DiaryEntriesControllerTest < ActionController::TestCase
       { :controller => "diary_entries", :action => "new" }
     )
     assert_routing(
-      { :path => "/diary/new", :method => :post },
-      { :controller => "diary_entries", :action => "new" }
+      { :path => "/diary", :method => :post },
+      { :controller => "diary_entries", :action => "create" }
     )
     assert_routing(
       { :path => "/user/username/diary/1", :method => :get },
@@ -74,8 +74,8 @@ class DiaryEntriesControllerTest < ActionController::TestCase
       { :controller => "diary_entries", :action => "edit", :display_name => "username", :id => "1" }
     )
     assert_routing(
-      { :path => "/user/username/diary/1/edit", :method => :post },
-      { :controller => "diary_entries", :action => "edit", :display_name => "username", :id => "1" }
+      { :path => "/user/username/diary/1", :method => :put },
+      { :controller => "diary_entries", :action => "update", :display_name => "username", :id => "1" }
     )
     assert_routing(
       { :path => "/user/username/diary/1/newcomment", :method => :post },
@@ -116,7 +116,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
       assert_select "h1", :text => /New Diary Entry/, :count => 1
     end
     assert_select "div#content", :count => 1 do
-      assert_select "form[action='/diary/new'][method=post]", :count => 1 do
+      assert_select "form[action='/diary'][method=post]", :count => 1 do
         assert_select "input#diary_entry_title[name='diary_entry[title]']", :count => 1
         assert_select "textarea#diary_entry_body[name='diary_entry[body]']", :text => "", :count => 1
         assert_select "select#diary_entry_language_code", :count => 1
@@ -140,30 +140,30 @@ class DiaryEntriesControllerTest < ActionController::TestCase
           :session => { :user => create(:user).id }
     end
     assert_response :success
-    assert_template :edit
+    assert_template :new
   end
 
-  def test_new_no_body
+  def test_create_no_body
     # Now try creating a invalid diary entry with an empty body
     user = create(:user)
     assert_no_difference "DiaryEntry.count" do
-      post :new,
+      post :create,
            :params => { :commit => "save",
                         :diary_entry => { :title => "New Title", :body => "", :latitude => "1.1",
                                           :longitude => "2.2", :language_code => "en" } },
            :session => { :user => user.id }
     end
     assert_response :success
-    assert_template :edit
+    assert_template :new
 
     assert_nil UserPreference.where(:user_id => user.id, :k => "diary.default_language").first
   end
 
-  def test_new_post
+  def test_create
     # Now try creating a diary entry
     user = create(:user)
     assert_difference "DiaryEntry.count", 1 do
-      post :new,
+      post :create,
            :params => { :commit => "save",
                         :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
                                           :longitude => "2.2", :language_code => "en" } },
@@ -185,13 +185,13 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     assert_equal "en", UserPreference.where(:user_id => user.id, :k => "diary.default_language").first.v
   end
 
-  def test_new_german
+  def test_create_german
     create(:language, :code => "de")
     user = create(:user)
 
     # Now try creating a diary entry in a different language
     assert_difference "DiaryEntry.count", 1 do
-      post :new,
+      post :create,
            :params => { :commit => "save",
                         :diary_entry => { :title => "New Title", :body => "This is a new body for the diary entry", :latitude => "1.1",
                                           :longitude => "2.2", :language_code => "de" } },
@@ -221,7 +221,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
 
     # Try creating a spammy diary entry
     assert_difference "DiaryEntry.count", 1 do
-      post :new,
+      post :create,
            :params => { :commit => "save",
                         :diary_entry => { :title => spammy_title, :body => spammy_body, :language_code => "en" } },
            :session => { :user => user.id }
@@ -284,7 +284,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
       assert_select "h1", :text => /Edit diary entry/, :count => 1
     end
     assert_select "div#content", :count => 1 do
-      assert_select "form[action='/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}/edit'][method=post]", :count => 1 do
+      assert_select "form[action='/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}'][method=post]", :count => 1 do
         assert_select "input#diary_entry_title[name='diary_entry[title]'][value='#{entry.title}']", :count => 1
         assert_select "textarea#diary_entry_body[name='diary_entry[body]']", :text => entry.body, :count => 1
         assert_select "select#diary_entry_language_code", :count => 1
@@ -293,7 +293,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
         assert_select "input[name=commit][type=submit][value=Save]", :count => 1
         assert_select "input[name=commit][type=submit][value=Edit]", :count => 1
         assert_select "input[name=commit][type=submit][value=Preview]", :count => 1
-        assert_select "input", :count => 7
+        assert_select "input", :count => 8
       end
     end
 
@@ -303,11 +303,11 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     new_latitude = "1.1"
     new_longitude = "2.2"
     new_language_code = "en"
-    post :edit,
-         :params => { :display_name => entry.user.display_name, :id => entry.id, :commit => "save",
-                      :diary_entry => { :title => new_title, :body => new_body, :latitude => new_latitude,
-                                        :longitude => new_longitude, :language_code => new_language_code } },
-         :session => { :user => entry.user.id }
+    put :update,
+        :params => { :display_name => entry.user.display_name, :id => entry.id, :commit => "save",
+                     :diary_entry => { :title => new_title, :body => new_body, :latitude => new_latitude,
+                                       :longitude => new_longitude, :language_code => new_language_code } },
+        :session => { :user => entry.user.id }
     assert_response :redirect
     assert_redirected_to :action => :show, :display_name => entry.user.display_name, :id => entry.id
 

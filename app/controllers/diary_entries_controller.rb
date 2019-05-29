@@ -8,38 +8,40 @@ class DiaryEntriesController < ApplicationController
   authorize_resource
 
   before_action :lookup_user, :only => [:show, :comments]
-  before_action :check_database_writable, :only => [:new, :edit, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
-  before_action :allow_thirdparty_images, :only => [:new, :edit, :index, :show, :comments]
+  before_action :check_database_writable, :only => [:new, :create, :edit, :update, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
+  before_action :allow_thirdparty_images, :only => [:new, :create, :edit, :update, :index, :show, :comments]
 
   def new
     @title = t "diary_entries.new.title"
 
-    if request.post?
-      @diary_entry = DiaryEntry.new(entry_params)
-      @diary_entry.user = current_user
+    default_lang = current_user.preferences.where(:k => "diary.default_language").first
+    lang_code = default_lang ? default_lang.v : current_user.preferred_language
+    @diary_entry = DiaryEntry.new(entry_params.merge(:language_code => lang_code))
+    set_map_location
+    render :action => "new"
+  end
 
-      if @diary_entry.save
-        default_lang = current_user.preferences.where(:k => "diary.default_language").first
-        if default_lang
-          default_lang.v = @diary_entry.language_code
-          default_lang.save!
-        else
-          current_user.preferences.create(:k => "diary.default_language", :v => @diary_entry.language_code)
-        end
+  def create
+    @title = t "diary_entries.new.title"
 
-        # Subscribe user to diary comments
-        @diary_entry.subscriptions.create(:user => current_user)
+    @diary_entry = DiaryEntry.new(entry_params)
+    @diary_entry.user = current_user
 
-        redirect_to :action => "index", :display_name => current_user.display_name
-      else
-        render :action => "edit"
-      end
-    else
+    if @diary_entry.save
       default_lang = current_user.preferences.where(:k => "diary.default_language").first
-      lang_code = default_lang ? default_lang.v : current_user.preferred_language
-      @diary_entry = DiaryEntry.new(entry_params.merge(:language_code => lang_code))
-      set_map_location
-      render :action => "edit"
+      if default_lang
+        default_lang.v = @diary_entry.language_code
+        default_lang.save!
+      else
+        current_user.preferences.create(:k => "diary.default_language", :v => @diary_entry.language_code)
+      end
+
+      # Subscribe user to diary comments
+      @diary_entry.subscriptions.create(:user => current_user)
+
+      redirect_to :action => "index", :display_name => current_user.display_name
+    else
+      render :action => "new"
     end
   end
 
@@ -47,13 +49,25 @@ class DiaryEntriesController < ApplicationController
     @title = t "diary_entries.edit.title"
     @diary_entry = DiaryEntry.find(params[:id])
 
+    redirect_to diary_entry_path(@diary_entry.user, @diary_entry) if current_user != @diary_entry.user
+
+    set_map_location
+  rescue ActiveRecord::RecordNotFound
+    render :action => "no_such_entry", :status => :not_found
+  end
+
+  def update
+    @title = t "diary_entries.edit.title"
+    @diary_entry = DiaryEntry.find(params[:id])
+
     if current_user != @diary_entry.user
       redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
     elsif params[:diary_entry] && @diary_entry.update(entry_params)
       redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
+    else
+      set_map_location
+      render :action => "edit"
     end
-
-    set_map_location
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
   end
