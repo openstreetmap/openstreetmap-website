@@ -14,7 +14,7 @@
 #
 # Indexes
 #
-#  changesets_bbox_idx                (min_lat,max_lat,min_lon,max_lon)
+#  changesets_bbox_idx                (min_lat,max_lat,min_lon,max_lon) USING gist
 #  changesets_closed_at_idx           (closed_at)
 #  changesets_created_at_idx          (created_at)
 #  changesets_user_id_created_at_idx  (user_id,created_at)

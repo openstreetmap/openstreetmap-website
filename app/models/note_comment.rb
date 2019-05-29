@@ -13,7 +13,7 @@
 #
 # Indexes
 #
-#  index_note_comments_on_body        (to_tsvector('english'::regconfig, body))
+#  index_note_comments_on_body        (to_tsvector('english'::regconfig, body)) USING gin
 #  index_note_comments_on_created_at  (created_at)
 #  note_comments_note_id_idx          (note_id)
 #
