@@ -216,9 +216,12 @@ OpenStreetMap::Application.routes.draw do
   post "/trace/:id/delete" => "traces#delete", :id => /\d+/
 
   # diary pages
-  resources :diary_entries, :path => "diary", :only => [:new, :create]
-  get "/diary/friends" => "diary_entries#index", :friends => true, :as => "friend_diaries"
-  get "/diary/nearby" => "diary_entries#index", :nearby => true, :as => "nearby_diaries"
+  resources :diary_entries, :path => "diary", :only => [:new, :create, :index] do
+    collection do
+      get "friends" => "diary_entries#index", :friends => true
+      get "nearby" => "diary_entries#index", :nearby => true
+    end
+  end
   get "/user/:display_name/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/diary/:language/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
@@ -226,7 +229,6 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/diary/comments/" => "diary_entries#comments"
   get "/user/:display_name/diary" => "diary_entries#index"
   get "/diary/:language" => "diary_entries#index"
-  get "/diary" => "diary_entries#index"
   scope "/user/:display_name" do
     resources :diary_entries, :path => "diary", :only => [:edit, :update, :show]
   end
