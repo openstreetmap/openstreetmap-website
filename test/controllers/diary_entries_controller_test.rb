@@ -279,9 +279,9 @@ class DiaryEntriesControllerTest < ActionController::TestCase
         :params => { :display_name => entry.user.display_name, :id => entry.id },
         :session => { :user => entry.user }
     assert_response :success
-    assert_select "title", :text => /Edit diary entry/, :count => 1
+    assert_select "title", :text => /Edit Diary Entry/, :count => 1
     assert_select "div.content-heading", :count => 1 do
-      assert_select "h1", :text => /Edit diary entry/, :count => 1
+      assert_select "h1", :text => /Edit Diary Entry/, :count => 1
     end
     assert_select "div#content", :count => 1 do
       assert_select "form[action='/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}'][method=post]", :count => 1 do
@@ -290,7 +290,7 @@ class DiaryEntriesControllerTest < ActionController::TestCase
         assert_select "select#diary_entry_language_code", :count => 1
         assert_select "input#latitude[name='diary_entry[latitude]']", :count => 1
         assert_select "input#longitude[name='diary_entry[longitude]']", :count => 1
-        assert_select "input[name=commit][type=submit][value=Save]", :count => 1
+        assert_select "input[name=commit][type=submit][value=Update]", :count => 1
         assert_select "input[name=commit][type=submit][value=Edit]", :count => 1
         assert_select "input[name=commit][type=submit][value=Preview]", :count => 1
         assert_select "input", :count => 8

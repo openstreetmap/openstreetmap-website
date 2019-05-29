@@ -9,39 +9,5 @@
 <%= error_messages_for "diary_entry" %>
 
 <%= form_for @diary_entry do |f| %>
-  <div class="diary_entry standard-form">
-    <fieldset>
-      <div class='form-row'>
-        <label class="standard-label"><%= t ".subject" -%></label>
-        <%= f.text_field :title, :class => "richtext_title" %>
-      </div>
-      <div class='form-row'>
-        <label class="standard-label"><%= t ".body" -%></label>
-        <%= richtext_area :diary_entry, :body, :cols => 80, :rows => 20, :format => @diary_entry.body_format %>
-      </div>
-      <div class='form-row'>
-        <label class="standard-label"><%= t ".language" -%></label>
-        <%= f.collection_select :language_code, Language.order(:english_name), :code, :name %>
-    </div>
-    </fieldset>
-    <fieldset class='location'>
-      <label class="standard-label"><%= t ".location" -%></label>
-      <%= content_tag "div", "", :id => "map", :data => { :lat => @lat, :lon => @lon, :zoom => @zoom } %>
-      <div class='form-row clearfix'>
-        <div class='form-column'>
-          <label class="secondary standard-label"><%= t ".latitude" -%></label>
-          <%= f.text_field :latitude, :size => 20, :id => "latitude" %>
-        </div>
-        <div class='form-column'>
-          <label class="secondary standard-label"><%= t ".longitude" -%></label>
-          <%= f.text_field :longitude, :size => 20, :id => "longitude" %>
-        </div>
-        <div class='form-column'>
-          <a href="#" id="usemap"><%= t ".use_map_link" -%></a>
-        </div>
-      </div>
-    </fieldset>
-
-    <%= submit_tag t("diary_entries.new.publish_button") %>
-  </div>
+  <%= render :partial => "form", :locals =>  { :f => f } %>
 <% end %>
