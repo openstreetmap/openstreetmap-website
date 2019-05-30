@@ -11,6 +11,11 @@ ast:
   time:
     formats:
       friendly: '%e de %B de %Y a les %H:%M'
+  helpers:
+    submit:
+      diary_entry:
+        create: Espublizar
+        update: Anovar
   activerecord:
     errors:
       messages:
@@ -293,7 +298,14 @@ ast:
   diary_entries:
     new:
       title: Nueva entrada del diariu
-      publish_button: Espublizar
+    form:
+      subject: 'Asuntu:'
+      body: 'Cuerpu:'
+      language: 'Llingua:'
+      location: 'Allugamientu:'
+      latitude: 'Llatitú:'
+      longitude: 'Llonxitú:'
+      use_map_link: usar mapa
     index:
       title: Diarios d'usuarios
       title_friends: Diarios de collacios
@@ -307,15 +319,7 @@ ast:
       older_entries: Entraes anteriores
       newer_entries: Entraes más nueves
     edit:
-      title: Editar entrada del diariu
-      subject: 'Asuntu:'
-      body: 'Cuerpu:'
-      language: 'Llingua:'
-      location: 'Allugamientu:'
-      latitude: 'Llatitú:'
-      longitude: 'Llonxitú:'
-      use_map_link: usar mapa
-      save_button: Guardar
+      title: Editar entrada del Diariu
       marker_text: Allugamientu de la entrada del diariu
     show:
       title: Diariu de %{user} | %{title}
@@ -1101,6 +1105,7 @@ ast:
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: asociaos
+    tou: Condiciones d'usu
     osm_offline: La base de datos d'OpenStreetMap anguaño ta desconectada mentanto
       se faen trabayos esenciales de mantenimientu de la base de datos.
     osm_read_only: La base de datos d'OpenStreetMap anguaño ta en mou de sólo llectura
@@ -1333,7 +1338,8 @@ ast:
       legal_html: "Esti sitiu y munchos otros servicios rellacionaos xestiónalos formalmente
         la  \n<a href='https://osmfoundation.org/'>Fundación OpenStreetMap</a> (OSMF)
         \nnel nome de la comunidá. L'usu de tolos servicios alministraos pola OSMF
-        tán suxetos a les nueses <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">polítiques
+        tán suxetos a les nueses <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">Condiciones
+        d'usu</a>,<a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">polítiques
         d'usu aceptable</a> y la nuesa <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">política
         de privacidá</a>\n<br>\n<a href='https://osmfoundation.org/Contact'>Comunícate
         cola OSMF</a> \nsi tienes entrugues relativos a les llicencies, drechos d'autor
@@ -2087,14 +2093,16 @@ ast:
         Pa más información llei <a href="%{url}">esta páxina wiki</a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Condiciones de collaboración
-      heading: Condiciones de collaboración
-      consider_pd: Amás del alcuerdu anterior, considero que les mios collaboraciones
-        pasen a ser Dominiu Públicu
+      title: Condiciones
+      heading: Condiciones
+      heading_ct: Condiciones de collaboración
+      consider_pd: Amás de lo anterior, considero que les mios collaboraciones pasen
+        a ser Dominiu Públicu
       consider_pd_why: ¿qué ye esto?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Información p''ayudar a entender estos términos: un <a href="%{summary}">resume</a>
         y delles <a href="%{translations}">traducciones non oficiales</a>'
+      continue: Siguir
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Refugar
       you need to accept or decline: Por favor, llei y aceuta o refuga les nueves
@@ -2515,6 +2523,8 @@ ast:
         title: Capes
       copyright: © <a href='%{copyright_url}'>collaboradores d'OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Faiga una donación</a>
+      terms: <a href='%{terms_url}' target='_blank'>Condiciones del sitiu web y de
+        la API</a>
     site:
       edit_tooltip: Editar el mapa
       edit_disabled_tooltip: Aumenta pa editar el mapa

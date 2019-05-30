@@ -37,6 +37,11 @@ ko:
     formats:
       friendly: '%Y년 %B %e일 %H:%M'
       blog: '%Y년 %B %e일'
+  helpers:
+    submit:
+      diary_entry:
+        create: 게시
+        update: 업데이트
   activerecord:
     errors:
       messages:
@@ -312,7 +317,14 @@ ko:
   diary_entries:
     new:
       title: 새 일기 항목
-      publish_button: 게시
+    form:
+      subject: '제목:'
+      body: '본문:'
+      language: '언어:'
+      location: '위치:'
+      latitude: '위도:'
+      longitude: '경도:'
+      use_map_link: 지도 사용
     index:
       title: 사용자의 일기
       title_friends: 친구의 일기
@@ -327,14 +339,6 @@ ko:
       newer_entries: 다음 항목
     edit:
       title: 일기 항목 수정
-      subject: '제목:'
-      body: '본문:'
-      language: '언어:'
-      location: '위치:'
-      latitude: '위도:'
-      longitude: '경도:'
-      use_map_link: 지도 사용
-      save_button: 저장
       marker_text: 일기 항목 위치
     show:
       title: '%{user}의 일기 | %{title}'
@@ -1347,7 +1351,7 @@ ko:
           커먼즈 오픈 데이터베이스 라이선스</a>(ODbL)에 따라 사용할 수 있습니다.
         intro_2_html: |-
           OpenStreetMap 기여자를 명시하는 한, OpenStreetMap 데이터를 자유롭게 복사, 배포, 전송 및 적용할 수 있습니다.
-          데이터를 바꾸거나 데이터에 기초로 할 때는 오로지
+          데이터를 바꾸거나 데이터를 기초로 작업할 때는 오로지
           같은 라이선스에 따라서만 결과를 배포할 수 있습니다.
           <a href="https://opendatacommons.org/licenses/odbl/1.0/">전문</a>은
           당신의 권리와 책임을 설명합니다.
@@ -1358,8 +1362,8 @@ ko:
         credit_title_html: OpenStreetMap 제작진 넣는 방법
         credit_1_html: '&ldquo;&copy; OpenStreetMap 기여자&rdquo;를 저작자로 사용해야 합니다.'
         credit_2_html: |-
-          또한 명확하게 데이터는 오픈 데이터베이스 라이선스에 따라 사용할 수 있으며,
-          지도 제작은 지도 타일을 사용할 때에 CC-BY-SA로 허가합니다.
+          또한 데이터는 오픈 데이터베이스 라이선스에 따라 사용할 수 있으며, 지도 제작은
+          지도 타일을 사용할 때에 CC-BY-SA로 허가한다는 내용을 명확하게 통지해야 합니다.
           <a href="https://www.openstreetmap.org/copyright">이 저작권 문서</a>로
           링크하여 이렇게 할 수 있습니다.
           또한 데이터 형식으로 OSM을 배포할 때는 라이선스 이름과
@@ -1419,7 +1423,7 @@ ko:
         contributors_za_html: |-
           <strong>남아프리카 공화국</strong>: <a href="http://www.ngi.gov.za/">Chief Directorate:
           National Geo-Spatial Information</a>에서의 데이터를
-          포함합니다. State가 저작권을 소유합니다.
+          포함합니다. 국가가 저작권을 소유합니다.
         contributors_gb_html: |-
           <strong>영국</strong>: 육지 측량 데이터
           &copy; Crown 저작권 및 데이터베이스 권리
@@ -1706,9 +1710,9 @@ ko:
       questions:
         title: 질문이 있습니까?
         paragraph_1_html: |-
-          OpenStreetMap은 프로젝트에 대해 배우고, 질문을 묻고 답하고,
+          OpenStreetMap에는 프로젝트에 대해 배우고, 질문을 묻고 답하고,
           매핑 주제를 협력하여 토론하고 문서화하기 위한 여러 자료가 있습니다.
-          <a href='%{help_url}'>여기서 도움을 얻으세요</a>. OpenStreetMap에 기여하고 싶은 단체에 속하셨나요? <a href='https://welcome.openstreetmap.org/'>Welcome Mat</a>을 방문해보세요.
+          <a href='%{help_url}'>여기서 도움을 얻으세요</a>. OpenStreetMap에 기여할 계획을 가진 조직에 속해 있나요? <a href='https://welcome.openstreetmap.org/'>Welcome Mat</a>을 방문해보세요.
       start_mapping: 매핑 시작
       add_a_note:
         title: 편집할 시간이 없습니까? 참고를 추가하세요!

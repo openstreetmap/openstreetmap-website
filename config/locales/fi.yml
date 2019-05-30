@@ -43,6 +43,10 @@ fi:
     formats:
       friendly: '%e. %Bta %Y kello %H.%M'
       blog: '%e. %Bta %Y'
+  helpers:
+    submit:
+      diary_entry:
+        create: Julkaise
   activerecord:
     errors:
       messages:
@@ -327,7 +331,14 @@ fi:
   diary_entries:
     new:
       title: Uusi päiväkirjamerkintä
-      publish_button: Julkaise
+    form:
+      subject: 'Aihe:'
+      body: 'Teksti:'
+      language: 'Kieli:'
+      location: 'Sijainti:'
+      latitude: 'Leveyspiiri:'
+      longitude: 'Pituuspiiri:'
+      use_map_link: valitse kartalta
     index:
       title: Käyttäjien päiväkirjamerkinnät
       title_friends: Kaverien päiväkirjat
@@ -342,14 +353,6 @@ fi:
       newer_entries: Uudempia...
     edit:
       title: Muokkaa päiväkirjamerkintää
-      subject: 'Aihe:'
-      body: 'Teksti:'
-      language: 'Kieli:'
-      location: 'Sijainti:'
-      latitude: 'Leveyspiiri:'
-      longitude: 'Pituuspiiri:'
-      use_map_link: valitse kartalta
-      save_button: Tallenna
       marker_text: Päiväkirjamerkinnän sijainti
     show:
       title: Käyttäjän %{user} päiväkirja | %{title}

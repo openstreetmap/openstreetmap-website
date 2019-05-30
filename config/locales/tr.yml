@@ -43,6 +43,11 @@ tr:
   time:
     formats:
       friendly: '%e %B %Y saat %H.%M'
+  helpers:
+    submit:
+      diary_entry:
+        create: Yayınla
+        update: Güncelle
   activerecord:
     errors:
       messages:
@@ -335,7 +340,14 @@ tr:
   diary_entries:
     new:
       title: Yeni Günlük Girdisi
-      publish_button: Yayınla
+    form:
+      subject: 'Konu:'
+      body: 'Mesaj:'
+      language: 'Dil:'
+      location: 'Konum:'
+      latitude: 'Enlem:'
+      longitude: 'Boylam:'
+      use_map_link: haritayı kullan
     index:
       title: Kullanıcıların günlükleri
       title_friends: Arkadaşların günlükleri
@@ -349,15 +361,7 @@ tr:
       older_entries: Daha Eski Girdiler
       newer_entries: Daha Yeni Girdiler
     edit:
-      title: Günlük girdisi düzenle
-      subject: 'Konu:'
-      body: 'Mesaj:'
-      language: 'Dil:'
-      location: 'Konum:'
-      latitude: 'Enlem:'
-      longitude: 'Boylam:'
-      use_map_link: haritayı kullan
-      save_button: Kaydet
+      title: Günlük Girdisi Düzenle
       marker_text: Günlük girdisinin konumu
     show:
       title: '%{user} kullanıcısının günlüğü | %{title}'
@@ -1147,6 +1151,7 @@ tr:
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: ortaklar
+    tou: Kullanım Koşulları
     osm_offline: OpenStreetMap veritabanı bakım çalışmaları yürütüldüğü için veritabanı
       şu anda çevrimdışıdır.
     osm_read_only: OpenStreetMap veritabanı bakım çalışmaları yürütüldüğü için veritabanı
@@ -1392,8 +1397,10 @@ tr:
         Lisans sayfasına</a> göz atınız.
       legal_title: Yasal
       legal_html: |-
-        Bu site ve diğer pek çok ilgili hizmet resmi olarak <a href='https://osmfoundation.org/'>OpenStreetMap Vakfı</a> (OSMF) tarafından topluluk adına işletilmektedir. OSMF tarafından işletilen tüm servislerin kullanımı <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Kabul Edilebilir Kullanım Politikaları</a> ve <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Gizlilik Politikamızın</a> konusudur.
-        Lisanslama, telif hakkı veya diğer yasal sorularınız ve sorunlarınız varsa lütfen <a href='https://osmfoundation.org/Contact'>OSMF ile iletişime geçin</a>.
+        Bu site ve diğer pek çok ilgili hizmet resmi olarak <a href='https://osmfoundation.org/'>OpenStreetMap Vakfı</a> (OSMF) tarafından topluluk adına işletilmektedir. OSMF tarafından işletilen tüm servislerin kullanımı <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Kullanım Koşulları</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Kabul Edilebilir Kullanım Politikaları</a> ve <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Gizlilik Politikamızın</a> konusudur.
+        Lisanslama, telif hakkı veya diğer yasal sorularınız varsa lütfen <a href='https://osmfoundation.org/Contact'>OSMF ile iletişime geçin</a>.
+        <br>
+        OpenStreetMap, büyüteçli logosu ve Harita Devleti, <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">OSMF'nin tescilli ticari markalarıdır.</a>
       partners_title: Ortaklar
     copyright:
       foreign:
@@ -2158,14 +2165,26 @@ tr:
         fazla bilgi için lütfen <a href="%{url}">buradaki wiki sayfasına</a> bakınız.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Katılımcı Şartları
-      heading: Katılımcı Şartları
-      consider_pd: Yukarıdaki anlaşmaya ek olarak, katkılarınızın kamu malı olarak
-        kabul edilmesini de seçebilirsiniz
+      title: Koşullar
+      heading: Koşullar
+      heading_ct: Katılımcı Şartları
+      read and accept with tou: Lütfen katılımcı sözleşmesini ve kullanım koşullarını
+        okuyun, bittiğinde her iki onay kutusunu işaretleyin ve ardından devam düğmesine
+        basın.
+      contributor_terms_explain: Bu anlaşma, mevcut ve gelecekteki katkılarınız için
+        şartları düzenlemektedir.
+      read_ct: Yukarıdaki katılımcı şartlarını okudum ve kabul ediyorum
+      tou_explain_html: Bu %{tou_link}, OSMF tarafından sağlanan web sitesinin ve
+        diğer altyapıların kullanımını yönetmektedir. Lütfen bağlantıya tıklayın,
+        metni okuyun ve kabul edin.
+      read_tou: Kullanım Şartlarını okudum ve kabul ediyorum
+      consider_pd: Yukarıdakilere ek olarak katkılarınızın kamu malı olarak kabul
+        edilmesini de seçebilirsiniz
       consider_pd_why: bu nedir?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Buradaki bilgileri anlamanıza yardımcı olabilecek bilgiler:  <a href="%{summary}">okunabilir
         bir özet</a> ve ayrıca <a href="%{translations}">genel çeviriler</a>'
+      continue: Devam
       declined: |2-
 
         https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
@@ -2585,6 +2604,7 @@ tr:
         title: Katmanlar
       copyright: © <a href='%{copyright_url}'>OpenStreetMap katkıda bulunanları</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Bağış Yapın</a>
+      terms: <a href='%{terms_url}' target='_blank'>Web sitesi ve API şartları</a>
     site:
       edit_tooltip: Haritayı düzenle
       edit_disabled_tooltip: Haritayı düzenlemek için yakınlaştırın
