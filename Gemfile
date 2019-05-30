@@ -61,6 +61,7 @@ gem "rack-cors"
 gem "rails-i18n", "~> 4.0.0"
 gem "record_tag_helper"
 gem "rinku", ">= 2.0.6", :require => "rails_rinku"
+gem "strong_migrations"
 gem "validates_email_format_of", ">= 1.5.1"
 
 # Native OSM extensions
