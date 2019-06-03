@@ -44,6 +44,7 @@ fa:
     submit:
       diary_entry:
         create: انتشار
+        update: به‌روزرسانی
   activerecord:
     errors:
       messages:
@@ -1105,6 +1106,7 @@ fa:
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: شرکای تجاری
+    tou: شرایط استفاده
     osm_offline: دیتابیس OpenStreetMap در حال حاضر آفلاین است در حالی که کار تعمیر
       و نگهداری دیتابیس ضروری انجام میگیرد.
     osm_read_only: دیتابیس OpenStreetMap در حال حاضر روی حالت فقط خواندنی است در حالی
@@ -1345,8 +1347,8 @@ fa:
         حق‌نشر و پروانه</a> را ببینید.'
       legal_title: قانونی
       legal_html: |-
-        این سایت و خدمات فراوان دیگری که به آن وابسته‌اند به‌طور رسمی و به‌نمایندگی از جامعه توسط <a href='https://osmfoundation.org/'>بنیاد OpenStreetMap</a> ‏(OSMF) هدایت می‌شود. استفاده از همهٔ خدماتی که تحت رهبری OSMF قرار دارد منوط به <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
-        پذیرش سیاست‌های استفاده</a> و <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">سیاست حریم خصوصی</a> ماست.
+        این سایت و خدمات فراوان دیگری که به آن وابسته‌اند به‌طور رسمی و به‌نمایندگی از جامعه توسط <a href='https://osmfoundation.org/'>بنیاد OpenStreetMap</a> ‏(OSMF) هدایت می‌شود. استفاده از همهٔ خدماتی که تحت رهبری OSMF قرار دارد منوط به پذیرش <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        سیاست استفادهٔ قابل‌قبول</a>، <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">شرایط استفاده</a> و <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">سیاست حریم خصوصی</a> ماست.
         <br>
         اگر در رابطه با پروانه، حق‌نشر یا سایر موارد قانونی سؤالی دارید لطفاً <a href='https://osmfoundation.org/Contact'>با OSMF تماس بگیرید</a>.
         <br>
@@ -1449,7 +1451,7 @@ fa:
           Information</a>، حق‌نشر State محفوظ است."
         contributors_gb_html: |-
           <strong>پادشاهی بریتانیا</strong>: شامل داده‌های Ordnance
-          Survey &copy;‏ حق‌نشر و حق پایگاه‌داده Crown‏ ۲۰۱۰-۱۲.
+          Survey &copy;‏ حق‌نشر و حق پایگاه‌داده Crown‏ ۲۰۱۰-۱۹.
         contributors_footer_1_html: |-
           برای اطلاعات بیشتر درباره این‌ها و سایر منابعی که برای پیشرفت اوپن‌استریت‌مپ استفاده شده، لطفاً <a
           href="https://wiki.openstreetmap.org/wiki/Contributors">صفحهٔ مشارکت‌کنندگان</a> را در ویکی ببینید.
@@ -2097,6 +2099,11 @@ fa:
     terms:
       title: شرایط
       heading: شرایط
+      heading_ct: شرایط مشارکت‌کننده
+      read and accept with tou: لطفاً توافق‌نامهٔ مشارکت‌کننده و شرایط استفاده را
+        مطالعه کنید و هر دو گزینه را علامت بزنید و سپس روی دکمهٔ ادامه کلیک کنید.
+      read_ct: شرایط مشارکت‌کننده را خواندم و با آن موافق هستم
+      read_tou: شرایط استفاده را خواندم و با آن موافق هستم
       consider_pd: علاوه بر موارد بالا، می‌پذیرم که مشارکت‌هایم در مالکیت عمومی باشد.
       consider_pd_why: این چیست؟
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
@@ -2234,7 +2241,7 @@ fa:
         link text: این چیست؟
         disabled: گرآواتار غیرفعال شده است.
         enabled: نمایش گرآواتار شما فعال شد.
-      new image: افزون تصویر
+      new image: افزودن تصویر
       keep image: نگه‌داشتن تصویر فعلی
       delete image: حذف تصویر فعلی
       replace image: ' تصویر فعلی را جایگزین کنید'
@@ -2404,15 +2411,16 @@ fa:
       confirm: مطمئنید می‌خواهید این مسدودی را لغو کنید؟
       revoke: باطل شود!
       flash: این مسدودی لغو شد.
-    period:
-      one: 1 ساعت
-      other: '%{count} ساعت'
     helper:
       time_future: '%{time} دیگر پایان می‌یابد.'
       until_login: تا وقتی کاربر وارد شود فعال می‌ماند.
       time_future_and_until_login: '%{time} دیگر و پس از ورود به حساب کاربری پایان
         می‌یابد.'
       time_past: '%{time} پیش پایان یافت.'
+      block_duration:
+        hours:
+          one: 1 ساعت
+          other: '%{count} ساعت'
     blocks_on:
       title: مسدودی‌های کاربری %{name}
       heading: فهرست مسدودی‌های %{name}
@@ -2511,6 +2519,7 @@ fa:
         title: لایه‌ها
       copyright: © <a href='%{copyright_url}'>مشارکت‌کنندگان OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>کمک مالی</a>
+      terms: <a href='%{terms_url}' target='_blank'>شرایط وبسایت و API</a>
     site:
       edit_tooltip: ویرایش نقشه
       edit_disabled_tooltip: برای ویرایش نقشه بزرگنمایی کنید
