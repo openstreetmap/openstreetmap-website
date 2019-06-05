@@ -9,7 +9,11 @@
   <div class="richtext"><%= diary_comment.body.to_html %></div>
   <% if current_user && current_user.administrator? %>
     <span>
-      <%= link_to t(".hide_link"), hide_diary_comment_path(:display_name => diary_comment.diary_entry.user.display_name, :id => diary_comment.diary_entry.id, :comment => diary_comment.id), :method => :post, :data => { :confirm => t(".confirm") } %>
+      <% if diary_comment.visible? %>
+        <%= link_to t(".hide_link"), hide_diary_comment_path(:display_name => diary_comment.diary_entry.user.display_name, :id => diary_comment.diary_entry.id, :comment => diary_comment.id), :method => :post, :data => { :confirm => t(".confirm") } %>
+      <% else %>
+        <%= link_to t(".unhide_link"), unhide_diary_comment_path(:display_name => diary_comment.diary_entry.user.display_name, :id => diary_comment.diary_entry.id, :comment => diary_comment.id), :method => :post, :data => { :confirm => t(".confirm") } %>
+      <% end %>
     </span>
   <% end %>
 </div>

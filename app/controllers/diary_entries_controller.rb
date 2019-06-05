@@ -226,6 +226,12 @@ class DiaryEntriesController < ApplicationController
     redirect_to diary_entry_path(comment.diary_entry.user, comment.diary_entry)
   end
 
+  def unhidecomment
+    comment = DiaryComment.find(params[:comment])
+    comment.update(:visible => true)
+    redirect_to diary_entry_path(comment.diary_entry.user, comment.diary_entry)
+  end
+
   def comments
     @comment_pages, @comments = paginate(:diary_comments,
                                          :conditions => {

@@ -94,6 +94,10 @@ class DiaryEntriesControllerTest < ActionController::TestCase
       { :controller => "diary_entries", :action => "hidecomment", :display_name => "username", :id => "1", :comment => "2" }
     )
     assert_routing(
+      { :path => "/user/username/diary/1/unhidecomment/2", :method => :post },
+      { :controller => "diary_entries", :action => "unhidecomment", :display_name => "username", :id => "1", :comment => "2" }
+    )
+    assert_routing(
       { :path => "/user/username/diary/1/subscribe", :method => :post },
       { :controller => "diary_entries", :action => "subscribe", :display_name => "username", :id => "1" }
     )
@@ -807,6 +811,34 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
     assert_equal false, DiaryComment.find(diary_comment.id).visible
+  end
+
+  def test_unhidecomment
+    user = create(:user)
+    administrator_user = create(:administrator_user)
+    diary_entry = create(:diary_entry, :user => user)
+    diary_comment = create(:diary_comment, :diary_entry => diary_entry, :visible => false)
+    # Try without logging in
+    post :unhidecomment,
+         :params => { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id }
+    assert_response :forbidden
+    assert_equal false, DiaryComment.find(diary_comment.id).visible
+
+    # Now try as a normal user
+    post :unhidecomment,
+         :params => { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id },
+         :session => { :user => user }
+    assert_response :redirect
+    assert_redirected_to :controller => :errors, :action => :forbidden
+    assert_equal false, DiaryComment.find(diary_comment.id).visible
+
+    # Finally try as an administrator
+    post :unhidecomment,
+         :params => { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id },
+         :session => { :user => administrator_user }
+    assert_response :redirect
+    assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
+    assert_equal true, DiaryComment.find(diary_comment.id).visible
   end
 
   def test_comments
