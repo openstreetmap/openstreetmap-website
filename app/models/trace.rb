@@ -43,12 +43,7 @@ class Trace < ActiveRecord::Base
   validates :timestamp, :presence => true
   validates :visibility, :inclusion => %w[private public trackable identifiable]
 
-  def destroy
-    super
-    FileUtils.rm_f(trace_name)
-    FileUtils.rm_f(icon_picture_name)
-    FileUtils.rm_f(large_picture_name)
-  end
+  after_destroy :remove_files
 
   def tagstring
     tags.collect(&:tag).join(", ")
@@ -342,5 +337,13 @@ class Trace < ActiveRecord::Base
     logger.info "done trace #{id}"
 
     gpx
+  end
+
+  private
+
+  def remove_files
+    FileUtils.rm_f(trace_name)
+    FileUtils.rm_f(icon_picture_name)
+    FileUtils.rm_f(large_picture_name)
   end
 end
