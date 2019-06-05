@@ -157,7 +157,7 @@ class DiaryEntriesController < ApplicationController
     @page = (params[:page] || 1).to_i
     @page_size = 20
 
-    @entries = @entries.visible
+    @entries = @entries.visible unless current_user&.administrator?
     @entries = @entries.order("created_at DESC")
     @entries = @entries.offset((@page - 1) * @page_size)
     @entries = @entries.limit(@page_size)
