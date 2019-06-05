@@ -39,7 +39,11 @@
 
     <% if current_user && current_user.administrator? %>
       <li>
-        <%= link_to t(".hide_link"), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t(".confirm") } %>
+        <% if diary_entry.visible %>
+          <%= link_to t(".hide_link"), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t(".confirm") } %>
+        <% else %>
+          <%= link_to t(".unhide_link"), unhide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t(".confirm") } %>
+        <% end %>
       </li>
     <% end %>
   </ul>

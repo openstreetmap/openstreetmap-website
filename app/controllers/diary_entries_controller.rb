@@ -214,6 +214,12 @@ class DiaryEntriesController < ApplicationController
     redirect_to :action => "index", :display_name => entry.user.display_name
   end
 
+  def unhide
+    entry = DiaryEntry.find(params[:id])
+    entry.update(:visible => true)
+    redirect_to :action => "index", :display_name => entry.user.display_name
+  end
+
   def hidecomment
     comment = DiaryComment.find(params[:comment])
     comment.update(:visible => false)
