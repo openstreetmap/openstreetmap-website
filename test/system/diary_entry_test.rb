@@ -43,4 +43,22 @@ class DiaryEntrySystemTest < ApplicationSystemTestCase
 
     assert_not page.has_content? @deleted_entry.title
   end
+
+  test "deleted diary comments should be hidden for regular users" do
+    @deleted_comment = create(:diary_comment, :diary_entry => @diary_entry, :visible => false)
+
+    sign_in_as(create(:user))
+    visit diary_entry_path(@diary_entry.user, @diary_entry)
+
+    assert_not page.has_content? @deleted_comment.body
+  end
+
+  test "deleted diary comments should be shown to administrators" do
+    @deleted_comment = create(:diary_comment, :diary_entry => @diary_entry, :visible => false)
+
+    sign_in_as(create(:administrator_user))
+    visit diary_entry_path(@diary_entry.user, @diary_entry)
+
+    assert page.has_content? @deleted_comment.body
+  end
 end

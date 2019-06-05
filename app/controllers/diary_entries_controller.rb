@@ -74,6 +74,7 @@ class DiaryEntriesController < ApplicationController
 
   def comment
     @entry = DiaryEntry.find(params[:id])
+    @comments = @entry.visible_comments
     @diary_comment = @entry.comments.build(comment_params)
     @diary_comment.user = current_user
     if @diary_comment.save
@@ -202,6 +203,7 @@ class DiaryEntriesController < ApplicationController
     @entry = @user.diary_entries.visible.where(:id => params[:id]).first
     if @entry
       @title = t "diary_entries.show.title", :user => params[:display_name], :title => @entry.title
+      @comments = current_user&.administrator? ? @entry.comments : @entry.visible_comments
     else
       @title = t "diary_entries.no_such_entry.title", :id => params[:id]
       render :action => "no_such_entry", :status => :not_found
