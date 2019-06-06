@@ -44,6 +44,7 @@ da:
     errors:
       messages:
         invalid_email_address: ser ikke ud til at være en gyldig e-mailadresse
+        email_address_not_routable: kan ikke rutes
     models:
       acl: Adgangskontrolliste
       changeset: Ændringssæt
@@ -344,7 +345,7 @@ da:
       older_entries: Ældre indlæg
       newer_entries: Nyere indlæg
     edit:
-      title: Ret blogindlæg
+      title: Rediger blogindlæg
       marker_text: Placering for blogindlæg
     show:
       title: '%{user}''s blog | %{title}'
@@ -1368,12 +1369,13 @@ da:
         den samme licens. Se siden om <a href='%{copyright_path}'>ophavsret og licens</a> for detaljer.
       legal_title: Juridisk
       legal_html: "Dette websted og mange andre relaterede tjenester er formelt drevet
-        af \n<a href=\"https://osmfoundation.org/\">OpenStreetMap Foundation</a> (OSMF)
-        på vegne af fællesskabet. Brug af alle OSMF-drevne tjenester er underlagt
-        vores <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">Politikker
+        af\n<a href=\"https://osmfoundation.org/\">OpenStreetMap Foundation</a> (OSMF)
+        på vegne af fællesskabet. Brug af samtlige OSMF-drevne tjenester er underlagt
+        vores <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">Brugsvilkår,
+        <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">Politikker
         for acceptabel brug</a> og vores <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">Privatlivs-poltik</a>.\n<br>
         \nDu bedes <a href=\"https://osmfoundation.org/Contact\">kontakte OSMF</a>
-        \nhvis du har spørgsmål om licenser, ophavsret eller andre juridiske spørgsmål
+        \nhvis du har spørgsmål om licensering, ophavsret eller andre juridiske spørgsmål
         og problemstillinger.\n<br>\nOpenStreetMap, forstørrelsesglas-logoet og \"State
         of the Map\" er <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">varemærker
         registreret af OSMF</a>."
@@ -1473,6 +1475,10 @@ da:
           <a href="http://www.gu.gov.si/en/">Opmålings- og Kortlægnings-myndigheden</a> og
           <a href="http://www.mkgp.gov.si/en/">Ministeriet for Landbrug, Skovbrug og Fødevarer</a>
           (offentlig information Slovenien).
+        contributors_es_html: |-
+          <strong>Spanien</strong>: Indeholder data fra Spanish National Geographic Institute (<a href="http://www.ign.es/">IGN</a>) og
+          National Cartographic System (<a href="http://www.scne.es/">SCNE</a>)
+          licenseret for videre brug under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
         contributors_za_html: |-
           <strong>Syd Afrika</strong>: Indeholder data fra
           <a href="http://www.ngi.gov.za/">Chief Directorate:
@@ -1480,7 +1486,7 @@ da:
         contributors_gb_html: |-
           <strong>Storbritannien</strong>: indeholder Ordnance
           Survey data &copy; Crown copyright and database right
-          2010-12.
+          2010-19.
         contributors_footer_1_html: |-
           For yderligere oplysninger om disse og andre kilder, der er blevet brugt for at hjælpe med at forbedre OpenStreetMap, se venligst <a
           href="https://wiki.openstreetmap.org/wiki/Contributors">siden med bidragsydere</a> på OpenStreetMap Wiki.
@@ -1731,7 +1737,7 @@ da:
       edit: Redigér
       preview: Forhåndsvisning
     markdown_help:
-      title_html: Fortolket med <a href="https://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Fortolket med <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Overskrifter
       heading: Overskrift
       subheading: Underoverskrift
@@ -2132,8 +2138,18 @@ da:
     terms:
       title: Vilkår
       heading: Vilkår
-      consider_pd: I tillæg til ovennævnte aftale anser jeg mit bidrag for at være
-        fælleseje/frit for ophavsret
+      heading_ct: Vilkår for bidragsydere
+      read and accept with tou: Læs venligst vilkårene for bidragsydere og brugsvilkårene,
+        marker begge flueben når du er færdig og tryk fortsæt.
+      contributor_terms_explain: Denne aftale beskriver vilkårene for dine eksisterende
+        og fremtidige bidrag.
+      read_ct: Jeg har læst og samtykker med de ovenstående vilkår for bidragsydere
+      tou_explain_html: Disse %{tou_link} beskriver vilkårene for brug af denne hjemmeside
+        og anden infrastruktur stillet til rådighed af OSMF. Klik venligst på linket,
+        læs og samtyk med vilkårene.
+      read_tou: Jeg har læst og samtykker med brugsvilkårene
+      consider_pd: I tillæg til ovennævnte anser jeg mit bidrag for at være fælleseje/frit
+        for ophavsret (public domain)
       consider_pd_why: hvad er dette?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Oplysninger til at hjælpe med at forstå disse udtryk: et <a href="%{summary}">menneskeligt
@@ -2457,6 +2473,18 @@ da:
         hours:
           one: 1 time
           other: '%{count} timer'
+        days:
+          one: 1 dag
+          other: '%{count} dage'
+        weeks:
+          one: 1 uge
+          other: '%{count} uger'
+        months:
+          one: 1 måned
+          other: '%{count} måneder'
+        years:
+          one: 1 år
+          other: '%{count} år'
     blocks_on:
       title: Blokeringer af %{name}
       heading: Liste over blokeringer af %{name}
@@ -2555,6 +2583,7 @@ da:
         title: Lag
       copyright: © <a href='%{copyright_url}'>OpenStreetMap-bidragsydere</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Lav en donation</a>
+      terms: <a href='%{terms_url}' target='_blank'>Hjemmeside og API-vilkår</a>
     site:
       edit_tooltip: Rediger kortet
       edit_disabled_tooltip: Zoom ind for at redigere kortet
@@ -2592,7 +2621,9 @@ da:
     directions:
       ascend: Stigning
       engines:
+        fossgis_osrm_bike: Cykel (OSRM)
         fossgis_osrm_car: Bil (OSRM)
+        fossgis_osrm_foot: Til fods (OSRM)
         graphhopper_bicycle: Cykel (GraphHopper)
         graphhopper_car: Bil (GraphHopper)
         graphhopper_foot: Til fods (GrapHopper)
