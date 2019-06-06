@@ -74,6 +74,7 @@ class DiaryEntriesController < ApplicationController
 
   def comment
     @entry = DiaryEntry.find(params[:id])
+    @comments = @entry.visible_comments
     @diary_comment = @entry.comments.build(comment_params)
     @diary_comment.user = current_user
     if @diary_comment.save
@@ -157,7 +158,7 @@ class DiaryEntriesController < ApplicationController
     @page = (params[:page] || 1).to_i
     @page_size = 20
 
-    @entries = @entries.visible
+    @entries = @entries.visible unless current_user&.administrator?
     @entries = @entries.order("created_at DESC")
     @entries = @entries.offset((@page - 1) * @page_size)
     @entries = @entries.limit(@page_size)
@@ -202,6 +203,7 @@ class DiaryEntriesController < ApplicationController
     @entry = @user.diary_entries.visible.where(:id => params[:id]).first
     if @entry
       @title = t "diary_entries.show.title", :user => params[:display_name], :title => @entry.title
+      @comments = current_user&.administrator? ? @entry.comments : @entry.visible_comments
     else
       @title = t "diary_entries.no_such_entry.title", :id => params[:id]
       render :action => "no_such_entry", :status => :not_found
@@ -214,9 +216,21 @@ class DiaryEntriesController < ApplicationController
     redirect_to :action => "index", :display_name => entry.user.display_name
   end
 
+  def unhide
+    entry = DiaryEntry.find(params[:id])
+    entry.update(:visible => true)
+    redirect_to :action => "index", :display_name => entry.user.display_name
+  end
+
   def hidecomment
     comment = DiaryComment.find(params[:comment])
     comment.update(:visible => false)
+    redirect_to diary_entry_path(comment.diary_entry.user, comment.diary_entry)
+  end
+
+  def unhidecomment
+    comment = DiaryComment.find(params[:comment])
+    comment.update(:visible => true)
     redirect_to diary_entry_path(comment.diary_entry.user, comment.diary_entry)
   end
 

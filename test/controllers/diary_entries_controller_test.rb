@@ -86,8 +86,16 @@ class DiaryEntriesControllerTest < ActionController::TestCase
       { :controller => "diary_entries", :action => "hide", :display_name => "username", :id => "1" }
     )
     assert_routing(
+      { :path => "/user/username/diary/1/unhide", :method => :post },
+      { :controller => "diary_entries", :action => "unhide", :display_name => "username", :id => "1" }
+    )
+    assert_routing(
       { :path => "/user/username/diary/1/hidecomment/2", :method => :post },
       { :controller => "diary_entries", :action => "hidecomment", :display_name => "username", :id => "1", :comment => "2" }
+    )
+    assert_routing(
+      { :path => "/user/username/diary/1/unhidecomment/2", :method => :post },
+      { :controller => "diary_entries", :action => "unhidecomment", :display_name => "username", :id => "1", :comment => "2" }
     )
     assert_routing(
       { :path => "/user/username/diary/1/subscribe", :method => :post },
@@ -750,6 +758,33 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     assert_equal false, DiaryEntry.find(diary_entry.id).visible
   end
 
+  def test_unhide
+    user = create(:user)
+
+    # Try without logging in
+    diary_entry = create(:diary_entry, :user => user, :visible => false)
+    post :unhide,
+         :params => { :display_name => user.display_name, :id => diary_entry.id }
+    assert_response :forbidden
+    assert_equal false, DiaryEntry.find(diary_entry.id).visible
+
+    # Now try as a normal user
+    post :unhide,
+         :params => { :display_name => user.display_name, :id => diary_entry.id },
+         :session => { :user => user }
+    assert_response :redirect
+    assert_redirected_to :controller => :errors, :action => :forbidden
+    assert_equal false, DiaryEntry.find(diary_entry.id).visible
+
+    # Finally try as an administrator
+    post :unhide,
+         :params => { :display_name => user.display_name, :id => diary_entry.id },
+         :session => { :user => create(:administrator_user) }
+    assert_response :redirect
+    assert_redirected_to :action => :index, :display_name => user.display_name
+    assert_equal true, DiaryEntry.find(diary_entry.id).visible
+  end
+
   def test_hidecomment
     user = create(:user)
     administrator_user = create(:administrator_user)
@@ -776,6 +811,34 @@ class DiaryEntriesControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
     assert_equal false, DiaryComment.find(diary_comment.id).visible
+  end
+
+  def test_unhidecomment
+    user = create(:user)
+    administrator_user = create(:administrator_user)
+    diary_entry = create(:diary_entry, :user => user)
+    diary_comment = create(:diary_comment, :diary_entry => diary_entry, :visible => false)
+    # Try without logging in
+    post :unhidecomment,
+         :params => { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id }
+    assert_response :forbidden
+    assert_equal false, DiaryComment.find(diary_comment.id).visible
+
+    # Now try as a normal user
+    post :unhidecomment,
+         :params => { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id },
+         :session => { :user => user }
+    assert_response :redirect
+    assert_redirected_to :controller => :errors, :action => :forbidden
+    assert_equal false, DiaryComment.find(diary_comment.id).visible
+
+    # Finally try as an administrator
+    post :unhidecomment,
+         :params => { :display_name => user.display_name, :id => diary_entry.id, :comment => diary_comment.id },
+         :session => { :user => administrator_user }
+    assert_response :redirect
+    assert_redirected_to :action => :show, :display_name => user.display_name, :id => diary_entry.id
+    assert_equal true, DiaryComment.find(diary_comment.id).visible
   end
 
   def test_comments
