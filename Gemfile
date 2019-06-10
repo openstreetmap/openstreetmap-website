@@ -118,7 +118,7 @@ gem "canonical-rails"
 gem "logstasher"
 
 # Used to generate images for traces
-gem "gd2-ffij"
+gem "gd2-ffij", ">= 0.4.0"
 
 # Used for browser detection
 gem "browser"
