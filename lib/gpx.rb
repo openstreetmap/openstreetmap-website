@@ -12,17 +12,7 @@ module GPX
       @file = file
     end
 
-    def points
-      return enum_for(:points) unless block_given?
-
-      @possible_points = 0
-      @actual_points = 0
-      @tracksegs = 0
-
-      @file.rewind
-
-      reader = XML::Reader.io(@file)
-
+    def parse_file(reader)
       point = nil
 
       while reader.read
@@ -44,6 +34,29 @@ module GPX
             @tracksegs += 1
           end
         end
+      end
+    end
+
+    def points(&block)
+      return enum_for(:points) unless block_given?
+
+      @possible_points = 0
+      @actual_points = 0
+      @tracksegs = 0
+
+      begin
+        Archive::Reader.open_filename(@file).each_entry_with_data do |_entry, data|
+          parse_file(XML::Reader.string(data), &block)
+        end
+      rescue Archive::Error
+        io = ::File.open(@file)
+
+        case MimeMagic.by_magic(io).type
+        when "application/gzip" then io = Zlib::GzipReader.open(@file)
+        when "application/x-bzip" then io = Bzip2::FFI::Reader.open(@file)
+        end
+
+        parse_file(XML::Reader.io(io), &block)
       end
     end
 
