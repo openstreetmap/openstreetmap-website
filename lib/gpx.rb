@@ -114,6 +114,7 @@ module GPX
       end
 
       image = GD2::AnimatedGif.new
+      image.add(frames.first)
       frames.each do |frame|
         image.add(frame, :delay => delay)
       end
