@@ -66,7 +66,7 @@ module GPX
       height = 250
       delay = 50
 
-      points_per_frame = num_points / nframes
+      points_per_frame = (num_points.to_f / nframes).ceil
 
       proj = OSM::Mercator.new(min_lat, min_lon, max_lat, max_lon, width, height)
 
