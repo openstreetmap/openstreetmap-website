@@ -118,10 +118,10 @@ gem "canonical-rails"
 gem "logstasher"
 
 # Used to generate images for traces
-gem "mimemagic"
-gem "ffi-libarchive"
 gem "bzip2-ffi"
+gem "ffi-libarchive"
 gem "gd2-ffij", ">= 0.4.0"
+gem "mimemagic"
 
 # Used for browser detection
 gem "browser"
