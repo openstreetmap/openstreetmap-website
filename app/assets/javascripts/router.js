@@ -47,7 +47,7 @@
    move the map without the hash changing.
  */
 OSM.Router = function (map, rts) {
-  var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
+  var escapeRegExp  = /[-{}[\]+?.,\\^$|#\s]/g;
   var optionalParam = /\((.*?)\)/g;
   var namedParam    = /(\(\?)?:\w+/g;
   var splatParam    = /\*\w+/g;
@@ -57,7 +57,7 @@ OSM.Router = function (map, rts) {
       path.replace(escapeRegExp, "\\$&")
         .replace(optionalParam, "(?:$1)?")
         .replace(namedParam, function (match, optional) {
-          return optional ? match : "([^\/]+)";
+          return optional ? match : "([^/]+)";
         })
         .replace(splatParam, "(.*?)") + "(?:\\?.*)?$");
 

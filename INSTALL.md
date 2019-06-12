@@ -42,11 +42,11 @@ sudo gem2.5 install bundler
 For Fedora, you can install the minimum requirements with:
 
 ```
-sudo yum install ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems \
+sudo dnf install ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems \
                  libxml2-devel js \
                  gcc gcc-c++ git \
                  postgresql postgresql-server postgresql-contrib postgresql-devel \
-                 perl-podlators ImageMagick libffi-devel
+                 perl-podlators ImageMagick libffi-devel nodejs-yarn
 ```
 
 If you didn't already have PostgreSQL installed then create a PostgreSQL instance and start the server:
@@ -112,6 +112,14 @@ We use [Bundler](http://gembundler.com/) to manage the rubygems required for the
 ```
 cd openstreetmap-website
 bundle install
+```
+
+## Node.js modules
+
+We use [Yarn](https://yarnpkg.com/) to manage the Node.js modules required for the project.
+
+```
+bundle exec rake yarn:install
 ```
 
 ## Database setup
