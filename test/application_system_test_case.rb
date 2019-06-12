@@ -18,4 +18,10 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       .to_return(:status => 404)
     super(*args)
   end
+
+  # Phantomjs can pick up browser Accept-Language preferences from your desktop environment.
+  # We don't want this to happen during the tests!
+  setup do
+    page.driver.add_headers("Accept-Language" => "en")
+  end
 end
