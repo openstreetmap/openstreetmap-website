@@ -78,7 +78,7 @@ class IssuesTest < ApplicationSystemTestCase
     visit issue_path(issue)
 
     fill_in :issue_comment_body, :with => "test comment"
-    click_on "Submit"
+    click_on "Add Comment"
     assert page.has_content?(I18n.t("issue_comments.create.comment_created"))
     assert page.has_content?("test comment")
 
@@ -95,7 +95,7 @@ class IssuesTest < ApplicationSystemTestCase
 
     fill_in :issue_comment_body, :with => "reassigning to moderators"
     check :reassign
-    click_on "Submit"
+    click_on "Add Comment"
 
     issue.reload
     assert_equal "moderator", issue.assigned_role
