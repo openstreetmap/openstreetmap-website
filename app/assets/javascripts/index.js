@@ -393,4 +393,25 @@ $(document).ready(function () {
     if (OSM.router.route(this.pathname + this.search + this.hash))
       e.preventDefault();
   });
+
+  // Find the OHM layer
+  var ohmLayer = map._layers[Object.keys(map._layers).filter(function(id) {
+    return map._layers[id].options.keyid === 'historical';
+  })[0]];
+
+  // Define the slider options
+  var sliderOptions ={
+    position: 'bottomright',
+    mbgllayer: ohmLayer,
+    timeSliderOptions: {
+      sourcename: "ohm-data",
+      date: 1850,
+      datespan: [1800, 2000],
+      datelimit: [1600, 2100]
+    }
+  }
+
+  // Add the slider
+  var slider = new L.Control.MBGLTimeSlider(sliderOptions).addTo(map);
+
 });
