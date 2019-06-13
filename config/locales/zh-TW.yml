@@ -40,9 +40,25 @@ zh-TW:
       blog: '%Y年%B%e日'
   helpers:
     submit:
+      diary_comment:
+        create: 儲存
       diary_entry:
         create: 發佈
         update: 更新
+      message:
+        create: 寄出
+      client_application:
+        create: 註冊
+        update: 編輯
+      redaction:
+        create: 建立修訂
+        update: 儲存修訂
+      trace:
+        create: 上傳
+        update: 儲存變更
+      user_block:
+        create: 建立封鎖
+        update: 更新封鎖
   activerecord:
     errors:
       messages:
@@ -299,7 +315,7 @@ zh-TW:
       no_more_user: 此使用者沒有更多變更集。
       load_more: 載入更多
     timeout:
-      sorry: 很抱歉，您請求的變更集清單逾時無法讀取。
+      sorry: 很抱歉，您請求的變更集清單過長無法讀取。
   changeset_comments:
     comment:
       comment: '由 %{author} 對變更集 #%{changeset_id} 發表的新評論'
@@ -310,7 +326,7 @@ zh-TW:
       title_all: OpenStreetMap 變更集討論
       title_particular: OpenStreetMap 變更集 %{changeset_id} 討論
     timeout:
-      sorry: 很抱歉，您請求的變更集評論逾時無法讀取
+      sorry: 很抱歉，您請求的變更集評論過長無法讀取
   diary_entries:
     new:
       title: 新日記項目
@@ -343,7 +359,6 @@ zh-TW:
       leave_a_comment: 留下評論
       login_to_leave_a_comment: '%{login_link}來留下評論'
       login: 登入
-      save_button: 儲存
     no_such_entry:
       title: 沒有這樣的日記項目
       heading: 沒有 id 為 %{id} 的項目
@@ -1251,7 +1266,6 @@ zh-TW:
       send_message_to: 寄出新訊息給 %{name}
       subject: 主旨
       body: 內文
-      send_button: 寄出
       back_to_inbox: 回到收件匣
     create:
       message_sent: 訊息已寄出
@@ -1683,7 +1697,6 @@ zh-TW:
       visibility: 可見性：
       visibility_help: 這是什麼意思？
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-      upload_button: 上傳
       help: 說明
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1705,7 +1718,6 @@ zh-TW:
       description: 描述：
       tags: 標籤：
       tags_help: 以逗號分隔
-      save_button: 儲存變更
       visibility: 可見性：
       visibility_help: 這是什麼意思？
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
@@ -1818,10 +1830,8 @@ zh-TW:
   oauth_clients:
     new:
       title: 註冊新的應用程式
-      submit: 註冊
     edit:
       title: 編輯您的應用程式
-      submit: 編輯
     show:
       title: '%{app_name} 的 OAuth 詳細資料'
       key: 消費者金鑰：
@@ -2214,7 +2224,6 @@ zh-TW:
       heading: 正在建立對 %{name} 的封鎖
       reason: '%{name} 之所以被封鎖的理由。請盡量以平靜、合理的態度，詳細的說明有關情況。請記住訊息會公開讓所有人看到，而並非所有使用者都了解社群的術語，所以請嘗試使用較為通用的說法。'
       period: 從現在開始，這個使用者將被禁止使用 API 多久。
-      submit: 建立封鎖
       tried_contacting: 我已聯緊這個使用者並請他停止。
       tried_waiting: 我已經給予這位使用者合理的時間回應這些問題。
       needs_view: 需要使用者登入才能解除這項封鎖
@@ -2224,7 +2233,6 @@ zh-TW:
       heading: 正在編輯對 %{name} 的封鎖
       reason: '%{name} 之所以被封鎖的理由。請盡量以平靜、合理的態度，詳細的說明有關情況。請記住並非所有使用者都了解社群的術語，所以請嘗試使用較為通用的說法。'
       period: 從現在開始，這個使用者將被禁止使用 API 多久。
-      submit: 更新封鎖
       show: 檢視這項封鎖
       back: 檢視所有的封鎖
       needs_view: 在清除這項封鎖之前是否需要使用者登入？
@@ -2499,7 +2507,6 @@ zh-TW:
     edit:
       description: 說明
       heading: 編輯修訂
-      submit: 儲存修訂
       title: 編輯修訂
     index:
       empty: 沒有可顯示的修訂。
@@ -2508,7 +2515,6 @@ zh-TW:
     new:
       description: 說明
       heading: 輸入新增修訂資訊
-      submit: 建立修訂
       title: 建立修訂中
     show:
       description: 說明：

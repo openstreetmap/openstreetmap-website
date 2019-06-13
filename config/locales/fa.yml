@@ -12,6 +12,7 @@
 # Author: Danialbehzadi
 # Author: Dr jackie
 # Author: Ebraminio
+# Author: FarsiNevis
 # Author: Fatemi127
 # Author: Grille chompa
 # Author: Hooshmand.hasannia
@@ -42,9 +43,25 @@ fa:
       friendly: '%e %B %Y ساعت %H:%M'
   helpers:
     submit:
+      diary_comment:
+        create: ذخیره
       diary_entry:
         create: انتشار
-        update: به‌روزرسانی
+        update: روزامدسازی
+      message:
+        create: ارسال
+      client_application:
+        create: ثبت نام
+        update: ویرایش
+      redaction:
+        create: ایجاد پاک‌سازی
+        update: ذخیره ویرایش
+      trace:
+        create: بارگذاری
+        update: ذخیرهٔ تغییرات
+      user_block:
+        create: ایجاد مسدودی
+        update: روزامدسازی مسدودی
   activerecord:
     errors:
       messages:
@@ -356,7 +373,6 @@ fa:
       leave_a_comment: نظرتان را بنویسید
       login_to_leave_a_comment: برای نظردادن %{login_link}
       login: وارد شوید
-      save_button: ذخیره
     no_such_entry:
       title: چنین روزنوشتی وجود ندارد
       heading: روزنوشتی با شناسهٔ %{id} وجود ندارد
@@ -976,14 +992,14 @@ fa:
       select_type: انتخاب نوع
       select_last_updated_by: انتخاب آخرین به‌روزرسانی توسط
       reported_user: کاربر گزارش‌شده
-      not_updated: به‌روزرسانی نشد
+      not_updated: روزامد نشد
       search: جستجو
       search_guidance: 'جستجوی موضوع:'
       user_not_found: کاربر وجود ندارد
       issues_not_found: این موضوع یافت نشد
       status: وضعیت
       reports: گزارش‌ها
-      last_updated: آخرین به‌روزرسانی
+      last_updated: آخرین روزامدسازی
       last_updated_time_html: <abbr title='%{title}'>%{time} پیش</abbr>
       last_updated_time_user_html: <abbr title='%{title}'>%{time} پیش</abbr> توسط
         %{user}
@@ -1269,7 +1285,6 @@ fa:
       send_message_to: فرستادن پیام تازه به %{name}
       subject: عنوان
       body: متن
-      send_button: ارسال
       back_to_inbox: بازگشت به صندوق دریافت
     create:
       message_sent: پیام فرستاده شد
@@ -1778,7 +1793,6 @@ fa:
       visibility: 'پدیداری:'
       visibility_help: این چیست؟
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Fa:Visibility_of_GPS_traces
-      upload_button: بارگذاری
       help: کمک
       help_url: https://wiki.openstreetmap.org/wiki/Fa:Upload
     create:
@@ -1807,7 +1821,6 @@ fa:
       description: 'شرح:'
       tags: 'برچسب‌ها:'
       tags_help: جداشده با کاما (,)
-      save_button: ذخیرهٔ تغییرات
       visibility: 'پدیداری:'
       visibility_help: این چیست؟
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Fa:Visibility_of_GPS_traces
@@ -1927,10 +1940,8 @@ fa:
   oauth_clients:
     new:
       title: ثبت‌نام یک برنامهٔ تازه
-      submit: ثبت نام
     edit:
       title: ویرایش برنامه تان
-      submit: ویرایش
     show:
       title: جزئیات OAuth برای %{app_name}
       key: 'کلید مصرف کننده:'
@@ -1983,7 +1994,7 @@ fa:
     create:
       flash: اطلاعات با موفقیت ثبت شد
     update:
-      flash: به‌روزرسانی اطلاعات کارخواه موفقیت‌آمیز بود
+      flash: اطلاعات کارخواه با موفقیت روزامد شد
     destroy:
       flash: ثبت‌نام برنامه کارخواه از بین رفت
   users:
@@ -2369,7 +2380,6 @@ fa:
         این دلیل مسدودشدن کاربری %{name} است. لطفاً خونسرد و منطقی باشید و هرچه می‌توانید به‌شکل جزئی‌تر اوضاع را شرح دهید و همچنین به یاد داشته باشید که پیام شما به‌طور عمومی قابل مشاهده است.
         در نظر داشته باشید که همهٔ کاربران اصطلاحات تخصصی جامعه را نمی‌فهمند، لطفاً سعی کنید واژه‌هایی که استفاده می‌کنید غیرتخصصی باشد.
       period: مدت‌زمان مسدودی کاربر از API (شروع از حالا).
-      submit: ایجاد مسدودی
       tried_contacting: من با کاربر تماس گرفتم و از او درخواست کردم دست نگه دارد.
       tried_waiting: من مقدار مناسبی زمان را به کاربر دادم تا به این ارتباط پاسخ دهد.
       needs_view: برای پاک‌شدن این مسدودی کاربر باید وارد حسابش شود.
@@ -2382,7 +2392,6 @@ fa:
         اصطلاحات تخصصی جامعه را نمی‌فهمند، لطفاً سعی کنید واژه‌هایی که استفاده می‌کنید
         غیرتخصصی باشد.
       period: مدت‌زمان مسدودی کاربر از API (شروع از حالا).
-      submit: به‌روزرسانی مسدودی
       show: مشاهده این مسدودی
       back: دیدن تمام مسدودی‌ها
       needs_view: آیا قبل از پاک‌شدن این مسدودی، کاربر باید وارد حساب کاربری شود؟
@@ -2398,7 +2407,7 @@ fa:
     update:
       only_creator_can_edit: فقط مدیری که این مسدودی را ایجاد کرده می‌تواند آن را
         ویرایش کند.
-      success: مسدودی به‌روزرسانی شد.
+      success: مسدودی روزامد شد.
     index:
       title: مسدودی‌های کاربر
       heading: لیست مسدودی‌های کاربری
@@ -2644,7 +2653,6 @@ fa:
     edit:
       description: شرح
       heading: ویرایش پاک‌سازی
-      submit: ذخیره ویرایش
       title: ویرایش پاک‌سازی
     index:
       empty: ویرایشی برای نشان دادن نیست.
@@ -2653,7 +2661,6 @@ fa:
     new:
       description: شرح
       heading: اطلاعات پاک‌سازی جدید را وارد کنید
-      submit: ایجاد پاک‌سازی
       title: ایجاد پاک‌سازی جدید
     show:
       description: 'شرح:'

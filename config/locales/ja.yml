@@ -46,8 +46,24 @@ ja:
       blog: '%Y年%B%e日'
   helpers:
     submit:
+      diary_comment:
+        create: 保存
       diary_entry:
         create: 公開
+      message:
+        create: 送信
+      client_application:
+        create: 登録
+        update: 編集
+      redaction:
+        create: 改訂を作成
+        update: 改訂を保存
+      trace:
+        create: アップロード
+        update: 変更を保存
+      user_block:
+        create: ブロックを作成
+        update: ブロックを更新
   activerecord:
     errors:
       messages:
@@ -347,7 +363,6 @@ ja:
       leave_a_comment: コメントを書いてください
       login_to_leave_a_comment: コメントを書くには%{login_link}してください
       login: ログイン
-      save_button: 保存
     no_such_entry:
       title: そのような日記エントリはありません
       heading: ID %{id} にコメントはまだありません。
@@ -1252,7 +1267,6 @@ ja:
       send_message_to: '%{name} への新規メッセージ送信'
       subject: タイトル
       body: 本文
-      send_button: 送信
       back_to_inbox: 受信箱に戻る
     create:
       message_sent: メッセージを送信しました
@@ -1328,17 +1342,17 @@ ja:
       legal_babble:
         title_html: 著作権とライセンス
         intro_1_html: |-
-          OpenStreetMap<a href="#trademarks">&reg;</a> は著作権者である<a
+          OpenStreetMap<a href="#trademarks">&reg;</a> は<a
           href="https://osmfoundation.org/">OpenStreetMap財団</a> (OSMF)が<a
           href="https://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL) の下にライセンスする<i>オープンデータ</i>です。
         intro_2_html: OpenStreetMapとその協力者をクレジットすれば、データを自由にコピー、配布、送信、利用することができます。変更したり翻案したりしたデータは同じライセンスに従う場合のみ、提供することができます。あなたの権利と責任は、<a
           href="https://opendatacommons.org/licenses/odbl/1.0/">ライセンス契約</a>の全文で説明しています。
         intro_3_html: |-
-          地図タイルの作成法やドキュメントは、<a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
+          地図画像やドキュメントは、<a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
           Commons Attribution-ShareAlike 2.0</a> ライセンス (CC BY-SA) に基づいてライセンスされます。
         credit_title_html: OpenStreetMap のクレジット表記の仕方
         credit_1_html: '&ldquo;&copy; OpenStreetMap contributors&rdquo;のクレジットを必ず使用してください。'
-        credit_2_html: あなたはデータが Open Database License に基づいて提供されていること、そして地図タイルを使用する場合は、地図製作が
+        credit_2_html: あなたはデータが Open Database License に基づいて提供されていること、そして地図タイルを使用する場合は、地図画像が
           CC BY-SA としてライセンスされていることを明確にしなければなりません。<a href="https://www.openstreetmap.org/copyright">著作権表示ページ</a>にリンクすることでこれを表現することができます。また、データの形式でOpenStreetMapを配布する場合の要件として、名前を表示の上、ライセンスに直接リンクすることができます。リンクを張れないメディア（印刷など）の場合は、openstreetmap.org（OpenStreetMapをアドレスとして展開した形）、opendatacommons.org、さらに関連がある場合はcreativecommons.orgへ読者を誘導することをお勧めします。
         credit_3_html: |-
           閲覧可能な電子地図の場合は、地図の隅にクレジットを表示してください。
@@ -1662,7 +1676,6 @@ ja:
       visibility: '可視性:'
       visibility_help: これはどういう意味?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/JA:Visibility_of_GPS_traces
-      upload_button: アップロード
       help: ヘルプ
       help_url: http://wiki.openstreetmap.org/wiki/JA:Upload?uselang=ja
     create:
@@ -1685,7 +1698,6 @@ ja:
       description: '詳細:'
       tags: 'タグ:'
       tags_help: カンマ区切り
-      save_button: 変更を保存
       visibility: '可視性:'
       visibility_help: これはどういう意味?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/JA:Visibility_of_GPS_traces
@@ -1797,10 +1809,8 @@ ja:
   oauth_clients:
     new:
       title: アプリケーションの新規登録
-      submit: 登録
     edit:
       title: アプリケーションの編集
-      submit: 編集
     show:
       title: '%{app_name} の OAuth の詳細'
       key: 'コンシューマー キー:'
@@ -1954,7 +1964,7 @@ ja:
       title: 規約
       heading: 規約
       heading_ct: 協力者規約
-      consider_pd: 私の投稿をパブリック ドメインとします (著作権、著作隣接権を放棄し、著作人格権を行使しません)
+      consider_pd: 上記に加え、私の投稿をパブリック ドメインとします
       consider_pd_why: これは何ですか?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: この規約の理解を助ける情報として、<a href="%{summary}">要約 (英語)</a> や <a href="%{translations}">非公式の翻訳</a>
@@ -2197,7 +2207,6 @@ ja:
       heading: '%{name} のブロックの作成'
       reason: '%{name} さんがブロックされている理由です。メッセージは多くの人の目にふれることになるため、できるだけ冷静かつ理性的になり、できるだけ丁寧に状況を説明するようにしてください。すべての利用者がコミュニティ固有の用語を理解しているわけではないため、分かりやすい用語を使うように努めてください。'
       period: ユーザーが今からどれくらいの間、APIからブロックされるか。
-      submit: ブロックを作成
       tried_contacting: 利用者に連絡して、それらをやめるよう依頼しました。
       tried_waiting: 私は利用者との対話に応じるために、合理的な時間を費やしました。
       needs_view: ブロックを解除するにはログインし直す必要があります。
@@ -2207,7 +2216,6 @@ ja:
       heading: '%{name} のブロックの編集'
       reason: '%{name} さんがブロックされている理由です。できるだけ冷静かつ理性的になり、できるだけ丁寧に状況を説明するようにしてください。すべてのユーザーがコミュニティ内での隠語を理解しているわけではないため、分かりやすい用語を使うように努めてください。'
       period: ユーザーが今からどれくらいの間、APIからブロックされるか。
-      submit: ブロックを更新
       show: このブロックを閲覧
       back: すべてのブロックを閲覧
       needs_view: このブロックを解消するには、先に利用者がログインする必要がありますか？
@@ -2469,7 +2477,6 @@ ja:
     edit:
       description: 説明
       heading: 改訂の編集
-      submit: 改訂を保存
       title: 改訂の編集
     index:
       empty: 表示できる改訂はありません。
@@ -2478,7 +2485,6 @@ ja:
     new:
       description: 説明
       heading: 新しい改訂の情報の入力
-      submit: 改訂を作成
       title: 改訂の新規作成
     show:
       description: '説明:'

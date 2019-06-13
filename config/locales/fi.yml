@@ -46,9 +46,25 @@ fi:
       blog: '%e. %Bta %Y'
   helpers:
     submit:
+      diary_comment:
+        create: Tallenna
       diary_entry:
         create: Julkaise
         update: Päivitä
+      message:
+        create: Lähetä
+      client_application:
+        create: Rekisteröi
+        update: Muokkaa
+      redaction:
+        create: Luo redaktio
+        update: Tallenna redaktio
+      trace:
+        create: Tallenna
+        update: Tallenna muutokset
+      user_block:
+        create: Luo esto
+        update: Päivitä esto
   activerecord:
     errors:
       messages:
@@ -362,7 +378,6 @@ fi:
       leave_a_comment: Kommentoi tätä kirjoitusta
       login_to_leave_a_comment: '%{login_link} kommentoidaksesi'
       login: Kirjaudu sisään
-      save_button: Tallenna
     no_such_entry:
       title: Päiväkirjamerkintää ei ole
       heading: Tunnuksella %{id} ei ole päiväkirjamerkintää.
@@ -1299,7 +1314,6 @@ fi:
       send_message_to: Lähetä viesti käyttäjälle %{name}
       subject: Otsikko
       body: Sisältö
-      send_button: Lähetä
       back_to_inbox: Takaisin saapuneisiin
     create:
       message_sent: Viesti on lähetetty.
@@ -1469,6 +1483,10 @@ fi:
           ja kartoitusviranomaisen</a> sekä\n<a href=\"http://www.mkgp.gov.si/en/\">Maatalous-,
           metsä- ja ruokaministeriön</a> tuottamia karttatietoja\n(Slovenian julkista
           karttamateriaalia)."
+        contributors_es_html: |-
+          <strong>Espanja</strong>: Sisältää karttatietoja Espanjan kansallisesta maantieteellisestä instituutista (<a href="http://www.ign.es/">IGN</a>) ja
+          kansallisesta kartografiajärjestelmästä (<a href="http://www.scne.es/">SCNE</a>)
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> -lisenssillä.
         contributors_za_html: |-
           <strong>Etelä-Afrikka</strong>: Sisältää karttatietoja
           <a href="http://www.ngi.gov.za/">Chief Directorate:
@@ -1798,7 +1816,6 @@ fi:
       visibility: 'Näkyvyys:'
       visibility_help: Mitä tämä tarkoittaa?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Fi:GPS-j%C3%A4lkien_julkisuus
-      upload_button: Tallenna
       help: Ohje
       help_url: https://wiki.openstreetmap.org/wiki/Fi:Upload
     create:
@@ -1831,7 +1848,6 @@ fi:
       description: 'Kuvaus:'
       tags: 'Ominaisuustiedot:'
       tags_help: pilkuilla eroteltu lista
-      save_button: Tallenna muutokset
       visibility: 'Näkyvyys:'
       visibility_help: Mitä tämä tarkoittaa?
     update:
@@ -1951,10 +1967,8 @@ fi:
   oauth_clients:
     new:
       title: Rekisteröi uusi sovellus
-      submit: Rekisteröi
     edit:
       title: Muokkaa sovellustasi
-      submit: Muokkaa
     show:
       title: OAuth-tiedot sovellukselle %{app_name}
       key: 'Kuluttajan avain:'
@@ -2119,6 +2133,11 @@ fi:
       title: Ehdot
       heading: Ehdot
       heading_ct: Osallistumisehdot
+      read and accept with tou: Lue osallistumis- ja käyttöehdot, valitse molemmat
+        valintaruudut ja napsauta sitten Jatka.
+      contributor_terms_explain: Tämä sopimus koskee jo tekemiäsi sekä tulevaisuudessa
+        tekemiäsi muokkauksia.
+      read_ct: Olen lukenut ja hyväksyn yllä olevat osallistumisehdot
       read_tou: Olen lukenut ja hyväksynyt käyttöehdot
       consider_pd: Edellisen sopimuksen lisäksi katson lisäyksieni olevan tekijänoikeudettomia
         Public Domain -lisenssillä
@@ -2388,7 +2407,6 @@ fi:
         tulee olemaan esillä julkisesti. Muista myös, että kaikki käyttäjät eivät
         ymmärrä yhteisön slangia. Käytä siis maallikkojen termejä.
       period: Kuinka kauan käyttäjä on estetty käyttämästä APIa. Esto alkaa heti.
-      submit: Luo esto
       tried_contacting: Olen ottanut yhteyttä käyttäjään ja pyytänyt heitä lopettamaan.
       tried_waiting: Olen antanut käyttäjälle kohtuullisen ajan vastata näihin viesteihin.
       needs_view: Käyttäjän tulee kirjautua sisään ennen tämän eston poistumista
@@ -2402,7 +2420,6 @@ fi:
         ymmärrettäviä sanoja.
       period: Kuinka pitkäksi aikaa käyttäjää estetään käyttämästä APIa, laskettuna
         tästä hetkestä.
-      submit: Päivitä esto
       show: Näytä tämä esto
       back: Näytä kaikki estot
       needs_view: Pitääkö tämän käyttäjän kirjautua sisään ennen kuin esto poistetaan?
@@ -2549,6 +2566,8 @@ fi:
         title: Karttanäkymä
       copyright: © <a href='%{copyright_url}'>OpenStreetMapin tekijät</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Tee lahjoitus</a>
+      terms: <a href='%{terms_url}' target='_blank'>Sivuston ja sovellusrajapinnan
+        ehdot</a>
     site:
       edit_tooltip: Muokkaa karttaa
       edit_disabled_tooltip: Lähennä karttaa ennen muokkaamisen aloittamista
@@ -2694,7 +2713,6 @@ fi:
     edit:
       description: Kuvaus
       heading: Muokkaa laitosta
-      submit: Tallenna redaktio
       title: Muokkaa laitosta
     index:
       empty: Ei ole näytettävää laitosta
@@ -2703,7 +2721,6 @@ fi:
     new:
       description: Kuvaus
       heading: Kirjoita tietoja uudesta laitoksesta
-      submit: Luo redaktio
       title: Luodaan uusi redaktio
     show:
       description: 'Kuvaus:'
