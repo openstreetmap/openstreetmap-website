@@ -153,6 +153,7 @@ end
 
 # Needed in development as well so rake can see konacha tasks
 group :development, :test do
+  gem "brakeman"
   gem "capybara", "~> 2.13"
   gem "coveralls", :require => false
   gem "erb_lint", :require => false
