@@ -51,7 +51,7 @@ module GPX
       rescue Archive::Error
         io = ::File.open(@file)
 
-        case MimeMagic.by_magic(io).type
+        case MimeMagic.by_magic(io)&.type
         when "application/gzip" then io = Zlib::GzipReader.open(@file)
         when "application/x-bzip" then io = Bzip2::FFI::Reader.open(@file)
         end

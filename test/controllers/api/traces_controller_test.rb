@@ -153,7 +153,7 @@ module Api
       # And finally we should be able to do it with the owner of the trace
       basic_authorization anon_trace_file.user.display_name, "test"
       get :data, :params => { :id => anon_trace_file.id }
-      check_trace_data anon_trace_file, "66179ca44f1e93d8df62e2b88cbea732"
+      check_trace_data anon_trace_file, "db4cb5ed2d7d2b627b3b504296c4f701"
     end
 
     # Test downloading a trace that doesn't exist through the api

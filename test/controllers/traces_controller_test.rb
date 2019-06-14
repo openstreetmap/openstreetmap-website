@@ -388,7 +388,7 @@ class TracesControllerTest < ActionController::TestCase
 
     # And finally we should be able to do it with the owner of the trace
     get :data, :params => { :display_name => anon_trace_file.user.display_name, :id => anon_trace_file.id }, :session => { :user => anon_trace_file.user }
-    check_trace_data anon_trace_file, "66179ca44f1e93d8df62e2b88cbea732"
+    check_trace_data anon_trace_file, "db4cb5ed2d7d2b627b3b504296c4f701"
   end
 
   # Test downloading a trace that doesn't exist
