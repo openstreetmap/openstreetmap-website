@@ -1740,6 +1740,20 @@
                     "reference": "Google products are proprietary and must not be used as references."
                 }
             },
+            "invalid_format": {
+                "title": "Invalid Formatting",
+                "tip": "Find tags with unexpected formats",
+                "email": {
+                    "message": "{feature} has an invalid email address.",
+                    "message_multi": "{feature} has multiple invalid email addresses.",
+                    "reference": "Email addresses must look like \"user@example.com\"."
+                },
+                "website": {
+                    "message": "{feature} has an invalid website.",
+                    "message_multi": "{feature} has multiple invalid websites.",
+                    "reference": "Websites should start with \"http\" or \"https\"."
+                }
+            },
             "missing_role": {
                 "title": "Missing Roles",
                 "message": "{member} has no role within {relation}",
@@ -1774,6 +1788,10 @@
                 "incomplete": {
                     "message": "{feature} has incomplete tags",
                     "reference": "Some features should have additional tags."
+                },
+                "noncanonical_brand": {
+                    "message": "{feature} looks like a brand with nonstandard tags",
+                    "reference": "All features of the same brand should be tagged the same way."
                 }
             },
             "private_data": {
@@ -2838,6 +2856,10 @@
                     "label": "Devices",
                     "placeholder": "1, 2, 3..."
                 },
+                "diameter": {
+                    "label": "Diameter",
+                    "placeholder": "5 mm, 10 cm, 15 in…"
+                },
                 "diaper": {
                     "label": "Diaper Changing Available"
                 },
@@ -2879,7 +2901,7 @@
                     }
                 },
                 "direction_vertex": {
-                    "label": "Direction",
+                    "label": "Direction Affected",
                     "options": {
                         "forward": "Forward",
                         "backward": "Backward",
@@ -3659,7 +3681,7 @@
                     "placeholder": "Distance to one decimal (123.4)"
                 },
                 "railway/signal/direction": {
-                    "label": "Direction",
+                    "label": "Direction Affected",
                     "options": {
                         "forward": "Forward",
                         "backward": "Backward",
@@ -4139,7 +4161,7 @@
                     "label": "Traffic Sign"
                 },
                 "traffic_sign/direction": {
-                    "label": "Direction",
+                    "label": "Direction Affected",
                     "options": {
                         "forward": "Forward",
                         "backward": "Backward",
@@ -4150,7 +4172,7 @@
                     "label": "Type"
                 },
                 "traffic_signals/direction": {
-                    "label": "Direction",
+                    "label": "Direction Affected",
                     "options": {
                         "forward": "Forward",
                         "backward": "Backward",
@@ -4185,6 +4207,9 @@
                 "trees": {
                     "label": "Trees"
                 },
+                "trench": {
+                    "label": "Type"
+                },
                 "trolley_wire": {
                     "label": "Overhead Trolley Wires"
                 },
@@ -4202,6 +4227,9 @@
                         "test": "Test",
                         "tourism": "Tourism"
                     }
+                },
+                "valve": {
+                    "label": "Type"
                 },
                 "vending": {
                     "label": "Types of Goods"
@@ -4545,7 +4573,7 @@
                 },
                 "amenity/animal_shelter": {
                     "name": "Animal Shelter",
-                    "terms": "adoption,aspca,cat,dog,horse,kitten,pet care,pet rescue,puppy,raptor,reptile,rescue,spca"
+                    "terms": "adoption,aspca,cat,dog,horse,kitten,pet care,pet rescue,puppy,raptor,reptile,rescue,spca,pound"
                 },
                 "amenity/arts_centre": {
                     "name": "Arts Center",
@@ -4573,7 +4601,7 @@
                 },
                 "amenity/bench": {
                     "name": "Bench",
-                    "terms": "seat"
+                    "terms": "seat,chair"
                 },
                 "amenity/bicycle_parking": {
                     "name": "Bicycle Parking",
@@ -4593,11 +4621,11 @@
                 },
                 "amenity/bicycle_rental": {
                     "name": "Bicycle Rental",
-                    "terms": "bike"
+                    "terms": "bike,bicycle,bikeshare,bike share,bicycle share,hub,dock"
                 },
                 "amenity/bicycle_repair_station": {
                     "name": "Bicycle Repair Tool Stand",
-                    "terms": "bike,repair,chain,pump"
+                    "terms": "bike,repair,chain,pump,tools,stand,multitool"
                 },
                 "amenity/biergarten": {
                     "name": "Biergarten",
@@ -4661,7 +4689,7 @@
                 },
                 "amenity/clock": {
                     "name": "Clock",
-                    "terms": ""
+                    "terms": "time"
                 },
                 "amenity/clock/sundial": {
                     "name": "Sundial",
@@ -4895,6 +4923,18 @@
                     "name": "Christian Church",
                     "terms": "christian,abbey,basilica,bethel,cathedral,chancel,chantry,chapel,fold,house of God,house of prayer,house of worship,minster,mission,oratory,parish,sacellum,sanctuary,shrine,tabernacle,temple"
                 },
+                "amenity/place_of_worship/christian/jehovahs_witness": {
+                    "name": "Kingdom Hall of Jehovah's Witnesses",
+                    "terms": "christian,church,house of God,house of prayer,house of worship"
+                },
+                "amenity/place_of_worship/christian/la_luz_del_mundo": {
+                    "name": "La Luz del Mundo Temple",
+                    "terms": "christian,church,house of God,house of prayer,house of worship,the light of the world church"
+                },
+                "amenity/place_of_worship/christian/quaker": {
+                    "name": "Quaker Friends Meeting House",
+                    "terms": "christian,church,house of God,house of prayer,house of worship"
+                },
                 "amenity/place_of_worship/hindu": {
                     "name": "Hindu Temple",
                     "terms": "kovil,devasthana,mandir,kshetram,alayam,shrine,temple"
@@ -4905,7 +4945,7 @@
                 },
                 "amenity/place_of_worship/muslim": {
                     "name": "Muslim Mosque",
-                    "terms": "muslim"
+                    "terms": "islam,islamic center,muslim"
                 },
                 "amenity/place_of_worship/shinto": {
                     "name": "Shinto Shrine",
@@ -4929,7 +4969,7 @@
                 },
                 "amenity/post_box": {
                     "name": "Mailbox",
-                    "terms": "letter,post"
+                    "terms": "letter drop,mail box,package drop,post box,postal box"
                 },
                 "amenity/post_office": {
                     "name": "Post Office",
@@ -4941,7 +4981,7 @@
                 },
                 "amenity/prison": {
                     "name": "Prison Grounds",
-                    "terms": "cell,jail"
+                    "terms": "cell,jail,correction"
                 },
                 "amenity/pub": {
                     "name": "Pub",
@@ -5871,6 +5911,10 @@
                     "name": "Shoemaker",
                     "terms": "cobbler"
                 },
+                "craft/signmaker": {
+                    "name": "Signmaker",
+                    "terms": ""
+                },
                 "craft/stonemason": {
                     "name": "Stonemason",
                     "terms": "masonry"
@@ -6047,6 +6091,10 @@
                     "name": "Blood Donor Center",
                     "terms": "blood bank,blood donation,blood transfusion,apheresis,plasmapheresis,plateletpheresis,stem cell donation"
                 },
+                "healthcare/counselling": {
+                    "name": "Counselling Center",
+                    "terms": ""
+                },
                 "healthcare/hospice": {
                     "name": "Hospice",
                     "terms": "terminal,illness"
@@ -6145,7 +6193,7 @@
                 },
                 "highway/cycleway/bicycle_foot": {
                     "name": "Cycle & Foot Path",
-                    "terms": "bicycle and foot path,bike and pedestrian path,green way,greenway,mixed-use trail,multi-use trail,segregated trail"
+                    "terms": "bicycle and foot path,bike and pedestrian path,green way,greenway,mixed-use trail,multi-use trail,segregated trail,rail trail"
                 },
                 "highway/cycleway/crossing/marked": {
                     "name": "Marked Cycle Crossing",
@@ -6595,14 +6643,6 @@
                     "name": "Barracks",
                     "terms": "air force,army,base,fight,force,guard,marine,navy,troop,war"
                 },
-                "landuse/military/bunker": {
-                    "name": "Military Bunker",
-                    "terms": "air force,army,base,fight,force,guard,marine,navy,troop,war"
-                },
-                "landuse/military/checkpoint": {
-                    "name": "Checkpoint",
-                    "terms": "air force,army,base,force,guard,marine,navy,troop,war"
-                },
                 "landuse/military/danger_area": {
                     "name": "Danger Area",
                     "terms": "air force,army,base,blast,bomb,explo*,force,guard,mine,marine,navy,troop,war"
@@ -6611,17 +6651,9 @@
                     "name": "Naval Base",
                     "terms": "base,fight,force,guard,marine,navy,ship,sub,troop,war"
                 },
-                "landuse/military/nuclear_explosion_site": {
-                    "name": "Nuclear Explosion Site",
-                    "terms": "atom,blast,bomb,detonat*,nuke,site,test"
-                },
                 "landuse/military/obstacle_course": {
                     "name": "Obstacle Course",
                     "terms": "army,base,force,guard,marine,navy,troop,war"
-                },
-                "landuse/military/office": {
-                    "name": "Military Office",
-                    "terms": "air force,army,base,enlist,fight,force,guard,marine,navy,recruit,troop,war"
                 },
                 "landuse/military/range": {
                     "name": "Military Range",
@@ -6722,6 +6754,10 @@
                 "leisure/dog_park": {
                     "name": "Dog Park",
                     "terms": ""
+                },
+                "leisure/escape_game": {
+                    "name": "Escape Room",
+                    "terms": "escape game,escape the room,puzzle room,quest room"
                 },
                 "leisure/firepit": {
                     "name": "Firepit",
@@ -7131,6 +7167,10 @@
                     "name": "Underground Pipeline",
                     "terms": "oil,natural gas,water,sewer,sewage"
                 },
+                "man_made/pipeline/valve": {
+                    "name": "Pipeline Valve",
+                    "terms": "oil,natural gas,water,sewer,sewage"
+                },
                 "man_made/pumping_station": {
                     "name": "Pumping Station",
                     "terms": ""
@@ -7230,6 +7270,26 @@
                 "manhole/telecom": {
                     "name": "Telecom Manhole",
                     "terms": "cover,phone,hole,telecom,telephone,bt"
+                },
+                "military/bunker": {
+                    "name": "Military Bunker",
+                    "terms": "air force,army,base,fight,force,guard,marine,navy,troop,war"
+                },
+                "military/checkpoint": {
+                    "name": "Checkpoint",
+                    "terms": "air force,army,base,force,guard,marine,navy,troop,war"
+                },
+                "military/nuclear_explosion_site": {
+                    "name": "Nuclear Explosion Site",
+                    "terms": "atom,blast,bomb,detonat*,nuke,site,test"
+                },
+                "military/office": {
+                    "name": "Military Office",
+                    "terms": "air force,army,base,enlist,fight,force,guard,marine,navy,recruit,troop,war"
+                },
+                "military/trench": {
+                    "name": "Military Trench",
+                    "terms": "dugout,firestep,fox hole,infantry trench,war trench"
                 },
                 "natural/bare_rock": {
                     "name": "Bare Rock",
@@ -7426,6 +7486,10 @@
                 "office/association": {
                     "name": "Nonprofit Organization Office",
                     "terms": "association,non-profit,nonprofit,organization,society"
+                },
+                "office/bail_bond_agent": {
+                    "name": "Bail Bond Agent",
+                    "terms": "bail bond dealer,bail bond man,bail bondsman,bail bondsperson"
                 },
                 "office/charity": {
                     "name": "Charity Office",
@@ -8331,6 +8395,10 @@
                     "name": "Produce Stand",
                     "terms": "farm shop,farm stand"
                 },
+                "shop/fashion_accessories": {
+                    "name": "Fashion Accessories Store",
+                    "terms": "bag,cologne,fragrance,hat,jewellery,purfume,purse,scarf,sunglasses,umbrella,wallet,watch"
+                },
                 "shop/fireplace": {
                     "name": "Fireplace Store",
                     "terms": "fireplace,stove,masonry heater"
@@ -8475,6 +8543,10 @@
                     "name": "Medical Supply Store",
                     "terms": ""
                 },
+                "shop/military_surplus": {
+                    "name": "Military Surplus Store",
+                    "terms": "armor,army-navy store,army surplus,navy surplus,tactical gear,war surplus shop,weapons"
+                },
                 "shop/mobile_phone": {
                     "name": "Mobile Phone Store",
                     "terms": ""
@@ -8505,7 +8577,7 @@
                 },
                 "shop/nutrition_supplements": {
                     "name": "Nutrition Supplements Store",
-                    "terms": ""
+                    "terms": "health,supplement,vitamin"
                 },
                 "shop/optician": {
                     "name": "Optician",
@@ -8541,7 +8613,7 @@
                 },
                 "shop/perfumery": {
                     "name": "Perfume Store",
-                    "terms": ""
+                    "terms": "cologne,fragrance,purfume"
                 },
                 "shop/pet_grooming": {
                     "name": "Pet Grooming Store",
@@ -8557,7 +8629,7 @@
                 },
                 "shop/pyrotechnics": {
                     "name": "Fireworks Store",
-                    "terms": ""
+                    "terms": "fireworks"
                 },
                 "shop/radiotechnics": {
                     "name": "Radio/Electronic Component Store",
@@ -9366,6 +9438,27 @@
                 },
                 "description": "Orthofoto layer provided by basemap.at. \"Successor\" of geoimage.at imagery.",
                 "name": "basemap.at Orthofoto"
+            },
+            "basemap.at-overlay": {
+                "attribution": {
+                    "text": "basemap.at"
+                },
+                "description": "Annotation overlay provided by basemap.at.",
+                "name": "basemap.at Overlay"
+            },
+            "basemap.at-surface": {
+                "attribution": {
+                    "text": "basemap.at"
+                },
+                "description": "Surface layer provided by basemap.at.",
+                "name": "basemap.at Surface"
+            },
+            "basemap.at-terrain": {
+                "attribution": {
+                    "text": "basemap.at"
+                },
+                "description": "Terrain layer provided by basemap.at.",
+                "name": "basemap.at Terrain"
             },
             "eufar-balaton": {
                 "attribution": {
@@ -10980,13 +11073,17 @@
                 "name": "Geography Club",
                 "description": "YouthMappers chapter at Western Michigan University"
             },
-            "Maptime-Australia-Slack": {
-                "name": "Maptime Australia Slack",
-                "description": "Sign up at {signupUrl}"
-            },
             "talk-au": {
                 "name": "Talk-au Mailing List",
                 "description": "Place for Aussie mappers to chat"
+            },
+            "Maptime-Oceania-Slack": {
+                "name": "Maptime Oceania Slack",
+                "description": "Sign up at {signupUrl}"
+            },
+            "talk-nz": {
+                "name": "Talk-nz Mailing List",
+                "description": "New Zealand's OSM community talk"
             },
             "OSM-AR-facebook": {
                 "name": "OpenStreetMap Argentina Facebook",
@@ -11155,6 +11252,19 @@
             "OSM-PE": {
                 "name": "OpenStreetMap Peru",
                 "description": "News and resources for the OpenStreetMap Peru community"
+            },
+            "uy-forum": {
+                "name": "OpenStreetMap UY forum",
+                "description": "OpenStreetMap Uruguay web forum"
+            },
+            "uy-irc": {
+                "name": "OpenStreetMap Uruguay on IRC",
+                "description": "Join #osmuruguay on irc.freenode.org (port 6667)",
+                "extendedDescription": "Join #osmuruguay on irc.freenode.org"
+            },
+            "uy-mailinglist": {
+                "name": "Talk-uy Mailing List",
+                "description": "Talk-uy is the official mailing list for the Uruguayan OSM community"
             },
             "LATAM-Facebook": {
                 "name": "OpenStreetMap Latam Facebook",
