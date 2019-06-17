@@ -34,6 +34,9 @@ sr:
         create: Сачувај
       diary_entry:
         create: Објави
+        update: Ажурирај
+      issue_comment:
+        create: Додај коментар
       message:
         create: Пошаљи
       client_application:
@@ -49,6 +52,9 @@ sr:
         create: Направи блокаду
         update: Ажурирај блокаду
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: не изгледа да је исправна адреса е-поште
     models:
       acl: Листа контроле приступа
       changeset: Скуп промена
@@ -996,8 +1002,14 @@ sr:
       reportable_title:
         diary_comment: '%{entry_title}, коментар %{comment_id}'
         note: 'Белешка #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: Ваш коментар је успешно направљен
   reports:
     new:
+      title_html: Пријави %{link}
+      missing_params: Не могу да направим нову пријаву
+      select: 'Одаберите разлог пријаве:'
       categories:
         diary_entry:
           spam_label: Запис овог дневника је/садржи спам
@@ -1284,12 +1296,14 @@ sr:
         и лиценцама</a> за детаље.
       legal_title: Правни аспекти
       legal_html: "Овим сајтом и многим другим повезаним алаткама формално управља\n<a
-        href='http://osmfoundation.org/'>Фондација OpenStreetMap</a> (OSMF) \nу име
-        заједнице. Употреба свих алатки којима управља OSMF је предмет \nнаше <a href=\"http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nполитике
-        прихватљиве употребе</a> и наше <a href=\"http://wiki.osmfoundation.org/wiki/Privacy_Policy\">политике
-        приватности</a>\n<br> \nМолимо да <a href='http://osmfoundation.org/Contact'>контактирате
-        OSMF</a> \nако имате правна питања или проблеме око лиценцирања, ауторских
-        права и сл."
+        href='https://osmfoundation.org/'>Фондација OpenStreetMap</a> (OSMF) \nу име
+        заједнице. Употреба свих алатки којима управља OSMF је предмет \nнаших <a
+        href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">\nуслова коришћења</a>
+        и наше <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">политике
+        приватности</a>\n<br> \nМолимо да <a href='https://osmfoundation.org/Contact'>контактирате
+        OSMF</a> \nако имате правна питања око лиценцирања, ауторских права и сл.\n<br>\nOpenStreetMap,
+        лого лупе и State of the Map су <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">регистровани
+        жигови OSMF фондације</a>."
       partners_title: Партнери
     copyright:
       foreign:
@@ -1706,6 +1720,7 @@ sr:
       identifiable: Може се препознати (приказано у списку трагова као јавне, поређане
         и датиране тачке)
     new:
+      upload_trace: Отпреми GPS траг
       upload_gpx: 'Отпреми GPX датотеку:'
       description: 'Опис:'
       tags: 'Ознаке:'
@@ -1742,6 +1757,8 @@ sr:
       visibility: 'Видљивост:'
       visibility_help: шта ово значи?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=sr-ec
+    update:
+      updated: Траг ажуриран
     trace_optionals:
       tags: Ознаке
     show:
@@ -1786,6 +1803,7 @@ sr:
       map: мапа
     index:
       public_traces: Јавни ГПС трагови
+      my_traces: Моји GPS трагови
       public_traces_from: Јавни GPS трагови корисника %{user}
       description: Претражите недавне аплоуде GPS путева
       tagged_with: ' означени са %{tags}'
@@ -1794,6 +1812,7 @@ sr:
         страници</a>.
       upload_trace: Отпреми траг
       see_all_traces: Погледај све трагове
+      see_my_traces: Види моје трагове
     delete:
       scheduled_for_deletion: Траг постављен за брисање
     make_public:
@@ -1815,6 +1834,8 @@ sr:
     require_cookies:
       cookies_needed: Изгледа да сте онемогућили колачиће. Омогућите их пре него што
         наставите.
+    require_admin:
+      not_an_admin: Треба да сте администратор да бисте извршили ову радњу.
     setup_user_auth:
       blocked_zero_hour: Имате хитну поруку на веб-сајту OpenStreetMap. Морате прочитати
         поруку пре него што могнете спремати своје измене.
@@ -2014,10 +2035,10 @@ sr:
         Погледајте <a href="%{url}">ову страницу</a> за више информација.
       terms declined url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
     terms:
-      title: Услови уређивања
-      heading: Услови уређивања
-      consider_pd: Према горенаведеном уговору, сматрам да моји доприноси припадају
-        јавном власништву
+      title: Услови
+      heading: Услови
+      consider_pd: Према горенаведеном, сматрам да моји доприноси припадају јавном
+        власништву
       consider_pd_why: шта је ово?
       consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain?uselang=sr-ec
       guidance: 'Подаци који ће вам помоћи да разумете ове услове: <a href="%{summary}">кратак
@@ -2150,6 +2171,7 @@ sr:
       image: 'Слика:'
       gravatar:
         gravatar: Користи Граватар
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         link text: шта је ово?
         disabled: Граватар је онемогућен.
         enabled: Приказ Вашег Граватара је омогућен.
@@ -2465,7 +2487,9 @@ sr:
     directions:
       ascend: Растуће
       engines:
+        fossgis_osrm_bike: Бицикла (OSRM)
         fossgis_osrm_car: Аутомобилом (OSRM)
+        fossgis_osrm_foot: Пешке (OSRM)
         graphhopper_bicycle: Бициклом (GraphHopper)
         graphhopper_car: Ауто (GraphHopper)
         graphhopper_foot: Пешке (GraphHopper)

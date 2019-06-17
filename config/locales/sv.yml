@@ -23,6 +23,7 @@
 # Author: Macofe
 # Author: Magol
 # Author: Malmis
+# Author: Mjälten
 # Author: Nastoshka
 # Author: Nemo bis
 # Author: Per
@@ -52,6 +53,9 @@ sv:
         create: Spara
       diary_entry:
         create: Publicera
+        update: Uppdatera
+      issue_comment:
+        create: Lägg till kommentar
       message:
         create: Skicka
       client_application:
@@ -372,7 +376,9 @@ sv:
       older_entries: Äldre inlägg
       newer_entries: Nyare inlägg
     edit:
-      title: Redigera dagboksinlägg
+      title: |2-
+
+        Redigera dagboksinlägg
       marker_text: Plats för dagboksinlägg
     show:
       title: '%{user}s dagbok | %{title}'
@@ -395,11 +401,13 @@ sv:
         other: '%{count} kommentarer'
       edit_link: Redigera detta inlägg
       hide_link: Dölj detta inlägg
+      unhide_link: Dölj inte detta inlägg
       confirm: Bekräfta
       report: Rapportera detta inlägg
     diary_comment:
       comment_from: Kommentar från %{link_user} på %{comment_created_at}
       hide_link: Dölj denna kommentar
+      unhide_link: Dölj inte denna kommentar
       confirm: Bekräfta
       report: Rapportera denna kommentar
     location:
@@ -1161,6 +1169,7 @@ sv:
     partners_ucl: University College London
     partners_bytemark: Bytemark Hosting
     partners_partners: partners
+    tou: Användarvillkor
     osm_offline: OpenStreetMap-databasen är inte tillgänglig just nu, då nödvändigt
       databasunderhåll pågår.
     osm_read_only: OpenStreetMap-databasen är skrivskyddad just nu, då nödvändigt
@@ -1396,7 +1405,7 @@ sv:
         du endast distribuera resultatet under samma licens. Se <a href=''%{copyright_path}''>sidan
         för Upphovsrätt och Licens</a> för detaljer.'
       legal_title: Juridik
-      legal_html: "Denna sida och många andra liknande tjänster drivs formellt av
+      legal_html: "\nDenna sida och många andra liknande tjänster drivs formellt av
         \n<a href=\"https://osmfoundation.org/\">OpenStreetMap Foundation</a> (OSMF)
         \npå gemenskapens vägnar. Användning av alla OSMF-drivna tjänster är föremål\nför
         våra <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\npolicyer
@@ -1503,6 +1512,10 @@ sv:
           <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> och
           <a href="http://www.mkgp.gov.si/en/">Ministry of Agriculture, Forestry and Food</a>
           (offentlig information i Slovenien).
+        contributors_es_html: |-
+          Spanien: Innehåller data från <strong>Spanish</strong> #Nationell Geographic Institute (<a href="http://www.ign.es/">IGN</a>) och
+          #Nationell Cartographic System (SCNE)
+          licenseret för videre bruk under CC STAD #4.0.
         contributors_za_html: |-
           <strong>Sydafrika</strong>: Innehåller data från
           <a href="http://www.ngi.gov.za/">Chief Directorate:
@@ -2153,12 +2166,23 @@ sv:
     terms:
       title: Villkor för deltagare
       heading: Villkor för deltagare
-      consider_pd: Utöver ovan nämnda avtal, anser jag att mina bidrag är inom Public
-        Domain.
+      heading_ct: 'Användarvillkor:'
+      contributor_terms_explain: Denna avtal beskriver villkoren för dina existerande
+        och framtida bidrag.
+      read_ct: Jag har läst och samtycken med de ovanstående villkor för deltagare
+      tou_explain_html: 'Dessa %{tou_länk} beskriver villkoren för bruk av denna hemsida
+        och annan infrastruktur står till förfogande av OSMF. Klick #vänlig på länken,
+        läs och samtyck med villkoren.'
+      read_tou: Jag har läst och samtycker med användarvillkoren.
+      consider_pd: Utöver ovan nämnda avtal, anser jag att mina bidrag är inom allmän
+        egendom.
       consider_pd_why: vad är det här?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Information som hjälper dig förstå dessa termer: en <a href="%{summary}">lättläst
         sammanfattning</a> och några <a href="%{translations}">informella översättningar</a>'
+      continue: |2-
+
+        Fortsätt
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Avslå
       you need to accept or decline: Läs igenom och Godkänn eller Avböj de nya bidragsvillkoren
@@ -2480,6 +2504,18 @@ sv:
         hours:
           one: 1 timme
           other: '%{count} timmar'
+        days:
+          one: 1 dag
+          other: '%{count} dagar'
+        weeks:
+          one: 1 vecka
+          other: '%{count} veckor'
+        months:
+          one: 1 månad
+          other: '%{count} månader'
+        years:
+          one: 1 år
+          other: '%{count} år'
     blocks_on:
       title: Blockeringar på %{name}
       heading: Lista över blockeringar på %{name}
@@ -2578,6 +2614,7 @@ sv:
         title: Lager
       copyright: © <a href='%{copyright_url}'>OpenStreetMaps bidragsgivare</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Donera</a>
+      terms: <a href="%{terms_url}">Hemsidan och API-villkor</a>
     site:
       edit_tooltip: Redigera kartan
       edit_disabled_tooltip: Zooma in för att redigera kartan
