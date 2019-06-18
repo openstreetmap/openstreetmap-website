@@ -23,7 +23,6 @@ class GuestAbilityTest < AbilityTest
 
     [:create, :edit, :comment, :subscribe, :unsubscribe, :hide, :hidecomment].each do |action|
       assert ability.cannot?(action, DiaryEntry), "should not be able to #{action} DiaryEntries"
-      assert ability.cannot?(action, DiaryComment), "should not be able to #{action} DiaryEntries"
     end
   end
 
@@ -54,7 +53,6 @@ class UserAbilityTest < AbilityTest
 
     [:hide, :hidecomment].each do |action|
       assert ability.cannot?(action, DiaryEntry), "should not be able to #{action} DiaryEntries"
-      assert ability.cannot?(action, DiaryComment), "should not be able to #{action} DiaryEntries"
     end
 
     [:index, :show, :resolve, :ignore, :reopen].each do |action|
@@ -78,6 +76,10 @@ class ModeratorAbilityTest < AbilityTest
     [:grant, :revoke].each do |action|
       assert ability.cannot?(action, UserRole), "should not be able to #{action} UserRoles"
     end
+
+    [:hide, :hidecomment].each do |action|
+      assert ability.can?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
+    end
   end
 end
 
@@ -86,10 +88,6 @@ class AdministratorAbilityTest < AbilityTest
     ability = Ability.new create(:administrator_user)
     [:index, :rss, :show, :comments, :create, :edit, :comment, :subscribe, :unsubscribe, :hide, :hidecomment].each do |action|
       assert ability.can?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
-    end
-
-    [:hide, :hidecomment].each do |action|
-      assert ability.can?(action, DiaryComment), "should be able to #{action} DiaryComment"
     end
   end
 

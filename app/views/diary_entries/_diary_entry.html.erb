@@ -37,7 +37,7 @@
       </li>
     <% end %>
 
-    <% if current_user && current_user.administrator? %>
+    <% if can? :hide, DiaryEntry %>
       <li>
         <% if diary_entry.visible %>
           <%= link_to t(".hide_link"), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t(".confirm") } %>
