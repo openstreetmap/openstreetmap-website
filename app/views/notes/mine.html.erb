@@ -26,8 +26,8 @@
     <td><%= link_to note.id, browse_note_path(note) %></td>
     <td><%= note_author(note.author) %></td>
     <td><%= note.comments.first.body.to_html %></td>
-    <td><%= t ".ago_html", :when => friendly_date(note.created_at) %></td>
-    <td><%= t ".ago_html", :when => friendly_date(note.updated_at) %></td>
+    <td><%= friendly_date_ago(note.created_at) %></td>
+    <td><%= friendly_date_ago(note.updated_at) %></td>
   </tr>
 <% end -%>
 </table>
