@@ -147,7 +147,7 @@ class ChangesetsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template "index"
 
-    check_index_result(Changeset.where(:user => private_user.friend_users.identifiable))
+    check_index_result(Changeset.where(:user => private_user.friends.identifiable))
   end
 
   ##
