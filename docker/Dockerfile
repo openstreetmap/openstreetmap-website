@@ -1,7 +1,7 @@
 FROM ruby:2.5-slim
 
 #install packages
-#fixes dpkg man page softlink error while installing postgresql-client [source: https://github.com/debuerreotype/debuerreotype/issues/10#issuecomment-438342078]
+#fixes dpkg man page softlink error while installing postgresql-client [source: https://stackoverflow.com/a/52655008/5350059]
 RUN mkdir -p /usr/share/man/man1 && mkdir -p /usr/share/man/man7
 RUN apt-get update && apt-get install curl -y
 RUN curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh && bash nodesource_setup.sh && rm nodesource_setup.sh
