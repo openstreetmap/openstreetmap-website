@@ -224,7 +224,7 @@ class User < ActiveRecord::Base
   end
 
   def is_friends_with?(new_friend)
-    friendships.where(:friend_user_id => new_friend.id).exists?
+    friendships.where(:befriendee => new_friend).exists?
   end
 
   ##

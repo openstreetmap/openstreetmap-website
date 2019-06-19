@@ -1244,7 +1244,7 @@ class UsersControllerTest < ActionController::TestCase
     # Get users to work with
     user = create(:user)
     friend = create(:user)
-    create(:friendship, :user_id => user.id, :friend_user_id => friend.id)
+    create(:friendship, :befriender => user, :befriendee => friend)
 
     # Check that the users are friends
     assert Friendship.where(:user_id => user.id, :friend_user_id => friend.id).first
