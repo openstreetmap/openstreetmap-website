@@ -105,7 +105,7 @@ class UserTest < ActiveSupport::TestCase
     alice = create(:user, :active)
     bob = create(:user, :active)
     charlie = create(:user, :active)
-    create(:friend, :befriender => alice, :befriendee => bob)
+    create(:friendship, :befriender => alice, :befriendee => bob)
 
     assert alice.is_friends_with?(bob)
     assert_not alice.is_friends_with?(charlie)
@@ -139,7 +139,7 @@ class UserTest < ActiveSupport::TestCase
   def test_friend_users
     norm = create(:user, :active)
     sec = create(:user, :active)
-    create(:friend, :befriender => norm, :befriendee => sec)
+    create(:friendship, :befriender => norm, :befriendee => sec)
 
     assert_equal [sec], norm.friend_users
     assert_equal 1, norm.friend_users.size

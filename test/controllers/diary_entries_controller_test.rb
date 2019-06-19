@@ -528,8 +528,8 @@ class DiaryEntriesControllerTest < ActionController::TestCase
   def test_index_friends
     user = create(:user)
     other_user = create(:user)
-    friend = create(:friend, :befriender => user)
-    diary_entry = create(:diary_entry, :user => friend.befriendee)
+    friendship = create(:friendship, :befriender => user)
+    diary_entry = create(:diary_entry, :user => friendship.befriendee)
     _other_entry = create(:diary_entry, :user => other_user)
 
     # Try a list of diary entries for your friends when not logged in

@@ -57,8 +57,8 @@ class User < ActiveRecord::Base
   has_many :messages, -> { where(:to_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :foreign_key => :to_user_id
   has_many :new_messages, -> { where(:to_user_visible => true, :message_read => false).order(:sent_on => :desc) }, :class_name => "Message", :foreign_key => :to_user_id
   has_many :sent_messages, -> { where(:from_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :class_name => "Message", :foreign_key => :from_user_id
-  has_many :friends, -> { joins(:befriendee).where(:users => { :status => %w[active confirmed] }) }
-  has_many :friend_users, :through => :friends, :source => :befriendee
+  has_many :friendships, -> { joins(:befriendee).where(:users => { :status => %w[active confirmed] }) }
+  has_many :friend_users, :through => :friendships, :source => :befriendee
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
   has_many :changesets, -> { order(:created_at => :desc) }
@@ -224,7 +224,7 @@ class User < ActiveRecord::Base
   end
 
   def is_friends_with?(new_friend)
-    friends.where(:friend_user_id => new_friend.id).exists?
+    friendships.where(:friend_user_id => new_friend.id).exists?
   end
 
   ##
