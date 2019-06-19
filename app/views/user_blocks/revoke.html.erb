@@ -28,6 +28,6 @@
 
 <% else %>
 <p>
-  <%= t(".past", :time => distance_of_time_in_words_to_now(@user_block.ends_at)) %>
+  <%= t(".past", :time => time_ago_in_words(@user_block.ends_at, :scope => :'datetime.distance_in_words_ago')) %>
 </p>
 <% end %>
