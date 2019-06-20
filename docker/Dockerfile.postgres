@@ -1,0 +1,8 @@
+FROM postgres:9.4
+
+ADD /db/docker_postgres.sh docker-entrypoint-initdb.d/docker_postgres.sh
+ADD db/functions/ db/functions/
+
+RUN apt-get update
+RUN apt-get install -y make build-essential postgresql-server-dev-all
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
