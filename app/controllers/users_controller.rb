@@ -388,16 +388,16 @@ class UsersController < ApplicationController
 
     if @new_friend
       if request.post?
-        friend = Friend.new
-        friend.befriender = current_user
-        friend.befriendee = @new_friend
+        friendship = Friendship.new
+        friendship.befriender = current_user
+        friendship.befriendee = @new_friend
         if current_user.is_friends_with?(@new_friend)
           flash[:warning] = t "users.make_friend.already_a_friend", :name => @new_friend.display_name
-        elsif friend.save
+        elsif friendship.save
           flash[:notice] = t "users.make_friend.success", :name => @new_friend.display_name
-          Notifier.friend_notification(friend).deliver_later
+          Notifier.friend_notification(friendship).deliver_later
         else
-          friend.add_error(t("users.make_friend.failed", :name => @new_friend.display_name))
+          friendship.add_error(t("users.make_friend.failed", :name => @new_friend.display_name))
         end
 
         if params[:referer]
@@ -417,7 +417,7 @@ class UsersController < ApplicationController
     if @friend
       if request.post?
         if current_user.is_friends_with?(@friend)
-          Friend.where(:user_id => current_user.id, :friend_user_id => @friend.id).delete_all
+          Friendship.where(:befriender => current_user, :befriendee => @friend).delete_all
           flash[:notice] = t "users.remove_friend.success", :name => @friend.display_name
         else
           flash[:error] = t "users.remove_friend.not_a_friend", :name => @friend.display_name

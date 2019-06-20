@@ -988,7 +988,7 @@ class UsersControllerTest < ActionController::TestCase
     # Test a normal user
     user = create(:user, :home_lon => 1.1, :home_lat => 1.1)
     friend_user = create(:user, :home_lon => 1.2, :home_lat => 1.2)
-    create(:friend, :befriender => user, :befriendee => friend_user)
+    create(:friendship, :befriender => user, :befriendee => friend_user)
     create(:changeset, :user => friend_user)
 
     get :show, :params => { :display_name => user.display_name }
@@ -1113,7 +1113,7 @@ class UsersControllerTest < ActionController::TestCase
     friend = create(:user)
 
     # Check that the users aren't already friends
-    assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
+    assert_nil Friendship.where(:befriender => user, :befriendee => friend).first
 
     # When not logged in a GET should ask us to login
     get :make_friend, :params => { :display_name => friend.display_name }
@@ -1122,7 +1122,7 @@ class UsersControllerTest < ActionController::TestCase
     # When not logged in a POST should error
     post :make_friend, :params => { :display_name => friend.display_name }
     assert_response :forbidden
-    assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
+    assert_nil Friendship.where(:befriender => user, :befriendee => friend).first
 
     # When logged in a GET should get a confirmation page
     get :make_friend, :params => { :display_name => friend.display_name }, :session => { :user => user }
@@ -1132,7 +1132,7 @@ class UsersControllerTest < ActionController::TestCase
       assert_select "input[type='hidden'][name='referer']", 0
       assert_select "input[type='submit']", 1
     end
-    assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
+    assert_nil Friendship.where(:befriender => user, :befriendee => friend).first
 
     # When logged in a POST should add the friendship
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
@@ -1142,7 +1142,7 @@ class UsersControllerTest < ActionController::TestCase
     end
     assert_redirected_to user_path(friend)
     assert_match(/is now your friend/, flash[:notice])
-    assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
+    assert Friendship.where(:befriender => user, :befriendee => friend).first
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal friend.email, email.to.first
@@ -1156,7 +1156,7 @@ class UsersControllerTest < ActionController::TestCase
     end
     assert_redirected_to user_path(friend)
     assert_match(/You are already friends with/, flash[:warning])
-    assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
+    assert Friendship.where(:befriender => user, :befriendee => friend).first
   end
 
   def test_make_friend_with_referer
@@ -1165,7 +1165,7 @@ class UsersControllerTest < ActionController::TestCase
     friend = create(:user)
 
     # Check that the users aren't already friends
-    assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
+    assert_nil Friendship.where(:befriender => user, :befriendee => friend).first
 
     # The GET should preserve any referer
     get :make_friend, :params => { :display_name => friend.display_name, :referer => "/test" }, :session => { :user => user }
@@ -1175,7 +1175,7 @@ class UsersControllerTest < ActionController::TestCase
       assert_select "input[type='hidden'][name='referer'][value='/test']", 1
       assert_select "input[type='submit']", 1
     end
-    assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
+    assert_nil Friendship.where(:befriender => user, :befriendee => friend).first
 
     # When logged in a POST should add the friendship and refer us
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
@@ -1185,7 +1185,7 @@ class UsersControllerTest < ActionController::TestCase
     end
     assert_redirected_to "/test"
     assert_match(/is now your friend/, flash[:notice])
-    assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
+    assert Friendship.where(:befriender => user, :befriendee => friend).first
     email = ActionMailer::Base.deliveries.first
     assert_equal 1, email.to.count
     assert_equal friend.email, email.to.first
@@ -1203,10 +1203,10 @@ class UsersControllerTest < ActionController::TestCase
     # Get users to work with
     user = create(:user)
     friend = create(:user)
-    create(:friend, :befriender => user, :befriendee => friend)
+    create(:friendship, :befriender => user, :befriendee => friend)
 
     # Check that the users are friends
-    assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
+    assert Friendship.where(:befriender => user, :befriendee => friend).first
 
     # When not logged in a GET should ask us to login
     get :remove_friend, :params => { :display_name => friend.display_name }
@@ -1215,7 +1215,7 @@ class UsersControllerTest < ActionController::TestCase
     # When not logged in a POST should error
     post :remove_friend, :params => { :display_name => friend.display_name }
     assert_response :forbidden
-    assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
+    assert Friendship.where(:befriender => user, :befriendee => friend).first
 
     # When logged in a GET should get a confirmation page
     get :remove_friend, :params => { :display_name => friend.display_name }, :session => { :user => user }
@@ -1225,29 +1225,29 @@ class UsersControllerTest < ActionController::TestCase
       assert_select "input[type='hidden'][name='referer']", 0
       assert_select "input[type='submit']", 1
     end
-    assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
+    assert Friendship.where(:befriender => user, :befriendee => friend).first
 
     # When logged in a POST should remove the friendship
     post :remove_friend, :params => { :display_name => friend.display_name }, :session => { :user => user }
     assert_redirected_to user_path(friend)
     assert_match(/was removed from your friends/, flash[:notice])
-    assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
+    assert_nil Friendship.where(:befriender => user, :befriendee => friend).first
 
     # A second POST should report that the friendship does not exist
     post :remove_friend, :params => { :display_name => friend.display_name }, :session => { :user => user }
     assert_redirected_to user_path(friend)
     assert_match(/is not one of your friends/, flash[:error])
-    assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
+    assert_nil Friendship.where(:befriender => user, :befriendee => friend).first
   end
 
   def test_remove_friend_with_referer
     # Get users to work with
     user = create(:user)
     friend = create(:user)
-    create(:friend, :user_id => user.id, :friend_user_id => friend.id)
+    create(:friendship, :befriender => user, :befriendee => friend)
 
     # Check that the users are friends
-    assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
+    assert Friendship.where(:befriender => user, :befriendee => friend).first
 
     # The GET should preserve any referer
     get :remove_friend, :params => { :display_name => friend.display_name, :referer => "/test" }, :session => { :user => user }
@@ -1257,13 +1257,13 @@ class UsersControllerTest < ActionController::TestCase
       assert_select "input[type='hidden'][name='referer'][value='/test']", 1
       assert_select "input[type='submit']", 1
     end
-    assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
+    assert Friendship.where(:befriender => user, :befriendee => friend).first
 
     # When logged in a POST should remove the friendship and refer
     post :remove_friend, :params => { :display_name => friend.display_name, :referer => "/test" }, :session => { :user => user }
     assert_redirected_to "/test"
     assert_match(/was removed from your friends/, flash[:notice])
-    assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
+    assert_nil Friendship.where(:befriender => user, :befriendee => friend).first
   end
 
   def test_remove_friend_unkown_user
