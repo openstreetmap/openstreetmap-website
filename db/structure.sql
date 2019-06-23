@@ -168,7 +168,8 @@ CREATE TABLE public.acls (
     address inet,
     k character varying NOT NULL,
     v character varying,
-    domain character varying
+    domain character varying,
+    mx character varying
 );
 
 
@@ -2079,6 +2080,13 @@ CREATE INDEX index_acls_on_domain ON public.acls USING btree (domain);
 
 
 --
+-- Name: index_acls_on_mx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_acls_on_mx ON public.acls USING btree (mx);
+
+
+--
 -- Name: index_changeset_comments_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2949,6 +2957,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181020114000'),
 ('20181031113522'),
 ('20190518115041'),
+('20190623093642'),
 ('21'),
 ('22'),
 ('23'),

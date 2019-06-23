@@ -752,13 +752,27 @@ class UsersController < ApplicationController
                email.split("@").last
              end
 
-    if blocked = Acl.no_account_creation(request.remote_ip, domain)
+    mx_servers = if domain.nil?
+                   nil
+                 else
+                   domain_mx_servers(domain)
+                 end
+
+    if blocked = Acl.no_account_creation(request.remote_ip, :domain => domain, :mx => mx_servers)
       logger.info "Blocked signup from #{request.remote_ip} for #{email}"
 
       render :action => "blocked"
     end
 
     !blocked
+  end
+
+  ##
+  # get list of MX servers for a domains
+  def domain_mx_servers(domain)
+    Resolv::DNS.open do |dns|
+      dns.getresources(domain, Resolv::DNS::Resource::IN::MX).collect(&:exchange).collect(&:to_s)
+    end
   end
 
   ##
