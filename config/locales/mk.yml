@@ -29,8 +29,8 @@ mk:
         create: Регистрирање
         update: Уреди
       redaction:
-        create: Создај редакција
-        update: Зачувај редакција
+        create: Создај исправка
+        update: Зачувај исправка
       trace:
         create: Подигни
         update: Зачувај промени
@@ -109,6 +109,45 @@ mk:
         description: Опис
         languages: Јазици
         pass_crypt: Лозинка
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: пред околу 1 час
+        other: пред околу %{count} часа
+      about_x_months:
+        one: пред околу 1 месец
+        other: пред околу %{count} месеци
+      about_x_years:
+        one: пред околу 1 година
+        other: пред околу %{count} години
+      almost_x_years:
+        one: речиси пред 1 година
+        other: речиси пред %{count} години
+      half_a_minute: пред половина минута
+      less_than_x_seconds:
+        one: пред помалку од 1 секунда
+        other: пред помалку од %{count} секунди
+      less_than_x_minutes:
+        one: пред помалку од 1 минута
+        other: пред помалку од %{count} минути
+      over_x_years:
+        one: пред повеќе од 1 година
+        other: пред повеќе од %{count} години
+      x_seconds:
+        one: пред повеќе од 1 секунда
+        other: пред повеќе од %{count} секунди
+      x_minutes:
+        one: пред 1 минута
+        other: пред %{count} минути
+      x_days:
+        one: пред 1 ден
+        other: пред %{count} дена
+      x_months:
+        one: пред 1 месец
+        other: пред %{count} месеци
+      x_years:
+        one: пред 1 година
+        other: пред %{count} години
   printable_name:
     with_version: '%{id}, вер. %{version}'
     with_name_html: '%{name} (%{id})'
@@ -1294,7 +1333,7 @@ mk:
     no_such_message:
       title: Нема таква порака
       heading: Нема таква порака
-      body: За жал, нема порака со тој id.
+      body: За жал, нема порака со таа назнака.
     outbox:
       title: За праќање
       my_inbox: Моите %{inbox_link}
@@ -1444,8 +1483,10 @@ mk:
           <a href="https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Покраина Предарлска</a> и
           Покраина Тирол (под <a href="https://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT со исправки</a>).
         contributors_au_html: |-
-          <strong>Австралија</strong>: Содржи податоци за населби од
-          Австралиското биро за статистика.
+          <strong>Австралија</strong>: Содржи податоци преземени од
+          <a href="https://www.psma.com.au/psma-data-copyright-and-disclaimer">Општествените картографски заводи на Австралија (PSMA)</a>
+          ставени на располагање од австралиската држава под лиценцата
+          <a href="https://creativecommons.org/licenses/by/4.0/deed.mk">CC BY 4.0</a>.
         contributors_ca_html: |-
           <strong>Canada</strong>: Содржи податоци од
           GeoBase&reg;, GeoGratis (&copy; Министерство за природни ресурси на Канада), CanVec (&copy; Министерство за природни ресурси на Канада), and StatCan (Географско одделение,
@@ -1538,7 +1579,7 @@ mk:
         без кои оваа можност не може да работи.
     export:
       title: Извези
-      area_to_export: Простор за извоз
+      area_to_export: Подрачје за извоз
       manually_select: Рачно изберете друга површина
       format_to_export: Формат за извоз
       osm_xml_data: OpenStreetMap XML податоци
@@ -1579,7 +1620,7 @@ mk:
       add_marker: Додај бележник на картата
       latitude: Г.Ш.
       longitude: Г.Д.
-      output: Излезни податоци
+      output: Извод
       paste_html: Ископирајте го HTML кодот за да го вметнете во страницата.
       export_button: Извези
     fixthemap:
@@ -2714,33 +2755,33 @@ mk:
   redactions:
     edit:
       description: Опис
-      heading: Уреди редакција
-      title: Уреди редакција
+      heading: Уреди исправки
+      title: Уреди исправки
     index:
-      empty: Нема редакции.
-      heading: Список на редакции
-      title: Список на редакции
+      empty: Нема исправки за приказ.
+      heading: Список на исправки
+      title: Список на исправки
     new:
       description: Опис
-      heading: Внесете информации за новата редакција
-      title: Создавање на нова редакција
+      heading: Внесете информации за нова исправка
+      title: Создавање на нова исправка
     show:
       description: 'Опис:'
-      heading: Прикажана е редакцијата „%{title}“
-      title: Приказ на редакција
+      heading: Прикажана е исправката „%{title}“
+      title: Приказ на исправка
       user: 'Создавач:'
-      edit: Уреди ја редакцијава
-      destroy: Отстрани ја редакцијава
+      edit: Уреди ја исправкава
+      destroy: Отстрани ја исправкава
       confirm: Дали сте сигурни?
     create:
-      flash: Редакцијата е создадена.
+      flash: Исправката е создадена.
     update:
       flash: Промените се зачувани.
     destroy:
-      not_empty: Редакцијата не е празна. Одредактирајте ги сите верзии што ѝ принадлежат
-        на оваа редакција пред да ја поништите.
-      flash: Редакцијата е поништена.
-      error: Се појави грешка при поништувањето на редакцијата.
+      not_empty: Исправката не е празна. Поништете ги измените на сите верзии што
+        ѝ принадлежат на оваа исправка пред да ја поништите.
+      flash: Исправката е поништена.
+      error: Се појави грешка при поништувањето на исправката.
   validations:
     leading_whitespace: има почетна белина
     trailing_whitespace: има завршна белина

@@ -31,9 +31,12 @@
 # Author: SupaplexTW
 # Author: Wehwei
 # Author: Wrightbus
+# Author: 神樂坂秀吉
 # Author: 아라
 ---
 zh-TW:
+  html:
+    dir: 由左至右
   time:
     formats:
       friendly: '%Y 年 %B %e 日 %H 時 %M 分'
@@ -133,8 +136,48 @@ zh-TW:
         description: 說明
         languages: 語言
         pass_crypt: 密碼
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: 約1小時前
+        other: 約%{count}小時前
+      about_x_months:
+        one: 約1個月前
+        other: 約%{count}個月前
+      about_x_years:
+        one: 約1年
+        other: 約%{count}年前
+      almost_x_years:
+        one: 近1年
+        other: 近%{count}年前
+      half_a_minute: 30秒前
+      less_than_x_seconds:
+        one: 小於 1 秒前
+        other: 小於 %{count} 秒前
+      less_than_x_minutes:
+        one: 小於 1 分前
+        other: 小於 %{count} 分前
+      over_x_years:
+        one: 超過1年前
+        other: 超過%{count}年前
+      x_seconds:
+        one: 1秒前
+        other: '%{count}秒前'
+      x_minutes:
+        one: 1分鐘前
+        other: '%{count}分鐘前'
+      x_days:
+        one: 1日前
+        other: '%{count}日前'
+      x_months:
+        one: 1個月前
+        other: '%{count}個月前'
+      x_years:
+        one: 1年前
+        other: '%{count}年前'
   printable_name:
     with_version: '%{id}，版本%{version}'
+    with_name_html: '%{name}%{id}'
   editor:
     default: 預設 (目前為 %{name})
     potlatch:
@@ -224,6 +267,7 @@ zh-TW:
       history_title: 關聯歷史：%{name}
       members: 成員
     relation_member:
+      entry: '%{type} %{name}'
       entry_role: '%{type} %{name} 作為 %{role}'
       type:
         node: 節點
@@ -418,6 +462,7 @@ zh-TW:
           Nominatim</a> 的結果
         geonames_reverse: 來自<a href="http://www.geonames.org/">GeoNames</a>的結果
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: 大型纜車
@@ -1107,6 +1152,9 @@ zh-TW:
       successful_report: 已成功登記您的回報
       provide_details: 請提供所需的詳情
   layouts:
+    project_name:
+      title: OpenStreetMap
+      h1: OpenStreetMap
     logo:
       alt_text: OpenStreetMap 標誌
     home: 移至家的位置
@@ -1159,6 +1207,7 @@ zh-TW:
       header: '%{from_user} 評論主旨為 %{subject} 的 OpenStreetMap 日記項目：'
       footer: 您也可以在 %{readurl} 閱讀評論，並且在 %{commenturl} 留下評論，或在 %{replyurl} 回覆
     message_notification:
+      subject_header: '[OpenStreetMap] %{subject}'
       hi: '%{to_user} 您好，'
       header: '%{from_user} 透過 OpenStreetMap 寄給您主旨為 %{subject} 的訊息：'
       footer_html: 您也可以在 %{readurl} 閱讀訊息，並且在 %{replyurl} 回覆
@@ -1179,6 +1228,7 @@ zh-TW:
         failed_to_import: 看來匯入失敗。錯誤訊息為：
         more_info_1: 更多關於 GPX 匯入失敗與如何避免它們的
         more_info_2: 資訊可在這裡找到：
+        import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       success:
         subject: '[OpenStreetMap] GPX 匯入成功'
         loaded_successfully: |-
@@ -1447,6 +1497,7 @@ zh-TW:
       not_public: 您尚未將您的編輯設為公開。
       not_public_description: 在您這麼做之前將無法再編輯地圖。您可以在您的 %{user_page} 將自己的編輯設定為公開。
       user_page_link: 使用者頁面
+      anon_edits: (%{link})
       anon_edits_link_text: 瞭解為什麼這很重要。
       flash_player_required: 您需要 Flash player 才能使用 Potlatch，OpenStreetMap Flash 編輯器。您可以<a
         href="https://get.adobe.com/flashplayer/">在 Adobe.com 下載 Flash Player</a>。<a
@@ -2270,17 +2321,17 @@ zh-TW:
           one: 1 小時
           other: '%{count} 小時'
         days:
-          one: 1 日
-          other: '%{count} 日'
+          one: 1日
+          other: '%{count}日'
         weeks:
-          one: 1 週
-          other: '%{count} 週'
+          one: 1週
+          other: '%{count}週'
         months:
-          one: 1 個月
-          other: '%{count} 個月'
+          one: 1個月
+          other: '%{count}個月'
         years:
-          one: 1 年
-          other: '%{count} 年'
+          one: 1年
+          other: '%{count}年'
     blocks_on:
       title: 對 %{name} 的封鎖
       heading: 對 %{name} 封鎖的清單
