@@ -9,6 +9,7 @@ class ApiAbility
     can :index, :map
     can :show, :permission
     can [:search_all, :search_nodes, :search_ways, :search_relations], :search
+    can :show, :version
 
     if Settings.status != "database_offline"
       can [:show, :download, :query], Changeset
