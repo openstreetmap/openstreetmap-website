@@ -13,7 +13,7 @@ module Api
 
     def show
       if @user.visible?
-        render :action => :show, :content_type => "text/xml"
+        render :content_type => "text/xml"
       else
         head :gone
       end
@@ -33,7 +33,7 @@ module Api
 
       @users = User.visible.find(ids)
 
-      render :action => :index, :content_type => "text/xml"
+      render :content_type => "text/xml"
     end
 
     def gpx_files
