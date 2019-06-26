@@ -60,7 +60,7 @@ class ChangesetsController < ApplicationController
 
       changesets = changesets.where("changesets.id <= ?", @params[:max_id]) if @params[:max_id]
 
-      @edits = changesets.order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
+      @changesets = changesets.order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
 
       render :action => :index, :layout => false
     end
