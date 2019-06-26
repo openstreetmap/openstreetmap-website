@@ -36,7 +36,7 @@
               <li id="c<%= comment.id %>">
                 <small class='deemphasize'>
                   <%= t(".commented_by",
-                        :when => friendly_date(comment.created_at),
+                        :when => friendly_date_ago(comment.created_at),
                         :exact_time => l(comment.created_at),
                         :user => link_to(h(comment.author.display_name), user_path(comment.author))).html_safe %>
                   <% if current_user and current_user.moderator? %>
@@ -49,7 +49,7 @@
               <li id="c<%= comment.id %>">
                 <small class='deemphasize'>
                   <%= t(".hidden_commented_by",
-                        :when => friendly_date(comment.created_at),
+                        :when => friendly_date_ago(comment.created_at),
                         :exact_time => l(comment.created_at),
                         :user => link_to(h(comment.author.display_name), user_path(comment.author))).html_safe %>
                   — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_unhide_url(comment.id) %>"><%= t("javascripts.changesets.show.unhide_comment") %></span>

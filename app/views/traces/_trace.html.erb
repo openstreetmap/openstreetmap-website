@@ -14,7 +14,7 @@
       <% if trace.inserted %>
         (<%= t ".count_points", :count => trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/, '\1,') %>)
       <% end %>
-      ... <%= t ".ago", :time_in_words_ago => time_ago_in_words(trace.timestamp) %></span>
+      ... <%= time_ago_in_words(trace.timestamp, :scope => :'datetime.distance_in_words_ago') %></span>
       <%= link_to_if trace.inserted?, t(".map"), { :controller => "site", :action => "index", :mlat => trace.latitude, :mlon => trace.longitude, :anchor => "map=14/#{trace.latitude}/#{trace.longitude}" }, { :title => t(".view_map") } %> /
       <%= link_to t(".edit"), { :controller => "site", :action => "edit", :gpx => trace.id }, { :title => t(".edit_map") } %>
       <span class="trace_<%= trace.visibility %>"><%= t("." + trace.visibility) %></span>

@@ -19,7 +19,7 @@ module UserBlocksHelper
       # either because the user viewed the block (updated_at) or it expired or was
       # revoked (ends_at)
       last_time = [block.ends_at, block.updated_at].max
-      I18n.t("user_blocks.helper.time_past", :time => friendly_date(last_time)).html_safe
+      I18n.t("user_blocks.helper.time_past", :time => friendly_date_ago(last_time)).html_safe
     end
   end
 
