@@ -37,11 +37,8 @@ module Api
     end
 
     def gpx_files
-      doc = OSM::API.new.get_xml_doc
-      current_user.traces.reload.each do |trace|
-        doc.root << trace.to_xml_node
-      end
-      render :xml => doc.to_s
+      @traces = current_user.traces.reload
+      render :content_type => "application/xml"
     end
 
     private
