@@ -38,7 +38,7 @@ module Api
 
     def gpx_files
       @traces = current_user.traces.reload
-      render "api/traces/trace", :content_type => "application/xml"
+      render :content_type => "application/xml"
     end
 
     private
