@@ -32,11 +32,7 @@
 <% else %>
   <h4><%= t ".recent_entries" %></h4>
 
-  <% if @user %>
-    <%= render :partial => "diary_entry", :collection => @entries %>
-  <% else %>
-    <%= render :partial => "diary_index_entry", :collection => @entries %>
-  <% end %>
+  <%= render @entries %>
 
   <div class="pagination">
     <% if @entries.size < @page_size -%>
