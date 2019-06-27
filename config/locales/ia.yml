@@ -105,6 +105,45 @@ ia:
         description: Description
         languages: Linguas
         pass_crypt: Contrasigno
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: circa 1 hora retro
+        other: circa %{count} horas retro
+      about_x_months:
+        one: circa 1 mense retro
+        other: circa %{count} menses retro
+      about_x_years:
+        one: circa 1 anno retro
+        other: circa %{count} annos retro
+      almost_x_years:
+        one: quasi 1 anno retro
+        other: quasi %{count} annos retro
+      half_a_minute: un medie minuta retro
+      less_than_x_seconds:
+        one: minus de 1 seconda retro
+        other: minus de %{count} secundas retro
+      less_than_x_minutes:
+        one: minus de un minuta retro
+        other: minus de %{count} minutas retro
+      over_x_years:
+        one: plus de 1 anno retro
+        other: plus de %{count} annos retro
+      x_seconds:
+        one: 1 secunda retro
+        other: '%{count} secundas retro'
+      x_minutes:
+        one: 1 minuta retro
+        other: '%{count} minutas retro'
+      x_days:
+        one: 1 die retro
+        other: '%{count} dies retro'
+      x_months:
+        one: 1 mense retro
+        other: '%{count} menses retro'
+      x_years:
+        one: 1 anno retro
+        other: '%{count} annos retro'
   editor:
     default: Predefinite (actualmente %{name})
     potlatch:
@@ -122,14 +161,14 @@ ia:
   api:
     notes:
       comment:
-        opened_at_html: Create %{when} retro
-        opened_at_by_html: Create %{when} retro per %{user}
-        commented_at_html: Actualisate %{when} retro
-        commented_at_by_html: Actualisate %{when} retro per %{user}
-        closed_at_html: Resolvite %{when} retro
-        closed_at_by_html: Resolvite %{when} retro per %{user}
-        reopened_at_html: Reactivate %{when} retro
-        reopened_at_by_html: Reactivate %{when} retro per %{user}
+        opened_at_html: Create %{when}
+        opened_at_by_html: Create %{when} per %{user}
+        commented_at_html: Actualisate %{when}
+        commented_at_by_html: Actualisate %{when} per %{user}
+        closed_at_html: Resolvite %{when}
+        closed_at_by_html: Resolvite %{when} per %{user}
+        reopened_at_html: Reactivate %{when}
+        reopened_at_by_html: Reactivate %{when} per %{user}
       rss:
         title: Notas de OpenStreetMap
         description_area: Un lista de notas reportate, commentate o claudite in tu
@@ -145,12 +184,12 @@ ia:
   browse:
     created: Create a
     closed: Claudite a
-    created_html: Create <abbr title='%{title}'>%{time} retro</abbr>
-    closed_html: Claudite <abbr title='%{title}'>%{time} retro</abbr>
-    created_by_html: Create <abbr title='%{title}'>%{time} retro</abbr> per %{user}
-    deleted_by_html: Delite <abbr title='%{title}'>%{time} retro</abbr> per %{user}
-    edited_by_html: Modificate <abbr title='%{title}'>%{time} retro</abbr> per %{user}
-    closed_by_html: Claudite <abbr title='%{title}'>%{time} retro</abbr> per %{user}
+    created_html: Create <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Claudite <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Create <abbr title='%{title}'>%{time}</abbr> per %{user}
+    deleted_by_html: Delite <abbr title='%{title}'>%{time}</abbr> per %{user}
+    edited_by_html: Modificate <abbr title='%{title}'>%{time}</abbr> per %{user}
+    closed_by_html: Claudite <abbr title='%{title}'>%{time}</abbr> per %{user}
     version: Version
     in_changeset: Gruppo de modificationes
     anonymous: anonyme
@@ -170,9 +209,8 @@ ia:
       relation: Relationes (%{count})
       relation_paginated: Relationes (%{x}-%{y} de %{count})
       comment: Commentos (%{count})
-      hidden_commented_by: Commento celate de %{user} <abbr title='%{exact_time}'>%{when}
-        retro</abbr>
-      commented_by: Commento de %{user} <abbr title='%{exact_time}'>%{when} retro</abbr>
+      hidden_commented_by: Commento celate de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Commento de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML del gruppo de modificationes
       osmchangexml: XML osmChange
       feed:
@@ -250,20 +288,15 @@ ia:
       open_title: Nota non resolvite №%{note_name}
       closed_title: Nota resolvite №%{note_name}
       hidden_title: Nota celate №%{note_name}
-      open_by: Create per %{user} <abbr title='%{exact_time}'>%{when} retro</abbr>
-      open_by_anonymous: Create per un anonymo <abbr title='%{exact_time}'>%{when}
-        retro</abbr>
-      commented_by: Commento scribite per %{user} <abbr title='%{exact_time}'>%{when}
-        retro</abbr>
-      commented_by_anonymous: Commento scribite per un anonymo <abbr title='%{exact_time}'>%{when}
-        retro</abbr>
-      closed_by: Resolvite per %{user} <abbr title='%{exact_time}'>%{when} retro</abbr>
-      closed_by_anonymous: Resolvite per un anonymo <abbr title='%{exact_time}'>%{when}
-        retro</abbr>
-      reopened_by: Reactivate per %{user} <abbr title='%{exact_time}'>%{when} retro</abbr>
-      reopened_by_anonymous: Reactivate per un anonymo <abbr title='%{exact_time}'>%{when}
-        retro</abbr>
-      hidden_by: Celate per %{user} <abbr title='%{exact_time}'>%{when} retro</abbr>
+      open_by: Create per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Create per un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Commento de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Commento de un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Resolvite per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Resolvite per un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Reactivate per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Reactivate per un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Celate per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Signalar iste nota
     query:
       title: Cercar objectos
@@ -304,7 +337,7 @@ ia:
     comment:
       comment: Nove commento sur le gruppo de modificationes № %{changeset_id} per
         %{author}
-      commented_at_by_html: Actualisate %{when} retro per %{user}
+      commented_at_by_html: Actualisate %{when} per %{user}
     comments:
       comment: Nove commento sur le gruppo de modificationes № %{changeset_id} per
         %{author}
@@ -390,7 +423,6 @@ ia:
       post: Articulo
       when: Quando
       comment: Commento
-      ago: '%{ago} retro'
       newer_comments: Commentos plus recente
       older_comments: Commentos plus ancian
   geocoder:
@@ -958,9 +990,8 @@ ia:
       status: Stato
       reports: Reportos
       last_updated: Ultime actualisation
-      last_updated_time_html: <abbr title='%{title}'>%{time} retro</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} retro</abbr> per
-        %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> per %{user}
       link_to_reports: Vider reportos
       reports_count:
         one: 1 reporto
@@ -1752,7 +1783,6 @@ ia:
     trace:
       pending: PENDENTE
       count_points: '%{count} punctos'
-      ago: '%{time_in_words_ago} retro'
       more: plus
       trace_details: Vider detalios del tracia
       view_map: Vider carta
@@ -2052,12 +2082,10 @@ ia:
       remove as friend: Remover amico
       add as friend: Adder amico
       mapper since: 'Cartographo depost:'
-      ago: (%{time_in_words_ago} retro)
       ct status: 'Conditiones de contributor:'
       ct undecided: Indecise
       ct declined: Declinate
-      ct accepted: Acceptate %{ago} retro
-      latest edit: 'Ultime modification %{ago}:'
+      latest edit: 'Ultime modification (%{ago}):'
       email address: 'Adresse de e-mail:'
       created from: 'Create ex:'
       status: 'Stato:'
@@ -2317,7 +2345,7 @@ ia:
       title: Revoca blocada de %{block_on}
       heading: Revoca blocada de %{block_on} per %{block_by}
       time_future: Iste blocada expirara in %{time}.
-      past: Iste blocada expirava %{time} retro e non pote esser revocate ora.
+      past: Iste blocada expirava %{time} e non pote esser revocate ora.
       confirm: Es tu secur de voler revocar iste blocada?
       revoke: Revocar!
       flash: Iste blocada ha essite revocate.
@@ -2326,7 +2354,7 @@ ia:
       until_login: Active usque le usator aperi un session.
       time_future_and_until_login: Termina in %{time} e post que le usator ha aperite
         session.
-      time_past: Expirava %{time} retro.
+      time_past: Expirava %{time}.
       block_duration:
         hours:
           one: 1 hora
@@ -2342,10 +2370,7 @@ ia:
     show:
       title: '%{block_on} blocate per %{block_by}'
       heading: '%{block_on} blocate per %{block_by}'
-      time_future: Expira in %{time}
-      time_past: Expirava %{time} retro
       created: Create
-      ago: '%{time} retro'
       status: Stato
       show: Monstrar
       edit: Modificar
@@ -2379,7 +2404,6 @@ ia:
       description: Description
       created_at: Create a
       last_changed: Ultime modification
-      ago_html: '%{when} retro'
   javascripts:
     close: Clauder
     share:

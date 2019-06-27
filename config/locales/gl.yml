@@ -117,6 +117,45 @@ gl:
         description: Descrición
         languages: Linguas
         pass_crypt: Contrasinal
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: ó redor dunha hora
+        other: ó redor de %{count} horas
+      about_x_months:
+        one: ó redor dun mes
+        other: ó redor de %{count} meses
+      about_x_years:
+        one: ó redor dun ano
+        other: ó redor de %{count} ano
+      almost_x_years:
+        one: hai case un ano
+        other: hai case %{count} anos
+      half_a_minute: hai medio minuto
+      less_than_x_seconds:
+        one: hai menos dun segundo
+        other: hai menos de %{count} segundos
+      less_than_x_minutes:
+        one: hai menos dun minuto
+        other: hai menos de %{count} minutos
+      over_x_years:
+        one: hai máis dun ano
+        other: hai máis de %{count} anos
+      x_seconds:
+        one: hai un segundo
+        other: hai %{count} segundos
+      x_minutes:
+        one: hai un minuto
+        other: hai %{count} minutos
+      x_days:
+        one: hai un día
+        other: hai %{count} días
+      x_months:
+        one: hai un mes
+        other: hai %{count} meses
+      x_years:
+        one: hai un ano
+        other: hai %{count} anos
   printable_name:
     with_version: '%{id}, v%{version}'
     with_name_html: '%{name} (%{id})'
@@ -137,14 +176,14 @@ gl:
   api:
     notes:
       comment:
-        opened_at_html: Creado hai %{when}
-        opened_at_by_html: Creado hai %{when} por %{user}
-        commented_at_html: Actualizado hai %{when}
-        commented_at_by_html: Actualizado hai %{when} por %{user}
-        closed_at_html: Resolto hai %{when}
-        closed_at_by_html: Resolto hai %{when} por %{user}
-        reopened_at_html: Reactivado hai %{when}
-        reopened_at_by_html: Reactivado hai %{when} por %{user}
+        opened_at_html: Creado %{when}
+        opened_at_by_html: Creado %{when} por %{user}
+        commented_at_html: Actualizado %{when}
+        commented_at_by_html: Actualizado %{when} por %{user}
+        closed_at_html: Resolto %{when}
+        closed_at_by_html: Resolto %{when} por %{user}
+        reopened_at_html: Reactivado %{when}
+        reopened_at_by_html: Reactivado %{when} por %{user}
       rss:
         title: Notas do OpenStreetMap
         description_area: Unha listaxe das notas recibidas, comentadas ou pechadas
@@ -160,12 +199,12 @@ gl:
   browse:
     created: Creado
     closed: Pechado
-    created_html: Creado <abbr title='%{title}'>hai %{time}</abbr>
-    closed_html: Pechado <abbr title='%{title}'>hai %{time}</abbr>
-    created_by_html: Creado <abbr title='%{title}'>hai %{time}</abbr> por %{user}
-    deleted_by_html: Eliminado <abbr title='%{title}'>hai %{time}</abbr> por %{user}
-    edited_by_html: Editado <abbr title='%{title}'>hai %{time}</abbr> por %{user}
-    closed_by_html: Pechado <abbr title='%{title}'>hai %{time}</abbr> por %{user}
+    created_html: Creado <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Pechado <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Creado <abbr title='%{title}'>%{time}</abbr> por %{user}
+    deleted_by_html: Eliminado <abbr title='%{title}'>%{time}</abbr> por %{user}
+    edited_by_html: Editado <abbr title='%{title}'>%{time}</abbr> por %{user}
+    closed_by_html: Pechado <abbr title='%{title}'>%{time}</abbr> por %{user}
     version: Versión
     in_changeset: Conxunto de mudanzas
     anonymous: anónimo
@@ -185,15 +224,14 @@ gl:
       relation: Relacións (%{count})
       relation_paginated: Relacións (%{x}-%{y} de %{count})
       comment: Comentarios (%{count})
-      hidden_commented_by: Comentario agochado de %{user} <abbr title='%{exact_time}'>
-        hai %{when}</abbr>
-      commented_by: Comentario de %{user} <abbr title='%{exact_time}'> hai %{when}</abbr>
+      hidden_commented_by: Comentario agochado de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comentario de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Conxunto de mudanzas do XML
       osmchangexml: osmChange XML
       feed:
         title: Conxunto de mudanzas %{id}
         title_comment: Conxunto de mudanzas %{id} - %{comment}
-      join_discussion: Inicia-la sesión pra unirse á parola
+      join_discussion: Iniciar a sesión para unirse á parola
       discussion: Parola
       still_open: O conxunto de mudanzas segue aberto - Abrirase a parola cando o
         conxunto de mudanzas estea pechado.
@@ -265,18 +303,15 @@ gl:
       open_title: Nota sen resolver nº%{note_name}
       closed_title: Nota resolta nº%{note_name}
       hidden_title: Nota agochada nº%{note_name}
-      open_by: Creado por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      open_by_anonymous: Creado por un anónimo <abbr title='%{exact_time}'>hai %{when}</abbr>
-      commented_by: Comentado por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      commented_by_anonymous: Comentado por un anónimo <abbr title='%{exact_time}'>hai
-        %{when}</abbr>
-      closed_by: Resolto por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      closed_by_anonymous: Resolto por un anónimo <abbr title='%{exact_time}'>hai
-        %{when}</abbr>
-      reopened_by: Reactivado por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      reopened_by_anonymous: Reactivado por un anónimo <abbr title='%{exact_time}'>hai
-        %{when}</abbr>
-      hidden_by: Agochado por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
+      open_by: Creado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Creado por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comentado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Comentado por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Resolto por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Resolto por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Reactivado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Reactivado por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Agochado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Informar desta nota
     query:
       title: Consulta-los elementos
@@ -317,7 +352,7 @@ gl:
     comment:
       comment: 'Novo comentario sobre os conxuntos de mudanzas #%{changeset_id} de
         %{author}'
-      commented_at_by_html: Actualizado hai %{when} por %{user}
+      commented_at_by_html: Actualizado %{when} por %{user}
     comments:
       comment: 'Novo comentario sobre o conxunto de mudanzas #%{changeset_id} de %{author}'
     index:
@@ -403,7 +438,6 @@ gl:
       post: Artigo
       when: Cando
       comment: Comentario
-      ago: hai %{ago}
       newer_comments: Comentarios máis recentes
       older_comments: Comentarios máis vellos
   geocoder:
@@ -1019,8 +1053,8 @@ gl:
       status: Estado
       reports: Informes
       last_updated: Última actualización
-      last_updated_time_html: <abbr title='%{title}'>Hai %{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>Hai %{time}</abbr> por %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> por %{user}
       link_to_reports: Ollar informes
       reports_count:
         one: 1 informe
@@ -1117,8 +1151,8 @@ gl:
       alt_text: Logotipo do OpenStreetMap
     home: Ir á localización inicial
     logout: Pecha-la sesión
-    log_in: Inicia-la sesión
-    log_in_tooltip: Inicia-la sesión cunha conta existente
+    log_in: Iniciar a sesión
+    log_in_tooltip: Iniciar a sesión cunha conta existente
     sign_up: Rexistrarse
     start_mapping: Comezar a cartografar
     sign_up_tooltip: Crear unha conta para editar
@@ -1896,7 +1930,6 @@ gl:
     trace:
       pending: PENDENTE
       count_points: '%{count} puntos'
-      ago: hai %{time_in_words_ago}
       more: máis
       trace_details: Olla-los detalles da pista
       view_map: Olla-lo mapa
@@ -2205,12 +2238,10 @@ gl:
       remove as friend: Eliminar coma amizade
       add as friend: Engadir coma amizade
       mapper since: 'Cartógrafo dende:'
-      ago: (hai %{time_in_words_ago})
       ct status: 'Termos do contribuínte:'
       ct undecided: Indeciso
       ct declined: Rexeitou
-      ct accepted: Aceptou hai %{ago}
-      latest edit: 'Última edición %{ago}:'
+      latest edit: 'Última edición (%{ago}):'
       email address: 'Enderezo de correo electrónico:'
       created from: 'Creado a partir de:'
       status: 'Estado:'
@@ -2440,8 +2471,8 @@ gl:
         API?
       tried_contacting: Púxenme en contacto co usuario e pedinlle que parase.
       tried_waiting: Dálle ó usuario tempo suficiente para respostar ás mensaxes.
-      needs_view: O usuario ten que acceder ao sistema antes de que o bloqueo sexa
-        retirado
+      needs_view: O usuario ten que acceder ó sistema antes de que o bloqueo sexa
+        revogado
       back: Ollar tódolos bloqueos
     edit:
       title: Editando o bloqueo de %{name}
@@ -2454,8 +2485,8 @@ gl:
         API?
       show: Ollar este bloqueo
       back: Ollar tódolos bloqueos
-      needs_view: O usuario ten que acceder ao sistema antes de que o bloqueo sexa
-        retirado?
+      needs_view: O usuario ten que acceder ó sistema antes de que o bloqueo sexa
+        revogado?
     filter:
       block_expired: O bloqueo xa caducou. Non se pode editar.
       block_period: O período de bloqueo debe elixirse de entre os valores presentes
@@ -2476,7 +2507,7 @@ gl:
       title: Revogando o bloqueo en %{block_on}
       heading: Revogando o bloqueo en %{block_on} por %{block_by}
       time_future: Este bloqueo rematará en %{time}.
-      past: Este bloqueo rematou hai %{time}. Entón, xa non se pode retirar.
+      past: Este bloqueo rematou %{time} e xa non se pode revogar.
       confirm: Ten a certeza de querer revogar este bloqueo?
       revoke: Revogar!
       flash: Revogouse o bloqueo.
@@ -2485,7 +2516,7 @@ gl:
       until_login: Activo até que o usuario inicie sesión.
       time_future_and_until_login: Remata en %{time} e despois de que o usuario iniciou
         a sesión.
-      time_past: Rematou hai %{time}.
+      time_past: Rematou %{time}.
       block_duration:
         hours:
           one: 1 hora
@@ -2513,10 +2544,7 @@ gl:
     show:
       title: '%{block_on} bloqueado por %{block_by}'
       heading: '%{block_on} bloqueado por %{block_by}'
-      time_future: Remata en %{time}
-      time_past: Rematou hai %{time}
       created: Creado
-      ago: hai %{time}
       status: Estado
       show: Amosar
       edit: Editar
@@ -2525,8 +2553,8 @@ gl:
       reason: 'Motivo para o bloqueo:'
       back: Ollar tódolos bloqueos
       revoker: 'Autor da revogación:'
-      needs_view: O usuario ten que acceder ao sistema antes de que o bloqueo sexa
-        retirado.
+      needs_view: O usuario ten que acceder ó sistema antes de que o bloqueo sexa
+        revogado.
     block:
       not_revoked: (non revogado)
       show: Amosar
@@ -2551,7 +2579,6 @@ gl:
       description: Descrición
       created_at: Creado o
       last_changed: Última modificación
-      ago_html: hai %{when}
   javascripts:
     close: Pechar
     share:
