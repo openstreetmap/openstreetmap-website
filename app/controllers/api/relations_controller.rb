@@ -94,8 +94,6 @@ module Api
         nodes = Node.where(:id => node_ids.uniq).includes(:node_tags)
 
         visible_nodes = {}
-        # changeset_cache = {}
-        # user_display_name_cache = {}
 
         @nodes = []
         nodes.each do |node|

@@ -60,8 +60,6 @@ module Api
       nodes += Node.includes(:node_tags).find(nodes_to_fetch) unless nodes_to_fetch.empty?
 
       visible_nodes = {}
-      # changeset_cache = {}
-      # user_display_name_cache = {}
       @nodes = []
       nodes.each do |node|
         if node.visible?

@@ -68,8 +68,6 @@ module Api
 
       if way.visible
         visible_nodes = {}
-        # changeset_cache = {}
-        # user_display_name_cache = {}
 
         @nodes = []
 
