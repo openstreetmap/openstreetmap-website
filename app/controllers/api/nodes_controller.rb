@@ -26,13 +26,11 @@ module Api
 
     # Dump the details on a node given in params[:id]
     def show
-      node = Node.find(params[:id])
+      @node = Node.find(params[:id])
 
-      response.last_modified = node.timestamp
+      response.last_modified = @node.timestamp
 
-      if node.visible
-        @node = node
-
+      if @node.visible
         # Render the result
         respond_to do |format|
           format.xml

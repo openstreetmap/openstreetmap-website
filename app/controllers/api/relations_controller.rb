@@ -22,11 +22,9 @@ module Api
     end
 
     def show
-      relation = Relation.find(params[:id])
-      response.last_modified = relation.timestamp
-      if relation.visible
-        @relation = relation
-
+      @relation = Relation.find(params[:id])
+      response.last_modified = @relation.timestamp
+      if @relation.visible
         # Render the result
         respond_to do |format|
           format.xml

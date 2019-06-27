@@ -22,13 +22,12 @@ module Api
       # to do that ourselves.
       raise OSM::APINotFoundError if @elements.empty?
 
-      visible_elements = if show_redactions?
-                           @elements
-                         else
-                           @elements.unredacted
-                         end
-
-      @elems = visible_elements
+      # determine visible elements
+      @elems = if show_redactions?
+                 @elements
+               else
+                 @elements.unredacted
+               end
 
       # Render the result
       respond_to do |format|

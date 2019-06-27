@@ -22,13 +22,11 @@ module Api
     end
 
     def show
-      way = Way.find(params[:id])
+      @way = Way.find(params[:id])
 
-      response.last_modified = way.timestamp
+      response.last_modified = @way.timestamp
 
-      if way.visible
-        @way = way
-
+      if @way.visible
         # Render the result
         respond_to do |format|
           format.xml
@@ -64,21 +62,19 @@ module Api
     end
 
     def full
-      way = Way.includes(:nodes => :node_tags).find(params[:id])
+      @way = Way.includes(:nodes => :node_tags).find(params[:id])
 
-      if way.visible
+      if @way.visible
         visible_nodes = {}
 
         @nodes = []
 
-        way.nodes.uniq.each do |node|
+        @way.nodes.uniq.each do |node|
           if node.visible
             @nodes << node
             visible_nodes[node.id] = node
           end
         end
-
-        @way = way
 
         # Render the result
         respond_to do |format|

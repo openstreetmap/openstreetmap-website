@@ -19,24 +19,21 @@ module Api
       # check boundary is sane and area within defined
       # see /config/application.yml
       begin
-        bbox = BoundingBox.from_bbox_params(params)
-        bbox.check_boundaries
-        bbox.check_size
+        @bounds = BoundingBox.from_bbox_params(params)
+        @bounds.check_boundaries
+        @bounds.check_size
       rescue StandardError => err
         report_error(err.message)
         return
       end
 
-      nodes = Node.bbox(bbox).where(:visible => true).includes(:node_tags).limit(Settings.max_number_of_nodes + 1)
+      nodes = Node.bbox(@bounds).where(:visible => true).includes(:node_tags).limit(Settings.max_number_of_nodes + 1)
 
       node_ids = nodes.collect(&:id)
       if node_ids.length > Settings.max_number_of_nodes
         report_error("You requested too many nodes (limit is #{Settings.max_number_of_nodes}). Either request a smaller area, or use planet.osm")
         return
       end
-
-      # add bounds
-      @bounds = bbox
 
       # get ways
       # find which ways are needed
@@ -77,22 +74,19 @@ module Api
         end
       end
 
-      relations = Relation.nodes(visible_nodes.keys).visible +
-                  Relation.ways(way_ids).visible
+      @relations = Relation.nodes(visible_nodes.keys).visible +
+                   Relation.ways(way_ids).visible
 
       # we do not normally return the "other" partners referenced by an relation,
       # e.g. if we return a way A that is referenced by relation X, and there's
       # another way B also referenced, that is not returned. But we do make
       # an exception for cases where an relation references another *relation*;
       # in that case we return that as well (but we don't go recursive here)
-      relations += Relation.relations(relations.collect(&:id)).visible
+      @relations += Relation.relations(@relations.collect(&:id)).visible
 
       # this "uniq" may be slightly inefficient; it may be better to first collect and output
       # all node-related relations, then find the *not yet covered* way-related ones etc.
-      @relations = []
-      relations.uniq.each do |relation|
-        @relations << relation
-      end
+      @relations.uniq!
 
       response.headers["Content-Disposition"] = "attachment; filename=\"map.osm\""
       # Render the result
