@@ -28,11 +28,7 @@ module Api
                            @elements.unredacted
                          end
 
-      @elems = []
-
-      visible_elements.each do |element|
-        @elems << element
-      end
+      @elems = visible_elements
 
       # Render the result
       respond_to do |format|
@@ -46,8 +42,6 @@ module Api
 
       else
         response.last_modified = @old_element.timestamp
-
-        @elems = [@old_element]
 
         # Render the result
         respond_to do |format|

@@ -25,7 +25,7 @@ module Api
       relation = Relation.find(params[:id])
       response.last_modified = relation.timestamp
       if relation.visible
-        @relations = [relation]
+        @relation = relation
 
         # Render the result
         respond_to do |format|

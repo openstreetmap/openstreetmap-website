@@ -31,7 +31,7 @@ module Api
       response.last_modified = node.timestamp
 
       if node.visible
-        @nodes = [node]
+        @node = node
 
         # Render the result
         respond_to do |format|

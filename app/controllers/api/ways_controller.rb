@@ -27,7 +27,7 @@ module Api
       response.last_modified = way.timestamp
 
       if way.visible
-        @ways = [way]
+        @way = way
 
         # Render the result
         respond_to do |format|
@@ -80,7 +80,7 @@ module Api
           end
         end
 
-        @ways = [way]
+        @way = way
 
         # Render the result
         respond_to do |format|
