@@ -12,6 +12,26 @@ oc:
   time:
     formats:
       friendly: '%e %B %Y a %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Enregistrar
+      diary_entry:
+        create: Publicar
+      message:
+        create: Mandar
+      client_application:
+        create: Enregistrar
+        update: Modificar
+      redaction:
+        create: Crear la redaccion
+        update: Enregistrar la redaccion
+      trace:
+        create: Mandar
+        update: Enregistrar las modificacions
+      user_block:
+        create: Crear un blòt
+        update: Modificar lo blocatge
   activerecord:
     models:
       acl: Lista de contraròtle d’accès
@@ -283,7 +303,14 @@ oc:
   diary_entries:
     new:
       title: Novèla entrada del jornal
-      publish_button: Publicar
+    form:
+      subject: 'Subjècte :'
+      body: 'Còs :'
+      language: 'Lenga :'
+      location: 'Luòc :'
+      latitude: 'Latitud :'
+      longitude: 'Longitud :'
+      use_map_link: Utilizar la mapa
     index:
       title: Jornals dels utilizaires
       title_friends: Jornals dels amics
@@ -298,14 +325,6 @@ oc:
       newer_entries: Entradas mai recentas
     edit:
       title: Modificar l'entrada del jornal
-      subject: 'Subjècte :'
-      body: 'Còs :'
-      language: 'Lenga :'
-      location: 'Luòc :'
-      latitude: 'Latitud :'
-      longitude: 'Longitud :'
-      use_map_link: Utilizar la mapa
-      save_button: Salvar
       marker_text: Emplaçament de l'entrada del jornal
     show:
       title: Jornal de %{user} | %{title}
@@ -313,7 +332,6 @@ oc:
       leave_a_comment: Apondre un comentari
       login_to_leave_a_comment: '%{login_link} per apondre un comentari'
       login: Connectatz-vos
-      save_button: Enregistrar
     no_such_entry:
       title: Cap d'entrada del jornal es pas estada trobada
       heading: 'Pas cap d''entrada amb l''id : %{id}'
@@ -355,7 +373,6 @@ oc:
       post: Mandar
       when: Quand
       comment: Comentari
-      ago: i a %{ago}
       newer_comments: Comentaris mai recents
       older_comments: Comentaris mai ancians
   geocoder:
@@ -1136,7 +1153,6 @@ oc:
       send_message_to: Mandar un messatge novèl a %{name}
       subject: Subjècte
       body: Còs
-      send_button: Mandar
       back_to_inbox: Tornar a la bóstia de recepcion
     create:
       message_sent: Messatge mandat
@@ -1539,7 +1555,6 @@ oc:
       tags_help: separadas per de virgulas
       visibility: 'Visibilitat :'
       visibility_help: qué significa aquò ?
-      upload_button: Mandar
       help: Ajuda
     create:
       upload_trace: Mandar la traça GPS
@@ -1557,7 +1572,6 @@ oc:
       description: 'Descripcion :'
       tags: 'Balisas :'
       tags_help: separadas per de virgulas
-      save_button: Enregistrar las modificacions
       visibility: 'Visibilitat :'
       visibility_help: qué significa aquò ?
     trace_optionals:
@@ -1588,7 +1602,6 @@ oc:
     trace:
       pending: EN ESPÈRA
       count_points: '%{count} punts'
-      ago: i a %{time_in_words_ago}
       more: mai
       trace_details: Veire los detalhs de la traça
       view_map: Veire la mapa
@@ -1655,10 +1668,8 @@ oc:
   oauth_clients:
     new:
       title: Enregistratz una novèla aplicacion
-      submit: Enregistrar
     edit:
       title: Modificar vòstra aplicacion
-      submit: Modificar
     show:
       title: Detalhs OAuth per %{app_name}
       key: 'Clau de l''utilizaire :'
@@ -1807,7 +1818,6 @@ oc:
       consider_pd_why: qu’es aquò ?
       guidance: 'Per mai d''informacion sus aquestes tèrmes : un <a href="%{summary}">resumit
         legible</a> e qualques <a href="%{translations}">traduccions informalas</a>'
-      agree: Accèpti
       decline: Declinar
       you need to accept or decline: Legissètz e puèi, siá acceptatz o refusatz las
         novèlas condicions de contributor per contunhar.
@@ -1841,11 +1851,9 @@ oc:
       remove as friend: Suprimir en tant qu'amic
       add as friend: Apondre en tant qu'amic
       mapper since: 'Mapaire dempuèi :'
-      ago: (i a %{time_in_words_ago})
       ct status: 'Condicions del contributor :'
       ct undecided: Pas decidit
       ct declined: Refusat
-      ct accepted: Acceptat fa %{ago}
       latest edit: 'Darrièra modificacion %{ago} :'
       email address: 'Adreça de corrièr electronic :'
       created from: 'Creat dempuèi :'
@@ -2020,7 +2028,6 @@ oc:
         Doblidetz pas qu'aqueste messatge serà visible per totes. Sapiatz que tot
         lo monde compren pas lo girgon de la comunautat, alara utilizatz de tèrmes
         simples e precises.
-      submit: Crear un blòt
       tried_contacting: Ai contactat l'utilizaire e li ai demandat d'arrestar.
       needs_view: L’utilizaire se deu connectar abans qu'aqueste blocatge siá escafat
       back: Veire totes los blocatges
@@ -2033,7 +2040,6 @@ oc:
         de tèrmes simples e precises.
       period: Quant de temps, a partir d'ara, l’utilizaire deu èsser blocat sus l’API
         ?
-      submit: Modificar lo blocatge
       show: Afichar aqueste blocatge
       back: Veire totes los blocatges
       needs_view: L’utilizaire se deu connectar abans qu'aqueste blocatge expire ?
@@ -2056,13 +2062,14 @@ oc:
       confirm: Sètz segur que volètz revocar aqueste blocatge ?
       revoke: Revocar !
       flash: Aqueste blocatge es estat revocat.
-    period:
-      one: 1 ora
-      other: '%{count} oras'
     helper:
       time_future: Acaba a %{time}.
       until_login: Actiu fins al moment que l'utilizaire se connectarà.
       time_past: Acabat fa %{time}.
+      block_duration:
+        hours:
+          one: 1 ora
+          other: '%{count} oras'
     blocks_on:
       title: Blocatges de %{name}
       heading: Lista dels blocatges sus %{name}
@@ -2074,10 +2081,7 @@ oc:
     show:
       title: '%{block_on} blocat per %{block_by}'
       heading: '%{block_on} blocat per %{block_by}'
-      time_future: S'acaba dins %{time}
-      time_past: S'es acabat fa %{time}
       created: Creat
-      ago: i a %{time}
       status: Estatut
       show: Afichar
       edit: Modificar
@@ -2111,7 +2115,6 @@ oc:
       description: Descripcion
       created_at: Creat lo
       last_changed: Darrièr cambiament
-      ago_html: i a %{when}
   javascripts:
     close: Tampar
     share:
@@ -2285,7 +2288,6 @@ oc:
     edit:
       description: Descripcion
       heading: Modificar la redaccion
-      submit: Enregistrar la redaccion
       title: Modificar la redaccion
     index:
       empty: Pas cap de redaccion d'afichar.
@@ -2294,7 +2296,6 @@ oc:
     new:
       description: Descripcion
       heading: Picatz las informacions sus la novèla redaccion
-      submit: Crear la redaccion
       title: Crear una redaccion novèla
     show:
       description: 'Descripcion :'

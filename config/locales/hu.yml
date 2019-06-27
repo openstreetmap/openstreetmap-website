@@ -35,7 +35,30 @@ hu:
   time:
     formats:
       friendly: '%Y. %B %e., %H.%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Mentés
+      diary_entry:
+        create: Publikálás
+      message:
+        create: Küldés
+      client_application:
+        create: Regisztrálás
+        update: Szerkesztés
+      redaction:
+        create: Módosítás létrehozása
+        update: Módosítás mentése
+      trace:
+        create: Feltöltés
+        update: Módosítások mentése
+      user_block:
+        create: Blokkolás kiosztása
+        update: Blokkolás frissítése
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: nem tűnik érvényes e-mail-címnek
     models:
       acl: Hozzáférés-szabályzási lista
       changeset: Módosításcsomag
@@ -307,7 +330,14 @@ hu:
   diary_entries:
     new:
       title: Új naplóbejegyzés
-      publish_button: Publikálás
+    form:
+      subject: 'Tárgy:'
+      body: 'Szöveg:'
+      language: 'Nyelv:'
+      location: 'Hely:'
+      latitude: 'Földrajzi szélesség:'
+      longitude: 'Földrajzi hosszúság:'
+      use_map_link: térkép használata
     index:
       title: Felhasználók naplói
       title_friends: Ismerősök naplói
@@ -322,14 +352,6 @@ hu:
       newer_entries: Újabb bejegyzések
     edit:
       title: Naplóbejegyzés szerkesztése
-      subject: 'Tárgy:'
-      body: 'Szöveg:'
-      language: 'Nyelv:'
-      location: 'Hely:'
-      latitude: 'Földrajzi szélesség:'
-      longitude: 'Földrajzi hosszúság:'
-      use_map_link: térkép használata
-      save_button: Mentés
       marker_text: Naplóbejegyzés helye
     show:
       title: '%{user} naplója | %{title}'
@@ -337,7 +359,6 @@ hu:
       leave_a_comment: Hozzászólás írása
       login_to_leave_a_comment: '%{login_link} a hozzászóláshoz'
       login: Bejelentkezés
-      save_button: Mentés
     no_such_entry:
       title: Nincs ilyen naplóbejegyzés
       heading: 'Nincs naplóbejegyzés ezzel az azonosítóval: %{id}'
@@ -381,7 +402,6 @@ hu:
       post: Hozzászólás
       when: Mikor
       comment: Megjegyzés
-      ago: '%{ago} idővel ezelőtt'
       newer_comments: Újabb hozzászólások
       older_comments: Régebbi hozzászólások
   geocoder:
@@ -549,7 +569,7 @@ hu:
           bus_guideway: Buszsín
           bus_stop: Buszmegálló
           construction: Építés alatt álló közút
-          corridor: Folyósó
+          corridor: Folyosó
           cycleway: Kerékpárút
           elevator: Lift
           emergency_access_point: Vészhelyzeti hozzáférési pont
@@ -684,7 +704,7 @@ hu:
         man_made:
           adit: Tárna
           beacon: Jelzőfény
-          beehive: Méhlakás
+          beehive: Méhkaptár
           breakwater: Hullámtörő
           bridge: Híd
           bunker_silo: Bunker
@@ -884,7 +904,7 @@ hu:
           kiosk: Trafik
           kitchen: Konyhai felszerelés
           laundry: Mosoda
-          lottery: Lottozó
+          lottery: Lottózó
           mall: Üzletház
           market: Piac
           massage: Masszázs
@@ -908,7 +928,7 @@ hu:
           supermarket: Szupermarket
           tailor: Szabó
           ticket: Jegyiroda
-          tobacco: Duhánybolt
+          tobacco: Dohánybolt
           toys: Játékbolt
           travel_agency: Utazási iroda
           tyres: Gumibolt
@@ -1002,12 +1022,30 @@ hu:
       states:
         open: Megnyitás
         resolved: Megoldva
+    update:
+      provide_details: Kérjük adja meg a szükséges részleteket
+    show:
+      resolve: Megold
+      ignore: Hanyagol
+      reopen: Újra megnyit
   reports:
     new:
       categories:
+        diary_entry:
+          other_label: Egyéb
+        diary_comment:
+          other_label: Egyéb
         user:
           vandal_label: Ez a felhasználó vandál
           other_label: Egyéb
+        note:
+          spam_label: A megjegyzés spam
+          personal_label: A megjegyzés személyes adatot tartalmaz
+          abusive_label: A megjegyzés sértő
+          other_label: Egyéb
+    create:
+      successful_report: A jelentés sikeresen regisztrálva
+      provide_details: Kérjük adja meg a szükséges részleteket
   layouts:
     logo:
       alt_text: OpenStreetMap logó
@@ -1021,6 +1059,7 @@ hu:
     edit: Szerkesztés
     history: Előzmények
     export: Exportálás
+    issues: Problémák
     data: Adatok
     export_data: Adatok exportálása
     gps_traces: Nyomvonalak
@@ -1197,7 +1236,6 @@ hu:
       send_message_to: 'Új üzenet küldése neki: %{name}'
       subject: Tárgy
       body: Szöveg
-      send_button: Küldés
       back_to_inbox: Vissza a beérkezett üzenetekhez
     create:
       message_sent: Üzenet elküldve
@@ -1543,6 +1581,7 @@ hu:
       where_am_i: Hol található?
       where_am_i_title: A jelenlegi helyszín leírása a keresőmotor segítségével
       submit_text: Menj
+      reverse_directions_text: Irány megfordítása
     key:
       table:
         entry:
@@ -1689,19 +1728,22 @@ hu:
       identifiable: Azonosítható (megjelenik a nyomvonalak listáján, és azonosítható,
         rendezett pontok időbélyeggel)
     new:
+      upload_trace: GPS nyomvonal feltöltése
       upload_gpx: 'GPX fájl feltöltése:'
       description: 'Leírás:'
       tags: 'Címkék:'
       tags_help: vesszővel elválasztva
       visibility: 'Láthatóság:'
       visibility_help: Mit jelent ez?
-      upload_button: Feltöltés
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Segítség
+      help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
       upload_trace: GPS nyomvonal feltöltése
       trace_uploaded: A GPX fájl feltöltése megtörtént, és várakozik az adatbázisba
         való beillesztésre. Ez általában fél órán belül megtörténik, és fogsz kapni
         egy e-mailt, amint elkészült.
+      upload_failed: A GPX feltöltése meghiúsult. Kérjük próbálja újra.
       traces_waiting: '%{count} nyomvonalad várakozik feltöltésre. Kérlek fontold
         meg, hogy megvárod, amíg ezek befejeződnek mielőtt feltöltesz továbbiakat,
         hogy így ne tartsd fel a többi felhasználót a sorban.'
@@ -1719,9 +1761,10 @@ hu:
       description: 'Leírás:'
       tags: 'Címkék:'
       tags_help: vesszővel elválasztva
-      save_button: Módosítások mentése
       visibility: 'Láthatóság:'
       visibility_help: Mit jelent ez?
+    update:
+      updated: Nyomvonal frissítve
     trace_optionals:
       tags: Címkék
     show:
@@ -1743,6 +1786,7 @@ hu:
       delete_trace: Nyomvonal törlése
       trace_not_found: Nem található nyomvonal!
       visibility: 'Láthatóság:'
+      confirm_delete: Nyomvonal törlése?
     trace_paging_nav:
       showing_page: '%{page}. oldal'
       older: Régebbi nyomvonalak
@@ -1750,7 +1794,6 @@ hu:
     trace:
       pending: FÜGGŐBEN
       count_points: '%{count} pont'
-      ago: 'ennyivel ezelőtt: %{time_in_words_ago}'
       more: tovább
       trace_details: Nyomvonal részleteinek megtekintése
       view_map: Térkép megtekintése
@@ -1765,6 +1808,7 @@ hu:
       map: térkép
     index:
       public_traces: Nyilvános GPS nyomvonalak
+      my_traces: Saját GPS nyomvonalak
       public_traces_from: '%{user} nyilvános GPS nyomvonalai'
       description: Legfrissebb GPS nyomvonalak tallózása
       tagged_with: ' %{tags} címkével'
@@ -1773,6 +1817,7 @@ hu:
         lapon</a>.
       upload_trace: Nyomvonal feltöltése
       see_all_traces: Összes nyomvonal megtekintése
+      see_my_traces: Saját nyomvonalak megtekintése
     delete:
       scheduled_for_deletion: A nyomvonal törlésre kijelölve
     make_public:
@@ -1789,9 +1834,13 @@ hu:
         other: GPX fájl %{count} ponttal %{user} felhasználótól
       description_without_count: GPX fájl %{user} felhasználótól
   application:
+    permission_denied: Nincs megfelelő jogosultságod a művelet végrehajtásához
     require_cookies:
       cookies_needed: Úgy tűnik, hogy a böngésződben le vannak tiltva a sütik – a
         folytatás előtt engedélyezd azokat.
+    require_admin:
+      not_an_admin: Ennek a műveletnek az elvégzéséhez adminisztrátori jogosultsággal
+        kell rendelkezned.
     setup_user_auth:
       blocked_zero_hour: Sürgős üzeneted van az OpenStreetMap weboldalon. El kell
         olvasnod az üzenetet, mielőtt elmentheted a változtatásokat.
@@ -1831,10 +1880,8 @@ hu:
   oauth_clients:
     new:
       title: Új alkalmazás regisztrálása
-      submit: Regisztrálás
     edit:
       title: Alkalmazás szerkesztése
-      submit: Szerkesztés
     show:
       title: '%{app_name} OAuth részletei'
       key: 'Fogyasztói kulcs:'
@@ -1958,7 +2005,7 @@ hu:
         hivatkozást, amivel visszaállíthatod a jelszavad.
       notice email on way: Sajnálom, hogy elvesztetted :-( de már úton van egy e-mail,
         így nemsokára alaphelyzetbe állíthatod.
-      notice email cannot find: Az e-mail cím nem található, sajnálom.
+      notice email cannot find: Sajnáljuk, az e-mail-cím nem található.
     reset_password:
       title: Jelszó alaphelyzetbe állítása
       heading: '%{user} jelszavának alaphelyzetbe állítása'
@@ -2000,18 +2047,17 @@ hu:
       terms accepted: Köszönjük, hogy elfogadtad az új hozzájárulási feltételeket!
       terms declined: Sajnáljuk, hogy úgy döntöttél, nem fogadod el az új hozzájárulási
         feltételeket. További információért lásd <a href="%{url}">ezt a wiki oldalt</a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
       title: Hozzájárulási feltételek
       heading: Hozzájárulási feltételek
-      read and accept: Kérlek, olvasd el az alábbi megállapodást, és nyomd meg az
-        „egyetértek” gombot, amellyel megerősíted, hogy elfogadod ezen megállapodás
-        feltételeit a jelenlegi és jövőbeni hozzájárulásaidhoz.
       consider_pd: A fenti megállapodáson felül, a hozzájárulásaimat közkinccsé nyilvánítom
       consider_pd_why: mi ez?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Információk a fogalmak megértéséhez: egy <a href="%{summary}">közérthető
         nyelven megfogalmazott kivonat</a> és néhány <a href="%{translations}">nemhivatalos
         fordítás</a>'
-      agree: Elfogadom
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Elutasítom
       you need to accept or decline: Kérünk, hogy olvasd el, ezután fogadd vagy utasítsd
         el az új hozzájárulási feltételeket a folytatáshoz.
@@ -2047,11 +2093,9 @@ hu:
       remove as friend: Barát eltávolítása
       add as friend: Felvétel barátnak
       mapper since: 'Térképszerkesztő ezóta:'
-      ago: (%{time_in_words_ago} óta)
       ct status: 'Hozzájárulási feltételek:'
       ct undecided: Nem eldöntött
       ct declined: Elutasítva
-      ct accepted: 'Elfogadva: %{ago} óta'
       latest edit: 'Utolsó szerkesztés %{ago}:'
       email address: 'E-mail cím:'
       created from: 'Készítve innen:'
@@ -2093,6 +2137,7 @@ hu:
       friends_diaries: barátok naplóbejegyzései
       nearby_changesets: közeli felhasználók módosításai
       nearby_diaries: közeli felhasználók naplóbejegyzései
+      report: Felhasználó jelentése
     popup:
       your location: Helyed
       nearby mapper: Közeli térképszerkesztő
@@ -2100,8 +2145,8 @@ hu:
     account:
       title: Felhasználói fiók szerkesztése
       my settings: Beállításaim
-      current email address: 'Jelenlegi e-mail cím:'
-      new email address: 'Új e-mail cím:'
+      current email address: 'Jelenlegi e-mail-cím:'
+      new email address: 'Új e-mail-cím:'
       email never displayed publicly: (soha nem jelenik meg nyilvánosan)
       external auth: 'Külső Hitelesítés:'
       openid:
@@ -2133,6 +2178,7 @@ hu:
         review link text: Kérlek, kövesd ezt a hivatkozást az új hozzájárulási feltételek
           áttekintéséhez és elfogadásához.
         agreed_with_pd: Azt is kijelentetted, hogy a szerkesztéseid közkincsnek tekinthetők.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: mi ez?
       profile description: 'Profil leírása:'
       preferred languages: 'Előnyben részesített nyelvek:'
@@ -2140,6 +2186,7 @@ hu:
       image: 'Kép:'
       gravatar:
         gravatar: Gravatar használata
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         link text: mi ez?
         disabled: A Gravatar le van tiltva.
         enabled: A Gravatar kép kijelzését bekapcsoltad.
@@ -2278,7 +2325,6 @@ hu:
         Tartsd szem előtt, hogy nem minden felhasználó érti a közösségi zsargont,
         ezért próbálj laikus nyelvezetet használni.
       period: Mennyi ideig lesz a felhasználó blokkolva az API-tól, mostantól számítva.
-      submit: Blokkolás kiosztása
       tried_contacting: Kapcsolatba léptem a felhasználóval, és megkértem, hogy hagyja
         abba.
       tried_waiting: Adtam egy ésszerű határidőt a felhasználónak, hogy válaszoljon
@@ -2293,7 +2339,6 @@ hu:
         a helyzetről. Tartsd szem előtt, hogy nem minden felhasználó érti a közösségi
         zsargont, ezért próbálj laikus nyelvezetet használni.
       period: Mennyi ideig lesz a felhasználó blokkolva az API-tól, mostantól számítva.
-      submit: Blokkolás frissítése
       show: blokkolás megjelenítése
       back: Összes blokkolás megjelenítése
       needs_view: Be kell jelentkeznie a felhasználónak, mielőtt a blokkolás feloldódik?
@@ -2322,14 +2367,15 @@ hu:
       confirm: Biztosan vissza szeretnéd vonni ezt a blokkolást?
       revoke: Visszavonás!
       flash: Ez a blokkolás vissza lett vonva.
-    period:
-      one: 1 órája
-      other: '%{count} órája'
     helper:
       time_future: Véget ér %{time} múlva.
       until_login: Aktív a felhasználó bejelentkezéséig.
       time_future_and_until_login: '%{time} múlva van vége, miután a felhasználó bejelentkezett.'
       time_past: Véget ért %{time} óta.
+      block_duration:
+        hours:
+          one: 1 órája
+          other: '%{count} órája'
     blocks_on:
       title: '%{name} blokkolásai'
       heading: '%{name} blokkolásainak felsorolása'
@@ -2341,10 +2387,7 @@ hu:
     show:
       title: '%{block_on} blokkolva %{block_by} által'
       heading: '%{block_by} blokkolta %{block_on} felhasználót'
-      time_future: Véget ér %{time} múlva
-      time_past: Véget ért %{time} óta
       created: Létrehozva
-      ago: '%{time} ezelőtt'
       status: Állapot
       show: Megjelenítés
       edit: Szerkesztés
@@ -2378,7 +2421,6 @@ hu:
       description: Leírás
       created_at: Létrehozva ekkor
       last_changed: Utoljára módosítva
-      ago_html: '%{when}'
   javascripts:
     close: Bezárás
     share:
@@ -2436,7 +2478,7 @@ hu:
       map_notes_zoom_in_tooltip: Nagyítsd fel a térképet a jegyzetek megjelenítéséhez
       map_data_zoom_in_tooltip: Nagyítsd fel a térképet a térképadatok megjelenítéséhez
       queryfeature_tooltip: Funkciók lekérdezése
-      queryfeature_disabled_tooltip: Nagyítás a lekérdezési funkciókra
+      queryfeature_disabled_tooltip: Közelíts a lekérdezés funkció használatához
     changesets:
       show:
         comment: Megjegyzés
@@ -2538,7 +2580,6 @@ hu:
     edit:
       description: Leírás
       heading: Módosítás szerkesztése
-      submit: Módosítás mentése
       title: Módosítás szerkesztése
     index:
       empty: Nincs mutatandó módosítás.
@@ -2547,7 +2588,6 @@ hu:
     new:
       description: Leírás
       heading: Információ megadása az új módosításról
-      submit: Módosítás létrehozása
       title: Új módosítás létrehozása
     show:
       description: 'Leírás:'

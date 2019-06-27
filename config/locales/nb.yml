@@ -30,13 +30,34 @@ nb:
   time:
     formats:
       friendly: '%e %B %Y kl. %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Lagre
+      diary_entry:
+        create: Publiser
+      message:
+        create: Send
+      client_application:
+        create: Registrer
+        update: Rediger
+      redaction:
+        create: Lag maskering
+        update: Lagre markering
+      trace:
+        create: Last opp
+        update: Lagre endringer
+      user_block:
+        create: Opprett blokkering
+        update: Oppdater blokkering
   activerecord:
     errors:
       messages:
         invalid_email_address: later ikke til å være en gyldig e-postadresse
+        email_address_not_routable: kan ikke rutes
     models:
       acl: Tilgangskontrolliste
-      changeset: Endringsforløp
+      changeset: Endringssett
       changeset_tag: Endringssettmerkelapp
       country: Land
       diary_comment: Dagbokskommentar
@@ -149,7 +170,7 @@ nb:
     edited_by_html: Redigert for <abbr title='%{title}'>%{time} siden</abbr> av %{user}
     closed_by_html: Lukket for <abbr title='%{title}'>%{time} siden</abbr> av %{user}
     version: Versjon
-    in_changeset: Endringsforløp
+    in_changeset: Endringssett
     anonymous: anonym
     no_comment: (ingen kommentar)
     part_of: Del av
@@ -158,7 +179,7 @@ nb:
     view_details: Vis detaljer
     location: 'Posisjon:'
     changeset:
-      title: 'Endringsforløp: %{id}'
+      title: 'Endringssett: %{id}'
       belongs_to: Forfatter
       node: Noder (%{count})
       node_paginated: Noder (%{x}-%{y} av %{count})
@@ -170,10 +191,10 @@ nb:
       hidden_commented_by: Skjult kommentar fra %{user} <abbr title='%{exact_time}'>%{when}
         siden</abbr>
       commented_by: Kommentar fra %{user} <abbr title='%{exact_time}'>%{when} siden</abbr>
-      changesetxml: XML for endringsforløp
+      changesetxml: XML for endringssett
       osmchangexml: osmChange-XML
       feed:
-        title: Endringsforløp %{id}
+        title: Endringssett %{id}
         title_comment: 'Endringsforløp: %{id} - %{comment}'
       join_discussion: Logg inn for å delta i diskusjonen
       discussion: Diskusjon
@@ -208,7 +229,7 @@ nb:
         node: node
         way: linje
         relation: relasjon
-        changeset: endringsforløp
+        changeset: endringssett
         note: merknad
     timeout:
       sorry: Beklager, det tok for lang tid å hente data for %{type} med ID %{id}.
@@ -216,7 +237,7 @@ nb:
         node: node
         way: linje
         relation: relasjon
-        changeset: endringsforløp
+        changeset: endringssett
         note: merknad
     redacted:
       redaction: Maskering %{id}
@@ -233,7 +254,7 @@ nb:
       load_data: Last inn data
       loading: Laster...
     tag_details:
-      tags: Merkelapper
+      tags: Egenskaper
       wiki_link:
         key: Wiki-beskrivelsessiden for %{key}-elementet
         tag: Wiki-beskrivelsessiden for %{key}=%{value}-elementet
@@ -310,7 +331,14 @@ nb:
   diary_entries:
     new:
       title: Ny dagboksoppføring
-      publish_button: Publiser
+    form:
+      subject: 'Emne:'
+      body: 'Brødtekst:'
+      language: 'Språk:'
+      location: 'Posisjon:'
+      latitude: 'Breddegrad:'
+      longitude: 'Lengdegrad:'
+      use_map_link: bruk kart
     index:
       title: Brukeres dagbøker
       title_friends: Dine venners dagbøker
@@ -325,14 +353,6 @@ nb:
       newer_entries: Nyere innlegg
     edit:
       title: Rediger dagbokinnlegg
-      subject: 'Emne:'
-      body: 'Brødtekst:'
-      language: 'Språk:'
-      location: 'Posisjon:'
-      latitude: 'Breddegrad:'
-      longitude: 'Lengdegrad:'
-      use_map_link: bruk kart
-      save_button: Lagre
       marker_text: Lokalisasjonen for dagbokoppføring
     show:
       title: '%{user} sin dagbok | %{title}'
@@ -340,19 +360,18 @@ nb:
       leave_a_comment: Legg igjen en kommentar
       login_to_leave_a_comment: '%{login_link} for å legge inn en kommentar'
       login: Logg inn
-      save_button: Lagre
     no_such_entry:
       title: Ingen slik dagbokoppføring
       heading: 'Intet innlegg med ID: %{id}'
-      body: Det er ingen dagbokinnlegg eller kommentar med ID %{id}. Sjekk om du har
-        skrevet feil eller om lenka du klikket er feil.
+      body: Beklager, det er ingen dagbokinnlegg eller kommentar med ID %{id}. Sjekk
+        om du har skrevet riktig eller om lenka du klikket er feil.
     diary_entry:
-      posted_by: Skrevet av %{link_user} %{created} på %{language_link}
+      posted_by: Skrevet av %{link_user} den %{created} på %{language_link}
       comment_link: Kommenter dette innlegget
       reply_link: Svar på dette innlegget
       comment_count:
-        one: '%{count} kommentar'
         zero: Ingen kommentarer
+        one: '%{count} kommentar'
         other: '%{count} kommentarer'
       edit_link: Rediger innlegget
       hide_link: Skjul innlegget
@@ -382,7 +401,6 @@ nb:
       post: Artikkel
       when: Når
       comment: Kommentar
-      ago: '%{ago} siden'
       newer_comments: Nyere kommentarer
       older_comments: Eldre kommentarer
   geocoder:
@@ -1161,7 +1179,7 @@ nb:
       greeting: Hei,
       your_gpx_file: Det ser ut som GPX-filen din
       with_description: med beskrivelsen
-      and_the_tags: 'og følgende tagger:'
+      and_the_tags: 'og følgende egenskaper:'
       and_no_tags: og ingen tagger.
       failure:
         subject: '[OpenStreetMap] Feil under import av GPX'
@@ -1276,7 +1294,6 @@ nb:
       send_message_to: Send en ny melding til %{name}
       subject: Emne
       body: Kropp
-      send_button: Send
       back_to_inbox: Tilbake til innboks
     create:
       message_sent: Melding sendt
@@ -1443,12 +1460,17 @@ nb:
           <a href="http://www.gu.gov.si/en/">Geologisk undersøkelse og kartmyndighet</a> and
           <a href="http://www.mkgp.gov.si/en/">Departemanget for jordbruk, skog og mat</a>
           (offentlig informasjonsopphav fra Slovenia).
+        contributors_es_html: |-
+          <strong>Spania</strong>: Inneholder data fra
+          Spanish National Geographic Institute (<a href="http://www.ign.es/">IGN</a>) og
+          National Cartographic System (<a href="http://www.scne.es/">SCNE</a>)
+          lisensiert for gjenbruk under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
         contributors_za_html: '<strong>Sør-Afrika</strong>: Inneholder data fra <a
           href="http://www.ngi.gov.za/">Chief Directorate: National Geo-Spatial Information</a>,
           State copyright reservert.'
         contributors_gb_html: |-
           <strong>Storbritannia</strong>: Inneholder Ordnance
-           Survey data © Crown copyright and database right 2010-12.
+           Survey data © Crown copyright and database right 2010-19.
         contributors_footer_1_html: For detaljer om disse og andre kilder som har
           blitt brukt for å forbedre OpenStreetMap, se <a href="http://wiki.openstreetmap.org/wiki/Contributors">siden
           med bidragsytere</a> på OpenStreetMap-wikien.
@@ -1600,6 +1622,7 @@ nb:
         description: Hjelp for bedrifter og organisasjoner som vil bytte til OpenStreetMap-baserte
           kart og andre tjenester.
       welcomemat:
+        url: https://welcome.openstreetmap.org/
         title: For organisasjoner
         description: Er du del av en organisasjon som har planer med OpenStreetMap?
           Finn ut av hva du har bruk for å vite på Velkomstmatten.
@@ -1767,12 +1790,11 @@ nb:
       upload_trace: Last opp GPS-spor
       upload_gpx: 'Last opp GPX-fil:'
       description: 'Beskrivelse:'
-      tags: 'Merkelapper:'
+      tags: 'Egenskaper:'
       tags_help: kommaseparert
       visibility: 'Synlighet:'
       visibility_help: hva betyr dette?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-      upload_button: Last opp
       help: Hjelp
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1801,15 +1823,14 @@ nb:
       edit: rediger
       owner: 'Eier:'
       description: 'Beskrivelse:'
-      tags: 'Merkelapper:'
+      tags: 'Egenskaper:'
       tags_help: kommaseparert
-      save_button: Lagre endringer
       visibility: 'Synlighet:'
       visibility_help: hva betyr dette?
     update:
       updated: Sporet ble oppdatert
     trace_optionals:
-      tags: Merkelapper
+      tags: Egenskaper
     show:
       title: Viser spor %{name}
       heading: Viser spor %{name}
@@ -1823,7 +1844,7 @@ nb:
       edit: rediger
       owner: 'Eier:'
       description: 'Beskrivelse:'
-      tags: 'Merkelapper:'
+      tags: 'Egenskaper:'
       none: Ingen
       edit_trace: Rediger dette sporet
       delete_trace: Slett dette sporet
@@ -1837,7 +1858,6 @@ nb:
     trace:
       pending: VENTER
       count_points: '%{count} punkter'
-      ago: '%{time_in_words_ago} siden'
       more: mer
       trace_details: Vis detaljer for spor
       view_map: Vis kart
@@ -1923,10 +1943,8 @@ nb:
   oauth_clients:
     new:
       title: Registrer en ny applikasjon
-      submit: Registrer
     edit:
       title: Rediger ditt programvare
-      submit: Rediger
     show:
       title: OAuth-detaljer for %{app_name}
       key: 'Forbrukernøkkel:'
@@ -1988,7 +2006,7 @@ nb:
       email or username: 'E-postadresse eller brukernavn:'
       password: 'Passord:'
       openid: '%{logo} OpenID:'
-      remember: 'Husk meg:'
+      remember: Husk meg
       lost password link: Mistet passordet ditt?
       login_button: Logg inn
       register now: Registrer deg nå
@@ -2092,15 +2110,13 @@ nb:
     terms:
       title: Bidragsytervilkår
       heading: Bidragsytervilkårene
-      read and accept: Les avtalen nedenfor og trykk godkjenningsknapp for å bekrefte
-        at du godtar betingelsene i denne avtalen for dine eksisterende og kommende
-        bidrag.
       consider_pd: I tillegg til den ovennevnte avtalen anser jeg mine bidrag for
         å være i public domain
       consider_pd_why: hva er dette?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Informasjon for å hjelpe å forstå disse vilkårene: et <a href="%{summary}">menneskelig
         lesbart sammendrag</a> og noen <a href="%{translations}">uformelle oversettelser</a>'
-      agree: Godkjenn
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Avslå
       you need to accept or decline: Les og deretter enten godta eller avslå de nye
         bidragsytervilkårene for å fortsette.
@@ -2136,11 +2152,9 @@ nb:
       remove as friend: Fjern venn
       add as friend: Legg til venn
       mapper since: 'Bruker siden:'
-      ago: (%{time_in_words_ago} siden)
       ct status: 'Bidragsyters vilkår:'
       ct undecided: Usikker
       ct declined: Avslått
-      ct accepted: Akseptert %{ago} siden
       latest edit: 'Siste redigering %{ago}:'
       email address: 'E-postadresse:'
       created from: 'Opprettet fra:'
@@ -2222,6 +2236,7 @@ nb:
           igjennom og godkjenne de nye bidragsytervilkårene.
         agreed_with_pd: Du har også opplyst at du anser dine redigeringer for å være
           offentlig eiendom (Public Domain).
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: hva er dette?
       profile description: 'Profilbeskrivelse:'
       preferred languages: 'Foretrukne språk:'
@@ -2229,6 +2244,7 @@ nb:
       image: 'Bilde:'
       gravatar:
         gravatar: Bruk Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         link text: hva er dette?
         disabled: Gravatar har blitt slått av.
         enabled: Visning av din Gravatar er slått på.
@@ -2358,7 +2374,6 @@ nb:
         blir synlig for offentligheten. Husk på at ikke alle brukere forstår fellesskapssjargongen
         så prøv å bruke lekmannsuttrykk.
       period: Hvor lenge, fra nå, skal brukeren blokkeres fra API-en.
-      submit: Opprett blokkering
       tried_contacting: Jeg har kontaktet brukeren og bedt vedkommende stoppe.
       tried_waiting: Jeg har gitt brukeren rimelig med tid til å svare på kommunikasjonen.
       needs_view: Brukeren må logge inn før denne blokkeringen blir fjernet.
@@ -2370,7 +2385,6 @@ nb:
         rimelig som mulig og oppgi så mange detaljer du kan om situasjonen. Husk at
         ikke alle brukere forstår felleskapssjargongen så prøv å bruke lekmannsuttrykk.
       period: Hvor lenge, fra nå, brukeren skal bli blokkert fra API-en.
-      submit: Oppdater blokkering
       show: Vis denne blokkeringen
       back: Vis alle blokkeringer
       needs_view: Må brukeren logge inn før denne blokkeringen blir fjernet?
@@ -2400,15 +2414,16 @@ nb:
       confirm: Er du sikker på at du vil tilbakekalle denne blokkeringen?
       revoke: Tilbakekall!
       flash: Denne blokkeringen har blitt tilbakekalt.
-    period:
-      one: 1 time
-      other: '%{count} timer'
     helper:
       time_future: Slutter om %{time}.
       until_login: Aktiv inntil brukeren logger inn.
       time_future_and_until_login: Slutter om %{time} og etter at brukeren har logget
         inn.
       time_past: Sluttet for %{time} siden.
+      block_duration:
+        hours:
+          one: 1 time
+          other: '%{count} timer'
     blocks_on:
       title: Blokkeringer av %{name}
       heading: Liste over blokkeringer av %{name}
@@ -2420,10 +2435,7 @@ nb:
     show:
       title: '%{block_on} blokkert av %{block_by}'
       heading: '%{block_on} blokkert av %{block_by}'
-      time_future: Slutter om %{time}
-      time_past: Sluttet for %{time} siden
       created: Opprettet
-      ago: for %{time} siden
       status: Status
       show: Vis
       edit: Rediger
@@ -2457,7 +2469,6 @@ nb:
       description: Beskrivelse
       created_at: Opprettet
       last_changed: Sist endret
-      ago_html: for %{when} siden
   javascripts:
     close: Lukk
     share:
@@ -2649,7 +2660,6 @@ nb:
     edit:
       description: Beskrivelse
       heading: Rediger maskering
-      submit: Lagre markering
       title: Rediger maskering
     index:
       empty: Ingen maskeringer å vise.
@@ -2658,7 +2668,6 @@ nb:
     new:
       description: Beskrivelse
       heading: Legg inn informasjon for ny maskering
-      submit: Lag maskering
       title: Lager ny maskering
     show:
       description: 'Beskrivelse:'

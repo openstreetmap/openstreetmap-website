@@ -36,7 +36,7 @@ class UsersController < ApplicationController
   def save
     @title = t "users.new.title"
 
-    if params[:decline]
+    if params[:decline] || !(params[:read_tou] && params[:read_ct])
       if current_user
         current_user.terms_seen = true
 
@@ -47,12 +47,15 @@ class UsersController < ApplicationController
         else
           redirect_to :action => :account, :display_name => current_user.display_name
         end
-      else
+      elsif params[:decline]
         redirect_to t("users.terms.declined")
+      else
+        redirect_to :action => :terms
       end
     elsif current_user
       unless current_user.terms_agreed?
         current_user.consider_pd = params[:user][:consider_pd]
+        current_user.tou_agreed = Time.now.getutc
         current_user.terms_agreed = Time.now.getutc
         current_user.terms_seen = true
 
@@ -73,6 +76,7 @@ class UsersController < ApplicationController
         current_user.creation_ip = request.remote_ip
         current_user.languages = http_accept_language.user_preferred_languages
         current_user.terms_agreed = Time.now.getutc
+        current_user.tou_agreed = Time.now.getutc
         current_user.terms_seen = true
 
         if current_user.auth_uid.blank?
@@ -384,16 +388,16 @@ class UsersController < ApplicationController
 
     if @new_friend
       if request.post?
-        friend = Friend.new
-        friend.befriender = current_user
-        friend.befriendee = @new_friend
+        friendship = Friendship.new
+        friendship.befriender = current_user
+        friendship.befriendee = @new_friend
         if current_user.is_friends_with?(@new_friend)
           flash[:warning] = t "users.make_friend.already_a_friend", :name => @new_friend.display_name
-        elsif friend.save
+        elsif friendship.save
           flash[:notice] = t "users.make_friend.success", :name => @new_friend.display_name
-          Notifier.friend_notification(friend).deliver_later
+          Notifier.friend_notification(friendship).deliver_later
         else
-          friend.add_error(t("users.make_friend.failed", :name => @new_friend.display_name))
+          friendship.add_error(t("users.make_friend.failed", :name => @new_friend.display_name))
         end
 
         if params[:referer]
@@ -413,7 +417,7 @@ class UsersController < ApplicationController
     if @friend
       if request.post?
         if current_user.is_friends_with?(@friend)
-          Friend.where(:user_id => current_user.id, :friend_user_id => @friend.id).delete_all
+          Friendship.where(:befriender => current_user, :befriendee => @friend).delete_all
           flash[:notice] = t "users.remove_friend.success", :name => @friend.display_name
         else
           flash[:error] = t "users.remove_friend.not_a_friend", :name => @friend.display_name
@@ -748,13 +752,27 @@ class UsersController < ApplicationController
                email.split("@").last
              end
 
-    if blocked = Acl.no_account_creation(request.remote_ip, domain)
+    mx_servers = if domain.nil?
+                   nil
+                 else
+                   domain_mx_servers(domain)
+                 end
+
+    if blocked = Acl.no_account_creation(request.remote_ip, :domain => domain, :mx => mx_servers)
       logger.info "Blocked signup from #{request.remote_ip} for #{email}"
 
       render :action => "blocked"
     end
 
     !blocked
+  end
+
+  ##
+  # get list of MX servers for a domains
+  def domain_mx_servers(domain)
+    Resolv::DNS.open do |dns|
+      dns.getresources(domain, Resolv::DNS::Resource::IN::MX).collect(&:exchange).collect(&:to_s)
+    end
   end
 
   ##

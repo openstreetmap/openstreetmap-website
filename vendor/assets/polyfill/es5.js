@@ -1,153 +1,113 @@
-/* Polyfill service v3.27.1
+/* Polyfill service v3.34.0
  * For detailed credits and licence information see https://github.com/financial-times/polyfill-service.
  * 
  * Features requested: es5
  * 
- * - Object.defineProperty, License: CC0 (required by "es5", "Object.defineProperties", "Object.create", "_ESAbstract.CreateMethodProperty", "Array.isArray", "Array.prototype.every", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "Function.prototype.bind", "Object.freeze", "Object.getOwnPropertyDescriptor", "Object.getOwnPropertyNames", "Object.getPrototypeOf", "String.prototype.trim", "_ESAbstract.CreateDataProperty", "_ESAbstract.CreateDataPropertyOrThrow", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "_ESAbstract.ArraySpeciesCreate")
- * - _ESAbstract.CreateMethodProperty, License: CC0 (required by "Array.isArray", "es5", "Array.prototype.every", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "Function.prototype.bind", "Object.create", "Object.defineProperties", "Object.freeze", "Object.getOwnPropertyDescriptor", "Object.getOwnPropertyNames", "Object.getPrototypeOf", "String.prototype.trim")
+ * - _ESAbstract.ArrayCreate, License: CC0 (required by "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "es5", "Array.prototype.map")
+ * - _ESAbstract.Call, License: CC0 (required by "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "_ESAbstract.ToPrimitive", "_ESAbstract.ToString", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "String.prototype.trim", "_ESAbstract.OrdinaryToPrimitive")
+ * - _ESAbstract.Get, License: CC0 (required by "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "Object.defineProperties", "Object.create", "_ESAbstract.ArraySpeciesCreate", "_ESAbstract.OrdinaryToPrimitive", "_ESAbstract.ToPrimitive", "_ESAbstract.ToString", "String.prototype.trim", "_ESAbstract.GetPrototypeFromConstructor", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct")
+ * - _ESAbstract.HasProperty, License: CC0 (required by "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some")
  * - _ESAbstract.IsArray, License: CC0 (required by "Array.isArray", "es5", "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "Array.prototype.map")
- * - Array.isArray, License: CC0 (required by "es5")
- * - _ESAbstract.ToObject, License: CC0 (required by "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "Object.defineProperties", "Object.create", "_ESAbstract.GetV", "_ESAbstract.GetMethod", "_ESAbstract.ToPrimitive", "_ESAbstract.ToString", "String.prototype.trim", "_ESAbstract.IsConstructor", "_ESAbstract.ArraySpeciesCreate")
+ * - _ESAbstract.IsCallable, License: CC0 (required by "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "Function.prototype.bind", "_ESAbstract.GetMethod", "_ESAbstract.ToPrimitive", "_ESAbstract.ToString", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "String.prototype.trim", "_ESAbstract.IsConstructor", "_ESAbstract.ArraySpeciesCreate", "_ESAbstract.OrdinaryToPrimitive")
+ * - _ESAbstract.RequireObjectCoercible, License: CC0 (required by "String.prototype.trim", "es5")
+ * - _ESAbstract.ToBoolean, License: CC0 (required by "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.some")
  * - _ESAbstract.ToInteger, License: CC0 (required by "Array.prototype.indexOf", "es5", "Array.prototype.lastIndexOf", "_ESAbstract.ToLength", "Array.prototype.every", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some")
  * - _ESAbstract.ToLength, License: CC0 (required by "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some")
- * - _ESAbstract.Get, License: CC0 (required by "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "Object.defineProperties", "Object.create", "_ESAbstract.ArraySpeciesCreate", "_ESAbstract.OrdinaryToPrimitive", "_ESAbstract.ToPrimitive", "_ESAbstract.ToString", "String.prototype.trim", "_ESAbstract.GetPrototypeFromConstructor", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct")
- * - _ESAbstract.IsCallable, License: CC0 (required by "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "Function.prototype.bind", "_ESAbstract.GetMethod", "_ESAbstract.ToPrimitive", "_ESAbstract.ToString", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "String.prototype.trim", "_ESAbstract.IsConstructor", "_ESAbstract.ArraySpeciesCreate", "_ESAbstract.OrdinaryToPrimitive")
- * - _ESAbstract.Call, License: CC0 (required by "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "_ESAbstract.ToPrimitive", "_ESAbstract.ToString", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "String.prototype.trim", "_ESAbstract.OrdinaryToPrimitive")
+ * - _ESAbstract.ToObject, License: CC0 (required by "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "Object.defineProperties", "Object.create", "_ESAbstract.GetV", "_ESAbstract.GetMethod", "_ESAbstract.ToPrimitive", "_ESAbstract.ToString", "String.prototype.trim", "_ESAbstract.IsConstructor", "_ESAbstract.ArraySpeciesCreate")
  * - _ESAbstract.GetV, License: CC0 (required by "_ESAbstract.GetMethod", "_ESAbstract.ToPrimitive", "_ESAbstract.ToString", "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "String.prototype.trim", "_ESAbstract.IsConstructor", "_ESAbstract.ArraySpeciesCreate")
  * - _ESAbstract.GetMethod, License: CC0 (required by "_ESAbstract.ToPrimitive", "_ESAbstract.ToString", "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "String.prototype.trim", "_ESAbstract.IsConstructor", "_ESAbstract.ArraySpeciesCreate")
  * - _ESAbstract.Type, License: CC0 (required by "Object.create", "es5", "Object.defineProperties", "_ESAbstract.ToString", "Array.prototype.every", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "String.prototype.trim", "_ESAbstract.ArraySpeciesCreate", "_ESAbstract.ToPrimitive", "_ESAbstract.IsConstructor", "_ESAbstract.OrdinaryToPrimitive", "_ESAbstract.GetPrototypeFromConstructor", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct")
+ * - _ESAbstract.GetPrototypeFromConstructor, License: CC0 (required by "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "es5", "Array.prototype.map")
+ * - _ESAbstract.IsConstructor, License: CC0 (required by "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "es5", "Array.prototype.map", "_ESAbstract.Construct")
  * - _ESAbstract.OrdinaryToPrimitive, License: CC0 (required by "_ESAbstract.ToPrimitive", "_ESAbstract.ToString", "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "String.prototype.trim")
  * - _ESAbstract.ToPrimitive, License: CC0 (required by "_ESAbstract.ToString", "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "String.prototype.trim")
  * - _ESAbstract.ToString, License: CC0 (required by "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "String.prototype.trim")
- * - _ESAbstract.HasProperty, License: CC0 (required by "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some")
- * - _ESAbstract.ToBoolean, License: CC0 (required by "Array.prototype.every", "es5", "Array.prototype.filter", "Array.prototype.some")
- * - Array.prototype.every, License: CC0 (required by "es5")
- * - _ESAbstract.ArrayCreate, License: CC0 (required by "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "es5", "Array.prototype.map")
- * - _ESAbstract.IsConstructor, License: CC0 (required by "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "es5", "Array.prototype.map", "_ESAbstract.Construct")
- * - _ESAbstract.GetPrototypeFromConstructor, License: CC0 (required by "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "es5", "Array.prototype.map")
- * - Object.keys, License: MIT (required by "es5", "Object.defineProperties", "Object.create")
- * - Function.prototype.bind, License: MIT (required by "es5", "Object.getOwnPropertyDescriptor", "Object.defineProperties", "Object.create", "_ESAbstract.Construct", "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "Array.prototype.map")
- * - Object.getOwnPropertyDescriptor, License: CC0 (required by "es5", "Object.defineProperties", "Object.create")
- * - Object.defineProperties, License: CC0 (required by "es5", "Object.create")
- * - Object.create, License: CC0 (required by "es5", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "Array.prototype.map")
- * - Object.getPrototypeOf, License: CC0 (required by "es5", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "Array.prototype.map")
- * - _ESAbstract.OrdinaryCreateFromConstructor, License: CC0 (required by "_ESAbstract.Construct", "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "es5", "Array.prototype.map")
- * - _ESAbstract.Construct, License: CC0 (required by "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "es5", "Array.prototype.map")
- * - _ESAbstract.ArraySpeciesCreate, License: CC0 (required by "Array.prototype.filter", "es5", "Array.prototype.map")
+ * - Date.now, License: CC0 (required by "es5")
+ * - Date.prototype.toISOString, License: CC0 (required by "es5")
+ * - Object.defineProperty, License: CC0 (required by "es5", "Object.defineProperties", "Object.create", "_ESAbstract.CreateMethodProperty", "Array.isArray", "Array.prototype.every", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "Function.prototype.bind", "Object.freeze", "Object.getOwnPropertyDescriptor", "Object.getOwnPropertyNames", "Object.getPrototypeOf", "Object.keys", "String.prototype.trim", "_ESAbstract.CreateDataProperty", "_ESAbstract.CreateDataPropertyOrThrow", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "_ESAbstract.ArraySpeciesCreate")
  * - _ESAbstract.CreateDataProperty, License: CC0 (required by "_ESAbstract.CreateDataPropertyOrThrow", "Array.prototype.filter", "es5", "Array.prototype.map")
  * - _ESAbstract.CreateDataPropertyOrThrow, License: CC0 (required by "Array.prototype.filter", "es5", "Array.prototype.map")
- * - Array.prototype.filter, License: CC0 (required by "es5")
+ * - _ESAbstract.CreateMethodProperty, License: CC0 (required by "Array.isArray", "es5", "Array.prototype.every", "Array.prototype.filter", "Array.prototype.forEach", "Array.prototype.indexOf", "Array.prototype.lastIndexOf", "Array.prototype.map", "Array.prototype.reduce", "Array.prototype.reduceRight", "Array.prototype.some", "Function.prototype.bind", "Object.create", "Object.defineProperties", "Object.freeze", "Object.getOwnPropertyDescriptor", "Object.getOwnPropertyNames", "Object.getPrototypeOf", "Object.keys", "String.prototype.trim")
+ * - Array.isArray, License: CC0 (required by "es5")
+ * - Array.prototype.every, License: CC0 (required by "es5")
  * - Array.prototype.forEach, License: CC0 (required by "es5")
  * - Array.prototype.indexOf, License: CC0 (required by "es5")
  * - Array.prototype.lastIndexOf, License: CC0 (required by "es5")
- * - Array.prototype.map, License: CC0 (required by "es5")
  * - Array.prototype.reduce, License: CC0 (required by "es5")
  * - Array.prototype.reduceRight, License: CC0 (required by "es5")
  * - Array.prototype.some, License: CC0 (required by "es5")
- * - Date.now, License: CC0 (required by "es5")
- * - Date.prototype.toISOString, License: CC0 (required by "es5")
+ * - Function.prototype.bind, License: MIT (required by "es5", "Object.getOwnPropertyDescriptor", "Object.defineProperties", "Object.create", "_ESAbstract.Construct", "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "Array.prototype.map")
  * - Object.freeze, License: CC0 (required by "es5")
+ * - Object.getOwnPropertyDescriptor, License: CC0 (required by "es5", "Object.defineProperties", "Object.create")
  * - Object.getOwnPropertyNames, License: CC0 (required by "es5")
- * - _ESAbstract.RequireObjectCoercible, License: CC0 (required by "String.prototype.trim", "es5")
+ * - Object.getPrototypeOf, License: CC0 (required by "es5", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "Array.prototype.map")
+ * - Object.keys, License: MIT (required by "es5", "Object.defineProperties", "Object.create")
+ * - Object.defineProperties, License: CC0 (required by "es5", "Object.create")
+ * - Object.create, License: CC0 (required by "es5", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "Array.prototype.map")
+ * - _ESAbstract.OrdinaryCreateFromConstructor, License: CC0 (required by "_ESAbstract.Construct", "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "es5", "Array.prototype.map")
+ * - _ESAbstract.Construct, License: CC0 (required by "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "es5", "Array.prototype.map")
+ * - _ESAbstract.ArraySpeciesCreate, License: CC0 (required by "Array.prototype.filter", "es5", "Array.prototype.map")
+ * - Array.prototype.filter, License: CC0 (required by "es5")
+ * - Array.prototype.map, License: CC0 (required by "es5")
  * - String.prototype.trim, License: CC0 (required by "es5") */
 
 (function(undefined) {
-if (!(// In IE8, defineProperty could only act on DOM elements, so full support
-// for the feature requires the ability to set a property on an arbitrary object
-'defineProperty' in Object && (function() {
-	try {
-		var a = {};
-		Object.defineProperty(a, 'test', {value:42});
-		return true;
-	} catch(e) {
-		return false
+
+// _ESAbstract.ArrayCreate
+// 9.4.2.2. ArrayCreate ( length [ , proto ] )
+function ArrayCreate(length /* [, proto] */) { // eslint-disable-line no-unused-vars
+	// 1. Assert: length is an integer Number ≥ 0.
+	// 2. If length is -0, set length to +0.
+	if (1 / length === -Infinity) {
+		length = 0;
 	}
-}()))) {
-
-// Object.defineProperty
-(function (nativeDefineProperty) {
-
-	var supportsAccessors = Object.prototype.hasOwnProperty('__defineGetter__');
-	var ERR_ACCESSORS_NOT_SUPPORTED = 'Getters & setters cannot be defined on this javascript engine';
-	var ERR_VALUE_ACCESSORS = 'A property cannot both have accessors and be writable or have a value';
-
-	// Polyfill.io - This does not use CreateMethodProperty because our CreateMethodProperty function uses Object.defineProperty.
-	Object['defineProperty'] = function defineProperty(object, property, descriptor) {
-
-		// Where native support exists, assume it
-		if (nativeDefineProperty && (object === window || object === document || object === Element.prototype || object instanceof Element)) {
-			return nativeDefineProperty(object, property, descriptor);
-		}
-
-		if (object === null || !(object instanceof Object || typeof object === 'object')) {
-			throw new TypeError('Object.defineProperty called on non-object');
-		}
-
-		if (!(descriptor instanceof Object)) {
-			throw new TypeError('Property description must be an object');
-		}
-
-		var propertyString = String(property);
-		var hasValueOrWritable = 'value' in descriptor || 'writable' in descriptor;
-		var getterType = 'get' in descriptor && typeof descriptor.get;
-		var setterType = 'set' in descriptor && typeof descriptor.set;
-
-		// handle descriptor.get
-		if (getterType) {
-			if (getterType !== 'function') {
-				throw new TypeError('Getter must be a function');
-			}
-			if (!supportsAccessors) {
-				throw new TypeError(ERR_ACCESSORS_NOT_SUPPORTED);
-			}
-			if (hasValueOrWritable) {
-				throw new TypeError(ERR_VALUE_ACCESSORS);
-			}
-			Object.__defineGetter__.call(object, propertyString, descriptor.get);
-		} else {
-			object[propertyString] = descriptor.value;
-		}
-
-		// handle descriptor.set
-		if (setterType) {
-			if (setterType !== 'function') {
-				throw new TypeError('Setter must be a function');
-			}
-			if (!supportsAccessors) {
-				throw new TypeError(ERR_ACCESSORS_NOT_SUPPORTED);
-			}
-			if (hasValueOrWritable) {
-				throw new TypeError(ERR_VALUE_ACCESSORS);
-			}
-			Object.__defineSetter__.call(object, propertyString, descriptor.set);
-		}
-
-		// OK to define value unconditionally - if a getter has been specified as well, an error would be thrown above
-		if ('value' in descriptor) {
-			object[propertyString] = descriptor.value;
-		}
-
-		return object;
-	};
-}(Object.defineProperty));
-
+	// 3. If length>2^32-1, throw a RangeError exception.
+	if (length > (Math.pow(2, 32) - 1)) {
+		throw new RangeError('Invalid array length');
+	}
+	// 4. If proto is not present, set proto to the intrinsic object %ArrayPrototype%.
+	// 5. Let A be a newly created Array exotic object.
+	var A = [];
+	// 6. Set A's essential internal methods except for [[DefineOwnProperty]] to the default ordinary object definitions specified in 9.1.
+	// 7. Set A.[[DefineOwnProperty]] as specified in 9.4.2.1.
+	// 8. Set A.[[Prototype]] to proto.
+	// 9. Set A.[[Extensible]] to true.
+	// 10. Perform ! OrdinaryDefineOwnProperty(A, "length", PropertyDescriptor{[[Value]]: length, [[Writable]]: true, [[Enumerable]]: false, [[Configurable]]: false}).
+	A.length = length;
+	// 11. Return A.
+	return A;
 }
 
+// _ESAbstract.Call
+/* global IsCallable */
+// 7.3.12. Call ( F, V [ , argumentsList ] )
+function Call(F, V /* [, argumentsList] */) { // eslint-disable-line no-unused-vars
+	// 1. If argumentsList is not present, set argumentsList to a new empty List.
+	var argumentsList = arguments.length > 2 ? arguments[2] : [];
+	// 2. If IsCallable(F) is false, throw a TypeError exception.
+	if (IsCallable(F) === false) {
+		throw new TypeError(Object.prototype.toString.call(F) + 'is not a function.');
+	}
+	// 3. Return ? F.[[Call]](V, argumentsList).
+	return F.apply(V, argumentsList);
+}
 
-// _ESAbstract.CreateMethodProperty
-// 7.3.5. CreateMethodProperty ( O, P, V )
-function CreateMethodProperty(O, P, V) { // eslint-disable-line no-unused-vars
+// _ESAbstract.Get
+// 7.3.1. Get ( O, P )
+function Get(O, P) { // eslint-disable-line no-unused-vars
 	// 1. Assert: Type(O) is Object.
 	// 2. Assert: IsPropertyKey(P) is true.
-	// 3. Let newDesc be the PropertyDescriptor{[[Value]]: V, [[Writable]]: true, [[Enumerable]]: false, [[Configurable]]: true}.
-	var newDesc = {
-		value: V,
-		writable: true,
-		enumerable: false,
-		configurable: true
-	};
-	// 4. Return ? O.[[DefineOwnProperty]](P, newDesc).
-	Object.defineProperty(O, P, newDesc);
+	// 3. Return ? O.[[Get]](P, O).
+	return O[P];
+}
+
+// _ESAbstract.HasProperty
+// 7.3.10. HasProperty ( O, P )
+function HasProperty(O, P) { // eslint-disable-line no-unused-vars
+	// Assert: Type(O) is Object.
+	// Assert: IsPropertyKey(P) is true.
+	// Return ? O.[[HasProperty]](P).
+	return P in O;
 }
 
 // _ESAbstract.IsArray
@@ -164,21 +124,20 @@ function IsArray(argument) { // eslint-disable-line no-unused-vars
 	// Polyfill.io - We can skip all the above steps and check the string returned from Object.prototype.toString().
 	return Object.prototype.toString.call(argument) === '[object Array]';
 }
-if (!('isArray' in Array)) {
 
-// Array.isArray
-/* global CreateMethodProperty, IsArray */
-// 22.1.2.2. Array.isArray ( arg )
-CreateMethodProperty(Array, 'isArray', function isArray(arg) {
-	// 1. Return ? IsArray(arg).
-	return IsArray(arg);
-});
+// _ESAbstract.IsCallable
+// 7.2.3. IsCallable ( argument )
+function IsCallable(argument) { // eslint-disable-line no-unused-vars
+	// 1. If Type(argument) is not Object, return false.
+	// 2. If argument has a [[Call]] internal method, return true.
+	// 3. Return false.
 
+	// Polyfill.io - Only function objects have a [[Call]] internal method. This means we can simplify this function to check that the argument has a type of function.
+	return typeof argument === 'function';
 }
 
-
-// _ESAbstract.ToObject
-// 7.1.13 ToObject ( argument )
+// _ESAbstract.RequireObjectCoercible
+// 7.2.1. RequireObjectCoercible ( argument )
 // The abstract operation ToObject converts argument to a value of type Object according to Table 12:
 // Table 12: ToObject Conversions
 /*
@@ -187,18 +146,38 @@ CreateMethodProperty(Array, 'isArray', function isArray(arg) {
 |----------------------------------------------------------------------------------------------------------------------------------------------------|
 | Undefined     | Throw a TypeError exception.                                                                                                       |
 | Null          | Throw a TypeError exception.                                                                                                       |
-| Boolean       | Return a new Boolean object whose [[BooleanData]] internal slot is set to argument. See 19.3 for a description of Boolean objects. |
-| Number        | Return a new Number object whose [[NumberData]] internal slot is set to argument. See 20.1 for a description of Number objects.    |
-| String        | Return a new String object whose [[StringData]] internal slot is set to argument. See 21.1 for a description of String objects.    |
-| Symbol        | Return a new Symbol object whose [[SymbolData]] internal slot is set to argument. See 19.4 for a description of Symbol objects.    |
+| Boolean       | Return argument.                                                                                                                   |
+| Number        | Return argument.                                                                                                                   |
+| String        | Return argument.                                                                                                                   |
+| Symbol        | Return argument.                                                                                                                   |
 | Object        | Return argument.                                                                                                                   |
 |----------------------------------------------------------------------------------------------------------------------------------------------------|
 */
-function ToObject(argument) { // eslint-disable-line no-unused-vars
+function RequireObjectCoercible(argument) { // eslint-disable-line no-unused-vars
 	if (argument === null || argument === undefined) {
 		throw TypeError();
 	}
-  return Object(argument);
+  return argument;
+}
+
+// _ESAbstract.ToBoolean
+// 7.1.2. ToBoolean ( argument )
+// The abstract operation ToBoolean converts argument to a value of type Boolean according to Table 9:
+/*
+--------------------------------------------------------------------------------------------------------------
+| Argument Type | Result                                                                                     |
+--------------------------------------------------------------------------------------------------------------
+| Undefined     | Return false.                                                                              |
+| Null          | Return false.                                                                              |
+| Boolean       | Return argument.                                                                           |
+| Number        | If argument is +0, -0, or NaN, return false; otherwise return true.                        |
+| String        | If argument is the empty String (its length is zero), return false; otherwise return true. |
+| Symbol        | Return true.                                                                               |
+| Object        | Return true.                                                                               |
+--------------------------------------------------------------------------------------------------------------
+*/
+function ToBoolean(argument) { // eslint-disable-line no-unused-vars
+	return Boolean(argument);
 }
 
 // _ESAbstract.ToInteger
@@ -232,38 +211,28 @@ function ToLength(argument) { // eslint-disable-line no-unused-vars
 	return Math.min(len, Math.pow(2, 53) -1);
 }
 
-// _ESAbstract.Get
-// 7.3.1. Get ( O, P )
-function Get(O, P) { // eslint-disable-line no-unused-vars
-	// 1. Assert: Type(O) is Object.
-	// 2. Assert: IsPropertyKey(P) is true.
-	// 3. Return ? O.[[Get]](P, O).
-	return O[P];
-}
-
-// _ESAbstract.IsCallable
-// 7.2.3. IsCallable ( argument )
-function IsCallable(argument) { // eslint-disable-line no-unused-vars
-	// 1. If Type(argument) is not Object, return false.
-	// 2. If argument has a [[Call]] internal method, return true.
-	// 3. Return false.
-
-	// Polyfill.io - Only function objects have a [[Call]] internal method. This means we can simplify this function to check that the argument has a type of function.
-	return typeof argument === 'function';
-}
-
-// _ESAbstract.Call
-/* global IsCallable */
-// 7.3.12. Call ( F, V [ , argumentsList ] )
-function Call(F, V /* [, argumentsList] */) { // eslint-disable-line no-unused-vars
-	// 1. If argumentsList is not present, set argumentsList to a new empty List.
-	var argumentsList = arguments.length > 2 ? arguments[2] : [];
-	// 2. If IsCallable(F) is false, throw a TypeError exception.
-	if (IsCallable(F) === false) {
-		throw new TypeError(Object.prototype.toString.call(F) + 'is not a function.');
+// _ESAbstract.ToObject
+// 7.1.13 ToObject ( argument )
+// The abstract operation ToObject converts argument to a value of type Object according to Table 12:
+// Table 12: ToObject Conversions
+/*
+|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| Argument Type | Result                                                                                                                             |
+|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| Undefined     | Throw a TypeError exception.                                                                                                       |
+| Null          | Throw a TypeError exception.                                                                                                       |
+| Boolean       | Return a new Boolean object whose [[BooleanData]] internal slot is set to argument. See 19.3 for a description of Boolean objects. |
+| Number        | Return a new Number object whose [[NumberData]] internal slot is set to argument. See 20.1 for a description of Number objects.    |
+| String        | Return a new String object whose [[StringData]] internal slot is set to argument. See 21.1 for a description of String objects.    |
+| Symbol        | Return a new Symbol object whose [[SymbolData]] internal slot is set to argument. See 19.4 for a description of Symbol objects.    |
+| Object        | Return argument.                                                                                                                   |
+|----------------------------------------------------------------------------------------------------------------------------------------------------|
+*/
+function ToObject(argument) { // eslint-disable-line no-unused-vars
+	if (argument === null || argument === undefined) {
+		throw TypeError();
 	}
-	// 3. Return ? F.[[Call]](V, argumentsList).
-	return F.apply(V, argumentsList);
+  return Object(argument);
 }
 
 // _ESAbstract.GetV
@@ -317,6 +286,42 @@ function Type(x) { // eslint-disable-line no-unused-vars
 			if ('Symbol' in this && x instanceof this.Symbol) return 'symbol';
 			return 'object';
 	}
+}
+
+// _ESAbstract.GetPrototypeFromConstructor
+/* global Get, Type */
+// 9.1.14. GetPrototypeFromConstructor ( constructor, intrinsicDefaultProto )
+function GetPrototypeFromConstructor(constructor, intrinsicDefaultProto) { // eslint-disable-line no-unused-vars
+	// 1. Assert: intrinsicDefaultProto is a String value that is this specification's name of an intrinsic object. The corresponding object must be an intrinsic that is intended to be used as the [[Prototype]] value of an object.
+	// 2. Assert: IsCallable(constructor) is true.
+	// 3. Let proto be ? Get(constructor, "prototype").
+	var proto = Get(constructor, "prototype");
+	// 4. If Type(proto) is not Object, then
+	if (Type(proto) !== 'object') {
+		// a. Let realm be ? GetFunctionRealm(constructor).
+		// b. Set proto to realm's intrinsic object named intrinsicDefaultProto.
+		proto = intrinsicDefaultProto;
+	}
+	// 5. Return proto.
+	return proto;
+}
+
+// _ESAbstract.IsConstructor
+/* global Type */
+// 7.2.4. IsConstructor ( argument )
+function IsConstructor(argument) { // eslint-disable-line no-unused-vars
+	// 1. If Type(argument) is not Object, return false.
+	if (Type(argument) !== 'object') {
+		return false;
+	}
+	// 2. If argument has a [[Construct]] internal method, return true.
+	// 3. Return false.
+
+	// Polyfill.io - `new argument` is the only way  to truly test if a function is a constructor.
+	// We choose to not use`new argument` because the argument could have side effects when called.
+	// Instead we check to see if the argument is a function and if it has a prototype.
+	// Arrow functions do not have a [[Construct]] internal method, nor do they have a prototype.
+	return typeof argument === 'function' && !!argument.prototype;
 }
 
 // _ESAbstract.OrdinaryToPrimitive
@@ -434,36 +439,186 @@ function ToString(argument) { // eslint-disable-line no-unused-vars
 			return String(argument);
 	}
 }
+if (!("Date"in this&&"now"in this.Date&&"getTime"in this.Date.prototype
+)) {
 
-// _ESAbstract.HasProperty
-// 7.3.10. HasProperty ( O, P )
-function HasProperty(O, P) { // eslint-disable-line no-unused-vars
-	// Assert: Type(O) is Object.
-	// Assert: IsPropertyKey(P) is true.
-	// Return ? O.[[HasProperty]](P).
-	return P in O;
+// Date.now
+Date.now = function now() {
+	return new Date().getTime();
+};
+
 }
 
-// _ESAbstract.ToBoolean
-// 7.1.2. ToBoolean ( argument )
-// The abstract operation ToBoolean converts argument to a value of type Boolean according to Table 9:
-/*
---------------------------------------------------------------------------------------------------------------
-| Argument Type | Result                                                                                     |
---------------------------------------------------------------------------------------------------------------
-| Undefined     | Return false.                                                                              |
-| Null          | Return false.                                                                              |
-| Boolean       | Return argument.                                                                           |
-| Number        | If argument is +0, -0, or NaN, return false; otherwise return true.                        |
-| String        | If argument is the empty String (its length is zero), return false; otherwise return true. |
-| Symbol        | Return true.                                                                               |
-| Object        | Return true.                                                                               |
---------------------------------------------------------------------------------------------------------------
-*/
-function ToBoolean(argument) { // eslint-disable-line no-unused-vars
-	return Boolean(argument);
+if (!("Date"in this&&"toISOString"in Date.prototype
+)) {
+
+// Date.prototype.toISOString
+Date.prototype.toISOString = function toISOString() {
+	var date = this;
+
+	function pad(str, len) {
+		var pad = "0000";
+		str = '' + str;
+		return pad.substr(0, len - str.length) + str;
+	}
+
+	var y = date.getUTCFullYear(),
+	m = pad(date.getUTCMonth() + 1, 2),
+	d = pad(date.getUTCDate(), 2),
+	h = pad(date.getUTCHours(), 2),
+	i = pad(date.getUTCMinutes(), 2),
+	s = pad(date.getUTCSeconds(), 2),
+	ms = pad(date.getUTCMilliseconds(), 3);
+
+	return y +'-'+ m +'-'+ d + 'T' + h +':'+ i +':'+ s +'.'+ ms +'Z';
+};
+
 }
-if (!('every' in Array.prototype)) {
+
+if (!("defineProperty"in Object&&function(){try{var e={}
+return Object.defineProperty(e,"test",{value:42}),!0}catch(t){return!1}}()
+)) {
+
+// Object.defineProperty
+(function (nativeDefineProperty) {
+
+	var supportsAccessors = Object.prototype.hasOwnProperty('__defineGetter__');
+	var ERR_ACCESSORS_NOT_SUPPORTED = 'Getters & setters cannot be defined on this javascript engine';
+	var ERR_VALUE_ACCESSORS = 'A property cannot both have accessors and be writable or have a value';
+
+	// Polyfill.io - This does not use CreateMethodProperty because our CreateMethodProperty function uses Object.defineProperty.
+	Object['defineProperty'] = function defineProperty(object, property, descriptor) {
+
+		// Where native support exists, assume it
+		if (nativeDefineProperty && (object === window || object === document || object === Element.prototype || object instanceof Element)) {
+			return nativeDefineProperty(object, property, descriptor);
+		}
+
+		if (object === null || !(object instanceof Object || typeof object === 'object')) {
+			throw new TypeError('Object.defineProperty called on non-object');
+		}
+
+		if (!(descriptor instanceof Object)) {
+			throw new TypeError('Property description must be an object');
+		}
+
+		var propertyString = String(property);
+		var hasValueOrWritable = 'value' in descriptor || 'writable' in descriptor;
+		var getterType = 'get' in descriptor && typeof descriptor.get;
+		var setterType = 'set' in descriptor && typeof descriptor.set;
+
+		// handle descriptor.get
+		if (getterType) {
+			if (getterType !== 'function') {
+				throw new TypeError('Getter must be a function');
+			}
+			if (!supportsAccessors) {
+				throw new TypeError(ERR_ACCESSORS_NOT_SUPPORTED);
+			}
+			if (hasValueOrWritable) {
+				throw new TypeError(ERR_VALUE_ACCESSORS);
+			}
+			Object.__defineGetter__.call(object, propertyString, descriptor.get);
+		} else {
+			object[propertyString] = descriptor.value;
+		}
+
+		// handle descriptor.set
+		if (setterType) {
+			if (setterType !== 'function') {
+				throw new TypeError('Setter must be a function');
+			}
+			if (!supportsAccessors) {
+				throw new TypeError(ERR_ACCESSORS_NOT_SUPPORTED);
+			}
+			if (hasValueOrWritable) {
+				throw new TypeError(ERR_VALUE_ACCESSORS);
+			}
+			Object.__defineSetter__.call(object, propertyString, descriptor.set);
+		}
+
+		// OK to define value unconditionally - if a getter has been specified as well, an error would be thrown above
+		if ('value' in descriptor) {
+			object[propertyString] = descriptor.value;
+		}
+
+		return object;
+	};
+}(Object.defineProperty));
+
+}
+
+
+// _ESAbstract.CreateDataProperty
+// 7.3.4. CreateDataProperty ( O, P, V )
+// NOTE
+// This abstract operation creates a property whose attributes are set to the same defaults used for properties created by the ECMAScript language assignment operator.
+// Normally, the property will not already exist. If it does exist and is not configurable or if O is not extensible, [[DefineOwnProperty]] will return false.
+function CreateDataProperty(O, P, V) { // eslint-disable-line no-unused-vars
+	// 1. Assert: Type(O) is Object.
+	// 2. Assert: IsPropertyKey(P) is true.
+	// 3. Let newDesc be the PropertyDescriptor{ [[Value]]: V, [[Writable]]: true, [[Enumerable]]: true, [[Configurable]]: true }.
+	var newDesc = {
+		value: V,
+		writable: true,
+		enumerable: true,
+		configurable: true
+	};
+	// 4. Return ? O.[[DefineOwnProperty]](P, newDesc).
+	try {
+		Object.defineProperty(O, P, newDesc);
+		return true;
+	} catch (e) {
+		return false;
+	}
+}
+
+// _ESAbstract.CreateDataPropertyOrThrow
+/* global CreateDataProperty */
+// 7.3.6. CreateDataPropertyOrThrow ( O, P, V )
+function CreateDataPropertyOrThrow(O, P, V) { // eslint-disable-line no-unused-vars
+	// 1. Assert: Type(O) is Object.
+	// 2. Assert: IsPropertyKey(P) is true.
+	// 3. Let success be ? CreateDataProperty(O, P, V).
+	var success = CreateDataProperty(O, P, V);
+	// 4. If success is false, throw a TypeError exception.
+	if (!success) {
+		throw new TypeError('Cannot assign value `' + Object.prototype.toString.call(V) + '` to property `' + Object.prototype.toString.call(P) + '` on object `' + Object.prototype.toString.call(O) + '`');
+	}
+	// 5. Return success.
+	return success;
+}
+
+// _ESAbstract.CreateMethodProperty
+// 7.3.5. CreateMethodProperty ( O, P, V )
+function CreateMethodProperty(O, P, V) { // eslint-disable-line no-unused-vars
+	// 1. Assert: Type(O) is Object.
+	// 2. Assert: IsPropertyKey(P) is true.
+	// 3. Let newDesc be the PropertyDescriptor{[[Value]]: V, [[Writable]]: true, [[Enumerable]]: false, [[Configurable]]: true}.
+	var newDesc = {
+		value: V,
+		writable: true,
+		enumerable: false,
+		configurable: true
+	};
+	// 4. Return ? O.[[DefineOwnProperty]](P, newDesc).
+	Object.defineProperty(O, P, newDesc);
+}
+if (!("isArray"in Array
+)) {
+
+// Array.isArray
+/* global CreateMethodProperty, IsArray */
+// 22.1.2.2. Array.isArray ( arg )
+CreateMethodProperty(Array, 'isArray', function isArray(arg) {
+	// 1. Return ? IsArray(arg).
+	return IsArray(arg);
+});
+
+}
+
+if (!("every"in Array.prototype
+)) {
 
 // Array.prototype.every
 /* global Call, CreateMethodProperty, Get, HasProperty, IsCallable, ToBoolean, ToLength, ToObject, ToString */
@@ -507,215 +662,357 @@ CreateMethodProperty(Array.prototype, 'every', function every(callbackfn /* [ , 
 
 }
 
+if (!("forEach"in Array.prototype
+)) {
 
-// _ESAbstract.ArrayCreate
-// 9.4.2.2. ArrayCreate ( length [ , proto ] )
-function ArrayCreate(length /* [, proto] */) { // eslint-disable-line no-unused-vars
-	// 1. Assert: length is an integer Number ≥ 0.
-	// 2. If length is -0, set length to +0.
-	if (1 / length === -Infinity) {
-		length = 0;
+// Array.prototype.forEach
+/* global Call, CreateMethodProperty, Get, HasProperty, IsCallable, ToLength, ToObject, ToString */
+// 22.1.3.10. Array.prototype.forEach ( callbackfn [ , thisArg ] )
+CreateMethodProperty(Array.prototype, 'forEach', function forEach(callbackfn /* [ , thisArg ] */) {
+	// 1. Let O be ? ToObject(this value).
+	var O = ToObject(this);
+	// Polyfill.io - If O is a String object, split it into an array in order to iterate correctly.
+	// We will use arrayLike in place of O when we are iterating through the list.
+	var arraylike = O instanceof String ? O.split('') : O;
+	// 2. Let len be ? ToLength(? Get(O, "length")).
+	var len = ToLength(Get(O, "length"));
+	// 3. If IsCallable(callbackfn) is false, throw a TypeError exception.
+	if (IsCallable(callbackfn) === false) {
+		throw new TypeError(callbackfn + ' is not a function');
 	}
-	// 3. If length>2^32-1, throw a RangeError exception.
-	if (length > (Math.pow(2, 32) - 1)) {
-		throw new RangeError('Invalid array length');
+	// 4. If thisArg is present, let T be thisArg; else let T be undefined.
+	var T = arguments.length > 1 ? arguments[1] : undefined;
+	// 5. Let k be 0.
+	var k = 0;
+	// 6. Repeat, while k < len
+	while (k < len) {
+		// a. Let Pk be ! ToString(k).
+		var Pk = ToString(k);
+		// b. Let kPresent be ? HasProperty(O, Pk).
+		var kPresent = HasProperty(arraylike, Pk);
+		// c. If kPresent is true, then
+		if (kPresent) {
+			// i. Let kValue be ? Get(O, Pk).
+			var kValue = Get(arraylike, Pk);
+			// ii. Perform ? Call(callbackfn, T, « kValue, k, O »).
+			Call(callbackfn, T, [kValue, k, O]);
+		}
+		// d. Increase k by 1.
+		k = k + 1;
 	}
-	// 4. If proto is not present, set proto to the intrinsic object %ArrayPrototype%.
-	// 5. Let A be a newly created Array exotic object.
-	var A = [];
-	// 6. Set A's essential internal methods except for [[DefineOwnProperty]] to the default ordinary object definitions specified in 9.1.
-	// 7. Set A.[[DefineOwnProperty]] as specified in 9.4.2.1.
-	// 8. Set A.[[Prototype]] to proto.
-	// 9. Set A.[[Extensible]] to true.
-	// 10. Perform ! OrdinaryDefineOwnProperty(A, "length", PropertyDescriptor{[[Value]]: length, [[Writable]]: true, [[Enumerable]]: false, [[Configurable]]: false}).
-	A.length = length;
-	// 11. Return A.
-	return A;
+	// 7. Return undefined.
+	return undefined;
+});
+
 }
 
-// _ESAbstract.IsConstructor
-/* global Type */
-// 7.2.4. IsConstructor ( argument )
-function IsConstructor(argument) { // eslint-disable-line no-unused-vars
-	// 1. If Type(argument) is not Object, return false.
-	if (Type(argument) !== 'object') {
-		return false;
-	}
-	// 2. If argument has a [[Construct]] internal method, return true.
-	// 3. Return false.
+if (!("indexOf"in Array.prototype
+)) {
 
-	// Polyfill.io - `new argument` is the only way  to truly test if a function is a constructor.
-	// We choose to not use`new argument` because the argument could have side effects when called.
-	// Instead we check to see if the argument is a function and if it has a prototype.
-	// Arrow functions do not have a [[Construct]] internal method, nor do they have a prototype.
-	return typeof argument === 'function' && !!argument.prototype;
+// Array.prototype.indexOf
+/* global CreateMethodProperty, Get, HasProperty, ToInteger, ToLength, ToObject, ToString */
+// 22.1.3.12. Array.prototype.indexOf ( searchElement [ , fromIndex ] )
+CreateMethodProperty(Array.prototype, 'indexOf', function indexOf(searchElement /* [ , fromIndex ] */) {
+	// 1. Let O be ? ToObject(this value).
+	var O = ToObject(this);
+	// 2. Let len be ? ToLength(? Get(O, "length")).
+	var len = ToLength(Get(O, "length"));
+	// 3. If len is 0, return -1.
+	if (len === 0) {
+		return -1;
+	}
+	// 4. Let n be ? ToInteger(fromIndex). (If fromIndex is undefined, this step produces the value 0.)
+	var n = ToInteger(arguments[1]);
+	// 5. If n ≥ len, return -1.
+	if (n >= len) {
+		return -1;
+	}
+	// 6. If n ≥ 0, then
+	if (n >= 0) {
+		// a. If n is -0, let k be +0; else let k be n.
+		var k = n === -0 ? 0 : n;
+		// 7. Else n < 0,
+	} else {
+		// a. Let k be len + n.
+		var k = len + n;
+		// b. If k < 0, let k be 0.
+		if (k < 0) {
+			k = 0;
+		}
+	}
+	// 8. Repeat, while k < len
+	while (k < len) {
+		// a. Let kPresent be ? HasProperty(O, ! ToString(k)).
+		var kPresent = HasProperty(O, ToString(k));
+		// b. If kPresent is true, then
+		if (kPresent) {
+			// i. Let elementK be ? Get(O, ! ToString(k)).
+			var elementK = Get(O, ToString(k));
+			// ii. Let same be the result of performing Strict Equality Comparison searchElement === elementK.
+			var same = searchElement === elementK;
+			// iii. If same is true, return k.
+			if (same) {
+				return k;
+			}
+		}
+		// c. Increase k by 1.
+		k = k + 1;
+	}
+	// 9. Return -1.
+	return -1;
+});
+
 }
 
-// _ESAbstract.GetPrototypeFromConstructor
-/* global Get, Type */
-// 9.1.14. GetPrototypeFromConstructor ( constructor, intrinsicDefaultProto )
-function GetPrototypeFromConstructor(constructor, intrinsicDefaultProto) { // eslint-disable-line no-unused-vars
-	// 1. Assert: intrinsicDefaultProto is a String value that is this specification's name of an intrinsic object. The corresponding object must be an intrinsic that is intended to be used as the [[Prototype]] value of an object.
-	// 2. Assert: IsCallable(constructor) is true.
-	// 3. Let proto be ? Get(constructor, "prototype").
-	var proto = Get(constructor, "prototype");
-	// 4. If Type(proto) is not Object, then
-	if (Type(proto) !== 'object') {
-		// a. Let realm be ? GetFunctionRealm(constructor).
-		// b. Set proto to realm's intrinsic object named intrinsicDefaultProto.
-		proto = intrinsicDefaultProto;
+if (!("lastIndexOf"in Array.prototype
+)) {
+
+// Array.prototype.lastIndexOf
+/* global CreateMethodProperty, Get, HasProperty, ToInteger, ToLength, ToObject, ToString */
+// 22.1.3.15. Array.prototype.lastIndexOf ( searchElement [ , fromIndex ] )
+CreateMethodProperty(Array.prototype, 'lastIndexOf', function lastIndexOf(searchElement /* [ , fromIndex ] */) {
+	// 1. Let O be ? ToObject(this value).
+	var O = ToObject(this);
+	// 2. Let len be ? ToLength(? Get(O, "length")).
+	var len = ToLength(Get(O, "length"));
+	// 3. If len is 0, return -1.
+	if (len === 0) {
+		return -1;
 	}
-	// 5. Return proto.
-	return proto;
+	// 4. If fromIndex is present, let n be ? ToInteger(fromIndex); else let n be len-1.
+	var n = arguments.length > 1 ? ToInteger(arguments[1]) : len - 1;
+	// 5. If n ≥ 0, then
+	if (n >= 0) {
+		// a. If n is -0, let k be +0; else let k be min(n, len - 1).
+		var k = n === -0 ? 0 : Math.min(n, len - 1);
+		// 6. Else n < 0,
+	} else {
+		// a. Let k be len + n.
+		k = len + n;
+	}
+	// 7. Repeat, while k ≥ 0
+	while (k >= 0) {
+		// a. Let kPresent be ? HasProperty(O, ! ToString(k)).
+		var kPresent = HasProperty(O, ToString(k));
+		// b. If kPresent is true, then
+		if (kPresent) {
+			// i. Let elementK be ? Get(O, ! ToString(k)).
+			var elementK = Get(O, ToString(k));
+			// ii. Let same be the result of performing Strict Equality Comparison searchElement === elementK.
+			var same = searchElement === elementK;
+			// iii. If same is true, return k.
+			if (same) {
+				return k;
+			}
+		}
+		// c. Decrease k by 1.
+		k = k - 1;
+	}
+	// 9. Return -1.
+	return -1;
+});
+
 }
-if (!('keys' in Object && (function () {
-	// Safari 5.0 bug where Object.keys doesn't work with arguments
-	return (Object.keys(arguments)).length === 2;
-}(1, 2)) && (function () {
-	try {
-		// In ES6 Object.keys works on all object except `null` and `undefined`.
-		Object.keys('');
-		return true;
-	} catch (e) {
-		return false;
+
+if (!("reduce"in Array.prototype
+)) {
+
+// Array.prototype.reduce
+/* global Call, CreateMethodProperty, Get, HasProperty, IsCallable, ToLength, ToObject, ToString */
+// 22.1.3.19. Array.prototype.reduce ( callbackfn [ , initialValue ] )
+CreateMethodProperty(Array.prototype, 'reduce', function reduce(callbackfn /* [ , initialValue ] */) {
+	// 1. Let O be ? ToObject(this value).
+	var O = ToObject(this);
+	// Polyfill.io - If O is a String object, split it into an array in order to iterate correctly.
+	// We will use arrayLike in place of O when we are iterating through the list.
+	var arraylike = O instanceof String ? O.split('') : O;
+	// 2. Let len be ? ToLength(? Get(O, "length")).
+	var len = ToLength(Get(arraylike, "length"));
+	// 3. If IsCallable(callbackfn) is false, throw a TypeError exception.
+	if (IsCallable(callbackfn) === false) {
+		throw new TypeError(callbackfn + ' is not a function');
 	}
-}()))) {
+	// 4. If len is 0 and initialValue is not present, throw a TypeError exception.
+	var initialValue = arguments.length > 1 ? arguments[1] : undefined;
+	if (len === 0 && arguments.length < 2) {
+		throw new TypeError('Reduce of empty array with no initial value');
+	}
+	// 5. Let k be 0.
+	var k = 0;
+	// 6. Let accumulator be undefined.
+	var accumulator = undefined;
+	// 7. If initialValue is present, then
+	if (arguments.length > 1) {
+		// a. Set accumulator to initialValue.
+		accumulator = initialValue;
+		// 8. Else initialValue is not present,
+	} else {
+		// a. Let kPresent be false.
+		var kPresent = false;
+		// b. Repeat, while kPresent is false and k < len
+		while (kPresent === false && k < len) {
+			// i. Let Pk be ! ToString(k).
+			var Pk = ToString(k);
+			// ii. Let kPresent be ? HasProperty(O, Pk).
+			var kPresent = HasProperty(arraylike, Pk);
+			// iii. If kPresent is true, then
+			if (kPresent) {
+				// 1. Set accumulator to ? Get(O, Pk).
+				var accumulator = Get(arraylike, Pk);
+			}
+			// iv. Increase k by 1.
+			k = k + 1;
+		}
+		// c. If kPresent is false, throw a TypeError exception.
+		if (kPresent === false) {
+			throw new TypeError('Reduce of empty array with no initial value');
+		}
+	}
+	// 9. Repeat, while k < len
+	while (k < len) {
+		// a. Let Pk be ! ToString(k).
+		var Pk = ToString(k);
+		// b. Let kPresent be ? HasProperty(O, Pk).
+		var kPresent = HasProperty(arraylike, Pk);
+		// c. If kPresent is true, then
+		if (kPresent) {
+			// i. Let kValue be ? Get(O, Pk).
+			var kValue = Get(arraylike, Pk);
+			// ii. Set accumulator to ? Call(callbackfn, undefined, « accumulator, kValue, k, O »).
+			accumulator = Call(callbackfn, undefined, [accumulator, kValue, k, O]);
+		}
+		// d. Increase k by 1.
+		k = k + 1;
+	}
+	// 10. Return accumulator.
+	return accumulator;
+});
 
-// Object.keys
-Object.keys = (function() {
-	'use strict';
+}
 
-	// modified from https://github.com/es-shims/object-keys
+if (!("reduceRight"in Array.prototype
+)) {
 
-	var has = Object.prototype.hasOwnProperty;
-	var toStr = Object.prototype.toString;
-	var isEnumerable = Object.prototype.propertyIsEnumerable;
-	var hasDontEnumBug = !isEnumerable.call({ toString: null }, 'toString');
-	var hasProtoEnumBug = isEnumerable.call(function () {}, 'prototype');
-	var dontEnums = [
-		'toString',
-		'toLocaleString',
-		'valueOf',
-		'hasOwnProperty',
-		'isPrototypeOf',
-		'propertyIsEnumerable',
-		'constructor'
-	];
-	var equalsConstructorPrototype = function (o) {
-		var ctor = o.constructor;
-		return ctor && ctor.prototype === o;
-	};
-	var excludedKeys = {
-		$console: true,
-		$external: true,
-		$frame: true,
-		$frameElement: true,
-		$frames: true,
-		$innerHeight: true,
-		$innerWidth: true,
-		$outerHeight: true,
-		$outerWidth: true,
-		$pageXOffset: true,
-		$pageYOffset: true,
-		$parent: true,
-		$scrollLeft: true,
-		$scrollTop: true,
-		$scrollX: true,
-		$scrollY: true,
-		$self: true,
-		$webkitIndexedDB: true,
-		$webkitStorageInfo: true,
-		$window: true
-	};
-	var hasAutomationEqualityBug = (function () {
-		/* global window */
-		if (typeof window === 'undefined') { return false; }
-		for (var k in window) {
-			try {
-				if (!excludedKeys['$' + k] && has.call(window, k) && window[k] !== null && typeof window[k] === 'object') {
-					try {
-						equalsConstructorPrototype(window[k]);
-					} catch (e) {
-						return true;
-					}
-				}
-			} catch (e) {
+// Array.prototype.reduceRight
+/* global Call, CreateMethodProperty, Get, HasProperty, IsCallable, ToLength, ToObject, ToString */
+// 22.1.3.20. Array.prototype.reduceRight ( callbackfn [ , initialValue ] )
+CreateMethodProperty(Array.prototype, 'reduceRight', function reduceRight(callbackfn /* [ , initialValue ] */) {
+	// 1. Let O be ? ToObject(this value).
+	var O = ToObject(this);
+	// Polyfill.io - If O is a String object, split it into an array in order to iterate correctly.
+	// We will use arrayLike in place of O when we are iterating through the list.
+	var arraylike = O instanceof String ? O.split('') : O;
+	// 2. Let len be ? ToLength(? Get(O, "length")).
+	var len = ToLength(Get(arraylike, "length"));
+	// 3. If IsCallable(callbackfn) is false, throw a TypeError exception.
+	if (IsCallable(callbackfn) === false) {
+		throw new TypeError(callbackfn + ' is not a function');
+	}
+	// 4. If len is 0 and initialValue is not present, throw a TypeError exception.
+	var initialValue = arguments.length > 1 ? arguments[1] : undefined;
+	if (len === 0 && arguments.length < 2) {
+		throw new TypeError('Reduce of empty array with no initial value');
+	}
+	// 5. Let k be len-1.
+	var k = len - 1;
+	// 6. Let accumulator be undefined.
+	var accumulator = undefined;
+	// 7. If initialValue is present, then
+	if (arguments.length > 1) {
+		// a. Set accumulator to initialValue.
+		accumulator = initialValue;
+		// 8.Else initialValue is not present,
+	} else {
+		// a. Let kPresent be false.
+		var kPresent = false;
+		// b. Repeat, while kPresent is false and k ≥ 0
+		while (kPresent === false && k >= 0) {
+			// i. Let Pk be ! ToString(k).
+			var Pk = ToString(k);
+			// ii. Let kPresent be ? HasProperty(O, Pk).
+			var kPresent = HasProperty(arraylike, Pk);
+			// iii. If kPresent is true, then
+			if (kPresent) {
+				// 1. Set accumulator to ? Get(O, Pk).
+				accumulator = Get(arraylike, Pk);
+			}
+			// iv. Decrease k by 1.
+			k = k - 1;
+		}
+		// c. If kPresent is false, throw a TypeError exception.
+		if (kPresent === false) {
+			throw new TypeError('Reduce of empty array with no initial value');
+		}
+	}
+	// 9. Repeat, while k ≥ 0
+	while (k >= 0) {
+		// a. Let Pk be ! ToString(k).
+		var Pk = ToString(k);
+		// b. Let kPresent be ? HasProperty(O, Pk).
+		var kPresent = HasProperty(arraylike, Pk);
+		// c. If kPresent is true, then
+		if (kPresent) {
+			// i. Let kValue be ? Get(O, Pk).
+			var kValue = Get(arraylike, Pk);
+			// ii. Set accumulator to ? Call(callbackfn, undefined, « accumulator, kValue, k, O »).
+			accumulator = Call(callbackfn, undefined, [accumulator, kValue, k, O]);
+		}
+		// d. Decrease k by 1.
+		k = k - 1;
+	}
+	// 10 Return accumulator.
+	return accumulator;
+});
+
+}
+
+if (!("some"in Array.prototype
+)) {
+
+// Array.prototype.some
+/* global Call, CreateMethodProperty, Get, HasProperty, IsCallable, ToBoolean, ToLength, ToObject, ToString */
+// 22.1.3.24. Array.prototype.some ( callbackfn [ , thisArg ] )
+CreateMethodProperty(Array.prototype, 'some', function some(callbackfn /* [ , thisArg ] */) {
+	// 1. Let O be ? ToObject(this value).
+	var O = ToObject(this);
+	// 2. Let len be ? ToLength(? Get(O, "length")).
+	var len = ToLength(Get(O, "length"));
+	// 3. If IsCallable(callbackfn) is false, throw a TypeError exception.
+	if (IsCallable(callbackfn) === false) {
+		throw new TypeError(callbackfn + ' is not a function');
+	}
+	// 4. If thisArg is present, let T be thisArg; else let T be undefined.
+	var T = arguments.length > 1 ? arguments[1] : undefined;
+	// 5. Let k be 0.
+	var k = 0;
+	// 6. Repeat, while k < len
+	while (k < len) {
+		// a. Let Pk be ! ToString(k).
+		var Pk = ToString(k);
+		// b. Let kPresent be ? HasProperty(O, Pk).
+		var kPresent = HasProperty(O, Pk);
+		// c. If kPresent is true, then
+		if (kPresent) {
+			// i. Let kValue be ? Get(O, Pk).
+			var kValue = Get(O, Pk);
+			// ii. Let testResult be ToBoolean(? Call(callbackfn, T, « kValue, k, O »)).
+			var testResult = ToBoolean(Call(callbackfn, T, [kValue, k, O]));
+			// iii. If testResult is true, return true.
+			if (testResult) {
 				return true;
 			}
 		}
-		return false;
-	}());
-	var equalsConstructorPrototypeIfNotBuggy = function (o) {
-		/* global window */
-		if (typeof window === 'undefined' || !hasAutomationEqualityBug) {
-			return equalsConstructorPrototype(o);
-		}
-		try {
-			return equalsConstructorPrototype(o);
-		} catch (e) {
-			return false;
-		}
-	};
-
-	function isArgumentsObject(value) {
-		var str = toStr.call(value);
-		var isArgs = str === '[object Arguments]';
-		if (!isArgs) {
-			isArgs = str !== '[object Array]' &&
-				value !== null &&
-				typeof value === 'object' &&
-				typeof value.length === 'number' &&
-				value.length >= 0 &&
-				toStr.call(value.callee) === '[object Function]';
-		}
-		return isArgs;
+		// d. Increase k by 1.
+		k = k + 1;
 	}
-
-	return function keys(object) {
-		var isFunction = toStr.call(object) === '[object Function]';
-		var isArguments = isArgumentsObject(object);
-		var isString = toStr.call(object) === '[object String]';
-		var theKeys = [];
-
-		if (object === undefined || object === null) {
-			throw new TypeError('Cannot convert undefined or null to object');
-		}
-
-		var skipProto = hasProtoEnumBug && isFunction;
-		if (isString && object.length > 0 && !has.call(object, 0)) {
-			for (var i = 0; i < object.length; ++i) {
-				theKeys.push(String(i));
-			}
-		}
-
-		if (isArguments && object.length > 0) {
-			for (var j = 0; j < object.length; ++j) {
-				theKeys.push(String(j));
-			}
-		} else {
-			for (var name in object) {
-				if (!(skipProto && name === 'prototype') && has.call(object, name)) {
-					theKeys.push(String(name));
-				}
-			}
-		}
-
-		if (hasDontEnumBug) {
-			var skipConstructor = equalsConstructorPrototypeIfNotBuggy(object);
-
-			for (var k = 0; k < dontEnums.length; ++k) {
-				if (!(skipConstructor && dontEnums[k] === 'constructor') && has.call(object, dontEnums[k])) {
-					theKeys.push(dontEnums[k]);
-				}
-			}
-		}
-		return theKeys;
-	};
-}());
+	// 7. Return false.
+	return false;
+});
 
 }
 
-if (!('bind' in Function.prototype)) {
+if (!("bind"in Function.prototype
+)) {
 
 // Function.prototype.bind
 /* global CreateMethodProperty, IsCallable */
@@ -866,18 +1163,24 @@ CreateMethodProperty(Function.prototype, 'bind', function bind(that) { // .lengt
 
 }
 
-if (!('getOwnPropertyDescriptor' in Object && typeof Object.getOwnPropertyDescriptor === 'function' && (function() {
-    try {
-    	var object = {};
-        object.test = 0;
-        return Object.getOwnPropertyDescriptor(
-            object,
-            "test"
-        ).value === 0;
-    } catch (exception) {
-        return false
-    }
-}()))) {
+if (!("freeze"in Object
+)) {
+
+// Object.freeze
+/* global CreateMethodProperty */
+// 19.1.2.6. Object.freeze ( O )
+CreateMethodProperty(Object, 'freeze', function freeze(O) {
+	// This feature cannot be implemented fully as a polyfill.
+	// We choose to silently fail which allows "securable" code
+	// to "gracefully" degrade to working but insecure code.
+	return O;
+});
+
+}
+
+if (!("getOwnPropertyDescriptor"in Object&&"function"==typeof Object.getOwnPropertyDescriptor&&function(){try{var t={}
+return t.test=0,0===Object.getOwnPropertyDescriptor(t,"test").value}catch(e){return!1}}()
+)) {
 
 // Object.getOwnPropertyDescriptor
 /* global CreateMethodProperty */
@@ -986,7 +1289,223 @@ if (!('getOwnPropertyDescriptor' in Object && typeof Object.getOwnPropertyDescri
 
 }
 
-if (!('defineProperties' in Object)) {
+if (!("getOwnPropertyNames"in Object
+)) {
+
+// Object.getOwnPropertyNames
+/* global CreateMethodProperty */
+
+var toString = ({}).toString;
+var split = ''.split;
+
+CreateMethodProperty(Object, 'getOwnPropertyNames', function getOwnPropertyNames(object) {
+	var buffer = [];
+	var key;
+
+	// Non-enumerable properties cannot be discovered but can be checked for by name.
+	// Define those used internally by JS to allow an incomplete solution
+	var commonProps = ['length', "name", "arguments", "caller", "prototype", "observe", "unobserve"];
+
+	if (typeof object === 'undefined' || object === null) {
+		throw new TypeError('Cannot convert undefined or null to object');
+	}
+
+	// Polyfill.io fallback for non-array-like strings which exist in some ES3 user-agents (IE 8)
+	object = toString.call(object) == '[object String]' ? split.call(object, '') : Object(object);
+
+	// Enumerable properties only
+	for (key in object) {
+		if (Object.prototype.hasOwnProperty.call(object, key)) {
+			buffer.push(key);
+		}
+	}
+
+	// Check for and add the common non-enumerable properties
+	for (var i=0, s=commonProps.length; i<s; i++) {
+		if (commonProps[i] in object) buffer.push(commonProps[i]);
+	}
+
+	return buffer;
+});
+
+}
+
+if (!("getPrototypeOf"in Object
+)) {
+
+// Object.getPrototypeOf
+/* global CreateMethodProperty */
+// Based on: https://github.com/es-shims/es5-shim/blob/master/es5-sham.js
+
+// https://github.com/es-shims/es5-shim/issues#issue/2
+// http://ejohn.org/blog/objectgetprototypeof/
+// recommended by fschaefer on github
+//
+// sure, and webreflection says ^_^
+// ... this will nerever possibly return null
+// ... Opera Mini breaks here with infinite loops
+CreateMethodProperty(Object, 'getPrototypeOf', function getPrototypeOf(object) {
+	if (object !== Object(object)) {
+		throw new TypeError('Object.getPrototypeOf called on non-object');
+	}
+	var proto = object.__proto__;
+	if (proto || proto === null) {
+		return proto;
+	} else if (typeof object.constructor == 'function' && object instanceof object.constructor) {
+    return object.constructor.prototype;
+  } else if (object instanceof Object) {
+		return Object.prototype;
+	} else {
+		// Correctly return null for Objects created with `Object.create(null)`
+		// (shammed or native) or `{ __proto__: null}`.  Also returns null for
+		// cross-realm objects on browsers that lack `__proto__` support (like
+		// IE <11), but that's the best we can do.
+		return null;
+	}
+});
+
+}
+
+if (!("keys"in Object&&function(){return 2===Object.keys(arguments).length}(1,2)&&function(){try{return Object.keys(""),!0}catch(t){return!1}}()
+)) {
+
+// Object.keys
+/* global CreateMethodProperty */
+CreateMethodProperty(Object, "keys", (function() {
+	'use strict';
+
+	// modified from https://github.com/es-shims/object-keys
+
+	var has = Object.prototype.hasOwnProperty;
+	var toStr = Object.prototype.toString;
+	var isEnumerable = Object.prototype.propertyIsEnumerable;
+	var hasDontEnumBug = !isEnumerable.call({ toString: null }, 'toString');
+	var hasProtoEnumBug = isEnumerable.call(function () {}, 'prototype');
+	var dontEnums = [
+		'toString',
+		'toLocaleString',
+		'valueOf',
+		'hasOwnProperty',
+		'isPrototypeOf',
+		'propertyIsEnumerable',
+		'constructor'
+	];
+	var equalsConstructorPrototype = function (o) {
+		var ctor = o.constructor;
+		return ctor && ctor.prototype === o;
+	};
+	var excludedKeys = {
+		$console: true,
+		$external: true,
+		$frame: true,
+		$frameElement: true,
+		$frames: true,
+		$innerHeight: true,
+		$innerWidth: true,
+		$outerHeight: true,
+		$outerWidth: true,
+		$pageXOffset: true,
+		$pageYOffset: true,
+		$parent: true,
+		$scrollLeft: true,
+		$scrollTop: true,
+		$scrollX: true,
+		$scrollY: true,
+		$self: true,
+		$webkitIndexedDB: true,
+		$webkitStorageInfo: true,
+		$window: true
+	};
+	var hasAutomationEqualityBug = (function () {
+		/* global window */
+		if (typeof window === 'undefined') { return false; }
+		for (var k in window) {
+			try {
+				if (!excludedKeys['$' + k] && has.call(window, k) && window[k] !== null && typeof window[k] === 'object') {
+					try {
+						equalsConstructorPrototype(window[k]);
+					} catch (e) {
+						return true;
+					}
+				}
+			} catch (e) {
+				return true;
+			}
+		}
+		return false;
+	}());
+	var equalsConstructorPrototypeIfNotBuggy = function (o) {
+		/* global window */
+		if (typeof window === 'undefined' || !hasAutomationEqualityBug) {
+			return equalsConstructorPrototype(o);
+		}
+		try {
+			return equalsConstructorPrototype(o);
+		} catch (e) {
+			return false;
+		}
+	};
+
+	function isArgumentsObject(value) {
+		var str = toStr.call(value);
+		var isArgs = str === '[object Arguments]';
+		if (!isArgs) {
+			isArgs = str !== '[object Array]' &&
+				value !== null &&
+				typeof value === 'object' &&
+				typeof value.length === 'number' &&
+				value.length >= 0 &&
+				toStr.call(value.callee) === '[object Function]';
+		}
+		return isArgs;
+	}
+
+	return function keys(object) {
+		var isFunction = toStr.call(object) === '[object Function]';
+		var isArguments = isArgumentsObject(object);
+		var isString = toStr.call(object) === '[object String]';
+		var theKeys = [];
+
+		if (object === undefined || object === null) {
+			throw new TypeError('Cannot convert undefined or null to object');
+		}
+
+		var skipProto = hasProtoEnumBug && isFunction;
+		if (isString && object.length > 0 && !has.call(object, 0)) {
+			for (var i = 0; i < object.length; ++i) {
+				theKeys.push(String(i));
+			}
+		}
+
+		if (isArguments && object.length > 0) {
+			for (var j = 0; j < object.length; ++j) {
+				theKeys.push(String(j));
+			}
+		} else {
+			for (var name in object) {
+				if (!(skipProto && name === 'prototype') && has.call(object, name)) {
+					theKeys.push(String(name));
+				}
+			}
+		}
+
+		if (hasDontEnumBug) {
+			var skipConstructor = equalsConstructorPrototypeIfNotBuggy(object);
+
+			for (var k = 0; k < dontEnums.length; ++k) {
+				if (!(skipConstructor && dontEnums[k] === 'constructor') && has.call(object, dontEnums[k])) {
+					theKeys.push(dontEnums[k]);
+				}
+			}
+		}
+		return theKeys;
+	};
+}()));
+
+}
+
+if (!("defineProperties"in Object
+)) {
 
 // Object.defineProperties
 /* global CreateMethodProperty, Get, ToObject, Type */
@@ -1039,7 +1558,8 @@ CreateMethodProperty(Object, 'defineProperties', function defineProperties(O, Pr
 
 }
 
-if (!('create' in Object)) {
+if (!("create"in Object
+)) {
 
 // Object.create
 /* global CreateMethodProperty, Type */
@@ -1060,41 +1580,6 @@ CreateMethodProperty(Object, 'create', function create(O, properties) {
 	}
 
 	return obj;
-});
-
-}
-
-if (!('getPrototypeOf' in Object)) {
-
-// Object.getPrototypeOf
-/* global CreateMethodProperty */
-// Based on: https://github.com/es-shims/es5-shim/blob/master/es5-sham.js
-
-// https://github.com/es-shims/es5-shim/issues#issue/2
-// http://ejohn.org/blog/objectgetprototypeof/
-// recommended by fschaefer on github
-//
-// sure, and webreflection says ^_^
-// ... this will nerever possibly return null
-// ... Opera Mini breaks here with infinite loops
-CreateMethodProperty(Object, 'getPrototypeOf', function getPrototypeOf(object) {
-	if (object !== Object(object)) {
-		throw new TypeError('Object.getPrototypeOf called on non-object');
-	}
-	var proto = object.__proto__;
-	if (proto || proto === null) {
-		return proto;
-	} else if (typeof object.constructor == 'function' && object instanceof object.constructor) {
-    return object.constructor.prototype;
-  } else if (object instanceof Object) {
-		return Object.prototype;
-	} else {
-		// Correctly return null for Objects created with `Object.create(null)`
-		// (shammed or native) or `{ __proto__: null}`.  Also returns null for
-		// cross-realm objects on browsers that lack `__proto__` support (like
-		// IE <11), but that's the best we can do.
-		return null;
-	}
 });
 
 }
@@ -1207,47 +1692,8 @@ function ArraySpeciesCreate(originalArray, length) { // eslint-disable-line no-u
 	// 10. Return ? Construct(C, « length »).
 	return Construct(C, [length]);
 }
-
-// _ESAbstract.CreateDataProperty
-// 7.3.4. CreateDataProperty ( O, P, V )
-// NOTE
-// This abstract operation creates a property whose attributes are set to the same defaults used for properties created by the ECMAScript language assignment operator.
-// Normally, the property will not already exist. If it does exist and is not configurable or if O is not extensible, [[DefineOwnProperty]] will return false.
-function CreateDataProperty(O, P, V) { // eslint-disable-line no-unused-vars
-	// 1. Assert: Type(O) is Object.
-	// 2. Assert: IsPropertyKey(P) is true.
-	// 3. Let newDesc be the PropertyDescriptor{ [[Value]]: V, [[Writable]]: true, [[Enumerable]]: true, [[Configurable]]: true }.
-	var newDesc = {
-		value: V,
-		writable: true,
-		enumerable: true,
-		configurable: true
-	};
-	// 4. Return ? O.[[DefineOwnProperty]](P, newDesc).
-	try {
-		Object.defineProperty(O, P, newDesc);
-		return true;
-	} catch (e) {
-		return false;
-	}
-}
-
-// _ESAbstract.CreateDataPropertyOrThrow
-/* global CreateDataProperty */
-// 7.3.6. CreateDataPropertyOrThrow ( O, P, V )
-function CreateDataPropertyOrThrow(O, P, V) { // eslint-disable-line no-unused-vars
-	// 1. Assert: Type(O) is Object.
-	// 2. Assert: IsPropertyKey(P) is true.
-	// 3. Let success be ? CreateDataProperty(O, P, V).
-	var success = CreateDataProperty(O, P, V);
-	// 4. If success is false, throw a TypeError exception.
-	if (!success) {
-		throw new TypeError('Cannot assign value `' + Object.prototype.toString.call(V) + '` to property `' + Object.prototype.toString.call(P) + '` on object `' + Object.prototype.toString.call(O) + '`');
-	}
-	// 5. Return success.
-	return success;
-}
-if (!('filter' in Array.prototype)) {
+if (!("filter"in Array.prototype
+)) {
 
 // Array.prototype.filter
 /* global CreateMethodProperty, ToObject, ToLength, Get, IsCallable, ArraySpeciesCreate, ToString, HasProperty, ToBoolean, Call, CreateDataPropertyOrThrow */
@@ -1299,156 +1745,8 @@ CreateMethodProperty(Array.prototype, 'filter', function filter(callbackfn /* [ 
 
 }
 
-if (!('forEach' in Array.prototype)) {
-
-// Array.prototype.forEach
-/* global Call, CreateMethodProperty, Get, HasProperty, IsCallable, ToLength, ToObject, ToString */
-// 22.1.3.10. Array.prototype.forEach ( callbackfn [ , thisArg ] )
-CreateMethodProperty(Array.prototype, 'forEach', function forEach(callbackfn /* [ , thisArg ] */) {
-	// 1. Let O be ? ToObject(this value).
-	var O = ToObject(this);
-	// Polyfill.io - If O is a String object, split it into an array in order to iterate correctly.
-	// We will use arrayLike in place of O when we are iterating through the list.
-	var arraylike = O instanceof String ? O.split('') : O;
-	// 2. Let len be ? ToLength(? Get(O, "length")).
-	var len = ToLength(Get(O, "length"));
-	// 3. If IsCallable(callbackfn) is false, throw a TypeError exception.
-	if (IsCallable(callbackfn) === false) {
-		throw new TypeError(callbackfn + ' is not a function');
-	}
-	// 4. If thisArg is present, let T be thisArg; else let T be undefined.
-	var T = arguments.length > 1 ? arguments[1] : undefined;
-	// 5. Let k be 0.
-	var k = 0;
-	// 6. Repeat, while k < len
-	while (k < len) {
-		// a. Let Pk be ! ToString(k).
-		var Pk = ToString(k);
-		// b. Let kPresent be ? HasProperty(O, Pk).
-		var kPresent = HasProperty(arraylike, Pk);
-		// c. If kPresent is true, then
-		if (kPresent) {
-			// i. Let kValue be ? Get(O, Pk).
-			var kValue = Get(arraylike, Pk);
-			// ii. Perform ? Call(callbackfn, T, « kValue, k, O »).
-			Call(callbackfn, T, [kValue, k, O]);
-		}
-		// d. Increase k by 1.
-		k = k + 1;
-	}
-	// 7. Return undefined.
-	return undefined;
-});
-
-}
-
-if (!('indexOf' in Array.prototype)) {
-
-// Array.prototype.indexOf
-/* global CreateMethodProperty, Get, HasProperty, ToInteger, ToLength, ToObject, ToString */
-// 22.1.3.12. Array.prototype.indexOf ( searchElement [ , fromIndex ] )
-CreateMethodProperty(Array.prototype, 'indexOf', function indexOf(searchElement /* [ , fromIndex ] */) {
-	// 1. Let O be ? ToObject(this value).
-	var O = ToObject(this);
-	// 2. Let len be ? ToLength(? Get(O, "length")).
-	var len = ToLength(Get(O, "length"));
-	// 3. If len is 0, return -1.
-	if (len === 0) {
-		return -1;
-	}
-	// 4. Let n be ? ToInteger(fromIndex). (If fromIndex is undefined, this step produces the value 0.)
-	var n = ToInteger(arguments[1]);
-	// 5. If n ≥ len, return -1.
-	if (n >= len) {
-		return -1;
-	}
-	// 6. If n ≥ 0, then
-	if (n >= 0) {
-		// a. If n is -0, let k be +0; else let k be n.
-		var k = n === -0 ? 0 : n;
-		// 7. Else n < 0,
-	} else {
-		// a. Let k be len + n.
-		var k = len + n;
-		// b. If k < 0, let k be 0.
-		if (k < 0) {
-			k = 0;
-		}
-	}
-	// 8. Repeat, while k < len
-	while (k < len) {
-		// a. Let kPresent be ? HasProperty(O, ! ToString(k)).
-		var kPresent = HasProperty(O, ToString(k));
-		// b. If kPresent is true, then
-		if (kPresent) {
-			// i. Let elementK be ? Get(O, ! ToString(k)).
-			var elementK = Get(O, ToString(k));
-			// ii. Let same be the result of performing Strict Equality Comparison searchElement === elementK.
-			var same = searchElement === elementK;
-			// iii. If same is true, return k.
-			if (same) {
-				return k;
-			}
-		}
-		// c. Increase k by 1.
-		k = k + 1;
-	}
-	// 9. Return -1.
-	return -1;
-});
-
-}
-
-if (!('lastIndexOf' in Array.prototype)) {
-
-// Array.prototype.lastIndexOf
-/* global CreateMethodProperty, Get, HasProperty, ToInteger, ToLength, ToObject, ToString */
-// 22.1.3.15. Array.prototype.lastIndexOf ( searchElement [ , fromIndex ] )
-CreateMethodProperty(Array.prototype, 'lastIndexOf', function lastIndexOf(searchElement /* [ , fromIndex ] */) {
-	// 1. Let O be ? ToObject(this value).
-	var O = ToObject(this);
-	// 2. Let len be ? ToLength(? Get(O, "length")).
-	var len = ToLength(Get(O, "length"));
-	// 3. If len is 0, return -1.
-	if (len === 0) {
-		return -1;
-	}
-	// 4. If fromIndex is present, let n be ? ToInteger(fromIndex); else let n be len-1.
-	var n = arguments.length > 1 ? ToInteger(arguments[1]) : len - 1;
-	// 5. If n ≥ 0, then
-	if (n >= 0) {
-		// a. If n is -0, let k be +0; else let k be min(n, len - 1).
-		var k = n === -0 ? 0 : Math.min(n, len - 1);
-		// 6. Else n < 0,
-	} else {
-		// a. Let k be len + n.
-		k = len + n;
-	}
-	// 7. Repeat, while k ≥ 0
-	while (k >= 0) {
-		// a. Let kPresent be ? HasProperty(O, ! ToString(k)).
-		var kPresent = HasProperty(O, ToString(k));
-		// b. If kPresent is true, then
-		if (kPresent) {
-			// i. Let elementK be ? Get(O, ! ToString(k)).
-			var elementK = Get(O, ToString(k));
-			// ii. Let same be the result of performing Strict Equality Comparison searchElement === elementK.
-			var same = searchElement === elementK;
-			// iii. If same is true, return k.
-			if (same) {
-				return k;
-			}
-		}
-		// c. Decrease k by 1.
-		k = k - 1;
-	}
-	// 9. Return -1.
-	return -1;
-});
-
-}
-
-if (!('map' in Array.prototype)) {
+if (!("map"in Array.prototype
+)) {
 
 // Array.prototype.map
 /* global ArraySpeciesCreate, Call, CreateDataPropertyOrThrow, CreateMethodProperty, Get, HasProperty, IsCallable, ToLength, ToObject, ToString */
@@ -1493,313 +1791,8 @@ CreateMethodProperty(Array.prototype, 'map', function map(callbackfn /* [ , this
 
 }
 
-if (!('reduce' in Array.prototype)) {
-
-// Array.prototype.reduce
-/* global Call, CreateMethodProperty, Get, HasProperty, IsCallable, ToLength, ToObject, ToString */
-// 22.1.3.19. Array.prototype.reduce ( callbackfn [ , initialValue ] )
-CreateMethodProperty(Array.prototype, 'reduce', function reduce(callbackfn /* [ , initialValue ] */) {
-	// 1. Let O be ? ToObject(this value).
-	var O = ToObject(this);
-	// Polyfill.io - If O is a String object, split it into an array in order to iterate correctly.
-	// We will use arrayLike in place of O when we are iterating through the list.
-	var arraylike = O instanceof String ? O.split('') : O;
-	// 2. Let len be ? ToLength(? Get(O, "length")).
-	var len = ToLength(Get(arraylike, "length"));
-	// 3. If IsCallable(callbackfn) is false, throw a TypeError exception.
-	if (IsCallable(callbackfn) === false) {
-		throw new TypeError(callbackfn + ' is not a function');
-	}
-	// 4. If len is 0 and initialValue is not present, throw a TypeError exception.
-	var initialValue = arguments.length > 1 ? arguments[1] : undefined;
-	if (len === 0 && arguments.length < 2) {
-		throw new TypeError('Reduce of empty array with no initial value');
-	}
-	// 5. Let k be 0.
-	var k = 0;
-	// 6. Let accumulator be undefined.
-	var accumulator = undefined;
-	// 7. If initialValue is present, then
-	if (arguments.length > 1) {
-		// a. Set accumulator to initialValue.
-		accumulator = initialValue;
-		// 8. Else initialValue is not present,
-	} else {
-		// a. Let kPresent be false.
-		var kPresent = false;
-		// b. Repeat, while kPresent is false and k < len
-		while (kPresent === false && k < len) {
-			// i. Let Pk be ! ToString(k).
-			var Pk = ToString(k);
-			// ii. Let kPresent be ? HasProperty(O, Pk).
-			var kPresent = HasProperty(arraylike, Pk);
-			// iii. If kPresent is true, then
-			if (kPresent) {
-				// 1. Set accumulator to ? Get(O, Pk).
-				var accumulator = Get(arraylike, Pk);
-			}
-			// iv. Increase k by 1.
-			k = k + 1;
-		}
-		// c. If kPresent is false, throw a TypeError exception.
-		if (kPresent === false) {
-			throw new TypeError('Reduce of empty array with no initial value');
-		}
-	}
-	// 9. Repeat, while k < len
-	while (k < len) {
-		// a. Let Pk be ! ToString(k).
-		var Pk = ToString(k);
-		// b. Let kPresent be ? HasProperty(O, Pk).
-		var kPresent = HasProperty(arraylike, Pk);
-		// c. If kPresent is true, then
-		if (kPresent) {
-			// i. Let kValue be ? Get(O, Pk).
-			var kValue = Get(arraylike, Pk);
-			// ii. Set accumulator to ? Call(callbackfn, undefined, « accumulator, kValue, k, O »).
-			accumulator = Call(callbackfn, undefined, [accumulator, kValue, k, O]);
-		}
-		// d. Increase k by 1.
-		k = k + 1;
-	}
-	// 10. Return accumulator.
-	return accumulator;
-});
-
-}
-
-if (!('reduceRight' in Array.prototype)) {
-
-// Array.prototype.reduceRight
-/* global Call, CreateMethodProperty, Get, HasProperty, IsCallable, ToLength, ToObject, ToString */
-// 22.1.3.20. Array.prototype.reduceRight ( callbackfn [ , initialValue ] )
-CreateMethodProperty(Array.prototype, 'reduceRight', function reduceRight(callbackfn /* [ , initialValue ] */) {
-	// 1. Let O be ? ToObject(this value).
-	var O = ToObject(this);
-	// Polyfill.io - If O is a String object, split it into an array in order to iterate correctly.
-	// We will use arrayLike in place of O when we are iterating through the list.
-	var arraylike = O instanceof String ? O.split('') : O;
-	// 2. Let len be ? ToLength(? Get(O, "length")).
-	var len = ToLength(Get(arraylike, "length"));
-	// 3. If IsCallable(callbackfn) is false, throw a TypeError exception.
-	if (IsCallable(callbackfn) === false) {
-		throw new TypeError(callbackfn + ' is not a function');
-	}
-	// 4. If len is 0 and initialValue is not present, throw a TypeError exception.
-	var initialValue = arguments.length > 1 ? arguments[1] : undefined;
-	if (len === 0 && arguments.length < 2) {
-		throw new TypeError('Reduce of empty array with no initial value');
-	}
-	// 5. Let k be len-1.
-	var k = len - 1;
-	// 6. Let accumulator be undefined.
-	var accumulator = undefined;
-	// 7. If initialValue is present, then
-	if (arguments.length > 1) {
-		// a. Set accumulator to initialValue.
-		accumulator = initialValue;
-		// 8.Else initialValue is not present,
-	} else {
-		// a. Let kPresent be false.
-		var kPresent = false;
-		// b. Repeat, while kPresent is false and k ≥ 0
-		while (kPresent === false && k >= 0) {
-			// i. Let Pk be ! ToString(k).
-			var Pk = ToString(k);
-			// ii. Let kPresent be ? HasProperty(O, Pk).
-			var kPresent = HasProperty(arraylike, Pk);
-			// iii. If kPresent is true, then
-			if (kPresent) {
-				// 1. Set accumulator to ? Get(O, Pk).
-				accumulator = Get(arraylike, Pk);
-			}
-			// iv. Decrease k by 1.
-			k = k - 1;
-		}
-		// c. If kPresent is false, throw a TypeError exception.
-		if (kPresent === false) {
-			throw new TypeError('Reduce of empty array with no initial value');
-		}
-	}
-	// 9. Repeat, while k ≥ 0
-	while (k >= 0) {
-		// a. Let Pk be ! ToString(k).
-		var Pk = ToString(k);
-		// b. Let kPresent be ? HasProperty(O, Pk).
-		var kPresent = HasProperty(arraylike, Pk);
-		// c. If kPresent is true, then
-		if (kPresent) {
-			// i. Let kValue be ? Get(O, Pk).
-			var kValue = Get(arraylike, Pk);
-			// ii. Set accumulator to ? Call(callbackfn, undefined, « accumulator, kValue, k, O »).
-			accumulator = Call(callbackfn, undefined, [accumulator, kValue, k, O]);
-		}
-		// d. Decrease k by 1.
-		k = k - 1;
-	}
-	// 10 Return accumulator.
-	return accumulator;
-});
-
-}
-
-if (!('some' in Array.prototype)) {
-
-// Array.prototype.some
-/* global Call, CreateMethodProperty, Get, HasProperty, IsCallable, ToBoolean, ToLength, ToObject, ToString */
-// 22.1.3.24. Array.prototype.some ( callbackfn [ , thisArg ] )
-CreateMethodProperty(Array.prototype, 'some', function some(callbackfn /* [ , thisArg ] */) {
-	// 1. Let O be ? ToObject(this value).
-	var O = ToObject(this);
-	// 2. Let len be ? ToLength(? Get(O, "length")).
-	var len = ToLength(Get(O, "length"));
-	// 3. If IsCallable(callbackfn) is false, throw a TypeError exception.
-	if (IsCallable(callbackfn) === false) {
-		throw new TypeError(callbackfn + ' is not a function');
-	}
-	// 4. If thisArg is present, let T be thisArg; else let T be undefined.
-	var T = arguments.length > 1 ? arguments[1] : undefined;
-	// 5. Let k be 0.
-	var k = 0;
-	// 6. Repeat, while k < len
-	while (k < len) {
-		// a. Let Pk be ! ToString(k).
-		var Pk = ToString(k);
-		// b. Let kPresent be ? HasProperty(O, Pk).
-		var kPresent = HasProperty(O, Pk);
-		// c. If kPresent is true, then
-		if (kPresent) {
-			// i. Let kValue be ? Get(O, Pk).
-			var kValue = Get(O, Pk);
-			// ii. Let testResult be ToBoolean(? Call(callbackfn, T, « kValue, k, O »)).
-			var testResult = ToBoolean(Call(callbackfn, T, [kValue, k, O]));
-			// iii. If testResult is true, return true.
-			if (testResult) {
-				return true;
-			}
-		}
-		// d. Increase k by 1.
-		k = k + 1;
-	}
-	// 7. Return false.
-	return false;
-});
-
-}
-
-if (!('Date' in this && 'now' in this.Date && 'getTime' in this.Date.prototype)) {
-
-// Date.now
-Date.now = function now() {
-	return new Date().getTime();
-};
-
-}
-
-if (!('Date' in this && 'toISOString' in Date.prototype)) {
-
-// Date.prototype.toISOString
-Date.prototype.toISOString = function toISOString() {
-	var date = this;
-
-	function pad(str, len) {
-		var pad = "0000";
-		str = '' + str;
-		return pad.substr(0, len - str.length) + str;
-	}
-
-	var y = date.getUTCFullYear(),
-	m = pad(date.getUTCMonth() + 1, 2),
-	d = pad(date.getUTCDate(), 2),
-	h = pad(date.getUTCHours(), 2),
-	i = pad(date.getUTCMinutes(), 2),
-	s = pad(date.getUTCSeconds(), 2),
-	ms = pad(date.getUTCMilliseconds(), 3);
-
-	return y +'-'+ m +'-'+ d + 'T' + h +':'+ i +':'+ s +'.'+ ms +'Z';
-};
-
-}
-
-if (!('freeze' in Object)) {
-
-// Object.freeze
-/* global CreateMethodProperty */
-// 19.1.2.6. Object.freeze ( O )
-CreateMethodProperty(Object, 'freeze', function freeze(O) {
-	// This feature cannot be implemented fully as a polyfill.
-	// We choose to silently fail which allows "securable" code
-	// to "gracefully" degrade to working but insecure code.
-	return O;
-});
-
-}
-
-if (!('getOwnPropertyNames' in Object)) {
-
-// Object.getOwnPropertyNames
-/* global CreateMethodProperty */
-
-var toString = ({}).toString;
-var split = ''.split;
-
-CreateMethodProperty(Object, 'getOwnPropertyNames', function getOwnPropertyNames(object) {
-	var buffer = [];
-	var key;
-
-	// Non-enumerable properties cannot be discovered but can be checked for by name.
-	// Define those used internally by JS to allow an incomplete solution
-	var commonProps = ['length', "name", "arguments", "caller", "prototype", "observe", "unobserve"];
-
-	if (typeof object === 'undefined' || object === null) {
-		throw new TypeError('Cannot convert undefined or null to object');
-	}
-
-	// Polyfill.io fallback for non-array-like strings which exist in some ES3 user-agents (IE 8)
-	object = toString.call(object) == '[object String]' ? split.call(object, '') : Object(object);
-
-	// Enumerable properties only
-	for (key in object) {
-		if (Object.prototype.hasOwnProperty.call(object, key)) {
-			buffer.push(key);
-		}
-	}
-
-	// Check for and add the common non-enumerable properties
-	for (var i=0, s=commonProps.length; i<s; i++) {
-		if (commonProps[i] in object) buffer.push(commonProps[i]);
-	}
-
-	return buffer;
-});
-
-}
-
-
-// _ESAbstract.RequireObjectCoercible
-// 7.2.1. RequireObjectCoercible ( argument )
-// The abstract operation ToObject converts argument to a value of type Object according to Table 12:
-// Table 12: ToObject Conversions
-/*
-|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Argument Type | Result                                                                                                                             |
-|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Undefined     | Throw a TypeError exception.                                                                                                       |
-| Null          | Throw a TypeError exception.                                                                                                       |
-| Boolean       | Return argument.                                                                                                                   |
-| Number        | Return argument.                                                                                                                   |
-| String        | Return argument.                                                                                                                   |
-| Symbol        | Return argument.                                                                                                                   |
-| Object        | Return argument.                                                                                                                   |
-|----------------------------------------------------------------------------------------------------------------------------------------------------|
-*/
-function RequireObjectCoercible(argument) { // eslint-disable-line no-unused-vars
-	if (argument === null || argument === undefined) {
-		throw TypeError();
-	}
-  return argument;
-}
-if (!('trim' in String.prototype)) {
+if (!("trim"in String.prototype
+)) {
 
 // String.prototype.trim
 /* global CreateMethodProperty, RequireObjectCoercible, ToString */

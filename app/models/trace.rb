@@ -2,11 +2,11 @@
 #
 # Table name: gpx_files
 #
-#  id          :integer          not null, primary key
-#  user_id     :integer          not null
+#  id          :bigint(8)        not null, primary key
+#  user_id     :bigint(8)        not null
 #  visible     :boolean          default(TRUE), not null
 #  name        :string           default(""), not null
-#  size        :integer
+#  size        :bigint(8)
 #  latitude    :float
 #  longitude   :float
 #  timestamp   :datetime         not null
@@ -43,12 +43,7 @@ class Trace < ActiveRecord::Base
   validates :timestamp, :presence => true
   validates :visibility, :inclusion => %w[private public trackable identifiable]
 
-  def destroy
-    super
-    FileUtils.rm_f(trace_name)
-    FileUtils.rm_f(icon_picture_name)
-    FileUtils.rm_f(large_picture_name)
-  end
+  after_destroy :remove_files
 
   def tagstring
     tags.collect(&:tag).join(", ")
@@ -169,36 +164,6 @@ class Trace < ActiveRecord::Base
     extension
   end
 
-  def to_xml
-    doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node
-    doc
-  end
-
-  def to_xml_node
-    el1 = XML::Node.new "gpx_file"
-    el1["id"] = id.to_s
-    el1["name"] = name.to_s
-    el1["lat"] = latitude.to_s if inserted
-    el1["lon"] = longitude.to_s if inserted
-    el1["user"] = user.display_name
-    el1["visibility"] = visibility
-    el1["pending"] = inserted ? "false" : "true"
-    el1["timestamp"] = timestamp.xmlschema
-
-    el2 = XML::Node.new "description"
-    el2 << description
-    el1 << el2
-
-    tags.each do |tag|
-      el2 = XML::Node.new("tag")
-      el2 << tag.tag
-      el1 << el2
-    end
-
-    el1
-  end
-
   def update_from_xml(xml, create = false)
     p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
     doc = p.parse
@@ -208,8 +173,8 @@ class Trace < ActiveRecord::Base
     end
 
     raise OSM::APIBadXMLError.new("trace", xml, "XML doesn't contain an osm/gpx_file element.")
-  rescue LibXML::XML::Error, ArgumentError => ex
-    raise OSM::APIBadXMLError.new("trace", xml, ex.message)
+  rescue LibXML::XML::Error, ArgumentError => e
+    raise OSM::APIBadXMLError.new("trace", xml, e.message)
   end
 
   def update_from_xml_node(pt, create = false)
@@ -280,7 +245,7 @@ class Trace < ActiveRecord::Base
   def import
     logger.info("GPX Import importing #{name} (#{id}) from #{user.email}")
 
-    gpx = ::GPX::File.new(xml_file)
+    gpx = ::GPX::File.new(trace_name)
 
     f_lat = 0
     f_lon = 0
@@ -342,5 +307,13 @@ class Trace < ActiveRecord::Base
     logger.info "done trace #{id}"
 
     gpx
+  end
+
+  private
+
+  def remove_files
+    FileUtils.rm_f(trace_name)
+    FileUtils.rm_f(icon_picture_name)
+    FileUtils.rm_f(large_picture_name)
   end
 end

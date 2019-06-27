@@ -53,14 +53,14 @@ class ChangesetsController < ApplicationController
       elsif @params[:bbox]
         changesets = conditions_bbox(changesets, BoundingBox.from_bbox_params(params))
       elsif @params[:friends] && current_user
-        changesets = changesets.where(:user_id => current_user.friend_users.identifiable)
+        changesets = changesets.where(:user_id => current_user.friends.identifiable)
       elsif @params[:nearby] && current_user
         changesets = changesets.where(:user_id => current_user.nearby)
       end
 
       changesets = changesets.where("changesets.id <= ?", @params[:max_id]) if @params[:max_id]
 
-      @edits = changesets.order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
+      @changesets = changesets.order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
 
       render :action => :index, :layout => false
     end

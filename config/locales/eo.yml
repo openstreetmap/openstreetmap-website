@@ -12,6 +12,7 @@
 # Author: LyzTyphone
 # Author: Marcellus
 # Author: Michawiki
+# Author: Mirin
 # Author: Objectivesea
 # Author: Petrus Adamus
 # Author: Rafaneta
@@ -26,6 +27,29 @@ eo:
   time:
     formats:
       friendly: '%e %B %Y je %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Konservi
+      diary_entry:
+        create: Publikigi
+        update: Ĝisdatigi
+      issue_comment:
+        create: Aldoni Komenton
+      message:
+        create: Sendi
+      client_application:
+        create: Registri
+        update: Modifi
+      redaction:
+        create: Krei korekton
+        update: Konservi korekton
+      trace:
+        create: Alŝuti
+        update: Konservi ŝanĝojn
+      user_block:
+        create: Krei blokadon
+        update: Ĝisdatigi blokadon
   activerecord:
     errors:
       messages:
@@ -98,6 +122,45 @@ eo:
         description: Priskribo
         languages: Lingvoj
         pass_crypt: Pasvorto
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: proksimume antaŭ 1 horo
+        other: proksimume antaŭ %{count} horoj
+      about_x_months:
+        one: proksimume antaŭ 1 monato
+        other: proksimume antaŭ %{count} monatoj
+      about_x_years:
+        one: proksimume antaŭ 1 jaro
+        other: proksimume antaŭ %{count} jaroj
+      almost_x_years:
+        one: malpli ol antaŭ 1 jaro
+        other: malpli ol antaŭ %{count} jaroj
+      half_a_minute: antaŭ duonminuto
+      less_than_x_seconds:
+        one: malpli ol antaŭ 1 sekundo
+        other: malpli ol antaŭ %{count} sekundoj
+      less_than_x_minutes:
+        one: malpli ol antaŭ 1 minuto
+        other: malpli ol antaŭ %{count} minutoj
+      over_x_years:
+        one: pli ol antaŭ 1 jaro
+        other: pli ol antaŭ %{count} jaroj
+      x_seconds:
+        one: antaŭ 1 sekundo
+        other: antaŭ %{count} sekundoj
+      x_minutes:
+        one: antaŭ 1 minuto
+        other: antaŭ %{count} minutoj
+      x_days:
+        one: antaŭ 1 tago
+        other: antaŭ %{count} tagoj
+      x_months:
+        one: antaŭ 1 monato
+        other: antaŭ %{count} monatoj
+      x_years:
+        one: antaŭ 1 jaro
+        other: antaŭ %{count} jaroj
   editor:
     default: Implicita (nune %{name})
     potlatch:
@@ -305,7 +368,14 @@ eo:
   diary_entries:
     new:
       title: Nova taglibra afiŝo
-      publish_button: Publikigi
+    form:
+      subject: 'Temo:'
+      body: 'Enhavo:'
+      language: 'Lingvo:'
+      location: 'Pozicio:'
+      latitude: 'Latitudo:'
+      longitude: 'Longitudo:'
+      use_map_link: uzi mapon
     index:
       title: Taglibroj de uzantoj
       title_friends: Taglibroj de amikoj
@@ -319,15 +389,7 @@ eo:
       older_entries: Pli malnovaj afiŝoj
       newer_entries: Pli novaj afiŝoj
     edit:
-      title: Redakti taglibran afiŝon
-      subject: 'Temo:'
-      body: 'Enhavo:'
-      language: 'Lingvo:'
-      location: 'Pozicio:'
-      latitude: 'Latitudo:'
-      longitude: 'Longitudo:'
-      use_map_link: uzi mapon
-      save_button: Konservi
+      title: Redakti Taglibran Afiŝon
       marker_text: Kie krei afiŝon
     show:
       title: Taglibro de %{user} | %{title}
@@ -335,7 +397,6 @@ eo:
       leave_a_comment: Komenti
       login_to_leave_a_comment: '%{login_link} por aldoni komenton'
       login: Ensaluti
-      save_button: Konservi
     no_such_entry:
       title: Ĉi tiu taglibra afiŝo ne ekzistas
       heading: 'Neniu afiŝo kun la identigilo: %{id}'
@@ -351,11 +412,13 @@ eo:
         other: '%{count} komentoj'
       edit_link: Redakti ĉi tiun enskribon
       hide_link: Kaŝi ĉi tiun afiŝon
+      unhide_link: Malkaŝi tiun ĉi afiŝon
       confirm: Konfirmi
       report: Raporti ĉi tiun afiŝon
     diary_comment:
       comment_from: Komento de %{link_user} je %{comment_created_at}
       hide_link: Kaŝi tiun komenton
+      unhide_link: Malkaŝi tiun ĉi komenton
       confirm: Konfirmi
       report: Raporti ĉi tiun komenton
     location:
@@ -377,7 +440,6 @@ eo:
       post: Afiŝi
       when: Kiam
       comment: Komenti
-      ago: antaŭ %{ago}
       newer_comments: Pli novaj komentoj
       older_comments: Pli malnovaj komentoj
   geocoder:
@@ -845,7 +907,7 @@ eo:
           carpet: Tapiŝ-vendejo
           charity: Almoza vendejo
           chemist: Purigaĵ-vendejo
-          clothes: Vesto-vendejo
+          clothes: Vesta vendejo
           computer: Komputil-vendejo
           confectionery: Sukeraĵejo
           convenience: Butiko oportuna
@@ -859,7 +921,7 @@ eo:
           electronics: Elektronik-vendejo
           estate_agent: Oficejo de nemoveblaĵisto
           farm: Terfrukt-vendejo
-          fashion: Mod-butiko
+          fashion: Vesta vendejo
           fish: Marfrukt-vendejo
           florist: Florvendejo
           food: Manĝovendejo
@@ -1112,6 +1174,7 @@ eo:
     partners_ucl: University College London
     partners_bytemark: Bytemark Hosting
     partners_partners: kunlaborantoj
+    tou: Uzkondiĉoj
     osm_offline: La OpenStreetMap-datumbazo estas nuntempe nealireabla pro necesaj
       laboroj de prizorgado.
     osm_read_only: La OpenStreetMap-datumbazo estas nuntempe nurlega pro necesaj laboroj
@@ -1265,7 +1328,6 @@ eo:
       send_message_to: Sendi novan mesaĝon al %{name}
       subject: Temo
       body: Enhavo
-      send_button: Sendi
       back_to_inbox: Reen al alvenkesto
     create:
       message_sent: Mesaĝo sendita
@@ -1338,7 +1400,7 @@ eo:
         pri kopirajto kaj permesilo</a> por pli da detaloj.'
       legal_title: Leĝaj demandoj
       legal_html: |-
-        Tiu ĉi retejo kaj aliaj servoj estas formale administrataj de la <a href='https://osmfoundation.org/'>Fondaĵo OpenStreetMap</a> (OSMF) komisie de la komunumo. Uzado de ĉiuj OSMF-servoj estas regulata per nia <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">politiko de uzado</a> kaj nia <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">politiko de privateco</a>. Bonvolu <a href='https://osmfoundation.org/Contact'>kontakti kun OSMF</a>, se vi havas iun demandon pri permesilo, kopirajto aŭ leĝo.
+        Tiu ĉi retejo kaj aliaj servoj estas formale administrataj de la <a href='https://osmfoundation.org/'>Fondaĵo OpenStreetMap</a> (OSMF) komisie de la komunumo. Uzado de ĉiuj OSMF-servoj estas regulata per niaj <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Uzkondiĉoj</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">politiko de uzado</a>, kaj nia <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">politiko de privateco</a>. Bonvolu <a href='https://osmfoundation.org/Contact'>kontakti kun OSMF</a>, se vi havas iun demandon pri permesilo, kopirajto aŭ leĝo.
         <br>
         OpenStreetMap, la piktogramo de lupeo kaj “State of the Map” estas <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">registritaj varmarkoj de OSMF</a>.
       partners_title: Kunlaborantoj
@@ -1588,6 +1650,7 @@ eo:
         description: Helpi al firmaoj kaj organizaĵoj transiĝi al mapoj kaj aliaj
           servoj de OpenStreetMap.
       welcomemat:
+        url: https://welcome.openstreetmap.org/
         title: Por organizaĵoj
         description: Ĉu via organizaĵo planas kunlabori kun OpenStreetMap? Trovu ĉiujn
           necesajn informojn ĉe nia Welcome Mat.
@@ -1760,8 +1823,9 @@ eo:
       tags_help: disigitaj per komoj
       visibility: 'Videbleco:'
       visibility_help: kion tio signifas?
-      upload_button: Alŝuti
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Helpo
+      help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
       upload_trace: Alŝuti GPS-spuron
       trace_uploaded: Via GPX-dosiero estas alŝutita kaj atendas enkonduko en la datumbazon.
@@ -1788,7 +1852,6 @@ eo:
       description: 'Priskribo:'
       tags: 'Etikedoj:'
       tags_help: disigitaj per komoj
-      save_button: Konservi ŝanĝojn
       visibility: 'Videbleco:'
       visibility_help: kion tio signifas?
     update:
@@ -1822,7 +1885,6 @@ eo:
     trace:
       pending: OKAZONTA
       count_points: '%{count} punktoj'
-      ago: Antaŭ  %{time_in_words_ago}
       more: pli
       trace_details: Vidi detalojn de spuro
       view_map: Vidi mapon
@@ -1907,10 +1969,8 @@ eo:
   oauth_clients:
     new:
       title: Registri novan aplikaĵon
-      submit: Registri
     edit:
       title: Modifi vian aplikaĵon
-      submit: Modifi
     show:
       title: OAuth-detaloj por %{app_name}
       key: 'Klienta ŝlosilo:'
@@ -2073,18 +2133,29 @@ eo:
       terms accepted: Dankon por akcepto de nova interkonsento pri kontribuado!
       terms declined: Ni bedaŭras, ke vi ne akceptis la novan interkonsenton pri kontribuado.
         Por pli da informoj, bonvolu vidi <a href="%{url}">ĉi tiu viki-paĝo</a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Interkonsento pri kontribuado
-      heading: Interkonsento pri kontribuado
-      read and accept: Bonvolu legi la interkonsenton kaj alklaku la butonon 'Akcepti'
-        por konfirmi, ke vi akceptas tiun ĉi interkonsenton por viaj estantaj kaj
-        estontaj kontribuaĵoj.
-      consider_pd: Krom la supra interkonsento, mi konfirmas, ke miaj kontribuaĵoj
-        apartenas al la publika havaĵo
+      title: Kondiĉoj
+      heading: Kondiĉoj
+      heading_ct: Interkonsento pri kontribuado
+      read and accept with tou: Bonvolu legi la interkonsenton pri kontribuado kaj
+        la uzkondiĉoj, marki ambaŭ markbutonojn kiam vi estas leginta, kaj alklaku
+        la butonon Daŭrigi.
+      contributor_terms_explain: Ĉi tiu interkonsento regas la kondicôjn de viaj estantaj
+        kaj estontaj kontribuoj.
+      read_ct: Mi legis kaj konsentas la ĉi-supran Interkonsenton pri kontribuado
+      tou_explain_html: Ĉi tiuj %{tou_link} regas la uzadon de la retejo kaj alia
+        infrastrukturo provizata de la Fondaĵo OSM. Bonvolu alklaki la ligilon, legi,
+        kaj konsenti la tekston.
+      read_tou: Mi legis kaj konsentas la Uzkondiĉojn
+      consider_pd: Krom la ĉi-supro, mi konfirmas, ke miaj kontribuaĵoj apartenas
+        al la publika havaĵo
       consider_pd_why: kio estas tio?
+      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Informoj por helpi kompreni ĉi tiun interkonsenton: <a href="%{summary}">simpla
         mallongigo</a> kaj kelkaj <a href="%{translations}">neoficialaj tradukoj</a>'
-      agree: Akcepti
+      continue: Daŭrigi
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Malakcepti
       you need to accept or decline: Bonvolu legi kaj aŭ akcepti aŭ malakcepti la
         novan interkonsenton pri uzado por pluigi.
@@ -2120,11 +2191,9 @@ eo:
       remove as friend: Eksamikigi
       add as friend: Aldoni kiel amikon
       mapper since: 'Mapigisto ekde:'
-      ago: (antaŭ %{time_in_words_ago})
       ct status: 'Interkonsento pri kontribuado:'
       ct undecided: ne decidita
       ct declined: malakceptita
-      ct accepted: akceptita antaŭ %{ago}
       latest edit: Lasta redakto %{ago}
       email address: 'Retpoŝtadreso:'
       created from: 'Kreita de:'
@@ -2205,6 +2274,7 @@ eo:
           interkonsenton pri uzado.
         agreed_with_pd: Vi ankaŭ deklaris, ke viaj kontribuaĵoj estas en la publika
           havaĵo.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: kio estas tio?
       profile description: 'Priskribo de profilo:'
       preferred languages: 'Preferataj Lingvoj:'
@@ -2212,6 +2282,7 @@ eo:
       image: 'Bildo:'
       gravatar:
         gravatar: Uzi “Gravataron”
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         link text: kio estas tio?
         disabled: “Gravataro” estas malaktiva.
         enabled: Montrado de via “Gravataro” estas aktiva.
@@ -2342,7 +2413,6 @@ eo:
         ke la mesaĝo estos videbla publike. Memoru, ke ne ĉiuj uzantoj komprenas la
         komunuman ĵargonon, do bonvolu uzi simplajn vortojn.
       period: Por kiom da tempo, ekde nun, la uzanto estos blokita por aliro al API.
-      submit: Krei blokadon
       tried_contacting: Mi kontaktis la uzanton kaj petis lin pri ĉesigo.
       tried_waiting: Mi donis al la uzanto konvenan kvanton da tempo por respondi
         al miaj sciigoj.
@@ -2356,7 +2426,6 @@ eo:
         ke ne ĉiuj uzantoj komprenas la komunuman ĵargonon, do bonvolu uzi simplajn
         vortojn.
       period: Por kiom da tempo, ekde nun, la uzanto estos blokita por aliro al API.
-      submit: Ĝisdatigi blokadon
       show: Montri ĉi tiun blokadon
       back: Montri ĉiujn blokadojn
       needs_view: Ĉu la uzanto devas ensaluti antaŭ ĉi tiu blokado nuligos?
@@ -2385,14 +2454,27 @@ eo:
       confirm: Ĉu vi certe volas nuligi ĉi tiun blokadon?
       revoke: Malbloki!
       flash: Ĉi tiu blokado estas nuligita.
-    period:
-      one: 1 horo
-      other: '%{count} horoj'
     helper:
       time_future: Finiĝos %{time}.
       until_login: Aktiva ĝis la uzanto ensalutos.
       time_future_and_until_login: Finiĝos dum %{time} kaj post la uzanto ensalutos.
       time_past: Finiĝis antaŭ %{time}
+      block_duration:
+        hours:
+          one: 1 horo
+          other: '%{count} horoj'
+        days:
+          one: 1 tago
+          other: '%{count} tagoj'
+        weeks:
+          one: 1 semajno
+          other: '%{count} semajnoj'
+        months:
+          one: 1 monato
+          other: '%{count} monatoj'
+        years:
+          one: 1 jaro
+          other: '%{count} jaroj'
     blocks_on:
       title: Blokadoj por %{name}
       heading: Listo de blokadoj por %{name}
@@ -2404,10 +2486,7 @@ eo:
     show:
       title: '%{block_on} blokita de %{block_by}'
       heading: '%{block_on} blokita de %{block_by}'
-      time_future: Finiĝas %{time}
-      time_past: Finiĝis antaŭ %{time}
       created: Kreita
-      ago: antaŭ %{time}
       status: Stato
       show: Montri
       edit: Redakti
@@ -2441,7 +2520,6 @@ eo:
       description: Priskribo
       created_at: Kreita je
       last_changed: Laste ŝanĝita
-      ago_html: antaŭ %{when}
   javascripts:
     close: Fermi
     share:
@@ -2491,6 +2569,7 @@ eo:
         title: Tavoloj
       copyright: © <a href='%{copyright_url}'>Kontribuintoj de OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Donaci</a>
+      terms: <a href='%{terms_url}' target='_blank'>Kondiĉoj pri Retejo kaj API</a>
     site:
       edit_tooltip: Redakti la mapon
       edit_disabled_tooltip: Pligrandigu por redakti la mapon
@@ -2639,7 +2718,6 @@ eo:
     edit:
       description: Priskribo
       heading: Redakti korekton
-      submit: Konservi korekton
       title: Redakti korekton
     index:
       empty: Neniu korekto por montri.
@@ -2648,7 +2726,6 @@ eo:
     new:
       description: Priskribo
       heading: Entajpu informojn pri novan korekton
-      submit: Krei korekton
       title: Kreado de nova korekto
     show:
       description: 'Priskribo:'

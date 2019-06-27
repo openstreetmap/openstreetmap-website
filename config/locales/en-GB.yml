@@ -29,6 +29,26 @@ en-GB:
     formats:
       friendly: '%e %B %Y at %H:%M'
       blog: '%e %B %Y'
+  helpers:
+    submit:
+      diary_comment:
+        create: Save
+      diary_entry:
+        create: Publish
+      message:
+        create: Send
+      client_application:
+        create: Register
+        update: Edit
+      redaction:
+        create: Create redaction
+        update: Save redaction
+      trace:
+        create: Upload
+        update: Save Changes
+      user_block:
+        create: Create block
+        update: Update block
   activerecord:
     models:
       acl: Access Control List
@@ -301,7 +321,14 @@ en-GB:
   diary_entries:
     new:
       title: New Diary Entry
-      publish_button: Publish
+    form:
+      subject: 'Subject:'
+      body: 'Body:'
+      language: 'Language:'
+      location: 'Location:'
+      latitude: 'Latitude:'
+      longitude: 'Longitude:'
+      use_map_link: use map
     index:
       title: Users' diaries
       title_friends: Friends' diaries
@@ -316,14 +343,6 @@ en-GB:
       newer_entries: Newer Entries
     edit:
       title: Edit diary entry
-      subject: 'Subject:'
-      body: 'Body:'
-      language: 'Language:'
-      location: 'Location:'
-      latitude: 'Latitude:'
-      longitude: 'Longitude:'
-      use_map_link: use map
-      save_button: Save
       marker_text: Diary entry location
     show:
       title: '%{user}''s diary | %{title}'
@@ -331,7 +350,6 @@ en-GB:
       leave_a_comment: Leave a comment
       login_to_leave_a_comment: '%{login_link} to leave a comment'
       login: Login
-      save_button: Save
     no_such_entry:
       title: No such diary entry
       heading: 'No entry with the id: %{id}'
@@ -371,7 +389,6 @@ en-GB:
       post: Post
       when: When
       comment: Comment
-      ago: '%{ago} ago'
       newer_comments: Newer Comments
       older_comments: Older Comments
   geocoder:
@@ -1088,7 +1105,6 @@ en-GB:
       send_message_to: Send a new message to %{name}
       subject: Subject
       body: Body
-      send_button: Send
       back_to_inbox: Back to inbox
     create:
       message_sent: Message sent
@@ -1590,7 +1606,6 @@ en-GB:
       visibility: 'Visibility:'
       visibility_help: what does this mean?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-      upload_button: Upload
       help: Help
       help_url: http://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1619,7 +1634,6 @@ en-GB:
       description: 'Description:'
       tags: 'Tags:'
       tags_help: comma delimited
-      save_button: Save Changes
       visibility: 'Visibility:'
       visibility_help: what does this mean?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
@@ -1651,7 +1665,6 @@ en-GB:
     trace:
       pending: PENDING
       count_points: '%{count} points'
-      ago: '%{time_in_words_ago} ago'
       more: more
       trace_details: View Trace Details
       view_map: View Map
@@ -1732,10 +1745,8 @@ en-GB:
   oauth_clients:
     new:
       title: Register a new application
-      submit: Register
     edit:
       title: Edit your application
-      submit: Edit
     show:
       title: OAuth details for %{app_name}
       key: 'Consumer Key:'
@@ -1905,15 +1916,12 @@ en-GB:
     terms:
       title: Contributor terms
       heading: Contributor terms
-      read and accept: Please read the agreement and press the agree button to confirm
-        that you accept the terms of this agreement for your existing and future contributions.
       consider_pd: In addition to the above agreement, I consider my contributions
         to be in the Public Domain
       consider_pd_why: what's this?
       consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Information to help understand these terms: a <a href="%{summary}">human
         readable summary</a> and some <a href="%{translations}">informal translations</a>'
-      agree: Agree
       declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Decline
       you need to accept or decline: Please read and then either accept or decline
@@ -1950,11 +1958,9 @@ en-GB:
       remove as friend: Unfriend
       add as friend: Add Friend
       mapper since: 'Mapper since:'
-      ago: (%{time_in_words_ago} ago)
       ct status: 'Contributor terms:'
       ct undecided: Undecided
       ct declined: Declined
-      ct accepted: Accepted %{ago} ago
       latest edit: 'Latest edit %{ago}:'
       email address: 'Email address:'
       created from: 'Created from:'
@@ -2174,7 +2180,6 @@ en-GB:
         that the message will be publicly visible. Bear in mind that not all users
         understand the community jargon, so please try to use laymans terms.
       period: How long, starting now, the user will be blocked from the API for.
-      submit: Create block
       tried_contacting: I have contacted the user and asked them to stop.
       tried_waiting: I have given a reasonable amount of time for the user to respond
         to those communications.
@@ -2188,7 +2193,6 @@ en-GB:
         mind that not all users understand the community jargon, so please try to
         use laymans terms.
       period: How long, starting now, the user will be blocked from the API for.
-      submit: Update block
       show: View this block
       back: View all blocks
       needs_view: Does the user need to log in before this block will be cleared?
@@ -2217,14 +2221,15 @@ en-GB:
       confirm: Are you sure you wish to revoke this block?
       revoke: Revoke!
       flash: This block has been revoked.
-    period:
-      one: 1 hour
-      other: '%{count} hours'
     helper:
       time_future: Ends in %{time}.
       until_login: Active until the user logs in.
       time_future_and_until_login: Ends in %{time} and after the user has logged in.
       time_past: Ended %{time} ago.
+      block_duration:
+        hours:
+          one: 1 hour
+          other: '%{count} hours'
     blocks_on:
       title: Blocks on %{name}
       heading: List of blocks on %{name}
@@ -2236,10 +2241,7 @@ en-GB:
     show:
       title: '%{block_on} blocked by %{block_by}'
       heading: '%{block_on} blocked by %{block_by}'
-      time_future: Ends in %{time}
-      time_past: Ended %{time} ago
       created: Created
-      ago: '%{time} ago'
       status: Status
       show: Show
       edit: Edit
@@ -2273,7 +2275,6 @@ en-GB:
       description: Description
       created_at: Created at
       last_changed: Last changed
-      ago_html: '%{when} ago'
   javascripts:
     close: Close
     share:
@@ -2437,7 +2438,6 @@ en-GB:
     edit:
       description: Description
       heading: Edit redaction
-      submit: Save redaction
       title: Edit redaction
     index:
       empty: No redactions to show.
@@ -2446,7 +2446,6 @@ en-GB:
     new:
       description: Description
       heading: Enter information for new redaction
-      submit: Create redaction
       title: Creating new redaction
     show:
       description: 'Description:'

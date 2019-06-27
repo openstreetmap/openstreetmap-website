@@ -31,6 +31,26 @@ id:
   time:
     formats:
       friendly: '%e %B %Y pada %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Simpan
+      diary_entry:
+        create: Terbitkan
+      message:
+        create: Kirim
+      client_application:
+        create: Daftar
+        update: Edit
+      redaction:
+        create: Membuat Redaksi
+        update: Simpan Redaksi
+      trace:
+        create: Upload
+        update: Simpan Perubahan
+      user_block:
+        create: Buat blokir
+        update: Perbarui blokir
   activerecord:
     errors:
       messages:
@@ -315,7 +335,14 @@ id:
   diary_entries:
     new:
       title: Entri Baru Catatan Harian
-      publish_button: Terbitkan
+    form:
+      subject: 'Subjek:'
+      body: 'Isi:'
+      language: 'Bahasa:'
+      location: 'Lokasi:'
+      latitude: 'Lintang:'
+      longitude: 'Bujur:'
+      use_map_link: gunakan peta
     index:
       title: Catatan harian pengguna
       title_friends: Catatan harian teman
@@ -330,14 +357,6 @@ id:
       newer_entries: Entri Baru
     edit:
       title: Edit entri catatan harian
-      subject: 'Subjek:'
-      body: 'Isi:'
-      language: 'Bahasa:'
-      location: 'Lokasi:'
-      latitude: 'Lintang:'
-      longitude: 'Bujur:'
-      use_map_link: gunakan peta
-      save_button: Simpan
       marker_text: Lokasi entri catatan harian
     show:
       title: Catatan harian %{user} | %{title}
@@ -345,7 +364,6 @@ id:
       leave_a_comment: Tinggalkan komentar
       login_to_leave_a_comment: '%{login_link} untuk meninggalkan komentar'
       login: Masuk
-      save_button: Simpan
     no_such_entry:
       title: Tidak ada entri catatan harian tersebut
       heading: 'Tidak ada entri dengan id: %{id}'
@@ -388,7 +406,6 @@ id:
       post: Artikel
       when: Kapan
       comment: Komentar
-      ago: '%{ago} yang lalu'
       newer_comments: Komentar Baru
       older_comments: Komentar Lama
   geocoder:
@@ -1262,7 +1279,6 @@ id:
       send_message_to: Kirim pesan baru ke %{name}
       subject: Subyek
       body: Isi Pesan
-      send_button: Kirim
       back_to_inbox: Kembali ke kotak masuk
     create:
       message_sent: Pesan terkirim
@@ -1772,7 +1788,6 @@ id:
       visibility: Visibilitas
       visibility_help: apa artinya ini?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-      upload_button: Upload
       help: Bantuan
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1801,7 +1816,6 @@ id:
       description: 'Deskripsi:'
       tags: 'Tags:'
       tags_help: dipisahkan oleh koma
-      save_button: Simpan Perubahan
       visibility: Visibilitas
       visibility_help: apa artinya ini?
     trace_optionals:
@@ -1832,7 +1846,6 @@ id:
     trace:
       pending: TERTUNDA
       count_points: '%{count} titik'
-      ago: '%{time_in_words_ago} yang lalu'
       more: selebihnya
       trace_details: Lihat Perincian Jejak
       view_map: Lihat peta
@@ -1913,10 +1926,8 @@ id:
   oauth_clients:
     new:
       title: Daftar aplikasi baru
-      submit: Daftar
     edit:
       title: Edit aplikasi Anda
-      submit: Edit
     show:
       title: Rincian OAuth untuk %{app_name}
       key: 'Key konsumen:'
@@ -2088,9 +2099,6 @@ id:
     terms:
       title: Persyaratan Kontributor
       heading: Persyaratan Kontributor
-      read and accept: Silahkan baca perjanjian di bawah dan tekan tombol setuju untuk
-        mengkonfirmasi bahwa Anda menerima persyaratan dari perjanjian ini untuk kontribusi
-        Anda yang sudah ada dan di masa yang akan datang.
       consider_pd: Sebagai tambahan perjanjian di atas, saya menganggap kontribusi
         saya berada di dalam Domain Publik
       consider_pd_why: apa ini?
@@ -2098,7 +2106,6 @@ id:
       guidance: 'Informasi untuk membantu Anda memahami persyaratan ini: sebuah <a
         href="%{summary}">ringkasan yang mudah dibaca</a> dan beberapa <a href="%{translations}">terjemahan
         informal</a>'
-      agree: Setuju
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Tolak
       you need to accept or decline: Silahkan baca dan setujui atau tolak Persyaratan
@@ -2135,11 +2142,9 @@ id:
       remove as friend: Hapus pertemanan
       add as friend: Jadikan Teman
       mapper since: 'Melakukan pemetaan sejak:'
-      ago: (%{time_in_words_ago} yang lalu)
       ct status: 'Syarat-syarat kontributor:'
       ct undecided: Belum diputuskan
       ct declined: Tolak
-      ct accepted: Telah diterima %{ago} yang lalu
       latest edit: 'Hasil edit terakhir %{ago}:'
       email address: 'Alamat email:'
       created from: 'Dibuat pada:'
@@ -2365,7 +2370,6 @@ id:
         terlihat oleh umum. Perlu diingat bahwa tidak semua pengguna memahami jargon
         masyarakat, jadi silakan coba untuk menggunakan istilah-istilah laymans.
       period: Berapa lama, mulai dari sekarang, pengguna akan diblokir dari API.
-      submit: Buat blokir
       tried_contacting: Saya telah menghubungi pengguna tersebut dan memintanya untuk
         berhenti.
       tried_waiting: Saya telah memberi jumlah waktu yang wajar kepada pengguna untuk
@@ -2380,7 +2384,6 @@ id:
         pengguna memahami jargon masyarakat, jadi silakan coba untuk menggunakan istilah-istilah
         laymans.
       period: Berapa lama, mulai dari sekarang, pengguna akan diblokir dari API.
-      submit: Perbarui blokir
       show: Lihat blokir ini
       back: Lihat semua blokir
       needs_view: Apakah pengguna harus login sebelum blokirnya dihapus?
@@ -2410,14 +2413,15 @@ id:
       confirm: Apakah Anda yakin untuk membatalkan blokir ini?
       revoke: Batalkan!
       flash: Blokir ini telah dibatalkan.
-    period:
-      one: 1 hour
-      other: '%{count} hours'
     helper:
       time_future: Berakhir pada %{time}.
       until_login: Aktif sampai pengguna melakukan log in.
       time_future_and_until_login: Berakhir dalam %{time} dan setelah pengguna masuk.
       time_past: Berakhir %{time} yang lalu.
+      block_duration:
+        hours:
+          one: 1 hour
+          other: '%{count} hours'
     blocks_on:
       title: Diblokir pada %{name}
       heading: Daftar blokir pada %{name}
@@ -2429,10 +2433,7 @@ id:
     show:
       title: '%{block_on} diblokir oleh %{block_by}'
       heading: '%{block_on} diblokir oleh %{block_by}'
-      time_future: Berakhir dalam %{time}
-      time_past: Berakhir %{time} yang lalu
       created: Dibuat
-      ago: '%{time} yang lalu'
       status: Status
       show: Tampilkan
       edit: Edit
@@ -2466,7 +2467,6 @@ id:
       description: Deskripsi
       created_at: Dibuat pada
       last_changed: Terakhir diubah
-      ago_html: '%{when} yang lalu'
   javascripts:
     close: Tutup
     share:
@@ -2623,7 +2623,6 @@ id:
     edit:
       description: Deskripsi
       heading: Mengedit Redaksi
-      submit: Simpan Redaksi
       title: Mengedit Redaksi
     index:
       empty: Tidak ada redaksi untuk menunjukkan.
@@ -2632,7 +2631,6 @@ id:
     new:
       description: Deskripsi
       heading: Masukkan informasi untuk redaksi baru
-      submit: Membuat Redaksi
       title: Membuat redaksi baru
     show:
       description: 'Deskripsi:'

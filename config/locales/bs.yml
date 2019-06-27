@@ -1,6 +1,7 @@
 # Messages for Bosnian (bosanski)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Alenmahovic
 # Author: CERminator
 # Author: DzWiki
@@ -17,6 +18,26 @@ bs:
   time:
     formats:
       friendly: '%e %B %Y u %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Spremiti
+      diary_entry:
+        create: Objavi
+      message:
+        create: Poslati
+      client_application:
+        create: Registrirati
+        update: Urediti
+      redaction:
+        create: Napraviti redakciju
+        update: Spremiti redakciju
+      trace:
+        create: Postaviti
+        update: Sačuvati promjene
+      user_block:
+        create: Napraviti blokadu
+        update: Osvježiti blokadu
   activerecord:
     models:
       acl: Kontrole pristupa
@@ -219,7 +240,14 @@ bs:
   diary_entries:
     new:
       title: Novi unos u dnevnik
-      publish_button: Objavi
+    form:
+      subject: 'Predmet:'
+      body: 'Tijelo:'
+      language: 'Jezik:'
+      location: 'Lokacija:'
+      latitude: Geografska širina (Latitude)
+      longitude: Geografska dužina (Longitude)
+      use_map_link: korisititi kartu
     index:
       title: Dnevnici korisnika
       title_friends: Dnevnici prijatelja
@@ -234,14 +262,6 @@ bs:
       newer_entries: Noviji unosi
     edit:
       title: Uredi unos u dnevniku
-      subject: 'Predmet:'
-      body: 'Tijelo:'
-      language: 'Jezik:'
-      location: 'Lokacija:'
-      latitude: Geografska širina (Latitude)
-      longitude: Geografska dužina (Longitude)
-      use_map_link: korisititi kartu
-      save_button: Spremiti
       marker_text: Lokacija unosa u dnevnik
     show:
       title: Dnevnik korisnika %{user} | %{title}
@@ -249,7 +269,6 @@ bs:
       leave_a_comment: Ostaviti komentar
       login_to_leave_a_comment: '%{login_link} da bi ostavili komentar'
       login: Prijava
-      save_button: Spremiti
     no_such_entry:
       title: Nema takvog unosa u dnevnik
       heading: 'Nema unosa sa id: %{id}'
@@ -289,7 +308,6 @@ bs:
       post: Post
       when: Kada
       comment: Komentar
-      ago: '%{ago} prije'
       newer_comments: Noviji komentari
       older_comments: Stariji komentari
   geocoder:
@@ -928,7 +946,6 @@ bs:
       send_message_to: Poslati novu poruku za %{name}
       subject: Predmet
       body: Tijelo
-      send_button: Poslati
       back_to_inbox: Nazad u dolaznu poštu
     create:
       message_sent: Poruka poslana
@@ -1261,7 +1278,6 @@ bs:
       tags_help: odvojeno zarezima
       visibility: 'Vidljivost:'
       visibility_help: Šta ovo znači?
-      upload_button: Postaviti
       help: Pomoć
     create:
       upload_trace: Postaviti GPS trasu
@@ -1288,7 +1304,6 @@ bs:
       description: 'Opis:'
       tags: 'Oznake:'
       tags_help: odvojeno zarezima
-      save_button: Sačuvati promjene
       visibility: 'Vidljivost:'
       visibility_help: Šta ovo znači?
     trace_optionals:
@@ -1319,7 +1334,6 @@ bs:
     trace:
       pending: NA ČEKANJU
       count_points: '%{count} tačaka'
-      ago: prije %{time_in_words_ago}
       more: više
       trace_details: Pogledati detalje trase
       view_map: Pogledati kartu
@@ -1378,10 +1392,8 @@ bs:
   oauth_clients:
     new:
       title: Registrirajte novu aplikaciju
-      submit: Registrirati
     edit:
       title: Uredite Vašu aplikaciju
-      submit: Urediti
     show:
       title: OAuth detalji za %{app_name}
       key: 'Ključ korisnika:'
@@ -1517,15 +1529,11 @@ bs:
     terms:
       title: Uslovi za doprinosioce
       heading: Uslovi za doprinosioce
-      read and accept: Molimo Vas da pročitate ugovor ispod i  dapritisnete dugme
-        za potvrdu da prihvatate uslove ovog sporazuma za Vaše postojeće i buduće
-        doprinose.
       consider_pd: Osim gore navedenog ugovora, smatram da su moji doprinosi u javnom
         vlasništvu (Public Domain)
       consider_pd_why: Šta je ovo?
       guidance: 'Informacija da bi se pomoglo u shvatanju ovih uslova: <a href="%{summary}">Čitljiv
         sažetak</a> i neki <a href="%{translations}">neformalni prijevodi</a>'
-      agree: Slažem se
       decline: Odbiti
       you need to accept or decline: Molimo pročitajte i onda ili prihvatite ili odbijte
         nove Uslove za doprinosioce da bi ste nastavili.
@@ -1557,11 +1565,9 @@ bs:
       remove as friend: ukloniti kao prijatelja
       add as friend: dodati prijatelja
       mapper since: 'Maper od:'
-      ago: (%{time_in_words_ago} prije)
       ct status: 'Uslovi za doprinosioce:'
       ct undecided: Neodlučen
       ct declined: Odbijeno
-      ct accepted: Prihvaćeno prije %{ago}
       latest edit: 'Najnovija izmjena %{ago}:'
       email address: 'Adresa e-pošte:'
       created from: 'Napravljeno iz:'
@@ -1753,7 +1759,6 @@ bs:
         biti javno vidljiva. Imajte na umu da svi korisnici ne razumiju žargon u zajednici,
         pa im objasnite jednostavnim jezikom.
       period: Koliko dugo, od sada, će korisnik biti blokiran od strane API.
-      submit: Napraviti blokadu
       tried_contacting: Kontaktirao sam korisnika i pitao da prestane.
       tried_waiting: Dao sam dovoljno razumnog vremena korisniku da odgovori.
       needs_view: Korisnik se mora prijaviti da bi se blokada očistila
@@ -1765,7 +1770,6 @@ bs:
         je više je moguće, dajući što više detalja o situaciji. Imajte na umu da svi
         korisnici ne razumiju žargon u zajednici, pa im objasnite jednostavnim jezikom.
       period: Koliko dugo, od sada, će korisnik biti blokiran od strane API.
-      submit: Osvježiti blokadu
       show: Pogledati ovu blokadu
       back: Pogledati sve blokade
       needs_view: Da li se korisnik mora prijaviti prije nego se očisti blokada?
@@ -1793,13 +1797,14 @@ bs:
       confirm: Jeste li sgurni da želite opozvati ovu blokadu?
       revoke: Opozvati!
       flash: Ova blokada je opozvana.
-    period:
-      one: 1 sat
-      other: '%{count} sata/i'
     helper:
       time_future: Završava u %{time}.
       until_login: Aktivno dok se korsnik ne prijavi.
       time_past: Završeno prije %{time}.
+      block_duration:
+        hours:
+          one: 1 sat
+          other: '%{count} sata/i'
     blocks_on:
       title: Blokade na %{name}
       heading: Lista blokada na %{name}
@@ -1811,10 +1816,7 @@ bs:
     show:
       title: '%{block_on} blokiran od strane %{block_by}'
       heading: '%{block_on} blokiran od strane %{block_by}'
-      time_future: Završava u %{time}
-      time_past: Završeno prije %{time}
       created: Napravljeno
-      ago: '%{time} prije'
       status: Stanje
       show: Pokazati
       edit: Urediti
@@ -1845,7 +1847,6 @@ bs:
       description: Opis
       created_at: 'Napravljeno:'
       last_changed: Posljednja izmjena
-      ago_html: prije %{when}
   javascripts:
     close: Zatvori
     share:
@@ -1906,7 +1907,6 @@ bs:
     edit:
       description: Opis
       heading: Urediti redakciju
-      submit: Spremiti redakciju
       title: Urediti redakciju
     index:
       empty: Nema redakcija za prikaz.
@@ -1915,7 +1915,6 @@ bs:
     new:
       description: Opis
       heading: Unijeti informacije za novu redakciju
-      submit: Napraviti redakciju
       title: Pravljenje nove redakcije
     show:
       description: 'Opis:'

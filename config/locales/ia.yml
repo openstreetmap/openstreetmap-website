@@ -13,6 +13,26 @@ ia:
   time:
     formats:
       friendly: '%e de %B %Y a %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Salveguardar
+      diary_entry:
+        create: Publicar
+      message:
+        create: Inviar
+      client_application:
+        create: Registrar
+        update: Modificar
+      redaction:
+        create: Crear obscuration
+        update: Salveguardar obscuration
+      trace:
+        create: Incargar
+        update: Salveguardar modificationes
+      user_block:
+        create: Crear blocada
+        update: Actualisar blocada
   activerecord:
     errors:
       messages:
@@ -85,6 +105,45 @@ ia:
         description: Description
         languages: Linguas
         pass_crypt: Contrasigno
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: circa 1 hora retro
+        other: circa %{count} horas retro
+      about_x_months:
+        one: circa 1 mense retro
+        other: circa %{count} menses retro
+      about_x_years:
+        one: circa 1 anno retro
+        other: circa %{count} annos retro
+      almost_x_years:
+        one: quasi 1 anno retro
+        other: quasi %{count} annos retro
+      half_a_minute: un medie minuta retro
+      less_than_x_seconds:
+        one: minus de 1 seconda retro
+        other: minus de %{count} secundas retro
+      less_than_x_minutes:
+        one: minus de un minuta retro
+        other: minus de %{count} minutas retro
+      over_x_years:
+        one: plus de 1 anno retro
+        other: plus de %{count} annos retro
+      x_seconds:
+        one: 1 secunda retro
+        other: '%{count} secundas retro'
+      x_minutes:
+        one: 1 minuta retro
+        other: '%{count} minutas retro'
+      x_days:
+        one: 1 die retro
+        other: '%{count} dies retro'
+      x_months:
+        one: 1 mense retro
+        other: '%{count} menses retro'
+      x_years:
+        one: 1 anno retro
+        other: '%{count} annos retro'
   editor:
     default: Predefinite (actualmente %{name})
     potlatch:
@@ -102,14 +161,14 @@ ia:
   api:
     notes:
       comment:
-        opened_at_html: Create %{when} retro
-        opened_at_by_html: Create %{when} retro per %{user}
-        commented_at_html: Actualisate %{when} retro
-        commented_at_by_html: Actualisate %{when} retro per %{user}
-        closed_at_html: Resolvite %{when} retro
-        closed_at_by_html: Resolvite %{when} retro per %{user}
-        reopened_at_html: Reactivate %{when} retro
-        reopened_at_by_html: Reactivate %{when} retro per %{user}
+        opened_at_html: Create %{when}
+        opened_at_by_html: Create %{when} per %{user}
+        commented_at_html: Actualisate %{when}
+        commented_at_by_html: Actualisate %{when} per %{user}
+        closed_at_html: Resolvite %{when}
+        closed_at_by_html: Resolvite %{when} per %{user}
+        reopened_at_html: Reactivate %{when}
+        reopened_at_by_html: Reactivate %{when} per %{user}
       rss:
         title: Notas de OpenStreetMap
         description_area: Un lista de notas reportate, commentate o claudite in tu
@@ -125,12 +184,12 @@ ia:
   browse:
     created: Create a
     closed: Claudite a
-    created_html: Create <abbr title='%{title}'>%{time} retro</abbr>
-    closed_html: Claudite <abbr title='%{title}'>%{time} retro</abbr>
-    created_by_html: Create <abbr title='%{title}'>%{time} retro</abbr> per %{user}
-    deleted_by_html: Delite <abbr title='%{title}'>%{time} retro</abbr> per %{user}
-    edited_by_html: Modificate <abbr title='%{title}'>%{time} retro</abbr> per %{user}
-    closed_by_html: Claudite <abbr title='%{title}'>%{time} retro</abbr> per %{user}
+    created_html: Create <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Claudite <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Create <abbr title='%{title}'>%{time}</abbr> per %{user}
+    deleted_by_html: Delite <abbr title='%{title}'>%{time}</abbr> per %{user}
+    edited_by_html: Modificate <abbr title='%{title}'>%{time}</abbr> per %{user}
+    closed_by_html: Claudite <abbr title='%{title}'>%{time}</abbr> per %{user}
     version: Version
     in_changeset: Gruppo de modificationes
     anonymous: anonyme
@@ -150,9 +209,8 @@ ia:
       relation: Relationes (%{count})
       relation_paginated: Relationes (%{x}-%{y} de %{count})
       comment: Commentos (%{count})
-      hidden_commented_by: Commento celate de %{user} <abbr title='%{exact_time}'>%{when}
-        retro</abbr>
-      commented_by: Commento de %{user} <abbr title='%{exact_time}'>%{when} retro</abbr>
+      hidden_commented_by: Commento celate de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Commento de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML del gruppo de modificationes
       osmchangexml: XML osmChange
       feed:
@@ -230,20 +288,15 @@ ia:
       open_title: Nota non resolvite №%{note_name}
       closed_title: Nota resolvite №%{note_name}
       hidden_title: Nota celate №%{note_name}
-      open_by: Create per %{user} <abbr title='%{exact_time}'>%{when} retro</abbr>
-      open_by_anonymous: Create per un anonymo <abbr title='%{exact_time}'>%{when}
-        retro</abbr>
-      commented_by: Commento scribite per %{user} <abbr title='%{exact_time}'>%{when}
-        retro</abbr>
-      commented_by_anonymous: Commento scribite per un anonymo <abbr title='%{exact_time}'>%{when}
-        retro</abbr>
-      closed_by: Resolvite per %{user} <abbr title='%{exact_time}'>%{when} retro</abbr>
-      closed_by_anonymous: Resolvite per un anonymo <abbr title='%{exact_time}'>%{when}
-        retro</abbr>
-      reopened_by: Reactivate per %{user} <abbr title='%{exact_time}'>%{when} retro</abbr>
-      reopened_by_anonymous: Reactivate per un anonymo <abbr title='%{exact_time}'>%{when}
-        retro</abbr>
-      hidden_by: Celate per %{user} <abbr title='%{exact_time}'>%{when} retro</abbr>
+      open_by: Create per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Create per un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Commento de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Commento de un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Resolvite per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Resolvite per un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Reactivate per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Reactivate per un anonymo <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Celate per %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Signalar iste nota
     query:
       title: Cercar objectos
@@ -284,7 +337,7 @@ ia:
     comment:
       comment: Nove commento sur le gruppo de modificationes № %{changeset_id} per
         %{author}
-      commented_at_by_html: Actualisate %{when} retro per %{user}
+      commented_at_by_html: Actualisate %{when} per %{user}
     comments:
       comment: Nove commento sur le gruppo de modificationes № %{changeset_id} per
         %{author}
@@ -298,7 +351,14 @@ ia:
   diary_entries:
     new:
       title: Nove entrata de diario
-      publish_button: Publicar
+    form:
+      subject: 'Subjecto:'
+      body: 'Texto:'
+      language: 'Lingua:'
+      location: 'Loco:'
+      latitude: 'Latitude:'
+      longitude: 'Longitude:'
+      use_map_link: usar carta
     index:
       title: Diarios de usatores
       title_friends: Diarios de amicos
@@ -313,14 +373,6 @@ ia:
       newer_entries: Entratas plus recente
     edit:
       title: Modificar entrata de diario
-      subject: 'Subjecto:'
-      body: 'Texto:'
-      language: 'Lingua:'
-      location: 'Loco:'
-      latitude: 'Latitude:'
-      longitude: 'Longitude:'
-      use_map_link: usar carta
-      save_button: Salveguardar
       marker_text: Loco de entrata de diario
     show:
       title: Diario de %{user} | %{title}
@@ -328,7 +380,6 @@ ia:
       leave_a_comment: Lassar un commento
       login_to_leave_a_comment: '%{login_link} pro lassar un commento'
       login: Aperir session
-      save_button: Salveguardar
     no_such_entry:
       title: Nulle tal entrata de diario
       heading: 'Nulle entrata con le ID: %{id}'
@@ -344,11 +395,13 @@ ia:
         other: '%{count} commentos'
       edit_link: Modificar iste entrata
       hide_link: Celar iste entrata
+      unhide_link: Non plus celar iste entrata
       confirm: Confirmar
       report: Signalar iste entrata
     diary_comment:
       comment_from: Commento de %{link_user} a %{comment_created_at}
       hide_link: Celar iste commento
+      unhide_link: Non plus celar iste commento
       confirm: Confirmar
       report: Signalar iste commento
     location:
@@ -370,7 +423,6 @@ ia:
       post: Articulo
       when: Quando
       comment: Commento
-      ago: '%{ago} retro'
       newer_comments: Commentos plus recente
       older_comments: Commentos plus ancian
   geocoder:
@@ -506,6 +558,7 @@ ia:
           protected_area: Area protegite
         bridge:
           aqueduct: Aqueducto
+          boardwalk: Passarella
           suspension: Ponte suspendite
           swing: Ponte giratori
           viaduct: Viaducto
@@ -525,25 +578,31 @@ ia:
           "yes": Boteca de artisanato
         emergency:
           ambulance_station: Station de ambulantias
+          assembly_point: Puncto de incontro
           defibrillator: Defibrillator
           landing_site: Loco de atterrage de emergentia
           phone: Telephono de emergentia
+          water_tank: Cisterna de aqua de emergentia
+          "yes": Emergentia
         highway:
           abandoned: Via abandonate
           bridleway: Sentiero pro cavallos
           bus_guideway: Via guidate de autobus
           bus_stop: Halto de autobus
           construction: Strata in construction
+          corridor: Corridor
           cycleway: Pista cyclabile
           elevator: Ascensor
           emergency_access_point: Puncto de accesso de emergentia
           footway: Sentiero pro pedones
           ford: Vado
+          give_way: Signal de ceder le passage
           living_street: Strata residential
           milestone: Petra milliari
           motorway: Autostrata
           motorway_junction: Junction de autostrata
           motorway_link: Via de communication a autostrata
+          passing_place: Loco de passage
           path: Sentiero
           pedestrian: Via pro pedones
           platform: Platteforma
@@ -560,6 +619,7 @@ ia:
           services: Servicios de autostrata
           speed_camera: Detector de velocitate
           steps: Scalones
+          stop: Signal de stop
           street_lamp: Lanterna de strata
           tertiary: Via tertiari
           tertiary_link: Via tertiari
@@ -568,6 +628,7 @@ ia:
           trail: Pista
           trunk: Via national
           trunk_link: Via national
+          turning_loop: Bucla de giro
           unclassified: Via non classificate
           "yes": Cammino
         historic:
@@ -587,6 +648,7 @@ ia:
           manor: Casa seniorial
           memorial: Memorial
           mine: Mina
+          mine_shaft: Puteo de mina
           monument: Monumento
           roman_road: Via roman
           ruins: Ruinas
@@ -596,6 +658,7 @@ ia:
           wayside_cross: Cruce juxta le via
           wayside_shrine: Reliquario juxta le via
           wreck: Naufragio
+          "yes": Sito historic
         junction:
           "yes": Intersection
         landuse:
@@ -635,6 +698,7 @@ ia:
           bird_hide: Observatorio de aves
           common: Terreno commun
           dog_park: Parco pro canes
+          firepit: Focar
           fishing: Area de pisca
           fitness_centre: Centro de fitness
           fitness_station: Gymnasio
@@ -659,6 +723,7 @@ ia:
           water_park: Parco aquatic
           "yes": Tempore libere
         man_made:
+          adit: Galeria de mina
           lighthouse: Pharo
           mine: Mina
           pipeline: Tubulatura
@@ -925,9 +990,8 @@ ia:
       status: Stato
       reports: Reportos
       last_updated: Ultime actualisation
-      last_updated_time_html: <abbr title='%{title}'>%{time} retro</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} retro</abbr> per
-        %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> per %{user}
       link_to_reports: Vider reportos
       reports_count:
         one: 1 reporto
@@ -1160,7 +1224,6 @@ ia:
       send_message_to: Inviar un nove message a %{name}
       subject: Subjecto
       body: Texto
-      send_button: Inviar
       back_to_inbox: Retornar al cassa de entrata
     create:
       message_sent: Message inviate
@@ -1236,13 +1299,16 @@ ia:
         Licentia</a> pro detalios.
       legal_title: Juridic
       legal_html: "Iste sito e multe altere servicios associate es formalmente gerite
-        per le  \n<a href=\"http://osmfoundation.org/\">Fundation OpenStreetMap</a>
+        per le  \n<a href=\"https://osmfoundation.org/\">Fundation OpenStreetMap</a>
         (OSMF) \nin nomine del communitate. Le uso de tote le servicios gerite per
-        OSMF es subjecte a nostre <a href=\"http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\npoliticas
+        OSMF es subjecte a nostre <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">conditiones
+        de uso</a>, a nostre <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\npoliticas
         de uso acceptabile</a> e a nostre <a href=\"http://wiki.osmfoundation.org/wiki/Privacy_Policy\">politica
-        de confidentialitate</a>\n<br> \n<a href=\"http://osmfoundation.org/Contact\">Contacta
+        de confidentialitate</a>.\n<br> \n<a href=\"https://osmfoundation.org/Contact\">Contacta
         OSMF</a> \nsi vos ha questiones sur licentias, derectos de autor o altere
-        themas juridic."
+        themas juridic.\n<br>\nOpenStreetMap, le logotypo de lupa e \"State of the
+        Map\" es <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">marcas
+        commercial registrate del OSMF</a>."
       partners_title: Partners
     copyright:
       foreign:
@@ -1324,8 +1390,8 @@ ia:
           (<a href="https://www.and.com">www.and.com</a>)
         contributors_nz_html: '<strong>Nove Zelandia</strong>: Contine datos proveniente
           de <a href="https://data.linz.govt.nz/">LINZ Data Service</a> e licentiate
-          pro re-uso sub href="https://creativecommons.org/licenses/by/4.0/">CC BY
-          4.0</a>.'
+          pro re-uso sub <a href="https://creativecommons.org/licenses/by/4.0/">CC
+          BY 4.0</a>.'
         contributors_si_html: |-
           <strong>Slovenia</strong>: Contine datos ab le
           <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> e del
@@ -1660,7 +1726,6 @@ ia:
       tags_help: separate per commas
       visibility: 'Visibilitate:'
       visibility_help: que significa isto?
-      upload_button: Incargar
       help: Adjuta
     create:
       upload_trace: Incargar tracia GPS
@@ -1688,7 +1753,6 @@ ia:
       description: 'Description:'
       tags: 'Etiquettas:'
       tags_help: separate per commas
-      save_button: Salveguardar modificationes
       visibility: 'Visibilitate:'
       visibility_help: que significa isto?
     trace_optionals:
@@ -1719,7 +1783,6 @@ ia:
     trace:
       pending: PENDENTE
       count_points: '%{count} punctos'
-      ago: '%{time_in_words_ago} retro'
       more: plus
       trace_details: Vider detalios del tracia
       view_map: Vider carta
@@ -1800,10 +1863,8 @@ ia:
   oauth_clients:
     new:
       title: Registrar un nove application
-      submit: Registrar
     edit:
       title: Modificar tu application
-      submit: Modificar
     show:
       title: Detalios OAuth pro %{app_name}
       key: 'Clave de consumitor:'
@@ -1972,18 +2033,20 @@ ia:
         de contributor. Pro plus informationes, per favor vide <a href="%{url}">iste
         pagina wiki</a>.
     terms:
-      title: Conditiones de contributor
-      heading: Conditiones de contributor
-      read and accept: Per favor lege le contracto hic infra e preme le button de
-        acceptation pro confirmar que tu accepta le terminos de iste contracto pro
-        tu existente e futur contributiones.
-      consider_pd: In addition al contracto hic supra, io considera mi contributiones
-        como essente in le dominio public
+      title: Conditiones
+      heading: Conditiones
+      heading_ct: Conditiones de contributor
+      read and accept with tou: Per favor, lege le accordo de contributor e le conditiones
+        de uso, marca ambe quadratos quando tu es finite e pois preme le button Continuar.
+      contributor_terms_explain: Iste accordo regula le conditiones de tu contributiones
+        existente e futur.
+      read_ct: Io ha legite e io accepta le precedente terminos de contributor
+      consider_pd: In addition a lo que precede, io considera mi contributiones como
+        essente in le dominio public
       consider_pd_why: que es isto?
       guidance: 'Informationes pro adjutar a comprender iste terminos: a <a href="%{summary}">summario
         facile a comprender</a> e alcun <a href="%{translations}">traductiones non
         official</a>'
-      agree: Acceptar
       decline: Declinar
       you need to accept or decline: Per favor lege e postea accepta o declina le
         nove Conditiones del Contributor pro continuar.
@@ -2019,12 +2082,10 @@ ia:
       remove as friend: Remover amico
       add as friend: Adder amico
       mapper since: 'Cartographo depost:'
-      ago: (%{time_in_words_ago} retro)
       ct status: 'Conditiones de contributor:'
       ct undecided: Indecise
       ct declined: Declinate
-      ct accepted: Acceptate %{ago} retro
-      latest edit: 'Ultime modification %{ago}:'
+      latest edit: 'Ultime modification (%{ago}):'
       email address: 'Adresse de e-mail:'
       created from: 'Create ex:'
       status: 'Stato:'
@@ -2246,7 +2307,6 @@ ia:
         que le message essera publicamente visibile. Nota ben que non tote le usatores
         comprende le jargon del communitate, alora usa terminos simple e precise.
       period: Quante tempore, a partir de ora, essera le usator blocate del API?
-      submit: Crear blocada
       tried_contacting: Io ha contactate le usator pro demandar le/la de cessar.
       tried_waiting: Io ha date sufficiente tempore al usator pro responder a iste
         communicationes.
@@ -2260,7 +2320,6 @@ ia:
         ben que non tote le usatores comprende le jargon del communitate, alora usa
         terminos simple e precise.
       period: Quante tempore, a partir de ora, essera le usator blocate del API?
-      submit: Actualisar blocada
       show: Examinar iste blocada
       back: Examinar tote le blocadas
       needs_view: Debe le usator aperir un session ante que iste blocada es cancellate?
@@ -2286,19 +2345,20 @@ ia:
       title: Revoca blocada de %{block_on}
       heading: Revoca blocada de %{block_on} per %{block_by}
       time_future: Iste blocada expirara in %{time}.
-      past: Iste blocada expirava %{time} retro e non pote esser revocate ora.
+      past: Iste blocada expirava %{time} e non pote esser revocate ora.
       confirm: Es tu secur de voler revocar iste blocada?
       revoke: Revocar!
       flash: Iste blocada ha essite revocate.
-    period:
-      one: 1 hora
-      other: '%{count} horas'
     helper:
       time_future: Expira in %{time}.
       until_login: Active usque le usator aperi un session.
       time_future_and_until_login: Termina in %{time} e post que le usator ha aperite
         session.
-      time_past: Expirava %{time} retro.
+      time_past: Expirava %{time}.
+      block_duration:
+        hours:
+          one: 1 hora
+          other: '%{count} horas'
     blocks_on:
       title: Blocadas de %{name}
       heading: Lista de blocadas de %{name}
@@ -2310,10 +2370,7 @@ ia:
     show:
       title: '%{block_on} blocate per %{block_by}'
       heading: '%{block_on} blocate per %{block_by}'
-      time_future: Expira in %{time}
-      time_past: Expirava %{time} retro
       created: Create
-      ago: '%{time} retro'
       status: Stato
       show: Monstrar
       edit: Modificar
@@ -2347,7 +2404,6 @@ ia:
       description: Description
       created_at: Create a
       last_changed: Ultime modification
-      ago_html: '%{when} retro'
   javascripts:
     close: Clauder
     share:
@@ -2397,6 +2453,8 @@ ia:
         title: Stratos
       copyright: © <a href='%{copyright_url}'>contributores de OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Facer un donation</a>
+      terms: <a href='%{terms_url}' target='_blank'>Conditiones del sito web e del
+        API</a>
     site:
       edit_tooltip: Modificar le carta
       edit_disabled_tooltip: Face zoom avante pro modificar le carta
@@ -2503,7 +2561,6 @@ ia:
     edit:
       description: Description
       heading: Modificar obscuration
-      submit: Salveguardar obscuration
       title: Modificar obscuration
     index:
       empty: Il non ha obscurationes a monstrar.
@@ -2512,7 +2569,6 @@ ia:
     new:
       description: Description
       heading: Specifica information pro nove obscuration
-      submit: Crear obscuration
       title: Creation de nove obscuration
     show:
       description: 'Description:'

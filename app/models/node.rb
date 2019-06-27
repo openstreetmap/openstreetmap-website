@@ -2,14 +2,14 @@
 #
 # Table name: current_nodes
 #
-#  id           :integer          not null, primary key
+#  id           :bigint(8)        not null, primary key
 #  latitude     :integer          not null
 #  longitude    :integer          not null
-#  changeset_id :integer          not null
+#  changeset_id :bigint(8)        not null
 #  visible      :boolean          not null
 #  timestamp    :datetime         not null
-#  tile         :integer          not null
-#  version      :integer          not null
+#  tile         :bigint(8)        not null
+#  version      :bigint(8)        not null
 #
 # Indexes
 #
@@ -79,8 +79,8 @@ class Node < ActiveRecord::Base
       return Node.from_xml_node(pt, create)
     end
     raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/node element.")
-  rescue LibXML::XML::Error, ArgumentError => ex
-    raise OSM::APIBadXMLError.new("node", xml, ex.message)
+  rescue LibXML::XML::Error, ArgumentError => e
+    raise OSM::APIBadXMLError.new("node", xml, e.message)
   end
 
   def self.from_xml_node(pt, create = false)

@@ -10,10 +10,10 @@ class TraceImporterJob < ApplicationJob
       Notifier.gpx_failure(trace, "0 points parsed ok. Do they all have lat,lng,alt,timestamp?").deliver_later
       trace.destroy
     end
-  rescue StandardError => ex
-    logger.info ex.to_s
-    ex.backtrace.each { |l| logger.info l }
-    Notifier.gpx_failure(trace, ex.to_s + "\n" + ex.backtrace.join("\n")).deliver_later
+  rescue StandardError => e
+    logger.info e.to_s
+    e.backtrace.each { |l| logger.info l }
+    Notifier.gpx_failure(trace, e.to_s + "\n" + e.backtrace.join("\n")).deliver_later
     trace.destroy
   end
 end

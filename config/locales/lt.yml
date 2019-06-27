@@ -22,6 +22,26 @@ lt:
   time:
     formats:
       friendly: '%Y m. %B %e d., %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Įrašyti
+      diary_entry:
+        create: Publikuoti
+      message:
+        create: Siųsti
+      client_application:
+        create: Registruotis
+        update: Keisti
+      redaction:
+        create: Kurti redakciją
+        update: Išsaugoti redakciją
+      trace:
+        create: Įkelti
+        update: Išsaugoti pakeitimus
+      user_block:
+        create: Sukurti blokavimą
+        update: Atnaujinti blokavimą
   activerecord:
     models:
       acl: Prieigos valdymo sąrašas
@@ -295,7 +315,14 @@ lt:
   diary_entries:
     new:
       title: Naujas dienoraščio įrašas
-      publish_button: Publikuoti
+    form:
+      subject: 'Tema:'
+      body: 'Tekstas:'
+      language: 'Kalba:'
+      location: 'Pozicija:'
+      latitude: 'Platuma:'
+      longitude: 'Ilguma:'
+      use_map_link: naudoti žemėlapį
     index:
       title: Naudotojo dienoraščiai
       title_friends: Draugų dienoraščiai
@@ -310,14 +337,6 @@ lt:
       newer_entries: Naujesni įrašai
     edit:
       title: Keisti dienoraščio įrašą
-      subject: 'Tema:'
-      body: 'Tekstas:'
-      language: 'Kalba:'
-      location: 'Pozicija:'
-      latitude: 'Platuma:'
-      longitude: 'Ilguma:'
-      use_map_link: naudoti žemėlapį
-      save_button: Įrašyti
       marker_text: Dienoraščio įrašo pozicija
     show:
       title: '%{user} dienoraštis | %{title}'
@@ -325,7 +344,6 @@ lt:
       leave_a_comment: Palikti komentarą
       login_to_leave_a_comment: '%{login_link} palikti komentarą'
       login: Prisijungti
-      save_button: Įrašyti
     no_such_entry:
       title: Nėra tokio dienoraščio įrašo
       heading: 'Nėra įrašo su id: %{id}'
@@ -367,7 +385,6 @@ lt:
       post: Rašyti
       when: Kada
       comment: Komentuoti
-      ago: prieš %{ago}
       newer_comments: Naujesni komentarai
       older_comments: Senesni komentarai
   geocoder:
@@ -962,6 +979,7 @@ lt:
     partners_ucl: UCL
     partners_bytemark: Bytemark serveris
     partners_partners: partneriai
+    tou: Naudojimo sąlygos
     osm_offline: Šiuo metu OpenStreetMap duomenų bazė išjungta, nes vykdomi svarbūs
       priežiūros darbai.
     osm_read_only: OpenStreetMap duomenų bazė šiuo metu dirba tik skaitymo režimu,
@@ -1115,7 +1133,6 @@ lt:
       send_message_to: Siųsti naują žinutę naudotojui %{name}
       subject: Tema
       body: Tekstas
-      send_button: Siųsti
       back_to_inbox: Atgal į gautus
     create:
       message_sent: Pranešimas išsiųstas
@@ -1610,7 +1627,6 @@ lt:
       tags_help: atskirta kableliais
       visibility: 'Matomumas:'
       visibility_help: ką tai reiškia?
-      upload_button: Įkelti
       help: Pagalba
     create:
       upload_trace: Įkelti GPS pėdsaką
@@ -1638,7 +1654,6 @@ lt:
       description: 'Aprašymas:'
       tags: 'Žymos:'
       tags_help: atskirti kableliu
-      save_button: Išsaugoti pakeitimus
       visibility: 'Matomumas:'
       visibility_help: ką tai reiškia?
     trace_optionals:
@@ -1669,7 +1684,6 @@ lt:
     trace:
       pending: LAUKIAMA
       count_points: '%{count} taškai(-ų)'
-      ago: Prieš %{time_in_words_ago}
       more: daugiau
       trace_details: Žiūrėti pėdsako detales
       view_map: Žemėlapis
@@ -1748,10 +1762,8 @@ lt:
   oauth_clients:
     new:
       title: Registruoti naują programą
-      submit: Registruotis
     edit:
       title: Keisti jūsų programą
-      submit: Keisti
     show:
       title: OAuth informacija programai %{app_name}
       key: 'Naudotojo raktas:'
@@ -1916,17 +1928,14 @@ lt:
       terms declined: Atsiprašome, jei nesutinkate su naujomis Talkininkų sąlygomis.
         Daugiau informacijos rasite <a href="%{url}">čia</a>.
     terms:
-      title: Talkininkų sąlygos
-      heading: Talkininkų sąlygos
-      read and accept: Perskaitykite sutartį ir paspauskite patvirtinimo mygtuką,
-        kad patvirtintumėte, jog sutinkate su sutarties sąlygomis dėl jūsų egzistuojančio
-        ir būsimo prisidėjimo.
+      title: Sąlygos
+      heading: Sąlygos
       consider_pd: Be pirmiau minėto susitarimo, manau, kad mano indėlis būtų viešo
         naudojimo
       consider_pd_why: kas tai?
       guidance: 'Informacija, kuri padėti suprasti šias sąlygas: <a href="%{summary}">Paprasto
         stiliaus aprašymas</a> ir keletas <a href="%{translations}">neoficialių vertimų</a>'
-      agree: Sutinku
+      continue: Tęsti
       decline: Nesutinku
       you need to accept or decline: Norėdami tęsti perskaitykite ir sutikite, arba
         nesutikite su Talkininkų sąlygomis.
@@ -1962,11 +1971,9 @@ lt:
       remove as friend: Nebedraugauti
       add as friend: Pridėti draugą
       mapper since: 'Žymi nuo:'
-      ago: Prieš %{time_in_words_ago}
       ct status: Talkininkų sąlygos
       ct undecided: Nenuspręsta
       ct declined: Atmesta
-      ct accepted: Praėjo %{ago}
       latest edit: 'Paskutinis pakeitimas %{ago}:'
       email address: 'E-pašto adresas:'
       created from: 'Sukurta iš:'
@@ -2188,7 +2195,6 @@ lt:
         ne specialisto terminus.
       period: Kiek laiko, pradedant nuo šios minutės, naudotojui bus uždrausta naudotis
         API.
-      submit: Sukurti blokavimą
       tried_contacting: Aš susisiekiau su naudotoju ir paprašiau, kad jis liautųsi.
       tried_waiting: Aš daviau pakankamai laiko, kad naudotojas atsakytų į tuos pranešimus.
       needs_view: Naudotojas turi prisiregistruoti, kad šis blokavimas būtų atšauktas
@@ -2203,7 +2209,6 @@ lt:
         ne specialisto terminus.
       period: Kiek laiko, pradedant nuo šios minutės, naudotojui bus uždrausta naudotis
         API.
-      submit: Atnaujinti blokavimą
       show: Peržiūrėti šį blokavimą
       back: Peržiūrėti visus blokavimus
       needs_view: Ar naudotojas turi prisiregistruoti, tam kad šis blokavimas būtų
@@ -2232,13 +2237,14 @@ lt:
       confirm: Ar tikrai norite atšaukti šį blokavimą?
       revoke: Atšaukti!
       flash: Šis blokavimas buvo atšauktas
-    period:
-      one: 1 valanda
-      other: '%{count} valandos'
     helper:
       time_future: Baigiasi po %{time}.
       until_login: Aktyvus iki naudotojo prisijungimo.
       time_past: Pasibaigė prieš %{time}
+      block_duration:
+        hours:
+          one: 1 valanda
+          other: '%{count} valandos'
     blocks_on:
       title: Naudotojo %{name} blokavimai
       heading: Naudotojo %{name} apribojimų sąrašas
@@ -2250,10 +2256,7 @@ lt:
     show:
       title: Naudotoją %{block_on} blokuoja %{block_by}
       heading: Naudotoją %{block_on} blokuoja %{block_by}
-      time_future: Baigiasi %{time}
-      time_past: Baigėsi prieš %{time}
       created: Sukurta
-      ago: prieš %{time}
       status: Būsena
       show: Rodyti
       edit: Keisti
@@ -2287,7 +2290,6 @@ lt:
       description: Aprašymas
       created_at: Sukurta
       last_changed: Paskutinį kartą atnaujinta
-      ago_html: prieš %{when}
   javascripts:
     close: Uždaryti
     share:
@@ -2431,7 +2433,6 @@ lt:
     edit:
       description: Aprašymas
       heading: Keisti redakciją
-      submit: Išsaugoti redakciją
       title: Keisti redakciją
     index:
       empty: Nėra jokių redakcijų
@@ -2440,7 +2441,6 @@ lt:
     new:
       description: Aprašymas
       heading: Įrašykite naujos redakcijos informaciją
-      submit: Kurti redakciją
       title: Sukurti naują redakciją
     show:
       description: 'Aprašymas:'

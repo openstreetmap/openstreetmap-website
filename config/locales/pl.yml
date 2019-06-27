@@ -26,6 +26,7 @@
 # Author: M4sk1n
 # Author: Macofe
 # Author: Maraf24
+# Author: Maro21
 # Author: Mateon1
 # Author: Nemo bis
 # Author: Odie2
@@ -34,6 +35,7 @@
 # Author: Psokol
 # Author: Py64
 # Author: RafalR
+# Author: Railfail536
 # Author: Rezonansowy
 # Author: RicoElectrico
 # Author: Rmikke
@@ -57,6 +59,28 @@ pl:
     formats:
       friendly: '%e %B %Y o %H:%M'
       blog: '%e.%m.%Y'
+  helpers:
+    submit:
+      diary_comment:
+        create: Zapisz
+      diary_entry:
+        create: Opublikuj
+      issue_comment:
+        create: Dodaj komentarz
+      message:
+        create: Wyślij
+      client_application:
+        create: Zarejestruj
+        update: Edytuj
+      redaction:
+        create: Utwórz poprawkę
+        update: Zapisz poprawkę
+      trace:
+        create: Wyślij
+        update: Zapisz zmiany
+      user_block:
+        create: Utwórz blokadę
+        update: Uaktualnij blokadę
   activerecord:
     errors:
       messages:
@@ -77,13 +101,13 @@ pl:
       old_node: Stary węzeł
       old_node_tag: Znacznik wcześniejszego węzła
       old_relation: Stara relacja
-      old_relation_member: Członek starej relacji
+      old_relation_member: Człon starej relacji
       old_relation_tag: Znacznik wcześniejszej relacji
       old_way: Stara linia
       old_way_node: Węzeł starej linii
       old_way_tag: Znacznik starej linii
       relation: Relacja
-      relation_member: Członek relacji
+      relation_member: Człon relacji
       relation_tag: Tag relacji
       session: Sesja
       trace: Ślad
@@ -128,6 +152,45 @@ pl:
         description: Opis
         languages: Języki
         pass_crypt: Hasło
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: około godziny temu
+        other: około %{count} h temu
+      about_x_months:
+        one: około miesiąc temu
+        other: około %{count} mies. temu
+      about_x_years:
+        one: około rok temu
+        other: około %{count} lata temu
+      almost_x_years:
+        one: prawie rok temu
+        other: prawie %{count} lata temu
+      half_a_minute: 30 sekund temu
+      less_than_x_seconds:
+        one: mniej niż sekundę temu
+        other: mniej niż %{count} sekund temu
+      less_than_x_minutes:
+        one: mniej niż minutę temu
+        other: mniej niż %{count} minut temu
+      over_x_years:
+        one: ponad rok temu
+        other: ponad %{count} lata temu
+      x_seconds:
+        one: sekundę temu
+        other: '%{count} sekund temu'
+      x_minutes:
+        one: minutę temu
+        other: '%{count} min temu'
+      x_days:
+        one: 1 dzień temu
+        other: '%{count} dni temu'
+      x_months:
+        one: miesiąc temu
+        other: '%{count} mies. temu'
+      x_years:
+        one: rok temu
+        other: '%{count} lata temu'
   printable_name:
     with_version: '%{id}, wersja %{version}'
     with_name_html: '%{name}(%{id})'
@@ -148,14 +211,14 @@ pl:
   api:
     notes:
       comment:
-        opened_at_html: Stworzono %{when} temu
-        opened_at_by_html: Stworzono %{when} temu przez %{user}
-        commented_at_html: Zaktualizowano %{when} temu
-        commented_at_by_html: Zaktualizowano %{when} temu przez %{user}
-        closed_at_html: Rozwiązano %{when} temu
-        closed_at_by_html: Rozwiązano %{when} temu przez %{user}
-        reopened_at_html: Ponownie aktywowano %{when} temu
-        reopened_at_by_html: Ponownie aktywowano %{when} temu przez %{user}
+        opened_at_html: Stworzono %{when}
+        opened_at_by_html: Stworzono %{when} przez %{user}
+        commented_at_html: Zaktualizowano %{when}
+        commented_at_by_html: Zaktualizowano %{when} przez %{user}
+        closed_at_html: Rozwiązano %{when}
+        closed_at_by_html: Rozwiązano %{when} przez %{user}
+        reopened_at_html: Ponownie aktywowano %{when}
+        reopened_at_by_html: Ponownie aktywowano %{when} przez %{user}
       rss:
         title: Uwagi OpenStreetMap
         description_area: Lista uwag stworzonych, skomentowanych lub zamkniętych w
@@ -171,12 +234,12 @@ pl:
   browse:
     created: Utworzone
     closed: Zamknięte
-    created_html: Utworzone <abbr title='%{title}'>%{time} temu</abbr>
-    closed_html: Zamknięte <abbr title='%{title}'>%{time} temu</abbr>
-    created_by_html: Utworzone <abbr title='%{title}'>%{time} temu</abbr> przez %{user}
-    deleted_by_html: Usunięte <abbr title='%{title}'>%{time} temu</abbr> przez %{user}
-    edited_by_html: Edytowane <abbr title='%{title}'>%{time} temu</abbr> przez %{user}
-    closed_by_html: Zamknięte <abbr title='%{title}'>%{time} temu </abbr> przez %{user}
+    created_html: Utworzone <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Zamknięte <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Utworzone <abbr title='%{title}'>%{time}</abbr> przez %{user}
+    deleted_by_html: Usunięte <abbr title='%{title}'>%{time}</abbr> przez %{user}
+    edited_by_html: Edytowane <abbr title='%{title}'>%{time}</abbr> przez %{user}
+    closed_by_html: Zamknięte <abbr title='%{title}'>%{time} </abbr> przez %{user}
     version: Wersja
     in_changeset: Zestaw zmian
     anonymous: Anonimowy użytkownik
@@ -196,9 +259,8 @@ pl:
       relation: Relacje (%{count})
       relation_paginated: Relacje (%{x}-%{y} z %{count})
       comment: Komentarze (%{count})
-      hidden_commented_by: Ukryty komentarz od użytkownika %{user} <abbr title='%{exact_time}'>%{when}
-        temu</abbr>
-      commented_by: Komentarz od %{user} <abbr title='%{exact_time}'>%{when} temu</abbr>
+      hidden_commented_by: Ukryty komentarz od użytkownika %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Komentarz od %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML w formacie zestawu zmian
       osmchangexml: XML w formacie osmChange
       feed:
@@ -221,7 +283,7 @@ pl:
     relation:
       title: 'Relacja: %{name}'
       history_title: 'Historia relacji: %{name}'
-      members: Członkowie
+      members: Człony relacji
     relation_member:
       entry: '%{type} %{name}'
       entry_role: '%{type} %{name} jako %{role}'
@@ -278,20 +340,15 @@ pl:
       open_title: 'Nierozwiązana uwaga #%{note_name}'
       closed_title: 'Rozwiązana uwaga #%{note_name}'
       hidden_title: 'Ukryta uwaga #%{note_name}'
-      open_by: 'Utworzona przez: %{user} <abbr title=''%{exact_time}''>%{when} temu</abbr>'
-      open_by_anonymous: Utworzona anonimowo <abbr title='%{exact_time}'>%{when} temu.</abbr>
-      commented_by: Komentarz od %{user} <abbr title='%{exact_time}'>%{when} temu</abbr>
-      commented_by_anonymous: Skomentowana anonimowo <abbr title='%{exact_time}'>%{when}
-        temu</abbr>
-      closed_by: 'Rozwiązana przez: %{user} <abbr title=''%{exact_time}''>%{when}
-        temu</abbr>'
-      closed_by_anonymous: Rozwiązana anonimowo <abbr title='%{exact_time}'>%{when}
-        temu</abbr>
-      reopened_by: Ponownie aktywowana przez %{user} <abbr title='%{exact_time}'>%{when}
-        temu</abbr>
-      reopened_by_anonymous: Ponownie aktywowana anonimowo <abbr title='%{exact_time}'>%{when}
-        temu</abbr>
-      hidden_by: Ukryte przez %{user} <abbr title='%{exact_time}'>%{when} temu</abbr>
+      open_by: 'Utworzona przez: %{user} <abbr title=''%{exact_time}''>%{when}</abbr>'
+      open_by_anonymous: Utworzona anonimowo <abbr title='%{exact_time}'>%{when}.</abbr>
+      commented_by: Komentarz od %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Skomentowana anonimowo <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: 'Rozwiązana przez: %{user} <abbr title=''%{exact_time}''>%{when}</abbr>'
+      closed_by_anonymous: Rozwiązana anonimowo <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Ponownie aktywowana przez %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Ponownie aktywowana anonimowo <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Ukryte przez %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Zgłoś tę uwagę
     query:
       title: Dane obiektu
@@ -330,7 +387,7 @@ pl:
   changeset_comments:
     comment:
       comment: 'Nowy komentarz do zestawu zmian #%{changeset_id}% autorstwa %{author}'
-      commented_at_by_html: Zaktualizowano %{when} temu przez %{user}
+      commented_at_by_html: Zaktualizowano %{when} przez %{user}
     comments:
       comment: 'Nowy komentarz do zestawu zmian #%{changeset_id} autorstwa %{author}'
     index:
@@ -341,7 +398,14 @@ pl:
   diary_entries:
     new:
       title: Nowy wpis do dziennika
-      publish_button: Opublikuj
+    form:
+      subject: 'Temat:'
+      body: 'Treść:'
+      language: 'Język:'
+      location: 'Położenie:'
+      latitude: 'Szerokość geograficzna:'
+      longitude: 'Długość geograficzna:'
+      use_map_link: wskaż na mapie
     index:
       title: Dzienniki użytkowników
       title_friends: Dzienniki znajomych
@@ -356,14 +420,6 @@ pl:
       newer_entries: Nowsze wpisy
     edit:
       title: Edycja wpisu dziennika
-      subject: 'Temat:'
-      body: 'Treść:'
-      language: 'Język:'
-      location: 'Położenie:'
-      latitude: 'Szerokość geograficzna:'
-      longitude: 'Długość geograficzna:'
-      use_map_link: wskaż na mapie
-      save_button: Zapisz
       marker_text: Umiejscowienie wpisu dziennika
     show:
       title: Dziennik użytkownika %{user} | %{title}
@@ -371,7 +427,6 @@ pl:
       leave_a_comment: Zostaw komentarz
       login_to_leave_a_comment: '%{login_link}, aby dodać komentarz'
       login: Zaloguj się
-      save_button: Zapisz
     no_such_entry:
       title: Nie ma takiego wpisu
       heading: Brak wpisu o identyfikatorze %{id}
@@ -414,7 +469,6 @@ pl:
       post: Wpis
       when: Kiedy
       comment: Komentarz
-      ago: '%{ago} temu'
       newer_comments: Nowsze komentarze
       older_comments: Starsze komentarze
   geocoder:
@@ -513,7 +567,7 @@ pl:
           place_of_worship: Miejsce kultu
           police: Policja lub straż miejska/gminna
           post_box: Skrzynka pocztowa
-          post_office: Poczta-urząd pocztowy
+          post_office: Poczta
           preschool: Przedszkole
           prison: Więzienie/areszt
           pub: Pub
@@ -542,12 +596,12 @@ pl:
           village_hall: Urząd gminy
           waste_basket: Kosz na śmieci
           waste_disposal: Śmietnik
-          water_point: Punkt Wody
+          water_point: Punkt poboru wody
           youth_centre: Centrum młodzieżowe
         boundary:
           administrative: Granica gminy
           census: Granica spisu ludności
-          national_park: Park Narodowy
+          national_park: Park narodowy
           protected_area: Obszar chroniony
         bridge:
           aqueduct: Akwedukt
@@ -560,7 +614,7 @@ pl:
           "yes": Budynek
         craft:
           brewery: Browar
-          carpenter: Stolarz
+          carpenter: Cieśla
           electrician: Elektryk
           gardener: Ogrodnik
           painter: Malarz
@@ -651,7 +705,7 @@ pl:
           wayside_cross: Przydrożny krzyż
           wayside_shrine: Przydrożna kapliczka
           wreck: Zatopiony statek
-          "yes": Miejsce Historyczne
+          "yes": Miejsce historyczne
         junction:
           "yes": Funkcja
         landuse:
@@ -670,7 +724,7 @@ pl:
           grass: Trawa
           greenfield: Tereny niezagospodarowane
           industrial: Teren przemysłowy
-          landfill: Wysypisko śmieci
+          landfill: Składowisko odpadów
           meadow: Łąka
           military: Teren wojskowy
           mine: Kopalnia
@@ -688,12 +742,12 @@ pl:
           "yes": Zagospodarowanie terenu
         leisure:
           beach_resort: Strzeżona plaża
-          bird_hide: Ukryj ptaki
+          bird_hide: Czatownia ornitologiczna
           common: Błonie
-          dog_park: Park dla psów
+          dog_park: Wybieg dla psów
           firepit: Palenisko
           fishing: Łowisko
-          fitness_centre: Centrum Fitness
+          fitness_centre: Siłownia
           fitness_station: Siłownia zewnętrzna
           garden: Ogród
           golf_course: Pole golfowe
@@ -750,7 +804,7 @@ pl:
           water_works: Wodociągi
           windmill: Młyn wiatrowy
           works: Fabryka
-          "yes": Sztuczny
+          "yes": Konstrukcja
         military:
           airfield: Lotnisko wojskowe
           barracks: Koszary
@@ -885,7 +939,7 @@ pl:
           chemist: Drogeria
           clothes: Sklep odzieżowy
           computer: Sklep komputerowy
-          confectionery: Cukiernia
+          confectionery: Sklep ze słodyczami
           convenience: Sklep ogólnospożywczy
           copyshop: Ksero
           cosmetics: Sklep kosmetyczny
@@ -897,11 +951,11 @@ pl:
           electronics: Sklep elektroniczny
           estate_agent: Biuro nieruchomości
           farm: Sklep gospodarski
-          fashion: Sklep z modą
+          fashion: Sklep odzieżowy
           fish: Sklep rybny
           florist: Kwiaciarnia
           food: Sklep spożywczy
-          funeral_directors: Zakłady pogrzebowe
+          funeral_directors: Zakład pogrzebowy
           furniture: Sklep meblowy
           gallery: Galeria
           garden_centre: Centrum ogrodnicze
@@ -909,9 +963,9 @@ pl:
           gift: Sklep z pamiątkami
           greengrocer: Warzywniak
           grocery: Sklep spożywczy
-          hairdresser: Fryzjernia
+          hairdresser: Fryzjer
           hardware: Sklep ze sprzętem
-          hifi: Hi-Fi
+          hifi: Sklep ze sprzętem hi-fi
           houseware: Sklep z artykułami gospodarstwa domowego
           interior_decoration: Sklep z dekoracją wnętrz
           jewelry: Sklep z biżuterią
@@ -948,7 +1002,7 @@ pl:
           tyres: Sklep z oponami
           vacant: Sklep zamknięty
           variety_store: Mały sklep wielobranżowy
-          video: Sklep filmowy
+          video: Sklep wideo/DVD
           wine: Sklep z winami
           "yes": Sklep
         tourism:
@@ -957,9 +1011,9 @@ pl:
           artwork: Dzieło sztuki
           attraction: Atrakcja turystyczna
           bed_and_breakfast: Bed and Breakfast
-          cabin: Kabina
+          cabin: Domek letniskowy
           camp_site: Kemping
-          caravan_site: Miejsce na przyczepę campingową
+          caravan_site: Miejsce na przyczepę kempingową
           chalet: Schronisko
           gallery: Galeria
           guest_house: Pensjonat
@@ -969,7 +1023,7 @@ pl:
           motel: Motel
           museum: Muzeum
           picnic_site: Miejsce na piknik
-          theme_park: Park tematyczny
+          theme_park: Park rozrywki
           viewpoint: Punkt widokowy
           zoo: Zoo
         tunnel:
@@ -997,9 +1051,9 @@ pl:
           "yes": Szlak wodny
       admin_levels:
         level2: Granica kraju
-        level4: 'Granica:'
+        level4: Granica
         level5: Granica regionu
-        level6: 'Granica powiatu:'
+        level6: Granica powiatu
         level8: Granica miejscowości
         level9: Granica dzielnicy
         level10: Granica przedmieścia
@@ -1022,17 +1076,16 @@ pl:
       select_type: Wybierz kategorię
       select_last_updated_by: Ostatnio zaktualizowane przez
       reported_user: Zgłoszony użytkownik
-      not_updated: Nie zaktualizowane
+      not_updated: Niezaktualizowane
       search: Wyszukaj
       search_guidance: Przeszukaj sprawy
-      user_not_found: Użytkownika nie istnieje
+      user_not_found: Użytkownik nie istnieje
       issues_not_found: Nie znaleziono takiej sprawy
       status: Stan
       reports: Zgłoszenia
       last_updated: Ostatnia aktualizacja
-      last_updated_time_html: <abbr title='%{title}'>%{time} temu</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} temu</abbr> przez
-        %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> przez %{user}
       link_to_reports: Zobacz zgłoszenia
       reports_count:
         one: 1 zgłoszenie
@@ -1061,7 +1114,7 @@ pl:
       ignore: Zignoruj
       reopen: Otwórz ponownie
       reports_of_this_issue: Zgłoszenia w tej sprawie
-      read_reports: Czytaj Raporty
+      read_reports: Czytaj raporty
       new_reports: Nowe zgłoszenia
       other_issues_against_this_user: Inne sprawy przeciwko temu użytkownikowi
       no_other_issues: Brak innych zgłoszeń dotyczących tego użytkownika.
@@ -1319,7 +1372,6 @@ pl:
       send_message_to: Wyślij nową wiadomość do %{name}
       subject: Temat
       body: Treść
-      send_button: Wyślij
       back_to_inbox: Wróć do skrzynki
     create:
       message_sent: Wysłano wiadomość
@@ -1821,7 +1873,6 @@ pl:
       visibility: Widoczność
       visibility_help: co to znaczy?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Pl:Visibility_of_GPS_traces
-      upload_button: Wyślij
       help: Pomoc
       help_url: http://wiki.openstreetmap.org/wiki/Pl:Upload
     create:
@@ -1851,7 +1902,6 @@ pl:
       description: 'Opis:'
       tags: 'Tagi:'
       tags_help: rozdzielone przecinkami
-      save_button: Zapisz zmiany
       visibility: 'Widoczność:'
       visibility_help: co to znaczy?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Pl:Visibility_of_GPS_traces
@@ -1886,7 +1936,6 @@ pl:
     trace:
       pending: OCZEKUJE
       count_points: '%{count} punktów'
-      ago: '%{time_in_words_ago} temu'
       more: więcej
       trace_details: Wyświetl szczegóły śladu
       view_map: Wyświetl mapę
@@ -1973,10 +2022,8 @@ pl:
   oauth_clients:
     new:
       title: Rejestrowanie nowej aplikacji
-      submit: Zarejestruj
     edit:
       title: Edycja aplikacji
-      submit: Edytuj
     show:
       title: Szczegóły OAuth dla %{app_name}
       key: 'Klucz odbiorcy:'
@@ -2145,8 +2192,6 @@ pl:
     terms:
       title: Warunki uczestnictwa
       heading: Warunki uczestnictwa
-      read and accept: Prosimy przeczytać umowę zamieszczoną poniżej i nacisnąć "Akceptuję".
-        Klikając ten przycisk przyjmujesz warunki umowy.
       consider_pd: Oprócz powyższych warunków, stwierdzam również, że mój wkład jest
         w domenie publicznej
       consider_pd_why: co to oznacza?
@@ -2154,7 +2199,6 @@ pl:
       guidance: 'Informacje, które pomogą zrozumieć te warunki: <a href="%{summary}">w
         formie czytelnego podsumowania</a> oraz <a href="%{translations}">nieoficjalne
         tłumaczenia</a>'
-      agree: Akceptuję
       declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Nie akceptuję
       you need to accept or decline: Prosimy przeczytać i następnie przyjąć lub odrzucić
@@ -2169,7 +2213,7 @@ pl:
       heading: Użytkownik %{user} nie istnieje
       body: Niestety nie znaleziono użytkownika o nazwie %{user}, sprawdź pisownię.  Być
         może skorzystano z nieprawidłowego odnośnika.
-      deleted: '"konto usunięte"'
+      deleted: '? (konto jest usunięte)'
     show:
       my diary: Dziennik
       new diary entry: nowy wpis w dzienniku
@@ -2191,11 +2235,9 @@ pl:
       remove as friend: usuń ze znajomych
       add as friend: dodaj do znajomych
       mapper since: 'Mapuje od:'
-      ago: (%{time_in_words_ago} temu)
       ct status: 'Warunki uczestnictwa:'
       ct undecided: niezdecydowane
       ct declined: odrzucone
-      ct accepted: przyjęte %{ago} temu
       latest edit: 'Ostatnia zmiana %{ago}:'
       email address: Adres e‐mail
       created from: 'Stworzony z:'
@@ -2422,7 +2464,6 @@ pl:
         się używać ogólnie rozumianych pojęć.
       period: Na jak długo, od tego momentu, użytkownik ma mieć zablokowany dostęp
         do API.
-      submit: Utwórz blokadę
       tried_contacting: Skontaktowałem się z użytkownikami i poprosiłem ich o zaprzestanie.
       tried_waiting: Dałem(-am) użytkownikowi  rozsądny czas, aby odpowiedzieć na
         te komunikaty.
@@ -2438,7 +2479,6 @@ pl:
         rozumianych pojęć.
       period: Na jak długo, od tego momentu, użytkownik ma mieć zablokowany dostęp
         do API.
-      submit: Uaktualnij blokadę
       show: Zobacz tę blokadę
       back: Wyświetl wszystkie blokady
       needs_view: Czy użytkownik musi zalogować się zanim blokada zostanie zdjęta?
@@ -2466,14 +2506,27 @@ pl:
       confirm: Czy na pewno chcesz odwołać tę blokadę?
       revoke: Odwołaj
       flash: Blokada została odwołana.
-    period:
-      one: 1 godzina
-      other: '%{count} godzin'
     helper:
       time_future: Blokada wygasa za %{time}.
       until_login: Aktywne do momentu zalogowania użytkownika.
       time_future_and_until_login: Kończy się %{time} i po zalogowaniu się użytkownika.
-      time_past: Zakończono %{time} temu.
+      time_past: Zakończono %{time}.
+      block_duration:
+        hours:
+          one: 1 godzina
+          other: '%{count} godzin'
+        days:
+          one: 1 dzień
+          other: '%{count} dni'
+        weeks:
+          one: tydzień
+          other: '%{count} tygodnie'
+        months:
+          one: miesiąc
+          other: '%{count} mies.'
+        years:
+          one: rok
+          other: '%{count} lata'
     blocks_on:
       title: Blokady na użytkownika %{name}
       heading: Lista blokad na użytkownika %{name}
@@ -2485,10 +2538,7 @@ pl:
     show:
       title: '%{block_on} zablokowany przez użytkownika %{block_by}'
       heading: '%{block_on} zablokowany przez użytkownika %{block_by}'
-      time_future: Blokada wygasa za %{time}
-      time_past: Zakończona %{time} temu
       created: Utworzony
-      ago: '%{time} temu'
       status: Stan
       show: Wyświetl
       edit: Edytuj
@@ -2522,7 +2572,6 @@ pl:
       description: Opis
       created_at: Utworzono w dniu
       last_changed: Ostatnio zmieniono
-      ago_html: '%{when} temu'
   javascripts:
     close: Zamknij
     share:
@@ -2612,7 +2661,7 @@ pl:
       engines:
         fossgis_osrm_bike: Rower (OSRM)
         fossgis_osrm_car: Samochód (OSRM)
-        fossgis_osrm_foot: Pieszo (OSRM}
+        fossgis_osrm_foot: Pieszo (OSRM)
         graphhopper_bicycle: Rower (GraphHopper)
         graphhopper_car: Samochód (GraphHopper)
         graphhopper_foot: Pieszo (GraphHopper)
@@ -2716,7 +2765,6 @@ pl:
     edit:
       description: Opis
       heading: Edytuj poprawkę
-      submit: Zapisz poprawkę
       title: Edytuj poprawkę
     index:
       empty: Brak poprawek do pokazania.
@@ -2725,7 +2773,6 @@ pl:
     new:
       description: Opis
       heading: Wprowadź informację dla nowej poprawki
-      submit: Utwórz poprawkę
       title: Tworzenie nowej poprawki
     show:
       description: 'Opis:'

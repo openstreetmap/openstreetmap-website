@@ -17,6 +17,26 @@ et:
     formats:
       friendly: '%e. %B %Y, kell %H:%M'
       blog: '%e. %B %Y'
+  helpers:
+    submit:
+      diary_comment:
+        create: Salvesta
+      diary_entry:
+        create: Avalda
+      message:
+        create: Saada
+      client_application:
+        create: Registreeri
+        update: Redigeeri
+      redaction:
+        create: Loo redaktsioon
+        update: Salvesta redaktsioon
+      trace:
+        create: Laadi üles
+        update: Salvesta muudatused
+      user_block:
+        create: Loo blokeering
+        update: Uuenda blokeeringut
   activerecord:
     models:
       acl: Pääsuloend
@@ -286,7 +306,14 @@ et:
   diary_entries:
     new:
       title: Uus päeviku sissekanne
-      publish_button: Avalda
+    form:
+      subject: 'Teema:'
+      body: 'Tekst:'
+      language: 'Keel:'
+      location: 'Asukoht:'
+      latitude: 'Laius:'
+      longitude: 'Pikkus:'
+      use_map_link: kasuta kaarti
     index:
       title: Kasutajate päevikud
       title_friends: Sõprade päevikud
@@ -301,14 +328,6 @@ et:
       newer_entries: Uuemad...
     edit:
       title: Muuda päeviku sissekannet
-      subject: 'Teema:'
-      body: 'Tekst:'
-      language: 'Keel:'
-      location: 'Asukoht:'
-      latitude: 'Laius:'
-      longitude: 'Pikkus:'
-      use_map_link: kasuta kaarti
-      save_button: Salvesta
       marker_text: Päeviku sissekande tegemise asukoht
     show:
       title: Kasutaja %{user} päevik | %{title}
@@ -316,7 +335,6 @@ et:
       leave_a_comment: Kommenteeri
       login_to_leave_a_comment: kommenteerimiseks %{login_link}
       login: logi sisse
-      save_button: Salvesta
     no_such_entry:
       title: Sellist päeviku sissekannet pole olemas
       heading: Sissekannet ID-ga %{id} pole olemas
@@ -359,7 +377,6 @@ et:
       post: Postitus
       when: Millal
       comment: Kommentaar
-      ago: '%{ago} tagasi'
       newer_comments: Uuemad kommentaarid
       older_comments: Vanemad kommentaarid
   geocoder:
@@ -1002,7 +1019,6 @@ et:
       send_message_to: Sõnumi saatmine kasutajale %{name}
       subject: Teema
       body: Sisu
-      send_button: Saada
       back_to_inbox: Tagasi minu postkasti
     create:
       message_sent: Sõnum saadetud.
@@ -1500,7 +1516,6 @@ et:
       tags_help: komaga eraldatud
       visibility: 'Nähtavus:'
       visibility_help: mida see tähendab?
-      upload_button: Laadi üles
       help: Abi
     create:
       upload_trace: GPS-raja üleslaadimine
@@ -1521,7 +1536,6 @@ et:
       description: 'Kirjeldus:'
       tags: 'Sildid:'
       tags_help: komaga eraldatud
-      save_button: Salvesta muudatused
       visibility: 'Nähtavus:'
       visibility_help: mida see tähendab?
     update:
@@ -1554,7 +1568,6 @@ et:
     trace:
       pending: OOTEL
       count_points: '%{count} punkti'
-      ago: '%{time_in_words_ago} tagasi'
       more: rohkem
       trace_details: Vaata raja üksikasju
       view_map: Vaata kaarti
@@ -1620,10 +1633,8 @@ et:
   oauth_clients:
     new:
       title: Uue rakenduse registreerimine
-      submit: Registreeri
     edit:
       title: Redigeeri oma rakendust
-      submit: Redigeeri
     show:
       title: Rakenduse %{app_name} OAuthi üksikasjad
       key: 'Tarbija võti:'
@@ -1780,14 +1791,11 @@ et:
     terms:
       title: 'Kaastöötingimused:'
       heading: Kaastöötingimused
-      read and accept: Palun loe lepingut ja vajuta nuppu "Nõustun" kinnitamaks, et
-        nõustud selle lepingu tingimustega oma olemasoleva ja edaspidise kaastöö jaoks.
       consider_pd: Eelnevale nõusolekule lisaks leian, et minu kaastöö kuulub avalikku
         omandisse (Public Domain)
       consider_pd_why: mis see on?
       guidance: 'Informatsioon, mis aitab mõista neid tingimusi: a <a href="%{summary}">inimloetav
         kokkuvõte</a> mõned <a href="%{translations}">mitteametlikud tõlked</a>'
-      agree: Nõustun
       decline: Ei nõustu
       you need to accept or decline: Enne jätkamist tutvu palun uute kaastöötingimustega
         ning seejärel kas nõustu või ära nõustu nendega.
@@ -1822,11 +1830,9 @@ et:
       remove as friend: eemalda sõprade hulgast
       add as friend: Lisa sõbraks
       mapper since: 'Kaardistaja alates:'
-      ago: (%{time_in_words_ago} tagasi)
       ct status: 'Kaastöötingimused:'
       ct undecided: Otsustamata
       ct declined: Tagasi lükatud
-      ct accepted: Vastu võetud %{ago}  tagasi
       latest edit: 'Viimane muudatus %{ago}:'
       email address: 'E-posti aadress:'
       created from: 'Loodud:'
@@ -2045,7 +2051,6 @@ et:
         pruugi mõista kogukonna žargooni ja seepärast palun ürita kasutada tavainimesele
         arusaadavat sõnastust.
       period: Kui kaua sellest hetkest alates on kasutaja API-st blokeeritud.
-      submit: Loo blokeering
       tried_contacting: Olen võtnud ühendust kasutajaga ja palunud teda lõpetada.
       tried_waiting: Olen andnud kasutajale mõistlikul hulgal aega, et vastata nendele
         teadetele.
@@ -2059,7 +2064,6 @@ et:
         et mitte kõik kasutajad ei pruugi mõista kogukonna žargooni ja seepärast palun
         ürita kasutada tavainimesele arusaadavat sõnastust.
       period: Kui kaua sellest hetkest alates on kasutaja API-st blokeeritud.
-      submit: Uuenda blokeeringut
       show: Vaata seda blokeeringut
       back: Vaata kõiki blokeeringuid
       needs_view: Kas kasutaja peab sisse logima enne kui see blokeering eemaldatakse?
@@ -2089,14 +2093,15 @@ et:
       confirm: Kas oled kindel, et soovid seda blokeeringut tühistada?
       revoke: Tühista!
       flash: See blokeering on tühistatud.
-    period:
-      one: 1 tund
-      other: '%{count} tundi'
     helper:
       time_future: Lõpuni %{time}.
       until_login: Aktiivne kuni kasutaja logib sisse.
       time_future_and_until_login: Lõpuni %{time} ja kuni kasutaja on sisse loginud.
       time_past: Lõppes %{time} tagasi.
+      block_duration:
+        hours:
+          one: 1 tund
+          other: '%{count} tundi'
     blocks_on:
       title: Kasutaja %{name} blokeeringud
       heading: Kasutaja %{name} blokeeringud
@@ -2108,10 +2113,7 @@ et:
     show:
       title: 'Blokeeritud: %{block_on} (blokeerinud %{block_by})'
       heading: 'Blokeeritud: %{block_on} (blokeerinud %{block_by})'
-      time_future: Lõpeb %{time}
-      time_past: Lõppes %{time} tagasi
       created: Loodud
-      ago: '%{time} tagasi'
       status: Olek
       show: Näita
       edit: Redigeeri
@@ -2145,7 +2147,6 @@ et:
       description: Kirjeldus
       created_at: Loodud
       last_changed: Viimati muudetud
-      ago_html: '%{when} tagasi'
   javascripts:
     close: Sulge
     share:
@@ -2268,7 +2269,6 @@ et:
     edit:
       description: Kirjeldus
       heading: Redigeeri redaktsiooni
-      submit: Salvesta redaktsioon
       title: Redigeeri redaktsiooni
     index:
       empty: Redaktsioone pole näidata.
@@ -2277,7 +2277,6 @@ et:
     new:
       description: Kirjeldus
       heading: Sisesta teave uue redaktsiooni kohta
-      submit: Loo redaktsioon
       title: Uue redaktsiooni loomine
     show:
       description: 'Kirjeldus:'

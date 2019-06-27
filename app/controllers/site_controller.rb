@@ -126,7 +126,7 @@ class SiteController < ApplicationController
       :style_src => %w['unsafe-inline']
     )
 
-    render "id", :layout => false
+    render :layout => false
   end
 
   private

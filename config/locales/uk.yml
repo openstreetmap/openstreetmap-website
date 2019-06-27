@@ -42,6 +42,26 @@ uk:
   time:
     formats:
       friendly: '%e %B %Y в %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Зберегти
+      diary_entry:
+        create: Оприлюднити
+      message:
+        create: Надіслати
+      client_application:
+        create: Зареєструвати
+        update: Правити
+      redaction:
+        create: Створити редакцію
+        update: Зберегти редакцію
+      trace:
+        create: Завантажити на сервер
+        update: Зберегти зміни
+      user_block:
+        create: Заблокувати
+        update: Оновити блокування
   activerecord:
     errors:
       messages:
@@ -329,7 +349,14 @@ uk:
   diary_entries:
     new:
       title: Створити новий запис у щоденнику
-      publish_button: Оприлюднити
+    form:
+      subject: 'Тема:'
+      body: 'Текст:'
+      language: 'Мова:'
+      location: 'Місце:'
+      latitude: 'Широта:'
+      longitude: 'Довгота:'
+      use_map_link: Вказати на мапі
     index:
       title: Щоденники користувачів
       title_friends: Щоденники друзів
@@ -344,14 +371,6 @@ uk:
       newer_entries: Новіші записи
     edit:
       title: Редагувати нотатку
-      subject: 'Тема:'
-      body: 'Текст:'
-      language: 'Мова:'
-      location: 'Місце:'
-      latitude: 'Широта:'
-      longitude: 'Довгота:'
-      use_map_link: Вказати на мапі
-      save_button: Зберегти
       marker_text: Місце написання нотатки
     show:
       title: Щоденник користувача %{user} | %{title}
@@ -359,7 +378,6 @@ uk:
       leave_a_comment: Лишити коментар
       login_to_leave_a_comment: '%{login_link}, аби залишити коментар'
       login: Увійти
-      save_button: Зберегти
     no_such_entry:
       title: Нема такого запису в щоденнику
       heading: Немає запису з id %{id}
@@ -367,8 +385,8 @@ uk:
         введення адреси. Можливо, посилання, на яке ви перейшли, хибне.
     diary_entry:
       posted_by: 'Додано користувачем %{link_user} %{created}, мова: %{language_link}'
-      comment_link: Коментувати запис
-      reply_link: Відповісти на запис
+      comment_link: Коментувати
+      reply_link: Відповісти
       comment_count:
         few: '%{count} коментарі'
         one: '%{count} коментар'
@@ -400,7 +418,6 @@ uk:
       post: Повідомлення
       when: Коли
       comment: Коментарі
-      ago: '%{ago} тому'
       newer_comments: Нові коментарі
       older_comments: Більш старі коментарі
   geocoder:
@@ -1120,7 +1137,6 @@ uk:
       send_message_to: Відправити нове повідомлення для %{name}
       subject: 'Тема:'
       body: 'Текст:'
-      send_button: Надіслати
       back_to_inbox: Назад до вхідних
     create:
       message_sent: Повідомлення надіслано
@@ -1607,7 +1623,6 @@ uk:
       tags_help: через кому
       visibility: 'Видимість:'
       visibility_help: що це значить?
-      upload_button: Завантажити на сервер
       help: Довідка
       help_url: http://wiki.openstreetmap.org/wiki/Uk:Upload
     create:
@@ -1637,7 +1652,6 @@ uk:
       description: 'Опис:'
       tags: 'Теґи:'
       tags_help: через кому
-      save_button: Зберегти зміни
       visibility: 'Видимість:'
       visibility_help: ще це означає?
     trace_optionals:
@@ -1668,7 +1682,6 @@ uk:
     trace:
       pending: ОЧІКУЄ
       count_points: '%{count} точок'
-      ago: '%{time_in_words_ago} тому'
       more: більше
       trace_details: Показати дані треку
       view_map: Перегляд Мапи
@@ -1750,10 +1763,8 @@ uk:
   oauth_clients:
     new:
       title: Зареєструвати новий застосунок
-      submit: Зареєструвати
     edit:
       title: Правити данні вашого застосунка
-      submit: Правити
     show:
       title: Подробиці OAuth для %{app_name}
       key: 'Позначки абонента:'
@@ -1925,15 +1936,11 @@ uk:
     terms:
       title: Умови співпраці
       heading: Умови співпраці
-      read and accept: Будь ласка, ознайомтеся з угодою нижче і натисніть кнопку «Приймаю»
-        для підтвердження того, що ви згодні з умовами цієї угоди для існуючих і майбутніх
-        внесків.
       consider_pd: На додаток до зазначеної угоди, я вважаю, що мій внесок є суспільним
         надбанням
       consider_pd_why: що це?
       guidance: 'Інформація, яка допоможе зрозуміти ці терміни: <a href="%{summary}">скорочений
         опис</a> і деякі <a href="%{translations}">неофіційні переклади</a>'
-      agree: Приймаю
       decline: Відхилити
       you need to accept or decline: Будь ласка, прочитайте, а потім або прийміть
         або відхиліть нові Умови Участі.
@@ -1969,11 +1976,9 @@ uk:
       remove as friend: Вилучити із списку друзів
       add as friend: Додати до списку друзів
       mapper since: 'Зареєстрований:'
-      ago: (%{time_in_words_ago} тому)
       ct status: 'Умови співпраці:'
       ct undecided: Невизначились
       ct declined: Відхилили
-      ct accepted: Прийняті %{ago} тому
       latest edit: 'Остання правка %{ago}:'
       email address: 'Адреса Е-пошти:'
       created from: 'Створено з:'
@@ -2196,7 +2201,6 @@ uk:
         мовою.
       period: Як довго, починаючи з поточного моменту, користувача буде заблоковано
         від API.
-      submit: Заблокувати
       tried_contacting: Я звертався до користувача з проханням зупинитись.
       tried_waiting: Я дав достатньо часу для користувачу, щоб відреагувати на ці
         повідомлення.
@@ -2212,7 +2216,6 @@ uk:
         тому, будь ласка, спробуйте використовувати прості пояснення.
       period: Як довго, починаючи з поточного моменту, користувач буде заблокований
         від API.
-      submit: Оновити блокування
       show: Переглянути блокування
       back: Переглянути всі блокування
       needs_view: Дозволити користувачу входити в систему, перш, ніж блокування буде
@@ -2242,16 +2245,17 @@ uk:
       confirm: Ви впевнені, що бажаєте зняти це блокування?
       revoke: Зняти блокування!
       flash: Це блокування було знято.
-    period:
-      few: '%{count} години'
-      one: '%{count} година'
-      other: '%{count} годин'
     helper:
       time_future: До закінчення %{time}.
       until_login: Активне до тих пір, доки користувач не увійде в систему.
       time_future_and_until_login: Закінчується через %{time} і після входу користувача
         в систему.
       time_past: Закінчилось %{time} тому.
+      block_duration:
+        hours:
+          few: '%{count} години'
+          one: '%{count} година'
+          other: '%{count} годин'
     blocks_on:
       title: Блокування для %{name}
       heading: Перелік блокувань користувача %{name}
@@ -2263,10 +2267,7 @@ uk:
     show:
       title: '%{block_on}, заблокував: %{block_by}'
       heading: '%{block_on}, заблокував: %{block_by}'
-      time_future: До закінчення %{time}
-      time_past: Закінчилось %{time} назад
       created: Створено
-      ago: '%{time} тому'
       status: Стан
       show: Показувати
       edit: Правити
@@ -2301,7 +2302,6 @@ uk:
       description: Опис
       created_at: Створено
       last_changed: Остання зміна
-      ago_html: '%{when} тому'
   javascripts:
     close: Закрити
     share:
@@ -2448,7 +2448,6 @@ uk:
     edit:
       description: Опис
       heading: Правити редакцію
-      submit: Зберегти редакцію
       title: Правити редакцію
     index:
       empty: Редакції для показу відсутні.
@@ -2457,7 +2456,6 @@ uk:
     new:
       description: Опис
       heading: Введіть інформацію для нової редакції
-      submit: Створити редакцію
       title: Створення нової редакції
     show:
       description: 'Опис:'

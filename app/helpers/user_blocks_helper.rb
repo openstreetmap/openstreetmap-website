@@ -19,7 +19,22 @@ module UserBlocksHelper
       # either because the user viewed the block (updated_at) or it expired or was
       # revoked (ends_at)
       last_time = [block.ends_at, block.updated_at].max
-      I18n.t("user_blocks.helper.time_past", :time => friendly_date(last_time)).html_safe
+      I18n.t("user_blocks.helper.time_past", :time => friendly_date_ago(last_time)).html_safe
+    end
+  end
+
+  def block_duration_in_words(duration)
+    parts = ActiveSupport::Duration.build(duration).parts
+    if duration < 1.day
+      I18n.t("user_blocks.helper.block_duration.hours", :count => parts[:hours])
+    elsif duration < 1.week
+      I18n.t("user_blocks.helper.block_duration.days", :count => parts[:days])
+    elsif duration < 1.month
+      I18n.t("user_blocks.helper.block_duration.weeks", :count => parts[:weeks])
+    elsif duration < 1.year
+      I18n.t("user_blocks.helper.block_duration.months", :count => parts[:months])
+    else
+      I18n.t("user_blocks.helper.block_duration.years", :count => parts[:years])
     end
   end
 end

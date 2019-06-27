@@ -11,6 +11,24 @@ dsb:
   time:
     formats:
       friendly: '%e. %B %Y  %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Składowaś
+      message:
+        create: Pósłaś
+      client_application:
+        create: Registrěrowaś
+        update: Wobźěłaś
+      redaction:
+        create: Redakciju napóraś
+        update: Redakciju składowaś
+      trace:
+        create: Nagraś
+        update: Změny składowaś
+      user_block:
+        create: Blokěrowanje wuźěliś
+        update: Blokěrowanje aktualizěrowaś
   activerecord:
     models:
       acl: Lisćina za pśistupnu kontrolu
@@ -261,6 +279,14 @@ dsb:
   diary_entries:
     new:
       title: Nowy zapisk dnjownika
+    form:
+      subject: 'Temowe nadpismo:'
+      body: 'Tekst:'
+      language: 'Rěc:'
+      location: 'Městno:'
+      latitude: 'Šyrina:'
+      longitude: 'Dlinina:'
+      use_map_link: kórtu wužywaś
     index:
       title: Dnjowniki wužywarjow
       title_friends: Dnjowniki pśijaśelow
@@ -275,14 +301,6 @@ dsb:
       newer_entries: Nowše zapiski
     edit:
       title: Zapisk dnjownika wobźěłaś
-      subject: 'Temowe nadpismo:'
-      body: 'Tekst:'
-      language: 'Rěc:'
-      location: 'Městno:'
-      latitude: 'Šyrina:'
-      longitude: 'Dlinina:'
-      use_map_link: kórtu wužywaś
-      save_button: Składowaś
       marker_text: Městno zapiska dnjownika
     show:
       title: Dnjownik %{user} | %{title}
@@ -290,7 +308,6 @@ dsb:
       leave_a_comment: Komentar zawóstajiś
       login_to_leave_a_comment: '%{login_link}, aby zawóstajił komentar'
       login: Pśizjawjenje
-      save_button: Składowaś
     no_such_entry:
       title: Zapisk dnjownika njeeksistěrujo
       heading: Žeden zapisk z ID %{id}
@@ -332,7 +349,6 @@ dsb:
       post: Powěsć
       when: Cas
       comment: Komentar
-      ago: pśed %{ago}
       newer_comments: Nowše komentary
       older_comments: Starše komentary
   geocoder:
@@ -977,7 +993,6 @@ dsb:
       send_message_to: '%{name} nowu powěsć pósłaś'
       subject: Temowe nadpismo
       body: Tekst
-      send_button: Pósłaś
       back_to_inbox: Slědk k postoju
     create:
       message_sent: Powěsć pósłana
@@ -1407,7 +1422,6 @@ dsb:
       tags_help: pśez komu wótźělony
       visibility: 'Widobnosć:'
       visibility_help: Co to groni?
-      upload_button: Nagraś
       help: Pomoc
     create:
       upload_trace: GPS-slěd nagraś
@@ -1434,7 +1448,6 @@ dsb:
       description: 'Wopisanje:'
       tags: 'Atributy:'
       tags_help: pśez komu wótźělony
-      save_button: Změny składowaś
       visibility: 'Widobnosć:'
       visibility_help: Co to groni?
     trace_optionals:
@@ -1465,7 +1478,6 @@ dsb:
     trace:
       pending: Njedocynjony
       count_points: '%{count} dypkow'
-      ago: pśed %{time_in_words_ago}
       more: wěcej
       trace_details: Drobnostki slěda pokazaś
       view_map: Kórtu pokazaś
@@ -1543,10 +1555,8 @@ dsb:
   oauth_clients:
     new:
       title: Nowu aplikaciju registrěrowaś
-      submit: Registrěrowaś
     edit:
       title: Twóju aplikaciju wobźěłaś
-      submit: Wobźěłaś
     show:
       title: OAuth-drobnostki za %{app_name}
       key: 'Kluc pśetrjebowarja:'
@@ -1677,15 +1687,11 @@ dsb:
     terms:
       title: Wuměnjenja za sobustatkujucych
       heading: Wuměnjenja za pśinosowarjow
-      read and accept: Pšosym pśecytaj slědujuce dojadnanje a klikni na tłocašk Akceptěrowaś,
-        aby wobkšuśił, až akceptěrujoš wuměnjenja toś togo dojadnanja za twóje eksistěrowace
-        a pśichodne pśinoski.
       consider_pd: Pśidatnje ku górjejce dojadnanjeju, mam swóje pśinoski za zjawnosć
         pśistupne.
       consider_pd_why: Co to jo?
       guidance: 'Informacije, kótarež pomagaju toś te wuměnjenja rozměś: <a href="%{summary}">zbadne
         zespominanje</a> a někotare <a href="%{translations}">njeoficielne pśełožki</a>'
-      agree: Akceptěrowaś
       decline: Wótpokazaś
       you need to accept or decline: Pšosym pśecytaj nowe wužywarske wuměnjenja a
         akceptěruj abo wótpokaž je, nježli až dalej cyniš.
@@ -1720,11 +1726,9 @@ dsb:
       remove as friend: Ako pśijaśela wótpóraś
       add as friend: Pśijaśela pśidaś
       mapper since: 'Kartěrowaŕ wót:'
-      ago: (pśed %{time_in_words_ago})
       ct status: 'Wuměnjenja za sobustatkujucych:'
       ct undecided: Njerozsuźony
       ct declined: Wótpokazany
-      ct accepted: Pśed %{ago} akceptěrowany
       latest edit: 'Nejnowša změna %{ago}:'
       email address: 'E-mailowa adresa:'
       created from: 'Napórany z:'
@@ -1921,7 +1925,6 @@ dsb:
         na to, až powěsć buźo zjawnje widobna a nic wšykne wužywarje rozměju žargon
         zgromaźeństwa, wopytaj pótakem zapśijeśa lajkow wužywaś.
       period: Kak dłujko, wótněnta, wužywaŕ buźo se za API blokěrowaś.
-      submit: Blokěrowanje wuźěliś
       tried_contacting: Som se zwužywarjom do zwiska stajił a jogo prosył zastajiś.
       tried_waiting: Som wužywarjeju pśiměrjony cas dał, aby mógał na toś te powěźeńki
         wótegroniś.
@@ -1935,7 +1938,6 @@ dsb:
         to, až nic wšykne wužywarje rozměju žargon zgromaźeństwa, wopytaj pótakem
         pšosym zapśijeśa lajkow wužywaś.
       period: Kak dłujko, wótněnta, wužywaŕ buźo se za API blokěrowaś.
-      submit: Blokěrowanje aktualizěrowaś
       show: Toś to blokěrowanje pokazaś
       back: Wšykne blokěrowanja pokazaś
       needs_view: Musy se wužywaŕ pśizjawiś, nježli až toś to blokěrowanje se wótpórajo?
@@ -1965,15 +1967,16 @@ dsb:
       confirm: Coš napšawdu toś to blokěrowanje wótpóraś?
       revoke: Wótpóraś!
       flash: Toś to blokěrowanje jo se wótpórało.
-    period:
-      few: '%{count} góźiny'
-      one: 1 góźina
-      two: '%{count} góźinje'
-      other: '%{count} góźinow'
     helper:
       time_future: Kóńcy se %{time}.
       until_login: Aktiwny, až wužywaŕ se njepśizjawja.
       time_past: Jo se pśed %{time} skóńcyło.
+      block_duration:
+        hours:
+          few: '%{count} góźiny'
+          one: 1 góźina
+          two: '%{count} góźinje'
+          other: '%{count} góźinow'
     blocks_on:
       title: Blokěrowanja pśeśiwo %{name}
       heading: Lisćina blokěrowanjow pśeśiwo %{name}
@@ -1985,8 +1988,6 @@ dsb:
     show:
       title: '%{block_on} zablokěrowany wót %{block_by}'
       heading: '%{block_on} jo se zablokěrował wót %{block_by}'
-      time_future: Kóńcy se %{time}
-      time_past: Jo se pśed %{time} skóńcyło
       status: Status
       show: Pokazaś
       edit: Wobźěłaś
@@ -2020,7 +2021,6 @@ dsb:
       description: Wopis
       created_at: Napórany
       last_changed: Slědny raz změnjony
-      ago_html: pśed %{when}
   javascripts:
     close: Zacyniś
     share:
@@ -2093,7 +2093,6 @@ dsb:
     edit:
       description: Wopisanje
       heading: Redakciju wobźěłaś
-      submit: Redakciju składowaś
       title: Redakciju wobźěłaś
     index:
       empty: Žedne redakcije njejsu.
@@ -2102,7 +2101,6 @@ dsb:
     new:
       description: Wopisanje
       heading: Informacije za nowu redakciju zapódaś
-      submit: Redakciju napóraś
       title: Nowa redakcija se napórajo
     show:
       description: 'Wopisanje:'

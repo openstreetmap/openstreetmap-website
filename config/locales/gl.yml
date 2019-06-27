@@ -22,6 +22,29 @@ gl:
     formats:
       friendly: '%e de %B do %Y ás %H:%M'
       blog: '%e %B %Y'
+  helpers:
+    submit:
+      diary_comment:
+        create: Gardar
+      diary_entry:
+        create: Publicar
+        update: Actualizar
+      issue_comment:
+        create: Engadir comentario
+      message:
+        create: Enviar
+      client_application:
+        create: Rexistrarse
+        update: Editar
+      redaction:
+        create: Crear a redacción
+        update: Gardar a redacción
+      trace:
+        create: Subir
+        update: Garda-las mudanzas
+      user_block:
+        create: Crear un bloqueo
+        update: Actualiza-lo bloqueo
   activerecord:
     errors:
       messages:
@@ -59,7 +82,7 @@ gl:
       user_preference: Preferencia do usuario
       user_token: Pase de usuario
       way: Vía
-      way_node: Nó do camiño
+      way_node: Nó da vía
       way_tag: Etiqueta da vía
     attributes:
       diary_comment:
@@ -75,7 +98,7 @@ gl:
         friend: Amizade
       trace:
         user: Usuario
-        visible: Visible
+        visible: Visíbel
         name: Nome
         size: Tamaño
         latitude: Latitude
@@ -88,12 +111,51 @@ gl:
         body: Corpo
         recipient: Destinatario
       user:
-        email: Enderezo electrónico
+        email: Enderezo de correo electrónico
         active: Activo
         display_name: Nome amosado
         description: Descrición
         languages: Linguas
         pass_crypt: Contrasinal
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: ó redor dunha hora
+        other: ó redor de %{count} horas
+      about_x_months:
+        one: ó redor dun mes
+        other: ó redor de %{count} meses
+      about_x_years:
+        one: ó redor dun ano
+        other: ó redor de %{count} ano
+      almost_x_years:
+        one: hai case un ano
+        other: hai case %{count} anos
+      half_a_minute: hai medio minuto
+      less_than_x_seconds:
+        one: hai menos dun segundo
+        other: hai menos de %{count} segundos
+      less_than_x_minutes:
+        one: hai menos dun minuto
+        other: hai menos de %{count} minutos
+      over_x_years:
+        one: hai máis dun ano
+        other: hai máis de %{count} anos
+      x_seconds:
+        one: hai un segundo
+        other: hai %{count} segundos
+      x_minutes:
+        one: hai un minuto
+        other: hai %{count} minutos
+      x_days:
+        one: hai un día
+        other: hai %{count} días
+      x_months:
+        one: hai un mes
+        other: hai %{count} meses
+      x_years:
+        one: hai un ano
+        other: hai %{count} anos
   printable_name:
     with_version: '%{id}, v%{version}'
     with_name_html: '%{name} (%{id})'
@@ -114,14 +176,14 @@ gl:
   api:
     notes:
       comment:
-        opened_at_html: Creado hai %{when}
-        opened_at_by_html: Creado hai %{when} por %{user}
-        commented_at_html: Actualizado hai %{when}
-        commented_at_by_html: Actualizado hai %{when} por %{user}
-        closed_at_html: Resolto hai %{when}
-        closed_at_by_html: Resolto hai %{when} por %{user}
-        reopened_at_html: Reactivado hai %{when}
-        reopened_at_by_html: Reactivado hai %{when} por %{user}
+        opened_at_html: Creado %{when}
+        opened_at_by_html: Creado %{when} por %{user}
+        commented_at_html: Actualizado %{when}
+        commented_at_by_html: Actualizado %{when} por %{user}
+        closed_at_html: Resolto %{when}
+        closed_at_by_html: Resolto %{when} por %{user}
+        reopened_at_html: Reactivado %{when}
+        reopened_at_by_html: Reactivado %{when} por %{user}
       rss:
         title: Notas do OpenStreetMap
         description_area: Unha listaxe das notas recibidas, comentadas ou pechadas
@@ -137,12 +199,12 @@ gl:
   browse:
     created: Creado
     closed: Pechado
-    created_html: Creado <abbr title='%{title}'>hai %{time}</abbr>
-    closed_html: Pechado <abbr title='%{title}'>hai %{time}</abbr>
-    created_by_html: Creado <abbr title='%{title}'>hai %{time}</abbr> por %{user}
-    deleted_by_html: Eliminado <abbr title='%{title}'>hai %{time}</abbr> por %{user}
-    edited_by_html: Editado <abbr title='%{title}'>hai %{time}</abbr> por %{user}
-    closed_by_html: Pechado <abbr title='%{title}'>hai %{time}</abbr> por %{user}
+    created_html: Creado <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Pechado <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Creado <abbr title='%{title}'>%{time}</abbr> por %{user}
+    deleted_by_html: Eliminado <abbr title='%{title}'>%{time}</abbr> por %{user}
+    edited_by_html: Editado <abbr title='%{title}'>%{time}</abbr> por %{user}
+    closed_by_html: Pechado <abbr title='%{title}'>%{time}</abbr> por %{user}
     version: Versión
     in_changeset: Conxunto de mudanzas
     anonymous: anónimo
@@ -150,7 +212,7 @@ gl:
     part_of: Parte de
     download_xml: Baixar en XML
     view_history: Ollar o historial
-    view_details: Ve-los detalles
+    view_details: Ollar os detalles
     location: 'Localización:'
     changeset:
       title: 'Conxunto de mudanzas: %{id}'
@@ -158,19 +220,18 @@ gl:
       node: Nós (%{count})
       node_paginated: Nós (%{x}-%{y} de %{count})
       way: Vías (%{count})
-      way_paginated: Camiños (%{x}-%{y} de %{count})
+      way_paginated: Vías (%{x}-%{y} de %{count})
       relation: Relacións (%{count})
       relation_paginated: Relacións (%{x}-%{y} de %{count})
       comment: Comentarios (%{count})
-      hidden_commented_by: Comentario agochado de %{user} <abbr title='%{exact_time}'>
-        hai %{when}</abbr>
-      commented_by: Comentario de %{user} <abbr title='%{exact_time}'> hai %{when}</abbr>
+      hidden_commented_by: Comentario agochado de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comentario de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Conxunto de mudanzas do XML
       osmchangexml: osmChange XML
       feed:
         title: Conxunto de mudanzas %{id}
         title_comment: Conxunto de mudanzas %{id} - %{comment}
-      join_discussion: Inicia-la sesión pra unirse á parola
+      join_discussion: Iniciar a sesión para unirse á parola
       discussion: Parola
       still_open: O conxunto de mudanzas segue aberto - Abrirase a parola cando o
         conxunto de mudanzas estea pechado.
@@ -179,7 +240,7 @@ gl:
       history_title: 'Historial do nó: %{name}'
     way:
       title: 'Vía: %{name}'
-      history_title: 'Historial do camiño: %{name}'
+      history_title: 'Historial da vía: %{name}'
       nodes: Nós
       also_part_of:
         one: parte da vía %{related_ways}
@@ -242,18 +303,15 @@ gl:
       open_title: Nota sen resolver nº%{note_name}
       closed_title: Nota resolta nº%{note_name}
       hidden_title: Nota agochada nº%{note_name}
-      open_by: Creado por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      open_by_anonymous: Creado por un anónimo <abbr title='%{exact_time}'>hai %{when}</abbr>
-      commented_by: Comentado por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      commented_by_anonymous: Comentado por un anónimo <abbr title='%{exact_time}'>hai
-        %{when}</abbr>
-      closed_by: Resolto por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      closed_by_anonymous: Resolto por un anónimo <abbr title='%{exact_time}'>hai
-        %{when}</abbr>
-      reopened_by: Reactivado por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      reopened_by_anonymous: Reactivado por un anónimo <abbr title='%{exact_time}'>hai
-        %{when}</abbr>
-      hidden_by: Agochado por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
+      open_by: Creado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Creado por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comentado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Comentado por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Resolto por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Resolto por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Reactivado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Reactivado por un anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Agochado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Informar desta nota
     query:
       title: Consulta-los elementos
@@ -268,7 +326,7 @@ gl:
     changeset:
       anonymous: Anónimo
       no_edits: (sen edicións)
-      view_changeset_details: Olla-los detalles do conxunto de mudanzas
+      view_changeset_details: Ollar os detalles do conxunto de mudanzas
     changesets:
       id: ID
       saved_at: Gardado o
@@ -294,7 +352,7 @@ gl:
     comment:
       comment: 'Novo comentario sobre os conxuntos de mudanzas #%{changeset_id} de
         %{author}'
-      commented_at_by_html: Actualizado hai %{when} por %{user}
+      commented_at_by_html: Actualizado %{when} por %{user}
     comments:
       comment: 'Novo comentario sobre o conxunto de mudanzas #%{changeset_id} de %{author}'
     index:
@@ -306,7 +364,14 @@ gl:
   diary_entries:
     new:
       title: Nova entrada no diario
-      publish_button: Publicar
+    form:
+      subject: 'Asunto:'
+      body: 'Corpo:'
+      language: 'Lingua:'
+      location: 'Localización:'
+      latitude: 'Latitude:'
+      longitude: 'Lonxitude:'
+      use_map_link: empregar mapa
     index:
       title: Diarios dos usuarios
       title_friends: Diarios das amizades
@@ -320,23 +385,14 @@ gl:
       older_entries: Entradas máis vellas
       newer_entries: Entradas máis novas
     edit:
-      title: Editar entrada do diario
-      subject: 'Asunto:'
-      body: 'Corpo:'
-      language: 'Lingua:'
-      location: 'Localización:'
-      latitude: 'Latitude:'
-      longitude: 'Lonxitude:'
-      use_map_link: empregar mapa
-      save_button: Gardar
+      title: Editar a entrada do diario
       marker_text: Localización da entrada do diario
     show:
       title: Diario de %{user} | %{title}
       user_title: Diario de %{user}
       leave_a_comment: Deixar un comentario
       login_to_leave_a_comment: '%{login_link} para deixar un comentario'
-      login: Acceder
-      save_button: Gardar
+      login: Iniciar a sesión
     no_such_entry:
       title: Non hai tal entrada de diario
       heading: 'Non hai ningunha entrada co ID: %{id}'
@@ -352,11 +408,13 @@ gl:
         other: '%{count} comentarios'
       edit_link: Editar esta entrada
       hide_link: Agochar esta entrada
+      unhide_link: Amosar esta entrada
       confirm: Confirmar
       report: Informar desta entrada
     diary_comment:
       comment_from: Comentario de %{link_user} no %{comment_created_at}
       hide_link: Agochar este comentario
+      unhide_link: Amosar este comentario
       confirm: Confirmar
       report: Informar deste comentario
     location:
@@ -380,7 +438,6 @@ gl:
       post: Artigo
       when: Cando
       comment: Comentario
-      ago: hai %{ago}
       newer_comments: Comentarios máis recentes
       older_comments: Comentarios máis vellos
   geocoder:
@@ -582,7 +639,7 @@ gl:
           street_lamp: Luminaria
           tertiary: Estrada terciaria
           tertiary_link: Estrada terciaria
-          track: Camiño
+          track: Pista ou camiño rural
           traffic_signals: Sinais de tráfico
           trail: Pista
           trunk: Estrada principal
@@ -615,7 +672,7 @@ gl:
           tomb: Sepulcro
           tower: Torre
           wayside_cross: Cruceiro
-          wayside_shrine: Santuario no camiño
+          wayside_shrine: Peto de ánimas
           wreck: Pecio
           "yes": Lugar histórico
         junction:
@@ -793,9 +850,9 @@ gl:
           island: Illa
           islet: Illote
           isolated_dwelling: Vivenda illada
-          locality: Localidade
+          locality: Lugar
           municipality: Municipio
-          neighbourhood: Veciñanza
+          neighbourhood: Veciñanza ou subarrio
           postcode: Código postal
           quarter: Trimestre
           region: Rexión
@@ -803,7 +860,7 @@ gl:
           square: Praza
           state: Estado/Rexión
           subdivision: Subdivisión
-          suburb: Barrio
+          suburb: Barrio ou suburbio
           town: Cidade
           unincorporated_area: Área non incorporada
           village: Vila
@@ -996,8 +1053,8 @@ gl:
       status: Estado
       reports: Informes
       last_updated: Última actualización
-      last_updated_time_html: <abbr title='%{title}'>Hai %{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>Hai %{time}</abbr> por %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> por %{user}
       link_to_reports: Ollar informes
       reports_count:
         one: 1 informe
@@ -1094,8 +1151,8 @@ gl:
       alt_text: Logotipo do OpenStreetMap
     home: Ir á localización inicial
     logout: Pecha-la sesión
-    log_in: Inicia-la sesión
-    log_in_tooltip: Inicia-la sesión cunha conta existente
+    log_in: Iniciar a sesión
+    log_in_tooltip: Iniciar a sesión cunha conta existente
     sign_up: Rexistrarse
     start_mapping: Comezar a cartografar
     sign_up_tooltip: Crear unha conta para editar
@@ -1119,6 +1176,7 @@ gl:
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: socios
+    tou: Termos de uso
     osm_offline: A base de datos do OpenStreetMap atópase desconectada mentres realizamos
       traballos de mantemento nela.
     osm_read_only: A base de datos do OpenStreetMap atópase en modo de só lectura
@@ -1280,7 +1338,6 @@ gl:
       send_message_to: Enviarlle unha nova mensaxe a %{name}
       subject: Asunto
       body: Corpo
-      send_button: Enviar
       back_to_inbox: Voltar á caixa de entrada
     create:
       message_sent: Mensaxe enviada
@@ -1358,16 +1415,14 @@ gl:
         sempre que recoñeza ó OpenStreetMap e mailos seus contribuíntes coma os autores dos datos. Se modifica os datos
         ou os emprega dalgún xeito para outros fins, pode distribuír o resultado sempre e cando o faga empregando a mesma licenza. Atopará información máis detallada na <a href='%{copyright_path}'>páxina de dereitos de autoría e licenza</a>.
       legal_title: Legal
-      legal_html: "Este sitio e outros servizos relacionados son formalmente xestionados
-        pola  \n<a href='https://osmfoundation.org/'>Fundación OpenStreetMap</a> (OSMF)
-        \nen nome da comunidade. O emprego de tódolos servizos operados pola OSMF
-        atópase suxeita\nás nosas regras de <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">Políticas
-        de Uso Aceptábel</a> e de <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">Privacidade</a>\n<br>
-        \nPor favor <a href='https://osmfoundation.org/Contact'>contacte ca OSMF</a>
-        \nse ten cuestións relacionadas cas licenzas, dereitos de autor, cuestións
-        legais ou problemas.\n<br>\nO OpenStreetMap, o logotipo da lupa e o State
-        of the Map son <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">marcas
-        comerciais rexistadas da OSMF</a>."
+      legal_html: |-
+        Este sitio e moitos outros servizos relacionados son xestionados de xeito formal pola <a href='https://osmfoundation.org/'>Fundación OpenStreetMap</a> (OSMF)
+        en nome da comunidade. O emprego de tódolos servizos xestionados pola OSMF atópase suxeito
+        ós nosos <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Termos de uso</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Políticas de uso aceptábel</a> e a nosa <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Política de privacidade</a>
+        <br>
+        Por favor, <a href='https://osmfoundation.org/Contact'>contacte á OSMF</a> se ten licenzas, dereitos de autor ou outras cuestións legais.
+        <br>
+        O OpenStreetMap, o logotipo da lupa e o "State of the Map" son <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">marcas rexistradas da OSMF</a>.
       partners_title: Socios
     copyright:
       foreign:
@@ -1813,7 +1868,6 @@ gl:
       visibility: 'Visibilidade:'
       visibility_help: que significa isto?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-      upload_button: Subir
       help: Axuda
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1842,7 +1896,6 @@ gl:
       description: 'Descrición:'
       tags: 'Etiquetas:'
       tags_help: separadas por comas
-      save_button: Garda-las mudanzas
       visibility: 'Visibilidade:'
       visibility_help: que significa isto?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
@@ -1877,7 +1930,6 @@ gl:
     trace:
       pending: PENDENTE
       count_points: '%{count} puntos'
-      ago: hai %{time_in_words_ago}
       more: máis
       trace_details: Olla-los detalles da pista
       view_map: Olla-lo mapa
@@ -1963,10 +2015,8 @@ gl:
   oauth_clients:
     new:
       title: Rexistrar unha nova aplicación
-      submit: Rexistrarse
     edit:
       title: Edita-la súa aplicación
-      submit: Editar
     show:
       title: Detalles OAuth para %{app_name}
       key: 'Chave ou clave do consumidor:'
@@ -2088,7 +2138,7 @@ gl:
       help_text: Escriba o enderezo de correo electrónico que empregou para se rexistrar.
         Enviarémoslle unha ligazón que poderá empregar para restabelecer o seu contrasinal.
       notice email on way: Por desgraza perdeuno, pero hai en camiño unha mensaxe
-        de correo electrónico ca que o poderá restabelecer axiña.
+        de correo electrónico ca que o poderá restabelecelo axiña.
       notice email cannot find: Non se puido atopar o enderezo de correo electrónico.
     reset_password:
       title: Restabelecer o contrasinal
@@ -2134,18 +2184,24 @@ gl:
         Para obter máis información, consulte <a href="%{url}">esta páxina wiki</a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Termos do contribuínte
-      heading: Termos do contribuínte
-      read and accept: Por favor, lea o acordo seguinte e prema no botón "Aceptar"
-        para confirmar que acepta os termos deste acordo para as súas contribucións
-        anteriores e futuras.
-      consider_pd: Ademais do acordo anterior, considero que as miñas contribucións
-        están no dominio público
+      title: Termos
+      heading: Termos
+      heading_ct: Termos do contribuínte
+      read and accept with tou: Le o acordo do contribuínte e os termos de uso, marca
+        ambas celas de verificación cando remates e despois preme no botón de Continuar.
+      contributor_terms_explain: Este acordo regula as condicións para as túas contribucións
+        actuais e futuras.
+      read_ct: Lin e acepto os termos do contribuínte anteriores
+      tou_explain_html: Estes %{tou_link} rexen o uso da páxina/sitio web e outras
+        infraestruturas fornecidas pola OSMF.  Preme na ligazón, le e acepta o texto.
+      read_tou: Lin e acepto os Termos de uso
+      consider_pd: Ademais do anterior, coido que as miñas contribucións están baixo
+        dominio público
       consider_pd_why: que é isto?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Información para axudar a entender estes termos: un <a href="%{summary}">resumo</a>
         e algunhas <a href="%{translations}">traducións non oficiais</a>'
-      agree: Acepto
+      continue: Continuar
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Rexeitar
       you need to accept or decline: Lea e, deseguido, acepte ou rexeite os novos
@@ -2182,12 +2238,10 @@ gl:
       remove as friend: Eliminar coma amizade
       add as friend: Engadir coma amizade
       mapper since: 'Cartógrafo dende:'
-      ago: (hai %{time_in_words_ago})
       ct status: 'Termos do contribuínte:'
       ct undecided: Indeciso
       ct declined: Rexeitou
-      ct accepted: Aceptou hai %{ago}
-      latest edit: 'Última edición %{ago}:'
+      latest edit: 'Última edición (%{ago}):'
       email address: 'Enderezo de correo electrónico:'
       created from: 'Creado a partir de:'
       status: 'Estado:'
@@ -2415,11 +2469,10 @@ gl:
         o argot da comunidade, de modo que tente empregar termos comúns.
       period: Por canto tempo, a partir de agora, o usuario terá bloqueado o uso da
         API?
-      submit: Crear un bloqueo
       tried_contacting: Púxenme en contacto co usuario e pedinlle que parase.
       tried_waiting: Dálle ó usuario tempo suficiente para respostar ás mensaxes.
-      needs_view: O usuario ten que acceder ao sistema antes de que o bloqueo sexa
-        retirado
+      needs_view: O usuario ten que acceder ó sistema antes de que o bloqueo sexa
+        revogado
       back: Ollar tódolos bloqueos
     edit:
       title: Editando o bloqueo de %{name}
@@ -2430,11 +2483,10 @@ gl:
         comúns.
       period: Por canto tempo, a partir de agora, o usuario terá bloqueado o uso da
         API?
-      submit: Actualiza-lo bloqueo
       show: Ollar este bloqueo
       back: Ollar tódolos bloqueos
-      needs_view: O usuario ten que acceder ao sistema antes de que o bloqueo sexa
-        retirado?
+      needs_view: O usuario ten que acceder ó sistema antes de que o bloqueo sexa
+        revogado?
     filter:
       block_expired: O bloqueo xa caducou. Non se pode editar.
       block_period: O período de bloqueo debe elixirse de entre os valores presentes
@@ -2455,19 +2507,32 @@ gl:
       title: Revogando o bloqueo en %{block_on}
       heading: Revogando o bloqueo en %{block_on} por %{block_by}
       time_future: Este bloqueo rematará en %{time}.
-      past: Este bloqueo rematou hai %{time}. Entón, xa non se pode retirar.
+      past: Este bloqueo rematou %{time} e xa non se pode revogar.
       confirm: Ten a certeza de querer revogar este bloqueo?
       revoke: Revogar!
       flash: Revogouse o bloqueo.
-    period:
-      one: 1 hora
-      other: '%{count} horas'
     helper:
       time_future: Remata en %{time}.
       until_login: Activo até que o usuario inicie sesión.
       time_future_and_until_login: Remata en %{time} e despois de que o usuario iniciou
         a sesión.
-      time_past: Rematou hai %{time}.
+      time_past: Rematou %{time}.
+      block_duration:
+        hours:
+          one: 1 hora
+          other: '%{count} horas'
+        days:
+          one: 1 día
+          other: '%{count} días'
+        weeks:
+          one: 1 semana
+          other: '%{count} semanas'
+        months:
+          one: 1 mes
+          other: '%{count} meses'
+        years:
+          one: 1 ano
+          other: '%{count} anos'
     blocks_on:
       title: Bloqueos feitos a %{name}
       heading: Listaxe dos bloqueos feitos a %{name}
@@ -2479,10 +2544,7 @@ gl:
     show:
       title: '%{block_on} bloqueado por %{block_by}'
       heading: '%{block_on} bloqueado por %{block_by}'
-      time_future: Remata en %{time}
-      time_past: Rematou hai %{time}
       created: Creado
-      ago: hai %{time}
       status: Estado
       show: Amosar
       edit: Editar
@@ -2491,8 +2553,8 @@ gl:
       reason: 'Motivo para o bloqueo:'
       back: Ollar tódolos bloqueos
       revoker: 'Autor da revogación:'
-      needs_view: O usuario ten que acceder ao sistema antes de que o bloqueo sexa
-        retirado.
+      needs_view: O usuario ten que acceder ó sistema antes de que o bloqueo sexa
+        revogado.
     block:
       not_revoked: (non revogado)
       show: Amosar
@@ -2517,7 +2579,6 @@ gl:
       description: Descrición
       created_at: Creado o
       last_changed: Última modificación
-      ago_html: hai %{when}
   javascripts:
     close: Pechar
     share:
@@ -2567,6 +2628,7 @@ gl:
         title: Capas
       copyright: © <a href='%{copyright_url}'>Contribuíntes do OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Facer unha doazón</a>
+      terms: <a href='%{terms_url}' target='_blank'>Termos da páxina web e da API</a>
     site:
       edit_tooltip: Edita-lo mapa
       edit_disabled_tooltip: Achegue para edita-lo mapa
@@ -2712,7 +2774,6 @@ gl:
     edit:
       description: Descrición
       heading: Edita-la redacción
-      submit: Gardar a redacción
       title: Edita-la redacción
     index:
       empty: Non hai ningunha redacción que amosar.
@@ -2721,7 +2782,6 @@ gl:
     new:
       description: Descrición
       heading: Escriba a información da nova redacción
-      submit: Crear a redacción
       title: Creando unha nova redacción
     show:
       description: 'Descrición:'

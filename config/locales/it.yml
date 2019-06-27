@@ -51,6 +51,29 @@ it:
   time:
     formats:
       friendly: '%e %B %Y alle %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Salva
+      diary_entry:
+        create: Pubblica
+        update: Aggiorna
+      issue_comment:
+        create: Aggiungi commento
+      message:
+        create: Invia
+      client_application:
+        create: Registrati
+        update: Modifica
+      redaction:
+        create: Crea revisione
+        update: Salvare la revisione
+      trace:
+        create: Carica
+        update: Salva modifiche
+      user_block:
+        create: Crea blocco
+        update: Aggiorna blocco
   activerecord:
     errors:
       messages:
@@ -124,6 +147,45 @@ it:
         description: Descrizione
         languages: Lingue
         pass_crypt: Password
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: circa 1 ora fa
+        other: circa %{count} ore fa
+      about_x_months:
+        one: circa 1 mese fa
+        other: circa %{count} mesi fa
+      about_x_years:
+        one: circa 1 anno fa
+        other: circa %{count} anni fa
+      almost_x_years:
+        one: almeno 1 anno fa
+        other: almeno %{count} anni fa
+      half_a_minute: mezzo minuto fa
+      less_than_x_seconds:
+        one: meno di 1 secondo fa
+        other: meno di %{count} secondi fa
+      less_than_x_minutes:
+        one: meno di un minuto fa
+        other: meno di %{count} minuti fa
+      over_x_years:
+        one: oltre 1 anno fa
+        other: oltre %{count} anni fa
+      x_seconds:
+        one: 1 secondo fa
+        other: '%{count} secondi fa'
+      x_minutes:
+        one: 1 minuto fa
+        other: '%{count} minuti fa'
+      x_days:
+        one: 1 giorno fa
+        other: '%{count} giorni fa'
+      x_months:
+        one: 1 mese fa
+        other: '%{count} mesi fa'
+      x_years:
+        one: 1 anno fa
+        other: '%{count} anni fa'
   editor:
     default: Predefinito (al momento %{name})
     potlatch:
@@ -141,14 +203,14 @@ it:
   api:
     notes:
       comment:
-        opened_at_html: Creata %{when} fa
-        opened_at_by_html: Creata %{when} fa da %{user}
-        commented_at_html: Aggiornata %{when} fa
-        commented_at_by_html: Aggiornata %{when} fa da %{user}
-        closed_at_html: Chiusa %{when} fa
-        closed_at_by_html: Chiusa %{when} fa da %{user}
-        reopened_at_html: Riaperta %{when} fa
-        reopened_at_by_html: Riaperta %{when} fa da %{user}
+        opened_at_html: Creata %{when}
+        opened_at_by_html: Creata %{when} da %{user}
+        commented_at_html: Aggiornata %{when}
+        commented_at_by_html: Aggiornata %{when} da %{user}
+        closed_at_html: Chiusa %{when}
+        closed_at_by_html: Chiusa %{when} da %{user}
+        reopened_at_html: Riaperta %{when}
+        reopened_at_by_html: Riaperta %{when} da %{user}
       rss:
         title: Note di OpenStreetMap
         description_area: Una lista di note inserite, commentate o chiuse nella tua
@@ -164,12 +226,12 @@ it:
   browse:
     created: Creato
     closed: Chiuso
-    created_html: Creato <abbr title='%{title}'>%{time} fa</abbr>
-    closed_html: Chiuso <abbr title='%{title}'>%{time} fa</abbr>
-    created_by_html: Creato <abbr title='%{title}'>%{time} fa</abbr> da %{user}
-    deleted_by_html: Cancellato <abbr title='%{title}'>%{time} fa</abbr> da %{user}
-    edited_by_html: Modificato <abbr title='%{title}'>%{time} fa</abbr> da %{user}
-    closed_by_html: Chiuso <abbr title='%{title}'>%{time} fa</abbr> da %{user}
+    created_html: Creato <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Chiuso <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Creato <abbr title='%{title}'>%{time}</abbr> da %{user}
+    deleted_by_html: Cancellato <abbr title='%{title}'>%{time}</abbr> da %{user}
+    edited_by_html: Modificato <abbr title='%{title}'>%{time}</abbr> da %{user}
+    closed_by_html: Chiuso <abbr title='%{title}'>%{time}</abbr> da %{user}
     version: Versione
     in_changeset: Gruppo di modifiche
     anonymous: anonimo
@@ -189,9 +251,8 @@ it:
       relation: Relazioni (%{count})
       relation_paginated: Relazioni (%{x}-%{y} di %{count})
       comment: Commenti (%{count})
-      hidden_commented_by: Commento nascosto da %{user} <abbr title='%{exact_time}'>%{when}
-        fa</abbr>
-      commented_by: Commento da %{user} <abbr title='%{exact_time}'>%{when} fa</abbr>
+      hidden_commented_by: Commento nascosto da %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Commento da %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Gruppo di modifiche XML
       osmchangexml: modificheOsm XML
       feed:
@@ -271,18 +332,15 @@ it:
       open_title: 'Nota irrisolta #%{note_name}'
       closed_title: 'Nota risolta #%{note_name}'
       hidden_title: 'Nota nascosta #%{note_name}'
-      open_by: Creato da %{user} <abbr title='%{exact_time}'>%{when} fa</abbr>
-      open_by_anonymous: Creato da anonimo <abbr title='%{exact_time}'>%{when} fa</abbr>
-      commented_by: Commento da %{user} <abbr title='%{exact_time}'>%{when} fa</abbr>
-      commented_by_anonymous: Commento da anonimo <abbr title='%{exact_time}'>%{when}
-        fa</abbr>
-      closed_by: Risolta da %{user} <abbr title='%{exact_time}'>%{when} fa</abbr>
-      closed_by_anonymous: Risolta da anonimo <abbr title='%{exact_time}'>%{when}
-        fa</abbr>
-      reopened_by: Riattivata da %{user} <abbr title='%{exact_time}'>%{when} fa</abbr>
-      reopened_by_anonymous: Riattivata da anonimo <abbr title='%{exact_time}'>%{when}
-        fa</abbr>
-      hidden_by: Nascosta da %{user} <abbr title='%{exact_time}'>%{when} fa</abbr>
+      open_by: Creato da %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Creato da anonimo <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Commento da %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Commento da anonimo <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Risolta da %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Risolta da anonimo <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Riattivata da %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Riattivata da anonimo <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Nascosta da %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Segnala questa nota
     query:
       title: Ricerca di elementi
@@ -322,7 +380,7 @@ it:
   changeset_comments:
     comment:
       comment: 'Nuovo commento al gruppo di modifiche #%{changeset_id} di %{author}'
-      commented_at_by_html: Aggiornato %{when} fa da %{user}
+      commented_at_by_html: Aggiornato %{when} da %{user}
     comments:
       comment: 'Nuovo commento al gruppo di modifiche #%{changeset_id} di %{author}'
     index:
@@ -334,7 +392,14 @@ it:
   diary_entries:
     new:
       title: Nuova voce del diario
-      publish_button: Pubblica
+    form:
+      subject: 'Oggetto:'
+      body: 'Testo:'
+      language: 'Lingua:'
+      location: 'Luogo:'
+      latitude: 'Latitudine:'
+      longitude: 'Longitudine:'
+      use_map_link: utilizza mappa
     index:
       title: Diari degli utenti
       title_friends: Diari degli amici
@@ -349,14 +414,6 @@ it:
       newer_entries: Voci più recenti
     edit:
       title: Modifica voce del diario
-      subject: 'Oggetto:'
-      body: 'Testo:'
-      language: 'Lingua:'
-      location: 'Luogo:'
-      latitude: 'Latitudine:'
-      longitude: 'Longitudine:'
-      use_map_link: utilizza mappa
-      save_button: Salva
       marker_text: Luogo della voce del diario
     show:
       title: Diario di %{user} | %{title}
@@ -364,7 +421,6 @@ it:
       leave_a_comment: Lascia un commento
       login_to_leave_a_comment: '%{login_link} per lasciare un commento'
       login: Accedi
-      save_button: Salva
     no_such_entry:
       title: Nessuna voce del diario
       heading: 'Nessuna voce con l''identificativo: %{id}'
@@ -381,11 +437,13 @@ it:
         other: '%{count} commenti'
       edit_link: Modifica questa voce
       hide_link: Nascondi questa voce
+      unhide_link: Mostra questa voce
       confirm: Conferma
       report: Segnala questa voce
     diary_comment:
       comment_from: Commento di %{link_user} il %{comment_created_at}
       hide_link: Nascondi questo commento
+      unhide_link: Mostra questo commento
       confirm: Conferma
       report: Segnala questo commento
     location:
@@ -407,7 +465,6 @@ it:
       post: Messaggio
       when: Quando
       comment: Commento
-      ago: '%{ago} fa'
       newer_comments: Commenti più recenti
       older_comments: Commenti più vecchi
   geocoder:
@@ -1022,8 +1079,8 @@ it:
       status: Stato
       reports: Segnalazioni
       last_updated: Ultima modifica
-      last_updated_time_html: <abbr title='%{title}'>%{time} fa</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} fa</abbr> da %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> da %{user}
       link_to_reports: Visualizza segnalazioni
       reports_count:
         one: 1 segnalazione
@@ -1144,6 +1201,7 @@ it:
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: partner
+    tou: Condizioni d'uso
     osm_offline: Il database di OpenStreetMap è al momento non in linea per permettere
       lo svolgimento di alcuni lavori essenziali su di esso.
     osm_read_only: Il database di OpenStreetMap è al momento in modalità sola-lettura
@@ -1308,7 +1366,6 @@ it:
       send_message_to: Spedisci un nuovo messaggio a %{name}
       subject: Oggetto
       body: Corpo
-      send_button: Invia
       back_to_inbox: Ritorna alla posta in arrivo
     create:
       message_sent: Messaggio inviato
@@ -1388,7 +1445,8 @@ it:
       legal_html: "Questo sito e molti altri servizi correlati sono formalmente gestiti
         dalla \n<a href=\"https://osmfoundation.org/\">OpenStreetMap Foundation</a>
         (OSMF) \nper conto della comunità. L'uso di tutti i servizi gestiti dalla
-        OSMF è soggetto \nalle nostre <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nregole
+        OSMF è soggetto \nalle nostre <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">condizioni
+        d'uso</a>, <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nregole
         di utilizzo accettabile</a> ed alla nostra <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">informativa
         sulla privacy</a>\n<br> \nSi prega di <a href=\"https://osmfoundation.org/Contact\">contattare
         la OSMF</a> \nin caso di dubbi e problemi di licenza, copyright o altre questioni
@@ -1827,7 +1885,6 @@ it:
       visibility: 'Visibilità:'
       visibility_help: che cosa significa questo?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/IT:Visibility_of_GPS_traces
-      upload_button: Carica
       help: Aiuto
       help_url: https://wiki.openstreetmap.org/wiki/IT:Upload
     create:
@@ -1860,7 +1917,6 @@ it:
       description: 'Descrizione:'
       tags: 'Etichette:'
       tags_help: delimitato da virgola
-      save_button: Salva modifiche
       visibility: 'Visibilità:'
       visibility_help: che cosa significa questo?
     update:
@@ -1894,7 +1950,6 @@ it:
     trace:
       pending: IN ATTESA
       count_points: '%{count} punti'
-      ago: '%{time_in_words_ago} fa'
       more: altri
       trace_details: Visualizza i dettagli del tracciato
       view_map: Visualizza mappa
@@ -1981,10 +2036,8 @@ it:
   oauth_clients:
     new:
       title: Registra una nuova applicazione
-      submit: Registrati
     edit:
       title: Modifica la tua applicazione
-      submit: Modifica
     show:
       title: Dettagli OAuth per %{app_name}
       key: 'Chiave del consumatore:'
@@ -2157,18 +2210,26 @@ it:
         pagina del wiki</a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Regole per contribuire
-      heading: Regole per contribuire
-      read and accept: Leggi il contratto qui sotto e premi il pulsante accetto per
-        confermare che accetti i termini del presente accordo per i tuoi contributi
-        attuali e futuri.
-      consider_pd: In aggiunta al contratto di cui sopra, considero che i miei contributi
-        sono in Pubblico Dominio
+      title: Termini
+      heading: Termini
+      heading_ct: Regole per contribuire
+      read and accept with tou: Leggi l’accordo di collaborazione e le condizioni
+        d’uso, quando hai finito spunta entrambe le caselle e poi premi il pulsante
+        Continua.
+      contributor_terms_explain: Questo accordo definisce le condizioni delle tue
+        collaborazioni presenti e future.
+      read_ct: Ho letto e accetto le condizioni di collaborazione qui sopra
+      tou_explain_html: Queste %{tou_link} definiscono l’utilizzo del sito web e di
+        altre infrastrutture fornite dalla OSMF. Clicca sul collegamento, leggi il
+        testo e accetta.
+      read_tou: Ho letto e accetto le Condizioni d'uso
+      consider_pd: In aggiunta a quanto sopra, considero i miei contributi come fossero
+        di pubblico dominio
       consider_pd_why: cos'è questo?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Informazioni utili a capire questi termini: un <a href="%{summary}">riassunto
         leggibile</a> ed alcune <a href="%{translations}">traduzioni informali</a>'
-      agree: Accetto
+      continue: Continua
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Non accetto
       you need to accept or decline: Si prega di leggere e poi accettare o rifiutare
@@ -2205,12 +2266,10 @@ it:
       remove as friend: Rimuovi amico
       add as friend: Aggiungi amico
       mapper since: 'Mappatore dal:'
-      ago: (%{time_in_words_ago} fa)
       ct status: 'Termini di collaborazione:'
       ct undecided: Indeciso
       ct declined: Non accetto
-      ct accepted: Accettato da %{ago}
-      latest edit: 'Ultima modifica %{ago}:'
+      latest edit: 'Ultima modifica (%{ago}):'
       email address: 'Indirizzo email:'
       created from: 'Creato da:'
       status: 'Stato:'
@@ -2290,8 +2349,8 @@ it:
         not yet agreed: Non hai ancora accettato le nuove regole per contribuire.
         review link text: Quando puoi segui per favore questo link per leggere ed
           accettare le nuove regole per contribuire.
-        agreed_with_pd: Hai anche dichiarato di considerare le tue modifiche di Pubblico
-          Dominio.
+        agreed_with_pd: Hai anche dichiarato di considerare le tue modifiche come
+          fossero di pubblico dominio.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: che cos'è questo?
       profile description: 'Descrizione del profilo:'
@@ -2435,7 +2494,6 @@ it:
         cerca di utilizzare dei termini comuni.
       period: Quanto a lungo, a partire da adesso, sarà bloccato l'accesso alle API
         per l'utente.
-      submit: Crea blocco
       tried_contacting: Ho contattato l'utente e gli ho chiesto di fermarsi.
       tried_waiting: Ho dato una ragionevole quantità di tempo all'utente per rispondere
         a queste comunicazioni.
@@ -2450,7 +2508,6 @@ it:
         e quindi cerca di utilizzare dei termini che siano comprensibili a tutti.
       period: Quanto a lungo, a partire da adesso, l'accesso alle API sarà bloccato
         per l'utente.
-      submit: Aggiorna blocco
       show: Visualizza questo blocco
       back: Visualizza tutti i blocchi
       needs_view: L'utente ha bisogno di collegarsi prima che questo blocco sia cancellato?
@@ -2475,19 +2532,32 @@ it:
       title: Revoca del blocco su %{block_on}
       heading: Revoca del blocco su %{block_on} imposto da %{block_by}
       time_future: Questo blocco terminerà in %{time}.
-      past: Questo blocco è terminato %{time} fa e non può essere revocato ora.
+      past: Questo blocco è terminato %{time} e non può essere revocato ora.
       confirm: Sei sicuro di voler revocare questo blocco?
       revoke: Revoca!
       flash: Questo blocco è stato revocato.
-    period:
-      one: 1 ora
-      other: '%{count} ore'
     helper:
       time_future: Termina fra %{time}.
       until_login: Attivo finché l'utente non si collega.
       time_future_and_until_login: Termina tra %{time} e una volta che l'utente avrà
         effettuato l'accesso.
-      time_past: Terminato %{time} fa.
+      time_past: Terminato %{time}.
+      block_duration:
+        hours:
+          one: 1 ora
+          other: '%{count} ore'
+        days:
+          one: 1 giorno
+          other: '%{count} giorni'
+        weeks:
+          one: 1 settimana
+          other: '%{count} settimane'
+        months:
+          one: 1 mese
+          other: '%{count} mesi'
+        years:
+          one: 1 anno
+          other: '%{count} anni'
     blocks_on:
       title: Blocchi su %{name}
       heading: Lista dei blocchi su %{name}
@@ -2499,10 +2569,7 @@ it:
     show:
       title: '%{block_on} bloccato da %{block_by}'
       heading: '%{block_on} bloccato da %{block_by}'
-      time_future: Termina fra %{time}
-      time_past: Terminato %{time} fa
       created: Creato
-      ago: '%{time} fa'
       status: Stato
       show: Mostra
       edit: Modifica
@@ -2536,7 +2603,6 @@ it:
       description: Descrizione
       created_at: Creata il
       last_changed: Modificata per l'ultima volta
-      ago_html: '%{when} fa'
   javascripts:
     close: Chiudi
     share:
@@ -2586,6 +2652,8 @@ it:
         title: Livelli
       copyright: © <a href='%{copyright_url}'>OpenStreetMap contributors</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Fai una donazione</a>
+      terms: <a href='%{terms_url}' target='_blank'>Condizioni del sito web e delle
+        API</a>
     site:
       edit_tooltip: Modifica la mappa
       edit_disabled_tooltip: Zooma per modificare la mappa
@@ -2729,7 +2797,6 @@ it:
     edit:
       description: Descrizione
       heading: Modifica Redazione
-      submit: Salvare la revisione
       title: Modifica revisione
     index:
       empty: Nessuna revisione disponibile.
@@ -2738,7 +2805,6 @@ it:
     new:
       description: Descrizione
       heading: Inserire informazioni per una nuova revisione
-      submit: Crea revisione
       title: Crea nuova revisione
     show:
       description: 'Descrizione:'

@@ -37,8 +37,8 @@ class ApplicationController < ActionController::Base
     elsif session[:token]
       session[:user] = current_user.id if self.current_user = User.authenticate(:token => session[:token])
     end
-  rescue StandardError => ex
-    logger.info("Exception authorizing user: #{ex}")
+  rescue StandardError => e
+    logger.info("Exception authorizing user: #{e}")
     reset_session
     self.current_user = nil
   end
@@ -185,22 +185,22 @@ class ApplicationController < ActionController::Base
 
   def api_call_handle_error
     yield
-  rescue ActiveRecord::RecordNotFound => ex
+  rescue ActiveRecord::RecordNotFound => e
     head :not_found
-  rescue LibXML::XML::Error, ArgumentError => ex
-    report_error ex.message, :bad_request
-  rescue ActiveRecord::RecordInvalid => ex
-    message = "#{ex.record.class} #{ex.record.id}: "
-    ex.record.errors.each { |attr, msg| message << "#{attr}: #{msg} (#{ex.record[attr].inspect})" }
+  rescue LibXML::XML::Error, ArgumentError => e
+    report_error e.message, :bad_request
+  rescue ActiveRecord::RecordInvalid => e
+    message = "#{e.record.class} #{e.record.id}: "
+    e.record.errors.each { |attr, msg| message << "#{attr}: #{msg} (#{e.record[attr].inspect})" }
     report_error message, :bad_request
-  rescue OSM::APIError => ex
-    report_error ex.message, ex.status
-  rescue AbstractController::ActionNotFound => ex
+  rescue OSM::APIError => e
+    report_error e.message, e.status
+  rescue AbstractController::ActionNotFound => e
     raise
-  rescue StandardError => ex
-    logger.info("API threw unexpected #{ex.class} exception: #{ex.message}")
-    ex.backtrace.each { |l| logger.info(l) }
-    report_error "#{ex.class}: #{ex.message}", :internal_server_error
+  rescue StandardError => e
+    logger.info("API threw unexpected #{e.class} exception: #{e.message}")
+    e.backtrace.each { |l| logger.info(l) }
+    report_error "#{e.class}: #{e.message}", :internal_server_error
   end
 
   ##
@@ -227,11 +227,11 @@ class ApplicationController < ActionController::Base
     OSM::Timer.timeout(Settings.web_timeout, Timeout::Error) do
       yield
     end
-  rescue ActionView::Template::Error => ex
-    ex = ex.cause
+  rescue ActionView::Template::Error => e
+    e = e.cause
 
-    if ex.is_a?(Timeout::Error) ||
-       (ex.is_a?(ActiveRecord::StatementInvalid) && ex.message =~ /execution expired/)
+    if e.is_a?(Timeout::Error) ||
+       (e.is_a?(ActiveRecord::StatementInvalid) && e.message =~ /execution expired/)
       render :action => "timeout"
     else
       raise

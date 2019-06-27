@@ -1,6 +1,7 @@
 # Messages for Serbian (Latin script) (srpski (latinica)‎)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Macofe
 # Author: McDutchie
 # Author: Milicevic01
@@ -14,6 +15,24 @@ sr-Latn:
   time:
     formats:
       friendly: '%e %B %Y u %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Sačuvaj
+      message:
+        create: Pošalji
+      client_application:
+        create: Otvori nalog
+        update: Uredi
+      redaction:
+        create: Napravi redakciju
+        update: Sačuvaj redakciju
+      trace:
+        create: Otpremi
+        update: Sačuvaj izmene
+      user_block:
+        create: Napravi blokadu
+        update: Ažuriraj blokadu
   activerecord:
     models:
       acl: Upravljanje pristupom
@@ -169,6 +188,14 @@ sr-Latn:
   diary_entries:
     new:
       title: Novi unos u dnevniku
+    form:
+      subject: 'Tema:'
+      body: 'Tekst:'
+      language: 'Jezik:'
+      location: 'Lokacija:'
+      latitude: 'Geografska širina:'
+      longitude: 'Geografska dužina:'
+      use_map_link: koristi mapu
     index:
       title: Korisnički dnevnici
       title_friends: Dnevnici prijatelja
@@ -183,14 +210,6 @@ sr-Latn:
       newer_entries: Noviji unosi
     edit:
       title: Uredi unos u dnevniku
-      subject: 'Tema:'
-      body: 'Tekst:'
-      language: 'Jezik:'
-      location: 'Lokacija:'
-      latitude: 'Geografska širina:'
-      longitude: 'Geografska dužina:'
-      use_map_link: koristi mapu
-      save_button: Sačuvaj
       marker_text: Lokacija unosa u dnevniku
     show:
       title: Dnevnik korisnika %{user} | %{title}
@@ -198,7 +217,6 @@ sr-Latn:
       leave_a_comment: Ostavite komentar
       login_to_leave_a_comment: '%{login_link} da ostavite komentar'
       login: Prijavite se
-      save_button: Sačuvaj
     no_such_entry:
       title: Nema takvog unosa u dnevniku
       heading: 'Nema unosa s IB: %{id}'
@@ -237,7 +255,6 @@ sr-Latn:
       post: Postavi
       when: Kada
       comment: Komentar
-      ago: pre %{ago}
       newer_comments: Noviji komentari
       older_comments: Stariji komentari
   geocoder:
@@ -794,7 +811,6 @@ sr-Latn:
       send_message_to: Pošalji novu poruku za %{name}
       subject: Naslov
       body: Tekst
-      send_button: Pošalji
       back_to_inbox: Nazad na primljene
     create:
       message_sent: Poruka je poslata.
@@ -1093,7 +1109,6 @@ sr-Latn:
       visibility: 'Vidljivost:'
       visibility_help: šta ovo znači?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=sr-ec
-      upload_button: Otpremi
       help: Pomoć
       help_url: http://wiki.openstreetmap.org/wiki/Upload?uselang=sr-ec
     create:
@@ -1117,7 +1132,6 @@ sr-Latn:
       description: 'Opis:'
       tags: 'Oznake:'
       tags_help: razdvojeno zapetama
-      save_button: Sačuvaj izmene
       visibility: 'Vidljivost:'
       visibility_help: šta ovo znači?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=sr-ec
@@ -1149,7 +1163,6 @@ sr-Latn:
     trace:
       pending: NA_ČEKANJU
       count_points: '%{count} tačaka'
-      ago: pre %{time_in_words_ago}
       more: više
       trace_details: Pogledajte detalje o tragu
       view_map: Pogledaj kartu
@@ -1205,10 +1218,8 @@ sr-Latn:
   oauth_clients:
     new:
       title: Upiši novi program
-      submit: Otvori nalog
     edit:
       title: Uredi program
-      submit: Uredi
     show:
       title: OAuth detalji za %{app_name}
       key: 'Ključ potrošača:'
@@ -1331,15 +1342,12 @@ sr-Latn:
     terms:
       title: Uslovi uređivanja
       heading: Uslovi uređivanja
-      read and accept: Pročitajte ugovor ispod i pritisnite dugme za potvrdu da biste
-        prihvatili uslove za postojeće i buduće doprinose.
       consider_pd: Prema gorenavedenom ugovoru, smatram da moji doprinosi pripadaju
         javnom vlasništvu
       consider_pd_why: šta je ovo?
       consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain?uselang=sr-ec
       guidance: 'Podaci koji će vam pomoći da razumete ove uslove: <a href="%{summary}">kratak
         opis</a> i neki <a href="%{translations}">neformalni prevodi</a>'
-      agree: Prihvati
       declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
       decline: Odbaci
       you need to accept or decline: Molimo vas da pročitate ugovor pre nego što ga
@@ -1371,11 +1379,9 @@ sr-Latn:
       remove as friend: ukloni kao prijatelja
       add as friend: dodaj kao prijatelja
       mapper since: 'Kartograf od:'
-      ago: (pre %{time_in_words_ago})
       ct status: 'Uslovi za učešće:'
       ct undecided: Neodlučeno
       ct declined: Odbijeno
-      ct accepted: Prihvaćeno pre %{ago} dana
       latest edit: 'Poslednja izmena pre %{ago}:'
       email address: 'E-adresa:'
       created from: 'Napravljeno iz:'
@@ -1567,7 +1573,6 @@ sr-Latn:
         više detalja. Imajte na umu da ne znaju svi korisnici žargon zajednice, te
         im pokušajte objasniti jednostavnim jezikom.
       period: Koliko dugo će korisnik biti blokiran od API-ja, počev od sada.
-      submit: Napravi blokadu
       tried_contacting: Kontaktirao sam korisnika i pitao ga da prestane.
       tried_waiting: Dao sam dovoljno vremena korisniku da odgovori.
       needs_view: Korisnik mora da se prijavi da bi blokada bila uklonjena
@@ -1579,7 +1584,6 @@ sr-Latn:
         više detalja. Imajte na umu da ne znaju svi korisnici žargon zajednice, te
         im pokušajte objasniti jednostavnim jezikom.
       period: Koliko dugo će korisnik biti blokiran od API-ja, počev od sada.
-      submit: Ažuriraj blokadu
       show: Pogledaj ovu blokadu
       back: Pogledaj sve blokade
       needs_view: Da li korisnik mora da se prijavi da bi blokada bila uklonjena?
@@ -1607,13 +1611,14 @@ sr-Latn:
       confirm: Želite li da opozovete ovu blokadu?
       revoke: Opozovi
       flash: Ova blokada je opozvana.
-    period:
-      one: 1 sat
-      other: '%{count} sata'
     helper:
       time_future: Završava se u %{time}.
       until_login: Aktivno sve dok se korisnik ne prijavi.
       time_past: Završeno pre %{time}.
+      block_duration:
+        hours:
+          one: 1 sat
+          other: '%{count} sata'
     blocks_on:
       title: Blokade za %{name}
       heading: Spisak blokada za %{name}
@@ -1625,8 +1630,6 @@ sr-Latn:
     show:
       title: '%{block_on} je blokiran/a od %{block_by}'
       heading: '%{block_on} je blokiran/a od %{block_by}'
-      time_future: Završava se u %{time}
-      time_past: Završeno pre %{time}
       status: Stanje
       show: Prikaži
       edit: Uredi
@@ -1663,7 +1666,6 @@ sr-Latn:
     edit:
       description: Opis
       heading: Uredi redakciju
-      submit: Sačuvaj redakciju
       title: Uređivanje redakcije
     index:
       empty: Nema redakcija.
@@ -1672,7 +1674,6 @@ sr-Latn:
     new:
       description: Opis
       heading: Unesite podatke za novu redakciju
-      submit: Napravi redakciju
       title: Pravljenje nove redakcije
     show:
       description: 'Opis:'

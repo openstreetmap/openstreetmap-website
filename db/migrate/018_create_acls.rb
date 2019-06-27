@@ -1,6 +1,6 @@
 require "migrate"
 
-class CreateAcls < ActiveRecord::Migration[5.0]
+class CreateAcls < ActiveRecord::Migration[4.2]
   def self.up
     create_table "acls", :id => false do |t|
       t.column "id",      :primary_key, :null => false

@@ -4,8 +4,10 @@
 # Author: Abijeet Patro
 # Author: Arent
 # Author: Bouman4
+# Author: CGID
 # Author: Carsrac
 # Author: Donarreiskoffer
+# Author: Duckson32
 # Author: Elroy
 # Author: Esketti
 # Author: Freek
@@ -18,6 +20,7 @@
 # Author: JaapDeKleine
 # Author: Jochempluim
 # Author: Joost schouppe
+# Author: Jouke
 # Author: Ldp
 # Author: Lemondoge
 # Author: M!dgard
@@ -50,10 +53,32 @@ nl:
   time:
     formats:
       friendly: '%e %B %Y om %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Opslaan
+      diary_entry:
+        create: Publiceren
+        update: Update
+      message:
+        create: Verzenden
+      client_application:
+        create: Registreren
+        update: Bewerken
+      redaction:
+        create: Redigering maken
+        update: Redigering opslaan
+      trace:
+        create: Uploaden
+        update: Wijzigingen opslaan
+      user_block:
+        create: Blokkade instellen
+        update: Blokkade bijwerken
   activerecord:
     errors:
       messages:
         invalid_email_address: '"%s" lijkt geen geldig e-mailadres te zijn.'
+        email_address_not_routable: is niet routeerbaar
     models:
       acl: Rechtenoverzicht
       changeset: Wijzigingenset
@@ -337,7 +362,14 @@ nl:
   diary_entries:
     new:
       title: Nieuw dagboekbericht
-      publish_button: Publiceren
+    form:
+      subject: 'Onderwerp:'
+      body: 'Tekst:'
+      language: 'Taal:'
+      location: 'Plaats:'
+      latitude: 'Breedtegraad:'
+      longitude: 'Lengtegraad:'
+      use_map_link: kaart gebruiken
     index:
       title: Gebruikersdagboeken
       title_friends: Dagboeken van vrienden
@@ -352,14 +384,6 @@ nl:
       newer_entries: Nieuwere berichten
     edit:
       title: Dagboekbericht bewerken
-      subject: 'Onderwerp:'
-      body: 'Tekst:'
-      language: 'Taal:'
-      location: 'Plaats:'
-      latitude: 'Breedtegraad:'
-      longitude: 'Lengtegraad:'
-      use_map_link: kaart gebruiken
-      save_button: Opslaan
       marker_text: Locatie van dagboekbericht
     show:
       title: Dagboek van %{user} | %{title}
@@ -367,7 +391,6 @@ nl:
       leave_a_comment: Reactie achterlaten
       login_to_leave_a_comment: U moet moet zich %{login_link} om te kunnen reageren
       login: Aanmelden
-      save_button: Opslaan
     no_such_entry:
       title: Het opgegeven dagboekbericht bestaat niet
       heading: Het bericht met id %{id} bestaat niet
@@ -382,7 +405,7 @@ nl:
         one: '%{count} reactie'
         other: '%{count} reacties'
       edit_link: Bewerk dit bericht
-      hide_link: Veberg dit bericht
+      hide_link: Verberg dit bericht
       confirm: Bevestigen
       report: Rapporteer dit bericht
     diary_comment:
@@ -410,7 +433,6 @@ nl:
       post: Dagboekbericht
       when: Wanneer
       comment: Reactie
-      ago: '%{ago} geleden'
       newer_comments: Nieuwe opmerkingen
       older_comments: Eerdere opmerkingen
   geocoder:
@@ -659,7 +681,7 @@ nl:
           garages: Garages
           grass: Gras
           greenfield: Stadsgroen
-          industrial: Industrieel gebied
+          industrial: Industriegebied
           landfill: Stortplaats
           meadow: Weide
           military: Militair gebied
@@ -1305,7 +1327,6 @@ nl:
       send_message_to: Een persoonlijk bericht naar %{name} verzenden
       subject: Onderwerp
       body: Tekst
-      send_button: Verzenden
       back_to_inbox: Terug naar Postvak IN
     create:
       message_sent: Bericht verzonden
@@ -1488,14 +1509,17 @@ nl:
           <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> en
           <a href="http://www.mkgp.gov.si/en/">Ministerie van Landbouw, Bosbouw en Voedsel</a>
           (openbare informatie van Slovenië).
+        contributors_es_html: |-
+          <strong>Spanje</strong>: Bevat data afkomstig van het Spaans Nationaal Geografisch Instituut (<a href="http://www.ign.es/">IGN</a>) en het Nationaal Cartografisch Systeem (<a href="http://www.scne.es/">SCNE</a>)
+          gelicenseerd voor hergebruik onder <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
         contributors_za_html: |-
           <strong>Zuid-Afrika</strong>: Bevat gegevens afkomstig uit
           <a href="http://www.ngi.gov.za/">Chief Directorate:
           National Geo-Spatial Information</a>, auteursrechten voor de Staat voorbehouden.
         contributors_gb_html: |-
           <strong>Verenigd Koninkrijk</strong>: bevat gegevens van
-          Ordnance Survey &copy; Crown Copyright en databaserechten
-          2010-2012.
+          Ordnance Survey &copy; Crown copyright en databaserechten
+          2010-2019.
         contributors_footer_1_html: |-
           Voor meer gegevens over deze en andere bronnen die gebruikt zijn
           voor het verbeteren van OpenStreetMap, kunt u de <a
@@ -1716,7 +1740,7 @@ nl:
           - Gemene grond
           - weide
           retail: Winkelgebied
-          industrial: Industrieel gebied
+          industrial: Industriegebied
           commercial: Commercieel gebied
           heathland: Heide
           lake:
@@ -1827,7 +1851,6 @@ nl:
       visibility: 'Zichtbaarheid:'
       visibility_help: wat betekent dit?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces‎
-      upload_button: Uploaden
       help: Hulp
       help_url: http://wiki.openstreetmap.org/wiki/NL:Upload
     create:
@@ -1858,7 +1881,6 @@ nl:
       description: 'Beschrijving:'
       tags: 'Labels:'
       tags_help: kommagescheiden
-      save_button: Wijzigingen opslaan
       visibility: 'Zichtbaarheid:'
       visibility_help: wat betekent dit?
     update:
@@ -1892,7 +1914,6 @@ nl:
     trace:
       pending: BEZIG
       count_points: '%{count} punten'
-      ago: '%{time_in_words_ago} geleden'
       more: meer
       trace_details: Trackdetails bekijken
       view_map: Kaart bekijken
@@ -1979,10 +2000,8 @@ nl:
   oauth_clients:
     new:
       title: Nieuwe toepassing registreren
-      submit: Registreren
     edit:
       title: Uw toepassing bewerken
-      submit: Bewerken
     show:
       title: OAuth-gegevens voor %{app_name}
       key: 'Gebruikerssleutel:'
@@ -2152,9 +2171,6 @@ nl:
     terms:
       title: Bijdragersovereenkomst
       heading: Voorwaarden voor bijdragen
-      read and accept: Lees de overeenkomst hieronder in en klik op de knop "Instemmen"
-        om te bevestigen dat u de voorwaarden van deze overeenkomst voor uw bestaande
-        en toekomstige bijdragen aanvaardt.
       consider_pd: Met inachtneming van de bovenstaande overeenkomst, bevinden mijn
         bijdragen zich in het publieke domein
       consider_pd_why: wat is dit?
@@ -2162,7 +2178,6 @@ nl:
       guidance: 'Meer informatie om de voorwaarden beter te kunnen begrijpen: een
         <a href="%{summary}">leesbare samenvatting</a> en <a href="%{translations}">informele
         vertalingen</a>'
-      agree: Aanvaarden
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Weigeren
       you need to accept or decline: Lees de nieuwe Bijdragersvoorwaarden en besluit
@@ -2199,11 +2214,9 @@ nl:
       remove as friend: Vriend verwijderen
       add as friend: Vriend toevoegen
       mapper since: 'Mapper sinds:'
-      ago: (%{time_in_words_ago} geleden)
       ct status: 'Voorwaarden voor bijdragen:'
       ct undecided: Onbeslist
       ct declined: Afgewezen
-      ct accepted: '%{ago} geleden geaccepteerd'
       latest edit: 'Laatste bewerking %{ago}:'
       email address: 'E-mailadres:'
       created from: 'Aangemaakt door:'
@@ -2428,7 +2441,6 @@ nl:
         begrijpelijk.
       period: Hoe lang, per nu, moet de gebruiker worden uitgesloten van het gebruik
         van de API?
-      submit: Blokkade instellen
       tried_contacting: Ik heb contact opgenomen met de gebruiker en gevraagd te stoppen.
       tried_waiting: Ik heb de gebruiker voldoende tijd gegeven om te reageren op
         deze correspondentie.
@@ -2443,7 +2455,6 @@ nl:
         begrijpelijk.
       period: Hoe lang, per nu, moet de gebruiker worden uitgesloten van het gebruik
         van de API?
-      submit: Blokkade bijwerken
       show: Blokkade bekijken
       back: Alle blokkades bekijken
       needs_view: Moet de gebruiker aanmelden voordat deze blokkade wordt verwijderd?
@@ -2472,15 +2483,16 @@ nl:
       confirm: Weet u zeker dat u deze blokkade wilt intrekken?
       revoke: Intrekken
       flash: Deze blokkade is ingetrokken.
-    period:
-      one: 1 uur
-      other: '%{count} uur'
     helper:
       time_future: Vervalt over %{time}.
       until_login: Actief totdat de gebruiker zich aanmeldt.
       time_future_and_until_login: Eindigt in %{time} en nadat de gebruiker ingelogd
         is.
       time_past: '%{time} geleden vervallen.'
+      block_duration:
+        hours:
+          one: 1 uur
+          other: '%{count} uur'
     blocks_on:
       title: Blokkades voor %{name}
       heading: Lijst met blokkades voor %{name}
@@ -2492,10 +2504,7 @@ nl:
     show:
       title: '%{block_on} geblokkeerd door %{block_by}'
       heading: '%{block_on} geblokkeerd door %{block_by}'
-      time_future: Vervalt over %{time}
-      time_past: Is %{time} geleden vervallen
       created: Aangemaakt
-      ago: '%{time} geleden'
       status: Status
       show: Weergeven
       edit: Bewerken
@@ -2529,7 +2538,6 @@ nl:
       description: Beschrijving
       created_at: Aangemaakt op
       last_changed: Laatste wijziging
-      ago_html: '%{when} geleden'
   javascripts:
     close: Sluiten
     share:
@@ -2721,7 +2729,6 @@ nl:
     edit:
       description: Beschrijving
       heading: Redigering bewerken
-      submit: Redigering opslaan
       title: Redigering bewerken
     index:
       empty: Geen weer te geven redigeringen.
@@ -2730,7 +2737,6 @@ nl:
     new:
       description: Beschrijving
       heading: Gegevens voor nieuwe redigering invoeren
-      submit: Redigering maken
       title: Aanmaak van een nieuwe redigering
     show:
       description: 'Beschrijving:'

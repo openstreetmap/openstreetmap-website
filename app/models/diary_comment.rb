@@ -2,9 +2,9 @@
 #
 # Table name: diary_comments
 #
-#  id             :integer          not null, primary key
-#  diary_entry_id :integer          not null
-#  user_id        :integer          not null
+#  id             :bigint(8)        not null, primary key
+#  diary_entry_id :bigint(8)        not null
+#  user_id        :bigint(8)        not null
 #  body           :text             not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null

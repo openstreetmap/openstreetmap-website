@@ -130,8 +130,8 @@ class ChangesetsControllerTest < ActionController::TestCase
   # Checks the display of the friends changesets listing
   def test_index_friends
     private_user = create(:user, :data_public => true)
-    friend = create(:friend, :befriender => private_user)
-    create(:changeset, :user => friend.befriendee)
+    friendship = create(:friendship, :befriender => private_user)
+    create(:changeset, :user => friendship.befriendee)
 
     get :index, :params => { :friends => true }
     assert_response :redirect
@@ -147,7 +147,7 @@ class ChangesetsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template "index"
 
-    check_index_result(Changeset.where(:user => private_user.friend_users.identifiable))
+    check_index_result(Changeset.where(:user => private_user.friends.identifiable))
   end
 
   ##

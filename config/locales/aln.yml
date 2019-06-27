@@ -1,6 +1,7 @@
 # Messages for Gheg Albanian (Gegë)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Albiona
 # Author: Alket
 # Author: Ardian
@@ -18,6 +19,21 @@ aln:
   time:
     formats:
       friendly: '%e %B %Y te %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Ruje
+      message:
+        create: Dërgo
+      client_application:
+        create: Regjistrohu
+        update: Redaktoj
+      trace:
+        create: Ngarko
+        update: Ruaj Ndryshimet
+      user_block:
+        create: bllok Krijo
+        update: bllok Update
   activerecord:
     models:
       acl: Lista Access Control
@@ -148,6 +164,14 @@ aln:
   diary_entries:
     new:
       title: Hyrja e re Ditari
+    form:
+      subject: 'Titulli:'
+      body: 'Trupi:'
+      language: 'Gjuha:'
+      location: 'Lokacioni:'
+      latitude: 'Latitude:'
+      longitude: 'Gjatësi:'
+      use_map_link: Harta e përdorimit
     index:
       title: ditarë Përdorues ,
       user_title: Ditari i %{user}
@@ -160,14 +184,6 @@ aln:
       newer_entries: Shënimet Ma Të Reja
     edit:
       title: hyrje Edit ditar
-      subject: 'Titulli:'
-      body: 'Trupi:'
-      language: 'Gjuha:'
-      location: 'Lokacioni:'
-      latitude: 'Latitude:'
-      longitude: 'Gjatësi:'
-      use_map_link: Harta e përdorimit
-      save_button: Ruje
       marker_text: Vendndodhja Ditari hyrje
     show:
       title: ditari i %{user} | %{title}
@@ -175,7 +191,6 @@ aln:
       leave_a_comment: Lene naj koment
       login_to_leave_a_comment: '%{login_link} për me lon koment'
       login: Hyrje
-      save_button: Ruje
     no_such_entry:
       title: Nuk ka hyrje të tilla ditar
       heading: 'Nuk ka shënim me id: %{id}'
@@ -686,7 +701,6 @@ aln:
       send_message_to: Qoje një mesazh të ri te %{name}
       subject: Titulli
       body: Organ
-      send_button: Dërgo
       back_to_inbox: Kthehu në postë
     create:
       message_sent: Mesazhi u dërgu
@@ -943,7 +957,6 @@ aln:
       tags_help: Presje e kufizume
       visibility: Dukshmënia
       visibility_help: çka do me than kjo?
-      upload_button: Ngarko
       help: Ndihma
     create:
       upload_trace: Ngarkoj tdhanat e GPS-it
@@ -966,7 +979,6 @@ aln:
       description: 'Përshkrimi:'
       tags: 'Etiketat:'
       tags_help: Presje e kufizume
-      save_button: Ruaj Ndryshimet
       visibility: 'Dukshmënia:'
       visibility_help: Çka do me than kjo?
     trace_optionals:
@@ -995,7 +1007,6 @@ aln:
     trace:
       pending: NË PRITJE
       count_points: '%{count} pikët'
-      ago: '%{time_in_words_ago} përpara'
       more: ma shumë
       trace_details: Kshyri detalet e të dhanave
       view_map: Kshyre Hartën
@@ -1047,10 +1058,8 @@ aln:
   oauth_clients:
     new:
       title: Regjistroje një aplikacion të ri.
-      submit: Regjistrohu
     edit:
       title: Redakto kërkesën tuaj
-      submit: Redaktoj
     show:
       title: Detajet OAuth për %{app_name}
       key: 'Konsumatorit kryesore:'
@@ -1158,7 +1167,6 @@ aln:
       heading: rregullat për Pjesëmarrës
       consider_pd: Unë e konsideroj kontributet e mia të jenë në domenin publik
       consider_pd_why: çka o kjo?
-      agree: Pajtohem
       decline: Mos prano
       legale_select: 'Ju lutem zgjidhni vendin tuaj të banimit:'
       legale_names:
@@ -1186,7 +1194,6 @@ aln:
       remove as friend: heke si shok
       add as friend: shtoje si shoq
       mapper since: 'Hartues qe prej:'
-      ago: (para %{time_in_words_ago})
       email address: 'Email Adresa:'
       created from: 'U krijue prej:'
       status: 'Statuti:'
@@ -1354,7 +1361,6 @@ aln:
         anëtarët e kuptojn gjuhën e komunitetit, pra ju lutem munoni me përdor terma
         të mirë.
       period: Sa kohë, duke filluar nga tani, përdoruesi do të bllokohet nga API për.
-      submit: bllok Krijo
       tried_contacting: Unë kam kontaktuar me përdorues dhe u kërkoi atyre për të
         ndaluar.
       tried_waiting: Unë kam dhënë një sasi të arsyeshme kohore për përdoruesit për
@@ -1369,7 +1375,6 @@ aln:
         të lidhur me situatën. Të ketë parasysh se jo të gjithë përdoruesit e kuptojnë
         zhargon komunitetit, kështu që ju lutemi provoni të përdorni laymans kushtet.
       period: Sa kohë, duke filluar nga tani, përdoruesi do të bllokohet nga API për.
-      submit: bllok Update
       show: Shiko këtë bllok
       back: Shiko të gjitha blloqet e
       needs_view: A i përdoruesit duhet të identifikoheni për para këtij blloku do
@@ -1399,13 +1404,14 @@ aln:
       confirm: Jeni i sigurt që dëshironi të revokuar kete kategori?
       revoke: Tërheq!
       flash: Ky bllok është revokuar.
-    period:
-      one: 1 orë
-      other: '%{count} orë'
     helper:
       time_future: Përfundon në %{time}.
       until_login: Aktiv deri kur përdoruesi shkrimet in
       time_past: Përfundoi %{time} më parë.
+      block_duration:
+        hours:
+          one: 1 orë
+          other: '%{count} orë'
     blocks_on:
       title: Blocks në %{name}
       heading: Lista e blloqeve në %{name}
@@ -1417,8 +1423,6 @@ aln:
     show:
       title: '%{block_on} bllokuar nga %{block_by}'
       heading: '%{block_on} bllokuar nga %{block_by}'
-      time_future: Përfundon në %{time}
-      time_past: Përfundoi %{time} më parë
       status: Statusi
       show: Tregoj
       edit: Redaktoj

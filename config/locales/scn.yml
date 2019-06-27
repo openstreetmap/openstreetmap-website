@@ -12,6 +12,26 @@ scn:
   time:
     formats:
       friendly: '%e %B %Y ê %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Sarva
+      diary_entry:
+        create: Pùbblica
+      message:
+        create: Manna
+      client_application:
+        create: Riggistra
+        update: Cancia
+      redaction:
+        create: Crea l'occultamentu
+        update: Sarva occultamentu
+      trace:
+        create: Càrrica
+        update: Sarva li canciamenti
+      user_block:
+        create: Crea lu bloccu
+        update: Aggiorna lu bloccu
   activerecord:
     models:
       acl: Lista di cuntrollu d'accessu
@@ -281,7 +301,14 @@ scn:
   diary_entries:
     new:
       title: Vuci nova dû diariu
-      publish_button: Pùbblica
+    form:
+      subject: 'Oggettu:'
+      body: 'Corpu:'
+      language: 'Lingua:'
+      location: 'Locu:'
+      latitude: 'Latitùdini:'
+      longitude: 'Luncitùdini:'
+      use_map_link: adòpira la cartina
     index:
       title: Diarî di l'utenti
       title_friends: Diarî di l'amici
@@ -296,14 +323,6 @@ scn:
       newer_entries: Vuci cchiù novi
     edit:
       title: Cancia sta vuci dû diariu
-      subject: 'Oggettu:'
-      body: 'Corpu:'
-      language: 'Lingua:'
-      location: 'Locu:'
-      latitude: 'Latitùdini:'
-      longitude: 'Luncitùdini:'
-      use_map_link: adòpira la cartina
-      save_button: Sarva
       marker_text: Locu dâ vuci dû diariu
     show:
       title: Diariu di %{user} | %{title}
@@ -311,7 +330,6 @@ scn:
       leave_a_comment: Lassa nu cummentu
       login_to_leave_a_comment: Pi lassari cummenti %{login_link}
       login: trasi
-      save_button: Sarva
     no_such_entry:
       title: Nudda vuci dû diariu currispunni
       heading: 'Nudda vuci havi l''id: %{id}'
@@ -352,7 +370,6 @@ scn:
       post: Pùbblica
       when: Quannu
       comment: Cummentu
-      ago: '%{ago} fa'
       newer_comments: Cummenti cchiù novi
       older_comments: Cummenti cchiù vecchî
   geocoder:
@@ -1068,7 +1085,6 @@ scn:
       send_message_to: Manna un missaggiu novu a %{name}
       subject: Oggettu
       body: Corpu
-      send_button: Manna
       back_to_inbox: Arritorna â posta arrivata
     create:
       message_sent: Missaggiu mannatu
@@ -1558,7 +1574,6 @@ scn:
       tags_help: spartuti câ vìrgula
       visibility: 'Visibbilità:'
       visibility_help: chi voli diri?
-      upload_button: Càrrica
       help: Guida
     create:
       upload_trace: Càrrica nu tracciatu GPS
@@ -1586,7 +1601,6 @@ scn:
       description: 'Discrizzioni:'
       tags: 'Etichetti:'
       tags_help: spartuti câ vìrgula
-      save_button: Sarva li canciamenti
       visibility: 'Visibbilità:'
       visibility_help: chi voli diri?
     trace_optionals:
@@ -1617,7 +1631,6 @@ scn:
     trace:
       pending: N CUDA
       count_points: '%{count} punti'
-      ago: '%{time_in_words_ago} fa'
       more: dittagghî
       trace_details: Talìa li dittagghî dû tracciatu
       view_map: Talìa lu tracciatu supra dâ cartina
@@ -1695,10 +1708,8 @@ scn:
   oauth_clients:
     new:
       title: Riggistrazzioni di n'applicazzioni nova
-      submit: Riggistra
     edit:
       title: Cancia la tò applicazzioni
-      submit: Cancia
     show:
       title: Dittagghî d'OAuth pi %{app_name}
       key: 'Consumer Key:'
@@ -1863,16 +1874,12 @@ scn:
     terms:
       title: Cunnizzioni di cuntribbuzzioni
       heading: Cunnizzioni di cuntribbuzzioni
-      read and accept: Pi favuri lèggiti stu cuntrattu e carca lu buttuni «accettu»
-        pi cunfirmari chi accetti li cunnizzioni di stu cuntrattu pî tò cuntribbuti
-        esistenti e futuri.
       consider_pd: Sparti dû cuntrattu ccassupra, cunzìddiru chi li mè cuntribbuti
         sunnu ntô Duminiu Pùbblicu
       consider_pd_why: chi voli diri?
       guidance: 'Nfurmazzioni chi ti ponnu aiutari a capiri sti cunnizzioni: nu <a
         href="%{summary}">riassuntu liggìbbili dî genti</a> e quarchi <a href="%{translations}">traduzzioni
         nun furmali</a>'
-      agree: Accettu
       decline: Rifiutu
       you need to accept or decline: Pi cuntinuari, pi favuri leggi li cunnizzioni
         di cuntribbuzzioni novi e appoi accèttali o rifiùtali.
@@ -1907,11 +1914,9 @@ scn:
       remove as friend: Leva di l'amici
       add as friend: Agghiunci a l'amici
       mapper since: 'Mappaturi di:'
-      ago: (%{time_in_words_ago} fa)
       ct status: 'Cunnizzioni di cuntribbuzzioni:'
       ct undecided: Nun dicisi
       ct declined: Rifiutati
-      ct accepted: Accittati %{ago} fa
       latest edit: 'Ùrtimu canciamentu %{ago}:'
       email address: 'Nnirizzu di posta elittrònica:'
       created from: 'Criatu di:'
@@ -2126,7 +2131,6 @@ scn:
         chi nun tutti l'utenti capìscinu lu gergu dâ cumunità, pi chistu cerca d'adupirari
         tèrmini chi tutti ponnu cumprènniri.
       period: Pi quantu tempu, a pàrtiri d'ora, l'utenti è bluccatu di l'usu di l'API.
-      submit: Crea lu bloccu
       tried_contacting: Cuntattai l'utenti e ci addumannai di finìrila.
       tried_waiting: Ci desi abbastanti tempu p'arrispùnniri â mè cumunicazzioni.
       needs_view: L'utenti havi a tràsiri prima chi stu bloccu veni livatu
@@ -2139,7 +2143,6 @@ scn:
         Teni prisenti chi nun tutti l'utenti capìscinu lu gergu dâ cumunità, pi chistu
         cerca d'adupirari tèrmini chi tutti ponnu cumprènniri.
       period: Pi quantu tempu, a pàrtiri d'ora, l'utenti è bluccatu di l'usu di l'API.
-      submit: Aggiorna lu bloccu
       show: Talìa stu bloccu
       back: Talìa tutti li blocchi
       needs_view: Havi a tràsiri l'utenti avanti chi stu bloccu veni livatu?
@@ -2168,13 +2171,14 @@ scn:
       confirm: Sî sicuru chi voi arrivucari stu bloccu?
       revoke: Rèvuca!
       flash: Stu bloccu fu arrivucatu.
-    period:
-      one: 1 ura
-      other: '%{count} uri'
     helper:
       time_future: Finisci tra %{time}
       until_login: Attivatu nfina a quannu l'utenti trasi.
       time_past: Finìu %{time} fa.
+      block_duration:
+        hours:
+          one: 1 ura
+          other: '%{count} uri'
     blocks_on:
       title: Blocchi di %{name}
       heading: Elencu dî blocchi contra a %{name}
@@ -2186,10 +2190,7 @@ scn:
     show:
       title: '%{block_on} bluccatu di %{block_by}'
       heading: '%{block_on} bluccatu di %{block_by}'
-      time_future: Finisci tra %{time}
-      time_past: Finìu %{time} fa
       created: Criatu
-      ago: '%{time} fa'
       status: Statu
       show: Ammustra
       edit: Cancia
@@ -2223,7 +2224,6 @@ scn:
       description: Discrizzioni
       created_at: Criata lu
       last_changed: Canciata l'ùrtima vota lu
-      ago_html: '%{when} fa'
   javascripts:
     close: Chiudi
     share:
@@ -2346,7 +2346,6 @@ scn:
     edit:
       description: Discrizzioni
       heading: Cancia occultamentu
-      submit: Sarva occultamentu
       title: Cancia occultamentu
     index:
       empty: Nuddu occultamentu d'ammustrari.
@@ -2355,7 +2354,6 @@ scn:
     new:
       description: Discrizzioni
       heading: Nziriri li nfurmazzioni di l'occultamentu novu
-      submit: Crea l'occultamentu
       title: Criazzioni dûn occultamentu novu
     show:
       description: 'Discrizzioni:'

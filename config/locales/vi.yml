@@ -13,13 +13,38 @@
 # Author: Phjtieudoc
 # Author: Ruila
 # Author: Trần Nguyễn Minh Huy
+# Author: 神樂坂秀吉
 ---
 vi:
   time:
     formats:
       friendly: '%e tháng %m năm %Y lúc %H:%M'
       blog: '%d tháng %m năm %Y'
+  helpers:
+    submit:
+      diary_comment:
+        create: Lưu
+      diary_entry:
+        create: Đăng
+      message:
+        create: Gửi
+      client_application:
+        create: Đăng ký
+        update: Sửa đổi
+      redaction:
+        create: Ẩn dãy phiên bản
+        update: Lưu dãy ẩn
+      trace:
+        create: Tải lên
+        update: Lưu các Thay đổi
+      user_block:
+        create: Cấm người dùng
+        update: Cập nhật tác vụ cấm
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: hình như không phải là địa chỉ thư điện tử hợp lệ
+        email_address_not_routable: không thể gửi đến
     models:
       acl: Danh sách Điều khiển Truy cập
       changeset: Bộ thay đổi
@@ -87,6 +112,12 @@ vi:
         description: Miêu tả
         languages: Ngôn ngữ
         pass_crypt: Mật khẩu
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: 30 giây trước
+      x_years:
+        one: 1 năm trước
+        other: '%{count} năm trước'
   editor:
     default: Mặc định (hiện là %{name})
     potlatch:
@@ -293,7 +324,14 @@ vi:
   diary_entries:
     new:
       title: Mục nhật ký mới
-      publish_button: Đăng
+    form:
+      subject: 'Tiêu đề:'
+      body: 'Nội dung:'
+      language: 'Ngôn ngữ:'
+      location: 'Vị trí:'
+      latitude: 'Vĩ độ:'
+      longitude: 'Kinh độ:'
+      use_map_link: sử dụng bản đồ
     index:
       title: Các nhật ký của các người dùng
       title_friends: Các nhật ký của bạn bè
@@ -308,14 +346,6 @@ vi:
       newer_entries: Mục mới hơn
     edit:
       title: Sửa đổi mục nhật ký
-      subject: 'Tiêu đề:'
-      body: 'Nội dung:'
-      language: 'Ngôn ngữ:'
-      location: 'Vị trí:'
-      latitude: 'Vĩ độ:'
-      longitude: 'Kinh độ:'
-      use_map_link: sử dụng bản đồ
-      save_button: Lưu
       marker_text: Vị trí của mục nhật ký
     show:
       title: Nhật ký của %{user} | %{title}
@@ -323,7 +353,6 @@ vi:
       leave_a_comment: Để lại nhận xét
       login_to_leave_a_comment: '%{login_link} để nhận xét'
       login: Đăng nhập
-      save_button: Lưu
     no_such_entry:
       title: Mục nhật ký không tồn tại
       heading: 'Không có mục với ID: %{id}'
@@ -364,7 +393,6 @@ vi:
       post: Mục nhật ký
       when: Lúc đăng
       comment: Nhận xét
-      ago: cách đây %{ago}
       newer_comments: Các Nhận xét Mới hơn
       older_comments: Các Nhận xét Cũ hơn
   geocoder:
@@ -394,6 +422,7 @@ vi:
           gate: Cổng
           hangar: Nhà Máy bay
           helipad: Sân bay Trực thăng
+          parking_position: Chỗ Đậu Máy bay
           runway: Đường băng
           taxiway: Đường lăn
           terminal: Nhà ga Sân bay
@@ -882,7 +911,7 @@ vi:
           "yes": Tiệm
         tourism:
           alpine_hut: Túp lều Trên Núi
-          apartment: Khu chung cư
+          apartment: Khu Nghỉ dưỡng Chung cư
           artwork: Tác phẩm Nghệ thuật
           attraction: Nơi Du lịch
           bed_and_breakfast: Nhà trọ
@@ -1075,9 +1104,12 @@ vi:
     intro_text: OpenStreetMap là bản đồ thế giới do những người như bạn xây dựng và
       cho phép sử dụng thoải mái theo một giấy phép nguồn mở.
     intro_2_create_account: Mở tài khoản mới
+    hosting_partners_html: Dịch vụ lưu trữ nhờ sự hỗ trợ của %{ucl}, %{bytemark},
+      và %{partners} khác.
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: các công ty bảo trợ
+    tou: Điều khoản Sử dụng
     osm_offline: Cơ sở dữ liệu OpenStreetMap đang ngoại tuyến trong lúc đang thực
       hiện những công việc bảo quản cơ sở dữ liệu cần thiết.
     osm_read_only: Cơ sở dữ liệu OpenStreetMap đang bị khóa không được sửa đổi trong
@@ -1236,7 +1268,6 @@ vi:
       send_message_to: Gửi thư mới cho %{name}
       subject: Tiêu đề
       body: Nội dung
-      send_button: Gửi
       back_to_inbox: Trở về hộp thư đến
     create:
       message_sent: Thư đã gửi
@@ -1309,7 +1340,7 @@ vi:
         Bản quyền và Giấy phép</a>.'
       legal_title: Pháp luật
       legal_html: |-
-        Trang Web này và nhiều dịch vụ có liên quan được hoạt động chính thức bởi <a href='https://osmfoundation.org/?uselang=vi'>Quỹ OpenStreetMap</a> (OSMF) thay mặt cho cộng đồng. Việc sử dụng các dịch vụ do OSMF hoạt động phải tuân theo <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy?uselang=vi">các Quy định Sử dụng Hợp lý</a> và <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy?uselang=vi">Quy định về Quyền Riêng tư</a> của chúng tôi.
+        Trang Web này và nhiều dịch vụ có liên quan được hoạt động chính thức bởi <a href='https://osmfoundation.org/?uselang=vi'>Quỹ OpenStreetMap</a> (OSMF) thay mặt cho cộng đồng. Việc sử dụng các dịch vụ do OSMF hoạt động phải tuân theo <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use?uselang=vi">các Điều khoản Sử dụng</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy?uselang=vi">các Quy định Sử dụng Hợp lý</a>, và <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy?uselang=vi">Quy định về Quyền Riêng tư</a> của chúng tôi.
         <br>
         Xin vui lòng <a href='https://osmfoundation.org/Contact?uselang=vi'>liên lạc với OSMF</a> nếu bạn có thắc mắc về giấy phép, bản quyền, hoặc thắc mắc khác về pháp luật.
         <br>
@@ -1401,11 +1432,16 @@ vi:
           href=\"http://www.gu.gov.si/en/\">Cơ quan Khảo sát và Bản đồ</a> và\n<a
           href=\"http://www.mkgp.gov.si/en/\">Cục Nông nghiệp, Lâm nghiệp, và Thức
           ăn</a>\n(thông tin công cộng của Slovenia)."
+        contributors_es_html: "<strong>Tây Ban Nha</strong>: Bao gồm dữ liệu bắt nguồn
+          từ \nViện Địa lý Quốc gia Tây Ban Nha (<a href=\"http://www.ign.es/\">IGN</a>)
+          và\nHệ thống Bản đồ Quốc gia (<a href=\"http://www.scne.es/\">SCNE</a>)\nđược
+          cấp phép tái sử dụng theo <a href=\"https://creativecommons.org/licenses/by/4.0/deed.vi\">CC
+          BY 4.0</a>."
         contributors_za_html: '<strong>Nam Phi</strong>: Bao gồm dữ liệu từ <a href="http://www.ngi.gov.za/">Tổng
           cục: Thông tin Không gian địa lý Quốc gia</a>, bản quyền nhà nước được bảo
           lưu.'
         contributors_gb_html: '<strong>Vương quốc Anh</strong>: Bao gồm dữ liệu Ordnance
-          Survey © bản quyền Crown Copyright và quyền cơ sở dữ liệu 2010–12.'
+          Survey © bản quyền Crown Copyright và quyền cơ sở dữ liệu 2010–19.'
         contributors_footer_1_html: |-
           Xem thêm chi tiết và các nguồn gốc khác dùng để cải tiến OpenStreetMap tại <a
           href="https://wiki.openstreetmap.org/wiki/Contributors?uselang=vi">trang Người đóng góp</a> trên OpenStreetMap Wiki.
@@ -1557,6 +1593,8 @@ vi:
       welcomemat:
         url: https://welcome.openstreetmap.org/
         title: Dành cho các tổ chức
+        description: Tổ chức của bạn có tính tương tác với OpenStreetMap? Tìm hiểu
+          thêm trong “Thảm Trước Cửa”.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Vi:Main_Page?uselang=vi
         title: wiki.openstreetmap.org
@@ -1648,7 +1686,7 @@ vi:
       edit: Sửa đổi
       preview: Xem trước
     markdown_help:
-      title_html: Trang trí dùng cú pháp <a href="https://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Trang trí dùng cú pháp <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Đề mục
       heading: Đề mục
       subheading: Đề mục con
@@ -1726,7 +1764,6 @@ vi:
       visibility: 'Mức độ Truy cập:'
       visibility_help: điều này có nghĩa là gì?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=vi
-      upload_button: Tải lên
       help: Trợ giúp
       help_url: http://wiki.openstreetmap.org/wiki/Upload?uselang=vi
     create:
@@ -1753,7 +1790,6 @@ vi:
       description: 'Miêu tả:'
       tags: 'Thẻ:'
       tags_help: dấu phẩy phân cách
-      save_button: Lưu các Thay đổi
       visibility: 'Mức độ truy cập:'
       visibility_help: điều này có nghĩa là gì?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=vi
@@ -1788,7 +1824,6 @@ vi:
     trace:
       pending: CHƯA XỬ
       count_points: '%{count} nốt'
-      ago: cách đây %{time_in_words_ago}
       more: thêm
       trace_details: Xem Chi tiết Tuyến đường
       view_map: Xem Bản đồ
@@ -1829,6 +1864,7 @@ vi:
         other: Tập tin GPX của %{user} có %{count} địa điểm
       description_without_count: Tập tin GPX của %{user}
   application:
+    permission_denied: Bạn không có quyền thực hiện tác vụ này
     require_cookies:
       cookies_needed: Hình như đã tắt cookie. Xin hãy bật lên chức năng cookie trong
         trình duyệt để tiếp tục.
@@ -1873,10 +1909,8 @@ vi:
   oauth_clients:
     new:
       title: Đăng ký chương trình mới
-      submit: Đăng ký
     edit:
       title: Sửa đổi chương trình của bạn
-      submit: Sửa đổi
     show:
       title: Chi tiết OAuth của %{app_name}
       key: 'Từ khóa Tiêu dùng:'
@@ -2042,19 +2076,26 @@ vi:
         wiki này</a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=vi
     terms:
-      title: Điều kiện đóng góp
-      heading: Điều kiện đóng góp
-      read and accept: Xin vui lòng đọc thỏa thuận ở dưới và bấm nút Đồng ý để cho
-        biết chấp nhận các điều khoản của thỏa thuận này đối với các đóng góp của
-        bạn hiện tại và tương lai.
-      consider_pd: Ngoài các thỏa thuận ở trên, tôi coi rằng các đóng góp của tôi
+      title: Điều khoản
+      heading: Điều khoản
+      heading_ct: Điều kiện đóng góp
+      read and accept with tou: Xin vui lòng đọc thỏa thuận đóng góp và các điều khoản
+        sử dụng, đọc xong thì đánh cả hai hộp kiểm và bấm nút Tiếp tục.
+      contributor_terms_explain: Thỏa thuận này quy định các đóng góp do bạn đã thực
+        hiện và sẽ thực hiện.
+      read_ct: Tôi đã đọc và chấp nhận các điều khoản đóng góp bên trên
+      tou_explain_html: Các %{tou_link} quy định cách sử dụng trang Web và các cơ
+        sở hạ tầng khác do OSMF cung cấp. Xin vui lòng mở liên kết và đọc và chấp
+        nhận thỏa thuận.
+      read_tou: Tôi đã đọc và chấp nhận các Điều khoản Sử dụng
+      consider_pd: Bên ngoài các điều bên trên, tôi coi rằng các đóng góp của tôi
         thuộc về phạm vi công cộng
       consider_pd_why: đây là gì?
       consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain?uselang=vi
       guidance: 'Thông tin để tìm hiểu về các điều khoản này: <a href="%{summary}">bản
         tóm tắt dễ đọc</a> và <a href="%{translations}">một số bản dịch không chính
         thức</a>'
-      agree: Chấp nhận
+      continue: Tiếp tục
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=vi
       decline: Từ chối
       you need to accept or decline: Để tiếp tục, xin vui lòng đọc các Điều khoản
@@ -2091,11 +2132,9 @@ vi:
       remove as friend: Hủy Kết Bạn
       add as friend: Kết Bạn
       mapper since: 'Tham gia:'
-      ago: (cách đây %{time_in_words_ago})
       ct status: 'Điều khoản đóng góp:'
       ct undecided: Chưa quyết định
       ct declined: Từ chối
-      ct accepted: Chấp nhận cách đây %{ago}
       latest edit: 'Sửa đổi gần đây nhất cách đây %{ago}:'
       email address: 'Địa chỉ thư điện tử:'
       created from: 'Địa chỉ IP khi mở:'
@@ -2318,7 +2357,6 @@ vi:
         tiết về trường hợp này. Xin hãy tránh thuật ngữ chuyên môn vì người dùng có
         thể không rành.
       period: Thời gian cấm người dùng không được dùng API, bắt đầu từ lúc bây giờ.
-      submit: Cấm người dùng
       tried_contacting: Tôi đã liên lạc với người dùng để xin họ ngừng.
       tried_waiting: Tôi đã chờ đợi người dùng trả lời những lời cảnh báo một thời
         gian hợp lý.
@@ -2332,7 +2370,6 @@ vi:
         có thể không rành.
       period: Thời gian người dùng bị cấm không được dùng API, bắt đầu từ lúc bây
         giờ.
-      submit: Cập nhật tác vụ cấm
       show: Xem tác vụ cấm này
       back: Xem tất cả tác vụ cấm
       needs_view: Người dùng có phải cần đăng nhập trước khi bỏ cấm được không?
@@ -2362,12 +2399,13 @@ vi:
       confirm: Bạn có chắc muốn bỏ cấm người này?
       revoke: Bỏ cấm!
       flash: Đã bỏ cấm.
-    period: '%{count} giờ'
     helper:
       time_future: Hết hạn %{time}.
       until_login: Có hiệu lực cho đến khi người dùng đăng nhập.
       time_future_and_until_login: Kết thúc %{time} nữa sau khi người dùng đăng nhập.
       time_past: Đã hết hạn cách đây %{time}.
+      block_duration:
+        hours: '%{count} giờ'
     blocks_on:
       title: Các tác vụ cấm %{name}
       heading: Danh sách tác vụ cấm %{name}
@@ -2379,10 +2417,7 @@ vi:
     show:
       title: '%{block_on} bị cấm bởi %{block_by}'
       heading: '%{block_on} bị cấm bởi %{block_by}'
-      time_future: Hết hạn %{time}
-      time_past: Đã hết hạn cách đây %{time}
       created: Tạo
-      ago: cách đây %{time}
       status: Trạng thái
       show: Hiện
       edit: Sửa đổi
@@ -2416,7 +2451,6 @@ vi:
       description: Miêu tả
       created_at: Lúc tạo
       last_changed: Thay đổi gần đây nhất
-      ago_html: cách đây %{when}
   javascripts:
     close: Đóng
     share:
@@ -2466,6 +2500,7 @@ vi:
         title: Lớp
       copyright: © <a href='%{copyright_url}'>những người đóng góp vào OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Quyên góp</a>
+      terms: <a href='%{terms_url}' target='_blank'>Điều khoản trang Web và API</a>
     site:
       edit_tooltip: Sửa đổi bản đồ
       edit_disabled_tooltip: Phóng to để sửa đổi bản đồ
@@ -2504,7 +2539,9 @@ vi:
     directions:
       ascend: Lên
       engines:
+        fossgis_osrm_bike: Xe đạp (OSRM)
         fossgis_osrm_car: Xe hơi (OSRM)
+        fossgis_osrm_foot: Đi bộ (OSRM)
         graphhopper_bicycle: Xe đạp (GraphHopper)
         graphhopper_car: Xe hơi (GraphHopper)
         graphhopper_foot: Đi bộ (GraphHopper)
@@ -2604,7 +2641,6 @@ vi:
     edit:
       description: Miêu tả
       heading: Sửa đổi dãy ẩn
-      submit: Lưu dãy ẩn
       title: Sửa đổi dãy ẩn
     index:
       empty: Không có dãy ẩn để xem.
@@ -2613,7 +2649,6 @@ vi:
     new:
       description: Miêu tả
       heading: Ghi thông tin của dãy ẩn mới
-      submit: Ẩn dãy phiên bản
       title: Đang ẩn dãy phiên bản
     show:
       description: 'Miêu tả:'
@@ -2632,4 +2667,9 @@ vi:
         trong trước khi xóa dãy ẩn.
       flash: Đã xóa dãy ẩn.
       error: Xuất hiện lỗi khi xóa dãy ẩn này.
+  validations:
+    leading_whitespace: có khoảng cách thừa đằng trước
+    trailing_whitespace: có khoảng cách thừa đằng sau
+    invalid_characters: chứa ký tự không hợp lệ
+    url_characters: chứa ký tự URL đặc biệt (%{characters})
 ...

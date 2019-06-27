@@ -8,38 +8,40 @@ class DiaryEntriesController < ApplicationController
   authorize_resource
 
   before_action :lookup_user, :only => [:show, :comments]
-  before_action :check_database_writable, :only => [:new, :edit, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
-  before_action :allow_thirdparty_images, :only => [:new, :edit, :index, :show, :comments]
+  before_action :check_database_writable, :only => [:new, :create, :edit, :update, :comment, :hide, :hidecomment, :subscribe, :unsubscribe]
+  before_action :allow_thirdparty_images, :only => [:new, :create, :edit, :update, :index, :show, :comments]
 
   def new
     @title = t "diary_entries.new.title"
 
-    if request.post?
-      @diary_entry = DiaryEntry.new(entry_params)
-      @diary_entry.user = current_user
+    default_lang = current_user.preferences.where(:k => "diary.default_language").first
+    lang_code = default_lang ? default_lang.v : current_user.preferred_language
+    @diary_entry = DiaryEntry.new(entry_params.merge(:language_code => lang_code))
+    set_map_location
+    render :action => "new"
+  end
 
-      if @diary_entry.save
-        default_lang = current_user.preferences.where(:k => "diary.default_language").first
-        if default_lang
-          default_lang.v = @diary_entry.language_code
-          default_lang.save!
-        else
-          current_user.preferences.create(:k => "diary.default_language", :v => @diary_entry.language_code)
-        end
+  def create
+    @title = t "diary_entries.new.title"
 
-        # Subscribe user to diary comments
-        @diary_entry.subscriptions.create(:user => current_user)
+    @diary_entry = DiaryEntry.new(entry_params)
+    @diary_entry.user = current_user
 
-        redirect_to :action => "index", :display_name => current_user.display_name
-      else
-        render :action => "edit"
-      end
-    else
+    if @diary_entry.save
       default_lang = current_user.preferences.where(:k => "diary.default_language").first
-      lang_code = default_lang ? default_lang.v : current_user.preferred_language
-      @diary_entry = DiaryEntry.new(entry_params.merge(:language_code => lang_code))
-      set_map_location
-      render :action => "edit"
+      if default_lang
+        default_lang.v = @diary_entry.language_code
+        default_lang.save!
+      else
+        current_user.preferences.create(:k => "diary.default_language", :v => @diary_entry.language_code)
+      end
+
+      # Subscribe user to diary comments
+      @diary_entry.subscriptions.create(:user => current_user)
+
+      redirect_to :action => "index", :display_name => current_user.display_name
+    else
+      render :action => "new"
     end
   end
 
@@ -47,19 +49,32 @@ class DiaryEntriesController < ApplicationController
     @title = t "diary_entries.edit.title"
     @diary_entry = DiaryEntry.find(params[:id])
 
-    if current_user != @diary_entry.user
-      redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
-    elsif params[:diary_entry] && @diary_entry.update(entry_params)
-      redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
-    end
+    redirect_to diary_entry_path(@diary_entry.user, @diary_entry) if current_user != @diary_entry.user
 
     set_map_location
   rescue ActiveRecord::RecordNotFound
     render :action => "no_such_entry", :status => :not_found
   end
 
+  def update
+    @title = t "diary_entries.edit.title"
+    @diary_entry = DiaryEntry.find(params[:id])
+
+    if current_user != @diary_entry.user
+      redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
+    elsif params[:diary_entry] && @diary_entry.update(entry_params)
+      redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
+    else
+      set_map_location
+      render :action => "edit"
+    end
+  rescue ActiveRecord::RecordNotFound
+    render :action => "no_such_entry", :status => :not_found
+  end
+
   def comment
     @entry = DiaryEntry.find(params[:id])
+    @comments = @entry.visible_comments
     @diary_comment = @entry.comments.build(comment_params)
     @diary_comment.user = current_user
     if @diary_comment.save
@@ -114,7 +129,7 @@ class DiaryEntriesController < ApplicationController
     elsif params[:friends]
       if current_user
         @title = t "diary_entries.index.title_friends"
-        @entries = DiaryEntry.where(:user_id => current_user.friend_users)
+        @entries = DiaryEntry.where(:user_id => current_user.friends)
       else
         require_user
         return
@@ -143,7 +158,7 @@ class DiaryEntriesController < ApplicationController
     @page = (params[:page] || 1).to_i
     @page_size = 20
 
-    @entries = @entries.visible
+    @entries = @entries.visible unless current_user&.administrator?
     @entries = @entries.order("created_at DESC")
     @entries = @entries.offset((@page - 1) * @page_size)
     @entries = @entries.limit(@page_size)
@@ -166,6 +181,10 @@ class DiaryEntriesController < ApplicationController
     else
       @entries = DiaryEntry.joins(:user).where(:users => { :status => %w[active confirmed] })
 
+      # Items can't be flagged as deleted in the RSS format.
+      # For the general feeds, allow a delay before publishing, to help spam fighting
+      @entries = @entries.where("created_at < :time", :time => Settings.diary_feed_delay.hours.ago)
+
       if params[:language]
         @entries = @entries.where(:language_code => params[:language])
         @title = t("diary_entries.feed.language.title", :language_name => Language.find(params[:language]).english_name)
@@ -177,7 +196,6 @@ class DiaryEntriesController < ApplicationController
         @link = url_for :action => "index", :host => Settings.server_url, :protocol => Settings.server_protocol
       end
     end
-
     @entries = @entries.visible.includes(:user).order("created_at DESC").limit(20)
   end
 
@@ -185,6 +203,7 @@ class DiaryEntriesController < ApplicationController
     @entry = @user.diary_entries.visible.where(:id => params[:id]).first
     if @entry
       @title = t "diary_entries.show.title", :user => params[:display_name], :title => @entry.title
+      @comments = current_user&.administrator? ? @entry.comments : @entry.visible_comments
     else
       @title = t "diary_entries.no_such_entry.title", :id => params[:id]
       render :action => "no_such_entry", :status => :not_found
@@ -197,9 +216,21 @@ class DiaryEntriesController < ApplicationController
     redirect_to :action => "index", :display_name => entry.user.display_name
   end
 
+  def unhide
+    entry = DiaryEntry.find(params[:id])
+    entry.update(:visible => true)
+    redirect_to :action => "index", :display_name => entry.user.display_name
+  end
+
   def hidecomment
     comment = DiaryComment.find(params[:comment])
     comment.update(:visible => false)
+    redirect_to diary_entry_path(comment.diary_entry.user, comment.diary_entry)
+  end
+
+  def unhidecomment
+    comment = DiaryComment.find(params[:comment])
+    comment.update(:visible => true)
     redirect_to diary_entry_path(comment.diary_entry.user, comment.diary_entry)
   end
 

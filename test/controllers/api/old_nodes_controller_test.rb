@@ -156,8 +156,8 @@ module Api
     def check_not_found_id_version(id, version)
       get :version, :params => { :id => id, :version => version }, :format => :xml
       assert_response :not_found
-    rescue ActionController::UrlGenerationError => ex
-      assert_match(/No route matches/, ex.to_s)
+    rescue ActionController::UrlGenerationError => e
+      assert_match(/No route matches/, e.to_s)
     end
 
     ##

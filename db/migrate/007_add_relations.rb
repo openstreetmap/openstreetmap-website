@@ -1,6 +1,6 @@
 require "migrate"
 
-class AddRelations < ActiveRecord::Migration[5.0]
+class AddRelations < ActiveRecord::Migration[4.2]
   def self.up
     # enums work like strings but are more efficient
     create_enumeration :nwr_enum, %w[Node Way Relation]

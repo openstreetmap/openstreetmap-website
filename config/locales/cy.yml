@@ -1,6 +1,7 @@
 # Messages for Welsh (Cymraeg)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Cymrodor
 # Author: Robin Owain
 ---
@@ -8,6 +9,20 @@ cy:
   time:
     formats:
       friendly: '%e %B %Y at %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Cadw
+      diary_entry:
+        create: Cyhoeddi
+      message:
+        create: Anfon
+      client_application:
+        create: Cofrestru
+        update: Golygu
+      trace:
+        create: Uwchlwytho
+        update: Cadw Newidiadau
   activerecord:
     models:
       acl: Rhestr Rheoli Mynediad
@@ -264,7 +279,14 @@ cy:
   diary_entries:
     new:
       title: Cofnod Dyddiadur Newydd
-      publish_button: Cyhoeddi
+    form:
+      subject: 'Pwnc:'
+      body: 'Corff:'
+      language: 'Iaith:'
+      location: 'Lleoliad:'
+      latitude: Hydred
+      longitude: Lledred
+      use_map_link: defnyddiwch y map
     index:
       title: Dyddiaduron defnyddwyr
       title_friends: Dyddiaduron ffrindiau
@@ -279,14 +301,6 @@ cy:
       newer_entries: Confodion Mwy Diweddar
     edit:
       title: Golygu cofnod dyddiadur
-      subject: 'Pwnc:'
-      body: 'Corff:'
-      language: 'Iaith:'
-      location: 'Lleoliad:'
-      latitude: Hydred
-      longitude: Lledred
-      use_map_link: defnyddiwch y map
-      save_button: Arbed
       marker_text: Lleoliad cofnod y dyddiadur
     show:
       title: yddiadur %{user} | %{title}
@@ -294,7 +308,6 @@ cy:
       leave_a_comment: Gadael sylw
       login_to_leave_a_comment: '%{login_link} i adael sylw'
       login: Mewngofnodi
-      save_button: Cadw
     no_such_entry:
       title: Dim cofnod o'r fath yn y dyddiadur
       heading: 'Dim cofnod efo''r id: %{id}'
@@ -336,7 +349,6 @@ cy:
       post: Post
       when: Pa bryd
       comment: Sylw
-      ago: '%{ago} yn ôl'
       newer_comments: Sylwadau mwy diweddar
       older_comments: Hen Sylwadau
   geocoder:
@@ -1011,7 +1023,6 @@ cy:
       send_message_to: Anfon negese newydd at %{name}
       subject: Pwnc
       body: Corff
-      send_button: Anfon
       back_to_inbox: Nôl i'r mewnflwch
     create:
       message_sent: Anfonwyd y neges
@@ -1242,7 +1253,6 @@ cy:
       tags: 'Tagiau:'
       visibility: 'Gwelededd:'
       visibility_help: beth mae hyn yn golygu?
-      upload_button: Uwchlwytho
       help: Cymorth
     edit:
       filename: 'Enw ffeil:'
@@ -1255,7 +1265,6 @@ cy:
       owner: 'Perchennog:'
       description: 'Disgrifiad:'
       tags: 'Tagiau:'
-      save_button: Cadw Newidiadau
       visibility: 'Gwelededd:'
       visibility_help: beth mae hyn yn golygu?
     trace_optionals:
@@ -1277,7 +1286,6 @@ cy:
       showing_page: Tudalen %{page}
     trace:
       count_points: '%{count} pwynt'
-      ago: '%{time_in_words_ago} yn ôl'
       more: mwy
       view_map: Gweld Map
       edit: golygu
@@ -1314,10 +1322,8 @@ cy:
   oauth_clients:
     new:
       title: Cofrestru rhaglen newydd
-      submit: Cofrestru
     edit:
       title: Golygu'ch rhaglen
-      submit: Golygu
     show:
       url: 'URL Cais Tocyn:'
       access_url: URL Tocyn Mynediad
@@ -1391,7 +1397,6 @@ cy:
       title: Telerau cyfranwyr
       heading: Telerau cyfranwyr
       consider_pd_why: beth yw hwn?
-      agree: Cytuno
       decline: Gwrthod
       legale_names:
         france: Ffrainc
@@ -1421,11 +1426,9 @@ cy:
       remove as friend: Peidio bod yn ffrind
       add as friend: Ychwanegu Cyfaill
       mapper since: 'Yn fapiwr ers:'
-      ago: (%{time_in_words_ago} yn ôl)
       ct status: 'Telerau cyfrannwr:'
       ct undecided: Heb Benderfynu
       ct declined: Wedi Gwrthod
-      ct accepted: Derbynwyd %{ago} yn ôl%
       email address: 'Cyfeiriad ebost:'
       created from: 'Creuwyd o:'
       status: 'Statws:'

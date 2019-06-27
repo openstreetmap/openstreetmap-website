@@ -3,11 +3,13 @@
 # Export driver: phpyaml
 # Author: Abijeet Patro
 # Author: Alluk.
+# Author: Antsa
 # Author: BriskyBlizzard
 # Author: Centerlink
 # Author: Crt
 # Author: Daeron
 # Author: Espeox
+# Author: Jnovikov
 # Author: Konstaduck
 # Author: Laurianttila
 # Author: Lliehu
@@ -42,6 +44,27 @@ fi:
     formats:
       friendly: '%e. %Bta %Y kello %H.%M'
       blog: '%e. %Bta %Y'
+  helpers:
+    submit:
+      diary_comment:
+        create: Tallenna
+      diary_entry:
+        create: Julkaise
+        update: Päivitä
+      message:
+        create: Lähetä
+      client_application:
+        create: Rekisteröi
+        update: Muokkaa
+      redaction:
+        create: Luo redaktio
+        update: Tallenna redaktio
+      trace:
+        create: Tallenna
+        update: Tallenna muutokset
+      user_block:
+        create: Luo esto
+        update: Päivitä esto
   activerecord:
     errors:
       messages:
@@ -326,7 +349,14 @@ fi:
   diary_entries:
     new:
       title: Uusi päiväkirjamerkintä
-      publish_button: Julkaise
+    form:
+      subject: 'Aihe:'
+      body: 'Teksti:'
+      language: 'Kieli:'
+      location: 'Sijainti:'
+      latitude: 'Leveyspiiri:'
+      longitude: 'Pituuspiiri:'
+      use_map_link: valitse kartalta
     index:
       title: Käyttäjien päiväkirjamerkinnät
       title_friends: Kaverien päiväkirjat
@@ -341,14 +371,6 @@ fi:
       newer_entries: Uudempia...
     edit:
       title: Muokkaa päiväkirjamerkintää
-      subject: 'Aihe:'
-      body: 'Teksti:'
-      language: 'Kieli:'
-      location: 'Sijainti:'
-      latitude: 'Leveyspiiri:'
-      longitude: 'Pituuspiiri:'
-      use_map_link: valitse kartalta
-      save_button: Tallenna
       marker_text: Päiväkirjamerkinnän sijainti
     show:
       title: Käyttäjän %{user} päiväkirja | %{title}
@@ -356,7 +378,6 @@ fi:
       leave_a_comment: Kommentoi tätä kirjoitusta
       login_to_leave_a_comment: '%{login_link} kommentoidaksesi'
       login: Kirjaudu sisään
-      save_button: Tallenna
     no_such_entry:
       title: Päiväkirjamerkintää ei ole
       heading: Tunnuksella %{id} ei ole päiväkirjamerkintää.
@@ -399,7 +420,6 @@ fi:
       post: Kommentti
       when: Päiväys
       comment: Kommentti
-      ago: '%{ago} sitten'
       newer_comments: Uudemmat kommentit
       older_comments: Vanhemmat kommentit
   geocoder:
@@ -1134,6 +1154,7 @@ fi:
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: kumppanimme
+    tou: Käyttöehdot
     osm_offline: OpenStreetMapin tietokanta ei toistaiseksi ole käytettävissä välttämättömien
       ylläpitotöiden takia.
     osm_read_only: OpenStreetMapin tietokantaa ei toistaiseksi voi muokata välttämättömien
@@ -1292,7 +1313,6 @@ fi:
       send_message_to: Lähetä viesti käyttäjälle %{name}
       subject: Otsikko
       body: Sisältö
-      send_button: Lähetä
       back_to_inbox: Takaisin saapuneisiin
     create:
       message_sent: Viesti on lähetetty.
@@ -1368,7 +1388,8 @@ fi:
       legal_html: "Tämä ja monet muut OSM-sivustot ovat muodollisesti <a href='https://osmfoundation.org/'>OpenStreetMap-säätiön</a>
         (OSMF) hallinnoimia OSM-yhteisön puolesta. Kaikkien näiden sivustojen käyttöön
         sovelletaan <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nsallitun
-        käytön käytäntöjä</a> ja <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">tietosuojakäytäntöä</a>
+        käytön käytäntöjä</a>, <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">käyttöehtoja</a>
+        ja <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">tietosuojakäytäntöä</a>
         (molemmat sisällöt saatavilla vain englanniksi).\n<br> \n<a href='https://osmfoundation.org/Contact'>Ota
         yhteys OSMF:ään</a> lisensointi-, tekijänoikeus- ja muissa lakiteknisissä
         kysymyksissä.\n<br>\nNimi OpenStreetMap, suurennuslasilogo ja slogan State
@@ -1461,6 +1482,10 @@ fi:
           ja kartoitusviranomaisen</a> sekä\n<a href=\"http://www.mkgp.gov.si/en/\">Maatalous-,
           metsä- ja ruokaministeriön</a> tuottamia karttatietoja\n(Slovenian julkista
           karttamateriaalia)."
+        contributors_es_html: |-
+          <strong>Espanja</strong>: Sisältää karttatietoja Espanjan kansallisesta maantieteellisestä instituutista (<a href="http://www.ign.es/">IGN</a>) ja
+          kansallisesta kartografiajärjestelmästä (<a href="http://www.scne.es/">SCNE</a>)
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> -lisenssillä.
         contributors_za_html: |-
           <strong>Etelä-Afrikka</strong>: Sisältää karttatietoja
           <a href="http://www.ngi.gov.za/">Chief Directorate:
@@ -1790,7 +1815,6 @@ fi:
       visibility: 'Näkyvyys:'
       visibility_help: Mitä tämä tarkoittaa?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Fi:GPS-j%C3%A4lkien_julkisuus
-      upload_button: Tallenna
       help: Ohje
       help_url: https://wiki.openstreetmap.org/wiki/Fi:Upload
     create:
@@ -1823,7 +1847,6 @@ fi:
       description: 'Kuvaus:'
       tags: 'Ominaisuustiedot:'
       tags_help: pilkuilla eroteltu lista
-      save_button: Tallenna muutokset
       visibility: 'Näkyvyys:'
       visibility_help: Mitä tämä tarkoittaa?
     update:
@@ -1859,7 +1882,6 @@ fi:
       count_points:
         one: '%{count} piste'
         other: '%{count} pistettä'
-      ago: '%{time_in_words_ago} sitten'
       more: tiedot
       trace_details: Näytä jäljen tiedot
       view_map: Selaa karttaa
@@ -1943,10 +1965,8 @@ fi:
   oauth_clients:
     new:
       title: Rekisteröi uusi sovellus
-      submit: Rekisteröi
     edit:
       title: Muokkaa sovellustasi
-      submit: Muokkaa
     show:
       title: OAuth-tiedot sovellukselle %{app_name}
       key: 'Kuluttajan avain:'
@@ -2108,17 +2128,22 @@ fi:
         <a href="%{url}">tältä wikisivulta</a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/Fi:Contributor_Terms_Declined
     terms:
-      title: Osallistumisehdot
-      heading: Osallistumisehdot
-      read and accept: Lue sopimus ja varmista, että hyväksyt sopimuksen ehdot nykyisille
-        ja tuleville muokkauksillesi napsauttamalla Hyväksyn.
+      title: Ehdot
+      heading: Ehdot
+      heading_ct: Osallistumisehdot
+      read and accept with tou: Lue osallistumis- ja käyttöehdot, valitse molemmat
+        valintaruudut ja napsauta sitten Jatka.
+      contributor_terms_explain: Tämä sopimus koskee jo tekemiäsi sekä tulevaisuudessa
+        tekemiäsi muokkauksia.
+      read_ct: Olen lukenut ja hyväksyn yllä olevat osallistumisehdot
+      read_tou: Olen lukenut ja hyväksynyt käyttöehdot
       consider_pd: Edellisen sopimuksen lisäksi katson lisäyksieni olevan tekijänoikeudettomia
         Public Domain -lisenssillä
       consider_pd_why: Mikä tämä on?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Vaihtoehtoisia lukutapoja: <a href="%{summary}">selkokielinen yhteenveto
         (englanniksi)</a> ja <a href="%{translations}">epäviralliset käännökset</a>'
-      agree: Hyväksyn
+      continue: Seuraava
       declined: https://wiki.openstreetmap.org/wiki/Fi:Contributor_Terms_Declined
       decline: En hyväksy
       you need to accept or decline: Ennen jatkamista lue läpi osallistumisehdot ja
@@ -2154,11 +2179,9 @@ fi:
       remove as friend: Poista kavereista
       add as friend: Lisää kaveriksi
       mapper since: 'Rekisteröitymispäivämäärä:'
-      ago: (%{time_in_words_ago} sitten)
       ct status: 'Osallistumisehdot:'
       ct undecided: Ei valittu
       ct declined: Hylätty
-      ct accepted: Hyväksytty %{ago} sitten
       latest edit: 'Viimeisin muutos %{ago}:'
       email address: 'Sähköpostiosoite:'
       created from: 'Tekijä:'
@@ -2380,7 +2403,6 @@ fi:
         tulee olemaan esillä julkisesti. Muista myös, että kaikki käyttäjät eivät
         ymmärrä yhteisön slangia. Käytä siis maallikkojen termejä.
       period: Kuinka kauan käyttäjä on estetty käyttämästä APIa. Esto alkaa heti.
-      submit: Luo esto
       tried_contacting: Olen ottanut yhteyttä käyttäjään ja pyytänyt heitä lopettamaan.
       tried_waiting: Olen antanut käyttäjälle kohtuullisen ajan vastata näihin viesteihin.
       needs_view: Käyttäjän tulee kirjautua sisään ennen tämän eston poistumista
@@ -2394,7 +2416,6 @@ fi:
         ymmärrettäviä sanoja.
       period: Kuinka pitkäksi aikaa käyttäjää estetään käyttämästä APIa, laskettuna
         tästä hetkestä.
-      submit: Päivitä esto
       show: Näytä tämä esto
       back: Näytä kaikki estot
       needs_view: Pitääkö tämän käyttäjän kirjautua sisään ennen kuin esto poistetaan?
@@ -2421,15 +2442,28 @@ fi:
       confirm: Oletko varma, että haluat poistaa tämän eston?
       revoke: Poista!
       flash: Tämä esto on poistettu
-    period:
-      one: 1 tunti
-      other: '%{count} tuntia'
     helper:
       time_future: Päättyy %{time} kuluttua.
       until_login: Aktiivinen kunnes käyttäjä kirjautuu sisään.
       time_future_and_until_login: Päättyy %{time} kuluttua ja käyttäjän kirjauduttua
         sisään.
       time_past: Päättyi %{time} sitten.
+      block_duration:
+        hours:
+          one: 1 tunti
+          other: '%{count} tuntia'
+        days:
+          one: 1 päivä
+          other: '%{count} päivää'
+        weeks:
+          one: 1 viikko
+          other: '%{count} viikkoa'
+        months:
+          one: 1 kuukausi
+          other: '%{count} kuukautta'
+        years:
+          one: 1 vuosi
+          other: '%{count} vuotta'
     blocks_on:
       title: Käyttäjän %{name} estot
       heading: Käyttäjän %{name} estot
@@ -2441,10 +2475,7 @@ fi:
     show:
       title: '%{block_on} estetty käyttäjän %{block_by} toimesta'
       heading: '%{block_on} estetty käyttäjän %{block_by} toimesta'
-      time_future: Päättymiseen aikaa %{time}
-      time_past: Loppui %{time} sitten
       created: Luotu
-      ago: '%{time} sitten'
       status: Tila
       show: Näytä
       edit: Muokkaa
@@ -2478,7 +2509,6 @@ fi:
       description: Kuvaus
       created_at: Luotu
       last_changed: Viimeksi muutettu
-      ago_html: '%{when} sitten'
   javascripts:
     close: Sulje
     share:
@@ -2528,6 +2558,8 @@ fi:
         title: Karttanäkymä
       copyright: © <a href='%{copyright_url}'>OpenStreetMapin tekijät</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Tee lahjoitus</a>
+      terms: <a href='%{terms_url}' target='_blank'>Sivuston ja sovellusrajapinnan
+        ehdot</a>
     site:
       edit_tooltip: Muokkaa karttaa
       edit_disabled_tooltip: Lähennä karttaa ennen muokkaamisen aloittamista
@@ -2673,7 +2705,6 @@ fi:
     edit:
       description: Kuvaus
       heading: Muokkaa laitosta
-      submit: Tallenna redaktio
       title: Muokkaa laitosta
     index:
       empty: Ei ole näytettävää laitosta
@@ -2682,7 +2713,6 @@ fi:
     new:
       description: Kuvaus
       heading: Kirjoita tietoja uudesta laitoksesta
-      submit: Luo redaktio
       title: Luodaan uusi redaktio
     show:
       description: 'Kuvaus:'

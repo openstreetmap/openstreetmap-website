@@ -1,6 +1,7 @@
 # Messages for Tagalog (Tagalog)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: AnakngAraw
 # Author: Chitetskoy
 # Author: Emem.calist
@@ -19,6 +20,26 @@ tl:
   time:
     formats:
       friendly: '%e %B %Y sa ganap na %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Sagipin
+      diary_entry:
+        create: Ilathala
+      message:
+        create: Ipadala
+      client_application:
+        create: Magpatala
+        update: Baguhin
+      redaction:
+        create: Lumikha ng redaksiyon
+        update: Sagipin ang redaksiyon
+      trace:
+        create: Ikargang paitaas
+        update: Sagipin ang mga Pagbabago
+      user_block:
+        create: Likhain ang hadlang
+        update: Isapanahon ang paghadlang
   activerecord:
     models:
       acl: Talaan ng Pantaban sa Pagpunta
@@ -242,7 +263,14 @@ tl:
   diary_entries:
     new:
       title: Bagong Pagpapasok sa Talaarawan
-      publish_button: Ilathala
+    form:
+      subject: 'Paksa:'
+      body: 'Katawan:'
+      language: 'Wika:'
+      location: 'Pook (lokasyon):'
+      latitude: 'Latitud:'
+      longitude: 'Longhitud:'
+      use_map_link: gamitin ang mapa
     index:
       title: Mga talaarawan ng mga tagagamit
       title_friends: Mga talaarawan ng mga kaibigan
@@ -257,14 +285,6 @@ tl:
       newer_entries: Mas bagong mga Pagpapasok
     edit:
       title: Baguhin ang ipinasok sa talaarawan
-      subject: 'Paksa:'
-      body: 'Katawan:'
-      language: 'Wika:'
-      location: 'Pook (lokasyon):'
-      latitude: 'Latitud:'
-      longitude: 'Longhitud:'
-      use_map_link: gamitin ang mapa
-      save_button: Sagipin
       marker_text: Kinalalagay ng ipinasok sa talaarawan
     show:
       title: Talaarawan ni %{user} | %{title}
@@ -272,7 +292,6 @@ tl:
       leave_a_comment: Mag-iwan ng puna
       login_to_leave_a_comment: '%{login_link} upang makapag-iwan ng isang pagpuna'
       login: Mag-login
-      save_button: Sagipin
     no_such_entry:
       title: Walang ganyang pagpapasok sa talaarawan
       heading: 'Walang ipinasok na may ID na: %{id}'
@@ -316,7 +335,6 @@ tl:
       post: Ipaskil
       when: Kailan
       comment: Puna
-      ago: '%{ago} na ang nakalilipas'
       newer_comments: Mas Bagong mga Pagpuna
       older_comments: Mas Lumang mga Puna
   geocoder:
@@ -960,7 +978,6 @@ tl:
       send_message_to: Magpadala ng bagong mensahe sa %{name}
       subject: Paksa
       body: Katawan
-      send_button: Ipadala
       back_to_inbox: Bumalik sa kahong-tanggapan
     create:
       message_sent: Naipadala na ang mensahe
@@ -1343,7 +1360,6 @@ tl:
       visibility: 'Pagkanatatanaw:'
       visibility_help: ano ang kahulugan nito?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-      upload_button: Ikargang paitaas
       help: Saklolo
       help_url: http://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1369,7 +1385,6 @@ tl:
       description: 'Paglalarawan:'
       tags: 'Mga tatak:'
       tags_help: hindi hinangganan ang kuwit
-      save_button: Sagipin ang mga Pagbabago
       visibility: 'Pagkanatatanaw:'
       visibility_help: ano ba ang kahulugan nito?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
@@ -1401,7 +1416,6 @@ tl:
     trace:
       pending: NAGHIHINTAY
       count_points: '%{count} mga puntos'
-      ago: '%{time_in_words_ago} ang nakalipas'
       more: marami pa
       trace_details: Tingnan ang mga Detalye ng Bakas
       view_map: Tingnan ang Mapa
@@ -1465,10 +1479,8 @@ tl:
   oauth_clients:
     new:
       title: Magpatala ng isang bagong aplikasyon
-      submit: Magpatala
     edit:
       title: Baguhin ang aplikasyon mo
-      submit: Baguhin
     show:
       title: Mga detalye ng OAuth para sa %{app_name}
       key: 'Susi ng Tagaubos:'
@@ -1604,9 +1616,6 @@ tl:
     terms:
       title: 'Mga tuntunin sa tagapag-ambag:'
       heading: Tuntunin sa taga-ambag
-      read and accept: Mangyaring basahin ang kasunduang nasa ibaba at pindutin ang
-        pindutan ng pagpayag upang tiyakan ang pagtanggap mo sa patakarang ito para
-        sa iyong umiiral at hinaharap na mga pag-aambag.
       consider_pd: Bilang karagdagan sa kasunduang nasa itaas, itinuturing ko ang
         mga ambag ko bilang nasa Nasasaklawan ng Madla.
       consider_pd_why: ano ba ito?
@@ -1614,7 +1623,6 @@ tl:
       guidance: 'Kabatiran upang makatulong sa pag-unawa ng mga katagang ito: a <a
         href="%{summary}">buod na nababasa ng tao</a> at ilang <a href="%{translations}">impormal
         na mga salinwika</a>'
-      agree: Sumang-ayon
       declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Tanggihan
       you need to accept or decline: Mangyaring basahin at pagkaraan ay tanggipin
@@ -1647,11 +1655,9 @@ tl:
       remove as friend: tanggalin bilang kaibigan
       add as friend: idagdag bilang kaibigan
       mapper since: 'Tagapagmapa mula pa noong:'
-      ago: (%{time_in_words_ago} na ang nakalipas)
       ct status: 'Mga tuntunin sa taga-ambag:'
       ct undecided: Walang kapasyahan
       ct declined: Tumanggi
-      ct accepted: Tinanggap noong %{ago} na ang nakalilipas
       latest edit: 'Pinakahuling pagbabago %{ago}:'
       email address: 'Tirahan ng e-liham:'
       created from: 'Nilikha magmula sa:'
@@ -1866,7 +1872,6 @@ tl:
         ng pananalita ng pamayanan, kaya't mangyaring subukang gumamit ng mga kataga
         ng pangkaraniwang mga tao.
       period: Gaano katagal, magmula ngayon, hahadlangan ang tagagamit mula sa API.
-      submit: Likhain ang hadlang
       tried_contacting: Nakipag-ugnayan ako sa tagagamit at hiniling sa kanilang huminto
         na.
       tried_waiting: Nagbigay ako ng isang makatuwirang dami ng panahon upang makatugon
@@ -1883,7 +1888,6 @@ tl:
         ang nakakaunawa ng pananalita ng pamayanan, kaya't mangyaring subukang gumamit
         ng mga kataga ng pangkaraniwang mga tao.
       period: Gaano katagal, magmula ngayon, hahadlangan ang tagagamit mula sa API.
-      submit: Isapanahon ang paghadlang
       show: Tingnan ang hadlang na ito
       back: Tingnan ang lahat ng mga paghadlang
       needs_view: Kailangan bang lumagda muna ng tagagamit bago mahawi ang hadlang
@@ -1915,13 +1919,14 @@ tl:
       confirm: Nakatitiyak ka bang nais mong bawiin ang hadlang na ito?
       revoke: Bawiin!
       flash: Nabawi na ang hadlang na ito.
-    period:
-      one: 1 oras
-      other: '%{count} mga oras'
     helper:
       time_future: Magwawakas sa %{time}.
       until_login: Masigla hanggang sa paglagda ng tagagamit.
       time_past: Nagwakas na noong %{time} na ang nakalilipas.
+      block_duration:
+        hours:
+          one: 1 oras
+          other: '%{count} mga oras'
     blocks_on:
       title: Mga paghadlang sa %{name}
       heading: Tala ng mga paghadlang sa %{name}
@@ -1933,10 +1938,7 @@ tl:
     show:
       title: '%{block_on} hinadlangan ni %{block_by}'
       heading: '%{block_on} hinadlangan ni %{block_by}'
-      time_future: Magwawakas sa %{time}
-      time_past: Nagwakas noong %{time} na ang nakalilipas
       created: Nilikha
-      ago: '%{time} ang nakaraan'
       status: Kalagayan
       show: Ipakita
       edit: Baguhin
@@ -1968,7 +1970,6 @@ tl:
       description: Paglalarawan
       created_at: Nilikha Noong
       last_changed: Huling binago
-      ago_html: '%{when} ang nakaraan'
   javascripts:
     close: Isara
     share:
@@ -2054,7 +2055,6 @@ tl:
     edit:
       description: Paglalarawan
       heading: Baguhin ang redaksiyon
-      submit: Sagipin ang redaksiyon
       title: Baguhin ang redaksiyon
     index:
       empty: Walang maipapakitang mga redaksiyon.
@@ -2063,7 +2063,6 @@ tl:
     new:
       description: Paglalarawan
       heading: Ipasok ang kabatiran para sa bagong paghahanda ng isinulat upang mailathala
-      submit: Lumikha ng redaksiyon
       title: Lumilikha ng bagong redaksiyon
     show:
       description: 'Paglalarawan:'

@@ -13,7 +13,7 @@ module Api
 
     def show
       if @user.visible?
-        render :action => :show, :content_type => "text/xml"
+        render :content_type => "text/xml"
       else
         head :gone
       end
@@ -33,15 +33,12 @@ module Api
 
       @users = User.visible.find(ids)
 
-      render :action => :index, :content_type => "text/xml"
+      render :content_type => "text/xml"
     end
 
     def gpx_files
-      doc = OSM::API.new.get_xml_doc
-      current_user.traces.reload.each do |trace|
-        doc.root << trace.to_xml_node
-      end
-      render :xml => doc.to_s
+      @traces = current_user.traces.reload
+      render :content_type => "application/xml"
     end
 
     private

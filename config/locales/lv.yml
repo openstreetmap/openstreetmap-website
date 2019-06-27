@@ -24,6 +24,26 @@ lv:
   time:
     formats:
       friendly: '%e %B %Y @ %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Saglabāt
+      diary_entry:
+        create: Publicēt
+      message:
+        create: Sūtīt
+      client_application:
+        create: Reģistrēties
+        update: Labot
+      redaction:
+        create: Izveidot redakciju
+        update: Saglabāt redakciju
+      trace:
+        create: Augšupielādēt
+        update: Saglabāt izmaiņas
+      user_block:
+        create: Veidot liegumu
+        update: Atjaunot bloku
   activerecord:
     models:
       acl: Piekļuves vadības saraksts
@@ -220,10 +240,10 @@ lv:
       load_data: Ielādēt datus
       loading: Ielādē…
     tag_details:
-      tags: Birkas
+      tags: Iezīmes
       wiki_link:
-        key: Birkas %{key} viki lapa
-        tag: Birkas %{key}=%{value} viki lapa
+        key: Iezīmes %{key} viki apraksta lapa
+        tag: Iezīmes %{key}=%{value} viki apraksta lapa
       wikidata_link: '%{page} ieraksts Vikidatos'
       wikipedia_link: '%{page} šķirklis Vikipēdijā'
       telephone_link: Zvanīt %{phone_number}
@@ -292,7 +312,14 @@ lv:
   diary_entries:
     new:
       title: Jauns dienasgrāmatas ieraksts
-      publish_button: Publicēt
+    form:
+      subject: 'Temats:'
+      body: 'Teksts:'
+      language: 'Valoda:'
+      location: 'Atrašanās vieta:'
+      latitude: 'Platums:'
+      longitude: 'Garums:'
+      use_map_link: izmantot karti
     index:
       title: Lietotāju dienasgrāmatas
       title_friends: Draugu dienasgrāmatas
@@ -307,14 +334,6 @@ lv:
       newer_entries: Jaunāki ieraksti
     edit:
       title: Rediģēt dienasgrāmatas ierakstu
-      subject: 'Temats:'
-      body: 'Teksts:'
-      language: 'Valoda:'
-      location: 'Atrašanās vieta:'
-      latitude: 'Platums:'
-      longitude: 'Garums:'
-      use_map_link: izmantot karti
-      save_button: Saglabāt
       marker_text: Dienasgrāmatas ieraksta atrašanās vieta
     show:
       title: '%{user} dienasgrāmata | %{title}'
@@ -322,7 +341,6 @@ lv:
       leave_a_comment: Ierakstīt komentāru
       login_to_leave_a_comment: '%{login_link} lai komentētu'
       login: Pieslēgties
-      save_button: Saglabāt
     no_such_entry:
       title: Dienasgrāmatas ieraksts nav atrasts
       heading: 'Nav ieraksta ar identifikatoru: %{id}'
@@ -364,7 +382,6 @@ lv:
       post: Publicēt
       when: Kad
       comment: Komentārs
-      ago: '%{ago} atpakaļ'
       newer_comments: Jaunākie komentāri
       older_comments: Vecāki komentāri
   geocoder:
@@ -984,7 +1001,7 @@ lv:
       greeting: Sveicināti,
       your_gpx_file: Izskatās, ka jūsu GPX fails
       with_description: ar aprakstu
-      and_the_tags: 'un birkas:'
+      and_the_tags: 'un šīs iezīmes:'
       and_no_tags: bez birkām.
       failure:
         subject: '[OpenStreetMap] GPX importēšanas kļūme'
@@ -1104,7 +1121,6 @@ lv:
       send_message_to: Sūtīt jaunu ziņu %{name}
       subject: Temats
       body: Teksts
-      send_button: Sūtīt
       back_to_inbox: Atpakaļ uz iesūtni
     create:
       message_sent: Ziņa nosūtīta
@@ -1594,11 +1610,10 @@ lv:
     new:
       upload_gpx: 'Augšupielādēt GPX failu:'
       description: 'Apraksts:'
-      tags: 'Birkas:'
+      tags: 'Iezīmes:'
       tags_help: atdalīts ar komatiem
       visibility: 'Redzamība:'
       visibility_help: ko tas nozīmē?
-      upload_button: Augšupielādēt
       help: Palīdzība
     create:
       upload_trace: Augšupielādēt GPS trasi
@@ -1624,13 +1639,12 @@ lv:
       edit: labot
       owner: 'Īpašnieks:'
       description: 'Apraksts:'
-      tags: 'Birkas:'
+      tags: 'Iezīmes:'
       tags_help: atdalīts ar komatiem
-      save_button: Saglabāt izmaiņas
       visibility: 'Redzamība:'
       visibility_help: ko tas nozīmē?
     trace_optionals:
-      tags: Birkas
+      tags: Iezīmes
     show:
       title: Trase %{name}
       heading: Trase %{name}
@@ -1644,7 +1658,7 @@ lv:
       edit: labot
       owner: 'Īpašnieks:'
       description: 'Apraksts:'
-      tags: 'Birkas:'
+      tags: 'Iezīmes:'
       none: Nav
       edit_trace: Rediģēt šo trasi
       delete_trace: Dzēst šo trasi
@@ -1657,7 +1671,6 @@ lv:
     trace:
       pending: RINDĀ
       count_points: '%{count} punkti'
-      ago: pirms %{time_in_words_ago}
       more: vairāk
       trace_details: Skatīt sīkāku informāciju par šo trasi
       view_map: Skatīt karti
@@ -1737,10 +1750,8 @@ lv:
   oauth_clients:
     new:
       title: Jaunas aplikācijas reģistrēšana
-      submit: Reģistrēties
     edit:
       title: Rediģē savu pieteikumu
-      submit: Labot
     show:
       title: OAuth detaļas %{app_name}
       key: 'Patērētāja atslēga:'
@@ -1906,15 +1917,11 @@ lv:
     terms:
       title: Dalībnieka noteikumi
       heading: Dalībnieka noteikumi
-      read and accept: Lūdzu, izlasiet tālāk esošo līgumu, un nospiediet 'Agree' pogu,
-        lai apstiprinātu, ka jūs piekrītat noteikumiem šem nosacījumiem par jūsu esošajiem
-        un nākotnā radītajiem datiem.
       consider_pd: Papildinājumā augstākminētajai vienošanai, Es pieņemu mana devuma
         būšanu Publiskajā Domēnā
       consider_pd_why: kas tas ir?
       guidance: 'Informācija, lai labāk saprastu šos noteikumus: <a href="%{summary}">cilvēkam
         lasām apkopojums</a> un daži <a href="%{translations}">neformāli tulkojumi</a>'
-      agree: Piekrītu
       decline: Nepiekrītu
       you need to accept or decline: Lūdzu izlasi un vai nu pieņem vai noraidi jaunos
         Veidotāju Noteikumus, lai turpinātu.
@@ -1950,11 +1957,9 @@ lv:
       remove as friend: Atcelt draudzību
       add as friend: Pievienot kā draugu
       mapper since: 'Kartētājs kopš:'
-      ago: (pirms %{time_in_words_ago})
       ct status: 'Dalībnieka noteikumi:'
       ct undecided: Nav izlēmis
       ct declined: Noraidīti
-      ct accepted: Akceptēts %{ago} iepriekš
       latest edit: 'Pēdējais labojums %{ago}:'
       email address: 'E-pasta adrese:'
       created from: 'Izveidota no:'
@@ -2174,7 +2179,6 @@ lv:
         atceroties, ka ziņojums būs publiski redzams. Atceries, ka ne visi lietotāji
         izprot kopienas žargonus, tāpēc centies izmantot nespeciālistu terminus.
       period: Cik ilgi, no šī brīža, lietotājam būs liegta pieeja pie API.
-      submit: Veidot liegumu
       tried_contacting: Es sazinājos ar lietotāju un lūdzu tam pārtraukt.
       tried_waiting: Esmu devis lietotājam atbilstošu laika daudzumu, lai atbildētu
         uz paziņojumiem.
@@ -2187,7 +2191,6 @@ lv:
         detalizētu izskaidrojumu par situāciju. Atceries, ka ne visi lietotāji saprot
         kopienas žargonus, tāpēc centies izmantot nespeciālistu terminus.
       period: Cik ilgi, no šī brīža, lietotājam būs liegta pieeja pie API.
-      submit: Atjaunot bloku
       show: Apskatīt šo bloku
       back: Skatīt visus blokus
       needs_view: Vai lietotājam ir nepieciešams ieiet pirms šis bloks tiks noņemts?
@@ -2216,13 +2219,14 @@ lv:
       confirm: Vai jūs tiešām vēlaties atcelt šo bloku?
       revoke: Atsaukt!
       flash: Šis bloks ir atsaukts.
-    period:
-      one: 1 stunda
-      other: '%{count} stundas'
     helper:
       time_future: Beidzas %{time}.
       until_login: Aktīvs līdz lietotājs autorizēsies.
       time_past: Pabeigts %{time} atpakaļ.
+      block_duration:
+        hours:
+          one: 1 stunda
+          other: '%{count} stundas'
     blocks_on:
       title: Liegumi uz %{name}
       heading: Liegumu saraksts uz %{name}
@@ -2234,10 +2238,7 @@ lv:
     show:
       title: '%{block_on} bloķēts pēc %{block_by}'
       heading: '%{block_on} bloķēts pēc %{block_by}'
-      time_future: Beidzas %{time}
-      time_past: Beidzās %{time} atpakaļ.
       created: Izveidots
-      ago: '%{time} atpakaļ'
       status: Statuss
       show: Rādīt
       edit: Labot
@@ -2271,7 +2272,6 @@ lv:
       description: Apraksts
       created_at: Izveidots
       last_changed: Pēdējā izmaiņa
-      ago_html: '%{when} pirms'
   javascripts:
     close: Aizvērt
     share:
@@ -2412,7 +2412,6 @@ lv:
     edit:
       description: Apraksts
       heading: Labot redakciju
-      submit: Saglabāt redakciju
       title: Labot redakciju
     index:
       empty: Nav redakciju, ko parādīt.
@@ -2421,7 +2420,6 @@ lv:
     new:
       description: Apraksts
       heading: Ievadi informāciju jaunajai redakcijai
-      submit: Izveidot redakciju
       title: Jaunas redakcijas veidošana
     show:
       description: 'Apraksts:'

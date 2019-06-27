@@ -6,6 +6,7 @@
 # Author: Aude
 # Author: Dekel E
 # Author: Deror avi
+# Author: Erelon
 # Author: Ex-Diktator
 # Author: ExampleTomer
 # Author: GilCahana
@@ -18,6 +19,8 @@
 # Author: Nemo bis
 # Author: Orsa
 # Author: Ruila
+# Author: Steeve815
+# Author: Yali23
 # Author: YaronSh
 # Author: Yona b
 # Author: Ypnypn
@@ -30,6 +33,29 @@ he:
   time:
     formats:
       friendly: '%e ב%B %Y בשעה %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: שמירה
+      diary_entry:
+        create: פרסום
+        update: עדכון
+      issue_comment:
+        create: הוספת תגובה
+      message:
+        create: שליחה
+      client_application:
+        create: רישום
+        update: עריכה
+      redaction:
+        create: יצירת חיתוך
+        update: שמירת חיתוך
+      trace:
+        create: העלאה
+        update: שמירת שינויים
+      user_block:
+        create: יצירת חסימה
+        update: עדכון חסימה
   activerecord:
     errors:
       messages:
@@ -39,7 +65,7 @@ he:
       acl: רשימת בקרת גישה
       changeset: ערכת שינויים
       changeset_tag: תג ערכת שינויים
-      country: ארץ
+      country: מדינה
       diary_comment: תגובה ליומן
       diary_entry: רשומה ביומן
       friend: חבר
@@ -308,7 +334,14 @@ he:
   diary_entries:
     new:
       title: רשומת יומן חדשה
-      publish_button: פרסום
+    form:
+      subject: 'נושא:'
+      body: 'תוכן:'
+      language: 'שפה:'
+      location: 'מיקום:'
+      latitude: 'קו רוחב:'
+      longitude: 'קו אורך:'
+      use_map_link: להשתמש במפה
     index:
       title: יומנים של המשתמש
       title_friends: יומנים של חברים
@@ -323,14 +356,6 @@ he:
       newer_entries: רשומות חדשות יותר
     edit:
       title: עריכת רשומת יומן
-      subject: 'נושא:'
-      body: 'תוכן:'
-      language: 'שפה:'
-      location: 'מיקום:'
-      latitude: 'קו רוחב:'
-      longitude: 'קו אורך:'
-      use_map_link: להשתמש במפה
-      save_button: שמירה
       marker_text: מיקום רשומת היומן
     show:
       title: היומן של%{user} &rlm; | %{title}
@@ -338,27 +363,28 @@ he:
       leave_a_comment: הוספת תגובה
       login_to_leave_a_comment: נא %{login_link} כדי להשאיר תגובה
       login: להיכנס
-      save_button: שמירה
     no_such_entry:
       title: אין רשומה כזאת ביומן
       heading: 'אין רשומה עם המזהה: %{id}'
-      body: סליחה, עדיין אין רשומת יומן או תגובה עם המזהה %{id}. אולי האיות לא נכון
-        ואולי לחצת על קישור שגוי.
+      body: עדיין אין רשומת יומן או תגובה עם המזהה %{id}. אולי האיות לא נכון ואולי
+        לחצת על קישור שגוי, עמך הסליחה.
     diary_entry:
-      posted_by: נשלח על־ידי %{link_user} ב־%{created} ב%{language_link}
+      posted_by: פורסם על־ידי %{link_user} ב־%{created} ב%{language_link}
       comment_link: הערות לרשומה הזאת
       reply_link: תגובה לרשומה הזאת
       comment_count:
-        one: תגובה אחת
         zero: אין תגובות
+        one: תגובה אחת
         other: '%{count} תגובות'
       edit_link: עריכת רשומה זו
       hide_link: הסתרת רשומה זו
+      unhide_link: ביטול הסתרת רשומה זו
       confirm: אישור
       report: לדווח על הרשומה הזאת
     diary_comment:
       comment_from: תגובה מאת %{link_user} על %{comment_created_at}
       hide_link: הסתרת הערה זו
+      unhide_link: ביטול הסתרת הערה זו
       confirm: אישור
       report: לדווח על ההערה הזאת
     location:
@@ -380,7 +406,6 @@ he:
       post: רשומה
       when: מתי
       comment: הערה
-      ago: לפני %{ago}
       newer_comments: הערות חדשות
       older_comments: הערות ישנות
   geocoder:
@@ -1004,6 +1029,7 @@ he:
         other: '%{count} דיווחים'
       reported_item: פריט שדווח
       states:
+        ignored: התעלמות
         open: פתוחה
         resolved: נפתרה
     update:
@@ -1011,16 +1037,45 @@ he:
       successful_update: הדיווח שלך עודכן בהצלחה
       provide_details: נא לספק את הפרטים הנדרשים
     show:
+      title: '%{status} סוגיה #%{issue_id}'
+      reports:
+        zero: אין דיווחים
+        one: דיווח אחד
+        other: '%{count} דיווחים'
+      report_created_at: דיווח ראשון ב־%{datetime}
+      last_resolved_at: נפתר לאחרונה ב־%{datetime}
+      last_updated_at: עדכון אחרון ב־%{datetime} על ידי %{displayname}
+      resolve: לפתור
       ignore: התעלמות
       reopen: פתיחה מחדש
+      reports_of_this_issue: דווח על בעיה זו
+      read_reports: קרא את הדיווחים
       new_reports: דיווחים חדשים
+      other_issues_against_this_user: עוד בעיות עם משתמש זה.
+      no_other_issues: אין בעיות נוספות עם משתמש זה.
+      comments_on_this_issue: הערות על בעיה זו
+    resolve:
+      resolved: מצב הבעיות שונה ל-'טופל'
+    ignore:
+      ignored: מצב הבעיות שונה ל-'התעלמות'
+    reopen:
+      reopened: מצב הבעיות שונה ל-'פתוח'
     comments:
       created_at: ב־%{datetime}
+      reassign_param: להקצות את התקלה מחדש
     reports:
       updated_at: ב־%{datetime}
       reported_by_html: דווח בתור %{category} על ידי %{user}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, תגובה מס׳ %{comment_id}'
+        note: הערה מס׳ %{note_id}
+  issue_comments:
+    create:
+      comment_created: המודעה שלך נוצרה בהצלחה
   reports:
     new:
+      title_html: דיווח על %{link}
       missing_params: לא ניתן ליצור דיווח חדש
       details: נא לספק פרטים על הבעיה (נדרש).
       select: 'נא לבחור את סיבת הדיווח:'
@@ -1036,6 +1091,9 @@ he:
           threat_label: רשומת יומן זו מכילה איום
           other_label: אחר
         diary_comment:
+          spam_label: הערה זו ביומן זו היא/מכילה ספאם
+          offensive_label: הערה זו ביומן בוטה/פוגענית
+          threat_label: הערה זו ביומן מכילה איום
           other_label: אחר
         user:
           spam_label: פרופיל משתמש זה הוא/מכיל ספאם
@@ -1044,6 +1102,9 @@ he:
           vandal_label: משתמש זה משחית
           other_label: אחר
         note:
+          spam_label: הערה זו היא זבל
+          personal_label: הערה זו מכילה נתונים אישיים
+          abusive_label: הערה זו היא פוגענית
           other_label: אחר
     create:
       successful_report: הדוח שלך נרשם בהצלחה
@@ -1078,6 +1139,7 @@ he:
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: שותפים
+    tou: תנאי שימוש
     osm_offline: מסד הנתונים של אתר OpenStreetMap אינו מקוון כעת בשל עבודות תחזוקה
       המבוצעות בו.
     osm_read_only: מסד הנתונים של אתר OpenStreetMap נתון כעת במצב קריאה בלבד בשל עבודות
@@ -1227,7 +1289,6 @@ he:
       send_message_to: לשליחת הודעה חדשה אל %{name}
       subject: נושא
       body: תוכן ההודעה
-      send_button: שליחה
       back_to_inbox: חזרה לתיבת הדואר הנכנס
     create:
       message_sent: הודעה נשלחה
@@ -1405,7 +1466,7 @@ he:
         contributors_gb_html: |-
           <strong>הממלכה המאוחדת</strong>: מכיל נתוני סקר מדידות
           &copy; זכויות הכתר וזכויות מסדי נתונים
-          2010–2012.
+          2010–2019.
         contributors_footer_1_html: |-
           למידע נוסף על מקורות אלה ואחרים ששימשו
           לשיפור OpenStreetMap, נא לראות את <a
@@ -1696,7 +1757,7 @@ he:
         paragraph_1_html: |-
           ב־OpenStreetMap יש מספר משאבים ללימוד על המיזם, לשאלות ותשובות,
           ולדיון ותיעוד שיתופי של נושאי מיפוי.
-          <a href='%{help_url}'>מקום לקבל עזרה</a>.
+          <a href='%{help_url}'>מקום לקבל עזרה</a>. יש לך מעורבות בארגון שעושה תכניות על OpenStreetMap? מזמינים אותך לפגוש את מחצלת הכניסה</a>.
       start_mapping: להתחיל למפות
       add_a_note:
         title: אין לך זמן לערוך? אפשר להוסיף הערה!
@@ -1720,8 +1781,9 @@ he:
       tags_help: מופרד בפסיקים
       visibility: 'נִראוּת:'
       visibility_help: מה זה אומר?
-      upload_button: העלאה
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: עזרה
+      help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
       upload_trace: העלאת מסלול GPS
       trace_uploaded: קובץ ה־GPX שלך הועלה ומחכה להכנסה אל מסד הנתונים. זה בדרך כלל
@@ -1745,7 +1807,6 @@ he:
       description: 'תיאור:'
       tags: 'תגים:'
       tags_help: מופרד בפסיקים
-      save_button: שמירת שינויים
       visibility: 'נִראוּת:'
       visibility_help: מה זה אומר?
     update:
@@ -1779,7 +1840,6 @@ he:
     trace:
       pending: בהמתנה
       count_points: '%{count} נקודות'
-      ago: לפני %{time_in_words_ago}
       more: עוד
       trace_details: הצגת פרטי מסלול
       view_map: הצגת מפה
@@ -1863,10 +1923,8 @@ he:
   oauth_clients:
     new:
       title: רישון יישום חדש
-      submit: רישום
     edit:
       title: עריכת היישום שלך
-      submit: עריכה
     show:
       title: פרטי OAuth עבור %{app_name}
       key: 'מפתח צרכן:'
@@ -2026,15 +2084,17 @@ he:
         ר׳ <a href="%{url}">דף הוויקי הזה</a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/He:Contributor_Terms_Declined
     terms:
-      title: תנאי תרומה
-      heading: תנאי תרומה
-      read and accept: נא לקרוא את ההסכם להלן וללחוץ על כפתור האישור כדי לאשר שקיבלת
-        את תנאי ההסכם הזה לתרומות הקודמות והעתידיות שלך.
+      title: תנאים
+      heading: תנאים
+      heading_ct: תנאי התנדבות
+      read_ct: קראתי את תנאי התורמים לעיל ואני מסכימ/ה לתנאים אלו
+      read_tou: קראתי את תנאי השימוש ואני מסכימ/ה לתנאים אלו
       consider_pd: בנוסף להסכם לעיל, מבחינתי כל עריכותיי שייכות לנחלת הכלל
       consider_pd_why: מה זה?
       guidance: מידע שעוזר להבין את התנאים האלהa <a href="%{summary}">תקציר קריא</a>
         וכמה <a href="%{translations}">תרגומים בלתי־רשמיים</a>
-      agree: הסכמה
+      continue: להמשיך
+      declined: https://wiki.openstreetmap.org/wiki/He:Contributor_Terms_Declined
       decline: סירוב
       you need to accept or decline: נא לקרוא ולקבל או לדחות את תנאי התרומה החדשים
         כדי להמשיך.
@@ -2069,11 +2129,9 @@ he:
       remove as friend: הסרה מרשימת חברים
       add as friend: הוספה כחבר
       mapper since: 'ממפה מאז:'
-      ago: (לפני %{time_in_words_ago})
       ct status: 'תנאי תרומה:'
       ct undecided: עוד אין החלטה
       ct declined: נדחו
-      ct accepted: אושרו לפני %{ago}
       latest edit: 'עריכה אחרונה %{ago}:'
       email address: 'כתובת דוא״ל:'
       created from: 'נוצר מתוך:'
@@ -2152,6 +2210,7 @@ he:
         review link text: נא לעבור לקישור הזה בזמנך הפנוי כדי לסקור ולקבל את תנאי
           התרומה החדשים.
         agreed_with_pd: הצהרת גם שמבחינתך העריכות שלך יהיו בנחלת הכלל.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: מה זה?
       profile description: 'תיאור פרופיל:'
       preferred languages: 'שפות מועדפות:'
@@ -2290,7 +2349,6 @@ he:
         שיותר פרטים על המצב. נא לזכור שלא כל המשתמשים מבינים את העגה המקצועית של הקהילה
         ולהשתדל להשתמש במילים ברורות לכול.
       period: למשך כמה זמן מעכשיו החשבון ייחסם מביצוע פעולות API.
-      submit: יצירת חסימה
       tried_contacting: יצרתי קשר עם המשתמש וביקשתי להפסיק.
       tried_waiting: נתתי למשתמש זמן סביר להשיב על ההודעות האלו.
       needs_view: המשתמש צריך להיכנס לפני שהחסימה הזאת תנוקה.
@@ -2302,7 +2360,6 @@ he:
         שיותר פרטים על המצב. נא לזכור שלא כל המשתמשים מבינים את העגה המקצועית של הקהילה
         ולשתדל להשתמש במילים ברורות לכול.
       period: למשך כמה זמן מעכשיו החשבון ייחסם מביצוע פעולות API.
-      submit: עדכון חסימה
       show: הצגת החסימה הזאת
       back: הצגת כל החסימות
       needs_view: האם המשתמש צריך להיכנס לפני שהחסימה הזאת תנוקה?
@@ -2328,14 +2385,27 @@ he:
       confirm: האם ברצונך לבטל את החסימה הזאת?
       revoke: לבטל!
       flash: החסימה הזאת בוטלה.
-    period:
-      one: שעה אחת
-      other: '%{count} שעות'
     helper:
       time_future: תסתיים בעוד %{time}
       until_login: פעילה עד שהמשתמש ייכנס לחשבון.
       time_future_and_until_login: מסתיים ב־%{time} ואחרי שהמשתמש נכנס לחשבון.
       time_past: הסתיימה לפני %{time}.
+      block_duration:
+        hours:
+          one: שעה אחת
+          other: '%{count} שעות'
+        days:
+          one: יום אחד
+          other: '%{count} ימים'
+        weeks:
+          one: שבוע אחד
+          other: '%{count} שבועות'
+        months:
+          one: חודש אחד
+          other: '%{count} חודשים'
+        years:
+          one: שנה אחת
+          other: '%{count} שנים'
     blocks_on:
       title: חסימות של %{name}
       heading: רשימת החסימות של %{name}
@@ -2347,10 +2417,7 @@ he:
     show:
       title: החשבון של %{block_on} נחסם על־ידי %{block_by}
       heading: החשבון של %{block_on} נחסם על־ידי %{block_by}
-      time_future: תסתיים בעוד %{time}
-      time_past: הסתיימה לפני %{time}
       created: נוצר
-      ago: לפני %{time}
       status: סטטוס
       show: הצגה
       edit: עריכה
@@ -2384,7 +2451,6 @@ he:
       description: תיאור
       created_at: 'יצירה:'
       last_changed: 'שינוי אחרון:'
-      ago_html: לפני %{when}
   javascripts:
     close: סגירה
     share:
@@ -2434,6 +2500,7 @@ he:
         title: שכבות
       copyright: © <a href='%{copyright_url}'>מתנדבי OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>לתרום</a>
+      terms: <a href='%{terms_url}' target='_blank'>תנאי אתר ו־API</a>
     site:
       edit_tooltip: עריכת המפה
       edit_disabled_tooltip: להתקרב כדי לערוך את המפה
@@ -2487,6 +2554,8 @@ he:
         offramp_right_with_exit: צא ביציאה %{exit} מימין
         offramp_right_with_exit_name: צא ביציאה %{exit} מימין אל %{name}
         offramp_right_with_exit_directions: צא ביציאה %{exit} מימין לכיוון %{directions}
+        offramp_right_with_exit_name_directions: יש לצאת ביציאה %{exit} מימין אל %{name},
+          לכיוון %{directions}
         offramp_right_with_name: לעלות ימינה אל %{name}
         onramp_right_without_exit: לפנות ימינה לעלייה אל %{name}
         endofroad_right_without_exit: בסוף הדרך לפנות ימינה אל %{name}
@@ -2497,6 +2566,11 @@ he:
         uturn_without_exit: פניית פרסה על %{name}
         sharp_left_without_exit: פנייה חדה שמאלה אל %{name}
         turn_left_without_exit: פנייה שמאלה אל %{name}
+        offramp_left_with_exit: צא ביציאה %{exit} משמאל
+        offramp_left_with_exit_name: צא ביציאה %{exit} משמאל אל %{name}
+        offramp_left_with_exit_directions: צא ביציאה %{exit} משמאל לכיוון %{directions}
+        offramp_left_with_exit_name_directions: צא ביציאה %{exit} משמאל אל %{name},
+          לכיוון %{directions}
         offramp_left_with_name: לעלות שמאלה אל %{name}
         onramp_left_without_exit: לפנות שמאלה לעלייה אל %{name}
         onramp_left_without_directions: להיצמד לשמאל
@@ -2549,7 +2623,6 @@ he:
     edit:
       description: תיאור
       heading: עריכת חיתוך
-      submit: שמירת חיתוך
       title: עריכת חיתוך
     index:
       empty: אין חיתוכים שאפשר להציג
@@ -2558,7 +2631,6 @@ he:
     new:
       description: תיאור
       heading: הזנת מידע לחיתוך חדש
-      submit: יצירת חיתוך
       title: מתבצעת יצירת חיתוך חדש
     show:
       description: 'תיאור:'

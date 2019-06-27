@@ -2,8 +2,8 @@
 #
 # Table name: changesets
 #
-#  id          :integer          not null, primary key
-#  user_id     :integer          not null
+#  id          :bigint(8)        not null, primary key
+#  user_id     :bigint(8)        not null
 #  created_at  :datetime         not null
 #  min_lat     :integer
 #  max_lat     :integer
@@ -14,7 +14,7 @@
 #
 # Indexes
 #
-#  changesets_bbox_idx                (min_lat,max_lat,min_lon,max_lon)
+#  changesets_bbox_idx                (min_lat,max_lat,min_lon,max_lon) USING gist
 #  changesets_closed_at_idx           (closed_at)
 #  changesets_created_at_idx          (created_at)
 #  changesets_user_id_created_at_idx  (user_id,created_at)
@@ -88,8 +88,8 @@ class Changeset < ActiveRecord::Base
       return Changeset.from_xml_node(pt, create)
     end
     raise OSM::APIBadXMLError.new("changeset", xml, "XML doesn't contain an osm/changeset element.")
-  rescue LibXML::XML::Error, ArgumentError => ex
-    raise OSM::APIBadXMLError.new("changeset", xml, ex.message)
+  rescue LibXML::XML::Error, ArgumentError => e
+    raise OSM::APIBadXMLError.new("changeset", xml, e.message)
   end
 
   def self.from_xml_node(pt, create = false)

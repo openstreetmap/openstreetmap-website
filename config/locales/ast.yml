@@ -11,7 +11,33 @@ ast:
   time:
     formats:
       friendly: '%e de %B de %Y a les %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Guardar
+      diary_entry:
+        create: Espublizar
+        update: Anovar
+      message:
+        create: Unviar
+      client_application:
+        create: Rexistrar
+        update: Editar
+      redaction:
+        create: Crear redaición
+        update: Guardar redaición
+      trace:
+        create: Xubir
+        update: Guardar cambeos
+      user_block:
+        create: Crear un bloquéu
+        update: Anovar el bloquéu
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: nun paez que sía una dirección de corréu electrónicu
+          válida.
+        email_address_not_routable: nun ye enrutable
     models:
       acl: Llista de Control d'Accesu
       changeset: Conxuntu de cambeos
@@ -263,10 +289,10 @@ ast:
       title_friend: Conxuntos de cambeos de los mios collacios
       title_nearby: Conxuntos de cambeos d'usuarios cercanos
       empty: Nun s'alcontró nengún conxuntu de cambeos.
-      empty_area: Nun hai conxuntos de cambeos nesti área.
+      empty_area: Nun hai conxuntos de cambeos nesta área.
       empty_user: Nun hai conxuntos de cambeos d'esti usuariu.
       no_more: Nun s'alcontraron más conxuntos de cambeos.
-      no_more_area: Nun hai más conxuntos de cambeos nesti área.
+      no_more_area: Nun hai más conxuntos de cambeos nesta área.
       no_more_user: Nun hai más conxuntos de cambeos d'esti usuariu.
       load_more: Cargar más
     timeout:
@@ -276,13 +302,26 @@ ast:
       comment: 'Comentariu nuevu sobro''l conxuntu de cambios #%{changeset_id} de
         %{author}'
       commented_at_by_html: Anovao hai %{when} por %{user}
+    comments:
+      comment: 'Comentariu nuevu sobro''l conxuntu de cambios #%{changeset_id} de
+        %{author}'
     index:
       title_all: Alderique del conxuntu de cambeos d'OpenStreetMap
       title_particular: 'Alderique del conxuntu de cambeos #%{changeset_id} d''OpenStreetMap'
+    timeout:
+      sorry: Llevó demasiao tiempu baxar la llista de comentarios del conxuntu de
+        cambeos que pidisti.
   diary_entries:
     new:
       title: Nueva entrada del diariu
-      publish_button: Espublizar
+    form:
+      subject: 'Asuntu:'
+      body: 'Cuerpu:'
+      language: 'Llingua:'
+      location: 'Allugamientu:'
+      latitude: 'Llatitú:'
+      longitude: 'Llonxitú:'
+      use_map_link: usar mapa
     index:
       title: Diarios d'usuarios
       title_friends: Diarios de collacios
@@ -296,15 +335,7 @@ ast:
       older_entries: Entraes anteriores
       newer_entries: Entraes más nueves
     edit:
-      title: Editar entrada del diariu
-      subject: 'Asuntu:'
-      body: 'Cuerpu:'
-      language: 'Llingua:'
-      location: 'Allugamientu:'
-      latitude: 'Llatitú:'
-      longitude: 'Llonxitú:'
-      use_map_link: usar mapa
-      save_button: Guardar
+      title: Editar entrada del Diariu
       marker_text: Allugamientu de la entrada del diariu
     show:
       title: Diariu de %{user} | %{title}
@@ -312,19 +343,18 @@ ast:
       leave_a_comment: Dexar un comentariu
       login_to_leave_a_comment: '%{login_link} pa dexar un comentariu'
       login: Entrar
-      save_button: Guardar
     no_such_entry:
       title: Nun esiste la entrada del diariu
       heading: 'Nun esiste la entrada con id: %{id}'
       body: Sentímoslo, nun hai nenguna entrada del diariu cola id %{id}. Comprueba
-        la escritura o si primisti nun enllaz enquivocáu.
+        la escritura o si pulsiasti nun enllaz enquivocáu.
     diary_entry:
       posted_by: Unviáu por %{link_user} el %{created} en %{language_link}
       comment_link: Comentar esta entrada
       reply_link: Responder a esta entrada
       comment_count:
         zero: Ensin comentarios
-        one: 1 comentariu
+        one: '%{count} comentariu'
         other: '%{count} comentarios'
       edit_link: Editar esta entrada
       hide_link: Anubrir esta entrada
@@ -354,7 +384,6 @@ ast:
       post: Publicar
       when: Cuándo
       comment: Comentariu
-      ago: hai %{ago}
       newer_comments: Comentarios más nuevos
       older_comments: Comentarios anteriores
   geocoder:
@@ -892,7 +921,7 @@ ast:
           "yes": Tienda
         tourism:
           alpine_hut: Refuxu de monte
-          apartment: Apartamentu
+          apartment: Apartamentu de vacaciones
           artwork: Obra d'arte
           attraction: Interés turísticu
           bed_and_breakfast: Cama y almuerzu (B&B)
@@ -1085,9 +1114,12 @@ ast:
     intro_text: OpenStreetMap ye un mapa del mundu, creáu por persones como tu y d'usu
       llibre baxo una llicencia abierta.
     intro_2_create_account: Crear una cuenta d'usuariu
+    hosting_partners_html: L'agospiamientu tien l'encontu de %{ucl}, %{bytemark},  y
+      otros %{partners}.
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: asociaos
+    tou: Condiciones d'usu
     osm_offline: La base de datos d'OpenStreetMap anguaño ta desconectada mentanto
       se faen trabayos esenciales de mantenimientu de la base de datos.
     osm_read_only: La base de datos d'OpenStreetMap anguaño ta en mou de sólo llectura
@@ -1242,7 +1274,6 @@ ast:
       send_message_to: Unviar un mensaxe nuevu a %{name}
       subject: Asuntu
       body: Cuerpu
-      send_button: Unviar
       back_to_inbox: Tornar al buzón d'entrada
     create:
       message_sent: Mensaxe unviáu
@@ -1320,7 +1351,8 @@ ast:
       legal_html: "Esti sitiu y munchos otros servicios rellacionaos xestiónalos formalmente
         la  \n<a href='https://osmfoundation.org/'>Fundación OpenStreetMap</a> (OSMF)
         \nnel nome de la comunidá. L'usu de tolos servicios alministraos pola OSMF
-        tán suxetos a les nueses <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">polítiques
+        tán suxetos a les nueses <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">Condiciones
+        d'usu</a>,<a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">polítiques
         d'usu aceptable</a> y la nuesa <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">política
         de privacidá</a>\n<br>\n<a href='https://osmfoundation.org/Contact'>Comunícate
         cola OSMF</a> \nsi tienes entrugues relativos a les llicencies, drechos d'autor
@@ -1411,12 +1443,18 @@ ast:
           <a href="http://www.gu.gov.si/en/">Autoridá Topográfica y Cartográfica</a> y del
           <a href="http://www.mkgp.gov.si/en/">Ministeriu d'Agricultura, Silvicultura y Alimentación</a>
           (información pública d'Eslovenia).
+        contributors_es_html: '<strong>España</strong>: Contien datos provenientes
+          del Institutu Xeográficu Nacional (<a href="http://www.ign.es/">IGN</a>)
+          y del Sistema Cartográficu Nacional (<a href="http://www.scne.es/">SCNE</a>),
+          llicenciaos pa la reutilización baxo <a href="https://creativecommons.org/licenses/by/4.0/">CC
+          BY 4.0</a>.'
         contributors_za_html: |-
           <strong>Sudáfrica</strong>: Contien datos sacaos de
           <a href="http://www.ngi.gov.za/">Chief Directorate:
           National Geo-Spatial Information</a>, State copyright reserved.
-        contributors_gb_html: '<strong>Reinu Xuníu</strong>: Contien datos de Ordnance
-          Survey &copy; Crown copyright and database right 2010-12.'
+        contributors_gb_html: |-
+          <strong>Reinu Uníu</strong>: Contien datos de Ordnance Survey © Crown copyright and database right
+           2010-19.
         contributors_footer_1_html: |-
           Pa más detalles d'estes, y otres fontes que s'usaron p'ayudar a
           ameyorar OpenStreetMap, por favor, llei la <a
@@ -1572,6 +1610,11 @@ ast:
         title: Migrar a OSM
         description: Ayuda pa les empreses y organizaciones que cambien a mapes y
           otros servicios, basaos n'OpenStreetMap.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: Pa organizaciones
+        description: ¿Con una organización que fai planes pa OpenStreetMap? Atopa
+          lo que tienes de saber nel Felpudu de Bienvenida.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Ast:Main_Page
         title: wiki.openstreetmap.org
@@ -1663,7 +1706,7 @@ ast:
       edit: Editar
       preview: Vista previa
     markdown_help:
-      title_html: Analizáu con <a href="https://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Analizáu con <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Cabeceres
       heading: Cabecera
       subheading: Cabecera secundaria
@@ -1716,7 +1759,7 @@ ast:
         title: ¿Tien alguna entruga?
         paragraph_1_html: |-
           OpenStreetMap tien dellos recursos p'aprender sobro'l proyeutu, entrugar y contestar preguntes, y discutir y documentar en collaboración cuestiones de cartografía.
-          <a href='%{help_url}'>Algame ayuda equí</a>.
+          <a href='%{help_url}'>Algama ayuda equí</a>. ¿Con una organización que fai planes pa OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Visita'l Felpudu de Bienvenida</a>.
       start_mapping: Principiar col mapéu
       add_a_note:
         title: ¿Nun tien tiempu pa editar? ¡Amieste una nota!
@@ -1744,7 +1787,6 @@ ast:
       visibility: 'Visibilidá:'
       visibility_help: ¿qué ye esto?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-      upload_button: Xubir
       help: Ayuda
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1773,7 +1815,6 @@ ast:
       description: 'Descripción:'
       tags: 'Etiquetes:'
       tags_help: llendáu con comes
-      save_button: Guardar cambeos
       visibility: 'Visibilidá:'
       visibility_help: ¿qué ye esto?
     update:
@@ -1807,7 +1848,6 @@ ast:
     trace:
       pending: PENDIENTE
       count_points: '%{count} puntos'
-      ago: hai %{time_in_words_ago}
       more: más
       trace_details: Amosar detalles de la traza
       view_map: Ver el Mapa
@@ -1850,6 +1890,7 @@ ast:
         other: Ficheru GPX con %{count} puntos de %{user}
       description_without_count: Ficheru GPX de %{user}
   application:
+    permission_denied: Nun tienes permisu d'accesu pa esta aición.
     require_cookies:
       cookies_needed: Paez que tienes les cookies desactivaes - activa les cookies
         nel restolador enantes de siguir.
@@ -1893,10 +1934,8 @@ ast:
   oauth_clients:
     new:
       title: Rexistrar una aplicación nueva
-      submit: Rexistrar
     edit:
       title: Editar la to aplicación
-      submit: Editar
     show:
       title: Detalles d'OAuth pa %{app_name}
       key: 'Clave del consumidor:'
@@ -2060,18 +2099,19 @@ ast:
       terms accepted: ¡Gracies por aceutar les condiciones de collaboración!
       terms declined: Sentimos que decidieras nun aceutar les Condiciones de Collaborador.
         Pa más información llei <a href="%{url}">esta páxina wiki</a>.
+      terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Condiciones de collaboración
-      heading: Condiciones de collaboración
-      read and accept: Llei l'alcuerdu de más abaxo y calca nel botón aceutar pa confirmar
-        qu'aceutes les condiciones d'esti alcuerdu pa les tos collaboraciones esistentes
-        y futures.
-      consider_pd: Amás del alcuerdu anterior, considero que les mios collaboraciones
-        pasen a ser Dominiu Públicu
+      title: Condiciones
+      heading: Condiciones
+      heading_ct: Condiciones de collaboración
+      consider_pd: Amás de lo anterior, considero que les mios collaboraciones pasen
+        a ser Dominiu Públicu
       consider_pd_why: ¿qué ye esto?
+      consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Información p''ayudar a entender estos términos: un <a href="%{summary}">resume</a>
         y delles <a href="%{translations}">traducciones non oficiales</a>'
-      agree: Aceutar
+      continue: Siguir
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Refugar
       you need to accept or decline: Por favor, llei y aceuta o refuga les nueves
         Condiciones de Collaboración pa siguir.
@@ -2107,12 +2147,10 @@ ast:
       remove as friend: Desaniciar como amigu
       add as friend: Amestar como amigu
       mapper since: 'Mapeador dende:'
-      ago: (hai %{time_in_words_ago})
       ct status: 'Términos de collaboración:'
       ct undecided: Indecisu
       ct declined: Refugada
-      ct accepted: Aceutada hai %{ago}
-      latest edit: 'Cabera edición %{ago}:'
+      latest edit: 'Cabera edición (%{ago}):'
       email address: 'Direición de corréu electrónicu:'
       created from: 'Creáu dende:'
       status: 'Estáu:'
@@ -2193,6 +2231,7 @@ ast:
           nuevos términos de collaboración.
         agreed_with_pd: Tamién declarasti que consideres que les tos ediciones pertenecen
           al Dominiu Públicu.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: ¿qué ye esto?
       profile description: 'Descripción del perfil:'
       preferred languages: 'Llingües preferíes:'
@@ -2341,7 +2380,6 @@ ast:
         usuarios entienden la xíriga de la comunidá; de mou qu'intenta usar pallabres
         cencielles.
       period: Por cuantu tiempu, dende agora, l'usuariu tendrá torgáu usar la API.
-      submit: Crear un bloquéu
       tried_contacting: Púnxime en contautu col usuariu pa pidíi qu'aparara.
       tried_waiting: Di-y al usuariu tiempu razonable abondo pa responder a eses comunicaciones.
       needs_view: L'usuariu tien de coneutase enantes de que se desanicie esti bloquéu
@@ -2354,7 +2392,6 @@ ast:
         en cuenta que non tolos usuarios entienden la xíriga de la comunidá; de mou
         qu'intenta usar pallabres cencielles.
       period: Por cuantu tiempu, dende agora, l'usuariu tendrá torgáu usar la API.
-      submit: Anovar el bloquéu
       show: Ver esti bloquéu
       back: Ver tolos bloqueos
       needs_view: ¿Tien de coneutase l'usuariu enantes de que se desanicie esti bloquéu?
@@ -2383,15 +2420,16 @@ ast:
       confirm: ¿Seguro que quies desaniciar esti bloquéu?
       revoke: ¡Desaniciar!
       flash: Esti bloquéu se desanició.
-    period:
-      one: 1 hora
-      other: '%{count} hores'
     helper:
       time_future: Fina en %{time}.
       until_login: Activu fasta que'l usuariu anicie sesión.
       time_future_and_until_login: Acaba en %{time} y después de que l'usuariu anicie
         sesión.
       time_past: Finó hai %{time}.
+      block_duration:
+        hours:
+          one: 1 hora
+          other: '%{count} hores'
     blocks_on:
       title: Bloqueos fechos a %{name}
       heading: Llista de los bloqueos a %{name}
@@ -2403,10 +2441,7 @@ ast:
     show:
       title: '%{block_on} bloquiáu por %{block_by}'
       heading: '%{block_on} bloquiáu por %{block_by}'
-      time_future: Fina en %{time}
-      time_past: Finó hai %{time}
       created: Creáu
-      ago: hai %{time}
       status: Estáu
       show: Amosar
       edit: Editar
@@ -2440,7 +2475,6 @@ ast:
       description: Descripción
       created_at: Creada el
       last_changed: Cambéu postreru
-      ago_html: hai %{when}
   javascripts:
     close: Zarrar
     share:
@@ -2490,6 +2524,8 @@ ast:
         title: Capes
       copyright: © <a href='%{copyright_url}'>collaboradores d'OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Faiga una donación</a>
+      terms: <a href='%{terms_url}' target='_blank'>Condiciones del sitiu web y de
+        la API</a>
     site:
       edit_tooltip: Editar el mapa
       edit_disabled_tooltip: Aumenta pa editar el mapa
@@ -2527,7 +2563,9 @@ ast:
     directions:
       ascend: Ascender
       engines:
+        fossgis_osrm_bike: Bicicleta (OSRM)
         fossgis_osrm_car: En coche (OSRM)
+        fossgis_osrm_foot: Pie (OSRM)
         graphhopper_bicycle: Bicicleta  (GraphHopper)
         graphhopper_car: En coche (GraphHopper)
         graphhopper_foot: A pie (GraphHopper)
@@ -2632,7 +2670,6 @@ ast:
     edit:
       description: Descripción
       heading: Editar redaición
-      submit: Guardar redaición
       title: Editar redaición
     index:
       empty: Nun hai redaiciones qu'amosar
@@ -2641,7 +2678,6 @@ ast:
     new:
       description: Descripción
       heading: Escribir información de la redaición nueva
-      submit: Crear redaición
       title: Crear una redaición nueva
     show:
       description: 'Descripción:'
@@ -2660,4 +2696,9 @@ ast:
         pertenecen a esta redaición enantes de destruila.
       flash: Redaición destruyía.
       error: Hebo un error al destruir esta redaición.
+  validations:
+    leading_whitespace: tien espaciu al principiu
+    trailing_whitespace: tien espaciu al final
+    invalid_characters: contien caráuteres non válidos
+    url_characters: Contien caráuteres URL especiales (%{characters})
 ...

@@ -16,13 +16,9 @@ module Api
     around_action :api_call_handle_error
 
     def show
-      trace = Trace.visible.find(params[:id])
+      @trace = Trace.visible.find(params[:id])
 
-      if trace.public? || trace.user == current_user
-        render :xml => trace.to_xml.to_s
-      else
-        head :forbidden
-      end
+      head :forbidden unless @trace.public? || @trace.user == current_user
     end
 
     def update

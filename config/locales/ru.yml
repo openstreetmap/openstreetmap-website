@@ -1,6 +1,7 @@
 # Messages for Russian (русский)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: 1233qwer1234qwer4
 # Author: AMDmi3
 # Author: AOleg
 # Author: AZISS
@@ -63,6 +64,7 @@
 # Author: Spider
 # Author: TarzanASG
 # Author: Tourorist
+# Author: Valencia212
 # Author: Vlad5250
 # Author: WindEwriX
 # Author: Wirbel78
@@ -73,12 +75,36 @@
 # Author: Александр Сигачёв
 # Author: Владимир К
 # Author: Дмитрий
+# Author: Дмитрий Нестеров
 # Author: Сrower
 ---
 ru:
   time:
     formats:
       friendly: '%e %B %Y в %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Сохранить
+      diary_entry:
+        create: Опубликовать
+        update: Обновить
+      issue_comment:
+        create: Добавить комментарий
+      message:
+        create: Отправить
+      client_application:
+        create: Зарегистрировать
+        update: Изменить
+      redaction:
+        create: Создание исправления
+        update: Сохранить исправление
+      trace:
+        create: Передать на сервер
+        update: Сохранить изменения
+      user_block:
+        create: Создать блокировку
+        update: Обновить блокировку
   activerecord:
     errors:
       messages:
@@ -151,6 +177,50 @@ ru:
         description: Описание
         languages: Языки
         pass_crypt: Пароль
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: около 1 часа назад
+        other: около %{count} часов назад
+      about_x_months:
+        one: около 1 месяца назад
+        other: около %{count} месяцев назад
+      about_x_years:
+        one: около 1 года назад
+        other: около %{count} лет назад
+      almost_x_years:
+        one: почти 1 год назад
+        other: почти %{count} лет назад
+      half_a_minute: полминуты назад
+      less_than_x_seconds:
+        one: менее 1 секунды назад
+        other: менее %{count} секунд назад
+      less_than_x_minutes:
+        one: менее 1 минуты назад
+        other: менее %{count} минут назад
+      over_x_years:
+        one: более 1 года назад
+        other: более %{count} лет назад
+      x_seconds:
+        one: 1 секунда назад
+        few: '%{count} секунды назад'
+        other: '%{count} секунд назад'
+      x_minutes:
+        one: 1 минута назад
+        few: '%{count} минуты назад'
+        other: '%{count} минут назад'
+      x_days:
+        one: 1 день назад
+        few: '%{count} дня назад'
+        other: '%{count} дней назад'
+      x_months:
+        one: 1 месяц назад
+        few: '%{count} месяца назад'
+        other: '%{count} месяцев назад'
+      x_years:
+        one: 1 год назад
+        few: '%{count} года назад'
+        other: '%{count} лет назад'
   editor:
     default: По умолчанию (назначен %{name})
     potlatch:
@@ -367,7 +437,14 @@ ru:
   diary_entries:
     new:
       title: Новая запись в дневнике
-      publish_button: Опубликовать
+    form:
+      subject: 'Тема:'
+      body: 'Текст:'
+      language: 'Язык:'
+      location: 'Место:'
+      latitude: 'Широта:'
+      longitude: 'Долгота:'
+      use_map_link: Указать на карте
     index:
       title: Дневники
       title_friends: Дневники друзей
@@ -381,15 +458,7 @@ ru:
       older_entries: Более старые записи
       newer_entries: Более новые записи
     edit:
-      title: Редактирование записи
-      subject: 'Тема:'
-      body: 'Текст:'
-      language: 'Язык:'
-      location: 'Место:'
-      latitude: 'Широта:'
-      longitude: 'Долгота:'
-      use_map_link: Указать на карте
-      save_button: Сохранить
+      title: Редактировать запись дневника
       marker_text: Место написания заметки
     show:
       title: Дневник пользователя %{user} | %{title}
@@ -397,7 +466,6 @@ ru:
       leave_a_comment: Оставить комментарий
       login_to_leave_a_comment: '%{login_link}, чтобы оставить комментарий'
       login: Представиться
-      save_button: Сохранить
     no_such_entry:
       title: Нет такой записи в дневнике
       heading: Нет записи с номером %{id}
@@ -414,11 +482,13 @@ ru:
         other: '%{count} комментариев'
       edit_link: Изменить запись
       hide_link: Скрыть эту запись
+      unhide_link: Отобразить эту запись
       confirm: Подтвердить
       report: Сообщить об этой записи в дневнике
     diary_comment:
       comment_from: Комментарий %{link_user} %{comment_created_at}
       hide_link: Скрыть этот комментарий
+      unhide_link: Отобразить этот комментарий
       confirm: Подтвердить
       report: Сообщить об этом комментарии
     location:
@@ -440,7 +510,6 @@ ru:
       post: Сообщение
       when: Когда
       comment: Комментарий
-      ago: '%{ago} назад'
       newer_comments: Более новые комментарии
       older_comments: Более старые комментарии
   geocoder:
@@ -1176,6 +1245,7 @@ ru:
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: партнёрами
+    tou: Условия использования
     osm_offline: База данных OpenStreetMap в данный момент не доступна, так как проводится
       необходимое техническое обслуживание.
     osm_read_only: База данных OpenStreetMap в данный момент доступна только для чтения,
@@ -1342,7 +1412,6 @@ ru:
       send_message_to: Отправить новое сообщение для %{name}
       subject: 'Тема:'
       body: 'Текст:'
-      send_button: Отправить
       back_to_inbox: Назад ко входящим
     create:
       message_sent: Сообщение отправлено
@@ -1424,7 +1493,7 @@ ru:
         и лицензирование</a> для более подробной информации.'
       legal_title: Юридические вопросы
       legal_html: |-
-        Этот веб-сайт и многие связанные с ними услуги находятся в ведении <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF), действующего от имени сообщества OSM. Использование предоставляемых OSMF услуг является предметом нашей <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">политики конфиденциальности</a>и «<a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Приемлемой политики использования</a>».<br>Пожалуйста, <a href='https://osmfoundation.org/Contact'>свяжитесь с OSMF</a>, если есть вопросы относительно лицензирования, авторских прав, либо другие правовые вопросы.
+        Этот веб-сайт и многие связанные с ними услуги находятся в ведении <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF), действующего от имени сообщества OSM. Использование предоставляемых OSMF услуг является предметом нашей <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Политики конфиденциальности</a> и «<a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Политики приемлемого использования</a>».<br>Пожалуйста, <a href='https://osmfoundation.org/Contact'>свяжитесь с OSMF</a>, если есть вопросы относительно лицензирования, авторских прав, либо другие правовые вопросы.
         <br>
         Логотип OpenStreetMap в виде увеличительного стекла и логотип State of the Map — <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">зарегистрированные товарные знаки организации OSMF</a>.
       partners_title: Партнёры
@@ -1847,7 +1916,6 @@ ru:
       visibility: 'Видимость:'
       visibility_help: Что это значит?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/RU:%D0%92%D0%B8%D0%B4%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C_GPS-%D1%82%D1%80%D0%B5%D0%BA%D0%BE%D0%B2?uselang=ru
-      upload_button: Передать на сервер
       help: Справка
       help_url: http://wiki.openstreetmap.org/wiki/RU:%D0%97%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B0_%D1%82%D1%80%D0%B5%D0%BA%D0%BE%D0%B2?uselang=ru
     create:
@@ -1878,7 +1946,6 @@ ru:
       description: 'Описание:'
       tags: 'Теги:'
       tags_help: через запятую
-      save_button: Сохранить изменения
       visibility: 'Видимость:'
       visibility_help: Что это значит?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/RU:%D0%92%D0%B8%D0%B4%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C_GPS-%D1%82%D1%80%D0%B5%D0%BA%D0%BE%D0%B2?uselang=ru
@@ -1913,7 +1980,6 @@ ru:
     trace:
       pending: ОБРАБОТКА
       count_points: '%{count} точек'
-      ago: '%{time_in_words_ago} назад'
       more: подробнее
       trace_details: Показать данные трека
       view_map: Просмотр карты
@@ -1998,10 +2064,8 @@ ru:
   oauth_clients:
     new:
       title: Зарегистрировать новое приложение
-      submit: Зарегистрировать
     edit:
       title: Изменить ваше приложение
-      submit: Изменить
     show:
       title: Подробности OAuth для %{app_name}
       key: 'Потребительский ключ:'
@@ -2172,18 +2236,25 @@ ru:
         Дополнительную информацию можно найти <a href="%{url}">на следующей странице</a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=ru
     terms:
-      title: Условия сотрудничества
+      title: Условия
       heading: Условия сотрудничества
-      read and accept: Пожалуйста, прочтите приведённое ниже соглашение и нажмите
-        кнопку «Согласен», чтобы подтвердить, что вы согласны с условиями этого соглашения
-        относительно вашего существующего и будущего вклада.
-      consider_pd: В дополнение к вышеизложенному соглашению, я принимаю во внимание,
-        что мой вклад находится в общественном достоянии
+      heading_ct: Условия сотрудничества
+      read and accept with tou: Пожалуйста, ознакомьтесь с соглашением для участников
+        и с условиями использования, после чего поставьте оба флажка и нажмите кнопку
+        «Продолжить».
+      contributor_terms_explain: Это соглашение регулирует условия ваших существующего
+        и будущего вклада.
+      read_ct: Я прочитал и согласен с вышеуказанными условиями
+      tou_explain_html: '%{tou_link} управляет сайтом и иной инфраструктурой, предоставляемой
+        OSMF. Пожалуйста, перейдите по ссылке и ознакомьтесь с текстом.'
+      read_tou: Я соглашаюсь с Условиями использования
+      consider_pd: В дополнение к вышеизложенному, я принимаю во внимание, что мой
+        вклад находится в общественном достоянии
       consider_pd_why: что это значит?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain?uselang=ru
       guidance: 'Информация, которая поможет понять эти условия: <a href="%{summary}">краткое
         описание</a> и несколько <a href="%{translations}">неофициальных переводов</a>'
-      agree: Принять
+      continue: Продолжить
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=ru
       decline: Отклонить
       you need to accept or decline: Пожалуйста, прочитайте, а затем согласитесь или
@@ -2222,11 +2293,9 @@ ru:
       remove as friend: Удалить из друзей
       add as friend: Добавить в друзья
       mapper since: 'Зарегистрирован:'
-      ago: (%{time_in_words_ago} назад)
       ct status: 'Условия участия:'
       ct undecided: Неопределено
       ct declined: Отклонены
-      ct accepted: Приняты %{ago} назад
       latest edit: 'Последняя правка %{ago}:'
       email address: 'Адрес Email:'
       created from: 'Создано из:'
@@ -2457,7 +2526,6 @@ ru:
         попробуйте использовать дилетантские понятия.
       period: Как долго, начиная с этого момента, пользователь будет заблокирован
         от API.
-      submit: Создать блокировку
       tried_contacting: Я связывался с пользователем и просил его остановиться.
       tried_waiting: Я дал достаточно времени пользователю, чтобы он отреагировал
         на те сообщения.
@@ -2474,7 +2542,6 @@ ru:
         попробуйте использовать дилетантские понятия.
       period: На какой срок, начиная с этого момента, заблокировать пользователя от
         API.
-      submit: Обновить блокировку
       show: Просмотреть эту блокировку
       back: Просмотреть все блокировки
       needs_view: Позволить ли пользователю входить в систему, прежде, чем блокировка
@@ -2505,15 +2572,32 @@ ru:
       confirm: Вы уверены, что хотите снять эту блокировку?
       revoke: Снять блокировку!
       flash: Эта блокировка была снята.
-    period:
-      one: 1 час
-      other: '%{count} час.'
     helper:
       time_future: Заканчивается через %{time}.
       until_login: Активно до тех пор, пока пользователь не войдёт в систему.
       time_future_and_until_login: Заканчивается через %{time} и после того, как пользователь
         войдёт в систему.
       time_past: Закончилось %{time} назад.
+      block_duration:
+        hours:
+          one: 1 час
+          other: '%{count} час.'
+        days:
+          one: 1 день
+          few: '%{count} дня'
+          other: '%{count} дней'
+        weeks:
+          one: 1 неделя
+          few: '%{count} недели'
+          other: '%{count} недель'
+        months:
+          one: 1 месяц
+          few: '%{count} месяца'
+          other: '%{count} месяцев'
+        years:
+          one: 1 год
+          few: '%{count} года'
+          other: '%{count} лет'
     blocks_on:
       title: Блокировки для %{name}
       heading: Список блокировок пользователя %{name}
@@ -2525,10 +2609,7 @@ ru:
     show:
       title: '%{block_on} заблокирован пользователем %{block_by}'
       heading: '%{block_on} заблокирован пользователем %{block_by}'
-      time_future: Заканчивается через %{time}
-      time_past: Закончилась %{time} назад
       created: Создано
-      ago: '%{time} назад'
       status: Состояние
       show: Показывать
       edit: Изменить
@@ -2563,7 +2644,6 @@ ru:
       description: Описание
       created_at: Создана
       last_changed: Изменена
-      ago_html: '%{when} назад'
   javascripts:
     close: Закрыть
     share:
@@ -2614,6 +2694,8 @@ ru:
         title: Слои
       copyright: © <a href='%{copyright_url}'>Участники OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Сделать пожертвование</a>
+      terms: <a href='%{terms_url}' target='_blank'>Условия использования сайта и
+        API</a>
     site:
       edit_tooltip: Править карту
       edit_disabled_tooltip: Увеличить масштаб для редактирования карты
@@ -2759,7 +2841,6 @@ ru:
     edit:
       description: Описание
       heading: Редактировать исправление
-      submit: Сохранить исправление
       title: Редактировать исправление
     index:
       empty: Нет исправлений для показа.
@@ -2768,7 +2849,6 @@ ru:
     new:
       description: Описание
       heading: Введите информацию для нового исправления
-      submit: Создание исправления
       title: Создание нового исправления
     show:
       description: 'Описание:'

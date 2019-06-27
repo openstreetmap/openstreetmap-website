@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Aalam
+# Author: Abijeet Patro
 # Author: Babanwalia
 # Author: Jimidar
 # Author: Tow
@@ -10,6 +11,22 @@ pa:
   time:
     formats:
       friendly: '%e %B %Y at %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: ਸਾਂਭੋ
+      diary_entry:
+        create: ਛਾਪੋ
+      message:
+        create: ਭੇਜੋ
+      client_application:
+        create: ਇੰਦਰਾਜ ਕਰਾਉ
+        update: ਸੋਧੋ
+      trace:
+        create: ਚੜ੍ਹਾਉ
+        update: ਤਬਦੀਲੀਆਂ ਸਾਂਭੋ
+      user_block:
+        update: ਰੋਕ ਨਵਿਆਉ
   activerecord:
     models:
       acl: ਅਸੈੱਸ ਕੰਟਰੋਲ ਲਿਸਟ
@@ -166,9 +183,7 @@ pa:
       title: ਤਬਦੀਲੀਆਂ
       load_more: ਹੋਰ ਲੋਡ ਕਰੋ
   diary_entries:
-    new:
-      publish_button: ਛਾਪੋ
-    edit:
+    form:
       subject: 'ਵਿਸ਼ਾ:'
       body: 'ਧੜ੍ਹ:'
       language: 'ਬੋਲੀ:'
@@ -176,12 +191,10 @@ pa:
       latitude: 'ਅਕਸ਼ਾਂਸ਼:'
       longitude: 'ਰੇਖਾਂਸ਼:'
       use_map_link: ਨਕਸ਼ਾ ਵਰਤੋ
-      save_button: ਸਾਂਭੋ
     show:
       leave_a_comment: ਕੋਈ ਟਿੱਪਣੀ ਛੱਡੋ
       login_to_leave_a_comment: ਟਿੱਪਣੀ ਛੱਡਣ ਵਾਸਤੇ %{login_link}
       login: ਦਾਖ਼ਲਾ
-      save_button: ਸਾਂਭੋ
     no_such_entry:
       title: ਅਜਿਹਾ ਕੋਈ ਡਾਇਰੀ ਇੰਦਰਾਜ ਨਹੀਂ
     diary_entry:
@@ -201,7 +214,6 @@ pa:
       post: ਡਾਕ
       when: ਕਦੋਂ
       comment: ਟਿੱਪਣੀ
-      ago: '%{ago} ਪਹਿਲਾਂ'
       newer_comments: ਹੋਰ ਨਵੀਆਂ ਟਿੱਪਣੀਆਂ
       older_comments: ਹੋਰ ਪੁਰਾਣੀਆਂ ਟਿੱਪਣੀਆਂ
   geocoder:
@@ -731,7 +743,6 @@ pa:
       title: ਸੁਨੇਹਾ ਘੱਲੋ
       subject: ਵਿਸ਼ਾ
       body: ਧੜ੍ਹ
-      send_button: ਭੇਜੋ
     create:
       message_sent: ਸੁਨੇਹਾ ਭੇਜਿਆ ਗਿਆ
     no_such_message:
@@ -927,7 +938,6 @@ pa:
       tags: 'ਟੈਗ:'
       visibility: 'ਦਿੱਸਣਯੋਗਤਾ:'
       visibility_help: ਇਹਦਾ ਕੀ ਮਤਲਬ ਹੈ?
-      upload_button: ਚੜ੍ਹਾਉ
       help: ਮਦਦ
     edit:
       filename: 'ਫ਼ਾਈਲ ਦਾ ਨਾਂ:'
@@ -939,7 +949,6 @@ pa:
       owner: 'ਮਾਲਕ:'
       description: 'ਵੇਰਵਾ:'
       tags: 'ਟੈਗ:'
-      save_button: ਤਬਦੀਲੀਆਂ ਸਾਂਭੋ
       visibility: 'ਦਿੱਸਣਯੋਗਤਾ:'
       visibility_help: ਇਹਦਾ ਕੀ ਮਤਲਬ ਹੈ?
     trace_optionals:
@@ -969,7 +978,6 @@ pa:
     trace:
       pending: ਲਮਕਦਾ
       count_points: '%{count} ਬਿੰਦੂ'
-      ago: '%{time_in_words_ago} ਪਹਿਲਾਂ'
       more: ਹੋਰ
       trace_details: ਖੁਰਾ-ਖੋਜ ਦਾ ਵੇਰਵਾ ਵੇਖੋ
       view_map: ਨਕਸ਼ਾ ਵੇਖੋ
@@ -992,10 +1000,8 @@ pa:
   oauth_clients:
     new:
       title: ਕਿਸੇ ਨਵੀਂ ਅਰਜ਼ੀ ਦਾ ਇੰਦਰਾਜ ਕਰਾਉ
-      submit: ਇੰਦਰਾਜ ਕਰਾਉ
     edit:
       title: ਆਪਣੀ ਅਰਜ਼ੀ ਸੋਧੋ
-      submit: ਸੋਧੋ
     show:
       edit: ਵੇਰਵੇ ਸੋਧੋ
       confirm: ਕੀ ਤੁਹਾਨੂੰ ਯਕੀਨ ਹੈ?
@@ -1050,7 +1056,6 @@ pa:
       title: ਯੋਗਦਾਨੀ ਦੀਆਂ ਸ਼ਰਤਾਂ
       heading: ਯੋਗਦਾਨੀ ਦੀਆਂ ਸ਼ਰਤਾਂ
       consider_pd_why: ਇਹ ਕੀ ਹੈ?
-      agree: ਮਨਜ਼ੂਰ ਹੈ
       decline: ਮਨਜ਼ੂਰ ਨਹੀਂ
       legale_select: 'ਆਪਣੀ ਰਿਹਾਇਸ਼ ਦਾ ਦੇਸ਼ ਚੁਣੋ:'
       legale_names:
@@ -1079,11 +1084,9 @@ pa:
       remove as friend: ਯਾਰੀ ਤੋੜੋ
       add as friend: ਯਾਰੀ ਪਾਉ
       mapper since: 'ਕਦੋਂ ਤੋਂ ਨਕਸ਼ਾਸਾਜ਼:'
-      ago: (%{time_in_words_ago} ਪਹਿਲਾਂ)
       ct status: 'ਯੋਗਦਾਨੀ ਦੀਆਂ ਸ਼ਰਤਾਂ:'
       ct undecided: ਦੁਚਿੱਤੀ 'ਚ
       ct declined: ਨਕਾਰੀ
-      ct accepted: '%{ago} ਪਹਿਲਾਂ ਕਬੂਲੀ'
       latest edit: 'ਆਖ਼ਰੀ ਸੋਧ %{ago}:'
       email address: 'ਈਮੇਲ ਪਤਾ:'
       created from: 'ਕਿੱਥੋਂ ਉਸਾਰਿਆ:'
@@ -1189,7 +1192,6 @@ pa:
     new:
       back: ਸਾਰੀਆਂ ਰੋਕਾਂ ਵੇਖੋ
     edit:
-      submit: ਰੋਕ ਨਵਿਆਉ
       show: ਇਹ ਰੋਕ ਵੇਖੋ
       back: ਸਾਰੀਆਂ ਰੋਕਾਂ ਵੇਖੋ
     update:
@@ -1197,9 +1199,11 @@ pa:
     revoke:
       revoke: ਪਰਤਾਉ!
       flash: ਇਹ ਰੋਕ ਪਰਤਾ ਦਿੱਤੀ ਗਈ ਹੈ।
-    period:
-      one: ੧ ਘੰਟਾ
-      other: '%{count} ਘੰਟੇ'
+    helper:
+      block_duration:
+        hours:
+          one: ੧ ਘੰਟਾ
+          other: '%{count} ਘੰਟੇ'
     show:
       status: ਹਾਲਾਤ
       show: ਵਿਖਾਉ
@@ -1225,7 +1229,6 @@ pa:
       description: ਵੇਰਵਾ
       created_at: ਕਦੋਂ ਸਿਰਜਿਆ ਗਿਆ
       last_changed: ਆਖ਼ਰੀ ਤਬਦੀਲੀ
-      ago_html: '%{when} ਪਹਿਲਾਂ'
   javascripts:
     close: ਬੰਦ ਕਰੋ
     share:

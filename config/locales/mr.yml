@@ -1,6 +1,7 @@
 # Messages for Marathi (मराठी)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Singleton
 # Author: Sureshkhole
 # Author: Susheelkasab
@@ -12,6 +13,18 @@ mr:
   time:
     formats:
       friendly: '%e %B %Y, %H:%M ला'
+  helpers:
+    submit:
+      diary_comment:
+        create: जतन करा
+      message:
+        create: पाठवा
+      client_application:
+        create: नोंदणी करा
+        update: संपादन
+      trace:
+        create: चढवा
+        update: जतन करा
   activerecord:
     models:
       acl: पोहोच नियंत्रण यादी
@@ -239,6 +252,14 @@ mr:
   diary_entries:
     new:
       title: अनुदिनीत नवी नोंद
+    form:
+      subject: 'विषय:'
+      body: 'मायना:'
+      language: 'भाषा:'
+      location: 'ठिकाण:'
+      latitude: 'अक्षांश:'
+      longitude: 'रेखांश:'
+      use_map_link: नकाशा वापरा
     index:
       title: सदस्यांच्या अनुदिनी
       title_friends: मित्रांच्या अनुदिनी
@@ -253,14 +274,6 @@ mr:
       newer_entries: नव्या नोंदी
     edit:
       title: रोजनिशीतील नोंद संपादा
-      subject: 'विषय:'
-      body: 'मायना:'
-      language: 'भाषा:'
-      location: 'ठिकाण:'
-      latitude: 'अक्षांश:'
-      longitude: 'रेखांश:'
-      use_map_link: नकाशा वापरा
-      save_button: जतन करा
       marker_text: रोजनिशीतील नोंदीचे ठिकाण
     show:
       title: '%{user}ची रोजनिशी | %{title}'
@@ -268,7 +281,6 @@ mr:
       leave_a_comment: टिप्पणी टाका
       login_to_leave_a_comment: टिप्प्णी लिहिण्यासाठी %{login_link}
       login: सनोंद-प्रवेश करा
-      save_button: जतन करा
     no_such_entry:
       title: रोजनिशीत अशी नोंद नाही
       heading: '%{id} क्रमांकाची नोंद अस्तित्वात नाही'
@@ -309,7 +321,6 @@ mr:
       post: पाठवा
       when: कधी
       comment: अभिप्राय
-      ago: '%{ago} पूर्वी'
       newer_comments: नवे अभिप्राय
       older_comments: जुने अभिप्राय
   geocoder:
@@ -874,7 +885,6 @@ mr:
       send_message_to: '%{name}ला नवीन संदेश पाठवा'
       subject: विषय
       body: मायना
-      send_button: पाठवा
       back_to_inbox: अंतर्पेटीकडे परत
     create:
       message_sent: संदेश पाठविला
@@ -1144,7 +1154,6 @@ mr:
       tags_help: स्वल्पविरामाने परिसीमित
       visibility: 'दृश्यता:'
       visibility_help: ह्याचा अर्थ काय?
-      upload_button: चढवा
       help: साहाय्य
     create:
       upload_trace: GPS अनुरेख चढवा
@@ -1161,7 +1170,6 @@ mr:
       description: 'वर्णन:'
       tags: 'खूणपताका:'
       tags_help: स्वल्पविरामाने परिसीमित
-      save_button: जतन करा
       visibility: 'दृश्यता:'
       visibility_help: ह्याचा अर्थ काय?
     trace_optionals:
@@ -1189,7 +1197,6 @@ mr:
     trace:
       pending: प्रलंबित
       count_points: '%{count} बिंदू'
-      ago: '%{time_in_words_ago} पूर्वी'
       more: अधिक
       trace_details: अनुरेखाचा तपशील पहा
       view_map: नकाशा पहा
@@ -1208,10 +1215,8 @@ mr:
   oauth_clients:
     new:
       title: नवीन अनुप्रयोगाची नोंदणी करा
-      submit: नोंदणी करा
     edit:
       title: अनुप्रयोग संपादा
-      submit: संपादन
     show:
       title: '%{app_name}साठी OAuth तपशील'
       key: 'उपभोक्ता किल्ली:'
@@ -1268,7 +1273,6 @@ mr:
       title: योगदात्यांसाठी अटी
       heading: योगदात्यांसाठी अटी
       consider_pd_why: हे काय आहे?
-      agree: मान्य
       decline: अमान्य
       legale_select: 'राहण्याचा देश:'
       legale_names:
@@ -1297,11 +1301,9 @@ mr:
       edits: संपादने
       traces: अनुरेख
       notes: नकाशावरील टीपा
-      ago: (%{time_in_words_ago} पूर्वी)
       ct status: 'योगदात्यांसाठी अटी:'
       ct undecided: अनिर्णीत
       ct declined: अमान्य
-      ct accepted: '%{ago} पूर्वी मान्य'
       latest edit: 'नवीनतम संपादन %{ago}:'
       status: 'स्थिती:'
       description: वर्णन
@@ -1362,16 +1364,15 @@ mr:
         one: पान %{page} (%{first_item}, %{items} पैकी)
         other: पान %{page} (%{first_item}-%{last_item}, %{items}पैकी)
   user_blocks:
-    period:
-      one: १ तास
-      other: '%{count} तास'
+    helper:
+      block_duration:
+        hours:
+          one: १ तास
+          other: '%{count} तास'
     blocks:
       showing_page: पान %{page}
       next: पुढील »
       previous: « मागील
-  notes:
-    mine:
-      ago_html: '%{when} पूर्वी'
   javascripts:
     close: बंद करा
     share:

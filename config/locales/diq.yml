@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: 1917 Ekim Devrimi
+# Author: Abijeet Patro
 # Author: Asmen
 # Author: Erdemaslancan
 # Author: Gorizon
@@ -15,6 +16,23 @@ diq:
   time:
     formats:
       friendly: '%e %B %Y seate %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Qeyd ke
+      diary_entry:
+        create: Vıla ke
+        update: Rocane ke
+      message:
+        create: Bırışe
+      client_application:
+        create: Qeyd Be
+        update: Bıvurne
+      trace:
+        create: Bar ke
+      user_block:
+        create: Bloqe vırazê
+        update: Bloqi noroc resn
   activerecord:
     models:
       acl: Qontrol Listeyê Resayışi
@@ -77,7 +95,7 @@ diq:
         body: Metın
         recipient: Grotker
       user:
-        email: E-posta
+        email: E-poste
         active: Aktiv
         display_name: Nameyo ke Aseno
         description: Şınasnayış
@@ -212,11 +230,7 @@ diq:
       title_nearby: Nezdıra vurriyayışê setê karberi
       load_more: Dehana vêşi
   diary_entries:
-    new:
-      publish_button: Vıla ke
-    index:
-      user_title: '%{user} (Rocek)'
-    edit:
+    form:
       subject: 'Mewzu:'
       body: 'Metın:'
       language: 'Zıwan:'
@@ -224,13 +238,14 @@ diq:
       latitude: 'Verıniye:'
       longitude: 'Derganiye:'
       use_map_link: xerita bıgurene
-      save_button: Qeyd ke
+    index:
+      user_title: '%{user} (Rocek)'
+    edit:
       marker_text: Lokasyonê rocekê cıkewtışi
     show:
       leave_a_comment: Yew mışewre bınuse
       login_to_leave_a_comment: Seba mışewreyi rê %{login_link}
       login: Cıkewtış
-      save_button: Qeyd ke
     no_such_entry:
       title: Rocekê cıkewtışanê wınasiyan çıniyo
     diary_entry:
@@ -250,7 +265,6 @@ diq:
       post: Bırışe
       when: Key
       comment: Mışewre
-      ago: Verdê %{ago}
       newer_comments: Tewr Vatışê Newey
       older_comments: Vatışo Tewr Kehan
   geocoder:
@@ -671,6 +685,7 @@ diq:
     history: Tarix
     export: Teberdayış
     data: Melumati
+    tou: Şertê gurenayışi
     help: Peşti
     copyright: Heqa telifi
     community: Cemaet
@@ -710,7 +725,6 @@ diq:
       title: Mesac bırışê
       subject: Mewzu
       body: Vêrey mesaci
-      send_button: Bırışe
     outbox:
       title: Şıyenan
       inbox: Ameyan
@@ -815,7 +829,6 @@ diq:
     new:
       tags: 'Etiketi:'
       visibility: Vinayîşî
-      upload_button: Bar ke
       help: Peşti
     edit:
       filename: 'Namey dosya:'
@@ -850,7 +863,6 @@ diq:
     trace:
       pending: PAWEDEYO
       count_points: '%{count} puan'
-      ago: '%{time_in_words_ago} veror'
       more: dehana vêşi
       trace_details: Teferruatanê rêça bıvin
       view_map: Xeriti Bımocnê
@@ -868,10 +880,6 @@ diq:
       public_traces_from: '%{user} ra pêron rê akerde rêçê GPS'
       tagged_with: '%{tags} ya etiketyayo'
   oauth_clients:
-    new:
-      submit: Qeyd Be
-    edit:
-      submit: Bıvurne
     show:
       edit: Detaya Timar ke
       confirm: Vac welay?
@@ -917,8 +925,10 @@ diq:
       confirm password: 'Parolay tesdiq ke:'
       continue: Qeyd be
     terms:
+      title: Terimi
+      heading: Terimi
       consider_pd_why: no çıko?
-      agree: Qebul ke
+      continue: Dewam ke
       decline: Red kerê
       legale_names:
         france: Fransa
@@ -943,10 +953,8 @@ diq:
       remove as friend: Embazan ra vec
       add as friend: Embazi cı ke
       mapper since: 'Demê herdnigarwaniye:'
-      ago: (%{time_in_words_ago} ver)
       ct undecided: Darıdeyo
       ct declined: Red kerd
-      ct accepted: Verdê %{ago} qebul ke
       latest edit: 'vurnayışê peyênê %{ago}:'
       email address: 'Adresa e-postey:'
       created from: 'Vıraşten ra:'
@@ -1041,12 +1049,10 @@ diq:
     new:
       title: '%{name}i rê blok vırazeno.'
       heading: '%{name}i ro blok vırazeno.'
-      submit: Bloqe vırazê
       back: Bloqan pêron bıvin
     edit:
       title: '%{name} bloqe vurna'
       heading: '%{name} bloqe vurna'
-      submit: Bloqi noroc resn
       show: Nê bloqi bıvin
       back: Bloqan pêron bıvin
     update:
@@ -1055,12 +1061,13 @@ diq:
       title: Bloqeyê karberi
     revoke:
       revoke: Terkne!
-    period:
-      one: 1 seate
-      other: '%{count} seati'
     helper:
       time_future: '%{time} dı bıqediyo'
       time_past: Verdê %{time} qedya
+      block_duration:
+        hours:
+          one: 1 seate
+          other: '%{count} seati'
     blocks_on:
       title: Blokeyê ke %{name} kerdê
       heading: Blokeyê ke %{name} kerdê listey ênan
@@ -1070,8 +1077,6 @@ diq:
     show:
       title: Karber %{block_by} karber %{block_on} ke bloqe
       heading: Karber %{block_by} karber %{block_on} ke bloqe
-      time_future: '%{time} dı bıqediyo'
-      time_past: Verdê %{time} qedya
       status: Weziyet
       show: Bımocne
       edit: Bıvurne
@@ -1100,6 +1105,7 @@ diq:
       title: Vıla ke
       cancel: Bıtexelne
       image: Resım
+      format: 'Format:'
       download: Biya war
     map:
       zoom:

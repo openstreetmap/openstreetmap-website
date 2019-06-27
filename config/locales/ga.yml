@@ -1,6 +1,7 @@
 # Messages for Irish (Gaeilge)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Cliste
 # Author: Tem
 ---
@@ -8,6 +9,22 @@ ga:
   time:
     formats:
       friendly: '%e %B %Y ag %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Sábháil
+      diary_entry:
+        create: Foilsigh
+      message:
+        create: Seol
+      client_application:
+        create: Cláraigh
+        update: Cuir in eagar
+      trace:
+        create: Uaslódáil
+        update: Sábháil na hAthruithe
+      user_block:
+        create: Cruthaigh bac
   activerecord:
     models:
       changeset: Tacar athruithe
@@ -265,7 +282,14 @@ ga:
   diary_entries:
     new:
       title: Iontráil Nua Dialainne
-      publish_button: Foilsigh
+    form:
+      subject: 'Ábhar:'
+      body: 'Corp:'
+      language: 'Teanga:'
+      location: 'Suíomh:'
+      latitude: 'Domhanleithead:'
+      longitude: 'Domhanfhad:'
+      use_map_link: an léarscáil a úsáid
     index:
       title: Dialanna úsáideoirí
       title_friends: Dialanna cairde
@@ -280,14 +304,6 @@ ga:
       newer_entries: Iontrálacha Níos Nuaí
     edit:
       title: Cuir iontráil dialainne in eagar
-      subject: 'Ábhar:'
-      body: 'Corp:'
-      language: 'Teanga:'
-      location: 'Suíomh:'
-      latitude: 'Domhanleithead:'
-      longitude: 'Domhanfhad:'
-      use_map_link: an léarscáil a úsáid
-      save_button: Sábháil
       marker_text: Suíomh na hiontrála dialainne
     show:
       title: Dialann %{user} | %{title}
@@ -295,7 +311,6 @@ ga:
       leave_a_comment: Fág nóta tráchta
       login_to_leave_a_comment: '%{login_link} chun nóta tráchta a fhágáil'
       login: Logáil isteach
-      save_button: Sábháil
     no_such_entry:
       title: Níl an iontráil dialainne sin ann
       heading: 'Níl aon iontráil ann a bhfuil an ID seo aici: %{id}'
@@ -338,7 +353,6 @@ ga:
       post: Postáil
       when: Cá huair
       comment: Nóta tráchta
-      ago: '%{ago} ó shin'
       newer_comments: Nótaí Tráchta Níos Úire
       older_comments: Nótaí Tráchta Níos Sine
   geocoder:
@@ -1203,7 +1217,6 @@ ga:
       send_message_to: Teachtaireacht nua a sheoladh chuig %{name}
       subject: Ábhar
       body: Corp
-      send_button: Seol
       back_to_inbox: Siar chuig an mbosca isteach
     create:
       message_sent: Seoladh an teachtaireacht
@@ -1636,7 +1649,6 @@ ga:
       tags_help: teormharcáilte le camóga
       visibility: 'Infheictheacht:'
       visibility_help: céard a chiallaíonn seo?
-      upload_button: Uaslódáil
       help: Cabhair
     create:
       upload_trace: Lorg GPS a Uaslódáil
@@ -1654,7 +1666,6 @@ ga:
       description: 'Cur síos:'
       tags: 'Clibeanna:'
       tags_help: teormharcáilte le camóga
-      save_button: Sábháil na hAthruithe
       visibility: 'Infheictheacht:'
       visibility_help: céard a chiallaíonn seo?
     trace_optionals:
@@ -1685,7 +1696,6 @@ ga:
     trace:
       pending: AR FEITHEAMH
       count_points: '%{count} pointe'
-      ago: '%{time_in_words_ago} ó shin'
       more: tuilleadh
       trace_details: Amharc ar Shonraí an Loirg
       view_map: Amharc ar an Léarscáil
@@ -1771,10 +1781,8 @@ ga:
   oauth_clients:
     new:
       title: Iarratas nua a chlárú
-      submit: Cláraigh
     edit:
       title: D'iarratas a chur in eagar
-      submit: Cuir in eagar
     show:
       title: Sonraí OAuth le haghaidh %{app_name}
       key: 'Eochair an Íditheora:'
@@ -1936,7 +1944,6 @@ ga:
       title: Téarmaí do rannchuiditheoirí
       heading: Téarmaí do rannchuiditheoirí
       consider_pd_why: céard é seo?
-      agree: Glac leis
       decline: Diúltaigh
       legale_select: 'Tír chónaithe:'
       legale_names:
@@ -1967,10 +1974,8 @@ ga:
       remove as friend: Bris cairdeas
       add as friend: Cuir Cara Leis
       mapper since: 'Ag léarscáiliú ó:'
-      ago: (%{time_in_words_ago} ó shin)
       ct status: 'Téarmaí do rannchuiditheoirí:'
       ct declined: Diúltaithe
-      ct accepted: Glactha leis %{ago} ó shin
       latest edit: 'Athrú is déanaí %{ago}:'
       email address: 'Seoladh ríomhphoist:'
       created from: 'Cruthaithe ó:'
@@ -2061,7 +2066,6 @@ ga:
       confirm: Deimhnigh
   user_blocks:
     new:
-      submit: Cruthaigh bac
       needs_view: Ní mór don úsáideoir logáil isteach sula mbainfear an bac seo
     edit:
       needs_view: An gá don úsáideoir logáil isteach sula mbainfear an bac seo?
@@ -2069,9 +2073,11 @@ ga:
       confirm: An bhfuil tú cinnte gur mhaith leat an bac seo a tharraingt siar?
       revoke: Tarraing siar!
       flash: Tarraingíodh an bac seo siar.
-    period:
-      one: uair amháin an chloig
-      other: '%{count} uair an chloig'
+    helper:
+      block_duration:
+        hours:
+          one: uair amháin an chloig
+          other: '%{count} uair an chloig'
     show:
       show: Taispeáin
       confirm: An bhfuil tú cinnte?
@@ -2094,7 +2100,6 @@ ga:
     mine:
       id: ID
       last_changed: Athrú deireanach
-      ago_html: '%{when} ó shin'
   javascripts:
     close: Dún
     share:

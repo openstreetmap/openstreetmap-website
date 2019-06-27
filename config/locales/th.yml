@@ -1,18 +1,41 @@
 # Messages for Thai (ไทย)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Aefgh39622
 # Author: Ariesanywhere
 # Author: B20180
+# Author: Karit
 # Author: Pon44695
 # Author: Ruila
 # Author: TMo3289
 # Author: Xwindows
+# Author: กิ๊ฟ เลิกล่ะ สายแข็ง
 ---
 th:
   time:
     formats:
       friendly: '%e %B %Y เมื่อเวลา %H:%M น.'
+  helpers:
+    submit:
+      diary_comment:
+        create: บันทึก
+      diary_entry:
+        create: เผยแพร่
+      message:
+        create: ส่ง
+      client_application:
+        create: ลงทะเบียน
+        update: แก้ไข
+      redaction:
+        create: สร้างการตรวจทาน
+        update: บันทึกการตรวจทาน
+      trace:
+        create: อัปโหลด
+        update: บันทึกการเปลี่ยนแปลง
+      user_block:
+        create: สร้างการกีดกัน
+        update: ปรับปรุงการกีดกัน
   activerecord:
     errors:
       messages:
@@ -84,6 +107,14 @@ th:
         description: คำอธิบาย
         languages: ภาษา
         pass_crypt: รหัสผ่าน
+  datetime:
+    distance_in_words_ago:
+      about_x_years:
+        one: about 1 year ago
+        other: about %{count} years ago
+      x_days:
+        one: 1 day ago
+        other: '%{count} days ago'
   editor:
     default: ค่าปกติ (ขณะนี้ %{name})
     potlatch:
@@ -277,7 +308,14 @@ th:
   diary_entries:
     new:
       title: สร้างบันทึกใหม่
-      publish_button: เผยแพร่
+    form:
+      subject: 'เรื่อง:'
+      body: 'เนื้อหา:'
+      language: 'ภาษา:'
+      location: 'ที่ตั้ง:'
+      latitude: 'ละติจูด:'
+      longitude: 'ลองจิจูด:'
+      use_map_link: ใช้แผนที่
     index:
       title: บันทึกของผู้ใช้
       title_friends: บันทึกของเพื่อน
@@ -292,14 +330,6 @@ th:
       newer_entries: รายการใหม่กว่า
     edit:
       title: แก้ไขรายการบันทึก
-      subject: 'เรื่อง:'
-      body: 'เนื้อหา:'
-      language: 'ภาษา:'
-      location: 'ที่ตั้ง:'
-      latitude: 'ละติจูด:'
-      longitude: 'ลองจิจูด:'
-      use_map_link: ใช้แผนที่
-      save_button: บันทึก
       marker_text: ที่ตั้งของรายการบันทึก
     show:
       title: บันทึกของ %{user} | %{title}
@@ -307,7 +337,6 @@ th:
       leave_a_comment: แสดงความคิดเห็น
       login_to_leave_a_comment: '%{login_link} เพื่อแสดงความคิดเห็น'
       login: ลงชื่อเข้าใช้
-      save_button: บันทึก
     no_such_entry:
       title: ไม่มีรายการบันทึกที่ระบุ
       heading: 'ไม่มีรายการรหัส: %{id}'
@@ -323,6 +352,7 @@ th:
         other: '%{count} ข้อคิดเห็น'
       edit_link: แก้ไขรายการนี้
       hide_link: ซ่อนรายการนี้
+      unhide_link: เลิกซ่อนรายการนี้
       confirm: ยืนยัน
       report: แจ้งปัญหาเกี่ยวกับบันทึกนี้
     diary_comment:
@@ -349,7 +379,6 @@ th:
       post: เผยแพร่
       when: เมื่อ
       comment: ความเห็น
-      ago: เมื่อ %{ago} ก่อน
       newer_comments: ความคิดเห็นใหม่กว่า
       older_comments: ความคิดเห็นเก่ากว่า
   geocoder:
@@ -1166,7 +1195,6 @@ th:
       send_message_to: ส่งข้อความใหม่หาผู้ใช้ %{name}
       subject: หัวเรื่อง
       body: เนื้อหา
-      send_button: ส่ง
       back_to_inbox: กลับไปที่กล่องจดหมายรับ
     create:
       message_sent: ส่งข้อความแล้ว
@@ -1557,7 +1585,6 @@ th:
       tags_help: คั่นด้วยจุลภาค
       visibility: 'สถานะการแสดง:'
       visibility_help: นี่หมายความว่าอะไร?
-      upload_button: อัปโหลด
       help: วิธีใช้
     create:
       upload_trace: อัปโหลดรอยทาง GPS
@@ -1575,7 +1602,6 @@ th:
       edit: แก้ไข
       tags: 'ป้ายกำกับ:'
       tags_help: คั่นด้วยจุลภาค
-      save_button: บันทึกการเปลี่ยนแปลง
       visibility: 'สถานะการแสดง:'
       visibility_help: นี่หมายความว่าอะไร?
     trace_optionals:
@@ -1606,7 +1632,6 @@ th:
     trace:
       pending: ค้างอยู่
       count_points: '%{count} จุด'
-      ago: '%{time_in_words_ago} มาแล้ว'
       more: เพิ่มเติม
       trace_details: ดูรายละเอียดรอยทาง
       view_map: แสดงแผนที่
@@ -1669,10 +1694,8 @@ th:
   oauth_clients:
     new:
       title: ลงทะเบียนแอปพลิเคชันใหม่
-      submit: ลงทะเบียน
     edit:
       title: แก้ไขการสมัครของท่าน
-      submit: แก้ไข
     show:
       title: รายละเอียด OAuth ของ %{app_name}
       key: 'คีย์ผู้บริโภค:'
@@ -1819,10 +1842,8 @@ th:
     terms:
       title: เงื่อนไขผู้ร่วมสร้างสรรค์
       heading: เงื่อนไขผู้ร่วมสร้างสรรค์
-      read and accept: โปรดอ่านข้อตกลงต่อไปนี้และเลือกปุ่ม ยอมรับ เพื่อยืนยันว่าท่านยอมรับเงื่อนไขนี้ในการสร้างสรรค์ที่เคยทำมาและที่จะทำต่อไปในอนาคต
       consider_pd: นอกเหนือจากข้อตกลงข้างต้น ข้าพเจ้ายินดีสละการสร้างสรรค์ของข้าพเจ้าให้เป็นงานอันไม่มีลิขสิทธิ์
       consider_pd_why: นี้คืออะไร?
-      agree: ยอมรับ
       decline: ไม่ยอมรับ
       legale_select: 'ประเทศที่พำนัก:'
       legale_names:
@@ -1854,11 +1875,9 @@ th:
       remove as friend: ลบจากรายการเพื่อน
       add as friend: เพิ่มเข้ารายการเพื่อน
       mapper since: 'ทำแผนที่นี้ตั้งแต่:'
-      ago: (%{time_in_words_ago} มาแล้ว)
       ct status: 'เงื่อนไขผู้ร่วมสร้างสรรค์:'
       ct undecided: ยังไม่ตัดสินใจ
       ct declined: ไม่ยอมรับ
-      ct accepted: ยอมรับแล้วเมื่อ %{ago} ก่อน
       latest edit: 'แก้ไขล่าสุดเมื่อ %{ago}:'
       email address: 'ที่อยู่อีเมล:'
       created from: 'สร้างจาก:'
@@ -2036,7 +2055,6 @@ th:
         ควรใช้คำอธิบายที่เข้าใจง่ายเป็นหลัก เพราะไม่ใช่ว่าผู้ใช้ทุกคนจะเข้าใจศัพท์เฉพาะ,
         และต้องอย่าลืม ว่าสิ่งที่คุณเขียนนี้จะแสดงต่อสาธารณะด้วย
       period: ระงับผู้ใช้คนนี้จากการเข้าถึง API, นานเท่าใด โดยเริ่มนับจากปัจจุบัน
-      submit: สร้างการกีดกัน
       tried_contacting: ข้าพเจ้าติดต่อผู้ใช้คนนี้และขอร้องให้เขาหยุดการกระทำ
       tried_waiting: ข้าพเจ้าได้ให้เวลานานสมควรแก่ผู้ใช้คนนี้ในการตอบคำถามกลับ
       needs_view: ผู้ใช้ต้องเข้าระบบก่อน การระงับนี้จึงจะถูกเพิกถอน
@@ -2047,7 +2065,6 @@ th:
       reason: เหตุผลที่ผู้ใช้ %{name} ถูกระงับ, โปรดอย่าเขียนด้วยอารมณ์รุนแรง โดยขอให้ระบุรายละเอียดเกี่ยวกับสถานการณ์ที่พบให้ละเอียดชัดเจน
         และควรใช้คำอธิบายที่เข้าใจง่ายเป็นหลัก เพราะไม่ใช่ว่าผู้ใช้ทุกคนจะเข้าใจศัพท์เฉพาะ
       period: ระงับผู้ใช้คนนี้จากการเข้าถึง API, นานเท่าใด โดยเริ่มนับจากปัจจุบัน
-      submit: ปรับปรุงการกีดกัน
       show: ดูรายละเอียดการระงับนี้
       back: แสดงการกีดกันทั้งหมด
       needs_view: ต้องการให้ผู้ใช้คนนี้เข้าระบบก่อนเพิกถอนการระงับหรือไม่?
@@ -2083,9 +2100,7 @@ th:
       empty: '%{name} ไม่เคยได้สั่งระงับผู้ใช้คนใดเลย'
     show:
       heading: '%{block_on} โดนระงับโดย %{block_by}'
-      time_past: สิ้นสุดไปเมื่อ %{time}ก่อน
       created: ระงับเมื่อ
-      ago: '%{time}ก่อน'
       status: สถานะ
       show: แสดง
       edit: แก้ไข
@@ -2108,7 +2123,6 @@ th:
     mine:
       heading: หมายเหตุของ %{user}
       creator: ผู้สร้าง
-      ago_html: '%{when}ก่อน'
   javascripts:
     close: ปิด
     share:
@@ -2248,7 +2262,6 @@ th:
     edit:
       description: คำอธิบาย
       heading: แก้ไขการตรวจทาน
-      submit: บันทึกการตรวจทาน
       title: แก้ไขการตรวจทาน
     index:
       empty: ไม่มีการตรวจทานให้แสดง
@@ -2257,7 +2270,6 @@ th:
     new:
       description: คำอธิบาย
       heading: กรอกรายละเอียดการตรวจทานใหม่
-      submit: สร้างการตรวจทาน
       title: สร้างการตรวจทานใหม่
     show:
       description: 'คำอธิบาย:'

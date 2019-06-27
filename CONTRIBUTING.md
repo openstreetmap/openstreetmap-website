@@ -10,6 +10,7 @@ development to check that your code matches our guidelines:
 
 ```
 bundle exec rubocop
+bundle exec rake eslint
 bundle exec erblint .
 ```
 
@@ -53,6 +54,13 @@ When hacking, you should:
 might be difficult to understand what the code does, why it does it
 and why it should be the way it is.
 * Check existing comments to ensure that they are not misleading.
+
+## i18n
+
+If you make a change that involve the locale files (in `config/locales`) then please
+only submit changes to the `en.yml` file. The other files are updated via
+[Translatewiki](https://translatewiki.net/wiki/Translating:OpenStreetMap) and should
+not be included in your pull request.
 
 ## Code Documentation
 

@@ -43,6 +43,29 @@ tr:
   time:
     formats:
       friendly: '%e %B %Y saat %H.%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Kaydet
+      diary_entry:
+        create: Yayınla
+        update: Güncelle
+      issue_comment:
+        create: Yorum Ekle
+      message:
+        create: Gönder
+      client_application:
+        create: Kaydol
+        update: Düzenle
+      redaction:
+        create: Redaksiyon oluştur
+        update: Redaksiyonu kaydet
+      trace:
+        create: Gönder
+        update: Değişiklikleri Kaydet
+      user_block:
+        create: Engelle
+        update: Engeli güncelle
   activerecord:
     errors:
       messages:
@@ -115,6 +138,43 @@ tr:
         description: Tanım
         languages: Diller
         pass_crypt: Parola
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: yaklaşık 1 saat önce
+        other: yaklaşık %{count} saat önce
+      about_x_months:
+        one: yaklaşık 1 ay önce
+        other: yaklaşık %{count} ay önce
+      about_x_years:
+        one: yaklaşık 1 yıl önce
+        other: yaklaşık %{count} yıl önce
+      almost_x_years:
+        one: neredeyse 1 yıl önce
+        other: neredeyse %{count} yıl önce
+      half_a_minute: yarım dakika önce
+      less_than_x_seconds:
+        one: 1 saniyeden az önce
+        other: '%{count} saniyeden az önce'
+      less_than_x_minutes:
+        one: bir dakikadan daha az bir süre önce
+        other: '%{count} dakikadan daha az bir süre önce'
+      over_x_years:
+        one: 1 yıldan fazla
+        other: '%{count} yıldan fazla'
+      x_seconds: '{{PLURAL|one=1 saniye önce|%{count} saniye önce}'
+      x_minutes:
+        one: 1 dakika önce
+        other: '%{count} dakika önce'
+      x_days:
+        one: 1 gün önce
+        other: '%{count} gün önce'
+      x_months:
+        one: 1 ay önce
+        other: '%{count} ay önce'
+      x_years:
+        one: 1 yıl önce
+        other: '%{count} yıl önce'
   editor:
     default: Varsayılan (kullanılan %{name})
     potlatch:
@@ -132,14 +192,14 @@ tr:
   api:
     notes:
       comment:
-        opened_at_html: '%{when} önce oluşturuldu'
-        opened_at_by_html: '%{when} önce %{user} tarafından oluşturuldu'
-        commented_at_html: '%{when} önce güncellendi'
-        commented_at_by_html: '%{user} tarafından %{when} tarihinde güncellendi'
-        closed_at_html: '%{when} önce çözüldü'
-        closed_at_by_html: '%{user} tarafından %{when} tarihinde çözüldü'
-        reopened_at_html: '%{when} önce yeniden etkinleştirildi'
-        reopened_at_by_html: '%{user} tarafından %{when} tarihinde yeniden etkinleştirildi'
+        opened_at_html: '%{when} oluşturuldu'
+        opened_at_by_html: '%{user} tarafından %{when} oluşturuldu'
+        commented_at_html: '%{when} güncellendi'
+        commented_at_by_html: '%{user} tarafından %{when} güncellendi'
+        closed_at_html: '%{when} çözüldü'
+        closed_at_by_html: '%{user} tarafından %{when} çözüldü'
+        reopened_at_html: '%{when} yeniden etkinleştirildi'
+        reopened_at_by_html: '%{user} tarafından %{when} yeniden etkinleştirildi'
       rss:
         title: OpenStreetMap Notları
         description_area: '[(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})] bölgenizde
@@ -155,16 +215,12 @@ tr:
   browse:
     created: Oluşturuldu
     closed: Kapandı
-    created_html: <abbr title='%{title}'>%{time} önce</abbr> oluşturuldu
-    closed_html: <abbr title='%{title}'>%{time} önce</abbr> kapandı
-    created_by_html: <abbr title='%{title}'>%{time} önce</abbr> %{user} tarafından
-      oluşturuldu
-    deleted_by_html: <abbr title='%{title}'>%{time} önce</abbr> %{user} tarafından
-      silindi
-    edited_by_html: <abbr title='%{title}'>%{time} önce</abbr> %{user} tarafından
-      düzenlendi
-    closed_by_html: <abbr title='%{title}'>%{time} önce</abbr> %{user} tarafından
-      kapandı
+    created_html: <abbr title='%{title}'>%{time}</abbr> oluşturuldu
+    closed_html: <abbr title='%{title}'>%{time}</abbr> kapandı
+    created_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} tarafından oluşturuldu
+    deleted_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} tarafından silindi
+    edited_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} tarafından düzenlendi
+    closed_by_html: <abbr title='%{title}'>%{time}</abbr> %{user} tarafından kapandı
     version: Sürüm
     in_changeset: Değişiklik Kaydı
     anonymous: anonim
@@ -184,10 +240,8 @@ tr:
       relation: İlişkiler (%{count})
       relation_paginated: İlişkiler (%{x}-%{y} - toplam %{count})
       comment: Yorumlar (%{count})
-      hidden_commented_by: '%{user} tarafından gizli yorum <abbr title="%{exact_time}">%{when}
-        önce</abbr>'
-      commented_by: '%{user} kullanıcıdan yorum <abbr title="%{exact_time}">%{when}
-        önce</abbr>'
+      hidden_commented_by: '%{user} tarafından gizli yorum <abbr title="%{exact_time}">%{when}</abbr>'
+      commented_by: '%{user} kullanıcıdan yorum <abbr title="%{exact_time}">%{when}</abbr>'
       changesetxml: Değişiklik kaydı XML
       osmchangexml: osmChange XML
       feed:
@@ -265,23 +319,22 @@ tr:
       open_title: 'Çözümlenmemiş not: #%{note_name}'
       closed_title: 'Çözümlenmiş not: #%{note_name}'
       hidden_title: 'Gizli not #%{note_name}'
-      open_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when} önce</abbr>
-        oluşturuldu'
-      open_by_anonymous: Anonim olarak <abbr title='%{exact_time}'>%{when} önce</abbr>
+      open_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr> oluşturuldu'
+      open_by_anonymous: Anonim olarak <abbr title='%{exact_time}'>%{when}</abbr>
         oluşturuldu
-      commented_by: '%{user} kullanıcısının <abbr title=''%{exact_time}''>%{when}
-        önceki</abbr> yorumu'
-      commented_by_anonymous: Anonim kullanıcının <abbr title='%{exact_time}'>%{when}
-        önceki</abbr> yorumu
-      closed_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when} önce</abbr>
+      commented_by: '%{user} kullanıcısının <abbr title=''%{exact_time}''>%{when}</abbr>
+        yorumu'
+      commented_by_anonymous: Anonim kullanıcının <abbr title='%{exact_time}'>%{when}</abbr>
+        yorumu
+      closed_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
         çözüldü'
-      closed_by_anonymous: Anonim kullanıcı tarafından <abbr title='%{exact_time}'>%{when}
-        önce</abbr> çözüldü
-      reopened_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when} önce</abbr>
+      closed_by_anonymous: Anonim kullanıcı tarafından <abbr title='%{exact_time}'>%{when}</abbr>
+        çözüldü
+      reopened_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
         yeniden etkin hâle getirildi.'
-      reopened_by_anonymous: Anonim kullanıcı tarafından <abbr title='%{exact_time}'>%{when}
-        önce</abbr> yeniden etkin hâle getirildi.
-      hidden_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when} önce</abbr>
+      reopened_by_anonymous: Anonim kullanıcı tarafından <abbr title='%{exact_time}'>%{when}</abbr>
+        yeniden etkin hâle getirildi.
+      hidden_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when}</abbr>
         gizlendi'
       report: Bu notu bildir
     query:
@@ -322,7 +375,7 @@ tr:
     comment:
       comment: 'Değişiklik seti #%{changeset_id} hakkında %{author} yeni bir yorum
         yaptı.'
-      commented_at_by_html: '%{user} tarafından %{when} önce güncellendi'
+      commented_at_by_html: '%{user} tarafından %{when} güncellendi'
     comments:
       comment: 'Değişiklik seti #%{changeset_id} hakkında %{author} yeni bir yorum
         yaptı.'
@@ -335,7 +388,14 @@ tr:
   diary_entries:
     new:
       title: Yeni Günlük Girdisi
-      publish_button: Yayınla
+    form:
+      subject: 'Konu:'
+      body: 'Mesaj:'
+      language: 'Dil:'
+      location: 'Konum:'
+      latitude: 'Enlem:'
+      longitude: 'Boylam:'
+      use_map_link: haritayı kullan
     index:
       title: Kullanıcıların günlükleri
       title_friends: Arkadaşların günlükleri
@@ -349,15 +409,7 @@ tr:
       older_entries: Daha Eski Girdiler
       newer_entries: Daha Yeni Girdiler
     edit:
-      title: Günlük girdisi düzenle
-      subject: 'Konu:'
-      body: 'Mesaj:'
-      language: 'Dil:'
-      location: 'Konum:'
-      latitude: 'Enlem:'
-      longitude: 'Boylam:'
-      use_map_link: haritayı kullan
-      save_button: Kaydet
+      title: Günlük Girdisi Düzenle
       marker_text: Günlük girdisinin konumu
     show:
       title: '%{user} kullanıcısının günlüğü | %{title}'
@@ -365,7 +417,6 @@ tr:
       leave_a_comment: Yorum yap
       login_to_leave_a_comment: Yorum yazmak için %{login_link}
       login: Giriş
-      save_button: Kaydet
     no_such_entry:
       title: Böyle bir günlük girdisi bulunmuyor
       heading: 'Bu numaraya sahip girdi yok: %{id}'
@@ -382,12 +433,14 @@ tr:
         other: '%{count} yorum'
       edit_link: Bu girdiyi düzenle
       hide_link: Bu girdiyi gizle
+      unhide_link: Bu girdiyi göster
       confirm: Onayla
       report: Bu girdiyi bildir
     diary_comment:
       comment_from: '%{comment_created_at} tarihinde %{link_user} tarafından yapılan
         yorum'
       hide_link: Bu yorumu gizle
+      unhide_link: Bu yorumu göster
       confirm: Onayla
       report: Bu yorumu bildir
     location:
@@ -410,7 +463,6 @@ tr:
       post: Yazı
       when: Tarih
       comment: Yorum
-      ago: '%{ago} önce'
       newer_comments: Daha Yeni Yorumlar
       older_comments: Daha Eski Yorumlar
   geocoder:
@@ -1025,9 +1077,8 @@ tr:
       status: Durum
       reports: Raporlar
       last_updated: Son Güncelleme
-      last_updated_time_html: <abbr title='%{title}'>%{time} önce</abbr>
-      last_updated_time_user_html: '%{user} tarafından <abbr title=''%{title}''>%{time}
-        önce</abbr>'
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: '%{user} tarafından <abbr title=''%{title}''>%{time}</abbr>'
       link_to_reports: Raporları Görüntüle
       reports_count:
         one: 1 Rapor
@@ -1147,6 +1198,7 @@ tr:
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: ortaklar
+    tou: Kullanım Koşulları
     osm_offline: OpenStreetMap veritabanı bakım çalışmaları yürütüldüğü için veritabanı
       şu anda çevrimdışıdır.
     osm_read_only: OpenStreetMap veritabanı bakım çalışmaları yürütüldüğü için veritabanı
@@ -1313,7 +1365,6 @@ tr:
       send_message_to: '%{name}''ya yeni bir mesaj gönder'
       subject: Konu
       body: Mesaj
-      send_button: Gönder
       back_to_inbox: Gelen kutusuna dön
     create:
       message_sent: Mesaj gönderildi
@@ -1392,8 +1443,10 @@ tr:
         Lisans sayfasına</a> göz atınız.
       legal_title: Yasal
       legal_html: |-
-        Bu site ve diğer pek çok ilgili hizmet resmi olarak <a href='https://osmfoundation.org/'>OpenStreetMap Vakfı</a> (OSMF) tarafından topluluk adına işletilmektedir. OSMF tarafından işletilen tüm servislerin kullanımı <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Kabul Edilebilir Kullanım Politikaları</a> ve <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Gizlilik Politikamızın</a> konusudur.
-        Lisanslama, telif hakkı veya diğer yasal sorularınız ve sorunlarınız varsa lütfen <a href='https://osmfoundation.org/Contact'>OSMF ile iletişime geçin</a>.
+        Bu site ve diğer pek çok ilgili hizmet resmi olarak <a href='https://osmfoundation.org/'>OpenStreetMap Vakfı</a> (OSMF) tarafından topluluk adına işletilmektedir. OSMF tarafından işletilen tüm servislerin kullanımı <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Kullanım Koşulları</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Kabul Edilebilir Kullanım Politikaları</a> ve <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Gizlilik Politikamızın</a> konusudur.
+        Lisanslama, telif hakkı veya diğer yasal sorularınız varsa lütfen <a href='https://osmfoundation.org/Contact'>OSMF ile iletişime geçin</a>.
+        <br>
+        OpenStreetMap, büyüteçli logosu ve Harita Devleti, <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">OSMF'nin tescilli ticari markalarıdır.</a>
       partners_title: Ortaklar
     copyright:
       foreign:
@@ -1401,12 +1454,12 @@ tr:
         text: Tercüme edilmiş bu sayfa ile %{english_original_link} arasında meydana
           gelebilecek herhangi bir uyuşmazlıkta sayfanın özgün dili olan İngilizce
           bölümü önceliklidir.
-        english_link: İngilizce orijinal
+        english_link: İngilizce orijinali
       native:
         title: Sayfa hakkında
         text: Telif hakkı sayfasının İngilizce sürümünü görüntülüyorsunuz. Bu sayfanın
-          %{native_link} ile geri gidebilir ya da telif hakkı ve %{mapping_link} hakkında
-          bilgi edinmek için sayfada kalabilirsiniz.
+          %{native_link} sayfasına geri gidebilir ya da telif hakkı ve %{mapping_link}
+          hakkında bilgi edinmek için sayfada kalabilirsiniz.
         native_link: Türkçe sürümü
         mapping_link: harita çizmeye başla
       legal_babble:
@@ -1420,30 +1473,27 @@ tr:
           OpenStreetMap'e ve katkıda bulunanlarına değindiğiniz
           sürece verilerimizi kopyalamak, dağıtmak, iletmek
           ve uyarlamakta serbestsiniz.
-          Verilerimizi değiştirir veya geliştirirseniz,
+          Verilerimizi değiştirir veya geliştirirseniz
           sonucu sadece aynı lisans altında dağıtabilirsiniz.
           Tüm <a href="https://opendatacommons.org/licenses/odbl/1.0/">yasal kod</a>, haklarınızı ve sorumluluklarınızı açıklamaktadır.
         intro_3_html: |-
           Haritalarımızdaki haritacılık ve belgelerimiz, <a href="https://creativecommons.org/licenses/by-sa/2.0/">Creative
           Commons Attribution-ShareAlike 2.0</a> lisansı (CC BY-SA) ile yetkilendirilmiştir.
-        credit_title_html: OpenStreetMap nasıl atıf edinir
+        credit_title_html: OpenStreetMap'e nasıl atıfta bulunulur
         credit_1_html: |-
-          Atıf şu şekilde yazmak gerekir: &ldquo;&copy; OpenStreetMap
+          Atıf için şu şekilde yazmak gerekir: &ldquo;&copy; OpenStreetMap
           katılımcıları&rdquo;.
         credit_2_html: |-
-          Ayrıca, verilerin Open Database License ve
-          haritalarımızdaki karoları kullanıyorsanız haritacılığımız
-          CC BY-SA ile lisanslandırıldığını açıkça belirtmelisiniz.
-          Bunu, <a href="https://www.openstreetmap.org/copyright">bu telif hakkı sayfasına</a> bağlantı vererek gerçekleştirebilirsiniz.
-          Alternatif ve bir gereksinim olarak, OSM'yi  bir veri formunda dağıtıyorsanız direkt olarak lisansları adlandırabilir
+          Ayrıca, verilerin Açık Veritabanı Lisansı (Open Database License) altında ve haritalarımızdaki karoları kullanıyorsanız haritacılığımızın CC BY-SA ile lisanslandırıldığını açıkça belirtmelisiniz. Bunu, <a href="https://www.openstreetmap.org/copyright">bu telif hakkı sayfasına</a> bağlantı vererek gerçekleştirebilirsiniz.
+          Alternatif ve bir gereksinim olarak OSM'yi  bir veri formunda dağıtıyorsanız direkt olarak lisansları adlandırabilir
           veya doğrudan lisanslara bağlayabilirsiniz. Bağlantıların
           mümkün olmadığı ortamlarda (örneğin basılı işler)
           okuyucularınızı openstreetmap.org'a, opendatacommons.org'a
           ve varsa creativecommons.org'a yönlendirmenizi
           öneriyoruz.
         credit_3_html: |-
-          Bir gezinebilir elektronik haritanın sağ alt köşesinde kredisi görünmesi lazım.
-          Örnegin:
+          Bir gezinebilir elektronik haritanın sağ alt köşesinde atfın görünmesi lazım.
+          Örnegin;
         attribution_example:
           alt: Web sayfasıında OpenStreetMap atıf etmek için bir örnek
           title: Atıf örneği
@@ -1633,7 +1683,7 @@ tr:
         ve haritalama konularını ortaklaşa tartışmak ve belgelemek için çeşitli kaynaklara sahiptir.
       welcome:
         url: /hoşgeldiniz
-        title: OSM'ye hoşgeldin!
+        title: OSM'ye hoş geldin!
         description: OpenStreetMap temellerini öğrenmek için kısa bir kılavuz ile
           başla.
       beginners_guide:
@@ -1840,7 +1890,6 @@ tr:
       visibility: 'Görünürlük:'
       visibility_help: bu ne demek?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-      upload_button: Gönder
       help: Yardım
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1869,7 +1918,6 @@ tr:
       description: 'Açıklama:'
       tags: 'Etiketler:'
       tags_help: virgülle ayrılmış
-      save_button: Değişiklikleri Kaydet
       visibility: Görünürlük
       visibility_help: bu ne demek?
     update:
@@ -1903,10 +1951,9 @@ tr:
     trace:
       pending: BEKLEMEDE
       count_points: '%{count} nokta'
-      ago: '%{time_in_words_ago} önce'
       more: ayrıntı
       trace_details: İz Ayrıntılarını Görüntüle
-      view_map: Harita Görüntüle
+      view_map: Haritayı Görüntüle
       edit: düzenle
       edit_map: Haritayı Düzenle
       public: KAMU
@@ -1989,10 +2036,8 @@ tr:
   oauth_clients:
     new:
       title: Yeni bir uygulama kaydedin
-      submit: Kaydol
     edit:
       title: Uygulamanızı düzenleyin
-      submit: Düzenle
     show:
       title: '%{app_name} için OAuth ayrıntıları'
       key: 'Tüketici anahtarı:'
@@ -2158,18 +2203,26 @@ tr:
         fazla bilgi için lütfen <a href="%{url}">buradaki wiki sayfasına</a> bakınız.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Katılımcı Şartları
-      heading: Katılımcı Şartları
-      read and accept: Lütfen aşağıdaki anlaşmayı okuyun ve mevcut ya da gelecekteki
-        katkılarınız için bu sözleşmenin şartlarını kabul ettiğinizi onaylamak için
-        kabul et butonuna basın.
-      consider_pd: Yukarıdaki anlaşmaya ek olarak, katkılarınızın kamu malı olarak
-        kabul edilmesini de seçebilirsiniz
+      title: Koşullar
+      heading: Koşullar
+      heading_ct: Katılımcı Şartları
+      read and accept with tou: Lütfen katılımcı sözleşmesini ve kullanım koşullarını
+        okuyun, bittiğinde her iki onay kutusunu işaretleyin ve ardından devam düğmesine
+        basın.
+      contributor_terms_explain: Bu anlaşma, mevcut ve gelecekteki katkılarınız için
+        şartları düzenlemektedir.
+      read_ct: Yukarıdaki katılımcı şartlarını okudum ve kabul ediyorum
+      tou_explain_html: Bu %{tou_link}, OSMF tarafından sağlanan web sitesinin ve
+        diğer altyapıların kullanımını yönetmektedir. Lütfen bağlantıya tıklayın,
+        metni okuyun ve kabul edin.
+      read_tou: Kullanım Şartlarını okudum ve kabul ediyorum
+      consider_pd: Yukarıdakilere ek olarak katkılarınızın kamu malı olarak kabul
+        edilmesini de seçebilirsiniz
       consider_pd_why: bu nedir?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Buradaki bilgileri anlamanıza yardımcı olabilecek bilgiler:  <a href="%{summary}">okunabilir
         bir özet</a> ve ayrıca <a href="%{translations}">genel çeviriler</a>'
-      agree: Kabul Et
+      continue: Devam
       declined: |2-
 
         https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
@@ -2208,12 +2261,10 @@ tr:
       remove as friend: Arkadaş listesinden çıkart
       add as friend: Arkadaş Olarak Ekle
       mapper since: 'Haritacılığa başlama tarihi:'
-      ago: (%{time_in_words_ago} önce)
       ct status: 'Katılımcının şartları:'
       ct undecided: Kararsız
       ct declined: Reddetti
-      ct accepted: '%{ago} önce kabul etti'
-      latest edit: 'Son değişiklik %{ago}:'
+      latest edit: 'Son değişiklik (%{ago}):'
       email address: 'E-posta adresi:'
       created from: 'Kullanıldı yazılım:'
       status: 'Durum:'
@@ -2440,7 +2491,6 @@ tr:
         anlamadıklarını lütfen unutmayın; bu nedenle acemilerin anlayabileceği terimleri
         kullanmaya çalışın.'
       period: Şu andan itibaren ne zamana kadar kullanıcıdan API engellenecek?
-      submit: Engelle
       tried_contacting: Kullanıcıyla iletişime geçtim ve durmasını istedim.
       tried_waiting: Kullanıcının bu iletişimlere cevap vermesi için makul bir süre
         verdim.
@@ -2455,7 +2505,6 @@ tr:
         anlamadıklarını lütfen unutmayın; bu nedenle acemilerin anlayabileceği terimleri
         kullanmaya çalışın.'
       period: Şu andan itibaren ne zamana kadar kullanıcıdan API engellenecek?
-      submit: Engeli güncelle
       show: Bu engellemeyi gör
       back: Tüm engellemeleri göster
       needs_view: Engel kaldırılmadan önce kullanıcının giriş yapması gerekiyor mu?
@@ -2479,18 +2528,31 @@ tr:
       title: '%{block_on} engellerini iptal etme'
       heading: '%{block_by} tarafından yapılan %{block_on} engellerini iptal etme'
       time_future: Engellenme %{time} içerisinde bitecek.
-      past: Bu engelleme %{time} önce bitmiş ve artık iptal edilemez.
+      past: Bu engelleme %{time} bitmiş ve artık iptal edilemez.
       confirm: Bu engeli kaldırmak istediğine emin misin?
       revoke: İptal!
       flash: Bu engelleme iptal edildi.
-    period:
-      one: 1 saat
-      other: '%{count} saat'
     helper:
       time_future: '%{time} içinde bitecek.'
       until_login: Kullanıcı giriş yapana kadar aktif.
       time_future_and_until_login: '%{time} içinde ve kullanıcı oturum açtığında bitecek.'
-      time_past: '%{time} önce bitti.'
+      time_past: '%{time} bitti.'
+      block_duration:
+        hours:
+          one: 1 saat
+          other: '%{count} saat'
+        days:
+          one: 1 gün
+          other: '%{count} gün'
+        weeks:
+          one: 1 hafta
+          other: '%{count} hafta'
+        months:
+          one: 1 ay
+          other: '%{count} ay'
+        years:
+          one: 1 yıl
+          other: '%{count} yıl'
     blocks_on:
       title: '%{name} kişisinin engelleri'
       heading: '%{name} hakkında engelleme kayıtları'
@@ -2502,10 +2564,7 @@ tr:
     show:
       title: '%{block_on} kişisi %{block_by} tarafından engellendi'
       heading: '%{block_on} kişisi %{block_by} tarafından engellendi'
-      time_future: '%{time} içinde bitecek'
-      time_past: '%{time} önce bitti'
       created: Oluşturuldu
-      ago: '%{time} önce'
       status: Durum
       show: Göster
       edit: Düzenle
@@ -2539,7 +2598,6 @@ tr:
       description: Açıklama
       created_at: Oluşturulma tarihi
       last_changed: Son değişiklik
-      ago_html: '%{when} önce'
   javascripts:
     close: Kapat
     share:
@@ -2589,6 +2647,7 @@ tr:
         title: Katmanlar
       copyright: © <a href='%{copyright_url}'>OpenStreetMap katkıda bulunanları</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Bağış Yapın</a>
+      terms: <a href='%{terms_url}' target='_blank'>Web sitesi ve API şartları</a>
     site:
       edit_tooltip: Haritayı düzenle
       edit_disabled_tooltip: Haritayı düzenlemek için yakınlaştırın
@@ -2733,7 +2792,6 @@ tr:
     edit:
       description: Açıklama
       heading: Redaksiyonu düzenle
-      submit: Redaksiyonu kaydet
       title: Redaksiyonu düzenle
     index:
       empty: Gösterilecek redaksiyon yok.
@@ -2742,7 +2800,6 @@ tr:
     new:
       description: Açıklama
       heading: Yeni redaksiyon için bilgi giriniz
-      submit: Redaksiyon oluştur
       title: Yeni redaksiyon oluşturma
     show:
       description: 'Açıklama:'

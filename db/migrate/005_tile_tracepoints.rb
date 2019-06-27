@@ -1,6 +1,6 @@
 require "migrate"
 
-class TileTracepoints < ActiveRecord::Migration[5.0]
+class TileTracepoints < ActiveRecord::Migration[4.2]
   def self.up
     add_column "gps_points", "tile", :bigint
     add_index "gps_points", ["tile"], :name => "points_tile_idx"

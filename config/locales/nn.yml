@@ -23,6 +23,26 @@ nn:
   time:
     formats:
       friendly: '%e %B %Y kl. %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Lagre
+      diary_entry:
+        create: Publiser
+      message:
+        create: Send
+      client_application:
+        create: Registrer
+        update: Rediger
+      redaction:
+        create: Lag maskering
+        update: Lagre markering
+      trace:
+        create: Last opp
+        update: Lagre endringar
+      user_block:
+        create: Opprett blokkering
+        update: Oppdater blokkering
   activerecord:
     models:
       acl: Tilgangskontrolliste
@@ -267,7 +287,14 @@ nn:
   diary_entries:
     new:
       title: Ny dagbokoppføring
-      publish_button: Publiser
+    form:
+      subject: 'Emne:'
+      body: 'Brødtekst:'
+      language: 'Språk:'
+      location: 'Posisjon:'
+      latitude: 'Breiddegrad:'
+      longitude: 'Lengdegrad:'
+      use_map_link: bruk kart
     index:
       title: Brukarane sine dagbøker
       title_friends: Dagbøkene til venene dine
@@ -282,14 +309,6 @@ nn:
       newer_entries: Nyare oppføringar
     edit:
       title: Rediger oppføring i dagboka
-      subject: 'Emne:'
-      body: 'Brødtekst:'
-      language: 'Språk:'
-      location: 'Posisjon:'
-      latitude: 'Breiddegrad:'
-      longitude: 'Lengdegrad:'
-      use_map_link: bruk kart
-      save_button: Lagre
       marker_text: Lokasjon for dagbokoppføring
     show:
       title: '%{user} sin dagbok | %{title}'
@@ -297,7 +316,6 @@ nn:
       leave_a_comment: Legg igjen ein kommentar
       login_to_leave_a_comment: '%{login_link} for å legge igjen ein kommentar'
       login: Logg inn
-      save_button: Lagre
     no_such_entry:
       title: Inga slik dagbokoppføring
       heading: Inga oppføring med %{id}
@@ -337,7 +355,6 @@ nn:
       post: Post
       when: Når
       comment: Kommentar
-      ago: '%{ago} sidan'
       newer_comments: Nyare kommentarar
       older_comments: Eldre kommentarar
   geocoder:
@@ -1019,7 +1036,6 @@ nn:
       send_message_to: Send ei ny melding til %{name}
       subject: Emne
       body: Kropp
-      send_button: Send
       back_to_inbox: Tilbake til innboks
     create:
       message_sent: Melding sendt
@@ -1401,7 +1417,6 @@ nn:
       visibility: 'Synligheit:'
       visibility_help: kva tyder dette?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-      upload_button: Last opp
       help: Hjelp
       help_url: http://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1426,7 +1441,6 @@ nn:
       description: 'Skildring:'
       tags: 'Markelapper:'
       tags_help: kommaseparert
-      save_button: Lagre endringar
       visibility: 'Synlegheit:'
       visibility_help: kva tyder dette?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
@@ -1458,7 +1472,6 @@ nn:
     trace:
       pending: VENTAR
       count_points: '%{count} punkt'
-      ago: '%{time_in_words_ago} sidan'
       more: meir
       trace_details: Vis detaljar for spor
       view_map: Vis kart
@@ -1533,10 +1546,8 @@ nn:
   oauth_clients:
     new:
       title: Registrer ein ny applikasjon
-      submit: Registrer
     edit:
       title: Rediger programvara di
-      submit: Rediger
     show:
       title: OAuth-detaljar for %{app_name}
       key: 'Forbrukarnøkkel:'
@@ -1694,16 +1705,12 @@ nn:
     terms:
       title: Bidragsytervilkår
       heading: Bidragsytervilkåra
-      read and accept: Les avtalen nedanfor og trykk på godkjenningsknappen for å
-        stadfeste at du godtek vilkåra i denne avtalen for dei eksisterande og kommande
-        bidraga dine.
       consider_pd: I tillegg til den ovannemnde avtala ansar eg bidraga mine for å
         vere i public domain
       consider_pd_why: kva er dette?
       consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_i_want_my_contributions_to_be_public_domain
       guidance: 'Informasjon for å hjelpe å forstå desse vilkåra: eit <a href="%{summary}">menneskeleg
         lesbart sammendrag</a> og nokon <a href="%{translations}">uformelle omsetjingar</a>'
-      agree: Eg godkjenner
       declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Avslå
       you need to accept or decline: Les og deretter anten godta eller avslå dei nye
@@ -1740,11 +1747,9 @@ nn:
       remove as friend: Fjern ven
       add as friend: Legg til ven
       mapper since: 'Brukar sidan:'
-      ago: (%{time_in_words_ago} sidan)
       ct status: 'Bidragsytarvilkår:'
       ct undecided: Usikker
       ct declined: Avslått
-      ct accepted: Akseptert %{ago} sidan
       latest edit: 'Siste redigering %{ago}:'
       email address: 'E-postadresse:'
       created from: 'Oppretta frå:'
@@ -1945,7 +1950,6 @@ nn:
         vert synleg for offentligheita. Hugs på at ikkje alle brukarar forstår fellesskapssjargongen
         så prøv å bruke lekmannsuttrykk.
       period: Kor lenge, frå no av, brukaren vil blokkerast frå API-en.
-      submit: Opprett blokkering
       tried_contacting: Eg har kontakta brukaren og bede dei stoppe.
       tried_waiting: Eg har gjeve brukaren rimeleg med tid til å svare på desse kommunikasjonane.
       needs_view: Brukaren må logge inn før denne blokkeringa vert fjerna.
@@ -1957,7 +1961,6 @@ nn:
         som mogleg og oppgje så mange detaljar du kan om situasjonen. Hugs at ikkje
         alle brukarar forstår felleskapssjargongen så prøv å bruke lekmannsuttrykk.
       period: Kor lenge, frå no av, brukaren vil blokkerast frå API-en.
-      submit: Oppdater blokkering
       show: Vis denne blokkeringa
       back: Vis alle blokkeringar
       needs_view: Må brukaren logge inn før denne blokkeringa vert fjerna?
@@ -1987,15 +1990,16 @@ nn:
       confirm: Er du sikker på at du vil tilbakekalle denne blokkeringa?
       revoke: Tilbakekall!
       flash: Denne blokkeringa har vorte tilbakekalt.
-    period:
-      one: 1 time
-      other: '%{count} timar'
     helper:
       time_future: Sluttar om %{time}.
       until_login: Aktiv inntil brukaren loggar inn.
       time_future_and_until_login: Sluttar om %{time} og etter at brukaren har logga
         inn.
       time_past: Slutta %{time} sidan.
+      block_duration:
+        hours:
+          one: 1 time
+          other: '%{count} timar'
     blocks_on:
       title: Blokkeringar av %{name}
       heading: Liste over blokkeringar av %{name}
@@ -2007,10 +2011,7 @@ nn:
     show:
       title: '%{block_on} blokkert av %{block_by}'
       heading: '%{block_on} blokkert av %{block_by}'
-      time_future: Sluttar om %{time}
-      time_past: Slutta %{time} sidan
       created: Oppretta
-      ago: '%{time} sidan'
       status: Status
       show: Vis
       edit: Rediger
@@ -2043,7 +2044,6 @@ nn:
       description: Skildring
       created_at: Oppretta den
       last_changed: Sist endra
-      ago_html: '%{when} sidan'
   javascripts:
     close: Lat att
     share:
@@ -2182,7 +2182,6 @@ nn:
     edit:
       description: Skildring
       heading: Rediger maskering
-      submit: Lagre markering
       title: Rediger relasjon
     index:
       empty: Ingen maskeringar å vise.
@@ -2191,7 +2190,6 @@ nn:
     new:
       description: Skildring
       heading: Legg inn informasjon for ein ny maskering
-      submit: Lag maskering
       title: Lagar ein ny maskering
     show:
       description: 'Skildring:'

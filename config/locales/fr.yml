@@ -52,6 +52,7 @@
 # Author: Pipo
 # Author: Pyrog
 # Author: Quentinv57
+# Author: Roptat
 # Author: Ruila
 # Author: Rémi Bovard
 # Author: Seb35
@@ -72,6 +73,29 @@ fr:
   time:
     formats:
       friendly: '%e %B %Y à %-Hh%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Enregistrer
+      diary_entry:
+        create: Publier
+        update: Mettre à jour
+      issue_comment:
+        create: Ajouter un commentaire
+      message:
+        create: Envoyer
+      client_application:
+        create: Enregistrer
+        update: Modifier
+      redaction:
+        create: Créer le masquage
+        update: Enregistrer le masquage
+      trace:
+        create: Envoyer
+        update: Enregistrer les modifications
+      user_block:
+        create: Créer un blocage
+        update: Modifier le blocage
   activerecord:
     errors:
       messages:
@@ -144,6 +168,14 @@ fr:
         description: Description
         languages: Langues
         pass_crypt: Mot de passe
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: il y a environ une heure
+        other: il y a environ %{count} heures
+      about_x_months:
+        one: il y a environ un mois
+        other: il y a environ %{count} mois
   printable_name:
     with_name_html: '%{name} (%{id})'
   editor:
@@ -357,7 +389,14 @@ fr:
   diary_entries:
     new:
       title: Nouvelle entrée du journal
-      publish_button: Publier
+    form:
+      subject: 'Sujet :'
+      body: 'Corps :'
+      language: 'Langue :'
+      location: 'Lieu :'
+      latitude: 'Latitude :'
+      longitude: 'Longitude :'
+      use_map_link: utiliser la carte
     index:
       title: Journaux des utilisateurs
       title_friends: Journaux des amis
@@ -372,14 +411,6 @@ fr:
       newer_entries: Entrées plus récentes
     edit:
       title: Modifier l’entrée du journal
-      subject: 'Sujet :'
-      body: 'Corps :'
-      language: 'Langue :'
-      location: 'Lieu :'
-      latitude: 'Latitude :'
-      longitude: 'Longitude :'
-      use_map_link: utiliser la carte
-      save_button: Enregistrer
       marker_text: Emplacement de l’entrée du journal
     show:
       title: Journal de %{user} | %{title}
@@ -387,7 +418,6 @@ fr:
       leave_a_comment: Laisser un commentaire
       login_to_leave_a_comment: '%{login_link} pour laisser un commentaire'
       login: Se connecter
-      save_button: Enregistrer
     no_such_entry:
       title: Pas d’entrée du journal correspondante
       heading: 'Aucune entrée avec l’id : %{id}'
@@ -395,7 +425,7 @@ fr:
         %{id}. Veuillez vérifier votre orthographe ou la validité du lien que vous
         avez cliqué.
     diary_entry:
-      posted_by: Publié par %{link_user} à %{created} en %{language_link}
+      posted_by: Publié par %{link_user} le %{created} en %{language_link}
       comment_link: Commenter cette entrée
       reply_link: Répondre à cette entrée
       comment_count:
@@ -404,11 +434,13 @@ fr:
         other: '%{count} commentaires'
       edit_link: Modifier cette entrée
       hide_link: Masquer cette entrée
+      unhide_link: Ne plus masquer cette entrée
       confirm: Confirmer
       report: Signaler cette entrée
     diary_comment:
       comment_from: Commentaire de %{link_user} le %{comment_created_at}
       hide_link: Masquer ce commentaire
+      unhide_link: Ne plus masquer ce commentaire
       confirm: Confirmer
       report: Signaler ce commentaire
     location:
@@ -431,7 +463,6 @@ fr:
       post: Article
       when: Quand
       comment: Commentaire
-      ago: il y a %{ago}
       newer_comments: Commentaires plus récents
       older_comments: Commentaires plus anciens
   geocoder:
@@ -963,7 +994,7 @@ fr:
           travel_agency: Agence de voyage
           tyres: Magasin de pneus
           vacant: Commerce vacant
-          variety_store: Magasin de variétés
+          variety_store: Magasin à prix unique ou à bas prix
           video: Magasin de vidéos
           wine: Caviste
           "yes": Boutique
@@ -1015,7 +1046,7 @@ fr:
         level2: Frontière de pays
         level4: Limite d’État, province ou région
         level5: Limite de région
-        level6: Limite de département
+        level6: Limite de département ou province
         level8: Limite communale
         level9: Limite de village ou arrondissement municipal
         level10: Limite de quartier
@@ -1169,6 +1200,7 @@ fr:
     partners_ucl: L’University College de Londres
     partners_bytemark: l'hébergeur Bytemark
     partners_partners: partenaires
+    tou: Conditions d’utilisation
     osm_offline: La base de données OpenStreetMap est actuellement hors ligne ; une
       maintenance essentielle à son bon fonctionnement est en cours.
     osm_read_only: La base de données OpenStreetMap est actuellement en mode lecture
@@ -1333,7 +1365,6 @@ fr:
       send_message_to: Envoyer un nouveau message à %{name}
       subject: Sujet
       body: Corps
-      send_button: Envoyer
       back_to_inbox: Revenir à la boîte de réception
     create:
       message_sent: Message envoyé
@@ -1416,7 +1447,8 @@ fr:
       legal_html: "Ce site et de nombreux autres services connexes sont formellement
         exploités par la \n<a href=\"https://osmfoundation.org/\">Fondation OpenStreetMap</a>
         (OSMF) \nau nom de la communauté. L’utilisation de tous les services offerts
-        par l’OSMF est sujette\nà notre <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nPolitique
+        par l’OSMF est sujette\nà nos <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">Conditions
+        d’utilisation</a>, à notre <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nPolitique
         des usages acceptés</a> et à notre <a href=\"http://wiki.osmfoundation.org/wiki/Privacy_Policy\">Politique
         de confidentialité</a>.\n<br> \nVeuillez <a href=\"https://osmfoundation.org/Contact\">contacter
         l’OSMF</a> \nsi vous avez des questions ou problèmes concernant les licences,
@@ -1540,9 +1572,10 @@ fr:
           de retrait de données</a> ou notifiez-nous directement à travers notre <a
           href="https://dmca.openstreetmap.org/">formulaire en ligne</a>.
         trademarks_title_html: <span id="marques"></span>Marques
-        trademarks_1_html: OpenStreetMap, le logo loupe et State of the Map sont des
-          marques déposées de l'OpenStreetMap Foundation. Si vous avez des questions
-          à propos de l’utilisation de ces marques, merci de consulter notre <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">règlement
+        trademarks_1_html: OpenStreetMap, le logo avec la loupe et ''State of the
+          Map'' sont des marques déposées de l'OpenStreetMap Foundation. Si vous avez
+          des questions à propos de l’utilisation de ces marques, merci de consulter
+          notre <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">règlement
           concernant les marques déposées</a>.
     index:
       js_1: JavaScript n’est pas pris en charge par le navigateur que vous utilisez,
@@ -1859,7 +1892,6 @@ fr:
       visibility: 'Visibilité :'
       visibility_help: qu’est-ce que cela veut dire ?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/FR:Visibilit%C3%A9_des_traces_GPS
-      upload_button: Envoyer
       help: Aide
       help_url: https://wiki.openstreetmap.org/wiki/FR:Upload
     create:
@@ -1890,7 +1922,6 @@ fr:
       description: 'Description :'
       tags: 'Mots-clés :'
       tags_help: données séparées par des virgules
-      save_button: Enregistrer les modifications
       visibility: 'Visibilité :'
       visibility_help: qu’est-ce que cela veut dire ?
     update:
@@ -1924,7 +1955,6 @@ fr:
     trace:
       pending: EN ATTENTE
       count_points: '%{count} points'
-      ago: il y a %{time_in_words_ago}
       more: plus
       trace_details: Voir les détails de la trace
       view_map: Voir la carte
@@ -2013,10 +2043,8 @@ fr:
   oauth_clients:
     new:
       title: Enregistrer une nouvelle application
-      submit: Enregistrer
     edit:
       title: Modifier votre application
-      submit: Modifier
     show:
       title: Détails OAuth pour %{app_name}
       key: 'Clé de l’utilisateur :'
@@ -2192,18 +2220,26 @@ fr:
         consulter <a href="%{url}">cette page wiki</a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Termes du contributeur
-      heading: Termes du contributeur
-      read and accept: Veuillez lire le contrat ci-dessous et cliquer sur le bouton
-        d’acceptation pour confirmer que vous acceptez les termes de l’accord concernant
-        vos contributions passées et futures.
+      title: Conditions
+      heading: Conditions
+      heading_ct: Conditions du contributeur
+      read and accept with tou: Veuillez lire l’accord du contributeur et les conditions
+        d’utilisation, cocher les deux cases une fois ceci fait, puis appuyer sur
+        le bouton Continuer.
+      contributor_terms_explain: Cet accord impose les conditions de vos contributions
+        existantes et à venir.
+      read_ct: J’ai lu et j’accepte les conditions de contributeur ci-dessus
+      tou_explain_html: Ce %{tou_link} conditionne l’utilisation du site web et des
+        autres infrastructures fournies par OSMF. Veuillez cliquer sur le lien, lire
+        et accepter le texte.
+      read_tou: J’ai lu et j’accepte les Conditions d’utilisation
       consider_pd: En plus de l’accord ci-dessus, je considère mes contributions comme
         étant dans le domaine public
       consider_pd_why: qu’est-ce que ceci ?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Pour plus d''information sur ces termes : un <a href="%{summary}">résumé
         lisible</a> et quelques <a href="%{translations}">traductions informelles</a>'
-      agree: J’accepte
+      continue: Continuer
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Décliner
       you need to accept or decline: Veuillez lire et ensuite soit accepter ou refuser
@@ -2240,11 +2276,9 @@ fr:
       remove as friend: Supprimer en tant qu’ami
       add as friend: Ajouter en tant qu’ami
       mapper since: 'Cartographe depuis :'
-      ago: (il y a %{time_in_words_ago})
       ct status: 'Conditions du contributeur:'
       ct undecided: Indécis
       ct declined: Refusé
-      ct accepted: Accepté il y a %{ago}
       latest edit: 'Dernière modification %{ago} :'
       email address: 'Adresse de courriel :'
       created from: 'Créé depuis :'
@@ -2481,7 +2515,6 @@ fr:
         des termes simples et précis.
       period: Pendant combien de temps, à partir de maintenant, l’utilisateur doit
         être bloqué sur l’API ?
-      submit: Créer un blocage
       tried_contacting: J’ai contacté l'utilisateur et lui ai demandé d’arrêter.
       tried_waiting: J’ai donné un temps raisonnable à l’utilisateur pour répondre
         à ces messages.
@@ -2496,7 +2529,6 @@ fr:
         alors utilisez des termes simples et précis.
       period: Combien de temps, à partir de maintenant, l’utilisateur doit être bloqué
         sur l’API ?
-      submit: Modifier le blocage
       show: Afficher ce blocage
       back: Voir tous les blocages
       needs_view: Est-ce que l’utilisateur doit se connecter avant que ce blocage
@@ -2525,15 +2557,26 @@ fr:
       confirm: Êtes-vous sûr de vouloir révoquer ce blocage ?
       revoke: Révoquer !
       flash: Ce blocage a été révoqué.
-    period:
-      one: '%{count} heure'
-      other: '%{count} heures'
     helper:
       time_future: Prends fin dans %{time}.
       until_login: Actif jusqu’à ce que l’utilisateur se connecte.
       time_future_and_until_login: Finit dans %{time} et une fois que l’utilisateur
         s’est connecté.
       time_past: Terminé il y a %{time}.
+      block_duration:
+        hours:
+          one: '%{count} heure'
+          other: '%{count} heures'
+        days:
+          one: 1 jour
+          other: '%{count} jours'
+        weeks:
+          one: 1 semaine
+          other: '%{count} semaines'
+        months: '%{count} mois'
+        years:
+          one: 1 année
+          other: '%{count} années'
     blocks_on:
       title: Blocages de « %{name} »
       heading: Liste des blocages sur « %{name} »
@@ -2545,10 +2588,7 @@ fr:
     show:
       title: « %{block_on} » bloqué par « %{block_by} »
       heading: « %{block_on} » bloqué par « %{block_by} »
-      time_future: Prendra fin dans %{time}
-      time_past: A pris fin il y a %{time}
       created: Créé
-      ago: il y a %{time}
       status: État
       show: Afficher
       edit: Modifier
@@ -2582,7 +2622,6 @@ fr:
       description: Description
       created_at: Créée le
       last_changed: Dernière modification
-      ago_html: il y a %{when}
   javascripts:
     close: Fermer
     share:
@@ -2632,6 +2671,7 @@ fr:
         title: Couches
       copyright: © <a href='%{copyright_url}'>Contributeurs de OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Faire un don</a>
+      terms: <a href='%{terms_url}' target='_blank'>Conditions du site web et de l’API</a>
     site:
       edit_tooltip: Modifier la carte
       edit_disabled_tooltip: Zoomez en avant pour modifier la carte
@@ -2778,7 +2818,6 @@ fr:
     edit:
       description: Description
       heading: Modifier le masquage
-      submit: Enregistrer le masquage
       title: Modifier le masquage
     index:
       empty: Aucun masquage à afficher.
@@ -2787,7 +2826,6 @@ fr:
     new:
       description: Description
       heading: Saisissez les informations sur le nouveau masquage
-      submit: Créer le masquage
       title: Création d’un nouveau masquage
     show:
       description: 'Description :'

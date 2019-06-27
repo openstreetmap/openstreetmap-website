@@ -13,7 +13,7 @@ gem "psych", :platforms => :ruby_20
 gem "json"
 
 # Use postgres as the database
-gem "pg", "~> 0.18"
+gem "pg"
 
 # Use SCSS for stylesheets
 gem "sassc-rails"
@@ -60,7 +60,8 @@ gem "paperclip", "~> 5.2"
 gem "rack-cors"
 gem "rails-i18n", "~> 4.0.0"
 gem "record_tag_helper"
-gem "rinku", "= 2.0.4", :require => "rails_rinku"
+gem "rinku", ">= 2.0.6", :require => "rails_rinku"
+gem "strong_migrations"
 gem "validates_email_format_of", ">= 1.5.1"
 
 # Native OSM extensions
@@ -117,7 +118,10 @@ gem "canonical-rails"
 gem "logstasher"
 
 # Used to generate images for traces
-gem "gd2-ffij"
+gem "bzip2-ffi"
+gem "ffi-libarchive"
+gem "gd2-ffij", ">= 0.4.0"
+gem "mimemagic"
 
 # Used for browser detection
 gem "browser"
@@ -137,6 +141,8 @@ group :test do
   gem "minitest", "~> 5.1", :platforms => [:ruby_19, :ruby_20]
   gem "rails-controller-testing"
   gem "rubocop"
+  gem "rubocop-performance"
+  gem "rubocop-rails"
   gem "webmock"
 end
 
@@ -145,10 +151,7 @@ group :development, :test do
   gem "capybara", "~> 2.13"
   gem "coveralls", :require => false
   gem "erb_lint", :require => false
-  gem "eslint-rails-ee"
-  gem "execjs"
   gem "factory_bot_rails"
   gem "poltergeist"
   gem "puma", "~> 3.7"
-  gem "therubyracer", :platforms => :ruby
 end

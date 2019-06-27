@@ -1,6 +1,7 @@
 # Messages for Luxembourgish (Lëtzebuergesch)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: Davio
 # Author: Les Meloures
 # Author: Robby
@@ -10,6 +11,26 @@ lb:
   time:
     formats:
       friendly: '%e %B %Y um %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Späicheren
+      diary_entry:
+        create: Verëffentlechen
+        update: Aktualiséieren
+      issue_comment:
+        create: Bemierkung derbäisetzen
+      message:
+        create: Schécken
+      client_application:
+        create: Registréieren
+        update: Änneren
+      trace:
+        create: Eroplueden
+        update: Ännerunge späicheren
+      user_block:
+        create: Spär uleeën
+        update: Spär aktualiséieren
   activerecord:
     models:
       changeset: Set vun Ännerungen
@@ -56,6 +77,12 @@ lb:
         description: Beschreiwung
         languages: Sproochen
         pass_crypt: Passwuert
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: virun enger hallwer Minutt
+      x_seconds:
+        one: virun 1 virun enger Sekonn
+        other: virun viru(n) %{count} Sekonnen
   editor:
     default: Standard (elo %{name})
     potlatch:
@@ -191,13 +218,13 @@ lb:
       area: Beräich
     index:
       title: Sette vun Ännerungen
-      title_user: Sete vun Ännerunge vum %{user}
-      title_friend: Ännerunge vun Äre Frënn
+      title_user: Sette vun Ännerunge vum %{user}
+      title_friend: Ännerungs-Sette vu menge Frënn
       title_nearby: Sette vun Ännerunge vu Benotzer déi nobäi sinn
       empty: Keng Sette vun Ännerunge fonnt.
       empty_area: Keng Sette vun Ännerungen an dëser Géigend.
       empty_user: Keng Sette vun Ännerunge vun dësem Benotzer.
-      no_more: Keng weider Sette vun Ännerunge fonnt.
+      no_more: Soss keng Ännerungssätz fonnt.
       no_more_area: Keng weider Sette vun Ännerungen an dëser Géigend.
       no_more_user: Keng weider Sette vun Ännerunge vun dësem Benotzer.
       load_more: Méi lueden
@@ -205,24 +232,20 @@ lb:
     comment:
       commented_at_by_html: Viru(n) %{when} vum %{user} aktualiséiert
   diary_entries:
-    new:
-      publish_button: Verëffentlechen
-    index:
-      title: Blogge vun de Benotzer
-      user_title: Blog vum %{user}
-    edit:
+    form:
       subject: 'Sujet:'
       language: 'Sprooch:'
       location: 'Plaz:'
       latitude: 'Breedegrad:'
       longitude: 'Längegrad:'
       use_map_link: Kaart benotzen
-      save_button: Späicheren
+    index:
+      title: Blogge vun de Benotzer
+      user_title: Blog vum %{user}
     show:
       leave_a_comment: Eng Bemierkung maachen
       login_to_leave_a_comment: '%{login_link} fir eng Bemierkung ze schreiwen'
       login: Aloggen
-      save_button: Späicheren
     diary_entry:
       posted_by: Vum %{link_user} matgedeelt de(n) %{created} op %{language_link}
       comment_count:
@@ -241,7 +264,6 @@ lb:
     comments:
       when: Wéini
       comment: Bemierkung
-      ago: viru(n) %{ago}
       newer_comments: Méi nei Bemierkungen
       older_comments: Méi al Bemierkungen
   geocoder:
@@ -745,7 +767,6 @@ lb:
       title: Noriicht schécken
       send_message_to: Dem %{name} en neie Message schécken
       subject: Sujet
-      send_button: Schécken
     create:
       message_sent: Message geschéckt
     no_such_message:
@@ -937,7 +958,6 @@ lb:
       tags_help: Mat Komma getrennt
       visibility: 'Visibilitéit:'
       visibility_help: wat heescht dat?
-      upload_button: Eroplueden
       help: Hëllef
     edit:
       filename: 'Numm vum Fichier:'
@@ -951,7 +971,6 @@ lb:
       description: 'Beschreiwung:'
       tags: 'Markéierungen:'
       tags_help: Mat Komma getrennt
-      save_button: Ännerunge späicheren
       visibility: 'Visibilitéit:'
       visibility_help: wat heescht dat?
     show:
@@ -972,7 +991,6 @@ lb:
       showing_page: Säit %{page}
     trace:
       count_points: '%{count} Punkten'
-      ago: viru(n) %{time_in_words_ago}
       more: méi
       view_map: Kaart weisen
       edit: änneren
@@ -993,10 +1011,6 @@ lb:
       allow_write_api: d'Kaart änneren.
       allow_write_notes: Notizen änneren.
   oauth_clients:
-    new:
-      submit: Registréieren
-    edit:
-      submit: Änneren
     show:
       authorize_url: 'URL autoriséieren:'
       edit: Detailer änneren
@@ -1087,8 +1101,8 @@ lb:
       confirm password: 'Passwuert confirméieren:'
       continue: Mellt Iech un
     terms:
+      heading: Bedingungen
       consider_pd_why: wat ass dat?
-      agree: Akzeptéieren
       legale_select: 'Sicht w.e.g. d''Land eraus wou Dir wunnt:'
       legale_names:
         france: Frankräich
@@ -1114,8 +1128,6 @@ lb:
       notes: Notizen op der Kaart
       remove as friend: Frënd ewechhuelen
       add as friend: Frënd derbäisetzen
-      ago: (viru(n) %{time_in_words_ago})
-      ct accepted: Viru(n) %{ago} akzeptéert
       latest edit: 'Lescht Ännerung %{ago}:'
       email address: 'E-Mail-Adress:'
       status: 'Status:'
@@ -1242,11 +1254,9 @@ lb:
     not_found:
       back: Zréck op d'Iwwersiicht
     new:
-      submit: Spär uleeën
       tried_contacting: Ech hunn de Benotzer kontaktéiert an e gefrot fir opzehalen.
       back: All Späre weisen
     edit:
-      submit: Spär aktualiséieren
       show: Dës Spär weisen
       back: All Späre weisen
     update:
@@ -1258,9 +1268,11 @@ lb:
     revoke:
       revoke: Ophiewen!
       flash: Dës Spär gouf opgehuewen.
-    period:
-      one: 1 Stonn
-      other: '%{count} Stonnen'
+    helper:
+      block_duration:
+        hours:
+          one: 1 Stonn
+          other: '%{count} Stonnen'
     blocks_on:
       title: Späre vum %{name}
       empty: '%{name} gouf bis elo nach net gespaart.'
@@ -1270,7 +1282,6 @@ lb:
     show:
       title: '%{block_on} gespaart vum %{block_by}'
       heading: '%{block_on} gespaart vum %{block_by}'
-      ago: viru(n) %{time}}
       status: Status
       show: Weisen
       edit: Änneren
@@ -1295,7 +1306,6 @@ lb:
     mine:
       description: Beschreiwung
       last_changed: Lescht Ännerung
-      ago_html: viru(n) %{when}
   javascripts:
     close: Zoumaachen
     share:

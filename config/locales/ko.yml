@@ -27,6 +27,7 @@
 # Author: Wrightbus
 # Author: Ykhwong
 # Author: Ysjbserver
+# Author: 神樂坂秀吉
 # Author: 고솜
 # Author: 밥풀떼기
 # Author: 아라
@@ -37,6 +38,27 @@ ko:
     formats:
       friendly: '%Y년 %B %e일 %H:%M'
       blog: '%Y년 %B %e일'
+  helpers:
+    submit:
+      diary_comment:
+        create: 저장
+      diary_entry:
+        create: 게시
+        update: 업데이트
+      message:
+        create: 보내기
+      client_application:
+        create: 등록
+        update: 편집
+      redaction:
+        create: 교정 만들기
+        update: 교정 저장
+      trace:
+        create: 올리기
+        update: 바뀜 저장
+      user_block:
+        create: 차단 만들기
+        update: 차단 업데이트
   activerecord:
     errors:
       messages:
@@ -109,6 +131,12 @@ ko:
         description: 설명
         languages: 언어
         pass_crypt: 비밀번호
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: 30초 전
+      x_years:
+        one: 1년 전
+        other: '%{count}년 전'
   editor:
     default: 기본값 (현재 %{name})
     potlatch:
@@ -312,7 +340,14 @@ ko:
   diary_entries:
     new:
       title: 새 일기 항목
-      publish_button: 게시
+    form:
+      subject: '제목:'
+      body: '본문:'
+      language: '언어:'
+      location: '위치:'
+      latitude: '위도:'
+      longitude: '경도:'
+      use_map_link: 지도 사용
     index:
       title: 사용자의 일기
       title_friends: 친구의 일기
@@ -327,14 +362,6 @@ ko:
       newer_entries: 다음 항목
     edit:
       title: 일기 항목 수정
-      subject: '제목:'
-      body: '본문:'
-      language: '언어:'
-      location: '위치:'
-      latitude: '위도:'
-      longitude: '경도:'
-      use_map_link: 지도 사용
-      save_button: 저장
       marker_text: 일기 항목 위치
     show:
       title: '%{user}의 일기 | %{title}'
@@ -342,7 +369,6 @@ ko:
       leave_a_comment: 의견 남기기
       login_to_leave_a_comment: 덧글을 남기려면 %{login_link}해야 합니다.
       login: 로그인
-      save_button: 저장
     no_such_entry:
       title: 해당 일기 항목이 없음
       heading: 'id에 항목 없음: %{id}'
@@ -357,11 +383,13 @@ ko:
         other: 댓글 %{count}개
       edit_link: 이 항목 편집
       hide_link: 이 항목 숨기기
+      unhide_link: 이 항목 숨기기 취소
       confirm: 확인
       report: 이 항목 신고
     diary_comment:
       comment_from: '%{comment_created_at}에 %{link_user}님의 의견'
       hide_link: 이 의견 숨기기
+      unhide_link: 이 댓글 숨기기 취소
       confirm: 확인
       report: 이 의견 신고
     location:
@@ -383,7 +411,6 @@ ko:
       post: 게시물
       when: 날짜
       comment: 의견
-      ago: '%{ago} 전'
       newer_comments: 새 의견
       older_comments: 이전 의견
   geocoder:
@@ -1118,6 +1145,7 @@ ko:
     partners_ucl: UCL
     partners_bytemark: 바이트마크 호스팅
     partners_partners: 협력단체
+    tou: 이용 약관
     osm_offline: 데이터베이스 점검을 위해 OpenStreetMap의 데이터가 현재 오프라인입니다.
     osm_read_only: 데이터베이스 점검을 위해 OpenStreetMap의 데이터가 현재 읽기 전용입니다.
     donate: 하드웨어 업데이트 기금에서 %{link}에 의해 OpenStreet를 지원합니다.
@@ -1255,7 +1283,6 @@ ko:
       send_message_to: '%{name}에게 새 메시지 보내기'
       subject: 제목
       body: 본문
-      send_button: 보내기
       back_to_inbox: 받은 쪽지함으로 돌아가기
     create:
       message_sent: 메시지를 보냈습니다
@@ -1346,7 +1373,7 @@ ko:
           커먼즈 오픈 데이터베이스 라이선스</a>(ODbL)에 따라 사용할 수 있습니다.
         intro_2_html: |-
           OpenStreetMap 기여자를 명시하는 한, OpenStreetMap 데이터를 자유롭게 복사, 배포, 전송 및 적용할 수 있습니다.
-          데이터를 바꾸거나 데이터에 기초로 할 때는 오로지
+          데이터를 바꾸거나 데이터를 기초로 작업할 때는 오로지
           같은 라이선스에 따라서만 결과를 배포할 수 있습니다.
           <a href="https://opendatacommons.org/licenses/odbl/1.0/">전문</a>은
           당신의 권리와 책임을 설명합니다.
@@ -1357,8 +1384,8 @@ ko:
         credit_title_html: OpenStreetMap 제작진 넣는 방법
         credit_1_html: '&ldquo;&copy; OpenStreetMap 기여자&rdquo;를 저작자로 사용해야 합니다.'
         credit_2_html: |-
-          또한 명확하게 데이터는 오픈 데이터베이스 라이선스에 따라 사용할 수 있으며,
-          지도 제작은 지도 타일을 사용할 때에 CC-BY-SA로 허가합니다.
+          또한 데이터는 오픈 데이터베이스 라이선스에 따라 사용할 수 있으며, 지도 제작은
+          지도 타일을 사용할 때에 CC-BY-SA로 허가한다는 내용을 명확하게 통지해야 합니다.
           <a href="https://www.openstreetmap.org/copyright">이 저작권 문서</a>로
           링크하여 이렇게 할 수 있습니다.
           또한 데이터 형식으로 OSM을 배포할 때는 라이선스 이름과
@@ -1418,7 +1445,7 @@ ko:
         contributors_za_html: |-
           <strong>남아프리카 공화국</strong>: <a href="http://www.ngi.gov.za/">Chief Directorate:
           National Geo-Spatial Information</a>에서의 데이터를
-          포함합니다. State가 저작권을 소유합니다.
+          포함합니다. 국가가 저작권을 소유합니다.
         contributors_gb_html: |-
           <strong>영국</strong>: 육지 측량 데이터
           &copy; Crown 저작권 및 데이터베이스 권리
@@ -1705,9 +1732,9 @@ ko:
       questions:
         title: 질문이 있습니까?
         paragraph_1_html: |-
-          OpenStreetMap은 프로젝트에 대해 배우고, 질문을 묻고 답하고,
+          OpenStreetMap에는 프로젝트에 대해 배우고, 질문을 묻고 답하고,
           매핑 주제를 협력하여 토론하고 문서화하기 위한 여러 자료가 있습니다.
-          <a href='%{help_url}'>여기서 도움을 얻으세요</a>. OpenStreetMap에 기여하고 싶은 단체에 속하셨나요? <a href='https://welcome.openstreetmap.org/'>Welcome Mat</a>을 방문해보세요.
+          <a href='%{help_url}'>여기서 도움을 얻으세요</a>. OpenStreetMap에 기여할 계획을 가진 조직에 속해 있나요? <a href='https://welcome.openstreetmap.org/'>Welcome Mat</a>을 방문해보세요.
       start_mapping: 매핑 시작
       add_a_note:
         title: 편집할 시간이 없습니까? 참고를 추가하세요!
@@ -1733,7 +1760,6 @@ ko:
       visibility: '공개 여부:'
       visibility_help: 이게 무슨 뜻입니까?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-      upload_button: 올리기
       help: 도움말
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1758,7 +1784,6 @@ ko:
       description: '설명:'
       tags: '태그:'
       tags_help: 쉼표로 구분
-      save_button: 바뀜 저장
       visibility: '공개 여부:'
       visibility_help: 이게 무슨 뜻입니까?
     update:
@@ -1792,7 +1817,6 @@ ko:
     trace:
       pending: 보류 중
       count_points: 점 %{count}개
-      ago: '%{time_in_words_ago} 전'
       more: 더 보기
       trace_details: 궤적 상세보기
       view_map: 지도 보기
@@ -1874,10 +1898,8 @@ ko:
   oauth_clients:
     new:
       title: 새 애플리케이션 등록
-      submit: 등록
     edit:
       title: 내 애플리케이션 편집
-      submit: 편집
     show:
       title: '%{app_name}에 데한 OAuth 자세한 정보'
       key: '컨슈머 키:'
@@ -2033,15 +2055,19 @@ ko:
         위키 문서</a>를 참조하세요.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: 기여자 약관
-      heading: 기여자 약관
-      read and accept: 아래의 계약을 읽고 기존 및 앞으로의 기여가 계약 약관에 동의했는지 확인하려면 동의 버튼을 누르세요.
-      consider_pd: 위의 계약뿐만 아니라 내 기여가 퍼블릭 도메인에 있는지 고려하세요
+      title: 약관
+      heading: 약관
+      heading_ct: 기여자 약관
+      read and accept with tou: 기여자 동의 및 사용 약관을 읽고 두 개의 체크 상자에 체크한 다음 계속 버튼을 눌러 주십시오.
+      contributor_terms_explain: 이 동의는 기존 기여와 앞으로의 기여자의 약관에 적용됩니다.
+      read_ct: 상기의 기여자 약관을 읽었고 동의합니다
+      read_tou: 이용약관을 읽었으며 동의합니다
+      consider_pd: 위의 내용 외에도 내 기여가 퍼블릭 도메인에 있다고 간주합니다
       consider_pd_why: 무엇인가요?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: '약관을 이해하는 데 유용한 정보: <a href="%{summary}">사람이 읽을 수 있는 요약</a>과 일부 <a
         href="%{translations}">비공식 번역</a>'
-      agree: 동의
+      continue: 계속
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: 거부
       you need to accept or decline: 계속하려면 새 기여자 약관을 읽고 나서 동의나 거부하세요.
@@ -2076,11 +2102,9 @@ ko:
       remove as friend: 친구 제거
       add as friend: 친구 추가
       mapper since: '이후 매퍼:'
-      ago: (%{time_in_words_ago} 전)
       ct status: '기여자 약관:'
       ct undecided: 정의되지 않음
       ct declined: 거부됨
-      ct accepted: '%{ago} 전에 승인함'
       latest edit: '마지막 편집 %{ago}:'
       email address: '이메일 주소:'
       created from: '만든 위치:'
@@ -2286,7 +2310,6 @@ ko:
         최대한 정중하게 상황을 설명하도록 하세요. 모든 사용자가 공동체 내에서의 전문 용어를 이해하고 있는 것인 아니기 때문에 알기 쉬운 용어를
         사용하도록 노력하세요.'
       period: 사용자가 지금부터 얼마나 오랫동안 API에서 차단하나요.
-      submit: 차단 만들기
       tried_contacting: 사용자에게 연락하여 이를 멈추도록 요청했습니다.
       tried_waiting: 의사 소통에 대답한 사용자에게 충분한 시간을 주었습니다.
       needs_view: 차단 해제하기 전에 로그인해야 합니다
@@ -2297,7 +2320,6 @@ ko:
       reason: '%{name}님을 차단한 이유입니다. 상황에 대해 가능한 한 냉정하고 합리적으로 최대한 정중하게 상황을 설명하도록 하세요.
         모든 사용자가 공동체 내에서의 전문 용어를 이해하고 있는 것인 아니기 때문에 알기 쉬운 용어를 사용하도록 노력하세요.'
       period: 사용자가 지금부터 얼마나 오랫동안 API에서 차단하나요.
-      submit: 차단 업데이트
       show: 이 차단 보기
       back: 모든 차단 보기
       needs_view: 이 차단을 해제하기 전에 사용자가 로그인을 해야 합니까?
@@ -2323,14 +2345,27 @@ ko:
       confirm: 이 차단을 해제하겠습니까?
       revoke: 해제!
       flash: 이 차단을 해제했습니다.
-    period:
-      one: 1시간
-      other: '%{count}시간'
     helper:
       time_future: '%{time}에 끝납니다.'
       until_login: 사용자가 로그인할 때까지 활성합니다.
       time_future_and_until_login: '%{time} 이후에 사용자가 로그인하면.'
       time_past: '%{time} 전에 끝났습니다.'
+      block_duration:
+        hours:
+          one: 1시간
+          other: '%{count}시간'
+        days:
+          one: 1일
+          other: '%{count}일'
+        weeks:
+          one: 1주
+          other: '%{count}주'
+        months:
+          one: 1개월
+          other: '%{count}개월'
+        years:
+          one: 1년
+          other: '%{count}년'
     blocks_on:
       title: '%{name}님에 대해 차단'
       heading: '%{name} 사용자에 대한 차단 목록'
@@ -2342,10 +2377,7 @@ ko:
     show:
       title: '%{block_on}님이 %{block_by}님에 의해 차단됨'
       heading: '%{block_on}님이 %{block_by}님에 의해 차단됨'
-      time_future: '%{time}에 끝남'
-      time_past: '%{time} 전에 끝남'
       created: 만들어짐
-      ago: '%{time} 전'
       status: 상태
       show: 보기
       edit: 편집
@@ -2379,7 +2411,6 @@ ko:
       description: 설명
       created_at: 만든 날짜
       last_changed: 마지막으로 바뀜
-      ago_html: '%{when} 전'
   javascripts:
     close: 닫기
     share:
@@ -2429,6 +2460,7 @@ ko:
         title: 레이어
       copyright: © <a href='%{copyright_url}'>오픈스트리트맵 기여자</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>기부하기</a>
+      terms: <a href='%{terms_url}' target='_blank'>웹 사이트 및 API 약관</a>
     site:
       edit_tooltip: 지도 편집
       edit_disabled_tooltip: 지도를 편집하려면 확대
@@ -2563,7 +2595,6 @@ ko:
     edit:
       description: 설명
       heading: 교정 편집
-      submit: 교정 저장
       title: 교정 편집
     index:
       empty: 보여줄 교정이 없습니다.
@@ -2572,7 +2603,6 @@ ko:
     new:
       description: 설명
       heading: 새 교정에 대한 정보 입력
-      submit: 교정 만들기
       title: 새 교정 만들기
     show:
       description: '설명:'

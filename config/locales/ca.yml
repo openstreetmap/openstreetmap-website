@@ -43,6 +43,28 @@ ca:
   time:
     formats:
       friendly: '%e %B %Y a les %H.%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Desa
+      diary_entry:
+        create: Publica
+      issue_comment:
+        create: Afegeix un comentari
+      message:
+        create: Envia
+      client_application:
+        create: Registre
+        update: Modificació
+      redaction:
+        create: Crea una redacció
+        update: Desa la redacció
+      trace:
+        create: Puja
+        update: Desa els canvis
+      user_block:
+        create: Crear bloc
+        update: Bloc d'Actualització
   activerecord:
     models:
       acl: Llista de control d'accés
@@ -312,7 +334,14 @@ ca:
   diary_entries:
     new:
       title: Entrada de diari nova
-      publish_button: Publica
+    form:
+      subject: 'Assumpte:'
+      body: 'Cos del missatge:'
+      language: 'Llengua:'
+      location: 'Ubicació:'
+      latitude: 'Latitud:'
+      longitude: 'Longitud:'
+      use_map_link: usa el mapa
     index:
       title: Diaris d'usuari/a
       title_friends: Diaris dels amics
@@ -327,14 +356,6 @@ ca:
       newer_entries: Entrades més recents
     edit:
       title: Edita entrada del diari
-      subject: 'Assumpte:'
-      body: 'Cos del missatge:'
-      language: 'Llengua:'
-      location: 'Ubicació:'
-      latitude: 'Latitud:'
-      longitude: 'Longitud:'
-      use_map_link: usa el mapa
-      save_button: Desa
       marker_text: Localització de l'Entrada del Diari
     show:
       title: Diari de %{user} | %{title}
@@ -342,7 +363,6 @@ ca:
       leave_a_comment: Deixa un comentari
       login_to_leave_a_comment: '%{login_link} per deixar un comentari'
       login: Accés
-      save_button: Desa
     no_such_entry:
       title: No hi ha entrada al diari com
       heading: No hi ha cap entrada amb la id %{id}
@@ -386,7 +406,6 @@ ca:
       post: Publica
       when: Quan
       comment: Comentari
-      ago: fa %{ago}
       newer_comments: Comentaris recents
       older_comments: Comentaris antics
   geocoder:
@@ -1160,7 +1179,6 @@ ca:
       send_message_to: Envia un missatge nou per a %{name}
       subject: Assumpte
       body: Cos
-      send_button: Envia
       back_to_inbox: Torna a la safata d'entrada
     create:
       message_sent: S'ha enviat el missatge
@@ -1669,7 +1687,6 @@ ca:
       tags_help: separat per comes
       visibility: 'Visibilitat:'
       visibility_help: què significa això?
-      upload_button: Puja
       help: Ajuda
     create:
       upload_trace: Pujar traça de GPS
@@ -1697,7 +1714,6 @@ ca:
       description: 'Descripció:'
       tags: 'Etiquetes:'
       tags_help: separat per comes
-      save_button: Desa els canvis
       visibility: 'Visibilitat:'
       visibility_help: Què vol dir això?
     trace_optionals:
@@ -1728,7 +1744,6 @@ ca:
     trace:
       pending: PENDENT
       count_points: '%{count} punts'
-      ago: fa %{time_in_words_ago}
       more: més
       trace_details: Mostra els detalls de la traça
       view_map: Visualitza el mapa
@@ -1806,10 +1821,8 @@ ca:
   oauth_clients:
     new:
       title: Registrar-se una nova aplicació
-      submit: Registre
     edit:
       title: Editar la vostra aplicació
-      submit: Modificació
     show:
       title: OAuth detalls per %{app_name}
       key: 'Clau de consum:'
@@ -1979,15 +1992,11 @@ ca:
     terms:
       title: 'Termes de col·laboració:'
       heading: 'Termes de col·laboració:'
-      read and accept: Llegeiu l'acord de sota i premeu el botó D'acord per confirmar
-        que accepteu els termes d'aquest acord per a les vostres contribucions existents
-        i futures.
       consider_pd: A més de l'acord de dalt, considero que les meves contribucions
         han d'estar en el domini públic
       consider_pd_why: què és això?
       guidance: 'Informació per ajudar a entendre aquestes condicions: un <a href="%{summary}">resum
         llegible humà</a> i algunes <a href="%{translations}">traduccions informals</a>'
-      agree: D'acord
       decline: Ho rebutjo
       you need to accept or decline: Llegiu i després accepteu o rebutgeu els termes
         per a nous col·laboradors per continuar.
@@ -2023,11 +2032,9 @@ ca:
       remove as friend: Deixa l'amistat
       add as friend: Afegeix com a amic
       mapper since: 'Cartografiant des de:'
-      ago: (fa %{time_in_words_ago})
       ct status: 'Termes del col·laborador:'
       ct undecided: No decidit
       ct declined: Declinats
-      ct accepted: Acceptada fa %{ago}
       latest edit: 'Última edició %{ago}:'
       email address: 'Adreça de correu:'
       created from: 'Creat a partir de:'
@@ -2254,7 +2261,6 @@ ca:
         en compte que no tots els usuaris comprenen l'argot de la comunitat, així
         que intenteu utilitzar termes de comuns.
       period: Quant de temps, a partir d'ara, l'usuari es bloca des de l'API.
-      submit: Crear bloc
       tried_contacting: Em vaig posar en contacte amb l'usuari i li vaig demanar que
         s'aturés.
       tried_waiting: Li he donat una quantitat raonable de temps a l'usuari per a
@@ -2269,7 +2275,6 @@ ca:
         sobre la situació. Tingueu en compte que no tots els usuaris comprenen l'argot
         de la comunitat, així que si us plau, intenteu utilitzar termes comuns.
       period: Quant de temps, a partir d'ara, l'usuari tindrà blocat l'accés a l'API.
-      submit: Bloc d'Actualització
       show: Mostra el bloc
       back: Mostra tots els blocs
       needs_view: L'usuari necessita connectar-se abans que aquest blocatge es suprimeixi?
@@ -2298,13 +2303,26 @@ ca:
       confirm: Esteu segur que voleu revocar aquest bloc?
       revoke: Revoca!
       flash: Aquest bloc ha estat revocat.
-    period:
-      one: 1 hora
-      other: '%{count} hores'
     helper:
       time_future: Finalitza en %{time}.
       until_login: Activa fins que l'usuari es connecta.
       time_past: Va acabar fa %{time}.
+      block_duration:
+        hours:
+          one: 1 hora
+          other: '%{count} hores'
+        days:
+          one: 1 dia
+          other: '%{count} dies'
+        weeks:
+          one: 1 setmana
+          other: '%{count} setmanes'
+        months:
+          one: 1 mes
+          other: '%{count} mesos'
+        years:
+          one: 1 any
+          other: '%{count} anys'
     blocks_on:
       title: Blocs en %{name}
       heading: Llista de quadres a %{name}
@@ -2316,10 +2334,7 @@ ca:
     show:
       title: '%{block_on} blocat per %{block_by}'
       heading: '%{block_on} blocat per %{block_by}'
-      time_future: Finalitza en %{time}
-      time_past: Va acabar fa %{time}
       created: Creat
-      ago: fa %{time}
       status: Estat
       show: Mostra
       edit: Edició
@@ -2353,7 +2368,6 @@ ca:
       description: Descripció
       created_at: Creat a
       last_changed: Últim canvi
-      ago_html: fa %{when}
   javascripts:
     close: Tanca
     share:
@@ -2511,7 +2525,6 @@ ca:
     edit:
       description: Descripció
       heading: Modifica la redacció
-      submit: Desa la redacció
       title: Modifica la redacció
     index:
       empty: No hi ha redaccions a mostrar.
@@ -2520,7 +2533,6 @@ ca:
     new:
       description: Descripció
       heading: Introduïu informació per una nova redacció
-      submit: Crea una redacció
       title: Creació d’una versió nova
     show:
       description: 'Descripció:'

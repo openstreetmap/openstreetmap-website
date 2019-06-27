@@ -1,6 +1,7 @@
 # Messages for Belarusian (Taraškievica orthography) (беларуская (тарашкевіца)‎)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: EugeneZelenko
 # Author: Jim-by
 # Author: Macofe
@@ -12,6 +13,21 @@ be-Tarask:
   time:
     formats:
       friendly: '%e %B %Y у %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Захаваць
+      message:
+        create: Даслаць
+      client_application:
+        create: Рэгістрацыя
+        update: Рэдагаваць
+      trace:
+        create: Загрузіць
+        update: Захаваць зьмены
+      user_block:
+        create: Стварыць блякаваньне
+        update: Абнавіць блякаваньне
   activerecord:
     models:
       acl: Сьпіс абмежаваньня доступу
@@ -183,6 +199,14 @@ be-Tarask:
   diary_entries:
     new:
       title: Новы запіс у дзёньніку
+    form:
+      subject: 'Тэма:'
+      body: 'Тэкст:'
+      language: 'Мова:'
+      location: 'Месцазнаходжаньне:'
+      latitude: 'Шырата:'
+      longitude: 'Даўгата:'
+      use_map_link: на мапе
     index:
       title: Дзёньнікі карыстальнікаў
       title_friends: Дзёньнікі сяброў
@@ -197,14 +221,6 @@ be-Tarask:
       newer_entries: Навейшыя запісы
     edit:
       title: Рэдагаваць запіс у дзёньніку
-      subject: 'Тэма:'
-      body: 'Тэкст:'
-      language: 'Мова:'
-      location: 'Месцазнаходжаньне:'
-      latitude: 'Шырата:'
-      longitude: 'Даўгата:'
-      use_map_link: на мапе
-      save_button: Захаваць
       marker_text: Месцазнаходжаньне запісу дзёньніка
     show:
       title: Дзёньнік %{user} | %{title}
@@ -212,7 +228,6 @@ be-Tarask:
       leave_a_comment: Пакінуць камэнтар
       login_to_leave_a_comment: '%{login_link} каб пакінуць камэнтар'
       login: Увайдзіце
-      save_button: Захаваць
     no_such_entry:
       title: Няма такога запісу ў дзёньніку
       heading: Няма запісу з ідэнтыфікатарам %{id}
@@ -768,7 +783,6 @@ be-Tarask:
       send_message_to: Даслаць новае паведамленьне да %{name}
       subject: Тэма
       body: Тэкст
-      send_button: Даслаць
       back_to_inbox: Вярнуцца да ўваходных
     create:
       message_sent: Паведамленьне дасланае
@@ -1043,7 +1057,6 @@ be-Tarask:
       tags_help: падзеленае коскамі
       visibility: 'Бачнасьць:'
       visibility_help: што гэта азначае?
-      upload_button: Загрузіць
       help: Дапамога
     create:
       upload_trace: Загрузіць GPS-трэк
@@ -1074,7 +1087,6 @@ be-Tarask:
       description: 'Апісаньне:'
       tags: 'Тэгі:'
       tags_help: падзеленыя коскамі
-      save_button: Захаваць зьмены
       visibility: 'Бачнасьць:'
       visibility_help: што гэта азначае?
     trace_optionals:
@@ -1103,7 +1115,6 @@ be-Tarask:
     trace:
       pending: ЧАКАЕ
       count_points: '%{count} пунктаў'
-      ago: '%{time_in_words_ago} таму'
       more: болей
       trace_details: Паказаць падрабязнасьці трэку
       view_map: Прагляд мапы
@@ -1158,10 +1169,8 @@ be-Tarask:
   oauth_clients:
     new:
       title: Зарэгістраваць новае дастасаваньне
-      submit: Рэгістрацыя
     edit:
       title: Рэдагаваць Вашае дастасаваньне
-      submit: Рэдагаваць
     show:
       title: Падрабязнасьці OAuth для %{app_name}
       key: 'Ключ спажыўца:'
@@ -1288,17 +1297,13 @@ be-Tarask:
         Для атрыманьня дадатковай інфармацыі, калі ласка, глядзіце <a href="%{url}">гэтую
         вікі-старонку</a>.
     terms:
-      title: Умовы супрацоўніцтва
-      heading: Умовы супрацоўніцтва
-      read and accept: Калі ласка, пачытайце пагадненьне ніжэй і націсьніце кнопку
-        «Згодны», каб пацьвердзіць што Вы пагаджаецеся з умовамі гэтага пагадненьня
-        адносна Вашага існуючага і будучых ўнёскаў.
-      consider_pd: У дадатак да прыведзенага пагадненьня, я пацьвярджаю, што мой унёсак
+      title: Умовы
+      heading: Умовы
+      consider_pd: У дадатак да прыведзенага вышэй, я пацьвярджаю, што мой унёсак
         знаходзіцца ў грамадзкім набытку
       consider_pd_why: што гэта?
       guidance: 'Інфармацыя, якая дапаможа зразумець гэтыя ўмовы: <a href="%{summary}">кароткае
         апісаньне</a> і некалькі <a href="%{translations}">неафіцыйных перакладаў</a>'
-      agree: Згодны
       decline: Адхіліць
       you need to accept or decline: Калі ласка, прачытайце, а потым згадзіцеся ці
         адхіліце новыя ўмовы супрацоўніцтва для працягу.
@@ -1328,11 +1333,9 @@ be-Tarask:
       remove as friend: Выдаліць зь сяброў
       add as friend: Дадаць у сябры
       mapper since: 'Стварае мапы з:'
-      ago: (%{time_in_words_ago} таму)
       ct status: 'Умовы супрацоўніцтва:'
       ct undecided: Нявырашана
       ct declined: Адхіленыя
-      ct accepted: Прынятыя %{ago} таму
       latest edit: 'Апошняе рэдагаваньне %{ago}:'
       email address: 'Адрас электроннай пошты:'
       created from: 'Створана з:'
@@ -1524,7 +1527,6 @@ be-Tarask:
         зразумелыя паняцьці.
       period: Як доўга, пачынаючы з гэтага моманту, карыстальнік будзе заблякаваны
         ад API.
-      submit: Стварыць блякаваньне
       tried_contacting: Я зьвярнуўся да удзельніка і папрасіў яго спыніцца.
       tried_waiting: Я даў дастаткова часу ўдзельніку, каб адказаць на тыя паведамленьні.
       needs_view: Удзельніку трэба ўвайсьці ў сыстэму, перад тым як блякаваньне будзе
@@ -1539,7 +1541,6 @@ be-Tarask:
         таму выкарыстоўвайце зразумелыя паняцьці.
       period: Як доўга, пачынаючы з гэтага моманту, карыстальнік будзе заблякаваны
         ад API.
-      submit: Абнавіць блякаваньне
       show: Паказаць гэтае блякаваньне
       back: Паказаць усе блякаваньні
       needs_view: Ці трэба ўдзельніку ўвайсьці ў сыстэму, перад тым як блякаваньне
@@ -1569,14 +1570,15 @@ be-Tarask:
       confirm: Вы ўпэўнены, што жадаеце адклікаць гэтае блякаваньне?
       revoke: Адклікаць!
       flash: Гэтае блякаваньне было адкліканае.
-    period:
-      one: '%{count} гадзіна'
-      few: '%{count} гадзіны'
-      other: '%{count} гадзінаў'
     helper:
       time_future: Канчаецца ў %{time}.
       until_login: Актыўнае да моманту ўваходу ўдзельніка ў сыстэму.
       time_past: Скончылася %{time} таму.
+      block_duration:
+        hours:
+          one: '%{count} гадзіна'
+          few: '%{count} гадзіны'
+          other: '%{count} гадзінаў'
     blocks_on:
       title: Блякаваньні для %{name}
       heading: Сьпіс блякаваньняў %{name}
@@ -1588,8 +1590,6 @@ be-Tarask:
     show:
       title: '%{block_on} заблякаваны %{block_by}'
       heading: '%{block_on} заблякаваны %{block_by}'
-      time_future: Канчаецца ў %{time}
-      time_past: Скончылася %{time} таму
       status: Статус
       show: Паказаць
       edit: Рэдагаваць

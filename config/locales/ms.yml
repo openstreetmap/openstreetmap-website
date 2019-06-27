@@ -14,6 +14,26 @@ ms:
   time:
     formats:
       friendly: '%e %B %Y, %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Simpan
+      diary_entry:
+        create: Terbitkan
+      message:
+        create: Kirim
+      client_application:
+        create: Daftar
+        update: Sunting
+      redaction:
+        create: Cipta redaksi
+        update: Simpan redaksi
+      trace:
+        create: Muat naik
+        update: Simpan Perubahan
+      user_block:
+        create: Buat sekatan
+        update: Kemaskinikan sekatan
   activerecord:
     models:
       acl: Senarai Kawalan Capaian
@@ -277,7 +297,14 @@ ms:
   diary_entries:
     new:
       title: Catatan Diari Baru
-      publish_button: Terbitkan
+    form:
+      subject: 'Subjek:'
+      body: 'Isi:'
+      language: 'Bahasa:'
+      location: 'Lokasi:'
+      latitude: 'Garis Lintang:'
+      longitude: 'Garis Bujur:'
+      use_map_link: gunakan peta
     index:
       title: Diari pengguna
       title_friends: Diari kawan
@@ -292,14 +319,6 @@ ms:
       newer_entries: Catatan Terkini
     edit:
       title: Sunting catatan diari
-      subject: 'Subjek:'
-      body: 'Isi:'
-      language: 'Bahasa:'
-      location: 'Lokasi:'
-      latitude: 'Garis Lintang:'
-      longitude: 'Garis Bujur:'
-      use_map_link: gunakan peta
-      save_button: Simpan
       marker_text: Lokasi catatan diari
     show:
       title: Diari %{user} | %{title}
@@ -307,7 +326,6 @@ ms:
       leave_a_comment: Tinggalkan komen
       login_to_leave_a_comment: '%{login_link} untuk meninggalkan komen'
       login: Log masuk
-      save_button: Simpan
     no_such_entry:
       title: Catatan diari ini tidak wujud
       heading: 'Tiada catatan dengan id: %{id}'
@@ -347,7 +365,6 @@ ms:
       post: Hantar
       when: Bila
       comment: Komen
-      ago: '%{ago} lalu'
       newer_comments: Komen Terbaru
       older_comments: Komen Terlama
   geocoder:
@@ -1044,7 +1061,6 @@ ms:
       send_message_to: Hantar pesanan baru kepada %{name}
       subject: Subjek
       body: Isi
-      send_button: Kirim
       back_to_inbox: Kembali ke peti masuk
     create:
       message_sent: Pesanan dikirim
@@ -1494,7 +1510,6 @@ ms:
       tags_help: terbatas tanda koma
       visibility: 'Keterlihatan:'
       visibility_help: apakah maksud ini?
-      upload_button: Muat naik
       help: Bantuan
     create:
       upload_trace: Muat Naik Jejak GPS
@@ -1519,7 +1534,6 @@ ms:
       description: 'Keterangan:'
       tags: 'Tag:'
       tags_help: terbatas tanda koma
-      save_button: Simpan Perubahan
       visibility: 'Keterlihatan:'
       visibility_help: apakah maksud ini?
     trace_optionals:
@@ -1550,7 +1564,6 @@ ms:
     trace:
       pending: MENUNGGU
       count_points: '%{count} titik'
-      ago: '%{time_in_words_ago} lalu'
       more: lagi
       trace_details: Lihat Butiran Jejak
       view_map: Lihat Peta
@@ -1626,10 +1639,8 @@ ms:
   oauth_clients:
     new:
       title: Daftarkan aplikasi baru
-      submit: Daftar
     edit:
       title: Sunting aplikasi anda
-      submit: Sunting
     show:
       title: Butiran OAuth untuk %{app_name}
       key: 'Kunci Pengguna:'
@@ -1791,16 +1802,12 @@ ms:
     terms:
       title: Terma-terma penyumbang
       heading: Terma-terma penyumbang
-      read and accept: Sila baca perjanjian yang berikut, kemudian tekan butang setuju
-        untuk mengesahkan bahawa anda menerima terma-terma perjanjian ini bagi sumbangan-sumbangan
-        anda yang sedia ada dan akan datang.
       consider_pd: Selain perjanjian di atas, saya sudi menyerahkan sumbangan-sumbangan
         saya dalam Domain Awam
       consider_pd_why: apakah ini?
       guidance: 'Maklumat untuk memudahkan kefahaman istilah-istilah ini: a <a href="%{summary}">ringkasan
         yang boleh dibaca manusia</a> dan beberapa <a href="%{translations}">terjemahan
         tidak formal</a>'
-      agree: Setuju
       decline: Tolak
       you need to accept or decline: Sila baca, kemudian terima atau tolak Terma-Terma
         Penyumbang yang baru untuk bersambung.
@@ -1835,11 +1842,9 @@ ms:
       remove as friend: Gugurkan Kawan
       add as friend: Jadikan Kawan
       mapper since: 'Pemeta sejak:'
-      ago: (%{time_in_words_ago} lalu)
       ct status: 'Terma-terma penyumbang:'
       ct undecided: Belum diputuskan
       ct declined: Ditolak
-      ct accepted: Diterima %{ago} dahulu
       latest edit: 'Suntingan terkini %{ago}:'
       email address: 'Alamat e-mel:'
       created from: 'Dibuat daripada:'
@@ -2046,7 +2051,6 @@ ms:
         memahami peristilahan komuniti, jadi cuba gunakan bahasa yang difahami oleh
         orang keramaian.
       period: Berapa lama pengguna ini akan disekat dari API, mulai sekarang.
-      submit: Buat sekatan
       tried_contacting: Saya telah menghubungi pengguna itu dan memintanya supaya
         berhenti.
       tried_waiting: Saya telah memberikan masa yang secukupnya kepada pengguna ini
@@ -2061,7 +2065,6 @@ ms:
         bukan semua pengguna memahami peristilahan komuniti, jadi cuba gunakan bahasa
         yang difahami oleh orang keramaian.
       period: Berapa lama pengguna ini akan disekat dari API, mulai sekarang.
-      submit: Kemaskinikan sekatan
       show: Lihat sekatan ini
       back: Lihat semua sekatan
       needs_view: Perlukan pengguna log masuk sebelum sekatan ini dapat ditarik balik?
@@ -2090,13 +2093,14 @@ ms:
       confirm: Adakah anda benar-benar ingin membuang sekatan ini?
       revoke: Tarik Balik!
       flash: Sekatan ini telah ditarik balik.
-    period:
-      one: 1 jam
-      other: '%{count} jam'
     helper:
       time_future: Berakhir dalam masa %{time}.
       until_login: Aktif sehingga pengguna itu log masuk.
       time_past: Berakhir %{time} lalu.
+      block_duration:
+        hours:
+          one: 1 jam
+          other: '%{count} jam'
     blocks_on:
       title: Sekatan ke atas %{name}
       heading: Senarai sekatan ke atas %{name}
@@ -2108,8 +2112,6 @@ ms:
     show:
       title: '%{block_on} disekat oleh %{block_by}'
       heading: '%{block_on} disekat oleh %{block_by}'
-      time_future: Berakhir dalam masa %{time}
-      time_past: Berakhir %{time} lalu
       created: Dicipta
       status: Status
       show: Tunjukkan
@@ -2144,7 +2146,6 @@ ms:
       description: Keterangan
       created_at: Dicatatkan pada
       last_changed: Kali terakhir disunting
-      ago_html: '%{when} yang lalu'
   javascripts:
     close: Tutup
     share:
@@ -2245,7 +2246,6 @@ ms:
     edit:
       description: Keterangan
       heading: Sunting redaksi
-      submit: Simpan redaksi
       title: Sunting redaksi
     index:
       empty: Tiada redaksi.
@@ -2254,7 +2254,6 @@ ms:
     new:
       description: Keterangan
       heading: Isikan maklumat untuk redaksi baru
-      submit: Cipta redaksi
       title: Mencipta redaksi baru
     show:
       description: 'Keterangan:'

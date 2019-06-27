@@ -35,6 +35,26 @@ el:
   time:
     formats:
       friendly: '%e %B %Y στις %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Αποθήκευση
+      diary_entry:
+        create: Δημοσίευση
+      message:
+        create: Αποστολή
+      client_application:
+        create: Εγγραφή
+        update: Επεξεργασία
+      redaction:
+        create: Δημιουργία παράληψης
+        update: Αποθήκευση παράληψης
+      trace:
+        create: Αποστολή
+        update: Αποθήκευση Αλλαγών
+      user_block:
+        create: Δημιουργία φραγής
+        update: Ενημέρωση φραγής
   activerecord:
     models:
       acl: Λίστα ελέγχου πρόσβασης
@@ -321,7 +341,14 @@ el:
   diary_entries:
     new:
       title: Νέα καταχώρηση ημερολογίου
-      publish_button: Δημοσίευση
+    form:
+      subject: 'Θέμα:'
+      body: 'Κείμενο:'
+      language: 'Γλώσσα:'
+      location: 'Τοποθεσία:'
+      latitude: 'Γεωγραφικό πλάτος:'
+      longitude: 'Γεωγραφικό μήκος:'
+      use_map_link: χρησιμοποιήστε τον χάρτη
     index:
       title: Ημερολόγια χρηστών
       title_friends: Ημερολόγια φίλων
@@ -336,14 +363,6 @@ el:
       newer_entries: Νεότερες καταχωρήσεις
     edit:
       title: Επεξεργασία καταχώρισης ημερολογίου
-      subject: 'Θέμα:'
-      body: 'Κείμενο:'
-      language: 'Γλώσσα:'
-      location: 'Τοποθεσία:'
-      latitude: 'Γεωγραφικό πλάτος:'
-      longitude: 'Γεωγραφικό μήκος:'
-      use_map_link: χρησιμοποιήστε τον χάρτη
-      save_button: Αποθήκευση
       marker_text: Τοποθεσία καταχώρησης ημερολογίου
     show:
       title: το ημερολόγιο του %{user} | %{title}
@@ -351,7 +370,6 @@ el:
       leave_a_comment: Αφήστε ένα σχόλιο
       login_to_leave_a_comment: '%{login_link} για να αφήσετε ένα σχόλιο'
       login: Σύνδεση
-      save_button: Αποθήκευση
     no_such_entry:
       title: Δεν υπάρχει τέτοια εγγραφή ημερολογίου
       heading: 'Καμία καταχώρηση με τη ταυτότητα: %{id}'
@@ -396,7 +414,6 @@ el:
       post: Καταχώριση
       when: Πότε
       comment: Σχόλιο
-      ago: πριν από %{ago}
       newer_comments: Νεότερα Σχόλια
       older_comments: Παλαιότερα Σχόλια
   geocoder:
@@ -1309,7 +1326,6 @@ el:
       send_message_to: Αποστολή νέου μηνύματος προς %{name}
       subject: Θέμα
       body: Κείμενο
-      send_button: Αποστολή
       back_to_inbox: Επιστροφή στα εισερχόμενα
     create:
       message_sent: Αποστολή μηνύματος
@@ -1821,7 +1837,6 @@ el:
       visibility: 'Ορατότητα:'
       visibility_help: τι σημαίνει αυτό;
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-      upload_button: Αποστολή
       help: Βοήθεια
       help_url: https://wiki.openstreetmap.org/wiki/Upload?uselang=el
     create:
@@ -1850,7 +1865,6 @@ el:
       description: 'Περιγραφή:'
       tags: 'Χαρακτηριστικά:'
       tags_help: οριοθετημένο με κόμματα
-      save_button: Αποθήκευση Αλλαγών
       visibility: 'Ορατότητα:'
       visibility_help: τι σημαίνει αυτό;
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
@@ -1883,7 +1897,6 @@ el:
     trace:
       pending: ΕΚΚΡΕΜΕΙ
       count_points: '%{count} σημεία'
-      ago: '%{time_in_words_ago} πριν'
       more: περισσότερα
       trace_details: Προβολή Λεπτομερειών Ίχνους
       view_map: Προβολή Χάρτη
@@ -1971,10 +1984,8 @@ el:
   oauth_clients:
     new:
       title: Καταχώρηση νέας εφαρμογής
-      submit: Εγγραφή
     edit:
       title: Επεξεργασία της αίτησής σας
-      submit: Επεξεργασία
     show:
       title: Λεπτομέρειες OAuth για το %{app_name}
       key: 'Κωδικός Καταναλωτή :'
@@ -2148,16 +2159,12 @@ el:
     terms:
       title: Όροι συνεισφοράς
       heading: Όροι συνεισφοράς
-      read and accept: Παρακαλούμε διαβάστε τη συμφωνία και πατήστε το κουμπί «συμφωνώ»
-        για να επιβεβαιώσετε ότι αποδέχεστε τους όρους αυτής της συμφωνίας για τις
-        υπάρχουσες και τις μέλλουσες συνεισφορές σας.
       consider_pd: Και επιπρόσθετα στην παραπάνω συμφωνία, θεωρώ τις συνεισφορές μου
         ως Public Domain
       consider_pd_why: τι είναι αυτό;
       guidance: Πληροφορίες για να καταλάβετε αυτούς τους όρους:μία <href="%{summary}">
         αναγνώσιμη περίληψη</a>και μερικές <a href=''%{translations}''>ανεπίσημες
         μεταφράσεις </a>
-      agree: Συμφωνώ
       decline: Διαφωνώ
       you need to accept or decline: Παρακαλώ διαβάστε και αποδεχτείτε ή απορρίψτε
         τους νέους Όρους Συνεισφοράς για να συνεχίσετε.
@@ -2194,11 +2201,9 @@ el:
       remove as friend: Αφαίρεση Φίλου
       add as friend: Προσθήκη Φίλου
       mapper since: 'Χαρτογράφος από:'
-      ago: (%{time_in_words_ago} πριν)
       ct status: 'Όροι συνεισφοράς:'
       ct undecided: Αναποφάσιστος
       ct declined: Απόρριψη
-      ct accepted: Αποδοχή %{ago} πριν
       latest edit: 'Τελευταία επεξεργασία %{ago}:'
       email address: 'Διεύθυνση Ηλ. Ταχυδρομείου:'
       created from: 'Δημιουργήθηκε από:'
@@ -2435,7 +2440,6 @@ el:
         Να έχετε υπόψη σας ότι δεν κατανοούν όλοι οι χρήστες την ορολογία της κοινότητας,
         γι' αυτό προσπαθήστε να χρησιμοποιήσετε εκλαϊκευμένους όρους.
       period: Για πόσο καιρό από τώρα θα είναι αποκλεισμένος ο χρήστης από το API.
-      submit: Δημιουργία φραγής
       tried_contacting: Επικοινώνησα με τον χρήστη και του ζήτησα να σταματήσει.
       tried_waiting: Έχω δώσει ένα εύλογο χρονικό διάστημα στον χρήστη να απαντήσει
         σε αυτές τις επικοινωνίες.
@@ -2450,7 +2454,6 @@ el:
         ορολογία της κοινότητας, γι' αυτό προσπαθήστε να χρησιμοποιήσετε εκλαϊκευμένους
         όρους.
       period: Για πόσο καιρό από τώρα θα είναι αποκλεισμένος ο χρήστης από το API.
-      submit: Ενημέρωση φραγής
       show: Προβολή αυτής της φραγής
       back: Προβολή όλων των φραγών
       needs_view: Πρέπει ο χρήστης να συνδεθεί προτού εκκαθαριστεί αυτή η φραγή;
@@ -2480,15 +2483,16 @@ el:
       confirm: Είστε σίγουρος πως επιθυμείτε να ανακαλέσετε αυτή τη φραγή;
       revoke: Ανακαλέστε!
       flash: Αυτή η φραγή έχει ανακληθεί.
-    period:
-      one: 1 ώρα
-      other: '%{count} ώρες'
     helper:
       time_future: Τελειώνει σε %{time}.
       until_login: Ενεργό έως ότου ο χρήστης συνδεθεί.
       time_future_and_until_login: Τελειώνει σε %{time} και μετά αφότου ο χρήστης
         έχει συνδεθεί.
       time_past: Τελείωσε %{time} πριν.
+      block_duration:
+        hours:
+          one: 1 ώρα
+          other: '%{count} ώρες'
     blocks_on:
       title: Φραγές στον %{name}
       heading: Κατάλογος φραγών στον %{name}
@@ -2500,10 +2504,7 @@ el:
     show:
       title: Ο %{block_on} έχει φραχτεί από τον %{block_by}
       heading: Ο %{block_on} έχει φραχτεί από τον %{block_by}
-      time_future: Τελειώνει σε %{time}
-      time_past: Τελείωσε %{time} πριν
       created: Δημιουργήθηκε
-      ago: πρίν από %{time}
       status: Κατάσταση
       show: Εμφάνιση
       edit: Επεξεργασία
@@ -2537,7 +2538,6 @@ el:
       description: Περιγραφή
       created_at: Δημιουργήθηκε στις
       last_changed: Τελευταία αλλαγή
-      ago_html: '%{when} πριν'
   javascripts:
     close: Κλείσιμο
     share:
@@ -2734,7 +2734,6 @@ el:
     edit:
       description: Περιγραφή
       heading: Επεξεργασία παράληψης
-      submit: Αποθήκευση παράληψης
       title: Επεξεργαστείτε την παράληψη
     index:
       empty: Καμία παράληψη προς εμφάνιση.
@@ -2743,7 +2742,6 @@ el:
     new:
       description: Περιγραφή
       heading: Εισαγωγή πληροφοριών για νέα παράληψη
-      submit: Δημιουργία παράληψης
       title: Δημιουργώντας νέα παράληψη
     show:
       description: 'Περιγραφή:'

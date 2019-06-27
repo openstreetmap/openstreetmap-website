@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: AZISS
+# Author: Abijeet Patro
 # Author: Cekli829
 # Author: Mushviq Abdulla
 # Author: Ruila
@@ -14,6 +15,19 @@ az:
   time:
     formats:
       friendly: '%e %B %Y  %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Qeyd et
+      diary_entry:
+        create: Yayımla
+      message:
+        create: Göndər
+      trace:
+        update: Dəyişiklikləri yadda saxla
+      user_block:
+        create: Blok yarat
+        update: Bloku yenilən
   activerecord:
     models:
       acl: Giriş Məhdudiyyətləri siyahısı
@@ -200,7 +214,14 @@ az:
   diary_entries:
     new:
       title: Yeni Gündəlik Yazısı
-      publish_button: Yayımla
+    form:
+      subject: 'Mövzu:'
+      body: 'Mətn:'
+      language: 'Dil:'
+      location: 'Yerləşdiyi yer:'
+      latitude: 'En dairəsi:'
+      longitude: 'Uzunluq dairəsi:'
+      use_map_link: xəritə üzərində göstər
     index:
       title: İstifadəçi gündəlikləri
       title_friends: Dostların gündəlikləri
@@ -215,14 +236,6 @@ az:
       newer_entries: Yeni yazılar
     edit:
       title: Gündəlik yazısıni redaktə etmək
-      subject: 'Mövzu:'
-      body: 'Mətn:'
-      language: 'Dil:'
-      location: 'Yerləşdiyi yer:'
-      latitude: 'En dairəsi:'
-      longitude: 'Uzunluq dairəsi:'
-      use_map_link: xəritə üzərində göstər
-      save_button: Qeyd et
       marker_text: Gundəlik yazısının yazıldığı yer
     show:
       title: İstifadəçi %{user} gündəliyi | %{title}
@@ -230,7 +243,6 @@ az:
       leave_a_comment: Şərh yaz
       login_to_leave_a_comment: Şərh yazmaq üçün %{login_link}
       login: Özünüzü təqdim edin
-      save_button: Qeyd et
     no_such_entry:
       title: Belə bir gündəlik yazısı mövcud deyil
       heading: 'Yazı mövcud deyil id: %{id}'
@@ -270,7 +282,6 @@ az:
       post: Post
       when: Nə vaxt
       comment: Şərh
-      ago: '%{ago} əvvəl'
       newer_comments: Yeni şərhlər
       older_comments: Köhnə Şərhlər
   geocoder:
@@ -843,7 +854,6 @@ az:
       send_message_to: '%{name} yeni mesaj göndər'
       subject: Mövzu
       body: 'Mətn:'
-      send_button: Göndər
       back_to_inbox: Gələnlərə geri qayıt
     create:
       message_sent: Mesaj göndərildi
@@ -1009,7 +1019,6 @@ az:
       edit: redaktə
       owner: 'Sahibi:'
       description: 'İzah:'
-      save_button: Dəyişiklikləri yadda saxla
     show:
       filename: 'Fayl adı:'
       download: yüklə
@@ -1069,7 +1078,6 @@ az:
       continue: Davam et
     terms:
       consider_pd_why: bu nədir?
-      agree: Razıyam
       decline: İmtina
       legale_names:
         france: Fransa
@@ -1082,7 +1090,6 @@ az:
       diary: gündəlik
       remove as friend: dostluqdan silinmiş
       add as friend: dostluğa əlavə edilmiş
-      ct accepted: '%{ago} əvvəl qəbul edilib'
       latest edit: 'Son redaktə %{ago}:'
       email address: 'E-poçt ünvanı:'
       status: 'Status:'
@@ -1141,10 +1148,8 @@ az:
       confirm: Təsdiq et
   user_blocks:
     new:
-      submit: Blok yarat
       back: Bütün blokları göstər
     edit:
-      submit: Bloku yenilən
       show: Bu bloku göstər
       back: Bütün blokları göstər
     create:
@@ -1166,7 +1171,6 @@ az:
       title: '%{name} tərəfindən blok edilib'
     show:
       title: '%{block_on}, %{block_by} tərəfindən blok edilib'
-      time_past: '%{time} əvvəl sona çatıb'
       status: Status
       show: 'Göstər:'
       revoke: Ləğv et!

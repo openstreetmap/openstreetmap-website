@@ -1,6 +1,6 @@
 require "migrate"
 
-class CreateUserRoles < ActiveRecord::Migration[5.0]
+class CreateUserRoles < ActiveRecord::Migration[4.2]
   def self.up
     create_enumeration :user_role_enum, %w[administrator moderator]
 

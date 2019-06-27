@@ -21,6 +21,27 @@ ro:
     formats:
       friendly: '%e %B %Y la %H:%M'
       blog: '%e %B %Y'
+  helpers:
+    submit:
+      diary_comment:
+        create: Salvează
+      diary_entry:
+        create: Publică
+        update: Actualizează
+      message:
+        create: Trimite
+      client_application:
+        create: Înregistrează
+        update: Editează
+      redaction:
+        create: Creați redacție
+        update: Salvați redacția
+      trace:
+        create: Încarcă
+        update: Salvează modificările
+      user_block:
+        create: Creați blocare
+        update: Actualizează blocare
   activerecord:
     errors:
       messages:
@@ -308,7 +329,14 @@ ro:
   diary_entries:
     new:
       title: O nouă înregistrare în jurnal
-      publish_button: Publică
+    form:
+      subject: 'Subiect:'
+      body: 'Corpul mesajului:'
+      language: 'Limbă:'
+      location: 'Localizare:'
+      latitude: 'Latitudine:'
+      longitude: 'Longitudine:'
+      use_map_link: utilizează harta
     index:
       title: Jurnalele utilizatorilor
       title_friends: Jurnalele prietenilor
@@ -322,15 +350,7 @@ ro:
       older_entries: Înregistrări mai vechi
       newer_entries: Înregistrări mai noi
     edit:
-      title: Editare înregistrare din jurnal
-      subject: 'Subiect:'
-      body: 'Corpul mesajului:'
-      language: 'Limbă:'
-      location: 'Localizare:'
-      latitude: 'Latitudine:'
-      longitude: 'Longitudine:'
-      use_map_link: utilizează harta
-      save_button: Salvează
+      title: Modifică înregistrare jurnal
       marker_text: Poziția înregistrării din jurnal
     show:
       title: Jurnalul utilizatorului %{user} | %{title}
@@ -338,7 +358,6 @@ ro:
       leave_a_comment: Adaugă un comentariu
       login_to_leave_a_comment: '%{login_link} este necesară pentru a comenta'
       login: Autentificare
-      save_button: Salvează
     no_such_entry:
       title: Nu există o asemenea înregistrare
       heading: 'Nici o înregistrare cu identificatorul: %{id}'
@@ -383,7 +402,6 @@ ro:
       post: Postează
       when: Când
       comment: Comentariu
-      ago: cu %{ago} în urmă
       newer_comments: Comentarii mai noi
       older_comments: Comentarii mai vechi
   geocoder:
@@ -1120,6 +1138,7 @@ ro:
     partners_ucl: UCL
     partners_bytemark: Găzduire Bytemark
     partners_partners: parteneri
+    tou: Termeni de Utilizare
     osm_offline: Baza de date OpenStreetMap este în prezent offline, în timp ce se
       efectuează lucrări esențiale de întreținere a bazelor de date.
     osm_read_only: Baza de date OpenStreetMap este în prezent în modul read-only,
@@ -1281,7 +1300,6 @@ ro:
       send_message_to: Trimiteți un mesaj nou către %{name}
       subject: Subiect
       body: Textul mesajului
-      send_button: Trimite
       back_to_inbox: Înapoi la mesaje primite
     create:
       message_sent: Mesaj trimis
@@ -1359,13 +1377,15 @@ ro:
         Drepturi de autor și Pagina de licență</a> pentru detalii.'
       legal_title: Legal
       legal_html: |-
-        Acest site și multe alte servicii conexe sunt operate în mod oficial de către <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF) în numele comunității. Utilizarea tuturor serviciilor operate de OSMF este supusă la <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
-        Politicile de utilizare acceptabile </a> și <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Privacy Policy</a>
+        Acest site și multe alte servicii conexe sunt operate în mod oficial de <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF)
+        în numele comunității. Utilizarea tuturor serviciilor operate de OSMF este supusă <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Termenilor de Utilizare</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        Politicile de Utilizare Acceptabile</a> şi <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Politica de confidenţialitate
+        </a>
         <br>
-        Vă rugăm <a href='https://osmfoundation.org/Contact'>contact the OSMF</a> contactați OSMF </a>
+        Vă rugăm <a href='https://osmfoundation.org/Contact'>contactați OSMF</a>
         dacă aveți licențe, drepturi de autor sau alte întrebări legale.
         <br>
-        OpenStreetMap, sigla lupă și starea hărții sunt <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy"> </a>.
+        OpenStreetMap, sigla lupă și starea hărții sunt <a href="https://wiki.osmfoundation.org/wiki/Trademark_Policy">mărci comerciale înregistrate ale OSMF</a>.
       partners_title: Parteneri
     copyright:
       foreign:
@@ -1810,7 +1830,6 @@ ro:
       visibility: 'Vizibilitate:'
       visibility_help: ce înseamnă asta?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-      upload_button: Încarcă
       help: Ajutor
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1841,7 +1860,6 @@ ro:
       description: 'Descriere:'
       tags: 'Etichete:'
       tags_help: delimitate prin virgulă
-      save_button: Salvează modificările
       visibility: 'Vizibilitate:'
       visibility_help: ce înseamnă asta?
     update:
@@ -1875,7 +1893,6 @@ ro:
     trace:
       pending: ÎN AȘTEPTARE
       count_points: puncte %{count}
-      ago: '%{time_in_words_ago} în urmă'
       more: mai multe
       trace_details: Vezi detaliile urmei
       view_map: Vezi hartă
@@ -1962,10 +1979,8 @@ ro:
   oauth_clients:
     new:
       title: Înregistrare aplicație nouă
-      submit: Înregistrează
     edit:
       title: Editați aplicația
-      submit: Editează
     show:
       title: OAuth detalii pentru %{app_name}
       key: 'Cheia de consum:'
@@ -2135,11 +2150,19 @@ ro:
         Pentru mai multe informații, consultați <a href="%{url}">această pagină wiki</a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Termenii colaboratorului
-      heading: Termenii colaboratorului
-      read and accept: Citiți acordul și apăsați butonul de acord pentru a confirma
-        că acceptați termenii acestui acord pentru contribuțiile dvs. existente și
-        viitoare.
+      title: Termeni
+      heading: Termeni
+      heading_ct: Termenii contribuitorului
+      read and accept with tou: Citiți acordul contribuitorului și termenii de utilizare,
+        bifați casetele de validare când ați terminat, apoi apăsați butonul Continuă.
+      contributor_terms_explain: |2-
+
+        Acest acord guvernează termenii pentru contribuțiile dvs. existente și viitoare.
+      read_ct: Am citit și sunt de acord cu termenii contribuitorilor de mai sus
+      tou_explain_html: Aceste %{tou_link} guvernează utilizarea site-ului web și
+        a altor infrastructuri furnizate de OSMF. Faceți clic pe link, citiți și agregați
+        textul.
+      read_tou: Am citit și sunt de acord cu Termenii și condițiile
       consider_pd: Pe lângă acordul de mai sus, consider că contribuțiile mele sunt
         în Domeniul Public
       consider_pd_why: Ce este aceasta?
@@ -2147,7 +2170,7 @@ ro:
       guidance: 'Informații care vă ajută să înțelegeți acești termeni: un <a href="%{summary}">
         rezumat lizibil pentru oameni</a> și câteva <a href="%{translations}">traduceri
         informale</a>'
-      agree: De acord
+      continue: Continuă
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Declină
       you need to accept or decline: Citiți și apoi acceptați sau refuzați continuarea
@@ -2184,11 +2207,9 @@ ro:
       remove as friend: Scoate din lista de prieteni
       add as friend: Adaugă Prieten
       mapper since: 'Cartograf din:'
-      ago: (%{time_in_words_ago} în urmă)
       ct status: 'Termenii colaboratorului:'
       ct undecided: Nedefinit
       ct declined: Declinat
-      ct accepted: Acceptat %{ago} în urmă
       latest edit: 'Ultima editare %{ago}:'
       email address: 'Adresa de e-mail:'
       created from: 'Creat de la:'
@@ -2421,7 +2442,6 @@ ro:
         că mesajul va fi vizibil public. Rețineți că nu toți utilizatorii înțeleg
         jargonul comunității, prin urmare, încercați să utilizați termeni uzuali.
       period: Cât timp, începând acum, utilizatorul va fi blocat de la API.
-      submit: Creați blocare
       tried_contacting: Am contactat utilizatorul și i-am cerut să se oprească.
       tried_waiting: Am dat o perioadă rezonabilă de timp pentru ca utilizatorul să
         răspundă la aceste comunicări.
@@ -2436,7 +2456,6 @@ ro:
         că nu toți utilizatorii înțeleg jargonul comunității, prin urmare, încercați
         să utilizați termeni uzuali.
       period: Cât timp, începând acum, utilizatorul va fi blocat de la API.
-      submit: Actualizează blocare
       show: Vezi această blocare
       back: Vezi toate blocările
       needs_view: Utilizatorul trebuie să se conecteze înainte ca această blocare
@@ -2468,15 +2487,28 @@ ro:
       confirm: Sigur doriți să revocați această blocare?
       revoke: Revocă!
       flash: Această blocare a fost revocată.
-    period:
-      one: 1 hour
-      other: '%{count} hours'
     helper:
       time_future: Se termină în %{time}.
       until_login: Activ până când utilizatorul se conectează.
       time_future_and_until_login: Se termină în %{time} și după ce utilizatorul s-a
         logat.
       time_past: Terminat în urmă cu %{time}.
+      block_duration:
+        hours:
+          one: 1 hour
+          other: '%{count} hours'
+        days:
+          one: 1 day
+          other: '%{count} days'
+        weeks:
+          one: 1 week
+          other: '%{count} weeks'
+        months:
+          one: 1 month
+          other: '%{count} months'
+        years:
+          one: 1 year
+          other: '%{count} years'
     blocks_on:
       title: Blocări pe %{name}
       heading: Lista blocărilor pe %{name}
@@ -2488,10 +2520,7 @@ ro:
     show:
       title: '%{block_on} blocat de %{block_by}'
       heading: '%{block_on} blocat de %{block_by}'
-      time_future: Se termină în %{time}.
-      time_past: Terminat în urmă cu %{time}.
       created: Creat
-      ago: '%{time} acum'
       status: Stare
       show: Arată
       edit: Modificare
@@ -2526,7 +2555,6 @@ ro:
       description: Descriere
       created_at: Creat  la
       last_changed: Ultima modificare
-      ago_html: '%{when} acum'
   javascripts:
     close: Închide
     share:
@@ -2576,6 +2604,7 @@ ro:
         title: Straturi
       copyright: © <a href='%{copyright_url}'>contribuitori OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Donează</a>
+      terms: <a href='%{terms_url}' target='_blank'>Website şi API terms</a>
     site:
       edit_tooltip: Modifică harta
       edit_disabled_tooltip: Măriți pentru a edita harta
@@ -2722,7 +2751,6 @@ ro:
     edit:
       description: Descriere
       heading: Editați redacția
-      submit: Salvați redacția
       title: Editați redacția
     index:
       empty: Nu sunt redactate pentru a fi afișate.
@@ -2731,7 +2759,6 @@ ro:
     new:
       description: Descriere
       heading: Introduceți informații pentru redacția nouă
-      submit: Creați redacție
       title: Crearea unei redacții noi
     show:
       description: 'Descriere:'

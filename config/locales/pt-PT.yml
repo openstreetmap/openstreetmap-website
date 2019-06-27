@@ -38,6 +38,26 @@ pt-PT:
     formats:
       friendly: '%e %B %Y às %H:%M'
       blog: '%e %B %Y'
+  helpers:
+    submit:
+      diary_comment:
+        create: Gravar
+      diary_entry:
+        create: Publicar
+      message:
+        create: Enviar
+      client_application:
+        create: Registar
+        update: Editar
+      redaction:
+        create: Criar supressão
+        update: Gravar supressão
+      trace:
+        create: Enviar
+        update: Gravar alterações
+      user_block:
+        create: Criar bloqueio
+        update: Atualizar o bloqueio
   activerecord:
     errors:
       messages:
@@ -318,7 +338,14 @@ pt-PT:
   diary_entries:
     new:
       title: Nova entrada no diário
-      publish_button: Publicar
+    form:
+      subject: 'Assunto:'
+      body: 'Texto:'
+      language: 'Língua:'
+      location: 'Localização:'
+      latitude: 'Latitude:'
+      longitude: 'Longitude:'
+      use_map_link: usar mapa
     index:
       title: Diários dos utilizadores
       title_friends: Diários dos amigos
@@ -333,14 +360,6 @@ pt-PT:
       newer_entries: Entradas Recentes
     edit:
       title: Editar entrada do diário
-      subject: 'Assunto:'
-      body: 'Texto:'
-      language: 'Língua:'
-      location: 'Localização:'
-      latitude: 'Latitude:'
-      longitude: 'Longitude:'
-      use_map_link: usar mapa
-      save_button: Gravar
       marker_text: Localização da entrada do diário
     show:
       title: Diário de %{user} | %{title}
@@ -348,7 +367,6 @@ pt-PT:
       leave_a_comment: Deixar um comentário
       login_to_leave_a_comment: '%{login_link} para deixar um comentário'
       login: Iniciar sessão
-      save_button: Gravar
     no_such_entry:
       title: Esta entrada de diário não existe
       heading: Não existe a entrada com o identificador (ID) %{id}
@@ -391,7 +409,6 @@ pt-PT:
       post: Entrada
       when: Quando
       comment: Comentário
-      ago: '%{ago} atrás'
       newer_comments: Comentários mais recentes
       older_comments: Comentários mais antigos
   geocoder:
@@ -1128,6 +1145,7 @@ pt-PT:
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: parceiros
+    tou: Condições de utilização
     osm_offline: A base de dados do OpenStreetMap não está disponível neste momento
       enquanto decorrerem trabalhos de manutenção.
     osm_read_only: A base de dados do OpenStreetMap encontra-se neste momento no modo
@@ -1293,7 +1311,6 @@ pt-PT:
       send_message_to: Enviar uma nova mensagem para %{name}
       subject: Assunto
       body: Mensagem
-      send_button: Enviar
       back_to_inbox: Voltar à caixa de entrada
     create:
       message_sent: Mensagem enviada
@@ -1803,7 +1820,6 @@ pt-PT:
       visibility: 'Visibilidade:'
       visibility_help: o que significa isto?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Pt:Visibility_of_GPS_traces
-      upload_button: Enviar
       help: Ajuda
       help_url: https://wiki.openstreetmap.org/wiki/Pt:Upload
     create:
@@ -1836,7 +1852,6 @@ pt-PT:
       description: 'Descrição:'
       tags: 'Etiquetas:'
       tags_help: separadas por vírgulas
-      save_button: Gravar alterações
       visibility: 'Visibilidade:'
       visibility_help: o que significa isto?
     update:
@@ -1870,7 +1885,6 @@ pt-PT:
     trace:
       pending: PENDENTE
       count_points: '%{count} pontos'
-      ago: Há %{time_in_words_ago}
       more: mais
       trace_details: Ver Detalhes do Trilho
       view_map: Ver Mapa
@@ -1956,10 +1970,8 @@ pt-PT:
   oauth_clients:
     new:
       title: Registar um novo programa
-      submit: Registar
     edit:
       title: Editar o programa
-      submit: Editar
     show:
       title: Detalhes do OAuth de %{app_name}
       key: 'Chave de Utilizador:'
@@ -2131,16 +2143,12 @@ pt-PT:
     terms:
       title: Termos de colaborador
       heading: Termos de colaborador
-      read and accept: Por favor leia o acordo seguinte e clique no botão "Aceitar"
-        para confirmar que aceita os termos deste acordo para as suas contribuições
-        anteriores e futuras.
       consider_pd: para além do acordo exposto acima, considero que as minhas contribuições
         se encontram em Domínio Público.
       consider_pd_why: O que é isto?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Informação para ajudar a compreender os termos: um <a href="%{summary}">resumo
         inteligível</a> e algumas <a href="%{translations}">traduções informais</a>'
-      agree: Aceitar
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Rejeitar
       you need to accept or decline: Por favor leia e depois aceite ou recuse os novos
@@ -2177,11 +2185,9 @@ pt-PT:
       remove as friend: Remover amigo
       add as friend: Adicionar aos amigos
       mapper since: 'A cartografar desde:'
-      ago: (%{time_in_words_ago} atrás)
       ct status: 'Termos de Colaborador:'
       ct undecided: Indeciso
       ct declined: Rejeitou
-      ct accepted: Aceite há %{ago}
       latest edit: 'Última edição %{ago}:'
       email address: 'E-mail:'
       created from: 'Criado em:'
@@ -2416,7 +2422,6 @@ pt-PT:
         para qualquer outra pessoa leiga.
       period: Por quanto tempo, a partir deste momento, o utilizador será bloqueado
         na utilização da API.
-      submit: Criar bloqueio
       tried_contacting: Já contactei o utilizador e pedi-lhe para parar.
       tried_waiting: Já dei um tempo razoável para o utilizador responder a esta comunicações
       needs_view: O utilizador necessita de autenticar-se antes deste bloqueio terminar
@@ -2430,7 +2435,6 @@ pt-PT:
         isso escreva de forma clara e compreensível para qualquer outra pessoa leiga.
       period: Por quanto tempo, a partir deste momento, o utilizador será bloqueado
         na utilização da API.
-      submit: Atualizar o bloqueio
       show: Ver este bloqueio
       back: Ver todos os bloqueios
       needs_view: O utilizador necessita de entrar na conta antes do bloqueio terminar?
@@ -2459,15 +2463,16 @@ pt-PT:
       confirm: Tem a certeza que quer revocar este bloqueio?
       revoke: Revogar!
       flash: Este bloqueio foi revogado.
-    period:
-      one: 1 hora
-      other: '%{count} horas'
     helper:
       time_future: Termina em %{time}.
       until_login: Ativo até o utilizador entrar na conta.
       time_future_and_until_login: Termina em %{time} e após o utilizador entrar na
         conta.
       time_past: Terminou há %{time} atrás.
+      block_duration:
+        hours:
+          one: 1 hora
+          other: '%{count} horas'
     blocks_on:
       title: Bloqueios em %{name}
       heading: Lista de bloqueios em %{name}
@@ -2479,10 +2484,7 @@ pt-PT:
     show:
       title: '%{block_on} bloqueado por %{block_by}'
       heading: '%{block_on} bloqueado por %{block_by}'
-      time_future: Termina em %{time}
-      time_past: Terminou há %{time} atrás
       created: Criado
-      ago: há %{time}
       status: Estado
       show: Mostrar
       edit: Editar
@@ -2516,7 +2518,6 @@ pt-PT:
       description: Descrição
       created_at: Criado em
       last_changed: Última alteração
-      ago_html: há %{when}
   javascripts:
     close: Fechar
     share:
@@ -2715,7 +2716,6 @@ pt-PT:
     edit:
       description: Descrição
       heading: Editar supressão
-      submit: Gravar supressão
       title: Editar supressão
     index:
       empty: Não existem supressões para mostrar.
@@ -2724,7 +2724,6 @@ pt-PT:
     new:
       description: Descrição
       heading: Introduza a informação da nova supressão
-      submit: Criar supressão
       title: A criar uma nova supressão
     show:
       description: 'Descrição:'

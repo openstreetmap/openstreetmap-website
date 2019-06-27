@@ -2,11 +2,11 @@
 #
 # Table name: current_relations
 #
-#  id           :integer          not null, primary key
-#  changeset_id :integer          not null
+#  id           :bigint(8)        not null, primary key
+#  changeset_id :bigint(8)        not null
 #  timestamp    :datetime         not null
 #  visible      :boolean          not null
-#  version      :integer          not null
+#  version      :bigint(8)        not null
 #
 # Indexes
 #
@@ -62,8 +62,8 @@ class Relation < ActiveRecord::Base
       return Relation.from_xml_node(pt, create)
     end
     raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/relation element.")
-  rescue LibXML::XML::Error, ArgumentError => ex
-    raise OSM::APIBadXMLError.new("relation", xml, ex.message)
+  rescue LibXML::XML::Error, ArgumentError => e
+    raise OSM::APIBadXMLError.new("relation", xml, e.message)
   end
 
   def self.from_xml_node(pt, create = false)

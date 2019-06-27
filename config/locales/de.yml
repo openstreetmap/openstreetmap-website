@@ -5,6 +5,7 @@
 # Author: Al
 # Author: Als-Holder
 # Author: Apmon
+# Author: Atomkraftzwerg
 # Author: Avatar
 # Author: Bpw85
 # Author: Campmaster
@@ -62,6 +63,29 @@ de:
   time:
     formats:
       friendly: '%e. %B %Y um %H:%M Uhr'
+  helpers:
+    submit:
+      diary_comment:
+        create: Speichern
+      diary_entry:
+        create: Veröffentlichen
+        update: Aktualisieren
+      issue_comment:
+        create: Kommentar hinzufügen
+      message:
+        create: Senden
+      client_application:
+        create: Registrieren
+        update: Bearbeiten
+      redaction:
+        create: Redaction erstellen
+        update: Redaction speichern
+      trace:
+        create: Hochladen
+        update: Speichern
+      user_block:
+        create: Sperre einrichten
+        update: Sperre aktualisieren
   activerecord:
     errors:
       messages:
@@ -135,6 +159,21 @@ de:
         description: Beschreibung
         languages: Sprachen
         pass_crypt: Passwort
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: vor ca. einer Stunde
+        other: vor ca. %{count} Stunden
+      about_x_months:
+        one: vor ca. einem Monat
+        other: vor ca. %{count} Monaten
+      about_x_years:
+        one: vor ca. einem Jahr
+        other: vor ca. %{count} Jahren
+      almost_x_years:
+        one: vor fast einem Jahr
+        other: vor fast %{count} Jahren
+      half_a_minute: vor einer halben Minute
   printable_name:
     with_name_html: '%{name} (%{id})'
   editor:
@@ -346,7 +385,14 @@ de:
   diary_entries:
     new:
       title: Neuer Blog-Eintrag
-      publish_button: Veröffentlichen
+    form:
+      subject: 'Betreff:'
+      body: 'Text:'
+      language: 'Sprache:'
+      location: 'Ort:'
+      latitude: 'Breitengrad:'
+      longitude: 'Längengrad:'
+      use_map_link: Ort auf Karte auswählen
     index:
       title: Benutzer-Blogs
       title_friends: Blogs deiner Freunde
@@ -360,15 +406,7 @@ de:
       older_entries: Ältere
       newer_entries: Neuere
     edit:
-      title: Eintrag bearbeiten
-      subject: 'Betreff:'
-      body: 'Text:'
-      language: 'Sprache:'
-      location: 'Ort:'
-      latitude: 'Breitengrad:'
-      longitude: 'Längengrad:'
-      use_map_link: Ort auf Karte auswählen
-      save_button: Speichern
+      title: Blog-Eintrag bearbeiten
       marker_text: Ort des Blogeintrags
     show:
       title: Blog von %{user} | %{title}
@@ -376,7 +414,6 @@ de:
       leave_a_comment: Schreibe einen Kommentar
       login_to_leave_a_comment: '%{login_link}, um einen Kommentar zu schreiben'
       login: Anmelden
-      save_button: Speichern
     no_such_entry:
       title: Blogeintrag nicht gefunden
       heading: Kein Blogeintrag mit der Nummer %{id}
@@ -419,7 +456,6 @@ de:
       post: Blogeintrag
       when: Zeitpunkt
       comment: Kommentar
-      ago: vor %{ago}
       newer_comments: Neuere Kommentare
       older_comments: Ältere Kommentare
   geocoder:
@@ -1160,6 +1196,7 @@ de:
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: Partnern
+    tou: Nutzungsbedingungen
     osm_offline: Die OpenStreetMap-Datenbank ist im Moment wegen wichtiger Wartungsarbeiten
       nicht verfügbar.
     osm_read_only: Die OpenStreetMap-Datenbank ist im Moment wegen wichtiger Wartungsarbeiten
@@ -1330,7 +1367,6 @@ de:
       send_message_to: Eine Nachricht an %{name} senden
       subject: Betreff
       body: Text
-      send_button: Senden
       back_to_inbox: Zurück zum Posteingang
     create:
       message_sent: Nachricht gesendet
@@ -1413,10 +1449,9 @@ de:
       legal_html: |-
         Diese Website und viele damit in Zusammenhang stehenden Dienste werden
         von der <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF)
-        für die OSM-Gemeinschaft betrieben. Die Verwendung aller OSMF-betriebenen Dienste
-        ist Thema unserer
+        für die OSM-Gemeinschaft betrieben. Die Verwendung aller OSMF-betriebenen Dienste wird durch unsere
         „<a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Acceptable Use Policies</a>“
-        und unserer <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Datenschutzrichtlinie</a>.
+        und unserer <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Datenschutzrichtlinie</a> geregelt.
         <br>
         Bitte <a href='https://osmfoundation.org/Contact'>kontaktiere die OSMF</a>,
         falls du Lizenz-, Urheberrechts- oder andere rechtliche Fragen hast.
@@ -1863,7 +1898,6 @@ de:
       visibility: 'Sichtbarkeit:'
       visibility_help: Was bedeutet das?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/DE:Visibility_of_GPS_traces
-      upload_button: Hochladen
       help: Hilfe
       help_url: http://wiki.openstreetmap.org/wiki/DE:Upload
     create:
@@ -1892,7 +1926,6 @@ de:
       description: 'Beschreibung:'
       tags: 'Tags:'
       tags_help: durch Komma getrennt
-      save_button: Speichern
       visibility: 'Sichtbarkeit:'
       visibility_help: Was bedeutet das?
     update:
@@ -1926,7 +1959,6 @@ de:
     trace:
       pending: WARTEND
       count_points: '%{count} Punkte'
-      ago: vor %{time_in_words_ago}
       more: Details
       trace_details: Details des Tracks anzeigen
       view_map: Karte anzeigen
@@ -2014,10 +2046,8 @@ de:
   oauth_clients:
     new:
       title: Eine neue Anwendung registrieren
-      submit: Registrieren
     edit:
       title: Anwendung bearbeiten
-      submit: Bearbeiten
     show:
       title: OAuth-Details für %{app_name}
       key: 'Schlüssel:'
@@ -2191,11 +2221,20 @@ de:
         du auf <a href="%{url}">dieser Wikiseite</a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
     terms:
-      title: Bedingungen für Mitwirkende
-      heading: Bedingungen für Mitwirkende
-      read and accept: Bitte lies die unten angezeigten Bedingungen und klicke dann
-        auf die Schaltfläche „Akzeptieren“, um zu bestätigen, dass du den Bedingungen
-        für deine bisherigen sowie zukünftigen Beiträge zustimmst.
+      title: Bedingungen
+      heading: Bedingungen
+      heading_ct: Bedingungen für Mitwirkende
+      read and accept with tou: Lese bitte die Bedingungen für Mitwirkende, wie auch
+        unsere Nutzngsbedingungen und bestätige dies jeweils mit einem Häkchen und
+        klicke dann auf den "Weiter"-Knopf.
+      contributor_terms_explain: Diese Vereinbarung definiert die Bedingungen für
+        deine bestehenden und zukünftigen Beiträge.
+      read_ct: Ich habe obige Bedingungen für Mitwirkende gelesene und stimme ihnen
+        zu
+      tou_explain_html: Die %{tou_link} regeln die Benutzung der Website und andere
+        Infrastruktur die von der OSMF zur Verfügung gestellt wird. Klicke bitte auf
+        den Link, lese den Text und stimme dann zu.
+      read_tou: Ich habe die Nutzungsbedingungen gelesen und stimme ihnen zu
       consider_pd: Zusätzlich zu den oben genannten Bedingungen betrachte ich meine
         Beiträge als gemeinfrei (Public Domain)
       consider_pd_why: Was bedeutet dies?
@@ -2203,7 +2242,7 @@ de:
       guidance: 'Informationen die dabei helfen, diese Bedingungen zu verstehen: eine
         <a href="%{summary}">verständliche Zusammenfassung</a> sowie einige <a href="%{translations}">inoffizielle
         Übersetzungen</a>'
-      agree: Akzeptieren
+      continue: Weiter
       declined: https://wiki.openstreetmap.org/wiki/DE:Contributor_Terms_Declined
       decline: Ablehnen
       you need to accept or decline: Bitte lies die neuen Bedingungen für Mitwirkende
@@ -2240,11 +2279,9 @@ de:
       remove as friend: Freund entfernen
       add as friend: Freund hinzufügen
       mapper since: 'Mapper seit:'
-      ago: (%{time_in_words_ago} her)
       ct status: 'Bedingungen für Mitwirkende:'
       ct undecided: Unentschlossen
       ct declined: Abgelehnt
-      ct accepted: '%{ago} akzeptiert'
       latest edit: 'Letzte Änderung %{ago}:'
       email address: 'E-Mail-Adresse:'
       created from: 'erstellt aus:'
@@ -2478,7 +2515,6 @@ de:
         die für Laien verständlich sind.
       period: Wie lange der Benutzer von jetzt ab für den Zugriff auf die API gesperrt
         wird.
-      submit: Sperre einrichten
       tried_contacting: Ich habe den Benutzer kontaktiert und ihn gebeten aufzuhören.
       tried_waiting: Ich habe dem Benutzer eine angemessene Zeit eingeräumt, um auf
         diese Nachrichten zu antworten.
@@ -2493,7 +2529,6 @@ de:
         die von Laien verstanden werden kann.
       period: Dauer, ab jetzt, während der dem Benutzer der Zugriff auf die API gesperrt
         wird.
-      submit: Sperre aktualisieren
       show: Diese Sperre anzeigen
       back: Alle Sperren anzeigen
       needs_view: Muss der Benutzer sich anmelden, damit die Sperre aufgehoben wird?
@@ -2523,15 +2558,16 @@ de:
       confirm: Bist du sicher, dass du diese Sperre aufheben möchtest?
       revoke: Aufheben
       flash: Die Sperre wurde aufgehoben.
-    period:
-      one: 1 Stunde
-      other: '%{count} Stunden'
     helper:
       time_future: Endet in %{time}.
       until_login: Aktiv, bis der Benutzer sich anmeldet.
       time_future_and_until_login: Endet in %{time} und nachdem sich der Benutzer
         angemeldet hat.
       time_past: Endete vor %{time}
+      block_duration:
+        hours:
+          one: 1 Stunde
+          other: '%{count} Stunden'
     blocks_on:
       title: Sperren für %{name}
       heading: Liste der Sperren für %{name}
@@ -2543,10 +2579,7 @@ de:
     show:
       title: '%{block_on} gesperrt durch  %{block_by}'
       heading: '%{block_on} gesperrt durch %{block_by}'
-      time_future: Endet in %{time}
-      time_past: Geendet vor %{time}
       created: Erstellt
-      ago: vor %{time}
       status: Status
       show: anzeigen
       edit: Bearbeiten
@@ -2581,7 +2614,6 @@ de:
       description: Hinweis
       created_at: Erstellt am
       last_changed: Zuletzt geändert
-      ago_html: vor %{when}
   javascripts:
     close: Schließen
     share:
@@ -2631,6 +2663,7 @@ de:
         title: Ebenen
       copyright: © <a href='%{copyright_url}'>OpenStreetMap-Mitwirkende</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Spenden</a>
+      terms: Nutzungsbedingungen der Website und API
     site:
       edit_tooltip: Karte bearbeiten
       edit_disabled_tooltip: Zum Bearbeiten muss eine höhere Zoomstufe gewählt werden
@@ -2779,7 +2812,6 @@ de:
     edit:
       description: Beschreibung
       heading: Redaction bearbeiten
-      submit: Redaction speichern
       title: Redaction bearbeiten
     index:
       empty: Keine Redactions.
@@ -2788,7 +2820,6 @@ de:
     new:
       description: Beschreibung
       heading: Informationenen für eine neue Redaction eingeben
-      submit: Redaction erstellen
       title: Neue Redaction erstellen
     show:
       description: 'Beschreibung:'

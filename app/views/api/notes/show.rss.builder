@@ -8,6 +8,6 @@ xml.rss("version" => "2.0",
     xml.description t("api.notes.rss.description_item", :id => @note.id)
     xml.link url_for(:controller => "/site", :action => "index", :only_path => false)
 
-    xml << render(:partial => "note", :object => @note)
+    xml << render(@note)
   end
 end

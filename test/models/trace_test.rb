@@ -146,13 +146,13 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_xml_file
     check_xml_file("a", "848caa72f2f456d1bd6a0fdf228aa1b9")
-    check_xml_file("b", "66179ca44f1e93d8df62e2b88cbea732")
+    check_xml_file("b", "db4cb5ed2d7d2b627b3b504296c4f701")
     check_xml_file("c", "848caa72f2f456d1bd6a0fdf228aa1b9")
     check_xml_file("d", "abd6675fdf3024a84fc0a1deac147c0d")
-    check_xml_file("f", "848caa72f2f456d1bd6a0fdf228aa1b9")
-    check_xml_file("g", "848caa72f2f456d1bd6a0fdf228aa1b9")
-    check_xml_file("h", "848caa72f2f456d1bd6a0fdf228aa1b9")
-    check_xml_file("i", "848caa72f2f456d1bd6a0fdf228aa1b9")
+    check_xml_file("f", "a7c05d676c77dc14369c21be216a3713")
+    check_xml_file("g", "a7c05d676c77dc14369c21be216a3713")
+    check_xml_file("h", "a7c05d676c77dc14369c21be216a3713")
+    check_xml_file("i", "a7c05d676c77dc14369c21be216a3713")
   end
 
   def test_large_picture
@@ -238,6 +238,104 @@ class TraceTest < ActiveSupport::TestCase
       trace.import
 
       assert_equal true, File.exist?(large_picture_path)
+    end
+  end
+
+  def test_import_handles_bz2
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace = create(:trace, :fixture => "c")
+
+      trace.import
+
+      assert_equal 1, trace.size
+    end
+  end
+
+  def test_import_handles_plain
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace = create(:trace, :fixture => "a")
+
+      trace.import
+
+      assert_equal 1, trace.size
+    end
+  end
+
+  def test_import_handles_plain_with_bom
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace = create(:trace, :fixture => "b")
+
+      trace.import
+
+      assert_equal 1, trace.size
+    end
+  end
+
+  def test_import_handles_gz
+    trace = create(:trace, :fixture => "d")
+
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace.import
+
+      assert_equal 1, trace.size
+    ensure
+      trace.destroy
+    end
+  end
+
+  def test_import_handles_zip
+    trace = create(:trace, :fixture => "f")
+
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace.import
+
+      assert_equal 2, trace.size
+    ensure
+      trace.destroy
+    end
+  end
+
+  def test_import_handles_tar
+    trace = create(:trace, :fixture => "g")
+
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace.import
+
+      assert_equal 2, trace.size
+    ensure
+      trace.destroy
+    end
+  end
+
+  def test_import_handles_tar_gz
+    trace = create(:trace, :fixture => "h")
+
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace.import
+
+      assert_equal 2, trace.size
+    ensure
+      trace.destroy
+    end
+  end
+
+  def test_import_handles_tar_bz2
+    trace = create(:trace, :fixture => "i")
+
+    FakeFS do
+      FakeFS::FileSystem.clone(Rails.root.join("test", "gpx"))
+      trace.import
+
+      assert_equal 2, trace.size
+    ensure
+      trace.destroy
     end
   end
 

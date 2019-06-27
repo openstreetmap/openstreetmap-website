@@ -1,5 +1,9 @@
 inherit_from: .rubocop_todo.yml
 
+require:
+  - rubocop-performance
+  - rubocop-rails
+
 AllCops:
   TargetRubyVersion: 2.5
 
@@ -14,6 +18,10 @@ Lint/PercentStringArray:
     - 'config/initializers/secure_headers.rb'
     - 'app/controllers/application_controller.rb'
     - 'app/controllers/site_controller.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/routes.rb'
 
 Naming/FileName:
   Exclude:

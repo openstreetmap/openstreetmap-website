@@ -20,6 +20,23 @@ hr:
   time:
     formats:
       friendly: '%e %B %Y u %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Spremi
+      diary_entry:
+        create: Objavi
+      message:
+        create: Pošalji
+      client_application:
+        create: Registriraj
+        update: Uredi
+      trace:
+        create: Pošalji
+        update: 'Snimi promjene:'
+      user_block:
+        create: Napravi blokadu
+        update: Ažuriraj blokadu
   activerecord:
     models:
       acl: Kontrole pristupa
@@ -284,7 +301,14 @@ hr:
   diary_entries:
     new:
       title: Novi zapis u dnevnik
-      publish_button: Objavi
+    form:
+      subject: 'Predmet:'
+      body: 'Sadržaj:'
+      language: 'Jezik:'
+      location: 'Lokacija:'
+      latitude: 'Geografska širina (Latitude):'
+      longitude: 'Geografska dužina (Longitude):'
+      use_map_link: koristi kartu
     index:
       title: Dnevnici korisnika
       title_friends: Dnevnici prijatelja
@@ -299,14 +323,6 @@ hr:
       newer_entries: Noviji zapisi
     edit:
       title: Uredi zapis u dnevniku
-      subject: 'Predmet:'
-      body: 'Sadržaj:'
-      language: 'Jezik:'
-      location: 'Lokacija:'
-      latitude: 'Geografska širina (Latitude):'
-      longitude: 'Geografska dužina (Longitude):'
-      use_map_link: koristi kartu
-      save_button: Spremi
       marker_text: Lokacija unosa u dnevnik
     show:
       title: Dnevnik korisnika %{user} | %{title}
@@ -314,7 +330,6 @@ hr:
       leave_a_comment: Napiši komentar
       login_to_leave_a_comment: '%{login_link} da bi ostavili komentar'
       login: Prijava
-      save_button: Spremi
     no_such_entry:
       title: Nema takvog zapisa u dnevnik
       heading: 'Nema zapisa sa id: %{id}'
@@ -355,7 +370,6 @@ hr:
       post: Pošalji
       when: Kada
       comment: Komentar
-      ago: prije %{ago}
       newer_comments: Noviji komentari
       older_comments: Stariji komentari
   geocoder:
@@ -1005,7 +1019,6 @@ hr:
       send_message_to: Pošalji novu poruku za %{name}
       subject: Tema
       body: Tijelo
-      send_button: Pošalji
       back_to_inbox: Nazad u dolaznu poštu
     create:
       message_sent: Poruka poslana
@@ -1346,7 +1359,6 @@ hr:
       tags_help: odvojeno zarezom
       visibility: 'Vidljivost:'
       visibility_help: što ovo znači?
-      upload_button: Pošalji
       help: Pomoć
     create:
       upload_trace: Pošalji GNSS trag
@@ -1374,7 +1386,6 @@ hr:
       description: 'Opis:'
       tags: 'Oznake:'
       tags_help: odvojeno zarezima
-      save_button: 'Snimi promjene:'
       visibility: 'Vidljivost:'
       visibility_help: Što ovo znači?
     trace_optionals:
@@ -1405,7 +1416,6 @@ hr:
     trace:
       pending: U TIJEKU
       count_points: '%{count} točaka'
-      ago: prije %{time_in_words_ago}
       more: više
       trace_details: Vidi detalje traga
       view_map: Prikaži kartu
@@ -1467,10 +1477,8 @@ hr:
   oauth_clients:
     new:
       title: Registriraj novu aplikaciju
-      submit: Registriraj
     edit:
       title: Uredi svoju aplikaciju
-      submit: Uredi
     show:
       title: OAuth detalji za %{app_name}
       key: 'Consumer Key:'
@@ -1626,13 +1634,10 @@ hr:
       terms accepted: Hvala za prihvaćanje novih pridonositeljskih uvjeta!
     terms:
       title: Uvjeti doprinositelja
-      heading: Uvjeti doprinositelja
-      read and accept: Molimo Vas pročitajte ugovor ispod i pritisnite tipku za potvrdu
-        da prihvaćate uvjete ovog sporazuma za svoje postojeće i buduće doprinose.
+      heading: Uvjeti
       consider_pd: Osim gore navedenog ugovora, smatram da su moji doprinosi u javnom
         vlasništvu (Public Domain)
       consider_pd_why: što je ovo?
-      agree: Prihvati
       decline: Odbaci
       you need to accept or decline: Molim pročitaj, a zatim ili prihvati ili odbij
         nove Uvjete doprinošenja.
@@ -1668,11 +1673,9 @@ hr:
       remove as friend: Prekini prijateljstvo
       add as friend: Dodaj prijatelja
       mapper since: 'Maper od:'
-      ago: prije (%{time_in_words_ago})
       ct status: 'Uvjeti doprinositelja:'
       ct undecided: Neopredjeljen
       ct declined: Odbio
-      ct accepted: Prihvaćeno prije %{ago}
       latest edit: 'Najnovija izmjena %{ago}:'
       email address: 'Email adresa:'
       created from: 'Napravljeno iz:'
@@ -1858,7 +1861,6 @@ hr:
         vidljiva. Imajte na umu da svi korisnici ne razumiju žargon u zajednici, pa
         im objasnite jednostavnim jezikom.
       period: Koliko dugo, odsada, će korisnik biti blokiran od API.
-      submit: Napravi blokadu
       tried_contacting: Kontaktirao sam korisnika i pitao da prestane.
       tried_waiting: Dao sam dovoljno razumnog vremena korisniku da odgovori.
       needs_view: Korisnik se mora prijaviti da bi se blokada očistila
@@ -1870,7 +1872,6 @@ hr:
         je moguće, dati što više detalja o situaciji. Imajte na umu da svi korisnici
         ne razumiju žargon u zajednici, pa im objasnite jednostavnim jezikom.
       period: Koliko će dugo, odsada, korisnik biti blokiran od API.
-      submit: Ažuriraj blokadu
       show: Prikaži ovu blokadu
       back: Prikaži sve blokade
       needs_view: Da li se korisnik mora prijaviti prije nego li se očisti blokada?
@@ -1898,13 +1899,14 @@ hr:
       confirm: Jeste li sgurni da želite opozvati ovu blokadu?
       revoke: Opozovi!
       flash: Ova blokada je opozvana.
-    period:
-      one: 1 sat
-      other: '%{count} sati'
     helper:
       time_future: Završava u %{time}.
       until_login: Aktivno dok se korsnik ne prijavi.
       time_past: Završeno prije %{time}.
+      block_duration:
+        hours:
+          one: 1 sat
+          other: '%{count} sati'
     blocks_on:
       title: Blokade na %{name}
       heading: Lista blokada na %{name}
@@ -1916,8 +1918,6 @@ hr:
     show:
       title: '%{block_on} blokiran od %{block_by}'
       heading: '%{block_on} blokiran od %{block_by}'
-      time_future: Završava u %{time}
-      time_past: Završeno prije %{time}
       status: Status
       show: Prikaži
       edit: Uredi
@@ -1951,7 +1951,6 @@ hr:
       description: Opis
       created_at: Napravljeno
       last_changed: Zadnji put promijenjeno
-      ago_html: prije %{when}
   javascripts:
     close: Zatvori
     share:

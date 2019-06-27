@@ -6,11 +6,11 @@
   </div>
 <% end %>
 
-<%= render :partial => "diary_entry", :object => @entry %>
+<%= render @entry %>
 
 <a id="comments"></a>
 <div class='comments'>
-<%= render :partial => "diary_comment", :collection => @entry.visible_comments %>
+<%= render :partial => "diary_comment", :collection => @comments %>
 </div>
 
 <div>
@@ -19,9 +19,9 @@
 
     <%= error_messages_for "diary_comment" %>
 
-    <%= form_for :diary_comment, :url => { :action => "comment" } do |f| %>
+    <%= form_for @entry.comments.new, :url => { :action => "comment" } do |f| %>
       <%= richtext_area :diary_comment, :body, :cols => 80, :rows => 15 %>
-      <%= submit_tag t(".save_button") %>
+      <%= f.submit %>
     <% end %>
     <% if @entry.subscribers.exists?(current_user.id) %>
       <div class="diary-subscribe-buttons"><%= link_to t("javascripts.changesets.show.unsubscribe"), diary_entry_unsubscribe_path(:display_name => @entry.user.display_name, :id => @entry.id), :method => :post, :class => :button %></div>

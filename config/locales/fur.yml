@@ -11,6 +11,21 @@ fur:
   time:
     formats:
       friendly: '%e di %B %Y a lis %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Salve
+      message:
+        create: Mande
+      client_application:
+        create: Regjistre
+        update: Cambie
+      trace:
+        create: Cjame
+        update: Salve cambiaments
+      user_block:
+        create: Cree bloc
+        update: Inzorne bloc
   activerecord:
     models:
       acl: Liste di control des jentradis
@@ -272,6 +287,14 @@ fur:
   diary_entries:
     new:
       title: Gnove vôs dal diari
+    form:
+      subject: 'Sogjet:'
+      body: 'Cuarp:'
+      language: 'Lenghe:'
+      location: 'Lûc:'
+      latitude: 'Latitudin:'
+      longitude: 'Longjitudin:'
+      use_map_link: dopre mape
     index:
       title: Diaris dai utents
       title_friends: Diaris dai amîs
@@ -286,14 +309,6 @@ fur:
       newer_entries: Vôs plui gnovis
     edit:
       title: Cambie vôs dal diari
-      subject: 'Sogjet:'
-      body: 'Cuarp:'
-      language: 'Lenghe:'
-      location: 'Lûc:'
-      latitude: 'Latitudin:'
-      longitude: 'Longjitudin:'
-      use_map_link: dopre mape
-      save_button: Salve
       marker_text: Lûc de vôs dal diari
     show:
       title: Diari di %{user} | %{title}
@@ -301,7 +316,6 @@ fur:
       leave_a_comment: Lasse un coment
       login_to_leave_a_comment: '%{login_link} par lassâ un coment'
       login: Jentre
-      save_button: Salve
     no_such_entry:
       title: La vôs dal diari no esist
       heading: Nissune vôs cun identificatîf %{id}
@@ -340,7 +354,6 @@ fur:
       post: Publiche
       when: Cuant
       comment: Coment
-      ago: '%{ago} indaûr'
       newer_comments: Coments plui gnûfs
       older_comments: Coments plui vieris
   geocoder:
@@ -740,7 +753,6 @@ fur:
       send_message_to: Mande un gnûf messaç a %{name}
       subject: Sogjet
       body: Cuarp
-      send_button: Mande
       back_to_inbox: Torne ai messaçs in jentrade
     create:
       message_sent: Messaç mandât
@@ -952,7 +964,6 @@ fur:
       tags_help: separâts di virgulis
       visibility: 'Visibilitât:'
       visibility_help: ce vuelial dî?
-      upload_button: Cjame
       help: Jutori
     create:
       upload_trace: Cjame percors GPS
@@ -973,7 +984,6 @@ fur:
       description: 'Descrizion:'
       tags: 'Etichetis:'
       tags_help: separâts di virgulis
-      save_button: Salve cambiaments
       visibility: 'Visibilitât:'
       visibility_help: ce vuelial dî?
     trace_optionals:
@@ -1004,7 +1014,6 @@ fur:
     trace:
       pending: IN SPIETE
       count_points: '%{count} ponts'
-      ago: '{time_in_words_ago} indaûr'
       more: plui
       trace_details: Cjale i detais dal percors
       view_map: Viôt mape
@@ -1045,10 +1054,8 @@ fur:
   oauth_clients:
     new:
       title: Regjistre une gnove aplicazion
-      submit: Regjistre
     edit:
       title: Cambie la tô aplicazion
-      submit: Cambie
     show:
       title: Detais OAuth par {app_name}
       edit: Cambie i detais
@@ -1143,7 +1150,6 @@ fur:
       consider_pd: In plui dal acuardi parsore, jo o consideri i miei contribûts come
         di Public Domini
       consider_pd_why: ce isal chest?
-      agree: O aceti
       decline: No aceti
       you need to accept or decline: Par plasê lei e po acete o refude i gnûfs Tiermins
         par Contribuî par lâ indevant.
@@ -1178,11 +1184,9 @@ fur:
       remove as friend: Gjave dai amîs
       add as friend: Zonte ai amîs
       mapper since: 'Al mape dai:'
-      ago: (%{time_in_words_ago} indaûr)
       ct status: 'Tiermins par contribuî:'
       ct undecided: Nol à decidût
       ct declined: Refudâts
-      ct accepted: Acetâts %{ago} indaûr
       latest edit: 'Ultin cambiament %{ago}:'
       email address: 'Direzion di pueste:'
       created from: 'Creât di:'
@@ -1329,10 +1333,8 @@ fur:
     new:
       title: Cree un bloc par %{name}
       heading: Cree un bloc par %{name}
-      submit: Cree bloc
       back: Cjale ducj i blocs
     edit:
-      submit: Inzorne bloc
       show: Cjale chest bloc
       back: Cjale ducj i blocs
     update:
@@ -1344,12 +1346,13 @@ fur:
     revoke:
       time_future: Chest bloc al finìs ca di %{time}.
       revoke: Revoche!
-    period:
-      one: 1 ore
-      other: '%{count} oris'
     helper:
       time_future: Finìs ca di %{time}.
       time_past: Finît %{time} indaûr.
+      block_duration:
+        hours:
+          one: 1 ore
+          other: '%{count} oris'
     blocks_on:
       title: Blocs su %{name}
       heading: Liste dai blocs su %{name}
@@ -1361,8 +1364,6 @@ fur:
     show:
       title: '%{block_on} blocât di %{block_by}'
       heading: '%{block_on} blocât di %{block_by}'
-      time_future: Finìs ca di %{time}
-      time_past: Finît %{time} indaûr
       status: Stât
       show: Mostre
       edit: Cambie
@@ -1395,7 +1396,6 @@ fur:
       description: Descrizion
       created_at: Creade ai
       last_changed: Ultin cambiament
-      ago_html: '%{when} indaûr'
   javascripts:
     close: Siere
     share:

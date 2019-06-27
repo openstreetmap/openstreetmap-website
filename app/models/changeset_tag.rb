@@ -2,7 +2,7 @@
 #
 # Table name: changeset_tags
 #
-#  changeset_id :integer          not null, primary key
+#  changeset_id :bigint(8)        not null, primary key
 #  k            :string           default(""), not null, primary key
 #  v            :string           default(""), not null
 #

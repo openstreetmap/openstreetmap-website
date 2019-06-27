@@ -31,13 +31,39 @@
 # Author: SupaplexTW
 # Author: Wehwei
 # Author: Wrightbus
+# Author: 神樂坂秀吉
 # Author: 아라
 ---
 zh-TW:
+  html:
+    dir: 由左至右
   time:
     formats:
       friendly: '%Y 年 %B %e 日 %H 時 %M 分'
       blog: '%Y年%B%e日'
+  helpers:
+    submit:
+      diary_comment:
+        create: 儲存
+      diary_entry:
+        create: 發佈
+        update: 更新
+      issue_comment:
+        create: 添加評論
+      message:
+        create: 寄出
+      client_application:
+        create: 註冊
+        update: 編輯
+      redaction:
+        create: 建立修訂
+        update: 儲存修訂
+      trace:
+        create: 上傳
+        update: 儲存變更
+      user_block:
+        create: 建立封鎖
+        update: 更新封鎖
   activerecord:
     errors:
       messages:
@@ -110,8 +136,48 @@ zh-TW:
         description: 說明
         languages: 語言
         pass_crypt: 密碼
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: 約1小時前
+        other: 約%{count}小時前
+      about_x_months:
+        one: 約1個月前
+        other: 約%{count}個月前
+      about_x_years:
+        one: 約1年
+        other: 約%{count}年前
+      almost_x_years:
+        one: 近1年
+        other: 近%{count}年前
+      half_a_minute: 30秒前
+      less_than_x_seconds:
+        one: 小於 1 秒前
+        other: 小於 %{count} 秒前
+      less_than_x_minutes:
+        one: 小於 1 分前
+        other: 小於 %{count} 分前
+      over_x_years:
+        one: 超過1年前
+        other: 超過%{count}年前
+      x_seconds:
+        one: 1秒前
+        other: '%{count}秒前'
+      x_minutes:
+        one: 1分鐘前
+        other: '%{count}分鐘前'
+      x_days:
+        one: 1日前
+        other: '%{count}日前'
+      x_months:
+        one: 1個月前
+        other: '%{count}個月前'
+      x_years:
+        one: 1年前
+        other: '%{count}年前'
   printable_name:
     with_version: '%{id}，版本%{version}'
+    with_name_html: '%{name}%{id}'
   editor:
     default: 預設 (目前為 %{name})
     potlatch:
@@ -201,6 +267,7 @@ zh-TW:
       history_title: 關聯歷史：%{name}
       members: 成員
     relation_member:
+      entry: '%{type} %{name}'
       entry_role: '%{type} %{name} 作為 %{role}'
       type:
         node: 節點
@@ -294,7 +361,7 @@ zh-TW:
       no_more_user: 此使用者沒有更多變更集。
       load_more: 載入更多
     timeout:
-      sorry: 很抱歉，您請求的變更集清單逾時無法讀取。
+      sorry: 很抱歉，您請求的變更集清單過長無法讀取。
   changeset_comments:
     comment:
       comment: '由 %{author} 對變更集 #%{changeset_id} 發表的新評論'
@@ -305,11 +372,18 @@ zh-TW:
       title_all: OpenStreetMap 變更集討論
       title_particular: OpenStreetMap 變更集 %{changeset_id} 討論
     timeout:
-      sorry: 很抱歉，您請求的變更集評論逾時無法讀取
+      sorry: 很抱歉，您請求的變更集評論過長無法讀取
   diary_entries:
     new:
       title: 新日記項目
-      publish_button: 發佈
+    form:
+      subject: 主旨：
+      body: 內文：
+      language: 語言：
+      location: 位置：
+      latitude: 緯度：
+      longitude: 經度：
+      use_map_link: 使用地圖
     index:
       title: 使用者日記
       title_friends: 好友日記
@@ -324,14 +398,6 @@ zh-TW:
       newer_entries: 較新的項目
     edit:
       title: 編輯日記項目
-      subject: 主旨：
-      body: 內文：
-      language: 語言：
-      location: 位置：
-      latitude: 緯度：
-      longitude: 經度：
-      use_map_link: 使用地圖
-      save_button: 儲存
       marker_text: 日記項目位置
     show:
       title: '%{user} 的日記|%{title}'
@@ -339,7 +405,6 @@ zh-TW:
       leave_a_comment: 留下評論
       login_to_leave_a_comment: '%{login_link}來留下評論'
       login: 登入
-      save_button: 儲存
     no_such_entry:
       title: 沒有這樣的日記項目
       heading: 沒有 id 為 %{id} 的項目
@@ -354,11 +419,13 @@ zh-TW:
         other: '%{count} 項評論'
       edit_link: 編輯此項目
       hide_link: 隱藏此項目
+      unhide_link: 取消隱藏此項目
       confirm: 確認
       report: 回報此項目
     diary_comment:
       comment_from: 由 %{link_user} 於 %{comment_created_at} 發表的評論
       hide_link: 隱藏此評論
+      unhide_link: 取消隱藏此評論
       confirm: 確認
       report: 回報此評論
     location:
@@ -380,7 +447,6 @@ zh-TW:
       post: 貼文
       when: 於
       comment: 評論
-      ago: '%{ago} 前'
       newer_comments: 較新的評論
       older_comments: 較舊的評論
   geocoder:
@@ -395,6 +461,7 @@ zh-TW:
           Nominatim</a> 的結果
         geonames_reverse: 來自<a href="http://www.geonames.org/">GeoNames</a>的結果
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: 大型纜車
@@ -1084,6 +1151,9 @@ zh-TW:
       successful_report: 已成功登記您的回報
       provide_details: 請提供所需的詳情
   layouts:
+    project_name:
+      title: OpenStreetMap
+      h1: OpenStreetMap
     logo:
       alt_text: OpenStreetMap 標誌
     home: 移至家的位置
@@ -1112,6 +1182,7 @@ zh-TW:
     partners_ucl: 倫敦大學學院
     partners_bytemark: Bytemark 主機代管
     partners_partners: 合作夥伴
+    tou: 使用條款
     osm_offline: OpenStreetMap 資料庫目前正在離線，直到必要的資料庫維護工作完成為止。
     osm_read_only: OpenStreetMap 資料庫目前處於唯讀模式，直到必要的資料庫維護工作完成為止。
     donate: 以 %{link} 給硬體升級基金來支援 OpenStreetMap。
@@ -1135,6 +1206,7 @@ zh-TW:
       header: '%{from_user} 評論主旨為 %{subject} 的 OpenStreetMap 日記項目：'
       footer: 您也可以在 %{readurl} 閱讀評論，並且在 %{commenturl} 留下評論，或在 %{replyurl} 回覆
     message_notification:
+      subject_header: '[OpenStreetMap] %{subject}'
       hi: '%{to_user} 您好，'
       header: '%{from_user} 透過 OpenStreetMap 寄給您主旨為 %{subject} 的訊息：'
       footer_html: 您也可以在 %{readurl} 閱讀訊息，並且在 %{replyurl} 回覆
@@ -1155,6 +1227,7 @@ zh-TW:
         failed_to_import: 看來匯入失敗。錯誤訊息為：
         more_info_1: 更多關於 GPX 匯入失敗與如何避免它們的
         more_info_2: 資訊可在這裡找到：
+        import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       success:
         subject: '[OpenStreetMap] GPX 匯入成功'
         loaded_successfully: |-
@@ -1244,7 +1317,6 @@ zh-TW:
       send_message_to: 寄出新訊息給 %{name}
       subject: 主旨
       body: 內文
-      send_button: 寄出
       back_to_inbox: 回到收件匣
     create:
       message_sent: 訊息已寄出
@@ -1307,7 +1379,7 @@ zh-TW:
         及其貢獻者。若您在我們的資料上作修改或以之透過某些方式衍生其他資料，則只可依相同授權條款散佈有關成果。詳情請參閱<a href='%{copyright_path}'>版權及授權條款頁面</a>。
       legal_title: 法律資訊
       legal_html: "本站以及許多相關的服務正式由<a href='https://osmfoundation.org/'> OpenStreetMap
-        基金會</a>（OSMF）代表社群所營運。所有使用的 OSMF 運行服務皆符合我們的<a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">可接受使用政策</a>和<a
+        基金會</a>（OSMF）代表社群所營運。所有使用的 OSMF 運行服務皆符合我們的<a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">使用條款</a>和<a
         href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">隱私政策</a>\n<br>
         \n若您有任何授權、版權或其他法律諮詢，請<a href='https://osmfoundation.org/Contact'>聯絡 OSMF </a>。\n<br>\nOpenStreetMap、放大鏡標誌，和地圖狀態是<a
         href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\"> OSMF 的註冊商標</a>。"
@@ -1424,6 +1496,7 @@ zh-TW:
       not_public: 您尚未將您的編輯設為公開。
       not_public_description: 在您這麼做之前將無法再編輯地圖。您可以在您的 %{user_page} 將自己的編輯設定為公開。
       user_page_link: 使用者頁面
+      anon_edits: (%{link})
       anon_edits_link_text: 瞭解為什麼這很重要。
       flash_player_required: 您需要 Flash player 才能使用 Potlatch，OpenStreetMap Flash 編輯器。您可以<a
         href="https://get.adobe.com/flashplayer/">在 Adobe.com 下載 Flash Player</a>。<a
@@ -1676,7 +1749,6 @@ zh-TW:
       visibility: 可見性：
       visibility_help: 這是什麼意思？
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-      upload_button: 上傳
       help: 說明
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1698,7 +1770,6 @@ zh-TW:
       description: 描述：
       tags: 標籤：
       tags_help: 以逗號分隔
-      save_button: 儲存變更
       visibility: 可見性：
       visibility_help: 這是什麼意思？
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
@@ -1733,7 +1804,6 @@ zh-TW:
     trace:
       pending: 等候
       count_points: '%{count} 個點'
-      ago: '%{time_in_words_ago} 之前'
       more: 更多
       trace_details: 檢視軌跡詳細資料
       view_map: 檢視地圖
@@ -1811,10 +1881,8 @@ zh-TW:
   oauth_clients:
     new:
       title: 註冊新的應用程式
-      submit: 註冊
     edit:
       title: 編輯您的應用程式
-      submit: 編輯
     show:
       title: '%{app_name} 的 OAuth 詳細資料'
       key: 消費者金鑰：
@@ -1963,14 +2031,19 @@ zh-TW:
       terms declined: 我們很遺憾你已決定不接受新的貢獻者條款。有關詳細資訊，請參閱<a href="%{url}">此 wiki 頁面</a>。
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: 貢獻者條款
-      heading: 貢獻者條款
-      read and accept: 請閱讀下面的協議並按同意按鈕，以確認為你現有的和將來的貢獻接受本協議的條款。
-      consider_pd: 在上述協議之上，我同意將我的貢獻放到公共領域
+      title: 條款
+      heading: 條款
+      heading_ct: 貢獻者條款
+      read and accept with tou: 請閱讀貢獻者協議與使用條款，勾選兩項方框後點擊繼續按鈕。
+      contributor_terms_explain: 此協議適用於您現有與往後貢獻的條款。
+      read_ct: 我已閱讀過並同意以上的貢獻者條款
+      tou_explain_html: 這些%{tou_link}適用於網站方面的使用，與其它由 OSMF 提供的基礎內容。請在連結上點擊，閱讀並同意該文字。
+      read_tou: 我已經閱讀過並同意使用條款
+      consider_pd: 除上述內容之外，我同意將我的貢獻放到公共領域
       consider_pd_why: 這是什麼？
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 幫助理解這些條款的資料：一個<a href="%{summary}">供普通人閱讀的摘要</a>和一些<a href="%{translations}">非正式翻譯</a>
-      agree: 同意
+      continue: 繼續
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: 拒絕
       you need to accept or decline: 請先閱讀，然後選擇接受或拒絕新的貢獻者條款，再繼續。
@@ -2005,11 +2078,9 @@ zh-TW:
       remove as friend: 移除好友
       add as friend: 加入為好友
       mapper since: 註冊為製圖者日期：
-      ago: (%{time_in_words_ago} 之前)
       ct status: 貢獻者條款：
       ct undecided: 未決定
       ct declined: 已拒絕
-      ct accepted: 於 %{ago} 前接受
       latest edit: 上次編輯於 %{ago}：
       email address: 電子郵件地址：
       created from: 建立於：
@@ -2202,7 +2273,6 @@ zh-TW:
       heading: 正在建立對 %{name} 的封鎖
       reason: '%{name} 之所以被封鎖的理由。請盡量以平靜、合理的態度，詳細的說明有關情況。請記住訊息會公開讓所有人看到，而並非所有使用者都了解社群的術語，所以請嘗試使用較為通用的說法。'
       period: 從現在開始，這個使用者將被禁止使用 API 多久。
-      submit: 建立封鎖
       tried_contacting: 我已聯緊這個使用者並請他停止。
       tried_waiting: 我已經給予這位使用者合理的時間回應這些問題。
       needs_view: 需要使用者登入才能解除這項封鎖
@@ -2212,7 +2282,6 @@ zh-TW:
       heading: 正在編輯對 %{name} 的封鎖
       reason: '%{name} 之所以被封鎖的理由。請盡量以平靜、合理的態度，詳細的說明有關情況。請記住並非所有使用者都了解社群的術語，所以請嘗試使用較為通用的說法。'
       period: 從現在開始，這個使用者將被禁止使用 API 多久。
-      submit: 更新封鎖
       show: 檢視這項封鎖
       back: 檢視所有的封鎖
       needs_view: 在清除這項封鎖之前是否需要使用者登入？
@@ -2238,14 +2307,27 @@ zh-TW:
       confirm: 你確定要撤銷這項封鎖？
       revoke: 撤銷！
       flash: 這項封鎖已被撤銷。
-    period:
-      one: 1 小時
-      other: '%{count} 小時'
     helper:
       time_future: 於 %{time} 結束。
       until_login: 生效直至這個使用者登入為止。
       time_future_and_until_login: 在用戶已登入後結束於%{time}。
       time_past: 於 %{time} 之前結束。
+      block_duration:
+        hours:
+          one: 1 小時
+          other: '%{count} 小時'
+        days:
+          one: 1日
+          other: '%{count}日'
+        weeks:
+          one: 1週
+          other: '%{count}週'
+        months:
+          one: 1個月
+          other: '%{count}個月'
+        years:
+          one: 1年
+          other: '%{count}年'
     blocks_on:
       title: 對 %{name} 的封鎖
       heading: 對 %{name} 封鎖的清單
@@ -2257,10 +2339,7 @@ zh-TW:
     show:
       title: '%{block_on} 被 %{block_by} 封鎖'
       heading: '%{block_on} 被 %{block_by} 封鎖'
-      time_future: 於 %{time} 內終止
-      time_past: 於 %{time} 前終止
       created: 已建立
-      ago: '%{time} 前'
       status: 狀態
       show: 顯示
       edit: 編輯
@@ -2294,7 +2373,6 @@ zh-TW:
       description: 說明
       created_at: 建立於：
       last_changed: 最新變更
-      ago_html: '%{when} 前'
   javascripts:
     close: 關閉
     share:
@@ -2344,6 +2422,7 @@ zh-TW:
         title: 圖層
       copyright: © <a href='%{copyright_url}'>OpenStreetMap 貢獻者</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>來捐款吧</a>
+      terms: <a href='%{terms_url}' target='_blank'>網站與 API 項目</a>
     site:
       edit_tooltip: 編輯地圖
       edit_disabled_tooltip: 放大以編輯地圖
@@ -2473,7 +2552,6 @@ zh-TW:
     edit:
       description: 說明
       heading: 編輯修訂
-      submit: 儲存修訂
       title: 編輯修訂
     index:
       empty: 沒有可顯示的修訂。
@@ -2482,7 +2560,6 @@ zh-TW:
     new:
       description: 說明
       heading: 輸入新增修訂資訊
-      submit: 建立修訂
       title: 建立修訂中
     show:
       description: 說明：

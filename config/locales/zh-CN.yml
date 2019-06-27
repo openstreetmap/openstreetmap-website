@@ -28,6 +28,7 @@
 # Author: Qiyue2001
 # Author: RyRubyy
 # Author: Shizhao
+# Author: SinonJZH
 # Author: StephDC
 # Author: TianyinLee
 # Author: WQL
@@ -38,6 +39,7 @@
 # Author: 乌拉跨氪
 # Author: 夢蝶葬花
 # Author: 水獭很懒
+# Author: 神樂坂秀吉
 # Author: 阿pp
 # Author: 아라
 ---
@@ -48,6 +50,29 @@ zh-CN:
     formats:
       friendly: '%Y 年%B %e 日 %H:%M'
       blog: '%Y年%B%e日'
+  helpers:
+    submit:
+      diary_comment:
+        create: 保存
+      diary_entry:
+        create: 发布
+        update: 更新
+      issue_comment:
+        create: 添加评论
+      message:
+        create: 发送
+      client_application:
+        create: 注册
+        update: 编辑
+      redaction:
+        create: 创建修订
+        update: 保存修订
+      trace:
+        create: 上传
+        update: 保存修改
+      user_block:
+        create: 创建封禁
+        update: 更新封禁
   activerecord:
     errors:
       messages:
@@ -120,6 +145,45 @@ zh-CN:
         description: 描述
         languages: 语言
         pass_crypt: 密码
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: 约1小时前
+        other: 约%{count}小时前
+      about_x_months:
+        one: 约1个月前
+        other: 约%{count}个月前
+      about_x_years:
+        one: 约1年
+        other: 约%{count}年前
+      almost_x_years:
+        one: 近1年前
+        other: 近%{count}年前
+      half_a_minute: 30秒前
+      less_than_x_seconds:
+        one: 小于1秒前
+        other: 小于 %{count} 秒前
+      less_than_x_minutes:
+        one: 小于1分钟前
+        other: 小于 %{count} 分钟前
+      over_x_years:
+        one: 超过1年前
+        other: 超过%{count}年前
+      x_seconds:
+        one: 1秒
+        other: '%{count}秒前'
+      x_minutes:
+        one: 1分钟前
+        other: '%{count}分钟前'
+      x_days:
+        one: 1日前
+        other: '%{count}日前'
+      x_months:
+        one: 1个月前
+        other: '%{count}个月前'
+      x_years:
+        one: 1年前
+        other: '%{count}年前'
   printable_name:
     with_version: '%{id}，版本 %{version}'
     with_name_html: '%{name}%{id}'
@@ -140,14 +204,14 @@ zh-CN:
   api:
     notes:
       comment:
-        opened_at_html: 于 %{when} 前创建
-        opened_at_by_html: '%{user} 于 %{when} 前创建'
-        commented_at_html: 于 %{when} 前更新
-        commented_at_by_html: '%{user} 于 %{when} 前更新'
-        closed_at_html: 于 %{when} 前解决
-        closed_at_by_html: '%{user} 于 %{when} 前解决'
-        reopened_at_html: 于 %{when} 前重新激活
-        reopened_at_by_html: '%{user} 于 %{when} 前重新激活'
+        opened_at_html: 于%{when}创建
+        opened_at_by_html: '%{user}于%{when}创建'
+        commented_at_html: 于%{when}更新
+        commented_at_by_html: '%{user}于%{when}更新'
+        closed_at_html: 于%{when}解决
+        closed_at_by_html: '%{user}于%{when}解决'
+        reopened_at_html: 于%{when}重新激活
+        reopened_at_by_html: '%{user}于%{when}重新激活'
       rss:
         title: OpenStreetMap 笔记
         description_area: 在您的区域 [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
@@ -163,12 +227,12 @@ zh-CN:
   browse:
     created: 创建于
     closed: 关闭于
-    created_html: 创建于 <abbr title='%{title}'>%{time} 前</abbr>
-    closed_html: 关闭于 <abbr title='%{title}'>%{time} 前</abbr>
-    created_by_html: '%{user} 创建于 <abbr title=''%{title}''>%{time} 前</abbr>'
-    deleted_by_html: '%{user} 删除于 <abbr title=''%{title}''>%{time} 前</abbr>'
-    edited_by_html: '%{user} 编辑于 <abbr title=''%{title}''>%{time} 前</abbr>'
-    closed_by_html: '%{user} 关闭于 <abbr title=''%{title}''>%{time} 前</abbr>'
+    created_html: 创建于<abbr title='%{title}'>%{time}</abbr>
+    closed_html: 关闭于<abbr title='%{title}'>%{time}</abbr>
+    created_by_html: '%{user}创建于<abbr title=''%{title}''>%{time}</abbr>'
+    deleted_by_html: '%{user}删除于<abbr title=''%{title}''>%{time}</abbr>'
+    edited_by_html: '%{user}编辑于<abbr title=''%{title}''>%{time}</abbr>'
+    closed_by_html: '%{user}关闭于<abbr title=''%{title}''>%{time}</abbr>'
     version: 版本
     in_changeset: 修改集合
     anonymous: 匿名用户
@@ -188,8 +252,8 @@ zh-CN:
       relation: 关系 (%{count})
       relation_paginated: 关系 (%{x}-%{y}，共 %{count})
       comment: 评论 (%{count})
-      hidden_commented_by: <abbr title='%{exact_time}'>%{when}前</abbr>来自 %{user} 的隐藏评论
-      commented_by: <abbr title='%{exact_time}'>%{when}前</abbr>来自 %{user} 的评论
+      hidden_commented_by: <abbr title='%{exact_time}'>%{when}</abbr>来自%{user}的隐藏评论
+      commented_by: <abbr title='%{exact_time}'>%{when}</abbr>来自%{user}的评论
       changesetxml: 修改集合 XML
       osmchangexml: osm 修改 XML
       feed:
@@ -264,15 +328,15 @@ zh-CN:
       open_title: '未解决笔记 #%{note_name}'
       closed_title: '已解决笔记 #%{note_name}'
       hidden_title: '隐藏笔记 #%{note_name}'
-      open_by: '%{user} 创建于 <abbr title=''%{exact_time}''>%{when} 前</abbr>'
-      open_by_anonymous: 匿名用户创建于 <abbr title='%{exact_time}'>%{when} 前</abbr>
-      commented_by: '%{user} 于 <abbr title=''%{exact_time}''>%{when} 前</abbr>发表的评论'
-      commented_by_anonymous: 匿名用户于 <abbr title='%{exact_time}'>%{when} 前</abbr>发表的评论
-      closed_by: '%{user} 解决于 <abbr title=''%{exact_time}''>%{when} 前</abbr>'
-      closed_by_anonymous: 匿名用户解决于 <abbr title='%{exact_time}'>%{when} 前</abbr>
-      reopened_by: '%{user} 重新激活于 <abbr title=''%{exact_time}''>%{when} 前</abbr>'
-      reopened_by_anonymous: 匿名用户重新激活于 <abbr title='%{exact_time}'>%{when} 前</abbr>
-      hidden_by: '%{user} 隐藏于 <abbr title=''%{exact_time}''>%{when} 前</abbr>'
+      open_by: '%{user}创建于<abbr title=''%{exact_time}''>%{when}</abbr>'
+      open_by_anonymous: 匿名用户创建于<abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: '%{user}于<abbr title=''%{exact_time}''>%{when}</abbr>发表的评论'
+      commented_by_anonymous: 匿名用户于<abbr title='%{exact_time}'>%{when}</abbr>发表的评论
+      closed_by: '%{user}解决于<abbr title=''%{exact_time}''>%{when}</abbr>'
+      closed_by_anonymous: 匿名用户解决于<abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: '%{user}重新激活于<abbr title=''%{exact_time}''>%{when}</abbr>'
+      reopened_by_anonymous: 匿名用户重新激活于<abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: '%{user}隐藏于<abbr title=''%{exact_time}''>%{when}</abbr>'
       report: 举报此注释
     query:
       title: 查询要素
@@ -311,7 +375,7 @@ zh-CN:
   changeset_comments:
     comment:
       comment: '%{author}对修改集合%{changeset_id}的新评论'
-      commented_at_by_html: 由 %{user} 更新于 %{when} 前
+      commented_at_by_html: 由%{user}更新于%{when}
     comments:
       comment: '%{author}对修改集合%{changeset_id}的新评论'
     index:
@@ -322,7 +386,14 @@ zh-CN:
   diary_entries:
     new:
       title: 新日记文章
-      publish_button: 发布
+    form:
+      subject: 主题：
+      body: 正文：
+      language: 语言：
+      location: 位置：
+      latitude: 纬度：
+      longitude: 经度：
+      use_map_link: 使用地图
     index:
       title: 用户日记
       title_friends: 朋友的日记
@@ -337,14 +408,6 @@ zh-CN:
       newer_entries: 较新的文章
     edit:
       title: 编辑日记文章
-      subject: 主题：
-      body: 正文：
-      language: 语言：
-      location: 位置：
-      latitude: 纬度：
-      longitude: 经度：
-      use_map_link: 使用地图
-      save_button: 保存
       marker_text: 日记文章位置
     show:
       title: '%{user} 的日记 | %{title}'
@@ -352,7 +415,6 @@ zh-CN:
       leave_a_comment: 留下评论
       login_to_leave_a_comment: '%{login_link}以留下评论'
       login: 登录
-      save_button: 保存
     no_such_entry:
       title: 没有这篇日记文章
       heading: 没有ID为 %{id} 的条目
@@ -367,11 +429,13 @@ zh-CN:
         other: '%{count} 个评论'
       edit_link: 编辑该文章
       hide_link: 隐藏该文章
+      unhide_link: 取消隐藏此项目
       confirm: 确认
       report: 举报此记录
     diary_comment:
       comment_from: '%{link_user} 于 %{comment_created_at} 发表的评论'
       hide_link: 隐藏该评论
+      unhide_link: 取消隐藏该评论
       confirm: 确认
       report: 举报此评论
     location:
@@ -393,7 +457,6 @@ zh-CN:
       post: 发布
       when: 时间
       comment: 评论
-      ago: '%{ago} 前'
       newer_comments: 新评论
       older_comments: 旧评论
   geocoder:
@@ -1009,8 +1072,8 @@ zh-CN:
       status: 状态
       reports: 举报
       last_updated: 最后更新
-      last_updated_time_html: <abbr title='%{title}'>%{time}前</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time}前</abbr>由%{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr>由%{user}
       link_to_reports: 查看举报
       reports_count:
         one: 1个举报
@@ -1129,6 +1192,7 @@ zh-CN:
     partners_ucl: 伦敦大学学院
     partners_bytemark: Bytemark主机
     partners_partners: 合作伙伴
+    tou: 使用条款
     osm_offline: 由于正在进行基本的数据库维护工作，OpenStreetMap 数据库目前处于脱机状态。
     osm_read_only: 由于正在进行基本的数据库维护工作，OpenStreetMap 数据库目前处于只读模式。
     donate: 通过给硬件升级基金%{link}支持 OpenStreetMap。
@@ -1257,7 +1321,6 @@ zh-CN:
       send_message_to: 发送新信息给%{name}
       subject: 主题
       body: 正文
-      send_button: 发送
       back_to_inbox: 返回收件箱
     create:
       message_sent: 信息已发出
@@ -1318,7 +1381,7 @@ zh-CN:
         OpenStreetMap。如果您改变或者使用这些数据，您必须按照相同的版权协议发布结果。详情请参见<a href='%{copyright_path}'>版权协议</a>。
       legal_title: 法律
       legal_html: |-
-        此网站和很多其他相关服务已由<a href='https://osmfoundation.org/'>OpenStreetMap基金会</a>（OSMF）正式代表社群运营。使用所有由OSMF运营的服务均需符合我们的<a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        此网站和很多其他相关服务已由<a href='https://osmfoundation.org/'>OpenStreetMap基金会</a>（OSMF）正式代表社群运营。使用所有由OSMF运营的服务均需符合我们的<a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">使用条款</a>、<a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
         可接受使用方针</a>和我们的<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">隐私政策</a>
         <br>
         如果您有许可协议、版权或其他法律问题，请<a href='https://osmfoundation.org/Contact'>联络OSMF</a>。
@@ -1387,9 +1450,12 @@ zh-CN:
           <strong>斯洛文尼亚</strong>：包含来自
           <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a>和
           <a href="http://www.mkgp.gov.si/en/">Ministry of Agriculture, Forestry and Food</a>（斯洛文尼亚公开信息）的数据。
+        contributors_es_html: <strong>西班牙</strong>：包含来自西班牙国家地理研究所（<a href="http://www.ign.es/">IGN</a>）和国家制图系统（<a
+          href="http://www.scne.es/">SCNE</a>）的数据，这些数据以<a href="https://creativecommons.org/licenses/by/4.0/">知识共享
+          署名 4.0协议</a>授权。
         contributors_za_html: <strong>南非</strong>：包含来自<a href="http://www.ngi.gov.za/">行政局：国家地球空间信息</a>，国家版权所有。
         contributors_gb_html: <strong>英国</strong>：包含来自 Ordnance 的调查数据，&copy; Crown
-          版权所有及数据库权利，2010-12。
+          版权所有及数据库权利，2010-19。
         contributors_footer_1_html: |-
           关于其进一步的细节，及其他被用来帮助提升 OpenStreetMap 的来源，详见 OpenStreetMap Wiki 的<a
           href="https://wiki.openstreetmap.org/wiki/Zh-hans:Contributors">贡献者页面</a>。
@@ -1660,7 +1726,6 @@ zh-CN:
       visibility: 可见性：
       visibility_help: 这是什么意思？
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-      upload_button: 上传
       help: 帮助
       help_url: http://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1682,7 +1747,6 @@ zh-CN:
       description: 描述：
       tags: 标签：
       tags_help: 用逗号分隔
-      save_button: 保存修改
       visibility: 可见性：
       visibility_help: 这是什么意思？
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
@@ -1717,7 +1781,6 @@ zh-CN:
     trace:
       pending: 挂起
       count_points: '%{count} 个点'
-      ago: '%{time_in_words_ago} 前'
       more: 更多
       trace_details: 查看轨迹详情
       view_map: 查看地图
@@ -1795,10 +1858,8 @@ zh-CN:
   oauth_clients:
     new:
       title: 注册新应用程序
-      submit: 注册
     edit:
       title: 编辑您的应用程序
-      submit: 编辑
     show:
       title: '%{app_name} 的 OAuth 详细信息'
       key: 用户键：
@@ -1946,14 +2007,19 @@ zh-CN:
       terms declined: 我们很遗憾您已决定不接受新的贡献者条款。有关详细信息，请参阅<a href="%{url}">此 wiki 页面</a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: 贡献者条款
-      heading: 贡献者条款
-      read and accept: 请阅读下面的协议并按同意按钮，以确认为您现有的和将来的贡献接受本协议的条款。
+      title: 条款
+      heading: 条款
+      heading_ct: 贡献者条款
+      read and accept with tou: 请阅读贡献者协议和使用条款，勾选下列2个复选框，并点击“确定”按钮。
+      contributor_terms_explain: 该协议影响到有关您过去、现在及将来的贡献的条款。
+      read_ct: 我已了解并同意贡献者条款
+      tou_explain_html: 这些%{tou_link}适用于网站方面的使用，与其它由OSMF提供的基础内容。请点击链接，阅读并同意该条款。
+      read_tou: 我已阅读并同意使用条款
       consider_pd: 除了上述协议，我同意将我的贡献授权为公共领域
       consider_pd_why: 这是什么？
       consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 帮助理解这些条款的信息：一个<a href="%{summary}">可读的摘要</a>和一些<a href="%{translations}">非正式翻译</a>
-      agree: 同意
+      continue: 继续
       declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: 拒绝
       you need to accept or decline: 请先阅读，然后接受或拒绝新的贡献者条款，再继续。
@@ -1988,12 +2054,10 @@ zh-CN:
       remove as friend: 删除朋友
       add as friend: 添加朋友
       mapper since: 绘图始于：
-      ago: （%{time_in_words_ago} 前）
       ct status: 贡献者条款：
       ct undecided: 未决定
       ct declined: 已拒绝
-      ct accepted: 接受于 %{ago} 前
-      latest edit: '%{ago} 的最后编辑：'
+      latest edit: '%{ago}的最后编辑：'
       email address: 电子邮件地址：
       created from: 创建于：
       status: 状态：
@@ -2190,7 +2254,6 @@ zh-CN:
       heading: 正在建立对 %{name} 的封禁
       reason: '%{name} 被封禁的原因。请尽可能以冷静、合理的态度，尽量详细的说明有关情况，并请记住，该信息将被公开。并非所有用户都了解社区的术语，所以请尝试使用较通俗的说法。'
       period: 从现在开始，此用户将被 API 阻挡的时间。
-      submit: 创建封禁
       tried_contacting: 我已联系此用户并请他们停止。
       tried_waiting: 我已经给予这位用户合理的时间回应这些问题。
       needs_view: 用户需要先登录，然后此封禁将被清除。
@@ -2200,7 +2263,6 @@ zh-CN:
       heading: 编辑对 %{name} 的封禁
       reason: '%{name} 被封禁的原因。请尽可能以冷静、合理的态度，尽量详细的说明有关情况。请记住，并非所有用户都了解社区的术语，所以请尝试使用较通俗的说法。'
       period: 从现在开始，该用户要被封禁不能使用 API 多久。
-      submit: 更新封禁
       show: 查看此封禁
       back: 查看所有封禁
       needs_view: 在清除这个封禁之前，是否需要用户先登录？
@@ -2222,18 +2284,31 @@ zh-CN:
       title: 正在撤销对 %{block_on} 的封禁
       heading: 正在撤销 %{block_by} 对 %{block_on} 的封禁
       time_future: 此封禁将于 %{time} 结束。
-      past: 此封禁已在 %{time} 之前结束，现在不能被撤销。
+      past: 此封禁已在%{time}结束，现在不能被撤销。
       confirm: 您确定要撤销该封禁？
       revoke: 撤销！
       flash: 该封禁已经被撤销。
-    period:
-      one: 1 小时
-      other: '%{count} 小时'
     helper:
       time_future: 结束于 %{time}。
       until_login: 用户登录时激活。
       time_future_and_until_login: 结束于%{time}，并在用户登录之后。
-      time_past: 结束于 %{time} 前。
+      time_past: 结束于%{time}。
+      block_duration:
+        hours:
+          one: 1 小时
+          other: '%{count} 小时'
+        days:
+          one: 1日
+          other: '%{count}日'
+        weeks:
+          one: 1周
+          other: '%{count}周'
+        months:
+          one: 1个月
+          other: '%{count}个月'
+        years:
+          one: 1年
+          other: '%{count}年'
     blocks_on:
       title: 对 %{name} 的封禁
       heading: 对 %{name} 的封禁列表
@@ -2245,10 +2320,7 @@ zh-CN:
     show:
       title: '%{block_on} 被 %{block_by} 封禁'
       heading: '%{block_on} 被 %{block_by} 封禁'
-      time_future: 结束于 %{time}
-      time_past: 结束于 %{time} 前
       created: 已创建
-      ago: '%{time}前'
       status: 状态
       show: 显示
       edit: 编辑
@@ -2282,7 +2354,6 @@ zh-CN:
       description: 描述
       created_at: 创建于
       last_changed: 最后修改于
-      ago_html: '%{when} 前'
   javascripts:
     close: 关闭
     share:
@@ -2332,6 +2403,7 @@ zh-CN:
         title: 图层
       copyright: © <a href='%{copyright_url}'>OpenStreetMap 贡献者</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>捐赠</a>
+      terms: <a href='%{terms_url}' target='_blank'>网站和API使用条款</a>
     site:
       edit_tooltip: 编辑地图
       edit_disabled_tooltip: 放大地图以编辑
@@ -2366,6 +2438,7 @@ zh-CN:
       engines:
         fossgis_osrm_bike: 自行车（OSRM）
         fossgis_osrm_car: 汽车（OSRM）
+        fossgis_osrm_foot: 步行（OSRM）
         graphhopper_bicycle: 自行车（GraphHopper）
         graphhopper_car: 汽车（GraphHopper）
         graphhopper_foot: 步行（GraphHopper）
@@ -2460,7 +2533,6 @@ zh-CN:
     edit:
       description: 描述
       heading: 编辑修订
-      submit: 保存修订
       title: 编辑修订
     index:
       empty: 没有可显示的修订。
@@ -2469,7 +2541,6 @@ zh-CN:
     new:
       description: 描述
       heading: 请输入新修订的信息
-      submit: 创建修订
       title: 创建新修订
     show:
       description: 描述：

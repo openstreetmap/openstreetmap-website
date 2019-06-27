@@ -1,4 +1,4 @@
-class AddUserImageFingerprint < ActiveRecord::Migration[5.0]
+class AddUserImageFingerprint < ActiveRecord::Migration[4.2]
   def up
     add_column :users, :image_fingerprint, :string, :null => true
 

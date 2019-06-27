@@ -13,6 +13,26 @@ gd:
     formats:
       friendly: '%e %B %Y %H:%M'
       blog: '%e %B %Y'
+  helpers:
+    submit:
+      diary_comment:
+        create: Sàbhail
+      diary_entry:
+        create: Foillsich
+      message:
+        create: Cuir
+      client_application:
+        create: Clàraich
+        update: Deasaich
+      redaction:
+        create: Cruthaich ath-sgrùdadh
+        update: Sàbhail an ath-sgrùdadh
+      trace:
+        create: Luchdaich suas
+        update: Sàbhail na dh'atharraich thu
+      user_block:
+        create: Cruthaich bacadh
+        update: Ùraich am bacadh
   activerecord:
     models:
       acl: Liosta smachd airson inntrigeadh
@@ -295,7 +315,14 @@ gd:
   diary_entries:
     new:
       title: Clàr ùr an leabhair-latha
-      publish_button: Foillsich
+    form:
+      subject: 'Cuspair:'
+      body: 'Bodhaig:'
+      language: 'Cànan:'
+      location: 'Àite:'
+      latitude: 'Domhan-leud:'
+      longitude: 'Domhan-fhad:'
+      use_map_link: cleachd mapa
     index:
       title: Leabhraichean-latha
       title_friends: Leabhraichean-latha do charaidean
@@ -310,14 +337,6 @@ gd:
       newer_entries: Clàran nas ùire
     edit:
       title: Deasaich clàr an leabhair-latha
-      subject: 'Cuspair:'
-      body: 'Bodhaig:'
-      language: 'Cànan:'
-      location: 'Àite:'
-      latitude: 'Domhan-leud:'
-      longitude: 'Domhan-fhad:'
-      use_map_link: cleachd mapa
-      save_button: Sàbhail
       marker_text: Àite clàr an leabhair-latha
     show:
       title: An leabhar-latha aig %{user} | %{title}
@@ -325,7 +344,6 @@ gd:
       leave_a_comment: Thoir do bheachd
       login_to_leave_a_comment: '%{login_link} gus do bheachd a thoirt'
       login: Clàraich a-steach
-      save_button: Sàbhail
     no_such_entry:
       title: Chan eil an clàr seo san leabhar-latha
       heading: 'Chan eil clàr ann aig a bheil an id: %{id}'
@@ -370,7 +388,6 @@ gd:
       post: Post
       when: Àm
       comment: Beachd
-      ago: o chionn %{ago}
       newer_comments: Beachdan nas ùire
       older_comments: Beachdan nas sine
   geocoder:
@@ -1097,7 +1114,6 @@ gd:
       send_message_to: Cuir teachdaireachd ùr gu %{name}
       subject: Cuspair
       body: Bodhaig
-      send_button: Cuir
       back_to_inbox: Till dhan bhogsa a-steach
     create:
       message_sent: Chaidh an teachdaireachd a chur
@@ -1587,7 +1603,6 @@ gd:
       visibility: 'Faicsinneachd:'
       visibility_help: Dè as ciall dha seo?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-      upload_button: Luchdaich suas
       help: Cobhair
       help_url: http://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1613,7 +1628,6 @@ gd:
       description: 'Tuairisgeul:'
       tags: 'Tagaichean:'
       tags_help: sgaradh le cromagan
-      save_button: Sàbhail na dh'atharraich thu
       visibility: 'Faicsinneachd:'
       visibility_help: Dè as ciall dha seo?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
@@ -1645,7 +1659,6 @@ gd:
     trace:
       pending: RI DHÈILIGEADH
       count_points: '%{count} puing'
-      ago: o chionn %{time_in_words_ago}
       more: barrachd
       trace_details: Seall mion-fhiosrachadh an lorgaidh
       view_map: Seall am mapa
@@ -1730,10 +1743,8 @@ gd:
   oauth_clients:
     new:
       title: Clàraich aplacaid ùr
-      submit: Clàraich
     edit:
       title: Deasaich an aplacaid agad
-      submit: Deasaich
     show:
       title: Fiosrachadh OAuth airson %{app_name}
       key: 'Iuchair a'' chleachdaiche:'
@@ -1912,9 +1923,6 @@ gd:
     terms:
       title: Teirmichean a' chom-pàirtiche
       heading: Teirmichean a' chom-pàirtiche
-      read and accept: Feuch an leugh thu an aonta agus gum briog thu air a' phutan
-        "Tha mi ag aontachadh" gus dearbhadh gun gabh thu ri teirmichean an aonta
-        seo airson na thug 's a bheir thu dhuinn 'nad cho-thabhartaiche.
       consider_pd: A bharrachd air an aonta gu h-àrd, aontaichidh mi gun dèid na bheir
         mi dhuibh 'nam cho-thabhartaiche a chur sa Public Domain
       consider_pd_why: Dè th`ann?
@@ -1922,7 +1930,6 @@ gd:
       guidance: 'Fiosrachadh a bheir taic dhut gus na teirmichean seo a thuigsinn:
         <a href="%{summary}">gearr-chunntas a ghabhas leughadh le daoine</a> agus
         <a href="%{translations}">eadar-theangachaidhean neo-fhoirmeil</a>'
-      agree: Tha mi ag aontachadh
       declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Cha ghabh mi ris
       you need to accept or decline: Feuch an leugh thu teirmichean ùra a' chom-pàirtiche
@@ -1960,11 +1967,9 @@ gd:
       remove as friend: Thoir an càirdeas air falbh
       add as friend: Cuir caraid ris
       mapper since: 'Ris an obair-mhapa o:'
-      ago: (o chionn %{time_in_words_ago})
       ct status: 'Teirmichean a'' chom-pàirtiche:'
       ct undecided: Gun taghadh
       ct declined: Gun gabhail riutha
-      ct accepted: Air aontachadh riutha o chionn %{ago}
       latest edit: 'An deasachadh mu dheireadh %{ago}:'
       email address: 'Seòladh puist-d:'
       created from: 'Air a chruthachadh o:'
@@ -2186,7 +2191,6 @@ gd:
         mar sin feuch an cleachd thu cànan àbhaisteach.
       period: Dè cho fad 's nach fhaod an cleachdaiche an API a chleachdach o seo
         a-mach.
-      submit: Cruthaich bacadh
       tried_contacting: Chuir mi fios dhan chleachdaiche agus dh'iarr mi dha sgur
         dheth.
       tried_waiting: Thug mi ùine chiallach dhan chleachdaiche gus freagairt dhan
@@ -2203,7 +2207,6 @@ gd:
         na coimhearsnachd, mar sin feuch an cleachd thu cànan àbhaisteach.
       period: Dè cho fad 's nach fhaod an cleachdaiche an API a chleachdach o seo
         a-mach.
-      submit: Ùraich am bacadh
       show: Seall am bacadh seo
       back: Seall a h-uile bacadh
       needs_view: Am bi aig a' chleachdaiche clàradh a-steach mus dèid am bacadh seo
@@ -2236,12 +2239,13 @@ gd:
       confirm: A bheil thu cinnteach gu bheil thu airson am bacadh seo a chùl-ghairm?
       revoke: Cùl-ghairm!
       flash: Chaidh am bacadh seo a chùl-ghairm.
-    period:
-      other: '%{count} uair a thìde'
     helper:
       time_future: Falbhaidh an ùine air an ceann %{time}.
       until_login: Gnìomhach gus an clàraich an cleachdaiche a-steach.
       time_past: Dh'fhalbh an ùine air o chionn %{time}.
+      block_duration:
+        hours:
+          other: '%{count} uair a thìde'
     blocks_on:
       title: Bacaidhean air %{name}
       heading: Liosta dhe na bacaidhean air %{name}
@@ -2253,8 +2257,6 @@ gd:
     show:
       title: Chaidh %{block_on} a bhacadh le %{block_by}
       heading: Chaidh %{block_on} a bhacadh le %{block_by}
-      time_future: Falbhaidh an ùine air an ceann %{time}
-      time_past: Dh'fhalbh an ùine air o chionn %{time}
       status: Staid
       show: Seall
       edit: Deasaich
@@ -2290,7 +2292,6 @@ gd:
       description: Tuairisgeul
       created_at: Air a chruthachadh
       last_changed: An t-atharrachadh mu dheireadh
-      ago_html: o chionn %{when}
   javascripts:
     close: Dùin
     share:
@@ -2399,7 +2400,6 @@ gd:
     edit:
       description: Tuairisgeul
       heading: Deasaich an t-ath-sgrùdadh
-      submit: Sàbhail an ath-sgrùdadh
       title: Deasaich an t-ath-sgrùdadh
     index:
       empty: Chan eil ath-sgrùdadh ri shealltainn ann.
@@ -2408,7 +2408,6 @@ gd:
     new:
       description: Tuairisgeul
       heading: Cuir a-steach fiosrachadh airson ath-sgrùdadh ùr
-      submit: Cruthaich ath-sgrùdadh
       title: A' cruthachadh ath-sgrùdadh ùr
     show:
       description: 'Tuairisgeul:'

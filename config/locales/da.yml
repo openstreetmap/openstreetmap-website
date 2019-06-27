@@ -35,10 +35,32 @@ da:
   time:
     formats:
       friendly: '%e. %B %Y kl. %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: Gem
+      diary_entry:
+        create: Offentliggør
+        update: Opdater
+      message:
+        create: Send
+      client_application:
+        create: Registrér
+        update: Redigér
+      redaction:
+        create: Opret omarbejdelse
+        update: Gem omarbejdelse
+      trace:
+        create: Upload
+        update: Gem ændringer
+      user_block:
+        create: Opret blokering
+        update: Opdater blokering
   activerecord:
     errors:
       messages:
         invalid_email_address: ser ikke ud til at være en gyldig e-mailadresse
+        email_address_not_routable: kan ikke rutes
     models:
       acl: Adgangskontrolliste
       changeset: Ændringssæt
@@ -318,7 +340,14 @@ da:
   diary_entries:
     new:
       title: Nyt blogindlæg
-      publish_button: Offentliggør
+    form:
+      subject: 'Emne:'
+      body: 'Indhold:'
+      language: 'Sprog:'
+      location: 'Position:'
+      latitude: 'Breddegrad:'
+      longitude: 'Længdegrad:'
+      use_map_link: brug kort
     index:
       title: Brugerblogs
       title_friends: Venners blogs
@@ -332,15 +361,7 @@ da:
       older_entries: Ældre indlæg
       newer_entries: Nyere indlæg
     edit:
-      title: Ret blogindlæg
-      subject: 'Emne:'
-      body: 'Indhold:'
-      language: 'Sprog:'
-      location: 'Position:'
-      latitude: 'Breddegrad:'
-      longitude: 'Længdegrad:'
-      use_map_link: brug kort
-      save_button: Gem
+      title: Rediger blogindlæg
       marker_text: Placering for blogindlæg
     show:
       title: '%{user}''s blog | %{title}'
@@ -348,7 +369,6 @@ da:
       leave_a_comment: Tilføj en kommentar
       login_to_leave_a_comment: '%{login_link} for at kommentere'
       login: Log på
-      save_button: Gem
     no_such_entry:
       title: Intet blogindlæg fundet
       heading: 'Intet indlæg med id: %{id}'
@@ -364,11 +384,13 @@ da:
         other: '%{count} kommentarer'
       edit_link: Rediger dette indlæg
       hide_link: Skjul dette indlæg
+      unhide_link: Skjul ikke længere dette indlæg
       confirm: Bekræft
       report: Rapporter dette indlæg
     diary_comment:
       comment_from: Kommentar fra %{link_user} skrevet %{comment_created_at}
       hide_link: Skjul denne kommentar
+      unhide_link: Skjul ikke længere denne kommentar
       confirm: Bekræft
       report: Rapporter denne kommentar
     location:
@@ -390,7 +412,6 @@ da:
       post: Indsend
       when: Hvornår
       comment: Kommentar
-      ago: '%{ago} siden'
       newer_comments: Nyere kommentarer
       older_comments: Ældre kommentarer
   geocoder:
@@ -1126,6 +1147,7 @@ da:
     partners_ucl: University College London
     partners_bytemark: Bytemark Hosting
     partners_partners: partnere
+    tou: Vilkår for anvendelse
     osm_offline: OpenStreetMap-databasen er for øjeblikket offline på grund af nødvendig
       databasevedligeholdelse.
     osm_read_only: OpenStreetMap databasen er for øjeblikket ikke redigerbar på grund
@@ -1286,7 +1308,6 @@ da:
       send_message_to: Send en ny besked til %{name}
       subject: Emne
       body: Brødtekst
-      send_button: Send
       back_to_inbox: Tilbage til indbakke
     create:
       message_sent: Besked sendt
@@ -1363,12 +1384,13 @@ da:
         den samme licens. Se siden om <a href='%{copyright_path}'>ophavsret og licens</a> for detaljer.
       legal_title: Juridisk
       legal_html: "Dette websted og mange andre relaterede tjenester er formelt drevet
-        af \n<a href=\"https://osmfoundation.org/\">OpenStreetMap Foundation</a> (OSMF)
-        på vegne af fællesskabet. Brug af alle OSMF-drevne tjenester er underlagt
-        vores <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">Politikker
+        af\n<a href=\"https://osmfoundation.org/\">OpenStreetMap Foundation</a> (OSMF)
+        på vegne af fællesskabet. Brug af samtlige OSMF-drevne tjenester er underlagt
+        vores <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">Brugsvilkår,
+        <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">Politikker
         for acceptabel brug</a> og vores <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">Privatlivs-poltik</a>.\n<br>
         \nDu bedes <a href=\"https://osmfoundation.org/Contact\">kontakte OSMF</a>
-        \nhvis du har spørgsmål om licenser, ophavsret eller andre juridiske spørgsmål
+        \nhvis du har spørgsmål om licensering, ophavsret eller andre juridiske spørgsmål
         og problemstillinger.\n<br>\nOpenStreetMap, forstørrelsesglas-logoet og \"State
         of the Map\" er <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">varemærker
         registreret af OSMF</a>."
@@ -1468,6 +1490,10 @@ da:
           <a href="http://www.gu.gov.si/en/">Opmålings- og Kortlægnings-myndigheden</a> og
           <a href="http://www.mkgp.gov.si/en/">Ministeriet for Landbrug, Skovbrug og Fødevarer</a>
           (offentlig information Slovenien).
+        contributors_es_html: |-
+          <strong>Spanien</strong>: Indeholder data fra Spanish National Geographic Institute (<a href="http://www.ign.es/">IGN</a>) og
+          National Cartographic System (<a href="http://www.scne.es/">SCNE</a>)
+          licenseret for videre brug under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
         contributors_za_html: |-
           <strong>Syd Afrika</strong>: Indeholder data fra
           <a href="http://www.ngi.gov.za/">Chief Directorate:
@@ -1475,7 +1501,7 @@ da:
         contributors_gb_html: |-
           <strong>Storbritannien</strong>: indeholder Ordnance
           Survey data &copy; Crown copyright and database right
-          2010-12.
+          2010-19.
         contributors_footer_1_html: |-
           For yderligere oplysninger om disse og andre kilder, der er blevet brugt for at hjælpe med at forbedre OpenStreetMap, se venligst <a
           href="https://wiki.openstreetmap.org/wiki/Contributors">siden med bidragsydere</a> på OpenStreetMap Wiki.
@@ -1726,7 +1752,7 @@ da:
       edit: Redigér
       preview: Forhåndsvisning
     markdown_help:
-      title_html: Fortolket med <a href="https://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Fortolket med <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Overskrifter
       heading: Overskrift
       subheading: Underoverskrift
@@ -1806,7 +1832,6 @@ da:
       visibility: 'Synlighed:'
       visibility_help: hvad betyder det her?
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
-      upload_button: Upload
       help: Hjælp
       help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
@@ -1835,7 +1860,6 @@ da:
       description: 'Beskrivelse:'
       tags: 'Egenskaber:'
       tags_help: kommasepareret
-      save_button: Gem ændringer
       visibility: 'Synlighed:'
       visibility_help: hvad betyder det her?
     update:
@@ -1869,7 +1893,6 @@ da:
     trace:
       pending: VENTENDE
       count_points: '%{count} punkter'
-      ago: '%{time_in_words_ago} siden'
       more: detaljer
       trace_details: Vis spordetaljer
       view_map: Vis kort
@@ -1956,10 +1979,8 @@ da:
   oauth_clients:
     new:
       title: Registrere en ny applikation
-      submit: Registrér
     edit:
       title: Redigere din applikation
-      submit: Redigér
     show:
       title: OAuth detaljer for %{app_name}
       key: 'Forbrugernøgle:'
@@ -2125,18 +2146,25 @@ da:
         wikiside</a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Vilkår for bidragsydere
-      heading: Vilkår for bidragsydere
-      read and accept: Læs aftalen nedenfor og tryk på "Accepter" for at bekræfte
-        at du accepterer betingelserne i denne aftale for dine eksisterende og fremtidige
-        bidrag.
-      consider_pd: I tillæg til ovennævnte aftale anser jeg mit bidrag for at være
-        fælleseje/frit for ophavsret
+      title: Vilkår
+      heading: Vilkår
+      heading_ct: Vilkår for bidragsydere
+      read and accept with tou: Læs venligst vilkårene for bidragsydere og brugsvilkårene,
+        marker begge flueben når du er færdig og tryk fortsæt.
+      contributor_terms_explain: Denne aftale beskriver vilkårene for dine eksisterende
+        og fremtidige bidrag.
+      read_ct: Jeg har læst og samtykker med de ovenstående vilkår for bidragsydere
+      tou_explain_html: Disse %{tou_link} beskriver vilkårene for brug af denne hjemmeside
+        og anden infrastruktur stillet til rådighed af OSMF. Klik venligst på linket,
+        læs og samtyk med vilkårene.
+      read_tou: Jeg har læst og samtykker med brugsvilkårene
+      consider_pd: I tillæg til ovennævnte anser jeg mit bidrag for at være fælleseje/frit
+        for ophavsret (public domain)
       consider_pd_why: hvad er dette?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Oplysninger til at hjælpe med at forstå disse udtryk: et <a href="%{summary}">menneskeligt
         læsbart sammendrag</a> og nogle <a href="%{translations}">uformelle oversættelser</a>'
-      agree: Acceptér
+      continue: Fortsæt
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Afslå
       you need to accept or decline: Læs og godkend eller afvis de nye vilkår for
@@ -2173,11 +2201,9 @@ da:
       remove as friend: Fjern som ven
       add as friend: Tilføj som ven
       mapper since: 'Kortlægger siden:'
-      ago: (%{time_in_words_ago} siden)
       ct status: 'Vilkår for bidragsydere:'
       ct undecided: Uafklaret
       ct declined: Afslået
-      ct accepted: Accepteret for %{ago} siden
       latest edit: 'Seneste ændring %{ago}:'
       email address: 'E-mailadresse:'
       created from: 'Oprettet fra:'
@@ -2401,7 +2427,6 @@ da:
         meddelelsen bliver offentligt synlig. Tænk på, at ikke alle brugerer forstår
         fællesskabsjargonen, så prøv at bruge hverdags udtryk.
       period: Hvor længe, fra og med nu, brugeren vil blive blokeret fra API.
-      submit: Opret blokering
       tried_contacting: Jeg har kontaktet brugeren og bedt dem stoppe.
       tried_waiting: Jeg har givet en rimelig tidsfrist for brugeren til at reagere
         på disse meddelelser.
@@ -2415,7 +2440,6 @@ da:
         ikke alle brugerer forstår fællesskabsjargonen, så prøv at bruge hverdags
         udtryk.
       period: Hvor længe, fra og med nu, brugeren vil blive blokeret fra API.
-      submit: Opdater blokering
       show: Vis denne blokering
       back: Vis alle blokeringer
       needs_view: Skal brugeren logge på, før denne blokering vil blive fjernet?
@@ -2445,15 +2469,28 @@ da:
       confirm: Er du sikker på du vil tilbagekalde denne blokering?
       revoke: Tilbagekald!
       flash: Denne blokering er blevet tilbagekaldt.
-    period:
-      one: 1 time
-      other: '%{count} timer'
     helper:
       time_future: Slutter om %{time}.
       until_login: Aktiv, indtil brugeren logger på.
       time_future_and_until_login: Slutter om %{time} og efter brugeren er logget
         ind.
       time_past: Sluttede %{time} siden.
+      block_duration:
+        hours:
+          one: 1 time
+          other: '%{count} timer'
+        days:
+          one: 1 dag
+          other: '%{count} dage'
+        weeks:
+          one: 1 uge
+          other: '%{count} uger'
+        months:
+          one: 1 måned
+          other: '%{count} måneder'
+        years:
+          one: 1 år
+          other: '%{count} år'
     blocks_on:
       title: Blokeringer af %{name}
       heading: Liste over blokeringer af %{name}
@@ -2465,10 +2502,7 @@ da:
     show:
       title: '%{block_on} blokeret af %{block_by}'
       heading: '%{block_on} blokeret af %{block_by}'
-      time_future: Slutter om %{time}
-      time_past: Sluttede %{time} siden
       created: Oprettet
-      ago: '%{time} siden'
       status: Status
       show: Vis
       edit: Redigér
@@ -2502,7 +2536,6 @@ da:
       description: Beskrivelse
       created_at: Oprettet den
       last_changed: Sidst ændret
-      ago_html: '%{when} siden'
   javascripts:
     close: Luk
     share:
@@ -2552,6 +2585,7 @@ da:
         title: Lag
       copyright: © <a href='%{copyright_url}'>OpenStreetMap-bidragsydere</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Lav en donation</a>
+      terms: <a href='%{terms_url}' target='_blank'>Hjemmeside og API-vilkår</a>
     site:
       edit_tooltip: Rediger kortet
       edit_disabled_tooltip: Zoom ind for at redigere kortet
@@ -2589,7 +2623,9 @@ da:
     directions:
       ascend: Stigning
       engines:
+        fossgis_osrm_bike: Cykel (OSRM)
         fossgis_osrm_car: Bil (OSRM)
+        fossgis_osrm_foot: Til fods (OSRM)
         graphhopper_bicycle: Cykel (GraphHopper)
         graphhopper_car: Bil (GraphHopper)
         graphhopper_foot: Til fods (GrapHopper)
@@ -2693,7 +2729,6 @@ da:
     edit:
       description: Beskrivelse
       heading: Rediger omarbejdelse
-      submit: Gem omarbejdelse
       title: Rediger omarbejdelse
     index:
       empty: Ingen omarbejdelser at vise.
@@ -2702,7 +2737,6 @@ da:
     new:
       description: Beskrivelse
       heading: Angiv oplysninger om ny omarbejdelse
-      submit: Opret omarbejdelse
       title: Opretter ny omarbejdelse
     show:
       description: 'Beskrivelse:'

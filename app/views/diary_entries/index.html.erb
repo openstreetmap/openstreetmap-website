@@ -13,13 +13,13 @@
       <% if @user %>
         <% if @user == current_user %>
           <div>
-            <li><%= link_to image_tag("new.png", :class => "small_icon", :border => 0) + t(".new"), diary_new_path, :title => t(".new_title") %></li>
+            <li><%= link_to image_tag("new.png", :class => "small_icon", :border => 0) + t(".new"), new_diary_entry_path, :title => t(".new_title") %></li>
           </div>
         <% end %>
       <% else %>
         <% if current_user %>
           <div>
-            <li><%= link_to image_tag("new.png", :class => "small_icon", :border => 0) + t(".new"), diary_new_path, :title => t(".new_title") %></li>
+            <li><%= link_to image_tag("new.png", :class => "small_icon", :border => 0) + t(".new"), new_diary_entry_path, :title => t(".new_title") %></li>
           </div>
         <% end %>
       <% end %>
@@ -32,11 +32,7 @@
 <% else %>
   <h4><%= t ".recent_entries" %></h4>
 
-  <% if @user %>
-    <%= render :partial => "diary_entry", :collection => @entries %>
-  <% else %>
-    <%= render :partial => "diary_index_entry", :collection => @entries %>
-  <% end %>
+  <%= render @entries %>
 
   <div class="pagination">
     <% if @entries.size < @page_size -%>

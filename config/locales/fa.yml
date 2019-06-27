@@ -12,6 +12,7 @@
 # Author: Danialbehzadi
 # Author: Dr jackie
 # Author: Ebraminio
+# Author: FarsiNevis
 # Author: Fatemi127
 # Author: Grille chompa
 # Author: Hooshmand.hasannia
@@ -40,6 +41,27 @@ fa:
   time:
     formats:
       friendly: '%e %B %Y ساعت %H:%M'
+  helpers:
+    submit:
+      diary_comment:
+        create: ذخیره
+      diary_entry:
+        create: انتشار
+        update: روزآمدسازی
+      message:
+        create: ارسال
+      client_application:
+        create: ثبت نام
+        update: ویرایش
+      redaction:
+        create: ایجاد پاک‌سازی
+        update: ذخیره ویرایش
+      trace:
+        create: بارگذاری
+        update: ذخیرهٔ تغییرات
+      user_block:
+        create: ایجاد مسدودی
+        update: روزآمدسازی مسدودی
   activerecord:
     errors:
       messages:
@@ -139,8 +161,8 @@ fa:
         reopened_at_by_html: دوباره فعال شده %{when} قبل توسط %{user}
       rss:
         title: یادداشت‌های OpenStreetMap
-        description_area: 'لیستی از یادداشت‌ها: گزارش‌شده‌ها، نظردارها یا بسته‌شده
-          در منطقه شما [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]'
+        description_area: 'لیستی از یادداشت‌ها: گزارش‌شده، نظردار یا بسته‌شده در منطقهٔ
+          شما [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]'
         description_item: خوراک rss برای یادداشت %{id}
         opened: یادداشت تازه (نزدیک %{place})
         commented: نظر تازه (نزدیک %{place})
@@ -163,7 +185,7 @@ fa:
     version: نسخه
     in_changeset: بستهٔ تغییر
     anonymous: ناشناس
-    no_comment: (بدون نظر)
+    no_comment: (بدون توضیح)
     part_of: بخشی از
     download_xml: دانلود XML
     view_history: نمایش تاریخچه
@@ -219,7 +241,7 @@ fa:
         node: گره
         way: راه
         relation: رابطه
-        changeset: تغییر انجام شده
+        changeset: بستهٔ تغییر
         note: یادداشت
     timeout:
       sorry: شوربختانه بازیابی دادهٔ مربوط به %{type} با شناسهٔ %{id}، خیلی زمان‌بر
@@ -228,7 +250,7 @@ fa:
         node: گره
         way: راه
         relation: رابطه
-        changeset: تغییر انجام شده
+        changeset: بستهٔ تغییر
         note: یادداشت
     redacted:
       redaction: پاک‌سازی %{id}
@@ -303,7 +325,7 @@ fa:
       empty_area: هیچ بستهٔ تغییری برای این ناحیه وجود ندارد.
       empty_user: این کاربر هیچ بستهٔ تغییری ندارد.
       no_more: بستهٔ تغییر بیشتری یافت نشد.
-      no_more_area: بستهٔ تغییر بیشتری برای این ناحیه یافت نشد.
+      no_more_area: بستهٔ تغییر دیگری برای این ناحیه یافت نشد.
       no_more_user: این کاربر بیش از این بستهٔ تغییری ندارد.
       load_more: بارگیری بیشتر
     timeout:
@@ -311,7 +333,7 @@ fa:
   changeset_comments:
     comment:
       comment: نظر جدید دربارهٔ بستهٔ تغییر %{changeset_id} از %{author}
-      commented_at_by_html: '%{when} پیش %{user} آن را به‌روز کرد'
+      commented_at_by_html: روزآمد شده %{when} قبل توسط %{user}
     comments:
       comment: نظر جدید دربارهٔ بستهٔ تغییر %{changeset_id} از %{author}
     index:
@@ -322,7 +344,14 @@ fa:
   diary_entries:
     new:
       title: روزنوشت جدید
-      publish_button: انتشار
+    form:
+      subject: 'موضوع:'
+      body: 'متن:'
+      language: 'زبان:'
+      location: 'مکان:'
+      latitude: 'عرض جغرافیایی:'
+      longitude: 'طول جغرافیایی:'
+      use_map_link: استفاده از نقشه
     index:
       title: روزنوشت‌های کاربران
       title_friends: روزنوشت‌های دوستان
@@ -337,14 +366,6 @@ fa:
       newer_entries: روزنوشت‌های جدیدتر
     edit:
       title: ویرایش روزنوشت
-      subject: 'موضوع:'
-      body: 'متن:'
-      language: 'زبان:'
-      location: 'مکان:'
-      latitude: 'عرض جغرافیایی:'
-      longitude: 'طول جغرافیایی:'
-      use_map_link: استفاده از نقشه
-      save_button: ذخیره
       marker_text: مکان روزنوشت
     show:
       title: روزنوشت %{user} |‏ %{title}
@@ -352,7 +373,6 @@ fa:
       leave_a_comment: نظرتان را بنویسید
       login_to_leave_a_comment: برای نظردادن %{login_link}
       login: وارد شوید
-      save_button: ذخیره
     no_such_entry:
       title: چنین روزنوشتی وجود ندارد
       heading: روزنوشتی با شناسهٔ %{id} وجود ندارد
@@ -392,10 +412,9 @@ fa:
         description: ‫روزنوشت‌های تازه از کاربران OpenStreetMap‬
     comments:
       has_commented_on: '%{display_name} روی این روزنوشت‌ها نظر داده'
-      post: ارسال
+      post: روزنوشت
       when: زمان
       comment: نظر
-      ago: '%{ago} قبل'
       newer_comments: نظرات جدیدتر
       older_comments: نظرات قدیمی‌تر
   geocoder:
@@ -797,7 +816,7 @@ fa:
         railway:
           abandoned: راه‌آهن رهاشده
           construction: راه‌آهن در دست ساخت
-          disused: راه‌آهن منسوخ
+          disused: راه‌آهن بی‌استفاده
           funicular: راه‌آهن کابلی
           halt: ایستگاه قطار
           junction: اتصال راه‌آهن
@@ -970,16 +989,16 @@ fa:
       title: موضوع‌ها
       select_status: انتخاب وضعیت
       select_type: انتخاب نوع
-      select_last_updated_by: انتخاب آخرین به‌روزرسانی توسط
+      select_last_updated_by: انتخاب آخرین روزآمدسازی توسط
       reported_user: کاربر گزارش‌شده
-      not_updated: به‌روزرسانی نشد
+      not_updated: روزآمد نشد
       search: جستجو
       search_guidance: 'جستجوی موضوع:'
       user_not_found: کاربر وجود ندارد
       issues_not_found: این موضوع یافت نشد
       status: وضعیت
       reports: گزارش‌ها
-      last_updated: آخرین به‌روزرسانی
+      last_updated: آخرین روزآمدسازی
       last_updated_time_html: <abbr title='%{title}'>%{time} پیش</abbr>
       last_updated_time_user_html: <abbr title='%{title}'>%{time} پیش</abbr> توسط
         %{user}
@@ -994,7 +1013,7 @@ fa:
         resolved: حل شده
     update:
       new_report: گزارشتان با موفقیت ثبت شد
-      successful_update: گزارشتان با موفقیت به‌روز شد
+      successful_update: گزارشتان با موفقیت روزآمد شد
       provide_details: لطفاً جزئیات لازم را ارائه دهید
     show:
       reports:
@@ -1102,6 +1121,7 @@ fa:
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: شرکای تجاری
+    tou: شرایط استفاده
     osm_offline: دیتابیس OpenStreetMap در حال حاضر آفلاین است در حالی که کار تعمیر
       و نگهداری دیتابیس ضروری انجام میگیرد.
     osm_read_only: دیتابیس OpenStreetMap در حال حاضر روی حالت فقط خواندنی است در حالی
@@ -1143,7 +1163,7 @@ fa:
       befriend_them: 'همچنین می‌توانید از اینجا او را به‌عنوان دوست اضافه کنید: %{befriendurl}'
     gpx_notification:
       greeting: سلام،
-      your_gpx_file: به‌نظر می‌رسد فایل GPX شما
+      your_gpx_file: به‌نظر می‌رسد فایل جی‌پی‌اکس شما
       with_description: 'با این توضیحات:'
       and_the_tags: 'و برچسب‌های زیر:'
       and_no_tags: و بدون برچسب.
@@ -1239,7 +1259,7 @@ fa:
   messages:
     inbox:
       title: صندوق دریافت
-      my_inbox: صندوق دریافت من
+      my_inbox: صندوق دریافت
       outbox: صندوق ارسال
       messages: شما %{new_messages} و %{old_messages} دارید
       new_messages:
@@ -1264,7 +1284,6 @@ fa:
       send_message_to: فرستادن پیام تازه به %{name}
       subject: عنوان
       body: متن
-      send_button: ارسال
       back_to_inbox: بازگشت به صندوق دریافت
     create:
       message_sent: پیام فرستاده شد
@@ -1276,7 +1295,7 @@ fa:
       body: متأسفانه هیچ پیامی با این شناسه وجود ندارد.
     outbox:
       title: صندوق ارسال
-      my_inbox: '%{inbox_link} من'
+      my_inbox: '%{inbox_link}'
       inbox: صندوق دریافت
       outbox: صندوق ارسال
       messages:
@@ -1342,8 +1361,8 @@ fa:
         حق‌نشر و پروانه</a> را ببینید.'
       legal_title: قانونی
       legal_html: |-
-        این سایت و خدمات فراوان دیگری که به آن وابسته‌اند به‌طور رسمی و به‌نمایندگی از جامعه توسط <a href='https://osmfoundation.org/'>بنیاد OpenStreetMap</a> ‏(OSMF) هدایت می‌شود. استفاده از همهٔ خدماتی که تحت رهبری OSMF قرار دارد منوط به <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
-        پذیرش سیاست‌های استفاده</a> و <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">سیاست حریم خصوصی</a> ماست.
+        این سایت و خدمات فراوان دیگری که به آن وابسته‌اند به‌طور رسمی و به‌نمایندگی از جامعه توسط <a href='https://osmfoundation.org/'>بنیاد OpenStreetMap</a> ‏(OSMF) هدایت می‌شود. استفاده از همهٔ خدماتی که تحت رهبری OSMF قرار دارد منوط به پذیرش <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        سیاست استفادهٔ قابل‌قبول</a>، <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">شرایط استفاده</a> و <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">سیاست حریم خصوصی</a> ماست.
         <br>
         اگر در رابطه با پروانه، حق‌نشر یا سایر موارد قانونی سؤالی دارید لطفاً <a href='https://osmfoundation.org/Contact'>با OSMF تماس بگیرید</a>.
         <br>
@@ -1446,7 +1465,7 @@ fa:
           Information</a>، حق‌نشر State محفوظ است."
         contributors_gb_html: |-
           <strong>پادشاهی بریتانیا</strong>: شامل داده‌های Ordnance
-          Survey &copy;‏ حق‌نشر و حق پایگاه‌داده Crown‏ ۲۰۱۰-۱۲.
+          Survey &copy;‏ حق‌نشر و حق پایگاه‌داده Crown‏ ۲۰۱۰-۱۹.
         contributors_footer_1_html: |-
           برای اطلاعات بیشتر درباره این‌ها و سایر منابعی که برای پیشرفت اوپن‌استریت‌مپ استفاده شده، لطفاً <a
           href="https://wiki.openstreetmap.org/wiki/Contributors">صفحهٔ مشارکت‌کنندگان</a> را در ویکی ببینید.
@@ -1526,8 +1545,8 @@ fa:
           description: دریافت این محدوده از یکی از آینه‌های پایگاه‌دادهٔ OpenStreetMap
         geofabrik:
           title: دانلودهای Geofabrik
-          description: داده‌های قاره‌ها، کشورها، و شهرهای برگزیده که به‌طور منظم به‌روز
-            می‌شود
+          description: گزیدهٔ اطلاعات قاره‌ها، کشورها، و شهرهای منتخب که به‌طور منظم
+            روزآمد می‌شود
         metro:
           title: خلاصه های مترو
           description: خلاصه هایی برای شهرهای بزرگ جهان و مناطق اطرافشان
@@ -1773,7 +1792,6 @@ fa:
       visibility: 'پدیداری:'
       visibility_help: این چیست؟
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Fa:Visibility_of_GPS_traces
-      upload_button: بارگذاری
       help: کمک
       help_url: https://wiki.openstreetmap.org/wiki/Fa:Upload
     create:
@@ -1802,12 +1820,11 @@ fa:
       description: 'شرح:'
       tags: 'برچسب‌ها:'
       tags_help: جداشده با کاما (,)
-      save_button: ذخیرهٔ تغییرات
       visibility: 'پدیداری:'
       visibility_help: این چیست؟
       visibility_help_url: https://wiki.openstreetmap.org/wiki/Fa:Visibility_of_GPS_traces
     update:
-      updated: رد به‌روز شد
+      updated: رد روزآمد شد
     trace_optionals:
       tags: برچسب‌ها
     show:
@@ -1837,7 +1854,6 @@ fa:
     trace:
       pending: در انتظار
       count_points: ‏%{count} نقطه
-      ago: '%{time_in_words_ago} پیش'
       more: بیشتر
       trace_details: مشاهده جزئیات رد
       view_map: نمایش نقشه
@@ -1856,9 +1872,9 @@ fa:
       public_traces_from: ردهای GPS عمومی از %{user}
       description: مرور آخرین ردهای GPS بارگذاری‌شده
       tagged_with: ' با برچسب %{tags}'
-      empty_html: هنوز چیزی اینجا نیست. <a href='%{upload_link}'> رد جدیدی بارگذاری
-        کنید</a> یا در <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>صفحه
-        ی ویکی</a> درباره ضبط ردهای GPS بیشتر بخوانید.
+      empty_html: اینجا هنوز چیزی نیست. <a href='%{upload_link}'> رد جدیدی بارگذاری
+        کنید</a> یا در <a href='https://wiki.openstreetmap.org/wiki/Fa:Upload_GPS_tracks'>صفحهٔ
+        ویکی</a> دربارهٔ ضبط ردهای GPS بیشتر بخوانید.
       upload_trace: بارگذاری یک رد
       see_all_traces: دیدن همه ردها
       see_my_traces: ردهای من
@@ -1922,10 +1938,8 @@ fa:
   oauth_clients:
     new:
       title: ثبت‌نام یک برنامهٔ تازه
-      submit: ثبت نام
     edit:
       title: ویرایش برنامه تان
-      submit: ویرایش
     show:
       title: جزئیات OAuth برای %{app_name}
       key: 'کلید مصرف کننده:'
@@ -1978,7 +1992,7 @@ fa:
     create:
       flash: اطلاعات با موفقیت ثبت شد
     update:
-      flash: به‌روزرسانی اطلاعات کارخواه موفقیت‌آمیز بود
+      flash: اطلاعات کارخواه با موفقیت روزآمد شد
     destroy:
       flash: ثبت‌نام برنامه کارخواه از بین رفت
   users:
@@ -2092,18 +2106,18 @@ fa:
         اطلاعات بیشتر، <a href="%{url}">این صفحه ویکی</a>را ببینید.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: شرایط مشارکت‌کننده
-      heading: شرایط مشارکت‌کننده
-      read and accept: لطفاً توافقنامه را بخوانید و دکمهٔ «می‌پذیرم» را برگزینید تا
-        تأیید کنید که با شرایط این توافق‌نامه دربارهٔ مشارکت‌های موجود و آیندهٔ خود
-        موافق هستید.
-      consider_pd: علاوه بر توافق‌نامهٔ بالا، می‌پذیرم که مشارکت‌هایم در مالکیت عمومی
-        باشد.
+      title: شرایط
+      heading: شرایط
+      heading_ct: شرایط مشارکت‌کننده
+      read and accept with tou: لطفاً توافق‌نامهٔ مشارکت‌کننده و شرایط استفاده را
+        مطالعه کنید و هر دو گزینه را علامت بزنید و سپس روی دکمهٔ ادامه کلیک کنید.
+      read_ct: شرایط مشارکت‌کننده را خواندم و با آن موافق هستم
+      read_tou: شرایط استفاده را خواندم و با آن موافق هستم
+      consider_pd: علاوه بر موارد بالا، می‌پذیرم که مشارکت‌هایم در مالکیت عمومی باشد.
       consider_pd_why: این چیست؟
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'اطلاعاتی برای کمک به درک این شرایط: <a href="%{summary}">خلاصهٔ خوانا
         برای انسان</a>و برخی از <a href="%{translations}">ترجمه‌های غیررسمی</a>'
-      agree: می‌پذیرم
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: نمی‌پذیرم
       you need to accept or decline: برای ادامه لطفاً بخوانید و سپس شرایط شرکت کنندهٔ
@@ -2140,11 +2154,9 @@ fa:
       remove as friend: لغو دوستی
       add as friend: افزودن دوست
       mapper since: 'آغاز نقشه‌کشی از:'
-      ago: (%{time_in_words_ago} پیش)
       ct status: 'شرایط مشارکت‌کننده:'
       ct undecided: بلاتکلیف
       ct declined: رد شده
-      ct accepted: '%{ago} پیش پذیرفته شد'
       latest edit: 'آخرین ویرایش %{ago}:'
       email address: 'نشانی ایمیل:'
       created from: 'ایجادشده از:'
@@ -2236,7 +2248,7 @@ fa:
         link text: این چیست؟
         disabled: گرآواتار غیرفعال شده است.
         enabled: نمایش گرآواتار شما فعال شد.
-      new image: افزون تصویر
+      new image: افزودن تصویر
       keep image: نگه‌داشتن تصویر فعلی
       delete image: حذف تصویر فعلی
       replace image: ' تصویر فعلی را جایگزین کنید'
@@ -2352,7 +2364,7 @@ fa:
         کاربر و نقش هر دو معتبر هستند.
   user_blocks:
     model:
-      non_moderator_update: برای به‌روزرسانی یا ایجاد مسدودی باید مدیر بود.
+      non_moderator_update: برای ایجاد یا روزامدسازیِ یک مسدودی باید مدیر باشید.
       non_moderator_revoke: برای لغو یک مسدودی باید مدیر بود.
     not_found:
       sorry: پوزش، مسدودی کاربر با شناسه %{id} یافت نشد.
@@ -2364,7 +2376,6 @@ fa:
         این دلیل مسدودشدن کاربری %{name} است. لطفاً خونسرد و منطقی باشید و هرچه می‌توانید به‌شکل جزئی‌تر اوضاع را شرح دهید و همچنین به یاد داشته باشید که پیام شما به‌طور عمومی قابل مشاهده است.
         در نظر داشته باشید که همهٔ کاربران اصطلاحات تخصصی جامعه را نمی‌فهمند، لطفاً سعی کنید واژه‌هایی که استفاده می‌کنید غیرتخصصی باشد.
       period: مدت‌زمان مسدودی کاربر از API (شروع از حالا).
-      submit: ایجاد مسدودی
       tried_contacting: من با کاربر تماس گرفتم و از او درخواست کردم دست نگه دارد.
       tried_waiting: من مقدار مناسبی زمان را به کاربر دادم تا به این ارتباط پاسخ دهد.
       needs_view: برای پاک‌شدن این مسدودی کاربر باید وارد حسابش شود.
@@ -2377,7 +2388,6 @@ fa:
         اصطلاحات تخصصی جامعه را نمی‌فهمند، لطفاً سعی کنید واژه‌هایی که استفاده می‌کنید
         غیرتخصصی باشد.
       period: مدت‌زمان مسدودی کاربر از API (شروع از حالا).
-      submit: به‌روزرسانی مسدودی
       show: مشاهده این مسدودی
       back: دیدن تمام مسدودی‌ها
       needs_view: آیا قبل از پاک‌شدن این مسدودی، کاربر باید وارد حساب کاربری شود؟
@@ -2393,7 +2403,7 @@ fa:
     update:
       only_creator_can_edit: فقط مدیری که این مسدودی را ایجاد کرده می‌تواند آن را
         ویرایش کند.
-      success: مسدودی به‌روزرسانی شد.
+      success: مسدودی روزآمد شد.
     index:
       title: مسدودی‌های کاربر
       heading: لیست مسدودی‌های کاربری
@@ -2406,19 +2416,20 @@ fa:
       confirm: مطمئنید می‌خواهید این مسدودی را لغو کنید؟
       revoke: باطل شود!
       flash: این مسدودی لغو شد.
-    period:
-      one: 1 ساعت
-      other: '%{count} ساعت'
     helper:
       time_future: '%{time} دیگر پایان می‌یابد.'
       until_login: تا وقتی کاربر وارد شود فعال می‌ماند.
       time_future_and_until_login: '%{time} دیگر و پس از ورود به حساب کاربری پایان
         می‌یابد.'
       time_past: '%{time} پیش پایان یافت.'
+      block_duration:
+        hours:
+          one: 1 ساعت
+          other: '%{count} ساعت'
     blocks_on:
       title: مسدودی‌های کاربری %{name}
       heading: فهرست مسدودی‌های %{name}
-      empty: '%{name} تاکنون مسدود نبوده.'
+      empty: '%{name} تاکنون مسدود نشده است.'
     blocks_by:
       title: مسدودسازی‌های %{name}
       heading: فهرست مسدودسازی‌های %{name}
@@ -2426,10 +2437,7 @@ fa:
     show:
       title: '%{block_on} توسط %{block_by} مسدود شده'
       heading: '%{block_on} توسط %{block_by} مسدود شده'
-      time_future: '%{time} دیگر پایان می‌یابد'
-      time_past: '%{time} پیش پایان یافت'
       created: زمان ایجاد
-      ago: '%{time} پیش'
       status: وضعیت
       show: نمایش
       edit: ویرایش
@@ -2446,10 +2454,10 @@ fa:
       revoke: باطل شود!
     blocks:
       display_name: کاربر مسدود
-      creator_name: ایجاد کننده
+      creator_name: ایجادکننده
       reason: دلیل مسدودی
       status: وضعیت
-      revoker_name: باطل شده توسط
+      revoker_name: باطل‌کننده
       showing_page: صفحهٔ %{page}
       next: بعدی »
       previous: « قبلی
@@ -2459,11 +2467,10 @@ fa:
       heading: یادداشت‌های %{user}
       subheading_html: یادداشت‌هایی که %{user} ارسال کرده یا روی آن‌ها نظر داده
       id: شناسه
-      creator: ایجاد کننده
+      creator: ایجادکننده
       description: شرح
       created_at: ایجاد شده در
       last_changed: آخرین تغییر
-      ago_html: '%{when} پیش'
   javascripts:
     close: بستن
     share:
@@ -2513,6 +2520,7 @@ fa:
         title: لایه‌ها
       copyright: © <a href='%{copyright_url}'>مشارکت‌کنندگان OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>کمک مالی</a>
+      terms: <a href='%{terms_url}' target='_blank'>شرایط وبسایت و API</a>
     site:
       edit_tooltip: ویرایش نقشه
       edit_disabled_tooltip: برای ویرایش نقشه بزرگنمایی کنید
@@ -2538,8 +2546,8 @@ fa:
           اطلاعات برداشت‌شده از منابع دارای حق‌نشر را اینجا ننویسید.
         add: افزودن یادداشت
       show:
-        anonymous_warning: این یادداشت شامل نظرات کاربران ناشناس است که باید به‌طور
-          مستقل تأیید شوند.
+        anonymous_warning: این یادداشت حاوی نظر کاربران ناشناس است و باید به‌طور مستقل
+          راستی‌آزمایی شوند.
         hide: نهفتن
         resolve: حل شد
         reactivate: فعال سازی مجدد
@@ -2637,7 +2645,6 @@ fa:
     edit:
       description: شرح
       heading: ویرایش پاک‌سازی
-      submit: ذخیره ویرایش
       title: ویرایش پاک‌سازی
     index:
       empty: ویرایشی برای نشان دادن نیست.
@@ -2646,13 +2653,12 @@ fa:
     new:
       description: شرح
       heading: اطلاعات پاک‌سازی جدید را وارد کنید
-      submit: ایجاد پاک‌سازی
       title: ایجاد پاک‌سازی جدید
     show:
       description: 'شرح:'
       heading: نمایش پاک‌سازی %{title}
       title: نمایش دادن ویرایش
-      user: 'ایجاد کننده:'
+      user: 'ایجادکننده:'
       edit: ویرایش این پاک‌سازی
       destroy: حذف این ویرایش
       confirm: آیا مطمئن هستید؟

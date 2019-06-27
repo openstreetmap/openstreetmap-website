@@ -1,4 +1,4 @@
-class AddUserImage < ActiveRecord::Migration[5.0]
+class AddUserImage < ActiveRecord::Migration[4.2]
   def self.up
     add_column "users", "image", :text
   end

@@ -1,6 +1,6 @@
 require "migrate"
 
-class TileNodes < ActiveRecord::Migration[5.0]
+class TileNodes < ActiveRecord::Migration[4.2]
   def self.upgrade_table(from_table, to_table, model)
     if ENV["USE_DB_FUNCTIONS"]
       execute <<-SQL

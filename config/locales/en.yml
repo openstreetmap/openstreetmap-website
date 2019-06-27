@@ -5,6 +5,29 @@ en:
     formats:
       friendly: "%e %B %Y at %H:%M"
       blog: "%e %B %Y"
+  helpers:
+    submit:
+      diary_comment:
+        create: Save
+      diary_entry:
+        create: "Publish"
+        update: "Update"
+      issue_comment:
+        create: Add Comment
+      message:
+        create: Send
+      client_application:
+        create: Register
+        update: Edit
+      redaction:
+        create: Create redaction
+        update: Save redaction
+      trace:
+        create: Upload
+        update: Save Changes
+      user_block:
+        create: Create block
+        update: Update block
   activerecord:
     errors:
       messages:
@@ -80,6 +103,45 @@ en:
         description: "Description"
         languages: "Languages"
         pass_crypt: "Password"
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: about 1 hour ago
+        other: about %{count} hours ago
+      about_x_months:
+        one: about 1 month ago
+        other: about %{count} months ago
+      about_x_years:
+        one: about 1 year ago
+        other: about %{count} years ago
+      almost_x_years:
+        one: almost 1 year ago
+        other: almost %{count} years ago
+      half_a_minute: half a minute ago
+      less_than_x_seconds:
+        one: less than 1 second ago
+        other: less than %{count} seconds ago
+      less_than_x_minutes:
+        one: less than a minute ago
+        other: less than %{count} minutes ago
+      over_x_years:
+        one: over 1 year ago
+        other: over %{count} years ago
+      x_seconds:
+        one: 1 second ago
+        other: "%{count} seconds ago"
+      x_minutes:
+        one: 1 minute ago
+        other: "%{count} minutes ago"
+      x_days:
+        one: 1 day ago
+        other: "%{count} days ago"
+      x_months:
+        one: 1 month ago
+        other: "%{count} months ago"
+      x_years:
+        one: 1 year ago
+        other: "%{count} years ago"
   printable_name:
     with_id: "%{id}"
     with_version: "%{id}, v%{version}"
@@ -101,14 +163,14 @@ en:
   api:
     notes:
       comment:
-        opened_at_html: "Created %{when} ago"
-        opened_at_by_html: "Created %{when} ago by %{user}"
-        commented_at_html: "Updated %{when} ago"
-        commented_at_by_html: "Updated %{when} ago by %{user}"
-        closed_at_html: "Resolved %{when} ago"
-        closed_at_by_html: "Resolved %{when} ago by %{user}"
-        reopened_at_html: "Reactivated %{when} ago"
-        reopened_at_by_html: "Reactivated %{when} ago by %{user}"
+        opened_at_html: "Created %{when}"
+        opened_at_by_html: "Created %{when} by %{user}"
+        commented_at_html: "Updated %{when}"
+        commented_at_by_html: "Updated %{when}by %{user}"
+        closed_at_html: "Resolved %{when}"
+        closed_at_by_html: "Resolved %{when} by %{user}"
+        reopened_at_html: "Reactivated %{when}"
+        reopened_at_by_html: "Reactivated %{when} by %{user}"
       rss:
         title: "OpenStreetMap Notes"
         description_area: "A list of notes, reported, commented on or closed in your area [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]"
@@ -123,12 +185,12 @@ en:
   browse:
     created: "Created"
     closed: "Closed"
-    created_html: "Created <abbr title='%{title}'>%{time} ago</abbr>"
-    closed_html: "Closed <abbr title='%{title}'>%{time} ago</abbr>"
-    created_by_html: "Created <abbr title='%{title}'>%{time} ago</abbr> by %{user}"
-    deleted_by_html: "Deleted <abbr title='%{title}'>%{time} ago</abbr> by %{user}"
-    edited_by_html: "Edited <abbr title='%{title}'>%{time} ago</abbr> by %{user}"
-    closed_by_html: "Closed <abbr title='%{title}'>%{time} ago</abbr> by %{user}"
+    created_html: "Created <abbr title='%{title}'>%{time}</abbr>"
+    closed_html: "Closed <abbr title='%{title}'>%{time}</abbr>"
+    created_by_html: "Created <abbr title='%{title}'>%{time}</abbr> by %{user}"
+    deleted_by_html: "Deleted <abbr title='%{title}'>%{time}</abbr> by %{user}"
+    edited_by_html: "Edited <abbr title='%{title}'>%{time}</abbr> by %{user}"
+    closed_by_html: "Closed <abbr title='%{title}'>%{time}</abbr> by %{user}"
     version: "Version"
     in_changeset: "Changeset"
     anonymous: "anonymous"
@@ -148,8 +210,8 @@ en:
       relation: "Relations (%{count})"
       relation_paginated: "Relations (%{x}-%{y} of %{count})"
       comment: "Comments (%{count})"
-      hidden_commented_by: "Hidden comment from %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      commented_by: "Comment from %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
+      hidden_commented_by: "Hidden comment from %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
+      commented_by: "Comment from %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
       changesetxml: "Changeset XML"
       osmchangexml: "osmChange XML"
       feed:
@@ -224,15 +286,15 @@ en:
       open_title: "Unresolved note #%{note_name}"
       closed_title: "Resolved note #%{note_name}"
       hidden_title: "Hidden note #%{note_name}"
-      open_by: "Created by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      open_by_anonymous: "Created by anonymous <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      commented_by: "Comment from %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      commented_by_anonymous: "Comment from anonymous <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      closed_by: "Resolved by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      closed_by_anonymous: "Resolved by anonymous <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      reopened_by: "Reactivated by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      reopened_by_anonymous: "Reactivated by anonymous <abbr title='%{exact_time}'>%{when} ago</abbr>"
-      hidden_by: "Hidden by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
+      open_by: "Created by %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
+      open_by_anonymous: "Created by anonymous <abbr title='%{exact_time}'>%{when}</abbr>"
+      commented_by: "Comment from %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
+      commented_by_anonymous: "Comment from anonymous <abbr title='%{exact_time}'>%{when}</abbr>"
+      closed_by: "Resolved by %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
+      closed_by_anonymous: "Resolved by anonymous <abbr title='%{exact_time}'>%{when}</abbr>"
+      reopened_by: "Reactivated by %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
+      reopened_by_anonymous: "Reactivated by anonymous <abbr title='%{exact_time}'>%{when}</abbr>"
+      hidden_by: "Hidden by %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
       report: Report this note
     query:
       title: "Query Features"
@@ -271,7 +333,7 @@ en:
   changeset_comments:
     comment:
       comment: "New comment on changeset #%{changeset_id} by %{author}"
-      commented_at_by_html: "Updated %{when} ago by %{user}"
+      commented_at_by_html: "Updated %{when} by %{user}"
     comments:
       comment: "New comment on changeset #%{changeset_id} by %{author}"
     index:
@@ -282,7 +344,14 @@ en:
   diary_entries:
     new:
       title: New Diary Entry
-      publish_button: "Publish"
+    form:
+      subject: "Subject:"
+      body: "Body:"
+      language: "Language:"
+      location: "Location:"
+      latitude: "Latitude:"
+      longitude: "Longitude:"
+      use_map_link: "use map"
     index:
       title: "Users' diaries"
       title_friends: "Friends' diaries"
@@ -296,15 +365,7 @@ en:
       older_entries: Older Entries
       newer_entries: Newer Entries
     edit:
-      title: "Edit diary entry"
-      subject: "Subject:"
-      body: "Body:"
-      language: "Language:"
-      location: "Location:"
-      latitude: "Latitude:"
-      longitude: "Longitude:"
-      use_map_link: "use map"
-      save_button: "Save"
+      title: Edit Diary Entry
       marker_text: Diary entry location
     show:
       title: "%{user}'s diary | %{title}"
@@ -312,7 +373,6 @@ en:
       leave_a_comment: "Leave a comment"
       login_to_leave_a_comment: "%{login_link} to leave a comment"
       login: "Login"
-      save_button: "Save"
     no_such_entry:
       title: "No such diary entry"
       heading: "No entry with the id: %{id}"
@@ -327,11 +387,13 @@ en:
         other: "%{count} comments"
       edit_link: Edit this entry
       hide_link: Hide this entry
+      unhide_link: Unhide this entry
       confirm: Confirm
       report: Report this entry
     diary_comment:
       comment_from: "Comment from %{link_user} on %{comment_created_at}"
       hide_link: Hide this comment
+      unhide_link: Unhide this comment
       confirm: Confirm
       report: Report this comment
     location:
@@ -353,7 +415,6 @@ en:
       post: Post
       when: When
       comment: Comment
-      ago: "%{ago} ago"
       newer_comments: "Newer Comments"
       older_comments: "Older Comments"
   geocoder:
@@ -966,8 +1027,8 @@ en:
       status: Status
       reports: Reports
       last_updated: Last Updated
-      last_updated_time_html: "<abbr title='%{title}'>%{time} ago</abbr>"
-      last_updated_time_user_html: "<abbr title='%{title}'>%{time} ago</abbr> by %{user}"
+      last_updated_time_html: "<abbr title='%{title}'>%{time}</abbr>"
+      last_updated_time_user_html: "<abbr title='%{title}'>%{time}</abbr> by %{user}"
       link_to_reports: View Reports
       reported_user: Reported User
       reports_count:
@@ -1089,6 +1150,7 @@ en:
     partners_ucl: "UCL"
     partners_bytemark: "Bytemark Hosting"
     partners_partners: "partners"
+    tou: "Terms of Use"
     osm_offline: "The OpenStreetMap database is currently offline while essential database maintenance work is carried out."
     osm_read_only: "The OpenStreetMap database is currently in read-only mode while essential database maintenance work is carried out."
     donate: "Support OpenStreetMap by %{link} to the Hardware Upgrade Fund."
@@ -1221,7 +1283,6 @@ en:
       send_message_to: "Send a new message to %{name}"
       subject: "Subject"
       body: "Body"
-      send_button: "Send"
       back_to_inbox: "Back to inbox"
     create:
       message_sent: "Message sent"
@@ -1299,7 +1360,7 @@ en:
         This site and many other related services are formally operated by the
         <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF)
         on behalf of the community. Use of all OSMF operated services is subject
-        to our <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        to our <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Terms of Use</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
         Acceptable Use Policies</a> and our <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Privacy Policy</a>
         <br>
         Please <a href='https://osmfoundation.org/Contact'>contact the OSMF</a>
@@ -1738,7 +1799,6 @@ en:
       visibility: "Visibility:"
       visibility_help: "what does this mean?"
       visibility_help_url: "https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
-      upload_button: "Upload"
       help: "Help"
       help_url: "https://wiki.openstreetmap.org/wiki/Upload"
     create:
@@ -1762,7 +1822,6 @@ en:
       description: "Description:"
       tags: "Tags:"
       tags_help: "comma delimited"
-      save_button: "Save Changes"
       visibility: "Visibility:"
       visibility_help: "what does this mean?"
       visibility_help_url: "https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces"
@@ -1797,7 +1856,6 @@ en:
     trace:
       pending: "PENDING"
       count_points: "%{count} points"
-      ago: "%{time_in_words_ago} ago"
       more: "more"
       trace_details: "View Trace Details"
       view_map: "View Map"
@@ -1874,10 +1932,8 @@ en:
   oauth_clients:
     new:
       title: "Register a new application"
-      submit: "Register"
     edit:
       title: "Edit your application"
-      submit: "Edit"
     show:
       title: "OAuth details for %{app_name}"
       key: "Consumer Key:"
@@ -2025,14 +2081,19 @@ en:
       terms declined: "We are sorry that you have decided to not accept the new Contributor Terms. For more information, please see <a href=\"%{url}\">this wiki page</a>."
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: "Contributor terms"
-      heading: "Contributor terms"
-      read and accept: "Please read the agreement and press the agree button to confirm that you accept the terms of this agreement for your existing and future contributions."
-      consider_pd: "In addition to the above agreement, I consider my contributions to be in the Public Domain"
+      title: "Terms"
+      heading: "Terms"
+      heading_ct: "Contributor terms"
+      read and accept with tou: "Please read the contributor agreement and the terms of use, check both checkboxes when done and then press the continue button."
+      contributor_terms_explain: "This agreement governs the terms for your existing and future contributions."
+      read_ct: "I have read and agree to the above contributor terms"
+      tou_explain_html: "These %{tou_link} govern the use of the website and other infrastructure provided by the OSMF. Please click on the link, read and aggree to the text."
+      read_tou: "I have read and agree to the Terms of Use"
+      consider_pd: "In addition to the above, I consider my contributions to be in the Public Domain"
       consider_pd_why: "what's this?"
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Information to help understand these terms: a <a href="%{summary}">human readable summary</a> and some <a href="%{translations}">informal translations</a>'
-      agree: Agree
+      continue: Continue
       declined: "https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined"
       decline: "Decline"
       you need to accept or decline: "Please read and then either accept or decline the new Contributor Terms to continue."
@@ -2067,12 +2128,10 @@ en:
       remove as friend: Unfriend
       add as friend: Add Friend
       mapper since: "Mapper since:"
-      ago: "(%{time_in_words_ago} ago)"
       ct status: "Contributor terms:"
       ct undecided: Undecided
       ct declined: Declined
-      ct accepted: Accepted %{ago} ago
-      latest edit: "Latest edit %{ago}:"
+      latest edit: "Latest edit (%{ago}):"
       email address: "Email address:"
       created from: "Created from:"
       status: "Status:"
@@ -2275,7 +2334,6 @@ en:
       heading: "Creating block on %{name}"
       reason: "The reason why %{name} is being blocked. Please be as calm and as reasonable as possible, giving as much detail as you can about the situation, remembering that the message will be publicly visible. Bear in mind that not all users understand the community jargon, so please try to use laymans terms."
       period: "How long, starting now, the user will be blocked from the API for."
-      submit: "Create block"
       tried_contacting: "I have contacted the user and asked them to stop."
       tried_waiting: "I have given a reasonable amount of time for the user to respond to those communications."
       needs_view: "User needs to log in before this block will be cleared"
@@ -2285,7 +2343,6 @@ en:
       heading: "Editing block on %{name}"
       reason: "The reason why %{name} is being blocked. Please be as calm and as reasonable as possible, giving as much detail as you can about the situation. Bear in mind that not all users understand the community jargon, so please try to use laymans terms."
       period: "How long, starting now, the user will be blocked from the API for."
-      submit: "Update block"
       show: "View this block"
       back: "View all blocks"
       needs_view: "Does the user need to log in before this block will be cleared?"
@@ -2307,18 +2364,31 @@ en:
       title: "Revoking block on %{block_on}"
       heading: "Revoking block on %{block_on} by %{block_by}"
       time_future: "This block will end in %{time}."
-      past: "This block ended %{time} ago and cannot be revoked now."
+      past: "This block ended %{time} and cannot be revoked now."
       confirm: "Are you sure you wish to revoke this block?"
       revoke: "Revoke!"
       flash: "This block has been revoked."
-    period:
-      one: "1 hour"
-      other: "%{count} hours"
     helper:
       time_future: "Ends in %{time}."
       until_login: "Active until the user logs in."
       time_future_and_until_login: "Ends in %{time} and after the user has logged in."
-      time_past: "Ended %{time} ago."
+      time_past: "Ended %{time}."
+      block_duration:
+        hours:
+          one: "1 hour"
+          other: "%{count} hours"
+        days:
+          one: "1 day"
+          other: "%{count} days"
+        weeks:
+          one: "1 week"
+          other: "%{count} weeks"
+        months:
+          one: "1 month"
+          other: "%{count} months"
+        years:
+          one: "1 year"
+          other: "%{count} years"
     blocks_on:
       title: "Blocks on %{name}"
       heading: "List of blocks on %{name}"
@@ -2330,10 +2400,7 @@ en:
     show:
       title: "%{block_on} blocked by %{block_by}"
       heading: "%{block_on} blocked by %{block_by}"
-      time_future: "Ends in %{time}"
-      time_past: "Ended %{time} ago"
       created: "Created"
-      ago: "%{time} ago"
       status: "Status"
       show: "Show"
       edit: "Edit"
@@ -2367,7 +2434,6 @@ en:
       description: "Description"
       created_at: "Created at"
       last_changed: "Last changed"
-      ago_html: "%{when} ago"
   javascripts:
     close: Close
     share:
@@ -2417,6 +2483,7 @@ en:
         title: "Layers"
       copyright: "© <a href='%{copyright_url}'>OpenStreetMap contributors</a>"
       donate_link_text: "<a class='donate-attr' href='%{donate_url}'>Make a Donation</a>"
+      terms: "<a href='%{terms_url}' target='_blank'>Website and API terms</a>"
     site:
       edit_tooltip: Edit the map
       edit_disabled_tooltip: Zoom in to edit the map
@@ -2546,7 +2613,6 @@ en:
     edit:
       description: "Description"
       heading: "Edit redaction"
-      submit: "Save redaction"
       title: "Edit redaction"
     index:
       empty: "No redactions to show."
@@ -2555,7 +2621,6 @@ en:
     new:
       description: "Description"
       heading: "Enter information for new redaction"
-      submit: "Create redaction"
       title: "Creating new redaction"
     show:
       description: "Description:"

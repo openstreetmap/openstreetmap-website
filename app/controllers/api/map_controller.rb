@@ -22,8 +22,8 @@ module Api
         @bounds = BoundingBox.from_bbox_params(params)
         @bounds.check_boundaries
         @bounds.check_size
-      rescue StandardError => err
-        report_error(err.message)
+      rescue StandardError => e
+        report_error(e.message)
         return
       end
 

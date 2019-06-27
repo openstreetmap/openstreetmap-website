@@ -1,6 +1,7 @@
 # Messages for Georgian (ქართული)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Abijeet Patro
 # Author: David1010
 # Author: MIKHEIL
 # Author: Temuri rajavi
@@ -9,6 +10,23 @@ ka:
   time:
     formats:
       friendly: '%დ %თ %წ at %ს:%წ'
+  helpers:
+    submit:
+      diary_comment:
+        create: შენახვა
+      diary_entry:
+        create: გამოქვეყნება
+      message:
+        create: გაგზავნა
+      client_application:
+        create: რეგისტრაცია
+        update: რედაქტირება
+      trace:
+        create: ატვირთვა
+        update: ცვლილებების შენახვა
+      user_block:
+        create: ბლოკირების შექმნა
+        update: განაახლეთ ბლოკირება
   activerecord:
     models:
       acl: ხელმისაწვდომობის შეზღუდვის სია
@@ -216,7 +234,14 @@ ka:
   diary_entries:
     new:
       title: დღიურში ახალი ჩანაწერის გაკეთება
-      publish_button: გამოქვეყნება
+    form:
+      subject: 'თემა:'
+      body: 'ტექსტი:'
+      language: 'ენა:'
+      location: 'მდებარეობა:'
+      latitude: 'განედი:'
+      longitude: 'გრძედი:'
+      use_map_link: რუკაზე ჩვენება
     index:
       title: მომხმარებლების დღიურები
       title_friends: მეგობრების დღიურები
@@ -229,21 +254,12 @@ ka:
       newer_entries: უახლესი ჩანაწერები
     edit:
       title: დღიურის ჩანაწერის რედაქტირება
-      subject: 'თემა:'
-      body: 'ტექსტი:'
-      language: 'ენა:'
-      location: 'მდებარეობა:'
-      latitude: 'განედი:'
-      longitude: 'გრძედი:'
-      use_map_link: რუკაზე ჩვენება
-      save_button: შენახვა
     show:
       title: '%{user}-ის დღიური | %{title}'
       user_title: '%{user}-ის დღიური'
       leave_a_comment: დატოვეთ კომენტარი
       login_to_leave_a_comment: '%{login_link}, რათა დატოვოთ კომენტარი'
       login: შესვლა
-      save_button: შენახვა
     no_such_entry:
       title: დღიურში ასეთი ჩანაწერი არ არის
       heading: 'id: %{id}-დან ჩანაწერი არ არის'
@@ -267,7 +283,6 @@ ka:
       post: პოსტი
       when: როდის
       comment: კომენტარი
-      ago: '%{ago} წინ'
       newer_comments: ახალი კომენტარები
       older_comments: ძველი კომენტარები
   geocoder:
@@ -798,7 +813,6 @@ ka:
       send_message_to: გაუგზავნეთ ახალი შეტყობინება %{name}
       subject: თემა
       body: ტექსტი
-      send_button: გაგზავნა
       back_to_inbox: მიღებულებში დაბრუნება
     create:
       message_sent: შეტყობინება გაიგზავნა
@@ -950,7 +964,6 @@ ka:
       tags_help: მძიმის შემდეგ
       visibility: 'ხილვადობა:'
       visibility_help: ეს რას ნიშნავს?
-      upload_button: ატვირთვა
       help: დახმარება
     edit:
       filename: 'ფაილის სახელი:'
@@ -963,7 +976,6 @@ ka:
       owner: 'მფლობელი:'
       description: 'აღწერა:'
       tags_help: მძიმის შემდეგ
-      save_button: ცვლილებების შენახვა
       visibility: 'ხილვადობა:'
       visibility_help: ეს რას ნიშნავს?
     show:
@@ -984,7 +996,6 @@ ka:
     trace:
       pending: დამუშავება
       count_points: '%{count} წერტილი'
-      ago: '%{time_in_words_ago} წინ'
       more: მეტი
       view_map: რუკის ნახვა
       edit: რედაქტირება
@@ -999,10 +1010,6 @@ ka:
     authorize:
       allow_write_api: რუკის შეცვლა.
   oauth_clients:
-    new:
-      submit: რეგისტრაცია
-    edit:
-      submit: რედაქტირება
     show:
       edit: დეტალების რედაქტირება
       confirm: დარწმუნებული ხართ?
@@ -1051,7 +1058,6 @@ ka:
       continue: რეგისტრაცია
     terms:
       consider_pd_why: რა არის ეს?
-      agree: მიღება
       decline: უარყოფა
       legale_select: 'გთხოვთ, აირჩიეთ თქვენი ქვეყანა:'
       legale_names:
@@ -1071,7 +1077,6 @@ ka:
       edits: რედაქტირებები
       remove as friend: მეგობრებიდან წაშლა
       add as friend: მეგობრებში დამატება
-      ct accepted: მიღებულია %{ago} წინ
       latest edit: 'ბოლო რედაქტირება %{ago}:'
       email address: 'ელ. ფოსტის მისამართი:'
       created from: 'შექმნილია:'
@@ -1147,12 +1152,10 @@ ka:
     new:
       title: მომხმარებელ %{name} ბლოკირების შექმნა
       heading: მომხმარებელ %{name} ბლოკირების შექმნა
-      submit: ბლოკირების შექმნა
       back: ყველა ბლოკირების ჩვენება
     edit:
       title: მომხმარებელ %{name} ბლოკირების რედაქტირება
       heading: მომხმარებელ %{name} ბლოკირების რედაქტირება
-      submit: განაახლეთ ბლოკირება
       show: ამ ბლოკირების ჩვენება
       back: ყველა ბლოკირების ჩვენება
     update:
@@ -1166,13 +1169,14 @@ ka:
       confirm: დარწმუნებული ხართ, რომ ამ ბლოკირების მოხსნა გსურთ?
       revoke: განბლოკვა!
       flash: ეს ბლოკირება მოიხსნა.
-    period:
-      one: 1 საათი
-      other: '%{count} საათი'
     helper:
       time_future: მთავრდება %{time}–ში.
       until_login: აქტიურია მანამდე, სანამ მომხმარებელი არ შევა სისტემაში.
       time_past: დასრულდა %{time} წინ.
+      block_duration:
+        hours:
+          one: 1 საათი
+          other: '%{count} საათი'
     blocks_on:
       title: '%{name}-ის მიერ გაკეთებული ბლოკირებები'
       heading: '%{name}-ის მიერ გაკეთებული ბლოკირებების სია'
@@ -1184,8 +1188,6 @@ ka:
     show:
       title: '%{block_on}, დაადო ბლოკი: %{block_by}'
       heading: '%{block_on}, დაადო ბლოკი: %{block_by}'
-      time_future: მთავრდება %{time}–ში
-      time_past: დასრულდა %{time} წინ
       status: სტატუსი
       show: ჩვენება
       edit: რედაქტირება
@@ -1213,7 +1215,6 @@ ka:
     mine:
       creator: შემქმნელი
       description: აღწერა
-      ago_html: '%{when} წინ'
   javascripts:
     map:
       base:

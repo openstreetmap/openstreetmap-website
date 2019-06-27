@@ -1,4 +1,4 @@
-class AddChangesetIndexes < ActiveRecord::Migration[5.0]
+class AddChangesetIndexes < ActiveRecord::Migration[4.2]
   def self.up
     add_index "nodes", ["changeset_id"], :name => "nodes_changeset_id_idx"
     add_index "ways", ["changeset_id"], :name => "ways_changeset_id_idx"

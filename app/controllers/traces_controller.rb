@@ -113,8 +113,8 @@ class TracesController < ApplicationController
       begin
         @trace = do_create(params[:trace][:gpx_file], params[:trace][:tagstring],
                            params[:trace][:description], params[:trace][:visibility])
-      rescue StandardError => ex
-        logger.debug ex
+      rescue StandardError => e
+        logger.debug e
       end
 
       if @trace.id
