@@ -11,7 +11,7 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/node/1", :method => :get },
-        { :controller => "api/nodes", :action => "show", :id => "1", :format => "xml" }
+        { :controller => "api/nodes", :action => "show", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/node/1", :method => :put },
@@ -23,7 +23,7 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/nodes", :method => :get },
-        { :controller => "api/nodes", :action => "index", :format => "xml" }
+        { :controller => "api/nodes", :action => "index" }
       )
     end
 
@@ -135,15 +135,15 @@ module Api
 
     def test_show
       # check that a visible node is returned properly
-      get :show, :params => { :id => create(:node).id }, :format => :xml
+      get :show, :params => { :id => create(:node).id }
       assert_response :success
 
       # check that an deleted node is not returned
-      get :show, :params => { :id => create(:node, :deleted).id }, :format => :xml
+      get :show, :params => { :id => create(:node, :deleted).id }
       assert_response :gone
 
       # check chat a non-existent node is not returned
-      get :show, :params => { :id => 0 }, :format => :xml
+      get :show, :params => { :id => 0 }
       assert_response :not_found
     end
 
@@ -436,15 +436,15 @@ module Api
       node5 = create(:node, :deleted, :with_history, :version => 2)
 
       # check error when no parameter provided
-      get :index, :format => :xml
+      get :index
       assert_response :bad_request
 
       # check error when no parameter value provided
-      get :index, :params => { :nodes => "" }, :format => :xml
+      get :index, :params => { :nodes => "" }
       assert_response :bad_request
 
       # test a working call
-      get :index, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}" }, :format => :xml
+      get :index, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}" }
       assert_response :success
       assert_select "osm" do
         assert_select "node", :count => 5
@@ -456,7 +456,7 @@ module Api
       end
 
       # check error when a non-existent node is included
-      get :index, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id},0" }, :format => :xml
+      get :index, :params => { :nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id},0" }
       assert_response :not_found
     end
 
@@ -519,7 +519,7 @@ module Api
       assert_not_nil checknode, "node not found in data base after upload"
 
       # and grab it using the api
-      get :show, :params => { :id => nodeid }, :format => :xml
+      get :show, :params => { :id => nodeid }
       assert_response :success
       apinode = Node.from_xml(@response.body)
       assert_not_nil apinode, "downloaded node is nil, but shouldn't be"

@@ -1768,7 +1768,7 @@ CHANGESET
         assert_response :success, "can't create a new node"
         node_id = @response.body.to_i
 
-        get :show, :params => { :id => node_id }, :format => "xml"
+        get :show, :params => { :id => node_id }
         assert_response :success, "can't read back new node"
         node_doc = XML::Parser.string(@response.body).parse
         node_xml = node_doc.find("//osm/node").first

@@ -11,11 +11,11 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/way/1/full", :method => :get },
-        { :controller => "api/ways", :action => "full", :id => "1", :format => "xml" }
+        { :controller => "api/ways", :action => "full", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/way/1", :method => :get },
-        { :controller => "api/ways", :action => "show", :id => "1", :format => "xml" }
+        { :controller => "api/ways", :action => "show", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/way/1", :method => :put },
@@ -27,7 +27,7 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/ways", :method => :get },
-        { :controller => "api/ways", :action => "index", :format => "xml" }
+        { :controller => "api/ways", :action => "index" }
       )
     end
 
@@ -37,15 +37,15 @@ module Api
 
     def test_show
       # check that a visible way is returned properly
-      get :show, :params => { :id => create(:way).id }, :format => :xml
+      get :show, :params => { :id => create(:way).id }
       assert_response :success
 
       # check that an invisible way is not returned
-      get :show, :params => { :id => create(:way, :deleted).id }, :format => :xml
+      get :show, :params => { :id => create(:way, :deleted).id }
       assert_response :gone
 
       # check chat a non-existent way is not returned
-      get :show, :params => { :id => 0 }, :format => :xml
+      get :show, :params => { :id => 0 }
       assert_response :not_found
     end
 
@@ -86,15 +86,15 @@ module Api
       way4 = create(:way)
 
       # check error when no parameter provided
-      get :index, :format => :xml
+      get :index
       assert_response :bad_request
 
       # check error when no parameter value provided
-      get :index, :params => { :ways => "" }, :format => :xml
+      get :index, :params => { :ways => "" }
       assert_response :bad_request
 
       # test a working call
-      get :index, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}" }, :format => :xml
+      get :index, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}" }
       assert_response :success
       assert_select "osm" do
         assert_select "way", :count => 4
@@ -105,7 +105,7 @@ module Api
       end
 
       # check error when a non-existent way is included
-      get :index, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id},0" }, :format => :xml
+      get :index, :params => { :ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id},0" }
       assert_response :not_found
     end
 
@@ -711,7 +711,7 @@ module Api
       _way3_v2 = create(:old_way, :current_way => way3_v1.current_way, :version => 2)
       create(:old_way_node, :old_way => way3_v1, :node => node)
 
-      get :ways_for_node, :params => { :id => node.id }, :format => :xml
+      get :ways_for_node, :params => { :id => node.id }
       assert_response :success
       ways_xml = XML::Parser.string(@response.body).parse
       assert_not_nil ways_xml, "failed to parse ways_for_node response"

@@ -7,11 +7,11 @@ module Api
     def test_routes
       assert_routing(
         { :path => "/api/0.6/relation/1/history", :method => :get },
-        { :controller => "api/old_relations", :action => "history", :id => "1", :format => "xml" }
+        { :controller => "api/old_relations", :action => "history", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/relation/1/2", :method => :get },
-        { :controller => "api/old_relations", :action => "version", :id => "1", :version => "2", :format => "xml" }
+        { :controller => "api/old_relations", :action => "version", :id => "1", :version => "2" }
       )
       assert_routing(
         { :path => "/api/0.6/relation/1/2/redact", :method => :post },
@@ -24,11 +24,11 @@ module Api
     # -------------------------------------
     def test_history
       # check that a visible relations is returned properly
-      get :history, :params => { :id => create(:relation, :with_history).id }, :format => :xml
+      get :history, :params => { :id => create(:relation, :with_history).id }
       assert_response :success
 
       # check chat a non-existent relations is not returned
-      get :history, :params => { :id => 0 }, :format => :xml
+      get :history, :params => { :id => 0 }
       assert_response :not_found
     end
 
@@ -77,12 +77,12 @@ module Api
       relation_v1 = relation.old_relations.find_by(:version => 1)
       relation_v1.redact!(create(:redaction))
 
-      get :version, :params => { :id => relation_v1.relation_id, :version => relation_v1.version }, :format => :xml
+      get :version, :params => { :id => relation_v1.relation_id, :version => relation_v1.version }
       assert_response :forbidden, "Redacted relation shouldn't be visible via the version API."
 
       # not even to a logged-in user
       basic_authorization create(:user).email, "test"
-      get :version, :params => { :id => relation_v1.relation_id, :version => relation_v1.version }, :format => :xml
+      get :version, :params => { :id => relation_v1.relation_id, :version => relation_v1.version }
       assert_response :forbidden, "Redacted relation shouldn't be visible via the version API, even when logged in."
     end
 
@@ -93,14 +93,14 @@ module Api
       relation_v1 = relation.old_relations.find_by(:version => 1)
       relation_v1.redact!(create(:redaction))
 
-      get :history, :params => { :id => relation_v1.relation_id }, :format => :xml
+      get :history, :params => { :id => relation_v1.relation_id }
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 0, "redacted relation #{relation_v1.relation_id} version #{relation_v1.version} shouldn't be present in the history."
 
       # not even to a logged-in user
       basic_authorization create(:user).email, "test"
-      get :version, :params => { :id => relation_v1.relation_id, :version => relation_v1.version }, :format => :xml
-      get :history, :params => { :id => relation_v1.relation_id }, :format => :xml
+      get :version, :params => { :id => relation_v1.relation_id, :version => relation_v1.version }
+      get :history, :params => { :id => relation_v1.relation_id }
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 0, "redacted relation #{relation_v1.relation_id} version #{relation_v1.version} shouldn't be present in the history, even when logged in."
     end
@@ -119,16 +119,16 @@ module Api
 
       # check moderator can still see the redacted data, when passing
       # the appropriate flag
-      get :version, :params => { :id => relation_v3.relation_id, :version => relation_v3.version }, :format => :xml
+      get :version, :params => { :id => relation_v3.relation_id, :version => relation_v3.version }
       assert_response :forbidden, "After redaction, relation should be gone for moderator, when flag not passed."
-      get :version, :params => { :id => relation_v3.relation_id, :version => relation_v3.version, :show_redactions => "true" }, :format => :xml
+      get :version, :params => { :id => relation_v3.relation_id, :version => relation_v3.version, :show_redactions => "true" }
       assert_response :success, "After redaction, relation should not be gone for moderator, when flag passed."
 
       # and when accessed via history
-      get :history, :params => { :id => relation_v3.relation_id }, :format => :xml
+      get :history, :params => { :id => relation_v3.relation_id }
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm relation[id='#{relation_v3.relation_id}'][version='#{relation_v3.version}']", 0, "relation #{relation_v3.relation_id} version #{relation_v3.version} should not be present in the history for moderators when not passing flag."
-      get :history, :params => { :id => relation_v3.relation_id, :show_redactions => "true" }, :format => :xml
+      get :history, :params => { :id => relation_v3.relation_id, :show_redactions => "true" }
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm relation[id='#{relation_v3.relation_id}'][version='#{relation_v3.version}']", 1, "relation #{relation_v3.relation_id} version #{relation_v3.version} should still be present in the history for moderators when passing flag."
     end
@@ -148,11 +148,11 @@ module Api
       basic_authorization create(:user).email, "test"
 
       # check can't see the redacted data
-      get :version, :params => { :id => relation_v3.relation_id, :version => relation_v3.version }, :format => :xml
+      get :version, :params => { :id => relation_v3.relation_id, :version => relation_v3.version }
       assert_response :forbidden, "Redacted relation shouldn't be visible via the version API."
 
       # and when accessed via history
-      get :history, :params => { :id => relation_v3.relation_id }, :format => :xml
+      get :history, :params => { :id => relation_v3.relation_id }
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm relation[id='#{relation_v3.relation_id}'][version='#{relation_v3.version}']", 0, "redacted relation #{relation_v3.relation_id} version #{relation_v3.version} shouldn't be present in the history."
     end
@@ -198,22 +198,22 @@ module Api
 
       # check moderator can still see the redacted data, without passing
       # the appropriate flag
-      get :version, :params => { :id => relation_v1.relation_id, :version => relation_v1.version }, :format => :xml
+      get :version, :params => { :id => relation_v1.relation_id, :version => relation_v1.version }
       assert_response :success, "After unredaction, relation should not be gone for moderator."
 
       # and when accessed via history
-      get :history, :params => { :id => relation_v1.relation_id }, :format => :xml
+      get :history, :params => { :id => relation_v1.relation_id }
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 1, "relation #{relation_v1.relation_id} version #{relation_v1.version} should still be present in the history for moderators."
 
       basic_authorization create(:user).email, "test"
 
       # check normal user can now see the redacted data
-      get :version, :params => { :id => relation_v1.relation_id, :version => relation_v1.version }, :format => :xml
+      get :version, :params => { :id => relation_v1.relation_id, :version => relation_v1.version }
       assert_response :success, "After redaction, node should not be gone for normal user."
 
       # and when accessed via history
-      get :history, :params => { :id => relation_v1.relation_id }, :format => :xml
+      get :history, :params => { :id => relation_v1.relation_id }
       assert_response :success, "Redaction shouldn't have stopped history working."
       assert_select "osm relation[id='#{relation_v1.relation_id}'][version='#{relation_v1.version}']", 1, "relation #{relation_v1.relation_id} version #{relation_v1.version} should still be present in the history for normal users."
     end
@@ -226,14 +226,14 @@ module Api
     def check_current_version(relation_id)
       # get the current version
       current_relation = with_controller(RelationsController.new) do
-        get :show, :params => { :id => relation_id }, :format => :xml
+        get :show, :params => { :id => relation_id }
         assert_response :success, "can't get current relation #{relation_id}"
         Relation.from_xml(@response.body)
       end
       assert_not_nil current_relation, "getting relation #{relation_id} returned nil"
 
       # get the "old" version of the relation from the version method
-      get :version, :params => { :id => relation_id, :version => current_relation.version }, :format => :xml
+      get :version, :params => { :id => relation_id, :version => current_relation.version }
       assert_response :success, "can't get old relation #{relation_id}, v#{current_relation.version}"
       old_relation = Relation.from_xml(@response.body)
 
@@ -245,7 +245,7 @@ module Api
     # look at all the versions of the relation in the history and get each version from
     # the versions call. check that they're the same.
     def check_history_equals_versions(relation_id)
-      get :history, :params => { :id => relation_id }, :format => :xml
+      get :history, :params => { :id => relation_id }
       assert_response :success, "can't get relation #{relation_id} from API"
       history_doc = XML::Parser.string(@response.body).parse
       assert_not_nil history_doc, "parsing relation #{relation_id} history failed"
@@ -254,7 +254,7 @@ module Api
         history_relation = Relation.from_xml_node(relation_doc)
         assert_not_nil history_relation, "parsing relation #{relation_id} version failed"
 
-        get :version, :params => { :id => relation_id, :version => history_relation.version }, :format => :xml
+        get :version, :params => { :id => relation_id, :version => history_relation.version }
         assert_response :success, "couldn't get relation #{relation_id}, v#{history_relation.version}"
         version_relation = Relation.from_xml(@response.body)
         assert_not_nil version_relation, "failed to parse #{relation_id}, v#{history_relation.version}"
@@ -264,7 +264,7 @@ module Api
     end
 
     def do_redact_relation(relation, redaction)
-      get :version, :params => { :id => relation.relation_id, :version => relation.version }, :format => :xml
+      get :version, :params => { :id => relation.relation_id, :version => relation.version }
       assert_response :success, "should be able to get version #{relation.version} of relation #{relation.relation_id}."
 
       # now redact it

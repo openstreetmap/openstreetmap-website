@@ -11,11 +11,11 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/relation/1/full", :method => :get },
-        { :controller => "api/relations", :action => "full", :id => "1", :format => "xml" }
+        { :controller => "api/relations", :action => "full", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/relation/1", :method => :get },
-        { :controller => "api/relations", :action => "show", :id => "1", :format => "xml" }
+        { :controller => "api/relations", :action => "show", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/relation/1", :method => :put },
@@ -27,20 +27,20 @@ module Api
       )
       assert_routing(
         { :path => "/api/0.6/relations", :method => :get },
-        { :controller => "api/relations", :action => "index", :format => "xml" }
+        { :controller => "api/relations", :action => "index" }
       )
 
       assert_routing(
         { :path => "/api/0.6/node/1/relations", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_node", :id => "1", :format => "xml" }
+        { :controller => "api/relations", :action => "relations_for_node", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/way/1/relations", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_way", :id => "1", :format => "xml" }
+        { :controller => "api/relations", :action => "relations_for_way", :id => "1" }
       )
       assert_routing(
         { :path => "/api/0.6/relation/1/relations", :method => :get },
-        { :controller => "api/relations", :action => "relations_for_relation", :id => "1", :format => "xml" }
+        { :controller => "api/relations", :action => "relations_for_relation", :id => "1" }
       )
     end
 
@@ -50,15 +50,15 @@ module Api
 
     def test_show
       # check that a visible relation is returned properly
-      get :show, :params => { :id => create(:relation).id }, :format => :xml
+      get :show, :params => { :id => create(:relation).id }
       assert_response :success
 
       # check that an invisible relation is not returned
-      get :show, :params => { :id => create(:relation, :deleted).id }, :format => :xml
+      get :show, :params => { :id => create(:relation, :deleted).id }
       assert_response :gone
 
       # check chat a non-existent relation is not returned
-      get :show, :params => { :id => 0 }, :format => :xml
+      get :show, :params => { :id => 0 }
       assert_response :not_found
     end
 
@@ -129,7 +129,7 @@ module Api
 
     def check_relations_for_element(method, type, id, expected_relations)
       # check the "relations for relation" mode
-      get method, :params => { :id => id }, :format => :xml
+      get method, :params => { :id => id }
       assert_response :success
 
       # count one osm element
@@ -148,13 +148,13 @@ module Api
 
     def test_full
       # check the "full" mode
-      get :full, :params => { :id => 999999 }, :format => :xml
+      get :full, :params => { :id => 999999 }
       assert_response :not_found
 
-      get :full, :params => { :id => create(:relation, :deleted).id }, :format => :xml
+      get :full, :params => { :id => create(:relation, :deleted).id }
       assert_response :gone
 
-      get :full, :params => { :id => create(:relation).id }, :format => :xml
+      get :full, :params => { :id => create(:relation).id }
       assert_response :success
       # FIXME: check whether this contains the stuff we want!
     end
@@ -169,15 +169,15 @@ module Api
       relation4.old_relations.find_by(:version => 1).redact!(create(:redaction))
 
       # check error when no parameter provided
-      get :index, :format => :xml
+      get :index
       assert_response :bad_request
 
       # check error when no parameter value provided
-      get :index, :params => { :relations => "" }, :format => :xml
+      get :index, :params => { :relations => "" }
       assert_response :bad_request
 
       # test a working call
-      get :index, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}" }, :format => :xml
+      get :index, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id}" }
       assert_response :success
       assert_select "osm" do
         assert_select "relation", :count => 4
@@ -188,7 +188,7 @@ module Api
       end
 
       # check error when a non-existent relation is included
-      get :index, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},0" }, :format => :xml
+      get :index, :params => { :relations => "#{relation1.id},#{relation2.id},#{relation3.id},#{relation4.id},0" }
       assert_response :not_found
     end
 
@@ -271,7 +271,7 @@ module Api
       assert_equal true, checkrelation.visible,
                    "saved relation is not visible"
       # ok the relation is there but can we also retrieve it?
-      get :show, :params => { :id => relationid }, :format => :xml
+      get :show, :params => { :id => relationid }
       assert_response :success
 
       ###
@@ -302,7 +302,7 @@ module Api
                    "saved relation is not visible"
       # ok the relation is there but can we also retrieve it?
 
-      get :show, :params => { :id => relationid }, :format => :xml
+      get :show, :params => { :id => relationid }
       assert_response :success
 
       ###
@@ -332,7 +332,7 @@ module Api
                    "saved relation is not visible"
       # ok the relation is there but can we also retrieve it?
 
-      get :show, :params => { :id => relationid }, :format => :xml
+      get :show, :params => { :id => relationid }
       assert_response :success
 
       ###
@@ -362,7 +362,7 @@ module Api
       assert_equal true, checkrelation.visible,
                    "saved relation is not visible"
       # ok the relation is there but can we also retrieve it?
-      get :show, :params => { :id => relationid }, :format => :xml
+      get :show, :params => { :id => relationid }
       assert_response :success
     end
 
@@ -691,7 +691,7 @@ module Api
           assert_response :success, "can't update relation for add #{element.class}/bbox test: #{@response.body}"
 
           # get it back and check the ordering
-          get :show, :params => { :id => relation.id }, :format => :xml
+          get :show, :params => { :id => relation.id }
           assert_response :success, "can't read back the relation: #{@response.body}"
           check_ordering(relation_xml, @response.body)
         end
@@ -754,7 +754,7 @@ OSM
       relation_id = @response.body.to_i
 
       # get it back and check the ordering
-      get :show, :params => { :id => relation_id }, :format => :xml
+      get :show, :params => { :id => relation_id }
       assert_response :success, "can't read back the relation: #{@response.body}"
       check_ordering(doc, @response.body)
 
@@ -774,13 +774,13 @@ OSM
       assert_equal 2, @response.body.to_i
 
       # get it back again and check the ordering again
-      get :show, :params => { :id => relation_id }, :format => :xml
+      get :show, :params => { :id => relation_id }
       assert_response :success, "can't read back the relation: #{@response.body}"
       check_ordering(doc, @response.body)
 
       # check the ordering in the history tables:
       with_controller(OldRelationsController.new) do
-        get :version, :params => { :id => relation_id, :version => 2 }, :format => :xml
+        get :version, :params => { :id => relation_id, :version => 2 }
         assert_response :success, "can't read back version 2 of the relation #{relation_id}"
         check_ordering(doc, @response.body)
       end
@@ -821,7 +821,7 @@ OSM
       relation_id = @response.body.to_i
 
       # get it back and check the ordering
-      get :show, :params => { :id => relation_id }, :format => :xml
+      get :show, :params => { :id => relation_id }
       assert_response :success, "can't read back the relation: #{relation_id}"
       check_ordering(doc, @response.body)
     end
@@ -854,13 +854,13 @@ OSM
       relation_id = @response.body.to_i
 
       # check the ordering in the current tables:
-      get :show, :params => { :id => relation_id }, :format => :xml
+      get :show, :params => { :id => relation_id }
       assert_response :success, "can't read back the relation: #{@response.body}"
       check_ordering(doc, @response.body)
 
       # check the ordering in the history tables:
       with_controller(OldRelationsController.new) do
-        get :version, :params => { :id => relation_id, :version => 1 }, :format => :xml
+        get :version, :params => { :id => relation_id, :version => 1 }
         assert_response :success, "can't read back version 1 of the relation: #{@response.body}"
         check_ordering(doc, @response.body)
       end
@@ -953,7 +953,7 @@ OSM
 
       # now download the changeset to check its bounding box
       with_controller(Api::ChangesetsController.new) do
-        get :show, :params => { :id => changeset_id }, :format => :xml
+        get :show, :params => { :id => changeset_id }
         assert_response :success, "can't re-read changeset for modify test"
         assert_select "osm>changeset", 1, "Changeset element doesn't exist in #{@response.body}"
         assert_select "osm>changeset[id='#{changeset_id}']", 1, "Changeset id=#{changeset_id} doesn't exist in #{@response.body}"
@@ -970,10 +970,10 @@ OSM
     # doc is returned.
     def with_relation(id, ver = nil)
       if ver.nil?
-        get :show, :params => { :id => id }, :format => :xml
+        get :show, :params => { :id => id }
       else
         with_controller(OldRelationsController.new) do
-          get :version, :params => { :id => id, :version => ver }, :format => :xml
+          get :version, :params => { :id => id, :version => ver }
         end
       end
       assert_response :success
@@ -991,7 +991,7 @@ OSM
       version = @response.body.to_i
 
       # now get the new version
-      get :show, :params => { :id => rel_id }, :format => :xml
+      get :show, :params => { :id => rel_id }
       assert_response :success
       new_rel = xml_parse(@response.body)
 
@@ -1023,7 +1023,7 @@ OSM
       end
 
       # now get the new version
-      get :show, :params => { :id => rel_id }, :format => :xml
+      get :show, :params => { :id => rel_id }
       assert_response :success
       new_rel = xml_parse(@response.body)
 
