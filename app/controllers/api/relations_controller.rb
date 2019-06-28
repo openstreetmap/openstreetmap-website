@@ -26,9 +26,7 @@ module Api
       response.last_modified = @relation.timestamp
       if @relation.visible
         # Render the result
-        respond_to do |format|
-          format.xml
-        end
+        render formats: [:xml]
       else
         head :gone
       end
@@ -119,9 +117,7 @@ module Api
         @relations << relation
 
         # Render the result
-        respond_to do |format|
-          format.xml
-        end
+        render formats: [:xml]
       else
         head :gone
       end
@@ -137,9 +133,7 @@ module Api
       @relations = Relation.find(ids)
 
       # Render the result
-      respond_to do |format|
-        format.xml
-      end
+      render formats: [:xml]
     end
 
     def relations_for_way
@@ -166,9 +160,7 @@ module Api
       end
 
       # Render the result
-      respond_to do |format|
-        format.xml
-      end
+      render formats: [:xml]
     end
   end
 end

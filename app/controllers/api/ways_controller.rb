@@ -28,9 +28,7 @@ module Api
 
       if @way.visible
         # Render the result
-        respond_to do |format|
-          format.xml
-        end
+        render formats: [:xml]
       else
         head :gone
       end
@@ -77,9 +75,7 @@ module Api
         end
 
         # Render the result
-        respond_to do |format|
-          format.xml
-        end
+        render formats: [:xml]
       else
         head :gone
       end
@@ -97,9 +93,7 @@ module Api
       @ways = Way.find(ids)
 
       # Render the result
-      respond_to do |format|
-        format.xml
-      end
+      render formats: [:xml]
     end
 
     ##
@@ -112,9 +106,7 @@ module Api
       @ways = Way.where(:id => wayids, :visible => true)
 
       # Render the result
-      respond_to do |format|
-        format.xml
-      end
+      render formats: [:xml]
     end
   end
 end

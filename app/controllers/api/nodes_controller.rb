@@ -32,9 +32,7 @@ module Api
 
       if @node.visible
         # Render the result
-        respond_to do |format|
-          format.xml
-        end
+        render formats: [:xml]
       else
         head :gone
       end
@@ -75,9 +73,7 @@ module Api
       @nodes = Node.find(ids)
 
       # Render the result
-      respond_to do |format|
-        format.xml
-      end
+      render formats: [:xml]
     end
   end
 end
