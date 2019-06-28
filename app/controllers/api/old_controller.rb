@@ -30,7 +30,7 @@ module Api
                end
 
       # Render the result
-      render formats: [:xml]
+      render :formats => [:xml]
     end
 
     def version
@@ -41,7 +41,7 @@ module Api
         response.last_modified = @old_element.timestamp
 
         # Render the result
-        render formats: [:xml]
+        render :formats => [:xml]
       end
     end
 

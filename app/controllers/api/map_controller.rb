@@ -90,7 +90,7 @@ module Api
 
       response.headers["Content-Disposition"] = "attachment; filename=\"map.osm\""
       # Render the result
-      render formats: [:xml]
+      render :formats => [:xml]
     end
   end
 end

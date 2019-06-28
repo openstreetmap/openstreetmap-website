@@ -32,7 +32,7 @@ module Api
 
       if @node.visible
         # Render the result
-        render formats: [:xml]
+        render :formats => [:xml]
       else
         head :gone
       end
@@ -73,7 +73,7 @@ module Api
       @nodes = Node.find(ids)
 
       # Render the result
-      render formats: [:xml]
+      render :formats => [:xml]
     end
   end
 end
