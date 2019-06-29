@@ -31,7 +31,7 @@ sudo apt-get install ruby2.5 libruby2.5 ruby2.5-dev \
                      libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
                      apache2 apache2-dev build-essential git-core \
                      postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
-                     libsasl2-dev imagemagick libffi-dev
+                     libsasl2-dev imagemagick libffi-dev libgd-dev libarchive-dev libbz2-dev
 sudo gem2.5 install bundler
 ```
 
@@ -46,7 +46,8 @@ sudo dnf install ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems \
                  libxml2-devel js \
                  gcc gcc-c++ git \
                  postgresql postgresql-server postgresql-contrib postgresql-devel \
-                 perl-podlators ImageMagick libffi-devel nodejs-yarn
+                 perl-podlators ImageMagick libffi-devel gd-devel libarchive-devel \
+                 bzip2-devel nodejs-yarn
 ```
 
 If you didn't already have PostgreSQL installed then create a PostgreSQL instance and start the server:
