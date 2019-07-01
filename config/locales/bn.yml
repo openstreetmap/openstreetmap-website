@@ -29,6 +29,9 @@ bn:
         create: সংরক্ষণ
       diary_entry:
         create: প্রকাশ করুন
+        update: হালনাগাদ
+      issue_comment:
+        create: মন্তব্য যোগ করুন
       message:
         create: পাঠান
       client_application:
@@ -108,6 +111,45 @@ bn:
         description: বিবরণ
         languages: ভাষা
         pass_crypt: পাসওয়ার্ড
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: প্রায় ১ ঘণ্টা আগে
+        other: প্রায় %{count} ঘণ্টা আগে
+      about_x_months:
+        one: প্রায় ১ মাস আগে
+        other: প্রায় %{count} মাস আগে
+      about_x_years:
+        one: প্রায় ১ বছর আগে
+        other: প্রায় %{count} বছর আগে
+      almost_x_years:
+        one: প্রায় ১ বছর আগে
+        other: প্রায় %{count} বছর আগে
+      half_a_minute: অর্ধ মিনিট আগে
+      less_than_x_seconds:
+        one: ১ সেকেন্ডেরও কম সময় আগে
+        other: '%{count} সেকেন্ডেরও কম সময় আগে'
+      less_than_x_minutes:
+        one: এক মিনিটেরও কম সময় আগে
+        other: '%{count} মিনিটেরও কম সময় আগে'
+      over_x_years:
+        one: ১ বছরেরও বেশী সময় আগে
+        other: '%{count} বছরেরও বেশী সময় আগে'
+      x_seconds:
+        one: ১ সেকেন্ড আগে
+        other: '%{count} সেকেন্ড আগে'
+      x_minutes:
+        one: ১ মিনিট আগে
+        other: '%{count} মিনিট আগে'
+      x_days:
+        one: ১ দিন আগে
+        other: '%{count} দিন আগে'
+      x_months:
+        one: ১ মাস আগে
+        other: '%{count} মাস আগে'
+      x_years:
+        one: ১ বছর আগে
+        other: '%{count} বছর আগে'
   editor:
     default: পূর্বনির্ধারিত (বর্তমানে %{name})
     potlatch:
@@ -124,17 +166,26 @@ bn:
       description: রিমোট কন্ট্রোল (JOSM অথবা Merkaartor)
   api:
     notes:
+      comment:
+        opened_at_html: '%{when} তৈরি'
+        opened_at_by_html: '%{user} কর্তৃক %{when} তৈরি'
+        commented_at_html: '%{when} হালনাগাদকৃত'
+        commented_at_by_html: '%{user} কর্তৃক %{when} হালনাগাদকৃত'
+        closed_at_html: '%{when} মীমাংসিত'
+        closed_at_by_html: '%{user} কর্তৃক %{when} মীমাংসিত'
+      rss:
+        title: ওপেনস্ট্রীটম্যাপ টীকা
       entry:
         comment: মন্তব্য
   browse:
     created: তৈরি হয়েছে
     closed: বন্ধ
-    created_html: <abbr title='%{title}'>%{time} আগে</abbr> তৈরি
-    closed_html: <abbr title='%{title}'>%{time} আগে</abbr> বন্ধ
-    created_by_html: '%{user} কর্তৃক <abbr title=''%{title}''>%{time} আগে</abbr> তৈরি'
-    deleted_by_html: '%{user} কর্তৃক <abbr title=''%{title}''>%{time}আগে</abbr> অপসারণ'
-    edited_by_html: '%{user} কর্তৃক <abbr title=''%{title}''>%{time} আগে</abbr> সম্পাদিত'
-    closed_by_html: '%{user} কর্তৃক <abbr title=''%{title}''>%{time} আগে</abbr> বন্ধ'
+    created_html: <abbr title='%{title}'>%{time}</abbr> তৈরি
+    closed_html: <abbr title='%{title}'>%{time}</abbr> বন্ধকৃত
+    created_by_html: '%{user} কর্তৃক <abbr title=''%{title}''>%{time}</abbr> তৈরি'
+    deleted_by_html: '%{user} কর্তৃক <abbr title=''%{title}''>%{time}</abbr> অপসারিত'
+    edited_by_html: '%{user} কর্তৃক <abbr title=''%{title}''>%{time}</abbr> সম্পাদিত'
+    closed_by_html: '%{user} কর্তৃক <abbr title=''%{title}''>%{time}</abbr> বন্ধকৃত'
     version: সংস্করণ
     in_changeset: পরিবর্তনসমূহ
     anonymous: নামহীন
@@ -154,9 +205,10 @@ bn:
       relation: সম্পর্ক (%{count}টি)
       relation_paginated: সম্পর্ক (%{count}টির %{x}-%{y})
       comment: মন্তব্য (%{count}টি)
-      hidden_commented_by: '%{user} থেকে <abbr title=''%{exact_time}''>%{when} আগের</abbr>
-        মন্তব্য লুকান'
-      commented_by: <abbr title='%{exact_time}'>%{when} আগে</abbr> %{user} থেকে মন্তব্য
+      hidden_commented_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr>
+        করা লুকানো মন্তব্য'
+      commented_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr> করা
+        মন্তব্য'
       changesetxml: পরিবর্তনধার্য এক্সএমএল
       osmchangexml: osmChange এক্সএমএল
       feed:
@@ -229,22 +281,20 @@ bn:
       open_title: 'অমীমাংসিত টীকা #%{note_name}'
       closed_title: 'মীমাংসিত টীকা #%{note_name}'
       hidden_title: 'লুকানো টীকা #%{note_name}'
-      open_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when} আগে</abbr> তৈরি'
-      open_by_anonymous: বেনামী ব্যবহারকারী কর্তৃক <abbr title='%{exact_time}'>%{when}
-        আগে</abbr> তৈরি
-      commented_by: '%{user} কর্তৃক করা <abbr title=''%{exact_time}''>%{when} আগের</abbr>
+      open_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr> তৈরিকৃত'
+      open_by_anonymous: বেনামী ব্যবহারকারী কর্তৃক <abbr title='%{exact_time}'>%{when}</abbr>
+        তৈরিকৃত
+      commented_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr> করা
         মন্তব্য'
-      commented_by_anonymous: বেনামী ব্যবহারকারী কর্তৃক করা <abbr title='%{exact_time}'>%{when}
-        আগের</abbr> মন্তব্য
-      closed_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when} আগে</abbr>
-        মীমাংসিত'
-      closed_by_anonymous: বেনামি ব্যবহারকারী দ্বারা <abbr title='%{exact_time}'>%{when}
-        আগে</abbr> সমাধানকৃত
-      reopened_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when} আগে</abbr>
-        পুনঃসক্রিয়কৃত'
-      reopened_by_anonymous: বেনামি ব্যবহারকারী দ্বারা <abbr title='%{exact_time}'>%{when}
-        আগে</abbr> পুনঃসক্রিয়কৃত
-      hidden_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when} আগে লুক্কায়িত</abbr>'
+      commented_by_anonymous: বেনামী ব্যবহারকারী কর্তৃক <abbr title='%{exact_time}'>%{when}</abbr>
+        করা মন্তব্য
+      closed_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr> মীমাংসিত'
+      closed_by_anonymous: বেনামি ব্যবহারকারী দ্বারা <abbr title='%{exact_time}'>%{when}</abbr>
+        মীমাংসিত
+      reopened_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr> পুনঃসক্রিয়কৃত'
+      reopened_by_anonymous: বেনামি ব্যবহারকারী দ্বারা <abbr title='%{exact_time}'>%{when}</abbr>
+        পুনঃসক্রিয়কৃত
+      hidden_by: '%{user} কর্তৃক <abbr title=''%{exact_time}''>%{when}</abbr> লুক্কায়িত'
     query:
       title: বৈশিষ্ট্য অনুসন্ধান করুন
       introduction: নিকটবর্তী বৈশিষ্ট্য খুঁজে পেতে মানচিত্রে ক্লিক করুন।
@@ -282,10 +332,12 @@ bn:
         সময় লাগবে।
   changeset_comments:
     comment:
-      comment: '%{author} কর্তৃক পরিবর্তনধার্য %{changeset_id}-এ নতুন মন্তব্য'
-      commented_at_by_html: '%{user} কর্তৃক %{when} আগে হালনাগাদকৃত'
+      comment: '%{author} কর্তৃক পরিবর্তনধার্য #%{changeset_id} এ নতুন মন্তব্য'
+      commented_at_by_html: '%{user} কর্তৃক %{when} হালনাগাদকৃত'
+    comments:
+      comment: '%{author} কর্তৃক পরিবর্তনধার্য #%{changeset_id} এ নতুন মন্তব্য'
     index:
-      title_all: ওপেনস্ট্রীটম্যাপ পরিবর্তনধার্য সম্পর্কিত  আলোচনা
+      title_all: ওপেনস্ট্রীটম্যাপ পরিবর্তনধার্যের আলোচনা
       title_particular: ওপেনস্ট্রীটম্যাপ পরিবর্তনধার্য %{changeset_id} সম্পর্কিত আলোচনা
   diary_entries:
     new:
@@ -326,8 +378,8 @@ bn:
         করে আপনার বানান যাচাই করুন, অথবা হতে পারে আপনি যে লিংকটিতে ক্লিক করেছেন তা
         ভুল।
     diary_entry:
-      comment_link: এই ভুক্তিতে মন্তব্য করুন
-      reply_link: এই ভুক্তির প্রত্যুত্তর দিন
+      comment_link: এই ভুক্তিতে মন্তব্য
+      reply_link: এই ভুক্তিতে প্রত্যুত্তর দিন
       comment_count:
         zero: কোন মন্তব্য নেই
         one: '%{count}টি মন্তব্য'
@@ -875,7 +927,7 @@ bn:
       search: অনুসন্ধান
       status: স্থিতি
       last_updated: সর্বশেষ হালনাগাদ
-      last_updated_time_html: <abbr title='%{title}'>%{time} পূর্বে</abbr>
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
       link_to_reports: প্রতিবেদনসমূহ দেখুন
       reports_count:
         one: ১টি প্রতিবেদন

@@ -2,6 +2,8 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Abijeet Patro
+# Author: Anarhistička Maca
+# Author: Astrind
 # Author: Bugoslav
 # Author: Ex13
 # Author: Janjko
@@ -26,6 +28,8 @@ hr:
         create: Spremi
       diary_entry:
         create: Objavi
+      issue_comment:
+        create: Dodaj komentar
       message:
         create: Pošalji
       client_application:
@@ -105,6 +109,9 @@ hr:
         description: Opis
         languages: Jezici
         pass_crypt: Lozinka
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: prije pola minute
   editor:
     default: Zadano (currently %{name})
     potlatch:
@@ -122,14 +129,14 @@ hr:
   api:
     notes:
       comment:
-        opened_at_html: Stvorena prije %{when}
-        opened_at_by_html: Stvorio korisnik %{user} prije %{when}
-        commented_at_html: Osvježena prije %{when}
-        commented_at_by_html: Osvježio korisnik %{user} prije %{when}
-        closed_at_html: Razriješeno prije %{when}
-        closed_at_by_html: Razriješio korisnik %{user} prije %{when}
-        reopened_at_html: Reaktivirano prije %{when}
-        reopened_at_by_html: Reaktivirao korisnik %{user} prije %{when}
+        opened_at_html: Stvorena %{when}
+        opened_at_by_html: Stvorio korisnik %{user} u %{when}
+        commented_at_html: Osvježena %{when}
+        commented_at_by_html: Osvježio korisnik %{user} u %{when}
+        closed_at_html: Razriješeno u %{when}
+        closed_at_by_html: Razriješio korisnik %{user} u %{when}
+        reopened_at_html: Reaktivirano %{when}
+        reopened_at_by_html: Reaktivirao korisnik %{user} u %{when}
       rss:
         title: Bilješke OpenStreetMap-a
         description_item: RSS-tok bilješke %{id}
@@ -143,12 +150,12 @@ hr:
   browse:
     created: Stvoreno
     closed: Zatvoreno
-    created_html: <abbr title='%{title}'> je stvoreno prije %{time}</abbr>
-    closed_html: <abbr title='%{title}'> je zatvoreno prije %{time}</abbr>
-    created_by_html: Korisnik %{user} je stvorio <abbr title='%{title}'> prije %{time}</abbr>
-    deleted_by_html: Korisnik %{user} je obrisao <abbr title='%{title}'> prije %{time}</abbr>
-    edited_by_html: Korisnik %{user} je uredio <abbr title='%{title}'> prije %{time}</abbr>
-    closed_by_html: Korisnik %{user} je zatvorio <abbr title='%{title}'> prije %{time}</abbr>
+    created_html: <abbr title='%{title}'> je stvoreno u %{time}</abbr>
+    closed_html: <abbr title='%{title}'> je zatvoreno u %{time}</abbr>
+    created_by_html: Korisnik %{user} je stvorio <abbr title='%{title}'> u %{time}</abbr>
+    deleted_by_html: Korisnik %{user} je obrisao <abbr title='%{title}'> u %{time}</abbr>
+    edited_by_html: Korisnik %{user} je uredio <abbr title='%{title}'> u %{time}</abbr>
+    closed_by_html: Korisnik %{user} je zatvorio <abbr title='%{title}'> u %{time}</abbr>
     version: Inačica
     in_changeset: Set promjena
     anonymous: anonimno
@@ -168,9 +175,9 @@ hr:
       relation: Relacije (%{count})
       relation_paginated: Relacije(%{x}-%{y} od %{count})
       comment: Komentari (%{count})
-      hidden_commented_by: Komentar skriven od %{user} <abbr title="%{exact_time}">prije
-        %{when}</abbr>
-      commented_by: Komentirao/la %{user} <abbr title='%{exact_time}'>prije %{when}</abbr>
+      hidden_commented_by: Komentar skriven od %{user} <abbr title="%{exact_time}">
+        u %{when}</abbr>
+      commented_by: Komentirao/la %{user} <abbr title='%{exact_time}'> u %{when}</abbr>
       changesetxml: XLM Set promjena
       osmchangexml: osmChange XML
       feed:
@@ -245,18 +252,17 @@ hr:
       open_title: Neriješena bilješka broj %{note_name}
       closed_title: Riješena bilješka broj %{note_name}
       hidden_title: Skrivena bilješka broj %{note_name}
-      open_by: Zabilježio/la %{user} <abbr title='%{exact_time}'>prije %{when}</abbr>
-      open_by_anonymous: Zabilježeno anonimno <abbr title='%{exact_time}'>prije %{when}</abbr>
-      commented_by: Komentirao/la %{user} <abbr title='%{exact_time}'>prije %{when}</abbr>
-      commented_by_anonymous: Komentirano anonimno <abbr title='%{exact_time}'>prije
+      open_by: Zabilježio/la %{user} <abbr title='%{exact_time}'> u %{when}</abbr>
+      open_by_anonymous: Zabilježeno anonimno <abbr title='%{exact_time}'> u %{when}</abbr>
+      commented_by: Komentirao/la %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Komentirano anonimno <abbr title='%{exact_time}'> u
         %{when}</abbr>
-      closed_by: Riješio/la %{user} <abbr title='%{exact_time}'>prije %{when}</abbr>
-      closed_by_anonymous: Riješeno anonimno <abbr title='%{exact_time}'>prije %{when}</abbr>
-      reopened_by: Ponovno aktivirao/la %{user} <abbr title='%{exact_time}'>prije
-        %{when}</abbr>
-      reopened_by_anonymous: Ponovno aktivirano anonimno <abbr title='%{exact_time}'>prije
-        %{when}</abbr>
-      hidden_by: Sakrio/la %{user} <abbr title='%{exact_time}'>prije %{when}</abbr>
+      closed_by: Riješio/la %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Riješeno anonimno <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Ponovno aktivirao/la %{user} <abbr title='%{exact_time}'> u %{when}</abbr>
+      reopened_by_anonymous: Ponovno aktivirano anonimno <abbr title='%{exact_time}'>
+        u %{when}</abbr>
+      hidden_by: Sakrio/la %{user} <abbr title='%{exact_time}'> u %{when}</abbr>
     query:
       title: Provjeri elemente karte
       introduction: Klikni na kartu za pronalazak okolnih elemenata karte.
@@ -294,7 +300,7 @@ hr:
   changeset_comments:
     comment:
       comment: 'Novi komentar na setu promjena #%{changeset_id} od %{author}'
-      commented_at_by_html: Osvježio korisnik %{user} prije %{when}
+      commented_at_by_html: Osvježio korisnik %{user} %{when}
     index:
       title_all: Rasprava o OpenStreetMap setu promjena
       title_particular: 'Rasprava o OpenStreetMap setu promjena #%{changeset_id}'
@@ -322,7 +328,7 @@ hr:
       older_entries: Stariji zapisi
       newer_entries: Noviji zapisi
     edit:
-      title: Uredi zapis u dnevniku
+      title: Uredi Zapis u Dnevniku
       marker_text: Lokacija unosa u dnevnik
     show:
       title: Dnevnik korisnika %{user} | %{title}
@@ -1676,7 +1682,7 @@ hr:
       ct status: 'Uvjeti doprinositelja:'
       ct undecided: Neopredjeljen
       ct declined: Odbio
-      latest edit: 'Najnovija izmjena %{ago}:'
+      latest edit: 'Najnovija izmjena (%{ago}):'
       email address: 'Email adresa:'
       created from: 'Napravljeno iz:'
       status: 'Stanje:'
@@ -1895,14 +1901,14 @@ hr:
       title: Opozivanje blokade na %{block_on}
       heading: Opozivanje blokade na %{block_on} od %{block_by}
       time_future: Blokada će završiti za %{time}.
-      past: Blokada je završila prije %{time} i ne može se sada opozvati.
+      past: Blokada je završila u %{time} i ne može se sada opozvati.
       confirm: Jeste li sgurni da želite opozvati ovu blokadu?
       revoke: Opozovi!
       flash: Ova blokada je opozvana.
     helper:
       time_future: Završava u %{time}.
       until_login: Aktivno dok se korsnik ne prijavi.
-      time_past: Završeno prije %{time}.
+      time_past: Završeno %{time}.
       block_duration:
         hours:
           one: 1 sat
