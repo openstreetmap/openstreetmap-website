@@ -85,8 +85,8 @@ $(document).ready(function () {
 
   $("select#user_auth_provider").on("change", updateAuthUID);
 
-  $("input#user_image").on("change", function () {
-    $("#image_action_new").prop("checked", true);
+  $("input#user_avatar").on("change", function () {
+    $("#avatar_action_new").prop("checked", true);
   });
 
   function enableAuth() {

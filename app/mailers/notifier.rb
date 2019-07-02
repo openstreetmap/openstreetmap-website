@@ -1,4 +1,6 @@
 class Notifier < ActionMailer::Base
+  include ActionView::Helpers::AssetUrlHelper
+
   default :from => Settings.email_from,
           :return_path => Settings.email_return_path,
           :auto_submitted => "auto-generated"
@@ -177,7 +179,16 @@ class Notifier < ActionMailer::Base
   end
 
   def attach_user_avatar(user)
-    attachments.inline["avatar.png"] = File.read(user_avatar_file_path(user))
+    attachments.inline["avatar.png"] = user_avatar_file(user)
+  end
+
+  def user_avatar_file(user)
+    avatar = user&.avatar
+    if avatar&.attached?
+      return avatar.variant(:resize => "50x50>").blob.download
+    else
+      return File.read(user_avatar_file_path(user))
+    end
   end
 
   def user_avatar_file_path(user)
@@ -185,7 +196,7 @@ class Notifier < ActionMailer::Base
     if image&.file?
       return image.path(:small)
     else
-      return Rails.root.join("app", "assets", "images", "users", "images", "small.png")
+      return Rails.root.join("app", "assets", "images", "avatar_small.png")
     end
   end
 

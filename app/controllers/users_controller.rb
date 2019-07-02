@@ -660,15 +660,15 @@ class UsersController < ApplicationController
 
     user.languages = params[:user][:languages].split(",")
 
-    case params[:image_action]
+    case params[:avatar_action]
     when "new" then
-      user.image = params[:user][:image]
+      user.avatar.attach(params[:user][:avatar])
       user.image_use_gravatar = false
     when "delete" then
-      user.image = nil
+      user.avatar.purge
       user.image_use_gravatar = false
     when "gravatar" then
-      user.image = nil
+      user.avatar.purge
       user.image_use_gravatar = true
     end
 

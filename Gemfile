@@ -126,6 +126,9 @@ gem "mimemagic"
 # Used for browser detection
 gem "browser"
 
+# Used to resize user images
+gem "mini_magick"
+
 # Gems useful for development
 group :development do
   gem "annotate"

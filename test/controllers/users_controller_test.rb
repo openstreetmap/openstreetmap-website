@@ -876,28 +876,28 @@ class UsersControllerTest < ActionController::TestCase
 
     # Changing to an uploaded image should work
     image = Rack::Test::UploadedFile.new("test/gpx/fixtures/a.gif", "image/gif")
-    post :account, :params => { :display_name => user.display_name, :image_action => "new", :user => user.attributes.merge(:image => image) }, :session => { :user => user }
+    post :account, :params => { :display_name => user.display_name, :avatar_action => "new", :user => user.attributes.merge(:avatar => image) }, :session => { :user => user }
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.form-row.accountImage input[name=image_action][checked][value=?]", "keep"
+    assert_select "form#accountForm > fieldset > div.form-row.accountImage input[name=avatar_action][checked][value=?]", "keep"
 
     # Changing to a gravatar image should work
-    post :account, :params => { :display_name => user.display_name, :image_action => "gravatar", :user => user.attributes }, :session => { :user => user }
+    post :account, :params => { :display_name => user.display_name, :avatar_action => "gravatar", :user => user.attributes }, :session => { :user => user }
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.form-row.accountImage input[name=image_action][checked][value=?]", "gravatar"
+    assert_select "form#accountForm > fieldset > div.form-row.accountImage input[name=avatar_action][checked][value=?]", "gravatar"
 
     # Removing the image should work
-    post :account, :params => { :display_name => user.display_name, :image_action => "delete", :user => user.attributes }, :session => { :user => user }
+    post :account, :params => { :display_name => user.display_name, :avatar_action => "delete", :user => user.attributes }, :session => { :user => user }
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.form-row.accountImage input[name=image_action][checked]", false
+    assert_select "form#accountForm > fieldset > div.form-row.accountImage input[name=avatar_action][checked]", false
 
     # Adding external authentication should redirect to the auth provider
     post :account, :params => { :display_name => user.display_name, :user => user.attributes.merge(:auth_provider => "openid", :auth_uid => "gmail.com") }, :session => { :user => user }

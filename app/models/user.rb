@@ -85,6 +85,8 @@ class User < ActiveRecord::Base
   scope :active, -> { where(:status => %w[active confirmed]) }
   scope :identifiable, -> { where(:data_public => true) }
 
+  has_one_attached :avatar
+
   has_attached_file :image,
                     :default_url => "/assets/:class/:attachment/:style.png",
                     :styles => { :large => "100x100>", :small => "50x50>" }
@@ -267,6 +269,8 @@ class User < ActiveRecord::Base
   ##
   # delete a user - leave the account but purge most personal data
   def delete
+    avatar.purge
+
     self.display_name = "user_#{id}"
     self.description = ""
     self.home_lat = nil
@@ -277,6 +281,7 @@ class User < ActiveRecord::Base
     self.auth_provider = nil
     self.auth_uid = nil
     self.status = "deleted"
+
     save
   end
 

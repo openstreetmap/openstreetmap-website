@@ -104,40 +104,40 @@
       <label class="standard-label"><%= t ".image" %></label>
         <%= user_image current_user %>
         <ul class='form-list accountImage-options'>
-        <% if current_user.image.file? %>
+        <% if current_user.avatar.attached? || current_user.image.file? %>
         <li>
-          <%= radio_button_tag "image_action", "keep", !current_user.image_use_gravatar %>
-          <label class='standard-label' for='image_action_keep'><%= t ".keep image" %></label>
+          <%= radio_button_tag "avatar_action", "keep", !current_user.image_use_gravatar %>
+          <label class='standard-label' for='avatar_action_keep'><%= t ".keep image" %></label>
         </li>
         <% end %>
-        <% if current_user.image.file? || current_user.image_use_gravatar? %>
+        <% if current_user.avatar.attached? || current_user.image.file? || current_user.image_use_gravatar? %>
         <li>
-          <%= radio_button_tag "image_action", "delete" %>
-          <label class='standard-label' for='image_action_delete'><%= t ".delete image" %></label>
+          <%= radio_button_tag "avatar_action", "delete" %>
+          <label class='standard-label' for='avatar_action_delete'><%= t ".delete image" %></label>
         </li>
         <% end %>
-        <% if current_user.image.file? %>
+        <% if current_user.avatar.attached? || current_user.image.file? %>
           <li>
-            <%= radio_button_tag "image_action", "new" %>
-            <label class='standard-label' for='image_action_new'>
+            <%= radio_button_tag "avatar_action", "new" %>
+            <label class='standard-label' for='avatar_action_new'>
                 <%= t ".replace image" %>
                 <span class="form-help deemphasize"><%= t ".image size hint" %></span>
             </label>
-            <%= f.file_field :image %>
+            <%= f.file_field :avatar %>
           </li>
         <% else %>
         <li>
-          <%= radio_button_tag "image_action", "new" %>
-          <label class='standard-label' for='image_action_new'>
+          <%= radio_button_tag "avatar_action", "new" %>
+          <label class='standard-label' for='avatar_action_new'>
             <%= t ".new image" %>
             <span class="form-help deemphasize"><%= t ".image size hint" %></span>
           </label>
-          <%= f.file_field :image %>
+          <%= f.file_field :avatar %>
         </li>
         <% end %>
         <li>
-          <%= radio_button_tag "image_action", "gravatar", current_user.image_use_gravatar %>
-          <label class='standard-label' for='image_action_gravatar'>
+          <%= radio_button_tag "avatar_action", "gravatar", current_user.image_use_gravatar %>
+          <label class='standard-label' for='avatar_action_gravatar'>
             <%= t ".gravatar.gravatar" %>
             <span class='form-help deemphasize'> (<a href="<%= t ".gravatar.link" %>" target="_new"><%= t ".gravatar.link text" %></a>)</span>
           </label>
