@@ -24,9 +24,10 @@ of packages required before you can get the various gems installed.
 * Bundler
 * Javascript Runtime
 
-These can be installed on Ubuntu 16.04 or later with:
+These can be installed on Ubuntu 18.04 or later with:
 
 ```
+sudo apt-get update
 sudo apt-get install ruby2.5 libruby2.5 ruby2.5-dev bundler \
                      libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
                      apache2 apache2-dev build-essential git-core \
