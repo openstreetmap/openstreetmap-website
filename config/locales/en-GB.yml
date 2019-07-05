@@ -20,6 +20,7 @@
 # Author: Sampablokuper
 # Author: Shirayuki
 # Author: Smsm1
+# Author: TomH
 # Author: ديفيد
 ---
 en-GB:
@@ -137,14 +138,14 @@ en-GB:
   api:
     notes:
       comment:
-        opened_at_html: Created %{when} ago
-        opened_at_by_html: Created %{when} ago by %{user}
-        commented_at_html: Updated %{when} ago
-        commented_at_by_html: Updated %{when} ago by %{user}
-        closed_at_html: Resolved %{when} ago
-        closed_at_by_html: Resolved %{when} ago by %{user}
-        reopened_at_html: Reactivated %{when} ago
-        reopened_at_by_html: Reactivated %{when} ago by %{user}
+        opened_at_html: Created %{when}
+        opened_at_by_html: Created %{when} by %{user}
+        commented_at_html: Updated %{when}
+        commented_at_by_html: Updated %{when} by %{user}
+        closed_at_html: Resolved %{when}
+        closed_at_by_html: Resolved %{when} by %{user}
+        reopened_at_html: Reactivated %{when}
+        reopened_at_by_html: Reactivated %{when} by %{user}
       rss:
         title: OpenStreetMap Notes
         description_area: A list of notes, reported, commented on or closed in your
@@ -160,12 +161,12 @@ en-GB:
   browse:
     created: Created
     closed: Closed
-    created_html: Created <abbr title='%{title}'>%{time} ago</abbr>
-    closed_html: Closed <abbr title='%{title}'>%{time} ago</abbr>
-    created_by_html: Created <abbr title='%{title}'>%{time} ago</abbr> by %{user}
-    deleted_by_html: Deleted <abbr title='%{title}'>%{time} ago</abbr> by %{user}
-    edited_by_html: Edited <abbr title='%{title}'>%{time} ago</abbr> by %{user}
-    closed_by_html: Closed <abbr title='%{title}'>%{time} ago</abbr> by %{user}
+    created_html: Created <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Closed <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Created <abbr title='%{title}'>%{time}</abbr> by %{user}
+    deleted_by_html: Deleted <abbr title='%{title}'>%{time}</abbr> by %{user}
+    edited_by_html: Edited <abbr title='%{title}'>%{time}</abbr> by %{user}
+    closed_by_html: Closed <abbr title='%{title}'>%{time}</abbr> by %{user}
     version: Version
     in_changeset: Changeset
     anonymous: anonymous
@@ -185,9 +186,8 @@ en-GB:
       relation: Relations (%{count})
       relation_paginated: Relations (%{x}-%{y} of %{count})
       comment: Comments (%{count})
-      hidden_commented_by: Hidden comment from %{user} <abbr title='%{exact_time}'>%{when}
-        ago</abbr>
-      commented_by: Comment from %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
+      hidden_commented_by: Hidden comment from %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comment from %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Changeset XML
       osmchangexml: osmChange XML
       feed:
@@ -263,19 +263,15 @@ en-GB:
       open_title: 'Unresolved note #%{note_name}'
       closed_title: 'Resolved note #%{note_name}'
       hidden_title: 'Hidden note #%{note_name}'
-      open_by: Created by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
-      open_by_anonymous: Created by anonymous <abbr title='%{exact_time}'>%{when}
-        ago</abbr>
-      commented_by: Comment from %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
-      commented_by_anonymous: Comment from anonymous <abbr title='%{exact_time}'>%{when}
-        ago</abbr>
-      closed_by: Resolved by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
-      closed_by_anonymous: Resolved by anonymous <abbr title='%{exact_time}'>%{when}
-        ago</abbr>
-      reopened_by: Reactivated by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
-      reopened_by_anonymous: Reactivated by anonymous <abbr title='%{exact_time}'>%{when}
-        ago</abbr>
-      hidden_by: Hidden by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
+      open_by: Created by %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Created by anonymous <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comment from %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Comment from anonymous <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Resolved by %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Resolved by anonymous <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Reactivated by %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Reactivated by anonymous <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Hidden by %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Report this note
     query:
       title: Query Features
@@ -300,7 +296,7 @@ en-GB:
     index:
       title: Changesets
       title_user: Changesets by %{user}
-      title_friend: Changesets by your friends
+      title_friend: Changesets by my friends
       title_nearby: Changesets by nearby users
       empty: No changesets found.
       empty_area: No changesets in this area.
@@ -314,7 +310,7 @@ en-GB:
   changeset_comments:
     comment:
       comment: 'New comment on changeset #%{changeset_id} by %{author}'
-      commented_at_by_html: Updated %{when} ago by %{user}
+      commented_at_by_html: Updated %{when} by %{user}
     index:
       title_all: OpenStreetMap changeset discussion
       title_particular: 'OpenStreetMap changeset #%{changeset_id} discussion'
@@ -336,7 +332,7 @@ en-GB:
       user_title: '%{user}''s diary'
       in_language_title: Diary Entries in %{language}
       new: New Diary Entry
-      new_title: Compose a new entry in your user diary
+      new_title: Compose a new entry in my user diary
       no_entries: No diary entries
       recent_entries: Recent diary entries
       older_entries: Older Entries
@@ -394,12 +390,12 @@ en-GB:
   geocoder:
     search:
       title:
-        latlon: Results from <a href="http://openstreetmap.org/">Internal</a>
-        ca_postcode: Results from <a href="http://geocoder.ca/">Geocoder.CA</a>
-        osm_nominatim: Results from <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        latlon: Results from <a href="https://openstreetmap.org/">Internal</a>
+        ca_postcode: Results from <a href="https://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim: Results from <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames: Results from <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim_reverse: Results from <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        osm_nominatim_reverse: Results from <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames_reverse: Results from <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
@@ -856,7 +852,7 @@ en-GB:
           "yes": Shop
         tourism:
           alpine_hut: Alpine Hut
-          apartment: Apartment
+          apartment: Holiday Apartment
           artwork: Artwork
           attraction: Attraction
           bed_and_breakfast: Bed and Breakfast
@@ -907,7 +903,7 @@ en-GB:
         level10: Suburb Boundary
     description:
       title:
-        osm_nominatim: Location from <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+        osm_nominatim: Location from <a href="https://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>
         geonames: Location from <a href="http://www.geonames.org/">GeoNames</a>
       types:
@@ -1179,13 +1175,15 @@ en-GB:
         Licence page</a> for details.
       legal_title: Legal
       legal_html: "This site and many other related services are formally operated
-        by the  \n<a href='http://osmfoundation.org/'>OpenStreetMap Foundation</a>
+        by the  \n<a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a>
         (OSMF) \non behalf of the community. Use of all OSMF operated services is
-        subject \nto our <a href=\"http://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nAcceptable
-        Use Policies</a> and our <a href=\"http://wiki.osmfoundation.org/wiki/Privacy_Policy\">Privacy
-        Policy</a>\n<br> \nPlease <a href='http://osmfoundation.org/Contact'>contact
-        the OSMF</a> \nif you have licensing, copyright or other legal questions and
-        issues."
+        subject \nto our <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">Terms
+        of Use</a>, <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">\nAcceptable
+        Use Policies</a> and our <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">Privacy
+        Policy</a>\n<br> \nPlease <a href='https://osmfoundation.org/Contact'>contact
+        the OSMF</a> \nif you have licensing, copyright or other legal questions.\n<br>\nOpenStreetMap,
+        the magnifying glass logo and State of the Map are <a href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">registered
+        trademarks of the OSMF</a>."
       partners_title: Partners
     copyright:
       foreign:
@@ -1275,8 +1273,11 @@ en-GB:
           Direction Générale des Impôts.'
         contributors_nl_html: '<strong>Netherlands</strong>: Contains &copy; AND data,
           2007 (<a href="http://www.and.com">www.and.com</a>)'
-        contributors_nz_html: '<strong>New Zealand</strong>: Contains data sourced
-          from Land Information New Zealand. Crown Copyright reserved.'
+        contributors_nz_html: |-
+          <strong>New Zealand</strong>: Contains data sourced from the
+          <a href="https://data.linz.govt.nz/">LINZ Data Service</a> and
+          licensed for reuse under
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
         contributors_si_html: |-
           <strong>Slovenia</strong>: Contains data from the
           <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> and
@@ -1286,7 +1287,7 @@ en-GB:
           from <a href="http://www.ngi.gov.za/">Chief Directorate: National Geo-Spatial
           Information</a>, State copyright reserved.'
         contributors_gb_html: '<strong>United Kingdom</strong>: Contains Ordnance
-          Survey data &copy; Crown copyright and database right 2010-12.'
+          Survey data &copy; Crown copyright and database right 2010-19.'
         contributors_footer_1_html: For further details of these, and other sources
           that have been used to help improve OpenStreetMap, please see the <a href="http://wiki.openstreetmap.org/wiki/Contributors">Contributors
           page</a> on the OpenStreetMap Wiki.
@@ -1327,13 +1328,13 @@ en-GB:
       anon_edits: (%{link})
       anon_edits_link_text: Find out why this is the case.
       flash_player_required: You need a Flash player to use Potlatch, the OpenStreetMap
-        Flash editor. You can <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">download
-        Flash Player from Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Several
+        Flash editor. You can <a href="https://get.adobe.com/flashplayer/">download
+        Flash Player from Adobe.com</a>. <a href="https://wiki.openstreetmap.org/wiki/Editing">Several
         other options</a> are also available for editing OpenStreetMap.
       potlatch_unsaved_changes: You have unsaved changes. (To save in Potlatch, you
         should deselect the current way or point, if editing in live mode, or click
         save if you have a save button.)
-      potlatch2_not_configured: Potlatch 2 has not been configured - please see http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
+      potlatch2_not_configured: Potlatch 2 has not been configured - please see https://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
         for more information
       potlatch2_unsaved_changes: You have unsaved changes. (To save in Potlatch 2,
         you should click save.)
@@ -1452,7 +1453,7 @@ en-GB:
       get_directions_title: Find directions between two points
       from: From
       to: To
-      where_am_i: Where am I?
+      where_am_i: Where is this?
       where_am_i_title: Describe the current location using the search engine
       submit_text: Go
       reverse_directions_text: Reverse Directions
@@ -1530,7 +1531,7 @@ en-GB:
       edit: Edit
       preview: Preview
     markdown_help:
-      title_html: Parsed with <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Parsed with <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>
       headings: Headings
       heading: Heading
       subheading: Subheading
@@ -1581,7 +1582,7 @@ en-GB:
         title: Any questions?
         paragraph_1_html: |-
           OpenStreetMap has several resources for learning about the project, asking and answering questions, and collaboratively discussing and documenting mapping topics.
-          <a href='%{help_url}'>Get help here</a>.
+          <a href='%{help_url}'>Get help here</a>. With an organization making plans for OpenStreetMap? <a href='https://welcome.openstreetmap.org/'>Check out the Welcome Mat</a>.
       start_mapping: Start Mapping
       add_a_note:
         title: No Time To Edit? Add a Note!
@@ -1914,10 +1915,10 @@ en-GB:
         Terms. For more information, please see <a href="%{url}">this wiki page</a>.
       terms declined url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Contributor terms
-      heading: Contributor terms
-      consider_pd: In addition to the above agreement, I consider my contributions
-        to be in the Public Domain
+      title: Terms
+      heading: Terms
+      consider_pd: In addition to the above, I consider my contributions to be in
+        the Public Domain
       consider_pd_why: what's this?
       consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Information to help understand these terms: a <a href="%{summary}">human
@@ -1961,7 +1962,7 @@ en-GB:
       ct status: 'Contributor terms:'
       ct undecided: Undecided
       ct declined: Declined
-      latest edit: 'Latest edit %{ago}:'
+      latest edit: 'Latest edit (%{ago}):'
       email address: 'Email address:'
       created from: 'Created from:'
       status: 'Status:'
@@ -2217,7 +2218,7 @@ en-GB:
       title: Revoking block on %{block_on}
       heading: Revoking block on %{block_on} by %{block_by}
       time_future: This block will end in %{time}.
-      past: This block ended %{time} ago and cannot be revoked now.
+      past: This block ended %{time} and cannot be revoked now.
       confirm: Are you sure you wish to revoke this block?
       revoke: Revoke!
       flash: This block has been revoked.
@@ -2225,7 +2226,7 @@ en-GB:
       time_future: Ends in %{time}.
       until_login: Active until the user logs in.
       time_future_and_until_login: Ends in %{time} and after the user has logged in.
-      time_past: Ended %{time} ago.
+      time_past: Ended %{time}.
       block_duration:
         hours:
           one: 1 hour
@@ -2344,8 +2345,7 @@ en-GB:
       new:
         intro: Spotted a mistake or something missing? Let other mappers know so we
           can fix it. Move the marker to the correct position and type a note to explain
-          the problem. (Please don't enter personal information or information from
-          copyrighted maps or directory listings.)
+          the problem.
         advice: Your note is public and may be used to update the map, so don't enter
           personal information or information from copyrighted maps or directory listings.
         add: Add Note
@@ -2371,7 +2371,7 @@ en-GB:
       distance: Distance
       errors:
         no_route: Couldn't find a route between those two places.
-        no_place: Sorry - couldn't find that place.
+        no_place: Sorry - couldn't locate '%{place}'.
       instructions:
         continue_without_exit: Continue on %{name}
         slight_right_without_exit: Slight right onto %{name}
@@ -2409,7 +2409,7 @@ en-GB:
         slight_left_without_exit: Slight left onto %{name}
         via_point_without_exit: (via point)
         follow_without_exit: Follow %{name}
-        roundabout_without_exit: At roundabout take %{name}
+        roundabout_without_exit: At roundabout take exit onto %{name}
         leave_roundabout_without_exit: Leave roundabout - %{name}
         stay_roundabout_without_exit: Stay on roundabout - %{name}
         start_without_exit: Start on %{name}

@@ -28,6 +28,8 @@ ro:
       diary_entry:
         create: Publică
         update: Actualizează
+      issue_comment:
+        create: Adaugă un comentariu
       message:
         create: Trimite
       client_application:
@@ -114,6 +116,45 @@ ro:
         description: Descriere
         languages: Limbi
         pass_crypt: Parolă
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: aproximativ 1 oră în urmă
+        other: aproximativ %{count} ore în urmă
+      about_x_months:
+        one: aproximativ 1 lună în urmă
+        other: aproximativ %{count} luni în urmă
+      about_x_years:
+        one: aproximativ 1 an în urmă
+        other: aproximativ %{count} ani în urmă
+      almost_x_years:
+        one: aproape 1 an în urmă
+        other: aproape %{count} luni în urmă
+      half_a_minute: o jumătate de minut în urmă
+      less_than_x_seconds:
+        one: mai puțin de 1 secundă în urmă
+        other: aproximativ acum %{count} luni în urmă
+      less_than_x_minutes:
+        one: mai puțin de un minut în urmă
+        other: mai puțin de %{count} minute în urmă
+      over_x_years:
+        one: acum peste 1 an
+        other: peste %{count} ani în urmă
+      x_seconds:
+        one: acum 1 secundă
+        other: cu %{count} secunde în urmă
+      x_minutes:
+        one: acum 1 minut
+        other: cu %{count} minute în urmă
+      x_days:
+        one: acum 1 zi
+        other: cu %{count} zile în urmă
+      x_months:
+        one: acum 1 lună
+        other: cu %{count} luni în urmă
+      x_years:
+        one: acum 1 an
+        other: cu %{count} ani în urmă
   printable_name:
     with_version: '%{id}, v%{version}'
     with_name_html: '%{name} (%{id})'
@@ -134,14 +175,14 @@ ro:
   api:
     notes:
       comment:
-        opened_at_html: Actualizat acum %{when}
+        opened_at_html: Creat %{when}
         opened_at_by_html: Creat %{when} de %{user}
-        commented_at_html: Actualizat acum %{when}
-        commented_at_by_html: Actualizat acum %{when} de %{user}
-        closed_at_html: Rezolvată %{when} în urmă
-        closed_at_by_html: Rezolvată %{when} în urmă de %{user}
-        reopened_at_html: Reactivat %{when} în urmă
-        reopened_at_by_html: Reactivat %{when} în urmă de %{user}
+        commented_at_html: Actualizat %{when}
+        commented_at_by_html: Actualizat %{when} de %{user}
+        closed_at_html: Rezolvat %{when}
+        closed_at_by_html: Rezolvat %{when} de %{user}
+        reopened_at_html: Reactivat %{when}
+        reopened_at_by_html: Reactivat %{when} de %{user}
       rss:
         title: Note OpenStreetMap
         description_area: O listă de note, raportate, comentate sau închise în zona
@@ -157,13 +198,12 @@ ro:
   browse:
     created: Creat
     closed: Închis
-    created_html: Creat <abbr title='%{title}'>cu %{time} în urmă</abbr>
-    closed_html: Închis <abbr title='%{title}'>cu %{time} în urmă</abbr>
-    created_by_html: Creat <abbr title='%{title}'>cu %{time} în urmă</abbr> de %{user}
-    deleted_by_html: Șters <abbr title='%{title}'>cu %{time} în urmă</abbr> de %{user}
-    edited_by_html: Modificat <abbr title='%{title}'>cu %{time} în urmă</abbr> de
-      %{user}
-    closed_by_html: Închis <abbr title='%{title}'>cu %{time} în urmă</abbr> de %{user}
+    created_html: Creat <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Închis <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Creat <abbr title='%{title}'>%{time}</abbr> de %{user}
+    deleted_by_html: Șters <abbr title='%{title}'>%{time}</abbr> de %{user}
+    edited_by_html: Modificat <abbr title='%{title}'>%{time}</abbr> de %{user}
+    closed_by_html: Închis <abbr title='%{title}'>%{time}</abbr> de %{user}
     version: Versiune
     in_changeset: Set de modificări
     anonymous: anonim
@@ -183,10 +223,8 @@ ro:
       relation: Comunicații (%{count})
       relation_paginated: Comunicații (%{x}-%{y} din %{count})
       comment: Comentarii (%{count})
-      hidden_commented_by: Ascuns comentariu scris de %{user} <abbr title='%{exact_time}'>cu
-        %{when} în urmă</abbr>
-      commented_by: Comentariu scris de %{user} <abbr title='%{exact_time}'>cu %{when}
-        în urmă</abbr>
+      hidden_commented_by: Ascuns comentariu de la %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comentariu de la %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Set de modificări XML
       osmchangexml: XML osmChange
       feed:
@@ -221,7 +259,7 @@ ro:
       entry: Relația %{relation_name}
       entry_role: Relația %{relation_name} (ca %{relation_role})
     not_found:
-      sorry: 'Ne pare rău, dar %{type} #%{id} nu s-a putut găsi.'
+      sorry: 'Scuze, dar %{type} #%{id} nu s-a putut găsi.'
       type:
         node: nod
         way: drum
@@ -266,18 +304,15 @@ ro:
       open_title: 'Notă nerezolvată #%{note_name}'
       closed_title: 'Notă rezolvată #%{note_name}'
       hidden_title: 'Notă ascunsă #%{note_name}'
-      open_by: Creat de %{user} <abbr title=cu '%{exact_time}'>%{when} în urmă</abbr>
-      open_by_anonymous: Creat de un utilizator anonim <abbr title=cu '%{exact_time}'>%{when}
-        în urmă</abbr>
-      commented_by: Comentariu scris de %{user} <abbr title='%{exact_time}'>cu %{when}
-        în urmă</abbr>
-      commented_by_anonymous: Comentariu scris de un utilizator anonim <abbr title=cu
-        '%{exact_time}'>%{when} în urmă</abbr>
-      closed_by: Rezolvat de %{user} acum <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Rezolvat de anonimul acum <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Reactivat de acum %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Reactivat de anonim acum <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Ascunsă de %{user} acum <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by: Creat de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Creat de anonim <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comentariu de la %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Comentariu de la anonim <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Rezolvat de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Rezolvat de anonim <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Reactivat de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Reactivat de anonim <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Ascunsă de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Raportează această notă
     query:
       title: Interogări ale funcțiilor
@@ -317,7 +352,7 @@ ro:
   changeset_comments:
     comment:
       comment: 'Comentariu nou privind modificările #%{changeset_id} de către %{author}'
-      commented_at_by_html: Actualizat acum %{when} de %{user}
+      commented_at_by_html: Actualizat %{when} de %{user}
     comments:
       comment: 'Comentariu nou făcut la #%{changeset_id} de %{author}'
     index:
@@ -374,11 +409,13 @@ ro:
         other: '%{count} comentarii'
       edit_link: Editează această înregistrare
       hide_link: Ascunde această înregistrare
+      unhide_link: Arată această intrare
       confirm: Confirmă
       report: Reclamă această înregistrare
     diary_comment:
       comment_from: Comentariu de la %{link_user} pe %{comment_created_at}
       hide_link: Ascunde acest comentariu
+      unhide_link: Arată acest comentariu
       confirm: Confirmă
       report: Reclamă acest comentariu
     location:
@@ -833,7 +870,7 @@ ro:
           abandoned: Cale ferată abandonată
           construction: Cale ferată în construcție
           disused: Cale ferată dezafectată
-          funicular: Funicular
+          funicular: Cale Ferată Funicular
           halt: Gară
           junction: Nod feroviar
           level_crossing: Trecere la nivel
@@ -1017,8 +1054,8 @@ ro:
       status: Stare
       reports: Rapoarte
       last_updated: Ultima actualizare
-      last_updated_time_html: <abbr title='%{title}'>%{time} în urmă</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} ago</abbr> de %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> de %{user}
       link_to_reports: Vizualizați rapoartele
       reports_count:
         one: 1 Report
@@ -1358,7 +1395,7 @@ ro:
         despre drumuri, trasee, cafenele, stații de cale ferată și multe altele din întreaga lume.
       local_knowledge_title: Cunoaștere locală
       local_knowledge_html: |-
-        OpenStreetMap simpatizează cunoștințele locale. Colaboratorii folosesc imaginile aeriene, dispozitivele GPS și hărțile câmpurilor de joasă tehnologie pentru a verifica faptul că OSM
+        OpenStreetMap îndrăgește cunoștințele locale. Colaboratorii folosesc imaginile aeriene, dispozitivele GPS și hărțile câmpurilor de joasă tehnologie pentru a verifica faptul că OSM
         este exactă și actualizată.
       community_driven_title: Condusă de comunitate
       community_driven_html: |-
@@ -2210,7 +2247,7 @@ ro:
       ct status: 'Termenii colaboratorului:'
       ct undecided: Nedefinit
       ct declined: Declinat
-      latest edit: 'Ultima editare %{ago}:'
+      latest edit: 'Ultima modificare %{ago}:'
       email address: 'Adresa de e-mail:'
       created from: 'Creat de la:'
       status: 'Statut:'
@@ -2316,7 +2353,7 @@ ro:
       update home location on click: Actualizați locația locuinței dvs. când faceți
         click pe hartă?
       save changes button: Salvează modificările
-      make edits public button: Efectuați toate editările mele publice
+      make edits public button: Faceți toate editările mele publice
       return to profile: Reveniți la profil
       flash update success confirm needed: Informațiile despre utilizator s-au actualizat
         cu succes. Verificați e-mailul pentru o notă pentru a confirma noua adresă
@@ -2495,20 +2532,20 @@ ro:
       time_past: Terminat în urmă cu %{time}.
       block_duration:
         hours:
-          one: 1 hour
-          other: '%{count} hours'
+          one: 1 oră
+          other: '%{count} ore'
         days:
-          one: 1 day
-          other: '%{count} days'
+          one: 1 zi
+          other: '%{count} zile'
         weeks:
-          one: 1 week
-          other: '%{count} weeks'
+          one: 1 săptămână
+          other: '%{count} săptămâni'
         months:
-          one: 1 month
-          other: '%{count} months'
+          one: 1 lună
+          other: '%{count} luni'
         years:
-          one: 1 year
-          other: '%{count} years'
+          one: 1 an
+          other: '%{count} ani'
     blocks_on:
       title: Blocări pe %{name}
       heading: Lista blocărilor pe %{name}
@@ -2654,7 +2691,7 @@ ro:
       distance: Distanță
       errors:
         no_route: Nu s-a putut găsi un traseu între cele două locuri.
-        no_place: Ne pare rău - nu am găsit locația '%{place}'.
+        no_place: Scuze - nu am găsit '%{place}'.
       instructions:
         continue_without_exit: Continuă pe %{name}
         slight_right_without_exit: Virează direct în %{name}
@@ -2676,12 +2713,12 @@ ro:
         onramp_right_without_directions: Virează la dreapta către banda
         onramp_right: Virează la dreapta către banda
         endofroad_right_without_exit: La finalul drumul virează dreapta către %{name}
-        merge_right_without_exit: Intră direct pe %{name}
-        fork_right_without_exit: La intersecția în formă de furculiță (Y) fă dreapta
-          pe %{name}
+        merge_right_without_exit: Mergeți direct pe %{name}
+        fork_right_without_exit: La intersecția în formă de furcă (Y) fă dreapta pe
+          %{name}
         turn_right_without_exit: Virează la dreapta pe %{name}
         sharp_right_without_exit: Strângeți dreapta spre %{name}
-        uturn_without_exit: Fă o întoarcere în U %{name}
+        uturn_without_exit: Întoarceți-vă în U pe %{name}
         sharp_left_without_exit: Brusc stânga spre %{name}
         turn_left_without_exit: Virează la stânga pe %{name}
         offramp_left: Abordați ieșirea de pe partea stângă
@@ -2693,7 +2730,7 @@ ro:
           spre %{name}, către %{directions}
         offramp_left_with_name: Abordează ieșirea de pe stângă către %{name}
         offramp_left_with_directions: Abordează ieșirea de pe stânga către %{directions}
-        offramp_left_with_name_directions: Abordează ieșirea de pe stânga pe %{name},
+        offramp_left_with_name_directions: Abordează ieșirea de pe stânga spre %{name},
           către %{directions}
         onramp_left_without_exit: Virează la stânga către %{name}
         onramp_left_with_directions: Virează la stânga spre banda către %{directions}
@@ -2703,35 +2740,34 @@ ro:
         onramp_left: Virează la stânga către banda
         endofroad_left_without_exit: La finalul drumul virează stânga către %{name}
         merge_left_without_exit: Strângeți stânga spre %{name}
-        fork_left_without_exit: La intersecția în formă de furculiță (Y) fă stânga
-          pe %{name}
+        fork_left_without_exit: La intersecția în formă de furcă (Y) fă stânga pe
+          %{name}
         slight_left_without_exit: Ușor stânga pe %{name}
-        via_point_without_exit: (prin via)
+        via_point_without_exit: (via prin)
         follow_without_exit: Urmarește %{name}
         roundabout_without_exit: La sensul giratoriu, ieșiți pe %{name}
         leave_roundabout_without_exit: Părăsește sensul giratoriu - %{name}
-        stay_roundabout_without_exit: Stai pe sensul giratoriu - %{name}
+        stay_roundabout_without_exit: Rămâi pe sensul giratoriu - %{name}
         start_without_exit: Începe pe %{name}
-        destination_without_exit: Atingeți destinația
-        against_oneway_without_exit: Mergi împotriva sensului de trafic cu sens unic
-          pe %{name}
+        destination_without_exit: Destinație atinsă
+        against_oneway_without_exit: Mergi împotriva sensului unic pe %{name}
         end_oneway_without_exit: Finalul străzii cu sens unic pe %{name}
-        roundabout_with_exit: La sensul giratoriu %{exit} pe %{name}
-        roundabout_with_exit_ordinal: La sensul giratoriu %{exit}, ieșiți pe %{name}
-        exit_roundabout: Ieșiți în sensul giratoriu pe %{name}
+        roundabout_with_exit: La sensul giratoriu ieși pe %{exit} către %{name}
+        roundabout_with_exit_ordinal: La sensul giratoriu a %{exit} ieșire spre %{name}
+        exit_roundabout: Ieșiți din sensul giratoriu spre %{name}
         unnamed: drum fără nume
-        courtesy: Instrucțiuni prin curtoazie de %{link}
+        courtesy: Instrucțiuni prin curtoazia %{link}
         exit_counts:
-          first: Primul loc
-          second: Al doilea loc
-          third: Locul trei
-          fourth: Locul 4
-          fifth: Locul 5
-          sixth: Locul 6
-          seventh: Locul 7
-          eighth: Locul 8
-          ninth: Locul 9
-          tenth: Locul 10
+          first: primul loc
+          second: al doilea loc
+          third: locul trei
+          fourth: locul 4
+          fifth: locul 5
+          sixth: locul 6
+          seventh: locul 7
+          eighth: locul 8
+          ninth: locul 9
+          tenth: locul 10
       time: Durată
     query:
       node: Nod

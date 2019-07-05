@@ -51,6 +51,8 @@ fi:
       diary_entry:
         create: Julkaise
         update: Päivitä
+      issue_comment:
+        create: Lisää kommentti
       message:
         create: Lähetä
       client_application:
@@ -137,6 +139,45 @@ fi:
         description: Kuvaus
         languages: Kielet
         pass_crypt: Salasana
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: noin 1 tunti sitten
+        other: noin %{count} tuntia sitten
+      about_x_months:
+        one: noin 1 kuukausi sitten
+        other: noin %{count} kuukautta sitten
+      about_x_years:
+        one: noin 1 vuosi sitten
+        other: noin %{count} vuotta sitten
+      almost_x_years:
+        one: melkein 1 vuosi sitten
+        other: melkein %{count} vuotta sitten
+      half_a_minute: puoli minuuttia sitten
+      less_than_x_seconds:
+        one: vähemmän kuin 1 sekuntia sitten
+        other: vähemmän kuin %{count} sekuntia sitten
+      less_than_x_minutes:
+        one: vähemmän kuin minuutti sitten
+        other: vähemmän kuin %{count} minuuttia sitten
+      over_x_years:
+        one: yli 1 vuosi sitten
+        other: yli %{count} vuotta sitten
+      x_seconds:
+        one: 1 sekunti sitten
+        other: '%{count} sekuntia sitten'
+      x_minutes:
+        one: 1 minuutti sitten
+        other: '%{count} minuuttia sitten'
+      x_days:
+        one: 1 päivä sitten
+        other: '%{count} päivää sitten'
+      x_months:
+        one: 1 kuukausi sitten
+        other: '%{count} kuukautta sitten'
+      x_years:
+        one: 1 vuosi sitten
+        other: '%{count} vuotta sitten'
   editor:
     default: Oletus (tällä hetkellä %{name})
     potlatch:
@@ -154,14 +195,14 @@ fi:
   api:
     notes:
       comment:
-        opened_at_html: Luotu %{when} sitten
-        opened_at_by_html: '%{user} luonut %{when} sitten'
-        commented_at_html: Päivitetty %{when} sitten
-        commented_at_by_html: '%{user} päivittänyt %{when} sitten'
-        closed_at_html: Ratkaistu %{when} sitten
-        closed_at_by_html: '%{user} ratkaissut %{when} sitten'
-        reopened_at_html: Avattu uudelleen %{when} sitten
-        reopened_at_by_html: '%{user} aktivoinut uudelleen %{when} sitten'
+        opened_at_html: Luotu %{when}
+        opened_at_by_html: '%{user} luonut %{when}'
+        commented_at_html: Päivitetty %{when}
+        commented_at_by_html: '%{user} päivittänyt %{when}'
+        closed_at_html: Ratkaistu %{when}
+        closed_at_by_html: '%{user} ratkaissut %{when}'
+        reopened_at_html: Avattu uudelleen %{when}
+        reopened_at_by_html: '%{user} aktivoinut uudelleen %{when}'
       rss:
         title: OpenStreetMapin karttailmoitukset
         description_area: Luettelo raportoiduista, kommentoiduista tai suljetuista
@@ -177,15 +218,14 @@ fi:
   browse:
     created: Luotu
     closed: Ratkaistu
-    created_html: Lähettänyt käyttäjä <abbr title='%{title}'>%{time} sitten</abbr>
-    closed_html: Ratkaistu <abbr title='%{title}'>%{time} sitten</abbr>
-    created_by_html: Lähettänyt käyttäjä %{user} <abbr title='%{title}'>%{time} sitten</abbr>
-    deleted_by_html: Poistettu <abbr title='%{title}'>%{time} sitten</abbr> käyttäjän
-      %{user} toimesta
-    edited_by_html: Muokannut viimeksi käyttäjä %{user} <abbr title='%{title}'>%{time}
-      sitten</abbr>
-    closed_by_html: Suljettu <abbr title='%{title}'>%{time} sitten</abbr> käyttäjän
-      %{user} toimesta
+    created_html: Lähettänyt käyttäjä <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Ratkaistu <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Lähettänyt käyttäjä %{user} <abbr title='%{title}'>%{time}</abbr>
+    deleted_by_html: Poistettu <abbr title='%{title}'>%{time}</abbr> käyttäjän %{user}
+      toimesta
+    edited_by_html: Muokannut viimeksi käyttäjä %{user} <abbr title='%{title}'>%{time}</abbr>
+    closed_by_html: Suljettu <abbr title='%{title}'>%{time}</abbr> käyttäjän %{user}
+      toimesta
     version: Versio
     in_changeset: Muutoskokoelma
     anonymous: tuntematon
@@ -205,10 +245,8 @@ fi:
       relation: Relaatiot (%{count})
       relation_paginated: Relaatiot (%{x}-%{y} / %{count})
       comment: Kommentit (%{count})
-      hidden_commented_by: Käyttäjän %{user} piilotettu kommentti <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
-      commented_by: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
+      hidden_commented_by: Käyttäjän %{user} piilotettu kommentti <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Muutoskokoelman XML
       osmchangexml: osmChange XML
       feed:
@@ -285,22 +323,15 @@ fi:
       open_title: 'Ratkaisematon karttailmoitus #%{note_name}'
       closed_title: 'Ratkaistu karttailmoitus #%{note_name}'
       hidden_title: 'Piilotettu karttailmoitus #%{note_name}'
-      open_by: Lähettänyt käyttäjä %{user} <abbr title='%{exact_time}'>%{when} sitten</abbr>
-      open_by_anonymous: Luonut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
-      commented_by: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
-      commented_by_anonymous: Kommentti tuntemattomalta käyttäjältä <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
-      closed_by: Ratkaissut käyttäjä %{user} <abbr title='%{exact_time}'>%{when} sitten</abbr>
-      closed_by_anonymous: Ratkaissut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
-      reopened_by: Avannut uudelleen käyttäjä %{user} <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
-      reopened_by_anonymous: Avannut uudelleen tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
-      hidden_by: Piilottanut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}
-        sitten</abbr>
+      open_by: Lähettänyt käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Luonut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Kommentti tuntemattomalta käyttäjältä <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Ratkaissut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Ratkaissut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Avannut uudelleen käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Avannut uudelleen tuntematon käyttäjä <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Piilottanut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Ilmianna karttailmoitus
     query:
       title: Ominaisuuskysely
@@ -340,12 +371,15 @@ fi:
   changeset_comments:
     comment:
       comment: 'Käyttäjä %{author} kommentoi muutoskokoelmaa #%{changeset_id}'
-      commented_at_by_html: '%{user} päivittänyt %{when} sitten'
+      commented_at_by_html: '%{user} päivittänyt %{when}'
     comments:
       comment: 'Uusi kommentti käyttäjän %{author} muutoskokoelmassa #%{changeset_id}'
     index:
       title_all: Keskustelu OpenStreetMapin muutoskokoelmasta
       title_particular: 'OpenStreetMap muutoskokoelma #%{changeset_id} keskustelu'
+    timeout:
+      sorry: Valitettavasti pyytämäsi muutoskokoelmien kommenttien hakeminen kesti
+        liian kauan.
   diary_entries:
     new:
       title: Uusi päiväkirjamerkintä
@@ -393,11 +427,13 @@ fi:
         other: '%{count} kommenttia'
       edit_link: Muokkaa päiväkirjamerkintää
       hide_link: Piilota tämä merkintä
+      unhide_link: Poista merkinnän piilottaminen
       confirm: Vahvista
       report: Ilmianna julkaisu
     diary_comment:
       comment_from: Kommentti käyttäjältä %{link_user} %{comment_created_at}
       hide_link: Piilota tämä kommentti
+      unhide_link: Poista kommentin piilottaminen
       confirm: Vahvista
       report: Ilmianna kommentti
     location:
@@ -1034,9 +1070,8 @@ fi:
       status: Tila
       reports: Ilmiannot
       last_updated: Päivitetty
-      last_updated_time_html: <abbr title='%{title}'>%{time} sitten</abbr>
-      last_updated_time_user_html: käyttäjä %{user} <abbr title='%{title}'>%{time}
-        sitten</abbr>
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: käyttäjä %{user} <abbr title='%{title}'>%{time}</abbr>
       link_to_reports: Näytä ilmiannot
       reports_count:
         one: 1 ilmoitus
@@ -2182,7 +2217,7 @@ fi:
       ct status: 'Osallistumisehdot:'
       ct undecided: Ei valittu
       ct declined: Hylätty
-      latest edit: 'Viimeisin muutos %{ago}:'
+      latest edit: 'Viimeisin muutos (%{ago}):'
       email address: 'Sähköpostiosoite:'
       created from: 'Tekijä:'
       status: 'Tila:'
@@ -2438,7 +2473,7 @@ fi:
       title: Esto %{block_on} poistetaan
       heading: Poistetaan käyttäjän %{block_on} esto, jonka oli tehnyt %{block_by}
       time_future: Tämä esto päättyy %{time} kuluttua.
-      past: Tämä esto päättyi %{time} sitten ja sitä ei voida poistaa.
+      past: Tämä esto päättyi %{time} ja sitä ei voida poistaa.
       confirm: Oletko varma, että haluat poistaa tämän eston?
       revoke: Poista!
       flash: Tämä esto on poistettu
@@ -2447,7 +2482,7 @@ fi:
       until_login: Aktiivinen kunnes käyttäjä kirjautuu sisään.
       time_future_and_until_login: Päättyy %{time} kuluttua ja käyttäjän kirjauduttua
         sisään.
-      time_past: Päättyi %{time} sitten.
+      time_past: Päättyi %{time}.
       block_duration:
         hours:
           one: 1 tunti

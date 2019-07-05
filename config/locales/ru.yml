@@ -69,6 +69,7 @@
 # Author: WindEwriX
 # Author: Wirbel78
 # Author: XAN
+# Author: XnL
 # Author: Yuri Nazarov
 # Author: Yuryleb
 # Author: Zverik
@@ -108,7 +109,7 @@ ru:
   activerecord:
     errors:
       messages:
-        invalid_email_address: не похоже на корректный адрес электронной почты
+        invalid_email_address: не похоже на действительный адрес электронной почты
         email_address_not_routable: не маршрутизирован
     models:
       acl: Список контроля доступа
@@ -180,26 +181,26 @@ ru:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: около 1 часа назад
+        one: около часа назад
         other: около %{count} часов назад
       about_x_months:
-        one: около 1 месяца назад
+        one: около месяца назад
         other: около %{count} месяцев назад
       about_x_years:
-        one: около 1 года назад
+        one: около года назад
         other: около %{count} лет назад
       almost_x_years:
-        one: почти 1 год назад
+        one: почти год назад
         other: почти %{count} лет назад
       half_a_minute: полминуты назад
       less_than_x_seconds:
-        one: менее 1 секунды назад
+        one: менее секунды назад
         other: менее %{count} секунд назад
       less_than_x_minutes:
-        one: менее 1 минуты назад
+        one: менее минуты назад
         other: менее %{count} минут назад
       over_x_years:
-        one: более 1 года назад
+        one: более года назад
         other: более %{count} лет назад
       x_seconds:
         one: 1 секунда назад
@@ -238,14 +239,14 @@ ru:
   api:
     notes:
       comment:
-        opened_at_html: Создана %{when} назад
-        opened_at_by_html: Создана %{when} назад %{user}
-        commented_at_html: Обновлена %{when} назад
-        commented_at_by_html: Обновлена %{when} назад %{user}
-        closed_at_html: Обработана %{when} назад
-        closed_at_by_html: Обработана %{when} назад %{user}
-        reopened_at_html: Открыта заново %{when} назад
-        reopened_at_by_html: Открыта заново %{when} назад %{user}
+        opened_at_html: Создана %{when}
+        opened_at_by_html: Создана %{when} пользователем %{user}
+        commented_at_html: Обновлена %{when}
+        commented_at_by_html: Обновлена %{when} пользователем %{user}
+        closed_at_html: Обработана %{when}
+        closed_at_by_html: Обработана %{when} пользователем %{user}
+        reopened_at_html: Переоткрыта %{when}
+        reopened_at_by_html: Переоткрыта %{when} пользователем %{user}
       rss:
         title: Заметки OpenStreetMap
         description_area: Список заметок, созданных, прокомментированных или закрытых
@@ -261,16 +262,13 @@ ru:
   browse:
     created: Создано
     closed: Закрыто
-    created_html: Создано <abbr title='%{title}'>%{time} назад</abbr>
-    closed_html: Закрыто <abbr title='%{title}'>%{time} назад</abbr>
-    created_by_html: Создано <abbr title='%{title}'>%{time} назад</abbr> пользователем
+    created_html: Создано <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Закрыто <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Создано <abbr title='%{title}'>%{time}</abbr> пользователем %{user}
+    deleted_by_html: Удалено <abbr title='%{title}'>%{time}</abbr> пользователем %{user}
+    edited_by_html: Отредактировано <abbr title='%{title}'>%{time}</abbr> пользователем
       %{user}
-    deleted_by_html: Удалено <abbr title='%{title}'>%{time} назад</abbr> пользователем
-      %{user}
-    edited_by_html: Отредактировано <abbr title='%{title}'>%{time} назад</abbr> пользователем
-      %{user}
-    closed_by_html: Закрыто <abbr title='%{title}'>%{time} назад</abbr> пользователем
-      %{user}
+    closed_by_html: Закрыто <abbr title='%{title}'>%{time}</abbr> пользователем %{user}
     version: Версия
     in_changeset: Пакет правок
     anonymous: аноним
@@ -290,10 +288,8 @@ ru:
       relation: Отношения (%{count})
       relation_paginated: Отношения (%{x}-%{y} из %{count})
       comment: Комментарии (%{count})
-      hidden_commented_by: Скрытый комментарий от %{user} <abbr title='%{exact_time}'>%{when}
-        назад</abbr>
-      commented_by: Комментарий пользователя %{user} <abbr title='%{exact_time}'>%{when}
-        назад</abbr>
+      hidden_commented_by: Скрытый комментарий от %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Комментарий от %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML пакета правок
       osmchangexml: osmChange XML
       feed:
@@ -333,7 +329,7 @@ ru:
         way: линия
         relation: отношение
         changeset: пакет правок
-        note: примечание
+        note: заметка
     timeout:
       sorry: Извините, данные для %{type} с id %{id} требуют слишком много времени
         для извлечения.
@@ -342,7 +338,7 @@ ru:
         way: линии
         relation: отношения
         changeset: пакета правок
-        note: примечание
+        note: заметка
     redacted:
       redaction: Исправление %{id}
       message_html: Версия %{version} этого объекта (%{type}) скрыта и не может быть
@@ -371,27 +367,21 @@ ru:
       open_title: 'Необработанная заметка #%{note_name}'
       closed_title: 'Обработанная заметка #%{note_name}'
       hidden_title: 'Скрытая заметка #%{note_name}'
-      open_by: Создана пользователем %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
-      open_by_anonymous: Создано анонимно <abbr title='%{exact_time}'>%{when} назад</abbr>
-      commented_by: Комментарий пользователя %{user} <abbr title='%{exact_time}'>%{when}
-        назад</abbr>
-      commented_by_anonymous: Анонимный комментарий <abbr title='%{exact_time}'>%{when}
-        назад</abbr>
-      closed_by: Обработана пользователем %{user} <abbr title='%{exact_time}'>%{when}
-        назад</abbr>
-      closed_by_anonymous: Обработана анонимно <abbr title='%{exact_time}'>%{when}
-        назад</abbr>
-      reopened_by: Открыта заново пользователем %{user} <abbr title='%{exact_time}'>%{when}
-        назад</abbr>
-      reopened_by_anonymous: Открыта заново анонимно <abbr title='%{exact_time}'>%{when}
-        назад</abbr>
-      hidden_by: Скрыта %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
+      open_by: Создана %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Создано анонимно <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Комментарий от %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Анонимный комментарий <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Обработана %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Обработана анонимно <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Переоткрыта %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Переоткрыта анонимно <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Скрыта %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Сообщить об этой заметке
     query:
       title: Что здесь?
       introduction: Нажмите на карту, чтобы найти ближайшие объекты
       nearby: Ближайшие объекты
-      enclosing: Местоположение
+      enclosing: Окружающие объекты
   changesets:
     changeset_paging_nav:
       showing_page: Страница %{page}
@@ -425,7 +415,7 @@ ru:
   changeset_comments:
     comment:
       comment: 'Новый комментарий к пакету правок #%{changeset_id} от %{author}'
-      commented_at_by_html: Обновлена %{when} назад %{user}
+      commented_at_by_html: Обновлена %{when} пользователем %{user}
     comments:
       comment: 'Новый комментарий к пакету правок #%{changeset_id} от %{author}'
     index:
@@ -452,7 +442,7 @@ ru:
       user_title: Дневник пользователя %{user}
       in_language_title: Дневниковые записи на языке %{language}
       new: Новая запись в дневнике
-      new_title: Сделать новую запись в моем дневнике
+      new_title: Создать новую запись в моём дневнике
       no_entries: Нет записей в дневнике
       recent_entries: Недавние записи в дневнике
       older_entries: Более старые записи
@@ -472,8 +462,8 @@ ru:
       body: К сожалению, нет записи или комментария с номером %{id}. Проверьте правильность
         написания. Или, возможно, ссылка, по которой вы перешли, ошибочна.
     diary_entry:
-      posted_by: 'Отправил %{link_user} %{created}, язык: %{language_link}'
-      comment_link: Комментировать
+      posted_by: Опубликован %{link_user} %{created} на языке %{language_link}
+      comment_link: Оставить комментарий
       reply_link: Ответить
       comment_count:
         few: '%{count} комментария'
@@ -484,7 +474,7 @@ ru:
       hide_link: Скрыть эту запись
       unhide_link: Отобразить эту запись
       confirm: Подтвердить
-      report: Сообщить об этой записи в дневнике
+      report: Сообщить об этой записи
     diary_comment:
       comment_from: Комментарий %{link_user} %{comment_created_at}
       hide_link: Скрыть этот комментарий
@@ -498,13 +488,14 @@ ru:
     feed:
       user:
         title: Дневниковые записи OpenStreetMap %{user}
-        description: Последние дневниковые записи OpenStreetMap %{user}
+        description: Последние записи в дневнике OpenStreetMap от %{user}
       language:
-        title: Дневниковые записи OpenStreetMap на %{language_name}
-        description: Последние дневниковые записи пользователей OpenStreetMap на %{language_name}
+        title: Записи в дневнике OpenStreetMap на %{language_name}
+        description: Последние записи в дневнике от пользователей OpenStreetMap на
+          %{language_name}
       all:
-        title: Дневниковые записи OpenStreetMap
-        description: Последние дневниковые записи пользователей OpenStreetMap
+        title: Записи в дневнике OpenStreetMap
+        description: Последние записи в дневнике от пользователей OpenStreetMap
     comments:
       has_commented_on: '%{display_name} прокомментировал следующие записи дневника'
       post: Сообщение
@@ -1124,8 +1115,8 @@ ru:
       status: Статус
       reports: Сообщения
       last_updated: Последнее изменение
-      last_updated_time_html: <abbr title='%{title}'>%{time} назад</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} назад</abbr> пользователем
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> пользователем
         %{user}
       link_to_reports: Просмотр сообщений
       reports_count:
@@ -2296,7 +2287,7 @@ ru:
       ct status: 'Условия участия:'
       ct undecided: Неопределено
       ct declined: Отклонены
-      latest edit: 'Последняя правка %{ago}:'
+      latest edit: 'Последняя правка (%{ago}):'
       email address: 'Адрес Email:'
       created from: 'Создано из:'
       status: 'Статус:'
@@ -2568,7 +2559,7 @@ ru:
       title: Снять блокировку для %{block_on}
       heading: Отмена блокировки для пользователя %{block_on}, которую создал %{block_by}
       time_future: Эта блокировка закончится через %{time}.
-      past: Эта блокировка закончилась %{time} назад и уже не может быть отменена.
+      past: Эта блокировка закончилась %{time} и уже не может быть отменена.
       confirm: Вы уверены, что хотите снять эту блокировку?
       revoke: Снять блокировку!
       flash: Эта блокировка была снята.
@@ -2577,7 +2568,7 @@ ru:
       until_login: Активно до тех пор, пока пользователь не войдёт в систему.
       time_future_and_until_login: Заканчивается через %{time} и после того, как пользователь
         войдёт в систему.
-      time_past: Закончилось %{time} назад.
+      time_past: Закончилось %{time}.
       block_duration:
         hours:
           one: 1 час
