@@ -22,12 +22,13 @@ module Api
     end
 
     def show
-      way = Way.find(params[:id])
+      @way = Way.find(params[:id])
 
-      response.last_modified = way.timestamp
+      response.last_modified = @way.timestamp
 
-      if way.visible
-        render :xml => way.to_xml.to_s
+      if @way.visible
+        # Render the result
+        render :formats => [:xml]
       else
         head :gone
       end
@@ -59,23 +60,22 @@ module Api
     end
 
     def full
-      way = Way.includes(:nodes => :node_tags).find(params[:id])
+      @way = Way.includes(:nodes => :node_tags).find(params[:id])
 
-      if way.visible
+      if @way.visible
         visible_nodes = {}
-        changeset_cache = {}
-        user_display_name_cache = {}
 
-        doc = OSM::API.new.get_xml_doc
-        way.nodes.uniq.each do |node|
+        @nodes = []
+
+        @way.nodes.uniq.each do |node|
           if node.visible
-            doc.root << node.to_xml_node(changeset_cache, user_display_name_cache)
+            @nodes << node
             visible_nodes[node.id] = node
           end
         end
-        doc.root << way.to_xml_node(visible_nodes, changeset_cache, user_display_name_cache)
 
-        render :xml => doc.to_s
+        # Render the result
+        render :formats => [:xml]
       else
         head :gone
       end
@@ -90,13 +90,10 @@ module Api
 
       raise OSM::APIBadUserInput, "No ways were given to search for" if ids.empty?
 
-      doc = OSM::API.new.get_xml_doc
+      @ways = Way.find(ids)
 
-      Way.find(ids).each do |way|
-        doc.root << way.to_xml_node
-      end
-
-      render :xml => doc.to_s
+      # Render the result
+      render :formats => [:xml]
     end
 
     ##
@@ -106,13 +103,10 @@ module Api
     def ways_for_node
       wayids = WayNode.where(:node_id => params[:id]).collect { |ws| ws.id[0] }.uniq
 
-      doc = OSM::API.new.get_xml_doc
+      @ways = Way.where(:id => wayids, :visible => true)
 
-      Way.find(wayids).each do |way|
-        doc.root << way.to_xml_node if way.visible
-      end
-
-      render :xml => doc.to_s
+      # Render the result
+      render :formats => [:xml]
     end
   end
 end

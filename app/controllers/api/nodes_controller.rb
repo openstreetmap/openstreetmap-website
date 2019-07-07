@@ -26,12 +26,13 @@ module Api
 
     # Dump the details on a node given in params[:id]
     def show
-      node = Node.find(params[:id])
+      @node = Node.find(params[:id])
 
-      response.last_modified = node.timestamp
+      response.last_modified = @node.timestamp
 
-      if node.visible
-        render :xml => node.to_xml.to_s
+      if @node.visible
+        # Render the result
+        render :formats => [:xml]
       else
         head :gone
       end
@@ -69,13 +70,10 @@ module Api
 
       raise OSM::APIBadUserInput, "No nodes were given to search for" if ids.empty?
 
-      doc = OSM::API.new.get_xml_doc
+      @nodes = Node.find(ids)
 
-      Node.find(ids).each do |node|
-        doc.root << node.to_xml_node
-      end
-
-      render :xml => doc.to_s
+      # Render the result
+      render :formats => [:xml]
     end
   end
 end
