@@ -37,7 +37,7 @@ module RichText
           link_size += link.content.length
         end
 
-        link_proportion = link_size.to_f / doc.content.length.to_f
+        link_proportion = link_size.to_f / doc.content.length
       end
 
       spammy_phrases = SPAMMY_PHRASES.count do |phrase|

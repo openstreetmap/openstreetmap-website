@@ -236,9 +236,9 @@ class GeocoderControllerTest < ActionController::TestCase
   ##
   # Test identification of US zipcodes
   def test_identify_us_postcode
-    [
-      "12345",
-      "12345-6789"
+    %w[
+      12345
+      12345-6789
     ].each do |code|
       post :search, :params => { :query => code }
       assert_response :success
