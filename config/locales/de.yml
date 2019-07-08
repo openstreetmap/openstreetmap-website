@@ -4,6 +4,7 @@
 # Author: Abijeet Patro
 # Author: Al
 # Author: Als-Holder
+# Author: Amilopowers
 # Author: Apmon
 # Author: Atomkraftzwerg
 # Author: Avatar
@@ -79,11 +80,11 @@ de:
         create: Registrieren
         update: Bearbeiten
       redaction:
-        create: Redaction erstellen
-        update: Redaction speichern
+        create: Publikation erstellen
+        update: Publikation speichern
       trace:
         create: Hochladen
-        update: Speichern
+        update: Änderungen speichern
       user_block:
         create: Sperre einrichten
         update: Sperre aktualisieren
@@ -118,9 +119,9 @@ de:
       relation_member: Relations-Mitglied
       relation_tag: Relations-Attribut
       session: Sitzung
-      trace: Track
-      tracepoint: Track-Punkt
-      tracetag: Track-Attribut
+      trace: Spur
+      tracepoint: Spurpunkt
+      tracetag: Spur-Attribut
       user: Benutzer
       user_preference: Benutzereinstellung
       user_token: Benutzer-Token
@@ -196,6 +197,9 @@ de:
       x_months:
         one: vor 1 Monat
         other: vor %{count} Monaten
+      x_years:
+        one: vor 1 Jahr
+        other: vor %{count} Jahren
   printable_name:
     with_name_html: '%{name} (%{id})'
   editor:
@@ -238,12 +242,12 @@ de:
   browse:
     created: Erstellt
     closed: Geschlossen
-    created_html: Erstellt <abbr title='%{title}'>vor %{time}</abbr>
-    closed_html: Geschlossen <abbr title='%{title}'>vor %{time}</abbr>
-    created_by_html: Erstellt <abbr title='%{title}'>vor %{time}</abbr> von %{user}
-    deleted_by_html: Gelöscht <abbr title='%{title}'>vor %{time}</abbr> von %{user}
-    edited_by_html: Bearbeitet <abbr title='%{title}'>vor %{time}</abbr> von %{user}
-    closed_by_html: Geschlossen <abbr title='%{title}'>vor %{time}</abbr> von %{user}
+    created_html: Erstellt <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Geschlossen <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Erstellt <abbr title='%{title}'>%{time}</abbr> von %{user}
+    deleted_by_html: Gelöscht <abbr title='%{title}'>%{time}</abbr> von %{user}
+    edited_by_html: Bearbeitet <abbr title='%{title}'>%{time}</abbr> von %{user}
+    closed_by_html: Geschlossen <abbr title='%{title}'>%{time}</abbr> von %{user}
     version: Version
     in_changeset: Änderungssatz
     anonymous: Anonym
@@ -263,10 +267,9 @@ de:
       relation: Relationen (%{count})
       relation_paginated: Relationen (%{x}–%{y} von %{count})
       comment: Kommentare (%{count})
-      hidden_commented_by: Versteckter Diskussionsbeitrag von %{user} <abbr title='%{exact_time}'>vor
+      hidden_commented_by: Versteckter Diskussionsbeitrag von %{user} <abbr title='%{exact_time}'>
         %{when}</abbr>
-      commented_by: Diskussionsbeitrag von %{user} <abbr title='%{exact_time}'>vor
-        %{when}</abbr>
+      commented_by: Kommentar von %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Änderungssatz-XML
       osmchangexml: osmChange-XML
       feed:
@@ -344,17 +347,15 @@ de:
       open_title: Unerledigter Kartenfehler Nr. %{note_name}
       closed_title: Erledigter Kartenfehler Nr. %{note_name}
       hidden_title: Versteckter Kartenfehler Nr. %{note_name}
-      open_by: Erstellt von %{user} <abbr title='%{exact_time}'>vor %{when}</abbr>
-      open_by_anonymous: Erstellt von Anonym <abbr title='%{exact_time}'>vor %{when}</abbr>
-      commented_by: Kommentar von %{user} <abbr title='%{exact_time}'>vor %{when}</abbr>
-      commented_by_anonymous: Kommentar von Anonym <abbr title='%{exact_time}'>vor
-        %{when}</abbr>
-      closed_by: Erledigt von %{user} <abbr title='%{exact_time}'>vor %{when}</abbr>
-      closed_by_anonymous: Erledigt von Anonym <abbr title='%{exact_time}'>vor %{when}</abbr>
-      reopened_by: Reaktiviert von %{user} <abbr title='%{exact_time}'>vor %{when}</abbr>
-      reopened_by_anonymous: Reaktiviert von Anonym <abbr title='%{exact_time}'>vor
-        %{when}</abbr>
-      hidden_by: Versteckt von %{user} <abbr title='%{exact_time}'>vor %{when}</abbr>
+      open_by: Erstellt von %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Erstellt von Anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Kommentar von %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Kommentar von Anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Erledigt von %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Erledigt von Anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Reaktiviert von %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Reaktiviert von Anonym <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Versteckt von %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Diesen Hinweis melden
     query:
       title: Objektabfrage
@@ -395,7 +396,7 @@ de:
     comment:
       comment: Neuer Diskussionsbeitrag zum Änderungssatz Nr. %{changeset_id} von
         %{author}
-      commented_at_by_html: vor %{when} durch %{user} aktualisiert
+      commented_at_by_html: '%{when} von %{user} aktualisiert'
     comments:
       comment: 'Neuer Kommentar zum Änderungssatz #%{changeset_id} von %{author}'
     index:
@@ -452,11 +453,13 @@ de:
         other: '%{count} Kommentare'
       edit_link: Diesen Eintrag bearbeiten
       hide_link: Diesen Eintrag verbergen
+      unhide_link: Diesen Eintrag nicht mehr verbergen
       confirm: Bestätigen
       report: Diesen Eintrag melden
     diary_comment:
       comment_from: Kommentar von %{link_user} am %{comment_created_at}
       hide_link: Diesen Kommentar verbergen
+      unhide_link: Diesen Kommentar nicht mehr verbergen
       confirm: Bestätigen
       report: Diesen Kommentar melden
     location:
@@ -1092,8 +1095,8 @@ de:
       status: Status
       reports: Meldungen
       last_updated: Zuletzt aktualisiert
-      last_updated_time_html: <abbr title='%{title}'>vor %{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>vor %{time}</abbr> von %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> von %{user}
       link_to_reports: Meldungen ansehen
       reports_count:
         one: Eine Meldung
@@ -2304,7 +2307,7 @@ de:
       ct status: 'Bedingungen für Mitwirkende:'
       ct undecided: Unentschlossen
       ct declined: Abgelehnt
-      latest edit: 'Letzte Änderung %{ago}:'
+      latest edit: 'Letzte Änderung (%{ago}):'
       email address: 'E-Mail-Adresse:'
       created from: 'erstellt aus:'
       status: 'Status:'
@@ -2576,7 +2579,7 @@ de:
       title: Sperre für %{block_on} aufheben
       heading: Sperre für %{block_on} durch %{block_by} aufgehoben
       time_future: 'Blockablaufdatum: %{time}.'
-      past: Die Sperre ist seit %{time} beendet und kann nicht mehr aufgehoben werden.
+      past: Diese Sperre endete %{time} und kann nicht mehr aufgehoben werden.
       confirm: Bist du sicher, dass du diese Sperre aufheben möchtest?
       revoke: Aufheben
       flash: Die Sperre wurde aufgehoben.
@@ -2585,11 +2588,23 @@ de:
       until_login: Aktiv, bis der Benutzer sich anmeldet.
       time_future_and_until_login: Endet in %{time} und nachdem sich der Benutzer
         angemeldet hat.
-      time_past: Endete vor %{time}
+      time_past: Endete %{time}.
       block_duration:
         hours:
           one: 1 Stunde
           other: '%{count} Stunden'
+        days:
+          one: 1 Tag
+          other: '%{count} Tage'
+        weeks:
+          one: 1 Woche
+          other: '%{count} Wochen'
+        months:
+          one: 1 Monat
+          other: '%{count} Monate'
+        years:
+          one: 1 Jahr
+          other: '%{count} Jahre'
     blocks_on:
       title: Sperren für %{name}
       heading: Liste der Sperren für %{name}
@@ -2685,7 +2700,8 @@ de:
         title: Ebenen
       copyright: © <a href='%{copyright_url}'>OpenStreetMap-Mitwirkende</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Spenden</a>
-      terms: Nutzungsbedingungen der Website und API
+      terms: <a href='%{terms_url}' target='_blank'>Nutzungsbedingungen der Website
+        und API</a>
     site:
       edit_tooltip: Karte bearbeiten
       edit_disabled_tooltip: Zum Bearbeiten muss eine höhere Zoomstufe gewählt werden

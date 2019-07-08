@@ -104,6 +104,45 @@ et:
         description: Kirjeldus
         languages: Keeled
         pass_crypt: Parool
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: umbes 1 tunni eest
+        other: umbes %{count} tunni eest
+      about_x_months:
+        one: umbes 1 kuu eest
+        other: umbes %{count} kuu eest
+      about_x_years:
+        one: umbes 1 aasta eest
+        other: umbes %{count} aasta eest
+      almost_x_years:
+        one: peaaegu 1 aasta eest
+        other: peaaegu %{count} aasta eest
+      half_a_minute: poole minuti eest
+      less_than_x_seconds:
+        one: vähem kui 1 sekundi eest
+        other: vähem kui %{count} sekundi eest
+      less_than_x_minutes:
+        one: vähem kui 1 minuti eest
+        other: vähem kui %{count} minuti eest
+      over_x_years:
+        one: rohkem kui 1 aasta eest
+        other: rohkem kui %{count} aasta eest
+      x_seconds:
+        one: 1 sekundi eest
+        other: '%{count} sekundi eest'
+      x_minutes:
+        one: 1 minuti eest
+        other: '%{count} minuti eest'
+      x_days:
+        one: 1 päeva eest
+        other: '%{count} päeva eest'
+      x_months:
+        one: 1 kuu eest
+        other: '%{count} kuu eest'
+      x_years:
+        one: 1 aasta eest
+        other: '%{count} aasta eest'
   editor:
     default: Vaikimisi (praegu %{name})
     potlatch:
@@ -121,14 +160,14 @@ et:
   api:
     notes:
       comment:
-        opened_at_html: Loodud %{when} tagasi
-        opened_at_by_html: Loodud %{when} tagasi kasutaja %{user} poolt
-        commented_at_html: Uuendatud %{when} tagasi
-        commented_at_by_html: Uuendatud %{when} tagasi kasutaja %{user} poolt
-        closed_at_html: Lahendatud %{when} tagasi
-        closed_at_by_html: Lahendatud %{when} tagasi kasutaja %{user} poolt
-        reopened_at_html: Taasaktiveeritud %{when} tagasi
-        reopened_at_by_html: Taasaktiveeritud %{when} tagasi kasutaja %{user} poolt
+        opened_at_html: Loodud %{when}
+        opened_at_by_html: Loonud %{user} %{when}
+        commented_at_html: Uuendatud %{when}
+        commented_at_by_html: Uuendanud %{user} %{when}
+        closed_at_html: Lahendatud %{when}
+        closed_at_by_html: Lahendanud %{user} %{when}
+        reopened_at_html: Taasaktiveeritud %{when}
+        reopened_at_by_html: Taasaktiveerinud %{user} %{when}
       rss:
         title: OpenStreetMapi märkused
         description_area: Loetelu märkustest mida teatati, kommenteeriti või suleti
@@ -144,12 +183,12 @@ et:
   browse:
     created: Loodud
     closed: Suletud
-    created_html: Loodud <abbr title='%{title}'>%{time} tagasi</abbr>
-    closed_html: Suletud <abbr title='%{title}'>%{time} tagasi</abbr>
-    created_by_html: Loonud %{user} <abbr title='%{title}'>%{time} tagasi</abbr>
-    deleted_by_html: Kustutanud %{user} <abbr title='%{title}'>%{time} tagasi</abbr>
-    edited_by_html: Muutnud %{user} <abbr title='%{title}'>%{time} tagasi</abbr>
-    closed_by_html: Sulgenud %{user} <abbr title='%{title}'>%{time} tagasi</abbr>
+    created_html: Loodud <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Suletud <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Loonud %{user} <abbr title='%{title}'>%{time}</abbr>
+    deleted_by_html: Kustutanud %{user} <abbr title='%{title}'>%{time} </abbr>
+    edited_by_html: Muutnud %{user} <abbr title='%{title}'>%{time}</abbr>
+    closed_by_html: Sulgenud %{user} <abbr title='%{title}'>%{time}</abbr>
     version: Versioon
     in_changeset: Muudatuskogum
     anonymous: anonüümne
@@ -169,10 +208,8 @@ et:
       relation: Relatsioonid (%{count})
       relation_paginated: Relatsioonid (%{x}–%{y} %{count}-st)
       comment: Kommentaare (%{count})
-      hidden_commented_by: Peidetud kommentaar kasutajalt %{user} <abbr title='%{exact_time}'>%{when}
-        tagasi</abbr>
-      commented_by: Kommentaar kasutajalt %{user} <abbr title='%{exact_time}'>%{when}
-        tagasi</abbr>
+      hidden_commented_by: Peidetud kommentaar kasutajalt %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Kommentaar kasutajalt %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Muudatuskogumi XML
       osmchangexml: osmChange XML
       feed:
@@ -180,6 +217,8 @@ et:
         title_comment: Muudatuskogum %{id} – %{comment}
       join_discussion: Logi sisse, kui soovid arutelus osaleda
       discussion: Arutelu
+      still_open: Muudatuskogum on veel avatud. Arutelu avaneb siis, kui muudatuskogum
+        on suletud.
     node:
       title: 'Sõlm: %{name}'
       history_title: 'Sõlme ajalugu: %{name}'
@@ -247,20 +286,15 @@ et:
       open_title: 'Lahendamata märkus: #%{note_name}'
       closed_title: 'Lahendatud märkus: #%{note_name}'
       hidden_title: 'Peidetud märkus #%{note_name}'
-      open_by: Loonud %{user} <abbr title='%{exact_time}'>%{when} tagasi</abbr>
-      open_by_anonymous: Loodud anonüümse kasutaja poolt <abbr title='%{exact_time}'>%{when}
-        tagasi</abbr>
-      commented_by: Kommentaar kasutajalt %{user} <abbr title='%{exact_time}'>%{when}
-        tagasi</abbr>
-      commented_by_anonymous: Kommentaar anonüümselt kasutajalt <abbr title='%{exact_time}'>%{when}
-        tagasi</abbr>
-      closed_by: Lahendanud %{user} <abbr title='%{exact_time}'>%{when} tagasi</abbr>
-      closed_by_anonymous: Lahendatud anonüümse kasutaja poolt <abbr title='%{exact_time}'>%{when}
-        tagasi</abbr>
-      reopened_by: Taasavanud %{user} <abbr title='%{exact_time}'>%{when} tagasi</abbr>
-      reopened_by_anonymous: Taasavatud anonüümse kasutaja poolt <abbr title='%{exact_time}'>%{when}
-        tagasi</abbr>
-      hidden_by: Peitnud %{user} <abbr title='%{exact_time}'>%{when} tagasi</abbr>
+      open_by: Loonud %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Loonud anonüümne kasutaja <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Kommentaar kasutajalt %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Kommentaar anonüümselt kasutajalt <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Lahendanud %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Lahendanud anonüümne kasutaja <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Taasaktiveerinud %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Taasaktiveerinud anonüümne kasutaja <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Peitnud %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Teata sellest märkusest
     query:
       title: Info objektide kohta
@@ -299,7 +333,9 @@ et:
   changeset_comments:
     comment:
       comment: 'Uus kommentaar muudatuskogumi #%{changeset_id} kohta kasutajalt %{author}'
-      commented_at_by_html: Uuendanud %{user} %{when} tagasi
+      commented_at_by_html: Uuendanud %{user} %{when}
+    comments:
+      comment: 'Uus kommentaar muudatuskogumi #%{changeset_id} kohta kasutajalt %{author}'
     index:
       title_all: OpenStreetMapi muudatuskogumi arutelu
       title_particular: 'OpenStreetMapi muudatuskogumi #%{changeset_id} arutelu'
@@ -732,7 +768,7 @@ et:
           "yes": Pood
         tourism:
           alpine_hut: Alpimaja
-          apartment: Korter
+          apartment: Puhkusekorter
           artwork: Kunstiteos
           attraction: Turismiatraktsioon
           bed_and_breakfast: Kodumajutus
@@ -1099,10 +1135,10 @@ et:
       legal_title: Juriidiline teave
       legal_html: "Seda saiti ja paljusid teisi seotud teenuseid haldab ametlikult
         \n<a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF)
-        \nkogukonna nimel. Kõigis OSMF-i hallatavates teenustes kehtivad meie\n<a
-        href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">kasutustingimused</a>
-        ja <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">andmekaitsereeglid</a>.\n<br>
-        \nPalun <a href='https://osmfoundation.org/Contact'>võta ühendust OSMF-iga</a>,\nkui
+        \nkogukonna nimel. Kõigis OSMF-i hallatavates teenustes kehtivad meie <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">kasutustingimused</a>,
+        <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">võrgueeskiri</a>
+        ja <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">andmekaitsereeglid</a>.\n<br>\nPalun
+        <a href='https://osmfoundation.org/Contact'>võta ühendust OSMF-iga</a>,\nkui
         sul on küsimusi litsentseerimise, autoriõiguste või muude õiguslike probleemide
         kohta.\n<br>\nOpenStreetMap, suurendusklaasi logo ja State of the Map on <a
         href=\"https://wiki.osmfoundation.org/wiki/Trademark_Policy\">OSMF-i registreeritud
@@ -1206,8 +1242,8 @@ et:
           National Geo-Spatial Information</a>, õigused kuuluvad riigile.
         contributors_gb_html: |-
           <strong>Suurbritannia</strong>: Sisaldab Ordnance
-          Survey andmeid &copy; krooni autoriõigus ja andmebaasi
-          õigused kaitstud seisuga detsember 2010.
+          Survey andmeid &copy; krooni autoriõigus ja andmebaasi õigused kaitstud
+          2010–2019.
         contributors_footer_1_html: |-
           Täpsemat teavet nendest ja teistest allikatest, mida on kasutatud
           OpenStreetMapi täiendamiseks, leiad
@@ -1442,7 +1478,7 @@ et:
       edit: Muuda
       preview: Eelvaade
     markdown_help:
-      title_html: Parsitud <a href="https://daringfireball.net/projects/markdown/">Markdowniga</a>
+      title_html: Parsitud <a href="https://kramdown.gettalong.org/quickref.html">kramdowniga</a>
       headings: Pealkirjad
       heading: Pealkiri
       subheading: Alapealkiri
@@ -1789,10 +1825,10 @@ et:
       terms declined: Meil on kahju, et otsustasid mitte nõustuda uute kaastöö tingimustega.
         Lisateabe saamiseks vaata <a href="%{url}">seda wiki lehte</a>.
     terms:
-      title: 'Kaastöötingimused:'
-      heading: Kaastöötingimused
-      consider_pd: Eelnevale nõusolekule lisaks leian, et minu kaastöö kuulub avalikku
-        omandisse (Public Domain)
+      title: Tingimused
+      heading: Tingimused
+      consider_pd: Eelnevale lisaks leian, et minu kaastöö kuulub avalikku omandisse
+        (Public Domain)
       consider_pd_why: mis see on?
       guidance: 'Informatsioon, mis aitab mõista neid tingimusi: a <a href="%{summary}">inimloetav
         kokkuvõte</a> mõned <a href="%{translations}">mitteametlikud tõlked</a>'
@@ -1833,7 +1869,7 @@ et:
       ct status: 'Kaastöötingimused:'
       ct undecided: Otsustamata
       ct declined: Tagasi lükatud
-      latest edit: 'Viimane muudatus %{ago}:'
+      latest edit: 'Viimane muudatus (%{ago}):'
       email address: 'E-posti aadress:'
       created from: 'Loodud:'
       status: 'Staatus:'
@@ -2089,7 +2125,7 @@ et:
       title: Kasutaja %{block_on} blokeeringu eemaldamine
       heading: Kasutaja %{block_on} blokeeringu eemaldamine (blokeerinud %{block_by})
       time_future: See blokeering lõpeb %{time} pärast.
-      past: See blokeering lõppes %{time} tagasi ja seda ei saa enam tagasi võtta.
+      past: See blokeering lõppes %{time} ja seda ei saa enam tagasi võtta.
       confirm: Kas oled kindel, et soovid seda blokeeringut tühistada?
       revoke: Tühista!
       flash: See blokeering on tühistatud.
@@ -2097,11 +2133,23 @@ et:
       time_future: Lõpuni %{time}.
       until_login: Aktiivne kuni kasutaja logib sisse.
       time_future_and_until_login: Lõpuni %{time} ja kuni kasutaja on sisse loginud.
-      time_past: Lõppes %{time} tagasi.
+      time_past: Lõppes %{time}.
       block_duration:
         hours:
           one: 1 tund
           other: '%{count} tundi'
+        days:
+          one: 1 päev
+          other: '%{count} päeva'
+        weeks:
+          one: 1 nädal
+          other: '%{count} nädalat'
+        months:
+          one: 1 kuu
+          other: '%{count} kuud'
+        years:
+          one: 1 aasta
+          other: '%{count} aastat'
     blocks_on:
       title: Kasutaja %{name} blokeeringud
       heading: Kasutaja %{name} blokeeringud
