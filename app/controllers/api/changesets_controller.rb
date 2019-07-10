@@ -127,7 +127,7 @@ module Api
       changeset = Changeset.find(params[:id])
       check_changeset_consistency(changeset, current_user)
 
-      diff_reader = DiffReader.new(request.raw_post, changeset)
+      diff_reader = DiffReader.new(request.raw_post, changeset, current_api_version)
       Changeset.transaction do
         result = diff_reader.commit
         render :xml => result.to_s
@@ -172,7 +172,7 @@ module Api
       user_display_name_cache = {}
 
       # create an osmChange document for the output
-      result = OSM::API.new.get_xml_doc
+      result = OSM::API.new(current_api_version).get_xml_doc
       result.root.name = "osmChange"
 
       # generate an output element for each operation. note: we avoid looking
