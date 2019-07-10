@@ -11,16 +11,31 @@ OpenStreetMap::Application.routes.draw do
   end
 
   # Hard-code the api_version to 0.6 for this call - see #2162
-  namespace :api, :api_version => "0.6" do
+  namespace :api, :api_version => "0.6", :module => :"api/v06" do
     get "capabilities" => "capabilities#show" # Deprecated, remove when 0.6 support is removed
   end
 
+  # Routes that are the same in all versions of the API
   scope "api" do
-    # Routes that are available in all versions of the API
     Settings.api_versions.each do |version|
       namespace v_string(version), :path => version, :module => :api, :api_version => version do
-        get "capabilities" => "capabilities#show"
         get "permissions" => "permissions#show"
+      end
+    end
+  end
+
+  # Routes that are available in all versions of the API but where some versions use different controllers
+  namespace :api do
+    ["0.6"].each do |version|
+      namespace v_string(version), :path => version, :api_version => version do
+        get "capabilities" => "capabilities#show"
+      end
+    end
+  end
+  scope "api" do
+    (Settings.api_versions - ["0.6"]).each do |version|
+      namespace v_string(version), :path => version, :module => :api, :api_version => version do
+        get "capabilities" => "capabilities#show"
       end
     end
   end
