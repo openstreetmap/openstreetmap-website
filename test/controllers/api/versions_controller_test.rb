@@ -20,7 +20,7 @@ module Api
       assert_response :success
       assert_select "osm[generator='#{Settings.generator}']", :count => 1 do
         assert_select "api", :count => 1 do
-          assert_select "version", Settings.api_version
+          assert_select "version", "0.6"
         end
       end
     end

@@ -18,9 +18,9 @@ module Api
     def test_capabilities
       get :show
       assert_response :success
-      assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
+      assert_select "osm[version='0.6'][generator='#{Settings.generator}']", :count => 1 do
         assert_select "api", :count => 1 do
-          assert_select "version[minimum='#{Settings.api_version}'][maximum='#{Settings.api_version}']", :count => 1
+          assert_select "version[minimum='0.6'][maximum='0.6']", :count => 1
           assert_select "area[maximum='#{Settings.max_request_area}']", :count => 1
           assert_select "note_area[maximum='#{Settings.max_note_request_area}']", :count => 1
           assert_select "tracepoints[per_page='#{Settings.tracepoints_per_page}']", :count => 1

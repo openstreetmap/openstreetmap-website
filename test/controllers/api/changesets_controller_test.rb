@@ -137,7 +137,7 @@ module Api
       get :show, :params => { :id => changeset.id }
       assert_response :success, "cannot get first changeset"
 
-      assert_select "osm[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
+      assert_select "osm[version='0.6'][generator='OpenStreetMap server']", 1
       assert_select "osm>changeset[id='#{changeset.id}']", 1
       assert_select "osm>changeset>@open", "true"
       assert_select "osm>changeset>@created_at", changeset.created_at.xmlschema
@@ -147,7 +147,7 @@ module Api
       get :show, :params => { :id => changeset.id, :include_discussion => true }
       assert_response :success, "cannot get first changeset with comments"
 
-      assert_select "osm[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
+      assert_select "osm[version='0.6'][generator='OpenStreetMap server']", 1
       assert_select "osm>changeset[id='#{changeset.id}']", 1
       assert_select "osm>changeset>@open", "true"
       assert_select "osm>changeset>@created_at", changeset.created_at.xmlschema
@@ -161,7 +161,7 @@ module Api
       get :show, :params => { :id => changeset.id, :include_discussion => true }
       assert_response :success, "cannot get closed changeset with comments"
 
-      assert_select "osm[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
+      assert_select "osm[version='0.6'][generator='OpenStreetMap server']", 1
       assert_select "osm>changeset[id='#{changeset.id}']", 1
       assert_select "osm>changeset>@open", "false"
       assert_select "osm>changeset>@created_at", changeset.created_at.xmlschema
@@ -412,7 +412,7 @@ CHANGESET
                       "can't upload a simple valid creation to changeset: #{@response.body}"
 
       # check the returned payload
-      assert_select "diffResult[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
+      assert_select "diffResult[version='0.6'][generator='OpenStreetMap server']", 1
       assert_select "diffResult>node", 1
       assert_select "diffResult>way", 1
       assert_select "diffResult>relation", 1
@@ -650,7 +650,7 @@ CHANGESET
                       "can't do a conditional delete of in use objects: #{@response.body}"
 
       # check the returned payload
-      assert_select "diffResult[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
+      assert_select "diffResult[version='0.6'][generator='OpenStreetMap server']", 1
       assert_select "diffResult>node", 1
       assert_select "diffResult>way", 1
       assert_select "diffResult>relation", 1
@@ -745,7 +745,7 @@ CHANGESET
                       "can't upload a complex diff to changeset: #{@response.body}"
 
       # check the returned payload
-      assert_select "diffResult[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
+      assert_select "diffResult[version='0.6'][generator='#{Settings.generator}']", 1
       assert_select "diffResult>node", 1
       assert_select "diffResult>way", 1
       assert_select "diffResult>relation", 1
@@ -1237,7 +1237,7 @@ CHANGESET
                       "failed to return error in XML format"
 
       # check the returned payload
-      assert_select "osmError[version='#{Settings.api_version}'][generator='OpenStreetMap server']", 1
+      assert_select "osmError[version='0.6'][generator='OpenStreetMap server']", 1
       assert_select "osmError>status", 1
       assert_select "osmError>message", 1
     end
@@ -1431,7 +1431,7 @@ CHANGESET
       assert_template nil
       # print @response.body
       # FIXME: needs more assert_select tests
-      assert_select "osmChange[version='#{Settings.api_version}'][generator='#{Settings.generator}']" do
+      assert_select "osmChange[version='0.6'][generator='#{Settings.generator}']" do
         assert_select "create", :count => 5
         assert_select "create>node[id='#{node.id}'][visible='#{node.visible?}'][version='#{node.version}']" do
           assert_select "tag[k='#{tag.k}'][v='#{tag.v}']"

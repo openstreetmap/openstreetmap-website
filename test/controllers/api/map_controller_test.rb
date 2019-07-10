@@ -49,7 +49,7 @@ module Api
         print @response.body
       end
       assert_response :success, "Expected scucess with the map call"
-      assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
+      assert_select "osm[version='0.6'][generator='#{Settings.generator}']", :count => 1 do
         assert_select "bounds[minlon='#{format('%.7f', minlon)}'][minlat='#{format('%.7f', minlat)}'][maxlon='#{format('%.7f', maxlon)}'][maxlat='#{format('%.7f', maxlat)}']", :count => 1
         assert_select "node[id='#{node.id}'][lat='#{format('%.7f', node.lat)}'][lon='#{format('%.7f', node.lon)}'][version='#{node.version}'][changeset='#{node.changeset_id}'][visible='#{node.visible}'][timestamp='#{node.timestamp.xmlschema}']", :count => 1 do
           # This should really be more generic
@@ -75,7 +75,7 @@ module Api
       bbox = "#{node.lon},#{node.lat},#{node.lon},#{node.lat}"
       get :index, :params => { :bbox => bbox }
       assert_response :success, "The map call should have succeeded"
-      assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
+      assert_select "osm[version='0.6'][generator='#{Settings.generator}']", :count => 1 do
         assert_select "bounds[minlon='#{node.lon}'][minlat='#{node.lat}'][maxlon='#{node.lon}'][maxlat='#{node.lat}']", :count => 1
         assert_select "node[id='#{node.id}'][lat='#{format('%.7f', node.lat)}'][lon='#{format('%.7f', node.lon)}'][version='#{node.version}'][changeset='#{node.changeset_id}'][visible='#{node.visible}'][timestamp='#{node.timestamp.xmlschema}']", :count => 1 do
           # This should really be more generic
@@ -103,7 +103,7 @@ module Api
       bbox = "#{node.lon},#{node.lat},#{node.lon},#{node.lat}"
       get :index, :params => { :bbox => bbox }
       assert_response :success, "The map call should have succeeded"
-      assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
+      assert_select "osm[version='0.6'][generator='#{Settings.generator}']", :count => 1 do
         assert_select "bounds[minlon='#{node.lon}'][minlat='#{node.lat}'][maxlon='#{node.lon}'][maxlat='#{node.lat}']", :count => 1
         assert_select "node", :count => 3
         assert_select "node[id='#{node.id}']", :count => 1
@@ -120,7 +120,7 @@ module Api
     def test_map_empty
       get :index, :params => { :bbox => "179.998,89.998,179.999.1,89.999" }
       assert_response :success, "The map call should have succeeded"
-      assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
+      assert_select "osm[version='0.6'][generator='#{Settings.generator}']", :count => 1 do
         assert_select "bounds[minlon='179.9980000'][minlat='89.9980000'][maxlon='179.9990000'][maxlat='89.9990000']", :count => 1
         assert_select "node", :count => 0
         assert_select "way", :count => 0
