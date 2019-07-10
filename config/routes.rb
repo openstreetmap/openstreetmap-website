@@ -1,14 +1,32 @@
 OpenStreetMap::Application.routes.draw do
+  # Our api versions are decimals, but controllers cannot start with a number
+  # or contain punctuation
+  def v_string(version)
+    "v#{version.delete('.')}"
+  end
+
   # API
   namespace :api do
-    get "capabilities" => "capabilities#show" # Deprecated, remove when 0.6 support is removed
     get "versions" => "versions#show"
   end
 
-  scope "api/0.6" do
-    get "capabilities" => "api/capabilities#show"
-    get "permissions" => "api/permissions#show"
+  # Hard-code the api_version to 0.6 for this call - see #2162
+  namespace :api, :api_version => "0.6" do
+    get "capabilities" => "capabilities#show" # Deprecated, remove when 0.6 support is removed
+  end
 
+  scope "api" do
+    # Routes that are available in all versions of the API
+    Settings.api_versions.each do |version|
+      namespace v_string(version), :path => version, :module => :api, :api_version => version do
+        get "capabilities" => "capabilities#show"
+        get "permissions" => "permissions#show"
+      end
+    end
+  end
+
+  # TODO: refactor these too
+  scope "api/0.6" do
     put "changeset/create" => "api/changesets#create"
     post "changeset/:id/upload" => "api/changesets#upload", :id => /\d+/
     get "changeset/:id/download" => "api/changesets#download", :as => :changeset_download, :id => /\d+/

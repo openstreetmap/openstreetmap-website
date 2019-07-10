@@ -6,10 +6,8 @@ module Api
 
     # Show the list of available API versions. This will replace the global
     # unversioned capabilities call in due course.
-    # Currently we only support deploying one version at a time, but this will
-    # hopefully change soon.
     def show
-      @versions = [Settings.api_version]
+      @versions = Settings.api_versions
     end
   end
 end

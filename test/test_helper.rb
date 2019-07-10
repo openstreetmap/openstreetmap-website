@@ -170,5 +170,13 @@ module ActiveSupport
       fill_in "password", :with => "test"
       click_on "Login", :match => :first
     end
+
+    def all_api_versions
+      Settings.api_versions
+    end
+
+    def all_api_versions_except(versions)
+      Settings.api_versions - versions
+    end
   end
 end

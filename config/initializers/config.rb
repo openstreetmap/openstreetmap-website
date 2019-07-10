@@ -69,7 +69,7 @@ Config.setup do |config|
   # Validate presence and type of specific config values. Check https://github.com/dry-rb/dry-validation for details.
   #
   config.schema do
-    required(:api_version).filled(:str?)
+    required(:deployed_api_versions).filled(:array?)
     required(:max_request_area).filled(:number?)
     required(:max_note_request_area).filled(:number?)
     required(:tracepoints_per_page).filled(:int?)

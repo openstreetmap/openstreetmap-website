@@ -85,4 +85,9 @@ class ApiController < ApplicationController
       end
     end
   end
+
+  def current_api_version
+    params[:api_version]
+  end
+  helper_method :current_api_version
 end

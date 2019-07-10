@@ -1,7 +1,7 @@
 xml.instruct! :xml, :version => "1.0"
-xml.osm(OSM::API.new.xml_root_attributes) do |osm|
+xml.osm(OSM::API.new(current_api_version).xml_root_attributes) do |osm|
   osm.api do |api|
-    api.version(:minimum => Settings.api_version, :maximum => Settings.api_version)
+    api.version(:minimum => "0.6", :maximum => "0.6")
     api.area(:maximum => Settings.max_request_area)
     api.note_area(:maximum => Settings.max_note_request_area)
     api.tracepoints(:per_page => Settings.tracepoints_per_page)
