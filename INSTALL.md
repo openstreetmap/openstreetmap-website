@@ -209,7 +209,7 @@ Rails comes with a built-in webserver, so that you can test on your own machine 
 bundle exec rails server
 ```
 
-You can now view the site in your favourite web-browser at `http://localhost:3000/`
+You can now view the site in your favourite web-browser at [http://localhost:3000/](http://localhost:3000/)
 
 Note that the OSM map tiles you see aren't created from your local database - they are just the standard map tiles.
 
