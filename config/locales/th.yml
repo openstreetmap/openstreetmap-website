@@ -109,12 +109,13 @@ th:
         pass_crypt: รหัสผ่าน
   datetime:
     distance_in_words_ago:
-      about_x_years:
-        one: about 1 year ago
-        other: about %{count} years ago
+      about_x_years: ประมาณ %{count} ปีก่อน
+      almost_x_years: เกือบ %{count} ปีก่อน
+      over_x_years: มากกว่า %{count} ปีก่อน
       x_days:
         one: 1 day ago
         other: '%{count} days ago'
+      x_years: '%{count} ปีก่อน'
   editor:
     default: ค่าปกติ (ขณะนี้ %{name})
     potlatch:
@@ -132,10 +133,10 @@ th:
   api:
     notes:
       comment:
-        opened_at_html: สร้างเมื่อ %{when}ก่อน
-        commented_at_html: ปรับปรุงเมื่อ %{when}ก่อน
-        closed_at_html: ปิดเรื่องเมื่อ %{when}ก่อน
-        reopened_at_html: รื้อฟื้นเมื่อ %{when}ก่อน
+        opened_at_html: สร้างเมื่อ %{when}
+        commented_at_html: ปรับปรุงเมื่อ %{when}
+        closed_at_html: ปิดเรื่องเมื่อ %{when}
+        reopened_at_html: รื้อฟื้นเมื่อ %{when}
       rss:
         title: หมายเหตุแผนที่ บน OpenStreetMap
       entry:
@@ -144,12 +145,12 @@ th:
   browse:
     created: สร้างเมื่อ
     closed: ปิดเมื่อ
-    created_html: สร้างเมื่อ <abbr title='%{title}'>%{time} ก่อน</abbr>
-    closed_html: ปิดเมื่อ <abbr title='%{title}'>%{time} ก่อน</abbr>
-    created_by_html: สร้างเมื่อ <abbr title='%{title}'>%{time} ก่อน</abbr> โดย %{user}
-    deleted_by_html: ลบเมื่อ <abbr title='%{title}'>%{time} ก่อน</abbr> โดย %{user}
-    edited_by_html: แก้ไขเมื่อ <abbr title='%{title}'>%{time} ก่อน</abbr> โดย %{user}
-    closed_by_html: ปิดเมื่อ <abbr title='%{title}'>%{time} ก่อน</abbr> โดย %{user}
+    created_html: สร้างเมื่อ <abbr title='%{title}'>%{time}</abbr>
+    closed_html: ปิดเมื่อ <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: สร้างเมื่อ <abbr title='%{title}'>%{time}</abbr> โดย %{user}
+    deleted_by_html: ลบเมื่อ <abbr title='%{title}'>%{time}</abbr> โดย %{user}
+    edited_by_html: แก้ไขเมื่อ <abbr title='%{title}'>%{time}</abbr> โดย %{user}
+    closed_by_html: ปิดเมื่อ <abbr title='%{title}'>%{time}</abbr> โดย %{user}
     version: รุ่นที่
     in_changeset: ชุดการเปลี่ยนแปลง
     anonymous: ไม่ระบุตัวตน
@@ -169,10 +170,8 @@ th:
       relation: ความสัมพันธ์ (%{count})
       relation_paginated: ความสัมพันธ์ (%{x}-%{y} จาก %{count})
       comment: ความคิดเห็น (%{count})
-      hidden_commented_by: ความคิดเห็นซ่อนจาก %{user} เมื่อ <abbr title='%{exact_time}'>%{when}
-        ก่อน</abbr>
-      commented_by: ความคิดเห็นจาก %{user} เมื่อ <abbr title='%{exact_time}'>%{when}
-        ก่อน</abbr>
+      hidden_commented_by: ความคิดเห็นซ่อนจาก %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: ความคิดเห็นจาก %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: ชุดการเปลี่ยนแปลง XML
       osmchangexml: เอ็กซ์เอ็มแอลของ osmChange
       feed:
@@ -248,21 +247,15 @@ th:
       open_title: 'หมายเหตุที่ยังไม่มีคำตอบ #%{note_name}'
       closed_title: หมายเหตุที่ตอบสนองแล้ว %{note_name}
       hidden_title: 'หมายเหตุที่ซ่อนอยู่ #%{note_name}'
-      open_by: จัดทำโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when} ก่อน</abbr>
-      open_by_anonymous: จัดทำโดยผู้ไม่ประสงค์ออกนามเมื่อ <abbr title='%{exact_time}'>%{when}
-        ก่อน</abbr>
-      commented_by: ความเห็นจาก %{user} เมื่อ <abbr title='%{exact_time}'>%{when}
-        ก่อน</abbr>
-      commented_by_anonymous: ความเห็นจากผู้ไม่ประสงค์ออกนามเมื่อ <abbr title='%{exact_time}'>%{when}
-        ก่อน</abbr>
-      closed_by: แก้ไขโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when} ก่อน</abbr>
-      closed_by_anonymous: แก้ไขโดยผู้ไม่ประสงค์ออกนามเมื่อ <abbr title='%{exact_time}'>%{when}
-        ก่อน</abbr>
-      reopened_by: เปิดใช้ซ้ำโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when}
-        ก่อน</abbr>
-      reopened_by_anonymous: เปิดใช้ซ้ำโดยผู้ไม่ประสงค์ออกนาม เมื่อ <abbr title='%{exact_time}'>%{when}
-        ก่อน</abbr>
-      hidden_by: ซ่อนโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when} ก่อน</abbr>
+      open_by: จัดทำโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: จัดทำโดยผู้ไม่ประสงค์ออกนามเมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: ความเห็นจาก %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: ความเห็นจากผู้ไม่ประสงค์ออกนามเมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: แก้ไขโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: แก้ไขโดยผู้ไม่ประสงค์ออกนามเมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: เปิดใช้ซ้ำโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: เปิดใช้ซ้ำโดยผู้ไม่ประสงค์ออกนาม เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: ซ่อนโดย %{user} เมื่อ <abbr title='%{exact_time}'>%{when}</abbr>
       report: แจ้งปัญหาเกี่ยวกับหมายเหตุนี้
     query:
       title: ส่วนประกอบในพื้นที่
@@ -282,7 +275,7 @@ th:
       id: รหัส
       saved_at: บันทึกที่
       user: ผู้ใช้
-      comment: ความเห็น
+      comment: แสดงความเห็น
       area: พื้นที่
     index:
       title: ชุดการเปลี่ยนแปลง
@@ -301,7 +294,7 @@ th:
   changeset_comments:
     comment:
       comment: 'ความคิดเห็นใหม่ที่มีต่อชุดการเปลี่ยนแปลง #%{changeset_id} โดย %{author}'
-      commented_at_by_html: ปรับปรุงเมื่อ %{when} ก่อน โดย %{user}
+      commented_at_by_html: ปรับปรุงเมื่อ %{when} โดย %{user}
     index:
       title_all: การสนทนาชุดการเปลี่ยนแปลงของ OpenStreetMap
       title_particular: 'การอภิปรายชุดการเปลี่ยนแปลง OpenStreetMap  #%{changeset_id}'
@@ -362,7 +355,7 @@ th:
       report: แจ้งปัญหาเกี่ยวกับความเห็นนี้
     location:
       location: 'ที่ตั้ง:'
-      view: ดู
+      view: แสดง
       edit: แก้ไข
     feed:
       user:
@@ -378,7 +371,7 @@ th:
       has_commented_on: '%{display_name} ได้แสดงความคิดเห็นต่อรายการบันทึกต่อไปนี้'
       post: เผยแพร่
       when: เมื่อ
-      comment: ความเห็น
+      comment: แสดงความเห็น
       newer_comments: ความคิดเห็นใหม่กว่า
       older_comments: ความคิดเห็นเก่ากว่า
   geocoder:
@@ -987,7 +980,7 @@ th:
       user_not_found: ไม่มีผู้ใช้นี้
       status: สถานะ
       reports: รายการปัญหาที่รับแจ้งจากผู้ใช้
-      last_updated_time_html: <abbr title='%{title}'>%{time}ก่อน</abbr>
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
     comments:
       created_at: เมื่อ %{datetime}
   reports:
@@ -1345,7 +1338,7 @@ th:
         contributors_gb_html: |-
           <strong>สหราชอาณาจักร</strong>: มีข้อมูลจากกองแผนที่ Ordnance
           Survey data &copy; ลิขสิทธิ์ราชการและสิทธิ์แห่งฐานข้อมูล
-          2010-12
+          2010-19
         infringement_title_html: การละเมิดลิขสิทธิ์
         infringement_2_html: |-
           หากท่านเชื่อว่าข้อมูลละเมิดลิขสิทธิ์ปรากฏในเว็บไซต์นี้หรือในฐานข้อมูล OpenStreetMap โปรดดู <a href="https://www.osmfoundation.org/wiki/License/Takedown_procedure">ขั้นตอนการลบข้อมูลละเมิดลิขสิทธิ์</a> หรือแจ้งได้ที่
@@ -1519,7 +1512,7 @@ th:
       edit: แก้ไข
       preview: แสดงตัวอย่าง
     markdown_help:
-      title_html: เขียนด้วยรูปแบบ <a href="https://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: เขียนด้วยรูปแบบ <a href="https://kramdown.gettalong.org/quickref.html">Kramdown</a>
       headings: หัวเรื่องหลัก
       heading: หัวเรื่องหลัก
       subheading: หัวเรื่องย่อย
@@ -1878,7 +1871,7 @@ th:
       ct status: 'เงื่อนไขผู้ร่วมสร้างสรรค์:'
       ct undecided: ยังไม่ตัดสินใจ
       ct declined: ไม่ยอมรับ
-      latest edit: 'แก้ไขล่าสุดเมื่อ %{ago}:'
+      latest edit: 'การแก้ไขล่าสุด (%{ago}):'
       email address: 'ที่อยู่อีเมล:'
       created from: 'สร้างจาก:'
       status: 'สถานะ:'
@@ -2084,13 +2077,15 @@ th:
     revoke:
       title: ยกเลิกการระงับใช้งานของ %{block_on}
       heading: เพิกถอนการระงับผู้ใช้ %{block_on} ซึ่งสั่งโดยผู้ใช้ %{block_by}
-      past: การระงับนี้ได้สิ้นสุดไปเมื่อ %{time}ก่อนแล้ว การยกเลิกจึงไม่มีผล
+      past: การระงับนี้ได้สิ้นสุดไปเมื่อ %{time} แล้ว การยกเลิกจึงไม่มีผล
       confirm: แน่ใจหรือว่าต้องการจะยกเิลิกการระงับนี้?
       flash: ได้ยกเลิกการระงับนี้แล้ว
     helper:
       time_future: จะสิ้นสุดใน %{time}
       until_login: มีผลจนถึงการเริ่มเข้าระบบครั้งถัดไป
-      time_past: สิ้นสุดไปเมื่อ %{time}ก่อน
+      time_past: สิ้นสุดไปเมื่อ %{time}
+      block_duration:
+        years: '%{count} ปี'
     blocks_on:
       title: การถูกระงับใช้งานของ %{name}
       heading: รายการการถูกระงับของผู้ใช้ %{name}
