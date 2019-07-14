@@ -71,11 +71,11 @@ L.OSM.Map = L.Map.extend({
   },
 
   updateLayers: function (layerParam) {
-    layerParam = layerParam || "M";
-    var layersAdded = "";
+    var layers = layerParam || "M",
+        layersAdded = "";
 
     for (var i = this.baseLayers.length - 1; i >= 0; i--) {
-      if (layerParam.indexOf(this.baseLayers[i].options.code) >= 0) {
+      if (layers.indexOf(this.baseLayers[i].options.code) >= 0) {
         this.addLayer(this.baseLayers[i]);
         layersAdded = layersAdded + this.baseLayers[i].options.code;
       } else if (i === 0 && layersAdded === "") {
@@ -152,15 +152,17 @@ L.OSM.Map = L.Map.extend({
 
     // Called to interlace the bits in x and y, making a Morton code.
     function interlace(x, y) {
-      x = (x | (x << 8)) & 0x00ff00ff;
-      x = (x | (x << 4)) & 0x0f0f0f0f;
-      x = (x | (x << 2)) & 0x33333333;
-      x = (x | (x << 1)) & 0x55555555;
-      y = (y | (y << 8)) & 0x00ff00ff;
-      y = (y | (y << 4)) & 0x0f0f0f0f;
-      y = (y | (y << 2)) & 0x33333333;
-      y = (y | (y << 1)) & 0x55555555;
-      return (x << 1) | y;
+      var interlaced_x = x,
+          interlaced_y = y;
+      interlaced_x = (interlaced_x | (interlaced_x << 8)) & 0x00ff00ff;
+      interlaced_x = (interlaced_x | (interlaced_x << 4)) & 0x0f0f0f0f;
+      interlaced_x = (interlaced_x | (interlaced_x << 2)) & 0x33333333;
+      interlaced_x = (interlaced_x | (interlaced_x << 1)) & 0x55555555;
+      interlaced_y = (interlaced_y | (interlaced_y << 8)) & 0x00ff00ff;
+      interlaced_y = (interlaced_y | (interlaced_y << 4)) & 0x0f0f0f0f;
+      interlaced_y = (interlaced_y | (interlaced_y << 2)) & 0x33333333;
+      interlaced_y = (interlaced_y | (interlaced_y << 1)) & 0x55555555;
+      return (interlaced_x << 1) | interlaced_y;
     }
 
     var params = {};

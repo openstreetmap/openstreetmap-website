@@ -153,7 +153,7 @@ OSM.Query = function (map) {
       }), featureStyle);
     } else if (feature.type === "relation" && feature.members) {
       geometry = L.featureGroup(feature.members.map(featureGeometry).filter(function (geometry) {
-        return geometry !== undefined;
+        return typeof geometry !== "undefined";
       }));
     }
 

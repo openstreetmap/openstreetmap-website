@@ -101,7 +101,7 @@ OSM.History = function (map) {
           topRight = map.project(L.latLng(changeset.bbox.maxlat, changeset.bbox.maxlon)),
           width = topRight.x - bottomLeft.x,
           height = bottomLeft.y - topRight.y,
-          minSize = 20;  // Min width/height of changeset in pixels
+          minSize = 20; // Min width/height of changeset in pixels
 
       if (width < minSize) {
         bottomLeft.x -= ((minSize - width) / 2);

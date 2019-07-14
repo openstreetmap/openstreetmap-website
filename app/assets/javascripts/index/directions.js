@@ -3,7 +3,7 @@
 
 OSM.Directions = function (map) {
   var awaitingGeocode; // true if the user has requested a route, but we're waiting on a geocode result
-  var awaitingRoute;   // true if we've asked the engine for a route and are waiting to hear back
+  var awaitingRoute; // true if we've asked the engine for a route and are waiting to hear back
   var chosenEngine;
 
   var popup = L.popup({ autoPanPadding: [100, 100] });
@@ -31,9 +31,9 @@ OSM.Directions = function (map) {
   var engines = OSM.Directions.engines;
 
   engines.sort(function (a, b) {
-    a = I18n.t("javascripts.directions.engines." + a.id);
-    b = I18n.t("javascripts.directions.engines." + b.id);
-    return a.localeCompare(b);
+    var localised_a = I18n.t("javascripts.directions.engines." + a.id),
+        localised_b = I18n.t("javascripts.directions.engines." + b.id);
+    return localised_a.localeCompare(localised_b);
   });
 
   var select = $("select.routing_engines");
@@ -260,11 +260,11 @@ OSM.Directions = function (map) {
 
       // Add each row
       route.steps.forEach(function (step) {
-        var ll          = step[0],
-            direction   = step[1],
+        var ll = step[0],
+            direction = step[1],
             instruction = step[2],
-            dist        = step[3],
-            lineseg     = step[4];
+            dist = step[3],
+            lineseg = step[4];
 
         if (dist < 5) {
           dist = "";
@@ -360,7 +360,7 @@ OSM.Directions = function (map) {
       var oe = e.originalEvent;
       var dragData = JSON.parse(oe.dataTransfer.getData("text"));
       var type = dragData.type;
-      var pt = L.DomEvent.getMousePosition(oe, map.getContainer());  // co-ordinates of the mouse pointer at present
+      var pt = L.DomEvent.getMousePosition(oe, map.getContainer()); // co-ordinates of the mouse pointer at present
       pt.y += 20;
       var ll = map.containerPointToLatLng(pt);
       endpoints[type === "from" ? 0 : 1].setLatLng(ll);

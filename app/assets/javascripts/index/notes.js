@@ -39,7 +39,8 @@ OSM.initializeNotes = function (map) {
     }
   });
 
-  function updateMarker(marker, feature) {
+  function updateMarker(old_marker, feature) {
+    var marker = old_marker;
     if (marker) {
       marker.setIcon(noteIcons[feature.properties.status]);
     } else {

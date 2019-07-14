@@ -32,6 +32,8 @@ $(document).ready(function () {
   });
 
   OSM.loadSidebarContent = function (path, callback) {
+    var content_path = path;
+
     map.setSidebarOverlaid(false);
 
     clearTimeout(loaderTimeout);
@@ -42,17 +44,17 @@ $(document).ready(function () {
 
     // IE<10 doesn't respect Vary: X-Requested-With header, so
     // prevent caching the XHR response as a full-page URL.
-    if (path.indexOf("?") >= 0) {
-      path += "&xhr=1";
+    if (content_path.indexOf("?") >= 0) {
+      content_path += "&xhr=1";
     } else {
-      path += "?xhr=1";
+      content_path += "?xhr=1";
     }
 
     $("#sidebar_content")
       .empty();
 
     $.ajax({
-      url: path,
+      url: content_path,
       dataType: "html",
       complete: function (xhr) {
         clearTimeout(loaderTimeout);
