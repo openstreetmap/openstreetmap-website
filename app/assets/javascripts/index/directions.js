@@ -260,11 +260,11 @@ OSM.Directions = function (map) {
 
       // Add each row
       route.steps.forEach(function (step) {
-        var ll        = step[0],
-          direction   = step[1],
-          instruction = step[2],
-          dist        = step[3],
-          lineseg     = step[4];
+        var ll          = step[0],
+            direction   = step[1],
+            instruction = step[2],
+            dist        = step[3],
+            lineseg     = step[4];
 
         if (dist < 5) {
           dist = "";

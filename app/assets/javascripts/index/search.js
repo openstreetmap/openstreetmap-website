@@ -33,7 +33,7 @@ OSM.Search = function (map) {
   $(".describe_location").on("click", function (e) {
     e.preventDefault();
     var center = map.getCenter().wrap(),
-      precision = OSM.zoomPrecision(map.getZoom());
+        precision = OSM.zoomPrecision(map.getZoom());
     OSM.router.route("/search?whereami=1&query=" + encodeURIComponent(
       center.lat.toFixed(precision) + "," + center.lng.toFixed(precision)
     ));

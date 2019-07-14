@@ -2,9 +2,9 @@
 
 OSM.Query = function (map) {
   var url = OSM.OVERPASS_URL,
-    queryButton = $(".control-query .control-button"),
-    uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"],
-    marker;
+      queryButton = $(".control-query .control-button"),
+      uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"],
+      marker;
 
   var featureStyle = {
     color: "#FF6200",
@@ -103,7 +103,7 @@ OSM.Query = function (map) {
 
         if (prefixes[key]) {
           var first = value.substr(0, 1).toUpperCase(),
-            rest = value.substr(1).replace(/_/g, " ");
+              rest = value.substr(1).replace(/_/g, " ");
 
           return first + rest;
         }
@@ -119,7 +119,7 @@ OSM.Query = function (map) {
 
   function featureName(feature) {
     var tags = feature.tags,
-      locales = I18n.locales.get();
+        locales = I18n.locales.get();
 
     for (var i = 0; i < locales.length; i++) {
       if (tags["name:" + locales[i]]) {
@@ -249,11 +249,11 @@ OSM.Query = function (map) {
 
   function compareSize(feature1, feature2) {
     var width1 = feature1.bounds.maxlon - feature1.bounds.minlon,
-      height1 = feature1.bounds.maxlat - feature1.bounds.minlat,
-      area1 = width1 * height1,
-      width2 = feature2.bounds.maxlat - feature2.bounds.minlat,
-      height2 = feature2.bounds.maxlat - feature2.bounds.minlat,
-      area2 = width2 * height2;
+        height1 = feature1.bounds.maxlat - feature1.bounds.minlat,
+        area1 = width1 * height1,
+        width2 = feature2.bounds.maxlat - feature2.bounds.minlat,
+        height2 = feature2.bounds.maxlat - feature2.bounds.minlat,
+        area2 = width2 * height2;
 
     return area1 - area2;
   }
@@ -280,15 +280,15 @@ OSM.Query = function (map) {
    */
   function queryOverpass(lat, lng) {
     var latlng = L.latLng(lat, lng).wrap(),
-      bounds = map.getBounds().wrap(),
-      bbox = bounds.getSouth() + "," + bounds.getWest() + "," + bounds.getNorth() + "," + bounds.getEast(),
-      radius = 10 * Math.pow(1.5, 19 - map.getZoom()),
-      around = "around:" + radius + "," + lat + "," + lng,
-      nodes = "node(" + around + ")",
-      ways = "way(" + around + ")",
-      relations = "relation(" + around + ")",
-      nearby = "(" + nodes + ";" + ways + ";);out tags geom(" + bbox + ");" + relations + ";out geom(" + bbox + ");",
-      isin = "is_in(" + lat + "," + lng + ")->.a;way(pivot.a);out tags bb;out ids geom(" + bbox + ");relation(pivot.a);out tags bb;";
+        bounds = map.getBounds().wrap(),
+        bbox = bounds.getSouth() + "," + bounds.getWest() + "," + bounds.getNorth() + "," + bounds.getEast(),
+        radius = 10 * Math.pow(1.5, 19 - map.getZoom()),
+        around = "around:" + radius + "," + lat + "," + lng,
+        nodes = "node(" + around + ")",
+        ways = "way(" + around + ")",
+        relations = "relation(" + around + ")",
+        nearby = "(" + nodes + ";" + ways + ";);out tags geom(" + bbox + ");" + relations + ";out geom(" + bbox + ");",
+        isin = "is_in(" + lat + "," + lng + ")->.a;way(pivot.a);out tags bb;out ids geom(" + bbox + ");relation(pivot.a);out tags bb;";
 
     $("#sidebar_content .query-intro")
       .hide();
@@ -313,9 +313,9 @@ OSM.Query = function (map) {
 
   function clickHandler(e) {
     var precision = OSM.zoomPrecision(map.getZoom()),
-      latlng = e.latlng.wrap(),
-      lat = latlng.lat.toFixed(precision),
-      lng = latlng.lng.toFixed(precision);
+        latlng = e.latlng.wrap(),
+        lat = latlng.lat.toFixed(precision),
+        lng = latlng.lng.toFixed(precision);
 
     OSM.router.route("/query?lat=" + lat + "&lon=" + lng);
   }
@@ -343,7 +343,7 @@ OSM.Query = function (map) {
 
   page.load = function (path, noCentre) {
     var params = querystring.parse(path.substring(path.indexOf("?") + 1)),
-      latlng = L.latLng(params.lat, params.lon);
+        latlng = L.latLng(params.lat, params.lon);
 
     if (!window.location.hash && !noCentre && !map.getBounds().contains(latlng)) {
       OSM.router.withoutMoveListener(function () {

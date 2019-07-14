@@ -26,8 +26,8 @@ var qs = require("querystring-component");
 window.updateLinks = function (loc, zoom, layers, object) {
   $(".geolink").each(function (index, link) {
     var href = link.href.split(/[?#]/)[0],
-      args = qs.parse(link.search.substring(1)),
-      editlink = $(link).hasClass("editlink");
+        args = qs.parse(link.search.substring(1)),
+        editlink = $(link).hasClass("editlink");
 
     delete args.node;
     delete args.way;

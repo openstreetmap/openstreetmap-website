@@ -234,7 +234,7 @@ $(document).ready(function () {
     e.preventDefault();
 
     var data = $(this).data(),
-      center = L.latLng(data.lat, data.lon);
+        center = L.latLng(data.lat, data.lon);
 
     map.setView(center, data.zoom);
     L.marker(center, { icon: OSM.getUserIcon() }).addTo(map);
@@ -260,13 +260,13 @@ $(document).ready(function () {
     if (object) query.select = object.type + object.id;
 
     var iframe = $("<iframe>")
-        .hide()
-        .appendTo("body")
-        .attr("src", url + querystring.stringify(query))
-        .on("load", function () {
-          $(this).remove();
-          loaded = true;
-        });
+      .hide()
+      .appendTo("body")
+      .attr("src", url + querystring.stringify(query))
+      .on("load", function () {
+        $(this).remove();
+        loaded = true;
+      });
 
     setTimeout(function () {
       if (!loaded) {

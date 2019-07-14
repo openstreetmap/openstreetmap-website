@@ -71,7 +71,7 @@ OSM.History = function (map) {
     });
 
     var feedLink = $("link[type=\"application/atom+xml\"]"),
-      feedHref = feedLink.attr("href").split("?")[0];
+        feedHref = feedLink.attr("href").split("?")[0];
 
     feedLink.attr("href", feedHref + "?bbox=" + data.bbox);
   }
@@ -123,8 +123,8 @@ OSM.History = function (map) {
 
     for (var i = 0; i < changesets.length; ++i) {
       var changeset = changesets[i],
-        rect = L.rectangle(changeset.bounds,
-          { weight: 2, color: "#FF9500", opacity: 1, fillColor: "#FFFFAF", fillOpacity: 0 });
+          rect = L.rectangle(changeset.bounds,
+                             { weight: 2, color: "#FF9500", opacity: 1, fillColor: "#FFFFAF", fillOpacity: 0 });
       rect.id = changeset.id;
       rect.addTo(group);
     }

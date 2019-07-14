@@ -115,8 +115,8 @@ L.OSM.Map = L.Map.extend({
     }
 
     var url = window.location.protocol + "//" + OSM.SERVER_URL + "/",
-      query = querystring.stringify(params),
-      hash = OSM.formatHash(this);
+        query = querystring.stringify(params),
+        hash = OSM.formatHash(this);
 
     if (query) url += "?" + query;
     if (hash) url += hash;
@@ -126,19 +126,19 @@ L.OSM.Map = L.Map.extend({
 
   getShortUrl: function (marker) {
     var zoom = this.getZoom(),
-      latLng = marker && this.hasLayer(marker) ? marker.getLatLng().wrap() : this.getCenter().wrap(),
-      str = window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
-        window.location.protocol + "//osm.org/go/" :
-        window.location.protocol + "//" + window.location.hostname + "/go/",
-      char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~",
-      x = Math.round((latLng.lng + 180.0) * ((1 << 30) / 90.0)),
-      y = Math.round((latLng.lat + 90.0) * ((1 << 30) / 45.0)),
-      // JavaScript only has to keep 32 bits of bitwise operators, so this has to be
-      // done in two parts. each of the parts c1/c2 has 30 bits of the total in it
-      // and drops the last 4 bits of the full 64 bit Morton code.
-      c1 = interlace(x >>> 17, y >>> 17), c2 = interlace((x >>> 2) & 0x7fff, (y >>> 2) & 0x7fff),
-      digit,
-      i;
+        latLng = marker && this.hasLayer(marker) ? marker.getLatLng().wrap() : this.getCenter().wrap(),
+        str = window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
+          window.location.protocol + "//osm.org/go/" :
+          window.location.protocol + "//" + window.location.hostname + "/go/",
+        char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~",
+        x = Math.round((latLng.lng + 180.0) * ((1 << 30) / 90.0)),
+        y = Math.round((latLng.lat + 90.0) * ((1 << 30) / 45.0)),
+        // JavaScript only has to keep 32 bits of bitwise operators, so this has to be
+        // done in two parts. each of the parts c1/c2 has 30 bits of the total in it
+        // and drops the last 4 bits of the full 64 bit Morton code.
+        c1 = interlace(x >>> 17, y >>> 17), c2 = interlace((x >>> 2) & 0x7fff, (y >>> 2) & 0x7fff),
+        digit,
+        i;
 
     for (i = 0; i < Math.ceil((zoom + 8) / 3.0) && i < 5; ++i) {
       digit = (c1 >> (24 - (6 * i))) & 0x3f;

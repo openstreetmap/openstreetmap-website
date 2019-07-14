@@ -1,10 +1,10 @@
 OSM.NewNote = function (map) {
   var noteLayer = map.noteLayer,
-    content = $("#sidebar_content"),
-    page = {},
-    addNoteButton = $(".control-note .control-button"),
-    newNote,
-    halo;
+      content = $("#sidebar_content"),
+      page = {},
+      addNoteButton = $(".control-note .control-button"),
+      newNote,
+      halo;
 
   var noteIcons = {
     "new": L.icon({
