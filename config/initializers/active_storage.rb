@@ -1,4 +1,5 @@
 Rails.application.config.active_storage.queue = :storage
+Rails.application.config.active_storage.variable_content_types << "image/bmp"
 
 Rails.configuration.after_initialize do
   require "active_storage/service/s3_service"
