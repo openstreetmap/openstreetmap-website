@@ -126,6 +126,12 @@ gem "mimemagic"
 # Used for browser detection
 gem "browser"
 
+# Used for S3 object storage
+gem "aws-sdk-s3"
+
+# Used to resize user images
+gem "mini_magick"
+
 # Gems useful for development
 group :development do
   gem "annotate"

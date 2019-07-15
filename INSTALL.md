@@ -124,6 +124,15 @@ We use [Yarn](https://yarnpkg.com/) to manage the Node.js modules required for t
 bundle exec rake yarn:install
 ```
 
+## Storage setup
+
+The Rails port needs to be configured with an object storage facility - for
+development and testing purposes you can use the example configuration:
+
+```
+cp config/example.storage.yml config/storage.yml
+```
+
 ## Database setup
 
 The Rails Port uses three databases -  one for development, one for testing, and one for production. The database-specific configuration

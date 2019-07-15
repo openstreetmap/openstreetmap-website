@@ -7,8 +7,12 @@ module UserHelper
 
     if user.image_use_gravatar
       user_gravatar_tag(user, options)
-    else
+    elsif user.avatar.attached?
+      image_tag user.avatar.variant(:resize => "100x100>"), options
+    elsif user.image.file?
       image_tag user.image.url(:large), options
+    else
+      image_tag "avatar_large.png", options
     end
   end
 
@@ -18,8 +22,12 @@ module UserHelper
 
     if user.image_use_gravatar
       user_gravatar_tag(user, options)
-    else
+    elsif user.avatar.attached?
+      image_tag user.avatar.variant(:resize => "50x50>"), options
+    elsif user.image.file?
       image_tag user.image.url(:small), options
+    else
+      image_tag "avatar_small.png", options
     end
   end
 
@@ -29,16 +37,24 @@ module UserHelper
 
     if user.image_use_gravatar
       user_gravatar_tag(user, options)
-    else
+    elsif user.avatar.attached?
+      image_tag user.avatar.variant(:resize => "50x50>"), options
+    elsif user.image.file?
       image_tag user.image.url(:small), options
+    else
+      image_tag "avatar_small.png", options
     end
   end
 
   def user_image_url(user, options = {})
     if user.image_use_gravatar
       user_gravatar_url(user, options)
-    else
+    elsif user.avatar.attached?
+      url_for(user.avatar.variant(:resize => "100x100>"))
+    elsif user.image.file?
       image_url(user.image.url(:large))
+    else
+      image_url("avatar_large.png")
     end
   end
 
@@ -65,7 +81,7 @@ module UserHelper
   def user_gravatar_url(user, options = {})
     size = options[:size] || 100
     hash = Digest::MD5.hexdigest(user.email.downcase)
-    default_image_url = image_url("users/images/large.png")
+    default_image_url = image_url("avatar_large.png")
     "#{request.protocol}www.gravatar.com/avatar/#{hash}.jpg?s=#{size}&d=#{u(default_image_url)}"
   end
 
