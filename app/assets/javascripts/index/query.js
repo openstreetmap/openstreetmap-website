@@ -342,7 +342,7 @@ OSM.Query = function (map) {
   };
 
   page.load = function (path, noCentre) {
-    var params = querystring.parse(path.substring(path.indexOf("?") + 1)),
+    var params = qs.parse(path.substring(path.indexOf("?") + 1)),
         latlng = L.latLng(params.lat, params.lon);
 
     if (!window.location.hash && !noCentre && !map.getBounds().contains(latlng)) {

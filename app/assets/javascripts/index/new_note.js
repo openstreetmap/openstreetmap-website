@@ -107,7 +107,7 @@ OSM.NewNote = function (map) {
 
     map.addLayer(noteLayer);
 
-    var params = querystring.parse(path.substring(path.indexOf("?") + 1));
+    var params = qs.parse(path.substring(path.indexOf("?") + 1));
     var markerLatlng;
 
     if (params.lat && params.lon) {

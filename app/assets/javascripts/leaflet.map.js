@@ -115,7 +115,7 @@ L.OSM.Map = L.Map.extend({
     }
 
     var url = window.location.protocol + "//" + OSM.SERVER_URL + "/",
-        query = querystring.stringify(params),
+        query = qs.stringify(params),
         hash = OSM.formatHash(this);
 
     if (query) url += "?" + query;
@@ -180,7 +180,7 @@ L.OSM.Map = L.Map.extend({
       params[this._object.type] = this._object.id;
     }
 
-    var query = querystring.stringify(params);
+    var query = qs.stringify(params);
     if (query) {
       str += "?" + query;
     }

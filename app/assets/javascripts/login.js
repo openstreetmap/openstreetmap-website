@@ -6,9 +6,9 @@ $(document).ready(function () {
 
   // Attach referer to authentication buttons
   $(".auth_button").each(function () {
-    var params = querystring.parse(this.search.substring(1));
+    var params = qs.parse(this.search.substring(1));
     params.referer = $("#referer").val();
-    this.search = querystring.stringify(params);
+    this.search = qs.stringify(params);
   });
 
   // Add click handler to show OpenID field
@@ -33,7 +33,7 @@ $(document).ready(function () {
     if (referer) {
       args.referer = referer;
     }
-    window.location = action + "?" + querystring.stringify(args);
+    window.location = action + "?" + qs.stringify(args);
     return false;
   });
 });

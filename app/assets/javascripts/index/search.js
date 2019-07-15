@@ -120,7 +120,7 @@ OSM.Search = function (map) {
   var page = {};
 
   page.pushstate = page.popstate = function (path) {
-    var params = querystring.parse(path.substring(path.indexOf("?") + 1));
+    var params = qs.parse(path.substring(path.indexOf("?") + 1));
     $(".search_form input[name=query]").val(params.query);
     $(".describe_location").hide();
     OSM.loadSidebarContent(path, page.load);
