@@ -7,6 +7,7 @@
 # Author: Asdfqwer51
 # Author: B891202
 # Author: CYAN
+# Author: D6283
 # Author: Freebiekr
 # Author: Garam
 # Author: Hym411
@@ -135,10 +136,19 @@ ko:
         pass_crypt: 비밀번호
   datetime:
     distance_in_words_ago:
+      about_x_hours: 약 %{count}시간 전
+      about_x_months: 약 %{count}개월 전
+      about_x_years: 약 %{count}년 전
+      almost_x_years: 거의 %{count}년 전
       half_a_minute: 30초 전
-      x_years:
-        one: 1년 전
-        other: '%{count}년 전'
+      less_than_x_seconds: '%{count}초 미만 전'
+      less_than_x_minutes: '%{count}분 미만 전'
+      over_x_years: '%{count}년 이상 전'
+      x_seconds: '%{count}초 전'
+      x_minutes: '%{count}분 전'
+      x_days: '%{count}일 전'
+      x_months: '%{count}개월 전'
+      x_years: '%{count}년 전'
   editor:
     default: 기본값 (현재 %{name})
     potlatch:
@@ -152,18 +162,18 @@ ko:
       description: Potlatch 2 (브라우저 내 편집기)
     remote:
       name: 원격 제어
-      description: 원격제어(JOSM 혹은 Merkaartor)
+      description: 원격 제어 (JOSM 또는 Merkaartor)
   api:
     notes:
       comment:
-        opened_at_html: '%{when} 전에 만듦'
-        opened_at_by_html: '%{user}님이 %{when} 전에 만듦'
-        commented_at_html: '%{when} 전에 바꿈'
-        commented_at_by_html: '%{user}님이 %{when} 전에 업데이트함'
-        closed_at_html: '%{when} 전에 해결함'
-        closed_at_by_html: '%{user}님이 %{when} 전에 해결함'
-        reopened_at_html: '%{when} 전에 다시 활성화함'
-        reopened_at_by_html: '%{user}님이 %{when} 전에 다시 활성화함'
+        opened_at_html: '%{when}에 만듦'
+        opened_at_by_html: '%{user}님이 %{when}에 만듦'
+        commented_at_html: '%{when}에 바꿈'
+        commented_at_by_html: '%{user}님이 %{when}에 업데이트함'
+        closed_at_html: '%{when}에 해결함'
+        closed_at_by_html: '%{user}님이 %{when}에 해결함'
+        reopened_at_html: '%{when}에 다시 활성화함'
+        reopened_at_by_html: '%{user}님이 %{when}에 다시 활성화함'
       rss:
         title: OpenStreetMap 참고
         description_area: 내 지역 [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
@@ -179,12 +189,12 @@ ko:
   browse:
     created: 만들어짐
     closed: 닫힘
-    created_html: <abbr title='%{title}'>%{time} 전</abbr>에 만들어짐
-    closed_html: <abbr title='%{title}'>%{time} 전</abbr>에 닫힘
-    created_by_html: <abbr title='%{title}'>%{time} 전</abbr>에 %{user}님이 만듦
-    deleted_by_html: <abbr title='%{title}'>%{time} 전</abbr>에 %{user}님이 삭제함
-    edited_by_html: <abbr title='%{title}'>%{time} 전</abbr>에 %{user}님이 편집함
-    closed_by_html: <abbr title='%{title}'>%{time} 전</abbr>에 %{user}님이 닫음
+    created_html: <abbr title='%{title}'>%{time}</abbr>에 만들어짐
+    closed_html: <abbr title='%{title}'>%{time}</abbr>에 닫힘
+    created_by_html: <abbr title='%{title}'>%{time}</abbr>에 %{user}님이 만듦
+    deleted_by_html: <abbr title='%{title}'>%{time}</abbr>에 %{user}님이 삭제함
+    edited_by_html: <abbr title='%{title}'>%{time}</abbr>에 %{user}님이 편집함
+    closed_by_html: <abbr title='%{title}'>%{time}</abbr>에 %{user}님이 닫음
     version: 버전
     in_changeset: 바뀜집합
     anonymous: 익명
@@ -204,9 +214,9 @@ ko:
       relation: 관계(%{count})
       relation_paginated: 관계(%{count}개 중 %{x}-%{y})
       comment: 의견(%{count}개)
-      hidden_commented_by: '%{user}님의 <abbr title=''%{exact_time}''>%{when} 전</abbr>에
+      hidden_commented_by: '%{user}님의 <abbr title=''%{exact_time}''>%{when}</abbr>
         숨겨진 의견'
-      commented_by: '%{user}님의 <abbr title=''%{exact_time}''>%{when} 전</abbr> 의견'
+      commented_by: '%{user}님의 <abbr title=''%{exact_time}''>%{when}</abbr> 의견'
       changesetxml: 바뀜집합 XML
       osmchangexml: osmChange XML
       feed:
@@ -282,17 +292,15 @@ ko:
       open_title: '해결되지 않은 참고 #%{note_name}'
       closed_title: '해결된 참고 #%{note_name}'
       hidden_title: '숨겨진 참고 #%{note_name}'
-      open_by: '%{user}님이 <abbr title=''%{exact_time}''>%{when} 전</abbr>에 만듦'
-      open_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 만듦
-      commented_by: '%{user}님의 <abbr title=''%{exact_time}''>%{when} 전</abbr> 의견'
-      commented_by_anonymous: 익명 사용자의 <abbr title='%{exact_time}'>%{when} 전</abbr>
-        의견
-      closed_by: '%{user}님이 <abbr title=''%{exact_time}''>%{when} 전</abbr>에 해결함'
-      closed_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 해결함
-      reopened_by: '%{user}님이 <abbr title=''%{exact_time}''>%{when} 전</abbr>에 다시 활성화함'
-      reopened_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 다시
-        활성화함
-      hidden_by: '%{user}님이 <abbr title=''%{exact_time}''>%{when} 전</abbr>에 숨김'
+      open_by: '%{user}님이 <abbr title=''%{exact_time}''>%{when}</abbr>에 만듦'
+      open_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when}</abbr>에 만듦
+      commented_by: '%{user}님의 <abbr title=''%{exact_time}''>%{when}</abbr> 의견'
+      commented_by_anonymous: 익명 사용자의 <abbr title='%{exact_time}'>%{when}</abbr> 의견
+      closed_by: '%{user}님이 <abbr title=''%{exact_time}''>%{when}</abbr>에 해결함'
+      closed_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when}</abbr>에 해결함
+      reopened_by: '%{user}님이 <abbr title=''%{exact_time}''>%{when}</abbr>에 다시 활성화함'
+      reopened_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when}</abbr>에 다시 활성화함
+      hidden_by: '%{user}님이 <abbr title=''%{exact_time}''>%{when}</abbr>에 숨김'
       report: 이 참고 신고
     query:
       title: 지물 정보
@@ -331,7 +339,7 @@ ko:
   changeset_comments:
     comment:
       comment: '바뀜집합 #%{changeset_id}에 %{author}님이 새 덧글을 남김'
-      commented_at_by_html: '%{user}님이 %{when} 전에 업데이트함'
+      commented_at_by_html: '%{user}님이 %{when}에 업데이트함'
     comments:
       comment: '바뀜집합 #%{changeset_id}에 %{author}님이 새 댓글을 남김'
     index:
@@ -475,7 +483,7 @@ ko:
           clinic: 의원
           clock: 시계
           college: 전문대학
-          community_centre: 주민센터
+          community_centre: 커뮤니티 센터
           courthouse: 법원
           crematorium: 화장장
           dentist: 치과
@@ -536,14 +544,14 @@ ko:
           university: 대학
           vending_machine: 자동 판매기
           veterinary: 동물병원
-          village_hall: 주민센터
+          village_hall: 커뮤니티 센터
           waste_basket: 쓰레기통
           waste_disposal: 폐기물 처리장
           water_point: 워터 포인트
           youth_centre: 청소년 센터
         boundary:
           administrative: 행정 구역 경계
-          census: 국세조사 구역 경계
+          census: 인구조사 구역 경계
           national_park: 국립 공원
           protected_area: 보호 구역
         bridge:
@@ -557,7 +565,7 @@ ko:
           "yes": 건물
         craft:
           brewery: 맥주 공장
-          carpenter: 목수
+          carpenter: 목공
           electrician: 전기공
           gardener: 정원사
           painter: 화가
@@ -597,14 +605,14 @@ ko:
           pedestrian: 보행자 길
           platform: 승강장
           primary: 1차 도로
-          primary_link: 주요 도로
-          proposed: 제안된 도로
+          primary_link: 1차 도로
+          proposed: 계획 도로
           raceway: 경마장
           residential: 주거 도로
           rest_area: 휴게소
           road: 도로
           secondary: 2차 도로
-          secondary_link: 보조 도로
+          secondary_link: 2차 도로
           service: 접근 도로
           services: 고속도로 휴게소
           speed_camera: 속도 카메라
@@ -616,7 +624,7 @@ ko:
           track: 농·임도
           traffic_signals: 교통 신호
           trail: 샛길
-          trunk: 고속화도로
+          trunk: 간선 도로
           trunk_link: 간선 도로
           turning_loop: 방향전환 운전용 루프선
           unclassified: 분류되지 않은 도로
@@ -650,7 +658,7 @@ ko:
           wreck: 난파선
           "yes": 유적지
         junction:
-          "yes": 분기점
+          "yes": 교차로
         landuse:
           allotments: 텃밭
           basin: 유역
@@ -678,9 +686,9 @@ ko:
           reservoir: 저수지
           reservoir_watershed: 저수지 유역
           residential: 주거 지역
-          retail: 소매점
+          retail: 상업 지역
           road: 도로 지역
-          village_green: 녹색 마을
+          village_green: 녹지 광장
           vineyard: 포도밭
           "yes": 토지 이용
         leisure:
@@ -825,7 +833,7 @@ ko:
           islet: 작은 섬
           isolated_dwelling: 독립 주택
           locality: 지역
-          municipality: 시정촌
+          municipality: 지방자치체
           neighbourhood: 마을
           postcode: 우편 번호
           quarter: 구역
@@ -844,7 +852,7 @@ ko:
           construction: 건설 중인 철도
           disused: 폐선된 철도
           funicular: 케이블 카
-          halt: 기차 정지
+          halt: 간이역
           junction: 철도 분기점
           level_crossing: 건널목
           light_rail: 경전철
@@ -889,7 +897,7 @@ ko:
           deli: 델리카트슨
           department_store: 백화점
           discount: 할인점
-          doityourself: 손수짜기
+          doityourself: DIY
           dry_cleaning: 드라이클리닝
           electronics: 전자 제품 가게
           estate_agent: 공인 중개사
@@ -1027,8 +1035,8 @@ ko:
       status: 상태
       reports: 보고서
       last_updated: 최근 업데이트
-      last_updated_time_html: <abbr title='%{title}'>%{time} 전</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} 전</abbr> (%{user}님에
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> (%{user}님에
         의해)
       link_to_reports: 보고서 보기
       reports_count:
@@ -1350,10 +1358,12 @@ ko:
         확인하세요.'
       legal_title: 법률
       legal_html: |-
-        이 사이트 및 많은 다른 관련된 부문은 공동체를 대표하여 <a href='https://osmfoundation.org/'>OpenStreetMap 재단</a>에서 정식적으로 운영합니다. OpenStreetMap 재단이 운영하는 부문의 이용은 <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
+        이 사이트 및 많은 다른 관련된 부문은 공동체를 대표하여 <a href='https://osmfoundation.org/'>OpenStreetMap 재단</a>에서 정식적으로 운영합니다. OpenStreetMap 재단이 운영하는 부문의 이용은 <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">이용 약관</a>, <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">
         허용할 수 있는 이용 정책</a> 및 <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">개인정보 정책</a> 조건 하에서 이루어집니다.
         <br>
-        만일 이용허락 또는 저작권 및 다른 법률적인 질문이나 사안이 있다면, <a href='https://osmfoundation.org/Contact'>OpenStreetMap 재단에 연락</a>하십시오.
+        만일 이용허락 또는 저작권 및 다른 법률적인 질문이 있다면, <a href='https://osmfoundation.org/Contact'>OpenStreetMap 재단에 연락</a>하십시오.
+        <br>
+        OpenStreetMap, 돋보기 로고와 State of the Map은 <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">OpenStreetMap 재단의 등록상표입니다.</a>
       partners_title: 파트너
     copyright:
       foreign:
@@ -2107,7 +2117,7 @@ ko:
       ct status: '기여자 약관:'
       ct undecided: 정의되지 않음
       ct declined: 거부됨
-      latest edit: '마지막 편집 %{ago}:'
+      latest edit: '마지막 편집 (%{ago}):'
       email address: '이메일 주소:'
       created from: '만든 위치:'
       status: '상태:'
@@ -2343,7 +2353,7 @@ ko:
       title: '%{block_on}에 차단 해제함'
       heading: '%{block_by}에 의해 %{block_on}에 차단 해제함'
       time_future: 이 차단은 %{time}에 끝납니다.
-      past: 이 차단은 %{time} 전에 끝났고 지금 해제할 수 없습니다.
+      past: 이 차단은 %{time}에 끝났고 지금 해제할 수 없습니다.
       confirm: 이 차단을 해제하겠습니까?
       revoke: 해제!
       flash: 이 차단을 해제했습니다.
@@ -2351,7 +2361,7 @@ ko:
       time_future: '%{time}에 끝납니다.'
       until_login: 사용자가 로그인할 때까지 활성합니다.
       time_future_and_until_login: '%{time} 이후에 사용자가 로그인하면.'
-      time_past: '%{time} 전에 끝났습니다.'
+      time_past: '%{time}에 끝났습니다.'
       block_duration:
         hours:
           one: 1시간
