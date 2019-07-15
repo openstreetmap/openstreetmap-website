@@ -5,22 +5,9 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
-
---
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
 
 --
 -- Name: btree_gist; Type: EXTENSION; Schema: -; Owner: -
@@ -134,7 +121,7 @@ CREATE TYPE public.user_status_enum AS ENUM (
 
 CREATE FUNCTION public.maptile_for_point(bigint, bigint, integer) RETURNS integer
     LANGUAGE c STRICT
-    AS '$libdir/libpgosm.so', 'maptile_for_point';
+    AS '$libdir/libpgosm', 'maptile_for_point';
 
 
 --
@@ -143,7 +130,7 @@ CREATE FUNCTION public.maptile_for_point(bigint, bigint, integer) RETURNS intege
 
 CREATE FUNCTION public.tile_for_point(integer, integer) RETURNS bigint
     LANGUAGE c STRICT
-    AS '$libdir/libpgosm.so', 'tile_for_point';
+    AS '$libdir/libpgosm', 'tile_for_point';
 
 
 --
@@ -152,7 +139,7 @@ CREATE FUNCTION public.tile_for_point(integer, integer) RETURNS bigint
 
 CREATE FUNCTION public.xid_to_int4(xid) RETURNS integer
     LANGUAGE c IMMUTABLE STRICT
-    AS '$libdir/libpgosm.so', 'xid_to_int4';
+    AS '$libdir/libpgosm', 'xid_to_int4';
 
 
 SET default_tablespace = '';
@@ -1268,9 +1255,9 @@ CREATE TABLE public.user_preferences (
 CREATE TABLE public.user_roles (
     id integer NOT NULL,
     user_id bigint NOT NULL,
-    role public.user_role_enum NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
+    role public.user_role_enum NOT NULL,
     granter_id bigint NOT NULL
 );
 
