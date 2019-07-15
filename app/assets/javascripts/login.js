@@ -1,4 +1,8 @@
+//= querystring
+
 $(document).ready(function () {
+  var querystring = require("querystring-component");
+
   // Preserve location hash in referer
   if (window.location.hash) {
     $("#referer").val($("#referer").val() + window.location.hash);
@@ -6,9 +10,9 @@ $(document).ready(function () {
 
   // Attach referer to authentication buttons
   $(".auth_button").each(function () {
-    var params = qs.parse(this.search.substring(1));
+    var params = querystring.parse(this.search.substring(1));
     params.referer = $("#referer").val();
-    this.search = qs.stringify(params);
+    this.search = querystring.stringify(params);
   });
 
   // Add click handler to show OpenID field
@@ -33,7 +37,7 @@ $(document).ready(function () {
     if (referer) {
       args.referer = referer;
     }
-    window.location = action + "?" + qs.stringify(args);
+    window.location = action + "?" + querystring.stringify(args);
     return false;
   });
 });

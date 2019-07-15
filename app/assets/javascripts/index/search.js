@@ -1,6 +1,9 @@
 //= require jquery.simulate
+//= require querystring
 
 OSM.Search = function (map) {
+  var querystring = require("querystring-component");
+
   $(".search_form input[name=query]").on("input", function (e) {
     if ($(e.target).val() === "") {
       $(".describe_location").fadeIn(100);
@@ -120,7 +123,7 @@ OSM.Search = function (map) {
   var page = {};
 
   page.pushstate = page.popstate = function (path) {
-    var params = qs.parse(path.substring(path.indexOf("?") + 1));
+    var params = querystring.parse(path.substring(path.indexOf("?") + 1));
     $(".search_form input[name=query]").val(params.query);
     $(".describe_location").hide();
     OSM.loadSidebarContent(path, page.load);

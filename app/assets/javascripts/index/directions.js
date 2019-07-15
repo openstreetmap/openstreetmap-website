@@ -1,7 +1,10 @@
 //= require_self
 //= require_tree ./directions
+//= require querystring
 
 OSM.Directions = function (map) {
+  var querystring = require("querystring-component");
+
   var awaitingGeocode; // true if the user has requested a route, but we're waiting on a geocode result
   var awaitingRoute; // true if we've asked the engine for a route and are waiting to hear back
   var chosenEngine;
@@ -139,7 +142,7 @@ OSM.Directions = function (map) {
     var from = endpoints[0].latlng,
         to = endpoints[1].latlng;
 
-    OSM.router.route("/directions?" + qs.stringify({
+    OSM.router.route("/directions?" + querystring.stringify({
       from: $("#route_to").val(),
       to: $("#route_from").val(),
       route: to.lat + "," + to.lng + ";" + from.lat + "," + from.lng
@@ -210,7 +213,7 @@ OSM.Directions = function (map) {
 
     var precision = OSM.zoomPrecision(map.getZoom());
 
-    OSM.router.replace("/directions?" + qs.stringify({
+    OSM.router.replace("/directions?" + querystring.stringify({
       engine: chosenEngine.id,
       route: o.lat.toFixed(precision) + "," + o.lng.toFixed(precision) + ";" +
              d.lat.toFixed(precision) + "," + d.lng.toFixed(precision)
@@ -367,7 +370,7 @@ OSM.Directions = function (map) {
       getRoute(true, true);
     });
 
-    var params = qs.parse(location.search.substring(1)),
+    var params = querystring.parse(location.search.substring(1)),
         route = (params.route || "").split(";"),
         from = route[0] && L.latLng(route[0].split(",")),
         to = route[1] && L.latLng(route[1].split(","));

@@ -21,8 +21,11 @@
 //= require index/query
 //= require router
 //= require bowser
+//= require querystring
 
 $(document).ready(function () {
+  var querystring = require("querystring-component");
+
   var loaderTimeout;
 
   var map = new L.OSM.Map("map", {
@@ -264,7 +267,7 @@ $(document).ready(function () {
     var iframe = $("<iframe>")
       .hide()
       .appendTo("body")
-      .attr("src", url + qs.stringify(query))
+      .attr("src", url + querystring.stringify(query))
       .on("load", function () {
         $(this).remove();
         loaded = true;
@@ -309,7 +312,7 @@ $(document).ready(function () {
     };
 
     page.load = function () {
-      var params = qs.parse(location.search.substring(1));
+      var params = querystring.parse(location.search.substring(1));
       if (params.query) {
         $("#sidebar .search_form input[name=query]").value(params.query);
       }

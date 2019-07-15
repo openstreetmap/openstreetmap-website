@@ -1,4 +1,7 @@
+//= require querystring
+
 $(document).ready(function () {
+  var querystring = require("querystring-component");
   var id = $("#id-embed");
 
   if (id.data("key")) {
@@ -36,7 +39,7 @@ $(document).ready(function () {
       params.gpx = hashParams.gpx;
     }
 
-    id.attr("src", id.data("url") + "#" + qs.stringify(params));
+    id.attr("src", id.data("url") + "#" + querystring.stringify(params));
   } else {
     alert(I18n.t("site.edit.id_not_configured"));
   }

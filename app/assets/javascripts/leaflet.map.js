@@ -1,3 +1,5 @@
+//= require querystring
+
 L.extend(L.LatLngBounds.prototype, {
   getSize: function () {
     return (this._northEast.lat - this._southWest.lat) *
@@ -114,8 +116,9 @@ L.OSM.Map = L.Map.extend({
       params.mlon = latLng.lng.toFixed(precision);
     }
 
-    var url = window.location.protocol + "//" + OSM.SERVER_URL + "/",
-        query = qs.stringify(params),
+    var querystring = require("querystring-component"),
+        url = window.location.protocol + "//" + OSM.SERVER_URL + "/",
+        query = querystring.stringify(params),
         hash = OSM.formatHash(this);
 
     if (query) url += "?" + query;
@@ -180,7 +183,8 @@ L.OSM.Map = L.Map.extend({
       params[this._object.type] = this._object.id;
     }
 
-    var query = qs.stringify(params);
+    var querystring = require("querystring-component"),
+        query = querystring.stringify(params);
     if (query) {
       str += "?" + query;
     }

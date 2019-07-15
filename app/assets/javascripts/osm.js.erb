@@ -1,5 +1,6 @@
 //= depend_on settings.yml
 //= depend_on settings.local.yml
+//= require querystring
 
 OSM = {
 <% if defined?(PIWIK) %>
@@ -138,14 +139,15 @@ OSM = {
   },
 
   parseHash: function(hash) {
-    var args = {};
+    var querystring = require("querystring-component"),
+        args = {};
 
     var i = hash.indexOf('#');
     if (i < 0) {
       return args;
     }
 
-    hash = qs.parse(hash.substr(i + 1));
+    hash = querystring.parse(hash.substr(i + 1));
 
     var map = (hash.map || '').split('/'),
       zoom = parseInt(map[0], 10),
