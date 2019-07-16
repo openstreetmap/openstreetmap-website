@@ -1317,7 +1317,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal "", user.description
     assert_nil user.home_lat
     assert_nil user.home_lon
-    assert_equal false, user.image.file?
+    assert_equal false, user.avatar.attached?
     assert_equal false, user.email_valid
     assert_nil user.new_email
     assert_nil user.auth_provider

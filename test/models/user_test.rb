@@ -263,7 +263,7 @@ class UserTest < ActiveSupport::TestCase
     assert user.description.blank?
     assert_nil user.home_lat
     assert_nil user.home_lon
-    assert_equal false, user.image.file?
+    assert_equal false, user.avatar.attached?
     assert_equal "deleted", user.status
     assert_equal false, user.visible?
     assert_equal false, user.active?

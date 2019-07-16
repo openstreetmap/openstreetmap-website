@@ -49,6 +49,8 @@
 class User < ActiveRecord::Base
   require "xml/libxml"
 
+  self.ignored_columns = %w[image_file_name image_fingerprint image_content_type]
+
   has_many :traces, -> { where(:visible => true) }
   has_many :diary_entries, -> { order(:created_at => :desc) }
   has_many :diary_comments, -> { order(:created_at => :desc) }
@@ -87,10 +89,6 @@ class User < ActiveRecord::Base
 
   has_one_attached :avatar
 
-  has_attached_file :image,
-                    :default_url => "/assets/:class/:attachment/:style.png",
-                    :styles => { :large => "100x100>", :small => "50x50>" }
-
   validates :display_name, :presence => true, :length => 3..255,
                            :exclusion => %w[new terms save confirm confirm-email go_public reset-password forgot-password suspended]
   validates :display_name, :if => proc { |u| u.display_name_changed? },
@@ -108,7 +106,6 @@ class User < ActiveRecord::Base
   validates :home_lon, :allow_nil => true, :numericality => true, :inclusion => { :in => -180..180 }
   validates :home_zoom, :allow_nil => true, :numericality => { :only_integer => true }
   validates :preferred_editor, :inclusion => Editors::ALL_EDITORS, :allow_nil => true
-  validates :image, :attachment_content_type => { :content_type => %r{\Aimage/.*\Z} }
   validates :auth_uid, :unless => proc { |u| u.auth_provider.nil? },
                        :uniqueness => { :scope => :auth_provider }
 
@@ -275,7 +272,6 @@ class User < ActiveRecord::Base
     self.description = ""
     self.home_lat = nil
     self.home_lon = nil
-    self.image = nil
     self.email_valid = false
     self.new_email = nil
     self.auth_provider = nil

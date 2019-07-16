@@ -55,11 +55,12 @@ class UserHelperTest < ActionView::TestCase
   end
 
   def test_user_image_url
-    user = create(:user, :image_file_name => "test.jpg", :image_fingerprint => "d41d8cd98f00b204e9800998ecf8427e")
+    user = create(:user)
+    user.avatar.attach(:io => File.open("test/gpx/fixtures/a.gif"), :filename => "a.gif")
     gravatar_user = create(:user, :image_use_gravatar => true)
 
     url = user_image_url(user)
-    assert_match %r{^/attachments/users/images/\d{3}/\d{3}/\d{3}/large/d41d8cd98f00b204e9800998ecf8427e.jpg$}, url
+    assert_match %r{^http://test.host/rails/active_storage/representations/[^/]+/[^/]+/a.gif$}, url
 
     url = user_image_url(gravatar_user)
     assert_match %r{^http://www.gravatar.com/avatar/}, url

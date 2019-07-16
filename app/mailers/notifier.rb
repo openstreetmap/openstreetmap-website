@@ -187,16 +187,7 @@ class Notifier < ActionMailer::Base
     if avatar&.attached?
       return avatar.variant(:resize => "50x50>").blob.download
     else
-      return File.read(user_avatar_file_path(user))
-    end
-  end
-
-  def user_avatar_file_path(user)
-    image = user&.image
-    if image&.file?
-      return image.path(:small)
-    else
-      return Rails.root.join("app", "assets", "images", "avatar_small.png")
+      return File.read(Rails.root.join("app", "assets", "images", "avatar_small.png"))
     end
   end
 

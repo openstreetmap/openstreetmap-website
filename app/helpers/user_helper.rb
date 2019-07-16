@@ -9,8 +9,6 @@ module UserHelper
       user_gravatar_tag(user, options)
     elsif user.avatar.attached?
       image_tag user.avatar.variant(:resize => "100x100>"), options
-    elsif user.image.file?
-      image_tag user.image.url(:large), options
     else
       image_tag "avatar_large.png", options
     end
@@ -24,8 +22,6 @@ module UserHelper
       user_gravatar_tag(user, options)
     elsif user.avatar.attached?
       image_tag user.avatar.variant(:resize => "50x50>"), options
-    elsif user.image.file?
-      image_tag user.image.url(:small), options
     else
       image_tag "avatar_small.png", options
     end
@@ -39,8 +35,6 @@ module UserHelper
       user_gravatar_tag(user, options)
     elsif user.avatar.attached?
       image_tag user.avatar.variant(:resize => "50x50>"), options
-    elsif user.image.file?
-      image_tag user.image.url(:small), options
     else
       image_tag "avatar_small.png", options
     end
@@ -51,8 +45,6 @@ module UserHelper
       user_gravatar_url(user, options)
     elsif user.avatar.attached?
       polymorphic_url(user.avatar.variant(:resize => "100x100>"))
-    elsif user.image.file?
-      image_url(user.image.url(:large))
     else
       image_url("avatar_large.png")
     end
