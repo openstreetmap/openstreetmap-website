@@ -31,4 +31,6 @@ Rails.configuration.after_initialize do
   ActiveSupport::Reloader.to_complete do
     ActiveStorage::Variant.prepend(OpenStreetMap::ActiveStorage::Variant)
   end
+
+  ActiveStorage::Service.url_expires_in = 1.week
 end
