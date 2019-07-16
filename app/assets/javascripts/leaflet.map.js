@@ -32,8 +32,8 @@ L.OSM.Map = L.Map.extend({
       code: "O",
       keyid: "historical",
       name: I18n.t("javascripts.map.base.historical"),
-      style: style,
-        // "https://gist.githubusercontent.com/mojodna/e79b8dae7d5e310bb86878968bbf73d2/raw/127e10d76c4e4240e80d36f2ab03c27d0caba89d/ohm.json",
+      style: ohmStyle,
+      // style : "https://gist.githubusercontent.com/mojodna/e79b8dae7d5e310bb86878968bbf73d2/raw/127e10d76c4e4240e80d36f2ab03c27d0caba89d/ohm.json",
       accessToken: "no-token"
     });
 

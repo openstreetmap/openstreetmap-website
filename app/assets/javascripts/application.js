@@ -9,6 +9,7 @@
 //= require mapbox-gl
 //= require leaflet
 //= require leaflet.osm
+//= require ohm.style
 //= require leaflet.map
 //= require leaflet.zoom
 //= require leaflet.locationfilter
