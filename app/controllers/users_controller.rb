@@ -665,10 +665,10 @@ class UsersController < ApplicationController
       user.avatar.attach(params[:user][:avatar])
       user.image_use_gravatar = false
     when "delete" then
-      user.avatar.purge
+      user.avatar.purge_later
       user.image_use_gravatar = false
     when "gravatar" then
-      user.avatar.purge
+      user.avatar.purge_later
       user.image_use_gravatar = true
     end
 

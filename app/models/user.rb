@@ -269,7 +269,7 @@ class User < ActiveRecord::Base
   ##
   # delete a user - leave the account but purge most personal data
   def delete
-    avatar.purge
+    avatar.purge_later
 
     self.display_name = "user_#{id}"
     self.description = ""
