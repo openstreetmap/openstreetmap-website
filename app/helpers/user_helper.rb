@@ -50,7 +50,7 @@ module UserHelper
     if user.image_use_gravatar
       user_gravatar_url(user, options)
     elsif user.avatar.attached?
-      url_for(user.avatar.variant(:resize => "100x100>"))
+      polymorphic_url(user.avatar.variant(:resize => "100x100>"))
     elsif user.image.file?
       image_url(user.image.url(:large))
     else
