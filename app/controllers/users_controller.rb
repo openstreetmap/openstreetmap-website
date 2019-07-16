@@ -779,7 +779,7 @@ class UsersController < ApplicationController
   # check if this user has a gravatar and set the user pref is true
   def gravatar_enable(user)
     # code from example https://en.gravatar.com/site/implement/images/ruby/
-    return false if user.image.present?
+    return false if user.avatar.attached?
 
     hash = Digest::MD5.hexdigest(user.email.downcase)
     url = "https://www.gravatar.com/avatar/#{hash}?d=404" # without d=404 we will always get an image back
