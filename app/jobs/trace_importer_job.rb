@@ -5,15 +5,15 @@ class TraceImporterJob < ApplicationJob
     gpx = trace.import
 
     if gpx.actual_points.positive?
-      Notifier.gpx_success(trace, gpx.actual_points).deliver_later
+      Notifier.gpx_success(trace, gpx.actual_points).deliver
     else
-      Notifier.gpx_failure(trace, "0 points parsed ok. Do they all have lat,lng,alt,timestamp?").deliver_later
+      Notifier.gpx_failure(trace, "0 points parsed ok. Do they all have lat,lng,alt,timestamp?").deliver
       trace.destroy
     end
   rescue StandardError => e
     logger.info e.to_s
     e.backtrace.each { |l| logger.info l }
-    Notifier.gpx_failure(trace, e.to_s + "\n" + e.backtrace.join("\n")).deliver_later
+    Notifier.gpx_failure(trace, e.to_s + "\n" + e.backtrace.join("\n")).deliver
     trace.destroy
   end
 end
