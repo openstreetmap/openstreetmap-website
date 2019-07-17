@@ -1,6 +1,10 @@
 require "migrate"
 
 class AddMoreControlsToGpxFiles < ActiveRecord::Migration[4.2]
+  class Trace < ActiveRecord::Base
+    self.table_name = "gpx_files"
+  end
+
   def self.up
     create_enumeration :gpx_visibility_enum, %w[private public trackable identifiable]
     add_column :gpx_files, :visibility, :gpx_visibility_enum, :default => "public", :null => false
