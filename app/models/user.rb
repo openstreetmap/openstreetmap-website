@@ -14,7 +14,6 @@
 #  home_zoom           :integer          default(3)
 #  nearby              :integer          default(50)
 #  pass_salt           :string
-#  image_file_name     :text
 #  email_valid         :boolean          default(FALSE), not null
 #  new_email           :string
 #  creation_ip         :string
@@ -26,12 +25,10 @@
 #  preferred_editor    :string
 #  terms_seen          :boolean          default(FALSE), not null
 #  description_format  :enum             default("markdown"), not null
-#  image_fingerprint   :string
 #  changesets_count    :integer          default(0), not null
 #  traces_count        :integer          default(0), not null
 #  diary_entries_count :integer          default(0), not null
 #  image_use_gravatar  :boolean          default(FALSE), not null
-#  image_content_type  :string
 #  auth_provider       :string
 #  home_tile           :bigint(8)
 #  tou_agreed          :datetime
