@@ -1,4 +1,7 @@
 class SubscribeAuthorsToDiaryEntries < ActiveRecord::Migration[4.2]
+  class DiaryEntry < ActiveRecord::Base
+  end
+
   def up
     DiaryEntry.find_each do |diary_entry|
       diary_entry.subscriptions.create(:user => diary_entry.user) unless diary_entry.subscribers.exists?(diary_entry.user.id)
