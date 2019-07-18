@@ -520,11 +520,11 @@ class UsersController < ApplicationController
 
       if user
         case user.status
-        when "pending" then
+        when "pending"
           unconfirmed_login(user)
-        when "active", "confirmed" then
+        when "active", "confirmed"
           successful_login(user, request.env["omniauth.params"]["referer"])
-        when "suspended" then
+        when "suspended"
           failed_login t("users.login.account is suspended", :webmaster => "mailto:#{Settings.support_email}").html_safe
         else
           failed_login t("users.login.auth failure")

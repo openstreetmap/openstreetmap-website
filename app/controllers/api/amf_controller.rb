@@ -92,14 +92,14 @@ module Api
             result = putway(renumberednodes, *args)
             result[4] = renumberednodes.reject { |k, _v| orn.key?(k) }
             renumberedways[result[2]] = result[3] if result[0].zero? && result[2] != result[3]
-          when "putrelation" then
+          when "putrelation"
             result = putrelation(renumberednodes, renumberedways, *args)
-          when "deleteway" then
+          when "deleteway"
             result = deleteway(*args)
           when "putpoi" then
             result = putpoi(*args)
             renumberednodes[result[2]] = result[3] if result[0].zero? && result[2] != result[3]
-          when "startchangeset" then
+          when "startchangeset"
             result = startchangeset(*args)
           end
 
