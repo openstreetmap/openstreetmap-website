@@ -142,6 +142,45 @@ sv:
         description: Beskrivning
         languages: Språk
         pass_crypt: Lösenord
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: omkring 1 timme sedan
+        other: omkring %{count} timmar sedan
+      about_x_months:
+        one: omkring 1 månad sedan
+        other: omkring %{count} månader sedan
+      about_x_years:
+        one: omkring 1 år sedan
+        other: omkring %{count} år sedan
+      almost_x_years:
+        one: nästan 1 år sedan
+        other: nästan %{count} år sedan
+      half_a_minute: en halv minut sedan
+      less_than_x_seconds:
+        one: mindre än 1 sekund sedan
+        other: mindre än %{count} sekunder sedan
+      less_than_x_minutes:
+        one: mindre än en minut sedan
+        other: mindre än %{count} minuter sedan
+      over_x_years:
+        one: över 1 år sedan
+        other: över %{count} år sedan
+      x_seconds:
+        one: 1 sekund sedan
+        other: '%{count} sekunder sedan'
+      x_minutes:
+        one: 1 minut sedan
+        other: '%{count} minuter sedan'
+      x_days:
+        one: 1 dag sedan
+        other: '%{count} dagar sedan'
+      x_months:
+        one: 1 månad sedan
+        other: '%{count} månader sedan'
+      x_years:
+        one: 1 år sedan
+        other: '%{count} år sedan'
   printable_name:
     with_name_html: '%{name} (%{id})'
   editor:
@@ -161,10 +200,10 @@ sv:
   api:
     notes:
       comment:
-        opened_at_html: Skapades för %{when} sedan
-        opened_at_by_html: Skapades för %{when} sedan av %{user}
-        commented_at_html: Uppdaterades för %{when} sedan
-        commented_at_by_html: Uppdaterades för %{when} sedan av %{user}
+        opened_at_html: Skapades för %{when}
+        opened_at_by_html: Skapades för %{when} av %{user}
+        commented_at_html: Uppdaterades för %{when}
+        commented_at_by_html: Uppdaterades för %{when} av %{user}
         closed_at_html: Löstes för %{when}
         closed_at_by_html: Löstes för %{when} av %{user}
         reopened_at_html: Återaktiverades för %{when}
@@ -184,11 +223,10 @@ sv:
   browse:
     created: Skapad
     closed: Stängd
-    created_html: Skapades <abbr title='%{title}'>för %{time} sedan</abbr>
+    created_html: Skapades för <abbr title='%{title}'>%{time}</abbr>
     closed_html: Stängdes <abbr title='%{title}'>för %{time}</abbr>
-    created_by_html: Skapades <abbr title='%{title}'>för %{time} sedan</abbr> av %{user}
-    deleted_by_html: Raderades <abbr title='%{title}'>för %{time} sedan</abbr> av
-      %{user}
+    created_by_html: Skapades för<abbr title='%{title}'>%{time}</abbr> av %{user}
+    deleted_by_html: Raderades för <abbr title='%{title}'>%{time}</abbr> av %{user}
     edited_by_html: Redigerades <abbr title='%{title}'>för %{time}</abbr> av %{user}
     closed_by_html: Stängdes <abbr title='%{title}'> för %{time}</abbr> av %{user}
     version: Version
@@ -210,8 +248,7 @@ sv:
       relation: Förbindelser (%{count})
       relation_paginated: Förbindelser (%{x}-%{y} av %{count})
       comment: Kommentarer (%{count})
-      hidden_commented_by: Dold kommentar från %{user} <abbr title='%{exact_time}'>%{when}
-        sedan</abbr>
+      hidden_commented_by: Dold kommentar från %{user} för <abbr title='%{exact_time}'>%{when}</abbr>
       commented_by: Kommentar från %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML för ändringsset
       osmchangexml: osmChange XML
@@ -296,12 +333,9 @@ sv:
       commented_by_anonymous: Kommentar från en anonym användare <abbr title='%{exact_time}'>för
         %{when}</abbr>
       closed_by: Löst av %{user} <abbr title='%{exact_time}'>för %{when}</abbr>
-      closed_by_anonymous: Löst av en anonym användare <abbr title='%{exact_time}'>för
-        %{when} sedan</abbr>
-      reopened_by: Återaktiverades av %{user} <abbr title='%{exact_time}'>för %{when}
-        sedan</abbr>
-      reopened_by_anonymous: Återaktiverades av en anonym användare <abbr title='%{exact_time}'>för
-        %{when} sedan</abbr>
+      closed_by_anonymous: Löst av en anonym användare för <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Återaktiverades av %{user} för <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Återaktiverades av en anonym användare för <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: Doldes av %{user} <abbr title='%{exact_time}'>för %{when}</abbr>
       report: Rapportera denna anteckning
     query:
@@ -342,7 +376,7 @@ sv:
   changeset_comments:
     comment:
       comment: Ny kommentar på ändringsset nummer %{changeset_id} av %{author}
-      commented_at_by_html: Uppdaterades för %{when} sedan av %{user}
+      commented_at_by_html: Uppdaterades för %{when} av %{user}
     comments:
       comment: 'Ny kommentar på ändringssätt #%{changeset_id} av %{author}'
     index:
@@ -1042,9 +1076,8 @@ sv:
       status: Status
       reports: Rapporter
       last_updated: Senast uppdaterad
-      last_updated_time_html: <abbr title='%{title}'>%{time} sedan</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} sedan</abbr> av
-        %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> av %{user}
       link_to_reports: Visa rapporter
       reports_count:
         one: 1 rapport
@@ -1646,7 +1679,7 @@ sv:
         och dokumentera frågor gällande kartering.
       welcome:
         url: /welcome
-        title: Välkommen till OSM
+        title: Välkommen till OpenStreetMap
         description: Börja med den här snabbguiden som täcker grunderna i OpenStreetMap.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Sv:Beginners%27_guide
@@ -1654,9 +1687,9 @@ sv:
         description: Guide för nybörjare som underhålls av gemenskapen.
       help:
         url: https://help.OpenStreetMap.org/
-        title: help.openstreetmap.org
-        description: Ställ en fråga eller kolla upp svar på OSM:s sida med svar på
-          ofta förekommande frågor.
+        title: Hjälpforum
+        description: Ställ en fråga eller kolla upp svar på OpenStreetMaps sida med
+          svar på ofta förekommande frågor.
       mailing_lists:
         title: E-postlistor
         description: Ställ en fråga eller diskutera intressanta saker på ett brett
@@ -1679,8 +1712,8 @@ sv:
           reda på vad du behöver veta i välkomstmattan.
       wiki:
         url: https://wiki.openstreetmap.org/
-        title: wiki.openstreetmap.org
-        description: Sök i wikin för ingående OSM-dokumentation.
+        title: OpenStreetMaps wiki
+        description: Sök i wikin för ingående dokumentation av OpenStreetMap.
     sidebar:
       search_results: Sökresultat
       close: Stäng
@@ -2162,12 +2195,14 @@ sv:
       title: Villkor för deltagare
       heading: Villkor för deltagare
       heading_ct: 'Användarvillkor:'
+      read and accept with tou: Läs villkoren för bidragsgivare och användning, markera
+        båda kryssrutor när du är klar och klicka på fortsätt.
       contributor_terms_explain: Denna avtal beskriver villkoren för dina existerande
         och framtida bidrag.
       read_ct: Jag har läst och samtycken med de ovanstående villkor för deltagare
-      tou_explain_html: 'Dessa %{tou_länk} beskriver villkoren för bruk av denna hemsida
-        och annan infrastruktur står till förfogande av OSMF. Klick #vänlig på länken,
-        läs och samtyck med villkoren.'
+      tou_explain_html: Dessa %{tou_link} beskriver villkoren för hur denna hemsida
+        och andra infrastrukturer från OSMF får användas. Klicka på länken, läs och
+        godkänn villkoren.
       read_tou: Jag har läst och samtycker med användarvillkoren.
       consider_pd: Utöver ovan nämnda avtal, anser jag att mina bidrag är inom allmän
         egendom.
@@ -2217,7 +2252,7 @@ sv:
       ct status: 'Användarvillkor:'
       ct undecided: Ej bestämda
       ct declined: Avböjda
-      latest edit: 'Senaste redigering %{ago}:'
+      latest edit: 'Senaste redigering (%{ago}):'
       email address: 'E-post:'
       created from: 'Skapad från:'
       status: 'Status:'
@@ -2492,7 +2527,7 @@ sv:
       until_login: Aktiv till dess användaren loggar in.
       time_future_and_until_login: Slutar %{time} och efter att användaren har loggat
         in.
-      time_past: Avslutades för %{time} sedan.
+      time_past: Avslutades för %{time}.
       block_duration:
         hours:
           one: 1 timme
