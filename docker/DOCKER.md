@@ -81,3 +81,12 @@ Similarly, if you want to get onto the db container use:
 ```
 docker-compose -f docker/docker-compose.yml exec db /bin/bash
 ```
+
+### Populating the database
+This  installation comes with no geographic data loaded. You can either create new data using one of the editors (Potlatch 2, iD, JOSM etc) or by loading an OSM extract.
+
+After installing but before creating any users or data, import an extract with [Osmosis](https://wiki.openstreetmap.org/wiki/Osmosis) and the `--write-apidb` task.
+
+```
+docker-compose -f docker/docker-compose.yml exec web osmosis --read-pbf /path/to/file.osm.pbf --write-apidb host="db" database="openstreetmap" user="postgres"  validateSchemaVersion="no"
+```
