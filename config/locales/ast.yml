@@ -19,6 +19,8 @@ ast:
       diary_entry:
         create: Espublizar
         update: Anovar
+      issue_comment:
+        create: Amestar comentariu
       message:
         create: Unviar
       client_application:
@@ -106,6 +108,45 @@ ast:
         description: Descripción
         languages: Llingües
         pass_crypt: Contraseña
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: hai como 1 hora
+        other: hai como %{count} hores
+      about_x_months:
+        one: hai como 1 mes
+        other: hai como %{count} meses
+      about_x_years:
+        one: hai como 1 añu
+        other: hai como %{count} años
+      almost_x_years:
+        one: fai casi 1 añu
+        other: fai casi %{count} años
+      half_a_minute: va mediu minutu
+      less_than_x_seconds:
+        one: fai menos de 1 segundu
+        other: fai menos de %{count} segundos
+      less_than_x_minutes:
+        one: fai menos de 1 minutu
+        other: fai menos de %{count} minutos
+      over_x_years:
+        one: fai más de 1 añu
+        other: fai más de %{count} años
+      x_seconds:
+        one: fai 1 segundu
+        other: fai %{count} segundos
+      x_minutes:
+        one: fai 1 minutu
+        other: fai %{count} minutos
+      x_days:
+        one: ayeri
+        other: fai %{count} díes
+      x_months:
+        one: fai 1 mes
+        other: fai %{count} meses
+      x_years:
+        one: fai 1 añu
+        other: fai %{count} años
   editor:
     default: Predetermináu (anguaño %{name})
     potlatch:
@@ -123,14 +164,14 @@ ast:
   api:
     notes:
       comment:
-        opened_at_html: Creada hai %{when}
-        opened_at_by_html: Creada hai %{when} por %{user}
-        commented_at_html: Anovada hai %{when}
-        commented_at_by_html: Anovada hai %{when} por %{user}
-        closed_at_html: Resuelta hai %{when}
-        closed_at_by_html: Resuelta hai %{when} por %{user}
-        reopened_at_html: Reactivada hai %{when}
-        reopened_at_by_html: Reactivada hai %{when} por %{user}
+        opened_at_html: Creáu %{when}
+        opened_at_by_html: Creáu %{when} por %{user}
+        commented_at_html: Anováu %{when}
+        commented_at_by_html: Anováu %{when} por %{user}
+        closed_at_html: Resueltu %{when}
+        closed_at_by_html: Resueltu %{when} por %{user}
+        reopened_at_html: Reactiváu %{when}
+        reopened_at_by_html: Reactiváu %{when} por %{user}
       rss:
         title: Notes d'OpenStreetMap
         description_area: Llista de notes, escrites, comentaes o zarraes en so área
@@ -146,12 +187,12 @@ ast:
   browse:
     created: Creáu
     closed: Zarráu
-    created_html: Creáu <abbr title='%{title}'>hai %{time}</abbr>
-    closed_html: Zarráu <abbr title='%{title}'>hai %{time}</abbr>
-    created_by_html: Creáu <abbr title='%{title}'>hai %{time}</abbr> por %{user}
-    deleted_by_html: Desaniciáu <abbr title='%{title}'>hai %{time}</abbr> por %{user}
-    edited_by_html: Editáu <abbr title='%{title}'>hai %{time}</abbr> por %{user}
-    closed_by_html: Zarráu <abbr title='%{title}'>hai %{time}</abbr> por %{user}
+    created_html: Creáu <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Zarráu <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Creáu <abbr title='%{title}'>%{time}</abbr> por %{user}
+    deleted_by_html: Desaniciáu <abbr title='%{title}'>%{time}</abbr> por %{user}
+    edited_by_html: Editáu <abbr title='%{title}'>%{time}</abbr> por %{user}
+    closed_by_html: Zarráu <abbr title='%{title}'>%{time}</abbr> por %{user}
     version: Versión
     in_changeset: Conxuntu de cambios
     anonymous: anónimu
@@ -171,9 +212,8 @@ ast:
       relation: Rellaciones (%{count})
       relation_paginated: Rellaciones (%{x}-%{y} de %{count})
       comment: Comentarios (%{count})
-      hidden_commented_by: Comentariu tapecíu de %{user} <abbr title='%{exact_time}'>hai
-        %{when}</abbr>
-      commented_by: Comentariu de %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
+      hidden_commented_by: Comentariu tapecíu de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comentariu de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: Conxuntu de cambeos XML
       osmchangexml: osmChange XML
       feed:
@@ -251,18 +291,15 @@ ast:
       open_title: 'Nota ensin resolver #%{note_name}'
       closed_title: 'Nota resuelta #%{note_name}'
       hidden_title: 'Nota tapecida #%{note_name}'
-      open_by: Creáu por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      open_by_anonymous: Creáu por un anónimu <abbr title='%{exact_time}'>hai %{when}</abbr>
-      commented_by: Comentariu de %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      commented_by_anonymous: Comentariu d'un anónimu <abbr title='%{exact_time}'>hai
-        %{when}</abbr>
-      closed_by: Resuelto por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      closed_by_anonymous: Resuelto por un anónimu <abbr title='%{exact_time}'>hai
-        %{when}</abbr>
-      reopened_by: Reactivao por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
-      reopened_by_anonymous: Reactivao por un anónimu <abbr title='%{exact_time}'>hai
-        %{when}</abbr>
-      hidden_by: Tapecío por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
+      open_by: Creáu por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Creáu por un anónimu <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comentariu de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Comentariu d'un anónimu <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Resuelto por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Resuelto por un anónimu <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Reactivao por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Reactivao por un anónimu <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Tapecío por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Informar d'esta nota
     query:
       title: Consultar entidaes
@@ -302,7 +339,7 @@ ast:
     comment:
       comment: 'Comentariu nuevu sobro''l conxuntu de cambios #%{changeset_id} de
         %{author}'
-      commented_at_by_html: Anovao hai %{when} por %{user}
+      commented_at_by_html: Anovao %{when} por %{user}
     comments:
       comment: 'Comentariu nuevu sobro''l conxuntu de cambios #%{changeset_id} de
         %{author}'
@@ -359,11 +396,13 @@ ast:
         other: '%{count} comentarios'
       edit_link: Editar esta entrada
       hide_link: Anubrir esta entrada
+      unhide_link: Amosar esta entrada
       confirm: Confirmar
       report: Informar d'esta entrada
     diary_comment:
       comment_from: Comentariu de %{link_user} el %{comment_created_at}
       hide_link: Anubrir esti comentariu
+      unhide_link: Amosar esti comentariu
       confirm: Confirmar
       report: Informar d'esti comentariu
     location:
@@ -999,8 +1038,8 @@ ast:
       status: Estáu
       reports: Informes
       last_updated: Caberu anovamientu
-      last_updated_time_html: <abbr title='%{title}'>hai %{time}</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>hai %{time}</abbr> por %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> por %{user}
       link_to_reports: Ver los informes
       reports_count:
         one: 1 Informe
@@ -1584,7 +1623,7 @@ ast:
         de cartografía.
       welcome:
         url: /welcome
-        title: Bienveníos a OSM
+        title: Bienveníos a OpenStreetMap
         description: Principie con esta guía rápida que cubre lo básico d'OpenStreetMap.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Ast:Beginners%27_guide
@@ -1592,9 +1631,9 @@ ast:
         description: Guía pa principiantes, mantenida pola comunidá.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
+        title: Foru d'ayuda
         description: Entrugar o buscar respuestes nel sitiu d'entrugues y respuestes
-          d'OSM.
+          d'OpenStreetMap.
       mailing_lists:
         title: Llistes de corréu
         description: Fai una entruga o alderica sobro asuntos interesantes nun ampliu
@@ -1618,8 +1657,8 @@ ast:
           lo que tienes de saber nel Felpudu de Bienvenida.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Ast:Main_Page
-        title: wiki.openstreetmap.org
-        description: Mirar na wiki la documentación d'OSM más a fondu.
+        title: Wiki d'OpenStreetMap
+        description: Mirar na wiki la documentación d'OpenStreetMap más a fondu.
     sidebar:
       search_results: Resultaos de la gueta
       close: Zarrar

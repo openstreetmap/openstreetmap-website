@@ -45,6 +45,9 @@ pt-PT:
         create: Gravar
       diary_entry:
         create: Publicar
+        update: Atualizar
+      issue_comment:
+        create: Adicionar comentário
       message:
         create: Enviar
       client_application:
@@ -131,6 +134,45 @@ pt-PT:
         description: Descrição
         languages: Línguas
         pass_crypt: Palavra-passe
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: há cerca de 1 hora
+        other: há cerca de %{count} horas
+      about_x_months:
+        one: há cerca de um mês
+        other: há cerca de %{count} meses
+      about_x_years:
+        one: há cerca de 1 ano
+        other: há cerca de %{count} anos
+      almost_x_years:
+        one: há quase 1 ano
+        other: há quase %{count} anos
+      half_a_minute: há meio minuto
+      less_than_x_seconds:
+        one: há menos de 1 segundo
+        other: há menos de %{count} segundos
+      less_than_x_minutes:
+        one: há menos de um minuto
+        other: há menos de %{count} minutos
+      over_x_years:
+        one: há mais de 1 ano
+        other: há mais de %{count} anos
+      x_seconds:
+        one: há 1 segundo
+        other: há %{count} segundos
+      x_minutes:
+        one: há 1 minuto
+        other: há %{count} minutos
+      x_days:
+        one: há 1 dia
+        other: há %{count} dias
+      x_months:
+        one: há 1 mês
+        other: há %{count} meses
+      x_years:
+        one: há 1 ano
+        other: há %{count} anos
   editor:
     default: Padrão (atualmente %{name})
     potlatch:
@@ -148,13 +190,13 @@ pt-PT:
   api:
     notes:
       comment:
-        opened_at_html: Criado %{when} atrás
-        opened_at_by_html: Criado %{when} atrás por %{user}
+        opened_at_html: Criado %{when}
+        opened_at_by_html: Criado %{when} por %{user}
         commented_at_html: Atualizado %{when}
         commented_at_by_html: Atualizado %{when} por %{user}
-        closed_at_html: Resolvido %{when} atrás
-        closed_at_by_html: Resolvido %{when} atrás por %{user}
-        reopened_at_html: Reaberto em %{when}
+        closed_at_html: Resolvido %{when}
+        closed_at_by_html: Resolvido %{when} por %{user}
+        reopened_at_html: Reaberto %{when}
         reopened_at_by_html: Reaberto %{when} por %{user}
       rss:
         title: Erros reportados no OpenStreetMap
@@ -171,12 +213,12 @@ pt-PT:
   browse:
     created: Criado
     closed: Fechado
-    created_html: Criado há <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Fechado há <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Criado há <abbr title='%{title}'>%{time}</abbr> por %{user}
-    deleted_by_html: Eliminado há <abbr title='%{title}'>%{time}</abbr> por %{user}
-    edited_by_html: Editado há <abbr title='%{title}'>%{time}</abbr> por %{user}
-    closed_by_html: Fechado há <abbr title='%{title}'>%{time}</abbr> por %{user}
+    created_html: Criado a <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Fechado a <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Criado a <abbr title='%{title}'>%{time}</abbr> por %{user}
+    deleted_by_html: Eliminado a <abbr title='%{title}'>%{time}</abbr> por %{user}
+    edited_by_html: Editado a <abbr title='%{title}'>%{time}</abbr> por %{user}
+    closed_by_html: Fechado a <abbr title='%{title}'>%{time}</abbr> por %{user}
     version: Versão
     in_changeset: Conjunto de alterações
     anonymous: anónimo
@@ -196,8 +238,8 @@ pt-PT:
       relation: Relações (%{count})
       relation_paginated: Relações (%{x}-%{y} of %{count})
       comment: Comentários (%{count})
-      hidden_commented_by: Comentário oculto de %{user} hà <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Comentário de %{user} há <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_commented_by: Comentário oculto de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comentário de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       changesetxml: XML do conjunto de alterações
       osmchangexml: XML no formato osmChange
       feed:
@@ -276,15 +318,15 @@ pt-PT:
       open_title: Erro não resolvido n.º %{note_name}
       closed_title: Erro resolvido n.º %{note_name}
       hidden_title: Erro ocultado n.º %{note_name}
-      open_by: Reportado por %{user} há <abbr title='%{exact_time}'>%{when}</abbr>
-      open_by_anonymous: Reportado por um anónimo há <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: Comentário de %{user} há <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by_anonymous: Comentário de um anónimo há <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: Resolvido por %{user} há <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Resolvido por um anónimo há <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Reaberto por %{user} há <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Reaberto por um anónimo há <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Ocultado por %{user} há <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by: Reportado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Reportado por um anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: Comentário de %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Comentário de um anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Resolvido por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Resolvido por um anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Reaberto por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Reaberto por um anónimo <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Ocultado por %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       report: Denunciar este erro reportado
     query:
       title: Consultar elementos em redor
@@ -325,7 +367,7 @@ pt-PT:
     comment:
       comment: Novo comentário sobre o conjunto de alterações n.º %{changeset_id}
         de %{author}
-      commented_at_by_html: Atualizado há %{when} por %{user}
+      commented_at_by_html: Atualizado %{when} por %{user}
     comments:
       comment: Novo comentário sobre o conjunto de alterações n.º %{changeset_id}
         de %{author}
@@ -384,11 +426,13 @@ pt-PT:
         other: '%{count} comentários'
       edit_link: Editar esta entrada
       hide_link: Ocultar esta entrada
+      unhide_link: Mostrar esta entrada
       confirm: Confirmar
       report: Denunciar esta entrada
     diary_comment:
       comment_from: Comentário de %{link_user} em %{comment_created_at}
       hide_link: Ocultar este comentário
+      unhide_link: Mostrar este comentário
       confirm: Confirmar
       report: Denunciar este comentário
     location:
@@ -1024,9 +1068,8 @@ pt-PT:
       status: Estado
       reports: Denúncias
       last_updated: Última Atualização
-      last_updated_time_html: <abbr title='%{title}'>%{time} atrás</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} atrás</abbr> por
-        %{user}
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> por %{user}
       link_to_reports: Ver Denúncias
       reports_count:
         one: 1 denúncia
@@ -1388,10 +1431,11 @@ pt-PT:
         Se você alterar os dados ou criar algo com os dados, pode distribuir
         o produto resultante apenas sob a mesma licença. Consulte <a href='%{copyright_path}'>a página sobre direitos de autor e licenciamento</a> para mais informações.
       legal_title: Termos legais
-      legal_html: "Este sítio e outros serviços relacionados são formalmente geridos
-        pela  \n<a href='https://osmfoundation.org/'>Fundação OpenStreetMap</a> (OSMF)
-        \nem nome da comunidade. A utilização de todos os serviços operados pela OSMF
-        está sujeita\nàs nossas normas de <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">Utilização
+      legal_html: "Este sítio e muitos outros serviços relacionados são formalmente
+        geridos pela \n<a href='https://osmfoundation.org/'>Fundação OpenStreetMap</a>
+        (OSMF) \nem nome da comunidade. A utilização de todos os serviços operados
+        pela OSMF está sujeita\nàs nossas <a href=\"https://wiki.osmfoundation.org/wiki/Terms_of_Use\">Condições
+        de Utilização</a>, e normas de <a href=\"https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy\">Utilização
         Aceitável</a> e de <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">Privacidade</a>\n<br>
         \nPor favor <a href='https://osmfoundation.org/Contact'>contacte a OSMF</a>
         \nse tiver questões relacionadas com licenças, direitos de autor, questões
@@ -1629,7 +1673,7 @@ pt-PT:
         description: Guia para principiantes atualizado pela comunidade.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
+        title: Fórum de ajuda
         description: Faça uma pergunta ou procure respostas no fórum de perguntas
           e respostas do OpenStreetMap.
       mailing_lists:
@@ -1654,7 +1698,7 @@ pt-PT:
           o que precisa de saber no Tapete de Boas-Vindas.
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Pt:Main_Page
-        title: wiki.openstreetmap.org
+        title: Wiki OpenStreetMap
         description: Navegue na wiki de documentação sobre o OpenStreetMap.
     sidebar:
       search_results: Resultados da Pesquisa
@@ -2142,14 +2186,26 @@ pt-PT:
         Para obter mais informações consulte <a href="%{url}">esta página wiki</a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Termos de colaborador
-      heading: Termos de colaborador
-      consider_pd: para além do acordo exposto acima, considero que as minhas contribuições
-        se encontram em Domínio Público.
+      title: Condições
+      heading: Condições
+      heading_ct: Condições para colaboradores
+      read and accept with tou: Leia o acordo para colaboradores e as condições de
+        utilização, por favor, marque ambas as caixas de seleção quando terminar e
+        pressione o botão continuar.
+      contributor_terms_explain: Este acordo rege as condições das suas contribuições
+        atuais e futuras.
+      read_ct: Li e aceito as condições para colaboradores acima
+      tou_explain_html: Estas %{tou_link} regem o uso do ''site'' na Internet e de
+        outras infraestruturas fornecidas pelo OSMF. Clique a hiperligação, leia e
+        aceite o texto, por favor.
+      read_tou: Li e aceito as condições de utilização
+      consider_pd: Adicionalmente às anteriores, dedico as minhas contribuições ao
+        domínio público.
       consider_pd_why: O que é isto?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Informação para ajudar a compreender os termos: um <a href="%{summary}">resumo
         inteligível</a> e algumas <a href="%{translations}">traduções informais</a>'
+      continue: Continuar
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Rejeitar
       you need to accept or decline: Por favor leia e depois aceite ou recuse os novos
@@ -2189,7 +2245,7 @@ pt-PT:
       ct status: 'Termos de Colaborador:'
       ct undecided: Indeciso
       ct declined: Rejeitou
-      latest edit: 'Última edição %{ago}:'
+      latest edit: 'Última edição (%{ago}):'
       email address: 'E-mail:'
       created from: 'Criado em:'
       status: 'Estado:'
@@ -2460,7 +2516,7 @@ pt-PT:
       title: Revocando bloqueio de %{block_on}
       heading: Revocando bloqueio de %{block_on} por %{block_by}
       time_future: Este bloqueio terminará em %{time}.
-      past: Este bloqueio terminou há %{time} atrás e já não pode ser revocado.
+      past: Este bloqueio terminou a %{time} e já não pode ser revogado.
       confirm: Tem a certeza que quer revocar este bloqueio?
       revoke: Revogar!
       flash: Este bloqueio foi revogado.
@@ -2469,11 +2525,23 @@ pt-PT:
       until_login: Ativo até o utilizador entrar na conta.
       time_future_and_until_login: Termina em %{time} e após o utilizador entrar na
         conta.
-      time_past: Terminou há %{time} atrás.
+      time_past: Terminou a %{time}.
       block_duration:
         hours:
           one: 1 hora
           other: '%{count} horas'
+        days:
+          one: 1 dia
+          other: '%{count} dias'
+        weeks:
+          one: 1 semana
+          other: '%{count} semanas'
+        months:
+          one: 1 mês
+          other: '%{count} meses'
+        years:
+          one: 1 ano
+          other: '%{count} anos'
     blocks_on:
       title: Bloqueios em %{name}
       heading: Lista de bloqueios em %{name}
@@ -2568,6 +2636,8 @@ pt-PT:
         title: Camadas
       copyright: © <a href='%{copyright_url}'>Colaboradores do OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Fazer um donativo</a>
+      terms: <a href='%{terms_url}' target='_blank'>Condições de utilização do ''site''
+        e da API</a>
     site:
       edit_tooltip: Editar o mapa
       edit_disabled_tooltip: Área demasiado grande. Amplie para poder editar
