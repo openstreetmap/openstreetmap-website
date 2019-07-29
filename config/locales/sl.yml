@@ -1,6 +1,7 @@
 # Messages for Slovenian (slovenščina)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: 123wiki456pedija789
 # Author: Abijeet Patro
 # Author: Damjang
 # Author: Dbc334
@@ -26,6 +27,9 @@ sl:
         create: Shrani
       diary_entry:
         create: Objavi
+        update: Posodobi
+      issue_comment:
+        create: Dodaj komentar
       message:
         create: Pošlji
       client_application:
@@ -41,6 +45,9 @@ sl:
         create: Ustvari blokado
         update: Posodobi blokado
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: se ne prikaže kot veljaven elektronski naslov
     models:
       acl: Seznam nadzora dostopa
       changeset: Paket sprememb
@@ -56,15 +63,15 @@ sl:
       notifier: Obveščevalec
       old_node: Staro vozlišče
       old_node_tag: Oznaka starega vozlišča
-      old_relation: Stara zveza
-      old_relation_member: Član stare zveze
-      old_relation_tag: Oznaka stare zveze
+      old_relation: Stara povezava
+      old_relation_member: Član stare povezave
+      old_relation_tag: Oznaka stare povezave
       old_way: Stara pot
       old_way_node: Vozlišče stare poti
       old_way_tag: Oznaka stare poti
-      relation: Zveza
-      relation_member: Član zveze
-      relation_tag: Oznaka zveze
+      relation: Povezava
+      relation_member: Član povezave
+      relation_tag: Oznaka povezave
       session: Seja
       trace: Sled
       tracepoint: Točka sledi
@@ -108,6 +115,9 @@ sl:
         description: Opis
         languages: Jeziki
         pass_crypt: Geslo
+  datetime:
+    distance_in_words_ago:
+      half_a_minute: pol minute nazaj
   printable_name:
     with_version: '%{id}, %{version}. različica'
   editor:
@@ -133,8 +143,8 @@ sl:
         commented_at_by_html: Posodobljeno %{when} nazaj od %{user}
         closed_at_html: Rešeno %{when} nazaj
         closed_at_by_html: Rešeno %{when} nazaj od %{user}
-        reopened_at_html: Zopet aktivirano %{when} nazaj
-        reopened_at_by_html: Zopet aktivirano %{when} nazaj od %{user}
+        reopened_at_html: Ponovno aktivirano %{when} nazaj
+        reopened_at_by_html: Ponovno aktivirano %{when} nazaj od %{user}
       rss:
         title: OpenStreetMap opombe
         description_area: Seznam opomb, prijavljenih, komentiranih ali zaprtih na
@@ -143,7 +153,7 @@ sl:
         opened: Nova opomba (v bližini %{place})
         commented: Nov komentar (v bližini %{place})
         closed: Zaprta opomba (v bližini %{place})
-        reopened: Zopet aktivirana opomba (v bližini %{place})
+        reopened: Ponovno aktivirana opomba (v bližini %{place})
       entry:
         comment: Komentar
         full: Celotna opomba
@@ -200,17 +210,17 @@ sl:
         other: del poti %{related_ways}
     relation:
       title: 'Zveza: %{name}'
-      history_title: 'Zgodovina zveze: %{name}'
+      history_title: 'Zgodovina povezave: %{name}'
       members: Člani
     relation_member:
       entry_role: '%{type} %{name} kot %{role}'
       type:
         node: Vozlišče
         way: Pot
-        relation: Zveza
+        relation: Povezava
     containing_relation:
-      entry: Zveza %{relation_name}
-      entry_role: Zveza %{relation_name} (kot %{relation_role})
+      entry: Povezava %{relation_name}
+      entry_role: Povezava %{relation_name} (kot %{relation_role})
     not_found:
       sorry: 'Žal %{type} #%{id} ni mogoče najti.'
       type:
@@ -508,6 +518,7 @@ sl:
           village_hall: Vaško središče
           waste_basket: Koš za odpadke
           waste_disposal: Zabojnik za odpadke
+          water_point: Pitna voda
           youth_centre: Mladinski center
         boundary:
           administrative: Upravna meja
@@ -953,16 +964,28 @@ sl:
     index:
       status: Stanje
     show:
+      resolve: Razreši
       ignore: Prezri
       reopen: Ponovno odpri
+    comments:
+      created_at: Ob %{datetime}
   issue_comments:
     create:
       comment_created: Vaš komentar je bil uspešno ustvarjen
   reports:
     new:
+      details: Prosimo, opišite še več podrobnosti o težavi (polje je obvezno).
+      select: 'Izberite razlog težave:'
       disclaimer:
         intro: 'Pred pošiljanjem poročila moderatorjem strani se prosimo prepričajte,
           da:'
+      categories:
+        diary_comment:
+          other_label: Ostalo
+        user:
+          other_label: Ostalo
+        note:
+          other_label: Ostalo
   layouts:
     logo:
       alt_text: OpenStreetMap logotip
@@ -991,6 +1014,7 @@ sl:
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: partnerji
+    tou: Pogoji uporabe
     osm_offline: Baza OpenStreetMap zaradi izvajanja nujnih vzdrževalnih del trenutno
       ni dostopna.
     osm_read_only: Baza OpenStreetMap je zaradi izvajanja nujnih vzdrževalnih del
@@ -1210,6 +1234,8 @@ sl:
       next: Naslednji
       copyright_html: <span>&copy;</span>OpenStreetMap<br> sodelavci
       local_knowledge_title: Krajevno znanje
+      community_driven_title: Urejeno od skupnosti
+      legal_title: Legalno
       partners_title: Partnerji
     copyright:
       foreign:
@@ -1327,7 +1353,7 @@ sl:
         in odgovarjanje na vprašanja, sodelovanje v razpravah in dokumentacijo kartografskih
         tem.
       welcome:
-        title: Dobrodošli v OSM
+        title: Dobrodošli v OpenStreetMap (OSM)
         description: Začnite s tem hitrim vodičem, ki zajema osnove OpenStreetMap.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Sl:Beginners%27_guide
@@ -1335,15 +1361,22 @@ sl:
         description: Vodnik za začetnike, ki ga vzdržuje skupnost.
       help:
         url: https://help.openstreetmap.org/
-        description: Zastavite vprašanje ali poiščete odgovore v OSM zbirki vprašanj
-          in odgovorov.
+        title: Forum za pomoč
+        description: Zastavite vprašanje ali poiščete odgovore v OpenStreetMap zbirki
+          vprašanj in odgovorov.
       mailing_lists:
         title: Poštni seznami
+        description: Zastavi vprašanje ali razpravljaj o zanimivih temah na številnih
+          poštnih seznamih.
       forums:
         title: Forumi
       irc:
         title: IRC
         description: Interaktivni klepet v mnogo različnih jezikih in o mnogo temah.
+      switch2osm:
+        title: switch2osm
+      welcomemat:
+        title: Za organizacije
       wiki:
         url: https://wiki.openstreetmap.org/
         title: wiki.openstreetmap.org
@@ -1814,13 +1847,15 @@ sl:
       terms declined: Žal nam je, da ste se odločili, da ne sprejmete novih "contributor
         terms". Za več informacij, si oglejte <a href="%{url}">to wiki stran</a>.
     terms:
-      title: Contributor terms
-      heading: Contributor terms
+      title: Pogoji
+      heading: Pogoji
       consider_pd: Poleg zgoraj navedenega sporazuma menim, da so moji prispevki v
         javni domeni
       consider_pd_why: kaj je to?
       guidance: 'Informacije, ki pomagajo razumeti te pogoje: <a href="%{summary}">berljivi
         povzetek</a> in nekaj <a href="%{translations}">neuradnih prevodov</a>'
+      continue: Nadaljuj
+      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Zavrni
       you need to accept or decline: Prosimo preberite in nato sprejmite ali zavrnite
         nove "Contributor Terms".
@@ -1859,7 +1894,7 @@ sl:
       ct status: 'Pogoji sodelovanja:'
       ct undecided: Neodločen
       ct declined: Zavrnjeni
-      latest edit: 'Zadnje urejanje %{ago}:'
+      latest edit: 'Zadnje urejanje (%{ago}):'
       email address: 'E-poštni naslov:'
       created from: 'Ustvarjen iz:'
       status: 'Stanje:'
@@ -1940,6 +1975,7 @@ sl:
         review link text: Prosimo sledite tej povezavi, ko imate čas da pregledate
           in sprejmete nove pogoje sodelovanja..
         agreed_with_pd: Prav tako ste izjavili, da so vaša urejanja v javni lasti.
+        link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: Kaj je to?
       profile description: 'Opis uporabnika:'
       preferred languages: 'Prednostni jeziki:'
@@ -1947,6 +1983,7 @@ sl:
       image: 'Slika:'
       gravatar:
         gravatar: Uporabi Gravatar
+        link: https://wiki.openstreetmap.org/wiki/Gravatar
         link text: Kaj je to?
         disabled: Gravatar je onemogočen.
       new image: Dodaj sliko
@@ -2255,7 +2292,9 @@ sl:
     directions:
       ascend: Vzpon
       engines:
+        fossgis_osrm_bike: Kolo (OSRM)
         fossgis_osrm_car: Avto (OSRM)
+        fossgis_osrm_foot: Hoja (OSRM)
         graphhopper_bicycle: Kolo (GraphHopper)
         graphhopper_car: Avto (GraphHopper)
         graphhopper_foot: Hoja (GraphHopper)
@@ -2274,11 +2313,18 @@ sl:
           na %{name}
         offramp_right_with_exit_directions: Uporabite %{exit}. izhod na desni proti
           %{directions}
+        offramp_right_with_exit_name_directions: Pojdite na desni izhod %{exit} za
+          %{name} proti %{directions}
         offramp_right_with_name: Zapeljite na priključek na desni in nato na %{name}
         offramp_right_with_directions: Zapeljite na dovoz na desni za %{directions}
+        offramp_right_with_name_directions: Pojdite na desni priključek za %{name}
+          proti %{directions}
         onramp_right_without_exit: Na priključku zavijte desno na %{name}
         onramp_right_with_directions: Zavijte desno na dovoz za %{directions}
+        onramp_right_with_name_directions: Zavijte desno na priključek za %{name}
+          proti %{directions}
         onramp_right_without_directions: Zavijte desno na dovoz
+        onramp_right: Zavijte desno na priključek.
         endofroad_right_without_exit: Na koncu ceste zavijte desno na %{name}
         merge_right_without_exit: Zapeljite rahlo desno na %{name}
         fork_right_without_exit: Na razcepu zavijte desno na %{name}
@@ -2291,13 +2337,19 @@ sl:
         offramp_left_with_exit: Uporabite %{exit}. izhod na levi
         offramp_left_with_exit_name: Uporabite %{exit}. izhod na levi, da zapeljete
           na %{name}
+        offramp_left_with_exit_directions: Pojdite na levi izhod %{exit} proti %{directions}
         offramp_left_with_exit_name_directions: Uporabite %{exit}. izhod na levi,
           da zapeljete na %{name} proti %{directions}
         offramp_left_with_name: Zapeljite na priključek na levi in nato na %{name}
         offramp_left_with_directions: Zapeljite na dovoz na levi za %{directions}
+        offramp_left_with_name_directions: Pojdite na levi priključek za %{name},
+          proti %{directions}
         onramp_left_without_exit: Na priključku zavijte levo na %{name}
         onramp_left_with_directions: Zavijte levo na dovoz za %{directions}
+        onramp_left_with_name_directions: Pojdite na levi priključek za %{name} proti
+          %{directions}
         onramp_left_without_directions: Zavijte levo na dovoz
+        onramp_left: Zavijte desno na priključek.
         endofroad_left_without_exit: Na koncu ceste zavijete levo na %{name}
         merge_left_without_exit: Zapeljite rahlo levo na %{name}
         fork_left_without_exit: Na razcepu zavijte levo na %{name}
@@ -2313,8 +2365,22 @@ sl:
         end_oneway_without_exit: Konec enosmerne ceste na %{name}
         roundabout_with_exit: V krožišču uporabite %{exit}. izhod, da zapeljete na
           %{name}
+        roundabout_with_exit_ordinal: V krožišču uporabite %{exit} izhod, da zapeljete
+          na %{name}
+        exit_roundabout: Izstopite iz krožišča na izhodu za %{name}
         unnamed: neimenovano
         courtesy: Navodila prispeva %{link}
+        exit_counts:
+          first: "1."
+          second: "2."
+          third: "3."
+          fourth: "4."
+          fifth: "5."
+          sixth: "6."
+          seventh: "7."
+          eighth: "8."
+          ninth: "9."
+          tenth: "10."
       time: Čas
     query:
       node: Vozlišče

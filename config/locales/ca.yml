@@ -49,6 +49,7 @@ ca:
         create: Desa
       diary_entry:
         create: Publica
+        update: Actualitza
       issue_comment:
         create: Afegeix un comentari
       message:
@@ -66,6 +67,10 @@ ca:
         create: Crear bloc
         update: Bloc d'Actualització
   activerecord:
+    errors:
+      messages:
+        invalid_email_address: no sembla ser una adreça electrònica vàlida
+        email_address_not_routable: no és encaminable
     models:
       acl: Llista de control d'accés
       changeset: Conjunt de canvis
@@ -133,6 +138,21 @@ ca:
         description: Descripció
         languages: Idiomes
         pass_crypt: Contrasenya
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: aproximadament fa 1 hora
+        other: aproximadament fa %{count} hores
+      about_x_months:
+        one: aproximadament fa 1 mes
+        other: aproximadament fa %{count} mesos
+      about_x_years:
+        one: aproximadament fa 1 any
+        other: aproximadament fa %{count} anys
+      almost_x_years:
+        one: gairebé fa 1 any
+        other: gairebé fa %{count} anys
+      half_a_minute: fa mig minut
   printable_name:
     with_version: '%{id}, v%{version}'
   editor:
@@ -320,10 +340,10 @@ ca:
       no_more: No s'han trobat més conjunts de canvis.
       no_more_area: No hi han més conjunts de canvis en aquesta àrea.
       no_more_user: No hi han més conjunts de canvis fets per aquest usuari.
-      load_more: Carregar-ne més
+      load_more: Carrega'n més
     timeout:
-      sorry: La llista de conjunt de canvis que heu sol·licitat ha trigat massa a
-        recuperar-se.
+      sorry: Ho sentim, la llista de conjunt de canvis que heu sol·licitat ha trigat
+        massa a recuperar-se.
   changeset_comments:
     comment:
       comment: 'Nou comentari de %{author} al conjunt de canvis #%{changeset_id}'
@@ -353,7 +373,7 @@ ca:
       no_entries: No hi ha entrades al diari
       recent_entries: 'Entrades recents al diari:'
       older_entries: Entrades més antigues
-      newer_entries: Entrades més recents
+      newer_entries: Entrades més noves
     edit:
       title: Edita entrada del diari
       marker_text: Localització de l'Entrada del Diari
@@ -406,8 +426,8 @@ ca:
       post: Publica
       when: Quan
       comment: Comentari
-      newer_comments: Comentaris recents
-      older_comments: Comentaris antics
+      newer_comments: Comentaris més nous
+      older_comments: Comentaris més antics
   geocoder:
     search:
       title:
@@ -693,17 +713,24 @@ ca:
           "yes": Esbarjo
         man_made:
           beacon: Balisa
+          beehive: Rusc d'abelles
           breakwater: Escullera
           bridge: Pont
+          bunker_silo: Búnquer
           chimney: Xemeneia
           crane: Grua
           gasometer: Gasòmetre
           lighthouse: Far
           mine: Mina
+          mineshaft: Pou miner
           petroleum_well: Pou petrolífer
+          pier: Moll
           pipeline: Canonada
           silo: Sitja
+          storage_tank: Tanc d'emmagatzematge
+          surveillance: Vigilància
           tower: Torre
+          wastewater_plant: Planta d'aigües residuals
           watermill: Molí d'aigua
           water_tower: Torre d'aigua
           water_well: Pou
@@ -714,6 +741,7 @@ ca:
           airfield: Aeroport militar
           barracks: Caserna
           bunker: Búnquer
+          "yes": Militar
         mountain_pass:
           "yes": Coll
         natural:
@@ -789,6 +817,7 @@ ca:
           municipality: Municipi
           neighbourhood: Barri
           postcode: Codi postal
+          quarter: Quarter
           region: Regió
           sea: Mar
           square: Plaça
@@ -885,21 +914,26 @@ ca:
           pet: Botiga d'animals
           pharmacy: Farmàcia
           photo: Botiga de foto
+          seafood: Marisc
           second_hand: Botiga de segona mà
           shoes: Sabateria
           sports: Botiga d'esports
           stationery: Botiga de papereria
           supermarket: Supermercat
           tailor: Sastreria
+          ticket: Botiga de tiquets
           tobacco: Estanc
           toys: Botiga de joguines
           travel_agency: Agència de viatges
+          tyres: Botiga de pneumàtics
+          vacant: Botiga vacant
+          variety_store: Botiga de varietats
           video: Video de la botiga
           wine: Vinateria
           "yes": Botiga
         tourism:
           alpine_hut: Cabanya alpina
-          apartment: Apartament
+          apartment: Apartament de vacances
           artwork: Il·lustració
           attraction: Atracció
           bed_and_breakfast: Llit i esmorzar (B&B)
@@ -919,6 +953,7 @@ ca:
           viewpoint: Mirador
           zoo: Zoològic
         tunnel:
+          building_passage: Passatge d'edifici
           culvert: Canonada
           "yes": Túnel
         waterway:
@@ -963,8 +998,14 @@ ca:
   issues:
     index:
       title: Problemes
+      select_status: Selecciona l'estat
+      select_type: Selecciona el tipus
+      reported_user: Usuari denunciat
+      not_updated: No actualitzat
       search: Cerca
+      search_guidance: 'Cerca incidències:'
       user_not_found: El compte d’usuari no existeix
+      issues_not_found: No s'ha trobat cap incidència
       status: Estat
       reports: Informes
       last_updated: Darrera actualització
@@ -973,6 +1014,10 @@ ca:
         ignored: Ignorat
         open: Obert
         resolved: Resolt
+    show:
+      resolve: Resol
+      ignore: Ignora
+      reopen: Reobre
   issue_comments:
     create:
       comment_created: S’ha creat el comentari correctament
@@ -983,9 +1028,12 @@ ca:
           other_label: Un altre
         diary_comment:
           other_label: Un altre
+        user:
+          other_label: Altre
         note:
           spam_label: Aquesta nota és brossa
           personal_label: Aquesta nota conté dades personals
+          other_label: Altre
   layouts:
     project_name:
       title: OpenStreetMap
@@ -1549,7 +1597,7 @@ ca:
           cycleway_national: Via ciclista nacional
           cycleway_regional: Via ciclista regional
           cycleway_local: Via ciclista local
-          footway: Footway
+          footway: Camí de vianants
           rail: Ferrocarril
           subway: Metro
           tram:
@@ -1990,8 +2038,8 @@ ca:
         col. laborador. Per a més informació, si us plau vegi <a href="%{url}">aquesta
         pàgina de wiki</a>.
     terms:
-      title: 'Termes de col·laboració:'
-      heading: 'Termes de col·laboració:'
+      title: Termes
+      heading: Termes
       consider_pd: A més de l'acord de dalt, considero que les meves contribucions
         han d'estar en el domini públic
       consider_pd_why: què és això?
@@ -2405,15 +2453,15 @@ ca:
         popup: Esteu a {distance} {unit} d'aquest punt
       base:
         standard: Estàndard
-        cycle_map: Cycle Map
+        cycle_map: Mapa ciclista
         transport_map: Mapa de transports
-        hot: Humanitarian
+        hot: Humanitari
       layers:
         header: Capes del mapa
         notes: Notes de mapa
         data: Dades del mapa
         gps: Traces GPS públiques
-        overlays: Activar capes extra per als problemes del mapa
+        overlays: Activa capes extra per als problemes del mapa
         title: Capes del mapa
       copyright: © <a href='%{copyright_url}'>Col·laboradors d'OpenStreetMap</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Feu un donatiu</a>
