@@ -34,7 +34,7 @@ ohmStyle = {
       'tileSize': 256
     }
   },
-  'sprite': 'https://openhistoricalmap.github.io/openhistoricaltiles/frontpage/styles/osm-bright-gl-style/sprite',
+  'sprite': window.location.protocol + '//' + window.location.host + '/styles/sprite',
   'glyphs': 'https://openhistoricalmap.github.io/openhistoricaltiles/frontpage/fonts/{fontstack}/{range}.pbf',
   'layers': [
     {
