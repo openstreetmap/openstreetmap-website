@@ -399,6 +399,7 @@ $(document).ready(function () {
   var ohmLayer = map._layers[Object.keys(map._layers).filter(function(id) {
     return map._layers[id].options.keyid === historicalLayerKey;
   })[0]];
+  var currentYear = (new Date()).getFullYear();
 
   // Define the slider options
   var sliderOptions ={
@@ -407,7 +408,7 @@ $(document).ready(function () {
     timeSliderOptions: {
       sourcename: "ohm-data",
       date: 1850,
-      range: [1800, 2019],
+      range: [1800, currentYear],
     }
   }
 
