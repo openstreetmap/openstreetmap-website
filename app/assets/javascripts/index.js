@@ -395,8 +395,9 @@ $(document).ready(function () {
   });
 
   // Find the OHM layer
+  var historicalLayerKey = 'historical';
   var ohmLayer = map._layers[Object.keys(map._layers).filter(function(id) {
-    return map._layers[id].options.keyid === 'historical';
+    return map._layers[id].options.keyid === historicalLayerKey;
   })[0]];
 
   // Define the slider options
@@ -406,12 +407,19 @@ $(document).ready(function () {
     timeSliderOptions: {
       sourcename: "ohm-data",
       date: 1850,
-      datespan: [1800, 2000],
-      datelimit: [1600, 2100]
+      range: [1800, 2019],
     }
   }
 
   // Add the slider
   var slider = new L.Control.MBGLTimeSlider(sliderOptions).addTo(map);
+
+  // Detect when the baseLayer is changed, and add the slider back in (or store its last state)
+  map.on('baselayerchange', function(e) {
+    sliderOptions.timeSliderOptions.date = slider._timeslider._current_date;
+    if (e.layer.options.keyid === historicalLayerKey) {
+      slider = new L.Control.MBGLTimeSlider(sliderOptions).addTo(map);
+    }
+  });
 
 });
