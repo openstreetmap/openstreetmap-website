@@ -8,7 +8,7 @@ module UserHelper
     if user.image_use_gravatar
       user_gravatar_tag(user, options)
     elsif user.avatar.attached?
-      image_tag user.avatar.variant(:resize => "100x100>"), options
+      image_tag user_avatar_variant(user, :resize => "100x100>"), options
     else
       image_tag "avatar_large.png", options
     end
@@ -21,7 +21,7 @@ module UserHelper
     if user.image_use_gravatar
       user_gravatar_tag(user, options)
     elsif user.avatar.attached?
-      image_tag user.avatar.variant(:resize => "50x50>"), options
+      image_tag user_avatar_variant(user, :resize => "50x50>"), options
     else
       image_tag "avatar_small.png", options
     end
@@ -34,7 +34,7 @@ module UserHelper
     if user.image_use_gravatar
       user_gravatar_tag(user, options)
     elsif user.avatar.attached?
-      image_tag user.avatar.variant(:resize => "50x50>"), options
+      image_tag user_avatar_variant(user, :resize => "50x50>"), options
     else
       image_tag "avatar_small.png", options
     end
@@ -44,7 +44,7 @@ module UserHelper
     if user.image_use_gravatar
       user_gravatar_url(user, options)
     elsif user.avatar.attached?
-      polymorphic_url(user.avatar.variant(:resize => "100x100>"), :host => Settings.server_url)
+      polymorphic_url(user_avatar_variant(user, :resize => "100x100>"), :host => Settings.server_url)
     else
       image_url("avatar_large.png")
     end
@@ -66,6 +66,16 @@ module UserHelper
   end
 
   private
+
+  # Local avatar support
+
+  def user_avatar_variant(user, options)
+    if user.avatar.variable?
+      user.avatar.variant(options)
+    else
+      user.avatar
+    end
+  end
 
   # Gravatar support
 
