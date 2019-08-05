@@ -153,6 +153,9 @@ ca:
         one: gairebé fa 1 any
         other: gairebé fa %{count} anys
       half_a_minute: fa mig minut
+      x_seconds:
+        one: fa 1 segon
+        other: fa %{count} segons
   printable_name:
     with_version: '%{id}, v%{version}'
   editor:
@@ -179,7 +182,7 @@ ca:
         closed_at_html: Resolt fa %{when}
         closed_at_by_html: Resolt fa %{when} per %{user}
         reopened_at_html: Reactivat fa %{when}
-        reopened_at_by_html: Reactivat fa %{when} per %{user}
+        reopened_at_by_html: Reactivat el %{when} per %{user}
       rss:
         title: Notes de OpenStreetMap
         description_area: Una llista de notes, reportades, comentades o bé tancades
@@ -195,12 +198,12 @@ ca:
   browse:
     created: Creat
     closed: Tancat
-    created_html: Creat fa <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Tancat fa <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Creat fa <abbr title='%{title}'>%{time}</abbr> per %{user}
-    deleted_by_html: Eliminat fa <abbr title='%{title}'>%{time}</abbr> per %{user}
-    edited_by_html: Editat fa <abbr title='%{title}'>%{time}</abbr> per  %{user}
-    closed_by_html: Tancat fa <abbr title='%{title}'>%{time} </abbr> per  %{user}
+    created_html: Creat el <abbr title='%{title}'>%{time}</abbr>
+    closed_html: Tancat el <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Creat el <abbr title='%{title}'>%{time}</abbr> per %{user}
+    deleted_by_html: Eliminat el <abbr title='%{title}'>%{time}</abbr> per %{user}
+    edited_by_html: Editat el <abbr title='%{title}'>%{time}</abbr> per  %{user}
+    closed_by_html: Tancat el <abbr title='%{title}'>%{time} </abbr> per  %{user}
     version: Versió
     in_changeset: Conjunt de canvis
     anonymous: anònim
@@ -220,7 +223,7 @@ ca:
       relation: Relacions (%{count})
       relation_paginated: Relacions (%{x}-%{y} de %{count})
       comment: Comentaris(%{count})
-      hidden_commented_by: Comentari ocult de l'usuari %{user}<abbr title='%{exact_time}'>fa
+      hidden_commented_by: Comentari ocult de l'usuari %{user}<abbr title='%{exact_time}'>el
         %{when}</abbr>
       commented_by: Comentari de %{user} <abbr title='%{exact_time}'>fa %{when}</abbr>
       changesetxml: XML del conjunt de canvis
@@ -317,8 +320,8 @@ ca:
   changesets:
     changeset_paging_nav:
       showing_page: Pàgina %{page}
-      next: Endavant »
-      previous: ← Anterior
+      next: Següent »
+      previous: « Anterior
     changeset:
       anonymous: Anònim
       no_edits: (sense edicions)
@@ -330,8 +333,8 @@ ca:
       comment: Comentari
       area: Àrea
     index:
-      title: Conjunt de canvis
-      title_user: Conjunt de canvis de %{user}
+      title: Conjunts de canvis
+      title_user: Conjunts de canvis de %{user}
       title_friend: Conjunts de canvis dels meus amics
       title_nearby: Conjunts de canvis d'usuaris propers
       empty: No s'han trobat conjunts de canvis
@@ -382,7 +385,7 @@ ca:
       user_title: Diari de %{user}
       leave_a_comment: Deixa un comentari
       login_to_leave_a_comment: '%{login_link} per deixar un comentari'
-      login: Accés
+      login: Inicia una sessió
     no_such_entry:
       title: No hi ha entrada al diari com
       heading: No hi ha cap entrada amb la id %{id}
@@ -399,11 +402,13 @@ ca:
         other: '%{count} comentaris'
       edit_link: Edita aquesta entrada
       hide_link: Amaga aquesta entrada
+      unhide_link: Desamaga aquesta entrada
       confirm: Confirma
       report: Informeu d'aquesta entrada
     diary_comment:
       comment_from: Comentari de %{link_user} el %{comment_created_at}
       hide_link: Amaga aquest comentari
+      unhide_link: Desamaga aquest comentari
       confirm: Confirma
       report: Informeu d'aquest comentari
     location:
@@ -2045,6 +2050,7 @@ ca:
       consider_pd_why: què és això?
       guidance: 'Informació per ajudar a entendre aquestes condicions: un <a href="%{summary}">resum
         llegible humà</a> i algunes <a href="%{translations}">traduccions informals</a>'
+      continue: Continua
       decline: Ho rebutjo
       you need to accept or decline: Llegiu i després accepteu o rebutgeu els termes
         per a nous col·laboradors per continuar.
@@ -2526,6 +2532,8 @@ ca:
         turn_left_without_exit: Gira a l'esquerra per %{name}
         offramp_left_with_name: Agafeu el carril de l'esquerra a %{name}
         onramp_left_without_exit: Gireu a l'esquerra al carril a %{name}
+        onramp_left_without_directions: Gireu a l'esquerra a la rampa
+        onramp_left: Gireu a l'esquerra a la rampa
         endofroad_left_without_exit: Al final de la carretera gireu a l'esquerra a
           %{name}
         merge_left_without_exit: Incorporeu-vos a l'esquerra a %{name}
@@ -2533,14 +2541,17 @@ ca:
         slight_left_without_exit: Gira lleugerament a l'esquerra a %{name}
         via_point_without_exit: (pel punt)
         follow_without_exit: Segueix %{name}
-        roundabout_without_exit: A la rotonda agafa %{name}
+        roundabout_without_exit: A la rotonda agafeu la sortida cap a %{name}
         leave_roundabout_without_exit: Surt de la rotonda %{name}
         stay_roundabout_without_exit: Segueix a la rotonda - %{name}
-        start_without_exit: Comença al final de %{name}
+        start_without_exit: Comença a %{name}
         destination_without_exit: Arriba a la destinació.
         against_oneway_without_exit: Anar en contra-direcció a %{name}
         end_oneway_without_exit: Fi del sentit únic a %{name}
         roundabout_with_exit: A la rotonda, agafar la sortida %{exit} a %{name}
+        roundabout_with_exit_ordinal: A la rotonda agafeu la sortida %{exit} cap a
+          %{name}
+        exit_roundabout: Sortiu la rotonda cap a %{name}
         unnamed: sense nom
         courtesy: Direccions cortesia de %{link}
         exit_counts:
@@ -2599,4 +2610,9 @@ ca:
         pertanyen a aquesta redacció abans de destruir-la.
       flash: Redacció suprimida
       error: Ha hagut un error en suprimir aquesta redacció.
+  validations:
+    leading_whitespace: té un espai en blanc davant
+    trailing_whitespace: té un espai en blanc al final
+    invalid_characters: conté caràcters no vàlids
+    url_characters: conté caràcters URL especials (%{characters})
 ...
