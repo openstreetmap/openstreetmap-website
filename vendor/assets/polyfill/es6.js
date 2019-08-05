@@ -3010,7 +3010,7 @@ CreateMethodProperty(Number, 'parseInt', parseInt);
 
 }
 
-if (!("name"in Function.prototype&&"x"===function n(){}.name
+if (!("name"in Function.prototype&&"x"===function x(){}.name
 )) {
 
 // Function.prototype.name
