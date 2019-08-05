@@ -1,4 +1,4 @@
-/* Polyfill service v3.34.0
+/* Polyfill service v3.38.0
  * For detailed credits and licence information see https://github.com/financial-times/polyfill-service.
  * 
  * Features requested: es6
@@ -84,7 +84,6 @@
  * - Object.assign, License: CC0 (required by "es6", "_Iterator", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "Array.prototype.@@iterator", "_StringIterator", "String.prototype.@@iterator")
  * - Object.defineProperties, License: CC0 (required by "Object.create", "Map", "es6", "Array.from", "Object.setPrototypeOf", "Set", "Symbol", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "_ESAbstract.GetIterator", "WeakMap", "WeakSet", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "Array.of", "_Iterator", "_StringIterator")
  * - Object.create, License: CC0 (required by "Map", "es6", "Array.from", "Object.setPrototypeOf", "Set", "Symbol", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "_ESAbstract.GetIterator", "WeakMap", "WeakSet", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "_ESAbstract.OrdinaryCreateFromConstructor", "_ESAbstract.Construct", "Array.of", "_StringIterator")
- * - _ESAbstract.GetIterator, License: CC0 (required by "Array.from", "es6", "Map", "Set", "WeakMap", "WeakSet")
  * - _ESAbstract.OrdinaryCreateFromConstructor, License: CC0 (required by "Map", "es6", "Array.from", "Set", "WeakMap", "WeakSet", "_ESAbstract.Construct", "Array.of")
  * - _ESAbstract.Construct, License: CC0 (required by "Array.from", "es6", "Array.of", "_ESAbstract.ArraySpeciesCreate", "Array.prototype.filter", "Symbol", "Map", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "Array.prototype.map")
  * - _ESAbstract.ArraySpeciesCreate, License: CC0 (required by "Array.prototype.filter", "Symbol", "es6", "Map", "Array.from", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "Array.prototype.map")
@@ -104,7 +103,8 @@
  * - Symbol, License: MIT (required by "es6", "Map", "Array.from", "Set", "Symbol.hasInstance", "Symbol.isConcatSpreadable", "Symbol.iterator", "Array.prototype.@@iterator", "String.prototype.@@iterator", "Symbol.match", "Symbol.replace", "Symbol.search", "Symbol.species", "Symbol.split", "Symbol.toPrimitive", "Symbol.toStringTag", "Symbol.unscopables", "WeakMap", "WeakSet", "_Iterator", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "_StringIterator")
  * - Symbol.hasInstance, License: MIT (required by "es6")
  * - Symbol.isConcatSpreadable, License: MIT (required by "es6")
- * - Symbol.iterator, License: MIT (required by "es6", "Array.from", "Array.prototype.@@iterator", "Map", "Set", "String.prototype.@@iterator", "_Iterator", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "_StringIterator")
+ * - Symbol.iterator, License: MIT (required by "es6", "Array.from", "Array.prototype.@@iterator", "Map", "Set", "String.prototype.@@iterator", "_ESAbstract.GetIterator", "WeakMap", "WeakSet", "_Iterator", "_ArrayIterator", "Array.prototype.entries", "Array.prototype.keys", "Array.prototype.values", "_StringIterator")
+ * - _ESAbstract.GetIterator, License: CC0 (required by "Array.from", "es6", "Map", "Set", "WeakMap", "WeakSet")
  * - Symbol.match, License: MIT (required by "es6")
  * - Symbol.replace, License: MIT (required by "es6")
  * - Symbol.search, License: MIT (required by "es6")
@@ -3615,31 +3615,6 @@ CreateMethodProperty(Object, 'create', function create(O, properties) {
 }
 
 
-// _ESAbstract.GetIterator
-/* global GetMethod, Symbol, Call, Type, GetV */
-// 7.4.1. GetIterator ( obj [ , method ] )
-// The abstract operation GetIterator with argument obj and optional argument method performs the following steps:
-function GetIterator(obj /*, method */) { // eslint-disable-line no-unused-vars
-	// 1. If method is not present, then
-		// a. Set method to ? GetMethod(obj, @@iterator).
-	var method = arguments.length > 1 ? arguments[1] : GetMethod(obj, Symbol.iterator);
-	// 2. Let iterator be ? Call(method, obj).
-	var iterator = Call(method, obj);
-	// 3. If Type(iterator) is not Object, throw a TypeError exception.
-	if (Type(iterator) !== 'object') {
-		throw new TypeError('bad iterator');
-	}
-	// 4. Let nextMethod be ? GetV(iterator, "next").
-	var nextMethod = GetV(iterator, "next");
-	// 5. Let iteratorRecord be Record {[[Iterator]]: iterator, [[NextMethod]]: nextMethod, [[Done]]: false}.
-	var iteratorRecord = Object.create(null);
-	iteratorRecord['[[Iterator]]'] = iterator;
-	iteratorRecord['[[NextMethod]]'] = nextMethod;
-	iteratorRecord['[[Done]]'] = false;
-	// 6. Return iteratorRecord.
-	return iteratorRecord;
-}
-
 // _ESAbstract.OrdinaryCreateFromConstructor
 /* global GetPrototypeFromConstructor */
 // 9.1.13. OrdinaryCreateFromConstructor ( constructor, intrinsicDefaultProto [ , internalSlotsList ] )
@@ -4347,6 +4322,7 @@ if (!("Symbol"in this&&0===this.Symbol.length
 // (C) Andrea Giammarchi - MIT Licensed
 
 (function (Object, GOPS, global) {
+	'use strict'; //so that ({}).toString.call(null) returns the correct [object Null] rather than [object Window]
 
 	var	setDescriptor;
 	var id = 0;
@@ -4364,7 +4340,7 @@ if (!("Symbol"in this&&0===this.Symbol.length
 	var pIE = ObjectProto[PIE];
 	var toString = ObjectProto.toString;
 	var concat = Array.prototype.concat;
-	var cachedWindowNames = typeof window === 'object' ? Object.getOwnPropertyNames(window) : [];
+	var cachedWindowNames = Object.getOwnPropertyNames ? Object.getOwnPropertyNames(window) : [];
 	var nGOPN = Object[GOPN];
 	var gOPN = function getOwnPropertyNames (obj) {
 		if (toString.call(obj) === '[object Window]') {
@@ -4557,12 +4533,31 @@ if (!("Symbol"in this&&0===this.Symbol.length
 	};
 	defineProperty(Object, 'create', descriptor);
 
-	descriptor.value = function () {
-		var str = toString.call(this);
-		return (str === '[object String]' && onlySymbols(this)) ? '[object Symbol]' : str;
-	};
-	defineProperty(ObjectProto, 'toString', descriptor);
+	var strictModeSupported = (function(){ 'use strict'; return this; }).call(null) === null;
+	if (strictModeSupported) {
+		descriptor.value = function () {
+			var str = toString.call(this);
+			return (str === '[object String]' && onlySymbols(this)) ? '[object Symbol]' : str;
+		};
+	} else {
+		descriptor.value = function () {
+			// https://github.com/Financial-Times/polyfill-library/issues/164#issuecomment-486965300
+			// Polyfill.io this code is here for the situation where a browser does not
+			// support strict mode and is executing `Object.prototype.toString.call(null)`.
+			// This code ensures that we return the correct result in that situation however,
+			// this code also introduces a bug where it will return the incorrect result for
+			// `Object.prototype.toString.call(window)`. We can't have the correct result for
+			// both `window` and `null`, so we have opted for `null` as we believe this is the more 
+			// common situation. 
+			if (this === window) {
+				return '[object Null]';
+			}
 
+			var str = toString.call(this);
+			return (str === '[object String]' && onlySymbols(this)) ? '[object Symbol]' : str;
+		};
+	}
+	defineProperty(ObjectProto, 'toString', descriptor);
 
 	setDescriptor = function (o, key, descriptor) {
 		var protoDescriptor = gOPD(ObjectProto, key);
@@ -4604,6 +4599,31 @@ Object.defineProperty(Symbol, 'iterator', { value: Symbol('iterator') });
 
 }
 
+
+// _ESAbstract.GetIterator
+/* global GetMethod, Symbol, Call, Type, GetV */
+// 7.4.1. GetIterator ( obj [ , method ] )
+// The abstract operation GetIterator with argument obj and optional argument method performs the following steps:
+function GetIterator(obj /*, method */) { // eslint-disable-line no-unused-vars
+	// 1. If method is not present, then
+		// a. Set method to ? GetMethod(obj, @@iterator).
+	var method = arguments.length > 1 ? arguments[1] : GetMethod(obj, Symbol.iterator);
+	// 2. Let iterator be ? Call(method, obj).
+	var iterator = Call(method, obj);
+	// 3. If Type(iterator) is not Object, throw a TypeError exception.
+	if (Type(iterator) !== 'object') {
+		throw new TypeError('bad iterator');
+	}
+	// 4. Let nextMethod be ? GetV(iterator, "next").
+	var nextMethod = GetV(iterator, "next");
+	// 5. Let iteratorRecord be Record {[[Iterator]]: iterator, [[NextMethod]]: nextMethod, [[Done]]: false}.
+	var iteratorRecord = Object.create(null);
+	iteratorRecord['[[Iterator]]'] = iterator;
+	iteratorRecord['[[NextMethod]]'] = nextMethod;
+	iteratorRecord['[[Done]]'] = false;
+	// 6. Return iteratorRecord.
+	return iteratorRecord;
+}
 if (!("Symbol"in this&&"match"in this.Symbol
 )) {
 
@@ -4640,8 +4660,8 @@ Object.defineProperty(Symbol, 'species', { value: Symbol('species') });
 
 }
 
-if (!("Map"in this&&function(){try{var t=new Map([[1,1],[2,2]])
-return 0===Map.length&&2===t.size&&"Symbol"in this&&"iterator"in Symbol&&"function"==typeof t[Symbol.iterator]}catch(n){return!1}}()
+if (!("Map"in this&&function(t){try{var n=new Map([[1,1],[2,2]])
+return 0===Map.length&&2===n.size&&"Symbol"in t&&"iterator"in Symbol&&"function"==typeof n[Symbol.iterator]}catch(i){return!1}}(this)
 )) {
 
 // Map
