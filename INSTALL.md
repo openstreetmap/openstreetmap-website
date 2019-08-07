@@ -30,7 +30,7 @@ These can be installed on Ubuntu 18.04 or later with:
 sudo apt-get update
 sudo apt-get install ruby2.5 libruby2.5 ruby2.5-dev bundler \
                      libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
-                     apache2 apache2-dev build-essential git-core \
+                     apache2 apache2-dev build-essential git-core phantomjs \
                      postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
                      libsasl2-dev imagemagick libffi-dev libgd-dev libarchive-dev libbz2-dev
 sudo gem2.5 install bundler
