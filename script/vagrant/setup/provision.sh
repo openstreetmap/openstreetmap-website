@@ -49,6 +49,7 @@ popd
 if [ ! -f config/database.yml ]; then
     sudo -u vagrant cp config/example.database.yml config/database.yml
 fi
+touch config/settings.local.yml
 # migrate the database to the latest version
 sudo -u vagrant rake db:migrate
 popd
