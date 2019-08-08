@@ -41,6 +41,9 @@ hu:
         create: Mentés
       diary_entry:
         create: Publikálás
+        update: Frissítés
+      issue_comment:
+        create: Megjegyzés hozzáfűzése
       message:
         create: Küldés
       client_application:
@@ -126,6 +129,45 @@ hu:
         description: Leírás
         languages: Nyelvek
         pass_crypt: Jelszó
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: nagyjából 1 órája
+        other: nagyjából %{count} órája
+      about_x_months:
+        one: nagyjából 1 hónapja
+        other: nagyjából %{count} hónapja
+      about_x_years:
+        one: nagyjából 1 éve
+        other: nagyjából %{count} éve
+      almost_x_years:
+        one: majdnem 1 éve
+        other: majdnem %{count} éve
+      half_a_minute: fél perccel ezelőtt
+      less_than_x_seconds:
+        one: kevesebb, mint 1 másodperce
+        other: kevesebb, mint %{count} másodperce
+      less_than_x_minutes:
+        one: kevesebb, mint 1 perce
+        other: kevesebb, mint %{count} perce
+      over_x_years:
+        one: több, mint 1 éve
+        other: több, mint %{count} éve
+      x_seconds:
+        one: 1 másodperccel ezelőtt
+        other: '%{count} másodperccel ezelőtt'
+      x_minutes:
+        one: 1 perccel ezelőtt
+        other: '%{count} perccel ezelőtt'
+      x_days:
+        one: 1 napja
+        other: '%{count} napja'
+      x_months:
+        one: 1 hónapja
+        other: '%{count} hónapja'
+      x_years:
+        one: 1 éve
+        other: '%{count} éve'
   editor:
     default: Alapértelmezett (jelenleg %{name})
     potlatch:
@@ -168,10 +210,10 @@ hu:
     closed: Lezárva
     created_html: Létrehozva <abbr title='%{title}'>%{time}</abbr>
     closed_html: Lezárva <abbr title='%{title}'>%{time}</abbr>
-    created_by_html: Létrehozta %{user} <abbr title='%{title}'>%{time}</abbr>
-    deleted_by_html: Törölte %{user} <abbr title='%{title}'>%{time}</abbr>
-    edited_by_html: Szerkesztette %{user} <abbr title='%{title}'>%{time}</abbr>
-    closed_by_html: Lezárta %{user} <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: Létrehozta %{user}, <abbr title='%{title}'>%{time}</abbr>
+    deleted_by_html: Törölte %{user}, <abbr title='%{title}'>%{time}</abbr>
+    edited_by_html: Szerkesztette %{user}, <abbr title='%{title}'>%{time}</abbr>
+    closed_by_html: Lezárta %{user}, <abbr title='%{title}'>%{time}</abbr>
     version: Verzió
     in_changeset: Módosításcsomag
     anonymous: névtelen
@@ -191,8 +233,8 @@ hu:
       relation: Kapcsolatok (%{count})
       relation_paginated: Kapcsolatok (%{x}-%{y} összesen %{count})
       comment: Hozzászólások (%{count})
-      hidden_commented_by: 'Rejtett hozzászólás, szerzője: %{user} <abbr title=''%{exact_time}''>%{when}</abbr>'
-      commented_by: 'Hozzászólás, szerzője: %{user} <abbr title=''%{exact_time}''>%{when}</abbr>'
+      hidden_commented_by: 'Rejtett hozzászólás tőle: %{user}, <abbr title=''%{exact_time}''>%{when}</abbr>'
+      commented_by: '%{user} megjegyzése, <abbr title=''%{exact_time}''>%{when}</abbr>'
       changesetxml: Changeset XML
       osmchangexml: osmChange XML
       feed:
@@ -270,15 +312,15 @@ hu:
       open_title: 'Megoldatlan jegyzet: %{note_name}'
       closed_title: 'Megoldott jegyzet: %{note_name}'
       hidden_title: Rejtett jegyzet %{note_name}
-      open_by: Létrehozta %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      open_by_anonymous: Létrehozva névtelenül <abbr title='%{exact_time}'>%{when}</abbr>
-      commented_by: '%{user} megjegyzése <abbr title=''%{exact_time}''>%{when}</abbr>'
-      commented_by_anonymous: Névtelen felhasználó megjegyzése <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by: Megoldotta %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Megoldva névtelenül <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by: Újraaktiválta %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Újraaktiválva névtelenül <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_by: Elrejtette %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by: Létrehozta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Létrehozva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by: '%{user} megjegyzése, <abbr title=''%{exact_time}''>%{when}</abbr>'
+      commented_by_anonymous: Megjegyzés névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Megoldotta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Megoldva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Újraaktiválta %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Újraaktiválva névtelenül, <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Elrejtette %{user}, <abbr title='%{exact_time}'>%{when}</abbr>
       report: Jegyzet jelentése
     query:
       title: Funkciók lekérdezése
@@ -318,7 +360,7 @@ hu:
   changeset_comments:
     comment:
       comment: 'Új hozzászólás #%{changeset_id} változtatáscsomaghoz  %{author} felhasználótól'
-      commented_at_by_html: '%{when} ezelőtt frissítette %{user}'
+      commented_at_by_html: '%{when} frissítette %{user}'
     comments:
       comment: 'Új hozzászólás #%{changeset_id} változtatáscsomaghoz  %{author} felhasználótól'
     index:
@@ -380,6 +422,7 @@ hu:
     diary_comment:
       comment_from: '%{link_user} hozzászólása ekkor: %{comment_created_at}'
       hide_link: Hozzászólás elrejtése
+      unhide_link: Hozzászólás megjelenítése
       confirm: Megerősítés
       report: Bejegyzés jelentése
     location:
@@ -1015,27 +1058,73 @@ hu:
       status: Státusz
       reports: Jelentések
       last_updated: Utoljára frissítve
-      last_updated_time_html: <abbr title='%{title}'>%{time} óta</abbr>
-      last_updated_time_user_html: <abbr title='%{title}'>%{time} óta</abbr> %{user}
-        által
+      last_updated_time_html: <abbr title='%{title}'>%{time}</abbr>
+      last_updated_time_user_html: <abbr title='%{title}'>%{time}</abbr> %{user} által
       link_to_reports: Jelentések megtekintése
+      reports_count:
+        one: 1 Jelentés
+        other: '%{count} Jelentés'
+      reported_item: Jelentett elem
       states:
+        ignored: Mellőzve
         open: Megnyitás
         resolved: Megoldva
     update:
+      new_report: A jelentésedet sikeresen regisztráltuk
+      successful_update: A jelentésed sikeresen frissítve
       provide_details: Kérjük adja meg a szükséges részleteket
     show:
+      title: '%{status} Probléma #%{issue_id}'
+      last_updated_at: Utoljára frissítve %{displayname} által %{datetime} időpontban
       resolve: Megold
       ignore: Hanyagol
       reopen: Újra megnyit
+      other_issues_against_this_user: Ezen felhasználóval kapcsolatos további problémák
+      no_other_issues: Nincsenek további problémák ezzel a felhasználóval kapcsolatban
+    resolve:
+      resolved: 'A probléma állapota átállítva a következőre: "megoldódott"'
+    ignore:
+      ignored: 'A probléma állapota átállítva a következőre: "figyelmen kívül hagyva"'
+    reopen:
+      reopened: 'A probléma állapota átállítva a következőre: "nyitott"'
+    comments:
+      created_at: '%{datetime}'
+    reports:
+      updated_at: '%{datetime}'
+      reported_by_html: '%{user} által jelentve %{category} kategóriában'
+    helper:
+      reportable_title:
+        note: 'Megjegyzés #%{note_id}'
+  issue_comments:
+    create:
+      comment_created: A hozzászólásod sikeresen létrehozva
   reports:
     new:
+      title_html: '%{link} bejelentése'
+      missing_params: Nem hozhatsz létre új bejelentést
+      details: Kérlek részletezd a problémát (kötelező).
+      select: 'Válaszd ki a bejelentés okát:'
+      disclaimer:
+        intro: Mielőtt elküldöd a bejelentést, kérlek bizonyosodj meg afelől, hogy
+        not_just_mistake: A probléma biztosan nem egy véletlen hiba
+        unable_to_fix: A problémát nem tudod megoldani a sem magad, sem a közösség
+          tagjainak segítségével
+        resolve_with_user: A problémát megpróbáltad megoldani az érintett felhasználóval
       categories:
         diary_entry:
+          spam_label: Ez a naplóbejegyzés spam/spamet tartalmaz
+          offensive_label: Ez a naplóbejegyzés obszcén/sértő
+          threat_label: Ez a naplóbejegyzés fenyegetést tartalmaz
           other_label: Egyéb
         diary_comment:
+          spam_label: Ez a napló hozzászólás spam/spamet tartalmaz
+          offensive_label: Ez a napló hozzászólás obszcén/sértő
+          threat_label: Ez a napló hozzászólás fenyegetést tartalmaz
           other_label: Egyéb
         user:
+          spam_label: Ez a felhasználói profil spam/spamet tartalmaz
+          offensive_label: Ez a felhasználói profil obszcén/sértő
+          threat_label: Ez a felhasználói profil fenyegetést tartalmaz
           vandal_label: Ez a felhasználó vandál
           other_label: Egyéb
         note:
@@ -1072,9 +1161,12 @@ hu:
     intro_text: Az OpenStreetMap egy világtérkép, amelyet hozzád hasonló emberek készítenek
       és szabad licenc alatt elérhető.
     intro_2_create_account: Felhasználói fiók létrehozása
+    hosting_partners_html: 'Az üzemeltetés támogatói: %{ucl}, %{bytemark}, és további
+      %{partners}.'
     partners_ucl: UCL
     partners_bytemark: Bytemark Hosting
     partners_partners: partnerek
+    tou: Felhasználási feltételek
     osm_offline: Az OpenStreetMap-adatbázis jelenleg offline, miközben alapvető adatbázis-karbantartási
       munkát végeznek.
     osm_read_only: Az OpenStreetMap-adatbázis jelenleg csak olvasható, miközben alapvető
@@ -1102,6 +1194,7 @@ hu:
       footer: 'A hozzászólást elolvashatod itt is: %{readurl} és hozzászólhatsz itt:
         %{commenturl} vagy válaszolhatsz rá itt: %{replyurl}'
     message_notification:
+      subject_header: '[OpenStreetMap] %{subject}'
       hi: Szia %{to_user}!
       header: '%{from_user} küldött neked egy üzenetet az OpenStreetMapon keresztül
         %{subject} tárggyal:'
@@ -1313,7 +1406,7 @@ hu:
         Licence oldalt</a> a részletekért.'
       legal_title: Jogi segítség
       legal_html: |-
-        Az oldalt és sok kapcsolódó szolgáltatást formálisan az <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF) üzemelteti, a közösség nevében. Az összes OSMF által üzemeltetett szolgáltatásra vonatkoznak az <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Elfogadható felhasználási irányelvek</a>, és az <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Adatvédelmi nyilatkozat</a>.
+        Az oldalt és sok kapcsolódó szolgáltatást formálisan az <a href='https://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF) üzemelteti, a közösség nevében. Az összes OSMF által üzemeltetett szolgáltatásra vonatkoznak a <a href="https://wiki.osmfoundation.org/wiki/Terms_of_Use">Felhasználási feltételek</a>, az <a href="https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy">Elfogadható felhasználási irányelvek</a>, és az <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy">Adatvédelmi nyilatkozat</a>.
         <br>
         <a href='https://osmfoundation.org/Contact'>Lépjen kapcsolatba az OSMF-fel</a>, ha licencelési, szerzői jogi vagy más jogi kérdése vagy problémája van.
       partners_title: Partnerek
@@ -1408,12 +1501,17 @@ hu:
           href="http://www.gu.gov.si/en/">Földmérési és Térképészeti Hatóságtól</a>
           és a <a href="http://www.mkgp.gov.si/en/">Földművelési, Erdőgazdálkodási
           és Élelmezésügyi Minisztériumtól</a> (nyilvános információk Szlovéniában).'
+        contributors_es_html: '<strong>Spanyolország</strong>: A Spanyol Nemzeti Geográfiai
+          Intézet (<a href="http://www.ign.es/">IGN</a>) és Nemzeti Kartográfiai Rendszer
+          (<a href="http://www.scne.es/">SCENE</a>) adataiból származtatott adatokat
+          tartalmaz a <a href="https://creativecommons.org/licenses/by/4.0/">CC BY
+          4.0</a> licenc alapján.'
         contributors_za_html: |-
           <strong>Dél-Afrika</strong>: tartalmaz olyan adatokat, amik a
           <a href="http://www.ngi.gov.za/">Chief Directorate:
           National Geo-Spatial Information</a>-tól származnak, az állami szerzői jogok fenntartva.
-        contributors_gb_html: "<strong>Egyesült Királyság</strong>:  Térképészeti
-          Szolgálat adatokat &copy; Királyi szerzői és adatbázisjog \n2010 - 12."
+        contributors_gb_html: "<strong>Egyesült Királyság</strong>: Térképészeti Szolgálat
+          adatai &copy; Királyi szerzői és adatbázisjog \n2010-2019."
         contributors_footer_1_html: |-
           További részletekért, és az OpenStreetMap javításához használt más forrásokról,
           kérjük, olvassa el <a href="https://wiki.openstreetmap.org/wiki/contributors">a hozzájárulók oldalát
@@ -1540,7 +1638,7 @@ hu:
         beszélj meg a közösség tagjaival.
       welcome:
         url: /welcome
-        title: Üdvözlünk az OSM-en
+        title: Üdvözlünk az OpenStreetMapen
         description: Eza gyors útmutató megismertet az OpenStreetMap alapjaival.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Hu:Beginners%27_guide
@@ -1548,8 +1646,9 @@ hu:
         description: A közösség által karbantartott útmutató kezdőknek.
       help:
         url: https://help.openstreetmap.org/
-        title: help.openstreetmap.org
-        description: Kérdezz vagy keress válaszokat az OSM kérdések-és-válaszok lapján.
+        title: Segítségnyújtó fórum
+        description: Kérdezz vagy keress válaszokat az OpenStreetMap kérdések-és-válaszok
+          lapján.
       mailing_lists:
         title: Levelezőlisták
         description: Kérdezz vagy beszélgess érdekességekről a számos tematikus vagy
@@ -1565,10 +1664,13 @@ hu:
         title: válts osm-re
         description: Segíts cégeknek és szervezeteknek OpenStreetMap-alapú térképekre
           és egyéb szolgáltatásokra váltani.
+      welcomemat:
+        url: https://welcome.openstreetmap.org/
+        title: Szervezetek számára
       wiki:
         url: https://wiki.openstreetmap.org/wiki/Hu:Main_Page
-        title: wiki.openstreetmap.org
-        description: Böngészd a wikit mélyreható OSM dokumentációért.
+        title: OpenStreetMap Wiki
+        description: Böngészd a wikit mélyreható OpenStreetMap dokumentációért.
     sidebar:
       search_results: Keresés eredményei
       close: Bezár
@@ -1578,7 +1680,7 @@ hu:
       get_directions_title: Útirány keresése két pont között
       from: Innen
       to: Ide
-      where_am_i: Hol található?
+      where_am_i: Hol van ez?
       where_am_i_title: A jelenlegi helyszín leírása a keresőmotor segítségével
       submit_text: Menj
       reverse_directions_text: Irány megfordítása
@@ -2508,7 +2610,9 @@ hu:
     directions:
       ascend: Emelkedés
       engines:
+        fossgis_osrm_bike: Kerékpár (OSRM)
         fossgis_osrm_car: Autó (OSRM)
+        fossgis_osrm_foot: Gyalog (OSRM)
         graphhopper_bicycle: Kerékpár (GraphHopper)
         graphhopper_car: Autó (GraphHopper)
         graphhopper_foot: Gyalog (GraphHopper)
@@ -2521,6 +2625,13 @@ hu:
       instructions:
         continue_without_exit: Folyamatosan %{name}
         slight_right_without_exit: Enyhén jobbra %{name}
+        offramp_right_with_exit: Hajts ki a jobb oldali %{exit} kijáraton
+        offramp_right_with_exit_name: 'Hajts ki a jobb oldali %{exit} kijáraton a
+          következőre: %{name}'
+        offramp_right_with_exit_directions: Hajts ki a jobb oldali %{exit} kijáraton
+          %{directions} felé
+        offramp_right_with_exit_name_directions: 'Hajts ki a jobb oldali %{exit} kijáraton
+          a következőre: %{name}, %{directions} felé'
         offramp_right_with_name: 'Forduljon jobbra erre: %{name}'
         onramp_right_without_exit: 'Forduljon jobbra, erre: %{name}'
         endofroad_right_without_exit: 'Az út végén forduljon jobbra erre: %{name}'
@@ -2533,6 +2644,8 @@ hu:
         turn_left_without_exit: Forduljon balra %{name}
         offramp_left_with_name: 'Forduljon balra, erre: %{name}'
         onramp_left_without_exit: 'Forduljon balra, erre: %{name}'
+        onramp_left_without_directions: Hajtson rá a bal oldali rámpára
+        onramp_left: Hajtson rá a bal oldali rámpára
         endofroad_left_without_exit: 'Az út végén forduljon balre, erre: %{name}'
         merge_left_without_exit: 'Forduljon balra, erre: %{name}'
         fork_left_without_exit: 'Az elágazásnál forduljon balra, erre: %{name}'
@@ -2542,12 +2655,15 @@ hu:
         roundabout_without_exit: A körforgalomnál menjen ki %{name} felé
         leave_roundabout_without_exit: Hagyja el körforgalmat - %{name}
         stay_roundabout_without_exit: Maradjon a körforgalomban - %{name}
-        start_without_exit: A(z) %{name} végénél induljon
+        start_without_exit: 'Induljon a következőn: %{name}'
         destination_without_exit: Érkezés a célhoz
         against_oneway_without_exit: 'Egyirányú úttal megy szembe itt: %{name}'
         end_oneway_without_exit: 'Egyirányú út vége itt: %{name}'
         roundabout_with_exit: 'A körforgalomnál hajtson ki a(z) %{exit}. kijáraton
           erre: %{name}'
+        roundabout_with_exit_ordinal: 'A körforgalomnál hajtson ki a(z) %{exit}. kijáraton
+          erre: %{name}'
+        exit_roundabout: 'Hajtson ki a körforgalomból a következőre: %{name}'
         unnamed: névtelen út
         courtesy: Útvonaltervezés a(z) %{link} jóvoltából
         exit_counts:
@@ -2561,7 +2677,7 @@ hu:
           eighth: "8."
           ninth: "9."
           tenth: "10."
-      time: Időpont
+      time: Időtartam
     query:
       node: Csomópont
       way: Vonal
@@ -2607,5 +2723,8 @@ hu:
       flash: Módosítás törölve.
       error: Hiba történt a művelet végrehajtása során.
   validations:
+    leading_whitespace: első karaktere(i) szóközök
+    trailing_whitespace: utolsó karaktere(i) szóközök
     invalid_characters: érvénytelen karaktereket tartalmaz
+    url_characters: speciális URL karaktereket tartalmaz (%{characters})
 ...
