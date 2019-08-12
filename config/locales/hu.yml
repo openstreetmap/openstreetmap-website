@@ -417,6 +417,7 @@ hu:
         other: '%{count} hozzászólás'
       edit_link: Bejegyzés szerkesztése
       hide_link: Bejegyzés elrejtése
+      unhide_link: Bejegyzés megjelenítése
       confirm: Megerősítés
       report: Bejegyzés jelentése
     diary_comment:
@@ -1075,6 +1076,11 @@ hu:
       provide_details: Kérjük adja meg a szükséges részleteket
     show:
       title: '%{status} Probléma #%{issue_id}'
+      reports:
+        zero: Nincsen bejelentés
+        one: 1 bejelentés
+        other: '%{count} bejelentés'
+      report_created_at: Először bejelentve %{datetime} időpontban
       last_updated_at: Utoljára frissítve %{displayname} által %{datetime} időpontban
       resolve: Megold
       ignore: Hanyagol
@@ -1758,7 +1764,7 @@ hu:
       edit: Szerkeszt
       preview: Előnézet
     markdown_help:
-      title_html: 'Megjelenítés: <a href="https://daringfireball.net/projects/markdown/">Markdown</a>'
+      title_html: 'Megjelenítés: <a href="https://kramdown.gettalong.org/quickref.html">kramdown</a>'
       headings: Címsorok
       heading: Címsor
       subheading: Alcím
@@ -1812,6 +1818,7 @@ hu:
         paragraph_1_html: Az OpenStreetMap számos anyagot kínál fel ahhoz, hogy ismerkedj
           a projekttel, kérdéseket tégy fel vagy válaszolj meg, vagy térképezési témákat
           beszélj meg a közösség tagjaival. <a href='%{help_url}'>Itt találsz segítséget</a>.
+          Ha egy szervezet képviseletében érdeklődsz, akkor keresd fel az <a href='https://welcome.openstreetmap.org/'>üdvözlőlapunkat</a>.
       start_mapping: Térképezés indítása
       add_a_note:
         title: Nincs időd szerkeszteni? Küldj be jegyzetet!
@@ -2151,14 +2158,23 @@ hu:
         feltételeket. További információért lásd <a href="%{url}">ezt a wiki oldalt</a>.
       terms declined url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     terms:
-      title: Hozzájárulási feltételek
-      heading: Hozzájárulási feltételek
+      title: Feltételek
+      heading: Feltételek
+      heading_ct: Hozzájárulási feltételek
+      read and accept with tou: Kérlek olvasd el a hozzájárulói megállapodást és felhasználási
+        feltételeket, majd a jelölőnégyzetek használatával erősítsd meg, hogy elfogadod
+        őket, ezután kattints a folytatás gombra.
+      contributor_terms_explain: Ez a megállapodás vonatkozik a jelenlegi és jövőbeli
+        hozzájárulásaidra.
+      read_ct: Elolvastam és elfogadom a hozzájárulói feltételeket
+      read_tou: Elolvastam és elfogadom a felhasználási feltételeket
       consider_pd: A fenti megállapodáson felül, a hozzájárulásaimat közkinccsé nyilvánítom
       consider_pd_why: mi ez?
       consider_pd_why_url: https://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
       guidance: 'Információk a fogalmak megértéséhez: egy <a href="%{summary}">közérthető
         nyelven megfogalmazott kivonat</a> és néhány <a href="%{translations}">nemhivatalos
         fordítás</a>'
+      continue: Folytatás
       declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
       decline: Elutasítom
       you need to accept or decline: Kérünk, hogy olvasd el, ezután fogadd vagy utasítsd
@@ -2198,7 +2214,7 @@ hu:
       ct status: 'Hozzájárulási feltételek:'
       ct undecided: Nem eldöntött
       ct declined: Elutasítva
-      latest edit: 'Utolsó szerkesztés %{ago}:'
+      latest edit: 'Utolsó szerkesztés (%{ago}):'
       email address: 'E-mail cím:'
       created from: 'Készítve innen:'
       status: 'Állapot:'
@@ -2465,7 +2481,7 @@ hu:
       title: '%{block_on} blokkolásának visszavonása'
       heading: '%{block_on} blokkolásának visszavonása %{block_by} által'
       time_future: Ez a blokkolás %{time} múlva véget ér.
-      past: Ez a blokkolás véget ért %{time} óta, és már nem vonható vissza.
+      past: Ez a tiltás véget ért %{time} időpontban, és már nem vonható vissza.
       confirm: Biztosan vissza szeretnéd vonni ezt a blokkolást?
       revoke: Visszavonás!
       flash: Ez a blokkolás vissza lett vonva.
@@ -2473,11 +2489,23 @@ hu:
       time_future: Véget ér %{time} múlva.
       until_login: Aktív a felhasználó bejelentkezéséig.
       time_future_and_until_login: '%{time} múlva van vége, miután a felhasználó bejelentkezett.'
-      time_past: Véget ért %{time} óta.
+      time_past: Véget ért %{time} időpontban.
       block_duration:
         hours:
           one: 1 órája
           other: '%{count} órája'
+        days:
+          one: 1 nap
+          other: '%{count} nap'
+        weeks:
+          one: 1 hét
+          other: '%{count} hét'
+        months:
+          one: 1 hónap
+          other: '%{count} hónap'
+        years:
+          one: 1 év
+          other: '%{count} év'
     blocks_on:
       title: '%{name} blokkolásai'
       heading: '%{name} blokkolásainak felsorolása'
@@ -2572,6 +2600,8 @@ hu:
         title: Rétegek
       copyright: © <a href='%{copyright_url}'>OpenStreetMap közreműködők</a>
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Támogatás</a>
+      terms: A <a href='%{terms_url}' target='_blank'>weboldal és API felhasználási
+        feltételei</a>
     site:
       edit_tooltip: Térkép szerkesztése
       edit_disabled_tooltip: Közelíts a térkép szerkesztéséhez
