@@ -11,7 +11,7 @@ ActiveSupport.on_load(:action_dispatch_system_test_case) do
 end
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  driven_by :poltergeist, :screen_size => [1400, 1400]
+  driven_by :poltergeist, :screen_size => [1400, 1400], :options => { :timeout => 120 }
 
   def initialize(*args)
     stub_request(:get, "https://api.hostip.info/country.php?ip=127.0.0.1")
