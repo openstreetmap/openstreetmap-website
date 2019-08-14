@@ -1,4 +1,5 @@
 require "test_helper"
+require "gpx"
 require "minitest/mock"
 
 class TraceTest < ActiveSupport::TestCase
