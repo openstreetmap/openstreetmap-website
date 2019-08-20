@@ -337,7 +337,7 @@ module Api
       assert_response :success
       assert_equal digest, Digest::MD5.hexdigest(response.body)
       assert_equal content_type, response.content_type
-      assert_equal "attachment; filename=\"#{trace.id}.#{extension}\"", @response.header["Content-Disposition"]
+      assert_equal "attachment; filename=\"#{trace.id}.#{extension}\"; filename*=UTF-8''#{trace.id}.#{extension}", @response.header["Content-Disposition"]
     end
 
     ##
