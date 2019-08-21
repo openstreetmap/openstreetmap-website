@@ -17,9 +17,11 @@ class DiffReader
   # Construct a diff reader by giving it a bunch of XML +data+ to parse
   # in OsmChange format. All diffs must be limited to a single changeset
   # given in +changeset+.
-  def initialize(data, changeset)
+  # TODO remove default value for api_version
+  def initialize(data, changeset, api_version = "0.6")
     @reader = XML::Reader.string(data)
     @changeset = changeset
+    @api_version = api_version
     # document that's (re-)used to handle elements expanded out of the
     # diff processing stream.
     @doc = XML::Document.new
@@ -128,7 +130,7 @@ class DiffReader
     @reader.read
     raise OSM::APIBadUserInput, "Document element should be 'osmChange'." if @reader.name != "osmChange"
 
-    result = OSM::API.new.get_xml_doc
+    result = OSM::API.new(@api_version).get_xml_doc
     result.root.name = "diffResult"
 
     # loop at the top level, within the <osmChange> element
