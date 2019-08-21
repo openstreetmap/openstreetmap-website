@@ -147,6 +147,15 @@ module Api
       assert_response :not_found
     end
 
+    # Ensure the lat/lon is formatted as a decimal e.g. not 4.0e-05
+    def test_lat_lon_xml_format
+      node = create(:node, :latitude => (0.00004 * OldNode::SCALE).to_i, :longitude => (0.00008 * OldNode::SCALE).to_i)
+
+      get :show, :params => { :id => node.id }
+      assert_match(/lat="0.0000400"/, response.body)
+      assert_match(/lon="0.0000800"/, response.body)
+    end
+
     # this tests deletion restrictions - basic deletion is tested in the unit
     # tests for node!
     def test_delete
