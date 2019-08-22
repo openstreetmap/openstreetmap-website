@@ -24,7 +24,7 @@ class Note < ActiveRecord::Base
   has_many :comments, -> { left_joins(:author).where(:visible => true, :users => { :status => [nil, "active", "confirmed"] }).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id
 
   validates :id, :uniqueness => true, :presence => { :on => :update },
-                 :numericality => { :on => :update, :integer_only => true }
+                 :numericality => { :on => :update, :only_integer => true }
   validates :latitude, :longitude, :numericality => { :only_integer => true }
   validates :closed_at, :presence => true, :if => proc { :status == "closed" }
   validates :status, :inclusion => %w[open closed hidden]
