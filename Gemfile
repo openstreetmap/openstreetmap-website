@@ -142,6 +142,9 @@ end
 
 # Gems needed for running tests
 group :test do
+  gem 'cucumber-rails', require: false
+  # database_cleaner is not required, but highly recommended
+  gem 'database_cleaner'
   gem "fakefs", :require => "fakefs/safe"
   gem "minitest", "~> 5.1", :platforms => [:ruby_19, :ruby_20]
   gem "rails-controller-testing"
