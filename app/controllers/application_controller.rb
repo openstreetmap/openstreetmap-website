@@ -368,4 +368,10 @@ class ApplicationController < ActionController::Base
 
   # override to stop oauth plugin sending errors
   def invalid_oauth_response; end
+
+  # The latest version of the API that's deployed. Useful for links to raw XML e.g. on browse pages
+  def latest_api_version
+    @browse_api_version = Settings.api_versions.map(&:to_f).max.to_s
+  end
+  helper_method :latest_api_version
 end
