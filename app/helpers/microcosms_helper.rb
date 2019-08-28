@@ -1,0 +1,2 @@
+module MicrocosmsHelper
+end
