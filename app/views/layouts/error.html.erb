@@ -6,7 +6,12 @@
     <%= stylesheet_link_tag "errors", :media => "screen" %>
   </head>
   <body>
-    <%= image_tag "osm_logo.png", :class => "logo" %>
+    <a href="<%= root_path %>">
+      <picture>
+        <source srcset="<%= image_path "osm_logo.svg" %>" type="image/svg+xml"></source>
+        <%= image_tag "osm_logo.png", :srcset => image_path("osm_logo.svg"), :alt => t("layouts.logo.alt_text"), :class => "logo" %>
+      </picture>
+    </a>
     <div class="details">
       <%= yield %>
     </div>
