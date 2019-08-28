@@ -409,29 +409,31 @@ module Api
     # and the API gives sensible results. this is to test a case that
     # gregory marler noticed and posted to josm-dev.
     def test_update_relation_tags_via_upload
-      user = create(:user)
-      changeset = create(:changeset, :user => user)
-      relation = create(:relation)
-      create_list(:relation_tag, 4, :relation => relation)
+      all_api_versions.each do |api_version|
+        user = create(:user)
+        changeset = create(:changeset, :user => user)
+        relation = create(:relation)
+        create_list(:relation_tag, 4, :relation => relation)
 
-      basic_authorization user.email, "test"
+        basic_authorization user.email, "test"
 
-      with_relation(relation.id) do |rel|
-        # alter one of the tags
-        tag = rel.find("//osm/relation/tag").first
-        tag["v"] = "some changed value"
-        update_changeset(rel, changeset.id)
+        with_relation(relation.id) do |rel|
+          # alter one of the tags
+          tag = rel.find("//osm/relation/tag").first
+          tag["v"] = "some changed value"
+          update_changeset(rel, changeset.id)
 
-        # check that the downloaded tags are the same as the uploaded tags...
-        new_version = with_update_diff(rel) do |new_rel|
-          assert_tags_equal rel, new_rel
+          # check that the downloaded tags are the same as the uploaded tags...
+          new_version = with_update_diff(rel, api_version) do |new_rel|
+            assert_tags_equal rel, new_rel
+          end
+
+          # check the original one in the current_* table again
+          with_relation(relation.id) { |r| assert_tags_equal rel, r }
+
+          # now check the version in the history
+          with_relation(relation.id, new_version) { |r| assert_tags_equal rel, r }
         end
-
-        # check the original one in the current_* table again
-        with_relation(relation.id) { |r| assert_tags_equal rel, r }
-
-        # now check the version in the history
-        with_relation(relation.id, new_version) { |r| assert_tags_equal rel, r }
       end
     end
 
@@ -632,30 +634,32 @@ module Api
     # when a relation's tag is modified then it should put the bounding
     # box of all its members into the changeset.
     def test_tag_modify_bounding_box
-      relation = create(:relation)
-      node1 = create(:node, :lat => 3, :lon => 3)
-      node2 = create(:node, :lat => 5, :lon => 5)
-      way = create(:way)
-      create(:way_node, :way => way, :node => node1)
-      create(:relation_member, :relation => relation, :member => way)
-      create(:relation_member, :relation => relation, :member => node2)
-      # the relation contains nodes1 and node2 (node1
-      # indirectly via the way), so the bbox should be [3,3,5,5].
-      check_changeset_modify(BoundingBox.new(3, 3, 5, 5)) do |changeset_id|
-        # add a tag to an existing relation
-        relation_xml = relation.to_xml
-        relation_element = relation_xml.find("//osm/relation").first
-        new_tag = XML::Node.new("tag")
-        new_tag["k"] = "some_new_tag"
-        new_tag["v"] = "some_new_value"
-        relation_element << new_tag
+      all_api_versions.each do |api_version|
+        relation = create(:relation)
+        node1 = create(:node, :lat => 3, :lon => 3)
+        node2 = create(:node, :lat => 5, :lon => 5)
+        way = create(:way)
+        create(:way_node, :way => way, :node => node1)
+        create(:relation_member, :relation => relation, :member => way)
+        create(:relation_member, :relation => relation, :member => node2)
+        # the relation contains nodes1 and node2 (node1
+        # indirectly via the way), so the bbox should be [3,3,5,5].
+        check_changeset_modify(BoundingBox.new(3, 3, 5, 5), api_version) do |changeset_id|
+          # add a tag to an existing relation
+          relation_xml = relation.to_xml
+          relation_element = relation_xml.find("//osm/relation").first
+          new_tag = XML::Node.new("tag")
+          new_tag["k"] = "some_new_tag"
+          new_tag["v"] = "some_new_value"
+          relation_element << new_tag
 
-        # update changeset ID to point to new changeset
-        update_changeset(relation_xml, changeset_id)
+          # update changeset ID to point to new changeset
+          update_changeset(relation_xml, changeset_id)
 
-        # upload the change
-        put :update, :params => { :id => relation.id }, :body => relation_xml.to_s
-        assert_response :success, "can't update relation for tag/bbox test"
+          # upload the change
+          put :update, :params => { :id => relation.id }, :body => relation_xml.to_s
+          assert_response :success, "can't update relation for tag/bbox test"
+        end
       end
     end
 
@@ -663,37 +667,39 @@ module Api
     # add a member to a relation and check the bounding box is only that
     # element.
     def test_add_member_bounding_box
-      relation = create(:relation)
-      node1 = create(:node, :lat => 4, :lon => 4)
-      node2 = create(:node, :lat => 7, :lon => 7)
-      way1 = create(:way)
-      create(:way_node, :way => way1, :node => create(:node, :lat => 8, :lon => 8))
-      way2 = create(:way)
-      create(:way_node, :way => way2, :node => create(:node, :lat => 9, :lon => 9), :sequence_id => 1)
-      create(:way_node, :way => way2, :node => create(:node, :lat => 10, :lon => 10), :sequence_id => 2)
+      all_api_versions.each do |api_version|
+        relation = create(:relation)
+        node1 = create(:node, :lat => 4, :lon => 4)
+        node2 = create(:node, :lat => 7, :lon => 7)
+        way1 = create(:way)
+        create(:way_node, :way => way1, :node => create(:node, :lat => 8, :lon => 8))
+        way2 = create(:way)
+        create(:way_node, :way => way2, :node => create(:node, :lat => 9, :lon => 9), :sequence_id => 1)
+        create(:way_node, :way => way2, :node => create(:node, :lat => 10, :lon => 10), :sequence_id => 2)
 
-      [node1, node2, way1, way2].each do |element|
-        bbox = element.bbox.to_unscaled
-        check_changeset_modify(bbox) do |changeset_id|
-          relation_xml = Relation.find(relation.id).to_xml
-          relation_element = relation_xml.find("//osm/relation").first
-          new_member = XML::Node.new("member")
-          new_member["ref"] = element.id.to_s
-          new_member["type"] = element.class.to_s.downcase
-          new_member["role"] = "some_role"
-          relation_element << new_member
+        [node1, node2, way1, way2].each do |element|
+          bbox = element.bbox.to_unscaled
+          check_changeset_modify(bbox, api_version) do |changeset_id|
+            relation_xml = Relation.find(relation.id).to_xml
+            relation_element = relation_xml.find("//osm/relation").first
+            new_member = XML::Node.new("member")
+            new_member["ref"] = element.id.to_s
+            new_member["type"] = element.class.to_s.downcase
+            new_member["role"] = "some_role"
+            relation_element << new_member
 
-          # update changeset ID to point to new changeset
-          update_changeset(relation_xml, changeset_id)
+            # update changeset ID to point to new changeset
+            update_changeset(relation_xml, changeset_id)
 
-          # upload the change
-          put :update, :params => { :id => relation.id }, :body => relation_xml.to_s
-          assert_response :success, "can't update relation for add #{element.class}/bbox test: #{@response.body}"
+            # upload the change
+            put :update, :params => { :id => relation.id }, :body => relation_xml.to_s
+            assert_response :success, "can't update relation for add #{element.class}/bbox test: #{@response.body}"
 
-          # get it back and check the ordering
-          get :show, :params => { :id => relation.id }
-          assert_response :success, "can't read back the relation: #{@response.body}"
-          check_ordering(relation_xml, @response.body)
+            # get it back and check the ordering
+            get :show, :params => { :id => relation.id }
+            assert_response :success, "can't read back the relation: #{@response.body}"
+            check_ordering(relation_xml, @response.body)
+          end
         end
       end
     end
@@ -702,25 +708,27 @@ module Api
     # remove a member from a relation and check the bounding box is
     # only that element.
     def test_remove_member_bounding_box
-      relation = create(:relation)
-      node1 = create(:node, :lat => 3, :lon => 3)
-      node2 = create(:node, :lat => 5, :lon => 5)
-      create(:relation_member, :relation => relation, :member => node1)
-      create(:relation_member, :relation => relation, :member => node2)
+      all_api_versions.each do |api_version|
+        relation = create(:relation)
+        node1 = create(:node, :lat => 3, :lon => 3)
+        node2 = create(:node, :lat => 5, :lon => 5)
+        create(:relation_member, :relation => relation, :member => node1)
+        create(:relation_member, :relation => relation, :member => node2)
 
-      check_changeset_modify(BoundingBox.new(5, 5, 5, 5)) do |changeset_id|
-        # remove node 5 (5,5) from an existing relation
-        relation_xml = relation.to_xml
-        relation_xml
-          .find("//osm/relation/member[@type='node'][@ref='#{node2.id}']")
-          .first.remove!
+        check_changeset_modify(BoundingBox.new(5, 5, 5, 5), api_version) do |changeset_id|
+          # remove node 5 (5,5) from an existing relation
+          relation_xml = relation.to_xml
+          relation_xml
+            .find("//osm/relation/member[@type='node'][@ref='#{node2.id}']")
+            .first.remove!
 
-        # update changeset ID to point to new changeset
-        update_changeset(relation_xml, changeset_id)
+          # update changeset ID to point to new changeset
+          update_changeset(relation_xml, changeset_id)
 
-        # upload the change
-        put :update, :params => { :id => relation.id }, :body => relation_xml.to_s
-        assert_response :success, "can't update relation for remove node/bbox test"
+          # upload the change
+          put :update, :params => { :id => relation.id }, :body => relation_xml.to_s
+          assert_response :success, "can't update relation for remove node/bbox test"
+        end
       end
     end
 
@@ -870,31 +878,33 @@ OSM
     # remove all the members from a relation. the result is pretty useless, but
     # still technically valid.
     def test_remove_all_members
-      relation = create(:relation)
-      node1 = create(:node, :lat => 3, :lon => 3)
-      node2 = create(:node, :lat => 5, :lon => 5)
-      way = create(:way)
-      create(:way_node, :way => way, :node => node1)
-      create(:relation_member, :relation => relation, :member => way)
-      create(:relation_member, :relation => relation, :member => node2)
+      all_api_versions.each do |api_version|
+        relation = create(:relation)
+        node1 = create(:node, :lat => 3, :lon => 3)
+        node2 = create(:node, :lat => 5, :lon => 5)
+        way = create(:way)
+        create(:way_node, :way => way, :node => node1)
+        create(:relation_member, :relation => relation, :member => way)
+        create(:relation_member, :relation => relation, :member => node2)
 
-      check_changeset_modify(BoundingBox.new(3, 3, 5, 5)) do |changeset_id|
-        relation_xml = relation.to_xml
-        relation_xml
-          .find("//osm/relation/member")
-          .each(&:remove!)
+        check_changeset_modify(BoundingBox.new(3, 3, 5, 5), api_version) do |changeset_id|
+          relation_xml = relation.to_xml
+          relation_xml
+            .find("//osm/relation/member")
+            .each(&:remove!)
 
-        # update changeset ID to point to new changeset
-        update_changeset(relation_xml, changeset_id)
+          # update changeset ID to point to new changeset
+          update_changeset(relation_xml, changeset_id)
 
-        # upload the change
-        put :update, :params => { :id => relation.id }, :body => relation_xml.to_s
-        assert_response :success, "can't update relation for remove all members test"
-        checkrelation = Relation.find(relation.id)
-        assert_not_nil(checkrelation,
-                       "uploaded relation not found in database after upload")
-        assert_equal(0, checkrelation.members.length,
-                     "relation contains members but they should have all been deleted")
+          # upload the change
+          put :update, :params => { :id => relation.id }, :body => relation_xml.to_s
+          assert_response :success, "can't update relation for remove all members test"
+          checkrelation = Relation.find(relation.id)
+          assert_not_nil(checkrelation,
+                         "uploaded relation not found in database after upload")
+          assert_equal(0, checkrelation.members.length,
+                       "relation contains members but they should have all been deleted")
+        end
       end
     end
 
@@ -924,7 +934,7 @@ OSM
     ##
     # create a changeset and yield to the caller to set it up, then assert
     # that the changeset bounding box is +bbox+.
-    def check_changeset_modify(bbox)
+    def check_changeset_modify(bbox, api_version)
       ## First test with the private user to check that you get a forbidden
       basic_authorization create(:user, :data_public => false).email, "test"
 
@@ -932,7 +942,7 @@ OSM
       # that the bounding box will be newly-generated.
       changeset_id = with_controller(Api::ChangesetsController.new) do
         xml = "<osm><changeset/></osm>"
-        put :create, :body => xml
+        put :create, :body => xml, :params => { :api_version => api_version }
         assert_response :forbidden, "shouldn't be able to create changeset for modify test, as should get forbidden"
       end
 
@@ -943,7 +953,7 @@ OSM
       # that the bounding box will be newly-generated.
       changeset_id = with_controller(Api::ChangesetsController.new) do
         xml = "<osm><changeset/></osm>"
-        put :create, :body => xml
+        put :create, :body => xml, :params => { :api_version => api_version }
         assert_response :success, "couldn't create changeset for modify test"
         @response.body.to_i
       end
@@ -953,7 +963,7 @@ OSM
 
       # now download the changeset to check its bounding box
       with_controller(Api::ChangesetsController.new) do
-        get :show, :params => { :id => changeset_id }
+        get :show, :params => { :id => changeset_id, :api_version => api_version }
         assert_response :success, "can't re-read changeset for modify test"
         assert_select "osm>changeset", 1, "Changeset element doesn't exist in #{@response.body}"
         assert_select "osm>changeset[id='#{changeset_id}']", 1, "Changeset id=#{changeset_id} doesn't exist in #{@response.body}"
@@ -1004,7 +1014,7 @@ OSM
     # updates the relation (XML) +rel+ via the diff-upload API and
     # yields the new version of that relation into the block.
     # the parsed XML doc is retured.
-    def with_update_diff(rel)
+    def with_update_diff(rel, api_version)
       rel_id = rel.find("//osm/relation").first["id"].to_i
       cs_id = rel.find("//osm/relation").first["changeset"].to_i
       version = nil
@@ -1017,7 +1027,7 @@ OSM
         change << modify
         modify << doc.import(rel.find("//osm/relation").first)
 
-        post :upload, :params => { :id => cs_id }, :body => doc.to_s
+        post :upload, :params => { :id => cs_id, :api_version => api_version }, :body => doc.to_s
         assert_response :success, "can't upload diff relation: #{@response.body}"
         version = xml_parse(@response.body).find("//diffResult/relation").first["new_version"].to_i
       end
