@@ -31,9 +31,6 @@ OpenStreetMap::Application.routes.draw do
         put "changeset/:id" => "changesets#update", :id => /\d+/
         put "changeset/:id/close" => "changesets#close", :id => /\d+/
         get "changesets" => "changesets#query"
-        post "changeset/:id/comment" => "changeset_comments#create", :as => :changeset_comment, :id => /\d+/
-        post "changeset/comment/:id/hide" => "changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
-        post "changeset/comment/:id/unhide" => "changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
       end
     end
   end
@@ -56,6 +53,10 @@ OpenStreetMap::Application.routes.draw do
 
   # TODO: refactor these too
   scope "api/0.6" do
+    post "changeset/:id/comment" => "api/changeset_comments#create", :as => :changeset_comment, :id => /\d+/
+    post "changeset/comment/:id/hide" => "api/changeset_comments#destroy", :as => :changeset_comment_hide, :id => /\d+/
+    post "changeset/comment/:id/unhide" => "api/changeset_comments#restore", :as => :changeset_comment_unhide, :id => /\d+/
+
     put "node/create" => "api/nodes#create"
     get "node/:id/ways" => "api/ways#ways_for_node", :id => /\d+/
     get "node/:id/relations" => "api/relations#relations_for_node", :id => /\d+/
