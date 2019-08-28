@@ -1,0 +1,1529 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "06e17db22db1f94acfd9a66ed0960c933a0534e75a143e2835b9b61064fdb97e",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/messages_controller.rb",
+      "line": 122,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params[:referer])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "MessagesController",
+        "method": "destroy"
+      },
+      "user_input": "params[:referer]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "12c528c1d324860a0d5c574a620ecc4be31bd4d947e4dac959cc57022266b10d",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/api/traces_controller.rb",
+      "line": 142,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "FileUtils.rm_f(Trace.new(:name => file.original_filename.gsub(/[^a-zA-Z0-9.]/, \"_\"), :tagstring => tags, :description => description, :visibility => visibility, :inserted => true, :user => current_user, :timestamp => Time.now.getutc).trace_name)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Api::TracesController",
+        "method": "do_create"
+      },
+      "user_input": "Trace.new(:name => file.original_filename.gsub(/[^a-zA-Z0-9.]/, \"_\"), :tagstring => tags, :description => description, :visibility => visibility, :inserted => true, :user => current_user, :timestamp => Time.now.getutc).trace_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "1fab7706b9ed0587e8b87ede43ec6f9aa9bab1b3bcfb83be1c2f6efd68b37c98",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/browse/_relation_member.html.erb",
+      "line": 8,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "t(\".entry_role\", :type => t((\".type.\" + Relation.new.member_type.downcase)), :name => link_to(printable_name(Relation.new.member), { :action => Relation.new.member_type.downcase, :id => Relation.new.member_id.to_s }, :title => link_title(Relation.new.member), :rel => link_follow(Relation.new.member)), :role => h(Relation.new.member_role))",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "BrowseController",
+          "method": "relation_history",
+          "line": 22,
+          "file": "app/controllers/browse_controller.rb",
+          "rendered": {
+            "name": "browse/history",
+            "file": "app/views/browse/history.html.erb"
+          }
+        },
+        {
+          "type": "template",
+          "name": "browse/history",
+          "line": 8,
+          "file": "app/views/browse/history.html.erb",
+          "rendered": {
+            "name": "browse/_relation",
+            "file": "app/views/browse/_relation.html.erb"
+          }
+        },
+        {
+          "type": "template",
+          "name": "browse/_relation",
+          "line": 20,
+          "file": "app/views/browse/_relation.html.erb",
+          "rendered": {
+            "name": "browse/_relation_member",
+            "file": "app/views/browse/_relation_member.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "browse/_relation_member"
+      },
+      "user_input": "Relation.new.member_type",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "20f6781a05353eee6adcc3fca5ee6c9908a6225363837aee04eeb13577347981",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/browse/feature.html.erb",
+      "line": 5,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "t(\"browse.#{\"node\"}.title\", :name => printable_name(Node.preload(:node_tags, :containing_relation_members, :changeset => ([:changeset_tags, :user]), :ways => :way_tags).find(params[:id])))",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "BrowseController",
+          "method": "node",
+          "line": 46,
+          "file": "app/controllers/browse_controller.rb",
+          "rendered": {
+            "name": "browse/feature",
+            "file": "app/views/browse/feature.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "browse/feature"
+      },
+      "user_input": "Node.preload(:node_tags, :containing_relation_members, :changeset => ([:changeset_tags, :user]), :ways => :way_tags).find(params[:id])",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "2256fa3d828b27594daf042f728dbd920bd9acf0769254662df13f8118b5c037",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 11,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"section_1a\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "2409d04f3ab58f7b42aba142b02ca92d39dea9b464837540cb7058d765ad1bc7",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 5,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"introduction\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "29c5ce31ac51472621f92b1d4c5499f093ee6cbc4d977d3a061f7722b037345f",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/site_controller.rb",
+      "line": 159,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params.to_unsafe_h.merge(:anchor => (\"#{\"map=#{(params.delete(:zoom) or 5)}/#{params.delete(:lat)}/#{params.delete(:lon)}\"}&#{\"layers=#{params.delete(:layers)}\"}&layers=N\")))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "redirect_map_params"
+      },
+      "user_input": "params.to_unsafe_h.merge(:anchor => (\"#{\"map=#{(params.delete(:zoom) or 5)}/#{params.delete(:lat)}/#{params.delete(:lon)}\"}&#{\"layers=#{params.delete(:layers)}\"}&layers=N\"))",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "2b3745097c2f8986e83537adbc44bea17023e3954e37eebbbfdec7dfaad7f61e",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/traces/show.html.erb",
+      "line": 43,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Trace.find(params[:id]).tags.collect do\n link_to(tag.tag, :controller => \"traces\", :action => \"index\", :tag => tag.tag, :id => nil)\n end.join(\", \")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "TracesController",
+          "method": "show",
+          "line": 89,
+          "file": "app/controllers/traces_controller.rb",
+          "rendered": {
+            "name": "traces/show",
+            "file": "app/views/traces/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "traces/show"
+      },
+      "user_input": "Trace.find(params[:id]).tags",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "2fda5b94e86059e52474a4528b751ec289fbbc6bc0bec57396d2510d74ed5f7e",
+      "check_name": "SendFile",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/api/traces_controller.rb",
+      "line": 60,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(Trace.visible.find(params[:id]).trace_name, :filename => (\"#{Trace.visible.find(params[:id]).id}#{Trace.visible.find(params[:id]).extension_name}\"), :type => Trace.visible.find(params[:id]).mime_type, :disposition => \"attachment\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Api::TracesController",
+        "method": "data"
+      },
+      "user_input": "Trace.visible.find(params[:id]).trace_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "38a2a5635a76f3fa918a00356d814ae3c26dc1eab6d7dd3b0878b471a2490aba",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 12,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"section_1b\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "3ac71355997be854657a1b64f10647cfc4b6c925fae0e631297b5c861d8614ea",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/traces_controller.rb",
+      "line": 306,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "FileUtils.rm_f(Trace.new(:name => file.original_filename.gsub(/[^a-zA-Z0-9.]/, \"_\"), :tagstring => tags, :description => description, :visibility => visibility, :inserted => true, :user => current_user, :timestamp => Time.now.getutc).trace_name)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TracesController",
+        "method": "do_create"
+      },
+      "user_input": "Trace.new(:name => file.original_filename.gsub(/[^a-zA-Z0-9.]/, \"_\"), :tagstring => tags, :description => description, :visibility => visibility, :inserted => true, :user => current_user, :timestamp => Time.now.getutc).trace_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "3fc43cfb85c13612a1a27e84ee7f1938c232d381393c042983e954dabdb5702d",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 8,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"section_1\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "46d487fc94404c0d96b1bc312d6bd03f1c03e2e4a3dbb9e40178603fda812924",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/diary_entries/index.html.erb",
+      "line": 35,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => (User.active.find_by(:display_name => params[:display_name]).diary_entries or (DiaryEntry.where(:user_id => current_user.friends) or (DiaryEntry.where(:user_id => current_user.nearby) or DiaryEntry.joins(:user).where(:users => ({ :status => ([\"active\", \"confirmed\"]) })).where(:language_code => params[:language])))).visible.order(\"created_at DESC\").offset((((params[:page] or 1).to_i - 1) * 20)).limit(20).includes(:user, :language), {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "DiaryEntriesController",
+          "method": "index",
+          "line": 166,
+          "file": "app/controllers/diary_entries_controller.rb",
+          "rendered": {
+            "name": "diary_entries/index",
+            "file": "app/views/diary_entries/index.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "diary_entries/index"
+      },
+      "user_input": "params[:page]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "4e5a3a84ffa5c3cbddb330aecc26d8531e2fa8bbab6a2cae46c5d4b1463be622",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 2,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"intro\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "4ed249fde32ad7e040b12a3447a22755a7b5435938cd1eca1b409ca23cddaeaa",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/site_controller.rb",
+      "line": 52,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params.except(:code, :lon, :lat, :zoom, :layers, :node, :way, :relation, :changeset).to_unsafe_h)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "permalink"
+      },
+      "user_input": "params.except(:code, :lon, :lat, :zoom, :layers, :node, :way, :relation, :changeset).to_unsafe_h",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "4ed7125a99ceb97f3d67db5aabd949e04ca9fb9cf11af2ff6c2d2e26622056b3",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 17,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"rights_granted\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "542d6d5ca2098fc079e409ae27f4890da027cd9f837b5828c16df8f69256308a",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/models/trace.rb",
+      "line": 120,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "`/usr/bin/file -Lbz #{trace_name}`",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Trace",
+        "method": "mime_type"
+      },
+      "user_input": "trace_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "591e96768e783a0cc94418c56de99136b97f58720d0c43119863053a8775352e",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/users_controller.rb",
+      "line": 46,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params[:referer])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UsersController",
+        "method": "save"
+      },
+      "user_input": "params[:referer]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "591e96768e783a0cc94418c56de99136b97f58720d0c43119863053a8775352e",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/users_controller.rb",
+      "line": 66,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params[:referer])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UsersController",
+        "method": "save"
+      },
+      "user_input": "params[:referer]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "5d9052b342180f87a5ae792638e7d63e965159834dbec881840e0e911e8e2912",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 24,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"active_defn_1\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "5e94afeb00f0233b317a0bb1fc5489e4576d2bd89b8e1d4689dfac7f5e4138ba",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/models/trace.rb",
+      "line": 212,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "`/usr/bin/file -Lbz #{trace_name}`",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Trace",
+        "method": "xml_file"
+      },
+      "user_input": "trace_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "5efcb9d992404a5ce49d6fc253fa6a7f7bbe97e1375bcfcaa3c03bf613af4e23",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/models/trace.rb",
+      "line": 228,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"gunzip -c #{trace_name} > #{Tempfile.new(\"trace.#{id}\").path}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Trace",
+        "method": "xml_file"
+      },
+      "user_input": "trace_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "717fa6dec0ce8d55fe9554eaf47299ed14b614e996d39ffcab9751243be72bea",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/application_controller.rb",
+      "line": 66,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params.to_unsafe_h.merge(:cookie_test => \"true\"))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ApplicationController",
+        "method": "require_cookies"
+      },
+      "user_input": "params.to_unsafe_h.merge(:cookie_test => \"true\")",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "73819efb5b7cf4d22be687290eae2c2417293ed96d5765955f106ddd9d581a24",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/changesets/index.html.erb",
+      "line": 3,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => ((conditions_nonempty(Changeset.all).where(:user_id => current_user.friends.identifiable).where(:user_id => current_user.nearby) or conditions_bbox(conditions_nonempty(Changeset.all), BoundingBox.from_bbox_params(params))) or (conditions_nonempty(Changeset.all).where(:user_id => User.find_by(:display_name => params.permit(:display_name, :bbox, :friends, :nearby, :max_id, :list)[:display_name]).id) or conditions_nonempty(Changeset.all).where(\"false\"))).where(\"changesets.id <= ?\", params.permit(:display_name, :bbox, :friends, :nearby, :max_id, :list)[:max_id]).order(\"changesets.id DESC\").limit(20).preload(:user, :changeset_tags, :comments), {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "ChangesetsController",
+          "method": "index",
+          "line": 65,
+          "file": "app/controllers/changesets_controller.rb",
+          "rendered": {
+            "name": "changesets/index",
+            "file": "app/views/changesets/index.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "changesets/index"
+      },
+      "user_input": "params.permit(:display_name, :bbox, :friends, :nearby, :max_id, :list)[:max_id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "758d8f6753065fe204890c41901a2656a7da144c12b901be0ebd884cc2909882",
+      "check_name": "SendFile",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/traces_controller.rb",
+      "line": 232,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(Trace.find(params[:id]).large_picture_name, :filename => (\"#{Trace.find(params[:id]).id}.gif\"), :type => \"image/gif\", :disposition => \"inline\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TracesController",
+        "method": "picture"
+      },
+      "user_input": "Trace.find(params[:id]).large_picture_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "762ea0740994c776a7130af98737c7045f7dc33a0de698e6ffd0541ad811c9e9",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 3,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"next_with_decline\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "787ebc41f9ec884a589e49c117341ca9455c784dd94c52a0b9499fe2f189cf20",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/browse/_relation_member.html.erb",
+      "line": 6,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "t(\".entry\", :type => t((\".type.\" + Relation.new.member_type.downcase)), :name => link_to(printable_name(Relation.new.member), { :action => Relation.new.member_type.downcase, :id => Relation.new.member_id.to_s }, :title => link_title(Relation.new.member), :rel => link_follow(Relation.new.member)))",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "BrowseController",
+          "method": "relation_history",
+          "line": 22,
+          "file": "app/controllers/browse_controller.rb",
+          "rendered": {
+            "name": "browse/history",
+            "file": "app/views/browse/history.html.erb"
+          }
+        },
+        {
+          "type": "template",
+          "name": "browse/history",
+          "line": 8,
+          "file": "app/views/browse/history.html.erb",
+          "rendered": {
+            "name": "browse/_relation",
+            "file": "app/views/browse/_relation.html.erb"
+          }
+        },
+        {
+          "type": "template",
+          "name": "browse/_relation",
+          "line": 20,
+          "file": "app/views/browse/_relation.html.erb",
+          "rendered": {
+            "name": "browse/_relation_member",
+            "file": "app/views/browse/_relation_member.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "browse/_relation_member"
+      },
+      "user_input": "Relation.new.member_type",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "7a7bc5c5c1eec687c6ac24f7202dd11d51faa63f29ca1d1c3555bb355c4279a1",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/models/trace.rb",
+      "line": 222,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"tar -zxOf #{trace_name} > #{Tempfile.new(\"trace.#{id}\").path}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Trace",
+        "method": "xml_file"
+      },
+      "user_input": "trace_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "7ea3021a8052c04462fb80873ac6a83e9049942a9b06744bdc59bbda51ab0291",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/browse/history.html.erb",
+      "line": 5,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "t(\"browse.#{\"node\"}.history_title\", :name => printable_name(Node.preload(:node_tags, :old_nodes => ([:old_tags, { :changeset => ([:changeset_tags, :user]) }])).find(params[:id])))",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "BrowseController",
+          "method": "node_history",
+          "line": 54,
+          "file": "app/controllers/browse_controller.rb",
+          "rendered": {
+            "name": "browse/history",
+            "file": "app/views/browse/history.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "browse/history"
+      },
+      "user_input": "Node.preload(:node_tags, :old_nodes => ([:old_tags, { :changeset => ([:changeset_tags, :user]) }])).find(params[:id])",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "85ca04f59ddd33d6f48a1cd38bd0a17b5eaaec14d15d4eb7cfaa800d5e39c06b",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 38,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"section_7\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "8ccb47dd40b988ed4217f27e958e0a9f4246f07e1613f1a4b2e9eb75eb772fd4",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/models/trace.rb",
+      "line": 224,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"tar -jxOf #{trace_name} > #{Tempfile.new(\"trace.#{id}\").path}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Trace",
+        "method": "xml_file"
+      },
+      "user_input": "trace_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "93238581412cbb96257137f513bf432eb88e4d6dd0f7427bdc9b75e5275ce379",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/api/amf_controller.rb",
+      "line": 934,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.select_all(\"        SELECT current_nodes.id,current_nodes.latitude*0.0000001 AS lat,current_nodes.longitude*0.0000001 AS lon,current_nodes.version\\n        FROM current_nodes\\n         LEFT OUTER JOIN current_way_nodes cwn ON cwn.node_id=current_nodes.id\\n         WHERE current_nodes.visible=TRUE\\n         AND cwn.id IS NULL\\n         AND #{OSM.sql_for_area(bbox, \"current_nodes.\")}\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Api::AmfController",
+        "method": "sql_find_pois_in_area"
+      },
+      "user_input": "OSM.sql_for_area(bbox, \"current_nodes.\")",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "93b112f71f539d05b8ba48cbb0d508dcac73ee9a1bd7825731aa52c07fee090c",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 40,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"miscellaneous\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "9b05e1b743d830d8eb4ca1956c889ffc66fc1e49de22740dfd613c3eaa4f59b9",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/traces/index.html.erb",
+      "line": 36,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => (current_user ? (Trace.visible_to(current_user)) : (Trace.visible_to_all) or if current_user and (current_user == User.active.where(:display_name => params[:display_name]).first) then\n  current_user.traces\nelse\n  User.active.where(:display_name => params[:display_name]).first.traces.visible_to_all\nend).tagged(params[:tag]).visible.order(:id => :desc).offset((((params[:page] or 1).to_i - 1) * 20)).limit(20).includes(:user, :tags), {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "TracesController",
+          "method": "index",
+          "line": 81,
+          "file": "app/controllers/traces_controller.rb",
+          "rendered": {
+            "name": "traces/index",
+            "file": "app/views/traces/index.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "traces/index"
+      },
+      "user_input": "params[:page]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "9bc4d2118bc3f74d724ca2215fd8d6554c27d4232a7ab9f73a16990adcaa7b5e",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 37,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"section_6\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "ac0e7ade146bc54bd1bcb12aab2c473bfe8d4e301ce7029f995eef411b2a421a",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/users_controller.rb",
+      "line": 404,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params[:referer])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UsersController",
+        "method": "make_friend"
+      },
+      "user_input": "params[:referer]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "ac54be242261cd069716d04c704f6804dceb23faaf6a6b836721d02f4b4b6ca1",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/api/amf_controller.rb",
+      "line": 979,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.select_all(\"SELECT k,v FROM current_node_tags WHERE id=#{row[\"id\"]}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Api::AmfController",
+        "method": "sql_get_nodes_in_way"
+      },
+      "user_input": "row[\"id\"]",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "aed5423210be0d06dfc1a36d3cea35e050e115ff1d44270ca2e49c228668cf72",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 32,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"section_5\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "bbd9d6dc5e5a9ccb330cb725cfa1c14429883f08c405fd6ec5094c6e49fd9e58",
+      "check_name": "SendFile",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/traces_controller.rb",
+      "line": 156,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(Trace.find(params[:id]).trace_name, :filename => (\"#{Trace.find(params[:id]).id}#{Trace.find(params[:id]).extension_name}\"), :type => Trace.find(params[:id]).mime_type, :disposition => \"attachment\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TracesController",
+        "method": "data"
+      },
+      "user_input": "Trace.find(params[:id]).trace_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "c21f5237161c69966f7287226d102610220d1f7eb8965ceafcd119fa63803e80",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/models/trace.rb",
+      "line": 232,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"unzip -p #{trace_name} -x '__MACOSX/*' > #{Tempfile.new(\"trace.#{id}\").path} 2> /dev/null\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Trace",
+        "method": "xml_file"
+      },
+      "user_input": "trace_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "c691d5aa2a3a924ae37cc36133f26a13eee0db7133c1afca032cd4d34b45ba85",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/models/trace.rb",
+      "line": 142,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "`/usr/bin/file -Lbz #{trace_name}`",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Trace",
+        "method": "extension_name"
+      },
+      "user_input": "trace_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "c7412f601d35b80e3354af3bfb7dc0dfd0052ab802684e65825e02b07f6b4263",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 20,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"section_2\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "c7967d965fe171f0bddde868b010d797c113dbb16d490de93ef6174738bad8d3",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 43,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"section_8\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "c8639a5bbb690a2c6f143211622ab00a4c6d81085e2e0be054765a99216e4ca4",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 35,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"limitation_of_liability\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "ca76231d11fbf0271eb29a5103c3e437054797df18403b6e6f65c1b6b5063428",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 23,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"section_3\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "d119b45d8064e07ad4a703978edf4cb919a21623f12e473060fb84b0d4686e27",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/user.rb",
+      "line": 207,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "User.active.identifiable.where(\"id != ?\", id).where(QuadTile.sql_for_area(OSM::GreatCircle.new(home_lat, home_lon).bounds(radius), \"home_\")).where(\"#{OSM::GreatCircle.new(home_lat, home_lon).sql_for_distance(\"home_lat\", \"home_lon\")} <= ?\", radius)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "User",
+        "method": "nearby"
+      },
+      "user_input": "OSM::GreatCircle.new(home_lat, home_lon).sql_for_distance(\"home_lat\", \"home_lon\")",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "dd798cac2f0456230a99742b15ee1f188242abc2d50e15621e6c972c0867ea6c",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/api/amf_controller.rb",
+      "line": 936,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.select_all(\"SELECT k,v FROM current_node_tags WHERE id=#{row[\"id\"]}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Api::AmfController",
+        "method": "sql_find_pois_in_area"
+      },
+      "user_input": "row[\"id\"]",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "dfc7661d0984bf6f0529b23c03b5c6de07500a2e14c749927e0e7146d18edba7",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 29,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"section_4\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Format Validation",
+      "warning_code": 30,
+      "fingerprint": "e42df63cb4c68654eae3cda65c36ebfa8280d353f12772098c8ddb139910e4b5",
+      "check_name": "ValidationRegex",
+      "message": "Insufficient validation for `url` using `/\\Ahttp(s?):\\/\\/(\\w+:{0,1}\\w*@)?(\\S+)(:[0-9]+)?(\\/|\\/([\\w#!:.?+=&%@!\\-\\/]))?/i`. Use `\\A` and `\\z` as anchors",
+      "file": "app/models/client_application.rb",
+      "line": 42,
+      "link": "https://brakemanscanner.org/docs/warning_types/format_validation/",
+      "code": null,
+      "render_path": null,
+      "location": {
+        "type": "model",
+        "model": "ClientApplication"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Format Validation",
+      "warning_code": 30,
+      "fingerprint": "e42df63cb4c68654eae3cda65c36ebfa8280d353f12772098c8ddb139910e4b5",
+      "check_name": "ValidationRegex",
+      "message": "Insufficient validation for `support_url` using `/\\Ahttp(s?):\\/\\/(\\w+:{0,1}\\w*@)?(\\S+)(:[0-9]+)?(\\/|\\/([\\w#!:.?+=&%@!\\-\\/]))?/i`. Use `\\A` and `\\z` as anchors",
+      "file": "app/models/client_application.rb",
+      "line": 43,
+      "link": "https://brakemanscanner.org/docs/warning_types/format_validation/",
+      "code": null,
+      "render_path": null,
+      "location": {
+        "type": "model",
+        "model": "ClientApplication"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Format Validation",
+      "warning_code": 30,
+      "fingerprint": "e42df63cb4c68654eae3cda65c36ebfa8280d353f12772098c8ddb139910e4b5",
+      "check_name": "ValidationRegex",
+      "message": "Insufficient validation for `callback_url` using `/\\A[a-z][a-z0-9.+-]*:\\/\\/(\\w+:{0,1}\\w*@)?(\\S+)(:[0-9]+)?(\\/|\\/([\\w#!:.?+=&%@!\\-\\/]))?/i`. Use `\\A` and `\\z` as anchors",
+      "file": "app/models/client_application.rb",
+      "line": 44,
+      "link": "https://brakemanscanner.org/docs/warning_types/format_validation/",
+      "code": null,
+      "render_path": null,
+      "location": {
+        "type": "model",
+        "model": "ClientApplication"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "e640de270e1d12fb1b42673ce2e79dcee0bfc7c9db321af66a7daed405ca1a2c",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/users_controller.rb",
+      "line": 321,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to((UserToken.find_by(:token => params[:confirm_string]).referer or welcome_path))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UsersController",
+        "method": "confirm"
+      },
+      "user_input": "UserToken.find_by(:token => params[:confirm_string]).referer",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "e87967e00b46dad057530f724d1d9385d4c46ef7e470b02c20140cc708ae3f2c",
+      "check_name": "SendFile",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/traces_controller.rb",
+      "line": 249,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(Trace.find(params[:id]).icon_picture_name, :filename => (\"#{Trace.find(params[:id]).id}_icon.gif\"), :type => \"image/gif\", :disposition => \"inline\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TracesController",
+        "method": "icon"
+      },
+      "user_input": "Trace.find(params[:id]).icon_picture_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "ed9d218490c8645533f7e26231038b14691d3cc6c475c4492c962f326dedf130",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/api/amf_controller.rb",
+      "line": 921,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.select_all(\"      SELECT DISTINCT current_ways.id AS wayid,current_ways.version AS version\\n        FROM current_way_nodes\\n      INNER JOIN current_nodes ON current_nodes.id=current_way_nodes.node_id\\n      INNER JOIN current_ways  ON current_ways.id =current_way_nodes.id\\n         WHERE current_nodes.visible=TRUE\\n         AND current_ways.visible=TRUE\\n         AND #{OSM.sql_for_area(bbox, \"current_nodes.\")}\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Api::AmfController",
+        "method": "sql_find_ways_in_area"
+      },
+      "user_input": "OSM.sql_for_area(bbox, \"current_nodes.\")",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "efc3180f8af8c0eae57ed052593b77ee60f3a2fe16323707d58e10d30c56ac11",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/api/amf_controller.rb",
+      "line": 964,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.select_all((\"        SELECT DISTINCT cr.id AS relid,cr.version AS version\\n        FROM current_relations cr\\n        INNER JOIN current_relation_members crm ON crm.id=cr.id\\n        INNER JOIN current_nodes cn ON crm.member_id=cn.id AND crm.member_type='Node'\\n         WHERE #{OSM.sql_for_area(bbox, \"cn.\")}\\n\" + \"         UNION\\n          SELECT DISTINCT cr.id AS relid,cr.version AS version\\n          FROM current_relations cr\\n          INNER JOIN current_relation_members crm ON crm.id=cr.id\\n           WHERE crm.member_type='Way'\\n           AND crm.member_id IN (#{way_ids.join(\",\")})\\n\"))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Api::AmfController",
+        "method": "sql_find_relations_in_area_and_ways"
+      },
+      "user_input": "way_ids.join(\",\")",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "f106b3d6bbbdd6beadd66726088bfc8c8b809aa2be285348f8f08014cb529f07",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/models/trace.rb",
+      "line": 226,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"tar -xOf #{trace_name} > #{Tempfile.new(\"trace.#{id}\").path}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Trace",
+        "method": "xml_file"
+      },
+      "user_input": "trace_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "fa3ec4e07fae4572e08f41d99e35553c2a7a51c7fc1b99662d167b0be2784ff9",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/users_controller.rb",
+      "line": 427,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params[:referer])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UsersController",
+        "method": "remove_friend"
+      },
+      "user_input": "params[:referer]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "fc394f9f29db2bd3b0abdf055ec8cf0e922239d54885f8cd54994f9b152aae68",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/users_controller.rb",
+      "line": 281,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params[:referer])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UsersController",
+        "method": "logout"
+      },
+      "user_input": "params[:referer]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "fec6388ab8de0b6afcecb6f1cf02f4dba17df1085e6ec42ac9f7293ee7244196",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/models/trace.rb",
+      "line": 230,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"bunzip2 -c #{trace_name} > #{Tempfile.new(\"trace.#{id}\").path}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Trace",
+        "method": "xml_file"
+      },
+      "user_input": "trace_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "fefd302bb343bc48e9a151c231dd32c7f24a1fc5e130256f75c5a8982d258090",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/users/_terms.html.erb",
+      "line": 25,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "OSM.legal_text_for_country((params[:legale] or (OSM.ip_to_country(request.remote_ip) or Settings.default_legale)))[\"active_defn_2\"]",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "UsersController",
+          "method": "terms",
+          "line": 23,
+          "file": "app/controllers/users_controller.rb",
+          "rendered": {
+            "name": "users/_terms",
+            "file": "app/views/users/_terms.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_terms"
+      },
+      "user_input": "params[:legale]",
+      "confidence": "Weak",
+      "note": ""
+    }
+  ],
+  "updated": "2019-08-28 11:47:39 +0200",
+  "brakeman_version": "4.6.1"
+}
