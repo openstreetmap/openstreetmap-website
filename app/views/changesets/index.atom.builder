@@ -17,10 +17,10 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
   @changesets.each do |changeset|
     feed.entry(changeset, :updated => changeset.closed_at, :id => changeset_url(changeset.id, :only_path => false)) do |entry|
       entry.link :rel => "alternate",
-                 :href => changeset_show_url(changeset, :only_path => false),
+                 :href => v06_changeset_show_url(changeset, :only_path => false),
                  :type => "application/osm+xml"
       entry.link :rel => "alternate",
-                 :href => changeset_download_url(changeset, :only_path => false),
+                 :href => v06_changeset_download_url(changeset, :only_path => false),
                  :type => "application/osmChange+xml"
 
       if !changeset.tags.empty? && changeset.tags.key?("comment")
