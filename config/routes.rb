@@ -320,7 +320,7 @@ OpenStreetMap::Application.routes.draw do
 
   # microcosms
   get '/microcosms/:key', to: 'microcosms#show_by_key', constraints: { key: /[a-zA-Z]{1,32}/ }
-  resources :microcosms, only: [:show]
+  resources :microcosms, only: [:show, :edit]
 
 
   # errors

@@ -21,3 +21,10 @@ Feature: Learn about the Microcosm
   Scenario: Can load by id
     Then I am on the microcosm "MappingDC" page by id
     Then I should see "MappingDC strives to improve OSM in the DC area"
+
+
+  Scenario: Regular user cannot edit the microcosm
+    Given there is a user "abe@example.com"
+    When user "abe@example.com" logs in
+    When I am on the microcosm edit page
+    Then I should be forbidden

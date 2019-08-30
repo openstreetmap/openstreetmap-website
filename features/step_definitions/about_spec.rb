@@ -10,6 +10,10 @@ Given("I am on the microcosm {string} page by id") do |name|
   visit "/microcosms/#{@the_microcosm.id}"
 end
 
+Given("I am on the microcosm edit page") do
+  visit "/microcosms/#{@the_microcosm.id}/edit"
+end
+
 # The lines like "The microcosm HAS..." are not behavior driven because it's using @varibles.
 
 # TODO: These "has" specs can be refactored.
@@ -37,6 +41,7 @@ Then("I should see the microcosm {string} name") do |name|
 end
 
 
+
 # Not microcosm specific.
 
 Then("I should see the {string} link to {string}") do |title, href|
@@ -45,4 +50,21 @@ end
 
 Then("I should see {string}") do |msg|
   expect(page).to have_content(msg)
+end
+
+Then("I should be forbidden") do
+  expect(page.status_code).to eq(403)
+end
+
+When("user {string} logs in") do |username|
+  visit "/login"
+  within("#login_form") do
+    fill_in 'username', with: username
+    fill_in 'password', with: "test"
+    click_button 'Login'
+  end
+end
+
+Given("there is a user {string}") do |username|
+  @user_1 = create(:user, :email => username)
 end

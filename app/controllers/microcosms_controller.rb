@@ -1,6 +1,6 @@
 class MicrocosmsController < ApplicationController
   layout "site"
-  # before_action :authorize_web
+  before_action :authorize_web
 
   before_action :set_microcosm, :only => [:show]
   before_action :set_microcosm_by_key, :only => [:show_by_key]
@@ -11,6 +11,10 @@ class MicrocosmsController < ApplicationController
   # GET /microcosms/mycity.json
   def show_by_key
     render :action => "show"
+  end
+
+  def edit
+
   end
 
   private
