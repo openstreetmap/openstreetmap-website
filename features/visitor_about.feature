@@ -11,6 +11,11 @@ Feature: Learn about the Microcosm
     And I am on the microcosm "MappingDC" page
 
 
+  Scenario: The microcosm should be listed
+    When I am on the microcosms page
+    Then I should see "MappingDC"
+
+
   Scenario: Describe the microcosm
     Then I should see the microcosm "MappingDC" name
     Then I should see the "Facebook" link to "https://facebook.com/groups/mappingdc"

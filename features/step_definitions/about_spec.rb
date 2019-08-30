@@ -2,6 +2,10 @@ Given("there is a microcosm {string}") do |name|
   @the_microcosm = Microcosm.create!(:name => name, :key => name.downcase)
 end
 
+Given("I am on the microcosms page") do
+  visit "/microcosms"
+end
+
 Given("I am on the microcosm {string} page") do |name|
   visit "/microcosms/" + name.downcase
 end

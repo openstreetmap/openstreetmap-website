@@ -1,0 +1,23 @@
+<% content_for :heading do %>
+  <h1><%= "All Microcosms" %></h1>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Key</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @microcosms.each do |microcosm| %>
+      <tr>
+        <td><%= microcosm.name %></td>
+        <td><%= microcosm.key %></td>
+        <td><%= link_to 'Show', microcosm %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

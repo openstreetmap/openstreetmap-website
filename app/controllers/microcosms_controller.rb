@@ -7,6 +7,11 @@ class MicrocosmsController < ApplicationController
 
   authorize_resource
 
+
+  def index
+    @microcosms = Microcosm.order(:name)
+  end
+
   # GET /microcosms/mycity
   # GET /microcosms/mycity.json
   def show_by_key
