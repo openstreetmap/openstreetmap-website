@@ -32,10 +32,6 @@ Given("the microcosm has description {string}") do |desc|
   @the_microcosm.save
 end
 
-When("print body") do
-  print body
-end
-
 Then("I should see the microcosm {string} name") do |name|
   expect(page).to have_content(name)
 end
@@ -43,6 +39,10 @@ end
 
 
 # Not microcosm specific.
+
+When("print body") do
+  print body
+end
 
 Then("I should see the {string} link to {string}") do |title, href|
   expect(page).to have_link(title, :href => href)
